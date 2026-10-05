@@ -1,0 +1,165 @@
+Back
+Wiki
+RIG Series
+Guides
+Developers
+Downloads
+Chinese
+/EN
+LuwuDynamics
+RIG SERIES
+Series home
+
+HANDBOOKS & RESOURCES
+
+RIG-Puppy
+RIG-Hover
+RIG-Arm
+RIG-TARS
+Shared guides
+Developer center
+Development environment and build
+MCP with RIG — connect your robot and external tools
+Display, sound and resource management
+Let RIG control Home Assistant — official integration setup
+Downloads and versions
+A little help?
+
+Find answers for your robot.
+
+Visit the help center
+ONE PLATFORM. FOUR PERSONALITIES.
+The RIG series Robot
+Developer center
+MCP with RIG — connect your robot and external tools
+MCP with RIG — connect your robot and external tools
+RIG-Arm · YOUR JOURNEY
+Keep your next step in sight
+Change starting point
+01
+Build your kit
+Check parts, assemble and calibrate.
+02
+Get your robot ready
+Check the assembled robot, power on and connect.
+03
+Enjoy your first experience
+Talk, try a movement and make it yours.
+04
+Make it your own
+Optional: build, change and extend the firmware.
+Back to your guide: Make it your own →
+
+Start with your working RIG. No firmware changes are needed to connect its existing tools.
+
+Choose a direction#
+What you want	Where to start	What you copy
+Let a desktop AI client control RIG	Your robot's settings, in the MCP device-control section.	The generated client configuration.
+Let RIG use Home Assistant or your computer's tools	The agent's MCP access-point section.	The generated WebSocket access-point address.
+Add a new function inside robot firmware	The optional firmware workshop at the end of this page.	Source code, followed by a build and flash.
+
+The first two entries are the product's two MCP workflows. Keep their connection information separate: a device-control configuration belongs in an AI client; an external-tool access point belongs in the HA integration or your local tool bridge.
+
+Use your own account in the international RIG dashboard. Domestic and international accounts and connection details are operated separately. Copy the configuration or access point generated for your international account; do not reuse a screenshot's address, token or device identifier. If a described card is absent in your international account, confirm its availability with RIG support before continuing.
+
+1. Connect a desktop AI client to your RIG#
+Get the configuration for the correct robot#
+
+Power on your RIG and confirm ordinary conversation works. Open that device's settings in the dashboard and find its MCP device-control card. Use Copy configuration. The generated configuration identifies both the service connection and the particular robot.
+
+Keep a private copy while setting up the client. Do not share the authorization value or replace the device ID with a guessed name. A display name such as RIG-Puppy-80 is the entry label, not the address of the robot.
+
+Import it without removing your other tools#
+
+Open the MCP server configuration in a compatible desktop AI client. The configuration format must match what that client supports. For a client accepting the exported JSON structure:
+
+Back up its existing MCP configuration.
+If you have no configured servers, import the complete generated configuration.
+If you already have servers, merge the new robot entry into the existing mcpServers object. Keep the other entries. Do not nest a second mcpServers object inside the first.
+Save, reconnect or reload the client, and complete its trust/enable prompts.
+Inspect the robot's discovered tools before requesting an action.
+
+Read the exported fields: the transport tells the client how to connect; the URL identifies the service; authorization grants access; X-Device-Id, where present, selects the device. Preserve the generated values. A client using another configuration format needs the equivalent supported fields, not a blindly pasted JSON file.
+
+Verify a real request#
+Use the connected RIG robot tools to read its current device status.
+Do not move the robot. Tell me which tool ran and the result it returned.
+If no status tool is available, show the discovered tool names rather than guessing.
+
+
+Check the actual tool result and the selected robot. Once this works, you can request one supported model-specific action with the robot in a clear working area. Tool availability depends on the installed firmware and model; a successful client connection does not add new robot actions.
+
+Checkpoint: the client lists your RIG tools and returns a real result from the right robot. A conversational response alone is not proof of connection. USB serial monitoring is optional for inspecting firmware logs; it is not how the exported desktop MCP connection is established.
+
+2. Let your RIG use external tools#
+
+In the dashboard, find the agent's MCP access point. Copy its complete generated WebSocket address to the external integration. The external process connects to this access point and supplies tools; the RIG agent can then request them during conversation.
+
+Home Assistant: use the official LuwuDynamics integration and the RIG-to-HA walkthrough.
+Your computer: use the official LuwuDynamics browser/calculator example. Its bridge receives the copied address through MCP_ENDPOINT and runs a selected local tool process. Start with the repository's calculator example, then verify a tool call in the conversation history. A browser example opens the browser on the computer running that process, not on the robot.
+
+Keep the HA instance or computer bridge running while using its tools. Refresh the access-point status after connection. For your first experiment, connect one provider at a time so you can tell where each tool comes from.
+
+These addresses are different: do not put the exported device-control JSON into a WebSocket address field, and do not paste the external-tool WebSocket address into a desktop client's HTTP server field. Use the specific copy action for the direction you chose.
+
+Something isn't working? Check your chosen direction#
+Symptom	What to check
+Client rejects the JSON	Check the merge, commas, braces and the client's supported configuration format. Restore the backup if needed.
+Client connects to the wrong robot	Recopy the configuration from the intended device; inspect the device identifier.
+Robot tools are missing	Confirm the robot is online, reconnect the client, and inspect discovery errors.
+External access point stays disconnected	Check that HA/the bridge is running with the complete address copied from the matching international account.
+HA tools are absent	Follow the HA integration, Assist selection and exposed-entity checks on the linked RIG-to-HA page.
+Robot says it acted but nothing changes	Check conversation tool activity and the actual target/result, rather than adding another prompt or reflashing.
+
+Ask AI to help with configuration#
+I am connecting a RIG robot using the configuration generated by its international dashboard.
+My direction is: [desktop client controls RIG / RIG uses external tools].
+My client or integration is: [name and version].
+Here is the configuration structure with all tokens and device identifiers removed: [structure only].
+Explain where to put it and how to preserve my existing entries.
+Do not invent an endpoint, change service region, or write firmware for a configuration task.
+Give one connection check and one observable tool-call test.
+
+
+Optional developer workshop · Add your own firmware tool
+Last updated: Sep 29, 2026
+Previous
+Development environment and build
+Next
+Display, sound and resource management
+RELATED DOCUMENTS
+Development environment and build
+Sep 29, 2026
+Display, sound and resource management
+Sep 29, 2026
+Let RIG control Home Assistant — official integration setup
+Sep 29, 2026
+Versions and source notes
+Sep 29, 2026
+Shared troubleshooting
+Sep 29, 2026
+TARS — Terminal display
+Sep 29, 2026
+ON THIS PAGE
+Choose a direction
+1. Connect a desktop AI client to your RIG
+Get the configuration for the correct robot
+Import it without removing your other tools
+Verify a real request
+2. Let your RIG use external tools
+Something isn't working? Check your chosen direction
+Ask AI to help with configuration
+3. Prepare for the first custom tool
+4. Add the hello tool
+5. Build, flash and keep the log open
+6. Make a real call and verify it
+Connect and refresh the tools
+7. Optional: give a tool one input
+8. Let AI help with the smallest change
+Something isn't working? Locate the failing step
+9. Keep your work or undo it
+Reference when you need it
+AI Assistant
+© 2026 Luwu Intelligence (XGoRobot). All rights reserved.
+Official Site
+Contact

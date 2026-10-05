@@ -1,0 +1,90 @@
+返回
+Wiki
+中文
+/EN
+陆吾智能
+Common Resource Library
+00-Overview & Changelog
+▾
+📁 01-System & Image Updates
+Luwu Imager Download & Tutorial
+Image Release Notes
+▾
+📁 02-Firmware Flashing
+Luwu Tools Web Flashing Tutorial
+Firmware Release Notes by Model
+Flashing Troubleshooting
+▾
+📁 03-Apps & Software
+XGO App (iOS / Android / APK)
+RIG App (Download Page)
+▾
+📁 04-SDK & Examples
+SDK & Open-Source Repositories
+▾
+📁 05-CAD & 3D Files
+XGO-mini2S Full Assembly (STEP)
+XGO-lite3 Full Assembly (STEP)
+XGO-Rider2 Full Assembly (STEP)
+XGO-mini2SW Full Assembly (STEP)
+RIG Series Design Files (MakerWorld)
+URDF & Simulation
+▾
+📁 06-Hardware Design Files
+XGO-mini2S / XGO-mini2SW Driver Board Schematic
+XGO-lite3 Driver Board Schematic
+XGO-Rider2 Driver Board Schematic
+▾
+📁 RIG Driver Board Schematic
+RIG Series Driver Board Schematic
+RIG-Puppy Hardware Interface and Development Manual (v1.0)
+Common Resource Library
+06-Hardware Design Files
+RIG Driver Board Schematic
+RIG Series Driver Board Schematic
+RIG Series Driver Board Schematic
+
+Applies to: RIG-Puppy / RIG-Hover / RIG-Arm (RIG-Puppy has its own board; RIG-Hover and RIG-Arm share one)
+
+File	Size	MD5
+
+RIG-Puppy_DriverBoard_Schematic_v2026.09.22.pdf
+PDF · 点击在新窗口打开
+打开
+	0.67 MB	fda33c74cb50ba60472a48324272c825
+
+RIG-Hover-Arm_DriverBoard_Schematic_v2026.09.22.pdf
+PDF · 点击在新窗口打开
+打开
+	0.61 MB	7a0fbc82d675cd099518e79bce8923f1
+
+Related tutorial: TBD
+
+最后更新于 2026/9/23 11:19:35 · 韩青
+上一篇
+XGO-Rider2 Driver Board Schematic
+下一篇
+RIG-Puppy Hardware Interface and Development Manual (v1.0)
+相关文档
+📄
+Luwu Tools Web Flashing Tutorial
+2026年9月25日
+📄
+XGO-mini2S / XGO-mini2SW Driver Board Schematic
+2026年9月24日
+📄
+URDF & Simulation
+2026年9月24日
+📄
+RIG Series Design Files (MakerWorld)
+2026年9月24日
+📄
+XGO-mini2SW Full Assembly (STEP)
+2026年9月24日
+📄
+XGO-Rider2 Full Assembly (STEP)
+2026年9月24日
+AI 助手
+© 2026 陆吾智能（XGoRobot）保留所有权利
+官网
+联系我们

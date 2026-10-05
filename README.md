@@ -16,6 +16,8 @@ Calendar requirements are preserved in [Part 1](planning/2026-09-29/calendar-par
 
 School documents are the [English proposal DOCX](<output/submission/2026-09-28/AY26_ProjectProposal_Group 2.docx>) / [PDF](<output/submission/2026-09-28/AY26_ProjectProposal_Group 2.pdf>), [Chinese v3](planning/2026-09-28/desk-companion-proposal-zh-v3.md), and [team log DOCX](<output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx>) / [PDF](<output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf>). The log lists all three members, with individual attribution retained as a member-review draft. This software work does not update, sign or submit those files.
 
+**5 October hardware research:** [RIG-Arm secondary development](research/2026-10-05-rig-arm/secondary-development-review.md) checks the assembled SKU, official MCP workflows and two fixed firmware commits. The arm is a candidate with replaceable AI paths; its small display and moving snapshot camera do not replace the fixed posture camera or independent calendar touchscreen. A RIG driver, compatible firmware and actual stop / completion behaviour remain to be integrated. No purchase, firmware execution or hardware performance is claimed; upstream code and restricted mechanical model files are not vendored into this repository.
+
 ## HISTORICAL: Senplate local prototype and instructions
 
 The material below remains for preservation and can still describe the old local software. Do not use its hardware BOM, brand, or proposal as the current project specification.

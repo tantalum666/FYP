@@ -1,0 +1,106 @@
+Back
+Wiki
+RIG Series
+Guides
+Developers
+Downloads
+Chinese
+/EN
+LuwuDynamics
+RIG SERIES
+Series home
+
+HANDBOOKS & RESOURCES
+
+RIG-Puppy
+RIG-Hover
+RIG-Arm
+RIG-TARS
+Shared guides
+Developer center
+Downloads and versions
+Downloads and resources
+Versions and source notes
+A little help?
+
+Find answers for your robot.
+
+Visit the help center
+ONE PLATFORM. FOUR PERSONALITIES.
+The RIG series Robot
+Downloads and versions
+Downloads and resources
+Downloads and resources
+RIG-Arm · YOUR JOURNEY
+Keep your next step in sight
+Change starting point
+01
+Build your kit
+Check parts, assemble and calibrate.
+02
+Get your robot ready
+Check the assembled robot, power on and connect.
+03
+Enjoy your first experience
+Talk, try a movement and make it yours.
+04
+Make it your own
+Optional: build, change and extend the firmware.
+Back to your guide: Make it your own →
+Firmware#
+
+Use Luwu Tools and select English to flash international firmware. The Chinese page flashes domestic (China) firmware. Choose the correct model and an available release before connecting to the serial port. Read the installation guide.
+
+Mechanical files and kit resources#
+
+The Chinese assembly guides point to LuwuDynamics on MakerWorld for model files. Select the exact robot and hardware revision. Check the included assembly diagrams, BOM, orientations and fastener list before printing.
+
+The structural model does not replace the electrical wiring diagram. Use the drawing supplied with your kit or ask official support for the matching revision.
+
+Source code#
+
+RIG-Omni source repository contains shared services and model-specific board directories.
+
+Documentation baseline#
+
+The public source repository provides the firmware code and development instructions. See Versions and source notes for the distinction between source versions and published firmware.
+
+Published resource library#
+Luwu Tools web flashing walkthrough
+RIG app downloads
+RIG design files on MakerWorld
+RIG driver-board schematic
+Firmware release notes by model
+SDK and source repositories
+Flashing troubleshooting
+
+These entries retain the published Wiki's illustrations, attachments and external destinations.
+
+Last updated: Sep 29, 2026
+Previous
+Let RIG control Home Assistant — official integration setup
+Next
+Versions and source notes
+RELATED DOCUMENTS
+Versions and source notes
+Sep 29, 2026
+Shared troubleshooting
+Sep 29, 2026
+TARS — Terminal display
+Sep 29, 2026
+RIG-TARS — Quick start
+Sep 29, 2026
+RIG-TARS — Overview
+Sep 29, 2026
+RIG-TARS — Troubleshooting
+Sep 29, 2026
+ON THIS PAGE
+Firmware
+Mechanical files and kit resources
+Source code
+Documentation baseline
+Published resource library
+AI Assistant
+© 2026 Luwu Intelligence (XGoRobot). All rights reserved.
+Official Site
+Contact

@@ -28,3 +28,11 @@ condition = "AND"
 paths = ['''(?:^|/)output/qa/[^/]+/protected-(?:before|after)\.json$''', '''(?:^|/)output/qa/task-enhancement-ux-2026-10-03/validation\.json$''']
 regexTarget = "match"
 regexes = ['''^[A-Za-z0-9_.\-/]+["']\s*:\s*["'][a-f0-9]{64}["']\s*$''']
+
+[[allowlists]]
+description = "Verified public rig_local source SHA256; filename contains cloud_api"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^output/qa/2026-10-05-rig-arm-feasibility/research-checkpoint\.json$''', '''^research/2026-10-05-rig-arm/source-register\.json$''']
+regexTarget = "match"
+regexes = ['''^cloud_api_protocol\.cc["']\s*:\s*["']1a0fb0cbc28a26f17a3af764f156a5d8895fd2101c98711b5ea68275103d5b1a["']\s*$''']

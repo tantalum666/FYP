@@ -1,0 +1,52 @@
+{
+  "checked_at": "2026-10-05T15:57:25.485352+08:00",
+  "status": "passed_document_and_static_source_checks",
+  "updated_project_markdown": [
+    "README.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "desk-companion/docs/architecture.md",
+    "desk-companion/docs/operator-guide.md",
+    "research/2026-10-05-rig-arm/secondary-development-review.md"
+  ],
+  "local_links_checked": 539,
+  "broken_links": [],
+  "initial_reading_complete": true,
+  "protected_files_checked": 107,
+  "protected_files_changed": [],
+  "current_application_code_changed": false,
+  "repository_snapshots_and_source_hashes_verified": true,
+  "static_interfaces_located": true,
+  "screenshots_visually_reviewed": [
+    "rig-arm-full-unit-shop.jpg",
+    "rig-arm-makerworld.jpg"
+  ],
+  "not_rerun": [
+    "application tests",
+    "DOCX/PDF rendering"
+  ],
+  "not_performed": [
+    "vendor code execution or build",
+    "firmware flash",
+    "physical motion",
+    "paid API",
+    "purchase",
+    "supplier contact"
+  ],
+  "tool_attempts_corrected": [
+    "Wrong config.h read corrected to board_config.h",
+    "Atomic patch with duplicate handoff path was rejected, then split successfully"
+  ],
+  "gitleaks": {
+    "staged_passed": true,
+    "initial_false_positives": 2,
+    "reason": "Both values are the verified SHA256 of pinned public cloud_api_protocol.cc",
+    "precise_exception": ".gitleaks.toml; two exact paths and one exact source integrity value",
+    "provider_secret_rules_unchanged": true
+  },
+  "other_updated_files": [
+    ".gitleaks.toml"
+  ]
+}

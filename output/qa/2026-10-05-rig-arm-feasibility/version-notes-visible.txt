@@ -1,0 +1,101 @@
+Back
+Wiki
+RIG Series
+Guides
+Developers
+Downloads
+Chinese
+/EN
+LuwuDynamics
+RIG SERIES
+Series home
+
+HANDBOOKS & RESOURCES
+
+RIG-Puppy
+RIG-Hover
+RIG-Arm
+RIG-TARS
+Shared guides
+Developer center
+Downloads and versions
+Downloads and resources
+Versions and source notes
+A little help?
+
+Find answers for your robot.
+
+Visit the help center
+ONE PLATFORM. FOUR PERSONALITIES.
+The RIG series Robot
+Downloads and versions
+Versions and source notes
+Versions and source notes
+RIG-Arm · YOUR JOURNEY
+Keep your next step in sight
+Change starting point
+01
+Build your kit
+Check parts, assemble and calibrate.
+02
+Get your robot ready
+Check the assembled robot, power on and connect.
+03
+Enjoy your first experience
+Talk, try a movement and make it yours.
+04
+Make it your own
+Optional: build, change and extend the firmware.
+Back to your guide: Make it your own →
+Source baseline#
+
+Find the public firmware source on GitHub. Check the version file for your board in the source you download, and use the official flashing tool to see available firmware releases. A source version does not by itself mean that a matching binary has been released. Match hardware instructions to your kit revision.
+
+Changes reflected in this handbook#
+TARS is included as a separate board with a landscape ST7789V2 terminal display.
+TARS motion, calibration, touch sleep and personality settings are documented separately.
+Arm teach-and-replay behavior is described as a current-power-session recording.
+Version numbers come from per-board version.txt files.
+Packaging selects the board and builds both China and international configurations.
+Developer version commands#
+python tools/version.py list
+python tools/version.py get tars
+python tools/package_luwu_firmware.py --board tars --dry-run
+
+
+The dry run prints the plan; it does not validate a compiled image. Remove --dry-run only when you intend to build the packages in an initialized ESP-IDF environment.
+
+Editorial sources#
+
+Chinese RIG product, assembly, quick-start and software articles supplied the user workflows. Board classes, Kconfig, display configuration and packaging scripts supplied implementation details. Where old text conflicts with the current implementation, this handbook uses the reviewed code behavior and avoids assuming identical controls across models.
+
+Published-content baseline#
+
+This local preview combines a read-only snapshot of the production Wiki taken on September 24, 2026 with the reviewed firmware. Original public articles keep their IDs and bodies. The new English handbook supplies navigation, current firmware behavior and TARS coverage. Chinese source articles with incomplete assembly steps remain incomplete; they are not treated as verified instructions.
+
+Last updated: Sep 29, 2026
+Previous
+Downloads and resources
+RELATED DOCUMENTS
+Downloads and resources
+Sep 29, 2026
+Shared troubleshooting
+Sep 29, 2026
+TARS — Terminal display
+Sep 29, 2026
+RIG-TARS — Quick start
+Sep 29, 2026
+RIG-TARS — Overview
+Sep 29, 2026
+RIG-TARS — Troubleshooting
+Sep 29, 2026
+ON THIS PAGE
+Source baseline
+Changes reflected in this handbook
+Developer version commands
+Editorial sources
+Published-content baseline
+AI Assistant
+© 2026 Luwu Intelligence (XGoRobot). All rights reserved.
+Official Site
+Contact

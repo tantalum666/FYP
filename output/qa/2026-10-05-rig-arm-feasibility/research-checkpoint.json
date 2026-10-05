@@ -1,0 +1,75 @@
+{
+  "date": "2026-10-05",
+  "status": "public_source_research_complete_no_hardware_test",
+  "repositories": [
+    {
+      "repository": "LuwuDynamics/rig_omni",
+      "commit": "c2b42cd73ef65f5cd2a158d6949f0273869454dc",
+      "cache_path": ".runtime/rig-arm-research/rig_omni",
+      "selected_code_files": {
+        "README_CN.md": "9274e2a426680d7c0622ab68ff4b0e648bc3bb7b03540c7864180b380ce5e9b6",
+        "main/boards/arm/arm_board.cc": "f2251ac8655c5d304da9e76aeb4bffa90c41e4040f42862905353a1a3b76c437",
+        "main/boards/arm/motor.cc": "6b273aa03958f127c42ee87b38a0faa9a5c355d23d3e61184dcda22edec2c49a",
+        "main/boards/arm/robot_action.cc": "8d11a68cc67059ba3afeb093f80b09ecac8ca6fdcd38e56e2b7c6c45edd25ba5",
+        "main/boards/arm/ik.h": "30d8551726b51dace0800092cc7e25a684ec2a32e1442a4b7358b99ecbb5f0f8",
+        "main/mcp_server.cc": "4027916e8cb6b2bec1328bc07b616e0d465fb0d09b00905140fa6e5dae17a011",
+        "main/application.cc": "27b256df640645d12fb850925b27d8a609872dfa9392c566ad5901ccd8ec2f1b",
+        "main/CMakeLists.txt": "1a6a31a25671a920d25d32fbd15f011ed89fb965399d568a2fc7c001bf72454f",
+        "main/boards/arm/board_config.h": "a9a31173c454ca2d516f3617268c921693911e05aead52282087b3afe5279a25",
+        "README.md": "cb9bb3f05b1bb2c15471e4bf6197770bd51df64333fa6924e7e83b1c1a12b767",
+        "main/protocols/websocket_protocol.cc": "099b208b591ac6e86be9b55d70612e78d92d7e26bf1ca23a93c5ab8d23d96a3c"
+      }
+    },
+    {
+      "repository": "LuwuDynamics/rig_local",
+      "commit": "486500a9ad9c93719680cd3d8273d2689d001cbf",
+      "cache_path": ".runtime/rig-arm-research/rig_local",
+      "selected_code_files": {
+        "README.md": "097d9149184e0b6b6f478c26c65f5fe367fc2c87204b827a48dc8f9404647914",
+        "main/boards/arm/arm_board.cc": "95d9415dd95f32f6b0740520ed7a08f322a70a70dd4a5cc92ced9bc2299a650d",
+        "main/boards/arm/ik.h": "30d8551726b51dace0800092cc7e25a684ec2a32e1442a4b7358b99ecbb5f0f8",
+        "main/mcp_server.cc": "e0db1e2e61e252b9829dd7622999d14a659ab6dd3c66cdd91817681fd1fcebe7",
+        "main/application.cc": "c8c9c44b71a4fc1edcd8e7096e1b2b0b9cf13e2b2910ca8c65369d3fd75fdb39",
+        "main/CMakeLists.txt": "e3372f141b89685f000a1a14f383059f9f8e4066250ee3097b678397c591933e",
+        "main/boards/arm/board_config.h": "9c7a7fdbe3a386cb85b526bada24295082031c7de3b305448a6ed547fc381981",
+        "main/mcp_http_server.cc": "3bf6fb89d4a6265e59bbdbed0aae7f9fb71ed75bb4b9aff8a05b9b059b9c5fb0",
+        "main/cloud_api/cloud_api_protocol.cc": "1a0fb0cbc28a26f17a3af764f156a5d8895fd2101c98711b5ea68275103d5b1a",
+        "main/cloud_api/llm_client.cc": "31d6522381978c8a0a2fe2b3c8b7a8cb611642424aa6fdc05a51e558543c12d7",
+        "main/boards/arm/xgo.cc": "6c8e90fb954ef46c0dada77d5715b97c34ea30987f4892400aa18aebca76bde1"
+      }
+    }
+  ],
+  "observed_facts": [
+    "MakerWorld: five DOF, GC0308 0.3MP, 1.09inch TFT, SCS009 bus servos",
+    "Manufacturer Shop: electronics kit USD109, assembled full unit USD124, pre-sale / holiday delay banner",
+    "rig_omni and rig_local each contain Arm board and IK / motor source",
+    "rig_local: OpenAI-compatible text LLM plus DashScope ASR / TTS, function calls linked to device MCP",
+    "rig_local: main/mcp_http_server.cc implements local POST JSON-RPC initialize / tools/list / tools/call",
+    "Branch differences: rig_omni teach_stop saves without automatic playback and idle disabled default; rig_local teach_stop automatically replays and idle enabled default",
+    "Motor source decodes feedback position / speed / torque and can enable / disable servo torque",
+    "rig_omni README_CN claims Apache2.0; no project-level LICENSE file found; rig_local README has no overall licence statement",
+    "MakerWorld model SDFL-C restricts redistribution of model / derivative files outside MakerWorld; do not vendor STL files into FYP",
+    "Manufacturer reply 2026-09-20: phone is too heavy for Arm; no payload value verified",
+    "Official Wiki lists published Hover / Arm driver-board schematic v2026.09.22; old August promise is superseded by current resource index",
+    "Official MCP guide offers no-firmware-change device-control configuration and a separate external-tools WebSocket access point, conditional on account / hardware availability",
+    "rig_local Arm get_device_status adds IMU fields; direct motion completion / unified stop / watchdog contract not established",
+    "rig_omni WebSocket audio hello declares Opus 16k mono; current FYP voice protocol is PCM 16k input / 24k output",
+    "rig_local current TTS default streams sentences; this is a cascade, not evidence of native natural full-duplex conversation",
+    "Current FYP output CLI supports simulator and pca9685 only; no RIG adapter"
+  ],
+  "still_to_verify": [
+    "Actual SKU / board / factory firmware and available model-specific tools",
+    "Local / official-cloud transport availability and credentials from the owner device account",
+    "Physical completion, bounded motion, cancellation, startup and disconnection behaviour",
+    "Complete matching BOM / PCB source licence and rig_local overall software licence",
+    "Original supply / pack contents / payload / shipping / real API quality and costs"
+  ],
+  "actions_not_taken": [
+    "purchase",
+    "supplier contact",
+    "API paid call",
+    "firmware compilation or flashing",
+    "physical arm command"
+  ],
+  "updated_at": "2026-10-05T15:51:25.744580+08:00"
+}
