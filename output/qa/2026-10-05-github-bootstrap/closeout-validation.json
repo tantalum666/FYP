@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-05",
+  "status": "private_repository_created_push_pending_email_verification",
+  "local_links_checked": 167,
+  "broken_links": [],
+  "updated_markdown": [
+    "README.md",
+    "product.md",
+    "handoff.md",
+    "CONTRIBUTING.md",
+    "inputs/README.md",
+    "desk-companion/README.md",
+    "decision-log.md",
+    "work-log.md",
+    "output/qa/2026-10-05-github-bootstrap/verification.md"
+  ],
+  "other_changes": [
+    ".gitignore",
+    ".gitleaks.toml",
+    "inputs/manifest.json",
+    "14 original input copies",
+    "two redacted binary QA records"
+  ],
+  "checks": [
+    "119 Markdown full-read coverage / hashes",
+    "Gitleaks candidates and nested archives",
+    "Gitleaks staged scan",
+    "known private runtime value comparison",
+    "107 protected originals hash comparison",
+    "14 attachment copy hashes",
+    "file size / path / symlink / archive coverage",
+    "current local Markdown links"
+  ],
+  "not_rerun": [
+    "application business tests",
+    "DOCX / PDF page rendering"
+  ],
+  "scope_confirmation": "received: add only FYP, retain other permissions",
+  "email_verification": "pending",
+  "remote_upload_verified": false,
+  "collaborator_invitations_sent": false
+}

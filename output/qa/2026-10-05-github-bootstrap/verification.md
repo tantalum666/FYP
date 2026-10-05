@@ -1,6 +1,6 @@
 # GitHub bootstrap verification · Group 2
 
-Date: 2026-10-05 (Asia/Hong_Kong). Status: local upload checks in progress; remote creation / push still pending in this checkpoint.
+Date: 2026-10-05 (Asia/Hong_Kong). Status: local checks passed, private repository created; push is awaiting authorisation of the new repository in the existing GitHub credential.
 
 ## Scope
 
@@ -15,7 +15,7 @@ Only private runtime / credentials, installed dependencies, build caches, OS fon
 - Gitleaks 8.30.1 scanned candidates and archives to depth 2. All 104 initial alerts were verified as 70 SHA256 integrity entries, 19 public Figma file identifiers and 15 Swift UserDefaults storage keys. [Classification](secret-classification.json). Narrow path + exact-format / literal exceptions are in `.gitleaks.toml`; provider-secret rules remain active. Filtered scans passed.
 - Exact comparison against private local credential / configuration values additionally found two binary iOS test records containing an actual local test password. Those records were sanitised, with raw originals preserved inside Git-ignored `.runtime/`. [Sanitisation record](evidence-sanitization.json). Passwords are never written into these reports.
 - Nine ZIP archives contain no `.runtime`, `.env` or `credentials.json` entries. Upload candidates have no remaining symlinks or private database files; all are below GitHub's 100 MiB per-file limit.
-- The 107 protected school / identity / retired-code files are to be hash-checked before upload. No application behaviour or school DOCX / PDF was edited; earlier software tests and page renders are not being rerun or claimed as new results.
+- All 107 protected school / identity / retired-code files are hash-checked and unchanged. All 14 input copies match their original hashes. No application behaviour or school DOCX / PDF was edited; earlier software tests and page renders are not being rerun or claimed as new results.
 
 ## Collaboration documentation
 
@@ -23,4 +23,12 @@ Root README, product contract, software README and [CONTRIBUTING.md](../../../CO
 
 ## Remote verification
 
-Pending: confirm repository privacy, default branch, remote HEAD and every remote file path / Git blob against the local committed tree. Final handoff / work log will be updated after that readback.
+Created [tantalum666/FYP](https://github.com/tantalum666/FYP) through the authenticated Chrome session. The resulting repository page shows **Private**, owner `tantalum666` and the empty-repository setup page. No collaborators have been invited.
+
+Local initial commit: `fc5c7c9`, 6,003 files; [upload checks](upload-manifest.json) include every source / output category and 13 known private runtime values checked against files and archive entries, with no remaining matches. Gitleaks staged scan also returned exit 0.
+
+Both `gh repo create` (GraphQL) and REST `POST user/repos` returned permission errors. Browser creation succeeded. The HTTPS push then returned `Write access to repository not granted` (403); API access cannot resolve the private new repository with the current scoped token. An existing local SSH key did not authenticate, and the existing OS Git credential also failed. These attempts do not prove upload completion. No credential was regenerated, no permissions were broadened and no new SSH key was registered.
+
+The existing fine-grained token's settings are behind GitHub's email-based **Confirm access** page. The user has been asked to complete that verification and confirm adding **only FYP** to the token's repository scope, keeping other permissions unchanged. The user has now explicitly confirmed adding only FYP; email verification is still pending. After authorisation, push `main`, then confirm remote HEAD and every path / Git blob against the local committed tree.
+
+Private-repository creation screenshot: [GitHub page](github-repository-created.jpg).

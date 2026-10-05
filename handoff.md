@@ -1,41 +1,31 @@
 # Group 2 Current Handoff
 
-更新：2026-10-03。状态：**主动事务首版已实现；本轮UI／UX审查及修复完成，本地可验证**。
+更新：2026-10-05。状态：**私人 FYP 仓库已创建；全项目首次提交完成；推送等待新仓库 GitHub 授权**。
 
-## 当前状态
+## 当前任务与状态
 
-用户明确要求先增强软件、再做交互逻辑审查。Desk Companion现有S1–S10基础上新增Tasks、跨会话进展、截止／下一步／步骤、一次待处理检查、暂停／延后／本人确认完成／恢复、助理事务草稿、可选Qwen／Gemini文字适配和业务备份扩展。见[产品契约](product.md)、[事务契约](desk-companion/docs/task-tracking.md)、[本轮QA](output/qa/task-enhancement-ux-2026-10-03/verification.md)。同日Dot研究已标历史基线，不能再据“尚未实现”回退。
+用户授权新建暂名 FYP 的 GitHub 仓库并上传全部项目工作，方便三人协作。已通过登录 Chrome 创建 [tantalum666/FYP](https://github.com/tantalum666/FYP)，网页确认 Private；本地首次提交 `fc5c7c9` 收录6,003文件。当前 GitHub 令牌没有新仓库读写权限，HTTPS推送403，仓库仍为空。
 
-UI保持英文默认／简体中文可切，手机／电脑管理与Linux常亮大时钟／月历分别构图。触摸和常亮入口已有事务数量／待跟进提示；没有替换坐姿必做主线或品牌决定。开发名仍Desk Companion。
+已请用户在 Chrome「📦 FYP协作」完成 GitHub 邮箱验证，并确认仅将 FYP 加入现有令牌的仓库范围，保持其他权限不变；用户已在本轮明确同意仅增加FYP；邮箱验证仍在等待完成。令牌设置页已标为 handoff，仓库页标为 deliverable。不要自动扩大权限、生成新令牌或注册SSH密钥。获确认及验证完成后继续推送，不重做本轮内容整理。
 
-## 本轮结果和证据
+[建仓QA](output/qa/2026-10-05-github-bootstrap/verification.md)记录实际结果及认证尝试；[协作说明](CONTRIBUTING.md)说明成员邀请、克隆、运行及分支 / PR。`origin` 当前为 `https://github.com/tantalum666/FYP.git`，本地分支main；Git身份只在本仓库配置为Yuan Yuchen及GitHub noreply邮箱。尚未发送邀请。
 
-- 101项后端、11项前端检查、Ruff、TypeScript／生产构建及iPhone模拟器构建安装启动通过。
-- 实际UI核对创建、日期、步骤、进展、助理确认、暂停／恢复、本人确认完成／恢复、并发冲突、取消保护、21步输入不截断、偏好退出、断连／重连、英简、320px手机、1024×600常亮和日夜。
-- 调度实际在保存的检查时间产生一次提示，设备和iPhone均看到。没有新依据时不反复累加；已有提示保存在SQLite。
-- [手机](output/qa/task-enhancement-ux-2026-10-03/09-mobile-tasks-320.jpg)／[常亮](output/qa/task-enhancement-ux-2026-10-03/14-device-day-checkin.jpg)／[iPhone详情](output/qa/task-enhancement-ux-2026-10-03/16-iphone-task-detail.png)。107项旧代码／学校／身份保护文件未变，主7条日程内容与重启前相同。
-- 本轮完整阅读沿用同一增强阶段的[117份覆盖记录](output/qa/task-enhancement-ux-2026-10-03/reading-record.json)，压缩后只补读修改与聚焦资料。更早历史和已完成检查见work-log，不重复全库或重跑旧验证。
+## 本轮完成与证据
 
-## 可运行入口
+- [全读记录](output/qa/2026-10-05-github-bootstrap/reading-record.json)：119份 / 11,237行 / 51批至EOF；新组员原MD已补读，压缩沿用范围。
+- 当前 / 退役源码、学校各版、需求、研究、采购、设计、品牌、交付包及QA全部纳入；[输入原件清单](inputs/manifest.json)补14份明确附件，与Downloads原件逐字节一致。
+- Gitleaks目录 / 待提交扫描通过；104初始告警全核为校验值 / 公开编号 / 存储键。13个已知私有配置值对比无剩余匹配，107项学校 / 身份 / 旧代码哈希不变，9个ZIP无私有运行文件，无超限文件或剩余软链接。
+- 两份旧二进制iOS测试记录只隐去本机测试密码；原件在 `.runtime/github-upload-private-evidence/`，不上传。[清理记录](output/qa/2026-10-05-github-bootstrap/evidence-sanitization.json)。凭据、数据库、已安装依赖、缓存及本机字体链接均留在本地。
+- README / product / 软件启动路径和协作入口同步；未改应用行为或学校DOCX / PDF，因此没有重跑旧业务测试 / 渲染。
 
-- [主管理／事务](http://127.0.0.1:8831/?page=tasks)／[主常亮](http://127.0.0.1:8831/?surface=device)，开发前端5190。主库7条原示例、0条测试事务。
-- 账号owner，原密码在`desk-companion/.runtime/credentials.json`，不复制到日志。主API／Vite已重新启动到新版本。
-- QA8832／5191用`.runtime/completion-qa/`，保留9条旧日历、2条本轮测试事务，1个已批准的iPhone。iPhone Simulator继续连接此库；QA样例不是用户真实任务。
-- iPhone工程`desk-companion/frontend/ios/App/App.xcodeproj`、scheme App、bundle `dev.group2.deskcompanion`；本地构建目录`.runtime/ios-build`。
-- [软件说明](desk-companion/README.md)／[操作](desk-companion/docs/operator-guide.md)／[架构](desk-companion/docs/architecture.md)／[评价](desk-companion/docs/evaluation.md)。
+## 已完成的软件与未验证条件
 
-源码交付：[事务与UI／UX版](<output/software/Group 2_DeskCompanion_Tasks_UX_2026-10-03.zip>)，旧版包保留。
+Desk Companion包含日历、独立常亮 / 触摸入口、姿态标定 / 判断 / 反馈复测、配对、助理、语音适配、输出预设、交换 / 分享 / 备份及iPhone；主动事务首版和UI / UX修复已完成。[产品](product.md) / [软件README](desk-companion/README.md) / [事务契约](desk-companion/docs/task-tracking.md) / [操作](desk-companion/docs/operator-guide.md)。101项后端、11项前端、构建和三端交互是[上一软件阶段QA](output/qa/task-enhancement-ux-2026-10-03/verification.md)，不是本轮新测试或硬件表现。
 
-## 已知边界
+上一轮本地预览地址为8831 / 5190、隔离QA为8832 / 5191，本轮没有重启或重新核实运行状态。账号owner；原密码在 `desk-companion/.runtime/credentials.json`，不复制到Git或日志。iPhone工程 `desk-companion/frontend/ios/App/App.xcodeproj`、scheme App、bundle `dev.group2.deskcompanion`。私有运行目录不删除。
 
-文字默认本地规则，Qwen／Gemini文字与语音分别配置；自动文字建议默认关闭、启用后每日最多20次尝试。没有调用付费模型或证明自然语言准确率／自然度。模型不能确认修改、提交报告或任意移动机械。主机离线不继续调度，iPhone事务未做远程锁屏推送，Google仍是只读日历而非邮件。
-
-真实相机、固定机位、个人标定和人工标签；Pi并行负载／常亮／触摸／音频；真实API与AEC；机械型号／角度／供电／物理停机及显示光学；Google本人OAuth、Apple真机签名和学校DGX配额均待外部条件。未代替用户授予权限、采集真人、采购、提交学校或对外联系。
-
-单API worker；`.runtime`含私有凭据和数据，不删除或打包。模型依赖用`uv sync --frozen --extra vision --extra audio`，检查用`--no-sync`。iOS每次cap sync后按操作指南运行configure-ios-features和prepare_ios验证官方框架。没有借用其他项目账号／发布权限。
-
-学校Proposal和逐人列工作的团队日志保持原样；40／30／30仍是计划份额，不把AI辅助代码归为学生已核实际贡献。
+真实相机与人工标签、Pi常亮 / 触摸 / 并行负载、实际语音 / AEC / 费用、机械角度 / 供电 / 物理停机 / 光学、Google本人OAuth、Apple真机签名及DGX配额仍需外部条件。模型默认未启用；不监控邮箱 / 全电脑、不代替用户确认动作。学校Proposal和逐人列工作的团队日志保持原样；40 / 30 / 30仍为计划份额。
 
 ## 唯一下一步
 
-**在目标设备与获准真实语音服务到位后，按既有操作／评价脚本完成坐姿→反馈→复测及语音事务确认的实机闭环，记录准确率、时延和错误操作；本轮无需用户参与的软件增强与交互审查已完成。**
+**用户完成 GitHub 邮箱验证并确认仅增加 FYP 的令牌仓库范围后，推送main，核对远端HEAD与全部文件树，再将上传状态收尾为已验证。** 后续实机闭环仍未完成，不被此次建仓替代。
