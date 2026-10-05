@@ -1,0 +1,532 @@
+{
+  "brand": "Senplate",
+  "version": "2.0",
+  "updated_at": "2026-09-17T06:01:38.009841+00:00",
+  "status": "SELECTED_A_REFINED_LOWERCASE",
+  "source_sha256": "cc98804614d8e0de4e15d1e5dd197550f3bef06a4569cc5c4c3b9f54e2929a61",
+  "source_preserved": true,
+  "supersedes": "V1 rough auto-trace, retained separately",
+  "capitalization": {
+    "logo": "senplate",
+    "prose_app_name": "Senplate",
+    "initial_capital": "comparison only, not selected"
+  },
+  "construction": {
+    "method": "Manual low-node Bezier reconstruction, exact circular dot, straight stems, shared curves. No font substitution or automatic bitmap contour in final paths.",
+    "mark_path_segments": {
+      "dot": 6,
+      "rim": 13,
+      "portion": 8
+    },
+    "letter_path_segments": {
+      "s": 16,
+      "e": 14,
+      "n": 13,
+      "p": 16,
+      "l": 10,
+      "a": 16,
+      "t": 17
+    },
+    "capital_S_status": "comparison only, not selected",
+    "canvas": {
+      "logo": [
+        1028,
+        170
+      ],
+      "mark": [
+        325,
+        170
+      ],
+      "wordmark": [
+        661,
+        157
+      ]
+    }
+  },
+  "font": {
+    "original_family": null,
+    "method": "custom reconstructed letter paths based on selected structure",
+    "font_substitution": false
+  },
+  "palette": {
+    "forest": "#163F35",
+    "ivory": "#F3F1E7",
+    "black": "#000000",
+    "white": "#FFFFFF"
+  },
+  "figma": {
+    "file_key": "UyYjnTFGWO0r1lj4uvghGp",
+    "brand_board": "55:2",
+    "logo": "53:2",
+    "mark": "53:15",
+    "case_comparison": "56:2",
+    "edge_comparison": "57:25",
+    "native_png_exports": [
+      {
+        "name": "senplate-logo-green.png",
+        "id": "53:2",
+        "width": 2056
+      },
+      {
+        "name": "senplate-logo-black.png",
+        "id": "55:32",
+        "width": 2056
+      },
+      {
+        "name": "senplate-logo-white.png",
+        "id": "55:58",
+        "width": 2056
+      },
+      {
+        "name": "senplate-mark-green.png",
+        "id": "53:15",
+        "width": 1300
+      },
+      {
+        "name": "senplate-mark-black.png",
+        "id": "57:2",
+        "width": 1300
+      },
+      {
+        "name": "senplate-mark-white.png",
+        "id": "57:6",
+        "width": 1300
+      },
+      {
+        "name": "app-icon-forest-1024.png",
+        "id": "55:165"
+      },
+      {
+        "name": "app-icon-ivory-1024.png",
+        "id": "55:177"
+      },
+      {
+        "name": "app-icon-black-1024.png",
+        "id": "55:189"
+      },
+      {
+        "name": "senplate-mark-24.png",
+        "id": "57:10"
+      },
+      {
+        "name": "senplate-mark-32.png",
+        "id": "57:15"
+      },
+      {
+        "name": "senplate-mark-64.png",
+        "id": "57:20"
+      },
+      {
+        "name": "brand-preview.png",
+        "id": "55:2"
+      },
+      {
+        "name": "capitalization-comparison.png",
+        "id": "56:2"
+      },
+      {
+        "name": "edge-comparison.png",
+        "id": "57:25"
+      },
+      {
+        "name": "senplate-capital-s-comparison.png",
+        "id": "53:19",
+        "width": 2056
+      }
+    ]
+  },
+  "svg": [
+    {
+      "name": "senplate-capital-s-comparison.svg",
+      "paths": 11,
+      "path_commands": 143,
+      "viewBox": "0 0 1028 170"
+    },
+    {
+      "name": "senplate-logo-black.svg",
+      "paths": 11,
+      "path_commands": 143,
+      "viewBox": "0 0 1028 170"
+    },
+    {
+      "name": "senplate-logo-green.svg",
+      "paths": 11,
+      "path_commands": 143,
+      "viewBox": "0 0 1028 170"
+    },
+    {
+      "name": "senplate-logo-white.svg",
+      "paths": 11,
+      "path_commands": 143,
+      "viewBox": "0 0 1028 170"
+    },
+    {
+      "name": "senplate-mark-black.svg",
+      "paths": 3,
+      "path_commands": 27,
+      "viewBox": "0 0 325 170"
+    },
+    {
+      "name": "senplate-mark-green.svg",
+      "paths": 3,
+      "path_commands": 27,
+      "viewBox": "0 0 325 170"
+    },
+    {
+      "name": "senplate-mark-white.svg",
+      "paths": 3,
+      "path_commands": 27,
+      "viewBox": "0 0 325 170"
+    },
+    {
+      "name": "senplate-wordmark-green.svg",
+      "paths": 8,
+      "path_commands": 116,
+      "viewBox": "0 0 661 157"
+    }
+  ],
+  "png": [
+    {
+      "name": "app-icon-black-1024.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "8f7e11f25c4939a818d128fa966b3f35671bb22a1ab643c1234352254a4e9dd8"
+    },
+    {
+      "name": "app-icon-forest-1024.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "8e003a6a064489f8951124c98ccafda97c33586db6ad214b3fd3e2ef5d15a412"
+    },
+    {
+      "name": "app-icon-ivory-1024.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "16cb5d8ebd9a3d13662a9208dfa47abe69336971ffe215f0b83dd5b55b576641"
+    },
+    {
+      "name": "brand-preview.png",
+      "size": [
+        1440,
+        1100
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "839db65bbe44e3f3125eefc92d5df12ce49b42942d584bd99769d58892bbae58"
+    },
+    {
+      "name": "capitalization-comparison.png",
+      "size": [
+        1440,
+        760
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "9a1f66278205950f6ecff226f457ba67aa159f439c9abae9c061abc18f308593"
+    },
+    {
+      "name": "edge-comparison.png",
+      "size": [
+        1440,
+        480
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "d51f6efc05157e7f2702d889774bfb9dee462d3ffb4b7c9f353df71fd61b0c96"
+    },
+    {
+      "name": "senplate-capital-s-comparison.png",
+      "size": [
+        2056,
+        340
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "f7764aa002118b07c7b2b0022be7279d63b17c4203576746835ae84b652a2aa2"
+    },
+    {
+      "name": "senplate-logo-black.png",
+      "size": [
+        2056,
+        340
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "154fa5c7f033ccab38c2600bd9722adc71c89ed553c4654ef9f4f11d8da441d5"
+    },
+    {
+      "name": "senplate-logo-green.png",
+      "size": [
+        2056,
+        340
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "7049244527b06de4639277bf61f6fbe56c1202674ee8d116f0207084aeedbfe6"
+    },
+    {
+      "name": "senplate-logo-white.png",
+      "size": [
+        2056,
+        340
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "9d82e5e7c46684ba92298bc2ee2f96aa24a784632e362f27376105df71442014"
+    },
+    {
+      "name": "senplate-mark-24.png",
+      "size": [
+        24,
+        24
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "7e178a32b464dd9630be14614e286e4615f982f02fb4bafa92958ed35e87a769"
+    },
+    {
+      "name": "senplate-mark-32.png",
+      "size": [
+        32,
+        32
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "a03cb0ce545fa938e61551e29ee015334f1f8d6206d5bc6dc52616ed3637bf49"
+    },
+    {
+      "name": "senplate-mark-64.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "f1c130973770d682d78bcf1b73dccbdd9e81c5691b53384b1b7b431cdd90fc10"
+    },
+    {
+      "name": "senplate-mark-black.png",
+      "size": [
+        1300,
+        680
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "86daba59035ff5deaec92a6c04e66b8fc45eaf36873e7e052612b3c6bba4fce9"
+    },
+    {
+      "name": "senplate-mark-green.png",
+      "size": [
+        1300,
+        680
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "7014429c41eef184298c1247a1467caf6f599811352c0cbfb85af596a4aaad4d"
+    },
+    {
+      "name": "senplate-mark-white.png",
+      "size": [
+        1300,
+        680
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "0ee0511900b82f625d8142b533d74d46cd028549113db710a7cc0425d70c30c2"
+    },
+    {
+      "name": "source-selected-a.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "cc98804614d8e0de4e15d1e5dd197550f3bef06a4569cc5c4c3b9f54e2929a61"
+    }
+  ],
+  "caveats": [
+    "24px has a thin rim; recommend 32px minimum, prefer 48px or larger.",
+    "PNG has finite resolution; use SVG for scaling.",
+    "No fresh trademark search or original font provenance determination.",
+    "No app implementation."
+  ],
+  "files": [
+    {
+      "name": "README.md",
+      "bytes": 2143,
+      "sha256": "ba04ccfaa2ac51995bcc444c700d30a62ccbd1bd766248f814be27113f0fae31"
+    },
+    {
+      "name": "app-icon-black-1024.png",
+      "bytes": 17170,
+      "sha256": "8f7e11f25c4939a818d128fa966b3f35671bb22a1ab643c1234352254a4e9dd8"
+    },
+    {
+      "name": "app-icon-forest-1024.png",
+      "bytes": 19647,
+      "sha256": "8e003a6a064489f8951124c98ccafda97c33586db6ad214b3fd3e2ef5d15a412"
+    },
+    {
+      "name": "app-icon-ivory-1024.png",
+      "bytes": 18962,
+      "sha256": "16cb5d8ebd9a3d13662a9208dfa47abe69336971ffe215f0b83dd5b55b576641"
+    },
+    {
+      "name": "brand-preview.png",
+      "bytes": 57100,
+      "sha256": "839db65bbe44e3f3125eefc92d5df12ce49b42942d584bd99769d58892bbae58"
+    },
+    {
+      "name": "capitalization-comparison.png",
+      "bytes": 48946,
+      "sha256": "9a1f66278205950f6ecff226f457ba67aa159f439c9abae9c061abc18f308593"
+    },
+    {
+      "name": "edge-comparison.png",
+      "bytes": 29149,
+      "sha256": "d51f6efc05157e7f2702d889774bfb9dee462d3ffb4b7c9f353df71fd61b0c96"
+    },
+    {
+      "name": "senplate-capital-s-comparison.png",
+      "bytes": 35909,
+      "sha256": "f7764aa002118b07c7b2b0022be7279d63b17c4203576746835ae84b652a2aa2"
+    },
+    {
+      "name": "senplate-capital-s-comparison.svg",
+      "bytes": 2794,
+      "sha256": "f88522b1b5aa63c8aee212f02e822c8f00484b75ccc01645d1cf597f27a1be11"
+    },
+    {
+      "name": "senplate-logo-black.png",
+      "bytes": 26495,
+      "sha256": "154fa5c7f033ccab38c2600bd9722adc71c89ed553c4654ef9f4f11d8da441d5"
+    },
+    {
+      "name": "senplate-logo-black.svg",
+      "bytes": 2756,
+      "sha256": "0436040684920a71e7db5a271404535ba70c0bcbcd2ecd9ff980a9e67e01b8f6"
+    },
+    {
+      "name": "senplate-logo-green.png",
+      "bytes": 34411,
+      "sha256": "7049244527b06de4639277bf61f6fbe56c1202674ee8d116f0207084aeedbfe6"
+    },
+    {
+      "name": "senplate-logo-green.svg",
+      "bytes": 2756,
+      "sha256": "d7282839afc9877218e43526096f80b6bd6a6065fe4ad7b98f92aef10241a1b7"
+    },
+    {
+      "name": "senplate-logo-white.png",
+      "bytes": 27390,
+      "sha256": "9d82e5e7c46684ba92298bc2ee2f96aa24a784632e362f27376105df71442014"
+    },
+    {
+      "name": "senplate-logo-white.svg",
+      "bytes": 2756,
+      "sha256": "e499d553ffc5ebc7e8aea51efb8295d3ab97221ac6167a9226bb222ef3b3db00"
+    },
+    {
+      "name": "senplate-mark-24.png",
+      "bytes": 637,
+      "sha256": "7e178a32b464dd9630be14614e286e4615f982f02fb4bafa92958ed35e87a769"
+    },
+    {
+      "name": "senplate-mark-32.png",
+      "bytes": 804,
+      "sha256": "a03cb0ce545fa938e61551e29ee015334f1f8d6206d5bc6dc52616ed3637bf49"
+    },
+    {
+      "name": "senplate-mark-64.png",
+      "bytes": 1526,
+      "sha256": "f1c130973770d682d78bcf1b73dccbdd9e81c5691b53384b1b7b431cdd90fc10"
+    },
+    {
+      "name": "senplate-mark-black.png",
+      "bytes": 20591,
+      "sha256": "86daba59035ff5deaec92a6c04e66b8fc45eaf36873e7e052612b3c6bba4fce9"
+    },
+    {
+      "name": "senplate-mark-black.svg",
+      "bytes": 783,
+      "sha256": "570ddeb2f0a6020db94f6c3d3470ba1d91f18aa3b4c319a44633e3519016db57"
+    },
+    {
+      "name": "senplate-mark-green.png",
+      "bytes": 26971,
+      "sha256": "7014429c41eef184298c1247a1467caf6f599811352c0cbfb85af596a4aaad4d"
+    },
+    {
+      "name": "senplate-mark-green.svg",
+      "bytes": 783,
+      "sha256": "03e166a7557d2411590540127851680fdaa34e31df17076209a81ffa976a53e9"
+    },
+    {
+      "name": "senplate-mark-white.png",
+      "bytes": 21421,
+      "sha256": "0ee0511900b82f625d8142b533d74d46cd028549113db710a7cc0425d70c30c2"
+    },
+    {
+      "name": "senplate-mark-white.svg",
+      "bytes": 783,
+      "sha256": "9ae2a5ebf16101c227340dfb17980fc23720d025e89fe62063d2e6b66c820286"
+    },
+    {
+      "name": "senplate-wordmark-green.svg",
+      "bytes": 2083,
+      "sha256": "f01a51900909a42eac3f66d29197e278d28ece885e397d54b14f79df7eca5775"
+    },
+    {
+      "name": "source-selected-a.png",
+      "bytes": 1378216,
+      "sha256": "cc98804614d8e0de4e15d1e5dd197550f3bef06a4569cc5c4c3b9f54e2929a61"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "brand": "Senplate",
+  "stage": "SYMBOL_REFINEMENT_R2",
+  "selected_logo": null,
+  "base_vi": "output/brand/2026-09-16-senplate-vi/measured-v1.png",
+  "base_selection": "User selected original VI displayed option 1 as basis, not approval of original logo",
+  "generator": "built-in image_gen",
+  "generated_at": "2026-09-16T13:42:40.935107+00:00",
+  "display_order_basis": "Actual order of three native generated-image results in this refinement turn; distinct from prior VI option numbering",
+  "chinese_name": null,
+  "options": [
+    {
+      "displayed_option": 1,
+      "slug": "fold",
+      "direction": "Rim Fold",
+      "image": "output/brand/2026-09-16-senplate-logo-r2/fold-r2.png",
+      "source": "/Users/tantalum/.codex/generated_images/01a07aeb-a256-7572-a42e-bd7e4668674f/exec-f673b03c-8baa-4b7c-8249-af4df6376db3.png",
+      "sha256": "92b40102de0776552b8a00deab5d78b7333ec4efba41bb1ee5ec354354657d18",
+      "pixel_size": [
+        1536,
+        1024
+      ],
+      "prompt": "output/brand/2026-09-16-senplate-logo-r2/prompts/fold-r2.txt"
+    },
+    {
+      "displayed_option": 2,
+      "slug": "poise",
+      "direction": "Poise",
+      "image": "output/brand/2026-09-16-senplate-logo-r2/poise-r2.png",
+      "source": "/Users/tantalum/.codex/generated_images/01a07aeb-a256-7572-a42e-bd7e4668674f/exec-d8d4cc1c-c5cb-4bbb-872e-6650cefcc1c8.png",
+      "sha256": "acc681188653d7bd43f131ad91eb903a90937025161375b5cee040862fc38f16",
+      "pixel_size": [
+        1536,
+        1024
+      ],
+      "prompt": "output/brand/2026-09-16-senplate-logo-r2/prompts/poise-r2.txt"
+    },
+    {
+      "displayed_option": 3,
+      "slug": "contour",
+      "direction": "Contour S",
+      "image": "output/brand/2026-09-16-senplate-logo-r2/contour-r2.png",
+      "source": "/Users/tantalum/.codex/generated_images/01a07aeb-a256-7572-a42e-bd7e4668674f/exec-8b2ddd7d-e520-43f9-93d2-65c13f02cff1.png",
+      "sha256": "7f991bb904215a0a44fe9237302c2cf6e74f90de77e78585a7d4ac67c3c3ea40",
+      "pixel_size": [
+        1536,
+        1024
+      ],
+      "prompt": "output/brand/2026-09-16-senplate-logo-r2/prompts/contour-r2.txt"
+    }
+  ],
+  "review_status": "ALL_REJECTED_BY_USER",
+  "user_feedback_original": "三个都不满意",
+  "rejection_reason_original": "太普通，缺少高级感和辨识度"
+}

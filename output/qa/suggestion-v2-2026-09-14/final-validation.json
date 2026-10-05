@@ -1,0 +1,34 @@
+{
+  "completed_at": "2026-09-14T07:42:35.371745+00:00",
+  "docx": "/Users/tantalum/Documents/ChatGPT/FYP/output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx",
+  "pdf": "/Users/tantalum/Documents/ChatGPT/FYP/output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf",
+  "docx_sha256": "a133728c64be5bebf80110e6dca83d68f0df4070050689505c461536613917c2",
+  "pdf_sha256": "32efbfef5757f8a0480a22405227a7b0d079f54cdb45677a16174e87b72effa0",
+  "page_count": 4,
+  "all_final_pages_visually_checked": true,
+  "visual_evidence": "fidelity-03/b_render",
+  "only_changed_docx_part": "word/document.xml",
+  "member_identity_cells_unchanged": true,
+  "planned_contribution_percent": [
+    40,
+    30,
+    30
+  ],
+  "endorsements_unchanged": true,
+  "all_other_package_parts_and_relationships_unchanged": true,
+  "page_geometry_and_table_grids_unchanged": true,
+  "v1_protected_files_unchanged": {
+    "output/docx/AY26_ProjectSuggestion_Group 2.docx": "dbbc4efa0c1a0f6a58041558ff1dbdf52f189fb8608552558c391bf9ec59d3b4",
+    "output/pdf/AY26_ProjectSuggestion_Group 2.pdf": "d4af42cbacf850d6a8e2006aff0dcd4e38001c8d3b7b9421dec9634e3830df85",
+    "scripts/build_suggestion.py": "4251a8cfda01a0a814f8116bc1f67e64e64ea220d224b67d236a19765465271d"
+  },
+  "original_school_template_unchanged": true,
+  "supervisor": "Marco",
+  "supervisor_status": "discussion reported; revised scope for review",
+  "formal_approval_recorded": false,
+  "moodle_uploaded": false,
+  "hardware_or_nutrition_experiments_run": false,
+  "docx_operation_marker_success_count": 1,
+  "pdf_operation_marker_success_count": 1,
+  "nutrition_claim_boundary": "reference-based estimates; not measured chemical composition or clinical diagnosis"
+}

@@ -1,0 +1,63 @@
+{
+  "brand": {
+    "name": "Senplate",
+    "logo": "V7 plain bowl",
+    "vi": "V1"
+  },
+  "colors": {
+    "primary": "#163F35",
+    "background": "#F3F1E7",
+    "support": "#B8C9BC",
+    "text": "#202B26",
+    "white": "#FFFFFF",
+    "black": "#000000"
+  },
+  "typography": {
+    "latin": "Manrope",
+    "traditional_chinese": "Noto Sans TC",
+    "simplified_chinese": "Noto Sans SC",
+    "weights": {
+      "regular": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700
+    },
+    "logo_wordmark": {
+      "family": "Manrope",
+      "weight": 700,
+      "letter_spacing_percent": -2,
+      "use": "Use the outlined master for production"
+    }
+  },
+  "spacing_px": [
+    8,
+    16,
+    24,
+    32,
+    48,
+    64
+  ],
+  "minimum_width_recommendations": {
+    "symbol": {
+      "px": 32,
+      "mm": 8
+    },
+    "wordmark": {
+      "px": 96,
+      "mm": 24
+    },
+    "horizontal": {
+      "px": 160,
+      "mm": 40
+    },
+    "stacked": {
+      "px": 96,
+      "mm": 24
+    }
+  },
+  "clear_space": {
+    "symbol_and_lockups": "symbol_width / 8",
+    "standalone_wordmark": "visible_wordmark_height / 4"
+  },
+  "status": "Design tokens and suggested usage rules, not application implementation"
+}

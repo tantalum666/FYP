@@ -1,0 +1,51 @@
+{
+  "same_task_followup": true,
+  "completed_at": "2026-09-16T06:47:06.382972+00:00",
+  "inherits_full_read": "../2026-09-16-competition-research/reading-record.json",
+  "also_inherits": "../2026-09-16-competitions-no-company/reading-record.json",
+  "supplementary_reads": {
+    "AGENTS.md": "1-EOF",
+    "handoff.md": "1-EOF",
+    "product.md": "1-36; unchanged remainder inherited",
+    "decision-log.md": "latest 30 lines before additions",
+    "work-log.md": "latest 22 lines before additions",
+    "research/2026-09-16-competitions/no-company-options.md": "same-task authored complete content inherited; added link reviewed"
+  },
+  "exclusions": [
+    ".git",
+    "dependencies/caches/third-party/build output",
+    "output/qa generated evidence snapshots"
+  ],
+  "scope": "Mainland national/provincial competition research; preserve naming-only project task and no company constraint",
+  "pdf_visual_pages": [
+    {
+      "path": "sources/National-IoT-2026-Rules.pdf",
+      "sha256": "65676231f78dc9f007fcf8a6dc7eca7f8281c2c5c6251654dff4ef5cec9fe492",
+      "visual_pages": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "path": "sources/National-IoT-2026-Vocational-Eligibility.pdf",
+      "sha256": "19cf276d0aa50ea354ecd7787b589bb9620ca0ac10444bbaf7303b35d2981f71",
+      "visual_pages": [
+        1
+      ]
+    }
+  ],
+  "concurrent_state_refresh": {
+    "at": "2026-09-16T06:49:03.593643+00:00",
+    "read": [
+      "product.md current top 31 lines",
+      "handoff.md full current Senplate version",
+      "decision-log.md latest 23 lines",
+      "work-log.md latest 23 lines",
+      "changed competition report endings"
+    ],
+    "finding": "Concurrent task selected Senplate; preserve selection and paused image/code work. No need to re-research trademarks for competition task."
+  }
+}

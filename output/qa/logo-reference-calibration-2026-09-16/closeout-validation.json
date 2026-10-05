@@ -1,0 +1,63 @@
+{
+  "scope": "Reference comparison and documentation QA; no new Senplate logo or production identity validation",
+  "completed_at": "2026-09-16T15:10:22.713998+00:00",
+  "checks": {
+    "protected_preserved": true,
+    "r3_withdrawn": true,
+    "curated_withdrawn": true,
+    "r3_image_hashes_unchanged": true,
+    "four_brand_records": true,
+    "user_has_not_selected": true,
+    "fragment_under_1mb": true,
+    "literal_fragment": true,
+    "four_controls": true,
+    "allowed_cdn_only": true,
+    "no_network_api": true,
+    "no_app_scaffold": true,
+    "internal_links": true
+  },
+  "protected_count": 45,
+  "protected_changes": [],
+  "fragment": "/Users/tantalum/.codex/visualizations/2026/09/07/01a07aeb-a256-7572-a42e-bd7e4668674f/senplate-logo-references.html",
+  "fragment_sha256": "70f1f93e4e8884315b72239d97bc57a18945be2611ed437064fe8d8513fa0caa",
+  "updated_specs": [
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-16/logo-reference-calibration.md",
+    "planning/2026-09-16/senplate-logo-reset-r3.md",
+    "planning/2026-09-16/senplate-logo-vi-directions.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md"
+  ],
+  "browser_checks": {
+    "four_symbols_visually_visible": true,
+    "initial_layout_repaired": true,
+    "selection_state": true,
+    "max_two": true,
+    "initial_empty_disabled": true,
+    "deselect_branch_exercised": false,
+    "send_followup_exercised": false,
+    "test_choices_cleared": true,
+    "viewport_360": {
+      "content": 328,
+      "scroll": 328
+    },
+    "viewport_320": {
+      "content": 288,
+      "scroll": 288
+    },
+    "viewport_restored": true,
+    "preview_tab_closed": true,
+    "preview_server_stopped": true
+  },
+  "imagegen_calls": 0,
+  "new_agents_spawned": 0,
+  "links": {
+    "checked": 445,
+    "broken": []
+  },
+  "status": "PASS"
+}

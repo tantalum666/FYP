@@ -1,0 +1,61 @@
+{
+  "currency": "HKD",
+  "assumptions_not_forecasts": true,
+  "annual_scenarios": [
+    {
+      "year": 1,
+      "opening": 0,
+      "new": 8,
+      "churn": 0,
+      "closing": 8,
+      "months": 48,
+      "hardware_revenue": 118400,
+      "service_revenue": 32640,
+      "hardware_cogs": 74400,
+      "service_cogs": 10560,
+      "opex": 180000,
+      "revenue": 151040,
+      "gross_profit": 66080,
+      "operating_surplus": -113920
+    },
+    {
+      "year": 2,
+      "opening": 8,
+      "new": 20,
+      "churn": 1,
+      "closing": 27,
+      "months": 204,
+      "hardware_revenue": 296000,
+      "service_revenue": 138720,
+      "hardware_cogs": 186000,
+      "service_cogs": 44880,
+      "opex": 300000,
+      "revenue": 434720,
+      "gross_profit": 203840,
+      "operating_surplus": -96160
+    },
+    {
+      "year": 3,
+      "opening": 27,
+      "new": 50,
+      "churn": 3,
+      "closing": 74,
+      "months": 588,
+      "hardware_revenue": 740000,
+      "service_revenue": 399840,
+      "hardware_cogs": 465000,
+      "service_cogs": 129360,
+      "opex": 480000,
+      "revenue": 1139840,
+      "gross_profit": 545480,
+      "operating_surplus": 65480
+    }
+  ],
+  "cumulative_surplus": -144600,
+  "primary_pool": 591,
+  "fit_pool": 118,
+  "full_pool_service": 4822560,
+  "fit_pool_service": 962880,
+  "prototype_budget": 50000,
+  "commercial_y1_cash_round": 165508
+}

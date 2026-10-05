@@ -1,0 +1,48 @@
+{
+  "completed_at": "2026-09-17T17:01:37.498641+00:00",
+  "status": "USER_SELECTED",
+  "protected_files": 1919,
+  "protected_changes": [],
+  "old_figma_node_count": 48,
+  "old_nodes_unchanged": true,
+  "no_scale_source_parts": true,
+  "plain_path_identical": true,
+  "wordmark_path_identical": true,
+  "layout_identical": true,
+  "svg": [
+    {
+      "file": "senplate-logo.svg",
+      "text_nodes": 0,
+      "paths": 9
+    },
+    {
+      "file": "senplate-symbol.svg",
+      "text_nodes": 0,
+      "paths": 1
+    }
+  ],
+  "visual_review": [
+    "complete1774x887 preview",
+    "actual64px ivory"
+  ],
+  "zip": {
+    "file": "output/brand/Senplate_Plain_Bowl_v7.zip",
+    "valid": true,
+    "files": 9
+  },
+  "updated_markdown": [
+    "brand.md",
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md",
+    "planning/2026-09-18/senplate-plain-bowl-v7.md",
+    "output/brand/2026-09-18-senplate-plain-bowl-v7/README.md"
+  ],
+  "local_links_checked": 387,
+  "broken_links": [],
+  "all_checks_passed": true
+}

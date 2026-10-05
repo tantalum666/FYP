@@ -1,0 +1,71 @@
+{
+  "authorization": {
+    "user_answer": "同意，继续官方图像查询",
+    "date": "2026-09-17",
+    "observed_after_answer": "The image-search page was already at /upload. Agent did not solve any CAPTCHA."
+  },
+  "query": {
+    "system": "Hong Kong IPD Image Mark Finder",
+    "url": "https://image-mark-finder.ipd.gov.hk/search",
+    "file": "senplate-query-192.png",
+    "dimensions": [
+      192,
+      192
+    ],
+    "sha256": "93555d6ab0e4dc6ee070d0b9cb60ae69429d14bcf3f6a47df78d322405995aa6",
+    "mode": "Full unchanged symbol, no manual crop, no class filter",
+    "reported_results": 300,
+    "metadata_rows_reviewed": 50,
+    "distinct_numbers_in_reviewed_rows": 37,
+    "detail_records_verified": 2,
+    "meaning": "300 candidate image records reported by system, including duplicates; not 300 conflicts or unique marks"
+  },
+  "records": [
+    {
+      "number": "303321710",
+      "url": "https://esearch.ipd.gov.hk/nis-pos-view/#/tm/details/view/392093_303321710/tm?lang=sc",
+      "status": "已註冊",
+      "owner": "智通智能技術（蘇州）有限公司",
+      "class_numbers": [
+        9
+      ],
+      "filing_date": "2015-03-06",
+      "registration_date": "2015-03-06",
+      "actual_registration_date": "2015-10-06",
+      "expiry_date": "2035-03-05",
+      "device_codes": [
+        "26.5.1"
+      ],
+      "goods_summary": "Keyboards, laptop and tablet computers, mice, recorded/downloadable computer software, computers, peripherals, downloadable publications, headsets, loudspeakers and computer hardware",
+      "brand_connection": "Company's official MECHREVO website states it builds the Mechanical Revolution brand",
+      "brand_source": "https://www.mechrevo.com/cn/about",
+      "image_source": "https://esearch.ipd.gov.hk/nis-pos-view/tm/tmFileActions/downloadImage/392093_303321710_0.jpg",
+      "visual_assessment": "Relevant device/software class and opposing angular planes with a diagonal interrupted inner path. Not identical: polygon proportions, mass, inner negative space and metallic rendering differ."
+    },
+    {
+      "number": "307039215",
+      "wordmark": "meterytech",
+      "url": "https://esearch.ipd.gov.hk/nis-pos-view/#/tm/details/view/3733704_307039215/tm?lang=sc",
+      "status": "已註冊",
+      "owner": "METERY TECHNOLOGY LIMITED",
+      "class_numbers": [
+        9
+      ],
+      "filing_date": "2025-09-23",
+      "registration_date": "2025-09-23",
+      "actual_registration_date": "2026-03-02",
+      "expiry_date": "2035-09-22",
+      "device_codes": [
+        "26.5.10",
+        "26.7.25"
+      ],
+      "goods_summary": "Measuring instruments, precision measuring equipment, detectors, pressure/liquid-level sensors and flow instruments, among other measurement goods",
+      "visual_assessment": "Relevant measurement category but the full mark is more complex, vertically mirrored, layered, and contains the word meterytech; materially different overall appearance. A returned candidate is not automatically a conflict."
+    }
+  ],
+  "observations": [
+    "Official details opened successfully after user confirmation",
+    "No user terms or CAPTCHA confirmation remains pending for this completed query",
+    "No filing, favourite creation, contact or purchase performed"
+  ]
+}

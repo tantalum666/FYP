@@ -1,0 +1,42 @@
+{
+  "completed_at": "2026-09-14T06:45:30.427433+00:00",
+  "docx": "/Users/tantalum/Documents/ChatGPT/FYP/output/docx/AY26_ProjectSuggestion_Group 2.docx",
+  "pdf": "/Users/tantalum/Documents/ChatGPT/FYP/output/pdf/AY26_ProjectSuggestion_Group 2.pdf",
+  "docx_sha256": "dbbc4efa0c1a0f6a58041558ff1dbdf52f189fb8608552558c391bf9ec59d3b4",
+  "pdf_sha256": "d4af42cbacf850d6a8e2006aff0dcd4e38001c8d3b7b9421dec9634e3830df85",
+  "page_count": 4,
+  "visual_review": "all four final page PNGs inspected at original resolution; no blank pages, clipped content, orphan labels or split member rows",
+  "visual_evidence_dir": "/Users/tantalum/Documents/ChatGPT/FYP/output/qa/suggestion-2026-09-14/fidelity-02/b_render",
+  "template_preservation": {
+    "original_unchanged": true,
+    "source_sha256": "7cc26bead5d75b140a3044328bd724ac6e418dc5efaa703084f39b6d363b10d5",
+    "only_changed_parts": [
+      "word/document.xml",
+      "word/settings.xml"
+    ],
+    "endorsement_table_unchanged": true,
+    "page_geometry_unchanged": true,
+    "reference_pages": 3,
+    "final_pages": 4,
+    "pagination_reason": "filled member responsibilities and body content; original type sizes retained"
+  },
+  "audits": {
+    "sections": 0,
+    "styles": 0,
+    "fields": 0,
+    "headings": 0,
+    "controls": 0
+  },
+  "member_data_verified": true,
+  "group": "Group 2",
+  "planned_workload_percent": [
+    40,
+    30,
+    30
+  ],
+  "supervisor_verbal_agreement": false,
+  "signatures_added": false,
+  "moodle_uploaded": false,
+  "hardware_tested": false,
+  "note": "DOCX keeps the original PAGE field with updateFields=true. PDF page numbers 1-4 verified. Word desktop refresh not performed."
+}

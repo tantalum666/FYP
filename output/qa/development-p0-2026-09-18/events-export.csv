@@ -1,0 +1,5 @@
+run_id,data_origin,event_id,at,kind,delta_g,net_g
+ee55baa7-4f19-4b3f-a1df-ab8c6da4cfdd,simulated,2d008343-dbfd-43d6-b29f-6d70299e6c0e,2026-09-18T12:00:00+08:00,initial_supply,1500,1500
+ee55baa7-4f19-4b3f-a1df-ab8c6da4cfdd,simulated,9c737c51-5382-4432-a36d-f5db4b9ed0fa,2026-09-18T12:05:00+08:00,food_removed,-300,1200
+ee55baa7-4f19-4b3f-a1df-ab8c6da4cfdd,simulated,f15910ea-74c3-4ad0-9905-71b9212495a3,2026-09-18T12:10:00+08:00,food_removed,-500,700
+ee55baa7-4f19-4b3f-a1df-ab8c6da4cfdd,simulated,58c9b456-a115-4028-9ca2-c752e5665f30,2026-09-18T12:10:00+08:00,recommendation_created,,700

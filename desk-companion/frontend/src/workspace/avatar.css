@@ -1,0 +1,68 @@
+.companion-stage {
+  height: 100%;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.companion-figure {
+  height: 90%;
+  max-height: 440px;
+  width: 100%;
+  max-width: 420px;
+}
+.companion-state-label {
+  color: var(--device-muted, #758078);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+.companion-stage.standalone {
+  background: #000;
+  height: 100dvh;
+  width: 100vw;
+}
+.standalone .companion-figure {
+  height: 90vh;
+  max-height: none;
+  max-width: 85vw;
+}
+.companion-stage.mirrored {
+  transform: scaleX(-1);
+}
+.companion-body {
+  transform-origin: 160px 300px;
+}
+.state-listening .companion-head {
+  transform-origin: 160px 140px;
+  transform: rotate(-5deg);
+}
+.state-speaking .companion-indicator {
+  animation: voice-pulse 0.65s ease-in-out infinite alternate;
+}
+.state-thinking .companion-ring {
+  animation: voice-pulse 1.6s ease-in-out infinite alternate;
+}
+.state-alert .companion-ring {
+  stroke: #d8b673;
+  stroke-width: 3;
+}
+.state-confirm .companion-indicator {
+  fill: #d8b673;
+}
+.state-disconnected .companion-figure {
+  opacity: 0.35;
+}
+@keyframes voice-pulse {
+  to {
+    opacity: 0.25;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .companion-stage * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

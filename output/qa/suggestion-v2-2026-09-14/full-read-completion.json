@@ -1,0 +1,190 @@
+{
+  "completed_at": "2026-09-14T07:17:13.080246+00:00",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "read_status": "complete_body_read"
+    },
+    {
+      "path": "README.md",
+      "lines": 33,
+      "read_ranges": [
+        [
+          1,
+          33
+        ]
+      ],
+      "sha256": "57badf5d1d6fe408ab661e5a9552fdd4a1703b38fe68b821dcd675bbc0b6bbb6",
+      "read_status": "complete_body_read"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 19,
+      "read_ranges": [
+        [
+          1,
+          19
+        ]
+      ],
+      "sha256": "67daff833db59b3a3fc627a081724f360f7b3c81985e5013359b19ff7b628fd7",
+      "read_status": "complete_body_read"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 31,
+      "read_ranges": [
+        [
+          1,
+          31
+        ]
+      ],
+      "sha256": "5819dd83102f8dd86d9ae57d8f63ebb13e59c1a29aa4e1d25f90dd7ab31eb664",
+      "read_status": "complete_body_read"
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 104,
+      "read_ranges": [
+        [
+          1,
+          104
+        ]
+      ],
+      "sha256": "ebf663a6dc56d9fe3dd8714272cd997f8753e6fe26b20cd549610ed82f84d431",
+      "read_status": "complete_body_read"
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 158,
+      "read_ranges": [
+        [
+          1,
+          158
+        ]
+      ],
+      "sha256": "c20b1691177195730d9a1a8d9d84293861ef470f95a36c7dea466d43e1ee9843",
+      "read_status": "complete_body_read"
+    },
+    {
+      "path": "product.md",
+      "lines": 51,
+      "read_ranges": [
+        [
+          1,
+          51
+        ]
+      ],
+      "sha256": "628c4e3693d664eee6e89ac8ba7e65f5fdd7e007b964e17dd4d0391b6b7bcbcc",
+      "read_status": "complete_body_read"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165,
+      "read_ranges": [
+        [
+          1,
+          165
+        ]
+      ],
+      "sha256": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53",
+      "read_status": "complete_body_read"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38,
+      "read_ranges": [
+        [
+          1,
+          38
+        ]
+      ],
+      "sha256": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410",
+      "read_status": "complete_body_read"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44,
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ],
+      "sha256": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346",
+      "read_status": "complete_body_read"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47,
+      "read_ranges": [
+        [
+          1,
+          47
+        ]
+      ],
+      "sha256": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a",
+      "read_status": "complete_body_read"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287,
+      "read_ranges": [
+        [
+          1,
+          287
+        ]
+      ],
+      "sha256": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827",
+      "read_status": "complete_body_read"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171,
+      "read_ranges": [
+        [
+          1,
+          171
+        ]
+      ],
+      "sha256": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4",
+      "read_status": "complete_body_read"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25,
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ],
+      "sha256": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7",
+      "read_status": "complete_body_read"
+    },
+    {
+      "path": "work-log.md",
+      "lines": 21,
+      "read_ranges": [
+        [
+          1,
+          21
+        ]
+      ],
+      "sha256": "e573915d50f57153a2fd8527f4bc93573bef70818cea4009ec7026367e85ed7f",
+      "read_status": "complete_body_read"
+    }
+  ],
+  "total_lines": 1244,
+  "excluded": [
+    ".git/dependencies/caches/third-party/generated output/qa"
+  ],
+  "truncation_recovery": "continuous-monitoring-architecture.md reread in full after combined output truncation"
+}

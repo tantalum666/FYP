@@ -1,0 +1,63 @@
+{
+  "completed_at": "2026-09-28T14:30:41.806856+08:00",
+  "task": "desk software functions and cross-platform planning",
+  "full_read": {
+    "files": 99,
+    "lines": 9198,
+    "batches": 71,
+    "record": "reading-record.json"
+  },
+  "user_confirmed": [
+    "phone and computer control",
+    "device touchscreen desired",
+    "calendar/character display layout undecided"
+  ],
+  "engineering_proposals": [
+    "React TypeScript shared UI with Capacitor phone app, computer browser, Pi kiosk",
+    "Python FastAPI SQLite local core with independent camera/audio/device processing",
+    "separable character display; one-screen software validation before optional second display",
+    "LAN-first recommendation; internet remote control not yet required by user"
+  ],
+  "checks": {
+    "markdown_fences": "pass",
+    "required_topics": "pass",
+    "local_links": 431,
+    "broken_links": [],
+    "previous_school_files_hash_unchanged": [
+      "output/submission/2026-09-28/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx",
+      "output/submission/2026-09-28/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf",
+      "output/submission/2026-09-28/AY26_ProjectProposal_Group 2.docx",
+      "output/submission/2026-09-28/AY26_ProjectProposal_Group 2.pdf",
+      "output/docx/Group 2_DeskCompanion_ProjectProposal_ZH_Review_v3.docx"
+    ]
+  },
+  "updated_markdown": [
+    "planning/2026-09-28/desk-software-scope-v1.md",
+    "product.md",
+    "handoff.md",
+    "README.md",
+    "decision-log.md",
+    "work-log.md"
+  ],
+  "sources_verified": [
+    "https://www.raspberrypi.com/tutorials/how-to-use-a-raspberry-pi-in-kiosk-mode/",
+    "https://www.raspberrypi.com/documentation/accessories/touch-display-2.html",
+    "https://capacitorjs.com/docs",
+    "https://capacitorjs.com/docs/ios",
+    "https://capacitorjs.com/docs/basics/workflow",
+    "https://docs.flutter.dev/reference/supported-platforms",
+    "https://docs.flutter.dev/platform-integration/linux/building",
+    "https://fastapi.tiangolo.com/advanced/websockets/",
+    "https://developers.google.com/edge/mediapipe/solutions/vision/pose_landmarker/python",
+    "https://www.alibabacloud.com/help/en/model-studio/realtime",
+    "https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable"
+  ],
+  "evidence_limits": [
+    "No new application code, build, install, deployment or runtime test",
+    "No voice API, camera test or Pi hardware validation",
+    "No actual cross-device pairing or synchronization test",
+    "No supplier contact, purchase, Moodle upload or signature",
+    "Final software stack and display count remain recommendations"
+  ],
+  "memory_used": "MEMORY.md:126-139; early reminder-timing positioning superseded by current posture requirement"
+}

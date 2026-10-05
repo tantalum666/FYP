@@ -1,0 +1,117 @@
+{
+  "brand": "Senplate",
+  "date": "2026-09-17",
+  "concept": "Measured Plate / R5",
+  "status": "SEMANTIC_REVISION_DRAFT_FOR_USER_REVIEW",
+  "user_approved": false,
+  "figma": {
+    "file_key": "UyYjnTFGWO0r1lj4uvghGp",
+    "review": "28:2",
+    "master": "26:3",
+    "signature": "32:2",
+    "reverse": "30:2",
+    "small_nodes": {
+      "24": "31:2",
+      "32": "31:5",
+      "64": "31:8"
+    }
+  },
+  "design_intent": {
+    "plate": "Actual meal and food-serving container",
+    "portion": "Observed food amount and remaining quantity",
+    "reference_band": "Measurement and comparison before a serving decision",
+    "user_semantic_test_completed": false
+  },
+  "palette": {
+    "forest": "#163F35",
+    "ivory": "#F3F1E7",
+    "ink": "#18231F"
+  },
+  "geometry": {
+    "grid": [
+      144,
+      104
+    ],
+    "master_size": [
+      216,
+      156
+    ],
+    "parts": 3
+  },
+  "typeface": {
+    "family": "Manrope",
+    "style": "Medium",
+    "size": 104,
+    "tracking_percent": -3,
+    "image_mark_gap": 40,
+    "licence_archive": "not finalized"
+  },
+  "method": "Native Figma vectors; SVG text outlined; native PNG bytes",
+  "web_prompt": "../../../Senplate_Logo_ImageGen_Brief.md",
+  "specific_web_model_invoked": false,
+  "new_graphic_similarity_query": false,
+  "assets": [
+    {
+      "name": "measured-plate-24.png",
+      "sha256": "e30b5fea64acb679c03d4442bf5aa2687d35722a63445c067920e281a7346983",
+      "format": "PNG",
+      "width": 24,
+      "height": 24
+    },
+    {
+      "name": "measured-plate-32.png",
+      "sha256": "ffdb0c198ef38ab50a8e9228b6600df20f08d13fc46393d3f56d0718c793749f",
+      "format": "PNG",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "name": "measured-plate-64.png",
+      "sha256": "945f2ff4b4caba35fecaa75e810d737777f08ecfadf2274595a0bc11ef799b9e",
+      "format": "PNG",
+      "width": 64,
+      "height": 64
+    },
+    {
+      "name": "measured-plate-mark.png",
+      "sha256": "e8f6b0a3844c7fd5b95c0efd6921f9fb13bde002c0d477433540fc7b2ba59c71",
+      "format": "PNG",
+      "width": 216,
+      "height": 156
+    },
+    {
+      "name": "measured-plate-mark.svg",
+      "sha256": "c0006079c7c6df9ed845e94ad427ad79bb07678e64bbcb592e9e8ad24266a867",
+      "width": "216",
+      "height": "156",
+      "paths": 1,
+      "live_text": 0,
+      "embedded_images": 0
+    },
+    {
+      "name": "measured-plate-reverse.svg",
+      "sha256": "bbf8cee7864519bedc4b8571668c1d857d46d3d15594757833652f18272496d2",
+      "width": "130",
+      "height": "94",
+      "paths": 1,
+      "live_text": 0,
+      "embedded_images": 0
+    },
+    {
+      "name": "measured-plate-review.png",
+      "sha256": "83faf82297f88553a8477c3a184a8f4a77c8d727c888f5fe56c5269401387da4",
+      "format": "PNG",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "measured-plate-signature.svg",
+      "sha256": "e9641cecc0a800967efe1f9c16871523d988017e97bdef65bc69049a850bce0c",
+      "width": "607",
+      "height": "142",
+      "paths": 2,
+      "live_text": 0,
+      "embedded_images": 0
+    }
+  ]
+}

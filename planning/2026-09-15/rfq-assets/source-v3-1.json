@@ -1,0 +1,31 @@
+{
+  "created_at": "2026-09-16T10:29:01.628796+08:00",
+  "purpose": "Additional product reference images for RFQ V3.1; manufacturing scope unchanged.",
+  "files": [
+    {
+      "file": "metafoodx-product-clean-20260915.png",
+      "source": "https://www.metafoodx.com/product",
+      "method": "Existing 2026-09-15 browser screenshot",
+      "sha256": "2dedb7f5920b749b80c4890509a06919652da442fc389fec106b89ea4f2cdac8"
+    },
+    {
+      "file": "metafoodx-layout-clean-20260915.png",
+      "source": "https://www.metafoodx.com/product",
+      "method": "Existing 2026-09-15 browser screenshot",
+      "sha256": "eaa13f64e0fd5f4ca09b65356c4f63f9ba859523254ba6ccf685ff2a1f14ad88"
+    },
+    {
+      "file": "metafoodx-chef-user-reference.png",
+      "source": "User-attached codex-clipboard-15b20c30-58c3-459e-991a-3d08fb32851b.png",
+      "method": "Unmodified copy of supplied image; original provenance beyond user attachment not independently reverified.",
+      "sha256": "a834d134c14b0440b459992db1ed6eb26078d7e03eed1873fd62dd1238ce63d8"
+    },
+    {
+      "file": "metafoodx-pomona-installation.jpg",
+      "source": "User-supplied Metafoodx_Pomona_College_Case_Study.pdf, page2 image Im0.jpg",
+      "method": "pypdf extraction of the embedded photo, compared to rendered source page; no retouching, compositing or AI generation.",
+      "sha256": "1dc3447dbc040cb0ace0b7f61200b872e2675061de7820d33c2d79304f4237f9"
+    }
+  ],
+  "restrictions": "Appearance/layout reference only. No generated imagery, inferred internal hardware, extra supplier tasks or competitor performance commitments."
+}

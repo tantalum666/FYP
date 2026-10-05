@@ -1,0 +1,261 @@
+
+FILE work-log.md L1-259 of 665
+# Group 2 Work Log
+
+更新：2026-09-28。追加式记录；当前状态以 handoff.md 为准。
+
+## 2026-09-14 建议书制作与上下文协议
+
+- 目标：完成英文建议书、明确 Arduino 可选，并建立可恢复的 Markdown 工作流。
+- 已读：当前 10 份项目 Markdown 共 1,069 行；FanPass／Rillora 的 AGENTS 与交接相关部分；学校原模板三页。
+- 已判断：资料足以填写建议书；相机型号、预算和试点属于后续验证项。Pi 单机方案可作为优先工程候选，已有 UNO 保留备用。
+- 初始进度：新建 AGENTS、product、decision-log、handoff 和本记录，并开始制作建议书。
+- 边界：未运行硬件，未代签、取得导师同意或提交 Moodle。
+
+### 完成结果
+
+- 按学校原模板生成英文 DOCX 和对应 PDF，均为四页。范围为原位持续监测、AI 辅助补餐、厨房任务与减损评价，QR 菜单／点餐为辅助必做；Pi 5 单机优先，UNO 可选。
+- 表内精炼主要职责，保留 40／30／30；姓名、学号、邮箱及 Macro 待确认状态均核对。
+- 修复成员表跨页、空白溢出页和标签孤立换页。最终四页以原始分辨率逐页检查，页码 1–4 正确，签批栏未改动。
+- 原模板 SHA-256 保持 7cc26bead5d75b140a3044328bd724ac6e418dc5efaa703084f39b6d363b10d5；最终仅 word/document.xml 与字段更新设置变化，其余包部件及关系保留。结构、样式、字段和控件审查完成。
+- 交付：[DOCX](<output/docx/AY26_ProjectSuggestion_Group 2.docx>)、[PDF](<output/pdf/AY26_ProjectSuggestion_Group 2.pdf>)。证据：[final-validation.json](output/qa/suggestion-2026-09-14/final-validation.json)。
+- 上下文流程和当前产品／技术文件已同步；旧研究保留为有时间范围的证据，旧共享扫描预算不再作为当前报价。
+- 剩余：Macro 口头同意和签批、实际预算与模块选型、真实场地或受控实验方案；没有采购、硬件测试或 Moodle 提交。
+
+## 2026-09-14 多场景建议书 V2
+
+- 目标：按 Marco 对场景和社会价值的建议修订，并保留刚完成的 V1。
+- 开工完整阅读：15 份项目 Markdown，1,244 行；组合输出截断处已补读。研究 USDA FDC、CFS NIIS 和学生午膳指引，核对学校用途与营养估算方法。
+- 设计结果：同一持续监测核心支持供餐、学校和个人三个配置，新增营养参考、配餐比较与个人餐食摘要；Pi 单机和辅助 QR 功能继续保留。
+- 文档结果：[V2 DOCX](<output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx>)与[V2 PDF](<output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf>)均四页；沿用原模板并检查全部最终页面。
+- 验证：V2 只有 word/document.xml 变化，成员身份、页式和签批表不变；V1 DOCX/PDF/脚本哈希未变。修复了正文末尾单独溢出一页的问题。证据在 [V2 final-validation](output/qa/suggestion-v2-2026-09-14/final-validation.json)。
+- 当前状态：已记录与 Marco 的讨论，修订范围待审阅；签批留空，未上传或提交，未实际开展硬件／营养／学校试验。手册的相关页已读，不声称全文全部核对。
+- 收尾：更新 product、README、handoff、decision-log、当前硬件说明和版本索引；V1 范围说明标为历史。
+
+## 2026-09-14 单设备盘位与识别可靠性
+
+- 目标：解释一套硬件和多个称重位置的区别，核对三个场景共用条件、混合食物／遮挡／肉类及生熟识别可行性。
+- 开工阅读：本轮 16 份项目 Markdown 全文共 1,337 行；压缩后精简恢复并完成缺失正文，未用上一轮阅读记录替代。证据在 [full-read-completion](output/qa/single-station-reliability-2026-09-14/full-read-completion.json)。
+- 研究：读取 Nutrition5k 原论文相关章节及作者数据说明，重新读取 Metafoodx FAQ、FDC 数据定义；FSIS 与 SparkFun 直达受限后使用官方搜索索引正文。未下载整个数据集、复现模型或再次观看视频。
+- 结果：当前工程基线为一套设备、一个独立称重盘位，三个软件配置轮流演示。采用登记身份／配方、连续重量、有限视觉及确认；单秤逐项加料可记录提供量，但不能从混合餐总重下降得出精确分项摄入。RGB-D 不能消除完全遮挡或直接测成分，肉类颜色不能验证安全熟度。
+- 文件：新增[单盘位与识别可靠性](planning/2026-09-14/single-station-recognition-reliability.md)，更新 product、README、多场景范围、持续监测架构、decision-log 和 handoff。旧研究／V1 范围保留历史语境。
+- 验证：本轮 Markdown 及内部链接检查、当前基线一致性和旧建议书保留哈希记录在 [closeout-validation](output/qa/single-station-reliability-2026-09-14/closeout-validation.json)。硬件和识别验证只形成计划，未实际执行。
+- 剩余：V1/V2 DOCX/PDF 及构建脚本未覆盖，V2 多盘位文字待下次建议书修订同步；具体量程／容器／相机与准确度待测试。未新增 V3，未签批、采购、联系或提交。
+
+## 2026-09-14 AI 训练与树莓派推理解释
+
+- 目标：向初学者解释图片／视频标注、迁移学习、Kimi／DeepSeek 与轻量视觉模型区别，以及电脑训练后部署到树莓派的过程。
+- 开工：17 份项目 Markdown 全文共 1,473 行；补读组合输出截断区间。证据：[full-read-completion](output/qa/ai-training-deployment-2026-09-14/full-read-completion.json)。
+- 研究：官方 PyTorch 迁移学习、Torchvision 模型、ONNX 导出与树莓派推理示例、MPS、AI HATs，以及 Kimi K2.5／DeepSeek-VL2 模型说明。只读 PyPI 元数据确认 Linux aarch64 包存在；未下载包或权重。
+- 建议：PyTorch＋MobileNetV3-Small 作为首版训练候选，电脑／可用 GPU 训练，分批次验证后导出 ONNX，在 Pi CPU 推理。RGB-D 需要显式输入处理，补餐预测及营养换算另用各自依据；大模型和加速器不是默认必选。
+- 文件：新增[AI 训练与 Pi 部署](planning/2026-09-14/ai-training-and-pi-deployment.md)，同步 product、README、持续监测架构、decision-log 和 handoff。
+- 验证：[closeout-validation](output/qa/ai-training-deployment-2026-09-14/closeout-validation.json)核对内部链接、表格／脚注、文档状态及旧文件哈希。训练、导出和运行测试均未执行，说明中的性能／样本数只为候选或起步计划。
+- 剩余：真实数据集、可用训练硬件、目标 Pi 环境兼容性和性能待实施；V1/V2 建议书原样保留，尚未将本轮技术细节同步到新的正式版本，无采购、云任务、提交或对外联系。
+
+## 2026-09-14 RGB-D 训练与整机算力可行性
+
+- 目标：解释 3D 数据怎样进入特定训练、模型大小与准确性的关系，以及 Pi 能否承担整机负载。
+- 阅读：18 份初始项目 Markdown 全文 1,613 行；已补读 V1 范围尾部与竞品研究开头的截断范围，硬件长文分段完整读取。[阅读记录](output/qa/rgbd-compute-feasibility-2026-09-14/full-read-completion.json)。
+- 研究：Nutrition5k §4.4 两类深度使用方式、RealSense 深度单位／对齐官方代码、Torchvision 模型规模、PyTorch Pi 运行示例的输入／量化条件及 ONNX 量化限制。没有下载数据集、权重或执行示例。
+- 结果：优先 RGB 小模型＋显式几何处理，再比较小融合层；四通道／双分支按需对照。成对样本与标定必须一致，固定模型不会随照片数线性变大，精度及完整负载仍需本地验证。
+- 文件：扩展[训练路线](planning/2026-09-14/ai-training-and-pi-deployment.md)，同步 product、README、持续监测架构、decision-log 和 handoff，没有再创建一份重复的训练规范。
+- 验证：[收尾记录](output/qa/rgbd-compute-feasibility-2026-09-14/closeout-validation.json)核对 Markdown 链接、表格／脚注、当前边界和 V1/V2／身份文件哈希；训练、导出、Pi 性能及准确率测试均未执行。
+- 剩余：相机／Pi 资源和最小台架实验、数据采集与实际融合效果；V1/V2 保留，正式文件待下一次修订同步。没有采购、云算力任务、导师联系或提交。
+
+## 2026-09-15 详细采购参考与训练电脑
+
+- 目标：给出训练电脑、Pi5 8GB模型及细到电源线／改装的清单。用户补充M2／16GB、学校资源未知、预算先不设上限，并允许Chrome；京东登录后选择按厂家资料和预算参考继续。
+- 阅读：18份初始Markdown共1699行全文，补读截断；读取Spreadsheets技能、创建流程、API和样式规则。模板picker被拒绝后采用采购用途自建表，未因此暂停任务。
+- 研究：Orbbec Gemini2／335当前官网价格、库存、线材；SDK的M2与ARM64边界；RealSense参考价、DFRobot低价相机、Pi电源／屏幕、NAU7802接线和参考称重梁。淘宝站点策略拒绝后没有绕过，Chrome京东停在登录页。
+- 电脑与模型：当前系统只读核对M2 Pro／16GB、macOS26.5.2、约473GiB可用；建议Large IMAGENET1K_V2为主、Small对照，未安装或训练。
+- 交付：[采购说明](planning/2026-09-15/procurement-guide.md)、结构化数据及[采购工作簿](<outputs/01a07aeb-a256-7572-a42e-bd7e4668674f/Group 2_Hardware Procurement_20260915.xlsx>)。51条记录、5相机、16接线；人民币预留4314–6651、不含运费，非实际报价。
+- 表格验证：用Artifact Tool创建并重算，验证实际报价、零值、已有设备排除、数量空白和恢复。修复预览中0与空白比较混淆，使用ISBLANK并加强数值断言；检查10个最终范围、3个表的冻结窗格与来源注释，保留所有明细。
+- 收尾：同步product、README、训练路线、共用架构、decision-log及handoff；[收尾记录](output/qa/hardware-procurement-2026-09-15/closeout-validation.json)记录内部链接、工作簿结果和旧版哈希。没有新增suggestion、采购、训练、Pi或真实营养／减损试验。
+
+## 2026-09-15 相机比较、统一供电与十盘位成本
+
+- 目标：回答Gemini／RealSense如何选、Metafoodx外部一根线如何借鉴、十个盘位是否需十套完整硬件及经济性。
+- 阅读：19份初始项目Markdown全文1932行，组合截断已补读；[阅读记录](output/qa/camera-power-scaling-2026-09-15/full-read-completion.json)。查看用户照片，重新核对相机厂商／SDK、Pi供电、RealSense多机、成品低压电源及WittyPi5官方索引。
+- 结果：维持Gemini2单机首测，明确连续监测是流程选择；解释宽视野与像素密度取舍。单线入机建议外置适配器、低压转换分路，24V60W／WittyPi5为候选而非最终接线。十盘位共用计算、屏幕和区域相机，独立称重路径不能省略；不增加FYP必做盘数。
+- 文件：新增[相机、供电与扩展](planning/2026-09-15/camera-power-and-scaling.md)，同步product、README、持续监测架构、采购说明适用范围、decision-log及handoff。原工作簿／数据、V1/V2及身份资料原样保留。
+- 成本：四相机区域、十称重节点、一共享Pi级主机的物料情景RMB13000–21700；条件与遗漏逐项列出，不是询价或商业售价。不把原4314–6651单机参考直接乘十。
+- 验证：[收尾记录](output/qa/camera-power-scaling-2026-09-15/closeout-validation.json)核对名义视野／功率／成本算术、Markdown链接、当前数量边界及旧文件哈希。旧工作簿没有修改，因此未重跑表格渲染；新文件为Markdown，没有新DOCX/PDF。
+- 剩余：单路实际SDK／几何／供电及称重台架验证、集成电源的具体稳压器／Hub／线束、真实布局和价格。没有采购、上电、训练、真实试点、重看视频、联系卖家／老师或提交。
+
+### 同一讨论的范围补充：单台demo与国内电源
+
+- 用户明确FYP只做一台设备；十盘位只是未来真正进入自助餐的疑问，并指出国内淘宝有电源适配器选择。
+- 沿用本轮完整阅读记录，补读AGENTS、product、handoff、相机供电说明、decision-log、work-log、README及采购说明变更段；组合输出截断的decision-log已完整补读。
+- 更新product、README、采购说明、相机供电说明、decision-log和handoff：移除本期追加节点／共享相机验证的建议，保留未来研究；国内成品电源按电压、电流、接口及Pi兼容性筛选，MeanWell／WittyPi5不再容易被理解为必买。
+- 再次查阅Pi供电与Gemini2中文参数的官方索引，未取得淘宝实际SKU或报价。没有修改采购XLSX／JSON、V1/V2和身份资料，没有硬件或算法实验。
+- 验证与阅读记录在[范围补充核对](output/qa/camera-power-scaling-2026-09-15/scope-followup-validation.json)；当前下一步只围绕一台demo的国内供电匹配与验证。
+
+## 2026-09-15 继续细化单机电源
+
+- 目标：把成品适配器、Pi电源板、Hub、低压分配和线材落实到可核对的型号与配线；仅一台demo。
+- 阅读：沿用本轮全量阅读及补充记录，重新完整读取入口文件、相机供电长文、README、decision-log和work-log，补读采购及架构相关变更段。[阅读与盘点](output/qa/power-supply-detail-2026-09-15/reading-and-inventory.json)。
+- 研究：官方明纬中国系列／中文数据表、亚博产品和Chrome接口／规格图、奥睿科产品与长图、PiPD／显示接口及Gemini2电源条件。未使用搜索中的旧型号或第三方数字替代当前图片；ORICO图为单口1.5A，官方上游字段与实物形态有矛盾，采用原装线并保留到货核对。
+- 交付：[单机供电专项](planning/2026-09-15/power-supply-detail.md)及[数据](planning/2026-09-15/power-supply-data.json)：12V5A、亚博YB-MPP01、ORICO-BT2U3-7AB两路，Hub同时供相机和两条灯；18条记录，人民币预留451–807，非报价。
+- 变更：同步product、README、采购说明、持续架构、相机供电旧候选状态、decision-log及handoff。原P02／M19／X01替换关系写清，原工作簿／JSON与V1/V2保留，未生成新版正式建议书或表格。
+- 验证：[收尾验证](output/qa/power-supply-detail-2026-09-15/closeout-validation.json)核对BOM与预算、功率49.375W假设、内部链接和旧文件哈希。没有上电、PD协商、相机数据或称重实测。
+- 剩余：取得样件后确认HubDC插头与极性、上游供电行为，再测单机整条采集与负载。没有淘宝／京东实际SKU、询价、购买、对外联系或提交。
+
+## 2026-09-15 亚博中文供货与定制合作
+
+- 目标：评估单供应商硬件覆盖、屏幕选择、定制费用和可保留的学生／AI实现工作。
+- 开工：独立完成当前21份项目Markdown全文2348行；采购说明按1–100／101–EOF分段。记录：[full-read-completion](output/qa/yahboom-sourcing-2026-09-15/full-read-completion.json)。完整读取PDF技能；学校原指南12页为图片式，逐页渲染并查看全部页面。
+- 研究：Chrome中文商城在加载完成后查到Pi5、散热、TF卡、7／10.1／15.6寸屏、电源和USB Hub目录；7寸中文详情／课程确认1024×600 TN／IPS、HDMI／USB及Pi5的microHDMI提示。Gemini系列课程与官方OEM／ODM合作说明支持询价候选，未证明单台接单或报价。
+- 判断：优先集中供货和有限加工装配，完整硬件设计单列报价；核心采集、校准、模型、后台与网页和最终测试由组员在AI辅助下实现并能解释。学校鼓励产业合作且强调个人贡献，指南未明确AI比例，不替老师认定全部AI编码获准。
+- 交付：[供应商与屏幕评估](planning/2026-09-15/yahboom-sourcing-and-customization.md)、[未发送询价草稿](planning/2026-09-15/hardware-fabrication-enquiry-draft.md)。人日成本只是明确假设，不是实际报价。
+- 收尾：同步product、README、采购说明、decision-log及handoff；原采购XLSX／JSON、电源数据、V1/V2、身份和学校PDF保留。证据：[closeout-validation](output/qa/yahboom-sourcing-2026-09-15/closeout-validation.json)。
+- 未完成：具体供货单、屏幕切换、电源重算、定制范围／交期和真实报价、Marco对合作边界的意见；没有外部联系、表单提交、采购、硬件测试、代码开发或新建议书。
+
+## 2026-09-15 至16 详细硬件需求与供应商询价V2
+
+- 目标：让供应商理解项目用途、原位持续工作流程和目标成品，并可按具体机械、量测、接口、供电、交付和验收条件报价。
+- 阅读：本轮为紧接供应商评估的补充任务，沿用21份／2348行全读记录，补读新增和变化文件；压缩后恢复入口、当前决定、RFQ全文及待修改规范，组合截断补读。记录：[reading-record.json](output/qa/rfq-v2-2026-09-15/reading-record.json)。Documents／PDF技能已读取，模板选择被拒绝后使用适合技术RFQ的原生Word排版。
+- 内容：明确一台、一个称重位置、同机三个配置；把用途、操作、Metafoodx外观、尺寸／受力／清洁、称重指标、RGB-D与照明、Pi／屏幕、供电线束、原始接口、资料与验收连成完整要求。主报价分别列标准物料和工程服务，补入示范容器；替代及热盘等按选配处理。所有数值为询价目标，供应商须逐项答复偏离。
+- 图片：Chrome查看Metafoodx实际产品页，暂停页内视频并按可见DOM位置截取产品和结构区域；没有生成仿造产品图、推断内部电路或采用厂商宣传为验收值。两张实际使用图片及来源／哈希见[素材依据](planning/2026-09-15/rfq-assets/source.json)。
+- 交付：[完整正文](planning/2026-09-15/hardware-fabrication-enquiry-v2.md)、[Word](<output/docx/Group 2_Hardware RFQ_v2.docx>)、[PDF](<output/pdf/Group 2_Hardware RFQ_v2.pdf>)。10页、9张原生表格、2张图片；报价表18个分项另加合计。旧RFQ全文保留在archive，原入口改为版本索引，两版suggestion及旧采购文件没有覆盖。
+- 排版验证：使用随工具提供的Python和LibreOffice。初次CJK缺字，改为任务内Fontconfig引用现有Arial Unicode字体；未安装全局字体或修改依赖。修复图片段落固定行距导致的裁切及分页溢出，再检查最终render-06全部10页，中文可读且可检索，图表、页码与报价空格完整。最终PDF复制自该已检查渲染，失败的中间导出仅留在QA。
+- 收尾：同步product、README、采购说明、供应商评估、RFQ版本入口、decision-log和handoff；[收尾核对](output/qa/rfq-v2-2026-09-15/closeout-validation.json)记录链接、要求编号、原件哈希、文件存在性及未含成员学号／邮箱。
+- 剩余：供应商能否接受单台、具体型号与工艺、目标性能可达性、分项报价、交期和实际合作范围待答复。未发送询价、填商务表单、下单、签约、运行训练或硬件；正式建议书仍为之前保留版本。
+
+## 2026-09-16 供应商硬件询价V3简化
+
+- 目标：按用户反馈，把供应商工作收敛为类似Metafoodx外形的完整硬件制作和集成，移除过多采购琐项及软件／测试服务要求。
+- 阅读：沿用同一RFQ任务已有全读和V2记录，补读入口、当前要求、V2全文及相关变更段；[本次阅读记录](output/qa/rfq-v3-2026-09-16/reading-record.json)。复用已读取Documents／PDF技能和已验证字体配置，没有重新选择模板或重做竞品研究。
+- 交付：[V3正文](planning/2026-09-15/hardware-fabrication-enquiry-v3.md)、[2页Word](<output/docx/Group 2_Hardware RFQ_v3_Simple.docx>)及[2页PDF](<output/pdf/Group 2_Hardware RFQ_v3_Simple.pdf>)。一张真实Metafoodx截图、一张8类部件表；明确供方完成部件、结构、配电和接线，我方处理系统、代码、校准与测试。
+- 删除范围：不列读卡器、运输条款、供应商驱动／系统、基础校准与测试报告、复杂资料包和细分验收；询价仅需能否制作、总价、周期和替代。参考尺寸和必要电气／受力条件保留，未将部件集成等同于性能达标。
+- 验证：首次渲染即为2页，两页均按原始尺寸查看；中文、图、表、页码无裁切溢出。最终PDF来自已检查渲染。正文对应、文件／内部链接、旧版哈希与范围删除检查见[收尾验证](output/qa/rfq-v3-2026-09-16/closeout-validation.json)。
+- 收尾：同步product、README、采购说明、供应商评估、版本入口、decision-log及handoff。原V2正文／Word／PDF、V1与两版suggestion、采购数据和身份保留。未发送、取得报价、下单、安装系统、写业务代码或测试实物。
+
+## 2026-09-16 RFQ V3.1增加三张外观／场景图
+
+- 目标：补充Metafoodx产品图片，保留用户确认的简化制作范围。
+- 阅读与素材：同一任务增补，沿用全读与V3记录；查看既有官方结构截图、用户PNG和Pomona案例已渲染第1–3页，抽取第2页设备照片并视觉确认；[来源记录](planning/2026-09-15/rfq-assets/source-v3-1.json)。没有生成或修饰产品外观。
+- 交付：[V3.1正文](planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md)、[Word](<output/docx/Group 2_Hardware RFQ_v3.1_Images.docx>)、[PDF](<output/pdf/Group 2_Hardware RFQ_v3.1_Images.pdf>)。共3页、4图，前2页需求与V3一致，仅版本标记变化；附图页含结构大图和2张场景图。
+- 验证：3页均以原始分辨率检查，图片完整、来源清楚、无页溢出；首次抽取PDF图片时误用文件名索引，改用pypdf图片序列后成功，源PDF未修改。[收尾验证](output/qa/rfq-v3-1-images-2026-09-16/closeout-validation.json)核对原正文、图片内容、旧文件保留及内部链接。
+- 收尾：同步当前版本入口、product、README、采购／供应商说明、decision-log及handoff；原V3及更早文件保留，无发送、询价回复、采购或实物测试。
+
+## 2026-09-16 软件端与架构先行梳理
+
+- 目标：硬件暂未完成，先梳理客户端、各端功能、共用后台、三种场景与无硬件开发方法。
+- 开工：按独立工作轮全量读取27份自有Markdown、2965行，共15批；对连续监测架构89–107及RFQ V2的94–195补读截断正文。各文件范围、排除项与完成时间见[全读记录](output/qa/software-architecture-2026-09-16/full-read-record.json)，文件在阅读期间未变化。
+- 研究：官方React/Vite起步路线、FastAPI WebSocket单进程边界与后台重计算说明、MDN PWA安装条件、PostgreSQL行锁资料；无依赖安装或示例执行。当前无应用package.json／pyproject.toml／compose入口。
+- 交付：[软件范围与架构讨论稿](planning/2026-09-16/software-scope-and-architecture.md)。四端＋内部模拟工具，共享Web与后台；各端页面、供餐／学校／个人映射、状态／权限／数据对象、单盘位覆盖、AI与规则分工、Mac到Pi路线及阶段成果均说明。
+- 关键规则：余量／订单预留／未来供应分开，配出与测量对账防双扣，建议接受去重生成任务；模拟、回放、硬件及人工／占位／模型输出留来源；学校匿名样本与个人份量换算沿用既有边界。
+- 收尾：同步product、README、持续采集架构、训练路线、多场景说明、decision-log及handoff。文件链接、状态一致性、分工和旧交付物保留见[收尾核对](output/qa/software-architecture-2026-09-16/closeout-validation.json)。
+- 剩余：页面／字段／状态细则及实际开发、模拟器与硬件接入。没有业务代码、应用测试、训练、真实硬件／商业成效验证、对外联系、采购或部署；RFQ V3.1和两版suggestion保持原样。
+
+## 2026-09-16 Metafoodx App研究与iPhone双角色方案
+
+- 目标：按用户偏好改App优先，仔细研究竞品手机产品；异步补充已确认只做iPhone、同一App涵盖个人／顾客和员工／管理者。
+- 阅读：同一软件规划任务的纠正，继承27份／2965行全读；补读AGENTS、product、handoff、当前软件稿全文及相关研究／变更段。[阅读记录](output/qa/metafoodx-app-architecture-2026-09-16/reading-record.json)。
+- 研究：重读官方移动文章、公司署名2026-09-03发布稿、App Store说明／版本记录，Chrome逐项查看5张iPhone截图和3幅官方功能图。保存5张浏览器证据图；没有安装、登录、操作客户后台或观看专门App视频。HK条目被非重试访问策略阻止，未绕过；Apple部分文档使用官方索引正文，范围如实记录。
+- 结论：竞品公开主线为运营移动查看、单次扫描记录与报告，不能把它当成已验证的顾客点餐／营养App。借鉴信息组织、异常可见性和数据分类；原位持续监测及动作反馈由我们的业务定义和实测来证明。
+- 交付：[研究](research/2026-09-16-metafoodx-app/app-review.md)、[证据](research/2026-09-16-metafoodx-app/evidence.json)、修订后的[架构](planning/2026-09-16/software-scope-and-architecture.md)。SwiftUI iPhone App双身份＋厨房／管理Web＋设备界面，共用后台；旧全Web稿完整归档，前台同步、后台通知和外网访问分开。
+- 收尾：同步product、README、多场景、持续监测、训练图示、decision-log及handoff；[收尾验证](output/qa/metafoodx-app-architecture-2026-09-16/closeout-validation.json)核对链接、身份／角色范围、历史保留和规划状态。未创建应用工程、签名、安装依赖、调用平台账户、训练或部署。
+- 下一步：iPhone双角色页面流程、权限矩阵、API数据链。实际硬件验证及正式建议书修订仍待后续。
+
+## 2026-09-16 App详细设计V1
+
+- 目标：把既有App架构细化到可以分工开发的页面、权限、状态及首批接口；本轮未开始应用编码。
+- 阅读：沿用软件梳理的全读和App研究补充，完整读当前入口、product、软件架构200行和App研究；补读相关日志和README。[阅读记录](output/qa/app-detailed-design-2026-09-16/reading-record.json)。
+- 技能：首次应用SwiftUI UI Patterns，完整读取SKILL、app-wiring和navigationstack，参考Apple底栏与路径文档；只形成导航／状态设计，没有新SwiftUI视图或编译声明。
+- 交付：[页面与权限](planning/2026-09-16/app-pages-and-permissions.md)、[状态与API](planning/2026-09-16/software-workflows-and-api.md)、[开发与验收](planning/2026-09-16/software-mvp-and-acceptance.md)。两套导航、共用／个人／工作／Web／设备页面编号、权限矩阵、四条主线、19项首批接口及JSON例子、批次和待执行场景齐备。
+- 设计复核：明确入盘测量已经改变物理余量，任务确认不再加一次；订单预留在配出核对前保留；未来任务量不算当前供应；换模式／重新绑定不再重复累计上台量。P0基线明确为规则，模拟数据不标已训练AI。
+- 验证：[收尾核对](output/qa/app-detailed-design-2026-09-16/closeout-validation.json)检查链接、表格／图代码围栏、页面与接口编号、JSON语法及数量算例、角色和旧文件保留；不代表文中场景已在App或后台通过。
+- 收尾：同步product、README、总架构、decision-log及handoff；原RFQ、suggestion、采购资料、身份和App研究保留。下一步是M0.1本地最小工程，尚未安装、签名、部署、训练或进行任何硬件测试。
+
+## 2026-09-16 品牌命名与三套视觉方向
+
+- 目标：依用户最新要求暂停立即编码的安排，先提供名字、Logo、App图标和界面气质供选择，再还原。
+- 阅读：承接同一软件规划任务的全读与补读；恢复当前入口、业务页面、架构和开发规格，读取Product Design ideate相关技能与ImageGen，预检无保存的设计上下文。[阅读记录](output/qa/brand-directions-2026-09-16/reading-record.json)。
+- 命名：按三场景与双角色筛选，做有限公开同名搜索；Mealume、Serviqo等已见现成使用的候选未采用。Portemi、Traysen、Melsori仅作候选，没有宣称商标或域名可用。
+- 交付：[品牌方向说明](planning/2026-09-16/brand-visual-directions.md)、[三张原图与显示顺序](output/brand/2026-09-16/manifest.json)、三个完整提示词。内置ImageGen独立生成，实际显示顺序1食度／2餐序／3餐伴，均未选定。
+- 视觉检查：三图均已查看，文字／数量／来源／主动作足以比较方向；记录Logo小尺寸一致性、繁体字形、色标、手机比例等待定稿项。Traysen额外生成的托盘外观只作品牌应用示意，不当成硬件结构更改。
+- 收尾：更新product、README、页面基线、软件架构、开发下一步、decision-log及handoff；[收尾核对](output/qa/brand-directions-2026-09-16/closeout-validation.json)检查资产／提示词／链接／保留资料。没有应用代码、Figma文件、训练、实物测试、对外消息、采购或部署。
+- 唯一下一步：用户选择或组合／修改视觉；需要修改先出调整图。旧M0.1直接开工下一步已被本轮指令取代，原建议书和RFQ文件保持原样。
+
+## 2026-09-16 仅命名的候选比较
+
+- 用户先要求暂停出图、先想名字，随后要求直接给一些选择。本轮按同一品牌任务的纠正继续，未重新开展硬件／软件研究。
+- [命名讨论稿](planning/2026-09-16/naming-shortlist.md)提供七个英文候选、中文搭配、建议读法、构词联想与取舍，未选定。做有限公开同名搜索，排除已见同类产品MealCue、Portionary、Dishloom；不宣称商标或域名可用。
+- 已补读当前入口、品牌稿、README和相关规范／日志段；[阅读记录](output/qa/naming-only-2026-09-16/reading-record.json)继承前轮完整阅读。
+- 同步product、README、品牌V1历史状态、架构／页面／开发下一步、decision-log及handoff；[收尾检查](output/qa/naming-only-2026-09-16/closeout-validation.json)检查链接和旧图／提示词／正式交付物保留。
+- 未生成图片、改Logo、建立Figma或应用工程；无部署、训练、采购、对外联系和提交。下一步仅是用户对名字的反馈，再收窄候选。
+
+## 2026-09-16 大陆与香港比赛筛选
+
+- 目标：为AI／IoT食物监测FYP寻找兼顾含金量与奖金的比赛；用户补充三位成员均非香港永久居民。
+- 开工：完整读取33份项目自有Markdown、4047行，截断范围已补读；[reading-record](output/qa/2026-09-16-competition-research/reading-record.json)。收尾发现同期品牌任务更新，补读新增品牌说明和变更，保留先选视觉、不立即编码的要求。
+- 调查：读取香港大学生赛、Techathon+ 2027、教育部国创赛、深创赛、广州科技局赛、HKSEC、港科大香港站和Dyson公开规则；浏览器读取前海2026完整方案、ICT专上资格和获奖权益。主承办方、政府和院校正式发布为主要依据。
+- 结果：[候选与资格说明](research/2026-09-16-competitions/competition-shortlist.md)及[source-register](research/2026-09-16-competitions/source-register.json)，明确8万港元香港大学生赛、1.5万港元Techathon+及有条件30万元大陆创业赛。现金、服务、培育资助与总奖池分开；2026已截止、2027已公布／未公布分开。
+- 关键判断：Techathon+明确欢迎VTC高级文凭和FYP；“挑战杯”课外作品赛排除毕业设计；广州学生专项无落地要求但VTC定义需确认；前海常规赛面向企业且当前正文未列固定现金额，未套用宣传转介奖额。
+- 访问边界：教育部两个附件提取失败；ICT PDF因约24.8MB超过提取上限改读动态页面；浏览器不支持内容导出，未伪造本地全文快照。2025“挑战杯”官方索引条款与2027院校通知交叉检查。
+- 收尾：同步product、README、decision-log和handoff；[收尾验证](output/qa/2026-09-16-competition-research/closeout-validation.json)检查内部链接、奖励／日期口径、组员资料和保留文件。首次组合patch因同期product变化未通过验证，重读后仅添加赛事段落，未覆盖品牌工作。
+- 剩余：正式选赛、相应资格确认、真实原型／用户数据、简报与报名。未注册账号或公司、发消息、提交、创建提醒、采购、编码、训练或测试实物；软件规格、品牌资产、RFQ、suggestion和采购资料保留。
+
+## 2026-09-16 无公司注册计划下的参赛补充
+
+- 目标：按用户新增约束筛选以学生／个人为主体、没有公司注册或落地前提的比赛，兼顾奖金和认可。
+- 阅读：同一赛事研究的约束补充，继承33份／4047行全读，补读当前入口、首轮报告、新命名稿和最新日志；[记录](output/qa/2026-09-16-competitions-no-company/reading-record.json)。保留同期只讨论名字的安排。
+- 研究：主办／承办官方页面核对五项新增赛事，区分明确高级文凭FYP、QF4及通用年龄／国籍入口；重新区分学生现金奖与后续培育。
+- PDF：读取PDF技能与工作区运行时；保存中美22页、HKIE18页、IET5页原始PDF，文字定位后逐页查看共12页相关资格／作品限制／奖金／申请材料。原件未修改，未声称视觉读完所有页面。
+- 交付：[无公司候选](research/2026-09-16-competitions/no-company-options.md)，补充[source-register](research/2026-09-16-competitions/source-register.json)；首轮报告、product、README、handoff、decision-log同步最新约束。深创赛／广州落地奖移出当前主选。
+- 验证：[收尾检查](output/qa/2026-09-16-competitions-no-company/closeout-validation.json)核对内部链接、PDF存在性／页数与哈希、日期、奖金额和公司条件层次。中美按2026章程1.5万元，不套旧版或地方其他赛大奖；HKIE按2026正文6,000港元，不沿用2019的8,000。
+- 未完成：下届公告、正式选赛与相应资格疑点、报名材料；无对外消息、提交、注册公司或比赛账号、定时任务、图像生成、编码、训练或实物测试。
+
+
+## 2026-09-16 Senplate命名确定、商标及域名查询
+
+- 目标：按用户明确选择采用Senplate，检查商标与域名注册情况；没有延伸为购买或申请。
+- 阅读：继承本次品牌任务全读，补读入口、命名／视觉旧稿及同期赛事研究、无公司约束和变更；[阅读记录](output/qa/senplate-name-check-2026-09-16/reading-record.json)。
+- 商标：浏览器实际提交香港、美国、欧盟文字查询，无Senplate结果；香港通配符sen*plate*亦无结果。较宽模式命中的恒生银行长标志留作噪声记录。内地正式门户403、WIPO访问被阻止，均未完成；香港人工验证页面后续可访问，代理未解验证码。
+- 域名：按IANA注册局服务，查询.com／.net／.app／.io／.ai／.hk／.com.hk／.cn／.com.cn，未见登记记录；保存HTTP状态、原始响应、WHOIS主机及时间。.ai的403与另行WHOIS结果清楚区分。
+- 交付：[初筛报告](research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md)、[商标结构化记录](research/2026-09-16-senplate-name-check/trademark-evidence.json)、[域名汇总](research/2026-09-16-senplate-name-check/domain-summary.json)及原始响应。浏览器内容导出不支持，没有伪造导出证明；作者SensePlate项目采用公开索引，正文访问限制另记。
+- 收尾：同步product、README、命名选定状态、旧视觉路由、软件下一步、decision-log及handoff，保留同期不注册公司约束；[核对记录](output/qa/senplate-name-check-2026-09-16/closeout-validation.json)检查链接、JSON、九个域名与保护文件哈希。无新图、应用实现或实测。
+- 剩余：内地／WIPO正式查询、完整目标市场近似与具体商品服务评估；如购买域名需届时复核可注册状态。没有申请、注册、购买、公司变更、外发消息、部署或提交。
+
+## 2026-09-16 大陆全国及省级竞赛补充
+
+- 目标：继续找大陆全国或省级学生赛，保持不注册公司、香港高级文凭与现有FYP范围。
+- 阅读：同一赛事任务补充，继承33份／4047行全读及此前补充记录，读取当前入口、最新日志与赛事文件；[阅读记录](output/qa/2026-09-16-mainland-competitions/reading-record.json)。
+- 新证据：全国节能减排港澳台／国际赛道明确专科及学籍；教育部2026世界职业院校技能赛允许港澳台学校队直接报名争夺赛；VTC官方有广东物联网省赛获奖先例；HKIIT移动应用往届与海峡两岸本届记录分开。
+- 交付：[全国／省级研究](research/2026-09-16-competitions/mainland-national-provincial.md)，涵盖节能减排、世界职业院校、物联网、移动应用、iCAN创新及广东技能赛。技术适配、资格确定程度、奖项层级、日期与公司要求各自说明。
+- PDF与访问：复用已读PDF技能；保留物联网6页章程和1页高职认定原件，查看章程1–5页及补充页共6页。部分官方网页提取失败后读同一公开URL；iCAN原始扫描件未成功本地取得，不声称全文已读。缺少bs4后用标准库，未安装依赖。
+- 验证：来源登记、内部链接、PDF存在性／哈希、当前无公司约束见[收尾核对](output/qa/2026-09-16-mainland-competitions/closeout-validation.json)。同步product、README、handoff、原无公司报告及decision-log。
+- 未完成：学院与主办的具体VTC身份／报名路径确认、下届规则、任何报名。未发送询问信息、提交或签署，没有创建提醒、公司、应用或增加设备范围。
+
+
+
+## 2026-09-16 Senplate中文商业计划书V1
+
+- 目标：把现有想法整理成中文商业计划书，提供可编辑Word与PDF，覆盖客户、产品、竞争、收入、获客、试点、团队、财务与资金。
+- 开工：37份项目自有Markdown共4363行完整阅读，截断范围补读；[阅读清单](output/qa/2026-09-16-chinese-business-plan/reading-manifest.json)。收尾补读同期Senplate命名与全国／省级赛事新增资料，保留其他任务变更；第一次组合patch遇并行变更未通过后重读并仅追加当前方案入口。
+- 研究：重新核对环保署2024厨余统计、教育局2025/26学校数、Metafoodx／Controliza公开功能、Pomona客户报道、USDA许可及卫生署指引入口。环保署图2.11所在印刷第14页另本地渲染查看，未将机构数或厨余总量直接当作客户需求／可减损量。
+- 交付：[正文](planning/2026-09-16/business-plan-zh.md)、[Word](<output/docx/Group 2_Senplate_商业计划书_中文版_V1.docx>)及[PDF](<output/pdf/Group 2_Senplate_商业计划书_中文版_V1.pdf>)，17页、17张原生表格、7条公开来源；[构建脚本](scripts/build_business_plan_zh.py)。采用最新Senplate，中文名未定；无品牌图像生成。
+- 内容核对：HK$14,800＋HK$680、原型资源HK$50,000和三年客户数均标假设。复算收入、成本、毛利、经营缺口、客户回收期和敏感性；补清未来12次八周试点至少需两台轮转设备及相应资金，不增加FYP当前一台数量。经营结余不叫净利润。
+- 排版：使用工作区Python和随工具提供的LibreOffice，任务内Fontconfig复用现有中文字体。最终render-04共17页，所有页逐页视觉核对，未改页面与已检查版本像素相同；最终修改页另以原始分辨率复核。中文、表格、页码、标题及链接正常；可访问性审查high／medium／low均0。PDF复制自已检查最终渲染。
+- 收尾：更新product、README、handoff和decision-log，并保留同期名称／赛事状态；[收尾核对](output/qa/2026-09-16-chinese-business-plan/closeout-validation.json)记录公式、内容对应、成员资料、页数、链接、文件存在性及哈希。无购买、注册公司、消息发送、报名、训练、应用实现、部署或实物测试。
+- 剩余：真实供应商整机报价、预算方访谈、场地与实测结果；文中商业价格及资源建议未获用户批准，下一步先审阅其定位和假设。
+
+## 2026-09-16 Senplate Logo与VI三方向
+
+- 目标：按用户新指令启动Senplate Logo／VI，先给可选择方向；没有继续停在名称查询，也没有提前落应用代码。
+- 阅读：继承品牌任务全读，补读新商业计划447行、大陆赛事61行、当前入口及名称初筛，晚些时候重读并保留并行商业计划交付更新；[阅读记录](output/qa/senplate-logo-vi-2026-09-16/reading-record.json)。
+- 技能：复用已读Product Design ideate／相关前置与系统ImageGen，用户设计上下文预检为missing，未写全局偏好。查看并实际附加用户硬件照片，仅作应用外形背景。
+- 交付：[Logo与VI方向V1](planning/2026-09-16/senplate-logo-vi-directions.md)、[三图与映射](output/brand/2026-09-16-senplate-vi/manifest.json)、完整提示词。三次独立内置ImageGen调用，各原生结果展示一次；当前顺序1分寸／2连续／3日常，品牌均为Senplate，无中文定名。
+- 视觉复核：品牌拼写、单色版本、图标和色值标签可读，足以比较方向；不同尺寸轮廓统一、第二版S联想／未来感、第三版未显现的S切口、实际字体和小尺寸均列待定稿项。设备不作为新工程图。
+- 数值检查：候选HEX对比度已算，深色正文组合充分，浅绿／陶土／金色在浅底不作为普通小字；核对W3C说明，Logo与UI正文规则分开。[计算](output/qa/senplate-logo-vi-2026-09-16/palette-contrast.json)不是图像或实现的验收。
+- 收尾：更新product、README、软件下一步、旧视觉路由、decision-log和handoff；[核对](output/qa/senplate-logo-vi-2026-09-16/closeout-validation.json)检查图片、哈希、提示词、显示映射、链接和旧交付物保留。商业计划及赛事资料保留，不改其建议／未注册状态。
+- 未完成：用户选方向及修订、矢量／透明／多尺寸Logo、实际字体与完整VI、App还原；无Figma文件、应用工程、硬件测试、购买、注册、外部联系或部署。
+
+
+## 2026-09-16 世界职业院校技能大赛报名路线
+
+- 目标：回答是否需要联系老师、校方报名步骤和2026是否仍可参加；承接本轮赛事研究，不重新开始全库阅读。
+- 阅读：继承首轮赛事全读及两次补读，恢复AGENTS、product、handoff，读最新决定／日志、当前大陆报告、来源记录和组员基线；截断输出已补读。[阅读记录](output/qa/2026-09-16-world-vocational-registration/reading-record.json)。
+- 核实：完整读取2026执委会报名通知转载正文，并与福建省教育厅公告交叉核对；确认8月27日／9月10日截止、学校账号、AI按院校层次分组、同校最多4人及最多2名本校专任教师。没有找到香港补报／校方指定负责人的有效公开公告。
+- 交付：[专项路线和Marco可复制草稿](research/2026-09-16-competitions/world-vocational-registration.md)。现有大陆表由“未核此刻开放”更新为“常规已截止，港澳补报未核实”；2027未公告，不复用2026日期保证。

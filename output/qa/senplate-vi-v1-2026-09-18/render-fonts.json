@@ -1,0 +1,51 @@
+[
+  {
+    "font": "Manrope",
+    "weight": 400,
+    "pdf_name": "M400",
+    "path": "output/qa/senplate-vi-v1-2026-09-18/render-fonts/M400.ttf",
+    "use": "Internal static instance only for PDF embedding; not redistributed standalone"
+  },
+  {
+    "font": "Manrope",
+    "weight": 500,
+    "pdf_name": "M500",
+    "path": "output/qa/senplate-vi-v1-2026-09-18/render-fonts/M500.ttf",
+    "use": "Internal static instance only for PDF embedding; not redistributed standalone"
+  },
+  {
+    "font": "Manrope",
+    "weight": 600,
+    "pdf_name": "M600",
+    "path": "output/qa/senplate-vi-v1-2026-09-18/render-fonts/M600.ttf",
+    "use": "Internal static instance only for PDF embedding; not redistributed standalone"
+  },
+  {
+    "font": "Manrope",
+    "weight": 700,
+    "pdf_name": "M700",
+    "path": "output/qa/senplate-vi-v1-2026-09-18/render-fonts/M700.ttf",
+    "use": "Internal static instance only for PDF embedding; not redistributed standalone"
+  },
+  {
+    "font": "NotoSansSC",
+    "weight": 400,
+    "pdf_name": "SC400",
+    "path": "output/qa/senplate-vi-v1-2026-09-18/render-fonts/SC400.ttf",
+    "use": "Internal static instance only for PDF embedding; not redistributed standalone"
+  },
+  {
+    "font": "NotoSansSC",
+    "weight": 700,
+    "pdf_name": "SC700",
+    "path": "output/qa/senplate-vi-v1-2026-09-18/render-fonts/SC700.ttf",
+    "use": "Internal static instance only for PDF embedding; not redistributed standalone"
+  },
+  {
+    "font": "NotoSansTC",
+    "weight": 400,
+    "pdf_name": "TC400",
+    "path": "output/qa/senplate-vi-v1-2026-09-18/render-fonts/TC400.ttf",
+    "use": "Internal static instance only for PDF embedding; not redistributed standalone"
+  }
+]

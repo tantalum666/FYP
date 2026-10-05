@@ -1,0 +1,28 @@
+- **落实：**在[成熟度专项](research/2026-09-26-desk-companion/hologram-fan-maturity.md)加入“预制内容可由实时事件触发，但需Pi可调用切换接口；动态逐帧内容可经HDMI或其他实时渠道”的分层说明；同步product、handoff和decision-log。自动控制、延迟、语音同步均未实测；[本次QA](output/qa/hologram-fan-feedback-2026-09-26/validation.json)。
+
+## 2026-09-28 Group 2团队日志与新桌面Proposal复核
+
+- **目标及澄清：**填写学校双周日志并再检查Proposal。用户确认9月14至27日周期，最新转述老师每组一份；此前个人提交推断已撤回，最终由Yuan代表Group 2，备注列三位成员。
+- **开工：**全量读取96份项目Markdown共8742行、43批，截断批次均补读至EOF；记录[阅读清单](output/qa/logsheet-proposal-2026-09-28/reading-record.json)。重核学校日志DOCX、Proposal Guidelines、Guide扫描页和组员身份，Chrome只读课程／作业页获得真实截止及学期节点。
+- **文档：**[一页团队日志DOCX](<output/submission/2026-09-28/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx>)／[PDF](<output/submission/2026-09-28/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf>)完成四块内容；[12页中文v3](<output/docx/Group 2_DeskCompanion_ProjectProposal_ZH_Review_v3.docx>)及[11页英文DOCX](<output/submission/2026-09-28/AY26_ProjectProposal_Group 2.docx>)／[PDF](<output/submission/2026-09-28/AY26_ProjectProposal_Group 2.pdf>)加入相机边界、显示接口、拟议指标、实际学校计划和AI辅助记录。详见[复核说明](planning/2026-09-28/logsheet-and-proposal-review.md)。
+- **验证：**日志最终log-render-05为1页；英文proposal-en-render-04为11页；中文proposal-zh-render-05为12页。逐页视觉检查，中文2至4页与已检查render04像素完全一致；所有身份、日期、七项内容、表格和页码核对。学校日志原件SHA256保持9cdca9493e9fabd6a0e671ea6d226f38419d437e7ac0269acc3d8c73500bacb7，成品仅word/document.xml变化。两份proposal的a11y高0／中0，低11为公开来源URL标签。使用打包运行时及局部fontconfig，未安装全局字体。
+- **流程同步：**更新product、handoff、README、decision-log、本条work-log和聚焦复核；本轮[QA](output/qa/logsheet-proposal-2026-09-28/validation.json)保存结构、产物、阅读与链接核对。旧提案与学校原件保留，未重跑旧软件测试，也没有新硬件/API测试、采购、外部联系、签名或Moodle提交。
+- **剩余：**团队／Marco审阅和学校提交；后续才验证相机、显示、Pi负载及机械臂。日志截止9月28日17:00，Proposal截止9月29日23:59；期限来自本轮页面，不等于已提交。
+
+## 2026-09-28 新桌面助理软件与跨端讨论
+
+- **目标与补充：**梳理软件平台、功能与显示。用户明确手机／电脑控制及设备触摸偏好，角色／日历布局未定；补问是否需要Linux软件，已解释现成OS＋本地全屏界面＋独立后台。
+- **全读：**99份自有Markdown、9198行、71批，所有正文至EOF；初始组合截断后补读2／3、decision-log140–220、13和34批，期间无文件变化。[记录](output/qa/desk-software-scope-2026-09-28/reading-record.json)。另读取组员原DOCX正文，不重做旧软件测试。
+- **研究：**官方Pi kiosk和Touch Display 2触控／键盘、Capacitor移动原生容器、Flutter平台／Linux构建、FastAPI WebSocket单进程示例、MediaPipe实时及Pi示例、Qwen工具与VAD、PWA安装前提。没有下载安装或执行厂商代码。
+- **交付：**[软件范围V1](planning/2026-09-28/desk-software-scope-v1.md)，三端矩阵、7类页面／面板、显示方案对照、核心图、AI职责、同步／离线规则、三条旅程与6阶段开发计划。建议React／Capacitor＋Python本地核心，Flutter保留；一屏验证／二显示候选并存，外网和Android范围未定。
+- **验证与同步：**检查Markdown围栏、表格、内链、成员计划及新旧状态；更新product、handoff、README、decision-log和本条工作日志，[QA](output/qa/desk-software-scope-2026-09-28/validation.json)。本轮未改学校文件、未创建新产品工程或运行应用／硬件测试，无采购、API调用、外部消息、上传或签名。
+- **唯一下一步：**细化触摸屏／手机首页与电脑日历布局和状态，按反馈再实现；继续保护坐姿判断与反馈复测为必做，不被外观或跨端数量稀释。
+
+### 同日日志修订：三人工作列在同一份内
+
+- **目标：**按老师进一步要求，把一份组日志改成逐人可辨的工作、发现、待完成及下阶段计划；用户授权直接安排角色归属。
+- **阅读：**作为同一日志任务的内容纠正，沿用日志制作全读及其后99文件／9198行全读记录，补读当前入口、变更日志、软件新稿、原日志构建器、身份与模板契约；[补读记录](output/qa/logsheet-members-v2-2026-09-28/reading-record.json)。没有机械重读未变历史。
+- **交付：**[三人明细DOCX](<output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx>)／[PDF](<output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf>)，仍为1页学校横向表。表头三人，正文名字加粗，三个个人行与一行共同工作清楚分开；[脚本](scripts/build_logsheet_member_breakdown_20260928.py)。
+- **内容边界：**个人归属按计划职责整理，用户未核实各人原文作者或实作，成品备注保留member-review draft和AI辅助说明；无虚构硬件、语音API或个人独立代码结果。
+- **验证：**首轮因姓名／学号强制换行将备注挤到第二页；去除多余换行后render-02为1页，全部实际查看。原节、表格网格、合并、标签与包部件保留，仅word/document.xml改变；6份学校原件／既有交付hash不变。修改入口与内部链接检查见[QA](output/qa/logsheet-members-v2-2026-09-28/validation.json)。
+- **剩余：**组员核对本人工作归属；本地修改不等于学校提交。本轮没有改Proposal、软件应用、采购或外部操作。

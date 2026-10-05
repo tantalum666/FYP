@@ -1,0 +1,38 @@
+{
+  "status": "AWAITING_USER_SELECTION",
+  "generator": "built-in image_gen",
+  "generated_at": "2026-09-16T05:48:29.133175+00:00",
+  "option_mapping_basis": "Actual native generated-image display order in this conversation, verified after all three outputs appeared. Each result displayed once.",
+  "selected_option": null,
+  "reference": "research/2026-09-16-metafoodx-app/screenshots/official-populated-screens.png",
+  "reference_role": "functional context only, no competitor branding reuse",
+  "options": [
+    {
+      "displayed_option": 1,
+      "slug": "portemi",
+      "proposed_name": "Portemi · 食度",
+      "source": "/Users/tantalum/.codex/generated_images/01a07aeb-a256-7572-a42e-bd7e4668674f/exec-0fa570b2-6663-404c-b869-7454782cbc22.png",
+      "image": "output/brand/2026-09-16/portemi-v1.png",
+      "sha256": "f53c0d52d18fe0ace91314358d51d06f0f282f9c63cbb7e6d4dabe40e14b7c41",
+      "prompt": "output/brand/2026-09-16/prompts/portemi-v1.txt"
+    },
+    {
+      "displayed_option": 2,
+      "slug": "traysen",
+      "proposed_name": "Traysen · 餐序",
+      "source": "/Users/tantalum/.codex/generated_images/01a07aeb-a256-7572-a42e-bd7e4668674f/exec-bfd5984c-5702-49f5-a714-2e8c856dc83b.png",
+      "image": "output/brand/2026-09-16/traysen-v1.png",
+      "sha256": "02301659055f258416255644c54f8db70c2a68730a551cd674f80c6dd7636abd",
+      "prompt": "output/brand/2026-09-16/prompts/traysen-v1.txt"
+    },
+    {
+      "displayed_option": 3,
+      "slug": "melsori",
+      "proposed_name": "Melsori · 餐伴",
+      "source": "/Users/tantalum/.codex/generated_images/01a07aeb-a256-7572-a42e-bd7e4668674f/exec-78345b32-771e-4c0f-87db-2970bd50b496.png",
+      "image": "output/brand/2026-09-16/melsori-v1.png",
+      "sha256": "919198bac991dc4f2ce8432213912974e6958ec6cced76926ba50a974f8c0a00",
+      "prompt": "output/brand/2026-09-16/prompts/melsori-v1.txt"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "scope": "Visual concept asset and documentation QA only; not production vector, font, UI, trademark or hardware validation",
+  "completed_at": "2026-09-16T07:08:48.019800+00:00",
+  "checks": {
+    "three_options": true,
+    "image_assets": true,
+    "visible_order_recorded": true,
+    "not_selected": true,
+    "chinese_not_selected": true,
+    "protected_preserved": true,
+    "no_new_unread_changes": true,
+    "no_app_scaffold": true,
+    "internal_links": true
+  },
+  "assets": [
+    {
+      "option": 1,
+      "image": "output/brand/2026-09-16-senplate-vi/measured-v1.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "hash_matches": true,
+      "prompt_exists": true,
+      "prompt_brand": true,
+      "reference_in_manifest": true
+    },
+    {
+      "option": 2,
+      "image": "output/brand/2026-09-16-senplate-vi/continuity-v1.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "hash_matches": true,
+      "prompt_exists": true,
+      "prompt_brand": true,
+      "reference_in_manifest": true
+    },
+    {
+      "option": 3,
+      "image": "output/brand/2026-09-16-senplate-vi/everyday-v1.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "hash_matches": true,
+      "prompt_exists": true,
+      "prompt_brand": true,
+      "reference_in_manifest": true
+    }
+  ],
+  "protected_count": 19,
+  "protected_changes": [],
+  "updated_specs": [
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-16/senplate-logo-vi-directions.md",
+    "planning/2026-09-16/brand-visual-directions.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md",
+    "planning/2026-09-16/app-pages-and-permissions.md"
+  ],
+  "visual_review": "Three native generated images inspected and each shown once; brand spelling, monochrome, icon and palette labels present. Pending refinements documented in VI directions.",
+  "imagegen_calls": 3,
+  "production_vectors_created": false,
+  "figma_created": false,
+  "application_created": false,
+  "brief_and_prompts_used": true,
+  "internal_links": {
+    "checked": 368,
+    "broken": []
+  },
+  "status": "PASS"
+}

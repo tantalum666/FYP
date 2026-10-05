@@ -1,0 +1,126 @@
+{
+  "scope": "Artifact and continuity verification, not proof of visual distinctiveness, user acceptance or legal clearance",
+  "completed_at": "2026-09-16T14:24:36.254189+00:00",
+  "checks": {
+    "six_recorded_outputs": true,
+    "two_curated_labels": true,
+    "asset_files": true,
+    "available_source_copies": true,
+    "repaired_B_opaque": true,
+    "invalid_excluded": true,
+    "r2_rejected": true,
+    "r2_images_metadata_preserved": true,
+    "no_selected_logo": true,
+    "protected_preserved": true,
+    "no_app_scaffold": true,
+    "internal_links": true
+  },
+  "assets": [
+    {
+      "label": "A",
+      "status": "CURATED_FOR_FEEDBACK",
+      "path": "output/brand/2026-09-16-senplate-logo-r3/editorial-wordmark.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "sha256_matches": true,
+      "prompt_exists": true,
+      "source_copy_matches": true
+    },
+    {
+      "label": "B",
+      "status": "CURATED_FOR_FEEDBACK",
+      "path": "output/brand/2026-09-16-senplate-logo-r3/fresh-emblem.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "sha256_matches": true,
+      "prompt_exists": true,
+      "source_copy_matches": true
+    },
+    {
+      "label": null,
+      "status": "SCREENED_OUT_BY_ASSISTANT",
+      "path": "output/brand/2026-09-16-senplate-logo-r3/negative-space.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "sha256_matches": true,
+      "prompt_exists": true,
+      "source_copy_matches": true
+    },
+    {
+      "label": null,
+      "status": "SCREENED_OUT_BY_ASSISTANT",
+      "path": "output/brand/2026-09-16-senplate-logo-r3/rhythm.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "sha256_matches": true,
+      "prompt_exists": true,
+      "source_copy_matches": null
+    },
+    {
+      "label": null,
+      "status": "SCREENED_OUT_BY_ASSISTANT",
+      "path": "output/brand/2026-09-16-senplate-logo-r3/quiet-symbol.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "sha256_matches": true,
+      "prompt_exists": true,
+      "source_copy_matches": true
+    },
+    {
+      "label": null,
+      "status": "INVALID_CONTRAST_SUPERSEDED",
+      "path": "output/brand/2026-09-16-senplate-logo-r3/fresh-emblem-invalid.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "sha256_matches": true,
+      "prompt_exists": true,
+      "source_copy_matches": true
+    }
+  ],
+  "protected_count": 32,
+  "protected_changes": [],
+  "updated_specs": [
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-16/senplate-logo-reset-r3.md",
+    "planning/2026-09-16/senplate-logo-refinement-r2.md",
+    "planning/2026-09-16/senplate-logo-vi-directions.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md"
+  ],
+  "source_limit": "rhythm source path not supplied; no independent source-copy claim for that screened-out asset",
+  "generation_count": 6,
+  "main_candidates": [
+    "A",
+    "B"
+  ],
+  "board_mounted": false,
+  "final_logo_approved": false,
+  "vector_or_font_assets_created": false,
+  "links": {
+    "checked": 433,
+    "broken": []
+  },
+  "status": "PASS"
+}

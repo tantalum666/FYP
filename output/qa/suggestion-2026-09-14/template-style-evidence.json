@@ -1,0 +1,167 @@
+{
+  "input": "/Users/tantalum/Downloads/AY26_ProjectSuggestion_GroupX.docx",
+  "fonts_by_char_count": {
+    "Calibri": 4517,
+    "Calibri Light": 189,
+    "Segoe UI Symbol": 53
+  },
+  "direct_run_formatting_runs": 128,
+  "direct_paragraph_formatting_paragraphs": 60,
+  "heading_like_paragraphs_not_heading_style": [
+    {
+      "para_index": 1,
+      "text": "ITE4116M FINAL YEAR PROJECT\nPROJECT SUGGESTION FORM\nAcademic Year 2026/27",
+      "style": "Normal"
+    },
+    {
+      "para_index": 3,
+      "text": "1. General Project Information",
+      "style": "Normal"
+    },
+    {
+      "para_index": 7,
+      "text": "2. Problem Statement & Project Objectives",
+      "style": "Normal"
+    },
+    {
+      "para_index": 10,
+      "text": "3. Proposed Project Scope & Key Features",
+      "style": "Normal"
+    },
+    {
+      "para_index": 13,
+      "text": "4. Technical Stack & Special Requirements",
+      "style": "Normal"
+    },
+    {
+      "para_index": 16,
+      "text": "5. Endorsements & Supervisor Feedback",
+      "style": "Normal"
+    },
+    {
+      "para_index": 18,
+      "text": "Proposed Project Title",
+      "style": "Normal"
+    },
+    {
+      "para_index": 20,
+      "text": "Assigned Project Supervisor",
+      "style": "Normal"
+    },
+    {
+      "para_index": 22,
+      "text": "Programme / Class Code",
+      "style": "Normal"
+    },
+    {
+      "para_index": 24,
+      "text": "Student Group Number",
+      "style": "Normal"
+    },
+    {
+      "para_index": 26,
+      "text": "S/N",
+      "style": "Normal"
+    },
+    {
+      "para_index": 27,
+      "text": "Student Name",
+      "style": "Normal"
+    },
+    {
+      "para_index": 28,
+      "text": "Student ID",
+      "style": "Normal"
+    },
+    {
+      "para_index": 29,
+      "text": "Email Address",
+      "style": "Normal"
+    },
+    {
+      "para_index": 30,
+      "text": "Proposed Major Role / Area of Responsibility",
+      "style": "Normal"
+    },
+    {
+      "para_index": 51,
+      "text": "Student Group Endorsement",
+      "style": "Normal"
+    },
+    {
+      "para_index": 53,
+      "text": "Supervisor Vetting Decision",
+      "style": "Normal"
+    },
+    {
+      "para_index": 56,
+      "text": "Supervisor Feedback / Comments",
+      "style": "Normal"
+    },
+    {
+      "para_index": 58,
+      "text": "Supervisor Endorsement",
+      "style": "Normal"
+    }
+  ],
+  "examples": {
+    "direct_paragraph_formatting": [
+      {
+        "para_index": 1,
+        "text": "ITE4116M FINAL YEAR PROJECT\nPROJECT SUGGESTION FORM\nAcademic Year 2026/27",
+        "style": "Normal"
+      },
+      {
+        "para_index": 2,
+        "text": "Submission Guide: Students must form a group of 3 to 4 members, discuss the project topic with your preferred supervisor",
+        "style": "Normal"
+      },
+      {
+        "para_index": 3,
+        "text": "1. General Project Information",
+        "style": "Normal"
+      },
+      {
+        "para_index": 4,
+        "text": "",
+        "style": "Normal"
+      },
+      {
+        "para_index": 5,
+        "text": "Student Member Details (Normally 3 to 4 members):",
+        "style": "Normal"
+      }
+    ],
+    "direct_run_formatting": [
+      {
+        "para_index": 1,
+        "run_text": "ITE4116M FINAL YEAR PROJECT",
+        "style": "Normal"
+      },
+      {
+        "para_index": 1,
+        "run_text": "\n",
+        "style": "Normal"
+      },
+      {
+        "para_index": 1,
+        "run_text": "PROJECT SUGGESTION FORM",
+        "style": "Normal"
+      },
+      {
+        "para_index": 1,
+        "run_text": "\n",
+        "style": "Normal"
+      },
+      {
+        "para_index": 1,
+        "run_text": "Academic Year 2026/27",
+        "style": "Normal"
+      }
+    ]
+  },
+  "notes": [
+    "Direct formatting is not always wrong, but it often causes inconsistent output when templates change.",
+    "Heading-like paragraphs not using Heading styles can break TOC and accessibility."
+  ]
+}

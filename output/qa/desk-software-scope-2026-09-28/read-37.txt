@@ -1,0 +1,90 @@
+FILE planning/2026-09-21/proposal-content.md L1-90
+# Senplate Project Proposal
+
+AI and IoT Based Food and Nutrition Monitoring System
+
+<!-- identity -->
+
+## 1 Statement of the problem to be solved
+
+We propose Senplate, a hardware and software system that continuously monitors food on one pan or plate position and turns valid measurements into practical feedback. Its main application is buffet and batch-prepared counter service. The same station will also support anonymous school meal samples and adult personal meal records.
+
+During service, staff must decide when to start preparing another batch and how much to prepare. A low tray level alone does not show how quickly food is being taken, how long preparation will take, whether another batch is already in progress, or how close the service is to closing. Late decisions can leave an empty tray; unnecessary or duplicate batches can leave excess food at the end. These are the operating problems we will investigate through workflow review and controlled experiments.
+
+Food quantity also needs a clear meaning. A menu name does not describe the portion actually served. A decrease in tray weight does not, by itself, prove that food was eaten or discarded. Senplate will keep measured supply, order reservations, future batches, remaining food and reference nutrition as separate records.
+
+### Project objectives
+
+1. Build one integrated station that records valid food weight and assists identification of four to six registered foods, with clear handling of unstable, missing and uncertain inputs.
+2. Develop and evaluate replenishment advice using current supply, recent demand, preparation lead time and outstanding kitchen work, followed by measurement of the actual refill.
+3. Connect this process to an English and Simplified Chinese iPhone app, kitchen and management web interface, and station screen, including auxiliary QR ordering and auditable meal records.
+
+<!-- pagebreak -->
+
+## 2 Background of the problem
+
+Hong Kong's Environmental Protection Department reports that approximately 3,001 tonnes of municipal food waste were landfilled each day in 2024, accounting for about 29% of municipal solid waste disposal [1]. This establishes the wider relevance of food management. Our project addresses the narrower decisions around monitored food portions and replenishment; it will not measure all kitchen waste or claim that all of this waste is avoidable.
+
+### Intended users and operating environments
+
+| Environment | Intended users | Feedback and scope |
+|---|---|---|
+| Buffet or batch-prepared counter | Kitchen staff and catering managers | Remaining supply, refill timing and quantity, task status, and end-of-service disposition for the monitored dish. |
+| School meal sampling | Authorised meal coordinators and catering staff | Anonymous sample portions, food groups, reference nutrition and total remaining food, compared with a reviewed meal plan. |
+| Adult personal recording | The individual using the station | Sequential portions, matched reference nutrition, total remaining weight and private history. |
+
+The school application supports observation and food education. The Department of Health provides lunch guidelines and monitoring resources that can inform a school-reviewed plan [2]. We will use anonymous demonstration meals rather than children's accounts. One sample cannot represent the intake of every pupil. Personal testing will initially involve adults.
+
+### Existing solutions and project positioning
+
+| Reference | Publicly described capability | Implication for Senplate |
+|---|---|---|
+| Metafoodx Metron [3] | A mobile scanner capturing food images, weight and temperature; its listed settings include universities and school cafeterias. | Our demonstration keeps the monitored pan in place during service, focusing on continuous quantity changes and a traceable refill task. |
+| Controliza Buffet [4] | Computer vision and IoT weighing, consumption-rate monitoring, replenishment alerts, suggested quantities and waste records. | Use these capabilities as a reference while evaluating a smaller independent station and its behaviour when historical data is limited. |
+
+Our proposed contribution is a configurable single-station prototype with explicit measurement validity, traceable advice-to-refill actions and consistent order reservations. We will examine its behaviour with limited historical data and preparation delays. Performance claims will be based on defined experimental baselines. Without equivalent competitor trials and quotations, we will not claim better accuracy, lower total cost or market uniqueness.
+
+We will seek workflow feedback from two or three catering staff, focusing on recent empty-tray incidents, duplicate preparation and the extra steps needed to use the prototype. Access is not yet secured; staff feedback and controlled volunteer tests will be reported separately.
+
+<!-- pagebreak -->
+
+## 3 Outline of the proposed solution
+
+### 3.1 System architecture and hardware
+
+The chef places a prepared pan on the station and serves from it while monitoring continues. A load cell measures quantity; an overhead RGB-D camera supplies colour and depth data for constrained visual assistance. A client-server architecture connects the station, iPhone and web interfaces to a shared backend. One station will be used sequentially in the three modes, not simultaneously at three sites.
+
+![Proposed system architecture](architecture.png)
+
+*Figure 1 Proposed architecture with a shared backend and separate acquisition and vision processing*
+
+| Component | Planned configuration | Purpose and engineering condition |
+|---|---|---|
+| Edge computer | Raspberry Pi 5 with 8GB RAM, active cooling and microSD storage [5] | Run acquisition, lightweight inference and the local interface; verify the complete service load before final deployment. |
+| Weighing system | One suitable 10kg platform load cell and NAU7802 ADC | One independent weighing position; gross working load initially limited to 5kg, including platform, container and food. |
+| Camera | One Orbbec Gemini 2 RGB-D camera [6] | USB 3 colour and depth input; verify SDK support, alignment and usable coverage on the selected Pi system. |
+| Local interaction | Approximately 7-inch touchscreen, confirmation/tare controls and status indicators | Clear local actions; screen and camera loads kept off the floating weighing platform. |
+| Structure and power | Rigid base and adjustable overhead support; enclosed low-voltage wiring | External adapter with one low-voltage lead; initial 12V/5A plan with a Pi-compatible supply branch and powered USB 3 hub. Validate every interface and load. |
+
+The existing Arduino UNO R4 WiFi is optional for acquisition diagnostics, not a required second controller. The preferred final target is Pi-based local operation. During development, the existing Mac hosts the services; if full Pi deployment is too demanding, the same interface will support Pi acquisition with the Mac backend while optimisation continues. No Pi performance result is assumed from its specification.
+
+<!-- pagebreak -->
+
+### 3.2 Functional scope
+
+| ID | Function | Required behaviour |
+|---|---|---|
+| F01 | Start and monitor a session | Select a mode, register the container/tare and confirm the food or batch. Show valid weight, timestamp and data origin; distinguish zero, instability, plate removal and stale data. |
+| F02 | Assist food identification | Suggest a registered food using the trained vision model. Allow human confirmation or correction. Unknown or obscured food must not be forced into a confident known label. |
+| F03 | Advise and verify replenishment | Explain refill timing and batch quantity using valid supply, preparation time and kitchen work. Staff accept, adjust or reject; an actual measured increase verifies the refill. |
+| F04 | Provide QR menu and basic ordering | In the iPhone app, show published dishes, supply status and completed-order popularity. Support applicable counter/add-on orders, kitchen acceptance, preparation and collection. Ordinary buffet self-service does not require an order for every serving. |
+| F05 | Record personal meals | Use a short-lived pairing code and explicit station confirmation. Select each food before adding it; record the stable weight increase, reference nutrition and subsequent total remaining weight. |
+| F06 | Record anonymous school samples | Generate sample identifiers, record portions and food groups, compare with an approved configuration, and provide scoped reports. Demonstration plans are clearly marked as unreviewed. |
+| F07 | Maintain information and access | Manage food/recipe references, menu settings, standard portions, preparation time, containers and authorised roles. Preserve the versions used by historical records. |
+| F08 | Review and export results | Record tasks, exceptions, actual refills and end-of-service dispositions. Filter reports by period and simulated, replay or hardware source; support authorised CSV export. |
+
+### 3.3 Data handled and consistency
+
+The system will store users and workplace permissions; devices, containers and calibration versions; food, recipe and nutrient references; session observations; model results; recommendations and kitchen tasks; menus, orders and reservations; portions, remaining food and disposition records. Necessary images and depth samples will be stored separately and linked to their session and model version.
+
+Physical stock, accepted but unfulfilled orders and planned future supply remain distinct. Accepting an order reserves food; it does not change the scale reading. When staff link the measured portioning event, the reservation is released without deducting the food twice. Marking a batch ready similarly does not increase measured stock.

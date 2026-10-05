@@ -1,0 +1,27 @@
+{
+  "checked_at": "2026-09-16T06:22:51.615941+00:00",
+  "markdown_updated": [
+    "research/2026-09-16-competitions/no-company-options.md",
+    "research/2026-09-16-competitions/competition-shortlist.md",
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md"
+  ],
+  "data_updated": "research/2026-09-16-competitions/source-register.json",
+  "internal_links_checked": 185,
+  "missing_links": [],
+  "pdf_visual_pages_total": 12,
+  "pdf_files": [
+    "sources/ChinaUS-Maker-2026-Rules.pdf",
+    "sources/HKIE-Electronics-2026-InfoPack.pdf",
+    "sources/IET-YPEC-2026-Subdegree-Rules.pdf"
+  ],
+  "no_company_constraint_propagated": true,
+  "no_company_claim_scope": "Current official student/individual rules; future editions and final organizer review not guaranteed",
+  "new_2026_events_all_closed": true,
+  "naming_only_preserved": true,
+  "no_external_actions": true,
+  "result": "pass"
+}

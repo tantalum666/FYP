@@ -1,0 +1,14 @@
+{
+  "archive": "output/software/Group 2_DeskCompanion_Software_2026-10-03.zip",
+  "files": 148,
+  "bytes": 523771,
+  "sha256": "30996ec1f426a9882e502728f928c479277fe8c35f016f2a6d478454a184b60b",
+  "excluded": [
+    "runtime data",
+    "credentials",
+    "model binaries",
+    "dependencies",
+    "build outputs",
+    "original media"
+  ]
+}

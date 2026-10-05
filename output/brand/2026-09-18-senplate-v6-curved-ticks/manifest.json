@@ -1,0 +1,89 @@
+{
+  "version": "V6.4",
+  "date": "2026-09-18",
+  "status": "TRIAL_ONLY",
+  "source": "Figma native exports",
+  "figma_file": "UyYjnTFGWO0r1lj4uvghGp",
+  "page": "76:2",
+  "nodes": {
+    "boolean": "97:3",
+    "symbol": "97:36",
+    "signature": "97:37",
+    "preview": "97:41",
+    "comparison": "97:46",
+    "detail": "98:8",
+    "sample32": "98:2",
+    "sample64": "98:5"
+  },
+  "assets": [
+    {
+      "file": "README.md",
+      "bytes": 764,
+      "sha256": "9661335bcfc1e3231af2308a8faa0361e92769c220deb4827f4c29adc3328177"
+    },
+    {
+      "file": "curved-32.png",
+      "bytes": 890,
+      "sha256": "15e4291bc6b3c5ca459e1365cde8934683c101e428fe368731bf4ef62a26c35e",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "curved-64.png",
+      "bytes": 1731,
+      "sha256": "f2b3b2e564475113e80d95ce2e591f913c6636d3d6e378fae0d8046dec311109",
+      "size": [
+        64,
+        64
+      ]
+    },
+    {
+      "file": "curved-comparison.png",
+      "bytes": 51963,
+      "sha256": "6f014b316441da6ea3e98ff2682531acc57cbbbf8a05ec016ec60859d56b9705",
+      "size": [
+        1440,
+        760
+      ]
+    },
+    {
+      "file": "curved-detail.png",
+      "bytes": 20208,
+      "sha256": "3a8ad3f9b75404c0dfe4c47b07bd3e27489ca022693f735789c3cfc67f06b21e",
+      "size": [
+        960,
+        720
+      ]
+    },
+    {
+      "file": "curved-logo.svg",
+      "bytes": 11014,
+      "sha256": "37d9fd15e40161c2dd5d5a324ef45b09db118e082e0315e1960057178ea987d4"
+    },
+    {
+      "file": "curved-preview.png",
+      "bytes": 30539,
+      "sha256": "ed9081a0a5631891b4847b0c0b42567790b67ae895b58593ff404a9814cd6f00",
+      "size": [
+        1774,
+        887
+      ]
+    },
+    {
+      "file": "curved-symbol.png",
+      "bytes": 25386,
+      "sha256": "a86793cc4cb4cc2d040a931e3f2413ae7065a7ceaa9fb2d023f12279ad849d0b",
+      "size": [
+        960,
+        680
+      ]
+    },
+    {
+      "file": "curved-symbol.svg",
+      "bytes": 2254,
+      "sha256": "7ffbee897382873e93bd9a6b94d0095b85233d2acc2b30eb2037ae0616a2f242"
+    }
+  ]
+}

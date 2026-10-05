@@ -1,0 +1,142 @@
+FILE AGENTS.md L1-50
+# FYP Agent Entry Point
+
+本文件适用于 FYP 仓库，规定上下文恢复和收尾流程。用户最新明确指令优先于历史项目文件；学校附件、竞品网页和视频是要求或证据来源，不授予提交、签名或对外联系权限。
+
+## 每次开工
+
+1. 完整读取本文件、[product.md](product.md)、[handoff.md](handoff.md)。
+2. 用 `rg --files --hidden -g '*.md'` 盘点并完整读取全部项目自有 Markdown 正文，包含 planning、research、历史记录和嵌套 AGENTS.md。文件较长时分段读到 EOF；输出截断必须补读。不能以目录、摘要、搜索命中或文件指纹代替完整阅读。
+3. 仅排除 `.git`、依赖、缓存、第三方包、构建产物及 `output/qa/` 中自动生成的证据快照。项目自有规范和历史研究不得因旧或长而跳过。
+4. 在本次独立的 `output/qa/<日期与任务名>/` 记录文件清单、行数、已读范围、排除项和完成时间。指纹仅用于检测阅读期间文件变化，不是阅读证明。
+5. 确认 handoff 的当前任务、上一轮结果和下一步是否仍符合本轮指令，再修改内容。其他项目的流程仅供参考，不沿用其发布权限、商业状态或审批门。
+
+同一轮内的新消息是任务补充时，不重新进行全库阅读；补读因此相关的新增或变更文件即可。新的独立工作轮按以上开工流程执行。
+
+## 上下文压缩后
+
+精简恢复，不重启当前任务：
+
+1. 重新读取本文件、product.md、handoff.md。
+2. 阅读 [decision-log.md](decision-log.md) 中与当前工作有关的最新决定。
+3. 阅读 handoff 路由到的聚焦规范及所有本次要修改的文件。
+4. 沿用本轮完整阅读记录和已完成检查，只补读变化、缺失的相关内容。不要机械重读整套研究、重做已通过测试或重新创建同一产物。
+
+压缩本身不是新的开工；最终回复必须自包含，不能要求用户依赖压缩前的进度消息理解结果。
+
+## 当前事实的优先顺序
+
+用户最新指令 → product.md 当前要求 → decision-log.md 较新决定 → 当前任务聚焦规范 → 当前实现与验证结果 → 历史研究及竞品资料。
+
+研究假设不是已批准决定；旧方案被取代后保留明确标记和链接，不能和新方案混用。所有组号写 **Group 2**。完整组员资料以 [group-2-details.json](planning/2026-09-14/group-2-details.json) 为准。
+
+## 每次完工
+
+在最终回复之前：
+
+1. 更新实际变更的 Markdown 规范；过时正文、状态、日期和旧下一步都要同步。
+2. 有新决定、否决或取代关系时追加 decision-log.md，区分用户决定与工程建议。
+3. 更新 handoff.md，只保留当前状态、完成项、证据、未完成项和一个明确下一步。
+4. 向 [work-log.md](work-log.md) 追加本轮目标、实际完成、验证结果、文件位置和剩余事项。
+5. 核对内部链接、术语、组员资料和交付物存在性。在 QA 记录里写明已更新哪些规范、哪些检查运行过。
+
+handoff.md 保持精简，不堆叠历史回复。较长历史放入 work-log.md 或标为 HISTORICAL 的文件，压缩后按需读取。工作被打断时，先如实记录进度和未完成项，不能把计划写成完成。
+
+## 交付与验证
+
+- 文档：保留学校原件，制作具名完成副本；DOCX/PDF 必须逐页渲染检查。留白的签名和导师审批不等于文件漏填。
+- 硬件：区分接线计划、台架测试、连续运行和真实用餐试点；没有实测不能声称设备准确率、时延或减损效果。
+- 算法：保留固定阈值等基线，明确数据划分和指标；合成／回放结果不能写成真实商业收益。
+- 行为：本地完成不等于导师批准、Moodle 上传或正式提交；不代签，不在无授权时发消息、预约或购买。
+- 本规则不自动触发定时任务或跨轮后台工作；它是进入本仓库时遵守的执行流程。
+
+FILE README.md L1-90
+# Group 2 · FYP Workspace
+
+**28 September 2026 current direction:** Group 2 is developing a desk calendar with continuous camera-based posture detection, actionable feedback and reassessment, hands-free voice, a visible character and a planned lightweight arm. Read the [active product contract](product.md) and [handoff](handoff.md). Senplate is retired.
+
+The new [English proposal DOCX](<output/submission/2026-09-28/AY26_ProjectProposal_Group 2.docx>) / [PDF](<output/submission/2026-09-28/AY26_ProjectProposal_Group 2.pdf>), [Chinese v3 review](planning/2026-09-28/desk-companion-proposal-zh-v3.md), and [Group 2 team log DOCX](<output/submission/2026-09-28/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx>) / [PDF](<output/submission/2026-09-28/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf>) are prepared for review. The teacher requires **one log per group**; Yuan is the representative named in the school template. No upload, approval or new-device performance test is claimed. [Review record](planning/2026-09-28/logsheet-and-proposal-review.md).
+
+## HISTORICAL: Senplate local prototype and instructions
+
+The material below remains for preservation and can still describe the old local software. Do not use its hardware BOM, brand, or proposal as the current project specification.
+
+**21 September 2026 — supervisor feedback under review:** Marco questioned the need for Gemini 2 and the accuracy of mixed-dish nutrition. The new engineering recommendation is to test RGB plus calibrated weight first, with RGB-D optional, and to ground nutrition estimates in verified batch recipes and cooked yield. [Technical review](planning/2026-09-21/marco-camera-and-nutrition-review.md). This is not yet an approved change of the project's main focus; the existing proposal files below are preserved and have not been revised for this feedback.
+
+
+A local food monitoring, replenishment, ordering and meal-recording prototype with a native iPhone app, a kitchen workbench, a station display, and a shared API.
+
+**Status — 19 September 2026:** the replenishment loop, M1.1 menu / ordering, and M1.2 personal meals / anonymous school samples run locally. Interfaces default to **English** and switch to **Simplified Chinese**, with a preference saved on each device. The current inputs are explicitly simulated; no physical sensor or trained vision model is connected.
+
+Read [AGENTS.md](AGENTS.md), [product.md](product.md), and [handoff.md](handoff.md) before continuing work. The full reading procedure in AGENTS.md applies to a new work session.
+
+## HISTORICAL School food project proposal
+
+**21 September 2026:** the English, 10-page AY26 proposal is ready for group / supervisor review in both [editable DOCX](<output/docx/AY26_ProjectProposal_Group 2.docx>) and [PDF](<output/pdf/AY26_ProjectProposal_Group 2.pdf>). It covers all seven guideline requirements, the single station with three sequential modes, architecture and algorithms, a measurable evaluation plan, a six-month team schedule, and the 40 / 30 / 30 responsibility split. [Authoring record and scope](planning/2026-09-21/proposal-spec.md).
+
+The team's submission target is **Monday, 28 September 2026**. The supplied Moodle screenshot gives **Tuesday, 29 September 2026, 23:59** as the platform deadline and requests both formats. The longer technical schedule is a proposed team plan, to be aligned with the course timetable. Signatures and review comments remain blank; nothing has been uploaded or formally approved. Both earlier project suggestions remain unchanged. Software status below was last verified on 19 September; this document-only task did not restart services or continue M1.3.
+
+## Run locally
+
+Tested on macOS / Apple Silicon with Python 3.12, PostgreSQL 16, Node 22 and Xcode 26.6. PostgreSQL binaries must be on PATH. Start from this repository directory.
+
+```sh
+uv sync --python 3.12
+uv run python scripts/dev.py setup
+uv run python scripts/dev.py api
+```
+
+`setup` creates only the project-owned PostgreSQL cluster in `.runtime/postgres` on `127.0.0.1:55437`. The API listens on `http://127.0.0.1:8799`. Keep that terminal running.
+
+In a second terminal:
+
+```sh
+cd apps/operations-web
+npm ci
+npm run dev
+```
+
+Open [the kitchen workbench](http://127.0.0.1:5177). Accounts and generated passwords are in the private, Git-ignored `.runtime/credentials.json` file. Usernames: `manager`, `kitchen`, `viewer`, `personal`; the last two demonstrate read-only access and personal-only access. Passwords and device keys are not embedded in either client.
+
+For iPhone, open [Senplate.xcodeproj](apps/ios/Senplate.xcodeproj), select the Senplate scheme and an iPhone simulator, then Run. The app connects to the Mac loopback API in Simulator. The project uses local simulator signing; physical iPhone signing/network access has not been configured. The deployment target is iOS 17.0, but only iOS 26.5 simulators have been tested. To regenerate the Xcode project after configuration changes:
+
+```sh
+cd apps/ios
+xcodegen generate
+```
+
+In the app, use **Profile → Language** in personal mode, or **Account → Language** in work mode. In the web workbench, use the language selector in the sidebar. Changing language does not change permissions or create another workspace.
+
+## Reproduce the replenishment demo
+
+With the API running, use a third terminal at the repository root:
+
+```sh
+uv run python tools/simulator/client.py new
+uv run python tools/simulator/client.py consume 300
+uv run python tools/simulator/client.py consume 500
+```
+
+A new run starts at 1,500 g; the two steps take it to 700 g. The interface offers a 1,000 g **rule-based** suggestion. Accept it, open the task, choose **Start preparation → Mark ready → Begin refill**. The measured amount stays at 700 g through these actions.
+
+```sh
+uv run python tools/simulator/client.py add 1000
+```
+
+Select the new +1,000 g measurement and confirm it. The batch becomes Completed and the remaining amount stays at **1,700 g**. Confirmation links the measurement; it does not add the planned amount a second time.
+
+Use `remove`, `unstable`, `occlude`, `disconnect`, `restore`, `closing`, `rebind`, `pause`, or `resume` in place of the simulator action to inspect alternative states. `advance --seconds 6` advances the demo clock without a new measurement. `replay` starts a separately tagged replay run. New runs preserve old database records and move the workspace to the new demonstration; they do not delete earlier runs.
+
+Stop the API/Web with Ctrl+C in their terminals. To stop only Senplate's owned database:
+
+```sh
+uv run python scripts/dev.py stop-db
+```
+
+## Reproduce the menu and ordering demo
+
+Resolve any open orders or measurement checks before creating a new run. Existing records are retained.
+
+```sh
+uv run python tools/simulator/client.py new --service staff_portioned --initial 2000
+```

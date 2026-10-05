@@ -1,0 +1,50 @@
+ITE4116M FINAL YEAR PROJECTPROJECT SUGGESTION FORMAcademic Year 2026/27
+Submission Guide: Students must form a group of 3 to 4 members, discuss the project topic with your preferred supervisor, and obtain verbal agreement. Once agreed, the group must complete this Project Suggestion Document and upload the document file (in both PDF & DOCX) on Moodle during the FYP session by 14-SEP-2026.
+1. General Project Information
+Proposed Project Title
+AI and IoT Based Food and Nutrition Monitoring System
+Assigned Project Supervisor
+Marco (revised scope for review)
+Programme / Class Code
+Higher Diploma in AI and Smart Technology (IT114124) / Class AIST-2B
+Student Group Number
+Group 2
+Student Member Details (Normally 3 to 4 members):
+S/N
+Student Name
+Student ID
+Email Address
+Proposed Major Role / Area of Responsibility
+1
+Yuan Yuchen
+250342840
+250342840@stu.vtc.edu.hk
+Project Leader / Backend AI Lead (40%)Requirements, APIs, food recognition, nutrition estimates, forecasts and integration tests.
+2
+Xu Ziqian
+250137555
+250137555@stu.vtc.edu.hk
+IoT Hardware / Edge Processing (30%)Sensing hardware, Pi acquisition, container calibration, event detection and reliability tests.
+3
+Li Wenhua
+250329909
+250329909@stu.vtc.edu.hk
+Web Application / UX Developer (30%)Scenario dashboards, QR menu/orders, nutrition views, bilingual UI and usability tests.
+2. Problem Statement & Project Objectives
+Instructions: Describe the business or technical problem in information technology that this project intends to address. Define 2-3 specific project objectives (what your solution intends to achieve for the target users/businesses).
+Problem Statement:Foodservice teams, schools and individuals need easier ways to connect food quantity, nutrition and leftovers. Buffets need timely replenishment, schools need portion and food-group records, and individuals need less manual meal logging.We propose continuous monitoring while serving containers or meal plates remain on sensing bases. Food recognition, measured portions and reference nutrition data enable scenario-specific feedback. Metafoodx and Controliza are design references; benefits will be evaluated in controlled tests.Project Objectives:1. Implement shared continuous monitoring of food identity, quantity and leftovers for serving containers and individual meals.2. Provide AI-assisted replenishment and reference-based nutrition feedback for foodservice, school and personal profiles, with human confirmation.3. Compare measurement/nutrition calculations with manual references, and empty-tray time/leftovers with replenishment baselines; evaluate usability and recovery.
+3. Proposed Project Scope & Key Features
+Instructions: Define the scope of your system. List and briefly describe the key modules, functions, or features that your group plans to implement. Projects must be implementation-oriented and student-centered.
+Key Subsystems / Features:A. Shared continuous sensing. Track food quantities, identity, refills and leftovers; handle tare, movement, occlusion and stale data. Record surface temperature where applicable.B. Nutrition estimates. Match portions to registered recipes/food records. Distinguish provided food, leftovers and confirmed intake estimates; flag uncertain mappings.C. Three application profiles. Foodservice: replenishment timing and batch tasks. Schools: compare portions with configured meal plans and report aggregate leftovers. Personal: adult meal records, estimated nutrients and food-group feedback.D. Interfaces and feedback. Bilingual dashboards, alerts and reports; QR menus retain availability, completed-order popularity and estimated waits. Basic orders and kitchen status remain available for foodservice.Prototype Scope: Six months; three profiles, up to three weighing positions and 4-6 registered foods/recipes. Test separately weighed items/known recipes and anonymous school example meals.Expected Users & Roles: Kitchen teams, primary and secondary school staff, and adult users; students/parents see appropriate menu and educational summaries.
+4. Technical Stack & Special Requirements
+Instructions: Detail the hardware and software tools you intend to use. Highlight how your project incorporates contemporary technologies (AI, IoT, Cloud, etc.) and how it aligns with modern considerations like environmental-friendly design, bilingual/multi-language support, or cross-border deployability to meet Greater China business needs.
+Development Technologies & Tools:• Hardware: Raspberry Pi 5, load cells with ADC interfaces, overhead camera, surface-temperature sensor and display/LEDs. Adapt supports for serving containers or meal plates; assess RGB-D by testing. Existing UNO R4 WiFi is optional.• Programming Languages: Python, TypeScript, HTML/CSS; C++ only if a microcontroller is used.• Frameworks / Libraries: OpenCV, PyTorch/scikit-learn, FastAPI, React and i18next.• Database / Storage: PostgreSQL, local logs, selected USDA FoodData Central records and registered recipes. Retain source IDs, units and cooking-state/recipe metadata.• Target Platforms: Local Linux device and responsive web interfaces with configurable scenario profiles.Special Project Considerations:• Contemporary Technologies: IoT sensing, AI food recognition and demand estimates, reference-based nutrition calculations and live feedback; optional cloud backup.• Environmental-Friendly Solution / Social Benefit: Support school meal review, personal nutrition awareness and avoidable-waste reduction with reusable hardware.• Bilingual / Multi-Language Support: English and Traditional Chinese interfaces.• Cross-Border Deployment / Greater China Needs: Configurable food catalogues, meal plans, currency and time zone; reviewed regional guidance, such as Hong Kong school-lunch guidelines.• Responsible Use: Educational estimates, not diagnosis or prescribed diets. Uncertain mixed meals require confirmation; school demonstrations use anonymous meals without child health profiles.• Feasibility / Validation: Test sensing and nutrition calculations against known portions/manual references; compare replenishment with fixed-threshold and consumption-rate baselines. Use controlled meals and adult usability tests; field access is not assumed. Full payment/ERP integration is excluded.
+5. Endorsements & Supervisor Feedback
+Student Group Endorsement
+By submitting this suggestion, we confirm that all listed group members are in agreement regarding this project concept and our assigned roles.Student Representative Signature: ___________________________Date: ___________________________
+Supervisor Vetting Decision
+Supervisor, please put a ☑ in the appropriate box.
+☐ APPROVED — The group is authorized to proceed to draft their formal Project Proposal.☐ REJECTED — The group must modify their project topic suggestion and resubmit for review.
+Supervisor Feedback / Comments
+Supervisor Endorsement
+Project Supervisor Signature: ___________________________Date: ___________________________

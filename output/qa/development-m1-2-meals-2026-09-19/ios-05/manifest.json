@@ -1,0 +1,26 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "AE5D41FC-A9D7-4678-9599-0971E51C4DFF.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "11-home-with-meal-entry_0_BDF26797-7117-48F9-9321-B1B7B8112A21.png",
+        "timestamp" : 1789820268.98
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "09DECC5D-D0CE-4289-9687-1412B9B24A4F.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "10-preserved-original-orders_0_1E8F346B-196A-43A8-BB1E-B8AFD866A7D4.png",
+        "timestamp" : 1789820266.072
+      }
+    ],
+    "testIdentifier" : "MealsUITests/test05PreservedDemoPreview()",
+    "testIdentifierURL" : "test://com.apple.xcode/Senplate/SenplateUITests/MealsUITests/test05PreservedDemoPreview"
+  }
+]

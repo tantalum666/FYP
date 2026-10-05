@@ -1,0 +1,76 @@
+FILE work-log.md | LINES 66-130 / 137
+- 阅读：18份初始Markdown共1699行全文，补读截断；读取Spreadsheets技能、创建流程、API和样式规则。模板picker被拒绝后采用采购用途自建表，未因此暂停任务。
+- 研究：Orbbec Gemini2／335当前官网价格、库存、线材；SDK的M2与ARM64边界；RealSense参考价、DFRobot低价相机、Pi电源／屏幕、NAU7802接线和参考称重梁。淘宝站点策略拒绝后没有绕过，Chrome京东停在登录页。
+- 电脑与模型：当前系统只读核对M2 Pro／16GB、macOS26.5.2、约473GiB可用；建议Large IMAGENET1K_V2为主、Small对照，未安装或训练。
+- 交付：[采购说明](planning/2026-09-15/procurement-guide.md)、结构化数据及[采购工作簿](<outputs/01a07aeb-a256-7572-a42e-bd7e4668674f/Group 2_Hardware Procurement_20260915.xlsx>)。51条记录、5相机、16接线；人民币预留4314–6651、不含运费，非实际报价。
+- 表格验证：用Artifact Tool创建并重算，验证实际报价、零值、已有设备排除、数量空白和恢复。修复预览中0与空白比较混淆，使用ISBLANK并加强数值断言；检查10个最终范围、3个表的冻结窗格与来源注释，保留所有明细。
+- 收尾：同步product、README、训练路线、共用架构、decision-log及handoff；[收尾记录](output/qa/hardware-procurement-2026-09-15/closeout-validation.json)记录内部链接、工作簿结果和旧版哈希。没有新增suggestion、采购、训练、Pi或真实营养／减损试验。
+
+## 2026-09-15 相机比较、统一供电与十盘位成本
+
+- 目标：回答Gemini／RealSense如何选、Metafoodx外部一根线如何借鉴、十个盘位是否需十套完整硬件及经济性。
+- 阅读：19份初始项目Markdown全文1932行，组合截断已补读；[阅读记录](output/qa/camera-power-scaling-2026-09-15/full-read-completion.json)。查看用户照片，重新核对相机厂商／SDK、Pi供电、RealSense多机、成品低压电源及WittyPi5官方索引。
+- 结果：维持Gemini2单机首测，明确连续监测是流程选择；解释宽视野与像素密度取舍。单线入机建议外置适配器、低压转换分路，24V60W／WittyPi5为候选而非最终接线。十盘位共用计算、屏幕和区域相机，独立称重路径不能省略；不增加FYP必做盘数。
+- 文件：新增[相机、供电与扩展](planning/2026-09-15/camera-power-and-scaling.md)，同步product、README、持续监测架构、采购说明适用范围、decision-log及handoff。原工作簿／数据、V1/V2及身份资料原样保留。
+- 成本：四相机区域、十称重节点、一共享Pi级主机的物料情景RMB13000–21700；条件与遗漏逐项列出，不是询价或商业售价。不把原4314–6651单机参考直接乘十。
+- 验证：[收尾记录](output/qa/camera-power-scaling-2026-09-15/closeout-validation.json)核对名义视野／功率／成本算术、Markdown链接、当前数量边界及旧文件哈希。旧工作簿没有修改，因此未重跑表格渲染；新文件为Markdown，没有新DOCX/PDF。
+- 剩余：单路实际SDK／几何／供电及称重台架验证、集成电源的具体稳压器／Hub／线束、真实布局和价格。没有采购、上电、训练、真实试点、重看视频、联系卖家／老师或提交。
+
+### 同一讨论的范围补充：单台demo与国内电源
+
+- 用户明确FYP只做一台设备；十盘位只是未来真正进入自助餐的疑问，并指出国内淘宝有电源适配器选择。
+- 沿用本轮完整阅读记录，补读AGENTS、product、handoff、相机供电说明、decision-log、work-log、README及采购说明变更段；组合输出截断的decision-log已完整补读。
+- 更新product、README、采购说明、相机供电说明、decision-log和handoff：移除本期追加节点／共享相机验证的建议，保留未来研究；国内成品电源按电压、电流、接口及Pi兼容性筛选，MeanWell／WittyPi5不再容易被理解为必买。
+- 再次查阅Pi供电与Gemini2中文参数的官方索引，未取得淘宝实际SKU或报价。没有修改采购XLSX／JSON、V1/V2和身份资料，没有硬件或算法实验。
+- 验证与阅读记录在[范围补充核对](output/qa/camera-power-scaling-2026-09-15/scope-followup-validation.json)；当前下一步只围绕一台demo的国内供电匹配与验证。
+
+## 2026-09-15 继续细化单机电源
+
+- 目标：把成品适配器、Pi电源板、Hub、低压分配和线材落实到可核对的型号与配线；仅一台demo。
+- 阅读：沿用本轮全量阅读及补充记录，重新完整读取入口文件、相机供电长文、README、decision-log和work-log，补读采购及架构相关变更段。[阅读与盘点](output/qa/power-supply-detail-2026-09-15/reading-and-inventory.json)。
+- 研究：官方明纬中国系列／中文数据表、亚博产品和Chrome接口／规格图、奥睿科产品与长图、PiPD／显示接口及Gemini2电源条件。未使用搜索中的旧型号或第三方数字替代当前图片；ORICO图为单口1.5A，官方上游字段与实物形态有矛盾，采用原装线并保留到货核对。
+- 交付：[单机供电专项](planning/2026-09-15/power-supply-detail.md)及[数据](planning/2026-09-15/power-supply-data.json)：12V5A、亚博YB-MPP01、ORICO-BT2U3-7AB两路，Hub同时供相机和两条灯；18条记录，人民币预留451–807，非报价。
+- 变更：同步product、README、采购说明、持续架构、相机供电旧候选状态、decision-log及handoff。原P02／M19／X01替换关系写清，原工作簿／JSON与V1/V2保留，未生成新版正式建议书或表格。
+- 验证：[收尾验证](output/qa/power-supply-detail-2026-09-15/closeout-validation.json)核对BOM与预算、功率49.375W假设、内部链接和旧文件哈希。没有上电、PD协商、相机数据或称重实测。
+- 剩余：取得样件后确认HubDC插头与极性、上游供电行为，再测单机整条采集与负载。没有淘宝／京东实际SKU、询价、购买、对外联系或提交。
+
+## 2026-09-15 亚博中文供货与定制合作
+
+- 目标：评估单供应商硬件覆盖、屏幕选择、定制费用和可保留的学生／AI实现工作。
+- 开工：独立完成当前21份项目Markdown全文2348行；采购说明按1–100／101–EOF分段。记录：[full-read-completion](output/qa/yahboom-sourcing-2026-09-15/full-read-completion.json)。完整读取PDF技能；学校原指南12页为图片式，逐页渲染并查看全部页面。
+- 研究：Chrome中文商城在加载完成后查到Pi5、散热、TF卡、7／10.1／15.6寸屏、电源和USB Hub目录；7寸中文详情／课程确认1024×600 TN／IPS、HDMI／USB及Pi5的microHDMI提示。Gemini系列课程与官方OEM／ODM合作说明支持询价候选，未证明单台接单或报价。
+- 判断：优先集中供货和有限加工装配，完整硬件设计单列报价；核心采集、校准、模型、后台与网页和最终测试由组员在AI辅助下实现并能解释。学校鼓励产业合作且强调个人贡献，指南未明确AI比例，不替老师认定全部AI编码获准。
+- 交付：[供应商与屏幕评估](planning/2026-09-15/yahboom-sourcing-and-customization.md)、[未发送询价草稿](planning/2026-09-15/hardware-fabrication-enquiry-draft.md)。人日成本只是明确假设，不是实际报价。
+- 收尾：同步product、README、采购说明、decision-log及handoff；原采购XLSX／JSON、电源数据、V1/V2、身份和学校PDF保留。证据：[closeout-validation](output/qa/yahboom-sourcing-2026-09-15/closeout-validation.json)。
+- 未完成：具体供货单、屏幕切换、电源重算、定制范围／交期和真实报价、Marco对合作边界的意见；没有外部联系、表单提交、采购、硬件测试、代码开发或新建议书。
+
+## 2026-09-15 至16 详细硬件需求与供应商询价V2
+
+- 目标：让供应商理解项目用途、原位持续工作流程和目标成品，并可按具体机械、量测、接口、供电、交付和验收条件报价。
+- 阅读：本轮为紧接供应商评估的补充任务，沿用21份／2348行全读记录，补读新增和变化文件；压缩后恢复入口、当前决定、RFQ全文及待修改规范，组合截断补读。记录：[reading-record.json](output/qa/rfq-v2-2026-09-15/reading-record.json)。Documents／PDF技能已读取，模板选择被拒绝后使用适合技术RFQ的原生Word排版。
+- 内容：明确一台、一个称重位置、同机三个配置；把用途、操作、Metafoodx外观、尺寸／受力／清洁、称重指标、RGB-D与照明、Pi／屏幕、供电线束、原始接口、资料与验收连成完整要求。主报价分别列标准物料和工程服务，补入示范容器；替代及热盘等按选配处理。所有数值为询价目标，供应商须逐项答复偏离。
+- 图片：Chrome查看Metafoodx实际产品页，暂停页内视频并按可见DOM位置截取产品和结构区域；没有生成仿造产品图、推断内部电路或采用厂商宣传为验收值。两张实际使用图片及来源／哈希见[素材依据](planning/2026-09-15/rfq-assets/source.json)。
+- 交付：[完整正文](planning/2026-09-15/hardware-fabrication-enquiry-v2.md)、[Word](<output/docx/Group 2_Hardware RFQ_v2.docx>)、[PDF](<output/pdf/Group 2_Hardware RFQ_v2.pdf>)。10页、9张原生表格、2张图片；报价表18个分项另加合计。旧RFQ全文保留在archive，原入口改为版本索引，两版suggestion及旧采购文件没有覆盖。
+- 排版验证：使用随工具提供的Python和LibreOffice。初次CJK缺字，改为任务内Fontconfig引用现有Arial Unicode字体；未安装全局字体或修改依赖。修复图片段落固定行距导致的裁切及分页溢出，再检查最终render-06全部10页，中文可读且可检索，图表、页码与报价空格完整。最终PDF复制自该已检查渲染，失败的中间导出仅留在QA。
+- 收尾：同步product、README、采购说明、供应商评估、RFQ版本入口、decision-log和handoff；[收尾核对](output/qa/rfq-v2-2026-09-15/closeout-validation.json)记录链接、要求编号、原件哈希、文件存在性及未含成员学号／邮箱。
+- 剩余：供应商能否接受单台、具体型号与工艺、目标性能可达性、分项报价、交期和实际合作范围待答复。未发送询价、填商务表单、下单、签约、运行训练或硬件；正式建议书仍为之前保留版本。
+
+## 2026-09-16 供应商硬件询价V3简化
+
+- 目标：按用户反馈，把供应商工作收敛为类似Metafoodx外形的完整硬件制作和集成，移除过多采购琐项及软件／测试服务要求。
+- 阅读：沿用同一RFQ任务已有全读和V2记录，补读入口、当前要求、V2全文及相关变更段；[本次阅读记录](output/qa/rfq-v3-2026-09-16/reading-record.json)。复用已读取Documents／PDF技能和已验证字体配置，没有重新选择模板或重做竞品研究。
+- 交付：[V3正文](planning/2026-09-15/hardware-fabrication-enquiry-v3.md)、[2页Word](<output/docx/Group 2_Hardware RFQ_v3_Simple.docx>)及[2页PDF](<output/pdf/Group 2_Hardware RFQ_v3_Simple.pdf>)。一张真实Metafoodx截图、一张8类部件表；明确供方完成部件、结构、配电和接线，我方处理系统、代码、校准与测试。
+- 删除范围：不列读卡器、运输条款、供应商驱动／系统、基础校准与测试报告、复杂资料包和细分验收；询价仅需能否制作、总价、周期和替代。参考尺寸和必要电气／受力条件保留，未将部件集成等同于性能达标。
+- 验证：首次渲染即为2页，两页均按原始尺寸查看；中文、图、表、页码无裁切溢出。最终PDF来自已检查渲染。正文对应、文件／内部链接、旧版哈希与范围删除检查见[收尾验证](output/qa/rfq-v3-2026-09-16/closeout-validation.json)。
+- 收尾：同步product、README、采购说明、供应商评估、版本入口、decision-log及handoff。原V2正文／Word／PDF、V1与两版suggestion、采购数据和身份保留。未发送、取得报价、下单、安装系统、写业务代码或测试实物。
+
+
+
+FILE work-log.md | LINES 131-137 / 137
+## 2026-09-16 RFQ V3.1增加三张外观／场景图
+
+- 目标：补充Metafoodx产品图片，保留用户确认的简化制作范围。
+- 阅读与素材：同一任务增补，沿用全读与V3记录；查看既有官方结构截图、用户PNG和Pomona案例已渲染第1–3页，抽取第2页设备照片并视觉确认；[来源记录](planning/2026-09-15/rfq-assets/source-v3-1.json)。没有生成或修饰产品外观。
+- 交付：[V3.1正文](planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md)、[Word](<output/docx/Group 2_Hardware RFQ_v3.1_Images.docx>)、[PDF](<output/pdf/Group 2_Hardware RFQ_v3.1_Images.pdf>)。共3页、4图，前2页需求与V3一致，仅版本标记变化；附图页含结构大图和2张场景图。
+- 验证：3页均以原始分辨率检查，图片完整、来源清楚、无页溢出；首次抽取PDF图片时误用文件名索引，改用pypdf图片序列后成功，源PDF未修改。[收尾验证](output/qa/rfq-v3-1-images-2026-09-16/closeout-validation.json)核对原正文、图片内容、旧文件保留及内部链接。
+- 收尾：同步当前版本入口、product、README、采购／供应商说明、decision-log及handoff；原V3及更早文件保留，无发送、询价回复、采购或实物测试。

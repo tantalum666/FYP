@@ -1,0 +1,85 @@
+{
+  "task": "Hands-free realtime voice model comparison and device tool-control recommendation",
+  "completed_at_utc": "2026-09-25T14:32:36.974542+00:00",
+  "same_research_continuation": true,
+  "inherited_full_read_record": "output/qa/new-concept-2026-09-25/reading-record.json",
+  "inherited_full_read_project_owned_markdown_files": 86,
+  "inherited_full_read_lines": 7847,
+  "inherited_read_batches": 69,
+  "current_focused_file_list_and_read_ranges": [
+    {
+      "file": "AGENTS.md",
+      "current_lines": 50,
+      "read_range": "1-50 (full; reread from current session)"
+    },
+    {
+      "file": "product.md",
+      "current_lines": 36,
+      "read_range": "1-36 (full; reread after edit)"
+    },
+    {
+      "file": "handoff.md",
+      "current_lines": 21,
+      "read_range": "1-21 (full; reread after edit)"
+    },
+    {
+      "file": "decision-log.md",
+      "current_lines": 474,
+      "read_range": "previous full read inherited; relevant recent section reread via tail -n 65, appended final 12 lines reread"
+    },
+    {
+      "file": "work-log.md",
+      "current_lines": 583,
+      "read_range": "previous full read inherited; relevant recent section reread via tail -n 35, appended final 12 lines reread"
+    },
+    {
+      "file": "research/2026-09-25-desk-companion/voice-model-cost-review.md",
+      "current_lines": 55,
+      "read_range": "1-55 (full; read before small banner addition; addition verified by search)"
+    },
+    {
+      "file": "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md",
+      "current_lines": 61,
+      "read_range": "1-61 (full readback after creation; final two-line wording edit separately verified)"
+    }
+  ],
+  "excluded_from_full_read": [
+    ".git",
+    "dependencies",
+    "caches",
+    "third-party packages",
+    "build outputs",
+    "automatically generated output/qa evidence snapshots; source record lists actual earlier exclusions"
+  ],
+  "normative_markdown_updated": [
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "research/2026-09-25-desk-companion/voice-model-cost-review.md",
+    "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md"
+  ],
+  "checks": {
+    "official_sources": "Opened provider model, pricing and function-calling pages through web; no API/hardware execution",
+    "arithmetic_usd_audio_only": {
+      "qwen_5plus5_minutes_per_day_30d_usd": 0.268965,
+      "qwen_8h_input_10m_output_per_day_30d_usd": 6.04539,
+      "gemini_5plus5_minutes_per_day_30d_usd": 3.4499999999999997,
+      "gemini_8h_input_10m_output_per_day_30d_usd": 77.4,
+      "openai_realtime_mini_5plus5_minutes_per_day_30d_usd": 4.5,
+      "gpt_live_10_active_minutes_per_day_30d_usd": 15.0,
+      "gpt_live_8_active_hours_per_day_30d_usd": 720.0,
+      "deepgram_voice_agent_standard_10_active_minutes_per_day_30d_usd": 22.5
+    },
+    "local_links": {
+      "checked": 297,
+      "missing": []
+    }
+  },
+  "limitations": [
+    "Prices are public list prices as of review; not invoices",
+    "Qwen estimate excludes repeated conversation history, output text, other tools, retries, and taxes",
+    "No provider account, audio quality, Chinese tool success, physical actuation, or continuous runtime tested",
+    "New concept Proposal DOCX/PDF not produced or submitted"
+  ]
+}

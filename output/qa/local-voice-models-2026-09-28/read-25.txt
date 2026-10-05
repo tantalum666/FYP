@@ -1,0 +1,239 @@
+
+FILE research/2026-09-25-desk-companion/realtime-voice-model-comparison.md L1-61 of 61
+# Group 2 免按键实时语音模型同口径比较
+
+核对日期：2026-09-25。状态：**公开规格与价格评估，未开通或实测任何语音 API**。按用户最新要求，本轮**不以服务地区筛选，不考虑按键说话**；研究免按键连续对话、能打断并通过函数调用控制 Group 2 桌面设备的方案。[上一份语音专项](voice-model-cost-review.md)的香港地区／按键首版结论仍保留为历史比较，本页的评选条件取代其“按键说话是首选”建议。这里的“所有”限定为截至本日可找到公开技术与计费依据、与实时语音和设备函数调用直接相关的主流方案；不能声称穷尽全部厂商或未公开型号。
+
+## 结论先行
+
+**纸面功能／费用首选：`qwen3.8-omni-flash-realtime`。**官方列明流式音频输入、文字＋语音输出、自定义 Function Calling／MCP、WebSocket／WebRTC、服务端 VAD；新加坡价为输入音频 **US$0.93／百万 token**、输出音频 **US$1.87／百万 token**，而该型号的音频换算为输入 **7 token／秒**、输出 **12.5 token／秒**。[型号](https://www.alibabacloud.com/help/en/model-studio/qwen3-8-omni-flash-realtime)、[价格](https://www.alibabacloud.com/help/en/model-studio/model-pricing)、[计量](https://www.alibabacloud.com/help/en/model-studio/realtime)。这使它成为本次同口径**新增音频用量**算例中最低价、又具备设备工具调用的单模型。它于2026-09-21才进入官方发布清单，缺少本组真实口音、噪声、工具选择和长时稳定性实验；**不能把最低标价直接写成已验证的最高性价比或实际月费**。[发布清单](https://www.alibabacloud.com/help/en/model-studio/newly-released-models)。
+
+**用户后续指定的考虑顺序：Qwen第一、Gemini第二、OpenAI Realtime第三、GPT-Live第四。**此处将“Realtime”按前一轮最常比较的低成本型号暂记为 `gpt-realtime-2.1-mini`，若后来指定完整版再调整。它有函数调用和官方可读取的每轮音频计量，VAD可过滤空输入；Mini 在指令／工具能力上可能弱于大模型，必须测具体任务。[OpenAI 型号](https://developers.openai.com/api/docs/models/gpt-realtime-2.1-mini)、[计费机制](https://developers.openai.com/api/docs/guides/voice-latency-cost)。第二位 `gemini-3.8-live` 支持异步函数调用和实时音频，但持续监听按输入音频计费，多轮又会重算上下文。[Google 型号](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-live)、[成本与上下文](https://ai.google.dev/gemini-api/docs/live-api/best-practices)。这是先后验证顺序，**不是四款都必须接入成品**。
+
+## 比较对象与自动操纵能力
+
+| 方案 | 免按键语音和设备工具 | 当前公开费率 | 适用判断 |
+|---|---|---|---|
+| [Qwen3.8 Omni Flash Realtime](https://www.alibabacloud.com/help/en/model-studio/qwen3-8-omni-flash-realtime) | 服务端 VAD、流式语音、可中断；自定义函数及远端 MCP。Pi 收到工具请求后执行。 | 新加坡价：音频入0.93／出1.87、文字入0.23／出0.70美元／百万 token；**播报时音频和相应文字均计费**。[价表](https://www.alibabacloud.com/help/en/model-studio/model-pricing) | **首选实测。**纸面音频成本最低且工具齐全；新型号的实际工具正确率和机上稳定性未知。 |
+| [OpenAI GPT-Realtime-2.1 Mini](https://developers.openai.com/api/docs/models/gpt-realtime-2.1-mini) | 语音到语音、打断、函数调用；VAD可自动分轮。 | 音频入10／出20美元／百万 token，文字入0.60／出2.40。[价格](https://developers.openai.com/api/docs/pricing) | **用户第三顺位／对照。**成本高于Qwen新增音频价，但空白输入可由VAD过滤；须测Mini的日历和设备工具正确率。 |
+| [OpenAI GPT-Realtime-2.1](https://developers.openai.com/api/docs/pricing) | 同类实时接口与工具。 | 音频入32／出64美元／百万 token | 能作能力上限对照；比Mini明显贵，不能在未测任务成功率时说其总体更划算。 |
+| [Google Gemini 3.8 Live](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-live) | 流式双向语音、打断、异步函数调用；工具执行可不阻塞整段会话。 | 输入音频约0.005美元／分钟、输出约0.018美元／分钟，文本与历史上下文另计。[价表](https://ai.google.dev/gemini-api/docs/pricing) | **用户第二顺位。**功能完整；该型号的主动监听一直开启，长时输入和多轮重算需纳入预算。 |
+| [OpenAI GPT-Live 1](https://developers.openai.com/api/docs/guides/live) | 全双工语音，复杂工作委派到独立后端；后端调用设备工具。 | 0.05美元／活跃会话分钟，双方静默或等工具也计，后端另计。[计费](https://developers.openai.com/api/docs/guides/voice-latency-cost) | **用户第四顺位。**自然对话参照，不适合整天保持活跃会话的低成本原型。 |
+| [Amazon Nova 2 Sonic](https://docs.aws.amazon.com/nova/latest/nova2-userguide/sonic-tool-configuration.html) | 实时语音及**异步工具调用**，AWS示例有真正双向与打断实现。 | [AWS官方应用算例](https://aws.amazon.com/blogs/machine-learning/live-meeting-assistant-with-amazon-transcribe-amazon-bedrock-and-strands-agents/)给约0.30–0.60美元／30分钟活跃语音，另有应用基础设施；具体账单依音频token和部署。 | 有能力但Bedrock流协议／部署工作更重，公开算例不足以断言比Qwen低价。 |
+| [Grok Voice](https://docs.x.ai/developers/models/speech-to-speech) | 实时WebSocket，函数、MCP、搜索等工具。 | 开发者型号页为**0.08美元／送入或输出的音频分钟**，文字输入另0.004美元／条；营销页出现过0.05分钟价，比较以本次开发者价为准。 | 有工具，但按本次价格没有成本优势。 |
+| [ElevenAgents](https://elevenlabs.io/pricing/agents) | 语音代理平台，可接LLM与外部工具，主打声音和托管。 | 额外语音通话约0.08美元／分钟，LLM另计；[长于10秒静默时有折扣](https://elevenlabs.io/docs/help-center/product/eleven-agents/how-much-does-eleven-agents-cost)。 | 产品平台而非单一语音模型；可作高质声音参照，不是低价硬件控制首选。 |
+| [Hume EVI 4 mini](https://www.hume.ai/pricing) | 情感表达语音界面，工具依赖补充LLM。 | 价格页实际切到“EVI 4 MINI”后，Starter／Creator列约0.035美元／分钟，Pro额外用量0.03、Scale 0.025；补充LLM另计。 | [官方仅列英、日、韩、西、法、葡、意、德、俄、印地、阿语](https://dev.hume.ai/docs/speech-to-speech-evi/configuration/evi-version)，**暂未列中文**；不适合本组中英文主演示。 |
+| [Deepgram Voice Agent API](https://developers.deepgram.com/docs/voice-agent) | 托管ASR＋LLM＋TTS流水线，支持中断与[客户端／服务端函数调用](https://developers.deepgram.com/docs/voice-agents-function-calling)。 | [标准Pay-As-You-Go为0.075美元／分钟](https://deepgram.com/pricing)，自带LLM/TTS与自备组件有不同价档。 | 平台可减少工程集成，但不是单个端到端模型；按标准价10活跃分钟／天约22.5美元／月。 |
+| [Azure Voice Live](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live) | 托管语音层可选GPT/Phi等后端，支持降噪、回声消除、打断、Avatar与函数调用。 | 由所选Pro／Basic／Lite模型、音频／文本token和可选Speech／Avatar组成，[官方没有一个通用每分钟价](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live)。 | 适合要集成品牌声音与视觉角色的团队，但不是比Qwen更低价的单模型证据；须指定型号和配置才可同口径算。 |
+| [豆包端到端实时语音](https://docs.volcengine.com/docs/DoubaoVoice/ProductOverview-5?lang=zh) | 中文拟人语音和打断较符合陪伴效果；[RTC方案](https://www.volcengine.com/docs/6348/1544162?lang=zh)在识别到函数意图时可交给另配LLM处理。 | RTC、语音模型、LLM／ASR／TTS可分项计，[官方RTC示例](https://www.volcengine.com/docs/6348/1392584?lang=zh)不能直接当独立端到端型号每分钟单价。 | 值得做中文声音质感对照；未查到与Qwen3.8相同配置、可直接换算的完整官方费率，**本次不排价格名次**。 |
+| 本地组合：ASR＋小文字模型＋TTS | 本地唤醒词或VAD，Pi允许名单控制屏幕／灯／云台；可离线 | 无逐次云端费用，另有主机、散热、训练／维护工时 | 不应与上述端到端模型称为同一种“语音模型”。Pi5 8GB尚无本项目实时双工性能证据；作为离线与隐私基线。 |
+
+DeepSeek、Kimi等**文字模型**可以替换工具决策的后端，但通常不能单独承担这一表里的实时收音与自然语音输出；需要额外 ASR/TTS或一个语音前端。[MiniMax当前公开语音价表](https://platform.minimax.io/subscribe/token-plan?tab=api-enterprise)列的是TTS字符计价，也不能直接当一套实时听说＋工具模型的价格。把文字模型或单独TTS的每百万token／每万字符价格和完整语音会话价格直接比较会漏掉最贵或最慢的环节。
+
+## 同口径成本：短时对话与全天待命
+
+下表用同一个假设演算，方便看数量级，**不是任何厂商已向本组开出的账单**。短时场景：每天用户说5分钟、助手说5分钟、30天；全天场景：每天向服务端送入8小时音频，并让助手每天说10分钟、30天。只计算可直接由公开费率换算的**新增音频**，排除历史上下文重算、系统提示词、工具／网页调用、输出文字、失败重试、税和设备成本。对不按新音频token计费的型号注明自身口径。
+
+| 模型 | 5分钟用户＋5分钟助理／天，30天 | 每天送入8小时＋输出10分钟，30天 | 为什么实际账单会不同 |
+|---|---:|---:|---|
+| Qwen3.8 Omni Flash Realtime | **约US$0.27** | **约US$6.05** | 输入7 token／秒、输出12.5 token／秒；输出文字另计；多轮历史音频和指令反复计入。[官方计量](https://www.alibabacloud.com/help/en/model-studio/realtime) |
+| GPT-Realtime-2.1 Mini | **至少约US$4.50** | 不把8小时直接乘音频价；VAD过滤的空输入目前不计模型输入token | 旧会话内容与输出会进入下一轮、文本另计；若客户端手工提交静音音频则可能计费。[官方说明](https://developers.openai.com/api/docs/guides/voice-latency-cost) |
+| Gemini 3.8 Live | **音频基础约US$3.45** | **音频基础约US$77.40** | 主动监听永久开启，输入持续计费；历史上下文每轮重算、转写与文本另计。[官方说明](https://ai.google.dev/gemini-api/docs/live-api/best-practices) |
+| GPT-Live 1 | **活跃10分钟／天约US$15** | **活跃8小时／天约US$720** | 语音前端计整段会话；后端模型／工具另计。[官方说明](https://developers.openai.com/api/docs/guides/voice-latency-cost) |
+
+Qwen的算式可复核：短时每月为`30×[(300×7×0.93＋300×12.5×1.87)÷1,000,000]≈0.269美元`；全天为`30×[(28,800×7×0.93＋600×12.5×1.87)÷1,000,000]≈6.045美元`。这不是“长时间开着肯定只要6美元”：模型每轮仍会再次处理留在上下文中的历史音频，实际账单需要用代表性会话的usage字段核对。官方亦规定单个WebSocket会话最长120分钟；全天运行要有重连和短历史摘要。[连接限制](https://www.alibabacloud.com/help/en/model-studio/realtime)。
+
+**免按键不等于要把全天室内声音都传到云。**本地唤醒词／本地VAD自动触发后，打开短的实时会话、无声一段时间后关闭，用户全程不按按钮。它能减少传输、误触发与计费；与真正“全天云端收音”是两个需要分别测试的用户体验。若用户要求连唤醒词也不要，Qwen在纸面**单位音频**价格仍低，但全天总价尚无可靠冠军：OpenAI官方说服务端VAD会过滤未被手动提交的空输入，而Qwen连续送音的静默计费细节需用usage实测。8小时噪声、多人说话和误调用也会改变真正的性价比。
+
+## “模型自动操纵设备”应如何实现
+
+模型不能直接连Pi GPIO或任意执行shell。可由Pi提供短的、带类型校验的工具，例如：`get_today_schedule`、`create_reminder_draft`、`set_focus_mode`、`set_display_scene`、`set_indicator_color`、`move_avatar_head`。用户说“把屏幕变暗并显示下一场会议”，模型返回两个函数调用；Pi验证参数、权限和当前状态后执行，回传真实结果，模型再口头说明。灯光／动画这类可逆动作可直接执行；新增／更改日历事项先读回、明确复述并确认，不把识别错的时间静默写入。[Qwen函数调用流程](https://www.alibabacloud.com/help/en/model-studio/realtime)、[Google异步工具](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-live)、[AWS工具流程](https://docs.aws.amazon.com/nova/latest/nova2-userguide/sonic-tool-configuration.html)均是“模型提出、应用执行、结果回传”的模式。
+
+Qwen3.8的官方限制包括**内置网页搜索与自定义工具调用不能在同一个会话同时启用**、单WebSocket最长120分钟，以及上下文会丢弃超过上限的旧音频；我们优先使用设备工具，把日历和必要外部资料交给自己的受限后端。[官方限制](https://www.alibabacloud.com/help/en/model-studio/realtime)。
+
+## 选型必须通过的本组实验
+
+这是一份**按公开资料筛出的短名单**，不是语音质量或中文工具调用排行榜。新Qwen型号发布不久，不能凭厂商支持列表认定其在本桌面麦克风、房间噪声、普通话／英文切换及连续运行中好用。按用户指定顺序先测Qwen、再测Gemini；若需要第三个对照，再测OpenAI Realtime Mini；GPT-Live排第四。对进入测试的型号使用同一硬件、同一工具schema、同一日历数据，至少做：
+
+1. 30个普通话／英语日程查询与提醒命令，含时间歧义、取消和改口；统计正确工具、参数、真正成功的设备动作，不能只统计模型口头说“已完成”。
+2. 20个设备动作（屏幕、灯、头像小云台）与10个**不应执行**的含糊或背景语音；错误实体动作必须单列，不能被总体回答正确率掩盖。
+3. 10个说话中打断、10个噪声／多人声场景；记录端到端第一句有效回答的p50／p95、误触发、错误打断、掉线／重连和10分钟及连续2小时账单。
+4. 成功任务成本＝该模型实际账单÷正确完成且用户确认的任务数。若便宜模型误动作多、需重复三次，最终性价比可能反转。
+
+**当前执行顺序：先用Qwen3.8 Omni Flash Realtime做免按键＋函数控制的首个原型；需要能力对照或Qwen不稳时，第二测Gemini3.8 Live；第三是OpenAI Realtime Mini，第四才考虑GPT-Live。**顺序来自用户最新选择，是否切换仍应看同任务实测，不能为了最低token价降低重要提醒或实体设备动作的可靠性。此前“必须按键说话”是上一轮为降低费用提出的工程建议，本轮不再把它作为模型选型的前提。新学校Proposal仍待定稿、无实机API证据。
+
+FILE research/2026-09-25-desk-companion/voice-model-cost-review.md L1-55 of 55
+# Group 2 桌面助理语音方案：成本、模型与本地训练
+
+核对日期：2026-09-25。状态：**公开资料比较，未建立 API 账号、付费、下载安装模型或在 Pi／Mac 上跑音频基准**。本页修正[总体可行性研究](feasibility-review.md)中把 GPT-Live 当成直接可用候选的印象。Group 2 原型面向香港，提供商的地区及账号可用性必须先于报价比较。
+
+**后续筛选条件更新：**用户要求暂不考虑地区与按键说话，优先比较免按键实时语音和设备工具调用。对应的[新比选](realtime-voice-model-comparison.md)取代本页“按键说话为首选”的建议；本页地区与分段式成本研究作为当时条件下的记录保留。
+
+## 最重要的新发现：地区可用性
+
+[OpenAI API 官方支持地区](https://developers.openai.com/api/docs/supported-countries)与[Google AI Studio／Gemini Developer API 官方地区](https://ai.google.dev/gemini-api/docs/available-regions)截至本次查询均**没有列香港**。这不是声称用户的 ChatGPT App 不可用，也不是对所有经合法企业渠道提供的模型服务作否定；它表示不能把两家**直连 Developer API**写成香港 FYP 的确定依赖，更不能为降低成本自行绕过地区限制。实际账号、学校安排与目标部署地区仍需分别核对。
+
+[阿里云 Model Studio 的官方区域表](https://www.alibabacloud.com/help/en/model-studio/regions)则列有 `cn-hongkong` 工作空间、端点和实时推理能力。[官方价表](https://www.alibabacloud.com/help/en/model-studio/model-pricing)明确列出香港区域 `qwen3.8-flash` 文字模型的 Global 部署价：输入 **US$0.113／百万 token**、输出 **US$0.382／百万 token**。这是文字处理的公开单价，非整套语音通话价格；账户能否开通、该工作空间的具体模型和费用应以实际控制台再次核对。香港区域的**语音实时模型可用性及对应定价**没有从这张公开价表得到同等明确的逐型号确认，不能把新加坡 `qwen3.8-omni-flash-realtime` 标价直接当香港报价。
+
+另一个已核的**香港云端语音备选**是[阿里云 `qwen3.8-omni-flash`](https://www.alibabacloud.com/help/en/model-studio/qwen3-8-omni-flash)：官方型号页明确列香港区域，接受音频输入、输出文本并支持工具调用；它适合“一段语音指令→文本答案／日历操作”，**并非直接生成语音的实时型号**。香港[价表](https://www.alibabacloud.com/help/en/model-studio/model-pricing)列其 Global 部署输入US$0.113、输出US$0.382／百万 token，但实际音频 token 数要由代表性录音实测，不能把该价格误写成每分钟价格。需要较自然的云端播报时，[Azure Speech 官方区域表](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/regions)列 East Asia (`eastasia`) 支持基础语音服务；[微软地区表](https://learn.microsoft.com/en-us/azure/reliability/regions-list)将 East Asia 列在香港。账户、所选声音、具体计费和学校访问权限仍待核实，未建立资源。
+
+## 能选哪些架构
+
+| 路线 | 实际结构 | 已核价格／成本口径 | 适合本项目的取舍 |
+|---|---|---|---|
+| A. [GPT-Live 1](https://developers.openai.com/api/docs/guides/live) | 云端语音会话＋另一个后端负责日历工具 | [US$0.05／活跃会话分钟](https://developers.openai.com/api/docs/pricing)，静默与工具等待也计时，后端另计；10分钟／天×30天约US$15语音费 | 自然打断与边说边查最贴近演示，但常开昂贵，且香港直连 API 不应预设可用。 |
+| B. [GPT-Realtime-2.1 Mini](https://developers.openai.com/api/docs/models/gpt-realtime-2.1-mini) | 单个实时模型收音、说话、调用工具 | 音频输入**US$10／百万 token**、输出**US$20／百万 token**；文字输入0.60／百万、输出2.40／百万；不是固定每分钟收费 | [官方](https://developers.openai.com/api/docs/guides/voice-latency-cost)指出较便宜，但小模型的指令遵循／工具调用可能较弱，需测成功率；同样有香港直连可用性问题。 |
+| C. [Gemini 3.8 Live](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-live) | Google 实时音频模型 | [公开价](https://ai.google.dev/gemini-api/docs/pricing)：输入音频约US$0.005／分钟、输出音频约US$0.018／分钟，另有文本及反复处理会话上下文的费用 | 价格形式看起来低，但官方 Developer API 地区列表未列香港；[长对话会重计上下文](https://ai.google.dev/gemini-api/docs/live-api/best-practices)。不能作为当前香港原型的必需服务。 |
+| D. **语音转文字 → 便宜文字模型 → 文字转语音** | 按键录音，用本地或按段 ASR 得到文本；日历工具由程序校验；短句 TTS 输出 | 若地区适用，[OpenAI Mini 转写](https://developers.openai.com/api/docs/pricing)约US$0.003／输入音频分钟；[Mini TTS](https://developers.openai.com/api/docs/models/gpt-4o-mini-tts)按文字输入及音频输出 token 收费。香港可选本地ASR，或让`qwen3.8-omni-flash`处理音频输入；文字中段用香港Qwen，TTS本地或另选合适的香港语音服务 | **首选 FYP 主线。**成本按真正处理的语音和文字产生，不必维持昂贵会话；中间文本可审查，日历修改更容易确认。代价是轮流说话，打断体验和响应时延须实测。 |
+| E. 尽量本地 | Pi 上用[whisper.cpp](https://github.com/ggml-org/whisper.cpp)作多语言 ASR，受限意图／日程规则或经[llama.cpp](https://github.com/ggml-org/llama.cpp)加载量化小模型，使用本地 TTS | 无逐次云端语音 API 费，但有设备、供电、性能调校和维护成本 | 隐私及离线演示有价值；Pi5 8GB能否同时达到所需中文／英文准确率、首音延迟和散热尚未测。先在 Mac 验证正确性，再在 Pi 测整机。 |
+
+[OpenAI Docs 的语音代理指南](https://developers.openai.com/api/docs/guides/voice-agents)也把实时会话和三段式语音链列为不同架构，后者的优势是每阶段可单独换模型、检查文字及控制工具。**模型选择不改变提醒策略的主目标**：本地固定提醒和按钮操作即使断网也应继续；自然聊天可降级。
+
+### 同口径的算术示例
+
+这只是说明计费结构，不是我们的实际账单。假设每天有一段总共10分钟的语音交互，其中用户说5分钟、助理说5分钟，连用30天：
+
+- GPT-Live 1：活跃会话10×30×US$0.05＝**US$15**，仍要另计后端模型与工具。
+- GPT-Realtime-2.1 Mini：按[官方计量说明](https://developers.openai.com/api/docs/guides/voice-latency-cost)，用户音频约10 token／秒、输出音频约20 token／秒。只算**新产生的一次音频量**：5×60×10×10／1,000,000＋5×60×20×20／1,000,000＝**US$0.15／天，30天US$4.50**。真实账单还会重计会话历史、文字 token，可能另有转写费；不能把4.50当总价。
+- Gemini 3.8 Live：仅新音频输入5×0.005＋输出5×0.018＝**US$0.115／天，30天US$3.45**；会话上下文及额外文字费用另算，而且当前直连地区限制使其不成为香港首版承诺。
+- OpenAI Mini 按段转写：只算5分钟用户语音，5×30×0.003＝**US$0.45／月**；文字模型、TTS、请求失败及重试另算。此报价仍以 OpenAI API 在适用地区可用为前提，不能在香港直接照抄部署。
+- 香港 Qwen 文字中段：假设每月1000次、每次1000个输入与300个输出 token，文字费为1,000,000／1,000,000×0.113＋300,000／1,000,000×0.382＝**约US$0.23／月**；ASR、TTS、网络和更长上下文另计。1000次和 token 数完全是假设，不代表已获得真实使用量。
+
+三段式要报真实成本时，保留每次的输入音频秒数、转写调用、文字输入／输出 token、TTS 输出 token 或字符数、失败重试和月总次数；拿相同20–30句英语／普通话指令测试，比较首个有用语音的时延、中断能力和日历操作成功率，而不只看宣传单价。
+
+## “我们自己训练”应怎样理解
+
+**从零训练语音大模型不合适。**三人半年、M2 Pro／16GB及未确定的 Pi5 资源，不具备从零建立高质量多语言 ASR＋对话＋自然 TTS 所需的数据、计算、标注和全面评估。省下小额 API 费，可能换来几个月的训练与兼容性工作，而且更难达到现成模型的自然交互。这里的“不可取”是当前项目资源与目标的工程判断，不是数学上任何人都不可能训练。
+
+更合理的三个层次：
+
+1. **先复用预训练模型并直接运行。**[whisper.cpp 官方仓库](https://github.com/ggml-org/whisper.cpp)列 Raspberry Pi、CPU 推理和量化支持；一定要选多语言模型，不能用 `base.en` 仅英文模型来测试普通话。文字生成可先用受控规则或香港可用的云端小模型；如果要全离线，再以 `llama.cpp` 的小型量化模型做有界对照。模型“能加载”不等于声学噪声和整机延迟合格。
+2. **有数据后训练真正属于本项目的部分。**例如从用户主动反馈学习“这个提醒现在适不适合”，用日程紧迫度、是否在桌前、明确专注模式、近期延后次数等特征训练一个小分类／排序模型；与固定规则和无学习基线比较，按人和日期分离测试集。这比微调聊天模型更对应 FYP 痛点，且可在现有 Mac 上完成。
+3. **只有明确失败原因才微调语音。**[Qwen3-ASR 0.6B](https://github.com/QwenLM/Qwen3-ASR)和[Qwen3-TTS 0.6B](https://github.com/QwenLM/Qwen3-TTS)提供公开权重与中文／英文能力，但其桌面或服务器示例不能证明可在 Pi5 8GB 上低延迟并行运行。要针对真实口音、环境噪声和设备麦克风积累有权使用的录音，先做错误分析；无这些数据时微调不可能凭空提高准确率。
+
+本地 TTS 的轻量候选是 Piper。[原作者仓库](https://github.com/rhasspy/piper)已归档，列有[简体中文 huayan 声音](https://github.com/rhasspy/piper/blob/master/VOICES.md)；[后续维护仓库](https://github.com/OHF-Voice/piper1-gpl)为 GPL-3.0。用于原型时应先听声音、实测 Pi 速度，并逐项核对引擎与语音文件许可；不要把“开源”理解成所有素材自动可随意商用或分发。
+
+## 建议的决定
+
+当前不要锁死 GPT-Live 或承诺全天候云端陪伴。**首个实机验证：Pi 按键说话＋本地多语言 ASR＋程序化日历权限／提醒策略＋本地 TTS；并用同一批指令比较香港区域 `qwen3.8-omni-flash` 的音频输入→文本能力。**需要开放式对话时可接香港区域Qwen文字模型；若本地声音不够好，再核对 Azure East Asia 等语音服务的实际账单与许可。这能在没有云语音时完成核心闭环，也让语音服务可替换。实时双工体验可作为进阶实验，而非 Proposal 的唯一实现路线。
+
+此处“建议”尚未由用户／Marco选定；没有新的训练结果或供应商报价。下一版正式 Proposal 应写成可替换的语音架构，不以不受香港直连支持的 API 作为唯一交付前提。
+
+FILE research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md L1-40 of 40
+# Group 2：AVA 风格角色显示的光学辨别与首个样机
+
+核对日期：2026-09-26。状态：**公开资料、用户截图和工程推断；无 AVA 拆机、淘宝卖家结构图、购入设备或实物光学测试**。本篇修正[早期形态比较](razer-ava-like-feasibility.md)和[直接屏幕 A 路线](../../planning/2026-09-26/ava-cylinder-route-a.md)中可能让人误以为“AVA 已知使用正面屏幕”的表述。用户要的是 AVA 式**角色似乎悬浮在容器中**，不是仅把角色视频播放在一个可见的平板屏上。
+
+## 能确认的 AVA 信息与不能确认的内部结构
+
+[Razer AVA 官方产品页](https://www.razer.com/razer-ava)明确写有 5.5 英寸 display，并把效果称为 animated 3D hologram；结构图列出摄像头、麦克风、灯、扬声器和 USB-C。该页与[官方新闻稿](https://www.razer.com/newsroom/product-news/project-ava)没有显示内部光路、屏幕安放位置、是否有斜反射片、是否有多视角光学层，亦未见拆机。因此“AVA 正面直接塞屏幕”“AVA 肯定是 Pepper’s Ghost”“AVA 是全息风扇”都**没有证据**。从官方文字能确认的是有显示单元，不能据此推定显示单元直接立在可见容器内。
+
+## 用户图片提供的线索
+
+- [IMG_0297](</Users/tantalum/Downloads/IMG_0297.PNG>)的淘宝列表图中能清楚看到黑色旋转臂／叶片，商品标题也写“全息风扇”。其工作机理与[旋转 LED 显示专利](https://patents.google.com/patent/CN109003473B/en)描述一致：电机带动带 LED 的叶片旋转，控制器按角度点亮 LED，以视觉暂留形成图像。它在**叶片扫过的平面**形成悬浮错觉，并不代表空间内有可从任意角度观看的真实体积图像。商品技术已有成熟供应，但用户近距离放桌面的具体型号仍须查封闭防护、噪声及实时输入；详见[成熟度与适配复核](hologram-fan-maturity.md)。
+- [IMG_0294](</Users/tantalum/Downloads/IMG_0294.PNG>)中的红色盒子侧放时，透明舱里能看到一片斜透明板；另几张商品图显示角色似乎在透明盒中。**斜板是图像反射式 Pepper’s Ghost 的强线索，但图片无法证明该卖家的屏幕位置、反射膜类型、实际亮度或 3D 深度**。最可能的解释是屏藏于底部／顶部／后部，约 45° 透明片把亮角色反射向正面视线；观看者见到虚像，舱内没有悬空发光实体。
+- [用户提供的 AVA 网页截图](</var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/codex-clipboard-13c05e29-bdb2-4516-b6f2-6beb88a295f7.png>)只显示最终效果，不能看清光学截面；不能拿它证明 AVA 与淘宝盒子同一种光路。
+
+## 不转动的反射盒究竟怎么工作
+
+设一块小 OLED／LCD 平放在黑色底座，画面只在纯黑背景上绘制亮角色。盒内用约 45° 透明玻璃／光学片把屏幕光转向观看者；透过片子还能看到暗背景，所以角色像出现在盒子中。这个光学假象通常称 **Pepper’s Ghost**。它仍需一块真实显示屏，只是屏被藏在底座或顶盖，**不是一块正面竖立在透明舱里的屏**。[Adafruit 的实作教程](https://learn.adafruit.com/monster-mask-augmented-eyes-toon-hat)解释了玻璃同时透光和反射、45°安装、亮度与角度控制，并指出普通亚克力可能产生轻微双影。
+
+```text
+             观看者
+                ← 反射光
+     透明舱  ／ 约45°透明反射片
+            ↑
+       底座内隐藏屏幕
+```
+
+这是**单视图／有限视角的虚像**，角色本身仍是 2D 视频或渲染；3D 角色模型可让动作看起来立体，但不自动提供真实视差。黑背景、屏幕亮度、片材平整度、前后距离、环境照明和防漏光比屏幕的宣传“全息”字样更决定效果。反射会造成镜像方向问题，画面须相应翻转。透明舱越小，完整身人物、底部日历大字与外罩空间越难同时兼顾。
+
+## 与本项目匹配的下一步
+
+1. **先做最小反射光学台架**：用现有手机或借来的小屏播放黑底角色动画，黑纸板遮光，试一片玻璃与一片亚克力，做可调角度的约 45° 支架。先测白天室内、夜间、桌面正常距离、正面和左右偏移；记录人物是否像悬浮、双影、反光、亮度和可看视角。这个验证不用等机械臂或完整语音系统。
+2. 若达到用户想要的观感，再把隐藏屏、反射片、挡光层和可拆透明外罩设计为**圆柱外观**；但圆柱曲面可能带来额外反光，因此先用方形测试盒验证光路再改圆柱。固定坐姿摄像头与机械臂不进入成像视线。Pi／其他主机只负责播放画面，光学效果主要由物理装配决定。
+3. **直接正面屏 A 路线保留为低风险后备／对照**：它能展示角色和日历，但“角色悬浮”的说服力弱；不能再把它作为 AVA 同款光学结构或默认首选。若反射像日历字太暗，可另用实体小屏／手机端显示 TimeTable，或者在同一隐藏屏上切换大字模式并实测可读性。
+4. [Looking Glass Go 官方页](https://checkout.lookingglassfactory.com/products/looking-glass-go)所示光场屏是另一种无风扇方案，可产生多个视角的视差，但与用户截图的斜片盒子不是一回事；其集成复杂度与角色内容工作量也高，不在首个样机门槛内。
+
+**2026-09-26补充：**[全息风扇成熟度复核](hologram-fan-maturity.md)确认商用风扇已有实时输入，18–20cm封闭桌面款也存在；因此风扇不应被排除。采购前应先核对**确切小型号**能否实时接Pi/Mac画面、保护罩和噪声，再与上述反射台架同场景比较。上面先做反射小样是因为可借现有材料，不表示风扇技术不成熟或视觉效果必然差。
+
+若考虑直接买用户截图中的成品盒当显示模块，采购前须取得**真实外部视频输入**（例如 HDMI 或可作为电脑外接显示器的 USB-C）、可显示自制动画及其分辨率／方向的明确证据。商品写“支持 DeepSeek／豆包”“可以换角色”不等于 Pi 能实时把本组原创角色画面送进去；该截图没有展示足够接口资料，现阶段不能把它列为已可集成的屏幕。
+
+**证据界限：**用户截图只能支持“风扇款明显有叶片”“无风扇盒有可见斜片”。卖家实际电路、AVA 商用品的内部光路，以及 Group 2 能否做出相同观感，均待拆机资料或自家台架实测，不得在学校 Proposal 写成已验证结果。
+
+FILE research/2026-09-26-desk-companion/hologram-fan-maturity.md L1-37 of 37
+# Group 2：全息风扇成熟度与桌面 AI 角色适配
+
+核对日期：2026-09-26。状态：**官方厂商资料与工程判断；没有购买、实测、认证核验或联系卖家**。本篇回应用户“全息风扇技术是不是已经很成熟了”。它补充[上轮光学辨别](ava-optics-fan-vs-reflection.md)，不推断 Razer AVA 采用了风扇。
+
+## 答案分两层
+
+**作为播放广告／预制动画的商品技术，已经成熟。**[HYPERVSN SmartV Solo](https://hypervsn.com/smartv-solo)提供四叶旋转 LED 显示、内容管理、保护罩／玻璃盒、HDMI 和实时流；其[知识库](https://hypervsn.com/knowledge-base)列 Player／HDMI／RTSP Stream 模式、保护和紧急停机功能。已有小型化商品：[HDFocus 18cm桌面款](https://www.hd-focus.com/hologram-fan/table-type-fan/small-table-3d-hologram-holographic-fan.html)带透明保护罩，列 MP4／GIF 等格式与 App／Wi-Fi／SD 更新；[Giwox Holo-20V](https://www.giwox.com/en/productdetail.aspx?detailid=218)为 20cm，列 528×528、App／PC软件换内容。厂商规格属于自述，没有对具体淘宝 SKU 做验收。
+
+**作为本组“近距离、免按键语音、角色实时响应”的显示模块，成熟程度取决于具体型号的接口。**商用高端产品有 HDMI／RTSP，不等于上述18–20cm款也有。18cm HDFocus与20cm Giwox公开页面只证明可上传内容／用App控制，没有明确证明能把Pi或Mac的连续实时画面直接送入；不能把“支持上传MP4”写成“支持实时口型同步”。若设备只接受文件，可以预置`idle/listening/speaking/posture_alert`短动画，但细腻嘴型、随时打断和高频切换需要实测更新延迟／API，可能受限。
+
+## 即时反馈一定要 HDMI 吗？
+
+**不一定。预置内容与即时反应并不矛盾。**Pi识别“持续前倾”后，可以让独立扬声器马上播提示、状态灯马上变色；如果风扇**确实提供可由Pi调用的本地控制接口**，还可以把已存在机内的`posture_alert.mp4`切到前台。这个画面是预先做好，但切换事件是实时触发的。不能把厂商App里“可手动点选视频”直接当成Pi可自动调用的API；要取得具体型号的公开协议／SDK／接口文档或实机测试。
+
+若想让每句话的嘴型、每次新日程文字和角色动作**按实时数据逐帧变化**，设备须有持续输入渠道：HDMI、RTSP低延迟视频流、能逐帧写入的SDK／网络协议，或足够开放的机内渲染程序都可以。HDMI只是一种通常易理解的办法，并非即时反馈的必要条件。[HYPERVSN官方模式说明](https://hypervsn.com/knowledge/what-are-the-available-smartv-operating-modes-player-hdmi-stream-and-cloud)清楚区分机内Player、HDMI与RTSP Stream；[HDFocus官网](https://www.hd-focus.com/hologram-fan/hdmi-input-hologram-fan/)目前把实时HDMI系列列在100–180cm，而其18cm桌面款页面仅列文件和App／Wi-Fi／SD更新。这只能说明**核到的系列**不同，不能推断市面上所有小风扇都无实时接口。
+
+对首版FYP而言，坐姿偏离→语音／灯光立即反馈→风扇切换预制提醒动作，已经可构成实时交互；下一步需证明切换命令由程序发出且延迟可接受。如果只有人工App上传或遥控器切换，便不能把该SKU写为自动反馈显示端。语音仍由Pi／音箱实时播，风扇只负责视觉；口型可以先用循环`speaking`动画，不宣称逐音素同步。
+
+## 风扇不是低级方案，但有不同的物理边界
+
+- 旋转LED在叶片扫过的平面形成图像，立体造型主要来自所播放内容的透视与黑背景；它不是可从任意方向检查人物背面的真实体积显示。[HYPERVSN原理页](https://hypervsn.com/smartv-solo)。
+- 亮度和远距离观看通常是强项；小型桌面型号能否在约半米距离看清面部、字幕与日历，不能从大机宣传片推断。小尺寸的真实可显示细节须拍摄/现场验证。日历的细字可能需要独立实体屏；这是一项**待验证的设计推断**。
+- 风扇有持续旋转机械噪声，并在透明罩内靠近麦克风。[HYPERVSN官方噪声页](https://hypervsn.com/knowledge/what-are-the-operational-noise-levels-of-the-smartv-solo)给商用M款45 dB、L款53–55 dB，测量距离1m；这**不是**用户淘宝小款的噪声数据。要在拟采用小款上同时测唤醒、收音与语音打断。
+- 罩壳、碰撞停机和散热是整机设计的一部分。HYPERVSN列有保护附件和紧急停机，说明成熟方案并非把裸露叶片摆在桌面即可；不能把其保护功能推定到便宜小款。[官方知识库](https://hypervsn.com/knowledge-base)。
+
+## 对 Group 2 的调整
+
+不再凭“风扇看起来像广告装置”排除它。与隐藏屏＋斜反射片**并列做两个小规模候选验证**：反射式可先用现有手机和片材，不必采购；风扇式须先筛到具体**有封闭保护罩且可展示本组角色的SKU**，获取接口与延迟证据，之后才值得采购／借用做实测。直接正面屏仍为显示保底。这个比较是工程建议，用户尚未最终选定显示技术。
+
+| 台架问题 | 需要看见的证据 |
+|---|---|
+| 能否接实时画面？ | 对**确切小型号**确认HDMI、RTSP或公开SDK；用电脑切换角色状态的现场视频／说明，不用大型号的接口代替。 |
+| 若只能上传文件，状态更新多快？ | 连续切换`idle→listening→speaking→alert`，量测从Pi发命令到画面更新的延迟。 |
+| 桌面近距离观感怎样？ | 约0.5–1m、白天和室内灯下，从正面与左右移动录制脸部、动作和日历小字；与反射像同场景比较。 |
+| 对语音和安全有什么影响？ | 装上实际保护罩后测麦克风背景噪声、唤醒／打断、机械振动、两小时温度与碰撞断电；不借用大机厂商的数据。 |
+
+FYP的技术贡献可以落在**坐姿检测→具体反馈→复测、日历状态和语音受限动作联动**；使用成熟显示模块有利于把时间留给这些必做能力。但显示选型与整机可行性仍需本组实验，不能把厂商成熟度直接写成原型验证结果。
+
+FILE research/2026-09-26-desk-companion/razer-ava-like-feasibility.md L1-36 of 36
+# Group 2 Razer AVA 式桌面形态可行性复核
+
+核对日期：2026-09-26。状态：**官方公开资料与工程方案比较，未采购、拆机、测光学、跑姿态／语音或驱动机械臂**。用户希望新项目尽量做成 Razer AVA 那样。本研究把“外形与悬浮角色体验”作为明确设计偏好，但**不把精确复制 AVA 未公开的光学和商业完成度写成 FYP 必做成效**。用户新增的淘宝截图中，风扇款有可见叶片，无风扇盒子有可见斜片；详细辨别与首个样机见[光学补充](ava-optics-fan-vs-reflection.md)。现有[中文 Proposal 第二版](../../planning/2026-09-25/desk-companion-proposal-zh-review-v2.md)仍待评审；下一版英文稿需要选定视觉实现路径。
+
+## AVA 公开信息能确认什么
+
+[Razer AVA 官方产品页](https://www.razer.com/razer-ava)展示圆柱形透明／深色外罩、5.5英寸动态“3D hologram”角色，并**明确称其有5.5英寸display**；还列双远场麦克风、HD摄像头及环境光传感、装饰灯、底部扬声器、实体静音／音量键和USB-C数据／供电口。其[新闻稿](https://www.razer.com/newsroom/product-news/project-ava)还宣传角色眼神、表情和口型同步。官网FAQ明确目前设计为**USB-C直连Windows电脑**，其PC Vision模式依赖主机；它并不是公开证实可在树莓派上独立运行的方案。官网结构图没有机械臂，机械臂是Group 2自己的增加项。公开页面没有披露屏幕位于筒内哪里、光学路径、视角、实时渲染负载或外壳机械图；既不能据此说是正面直接屏，也不能确认其用了斜片反射、LED风扇或光场显示。
+
+## 四种做法与难度
+
+| 路线 | 视觉结果 | 对三人半年FYP的判断 |
+|---|---|---|
+| **A 圆柱外壳＋前向小屏＋深色背景角色** | 5–6英寸LCD／OLED藏在深色或半透明罩后，2D／简化3D角色配灯环、口型和表情，从正面看有“角色住在容器里”的感觉。没有真正多视角立体深度。 | **保留为后备和对照。**集成较简单，便于显示日历，但可见面板感更强；这是本组可做的替代法，绝非AVA已证实的内部做法。 |
+| **B 隐藏屏＋倾斜反射片的悬浮像** | 隐藏屏和约45°透明片让角色的虚像看似浮在盒内。Adafruit对Pepper's Ghost的教程说明可用玻璃或亚克力，但效果受环境光和观看位置影响，亚克力可能出现双影。[教程](https://learn.adafruit.com/monster-mask-augmented-eyes-toon-hat) | **若目标是悬浮观感，优先做廉价光学台架。**用户截图中的无风扇盒有斜透明片，支持这种工程推断，但不能证明该卖家或AVA的内部结构。 |
+| **C 现成小型光场显示器** | 如[Looking Glass Go](https://checkout.lookingglassfactory.com/products/looking-glass-go)的6英寸多视角显示，可提供真实视差；官方列最多100视角、约58°观看锥、可连接Apple Silicon Mac。 | **光学效果更接近多视角3D，但集成工作更重。**机身形式不是AVA圆筒；需自制壳体和3D角色内容。厂商列出的电脑主机要求没有Pi5，因此不能把Pi实时驱动光场动画写成已验证方案。 |
+| **D 旋转LED风扇** | 带LED的叶片快速旋转，按角度点亮形成视觉暂留图像；图像主要处在叶片扫过的平面。 | [成熟度复核](hologram-fan-maturity.md)表明商用设备已有HDMI／实时流，18–20cm带罩桌面款也存在，**应纳入候选**；但小款是否也有实时输入、罩壳和可接受噪声，必须逐型号验证。 |
+
+**修正后的结论：**若“像AVA”主要指角色看似悬浮在容器中，先用已有材料做B路线反射小台架，同时筛选一款有保护罩、可实时输入的D路线**具体小型号**；两者在同一桌面距离、光线、语音和角色状态切换条件下比较，才确定显示方案。A路线保留显示保底，C路线为更重的多视角探索。若要求与AVA商业展示同等的多视角“3D hologram”、长时自然陪伴、远场收音、眼动、PC画面理解和精细动画全部同时完成，三人半年里风险过高，公开资料也不足以复制其内部方案。
+
+## 与本项目必做功能的合体方式
+
+建议保留一个**不随机械臂运动的固定摄像头**在圆柱顶缘或显示器旁，确保坐姿标定坐标不因角色动作改变。摄像头画面在本地进行姿态关键点和时间窗判断；角色可以通过简化头部转向或表情表示“正在听／发现持续偏离／等待确认／已调整”，嘴部动效先用输出音频强度或受控口型序列驱动，不能声称达到AVA的眼动追踪精度。
+
+小型2–3自由度机械臂宜从底座侧面伸出或折叠收纳，举起轻量提示件／指向屏幕中的日程。把机械臂穿过光学成像区会挡住角色或产生反光；把姿态摄像头装在活动臂上会破坏固定机位基准。机械臂与Pi／显示屏分电源支路、有行程限位与停机；“一条外部电源线”可通过合规适配器加机内配电实现，但不是指Mac的单个USB-C口必然能同时为Pi、屏、灯和电机供电。
+
+处理架构可选：① **Pi5独立主机**负责摄像头姿态、角色与设备，云端Qwen负责语音，外部只接电源；② **M2 Mac做演示主机**负责复杂3D／光场渲染，桌面装置是传感／显示／机械外设，更像AVA的主机依赖形式，但失去独立运行。当前不锁定第二路线，必须在同一硬件上量测视觉推理帧率、角色动画帧率、回声／打断、整机温度与电源负载后选择。两路线都须让本地基础日历和姿态提示在语音服务不可用时有可见降级。
+
+## 先做的三个样机检查
+
+1. **外观光学样机：**先用已有手机／小屏、黑色纸板和可调约45°玻璃／亚克力片做B路线方盒台架，同时核实D路线18–20cm封闭小款的实时输入证据；若获得可借／可购型号，同场景比较A/B/D。白天室内和夜间、桌面正常距离及左右移动视角下录像，记录角色悬浮感、重影、日历可读性、噪声和状态切换延迟。B合格后再试圆筒外壳的额外反光。
+2. **并行负载样机：**固定摄像头跑姿态关键点＋时间窗判断，同时播放角色与语音；记录Pi5上的实际帧率、延迟、丢帧、CPU／温度。没有这一步，不承诺光场显示器或复杂实时3D角色也能由Pi驱动。
+3. **机械与音频样机：**在透明壳体附近试机械臂活动包络、噪声、震动和摄像头遮挡；试麦克风拾音、扬声器回声和语音打断。机械动作不得触碰用户或进入显示／摄像头视野关键区域。
+
+完成上述检查后，才决定最终英文Proposal如何描述角色显示的目标与保底方案；**此刻尚未选定B或D**。当前中文第二版要求的**姿态检测、判断、反馈与复测、日历和拟纳入的小型机械臂**不因选择哪种角色显示法而删减。
+
+A路线的拟议模块、接口、壳体、软件状态和台架门槛保存在[圆柱角色实施草案](../../planning/2026-09-26/ava-cylinder-route-a.md)，现在定位为**后备／对照**。其中5.5英寸AMOLED、四麦AEC阵列与相机位置都是候选，**不是采购单或已通过Pi5整机验证的设计**。[光学补充](ava-optics-fan-vs-reflection.md)是当前首个B台架的依据。

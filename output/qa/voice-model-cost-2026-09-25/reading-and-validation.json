@@ -1,0 +1,121 @@
+{
+  "checked_at": "2026-09-25T13:37:19.857959+00:00",
+  "continuation_of": "output/qa/new-concept-2026-09-25/reading-record.json",
+  "same_research_topic": true,
+  "prior_full_read": {
+    "files": 86,
+    "lines": 7847,
+    "completed_at": "2026-09-25T07:57:05.364344+00:00"
+  },
+  "focused_files_read_or_read_back": [
+    {
+      "file": "AGENTS.md",
+      "lines": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "file": "product.md",
+      "lines": 35,
+      "read_ranges": [
+        [
+          1,
+          35
+        ]
+      ],
+      "sha256": "35ddb90870224f1b8b8ddd9aa8bc499b63d2f750cfff0ac1bf6a3e7d7c56f1e1"
+    },
+    {
+      "file": "handoff.md",
+      "lines": 25,
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ],
+      "sha256": "6d749099a26f57bea009e4d0fbdcda607ebba781582d04d0c9da9284c92a98c1"
+    },
+    {
+      "file": "research/2026-09-25-desk-companion/feasibility-review.md",
+      "lines": 123,
+      "read_ranges": [
+        [
+          1,
+          123
+        ]
+      ],
+      "sha256": "a7c5a71d12b723401e64b35970e17d4faaf789d0a89f04dea72e65d6a1e4824f"
+    },
+    {
+      "file": "research/2026-09-25-desk-companion/voice-model-cost-review.md",
+      "lines": 53,
+      "read_ranges": [
+        [
+          1,
+          53
+        ]
+      ],
+      "sha256": "2d0bbcb0bcd294f6ede29d9641c512f856f93fde0db2ec68c4af03172789c57e"
+    },
+    {
+      "file": "decision-log.md",
+      "lines": 468,
+      "read_ranges": [
+        [
+          437,
+          468
+        ]
+      ],
+      "sha256": "c9e1d0acaf5380f44de87a31aafc196d38b7d22f283de1bb69a23181e3be021c"
+    },
+    {
+      "file": "work-log.md",
+      "lines": 575,
+      "read_ranges": [
+        [
+          546,
+          575
+        ]
+      ],
+      "sha256": "14cfe2c912e3308e40a9cc8500b63d4aa4b928fa763d347c37dccae970cde2e0"
+    }
+  ],
+  "changed_markdown": [
+    "research/2026-09-25-desk-companion/voice-model-cost-review.md",
+    "research/2026-09-25-desk-companion/feasibility-review.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md"
+  ],
+  "local_link_count": 292,
+  "broken_local_links": [],
+  "checked_calculations": {
+    "gpt_live_10m_30d": 15.0,
+    "realtime_mini_new_audio_5m_each_30d": 4.5,
+    "gemini_new_audio_5m_each_30d": 3.4499999999999997,
+    "openai_mini_transcribe_5m_30d": 0.45,
+    "qwen_hk_text_1000_calls": 0.2276
+  },
+  "sources_checked": [
+    "OpenAI voice agents, model pricing, cost optimization, supported countries",
+    "Google Gemini 3.8 Live pricing, best practices, available regions",
+    "Alibaba Cloud Model Studio regions, model pages, Hong Kong model pricing",
+    "Microsoft Azure Speech East Asia region and TTS endpoint",
+    "official whisper.cpp, llama.cpp, Piper and Qwen ASR/TTS repositories",
+    "Alibaba Cloud qwen3.8-omni-flash model page confirms audio input, text output, Hong Kong region",
+    "Azure Speech regional availability confirms East Asia speech services"
+  ],
+  "not_run": [
+    "No model downloads or Pi speech benchmarks",
+    "No paid API or account activation",
+    "No software tests: documentation/research only",
+    "No new DOCX/PDF to render"
+  ]
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "4DAF0D33-4BBF-416F-A2D8-B1F51DD4473C.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "19-menu-link-opened_0_F5A1436D-885A-41D3-A89A-1206F654CD57.png",
+        "timestamp" : 1789759044.571
+      }
+    ],
+    "testIdentifier" : "OrderingUITests/test08PendingMenuLink()",
+    "testIdentifierURL" : "test://com.apple.xcode/Senplate/SenplateUITests/OrderingUITests/test08PendingMenuLink"
+  }
+]

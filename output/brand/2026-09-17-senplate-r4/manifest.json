@@ -1,0 +1,125 @@
+{
+  "brand": "Senplate",
+  "date": "2026-09-17",
+  "design": "Profile / R4",
+  "status": "REVISED_DRAFT_FOR_USER_REVIEW",
+  "selected_by_user": false,
+  "figma": {
+    "file_key": "UyYjnTFGWO0r1lj4uvghGp",
+    "review_node": "15:2",
+    "master_node": "22:3",
+    "signature_node": "18:2",
+    "reverse_node": "17:2",
+    "small_nodes": {
+      "24": "17:7",
+      "32": "17:10",
+      "64": "17:13"
+    }
+  },
+  "geometry": {
+    "grid": [
+      140,
+      112
+    ],
+    "master_size": [
+      210,
+      168
+    ],
+    "stem_width": 28,
+    "nominal_gap": 12,
+    "lower_ends": [
+      112,
+      92,
+      72
+    ],
+    "parts": 3,
+    "closed_frame": false
+  },
+  "palette": {
+    "forest": "#163F35",
+    "ivory": "#F3F1E7",
+    "ink": "#18231F"
+  },
+  "wordmark": {
+    "text": "senplate",
+    "font": "Manrope Medium",
+    "size": 104,
+    "tracking_percent": -3,
+    "gap_to_mark": 40,
+    "licence_archive": "not finalized"
+  },
+  "source_method": "Native Figma vectors; no ImageGen or raster redrawing",
+  "similarity_check": {
+    "library": "Simple Icons 16.31.0",
+    "ranked": 3454,
+    "manually_viewed_library_candidates": 21,
+    "additional_public_image": "https://pillarkonstruksi.com/logo.png",
+    "is_official_trademark_search": false,
+    "is_legal_clearance": false
+  },
+  "historical": "Interval and flat-baseline Profile study preserved; not current candidates",
+  "assets": [
+    {
+      "file": "profile-mark-24.png",
+      "sha256": "e2cd515dfac59bf265e5d911699aefb1451e9f8d5559c4f59d24ac64e9d53dee",
+      "format": "PNG",
+      "width": 24,
+      "height": 24
+    },
+    {
+      "file": "profile-mark-32.png",
+      "sha256": "987c3193592ead8f294dfb749a15061c2d69e18e89226bef412cd17e965bc067",
+      "format": "PNG",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "file": "profile-mark-64.png",
+      "sha256": "6092bcde3656fb3e150cf7c6dd34eca1ad0f55fe2296400c2831fdf8834565d7",
+      "format": "PNG",
+      "width": 64,
+      "height": 64
+    },
+    {
+      "file": "profile-mark-reverse.svg",
+      "sha256": "b7d5205fd09a05c9badfd244990de0ab58e116a7f159d02480a463a51e4385ec",
+      "width": "126",
+      "height": "101",
+      "paths": 1,
+      "live_text": 0,
+      "images": 0
+    },
+    {
+      "file": "profile-mark.png",
+      "sha256": "6572f493f9a2b49481d535a5dc5f7f4d11d86bb7c0d626f736588a007e1d16b1",
+      "format": "PNG",
+      "width": 210,
+      "height": 168
+    },
+    {
+      "file": "profile-mark.svg",
+      "sha256": "bdd22da7a2ac66e1df1a755a000675d0042380bc26fdb9872e140fbb8d20e530",
+      "width": "210",
+      "height": "168",
+      "paths": 1,
+      "live_text": 0,
+      "images": 0
+    },
+    {
+      "file": "profile-review.png",
+      "sha256": "f6a39195b1e5cffd5bb3df037e26f997bd3e8e1202f06db741e8db18d5625710",
+      "format": "PNG",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "file": "profile-signature.svg",
+      "sha256": "fa65c48827979c4f1a696ef3a3e06f349ed30c878011178ce7835be6faa1155d",
+      "width": "592",
+      "height": "142",
+      "paths": 2,
+      "live_text": 0,
+      "images": 0
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "task": "Organize and preserve teammate calendar Part 1 requirements",
+  "checked_at": "2026-09-29T22:39:06.901608+08:00",
+  "status": "pass",
+  "updated_markdown": [
+    "planning/2026-09-29/calendar-part1-teammate-source.md",
+    "planning/2026-09-29/calendar-part1-functional-scope.md",
+    "product.md",
+    "planning/2026-09-28/desk-software-scope-v1.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md"
+  ],
+  "checks": {
+    "local_links_checked": 495,
+    "missing_links": [],
+    "markdown_structure_issues": [],
+    "feature_ids_01_through_18_unique": true,
+    "backup_19_explicitly_unspecified": true,
+    "raw_source_preserved_in_text_block": true,
+    "raw_source_lines": 35,
+    "protected_files_unchanged": {
+      "planning/2026-09-14/group-2-details.json": true,
+      "output/submission/2026-09-28/AY26_ProjectProposal_Group 2.docx": true,
+      "output/submission/2026-09-28/AY26_ProjectProposal_Group 2.pdf": true,
+      "output/docx/Group 2_DeskCompanion_ProjectProposal_ZH_Review_v3.docx": true,
+      "output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx": true,
+      "output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf": true
+    },
+    "identities_and_planned_shares_match": true,
+    "all_updated_files_exist": true,
+    "only_expected_existing_markdown_changed": true
+  },
+  "scope_notes": [
+    "No application or hardware implementation/testing requested or performed",
+    "No external calendar API/protocol verification this turn",
+    "School DOCX/PDF preserved; no render required for unchanged documents",
+    "Release priorities remain undecided; teammate source and engineering interpretations separated"
+  ],
+  "source_coverage_review": [
+    {
+      "source": "Homepage weather, temperature, time, agenda",
+      "ids": [
+        "CAL-01"
+      ]
+    },
+    {
+      "source": "Day time blocks, tasks, timeline reminders",
+      "ids": [
+        "CAL-02"
+      ]
+    },
+    {
+      "source": "Week/month, short summaries, lunar/solar/holidays, busy days",
+      "ids": [
+        "CAL-03",
+        "CAL-04",
+        "CAL-05"
+      ]
+    },
+    {
+      "source": "Multiple-date entry",
+      "ids": [
+        "CAL-06"
+      ]
+    },
+    {
+      "source": "External calendar one-/two-way sync",
+      "ids": [
+        "CAL-08"
+      ]
+    },
+    {
+      "source": "Private/shared events and conflicts",
+      "ids": [
+        "CAL-07"
+      ]
+    },
+    {
+      "source": "Long-term/annual/periodic anniversaries",
+      "ids": [
+        "CAL-09"
+      ]
+    },
+    {
+      "source": "Ordinary reminder minutes/hours and anniversary days/weeks",
+      "ids": [
+        "CAL-10",
+        "CAL-11"
+      ]
+    },
+    {
+      "source": "AI summary and spoken morning briefing",
+      "ids": [
+        "CAL-12",
+        "CAL-13"
+      ]
+    },
+    {
+      "source": "Natural-language input suggestion",
+      "ids": [
+        "CAL-14"
+      ]
+    },
+    {
+      "source": "Busy-only sharing suggestion",
+      "ids": [
+        "CAL-15"
+      ]
+    },
+    {
+      "source": "Silent vs audible reminders suggestion",
+      "ids": [
+        "CAL-16"
+      ]
+    },
+    {
+      "source": "Phone/desktop widgets suggestion",
+      "ids": [
+        "CAL-17"
+      ]
+    },
+    {
+      "source": "iCloud/Google and CalDAV suggestion",
+      "ids": [
+        "CAL-18"
+      ]
+    },
+    {
+      "source": "Backup heading without detailed behavior",
+      "ids": [
+        "CAL-19"
+      ]
+    }
+  ],
+  "source_coverage_review_method": "Manual comparison of the user message, preserved raw text and organized requirements; IDs support traceability, not implementation completion.",
+  "finished_at": "2026-09-29T22:40:32.026331+08:00"
+}

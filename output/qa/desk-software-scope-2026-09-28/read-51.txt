@@ -1,0 +1,110 @@
+FILE research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md L181-270
+自助餐普通自取菜以餐台状态为主，不要求顾客每取一勺都扫码下单。批量备餐自选快餐则保留待配餐订单，但订单不重复计作传感器消耗；履约时要将订单状态和物理出餐对账。还在制作的食物属于未来供应，不能显示为现在可取。
+
+菜单显示可供应、余量低、补餐中、预计等待及更新时间；过期数据应显示待确认。热销按照明确窗口的已完成订单，普通自助菜则可以显示经校准的取用趋势。温度推断、预计等待和估算份数都不能伪装成已经确定的事实。
+
+## 9. 六个月可行性与验收
+
+硬件可采购或借用、已有视觉 SDK、少量菜品和本地部署，使基础原型具备可实现性。实际不确定性集中在机架和称重稳定性、菜品样本差异、RGB-D 的失效条件，以及是否有足够接近真实运营的数据。先验证这些条件，比提前选复杂神经网络更能判断项目是否能交付。
+
+| 时段 | 主要产出 | 决策依据 |
+|---|---|---|
+| 第 1–2 周 | 借用／候选相机验证，秤和红外台架，确定小餐盘、采样区及样本方案 | 确认 SDK 能稳定采集，食物／盘面的有效深度足够；再确定采购型号 |
+| 第 3–6 周 | 一个完整放盘扫描流程、去皮、异常状态、最小记录界面 | 测试称重误差、扫描时延、重试和重复记录 |
+| 第 7–10 周 | 限定菜品识别与 RGB 基线，RGB-D 特征实验 | 独立批次测试集；记录准确率、拒识率、人工纠正和耗时 |
+| 第 11–14 周 | 两个餐台节点、换盘／加料状态及基线补餐逻辑 | 连续曲线能与实际动作对账，无重复生产或重复扣除 |
+| 第 15–18 周 | 预测与在制任务联动，辅助菜单和点餐 | 菜单、待履约数量和厨房状态一致；验证断网和取消 |
+| 第 19–22 周 | 相同需求情景下对照测试、可用性试用 | 空盘时间、餐末可避免剩余、员工工作量之间的权衡 |
+| 第 23–24 周 | 故障修正、报告、演示和数据整理 | 每位成员能解释自己的实现、测试证据及限制 |
+
+评价应分层：
+
+- **硬件层：** 已知砝码／参考秤的误差与重复性、不同放置位置、满盘和空盘、触碰和移盘、相机遮挡、测温区域覆盖。
+- **识别层：** RGB 基线与加入深度后的结果；同一测试划分；既记录错误接受也记录拒识和人工次数。
+- **运营层：** 固定阈值、近期消耗速度、加入提前量／在制信息的方法，在相同需求和资源约束下比较。
+- **使用层：** 每次成功记录的工作人员时间、漏扫／重扫、重复任务和菜单滞后。
+
+没有场地时，可以用真实硬件和明确标注的脚本化取餐进行受控实验，并对需求序列做回放。它能证明功能与受控条件下的差异，不能证明真实餐厅节省了多少成本。与商用品的直接优劣比较，需要相同场地或可比设备数据；现阶段先比较自建基线。
+
+## 10. 预算与成本控制
+
+以下是“一台扫描主机＋两个餐台节点”的完整参考预算，复用电脑和显示设备。指定商品使用公开美元价，其余为工程预留，不是已取得的本地报价。折算沿用 7.8，额外列 15% 机动额度；实际运费、易损件、供电和安装成本仍需实际购买前核对。
+
+| 项目 | 数量及依据 | 港币参考额 |
+|---|---|---:|
+| RealSense D435 | 1×US$314 | 2,449 |
+| MLX90640 热像开发板 | 1×US$74.95 | 585 |
+| 10 kg load cell＋HX711 | 3×（US$12.95＋US$4.95） | 419 |
+| ESP32 | 3 个，工程预留 | 150–240 |
+| 结构、餐盘、线缆、供电、提示灯等 | 工程预留 | 500–900 |
+| 校准和参考测量工具 | 工程预留 | 150–350 |
+| 电脑与显示设备 | 复用已有设备 | 新增 0 |
+| 小计 | 按上列假设 | 4,253–4,943 |
+| 加 15% 机动额度 | 预算计算，不是运输报价 | **约 4,900–5,700** |
+
+价格来源见相机、热像和称重模块脚注。参考预算选用了可核对报价的开发板，不代表所有零件的最低价，也不代表成品商业售价。[^15][^23][^24][^25]
+
+| 相机选择变化 | 其余预算假设相同的整套估计 | 限制 |
+|---|---:|---|
+| 学校借用合适相机 | 约 HK$2,100–2,900 | 借用可用性、型号和期限未确认 |
+| SEN0583 | 约 HK$3,100–3,900 | 当前网页缺货；技术适配尚未验证 |
+| Gemini 2 | 约 HK$4,200–5,000 | 需验证实际餐盘、SDK 与数据质量 |
+| D405 | 约 HK$4,500–5,300 | 需要适配其近距工作范围 |
+| D435 | 约 HK$4,900–5,700 | 不等同于 Metafoodx 的全套配置 |
+
+这些变体只是替换相机价格后的算术情景，不能据此断言廉价相机与较贵相机在本任务中同样好。预算上限如果必须小于 HK$2,000，就需要优先借用更多元件、改用经过覆盖验证的单点温度方案、减少节点或先限定原型范围。现阶段不能保证所有完整功能都能在该上限内新购实现。
+
+## 11. 可研究的优化方向
+
+Metafoodx 已公开本地 AI、生产预测和服务计时；Controliza 也公开逐餐盘视觉／称重、消耗速度和补餐数量建议。加入这些功能本身不能作为市场首创论证。[^3][^29][^30]
+
+建议把 Group 2 的改进命题定成两个可检验问题：
+
+**共享扫描与持续称重如何兼顾成本和状态准确性？** 比较仅出入扫描、仅单阈值秤、扫描加餐台节点，记录初始识别错误、漏扫后果、余量更新速度、员工操作时间和硬件成本。证据可以支持某个限定场景更适合采用怎样的组合。
+
+**在制作提前量和收餐限制下，怎样避免补得太晚或重复补做？** 在已有短期需求模型上加入厨房在制任务、需求区间和截止时间，评价同样需求下的空盘时间及可避免剩余。扫码订单是适用场景中的已确认需求来源之一，不替代真实自助取餐数据。
+
+第三个可选实验是比较 RGB 和 RGB-D 在小菜单、少样本、不同盘型上的实际收益。如果深度没有显著改善识别，却增加成本和维护，应在报告中解释结果；这仍是有价值的工程评价。不能为了外观接近竞品而让一个昂贵传感器只负责展示彩色点云。
+
+## 12. 提案应采用的技术表述
+
+建议表述为：Group 2 将参考成熟食品扫描工作流程，开发可进行菜品／餐盘识别、重量与表面温度记录的多传感器原型，并结合餐台称重、短期需求和厨房在制状态提供人工可审核的补餐建议。项目在限定菜品、有限节点和可重复实验中评价识别、记录负担、供需状态与剩余之间的关系。
+
+当前范围不承诺复现 Metafoodx 的私有模型、全菜系零样本识别、通用核心温度估计、商业防护等级或厂商客户的减损百分比。硬件路线已经从此前“称重节点为主、摄像头可选”的草案，修订为“RGB-D 扫描主机是主要技术候选”；型号、预算和正式 suggestion 内容仍处于梳理阶段。
+
+## Sources
+
+公开网页与价格均在 2026-09-14 核对；本地案例由项目材料提供。条目中的发布日期只在页面明确显示时列出；厂商产品页面一般不标发布日期。
+
+[^1]: Metafoodx，《Metafoodx_Pomona_College_Case_Study.pdf》，6 页，本地提供文件。第 1–2 页：九个月效果；第 4 页：痛点及仪表板；第 5–6 页：部署、流程和效果。路径：`/Users/tantalum/Downloads/Metafoodx_Pomona_College_Case_Study.pdf`。
+[^2]: Metafoodx，[Product: Meet Metron](https://www.metafoodx.com/product)，含整机图片和放盘内嵌短片。
+[^3]: Metafoodx，[Metafoodx vs Others: Why Our AI Platform Redefines Food Operations](https://www.metafoodx.com/post/metafoodx-vs-others-why-our-ai-platform-redefines-food-operations)，页面标注 Jan 9，厂商自述。
+[^4]: Metafoodx，[How Metafoodx Is Transforming Food Operations with Agentic AI](https://www.metafoodx.com/post/how-metafoodx-is-transforming-food-operations-with-agentic-ai)，页面标注 May 20，厂商技术／营销说明。
+[^5]: Metafoodx，[官方网站与 FAQ](https://www.metafoodx.com/)，前后扫描、餐盘登记、候选选择和识别准确率宣称。
+[^6]: Jun Du / Metafoodx，[Seeing in 3D](https://www.metafoodx.com/seeingin3d)，2025-05-28，厂商技术文章。
+[^7]: Jun Du / Metafoodx，[Too Hot to Fail](https://www.metafoodx.com/toohottofail)，2025-06-24，表面到核心温度推断及双时点扫描。
+[^8]: Pomona College，[Sustainability Report Shows Progress Toward Carbon Neutral 2030 Goal](https://www.pomona.edu/news/2025/10/20-sustainability-report-shows-progress-toward-carbon-neutral-2030-goal)，2025-10-20，学校自行发布。
+[^9]: Metafoodx，[Why the Scanner Is So Fast](https://www.youtube.com/watch?v=EylsY3-eN7s)，2026-04-30，约 1:20；本轮读取完整自动字幕。
+[^10]: Metafoodx，[No more guesswork for your kitchen operation](https://www.youtube.com/watch?v=tW2uKmoMjNg)，2025-08-07，约 1:07；本轮完整自动字幕和关键画面。
+[^11]: Metafoodx，[Inside the Kitchen Customer Stories: Pomona College](https://www.youtube.com/watch?v=1wBiESYxdrI)，2026-02-07，约 00:35；完整自动字幕和公开说明，内容是较早访谈回顾。
+[^12]: Metafoodx，[What Makes Metafoodx Unique?](https://www.youtube.com/watch?v=fPi2gixbeu4)，约 4:29；本轮重读 2026-09-14 保存的完整自动字幕，结合前次关键画面记录。
+[^13]: RealSense，[D405 产品规格](https://www.realsenseai.com/products/stereo-depth-camera-d405/)，近距、分辨率、视场和环境规格。
+
+FILE research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md L271-287
+[^14]: RealSense，[D435 产品规格](https://www.realsenseai.com/products/stereo-depth-camera-d435/)，RGB／depth 视场、输出和接口。
+[^15]: RealSense，[Compare All Cameras](https://www.realsenseai.com/compare-all-cameras/)，D405 US$272、D435 US$314 等参考价；非香港到手报价。
+[^16]: DFRobot，[SEN0581 3D ToF Depth Sensor Camera](https://www.dfrobot.com/product-2741.html)，US$29.90；[中国站商品页](https://www.dfrobot.com.cn/goods-3765.html)，人民币 199 元。无 RGB。
+[^17]: DFRobot，[SEN0583 RGB-D 3D ToF Sensor Camera](https://www.dfrobot.com/product-2740.html)，US$109，页面显示缺货；含深度、RGB 和接口规格。
+[^18]: Orbbec，[Gemini 2 官方商店](https://store.orbbec.com/products/gemini-2)，US$234，含技术规格和 SDK 信息。
+[^19]: Luxonis，[OAK-D Lite 官方商店](https://shop.luxonis.com/products/oak-d-lite-1)，US$269，RGB、深度及机内运算能力。
+[^20]: Luxonis，[OAK-D Lite 技术文档](https://docs.luxonis.com/hardware/products/OAK-D%20Lite)，近距配置及投射器信息；本轮可读取搜索索引正文，直接页面读取遇到 text/markdown 内容类型限制。仅使用明确可见的参数，不采用其中可疑的基线单位文字。
+[^21]: Luxonis，[OAK-D Short Range](https://shop.luxonis.com/collections/oak-cameras-1/products/oak-d-sr)，US$329，理想距离约 30 cm–1 m。
+[^22]: Melexis，[MLX90614 数据表](https://www.melexis.com/en/documents/documentation/datasheets/datasheet-mlx90614)，修订版 21，2026 年 6 月；[距离与光斑说明](https://distance-to-spot.melexis.com/)，视场覆盖、等温条件及测量精度约束。
+[^23]: Adafruit，[MLX90640 IR Thermal Camera Breakout - 55 Degree](https://www.adafruit.com/product/4407)，US$74.95，32×24 阵列、55°×35° 视场及 I2C。
+[^24]: SparkFun，[Load Cell Amplifier - HX711](https://www.sparkfun.com/sparkfun-load-cell-amplifier-hx711.html)，US$4.95，接口和采样速率；[使用指南](https://learn.sparkfun.com/tutorials/load-cell-amplifier-hx711-breakout-hookup-guide/introduction)。
+[^25]: SparkFun，[Load Cell - 10kg, Straight Bar (TAL220)](https://www.sparkfun.com/load-cell-10kg-straight-bar-tal220.html)，US$12.95，开发用称重元件。
+[^26]: RealSense，[librealsense SDK](https://github.com/realsenseai/librealsense)，开放 SDK、平台与语言接口；[Python Wrapper](https://github.com/IntelRealSense/librealsense/blob/master/wrappers/python/readme.md)。
+[^27]: PyTorch / Torchvision，[mobilenet_v3_small 文档](https://docs.pytorch.org/vision/master/models/generated/torchvision.models.mobilenet_v3_small.html)，已有模型和预训练权重。
+[^28]: Google Research，[Nutrition5k 数据集及 CVPR 2021 论文入口](https://github.com/google-research-datasets/Nutrition5k)，包含图像、部分顶视 RGB-D 和重量标注，明确数据地域和菜系局限。
+[^29]: Controliza，[AI Buffet Control](https://controliza.com/en/buffet)，持续餐盘监测、补餐和废弃记录，厂商产品说明。
+[^30]: Metafoodx，[Freshness Alert](https://www.metafoodx.com/post/metafoodx-serving-time-alert-know-exactly-how-long-food-has-been-on-the-line)，页面标注 Jun 4，更新 Aug 27；配置时限与扫描触发计时。

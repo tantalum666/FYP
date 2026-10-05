@@ -1,0 +1,72 @@
+- complementary:
+  - img "Senplate"
+  - navigation "Main navigation":
+    - button "Kitchen board":
+      - text: Kitchen board
+    - button "Event log":
+      - text: Event log
+    - button "Station display":
+      - text: Station display
+  - generic: Alex · Manager
+  - combobox "Workspace":
+    - option "Personal"
+    - option "Demo dining room" [selected]
+  - combobox "Language":
+    - option "English" [selected]
+    - option "简体中文"
+  - button "Sign out":
+    - text: Sign out
+- main:
+  - heading "Kitchen board" [level=1]
+  - paragraph: Demo dining room · Lunch
+  - generic: Demo data
+  - generic: Updated 12:10
+  - status:
+    - text: The last action has not been confirmed. Check its result before continuing.
+    - button "Check and retry"
+  - generic: Monitored stations
+  - strong: "1"
+  - generic: Suggestions
+  - strong: "0"
+  - generic: Active batches
+  - strong: "1"
+  - heading "Station 01" [level=2]
+  - paragraph: Herb-roasted chicken
+  - generic: Monitoring
+  - generic: 700 g
+  - paragraph: Remaining
+  - generic: Batch in progress
+  - paragraph: Remaining (g)
+  - img "Remaining weight over time":
+    - generic: "0"
+    - generic: "600"
+    - generic: 1,200
+    - generic: 1,800
+    - generic: 1,500
+    - generic: 12:00
+    - generic: 1,200
+    - generic: 12:05
+    - generic: "700"
+    - generic: 12:10
+  - term: Food confirmed
+  - definition:
+    - text: "Yes"
+  - term: Weight stable
+  - definition: "Yes"
+  - heading "Replenishment suggestion" [level=2]
+  - heading "A batch is already on its way." [level=3]
+  - paragraph: Incoming 1,000 g
+  - paragraph: Rule-based baseline
+  - heading "Kitchen tasks" [level=2]
+  - generic "Task filters":
+    - button "All" [pressed]
+    - button "Planned"
+    - button "Preparing"
+    - button "Ready"
+    - button "Verify refill"
+    - button "Closed"
+  - button "1,000 g Unassigned Planned":
+    - strong: 1,000 g
+    - generic: Unassigned
+    - generic: Planned
+  - generic: Demo time advances with each step.

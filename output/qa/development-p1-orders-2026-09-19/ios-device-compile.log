@@ -1,0 +1,538 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project apps/ios/Senplate.xcodeproj -scheme Senplate -configuration Debug -sdk iphoneos -destination generic/platform=iOS -derivedDataPath .runtime/DeviceBuild CODE_SIGNING_ALLOWED=NO build
+
+Build settings from command line:
+    CODE_SIGNING_ALLOWED = NO
+    SDKROOT = iphoneos26.5
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (1 target)
+    Target 'Senplate' in project 'Senplate' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: ad94f77a8554d9a4c00d2df55cab58ed
+Build description path: /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/XCBuildData/ad94f77a8554d9a4c00d2df55cab58ed.xcbuilddata
+CreateBuildDirectory /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate.xcodeproj
+    builtin-create-build-directory /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products
+
+CreateBuildDirectory /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate.xcodeproj
+    builtin-create-build-directory /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex
+
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/SDKStatCaches.noindex/iphoneos26.5-23F81a-32daed1954a7d5dd0789fcaf2a9bb78b.sdkstatcache
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -o /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/SDKStatCaches.noindex/iphoneos26.5-23F81a-32daed1954a7d5dd0789fcaf2a9bb78b.sdkstatcache
+
+CreateBuildDirectory /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/ExplicitPrecompiledModules
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate.xcodeproj
+    builtin-create-build-directory /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate.xcodeproj
+    builtin-create-build-directory /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos
+
+CreateBuildDirectory /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate.xcodeproj
+    builtin-create-build-directory /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate.xcodeproj
+    builtin-create-build-directory /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate-9a31f711c027db2b10fb20b28cf0074c-VFS-iphoneos/all-product-headers.yaml
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate.xcodeproj
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate-9a31f711c027db2b10fb20b28cf0074c-VFS-iphoneos/all-product-headers.yaml
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-DebugDylibPath-normal-arm64.txt (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-DebugDylibPath-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-own-target-headers.hmap (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-DebugDylibInstallName-normal-arm64.txt (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-DebugDylibInstallName-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-project-headers.hmap (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-project-headers.hmap
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate.DependencyMetadataFileList (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate.DependencyStaticMetadataFileList (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-all-target-headers.hmap (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate.hmap (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate.hmap
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-all-non-framework-target-headers.hmap (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-generated-files.hmap (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-generated-files.hmap
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate_const_extract_protocols.json (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.SwiftFileList (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.SwiftFileList
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.SwiftConstValuesFileList (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.LinkFileList (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.LinkFileList
+
+WriteAuxiliaryFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate-OutputFileMap.json (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    write-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate-OutputFileMap.json
+
+MkDir /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    /bin/mkdir -p /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app
+
+MkDir /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_output/thinned (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    /bin/mkdir -p /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_output/thinned
+
+Ld /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/__preview.dylib normal (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.0 -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -O0 -L/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos -F/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos -install_name @rpath/Senplate.debug.dylib -Xlinker -dead_strip -rdynamic -Xlinker -no_deduplicate -Xlinker -dependency_info -Xlinker /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate_dependency_info.dat -o /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/__preview.dylib
+
+MkDir /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_output/unthinned (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    /bin/mkdir -p /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_output/unthinned
+
+CpResource /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/NotoSansSC.ttf /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/Fonts/NotoSansSC.ttf (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/Fonts/NotoSansSC.ttf /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app
+
+CpResource /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/NotoSansSC-OFL.txt /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/Fonts/NotoSansSC-OFL.txt (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/Fonts/NotoSansSC-OFL.txt /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app
+
+CpResource /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Manrope.ttf /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/Fonts/Manrope.ttf (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/Fonts/Manrope.ttf /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app
+
+GenerateAssetSymbols /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/Assets.xcassets (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/Assets.xcassets --compile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app --output-format human-readable-text --notices --warnings --export-dependency-info /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_dependencies --output-partial-info-plist /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_generated_info.plist --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 17.0 --platform iphoneos --bundle-identifier com.group2.senplate --generate-swift-asset-symbol-extensions NO --generate-swift-asset-symbols /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/* com.apple.actool.compilation-results */
+/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources/GeneratedAssetSymbols.h
+/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+CpResource /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Manrope-OFL.txt /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/Fonts/Manrope-OFL.txt (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/Fonts/Manrope-OFL.txt /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app
+
+CopyStringsFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/zh-Hans.lproj/InfoPlist.strings /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/zh-Hans.lproj/InfoPlist.strings (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/zh-Hans.lproj -- /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/zh-Hans.lproj/InfoPlist.strings
+/Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/zh-Hans.lproj/InfoPlist.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'Senplate' from project 'Senplate')
+
+CopyStringsFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/en.lproj/InfoPlist.strings /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/en.lproj/InfoPlist.strings (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/en.lproj -- /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/en.lproj/InfoPlist.strings
+/Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/en.lproj/InfoPlist.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'Senplate' from project 'Senplate')
+
+CompileAssetCatalogVariant thinned /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/Assets.xcassets (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/Assets.xcassets --compile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 17.0 --platform iphoneos
+/* com.apple.actool.compilation-results */
+/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_generated_info.plist_thinned
+/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_output/thinned/AppIcon60x60@2x.png
+/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_output/thinned/AppIcon76x76@2x~ipad.png
+/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_output/thinned/Assets.car
+
+
+SwiftDriver Senplate normal arm64 com.apple.xcode.tools.swift.compiler (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name Senplate -Onone @/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -target arm64-apple-ios17.0 -g -module-cache-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos -F /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos -c -j12 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/SDKStatCaches.noindex/iphoneos26.5-23F81a-32daed1954a7d5dd0789fcaf2a9bb78b.sdkstatcache -output-file-map /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex -sdk-module-cache-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate_const_extract_protocols.json -Xcc -iquote -Xcc /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-generated-files.hmap -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-own-target-headers.hmap -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-all-target-headers.hmap -Xcc -iquote -Xcc /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-project-headers.hmap -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/include -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources-normal/arm64 -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources/arm64 -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate-Swift.h -working-directory /Users/tantalum/Documents/ChatGPT/FYP/apps/ios -experimental-emit-module-separately -disable-cmo
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/SwiftShims-7AZL3P5Q16AS7500GO4CLGB31.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/ptrauth-33GNXZBX9JISB0OJE6YJXIFT5.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/_Builtin_stdarg-61Y2H9NRMNRQXD28C29LAYKI8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/_Builtin_stddef-39VIG2T7DZNIKPIMW2Q9OV21A.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/_Builtin_stdbool-18RGVB8BC8YLAJWB3O8KVYGTP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/ptrcheck-4CUYWTVYW36QU46E2NDRIBUM2.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/_Builtin_float-AZ1TZWJT7J9AXVLE5YP4XF1RP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/_AvailabilityInternal-D95STN52WYO59M9GO9KI2S4C3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/DeveloperToolsSupport-DAX9B87O9N12SNCGEP56JI9M2.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/_SwiftConcurrencyShims-D2TWTD8HRTDIHR0I9RACC0IGK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/_DarwinFoundation1-5IDL6NRLG7B9MEBENT7ERAXH0.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/_DarwinFoundation2-67M2FDFV8DDYWL92K76MU8YAR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/_Builtin_limits-1QSQZ2B6SCNRUNEW6LRMVJLLK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/_Builtin_tgmath-3JZGHX95U2VK55ZRG8M290HAP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/_Builtin_stdint-D582PMCCMS9MRDT8YXRJ173MQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/sys_types-9IA0HF1ZLY1LR9CJQEAUEOOEU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/_Builtin_stdatomic-ACU7HD36Z9JBVY4R0VNQWWAMO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/_Builtin_intrinsics-F45WASNYQ6XGXAQM47ZU2OWXQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/_DarwinFoundation3-9JS8B69L0EAGISJW4TT6KGIC8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/_Builtin_inttypes-EH37DS50Q1DA4UDKRRTWYQNJG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/Darwin-4OIDHVSLY1AJRT4LE2GPVUOMS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/simd-DU7XNTBEIYR31IH03A88XXHCV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/ObjectiveC-4WVL7S7SYLO1KPUP5KHVUVDZK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/MachO-A3S5QUOKOI25BKXCTZ71JMHB0.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/os_object-A47O5HM4DLIR5O8CB6FQCA2N9.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/os_workgroup-EX4FPWKY9GTGCDK07IJMA76EU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/Spatial-7ENFTOBP1HOZASCG3RYDAJSC7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/Dispatch-91498MRDVZI3S41J1ZMT2273W.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/CoreFoundation-8I2BOYXAMHWQDLV1URLJII314.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/XPC-350VI9J73DVRQ08R2J2K20L9P.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/dnssd-34ZKDYJMK820YJVSVY8HPH8OQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/os-DBIIC458FJN4WMCX8J1DOUR0I.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/CoreGraphics-DI8795ECHEKVJEJFETY71HO3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/CoreAudioTypes-4W05V2QDV42V27IXBZ5CF0M9E.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/Security-1BG26LH4DKKSOQPQRTG6O3G0I.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/CFNetwork-E73X1ST0E9UKR6W3E8Q4P1L.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/CoreAudio-5VNYBSFDOHTI4CTNHR7M5UTGD.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/Foundation-9NPOONN63ASU86WLSONI83I8J.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/CoreText-9FF6A7DW1JMHXCD7G6I0UI1KV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/ImageIO-E5ZGONN4QRFXLL8MEYQAQI3JJ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/CoreMIDI-1R5FBCTI6GRS5WAB5DFR3GCB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/Symbols-9CW6ET9TWGT5E50IKXAZQ3M4D.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/UserNotifications-3BK6RIBF02URZ1E1N0C73PZ7Q.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/FileProvider-879COR5U7WDSAF98169S98E4L.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/UniformTypeIdentifiers-3QEWEXN5BOC3PRJHHJV6U6WRA.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/UIUtilities-72UB8KEGV34208OCET6DUONGH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/DataDetection-6W4A8B8Z6UXTNYMMV1SYU34U7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/CoreData-5W2OA85LFT4DCJ4MHOANPJG4K.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/OSLog-EULB4TTO05VAV66ZXOL4TKD92.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/Network-13KXGDH4PMOVWK8D0SFGYE52D.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/Accessibility-7UGF0AGYH36PIWJCNW4N890C8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/CoreTransferable-2YPLR547HXYRALPWUM6ZFDEBE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/IOSurface-COI9LQ5FY2350MTQQQ6URUYQ5.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/AudioToolbox-5ML3936TGKRLC9KG9C4SAJRSR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/AVRouting-2TPPU000WQ63AVGSH26S5S5EL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/OpenGLES-AKURYBJPM39FPYFSVVVKZTGSR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/Metal-992IAHJ8GLUPNVVOAURTC2MW4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/CoreVideo-8ENQC1WWS8FDEIDNZKWR6CIBW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/CoreImage-IT2U0B63Y898BKZ2BPFHKNC1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/QuartzCore-XW9MPZ6ML2OOH6C2F2K7N8MT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/CoreMedia-35ILBHRF26W2HLFLP1NKCVJY8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/SwiftUICore-9GT6HU6F9BI11SK4RD0JSGQGV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/MediaToolbox-9BYFSP2K2QJSKRZY35L8E3N7B.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/AVFAudio-1ZR9IP3L74QX1ICL6P9QB3RGW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/UIKit-4QL295CZ5RS52V26Z03Z6WGKE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/AVFoundation-2XNANX2Y34T9PWDQ3UQANOCXR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/SwiftUI-DBMSKN5N28HAHT1HLSO0OL1FD.pcm
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ Senplate (in target 'Senplate' from project 'Senplate')
+
+EmitSwiftModule normal arm64 (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 Compiling\ SenplateApp.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/SenplateApp.swift (in target 'Senplate' from project 'Senplate')
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/SenplateApp.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 Compiling\ PersonalViews.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/PersonalViews.swift (in target 'Senplate' from project 'Senplate')
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/PersonalViews.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 Compiling\ OrderingStore.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/OrderingStore.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/OrderingStore.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 Compiling\ ReplenishmentViews.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/ReplenishmentViews.swift (in target 'Senplate' from project 'Senplate')
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/ReplenishmentViews.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 Compiling\ OrderingLabels.swift,\ OrderingModels.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/OrderingLabels.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/OrderingModels.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/OrderingLabels.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/OrderingModels.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 Compiling\ MenuScanner.swift,\ Models.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/MenuScanner.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/Models.swift (in target 'Senplate' from project 'Senplate')
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/MenuScanner.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/Models.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 Compiling\ Preferences.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/Preferences.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/Preferences.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 Compiling\ DiningViews.swift,\ MenuCode.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/DiningViews.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/MenuCode.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/DiningViews.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/MenuCode.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 Compiling\ MonitoringViews.swift,\ OrderDetailView.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/MonitoringViews.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/OrderDetailView.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/MonitoringViews.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/OrderDetailView.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 Compiling\ GeneratedAssetSymbols.swift /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 Compiling\ APIClient.swift,\ AccountViews.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/APIClient.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/AccountViews.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/APIClient.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/AccountViews.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for Senplate (in target 'Senplate' from project 'Senplate')
+
+SwiftDriver\ Compilation\ Requirements Senplate normal arm64 com.apple.xcode.tools.swift.compiler (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name Senplate -Onone @/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -target arm64-apple-ios17.0 -g -module-cache-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos -F /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos -c -j12 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/SDKStatCaches.noindex/iphoneos26.5-23F81a-32daed1954a7d5dd0789fcaf2a9bb78b.sdkstatcache -output-file-map /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex -sdk-module-cache-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate_const_extract_protocols.json -Xcc -iquote -Xcc /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-generated-files.hmap -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-own-target-headers.hmap -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-all-target-headers.hmap -Xcc -iquote -Xcc /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-project-headers.hmap -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/include -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources-normal/arm64 -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources/arm64 -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate-Swift.h -working-directory /Users/tantalum/Documents/ChatGPT/FYP/apps/ios -experimental-emit-module-separately -disable-cmo
+
+SwiftDriverJobDiscovery normal arm64 Compiling OrderingLabels.swift, OrderingModels.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftCompile normal arm64 Compiling\ AppStore.swift,\ DesignSystem.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/AppStore.swift /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/DesignSystem.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/AppStore.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftCompile normal arm64 /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Sources/DesignSystem.swift (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    
+
+SwiftMergeGeneratedHeaders /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources/Senplate-Swift.h /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate-Swift.h (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-swiftHeaderTool -arch arm64 /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate-Swift.h -o /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources/Senplate-Swift.h
+
+SwiftDriverJobDiscovery normal arm64 Compiling GeneratedAssetSymbols.swift (in target 'Senplate' from project 'Senplate')
+
+Copy /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.swiftmodule/arm64-apple-ios.swiftmodule /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.swiftmodule (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.swiftmodule /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.swiftmodule/arm64-apple-ios.swiftmodule
+
+Copy /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.swiftmodule/arm64-apple-ios.swiftdoc /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.swiftdoc (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.swiftdoc /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.swiftmodule/arm64-apple-ios.swiftdoc
+
+Copy /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.swiftmodule/arm64-apple-ios.abi.json /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.abi.json (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.abi.json /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.swiftmodule/arm64-apple-ios.abi.json
+
+Copy /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.swiftsourceinfo (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.swiftsourceinfo /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo
+
+SwiftDriverJobDiscovery normal arm64 Compiling OrderingStore.swift (in target 'Senplate' from project 'Senplate')
+
+LinkAssetCatalog /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Resources/Assets.xcassets (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-linkAssetCatalog --thinned /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_output/thinned --thinned-dependencies /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_generated_info.plist_thinned --unthinned /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_output/unthinned --unthinned-dependencies /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_generated_info.plist_unthinned --output /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app --plist-output /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_generated_info.plist
+note: Emplaced /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/AppIcon60x60@2x.png (in target 'Senplate' from project 'Senplate')
+note: Emplaced /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/AppIcon76x76@2x~ipad.png (in target 'Senplate' from project 'Senplate')
+note: Emplaced /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Assets.car (in target 'Senplate' from project 'Senplate')
+
+ProcessInfoPlistFile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Info.plist /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Info.plist (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-infoPlistUtility /Users/tantalum/Documents/ChatGPT/FYP/apps/ios/Senplate/Info.plist -producttype com.apple.product-type.application -genpkginfo /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/PkgInfo -expandbuildsettings -format binary -platform iphoneos -additionalcontentfile /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/assetcatalog_generated_info.plist -requiredArchitecture arm64 -o /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Info.plist
+
+SwiftDriverJobDiscovery normal arm64 Compiling DiningViews.swift, MenuCode.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftDriverJobDiscovery normal arm64 Compiling APIClient.swift, AccountViews.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftDriverJobDiscovery normal arm64 Compiling Preferences.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftDriverJobDiscovery normal arm64 Compiling AppStore.swift, DesignSystem.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftDriverJobDiscovery normal arm64 Compiling MonitoringViews.swift, OrderDetailView.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftDriverJobDiscovery normal arm64 Compiling SenplateApp.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftDriverJobDiscovery normal arm64 Compiling PersonalViews.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftDriverJobDiscovery normal arm64 Compiling ReplenishmentViews.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftDriverJobDiscovery normal arm64 Compiling MenuScanner.swift, Models.swift (in target 'Senplate' from project 'Senplate')
+
+SwiftDriver\ Compilation Senplate normal arm64 com.apple.xcode.tools.swift.compiler (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name Senplate -Onone @/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -target arm64-apple-ios17.0 -g -module-cache-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos -F /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos -c -j12 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/SDKStatCaches.noindex/iphoneos26.5-23F81a-32daed1954a7d5dd0789fcaf2a9bb78b.sdkstatcache -output-file-map /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex -sdk-module-cache-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate_const_extract_protocols.json -Xcc -iquote -Xcc /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-generated-files.hmap -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-own-target-headers.hmap -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-all-target-headers.hmap -Xcc -iquote -Xcc /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-project-headers.hmap -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/include -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources-normal/arm64 -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources/arm64 -Xcc -I/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate-Swift.h -working-directory /Users/tantalum/Documents/ChatGPT/FYP/apps/ios -experimental-emit-module-separately -disable-cmo
+
+Ld /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Senplate.debug.dylib normal (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.0 -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -O0 -L/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos -L/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos -F/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos -F/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos -filelist /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.LinkFileList -install_name @rpath/Senplate.debug.dylib -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -dead_strip -Xlinker -object_path_lto -Xlinker /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -dependency_info -Xlinker /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.swiftmodule @/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate-linker-args.resp -Xlinker -alias -Xlinker _main -Xlinker ___debug_main_executable_dylib_entry_point -o /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Senplate.debug.dylib
+
+ConstructStubExecutorLinkFileList /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-ExecutorLinkFileList-normal-arm64.txt (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    construct-stub-executor-link-file-list /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Senplate.debug.dylib /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-ExecutorLinkFileList-normal-arm64.txt
+note: Using stub executor library with Swift entry point. (in target 'Senplate' from project 'Senplate')
+
+Ld /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Senplate normal (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -O0 -L/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos -F/Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker @executable_path/Frameworks -rdynamic -Xlinker -no_deduplicate -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate-ExecutorLinkFileList-normal-arm64.txt /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Senplate.debug.dylib -o /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Senplate
+
+CopySwiftLibs /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Senplate.debug.dylib --scan-folder /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Frameworks --scan-folder /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/PlugIns --scan-folder /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/SystemExtensions --scan-folder /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Extensions --platform iphoneos --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os --back-deploy-swift-span
+Ignoring --strip-bitcode because --sign was not passed
+
+ExtractAppIntentsMetadata (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name Senplate --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk --xcode-version 17F113 --platform-family iOS --deployment-target 17.0 --bundle-identifier com.group2.senplate --output /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app --target-triple arm64-apple-ios17.0 --binary-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Senplate --dependency-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate_dependency_info.dat --stringsdata-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.SwiftFileList --metadata-file-list /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate.DependencyMetadataFileList --static-metadata-file-list /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate.DependencyStaticMetadataFileList --swift-const-vals-list /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Objects-normal/arm64/Senplate.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
+2026-09-19 03:13:36.007 appintentsmetadataprocessor[94813:10807487] Starting appintentsmetadataprocessor export
+2026-09-19 03:13:36.012 appintentsmetadataprocessor[94813:10807487] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
+
+AppIntentsSSUTraining (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Info.plist --temp-dir-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/ssu --bundle-id com.group2.senplate --product-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app --extracted-metadata-path /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Metadata.appintents --metadata-file-list /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Intermediates.noindex/Senplate.build/Debug-iphoneos/Senplate.build/Senplate.DependencyMetadataFileList --source-file /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app/Info.plist --archive-ssu-assets
+2026-09-19 03:13:36.033 appintentsnltrainingprocessor[94814:10807488] Parsing options for appintentsnltrainingprocessor
+2026-09-19 03:13:36.034 appintentsnltrainingprocessor[94814:10807488] Starting AppIntents SSU YAML Generation
+2026-09-19 03:13:36.036 appintentsnltrainingprocessor[94814:10807488] No AppShortcuts found - Skipping.
+
+RegisterExecutionPolicyException /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-RegisterExecutionPolicyException /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app
+
+Validate /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    builtin-validationUtility /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app -shallow-bundle -infoplist-subpath Info.plist
+warning: All interface orientations must be supported unless the app requires full screen. (in target 'Senplate' from project 'Senplate')
+
+Touch /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app (in target 'Senplate' from project 'Senplate')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/apps/ios
+    /usr/bin/touch -c /Users/tantalum/Documents/ChatGPT/FYP/.runtime/DeviceBuild/Build/Products/Debug-iphoneos/Senplate.app
+
+** BUILD SUCCEEDED **
+

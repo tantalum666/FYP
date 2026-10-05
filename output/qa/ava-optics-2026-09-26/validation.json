@@ -1,0 +1,459 @@
+{
+  "task": "Identify AVA optical mechanism limits and user screenshot fan vs fanless box; correct route priority",
+  "completed_at": "2026-09-26T00:53:23.350808+08:00",
+  "prior_full_read_record": "output/qa/new-concept-2026-09-25/reading-record.json",
+  "prior_full_read_files": 86,
+  "current_markdown_inventory_count": 96,
+  "current_markdown_inventory": [
+    {
+      "path": ".pytest_cache/README.md",
+      "lines": 8
+    },
+    {
+      "path": "AGENTS.md",
+      "lines": 50
+    },
+    {
+      "path": "README.md",
+      "lines": 208
+    },
+    {
+      "path": "Senplate_Logo_ImageGen_Brief.md",
+      "lines": 53
+    },
+    {
+      "path": "brand.md",
+      "lines": 60
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 511
+    },
+    {
+      "path": "handoff.md",
+      "lines": 28
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-bowl-golden-v6/README.md",
+      "lines": 25
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-bowl-redesign-v5/README.md",
+      "lines": 15
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-ellipse-a-v4/README.md",
+      "lines": 29
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-golden-a-v3/README.md",
+      "lines": 36
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-refined-a-v2/README.md",
+      "lines": 25
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-selected-a/README.md",
+      "lines": 28
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-v6-tick-study/README.md",
+      "lines": 14
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-plain-bowl-v7/README.md",
+      "lines": 13
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-curved-ticks/README.md",
+      "lines": 9
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-inner-scale/README.md",
+      "lines": 9
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-rim-tick-study/README.md",
+      "lines": 15
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-visible-ticks/README.md",
+      "lines": 12
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-vi-v1/05_Fonts_and_Licences/FONT-LICENCE-AUDIT.md",
+      "lines": 28
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-vi-v1/06_Source/Figma_Source.md",
+      "lines": 17
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-vi-v1/06_Source/VI_Rules.md",
+      "lines": 14
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-vi-v1/README.md",
+      "lines": 25
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "lines": 174
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 122
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "lines": 80
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "lines": 110
+    },
+    {
+      "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "lines": 39
+    },
+    {
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "lines": 185
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "lines": 22
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "lines": 247
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+      "lines": 70
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+      "lines": 53
+    },
+    {
+      "path": "planning/2026-09-15/power-supply-detail.md",
+      "lines": 143
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "lines": 214
+    },
+    {
+      "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "lines": 107
+    },
+    {
+      "path": "planning/2026-09-16/app-pages-and-permissions.md",
+      "lines": 180
+    },
+    {
+      "path": "planning/2026-09-16/archive/software-scope-web-first-v1.md",
+      "lines": 189
+    },
+    {
+      "path": "planning/2026-09-16/brand-visual-directions.md",
+      "lines": 54
+    },
+    {
+      "path": "planning/2026-09-16/business-plan-zh.md",
+      "lines": 449
+    },
+    {
+      "path": "planning/2026-09-16/logo-reference-calibration.md",
+      "lines": 52
+    },
+    {
+      "path": "planning/2026-09-16/naming-shortlist.md",
+      "lines": 45
+    },
+    {
+      "path": "planning/2026-09-16/senplate-logo-refinement-r2.md",
+      "lines": 44
+    },
+    {
+      "path": "planning/2026-09-16/senplate-logo-reset-r3.md",
+      "lines": 46
+    },
+    {
+      "path": "planning/2026-09-16/senplate-logo-vi-directions.md",
+      "lines": 63
+    },
+    {
+      "path": "planning/2026-09-16/software-mvp-and-acceptance.md",
+      "lines": 98
+    },
+    {
+      "path": "planning/2026-09-16/software-scope-and-architecture.md",
+      "lines": 206
+    },
+    {
+      "path": "planning/2026-09-16/software-workflows-and-api.md",
+      "lines": 291
+    },
+    {
+      "path": "planning/2026-09-17/senplate-bowl-golden-v6.md",
+      "lines": 43
+    },
+    {
+      "path": "planning/2026-09-17/senplate-bowl-redesign-v5.md",
+      "lines": 44
+    },
+    {
+      "path": "planning/2026-09-17/senplate-logo-measured-plate-r5.md",
+      "lines": 45
+    },
+    {
+      "path": "planning/2026-09-17/senplate-logo-profile-r4.md",
+      "lines": 40
+    },
+    {
+      "path": "planning/2026-09-17/senplate-v6-tick-study.md",
+      "lines": 30
+    },
+    {
+      "path": "planning/2026-09-17/senplate-vector-logo-studies.md",
+      "lines": 51
+    },
+    {
+      "path": "planning/2026-09-18/development-p0.md",
+      "lines": 70
+    },
+    {
+      "path": "planning/2026-09-18/senplate-plain-bowl-v7.md",
+      "lines": 25
+    },
+    {
+      "path": "planning/2026-09-18/senplate-v6-curved-ticks.md",
+      "lines": 26
+    },
+    {
+      "path": "planning/2026-09-18/senplate-v6-inner-scale.md",
+      "lines": 24
+    },
+    {
+      "path": "planning/2026-09-18/senplate-v6-rim-tick-study.md",
+      "lines": 30
+    },
+    {
+      "path": "planning/2026-09-18/senplate-v6-visible-ticks.md",
+      "lines": 26
+    },
+    {
+      "path": "planning/2026-09-18/senplate-vi-v1.md",
+      "lines": 33
+    },
+    {
+      "path": "planning/2026-09-19/meals-samples-contract.md",
+      "lines": 55
+    },
+    {
+      "path": "planning/2026-09-19/menu-orders-contract.md",
+      "lines": 70
+    },
+    {
+      "path": "planning/2026-09-21/marco-camera-and-nutrition-review.md",
+      "lines": 147
+    },
+    {
+      "path": "planning/2026-09-21/proposal-content.md",
+      "lines": 243
+    },
+    {
+      "path": "planning/2026-09-21/proposal-spec.md",
+      "lines": 41
+    },
+    {
+      "path": "planning/2026-09-25/desk-companion-proposal-zh-review-v2.md",
+      "lines": 148
+    },
+    {
+      "path": "planning/2026-09-25/desk-companion-proposal-zh-review.md",
+      "lines": 142
+    },
+    {
+      "path": "planning/2026-09-26/ava-cylinder-route-a.md",
+      "lines": 55
+    },
+    {
+      "path": "product-senplate-historical.md",
+      "lines": 168
+    },
+    {
+      "path": "product.md",
+      "lines": 40
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25
+    },
+    {
+      "path": "research/2026-09-16-competitions/competition-shortlist.md",
+      "lines": 80
+    },
+    {
+      "path": "research/2026-09-16-competitions/mainland-national-provincial.md",
+      "lines": 64
+    },
+    {
+      "path": "research/2026-09-16-competitions/no-company-options.md",
+      "lines": 55
+    },
+    {
+      "path": "research/2026-09-16-competitions/plan-to-july-2027.md",
+      "lines": 82
+    },
+    {
+      "path": "research/2026-09-16-competitions/world-vocational-registration.md",
+      "lines": 52
+    },
+    {
+      "path": "research/2026-09-16-metafoodx-app/app-review.md",
+      "lines": 60
+    },
+    {
+      "path": "research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md",
+      "lines": 72
+    },
+    {
+      "path": "research/2026-09-17-logo-similarity/similarity-review.md",
+      "lines": 82
+    },
+    {
+      "path": "research/2026-09-18-font-licences/font-licence-audit.md",
+      "lines": 28
+    },
+    {
+      "path": "research/2026-09-18-senplate-trademark/trademark-review.md",
+      "lines": 83
+    },
+    {
+      "path": "research/2026-09-19-nutrition/reference-audit.md",
+      "lines": 36
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/feasibility-review.md",
+      "lines": 127
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md",
+      "lines": 61
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/voice-model-cost-review.md",
+      "lines": 55
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md",
+      "lines": 38
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/razer-ava-like-feasibility.md",
+      "lines": 36
+    },
+    {
+      "path": "work-log.md",
+      "lines": 625
+    }
+  ],
+  "focused_files_read_this_turn": [
+    {
+      "path": "product.md",
+      "range": "1-40"
+    },
+    {
+      "path": "handoff.md",
+      "range": "1-28"
+    },
+    {
+      "path": "decision-log.md",
+      "range": "1-511"
+    },
+    {
+      "path": "work-log.md",
+      "range": "1-625"
+    },
+    {
+      "path": "planning/2026-09-26/ava-cylinder-route-a.md",
+      "range": "1-55"
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/razer-ava-like-feasibility.md",
+      "range": "1-36"
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md",
+      "range": "1-38"
+    }
+  ],
+  "excluded": [
+    ".git",
+    "dependency packages",
+    "caches",
+    "build products",
+    "output/qa generated evidence"
+  ],
+  "source_checks": [
+    "https://www.razer.com/razer-ava",
+    "https://www.razer.com/newsroom/product-news/project-ava",
+    "https://learn.adafruit.com/monster-mask-augmented-eyes-toon-hat",
+    "https://patents.google.com/patent/CN109003473B/en",
+    "https://checkout.lookingglassfactory.com/products/looking-glass-go"
+  ],
+  "user_images_checked": [
+    "/Users/tantalum/Downloads/IMG_0297.PNG",
+    "/Users/tantalum/Downloads/IMG_0294.PNG",
+    "/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/codex-clipboard-13c05e29-bdb2-4516-b6f2-6beb88a295f7.png"
+  ],
+  "markdown_updated": [
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-26/ava-cylinder-route-a.md",
+    "research/2026-09-26-desk-companion/razer-ava-like-feasibility.md",
+    "research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md"
+  ],
+  "checks": {
+    "relative_local_links_checked": 354,
+    "missing_relative_local_links": [],
+    "user_images_exist": true,
+    "no_hardware_or_optical_tests_run": true,
+    "no_docx_pdf_created": true
+  },
+  "evidence_limits": "Razer official page confirms a display but not optical path; fanless seller image suggests reflective combiner, does not prove product internals."
+}

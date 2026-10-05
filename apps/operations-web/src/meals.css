@@ -1,0 +1,459 @@
+.station-console {
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 30px 34px 70px;
+  min-height: 100vh;
+}
+.console-header,
+.console-header > div,
+.console-title,
+.console-state {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.console-header {
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 32px;
+}
+.console-header select {
+  width: auto;
+}
+.console-title {
+  margin-bottom: 30px;
+  align-items: flex-start;
+}
+.console-title h1 {
+  font-size: 38px;
+  letter-spacing: -1.6px;
+  line-height: 1.2;
+}
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.console-setup {
+  max-width: 480px;
+  margin: 55px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.console-setup h1 {
+  font-size: 32px;
+  letter-spacing: -1px;
+}
+.console-start {
+  padding: 32px;
+}
+.console-start > .muted {
+  margin: 12px 0 25px;
+  max-width: 660px;
+}
+.console-mode-choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.console-mode-choices > button {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+  text-align: left;
+  background: var(--ivory);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.console-mode-choices strong {
+  font-size: 22px;
+}
+.console-mode-choices span {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 400;
+}
+.console-meal-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.console-measurement,
+.console-recorded {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 28px;
+}
+.console-weight {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  color: var(--green);
+}
+.console-weight strong {
+  font-size: 80px;
+  letter-spacing: -4px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.console-weight > span {
+  font-size: 28px;
+}
+.console-state {
+  justify-content: flex-start;
+}
+.console-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+}
+.console-actions p,
+.console-measurement > p,
+.pairing-panel p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.console-actions details,
+.end-recording {
+  font-size: 13px;
+}
+.console-actions details > *:not(summary),
+.end-recording > *:not(summary) {
+  margin-top: 14px;
+}
+.portion-delta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--sage);
+  padding: 18px;
+  border-radius: 9px;
+}
+.portion-delta strong {
+  font-size: 25px;
+}
+.portion-delta span {
+  font-size: 13px;
+}
+.pairing-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+  align-items: center;
+}
+.pairing-panel > img {
+  width: 220px;
+  height: 220px;
+  background: white;
+}
+.pairing-panel > code {
+  font-size: 19px;
+  letter-spacing: 1px;
+  overflow-wrap: anywhere;
+}
+.pair-request {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--sage);
+  padding: 24px;
+  border-radius: 10px;
+  width: 100%;
+}
+.pair-check {
+  font-size: 42px;
+  letter-spacing: 9px;
+}
+.demo-inputs {
+  border-top: 1px dashed var(--line);
+  padding-top: 20px;
+  margin-top: 12px;
+  font-size: 13px;
+}
+.demo-inputs > *:not(summary) {
+  margin-top: 15px;
+}
+.demo-inputs .button-row {
+  flex-wrap: wrap;
+}
+.demo-inputs form {
+  gap: 12px;
+}
+.demo-inputs button {
+  font-size: 12px;
+}
+.meal-empty {
+  padding: 40px 12px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.meal-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 18px;
+}
+.meal-total {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.meal-total > span {
+  font-size: 14px;
+  color: var(--muted);
+}
+.meal-total > strong {
+  font-size: 42px;
+  line-height: 1.2;
+  color: var(--green);
+  letter-spacing: -1.2px;
+}
+.meal-total small {
+  font-size: 20px;
+}
+.portion-list > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  border-bottom: 1px solid var(--line);
+  padding: 15px 0;
+  font-size: 14px;
+}
+.portion-list b {
+  white-space: nowrap;
+}
+.portion-list small {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.nutrient-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.nutrient-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.nutrient-grid > div > span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.nutrient-grid strong {
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+}
+.nutrient-grid small {
+  font-size: 12px;
+  font-weight: 500;
+}
+.food-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.food-groups > div {
+  display: grid;
+  grid-template-columns: 110px minmax(30px, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+}
+.group-track {
+  height: 7px;
+  background: var(--ivory);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.group-track > span {
+  display: block;
+  height: 100%;
+  background: var(--green);
+  border-radius: 6px;
+}
+.plan-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sample-table-wrap {
+  overflow-x: auto;
+}
+.sample-table-wrap table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12px;
+}
+.sample-table-wrap td,
+.sample-table-wrap th {
+  padding: 12px 7px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+.meal-sources {
+  font-size: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 17px;
+  line-height: 1.6;
+}
+.meal-sources > div {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.meal-sources > p {
+  margin-top: 12px;
+  color: var(--muted);
+}
+.meal-sources a {
+  color: var(--green);
+  text-decoration: underline;
+}
+.sample-filters {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.sample-filters > label {
+  font-size: 12px;
+  min-width: 160px;
+  flex: 1;
+}
+.sample-scope {
+  font-size: 13px;
+  color: var(--muted);
+  margin: -8px 0 25px;
+}
+.sample-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) auto auto;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  padding: 22px 0;
+}
+.sample-row strong {
+  display: block;
+  font-size: 17px;
+}
+.sample-row small {
+  display: block;
+  color: var(--muted);
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 400;
+}
+.mode-message {
+  max-width: 650px;
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+.button-link {
+  color: var(--green);
+  text-decoration: underline;
+  padding-block: 10px;
+}
+@media (max-width: 360px) {
+  .sidebar nav button {
+    flex: 1 0 56px;
+  }
+}
+@media (max-width: 900px) {
+  .console-meal-layout {
+    grid-template-columns: 1fr;
+  }
+  .station-console {
+    padding: 22px 22px 50px;
+  }
+  .console-title h1 {
+    font-size: 30px;
+  }
+  .console-header .brand {
+    width: 150px;
+  }
+  .console-mode-choices {
+    gap: 12px;
+  }
+  .console-mode-choices > button {
+    padding: 20px;
+  }
+}
+@media (max-width: 650px) {
+  .console-title {
+    flex-direction: column;
+  }
+  .console-mode-choices {
+    grid-template-columns: 1fr;
+  }
+  .console-header {
+    align-items: flex-start;
+  }
+  .console-header > div {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .console-header select {
+    max-width: 140px;
+    font-size: 13px;
+  }
+  .console-measurement,
+  .console-recorded,
+  .console-start {
+    padding: 21px;
+  }
+  .console-weight strong {
+    font-size: 66px;
+  }
+  .sample-row {
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+  }
+  .sample-row > .status {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+  .sample-filters {
+    gap: 12px;
+  }
+  .sample-filters > label {
+    min-width: 120px;
+  }
+  .food-groups > div {
+    grid-template-columns: 90px minmax(20px, 1fr) auto;
+    gap: 8px;
+  }
+  .mode-message {
+    margin: 20px auto;
+  }
+  .sidebar nav button {
+    padding-inline: 6px;
+  }
+}

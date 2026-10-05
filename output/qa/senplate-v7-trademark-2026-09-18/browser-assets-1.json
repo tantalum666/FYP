@@ -1,0 +1,53 @@
+{
+  "assets": [
+    {
+      "contentType": "image/jpeg",
+      "id": "77bcff917cc19de0",
+      "kind": "image",
+      "name": "3712034_306990391_0.jpg",
+      "path": "/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/browser-use/assets/d1ead46b-37f5-428b-bfb5-60ece5943dad/77bcff917cc19de0.jpg",
+      "url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/4/3/0/2/1/0003712034/tmimages/3712034_306990391_0.jpg"
+    },
+    {
+      "contentType": "image/jpeg",
+      "id": "a2001d568262995a",
+      "kind": "image",
+      "name": "585381_304763890_0.jpg",
+      "path": "/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/browser-use/assets/d1ead46b-37f5-428b-bfb5-60ece5943dad/a2001d568262995a.jpg",
+      "url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/1/8/3/5/8/0000585381/tmimages/585381_304763890_0.jpg"
+    },
+    {
+      "contentType": "image/jpeg",
+      "id": "4928b86dc6e9c15c",
+      "kind": "image",
+      "name": "3547547_306673186_0.jpg",
+      "path": "/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/browser-use/assets/d1ead46b-37f5-428b-bfb5-60ece5943dad/4928b86dc6e9c15c.jpg",
+      "url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/7/4/5/7/4/0003547547/tmimages/3547547_306673186_0.jpg"
+    },
+    {
+      "contentType": "image/jpeg",
+      "id": "2bb264cf9071ac0d",
+      "kind": "image",
+      "name": "3067556_305826682_0.jpg",
+      "path": "/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/browser-use/assets/d1ead46b-37f5-428b-bfb5-60ece5943dad/2bb264cf9071ac0d.jpg",
+      "url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/6/5/5/7/6/0003067556/tmimages/3067556_305826682_0.jpg"
+    },
+    {
+      "contentType": "image/png",
+      "id": "819154e1e615e46c",
+      "kind": "image",
+      "name": "2965502_305619042_0.png",
+      "path": "/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/browser-use/assets/d1ead46b-37f5-428b-bfb5-60ece5943dad/819154e1e615e46c.png",
+      "url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/2/0/5/5/6/0002965502/tmimages/2965502_305619042_0.png"
+    },
+    {
+      "contentType": "image/jpeg",
+      "id": "484ba3674800b8ac",
+      "kind": "image",
+      "name": "407466_303572136_0.jpg",
+      "path": "/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/browser-use/assets/d1ead46b-37f5-428b-bfb5-60ece5943dad/484ba3674800b8ac.jpg",
+      "url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/6/6/4/7/0/0000407466/tmimages/407466_303572136_0.jpg"
+    }
+  ],
+  "failures": []
+}

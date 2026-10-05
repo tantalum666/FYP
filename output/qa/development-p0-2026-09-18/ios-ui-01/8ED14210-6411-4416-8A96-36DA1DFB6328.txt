@@ -1,0 +1,4 @@
+Query chain:
+ →Find: Target Application 'com.group2.senplate'
+  ↪︎Find: Descendants matching type Button
+    ↪︎Find: Elements matching predicate '"account.open" IN identifiers'

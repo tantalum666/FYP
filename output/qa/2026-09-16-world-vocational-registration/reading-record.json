@@ -1,0 +1,82 @@
+{
+  "same_task_followup": true,
+  "completed_at": "2026-09-16T07:29:54.455906+00:00",
+  "inherits_full_read": "../2026-09-16-competition-research/reading-record.json",
+  "also_inherits": [
+    "../2026-09-16-competitions-no-company/reading-record.json",
+    "../2026-09-16-mainland-competitions/reading-record.json"
+  ],
+  "supplementary_reads": [
+    {
+      "path": "AGENTS.md",
+      "current_line_count": 50,
+      "read_range": "1-EOF reread after compaction",
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "current_line_count": 133,
+      "read_range": "1-EOF before focused additions; additions reviewed",
+      "sha256": "6c4195b6f2c111533a4bf8280806b0d24b762dc38e1c4e9adc00b841e8134575"
+    },
+    {
+      "path": "handoff.md",
+      "current_line_count": 34,
+      "read_range": "1-EOF before focused addition; addition reviewed",
+      "sha256": "e8a34bdc81c20365c109bf16936d8b5a95c40d83200ad51a49ea14524c166737"
+    },
+    {
+      "path": "decision-log.md",
+      "current_line_count": 220,
+      "read_range": "latest 42 lines before append; older same-task full read inherited",
+      "sha256": "9e54c03f68d969b20c4d5f8c50c09ac6bdb7e39fbfcaf8972fc18e393eb3118a"
+    },
+    {
+      "path": "work-log.md",
+      "current_line_count": 261,
+      "read_range": "latest 22 lines before append; older same-task full read inherited",
+      "sha256": "7b2ed9e7f3aa5df3b68b0dd59ab5e93ddb1b96ac536e33580773a73652cfe800"
+    },
+    {
+      "path": "README.md",
+      "current_line_count": 71,
+      "read_range": "1-EOF before single link addition",
+      "sha256": "ec053a738220679886965c6d877ddde0f10ab7395539237dacaef4e297a3d8d3"
+    },
+    {
+      "path": "research/2026-09-16-competitions/mainland-national-provincial.md",
+      "current_line_count": 62,
+      "read_range": "1-EOF before focused edits; edits reviewed",
+      "sha256": "3ce3100998f6a59e73b7669a3e4f80fa86a92745c9dee4e01a214a2ddfd3692b"
+    },
+    {
+      "path": "research/2026-09-16-competitions/source-register.json",
+      "current_line_count": 511,
+      "read_range": "1-EOF; truncated lines 320-420 reread",
+      "sha256": "09c485e96cd608947763ee4504625ebcc95a07a9427a2d7335a63bffbb66f412"
+    },
+    {
+      "path": "planning/2026-09-14/group-2-details.json",
+      "current_line_count": 102,
+      "read_range": "1-EOF",
+      "sha256": "fa3d1fc3b68c68ea8964f07cea2266b1918b0724a35758186f81651f8b64056a"
+    },
+    {
+      "path": "research/2026-09-16-competitions/world-vocational-registration.md",
+      "current_line_count": 50,
+      "read_range": "new file fully authored and reviewed",
+      "sha256": "c20b39cff4a22f36afc82fbfa085b95653827e40473192390d0d1ea0b9e6d486"
+    }
+  ],
+  "exclusions": [
+    ".git",
+    "dependencies/caches/third-party/build output",
+    "output/qa generated evidence snapshots"
+  ],
+  "concurrent_state_preserved": [
+    "Senplate selected",
+    "Logo/VI three options awaiting user selection",
+    "Chinese business plan V1 ready"
+  ],
+  "scope": "World vocational competition registration follow-up; no new independent full read required"
+}

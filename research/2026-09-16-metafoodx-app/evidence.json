@@ -1,0 +1,94 @@
+{
+  "checked_at": "2026-09-16T11:29:21.159966+08:00",
+  "sources": [
+    {
+      "url": "https://apps.apple.com/us/app/metafoodx/id6758000603",
+      "reviewed": "Description, all5 iPhone screenshots, version history, platform and account requirements; public page only."
+    },
+    {
+      "url": "https://www.metafoodx.com/post/introducing-the-metafoodx-mobile-app-real-time-kitchen-data-from-the-floor",
+      "reviewed": "Full article and3 substantive gallery images: populated function examples, navigation and catering; app-store badge not treated as feature screenshot."
+    },
+    {
+      "url": "https://markets.financialcontent.com/wedbush/article/accwirecq-2026-9-3-metafoodx-launches-ios-app-giving-chefs-and-dining-teams-real-time-kitchen-data-from-the-floor",
+      "reviewed": "Company-authored syndicated press release dated2026-09-03; not independent feature testing."
+    },
+    {
+      "url": "https://developer.apple.com/swiftui/",
+      "reviewed": "Official Apple platform scope and Xcode previews."
+    },
+    {
+      "url": "https://developer.apple.com/documentation/uikit/about-the-background-execution-sequence",
+      "reviewed": "Official indexed background lifecycle contents."
+    },
+    {
+      "url": "https://developer.apple.com/documentation/usernotifications/registering-your-app-with-apns",
+      "reviewed": "Official indexed APNs registration and provider-server contents."
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "screenshots/app-store-first-four.png",
+      "size": [
+        990,
+        505
+      ],
+      "sha256": "1f39e6d9685ca59a382fd26acd3e511313350c55ec79d41a0d9e74ff4e1a7cae",
+      "source": "https://apps.apple.com/us/app/metafoodx/id6758000603"
+    },
+    {
+      "path": "screenshots/app-store-last-four.png",
+      "size": [
+        990,
+        505
+      ],
+      "sha256": "371b268ee0e59d5a94a1a98bbd409d5dafc0c91932c4ef49fa562f8e2f2ee96a",
+      "source": "https://apps.apple.com/us/app/metafoodx/id6758000603"
+    },
+    {
+      "path": "screenshots/official-catering.png",
+      "size": [
+        1329,
+        681
+      ],
+      "sha256": "18f818aa6d51f427af4506bd949fd8a7c9ce0a1e45955847d25f03284c8b9f05",
+      "source": "https://www.metafoodx.com/post/introducing-the-metafoodx-mobile-app-real-time-kitchen-data-from-the-floor"
+    },
+    {
+      "path": "screenshots/official-navigation.png",
+      "size": [
+        1329,
+        681
+      ],
+      "sha256": "17663b14aeaf5165073cda1073e6e2bc562528896ccee852b387747eb00b2f06",
+      "source": "https://www.metafoodx.com/post/introducing-the-metafoodx-mobile-app-real-time-kitchen-data-from-the-floor"
+    },
+    {
+      "path": "screenshots/official-populated-screens.png",
+      "size": [
+        1329,
+        681
+      ],
+      "sha256": "f5d6b1c2332eaa5ee50d7b290287fe2a5c37da9e6ec8aa8f478a14686b4c7175",
+      "source": "https://www.metafoodx.com/post/introducing-the-metafoodx-mobile-app-real-time-kitchen-data-from-the-floor"
+    }
+  ],
+  "access_limits": [
+    "No Metafoodx application installation, account login, write interaction or server inspection.",
+    "HK app detail web URL returned non-retryable access policy error; no alternate-browser retry, no HK availability conclusion.",
+    "A focused GooglePlay query did not yield a verifiable official app; official article still says Android forthcoming.",
+    "Apple notification Markdown fetch unsupported by web tool; relied on official search-index content, not a claimed complete direct-document read.",
+    "A Wix image control became detached during page loading; refreshedAX and opened current control successfully."
+  ],
+  "user_decisions": {
+    "platform": "iPhone only",
+    "app_roles": "Both customers/personal and staff/managers, separated by role in one app"
+  },
+  "not_inferred": [
+    "Metafoodx implementation framework",
+    "phone3D weighing",
+    "push notification support",
+    "full offline or task execution",
+    "consumer ordering or personal nutrition as verified Metafoodx features"
+  ]
+}

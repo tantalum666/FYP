@@ -1,0 +1,98 @@
+{
+  "source": "source-selected-a.png",
+  "method": "Source-pixel foreground analysis, contour vectorization, flat approved color; source PNG untouched. No font substitution.",
+  "foreground_rule": "g-r>12, g-b>3, r<145; primary upper logo only",
+  "options": {
+    "ltres": 0.01,
+    "qtres": 4,
+    "pathomit": 8,
+    "rightangleenhance": false,
+    "colorsampling": 0,
+    "numberofcolors": 2,
+    "mincolorratio": 0,
+    "colorquantcycles": 1,
+    "strokewidth": 0,
+    "linefilter": false,
+    "scale": 1,
+    "roundcoords": 2,
+    "viewbox": true,
+    "desc": false,
+    "blurradius": 0,
+    "pal": [
+      {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0
+      },
+      {
+        "r": 22,
+        "g": 63,
+        "b": 53,
+        "a": 255
+      }
+    ],
+    "corsenabled": false,
+    "layering": 0,
+    "lcpr": 0,
+    "qcpr": 0,
+    "blurdelta": 20
+  },
+  "mark": {
+    "name": "mark",
+    "roi": {
+      "left": 240,
+      "top": 232,
+      "width": 360,
+      "height": 190
+    },
+    "box": {
+      "x": 257,
+      "y": 242,
+      "width": 321,
+      "height": 166
+    },
+    "canvas": {
+      "width": 325,
+      "height": 170,
+      "padding": 2
+    },
+    "path_count": 3,
+    "silhouette_iou": 0.973654167032581
+  },
+  "wordmark": {
+    "name": "wordmark",
+    "roi": {
+      "left": 610,
+      "top": 232,
+      "width": 700,
+      "height": 190
+    },
+    "box": {
+      "x": 624,
+      "y": 247,
+      "width": 657,
+      "height": 153
+    },
+    "canvas": {
+      "width": 661,
+      "height": 157,
+      "padding": 2
+    },
+    "path_count": 8,
+    "silhouette_iou": 0.9772833586715004
+  },
+  "lockup": {
+    "width": 1028,
+    "height": 170,
+    "source_origin": [
+      257,
+      242
+    ],
+    "wordmark_offset": [
+      367,
+      5
+    ]
+  },
+  "note": "IoU is agreement with the classified source silhouette, not a trademark metric or overall perceptual quality score."
+}

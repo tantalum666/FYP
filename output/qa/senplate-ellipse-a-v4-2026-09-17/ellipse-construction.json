@@ -1,0 +1,102 @@
+{
+  "phi": 1.618033988749895,
+  "method": "Two concentric axis-aligned ellipses, mirrored cut angles and matched rounded terminals tangent to both ellipse boundaries. Whole symbol intentionally retains asymmetric portion and sensing dot.",
+  "dimensions": {
+    "symbol_width": 320.0,
+    "symbol_height": 179.93788759969715,
+    "outer_ellipse_width": 320.0,
+    "outer_ellipse_height": 122.22912360003365,
+    "ellipse_center": [
+      160.0,
+      118.82332579968033
+    ],
+    "outer_radii": [
+      160.0,
+      61.11456180001682
+    ],
+    "inner_radii": [
+      142.1670111997308,
+      37.77087639996635
+    ],
+    "portion_width": 122.22912360003365,
+    "portion_height": 75.5417527999327,
+    "portion_top": 57.7087639996635,
+    "dot_diameter": 46.687370800100936,
+    "dot_center_x": 197.77087639996634,
+    "dot_to_portion_vertical_gap": 11.021393199562565,
+    "opening_span_outer": 144.27190999915877,
+    "outer_cap_angles_degrees": [
+      -116.79821410190942,
+      -63.20178589809056
+    ],
+    "inner_cap_angles_degrees": [
+      -116.79821410190942,
+      -63.20178589809056
+    ],
+    "right_cap_controls": [
+      [
+        217.51627201471098,
+        61.45190073629889
+      ],
+      [
+        209.33895263512062,
+        83.1287444059136
+      ]
+    ],
+    "left_cap_controls": [
+      [
+        110.66104736487938,
+        83.1287444059136
+      ],
+      [
+        102.48372798528902,
+        61.45190073629889
+      ]
+    ],
+    "outer_endpoints": [
+      [
+        87.86404500042066,
+        64.27247577296626
+      ],
+      [
+        232.13595499957938,
+        64.27247577296626
+      ]
+    ],
+    "inner_endpoints": [
+      [
+        95.90404298544705,
+        85.10904636797292
+      ],
+      [
+        224.095957014553,
+        85.10904636797292
+      ]
+    ],
+    "front_rim_thickness": 23.343685400050475,
+    "side_rim_thickness": 17.83298880026919,
+    "logo_gap": 28.85438199983175,
+    "logo_width": 1018.058833710016,
+    "word_height": 155.8421325900429,
+    "word_stem_height": 122.22912360003365
+  },
+  "ratios": {
+    "outer_ellipse_width_over_height": 2.618033988749895,
+    "outer_ellipse_height_over_inner_height": 1.618033988749895,
+    "portion_width_over_height": 1.618033988749895,
+    "portion_height_over_dot_diameter": 1.618033988749895,
+    "dot_diameter_over_logo_gap": 1.618033988749895
+  },
+  "symmetry": {
+    "axis_x": 160.0,
+    "sample_pairs": 722,
+    "max_mirror_coordinate_error": 5.684341886080802e-14,
+    "max_curvature_error": 9.71445146547012e-17,
+    "both_caps": "same tangent rounded cap mirrored across x=160"
+  },
+  "superseded_v3_constraints": [
+    "Whole-mark outer box no longer forced to phi.",
+    "Separate left/right freeform rim and one round cap removed."
+  ],
+  "typecase": "Lowercase logo retained; iOS app display name Senplate. Initial capital comparison not selected."
+}

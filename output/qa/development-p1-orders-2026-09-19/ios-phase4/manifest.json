@@ -1,0 +1,26 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "7F630D27-2090-4D80-93B9-1DAC4123BCEC.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "12-scanner-fallback_0_E8D239FE-6CEE-4D5D-A729-89C45FABFB85.png",
+        "timestamp" : 1789758325.26
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "2929722B-4E61-42BA-B9A2-CD0A99DD3DA2.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "11-collected-zh_0_863EDA46-DFCC-41E1-8066-89585C1717C6.png",
+        "timestamp" : 1789758320.689
+      }
+    ],
+    "testIdentifier" : "OrderingUITests/test04CollectedAndScannerFallback()",
+    "testIdentifierURL" : "test://com.apple.xcode/Senplate/SenplateUITests/OrderingUITests/test04CollectedAndScannerFallback"
+  }
+]

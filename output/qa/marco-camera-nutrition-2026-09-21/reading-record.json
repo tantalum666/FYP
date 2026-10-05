@@ -1,0 +1,1057 @@
+{
+  "started_at": "2026-09-21T06:25:26.436963+00:00",
+  "files": [
+    {
+      "file": "AGENTS.md",
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ]
+    },
+    {
+      "file": "README.md",
+      "lines": 199,
+      "sha256": "889d0a6c388f6f8ec21e94491fda1073125bda6cfac41ca9a408751a4d393688",
+      "read_ranges": [
+        [
+          1,
+          122
+        ],
+        [
+          123,
+          199
+        ]
+      ]
+    },
+    {
+      "file": "Senplate_Logo_ImageGen_Brief.md",
+      "lines": 53,
+      "sha256": "9e43354d89cbf331ed68fde35a658e697b28a2374a6c4b6ddf0864af7ddfb067",
+      "read_ranges": [
+        [
+          1,
+          53
+        ]
+      ]
+    },
+    {
+      "file": "brand.md",
+      "lines": 58,
+      "sha256": "541930270030b77ece90f3ae187614aedadfc1008de07ddbc45fdde7eb244c6e",
+      "read_ranges": [
+        [
+          1,
+          58
+        ]
+      ]
+    },
+    {
+      "file": "decision-log.md",
+      "lines": 426,
+      "sha256": "0446efcae4e481672e47e51f29c8b15a457664c3ab0b956623796790163441f3",
+      "read_ranges": [
+        [
+          1,
+          158
+        ],
+        [
+          159,
+          318
+        ],
+        [
+          319,
+          426
+        ]
+      ]
+    },
+    {
+      "file": "handoff.md",
+      "lines": 31,
+      "sha256": "795f8d5e42606928e8dcb1df6037d0fb4f21f98f81040a20abb86999f03b4ec5",
+      "read_ranges": [
+        [
+          1,
+          31
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-17-senplate-bowl-golden-v6/README.md",
+      "lines": 25,
+      "sha256": "a0b789b00a79ba12f6674107801c400587262982c67f368506b7334eb57801a4",
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-17-senplate-bowl-redesign-v5/README.md",
+      "lines": 15,
+      "sha256": "8d5ad052f1a1d9c91cb7641bb0dcde56e9d090c6f1adb33c07d658498aba546a",
+      "read_ranges": [
+        [
+          1,
+          15
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-17-senplate-ellipse-a-v4/README.md",
+      "lines": 29,
+      "sha256": "5093948b2362e73a50c7a3f444daa5365c9f099f1f0f65396253cc9662fac189",
+      "read_ranges": [
+        [
+          1,
+          29
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-17-senplate-golden-a-v3/README.md",
+      "lines": 36,
+      "sha256": "8142045ff4c484b59137d15509fcb30483aaa55850872c00818f8355684db23e",
+      "read_ranges": [
+        [
+          1,
+          36
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-17-senplate-refined-a-v2/README.md",
+      "lines": 25,
+      "sha256": "ba04ccfaa2ac51995bcc444c700d30a62ccbd1bd766248f814be27113f0fae31",
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-17-senplate-selected-a/README.md",
+      "lines": 28,
+      "sha256": "6d9fc152b1037cfcfa68ad2248a0b31dc83c2271e9e2ba28c06e70b0e6292056",
+      "read_ranges": [
+        [
+          1,
+          28
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-17-senplate-v6-tick-study/README.md",
+      "lines": 14,
+      "sha256": "6581199fb4ef6f12745f1365267def60a270186c2e5beb2b774291eaa52ef5b3",
+      "read_ranges": [
+        [
+          1,
+          14
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-18-senplate-plain-bowl-v7/README.md",
+      "lines": 13,
+      "sha256": "743fb9a7d309f7386b8df6c228163c65af903d0838f80b88af174ed699b53041",
+      "read_ranges": [
+        [
+          1,
+          13
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-18-senplate-v6-curved-ticks/README.md",
+      "lines": 9,
+      "sha256": "9661335bcfc1e3231af2308a8faa0361e92769c220deb4827f4c29adc3328177",
+      "read_ranges": [
+        [
+          1,
+          9
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-18-senplate-v6-inner-scale/README.md",
+      "lines": 9,
+      "sha256": "671375399fc83c99af7309dc8aa78b836275ae87a65e0bd7ce00e7d201551ef2",
+      "read_ranges": [
+        [
+          1,
+          9
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-18-senplate-v6-rim-tick-study/README.md",
+      "lines": 15,
+      "sha256": "cb59360e23759961e887549c379662aadca07376d35886a7e80fa9ae77fd2c47",
+      "read_ranges": [
+        [
+          1,
+          15
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-18-senplate-v6-visible-ticks/README.md",
+      "lines": 12,
+      "sha256": "c51ef245711743d2d27d4dc37e7f6370a964e9bfceb2d630750a72d1af7d746d",
+      "read_ranges": [
+        [
+          1,
+          12
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-18-senplate-vi-v1/05_Fonts_and_Licences/FONT-LICENCE-AUDIT.md",
+      "lines": 28,
+      "sha256": "44f3f6a23cfac8266a573acd5100be24e8b4c58d18edf795b7d7223d04abc8f9",
+      "read_ranges": [
+        [
+          1,
+          28
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-18-senplate-vi-v1/06_Source/Figma_Source.md",
+      "lines": 17,
+      "sha256": "967941ed3a0d92ea19e3d389b096bc97498f3fcc50898f8cc80c4ff83f526b91",
+      "read_ranges": [
+        [
+          1,
+          17
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-18-senplate-vi-v1/06_Source/VI_Rules.md",
+      "lines": 14,
+      "sha256": "39248a48fe9cbd1b828b9289b68ca80c8ec24beba8f1cdcf6fb4457668423468",
+      "read_ranges": [
+        [
+          1,
+          14
+        ]
+      ]
+    },
+    {
+      "file": "output/brand/2026-09-18-senplate-vi-v1/README.md",
+      "lines": 25,
+      "sha256": "53cedb259d2bb1a8b581396ea5706a1fc543c7b1ba4c936ddd76c5803a83e3b5",
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "lines": 174,
+      "sha256": "f9b1f4e6b9004abd100aacb349966edeab9bba59b9e842f9058887d2f7d44c1d",
+      "read_ranges": [
+        [
+          1,
+          174
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 120,
+      "sha256": "d21172e196d7d308a5b8dd192a946abb0e1b972f36fb0b8f2ce4b8325937754f",
+      "read_ranges": [
+        [
+          1,
+          120
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "lines": 80,
+      "sha256": "cde0e64aba2575158f5d4fb228dfc25a8a2682d3cb7bb4c40b0fe6c0bc1dd0b3",
+      "read_ranges": [
+        [
+          1,
+          80
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160,
+      "sha256": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5",
+      "read_ranges": [
+        [
+          1,
+          160
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "lines": 108,
+      "sha256": "ac5709dfbaf0c4bcd78d211595e961b0028bd9031475d16281a675b3826e895f",
+      "read_ranges": [
+        [
+          1,
+          108
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "lines": 39,
+      "sha256": "4bc962711143b8b982d7adba8e96f747f00cf2bc699d3d94835c08af8cb0d65b",
+      "read_ranges": [
+        [
+          1,
+          39
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-15/camera-power-and-scaling.md",
+      "lines": 183,
+      "sha256": "4fa54cbecb0f24b25f7360ea82bce8a66a5760a1aeb912b9ff344f8cb981a2e4",
+      "read_ranges": [
+        [
+          1,
+          183
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "lines": 18,
+      "sha256": "1d0ba46a3b015b3463b3fdd47394624f42b4930ec7e64b2b33639ebcc9d6ab42",
+      "read_ranges": [
+        [
+          1,
+          18
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "lines": 247,
+      "sha256": "1434e55732e1ccb5a514e9204c4923f704221a8be0dc5d13f32f419c671c9c13",
+      "read_ranges": [
+        [
+          1,
+          247
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+      "lines": 70,
+      "sha256": "ab69a75f60b9ac081617970c9dea0ad48e4af73e27f006085e77052835054965",
+      "read_ranges": [
+        [
+          1,
+          70
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+      "lines": 53,
+      "sha256": "9bc25bc85baaf4badca2a18e853ffbf18c818b53bde69798a1e0c813cbfd3538",
+      "read_ranges": [
+        [
+          1,
+          53
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-15/power-supply-detail.md",
+      "lines": 143,
+      "sha256": "5cf4999a5cfbbb1f0f7b3ae92707c5c2e774bb630c4b959b6243c9bdeda012e9",
+      "read_ranges": [
+        [
+          1,
+          143
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-15/procurement-guide.md",
+      "lines": 212,
+      "sha256": "6ab9b851962e90f28578483b06173dc7a9e2eb434ace4ba0fe1455330e0a1c66",
+      "read_ranges": [
+        [
+          1,
+          118
+        ],
+        [
+          119,
+          212
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "lines": 107,
+      "sha256": "b22dfd416dca3223ef15ae88aaaff8989887e38d6a882e7b1ddb19c785ab3618",
+      "read_ranges": [
+        [
+          1,
+          107
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-16/app-pages-and-permissions.md",
+      "lines": 180,
+      "sha256": "809a6faddbabd92fc5bb2b3fd165b4a151166483fd09c43216f97b12935045c8",
+      "read_ranges": [
+        [
+          1,
+          180
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-16/archive/software-scope-web-first-v1.md",
+      "lines": 189,
+      "sha256": "5ce1260f55f6410f1818630974321cf5202f93c9c97a05b73b52c863fec65cb1",
+      "read_ranges": [
+        [
+          1,
+          189
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-16/brand-visual-directions.md",
+      "lines": 54,
+      "sha256": "490c3fb0aeff234694d01573ba2ce6f77ba80820b31af011e26cd07a32d4954a",
+      "read_ranges": [
+        [
+          1,
+          54
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-16/business-plan-zh.md",
+      "lines": 447,
+      "sha256": "3ed1300b9ae20a4f69a77099cf228933488d94263b569d34dd6e6c6132252d00",
+      "read_ranges": [
+        [
+          1,
+          307
+        ],
+        [
+          308,
+          447
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-16/logo-reference-calibration.md",
+      "lines": 52,
+      "sha256": "ac59e1c4da18404b379cab2bec15f83ac42028efadddc2d771892b46eddcd212",
+      "read_ranges": [
+        [
+          1,
+          52
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-16/naming-shortlist.md",
+      "lines": 45,
+      "sha256": "419ef467a07ea5127fdd366df191ca0ba79c2d23142842f883503fb98f4c1424",
+      "read_ranges": [
+        [
+          1,
+          45
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-16/senplate-logo-refinement-r2.md",
+      "lines": 44,
+      "sha256": "0ced9649ff0f5c8216b9fb35ac187e3a5cfb6146b933e0e199db14dcb447a26b",
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-16/senplate-logo-reset-r3.md",
+      "lines": 46,
+      "sha256": "aedd000ba74c50d3d5c4869e6fc506fd53673ff7d0ee1d7a78776a891727a640",
+      "read_ranges": [
+        [
+          1,
+          46
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-16/senplate-logo-vi-directions.md",
+      "lines": 63,
+      "sha256": "cacc66c8fe06603081330ae7040932f125a9644923b6d2d8191c25175449a7b6",
+      "read_ranges": [
+        [
+          1,
+          63
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-16/software-mvp-and-acceptance.md",
+      "lines": 98,
+      "sha256": "bf589c3b6b7f07646dd3184a1da149f8a88e3b1d01ada291e00eed5b603d7422",
+      "read_ranges": [
+        [
+          1,
+          98
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-16/software-scope-and-architecture.md",
+      "lines": 204,
+      "sha256": "3cb29cd07d6fa7956644339d1b9818f01a97219e9d25578fdc75b4d8c7faffe8",
+      "read_ranges": [
+        [
+          1,
+          204
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-16/software-workflows-and-api.md",
+      "lines": 291,
+      "sha256": "b9d5bd3e387291f3678ca3142f35bf7bfd6ff1b128bd1e7d16f2b73fd7b9cec4",
+      "read_ranges": [
+        [
+          1,
+          209
+        ],
+        [
+          210,
+          291
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-17/senplate-bowl-golden-v6.md",
+      "lines": 43,
+      "sha256": "92f821214b8e2a4b2009aaebd57b8f2cee8ccf39ee6e94444e5c8a54e7d5b8f5",
+      "read_ranges": [
+        [
+          1,
+          43
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-17/senplate-bowl-redesign-v5.md",
+      "lines": 44,
+      "sha256": "973315abcf7fcab0364cde29048daa5ff5b86b88747564eb0185db593acbf258",
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-17/senplate-logo-measured-plate-r5.md",
+      "lines": 45,
+      "sha256": "5732e458c1943e924ad301d61554cf9afbcafade6764a06295fc5146398e37ad",
+      "read_ranges": [
+        [
+          1,
+          45
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-17/senplate-logo-profile-r4.md",
+      "lines": 40,
+      "sha256": "0a7d0fef8b45d7e5686ffd921d2ac7796423817523b284a019987f994c2b003d",
+      "read_ranges": [
+        [
+          1,
+          40
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-17/senplate-v6-tick-study.md",
+      "lines": 30,
+      "sha256": "af0a26015842f3d377f66de92708c804e6527c303d5e5fa91f2caaee266ede55",
+      "read_ranges": [
+        [
+          1,
+          30
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-17/senplate-vector-logo-studies.md",
+      "lines": 51,
+      "sha256": "170e7e875ec2171f46f47aba20bff499c5a958d2b53453085fbcb340be0899ef",
+      "read_ranges": [
+        [
+          1,
+          51
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-18/development-p0.md",
+      "lines": 70,
+      "sha256": "4868eec2628046e2c613fc3df195c0d4f1ac1843deb60c9fb857539f5b9583b5",
+      "read_ranges": [
+        [
+          1,
+          70
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-18/senplate-plain-bowl-v7.md",
+      "lines": 25,
+      "sha256": "a3f1f6dd709594d7f7e5239cdd567c74956951009e63773b1d8edd828c92d121",
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-18/senplate-v6-curved-ticks.md",
+      "lines": 26,
+      "sha256": "039d78b126afc7a9528d9f0db1e8961623805ca2fd87a5f3785340b67cfd640d",
+      "read_ranges": [
+        [
+          1,
+          26
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-18/senplate-v6-inner-scale.md",
+      "lines": 24,
+      "sha256": "78332917176aa3b5e500182d7203743b262de58ad867e01e2ea034f240fdc598",
+      "read_ranges": [
+        [
+          1,
+          24
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-18/senplate-v6-rim-tick-study.md",
+      "lines": 30,
+      "sha256": "38bd6a5e6c72745975b0fc97fcc00055139fff62bd27f9e2b2960908ec2194b9",
+      "read_ranges": [
+        [
+          1,
+          30
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-18/senplate-v6-visible-ticks.md",
+      "lines": 26,
+      "sha256": "25c5464eed55037bbb95e0b536fec22b7d884a624fdb6b923cc1e4e4cfa16d7a",
+      "read_ranges": [
+        [
+          1,
+          26
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-18/senplate-vi-v1.md",
+      "lines": 33,
+      "sha256": "8dfd1dd4fb2c536ff9969c39a3bab715bb6b71acef6e051e3afacf9f576c166d",
+      "read_ranges": [
+        [
+          1,
+          33
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-19/meals-samples-contract.md",
+      "lines": 55,
+      "sha256": "74a0c6836157df554be545869233f56cd1193aa5b472cf38c03218703eeecb3d",
+      "read_ranges": [
+        [
+          1,
+          55
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-19/menu-orders-contract.md",
+      "lines": 70,
+      "sha256": "495d67693e247654721eaf380352c4a2889f4f9f99bd306e9c3648709b5bd765",
+      "read_ranges": [
+        [
+          1,
+          70
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-21/proposal-content.md",
+      "lines": 243,
+      "sha256": "f0f0e3d1a99fdd784204a32dd076ddd2bb11faf30215544b9d89c51148c496a1",
+      "read_ranges": [
+        [
+          1,
+          96
+        ],
+        [
+          97,
+          167
+        ],
+        [
+          168,
+          243
+        ]
+      ]
+    },
+    {
+      "file": "planning/2026-09-21/proposal-spec.md",
+      "lines": 37,
+      "sha256": "08098e1aedef05aadba2f9411c90af2b42210d2448a52265dc397cdf94880583",
+      "read_ranges": [
+        [
+          1,
+          37
+        ]
+      ]
+    },
+    {
+      "file": "product.md",
+      "lines": 153,
+      "sha256": "0de66017a0153a67661065f2a0cdbe20dfe8845d9b524e310595105188da9f83",
+      "read_ranges": [
+        [
+          1,
+          129
+        ],
+        [
+          130,
+          153
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165,
+      "sha256": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53",
+      "read_ranges": [
+        [
+          1,
+          165
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38,
+      "sha256": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410",
+      "read_ranges": [
+        [
+          1,
+          38
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44,
+      "sha256": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346",
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47,
+      "sha256": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a",
+      "read_ranges": [
+        [
+          1,
+          47
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287,
+      "sha256": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827",
+      "read_ranges": [
+        [
+          1,
+          218
+        ],
+        [
+          219,
+          287
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171,
+      "sha256": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4",
+      "read_ranges": [
+        [
+          1,
+          171
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25,
+      "sha256": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7",
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-16-competitions/competition-shortlist.md",
+      "lines": 80,
+      "sha256": "133355c882bbd37335530e8e17c8a2405bc68c707917343701fc88cfda842af2",
+      "read_ranges": [
+        [
+          1,
+          80
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-16-competitions/mainland-national-provincial.md",
+      "lines": 64,
+      "sha256": "1c6a636ecfd74bca91a70225af9a4b1084fdb58abc8f4a601c05dfc32c2fd434",
+      "read_ranges": [
+        [
+          1,
+          64
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-16-competitions/no-company-options.md",
+      "lines": 55,
+      "sha256": "4430f173ed645792cb56c67a941855ee9a2c71f7334125df427af941ece49692",
+      "read_ranges": [
+        [
+          1,
+          55
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-16-competitions/plan-to-july-2027.md",
+      "lines": 82,
+      "sha256": "deffcd40be67bc641141a2044b964f7f9346527b93f7a8e7b32809e6f4468113",
+      "read_ranges": [
+        [
+          1,
+          82
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-16-competitions/world-vocational-registration.md",
+      "lines": 52,
+      "sha256": "1126554e5007d4227dd45ce35c83c58b1929952c23f427b68ac5301c168206b6",
+      "read_ranges": [
+        [
+          1,
+          52
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-16-metafoodx-app/app-review.md",
+      "lines": 60,
+      "sha256": "bcb9f053a9647675b75d973ddabb8a4af3d1c34d6e5e727d7a8b0448a0311910",
+      "read_ranges": [
+        [
+          1,
+          60
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md",
+      "lines": 72,
+      "sha256": "d127f396aa563e381d41ad7fe78c14779fa82bbbd5d59502ed4d7e94ccac5928",
+      "read_ranges": [
+        [
+          1,
+          72
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-17-logo-similarity/similarity-review.md",
+      "lines": 82,
+      "sha256": "4986cceb789567389d994d18d9818ab09c93a98c1307d927975a8ea18a25f78c",
+      "read_ranges": [
+        [
+          1,
+          82
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-18-font-licences/font-licence-audit.md",
+      "lines": 28,
+      "sha256": "44f3f6a23cfac8266a573acd5100be24e8b4c58d18edf795b7d7223d04abc8f9",
+      "read_ranges": [
+        [
+          1,
+          28
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-18-senplate-trademark/trademark-review.md",
+      "lines": 83,
+      "sha256": "6d66a3c5f76709072d05bc127a7d620f9333bcc7b45c7672fa0a536562a892d2",
+      "read_ranges": [
+        [
+          1,
+          83
+        ]
+      ]
+    },
+    {
+      "file": "research/2026-09-19-nutrition/reference-audit.md",
+      "lines": 36,
+      "sha256": "455860fb89dfb3d1f23510a463f5fd73a1dfc16d84ba345eda1d3df4283725d6",
+      "read_ranges": [
+        [
+          1,
+          36
+        ]
+      ]
+    },
+    {
+      "file": "work-log.md",
+      "lines": 526,
+      "sha256": "8c580a4157bd3fa8e043313ebe14322a098cc739cadfd6ef45a1459c3ea97d43",
+      "read_ranges": [
+        [
+          1,
+          128
+        ],
+        [
+          129,
+          247
+        ],
+        [
+          248,
+          366
+        ],
+        [
+          367,
+          487
+        ],
+        [
+          488,
+          526
+        ]
+      ]
+    }
+  ],
+  "read_batches": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40
+  ],
+  "excluded": [
+    "output/qa/development-m1-2-meals-2026-09-19/verification.md",
+    "output/qa/development-p0-2026-09-18/verification.md",
+    "output/qa/development-p1-orders-2026-09-19/verification.md",
+    "output/qa/senplate-bowl-golden-v6-2026-09-17/brand-before-v6.md",
+    "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "output/qa/senplate-selected-a-2026-09-17/vendor/README.md",
+    "output/qa/suggestion-2026-09-14/artifact.md",
+    "output/qa/suggestion-v2-2026-09-14/artifact.md"
+  ],
+  "completed_at": "2026-09-21T06:30:56.269682+00:00",
+  "changes_during_reading": [],
+  "notes": [
+    "Batches 2, 3 and 4 were printed together with output truncation; all three were then re-read individually in full.",
+    "Batch 8 was printed alongside web research; tail lines 87-108 of single-station-recognition-reliability.md were re-read separately to cover truncation.",
+    "Batch 27 (product.md lines 1-153) was read in full with the entry-point read before the plan was created."
+  ]
+}

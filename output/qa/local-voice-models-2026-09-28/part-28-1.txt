@@ -1,0 +1,132 @@
+
+FILE work-log.md L508-665 of 665
+- **数据保护：**原演示新增#003未完成订单，另建senplate_meals_qa／8800／localhost5178及QA账户；原run和#001／#002／#003保持collected／ready／submitted。未新增物理设备、未重置用户记录。
+- **验证：**55后台测试通过（34.02s），Ruff与Web构建通过；6次iPhone分阶段运行通过，覆盖双端配对、450g三项、350g总余量、477.5kcal参考、英／简、SE3及最大字号。真实网页QR解码、4合法／12非法解析通过；Generic iphoneos无签名编译成功。数据4hash／20值核对。UI第一次营养断言因AX合并标签失败，修正测试后独立夹具重验通过。
+- **异常：**称重抖动禁用／恢复、漏包／迟到／校准／皮重／移盘保护；设备完成回复丢失后刷新仍用原操作恢复，只有1完成历史；参考目录超时持续提示，恢复后可操作。React hooks新增时HMR发生暂态错误，完整重载后恢复并重新检查，不归为已验证生产故障。
+- **匿名样本：**450g已知餐／300g余量与250g未知混合／余量null，汇总2份、700g提供、300g已知剩余、1有余量／1未知；导出明确simulated与未审核示范计划，无浪费率或儿童身份。
+- **交付：**餐食契约、资料核查、QA与检查点／截图／CSV；product、README、四份当前软件规格、decision-log和handoff同步。品牌／学校原件与身份份额保留，链接及保护hash收尾记录在本批QA。
+- **未完成：**M1.3完整食物／配方／审核计划／角色与餐末去向、实物注册／校准／Pi／模型、真机扫码、OS17、VoiceOver、原生故障与长时压力。没有真实营养／硬件精度／减损证明，没有外网发布、对外联系、购买、签名、学校提交或初始Git提交。
+
+
+## 2026-09-21 学校Project Proposal制作与检查
+
+- **目标：**按AY26指南与两份样本制作英文正式proposal；最新消息将9月28日列团队提交目标，Moodle截图为9月29日23:59、DOCX与PDF两种格式。开发M1.3本轮未继续。
+- **开工：**83份项目自有Markdown／7292行／73批全部读取，第32／33批输出截断后完整补读，无阅读期间变化。[阅读记录](output/qa/proposal-2026-09-21/reading-record.json)；本轮压缩后沿用记录，仅恢复当前规范与要修改文件。
+- **附件：**指南1页、sample1全部8页（末页空白）、sample2全部6页（末页空白）逐页查看。提取七项必需内容，采用指南的ITE4116M，未沿用旧样本ITP4913M。三份原文件只读并保留hash，Moodle截图另存QA。
+- **研究：**刷新EPD2024厨余统计、卫生署学校午膳资料、Metafoodx、Controliza Buffet、Pi5、Gemini2、PyTorch迁移学习／MobileNetV3和USDA FDC官方资料。9条链接进入参考文献，来源与用途见[来源登记](output/qa/proposal-2026-09-21/source-register.json)。厂商自述不转换成当地试点成效或竞争领先证明。
+- **内容：**痛点、受众、竞争、单盘位三配置、硬件／架构、功能／数据、视觉训练和补餐基线、营养估算边界、非功能指标、可行性／风险、团队里程碑、交付、40／30／30、资源与外部／AI协助。19Sep软件结果与拟议实物／模型目标分别表达，没有虚构访谈或试点。
+- **制作：**[英文源稿](planning/2026-09-21/proposal-content.md)、[规范](planning/2026-09-21/proposal-spec.md)、[构建脚本](scripts/build_school_proposal_20260921.py)及可编辑架构SVG；最终[DOCX](<output/docx/AY26_ProjectProposal_Group 2.docx>)／[PDF](<output/pdf/AY26_ProjectProposal_Group 2.pdf>)均10页。Word正文与10张表格原生可编辑，架构1图，9条超链接。
+- **验证：**初稿渲染后修复标题边框／主题字体、图中连线遮字、编号接续与签名栏空间；最终render-02全部10页以原始分辨率检查。身份／课程／日期／页码、表头重复、签名留空、无跟踪修订核验；a11y高／中／低问题均0；3份学校原件及332项旧文件hash未变。[成稿验证](output/qa/proposal-2026-09-21/final-validation.json)。
+- **收尾：**同步product、README、handoff、decision-log、proposal-spec和本日志；链接、保护hash及成稿存在性另记[收尾验证](output/qa/proposal-2026-09-21/closeout-validation.json)。一次原子patch因同一路径同时删除／新增被拒，未改变文件，改为独立更新后成功。未改应用代码、运行服务、重做已通过的软件测试、派代理、改品牌、签名、联系导师或提交Moodle。
+- **剩余：**接收组员／Marco反馈后修订，签署与正式提交由相应人员完成；最终课程日程尚未提供，文内2027-03-19只是团队技术完成目标。唯一下一步为proposal审阅修订。
+
+## 2026-09-21 相机必要性与番茄炒蛋营养复核
+
+- **目标：**回应Marco的两点反馈，解释廉价RGB＋称重的替代、混合／遮挡的观测限制及可验证营养流程；不把假设改主线误写为用户决定。
+- **阅读：**本轮85份项目自有Markdown／7600行／41批全读；2–4组合输出截断后逐批重读，8批尾部补读，27批product在开头已完整读取并记范围。阅读期间无文件变化；[阅读记录](output/qa/marco-camera-nutrition-2026-09-21/reading-record.json)。
+- **研究：**重新读取Orbbec Gemini2和Pi Camera Module3官方规格、FAO配方计算／数据评估及Nutrition5k作者README。CameraModule3 US$25起只为海外官方起价；没有淘宝SKU或Pi实测。FAO方法作为配方参考依据，不伪装真实成分检测。
+- **完成：**新增[技术复核](planning/2026-09-21/marco-camera-and-nutrition-review.md)，包含功能—传感器对应、混合菜总量不唯一、原料／得率／损耗、整锅与分份、少量油盐精度、单盘时序、误差层次及下版英文文字。假设500g／500kcal→150g／150kcal只是算术例子。
+- **同步：**product、README、handoff、decision-log、proposal-spec，以及当前采购／询价入口、持续监测、相机比较和单盘可靠性提示；旧正文保留历史条件。已交付Proposal DOCX／PDF及源稿、品牌、身份、旧BOM／RFQ未覆盖。
+- **验证：**[收尾核对](output/qa/marco-camera-nutrition-2026-09-21/closeout-validation.json)记录文件链接、338项保护hash、研究出处及假设算术。未运行不相关软件测试，未生成新版DOCX／PDF，未训练、采购、上电、联系或提交。
+- **唯一下一步：**明确能否取得真实配方／接受备料记录，并确定营养是否作为主评价，据此修订proposal。研究建议不等于导师批准或准确性已经达标。
+
+### 同轮补充：直接回答学生每日维生素C达标能力
+
+- 用户表示前述估算说明未回答精度，进一步给出学生一天营养标准和维生素C场景。直接澄清当前设备无法保证满足该精确目标，不能把“有配方可估算”写成已解决。
+- 沿用85文件／7600行全读，补读当前规范、相机营养复核和最新日志；组合输出截断后重读handoff／日志相关段。刷新NIH ODS维生素C热／储存损失及National Academies个体膳食评估资料。
+- 补充复核第8节、product、handoff、decision-log及本记录：实际含量、实际吃下量、全天覆盖、摄入参考与营养状态分别解释。未指定某国数值为学校采用标准，未提供儿童补充剂剂量。
+- 原Proposal与338保护文件保持，链接与来源登记见本QA的adequacy-followup-validation.json；没有新Word／PDF、代码、训练、硬件测试、对外联系或提交。
+
+### 同轮补充：Metafoodx痛点与可交付价值
+
+- 延续Marco反馈与营养可行性讨论，沿用85文件全读记录；补读竞品研究、最新营养复核／当前交接，核对公开资料，没有重做已通过软件测试或全库阅读。
+- 刷新Metafoodx首页、Metron产品、AI运营与预测、Freshness Alert、移动介绍、Pomona厂商案例及校方报道。最终重点引用公开流程及客户采用，未把营销准确率当化学营养精度，未移植54%等成果为本项目指标。
+- 追加复核第9节、product当前依据、handoff和decision-log；原10页Proposal及338保护文件保持。检查来源、内部链接及10－3＝7、3＝2＋1的假设口径；证据为metafoodx-pain-followup-validation.json。
+- 未创建新Word／PDF、应用代码、实物／模型实验、购买、对外联系或提交。用户尚未决定改主线；工程启示是围绕可测经营问题论证社会价值。
+
+### 同轮补充：已有成熟采购时是否需要Senplate
+
+- 用户继续检验痛点成立条件；沿用Marco反馈讨论的85文件全读及补读链，本次补读当前交接、复核和最新决定。
+- 刷新Metafoodx／Illumia集成及Controliza Buffet官方资料。明确补充已存在的运营系统，不能预设采购落后或人人需要设备。
+- 追加复核第10节及product、handoff、decision-log，记录适配／不适配情形、餐中时间算例、现有流程基线与现场验证建议。600÷150＝4分钟是明确假设，不是测试结果。
+- 原Proposal及338项保护文件保持，内部链接／算例验证见mature-procurement-followup-validation.json；无新正式文档、代码、实物实验、购买、联系或提交。
+
+## 2026-09-25 智能工作台／AI电子日历转向研究
+
+- **目标：**执行用户推翻 Senplate 并研究组员新想法的指令；用户补充适用家庭或办公室桌面，并明确 Chrome 中已打开指定 OpenAI 视频。
+- **开工阅读：**按 AGENTS 完整盘点和读取86份项目自有 Markdown、7847行、69批；批次截断处逐项补读，记录显示阅读期间无文件变化。[阅读记录](output/qa/new-concept-2026-09-25/reading-record.json)。两份组员原文件只读提取；DOCX两页结构与页面渲染核对，渲染环境缺中文字体，故正文判断依据结构提取。原件SHA-256、旧Proposal哈希留在本轮QA。
+- **公开研究：**核对 Echo Show 存在感知、Skylight Calendar、Microsoft Viva、Upright GO 2、Razer AVA、Pi官方规格、Google日历API、OpenAI GPT-Live官方技术／价格、微软提醒时机研究、OSHA／NIOSH，以及情绪推断与AI情感使用研究。Chrome 实际播放指定约55秒X视频，查看0:06、0:16、0:21、0:30、0:39、0:51画面／可见字幕，再与OpenAI官方完整技术文章交叉。未声称观看所有音轨或复现视频装置。
+- **研究结论：**电子日历、存在感知、姿态反馈和语音角色已存在；“更有硬件／功能”本身不是差异。首选可测命题是基于日程紧迫度、在桌状态和用户专注设置减少不合时宜提醒，同时守住重要事件的及时性；用用户确认构成闭环。情感障碍治疗和自动情绪诊断不在可承诺范围；LCD角色可做，反射影像和小云台仅作可选实验。GPT-Live语音按需开启，官方按活跃会话秒数收费，后端另计。
+- **交付：**[新方向完整分析](research/2026-09-25-desk-companion/feasibility-review.md)，含竞品矩阵、四种定位、商业假设、硬件与语音架构、验证、六个月分工和英文Proposal表述。重写[product.md](product.md)，将旧全文保留在[product-senplate-historical.md](product-senplate-historical.md)；README、brand、旧软件总规范、商业计划、RFQ入口与旧Proposal规范标历史，更新decision-log与handoff。
+- **未完成：**团队与Marco尚未选定具体新题、新硬件清单和用户试点；新英文Proposal DOCX／PDF尚未制作或提交。没有新代码、采购、语音API调用、实物精度测试、真人访谈、外部消息、签名或Moodle上传。旧学校文件与软件保持原样，不把历史验证移植为新项目成绩。
+- **收尾验证：**[QA核对](output/qa/new-concept-2026-09-25/closeout-validation.json)检查新旧规范及修改文件中的本地链接、两份组员原件和旧Proposal双格式哈希、Senplate旧product逐字内容归档；文档任务没有运行软件或硬件测试，也没有新DOCX／PDF可供渲染。
+
+### 同日补充：语音模型与成本重新选型
+
+- **目标：**回答用户对GPT-Live按时间计费的成本担忧，比较可替换的实时、分段和本地方案，以及自训是否值得。
+- **范围与阅读：**沿用同一新方向研究的[全库阅读记录](output/qa/new-concept-2026-09-25/reading-record.json)，本次补读AGENTS、product、handoff、当前报告、最新决定及要改文件；官方新资料实际打开核对。没有重做旧食物项目测试。
+- **证据：**OpenAI官方语音架构、价格、Realtime每音频token计量与Mini能力边界；Google Gemini3.8 Live价格／重复上下文费与地区；阿里云Model Studio香港区域及Qwen3.8 Flash香港文字单价、Qwen3.8 Omni Flash香港音频输入→文本能力；Azure Speech East Asia基础语音服务；whisper.cpp、llama.cpp、Piper及Qwen3-ASR／TTS开源资料。记录两家直连Developer API未列香港的限制；阿里云香港实时语音价未核清，不移植新加坡价。成本算例分新音频、会话历史、文本和TTS。
+- **交付与建议：**[语音成本专项](research/2026-09-25-desk-companion/voice-model-cost-review.md)与总体报告、product、handoff、decision-log同步。先用可替换的按键说话链／本地ASR、受控日历工具及本地TTS验证；动态文字模型可用香港区域服务，真人式双工会话作为选测。不要从零训练语音大模型；若需学术模型贡献，收集允许使用的反馈来验证轻量提醒时机模型。
+- **未完成：**没有建立/试用任何API账号、支付、下载模型、用Pi跑语音、收集录音或产生实测月费；新学校Proposal还未改稿。
+
+### 同日补充：免按键实时语音与设备控制再次比选
+
+- **目标与用户条件：**不以地区或按键说话筛选；对比能免按键实时交互、打断及调用设备工具的主流型号，给出性价比首测候选。
+- **开工衔接：**沿用[新方向86份Markdown全读记录](output/qa/new-concept-2026-09-25/reading-record.json)，补读AGENTS、product、handoff、前次语音专项、最新决定／工作记录；新报告写完后再逐段读回。旧食品方案没有重新启动。
+- **新核官方来源：**Qwen3.8 Omni Flash Realtime型号、价表、计量和会话限制；OpenAI Realtime 2.1／Mini与GPT-Live计费；Gemini3.8 Live监听与历史计费；Amazon Nova2 Sonic、Grok Voice、Hume EVI、ElevenAgents、Deepgram Voice Agent、Azure Voice Live及豆包端到端／RTC的工具与价格可比性。把MiniMax TTS与文字模型区分于完整语音代理。只以有公开证据的方案纳入，不声称穷尽世界所有型号。
+- **交付：**[同口径比选与实验方案](research/2026-09-25-desk-companion/realtime-voice-model-comparison.md)；Qwen3.8新加坡价在仅新增音频的5＋5分钟／天算例约US$0.27／月，8小时输入＋10分钟输出／天约US$6.05／月。多轮历史、文字、重试等额外费用另计；没有实际账单或任务成功率数据。首测Qwen，用OpenAI Realtime Mini与Gemini3.8 Live对照。受限工具由Pi执行，模型不得直接执行任意GPIO／shell。同步product、上一版语音研究的取代提示、decision-log与handoff。
+- **验证与剩余：**[QA记录](output/qa/realtime-voice-comparison-2026-09-25/validation.json)检查算式、当前规范链接和文件存在性。未使用语音API、连接硬件、训练、采购、发送外部消息或重做学校Proposal；正式题目、供应商和硬件组合仍待组员／Marco核定，新英文Proposal双格式仍需制作与逐页审阅。
+
+### 同日补充：用户确定语音候选顺序
+
+- **用户决定：**在免按键唤醒词交互前提下，依次优先考虑Qwen、Gemini、Realtime、Live；保留前轮语境下Realtime＝OpenAI GPT-Realtime-2.1 Mini、Live＝GPT-Live 1的暂定映射。
+- **落实：**更新[当前规范](product.md)、[交接](handoff.md)、[实时语音比选](research/2026-09-25-desk-companion/realtime-voice-model-comparison.md)和decision-log，使顺序与用户最新选择一致；四款不是同时集成的交付承诺，供应商尚未最终锁定。
+- **验证／剩余：**[本次QA](output/qa/voice-priority-2026-09-25/validation.json)检查术语、文件及内部链接。没有新API或硬件测试，也没有学校新Proposal双格式；下一步仍是制作新题目的英文Proposal审阅稿并逐页核对。
+
+### 同日补充：新题目中文版 Proposal 审阅稿
+
+- **用户目标：**先看新方向的中文完整 Proposal，再讨论英文正式稿。以学校原指南和一页 Proposal Guidelines 为结构依据，不复用 Senplate 旧正文。
+- **资料与研究：**沿用本轮[86份项目Markdown全读记录](output/qa/new-concept-2026-09-25/reading-record.json)及其后语音补读；本次聚焦读AGENTS、product、handoff、最新决定、新方向研究、学校指南扫描页和范例、课程结构化组员资料。重新核对微软提醒时机研究、Echo占用例程、Skylight、Razer AVA、Pi5、Qwen官方型号和Google Calendar开发文档。学校指南第5页列初期报告要素，第12页列A4／12pt／页边距／参考资料规范；一页 Proposal Guidelines 列七项必需栏目。
+- **交付：**[中文版正文源](planning/2026-09-25/desk-companion-proposal-zh-review.md)、[12页可编辑Word](<output/docx/Group 2_DeskCompanion_ProjectProposal_ZH_Review.docx>)及[可重建脚本](scripts/build_desk_companion_proposal_zh_20260925.py)。核心问题为在不遗漏关键日程前提下减少不合时宜的桌面提醒；一台树莓派候选原型、本地唤醒词、Qwen第一候选、受限工具控制、明确失败降级；三人40／30／30新角色，六个月拟议阶段。未将情感障碍治疗、全息或六轴臂列为必做。
+- **渲染与修复：**首轮LibreOffice渲染缺中文；从官方Noto CJK仓库取得OFL字体，仅置于任务QA并以本地fontconfig渲染；修复Title继承蓝色边框、封面摘要溢出、参考资料与意见页分页。最终render-05为12页，逐页视觉检查与上一轮像素比较无缺字、截断、表格重叠。a11y高0／中0／低7，低级项均为可追溯来源的原始URL显示。[本轮QA](output/qa/new-proposal-zh-2026-09-25/validation.json)。
+- **剩余：**中文稿待用户／团队审阅；Marco尚未正式批准该具体题目。没有硬件、语音API、用户访谈或真实效果实测；英文提交版DOCX／PDF尚未生成、签署或上传。
+
+### 同日补充：根据用户反馈重写中文Proposal第二版
+
+- **用户纠正：**坐姿必须持续监测、作判断并给反馈；机械臂大概率加入；“提醒时机／可检验的桌面工作流程”表述太抽象；重新看组员材料，若学校没要求调查访问就删掉。第一版保留为历史而非覆盖。
+- **材料与要求：**重读组员DOCX全部段落和智能屏／电子墨水竞品Markdown全文，核对学校一页Proposal Guidelines七项，无访谈、问卷或调查访问要求；新核Google MediaPipe Pose Landmarker实时模式、Raspberry Pi Camera Module3、OSHA工作站姿态及UPRIGHT现有姿态设备。原组员文档的“防脊椎损伤”“姿态得分／专注度／工作质量”不作为已验证能力。
+- **改稿：**[第二版中文正文](planning/2026-09-25/desk-companion-proposal-zh-review-v2.md)与[可编辑14页Word](<output/docx/Group 2_DeskCompanion_ProjectProposal_ZH_Review_v2.docx>)。主问题改为固定机位的持续可见姿态偏离判断、屏幕／语音／计划中小型机械臂提示与复测；电子日历保留多类日程、私人／公开、冲突、TimeTable和每日记录；明确预训练视觉关键点只是输入，个人标定、时间窗、遮挡拒判和对照实验由本组实现。机械臂拟2–3自由度轻载非接触提示，最终型号／安全尚待台架。删除访谈人数和调查里程碑。
+- **验证：**[本次QA](output/qa/new-proposal-zh-v2-2026-09-25/validation.json)记录学校七项、术语、来源与组员资料核对；最终render-02逐页检查14页，中文字体完整、表格跨页重复表头，参考资料与意见页分开；a11y高0／中0，低9项为原始来源URL显示。未运行姿态模型、接摄像头、驱动机械臂、调用语音API或收集真人数据；新英文双格式及导师批准／提交仍未发生。
+
+## 2026-09-26 Razer AVA 式实体形态可行性
+
+- **目标：**回答用户希望把桌面设备做得像Razer AVA、实现会否过于复杂；保留坐姿监测必做和机械臂计划。
+- **官方核对：**Razer现行官网与官方结构图确认圆柱罩、5.5英寸“3D hologram”角色、双远场麦克风、HD相机、灯环、底座扬声器、USB-C供电／数据；FAQ说需直连Windows电脑，图中没有机械臂。官方没有公开光学堆栈或Pi独立运行规格；查看官方两张产品图片，未观看完整宣传视频。对照Adafruit Pepper's Ghost对亮度／双影／视角的说明和Looking Glass Go的6英寸光场屏／Mac Apple Silicon条件。
+- **分析交付：**[AVA式外观可行性专项](research/2026-09-26-desk-companion/razer-ava-like-feasibility.md)分圆柱小屏、倾斜反射片和现成光场屏三层。建议先做圆柱小屏＋深色罩＋角色表情／口型及灯环；若要求漂浮感再做反射样机，真实多视角显示需光场屏与Mac主机集成验证。姿态摄像头固定，机械臂从侧底座伸出，单外部电源经内部合适支路供电，不能直接假设Mac单口能带Pi／屏／电机。
+- **状态与验证：**只完成公开资料研究与工作区规范同步；[QA记录](output/qa/ava-form-factor-2026-09-26/validation.json)核对本地链接和修改文件。未购买、搭建光学原型、实测画面、运行Pi负载或驱动机械臂。中文第二版原稿与Word保持，英文正式提交稿仍未制作／签署／上传。
+
+### 同日补充：AVA式圆柱小屏路线实施草案
+
+- **目标：**把用户所问“第一种怎么做”落到模块、连接、外壳、软件状态、供电和逐步验收，不把推荐候选当实测采购单。
+- **官方复核：**Pi5双HDMI／双MIPI与5V／5A、USB外设预算；Waveshare 5.5英寸HDMI AMOLED竖屏及Pi兼容说明；Seeed ReSpeaker XVF3800四麦、AEC、LED环、实体静音、USB／3.5mm输出；Adafruit伺服独立供电；openWakeWord现成框架。当前Pi5操作系统与具体屏幕版本、中文自定唤醒词仍需真实验证。
+- **交付：**[A路线详细草案](planning/2026-09-26/ava-cylinder-route-a.md)提出上盖麦阵列／相机、深色外罩与后置AMOLED、底座Pi／扬声器／侧边2–3DOF轻载机械臂；姿态相机可在筒顶和显示器边缘换位。软件拆分本地姿态、角色日历UI、唤醒/Qwen会话、白名单工具与预设臂位。四道早期门槛是光学可见性、相机姿态视野、Pi并行负载／AEC、机械包络与电源。角色和TimeTable在同一小屏切换，不同时塞满。
+- **边界／验证：**[本次QA](output/qa/ava-cylinder-route-a-2026-09-26/validation.json)检查当前规范与链接；未生成新DOCX、采购、搭台、测帧率、发语音API或驱动机械臂。中文Proposal第二版保持，英文正式双格式仍未制作／签署／提交。
+
+### 同日补充：AVA光学机制与淘宝风扇／无风扇盒辨别
+
+- **目标：**回应用户纠正“AVA不一定是直接塞屏幕”，解释所附全息风扇和有斜透明片的非风扇盒如何成像，修正本组原先A路线的优先级。
+- **已完成：**重新查看IMG_0297的旋转臂图及IMG_0294红盒侧放图的斜片；核Razer官方产品页及新闻稿（5.5英寸display，但无内部光路）、Adafruit Pepper’s Ghost实作（玻璃反射、45°与亚克力双影）、旋转LED风扇公开专利、Looking Glass Go官方光场规格。记录哪些是截图可见、哪些是光学推断、哪些仍未知。[光学辨别报告](research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md)。
+- **规范修正：**将[形态复核](research/2026-09-26-desk-companion/razer-ava-like-feasibility.md)、[A路线后备草案](planning/2026-09-26/ava-cylinder-route-a.md)、[当前产品规范](product.md)、[交接](handoff.md)和decision-log统一成“先做隐藏屏＋斜反射片的便宜光学台架；直接屏作后备／对照；不宣称AVA内部结构已知”。
+- **验证与剩余：**检查本轮文件及内部链接，证据见[本次QA](output/qa/ava-optics-2026-09-26/validation.json)。未购买、联系卖家、拆机、搭建或测试设备；无法从截图认证卖家的屏幕位置和AVA结构。英文Proposal仍需双格式制作并逐页检查；旧中文稿保留。
+
+### 同日补充：全息风扇成熟度再判断
+
+- **目标：**回答用户全息风扇是否成熟，纠正可能过早排除成熟显示模块的工程建议。
+- **公开核对：**HYPERVSN官网与知识库的四叶商业设备、HDMI／RTSP、保护罩、停机和M/L噪声；HDFocus 18cm带罩款、Giwox 20cm款、Fursol 18cm款的内容格式与更新方式。证据表明成熟的是预制内容播放和较大商业系统，具体小款的低延迟实时视频输入尚未证实。没有使用淘宝截图价格作采购价或把大机指标外推到小机。
+- **交付与修正：**新增[成熟度专项](research/2026-09-26-desk-companion/hologram-fan-maturity.md)，更新[光学辨别](research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md)、[形态复核](research/2026-09-26-desk-companion/razer-ava-like-feasibility.md)、product、handoff及decision-log。当前把带罩小风扇纳入与反射像的并列候选；用户未做最终选型。
+- **验证与剩余：**[本次QA](output/qa/hologram-fan-maturity-2026-09-26/validation.json)记录阅读范围、来源与内部链接核对。未联系卖家、购买、获取样品、测试噪声／延迟／安全；英文Proposal双格式仍待制作。
+
+### 同日补充：风扇预置视频与即时反馈输入方式
+
+- **目标：**回答小风扇是否只能预置视频、及时反馈是否必须HDMI。
+- **证据：**复核HYPERVSN官方Player／HDMI／RTSP模式、HDFocus 18cm文件／App更新和其100–180cm HDMI系列；另见公开厂商手册中App选现有文件的操作。仅确认**相关型号**公开能力，不把人工App动作当开放API。

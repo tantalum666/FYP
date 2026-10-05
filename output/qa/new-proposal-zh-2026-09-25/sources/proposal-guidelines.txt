@@ -1,0 +1,53 @@
+
+Hong Kong Institute of Information Technology
+Discipline of Information Technology
+Final Year Project – Systems Development and Administration (ITE4116M) 
+Project Proposal
+The project proposal must be submitted to the Project Supervisor by deadline.
+
+Please refer to the following guidelines for writing the Project Proposal. 
+
+Guidelines for Writing the Project Proposal
+The structure and contents of the initial report should include
+
+Statement of problem to be solved: describe the services provided by the proposed system.
+
+Background of the problem: describe the environments or domains in which the proposed system will be used.
+
+Outline of proposed solution: 
+Explain what approaches you will use to develop the proposed system. You should explain the issues of the solution, for example, the system architecture, the algorithms (e.g. shortest path algorithm), software architectures (e.g. client-server), development methodology (e.g. Object-oriented approach)
+Define the scope of the proposed system:
+describe all functions to be provided by the system;
+describe data handled by the system;
+describe all non-functional requirements, e.g. performance, usability, software platform, interfaces with existing systems, reliability, etc.;
+
+Explanation of why proposed solution is appropriate. Explain how your system can meet the requirements of the users.
+
+Main stages: outline your project plan by describing the system development life cycle with deadlines of tasks.
+
+Main deliverables: describe the things that you will deliver.
+
+The responsibilities of each member (required for group project). Explain the allocation of work to individual member.
+
+
+
+
+
+
+
+
+
+
+
+ ITE4116M Final Year Project – Systems Development and Administration	Proposal Guidelines
+
+
+
+©VTC 2013				Page  PAGE 1 of  NUMPAGES 1
+
+
+
+
+
+
+

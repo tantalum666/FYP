@@ -1,0 +1,91 @@
+FILE work-log.md L451-540
+
+- 目标：落实用户不用刻度、只保留碗形的决定，结束刻度迭代。
+- 阅读：沿用连续品牌任务完整阅读链，补读当前入口、V6.5及变更正文，软件状态和下一步段落补读后同步；见[阅读记录](output/qa/senplate-plain-bowl-v7-2026-09-18/reading-record.json)。
+- 完成：克隆无刻度源和路径为V7，组合原字标并导出SVG、透明PNG、米白预览、64px样本及既有字体许可副本。源106:2、符号106:8、组合106:9、预览106:13。
+- 验证：纯碗路径与101:17一致，字标及图文排版一致；48个旧Figma节点保持，源码只含碗身／口沿线／底脚线／完整内口四部分。完整预览及64px已查看。
+- 收尾：更新brand、product、README、两份软件状态、handoff与决定日志，新增[V7说明](planning/2026-09-18/senplate-plain-bowl-v7.md)。[QA](output/qa/senplate-plain-bowl-v7-2026-09-18/closeout-validation.json)含原文件保护、SVG／内链／ZIP核对。所有旧稿保留为历史，当前请求完成，没有启动应用工程。
+
+## 2026-09-18 Senplate VI V1完整制作与字体核查
+
+- 目标：保持V7纯碗，提供独立图形／字标和完整VI；用户在本轮澄清不是.ai文件。
+- 阅读：继承连续品牌任务全读链，补读当前规范、V7说明和最新变更；新研究与交付说明完整编写，见[阅读记录](output/qa/senplate-vi-v1-2026-09-18/reading-record.json)。
+- 核查：从Figma确认Manrope Bold700，读取官方Manrope、Inter、Noto TC／SC的OFL与SIL FAQ；下载三种原始字体和许可证，记录来源与SHA-256。
+- 制作：Figma页110:2建12个基础版本、可编辑文字、VI总览及App图标／封面／菜单／标贴。源图形不变；主标矢量与V7一致，配色副本几何一致。
+- 导出：12SVG＋12透明PNG，应用SVG／PNG、JSON／CSS令牌和字体原件。临时SVG下载返回空202，改用带整体哈希核对的分段原生SVG导出，短期URL已从临时清单清理。
+- PDF：按PDF技能一次运行作者操作标记，生成11页规范和4页资产总表；全部15页逐页渲染查看，中文和版式正常。默认Helvetica／Times资源无实际文字绘制，可见文字均使用核查过的字体实例。
+- 收尾：更新brand、product、README、软件状态、handoff及日志，新增[VI说明](planning/2026-09-18/senplate-vi-v1.md)、[字体报告](research/2026-09-18-font-licences/font-licence-audit.md)。包与验证见[QA](output/qa/senplate-vi-v1-2026-09-18/closeout-validation.json)。未创建App工程、购买、提交或新商标申请。
+
+## 2026-09-18 V7纯碗与Senplate名称商标初筛
+
+- 目标：查找当前纯碗的类似商标，结合装置／App／软件业务判断关注点；保留V7与VI。
+- 阅读：本轮完整读取78份原有项目Markdown、6719行；大批输出截断处改为小批补齐，文件在阅读期间未变化。[阅读记录](output/qa/senplate-v7-trademark-2026-09-18/reading-record.json)。
+- 香港：用户手动完成验证，使用绿色V7独立符号成功查询300条候选；6页元数据去重227编号，筛得15项9／42类候选。查看10幅原始图／8个编号，展开BASAO与两项OpenRice的商品说明。另行eSearch详情受验证码／记录不可得限制，未刷新香港文字或确认届满日期。
+- 美国与公开使用：USPTO三个拼写查询均无结果；BOWL 97231717／7431298核为EPICNPOC有效9／42类注册，页面未显示图像。新发现并直接阅读作者资料中的历史同名Senplate iOS原型，未推断为发行或注册；SensePlate与SensoPlate保持名称使用线索层级。
+- 交付：[报告](research/2026-09-18-senplate-trademark/trademark-review.md)、[原图对照](research/2026-09-18-senplate-trademark/comparison.html)、查询转录JSON、15项类别候选及10幅官方原图来源。原图通过浏览器素材下载保存，不重绘；浏览器查询不是认证副本。
+- 验证：对照页四幅图均加载，实际查看中文与版式；229条当前文档本地链接有效，320项品牌／VI及身份保护文件哈希保持，JSON数量和图像来源哈希一致。[QA](output/qa/senplate-v7-trademark-2026-09-18/closeout-validation.json)。一次UTF-8脚本与一次原子patch失败均未作成功记录，后用正确方式完成。
+- 收尾：更新brand、product、README、handoff、VI说明、旧名称报告的后续提示及decision-log；没有改Logo、字体或Figma。下一步先评审真实对照，尚未授权重画、申请、购买、联系或App实现。内地／WIPO、全球图形与香港文字刷新仍为明确缺口，不称全球通过。
+
+## 2026-09-18／19 P0软件开发与英／简双语
+
+- 目标：落实用户开发授权，以V7及VI构建首条可运行补餐链；中途按最新指令改为默认英文／可切换简体中文。
+- 阅读：79份原有Markdown、6834行完整阅读；[记录](output/qa/development-p0-2026-09-18/reading-record.json)。语言消息、压缩和跨午夜沿用本轮记录，只补相关变更。
+- 实现：apps/ios、apps/operations-web、services/api、tools/simulator、scripts/dev.py、tests；私有PostgreSQL与生成凭据。原生四入口、账户／身份、语言持久化、厨房任务／建议／事件、Web设备显示／CSV、模拟异常输入和共享状态均已接入。
+- 规则：同操作幂等、并发只建一张任务、版本与领取权限、乱序包不倒退、移盘不算取用、原始测量和未来供应分开、有效增重关联不重复加量；补上单调事件sequence及早期调试表追加迁移。
+- 实际联调：iPhone处理任务至等待补入，CLI模拟+1000g，Web核对，1700g及完成状态回到iPhone。CDP只拦截本地Fetch决定响应，200提交后丢弃回复，原键核查恢复无重复；已清除拦截。viewer无处理／导出，个人身份独立空状态，离位显示未知和最后有效700g。
+- 验证：15项pytest通过（8.43s，2条上游弃用提示）、Ruff通过；Web TypeScript和production build通过。iPhone17Pro英／简、重开恢复、任务主链通过；SE3与最大辅助字号通过。原生UI层snapshot工具不可用时用XCTest及XCResult全分辨率附件验证；没有把编译通过当交互验证。
+- 修复：资源包遗漏、模拟器签名导致Keychain未存、登录键盘焦点、图表时间／大字截断、窄屏任务筛选、StrictMode旧连接重连及同时间事件乱序。一个文档patch和一次错误工作目录命令失败后已重试；未把失败当成功。Vite配置格式化触发重启后重新加载，最终控制台无新错误。
+- 视觉：两张ImageGen英文参考、原VI资产、实际字体；1536×1024厨房、390×844窄屏、402×874与375×667手机。用view_image直接比较，保留原生底栏／字号／业务状态差异；[QA记录](output/qa/development-p0-2026-09-18/verification.md)。
+- 收尾：更新product、brand、README、四份软件规格、[P0记录](planning/2026-09-18/development-p0.md)、decision-log及handoff；[保护哈希／链接／交付检查](output/qa/development-p0-2026-09-18/closeout-validation.json)。保留API／Web和700g演示供用户审阅，历史run、学校原件、建议书与VI未覆盖。
+- 未完成：P1顾客菜单／扫码／订单、个人餐食、学校汇总，M2硬件与模型，真实iPhone／最低OS、iPhone特定网络丢包注入及持续运行压力。没有外网部署、购买、提交、对外联系或Git初始提交。下一步细化P1菜单与订单／预留契约。
+
+## 2026-09-19 M1.1菜单、订单与预留履约
+
+- 目标：承接用户“继续下一批工作”，完成顾客App到工作App／厨房Web的菜单、下单、接单、配出和取餐；硬件仍使用明确模拟输入。
+- 开工：80份Markdown、7017行、51批全读，无阅读期间变化；[记录](output/qa/development-p1-orders-2026-09-19/reading-record.json)。建立P0数据库与代码本地备份，332项原件保护哈希；本轮未派代理。
+- 后台：追加菜单／订单／历史／预留／履约分配及迁移、菜单QR、报价与管理版本、个人订阅／操作权限、服务方式版本、整单事务、取消竞争、单盘测量窗口、多次舀取、经理偏差和取餐码限流。保留P0，不把在制或释放预留重复计入实测量。
+- 客户端：SwiftUI个人四入口、菜单／详情／购物车／改价复核／本人订单／取餐码／手动回退及系统链接；工作App订单分栏。React菜单管理／QR／订单队列／实测关联／取餐，英／简与窄屏导航。生成并检查三张菜品示意图，[实际提示词／哈希](assets/menu/manifest.json)保留。
+- 验证：33项pytest通过（含15项P0＋18项订单），取餐码改为ASCII后针对1项通过；Ruff、Web类型及生产构建通过。8个分阶段XCTest通过，覆盖Pro／SE3、英／简持久化、大字、顾客和员工流程、私人隔离及系统链接；真机SDK无签名构建通过，相机硬件未测。
+- 跨端：手机购物车保留90元，Web改价后手机明确复核91元并下单。Web接单200响应扣留到客户端超时，原操作恢复后只预留300g一次；模拟100＋200g两次减重，核对及取餐后1700g不再扣，人工沙拉12→11。另用工作App核对第二单100g，最终1600g、002待取餐。QR从实际网页截图由Vision成功解码，解析器13个输入检查通过。
+- 修复／限界：步骤按钮自动化标识、Simulator空相机视图、旧事件选择过滤、错误提示与恢复版本、窄屏菜单导航断行、菜单入口自动收起、辅助文字对比度；浏览器截图像素比例纠正，临时覆盖和拦截已清除。Xcode AX翻译不可用时用XCTest与截图验证，初始失败记录保留。未把UI通过写成硬件性能或全FYP完成。
+- 收尾：更新product、README、四份当前软件规格、[M1.1契约](planning/2026-09-19/menu-orders-contract.md)、decision-log、handoff和本日志；[QA](output/qa/development-p1-orders-2026-09-19/verification.md)／[收尾检查](output/qa/development-p1-orders-2026-09-19/closeout-validation.json)。API／Web保留运行，历史数据、学校DOCX/PDF、V7／VI及身份原件保留，没有Git初始提交或外部动作。
+- 剩余：M1.2个人配对／份量／参考营养及学校匿名样本，M1.3完整目录配置与报告，M2实物／模型；真实iPhone、最低OS17、VoiceOver、原生丢包注入和长期压力。下一步只有M1.2共用契约及实现。
+
+## 2026-09-19 M1.2个人餐食／匿名学校样本实现
+
+- **目标：**承接“继续下一批”，完成个人短时配对、逐项重量、版本参考营养、学校匿名样本与设备界面，保留M1.1。
+- **恢复：**81自有Markdown／7136行／66批完整阅读；第25／26批截断内容单独补全；无阅读期间变化。QA目录output/qa/development-m1-2-meals-2026-09-19记录清单／范围／时间。M1.1数据库及代码私有备份。
+- **实现：**FastAPI meal_schemas／meals_domain／meals_routes／nutrition、6张业务与设备表；SwiftUI配对、份量、营养、来源／历史；Web /device独立会话及School samples、CSV；默认英文／简体中文。USDA官方4条资料原JSON、hash与CC0来源另存research/2026-09-19-nutrition。
+- **数据保护：**原演示新增#003未完成订单，另建senplate_meals_qa／8800／localhost5178及QA账户；原run和#001／#002／#003保持collected／ready／submitted。未新增物理设备、未重置用户记录。
+- **验证：**55后台测试通过（34.02s），Ruff与Web构建通过；6次iPhone分阶段运行通过，覆盖双端配对、450g三项、350g总余量、477.5kcal参考、英／简、SE3及最大字号。真实网页QR解码、4合法／12非法解析通过；Generic iphoneos无签名编译成功。数据4hash／20值核对。UI第一次营养断言因AX合并标签失败，修正测试后独立夹具重验通过。
+- **异常：**称重抖动禁用／恢复、漏包／迟到／校准／皮重／移盘保护；设备完成回复丢失后刷新仍用原操作恢复，只有1完成历史；参考目录超时持续提示，恢复后可操作。React hooks新增时HMR发生暂态错误，完整重载后恢复并重新检查，不归为已验证生产故障。
+- **匿名样本：**450g已知餐／300g余量与250g未知混合／余量null，汇总2份、700g提供、300g已知剩余、1有余量／1未知；导出明确simulated与未审核示范计划，无浪费率或儿童身份。
+- **交付：**餐食契约、资料核查、QA与检查点／截图／CSV；product、README、四份当前软件规格、decision-log和handoff同步。品牌／学校原件与身份份额保留，链接及保护hash收尾记录在本批QA。
+- **未完成：**M1.3完整食物／配方／审核计划／角色与餐末去向、实物注册／校准／Pi／模型、真机扫码、OS17、VoiceOver、原生故障与长时压力。没有真实营养／硬件精度／减损证明，没有外网发布、对外联系、购买、签名、学校提交或初始Git提交。
+
+
+## 2026-09-21 学校Project Proposal制作与检查
+
+- **目标：**按AY26指南与两份样本制作英文正式proposal；最新消息将9月28日列团队提交目标，Moodle截图为9月29日23:59、DOCX与PDF两种格式。开发M1.3本轮未继续。
+- **开工：**83份项目自有Markdown／7292行／73批全部读取，第32／33批输出截断后完整补读，无阅读期间变化。[阅读记录](output/qa/proposal-2026-09-21/reading-record.json)；本轮压缩后沿用记录，仅恢复当前规范与要修改文件。
+- **附件：**指南1页、sample1全部8页（末页空白）、sample2全部6页（末页空白）逐页查看。提取七项必需内容，采用指南的ITE4116M，未沿用旧样本ITP4913M。三份原文件只读并保留hash，Moodle截图另存QA。
+- **研究：**刷新EPD2024厨余统计、卫生署学校午膳资料、Metafoodx、Controliza Buffet、Pi5、Gemini2、PyTorch迁移学习／MobileNetV3和USDA FDC官方资料。9条链接进入参考文献，来源与用途见[来源登记](output/qa/proposal-2026-09-21/source-register.json)。厂商自述不转换成当地试点成效或竞争领先证明。
+- **内容：**痛点、受众、竞争、单盘位三配置、硬件／架构、功能／数据、视觉训练和补餐基线、营养估算边界、非功能指标、可行性／风险、团队里程碑、交付、40／30／30、资源与外部／AI协助。19Sep软件结果与拟议实物／模型目标分别表达，没有虚构访谈或试点。
+- **制作：**[英文源稿](planning/2026-09-21/proposal-content.md)、[规范](planning/2026-09-21/proposal-spec.md)、[构建脚本](scripts/build_school_proposal_20260921.py)及可编辑架构SVG；最终[DOCX](<output/docx/AY26_ProjectProposal_Group 2.docx>)／[PDF](<output/pdf/AY26_ProjectProposal_Group 2.pdf>)均10页。Word正文与10张表格原生可编辑，架构1图，9条超链接。
+- **验证：**初稿渲染后修复标题边框／主题字体、图中连线遮字、编号接续与签名栏空间；最终render-02全部10页以原始分辨率检查。身份／课程／日期／页码、表头重复、签名留空、无跟踪修订核验；a11y高／中／低问题均0；3份学校原件及332项旧文件hash未变。[成稿验证](output/qa/proposal-2026-09-21/final-validation.json)。
+- **收尾：**同步product、README、handoff、decision-log、proposal-spec和本日志；链接、保护hash及成稿存在性另记[收尾验证](output/qa/proposal-2026-09-21/closeout-validation.json)。一次原子patch因同一路径同时删除／新增被拒，未改变文件，改为独立更新后成功。未改应用代码、运行服务、重做已通过的软件测试、派代理、改品牌、签名、联系导师或提交Moodle。
+- **剩余：**接收组员／Marco反馈后修订，签署与正式提交由相应人员完成；最终课程日程尚未提供，文内2027-03-19只是团队技术完成目标。唯一下一步为proposal审阅修订。
+
+## 2026-09-21 相机必要性与番茄炒蛋营养复核
+
+- **目标：**回应Marco的两点反馈，解释廉价RGB＋称重的替代、混合／遮挡的观测限制及可验证营养流程；不把假设改主线误写为用户决定。
+- **阅读：**本轮85份项目自有Markdown／7600行／41批全读；2–4组合输出截断后逐批重读，8批尾部补读，27批product在开头已完整读取并记范围。阅读期间无文件变化；[阅读记录](output/qa/marco-camera-nutrition-2026-09-21/reading-record.json)。
+- **研究：**重新读取Orbbec Gemini2和Pi Camera Module3官方规格、FAO配方计算／数据评估及Nutrition5k作者README。CameraModule3 US$25起只为海外官方起价；没有淘宝SKU或Pi实测。FAO方法作为配方参考依据，不伪装真实成分检测。
+- **完成：**新增[技术复核](planning/2026-09-21/marco-camera-and-nutrition-review.md)，包含功能—传感器对应、混合菜总量不唯一、原料／得率／损耗、整锅与分份、少量油盐精度、单盘时序、误差层次及下版英文文字。假设500g／500kcal→150g／150kcal只是算术例子。
+- **同步：**product、README、handoff、decision-log、proposal-spec，以及当前采购／询价入口、持续监测、相机比较和单盘可靠性提示；旧正文保留历史条件。已交付Proposal DOCX／PDF及源稿、品牌、身份、旧BOM／RFQ未覆盖。
+- **验证：**[收尾核对](output/qa/marco-camera-nutrition-2026-09-21/closeout-validation.json)记录文件链接、338项保护hash、研究出处及假设算术。未运行不相关软件测试，未生成新版DOCX／PDF，未训练、采购、上电、联系或提交。
+- **唯一下一步：**明确能否取得真实配方／接受备料记录，并确定营养是否作为主评价，据此修订proposal。研究建议不等于导师批准或准确性已经达标。
+
+### 同轮补充：直接回答学生每日维生素C达标能力
+
+- 用户表示前述估算说明未回答精度，进一步给出学生一天营养标准和维生素C场景。直接澄清当前设备无法保证满足该精确目标，不能把“有配方可估算”写成已解决。

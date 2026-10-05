@@ -1,0 +1,79 @@
+{
+  "verified_at": "2026-09-21T06:08:07.973829+00:00",
+  "docx": "output/docx/AY26_ProjectProposal_Group 2.docx",
+  "pdf": "output/pdf/AY26_ProjectProposal_Group 2.pdf",
+  "pages": 10,
+  "native_tables": 10,
+  "figures": 1,
+  "references": 9,
+  "scope": "one station / three sequential modes / four to six registered foods",
+  "language": "English",
+  "section_pages": {
+    "problem_statement": 1,
+    "background_and_users": 2,
+    "architecture_hardware": 3,
+    "functions_and_data": 4,
+    "algorithms_methodology": 5,
+    "nonfunctional_evaluation": 6,
+    "appropriateness_feasibility": 7,
+    "stages_and_deliverables": 8,
+    "responsibilities_resources": 9,
+    "references_review_signatures": 10
+  },
+  "signatures_and_dates_blank": true,
+  "identity_matches": true,
+  "due_dates": {
+    "team_target": "2026-09-28",
+    "moodle_due": "2026-09-29 23:59 Asia/Hong_Kong",
+    "technical_completion": "2027-03-19 proposed team milestone"
+  },
+  "render_review": {
+    "render": "render-02",
+    "pages_inspected": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "issues_resolved": [
+      "inherited title border and theme font",
+      "diagram connector overlapping label",
+      "numbered deliverables list restart",
+      "signature row space"
+    ],
+    "unresolved_visual_defects": []
+  },
+  "school_originals": [
+    {
+      "path": "/Users/tantalum/Downloads/Project Proposal sample1.pdf",
+      "unchanged": true
+    },
+    {
+      "path": "/Users/tantalum/Downloads/Project Proposal sample2.pdf",
+      "unchanged": true
+    },
+    {
+      "path": "/Users/tantalum/Downloads/Proposal Guidelines AY26.doc",
+      "unchanged": true
+    }
+  ],
+  "prior_protected_files": 332,
+  "prior_protected_changed": 0,
+  "a11y_report": "a11y.json",
+  "created_artifact_markers": {
+    "docx": 1,
+    "pdf": 1
+  },
+  "submitted": false,
+  "supervisor_approval_claimed": false,
+  "hashes": {
+    "docx": "77840891d6827ca9bca09cb2843d21d65797e32608eeaf300a3ab0e09e4376ba",
+    "pdf": "fc59f5e4a565484f4befd1e36a9b9e5545bd991909aeda1ecdcbdf53192673c0"
+  }
+}

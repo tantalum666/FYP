@@ -1,0 +1,169 @@
+{
+  "checked_at": "2026-09-16T13:38:58.530601+00:00",
+  "user_time_window": "now through before August2027",
+  "planning_interpretation": "Prefer completion by2027-07-31, separately retain early application with later final",
+  "confirmed_future_edition": [
+    "Techathon+2027"
+  ],
+  "not_confirmed_future_dates": "All other2027 dates are pending; explicitly labeled2026 references",
+  "sources": [
+    {
+      "id": "techathon_2027_join",
+      "url_or_local_path": "https://www.hktechathon.com/zh-hk/site/join",
+      "authority_and_access": "organizer, live full HTML",
+      "finding": "2027, VTC higher diploma and FYP; 2-6; Jan 11 23:59 pitch deck 10-20 pages; no full physical product listed as application deliverable"
+    },
+    {
+      "id": "techathon_2027_dates",
+      "url_or_local_path": "https://www.hktechathon.com/en/site/keydates",
+      "authority_and_access": "organizer, live full HTML",
+      "finding": "2026 September application month; Jan 11 2027 submission; Jan 28-31 finale"
+    },
+    {
+      "id": "techathon_2027_prizes",
+      "url_or_local_path": "https://www.hktechathon.com/en/site/awards",
+      "authority_and_access": "organizer, live full HTML",
+      "finding": "Per group/theme 15000/8000/5000 HKD cash; gold teams may compete for 10000 presentation prize; funding benefits excluded from cash"
+    },
+    {
+      "id": "hk_students_eligibility",
+      "url_or_local_path": "https://www.hkchallengeplus.com/application-info/",
+      "authority_and_access": "organizer, current detailed index after direct-open timeout",
+      "finding": "2026 full-time higher diploma; unregistered entrepreneurship plan distinct from registered start-up; 2027 notice not found"
+    },
+    {
+      "id": "hk_students_physical",
+      "url_or_local_path": "https://www.hkchallengeplus.com/attendtionm/questions-and-answers/",
+      "authority_and_access": "organizer, live full HTML",
+      "finding": "2026 April 10 paperwork and May 2 preliminary; no physical item required at preliminary/submission; finalist transports physical work"
+    },
+    {
+      "id": "hk_students_awards",
+      "url_or_local_path": "https://www.hkchallengeplus.com/獎項/",
+      "authority_and_access": "organizer, live full HTML",
+      "finding": "2026 special 80000; first 15000, second 8000, third 3000 HKD; national nomination opportunity not automatic"
+    },
+    {
+      "id": "hk_students_dates",
+      "url_or_local_path": "https://cpo.eduhk.hk/zht/news-and-events/events/2026hkstudentiecompetition",
+      "authority_and_access": "university distribution of organizer notice, full HTML",
+      "finding": "2026 March 30 registration; April 10 works deadline; not 2027 dates"
+    },
+    {
+      "id": "panpearl_2026",
+      "url_or_local_path": "https://panpearl.iproa.org/web/",
+      "authority_and_access": "Hong Kong organizer, live full HTML",
+      "finding": "Explicit IT higher-diploma graduation works; report plus max-six-minute PPT/MP4 at registration May 25; HK June 6; national July 19-22; travel/meals/accommodation support, no fixed cash verified"
+    },
+    {
+      "id": "chinaus_2026_schedule",
+      "url_or_local_path": "https://chinaus-maker.cscse.edu.cn/",
+      "authority_and_access": "Ministry of Education competition, official current index",
+      "finding": "2026 April-June registrations/selection; July 28-31 national final; 2027 not announced"
+    },
+    {
+      "id": "chinaus_2026_prototype",
+      "url_or_local_path": "https://chinaus-maker.cscse.edu.cn/chinaus-maker/gyds/csyq22/index.html",
+      "authority_and_access": "organizer, live full HTML",
+      "finding": "Max5; nationality/age conditions; make demonstrable prototype by local selection; improve at finals; publication and prior award restrictions must be assessed before multi-event plan"
+    },
+    {
+      "id": "chinaus_2026_cash",
+      "url_or_local_path": "sources/ChinaUS-Maker-2026-Rules.pdf",
+      "authority_and_access": "unchanged organizer PDF, pages14-15 reread, previous visual review inherited",
+      "finding": "15000 and 8000 RMB pretax; paid to winning teams/individuals; 2027 not guaranteed"
+    },
+    {
+      "id": "ypec_2026",
+      "url_or_local_path": "https://ietypec.org/home/ypec-2026/",
+      "authority_and_access": "organizer, current detailed full text",
+      "finding": "2026 May24 abstract, June21 poster, June28 presentation, July19 event; physical product optional; cash form not assumed"
+    },
+    {
+      "id": "ypec_2026_pdf",
+      "url_or_local_path": "sources/IET-YPEC-2026-Subdegree-Rules.pdf",
+      "authority_and_access": "unchanged organizer PDF, pages1-5 text, page3 newly rendered and inspected; pages2/4 prior visual read inherited",
+      "finding": "Annual; <=200-word abstract; optional model/prototype/photos/video; 1500 HKD champion and 1000 innovation prize value; erroneous undergraduate wording in subdegree sheet retained as pending clarification"
+    },
+    {
+      "id": "guangdong_vtc",
+      "url_or_local_path": "https://engineering.vtc.edu.hk/en/PastHighlightsOthersDetails.php?EDLDID=152",
+      "authority_and_access": "VTC, full article body lines40-47 now obtained",
+      "finding": "2026 March10-12 competition; provided equipment, applied IoT skills; four higher-diploma students won third division prize. Exact HKIIT next-year route pending"
+    },
+    {
+      "id": "guangdong_school",
+      "url_or_local_path": "https://jwc.gdipu.edu.cn/info/1063/5613.htm",
+      "authority_and_access": "university official implementation notice, live full HTML",
+      "finding": "2026 Jan10-26 school registration. Does not establish 2027 deadline or VTC school quota"
+    },
+    {
+      "id": "guangdong_2027_preparation",
+      "url_or_local_path": "https://www.nhic.edu.cn/xsxy/info/1107/5647.htm",
+      "authority_and_access": "college organizer of local selection, official indexed full article",
+      "finding": "2026-27 provincial training already referenced at a mainland college; not VTC nomination or provincial timetable"
+    },
+    {
+      "id": "national_innovation_hk_2026",
+      "url_or_local_path": "https://ec.hkust.edu.hk/events/zhongguoguojidaxueshengchuangxindasai-2026xianggangquxuanbasai",
+      "authority_and_access": "HKUST distribution of HK organizer notice, live complete body",
+      "finding": "2026 HK July21 entry with PDF plan; 90-sec video optional; unregistered creative group accepts fulltime junior-college/bachelor, 3-15, <=35. Notice defers to later national rules; exact 2027 VTC eligibility/final dates pending"
+    },
+    {
+      "id": "energy_2026_entry",
+      "url_or_local_path": "https://www.jienengjianpai.org/sys-nd/20.html",
+      "authority_and_access": "organizer, full HTML",
+      "finding": "Fulltime HK diploma/junior-college route; English completed science report May21 plus proof/undertaking; models/software/design permitted; no cash amount"
+    },
+    {
+      "id": "energy_2026_final",
+      "url_or_local_path": "https://www.jienengjianpai.cn/sys-nd/421.html",
+      "authority_and_access": "organizer, full HTML",
+      "finding": "2026 July31-Aug2 online final crosses July31 cutoff; 2027 not assumed"
+    },
+    {
+      "id": "mobile_2026_stages",
+      "url_or_local_path": "https://xk.qust.edu.cn/info/1047/5998.htm",
+      "authority_and_access": "university publication of official rules, complete body",
+      "finding": "Qidi max3; June30 preliminary document, later video and running App; continued improvement permitted; no verified July-end final"
+    },
+    {
+      "id": "iff_2026_dates",
+      "url_or_local_path": "https://www.innovateforfuture.com/",
+      "authority_and_access": "organizer, live full HTML",
+      "finding": "April30 registration, June30 submission, Aug8 final; 6000 HKD champion; 2027 not announced"
+    },
+    {
+      "id": "hkepc_2026_materials",
+      "url_or_local_path": "sources/HKIE-Electronics-2026-InfoPack.pdf",
+      "authority_and_access": "unchanged organizer PDF, pages3/7/13/17 text, page7 newly rendered and inspected",
+      "finding": "2026 Feb16 abstract, Mar30 paper/video, Apr18 demo; no assumption of a 2027 edition"
+    },
+    {
+      "id": "hkepc_cadence",
+      "url_or_local_path": "https://www.hkie.org.hk/divisionagm/annualreport/EN%20Division%20AGM%20202526%20Chairman%20Report%20%26%20Appendix%20I.pdf",
+      "authority_and_access": "official annual report detailed search-index excerpt only",
+      "finding": "Reports bi-annual after2017; no full annual-report visual review or inferred guaranteed2028 date"
+    },
+    {
+      "id": "hkepc_2026_result",
+      "url_or_local_path": "https://www.hkengineer.org.hk/issue/vol54-aug2026/activity_report/?id=19577",
+      "authority_and_access": "HKIE journal, live full article",
+      "finding": "2026 event and tertiary technical projects; does not promise2027 edition"
+    }
+  ],
+  "prior_source_register": "source-register.json",
+  "inherited_only": [
+    "HKICT2026 deadline/judging/award dates from preceding same-task browser read; current HTML tool empty",
+    "IoT2026 original final plannedAugust and registration from previous full rules read",
+    "world-vocational2026 deadline from preceding verified notice"
+  ],
+  "unresolved": [
+    "Group2 nationality and ages for relevant contests",
+    "2027 enrolled-student status at entry/final",
+    "VTC exact domestic-category/portal recognition where not explicit",
+    "ChinaUS prior publication and awards compatibility",
+    "non-Techathon2027 schedules and cash awards"
+  ],
+  "no_external_actions": true
+}

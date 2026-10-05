@@ -1,0 +1,9 @@
+{
+  "output/docx/AY26_ProjectSuggestion_Group 2.docx": "dbbc4efa0c1a0f6a58041558ff1dbdf52f189fb8608552558c391bf9ec59d3b4",
+  "output/pdf/AY26_ProjectSuggestion_Group 2.pdf": "d4af42cbacf850d6a8e2006aff0dcd4e38001c8d3b7b9421dec9634e3830df85",
+  "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx": "a133728c64be5bebf80110e6dca83d68f0df4070050689505c461536613917c2",
+  "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf": "32efbfef5757f8a0480a22405227a7b0d079f54cdb45677a16174e87b72effa0",
+  "scripts/build_suggestion.py": "4251a8cfda01a0a814f8116bc1f67e64e64ea220d224b67d236a19765465271d",
+  "scripts/build_suggestion_v2.py": "ed1f3813b75b374b799947ebfada91bb3d1780619254709e383cccae56cf81ab",
+  "planning/2026-09-14/group-2-details.json": "fa3d1fc3b68c68ea8964f07cea2266b1918b0724a35758186f81651f8b64056a"
+}

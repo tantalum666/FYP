@@ -1,0 +1,74 @@
+{
+  "fx_planning_assumption_hkd_per_usd": 7.8,
+  "camera_hkd": 2449.2,
+  "thermal_hkd": 584.61,
+  "three_load_cells_and_amplifiers_hkd": 418.85999999999996,
+  "all_new_subtotal_low_hkd": 4252.67,
+  "all_new_subtotal_high_hkd": 4942.67,
+  "contingency_percent": 15,
+  "all_new_total_low_hkd": 4890.57,
+  "all_new_total_high_hkd": 5684.07,
+  "borrow_camera_total_low_hkd": 2073.99,
+  "borrow_camera_total_high_hkd": 2867.49,
+  "host_and_display_reused": true,
+  "status": "reference planning estimate; no purchase; shipping and currency differ from actual quotation",
+  "alternative_camera_totals": {
+    "DFRobot SEN0583 (out of stock on product page)": {
+      "camera_reference_usd": 109,
+      "all_new_low_hkd": 3051.72,
+      "all_new_high_hkd": 3845.22,
+      "assumption": "same other components; technical equivalence and food-scanning suitability untested"
+    },
+    "Orbbec Gemini 2": {
+      "camera_reference_usd": 234,
+      "all_new_low_hkd": 4172.97,
+      "all_new_high_hkd": 4966.47,
+      "assumption": "same other components; technical equivalence and food-scanning suitability untested"
+    },
+    "RealSense D405": {
+      "camera_reference_usd": 272,
+      "all_new_low_hkd": 4513.83,
+      "all_new_high_hkd": 5307.33,
+      "assumption": "same other components; technical equivalence and food-scanning suitability untested"
+    }
+  },
+  "camera_market_reference": [
+    {
+      "model": "DFRobot SEN0581 depth only",
+      "usd": 29.9,
+      "planning_hkd": 233
+    },
+    {
+      "model": "DFRobot SEN0583 RGB-D",
+      "usd": 109,
+      "planning_hkd": 850
+    },
+    {
+      "model": "Orbbec Gemini 2",
+      "usd": 234,
+      "planning_hkd": 1825
+    },
+    {
+      "model": "OAK-D Lite",
+      "usd": 269,
+      "planning_hkd": 2098
+    },
+    {
+      "model": "RealSense D405",
+      "usd": 272,
+      "planning_hkd": 2122
+    },
+    {
+      "model": "RealSense D435",
+      "usd": 314,
+      "planning_hkd": 2449
+    },
+    {
+      "model": "OAK-D Short Range",
+      "usd": 329,
+      "planning_hkd": 2566
+    }
+  ],
+  "architecture_status": "superseded: shared scan station plus two nodes is not the user-requested continuous in-place workflow",
+  "current_architecture_reference": "../../planning/2026-09-14/continuous-monitoring-architecture.md"
+}

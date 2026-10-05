@@ -1,0 +1,20 @@
+{
+  "summary": {
+    "status": "SUCCEEDED",
+    "durationMs": 10792,
+    "target": "simulator"
+  },
+  "artifacts": {
+    "appPath": "/Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app",
+    "bundleId": "dev.group2.deskcompanion",
+    "processId": 29994,
+    "simulatorId": "EA356940-5220-4AA8-89CF-499C6D5D14E4",
+    "buildLogPath": "/Users/tantalum/Library/Developer/XcodeBuildMCP/workspaces/FYP-db1e8417c72a/logs/build_run_sim_2026-10-02T20-32-37-826Z_pid97569_7b464147.log",
+    "runtimeLogPath": "/Users/tantalum/Library/Developer/XcodeBuildMCP/workspaces/FYP-db1e8417c72a/logs/dev.group2.deskcompanion_2026-10-02T20-32-46-543Z_helperpid29965_ownerpid97569_7c75e5e3.log",
+    "osLogPath": "/Users/tantalum/Library/Developer/XcodeBuildMCP/workspaces/FYP-db1e8417c72a/logs/dev.group2.deskcompanion_oslog_2026-10-02T20-32-48-579Z_helperpid30093_ownerpid97569_b5f3758b.log"
+  },
+  "diagnostics": {
+    "warnings": [],
+    "errors": []
+  }
+}

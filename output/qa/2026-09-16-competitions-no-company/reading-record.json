@@ -1,0 +1,66 @@
+{
+  "started_at": "2026-09-16T06:14:27.576878+00:00",
+  "same_task_followup": true,
+  "constraint": "User has no current intention to register a company in any location; prioritize no-company entry and prize receipt",
+  "inherits_full_read": "../2026-09-16-competition-research/reading-record.json",
+  "supplementary_reads": {
+    "AGENTS.md": "1-EOF",
+    "product.md": "1-EOF current naming-only version",
+    "handoff.md": "1-EOF current naming-only version",
+    "research/2026-09-16-competitions/competition-shortlist.md": "1-76 EOF",
+    "planning/2026-09-16/naming-shortlist.md": "1-EOF",
+    "decision-log.md": "latest 24 lines including naming and competition updates",
+    "work-log.md": "latest 24 lines including naming and competition updates"
+  },
+  "exclusions": [
+    ".git",
+    "dependencies/cache/third-party/build output",
+    "output/qa auto-generated evidence"
+  ],
+  "status": "supplementary_read_complete",
+  "completed_at": "2026-09-16T06:22:51.615941+00:00",
+  "pdf_visual_pages": [
+    {
+      "path": "sources/ChinaUS-Maker-2026-Rules.pdf",
+      "sha256": "a6c774431c1fc176cb58c5b2e09684e38cda9e45529184dd955179c54846b36d",
+      "visual_pages_1_based": [
+        4,
+        5,
+        6,
+        14,
+        15
+      ],
+      "unchanged_original_download": true
+    },
+    {
+      "path": "sources/HKIE-Electronics-2026-InfoPack.pdf",
+      "sha256": "f33d64907b32ab9f27097861dba4f5b9dc6a1e3e2741f5b581ed18780421c8f9",
+      "visual_pages_1_based": [
+        6,
+        9,
+        15,
+        16,
+        17
+      ],
+      "unchanged_original_download": true
+    },
+    {
+      "path": "sources/IET-YPEC-2026-Subdegree-Rules.pdf",
+      "sha256": "0e7f9a807b8905f6ad74f646cbc6fe8d5b12621036f2489965aa0a531ce8b138",
+      "visual_pages_1_based": [
+        2,
+        4
+      ],
+      "unchanged_original_download": true
+    }
+  ],
+  "updated_markdown": [
+    "research/2026-09-16-competitions/no-company-options.md",
+    "research/2026-09-16-competitions/competition-shortlist.md",
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md"
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "completed_at": "2026-09-18T17:32:02.454806+00:00",
+  "source_markdown_files_checked": 80,
+  "valid_local_links": 760,
+  "broken_links": [],
+  "changed_authorities": [
+    "README.md",
+    "product.md",
+    "brand.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-18/development-p0.md",
+    "planning/2026-09-16/app-pages-and-permissions.md",
+    "planning/2026-09-16/software-workflows-and-api.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md",
+    "planning/2026-09-16/software-scope-and-architecture.md"
+  ],
+  "protected_files_checked": 332,
+  "protected_changes": [],
+  "group_identity": "matched canonical Group 2 and 40/30/30",
+  "artifacts_missing": [],
+  "checks": {
+    "backend": "15 passed; 8.43s; two upstream deprecation notices",
+    "ruff": "passed",
+    "web": "TypeScript and Vite build passed",
+    "ios_flow": "ui-tests-final-auth.xcresult passed",
+    "ios_small_and_large_text": "ui-tests-small-02.xcresult passed",
+    "web_lost_response": "committed 200 dropped; same operation recovered; one task",
+    "web_csv": "manager 200; viewer 403; explicit source",
+    "visual": "view_image concept and final render; desktop native dimensions; narrow and accessibility inspected"
+  },
+  "exclusions": [
+    ".git",
+    ".venv",
+    ".runtime",
+    "node_modules",
+    "generated output/qa evidence snapshots (current verification report links also checked)"
+  ],
+  "limits": [
+    "real hardware and vision not connected",
+    "personal and school full flows are P1",
+    "real iPhone and iOS17 runtime untested",
+    "iPhone-specific lost-response injection not executed",
+    "no external deployment or school submission"
+  ],
+  "final_review_state": {
+    "api": "http://127.0.0.1:8799",
+    "web": "http://127.0.0.1:5177",
+    "language": "en",
+    "remaining_g": 700,
+    "suggested_g": 1000,
+    "active_tasks": 0,
+    "browser_viewport_override": "reset",
+    "network_interception": "cleared",
+    "iphone": "running in iPhone 17 Pro simulator with restored kitchen session"
+  }
+}

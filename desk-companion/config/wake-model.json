@@ -1,0 +1,29 @@
+{
+  "url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2",
+  "archive_sha256": "68447f4fbc67e70eee3a93961f36e81e98f47aef73ce7e7ca00885c6cd3616a6",
+  "archive_bytes": 32885699,
+  "files": {
+    "decoder-epoch-13-avg-2-chunk-8-left-64.onnx": {
+      "sha256": "63a22dd60f40fff082ac3e09afa507f6787da36df76ded2fbe145fa233e22c21",
+      "bytes": 759829
+    },
+    "en.phone": {
+      "sha256": "f7000ec3a90544c0c7c16090d8951779c2b322e14dad5006290f498567d439ea",
+      "bytes": 3330061
+    },
+    "encoder-epoch-13-avg-2-chunk-8-left-64.int8.onnx": {
+      "sha256": "2ca84d6bfe73e1ea3c9c49f600f7cad1c9ddd423c53c906b8bfe802444dd78d5",
+      "bytes": 4600657
+    },
+    "joiner-epoch-13-avg-2-chunk-8-left-64.int8.onnx": {
+      "sha256": "190d4067b4cc20b72a42a1916e69d92052000fb7051a427ebb1bc72a69207dc1",
+      "bytes": 86629
+    },
+    "tokens.txt": {
+      "sha256": "2d3f32311f9b692b964da3c90e830258d3e78e013cb0c992dbfb15cd5a1a71b0",
+      "bytes": 1928
+    }
+  },
+  "source": "https://k2-fsa.github.io/sherpa/onnx/kws/pretrained_models/index.html",
+  "checked": "2026-10-02"
+}

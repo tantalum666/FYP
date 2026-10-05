@@ -1,0 +1,3 @@
+sample_code,created_at,data_origin,state,provided_g,remaining_g,remaining_reason,nutrition_status,reference_energy_kcal,scope,plan_review_status
+S-F267136ADE,2026-09-19T20:11:34.254292+08:00,simulated,completed,250,,pan_removed,unavailable,,latest_100_matching_samples_not_intake,illustrative_unreviewed
+S-79A94FA1C0,2026-09-19T20:04:35.135160+08:00,simulated,completed,450,300,observed_total,complete,477.5,latest_100_matching_samples_not_intake,illustrative_unreviewed

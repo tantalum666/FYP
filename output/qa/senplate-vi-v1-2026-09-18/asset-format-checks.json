@@ -1,0 +1,232 @@
+{
+  "svg": [
+    {
+      "file": "horizontal-black.svg",
+      "text_nodes": 0
+    },
+    {
+      "file": "horizontal-green.svg",
+      "text_nodes": 0
+    },
+    {
+      "file": "horizontal-white.svg",
+      "text_nodes": 0
+    },
+    {
+      "file": "stacked-black.svg",
+      "text_nodes": 0
+    },
+    {
+      "file": "stacked-green.svg",
+      "text_nodes": 0
+    },
+    {
+      "file": "stacked-white.svg",
+      "text_nodes": 0
+    },
+    {
+      "file": "symbol-black.svg",
+      "text_nodes": 0
+    },
+    {
+      "file": "symbol-green.svg",
+      "text_nodes": 0
+    },
+    {
+      "file": "symbol-white.svg",
+      "text_nodes": 0
+    },
+    {
+      "file": "wordmark-black.svg",
+      "text_nodes": 0
+    },
+    {
+      "file": "wordmark-green.svg",
+      "text_nodes": 0
+    },
+    {
+      "file": "wordmark-white.svg",
+      "text_nodes": 0
+    }
+  ],
+  "png": [
+    {
+      "file": "horizontal-black.png",
+      "size": [
+        2400,
+        452
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "horizontal-green.png",
+      "size": [
+        2400,
+        452
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "horizontal-white.png",
+      "size": [
+        2400,
+        452
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "stacked-black.png",
+      "size": [
+        1600,
+        1045
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "stacked-green.png",
+      "size": [
+        1600,
+        1045
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "stacked-white.png",
+      "size": [
+        1600,
+        1045
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "symbol-black.png",
+      "size": [
+        1200,
+        850
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "symbol-green.png",
+      "size": [
+        1200,
+        850
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "symbol-white.png",
+      "size": [
+        1200,
+        850
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "wordmark-black.png",
+      "size": [
+        2000,
+        473
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "wordmark-green.png",
+      "size": [
+        2000,
+        473
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "wordmark-white.png",
+      "size": [
+        2000,
+        473
+      ],
+      "alpha": [
+        0,
+        255
+      ]
+    }
+  ],
+  "font_sources": [
+    {
+      "file": "05_Fonts_and_Licences/Manrope/Manrope[wght].ttf",
+      "unchanged": true
+    },
+    {
+      "file": "05_Fonts_and_Licences/Manrope/OFL.txt",
+      "unchanged": true
+    },
+    {
+      "file": "05_Fonts_and_Licences/Manrope/METADATA.pb",
+      "unchanged": true
+    },
+    {
+      "file": "05_Fonts_and_Licences/NotoSansTC/NotoSansTC[wght].ttf",
+      "unchanged": true
+    },
+    {
+      "file": "05_Fonts_and_Licences/NotoSansTC/OFL.txt",
+      "unchanged": true
+    },
+    {
+      "file": "05_Fonts_and_Licences/NotoSansTC/METADATA.pb",
+      "unchanged": true
+    },
+    {
+      "file": "05_Fonts_and_Licences/NotoSansSC/NotoSansSC[wght].ttf",
+      "unchanged": true
+    },
+    {
+      "file": "05_Fonts_and_Licences/NotoSansSC/OFL.txt",
+      "unchanged": true
+    },
+    {
+      "file": "05_Fonts_and_Licences/NotoSansSC/METADATA.pb",
+      "unchanged": true
+    },
+    {
+      "file": "05_Fonts_and_Licences/Manrope/FONTLOG.txt",
+      "unchanged": true
+    },
+    {
+      "file": "05_Fonts_and_Licences/Inter_Historical_Labels/OFL.txt",
+      "unchanged": true
+    }
+  ]
+}

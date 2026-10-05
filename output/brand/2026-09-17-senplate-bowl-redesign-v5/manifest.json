@@ -1,0 +1,62 @@
+{
+  "brand": "Senplate",
+  "stage": "V5_BOWL_REDESIGN_CONCEPT_NOT_SELECTED",
+  "created_at": "2026-09-17T14:44:40.759624+00:00",
+  "route": "built-in ImageGen; one generation and one targeted edit",
+  "images": [
+    {
+      "name": "bowl-01-generated.png",
+      "source_filename": "exec-cc7b8346-7133-41d8-8817-77dbc48861d9.png",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "b325daf932fa5203cd0f21e9571cab98ce043303ad8944f0a6d41354b2d2097e",
+      "bytes": 195522
+    },
+    {
+      "name": "bowl-01-concept.png",
+      "source_filename": "exec-fb0b2cca-280f-4f2c-bd95-fddc89ffacf3.png",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "41ec706025011698b18da682310f5efb2ea7ec29eb3029528d00113e684c2917",
+      "bytes": 893491
+    }
+  ],
+  "current_image": "bowl-01-concept.png",
+  "prompt_file": "planning/2026-09-17/senplate-bowl-redesign-v5.md",
+  "target_palette": {
+    "forest": "#163F35",
+    "ivory": "#F3F1E7"
+  },
+  "capitalization": "Candidate uses Senplate; not a user-approved final wordmark.",
+  "visual_observations": [
+    "Visible complete bowl mouth, solid body and foot.",
+    "Stepped negative space at front rim.",
+    "Senplate spelling visible.",
+    "Some generated texture and fine rim/base separations remain."
+  ],
+  "not_completed": [
+    "User selection",
+    "Vector master",
+    "Exact palette normalization",
+    "Golden-ratio measurement",
+    "Small-size validation",
+    "Trademark screening",
+    "Full VI",
+    "App icons"
+  ],
+  "old_route": "V4 ring-like mark rejected by user; preserved as history."
+}

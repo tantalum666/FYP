@@ -1,0 +1,34 @@
+{
+  "checked_date": "2026-09-16",
+  "timezone": "Asia/Hong_Kong",
+  "scope": "Public word-mark screening, not registration, legal clearance or a complete national-register/phonetic search",
+  "method": "Observed browser UI forms and returned result text through Codex in-app browser; structured notes below are transcribed observations, not exported database certificates or full DOM exports",
+  "selected_brand": "Senplate",
+  "selected_chinese_name": null,
+  "checks": [
+    {"jurisdiction":"Hong Kong","authority":"IPD","url":"https://esearch.ipd.gov.hk/nis-pos-view/#/tm/quicksearch?lang=en","query":"senplate","mode":"Wildcard text search, Record Type All, no class restriction","result":"No Results Found.","count":0,"completed":true},
+    {"jurisdiction":"Hong Kong","authority":"IPD","url":"https://esearch.ipd.gov.hk/nis-pos-view/#/tm/quicksearch?lang=en","query":"sen*plat*","mode":"Wildcard text search, no class restriction","count":1,"completed":true,"matches":[{"number":"304669156","text":"HANG SENG P.P PAYMENT PLATFORM Pay & Paid","status":"Registered","classes":[9,35,36,38,42],"owner":"Hang Seng Bank Limited","assessment":"Literal broad-pattern match across SENG and PLATFORM, not an exact SENPLATE mark; do not count as a same-name result"}]},
+    {"jurisdiction":"Hong Kong","authority":"IPD","url":"https://esearch.ipd.gov.hk/nis-pos-view/#/tm/quicksearch?lang=en","query":"sen*plate*","mode":"Wildcard text search, Record Type All, no class restriction","result":"No Results Found.","count":0,"completed":true},
+    {"jurisdiction":"United States","authority":"USPTO","url":"https://tmsearch.uspto.gov/search/search-results","query":"senplate","mode":"Wordmark; Live and Dead checked; Registered, Pending, Cancelled, Abandoned checked; no class restriction","result":"No results found","live_count":0,"dead_count":0,"completed":true},
+    {"jurisdiction":"United States","authority":"USPTO","url":"https://tmsearch.uspto.gov/search/search-results","query":"senseplate","mode":"Wordmark; same status scope","result":"No results found","count":0,"completed":true},
+    {"jurisdiction":"United States","authority":"USPTO","url":"https://tmsearch.uspto.gov/search/search-results","query":"sensoplate","mode":"Wordmark; same status scope","result":"No results found","count":0,"completed":true},
+    {"jurisdiction":"European Union","authority":"EUIPO","url":"https://euipo.europa.eu/eSearch/#basic/1+1+1+1/100+100+100+100/senplate","query":"senplate","mode":"eSearch plus basic text query; EUIPO database, not all member-state national registers","result":"Trade marks (0); No results were found using the criteria introduced.","count":0,"completed":true},
+    {"jurisdiction":"European Union","authority":"EUIPO","url":"https://euipo.europa.eu/eSearch/#basic/1+1+1+1/100+100+100+100/sensoplate","query":"sensoplate","mode":"eSearch plus basic text query","result":"Trade marks (0); No results were found using the criteria introduced.","count":0,"completed":true},
+    {"jurisdiction":"China mainland","authority":"CNIPA","urls":["https://sbj.cnipa.gov.cn/sbj/sbcx/","http://wcjs.sbj.cnipa.gov.cn/txnT01.do"],"completed":false,"count":null,"observed":"Current public entry and notice loaded in browser; query control did not reach results. Published query portal returned HTTP 403 Forbidden. No trademark result obtained; not zero results."},
+    {"jurisdiction":"WIPO participating collections","authority":"WIPO Global Brand Database","url":"https://branddb.wipo.int/en/","completed":false,"count":null,"observed":"Browser navigation returned ERR_BLOCKED_BY_CLIENT. No search submitted or result obtained; not zero results."}
+  ],
+  "access_notes": [
+    "Hong Kong initially required a manual CAPTCHA; user handoff was requested. The page subsequently became accessible and returned the recorded results. No CAPTCHA was solved by the agent and no cause of the access change is assumed.",
+    "Browser content export was unsupported. Database observations are recorded here without claiming an exported official report.",
+    "No filing, account creation, payment, domain purchase or third-party message was made."
+  ],
+  "similar_public_uses": [
+    {"name":"SensePlate","source":"https://uk.linkedin.com/in/riju-nepal","evidence_type":"Public search-index text of a project author's self-published profile; direct page fetch denied by robots.txt","observed":"2021–2022 food weighing device connected by Bluetooth to a mobile application to calculate and display calories","registration_status":"UNKNOWN","assessment":"Relevant near-spelling and related-use lead; not proof of a live registered trademark or current commercial operation"},
+    {"name":"SensoPlate","source":"https://shop.gbo.com/en/brazil/products/bioscience/microplates/sensoplate-glass-bottom-plates/bs-sensoplate-plus/","evidence_type":"Official Greiner Bio-One product catalogue page opened","observed":"Laboratory glass-bottom microplates, SensoPlate Plus","registration_status":"NOT_ESTABLISHED_BY_THIS_PAGE","assessment":"Different product field and spelling; keep separate from SensePlate food-scale project and from SENPLATE registrations"}
+  ],
+  "classification_basis": [
+    "https://www.ipd.gov.hk/en/trade-marks/apply-for-a-trade-mark/how-to-classify-my-goods-services/index.html",
+    "https://www.ipd.gov.hk/en/trade-marks/apply-for-a-trade-mark/commonly-used-description/index.html"
+  ],
+  "priority_classes_for_further_review": [9,42]
+}

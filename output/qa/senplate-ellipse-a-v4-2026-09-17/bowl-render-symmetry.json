@@ -1,0 +1,9 @@
+{
+  "size": [
+    1280,
+    489
+  ],
+  "alpha_mean_absolute_difference": 0.060717024539877304,
+  "max_alpha_difference": 33.0,
+  "binary_mask_disagreement_fraction": 0.00024603783231083847
+}

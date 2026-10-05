@@ -1,0 +1,143 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "F5EBABB0-EFB2-459A-8BEF-7454C5036189.txt",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "App UI hierarchy for com.group2_0_18988FBD-EBE0-4C7E-8687-2AEC0C23FF98.senplate",
+        "timestamp" : 1789750958.478
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "53239409-4A73-4EFF-B9CB-C3701DBA2244",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "UI Snapshot 2026-09-19 at 01.02.38 上午",
+        "timestamp" : 1789750958.478
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "E93061B3-F8D1-42B6-9457-1333E1686BBE.txt",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Debug description for `\"Completed\" StaticText`_0_37412CFE-0C5F-4A3C-954E-8DC4ECC4272E.txt",
+        "timestamp" : 1789750958.379
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "ED847AA1-D9BD-4DF0-B892-732FA12B41E5.txt",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Debug description for `\"Completed\" StaticText`_0_5A1747D8-CD1B-4FA6-8A9B-DDF6F916192B.txt",
+        "timestamp" : 1789750957.37
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "3A42154A-F637-4A22-BA50-2C23CDE48DD4.txt",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Debug description for `\"Completed\" StaticText`_0_7A584846-0AA4-4CB0-A91E-23BB3D6F53B4.txt",
+        "timestamp" : 1789750956.396
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "7B2ABCE1-8552-40B0-97BF-43677BAEF580.txt",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Debug description for `\"Completed\" StaticText`_0_3A33E477-A003-408D-82AE-C809F690B522.txt",
+        "timestamp" : 1789750955.427
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "4F4E9486-E80C-49BC-A3BA-A5E697C96A37.txt",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Debug description for `\"Completed\" StaticText`_0_ECC5455A-8EEF-4763-95D5-2C62BDFF7707.txt",
+        "timestamp" : 1789750954.423
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "6E68B4F5-248F-4F1B-A44C-14C46531AB32",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-09-19 at 01.02.32 上午",
+        "timestamp" : 1789750952.625
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "F30E6E15-F7B6-45F8-9D04-04035BC33E51",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-09-19 at 01.02.30 上午",
+        "timestamp" : 1789750950.823
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "D9B64393-1DE1-4056-8B0F-A36DD6007C37",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-09-19 at 01.02.29 上午",
+        "timestamp" : 1789750949.004
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "EC75B178-3EEE-426F-8F98-DEF3856BAC0A.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "04-verified-overview_0_B6F593F0-E9F8-4F38-82BC-1AD8CD04122B.png",
+        "timestamp" : 1789750948.517
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "9B4C66BF-7991-4AEB-991C-14AAF695C4B2",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-09-19 at 01.02.23 上午",
+        "timestamp" : 1789750943.12
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "4DBF4FAE-EE9C-4748-9B4E-5E6B8C1DEB20",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-09-19 at 01.02.21 上午",
+        "timestamp" : 1789750941.736
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "91DD0EE9-B2D0-46BE-8969-BC8974B77526",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Synthesized Event 2026-09-19 at 01.02.18 上午",
+        "timestamp" : 1789750938.632
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "893A9BD6-A802-4EA6-9F6C-E854D3A57A6F.mp4",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "Screen Recording 2026-09-19 at 01.02.08 上午.mp4",
+        "timestamp" : 1789750928.693
+      }
+    ],
+    "testIdentifier" : "SenplateUITests/testVerifiedBatchAndLargeText()",
+    "testIdentifierURL" : "test://com.apple.xcode/Senplate/SenplateUITests/SenplateUITests/testVerifiedBatchAndLargeText"
+  }
+]

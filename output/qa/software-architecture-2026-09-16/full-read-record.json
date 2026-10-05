@@ -1,0 +1,912 @@
+{
+  "kind": "New independent software-planning workstream; full project Markdown read required.",
+  "created_at": "2026-09-16T10:42:26.330959+08:00",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "chars": 1746,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "README.md",
+      "lines": 47,
+      "chars": 3335,
+      "sha256": "06959b5f82da9946a4cccc9decb1e514a76e4ddbcedabde80e679387dae6ac03",
+      "read_ranges": [
+        [
+          1,
+          47
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 119,
+      "chars": 7882,
+      "sha256": "fb0bc5af5c69d9363c41413b1a0d7a64721fa2d1c37e61639c2a2ab4fdde7dff",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          119
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "handoff.md",
+      "lines": 28,
+      "chars": 1317,
+      "sha256": "39573be3d7bb2822b15605b5f6fc569ca39cf299aaca447486a767e3b3930e88",
+      "read_ranges": [
+        [
+          1,
+          28
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "lines": 174,
+      "chars": 9214,
+      "sha256": "153da7429cd987e0e13d9440dd0f24a0a63ef60e3212335a19662a9b2ceeaff7",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          130
+        ],
+        [
+          131,
+          174
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 118,
+      "chars": 7130,
+      "sha256": "4fc0e8bff366ed3bd3e588f172f33b5a0b9e592b6ca8e4004fde2f142b074150",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          118
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "lines": 78,
+      "chars": 3999,
+      "sha256": "0546e0aee11211cbe5de981addd7f332da47e0b39f48785392b21b79bc0d1a21",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          78
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160,
+      "chars": 6462,
+      "sha256": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          130
+        ],
+        [
+          131,
+          160
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "lines": 108,
+      "chars": 5817,
+      "sha256": "ac5709dfbaf0c4bcd78d211595e961b0028bd9031475d16281a675b3826e895f",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          108
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "lines": 39,
+      "chars": 1663,
+      "sha256": "4bc962711143b8b982d7adba8e96f747f00cf2bc699d3d94835c08af8cb0d65b",
+      "read_ranges": [
+        [
+          1,
+          39
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "lines": 183,
+      "chars": 9832,
+      "sha256": "4fa54cbecb0f24b25f7360ea82bce8a66a5760a1aeb912b9ff344f8cb981a2e4",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          130
+        ],
+        [
+          131,
+          183
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "lines": 18,
+      "chars": 1119,
+      "sha256": "1d0ba46a3b015b3463b3fdd47394624f42b4930ec7e64b2b33639ebcc9d6ab42",
+      "read_ranges": [
+        [
+          1,
+          18
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "lines": 247,
+      "chars": 9873,
+      "sha256": "1434e55732e1ccb5a514e9204c4923f704221a8be0dc5d13f32f419c671c9c13",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          130
+        ],
+        [
+          131,
+          195
+        ],
+        [
+          196,
+          247
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+      "lines": 70,
+      "chars": 2378,
+      "sha256": "ab69a75f60b9ac081617970c9dea0ad48e4af73e27f006085e77052835054965",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          70
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+      "lines": 53,
+      "chars": 1847,
+      "sha256": "9bc25bc85baaf4badca2a18e853ffbf18c818b53bde69798a1e0c813cbfd3538",
+      "read_ranges": [
+        [
+          1,
+          53
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "planning/2026-09-15/power-supply-detail.md",
+      "lines": 143,
+      "chars": 7224,
+      "sha256": "5cf4999a5cfbbb1f0f7b3ae92707c5c2e774bb630c4b959b6243c9bdeda012e9",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          130
+        ],
+        [
+          131,
+          143
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "lines": 212,
+      "chars": 16322,
+      "sha256": "6ab9b851962e90f28578483b06173dc7a9e2eb434ace4ba0fe1455330e0a1c66",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          130
+        ],
+        [
+          131,
+          195
+        ],
+        [
+          196,
+          212
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "lines": 107,
+      "chars": 5416,
+      "sha256": "b22dfd416dca3223ef15ae88aaaff8989887e38d6a882e7b1ddb19c785ab3618",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          107
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "product.md",
+      "lines": 97,
+      "chars": 6318,
+      "sha256": "f5b02157d97c01272ed1daafae18083de908d0bcca0fe30f53772f315fd0af8a",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          97
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165,
+      "chars": 8072,
+      "sha256": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          130
+        ],
+        [
+          131,
+          165
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38,
+      "chars": 1282,
+      "sha256": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410",
+      "read_ranges": [
+        [
+          1,
+          38
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44,
+      "chars": 3770,
+      "sha256": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346",
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47,
+      "chars": 2414,
+      "sha256": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a",
+      "read_ranges": [
+        [
+          1,
+          47
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287,
+      "chars": 16367,
+      "sha256": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          130
+        ],
+        [
+          131,
+          195
+        ],
+        [
+          196,
+          260
+        ],
+        [
+          261,
+          287
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171,
+      "chars": 9220,
+      "sha256": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          130
+        ],
+        [
+          131,
+          171
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25,
+      "chars": 1702,
+      "sha256": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7",
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ],
+      "unchanged_during_read": true
+    },
+    {
+      "path": "work-log.md",
+      "lines": 137,
+      "chars": 11242,
+      "sha256": "6042edbc4c40fd0e1b0630786b5b4b849081608d5d22f27aae4f50f4476b4973",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          130
+        ],
+        [
+          131,
+          137
+        ]
+      ],
+      "unchanged_during_read": true
+    }
+  ],
+  "batches": [
+    {
+      "batch": 1,
+      "file": "read-batch-01.txt",
+      "ranges": [
+        {
+          "path": "AGENTS.md",
+          "start": 1,
+          "end": 50
+        },
+        {
+          "path": "README.md",
+          "start": 1,
+          "end": 47
+        },
+        {
+          "path": "decision-log.md",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "decision-log.md",
+          "start": 66,
+          "end": 119
+        }
+      ],
+      "read": true
+    },
+    {
+      "batch": 2,
+      "file": "read-batch-02.txt",
+      "ranges": [
+        {
+          "path": "handoff.md",
+          "start": 1,
+          "end": 28
+        },
+        {
+          "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+          "start": 66,
+          "end": 130
+        },
+        {
+          "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+          "start": 131,
+          "end": 174
+        }
+      ],
+      "read": true
+    },
+    {
+      "batch": 3,
+      "file": "read-batch-03.txt",
+      "ranges": [
+        {
+          "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+          "start": 66,
+          "end": 118
+        },
+        {
+          "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+          "start": 66,
+          "end": 78
+        }
+      ],
+      "read": true
+    },
+    {
+      "batch": 4,
+      "file": "read-batch-04.txt",
+      "ranges": [
+        {
+          "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+          "start": 66,
+          "end": 130
+        },
+        {
+          "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+          "start": 131,
+          "end": 160
+        },
+        {
+          "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+          "start": 66,
+          "end": 108
+        }
+      ],
+      "read": true
+    },
+    {
+      "batch": 5,
+      "file": "read-batch-05.txt",
+      "ranges": [
+        {
+          "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+          "start": 1,
+          "end": 39
+        },
+        {
+          "path": "planning/2026-09-15/camera-power-and-scaling.md",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "planning/2026-09-15/camera-power-and-scaling.md",
+          "start": 66,
+          "end": 130
+        },
+        {
+          "path": "planning/2026-09-15/camera-power-and-scaling.md",
+          "start": 131,
+          "end": 183
+        },
+        {
+          "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+          "start": 1,
+          "end": 18
+        }
+      ],
+      "read": true
+    },
+    {
+      "batch": 6,
+      "file": "read-batch-06.txt",
+      "ranges": [
+        {
+          "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+          "start": 66,
+          "end": 130
+        },
+        {
+          "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+          "start": 131,
+          "end": 195
+        },
+        {
+          "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+          "start": 196,
+          "end": 247
+        },
+        {
+          "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+          "start": 66,
+          "end": 70
+        }
+      ],
+      "read": true
+    },
+    {
+      "batch": 7,
+      "file": "read-batch-07.txt",
+      "ranges": [
+        {
+          "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+          "start": 1,
+          "end": 53
+        },
+        {
+          "path": "planning/2026-09-15/power-supply-detail.md",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "planning/2026-09-15/power-supply-detail.md",
+          "start": 66,
+          "end": 130
+        },
+        {
+          "path": "planning/2026-09-15/power-supply-detail.md",
+          "start": 131,
+          "end": 143
+        }
+      ],
+      "read": true
+    },
+    {
+      "batch": 8,
+      "file": "read-batch-08.txt",
+      "ranges": [
+        {
+          "path": "planning/2026-09-15/procurement-guide.md",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "planning/2026-09-15/procurement-guide.md",
+          "start": 66,
+          "end": 130
+        }
+      ],
+      "read": true
+    },
+    {
+      "batch": 9,
+      "file": "read-batch-09.txt",
+      "ranges": [
+        {
+          "path": "planning/2026-09-15/procurement-guide.md",
+          "start": 131,
+          "end": 195
+        },
+        {
+          "path": "planning/2026-09-15/procurement-guide.md",
+          "start": 196,
+          "end": 212
+        },
+        {
+          "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+          "start": 66,
+          "end": 107
+        }
+      ],
+      "read": true
+    },
+    {
+      "batch": 10,
+      "file": "read-batch-10.txt",
+      "ranges": [
+        {
+          "path": "product.md",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "product.md",
+          "start": 66,
+          "end": 97
+        },
+        {
+          "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+          "start": 1,
+          "end": 65
+        }
+      ],
+      "read": true
+    },
+    {
+      "batch": 11,
+      "file": "read-batch-11.txt",
+      "ranges": [
+        {
+          "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+          "start": 66,
+          "end": 130
+        },
+        {
+          "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+          "start": 131,
+          "end": 165
+        },
+        {
+          "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+          "start": 1,
+          "end": 38
+        },
+        {
+          "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+          "start": 1,
+          "end": 44
+        },
+        {
+          "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+          "start": 1,
+          "end": 47
+        }
+      ],
+      "read": true
+    },
+    {
+      "batch": 12,
+      "file": "read-batch-12.txt",
+      "ranges": [
+        {
+          "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+          "start": 66,
+          "end": 130
+        },
+        {
+          "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+          "start": 131,
+          "end": 195
+        },
+        {
+          "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+          "start": 196,
+          "end": 260
+        }
+      ],
+      "read": true
+    },
+    {
+      "batch": 13,
+      "file": "read-batch-13.txt",
+      "ranges": [
+        {
+          "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+          "start": 261,
+          "end": 287
+        },
+        {
+          "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+          "start": 66,
+          "end": 130
+        }
+      ],
+      "read": true
+    },
+    {
+      "batch": 14,
+      "file": "read-batch-14.txt",
+      "ranges": [
+        {
+          "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+          "start": 131,
+          "end": 171
+        },
+        {
+          "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+          "start": 1,
+          "end": 25
+        },
+        {
+          "path": "work-log.md",
+          "start": 1,
+          "end": 65
+        }
+      ],
+      "read": true
+    },
+    {
+      "batch": 15,
+      "file": "read-batch-15.txt",
+      "ranges": [
+        {
+          "path": "work-log.md",
+          "start": 66,
+          "end": 130
+        },
+        {
+          "path": "work-log.md",
+          "start": 131,
+          "end": 137
+        }
+      ],
+      "read": true
+    }
+  ],
+  "exclusions": [
+    "output/qa generated evidence",
+    ".git",
+    "dependencies",
+    "caches",
+    "build artifacts"
+  ],
+  "complete": true,
+  "repairs": [
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "ranges": [
+        [
+          89,
+          107
+        ]
+      ],
+      "reason": "Tool batch03 omitted middle of selection-order paragraphs; explicitly reread."
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "ranges": [
+        [
+          94,
+          195
+        ]
+      ],
+      "reason": "Combined batch06 display truncated middle; explicitly reread full omitted section."
+    }
+  ],
+  "completed_at": "2026-09-16T10:46:46.215695+08:00",
+  "file_count": 27,
+  "total_lines": 2965,
+  "handoff_check": "Previous hardware RFQ task completed; latest user explicitly shifts to software scope/architecture planning before hardware arrival. New next step must be software definition, not supplier contact."
+}

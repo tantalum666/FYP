@@ -1,0 +1,130 @@
+{
+  "task_kind": "Continuation explicitly requested by user: refine the same single-demo power design.",
+  "base_full_read": "../camera-power-scaling-2026-09-15/full-read-completion.json",
+  "base_supplement": "../camera-power-scaling-2026-09-15/scope-followup-validation.json",
+  "supplemental_reads": {
+    "AGENTS.md": "full",
+    "product.md": "full",
+    "handoff.md": "full",
+    "README.md": "full",
+    "decision-log.md": "full",
+    "work-log.md": "full",
+    "planning/2026-09-15/camera-power-and-scaling.md": "full",
+    "planning/2026-09-15/procurement-guide.md": [
+      [
+        1,
+        30
+      ]
+    ],
+    "planning/2026-09-14/continuous-monitoring-architecture.md": [
+      [
+        1,
+        18
+      ]
+    ]
+  },
+  "inventory": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "README.md",
+      "lines": 40,
+      "sha256": "a75b9ef3830ec944f4085502fd1a11c5fbc759cd8725c53b315433b738bbb713"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 80,
+      "sha256": "bcceb1e501c25729419de8887bf20e29f1a7fc1d3e42785019645647c1a1d331"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 30,
+      "sha256": "1ce26fa1f0223340863178e51904e9d2ebd00da350a3819ca915eed28e3481d0"
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "lines": 174,
+      "sha256": "153da7429cd987e0e13d9440dd0f24a0a63ef60e3212335a19662a9b2ceeaff7"
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 116,
+      "sha256": "3a4a82d8bffae2dc63270dc0774b91b6c1465efcbefc50a1c7e9a272c7eae78b"
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "lines": 78,
+      "sha256": "0546e0aee11211cbe5de981addd7f332da47e0b39f48785392b21b79bc0d1a21"
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160,
+      "sha256": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5"
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "lines": 108,
+      "sha256": "ac5709dfbaf0c4bcd78d211595e961b0028bd9031475d16281a675b3826e895f"
+    },
+    {
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "lines": 181,
+      "sha256": "bc4a9407096f1a9fa4830a464c6e1494b506bc36a9ab44c0a11d3a025b477776"
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "lines": 206,
+      "sha256": "4cb6f517bf14305f933c89027e1343ca456f59c7ffe87e1c02d8464cb5397768"
+    },
+    {
+      "path": "product.md",
+      "lines": 80,
+      "sha256": "11c4015fbfa11d79fd0a54d23a6d5a6bccb2f0484ed17abe0c598fc6af2c17d1"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165,
+      "sha256": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38,
+      "sha256": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44,
+      "sha256": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47,
+      "sha256": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287,
+      "sha256": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171,
+      "sha256": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25,
+      "sha256": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7"
+    },
+    {
+      "path": "work-log.md",
+      "lines": 89,
+      "sha256": "bccc99dae8405ea9b133e633d42a56009b7033a71978ac91749d3f3a0bb81ae0"
+    }
+  ],
+  "excluded": "Generated output/qa, .git, dependencies, caches; previous full bodies retained for this continuation. Hashes only detect change, not prove reading.",
+  "completed_at": "2026-09-15T22:32:35.130102+08:00"
+}

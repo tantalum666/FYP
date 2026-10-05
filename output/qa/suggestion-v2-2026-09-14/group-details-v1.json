@@ -1,0 +1,72 @@
+{
+  "group_number": "2",
+  "programme": "Higher Diploma in AI and Smart Technology (IT114124)",
+  "class_code": "AIST-2B",
+  "proposed_supervisor": "Macro",
+  "supervisor_verbal_agreement": false,
+  "stage": "suggestion_completed_for_review_pending_endorsements",
+  "primary_scenarios": [
+    "buffet",
+    "batch_prepared_self_service_fast_casual"
+  ],
+  "secondary_feature": "customer QR digital menu and ordering",
+  "members": [
+    {
+      "name": "Yuan Yuchen",
+      "student_id": "250342840",
+      "email": "250342840@stu.vtc.edu.hk",
+      "leader": true,
+      "planned_contribution_percent": 40
+    },
+    {
+      "name": "Xu Ziqian",
+      "student_id": "250137555",
+      "email": "250137555@stu.vtc.edu.hk",
+      "leader": false,
+      "planned_contribution_percent": 30
+    },
+    {
+      "name": "Li Wenhua",
+      "student_id": "250329909",
+      "email": "250329909@stu.vtc.edu.hk",
+      "leader": false,
+      "planned_contribution_percent": 30
+    }
+  ],
+  "notes": [
+    "Supervisor spelling is preserved exactly as supplied by the user.",
+    "Emails are derived using the explicit rule supplied by the user.",
+    "Contribution shares are a proposed workload allocation, not final assessment marks.",
+    "Do not sign, select supervisor approval, or submit the form based on this file.",
+    "All future group labels must use Group 2, as explicitly requested on 2026-09-14."
+  ],
+  "group_display_name": "Group 2",
+  "monitoring_mode": "continuous_in_place_monitoring_during_service",
+  "physical_workflow": "Chef places the prepared pan on the monitoring base; the pan remains there while customers are served.",
+  "owned_hardware": [
+    {
+      "model": "Arduino UNO R4 WiFi",
+      "quantity": 1,
+      "source": "explicit user statement"
+    }
+  ],
+  "design_reference": "Metafoodx form factor: weighing base, upright sensing head and display; adapted for continuous in-place monitoring.",
+  "compute_recommendation": {
+    "preferred_architecture": "single Raspberry Pi 5 with digital sensing interfaces and a directly connected camera",
+    "development": "reuse existing computer for development and training; UNO optional for acquisition/debugging",
+    "arduino_required": false,
+    "fallbacks_if_testing_requires": [
+      "separate acquisition controller",
+      "small form factor computer"
+    ],
+    "selection_status": "proposed in suggestion; no hardware performance validation or purchase"
+  },
+  "suggestion_outputs": {
+    "docx": "output/docx/AY26_ProjectSuggestion_Group 2.docx",
+    "pdf": "output/pdf/AY26_ProjectSuggestion_Group 2.pdf",
+    "page_count": 4,
+    "content_and_layout_checked": true,
+    "uploaded": false,
+    "signed": false
+  }
+}

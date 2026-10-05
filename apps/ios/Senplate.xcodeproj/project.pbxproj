@@ -1,0 +1,575 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		126AB8AE44CD1604E852D427 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D71B7FDA81377BB67D1D75 /* Models.swift */; };
+		15748E1C512B494FE6B862AE /* MealDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A942E63DFFF57B6A5BB1E6 /* MealDetailView.swift */; };
+		1980878ADBC76E916A394B18 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F63767DE902F7461FE2A3FE /* AppStore.swift */; };
+		1BCC570F3485AF42387EA514 /* MenuCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5A79FA194DDF256564C72F /* MenuCode.swift */; };
+		1DA62DFF14502FECBEEC90C0 /* OrderDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD827950EF61846B9A969CE8 /* OrderDetailView.swift */; };
+		1E507EB367BEEAFD6EA42750 /* DiningViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB97B8A05B895DCFD95689CD /* DiningViews.swift */; };
+		253ED2A41551E846250B8A99 /* ReplenishmentViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A52CFD98F79EB2AA042FF3A /* ReplenishmentViews.swift */; };
+		2ACCA27E7C32B864D3604383 /* OrderingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A835ECC0D23FCEC1D7603984 /* OrderingUITests.swift */; };
+		2C626ED5E3F3D9BD6B5FCC21 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6337404EFAF4A684F9989DF9 /* Assets.xcassets */; };
+		49B9DCD20B19139B6C92FA35 /* AccountViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2068EF8D8EAB429BBFEDA1 /* AccountViews.swift */; };
+		50F0F1B62E0AD9123DF88F91 /* MenuScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84DDFB8E3078DD15216BA66 /* MenuScanner.swift */; };
+		59FFAC1E25D0A369E89AA169 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C63E20C61BFED84335A74FC /* Preferences.swift */; };
+		6C21F26C6689855DA7EBD525 /* OrderingLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD0AB08D2DB0196D7C78EC3 /* OrderingLabels.swift */; };
+		6F48E9FA368FD0E2E573BA2C /* MealEditSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AC937657AB7E06DCA6BBF9 /* MealEditSheets.swift */; };
+		74E094CB47E0EA3771080F81 /* OrderingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64982DDBA59FAE088E933CB1 /* OrderingStore.swift */; };
+		7DF3E8345C38704D849FCE01 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5D09D71C28D06DA8B8B71B93 /* InfoPlist.strings */; };
+		81E93E267252B7F56D107C9D /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BC714E58181F6261E89A54 /* DesignSystem.swift */; };
+		871C75014F33034563F7E69D /* MealPairingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0651D2BF6264F075079EAA /* MealPairingView.swift */; };
+		8BFFEDE79BF610AFAD5AE996 /* MealModePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96429F0BCEB45DDDE22211C6 /* MealModePanel.swift */; };
+		8DB03FBB80286DD383CC92EB /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD057908AADC8CC9D56E1F22 /* APIClient.swift */; };
+		BA5ABD6E1D55D6A0692203B8 /* Manrope.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C963EFAF8126BD7AD7E2FCE /* Manrope.ttf */; };
+		BC78083387E6B101275FD736 /* NotoSansSC.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B7DBF890E23C6BA0FDDDDE2 /* NotoSansSC.ttf */; };
+		C0B8B5FF8060F0CBC6D8E79A /* MealModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035F4BB67CEDA73DAE11F518 /* MealModels.swift */; };
+		C1F7EA72BA3C824EACB8F538 /* SenplateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D57B0DD7E0637A75BF9D94 /* SenplateApp.swift */; };
+		C5B30CCD2CF6B8B437388A80 /* MonitoringViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E008EB00E390FC43E2C0532C /* MonitoringViews.swift */; };
+		CA450877E72D19210B58D81A /* OrderingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C5B33E97AF1DC549F53A5B /* OrderingModels.swift */; };
+		D94CCC822448BCC88E0FDD3F /* SenplateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3BCF3E27B0607B7CB949A33 /* SenplateUITests.swift */; };
+		DB03500779D39ED7BB2B4A5B /* MealStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679AA893D75D9E4B189C7F0A /* MealStore.swift */; };
+		EBC55069CD645C05876B201B /* PersonalViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE64AC8A0D706EC79C8DCD8E /* PersonalViews.swift */; };
+		EC635BE211B190B0B0384AC6 /* Manrope-OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 86CD6157C0E3B724D2DB1D14 /* Manrope-OFL.txt */; };
+		F1D3E342163A801AD9553AF8 /* MealLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F446602F39F879B936EB4DC /* MealLabels.swift */; };
+		F29F33B1A29112D11F286AED /* PairCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 897D2ADBE844F8755E4092E4 /* PairCode.swift */; };
+		FA836503E4900B7FBA453810 /* MealsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C84E1125EA5E96477407C4 /* MealsUITests.swift */; };
+		FF2C8E5BA3901D3D9B9FCB1D /* NotoSansSC-OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = E3325A439535A3E9ED83C44C /* NotoSansSC-OFL.txt */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		19E404B4D8FFC92328E20113 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 940DE43415F211B2286AAD93 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5F0CAE2396716325CC562E21;
+			remoteInfo = Senplate;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		035F4BB67CEDA73DAE11F518 /* MealModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealModels.swift; sourceTree = "<group>"; };
+		0E0651D2BF6264F075079EAA /* MealPairingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPairingView.swift; sourceTree = "<group>"; };
+		1158FF80098C756767B34C23 /* Senplate.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Senplate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		14AC937657AB7E06DCA6BBF9 /* MealEditSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEditSheets.swift; sourceTree = "<group>"; };
+		19BC714E58181F6261E89A54 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
+		28C84E1125EA5E96477407C4 /* MealsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsUITests.swift; sourceTree = "<group>"; };
+		2C963EFAF8126BD7AD7E2FCE /* Manrope.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Manrope.ttf; sourceTree = "<group>"; };
+		3ABF3B9CF7DEEC58CE60223A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		53C5B33E97AF1DC549F53A5B /* OrderingModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderingModels.swift; sourceTree = "<group>"; };
+		60D71B7FDA81377BB67D1D75 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		6337404EFAF4A684F9989DF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		64982DDBA59FAE088E933CB1 /* OrderingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderingStore.swift; sourceTree = "<group>"; };
+		679AA893D75D9E4B189C7F0A /* MealStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealStore.swift; sourceTree = "<group>"; };
+		6B7DBF890E23C6BA0FDDDDE2 /* NotoSansSC.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NotoSansSC.ttf; sourceTree = "<group>"; };
+		6C63E20C61BFED84335A74FC /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		6F63767DE902F7461FE2A3FE /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
+		79A942E63DFFF57B6A5BB1E6 /* MealDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDetailView.swift; sourceTree = "<group>"; };
+		7A52CFD98F79EB2AA042FF3A /* ReplenishmentViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplenishmentViews.swift; sourceTree = "<group>"; };
+		84D57B0DD7E0637A75BF9D94 /* SenplateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenplateApp.swift; sourceTree = "<group>"; };
+		86CD6157C0E3B724D2DB1D14 /* Manrope-OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Manrope-OFL.txt"; sourceTree = "<group>"; };
+		897D2ADBE844F8755E4092E4 /* PairCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairCode.swift; sourceTree = "<group>"; };
+		8F446602F39F879B936EB4DC /* MealLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealLabels.swift; sourceTree = "<group>"; };
+		96429F0BCEB45DDDE22211C6 /* MealModePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealModePanel.swift; sourceTree = "<group>"; };
+		A835ECC0D23FCEC1D7603984 /* OrderingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderingUITests.swift; sourceTree = "<group>"; };
+		A84DDFB8E3078DD15216BA66 /* MenuScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScanner.swift; sourceTree = "<group>"; };
+		AD057908AADC8CC9D56E1F22 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		AF5A79FA194DDF256564C72F /* MenuCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCode.swift; sourceTree = "<group>"; };
+		BFD0AB08D2DB0196D7C78EC3 /* OrderingLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderingLabels.swift; sourceTree = "<group>"; };
+		C3BCF3E27B0607B7CB949A33 /* SenplateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenplateUITests.swift; sourceTree = "<group>"; };
+		C48434AE2C12912A4A1245F3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		CD827950EF61846B9A969CE8 /* OrderDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailView.swift; sourceTree = "<group>"; };
+		E008EB00E390FC43E2C0532C /* MonitoringViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringViews.swift; sourceTree = "<group>"; };
+		E3325A439535A3E9ED83C44C /* NotoSansSC-OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "NotoSansSC-OFL.txt"; sourceTree = "<group>"; };
+		EE64AC8A0D706EC79C8DCD8E /* PersonalViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViews.swift; sourceTree = "<group>"; };
+		F1CF66D46EC56B8FE6C3F27F /* SenplateUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SenplateUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB97B8A05B895DCFD95689CD /* DiningViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiningViews.swift; sourceTree = "<group>"; };
+		FC2068EF8D8EAB429BBFEDA1 /* AccountViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViews.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0AB2FA8CDEDA648BE3FBA0F5 /* SenplateUITests */ = {
+			isa = PBXGroup;
+			children = (
+				28C84E1125EA5E96477407C4 /* MealsUITests.swift */,
+				A835ECC0D23FCEC1D7603984 /* OrderingUITests.swift */,
+				C3BCF3E27B0607B7CB949A33 /* SenplateUITests.swift */,
+			);
+			path = SenplateUITests;
+			sourceTree = "<group>";
+		};
+		0FED37B0EE6C6E433429B586 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				86CD6157C0E3B724D2DB1D14 /* Manrope-OFL.txt */,
+				2C963EFAF8126BD7AD7E2FCE /* Manrope.ttf */,
+				E3325A439535A3E9ED83C44C /* NotoSansSC-OFL.txt */,
+				6B7DBF890E23C6BA0FDDDDE2 /* NotoSansSC.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		6E6BD1B11AE00449D2D4B800 = {
+			isa = PBXGroup;
+			children = (
+				7E3A5A93C49E6A03497E5F1A /* Resources */,
+				0AB2FA8CDEDA648BE3FBA0F5 /* SenplateUITests */,
+				EB183A31AF920959114B52F0 /* Sources */,
+				A1686A8A2EAFDC011DF63FBE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7E3A5A93C49E6A03497E5F1A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6337404EFAF4A684F9989DF9 /* Assets.xcassets */,
+				0FED37B0EE6C6E433429B586 /* Fonts */,
+				5D09D71C28D06DA8B8B71B93 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			path = Senplate/Resources;
+			sourceTree = "<group>";
+		};
+		A1686A8A2EAFDC011DF63FBE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1158FF80098C756767B34C23 /* Senplate.app */,
+				F1CF66D46EC56B8FE6C3F27F /* SenplateUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EB183A31AF920959114B52F0 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				FC2068EF8D8EAB429BBFEDA1 /* AccountViews.swift */,
+				AD057908AADC8CC9D56E1F22 /* APIClient.swift */,
+				6F63767DE902F7461FE2A3FE /* AppStore.swift */,
+				19BC714E58181F6261E89A54 /* DesignSystem.swift */,
+				FB97B8A05B895DCFD95689CD /* DiningViews.swift */,
+				79A942E63DFFF57B6A5BB1E6 /* MealDetailView.swift */,
+				14AC937657AB7E06DCA6BBF9 /* MealEditSheets.swift */,
+				8F446602F39F879B936EB4DC /* MealLabels.swift */,
+				035F4BB67CEDA73DAE11F518 /* MealModels.swift */,
+				96429F0BCEB45DDDE22211C6 /* MealModePanel.swift */,
+				0E0651D2BF6264F075079EAA /* MealPairingView.swift */,
+				679AA893D75D9E4B189C7F0A /* MealStore.swift */,
+				AF5A79FA194DDF256564C72F /* MenuCode.swift */,
+				A84DDFB8E3078DD15216BA66 /* MenuScanner.swift */,
+				60D71B7FDA81377BB67D1D75 /* Models.swift */,
+				E008EB00E390FC43E2C0532C /* MonitoringViews.swift */,
+				CD827950EF61846B9A969CE8 /* OrderDetailView.swift */,
+				BFD0AB08D2DB0196D7C78EC3 /* OrderingLabels.swift */,
+				53C5B33E97AF1DC549F53A5B /* OrderingModels.swift */,
+				64982DDBA59FAE088E933CB1 /* OrderingStore.swift */,
+				897D2ADBE844F8755E4092E4 /* PairCode.swift */,
+				EE64AC8A0D706EC79C8DCD8E /* PersonalViews.swift */,
+				6C63E20C61BFED84335A74FC /* Preferences.swift */,
+				7A52CFD98F79EB2AA042FF3A /* ReplenishmentViews.swift */,
+				84D57B0DD7E0637A75BF9D94 /* SenplateApp.swift */,
+			);
+			name = Sources;
+			path = Senplate/Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5F0CAE2396716325CC562E21 /* Senplate */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 410D3E4C60273D168D9891E1 /* Build configuration list for PBXNativeTarget "Senplate" */;
+			buildPhases = (
+				76F0EE1D1D1E1F97ED557BBB /* Sources */,
+				5F8D182C2ECE904BDF224E98 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Senplate;
+			packageProductDependencies = (
+			);
+			productName = Senplate;
+			productReference = 1158FF80098C756767B34C23 /* Senplate.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B9B4E69CC562DCC593B90E44 /* SenplateUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E8501A414C3FF315398F1F4 /* Build configuration list for PBXNativeTarget "SenplateUITests" */;
+			buildPhases = (
+				AB70ACBD89602DD222A710D4 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5E5B838AD2B981A7392CF84F /* PBXTargetDependency */,
+			);
+			name = SenplateUITests;
+			packageProductDependencies = (
+			);
+			productName = SenplateUITests;
+			productReference = F1CF66D46EC56B8FE6C3F27F /* SenplateUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		940DE43415F211B2286AAD93 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					B9B4E69CC562DCC593B90E44 = {
+						TestTargetID = 5F0CAE2396716325CC562E21;
+					};
+				};
+			};
+			buildConfigurationList = 65F00BAF84B75F55F58B91AA /* Build configuration list for PBXProject "Senplate" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+				"zh-Hans",
+			);
+			mainGroup = 6E6BD1B11AE00449D2D4B800;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A1686A8A2EAFDC011DF63FBE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5F0CAE2396716325CC562E21 /* Senplate */,
+				B9B4E69CC562DCC593B90E44 /* SenplateUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5F8D182C2ECE904BDF224E98 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C626ED5E3F3D9BD6B5FCC21 /* Assets.xcassets in Resources */,
+				7DF3E8345C38704D849FCE01 /* InfoPlist.strings in Resources */,
+				EC635BE211B190B0B0384AC6 /* Manrope-OFL.txt in Resources */,
+				BA5ABD6E1D55D6A0692203B8 /* Manrope.ttf in Resources */,
+				FF2C8E5BA3901D3D9B9FCB1D /* NotoSansSC-OFL.txt in Resources */,
+				BC78083387E6B101275FD736 /* NotoSansSC.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		76F0EE1D1D1E1F97ED557BBB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DB03FBB80286DD383CC92EB /* APIClient.swift in Sources */,
+				49B9DCD20B19139B6C92FA35 /* AccountViews.swift in Sources */,
+				1980878ADBC76E916A394B18 /* AppStore.swift in Sources */,
+				81E93E267252B7F56D107C9D /* DesignSystem.swift in Sources */,
+				1E507EB367BEEAFD6EA42750 /* DiningViews.swift in Sources */,
+				15748E1C512B494FE6B862AE /* MealDetailView.swift in Sources */,
+				6F48E9FA368FD0E2E573BA2C /* MealEditSheets.swift in Sources */,
+				F1D3E342163A801AD9553AF8 /* MealLabels.swift in Sources */,
+				8BFFEDE79BF610AFAD5AE996 /* MealModePanel.swift in Sources */,
+				C0B8B5FF8060F0CBC6D8E79A /* MealModels.swift in Sources */,
+				871C75014F33034563F7E69D /* MealPairingView.swift in Sources */,
+				DB03500779D39ED7BB2B4A5B /* MealStore.swift in Sources */,
+				1BCC570F3485AF42387EA514 /* MenuCode.swift in Sources */,
+				50F0F1B62E0AD9123DF88F91 /* MenuScanner.swift in Sources */,
+				126AB8AE44CD1604E852D427 /* Models.swift in Sources */,
+				C5B30CCD2CF6B8B437388A80 /* MonitoringViews.swift in Sources */,
+				1DA62DFF14502FECBEEC90C0 /* OrderDetailView.swift in Sources */,
+				6C21F26C6689855DA7EBD525 /* OrderingLabels.swift in Sources */,
+				CA450877E72D19210B58D81A /* OrderingModels.swift in Sources */,
+				74E094CB47E0EA3771080F81 /* OrderingStore.swift in Sources */,
+				F29F33B1A29112D11F286AED /* PairCode.swift in Sources */,
+				EBC55069CD645C05876B201B /* PersonalViews.swift in Sources */,
+				59FFAC1E25D0A369E89AA169 /* Preferences.swift in Sources */,
+				253ED2A41551E846250B8A99 /* ReplenishmentViews.swift in Sources */,
+				C1F7EA72BA3C824EACB8F538 /* SenplateApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AB70ACBD89602DD222A710D4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA836503E4900B7FBA453810 /* MealsUITests.swift in Sources */,
+				2ACCA27E7C32B864D3604383 /* OrderingUITests.swift in Sources */,
+				D94CCC822448BCC88E0FDD3F /* SenplateUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5E5B838AD2B981A7392CF84F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5F0CAE2396716325CC562E21 /* Senplate */;
+			targetProxy = 19E404B4D8FFC92328E20113 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		5D09D71C28D06DA8B8B71B93 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3ABF3B9CF7DEEC58CE60223A /* en */,
+				C48434AE2C12912A4A1245F3 /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0984974859D562E4FECCAD25 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		4EE7C89D9C18ACBD35E2C10D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Senplate/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Senplate;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.group2.senplate;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		7C77DF56EBFB7C71F136F6E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		9C47A1DE200CA7B671E7E14E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Senplate/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Senplate;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.group2.senplate;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EF7BF0A2458475B9A53BE80F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.group2.senplate.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Senplate;
+			};
+			name = Release;
+		};
+		F55DB14E2318F89669C4E64F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.group2.senplate.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Senplate;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E8501A414C3FF315398F1F4 /* Build configuration list for PBXNativeTarget "SenplateUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F55DB14E2318F89669C4E64F /* Debug */,
+				EF7BF0A2458475B9A53BE80F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		410D3E4C60273D168D9891E1 /* Build configuration list for PBXNativeTarget "Senplate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9C47A1DE200CA7B671E7E14E /* Debug */,
+				4EE7C89D9C18ACBD35E2C10D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		65F00BAF84B75F55F58B91AA /* Build configuration list for PBXProject "Senplate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C77DF56EBFB7C71F136F6E9 /* Debug */,
+				0984974859D562E4FECCAD25 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 940DE43415F211B2286AAD93 /* Project object */;
+}

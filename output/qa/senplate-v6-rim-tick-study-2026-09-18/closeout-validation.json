@@ -1,0 +1,80 @@
+{
+  "completed_at": "2026-09-17T16:18:31.178774+00:00",
+  "protected_count": 245,
+  "protected_changed": [],
+  "figma_15_nodes_unchanged": true,
+  "shared_geometry": [
+    {
+      "name": "outer-body",
+      "identical": true
+    },
+    {
+      "name": "rim-seam",
+      "identical": true
+    },
+    {
+      "name": "foot-seam",
+      "identical": true
+    },
+    {
+      "name": "Full elliptical mouth",
+      "identical": true
+    }
+  ],
+  "wordmark_identical": true,
+  "layout_identical": true,
+  "png_difference": {
+    "pixels_outside_allowed_regions": 18,
+    "pixels_inside_allowed_regions": 7812,
+    "allowed_design_regions": [
+      "rim x190..270 y50..80",
+      "old wall ticks x190..252 y94..151"
+    ],
+    "exact_raster_match_outside_notch_regions": false,
+    "reviewed_extra_pixels": 18,
+    "extra_pixel_location": "Within one raster pixel of unchanged inner elliptical mouth boundary",
+    "max_alpha_delta": 16,
+    "max_linearized_edge_distance_pixels": 0.6017415706102909,
+    "bounded_edge_rasterization_difference": true,
+    "note": "Boolean flattening changes rasterization around the subdivided mouth curve; source ellipse and other shared operands remain exactly equal. No claim of whole-image pixel identity."
+  },
+  "svg": [
+    {
+      "file": "rim-logo.svg",
+      "paths": 9,
+      "text_nodes": 0,
+      "viewBox": "0 0 1205 227"
+    },
+    {
+      "file": "rim-symbol.svg",
+      "paths": 1,
+      "text_nodes": 0,
+      "viewBox": "0 0 320 227"
+    }
+  ],
+  "visual_review": [
+    "before/after1440x760",
+    "detail960x720",
+    "32px actual",
+    "64px actual",
+    "full preview1774x887"
+  ],
+  "visual_limitation": "Rim engravings become weak at small size; not a user acceptance or recognition-rate test",
+  "updated_markdown": [
+    "brand.md",
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md",
+    "planning/2026-09-18/senplate-v6-rim-tick-study.md",
+    "output/brand/2026-09-18-senplate-v6-rim-tick-study/README.md"
+  ],
+  "application_code_tests": "not applicable: vector logo and documentation only",
+  "local_links_checked": 382,
+  "broken_links": [],
+  "all_checks_passed": true,
+  "checks_scope": "Source preservation, common source geometry, layout, bounded reviewed raster delta and existing file links; not user visual acceptance."
+}

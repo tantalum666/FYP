@@ -1,0 +1,32 @@
+.DS_Store
+.venv/
+.runtime/
+**/__pycache__/
+.pytest_cache/
+.ruff_cache/
+**/node_modules/
+**/node_modules
+**/dist/
+**/*.xcuserstate
+**/xcuserdata/
+**/.build/
+**/DerivedData/
+.xcodebuildmcp/
+.env
+.env.*
+!.env.example
+
+# Installed tools used while producing QA evidence are reproducible dependencies.
+# Keep their project-authored scripts, reports and screenshots in Git.
+**/python_packages/
+**/.mypy_cache/
+**/.coverage
+**/htmlcov/
+output/qa/**/fonts/ArialUnicode.ttf
+
+# Local private credentials or signing material must never enter a team snapshot.
+*.p12
+*.p8
+*.mobileprovision
+*.key
+!*.key.example

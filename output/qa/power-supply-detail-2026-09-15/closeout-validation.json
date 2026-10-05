@@ -1,0 +1,81 @@
+{
+  "status": "passed",
+  "completed_at": "2026-09-15T22:40:29.797710+08:00",
+  "reading": "reading-and-inventory.json; continued task, inherited full-read and relevant supplemental bodies",
+  "new_deliverables": [
+    "planning/2026-09-15/power-supply-detail.md",
+    "planning/2026-09-15/power-supply-data.json"
+  ],
+  "changed_specs": [
+    "README.md",
+    "decision-log.md",
+    "handoff.md",
+    "planning/2026-09-14/continuous-monitoring-architecture.md",
+    "planning/2026-09-15/camera-power-and-scaling.md",
+    "planning/2026-09-15/procurement-guide.md",
+    "product.md",
+    "work-log.md"
+  ],
+  "power_bom_rows": 18,
+  "power_budget_cny": [
+    451,
+    807
+  ],
+  "power_arithmetic": {
+    "psu_voltage_v": 12,
+    "psu_capacity_a": 5,
+    "psu_rating_w": 60,
+    "pi_branch_output_allowance_w": 25,
+    "camera_allowance_w": 7.5,
+    "two_lamps_max_w": 5,
+    "hub_logic_allowance_w": 2,
+    "assumed_efficiency": 0.8,
+    "estimated_12v_input_w": 49.375,
+    "estimated_12v_input_a": 4.114583333333333,
+    "hub_5v_load_allowance_a": 2.5,
+    "hub_12v_allowance_w": 18.125,
+    "all_figures_measured": false
+  },
+  "internal_links_checked": 115,
+  "broken_links": [],
+  "preservation": {
+    "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx": true,
+    "output/docx/.~26_ProjectSuggestion_Group 2.docx": true,
+    "output/docx/AY26_ProjectSuggestion_Group 2.docx": true,
+    "output/docx/.~26_ProjectSuggestion_Group 2_v2_MultiScenario.docx": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2.pdf": true,
+    "scripts/build_suggestion_v2.py": true,
+    "scripts/build_suggestion.py": true,
+    "planning/2026-09-14/group-2-details.json": true,
+    "planning/2026-09-15/procurement-data.json": true,
+    "outputs/01a07aeb-a256-7572-a42e-bd7e4668674f/Group 2_Hardware Procurement_20260915.xlsx": true
+  },
+  "checks": [
+    "power BOM ids and 18 narrative rows agree",
+    "cost and power arithmetic recomputed",
+    "Markdown fences and local links checked",
+    "single-demo scope retained",
+    "older generic power proposal labeled historical",
+    "original XLSX/JSON and V1/V2/member artifacts preserved"
+  ],
+  "source_observations": [
+    "Yahboom Chrome SKU6000400431 USD9, board marking YB-MPP01-V1.0, functional and specification images",
+    "ORICO Chrome product 2290, 12V2A, 145x58x26mm, official long image BC1.2 single-port 1.5A",
+    "MeanWell Chinese datasheet12V5A60W, P1J5521 centre-positive, 1m16AWG output cable",
+    "Hub DC plug dimensions/polarity and upstream back-power circuit not disclosed in reviewed sources"
+  ],
+  "not_tested": [
+    "physical PD handshake",
+    "Hub upstream back-power",
+    "Gemini2 via Hub USB3 stability/current",
+    "full system voltages/temperature and load-cell interference",
+    "fuse cold-start behavior"
+  ],
+  "not_performed": [
+    "purchase or supplier communication",
+    "training or hardware operation",
+    "XLSX/DOCX/PDF modification",
+    "Taobao/JD current seller SKU validation"
+  ]
+}

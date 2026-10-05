@@ -1,0 +1,18 @@
+/* Senplate VI V1 - design tokens; import only when implementing an interface. */
+:root {
+  --senplate-primary: #163F35;
+  --senplate-background: #F3F1E7;
+  --senplate-support: #B8C9BC;
+  --senplate-text: #202B26;
+  --senplate-white: #FFFFFF;
+  --senplate-black: #000000;
+  --senplate-font-latin: "Manrope", sans-serif;
+  --senplate-font-hant: "Noto Sans TC", "Manrope", sans-serif;
+  --senplate-font-hans: "Noto Sans SC", "Manrope", sans-serif;
+  --senplate-space-1: 8px;
+  --senplate-space-2: 16px;
+  --senplate-space-3: 24px;
+  --senplate-space-4: 32px;
+  --senplate-space-6: 48px;
+  --senplate-space-8: 64px;
+}

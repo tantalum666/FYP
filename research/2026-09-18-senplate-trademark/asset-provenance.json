@@ -1,0 +1,92 @@
+{
+  "date": "2026-09-18",
+  "usage": "Internal trademark comparison only; third-party images excluded from Senplate VI",
+  "assets": [
+    {
+      "path": "images/77bcff917cc19de0.jpg",
+      "official_url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/4/3/0/2/1/0003712034/tmimages/3712034_306990391_0.jpg",
+      "official_filename": "3712034_306990391_0.jpg",
+      "sha256": "0fc8607b09c5899cf9c4f1f3b7b2bf340f41cc1e47da561bbb2bee36b387f91e",
+      "visually_reviewed": true,
+      "method": "Native browser pageAssets bundle; original bytes copied"
+    },
+    {
+      "path": "images/a2001d568262995a.jpg",
+      "official_url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/1/8/3/5/8/0000585381/tmimages/585381_304763890_0.jpg",
+      "official_filename": "585381_304763890_0.jpg",
+      "sha256": "5933aa48f9c25045e4432b880e3e014cbb39d13f35ed7f6c21ff7df715601cf6",
+      "visually_reviewed": true,
+      "method": "Native browser pageAssets bundle; original bytes copied"
+    },
+    {
+      "path": "images/4928b86dc6e9c15c.jpg",
+      "official_url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/7/4/5/7/4/0003547547/tmimages/3547547_306673186_0.jpg",
+      "official_filename": "3547547_306673186_0.jpg",
+      "sha256": "9815a515412d0e1c20a54b744e3de69b06d670e82395520318c55453767e6daa",
+      "visually_reviewed": true,
+      "method": "Native browser pageAssets bundle; original bytes copied"
+    },
+    {
+      "path": "images/2bb264cf9071ac0d.jpg",
+      "official_url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/6/5/5/7/6/0003067556/tmimages/3067556_305826682_0.jpg",
+      "official_filename": "3067556_305826682_0.jpg",
+      "sha256": "16d3ce24a824c417c62fc9b2a4813f270af55972b30618dd6897691f679adde6",
+      "visually_reviewed": true,
+      "method": "Native browser pageAssets bundle; original bytes copied"
+    },
+    {
+      "path": "images/819154e1e615e46c.png",
+      "official_url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/2/0/5/5/6/0002965502/tmimages/2965502_305619042_0.png",
+      "official_filename": "2965502_305619042_0.png",
+      "sha256": "57168c181aad7f2a9877fb0549baf360b8567eb4acf2e8f7c29e2a9831e21f05",
+      "visually_reviewed": true,
+      "method": "Native browser pageAssets bundle; original bytes copied"
+    },
+    {
+      "path": "images/484ba3674800b8ac.jpg",
+      "official_url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/6/6/4/7/0/0000407466/tmimages/407466_303572136_0.jpg",
+      "official_filename": "407466_303572136_0.jpg",
+      "sha256": "bf850636c212dd1e943c98bf3b3a4fd03f315888e77889c689966478c70941ed",
+      "visually_reviewed": true,
+      "method": "Native browser pageAssets bundle; original bytes copied"
+    },
+    {
+      "path": "images/123e27505605f555.jpg",
+      "official_url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/2/2/5/1/0/0002901522/tmimages/2901522_305487698_2.jpg",
+      "official_filename": "2901522_305487698_2.jpg",
+      "sha256": "868e0e9da8f739f3e033f9f21401d4b48901daf104cb404d026b61debfaca13a",
+      "visually_reviewed": true,
+      "method": "Native browser pageAssets bundle; original bytes copied"
+    },
+    {
+      "path": "images/af55dbe20a13df81.jpg",
+      "official_url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/2/2/5/1/0/0002901522/tmimages/2901522_305487698_1.jpg",
+      "official_filename": "2901522_305487698_1.jpg",
+      "sha256": "9169c0f76b57f7de3e88bdc4f62160bbc84cb4b805f278dd67f5c5862e3fb5ec",
+      "visually_reviewed": true,
+      "method": "Native browser pageAssets bundle; original bytes copied"
+    },
+    {
+      "path": "images/f2ba4768466de7b3.jpg",
+      "official_url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/2/2/5/1/0/0002901522/tmimages/2901522_305487698_0.jpg",
+      "official_filename": "2901522_305487698_0.jpg",
+      "sha256": "ccd10c2e9606f6cb5db780a56433f1612199893f6df55fa8ca640ebd911d6e98",
+      "visually_reviewed": true,
+      "method": "Native browser pageAssets bundle; original bytes copied"
+    },
+    {
+      "path": "images/ddd24fd186c047f9.jpg",
+      "official_url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/5/3/8/1/7/0002871835/tmimages/2871835_305423760_1.jpg",
+      "official_filename": "2871835_305423760_1.jpg",
+      "sha256": "2521289acd03e6f1e4d6d833c49d581de589aa6e142d7a9e1e73c345f976f832",
+      "visually_reviewed": true,
+      "method": "Native browser pageAssets bundle; original bytes copied"
+    },
+    {
+      "path": "images/senplate-v7.png",
+      "source": "output/brand/2026-09-18-senplate-plain-bowl-v7/senplate-symbol.png",
+      "sha256": "5cd4e4bd46db2b5679136e314db7900e31b1dfd2658bd3f3fc1c3b57a15f0e88",
+      "method": "Original local bytes copied; no image edit"
+    }
+  ]
+}

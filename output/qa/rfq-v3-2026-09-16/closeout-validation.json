@@ -1,0 +1,82 @@
+{
+  "status": "PASS",
+  "completed_at": "2026-09-16T10:22:25.847831+08:00",
+  "checks": {
+    "two_final_pages": true,
+    "all_pages_visually_reviewed": true,
+    "reviewed_pdf_identical": true,
+    "all_markdown_content_in_docx_and_pdf": true,
+    "one_editable_eight_item_hardware_table": true,
+    "one_original_screenshot": true,
+    "removed_reader_transport_and_complex_acceptance": true,
+    "software_and_testing_explicitly_ours": true,
+    "single_integrated_unit_scope": true,
+    "no_member_identifiers": true,
+    "all_preserved_files_unchanged": true,
+    "internal_links_valid": true,
+    "no_CJK_replacement_character": true,
+    "group_name_consistent": true
+  },
+  "content_segments": 40,
+  "missing_docx": [],
+  "missing_pdf": [],
+  "preservation": {
+    "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx": true,
+    "output/docx/AY26_ProjectSuggestion_Group 2.docx": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2.pdf": true,
+    "scripts/build_suggestion_v2.py": true,
+    "scripts/build_suggestion.py": true,
+    "planning/2026-09-14/group-2-details.json": true,
+    "planning/2026-09-15/procurement-data.json": true,
+    "outputs/01a07aeb-a256-7572-a42e-bd7e4668674f/Group 2_Hardware Procurement_20260915.xlsx": true,
+    "planning/2026-09-15/power-supply-data.json": true,
+    "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md": true,
+    "planning/2026-09-15/hardware-fabrication-enquiry-v2.md": true,
+    "output/docx/Group 2_Hardware RFQ_v2.docx": true,
+    "output/pdf/Group 2_Hardware RFQ_v2.pdf": true,
+    "output/qa/rfq-v2-2026-09-15/build_rfq.py": true
+  },
+  "local_links": 159,
+  "broken_links": [],
+  "project_markdown_files": 26,
+  "final_artifacts": [
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+      "bytes": 4372,
+      "sha256": "9bc25bc85baaf4badca2a18e853ffbf18c818b53bde69798a1e0c813cbfd3538"
+    },
+    {
+      "path": "output/docx/Group 2_Hardware RFQ_v3_Simple.docx",
+      "bytes": 93339,
+      "sha256": "8b834c31dee2bffd03e0a3e50be3a5a563dcf1d6d52dd547707bda54f38f77f9"
+    },
+    {
+      "path": "output/pdf/Group 2_Hardware RFQ_v3_Simple.pdf",
+      "bytes": 434837,
+      "sha256": "c805bab3c04354947b2b12ccfc26f00a7d6819018146c99bcae287e8ad2474d9"
+    }
+  ],
+  "visual_review": {
+    "render": "render-01",
+    "dpi": 120,
+    "pages": [
+      1,
+      2
+    ],
+    "result": "Each page viewed in original resolution; title, Chinese text, complete image, editable hardware table and page numbering fit."
+  },
+  "updated_markdown": [
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+    "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+    "planning/2026-09-15/procurement-guide.md",
+    "planning/2026-09-15/yahboom-sourcing-and-customization.md"
+  ],
+  "markers": "One successful edit marker each for DOCX and PDF, before first authoring/export.",
+  "boundary": "Local document revision only; no supplier contact, quotation, purchase, system installation, business software implementation, calibration or physical test. V2 preserved as historical; it no longer controls external scope."
+}

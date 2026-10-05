@@ -1,0 +1,69 @@
+{
+  "meaning": "Design arithmetic only; no physical measurement or supplier quotation.",
+  "fov": {
+    "Gemini 2": {
+      "0.5": {
+        "width_m": 0.9325150861376617,
+        "height_m": 0.5205670505517462
+      },
+      "0.7": {
+        "width_m": 1.3055211205927262,
+        "height_m": 0.7287938707724447
+      }
+    },
+    "D435": {
+      "0.5": {
+        "width_m": 0.6872809586016132,
+        "height_m": 0.3838640350354158
+      },
+      "0.7": {
+        "width_m": 0.9621933420422584,
+        "height_m": 0.537409649049582
+      }
+    }
+  },
+  "three_pan_width_m": 1.0150000000000001,
+  "ten_pan_width_m": 3.43,
+  "ten_pan_min_nominal_distance_gemini_m": 1.8391123376923306,
+  "ten_pan_horizontal_pixels_per_pan": 181.92419825072886,
+  "power_load_allowance_w": 39.5,
+  "assumed_conversion_efficiency": 0.8,
+  "power_input_allowance_w": 49.375,
+  "shared_cost_components": {
+    "controller": [
+      1700,
+      2500
+    ],
+    "per_weight_node": [
+      300,
+      650
+    ],
+    "per_camera_zone": [
+      1700,
+      2300
+    ],
+    "shared_power_network_structure": [
+      1500,
+      3500
+    ]
+  },
+  "cost_for_10_weight_nodes_by_camera_count": {
+    "4": [
+      13000,
+      21700
+    ],
+    "5": [
+      14700,
+      24000
+    ]
+  },
+  "original_bom": [
+    4314,
+    6651
+  ],
+  "naive_ten_copy_arithmetic": [
+    43140,
+    66510
+  ],
+  "naive_comparison_valid_as_deployment_quote": false
+}

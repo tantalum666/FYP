@@ -1,0 +1,44 @@
+{
+  "checked_at": "2026-09-28T15:31:51.417679",
+  "task": "School server voice-model feasibility, no deployment",
+  "read_complete": true,
+  "initial_files": 100,
+  "initial_lines": 9463,
+  "updated_markdown": [
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-28/desk-software-scope-v1.md",
+    "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md",
+    "research/2026-09-28-local-voice/server-deployment-comparison.md"
+  ],
+  "protected_files_unchanged": {
+    "output/submission/2026-09-28/AY26_ProjectProposal_Group 2.docx": true,
+    "output/submission/2026-09-28/AY26_ProjectProposal_Group 2.pdf": true,
+    "output/docx/Group 2_DeskCompanion_ProjectProposal_ZH_Review_v3.docx": true,
+    "planning/2026-09-14/group-2-details.json": true
+  },
+  "local_links_checked": 446,
+  "broken_local_links": [],
+  "unbalanced_fences": [],
+  "sources": "Official model repositories, publisher model cards and official inference-runtime documentation cited in research note",
+  "checks_run": [
+    "Full project Markdown read and truncation repair",
+    "Primary-source live verification of candidate roles and deployment constraints",
+    "Current network and fallback scope consistency",
+    "Local Markdown links and code fences",
+    "Proposal and identity file SHA-256 preservation"
+  ],
+  "not_run": [
+    "GPU inference",
+    "Server login or inspection",
+    "Weight download",
+    "Runtime installation",
+    "Live speech/API/hardware tests",
+    "School submission"
+  ],
+  "success": true,
+  "first_pass_note": "Two links referred to this validation file before it was written; links were rechecked after the file existed."
+}

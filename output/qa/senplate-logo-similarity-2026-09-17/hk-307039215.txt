@@ -1,0 +1,195 @@
+Browser tab: 15, Title: "Trade Mark Search", URL: "https://esearch.ipd.gov.hk/nis-pos-view/#/tm/details/view/3733704_307039215/tm?lang=sc".
+0 AXWebArea Trade Mark Search, URL: esearch.ipd.gov.hk/nis-pos-view/#/tm/details/view/3733704_307039215/tm?lang=sc
+	1 container
+		2 link Description: IPD logo Trade Mark Search Logo, Value: esearch.ipd.gov.hk/nis-pos-view/#/tm/quicksearch
+		3 content list
+			4 link English
+				5 text English
+			6 link 繁體中文
+				7 text 繁體中文
+			8 link Description: 关于商标检索, Value: esearch.ipd.gov.hk/nis-pos-view/#/general/about/tm
+			9 link Description: 使用说明, Value: esearch.ipd.gov.hk/nis-pos-view/#/general/help/tm
+		10 heading Trade Mark Search, Value: 1
+			11 text Trade Mark Search
+		12 heading Details Page, Value: 2
+			13 text Details Page
+		14 heading Details for selected item, Value: 3
+			15 text Details for selected item
+		16 container
+			36 button  返回检索结果
+			17 button 加入选定项目清单 (最多4000结果)
+			18 button 下载
+			19 button 列印
+			20 button (disabled) 下一个记录
+			21 button (disabled) 上一个记录
+			22 link 下载为XML档案
+				23 text 下载为XML档案
+		24 heading meterytech, Value: 2
+			37 text meterytech
+		25 container
+			26 tab group
+				27 tab (selected, settable, boolean) 详情, Value: 1, ID: ngb-nav-0
+			28 container Description: 详情, ID: ngb-nav-0-panel
+				38 content list menu
+					39 button 基本资料 Basic information
+						40 text 基本资料
+						41 text Basic information
+					42 button 商标 Mark
+						43 text 商标
+						44 text Mark
+					45 button 日期 (日日-月月-年年年年) Dates (DD-MM-YYYY)
+						46 text 日期 (日日-月月-年年年年)
+						47 text Dates (DD-MM-YYYY)
+					48 button 申请人／拥有人 Applicant/Owner
+						49 text 申请人／拥有人
+						50 text Applicant/Owner
+					51 button 详细背景资料／批注事项 Historical Details/Endorsement
+						52 text 详细背景资料／批注事项
+						53 text Historical Details/Endorsement
+				54 container wrapper
+					55 container
+						56 heading 基本资料 Basic information, Value: 3
+							57 text 基本资料 Basic information
+						58 definition list
+							59 container [210/111] 商标编号 : Trade Mark No. :
+								60 text [210/111] 商标编号 : Trade Mark No. :
+							61 text 307039215
+						62 definition list
+							63 container 状况 : Status :
+								64 text 状况 : Status :
+							65 text 已註冊
+						66 definition list
+							67 container 商标文字 : Trade Mark Text :
+								68 text 商标文字 : Trade Mark Text :
+							69 text meterytech
+						70 container
+							71 heading [540] 商标 Mark :, Value: 4
+								72 text [540]  商标  Mark :
+							73 link Description: Result image 0 of trademark, Value: esearch.ipd.gov.hk/nis-pos-view/#/tm/tmExtractList/nm/nm/images/3733704_307039215
+					74 tab group accordion
+						75 container
+							76 tab (settable) 商标 Mark, ID: headingOne
+								77 heading 商标 Mark, Value: 4
+									78 button (collapsed) 商标 Mark, Secondary Actions: Expand
+										79 text 商标  Mark
+							80 container Description: 商标 Mark, ID: collapseOne
+								81 definition list
+									82 container [550] 商标种类 : Mark Type :
+										83 text [550] 商标种类 : Mark Type :
+									84 container
+										85 text 一般商標
+								86 definition list
+									87 container [531/532] 图样编码 : Device Code :
+										88 text [531/532] 图样编码 : Device Code :
+									89 container
+										90 text 26.5.10 ,  26.7.25
+								91 definition list
+									92 container [511] 类别编号 : Class No. :
+										93 text [511] 类别编号 : Class No. :
+									94 button (collapsed) 9, Secondary Actions: Expand
+								95 definition list
+									96 container [511] 货品／服务说明 : Specification :
+										97 text [511] 货品／服务说明 : Specification :
+									98 container
+										99 container ...
+											100 button  检视全部, Help: 检视所有类别
+											101 button  隐藏全部, Help: 隐藏所有类别
+										102 container
+											103 link (collapsed) Description: 9, Secondary Actions: Expand
+												104 text 9
+											105 text 測量儀器儀錶，實驗室用器具，電測量儀器，科學儀器，記錄、記數檢測器，量具，信號器具，測量儀器儀錶，電測量儀器，光學儀器，電器成套設備及控制裝置，測繪儀器，計量儀錶，探測器，測量裝置，計量儀器，測量器械和儀器，精密測量儀器，測量儀器，氣量計，空氣分析儀器，高度計，氣壓錶，測距設備，水位儀，氣量計（計量儀器），測深度裝置和機器，壓力計，測壓儀器，壓力顯示器，溫度指示計，風壓表，水錶，油表，煤氣表，儀錶元件和儀錶專用材料，流量計，壓力變送器，液位計，物位計，壓力感測器，液位感測器，流量儀錶。
+						106 container
+							107 tab (settable) 日期 (日日-月月-年年年年) Dates (DD-MM-YYYY), ID: headingTwo
+								108 heading 日期 (日日-月月-年年年年) Dates (DD-MM-YYYY), Value: 4
+									109 button (collapsed) 日期 (日日-月月-年年年年) Dates (DD-MM-YYYY), Secondary Actions: Expand
+										110 text 日期 (日日-月月-年年年年)  Dates (DD-MM-YYYY)
+							111 container Description: 日期 (日日-月月-年年年年) Dates (DD-MM-YYYY), ID: collapseTwo
+								112 definition list
+									113 container [220] 提交日期 : Date of Filing :
+										114 text [220] 提交日期 : Date of Filing :
+									115 text 23-09-2025
+								116 definition list
+									117 container [442] 公布获接纳注册申请日期 : Date of Publication of Application of Acceptance for Registration :
+										118 text [442] 公布获接纳注册申请日期 : Date of Publication of Application of Acceptance for Registration :
+									119 text 14-11-2025
+								120 definition list
+									121 container [151] 注册日期 : Date of Registration :
+										122 text [151] 注册日期 : Date of Registration :
+									123 text 23-09-2025
+								124 definition list
+									125 container 实际注册日期 : Actual Date of Registration :
+										126 text 实际注册日期 : Actual Date of Registration :
+									127 text 02-03-2026
+								128 definition list
+									129 container [180] 注册届满日期 : Expiry Date :
+										130 text [180] 注册届满日期 : Expiry Date :
+									131 text 22-09-2035
+						132 container
+							133 tab (settable) 申请人／拥有人 Applicant/Owner, ID: headingThree
+								134 heading 申请人／拥有人 Applicant/Owner, Value: 4
+									135 button (collapsed) 申请人／拥有人 Applicant/Owner, Secondary Actions: Expand
+										136 text 申请人／拥有人  Applicant/Owner
+							137 container Description: 申请人／拥有人 Applicant/Owner, ID: collapseThree
+								138 definition list
+									139 container [730] 姓名或名称 : Name :
+										140 text [730] 姓名或名称 : Name :
+									141 text METERY TECHNOLOGY LIMITED
+								142 definition list
+									143 container [730] 地址 : Address :
+										144 text [730] 地址 : Address :
+									145 container
+										146 text Kenilworth, Warwickshire,
+										147 text 53 Whateleys Drive,
+										148 text UNITED KINGDOM
+								149 definition list
+									150 container [842] 类别: Type :
+										151 text [842] 类别: Type :
+									152 text 法人團體
+								153 definition list
+									154 container [842] 公司成立为法团的所在地 : Place of Incorporation :
+										155 text [842] 公司成立为法团的所在地 : Place of Incorporation :
+									156 text 英國
+								157 definition list
+									158 container [750] 送达地址 : Address for Service :
+										159 text [750] 送达地址 : Address for Service :
+									160 container
+										161 text 香港啟利秘書服務有限公司
+										162 text 中國香港
+										163 text 九龍旺角花園街2-16號
+										164 text 好景商業中心20樓12室
+								165 definition list
+									166 container [740] 代理人详情 : Agent's Details :
+										167 text [740] 代理人详情 : Agent's Details :
+									168 container
+										169 text 香港啟利秘書服務有限公司
+										170 text 中國香港
+										171 text 九龍旺角花園街2-16號
+										172 text 好景商業中心20樓12室
+						173 container
+							174 tab (settable) 详细背景资料／批注事项 Historical Details/Endorsement, ID: headingEndorsement
+								175 heading 详细背景资料／批注事项 Historical Details/Endorsement, Value: 4
+									176 button (collapsed) 详细背景资料／批注事项 Historical Details/Endorsement, Secondary Actions: Expand
+										177 text 详细背景资料／批注事项  Historical Details/Endorsement
+							178 container Description: 详细背景资料／批注事项 Historical Details/Endorsement, ID: collapseEndorsement
+								179 table
+									180 row
+										181 cell
+											182 text 作出记项日期 :
+											183 text Date of Entry :
+										184 cell
+											185 text 事项 :
+											186 text Matters :
+									187 row
+										188 cell
+											189 text 02-03-2026
+										190 cell
+											191 text 註冊
+		29 container
+			30 content list
+				31 link 免责条款
+					32 text 免责条款
+				33 link Description: 联络我们, Value: ipd.gov.hk/sc/about-us/contact-us/index.html
+				34 link Description: 有关网站使用者的私隐通告, Value: ipd.gov.hk/sc/privacy-policy-statement/privacy-notice-for-website-visitors/index.html
+				35 link Description: 图像检索, Value: image-mark-finder.ipd.gov.hk/
+
+The focused UI element is 0 AXWebArea Trade Mark Search, URL: esearch.ipd.gov.hk/nis-pos-view/#/tm/details/view/3733704_307039215/tm?lang=sc

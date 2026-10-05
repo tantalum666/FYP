@@ -1,0 +1,16 @@
+[style_lint] direct run-formatting runs: 128
+[style_lint] direct paragraph-formatting paragraphs: 60
+[style_lint] top fonts by char count: Calibri(4517), Calibri Light(189), Segoe UI Symbol(53)
+[style_lint] heading-like paragraphs not using Heading styles (first 10):
+  - #1: style='Normal' text='ITE4116M FINAL YEAR PROJECT
+PROJECT SUGGESTION FORM
+Academic Year 2026/27'
+  - #3: style='Normal' text='1. General Project Information'
+  - #7: style='Normal' text='2. Problem Statement & Project Objectives'
+  - #10: style='Normal' text='3. Proposed Project Scope & Key Features'
+  - #13: style='Normal' text='4. Technical Stack & Special Requirements'
+  - #16: style='Normal' text='5. Endorsements & Supervisor Feedback'
+  - #18: style='Normal' text='Proposed Project Title'
+  - #20: style='Normal' text='Assigned Project Supervisor'
+  - #22: style='Normal' text='Programme / Class Code'
+  - #24: style='Normal' text='Student Group Number'

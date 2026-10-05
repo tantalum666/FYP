@@ -1,0 +1,201 @@
+Browser tab: 14, Title: "Trade Mark Search", URL: "https://esearch.ipd.gov.hk/nis-pos-view/#/tm/details/view/392093_303321710/tm?lang=sc".
+0 AXWebArea Trade Mark Search, URL: esearch.ipd.gov.hk/nis-pos-view/#/tm/details/view/392093_303321710/tm?lang=sc
+	1 container
+		2 link Description: IPD logo Trade Mark Search Logo, Value: esearch.ipd.gov.hk/nis-pos-view/#/tm/quicksearch
+		3 content list
+			4 link English
+				5 text English
+			6 link 繁體中文
+				7 text 繁體中文
+			8 link Description: 关于商标检索, Value: esearch.ipd.gov.hk/nis-pos-view/#/general/about/tm
+			9 link Description: 使用说明, Value: esearch.ipd.gov.hk/nis-pos-view/#/general/help/tm
+		10 heading Trade Mark Search, Value: 1
+			11 text Trade Mark Search
+		12 heading Details Page, Value: 2
+			13 text Details Page
+		14 heading Details for selected item, Value: 3
+			15 text Details for selected item
+		16 container
+			17 button  返回检索结果
+			18 button 加入选定项目清单 (最多4000结果)
+			19 button 下载
+			20 button 列印
+			21 button (disabled) 下一个记录
+			22 button (disabled) 上一个记录
+			23 link 下载为XML档案
+				24 text 下载为XML档案
+		25 heading 2
+		26 container
+			27 tab group
+				28 tab (selected, settable, boolean) 详情, Value: 1, ID: ngb-nav-0
+			29 container Description: 详情, ID: ngb-nav-0-panel
+				30 content list menu
+					31 button 基本资料 Basic information
+						32 text 基本资料
+						33 text Basic information
+					34 button 商标 Mark
+						35 text 商标
+						36 text Mark
+					37 button 日期 (日日-月月-年年年年) Dates (DD-MM-YYYY)
+						38 text 日期 (日日-月月-年年年年)
+						39 text Dates (DD-MM-YYYY)
+					40 button 申请人／拥有人 Applicant/Owner
+						41 text 申请人／拥有人
+						42 text Applicant/Owner
+					43 button 详细背景资料／批注事项 Historical Details/Endorsement
+						44 text 详细背景资料／批注事项
+						45 text Historical Details/Endorsement
+				46 container wrapper
+					47 container
+						48 heading 基本资料 Basic information, Value: 3
+							49 text 基本资料 Basic information
+						50 definition list
+							51 container [210/111] 商标编号 : Trade Mark No. :
+								52 text [210/111] 商标编号 : Trade Mark No. :
+							53 text 303321710
+						54 definition list
+							55 container 状况 : Status :
+								56 text 状况 : Status :
+							57 text 已註冊
+						58 container
+							59 heading [540] 商标 Mark :, Value: 4
+								60 text [540]  商标  Mark :
+							61 link Description: Result image 0 of trademark, Value: esearch.ipd.gov.hk/nis-pos-view/#/tm/tmExtractList/nm/nm/images/392093_303321710
+					62 tab group accordion
+						63 container
+							64 tab (settable) 商标 Mark, ID: headingOne
+								65 heading 商标 Mark, Value: 4
+									66 button (collapsed) 商标 Mark, Secondary Actions: Expand
+										67 text 商标  Mark
+							68 container Description: 商标 Mark, ID: collapseOne
+								69 definition list
+									70 container [550] 商标种类 : Mark Type :
+										71 text [550] 商标种类 : Mark Type :
+									72 container
+										73 text 一般商標
+								74 definition list
+									75 container [531/532] 图样编码 : Device Code :
+										76 text [531/532] 图样编码 : Device Code :
+									77 text 26.5.1
+								78 definition list
+									79 container [511] 类别编号 : Class No. :
+										80 text [511] 类别编号 : Class No. :
+									81 button (collapsed) 9, Secondary Actions: Expand
+								82 definition list
+									83 container [511] 货品／服务说明 : Specification :
+										84 text [511] 货品／服务说明 : Specification :
+									85 container
+										86 container ...
+											87 button  检视全部, Help: 检视所有类别
+											88 button  隐藏全部, Help: 隐藏所有类别
+										89 container
+											90 link (collapsed) Description: 9, Secondary Actions: Expand
+												91 text 9
+											92 text 鍵盤；筆記本電腦；平板電腦；鼠標；計算機軟體(已錄製)；計算機；計算機外圍設備；電子出版物(可下載)；計算機程序(可下載軟體)；鼠標墊；頭戴式耳機；揚聲器音箱；計算機硬件
+						93 container
+							94 tab (settable) 日期 (日日-月月-年年年年) Dates (DD-MM-YYYY), ID: headingTwo
+								95 heading 日期 (日日-月月-年年年年) Dates (DD-MM-YYYY), Value: 4
+									96 button (collapsed) 日期 (日日-月月-年年年年) Dates (DD-MM-YYYY), Secondary Actions: Expand
+										97 text 日期 (日日-月月-年年年年)  Dates (DD-MM-YYYY)
+							98 container Description: 日期 (日日-月月-年年年年) Dates (DD-MM-YYYY), ID: collapseTwo
+								99 definition list
+									100 container [220] 提交日期 : Date of Filing :
+										101 text [220] 提交日期 : Date of Filing :
+									102 text 06-03-2015
+								103 definition list
+									104 container [442] 公布获接纳注册申请日期 : Date of Publication of Application of Acceptance for Registration :
+										105 text [442] 公布获接纳注册申请日期 : Date of Publication of Application of Acceptance for Registration :
+									106 text 26-06-2015
+								107 definition list
+									108 container [151] 注册日期 : Date of Registration :
+										109 text [151] 注册日期 : Date of Registration :
+									110 text 06-03-2015
+								111 definition list
+									112 container 实际注册日期 : Actual Date of Registration :
+										113 text 实际注册日期 : Actual Date of Registration :
+									114 text 06-10-2015
+								115 definition list
+									116 container [180] 注册届满日期 : Expiry Date :
+										117 text [180] 注册届满日期 : Expiry Date :
+									118 text 05-03-2035
+						119 container
+							120 tab (settable) 申请人／拥有人 Applicant/Owner, ID: headingThree
+								121 heading 申请人／拥有人 Applicant/Owner, Value: 4
+									122 button (collapsed) 申请人／拥有人 Applicant/Owner, Secondary Actions: Expand
+										123 text 申请人／拥有人  Applicant/Owner
+							124 container Description: 申请人／拥有人 Applicant/Owner, ID: collapseThree
+								125 definition list
+									126 container [730] 姓名或名称 : Name :
+										127 text [730] 姓名或名称 : Name :
+									128 text 智通智能技術（蘇州）有限公司
+								129 definition list
+									130 container [730] 地址 : Address :
+										131 text [730] 地址 : Address :
+									132 container
+										133 text 中國
+										134 text 蘇州工業園區蘇虹中路 200 號
+										135 text 綜合保稅區西區 4D 廠房
+								136 definition list
+									137 container [842] 类别: Type :
+										138 text [842] 类别: Type :
+									139 text 法人團體
+								140 definition list
+									141 container [842] 公司成立为法团的所在地 : Place of Incorporation :
+										142 text [842] 公司成立为法团的所在地 : Place of Incorporation :
+									143 text 中國
+								144 definition list
+									145 container [750] 送达地址 : Address for Service :
+										146 text [750] 送达地址 : Address for Service :
+									147 container
+										148 text 香港凱旋知識產權代理有限公司
+										149 text 香港
+										150 text 九龍灣宏光道8號
+										151 text 創豪坊7樓706室A區
+								152 definition list
+									153 container [740] 代理人详情 : Agent's Details :
+										154 text [740] 代理人详情 : Agent's Details :
+									155 container
+										156 text 香港凱旋知識產權代理有限公司
+										157 text 香港
+										158 text 九龍灣宏光道8號
+										159 text 創豪坊7樓706室A區
+						160 container
+							161 tab (settable) 详细背景资料／批注事项 Historical Details/Endorsement, ID: headingEndorsement
+								162 heading 详细背景资料／批注事项 Historical Details/Endorsement, Value: 4
+									163 button (collapsed) 详细背景资料／批注事项 Historical Details/Endorsement, Secondary Actions: Expand
+										164 text 详细背景资料／批注事项  Historical Details/Endorsement
+							165 container Description: 详细背景资料／批注事项 Historical Details/Endorsement, ID: collapseEndorsement
+								166 table
+									167 row
+										168 cell
+											169 text 作出记项日期 :
+											170 text Date of Entry :
+										171 cell
+											172 text 事项 :
+											173 text Matters :
+									174 row
+										175 cell
+											176 text 24-10-2024
+										177 cell
+											178 container
+												179 button (collapsed) 改變姓名／名稱, Secondary Actions: Expand
+									180 row
+										181 cell
+											182 text 01-03-2023
+										183 cell
+											184 container
+												185 button (collapsed) 轉讓／轉移, Secondary Actions: Expand
+									186 row
+										187 cell
+											188 text 06-10-2015
+										189 cell
+											190 text 註冊
+		191 container
+			192 content list
+				193 link 免责条款
+					194 text 免责条款
+				195 link Description: 联络我们, Value: ipd.gov.hk/sc/about-us/contact-us/index.html
+				196 link Description: 有关网站使用者的私隐通告, Value: ipd.gov.hk/sc/privacy-policy-statement/privacy-notice-for-website-visitors/index.html
+				197 link Description: 图像检索, Value: image-mark-finder.ipd.gov.hk/
+
+The focused UI element is 0 AXWebArea Trade Mark Search, URL: esearch.ipd.gov.hk/nis-pos-view/#/tm/details/view/392093_303321710/tm?lang=sc

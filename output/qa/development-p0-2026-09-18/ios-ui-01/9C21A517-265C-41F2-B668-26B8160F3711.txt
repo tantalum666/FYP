@@ -1,0 +1,23 @@
+Application, 0x10723b200, pid: 67786, label: 'Senplate' <App element pid: 67786>
+  Window (Main), 0x10723b480, {{0.0, 0.0}, {402.0, 874.0}} <AX element pid: 67786, elementOrHash.elementID: 4397795328.4>
+    Other, 0x10723b5c0, {{0.0, 0.0}, {402.0, 874.0}} <AX element pid: 67786, elementOrHash.elementID: 4455426048.5>
+      Other, 0x10723b700, {{0.0, 0.0}, {402.0, 874.0}} <AX element pid: 67786, elementOrHash.elementID: 4456531200.6>
+        Other, 0x10723b840, {{0.0, 0.0}, {402.0, 874.0}} <AX element pid: 67786, elementOrHash.elementID: 4397794304.7>
+          Other, 0x10723b980, {{0.0, 0.0}, {402.0, 874.0}} <AX element pid: 67786, elementOrHash.elementID: 4399649152.8>
+            ScrollView, 0x10723bac0, {{0.0, 0.0}, {402.0, 874.0}} <AX element pid: 67786, elementOrHash.elementID: 4454498304.9>
+              Other, 0x10723bc00, {{0.0, 62.0}, {402.0, 664.0}} <AX element pid: 67786, elementOrHash.elementID: 4459481088.10>
+                Image, 0x10723bd40, {{24.0, 140.7}, {163.0, 30.7}}, label: 'Senplate' <AX element pid: 67786, elementOrHash.elementID: 4399314496.12>
+                StaticText, 0x10723be80, {{24.0, 218.0}, {275.0, 93.0}}, label: 'A clearer view of every serving.' <AX element pid: 67786, elementOrHash.elementID: 4399817472.13>
+                StaticText, 0x10be28000, {{24.0, 335.0}, {243.7, 20.7}}, label: 'Sign in to your Senplate workspace.' <AX element pid: 67786, elementOrHash.elementID: 4399597760.14>
+                StaticText, 0x10be28140, {{42.0, 397.7}, {63.7, 18.0}}, label: 'Username' <AX element pid: 67786, elementOrHash.elementID: 4399598208.15>
+                TextField, 0x10be28280, {{42.0, 423.7}, {318.0, 46.0}}, identifier: 'login.username', placeholderValue: 'Username' <AX element pid: 67786, elementOrHash.elementID: 4397943296.16>
+                StaticText, 0x10be283c0, {{42.0, 485.7}, {60.0, 18.0}}, label: 'Password' <AX element pid: 67786, elementOrHash.elementID: 4399601792.17>
+                SecureTextField, 0x10be28500, {{42.0, 511.7}, {318.0, 46.0}}, identifier: 'login.password', placeholderValue: 'Password' <AX element pid: 67786, elementOrHash.elementID: 4397944576.18>
+                Button, 0x10be28640, {{42.0, 573.7}, {318.0, 52.0}}, identifier: 'login.submit', label: 'Sign in', Disabled <AX element pid: 67786, elementOrHash.elementID: 4399605824.19>
+                StaticText, 0x10be28780, {{24.0, 676.5}, {87.0, 16.7}}, label: 'Local prototype' <AX element pid: 67786, elementOrHash.elementID: 4399606720.20>
+                Button, 0x10be288c0, {{282.7, 667.7}, {95.3, 34.3}}, label: 'Language, English' <AX element pid: 67786, elementOrHash.elementID: 4457335808.21>
+                  StaticText, 0x10be28a00, {{294.3, 674.7}, {55.0, 20.3}}, label: 'English' <AX element pid: 67786, elementOrHash.elementID: 4398530560.23>
+              Other, 0x10be28b40, {{369.0, 62.0}, {30.0, 750.0}}, label: '垂直滚动条, 1页', value: 0% <AX element pid: 67786, elementOrHash.elementID: 4459483136.11>
+                Other, 0x10be28c80, {{396.0, 179.0}, {3.0, 630.0}} <AX element pid: 67786, elementOrHash.elementID: 4455412864.22>
+              Other, 0x10be28dc0, {{369.0, 62.0}, {30.0, 750.0}}, label: '垂直滚动条, 1页', value: 0% <AX element pid: 67786, elementOrHash.elementID: 4459483136.11>
+                Other, 0x10be28f00, {{396.0, 179.0}, {3.0, 630.0}} <AX element pid: 67786, elementOrHash.elementID: 4455412864.22>

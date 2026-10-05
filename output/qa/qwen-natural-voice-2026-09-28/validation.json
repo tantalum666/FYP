@@ -1,0 +1,46 @@
+{
+  "checked_at": "2026-09-28T16:25:58.794297",
+  "status": "Research and experience-test plan only",
+  "updated_markdown": [
+    "product.md",
+    "handoff.md",
+    "README.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-28/desk-software-scope-v1.md",
+    "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md",
+    "research/2026-09-28-local-voice/server-deployment-comparison.md"
+  ],
+  "local_links_checked": 456,
+  "broken_links": [],
+  "unbalanced_fences": [],
+  "protected_files_unchanged": {
+    "output/submission/2026-09-28/AY26_ProjectProposal_Group 2.docx": true,
+    "output/submission/2026-09-28/AY26_ProjectProposal_Group 2.pdf": true,
+    "output/docx/Group 2_DeskCompanion_ProjectProposal_ZH_Review_v3.docx": true,
+    "planning/2026-09-14/group-2-details.json": true
+  },
+  "public_catalogue_counts": {
+    "https://huggingface.co/api/models?author=Qwen&search=omni&limit=100": 7,
+    "https://huggingface.co/api/models?author=Qwen&search=audio&limit=100": 4
+  },
+  "preference": "Natural conversation is the priority; cloud or self-hosted final choice not made",
+  "recommendation": "Experience comparison of Qwen-Audio-3.1-Realtime-Plus and Qwen3.8-Omni-Flash-Realtime; V100 cascade is a baseline, not a predetermined final experience",
+  "not_run": [
+    "Audio playback/listening",
+    "Paid API request",
+    "Account activation",
+    "Server access",
+    "Weights download",
+    "Inference or hardware tests",
+    "School submission"
+  ],
+  "checks_run": [
+    "Official model/voice/turn-detection/tool documentation",
+    "Public publisher model metadata",
+    "Current priority and evidence-boundary consistency",
+    "Local links and Markdown fences",
+    "Proposal and member identity preservation"
+  ],
+  "passed": true
+}

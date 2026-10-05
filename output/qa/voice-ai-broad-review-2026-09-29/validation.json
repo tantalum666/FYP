@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-09-29T10:21:29.048604+00:00",
+  "updated_markdown": [
+    "product.md",
+    "handoff.md",
+    "README.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-28/desk-software-scope-v1.md",
+    "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md",
+    "research/2026-09-28-local-voice/server-deployment-comparison.md",
+    "research/2026-09-29-voice-ai/naturalness-and-tools-review.md"
+  ],
+  "local_links_checked": 466,
+  "missing_links": [],
+  "unbalanced_fences": [],
+  "protected_files": 6,
+  "protected_changes": [],
+  "member_identity_and_planned_shares_match": true,
+  "research_only": true,
+  "audio_listened": false,
+  "api_inference_calls": 0,
+  "hardware_tests": 0,
+  "code_tests": "Not applicable: research and Markdown only",
+  "document_rendering": "Not rerun: school DOCX/PDF untouched and hashes match",
+  "browser_check": "Jarvis Bench v0.5 current visible table, model configuration, methodology and public transcript; no playback or microphone permission",
+  "status": "PASS"
+}

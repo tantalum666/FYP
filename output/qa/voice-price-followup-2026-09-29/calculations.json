@@ -1,0 +1,42 @@
+{
+  "scenario": "One device, 10-minute session per day, 5 minutes user + 5 minutes assistant, 30 days. No repeated context, text, tools, taxes, retries, discounts or backend charges. Qwen low/continuous are conditional metering scenarios, not total-bill bounds.",
+  "prices": {
+    "Gemini 3.8 Live": {
+      "usd_audio_basis": 4.199999999999999,
+      "basis": "300 min input stream and 150 min output; official rounded per-minute rates"
+    },
+    "Qwen Audio 3.0 Realtime Flash": {
+      "usd_low": 0.315,
+      "usd_continuous": 0.419625
+    },
+    "Qwen3.8 Omni Flash Realtime": {
+      "usd_low": 0.268965,
+      "usd_continuous": 0.32755500000000004
+    },
+    "Qwen Audio 3.1 Realtime Plus": {
+      "usd_low": 3.42,
+      "usd_continuous": 4.140000000000001
+    },
+    "GPT-Realtime-2.1 Mini": {
+      "usd_audio_basis": 4.5
+    },
+    "GPT-Realtime-2.1": {
+      "usd_audio_basis": 14.399999999999999
+    },
+    "GPT-Live-1": {
+      "usd_frontend_only": 15.0
+    },
+    "Grok Voice Think Fast 2.0": {
+      "usd_server_vad_session": 24.0
+    },
+    "ElevenAgents": {
+      "usd_creator_regular_before_llm": 24.0
+    },
+    "Doubao generic realtime tariff": {
+      "cny_low": 72.0,
+      "cny_continuous": 76.5,
+      "exact_3_0_tariff_mapping": "Not established; do not rank as confirmed 3.0 price"
+    }
+  },
+  "history_example_usd": 10.26
+}

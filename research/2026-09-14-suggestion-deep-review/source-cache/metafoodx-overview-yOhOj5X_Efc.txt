@@ -1,0 +1,83 @@
+YouTube transcript
+Video ID: yOhOj5X_Efc
+Language: en-US
+Captions: authored or unspecified
+
+[0:01] Metafoodx is a company that focuses on
+[0:03] building technology using AI
+[0:05] and all the most advanced technology to help
+[0:09] kitchen operators to improve their efficiency
+[0:11] and reduce their overproduction and food waste.
+[0:13] We were born to actually solve the
+[0:17] sustainability problem for the commercial kitchens
+[0:20] for food service.
+[0:21] We want to make sure we leave the chef and
+[0:25] the managers in control
+[0:26] in terms of the
+[0:28] flavors of the food,
+[0:28] In terms of the operation,
+[0:30] and then we want to leverage the technology
+[0:33] to actually help them to
+[0:35] take the heavy lifting, right?
+[0:37] Think of tracking what food where
+[0:40] and think of number crunching and that's not
+[0:42] necessarily something that human are good at.
+[0:44] Place a pan on the scanner.
+[0:46] It captures the image and
+[0:48] measures the net weight and records the
+[0:50] temperature all within just two seconds
+[0:52] of time. There's no typing and no
+[0:54] tapping on the screen and no extra steps
+[0:57] for the team to follow.
+[0:58] So that it can be a ready action to
+[1:01] actually for the owners for the
+[1:04] operators to know what to do day-in and day-out.
+[1:07] Simply to fine-tune their operation.
+[1:09] Everything is done under one second
+[1:12] including the classification and scanning.
+[1:14] Teams using the device they get
+[1:17] real-time feedback and while the
+[1:19] service is still moving.
+[1:20] We have integrated AI.
+[1:21] It's self learning.
+[1:23] You don't need to actually fit it, right?
+[1:26] A large number of plates of food.
+[1:28] We have designed the solution to be self-learning.
+[1:31] As it scans, it also avoid the operator
+[1:35] have to do the manual tagging of the food item
+[1:37] because it can learn by itself.
+[1:39] 30% to 40% of the food supply is
+[1:42] wasted each year and a major portion of
+[1:44] that comes from the overproduction.
+[1:46] Preventing food waste means you need a
+[1:49] solution that can solve the problem at
+[1:51] the source. Most expensive ingredients
+[1:53] we can save a whole lot of money on
+[1:55] that. We leverage the technology to
+[1:57] build the solution that would blend or
+[2:00] fit the restaurant's operation workflow
+[2:03] to give them the data in real time.
+[2:07] Exactly what is happening so that before
+[2:10] any waste they will be able to take
+[2:13] actions in the first place.
+[2:14] The current product we have,
+[2:15] It's quite versatile,
+[2:16] and we've seen that people use it in
+[2:19] large kitchens and cafeterias and
+[2:21] smaller kitchens and maybe in the restaurant setup.
+[2:23] They serve buffet with the operators
+[2:26] helping with the customers
+[2:27] and they also track the food safety and
+[2:30] lose track of all these different dishes
+[2:32] and how long they stay on the line.
+[2:34] We provide a timer and alert when certain
+[2:37] dish freshness hits a threshold and we
+[2:39] can remind the operators that you need
+[2:41] to change something on that line.
+[2:43] So just keep the food fresh and keep the
+[2:45] customers happy.
+[2:46] As more customer embrace them, we see
+[2:49] more opportunity to help them. But at
+[2:51] the same time, we're going to do small
+[2:54] tweaks and to actually make their life
+[2:56] much easier.

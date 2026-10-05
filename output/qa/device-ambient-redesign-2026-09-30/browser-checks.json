@@ -1,0 +1,40 @@
+[
+  {
+    "check": "editor-idle-protection",
+    "seconds": 81.216,
+    "result": "Draft and title survived beyond 60 seconds"
+  },
+  {
+    "check": "saved-event-timezone",
+    "result": "20:00 New York September 30 saved; Hong Kong view returned October 1 08:00"
+  },
+  {
+    "check": "wake-lock",
+    "result": "Chrome reported Active while this display is visible after enabling"
+  },
+  {
+    "check": "idle-return",
+    "seconds": 75.888,
+    "returned": true
+  },
+  {
+    "check": "reminder",
+    "result": "Persisted due alert shown; snooze changed status to 02:24; acknowledge removed from inbox"
+  },
+  {
+    "check": "offline-range-recovery",
+    "result": "Clock continued with Offline and timestamp; changing day showed unavailable rather than wrong date cache; automatic retry restored October 1 events when connection resumed"
+  },
+  {
+    "check": "auth-lock",
+    "result": "Signing out removed private agenda and event dots while clock/month remained visible"
+  },
+  {
+    "check": "private-projection",
+    "result": "Saved hide-private preference; all device agenda titles became Private event"
+  },
+  {
+    "check": "web-phone-regression",
+    "result": "Regular web monthly view has 35 loaded dates; normal 390x844 Today retained bottom navigation; device CSS not applied; no horizontal overflow"
+  }
+]

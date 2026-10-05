@@ -1,0 +1,91 @@
+FILE work-log.md L181-270
+- 用户先要求暂停出图、先想名字，随后要求直接给一些选择。本轮按同一品牌任务的纠正继续，未重新开展硬件／软件研究。
+- [命名讨论稿](planning/2026-09-16/naming-shortlist.md)提供七个英文候选、中文搭配、建议读法、构词联想与取舍，未选定。做有限公开同名搜索，排除已见同类产品MealCue、Portionary、Dishloom；不宣称商标或域名可用。
+- 已补读当前入口、品牌稿、README和相关规范／日志段；[阅读记录](output/qa/naming-only-2026-09-16/reading-record.json)继承前轮完整阅读。
+- 同步product、README、品牌V1历史状态、架构／页面／开发下一步、decision-log及handoff；[收尾检查](output/qa/naming-only-2026-09-16/closeout-validation.json)检查链接和旧图／提示词／正式交付物保留。
+- 未生成图片、改Logo、建立Figma或应用工程；无部署、训练、采购、对外联系和提交。下一步仅是用户对名字的反馈，再收窄候选。
+
+## 2026-09-16 大陆与香港比赛筛选
+
+- 目标：为AI／IoT食物监测FYP寻找兼顾含金量与奖金的比赛；用户补充三位成员均非香港永久居民。
+- 开工：完整读取33份项目自有Markdown、4047行，截断范围已补读；[reading-record](output/qa/2026-09-16-competition-research/reading-record.json)。收尾发现同期品牌任务更新，补读新增品牌说明和变更，保留先选视觉、不立即编码的要求。
+- 调查：读取香港大学生赛、Techathon+ 2027、教育部国创赛、深创赛、广州科技局赛、HKSEC、港科大香港站和Dyson公开规则；浏览器读取前海2026完整方案、ICT专上资格和获奖权益。主承办方、政府和院校正式发布为主要依据。
+- 结果：[候选与资格说明](research/2026-09-16-competitions/competition-shortlist.md)及[source-register](research/2026-09-16-competitions/source-register.json)，明确8万港元香港大学生赛、1.5万港元Techathon+及有条件30万元大陆创业赛。现金、服务、培育资助与总奖池分开；2026已截止、2027已公布／未公布分开。
+- 关键判断：Techathon+明确欢迎VTC高级文凭和FYP；“挑战杯”课外作品赛排除毕业设计；广州学生专项无落地要求但VTC定义需确认；前海常规赛面向企业且当前正文未列固定现金额，未套用宣传转介奖额。
+- 访问边界：教育部两个附件提取失败；ICT PDF因约24.8MB超过提取上限改读动态页面；浏览器不支持内容导出，未伪造本地全文快照。2025“挑战杯”官方索引条款与2027院校通知交叉检查。
+- 收尾：同步product、README、decision-log和handoff；[收尾验证](output/qa/2026-09-16-competition-research/closeout-validation.json)检查内部链接、奖励／日期口径、组员资料和保留文件。首次组合patch因同期product变化未通过验证，重读后仅添加赛事段落，未覆盖品牌工作。
+- 剩余：正式选赛、相应资格确认、真实原型／用户数据、简报与报名。未注册账号或公司、发消息、提交、创建提醒、采购、编码、训练或测试实物；软件规格、品牌资产、RFQ、suggestion和采购资料保留。
+
+## 2026-09-16 无公司注册计划下的参赛补充
+
+- 目标：按用户新增约束筛选以学生／个人为主体、没有公司注册或落地前提的比赛，兼顾奖金和认可。
+- 阅读：同一赛事研究的约束补充，继承33份／4047行全读，补读当前入口、首轮报告、新命名稿和最新日志；[记录](output/qa/2026-09-16-competitions-no-company/reading-record.json)。保留同期只讨论名字的安排。
+- 研究：主办／承办官方页面核对五项新增赛事，区分明确高级文凭FYP、QF4及通用年龄／国籍入口；重新区分学生现金奖与后续培育。
+- PDF：读取PDF技能与工作区运行时；保存中美22页、HKIE18页、IET5页原始PDF，文字定位后逐页查看共12页相关资格／作品限制／奖金／申请材料。原件未修改，未声称视觉读完所有页面。
+- 交付：[无公司候选](research/2026-09-16-competitions/no-company-options.md)，补充[source-register](research/2026-09-16-competitions/source-register.json)；首轮报告、product、README、handoff、decision-log同步最新约束。深创赛／广州落地奖移出当前主选。
+- 验证：[收尾检查](output/qa/2026-09-16-competitions-no-company/closeout-validation.json)核对内部链接、PDF存在性／页数与哈希、日期、奖金额和公司条件层次。中美按2026章程1.5万元，不套旧版或地方其他赛大奖；HKIE按2026正文6,000港元，不沿用2019的8,000。
+- 未完成：下届公告、正式选赛与相应资格疑点、报名材料；无对外消息、提交、注册公司或比赛账号、定时任务、图像生成、编码、训练或实物测试。
+
+
+## 2026-09-16 Senplate命名确定、商标及域名查询
+
+- 目标：按用户明确选择采用Senplate，检查商标与域名注册情况；没有延伸为购买或申请。
+- 阅读：继承本次品牌任务全读，补读入口、命名／视觉旧稿及同期赛事研究、无公司约束和变更；[阅读记录](output/qa/senplate-name-check-2026-09-16/reading-record.json)。
+- 商标：浏览器实际提交香港、美国、欧盟文字查询，无Senplate结果；香港通配符sen*plate*亦无结果。较宽模式命中的恒生银行长标志留作噪声记录。内地正式门户403、WIPO访问被阻止，均未完成；香港人工验证页面后续可访问，代理未解验证码。
+- 域名：按IANA注册局服务，查询.com／.net／.app／.io／.ai／.hk／.com.hk／.cn／.com.cn，未见登记记录；保存HTTP状态、原始响应、WHOIS主机及时间。.ai的403与另行WHOIS结果清楚区分。
+- 交付：[初筛报告](research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md)、[商标结构化记录](research/2026-09-16-senplate-name-check/trademark-evidence.json)、[域名汇总](research/2026-09-16-senplate-name-check/domain-summary.json)及原始响应。浏览器内容导出不支持，没有伪造导出证明；作者SensePlate项目采用公开索引，正文访问限制另记。
+- 收尾：同步product、README、命名选定状态、旧视觉路由、软件下一步、decision-log及handoff，保留同期不注册公司约束；[核对记录](output/qa/senplate-name-check-2026-09-16/closeout-validation.json)检查链接、JSON、九个域名与保护文件哈希。无新图、应用实现或实测。
+- 剩余：内地／WIPO正式查询、完整目标市场近似与具体商品服务评估；如购买域名需届时复核可注册状态。没有申请、注册、购买、公司变更、外发消息、部署或提交。
+
+## 2026-09-16 大陆全国及省级竞赛补充
+
+- 目标：继续找大陆全国或省级学生赛，保持不注册公司、香港高级文凭与现有FYP范围。
+- 阅读：同一赛事任务补充，继承33份／4047行全读及此前补充记录，读取当前入口、最新日志与赛事文件；[阅读记录](output/qa/2026-09-16-mainland-competitions/reading-record.json)。
+- 新证据：全国节能减排港澳台／国际赛道明确专科及学籍；教育部2026世界职业院校技能赛允许港澳台学校队直接报名争夺赛；VTC官方有广东物联网省赛获奖先例；HKIIT移动应用往届与海峡两岸本届记录分开。
+- 交付：[全国／省级研究](research/2026-09-16-competitions/mainland-national-provincial.md)，涵盖节能减排、世界职业院校、物联网、移动应用、iCAN创新及广东技能赛。技术适配、资格确定程度、奖项层级、日期与公司要求各自说明。
+- PDF与访问：复用已读PDF技能；保留物联网6页章程和1页高职认定原件，查看章程1–5页及补充页共6页。部分官方网页提取失败后读同一公开URL；iCAN原始扫描件未成功本地取得，不声称全文已读。缺少bs4后用标准库，未安装依赖。
+- 验证：来源登记、内部链接、PDF存在性／哈希、当前无公司约束见[收尾核对](output/qa/2026-09-16-mainland-competitions/closeout-validation.json)。同步product、README、handoff、原无公司报告及decision-log。
+- 未完成：学院与主办的具体VTC身份／报名路径确认、下届规则、任何报名。未发送询问信息、提交或签署，没有创建提醒、公司、应用或增加设备范围。
+
+
+
+## 2026-09-16 Senplate中文商业计划书V1
+
+- 目标：把现有想法整理成中文商业计划书，提供可编辑Word与PDF，覆盖客户、产品、竞争、收入、获客、试点、团队、财务与资金。
+- 开工：37份项目自有Markdown共4363行完整阅读，截断范围补读；[阅读清单](output/qa/2026-09-16-chinese-business-plan/reading-manifest.json)。收尾补读同期Senplate命名与全国／省级赛事新增资料，保留其他任务变更；第一次组合patch遇并行变更未通过后重读并仅追加当前方案入口。
+- 研究：重新核对环保署2024厨余统计、教育局2025/26学校数、Metafoodx／Controliza公开功能、Pomona客户报道、USDA许可及卫生署指引入口。环保署图2.11所在印刷第14页另本地渲染查看，未将机构数或厨余总量直接当作客户需求／可减损量。
+- 交付：[正文](planning/2026-09-16/business-plan-zh.md)、[Word](<output/docx/Group 2_Senplate_商业计划书_中文版_V1.docx>)及[PDF](<output/pdf/Group 2_Senplate_商业计划书_中文版_V1.pdf>)，17页、17张原生表格、7条公开来源；[构建脚本](scripts/build_business_plan_zh.py)。采用最新Senplate，中文名未定；无品牌图像生成。
+- 内容核对：HK$14,800＋HK$680、原型资源HK$50,000和三年客户数均标假设。复算收入、成本、毛利、经营缺口、客户回收期和敏感性；补清未来12次八周试点至少需两台轮转设备及相应资金，不增加FYP当前一台数量。经营结余不叫净利润。
+- 排版：使用工作区Python和随工具提供的LibreOffice，任务内Fontconfig复用现有中文字体。最终render-04共17页，所有页逐页视觉核对，未改页面与已检查版本像素相同；最终修改页另以原始分辨率复核。中文、表格、页码、标题及链接正常；可访问性审查high／medium／low均0。PDF复制自已检查最终渲染。
+- 收尾：更新product、README、handoff和decision-log，并保留同期名称／赛事状态；[收尾核对](output/qa/2026-09-16-chinese-business-plan/closeout-validation.json)记录公式、内容对应、成员资料、页数、链接、文件存在性及哈希。无购买、注册公司、消息发送、报名、训练、应用实现、部署或实物测试。
+- 剩余：真实供应商整机报价、预算方访谈、场地与实测结果；文中商业价格及资源建议未获用户批准，下一步先审阅其定位和假设。
+
+## 2026-09-16 Senplate Logo与VI三方向
+
+- 目标：按用户新指令启动Senplate Logo／VI，先给可选择方向；没有继续停在名称查询，也没有提前落应用代码。
+- 阅读：继承品牌任务全读，补读新商业计划447行、大陆赛事61行、当前入口及名称初筛，晚些时候重读并保留并行商业计划交付更新；[阅读记录](output/qa/senplate-logo-vi-2026-09-16/reading-record.json)。
+- 技能：复用已读Product Design ideate／相关前置与系统ImageGen，用户设计上下文预检为missing，未写全局偏好。查看并实际附加用户硬件照片，仅作应用外形背景。
+- 交付：[Logo与VI方向V1](planning/2026-09-16/senplate-logo-vi-directions.md)、[三图与映射](output/brand/2026-09-16-senplate-vi/manifest.json)、完整提示词。三次独立内置ImageGen调用，各原生结果展示一次；当前顺序1分寸／2连续／3日常，品牌均为Senplate，无中文定名。
+- 视觉复核：品牌拼写、单色版本、图标和色值标签可读，足以比较方向；不同尺寸轮廓统一、第二版S联想／未来感、第三版未显现的S切口、实际字体和小尺寸均列待定稿项。设备不作为新工程图。
+- 数值检查：候选HEX对比度已算，深色正文组合充分，浅绿／陶土／金色在浅底不作为普通小字；核对W3C说明，Logo与UI正文规则分开。[计算](output/qa/senplate-logo-vi-2026-09-16/palette-contrast.json)不是图像或实现的验收。
+- 收尾：更新product、README、软件下一步、旧视觉路由、decision-log和handoff；[核对](output/qa/senplate-logo-vi-2026-09-16/closeout-validation.json)检查图片、哈希、提示词、显示映射、链接和旧交付物保留。商业计划及赛事资料保留，不改其建议／未注册状态。
+- 未完成：用户选方向及修订、矢量／透明／多尺寸Logo、实际字体与完整VI、App还原；无Figma文件、应用工程、硬件测试、购买、注册、外部联系或部署。
+
+
+## 2026-09-16 世界职业院校技能大赛报名路线
+
+- 目标：回答是否需要联系老师、校方报名步骤和2026是否仍可参加；承接本轮赛事研究，不重新开始全库阅读。
+- 阅读：继承首轮赛事全读及两次补读，恢复AGENTS、product、handoff，读最新决定／日志、当前大陆报告、来源记录和组员基线；截断输出已补读。[阅读记录](output/qa/2026-09-16-world-vocational-registration/reading-record.json)。
+- 核实：完整读取2026执委会报名通知转载正文，并与福建省教育厅公告交叉核对；确认8月27日／9月10日截止、学校账号、AI按院校层次分组、同校最多4人及最多2名本校专任教师。没有找到香港补报／校方指定负责人的有效公开公告。
+- 交付：[专项路线和Marco可复制草稿](research/2026-09-16-competitions/world-vocational-registration.md)。现有大陆表由“未核此刻开放”更新为“常规已截止，港澳补报未核实”；2027未公告，不复用2026日期保证。
+- 收尾：更新product、README、handoff的赛事补充、decision-log、source-register；保留Logo／VI和商业计划的同期状态，不改其文件与资产。核对链接、JSON、文号、日期、人数和组员信息，[验证记录](output/qa/2026-09-16-world-vocational-registration/closeout-validation.json)。
+- 剩余：用户联系Marco，学校确认机构／组别／国籍学籍、可用届次与安排。未对外发送、拨号、登录、报名、签署、创建公司或定时任务；没有应用／硬件测试。
+
+
+## 2026-09-16 至2027年7月底参赛阶段计划
+
+- 目标：按用户未来时间窗，重新整理适合Group2的高认可度、有现金优先赛事，逐项说明报名、作品提交和决赛所需成熟度。
+- 阅读：沿用本赛事任务33份Markdown全读及历次补读记录，复核当前AGENTS、handoff、product相关变化、四份已有赛事报告和最新日志；记录新清单、读取范围与排除项于[阅读记录](output/qa/2026-09-16-competition-plan-to-2027-07/reading-record.json)。
+- 研究：再次核对Techathon2027正式日期／简报／奖金、香港大学生赛分阶段交件和实物FAQ、海峡两岸报告／演示要求、中美创客选拔原型与奖额、YPEC实物可选；新取得VTC广东赛完整文章及国家创新赛香港大专创意组入口。2027未知不以2026代替。
+- 原件：三份现有官方PDF不改动；补渲染并查看YPEC第3页和HKEPC第7页，复核中美第14–15页奖金；其它已通过的相关页视觉核对继承，不重复渲染。年报只用官方索引的举办周期段落，未声称全文视觉阅读。
+- 交付：[2027年7月底前阶段计划](research/2026-09-16-competitions/plan-to-july-2027.md)与[来源表](research/2026-09-16-competitions/plan-2027-source-register.json)，主选5项、省级训练路线1项、较晚赛程候选6项，并有准备月份和作品成熟度说明。

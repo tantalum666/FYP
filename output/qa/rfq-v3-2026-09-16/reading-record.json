@@ -1,0 +1,345 @@
+{
+  "kind": "Same RFQ task; immediate user scope correction, not a new independent workstream.",
+  "inherited_full_read": "../yahboom-sourcing-2026-09-15/full-read-completion.json",
+  "prior_rfq_reading": "../rfq-v2-2026-09-15/reading-record.json",
+  "current_reads": {
+    "AGENTS.md": [
+      [
+        1,
+        50
+      ]
+    ],
+    "product.md": [
+      [
+        1,
+        97
+      ]
+    ],
+    "handoff.md": [
+      [
+        1,
+        33
+      ]
+    ],
+    "README.md": [
+      [
+        1,
+        47
+      ]
+    ],
+    "decision-log.md": [
+      [
+        88,
+        106
+      ]
+    ],
+    "planning/2026-09-15/hardware-fabrication-enquiry-draft.md": [
+      [
+        1,
+        17
+      ]
+    ],
+    "planning/2026-09-15/hardware-fabrication-enquiry-v2.md": [
+      [
+        1,
+        130
+      ],
+      [
+        131,
+        247
+      ]
+    ],
+    "work-log.md": [
+      [
+        105,
+        120
+      ]
+    ],
+    "planning/2026-09-15/procurement-guide.md": [
+      [
+        1,
+        18
+      ]
+    ],
+    "planning/2026-09-15/yahboom-sourcing-and-customization.md": [
+      [
+        1,
+        13
+      ],
+      [
+        99,
+        107
+      ]
+    ]
+  },
+  "inventory": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "README.md",
+      "lines": 47,
+      "sha256": "219fd0f76818b19cbc4acdb00c5d4f776d2f4f30c1278ac740a41e3ea581a6f5"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 106,
+      "sha256": "1ff623fcb6cc3d1a2f10580b9865c327a0f1c6aef690d72304844771f00306fe"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 33,
+      "sha256": "bbcb44b121d8f203ba3b215b31ec2791d2786a54d4401074509728c3b6a4f365"
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "lines": 174,
+      "sha256": "153da7429cd987e0e13d9440dd0f24a0a63ef60e3212335a19662a9b2ceeaff7"
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 118,
+      "sha256": "4fc0e8bff366ed3bd3e588f172f33b5a0b9e592b6ca8e4004fde2f142b074150"
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "lines": 78,
+      "sha256": "0546e0aee11211cbe5de981addd7f332da47e0b39f48785392b21b79bc0d1a21"
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160,
+      "sha256": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5"
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "lines": 108,
+      "sha256": "ac5709dfbaf0c4bcd78d211595e961b0028bd9031475d16281a675b3826e895f"
+    },
+    {
+      "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "lines": 39,
+      "sha256": "4bc962711143b8b982d7adba8e96f747f00cf2bc699d3d94835c08af8cb0d65b"
+    },
+    {
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "lines": 183,
+      "sha256": "4fa54cbecb0f24b25f7360ea82bce8a66a5760a1aeb912b9ff344f8cb981a2e4"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "lines": 17,
+      "sha256": "0166e82d6e1c9268ead6868f331700e475d2ce3523568ad6070487cfc4326a94"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "lines": 247,
+      "sha256": "1434e55732e1ccb5a514e9204c4923f704221a8be0dc5d13f32f419c671c9c13"
+    },
+    {
+      "path": "planning/2026-09-15/power-supply-detail.md",
+      "lines": 143,
+      "sha256": "5cf4999a5cfbbb1f0f7b3ae92707c5c2e774bb630c4b959b6243c9bdeda012e9"
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "lines": 212,
+      "sha256": "91b51321831fc0127e3a2b2443ef86cd8a0e82813e91d534f961925ba4f085f4"
+    },
+    {
+      "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "lines": 107,
+      "sha256": "b46d953706ca85cee97f85a198a24c159aaa7e96b9ab4e50beb7907a847d506d"
+    },
+    {
+      "path": "product.md",
+      "lines": 97,
+      "sha256": "aa32a99f53e1737fa3e6c075ed6edf4b504ed63aa55a67d5be591e42d981f092"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165,
+      "sha256": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38,
+      "sha256": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44,
+      "sha256": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47,
+      "sha256": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287,
+      "sha256": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171,
+      "sha256": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25,
+      "sha256": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7"
+    },
+    {
+      "path": "work-log.md",
+      "lines": 120,
+      "sha256": "e8e5152ffc3b3bf2cdd008e46430dfc3e3254a8aa51600dd076bac5a35bfc888"
+    }
+  ],
+  "exclusions": [
+    "output/qa generated evidence",
+    ".git",
+    "dependencies",
+    "caches",
+    "temporary office lock files"
+  ],
+  "at": "2026-09-16T10:16:55.222793+08:00",
+  "new_source_authored_and_reviewed": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+  "completed_at": "2026-09-16T10:22:25.847831+08:00",
+  "final_inventory": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "README.md",
+      "lines": 47,
+      "sha256": "96bb53f574bf00038e8514864d2a3b070564ce164045c921351a15b5dd009f2a"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 113,
+      "sha256": "aa065de1d2ec97c6f9147530ad1f06fd2136ed4933ca46a41390c24358b78d33"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 28,
+      "sha256": "59428be747e45e189a06edc8c91e12effd03d3b530aab63eddd70e5f2042d6f2"
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "lines": 174,
+      "sha256": "153da7429cd987e0e13d9440dd0f24a0a63ef60e3212335a19662a9b2ceeaff7"
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 118,
+      "sha256": "4fc0e8bff366ed3bd3e588f172f33b5a0b9e592b6ca8e4004fde2f142b074150"
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "lines": 78,
+      "sha256": "0546e0aee11211cbe5de981addd7f332da47e0b39f48785392b21b79bc0d1a21"
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160,
+      "sha256": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5"
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "lines": 108,
+      "sha256": "ac5709dfbaf0c4bcd78d211595e961b0028bd9031475d16281a675b3826e895f"
+    },
+    {
+      "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "lines": 39,
+      "sha256": "4bc962711143b8b982d7adba8e96f747f00cf2bc699d3d94835c08af8cb0d65b"
+    },
+    {
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "lines": 183,
+      "sha256": "4fa54cbecb0f24b25f7360ea82bce8a66a5760a1aeb912b9ff344f8cb981a2e4"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "lines": 17,
+      "sha256": "7efcba84a229e54b6054cd16c821731757129e32389fdb219e77f5c104bc5047"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "lines": 247,
+      "sha256": "1434e55732e1ccb5a514e9204c4923f704221a8be0dc5d13f32f419c671c9c13"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+      "lines": 53,
+      "sha256": "9bc25bc85baaf4badca2a18e853ffbf18c818b53bde69798a1e0c813cbfd3538"
+    },
+    {
+      "path": "planning/2026-09-15/power-supply-detail.md",
+      "lines": 143,
+      "sha256": "5cf4999a5cfbbb1f0f7b3ae92707c5c2e774bb630c4b959b6243c9bdeda012e9"
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "lines": 212,
+      "sha256": "ee765085241ecb4f7426350adac356d60c754f5e96fac6eb7b3913ff40410c02"
+    },
+    {
+      "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "lines": 107,
+      "sha256": "27fb9cf2bb37ed0c197aaac8ddd2ade6ec905002ebeef11b80c4bf3f72e8f716"
+    },
+    {
+      "path": "product.md",
+      "lines": 97,
+      "sha256": "499058a52464427f0b7f3cce966b7adfe8053ad1c643fe8ed6e99720893bffed"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165,
+      "sha256": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38,
+      "sha256": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44,
+      "sha256": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47,
+      "sha256": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287,
+      "sha256": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171,
+      "sha256": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25,
+      "sha256": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7"
+    },
+    {
+      "path": "work-log.md",
+      "lines": 129,
+      "sha256": "d89bb8de493f804a7c368d17194bef6bbfa66eaecfdc0adbaf3900ddc825ddd8"
+    }
+  ],
+  "new_content_reviewed": "V3 source, all updated paragraphs and append-only log/handoff content; both final rendered pages."
+}

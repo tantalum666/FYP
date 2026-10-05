@@ -1,0 +1,113 @@
+FILE research/2026-09-17-logo-similarity/similarity-review.md L1-82
+# Senplate Interval：图形商标近似初筛
+
+日期：2026-09-17，Asia/Hong_Kong。状态：SIMILAR_MARK_FOUND — HK_IMAGE_SEARCH_COMPLETED。香港图像查询和重点登记记录已核实；未完成全球清查。
+
+**本报告只适用于旧Interval图形。**用户随后要求调整，已完成[Profile R4](../../planning/2026-09-17/senplate-logo-profile-r4.md)。R4的官方商标图像查询尚未进行，不能沿用本文结果当作新稿通过检索。
+
+## 结论
+
+找到了值得避让的近似结构：Aqua Security已核有效的美国纯图形商标；香港图像查询又找到机械革命所属公司的已注册第9类图形，商品包含计算机硬件及软件。建议保留用户初步认可的深绿／米白及字标气质，调整Interval的图形结构后再定稿。该建议来自视觉与品牌辨识判断，不是法律侵权裁定。
+
+用户原话“差不多，但是检索一遍看看有没有类似的商标”记为对方向的初步认可及检索要求，不是无条件定稿、注册或公开发布授权。现有Senplate原图、SVG及Figma均未修改。
+
+![近似图形对照](comparison.jpg)
+
+右侧三项为Simple Icons 16.31.0公开图库的单色轮廓，保持原始方向，用于比较结构。Aqua的正式注册图样另有蓝、浅蓝、黄、红四色；本图不冒充其黑白注册证或完整官方VI。
+
+## 重点发现
+
+| 对照 | 相近与不同 | 已确认的证据 | 设计处理建议 |
+|---|---|---|---|
+| **机械革命所属公司图形** | 两块相对的角形平面，斜向开口穿过中央；其六边形整体、厚重平面、负形及金属表现与我们的方框有差异 | 香港303321710，已注册，第9类；权利人智通智能技術（蘇州）有限公司，机械革命官网确认公司与品牌关系 | 香港本地重点避让；计算机硬件／软件商品值得进一步比较 |
+| **Aqua Security** | 两个相对折角围出中央方形留白；外侧有斜边，整体轮廓紧凑。我们的开口方向、内部折角、端部与配色不同，但几何结构接近 | 美国TSDR当前有效的纯图形注册；官方品牌页与注册图样已实际查看 | 首要避让对象，不能只用换色或转向解释独特性 |
+| **OPNsense** | 两块相对折面、方形中空、外侧切角，与本稿处于相近构图家族；其开口位置与直角处理不同 | 官网现行标记、官方项目图形源码和商标政策；未核到与当前新轮廓逐一对应的有效注册记录 | 一并作为结构避让参照，不把名称的历史注册当当前新图形已注册 |
+| **RustDesk** | 同为两处斜向开口的对向环形；其轮廓为圆弧、端点较圆，我们为折面和方形 | 官方项目logo.svg、官网产品使用实例；未确认图形商标注册 | 次级视觉参照；若后续把本稿圆化，应避免进一步接近 |
+| **meterytech** | 同属分段多边形，但有多层箭头、上下镜像与中央文字，整体外观差异较大 | 香港307039215，已注册，第9类，覆盖测量仪器、探测器及若干传感器 | 商品领域相关的候选；不因系统返回或同类就判成冲突 |
+
+以上优先级是助手的设计判断，没有把像素重叠值写成法律相似度或侵权概率。
+
+## 香港：已完成的图像查询与重点记录
+
+用户明确同意接受资料使用条款并继续官方图像查询。恢复页面时已在上传页，代理未执行验证码。原样从Figma导出192×192符号，上传后确认完整图形、无手动裁剪、无类别限制并检索。系统显示300条候选图像结果，其中有同一商标的重复图样；本轮审阅前50条元数据，涉及37个不同商标编号，并深入核验以下两条第9类登记。
+
+**303321710：智通智能技術（蘇州）有限公司。**[香港官方详情](https://esearch.ipd.gov.hk/nis-pos-view/#/tm/details/view/392093_303321710/tm?lang=sc)显示已注册，第9类商品包括计算机硬件、已录制及可下载软件、电脑及外设等。登记册列注册日期2015-03-06、实际注册日期2015-10-06，届满2035-03-05。[机械革命官网公司介绍](https://www.mechrevo.com/cn/about)明确该公司与机械革命品牌关系。保存[官方详情观察](../../output/qa/senplate-logo-similarity-2026-09-17/hk-303321710.txt)及[完整图样与注册状态截图](../../output/qa/senplate-logo-similarity-2026-09-17/hk-303321710-full.jpg)。
+
+**307039215：METERY TECHNOLOGY LIMITED，文字meterytech。**[香港官方详情](https://esearch.ipd.gov.hk/nis-pos-view/#/tm/details/view/3733704_307039215/tm?lang=sc)显示已注册，第9类有测量仪器、精密计量设备、探测器、压力及液位传感器等。登记册列注册日期2025-09-23、实际注册日期2026-03-02，届满2035-09-22。其完整标志包含多层图形和醒目文字，外观差异明显；商品领域相关不等于整体近似成立。[观察](../../output/qa/senplate-logo-similarity-2026-09-17/hk-307039215.txt)、[截图](../../output/qa/senplate-logo-similarity-2026-09-17/hk-307039215.jpg)。
+
+[查询与两条登记的结构化记录](hk-query-and-records.json)、[前50条元数据](hk-first-50.json)、[结果页观察](../../output/qa/senplate-logo-similarity-2026-09-17/hk-image-results.txt)。没有把300条候选当成300个冲突，也未声称逐一人工审完全部300条。
+
+## Aqua：实际官方注册核对
+
+从第三方索引发现记录后，进一步在[美国USPTO TSDR](https://tsdr.uspto.gov/#caseNumber=90678592&caseSearchType=US_APPLICATION&caseType=DEFAULT&searchType=statusSearch)展开Mark Information、Goods and Services及Current Owner(s)，核对如下：
+
+- **权利人：** Aqua Security Software Ltd.
+- **申请号：** 90678592；**注册号：** 6622466。
+- **申请日：** 2021-04-28；**注册日：** 2022-01-18。
+- **本次状态：** LIVE/REGISTRATION/Issued and Active；Registered。
+- **图样类型：** 纯图形，无文字、字母或数字；不是只查到了AQUA文字商标。
+- **图形描述：** 两个折角形状组成六边外轮廓，中部为方形；左下为蓝／浅蓝，右上为黄／红。
+- **类别：** 第9类及第42类，两个类别本次均显示ACTIVE。
+- **具体商品／服务：** 容器、云环境及相关软件安全的可下载软件和在线不可下载软件服务。不能把该项概括成注册人垄断所有软件或所有第9／42类商品。
+
+页面生成时间为2026-09-16 21:23:53 EDT，对应香港2026-09-17。留存[官方页面观察文本](../../output/qa/senplate-logo-similarity-2026-09-17/aqua-tsdr-status.txt)及[截图](../../output/qa/senplate-logo-similarity-2026-09-17/aqua-tsdr.jpg)，不是认证登记册副本。
+
+[Aqua官方品牌资料](https://www.aquasec.com/brand/)与[商标使用说明](https://info.aquasec.com/hubfs/Aqua%20Trademark%20Usage%20Guidelines%20FINAL.pdf)亦显示其对名称与图形的权利主张。本次只在内部研究中作对照，没有把Aqua标志加入Senplate资产或对外宣传。
+
+## 检索范围与方法
+
+1. 公开网页与图片搜索：按方形、相对折角、斜向开口等结构及相关科技品牌检索，再到品牌官网／官方项目源核对。
+2. 常见品牌图标库：取得固定版本Simple Icons 16.31.0，在其中3454个图形上执行96×96轮廓候选检索。使用原方向及90／180／270度转向的二值轮廓重叠，仅用来发现候选；人工查看排名前32项及6个补充项，共38项。没有逐一人工审查全部3454项。
+3. 注册记录：Aqua由第三方索引定位后，以TSDR实时页面确认状态、权利人、图形及9／42类；香港以官方图像查询及两条登记详情核对。OPNsense和RustDesk仅按本次已取得的品牌使用证据表述，不套用不对应的历史名称／旧图形注册。
+4. 图标库不是商标数据库，不覆盖所有国家、行业、未公开申请、未注册使用或各品牌所有历史版本；旋转比对不是商标审查规则。
+
+算法、完整排序及库版本见[检索脚本](rank-library.cjs)、[候选排序](library-shape-ranking.json)、[元数据](library-metadata.json)。压缩包含3460个SVG，脚本限定的文件名集合实际比对3454个，余下6个带下划线名称未参与，名单在[source-register.json](source-register.json)中明确记录。原图库图形没有改作Senplate资产。
+
+## 地区覆盖与剩余缺口
+
+| 入口 | 本次真实状态 |
+|---|---|
+| 香港「智快搜」图像检索 | **已完成一次完整符号查询**；300条候选，审阅前50条元数据，深入核两条第9类登记；不是全登记册人工清查 |
+| 香港登记册详情 | **两条详情已成功核对**。此前Aqua Security*独立权利人查询因旧会话过期未获结果，不冒称其在香港无记录 |
+| WIPO Global Brand Database | 正式数据库导航被浏览器访问策略阻止，未提交图形查询 |
+| 中国内地、欧盟全库图形近似检索 | 本次未完成；此前Senplate文字初筛不代替本次图形检索 |
+
+香港IPD确认[智快搜可按图像查询](https://www.ipd.gov.hk/sc/online-services/online-search/index.html)，其入口同时说明结果仅作一般参考，不取代登记册完整查询。代理未绕过或填写验证码；用户确认后完成指定查询，没有申请商标、购买服务或对外联系。当前没有等待确认的香港查询步骤。
+
+## 下一版建议与界限
+
+先保留Senplate名称、深绿／米白和克制的无衬线字标；改变“双折角包围方形中空”的核心关系。调整需要体现在外轮廓、负形结构或连接方式上，而不只是加小缺口、倒转方向或换颜色。新稿再与本轮已找到的标记对照。
+
+是否构成商标冲突需结合地区、整体视觉印象与实际商品／服务关联性判断。同在第9、42类不自动构成冲突，用途不同也不能只凭这一点排除。美国审查原则参考[USPTO混淆可能性说明](https://www.uspto.gov/trademarks/search/likelihood-confusion)。本报告支持“有近似、应调整后再定稿”，不支持“已判定侵权”或“全球检索通过”。
+
+[阅读记录](../../output/qa/senplate-logo-similarity-2026-09-17/reading-record.json)、[收尾验证](../../output/qa/senplate-logo-similarity-2026-09-17/closeout-validation.json)。当前草稿状态路由见[设计规范](../../planning/2026-09-17/senplate-vector-logo-studies.md)。
+
+FILE research/2026-09-18-font-licences/font-licence-audit.md L1-28
+# Senplate 字体商用许可核查
+
+核查日期：2026-09-18。范围：当前 Logo 与 VI 字体；不包含新一轮图形商标清查。
+
+## 结论
+
+当前 Logo 的实际字体为 **Manrope Bold，字重700**，Figma 可编辑字标保留-2%字距。Manrope、Noto Sans TC、Noto Sans SC 均采用 SIL Open Font License 1.1，可免费用于商业Logo、网站、App、印刷及其他设计作品。早期对照标注使用的Inter也采用OFL 1.1，但不是本套VI的主字体。
+
+| 字体 | 本项目用途 | 官方许可 |
+|---|---|---|
+| Manrope | Logo字标；VI英文及数字排版 | [Google Fonts仓库OFL](https://raw.githubusercontent.com/google/fonts/main/ofl/manrope/OFL.txt) |
+| Noto Sans TC | 繁体应用模板和字体体系 | [官方OFL](https://raw.githubusercontent.com/google/fonts/main/ofl/notosanstc/OFL.txt) |
+| Noto Sans SC | 简体规范文档和字体体系 | [官方OFL](https://raw.githubusercontent.com/google/fonts/main/ofl/notosanssc/OFL.txt) |
+| Inter | 历史对照标注，当前VI不依赖其字体文件 | [作者仓库许可](https://raw.githubusercontent.com/rsms/inter/master/LICENSE.txt) |
+
+OFL官方FAQ明确允许将字体用于Logo、图形及制造物，无须额外许可；使用字体制作的作品不因此被要求按OFL发布。[OFL FAQ 1.1、1.1.1、1.13](https://openfontlicense.org/ofl-faq/)
+
+## 使用与分发条件
+
+- 商业设计使用无需另付字体许可费，也不要求在Logo旁标注字体作者。
+- 再分发字体文件时保留版权说明与完整OFL，不单独出售字体文件。
+- 若修改字体软件，需要遵守OFL及适用的保留字体名称条款；这与使用现有字体制作Logo不同。
+
+本套已附当前三种字体的原始可变TTF、OFL、官方元数据；Manrope另附FONTLOG。Inter只附已核查的许可副本。文件来源、下载时间和SHA-256存于素材包 `05_Fonts_and_Licences/provenance.json`。核对时这些原件字节未改变。
+
+用于PDF嵌入的静态实例仅在本轮QA目录生成，不作为独立字体再分发。生产Logo及应用SVG已转轮廓；`06_Source/wordmark-editable.svg`保留文字，编辑前安装所附Manrope字体。
+
+这是字体许可结论，不把它表述为Senplate名称或碗形商标已注册／完成法律清查。

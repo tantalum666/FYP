@@ -1,0 +1,39 @@
+YouTube transcript
+Video ID: EylsY3-eN7s
+Language: en
+Captions: auto-generated
+
+[0:00] When you place the pan on the scanner,
+[0:02] it captures the image and measures the
+[0:04] net weight and records the temperature
+[0:06] all within [music] just 2 seconds of
+[0:08] time and there's no typing and no
+[0:10] tapping on the screen and no extra steps
+[0:12] for team to follow. Uh the processing
+[0:14] [music] happens right on the device,
+[0:16] which is why it makes uh the results
+[0:18] show up immediately. So, for kitchen
+[0:20] staff, this is all very simple. You set
+[0:22] the pan down and then the data is
+[0:24] captured automatically. That's what
+[0:26] makes it really fast and it just fits
+[0:28] into the workflow instead of
+[0:30] interrupting it. Everything is done uh
+[0:33] in just under 1 second including the
+[0:35] classification [music] and scanning and
+[0:37] teams using the device, they get
+[0:39] real-time feedback and while the service
+[0:41] still moving. So, it's completely
+[0:44] self-learning and touchless. All right,
+[0:46] there's no manual tapping and and
+[0:49] there's no complicated setup. So, in
+[0:51] this case, device starts recognizing
+[0:54] ingredients and menu items from day one
+[0:56] and it improves over time. We also build
+[0:59] in the temperature intelligence into the
+[1:01] device so it estimates the core
+[1:03] temperatures and and without needing a
+[1:06] probe or or manual logging. Our goal was
+[1:09] simple, right? Just to do whatever we
+[1:11] can to deliver uh intelligence to
+[1:13] kitchens and without adding extra work.

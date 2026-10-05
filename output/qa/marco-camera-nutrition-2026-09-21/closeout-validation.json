@@ -1,0 +1,43 @@
+{
+  "verified_at": "2026-09-21T06:36:37.273192+00:00",
+  "owned_markdown_read": 85,
+  "lines_read": 7600,
+  "all_read_ranges_complete": true,
+  "updated_and_authored_markdown": [
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-21/proposal-spec.md",
+    "planning/2026-09-21/marco-camera-and-nutrition-review.md",
+    "planning/2026-09-15/procurement-guide.md",
+    "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+    "planning/2026-09-14/continuous-monitoring-architecture.md",
+    "planning/2026-09-15/camera-power-and-scaling.md",
+    "planning/2026-09-14/single-station-recognition-reliability.md"
+  ],
+  "local_links_checked": 459,
+  "broken_links": [],
+  "protected_files": 338,
+  "protected_changed": [],
+  "preserved_proposal": [
+    "output/docx/AY26_ProjectProposal_Group 2.docx",
+    "output/pdf/AY26_ProjectProposal_Group 2.pdf",
+    "planning/2026-09-21/proposal-content.md"
+  ],
+  "hypothetical_portion_example": {
+    "batch_g": 500,
+    "batch_kcal": 500,
+    "portion_g": 150,
+    "average_estimate_kcal": 150,
+    "is_food_nutrition_measurement": false
+  },
+  "new_hardware_selection_approved": false,
+  "nutrition_only_pivot_approved": false,
+  "tests_run": "Read-range completeness, local links, preserved-file hashes and labelled arithmetic only; no application or hardware tests.",
+  "formal_proposal_reexported": false,
+  "submitted": false,
+  "purchased": false,
+  "external_messages_sent": false
+}

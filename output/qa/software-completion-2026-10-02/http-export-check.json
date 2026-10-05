@@ -1,0 +1,20 @@
+{
+  "qa-business-backup.json": {
+    "bytes": 7127,
+    "status": 200,
+    "content_disposition": "attachment; filename=\"desk-backup.json\"",
+    "sha256": "3309d44ede39463d9d38dc8f6e36dd0be2cbdf95c70147f5b6b74978d674a60c"
+  },
+  "qa-calendar.ics": {
+    "bytes": 2560,
+    "status": 200,
+    "content_disposition": "attachment; filename=\"desk-calendar.ics\"",
+    "sha256": "f35bc5361cfb16769b1c34640ebad89d058e35a97ce7a67c15f6cd1a93ae7a60"
+  },
+  "qa-records.csv": {
+    "bytes": 1908,
+    "status": 200,
+    "content_disposition": "attachment; filename=\"desk-records.csv\"",
+    "sha256": "16d6a6a303f1099dfcb51bd7656878f75300f2553632602eddee5ca8355e69d6"
+  }
+}

@@ -1,0 +1,95 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug -destination "generic/platform=iOS Simulator" -derivedDataPath ../.runtime/ios-build CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= build
+
+Build settings from command line:
+    CODE_SIGN_IDENTITY = -
+    CODE_SIGN_STYLE = Manual
+    CODE_SIGNING_ALLOWED = YES
+    DEVELOPMENT_TEAM = 
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  DeskCapacitorVendor: /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-vendor @ local
+  CapApp-SPM: /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/frontend/ios/App/CapApp-SPM @ local
+
+2026-10-03 00:58:08.171 xcodebuild[40125:23584394] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+note: Using codesigning identity override: -
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (6 targets)
+    Target 'App' in project 'App'
+        ➜ Implicit dependency on target 'DeskWidget' in project 'App' via file 'DeskWidget.appex' in build phase 'Copy Files'
+        ➜ Explicit dependency on target 'CapApp-SPM' in project 'CapApp-SPM'
+    Target 'CapApp-SPM' in project 'CapApp-SPM'
+        ➜ Explicit dependency on target 'CapApp-SPM' in project 'CapApp-SPM'
+        ➜ Explicit dependency on target 'Capacitor' in project 'DeskCapacitorVendor'
+        ➜ Explicit dependency on target 'Cordova' in project 'DeskCapacitorVendor'
+    Target 'CapApp-SPM' in project 'CapApp-SPM'
+        ➜ Explicit dependency on target 'Capacitor' in project 'DeskCapacitorVendor'
+        ➜ Explicit dependency on target 'Cordova' in project 'DeskCapacitorVendor'
+    Target 'Cordova' in project 'DeskCapacitorVendor' (no dependencies)
+    Target 'Capacitor' in project 'DeskCapacitorVendor' (no dependencies)
+    Target 'DeskWidget' in project 'App' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/SDKStatCaches.noindex/iphonesimulator26.5-23F81a-6cfe768891a92b912361537c460fe42b.sdkstatcache
+    cd /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/frontend/ios/App/App.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -o /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/SDKStatCaches.noindex/iphonesimulator26.5-23F81a-6cfe768891a92b912361537c460fe42b.sdkstatcache
+
+CpResource /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app/capacitor.config.json /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/frontend/ios/App/App/capacitor.config.json (in target 'App' from project 'App')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/frontend/ios/App
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/frontend/ios/App/App/capacitor.config.json /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app
+
+CpResource /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app/config.xml /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/frontend/ios/App/App/config.xml (in target 'App' from project 'App')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/frontend/ios/App
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/frontend/ios/App/App/config.xml /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app
+
+CpResource /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app/public /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/frontend/ios/App/App/public (in target 'App' from project 'App')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/frontend/ios/App
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/frontend/ios/App/App/public /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app
+
+CodeSign /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app/App.debug.dylib (in target 'App' from project 'App')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/frontend/ios/App
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app/App.debug.dylib
+/Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app/App.debug.dylib: replacing existing signature
+
+CodeSign /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app/__preview.dylib (in target 'App' from project 'App')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/frontend/ios/App
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app/__preview.dylib
+/Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app/__preview.dylib: replacing existing signature
+
+CodeSign /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app (in target 'App' from project 'App')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/frontend/ios/App
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --entitlements /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Intermediates.noindex/App.build/Debug-iphonesimulator/App.build/App.app.xcent --timestamp\=none --generate-entitlement-der /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app
+/Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app: replacing existing signature
+
+Validate /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app (in target 'App' from project 'App')
+    cd /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/frontend/ios/App
+    builtin-validationUtility /Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/ios-build/Build/Products/Debug-iphonesimulator/App.app -shallow-bundle -infoplist-subpath Info.plist
+
+** BUILD SUCCEEDED **
+

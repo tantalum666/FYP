@@ -1,0 +1,48 @@
+{
+  "source": "https://www.metafoodx.com/product",
+  "captured_at": "2026-09-15T23:32:45.498121+08:00",
+  "method": "Chrome CUA screenshots of current rendered page. Hero video paused through visible control. Full viewport captures saved; product-region capture uses document coordinates from DOM bounds.",
+  "files": [
+    {
+      "file": "metafoodx-device-reference-20260915.png",
+      "sha256": "7ce3e0dcd3cbb725f9554f3f330d4dc92c45b94c9e3563182a818b522af0eff3"
+    },
+    {
+      "file": "metafoodx-layout-page-20260915.png",
+      "sha256": "9a2e108fe9ba8df92f65f8996d3d2f5bdf29a0ddc0fc828e1dc64930371222cb"
+    },
+    {
+      "file": "metafoodx-product-page-20260915.png",
+      "sha256": "7afbcd6358e8e41680206b93f0048529709b348d4a08f5b762165f6b62cc31d6"
+    }
+  ],
+  "meaning": "Appearance reference only; no internal circuit/model/dimensions inferred and no vendor performance claims adopted.",
+  "final_screenshots": {
+    "captured_on": "2026-09-15",
+    "method": "Chrome CUA screenshot API using DOM-observed document rectangles; no image generation or remote media download. Cursor positioned outside captured area.",
+    "source": "https://www.metafoodx.com/product",
+    "files": [
+      {
+        "file": "metafoodx-product-clean-20260915.png",
+        "sha256": "2dedb7f5920b749b80c4890509a06919652da442fc389fec106b89ea4f2cdac8",
+        "document_clip": {
+          "x": 13,
+          "y": 82,
+          "width": 1303,
+          "height": 665
+        }
+      },
+      {
+        "file": "metafoodx-layout-clean-20260915.png",
+        "sha256": "eaa13f64e0fd5f4ca09b65356c4f63f9ba859523254ba6ccf685ff2a1f14ad88",
+        "document_clip": {
+          "x": 13,
+          "y": 773,
+          "width": 1302,
+          "height": 669
+        }
+      }
+    ]
+  },
+  "final_document_uses_only": "metafoodx-product-clean-20260915.png and metafoodx-layout-clean-20260915.png"
+}

@@ -1,0 +1,61 @@
+{
+  "scope": "Calculated contrast of proposed HEX tokens only, not measured image pixels or implemented UI",
+  "pairs": [
+    {
+      "use": "measured",
+      "foreground": "#163F35",
+      "background": "#F3F1E7",
+      "ratio": 10.32,
+      "normal_text_4_5": true
+    },
+    {
+      "use": "measured",
+      "foreground": "#18231F",
+      "background": "#F3F1E7",
+      "ratio": 14.28,
+      "normal_text_4_5": true
+    },
+    {
+      "use": "measured-accent",
+      "foreground": "#C8D99C",
+      "background": "#F3F1E7",
+      "ratio": 1.34,
+      "normal_text_4_5": false
+    },
+    {
+      "use": "continuity",
+      "foreground": "#182A39",
+      "background": "#F8FAFC",
+      "ratio": 14.04,
+      "normal_text_4_5": true
+    },
+    {
+      "use": "continuity-action",
+      "foreground": "#335CFF",
+      "background": "#F8FAFC",
+      "ratio": 4.88,
+      "normal_text_4_5": true
+    },
+    {
+      "use": "everyday",
+      "foreground": "#422B36",
+      "background": "#F7F0E4",
+      "ratio": 11.37,
+      "normal_text_4_5": true
+    },
+    {
+      "use": "everyday-accent",
+      "foreground": "#C56648",
+      "background": "#F7F0E4",
+      "ratio": 3.45,
+      "normal_text_4_5": false
+    },
+    {
+      "use": "everyday-gold",
+      "foreground": "#D9BB73",
+      "background": "#F7F0E4",
+      "ratio": 1.64,
+      "normal_text_4_5": false
+    }
+  ]
+}

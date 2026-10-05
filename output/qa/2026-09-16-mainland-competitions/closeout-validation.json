@@ -1,0 +1,23 @@
+{
+  "checked_at": "2026-09-16T06:49:03.594213+00:00",
+  "updated_markdown": [
+    "research/2026-09-16-competitions/mainland-national-provincial.md",
+    "research/2026-09-16-competitions/no-company-options.md",
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md"
+  ],
+  "updated_sources": "research/2026-09-16-competitions/source-register.json",
+  "internal_links_checked": 201,
+  "missing_links": [],
+  "pdf_visual_pages": 6,
+  "no_company_constraint_preserved": true,
+  "no_external_write": true,
+  "qualification_gaps_explicit": true,
+  "national_regional_provincial_not_conflated": true,
+  "result": "pass",
+  "concurrent_senplate_selection_preserved": true,
+  "no_image_or_code_state_preserved": true
+}

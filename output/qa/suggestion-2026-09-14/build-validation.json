@@ -1,0 +1,20 @@
+{
+  "output": "/Users/tantalum/Documents/ChatGPT/FYP/output/docx/AY26_ProjectSuggestion_Group 2.docx",
+  "source_sha256": "7cc26bead5d75b140a3044328bd724ac6e418dc5efaa703084f39b6d363b10d5",
+  "output_sha256": "dbbc4efa0c1a0f6a58041558ff1dbdf52f189fb8608552558c391bf9ec59d3b4",
+  "changed_parts": [
+    "word/document.xml",
+    "word/settings.xml"
+  ],
+  "preserve_only_parts_unchanged": true,
+  "endorsements_unchanged": true,
+  "page_geometry_unchanged": true,
+  "member_count": 3,
+  "planned_workloads": [
+    40,
+    30,
+    30
+  ],
+  "supervisor_verbal_agreement": false,
+  "visual_validation": "pending"
+}

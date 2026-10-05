@@ -1,0 +1,106 @@
+{
+  "checked_at": "2026-09-15T14:54:37.193925+08:00",
+  "initial_markdown_read_count": 18,
+  "initial_lines_read": 1699,
+  "current_markdown_count": 19,
+  "changed_markdown": [
+    "README.md",
+    "decision-log.md",
+    "handoff.md",
+    "planning/2026-09-14/ai-training-and-pi-deployment.md",
+    "planning/2026-09-14/continuous-monitoring-architecture.md",
+    "planning/2026-09-15/procurement-guide.md",
+    "product.md",
+    "work-log.md"
+  ],
+  "local_links_checked": 89,
+  "broken_local_links": [],
+  "footnote_errors": [],
+  "table_errors": [],
+  "preserved_files": {
+    "output/docx/AY26_ProjectSuggestion_Group 2.docx": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2.pdf": true,
+    "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf": true,
+    "scripts/build_suggestion.py": true,
+    "scripts/build_suggestion_v2.py": true,
+    "planning/2026-09-14/group-2-details.json": true
+  },
+  "workbook": {
+    "path": "/Users/tantalum/Documents/ChatGPT/FYP/outputs/01a07aeb-a256-7572-a42e-bd7e4668674f/Group 2_Hardware Procurement_20260915.xlsx",
+    "sha256": "ece373eb6404a11350ace9e23c27dc5eb6c523ecf7eacae23803d020ce9cf436",
+    "bom_records": 51,
+    "camera_options": 5,
+    "wiring_rows": 16,
+    "estimated_cny_range": [
+      4314,
+      6651
+    ],
+    "artifact_tool_totals": [
+      4314,
+      6651
+    ],
+    "exported_cached_totals": [
+      4314.0,
+      6651.0
+    ],
+    "exported_error_cells": [],
+    "native_tables": 3,
+    "source_notes": 72,
+    "freeze_panes": {
+      "xl/worksheets/sheet1.xml": {
+        "xSplit": "3",
+        "ySplit": "10",
+        "topLeftCell": "D11",
+        "activePane": "bottomRight",
+        "state": "frozen"
+      },
+      "xl/worksheets/sheet2.xml": {
+        "xSplit": "2",
+        "ySplit": "8",
+        "topLeftCell": "C9",
+        "activePane": "bottomRight",
+        "state": "frozen"
+      },
+      "xl/worksheets/sheet3.xml": {
+        "xSplit": "2",
+        "ySplit": "7",
+        "topLeftCell": "C8",
+        "activePane": "bottomRight",
+        "state": "frozen"
+      }
+    },
+    "input_recalculation_tests": [
+      "actual quote",
+      "zero quote",
+      "exclude owned item",
+      "blank quantity",
+      "restore inputs"
+    ],
+    "visual_review": {
+      "ranges": [
+        "bom-top",
+        "bom-middle",
+        "bom-bottom",
+        "bom-instructions-1",
+        "bom-instructions-2",
+        "bom-instructions-3",
+        "camera-main",
+        "camera-details",
+        "wiring-1",
+        "wiring-2"
+      ],
+      "all_final_or_unchanged_reused_views_inspected": true
+    },
+    "native_excel_wps_runtime_tested": false
+  },
+  "market_evidence": {
+    "taobao": "site-safety policy blocked; no workaround",
+    "jd": "Chrome reached login; user chose manufacturer/reference estimates",
+    "gemini2": "Official international store USD234, available, current bundle C-C cable",
+    "gemini335": "Official international store USD264, out of stock",
+    "domestic_sku_prices_verified": false
+  },
+  "hardware_training_or_purchase_executed": false,
+  "passed": true
+}

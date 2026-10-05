@@ -1,0 +1,23 @@
+Application, 0x10be2b840, pid: 67862, label: 'Senplate' <App element pid: 67862>
+  Window (Main), 0x10be2b980, {{0.0, 0.0}, {402.0, 874.0}} <AX element pid: 67862, elementOrHash.elementID: 4368484352.4>
+    Other, 0x10be2bac0, {{0.0, 0.0}, {402.0, 874.0}} <AX element pid: 67862, elementOrHash.elementID: 4430308864.5>
+      Other, 0x10be2bc00, {{0.0, 0.0}, {402.0, 874.0}} <AX element pid: 67862, elementOrHash.elementID: 4431414528.6>
+        Other, 0x10be2bd40, {{0.0, 0.0}, {402.0, 874.0}} <AX element pid: 67862, elementOrHash.elementID: 4368483328.7>
+          Other, 0x10be2be80, {{0.0, 0.0}, {402.0, 874.0}} <AX element pid: 67862, elementOrHash.elementID: 4370224832.8>
+            ScrollView, 0x10be2a580, {{0.0, 0.0}, {402.0, 874.0}} <AX element pid: 67862, elementOrHash.elementID: 4429381632.9>
+              Other, 0x10be2a080, {{0.0, 62.0}, {402.0, 678.3}} <AX element pid: 67862, elementOrHash.elementID: 4434332160.10>
+                Image, 0x10be2a1c0, {{24.0, 140.7}, {163.0, 30.7}}, label: 'Senplate' <AX element pid: 67862, elementOrHash.elementID: 4370170304.12>
+                StaticText, 0x10be2a300, {{24.0, 218.0}, {204.0, 98.7}}, label: '让每一份食物清晰可见。' <AX element pid: 67862, elementOrHash.elementID: 4370181952.13>
+                StaticText, 0x10be2a440, {{24.0, 340.7}, {188.7, 22.0}}, label: '登录你的 Senplate 工作区。' <AX element pid: 67862, elementOrHash.elementID: 4370183744.14>
+                StaticText, 0x10be2a6c0, {{42.0, 404.7}, {39.0, 19.0}}, label: '用户名' <AX element pid: 67862, elementOrHash.elementID: 4370089728.15>
+                TextField, 0x10be2a800, {{42.0, 431.7}, {318.0, 48.0}}, identifier: 'login.username', placeholderValue: '用户名' <AX element pid: 67862, elementOrHash.elementID: 4368534016.16>
+                StaticText, 0x10be29e00, {{42.0, 495.7}, {26.0, 19.0}}, label: '密码' <AX element pid: 67862, elementOrHash.elementID: 4370035392.17>
+                SecureTextField, 0x10be29f40, {{42.0, 522.7}, {318.0, 48.0}}, identifier: 'login.password', placeholderValue: '密码' <AX element pid: 67862, elementOrHash.elementID: 4368535296.18>
+                Button, 0x10be9c000, {{42.0, 586.7}, {318.0, 53.3}}, identifier: 'login.submit', label: '登录', Disabled <AX element pid: 67862, elementOrHash.elementID: 4370219904.19>
+                StaticText, 0x10be9c140, {{24.0, 690.3}, {48.0, 17.7}}, label: '本地原型' <AX element pid: 67862, elementOrHash.elementID: 4370221248.20>
+                Button, 0x10be9c280, {{270.0, 682.0}, {108.0, 34.3}}, label: '语言、简体中文' <AX element pid: 67862, elementOrHash.elementID: 4432202752.21>
+                  StaticText, 0x10be9c3c0, {{282.0, 689.0}, {67.7, 20.3}}, label: '简体中文' <AX element pid: 67862, elementOrHash.elementID: 4369203200.23>
+              Other, 0x10be9c500, {{369.0, 62.0}, {30.0, 750.0}}, label: '垂直滚动条, 1页', value: 0% <AX element pid: 67862, elementOrHash.elementID: 4434334208.11>
+                Other, 0x10be9c640, {{396.0, 164.7}, {3.0, 644.3}} <AX element pid: 67862, elementOrHash.elementID: 4430296192.22>
+              Other, 0x10be9c780, {{369.0, 62.0}, {30.0, 750.0}}, label: '垂直滚动条, 1页', value: 0% <AX element pid: 67862, elementOrHash.elementID: 4434334208.11>
+                Other, 0x10be9c8c0, {{396.0, 164.7}, {3.0, 644.3}} <AX element pid: 67862, elementOrHash.elementID: 4430296192.22>

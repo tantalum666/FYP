@@ -1,0 +1,4 @@
+Query chain:
+ →Find: Target Application 'com.group2.senplate'
+  ↪︎Find: Descendants matching type StaticText
+    ↪︎Find: Elements matching predicate '"相机暂不可用" IN identifiers'

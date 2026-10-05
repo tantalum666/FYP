@@ -1,0 +1,32 @@
+{
+  "method": "Manual low-node Bezier reconstruction, exact circular dot, straight stems, shared curves. No font substitution or automatic bitmap contour in final paths.",
+  "mark_path_segments": {
+    "dot": 6,
+    "rim": 13,
+    "portion": 8
+  },
+  "letter_path_segments": {
+    "s": 16,
+    "e": 14,
+    "n": 13,
+    "p": 16,
+    "l": 10,
+    "a": 16,
+    "t": 17
+  },
+  "capital_S_status": "comparison only, not selected",
+  "canvas": {
+    "logo": [
+      1028,
+      170
+    ],
+    "mark": [
+      325,
+      170
+    ],
+    "wordmark": [
+      661,
+      157
+    ]
+  }
+}

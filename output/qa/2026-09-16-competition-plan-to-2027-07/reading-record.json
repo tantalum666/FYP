@@ -1,0 +1,267 @@
+{
+  "same_task_followup": true,
+  "completed_at": "2026-09-16T13:38:58.530601+00:00",
+  "inherits_full_read": "../2026-09-16-competition-research/reading-record.json",
+  "also_inherits": [
+    "../2026-09-16-competitions-no-company/reading-record.json",
+    "../2026-09-16-mainland-competitions/reading-record.json",
+    "../2026-09-16-world-vocational-registration/reading-record.json"
+  ],
+  "read_ranges": [
+    {
+      "path": "AGENTS.md",
+      "current_lines": 50,
+      "read": "1-EOF current read",
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "handoff.md",
+      "current_lines": 34,
+      "read": "1-EOF before focused edit; edit fully reviewed",
+      "sha256": "709f057d028e3f14228b3df65d943a3e74b624b3579139bf796c008fcc72962a"
+    },
+    {
+      "path": "product.md",
+      "current_lines": 135,
+      "read": "1-42 current read; unchanged remainder inherited from previous same-task complete read; focused edit reviewed",
+      "sha256": "1b97bd3b98919a76fca48155b8241cbc69b6335129c49dea24f7347506962fae"
+    },
+    {
+      "path": "README.md",
+      "current_lines": 72,
+      "read": "complete previous same-task read inherited; current added link reviewed",
+      "sha256": "68c02b5aeb6db6656b7126e0581cc34b02a4172652cf97a9656a7e7033549317"
+    },
+    {
+      "path": "decision-log.md",
+      "current_lines": 229,
+      "read": "latest20 lines plus own append; older full read inherited",
+      "sha256": "8fb2c364b389271d02e9e618d3b7a291a3cc123e12b0c784d21dcb611d31a460"
+    },
+    {
+      "path": "work-log.md",
+      "current_lines": 272,
+      "read": "latest18 lines plus own append; older full read inherited",
+      "sha256": "c8607c979681499887adcfcea768b9991ed2559c7a118055d5234c38db37e116"
+    },
+    {
+      "path": "research/2026-09-16-competitions/competition-shortlist.md",
+      "current_lines": 80,
+      "read": "1-EOF current read plus focused edits",
+      "sha256": "133355c882bbd37335530e8e17c8a2405bc68c707917343701fc88cfda842af2"
+    },
+    {
+      "path": "research/2026-09-16-competitions/no-company-options.md",
+      "current_lines": 55,
+      "read": "1-EOF current read plus focused edits",
+      "sha256": "4430f173ed645792cb56c67a941855ee9a2c71f7334125df427af941ece49692"
+    },
+    {
+      "path": "research/2026-09-16-competitions/mainland-national-provincial.md",
+      "current_lines": 64,
+      "read": "1-EOF current read plus focused edits",
+      "sha256": "1c6a636ecfd74bca91a70225af9a4b1084fdb58abc8f4a601c05dfc32c2fd434"
+    },
+    {
+      "path": "research/2026-09-16-competitions/world-vocational-registration.md",
+      "current_lines": 52,
+      "read": "1-EOF current read plus focused edits",
+      "sha256": "1126554e5007d4227dd45ce35c83c58b1929952c23f427b68ac5301c168206b6"
+    },
+    {
+      "path": "research/2026-09-16-competitions/plan-to-july-2027.md",
+      "current_lines": 82,
+      "read": "new full authored content reviewed",
+      "sha256": "deffcd40be67bc641141a2044b964f7f9346527b93f7a8e7b32809e6f4468113"
+    }
+  ],
+  "excluded": [
+    ".git",
+    "dependencies/caches/third-party/build",
+    "output/qa generated snapshots"
+  ],
+  "scope": "Same competition-research task, new user timeframe and stage clarification; no restart of all project reading",
+  "new_visual_pages": {
+    "IET-YPEC-2026-Subdegree-Rules.pdf": [
+      3
+    ],
+    "HKIE-Electronics-2026-InfoPack.pdf": [
+      7
+    ]
+  },
+  "concurrent_state": "Senplate selected, LogoVI options pending, business-plan V1 ready preserved",
+  "inventory": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50
+    },
+    {
+      "path": "README.md",
+      "lines": 72
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 229
+    },
+    {
+      "path": "handoff.md",
+      "lines": 34
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "lines": 174
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 120
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "lines": 80
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "lines": 108
+    },
+    {
+      "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "lines": 39
+    },
+    {
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "lines": 183
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "lines": 18
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "lines": 247
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+      "lines": 70
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+      "lines": 53
+    },
+    {
+      "path": "planning/2026-09-15/power-supply-detail.md",
+      "lines": 143
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "lines": 212
+    },
+    {
+      "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "lines": 107
+    },
+    {
+      "path": "planning/2026-09-16/app-pages-and-permissions.md",
+      "lines": 176
+    },
+    {
+      "path": "planning/2026-09-16/archive/software-scope-web-first-v1.md",
+      "lines": 189
+    },
+    {
+      "path": "planning/2026-09-16/brand-visual-directions.md",
+      "lines": 54
+    },
+    {
+      "path": "planning/2026-09-16/business-plan-zh.md",
+      "lines": 447
+    },
+    {
+      "path": "planning/2026-09-16/naming-shortlist.md",
+      "lines": 45
+    },
+    {
+      "path": "planning/2026-09-16/senplate-logo-vi-directions.md",
+      "lines": 63
+    },
+    {
+      "path": "planning/2026-09-16/software-mvp-and-acceptance.md",
+      "lines": 100
+    },
+    {
+      "path": "planning/2026-09-16/software-scope-and-architecture.md",
+      "lines": 204
+    },
+    {
+      "path": "planning/2026-09-16/software-workflows-and-api.md",
+      "lines": 263
+    },
+    {
+      "path": "product.md",
+      "lines": 135
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25
+    },
+    {
+      "path": "research/2026-09-16-competitions/competition-shortlist.md",
+      "lines": 80
+    },
+    {
+      "path": "research/2026-09-16-competitions/mainland-national-provincial.md",
+      "lines": 64
+    },
+    {
+      "path": "research/2026-09-16-competitions/no-company-options.md",
+      "lines": 55
+    },
+    {
+      "path": "research/2026-09-16-competitions/plan-to-july-2027.md",
+      "lines": 82
+    },
+    {
+      "path": "research/2026-09-16-competitions/world-vocational-registration.md",
+      "lines": 52
+    },
+    {
+      "path": "research/2026-09-16-metafoodx-app/app-review.md",
+      "lines": 60
+    },
+    {
+      "path": "research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md",
+      "lines": 70
+    },
+    {
+      "path": "work-log.md",
+      "lines": 272
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "status": "PASS",
+  "completed_at": "2026-09-16T14:53:50.058541+08:00",
+  "pages": 17,
+  "native_tables": 17,
+  "external_reference_links": [
+    "https://www.wastereduction.gov.hk/sites/default/files/resources_centre/waste_statistics/msw2024_eng.pdf",
+    "https://www.edb.gov.hk/en/edu-system/primary-secondary/primary/",
+    "https://www.metafoodx.com/product",
+    "https://controliza.com/en/buffet",
+    "https://fdc.nal.usda.gov/api-guide/",
+    "https://school.eatsmart.gov.hk/en/content_esas.aspx?id=6108",
+    "https://www.pomona.edu/news/2025/10/20-sustainability-report-shows-progress-toward-carbon-neutral-2030-goal"
+  ],
+  "source_text_to_pdf": "Every Markdown content paragraph and table cell found in PDF after whitespace normalization",
+  "identity": "Names and planned 40/30/30 match canonical JSON; no student IDs or emails included",
+  "financial_checks": {
+    "annual_table_matches_computation": true,
+    "cumulative_operating_surplus": -144600,
+    "prototype_budget": 50000,
+    "unit_delivery_cost": 9300,
+    "sensitivity": [
+      -113920,
+      -146960,
+      -128800.0,
+      -123520,
+      -122560
+    ],
+    "customer_roi": [
+      {
+        "food_cost": 20000,
+        "rate": 0.02,
+        "net": -480.0,
+        "payback_months": null
+      },
+      {
+        "food_cost": 50000,
+        "rate": 0.04,
+        "net": 1120.0,
+        "payback_months": 13.2
+      },
+      {
+        "food_cost": 80000,
+        "rate": 0.06,
+        "net": 3920.0,
+        "payback_months": 3.8
+      }
+    ],
+    "subscription_only_break_even_sites": 87,
+    "with_50_device_sales_break_even_customer_months": 446,
+    "year1_commercial_funding_rounded": 166000
+  },
+  "visual_qa": "All 17 pages checked; changed final pages at original resolution and remaining final pages pixel-identical to reviewed pages",
+  "a11y": {
+    "file": "output/docx/Group 2_Senplate_商业计划书_中文版_V1.docx",
+    "counts": {
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    },
+    "findings": []
+  },
+  "broken_internal_links": [],
+  "updated_specs": [
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-16/business-plan-zh.md"
+  ],
+  "build_script": "scripts/build_business_plan_zh.py",
+  "final_files": [
+    {
+      "path": "output/docx/Group 2_Senplate_商业计划书_中文版_V1.docx",
+      "bytes": 63657,
+      "sha256": "ab7f2c978f2450a70d3045b23e0ef64fb808f137f7c3229bc2d00133d0bb0eab"
+    },
+    {
+      "path": "output/pdf/Group 2_Senplate_商业计划书_中文版_V1.pdf",
+      "bytes": 1154115,
+      "sha256": "3661238d870089ba09baa615380bacc3a68242f6c60b2a2740979b7386194d21"
+    },
+    {
+      "path": "planning/2026-09-16/business-plan-zh.md",
+      "bytes": 38178,
+      "sha256": "3ed1300b9ae20a4f69a77099cf228933488d94263b569d34dd6e6c6132252d00"
+    }
+  ],
+  "preserved_file_existence_and_current_hashes": [
+    {
+      "path": "planning/2026-09-14/group-2-details.json",
+      "sha256": "fa3d1fc3b68c68ea8964f07cea2266b1918b0724a35758186f81651f8b64056a"
+    },
+    {
+      "path": "planning/2026-09-15/procurement-data.json",
+      "sha256": "fbb34a9390444fa1255d9c4679b0a66c484160647f48a153df1ce43a740447c7"
+    },
+    {
+      "path": "output/docx/AY26_ProjectSuggestion_Group 2.docx",
+      "sha256": "dbbc4efa0c1a0f6a58041558ff1dbdf52f189fb8608552558c391bf9ec59d3b4"
+    },
+    {
+      "path": "output/pdf/AY26_ProjectSuggestion_Group 2.pdf",
+      "sha256": "d4af42cbacf850d6a8e2006aff0dcd4e38001c8d3b7b9421dec9634e3830df85"
+    },
+    {
+      "path": "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx",
+      "sha256": "a133728c64be5bebf80110e6dca83d68f0df4070050689505c461536613917c2"
+    },
+    {
+      "path": "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf",
+      "sha256": "32efbfef5757f8a0480a22405227a7b0d079f54cdb45677a16174e87b72effa0"
+    },
+    {
+      "path": "output/docx/Group 2_Hardware RFQ_v3.1_Images.docx",
+      "sha256": "05896760332154d42a63f59c93b313eafa8994f8541ce78f555ab938b0a2d1e9"
+    },
+    {
+      "path": "output/pdf/Group 2_Hardware RFQ_v3.1_Images.pdf",
+      "sha256": "f1ccced9ccaa4299e4761a5432d7324160e8b511fedd3e14aa8fae342a07094c"
+    }
+  ],
+  "not_performed": [
+    "application coding",
+    "image generation",
+    "company/domain/trademark registration",
+    "external communications",
+    "procurement",
+    "submission",
+    "hardware/model validation",
+    "real commercial trial"
+  ]
+}

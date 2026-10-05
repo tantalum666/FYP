@@ -1,0 +1,16 @@
+{
+  "documents": [
+    "product.md",
+    "handoff.md",
+    "planning/2026-10-02/software-completion-plan.md",
+    "planning/2026-09-30/device-display-spec.md",
+    "desk-companion/README.md",
+    "desk-companion/THIRD_PARTY.md",
+    "desk-companion/docs/operator-guide.md",
+    "desk-companion/docs/architecture.md",
+    "desk-companion/docs/evaluation.md",
+    "output/qa/software-completion-2026-10-02/verification.md"
+  ],
+  "links_checked": 88,
+  "missing": []
+}

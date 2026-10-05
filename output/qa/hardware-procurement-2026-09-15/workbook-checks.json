@@ -1,0 +1,25 @@
+{
+  "items": 51,
+  "cameras": 5,
+  "wiringRows": 16,
+  "expectedLow": 4314,
+  "expectedHigh": 6651,
+  "initial": [
+    [
+      4314,
+      6651
+    ]
+  ],
+  "final": [
+    4314,
+    6651
+  ],
+  "inputTests": [
+    "actual quote",
+    "zero quote",
+    "exclude owned item",
+    "blank quantity",
+    "restore inputs"
+  ],
+  "formulaScan": "{\"kind\":\"notice\",\"message\":\"Cell search matched 0 entries.\"}"
+}

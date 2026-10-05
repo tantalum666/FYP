@@ -1,0 +1,49 @@
+{
+  "method": "Independent measurement from production Figma vector paths, not the target-parameter JSON. Vertical-line intersections identify actual cavity, rim seam, body-base seam and foot; outer-profile vertical edges identify foot width.",
+  "centerline_x": 160,
+  "centerline_intersections_y": [
+    0.0,
+    6.8115234375,
+    46.6875,
+    75.5419921875,
+    82.353515625,
+    197.77121353149414,
+    204.58244371414182,
+    226.625
+  ],
+  "measured_design_units": {
+    "A_rim_width": 320,
+    "B_body_height": 197.77121353149414,
+    "C_foot_width": 122.228515625,
+    "D_mouth_ellipse_height": 75.5419921875,
+    "E_signature_gap": 46.6873779296875,
+    "F_foot_below_body": 28.85378646850586
+  },
+  "successive_ratios": [
+    1.6180312305614766,
+    1.6180447951954267,
+    1.6180208131342513,
+    1.618038869119366,
+    1.6180676314579077
+  ],
+  "absolute_phi_errors": [
+    2.758188418328089e-06,
+    1.0806445531752473e-05,
+    1.3175615643623573e-05,
+    4.880369470994239e-06,
+    3.3642708012759925e-05
+  ],
+  "target_dimension_absolute_errors": [
+    0.0,
+    0.0003371315278002385,
+    0.0006079750336454026,
+    0.0002393875673050161,
+    7.129586563792145e-06,
+    0.0005955313258922956
+  ],
+  "dimension_tolerance": 0.001,
+  "ratio_tolerance": 0.0001,
+  "outer_profile_mirror_sample_count": 574,
+  "outer_profile_mirror_max_distance": 1.0115243240670906e-06,
+  "note": "Small differences reflect native Boolean/path rounding. Body height excludes the foot. Only the outer profile is symmetric; the level notch is intentionally offset."
+}

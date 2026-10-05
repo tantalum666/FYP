@@ -1,0 +1,26 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "3B5E4F83-C937-4A97-8EDF-8903EEAD360C.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "05-order-submitted_0_A9F24778-31BB-4F5C-946D-AFDE231A8868.png",
+        "timestamp" : 1789757814.19
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "55EBE2B5-5AEB-4484-B492-9F231D95C61D.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "04-cart-price-changed_0_456AC3EA-CE6E-428B-B0CE-A683CA1AE1C7.png",
+        "timestamp" : 1789757809.617
+      }
+    ],
+    "testIdentifier" : "OrderingUITests/test02PriceReviewAndSubmit()",
+    "testIdentifierURL" : "test://com.apple.xcode/Senplate/SenplateUITests/OrderingUITests/test02PriceReviewAndSubmit"
+  }
+]

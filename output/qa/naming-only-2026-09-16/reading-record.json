@@ -1,0 +1,278 @@
+{
+  "task": "User steering of brand task: naming only, choices requested; no images or code",
+  "inherited_reading": "output/qa/brand-directions-2026-09-16/reading-record.json",
+  "inventory": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "README.md",
+      "lines": 61,
+      "sha256": "610c792b11d7066e8e6425b8fa215625b971f6ba1ce80ed5f8b4151d12b79392"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 162,
+      "sha256": "863f87cabb028253b06e9daab39a55f3bb20b7db164634167c4c558140ff6c95"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 40,
+      "sha256": "2434e8750e31cb13b050d169b433228fb8799beadfbc96790dcd1447d6c90ddf"
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "lines": 174,
+      "sha256": "f9b1f4e6b9004abd100aacb349966edeab9bba59b9e842f9058887d2f7d44c1d"
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 120,
+      "sha256": "d21172e196d7d308a5b8dd192a946abb0e1b972f36fb0b8f2ce4b8325937754f"
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "lines": 80,
+      "sha256": "cde0e64aba2575158f5d4fb228dfc25a8a2682d3cb7bb4c40b0fe6c0bc1dd0b3"
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160,
+      "sha256": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5"
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "lines": 108,
+      "sha256": "ac5709dfbaf0c4bcd78d211595e961b0028bd9031475d16281a675b3826e895f"
+    },
+    {
+      "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "lines": 39,
+      "sha256": "4bc962711143b8b982d7adba8e96f747f00cf2bc699d3d94835c08af8cb0d65b"
+    },
+    {
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "lines": 183,
+      "sha256": "4fa54cbecb0f24b25f7360ea82bce8a66a5760a1aeb912b9ff344f8cb981a2e4"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "lines": 18,
+      "sha256": "1d0ba46a3b015b3463b3fdd47394624f42b4930ec7e64b2b33639ebcc9d6ab42"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "lines": 247,
+      "sha256": "1434e55732e1ccb5a514e9204c4923f704221a8be0dc5d13f32f419c671c9c13"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+      "lines": 70,
+      "sha256": "ab69a75f60b9ac081617970c9dea0ad48e4af73e27f006085e77052835054965"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+      "lines": 53,
+      "sha256": "9bc25bc85baaf4badca2a18e853ffbf18c818b53bde69798a1e0c813cbfd3538"
+    },
+    {
+      "path": "planning/2026-09-15/power-supply-detail.md",
+      "lines": 143,
+      "sha256": "5cf4999a5cfbbb1f0f7b3ae92707c5c2e774bb630c4b959b6243c9bdeda012e9"
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "lines": 212,
+      "sha256": "6ab9b851962e90f28578483b06173dc7a9e2eb434ace4ba0fe1455330e0a1c66"
+    },
+    {
+      "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "lines": 107,
+      "sha256": "b22dfd416dca3223ef15ae88aaaff8989887e38d6a882e7b1ddb19c785ab3618"
+    },
+    {
+      "path": "planning/2026-09-16/app-pages-and-permissions.md",
+      "lines": 176,
+      "sha256": "5619ae165098d6b0a3ac57170945727bf955000a47d2cd1eeb6c793ee769132e"
+    },
+    {
+      "path": "planning/2026-09-16/archive/software-scope-web-first-v1.md",
+      "lines": 189,
+      "sha256": "5ce1260f55f6410f1818630974321cf5202f93c9c97a05b73b52c863fec65cb1"
+    },
+    {
+      "path": "planning/2026-09-16/brand-visual-directions.md",
+      "lines": 54,
+      "sha256": "0522a311fd7c2e951f0ed9dae61d1bc5f6c38325e6d55efbf7fe463e77fb3f77"
+    },
+    {
+      "path": "planning/2026-09-16/software-mvp-and-acceptance.md",
+      "lines": 100,
+      "sha256": "0b2fa1cc8e6cf99237c0495db92c0f251f629b20a8e515b14fea0fa2fee8d005"
+    },
+    {
+      "path": "planning/2026-09-16/software-scope-and-architecture.md",
+      "lines": 204,
+      "sha256": "e609e3202c71ee17cd679d6e857368304861dcc95a59bddc674f500f996365b0"
+    },
+    {
+      "path": "planning/2026-09-16/software-workflows-and-api.md",
+      "lines": 263,
+      "sha256": "e38d3d16d0706de89e0fa39d64c21322e3a437a619b1bade4547156f66b5ac4a"
+    },
+    {
+      "path": "product.md",
+      "lines": 119,
+      "sha256": "57071e58dcd65baa14398d165253ee31626a590c20bf85fc780570b618f6dbec"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165,
+      "sha256": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38,
+      "sha256": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44,
+      "sha256": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47,
+      "sha256": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287,
+      "sha256": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171,
+      "sha256": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25,
+      "sha256": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7"
+    },
+    {
+      "path": "research/2026-09-16-competitions/competition-shortlist.md",
+      "lines": 76,
+      "sha256": "1f3080f5c340e8787f1bc36303d97720bf0ecbd411423ba20fda00ac52461d4b"
+    },
+    {
+      "path": "research/2026-09-16-metafoodx-app/app-review.md",
+      "lines": 60,
+      "sha256": "bcb9f053a9647675b75d973ddabb8a4af3d1c34d6e5e727d7a8b0448a0311910"
+    },
+    {
+      "path": "work-log.md",
+      "lines": 188,
+      "sha256": "076d4daa0fc922bc24bd3b256ec26f1efcfae68a27ba50378b02fb2f8d90c205"
+    }
+  ],
+  "current_full_reads": [
+    {
+      "path": "AGENTS.md",
+      "range": [
+        1,
+        50
+      ]
+    },
+    {
+      "path": "product.md",
+      "range": [
+        1,
+        119
+      ]
+    },
+    {
+      "path": "handoff.md",
+      "range": [
+        1,
+        40
+      ]
+    },
+    {
+      "path": "README.md",
+      "range": [
+        1,
+        61
+      ]
+    },
+    {
+      "path": "planning/2026-09-16/brand-visual-directions.md",
+      "range": [
+        1,
+        54
+      ]
+    }
+  ],
+  "supplemental_ranges": [
+    {
+      "path": "decision-log.md",
+      "range": [
+        151,
+        162
+      ]
+    },
+    {
+      "path": "work-log.md",
+      "range": [
+        178,
+        188
+      ]
+    },
+    {
+      "path": "planning/2026-09-16/software-scope-and-architecture.md",
+      "ranges": [
+        [
+          1,
+          12
+        ],
+        [
+          196,
+          204
+        ]
+      ]
+    },
+    {
+      "path": "planning/2026-09-16/software-mvp-and-acceptance.md",
+      "ranges": [
+        [
+          1,
+          6
+        ],
+        [
+          92,
+          102
+        ]
+      ]
+    },
+    {
+      "path": "planning/2026-09-16/app-pages-and-permissions.md",
+      "ranges": [
+        [
+          171,
+          176
+        ]
+      ]
+    }
+  ],
+  "exclusions": [
+    ".git",
+    "dependencies",
+    "cache",
+    "third-party packages",
+    "build outputs",
+    "output/qa automatic snapshots"
+  ],
+  "completed_at": "2026-09-16T06:02:47.228865+00:00"
+}

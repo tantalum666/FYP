@@ -1,0 +1,68 @@
+{
+  "task": "Record user voice model consideration order",
+  "completed_at_utc": "2026-09-25T14:56:33.508531+00:00",
+  "same_voice_research_continuation": true,
+  "inherited_full_read_record": "output/qa/new-concept-2026-09-25/reading-record.json",
+  "inherited_project_owned_markdown_files": 86,
+  "inherited_total_lines": 7847,
+  "inherited_batches": 69,
+  "focused_files": [
+    {
+      "file": "AGENTS.md",
+      "current_lines": 50,
+      "read_range": "1-50 full"
+    },
+    {
+      "file": "product.md",
+      "current_lines": 36,
+      "read_range": "1-36 full before and after edit"
+    },
+    {
+      "file": "handoff.md",
+      "current_lines": 21,
+      "read_range": "1-21 full before and after edit"
+    },
+    {
+      "file": "decision-log.md",
+      "current_lines": 480,
+      "read_range": "prior full read inherited; latest 450-474 before edit and 475-480 after edit"
+    },
+    {
+      "file": "work-log.md",
+      "current_lines": 589,
+      "read_range": "prior full read inherited; latest 562-583 before edit and 584-589 after edit"
+    },
+    {
+      "file": "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md",
+      "current_lines": 61,
+      "read_range": "1-61 full before edit; changed 1-20 and 55-61 reread after edit"
+    }
+  ],
+  "exclusions": [
+    ".git",
+    "dependencies",
+    "caches",
+    "third-party packages",
+    "build outputs",
+    "automatically generated output/qa snapshots; inherited full-read record lists prior concrete exclusions"
+  ],
+  "markdown_updated": [
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md"
+  ],
+  "user_decision": "Priority: Qwen > Gemini > Realtime > Live for hands-free voice; Realtime provisionally mapped to GPT-Realtime-2.1 Mini and Live to GPT-Live 1 from prior context",
+  "validation": {
+    "named_order_consistent": true,
+    "group_number": "Group 2",
+    "api_calls_or_hardware_tests": "none",
+    "proposal_docx_pdf_generated": "none",
+    "local_links": {
+      "checked": 300,
+      "missing": []
+    }
+  },
+  "remaining": "New-concept English Proposal review draft and page-rendered DOCX/PDF still pending"
+}

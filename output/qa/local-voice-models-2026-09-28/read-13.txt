@@ -1,0 +1,432 @@
+
+FILE planning/2026-09-17/senplate-logo-profile-r4.md L1-40 of 40
+# Senplate Logo R4 · Profile / 层序
+
+日期：2026-09-17。状态：VISUAL_REFERENCE — SEMANTIC_REVISION_REQUESTED。用户认为本稿视觉尚可，但项目关联及意义不足；当前修订为[R5餐食计量](senplate-logo-measured-plate-r5.md)。这是对视觉气质的有限认可，不是整个Logo获批，也不是完全否决视觉。Profile／层序仅为内部方向名。
+
+## 本轮修改
+
+保留深绿#163F35、米白#F3F1E7及小写senplate字标。替换旧稿“双折面围出方形中空、两处斜向开口”的核心结构，改为三个开放、互不连接的纵向轮廓。前两段使用弧形顶部，第三段保持直边；下端依次错位，避免统一基线造成普通柱状图的印象。
+
+这不是把Interval换色或旋转。原稿在Figma标为ARCHIVE，几何与本地导出保留，详见[旧稿](senplate-vector-logo-studies.md)及[近似初筛](../../research/2026-09-17-logo-similarity/similarity-review.md)。本次没有新增产品功能或改变硬件。
+
+## 当前图形
+
+构图范围140×112单位，主竖段宽28单位，基本水平间隔12单位。三段下端分别位于112、92、72单位；工作母稿为210×168像素。三段的前后层次可呼应观察食物轮廓与连续变化，属于设计解释，不对应传感器精度、三个食物组或已验证算法。
+
+字标沿用Manrope Medium，横向组合104px字号、-3%字距，图文间距40px。字体可用样式已在Figma确认并加载；尚未完成最终字体授权归档、逐字定制字距或完整VI手册。
+
+![Profile R4评审图](../../output/brand/2026-09-17-senplate-r4/profile-review.png)
+
+## 文件与Figma
+
+- [当前Figma评审画板](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=15-2)：原生向量及可编辑文字。
+- [符号SVG](../../output/brand/2026-09-17-senplate-r4/profile-mark.svg)、[横向组合SVG](../../output/brand/2026-09-17-senplate-r4/profile-signature.svg)、[反白SVG](../../output/brand/2026-09-17-senplate-r4/profile-mark-reverse.svg)。SVG字标转为轮廓，不依赖字体加载；Figma源文本保留。
+- [资产清单](../../output/brand/2026-09-17-senplate-r4/manifest.json)记录导出来源、节点、尺寸、状态与哈希。
+- 最终母稿节点22:3，主评审15:2，紧边界横向组合18:2；原始齐底试稿13:2已归档，旧Interval的2:2／5:2也归档，未改它们的图形内容。
+
+## 对照与检查
+
+最终几何重新与固定版本Simple Icons中的3454个图形进行候选检索，人工复核前16项及5个补充标记，共21项；另实际查看图片搜索中Pillar Konstruksi的三柱加双弧形标记。候选只是辅助发现，不提供法律相似度或清查结论。
+
+已查到的Aqua、OPNsense及机械革命图形的双折面围框关系不再出现在本稿。三条形状和弧线本身属于常见视觉语言，仍需用户评价辨识度；没有宣称新的结构全球独有、必然可注册或已通过官方图形检索。旧Interval的香港／美国查询结论不能直接套到新稿。
+
+本次只进行原生矢量制作、公开图形快速对照及小尺寸检查，**没有重新向香港、美国、内地、WIPO或欧盟提交新稿图像查询**。图标库与候选记录沿用已有公开数据，未把他人图形导入Senplate资产。
+
+主图、反白与24／32／64px已实际查看；小图放在相应正方形画布内，按5:4原比例居中，不拉伸为正方形。三个轮廓及中间间隔保持可辨。原生PNG字节保存，未用Python修图；初次批量导出响应超长截断，后拆为SVG与PNG两次完整导出。
+
+读档与范围见[记录](../../output/qa/senplate-logo-r4-2026-09-17/reading-record.json)，候选排序见[数据](../../output/qa/senplate-logo-r4-2026-09-17/ridge-library-ranking.json)，最终[核对](../../output/qa/senplate-logo-r4-2026-09-17/closeout-validation.json)。文档、身份、旧图和研究证据保留；没有App编码、购买、提交、对外联系或发布组件库。
+
+## 唯一下一步
+
+R4保留为色调、字标和视觉质感参考。用户比较[R5](senplate-logo-measured-plate-r5.md)及其网页端独立生成候选，再选定同时满足视觉与项目语义的方向；不自动批准或启动App还原。
+
+FILE planning/2026-09-17/senplate-v6-tick-study.md L1-30 of 30
+# Senplate V6.1 · 刻度小修试稿
+
+日期：2026-09-17。状态：TRIAL_ONLY — V6_RETAINED_UNCHANGED。
+
+用户明确要求先保留V6，再基于其小修，把感觉不自然的阶梯形口沿换成刻度试试看。本轮只制作独立试稿，不覆盖V6，不将试稿自动设为默认Logo。
+
+![V6与刻度试稿](../../output/brand/2026-09-17-senplate-v6-tick-study/tick-comparison.png)
+
+## 局部改动
+
+- 移除原来口沿内的阶梯填充和竖向缺口，内开口恢复为完整椭圆。
+- 在碗身右侧设置三条右对齐的圆端刻线，顺序为长—短—长，不加数字。
+- 碗身外轮廓、口沿分界线、底脚分界线、字标路径、组合宽高和图文间距沿用V6。
+
+长线46.6874、短线28.8544、厚6.8116、中心间距17.8330，均使用原V6尺寸系列；长／短约为φ。刻线是品牌图形，不附实际测量单位。32px时刻度细节较弱，64px更清楚；未做实机或用户识别率测试。
+
+## 保留与检查
+
+V6原素材包、全部导出、原构造说明与QA文件原样保留。Figma只操作副本：原V6的8个源稿／预览节点状态前后相同；试稿中的外轮廓、口沿线及脚底线与基准源路径相同，字标路径也相同，排版主要参数相同。
+
+另外比较两版960×680原生PNG的透明度，碗口及刻度区域之外没有检测到变化。文件保护、Figma不变量和像素局部检查见[本轮QA](../../output/qa/senplate-v6-tick-study-2026-09-17/closeout-validation.json)。这些检查证明修改范围，不代表用户已经选用。
+
+## 文件
+
+- [独立试稿预览](../../output/brand/2026-09-17-senplate-v6-tick-study/tick-preview.png)
+- [横向Logo SVG](../../output/brand/2026-09-17-senplate-v6-tick-study/tick-logo.svg)／[独立符号SVG](../../output/brand/2026-09-17-senplate-v6-tick-study/tick-symbol.svg)
+- [原V6素材包](../../output/brand/Senplate_Bowl_Golden_Vector_v6.zip)保持不变。
+- [Figma对照](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=85-13)：页面76:2；试稿布尔84:3、符号84:22、组合85:2、预览85:6、对照85:13，32／64px为85:24／85:26。
+
+不新增字体、不改配色，不扩展VI或App代码，没有新商标检索。下一步根据用户比较结果决定是否采用刻度处理；V6始终保留为基准。
+
+FILE planning/2026-09-17/senplate-vector-logo-studies.md L1-51 of 51
+# Senplate 原创矢量 Logo · Interval / 留隙
+
+日期：2026-09-17。状态：HISTORICAL — SUPERSEDED_BY_PROFILE_R4。用户曾对气质反馈“差不多”，随后因近似问题要求调整；当前待评价稿为[Profile／层序R4](senplate-logo-profile-r4.md)。本文件保留Interval制作与当时检索阶段的记录，不是当前待选Logo。名称仍为Senplate。
+
+## 用户依据
+
+最新[图形近似初筛](../../research/2026-09-17-logo-similarity/similarity-review.md)发现Aqua Security、OPNsense及机械革命所属公司的近似结构。Aqua已核美国有效纯图形注册9／42类；香港图像查询亦已完成，机械革命所属公司的303321710图形第9类已注册，涵盖计算机硬件及软件。建议保留气质、调整结构后再定稿。本轮未改SVG、原图或Figma，只原样导出192px PNG查询，未生成修订稿。
+
+用户通过真实参照页的后续消息明确偏好Polestar与Linear，要求先归纳比例、轮廓和留白，再设计原创Senplate。保留原第1版深绿、米白整体VI基准；只借鉴处理原则，不复制参照的图形。该消息是用户选择，区别于上一轮已清除、未提交的QA点选。
+
+原VI第1版的符号未获批准；R2全部否决，R3撤下状态保持。本轮不重新要求用户从旧稿选择，不修改App、硬件或学校文档。
+
+## 从参照提取的原则
+
+以下为设计观察，不冒称原品牌设计师的官方阐释。
+
+| 维度 | 参照启发 | 本稿处理 |
+|---|---|---|
+| 比例 | 少量形状形成集中、稳定的视觉重心 | 两块相对折面；主符号采用正方形边界 |
+| 轮廓 | 清楚的几何规则与有辨识力的切口 | 统一45度斜切；外侧折角与内侧折角分开控制 |
+| 留白 | 负形参与构成，而不是填满图形后留下的空隙 | 中央观察区与两处贯通开口，缩小时仍保持分离 |
+| 字标与颜色 | 中性的文字支撑强轮廓 | 小写senplate，Manrope Medium；深绿#163F35、米白#F3F1E7 |
+
+未复制Polestar四角星或Linear斜切圆形，也未导入它们的SVG路径。参照来源沿用[上一轮来源表](../../research/2026-09-16-logo-references/reference-sources.json)。符号由本轮独立定义几何路径；后续初筛仍发现已有相近结构，独立绘制不代表无近似或获得独占权。
+
+## 实际设计与筛选
+
+该次Figma探索创建两种结构。A为Interval／留隙，两块折面包围中央观察区；B为Balance／平衡，横向双面结构。B由助手筛除，用户未评价B；A随后因近似问题归档，当前由Profile R4取代待评价地位。
+
+A采用128单位构图，主边厚28单位，内折角12单位，两形端点错开16单位；两个45度开口保持一致。192px工作母稿、128px横向组合、96px反白、24／32／64px检查均从同一矢量缩放。
+
+字标为实际Figma字体Manrope Medium，图文组合使用104px字号、-3%字距和40px图文间距。字体样式已通过可用字体列表验证并加载；没有制作自定义字体。字标暂用小写展示，不改变项目英文名称。尚未做最终字体授权归档、字距逐字光学校正或完整VI手册。
+
+## 源文件与导出
+
+- [Figma评审画板](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=5-2)：原生可编辑矢量与文本；没有公开发布组件库或变更分享权限。
+- [评审图](../../output/brand/2026-09-17-senplate-vector/interval-review.png)：1440×960，含横向组合、反白和小尺寸。
+- [符号SVG](../../output/brand/2026-09-17-senplate-vector/interval-mark.svg)、[紧边界横向组合SVG](../../output/brand/2026-09-17-senplate-vector/interval-signature.svg)、[反白符号SVG](../../output/brand/2026-09-17-senplate-vector/interval-mark-reverse.svg)。文字导出为轮廓；Figma文字仍可编辑。
+- [资产清单](../../output/brand/2026-09-17-senplate-vector/manifest.json)记录节点、颜色、字体、状态、PNG尺寸和文件哈希。
+
+## 检查与范围
+
+已查看原生Figma截图：初版A因向量边界归一化使两块重叠，修正第二块的24px横纵偏移后重新截图，两个开口恢复；没有保留错误结果为交付图。B的机械零件联想属于助手设计判断，明确留档。
+
+检查主组合拼写、排列、反白、24／32／64px原生PNG及其实际尺寸。小尺寸画布中两个开口可辨，完整字标可读，最终画板没有占位shimmer。SVG核对透明背景、轮廓路径及不依赖外部图像／字体；PNG按原始字节保存，未用Python重绘或修图。上述检查不等于用户认为美观、真实设备印刷打样或App实现。
+
+[阅读记录](../../output/qa/senplate-vector-logo-2026-09-17/reading-record.json)、[收尾检查](../../output/qa/senplate-vector-logo-2026-09-17/closeout-validation.json)。原VI、R2、R3图片及学校文档保持原文件。
+
+## 唯一下一步
+
+[Profile R4结构修订](senplate-logo-profile-r4.md)已完成，下一步评价新稿；旧Interval图片与查询证据保留，不恢复为当前待选，不展开App还原。
+
+FILE planning/2026-09-18/development-p0.md L1-70 of 70
+# Senplate P0 开发与验证记录
+
+开始：2026-09-18；本轮完工：2026-09-19（同轮跨午夜）。状态：**P0_LOCAL_PROTOTYPE_VERIFIED**。这是首条软件主链，不是完整FYP或实物验收。
+
+用户已明确授权开始开发，并补充“应该要使用英文，并且可以切换为简体中文”。默认语言为en，第二语言为zh-Hans；Web／设备页面保存在浏览器本地，iPhone保存在设备偏好，暂不同步到跨设备账户。繁体中文旧要求已被取代。
+
+## 实际交付
+
+- SwiftUI iPhone：登录、Keychain会话恢复、个人／工作身份、语言设置、Overview／Live／Tasks／Records四入口；建议接受、调整、拒绝，任务领取、制作完成、开始补入、关联实测事件、复核／取消及原因。
+- React/Vite厨房Web：相同业务链、角色权限、任务筛选、事件来源筛选、经理CSV、最小设备显示页。个人身份为明确空状态，没有虚构餐食或点餐按钮。
+- FastAPI／PostgreSQL：首批A01–A19路由、关系数据、会话／资源授权、事务行锁、业务版本、操作幂等、观测去重与乱序保存、单调事件顺序、WebSocket刷新信号及前台重读。
+- 独立CLI模拟器：新run、取用／补入、移盘、抖动、相机遮挡、暂停、断线、陈旧、重新绑定及收餐；simulated／replay来源明确。读数与状态没有冒称真实传感器或已训练AI。
+- 一台硬件、一个独立称重盘位范围不变；供应商材料、学校建议书、身份资料、V7及VI源文件未被本轮覆盖。
+
+## 工程事实
+
+| 项目 | 当前选择与边界 |
+|---|---|
+| iPhone | SwiftUI／Observation，最低目标iOS17.0；实际验证Xcode26.6、iOS26.5、iPhone17Pro 402×874和SE3 375×667；未验证iOS17运行时或真实iPhone |
+| Web | React19.3、TypeScript、Vite8.3、Lucide；真实字体／控件／图表，非把生成图当UI |
+| API | Python3.12、FastAPI、SQLAlchemy、psycopg；15项pytest通过，Ruff通过 |
+| 数据库 | 独立PostgreSQL16.14，回环55437，.runtime目录；senplate用于演示，senplate_test专供清理式测试 |
+| 服务 | API回环8799；Web回环5177代理/v1；没有外网部署、CORS开放或远程入口 |
+| 凭据 | 每个开发用户随机密码、Argon2摘要；.runtime文件0600、目录0700；用户、设备和模拟器凭据分离，客户端没有内嵌密码 |
+| 会话 | 8小时；Web HttpOnly＋SameSite Strict Cookie；iPhone Keychain。模拟器签名修正后退出重开可恢复，不用明文偏好保存访问令牌 |
+| 图表 | 无效读数形成缺口；iPhone辅助字号改用最近读数列表；状态同时用文字表达 |
+| 规则 | 固定阈值700g、标准建议1000g；批次100–5000g且以50g步进；调整／拒绝需要原因。这是对照基线，不是预测模型 |
+| 时间 | 界面香港时区；模拟时钟随输入推进。观察时间、接收时间和实际业务sequence分开；同一演示时间的人工事件按sequence排序 |
+
+原型数据库以模型建立初始表；database.py有一个针对本轮早期调试事件表的追加迁移，保留原行并补sequence。尚未建立面向生产的完整迁移／备份发布体系。
+
+## 已运行的验收证据
+
+主链为1500→1200→700g，建议1000g；接受仅创建一个任务。iPhone进行制作／标记完成／开始补入后仍为700g。CLI增加1000g，Web关联这一新事件，任务完成、当前量保持1700g，没有再加一次计划量。随后iPhone读取1700g及已完成任务。实测补入与计划不同的情况另由API测试验证。
+
+| 规格场景 | 本轮证据 |
+|---|---|
+| T01、T03 主链与重复计量 | 15项后台测试中的完整链；实际iPhone→Web联调；制作完成不增量、确认不重复加量 |
+| T02 并发接受 | 两名员工并发请求，仅一个成功建任务，另一个409 |
+| T04 重复／乱序 | 原包重发去重；较旧序号仅入历史，不能倒退快照；不一致重量拒绝 |
+| T05、T06 移盘／抖动 | API测试保留last_valid且net=null，不算成全部取用；Web离位显示另留现场快照 |
+| T07 相机遮挡 | API验证已人工绑定菜品时保留有效秤重、单独降级视觉；未声称模型识别成功 |
+| T08 心跳／陈旧 | API分开验证fresh／stale及online／offline，心跳不伪造新重量 |
+| T09 写成功但回复丢失 | Web经CDP拦截HTTP200响应并丢弃；出现未确认提示，同操作ID核查恢复，仍只有一张任务。拦截规则已清除；iPhone同类网络故障注入尚未执行 |
+| T10 恢复 | iPhone退出重开后恢复Keychain、简体中文和权威快照；前台恢复重新读取me／context。长时间系统挂起仍待实机测试 |
+| T11 旧版本与领取 | API拒绝旧version与非负责人写入；管理员可处理本场地任务 |
+| T12 身份／退出／撤权 | Web个人／工作、退出再登入、viewer无处理／导出按钮；API直接访问、机器身份、撤权后缓存操作及WS均受限；iPhone权限恢复路径已实现 |
+| T13、T14 绑定／在制／收餐 | API拒绝旧绑定、足量在制避免重复、收餐暂停常规建议；0g调整拒绝 |
+| T15 来源 | API来源边界、Web筛选hardware为空、CSV来源列；replay记录独立 |
+| T16 窄屏／字体／空状态 | 浏览器1536×1024、390×844；iPhone402×874、375×667及AccessibilityXXXL，观察、记录与任务可操作。超长任意用户菜名、VoiceOver完整流程仍需后续专项 |
+
+后端：**15 passed，8.43s**，2条来自上游Starlette／anyio的弃用提示，无失败。Web严格类型检查和production build通过。iPhone分阶段XCTest：英语／简中保存／恢复／补餐流程通过；完成任务／最大字号在Pro与SE3通过。它们依赖运行中的API和指定模拟场景，不是无前置数据的一键全套测试。
+
+UI检查中发现并修复：初次Xcode资源遗漏；模拟器未签名导致Keychain无法保存；键盘焦点和Next／Go；相同时钟事件乱序；图表日期截断、辅助字号过大、Web窄屏图表文字太小；React StrictMode旧WS关闭后重连。一次Vite配置格式化触发开发服务重启，刷新后恢复。早期失败记录保留，不能当成最终未修复问题或隐藏。
+
+完整记录、截图和参考核对：[verification.md](../../output/qa/development-p0-2026-09-18/verification.md)。启动方式见[README](../../README.md)。
+
+## 视觉参考与保留项
+
+ImageGen生成[英文厨房参考](../../design/p0/kitchen-en.png)及[英文iPhone参考](../../design/p0/iphone-en.png)，属于助手在开发授权内采用的实现参考，并非用户逐页批准。最终提示词随图保存。初始繁体参考仅历史保留。
+
+V7原Logo、#163F35／#F3F1E7、白色功能面、Manrope与Noto Sans SC保持。已对参考和浏览器截图使用view_image逐项核对。原生iOS26.5系统底栏与参考的平面底栏不同；实际记录／故障／权限文案随真实状态变化，小屏与辅助字号允许滚动，均属于实现所需差异。Web增加账号、退出及核对筛选，满足权限和闭环操作；没有额外营销模块。
+
+## 未完成及下一步
+
+下一步：**P1菜单／扫码入口／订单及库存预留契约，然后实现顾客App到厨房履约的主链。**个人完整餐食、匿名学校样本、参考营养、去向报表和管理配置继续分批实现，未取消。
+
+实物称重／RGB-D／Pi性能、模型训练与准确率、真实效果、设备绑定校准、真实iPhone连接、APNs、云端、上架和课程提交均未完成。当前设备显示只是Web中的一页，不能称独立设备服务已部署。未购买或发送消息；没有注册公司、商标申请或初始Git提交。
+
+全读沿用同轮[79文件／6834行记录](../../output/qa/development-p0-2026-09-18/reading-record.json)，新语言消息和跨午夜均不重启全库阅读。最终链接、保护文件哈希及交付检查见[closeout-validation.json](../../output/qa/development-p0-2026-09-18/closeout-validation.json)。
+
+FILE planning/2026-09-18/senplate-plain-bowl-v7.md L1-25 of 25
+# Senplate V7 · 已选纯碗版
+
+日期：2026-09-18。状态：USER_SELECTED — CURRENT_LOGO。
+
+用户明确决定“算了不用刻度了，只保留那个碗就好”。当前采用完整、无刻度的碗形；停止刻度探索，V6及V6.1–V6.5转为历史版本，原文件与源稿全部保留。
+
+![当前Logo](../../output/brand/2026-09-18-senplate-plain-bowl-v7/senplate-preview.png)
+
+## 当前形式
+
+符号保留完整椭圆碗口、实体碗身、底脚及其分界留白。没有内外刻度、划痕或阶梯量位缺口。直接复用上一轮纯碗对照的精确路径，未重新生成或描摹。
+
+横向组合沿用Senplate首字母大写、Manrope Bold字标与原间距。主色#163F35、底色#F3F1E7。符号320×226.625，字标实际高度197.770874，图文间距46.68737，组合宽1204.61255。
+
+主要构造尺寸继承V6：口宽320、碗身高197.770876（不含底脚）、脚宽122.229124、口沿椭圆高75.541753、图文间距46.687371、脚伸出28.854382。历史[V6构造与测量](../2026-09-17/senplate-bowl-golden-v6.md)保留；本轮核对路径复用及组合一致性，没有把旧稿全部曲线测量重新表述为V7新测结果。
+
+## 文件与核对
+
+- [Logo SVG](../../output/brand/2026-09-18-senplate-plain-bowl-v7/senplate-logo.svg)／[透明PNG](../../output/brand/2026-09-18-senplate-plain-bowl-v7/senplate-logo.png)。
+- [纯碗SVG](../../output/brand/2026-09-18-senplate-plain-bowl-v7/senplate-symbol.svg)／[透明PNG](../../output/brand/2026-09-18-senplate-plain-bowl-v7/senplate-symbol.png)。
+- [素材包](../../output/brand/Senplate_Plain_Bowl_v7.zip)含上述核心文件、预览、64px小样、清单及既有Manrope许可副本；不是完整VI手册。
+- [Figma当前预览](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=106-13)，页面76:2；可编辑源106:2／布尔106:3，符号106:8，组合106:9，预览106:13，64px样本106:18。
+- [QA](../../output/qa/senplate-plain-bowl-v7-2026-09-18/closeout-validation.json)核对48个旧节点、纯碗路径、字标与排版、文件保护、SVG和链接。已实际查看完整预览和64px，不称实机测试。
+
+当前Logo选择已经完成，不再等待用户在刻度方案中挑选。后续视觉工作使用V7；本轮没有展开App界面或应用代码。
+
+FILE planning/2026-09-18/senplate-v6-curved-ticks.md L1-26 of 26
+# Senplate V6.4 · 贴合碗口的弧形刻度
+
+日期：2026-09-18。状态：TRIAL_ONLY — V6_RETAINED。
+
+用户要求在V6.3基础上把刻度弧度加大、更贴近碗的弧度。本轮只调整三条刻线的曲线构造，V6及V6.1–V6.3源稿、导出和原QA保留。
+
+![加大弧度](../../output/brand/2026-09-18-senplate-v6-curved-ticks/curved-detail.png)
+
+## 几何与效果
+
+三条线参照碗口半轴160／37.7708764的椭圆弧构造，分别平移到右侧原锚点。以三次贝塞尔近似椭圆弧，再将6.8115956等宽圆端描边转为负形。
+
+边缘锚点高度88／110／132、向内水平跨度34／21／34沿用V6.3；内端相对边缘的下沉由原4单位增加至约13.674／7.450／8.094单位，曲线走势更明显。圆端方向随曲线切向转动。局部不是额外黄金螺线，宏观比例沿用原构造。
+
+碗身基底、内口、口沿线、底脚、字标和主要排版不改。成品右边缘仍被三条负形切入；曲率变化会改变该局部切口，不称最终外轮廓逐点一致。
+
+已查看整体对照、放大及米白底32／64px样本；64px刻线仍可辨，32px弧度细节较弱。此为视觉试稿，未获用户选用，不作实机识别率或商标判断。
+
+## 交付
+
+- [前后对照](../../output/brand/2026-09-18-senplate-v6-curved-ticks/curved-comparison.png)／[完整Logo](../../output/brand/2026-09-18-senplate-v6-curved-ticks/curved-preview.png)／[放大图](../../output/brand/2026-09-18-senplate-v6-curved-ticks/curved-detail.png)。
+- [Logo SVG](../../output/brand/2026-09-18-senplate-v6-curved-ticks/curved-logo.svg)／[符号SVG](../../output/brand/2026-09-18-senplate-v6-curved-ticks/curved-symbol.svg)／[清单](../../output/brand/2026-09-18-senplate-v6-curved-ticks/manifest.json)。
+- [Figma对照](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=97-46)，页面76:2；布尔97:3、符号97:36、组合97:37、预览97:41、对照97:46、放大98:8、小样98:2／98:5。
+- [检查记录](../../output/qa/senplate-v6-curved-ticks-2026-09-18/closeout-validation.json)：旧文件／31个旧Figma节点保护、共同构造和字标／排版、SVG与链接。首次描边轮廓化后定位异常已在视觉检查中发现并修正，错误临时生产节点97:26已删除，不在交付中。
+
+下一步根据用户对加大弧度后的观感继续局部调整；未选定前保留V6基准，无完整VI扩展或应用代码。
+
+FILE planning/2026-09-18/senplate-v6-inner-scale.md L1-24 of 24
+# Senplate V6.5 · 完整碗形与内壁刻度
+
+日期：2026-09-18。状态：TRIAL_ONLY — V6_RETAINED。
+
+用户先反馈V6.4仍怪，随后明确是“刻度像划痕，和碗不融合”。本轮集中解决该问题：恢复连续外轮廓，刻度移到碗口内侧。具体内壁处理是设计尝试，用户尚未选用。
+
+![左为旧切口，右为内壁刻度](../../output/brand/2026-09-18-senplate-v6-inner-scale/inner-comparison.png)
+
+## 处理
+
+删除外侧三处弧形缺口。将三条深绿刻线接到椭圆内口的右侧边界，向内部伸出；高度23／38／53，长27／短17／长27，厚5.6，圆端。曲线切口改为水平量位标记，意图更接近量碗内壁；不把意图当用户识别测试结果。
+
+通过“内开口减去三条刻线”作为碗身的负形，刻度局限在内口区域，外轮廓保持完整。碗身基底、椭圆内口原构造、口沿线和底脚沿用。宏观比例及原字标保留，局部参数按视觉调整，没有新的精确黄金比例主张。
+
+已查看放大、等尺寸旧／新对照及米白底32／64px。64px可见内口标记，32px分隔细节较弱。仅导出符号和比较图，没有重复制作完整VI或新横向字标包。
+
+## 源稿和交付
+
+- [对照](../../output/brand/2026-09-18-senplate-v6-inner-scale/inner-comparison.png)／[放大](../../output/brand/2026-09-18-senplate-v6-inner-scale/inner-detail.png)／[符号SVG](../../output/brand/2026-09-18-senplate-v6-inner-scale/inner-symbol.svg)。
+- [Figma对照](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=102-2)，页面76:2；布尔100:3、内口100:14、符号100:25、对照102:2、放大102:11、小样103:2／103:5。
+- 过程中另有纯碗结构对照101:17／101:18，作为定位问题的内部对照。用户澄清后以带内壁刻度试稿为本轮展示，不将纯碗视为已选方案。
+- [QA](../../output/qa/senplate-v6-inner-scale-2026-09-18/closeout-validation.json)记录39个旧Figma节点及历史文件保留、共同构造、SVG与内链；全部V6至V6.4源稿和原QA不改。
+
+下一步只评估内壁刻度能否消除划痕感。未经选定不替换V6基准，无App代码或新商标查询。
+
+FILE planning/2026-09-18/senplate-v6-rim-tick-study.md L1-30 of 30
+# Senplate V6.2 · 碗沿微刻度试稿
+
+日期：2026-09-18。状态：TRIAL_ONLY — V6_AND_V6_1_RETAINED。
+
+用户认为V6.1的刻度突兀。本轮只调整刻度的大小和位置，保留V6原版以及V6.1供回看，不代表用户已经选用新稿。
+
+![上为V6.1，下为V6.2](../../output/brand/2026-09-18-senplate-v6-rim-tick-study/rim-comparison.png)
+
+## 本轮改动
+
+删除副本中碗壁上的长—短—长三条圆端横线，将计量暗示收进碗口前方偏右的内沿。三条短刻痕从内口边缘伸入绿色口沿，方向沿椭圆局部法线排列；中间略长，两侧略短，不加数字。它们是品牌细节，没有实际量具的计量意义。
+
+内口椭圆中心(160,37.7708764)、半轴(148.9786068,30.9592808)。三处角度50°、62°、74°；宽2.8，中间深4.2，两侧深2.6，均向内口重叠0.9设计单位以保证连接。新刻痕按视觉调整，**没有把这些局部参数称为精确黄金比例**。
+
+碗身、底脚、原口沿分界线、完整椭圆内口与V6.1相同。字标路径、组合尺寸1204.61255×226.625及图文间距46.68737相同；V6的主要黄金比例关系保留。32px／64px原生样本已查看：碗形保持，刻痕很弱，不能把它当小尺寸唯一识别点。未进行实机或用户识别测试。
+
+## 源稿与交付
+
+- [整体预览](../../output/brand/2026-09-18-senplate-v6-rim-tick-study/rim-preview.png)／[新旧对照](../../output/brand/2026-09-18-senplate-v6-rim-tick-study/rim-comparison.png)／[符号放大](../../output/brand/2026-09-18-senplate-v6-rim-tick-study/rim-detail.png)
+- [Logo SVG](../../output/brand/2026-09-18-senplate-v6-rim-tick-study/rim-logo.svg)／[符号SVG](../../output/brand/2026-09-18-senplate-v6-rim-tick-study/rim-symbol.svg)／[素材说明](../../output/brand/2026-09-18-senplate-v6-rim-tick-study/README.md)
+- [Figma对照](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=89-33)，页面76:2。布尔89:3，符号89:23，组合89:24，预览89:28，对照89:33，放大90:8，32／64px样本90:2／90:5。
+- [保留V6](../2026-09-17/senplate-bowl-golden-v6.md)及[V6.1历史试稿](../2026-09-17/senplate-v6-tick-study.md)的源稿、导出和原QA不修改。
+
+## 检查与下一步
+
+对修改前后15个V6／V6.1源稿和预览节点记录状态指纹；四个公共构造部件、字标路径及组合宽高／间距一致。受保护文件、局部PNG变化及内链检查见[本轮QA](../../output/qa/senplate-v6-rim-tick-study-2026-09-18/closeout-validation.json)。
+
+原生PNG对比另有18个差异像素位于内口椭圆边缘一个像素范围内，最大透明度差16／255；源椭圆仍完全相同，未声称改动区外像素完全一致。
+
+本轮为局部矢量试稿，没有新增完整VI、字体、App代码或图形商标查询。下一步根据用户对微刻度的视觉反馈决定保留、简化或取消该细节；未经明确选用，不替换V6基准。
+
+FILE planning/2026-09-18/senplate-v6-visible-ticks.md L1-26 of 26
+# Senplate V6.3 · 清晰量位线试稿
+
+日期：2026-09-18。状态：TRIAL_ONLY — V6_RETAINED。
+
+用户反馈V6.2的微刻度太不明显，要求在连续小修中提高可见性。V6、V6.1和V6.2原稿保留，新稿未被选用。
+
+![上为V6.2，下为V6.3](../../output/brand/2026-09-18-senplate-v6-visible-ticks/visible-comparison.png)
+
+## 改动与取舍
+
+恢复无微刻痕的完整椭圆内口，三条量位线移到碗口下方的右侧。线从右侧轮廓向内伸入，轻微弯曲、内端圆润，按长—短—长排列，避免独立悬浮在碗壁中央。此处理有意改变右侧局部轮廓；不能声称最终外轮廓完全未改。
+
+碗身基底、碗口、底脚、字标路径及组合排版保持。三个高度88／110／132，线厚6.8115956，长线34、短线21，内端下沉4设计单位。34／21≈1.619，局部为视觉参数，不冒称精确黄金比例。V6宏观构造关系继续沿用。
+
+已查看完整组合、放大图及米白底原生32／64px样本。64px的三处轮廓刻线比V6.2微刻痕更明显；32px仍受像素限制，圆端和曲率细节变弱。不是实机或用户识别率验证，也不代表用户已认可这次轮廓变化。
+
+## 交付与源稿
+
+- [完整预览](../../output/brand/2026-09-18-senplate-v6-visible-ticks/visible-preview.png)／[新旧对照](../../output/brand/2026-09-18-senplate-v6-visible-ticks/visible-comparison.png)／[放大图](../../output/brand/2026-09-18-senplate-v6-visible-ticks/visible-detail.png)。
+- [Logo SVG](../../output/brand/2026-09-18-senplate-v6-visible-ticks/visible-logo.svg)／[符号SVG](../../output/brand/2026-09-18-senplate-v6-visible-ticks/visible-symbol.svg)／[素材说明](../../output/brand/2026-09-18-senplate-v6-visible-ticks/README.md)。
+- [Figma对照](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=94-11)，页面76:2；布尔93:3，生产符号93:23，组合94:2，预览94:6，对照94:11，放大94:30，32／64px为94:24／94:27。
+- [QA](../../output/qa/senplate-v6-visible-ticks-2026-09-18/closeout-validation.json)记录旧版文件保护、23个旧Figma节点、公共源几何、字标／排版、PNG局部变化和链接检查。
+
+PNG另有11个细微差异像素位于共同碗身弧线的1px范围内，最大透明度差32／255，记录为布尔细分后的边缘光栅差异；未声称局部修改区域以外像素完全相同。
+
+下一步依据用户对清晰度和轮廓融合的反馈继续局部调整。原V6仍为保留基准；没有App代码、完整VI扩展或新商标查询。
+
+FILE planning/2026-09-18/senplate-vi-v1.md L1-33 of 33
+# Senplate VI V1 交付
+
+日期：2026-09-18。状态：VI_V1_DELIVERED — V7_LOGO_PRESERVED — APP_NOT_IMPLEMENTED。
+
+用户要求独立Logo图形、独立文字、整套视觉识别和字体商用核查，并已澄清“ai”指VI。主图形沿用已选V7纯碗，不重新设计，不加入刻度。
+
+![VI总览](../../output/brand/2026-09-18-senplate-vi-v1/02_Guidelines/vi-overview.png)
+
+## 本次内容
+
+1. 独立图形、独立字标、横向、上下组合，均提供绿／黑／反白SVG和透明PNG，共12个版本。
+2. [11页规范手册](../../output/pdf/Senplate_VI_Guidelines_v1.pdf)：标志系统、配色版本、留白与最小尺寸、色彩、字体层级、App图标、应用模板、禁用方式、字体许可及文件使用。
+3. [4页矢量总表](../../output/pdf/Senplate_Vector_Assets_Master_v1.pdf)。
+4. 1024px App图标主版／浅色版、未裁切透明前景／纯色背景；演示封面、菜单立牌与设备标贴SVG／PNG。
+5. 三种当前原字体、许可、[字体核查](../../research/2026-09-18-font-licences/font-licence-audit.md)、JSON／CSS令牌、可编辑字标SVG和Figma源稿指引。
+
+[完整素材包](../../output/brand/Senplate_VI_Kit_v1.zip)／[目录说明](../../output/brand/2026-09-18-senplate-vi-v1/README.md)。
+
+## 字体与规范决定
+
+实际字标为Manrope Bold700；VI英文继续使用Manrope，繁体用Noto Sans TC，简体用Noto Sans SC。四者（包括历史Inter）官方许可均为OFL1.1，可免费用于商业设计；再分发字体附版权与OFL，禁止单独售字体。原件与官方来源哈希核对一致。字体许可不等于新商标清查。
+
+主色#163F35和米白#F3F1E7保持。辅助浅绿#B8C9BC、墨色#202B26、最小尺寸和应用排版是本次VI建议；CMYK为无ICC换算参考，未经印刷或实机验证。上下组合复用相同图形／字标路径并等比缩放，图形宽320、字标宽640、间距40。
+
+## 源稿与验证
+
+Figma仍为同一个文件，新页110:2（03 — Senplate VI / V1）。[总览114:2](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=114-2)。绿版图形110:3、字标110:4、横向110:5、上下110:8；可编辑文字111:18；图标112:2／4／6／8，封面112:9、菜单113:2、标贴115:20。
+
+两份PDF全部15页已渲染查看，中文、对齐、颜色和图形正常。12份SVG均为轮廓，12份PNG有透明背景，图标尺寸1024。原V7／旧稿文件与53个旧Figma节点保持；绿版核心路径及横向布局与V7一致，同形态的三配色几何相同。[QA](../../output/qa/senplate-vi-v1-2026-09-18/closeout-validation.json)记录检查。
+
+菜单QR为占位，设备标贴为视觉比例，图标为基础资产；没有创建App、Icon Composer工程、供应商订单或新商标申请。当前VI制作请求已完成，下一步可依据本套规范开展关键界面设计。
+
+后续同日用户要求商标检索，已完成[纯碗近似初筛](../../research/2026-09-18-senplate-trademark/trademark-review.md)。BASAO与OpenRice分别构成视觉／相关业务重点参照；这不改动本套交付，也不把字体许可当商标许可。当前先评审检索对照，不自动开始新设计或应用代码。
+
+FILE planning/2026-09-19/meals-samples-contract.md L1-55 of 55
+# Senplate M1.2 餐食配对、份量与匿名样本契约
+
+2026-09-19。状态：LOCAL_PROTOTYPE_VERIFIED。用户要求继续下一批，承接M1.1的明确下一步；本批完成个人餐食／学校样本的受控软件演示，默认英文／简体中文、单盘位和V7保持。真实硬件、模型、医疗判断、完整运营报表不包含在本批完成声明。
+
+## 同一盘位与数据边界
+
+继续使用Run、Observation及序列作为共用测量核心，mode区分foodservice、personal、school。一个workspace一次只有一个活动run。切换前必须解决未完成订单、补餐任务和餐食，旧run和历史记录保留。个人run的重量、事件、食物及营养不能通过工作快照、日志、导出或菜单读取；工作端只看到盘位正在个人使用的提示。
+
+设备控制台使用独立的本地设置密钥换取HttpOnly设备会话，限定该工作空间。普通顾客、员工或经理的账号会话不能替代设备身份，也不能通过传client_surface取得本地确认权限。首次本地演示配置使用.runtime中的私有设置；这不代表已经完成Pi部署或物理人在场认证。未来实物部署仍需按设备配置独立凭据及网络边界。
+
+## 配对与状态
+
+设备控制台开始personal会话，等待空盘有效读数；签发120秒有效、单次使用的餐食配对码，格式和菜单码分开。手机以personal身份申请，设备显示申请人与核对码；设备明确同意后绑定owner。申请中其他人不能读取餐食；过期、已用、错误用途、已关闭、已有owner均拒绝。支持拒绝／重新签发，旧码不能复活。配对不授予工作角色。
+
+餐食阶段：setup → pairing → recording → observing → completed；学校确认空盘后直接recording；未完成会话可以有原因地cancelled。recording用于逐项装盘，observing记录装盘后的总量；completed冻结结束时的记录。手机恢复／切身份重新校验归属；未确认的写入使用原操作ID恢复，不另建第二条份量。
+
+## 逐项记录
+
+先选已确认食物参考，再开始本项测量窗口；已有未记录变化时不能直接把它跳过。后台保存起点观测，结束时客户端只引用最新稳定观测，不自由填写克数。必须同run、绑定、皮重／校准版本、有效观测顺序，差值为正；离位、缺包、减重或条件改变时不能静默拼接为可靠新增份量。
+
+200g熟饭 → 再加100g熟鸡肉 → 再加150g熟蔬菜，必须得到三项200／100／150、总提供450。相同操作或结束观测不可重复计量；菜名与烹饪状态由人确认，不称AI识别。未知混合项允许记录重量，参考营养保留缺失。
+
+未完成餐食可明确纠正食物引用并留原因／版本，原称重事实不改。取消待确认项要求处理实际未记录食物并返回其起点量，不用取消按钮抹去食物重量。完成装盘后，只报告总剩余；450→350不能推断各食物或营养实际吃掉多少。移盘或不可靠读数下，允许明确不记录结束余量并保存原因，不用0替代未知。
+
+## 食物与营养资料
+
+采用少量USDA FoodData Central公开记录与一个未知混合项。保存原始来源ID、原文描述、数据类型、发布时间、读取日期、每100g单位和内容版本。具体数据从官方公开API取得，本地使用，不在每次称量时访问外网。以可食用重量匹配烹饪形态，不套生肉数据计算熟肉，不把外加油盐自动算成已测。
+
+每个份量保存当时的参考快照，后续资料改版不重写历史。营养量=克数×每100g参考÷100，用Decimal计算并在展示时舍入。缺值保留null；整餐标complete／partial／unavailable，已知项小计与完整总量分开。输出是参考估算，不是本餐化学成分测定、实际摄入、诊断或治疗建议。
+
+## 学校匿名样本
+
+同一控制台以school模式逐项记录，由后台自动生成样本编号，不设置儿童姓名、学号或健康档案字段。工作空间获授权员工可查看样本，经理可导出汇总。与明确标注“示范、待学校审核”的份量模板比较克数；未知混合项存在时不能断言某食物组缺乏或判营养合规。报告限定已记录样本和数据来源，缺少结束余量的样本单列，不能外推全校摄入或把差值全部当浪费。
+
+## 本批界面
+
+- iPhone：Dining增加连接餐食设备；配对等待、当前餐食、逐项确认、已提供份量／参考营养、结束记录；Home显示当前餐食，Records区分餐食与订单。现有点餐链保留。
+- 设备Web `/device`：独立设置／会话，开始个人或学校配置、配对同意／拒绝、有效重量、逐项记录及结束。开发演示由控制台独立的Demo input controls或同接口夹具提供读数，界面始终标来源；不是实物去皮／校准。
+- 工作Web：匿名样本列表、详情、按来源汇总与经理CSV；个人使用时只显示受限状态。批量学校计划管理与完整餐末去向仍为M1.3。
+
+## 必须验证
+
+U06配对用途／过期／单次、U07双人竞争、U08逐项差值及不重复、U09总余量不伪造摄入、U10缺资料／旧版本、U11匿名样本、U12工作身份不能读私人餐食、U13单设备切换阻挡。另测同键重发、原context恢复、测量陈旧／抖动／离位／乱序／校准变更、跨场地、未知项、关闭后写入及真实源标签。两端实际配对与记录、英／简、窄屏、iPhone构建／UI分别留证据。
+
+本轮81份Markdown／7136行已全读，见[阅读记录](../../output/qa/development-m1-2-meals-2026-09-19/reading-record.json)。数据库和代码备份在.runtime/backups/m1-1-before-meals-20260919.dump及m1-1-code-before-meals-20260919.tar.gz。本批软件结果已验证，记录见[QA](../../output/qa/development-m1-2-meals-2026-09-19/verification.md)。
+
+## 已实现与验证的具体边界
+
+- 55项后台测试（原33项＋22餐食场景）通过；含配对竞争／期限、只限设备确认、连续测量、同键恢复、校准／皮重改变、晚到包、私人权限和匿名汇总。配对Swift解析4合法／12非法输入及菜单拒绝混用通过，真实网页QR经Vision解码。
+- 6次iPhone分阶段运行覆盖双端配对、逐项份量、结束总余量、参考营养、英／简、最大辅助字号、SE3和原有订单保留。首次营养UI断言误用了合并AX标签，修正定位后用新独立夹具重验通过，失败证据保留。
+- 设备Web完成两份学校样本：已知参考450g／剩余300g，未知混合250g／移盘后余量未知；汇总700g、已观察余量300g、1份有余量／1份未知。未计算“浪费率”。完成回复丢失后刷新／原键恢复，完成历史仍仅一条。
+- 资料为USDA FDC 169757／171477／169967／173944；4个原始文件hash与20个营养值逐项核对。每项保存当时来源快照，克数严格来自观测差值。
+- 测试使用隔离数据库与回环8800／localhost5178，保留原8799／127.0.0.1:5177订单#001已取、#002待取、#003待接受；没有用真实订单为餐食测试让路。两个软件数据库不代表增加物理设备。
+- 仅有已记录的连续观测才能提供上述保护；未采样期间且最终总量相同的食物调换、未登记酱油／油盐、真实传感器误差，不能由本软件证明不存在。当前演示时钟按输入推进，不是长时间实时性能实测。
+- 实物注册／校准／去皮、Pi部署、真实iPhone扫码、OS17、完整VoiceOver、原生回复丢失注入及压力／并发负载仍待补验。完整目录／配方、审核学校计划与餐末去向在M1.3；真实模型与测量属M2。

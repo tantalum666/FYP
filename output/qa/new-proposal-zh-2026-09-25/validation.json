@@ -1,0 +1,96 @@
+{
+  "task": "Chinese review draft of new desk companion Proposal",
+  "completed_at_utc": "2026-09-25T15:26:50.369892+00:00",
+  "context_reading": {
+    "mode": "continuation of 2026-09-25 new-concept research; inherited full project Markdown read, focused files reread and new source authored",
+    "inherited_full_read_record": "output/qa/new-concept-2026-09-25/reading-record.json",
+    "focused_files": [
+      {
+        "file": "AGENTS.md",
+        "lines": 50,
+        "read_range": "full current file or latest relevant tail; long feasibility read to line 123"
+      },
+      {
+        "file": "product.md",
+        "lines": 37,
+        "read_range": "full current file or latest relevant tail; long feasibility read to line 123"
+      },
+      {
+        "file": "handoff.md",
+        "lines": 21,
+        "read_range": "full current file or latest relevant tail; long feasibility read to line 123"
+      },
+      {
+        "file": "research/2026-09-25-desk-companion/feasibility-review.md",
+        "lines": 125,
+        "read_range": "full current file or latest relevant tail; long feasibility read to line 123"
+      },
+      {
+        "file": "planning/2026-09-21/proposal-spec.md",
+        "lines": 41,
+        "read_range": "full current file or latest relevant tail; long feasibility read to line 123"
+      },
+      {
+        "file": "planning/2026-09-25/desk-companion-proposal-zh-review.md",
+        "lines": 140,
+        "read_range": "full current file or latest relevant tail; long feasibility read to line 123"
+      }
+    ],
+    "school_documents": [
+      "Proposal Guidelines AY26.doc: entire 1-page text",
+      "HDSE FYP Project Guide 2026 PDF: rendered all 12 pages overview; inspected pages 5, 11, 12 at original resolution",
+      "Project Proposal sample1 and sample2: prior school-proposal spec used for structure; originals not modified"
+    ],
+    "excluded": [
+      ".git",
+      "dependencies",
+      "caches",
+      "third-party packages",
+      "build outputs",
+      "automatically generated output/qa snapshots"
+    ]
+  },
+  "deliverables": {
+    "source": "planning/2026-09-25/desk-companion-proposal-zh-review.md",
+    "docx": "output/docx/Group 2_DeskCompanion_ProjectProposal_ZH_Review.docx",
+    "builder": "scripts/build_desk_companion_proposal_zh_20260925.py",
+    "docx_sha256": "2f9ab133a2c634eaf519ca73758b0a3e8e9373cc0bdd4b1a0a45d8c1b23df55a",
+    "pages": 12
+  },
+  "verification": {
+    "school_seven_sections_present": true,
+    "required_text_missing": [],
+    "A4_margins": {
+      "width_in": 8.27,
+      "height_in": 11.69,
+      "left_in": 1.5,
+      "right_in": 1.0
+    },
+    "native_word_tables": 4,
+    "final_render_inspection": "all 12 pages inspected at original size; final render-05 changed pages 2,3,8,11,12 vs render-04 and those pages reinspected; others pixel-identical to inspected render-04",
+    "a11y_report": "output/qa/new-proposal-zh-2026-09-25/a11y.json",
+    "a11y_high": 0,
+    "a11y_medium": 0,
+    "a11y_low": 7,
+    "a11y_low_explanation": "raw URL display text in seven source references, retained for printed traceability",
+    "local_links_checked": 314,
+    "missing_local_links": [],
+    "old_senplate_proposal_docx_sha256": "77840891d6827ca9bca09cb2843d21d65797e32608eeaf300a3ab0e09e4376ba",
+    "old_senplate_proposal_pdf_sha256": "fc59f5e4a565484f4befd1e36a9b9e5545bd991909aeda1ecdcbdf53192673c0"
+  },
+  "changes_to_normative_markdown": [
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "research/2026-09-25-desk-companion/feasibility-review.md",
+    "planning/2026-09-25/desk-companion-proposal-zh-review.md"
+  ],
+  "font_qa": {
+    "issue": "First render lost Chinese glyphs",
+    "resolution": "Used Noto Serif CJK SC from official notofonts repository under OFL 1.1 via task-local fontconfig for render-05",
+    "downloaded_font_is_qa_only": true,
+    "source": "https://github.com/notofonts/noto-cjk"
+  },
+  "status": "Chinese review draft only; not English submission, signed, uploaded, supervisor-approved, API-tested, or hardware-tested"
+}

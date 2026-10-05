@@ -1,0 +1,18 @@
+{
+  "output": "/Users/tantalum/Documents/ChatGPT/FYP/output/docx/Group 2_Hardware RFQ_v3_Simple.docx",
+  "source": "/Users/tantalum/Documents/ChatGPT/FYP/planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+  "designed_pages": 2,
+  "tables": [
+    {
+      "rows": 9,
+      "cols": 2,
+      "header": [
+        "部件",
+        "配置与装配要求"
+      ]
+    }
+  ],
+  "images": 1,
+  "page_size": "Letter portrait",
+  "font": "Arial with Arial Unicode MS East Asian"
+}

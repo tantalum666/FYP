@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-21T07:15:42.157123+00:00",
+  "continuation_of": "Marco camera and mixed-dish nutrition review",
+  "full_read_inherited": "reading-record.json",
+  "focused_reads": [
+    "AGENTS.md",
+    "handoff.md",
+    "planning/2026-09-21/marco-camera-and-nutrition-review.md",
+    "product.md latest nutrition and status sections",
+    "decision-log.md latest entries",
+    "work-log.md latest entries"
+  ],
+  "sources": [
+    {
+      "url": "https://ods.od.nih.gov/factsheets/VitaminC-HealthProfessional/",
+      "use": "Storage and cooking losses; intake reference definitions and age/sex dependence."
+    },
+    {
+      "url": "https://www.nationalacademies.org/read/9956/chapter/8",
+      "use": "Usual intake, variability, and why intake below RDA does not itself establish inadequacy; no historical statistical formula copied into the product."
+    }
+  ],
+  "conclusion": "No guaranteed accuracy for exact mixed-dish vitamin C or individual daily adequacy with current sensor configuration; estimates and reference-target comparison must remain distinct from measured nutrient content and nutritional status."
+}

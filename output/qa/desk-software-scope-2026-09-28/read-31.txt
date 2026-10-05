@@ -1,0 +1,159 @@
+FILE planning/2026-09-16/software-workflows-and-api.md L181-270
+  "snapshot_version": 142,
+  "data_origin": "simulated",
+  "run_id": "run_replenish_01",
+  "observed_at": "2026-09-16T04:10:00Z",
+  "received_at": "2026-09-16T04:10:00Z",
+  "connectivity": "online",
+  "measurement_status": "valid",
+  "freshness": "fresh",
+  "food_binding": "confirmed",
+  "food_id": "food_demo_01",
+  "net_g": 700,
+  "reserved_g": 200,
+  "safety_buffer_g": 100,
+  "available_to_promise_g": 400,
+  "incoming_g": 1000,
+  "recommendation_id": null
+}
+```
+
+这是同时展示物理余量、预留与未来在制的设计例子，1000g在制不计入400g当前可承诺量。`recommendation_id=null`表示此例无新待处理建议，不是建议补0g。
+
+### 接受或调整建议
+
+```json
+{
+  "client_operation_id": "op_demo_accept_01",
+  "expected_version": 4,
+  "decision": "adjust",
+  "accepted_g": 1000,
+  "reason_code": "BATCH_SIZE_ADJUSTED"
+}
+```
+
+配合Idempotency-Key提交A10。接受时如使用原建议量，可不填accepted_g；adjust必须填有效批量与原因；reject必须填原因且不创建任务。成功结果至少包含operation_id、recommendation_id、decision、task_id（拒绝时为空）、resource_version和server_time。
+
+### 完成加料核对
+
+```json
+{
+  "client_operation_id": "op_demo_confirm_01",
+  "expected_version": 4,
+  "action": "confirm_replenishment",
+  "physical_event_id": "event_demo_added_01",
+  "note": ""
+}
+```
+
+A13核对事件所属会话／菜品版本、有效性和未使用状态，实际克数取事件记录；客户端不能通过自由填写actual_added_g改变源测量。
+
+### 实时通知
+
+```json
+{
+  "event_id": "update_demo_201",
+  "type": "task.updated",
+  "resource_id": "task_demo_01",
+  "resource_version": 5,
+  "server_time": "2026-09-16T04:20:00Z",
+  "data_origin": "simulated"
+}
+```
+
+实时消息是刷新信号。相同事件去重，较旧版本不覆盖当前状态；发现版本缺口、重连或App重新进入前台时读权威快照。照片需要单独授权读取，不能把个人照片链接广播给整个工作场地。
+
+## 9 错误和并发契约
+
+| 情况 | 建议状态／错误码 | 客户端处理 |
+|---|---|---|
+| 未登录／会话过期 | 401 AUTH_REQUIRED | 回到登录，安全保留非敏感返回意图 |
+| 无角色或资源归属权限 | 403 FORBIDDEN | 停止该操作和订阅，不靠切UI获得权限 |
+| 对象不存在或不应披露 | 404 NOT_FOUND | 不泄露他人对象内容 |
+| 版本或状态变化 | 409 VERSION_CONFLICT／INVALID_TRANSITION | 获取新对象，解释已变化；不自动覆盖 |
+| 另一操作已经处理建议 | 409 RECOMMENDATION_ALREADY_DECIDED | 转到当前决定或已有任务；同键重试仍返回原成功结果 |
+| 已处理建议／数量失效 | 409 RECOMMENDATION_OUTDATED | 展示最新建议或已有任务 |
+| 同键不同请求内容 | 409 IDEMPOTENCY_CONFLICT | 查原操作，不用同键提交另一份业务 |
+| 数量、字段或模式不合适 | 422 VALIDATION_FAILED | 定位到可纠正字段，保留草稿 |
+| 接受订单时供应不足 | 409 INSUFFICIENT_SUPPLY | 不部分偷接整单；提示数量变化并重新选择 |
+| 数据不够新或仍待核对 | 409 DATA_NOT_READY | 等待更新／人工核对，不显示已经成功 |
+| 限流或服务暂不可用 | 429／503 | 提示稍后重试；写操作仍沿用同一操作键 |
+
+双人同时接受建议：只有一个事务创建任务，另一个看到已有结果或版本冲突。网络超时后的404操作查询不证明原请求永远不会到达，因此重试仍使用原操作键和相同业务上下文。餐期关闭后不再接受延迟到达的新订单／旧建议。
+
+设备本地去皮／校准是独立命令：由已授权的本地设备操作流程发起并回报完成，App不能伪造一个client_surface字段就调用。受理、设备确认收到、实际执行成功分别记录；当前未实现这条实物命令链。
+
+## 10 P0运行契约补充（2026-09-19）
+
+- P0运行定义在`services/api/senplate_api/schemas.py`及FastAPI `/openapi.json`。订单与当前菜单在M1.1已开放；M1.2餐食、营养快照和学校对象定义在meal_schemas.py及实际OpenAPI，实物维护仍属设计。
+- 开发账号会话8小时；Web使用HttpOnly、SameSite=Strict Cookie，iPhone使用Keychain保存Bearer。服务仅回环开发，正式TLS和多环境认证未部署。
+- 机器输入必须匹配设备、boot、session与数据来源；校准版本当前是demo-unverified，不能当成真实校准。
+- 建议批次100–5000g，50g步进；调整与拒绝有原因。制作完成不更新重量；开始补入后才开放匹配的新增重事件，确认只关联记录，不能再累加计划量。
+
+FILE planning/2026-09-16/software-workflows-and-api.md L271-291
+- 事件按服务端单调sequence排序，解决步进时钟下多个人工操作时间相同的顺序；历史调试表的单次追加迁移保留记录。业务version与snapshot_version仍分开。
+- 硬件数据仅有接入边界，P0运行由simulated或replay创建；hardware会话开设、维护与真实采集尚未实现。没有把模拟识别标成AI结果。
+- WebSocket使用state.changed刷新信号；客户端还使用前台轮询和进入前台重读。列表目前最多显示当前会话100事件，管理员CSV可导出该会话全部事件；全历史检索属后续。
+
+## 11 M1.1运行契约补充
+
+菜单管理version与顾客quote_version分开，库存正常消耗不迫使顾客复核未变化的价格；经理保存旧表单仍会被version挡住，避免恢复已配出的人工库存。Service配置使用service_version。订单行保存报价快照，厨房接受旧提交订单时沿用该快照价。
+
+订单串行化锁定workspace和当前run后整单预留；一个盘位一次只有一个配出窗口，并与补入核对互斥。待核对订单保留R，核对只能使用开始之后、绑定相同、有效且未分配的减重事件；多次舀取可一起关联。偏差需经理明确复核原因。取餐码6位ASCII数字、仅ready时向本人显示，连续失败会限流；collected不代表已支付。
+
+个人WebSocket按本人的activity_version刷新；操作恢复先检查actor与原context，再返回或重试原操作。新run、菜品重绑定和供餐方式改变被未完成订单／测量窗口阻挡，不自动丢弃义务。当前演示B=0，固定监测份量100g；后续真实容差和标准份量管理应在验证后扩展。
+
+## 12 M1.2运行契约补充
+
+设备控制台以绑定工作区的独立设置密钥换取HttpOnly会话，普通用户Cookie不能替代；只展示当前未完成餐食，完成后清除该设备页的私人详情。个人餐食仅owner的personal context可读写，工作快照隐藏重量、份量、事件和营养；学校工作身份仅查看本场地匿名样本。
+
+实际接口族：POST／DELETE /v1/device-console/session；GET /v1/device-console/active、references、pairing-qr.svg；POST /v1/device-console/meals、meals/{id}/actions、simulate；GET /v1/device-console/operations/{key}；GET /v1/food-references；POST /v1/pairing/requests；GET /v1/me/pairing、/v1/me/meals、/v1/meals/{id}；POST /v1/meals/{id}/actions；GET /v1/workspaces/{id}/samples 与 samples.csv。simulate和会话初始化当前仅限开发模拟，不是实物校准命令。
+
+配对码SPM-加12位十六进制、120秒、单次、设备核对姓名及四位号码；菜单码不能替代。写入以原actor/context/key恢复，PostgreSQL事务锁与业务version防竞争。读数变化另用snapshot_version，不因轮询生成重复份量。
+
+份量保存完整参考快照；更正食物保留原因、旧版本和相同克数。加料中减重、漏包、离位、校准改变禁止确认；两项之间换盘也不靠相同总量恢复可信状态。取消未确认项须明确恢复起点重量并记录原因。整餐总余量需观测可比较，否则保存null与原因；无分项摄入字段结果。详见[聚焦契约](../2026-09-19/meals-samples-contract.md)。
+
+FILE planning/2026-09-17/senplate-bowl-golden-v6.md L1-43
+# Senplate V6 · 实体碗的黄金比例矢量构造
+
+日期：2026-09-17。状态：VECTOR_RECONSTRUCTION_COMPLETE — MEASURED_GOLDEN_RATIOS — VISUAL_REVIEW。
+
+用户在得知V5只有ImageGen比例参考、没有实际校验后明确“开始吧”，授权以新实体碗为基准进行可编辑矢量、黄金比例与小尺寸工作。本轮无需重复询问是否可以开始；这不自动等于用户已批准最终审美或商标注册。
+
+## 实际图稿
+
+![V6矢量稿](../../output/brand/2026-09-17-senplate-bowl-golden-v6/senplate-preview.png)
+
+保留V5的完整碗口、向下收拢的实体碗身、底脚及口沿阶梯形留白。消除生成纹理，使用确定的曲线与透明负形；没有把原像素边缘自动描成毛刺。旧A／开口环不再参与本次构造。
+
+字标写Senplate。为使字标真正可编辑并有确定来源，本轮采用Manrope Bold、-2%字距，再按实际字形外接高度统一等比缩放；不是声称识别出了V5生成图的原字体。Figma保留文本原稿和转轮廓字标，交付SVG无需安装字体。Manrope的[SIL OFL 1.1授权文本](https://raw.githubusercontent.com/google/fonts/main/ofl/manrope/OFL.txt)已核对并随素材保存。
+
+## 黄金比例构造
+
+φ=(1+√5)/2≈1.6180339887。设A=320，依次用前一项除以φ得到B–F，先计算、再绘图。
+
+| 编号 | 对应实际部位 | 目标值（设计单位） | 最终Figma路径测量值 |
+|---|---|---:|---:|
+| A | 碗口最外宽度 | 320.000000 | 320.000000 |
+| B | 从后口沿最高点到碗身／底脚分界，**不含底脚** | 197.770876 | 197.771214 |
+| C | 底脚外宽 | 122.229124 | 122.228516 |
+| D | 碗口完整椭圆高度 | 75.541753 | 75.541992 |
+| E | 符号与转轮廓字标之间的实际间距 | 46.687371 | 46.687378 |
+| F | 底脚低于碗身分界的高度 | 28.854382 | 28.853786 |
+
+目标关系：A/B=B/C=C/D=D/E=E/F=φ。实际五项比值约为1.618031、1.618045、1.618021、1.618039、1.618068；最大比值误差约0.000034，尺寸误差均小于0.001设计单位。差异来自Figma布尔运算／路径导出的数值取整，不把导出说成无限精度。
+
+碗口上半部为椭圆，碗身下轮廓取自半径160的镜像半圆；底脚依实际相交位置连接。完整符号高度约226.625，**不是**把含底脚的总高称为197.771。口沿阶梯处在x=320/φ，负形用布尔减法连通。每一笔曲线并非都来自黄金螺线，黄金关系不等于审美优劣的实证。
+
+[构造图](../../output/brand/2026-09-17-senplate-bowl-golden-v6/golden-construction.png)、[绘制前的计算参数](../../output/qa/senplate-bowl-golden-v6-2026-09-17/golden-construction.json)、[Figma实际路径](../../output/qa/senplate-bowl-golden-v6-2026-09-17/figma-geometry.json)、[独立测量结果](../../output/qa/senplate-bowl-golden-v6-2026-09-17/measured-golden-ratios.json)。测量脚本从最终路径与x=160的交点识别口沿、碗身底和脚底，未直接拿目标JSON当作测量值。另对[实际交付SVG](../../output/qa/senplate-bowl-golden-v6-2026-09-17/measured-svg-export.json)重新解析测量，最大尺寸误差约0.000824单位，仍小于0.001。
+
+## 文件与复核
+
+- [矢量素材包](../../output/brand/Senplate_Bowl_Golden_Vector_v6.zip)
+- [主Logo SVG](../../output/brand/2026-09-17-senplate-bowl-golden-v6/senplate-logo-green.svg)／[独立符号SVG](../../output/brand/2026-09-17-senplate-bowl-golden-v6/senplate-symbol-green.svg)
+- [单色与32／64／128px样本](../../output/brand/2026-09-17-senplate-bowl-golden-v6/monochrome-and-sizes.png)
+- [Figma实体碗工作页](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=79-2)：页面76:2；布尔构造77:8；生产符号78:9；主组合78:10；可编辑文字76:3／轮廓字标76:6；预览79:2；检查79:6；构造80:2。
+
+放大查看主稿、口沿负形与脚底衔接；查看黑、反白及32／64／128px样本。32px保留碗的轮廓，口沿细节更清楚的场景建议48px以上；这不是目标用户识别率或实机测试。外轮廓574点镜像采样最大距离约0.000001设计单位，内部量位切口保持偏置。
+
+本轮是基本Logo矢量及验证，不是完整VI、App实现、实物加工测试或商标清查。旧V5原生图和更早资产保留；收尾记录见[QA](../../output/qa/senplate-bowl-golden-v6-2026-09-17/closeout-validation.json)。

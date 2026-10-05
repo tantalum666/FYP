@@ -1,0 +1,26 @@
+{
+  "checked_at": "2026-09-16T10:54:42.588308+08:00",
+  "sources": [
+    {
+      "url": "https://react.dev/learn/creating-a-react-app",
+      "used": "React supports a from-scratch route using tools such as Vite; SPA selection is project recommendation, not universal official recommendation."
+    },
+    {
+      "url": "https://fastapi.tiangolo.com/advanced/websockets/",
+      "used": "WebSocket support; example memory connection registry is single-process only."
+    },
+    {
+      "url": "https://fastapi.tiangolo.com/tutorial/background-tasks/",
+      "used": "Heavy background computation is distinct from small request background tasks; chose a separate vision process without prematurely requiring Celery."
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable",
+      "used": "Installability requires HTTPS or localhost/loopback conditions; LAN web access does not itself establish installation or offline-order support."
+    },
+    {
+      "url": "https://www.postgresql.org/docs/17/explicit-locking.html",
+      "used": "Official row-level locking description supports transaction/concurrency plan; no database executed."
+    }
+  ],
+  "boundary": "Technical documentation reviewed for architecture planning only; no packages installed or application implementation run."
+}

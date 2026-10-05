@@ -1,0 +1,103 @@
+{
+  "candidate_files": 6931,
+  "total_bytes": 698737062,
+  "top_level": {
+    ".gitignore": {
+      "files": 1,
+      "bytes": 198
+    },
+    "AGENTS.md": {
+      "files": 1,
+      "bytes": 4008
+    },
+    "README.md": {
+      "files": 1,
+      "bytes": 23614
+    },
+    "Senplate_Logo_ImageGen_Brief.md": {
+      "files": 1,
+      "bytes": 4848
+    },
+    "apps": {
+      "files": 83,
+      "bytes": 48749383
+    },
+    "assets": {
+      "files": 7,
+      "bytes": 6172744
+    },
+    "brand.md": {
+      "files": 1,
+      "bytes": 6636
+    },
+    "decision-log.md": {
+      "files": 1,
+      "bytes": 103523
+    },
+    "design": {
+      "files": 16,
+      "bytes": 9735818
+    },
+    "desk-companion": {
+      "files": 156,
+      "bytes": 1543142
+    },
+    "handoff.md": {
+      "files": 1,
+      "bytes": 4585
+    },
+    "output": {
+      "files": 2996,
+      "bytes": 607002668
+    },
+    "outputs": {
+      "files": 2,
+      "bytes": 361848
+    },
+    "planning": {
+      "files": 77,
+      "bytes": 3228481
+    },
+    "product-senplate-historical.md": {
+      "files": 1,
+      "bytes": 30456
+    },
+    "product.md": {
+      "files": 1,
+      "bytes": 10947
+    },
+    "pyproject.toml": {
+      "files": 1,
+      "bytes": 610
+    },
+    "research": {
+      "files": 3554,
+      "bytes": 21045182
+    },
+    "scripts": {
+      "files": 10,
+      "bytes": 93228
+    },
+    "services": {
+      "files": 14,
+      "bytes": 149296
+    },
+    "tests": {
+      "files": 3,
+      "bytes": 59912
+    },
+    "tools": {
+      "files": 1,
+      "bytes": 2521
+    },
+    "uv.lock": {
+      "files": 1,
+      "bytes": 261780
+    },
+    "work-log.md": {
+      "files": 1,
+      "bytes": 141634
+    }
+  },
+  "large_files": []
+}

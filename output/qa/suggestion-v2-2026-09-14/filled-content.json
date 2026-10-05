@@ -1,0 +1,31 @@
+{
+  "title": "AI and IoT Based Food and Nutrition Monitoring System",
+  "problem_statement": "Foodservice teams, schools and individuals need easier ways to connect food quantity, nutrition and leftovers. Buffets need timely replenishment, schools need portion and food-group records, and individuals need less manual meal logging.\nWe propose continuous monitoring while serving containers or meal plates remain on sensing bases. Food recognition, measured portions and reference nutrition data enable scenario-specific feedback. Metafoodx and Controliza are design references; benefits will be evaluated in controlled tests.",
+  "objectives": [
+    "Implement shared continuous monitoring of food identity, quantity and leftovers for serving containers and individual meals.",
+    "Provide AI-assisted replenishment and reference-based nutrition feedback for foodservice, school and personal profiles, with human confirmation.",
+    "Compare measurement/nutrition calculations with manual references, and empty-tray time/leftovers with replenishment baselines; evaluate usability and recovery."
+  ],
+  "scope": "Key Subsystems / Features:\nA. Shared continuous sensing. Track food quantities, identity, refills and leftovers; handle tare, movement, occlusion and stale data. Record surface temperature where applicable.\nB. Nutrition estimates. Match portions to registered recipes/food records. Distinguish provided food, leftovers and confirmed intake estimates; flag uncertain mappings.\nC. Three application profiles. Foodservice: replenishment timing and batch tasks. Schools: compare portions with configured meal plans and report aggregate leftovers. Personal: adult meal records, estimated nutrients and food-group feedback.\nD. Interfaces and feedback. Bilingual dashboards, alerts and reports; QR menus retain availability, completed-order popularity and estimated waits. Basic orders and kitchen status remain available for foodservice.\nPrototype Scope: Six months; three profiles, up to three weighing positions and 4-6 registered foods/recipes. Test separately weighed items/known recipes and anonymous school example meals.\nExpected Users & Roles: Kitchen teams, primary and secondary school staff, and adult users; students/parents see appropriate menu and educational summaries.",
+  "technology": "Development Technologies & Tools:\n• Hardware: Raspberry Pi 5, load cells with ADC interfaces, overhead camera, surface-temperature sensor and display/LEDs. Adapt supports for serving containers or meal plates; assess RGB-D by testing. Existing UNO R4 WiFi is optional.\n• Programming Languages: Python, TypeScript, HTML/CSS; C++ only if a microcontroller is used.\n• Frameworks / Libraries: OpenCV, PyTorch/scikit-learn, FastAPI, React and i18next.\n• Database / Storage: PostgreSQL, local logs, selected USDA FoodData Central records and registered recipes. Retain source IDs, units and cooking-state/recipe metadata.\n• Target Platforms: Local Linux device and responsive web interfaces with configurable scenario profiles.\n\nSpecial Project Considerations:\n• Contemporary Technologies: IoT sensing, AI food recognition and demand estimates, reference-based nutrition calculations and live feedback; optional cloud backup.\n• Environmental-Friendly Solution / Social Benefit: Support school meal review, personal nutrition awareness and avoidable-waste reduction with reusable hardware.\n• Bilingual / Multi-Language Support: English and Traditional Chinese interfaces.\n• Cross-Border Deployment / Greater China Needs: Configurable food catalogues, meal plans, currency and time zone; reviewed regional guidance, such as Hong Kong school-lunch guidelines.\n• Responsible Use: Educational estimates, not diagnosis or prescribed diets. Uncertain mixed meals require confirmation; school demonstrations use anonymous meals without child health profiles.\n• Feasibility / Validation: Test sensing and nutrition calculations against known portions/manual references; compare replenishment with fixed-threshold and consumption-rate baselines. Use controlled meals and adult usability tests; field access is not assumed. Full payment/ERP integration is excluded.",
+  "roles": [
+    {
+      "name": "Yuan Yuchen",
+      "role": "Project Leader / Backend AI Lead",
+      "responsibility": "Requirements, APIs, food recognition, nutrition estimates, forecasts and integration tests.",
+      "planned_workload_percent": 40
+    },
+    {
+      "name": "Xu Ziqian",
+      "role": "IoT Hardware / Edge Processing",
+      "responsibility": "Sensing hardware, Pi acquisition, container calibration, event detection and reliability tests.",
+      "planned_workload_percent": 30
+    },
+    {
+      "name": "Li Wenhua",
+      "role": "Web Application / UX Developer",
+      "responsibility": "Scenario dashboards, QR menu/orders, nutrition views, bilingual UI and usability tests.",
+      "planned_workload_percent": 30
+    }
+  ]
+}

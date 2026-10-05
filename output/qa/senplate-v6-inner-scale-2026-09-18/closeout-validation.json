@@ -1,0 +1,81 @@
+{
+  "completed_at": "2026-09-17T16:51:02.541680+00:00",
+  "user_clarification": "Scale marks look like scratches and do not integrate with bowl",
+  "protected_files": 1903,
+  "protected_changes": [],
+  "old_figma_node_count": 39,
+  "old_nodes_unchanged": true,
+  "common_source_parts": [
+    {
+      "name": "outer-body",
+      "deltas": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "withinTolerance": true,
+      "pathsIdentical": true
+    },
+    {
+      "name": "rim-seam",
+      "deltas": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "withinTolerance": true,
+      "pathsIdentical": true
+    },
+    {
+      "name": "foot-seam",
+      "deltas": {
+        "x": 0.0009765625,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "withinTolerance": true,
+      "pathsIdentical": true
+    },
+    {
+      "name": "Full elliptical mouth",
+      "deltas": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "withinTolerance": true,
+      "pathsIdentical": true
+    }
+  ],
+  "svg": [
+    {
+      "file": "inner-symbol.svg",
+      "text_nodes": 0,
+      "paths": 1
+    }
+  ],
+  "visual_review": [
+    "old/new comparison1440x720",
+    "symbol detail960x720",
+    "actual32px ivory",
+    "actual64px ivory"
+  ],
+  "scope": "Preservation, source geometry and export validation; no user acceptance or recognition test claimed",
+  "updated_markdown": [
+    "brand.md",
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-18/senplate-v6-inner-scale.md",
+    "output/brand/2026-09-18-senplate-v6-inner-scale/README.md"
+  ],
+  "local_links_checked": 366,
+  "broken_links": [],
+  "all_checks_passed": true
+}

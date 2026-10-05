@@ -1,0 +1,194 @@
+{
+  "brand": "Senplate",
+  "version": "6.1-tick-study",
+  "status": "TRIAL_ONLY_V6_RETAINED",
+  "created_at": "2026-09-17T15:49:27.425791+00:00",
+  "base_version": "V6 unchanged",
+  "base_archive": "../Senplate_Bowl_Golden_Vector_v6.zip",
+  "changes": [
+    "Restore complete elliptical inner opening",
+    "Replace original step and vertical gap with three rounded long-short-long scale marks on right bowl wall"
+  ],
+  "preserved": [
+    "V6 original files and QA",
+    "Outer profile",
+    "Rim seam",
+    "Foot seam",
+    "Wordmark paths",
+    "Signature width, height and gap"
+  ],
+  "figma": {
+    "file_key": "UyYjnTFGWO0r1lj4uvghGp",
+    "page": "76:2",
+    "editable_trial": "84:3",
+    "symbol": "84:22",
+    "signature": "85:2",
+    "preview": "85:6",
+    "comparison": "85:13"
+  },
+  "trial_parts": [
+    {
+      "id": "84:4",
+      "name": "outer-body",
+      "type": "VECTOR",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 226.62525939941406
+    },
+    {
+      "id": "84:6",
+      "name": "rim-seam",
+      "type": "VECTOR",
+      "x": 11.021392822265625,
+      "y": 51.5467529296875,
+      "w": 297.95721435546875,
+      "h": 30.80658721923828
+    },
+    {
+      "id": "84:7",
+      "name": "foot-seam",
+      "type": "VECTOR",
+      "x": 109.90682983398438,
+      "y": 189.72705078125,
+      "w": 100.18634033203125,
+      "h": 14.855432510375977
+    },
+    {
+      "id": "84:9",
+      "name": "Full elliptical mouth",
+      "type": "ELLIPSE",
+      "x": 11.021392822265625,
+      "y": 6.811595916748047,
+      "w": 297.95721435546875,
+      "h": 61.91856002807617
+    },
+    {
+      "id": "84:10",
+      "name": "Scale tick 1 / long",
+      "type": "RECTANGLE",
+      "x": 197.7708740234375,
+      "y": 100.9903335571289,
+      "w": 46.68737030029297,
+      "h": 6.811595439910889,
+      "cornerRadius": 3.4057977199554443
+    },
+    {
+      "id": "84:11",
+      "name": "Scale tick 2 / short",
+      "type": "RECTANGLE",
+      "x": 215.60386657714844,
+      "y": 118.82332611083984,
+      "w": 28.854381561279297,
+      "h": 6.811595439910889,
+      "cornerRadius": 3.4057977199554443
+    },
+    {
+      "id": "84:12",
+      "name": "Scale tick 3 / long",
+      "type": "RECTANGLE",
+      "x": 197.7708740234375,
+      "y": 136.65631103515625,
+      "w": 46.68737030029297,
+      "h": 6.811595439910889,
+      "cornerRadius": 3.4057977199554443
+    }
+  ],
+  "local_change_check": {
+    "native_png_size": [
+      960,
+      680
+    ],
+    "allowed_design_regions": [
+      "mouth at y<=90",
+      "ticks x190..252,y94..151"
+    ],
+    "outside_change_region_max_alpha_difference": 0.0,
+    "outside_change_region_mean_alpha_difference": 0.0,
+    "outside_change_region_pixels_over_3": 0
+  },
+  "svg": [
+    {
+      "name": "tick-logo.svg",
+      "paths": 9,
+      "viewBox": "0 0 1205 227",
+      "sha256": "e308b4b1a3a53f3cc1fa15073bcdb5c799649a4eabda21ad437c4200c4be5982"
+    },
+    {
+      "name": "tick-symbol.svg",
+      "paths": 1,
+      "viewBox": "0 0 320 227",
+      "sha256": "45ca70337c52f5d3615fe58650541ae4ecde15794072b7743e3550cdad10df75"
+    }
+  ],
+  "png": [
+    {
+      "name": "tick-preview.png",
+      "size": [
+        1774,
+        887
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "b9b035e40ae37c8550510a55c613c3bee350a2c103752b7ef8599648bf71ff98"
+    },
+    {
+      "name": "tick-comparison.png",
+      "size": [
+        1440,
+        760
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "6ee4c4d246064036ecc1b06a1d35156fff84abf8f7c720d47af5853c6da4834c"
+    },
+    {
+      "name": "tick-symbol.png",
+      "size": [
+        960,
+        680
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "2daece2011dfa7b7ac17ecba685eeeb6705a83e6f5c9139cb6e783295598b6a1"
+    },
+    {
+      "name": "tick-32.png",
+      "size": [
+        32,
+        32
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "9705c18dd16bb63c902299d8e73a2ccfa7ce22916e7563809109a2fefa476a9a"
+    },
+    {
+      "name": "tick-64.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "ff5ff3f0efa7d58471ac2f2729e3abd3a64f80b254638d95f6d0c1a06aaf1827"
+    }
+  ],
+  "visual_review": "Full preview and before/after viewed; 32px marks are weak,64px clearer.",
+  "not_done": [
+    "User adoption",
+    "Default logo replacement",
+    "Full VI",
+    "App implementation",
+    "New trademark screening"
+  ]
+}

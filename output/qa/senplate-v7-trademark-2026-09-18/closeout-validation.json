@@ -1,0 +1,38 @@
+{
+  "checked_at": "2026-09-18T14:20:30.250823+08:00",
+  "protected_file_count": 320,
+  "protected_changes": [],
+  "markdown_local_links_checked": 229,
+  "missing_links": [],
+  "candidate_count": 15,
+  "original_official_image_files": 10,
+  "visually_reviewed_image_files": 10,
+  "comparison_html": {
+    "rendered_in_browser": true,
+    "four_images_loaded": true,
+    "chinese_and_layout_reviewed": true,
+    "small_screen_tested": false
+  },
+  "updated_specs": [
+    "brand.md",
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "planning/2026-09-18/senplate-vi-v1.md",
+    "research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md",
+    "research/2026-09-18-senplate-trademark/trademark-review.md",
+    "work-log.md"
+  ],
+  "logo_or_vi_edits": false,
+  "figma_edits": false,
+  "evidence_is_transcription_not_official_export": true,
+  "application_or_hardware_tests": "Not applicable to research-only task",
+  "full_read_record": "reading-record.json",
+  "intermediate_issues": [
+    "A UTF-8 heredoc script did not execute; recreated data through apply_patch",
+    "An atomic multi-file patch failed before changing files; corrected exact context and reapplied"
+  ],
+  "reading_complete": true,
+  "final_log_appended": true
+}

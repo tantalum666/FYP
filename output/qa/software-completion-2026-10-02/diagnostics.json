@@ -1,0 +1,20 @@
+{
+  "os": "Darwin",
+  "architecture": "arm64",
+  "python": "3.12.13",
+  "packages": {
+    "fastapi": "0.141.1",
+    "uvicorn": "0.54.0",
+    "mediapipe": "0.10.35",
+    "sherpa-onnx": "1.13.8",
+    "sherpa-onnx-core": "1.13.8",
+    "httpx": "0.28.1"
+  },
+  "frontend_built": true,
+  "pose_model_present": true,
+  "wake_model_present": true,
+  "runtime_present": true,
+  "credentials_printed": false,
+  "camera_opened": false,
+  "microphone_opened": false
+}

@@ -1,0 +1,902 @@
+[
+  {
+    "path": "AGENTS.md",
+    "start": 1,
+    "end": 50
+  },
+  {
+    "path": "README.md",
+    "start": 1,
+    "end": 29
+  },
+  {
+    "path": "README.md",
+    "start": 30,
+    "end": 106
+  },
+  {
+    "path": "README.md",
+    "start": 107,
+    "end": 157
+  },
+  {
+    "path": "README.md",
+    "start": 158,
+    "end": 218
+  },
+  {
+    "path": "Senplate_Logo_ImageGen_Brief.md",
+    "start": 1,
+    "end": 53
+  },
+  {
+    "path": "brand.md",
+    "start": 1,
+    "end": 60
+  },
+  {
+    "path": "decision-log.md",
+    "start": 1,
+    "end": 95
+  },
+  {
+    "path": "decision-log.md",
+    "start": 96,
+    "end": 181
+  },
+  {
+    "path": "decision-log.md",
+    "start": 182,
+    "end": 268
+  },
+  {
+    "path": "decision-log.md",
+    "start": 269,
+    "end": 374
+  },
+  {
+    "path": "decision-log.md",
+    "start": 375,
+    "end": 458
+  },
+  {
+    "path": "decision-log.md",
+    "start": 459,
+    "end": 521
+  },
+  {
+    "path": "decision-log.md",
+    "start": 522,
+    "end": 591
+  },
+  {
+    "path": "decision-log.md",
+    "start": 592,
+    "end": 618
+  },
+  {
+    "path": "design/desk-companion/b1/design-spec.md",
+    "start": 1,
+    "end": 42
+  },
+  {
+    "path": "design/desk-companion/device-ambient-v1/README.md",
+    "start": 1,
+    "end": 11
+  },
+  {
+    "path": "desk-companion/README.md",
+    "start": 1,
+    "end": 98
+  },
+  {
+    "path": "desk-companion/THIRD_PARTY.md",
+    "start": 1,
+    "end": 23
+  },
+  {
+    "path": "desk-companion/docs/architecture.md",
+    "start": 1,
+    "end": 63
+  },
+  {
+    "path": "desk-companion/docs/evaluation.md",
+    "start": 1,
+    "end": 60
+  },
+  {
+    "path": "desk-companion/docs/operator-guide.md",
+    "start": 1,
+    "end": 139
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/CapApp-SPM/README.md",
+    "start": 1,
+    "end": 5
+  },
+  {
+    "path": "handoff.md",
+    "start": 1,
+    "end": 43
+  },
+  {
+    "path": "output/brand/2026-09-17-senplate-bowl-golden-v6/README.md",
+    "start": 1,
+    "end": 25
+  },
+  {
+    "path": "output/brand/2026-09-17-senplate-bowl-redesign-v5/README.md",
+    "start": 1,
+    "end": 15
+  },
+  {
+    "path": "output/brand/2026-09-17-senplate-ellipse-a-v4/README.md",
+    "start": 1,
+    "end": 29
+  },
+  {
+    "path": "output/brand/2026-09-17-senplate-golden-a-v3/README.md",
+    "start": 1,
+    "end": 36
+  },
+  {
+    "path": "output/brand/2026-09-17-senplate-refined-a-v2/README.md",
+    "start": 1,
+    "end": 25
+  },
+  {
+    "path": "output/brand/2026-09-17-senplate-selected-a/README.md",
+    "start": 1,
+    "end": 28
+  },
+  {
+    "path": "output/brand/2026-09-17-senplate-v6-tick-study/README.md",
+    "start": 1,
+    "end": 14
+  },
+  {
+    "path": "output/brand/2026-09-18-senplate-plain-bowl-v7/README.md",
+    "start": 1,
+    "end": 13
+  },
+  {
+    "path": "output/brand/2026-09-18-senplate-v6-curved-ticks/README.md",
+    "start": 1,
+    "end": 9
+  },
+  {
+    "path": "output/brand/2026-09-18-senplate-v6-inner-scale/README.md",
+    "start": 1,
+    "end": 9
+  },
+  {
+    "path": "output/brand/2026-09-18-senplate-v6-rim-tick-study/README.md",
+    "start": 1,
+    "end": 15
+  },
+  {
+    "path": "output/brand/2026-09-18-senplate-v6-visible-ticks/README.md",
+    "start": 1,
+    "end": 12
+  },
+  {
+    "path": "output/brand/2026-09-18-senplate-vi-v1/05_Fonts_and_Licences/FONT-LICENCE-AUDIT.md",
+    "start": 1,
+    "end": 28
+  },
+  {
+    "path": "output/brand/2026-09-18-senplate-vi-v1/06_Source/Figma_Source.md",
+    "start": 1,
+    "end": 17
+  },
+  {
+    "path": "output/brand/2026-09-18-senplate-vi-v1/06_Source/VI_Rules.md",
+    "start": 1,
+    "end": 14
+  },
+  {
+    "path": "output/brand/2026-09-18-senplate-vi-v1/README.md",
+    "start": 1,
+    "end": 25
+  },
+  {
+    "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+    "start": 1,
+    "end": 131
+  },
+  {
+    "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+    "start": 132,
+    "end": 174
+  },
+  {
+    "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+    "start": 1,
+    "end": 103
+  },
+  {
+    "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+    "start": 104,
+    "end": 122
+  },
+  {
+    "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+    "start": 1,
+    "end": 80
+  },
+  {
+    "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+    "start": 1,
+    "end": 151
+  },
+  {
+    "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+    "start": 152,
+    "end": 160
+  },
+  {
+    "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+    "start": 1,
+    "end": 110
+  },
+  {
+    "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+    "start": 1,
+    "end": 39
+  },
+  {
+    "path": "planning/2026-09-15/camera-power-and-scaling.md",
+    "start": 1,
+    "end": 110
+  },
+  {
+    "path": "planning/2026-09-15/camera-power-and-scaling.md",
+    "start": 111,
+    "end": 185
+  },
+  {
+    "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+    "start": 1,
+    "end": 22
+  },
+  {
+    "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+    "start": 1,
+    "end": 139
+  },
+  {
+    "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+    "start": 140,
+    "end": 247
+  },
+  {
+    "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+    "start": 1,
+    "end": 70
+  },
+  {
+    "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+    "start": 1,
+    "end": 53
+  },
+  {
+    "path": "planning/2026-09-15/power-supply-detail.md",
+    "start": 1,
+    "end": 121
+  },
+  {
+    "path": "planning/2026-09-15/power-supply-detail.md",
+    "start": 122,
+    "end": 143
+  },
+  {
+    "path": "planning/2026-09-15/procurement-guide.md",
+    "start": 1,
+    "end": 83
+  },
+  {
+    "path": "planning/2026-09-15/procurement-guide.md",
+    "start": 84,
+    "end": 132
+  },
+  {
+    "path": "planning/2026-09-15/procurement-guide.md",
+    "start": 133,
+    "end": 214
+  },
+  {
+    "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+    "start": 1,
+    "end": 107
+  },
+  {
+    "path": "planning/2026-09-16/app-pages-and-permissions.md",
+    "start": 1,
+    "end": 149
+  },
+  {
+    "path": "planning/2026-09-16/app-pages-and-permissions.md",
+    "start": 150,
+    "end": 180
+  },
+  {
+    "path": "planning/2026-09-16/archive/software-scope-web-first-v1.md",
+    "start": 1,
+    "end": 146
+  },
+  {
+    "path": "planning/2026-09-16/archive/software-scope-web-first-v1.md",
+    "start": 147,
+    "end": 189
+  },
+  {
+    "path": "planning/2026-09-16/brand-visual-directions.md",
+    "start": 1,
+    "end": 54
+  },
+  {
+    "path": "planning/2026-09-16/business-plan-zh.md",
+    "start": 1,
+    "end": 171
+  },
+  {
+    "path": "planning/2026-09-16/business-plan-zh.md",
+    "start": 172,
+    "end": 351
+  },
+  {
+    "path": "planning/2026-09-16/business-plan-zh.md",
+    "start": 352,
+    "end": 449
+  },
+  {
+    "path": "planning/2026-09-16/logo-reference-calibration.md",
+    "start": 1,
+    "end": 52
+  },
+  {
+    "path": "planning/2026-09-16/naming-shortlist.md",
+    "start": 1,
+    "end": 45
+  },
+  {
+    "path": "planning/2026-09-16/senplate-logo-refinement-r2.md",
+    "start": 1,
+    "end": 44
+  },
+  {
+    "path": "planning/2026-09-16/senplate-logo-reset-r3.md",
+    "start": 1,
+    "end": 46
+  },
+  {
+    "path": "planning/2026-09-16/senplate-logo-vi-directions.md",
+    "start": 1,
+    "end": 63
+  },
+  {
+    "path": "planning/2026-09-16/software-mvp-and-acceptance.md",
+    "start": 1,
+    "end": 98
+  },
+  {
+    "path": "planning/2026-09-16/software-scope-and-architecture.md",
+    "start": 1,
+    "end": 126
+  },
+  {
+    "path": "planning/2026-09-16/software-scope-and-architecture.md",
+    "start": 127,
+    "end": 206
+  },
+  {
+    "path": "planning/2026-09-16/software-workflows-and-api.md",
+    "start": 1,
+    "end": 104
+  },
+  {
+    "path": "planning/2026-09-16/software-workflows-and-api.md",
+    "start": 105,
+    "end": 258
+  },
+  {
+    "path": "planning/2026-09-16/software-workflows-and-api.md",
+    "start": 259,
+    "end": 291
+  },
+  {
+    "path": "planning/2026-09-17/senplate-bowl-golden-v6.md",
+    "start": 1,
+    "end": 43
+  },
+  {
+    "path": "planning/2026-09-17/senplate-bowl-redesign-v5.md",
+    "start": 1,
+    "end": 44
+  },
+  {
+    "path": "planning/2026-09-17/senplate-logo-measured-plate-r5.md",
+    "start": 1,
+    "end": 45
+  },
+  {
+    "path": "planning/2026-09-17/senplate-logo-profile-r4.md",
+    "start": 1,
+    "end": 40
+  },
+  {
+    "path": "planning/2026-09-17/senplate-v6-tick-study.md",
+    "start": 1,
+    "end": 30
+  },
+  {
+    "path": "planning/2026-09-17/senplate-vector-logo-studies.md",
+    "start": 1,
+    "end": 51
+  },
+  {
+    "path": "planning/2026-09-18/development-p0.md",
+    "start": 1,
+    "end": 70
+  },
+  {
+    "path": "planning/2026-09-18/senplate-plain-bowl-v7.md",
+    "start": 1,
+    "end": 25
+  },
+  {
+    "path": "planning/2026-09-18/senplate-v6-curved-ticks.md",
+    "start": 1,
+    "end": 26
+  },
+  {
+    "path": "planning/2026-09-18/senplate-v6-inner-scale.md",
+    "start": 1,
+    "end": 24
+  },
+  {
+    "path": "planning/2026-09-18/senplate-v6-rim-tick-study.md",
+    "start": 1,
+    "end": 30
+  },
+  {
+    "path": "planning/2026-09-18/senplate-v6-visible-ticks.md",
+    "start": 1,
+    "end": 26
+  },
+  {
+    "path": "planning/2026-09-18/senplate-vi-v1.md",
+    "start": 1,
+    "end": 33
+  },
+  {
+    "path": "planning/2026-09-19/meals-samples-contract.md",
+    "start": 1,
+    "end": 55
+  },
+  {
+    "path": "planning/2026-09-19/menu-orders-contract.md",
+    "start": 1,
+    "end": 70
+  },
+  {
+    "path": "planning/2026-09-21/marco-camera-and-nutrition-review.md",
+    "start": 1,
+    "end": 107
+  },
+  {
+    "path": "planning/2026-09-21/marco-camera-and-nutrition-review.md",
+    "start": 108,
+    "end": 147
+  },
+  {
+    "path": "planning/2026-09-21/proposal-content.md",
+    "start": 1,
+    "end": 62
+  },
+  {
+    "path": "planning/2026-09-21/proposal-content.md",
+    "start": 63,
+    "end": 102
+  },
+  {
+    "path": "planning/2026-09-21/proposal-content.md",
+    "start": 103,
+    "end": 141
+  },
+  {
+    "path": "planning/2026-09-21/proposal-content.md",
+    "start": 142,
+    "end": 194
+  },
+  {
+    "path": "planning/2026-09-21/proposal-content.md",
+    "start": 195,
+    "end": 243
+  },
+  {
+    "path": "planning/2026-09-21/proposal-spec.md",
+    "start": 1,
+    "end": 41
+  },
+  {
+    "path": "planning/2026-09-25/desk-companion-proposal-zh-review-v2.md",
+    "start": 1,
+    "end": 105
+  },
+  {
+    "path": "planning/2026-09-25/desk-companion-proposal-zh-review-v2.md",
+    "start": 106,
+    "end": 148
+  },
+  {
+    "path": "planning/2026-09-25/desk-companion-proposal-zh-review.md",
+    "start": 1,
+    "end": 115
+  },
+  {
+    "path": "planning/2026-09-25/desk-companion-proposal-zh-review.md",
+    "start": 116,
+    "end": 142
+  },
+  {
+    "path": "planning/2026-09-26/ava-cylinder-route-a.md",
+    "start": 1,
+    "end": 55
+  },
+  {
+    "path": "planning/2026-09-28/desk-companion-proposal-en.md",
+    "start": 1,
+    "end": 68
+  },
+  {
+    "path": "planning/2026-09-28/desk-companion-proposal-en.md",
+    "start": 69,
+    "end": 102
+  },
+  {
+    "path": "planning/2026-09-28/desk-companion-proposal-en.md",
+    "start": 103,
+    "end": 146
+  },
+  {
+    "path": "planning/2026-09-28/desk-companion-proposal-en.md",
+    "start": 147,
+    "end": 199
+  },
+  {
+    "path": "planning/2026-09-28/desk-companion-proposal-zh-v3.md",
+    "start": 1,
+    "end": 142
+  },
+  {
+    "path": "planning/2026-09-28/desk-companion-proposal-zh-v3.md",
+    "start": 143,
+    "end": 199
+  },
+  {
+    "path": "planning/2026-09-28/desk-software-scope-v1.md",
+    "start": 1,
+    "end": 98
+  },
+  {
+    "path": "planning/2026-09-28/desk-software-scope-v1.md",
+    "start": 99,
+    "end": 215
+  },
+  {
+    "path": "planning/2026-09-28/desk-software-scope-v1.md",
+    "start": 216,
+    "end": 222
+  },
+  {
+    "path": "planning/2026-09-28/logsheet-and-proposal-review.md",
+    "start": 1,
+    "end": 44
+  },
+  {
+    "path": "planning/2026-09-29/calendar-part1-functional-scope.md",
+    "start": 1,
+    "end": 146
+  },
+  {
+    "path": "planning/2026-09-29/calendar-part1-teammate-source.md",
+    "start": 1,
+    "end": 49
+  },
+  {
+    "path": "planning/2026-09-29/software-development-plan.md",
+    "start": 1,
+    "end": 135
+  },
+  {
+    "path": "planning/2026-09-29/software-development-plan.md",
+    "start": 136,
+    "end": 148
+  },
+  {
+    "path": "planning/2026-09-30/device-display-spec.md",
+    "start": 1,
+    "end": 64
+  },
+  {
+    "path": "planning/2026-10-02/software-completion-plan.md",
+    "start": 1,
+    "end": 53
+  },
+  {
+    "path": "product-senplate-historical.md",
+    "start": 1,
+    "end": 65
+  },
+  {
+    "path": "product-senplate-historical.md",
+    "start": 66,
+    "end": 143
+  },
+  {
+    "path": "product-senplate-historical.md",
+    "start": 144,
+    "end": 168
+  },
+  {
+    "path": "product.md",
+    "start": 1,
+    "end": 67
+  },
+  {
+    "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+    "start": 1,
+    "end": 109
+  },
+  {
+    "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+    "start": 110,
+    "end": 165
+  },
+  {
+    "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+    "start": 1,
+    "end": 38
+  },
+  {
+    "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+    "start": 1,
+    "end": 44
+  },
+  {
+    "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+    "start": 1,
+    "end": 47
+  },
+  {
+    "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+    "start": 1,
+    "end": 118
+  },
+  {
+    "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+    "start": 119,
+    "end": 255
+  },
+  {
+    "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+    "start": 256,
+    "end": 287
+  },
+  {
+    "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+    "start": 1,
+    "end": 147
+  },
+  {
+    "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+    "start": 148,
+    "end": 171
+  },
+  {
+    "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+    "start": 1,
+    "end": 25
+  },
+  {
+    "path": "research/2026-09-16-competitions/competition-shortlist.md",
+    "start": 1,
+    "end": 70
+  },
+  {
+    "path": "research/2026-09-16-competitions/competition-shortlist.md",
+    "start": 71,
+    "end": 80
+  },
+  {
+    "path": "research/2026-09-16-competitions/mainland-national-provincial.md",
+    "start": 1,
+    "end": 64
+  },
+  {
+    "path": "research/2026-09-16-competitions/no-company-options.md",
+    "start": 1,
+    "end": 55
+  },
+  {
+    "path": "research/2026-09-16-competitions/plan-to-july-2027.md",
+    "start": 1,
+    "end": 63
+  },
+  {
+    "path": "research/2026-09-16-competitions/plan-to-july-2027.md",
+    "start": 64,
+    "end": 82
+  },
+  {
+    "path": "research/2026-09-16-competitions/world-vocational-registration.md",
+    "start": 1,
+    "end": 52
+  },
+  {
+    "path": "research/2026-09-16-metafoodx-app/app-review.md",
+    "start": 1,
+    "end": 60
+  },
+  {
+    "path": "research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md",
+    "start": 1,
+    "end": 72
+  },
+  {
+    "path": "research/2026-09-17-logo-similarity/similarity-review.md",
+    "start": 1,
+    "end": 82
+  },
+  {
+    "path": "research/2026-09-18-font-licences/font-licence-audit.md",
+    "start": 1,
+    "end": 28
+  },
+  {
+    "path": "research/2026-09-18-senplate-trademark/trademark-review.md",
+    "start": 1,
+    "end": 78
+  },
+  {
+    "path": "research/2026-09-18-senplate-trademark/trademark-review.md",
+    "start": 79,
+    "end": 83
+  },
+  {
+    "path": "research/2026-09-19-nutrition/reference-audit.md",
+    "start": 1,
+    "end": 36
+  },
+  {
+    "path": "research/2026-09-25-desk-companion/feasibility-review.md",
+    "start": 1,
+    "end": 74
+  },
+  {
+    "path": "research/2026-09-25-desk-companion/feasibility-review.md",
+    "start": 75,
+    "end": 127
+  },
+  {
+    "path": "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md",
+    "start": 1,
+    "end": 38
+  },
+  {
+    "path": "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md",
+    "start": 39,
+    "end": 63
+  },
+  {
+    "path": "research/2026-09-25-desk-companion/voice-model-cost-review.md",
+    "start": 1,
+    "end": 55
+  },
+  {
+    "path": "research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md",
+    "start": 1,
+    "end": 40
+  },
+  {
+    "path": "research/2026-09-26-desk-companion/hologram-fan-maturity.md",
+    "start": 1,
+    "end": 37
+  },
+  {
+    "path": "research/2026-09-26-desk-companion/razer-ava-like-feasibility.md",
+    "start": 1,
+    "end": 36
+  },
+  {
+    "path": "research/2026-09-28-local-voice/server-deployment-comparison.md",
+    "start": 1,
+    "end": 89
+  },
+  {
+    "path": "research/2026-09-28-local-voice/server-deployment-comparison.md",
+    "start": 90,
+    "end": 175
+  },
+  {
+    "path": "research/2026-09-28-local-voice/server-deployment-comparison.md",
+    "start": 176,
+    "end": 205
+  },
+  {
+    "path": "research/2026-09-29-voice-ai/naturalness-and-tools-review.md",
+    "start": 1,
+    "end": 84
+  },
+  {
+    "path": "research/2026-09-29-voice-ai/naturalness-and-tools-review.md",
+    "start": 85,
+    "end": 149
+  },
+  {
+    "path": "research/2026-09-29-voice-ai/price-and-value-ranking.md",
+    "start": 1,
+    "end": 66
+  },
+  {
+    "path": "work-log.md",
+    "start": 1,
+    "end": 79
+  },
+  {
+    "path": "work-log.md",
+    "start": 80,
+    "end": 145
+  },
+  {
+    "path": "work-log.md",
+    "start": 146,
+    "end": 214
+  },
+  {
+    "path": "work-log.md",
+    "start": 215,
+    "end": 280
+  },
+  {
+    "path": "work-log.md",
+    "start": 281,
+    "end": 347
+  },
+  {
+    "path": "work-log.md",
+    "start": 348,
+    "end": 410
+  },
+  {
+    "path": "work-log.md",
+    "start": 411,
+    "end": 486
+  },
+  {
+    "path": "work-log.md",
+    "start": 487,
+    "end": 542
+  },
+  {
+    "path": "work-log.md",
+    "start": 543,
+    "end": 601
+  },
+  {
+    "path": "work-log.md",
+    "start": 602,
+    "end": 653
+  },
+  {
+    "path": "work-log.md",
+    "start": 654,
+    "end": 713
+  },
+  {
+    "path": "work-log.md",
+    "start": 714,
+    "end": 752
+  }
+]

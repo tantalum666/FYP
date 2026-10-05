@@ -1,0 +1,49 @@
+{
+  "task_kind": "Continuation and correction of the same 2026-09-28 log-sheet authoring task",
+  "inherited_full_read": "output/qa/desk-software-scope-2026-09-28/reading-record.json",
+  "inherited_original_log_full_read": "output/qa/logsheet-proposal-2026-09-28/reading-record.json",
+  "initial_files": 99,
+  "initial_lines": 9198,
+  "changed_since_full_read": [
+    {
+      "path": "README.md",
+      "lines": 212
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 539
+    },
+    {
+      "path": "handoff.md",
+      "lines": 28
+    },
+    {
+      "path": "product.md",
+      "lines": 56
+    },
+    {
+      "path": "work-log.md",
+      "lines": 656
+    }
+  ],
+  "new_since_full_read": [
+    "planning/2026-09-28/desk-software-scope-v1.md"
+  ],
+  "supplementary_read": [
+    "AGENTS.md full",
+    "product.md full",
+    "handoff.md full",
+    "decision-log.md latest two entries",
+    "work-log.md latest two entries",
+    "planning/2026-09-28/logsheet-and-proposal-review.md full",
+    "scripts/build_logsheet_20260928.py full",
+    "planning/2026-09-14/group-2-details.json full",
+    "retained log template contract full",
+    "README.md current changed opening full",
+    "planning/2026-09-28/desk-software-scope-v1.md full",
+    "original and previous log form rendered page1 inspected"
+  ],
+  "updated_at": "2026-09-28T14:39:55.210448+08:00",
+  "note": "Continuation of the previously completed log-sheet task; teacher clarification changes member attribution requirements. No claim of a fresh all-repository read.",
+  "completed_at": "2026-09-28T14:50:18.615311+08:00"
+}

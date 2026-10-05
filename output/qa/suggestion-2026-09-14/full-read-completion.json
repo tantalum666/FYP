@@ -1,0 +1,161 @@
+{
+  "mode": "full_start_read",
+  "completed_at": "2026-09-14T06:21:31.922226+00:00",
+  "files": [
+    {
+      "path": "README.md",
+      "lines": 29,
+      "sha256": "54205ca2b03be9f2eb902790160a36aed8cec7e596ca477502b6b971bf77b8b5",
+      "read_ranges": [
+        [
+          1,
+          29
+        ]
+      ],
+      "read_status": "complete_body_read_in_tool_output"
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 103,
+      "sha256": "41485c39efff0a634db056fcc22392c83aa94dccd07f42777f73b5c32db1d5f4",
+      "read_ranges": [
+        [
+          1,
+          103
+        ]
+      ],
+      "read_status": "complete_body_read_in_tool_output"
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160,
+      "sha256": "26a0f0c9f4f945ec852cb99b456ce933d17053127a500f3a576237cd03e8c924",
+      "read_ranges": [
+        [
+          1,
+          160
+        ]
+      ],
+      "read_status": "complete_body_read_in_tool_output"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165,
+      "sha256": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53",
+      "read_ranges": [
+        [
+          1,
+          165
+        ]
+      ],
+      "read_status": "complete_body_read_in_tool_output"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38,
+      "sha256": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410",
+      "read_ranges": [
+        [
+          1,
+          38
+        ]
+      ],
+      "read_status": "complete_body_read_in_tool_output"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44,
+      "sha256": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346",
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ],
+      "read_status": "complete_body_read_in_tool_output"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47,
+      "sha256": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a",
+      "read_ranges": [
+        [
+          1,
+          47
+        ]
+      ],
+      "read_status": "complete_body_read_in_tool_output"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287,
+      "sha256": "0d116517580a0747fbef0d23973877d299df57e61cd246d6fe7940618516a82e",
+      "read_ranges": [
+        [
+          1,
+          287
+        ]
+      ],
+      "read_status": "complete_body_read_in_tool_output"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171,
+      "sha256": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4",
+      "read_ranges": [
+        [
+          1,
+          171
+        ]
+      ],
+      "read_status": "complete_body_read_in_tool_output"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25,
+      "sha256": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7",
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ],
+      "read_status": "complete_body_read_in_tool_output"
+    }
+  ],
+  "excluded": [
+    "output: generated QA/render artifacts"
+  ],
+  "total_lines": 1069,
+  "reference_workflows_read": [
+    {
+      "path": "/Users/tantalum/Documents/system and iot/AGENTS.md",
+      "lines": [
+        1,
+        71
+      ]
+    },
+    {
+      "path": "/Users/tantalum/Documents/system and iot/docs/CODEX_HANDOFF.md",
+      "lines": [
+        1,
+        105
+      ]
+    },
+    {
+      "path": "/Users/tantalum/Documents/电子遗嘱app/AGENTS.md",
+      "lines": [
+        1,
+        82
+      ]
+    },
+    {
+      "path": "/Users/tantalum/Documents/电子遗嘱app/docs/handoff.md",
+      "lines": [
+        1,
+        29
+      ]
+    }
+  ],
+  "note": "Only general continuity patterns adopted from other projects; their release permissions and product-specific gates do not apply."
+}

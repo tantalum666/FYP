@@ -1,0 +1,39 @@
+{
+  "phi": 1.618033988749895,
+  "unit": "vector design units, not hardware millimetres",
+  "dimensions": {
+    "symbol_width": 320.0,
+    "symbol_height": 197.77087639996634,
+    "plate_height": 122.22912360003365,
+    "plate_top": 75.5417527999327,
+    "portion_width": 122.22912360003365,
+    "portion_height": 75.5417527999327,
+    "portion_left": 98.88543819998318,
+    "dot_diameter": 46.687370800100936,
+    "dot_center_x": 197.77087639996634,
+    "dot_center_y": 23.343685400050468,
+    "logo_gap": 28.85438199983175,
+    "front_rim_thickness": 28.85438199983175,
+    "back_rim_band": 11.021393199562565,
+    "inner_front_y": 168.91649440013458,
+    "word_stem_height_l": 122.22912360003363,
+    "word_uniform_scale": 1.0185760300002802,
+    "word_visible_width": 669.2044517101841,
+    "word_visible_height": 155.84213259004287,
+    "word_offset": [
+      348.85438199983173,
+      20.964371904961737
+    ],
+    "logo_width": 1018.0588337100158
+  },
+  "ratios": {
+    "symbol_width_over_height": 1.618033988749895,
+    "portion_width_over_height": 1.618033988749895,
+    "dot_left_segment_over_right": 1.6180339887498947,
+    "dot_diameter_over_logo_gap": 1.618033988749895,
+    "symbol_height_over_l_stem": 1.618033988749895
+  },
+  "construction": "Dimensions are evaluated from phi before paths are drawn. Main dimensions use golden divisions; smooth curves and endpoints are optical geometry, not claimed to be generated entirely by a golden spiral.",
+  "typecase": "Lowercase retained; initial capital comparison not selected.",
+  "old_version": "V2 was optical reconstruction, not a golden ratio design."
+}

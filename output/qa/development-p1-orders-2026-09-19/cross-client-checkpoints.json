@@ -1,0 +1,302 @@
+[
+  {
+    "checkpoint": "after_accept_retry",
+    "station": {
+      "session_id": "1807c798-872f-469f-b88c-db49050f5455",
+      "net_g": 2000,
+      "reserved_g": 300,
+      "available_to_promise_g": 1700,
+      "incoming_g": 0,
+      "service_type": "staff_portioned"
+    },
+    "orders": [
+      {
+        "id": "ca71ce95-9485-4ab0-8417-543f131ed061",
+        "number": "001",
+        "state": "accepted",
+        "version": 2,
+        "reserved_g": 300,
+        "expected_g": 300,
+        "actual_g": null,
+        "total_minor": 9100,
+        "history": [
+          {
+            "id": "7a100f46-c6e3-489b-9a61-9ca6f4d3a75e",
+            "action": "submitted",
+            "at": "2026-09-19T02:56:51.542492+08:00",
+            "note": ""
+          },
+          {
+            "id": "e009cc63-146d-4f61-9703-b68ec126f27f",
+            "action": "accept",
+            "at": "2026-09-19T02:57:48.990616+08:00",
+            "note": ""
+          }
+        ]
+      }
+    ],
+    "menu": [
+      {
+        "slug": "chicken",
+        "manual_stock": 0,
+        "reserved_portions": 0,
+        "available_portions": 17,
+        "price_minor": 2400,
+        "version": 1,
+        "quote_version": 1
+      },
+      {
+        "slug": "salad",
+        "manual_stock": 12,
+        "reserved_portions": 1,
+        "available_portions": 11,
+        "price_minor": 1900,
+        "version": 2,
+        "quote_version": 2
+      },
+      {
+        "slug": "soup",
+        "manual_stock": 20,
+        "reserved_portions": 0,
+        "available_portions": 20,
+        "price_minor": 1600,
+        "version": 1,
+        "quote_version": 1
+      }
+    ]
+  },
+  {
+    "checkpoint": "after_two_scoops_before_verification",
+    "station": {
+      "session_id": "1807c798-872f-469f-b88c-db49050f5455",
+      "net_g": 1700,
+      "reserved_g": 300,
+      "available_to_promise_g": 1400,
+      "incoming_g": 0,
+      "service_type": "staff_portioned"
+    },
+    "orders": [
+      {
+        "id": "ca71ce95-9485-4ab0-8417-543f131ed061",
+        "number": "001",
+        "state": "preparing",
+        "version": 3,
+        "reserved_g": 300,
+        "expected_g": 300,
+        "actual_g": null,
+        "total_minor": 9100,
+        "history": [
+          {
+            "id": "7a100f46-c6e3-489b-9a61-9ca6f4d3a75e",
+            "action": "submitted",
+            "at": "2026-09-19T02:56:51.542492+08:00",
+            "note": ""
+          },
+          {
+            "id": "e009cc63-146d-4f61-9703-b68ec126f27f",
+            "action": "accept",
+            "at": "2026-09-19T02:57:48.990616+08:00",
+            "note": ""
+          },
+          {
+            "id": "ab0ad606-d387-43be-825a-df45d9b8423b",
+            "action": "begin_preparation",
+            "at": "2026-09-19T02:58:58.816806+08:00",
+            "note": ""
+          }
+        ]
+      }
+    ],
+    "menu": [
+      {
+        "slug": "chicken",
+        "manual_stock": 0,
+        "reserved_portions": 0,
+        "available_portions": 14,
+        "price_minor": 2400,
+        "version": 1,
+        "quote_version": 1
+      },
+      {
+        "slug": "salad",
+        "manual_stock": 12,
+        "reserved_portions": 1,
+        "available_portions": 11,
+        "price_minor": 1900,
+        "version": 2,
+        "quote_version": 2
+      },
+      {
+        "slug": "soup",
+        "manual_stock": 20,
+        "reserved_portions": 0,
+        "available_portions": 20,
+        "price_minor": 1600,
+        "version": 1,
+        "quote_version": 1
+      }
+    ]
+  },
+  {
+    "checkpoint": "after_verification",
+    "station": {
+      "session_id": "1807c798-872f-469f-b88c-db49050f5455",
+      "net_g": 1700,
+      "reserved_g": 0,
+      "available_to_promise_g": 1700,
+      "incoming_g": 0,
+      "service_type": "staff_portioned"
+    },
+    "orders": [
+      {
+        "id": "ca71ce95-9485-4ab0-8417-543f131ed061",
+        "number": "001",
+        "state": "ready",
+        "version": 4,
+        "reserved_g": 0,
+        "expected_g": 300,
+        "actual_g": 300,
+        "total_minor": 9100,
+        "history": [
+          {
+            "id": "7a100f46-c6e3-489b-9a61-9ca6f4d3a75e",
+            "action": "submitted",
+            "at": "2026-09-19T02:56:51.542492+08:00",
+            "note": ""
+          },
+          {
+            "id": "e009cc63-146d-4f61-9703-b68ec126f27f",
+            "action": "accept",
+            "at": "2026-09-19T02:57:48.990616+08:00",
+            "note": ""
+          },
+          {
+            "id": "ab0ad606-d387-43be-825a-df45d9b8423b",
+            "action": "begin_preparation",
+            "at": "2026-09-19T02:58:58.816806+08:00",
+            "note": ""
+          },
+          {
+            "id": "8de5eb88-160f-48f7-af4f-2cf930938691",
+            "action": "confirm_fulfillment",
+            "at": "2026-09-19T02:59:52.960281+08:00",
+            "note": ""
+          }
+        ]
+      }
+    ],
+    "menu": [
+      {
+        "slug": "chicken",
+        "manual_stock": 0,
+        "reserved_portions": 0,
+        "available_portions": 17,
+        "price_minor": 2400,
+        "version": 1,
+        "quote_version": 1
+      },
+      {
+        "slug": "salad",
+        "manual_stock": 11,
+        "reserved_portions": 0,
+        "available_portions": 11,
+        "price_minor": 1900,
+        "version": 3,
+        "quote_version": 2
+      },
+      {
+        "slug": "soup",
+        "manual_stock": 20,
+        "reserved_portions": 0,
+        "available_portions": 20,
+        "price_minor": 1600,
+        "version": 1,
+        "quote_version": 1
+      }
+    ]
+  },
+  {
+    "checkpoint": "after_collection",
+    "station": {
+      "session_id": "1807c798-872f-469f-b88c-db49050f5455",
+      "net_g": 1700,
+      "reserved_g": 0,
+      "available_to_promise_g": 1700,
+      "incoming_g": 0,
+      "service_type": "staff_portioned"
+    },
+    "orders": [
+      {
+        "id": "ca71ce95-9485-4ab0-8417-543f131ed061",
+        "number": "001",
+        "state": "collected",
+        "version": 5,
+        "reserved_g": 0,
+        "expected_g": 300,
+        "actual_g": 300,
+        "total_minor": 9100,
+        "history": [
+          {
+            "id": "7a100f46-c6e3-489b-9a61-9ca6f4d3a75e",
+            "action": "submitted",
+            "at": "2026-09-19T02:56:51.542492+08:00",
+            "note": ""
+          },
+          {
+            "id": "e009cc63-146d-4f61-9703-b68ec126f27f",
+            "action": "accept",
+            "at": "2026-09-19T02:57:48.990616+08:00",
+            "note": ""
+          },
+          {
+            "id": "ab0ad606-d387-43be-825a-df45d9b8423b",
+            "action": "begin_preparation",
+            "at": "2026-09-19T02:58:58.816806+08:00",
+            "note": ""
+          },
+          {
+            "id": "8de5eb88-160f-48f7-af4f-2cf930938691",
+            "action": "confirm_fulfillment",
+            "at": "2026-09-19T02:59:52.960281+08:00",
+            "note": ""
+          },
+          {
+            "id": "a89a4ea7-2a54-4460-bd57-47fd308bb654",
+            "action": "collect",
+            "at": "2026-09-19T03:02:48.791265+08:00",
+            "note": ""
+          }
+        ]
+      }
+    ],
+    "menu": [
+      {
+        "slug": "chicken",
+        "manual_stock": 0,
+        "reserved_portions": 0,
+        "available_portions": 17,
+        "price_minor": 2400,
+        "version": 1,
+        "quote_version": 1
+      },
+      {
+        "slug": "salad",
+        "manual_stock": 11,
+        "reserved_portions": 0,
+        "available_portions": 11,
+        "price_minor": 1900,
+        "version": 3,
+        "quote_version": 2
+      },
+      {
+        "slug": "soup",
+        "manual_stock": 20,
+        "reserved_portions": 0,
+        "available_portions": 20,
+        "price_minor": 1600,
+        "version": 1,
+        "quote_version": 1
+      }
+    ]
+  }
+]

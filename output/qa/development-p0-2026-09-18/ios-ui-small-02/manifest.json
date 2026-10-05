@@ -1,0 +1,44 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "38033597-A732-4DC9-A05A-4D9CC97146FA.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "07-large-text-lower_0_83CDCED3-DFE8-4E48-AA84-E297D1119AD7.png",
+        "timestamp" : 1789751149.772
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "7F880517-84CF-4165-A57D-5C94E1EEA943.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "06-large-text-top_0_547C0001-51DD-4F35-8975-14741B3A1DAD.png",
+        "timestamp" : 1789751147.16
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "6D98F2D6-9CAE-47A7-B886-FB8FD5967E9E.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "05-completed-batch_0_0294FF12-3755-47AD-AAA5-47C698F77D95.png",
+        "timestamp" : 1789751141.277
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "57DA82EC-BC2D-45E9-9B00-A53A2E688663",
+        "deviceName" : "Senplate Small QA",
+        "exportedFileName" : "47752EB6-EA1D-494A-9C75-BE9C82060114.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "04-verified-overview_0_2FDE5CF3-CAC6-4FEE-971A-2CE1B25F8283.png",
+        "timestamp" : 1789751135.528
+      }
+    ],
+    "testIdentifier" : "SenplateUITests/testVerifiedBatchAndLargeText()",
+    "testIdentifierURL" : "test://com.apple.xcode/Senplate/SenplateUITests/SenplateUITests/testVerifiedBatchAndLargeText"
+  }
+]

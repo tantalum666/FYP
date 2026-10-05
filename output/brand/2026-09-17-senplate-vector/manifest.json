@@ -1,0 +1,124 @@
+{
+  "brand": "Senplate",
+  "date": "2026-09-17",
+  "status": "DRAFT_FOR_USER_REVIEW",
+  "selected_logo": null,
+  "user_reference_choice": [
+    "Polestar",
+    "Linear"
+  ],
+  "base_vi": "Measured / dark green and ivory",
+  "concept_name": "Interval / 留隙 (not a brand rename)",
+  "creation_method": "Original native Figma vector paths; no reference-brand paths imported; no ImageGen or raster editing",
+  "figma": {
+    "file_key": "UyYjnTFGWO0r1lj4uvghGp",
+    "file_url": "https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp",
+    "review_node": "5:2",
+    "mark_node": "3:2",
+    "signature_node": "8:2",
+    "reverse_node": "6:10",
+    "small_nodes": {
+      "24": "7:2",
+      "32": "7:5",
+      "64": "7:8"
+    }
+  },
+  "font": {
+    "family": "Manrope",
+    "style": "Medium",
+    "status": "Available style verified and loaded in Figma; draft, not final font decision",
+    "signature_size": 104,
+    "letter_spacing_percent": -3,
+    "svg_text": "Outlined; editable text retained in Figma"
+  },
+  "colours": {
+    "forest": "#163F35",
+    "ivory": "#F3F1E7",
+    "small_size_ink": "#18231F"
+  },
+  "geometry": {
+    "grid": 128,
+    "primary_width": 28,
+    "inner_chamfer": 12,
+    "opposing_origin_offset": 16,
+    "cut_angle_degrees": 45
+  },
+  "archive": [
+    {
+      "name": "Balance",
+      "node_id": "2:3",
+      "status": "DESIGNER_REJECTED",
+      "reason": "Mechanical connector association; user has not reviewed it"
+    }
+  ],
+  "assets": [
+    {
+      "name": "interval-mark-24.png",
+      "path": "output/brand/2026-09-17-senplate-vector/interval-mark-24.png",
+      "sha256": "00b9b312cef923aa28e5895b298504063d36a95c2e68bfe0f70d76deffe379f1",
+      "width": 24,
+      "height": 24
+    },
+    {
+      "name": "interval-mark-32.png",
+      "path": "output/brand/2026-09-17-senplate-vector/interval-mark-32.png",
+      "sha256": "a7c073674cb1029e214a61cd864ae613c287aa07722c281eb23f273c6ba04616",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "name": "interval-mark-64.png",
+      "path": "output/brand/2026-09-17-senplate-vector/interval-mark-64.png",
+      "sha256": "c0b48f9b8ca4ef581a9cbdd1ecb2a7e2f6d10535ce46c6bc523090c829d24ca1",
+      "width": 64,
+      "height": 64
+    },
+    {
+      "name": "interval-mark-reverse.svg",
+      "path": "output/brand/2026-09-17-senplate-vector/interval-mark-reverse.svg",
+      "sha256": "233ba3b7439e877d1f7f835c95050f9ac7628c7541373c494a2159a5f4203dcf",
+      "width": "96",
+      "height": "96",
+      "viewBox": "0 0 96 96",
+      "path_count": 2,
+      "text_count": 0,
+      "image_count": 0
+    },
+    {
+      "name": "interval-mark.svg",
+      "path": "output/brand/2026-09-17-senplate-vector/interval-mark.svg",
+      "sha256": "d4f5e75daa030e52612c11a3535c1ca250280b965f0d42218d493404d2b01c2d",
+      "width": "192",
+      "height": "192",
+      "viewBox": "0 0 192 192",
+      "path_count": 2,
+      "text_count": 0,
+      "image_count": 0
+    },
+    {
+      "name": "interval-review.png",
+      "path": "output/brand/2026-09-17-senplate-vector/interval-review.png",
+      "sha256": "03bd2ded92b89c82271466ea0f452307b22b5ac45d80f7dd526493e8d4bccc62",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "interval-signature.svg",
+      "path": "output/brand/2026-09-17-senplate-vector/interval-signature.svg",
+      "sha256": "9c4f33647231ef1b22a9ca078c17bb597cd880d639bd851819dc6a35620076b3",
+      "width": "573",
+      "height": "142",
+      "viewBox": "0 0 573 142",
+      "path_count": 3,
+      "text_count": 0,
+      "image_count": 0
+    }
+  ],
+  "limitations": [
+    "No user logo approval",
+    "No physical printing or engraving test",
+    "Not a complete VI manual",
+    "No trademark similarity review of the new shape",
+    "Font licence archive not yet completed"
+  ]
+}

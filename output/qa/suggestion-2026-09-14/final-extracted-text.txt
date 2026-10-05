@@ -1,0 +1,126 @@
+Hong Kong Institute of Information Technology | Discipline of IT
+Page 1
+ITE4116M FINAL YEAR PROJECT
+PROJECT SUGGESTION FORM
+Academic Year 2026/27
+Submission Guide: Students must form a group of 3 to 4 members, discuss the project topic with your 
+preferred supervisor, and obtain verbal agreement. Once agreed, the group must complete this Project 
+Suggestion Document and upload the document file (in both PDF & DOCX) on Moodle during the FYP session 
+by 14-SEP-2026.
+1. General Project Information
+Proposed Project Title AI and IoT Based Food Replenishment and Waste Reduction System
+Assigned Project Supervisor Macro (proposed; verbal agreement pending)
+Programme / Class Code Higher Diploma in AI and Smart Technology (IT114124) / Class 
+AIST-2B
+Student Group Number Group 2
+Student Member Details (Normally 3 to 4 members):
+S/N Student Name Student ID Email Address Proposed Major Role / Area of 
+Responsibility
+1 Yuan Yuchen 250342840 250342840@
+stu.vtc.edu.hk
+Project Leader / Backend AI 
+Lead (40%)
+Requirements, APIs, food 
+recognition, demand 
+forecasting, replenishment and 
+integration tests.
+2 Xu Ziqian 250137555 250137555@
+stu.vtc.edu.hk
+IoT Hardware / Edge Processing 
+(30%)
+Sensor integration, Pi 
+acquisition, calibration, filtering, 
+tray events and hardware tests.
+3 Li Wenhua 250329909 250329909@
+stu.vtc.edu.hk
+Web Application / UX 
+Developer (30%)
+Staff dashboard, QR menu and 
+orders, live updates, bilingual UI 
+and usability tests.
+
+Hong Kong Institute of Information Technology | Discipline of IT
+Page 2
+2. Problem Statement & Project Objectives
+Instructions: Describe the business or technical problem in information technology that this project intends to 
+address. Define 2-3 specific project objectives (what your solution intends to achieve for the target 
+users/businesses).
+Problem Statement:
+Buffet and batch-prepared self-service outlets need timely replenishment without excess food at closing. 
+Visual checks can miss low stock or batches already being prepared, leading to waiting, duplicate work 
+and leftovers. Customer menus can also show outdated availability.
+We propose continuous monitoring while trays remain in service, linking measurements, demand 
+estimates and kitchen progress. Metafoodx and Controliza are commercial references; the prototype will 
+be evaluated against simple replenishment baselines.
+Project Objectives:
+1. Implement continuous monitoring for up to three serving positions, recording food quantity, refills and 
+surface temperature and flagging unreliable data.
+2. Develop AI-assisted replenishment recommendations using demand, preparation lead time and work 
+in progress; compare empty-tray time and leftovers against fixed-threshold and consumption-rate 
+baselines.
+3. Integrate bilingual staff tools and a supplementary QR menu/order interface; evaluate consistency, 
+interruption recovery and usability.
+3. Proposed Project Scope & Key Features
+Instructions: Define the scope of your system. List and briefly describe the key modules, functions, or features 
+that your group plans to implement. Projects must be implementation-oriented and student-centered.
+Key Subsystems / Features:
+A. Continuous tray monitoring. Monitor weight, visual dish identity and surface temperature throughout 
+service; handle tare, tray movement, refills, occlusion and stale data.
+B. Replenishment and kitchen tasks. Suggest timing and batch quantities using demand, 
+preparation/closing times and work in progress. Staff confirm or adjust tasks and record completed 
+refills.
+C. Operations dashboard and evaluation. Show alerts and export empty-tray time, refill history, leftovers 
+and disposal/reuse records.
+D. Supplementary QR menu and ordering. Show dish details, availability, completed-order popularity or 
+buffet take-up trends and estimated waits. Support fast-casual/made-to-order orders, checking pending 
+demand against physical stock.
+Prototype Scope: Six months, one line, up to three positions and 4-6 registered dishes; excludes 
+payments, delivery, procurement ERP and independent food-safety certification.
+Expected Users & Roles: Staff monitor and refill trays; managers maintain menus/settings and review 
+reports; customers view menus and submit or track applicable orders.
+
+Hong Kong Institute of Information Technology | Discipline of IT
+Page 3
+4. Technical Stack & Special Requirements
+Instructions: Detail the hardware and software tools you intend to use. Highlight how your project incorporates 
+contemporary technologies (AI, IoT, Cloud, etc.) and how it aligns with modern considerations like 
+environmental-friendly design, bilingual/multi-language support, or cross-border deployability to meet Greater 
+China business needs.
+Development Technologies & Tools:
+• Hardware: Raspberry Pi 5 with load cells and ADC interfaces (such as HX711 or NAU7802), an overhead 
+camera, surface-temperature sensor, display and LEDs. Assess RGB-D after range and cost tests. Existing 
+UNO R4 WiFi is optional for acquisition/debugging.
+• Programming Languages: Python, TypeScript, HTML/CSS; C++ only if a microcontroller is used.
+• Frameworks / Libraries: FastAPI, OpenCV, PyTorch for model training, scikit-learn, React and i18next.
+• Database / Storage: PostgreSQL and local measurement/image logs.
+• Target Platforms: Local Linux device and responsive staff/customer web interfaces.
+Special Project Considerations:
+• Contemporary Technologies: IoT sensing, local AI inference and live web updates; optional cloud 
+backup after the local core works.
+• Environmental-Friendly Solution: Evaluate avoidable food surplus; reuse available computing 
+equipment and use replaceable sensing components.
+• Bilingual / Multi-Language Support: English and Traditional Chinese interfaces.
+• Cross-Border Deployment / Greater China Needs: Configurable language, currency and time zone, with 
+local deployment options for later regional adaptation.
+• Feasibility: Confirm camera/ADC compatibility, sampling stability and cost by bench tests. Use 
+controlled service scenarios initially and arrange a field trial if access becomes available.
+
+Hong Kong Institute of Information Technology | Discipline of IT
+Page 4
+5. Endorsements & Supervisor Feedback
+Student Group Endorsement By submitting this suggestion, we confirm that all listed group 
+members are in agreement regarding this project concept and our 
+assigned roles.
+Student Representative Signature: ___________________________
+Date: ___________________________
+Supervisor Vetting Decision
+Supervisor, please put a ☑ in the 
+appropriate box.
+ ☐ APPROVED — The group is authorized to proceed to draft their 
+formal Project Proposal.
+☐ REJECTED — The group must modify their project topic 
+suggestion and resubmit for review.
+Supervisor Feedback / Comments
+Supervisor Endorsement
+Project Supervisor Signature: ___________________________
+Date: ___________________________

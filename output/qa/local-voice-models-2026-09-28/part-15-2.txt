@@ -1,0 +1,67 @@
+We will use iterative development with two-week work cycles, supervisor feedback, module tests and integration demonstrations. SwiftUI will implement the iPhone app; React/TypeScript will implement the web and station interfaces; Python/FastAPI and PostgreSQL will provide shared services. HTTP operations and foreground WebSocket updates will support the clients. The initial demonstration will use a local network without mandatory POS, ERP or cloud integration.
+
+<!-- pagebreak -->
+
+### 3.5 Non functional requirements and evaluation
+
+The following are proposed engineering acceptance targets. Hardware and model targets will be evaluated under documented conditions; they are not claims of achieved performance.
+
+| Area | Target or requirement | Verification |
+|---|---|---|
+| Measurement | Initial target of no more than 5g absolute static error across 100-3000g net load, within the 5kg gross limit. | Independent reference masses at multiple loading/unloading points; repeat placement, centre/corner tests and a two-hour drift record. |
+| Responsiveness | At least 95% of valid stable weight changes reach a foreground client within two seconds on the test network. | Timestamp acquisition, server receipt and client display with the full selected workload running. |
+| Recognition | Initial target of at least 0.85 macro F1 on held-out registered-food batches. | Report per-class precision/recall, confusion, unknown false acceptance, rejection rate and manual correction. Thresholds use validation data only. |
+| Reliability | Complete a two-hour integrated run without an unhandled crash; detect stale data and preserve records across tested restarts. | Exercise disconnect/reconnect, duplicate and late messages, plate removal, blocked sensors and concurrent user actions. |
+| Usability and language | English default with a saved Simplified Chinese choice; key numbers and actions remain readable at small screen and enlarged text sizes. | Task-based testing with 6-8 adult volunteers where available; record completion, errors and time, and inspect both languages. |
+| Security and maintenance | Server-side role/owner checks, separate device credentials, protected sessions, source/version logs and recoverable configuration. | Direct unauthorised-access tests, retry tests, backup/restore exercise and a repeatable installation guide. |
+
+### Experimental comparison
+
+We will run the replenishment methods against the same scripted demand traces, starting stock, preparation times and closing times. At least twelve traces will cover steady demand, a sudden rush, declining demand and interrupted measurements. The analysis will compare empty-tray minutes, food remaining at closing, duplicate tasks, recommendation changes and staff intervention. Leftovers will be classified by recorded destination rather than automatically counted as discarded waste.
+
+Physical tests will separately establish weighing error, valid measurement coverage, vision performance and complete-system latency. Formula tests will compare nutrient calculations with manual calculations from the same reference; this verifies arithmetic and matching, not the actual chemical composition of a meal.
+
+A real catering pilot will be pursued only if a suitable site becomes available. Controlled serving experiments and replay provide a viable assessment route without a partner venue. Their results will be labelled accordingly and will not be reported as proven commercial savings or school-wide health outcomes.
+
+<!-- pagebreak -->
+
+## 4 Why the proposed solution is appropriate
+
+The replenishment workflow connects advice to physical action. Staff receive a reasoned suggestion, record their decision, execute a kitchen task and link the resulting weight increase. The resulting history shows whether the suggested batch was actually added and supports evaluation of duplicate work and supply interruptions.
+
+Each type of information has a defined source. The scale measures weight, registered information and constrained vision support food identity, and matched references support nutrient conversion. Sequential additions provide component weights without requiring a camera to infer hidden ingredients. Human confirmation and explicit uncertainty are part of the intended workflow.
+
+Reusing the hardware, session model and measurement interface keeps the three scenarios achievable. The school demonstration records anonymous samples, while the adult mode adds ownership and personal history. The same local setup can demonstrate these uses without requiring a connection to an existing POS system or an additional sensing station.
+
+### Feasibility and current preparation
+
+By 19 September 2026, an initial local SwiftUI, React and FastAPI/PostgreSQL prototype had demonstrated simulated replenishment, QR menu ordering, meal pairing, sequential portions and anonymous sample reports. The latest software batch passed 55 backend tests and six staged iPhone simulator runs. This provides an integration starting point; it does not establish physical sensor accuracy, trained-model performance or successful Pi deployment.
+
+We can reuse the existing MacBook for development and lightweight model training. The proposed hardware uses available component types and one measurement position. Procurement, mechanical stability, calibration and food data collection remain the main practical dependencies. Component price estimates will be replaced by an itemised quotation before purchase; this proposal does not assume commercial product pricing or secured funding.
+
+| Main risk | Response within the project scope |
+|---|---|
+| Hardware or enclosure delay | Continue software and data preparation in parallel; assemble a functional bench station before finishing the enclosure. Keep the final deliverable to one device. |
+| Load bypass, heat or moisture | Separate the weighing load path, verify positioning and drift, isolate electronics and use removable food containers. Start with controlled room-temperature tests; validate any hot-pan use separately. |
+| SDK, USB or Pi load problems | Test capture and processing early. Use bounded queues, lower unnecessary image processing and retain the Mac backend fallback while optimising. |
+| Insufficient or confusing food images | Keep four to six classes, add independent batches, report unknown rejection and retain manual confirmation. Avoid claims about hidden ingredients or meat safety. |
+| No suitable trial venue | Use reference weights, real food and reproducible serving scripts, then report the limitations of controlled results. |
+
+The project excludes simultaneous multi-pan deployment, Android, online payment, delivery, full POS/ERP integration, autonomous cooking and medical diagnosis. Camera images will focus on food; raw video and children's identities are unnecessary for the planned demonstration.
+
+<!-- pagebreak -->
+
+## 5 Main stages and project plan
+
+The team plans approximately six months of development and evaluation. The dates below are team milestones, with revision time after the initial proposal. They will be aligned with supervisor feedback and the course assessment timetable. The initial submission target is 28 September 2026, ahead of the Moodle deadline of 29 September 2026 at 11:59pm.
+
+| Stage | Planned period | Target completion and evidence |
+|---|---|---|
+| Requirements and proposal | 21 Sep-9 Oct 2026 | Submit the initial proposal on 28 Sep; review feedback, user tasks, boundaries and acceptance criteria by 9 Oct. |
+| Detailed design and configuration | 28 Sep-30 Oct 2026 | Shared data/API specification, food and recipe versions, interface flows, hardware layout and updated quotation. |
+| Hardware and acquisition | 5 Oct-20 Nov 2026 | One connected bench station, calibrated weight input, RGB-D capture, exception logs and initial Pi load test. |
+| Vision and replenishment methods | 26 Oct-18 Dec 2026 | Batch-separated dataset, trained RGB baseline, depth comparison, exported model and three replenishment methods. |
+| Integrated applications | 23 Nov 2026-22 Jan 2027 | Complete role-based iPhone/web flows, real-device input, reference records, disposition and reports. |
+| Evaluation and refinement | 11 Jan-26 Feb 2027 | Controlled comparisons, fault tests, adult usability feedback and fixes; venue pilot if available. |
+| Final documentation and demonstration | 22 Feb-19 Mar 2027 | Reproducible demonstration, evaluated results, source/data package, manuals, final report and presentation. |
+

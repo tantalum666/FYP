@@ -1,0 +1,98 @@
+{
+  "task": "DGX-1 V100 configuration supplement to ongoing local-voice research",
+  "inherits_full_read": "output/qa/local-voice-models-2026-09-28/reading-record.json",
+  "reason": "User supplies the missing server model requested in the same voice-deployment discussion; no new project objective.",
+  "completed_at": "2026-09-28T16:00:36.475090",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 64,
+      "read_ranges": [
+        [
+          1,
+          64
+        ]
+      ],
+      "sha256": "a1b3de24296910d562eb48b836b36f43e119b5168ddeaaaa7b0404d71396ef5d"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 31,
+      "read_ranges": [
+        [
+          1,
+          31
+        ]
+      ],
+      "sha256": "1efd33802ba2c1d0fdb0855a3cdf8faf1d279277e79335f73133c959c0c50b30"
+    },
+    {
+      "path": "research/2026-09-28-local-voice/server-deployment-comparison.md",
+      "lines": 104,
+      "read_ranges": [
+        [
+          1,
+          104
+        ]
+      ],
+      "sha256": "a6e6a56731f24968a30ab07730cbc5c9852053a5a517746a476508b40e0aff9d"
+    },
+    {
+      "path": "planning/2026-09-28/desk-software-scope-v1.md",
+      "lines": 212,
+      "read_ranges": [
+        [
+          1,
+          212
+        ]
+      ],
+      "sha256": "1c6320808b096b9bb18a6980b6c253b9a3ef7e4c4883d84b2114c351a8618e27"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 555,
+      "read_ranges": [
+        [
+          534,
+          555
+        ]
+      ],
+      "sha256": "82b012b373e247fd26a0753bb0c70990212a6d6286b51909c4a75851ee837350"
+    },
+    {
+      "path": "work-log.md",
+      "lines": 675,
+      "read_ranges": [
+        [
+          667,
+          675
+        ]
+      ],
+      "sha256": "1d00d4177a09cd07c3e57191b9e6d0201e9b7e1e5361c39742ca45e37869ff45"
+    },
+    {
+      "path": "README.md",
+      "lines": 214,
+      "read_ranges": [
+        [
+          1,
+          15
+        ]
+      ],
+      "sha256": "58179e62dde1b3032ec881b25009360952cc526dbfa5b7e189744c2f11b6b6fb"
+    }
+  ],
+  "exclusions": "Unchanged historical Markdown retains the completed 100-file, 9463-line reading evidence from this task.",
+  "truncation_repair": "Software scope 168-EOF and 158-170 reread; current work-log entry reread to EOF. Current decision entry visible in the original bounded tail."
+}

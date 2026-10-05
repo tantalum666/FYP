@@ -1,0 +1,481 @@
+{
+  "brand": "Senplate",
+  "version": "6.0",
+  "status": "SOLID_BOWL_GOLDEN_VECTOR_COMPLETE_FOR_VISUAL_REVIEW",
+  "updated_at": "2026-09-17T15:22:31.909004+00:00",
+  "authorization": "User said 开始吧 after proposal to construct and verify golden-ratio vector version.",
+  "source_v5_sha256": "41ec706025011698b18da682310f5efb2ea7ec29eb3029528d00113e684c2917",
+  "construction_targets": {
+    "phi": 1.618033988749895,
+    "units": "vector design units",
+    "dimensions": {
+      "rim_width": 320.0,
+      "body_height_including_back_rim": 197.77087639996634,
+      "body_base_seam_y": 197.77087639996634,
+      "foot_width": 122.22912360003365,
+      "mouth_ellipse_height": 75.5417527999327,
+      "signature_gap": 46.687370800100936,
+      "foot_extension_below_body": 28.85438199983175,
+      "total_symbol_height": 226.6252583997981,
+      "body_semicircle_radius": 160.0,
+      "ellipse_center": [
+        160.0,
+        37.77087639996635
+      ],
+      "rim_side_inset": 11.021393199562565,
+      "rim_vertical_inset": 6.811595600706618,
+      "seam_center_thickness": 6.811595600706618,
+      "step_x": 197.77087639996634,
+      "step_width": 11.021393199562565,
+      "step_level_y": 46.687370800100936,
+      "foot_side_start": [
+        98.88543819998318,
+        221.11456180001682,
+        185.6390958928375
+      ],
+      "foot_lower_ellipse_center_y": 212.19806739988223,
+      "wordmark_ink_height_target": 197.77087639996634
+    },
+    "ratios": {
+      "rim_width_over_body_height": 1.618033988749895,
+      "body_height_over_foot_width": 1.618033988749895,
+      "foot_width_over_mouth_height": 1.618033988749895,
+      "mouth_height_over_signature_gap": 1.618033988749895,
+      "signature_gap_over_foot_extension": 1.618033988749895
+    },
+    "construction_note": "Upper rim is half ellipse; lower body is a mirrored semicircle. Boolean subtraction unites the cavity, measurement notch and seams. Main dimensions follow a golden sequence; exact body height ends at the body-base seam, excluding the foot.",
+    "glyph_note": "Typeface chosen for a clean editable reconstruction; not claimed to identify the raster font."
+  },
+  "native_measurement_summary": {
+    "method": "Independent measurement from production Figma vector paths, not the target-parameter JSON. Vertical-line intersections identify actual cavity, rim seam, body-base seam and foot; outer-profile vertical edges identify foot width.",
+    "centerline_x": 160,
+    "centerline_intersections_y": [
+      0.0,
+      6.8115234375,
+      46.6875,
+      75.5419921875,
+      82.353515625,
+      197.77121353149414,
+      204.58244371414182,
+      226.625
+    ],
+    "measured_design_units": {
+      "A_rim_width": 320,
+      "B_body_height": 197.77121353149414,
+      "C_foot_width": 122.228515625,
+      "D_mouth_ellipse_height": 75.5419921875,
+      "E_signature_gap": 46.6873779296875,
+      "F_foot_below_body": 28.85378646850586
+    },
+    "successive_ratios": [
+      1.6180312305614766,
+      1.6180447951954267,
+      1.6180208131342513,
+      1.618038869119366,
+      1.6180676314579077
+    ],
+    "absolute_phi_errors": [
+      2.758188418328089e-06,
+      1.0806445531752473e-05,
+      1.3175615643623573e-05,
+      4.880369470994239e-06,
+      3.3642708012759925e-05
+    ],
+    "target_dimension_absolute_errors": [
+      0.0,
+      0.0003371315278002385,
+      0.0006079750336454026,
+      0.0002393875673050161,
+      7.129586563792145e-06,
+      0.0005955313258922956
+    ],
+    "dimension_tolerance": 0.001,
+    "ratio_tolerance": 0.0001,
+    "outer_profile_mirror_sample_count": 574,
+    "outer_profile_mirror_max_distance": 1.0115243240670906e-06,
+    "note": "Small differences reflect native Boolean/path rounding. Body height excludes the foot. Only the outer profile is symmetric; the level notch is intentionally offset."
+  },
+  "delivered_svg_measurements": {
+    "artifact": "Delivered SVG files",
+    "measured_A_to_F": [
+      320.0000305176,
+      197.77100000000002,
+      122.2283,
+      75.542,
+      46.68700000000001,
+      28.853999999999985
+    ],
+    "centerline_intersections_y": [
+      0.0,
+      6.81152,
+      46.6875,
+      75.542,
+      82.3535,
+      197.77100000000002,
+      204.58249999999998,
+      226.625
+    ],
+    "signature_mark_bounds": [
+      -3.05176e-05,
+      0.0,
+      320.0,
+      226.625
+    ],
+    "signature_word_bounds": [
+      366.687,
+      14.4271,
+      1204.6119537719583,
+      212.198
+    ],
+    "successive_ratios": [
+      1.6180331318423833,
+      1.6180459026264786,
+      1.6180177914272855,
+      1.6180521344271421,
+      1.6180425590905954
+    ],
+    "target_dimension_absolute_errors": [
+      3.051760000971626e-05,
+      0.00012360003367462014,
+      0.0008236000336410143,
+      0.0002472000673066077,
+      0.0003708001009243844,
+      0.0003819998317666773
+    ],
+    "max_dimension_error": 0.0008236000336410143,
+    "dimension_tolerance": 0.001,
+    "ratio_tolerance": 0.0001
+  },
+  "font": {
+    "family": "Manrope",
+    "style": "Bold",
+    "letter_spacing_percent": -2,
+    "editable_text_font_size": 202.841924512786,
+    "ink_height_target": 197.77087639996634,
+    "source_image_font_identified": false,
+    "license": "SIL OFL 1.1",
+    "license_url": "https://raw.githubusercontent.com/google/fonts/main/ofl/manrope/OFL.txt",
+    "license_sha256": "58172e0c0fac2cda8a37b348164bb55e44b0e69051e557e92b1d3f6910141f7b",
+    "font_binary_bundled": false
+  },
+  "palette": {
+    "green": "#163F35",
+    "ivory": "#F3F1E7",
+    "black": "#000000",
+    "white": "#FFFFFF"
+  },
+  "figma": {
+    "file_key": "UyYjnTFGWO0r1lj4uvghGp",
+    "page": "76:2",
+    "editable_boolean": "77:8",
+    "production_symbol": "78:9",
+    "signature": "78:10",
+    "editable_text": "76:3",
+    "outlined_wordmark": "76:6",
+    "preview": "79:2",
+    "proof": "79:6",
+    "construction": "80:2",
+    "native_png_exports": [
+      {
+        "name": "senplate-preview.png",
+        "id": "79:2"
+      },
+      {
+        "name": "golden-construction.png",
+        "id": "80:2"
+      },
+      {
+        "name": "monochrome-and-sizes.png",
+        "id": "79:6"
+      },
+      {
+        "name": "senplate-logo-green.png",
+        "id": "78:10",
+        "width": 2400
+      },
+      {
+        "name": "senplate-symbol-green.png",
+        "id": "78:9",
+        "width": 960
+      },
+      {
+        "name": "senplate-symbol-32.png",
+        "id": "79:18"
+      },
+      {
+        "name": "senplate-symbol-64.png",
+        "id": "79:22"
+      },
+      {
+        "name": "senplate-symbol-128.png",
+        "id": "79:26"
+      }
+    ]
+  },
+  "svg": [
+    {
+      "name": "senplate-logo-black.svg",
+      "paths": 9,
+      "viewBox": "0 0 1205 227",
+      "sha256": "f4556a8c21caab468debe85a11573a329c8d56d936bfa5f94821e7349813022d"
+    },
+    {
+      "name": "senplate-logo-green.svg",
+      "paths": 9,
+      "viewBox": "0 0 1205 227",
+      "sha256": "7f57e65a727b5b22af74d099da53e874119086bb35c78ffa78aa673b3963a492"
+    },
+    {
+      "name": "senplate-logo-white.svg",
+      "paths": 9,
+      "viewBox": "0 0 1205 227",
+      "sha256": "5f0204b56db8a5d20c59dff41b10700ab56e78d9635d8be0462b19608af6957c"
+    },
+    {
+      "name": "senplate-symbol-black.svg",
+      "paths": 1,
+      "viewBox": "0 0 320 227",
+      "sha256": "37e9067039e2d7515df608b626a2a2687e85d80c9c6149d8064447296276e5d9"
+    },
+    {
+      "name": "senplate-symbol-green.svg",
+      "paths": 1,
+      "viewBox": "0 0 320 227",
+      "sha256": "927436641d5327482b5143c015ec37742884f1755d99c5c84b024e4ce1b9a0ba"
+    },
+    {
+      "name": "senplate-symbol-white.svg",
+      "paths": 1,
+      "viewBox": "0 0 320 227",
+      "sha256": "6fcf83f43d06dae9c80ba89d2126ee3e838f41b10329137f32f12500a5370ec2"
+    },
+    {
+      "name": "senplate-wordmark.svg",
+      "paths": 8,
+      "viewBox": "0 0 838 198",
+      "sha256": "cf6118f8ddf33315c2fd41170ba541447c7cc6eae99e3913fbb07990b0ad5ea2"
+    }
+  ],
+  "png": [
+    {
+      "name": "golden-construction.png",
+      "size": [
+        1600,
+        960
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "bytes": 77552,
+      "sha256": "aa2176f9c2507cae2ff3f0447cdf4a323711030da576ae1306b695179d0d7cce"
+    },
+    {
+      "name": "monochrome-and-sizes.png",
+      "size": [
+        1440,
+        580
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "bytes": 32208,
+      "sha256": "d9167396b943c0a8df3fecf83601fe9e35d44013cb17f4d3f2cb1ac1f0980aba"
+    },
+    {
+      "name": "senplate-logo-green.png",
+      "size": [
+        2400,
+        452
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bytes": 47939,
+      "sha256": "a7d09fd5e593f6ac4ead4db50dba7d9fc9d41d93089d653b7f794a5f28d7a529"
+    },
+    {
+      "name": "senplate-preview.png",
+      "size": [
+        1774,
+        887
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "bytes": 29230,
+      "sha256": "b2d6d7e45f99836684b375074e53a3160ab6e6a5038ccfeb8e9820def466dc85"
+    },
+    {
+      "name": "senplate-symbol-128.png",
+      "size": [
+        128,
+        128
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bytes": 3381,
+      "sha256": "34e4ba0061496f1e6c895162ccbb7f988c4a31f61fee4a360a97a2e91a83570c"
+    },
+    {
+      "name": "senplate-symbol-32.png",
+      "size": [
+        32,
+        32
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bytes": 922,
+      "sha256": "525aa5ed98973e0a3c51eba261ecb6641ff101591eb52ffb38f7fa329b7381d4"
+    },
+    {
+      "name": "senplate-symbol-64.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bytes": 1734,
+      "sha256": "926103b7ca75d875f04c594e8f221fdd4e7152419ccb470b7b8dffb57b574417"
+    },
+    {
+      "name": "senplate-symbol-green.png",
+      "size": [
+        960,
+        680
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "bytes": 23124,
+      "sha256": "05d78bfd6b142a8bcac89c40e9b8bc1ac223a819ab8f8b86625978a3b0f18db9"
+    },
+    {
+      "name": "source-v5-concept.png",
+      "size": [
+        1774,
+        887
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "bytes": 893491,
+      "sha256": "41ec706025011698b18da682310f5efb2ea7ec29eb3029528d00113e684c2917"
+    }
+  ],
+  "boundaries": [
+    "Body height excludes foot; total symbol height is about226.625.",
+    "Exact targets are rounded slightly by native Boolean/SVG processing.",
+    "Visual review is not final user approval or measured recognition accuracy.",
+    "No full VI, app code, hardware verification or new trademark screening."
+  ],
+  "files": [
+    {
+      "name": "Manrope-OFL.txt",
+      "bytes": 4387,
+      "sha256": "58172e0c0fac2cda8a37b348164bb55e44b0e69051e557e92b1d3f6910141f7b"
+    },
+    {
+      "name": "README.md",
+      "bytes": 2175,
+      "sha256": "a0b789b00a79ba12f6674107801c400587262982c67f368506b7334eb57801a4"
+    },
+    {
+      "name": "golden-construction.png",
+      "bytes": 77552,
+      "sha256": "aa2176f9c2507cae2ff3f0447cdf4a323711030da576ae1306b695179d0d7cce"
+    },
+    {
+      "name": "golden-ratios.json",
+      "bytes": 4598,
+      "sha256": "f866fe1cee5ca7c8613811a51aad48fe4ad43cc115190eb51d3fb4901f4714ef"
+    },
+    {
+      "name": "monochrome-and-sizes.png",
+      "bytes": 32208,
+      "sha256": "d9167396b943c0a8df3fecf83601fe9e35d44013cb17f4d3f2cb1ac1f0980aba"
+    },
+    {
+      "name": "senplate-logo-black.svg",
+      "bytes": 10506,
+      "sha256": "f4556a8c21caab468debe85a11573a329c8d56d936bfa5f94821e7349813022d"
+    },
+    {
+      "name": "senplate-logo-green.png",
+      "bytes": 47939,
+      "sha256": "a7d09fd5e593f6ac4ead4db50dba7d9fc9d41d93089d653b7f794a5f28d7a529"
+    },
+    {
+      "name": "senplate-logo-green.svg",
+      "bytes": 10506,
+      "sha256": "7f57e65a727b5b22af74d099da53e874119086bb35c78ffa78aa673b3963a492"
+    },
+    {
+      "name": "senplate-logo-white.svg",
+      "bytes": 10506,
+      "sha256": "5f0204b56db8a5d20c59dff41b10700ab56e78d9635d8be0462b19608af6957c"
+    },
+    {
+      "name": "senplate-preview.png",
+      "bytes": 29230,
+      "sha256": "b2d6d7e45f99836684b375074e53a3160ab6e6a5038ccfeb8e9820def466dc85"
+    },
+    {
+      "name": "senplate-symbol-128.png",
+      "bytes": 3381,
+      "sha256": "34e4ba0061496f1e6c895162ccbb7f988c4a31f61fee4a360a97a2e91a83570c"
+    },
+    {
+      "name": "senplate-symbol-32.png",
+      "bytes": 922,
+      "sha256": "525aa5ed98973e0a3c51eba261ecb6641ff101591eb52ffb38f7fa329b7381d4"
+    },
+    {
+      "name": "senplate-symbol-64.png",
+      "bytes": 1734,
+      "sha256": "926103b7ca75d875f04c594e8f221fdd4e7152419ccb470b7b8dffb57b574417"
+    },
+    {
+      "name": "senplate-symbol-black.svg",
+      "bytes": 1722,
+      "sha256": "37e9067039e2d7515df608b626a2a2687e85d80c9c6149d8064447296276e5d9"
+    },
+    {
+      "name": "senplate-symbol-green.png",
+      "bytes": 23124,
+      "sha256": "05d78bfd6b142a8bcac89c40e9b8bc1ac223a819ab8f8b86625978a3b0f18db9"
+    },
+    {
+      "name": "senplate-symbol-green.svg",
+      "bytes": 1722,
+      "sha256": "927436641d5327482b5143c015ec37742884f1755d99c5c84b024e4ce1b9a0ba"
+    },
+    {
+      "name": "senplate-symbol-white.svg",
+      "bytes": 1722,
+      "sha256": "6fcf83f43d06dae9c80ba89d2126ee3e838f41b10329137f32f12500a5370ec2"
+    },
+    {
+      "name": "senplate-wordmark.svg",
+      "bytes": 8700,
+      "sha256": "cf6118f8ddf33315c2fd41170ba541447c7cc6eae99e3913fbb07990b0ad5ea2"
+    },
+    {
+      "name": "source-v5-concept.png",
+      "bytes": 893491,
+      "sha256": "41ec706025011698b18da682310f5efb2ea7ec29eb3029528d00113e684c2917"
+    }
+  ]
+}

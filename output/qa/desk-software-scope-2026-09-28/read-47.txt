@@ -1,0 +1,127 @@
+FILE product-senplate-historical.md L91-168
+P0的iPhone使用Swift／SwiftUI，厨房Web使用React／TypeScript／Vite，共享Python/FastAPI＋PostgreSQL后台；设备显示页已可在Mac浏览器查看，独立控制台配对已在Mac模拟环境实现，Pi本地全屏、真实校准与实物绑定仍待实物阶段。App与Web共用API、权限和状态，不直接共用界面代码。采集／视觉与业务分开，单设备HTTP接入和前台WebSocket更新；不默认增加MQTT、Redis或云部署。原顾客PWA／全Web方向不再采用，Android不在首版。
+
+App中的个人／工作切换由后台授权，不能让普通注册用户自行取得管理权限，也不把员工私人的餐食自动共享给餐厅。App不承担持续称重／核心推理，后台和Pi继续工作；退到后台的手机可能被挂起，需要后台提醒时另接APNs。先用App内扫码和前台同步演示，云端远程访问、系统推送与上架后续按需安排。学校仍为匿名样本／汇总，个人仍不用厨房流程。
+
+模拟器与实物共用数据接口，记录simulated／replay／hardware及识别来源；模拟结果只证明对应软件流程，不证明硬件或模型性能。物理余量、已接受未配出的订单预留、在制未来供应分开；同一份不因订单与重量再扣两次，任务与事件重发去重。所有端使用后端的同一业务状态，营养仍依照下文资料规则，不推断未知混合菜的精确摄入。
+
+细化规则：接受建议创建一次任务；制作完成还不是实际补入，加料事件确认不能再把计划量加到已经更新的秤重。订单接受时才预留，配出核对前不提前释放预留；未监测菜单项按人工可供份数处理并标来源。同一监测会话区分自取与员工配餐，不自动猜随机减重对应哪张订单。会话重新绑定／换模式不自动增加提供量，关闭前处理未决任务和预留。
+
+评价测量／食物识别、未知类别错误接受与拒识、参考数据下营养换算与人工计算的一致性、空盘和剩余、操作负担及故障恢复。食物识别按独立烹饪批次／日期测试，补餐保留人工／固定阈值／消耗速度基线。营养换算验证不等于食物化学成分检测；受控实验不等于真实健康效果或商业减损。当前所有误差与效果指标均待实测。
+
+Metafoodx 和 Controliza 继续作为直接参照；扩展场景本身不证明市场独有或商业领先。用有限条件下可复现的改进和清楚的能力取舍解释价值。
+
+## AI 训练与部署建议
+
+当前主候选是 MobileNetV3-Large 的 IMAGENET1K_V2 预训练权重，Small 保留作对照；用 Python／PyTorch 在现有 MacBook 上对4–6类菜品微调。用户提供M2／16GB信息，只读系统检查进一步确认当前工作机为M2 Pro、16GB，学校GPU资源未知。经独立批次测试和导出一致性检查后，在Pi 5运行ONNX Runtime CPU推理。最终仍需按实测选择模型，未开始训练或部署，不承诺特定识别率或吞吐。
+
+图片／视频抽帧须有正确标签，同盘／同批次／同视频保持在同一数据划分，深度信息只有通过相应输入处理才会被使用。补餐预测另用有效重量与餐期数据，营养用已确认资料换算；Kimi／DeepSeek 大模型不是首版必需，API 调用不等于本地训练或本地推理。详见[训练与 Pi 部署路线](planning/2026-09-14/ai-training-and-pi-deployment.md)。
+
+若采用 RGB-D，优先测试 RGB 轻量模型＋经标定的显式深度几何处理，再比较加入小型融合分类层的收益；直接四通道或双分支输入作为按需对照。RGB、原始深度、标定、正确菜名及批次记录需对应。固定模型的参数量不会随训练照片数线性增加，但图像处理和整机服务负载需要单独核算。Pi 5 仍是未实测的候选，不能保证最终模型与整机一定满足要求；兼容性和初步计算验证应在完整训练之前开始。
+
+## 当前采购建议
+
+下文及旧工作簿为2026-09-15的历史采购候选：Gemini2 USB完整相机、Pi5 8GB、Active Cooler、microSD、NAU7802与10kg四线全桥称重梁、7英寸Touch Display2。2026-09-21建议先测RGB，Gemini2不再作为本期必买；新相机及配套尚未定稿，旧表不能直接作为当前下单单。称重工作毛重先≤5kg，平台和偏载待测。相机另备A-C USB3数据线；显示套装线不重购。当前集成电源按下文两支路设计；原官方27W Pi电源及独立灯电源只保留为旧台架／诊断方案，不与新电源包全部叠加采购。
+
+用户当前不设总预算上限，但仍平衡性能、准确性和成本。清单51条含配套／复用／后续项，当前计入人民币预留4314–6651元、不含运费；这不是国内实时报价。淘宝被工具站点策略拦截，京东Chrome要求登录后用户选择按厂家资料继续，未获得国内商品SKU成交价。详见[采购说明](planning/2026-09-15/procurement-guide.md)及[采购数据](planning/2026-09-15/procurement-data.json)。
+
+该清单是单机台架／展示参考，Pi与灯使用各自适配器，含工具与校准用品；不是统一电源或十盘位餐线BOM。工作簿与结构化数据本轮原样保留，不可直接乘十当成商业报价。
+
+## 统一供电与多盘位扩展建议
+
+用户希望借鉴Metafoodx整洁走线。当前工程建议具体化为12V5A成品适配器（参考GST60A12-P1J）、亚博YB-MPP01-V1.0 Pi5 PD电源板和ORICO-BT2U3-7AB Hub：Pi／屏幕／风扇／ADC用Pi支路，相机和两条≤2.5W的5V灯用Hub支路。Hub自身接12V，故不另加灯用降压板；该型号不能直接接24V。亚博板输入用KF301螺丝端子，USB-C输出经5A e-marker线接Pi，不占GPIO作供电板通信。
+
+供电专项18条含套装／复用项，当前新增预留RMB451–807，不是国内实时报价。主件规格和官方图片已核对，但Hub DC公头尺寸／极性、上游防倒灌、相机组合及完整负载仍待验证，不能按猜测上电。具体见[单机供电细化](planning/2026-09-15/power-supply-detail.md)及[数据](planning/2026-09-15/power-supply-data.json)。原采购XLSX／JSON仍保留，电源部分的替换关系以专项说明为准，未重算旧工作簿总价。
+
+Gemini2保留为可选深度增强对照；先验证普通RGB与重量，只有具体任务的增益值得其成本与复杂度时才保留3D。不为未来多路相机提前升级主机。多餐位共享和成本估算仅作未来部署研究，不能进入本期工作量／预算或成为demo验收前提，详见[相机、供电与扩展](planning/2026-09-15/camera-power-and-scaling.md)。
+
+## 集中供货、制造协助与个人贡献
+
+亚博中文目录已看到Pi5、散热、存储、线材、7寸屏和USB Hub等；Gemini2／335系列也有官方产品或课程。称重元件、NAU7802及适配餐盘的称重结构尚未确认现货；一站代采、单台定制、交期和费用需分项报价。官网欢迎OEM／ODM／定制，不等于已接受本项目。
+
+用户已明确本次询价工作边界：供应商负责部件配套、整机结构制作、固定、内部配电及全部接线集成；我方负责系统安装、驱动与采集代码、校准、AI、后台／网页及后续测试，AI助手协助编写与联调。当前不要求供应商提供测试报告、软件例程、系统镜像、基础标定或复杂图纸资料包。RFQ V3移除读卡器、运输／售后条款、18项细分报价和逐编号验收回复，仅询问能否制作1台、整机价格、周期与必要替代。40／30／30保持计划分工，实际工作按发生内容记录。
+
+V3只保留制作必需的参考：约450×400mm底座、350×250mm浮动平台、镜头距承载面450–600mm、10kg平台传感器与工作毛重≤5kg，以及12V5A单线入机、Pi5专用供电和USB3 Hub。供应商可按实际模块提出紧凑结构，制作前确认。旧V2中的±5g、重复／偏载／漂移和热盘等测试目标不再作为对外询价或供应商服务要求；组内后续研究仍需真实校准与硬件数据，简化询价不代表性能已经得到验证。
+
+学校指南第4页鼓励产业合作但要求导师保障监督和评核，第11页表中个人贡献占78%；这不是全面禁止外部制造。指南12页未给出专门生成式AI使用比例，不能因此认定AI包办代码已获允许。实际委托和AI协助边界应让Marco了解，外部软件／文档交付承诺遵循指南要求。详见[亚博采购与定制评估](planning/2026-09-15/yahboom-sourcing-and-customization.md)及[未发送询价草稿](planning/2026-09-15/hardware-fabrication-enquiry-draft.md)。
+
+## 当前文件
+
+- [学校Project Proposal](planning/2026-09-21/proposal-spec.md)：英文10页，七项学校要求、资源、参考和意见签名；[Word](<output/docx/AY26_ProjectProposal_Group 2.docx>)／[PDF](<output/pdf/AY26_ProjectProposal_Group 2.pdf>)，9月28日团队提交目标，9月29日23:59平台期限，尚未提交。
+- [当前品牌规范](brand.md)：用户已选V7无刻度纯碗；字体、配色、当前矢量素材及历史关系。
+- [餐食计量Logo R5](planning/2026-09-17/senplate-logo-measured-plate-r5.md)：历史语义探索，已由用户选定A版取代。
+- [GPT网页版图像生成提示词](Senplate_Logo_ImageGen_Brief.md)：历史探索简报，用户已上传并选定结果，不再等待选稿。
+- [Profile／层序Logo R4](planning/2026-09-17/senplate-logo-profile-r4.md)：视觉尚可、意义不足的参考稿，原Figma几何和导出保留。
+- [Interval图形近似初筛](research/2026-09-17-logo-similarity/similarity-review.md)：旧稿证据；香港图像查询及两条第9类详情、Aqua美国有效注册，不能套用到R4。
+- [Interval旧矢量Logo](planning/2026-09-17/senplate-vector-logo-studies.md)：气质曾获初步认可，图形因近似问题由R4取代；原Figma几何、SVG和预览保留。
+- [Logo真实标记审美校准](planning/2026-09-16/logo-reference-calibration.md)：用户已选Polestar与Linear；参照来源及上轮QA保留。
+- [Senplate Logo方向重整R3](planning/2026-09-16/senplate-logo-reset-r3.md)：A／B已在负面反馈后撤下，旧资产保留，不再要求用户二选一。
+- [Senplate Logo修订R2](planning/2026-09-16/senplate-logo-refinement-r2.md)：三个符号均被用户否决，旧文件保留，不再作为待选组。
+- [Senplate Logo与VI方向V1](planning/2026-09-16/senplate-logo-vi-directions.md)：第1版已选为工作基准，原Logo需改；旧三图与拟议色值保留。
+- [Senplate中文版商业计划书](planning/2026-09-16/business-plan-zh.md)：当前商业方案与假设；[Word](<output/docx/Group 2_Senplate_商业计划书_中文版_V1.docx>)、[PDF](<output/pdf/Group 2_Senplate_商业计划书_中文版_V1.pdf>)。
+- [Senplate商标与域名初筛](research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md)：当前名称决定、三地文字检索、两个访问缺口、近似使用线索及九个域名原始结果；无申请或购买。
+- [命名讨论稿](planning/2026-09-16/naming-shortlist.md)：历史候选和取舍；用户已选择Senplate，中文搭配未定。
+- [品牌命名与视觉方向V1](planning/2026-09-16/brand-visual-directions.md)：旧探索保留；三张未选中的概念图、原始提示词、显示映射及待调整项，不继续出图。
+- [iPhone页面与权限V1](planning/2026-09-16/app-pages-and-permissions.md)：导航、页面、四条操作链、Web／设备职责、权限与异常文案。
+- [业务状态与API V1](planning/2026-09-16/software-workflows-and-api.md)：状态转换、关键对象、幂等／版本、首批接口、JSON示例和错误处理。
+- [软件开发批次与验收V1](planning/2026-09-16/software-mvp-and-acceptance.md)：M0/P1/实物阶段、演示脚本、待执行场景和三人分工。
+- [软件范围与架构讨论稿](planning/2026-09-16/software-scope-and-architecture.md)：保留的业务与技术基线；iPhone双角色、厨房／管理Web、设备界面、共享后台和模拟器；P0已运行，完整范围分阶段完成。
+- [Metafoodx App研究](research/2026-09-16-metafoodx-app/app-review.md)：官方功能、全部公开商店截图、更新记录、角色定位与本项目取舍。
+- [V2 DOCX](<output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx>)、[V2 PDF](<output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf>)：保留的四页多场景建议书，签批留空；盘位和识别细节待下一次修订同步。
+- [多场景方案与营养依据](planning/2026-09-14/multi-scenario-suggestion-v2.md)：当前功能／场景与详细分工。
+- [持续监测硬件](planning/2026-09-14/continuous-monitoring-architecture.md)：共用硬件、采集与异常处理。
+- [相机、供电与十盘位成本](planning/2026-09-15/camera-power-and-scaling.md)：当前选型比较、单线入机候选、共享架构及未实测的物料情景。
+- [单机适配器、电源板与接线](planning/2026-09-15/power-supply-detail.md)：当前12V两支路、采购补充、接口未决项和台架步骤。
+- [亚博采购与定制评估](planning/2026-09-15/yahboom-sourcing-and-customization.md)：中文目录、屏幕、定制费用构成及学校贡献边界。
+- [硬件RFQ版本入口](planning/2026-09-15/hardware-fabrication-enquiry-draft.md)：当前3页V3.1 Word／PDF，2页简化需求加1页附图，仅整机硬件制作与集成；V1/V2/V3保留为历史，尚未发送或获得报价。
+- [组员资料](planning/2026-09-14/group-2-details.json)：唯一结构化身份和当前导师状态。
+- [handoff.md](handoff.md)、[decision-log.md](decision-log.md)、[work-log.md](work-log.md)：交接、决定与历史。
+- [V1 DOCX](<output/docx/AY26_ProjectSuggestion_Group 2.docx>)、[V1 PDF](<output/pdf/AY26_ProjectSuggestion_Group 2.pdf>)及[V1 范围](planning/2026-09-14/scope-and-roles-for-review.md)：历史版本，保留供比较。
+
+FILE product.md L1-46
+# Group 2 Project Contract
+
+更新：2026-09-28。状态：**TEAM_LOG_1_AND_REVISED_PROPOSAL_READY_FOR_REVIEW — NOT_SUBMITTED**。
+
+## 当前方向与用户决定
+
+用户已于9月25日推翻Senplate食物监测方案。当前项目为家庭或办公室个人桌面的AI智能日历与坐姿反馈设备。**持续视觉坐姿监测、限定判断、具体反馈及提醒后的复测必须实现**；小型机械臂大概率加入，列作计划硬件。语音采用免按键唤醒词体验，候选依次Qwen、Gemini、OpenAI Realtime、GPT-Live；具体版本和供应商要在接入时核对，并非四家都必须集成。
+
+主流程：固定摄像头观察可见头肩 → 个人标定和持续时间判断 → 屏幕／语音／灯光及通过验证的轻载机械臂提示 → 再检测并记录已调整、仍偏离或无法判断。日历提供长期、重复和单日事项、私人／公开显示、冲突、TimeTable及每日记录。第一版以“提醒时机”单独作为核心的工程建议已被用户否定。
+
+用户希望AVA式角色似乎悬浮于容器中；Razer官方未披露内部光路，不能称为已知同款结构。反射成像与18至20cm带罩旋转LED为待验候选，普通屏为后备。**实时事件反馈不要求一定有HDMI**：可编程切换预置片段即可响应事件；连续口型、文字等逐帧内容则要连续视频、SDK或渲染通道。手动App换片不等于开放API。[光学辨别](research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md)与[风扇接口研究](research/2026-09-26-desk-companion/hologram-fan-maturity.md)保留证据边界。
+
+## 当前范围与验证边界
+
+- 三位学生、约半年核心开发、一台实体原型，所有组号为Group 2。[成员身份资料](planning/2026-09-14/group-2-details.json)用于核对姓名、学号和邮箱；该旧JSON中的食品项目范围字段不定义新题目。
+- 现有M2系列16GB MacBook用于开发，已有Arduino UNO R4 WiFi为可选控制器；Pi5 8GB是现场主机候选，未确认采购或并行负载。相机固定，不随机械臂移动；机位须能支持受测前倾／侧歪特征。
+- 模型候选为MediaPipe Pose Landmarker；关键点仅是输入，个人标定、可见性、时间窗、冷却与复测由本组实现。不能用桌面遮挡后的不可靠髋点算角度，也不能用语言模型猜测填补无法判断。
+- 机械臂拟2至3自由度、轻载、限位、可停机，只做提示动作；独立电机供电，不接触人体、不抓取。型号、噪声、动作范围和供电均待台架验证。
+- 日历写入需读回确认、参数校验和实际执行回执；实体动作仅允许预设姿态。云端故障时本地日历、视觉判断与基础反馈保留。默认不持续保存或上传原始影像。
+- 不承诺情感障碍治疗、抑郁诊断、脊椎疾病判断、工作质量／专注分数或长期健康效果。学校Proposal没有问卷或调查访问要求，当前不安排这些任务。
+- 新提案建议6名自愿成年人、开发／测试各3人且视频不泄漏、两次录制；宏平均F1目标0.80、误报目标不超过2次／小时、满足持续条件后的本地反馈95%不超过2秒。另有日历／语音用例、两种桌面各2小时、100次角色与机械动作测试。**这些为待审阅目标，没有实测结果**；固定间隔提醒与单帧阈值保留为基线。
+
+## 当前学校交付与日志规则
+
+当前正文为[中文版第三版](planning/2026-09-28/desk-companion-proposal-zh-v3.md)和[对应英文稿](planning/2026-09-28/desk-companion-proposal-en.md)，[修订说明](planning/2026-09-28/logsheet-and-proposal-review.md)解释相机、显示、验收及学校日期的调整。新英文稿位于独立日期文件夹，避免与旧食物提案混淆：
+
+- [英文Proposal DOCX](<output/submission/2026-09-28/AY26_ProjectProposal_Group 2.docx>)／[PDF](<output/submission/2026-09-28/AY26_ProjectProposal_Group 2.pdf>)。
+- [中文第三版DOCX](<output/docx/Group 2_DeskCompanion_ProjectProposal_ZH_Review_v3.docx>)；[第二版](planning/2026-09-25/desk-companion-proposal-zh-review-v2.md)和[第一版](planning/2026-09-25/desk-companion-proposal-zh-review.md)保留为历史。
+- [首份团队日志DOCX](<output/submission/2026-09-28/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx>)／[PDF](<output/submission/2026-09-28/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf>)，记录9月14至27日，填表9月28日。**用户最新转述老师要求每组交一份**；Yuan作为表头和文件名的组长代表，备注列全组三人，后续不要恢复每人一份的错误推断。内部仍需可区分的个人贡献记录。
+
+本轮只读核对Moodle：日志#1截止9月28日17:00，Proposal截止9月29日23:59，均需DOCX与PDF。课程主要节点为10月26日Progress I、11月30日Initial、12月14日Progress II、2027年1月18日中期预演、2月1日Interim、3月22日Progress III、4月19日Final Report和4月26日Final Presentation。团队40%／30%／30%为计划学生工作量，不是完成贡献或评分。课程AI组员评核细则待公布，不自行给AI分配分数比例。
+
+## 状态与历史
+
+本轮完成文档与公开资料复核，未采购、联系供应商、接入API、采集真人数据、测试新硬件或提交Moodle。Marco的讨论不等于正式批准；意见和签名由老师填写。
+
+旧Senplate的[英文DOCX](<output/docx/AY26_ProjectProposal_Group 2.docx>)／[PDF](<output/pdf/AY26_ProjectProposal_Group 2.pdf>)、建议书、代码、品牌和采购资料均保留，**不对应当前题目**。旧55项后端测试只验证旧模拟软件。[旧完整产品规范](product-senplate-historical.md)。
+
+## 入口
+
+- [当前交接](handoff.md)／[决定记录](decision-log.md)／[工作记录](work-log.md)
+- [新方向早期研究](research/2026-09-25-desk-companion/feasibility-review.md)
+- [免按键语音比选](research/2026-09-25-desk-companion/realtime-voice-model-comparison.md)
+- [语音成本与地区的历史条件研究](research/2026-09-25-desk-companion/voice-model-cost-review.md)
+- [AVA式形态研究](research/2026-09-26-desk-companion/razer-ava-like-feasibility.md)
+- [直接小屏后备实施草案](planning/2026-09-26/ava-cylinder-route-a.md)

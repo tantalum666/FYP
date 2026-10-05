@@ -1,0 +1,130 @@
+{
+  "personal_meals": [
+    {
+      "id": "f6443469-135e-48aa-9ca3-00b10efad902",
+      "portions_g": [
+        200,
+        100,
+        150
+      ],
+      "provided_g": 450,
+      "remaining_g": 350,
+      "nutrition": {
+        "status": "complete",
+        "total": {
+          "energy_kcal": 477.5,
+          "protein_g": 39.97,
+          "carbohydrate_g": 67.11,
+          "fat_g": 4.75,
+          "fibre_g": 5.75
+        },
+        "known_subtotal": {
+          "energy_kcal": 477.5,
+          "protein_g": 39.97,
+          "carbohydrate_g": 67.11,
+          "fat_g": 4.75,
+          "fibre_g": 5.75
+        },
+        "covered_g": {
+          "energy_kcal": 450,
+          "protein_g": 450,
+          "carbohydrate_g": 450,
+          "fat_g": 450,
+          "fibre_g": 450
+        },
+        "basis": "provided_edible_weight_reference_estimate",
+        "intake": null
+      }
+    },
+    {
+      "id": "100c8b0d-50d0-4c91-9c41-1c59ec567016",
+      "portions_g": [
+        200,
+        100,
+        150
+      ],
+      "provided_g": 450,
+      "remaining_g": 350,
+      "nutrition": {
+        "status": "complete",
+        "total": {
+          "energy_kcal": 477.5,
+          "protein_g": 39.97,
+          "carbohydrate_g": 67.11,
+          "fat_g": 4.75,
+          "fibre_g": 5.75
+        },
+        "known_subtotal": {
+          "energy_kcal": 477.5,
+          "protein_g": 39.97,
+          "carbohydrate_g": 67.11,
+          "fat_g": 4.75,
+          "fibre_g": 5.75
+        },
+        "covered_g": {
+          "energy_kcal": 450,
+          "protein_g": 450,
+          "carbohydrate_g": 450,
+          "fat_g": 450,
+          "fibre_g": 450
+        },
+        "basis": "provided_edible_weight_reference_estimate",
+        "intake": null
+      }
+    }
+  ],
+  "school_summary": {
+    "completed_samples": 2,
+    "provided_g": 700,
+    "remaining_observed_g": 300,
+    "samples_with_remaining": 1,
+    "samples_without_remaining": 1
+  },
+  "school_items": [
+    {
+      "sample_code": "S-F267136ADE",
+      "provided_g": 250,
+      "remaining_g": null,
+      "remaining_reason": "pan_removed",
+      "nutrition_status": "unavailable"
+    },
+    {
+      "sample_code": "S-79A94FA1C0",
+      "provided_g": 450,
+      "remaining_g": 300,
+      "remaining_reason": "observed_total",
+      "nutrition_status": "complete"
+    }
+  ],
+  "fault_recovery": {
+    "operation_id": "41ac6927-bd06-443e-9c61-ed3e98735b1d",
+    "sample_code": "S-F267136ADE",
+    "complete_events": 1,
+    "refresh_preserved_pending": true,
+    "original_key_recovered": true
+  },
+  "preserved_live_run": {
+    "id": "1807c798-872f-469f-b88c-db49050f5455",
+    "net_g": 1600,
+    "orders": [
+      {
+        "number": 1,
+        "id": "ca71ce95-9485-4ab0-8417-543f131ed061",
+        "state": "collected",
+        "version": 5
+      },
+      {
+        "number": 2,
+        "id": "f6b5e5f4-5a39-41b8-aa99-be00bb658a37",
+        "state": "ready",
+        "version": 4
+      },
+      {
+        "number": 3,
+        "id": "9c8d74fb-42fc-4c7d-acc0-7e0e15b2b518",
+        "state": "submitted",
+        "version": 1
+      }
+    ]
+  }
+}

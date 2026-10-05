@@ -1,0 +1,93 @@
+{
+  "output": "/Users/tantalum/Documents/ChatGPT/FYP/output/docx/Group 2_Hardware RFQ_v2.docx",
+  "source": "/Users/tantalum/Documents/ChatGPT/FYP/planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+  "designed_pages": 10,
+  "tables": [
+    {
+      "rows": 4,
+      "cols": 3,
+      "header": [
+        "场景",
+        "放在设备上的物品",
+        "我方软件计划提供的反馈"
+      ]
+    },
+    {
+      "rows": 10,
+      "cols": 3,
+      "header": [
+        "编号",
+        "主报价目标",
+        "供方应说明或交付"
+      ]
+    },
+    {
+      "rows": 10,
+      "cols": 3,
+      "header": [
+        "编号",
+        "询价技术目标",
+        "验证与资料要求"
+      ]
+    },
+    {
+      "rows": 11,
+      "cols": 3,
+      "header": [
+        "编号",
+        "主报价目标",
+        "供方确认内容"
+      ]
+    },
+    {
+      "rows": 10,
+      "cols": 3,
+      "header": [
+        "编号",
+        "基准配置与数量",
+        "交付要求"
+      ]
+    },
+    {
+      "rows": 11,
+      "cols": 3,
+      "header": [
+        "编号",
+        "供电与配线目标",
+        "必须确认的细节"
+      ]
+    },
+    {
+      "rows": 6,
+      "cols": 3,
+      "header": [
+        "数据或接口",
+        "基础交付要求",
+        "后续由我方实现"
+      ]
+    },
+    {
+      "rows": 10,
+      "cols": 3,
+      "header": [
+        "项目",
+        "方法与合格目标",
+        "应提供的证据"
+      ]
+    },
+    {
+      "rows": 20,
+      "cols": 5,
+      "header": [
+        "项目",
+        "数量",
+        "单价",
+        "小计",
+        "型号或包含范围"
+      ]
+    }
+  ],
+  "images": 2,
+  "page_size": "Letter portrait",
+  "font": "Arial with Arial Unicode MS East Asian"
+}

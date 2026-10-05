@@ -1,0 +1,47 @@
+{
+  "verified_at": "2026-09-16",
+  "sources": [
+    {
+      "id": "1",
+      "owner": "Hong Kong EPD",
+      "url": "https://www.wastereduction.gov.hk/sites/default/files/resources_centre/waste_statistics/msw2024_eng.pdf",
+      "scope": "2024 landfill food waste 3001 tonnes/day, C&I 1004, 29%; printed page14 visually reviewed"
+    },
+    {
+      "id": "2",
+      "owner": "Education Bureau",
+      "url": "https://www.edb.gov.hk/en/edu-system/primary-secondary/primary/",
+      "scope": "2025/26: 591 primary, 513 secondary day, 63 special schools; not sales demand"
+    },
+    {
+      "id": "3",
+      "owner": "Metafoodx",
+      "url": "https://www.metafoodx.com/product",
+      "scope": "Public scanner and data-capture functions; vendor claims only"
+    },
+    {
+      "id": "4",
+      "owner": "Controliza",
+      "url": "https://controliza.com/en/buffet",
+      "scope": "Public vision, IoT weighing, replenishment and waste functions; no live access or pricing"
+    },
+    {
+      "id": "5",
+      "owner": "USDA ARS",
+      "url": "https://fdc.nal.usda.gov/api-guide/",
+      "scope": "Data licensing CC0, source/version requirement in project"
+    },
+    {
+      "id": "6",
+      "owner": "Hong Kong Department of Health",
+      "url": "https://school.eatsmart.gov.hk/en/content_esas.aspx?id=6108",
+      "scope": "Official lunch guideline and monitoring resources entrypoint only"
+    },
+    {
+      "id": "7",
+      "owner": "Pomona College",
+      "url": "https://www.pomona.edu/news/2025/10/20-sustainability-report-shows-progress-toward-carbon-neutral-2030-goal",
+      "scope": "Customer-side public deployment evidence; no borrowed effect assumptions"
+    }
+  ]
+}

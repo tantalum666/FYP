@@ -1,0 +1,140 @@
+FILE planning/2026-09-16/naming-shortlist.md L1-45
+# Group 2 命名讨论稿
+
+日期：2026-09-16。状态：HISTORICAL_SHORTLIST — SENPLATE_SELECTED。用户已明确“使用senplate，并检索商标与域名注册情况”；英文品牌确定为Senplate，中文名尚未选择。[检索报告](../../research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md)另记结果与缺口。以下保留候选比较过程；旧[视觉V1](brand-visual-directions.md)未选定，不因为名字已选就自动出图或落代码。
+
+## 命名依据
+
+核心是持续感知食物状态，再给出合适的供餐／餐食反馈。覆盖供餐、学校匿名样本和成年个人三个配置，同一硬件及双角色App。名字需要适合作为整套系统的品牌，不只指某个厨房表单或某只传感器。
+
+倾向易读的英文主名＋中文辅助名；这是用于给选择的暂定组织方式，用户没有选定语言优先级。品牌名与学校描述性项目题目分开，长题目仍可说明AI、IoT、Food and Nutrition Monitoring，不把全部技术词塞入品牌。
+
+## 候选（编号只用于本命名表，与旧图编号无关）
+
+| 名称 | 建议读法 | 中文搭配候选 | 命名联想／优势 | 取舍 |
+|---|---|---|---|---|
+| Senplate | SEN-plate | 知餐 | sense／sensor＋plate；感知餐盘，最容易说明硬件和食物的关系，适合FYP展示 | 技术感较明显，较少生活方式气质 |
+| PortiCue | POR-ti-cue | 膳量 | portion＋cue；份量变化带来下一步提示，直接表达监测到建议 | cue需简短解释，大小写和拼写需统一 |
+| Portivue | POR-ti-view | 食見 | portion＋view的拼写联想；让份量和变化看得见，简洁、数据感 | vue可能被拼成view，语义较强调查看 |
+| Traysen | TRAY-sen | 餐序 | tray＋sensing；持续感知、供餐有序，硬件／厨房感明确 | tray使人更容易联想到供餐餐盘，对个人用途的联想略弱 |
+| Senplio | SEN-plee-oh | 知膳 | 以sense和plate作声音联想的原创组合名，发音柔和，适合一套产品品牌 | 第一次看到不容易直接猜到用途，需要副标题 |
+| Portemi | POR-te-mi | 食度 | 以portion为起点的组合名；份量与分寸，餐厅和个人都能使用 | 与食物的联系较含蓄，需通过介绍建立印象 |
+| Melsori | mel-SOR-ee | 餐伴 | meal与餐食记录的声音联想，亲和、适合日常App | 工业硬件／运营感最弱，英文语义不直观 |
+
+这些读法是拟定品牌读法，联想是命名创意，不宣称词典意义或现有名称的真实词源。中文名不必严格音译，也不必固定按表中组合。
+
+中文还可单独考虑：**知餐**（看懂每一餐）、**食度**（份量与分寸）、**食序**（供餐与日常餐食有序）、**膳量**（餐食与份量）、**食見**（看见并理解食物）。中文候选本轮未完成逐一同名检索，不声称独有。
+
+当时助手建议重点比较Senplate、PortiCue、Senplio，Portemi保留。随后用户明确选择Senplate；其他候选现仅作历史记录，不再是当前待选清单。
+
+## 公开初筛
+
+在前轮初筛基础上，本轮对Senplate、PortiCue、Portivue、Senplio及其他候选进行了引号名称搜索。保留项未在本轮返回结果中看到明显的同名餐食软件；这只是有限搜索观察，不是名称唯一、域名或商标可用结论。未注册域名或商标。
+
+未纳入本轮推荐的已有同类名称：
+
+- [MealCue](https://mealcue.app/)已有餐食计划产品。
+- [Portionary](https://portionaryapp.com/)已有餐食／份量记录产品。
+- [Dishloom](https://dishloom.com/)已有菜谱整理产品。
+
+Miseva、Mealvera、Measora、Melsena的搜索分别出现其他行业、音乐或姓名等结果，也没有作为本轮重点推荐；这里不作权利冲突判断。
+
+## 当前下一步
+
+命名筛选已经结束。当前按[Senplate检索报告](../../research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md)保留中国内地／WIPO正式查询与商业近似评估缺口；不自动生成Logo或建立应用工程。
+
+本轮已同步项目入口和交接；[阅读记录](../../output/qa/naming-only-2026-09-16/reading-record.json)、[收尾核对](../../output/qa/naming-only-2026-09-16/closeout-validation.json)。旧图、建议书、RFQ和身份资料保留。
+
+FILE planning/2026-09-16/senplate-logo-refinement-r2.md L1-44
+# Senplate Logo修订 R2
+
+日期：2026-09-16。状态：HISTORICAL — ALL_THREE_REJECTED_BY_USER。用户随后明确三个都不满意，并解释为“太普通，缺少高级感和辨识度”。本组关闭，当前转到[方向重整R3](senplate-logo-reset-r3.md)，旧VI基准选择保留。
+
+## 用户选择与本轮解释
+
+用户明确：“以1为基础，这个logo一般般”。这里的1依据[上一组manifest](../../output/brand/2026-09-16-senplate-vi/manifest.json)确认为 **Measured／分寸**，即深绿、米白、现代无衬线Senplate字标的VI板。它是继续设计的基准，不是原圆形台阶符号获批。
+
+本轮保留该方向的配色和字标气质作为工作假设，集中改符号；用户没有逐项批准HEX、字体或间距。助手认为原符号可能像仪表／进度图标，是助手的视觉判断，不能写成用户给出的具体否决理由，也不能推导用户永远禁止圆形或字母标记。
+
+已用内置ImageGen进行三次独立修订，均实际附加并参考[Measured原图](../../output/brand/2026-09-16-senplate-vi/measured-v1.png)。本轮只展示符号、字标组合、黑白／反白及小图标示意，不再通过设备渲染或完整VI包装分散对Logo的判断。未新建Figma、矢量或应用代码。
+
+## 本组实际显示顺序
+
+编号在三个原生生成结果出现后确认，只适用于R2新组。用户在本轮之前说的“1”仍然指旧VI基准，不代表选择下表的Rim Fold。
+
+| 新组编号 | 方向 | 观察与取舍 | 原图 |
+|---|---|---|---|
+| 1 | Rim Fold | 开口折面轮廓较强，留白更明显；可能被看成G，需要用户判断与Senplate的适配 | [原图](../../output/brand/2026-09-16-senplate-logo-r2/fold-r2.png) |
+| 2 | Poise | 上下两个不等部分，中间形成流畅留白，较容易联想到份量与承载面；上部也可能被看作叶片，不能声称形象已独有 | [原图](../../output/brand/2026-09-16-senplate-logo-r2/poise-r2.png) |
+| 3 | Contour S | 直接使用S形标记，名称联想容易；成图较接近普通圆润S，独特细节仍弱 | [原图](../../output/brand/2026-09-16-senplate-logo-r2/contour-r2.png) |
+
+当时助手倾向第2张，但用户随后否决了全部三张。R2的selected_logo仍为空，review_status已更新为ALL_REJECTED_BY_USER。[完整映射](../../output/brand/2026-09-16-senplate-logo-r2/manifest.json)记录来源、项目副本、尺寸、提示词、哈希与反馈。
+
+## 沿用范围
+
+- 品牌仍为Senplate，中文名未定；保留现代人文无衬线的工作方向，没有退回另取名字或更换三套全新VI。
+- 深绿#163F35、米白#F3F1E7、辅助浅绿#C8D99C、深色#18231F作为基准候选；本轮黑白研究用近黑色，未来统一后再定完整色值。
+- 旧图、旧提示词与已完成的配色计算保留，不因重画Logo而重复验证没有变化的色值组合。
+- 设备、三场景、iPhone双角色、厨房／管理Web、学校文件与商业计划保持既有范围。Logo概念不是硬件实测或功能完成证据。
+
+## 视觉检查与尚未完成
+
+三张1536×1024图已直接查看，在主对话各显示一次：Senplate拼写、黑白和图标示意可辨，符号结构均不同于原圆形台阶图。图内的小尺寸为示意，没有真实24px导出或像素精度测试；生成器亦未保证不同大小的路径完全一致。
+
+第一版G形误读、第二版叶片联想、第三版字母独特性都保留为选择时的取舍。本轮没有把其中任何一个描述为最终注册图形、矢量母版或已经通过所有尺寸的Logo。字体仍为图像中的字形方向，未选定具体字体文件及授权。
+
+原VI manifest只更新选择元数据：selected_direction=measured、selection_stage=BASE_SELECTED_LOGO_REVISION_REQUIRED、logo_approved=false；更新前的完整JSON保存在[QA快照](../../output/qa/senplate-logo-refinement-2026-09-16/vi-v1-manifest-before-selection.json)。旧图像和提示词未覆盖。
+
+完整提示词：[Rim Fold](../../output/brand/2026-09-16-senplate-logo-r2/prompts/fold-r2.txt)、[Poise](../../output/brand/2026-09-16-senplate-logo-r2/prompts/poise-r2.txt)、[Contour S](../../output/brand/2026-09-16-senplate-logo-r2/prompts/contour-r2.txt)。
+
+[阅读记录](../../output/qa/senplate-logo-refinement-2026-09-16/reading-record.json)、[收尾核对](../../output/qa/senplate-logo-refinement-2026-09-16/closeout-validation.json)。
+
+本组没有继续三选一的步骤，三个均已淘汰。当前下一步见[方向重整R3](senplate-logo-reset-r3.md)，不直接开始App还原。
+
+FILE planning/2026-09-16/senplate-logo-reset-r3.md L1-46
+# Senplate Logo方向重整 R3
+
+日期：2026-09-16。状态：HISTORICAL — WITHDRAWN_AFTER_NEGATIVE_USER_FEEDBACK。用户随后反馈“越来越丑了bro”；助手撤下A／B待选状态，当前转到[真实标记审美校准](logo-reference-calibration.md)。以下保留本轮过程，不再作为用户必须选择的方案。
+
+## 用户反馈
+
+用户先明确“三个都不满意”，随后说明原因是“太普通，缺少高级感和辨识度”。因此R2三张全部关闭，不再让用户从Rim Fold／Poise／Contour S中勉强选择。此前Measured／分寸作为VI工作基准的选择仍保留，英文名Senplate不变，中文名未定。
+
+本轮问题是视觉质量及辨识度，不记录成用户要求更多食物图案、拒绝所有抽象符号或禁止所有字母标记。此前由助手加入的仪表、G、叶片等联想是设计评估，不替代本次用户原话。
+
+## 方法调整
+
+减少对具体几何形状的预先限制，不再把传感器、餐盘、食物、闭环都塞进一个符号。优先看字形、轮廓、留白与独立记忆点。保留深绿／米白的整体基调，同时允许探索不同字标细节；新的衬线方向只是候选，没有取代用户已选基准或成为已批准字体。
+
+本轮首次读取Creative Production的produce、logos、board-runtime及相关内容／来源规范。produce明确要求两个以上未缓存原生图像委派，故使用四个限定任务的图像工作代理，各生成一次；主代理继续评审、记录拒绝状态和整理交付。四个代理已结束并被中断接口确认完成，当前接口没有销毁代理句柄操作，不冒称已销毁。
+
+当前工具仅暴露创意画板的嵌套调用路径，而该技能禁止经functions.exec挂载画板，因此没有挂载或声称完成原生创意画板会话。实际交付为内置ImageGen生成的本地文件及对话预览，没有另建用户任务、Figma文件、网页App或应用工程。
+
+## 筛选后的两条路线
+
+| 评审标签 | 路线 | 观察与未解决项 | 图像 |
+|---|---|---|---|
+| A | 字标优先 | 带细微衬线、收尖及开口细节的Senplate，名字本身承担识别。助手认为气质较成熟；仍非最终定制字库，p／l关系及字距可进一步精修，尚无独立小图标 | [字标图](../../output/brand/2026-09-16-senplate-logo-r3/editorial-wordmark.png) |
+| B | 独立图形＋字标 | 白底黑色的双曲面与中心点，轮廓比淡色失效稿清楚；仍有旋转S／气象符号联想，不能声称已解决独特性或完成权利核验 | [修正后的图形图](../../output/brand/2026-09-16-senplate-logo-r3/fresh-emblem.png) |
+
+当时助手倾向A，但没有得到用户接受。A／B现已撤下待选状态，标签只作历史映射；[R3清单](../../output/brand/2026-09-16-senplate-logo-r3/manifest.json)的selected_logo仍为空，review_status为WITHDRAWN_AFTER_NEGATIVE_USER_FEEDBACK。
+
+四个独立探索中的negative-space、rhythm、quiet-symbol仍出现常见的分段S／叶片／豆粒联想；根据各工作代理的图像审阅报告，由主代理筛除，不要求用户再选它们。它们是助手筛掉的新探索，不能误记成用户亲自否决了R3全部图。
+
+随后主代理另做一个不附旧符号参考的全新图形。首次结果出现暗色透明背景与极低可见度，被判为无效渲染；仅对此无效输出进行一次ImageGen修正，得到可见的白底黑标。没有用Python或SVG重新绘画。无效图保留作QA，不属于候选B，也不再用于后续还原。
+
+## 交付与实际检查
+
+- 四个工作代理各一次ImageGen，主代理一次新图形及一次无效渲染修复，共六次；没有对已成功文件原地覆盖。
+- 两个有效候选由主代理直接查看，拼写Senplate可辨，主图没有加入中文品牌名或未验证性能宣传。其他三个方向基于工作代理审阅报告筛除；不是声称主代理逐一视觉检查了未展示图。
+- A为1536×1024；B按最终文件记录尺寸。B修正输出为RGB，无透明通道；首次无效图的RGBA及低色值单独记录。
+- 原始提示词与未修改的PNG保留。部分原件路径由工作代理返回；rhythm的原始生成路径未返回，清单保留空值，不能虚构路径或声称已自行核对其原件。
+- 没有矢量母版、已授权字体文件、24px图标、设备打样或正式VI手册。候选图不表示商标清查或独特性已获证明。
+
+## 状态保存
+
+R2 manifest更新为ALL_REJECTED_BY_USER，并保留用户两条中文反馈；修改前JSON已保存到[快照](../../output/qa/senplate-logo-reset-2026-09-16/r2-manifest-before-rejection.json)。旧VI的基准选择不改，旧图片／提示词／正式文档保持原样。
+
+[阅读与工具边界](../../output/qa/senplate-logo-reset-2026-09-16/reading-record.json)、[收尾核对](../../output/qa/senplate-logo-reset-2026-09-16/closeout-validation.json)。
+
+本组没有继续二选一的步骤。当前用[真实标记参照](logo-reference-calibration.md)校准审美，再决定新的原创方向；暂不继续生成或推进App还原。

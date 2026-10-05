@@ -1,0 +1,106 @@
+{
+  "evaluated_split": "test",
+  "data_sources": [
+    "synthetic"
+  ],
+  "recorded_input_only": false,
+  "validation_status": "requires independent review of collection and ground truth",
+  "scored_frames": 404,
+  "unknown_fraction": 0.06930693069306931,
+  "macro_f1_over_present_classes": 1.0,
+  "confusion_matrix": {
+    "within_reference": {
+      "within_reference": 108,
+      "forward": 0,
+      "side": 0,
+      "absent": 0,
+      "unknown": 0
+    },
+    "forward": {
+      "within_reference": 0,
+      "forward": 68,
+      "side": 0,
+      "absent": 0,
+      "unknown": 0
+    },
+    "side": {
+      "within_reference": 0,
+      "forward": 0,
+      "side": 68,
+      "absent": 0,
+      "unknown": 0
+    },
+    "absent": {
+      "within_reference": 0,
+      "forward": 0,
+      "side": 0,
+      "absent": 132,
+      "unknown": 0
+    },
+    "unknown": {
+      "within_reference": 0,
+      "forward": 0,
+      "side": 0,
+      "absent": 0,
+      "unknown": 28
+    }
+  },
+  "per_class": {
+    "within_reference": {
+      "support": 108,
+      "f1": 1.0
+    },
+    "forward": {
+      "support": 68,
+      "f1": 1.0
+    },
+    "side": {
+      "support": 68,
+      "f1": 1.0
+    },
+    "absent": {
+      "support": 132,
+      "f1": 1.0
+    },
+    "unknown": {
+      "support": 28,
+      "f1": 1.0
+    }
+  },
+  "clips": [
+    {
+      "participant": "synthetic-fixture",
+      "session": "controlled",
+      "split": "test",
+      "source": "synthetic",
+      "single_frame_with_same_cooldown": {
+        "prompts": 1,
+        "brief_or_non_deviation_prompts": 0,
+        "false_prompts_per_hour": 0.0,
+        "eligible_episodes": 2,
+        "episodes_with_prompt": 1,
+        "delay_from_persistence_seconds": [
+          -15.0
+        ],
+        "negative_delay_means_premature": true
+      },
+      "sustained_with_reassessment": {
+        "prompts": 1,
+        "brief_or_non_deviation_prompts": 0,
+        "false_prompts_per_hour": 0.0,
+        "eligible_episodes": 2,
+        "episodes_with_prompt": 1,
+        "delay_from_persistence_seconds": [
+          0.0
+        ],
+        "negative_delay_means_premature": true
+      }
+    }
+  ],
+  "limitations": [
+    "Personal calibration frames excluded from scoring.",
+    "Temporal filtering changes prompt timing; frame classification is shared with the baseline.",
+    "Synthetic inputs do not establish real camera accuracy, false alarms or health effects.",
+    "Recorded labels and consent must be independently verified by the team."
+  ]
+}

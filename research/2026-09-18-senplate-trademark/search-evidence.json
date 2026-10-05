@@ -1,0 +1,113 @@
+{
+  "date": "2026-09-18",
+  "timezone": "Asia/Hong_Kong",
+  "record_type": "Assistant transcription of observed browser results, not official export or certification",
+  "hk_image": {
+    "entry": "https://image-mark-finder.ipd.gov.hk/",
+    "result_url": "https://image-mark-finder.ipd.gov.hk/search",
+    "query_asset": "output/brand/2026-09-18-senplate-plain-bowl-v7/senplate-symbol.png",
+    "query_size": [
+      960,
+      680
+    ],
+    "color": "green",
+    "wordmark_included": false,
+    "human_verification": "User completed CAPTCHA manually",
+    "result_rows": 300,
+    "pages": 6,
+    "rows_per_page": 50,
+    "unique_mark_numbers": 227,
+    "class_9_42_unique_candidates": 15,
+    "image_review_count": 10,
+    "image_review_unique_mark_numbers": 8,
+    "goods_opened": [
+      "304763890",
+      "305487698",
+      "305423760"
+    ],
+    "limit": "Metadata filtering across all six pages; not all 300 images or 227 goods lists manually reviewed",
+    "query_sha256": "5cd4e4bd46db2b5679136e314db7900e31b1dfd2658bd3f3fc1c3b57a15f0e88"
+  },
+  "hk_esearch": {
+    "attempted_number": "304763890",
+    "result": "Separate notice/CAPTCHA and record-not-found page; full detail not obtained",
+    "expiry_verified": false,
+    "word_search_refreshed": false
+  },
+  "us_name_search": {
+    "entry": "https://tmsearch.uspto.gov/",
+    "mode": "Wordmark",
+    "classes": "unrestricted",
+    "status_filters": [
+      "Live Registered",
+      "Live Pending",
+      "Dead Cancelled",
+      "Dead Abandoned"
+    ],
+    "queries": [
+      {
+        "term": "senplate",
+        "result": "No results found",
+        "live_count": 0,
+        "dead_count": 0
+      },
+      {
+        "term": "senseplate",
+        "result": "No results found",
+        "live_count": 0,
+        "dead_count": 0
+      },
+      {
+        "term": "sensoplate",
+        "result": "No results found",
+        "live_count": 0,
+        "dead_count": 0
+      }
+    ]
+  },
+  "us_bowl": {
+    "url": "https://tsdr.uspto.gov/#caseNumber=97231717&caseSearchType=US_APPLICATION&caseType=DEFAULT&searchType=statusSearch",
+    "serial": "97231717",
+    "registration": "7431298",
+    "mark": "BOWL",
+    "owner": "EPICNPOC",
+    "owner_country": "France",
+    "application_date": "2022-01-21",
+    "registration_date": "2024-07-02",
+    "status": "LIVE/REGISTRATION/Issued and Active",
+    "classes": [
+      9,
+      42
+    ],
+    "class_status": "ACTIVE",
+    "official_image_visible": false,
+    "description_paraphrase": "Bowl containing three cubes inside a rounded-corner square, over the word BOWL",
+    "goods_summary": "Software and devices for developing and testing smart connected objects",
+    "service_summary": "Software development, R&D and SaaS related to smart connected objects"
+  },
+  "historical_exact_name": {
+    "name": "Senplate",
+    "source": "https://sg.wantedly.com/id/aen_tan",
+    "method": "Direct page text read",
+    "author": "Aen Tan",
+    "work_period": "2011-11 to 2013-05",
+    "context": "Design consultant to ONE-R Inc.; photo decorating/sharing iOS rapid prototype",
+    "release_or_registration_verified": false
+  },
+  "coverage_gaps": [
+    "HK word search not refreshed; 2026-09-16 result retained as historical",
+    "EU name search not refreshed; national European records not comprehensively checked",
+    "CNIPA and WIPO formal results incomplete",
+    "No global image clearance",
+    "BOWL official image unavailable",
+    "HK expiry dates not verified",
+    "Domains not refreshed"
+  ],
+  "actions_not_performed": [
+    "Trademark filing",
+    "Payment",
+    "Contact with owners",
+    "Logo or VI modification",
+    "Public publishing"
+  ]
+}

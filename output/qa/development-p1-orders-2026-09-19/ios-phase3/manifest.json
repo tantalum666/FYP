@@ -1,0 +1,53 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "CE030145-83CA-417E-95C1-A2CFF9064A6B.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "10-large-text-lower_0_2D6FD3E5-C1BF-4E33-871F-D55AEFF52746.png",
+        "timestamp" : 1789758045.127
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "D18FDC8F-C9EC-4D93-BE05-0E68BBB59152.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "09-large-text-menu_0_A8614CF7-9991-4F32-B0EF-0CE7312239E9.png",
+        "timestamp" : 1789758041.802
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "0991E8FF-D5E7-4325-95E7-3DE8A37A5FC5.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "08-zh-restored_0_AB2854D3-420D-417B-8694-CFEC7944660B.png",
+        "timestamp" : 1789758035.381
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "21FEB585-A26D-4593-9A71-A0357B7ECBA3.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "07-menu-zh_0_A45DA058-BE42-4C59-ABEC-362046AFF7A4.png",
+        "timestamp" : 1789758028.749
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "E267B3CD-3558-4168-A155-E6E4EA874C2E.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "06-order-ready_0_C32FCFC2-DD0F-4EAE-B34D-C888C0C262B2.png",
+        "timestamp" : 1789758020.137
+      }
+    ],
+    "testIdentifier" : "OrderingUITests/test03CollectionAndLanguagePersistence()",
+    "testIdentifierURL" : "test://com.apple.xcode/Senplate/SenplateUITests/OrderingUITests/test03CollectionAndLanguagePersistence"
+  }
+]

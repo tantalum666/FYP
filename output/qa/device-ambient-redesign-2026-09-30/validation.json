@@ -1,0 +1,33 @@
+{
+  "finished_at": "2026-09-30T02:29:41.013649+08:00",
+  "updated_markdown": [
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "README.md",
+    "desk-companion/README.md",
+    "planning/2026-09-29/software-development-plan.md",
+    "planning/2026-09-28/desk-software-scope-v1.md",
+    "planning/2026-09-30/device-display-spec.md",
+    "design/desk-companion/b1/design-spec.md",
+    "design/desk-companion/device-ambient-v1/README.md",
+    "output/qa/device-ambient-redesign-2026-09-30/verification.md"
+  ],
+  "checked_internal_links": 560,
+  "broken_internal_links": [],
+  "protected_count": 112,
+  "protected_changed": [],
+  "full_read_complete": true,
+  "frontend_checks": {
+    "typecheck_build": "passed",
+    "device_tests": {
+      "passed": 7,
+      "failed": 0
+    }
+  },
+  "backend": "unchanged; B1 45 checks reused",
+  "preview": "http://127.0.0.1:5190/?surface=device",
+  "qa_processes_stopped": true,
+  "no_hardware_validation": true
+}

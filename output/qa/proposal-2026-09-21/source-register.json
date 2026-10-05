@@ -1,0 +1,131 @@
+{
+  "created_at": "2026-09-21T06:18:14.633041+00:00",
+  "access_date": "2026-09-21",
+  "research_method": "Read current official sources with web tools during this task; public descriptions separated from prototype evidence.",
+  "sources": [
+    {
+      "reference": 1,
+      "title": "EPD: Waste Statistics for 2024",
+      "url": "https://www.wastereduction.gov.hk/sites/default/files/resources_centre/waste_statistics/msw2024_eng.pdf",
+      "purpose_and_boundary": "Printed pp. 2 and 14; 3,001 tonnes/day and approximately 29% as social context, not avoidable waste or Senplate savings."
+    },
+    {
+      "reference": 2,
+      "title": "Department of Health: School Lunch Arrangement and Monitoring",
+      "url": "https://school.eatsmart.gov.hk/en/content_esas.aspx?id=6108",
+      "purpose_and_boundary": "School-meal guidance and monitoring resources; no nutritional compliance inferred from scale readings."
+    },
+    {
+      "reference": 3,
+      "title": "Metafoodx: Meet Metron",
+      "url": "https://www.metafoodx.com/product",
+      "purpose_and_boundary": "Vendor-described scanning, food monitoring and supported settings; no transferred ROI or exclusivity claim."
+    },
+    {
+      "reference": 4,
+      "title": "Controliza: AI Buffet Control",
+      "url": "https://controliza.com/en/buffet",
+      "purpose_and_boundary": "Vendor-described IoT weighing, consumption monitoring and replenishment alerts; acknowledged overlap."
+    },
+    {
+      "reference": 5,
+      "title": "Raspberry Pi 5 specifications",
+      "url": "https://www.raspberrypi.com/products/raspberry-pi-5/",
+      "purpose_and_boundary": "Candidate hardware specifications; no validation of complete station power or performance."
+    },
+    {
+      "reference": 6,
+      "title": "Orbbec Gemini 2 specifications",
+      "url": "https://store.orbbec.com/products/gemini-2",
+      "purpose_and_boundary": "Candidate RGB-D camera and USB interface; Pi SDK and operational depth quality remain to be tested."
+    },
+    {
+      "reference": 7,
+      "title": "PyTorch: Transfer Learning for Computer Vision",
+      "url": "https://docs.pytorch.org/tutorials/beginner/transfer_learning_tutorial.html",
+      "purpose_and_boundary": "Method for fine-tuning pretrained vision models; no training results implied."
+    },
+    {
+      "reference": 8,
+      "title": "Torchvision: MobileNetV3 Large",
+      "url": "https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.mobilenet_v3_large.html",
+      "purpose_and_boundary": "Proposed pretrained model; inference workload and accuracy require experiments."
+    },
+    {
+      "reference": 9,
+      "title": "USDA: FoodData Central API Guide",
+      "url": "https://fdc.nal.usda.gov/api-guide/",
+      "purpose_and_boundary": "Food reference provenance and CC0; calculations are estimates rather than chemical measurement."
+    }
+  ],
+  "school_requirements": [
+    {
+      "item": 1,
+      "name": "Problem to be solved",
+      "pages": [
+        1
+      ]
+    },
+    {
+      "item": 2,
+      "name": "Background information",
+      "pages": [
+        2
+      ]
+    },
+    {
+      "item": 3,
+      "name": "Proposed solution: architecture, algorithms/methodology, functional/data/non-functional requirements",
+      "pages": [
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "item": 4,
+      "name": "Appropriateness of the proposed solution",
+      "pages": [
+        7
+      ]
+    },
+    {
+      "item": 5,
+      "name": "Project stages with completion deadlines",
+      "pages": [
+        8
+      ]
+    },
+    {
+      "item": 6,
+      "name": "Expected deliverables",
+      "pages": [
+        8
+      ]
+    },
+    {
+      "item": 7,
+      "name": "Responsibilities of each member",
+      "pages": [
+        9
+      ]
+    }
+  ],
+  "additional_sections": {
+    "resources": [
+      9
+    ],
+    "references_review_and_signatures": [
+      10
+    ]
+  },
+  "dates": {
+    "user_target": "2026-09-28",
+    "moodle_due": "2026-09-29T23:59:00+08:00",
+    "technical_team_target": "2027-03-19",
+    "technical_date_status": "proposed; final course timetable not supplied"
+  },
+  "submission_screenshot": "inputs/moodle-requirements.png",
+  "original_files": "input-manifest.json"
+}

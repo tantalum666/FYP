@@ -1,0 +1,222 @@
+{
+  "completed_at": "2026-09-15T21:50:51.842483+08:00",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "line_count": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256_after_read": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "README.md",
+      "line_count": 35,
+      "read_ranges": [
+        [
+          1,
+          35
+        ]
+      ],
+      "sha256_after_read": "1501ad073f5b75c7cbf6f874dc2994e8669207203c31bdb7408411a47ab72233"
+    },
+    {
+      "path": "decision-log.md",
+      "line_count": 64,
+      "read_ranges": [
+        [
+          1,
+          64
+        ]
+      ],
+      "sha256_after_read": "7ed0f773b347647b738148ddee5a0c020c388624f8fa49220fef4b8d23a5d4e7"
+    },
+    {
+      "path": "handoff.md",
+      "line_count": 31,
+      "read_ranges": [
+        [
+          1,
+          31
+        ]
+      ],
+      "sha256_after_read": "b0c4332b91b68e1cd41c99274c3822bc7b8d8bbaa7a1c384fb8dc82e82fdb922"
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "line_count": 174,
+      "read_ranges": [
+        [
+          1,
+          174
+        ]
+      ],
+      "sha256_after_read": "153da7429cd987e0e13d9440dd0f24a0a63ef60e3212335a19662a9b2ceeaff7"
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "line_count": 112,
+      "read_ranges": [
+        [
+          1,
+          112
+        ]
+      ],
+      "sha256_after_read": "fb04b1acafcc1310d6f6194efd224c7f3599a4c6517c7735bea4f92a9aa20c35"
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "line_count": 78,
+      "read_ranges": [
+        [
+          1,
+          78
+        ]
+      ],
+      "sha256_after_read": "0546e0aee11211cbe5de981addd7f332da47e0b39f48785392b21b79bc0d1a21"
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "line_count": 160,
+      "read_ranges": [
+        [
+          1,
+          160
+        ]
+      ],
+      "sha256_after_read": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5"
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "line_count": 108,
+      "read_ranges": [
+        [
+          1,
+          108
+        ]
+      ],
+      "sha256_after_read": "ac5709dfbaf0c4bcd78d211595e961b0028bd9031475d16281a675b3826e895f"
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "line_count": 202,
+      "read_ranges": [
+        [
+          1,
+          202
+        ]
+      ],
+      "sha256_after_read": "072a126ad0122852088d68d2a4a5421db09e65a9ad9a9f798ead86580f97bafd"
+    },
+    {
+      "path": "product.md",
+      "line_count": 70,
+      "read_ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "sha256_after_read": "f16f17b657b44c8e4cc80d3410c0085b44195630d9ce333088a8f580275406e0"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "line_count": 165,
+      "read_ranges": [
+        [
+          1,
+          165
+        ]
+      ],
+      "sha256_after_read": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "line_count": 38,
+      "read_ranges": [
+        [
+          1,
+          38
+        ]
+      ],
+      "sha256_after_read": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "line_count": 44,
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ],
+      "sha256_after_read": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "line_count": 47,
+      "read_ranges": [
+        [
+          1,
+          47
+        ]
+      ],
+      "sha256_after_read": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "line_count": 287,
+      "read_ranges": [
+        [
+          1,
+          287
+        ]
+      ],
+      "sha256_after_read": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "line_count": 171,
+      "read_ranges": [
+        [
+          1,
+          171
+        ]
+      ],
+      "sha256_after_read": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "line_count": 25,
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ],
+      "sha256_after_read": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7"
+    },
+    {
+      "path": "work-log.md",
+      "line_count": 71,
+      "read_ranges": [
+        [
+          1,
+          71
+        ]
+      ],
+      "sha256_after_read": "ad443b46ae3ae43c23ebb5ec0cda721d8d5ece3533b45f1b826541ebce371f77"
+    }
+  ],
+  "file_count": 19,
+  "line_count": 1932,
+  "excluded_paths": [
+    "output/qa/suggestion-2026-09-14/artifact.md",
+    "output/qa/suggestion-v2-2026-09-14/artifact.md"
+  ],
+  "exclusion_rule": "Generated output/qa evidence snapshots, .git, dependencies and caches only. No project-owned history excluded.",
+  "read_notes": "AGENTS/product/handoff/decision-log read in initial call; compaction restored entry files. All remaining bodies read to EOF. Truncated combined call repaired by rereading continuous-monitoring-architecture and single-station-recognition-reliability in full. Procurement guide ranges 1-104 and 105-EOF; hardware review ranges 1-150 and 151-EOF. Hashes captured after reading for subsequent change detection, not reading proof."
+}

@@ -1,0 +1,148 @@
+FILE README.md L181-210
+- [Logo真实标记审美校准与已选参照](planning/2026-09-16/logo-reference-calibration.md)
+- [已撤下的Logo方向重整R3](planning/2026-09-16/senplate-logo-reset-r3.md)
+- [已否决的Logo修订R2](planning/2026-09-16/senplate-logo-refinement-r2.md)
+- [Senplate旧VI方向与已选工作基准](planning/2026-09-16/senplate-logo-vi-directions.md)
+- [Senplate商标与域名初筛](research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md)
+- [历史命名候选、读法与取舍](planning/2026-09-16/naming-shortlist.md)
+- [旧品牌候选、Logo与App概念图](planning/2026-09-16/brand-visual-directions.md)
+- [详细页面、导航、权限与异常](planning/2026-09-16/app-pages-and-permissions.md)
+- [状态、数据、19项首批接口与JSON示例](planning/2026-09-16/software-workflows-and-api.md)
+- [开发工作包与分阶段验收场景](planning/2026-09-16/software-mvp-and-acceptance.md)
+- [iPhone双角色、工作台Web、共享后台与开发顺序](planning/2026-09-16/software-scope-and-architecture.md)
+- [Metafoodx App公开界面与功能研究](research/2026-09-16-metafoodx-app/app-review.md)
+- [V2 多场景范围、营养依据与分工](planning/2026-09-14/multi-scenario-suggestion-v2.md)
+- [单设备、单盘位与食物识别可靠性](planning/2026-09-14/single-station-recognition-reliability.md)
+- [AI 训练、RGB-D 融合与树莓派算力验证](planning/2026-09-14/ai-training-and-pi-deployment.md)
+- [持续监测与计算硬件](planning/2026-09-14/continuous-monitoring-architecture.md)
+- [Gemini／RealSense、统一供电及共享成本](planning/2026-09-15/camera-power-and-scaling.md)
+- [单台demo电源具体选型与接线](planning/2026-09-15/power-supply-detail.md)
+- [亚博供货、屏幕与定制合作](planning/2026-09-15/yahboom-sourcing-and-customization.md)
+- [当前整机硬件制作询价V3.1附图版](planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md)
+- [V1 详细范围与分工历史记录](planning/2026-09-14/scope-and-roles-for-review.md)
+- [Metafoodx 硬件与 Pomona 案例](research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md)
+- [硬件图片／视频核对记录](research/2026-09-14-metafoodx-hardware/evidence-review-log.md)
+- [直接竞品与电子菜单研究](research/2026-09-14-suggestion-deep-review/deep-review.md)
+- [早期视频记录](research/2026-09-14-suggestion-deep-review/video-review-log.md)
+- [Metafoodx／Controliza 对照](research/2026-09-10-metafoodx-controliza/competitive-review.md)
+- [早期证据表](research/2026-09-10-metafoodx-controliza/evidence-register.md)
+- [未发送的演示与询价问题](research/2026-09-10-metafoodx-controliza/demo-questions.md)
+
+研究资料保留原有日期与证据边界；旧共享扫描站方案、默认扩展至 2–3 个节点及其整套预算均不作为当前交付要求或报价。当前桌面设备范围只以product.md及其路由的新提案为准；此处食品项目多场景说明、单盘位研究、旧Proposal和V1/V2 Suggestion均为历史，不可用于新题目提交。
+
+FILE Senplate_Logo_ImageGen_Brief.md L1-53
+# Senplate Logo：给GPT网页版的图像生成设计简报
+
+日期：2026-09-17。状态：**HISTORICAL — SELECTION_COMPLETED**。用户已上传“A方案·细化版”并明确选用，当前以[brand.md](brand.md)为准。下文保留原探索提示词供追溯，不再作为继续生成候选的任务。品牌固定为Senplate，中文品牌名未定。
+
+可以直接复制下面的主提示词，也可以将本文件交给网页端作为设计简报。无需先读项目历史或附参考图。若附旧图，只参考配色、字标和克制的气质，不沿用旧符号。
+
+## 主提示词（整段复制）
+
+```text
+请作为资深品牌设计师，为“senplate”设计原创Logo，并直接生成一张专业的候选对照图。
+
+项目背景：Senplate是一套连接硬件与App的食物监测系统。餐盘或餐盆持续放在设备上，系统结合摄像头和称重传感器观察食物种类、份量及余量变化，再给出补餐时间、补餐数量、减少末端剩余，以及参考份量和营养的反馈。主要用于机构供餐，也能支持学校配餐和成年人的餐食记录。核心是“感知餐食的份量变化，帮助人做更合适的供餐和饮食决定”。
+
+设计问题：之前的三段抽象柱形标记虽然简洁，但与餐食和监测关联太弱。新标志应在轮廓或负形中自然表现“餐盘／盛放食物”与“计量／感知／份量变化”的关系。可以抽象，但不要依靠长篇解释才产生意义，也不必画出所有功能。
+
+请探索三个真正不同的方向：
+A. 被感知的份量：将餐盘或浅碟的轮廓，与一个清楚的份量／刻度特征融合。
+B. 持续观察：将食物承载形态，与克制的观察切口、感测带或留白融合。
+C. 适量供餐：通过食物与容器、已有份量与合理余量之间的比例关系表达分寸。
+这不是把现成图标拼起来；请重新组织成统一、有记忆点的图形。
+
+视觉要求：精确、克制、现代，有成熟智能硬件品牌的品质，也适合个人App。使用少量必要形状，轮廓清楚，留白有设计感。主色深绿#163F35，底色米白#F3F1E7。搭配干净、字距精良的无衬线小写字标“senplate”。食物关联要清楚，但不要画成食物插画。
+
+避开：双折面围成方形中空、两处相对的斜向开口；普通柱状图或三条抽象竖条；通用叶片、回收箭头、厨师帽、叉勺拼贴；AI星光、芯片、机器人脸；复制现有品牌。不要像咖啡杯、汉堡、笑脸或纯餐厅点餐App图标。
+
+输出一张米白底横向对照板，分A、B、C三栏。每栏展示足够大的符号与“senplate”横向组合，下方放同一符号的单色和反白小样，几何保持一致。三个方向必须是不同构图，不是同图换色。文字只出现A／B／C和“senplate”，不放长文案、口号、色值、®或TM。使用平面色块，无渐变、阴影、金属、3D或样机包装。优先让我判断Logo本身，不要生成网页、App页面或纯文字方案。
+```
+
+## 选中方向后的细化提示词
+
+将“B”换成实际选中的编号，并附上那张结果图：
+
+```text
+继续细化我选择的B方案。保留核心轮廓和“餐食＋份量感知”的关系，只优化比例、弧线、切口、留白与图文字距，不换成新象征，也不新增装饰。
+
+生成一张清楚的设计板：大的主色横向Logo、纯黑版、反白版，以及使用同一几何轮廓的App图标示意。文字仍只有“senplate”。关键形状和留白在缩小时也应清楚，避免细线和渐变。不要声称图片已经是SVG、已通过真实24px测试或商标检索；我要可供后续矢量重建和验证的清晰候选图。
+```
+
+## 选择时重点看什么
+
+- 不看解释时，是否能感到它与餐食、份量或观察有关。
+- 图形是否一体设计，而不是碗、摄像头、AI和箭头的拼贴。
+- 去掉颜色后是否仍有特征；缩小时是否会黏成一团。
+- 放在设备底座和App图标上是否都合适。
+- 是否避开旧稿已发现的近似结构；正式采用前另查最终图形。
+
+## 可选参考与使用状态
+
+[R4旧图](output/brand/2026-09-17-senplate-r4/profile-review.png)只作为色调、字标与克制程度的参考，三段竖向符号是本次要重新思考的部分。
+
+[R5餐食计量探索](output/brand/2026-09-17-senplate-r5/measured-plate-review.png)可作为语义样例，但不要求网页端模仿其具体轮廓。参考图片不会随这个MD自动附带；主提示词本身可独立使用。
+
+本文件是原设计简报，没有由助手在用户GPT网页版自动提交或生成图片。用户随后主动上传结果并明确选择，项目据该新指令建立当前品牌资产；选择视觉不等于商标核准。
+
+FILE brand.md L1-60
+# Senplate 品牌规范 · VI V1 / 纯碗V7
+
+**HISTORICAL — 2026-09-25：**用户已推翻食物监测 FYP。此 VI 是旧 Senplate 方案的保留资产，不是新桌面助理的品牌、Logo 或配色规范；新题目尚未命名。[当前项目规范](product.md)。
+
+更新：2026-09-19。状态：**V7_PLAIN_BOWL_SELECTED — VI_V1_DELIVERED — SIMILAR_FIGURES_FOUND**。
+
+主标志仍为用户已选[V7纯碗](planning/2026-09-18/senplate-plain-bowl-v7.md)。用户现要求独立图形、独立字标、整套VI与字体商用核查，并澄清不是原生.ai文件。本次[VI V1](planning/2026-09-18/senplate-vi-v1.md)已交付；旧源稿和导出保留，全部刻度探索停用。
+
+![当前VI总览](output/brand/2026-09-18-senplate-vi-v1/02_Guidelines/vi-overview.png)
+
+## 当前商标初筛
+
+已完成[2026-09-18纯碗与名称初筛](research/2026-09-18-senplate-trademark/trademark-review.md)。香港官方图像结果中，BASAO的碗口／实心碗身／底脚值得重点比较；OpenRice图形另覆盖点餐与餐厅管理App。新发现历史同名Senplate iOS原型，未核为有效注册；美国本次三个拼写查询均无结果。图形相似、业务相关与法律冲突分别记录，全球清查和香港文字刷新仍未完成。
+
+[原始图样对照](research/2026-09-18-senplate-trademark/comparison.html)已保存。用户选择仍为V7，本次没有授权新设计，也未自动撤销选稿；现有VI与字体许可保持。商业使用前需进一步评估辨识与目标地区权利，黄金比例不能代替商标差异。
+
+## 当前形态与字标
+
+完整椭圆碗口、实体碗身和底脚；保留碗口及底脚分界留白。没有内外刻度、划痕或阶梯量位缺口。符号直接复用无刻度纯碗路径，边缘为矢量曲线。
+
+品牌、字标及iOS显示名均写**Senplate**。字标沿用Manrope Bold，原字距、轮廓和图文间距保持；Figma保留原可编辑文字，交付Logo SVG的字标转轮廓。配色沿用深绿#163F35与米白#F3F1E7，中文名与口号仍未确定。
+
+## 比例依据
+
+V7沿用V6的主要构造尺寸：口宽320，碗身高197.770876（不含底脚），脚宽122.229124，口沿椭圆高75.541753，图文间距46.687371，脚伸出28.854382。这组构造相邻尺寸约为黄金比例φ；完整符号高度226.625，不能误作不含底脚的碗身高。
+
+[V6历史构造与测量](planning/2026-09-17/senplate-bowl-golden-v6.md)是尺寸依据。本轮验证纯碗路径、字标和组合参数复用，不把旧稿的全部曲线测量报告当作V7新测结果，也不以黄金比例代替审美。
+
+## VI V1 当前交付
+
+- [完整素材包](output/brand/Senplate_VI_Kit_v1.zip)／[11页规范](output/pdf/Senplate_VI_Guidelines_v1.pdf)／[4页矢量总表](output/pdf/Senplate_Vector_Assets_Master_v1.pdf)。
+- [独立图形SVG](output/brand/2026-09-18-senplate-vi-v1/01_Logos/SVG/symbol-green.svg)／[独立字标SVG](output/brand/2026-09-18-senplate-vi-v1/01_Logos/SVG/wordmark-green.svg)。每种形式另有黑色、反白及透明PNG。
+- 横向组合保持原路径／间距；新增上下组合使用同一矢量，图形宽320、字标宽640、间距40源单位。
+- App图标主／浅色版与未裁切前景／背景、演示封面、菜单立牌、设备标贴；菜单QR是占位，图标不是已经接入的App工程。
+- [Figma VI源稿](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=110-2)，页110:2，总览114:2，可编辑字标111:18。
+
+## 字体、配色与使用规则
+
+Manrope Bold700保持为字标；VI英文使用Manrope，繁／简中文分别用Noto Sans TC／SC。三种当前字体及历史标注字体Inter均已确认OFL1.1，可免费商用，原件和许可附包。[字体核查](research/2026-09-18-font-licences/font-licence-audit.md)。生产SVG转轮廓，可编辑文字SVG另存。
+
+深绿#163F35与米白#F3F1E7保持；新增辅助浅绿#B8C9BC、墨色#202B26用于VI排版。组合／图形留白至少为图形宽度1/8；纯字标为可见字高1/4。尺寸和字体层级为VI建议，实际介质按手册核对，CMYK只是无ICC换算参考。详细规则以规范PDF和[设计令牌](output/brand/2026-09-18-senplate-vi-v1/03_Tokens/senplate-tokens.json)为准。
+
+## V7原始核心文件（保留）
+
+- [核心素材包](output/brand/Senplate_Plain_Bowl_v7.zip)
+- [完整Logo SVG](output/brand/2026-09-18-senplate-plain-bowl-v7/senplate-logo.svg)／[透明PNG](output/brand/2026-09-18-senplate-plain-bowl-v7/senplate-logo.png)
+- [纯碗SVG](output/brand/2026-09-18-senplate-plain-bowl-v7/senplate-symbol.svg)／[透明PNG](output/brand/2026-09-18-senplate-plain-bowl-v7/senplate-symbol.png)
+- [预览](output/brand/2026-09-18-senplate-plain-bowl-v7/senplate-preview.png)／[64px样本](output/brand/2026-09-18-senplate-plain-bowl-v7/senplate-symbol-64.png)
+- [素材说明](output/brand/2026-09-18-senplate-plain-bowl-v7/README.md)／[清单](output/brand/2026-09-18-senplate-plain-bowl-v7/manifest.json)／[既有字体许可副本](output/brand/2026-09-18-senplate-plain-bowl-v7/Manrope-OFL.txt)
+- [Figma当前Logo](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=106-13)：页面76:2；源106:2／布尔106:3，符号106:8，组合106:9，预览106:13。
+
+已查看完整预览及64px；[本轮QA](output/qa/senplate-plain-bowl-v7-2026-09-18/closeout-validation.json)包含旧版保护、纯碗路径、字标与组合核对。PNG超出原生尺寸仍有像素，放大和加工使用SVG。
+
+## 历史关系与后续
+
+- [V6阶梯口沿](planning/2026-09-17/senplate-bowl-golden-v6.md)：由原保留基准转为历史构造来源。
+- [V6.1碗壁刻线](planning/2026-09-17/senplate-v6-tick-study.md)、[V6.2微刻度](planning/2026-09-18/senplate-v6-rim-tick-study.md)、[V6.3清晰量位线](planning/2026-09-18/senplate-v6-visible-ticks.md)、[V6.4弧线](planning/2026-09-18/senplate-v6-curved-ticks.md)、[V6.5内壁刻度](planning/2026-09-18/senplate-v6-inner-scale.md)：全部停止作为当前候选，原文件及原QA保留其当时记录。
+- 更早A／环形路线仍停用。
+
+V7主标和VI V1已交付，VI制作阶段53个旧Figma节点及原文件保持；两份PDF共15页已查看。[VI QA](output/qa/senplate-vi-v1-2026-09-18/closeout-validation.json)。新增商标初筛见上文，未修改Figma或素材。用户已授权开始应用开发，P0沿用V7与VI；不恢复刻度探索、不自动重画。所有应用默认英文，支持简体中文；中文使用包内Noto Sans SC，TC仍保留在原VI历史资产中。当前实现与截图见[P0记录](planning/2026-09-18/development-p0.md)。

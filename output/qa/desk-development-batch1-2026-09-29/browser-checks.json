@@ -1,0 +1,76 @@
+[
+  {
+    "id": "login",
+    "result": "pass"
+  },
+  {
+    "id": "date-input-regression",
+    "result": "pass",
+    "details": "Changed series from Sep 29 22:00 to Oct 1 10:00; read-back day and time match."
+  },
+  {
+    "id": "recurrence-exception",
+    "result": "pass",
+    "details": "Oct 8 moved to Oct 9; Oct 15 remains at 10:00."
+  },
+  {
+    "id": "two-page-state",
+    "result": "pass",
+    "details": "Second page displays Reopen after first page marks event complete."
+  },
+  {
+    "id": "batch-month",
+    "result": "pass",
+    "details": "One batch saved as two dated occurrences in month view."
+  },
+  {
+    "id": "privacy-projection",
+    "result": "pass",
+    "details": "Calendar and activity records replace private titles; source names absent from rendered records."
+  },
+  {
+    "id": "language-reload",
+    "result": "pass",
+    "details": "Simplified Chinese remains after reload."
+  },
+  {
+    "id": "reminder-flow",
+    "result": "pass",
+    "details": "Current-minute event becomes due, snoozes ten minutes, then acknowledgement clears inbox."
+  },
+  {
+    "id": "offline-range-recovery",
+    "result": "pass",
+    "details": "Offline date navigation suppresses wrong-day data; same-revision reconnection reloads target date."
+  },
+  {
+    "id": "lost-response-reload-retry",
+    "result": "pass",
+    "details": "Paused HTTP 200 response until client timeout, retained draft, reloaded, retried same operation, exactly one calendar event."
+  },
+  {
+    "id": "delete-reload",
+    "result": "pass",
+    "details": "Named QA-only event deleted after confirm and remains absent after reload."
+  },
+  {
+    "id": "responsive-layouts",
+    "result": "pass",
+    "details": "Chrome 390x844, 320x740 Chinese, and 1024x600 device layouts fit viewport; mobile editor checked. IAB screenshot emulation issue led to Chrome verification."
+  },
+  {
+    "id": "startup-script-restart",
+    "result": "pass",
+    "details": "Stopped only owned API/Vite processes, started scripts/dev.sh, existing session and seven sample events persisted."
+  },
+  {
+    "id": "server-error-retry",
+    "result": "pass",
+    "details": "Replaced committed 200 response with test 500; same-operation retry preserves exactly one event."
+  },
+  {
+    "id": "mobile-form-repair",
+    "result": "pass",
+    "details": "Date fields use full rows on mobile; reminder checkbox intrinsic width fixed; one-week choice and cancel reachable without horizontal overflow."
+  }
+]

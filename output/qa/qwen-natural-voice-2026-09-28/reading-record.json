@@ -1,0 +1,108 @@
+{
+  "task": "Natural voice preference clarification within ongoing server and voice selection",
+  "inherited_full_read": "output/qa/local-voice-models-2026-09-28/reading-record.json",
+  "previous_followup": "output/qa/dgx-v100-followup-2026-09-28/reading-record.json",
+  "completed_at": "2026-09-28T16:18:39.829223",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_ranges_this_followup": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 64,
+      "read_ranges_this_followup": [
+        [
+          1,
+          64
+        ]
+      ],
+      "sha256": "1c009d45da63d03057add6e63ec44e0e151cb6e26790f5d91dfff602e4c322bc"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 31,
+      "read_ranges_this_followup": [
+        [
+          1,
+          31
+        ]
+      ],
+      "sha256": "5be43554841b57164b1a5ff2a85eb9fc431583eb9ce638fbaa598e9dc791df5f"
+    },
+    {
+      "path": "research/2026-09-28-local-voice/server-deployment-comparison.md",
+      "lines": 156,
+      "read_ranges_this_followup": [
+        [
+          1,
+          156
+        ]
+      ],
+      "sha256": "e8ddf6939c92c10339f55808a52d86f3bc1d4e36995e3981712530e4b13d275b"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 562,
+      "read_ranges_this_followup": [
+        [
+          543,
+          562
+        ]
+      ],
+      "sha256": "e5198035b93b6d7c1ba1d0b79a443dfbb84a9f42f3e03923ca2d80cecdd76677"
+    },
+    {
+      "path": "work-log.md",
+      "lines": 682,
+      "read_ranges_this_followup": [
+        [
+          676,
+          682
+        ]
+      ],
+      "sha256": "32c1623aeaa52322948a41b491c6b103e860831ddf8144843ec1f327a240d1e6"
+    },
+    {
+      "path": "README.md",
+      "lines": 214,
+      "read_ranges_this_followup": [
+        [
+          1,
+          11
+        ]
+      ],
+      "sha256": "09c3ee313b28700bc4be868b18c26a7f7a2f0da077d73be0140d828718025b9a"
+    },
+    {
+      "path": "planning/2026-09-28/desk-software-scope-v1.md",
+      "lines": 212,
+      "read_ranges_this_followup": [
+        [
+          1,
+          9
+        ]
+      ],
+      "sha256": "c40b02f77430e535775e85552780e761e43b7a339d340c8ab8c9fecfa53da160"
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md",
+      "lines": 63,
+      "read_ranges_this_followup": [
+        [
+          1,
+          10
+        ]
+      ],
+      "sha256": "dd728ca79cfd31689a2ff83a40c980248293d7e13f72d0ea57313beac1660783"
+    }
+  ],
+  "scope_note": "Unchanged historical files and unchanged software/voice bodies use the same-task complete reading record. The current server report was read in two ranges 1-108 and 109-EOF; only web aggregate content was truncated."
+}

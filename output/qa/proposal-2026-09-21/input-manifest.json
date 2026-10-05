@@ -1,0 +1,17 @@
+[
+  {
+    "path": "/Users/tantalum/Downloads/Project Proposal sample1.pdf",
+    "bytes": 318468,
+    "sha256": "b8409f97f57bc1b087c87c1b55b7533ad9edd84076953fa2abe22a08aceed870"
+  },
+  {
+    "path": "/Users/tantalum/Downloads/Project Proposal sample2.pdf",
+    "bytes": 282825,
+    "sha256": "9eaed25cb17c5b6d5ae7a3f55c88b30de1e4a75ca8fcbfe160f2259c29fc8e59"
+  },
+  {
+    "path": "/Users/tantalum/Downloads/Proposal Guidelines AY26.doc",
+    "bytes": 36352,
+    "sha256": "082d56e1695eea28f9d88eede1fdbbca2f0a37c2fc7fca87020c04939543e8c3"
+  }
+]

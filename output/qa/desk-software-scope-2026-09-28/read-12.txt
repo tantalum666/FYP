@@ -1,0 +1,85 @@
+FILE planning/2026-09-14/ai-training-and-pi-deployment.md L91-174
+3. 视频可按间隔或关键事件抽帧、去除重复，给保留帧标注。首版静态菜品分类不必训练大型视频理解模型；取餐／换盘过程可另用时间与称重事件关联。
+4. 同一盘、同一制作批次、同一段视频及其增强图必须放在同一数据组内。先按组划分训练／验证／测试，再仅在训练部分做数据增强。不能把相邻帧随机分到训练和测试两边。
+5. 以 4–6 类、每类数百张经过筛选且来自多批次的图像作为首轮采集工作量建议，先跑基线，再根据错误和学习曲线补充。这个数量不是统计充分性结论或准确率保证；独立批次数量与覆盖条件比重复帧数量更有意义。
+6. 单独准备未登记菜、空盘、严重遮挡和容易混淆的样本，检查未知输入被错误接受的比例；不能假设增加一个“其他”类别就能识别所有未知情况。
+
+多样、正确、接近部署条件的数据可能提高识别效果；重复图片、错标签或不相关网络图片可能帮助很小甚至使模型变差。喂更多数据也不能确定本次画面里被完全遮住的具体配料或看不见的油盐量。视频若在其他时刻露出食物，会提供额外观测，但仍需实际记录与对应处理。
+
+## 训练、导出与设备运行
+
+```mermaid
+flowchart TD
+  subgraph Train[电脑或可用 GPU 训练环境]
+    D[图片与正确标签] --> T[预训练视觉模型与微调]
+    T --> V[独立批次验证与测试]
+  end
+  V --> E[导出模型及类别和预处理配置]
+  subgraph Device[一套树莓派设备]
+    C[顶部相机] --> I[加载模型并识别新画面]
+    E --> I
+    W[称重与有效事件] --> R[预测和可审核的建议]
+    I --> R
+    R --> U[设备屏、iPhone App与工作台Web反馈]
+  end
+```
+
+建议候选路线：**M2 Pro／16GB Mac上用Python／PyTorch微调MobileNetV3-Large → 导出ONNX → Pi 5 8GB的ONNX Runtime CPU推理 → 结合称重和业务服务生成反馈。**Small使用同一批次划分作对照。先在电脑验证同一张输入经过原模型和导出模型得到一致结果，再上设备。官方文档支持ONNX导出和结果对比；ONNX Runtime有树莓派摄像头分类示例。[^3][^4]
+
+当前还只读核对了 PyPI 的 onnxruntime 1.30.0 发布文件，存在 Linux aarch64 包；这不表示已经在目标树莓派安装成功。正式开发需核对 64 位系统、Python 版本、相机驱动、模型算子和依赖组合。[本轮包元数据证据](../../output/qa/ai-training-deployment-2026-09-14/runtime-package-evidence.json)
+
+部署包至少包括模型权重／图结构、类别顺序、输入尺寸、颜色通道顺序、归一化、拒识配置和版本。无需把全部训练图片用于每次推理；训练集和日志另存用于复现。RGB/BGR、裁剪或标签顺序不一致会使电脑上表现正常的模型到设备后出错。
+
+可以先保留浮点模型，再测试 INT8 等量化方案以减少存储或提高特定运行时的速度；算子支持、硬件收益与精度变化都要验证，不能保证量化后必然更快或不掉准确率。ONNX 与 LiteRT 是可选部署路线，初版无需同时维护多个推理框架。量化不是无损变换，需用适当校准数据及独立评价确认变化。[^13]
+
+树莓派先测试每秒约 1–2 次视觉更新或事件触发，同时保持独立的连续称重采集。这是起始试验设置，不是已实现时延或吞吐。记录端到端延迟、内存、CPU、温度／降频、长期运行及采集丢失；不要让旧画面排队影响余量更新。
+
+**Pi 5 是合理的优先试验平台，当前没有本项目整机负载实测，不能保证它一定足够。**PyTorch 官方教程报告特定 MobileNetV2、224×224 输入、量化与 JIT 条件下的实时运行，正文包含 Pi 4 与 Pi 5 结果；示例不包含本项目的 RGB-D 处理、持续称重和业务负载，且其中具体安装／JIT 做法需按当前选定环境核对。这里仅将它作为树莓派可运行轻量视觉的依据，不移植帧率。[^12]
+
+不要等全部训练完成才检查设备适配。正式实施时先借用／选定候选相机和 Pi，用预训练或占位输出的最小流程检查 SDK、RGB-D 采集、几何处理、称重与服务是否能共存；随后训练并替换模型，再做准确率和负载复验。占位输出只用于接口和采集验证，不能证明最终模型的运行成本；预训练模型的测试也要与最终结构对应。
+
+首轮性能设置可用约 224×224 的分类输入、单相机、每秒 1–2 次推理；几何测量可保留另一个适当分辨率，不为减负把量测数据任意降到无法使用。设置不表示图像细节一定充分。一个待调整的验收例子是：稳定放盘后，95% 的有效状态在 1 秒内更新，覆盖完整计划餐期的持续运行中没有持续队列积压；实际门槛应与操作需要共同确定。
+
+分别测采集／对齐／几何／推理／业务到界面的耗时分布与峰值内存，在全部拟运行服务开启时确认持续余量采样不被阻塞。增加内存主要解决容量问题，不能把 8GB 相比 4GB 当作 CPU 自动更快。若只有视觉推理是瓶颈，可比较兼容 AI HAT；若瓶颈是 SDK、CPU 几何处理或整体服务，需调整对应处理或比较其他主机。加速板通常不能替代整条链路的优化。
+
+若 CPU 方案不满足要求，先调整模型／分辨率／调度，再比较兼容的加速器或计算主机。Raspberry Pi AI HATs 可以运行相应支持的模型，具体 Hailo 型号与软件链需要匹配；加速板不是通用训练 GPU，也不保证运行任意模型。[^5]
+
+用户现有M2 Pro／16GB MacBook可作为本项目轻量模型训练起点；使用适配的PyTorch MPS环境，先以224×224和batch16试验，必要时调整。Mac系统和GPU型号已读，不等于实际MPS或训练测试通过。其他组员电脑及学校GPU资源未知，不依赖它们，也不要求购买显卡或云算力。[^6]
+
+## Kimi／DeepSeek 放在哪里
+
+Kimi、DeepSeek 是模型家族名称，具体版本可能偏文字或包含视觉。Kimi K2.5 和 DeepSeek-VL2 都有官方公开的多模态／视觉模型说明，因此不能说这些家族全部只能读文字。[^7][^8]
+
+这些通用大模型可作为后续对照、人工审核下的标注助手或文字解释候选；不作为本项目必须训练和部署的识别核心。以 Kimi K2.5 官方总参数 1T 为例，完整模型与 MobileNet 的计算／存储规模不同。微调不会自动把大型模型变成树莓派能实时运行的小模型；低比特量化和蒸馏也分别需要额外工作和验证。
+
+通过树莓派调用远端模型 API 时，AI 运算主要在服务端，不能写成树莓派本地运行该模型；网络、延迟和按量费用也成为条件。首版核心识别、采集与补餐逻辑优先本地工作，不依赖每次画面都上传聊天服务。
+
+## 怎样持续提高准确性
+
+设备运行时收集经允许的失败样本和人工纠正 → 复核标签 → 在电脑上合并新旧训练数据并重新训练 → 检查独立测试和旧类别是否退化 → 导出／部署新版本，保留旧版本可回退。
+
+持续监测不自动等于持续训练；摄像头运行一天不会使已固定参数的模型自行变好。需人为设计和执行以上更新流程。测试集不能参与参数训练、阈值选择或定向纠错；反复用同一测试集作开发依据后，应留出新的最终评估数据。
+
+每轮报告包括各类识别表现、未知错误接受率、拒识／人工次数、跨烹饪批次表现及设备时延。菜品分数不是设备精确度，更不是营养测量准确率。训练路线不改变[单盘位与混合食物能力边界](single-station-recognition-reliability.md)。
+
+## 下一步
+
+2026-09-16用户要求先梳理软件，当前先按[软件范围与架构](../2026-09-16/software-scope-and-architecture.md)定义识别结果接口、人工确认／占位来源、会话和模拟流程，不把等待相机或完成模型训练作为页面与业务开发的前提。可同步规划4–6类菜品的标签、成对RGB-D数据与独立批次划分；取得硬件后尽早检查采集兼容性和初步计算开销，再比较RGB基线、显式深度几何与小融合层。具体实现与训练尚未开始，现有V1/V2文件继续保留。
+
+## 来源
+
+以下官方资料于 2026-09-14 查阅。使用模型用途、迁移学习及部署机制作为依据，不把文档示例的速度／准确率移植给本项目；本轮没有执行文档命令。
+
+[^1]: Torchvision，[MobileNetV3-Small](https://docs.pytorch.org/vision/master/models/generated/torchvision.models.mobilenet_v3_small.html)，预训练权重、参数量和原始权重体积。原始 ImageNet 成绩不是本地食物识别成绩。
+[^2]: PyTorch，[Transfer Learning for Computer Vision](https://docs.pytorch.org/tutorials/beginner/transfer_learning_tutorial)，固定特征与微调流程。
+[^3]: PyTorch，[Export a PyTorch Model to ONNX](https://docs.pytorch.org/tutorials/beginner/onnx/export_simple_model_to_onnx_tutorial.html)，导出、运行与数值比对。
+[^4]: ONNX Runtime，[IoT Deployment on Raspberry Pi](https://onnxruntime.ai/docs/tutorials/iot-edge/rasp-pi-cv.html)，相机＋MobileNet 本地分类机制；示例硬件为 Pi 3 B，依赖与命令不能直接当作当前 Pi 5 环境已验证结果。
+[^5]: Raspberry Pi，[AI HATs](https://www.raspberrypi.com/documentation/accessories/ai-hat-plus.html)，支持的 HAT／模型工作流；未选择或购买加速器。
+[^6]: PyTorch，[MPS backend](https://docs.pytorch.org/docs/main/notes/mps.html)，Mac GPU 训练接口及支持条件。
+[^7]: Moonshot AI，[Kimi K2.5 官方仓库](https://github.com/MoonshotAI/Kimi-K2.5)，视觉语言能力及总参数量；此处作为规模和模态实例，不宣称是该家族最新版本。
+[^8]: DeepSeek，[DeepSeek-VL2 官方仓库](https://github.com/deepseek-ai/DeepSeek-VL2)，视觉语言模型说明；具体权重使用条款与部署需求按所选版本核对。
+[^9]: RealSense，[align-depth2color.py 官方示例](https://github.com/realsenseai/librealsense/blob/master/wrappers/python/examples/align-depth2color.py)，深度单位、RGB-D 对齐及有效性处理；仅阅读，未执行。
+[^10]: Thames et al.，[Nutrition5k 原始论文](https://arxiv.org/pdf/2103.03375.pdf)，2021，§4.4。本文借鉴输入与体积特征的研究方法，不移植其营养／重量回归成绩或宣称已复现。
+[^11]: Torchvision，[MobileNetV3-Large](https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.mobilenet_v3_large.html)，原始参数与文件体积；不据此推算整机实时性能。
+[^12]: PyTorch，[Real Time Inference on Raspberry Pi 4 and 5](https://docs.pytorch.org/tutorials/intermediate/realtime_rpi.html)，MobileNetV2、224×224、量化／JIT 的特定示例。2026-09-14 读取其输入、模型、处理和性能条件；标题帧率不作为本项目承诺，未执行安装命令。
+[^13]: ONNX Runtime，[Quantize ONNX Models](https://onnxruntime.ai/docs/performance/model-optimizations/quantization.html)，量化、校准与精度调试。

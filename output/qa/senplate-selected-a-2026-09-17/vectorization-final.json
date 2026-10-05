@@ -1,0 +1,66 @@
+{
+  "preTraceDenoiseSigma": 1.1,
+  "method": "Connected source silhouettes denoised and fitted as independent cubic paths for reliable Figma import. No font substitution or source image modification.",
+  "tool": "potrace 2.1.8",
+  "options": {
+    "threshold": 128,
+    "minimumComponentPixels": 30,
+    "turdSize": 8,
+    "alphaMax": 1,
+    "optCurve": true,
+    "optTolerance": 0.4
+  },
+  "mark": {
+    "name": "mark",
+    "roi": {
+      "left": 240,
+      "top": 232,
+      "width": 360,
+      "height": 190
+    },
+    "box": {
+      "x": 257,
+      "y": 242,
+      "width": 321,
+      "height": 166
+    },
+    "canvas": {
+      "width": 325,
+      "height": 170,
+      "padding": 2
+    },
+    "components": 3,
+    "silhouette_iou": 0.9808135412974123
+  },
+  "wordmark": {
+    "name": "wordmark",
+    "roi": {
+      "left": 610,
+      "top": 232,
+      "width": 700,
+      "height": 190
+    },
+    "box": {
+      "x": 624,
+      "y": 247,
+      "width": 657,
+      "height": 153
+    },
+    "canvas": {
+      "width": 661,
+      "height": 157,
+      "padding": 2
+    },
+    "components": 8,
+    "silhouette_iou": 0.9767264178665883
+  },
+  "lockup": {
+    "width": 1028,
+    "height": 170,
+    "wordmark_offset": [
+      367,
+      5
+    ]
+  },
+  "note": "IoU diagnoses classified-source silhouette agreement only; it is not a trademark metric."
+}

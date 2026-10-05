@@ -1,0 +1,35 @@
+[
+  {
+    "slug": "chicken",
+    "source": "/Users/tantalum/.codex/generated_images/01a07aeb-a256-7572-a42e-bd7e4668674f/exec-6de05f15-1b80-4e9d-8e9e-3f6a19ca0a94.png",
+    "file": "assets/menu/chicken.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "sha256": "ac4ad0ccc0b0b397151c6d6669a759e3a744a1106dbaf646bddaaa1215f42e03",
+    "usage": "Illustrative demonstration menu image; not recognition or portion evidence."
+  },
+  {
+    "slug": "soup",
+    "source": "/Users/tantalum/.codex/generated_images/01a07aeb-a256-7572-a42e-bd7e4668674f/exec-bcca7afe-9cce-40bd-9d63-a90371fdca51.png",
+    "file": "assets/menu/soup.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "sha256": "15cc6a2effa622cd8eab7b2006a0bc6f8a8506355ce7fc5de953ca6ec25cc076",
+    "usage": "Illustrative demonstration menu image; not recognition or portion evidence."
+  },
+  {
+    "slug": "salad",
+    "source": "/Users/tantalum/.codex/generated_images/01a07aeb-a256-7572-a42e-bd7e4668674f/exec-6c99ce9e-2a56-4bb9-8e4e-4ff9af525f5d.png",
+    "file": "assets/menu/salad.png",
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "sha256": "3fdf09ca029eeca742711d4b3808e5729fa993bb7cedaf75e7561e895ac7ecfa",
+    "usage": "Illustrative demonstration menu image; not recognition or portion evidence."
+  }
+]

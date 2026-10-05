@@ -1,0 +1,346 @@
+{
+  "kind": "Same software-planning task, user correction to app-first after prior full read.",
+  "inherited_full_read": "../software-architecture-2026-09-16/full-read-record.json",
+  "inherited_files": 27,
+  "inherited_lines": 2965,
+  "full_supplemental_reads": [
+    "AGENTS.md",
+    "product.md",
+    "handoff.md",
+    "planning/2026-09-16/software-scope-and-architecture.md"
+  ],
+  "source_ranges": {
+    "planning/2026-09-16/software-scope-and-architecture.md": [
+      [
+        1,
+        98
+      ],
+      [
+        99,
+        189
+      ]
+    ]
+  },
+  "focused_reads": [
+    "decision-log latest software entry",
+    "work-log latest software entry",
+    "prior Metafoodx app evidence lines"
+  ],
+  "user_clarifications": {
+    "mobile_roles": "customers/personal and staff/managers; separate role views in one app",
+    "mobile_platform": "iPhone only"
+  },
+  "inventory": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "README.md",
+      "lines": 50,
+      "sha256": "91eb0e36b14d6041b65c18f5d0859059ff8ec5ff1b3cda63fe5fd6fe4bc8683b"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 128,
+      "sha256": "bafba64bbe7ad033be71201e1af9d7df45c9c7b10f1f255ba21570200393d37c"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 34,
+      "sha256": "a06884f740071f37cd506aefddceedc40d37aefe4cbbb33964914d7130ff5d04"
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "lines": 174,
+      "sha256": "2c759359227a609aa969d0e4ad5d66ff4843d050d31cc9338e72fad3196d63e4"
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 120,
+      "sha256": "ad765637a93d6bfa0885491846a3af90736a179d4808cfec90e1c6d61262f344"
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "lines": 80,
+      "sha256": "5d0f151f54735e46824b3bb2b9a10db458402d46c20aef94ce69570122bfce31"
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160,
+      "sha256": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5"
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "lines": 108,
+      "sha256": "ac5709dfbaf0c4bcd78d211595e961b0028bd9031475d16281a675b3826e895f"
+    },
+    {
+      "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "lines": 39,
+      "sha256": "4bc962711143b8b982d7adba8e96f747f00cf2bc699d3d94835c08af8cb0d65b"
+    },
+    {
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "lines": 183,
+      "sha256": "4fa54cbecb0f24b25f7360ea82bce8a66a5760a1aeb912b9ff344f8cb981a2e4"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "lines": 18,
+      "sha256": "1d0ba46a3b015b3463b3fdd47394624f42b4930ec7e64b2b33639ebcc9d6ab42"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "lines": 247,
+      "sha256": "1434e55732e1ccb5a514e9204c4923f704221a8be0dc5d13f32f419c671c9c13"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+      "lines": 70,
+      "sha256": "ab69a75f60b9ac081617970c9dea0ad48e4af73e27f006085e77052835054965"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+      "lines": 53,
+      "sha256": "9bc25bc85baaf4badca2a18e853ffbf18c818b53bde69798a1e0c813cbfd3538"
+    },
+    {
+      "path": "planning/2026-09-15/power-supply-detail.md",
+      "lines": 143,
+      "sha256": "5cf4999a5cfbbb1f0f7b3ae92707c5c2e774bb630c4b959b6243c9bdeda012e9"
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "lines": 212,
+      "sha256": "6ab9b851962e90f28578483b06173dc7a9e2eb434ace4ba0fe1455330e0a1c66"
+    },
+    {
+      "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "lines": 107,
+      "sha256": "b22dfd416dca3223ef15ae88aaaff8989887e38d6a882e7b1ddb19c785ab3618"
+    },
+    {
+      "path": "planning/2026-09-16/archive/software-scope-web-first-v1.md",
+      "lines": 189,
+      "sha256": "5ce1260f55f6410f1818630974321cf5202f93c9c97a05b73b52c863fec65cb1"
+    },
+    {
+      "path": "planning/2026-09-16/software-scope-and-architecture.md",
+      "lines": 189,
+      "sha256": "5ce1260f55f6410f1818630974321cf5202f93c9c97a05b73b52c863fec65cb1"
+    },
+    {
+      "path": "product.md",
+      "lines": 104,
+      "sha256": "68994b1b554bd63941f0b0d52b9fb14691df0d24166c1621e3299ede577f6687"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165,
+      "sha256": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38,
+      "sha256": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44,
+      "sha256": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47,
+      "sha256": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287,
+      "sha256": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171,
+      "sha256": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25,
+      "sha256": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7"
+    },
+    {
+      "path": "work-log.md",
+      "lines": 147,
+      "sha256": "4cea79b6d6591a7e4b048a9b2f3b662c76a03e878f0c8fe78430caef7f35e6f7"
+    }
+  ],
+  "exclusions": [
+    "output/qa generated evidence",
+    "dependencies",
+    "caches",
+    ".git",
+    "build artifacts"
+  ],
+  "at": "2026-09-16T11:14:25.191495+08:00",
+  "completed_at": "2026-09-16T11:30:46.763355+08:00",
+  "new_content_reviewed": [
+    "updated canonical app-first plan",
+    "new competitor review",
+    "all modified authority paragraphs and appended logs"
+  ],
+  "final_inventory": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "README.md",
+      "lines": 51,
+      "sha256": "efab1a7e808ec42cc8905b00f184cb66f7627edaa33844793cfad82b0006de2d"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 137,
+      "sha256": "fb9aa8ad22f161be2f705f93e73638182f29ee3fd07ea81eb94961cb17e53ac3"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 34,
+      "sha256": "a9c1c58d4b4dc694d848589ab29652fad9f0bb9c517a80e611dd4cfd0e79169f"
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "lines": 174,
+      "sha256": "f9b1f4e6b9004abd100aacb349966edeab9bba59b9e842f9058887d2f7d44c1d"
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 120,
+      "sha256": "d21172e196d7d308a5b8dd192a946abb0e1b972f36fb0b8f2ce4b8325937754f"
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "lines": 80,
+      "sha256": "cde0e64aba2575158f5d4fb228dfc25a8a2682d3cb7bb4c40b0fe6c0bc1dd0b3"
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160,
+      "sha256": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5"
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "lines": 108,
+      "sha256": "ac5709dfbaf0c4bcd78d211595e961b0028bd9031475d16281a675b3826e895f"
+    },
+    {
+      "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "lines": 39,
+      "sha256": "4bc962711143b8b982d7adba8e96f747f00cf2bc699d3d94835c08af8cb0d65b"
+    },
+    {
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "lines": 183,
+      "sha256": "4fa54cbecb0f24b25f7360ea82bce8a66a5760a1aeb912b9ff344f8cb981a2e4"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "lines": 18,
+      "sha256": "1d0ba46a3b015b3463b3fdd47394624f42b4930ec7e64b2b33639ebcc9d6ab42"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "lines": 247,
+      "sha256": "1434e55732e1ccb5a514e9204c4923f704221a8be0dc5d13f32f419c671c9c13"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+      "lines": 70,
+      "sha256": "ab69a75f60b9ac081617970c9dea0ad48e4af73e27f006085e77052835054965"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+      "lines": 53,
+      "sha256": "9bc25bc85baaf4badca2a18e853ffbf18c818b53bde69798a1e0c813cbfd3538"
+    },
+    {
+      "path": "planning/2026-09-15/power-supply-detail.md",
+      "lines": 143,
+      "sha256": "5cf4999a5cfbbb1f0f7b3ae92707c5c2e774bb630c4b959b6243c9bdeda012e9"
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "lines": 212,
+      "sha256": "6ab9b851962e90f28578483b06173dc7a9e2eb434ace4ba0fe1455330e0a1c66"
+    },
+    {
+      "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "lines": 107,
+      "sha256": "b22dfd416dca3223ef15ae88aaaff8989887e38d6a882e7b1ddb19c785ab3618"
+    },
+    {
+      "path": "planning/2026-09-16/archive/software-scope-web-first-v1.md",
+      "lines": 189,
+      "sha256": "5ce1260f55f6410f1818630974321cf5202f93c9c97a05b73b52c863fec65cb1"
+    },
+    {
+      "path": "planning/2026-09-16/software-scope-and-architecture.md",
+      "lines": 200,
+      "sha256": "6662573ec3d67f56e83b7925feee955f7c7cf3c8e9799671086c7440e08817fa"
+    },
+    {
+      "path": "product.md",
+      "lines": 107,
+      "sha256": "97ecfe17a287d2f1cac429d3adf5043389dd0aae14a9ee2ea2023771a08686d2"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165,
+      "sha256": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38,
+      "sha256": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44,
+      "sha256": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47,
+      "sha256": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287,
+      "sha256": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171,
+      "sha256": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25,
+      "sha256": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7"
+    },
+    {
+      "path": "research/2026-09-16-metafoodx-app/app-review.md",
+      "lines": 60,
+      "sha256": "bcb9f053a9647675b75d973ddabb8a4af3d1c34d6e5e727d7a8b0448a0311910"
+    },
+    {
+      "path": "work-log.md",
+      "lines": 157,
+      "sha256": "7d3423f24ead45873ab2be1f1023a07f753cfcfe68874a1208c579ce14b6374a"
+    }
+  ]
+}

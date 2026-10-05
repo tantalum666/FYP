@@ -1,0 +1,330 @@
+.task-panel {
+  max-width: 980px;
+  margin: 0 auto;
+}
+.task-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 0 28px;
+}
+.task-heading h1 {
+  font-size: 34px;
+  letter-spacing: -0.04em;
+  margin: 8px 0;
+}
+.task-heading p {
+  max-width: 480px;
+}
+.task-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--device-line, #e8eaf0);
+}
+.task-filters {
+  display: flex;
+  gap: 4px;
+}
+.task-filters button {
+  padding: 10px 14px;
+  min-height: 44px;
+  border-radius: 8px;
+  color: var(--device-muted, #747d91);
+}
+.task-filters .selected {
+  background: var(--device-elevated, #f0effb);
+  color: var(--device-accent, #6266d9);
+}
+.task-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--device-muted, #747d91);
+}
+.task-search input {
+  width: 185px;
+  min-width: 0;
+}
+.task-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 0;
+  text-align: left;
+  border-bottom: 1px solid var(--device-line, #e8eaf0);
+}
+.task-row:hover {
+  background: var(--device-elevated, #f8f9fb);
+}
+.task-row-main {
+  min-width: 0;
+}
+.task-row-main strong {
+  display: block;
+  font-size: 17px;
+  font-weight: 550;
+  overflow-wrap: anywhere;
+}
+.task-row-main small,
+.task-row-meta small {
+  display: block;
+  margin-top: 7px;
+  color: var(--device-muted, #747d91);
+  font-size: 13px;
+}
+.task-row-meta {
+  font-size: 13px;
+  text-align: right;
+  max-width: 165px;
+}
+.task-status {
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  padding: 5px 8px;
+  border: 1px solid var(--device-line, #e8eaf0);
+  border-radius: 5px;
+}
+.task-status.waiting {
+  color: var(--device-accent, #856338);
+}
+.task-status.completed {
+  color: #457360;
+}
+.task-attention {
+  color: var(--device-accent, #6266d9);
+  font-weight: 550;
+}
+.task-overdue {
+  color: var(--device-accent, #a44739) !important;
+  font-size: 13px;
+  margin-left: 6px;
+}
+.task-empty {
+  padding: 48px 0;
+  text-align: center;
+  color: var(--device-muted, #747d91);
+}
+.task-empty svg {
+  margin-bottom: 16px;
+}
+.task-form fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.task-form .field {
+  margin: 16px 0;
+}
+.task-form input[type="datetime-local"] {
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
+}
+.task-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 22px;
+  min-height: 44px;
+}
+.task-detail-heading h2 {
+  font-size: 30px;
+  letter-spacing: -0.025em;
+  overflow-wrap: anywhere;
+  margin: 16px 0;
+}
+.task-checkin {
+  background: var(--device-elevated, #f4f3fd);
+  border-left: 3px solid var(--device-accent, #6266d9);
+  padding: 18px 20px;
+  margin: 24px 0;
+}
+.task-checkin small {
+  color: var(--device-muted, #747d91);
+}
+.task-next-step {
+  margin: 24px 0;
+}
+.task-checklist {
+  list-style: none;
+  padding: 0;
+}
+.task-checklist li {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 12px 0;
+}
+.task-step-dot {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--device-line, #ccc);
+  border-radius: 4px;
+}
+.task-history {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--device-line, #e8eaf0);
+}
+.task-history small {
+  color: var(--device-muted, #747d91);
+  font-size: 12px;
+}
+.task-history p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.task-confirm {
+  padding: 16px;
+  border: 1px solid var(--device-line, #ddd);
+  border-radius: 8px;
+}
+.task-notice {
+  padding: 12px 0;
+  color: var(--device-accent, #6266d9) !important;
+}
+.task-panel textarea {
+  width: 100%;
+  min-width: 0;
+}
+.page-tasks {
+  padding-top: 90px;
+}
+.tasks-open {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.display-task-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: var(--device-accent);
+  font-size: 15px;
+}
+.display-task-link strong {
+  max-width: 260px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.device-panel-wrapper .task-heading h1 {
+  font-size: 30px;
+}
+.device-panel-wrapper .task-heading {
+  align-items: flex-start;
+}
+.device-panel-wrapper .task-toolbar {
+  flex-wrap: wrap;
+}
+.task-row:disabled {
+  opacity: 1;
+  cursor: default;
+}
+.task-row:disabled .task-row-main {
+  color: var(--device-muted, #747d91);
+}
+@media (max-width: 700px) {
+  .task-heading {
+    display: block;
+  }
+  .task-heading > .primary {
+    margin-top: 14px;
+  }
+  .task-toolbar {
+    display: block;
+  }
+  .task-search {
+    margin-top: 16px;
+  }
+  .task-search input {
+    width: 100%;
+  }
+  .task-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 20px 0;
+  }
+  .task-row > .task-status {
+    grid-column: 1/-1;
+  }
+  .task-row-meta {
+    max-width: 110px;
+    font-size: 12px;
+  }
+  .task-form .workspace-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .task-detail-heading h2 {
+    font-size: 25px;
+  }
+  .task-filters button {
+    flex: 1;
+  }
+  .task-filters {
+    width: 100%;
+  }
+  .page-tasks {
+    padding-top: 60px;
+  }
+  .task-heading h1 {
+    font-size: 30px;
+  }
+}
+
+.page-tasks {
+  padding: 64px 40px 40px;
+}
+.task-panel .task-heading h1 {
+  margin-top: 8px;
+}
+@media (max-width: 760px) {
+  .page-tasks {
+    padding: 24px 20px 30px;
+  }
+  .bottom-nav button {
+    min-width: 0;
+    flex: 1;
+  }
+  .task-heading {
+    padding-bottom: 22px;
+  }
+  .task-row-main small {
+    overflow-wrap: anywhere;
+  }
+  .display-task-link {
+    font-size: 13px;
+  }
+}
+
+.task-checklist label {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+}
+.task-checklist input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--device-accent, #6266d9);
+}
+.discard-prompt {
+  padding: 12px 0;
+}
+.dialog [hidden] {
+  display: none !important;
+}
+.task-checkin p {
+  overflow-wrap: anywhere;
+}

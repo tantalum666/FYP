@@ -1,0 +1,39 @@
+{
+  "user_confirmed_period": "2026-09-14 through 2026-09-27",
+  "record_date": "2026-09-28",
+  "deliverable_recipient": "One Group 2 team log as confirmed by teacher through user; Yuan Yuchen is representative in template fields and posted filename pattern; three members listed in remarks",
+  "moodle_log_deadline": "2026-09-28 17:00 Asia/Hong_Kong",
+  "moodle_log_files": "AY26_Logsheet_GroupX_StudentName_StudentID.pdf and .docx",
+  "moodle_proposal_deadline": "2026-09-29 23:59",
+  "moodle_schedule": {
+    "Progress Report I": "2026-10-26",
+    "Initial Report": "2026-11-30",
+    "Progress Report II": "2026-12-14",
+    "Preliminary Interim": "2027-01-18",
+    "Interim Report": "2027-02-01",
+    "Progress Report III": "2027-03-22",
+    "Final Report": "2027-04-19",
+    "Final Presentation": "2027-04-26"
+  },
+  "course_notice": "HDAIST adopts AI as a group member AY26/27; peer-review details to be announced",
+  "moodle_urls": [
+    "https://moodle2627.vtc.edu.hk/course/view.php?id=7481",
+    "https://moodle2627.vtc.edu.hk/mod/assign/view.php?id=444246"
+  ],
+  "moodle_status": "No submissions have been made yet; only read",
+  "template_render": "output/qa/logsheet-proposal-2026-09-28/template-render/page-1.png",
+  "template_visual": "One A4 landscape form; single 15-row nine-grid table; header text boxes contain Project ID and Log Sheet No; one merged date; PartIII key discoveries merged rows10-13",
+  "memory_used": "MEMORY.md:141-164 for logbook context; verified live Moodle now",
+  "next_read_batch": null,
+  "full_read_complete": true,
+  "group_log_policy_source": "User clarification 2026-09-28 supersedes earlier personal-submission inference",
+  "status": "Completed locally and render-verified; one group log; no submission",
+  "outputs": [
+    "output/submission/2026-09-28/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx",
+    "output/submission/2026-09-28/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf",
+    "output/submission/2026-09-28/AY26_ProjectProposal_Group 2.docx",
+    "output/submission/2026-09-28/AY26_ProjectProposal_Group 2.pdf",
+    "output/docx/Group 2_DeskCompanion_ProjectProposal_ZH_Review_v3.docx"
+  ],
+  "next_step": "Team and supervisor review, followed by school submission when explicitly authorized"
+}

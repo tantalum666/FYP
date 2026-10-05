@@ -1,0 +1,190 @@
+
+FILE planning/2026-09-21/proposal-content.md L176-243 of 243
+Weekly integration reviews will check dependencies and unresolved failures. Each two-week cycle will produce a runnable increment or a documented experimental result. Calibration and basic capture must pass before model conclusions are drawn; the trained model must pass export-consistency checks before full-system evaluation.
+
+## 6 Main deliverables
+
+1. One integrated food monitoring prototype with a weighing platform, RGB-D camera, Pi-based processing target, local display, power distribution and documented component list.
+2. One iPhone app with personal/customer and authorised work roles, plus kitchen/management web and a station interface, in English and Simplified Chinese.
+3. Backend services, database schema, device protocol, versioned food/reference records, role controls and traceable replenishment, order and meal workflows.
+4. A labelled, permitted food-image dataset, trained model and inference package, together with baseline algorithms and reproducible comparison scripts.
+5. Calibration and reliability records, recognition and replenishment evaluation, usability findings and clearly separated simulated, replay and hardware evidence.
+6. Source code, dependency/licence information, setup and user manuals, individual work logs, the final written report, presentation and demonstration materials.
+
+<!-- pagebreak -->
+
+## 7 Responsibilities of each member
+
+The allocation below is the planned share of the whole project, totalling 100%. All members will participate in integration, review and the final demonstration. Actual individual contributions will be evidenced by implementation records, experiments, tests and work logs.
+
+| Member and share | Role | Main responsibilities and identifiable outputs |
+|---|---|---|
+| Yuan Yuchen\n250342840\n40% | Project Leader and Backend AI Lead | Coordinate requirements, architecture and milestones. Develop the shared API, database, permissions, replenishment logic and reference-nutrition processing; lead vision training, integration and comparative evaluation. Produce backend/model source, experiment analysis and consolidated report. |
+| Xu Ziqian\n250137555\n30% | IoT Hardware and Edge Processing Developer | Define and review the physical arrangement, power and interfaces. Implement Pi acquisition, calibration, stability filtering, tray events and recovery. Verify weighing, RGB-D capture and integrated load; produce device code, calibration records and installation/maintenance instructions. |
+| Li Wenhua\n250329909\n30% | iPhone and Web Application Developer | Implement the iPhone roles and meal/order journeys, kitchen and management web views, and station interactions with the shared API. Maintain bilingual presentation, QR flows and error states; lead interface/usability testing and prepare user guidance. |
+
+## 8 Projected resource requirements
+
+**Existing resources.** Yuan Yuchen's M2 Pro MacBook with 16GB memory will support development, simulation and initial model training. The existing Arduino UNO R4 WiFi can support diagnostics if needed. A compatible iPhone and a local network will be needed for physical-phone integration; the current simulator does not replace that test.
+
+**Resources to obtain.** The team will purchase or arrange access to the single-station components in Section 3.1, suitable reference masses, food containers and test food. Access to workshop tools or measurement equipment will be arranged where available; school GPU or workshop availability is not a prerequisite assumed by this plan.
+
+**Software and information.** Development will use Xcode/SwiftUI, React/TypeScript/Vite, Python/FastAPI, PostgreSQL, OpenCV, PyTorch and an appropriate edge inference runtime. FoodData Central reference records will be stored locally with their identifiers and versions. Dependency and model licences will be checked and retained.
+
+**External involvement.** A supplier may fabricate the enclosure and integrate purchased hardware under an agreed scope. The team remains responsible for requirements, acquisition software, calibration, models, applications and evaluation. Generative AI assistance is being used for research, drafting and code development; its use and third-party sources will be recorded. Each member must review, understand, modify and demonstrate the work claimed as their contribution. No external software delivery, purchase or deployment is committed by this proposal.
+
+<!-- pagebreak -->
+
+## 9 References
+
+Public sources accessed on 21 September 2026. Vendor pages establish publicly described capabilities; their advertised results are not Senplate test results.
+
+[1] Environmental Protection Department. Monitoring of Solid Waste in Hong Kong: Waste Statistics for 2024. December 2025, pp. 2 and 14. [Report](https://www.wastereduction.gov.hk/sites/default/files/resources_centre/waste_statistics/msw2024_eng.pdf).
+
+[2] Department of Health, Hong Kong. EatSmart at School: Lunch Arrangement and Monitoring, Guidelines and Relevant Documents. [Official resources](https://school.eatsmart.gov.hk/en/content_esas.aspx?id=6108).
+
+[3] Metafoodx. Product: Meet Metron. [Product description](https://www.metafoodx.com/product).
+
+[4] Controliza. AI Buffet Control. [Product description](https://controliza.com/en/buffet).
+
+[5] Raspberry Pi. Raspberry Pi 5: Specifications. [Manufacturer documentation](https://www.raspberrypi.com/products/raspberry-pi-5/).
+
+[6] Orbbec. Gemini 2: Product and Technical Specifications. [Manufacturer documentation](https://store.orbbec.com/products/gemini-2).
+
+[7] PyTorch. Transfer Learning for Computer Vision Tutorial. [Official tutorial](https://docs.pytorch.org/tutorials/beginner/transfer_learning_tutorial.html).
+
+[8] Torchvision. MobileNetV3 Large Model Documentation. [Model documentation](https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.mobilenet_v3_large.html).
+
+[9] U.S. Department of Agriculture, Agricultural Research Service. FoodData Central: API Guide and Licensing. [Data documentation](https://fdc.nal.usda.gov/api-guide/).
+
+## Supervisor and second reader review
+
+Supervisor comments
+
+<!-- comment-space -->
+
+Second reader comments
+
+<!-- comment-space -->
+
+<!-- signatures -->
+
+FILE planning/2026-09-21/proposal-spec.md L1-41 of 41
+# Group 2 学校 Project Proposal 制作记录
+
+**HISTORICAL — 2026-09-25：**用户已推翻食物监测方向。本记录和10页 DOCX／PDF 仅是 Senplate 旧方案的已检查初稿，**不能作为新桌面助理 Proposal 提交**。学校原指南、两份格式样本和本记录的版式／期限信息可供改稿参考。[新方向研究](../../research/2026-09-25-desk-companion/feasibility-review.md)。
+
+**同日后续反馈：**用户转述Marco质疑Gemini2必要性和混合菜营养准确性，已形成[技术复核和拟议修订段落](marco-camera-and-nutrition-review.md)。原10页Word／PDF、正文源和架构图保持，尚未生成修订版；以下完成状态只指这份已检查初稿。主线是否改为营养仍待讨论，不能将条件性问题记为已批准转向。
+
+2026-09-21。状态：READY_FOR_REVIEW_NOT_SUBMITTED。用户明确先完成学校proposal；英文Word与PDF已完成并检查，M1.3开发暂不继续。
+
+## 要求与依据
+
+- Proposal Guidelines AY26.doc：1页，ITE4116M；七项必需内容为问题、背景、拟议方案（架构／算法／方法、功能、数据和非功能要求）、适切性、含截止时间的阶段、交付物、成员责任。
+- sample1：8页，最后一页空白；sample2：6页，最后一页空白。全部逐页渲染读取。参考其学术格式、资源需求、系统图／时间表及意见签名位置，不复制旧课程编号ITP4913M或范例事实。
+- 用户说下周一交，按当前日期为2026-09-28；最新Moodle截图明确最终2026-09-29 23:59，要求DOCX与PDF。两日期分别记录为团队提交目标和平台期限。
+- 正文英文，组号Group 2，导师Marco；Yuan Yuchen／Xu Ziqian／Li Wenhua及250342840／250137555／250329909，计划贡献40／30／30。
+- 一台独立盘位、三个轮流使用配置；持续监测为主，辅助QR菜单／点餐；iPhone双角色、厨房／管理Web和设备界面；默认英文／可切简体中文。
+
+## 文稿组织
+
+[英文正文源](proposal-content.md)按七项要求编写，增加资源、引用与意见签名。采用A4正式学术报告，参考附件的衬线正文和黑色标题，正文／表格保持可编辑。架构图为清楚标为拟议方案的工程示意；不冒充硬件照片。
+
+当前软件结果引用2026-09-19真实验证，硬件／训练／Pi实测列计划；不把模拟餐食写成实际健康或减损成效。三种配置共用核心，供餐为主要研究问题。竞品比较承认Controliza实时补餐和Metafoodx学校场景，不宣称独有、直接胜过竞品或更便宜。
+
+六个月具体目标日期由本次方案安排，最终课程作品日期未提供；正文说明这些是团队里程碑，可随导师反馈和教学日程对齐。签名、签署日期、导师／第二读者意见由本人填写，保持空白。
+
+## 资料核对和许可
+
+2026-09-21重新读取EPD2024统计、Metafoodx产品、Controliza Buffet、卫生署学校午膳资源、Pi5与Gemini2规格、PyTorch迁移学习／MobileNetV3以及USDA FDC许可。EPD数据为3001吨／日、约29%，只作社会背景；没有把厨余总量变成可减损量。厂商能力为公开自述，不移植百分比或ROI。
+
+项目仍沿用已选V7及VI，本文采用Senplate文字标题，没有插入或修改Logo；无新图像生成、商标查询、采购、对外联系或Moodle操作。
+
+## 过程与验证
+
+本轮83份项目Markdown／7292行／73批已全读；32、33批输出截断后完整补读，无阅读期间变化。[阅读记录](../../output/qa/proposal-2026-09-21/reading-record.json)。学校附件原hash在本轮QA保留。
+
+已生成[可编辑Word](<../../output/docx/AY26_ProjectProposal_Group 2.docx>)和[对应PDF](<../../output/pdf/AY26_ProjectProposal_Group 2.pdf>)，均为10页。正文、10张表格保持Word原生可编辑；架构图另保留[SVG源](architecture.svg)，9条官方参考在文末提供可点击链接。[构建脚本](../../scripts/build_school_proposal_20260921.py)保留，便于按反馈一致更新两种格式。
+
+使用最终render-02逐页查看全部10页；已修复继承的标题边框／主题字体、图中连线遮字、交付物列表编号接续及签名栏空间。检查正文、组员与40／30／30、日期、课程号、页数、表头重复、空白签名／日期和引用；可访问性结构检查无高／中／低级问题。三个学校原件和332项既有建议书／品牌／身份保护文件hash保持不变。详见[成稿验证](../../output/qa/proposal-2026-09-21/final-validation.json)及[收尾验证](../../output/qa/proposal-2026-09-21/closeout-validation.json)。
+
+七项要求对应：问题第1页；背景第2页；拟议方案第3–6页；适切性第7页；阶段与交付物第8页；成员责任第9页。资源在第9页，参考、导师／第二读者意见及签名在第10页。[来源和要求映射](../../output/qa/proposal-2026-09-21/source-register.json)记录本次资料边界。
+
+当前交付是可供审阅／提交的proposal初稿，不是导师批准或Moodle提交。下一步根据Marco与组员反馈修订；团队计划9月28日先交，平台9月29日23:59截止。技术完成日2027年3月19日及性能指标均是拟议团队里程碑／测试目标，不冒充学校正式终期或实测结果。
+
+FILE planning/2026-09-25/desk-companion-proposal-zh-review-v2.md L1-148 of 148
+# 具有持续坐姿监测与反馈的 AI 智能桌面日历系统
+
+**Group 2 Project Proposal 中文审阅稿 第二版**  
+课程：ITE4116M Final Year Project – Systems Development and Administration  
+专业及班级：Higher Diploma in AI and Smart Technology (IT114124)／AIST-2B  
+拟议导师：Marco（已讨论新方向，正式审批状态待确认）  
+日期：2026年9月25日
+
+| 组员 | 学号 | 学校电邮 | 拟议工作占比 |
+|---|---|---|---:|
+| Yuan Yuchen（组长） | 250342840 | 250342840@stu.vtc.edu.hk | 40% |
+| Xu Ziqian | 250137555 | 250137555@stu.vtc.edu.hk | 30% |
+| Li Wenhua | 250329909 | 250329909@stu.vtc.edu.hk | 30% |
+
+## 项目概要
+
+本项目拟制作一台放在家庭或办公室书桌上的智能日历设备。摄像头持续观察用户上半身，在用户完成个人坐姿标定后，识别**持续前倾、侧歪等可见姿态偏离**及连续在桌时长；当偏离超过设定时长，设备以屏幕、语音、灯光和计划中的小型机械臂给出具体、温和的调整提示，并再次观察是否回到个人基准。电子日历同时显示当日时间轴、私人／公开事项和下一项任务，检测日程冲突，并以唤醒词提供语音查询与受控操作。项目将分别测量姿态判断、误报、反馈后的调整、日程功能和整机可靠性；不把外观上的姿势偏离等同医学诊断，也不声称设备可预防脊椎损伤。
+
+## 1 待解决的问题
+
+组员提出的具体情境是：用户长时间在电脑前工作时，可能逐渐向屏幕前倾、头部侧歪或一直坐着而没有留意。普通电子日历会显示时间和到点提醒，却不会判断这段坐姿是否持续偏离；独立的姿态提醒器又未必与用户当前的日程、屏幕提示和语音交互连在一起。OSHA 的电脑工作站指南强调应避免长时间保持同一静态姿势[4]，但不能据此直接推断某个人某一帧的姿势会导致疾病。
+
+本项目要回答的具体问题是：**固定位置的桌面摄像头能否在日常桌面条件下识别预先定义、持续一段时间的上半身姿态偏离，及时给出用户能理解的反馈，并在提醒后确认姿态是否改变；同时让同一设备继续承担日历展示和日程提醒？**判断对象限定为画面中可观察的状态，不推断疼痛、专注度、工作质量、心理情绪或医学意义上的“健康坐姿”。
+
+例如，用户在14:00坐下后逐渐前倾。设备先以用户标定姿势为参考，连续多帧发现头部和肩部位置达到预设偏离条件；只有状态持续达到用户设定的时间，才在日历屏幕上显示“请调整与屏幕的距离”，让机械臂抬起轻量指示件，并以语音提示一次。短暂等待后系统再测量：若姿态回到该用户的基准范围，记录“已调整”；若画面被遮挡或关键点置信度不足，记录“无法判断”，不继续重复警告。这个**检测—提示—再检测**过程，是本项目必须做出的实体反馈，而不是只让 AI 说一句建议。
+
+## 2 问题背景与使用环境
+
+首版服务于在家庭或办公室使用个人电脑的成年人，设备摆在个人桌面，摄像头固定朝向用户上半身。组员原方案包含电子日历的长期事项、周期计划和单日行程，私人／公开行程、冲突检测、当日 TimeTable，以及视觉姿态监测、久坐提醒、每日汇总和坐下后自动切换页面。本提案保留这些模块的主线，避免把系统缩成单纯的闹钟。
+
+现有替代并非空白：Skylight Calendar 已提供日程和任务展示[8]；部分 Echo 设备可检测附近是否有人并触发例程[2]；UPRIGHT GO 2 是可穿戴姿态提醒产品[9]；Razer AVA 展示有语音与虚拟角色的桌面助理[7]。本项目不声称竞品完全没有感知或姿态功能。**具体要做的是一台非穿戴的桌面设备：一边显示日程，一边从固定摄像头判断持续姿态偏离；发现问题后通过屏幕、语音和机械动作提醒，再测量用户是否调整。**这与只显示日历、定时响铃或仅震动提示的实现路径不同；是否更好须由实验验证。
+
+办公室环境尤其要限制隐私：旁人可能看到私人日程，摄像头也可能拍到背景人物。首版只处理单人固定座位，提供明显的摄像头／麦克风状态、物理关闭方式和私人事项隐藏模式；不把办公室安装、共享团队日历或外部账号权限当作已取得条件。
+
+## 3 拟议方案与系统范围
+
+### 3.1 整体架构与硬件
+
+一台原型计划采用树莓派5候选主机[6]、固定视角的RGB摄像头、约5至7英寸LCD、麦克风与扬声器、状态灯、物理静音和摄像头关闭控制，以及有独立低压供电的小型桌面机械臂。摄像头可从屏幕附近或斜侧上方拍摄头肩与上半身；选位和视野必须在台架上确认。机械臂先按**2至3自由度、轻载、不接触人体**设计，用于举起提示标志、指向屏幕中的日程或做简短提醒动作，不抓取物品，也不碰用户。最终型号、扭矩、供电和安全限位在实测与采购前确定。Arduino UNO R4 WiFi 是组员已有硬件，可用于机械臂调试，但单台树莓派仍是首选主机。
+
+本地视觉模块从摄像头获取画面，使用预训练姿态关键点模型取得耳、肩、髋等可见点。Google MediaPipe Pose Landmarker 有图像、视频和实时流模式[3]，可作首个验证模型；它提供关键点，**不会自动告诉我们“坐姿好坏”**。项目需自行实现画面质量检查、个人中立坐姿标定、角度／距离特征、连续时间判断和反馈后的再检测。树莓派能否在屏幕、音频与视觉同时运行时保持足够帧率，必须先台架测试；如不能，降低分辨率与处理帧率，并只保留可在本机可靠识别的姿态类别。
+
+电子日历模块在本地保存事项和提醒状态，桌面存在／画面状态驱动首页切换。用户坐到桌前时显示当天 TimeTable 与当前时间段计划；到达节点时通过屏幕与声音提醒。语音模块先用本地唤醒词开启短会话，Qwen3.8 Omni Flash Realtime 是第一候选[1]，Gemini、OpenAI Realtime和GPT-Live按用户确定的顺序作为后续候选。语音模型只返回受限的日历、显示和机械臂动作请求；本地程序检查参数、位置限位与权限后执行。云语音失败不应使姿态监测和本地提醒停止。
+
+### 3.2 必做功能与扩展边界
+
+**日历与联动。**支持生日等长期事项、按周／月重复计划及单日行程；显示公历日期、当日时间轴、下一项安排和重要事项；区分私人／公开事项，新增事项时进行时间冲突提示。用户可手动确认、延后或标记事项完成。坐下后自动切换至当天页面，离桌时回到隐私友好的概览。小组共享、农历、天气和外部日历同步属于第二阶段扩展，须在本地日历与姿态模块可靠后实现。
+
+**持续视觉坐姿监测。**至少实现个人基准标定、在桌／离桌、持续前倾和明显侧歪两类可见偏离、持续坐着的时长统计，以及遮挡／低置信度时的“无法判断”。短暂低头看手机或拿东西不应被单帧触发为异常；判定须经过时间窗口和提醒冷却时间。颈部前伸、驼背等更细类别只在固定机位取得足够可靠证据后单独报告，不在没有侧面视角时宣称精确识别脊柱形状。
+
+**反馈与复测。**出现持续偏离时，先用屏幕显示具体动作建议，可由语音解释；机械臂在安全范围内做短动作并由状态灯提示。每次提醒后在设定时间重新评估姿态，记录“回到个人基准”“仍偏离”或“无法判断”。久坐达到用户设定的时长时建议起身活动；即使用户当天姿态看起来平直，也不能用这一点取消活动提醒。每天只汇总在桌时长、可判断的姿态事件、提醒次数、用户反馈和用户手动确认的日程，不生成“健康分数”“专注度”或“工作质量”结论。
+
+**语音和角色。**用户可用唤醒词查询今天日程、让设备解释为什么提示、延后提醒或切换页面。屏幕提供一个简洁角色，以语音与机械臂动作表达设备正在倾听、提醒或等待确认。新增／修改日程必须复述日期和时间并等待明确确认；机械臂不能接受任意角度、连续运动或抓取命令。小型反射式影像可作外观实验，但真实全息投影和情感障碍治疗不是本项目基本交付。
+
+### 3.3 数据、算法和测试基线
+
+姿态算法以固定机位、用户标定和画面质量门槛为前提。系统保留关键点置信度和可见区域；将头部相对肩部的水平／垂直偏移、肩线倾斜和躯干角度等归一化特征与该用户基准比较。候选偏离要在连续时间窗中达到设定比例才变成事件，恢复也需连续数帧确认；遮挡、多人入镜、用户站起或画面过暗时暂停姿态结论。阈值由开发验证集确定，测试时保持固定，不在测试样本上反复调到最好。
+
+测试数据拟在获同意的受控环境中采集，覆盖中立、前倾、侧歪、短暂动作、离桌、遮挡和不同光照；人工标注仅用于评估模型，不作为医学标签。训练／调参与最终测试按参与者和录制日分开，报告各类精确率、召回率、宏平均F1、误报／小时与无法判断比例。对照至少包括“固定间隔提醒”、只看单帧阈值和本项目的连续时间判定；反馈效果则比较提醒前后是否回到个人基准，另记录用户按键拒绝与再次提示次数。若某类姿态在测试中不可靠，系统须显示“不确定”，而不是给出自信但错误的建议。
+
+日历处理的数据为事项标题、时间、重复规则、私人／公开标记、冲突、提醒和用户确认。视觉模块默认只在本地处理，**不保留连续原始视频**；需要保留用于评估的短片或图像时，须另行取得同意并控制访问。语音模块仅记录必要的调用用量、工具动作和错误，不默认保存原始语音。学校演示使用虚构日程和经许可的姿态样本。
+
+### 3.4 非功能要求与拟议验收
+
+| 方面 | 测试目标与检查方式 |
+|---|---|
+| 姿态识别 | 对中立、前倾、侧歪、离桌和无法判断分别报告测试集的混淆矩阵、各类召回率、宏平均F1及误报／小时；不提前声称达到特定准确率。 |
+| 反馈闭环 | 对持续偏离记录触发到屏幕／语音／机械臂动作的时延，以及复测后“已调整／仍偏离／无法判断”的比例；机械臂动作须有位置限位和紧急停止。 |
+| 视觉稳定性 | 在两种照明和至少两种桌面布置中连续运行不少于两小时，记录实际帧率、关键点丢失、遮挡和设备温度。 |
+| 日历可靠性 | 测试生日、重复计划、单日事项、私人／公开事项与冲突提醒；重启和断网后本地事项、视觉监测与基础提醒仍可用。 |
+| 语音与受限工具 | 普通话／英语命令分别报告唤醒误触发、正确工具及参数、真实执行率和错误动作；日历写入需要明确确认。 |
+| 隐私与使用 | 摄像头和麦克风状态可见，可物理关闭；原始视频默认不保存，私人行程不在公共演示中显示，所有结论可被用户关闭或更正。 |
+
+## 4 方案适切性与可行性
+

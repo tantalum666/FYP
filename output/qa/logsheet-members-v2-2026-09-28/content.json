@@ -1,0 +1,25 @@
+{
+  "attribution_status": "Arranged under planned roles at the group leader request; for member review, not independently verified personal authorship.",
+  "work": [
+    "Yuan Yuchen: Coordinated the Marco review and change of direction. Consolidated posture-feedback requirements, proposal drafts and the Qwen-first voice shortlist with AI assistance.",
+    "Xu Ziqian: Reviewed candidate Pi, camera, audio and display hardware. Compared AVA-style reflection and fan options, noting interface, power and mechanical-arm checks still needed.",
+    "Li Wenhua: Organised calendar, recurring-event, privacy, conflict-warning and TimeTable requirements. Outlined posture prompts and daily-record information in the concept.",
+    "Shared work: Reviewed the earlier simulated food prototype and mixed-dish nutrition limits. Changed to the desk-companion concept on 25 September for further development."
+  ],
+  "plan": [
+    "Yuan Yuchen: Complete the English proposal for review and submission by 29 September. Define posture labels, calibration, rechecking, voice tools and the evaluation plan.",
+    "Xu Ziqian: Confirm camera view, display control and Pi interfaces. Plan arm power, limits and stop controls; check component availability before finalising the enclosure.",
+    "Li Wenhua: Map touchscreen, phone and computer views to shared calendar data. Draft Today, Calendar, Posture and Records interactions and recurrence/conflict test cases.",
+    "Shared work: Review this contribution breakdown and the proposal. Agree module interfaces, track sources and AI assistance, and record actual progress for the next team log."
+  ],
+  "pending": "Yuan: posture/voice implementation and accuracy tests pending. Xu: assembly and hardware tests pending. Li: new calendar/interface implementation pending. No earlier log plan.",
+  "other": "Next period: 28 September to 11 October 2026. Submit one group log with named work, findings, pending items and plans for all three members.",
+  "research": [
+    "Yuan Yuchen: Mixed-dish nutrients could not be measured precisely.",
+    "Xu Ziqian: Small displays need verified programmable control.",
+    "Li Wenhua: Calendar, posture prompts and records need linked states.",
+    "Team: 55 legacy backend tests passed using simulated inputs."
+  ],
+  "discoveries": "The food prototype tests apply only to the retired software. The new scope links continuous posture detection, specific feedback and rechecking with a calendar. Camera placement, display control, voice execution and arm safety need separate tests; none is yet validated.",
+  "remark": "Coverage: 14-27 Sep 2026. Member-review draft: individual attribution is arranged under the planned roles, using existing group records. Confirm attribution before submission. AI assisted research, drafting, prototype code and checks; new hardware remains untested."
+}

@@ -1,0 +1,295 @@
+{
+  "status": "PASS",
+  "completed_at": "2026-09-17T06:01:38.009841+00:00",
+  "protected_count": 97,
+  "protected_changes": [],
+  "source_preserved": true,
+  "svg": [
+    {
+      "name": "senplate-capital-s-comparison.svg",
+      "paths": 11,
+      "path_commands": 143,
+      "viewBox": "0 0 1028 170"
+    },
+    {
+      "name": "senplate-logo-black.svg",
+      "paths": 11,
+      "path_commands": 143,
+      "viewBox": "0 0 1028 170"
+    },
+    {
+      "name": "senplate-logo-green.svg",
+      "paths": 11,
+      "path_commands": 143,
+      "viewBox": "0 0 1028 170"
+    },
+    {
+      "name": "senplate-logo-white.svg",
+      "paths": 11,
+      "path_commands": 143,
+      "viewBox": "0 0 1028 170"
+    },
+    {
+      "name": "senplate-mark-black.svg",
+      "paths": 3,
+      "path_commands": 27,
+      "viewBox": "0 0 325 170"
+    },
+    {
+      "name": "senplate-mark-green.svg",
+      "paths": 3,
+      "path_commands": 27,
+      "viewBox": "0 0 325 170"
+    },
+    {
+      "name": "senplate-mark-white.svg",
+      "paths": 3,
+      "path_commands": 27,
+      "viewBox": "0 0 325 170"
+    },
+    {
+      "name": "senplate-wordmark-green.svg",
+      "paths": 8,
+      "path_commands": 116,
+      "viewBox": "0 0 661 157"
+    }
+  ],
+  "png": [
+    {
+      "name": "app-icon-black-1024.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "8f7e11f25c4939a818d128fa966b3f35671bb22a1ab643c1234352254a4e9dd8"
+    },
+    {
+      "name": "app-icon-forest-1024.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "8e003a6a064489f8951124c98ccafda97c33586db6ad214b3fd3e2ef5d15a412"
+    },
+    {
+      "name": "app-icon-ivory-1024.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "16cb5d8ebd9a3d13662a9208dfa47abe69336971ffe215f0b83dd5b55b576641"
+    },
+    {
+      "name": "brand-preview.png",
+      "size": [
+        1440,
+        1100
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "839db65bbe44e3f3125eefc92d5df12ce49b42942d584bd99769d58892bbae58"
+    },
+    {
+      "name": "capitalization-comparison.png",
+      "size": [
+        1440,
+        760
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "9a1f66278205950f6ecff226f457ba67aa159f439c9abae9c061abc18f308593"
+    },
+    {
+      "name": "edge-comparison.png",
+      "size": [
+        1440,
+        480
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "d51f6efc05157e7f2702d889774bfb9dee462d3ffb4b7c9f353df71fd61b0c96"
+    },
+    {
+      "name": "senplate-capital-s-comparison.png",
+      "size": [
+        2056,
+        340
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "f7764aa002118b07c7b2b0022be7279d63b17c4203576746835ae84b652a2aa2"
+    },
+    {
+      "name": "senplate-logo-black.png",
+      "size": [
+        2056,
+        340
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "154fa5c7f033ccab38c2600bd9722adc71c89ed553c4654ef9f4f11d8da441d5"
+    },
+    {
+      "name": "senplate-logo-green.png",
+      "size": [
+        2056,
+        340
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "7049244527b06de4639277bf61f6fbe56c1202674ee8d116f0207084aeedbfe6"
+    },
+    {
+      "name": "senplate-logo-white.png",
+      "size": [
+        2056,
+        340
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "9d82e5e7c46684ba92298bc2ee2f96aa24a784632e362f27376105df71442014"
+    },
+    {
+      "name": "senplate-mark-24.png",
+      "size": [
+        24,
+        24
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "7e178a32b464dd9630be14614e286e4615f982f02fb4bafa92958ed35e87a769"
+    },
+    {
+      "name": "senplate-mark-32.png",
+      "size": [
+        32,
+        32
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "a03cb0ce545fa938e61551e29ee015334f1f8d6206d5bc6dc52616ed3637bf49"
+    },
+    {
+      "name": "senplate-mark-64.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "f1c130973770d682d78bcf1b73dccbdd9e81c5691b53384b1b7b431cdd90fc10"
+    },
+    {
+      "name": "senplate-mark-black.png",
+      "size": [
+        1300,
+        680
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "86daba59035ff5deaec92a6c04e66b8fc45eaf36873e7e052612b3c6bba4fce9"
+    },
+    {
+      "name": "senplate-mark-green.png",
+      "size": [
+        1300,
+        680
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "7014429c41eef184298c1247a1467caf6f599811352c0cbfb85af596a4aaad4d"
+    },
+    {
+      "name": "senplate-mark-white.png",
+      "size": [
+        1300,
+        680
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "0ee0511900b82f625d8142b533d74d46cd028549113db710a7cc0425d70c30c2"
+    },
+    {
+      "name": "source-selected-a.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "cc98804614d8e0de4e15d1e5dd197550f3bef06a4569cc5c4c3b9f54e2929a61"
+    }
+  ],
+  "all_color_variants_same_geometry": true,
+  "mark_commands_v1": 90,
+  "mark_commands_v2": 27,
+  "command_count_note": "Simplification evidence only, not a standalone smoothness test.",
+  "visual_review": [
+    "2056px lowercase and initial capital logo",
+    "V1 vs V2 edge closeup: old irregularities removed",
+    "Main board, black, reverse, icons",
+    "24,32,64px original size"
+  ],
+  "missing_local_links": [],
+  "updated_markdown": [
+    "brand.md",
+    "README.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md",
+    "output/brand/2026-09-17-senplate-refined-a-v2/README.md"
+  ],
+  "zip": {
+    "path": "output/brand/Senplate_Brand_Assets_v2.zip",
+    "files": 27,
+    "sha256": "654fb38e908502fd6bc87cdbbad5b718f1cff67e05b770e9b85051dba31cff67"
+  },
+  "remaining": [
+    "User can select initial-capital variant; default remains lowercase.",
+    "Fresh final-symbol similarity check",
+    "UI design and implementation"
+  ]
+}

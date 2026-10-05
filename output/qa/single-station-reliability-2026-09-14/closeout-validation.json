@@ -1,0 +1,43 @@
+{
+  "checked_at": "2026-09-14T16:13:42.123531+08:00",
+  "project_markdown_count": 17,
+  "full_read_initial_count": 16,
+  "full_read_initial_lines": 1337,
+  "changed_markdown": [
+    "README.md",
+    "decision-log.md",
+    "handoff.md",
+    "planning/2026-09-14/continuous-monitoring-architecture.md",
+    "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+    "planning/2026-09-14/single-station-recognition-reliability.md",
+    "product.md",
+    "work-log.md"
+  ],
+  "local_links_checked": 64,
+  "broken_local_links": [],
+  "footnote_errors": [],
+  "table_errors": [],
+  "preserved_files": {
+    "output/docx/AY26_ProjectSuggestion_Group 2.docx": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2.pdf": true,
+    "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf": true,
+    "scripts/build_suggestion.py": true,
+    "scripts/build_suggestion_v2.py": true,
+    "planning/2026-09-14/group-2-details.json": true
+  },
+  "scope_checks": {
+    "expected_changed_markdown": true,
+    "single_station_baseline": true,
+    "unknown_mixed_meal_limits": true,
+    "sequential_initial_portions_only": true,
+    "raw_cooked_safety_boundary": true,
+    "v2_file_sync_pending": true,
+    "no_hardware_results_claim": true
+  },
+  "hardware_tests_executed": false,
+  "model_experiments_executed": false,
+  "new_docx_or_pdf_generated": false,
+  "verification_scope": "Document consistency, citations, local links and immutable copies only. Recognition, nutrition and hardware performance remain untested.",
+  "passed": true
+}

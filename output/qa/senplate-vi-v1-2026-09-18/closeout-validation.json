@@ -1,0 +1,319 @@
+{
+  "completed_at": "2026-09-17T17:57:35.183430+00:00",
+  "protected_count": 276,
+  "protected_changes": [],
+  "old_figma_nodes": 53,
+  "old_figma_unchanged": true,
+  "core_geometry": {
+    "symbol": true,
+    "wordmark": true,
+    "horizontal": true
+  },
+  "color_variant_geometry": {
+    "symbol": true,
+    "wordmark": true,
+    "horizontal": true,
+    "stacked": true
+  },
+  "formats": {
+    "svg": [
+      {
+        "file": "horizontal-black.svg",
+        "text_nodes": 0
+      },
+      {
+        "file": "horizontal-green.svg",
+        "text_nodes": 0
+      },
+      {
+        "file": "horizontal-white.svg",
+        "text_nodes": 0
+      },
+      {
+        "file": "stacked-black.svg",
+        "text_nodes": 0
+      },
+      {
+        "file": "stacked-green.svg",
+        "text_nodes": 0
+      },
+      {
+        "file": "stacked-white.svg",
+        "text_nodes": 0
+      },
+      {
+        "file": "symbol-black.svg",
+        "text_nodes": 0
+      },
+      {
+        "file": "symbol-green.svg",
+        "text_nodes": 0
+      },
+      {
+        "file": "symbol-white.svg",
+        "text_nodes": 0
+      },
+      {
+        "file": "wordmark-black.svg",
+        "text_nodes": 0
+      },
+      {
+        "file": "wordmark-green.svg",
+        "text_nodes": 0
+      },
+      {
+        "file": "wordmark-white.svg",
+        "text_nodes": 0
+      }
+    ],
+    "png": [
+      {
+        "file": "horizontal-black.png",
+        "size": [
+          2400,
+          452
+        ],
+        "alpha": [
+          0,
+          255
+        ]
+      },
+      {
+        "file": "horizontal-green.png",
+        "size": [
+          2400,
+          452
+        ],
+        "alpha": [
+          0,
+          255
+        ]
+      },
+      {
+        "file": "horizontal-white.png",
+        "size": [
+          2400,
+          452
+        ],
+        "alpha": [
+          0,
+          255
+        ]
+      },
+      {
+        "file": "stacked-black.png",
+        "size": [
+          1600,
+          1045
+        ],
+        "alpha": [
+          0,
+          255
+        ]
+      },
+      {
+        "file": "stacked-green.png",
+        "size": [
+          1600,
+          1045
+        ],
+        "alpha": [
+          0,
+          255
+        ]
+      },
+      {
+        "file": "stacked-white.png",
+        "size": [
+          1600,
+          1045
+        ],
+        "alpha": [
+          0,
+          255
+        ]
+      },
+      {
+        "file": "symbol-black.png",
+        "size": [
+          1200,
+          850
+        ],
+        "alpha": [
+          0,
+          255
+        ]
+      },
+      {
+        "file": "symbol-green.png",
+        "size": [
+          1200,
+          850
+        ],
+        "alpha": [
+          0,
+          255
+        ]
+      },
+      {
+        "file": "symbol-white.png",
+        "size": [
+          1200,
+          850
+        ],
+        "alpha": [
+          0,
+          255
+        ]
+      },
+      {
+        "file": "wordmark-black.png",
+        "size": [
+          2000,
+          473
+        ],
+        "alpha": [
+          0,
+          255
+        ]
+      },
+      {
+        "file": "wordmark-green.png",
+        "size": [
+          2000,
+          473
+        ],
+        "alpha": [
+          0,
+          255
+        ]
+      },
+      {
+        "file": "wordmark-white.png",
+        "size": [
+          2000,
+          473
+        ],
+        "alpha": [
+          0,
+          255
+        ]
+      }
+    ],
+    "font_sources": [
+      {
+        "file": "05_Fonts_and_Licences/Manrope/Manrope[wght].ttf",
+        "unchanged": true
+      },
+      {
+        "file": "05_Fonts_and_Licences/Manrope/OFL.txt",
+        "unchanged": true
+      },
+      {
+        "file": "05_Fonts_and_Licences/Manrope/METADATA.pb",
+        "unchanged": true
+      },
+      {
+        "file": "05_Fonts_and_Licences/NotoSansTC/NotoSansTC[wght].ttf",
+        "unchanged": true
+      },
+      {
+        "file": "05_Fonts_and_Licences/NotoSansTC/OFL.txt",
+        "unchanged": true
+      },
+      {
+        "file": "05_Fonts_and_Licences/NotoSansTC/METADATA.pb",
+        "unchanged": true
+      },
+      {
+        "file": "05_Fonts_and_Licences/NotoSansSC/NotoSansSC[wght].ttf",
+        "unchanged": true
+      },
+      {
+        "file": "05_Fonts_and_Licences/NotoSansSC/OFL.txt",
+        "unchanged": true
+      },
+      {
+        "file": "05_Fonts_and_Licences/NotoSansSC/METADATA.pb",
+        "unchanged": true
+      },
+      {
+        "file": "05_Fonts_and_Licences/Manrope/FONTLOG.txt",
+        "unchanged": true
+      },
+      {
+        "file": "05_Fonts_and_Licences/Inter_Historical_Labels/OFL.txt",
+        "unchanged": true
+      }
+    ]
+  },
+  "pdfs": [
+    {
+      "path": "output/pdf/Senplate_VI_Guidelines_v1.pdf",
+      "pages": 11
+    },
+    {
+      "path": "output/pdf/Senplate_Vector_Assets_Master_v1.pdf",
+      "pages": 4
+    }
+  ],
+  "visual_review": {
+    "guide_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "master_pages": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "defects_remaining": 0,
+    "additional": [
+      "Figma VI overview",
+      "Figma presentation cover",
+      "Figma menu sign"
+    ]
+  },
+  "pdf_authorship_marker": "Ran once successfully before first PDF authoring command, expected outputs2",
+  "zip": {
+    "path": "output/brand/Senplate_VI_Kit_v1.zip",
+    "files": 61,
+    "bytes": 20122493,
+    "error": null
+  },
+  "updated_markdown": [
+    "brand.md",
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md",
+    "planning/2026-09-18/senplate-vi-v1.md",
+    "research/2026-09-18-font-licences/font-licence-audit.md",
+    "output/brand/2026-09-18-senplate-vi-v1/README.md",
+    "output/brand/2026-09-18-senplate-vi-v1/06_Source/Figma_Source.md",
+    "output/brand/2026-09-18-senplate-vi-v1/06_Source/VI_Rules.md",
+    "output/brand/2026-09-18-senplate-vi-v1/05_Fonts_and_Licences/FONT-LICENCE-AUDIT.md"
+  ],
+  "scope_limits": [
+    "App icon foundations and layers, not Icon Composer or app implementation",
+    "Menu QR placeholder requires real destination",
+    "Print sizes and CMYK are suggested references, not physical proof",
+    "Font licence audit is not trademark clearance"
+  ],
+  "local_links_checked": 400,
+  "broken_links": [],
+  "all_checks_passed": true
+}

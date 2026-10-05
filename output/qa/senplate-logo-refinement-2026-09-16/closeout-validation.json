@@ -1,0 +1,69 @@
+{
+  "scope": "Design-file and continuity validation only; not final vector or small-pixel acceptance",
+  "completed_at": "2026-09-16T13:49:46.805715+00:00",
+  "checks": {
+    "three_refinements": true,
+    "assets": true,
+    "display_order": true,
+    "base_selected_not_logo": true,
+    "old_original_snapshot": true,
+    "prior_options_unchanged": true,
+    "r2_unselected": true,
+    "reference_correct": true,
+    "protected_preserved": true,
+    "no_app": true,
+    "internal_links": true
+  },
+  "images": [
+    {
+      "option": 1,
+      "file": "output/brand/2026-09-16-senplate-logo-r2/fold-r2.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "hash_matches": true,
+      "prompt_exists": true
+    },
+    {
+      "option": 2,
+      "file": "output/brand/2026-09-16-senplate-logo-r2/poise-r2.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "hash_matches": true,
+      "prompt_exists": true
+    },
+    {
+      "option": 3,
+      "file": "output/brand/2026-09-16-senplate-logo-r2/contour-r2.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "hash_matches": true,
+      "prompt_exists": true
+    }
+  ],
+  "protected_count": 25,
+  "protected_changes": [],
+  "updated_specs": [
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-16/senplate-logo-vi-directions.md",
+    "planning/2026-09-16/senplate-logo-refinement-r2.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md"
+  ],
+  "expected_metadata_change": "Previous VI selected as base only; before-selection manifest saved; image and prompt files unchanged",
+  "visual_review": "Three native results inspected and displayed once each. G-reading, leaf association and generic S tradeoffs explicitly recorded; no claim of logo approval or exact small-pixel testing.",
+  "links": {
+    "checked": 421,
+    "broken": []
+  },
+  "status": "PASS"
+}

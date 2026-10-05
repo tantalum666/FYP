@@ -1,0 +1,80 @@
+
+> desk-companion-ui@0.1.0 test
+> node --experimental-strip-types --test tests/*.test.ts
+
+TAP version 13
+# Subtest: saved timed events return to the display's local date, including a date boundary
+ok 1 - saved timed events return to the display's local date, including a date boundary
+  ---
+  duration_ms: 57.339083
+  type: 'test'
+  ...
+# Subtest: display appearance follows local hour at the two boundaries
+ok 2 - display appearance follows local hour at the two boundaries
+  ---
+  duration_ms: 0.133583
+  type: 'test'
+  ...
+# Subtest: five and six week months have complete, bounded grids
+ok 3 - five and six week months have complete, bounded grids
+  ---
+  duration_ms: 6.561125
+  type: 'test'
+  ...
+# Subtest: end of year display includes next month while obeying API range limit
+ok 4 - end of year display includes next month while obeying API range limit
+  ---
+  duration_ms: 14.181667
+  type: 'test'
+  ...
+# Subtest: upcoming excludes completed and ended items, keeps an ongoing cross-midnight event
+ok 5 - upcoming excludes completed and ended items, keeps an ongoing cross-midnight event
+  ---
+  duration_ms: 0.449125
+  type: 'test'
+  ...
+# Subtest: upcoming ordering compares instants, not written timezone offsets
+ok 6 - upcoming ordering compares instants, not written timezone offsets
+  ---
+  duration_ms: 0.131125
+  type: 'test'
+  ...
+# Subtest: automatic return never interrupts editing or an unresolved save
+ok 7 - automatic return never interrupts editing or an unresolved save
+  ---
+  duration_ms: 0.109291
+  type: 'test'
+  ...
+# Subtest: audio worklet retains fractional phase across 128-sample blocks
+ok 8 - audio worklet retains fractional phase across 128-sample blocks
+  ---
+  duration_ms: 48.099209
+  type: 'test'
+  ...
+# Subtest: busy duration merges overlaps, clips to day, and ignores completed events
+ok 9 - busy duration merges overlaps, clips to day, and ignores completed events
+  ---
+  duration_ms: 20.708708
+  type: 'test'
+  ...
+# Subtest: lunar day is computed in the selected calendar timezone
+ok 10 - lunar day is computed in the selected calendar timezone
+  ---
+  duration_ms: 1.442209
+  type: 'test'
+  ...
+# Subtest: a stale posture connection masks private content in a previously loaded display snapshot
+ok 11 - a stale posture connection masks private content in a previously loaded display snapshot
+  ---
+  duration_ms: 0.126667
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 243.598833

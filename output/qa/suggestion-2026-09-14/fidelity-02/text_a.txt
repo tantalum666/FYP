@@ -1,0 +1,55 @@
+ITE4116M FINAL YEAR PROJECTPROJECT SUGGESTION FORMAcademic Year 2026/27
+Submission Guide: Students must form a group of 3 to 4 members, discuss the project topic with your preferred supervisor, and obtain verbal agreement. Once agreed, the group must complete this Project Suggestion Document and upload the document file (in both PDF & DOCX) on Moodle during the FYP session by 14-SEP-2026.
+1. General Project Information
+Proposed Project Title
+[Enter Proposed Topic Title - e.g., AI-Powered Logistics Route Planner]
+Assigned Project Supervisor
+Mr. / Ms. / Dr. [Supervisor Name]
+Programme / Class Code
+Higher Diploma in AI and Smart Technology (IT114124) / Class [e.g., HDAIST-2A]
+Student Group Number
+Group [e.g., Group 2]
+Student Member Details (Normally 3 to 4 members):
+S/N
+Student Name
+Student ID
+Email Address
+Proposed Major Role / Area of Responsibility
+1
+[Student Name 1]
+[260xxxxxx]
+[email1@stu.vtc.edu.hk]
+[e.g., Front-end Developer / Backend / DB Admin]
+2
+[Student Name 2]
+[260xxxxxx]
+[email2@stu.vtc.edu.hk]
+[e.g., Front-end Developer / Backend / DB Admin]
+3
+[Student Name 3]
+[260xxxxxx]
+[email3@stu.vtc.edu.hk]
+[e.g., Front-end Developer / Backend / DB Admin]
+4
+[Student Name 4]
+[260xxxxxx]
+[email4@stu.vtc.edu.hk]
+[e.g., Front-end Developer / Backend / DB Admin]
+2. Problem Statement & Project Objectives
+Instructions: Describe the business or technical problem in information technology that this project intends to address. Define 2-3 specific project objectives (what your solution intends to achieve for the target users/businesses).
+Problem Statement:[Enter a clear description of the current real-world challenges, gaps, or difficulties faced by users/businesses...]Project Objectives:1. [Objective 1: e.g., To analyze and design an automated inventory tracking solution...]2. [Objective 2: e.g., To implement a cross-border deployable backend with bilingual support...]3. [Objective 3: e.g., To test and deploy the system on cloud services to ensure high availability...]
+3. Proposed Project Scope & Key Features
+Instructions: Define the scope of your system. List and briefly describe the key modules, functions, or features that your group plans to implement. Projects must be implementation-oriented and student-centered.
+Key Subsystems / Features:• [Subsystem A: e.g., User Authentication and Profile Management - Security and roles control]• [Subsystem B: e.g., Real-time Analytics Dashboard - Visualizing metrics using Chart.js/D3.js]• [Subsystem C: e.g., Database and API Integration - RESTful endpoints using Node.js/Python]Expected Users & Roles:• [User Role 1: e.g., System Administrator - Has full access to manage databases and user accounts]• [User Role 2: e.g., Standard Customer - Can register, browse products, and submit feedback]
+4. Technical Stack & Special Requirements
+Instructions: Detail the hardware and software tools you intend to use. Highlight how your project incorporates contemporary technologies (AI, IoT, Cloud, etc.) and how it aligns with modern considerations like environmental-friendly design, bilingual/multi-language support, or cross-border deployability to meet Greater China business needs.
+Development Technologies & Tools:• Programming Languages: [e.g., Python 3.12, TypeScript, HTML5/CSS3]• Frameworks / Libraries: [e.g., React.js, Express.js, PyTorch]• Database / Storage: [e.g., PostgreSQL, MongoDB, AWS S3]• Target Platforms: [e.g., Responsive Web Application, Native Android Mobile App]Special Project Considerations (Fill out where applicable):• Contemporary Technologies: [e.g., Incorporating generative AI APIs for personalized recommendations]• Environmental-Friendly Solution: [e.g., Optimization algorithms to reduce server compute cycles / serverless green hosting]• Bilingual / Multi-Language Support: [e.g., Implementation of i18next supporting English and Traditional Chinese UI]• Cross-Border Deployment / Greater China Needs: [e.g., Designing database schema and APIs localized for low-latency delivery across regions]
+5. Endorsements & Supervisor Feedback
+Student Group Endorsement
+By submitting this suggestion, we confirm that all listed group members are in agreement regarding this project concept and our assigned roles.Student Representative Signature: ___________________________Date: ___________________________
+Supervisor Vetting Decision
+Supervisor, please put a ☑ in the appropriate box.
+☐ APPROVED — The group is authorized to proceed to draft their formal Project Proposal.☐ REJECTED — The group must modify their project topic suggestion and resubmit for review.
+Supervisor Feedback / Comments
+Supervisor Endorsement
+Project Supervisor Signature: ___________________________Date: ___________________________

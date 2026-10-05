@@ -1,0 +1,220 @@
+{
+  "date": "2026-09-17",
+  "type": "Partial public and official graphic-mark similarity screen",
+  "target": {
+    "brand": "Senplate",
+    "concept": "Interval",
+    "svg": "../../output/brand/2026-09-17-senplate-vector/interval-mark.svg",
+    "user_feedback": "差不多，但是检索一遍看看有没有类似的商标",
+    "interpretation": "Tentative visual-direction acceptance; not unconditional final approval"
+  },
+  "verified_record": {
+    "authority": "USPTO TSDR",
+    "url": "https://tsdr.uspto.gov/#caseNumber=90678592&caseSearchType=US_APPLICATION&caseType=DEFAULT&searchType=statusSearch",
+    "serial": "90678592",
+    "registration": "6622466",
+    "owner": "Aqua Security Software Ltd.",
+    "filing_date": "2021-04-28",
+    "registration_date": "2022-01-18",
+    "status": "LIVE/REGISTRATION/Issued and Active",
+    "mark_type": "2 - illustration without words/letters/numbers",
+    "classes": [
+      {
+        "number": 9,
+        "status": "ACTIVE",
+        "scope": "Downloadable security software for containers, cloud infrastructure and related systems"
+      },
+      {
+        "number": 42,
+        "status": "ACTIVE",
+        "scope": "Online non-downloadable security software for containers, cloud infrastructure and related systems"
+      }
+    ],
+    "colour_claim": [
+      "blue",
+      "light blue",
+      "yellow",
+      "red"
+    ],
+    "description_paraphrase": "Opposing chevrons form a six-sided outer shape with a central square; lower-left blue/light-blue and upper-right yellow/red.",
+    "page_generated_at": "2026-09-16 21:23:53 EDT",
+    "evidence": "../../output/qa/senplate-logo-similarity-2026-09-17/aqua-tsdr-status.txt",
+    "official_image_path_observed": "https://tsdr.uspto.gov/img/90678592/large?1789608233423"
+  },
+  "sources": [
+    {
+      "name": "Aqua official brand guidelines",
+      "url": "https://www.aquasec.com/brand/",
+      "type": "primary brand asset"
+    },
+    {
+      "name": "Aqua trademark usage policy",
+      "url": "https://info.aquasec.com/hubfs/Aqua%20Trademark%20Usage%20Guidelines%20FINAL.pdf",
+      "type": "primary owner policy",
+      "scope": "Read three pages of policy text; not a substitute for registry status"
+    },
+    {
+      "name": "OPNsense official site",
+      "url": "https://opnsense.org/",
+      "type": "primary current visual use",
+      "note": "Current homepage uses angular frame with anniversary inset"
+    },
+    {
+      "name": "OPNsense official artwork",
+      "url": "https://opnsense.org/wp-content/themes/template/assets/images/logo-opnsense.svg",
+      "type": "primary DOM-observed asset URL"
+    },
+    {
+      "name": "OPNsense official icon source",
+      "url": "https://github.com/opnsense/core/blob/f4b69b9b565d2747eb40d7d23e060f4a3c81a071/src/opnsense/www/themes/opnsense/build/images/icon-logo.svg",
+      "type": "owner repository"
+    },
+    {
+      "name": "OPNsense trademark policy",
+      "url": "https://docs.opnsense.org/legal.html",
+      "type": "primary policy",
+      "note": "No claim of confirmed current registration matching this modern icon"
+    },
+    {
+      "name": "RustDesk current project SVG",
+      "url": "https://github.com/rustdesk/rustdesk/blob/master/res/logo.svg?short_path=0001d07",
+      "type": "owner repository"
+    },
+    {
+      "name": "RustDesk official site",
+      "url": "https://rustdesk.com/",
+      "type": "primary product use",
+      "note": "No graphic registration status confirmed"
+    },
+    {
+      "name": "Aqua registration discovery index",
+      "url": "https://trademarks.justia.com/906/78/n-90678592.html",
+      "type": "secondary; later verified in official TSDR"
+    },
+    {
+      "name": "USPTO likelihood-of-confusion guidance",
+      "url": "https://www.uspto.gov/trademarks/search/likelihood-confusion",
+      "type": "primary examination guidance"
+    },
+    {
+      "name": "HK IPD online-search entry",
+      "url": "https://www.ipd.gov.hk/sc/online-services/online-search/index.html",
+      "type": "primary registry entry"
+    }
+  ],
+  "library": {
+    "name": "Simple Icons",
+    "version": "16.31.0",
+    "source": "https://registry.npmjs.org/simple-icons/-/simple-icons-16.31.0.tgz",
+    "svg_total": 3460,
+    "analysed": 3454,
+    "render_errors": 0,
+    "manually_reviewed": 38,
+    "method": "96x96 binary alpha overlap; original and right-angle rotated orientations; retrieval heuristic only",
+    "excluded_filenames": [
+      "backstage_casting.svg",
+      "graphite_editor.svg",
+      "handshake_protocol.svg",
+      "hive_blockchain.svg",
+      "spring_creators.svg",
+      "uniqlo_ja.svg"
+    ],
+    "exclusion_reason": "Underscores excluded by conservative extraction filename rule",
+    "scores_not": "Legal similarity, confusion probability, registration validity or clearance"
+  },
+  "gaps": [
+    {
+      "system": "WIPO Global Brand Database",
+      "url": "https://branddb.wipo.int/",
+      "status": "BROWSER_POLICY_BLOCKED",
+      "detail": "Navigation ERR_BLOCKED_BY_CLIENT; no query submitted."
+    },
+    {
+      "system": "CNIPA and EU-wide image search",
+      "status": "NOT_COMPLETED_THIS_PASS"
+    }
+  ],
+  "recommendation": "Keep visual tone and wordmark; revise the double-corner square-frame structure before finalization.",
+  "no_actions": [
+    "No new Senplate logo design",
+    "No change to existing images, SVG or Figma",
+    "No applications or purchases",
+    "No external messages",
+    "No unapproved terms accepted",
+    "No CAPTCHA was solved by the agent"
+  ],
+  "hk_query_completed": {
+    "authorization": {
+      "user_answer": "同意，继续官方图像查询",
+      "date": "2026-09-17",
+      "observed_after_answer": "The image-search page was already at /upload. Agent did not solve any CAPTCHA."
+    },
+    "query": {
+      "system": "Hong Kong IPD Image Mark Finder",
+      "url": "https://image-mark-finder.ipd.gov.hk/search",
+      "file": "senplate-query-192.png",
+      "dimensions": [
+        192,
+        192
+      ],
+      "sha256": "93555d6ab0e4dc6ee070d0b9cb60ae69429d14bcf3f6a47df78d322405995aa6",
+      "mode": "Full unchanged symbol, no manual crop, no class filter",
+      "reported_results": 300,
+      "metadata_rows_reviewed": 50,
+      "distinct_numbers_in_reviewed_rows": 37,
+      "detail_records_verified": 2,
+      "meaning": "300 candidate image records reported by system, including duplicates; not 300 conflicts or unique marks"
+    },
+    "records": [
+      {
+        "number": "303321710",
+        "url": "https://esearch.ipd.gov.hk/nis-pos-view/#/tm/details/view/392093_303321710/tm?lang=sc",
+        "status": "已註冊",
+        "owner": "智通智能技術（蘇州）有限公司",
+        "class_numbers": [
+          9
+        ],
+        "filing_date": "2015-03-06",
+        "registration_date": "2015-03-06",
+        "actual_registration_date": "2015-10-06",
+        "expiry_date": "2035-03-05",
+        "device_codes": [
+          "26.5.1"
+        ],
+        "goods_summary": "Keyboards, laptop and tablet computers, mice, recorded/downloadable computer software, computers, peripherals, downloadable publications, headsets, loudspeakers and computer hardware",
+        "brand_connection": "Company's official MECHREVO website states it builds the Mechanical Revolution brand",
+        "brand_source": "https://www.mechrevo.com/cn/about",
+        "image_source": "https://esearch.ipd.gov.hk/nis-pos-view/tm/tmFileActions/downloadImage/392093_303321710_0.jpg",
+        "visual_assessment": "Relevant device/software class and opposing angular planes with a diagonal interrupted inner path. Not identical: polygon proportions, mass, inner negative space and metallic rendering differ."
+      },
+      {
+        "number": "307039215",
+        "wordmark": "meterytech",
+        "url": "https://esearch.ipd.gov.hk/nis-pos-view/#/tm/details/view/3733704_307039215/tm?lang=sc",
+        "status": "已註冊",
+        "owner": "METERY TECHNOLOGY LIMITED",
+        "class_numbers": [
+          9
+        ],
+        "filing_date": "2025-09-23",
+        "registration_date": "2025-09-23",
+        "actual_registration_date": "2026-03-02",
+        "expiry_date": "2035-09-22",
+        "device_codes": [
+          "26.5.10",
+          "26.7.25"
+        ],
+        "goods_summary": "Measuring instruments, precision measuring equipment, detectors, pressure/liquid-level sensors and flow instruments, among other measurement goods",
+        "visual_assessment": "Relevant measurement category but the full mark is more complex, vertically mirrored, layered, and contains the word meterytech; materially different overall appearance. A returned candidate is not automatically a conflict."
+      }
+    ],
+    "observations": [
+      "Official details opened successfully after user confirmation",
+      "No user terms or CAPTCHA confirmation remains pending for this completed query",
+      "No filing, favourite creation, contact or purchase performed"
+    ]
+  },
+  "resolved_gates": [
+    "HK consent received; upload page available; image query completed and two registry details verified. Earlier owner wildcard attempt did not yield independent owner-search results."
+  ]
+}

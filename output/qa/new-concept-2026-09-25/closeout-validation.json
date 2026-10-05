@@ -1,0 +1,61 @@
+{
+  "checked_at": "2026-09-25T08:11:44.055627+00:00",
+  "modified_or_created_markdown": [
+    "README.md",
+    "product.md",
+    "product-senplate-historical.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "brand.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-21/proposal-spec.md",
+    "planning/2026-09-16/business-plan-zh.md",
+    "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+    "research/2026-09-25-desk-companion/feasibility-review.md"
+  ],
+  "local_link_count": 505,
+  "broken_local_links": [],
+  "source_hashes": {
+    "/Users/tantalum/Downloads/文档.docx": {
+      "expected": "22e6acda06da2244264c0d614e44abb8f078dde8db16ba0a1b0b93407d2b1f40",
+      "actual": "22e6acda06da2244264c0d614e44abb8f078dde8db16ba0a1b0b93407d2b1f40"
+    },
+    "/Users/tantalum/Downloads/形态 A：智能音箱智能屏幕终端（如 小爱触屏音箱、小度在家、FotoCube 等）/形态 A：智能音箱智能屏幕终端（如 小爱触屏音箱、小度在家、FotoCube 等）.md": {
+      "expected": "d98a6f290f3dd7ec2a0f0c77f33c2e23a1d5bd1711d7e87ab71498b4bcaddecb",
+      "actual": "d98a6f290f3dd7ec2a0f0c77f33c2e23a1d5bd1711d7e87ab71498b4bcaddecb"
+    },
+    "output/docx/AY26_ProjectProposal_Group 2.docx": {
+      "expected": "77840891d6827ca9bca09cb2843d21d65797e32608eeaf300a3ab0e09e4376ba",
+      "actual": "77840891d6827ca9bca09cb2843d21d65797e32608eeaf300a3ab0e09e4376ba"
+    },
+    "output/pdf/AY26_ProjectProposal_Group 2.pdf": {
+      "expected": "fc59f5e4a565484f4befd1e36a9b9e5545bd991909aeda1ecdcbdf53192673c0",
+      "actual": "fc59f5e4a565484f4befd1e36a9b9e5545bd991909aeda1ecdcbdf53192673c0"
+    }
+  },
+  "senplate_product_archived_verbatim": true,
+  "initial_full_read": {
+    "files": 86,
+    "lines": 7847,
+    "batches": 69,
+    "completed_at": "2026-09-25T07:57:05.364344+00:00",
+    "changes_during_reading": []
+  },
+  "checks_run": [
+    "full owned Markdown inventory and EOF reading",
+    "local links in all changed/new Markdown",
+    "attached inputs and old proposal preservation hashes",
+    "historical product contract content hash"
+  ],
+  "checks_not_run": [
+    "software tests: documentation-only scope",
+    "new DOCX/PDF render: no new formal proposal created",
+    "hardware/voice tests: no device/API call"
+  ],
+  "final_report_lines": 121,
+  "notes": [
+    "The report and current product/handoff were read back after writing.",
+    "The old proposal and both teammate originals remained byte-for-byte unchanged."
+  ]
+}

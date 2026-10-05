@@ -1,0 +1,5 @@
+{
+  "method": "Figma SVG_STRING in verified chunks",
+  "reason": "Temporary asset URLs returned HTTP202 with an empty body",
+  "full_hash_consistency_checked": true
+}

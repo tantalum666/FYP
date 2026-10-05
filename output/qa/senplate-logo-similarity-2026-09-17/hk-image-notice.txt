@@ -1,0 +1,35 @@
+Browser tab: 10, Title: "Image Mark Finder", URL: "https://image-mark-finder.ipd.gov.hk/captcha".
+0 AXWebArea Image Mark Finder, URL: image-mark-finder.ipd.gov.hk/captcha
+	1 container
+		2 link Description: 跳至主要内容, Value: image-mark-finder.ipd.gov.hk/captcha#main-content
+		3 container
+			4 heading 重要通知, Value: 2
+				5 text 重要通知
+			6 text 1. 商标「智快搜」(「智快搜」)是由香港特别行政区政府知识产权署 (「本署」)设立和管理的网上检索工具，它旨在提供一个额外和特定的途径，用作检索商标注册处处长(「处长」)根据《商标条例》(第559章)所备存的商标注册纪录册(「注册纪录册」)中的图形商标(即包含图片／图样／图像的商标)和组合商标(即包含文字／字样和图片／图样／图像组合的商标)。
+			7 text 2. 所有可透过「智快搜」查阅的资料均来自注册纪录册的记录，而有关记录可透过由本署设立和管理的
+			8 link Description: 网上检索系统, Value: esearch.ipd.gov.hk/nis-pos-view/#/tm/quicksearch?lang=sc
+			9 text 查阅。
+			10 text 3. 「智快搜」所提供的检索结果仅作一般参考，或许不够详尽以满足你的需求，因此「智快搜」 不应 被视作替代网上检索系统。如需获取更全面的商标检索结果，本署强烈建议你另行在网上检索系统使用适当的图样编码、商标文字或其他适合的检索条件进行检索。
+			11 text 4. 「智快搜」提供的检索结果不应被视为处长的官方意见或建议。你可因应需要，在香港提出商标注册申请前，提交
+			12 link Description: 表格第T1号, Value: ipd.gov.hk/sc/trade-marks/forms-and-fees/index.html#t1
+			13 text 及缴付适用费用，要求处长就商标给予翻查注册处纪录的初步意见。
+			14 text 5. 透过「智快搜」查阅到的个人资料均从资料当事人收集，该等资料只为本署
+			15 link Description: 收集个人资料声明, Value: ipd.gov.hk/sc/privacy-policy-statement/personal-information-collection-statement/index.html
+			16 text 所述的目的而提供予公众。《个人资料(私隐)条例》(第486章)(「条例」)适用于该等资料的使用，包括任何资料使用者其后披露或传送该等资料。
+			17 text 6. 本署保留随时并在无须预先通知的情况下修改、增加或暂停「智快搜」的全部或部分检索功能的权利。
+			18 text 7. 「智快搜」受本署不时指明的「
+			19 button 免责条款
+			20 text 」所规限。
+			21 text 8. 请
+			22 text 注意
+			23 text ，点击下方的「接受」键以查阅「智快搜」内的任何资料，即表示
+			24 text 确认
+			25 text 你已阅读和明白上述段落，并且：
+			26 text a) 同意任何可透过「智快搜」查阅的个人资料，只限用于本署
+			27 link Description: 收集个人资料声明, Value: ipd.gov.hk/sc/privacy-policy-statement/personal-information-collection-statement/index.html
+			28 text 第1.3(c)段所述的目的；
+			29 text b) 明白凡为任何其他目的或在违反条例规定的情况下使用该等个人资料，均须面对根据条例採取的执法行动及惩处；以及
+			30 text c) 同意在使用「智快搜」及从其取得的资料时遵守法律。
+			31 button 接受
+
+The focused UI element is 0 AXWebArea Image Mark Finder, URL: image-mark-finder.ipd.gov.hk/captcha

@@ -1,0 +1,36 @@
+{
+  "access_date": "2026-09-21",
+  "sources": [
+    {
+      "title": "Orbbec Gemini 2 official specifications",
+      "url": "https://www.orbbec.com/products/stereo-vision-camera/gemini-2/",
+      "supports": "Active stereo infrared geometry and RGB/depth/point-cloud output; not a nutrient measurement specification."
+    },
+    {
+      "title": "Raspberry Pi Camera Module 3",
+      "url": "https://www.raspberrypi.com/products/camera-module-3/",
+      "supports": "12MP RGB candidate, autofocus and official US$25 starting price; no domestic SKU or project benchmark."
+    },
+    {
+      "title": "FAO Food Composition Data Appendix 6",
+      "url": "https://www.fao.org/4/y4705e/y4705e23.htm",
+      "supports": "Ingredient weights, edible portions, cooking yield, retention, fat/water/refuse adjustments and per-serving calculation."
+    },
+    {
+      "title": "FAO Food Composition Data Chapter 10",
+      "url": "https://www.fao.org/4/y4705e/y4705e15.htm",
+      "supports": "Recipe estimates distinct from analytical values; source variation and documented analytical reference assessment."
+    },
+    {
+      "title": "Nutrition5k author README",
+      "url": "https://github.com/google-research-datasets/Nutrition5k/blob/main/README.md?plain=1",
+      "supports": "Per-ingredient mass, USDA-derived nutrition labels, incremental plate splits and limited cafeteria/cuisine coverage."
+    }
+  ],
+  "method": "Current official web pages and author documentation; no model, chemical analysis or hardware experiment performed.",
+  "inferences": [
+    "RGB-D cannot uniquely recover arbitrary hidden composition from the described surface observations.",
+    "RGB plus calibrated weight should be tested as the task-specific baseline before buying depth enhancement.",
+    "Batch-average nutrition requires additional representative-serving assumptions at portion level."
+  ]
+}

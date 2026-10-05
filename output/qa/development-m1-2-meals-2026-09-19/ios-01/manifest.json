@@ -1,0 +1,17 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "CDECA2AA-10C5-4468-AF45-E1B6221356C6.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "01-phone-pair-request_0_D3BABEF7-FF1F-4CE5-AC7B-75CAD74FCF57.png",
+        "timestamp" : 1789819050.995
+      }
+    ],
+    "testIdentifier" : "MealsUITests/test01RequestPairing()",
+    "testIdentifierURL" : "test://com.apple.xcode/Senplate/SenplateUITests/MealsUITests/test01RequestPairing"
+  }
+]

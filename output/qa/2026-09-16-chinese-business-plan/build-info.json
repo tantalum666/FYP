@@ -1,0 +1,249 @@
+{
+  "source": "/Users/tantalum/Documents/ChatGPT/FYP/planning/2026-09-16/business-plan-zh.md",
+  "output": "/Users/tantalum/Documents/ChatGPT/FYP/output/docx/Group 2_Senplate_商业计划书_中文版_V1.docx",
+  "designed_pages": 17,
+  "tables": [
+    {
+      "rows": 7,
+      "columns": 2,
+      "header": [
+        "商业要素",
+        "本计划的主张"
+      ],
+      "width_ratios": [
+        0.18,
+        0.82
+      ]
+    },
+    {
+      "rows": 5,
+      "columns": 3,
+      "header": [
+        "客户分组",
+        "使用者与付款方",
+        "优先验证的价值"
+      ],
+      "width_ratios": [
+        0.2,
+        0.38,
+        0.42
+      ]
+    },
+    {
+      "rows": 4,
+      "columns": 3,
+      "header": [
+        "同一核心的配置",
+        "首版提供的反馈",
+        "输出边界"
+      ],
+      "width_ratios": [
+        0.16,
+        0.43,
+        0.41
+      ]
+    },
+    {
+      "rows": 6,
+      "columns": 3,
+      "header": [
+        "组成",
+        "主要职责",
+        "范围说明"
+      ],
+      "width_ratios": [
+        0.22,
+        0.39,
+        0.39
+      ]
+    },
+    {
+      "rows": 5,
+      "columns": 3,
+      "header": [
+        "替代方案",
+        "可见能力与优势",
+        "本项目需要证明的价值"
+      ],
+      "width_ratios": [
+        0.2,
+        0.4,
+        0.4
+      ]
+    },
+    {
+      "rows": 5,
+      "columns": 3,
+      "header": [
+        "阶段或项目",
+        "建议价格 HKD",
+        "包含范围与条件"
+      ],
+      "width_ratios": [
+        0.22,
+        0.22,
+        0.56
+      ]
+    },
+    {
+      "rows": 5,
+      "columns": 3,
+      "header": [
+        "环节",
+        "标准操作",
+        "商业成本控制"
+      ],
+      "width_ratios": [
+        0.16,
+        0.44,
+        0.4
+      ]
+    },
+    {
+      "rows": 7,
+      "columns": 3,
+      "header": [
+        "指标",
+        "记录方式",
+        "初始评价要求"
+      ],
+      "width_ratios": [
+        0.19,
+        0.36,
+        0.45
+      ]
+    },
+    {
+      "rows": 7,
+      "columns": 3,
+      "header": [
+        "阶段",
+        "主要成果",
+        "进入下一阶段的依据"
+      ],
+      "width_ratios": [
+        0.17,
+        0.45,
+        0.38
+      ]
+    },
+    {
+      "rows": 4,
+      "columns": 3,
+      "header": [
+        "成员",
+        "计划工作占比",
+        "核心责任"
+      ],
+      "width_ratios": [
+        0.24,
+        0.16,
+        0.6
+      ]
+    },
+    {
+      "rows": 8,
+      "columns": 2,
+      "header": [
+        "单盘位交付项目",
+        "假设金额 HKD"
+      ],
+      "width_ratios": [
+        0.73,
+        0.27
+      ]
+    },
+    {
+      "rows": 4,
+      "columns": 5,
+      "header": [
+        "客户情景",
+        "可影响食材成本／月",
+        "成本减少比例",
+        "扣月费及操作后的净收益／月",
+        "设备回收期"
+      ],
+      "width_ratios": [
+        0.16,
+        0.23,
+        0.17,
+        0.27,
+        0.17
+      ]
+    },
+    {
+      "rows": 14,
+      "columns": 4,
+      "header": [
+        "项目 HKD 另有注明除外",
+        "商业第1年",
+        "商业第2年",
+        "商业第3年"
+      ],
+      "width_ratios": [
+        0.4,
+        0.2,
+        0.2,
+        0.2
+      ]
+    },
+    {
+      "rows": 8,
+      "columns": 3,
+      "header": [
+        "用途",
+        "预留 HKD",
+        "释放依据"
+      ],
+      "width_ratios": [
+        0.36,
+        0.19,
+        0.45
+      ]
+    },
+    {
+      "rows": 9,
+      "columns": 3,
+      "header": [
+        "关键风险",
+        "可能影响",
+        "处理与停止条件"
+      ],
+      "width_ratios": [
+        0.27,
+        0.24,
+        0.49
+      ]
+    },
+    {
+      "rows": 6,
+      "columns": 3,
+      "header": [
+        "变化条件",
+        "首年经营结余 HKD",
+        "对决策的含义"
+      ],
+      "width_ratios": [
+        0.4,
+        0.23,
+        0.37
+      ]
+    },
+    {
+      "rows": 6,
+      "columns": 3,
+      "header": [
+        "假设",
+        "目前依据",
+        "应取得的证据"
+      ],
+      "width_ratios": [
+        0.3,
+        0.3,
+        0.4
+      ]
+    }
+  ],
+  "font": "Arial and Arial Unicode MS",
+  "page_size": "Letter portrait"
+}

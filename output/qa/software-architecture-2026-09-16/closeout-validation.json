@@ -1,0 +1,73 @@
+{
+  "status": "PASS",
+  "completed_at": "2026-09-16T10:55:40.784455+08:00",
+  "checks": {
+    "full_read_complete": true,
+    "all_preserved_deliverables_unchanged": true,
+    "internal_links_valid": true,
+    "markdown_tables_consistent": true,
+    "code_fences_balanced": true,
+    "four_clients_and_internal_simulator": true,
+    "three_modes_and_ordering_retained": true,
+    "separate_provenance": true,
+    "order_reconciliation_and_de_dup": true,
+    "single_station_and_draft_status": true,
+    "roles_40_30_30_unchanged": true,
+    "current_handoff_software_not_rfq": true,
+    "order_example_arithmetic": true,
+    "no_app_manifests_created": true
+  },
+  "plan": {
+    "path": "planning/2026-09-16/software-scope-and-architecture.md",
+    "lines": 189,
+    "sha256": "5ce1260f55f6410f1818630974321cf5202f93c9c97a05b73b52c863fec65cb1"
+  },
+  "project_markdown_files": 28,
+  "local_links_checked": 180,
+  "broken_links": [],
+  "bad_tables": [],
+  "unclosed_fences": [],
+  "preservation": {
+    "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx": true,
+    "output/docx/AY26_ProjectSuggestion_Group 2.docx": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2.pdf": true,
+    "scripts/build_suggestion_v2.py": true,
+    "scripts/build_suggestion.py": true,
+    "planning/2026-09-14/group-2-details.json": true,
+    "planning/2026-09-15/procurement-data.json": true,
+    "outputs/01a07aeb-a256-7572-a42e-bd7e4668674f/Group 2_Hardware Procurement_20260915.xlsx": true,
+    "planning/2026-09-15/power-supply-data.json": true,
+    "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md": true,
+    "planning/2026-09-15/hardware-fabrication-enquiry-v2.md": true,
+    "output/docx/Group 2_Hardware RFQ_v2.docx": true,
+    "output/pdf/Group 2_Hardware RFQ_v2.pdf": true,
+    "output/qa/rfq-v2-2026-09-15/build_rfq.py": true,
+    "planning/2026-09-15/hardware-fabrication-enquiry-v3.md": true,
+    "output/docx/Group 2_Hardware RFQ_v3_Simple.docx": true,
+    "output/pdf/Group 2_Hardware RFQ_v3_Simple.pdf": true,
+    "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md": true,
+    "output/docx/Group 2_Hardware RFQ_v3.1_Images.docx": true,
+    "output/pdf/Group 2_Hardware RFQ_v3.1_Images.pdf": true
+  },
+  "updated_specs": [
+    "product.md",
+    "README.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-14/continuous-monitoring-architecture.md",
+    "planning/2026-09-14/ai-training-and-pi-deployment.md",
+    "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+    "decision-log.md",
+    "work-log.md",
+    "handoff.md"
+  ],
+  "checks_not_run": [
+    "application build or tests",
+    "database migration",
+    "simulator execution",
+    "model training",
+    "physical hardware validation",
+    "deployment"
+  ],
+  "boundary": "Planning and document consistency checks only; no implementation or measured performance claimed."
+}

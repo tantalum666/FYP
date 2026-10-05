@@ -1,0 +1,30 @@
+title = "FYP upload checks"
+
+[extend]
+useDefault = true
+
+# Narrow exceptions verified against original source, including archived copies.
+# No provider-secret rule is disabled and whole QA directories remain scanned.
+[[allowlists]]
+description = "Public UserDefaults route storage identifier; not an access token"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(?:^|[!/])desk-companion/frontend/ios/App/App/(?:AppDelegate|DeskIntents)\.swift$''']
+regexTarget = "match"
+regexes = ['''^forKey:\s*"desk\.pending\.route\.v1"\s*$''']
+
+[[allowlists]]
+description = "Public Figma design file ID recorded as provenance"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(?:^|[!/])(?:output/brand/[^!]+/manifest\.json|Senplate_[^/]+/manifest\.json|output/qa/[^/]+/finalize_assets\.py)$''']
+regexTarget = "match"
+regexes = ['''^file_key["']\s*:\s*["']UyYjnTFGWO0r1lj4uvghGp["']\s*$''']
+
+[[allowlists]]
+description = "SHA256 file-integrity values in historical protection manifests"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(?:^|/)output/qa/[^/]+/protected-(?:before|after)\.json$''', '''(?:^|/)output/qa/task-enhancement-ux-2026-10-03/validation\.json$''']
+regexTarget = "match"
+regexes = ['''^[A-Za-z0-9_.\-/]+["']\s*:\s*["'][a-f0-9]{64}["']\s*$''']

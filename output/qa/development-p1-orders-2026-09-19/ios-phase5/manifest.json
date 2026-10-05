@@ -1,0 +1,17 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "E630749E-4CF6-4189-8A3F-37E5CC0A7622.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "13-work-awaiting-weight_0_52265D31-37C4-4013-861D-40B79F4B3D71.png",
+        "timestamp" : 1789758495.82
+      }
+    ],
+    "testIdentifier" : "OrderingUITests/test05WorkAcceptAndBegin()",
+    "testIdentifierURL" : "test://com.apple.xcode/Senplate/SenplateUITests/OrderingUITests/test05WorkAcceptAndBegin"
+  }
+]

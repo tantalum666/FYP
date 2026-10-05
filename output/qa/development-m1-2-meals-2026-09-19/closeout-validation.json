@@ -1,0 +1,49 @@
+{
+  "completed_at": "2026-09-19T12:29:49.533058+00:00",
+  "owned_markdown_read_before_changes": 81,
+  "updated_or_created_markdown": [
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/software-workflows-and-api.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md",
+    "planning/2026-09-16/app-pages-and-permissions.md",
+    "planning/2026-09-19/meals-samples-contract.md",
+    "research/2026-09-19-nutrition/reference-audit.md",
+    "output/qa/development-m1-2-meals-2026-09-19/verification.md"
+  ],
+  "recovery": "Prior full reading reused; relevant changed files reread.",
+  "protected_assets_checked": 332,
+  "changed_protected_assets": [],
+  "local_links_checked_in_updated_documents": 412,
+  "missing_links": [],
+  "identity": "Group 2; Yuan Yuchen40/Xu Ziqian30/Li Wenhua30 unchanged",
+  "historical_label_note": "decision-log line7 explicitly retires old group formats; preserved as historical record.",
+  "checks": [
+    "55 API tests passed",
+    "Ruff relevant source passed",
+    "Final Web tsc/Vite build passed",
+    "Simulator builds and six staged native passes",
+    "Generic iphoneos compile passed",
+    "Pair parser and actual browser QR decoded",
+    "USDA 4 hashes and 20 values matched",
+    "Web en/zh and 390px checks",
+    "Original-key recovery after response timeout",
+    "Catalogue timeout and refresh",
+    "Native original orders preserved",
+    "Final browser error/warning logs empty after reload"
+  ],
+  "not_verified": [
+    "physical sensing/calibration/vision",
+    "real iPhone QR scan",
+    "iOS17",
+    "full VoiceOver",
+    "native response loss",
+    "long-running load",
+    "deployment or school submission"
+  ],
+  "git": "All files untracked; main has no initial commit; no branch/commit/stash created."
+}

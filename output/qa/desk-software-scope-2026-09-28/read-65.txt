@@ -1,0 +1,90 @@
+FILE work-log.md L91-180
+## 2026-09-15 继续细化单机电源
+
+- 目标：把成品适配器、Pi电源板、Hub、低压分配和线材落实到可核对的型号与配线；仅一台demo。
+- 阅读：沿用本轮全量阅读及补充记录，重新完整读取入口文件、相机供电长文、README、decision-log和work-log，补读采购及架构相关变更段。[阅读与盘点](output/qa/power-supply-detail-2026-09-15/reading-and-inventory.json)。
+- 研究：官方明纬中国系列／中文数据表、亚博产品和Chrome接口／规格图、奥睿科产品与长图、PiPD／显示接口及Gemini2电源条件。未使用搜索中的旧型号或第三方数字替代当前图片；ORICO图为单口1.5A，官方上游字段与实物形态有矛盾，采用原装线并保留到货核对。
+- 交付：[单机供电专项](planning/2026-09-15/power-supply-detail.md)及[数据](planning/2026-09-15/power-supply-data.json)：12V5A、亚博YB-MPP01、ORICO-BT2U3-7AB两路，Hub同时供相机和两条灯；18条记录，人民币预留451–807，非报价。
+- 变更：同步product、README、采购说明、持续架构、相机供电旧候选状态、decision-log及handoff。原P02／M19／X01替换关系写清，原工作簿／JSON与V1/V2保留，未生成新版正式建议书或表格。
+- 验证：[收尾验证](output/qa/power-supply-detail-2026-09-15/closeout-validation.json)核对BOM与预算、功率49.375W假设、内部链接和旧文件哈希。没有上电、PD协商、相机数据或称重实测。
+- 剩余：取得样件后确认HubDC插头与极性、上游供电行为，再测单机整条采集与负载。没有淘宝／京东实际SKU、询价、购买、对外联系或提交。
+
+## 2026-09-15 亚博中文供货与定制合作
+
+- 目标：评估单供应商硬件覆盖、屏幕选择、定制费用和可保留的学生／AI实现工作。
+- 开工：独立完成当前21份项目Markdown全文2348行；采购说明按1–100／101–EOF分段。记录：[full-read-completion](output/qa/yahboom-sourcing-2026-09-15/full-read-completion.json)。完整读取PDF技能；学校原指南12页为图片式，逐页渲染并查看全部页面。
+- 研究：Chrome中文商城在加载完成后查到Pi5、散热、TF卡、7／10.1／15.6寸屏、电源和USB Hub目录；7寸中文详情／课程确认1024×600 TN／IPS、HDMI／USB及Pi5的microHDMI提示。Gemini系列课程与官方OEM／ODM合作说明支持询价候选，未证明单台接单或报价。
+- 判断：优先集中供货和有限加工装配，完整硬件设计单列报价；核心采集、校准、模型、后台与网页和最终测试由组员在AI辅助下实现并能解释。学校鼓励产业合作且强调个人贡献，指南未明确AI比例，不替老师认定全部AI编码获准。
+- 交付：[供应商与屏幕评估](planning/2026-09-15/yahboom-sourcing-and-customization.md)、[未发送询价草稿](planning/2026-09-15/hardware-fabrication-enquiry-draft.md)。人日成本只是明确假设，不是实际报价。
+- 收尾：同步product、README、采购说明、decision-log及handoff；原采购XLSX／JSON、电源数据、V1/V2、身份和学校PDF保留。证据：[closeout-validation](output/qa/yahboom-sourcing-2026-09-15/closeout-validation.json)。
+- 未完成：具体供货单、屏幕切换、电源重算、定制范围／交期和真实报价、Marco对合作边界的意见；没有外部联系、表单提交、采购、硬件测试、代码开发或新建议书。
+
+## 2026-09-15 至16 详细硬件需求与供应商询价V2
+
+- 目标：让供应商理解项目用途、原位持续工作流程和目标成品，并可按具体机械、量测、接口、供电、交付和验收条件报价。
+- 阅读：本轮为紧接供应商评估的补充任务，沿用21份／2348行全读记录，补读新增和变化文件；压缩后恢复入口、当前决定、RFQ全文及待修改规范，组合截断补读。记录：[reading-record.json](output/qa/rfq-v2-2026-09-15/reading-record.json)。Documents／PDF技能已读取，模板选择被拒绝后使用适合技术RFQ的原生Word排版。
+- 内容：明确一台、一个称重位置、同机三个配置；把用途、操作、Metafoodx外观、尺寸／受力／清洁、称重指标、RGB-D与照明、Pi／屏幕、供电线束、原始接口、资料与验收连成完整要求。主报价分别列标准物料和工程服务，补入示范容器；替代及热盘等按选配处理。所有数值为询价目标，供应商须逐项答复偏离。
+- 图片：Chrome查看Metafoodx实际产品页，暂停页内视频并按可见DOM位置截取产品和结构区域；没有生成仿造产品图、推断内部电路或采用厂商宣传为验收值。两张实际使用图片及来源／哈希见[素材依据](planning/2026-09-15/rfq-assets/source.json)。
+- 交付：[完整正文](planning/2026-09-15/hardware-fabrication-enquiry-v2.md)、[Word](<output/docx/Group 2_Hardware RFQ_v2.docx>)、[PDF](<output/pdf/Group 2_Hardware RFQ_v2.pdf>)。10页、9张原生表格、2张图片；报价表18个分项另加合计。旧RFQ全文保留在archive，原入口改为版本索引，两版suggestion及旧采购文件没有覆盖。
+- 排版验证：使用随工具提供的Python和LibreOffice。初次CJK缺字，改为任务内Fontconfig引用现有Arial Unicode字体；未安装全局字体或修改依赖。修复图片段落固定行距导致的裁切及分页溢出，再检查最终render-06全部10页，中文可读且可检索，图表、页码与报价空格完整。最终PDF复制自该已检查渲染，失败的中间导出仅留在QA。
+- 收尾：同步product、README、采购说明、供应商评估、RFQ版本入口、decision-log和handoff；[收尾核对](output/qa/rfq-v2-2026-09-15/closeout-validation.json)记录链接、要求编号、原件哈希、文件存在性及未含成员学号／邮箱。
+- 剩余：供应商能否接受单台、具体型号与工艺、目标性能可达性、分项报价、交期和实际合作范围待答复。未发送询价、填商务表单、下单、签约、运行训练或硬件；正式建议书仍为之前保留版本。
+
+## 2026-09-16 供应商硬件询价V3简化
+
+- 目标：按用户反馈，把供应商工作收敛为类似Metafoodx外形的完整硬件制作和集成，移除过多采购琐项及软件／测试服务要求。
+- 阅读：沿用同一RFQ任务已有全读和V2记录，补读入口、当前要求、V2全文及相关变更段；[本次阅读记录](output/qa/rfq-v3-2026-09-16/reading-record.json)。复用已读取Documents／PDF技能和已验证字体配置，没有重新选择模板或重做竞品研究。
+- 交付：[V3正文](planning/2026-09-15/hardware-fabrication-enquiry-v3.md)、[2页Word](<output/docx/Group 2_Hardware RFQ_v3_Simple.docx>)及[2页PDF](<output/pdf/Group 2_Hardware RFQ_v3_Simple.pdf>)。一张真实Metafoodx截图、一张8类部件表；明确供方完成部件、结构、配电和接线，我方处理系统、代码、校准与测试。
+- 删除范围：不列读卡器、运输条款、供应商驱动／系统、基础校准与测试报告、复杂资料包和细分验收；询价仅需能否制作、总价、周期和替代。参考尺寸和必要电气／受力条件保留，未将部件集成等同于性能达标。
+- 验证：首次渲染即为2页，两页均按原始尺寸查看；中文、图、表、页码无裁切溢出。最终PDF来自已检查渲染。正文对应、文件／内部链接、旧版哈希与范围删除检查见[收尾验证](output/qa/rfq-v3-2026-09-16/closeout-validation.json)。
+- 收尾：同步product、README、采购说明、供应商评估、版本入口、decision-log及handoff。原V2正文／Word／PDF、V1与两版suggestion、采购数据和身份保留。未发送、取得报价、下单、安装系统、写业务代码或测试实物。
+
+## 2026-09-16 RFQ V3.1增加三张外观／场景图
+
+- 目标：补充Metafoodx产品图片，保留用户确认的简化制作范围。
+- 阅读与素材：同一任务增补，沿用全读与V3记录；查看既有官方结构截图、用户PNG和Pomona案例已渲染第1–3页，抽取第2页设备照片并视觉确认；[来源记录](planning/2026-09-15/rfq-assets/source-v3-1.json)。没有生成或修饰产品外观。
+- 交付：[V3.1正文](planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md)、[Word](<output/docx/Group 2_Hardware RFQ_v3.1_Images.docx>)、[PDF](<output/pdf/Group 2_Hardware RFQ_v3.1_Images.pdf>)。共3页、4图，前2页需求与V3一致，仅版本标记变化；附图页含结构大图和2张场景图。
+- 验证：3页均以原始分辨率检查，图片完整、来源清楚、无页溢出；首次抽取PDF图片时误用文件名索引，改用pypdf图片序列后成功，源PDF未修改。[收尾验证](output/qa/rfq-v3-1-images-2026-09-16/closeout-validation.json)核对原正文、图片内容、旧文件保留及内部链接。
+- 收尾：同步当前版本入口、product、README、采购／供应商说明、decision-log及handoff；原V3及更早文件保留，无发送、询价回复、采购或实物测试。
+
+## 2026-09-16 软件端与架构先行梳理
+
+- 目标：硬件暂未完成，先梳理客户端、各端功能、共用后台、三种场景与无硬件开发方法。
+- 开工：按独立工作轮全量读取27份自有Markdown、2965行，共15批；对连续监测架构89–107及RFQ V2的94–195补读截断正文。各文件范围、排除项与完成时间见[全读记录](output/qa/software-architecture-2026-09-16/full-read-record.json)，文件在阅读期间未变化。
+- 研究：官方React/Vite起步路线、FastAPI WebSocket单进程边界与后台重计算说明、MDN PWA安装条件、PostgreSQL行锁资料；无依赖安装或示例执行。当前无应用package.json／pyproject.toml／compose入口。
+- 交付：[软件范围与架构讨论稿](planning/2026-09-16/software-scope-and-architecture.md)。四端＋内部模拟工具，共享Web与后台；各端页面、供餐／学校／个人映射、状态／权限／数据对象、单盘位覆盖、AI与规则分工、Mac到Pi路线及阶段成果均说明。
+- 关键规则：余量／订单预留／未来供应分开，配出与测量对账防双扣，建议接受去重生成任务；模拟、回放、硬件及人工／占位／模型输出留来源；学校匿名样本与个人份量换算沿用既有边界。
+- 收尾：同步product、README、持续采集架构、训练路线、多场景说明、decision-log及handoff。文件链接、状态一致性、分工和旧交付物保留见[收尾核对](output/qa/software-architecture-2026-09-16/closeout-validation.json)。
+- 剩余：页面／字段／状态细则及实际开发、模拟器与硬件接入。没有业务代码、应用测试、训练、真实硬件／商业成效验证、对外联系、采购或部署；RFQ V3.1和两版suggestion保持原样。
+
+## 2026-09-16 Metafoodx App研究与iPhone双角色方案
+
+- 目标：按用户偏好改App优先，仔细研究竞品手机产品；异步补充已确认只做iPhone、同一App涵盖个人／顾客和员工／管理者。
+- 阅读：同一软件规划任务的纠正，继承27份／2965行全读；补读AGENTS、product、handoff、当前软件稿全文及相关研究／变更段。[阅读记录](output/qa/metafoodx-app-architecture-2026-09-16/reading-record.json)。
+- 研究：重读官方移动文章、公司署名2026-09-03发布稿、App Store说明／版本记录，Chrome逐项查看5张iPhone截图和3幅官方功能图。保存5张浏览器证据图；没有安装、登录、操作客户后台或观看专门App视频。HK条目被非重试访问策略阻止，未绕过；Apple部分文档使用官方索引正文，范围如实记录。
+- 结论：竞品公开主线为运营移动查看、单次扫描记录与报告，不能把它当成已验证的顾客点餐／营养App。借鉴信息组织、异常可见性和数据分类；原位持续监测及动作反馈由我们的业务定义和实测来证明。
+- 交付：[研究](research/2026-09-16-metafoodx-app/app-review.md)、[证据](research/2026-09-16-metafoodx-app/evidence.json)、修订后的[架构](planning/2026-09-16/software-scope-and-architecture.md)。SwiftUI iPhone App双身份＋厨房／管理Web＋设备界面，共用后台；旧全Web稿完整归档，前台同步、后台通知和外网访问分开。
+- 收尾：同步product、README、多场景、持续监测、训练图示、decision-log及handoff；[收尾验证](output/qa/metafoodx-app-architecture-2026-09-16/closeout-validation.json)核对链接、身份／角色范围、历史保留和规划状态。未创建应用工程、签名、安装依赖、调用平台账户、训练或部署。
+- 下一步：iPhone双角色页面流程、权限矩阵、API数据链。实际硬件验证及正式建议书修订仍待后续。
+
+## 2026-09-16 App详细设计V1
+
+- 目标：把既有App架构细化到可以分工开发的页面、权限、状态及首批接口；本轮未开始应用编码。
+- 阅读：沿用软件梳理的全读和App研究补充，完整读当前入口、product、软件架构200行和App研究；补读相关日志和README。[阅读记录](output/qa/app-detailed-design-2026-09-16/reading-record.json)。
+- 技能：首次应用SwiftUI UI Patterns，完整读取SKILL、app-wiring和navigationstack，参考Apple底栏与路径文档；只形成导航／状态设计，没有新SwiftUI视图或编译声明。
+- 交付：[页面与权限](planning/2026-09-16/app-pages-and-permissions.md)、[状态与API](planning/2026-09-16/software-workflows-and-api.md)、[开发与验收](planning/2026-09-16/software-mvp-and-acceptance.md)。两套导航、共用／个人／工作／Web／设备页面编号、权限矩阵、四条主线、19项首批接口及JSON例子、批次和待执行场景齐备。
+- 设计复核：明确入盘测量已经改变物理余量，任务确认不再加一次；订单预留在配出核对前保留；未来任务量不算当前供应；换模式／重新绑定不再重复累计上台量。P0基线明确为规则，模拟数据不标已训练AI。
+- 验证：[收尾核对](output/qa/app-detailed-design-2026-09-16/closeout-validation.json)检查链接、表格／图代码围栏、页面与接口编号、JSON语法及数量算例、角色和旧文件保留；不代表文中场景已在App或后台通过。
+- 收尾：同步product、README、总架构、decision-log及handoff；原RFQ、suggestion、采购资料、身份和App研究保留。下一步是M0.1本地最小工程，尚未安装、签名、部署、训练或进行任何硬件测试。
+
+## 2026-09-16 品牌命名与三套视觉方向
+
+- 目标：依用户最新要求暂停立即编码的安排，先提供名字、Logo、App图标和界面气质供选择，再还原。
+- 阅读：承接同一软件规划任务的全读与补读；恢复当前入口、业务页面、架构和开发规格，读取Product Design ideate相关技能与ImageGen，预检无保存的设计上下文。[阅读记录](output/qa/brand-directions-2026-09-16/reading-record.json)。
+- 命名：按三场景与双角色筛选，做有限公开同名搜索；Mealume、Serviqo等已见现成使用的候选未采用。Portemi、Traysen、Melsori仅作候选，没有宣称商标或域名可用。
+- 交付：[品牌方向说明](planning/2026-09-16/brand-visual-directions.md)、[三张原图与显示顺序](output/brand/2026-09-16/manifest.json)、三个完整提示词。内置ImageGen独立生成，实际显示顺序1食度／2餐序／3餐伴，均未选定。
+- 视觉检查：三图均已查看，文字／数量／来源／主动作足以比较方向；记录Logo小尺寸一致性、繁体字形、色标、手机比例等待定稿项。Traysen额外生成的托盘外观只作品牌应用示意，不当成硬件结构更改。
+- 收尾：更新product、README、页面基线、软件架构、开发下一步、decision-log及handoff；[收尾核对](output/qa/brand-directions-2026-09-16/closeout-validation.json)检查资产／提示词／链接／保留资料。没有应用代码、Figma文件、训练、实物测试、对外消息、采购或部署。
+- 唯一下一步：用户选择或组合／修改视觉；需要修改先出调整图。旧M0.1直接开工下一步已被本轮指令取代，原建议书和RFQ文件保持原样。
+
+## 2026-09-16 仅命名的候选比较

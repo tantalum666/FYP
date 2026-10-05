@@ -1,0 +1,79 @@
+{
+  "completed_at": "2026-09-17T16:28:01.777681+00:00",
+  "protected_count": 263,
+  "protected_changed": [],
+  "old_figma_nodes": 23,
+  "old_figma_nodes_unchanged": true,
+  "shared_source_geometry": [
+    {
+      "name": "outer-body",
+      "sourceIdentical": true
+    },
+    {
+      "name": "rim-seam",
+      "sourceIdentical": true
+    },
+    {
+      "name": "foot-seam",
+      "sourceIdentical": true
+    },
+    {
+      "name": "Full elliptical mouth",
+      "sourceIdentical": true
+    }
+  ],
+  "wordmark_identical": true,
+  "layout_identical": true,
+  "png_comparison": {
+    "baseline": "V6.2",
+    "allowed_design_regions": [
+      "mouth y<=90",
+      "right level mark region x>=240,y80..150"
+    ],
+    "pixels_outside": 11,
+    "pixels_inside": 6532,
+    "exact_raster_match_outside_edit_regions": false,
+    "reviewed_edge_pixels": 11,
+    "max_edge_distance_pixels": 0.5384,
+    "max_alpha_delta": 32,
+    "review": "All 11 extra pixels lie within one raster pixel of the unchanged circular body construction boundary; Boolean subdivision changes edge rasterization. Common source operand is identical; no whole-image pixel identity claim.",
+    "bounded_edge_rasterization_difference": true
+  },
+  "svg": [
+    {
+      "file": "visible-logo.svg",
+      "paths": 9,
+      "text_nodes": 0
+    },
+    {
+      "file": "visible-symbol.svg",
+      "paths": 1,
+      "text_nodes": 0
+    }
+  ],
+  "visual_review": [
+    "comparison1440x760",
+    "detail960x720",
+    "actual32px ivory",
+    "actual64px ivory",
+    "full preview1774x887"
+  ],
+  "limitations": "32px curve detail is reduced; no device/user recognition test or approval",
+  "updated_markdown": [
+    "brand.md",
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md",
+    "planning/2026-09-18/senplate-v6-visible-ticks.md",
+    "output/brand/2026-09-18-senplate-v6-visible-ticks/README.md"
+  ],
+  "application_tests": "not applicable",
+  "local_links_checked": 379,
+  "broken_links": [],
+  "all_checks_passed": true,
+  "checks_scope": "Preservation, common construction operands, reviewed local change, valid vector exports and links; not user design acceptance"
+}

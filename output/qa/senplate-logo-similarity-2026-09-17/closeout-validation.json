@@ -1,0 +1,89 @@
+{
+  "document_checks": "PASS",
+  "research_status": "HK_IMAGE_SEARCH_COMPLETED_SIMILAR_MARK_FOUND_NOT_GLOBAL_CLEARANCE",
+  "completed_at": "2026-09-17T01:56:50.614040+00:00",
+  "updated_specs": [
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-17/senplate-vector-logo-studies.md",
+    "planning/2026-09-16/logo-reference-calibration.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md",
+    "research/2026-09-17-logo-similarity/similarity-review.md"
+  ],
+  "links_checked": 547,
+  "broken_links": [],
+  "protected_files": 55,
+  "protected_changes": [],
+  "image_checks": [
+    {
+      "path": "research/2026-09-17-logo-similarity/comparison.jpg",
+      "format": "JPEG",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "0078cfd59668f43b04eca809c9a3863e915e0b98656c896c25f3615198f0223e"
+    },
+    {
+      "path": "research/2026-09-17-logo-similarity/senplate-query-192.png",
+      "format": "PNG",
+      "size": [
+        192,
+        192
+      ],
+      "sha256": "93555d6ab0e4dc6ee070d0b9cb60ae69429d14bcf3f6a47df78d322405995aa6"
+    },
+    {
+      "path": "output/qa/senplate-logo-similarity-2026-09-17/aqua-tsdr.jpg",
+      "format": "JPEG",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "3919eb91bdb609fcfca60d8f249f3700c139c9f107f5f4868725cc9433bf2a0f"
+    },
+    {
+      "path": "output/qa/senplate-logo-similarity-2026-09-17/hk-303321710-full.jpg",
+      "format": "JPEG",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "c866be17375d481b9a41d764942bcfeec51f6cfacc7354037ee3eeea989ab25e"
+    },
+    {
+      "path": "output/qa/senplate-logo-similarity-2026-09-17/hk-307039215.jpg",
+      "format": "JPEG",
+      "size": [
+        1280,
+        720
+      ],
+      "sha256": "756e4d2c275d74d8f37fe1bb713161b47d9cfbd9d58ab5471afb8e48c5c2fe6b"
+    }
+  ],
+  "visual_review": "International comparison inspected at full 1280x720 through CUA screenshot API; full official HK registered image and status inspected. Failed clipped/remote HK comparison archived only in QA. Screenshots are native JPEG bytes, no raster re-editing.",
+  "official_checks": {
+    "US": "Aqua pure device 90678592 / 6622466; live, 9/42; owner, scope and drawing verified",
+    "HK": "One full unchanged-symbol query: 300 result entries, metadata reviewed for first 50 (37 distinct numbers), two class 9 registry records inspected and registered status verified",
+    "no_captcha_by_agent": true,
+    "user_consent_received": true,
+    "pending_permissions": null
+  },
+  "remaining_coverage": [
+    "WIPO navigation blocked",
+    "CNIPA and EU-wide graphic clearance not completed",
+    "Not all 300 HK candidates manually inspected"
+  ],
+  "cleanup": "All task-created source/query/preview tabs closed; local HTTP preview stopped; existing user tabs left alone",
+  "unchanged": [
+    "Original Senplate PNG/SVG/Figma",
+    "Official project documents",
+    "Group identity",
+    "No app coding",
+    "No filings, purchases or external messages"
+  ]
+}

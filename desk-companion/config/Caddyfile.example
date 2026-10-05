@@ -1,0 +1,8 @@
+# Set DESK_HOST to the actual desk hostname. Users must trust the local CA before
+# pairing a phone. Do not bypass certificate warnings or expose the API directly.
+{$DESK_HOST} {
+    tls internal
+    reverse_proxy 127.0.0.1:8831
+    header Referrer-Policy no-referrer
+    # Access logs are intentionally not enabled; OAuth callbacks contain codes.
+}

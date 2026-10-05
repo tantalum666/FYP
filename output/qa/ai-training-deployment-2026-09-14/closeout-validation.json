@@ -1,0 +1,43 @@
+{
+  "checked_at": "2026-09-14T16:30:04.218219+08:00",
+  "project_markdown_count": 18,
+  "initial_full_read_count": 17,
+  "initial_full_read_lines": 1473,
+  "changed_markdown": [
+    "README.md",
+    "decision-log.md",
+    "handoff.md",
+    "planning/2026-09-14/ai-training-and-pi-deployment.md",
+    "planning/2026-09-14/continuous-monitoring-architecture.md",
+    "product.md",
+    "work-log.md"
+  ],
+  "local_links_checked": 73,
+  "broken_local_links": [],
+  "undefined_footnotes": [],
+  "table_errors": [],
+  "preserved_files": {
+    "output/docx/AY26_ProjectSuggestion_Group 2.docx": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2.pdf": true,
+    "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf": true,
+    "scripts/build_suggestion.py": true,
+    "scripts/build_suggestion_v2.py": true,
+    "planning/2026-09-14/group-2-details.json": true
+  },
+  "scope_checks": {
+    "expected_markdown_changes_only": true,
+    "training_not_executed": true,
+    "cpu_route": true,
+    "independent_splits": true,
+    "rgbd_requires_explicit_handling": true,
+    "no_automatic_online_learning": true,
+    "large_model_tuning_not_shrinking": true,
+    "sampling_count_not_accuracy_guarantee": true
+  },
+  "training_executed": false,
+  "model_export_executed": false,
+  "pi_inference_executed": false,
+  "new_docx_pdf_generated": false,
+  "passed": true
+}

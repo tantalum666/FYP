@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-09-29T10:40:34.247725+00:00",
+  "updated_markdown": [
+    "product.md",
+    "handoff.md",
+    "README.md",
+    "decision-log.md",
+    "work-log.md",
+    "research/2026-09-29-voice-ai/naturalness-and-tools-review.md",
+    "research/2026-09-29-voice-ai/price-and-value-ranking.md"
+  ],
+  "links_checked": 470,
+  "missing_links": [],
+  "fence_errors": [],
+  "protected_files": 6,
+  "protected_changes": [],
+  "arithmetic": "computed and saved; history example 10.26 USD",
+  "browser_verified": [
+    "Step official stepaudio-3-realtime-preview temporarily free",
+    "Doubao unified realtime rates; exact 3.0 mapping not established"
+  ],
+  "scope": "Research only. No paid API, trial activation, audio listening, mic access, document or application changes.",
+  "status": "PASS"
+}

@@ -1,0 +1,239 @@
+FILE output/brand/2026-09-17-senplate-bowl-golden-v6/README.md L1-25
+# Senplate · Solid Bowl Golden Vector V6
+
+2026-09-17。以用户授权继续加工的V5实体碗概念为参考，完成可编辑矢量与黄金比例测量。本版不是原像素的逐点描摹，也不代表已获得用户最终审美批准。
+
+## 文件
+
+- `senplate-logo-green.svg`：主色横向Logo；black／white使用同一几何。
+- `senplate-symbol-green.svg`：独立符号；black／white使用同一几何。
+- `senplate-wordmark.svg`：Manrope Bold转轮廓字标。
+- `senplate-logo-green.png`、`senplate-symbol-green.png`：透明PNG。
+- `senplate-preview.png`：米白底主稿；`golden-construction.png`：A–F构造；`monochrome-and-sizes.png`：黑白与小尺寸检查。
+- `senplate-symbol-32.png`、`64.png`、`128.png`：方形透明画布内等比居中的检查样本。
+- `golden-ratios.json`：目标与从最终Figma路径测量的结果；`manifest.json`：文件来源、尺寸与哈希。
+- `source-v5-concept.png`：原V5生成图保留参考。
+- `Manrope-OFL.txt`：所选字体家族的SIL OFL 1.1文本；未附字体二进制。
+
+## 构造与使用
+
+目标尺寸系列：320、197.770876、122.229124、75.541753、46.687371、28.854382；相邻尺寸之比为φ≈1.618034。197.770876指后口沿顶部至碗身／底脚分界，**不含底脚**。最终导出的最大尺寸误差小于0.001设计单位，详见JSON；SVG／PNG外画布可能取整，不用画布尺寸代替实际轮廓测量。
+
+使用深绿#163F35、米白#F3F1E7、黑#000000、白#FFFFFF。保持等比缩放；符号建议32px起，较细口沿和脚底分界优先48px以上使用。PNG放大超过分辨率仍有像素，印刷／加工优先SVG并按工艺打样。
+
+字标使用Senplate。字体选择是本轮的确定实现方案，不是宣称找到了生成图里的原字体；Figma同时保留文本和轮廓。新稿没有商标检索结论，不是完整VI或App图标实现。
+
+[Figma源稿](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=79-2)／[完整构造说明](../../../planning/2026-09-17/senplate-bowl-golden-v6.md)／[Manrope授权来源](https://raw.githubusercontent.com/google/fonts/main/ofl/manrope/OFL.txt)。
+
+FILE output/brand/2026-09-17-senplate-bowl-redesign-v5/README.md L1-15
+# Senplate V5 · 实体碗候选
+
+2026-09-17。用户明确否决V4的碗识别度并要求重新设计，本目录是新概念，尚未选定。
+
+- `bowl-01-concept.png`：当前米白底展示版，1774×887、不透明RGB；有完整碗口、实体碗身和底脚，字标为Senplate。
+- `bowl-01-generated.png`：第一次生成的透明原稿，保留追溯。
+- `manifest.json`：生成方式、来源、尺寸、哈希及能力边界。
+
+两张均来自内置ImageGen；第二张以第一张为目标作浅底与平面化编辑，复制原生字节保存。没有Python图像修改或CLI/API替代。
+
+本稿仍有轻微生成纹理及口沿／底脚细线；它是用于判断造型的栅格效果图，不是已经完成的纯色矢量、最终字体、黄金比例检验或App图标素材。造型通过用户评价后再矢量清理和做小尺寸检查。阶梯形留白表达份量／水平参照的设计意图，不是已验证的用户理解结果。
+
+首字母大写是本候选的设计建议，与iOS名称Senplate一致，尚未作为新Logo写法获用户确认。旧A／V1–V4保留历史，当前不再按环形盘沿路线继续修补。
+
+[完整背景与实际提示词](../../../planning/2026-09-17/senplate-bowl-redesign-v5.md)。没有新商标检索、注册、整套VI或App实现。
+
+FILE output/brand/2026-09-17-senplate-ellipse-a-v4/README.md L1-29
+# Senplate Brand Assets V4 — Shared Ellipse Curves
+
+2026-09-17。针对用户指出的左右盘沿弧度不同，在A构图基础上重新构造盘沿。V3与更早素材保留，当前使用V4修正版。
+
+## 本次修正
+
+盘沿的外边和内边分别来自同心、同轴的两条完整椭圆，左右关于x=160镜像；两个开口用镜像的圆角连接，并与椭圆边界相切。左右对应位置的厚度一致，前缘稍厚于两侧。份量形状和感知点保留偏置；镜像要求适用于盘沿，不是整个符号。
+
+黄金比例用于构造尺寸：外椭圆320×122.2291，宽高比为φ²≈2.618；外／内椭圆高度122.2291／75.5418=φ；份量高度75.5418／圆点直径46.6874=φ。完整构造椭圆的尺寸与裁去开口后的可见外接框不同。整体符号外框不再强制为1.618。
+
+## 使用文件
+
+- `senplate-logo-green.svg`：默认小写横向Logo；black／white为同几何配色。
+- `senplate-logo-*.png`：2036×360透明PNG；独立符号三色PNG为1280×720。
+- `senplate-mark-*.svg`、`senplate-wordmark-green.svg`：独立符号与字标路径。
+- `app-icon-*-1024.png`：1024×1024完整方形图标源图，默认forest。
+- `brand-preview.png`：主色、黑白与图标版。
+- `curves-before-after.png`：V3／V4整体对照；`bowl-before-after.png`：仅盘沿的放大对照。
+- `ellipse-construction.png`、`ellipse-construction-grid.svg`：共享椭圆与镜像构造说明，不作日常Logo使用。
+- `bowl-only.svg/png`：用于单独检查盘沿，PNG为1280×489；日常应用优先使用完整符号。
+- `senplate-capital-s-comparison.svg/png`：大写S对照，未选为默认。
+- `senplate-mark-24.png`、`senplate-mark-32.png`、`senplate-mark-64.png`：小尺寸检查样本。
+- `source-selected-a.png`：用户选择的原始参考板；`manifest.json`：构造、验证、节点及文件哈希。
+
+颜色为深绿#163F35、米白#F3F1E7、黑#000000、白#FFFFFF。Logo仍用senplate，iOS显示名称、App名称及正文写Senplate。字母路径保持，不因修盘沿更换字体或拉伸字形。
+
+等比缩放；建议符号至少32px宽，优先48px以上。SVG用于缩放和加工，PNG在过度放大时仍有像素。图标源图不预裁圆角。数学镜像、PNG边缘抗锯齿差异和视觉评价分别记录；黄金比例不自动证明更美观。
+
+[Figma品牌板](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=69-2)／[仅盘沿对照](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=71-2)。无新商标查询、注册或App实现。
+
+FILE output/brand/2026-09-17-senplate-golden-a-v3/README.md L1-36
+# Senplate Brand Assets V3 — Golden Ratio
+
+2026-09-17。根据用户要求，在已选A构图与V2平滑轮廓基础上，使用黄金分割调整主要尺寸。V2没有按黄金比例构造；其文件与原图完整保留。
+
+## 比例依据
+
+φ = (1 + √5) / 2 ≈ 1.6180339887。下列数字是矢量设计单位，不是设备毫米。
+
+| 关系 | 尺寸或位置 |
+|---|---|
+| 符号整体宽／高 = φ | 320／197.7708764 |
+| 盘内份量宽／高 = φ | 122.2291236／75.5417528 |
+| 感知点中心的左右分割 = φ | x = 197.7708764，即总宽的61.8034% |
+| 圆点直径／图文间距 = φ | 46.6873708／28.8543820 |
+| 符号高度／字母l主竖笔高度 = φ | 197.7708764／122.2291236 |
+
+主要尺寸先由φ计算，再构建路径。曲线衔接与字母细节保留视觉调整；不是声称每个节点来自黄金螺线，也不把数学比例当作用户审美测试。字母路径延续V2，仅统一等比缩放及重新定位。
+
+## 文件
+
+- `senplate-logo-green.svg`：默认全小写横向Logo；black／white为同轮廓单色版。
+- `senplate-mark-*.svg`、`senplate-wordmark-green.svg`：独立符号与字标。
+- `senplate-logo-*.png`：2036×396透明PNG；三种颜色的独立符号PNG为1280×792。
+- `app-icon-*-1024.png`：1024×1024完整方形图标源图，默认forest。
+- `golden-ratio-construction.png`：实际构造网格与比例说明；`construction-grid.svg`：无文字的矢量构造网格，不作日常Logo使用。
+- `proportions-before-after.png`：V2原比例与V3黄金比例的实际对照。
+- `brand-preview.png`：主色、黑白与图标预览。
+- `senplate-capital-s-comparison.svg/png`：大写S备选对照；未改为默认Logo。
+- `senplate-mark-24/32/64.png`：24、32、64px小尺寸样本。
+- `source-selected-a.png`：原始参考板；`manifest.json`：来源、实际尺寸、构造参数与文件哈希。
+
+主色#163F35，米白#F3F1E7。Logo目前仍为senplate；iOS显示名称、正文和项目标题用Senplate。保留餐盘、份量、圆点及单层a，不改变品牌名称。
+
+SVG按矢量设计尺寸缩放；PNG像素尺寸经整数取整，因此其宽高整数比不会与φ完全相同。图标源图不预裁圆角。建议符号至少32px宽，优先48px以上；24px只保留作检查样本。
+
+[Figma品牌板](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=61-2)／[构造图](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=62-2)。本版未做新商标检索、注册或App实现。
+
+FILE output/brand/2026-09-17-senplate-refined-a-v2/README.md L1-25
+# Senplate Brand Assets V2 — Smooth Reconstruction
+
+2026-09-17。在已选A方案上修复V1自动描摹带来的毛边。V1素材包和原始参考板保留，当前使用V2。
+
+## 本版内容
+
+- `senplate-logo-green.svg`：默认全小写横向Logo；另有black／white同轮廓版本。
+- `senplate-mark-*.svg`：独立符号；`senplate-wordmark-green.svg`：独立字标路径。
+- `senplate-logo-*.png`：2056×340透明PNG；`senplate-mark-green/black/white.png`：1300×680透明PNG。
+- `app-icon-*-1024.png`：三个1024×1024方形图标源图，默认forest深绿底。
+- `capitalization-comparison.png`：全小写与首字母大写对照；当前建议Logo用小写，报告／正文／产品名称用Senplate。
+- `senplate-capital-s-comparison.svg/png`：首字母大写对照，尚未选作默认Logo。
+- `edge-comparison.png`：修复前后的放大对照；`brand-preview.png`：精修版全套预览。
+- `senplate-mark-24.png`、`senplate-mark-32.png`、`senplate-mark-64.png`：小尺寸样本。
+- `source-selected-a.png`：用户选中的原始参考板，字节不变；`manifest.json`：版本、来源、尺寸、节点与哈希。
+
+## 使用说明
+
+主色#163F35，米白#F3F1E7。图形、圆点和图文字距等比例缩放，不单独拉伸。符号建议至少32px宽、优先48px以上；24px虽已清理轮廓，盘沿仍因宽扁比例而偏细。
+
+V2使用明确的少量Bezier曲线、圆形轮廓及水平／垂直边重建，保留原选定构图。字母按原图结构重新整理，保持小写和单层a；没有宣称识别到原图字体，也没有自动替换为历史字体。与V1存在有意识的轮廓修正，并非逐像素复制。
+
+用于缩放和加工的优先文件是SVG。PNG为Figma原生导出的像素图，放大超过原始尺寸仍会看到像素。图标源图未裁圆角；预览圆角只表示使用效果。
+
+[Figma品牌板](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=55-2)／[大小写对照](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=56-2)。本版没有新的商标检索或应用实现；原图口号未定为正式文案。
+
+FILE output/brand/2026-09-17-senplate-selected-a/README.md L1-28
+# Senplate Brand Assets V1
+
+2026-09-17。基于用户明确选定的“A方案·细化版”。原参考板上方大号深绿 Logo 为统一依据。
+
+## 日常使用
+
+| 文件 | 用途 |
+|---|---|
+| `senplate-logo-green.svg` | 默认横向 Logo，可缩放路径 |
+| `senplate-logo-black.svg`、`senplate-logo-white.svg` | 同一轮廓的纯黑、反白版本 |
+| `senplate-logo-*.png` | 1600px宽、透明底，便于文档／演示使用 |
+| `senplate-mark-*.svg`、`senplate-mark-*.png` | 独立符号；PNG为512px宽 |
+| `senplate-wordmark-green.svg` | 原图字标的轮廓路径，不是可编辑字体文本 |
+| `app-icon-*-1024.png` | 1024×1024完整方形图标源图；默认forest |
+| `senplate-mark-24.png`、`32.png`、`64.png` | 小尺寸检查样本；24px盘沿偏细，建议至少32px、优先48px以上 |
+| `brand-preview.png` | 主色、单色及图标的组合预览 |
+| `source-selected-a.png` | 用户选中的原始参考板，原始字节保留 |
+| `manifest.json` | 来源、导出节点、尺寸、哈希与状态 |
+
+## 约定
+
+深绿 `#163F35`、米白 `#F3F1E7`、黑 `#000000`、白 `#FFFFFF`。图形和字标等比缩放，不改变餐盘、份量形状或圆点的相对关系。主 Logo 图文间距已包含在 SVG 中。
+
+SVG是对原图上方主色版进行轮廓提取、边缘清理后的平面版本；PNG由Figma原生导出。所有配色共用同一轮廓。原图字体名称未确认，未替换字体，不把历史Manrope稿件混入此包。
+
+原图说明文字和口号留作参考；没有正式中文品牌名。已选择本视觉，不等于完成新图形的商标检索或注册。文件不含组员身份资料，也不含应用实现或发布结果。
+
+[Figma选定品牌板](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=36-6)。完整项目规范见仓库根目录`brand.md`。
+
+FILE output/brand/2026-09-17-senplate-v6-tick-study/README.md L1-14
+# Senplate V6.1 · Tick-mark trial
+
+2026-09-17。独立刻度试稿，尚未替代V6。用户要求保留的V6素材、SVG、原规范与QA记录没有被覆盖。
+
+- `tick-comparison.png`：上方V6原版，下方刻度试稿。
+- `tick-preview.png`：刻度版完整组合。
+- `tick-logo.svg`／`tick-symbol.svg`：可编辑矢量；沿用V6字标与主要比例。
+- `tick-symbol.png`：960×680透明PNG。
+- `tick-32.png`／`tick-64.png`：小尺寸检查样本；32px刻度较细，64px更清楚。
+- `manifest.json`：修改范围、尺寸、不变量与文件哈希。
+
+变化只有口沿阶梯改为完整椭圆开口，以及碗身右侧的三条长—短—长刻度。刻线无数值和单位，不表示实际测量读数。字标Senplate、Manrope Bold及深绿／米白配色全部沿用；字体许可见保留的V6包。
+
+[Figma对照](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=85-13)／[试稿说明](../../../planning/2026-09-17/senplate-v6-tick-study.md)／[保留的V6](../Senplate_Bowl_Golden_Vector_v6.zip)。
+
+FILE output/brand/2026-09-18-senplate-plain-bowl-v7/README.md L1-13
+# Senplate V7 · 当前选定的纯碗Logo
+
+2026-09-18，用户明确选择不用刻度，只保留碗形。此前所有版本保留为历史。
+
+- `senplate-logo.svg`／`senplate-logo.png`：横向Logo，透明底；SVG字标已转轮廓，PNG宽2400px。
+- `senplate-symbol.svg`／`senplate-symbol.png`：独立纯碗符号，透明底，PNG宽960px。
+- `senplate-preview.png`：米白底完整预览。
+- `senplate-symbol-64.png`：64px米白底检查样本。
+- `Manrope-OFL.txt`：沿用既有字体许可副本；`manifest.json`：文件清单。
+
+主色#163F35，底色#F3F1E7，字标Senplate（大写S）。按比例缩放，SVG用于清晰缩放；这是核心Logo文件包，不是完整VI或已接入App的图标。
+
+[说明](../../../planning/2026-09-18/senplate-plain-bowl-v7.md)／[Figma](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=106-13)／[QA](../../qa/senplate-plain-bowl-v7-2026-09-18/closeout-validation.json)。
+
+FILE output/brand/2026-09-18-senplate-v6-curved-ticks/README.md L1-9
+# Senplate V6.4 · 弧度调整试稿
+
+2026-09-18。独立试稿，未选用；V6及V6.1–V6.3保持原样。
+
+`curved-preview.png`、`curved-comparison.png`、`curved-detail.png`为整体／对照／放大；`curved-symbol.png`为960px透明图，`curved-32.png`与`curved-64.png`为实际尺寸米白底样本。`curved-logo.svg`及`curved-symbol.svg`是Figma原生矢量，字标转轮廓。
+
+三条刻线增加曲率，位置锚点、水平跨度和线宽沿用。主色#163F35、米白#F3F1E7，字标及宏观比例保持。
+
+[详细说明](../../../planning/2026-09-18/senplate-v6-curved-ticks.md)／[QA](../../qa/senplate-v6-curved-ticks-2026-09-18/closeout-validation.json)／[Figma](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=97-46)。
+
+FILE output/brand/2026-09-18-senplate-v6-inner-scale/README.md L1-9
+# Senplate V6.5 · 内壁刻度试稿
+
+2026-09-18。独立符号试稿，未选用。用户明确问题为刻度像划痕、和碗不融合。
+
+`inner-comparison.png`左旧切口、右新内壁刻度；`inner-detail.png`为放大图，`inner-symbol.svg`／`inner-symbol.png`为符号矢量／透明PNG，`inner-32.png`／`inner-64.png`为实际尺寸米白底样本。
+
+原V6及全部历史试稿保持，主色#163F35／底色#F3F1E7；当前仅比较符号连接方式，未新制横向字标、整套VI或应用图标。
+
+[设计说明](../../../planning/2026-09-18/senplate-v6-inner-scale.md)／[QA](../../qa/senplate-v6-inner-scale-2026-09-18/closeout-validation.json)／[Figma](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=102-2)。
+
+FILE output/brand/2026-09-18-senplate-v6-rim-tick-study/README.md L1-15
+# Senplate V6.2 · 碗沿微刻度试稿
+
+2026-09-18。独立试稿，未选用。V6和V6.1原文件保持不变。
+
+- `rim-preview.png`：完整Logo，米白底。
+- `rim-comparison.png`：上V6.1碗壁刻线，下V6.2碗沿微刻度。
+- `rim-detail.png`：符号放大图，米白底。
+- `rim-logo.svg`、`rim-symbol.svg`：Figma原生矢量导出，文字已转轮廓。
+- `rim-symbol.png`：960px宽透明图；`rim-32.png`、`rim-64.png`为原生小尺寸样本。
+
+配色#163F35／#F3F1E7，字标沿用Manrope Bold和Senplate大写S。外轮廓、底脚、字标和宏观比例保持，刻痕参数按视觉调整。小尺寸下刻痕较弱，不以它作为唯一识别点。
+
+[设计说明](../../../planning/2026-09-18/senplate-v6-rim-tick-study.md)／[检查记录](../../qa/senplate-v6-rim-tick-study-2026-09-18/closeout-validation.json)／[Figma对照](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=89-33)。
+
+此稿没有替换默认品牌、扩展整套VI或做新商标查询。

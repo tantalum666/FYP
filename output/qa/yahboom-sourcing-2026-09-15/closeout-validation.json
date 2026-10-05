@@ -1,0 +1,62 @@
+{
+  "status": "passed",
+  "completed_at": "2026-09-15T23:07:21.741508+08:00",
+  "full_read_files": 21,
+  "full_read_lines": 2348,
+  "current_markdown_files": 23,
+  "guide_pages_visually_reviewed": 12,
+  "guide_original_unchanged": true,
+  "new_artifacts": [
+    "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+    "planning/2026-09-15/hardware-fabrication-enquiry-draft.md"
+  ],
+  "changed_specs": [
+    "README.md",
+    "decision-log.md",
+    "handoff.md",
+    "planning/2026-09-15/procurement-guide.md",
+    "product.md",
+    "work-log.md"
+  ],
+  "preservation": {
+    "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx": true,
+    "output/docx/AY26_ProjectSuggestion_Group 2.docx": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2.pdf": true,
+    "scripts/build_suggestion_v2.py": true,
+    "scripts/build_suggestion.py": true,
+    "planning/2026-09-14/group-2-details.json": true,
+    "planning/2026-09-15/procurement-data.json": true,
+    "outputs/01a07aeb-a256-7572-a42e-bd7e4668674f/Group 2_Hardware Procurement_20260915.xlsx": true,
+    "planning/2026-09-15/power-supply-data.json": true
+  },
+  "excluded_transient_office_lock_files": [
+    "output/docx/.~26_ProjectSuggestion_Group 2.docx",
+    "output/docx/.~26_ProjectSuggestion_Group 2_v2_MultiScenario.docx"
+  ],
+  "validation_repair": "First preservation pass encountered an office .~ temporary lock file that no longer existed. Excluded office lock files from deliverable checks; did not recreate or alter them. All stable source/deliverable files rechecked.",
+  "internal_links_checked": 130,
+  "broken_links": [],
+  "checks": [
+    "all initial project Markdown full bodies recorded",
+    "school guide all12 pages rendered and read; original unchanged",
+    "enquiry explicitly unsent, no student ids",
+    "cost arithmetic matches hypothetical rate",
+    "new screen remains candidate and existing baseline retained",
+    "local links and stable original outputs verified"
+  ],
+  "not_performed": [
+    "supplier contact or enquiry submission",
+    "purchase or contract",
+    "screen replacement or hardware test",
+    "project code implementation or model training",
+    "new suggestion or workbook edition",
+    "supplier pricing/MOQ agreement",
+    "GenAI policy approval"
+  ],
+  "remaining": [
+    "supplier quotes and single-unit acceptance",
+    "Marco discussion on precise contribution/assistance scope",
+    "screen interface/power verification if selected"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "native_png_size": [
+    960,
+    680
+  ],
+  "allowed_design_regions": [
+    "mouth at y<=90",
+    "ticks x190..252,y94..151"
+  ],
+  "outside_change_region_max_alpha_difference": 0.0,
+  "outside_change_region_mean_alpha_difference": 0.0,
+  "outside_change_region_pixels_over_3": 0
+}

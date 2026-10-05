@@ -1,0 +1,76 @@
+{
+  "completed_at": "2026-09-18T19:28:35.837550+00:00",
+  "updated_markdown": [
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/app-pages-and-permissions.md",
+    "planning/2026-09-16/software-workflows-and-api.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md",
+    "planning/2026-09-19/menu-orders-contract.md",
+    "output/qa/development-p1-orders-2026-09-19/verification.md"
+  ],
+  "local_links_checked": 427,
+  "broken_links": [],
+  "protected_files_checked": 332,
+  "protected_files_changed": [],
+  "reading_files": 80,
+  "reading_lines": 7017,
+  "reading_complete": true,
+  "checks": [
+    "33 pytest cases passed",
+    "one pickup ASCII case rerun passed",
+    "Ruff passed",
+    "Web TS/Vite production build passed",
+    "8 staged XCTest cases passed",
+    "generic iphoneos unsigned build passed",
+    "Swift parser 4 valid and 9 invalid cases passed",
+    "real Web QR decoded by Apple Vision",
+    "Web response-timeout recovery no duplicate reservation",
+    "Pro/SE3, large text, en/zh-Hans UI checked",
+    "English browser reload: no new console warnings/errors",
+    "API 8799 and Web 5177 HTTP 200 after API restart"
+  ],
+  "limits": [
+    "No real hardware, trained model, personal nutrition or school sample flow",
+    "No real iPhone camera run, minimum OS17 run, VoiceOver or native network fault injection",
+    "No external deployment, purchase, messaging or course submission"
+  ],
+  "browser_test_overrides_cleared": true,
+  "latest_simulator_build": "2026-09-18T19-26-19-773Z",
+  "post_compaction_reading": [
+    "AGENTS.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md recent decisions",
+    "planning/2026-09-19/menu-orders-contract.md",
+    "README.md",
+    "four current software specifications",
+    "all modified Swift / React files"
+  ],
+  "new_authored_markdown": [
+    "planning/2026-09-19/menu-orders-contract.md",
+    "output/qa/development-p1-orders-2026-09-19/verification.md"
+  ],
+  "group_identity_and_planned_shares_verified": true,
+  "menu_assets": [
+    {
+      "slug": "chicken",
+      "copies_identical": true,
+      "prompt_exists": true
+    },
+    {
+      "slug": "salad",
+      "copies_identical": true,
+      "prompt_exists": true
+    },
+    {
+      "slug": "soup",
+      "copies_identical": true,
+      "prompt_exists": true
+    }
+  ]
+}

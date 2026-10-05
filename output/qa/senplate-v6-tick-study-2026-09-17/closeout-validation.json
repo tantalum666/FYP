@@ -1,0 +1,118 @@
+{
+  "status": "PASS",
+  "completed_at": "2026-09-17T15:49:27.425791+00:00",
+  "protected_files": 227,
+  "changed_protected_files": [],
+  "v6_figma_node_states_unchanged": true,
+  "common_parts_and_wordmark_unchanged": true,
+  "layout_parameters_unchanged": true,
+  "local_alpha_difference_outside_allowed_regions": {
+    "native_png_size": [
+      960,
+      680
+    ],
+    "allowed_design_regions": [
+      "mouth at y<=90",
+      "ticks x190..252,y94..151"
+    ],
+    "outside_change_region_max_alpha_difference": 0.0,
+    "outside_change_region_mean_alpha_difference": 0.0,
+    "outside_change_region_pixels_over_3": 0
+  },
+  "svg": [
+    {
+      "name": "tick-logo.svg",
+      "paths": 9,
+      "viewBox": "0 0 1205 227",
+      "sha256": "e308b4b1a3a53f3cc1fa15073bcdb5c799649a4eabda21ad437c4200c4be5982"
+    },
+    {
+      "name": "tick-symbol.svg",
+      "paths": 1,
+      "viewBox": "0 0 320 227",
+      "sha256": "45ca70337c52f5d3615fe58650541ae4ecde15794072b7743e3550cdad10df75"
+    }
+  ],
+  "png": [
+    {
+      "name": "tick-preview.png",
+      "size": [
+        1774,
+        887
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "b9b035e40ae37c8550510a55c613c3bee350a2c103752b7ef8599648bf71ff98"
+    },
+    {
+      "name": "tick-comparison.png",
+      "size": [
+        1440,
+        760
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "6ee4c4d246064036ecc1b06a1d35156fff84abf8f7c720d47af5853c6da4834c"
+    },
+    {
+      "name": "tick-symbol.png",
+      "size": [
+        960,
+        680
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "2daece2011dfa7b7ac17ecba685eeeb6705a83e6f5c9139cb6e783295598b6a1"
+    },
+    {
+      "name": "tick-32.png",
+      "size": [
+        32,
+        32
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "9705c18dd16bb63c902299d8e73a2ccfa7ce22916e7563809109a2fefa476a9a"
+    },
+    {
+      "name": "tick-64.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "ff5ff3f0efa7d58471ac2f2729e3abd3a64f80b254638d95f6d0c1a06aaf1827"
+    }
+  ],
+  "visual_checks": [
+    "Full before/after comparison",
+    "Separate trial preview",
+    "32px and64px transparent samples"
+  ],
+  "updated_markdown": [
+    "brand.md",
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-17/senplate-v6-tick-study.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md",
+    "output/brand/2026-09-17-senplate-v6-tick-study/README.md"
+  ],
+  "missing_local_links": [],
+  "base_remains_v6": true,
+  "trial_not_adopted": true
+}

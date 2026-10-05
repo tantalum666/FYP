@@ -1,0 +1,31 @@
+{
+  "source": "/Users/tantalum/Downloads/HDSE FYP Project Guide 2026 (for Students).pdf",
+  "sha256": "59b99fa5754040223bdc8c7bbf7ae17f6e16925d169d5023d987d94a51f135a5",
+  "pages": 12,
+  "visual_pages_reviewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "render_dpi": 120,
+  "text_extraction": "No useful body text from pypdf; PDF is image-based. Read rendered pages rather than treating search misses as absence.",
+  "findings": {
+    "2-3": "Substantial effort and individually distinguishable roles/contribution",
+    "4": "Industrial collaboration encouraged; supervisor must protect supervision and assessment standards; students advised not to promise software/document delivery to external organization without supervisor consent",
+    "8-9": "Logbook, tests, implementation and oral demonstration contribute to assessment",
+    "11": "Group Performance22%, Individual Contribution78% in assessment breakdown table",
+    "12": "Source material identification and references"
+  },
+  "generative_ai_rule_in_this_pdf": "No dedicated generative-AI percentage or blanket rule found in the 12 visually reviewed pages. Other school/module policy not determined.",
+  "interpretation": "Recommend discussing scoped fabrication/assembly and AI-assisted implementation with Marco; not a finding that all external manufacturing is forbidden or all AI-generated code is authorized.",
+  "reviewed_at": "2026-09-15T23:05:36.875020+08:00"
+}

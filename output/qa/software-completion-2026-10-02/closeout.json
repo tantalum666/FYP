@@ -1,0 +1,32 @@
+{
+  "completed_at": "2026-10-03T01:12:50.356426+08:00",
+  "protected_files": 107,
+  "changed": [],
+  "source_archive_matches": true,
+  "updated_documents": [
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-10-02/software-completion-plan.md",
+    "planning/2026-09-29/software-development-plan.md",
+    "planning/2026-09-30/device-display-spec.md",
+    "desk-companion/README.md",
+    "desk-companion/THIRD_PARTY.md",
+    "desk-companion/docs/operator-guide.md",
+    "desk-companion/docs/architecture.md",
+    "desk-companion/docs/evaluation.md"
+  ],
+  "checks": [
+    "84 backend tests",
+    "11 frontend tests",
+    "Ruff",
+    "TypeScript/Vite build",
+    "iOS Simulator signed build/install/launch",
+    "browser workflows",
+    "model synthetic smoke tests",
+    "download and restore",
+    "107 protected hashes",
+    "88 internal links"
+  ]
+}

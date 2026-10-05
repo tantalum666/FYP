@@ -1,0 +1,25 @@
+[
+  {
+    "url": "https://huggingface.co/api/models?author=Qwen&search=omni&limit=100",
+    "model_ids": [
+      "Qwen/Qwen3-Omni-30B-A3B-Instruct",
+      "Qwen/Qwen2.5-Omni-7B",
+      "Qwen/Qwen3-Omni-30B-A3B-Captioner",
+      "Qwen/Qwen2.5-Omni-3B",
+      "Qwen/Qwen2.5-Omni-7B-AWQ",
+      "Qwen/Qwen2.5-Omni-7B-GPTQ-Int4",
+      "Qwen/Qwen3-Omni-30B-A3B-Thinking"
+    ],
+    "count": 7
+  },
+  {
+    "url": "https://huggingface.co/api/models?author=Qwen&search=audio&limit=100",
+    "model_ids": [
+      "Qwen/Qwen2-Audio-7B-Instruct",
+      "Qwen/Qwen-Audio",
+      "Qwen/Qwen-Audio-Chat",
+      "Qwen/Qwen2-Audio-7B"
+    ],
+    "count": 4
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-05",
+  "records": [
+    {
+      "path": "output/qa/development-p0-2026-09-18/ios-ui-01/B8BB9B12-2684-45BA-9283-DE0EAA57BAE3",
+      "original_preserved_locally": true,
+      "original_sha256": "8ceb1081302bd4c51f2017e7e83a7ad8ceeaf4dea451960c114a9fe76c83b858",
+      "sanitized_sha256": "4751cfe09ec16a42b92cac58102c9d4aa24daa2602ccc2df7ff7a2c0eec03db0",
+      "redacted_occurrences": 1,
+      "format": "Apple binary plist",
+      "change": "Only local test password text replaced; structure retained"
+    },
+    {
+      "path": "output/qa/development-p0-2026-09-18/ios-ui-small/9B4C66BF-7991-4AEB-991C-14AAF695C4B2",
+      "original_preserved_locally": true,
+      "original_sha256": "09661b0d9c739f69842213bbb12c9bf981c9795d1dd59aea1d5bf1a5f575d7e2",
+      "sanitized_sha256": "6252356d42c0a59499238ac018c81704809a1b5e24ce86ca7f5f1e28f2fd94ed",
+      "redacted_occurrences": 1,
+      "format": "Apple binary plist",
+      "change": "Only local test password text replaced; structure retained"
+    }
+  ],
+  "raw_originals_in_private_runtime": true,
+  "raw_originals_uploaded": false
+}

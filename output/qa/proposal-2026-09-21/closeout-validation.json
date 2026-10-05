@@ -1,0 +1,53 @@
+{
+  "verified_at": "2026-09-21T06:18:14.828628+00:00",
+  "updated_markdown": [
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-21/proposal-spec.md"
+  ],
+  "new_content": [
+    "planning/2026-09-21/proposal-content.md"
+  ],
+  "local_links_checked": 410,
+  "broken_links": [],
+  "identity_and_contribution_matches": true,
+  "contribution_total": 100,
+  "protected_prior_files_checked": 332,
+  "protected_prior_files_changed": [],
+  "school_originals_checked": 3,
+  "school_originals_changed": [],
+  "final_artifacts_match_render_checked_hashes": true,
+  "final_artifacts": [
+    "output/docx/AY26_ProjectProposal_Group 2.docx",
+    "output/pdf/AY26_ProjectProposal_Group 2.pdf"
+  ],
+  "final_render_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "complete_read_record": "reading-record.json",
+  "source_register": "source-register.json",
+  "checks_run": [
+    "current-document local links",
+    "member identity and planned percentages",
+    "final artifact existence and hash match",
+    "protected prior files and source input hashes",
+    "seven-section requirement mapping",
+    "stale authoring status removed"
+  ],
+  "software_tests_or_services_run_this_task": false,
+  "submitted": false,
+  "signed": false,
+  "supervisor_approval_claimed": false
+}

@@ -1,0 +1,75 @@
+{
+  "version": "V6.5",
+  "date": "2026-09-18",
+  "status": "TRIAL_ONLY",
+  "scope": "Symbol structure study; original wordmark preserved",
+  "figma_file": "UyYjnTFGWO0r1lj4uvghGp",
+  "page": "76:2",
+  "nodes": {
+    "boolean": "100:3",
+    "opening": "100:14",
+    "symbol": "100:25",
+    "comparison": "102:2",
+    "detail": "102:11",
+    "sample32": "103:2",
+    "sample64": "103:5",
+    "plain_control": "101:17"
+  },
+  "assets": [
+    {
+      "file": "README.md",
+      "bytes": 754,
+      "sha256": "671375399fc83c99af7309dc8aa78b836275ae87a65e0bd7ce00e7d201551ef2"
+    },
+    {
+      "file": "inner-32.png",
+      "bytes": 860,
+      "sha256": "596e28710eae76ab3c712f2f07e6ef0a4df5ebe4cb05168b4bf753c575532fd2",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "inner-64.png",
+      "bytes": 1646,
+      "sha256": "535a73c76cbf56559500a22e24b13b1b80f223bfd3cede592f5d184d8909381b",
+      "size": [
+        64,
+        64
+      ]
+    },
+    {
+      "file": "inner-comparison.png",
+      "bytes": 25908,
+      "sha256": "8ff3d42036b8a9f01bcbd1ef4876af49cc675b8a7d81d29e762c5c0f70e89746",
+      "size": [
+        1440,
+        720
+      ]
+    },
+    {
+      "file": "inner-detail.png",
+      "bytes": 18679,
+      "sha256": "843f62bc6ba0aaf2ad2eb587bfd814c556fa4dae7fc2817efef2eb878adf4bfa",
+      "size": [
+        960,
+        720
+      ]
+    },
+    {
+      "file": "inner-symbol.png",
+      "bytes": 23580,
+      "sha256": "7d483d12aa5d50e4a5828144cd2cd006557c8286e930798bcfbe375197ead1eb",
+      "size": [
+        960,
+        680
+      ]
+    },
+    {
+      "file": "inner-symbol.svg",
+      "bytes": 1961,
+      "sha256": "96cf761ad5687201a6d42bf0738a5bb8e4b6a3439c0a5a153348f2f13b7fcd84"
+    }
+  ]
+}

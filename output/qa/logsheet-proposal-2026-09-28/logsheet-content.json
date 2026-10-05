@@ -1,0 +1,24 @@
+{
+  "work": [
+    "Prepared the food-monitoring requirements and prototype with AI assistance. Reviewed simulated replenishment, ordering and meal-recording workflows and their software test evidence.",
+    "Discussed camera cost and mixed-dish nutrient accuracy with Marco. Reviewed the team's alternative concepts and changed the direction to a desk companion.",
+    "Defined continuous posture monitoring, specific feedback and rechecking as core functions, alongside calendar management and voice interaction. Prepared two Chinese proposal drafts with AI assistance.",
+    "Compared voice services and AVA-style display options. Prioritised Qwen for evaluation and documented unresolved camera placement, display control and Raspberry Pi performance."
+  ],
+  "plan": [
+    "Complete the revised proposal with the group, review it with Marco, and submit the required English DOCX and PDF by 29 September.",
+    "Define posture labels and personal-calibration rules. Prepare a consented capture protocol and compare single-frame thresholds with continuous-time detection.",
+    "Start the calendar and posture software on the existing Mac; define the permitted voice commands and record actual module ownership.",
+    "Confirm camera, audio, display and actuator interfaces. Verify programmable display control before finalising the enclosure or selecting a hologram module."
+  ],
+  "pending": "First log sheet; no previous recorded plan. New-device assembly, posture accuracy, voice API integration and display-control latency remain untested.",
+  "other": "Next period: 28 September to 11 October 2026. Submit one team log; trace each member's contributions, AI assistance, sources and test results.",
+  "research": [
+    "Legacy food prototype: 55 backend tests passed using simulated inputs.",
+    "Supervisor feedback questioned camera cost and mixed-dish nutrient accuracy.",
+    "Team concept review identified calendar and posture-feedback requirements.",
+    "New desk-device accuracy, audio and display performance: not yet measured."
+  ],
+  "discoveries": "Legacy software tests validate the old workflow only. Images and total weight cannot guarantee precise mixed-dish nutrients. The revised concept needs separate evidence for posture detection, feedback, speech and display control.",
+  "remark": "Period: 14-27 Sep 2026. Members: Yuan Yuchen (250342840), Xu Ziqian (250137555), Li Wenhua (250329909). Yuan represents Group 2 in the header. AI assisted research, drafting, prototype code and checks. The group changed direction on 25 Sep; new hardware remains untested."
+}

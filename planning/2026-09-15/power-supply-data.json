@@ -1,0 +1,211 @@
+{
+  "group": "Group 2",
+  "asOf": "2026-09-15",
+  "status": "documented_candidate_no_purchase_no_hardware_test",
+  "scope": "one demo device, one weighing position, one RGB-D camera",
+  "pricePolicy": "All CNY intervals are engineering allowances, not Taobao/JD quotes. Yahboom official base-kit USD9 observed separately.",
+  "rows": [
+    {
+      "id": "PS01",
+      "item": "12V5A成品适配器",
+      "spec": "Mean Well GST60A12-P1J；12V5A60W；DC5521中心正极；参考型号，可用核实过的同规格国内成品替换",
+      "qty": 1,
+      "low": 150,
+      "high": 250,
+      "status": "主件候选"
+    },
+    {
+      "id": "PS02",
+      "item": "英规市电成品线",
+      "spec": "BS1363插头至IEC C13，1.5m，3芯0.75mm²或更高；正规带熔断器成品线",
+      "qty": 1,
+      "low": 20,
+      "high": 35,
+      "status": "主件配线"
+    },
+    {
+      "id": "PS03",
+      "item": "Pi5专用PD电源板",
+      "spec": "Yahboom YB-MPP01-V1.0；官方SKU6000400431；输入本项目12V，输出5V5A；选基础板套装",
+      "qty": 1,
+      "low": 50,
+      "high": 90,
+      "status": "主件候选"
+    },
+    {
+      "id": "PS04",
+      "item": "Pi电源USB-C线",
+      "spec": "C公-C公0.5m，5A e-marker，标100W/240W，完整CC协商；不需USB3数据规格",
+      "qty": 1,
+      "low": 15,
+      "high": 35,
+      "status": "主件配线"
+    },
+    {
+      "id": "PS05",
+      "item": "独立供电USB3 Hub",
+      "spec": "ORICO-BT2U3-7AB；12V2A输入配置；官方图单口1.5A；含原装数据线和适配器的版本作台架验证",
+      "qty": 1,
+      "low": 150,
+      "high": 250,
+      "status": "组合待实测"
+    },
+    {
+      "id": "PS06",
+      "item": "设备DC入口",
+      "spec": "5.5×2.1mm母座／母头尾线，额定至少12V5A、18AWG，带机械固定与绝缘；可用预焊线版本",
+      "qty": 1,
+      "low": 10,
+      "high": 25,
+      "status": "按规格核实"
+    },
+    {
+      "id": "PS07",
+      "item": "Hub低压供电尾线",
+      "spec": "18AWG，约0.2–0.3m；公头内外径、插入长度和极性以原装适配器实测为准；不先猜5521/5525",
+      "qty": 1,
+      "low": 5,
+      "high": 12,
+      "status": "暂缓定孔径"
+    },
+    {
+      "id": "PS08",
+      "item": "三位拨杆连接器",
+      "spec": "参考WAGO221-413，正极一只、负极一只；两组严禁混接",
+      "qty": 2,
+      "low": 4,
+      "high": 8,
+      "status": "按规格核实"
+    },
+    {
+      "id": "PS09",
+      "item": "低压总开关",
+      "spec": "2脚单刀单掷ON/OFF，明确DC12V≥5A，切断12V正极；不是原F03瞬时按钮",
+      "qty": 1,
+      "low": 8,
+      "high": 15,
+      "status": "按规格核实"
+    },
+    {
+      "id": "PS10",
+      "item": "低压保险丝及座",
+      "spec": "成品绝缘线式座＋5A保险丝，明确DC额定≥32V；具体熔断特性按冷启动及线材确认",
+      "qty": 1,
+      "low": 5,
+      "high": 12,
+      "status": "台架确认"
+    },
+    {
+      "id": "PS11",
+      "item": "低压分支线",
+      "spec": "18AWG纯铜红／黑各1m，分支尽量0.2–0.3m；非杜邦线",
+      "qty": 1,
+      "low": 10,
+      "high": 20,
+      "status": "配线"
+    },
+    {
+      "id": "PS12",
+      "item": "压接与固定耗材",
+      "spec": "匹配0.75mm²管形端子／热缩／线夹小包；先与原M17排重，有则复用",
+      "qty": 1,
+      "low": 10,
+      "high": 20,
+      "status": "可复用"
+    },
+    {
+      "id": "PS13",
+      "item": "电源板绝缘固定件",
+      "spec": "M2.5尼龙柱、螺丝及固定支架一组，按到货孔位和散热空间装配",
+      "qty": 1,
+      "low": 5,
+      "high": 12,
+      "status": "可复用套装"
+    },
+    {
+      "id": "PS14",
+      "item": "USB电源测试转接板",
+      "spec": "带VBUS/GND清晰测试点的USB-A转接板，仅台架测供电和上游倒灌，测试后移除",
+      "qty": 1,
+      "low": 5,
+      "high": 15,
+      "status": "测试用品"
+    },
+    {
+      "id": "PS15",
+      "item": "Hub上游数据线",
+      "spec": "配套USB3 A公-B公；官网字段有矛盾，以实物B口及原装线核对，不擅自用A-A连接主机",
+      "qty": 0,
+      "low": 20,
+      "high": 40,
+      "status": "套装内不重购"
+    },
+    {
+      "id": "PS16",
+      "item": "相机数据线",
+      "spec": "沿用原C02：USB3 A公-C公，5Gbps，1m",
+      "qty": 0,
+      "low": 30,
+      "high": 65,
+      "status": "已列原表"
+    },
+    {
+      "id": "PS17",
+      "item": "屏幕连接线",
+      "spec": "沿用Touch Display2套装DSI 22→15排线和GPIO供电线",
+      "qty": 0,
+      "low": 20,
+      "high": 50,
+      "status": "套装内不重购"
+    },
+    {
+      "id": "PS18",
+      "item": "两条USB补光灯",
+      "spec": "沿用原M18两条5V灯，每条≤2.5W；各占一个Hub口",
+      "qty": 0,
+      "low": 40,
+      "high": 90,
+      "status": "已列原表"
+    }
+  ],
+  "totals": {
+    "low": 451,
+    "high": 807
+  },
+  "powerDesign": {
+    "psu_voltage_v": 12,
+    "psu_capacity_a": 5,
+    "psu_rating_w": 60,
+    "pi_branch_output_allowance_w": 25,
+    "camera_allowance_w": 7.5,
+    "two_lamps_max_w": 5,
+    "hub_logic_allowance_w": 2,
+    "assumed_efficiency": 0.8,
+    "estimated_12v_input_w": 49.375,
+    "estimated_12v_input_a": 4.114583333333333,
+    "hub_5v_load_allowance_a": 2.5,
+    "hub_12v_allowance_w": 18.125,
+    "all_figures_measured": false
+  },
+  "openItems": [
+    "Hub DC plug diameter/length/polarity not disclosed in reviewed official specs",
+    "Hub upstream back-power behavior not verified",
+    "Gemini2 USB3 streaming and required current via selected Hub not verified",
+    "Pi5 PD handshake and output voltage/thermal behavior with chosen 5A cable untested",
+    "cold-start fuse selection and full-system heating/weight-noise tests pending"
+  ],
+  "replaces_in_original_plan": {
+    "P02": "not required in integrated build; keep only if already owned/borrowed for diagnostics",
+    "M19": "not required; USB lights use Hub",
+    "X01": "specific Hub candidate replaces optional unspecified Hub for this integrated variant"
+  },
+  "sources": {
+    "adapter": "https://www.meanwell.com/Upload/PDF/GST60A/GST60A-SPEC-CN.PDF",
+    "adapterChina": "https://www.meanwell.com.cn/webapp/product/search.aspx?prod=GST60A",
+    "piBoard": "https://category.yahboom.net/products/power-board-pi5",
+    "hub": "https://orico.com.cn/index/product/detail/2290.html?mtpl=1",
+    "piPower": "https://pip-assets.raspberrypi.com/categories/685-app-notes-guides-whitepapers/documents/RP-009856-WP-1-USB%20Power%20delivery%20on%20Raspberry%20Pi%205.pdf",
+    "display": "https://www.raspberrypi.com/documentation/accessories/touch-display-2.html",
+    "camera": "https://www.orbbec.com.cn/index/Product/info.html?cate=38&id=51"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "completed_at": "2026-09-17T16:38:29.719317+00:00",
+  "protected_files": 281,
+  "protected_changes": [],
+  "old_figma_node_count": 31,
+  "old_nodes_unchanged": true,
+  "common_source_parts": [
+    {
+      "name": "outer-body",
+      "identical": true
+    },
+    {
+      "name": "rim-seam",
+      "identical": true
+    },
+    {
+      "name": "foot-seam",
+      "identical": true
+    },
+    {
+      "name": "Full elliptical mouth",
+      "identical": true
+    }
+  ],
+  "wordmark_same": true,
+  "layout_same": true,
+  "svg": [
+    {
+      "file": "curved-logo.svg",
+      "text_nodes": 0,
+      "paths": 9
+    },
+    {
+      "file": "curved-symbol.svg",
+      "text_nodes": 0,
+      "paths": 1
+    }
+  ],
+  "visual_review": [
+    "complete comparison1440x760",
+    "detail960x720",
+    "native32px ivory",
+    "native64px ivory"
+  ],
+  "iteration_repair": "Outlined strokes initially received wrong parent-space conversion; corrected and visually verified, draft97:26 removed",
+  "scope": "Source preservation, valid vector export and visual review; no exact raster-identity or user-acceptance claim",
+  "updated_markdown": [
+    "brand.md",
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md",
+    "planning/2026-09-18/senplate-v6-curved-ticks.md",
+    "output/brand/2026-09-18-senplate-v6-curved-ticks/README.md"
+  ],
+  "local_links_checked": 379,
+  "broken_links": [],
+  "all_checks_passed": true
+}

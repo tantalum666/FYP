@@ -1,0 +1,256 @@
+{
+  "completed_at": "2026-09-17T05:43:37.971010+00:00",
+  "status": "PASS",
+  "source_original_and_copy_match": true,
+  "source_sha256": "cc98804614d8e0de4e15d1e5dd197550f3bef06a4569cc5c4c3b9f54e2929a61",
+  "protected_files_count": 73,
+  "protected_files_changed": [],
+  "svg_count": 7,
+  "png_count_including_original": 14,
+  "svg_geometry_identical_across_colors": true,
+  "png_checks": [
+    {
+      "name": "app-icon-black-1024.png",
+      "width": 1024,
+      "height": 1024,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "c135970d4df04c4a187728bf63bdac7ad81ed4ea924432e7bdbb80c9461d422d",
+      "corner_rgb": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "app-icon-forest-1024.png",
+      "width": 1024,
+      "height": 1024,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "5d3af59b50e6461fcba50a015bff96d3ed1cb0c2470f7f9be7c7f075f0c0b0df",
+      "corner_rgb": [
+        22,
+        63,
+        53
+      ]
+    },
+    {
+      "name": "app-icon-ivory-1024.png",
+      "width": 1024,
+      "height": 1024,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "2e9975e43cc3eb68749d8f9be340615f61d4cefce27591b4262d654799066acf",
+      "corner_rgb": [
+        243,
+        241,
+        231
+      ]
+    },
+    {
+      "name": "brand-preview.png",
+      "width": 1440,
+      "height": 1100,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "7e0270666cf877ad2b26d99959e73c66779df184b295a32948e1aa5e939545d1"
+    },
+    {
+      "name": "senplate-logo-black.png",
+      "width": 1600,
+      "height": 265,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "d649854300f860b2069817a93b1cc5be3ec5ddec24fadfba125b396304342162"
+    },
+    {
+      "name": "senplate-logo-green.png",
+      "width": 1600,
+      "height": 265,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "315afc6961a3e0289d79d43c8b429718acede99fdd3e9cbc6c900a753e0cf9bf"
+    },
+    {
+      "name": "senplate-logo-white.png",
+      "width": 1600,
+      "height": 265,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "99e1d4a48f3ab790dd58301efec7bf022b3a4aa7b55c7211453e830c87b98ef8"
+    },
+    {
+      "name": "senplate-mark-24.png",
+      "width": 24,
+      "height": 24,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "40a711e6eabb48c2a178721a61f8668a287523c89e15e73cf608fc58b60cdbf6"
+    },
+    {
+      "name": "senplate-mark-32.png",
+      "width": 32,
+      "height": 32,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "7bba2a131161dcb726af848909af8fbcba977ff40ed00f683dfeaed3769a5c10"
+    },
+    {
+      "name": "senplate-mark-64.png",
+      "width": 64,
+      "height": 64,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "5a597d2c4c0210a18b850a5a170c912a283a1f59233ca3ccb365ce86cbae48db"
+    },
+    {
+      "name": "senplate-mark-black.png",
+      "width": 512,
+      "height": 268,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "4e2e56d95c7c12cec638f6d0a1c33efb709c1f0fd656c319873684d80b3e0df2"
+    },
+    {
+      "name": "senplate-mark-green.png",
+      "width": 512,
+      "height": 268,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "d41b111c3d9743a7777f2a17ac777fd27e81e51fd78a0135ed826802510ff737"
+    },
+    {
+      "name": "senplate-mark-white.png",
+      "width": 512,
+      "height": 268,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "7396ca72929fbfb08bf4c648769dc92d6da3b8c41975eb1ca6fa78612d08e266"
+    },
+    {
+      "name": "source-selected-a.png",
+      "width": 1536,
+      "height": 1024,
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "cc98804614d8e0de4e15d1e5dd197550f3bef06a4569cc5c4c3b9f54e2929a61"
+    }
+  ],
+  "svg_checks": [
+    {
+      "name": "senplate-logo-black.svg",
+      "viewBox": "0 0 1028 170",
+      "path_count": 11,
+      "external_fonts_or_images": false
+    },
+    {
+      "name": "senplate-logo-green.svg",
+      "viewBox": "0 0 1028 170",
+      "path_count": 11,
+      "external_fonts_or_images": false
+    },
+    {
+      "name": "senplate-logo-white.svg",
+      "viewBox": "0 0 1028 170",
+      "path_count": 11,
+      "external_fonts_or_images": false
+    },
+    {
+      "name": "senplate-mark-black.svg",
+      "viewBox": "0 0 325 170",
+      "path_count": 3,
+      "external_fonts_or_images": false
+    },
+    {
+      "name": "senplate-mark-green.svg",
+      "viewBox": "0 0 325 170",
+      "path_count": 3,
+      "external_fonts_or_images": false
+    },
+    {
+      "name": "senplate-mark-white.svg",
+      "viewBox": "0 0 325 170",
+      "path_count": 3,
+      "external_fonts_or_images": false
+    },
+    {
+      "name": "senplate-wordmark-green.svg",
+      "viewBox": "0 0 661 157",
+      "path_count": 8,
+      "external_fonts_or_images": false
+    }
+  ],
+  "visual_review": [
+    "final brand board with green, black, white and app icons",
+    "24px symbol: thin rim, excluded from regular size recommendation",
+    "32px and 64px symbols"
+  ],
+  "missing_local_links": [],
+  "updated_markdown": [
+    "brand.md",
+    "README.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "Senplate_Logo_ImageGen_Brief.md",
+    "planning/2026-09-17/senplate-logo-measured-plate-r5.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md",
+    "planning/2026-09-16/logo-reference-calibration.md",
+    "output/brand/2026-09-17-senplate-selected-a/README.md"
+  ],
+  "zip": {
+    "path": "output/brand/Senplate_Brand_Assets_v1.zip",
+    "files": 23,
+    "bytes": 1392790,
+    "sha256": "d9c07393a8147522e04d001b60ce3cd23472ef693c0f3f4c4b8af8eede57f32b"
+  },
+  "resolved_process_issues": [
+    "Noisy initial trace cleaned before delivery.",
+    "Compound glyph import lost letters; independent letter paths used.",
+    "Image blocks limited to 5 per call; 8 remaining PNGs exported in two batches.",
+    "One combined patch rejected duplicate handoff operation without applying; split writes completed."
+  ],
+  "remaining": [
+    "Fresh similarity search for selected A",
+    "Original font provenance",
+    "UI page design and implementation"
+  ],
+  "not_done": [
+    "Trademark registration",
+    "External contact",
+    "App coding",
+    "Hardware validation",
+    "Publication"
+  ]
+}

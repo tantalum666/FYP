@@ -1,0 +1,134 @@
+{
+  "baseStates": [
+    {
+      "id": "77:2",
+      "fnv1a32": "d834d5af",
+      "length": 4697
+    },
+    {
+      "id": "78:9",
+      "fnv1a32": "379d2297",
+      "length": 3626
+    },
+    {
+      "id": "78:10",
+      "fnv1a32": "69fe5db4",
+      "length": 24767
+    },
+    {
+      "id": "76:6",
+      "fnv1a32": "25532a08",
+      "length": 20963
+    },
+    {
+      "id": "76:3",
+      "fnv1a32": "f6116a19",
+      "length": 288
+    },
+    {
+      "id": "79:2",
+      "fnv1a32": "1ee2f2d9",
+      "length": 24896
+    },
+    {
+      "id": "79:6",
+      "fnv1a32": "47e9a458",
+      "length": 64540
+    },
+    {
+      "id": "80:2",
+      "fnv1a32": "e3e13481",
+      "length": 11018
+    }
+  ],
+  "preservedParts": [
+    {
+      "name": "outer-body",
+      "equal": true
+    },
+    {
+      "name": "rim-seam",
+      "equal": true
+    },
+    {
+      "name": "foot-seam",
+      "equal": true
+    }
+  ],
+  "wordPathsSame": true,
+  "layoutSame": {
+    "width": true,
+    "height": true,
+    "gap": true,
+    "wordWidth": true,
+    "wordHeight": true
+  },
+  "trialParts": [
+    {
+      "id": "84:4",
+      "name": "outer-body",
+      "type": "VECTOR",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 226.62525939941406
+    },
+    {
+      "id": "84:6",
+      "name": "rim-seam",
+      "type": "VECTOR",
+      "x": 11.021392822265625,
+      "y": 51.5467529296875,
+      "w": 297.95721435546875,
+      "h": 30.80658721923828
+    },
+    {
+      "id": "84:7",
+      "name": "foot-seam",
+      "type": "VECTOR",
+      "x": 109.90682983398438,
+      "y": 189.72705078125,
+      "w": 100.18634033203125,
+      "h": 14.855432510375977
+    },
+    {
+      "id": "84:9",
+      "name": "Full elliptical mouth",
+      "type": "ELLIPSE",
+      "x": 11.021392822265625,
+      "y": 6.811595916748047,
+      "w": 297.95721435546875,
+      "h": 61.91856002807617
+    },
+    {
+      "id": "84:10",
+      "name": "Scale tick 1 / long",
+      "type": "RECTANGLE",
+      "x": 197.7708740234375,
+      "y": 100.9903335571289,
+      "w": 46.68737030029297,
+      "h": 6.811595439910889,
+      "cornerRadius": 3.4057977199554443
+    },
+    {
+      "id": "84:11",
+      "name": "Scale tick 2 / short",
+      "type": "RECTANGLE",
+      "x": 215.60386657714844,
+      "y": 118.82332611083984,
+      "w": 28.854381561279297,
+      "h": 6.811595439910889,
+      "cornerRadius": 3.4057977199554443
+    },
+    {
+      "id": "84:12",
+      "name": "Scale tick 3 / long",
+      "type": "RECTANGLE",
+      "x": 197.7708740234375,
+      "y": 136.65631103515625,
+      "w": 46.68737030029297,
+      "h": 6.811595439910889,
+      "cornerRadius": 3.4057977199554443
+    }
+  ]
+}

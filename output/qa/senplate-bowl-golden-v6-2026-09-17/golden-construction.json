@@ -1,0 +1,41 @@
+{
+  "phi": 1.618033988749895,
+  "units": "vector design units",
+  "dimensions": {
+    "rim_width": 320.0,
+    "body_height_including_back_rim": 197.77087639996634,
+    "body_base_seam_y": 197.77087639996634,
+    "foot_width": 122.22912360003365,
+    "mouth_ellipse_height": 75.5417527999327,
+    "signature_gap": 46.687370800100936,
+    "foot_extension_below_body": 28.85438199983175,
+    "total_symbol_height": 226.6252583997981,
+    "body_semicircle_radius": 160.0,
+    "ellipse_center": [
+      160.0,
+      37.77087639996635
+    ],
+    "rim_side_inset": 11.021393199562565,
+    "rim_vertical_inset": 6.811595600706618,
+    "seam_center_thickness": 6.811595600706618,
+    "step_x": 197.77087639996634,
+    "step_width": 11.021393199562565,
+    "step_level_y": 46.687370800100936,
+    "foot_side_start": [
+      98.88543819998318,
+      221.11456180001682,
+      185.6390958928375
+    ],
+    "foot_lower_ellipse_center_y": 212.19806739988223,
+    "wordmark_ink_height_target": 197.77087639996634
+  },
+  "ratios": {
+    "rim_width_over_body_height": 1.618033988749895,
+    "body_height_over_foot_width": 1.618033988749895,
+    "foot_width_over_mouth_height": 1.618033988749895,
+    "mouth_height_over_signature_gap": 1.618033988749895,
+    "signature_gap_over_foot_extension": 1.618033988749895
+  },
+  "construction_note": "Upper rim is half ellipse; lower body is a mirrored semicircle. Boolean subtraction unites the cavity, measurement notch and seams. Main dimensions follow a golden sequence; exact body height ends at the body-base seam, excluding the foot.",
+  "glyph_note": "Typeface chosen for a clean editable reconstruction; not claimed to identify the raster font."
+}

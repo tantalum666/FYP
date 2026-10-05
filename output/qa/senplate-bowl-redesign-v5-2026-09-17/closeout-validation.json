@@ -1,0 +1,68 @@
+{
+  "status": "PASS_FOR_RASTER_CONCEPT_DELIVERY",
+  "completed_at": "2026-09-17T14:44:40.759624+00:00",
+  "images": [
+    {
+      "name": "bowl-01-generated.png",
+      "source_filename": "exec-cc7b8346-7133-41d8-8817-77dbc48861d9.png",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "b325daf932fa5203cd0f21e9571cab98ce043303ad8944f0a6d41354b2d2097e",
+      "bytes": 195522
+    },
+    {
+      "name": "bowl-01-concept.png",
+      "source_filename": "exec-fb0b2cca-280f-4f2c-bd95-fddc89ffacf3.png",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGB",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "sha256": "41ec706025011698b18da682310f5efb2ea7ec29eb3029528d00113e684c2917",
+      "bytes": 893491
+    }
+  ],
+  "native_bytes_preserved": true,
+  "actual_generation_and_edit_prompts_saved": true,
+  "visual_review": "Both images inspected; final bowl mouth/body/foot and Senplate text visible; texture/fine-line limitations retained.",
+  "protected_files": 186,
+  "protected_changes": [],
+  "missing_local_links": [],
+  "updated_markdown": [
+    "brand.md",
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-17/senplate-bowl-redesign-v5.md",
+    "planning/2026-09-16/software-scope-and-architecture.md",
+    "planning/2026-09-16/software-mvp-and-acceptance.md",
+    "output/brand/2026-09-17-senplate-bowl-redesign-v5/README.md"
+  ],
+  "figma_historical_nodes": [
+    "69:2",
+    "70:31",
+    "71:2",
+    "72:2"
+  ],
+  "not_claimed": [
+    "Approved logo",
+    "Production vector",
+    "Exact phi geometry",
+    "32px acceptance",
+    "Trademark clearance"
+  ],
+  "next_step": "User visual feedback on new bowl concept, then vector refinement."
+}

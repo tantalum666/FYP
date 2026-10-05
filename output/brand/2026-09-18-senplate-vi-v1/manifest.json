@@ -1,0 +1,314 @@
+{
+  "version": "VI V1",
+  "logo_version": "V7 plain bowl",
+  "date": "2026-09-18",
+  "user_scope": "Full visual identity, not native .ai",
+  "core_variants": 12,
+  "guide_pages": 11,
+  "asset_master_pages": 4,
+  "figma_file": "UyYjnTFGWO0r1lj4uvghGp",
+  "figma_page": "110:2",
+  "overview_node": "114:2",
+  "files": [
+    {
+      "path": "01_Logos/PNG/horizontal-black.png",
+      "bytes": 34545,
+      "sha256": "3916d6464b25d77e9f3ae60c51b5b0ff2186ab4c56eadd9ad37e79958f503e35"
+    },
+    {
+      "path": "01_Logos/PNG/horizontal-green.png",
+      "bytes": 48829,
+      "sha256": "dcd1b0fe26b257bd62f7fa63e15ecb86237755576254fa312a9b389cc6a005ac"
+    },
+    {
+      "path": "01_Logos/PNG/horizontal-white.png",
+      "bytes": 36261,
+      "sha256": "635352e9aacccba911d5ea2bc8f84fdce2e27a0aa204473c6f7965214dd54f6f"
+    },
+    {
+      "path": "01_Logos/PNG/stacked-black.png",
+      "bytes": 38586,
+      "sha256": "a7181c27e58afd38327585714181db5a30ed457b77891d5a297a13420f43b7b7"
+    },
+    {
+      "path": "01_Logos/PNG/stacked-green.png",
+      "bytes": 51644,
+      "sha256": "ece73434f93551aba81d40fbd34f197df9aff514cae592109465046e452b2785"
+    },
+    {
+      "path": "01_Logos/PNG/stacked-white.png",
+      "bytes": 39480,
+      "sha256": "b5c79e28c38a659fd4009b5649e86dc2ec44555f6b7bb07ed9f8965acfcfbc1c"
+    },
+    {
+      "path": "01_Logos/PNG/symbol-black.png",
+      "bytes": 22393,
+      "sha256": "f0c6328d6a6b8eebb75da6f1fc3f30dccb7cfdc0914bce3fc0a71971cb36b697"
+    },
+    {
+      "path": "01_Logos/PNG/symbol-green.png",
+      "bytes": 30424,
+      "sha256": "b3db61964ebddf20ad1944e040dbb8e05918e1555ca4e83553768f8849a289a3"
+    },
+    {
+      "path": "01_Logos/PNG/symbol-white.png",
+      "bytes": 23570,
+      "sha256": "dd1254a4d13554bcf7b898f924ab7bd43a2b067042d9a19e8496f7041a7c8bcb"
+    },
+    {
+      "path": "01_Logos/PNG/wordmark-black.png",
+      "bytes": 27757,
+      "sha256": "347672d05920cb360b1f12bec4c2ca55258b3241a1afdf3a3bb73359cac0bbfe"
+    },
+    {
+      "path": "01_Logos/PNG/wordmark-green.png",
+      "bytes": 36577,
+      "sha256": "c715940f37fda95faba1cbb346bb186d46d4fe813fada2be59b2905e66428622"
+    },
+    {
+      "path": "01_Logos/PNG/wordmark-white.png",
+      "bytes": 28167,
+      "sha256": "4b0aa718a10d0310aa56c1adeaeee1b8fb7775ccef7d9e40cd37cbaa0392e7fc"
+    },
+    {
+      "path": "01_Logos/SVG/horizontal-black.svg",
+      "bytes": 10188,
+      "sha256": "b7359f5833946df615e3c88251fb8497faa0e8e0dc7bfdef79b5f596eb253224"
+    },
+    {
+      "path": "01_Logos/SVG/horizontal-green.svg",
+      "bytes": 10218,
+      "sha256": "17f931f22433a418032d8baacca885abc19079cbf7cae41c9c1977a3823b5877"
+    },
+    {
+      "path": "01_Logos/SVG/horizontal-white.svg",
+      "bytes": 10190,
+      "sha256": "5255c5597694690a8eba99a95b227488b43e0ef4616cffb18dc622c93465fdb7"
+    },
+    {
+      "path": "01_Logos/SVG/stacked-black.svg",
+      "bytes": 10181,
+      "sha256": "b25e61bda00177455d7719c3fe69954327b7d8a1b7852ec385166e1ef8077ec7"
+    },
+    {
+      "path": "01_Logos/SVG/stacked-green.svg",
+      "bytes": 10199,
+      "sha256": "2dc92f8ff0ef1ba6bc55d44061391eea901bf275ba938c9b098bddb4152a7211"
+    },
+    {
+      "path": "01_Logos/SVG/stacked-white.svg",
+      "bytes": 10183,
+      "sha256": "68abf619c90c67631ec7b6efb20d0bed4536b05944424c683986bb5b0ee3cf3b"
+    },
+    {
+      "path": "01_Logos/SVG/symbol-black.svg",
+      "bytes": 1453,
+      "sha256": "9cfc0f45996d2643451294b8b6b66b4c30cfc34a17e94375dc052ffbfc9bf94c"
+    },
+    {
+      "path": "01_Logos/SVG/symbol-green.svg",
+      "bytes": 1455,
+      "sha256": "4bea3a7f492c1666fe654c055cf377bc36a07d02e6a81351ca908c84c8a43ca8"
+    },
+    {
+      "path": "01_Logos/SVG/symbol-white.svg",
+      "bytes": 1453,
+      "sha256": "70f9d234e7a9ced71f860a02ba59665eb307ba46455d193dd6c98dd7315804e4"
+    },
+    {
+      "path": "01_Logos/SVG/wordmark-black.svg",
+      "bytes": 8683,
+      "sha256": "055fa582d8e7e0a30bb29cda35aa1c8a4a94a915634d0c9b1071673afb03fc88"
+    },
+    {
+      "path": "01_Logos/SVG/wordmark-green.svg",
+      "bytes": 8699,
+      "sha256": "22ac5de7edeed37ef724f25f6b8d5c119366c9029d2dc644c4ff313f282eaac8"
+    },
+    {
+      "path": "01_Logos/SVG/wordmark-white.svg",
+      "bytes": 8683,
+      "sha256": "26cb39b02b991ab63f9f282305a59d0b95d6a708bcc779c716cbda4d7310b947"
+    },
+    {
+      "path": "02_Guidelines/Senplate_VI_Guidelines_v1.pdf",
+      "bytes": 358664,
+      "sha256": "81effb3520ed7d24a7a17ec52f7be81cffe9596bdf0464afd450be8a4e36f0af"
+    },
+    {
+      "path": "02_Guidelines/Senplate_Vector_Assets_Master_v1.pdf",
+      "bytes": 78306,
+      "sha256": "04e8ed9d3ef001d62f37de4161b2642bb8063282d8247d183db2301b37f41ec8"
+    },
+    {
+      "path": "02_Guidelines/vi-overview.png",
+      "bytes": 84655,
+      "sha256": "025c34307be8fb7fa95e52de899013b504c2ff5ceba3a4f27d89e6566418bdc5"
+    },
+    {
+      "path": "03_Tokens/senplate-tokens.css",
+      "bytes": 615,
+      "sha256": "3a672b5911347b551c154420b563a77f6f377cbf53d03b586b333db6c6a8f60b"
+    },
+    {
+      "path": "03_Tokens/senplate-tokens.json",
+      "bytes": 1212,
+      "sha256": "c0516867001f565d0861fa1cb4cdb9fd1b457a9c7f9ec21c3f33454d21bfc897"
+    },
+    {
+      "path": "04_Applications/app-icon-background-1024.png",
+      "bytes": 6437,
+      "sha256": "6e76b902fec092f5a4d1a0b0ae83e00254d9c9772db4ddae130e338bc91cc23f"
+    },
+    {
+      "path": "04_Applications/app-icon-background-1024.svg",
+      "bytes": 161,
+      "sha256": "a25f04eb2cd56ee7c88eb6f77559817577dfaac8d89d62d531faa66fb0ddc0f5"
+    },
+    {
+      "path": "04_Applications/app-icon-foreground-1024.png",
+      "bytes": 15508,
+      "sha256": "64f4ab328bd4ab1f03ce3151524b17261ff82c1a3de025976f50f7b3bfc8283e"
+    },
+    {
+      "path": "04_Applications/app-icon-foreground-1024.svg",
+      "bytes": 1479,
+      "sha256": "7ef4379b26d4544be9c08dc7309b14615cd4eacf92495515167eb7cf4b5c70f1"
+    },
+    {
+      "path": "04_Applications/app-icon-green-1024.png",
+      "bytes": 19801,
+      "sha256": "97b041e271b2628d28869e0c10802f8a7149162512591579238e3d6b6a1b4894"
+    },
+    {
+      "path": "04_Applications/app-icon-green-1024.svg",
+      "bytes": 1529,
+      "sha256": "73a25ca91fe05da9efa0ee235b31ecf7da98d4ddabd665eacef73c754f05ea0f"
+    },
+    {
+      "path": "04_Applications/app-icon-ivory-1024.png",
+      "bytes": 20051,
+      "sha256": "d8341e97028c16dc04c09e30120840822204c553ba8861f7f23bdffa14337fea"
+    },
+    {
+      "path": "04_Applications/app-icon-ivory-1024.svg",
+      "bytes": 1531,
+      "sha256": "a5e3af644562d120b37c15c1822fcef57432423cffa22aad59bbdb9b1996499c"
+    },
+    {
+      "path": "04_Applications/equipment-nameplate.png",
+      "bytes": 17832,
+      "sha256": "8f3f7529f4766a37d0810d2806f628ea8e362a3fbb4eadbdab23dd33a7b5d5c6"
+    },
+    {
+      "path": "04_Applications/equipment-nameplate.svg",
+      "bytes": 10336,
+      "sha256": "a4f74e213c48052fea01afdccb160b9e9e09c5bf1d84735f544fe5ce7914d353"
+    },
+    {
+      "path": "04_Applications/menu-sign.png",
+      "bytes": 73232,
+      "sha256": "eb781fe472bd788898ed55b5ef3115908df66da1cd5ab3cb73b6ecf2853a494a"
+    },
+    {
+      "path": "04_Applications/menu-sign.svg",
+      "bytes": 80819,
+      "sha256": "f09104179fdc33fb93c8905480a2788e58ebde78d6006efd95e16dfb48b98f48"
+    },
+    {
+      "path": "04_Applications/presentation-cover.png",
+      "bytes": 57130,
+      "sha256": "994eb9ffcf4bee4f98965829223458be948117892731ad1e2ae5bbc048e958e9"
+    },
+    {
+      "path": "04_Applications/presentation-cover.svg",
+      "bytes": 103544,
+      "sha256": "4971547164a82a52351557f7c0d48241ec9b4421a93e9c7847aa721b80a57095"
+    },
+    {
+      "path": "05_Fonts_and_Licences/FONT-LICENCE-AUDIT.md",
+      "bytes": 2285,
+      "sha256": "44f3f6a23cfac8266a573acd5100be24e8b4c58d18edf795b7d7223d04abc8f9"
+    },
+    {
+      "path": "05_Fonts_and_Licences/Inter_Historical_Labels/OFL.txt",
+      "bytes": 4380,
+      "sha256": "262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a"
+    },
+    {
+      "path": "05_Fonts_and_Licences/Manrope/FONTLOG.txt",
+      "bytes": 3075,
+      "sha256": "b6b54bcc1dbd1b18d5afd087ec0b578097644b1c9ec3e0a642d4df7808f449c2"
+    },
+    {
+      "path": "05_Fonts_and_Licences/Manrope/METADATA.pb",
+      "bytes": 732,
+      "sha256": "fb204147a7c16d009d4fa53248b6075bc941d7adfa450a825bc5d4cef2f9ded9"
+    },
+    {
+      "path": "05_Fonts_and_Licences/Manrope/Manrope[wght].ttf",
+      "bytes": 164700,
+      "sha256": "3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6"
+    },
+    {
+      "path": "05_Fonts_and_Licences/Manrope/OFL.txt",
+      "bytes": 4387,
+      "sha256": "58172e0c0fac2cda8a37b348164bb55e44b0e69051e557e92b1d3f6910141f7b"
+    },
+    {
+      "path": "05_Fonts_and_Licences/NotoSansSC/METADATA.pb",
+      "bytes": 1296,
+      "sha256": "c6c4bdb785793b2de1da177caeeffcd0c90d7680bdab2de8f88ab45007bc59bc"
+    },
+    {
+      "path": "05_Fonts_and_Licences/NotoSansSC/NotoSansSC[wght].ttf",
+      "bytes": 17772300,
+      "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da"
+    },
+    {
+      "path": "05_Fonts_and_Licences/NotoSansSC/OFL.txt",
+      "bytes": 4388,
+      "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
+    },
+    {
+      "path": "05_Fonts_and_Licences/NotoSansTC/METADATA.pb",
+      "bytes": 1197,
+      "sha256": "774e7ec96abe511ec49a315dccc1579048a3879a8cf6d97f5e9c7b4e40836a66"
+    },
+    {
+      "path": "05_Fonts_and_Licences/NotoSansTC/NotoSansTC[wght].ttf",
+      "bytes": 11941968,
+      "sha256": "864727d210d54f2537bbe23b3a839436c3992af72de9322af5270897246bd44f"
+    },
+    {
+      "path": "05_Fonts_and_Licences/NotoSansTC/OFL.txt",
+      "bytes": 4388,
+      "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
+    },
+    {
+      "path": "05_Fonts_and_Licences/provenance.json",
+      "bytes": 3526,
+      "sha256": "4b407eaeb8fc0642c8af19ea47e8e795dcd1c28a071e23150068b6c2a0ef4950"
+    },
+    {
+      "path": "06_Source/Figma_Source.md",
+      "bytes": 929,
+      "sha256": "967941ed3a0d92ea19e3d389b096bc97498f3fcc50898f8cc80c4ff83f526b91"
+    },
+    {
+      "path": "06_Source/VI_Rules.md",
+      "bytes": 1242,
+      "sha256": "39248a48fe9cbd1b828b9289b68ca80c8ec24beba8f1cdcf6fb4457668423468"
+    },
+    {
+      "path": "06_Source/wordmark-editable.svg",
+      "bytes": 316,
+      "sha256": "e53a11d7f40e291b7094364f94e903d53418583825886346eda5b245510043fa"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1596,
+      "sha256": "53cedb259d2bb1a8b581396ea5706a1fc543c7b1ba4c936ddd76c5803a83e3b5"
+    }
+  ]
+}

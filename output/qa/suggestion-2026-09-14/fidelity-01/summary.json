@@ -1,0 +1,13 @@
+{
+  "a_docx": "/Users/tantalum/Documents/ChatGPT/FYP/output/qa/suggestion-2026-09-14/reference.docx",
+  "b_docx": "/Users/tantalum/Documents/ChatGPT/FYP/output/docx/AY26_ProjectSuggestion_Group 2.docx",
+  "pages_a": 3,
+  "pages_b": 4,
+  "changed_pages": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "num_changed_pages": 4
+}

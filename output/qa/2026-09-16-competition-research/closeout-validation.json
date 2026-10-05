@@ -1,0 +1,60 @@
+{
+  "checked_at": "2026-09-16T06:02:37.290304+00:00",
+  "updated_markdown": [
+    "research/2026-09-16-competitions/competition-shortlist.md",
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md"
+  ],
+  "new_data": "research/2026-09-16-competitions/source-register.json",
+  "internal_links_checked": 167,
+  "missing_internal_links": [],
+  "unexpected_initial_file_changes": [],
+  "unchanged_original_markdown_count": 25,
+  "concurrent_brand_changes_preserved": true,
+  "group": "Group 2",
+  "member_count": 3,
+  "planned_contribution_total": 100,
+  "existing_deliverables": [
+    {
+      "path": "output/docx/AY26_ProjectSuggestion_Group 2.docx",
+      "exists": true
+    },
+    {
+      "path": "output/pdf/AY26_ProjectSuggestion_Group 2.pdf",
+      "exists": true
+    },
+    {
+      "path": "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx",
+      "exists": true
+    },
+    {
+      "path": "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf",
+      "exists": true
+    },
+    {
+      "path": "output/docx/Group 2_Hardware RFQ_v3.1_Images.docx",
+      "exists": true
+    },
+    {
+      "path": "output/pdf/Group 2_Hardware RFQ_v3.1_Images.pdf",
+      "exists": true
+    },
+    {
+      "path": "output/brand/2026-09-16/manifest.json",
+      "exists": true
+    }
+  ],
+  "checks": [
+    "source URLs/authority/date and access method recorded",
+    "2026 versus announced/unannounced 2027 separated",
+    "cash versus services and conditional funding separated",
+    "HK nonpermanent residence considered",
+    "FYP exclusion applies to extracurricular Challenge Cup, not blanket entrepreneurship ban",
+    "brand selection and no-immediate-code instruction preserved",
+    "no external submission or communication"
+  ],
+  "result": "pass"
+}

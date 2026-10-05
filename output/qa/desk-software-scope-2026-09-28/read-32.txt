@@ -1,0 +1,166 @@
+FILE planning/2026-09-17/senplate-bowl-redesign-v5.md L1-44
+# Senplate V5 · 实体碗重新设计
+
+日期：2026-09-17。状态：HISTORICAL_RASTER_REFERENCE — VECTOR_WORK_AUTHORIZED。用户随后在获知本图没有精确黄金比例验证后明确“开始吧”，授权进行[V6矢量与比例构造](senplate-bowl-golden-v6.md)。以下保留V5当时的生成过程与边界，不再作为阻止矢量工作的待确认项。
+
+用户认为V4已经无法认出是碗，并明确要求重新设计。原开口椭圆环路线停止；Senplate名称和深绿／米白基调保留，新图形不再受A的盘沿、三角份量或悬空圆点限制。
+
+本轮先做一个新的实体碗概念，优先看清碗口、完整碗身及底部，再将一处份量／水平参照细节融入。使用内置ImageGen，不沿用自动描摹或继续改旧椭圆，不扩展整套VI。候选字标建议用Senplate，与iOS显示名称一致；这不是用户已经选定新的字标。
+
+黄金比例继续作为比例参考，但原生生成图片没有精确几何验证。先确认新造型是否能读成碗，再做矢量和尺寸规范；不得提前宣称新稿已获认可、已完成SVG或商标检索。
+
+## 当前图稿与检查
+
+![实体碗新概念](../../output/brand/2026-09-17-senplate-bowl-redesign-v5/bowl-01-concept.png)
+
+实际使用内置ImageGen生成一个新概念，再作一次定向编辑以补齐不透明米白底及减少材质效果。首张为透明PNG，保留为[生成原稿](../../output/brand/2026-09-17-senplate-bowl-redesign-v5/bowl-01-generated.png)；展示版为[当前概念](../../output/brand/2026-09-17-senplate-bowl-redesign-v5/bowl-01-concept.png)。没有改动旧V4素材或代操作GPT网页，也没有使用CLI/API替代。
+
+助手视觉检查：可见完整椭圆碗口、向下收拢的实体碗身、底脚，以及前口沿的阶梯形留白；文字拼写为Senplate。旧开口环和悬空圆点不再沿用。阶梯形细节用于表达份量／水平参照的设计意图，尚未经过目标用户理解测试。
+
+当前图片仍有轻微生成纹理和较细的口沿／底脚缝隙，属于候选效果图，不是已完成的纯色矢量母版。用户认可造型后，再简化细线、整理曲率与光学字距、做32px等检查及精确比例核对。当前没有整套VI、PNG透明系列、SVG或App图标交付。
+
+完整提示词与编辑词保留如下；文件和旧资产保护核对见[本轮QA](../../output/qa/senplate-bowl-redesign-v5-2026-09-17/closeout-validation.json)。
+
+## 实际生成提示词
+
+```text
+Use case: logo-brand.
+Create one completely NEW premium logo concept for the brand "Senplate", an AI and sensor system that continuously observes real food portions and remaining food, helping people decide how much to serve or replenish. It is used in dining services and personal meal recording.
+
+The crucial design requirement: the symbol must clearly read as a REAL DINING BOWL before it reads as technology. Show the bowl in a restrained front-three-quarter view, slightly from above: a visibly open oval mouth, continuous substantial sidewalls curving down from a wider rim to a narrower stable base, and a clear bottom/foot. The filled body beneath the rim must be present. Do not depict merely a flat oval, an open elliptical ring, a collar, a power-button U, or an orbital swoosh.
+
+Art direction: elegant, precise, mature contemporary identity for intelligent kitchen hardware, warm but not cute. Develop a unified compact bowl symbol, with one purposeful negative-space notch or small stepped level detail integrated into the rim or bowl wall, subtly expressing measured portions. Keep the main vessel silhouette clear, simple and substantial. The detail should feel intrinsic to the bowl, not a pasted-on sensor icon. At most a very restrained abstract food-level shape inside the opening; no food illustration, no conical mountain and no detached dot floating above it. No human figure, face, mascot, leaf, recycling arrows, fork/spoon, Wi-Fi arcs, AI sparkles, measurement numbers or medical imagery.
+
+Use flat deep forest green #163F35 on a clean warm ivory #F3F1E7 background. Smooth polished curves, deliberate negative space, no textures, no gradient, no shadows, no bevels, no 3D rendering or mockup. Draw it with a clean vector-like finish, without claiming the image is an actual vector file. Let golden-ratio-inspired proportions guide the bowl width, depth and spacing only when they support recognition; do not show spirals, grids, ratio labels or technical construction lines.
+
+Composition: one generously sized horizontal logo lockup centered in a quiet landscape image with plenty of breathing room. Put the distinctive bowl symbol to the left of the exact word "Senplate" (capital S, then lowercase e n p l a t e) in a beautifully spaced contemporary sans-serif wordmark of medium-bold weight. The bowl and wordmark should feel like a finished visual concept at the same optical weight. Only that single logo lockup on the background. No poster title, no explanatory copy, no slogan, no variant sheet, no app icon mockups, no contact sheet, no border, no watermark, no trademark symbols.
+```
+
+## 一次定向编辑提示词
+
+编辑目标为上面的透明生成原稿，实际仍使用内置ImageGen。
+
+```text
+Edit this logo concept as a flat presentation image. Preserve the new bowl silhouette, complete bowl body and foot, the small integrated rim/level step, the exact word "Senplate", the letterforms, symbol-to-type proportions and placement. Do not change it back to a ring. Remove all shading, grain, gradients, 3D material cues and texture: bowl and wordmark must be one uniform solid deep green #163F35, with clean smooth edges. Fill the entire rectangular artboard with a uniform, fully opaque warm ivory #F3F1E7; the mouth and negative spaces should show the same ivory. The background is an integral visible part of this presentation image. Do NOT produce transparency, a transparent cutout, a black background, a checkerboard or a shadow. Preserve generous clear margins. Only this single bowl-and-Senplate lockup, with no extra text or elements.
+```
+
+FILE planning/2026-09-17/senplate-logo-measured-plate-r5.md L1-45
+# Senplate Logo R5 · Measured Plate / 餐食计量
+
+日期：2026-09-17。状态：**HISTORICAL — SUPERSEDED_BY_SELECTED_A**。用户随后上传“A方案·细化版”并明确选用，当前依据为[brand.md](../../brand.md)。以下保留R5的设计意图、资产及当时证据，不再等待评价；R5未被选作最终Logo。
+
+## 当前设计意图
+
+本稿保留深绿#163F35、米白#F3F1E7及小写senplate字标，改用“被测量的餐食”作为核心语义。下方浅盘弧线与上方计量参照共同构成标记，盘内有偏置的份量块。
+
+| 图形特征 | 与项目的联系 |
+|---|---|
+| 下部浅盘／承载弧线 | 指向实际餐食与供餐容器，适用于供餐、学校样本和个人餐食配置 |
+| 盘内份量块及周围空白 | 表示可被观察的食物份量／余量，不代表某种食物或固定营养占比 |
+| 上部带短折角的基准带 | 表示计量和参照，呼应感知份量后判断何时补餐或怎样调整 |
+
+这些是设计意图，不是用户识别测试的结论。Logo只承担“餐食＋感知份量”的主要关联，不要求把AI芯片、相机、秤、营养与循环箭头全部拼在一个图形里。没有声称新算法、营养诊断、准确率或实际减损效果。
+
+## 图稿与源文件
+
+![R5评审图](../../output/brand/2026-09-17-senplate-r5/measured-plate-review.png)
+
+- [Figma评审](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=28-2)：新增R5，旧图不覆盖。
+- [符号SVG](../../output/brand/2026-09-17-senplate-r5/measured-plate-mark.svg)、[横向组合SVG](../../output/brand/2026-09-17-senplate-r5/measured-plate-signature.svg)、[反白SVG](../../output/brand/2026-09-17-senplate-r5/measured-plate-reverse.svg)。
+- [资产清单](../../output/brand/2026-09-17-senplate-r5/manifest.json)记录原生PNG、节点、字体、尺寸与哈希。
+
+Figma母稿26:3，评审28:2，紧边界横向组合32:2。构图144×104单位，工作母稿216×156；小图放入24／32／64px正方形画布内，保持原比例居中。字标沿用Manrope Medium，104px字号、-3%字距及40px图文间距；仍未完成最终字体授权归档或正式VI手册。
+
+## 给用户独立尝试的提示词
+
+[Senplate_Logo_ImageGen_Brief.md](../../Senplate_Logo_ImageGen_Brief.md)已完成，包含完整背景、主提示词、A/B/C三个语义方向、避免的结构、输出格式与选中后的细化提示词。无需先读项目历史；不包含组员学号、邮箱、预算或其他不必要身份资料。
+
+本文件供用户自行在网页版尝试。没有打开、操作或向用户的GPT网页会话提交内容，没有调用或宣称使用了某个特定网页版图像模型，也不保证提示词切换模型。网页端后续成图是新候选，不自动作为Senplate正式资产。
+
+## 保留与检查
+
+用户对R4的评价是视觉可接受但意义不足，不能改写成“全部丑”或完全否决其视觉气质。[R4](senplate-logo-profile-r4.md)保留为视觉参考，Figma框名改为REFERENCE；原图片与SVG不变。原Interval近似检索及更早否决稿继续保留。
+
+R5横向组合、反白和小尺寸已实际查看；PNG由Figma原生导出、SVG文本转为轮廓，Figma内文本可编辑。没有用Python重绘或修改图像。语义是否让目标用户自然理解，仍需后续评价。
+
+本轮**没有为R5做新的图库近似筛查或官方商标图像查询**。旧稿查询不能沿用为新稿权利结论，当前是设计草稿，不是已批准Logo或可注册性意见。
+
+[阅读记录](../../output/qa/senplate-logo-r5-2026-09-17/reading-record.json)、[收尾检查](../../output/qa/senplate-logo-r5-2026-09-17/closeout-validation.json)。学校文件、硬件范围、身份、商业及赛事信息保留；无App编码、购买、注册或对外联系。
+
+## 当前后续入口
+
+选稿已经完成。转到[已选A版品牌规范](../../brand.md)继续后续界面设计；本稿及其字体、母版编号不能混用为新Logo。
+
+FILE planning/2026-09-17/senplate-logo-profile-r4.md L1-40
+# Senplate Logo R4 · Profile / 层序
+
+日期：2026-09-17。状态：VISUAL_REFERENCE — SEMANTIC_REVISION_REQUESTED。用户认为本稿视觉尚可，但项目关联及意义不足；当前修订为[R5餐食计量](senplate-logo-measured-plate-r5.md)。这是对视觉气质的有限认可，不是整个Logo获批，也不是完全否决视觉。Profile／层序仅为内部方向名。
+
+## 本轮修改
+
+保留深绿#163F35、米白#F3F1E7及小写senplate字标。替换旧稿“双折面围出方形中空、两处斜向开口”的核心结构，改为三个开放、互不连接的纵向轮廓。前两段使用弧形顶部，第三段保持直边；下端依次错位，避免统一基线造成普通柱状图的印象。
+
+这不是把Interval换色或旋转。原稿在Figma标为ARCHIVE，几何与本地导出保留，详见[旧稿](senplate-vector-logo-studies.md)及[近似初筛](../../research/2026-09-17-logo-similarity/similarity-review.md)。本次没有新增产品功能或改变硬件。
+
+## 当前图形
+
+构图范围140×112单位，主竖段宽28单位，基本水平间隔12单位。三段下端分别位于112、92、72单位；工作母稿为210×168像素。三段的前后层次可呼应观察食物轮廓与连续变化，属于设计解释，不对应传感器精度、三个食物组或已验证算法。
+
+字标沿用Manrope Medium，横向组合104px字号、-3%字距，图文间距40px。字体可用样式已在Figma确认并加载；尚未完成最终字体授权归档、逐字定制字距或完整VI手册。
+
+![Profile R4评审图](../../output/brand/2026-09-17-senplate-r4/profile-review.png)
+
+## 文件与Figma
+
+- [当前Figma评审画板](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=15-2)：原生向量及可编辑文字。
+- [符号SVG](../../output/brand/2026-09-17-senplate-r4/profile-mark.svg)、[横向组合SVG](../../output/brand/2026-09-17-senplate-r4/profile-signature.svg)、[反白SVG](../../output/brand/2026-09-17-senplate-r4/profile-mark-reverse.svg)。SVG字标转为轮廓，不依赖字体加载；Figma源文本保留。
+- [资产清单](../../output/brand/2026-09-17-senplate-r4/manifest.json)记录导出来源、节点、尺寸、状态与哈希。
+- 最终母稿节点22:3，主评审15:2，紧边界横向组合18:2；原始齐底试稿13:2已归档，旧Interval的2:2／5:2也归档，未改它们的图形内容。
+
+## 对照与检查
+
+最终几何重新与固定版本Simple Icons中的3454个图形进行候选检索，人工复核前16项及5个补充标记，共21项；另实际查看图片搜索中Pillar Konstruksi的三柱加双弧形标记。候选只是辅助发现，不提供法律相似度或清查结论。
+
+已查到的Aqua、OPNsense及机械革命图形的双折面围框关系不再出现在本稿。三条形状和弧线本身属于常见视觉语言，仍需用户评价辨识度；没有宣称新的结构全球独有、必然可注册或已通过官方图形检索。旧Interval的香港／美国查询结论不能直接套到新稿。
+
+本次只进行原生矢量制作、公开图形快速对照及小尺寸检查，**没有重新向香港、美国、内地、WIPO或欧盟提交新稿图像查询**。图标库与候选记录沿用已有公开数据，未把他人图形导入Senplate资产。
+
+主图、反白与24／32／64px已实际查看；小图放在相应正方形画布内，按5:4原比例居中，不拉伸为正方形。三个轮廓及中间间隔保持可辨。原生PNG字节保存，未用Python修图；初次批量导出响应超长截断，后拆为SVG与PNG两次完整导出。
+
+读档与范围见[记录](../../output/qa/senplate-logo-r4-2026-09-17/reading-record.json)，候选排序见[数据](../../output/qa/senplate-logo-r4-2026-09-17/ridge-library-ranking.json)，最终[核对](../../output/qa/senplate-logo-r4-2026-09-17/closeout-validation.json)。文档、身份、旧图和研究证据保留；没有App编码、购买、提交、对外联系或发布组件库。
+
+## 唯一下一步
+
+R4保留为色调、字标和视觉质感参考。用户比较[R5](senplate-logo-measured-plate-r5.md)及其网页端独立生成候选，再选定同时满足视觉与项目语义的方向；不自动批准或启动App还原。
+
+FILE planning/2026-09-17/senplate-v6-tick-study.md L1-30
+# Senplate V6.1 · 刻度小修试稿
+
+日期：2026-09-17。状态：TRIAL_ONLY — V6_RETAINED_UNCHANGED。
+
+用户明确要求先保留V6，再基于其小修，把感觉不自然的阶梯形口沿换成刻度试试看。本轮只制作独立试稿，不覆盖V6，不将试稿自动设为默认Logo。
+
+![V6与刻度试稿](../../output/brand/2026-09-17-senplate-v6-tick-study/tick-comparison.png)
+
+## 局部改动
+
+- 移除原来口沿内的阶梯填充和竖向缺口，内开口恢复为完整椭圆。
+- 在碗身右侧设置三条右对齐的圆端刻线，顺序为长—短—长，不加数字。
+- 碗身外轮廓、口沿分界线、底脚分界线、字标路径、组合宽高和图文间距沿用V6。
+
+长线46.6874、短线28.8544、厚6.8116、中心间距17.8330，均使用原V6尺寸系列；长／短约为φ。刻线是品牌图形，不附实际测量单位。32px时刻度细节较弱，64px更清楚；未做实机或用户识别率测试。
+
+## 保留与检查
+
+V6原素材包、全部导出、原构造说明与QA文件原样保留。Figma只操作副本：原V6的8个源稿／预览节点状态前后相同；试稿中的外轮廓、口沿线及脚底线与基准源路径相同，字标路径也相同，排版主要参数相同。
+
+另外比较两版960×680原生PNG的透明度，碗口及刻度区域之外没有检测到变化。文件保护、Figma不变量和像素局部检查见[本轮QA](../../output/qa/senplate-v6-tick-study-2026-09-17/closeout-validation.json)。这些检查证明修改范围，不代表用户已经选用。
+
+## 文件
+
+- [独立试稿预览](../../output/brand/2026-09-17-senplate-v6-tick-study/tick-preview.png)
+- [横向Logo SVG](../../output/brand/2026-09-17-senplate-v6-tick-study/tick-logo.svg)／[独立符号SVG](../../output/brand/2026-09-17-senplate-v6-tick-study/tick-symbol.svg)
+- [原V6素材包](../../output/brand/Senplate_Bowl_Golden_Vector_v6.zip)保持不变。
+- [Figma对照](https://www.figma.com/design/UyYjnTFGWO0r1lj4uvghGp?node-id=85-13)：页面76:2；试稿布尔84:3、符号84:22、组合85:2、预览85:6、对照85:13，32／64px为85:24／85:26。
+
+不新增字体、不改配色，不扩展VI或App代码，没有新商标检索。下一步根据用户比较结果决定是否采用刻度处理；V6始终保留为基准。

@@ -1,0 +1,35 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "E945C1DE-44F3-4C08-82DE-219D95707786.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "03-awaiting-measurement_0_6C940188-21DD-4F1E-AF84-E2B8A0E61F69.png",
+        "timestamp" : 1789751433.437
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "5C6DE9CA-54A0-4CFB-B835-BE26035B5D52.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "02-overview-zh_0_D4EE051D-7AA4-4753-9706-ADD59D9641A2.png",
+        "timestamp" : 1789751407.393
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "337845E9-3E54-4C9B-B41E-940F5AEAC829.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "01-overview-en_0_29D1DDE2-CE12-4438-AF42-CC6C8414A882.png",
+        "timestamp" : 1789751398.609
+      }
+    ],
+    "testIdentifier" : "SenplateUITests/testEnglishChinesePersistenceAndKitchenFlow()",
+    "testIdentifierURL" : "test://com.apple.xcode/Senplate/SenplateUITests/SenplateUITests/testEnglishChinesePersistenceAndKitchenFlow"
+  }
+]

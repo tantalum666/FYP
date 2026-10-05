@@ -1,0 +1,20 @@
+Create ONE sophisticated logo and visual identity concept board for the brand "Senplate", creative direction "Measured / 分寸". The user has selected the name and is now choosing an identity. Do not generate other brand names. Do not put a numeric option label on the image.
+
+Format: 1536 x 1024 landscape brand-design board, exceptionally clean editorial composition with generous whitespace. This is a LOGO AND VI BOARD, not an app screen, a feature dashboard or a poster advertisement. Let a large, impeccably kerned "Senplate" wordmark and its symbol dominate the upper two-thirds. Supporting applications small and disciplined along the bottom. Avoid a generic equal-size grid of cards.
+
+Brand context: Senplate combines a single continuously monitored food weighing station with software that helps restaurant teams decide when and how much to replenish. The same core supports school sample-meal education and adult meal records. Character: precise, grounded, calm, humane; serious enough for foodservice hardware and inviting enough for an iPhone app. No medical claims, no performance statistics, no registered trademark symbols, no pricing or website URL. No Chinese brand name; only the chosen English name.
+
+Original logo concept: a compact solid circular/rounded-oval mark with ONE distinctive off-centre stepped negative-space cut. The cut separates a substantial upper portion and a small grounded lower portion, subtly evoking a plate rim and a measured amount. Two complementary solid masses, exact geometric relationship, balanced optical weight. Bold, simple, memorable silhouette that works in ONE color. This is not a pie chart, leaf, smiley, eye, power button, camera shutter or literal bowl illustration. No fork, recycling arrow, AI sparkle, circuit brain, infinity sign or generic planet ring. Do not copy any known identity. Make its single structural gesture distinctive. The same exact mark must be repeated unchanged wherever used on the board.
+Wordmark: "Senplate" exactly, S-e-n-p-l-a-t-e. Custom contemporary humanist sans, medium/semibold weight, warm open counters, subtle considered detailing and superb spacing. Quiet confidence, not a bubbly startup font.
+
+VI presentation:
+- Large primary horizontal lockup in almost-black on ivory.
+- A restrained monochrome/reverse pair showing the exact same symbol and wordmark, black on white and white on black. At least half the board should allow evaluating shape without color.
+- One square app icon application using the exact same mark, flat forest background and ivory symbol, no phone/device bezel.
+- Four tasteful color swatches labelled accurately: #163F35, #F3F1E7, #C8D99C, #18231F. Deep forest and ivory are primary, pale lime only a small accent. No gradients in logos or swatches.
+- A short typography specimen "Senplate" and "Food sensing & insight", with one line of clean Traditional Chinese "看清每一份". This line is a text specimen, not a fixed Chinese name. At most two font families.
+- One small, restrained hardware branding application: matte dark desktop food monitor with one rectangular weighing platform, slender curved upright, small overhead sensor head and portrait touchscreen, with the Senplate logo neatly on the base. Label it "Application study". Keep this secondary to the logo, no people, no recipe/food photography, no new hardware design claims.
+Tiny footer: "Senplate · Identity exploration · Group 2".
+
+The attached user-provided photograph is ONLY a reference for that hardware's physical form: one platform, upright, sensor head and screen. Do not reproduce the chef, kitchen, photo, screen content or any competitor logo. Do not use its colors as brand guidance. All other identity work is original to this direction.
+Use flat 2D vector-like artwork for marks and printed graphics. No glow, chrome, embossing tricks, decorative textures, unnecessary prose or dimension diagrams. Small hardware depiction may have understated realistic light, but do not use mockup lighting to hide a weak symbol. Keep all lettering legible and all elements unclipped. Date anchor: September 16, 2026; no visible dates needed.

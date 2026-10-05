@@ -1,0 +1,321 @@
+{
+  "task_kind": "Continuation and major revision of the supplier enquiry created in the immediately preceding sourcing review.",
+  "inherited_full_read": "../yahboom-sourcing-2026-09-15/full-read-completion.json",
+  "inherited_full_read_count": 21,
+  "inherited_full_read_lines": 2348,
+  "supplemental_full_reads": [
+    "AGENTS.md",
+    "product.md",
+    "handoff.md",
+    "README.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+    "planning/2026-09-15/yahboom-sourcing-and-customization.md"
+  ],
+  "supplemental_ranges": {
+    "planning/2026-09-15/procurement-guide.md": [
+      [
+        1,
+        18
+      ]
+    ]
+  },
+  "read_repairs": "Initial combined skills output truncated: documents SKILL read separately1-180,181-380,381-EOF. Combined project log read truncated: decision-log tail15 and work-log1-45 reread.",
+  "inventory": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "README.md",
+      "lines": 46,
+      "sha256": "f6315cf706881c82b8e160f8d5b7a1503a1b6edac6f04c6c2b58877c1e211c11"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 98,
+      "sha256": "8a0de60e7337d30386d19e5923728c563f71ab55cdf49850e968816b120b16d5"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 32,
+      "sha256": "487293d545b74bdd4cc5fd86f3f33bcb28acfdddc07d40d5f0483ab01d6cec0d"
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "lines": 174,
+      "sha256": "153da7429cd987e0e13d9440dd0f24a0a63ef60e3212335a19662a9b2ceeaff7"
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 118,
+      "sha256": "4fc0e8bff366ed3bd3e588f172f33b5a0b9e592b6ca8e4004fde2f142b074150"
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "lines": 78,
+      "sha256": "0546e0aee11211cbe5de981addd7f332da47e0b39f48785392b21b79bc0d1a21"
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160,
+      "sha256": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5"
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "lines": 108,
+      "sha256": "ac5709dfbaf0c4bcd78d211595e961b0028bd9031475d16281a675b3826e895f"
+    },
+    {
+      "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "lines": 39,
+      "sha256": "4bc962711143b8b982d7adba8e96f747f00cf2bc699d3d94835c08af8cb0d65b"
+    },
+    {
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "lines": 183,
+      "sha256": "4fa54cbecb0f24b25f7360ea82bce8a66a5760a1aeb912b9ff344f8cb981a2e4"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "lines": 39,
+      "sha256": "4bc962711143b8b982d7adba8e96f747f00cf2bc699d3d94835c08af8cb0d65b"
+    },
+    {
+      "path": "planning/2026-09-15/power-supply-detail.md",
+      "lines": 143,
+      "sha256": "5cf4999a5cfbbb1f0f7b3ae92707c5c2e774bb630c4b959b6243c9bdeda012e9"
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "lines": 210,
+      "sha256": "caa4e916c08687ebd12e1619dd96da02f3bcd15ee5c57827c39c851770149cf4"
+    },
+    {
+      "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "lines": 105,
+      "sha256": "bdd794ec8181b6603e13d93803a7c0d96c3241ef8d75b098baa08c372d3bdf6d"
+    },
+    {
+      "path": "product.md",
+      "lines": 94,
+      "sha256": "96efa7cf53bf6b4efbf4c6d578a3ed13e5709ef52f436fbd0f2793a997d00fb1"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165,
+      "sha256": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38,
+      "sha256": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44,
+      "sha256": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47,
+      "sha256": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287,
+      "sha256": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171,
+      "sha256": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25,
+      "sha256": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7"
+    },
+    {
+      "path": "work-log.md",
+      "lines": 109,
+      "sha256": "1982c4baf2d3593a37e363b14c2157e4de54df197a132dd4ff472b89634715b2"
+    }
+  ],
+  "excluded": "Generated output/qa snapshots, .git, dependencies/caches and office temporary lock files. Archive is an exact copy of fully read v1.",
+  "completed_at": "2026-09-15T23:32:45.497785+08:00",
+  "template_picker": "declined; use a utilitarian technical RFQ design",
+  "compaction_resume": {
+    "date": "2026-09-16",
+    "read_full": [
+      "AGENTS.md",
+      "product.md",
+      "handoff.md",
+      "decision-log.md",
+      "README.md",
+      "work-log.md",
+      "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "planning/2026-09-15/procurement-guide.md",
+      "planning/2026-09-15/yahboom-sourcing-and-customization.md"
+    ],
+    "qa_builder_read_full": true,
+    "read_repairs": "Combined multi-file output exceeded outer tool output budget; procurement-guide reread 1-110 and 111-EOF, sourcing read alone1-EOF, work-log1-60 and61-EOF. Other core entrypoint/source reads were untruncated. Old v1 archive is exact already-read draft.",
+    "reused_full_read": true
+  },
+  "final_inventory": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "README.md",
+      "lines": 47,
+      "sha256": "219fd0f76818b19cbc4acdb00c5d4f776d2f4f30c1278ac740a41e3ea581a6f5",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 106,
+      "sha256": "1ff623fcb6cc3d1a2f10580b9865c327a0f1c6aef690d72304844771f00306fe",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 33,
+      "sha256": "bbcb44b121d8f203ba3b215b31ec2791d2786a54d4401074509728c3b6a4f365",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "lines": 174,
+      "sha256": "153da7429cd987e0e13d9440dd0f24a0a63ef60e3212335a19662a9b2ceeaff7",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 118,
+      "sha256": "4fc0e8bff366ed3bd3e588f172f33b5a0b9e592b6ca8e4004fde2f142b074150",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "lines": 78,
+      "sha256": "0546e0aee11211cbe5de981addd7f332da47e0b39f48785392b21b79bc0d1a21",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160,
+      "sha256": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "lines": 108,
+      "sha256": "ac5709dfbaf0c4bcd78d211595e961b0028bd9031475d16281a675b3826e895f",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "lines": 39,
+      "sha256": "4bc962711143b8b982d7adba8e96f747f00cf2bc699d3d94835c08af8cb0d65b",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "lines": 183,
+      "sha256": "4fa54cbecb0f24b25f7360ea82bce8a66a5760a1aeb912b9ff344f8cb981a2e4",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "lines": 17,
+      "sha256": "0166e82d6e1c9268ead6868f331700e475d2ce3523568ad6070487cfc4326a94",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "lines": 247,
+      "sha256": "1434e55732e1ccb5a514e9204c4923f704221a8be0dc5d13f32f419c671c9c13",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "planning/2026-09-15/power-supply-detail.md",
+      "lines": 143,
+      "sha256": "5cf4999a5cfbbb1f0f7b3ae92707c5c2e774bb630c4b959b6243c9bdeda012e9",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "lines": 212,
+      "sha256": "91b51321831fc0127e3a2b2443ef86cd8a0e82813e91d534f961925ba4f085f4",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "lines": 107,
+      "sha256": "b46d953706ca85cee97f85a198a24c159aaa7e96b9ab4e50beb7907a847d506d",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "product.md",
+      "lines": 97,
+      "sha256": "aa32a99f53e1737fa3e6c075ed6edf4b504ed63aa55a67d5be591e42d981f092",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165,
+      "sha256": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38,
+      "sha256": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44,
+      "sha256": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47,
+      "sha256": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287,
+      "sha256": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171,
+      "sha256": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25,
+      "sha256": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    },
+    {
+      "path": "work-log.md",
+      "lines": 120,
+      "sha256": "e8e5152ffc3b3bf2cdd008e46430dfc3e3254a8aa51600dd076bac5a35bfc888",
+      "read_basis": "Previous complete read plus current modifications/source authoring; generated QA evidence excluded"
+    }
+  ],
+  "current_complete_at": "2026-09-16T00:06:36.309781+08:00"
+}

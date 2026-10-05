@@ -1,0 +1,38 @@
+{
+  "task": "Complete school proposal, pause software batch work",
+  "target_submission_date": "2026-09-28",
+  "moodle_due": "2026-09-29T23:59:00+08:00",
+  "required_formats": [
+    "docx",
+    "pdf"
+  ],
+  "filename_pattern": "AY26_ProjectProposal_GroupX",
+  "team_group_display": "Group 2",
+  "language": "English",
+  "final_project_deadline": "not supplied; plan relative six months with explicit proposed milestones",
+  "samples_reviewed": {
+    "sample1": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "sample2": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "blank_sample_pages": [
+      "sample1 page8",
+      "sample2 page6"
+    ]
+  },
+  "guideline_read": "one page, seven required sections, no word/page/typeface limits stated"
+}

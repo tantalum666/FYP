@@ -1,0 +1,93 @@
+{
+  "version": "V6.2",
+  "date": "2026-09-18",
+  "status": "TRIAL_ONLY",
+  "source": "Figma native export",
+  "retains": [
+    "V6",
+    "V6.1"
+  ],
+  "figma_file": "UyYjnTFGWO0r1lj4uvghGp",
+  "page": "76:2",
+  "nodes": {
+    "boolean": "89:3",
+    "symbol": "89:23",
+    "signature": "89:24",
+    "preview": "89:28",
+    "comparison": "89:33",
+    "detail": "90:8",
+    "sample32": "90:2",
+    "sample64": "90:5"
+  },
+  "assets": [
+    {
+      "file": "README.md",
+      "bytes": 1011,
+      "sha256": "cb59360e23759961e887549c379662aadca07376d35886a7e80fa9ae77fd2c47"
+    },
+    {
+      "file": "rim-32.png",
+      "bytes": 919,
+      "sha256": "e82f9608c252d60353735b0677156befa0fdd2686e3af5454b349aca88f3ac46",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "rim-64.png",
+      "bytes": 1747,
+      "sha256": "6d332481bec0c6e71851f3e3504caba1d9ff34f57fef101e9ff24de884c49ace",
+      "size": [
+        64,
+        64
+      ]
+    },
+    {
+      "file": "rim-comparison.png",
+      "bytes": 48753,
+      "sha256": "cb98dc0b2e45e00ae2451f08d44e59e1b760ef7077b0156ba8114d4dfeef047c",
+      "size": [
+        1440,
+        760
+      ]
+    },
+    {
+      "file": "rim-detail.png",
+      "bytes": 19000,
+      "sha256": "1064f69e0675842421e6b00d400e16322a93eb16ac5e981b9f842aa635d9ba34",
+      "size": [
+        960,
+        720
+      ]
+    },
+    {
+      "file": "rim-logo.svg",
+      "bytes": 10496,
+      "sha256": "8c0f4b1c25ab9404e552452bc7e6393c1352d4591e59cfa251459cf36f253e0e"
+    },
+    {
+      "file": "rim-preview.png",
+      "bytes": 29801,
+      "sha256": "baef2ddf6bf05a35ff2b6b064f392cc6a1d918301c722cb78836e8da0fc3e161",
+      "size": [
+        1774,
+        887
+      ]
+    },
+    {
+      "file": "rim-symbol.png",
+      "bytes": 24113,
+      "sha256": "daf241bf62e4c5a209c6db0e84a0646535da40d65c263f017ba99fa502be2d09",
+      "size": [
+        960,
+        680
+      ]
+    },
+    {
+      "file": "rim-symbol.svg",
+      "bytes": 1736,
+      "sha256": "ee66cac3a2a50aefaf11346907e9983ed3ae68cfc2993a855966e99081e061f2"
+    }
+  ]
+}

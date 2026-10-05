@@ -1,0 +1,74 @@
+{
+  "version": "V7",
+  "date": "2026-09-18",
+  "status": "USER_SELECTED_CURRENT_LOGO",
+  "selection": "No scale marks; plain bowl only",
+  "figma_file": "UyYjnTFGWO0r1lj4uvghGp",
+  "page": "76:2",
+  "nodes": {
+    "source": "106:2",
+    "boolean": "106:3",
+    "symbol": "106:8",
+    "signature": "106:9",
+    "preview": "106:13",
+    "sample64": "106:18"
+  },
+  "assets": [
+    {
+      "file": "Manrope-OFL.txt",
+      "bytes": 4387,
+      "sha256": "58172e0c0fac2cda8a37b348164bb55e44b0e69051e557e92b1d3f6910141f7b"
+    },
+    {
+      "file": "README.md",
+      "bytes": 952,
+      "sha256": "743fb9a7d309f7386b8df6c228163c65af903d0838f80b88af174ed699b53041"
+    },
+    {
+      "file": "senplate-logo.png",
+      "bytes": 48718,
+      "sha256": "e16cce3cfa5e000e139e7b78e6f56ab2aa8cfb931f71d9feb43af3831c1a1e5f",
+      "size": [
+        2400,
+        452
+      ]
+    },
+    {
+      "file": "senplate-logo.svg",
+      "bytes": 10215,
+      "sha256": "13bd4d599d9f06dbc7d1319dbf85a0c20af7378d06b9e818a6ced0b7c2653781"
+    },
+    {
+      "file": "senplate-preview.png",
+      "bytes": 29671,
+      "sha256": "99c2fda457d75fe5dd5f17c903bc182653a49ce0d905d556f67d9270c313606f",
+      "size": [
+        1774,
+        887
+      ]
+    },
+    {
+      "file": "senplate-symbol-64.png",
+      "bytes": 1633,
+      "sha256": "d903d11c8dcac0582ed524863cbefc04616e27e571a0fb62cf1b7c88a33d1ad5",
+      "size": [
+        64,
+        64
+      ]
+    },
+    {
+      "file": "senplate-symbol.png",
+      "bytes": 23370,
+      "sha256": "5cd4e4bd46db2b5679136e314db7900e31b1dfd2658bd3f3fc1c3b57a15f0e88",
+      "size": [
+        960,
+        680
+      ]
+    },
+    {
+      "file": "senplate-symbol.svg",
+      "bytes": 1455,
+      "sha256": "4bea3a7f492c1666fe654c055cf377bc36a07d02e6a81351ca908c84c8a43ca8"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "assets": [
+    {
+      "contentType": "image/jpeg",
+      "id": "123e27505605f555",
+      "kind": "image",
+      "name": "2901522_305487698_2.jpg",
+      "path": "/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/browser-use/assets/a8859831-8e2e-4b31-ac80-a5473c2258f2/123e27505605f555.jpg",
+      "url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/2/2/5/1/0/0002901522/tmimages/2901522_305487698_2.jpg"
+    },
+    {
+      "contentType": "image/jpeg",
+      "id": "af55dbe20a13df81",
+      "kind": "image",
+      "name": "2901522_305487698_1.jpg",
+      "path": "/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/browser-use/assets/a8859831-8e2e-4b31-ac80-a5473c2258f2/af55dbe20a13df81.jpg",
+      "url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/2/2/5/1/0/0002901522/tmimages/2901522_305487698_1.jpg"
+    },
+    {
+      "contentType": "image/jpeg",
+      "id": "f2ba4768466de7b3",
+      "kind": "image",
+      "name": "2901522_305487698_0.jpg",
+      "path": "/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/browser-use/assets/a8859831-8e2e-4b31-ac80-a5473c2258f2/f2ba4768466de7b3.jpg",
+      "url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/2/2/5/1/0/0002901522/tmimages/2901522_305487698_0.jpg"
+    },
+    {
+      "contentType": "image/jpeg",
+      "id": "ddd24fd186c047f9",
+      "kind": "image",
+      "name": "2871835_305423760_1.jpg",
+      "path": "/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/browser-use/assets/a8859831-8e2e-4b31-ac80-a5473c2258f2/ddd24fd186c047f9.jpg",
+      "url": "https://image-mark-finder.ipd.gov.hk/api/v1/images/5/3/8/1/7/0002871835/tmimages/2871835_305423760_1.jpg"
+    }
+  ],
+  "failures": []
+}

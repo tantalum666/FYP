@@ -1,0 +1,90 @@
+{
+  "version": "V6.3",
+  "date": "2026-09-18",
+  "status": "TRIAL_ONLY",
+  "source": "Native Figma exports",
+  "figma_file": "UyYjnTFGWO0r1lj4uvghGp",
+  "page": "76:2",
+  "nodes": {
+    "boolean": "93:3",
+    "symbol": "93:23",
+    "signature": "94:2",
+    "preview": "94:6",
+    "comparison": "94:11",
+    "detail": "94:30",
+    "sample32": "94:24",
+    "sample64": "94:27"
+  },
+  "note": "Right contour intentionally cut by level marks; macro construction and typography retained",
+  "assets": [
+    {
+      "file": "README.md",
+      "bytes": 835,
+      "sha256": "c51ef245711743d2d27d4dc37e7f6370a964e9bfceb2d630750a72d1af7d746d"
+    },
+    {
+      "file": "visible-32.png",
+      "bytes": 900,
+      "sha256": "7b74489ebc5f49e563ada56def170fa14df4a7258fb6e5424bc7d3d95cdf3118",
+      "size": [
+        32,
+        32
+      ]
+    },
+    {
+      "file": "visible-64.png",
+      "bytes": 1699,
+      "sha256": "286d523cf220132b31884fc6b30617828c2f33528e130b39f8774a972c984a5e",
+      "size": [
+        64,
+        64
+      ]
+    },
+    {
+      "file": "visible-comparison.png",
+      "bytes": 50206,
+      "sha256": "f0d1e3ab525435dd3191f58a8f2c645438edd0e60d620ec572ef4851962688c4",
+      "size": [
+        1440,
+        760
+      ]
+    },
+    {
+      "file": "visible-detail.png",
+      "bytes": 19746,
+      "sha256": "ff86806c69767afabf728b590ccdce1a43f9cc67a955444ea8201a03ae235788",
+      "size": [
+        960,
+        720
+      ]
+    },
+    {
+      "file": "visible-logo.svg",
+      "bytes": 10913,
+      "sha256": "50b6600501234c18ffba8176c190044683e2812df622a80e5d5af8b3032005c6"
+    },
+    {
+      "file": "visible-preview.png",
+      "bytes": 30425,
+      "sha256": "b38da48912dea4cafcfcd57f683ed561eacfc03089b6ca707345238e9c175167",
+      "size": [
+        1774,
+        887
+      ]
+    },
+    {
+      "file": "visible-symbol.png",
+      "bytes": 24776,
+      "sha256": "6d4e3ceee76b2844cfb17064bcc4fe8d7ff693c90f963bfd1bda52263b86f470",
+      "size": [
+        960,
+        680
+      ]
+    },
+    {
+      "file": "visible-symbol.svg",
+      "bytes": 2155,
+      "sha256": "3ef651faace44537e3fbad8cd9bda4ccf7bc7f4e5ecd128b567b2d98fd4b1f47"
+    }
+  ]
+}

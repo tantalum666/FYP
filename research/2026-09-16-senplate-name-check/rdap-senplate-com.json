@@ -1,0 +1,14 @@
+{
+  "domain": "senplate.com",
+  "url": "https://rdap.verisign.com/com/v1/domain/senplate.com",
+  "queried_at": "2026-09-16T06:16:41.156569+00:00",
+  "http_status": 404,
+  "headers": {
+    "Content-Type": "application/rdap+json",
+    "Access-Control-Allow-Origin": "*",
+    "Strict-Transport-Security": "max-age=15768000; includeSubDomains; preload"
+  },
+  "response": {
+    "raw": ""
+  }
+}

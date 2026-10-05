@@ -1,0 +1,59 @@
+{
+  "checked_at": "2026-09-16T15:00:45.083046+00:00",
+  "library": "Simple Icons",
+  "version": "16.31.0",
+  "metadata_source": "https://cdn.jsdelivr.net/npm/simple-icons@16.31.0/data/simple-icons.json",
+  "display_method": "Unmodified published SVG geometry loaded from pinned allowed CDN and shown in host foreground color using CSS masks; no logo files downloaded or redrawn",
+  "brands": [
+    {
+      "title": "Linear",
+      "slug": "linear",
+      "hex": "5E6AD2",
+      "source": "https://linear.app"
+    },
+    {
+      "title": "Notion",
+      "slug": "notion",
+      "hex": "000000",
+      "source": "https://www.notion.so"
+    },
+    {
+      "title": "Polestar",
+      "slug": "polestar",
+      "hex": "000000",
+      "source": "https://commons.wikimedia.org/wiki/File:Polestar_logo_2020.svg"
+    },
+    {
+      "title": "Stripe",
+      "slug": "stripe",
+      "hex": "635BFF",
+      "source": "https://stripe.com/newsroom/information"
+    }
+  ],
+  "official_pages": [
+    "https://www.polestar.com/global/",
+    "https://linear.app/",
+    "https://stripe.com/newsroom/information",
+    "https://www.notion.com/"
+  ],
+  "selected_by_user": [
+    "Polestar",
+    "Linear"
+  ],
+  "purpose": "Internal style calibration only, not Senplate assets or an endorsement",
+  "additional_pages_read_not_displayed": [
+    "https://ouraring.com/intellectual-property-notice",
+    "https://www.withings.com/en-ca/pages/press",
+    "https://ooni.com/"
+  ],
+  "unavailable_library_slugs": [
+    "oura",
+    "ooni"
+  ],
+  "selection_record": {
+    "date": "2026-09-17",
+    "source": "User-triggered visualization follow-up relayed into current conversation",
+    "instruction": "Use proportions, silhouette and negative-space principles for an original Senplate logo; preserve dark green and ivory; do not copy reference geometry",
+    "prior_qa_selection": "2026-09-16 clicks were cleared and not submitted; not the authority for this choice"
+  }
+}

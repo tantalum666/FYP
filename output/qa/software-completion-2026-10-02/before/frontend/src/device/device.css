@@ -1,0 +1,1094 @@
+.device-shell {
+  --device-bg: #171c1f;
+  --device-panel: #20282c;
+  --device-fg: #f1ede5;
+  --device-muted: #a6aca9;
+  --device-dim: #7f8987;
+  --device-accent: #e5b58a;
+  --device-accent-ink: #20272a;
+  --device-line: #384044;
+  --device-chip: #30373a;
+  --device-danger: #f3b5a8;
+  --accent: var(--device-accent);
+  --muted: var(--device-muted);
+  --line: var(--device-line);
+  min-height: 100dvh;
+  background: var(--device-bg);
+  color: var(--device-fg);
+  color-scheme: dark;
+}
+.device-shell.day {
+  --device-bg: #eae7df;
+  --device-panel: #f3f0e9;
+  --device-fg: #242b2b;
+  --device-muted: #646d6a;
+  --device-dim: #8a928b;
+  --device-accent: #ac6942;
+  --device-accent-ink: #fffaf4;
+  --device-line: #c5c8c0;
+  --device-chip: #dedbd2;
+  --device-danger: #923e32;
+  color-scheme: light;
+}
+.device-shell button {
+  color: inherit;
+}
+.device-shell button:focus-visible {
+  outline: 2px solid var(--device-accent);
+  outline-offset: 4px;
+}
+.display-face {
+  min-height: 100dvh;
+  height: 100dvh;
+  padding: 3.8vh 4.5vw 3.4vh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 3.3vh;
+  overflow: hidden;
+}
+.display-face:has(.display-alert) {
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  gap: 2vh;
+}
+.display-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2vw;
+  border-bottom: 1px solid var(--device-line);
+  padding-bottom: 3vh;
+}
+.display-clock {
+  font-size: min(14.5vw, 23.7vh);
+  font-weight: 220;
+  letter-spacing: -0.065em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  padding-right: 0.07em;
+}
+.display-date {
+  text-align: right;
+  min-width: 0;
+}
+.display-date > div {
+  font-size: min(4.8vw, 7.1vh);
+  font-weight: 440;
+  letter-spacing: -0.025em;
+  line-height: 1.3;
+}
+.display-date p {
+  font-size: min(2.85vw, 4.2vh);
+  font-weight: 400;
+  color: var(--device-muted);
+  margin-top: 0.9vh;
+  white-space: nowrap;
+}
+.display-content {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 7vw;
+  min-height: 0;
+}
+.display-month {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.display-month h1 {
+  font-size: min(4vw, 5.8vh);
+  font-weight: 460;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin: 0 0 2.1vh;
+  white-space: nowrap;
+}
+.display-month h1 span {
+  font-size: 0.66em;
+  color: var(--device-muted);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin-left: 0.15em;
+}
+.display-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  flex-shrink: 0;
+  margin-bottom: 0.6vh;
+}
+.display-weekdays span {
+  text-align: center;
+  color: var(--device-muted);
+  font-size: min(2.5vw, 3.8vh);
+  line-height: 1.4;
+  padding-bottom: 0.5vh;
+  font-weight: 400;
+}
+.display-month-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  min-height: 0;
+}
+.display-month-grid button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0;
+  min-width: 0;
+  min-height: 38px;
+}
+.display-day-number {
+  display: grid;
+  place-items: center;
+  width: min(4.8vw, 6vh);
+  height: min(4.8vw, 6vh);
+  flex-shrink: 0;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 50%;
+  font-size: min(2.6vw, 4.1vh);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+.display-month-grid .current-date .display-day-number {
+  color: var(--device-accent-ink);
+  background: var(--device-accent);
+}
+.display-month-grid .month-outside .display-day-number {
+  color: var(--device-dim);
+}
+.display-month-grid button:hover:not(.current-date) .display-day-number {
+  background: var(--device-chip);
+}
+.display-event-dot {
+  width: min(0.65vw, 9px);
+  height: min(0.65vw, 9px);
+  min-width: 4px;
+  min-height: 4px;
+  border-radius: 50%;
+  background: transparent;
+}
+.display-event-dot.marked {
+  background: var(--device-accent);
+}
+.display-agenda {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  justify-content: flex-start;
+}
+.display-agenda button {
+  text-align: left;
+  padding: 0;
+  width: 100%;
+}
+.display-lead {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 0;
+  flex-shrink: 0;
+}
+.display-lead > *,
+.display-later > * {
+  flex-shrink: 0;
+}
+.display-section-label {
+  display: block;
+  color: var(--device-muted);
+  font-size: min(2.4vw, 3.6vh);
+  line-height: 1.35;
+  margin-bottom: 1.2vh;
+}
+.display-lead strong {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  font-size: min(4.6vw, 6.6vh);
+  font-weight: 470;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+  margin-bottom: 1.3vh;
+}
+.display-lead-time {
+  color: var(--device-muted);
+  font-size: min(2.9vw, 4.2vh);
+  font-weight: 400;
+  line-height: 1.25;
+}
+.display-future-date {
+  font-size: min(1.7vw, 2.6vh);
+  margin-top: 7px;
+  color: var(--device-muted);
+}
+.display-later {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-top: 1px solid var(--device-line);
+  margin-top: 2.4vh;
+  padding-top: 2.4vh !important;
+  gap: 0.4vh;
+  flex-shrink: 0;
+}
+.display-later > span {
+  color: var(--device-muted);
+  font-size: min(2.15vw, 3.3vh);
+  line-height: 1.35;
+}
+.display-later > strong {
+  font-size: min(3vw, 4.7vh);
+  font-weight: 450;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+.display-agenda button:hover strong {
+  color: var(--device-accent);
+}
+.display-empty {
+  padding-top: 0.5vh;
+}
+.display-empty h2 {
+  font-size: min(3.8vw, 6vh);
+  line-height: 1.2;
+  font-weight: 440;
+  letter-spacing: -0.04em;
+  margin-bottom: 2vh;
+  overflow-wrap: anywhere;
+}
+.display-empty p {
+  color: var(--device-muted);
+  font-size: clamp(18px, 1.7vw, 28px);
+  line-height: 1.5;
+}
+.display-empty button {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-height: 48px;
+  margin-top: 15px;
+  font-size: 21px;
+  color: var(--device-accent);
+}
+.display-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 58px;
+}
+.display-status {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  min-width: 0;
+}
+.display-status > svg {
+  width: clamp(25px, 3vw, 45px);
+  height: clamp(25px, 3vw, 45px);
+  margin-top: 3px;
+  stroke-width: 1.4;
+  color: var(--device-muted);
+}
+.display-status > div {
+  display: flex;
+  flex-direction: column;
+}
+.display-status span,
+.display-manage {
+  font-size: clamp(18px, 1.95vw, 30px);
+  line-height: 1.4;
+  font-weight: 400;
+}
+.display-status small {
+  font-size: clamp(14px, 1.5vw, 23px);
+  color: var(--device-dim);
+}
+.display-status button {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  text-align: left;
+  color: var(--device-accent);
+  font-size: 16px;
+  padding: 3px 0;
+  min-height: 30px;
+}
+.display-manage {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+  min-height: 58px;
+  padding: 0;
+}
+.display-manage svg {
+  width: clamp(27px, 2.6vw, 40px);
+  height: clamp(27px, 2.6vw, 40px);
+  stroke-width: 1.4;
+  color: var(--device-muted);
+}
+.display-manage:hover {
+  color: var(--device-accent);
+}
+.display-alert {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  text-align: left;
+  padding: 14px 20px;
+  background: var(--device-accent);
+  color: var(--device-accent-ink) !important;
+  border-radius: 8px;
+  min-height: 64px;
+}
+.display-alert > span:first-of-type {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+.display-alert strong {
+  font-size: 19px;
+  font-weight: 650;
+}
+.display-alert span span {
+  font-size: 21px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.display-alert > span:last-child {
+  font-size: 20px;
+}
+.display-face:has(.display-alert) .display-later {
+  margin-top: 1.3vh;
+  padding-top: 1.3vh !important;
+}
+.display-face:has(.display-alert) .display-later strong {
+  -webkit-line-clamp: 1;
+}
+
+/* Touch controls have a separate layer; the resting display has no app chrome. */
+.device-shell .dialog {
+  background: var(--device-panel);
+  color: var(--device-fg);
+  border: 1px solid var(--device-line);
+  border-radius: 18px;
+  width: min(700px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  box-shadow: 0 24px 90px #00000050;
+}
+.device-shell .dialog.wide {
+  width: min(830px, calc(100vw - 32px));
+}
+.device-shell .calendar-panel-wrapper .dialog {
+  width: min(1360px, calc(100vw - 24px));
+}
+.device-shell .dialog::backdrop {
+  background: #090e12a3;
+  backdrop-filter: blur(8px);
+}
+.device-shell .dialog-header {
+  background: var(--device-panel);
+  border-color: var(--device-line);
+  padding: 18px 26px;
+}
+.device-shell .dialog-header h2 {
+  font-size: 27px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+.device-shell .dialog-body {
+  padding: 25px 28px;
+}
+.device-shell .dialog .icon-button {
+  color: var(--device-fg);
+  background: transparent;
+  min-height: 48px;
+  width: 48px;
+}
+.device-shell .primary,
+.device-shell .secondary,
+.device-shell .danger-button {
+  min-height: 50px;
+  font-size: 19px;
+  padding: 11px 18px;
+  white-space: normal;
+}
+.device-shell .primary {
+  background: var(--device-accent);
+  color: var(--device-accent-ink);
+  border-color: var(--device-accent);
+}
+.device-shell .secondary {
+  background: var(--device-panel);
+  color: var(--device-fg);
+  border-color: var(--device-line);
+}
+.device-shell .primary:hover {
+  filter: brightness(1.05);
+}
+.device-shell .secondary:hover {
+  background: var(--device-chip);
+}
+.device-shell input,
+.device-shell select,
+.device-shell textarea {
+  background: var(--device-bg);
+  color: var(--device-fg);
+  border-color: var(--device-line);
+  font-size: 19px;
+  border-radius: 9px;
+}
+.device-shell .field {
+  color: var(--device-muted);
+  font-size: 18px;
+  gap: 10px;
+  margin-bottom: 23px;
+}
+.device-shell .field input,
+.device-shell .field select,
+.device-shell .field textarea {
+  font-size: 20px;
+  color: var(--device-fg);
+  min-height: 50px;
+  padding: 12px 14px;
+}
+.device-shell input[type="checkbox"] {
+  accent-color: var(--device-accent);
+  width: 21px;
+  height: 21px;
+  min-height: 21px;
+  min-width: 21px;
+  padding: 0;
+}
+.device-shell .check-field {
+  font-size: 19px;
+  min-height: 44px;
+}
+.device-shell .form-note,
+.device-shell .form-details summary {
+  color: var(--device-muted);
+  font-size: 17px;
+}
+.device-shell .form-details summary {
+  min-height: 40px;
+  padding-top: 6px;
+}
+.device-shell .title-field input {
+  font-size: 26px;
+}
+.device-shell .reminder-options label {
+  min-height: 44px;
+  gap: 9px;
+  font-size: 17px;
+}
+.device-shell .reminder-options input[type="checkbox"] {
+  min-height: 21px;
+  width: 21px;
+  min-width: 21px;
+}
+.device-shell .color-choice {
+  width: 44px;
+  height: 44px;
+  color: #303638;
+}
+.device-shell .event-detail h3 {
+  font-size: 34px;
+  color: var(--device-fg);
+}
+.device-shell .event-detail > p,
+.device-shell .event-detail .detail-time {
+  color: var(--device-muted);
+  font-size: 21px;
+}
+.device-shell .event-detail .form-note {
+  font-size: 17px;
+}
+.device-shell .detail-actions .text-button,
+.device-shell .text-button {
+  font-size: 18px;
+  min-height: 44px;
+}
+.device-shell .error-message {
+  background: var(--device-bg);
+  color: var(--device-danger);
+  font-size: 17px;
+}
+.device-shell .danger,
+.device-shell .danger-button {
+  color: var(--device-danger);
+}
+.device-shell .delete-confirm,
+.device-shell .conflict-note {
+  background: var(--device-bg);
+  color: var(--device-fg);
+}
+.device-shell .empty-reminders h3 {
+  color: var(--device-fg);
+}
+.device-shell .empty-reminders p,
+.device-shell .reminder-row p {
+  font-size: 18px;
+}
+.device-shell .reminder-row strong {
+  font-size: 25px;
+}
+.device-shell .toast {
+  background: var(--device-accent);
+  color: var(--device-accent-ink);
+  font-size: 21px;
+  bottom: 20px;
+}
+.device-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.device-actions > button {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 20px;
+  min-height: 74px;
+  background: var(--device-bg);
+  border: 1px solid var(--device-line);
+  border-radius: 10px;
+  font-size: 22px;
+  text-align: left;
+}
+.device-actions > button:hover {
+  border-color: var(--device-accent);
+}
+.device-actions svg {
+  width: 25px;
+  height: 25px;
+  color: var(--device-accent);
+}
+.display-options {
+  margin-top: 26px;
+  padding-top: 24px;
+  border-top: 1px solid var(--device-line);
+}
+.display-options h3 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+.appearance-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.appearance-options button {
+  min-height: 58px;
+  border: 1px solid var(--device-line);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 9px;
+  font-size: 18px;
+}
+.appearance-options button.selected {
+  color: var(--device-accent);
+  border-color: var(--device-accent);
+  background: var(--device-bg);
+}
+.appearance-options svg {
+  width: 21px;
+  height: 21px;
+}
+.display-options > p {
+  color: var(--device-muted);
+  font-size: 16px;
+  margin-top: 13px;
+}
+.wake-control {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--device-line);
+}
+.wake-control label {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 19px;
+  min-height: 44px;
+}
+.wake-control small {
+  display: block;
+  font-size: 16px;
+  color: var(--device-muted);
+  margin: 5px 0 0 33px;
+}
+.device-return {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-height: 52px;
+  margin-top: 16px;
+  font-size: 20px;
+}
+.device-recovery {
+  margin-top: 22px;
+  padding: 16px;
+  border: 1px solid var(--device-accent);
+  border-radius: 9px;
+}
+.device-recovery p {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+.device-login > p {
+  color: var(--device-muted);
+  font-size: 20px;
+  margin-bottom: 25px;
+}
+.device-check {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin: 16px 0 28px;
+  font-size: 20px;
+}
+.device-check input {
+  margin-top: 7px;
+}
+.device-check span {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.device-check small {
+  font-size: 16px;
+  color: var(--device-muted);
+}
+.device-preferences-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding-top: 20px;
+  border-top: 1px solid var(--device-line);
+}
+.device-connections {
+  margin-top: 30px;
+  border-top: 1px solid var(--device-line);
+  padding-top: 22px;
+}
+.device-connections h3 {
+  font-size: 21px;
+  font-weight: 500;
+}
+.device-connections p {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  font-size: 18px;
+  padding-top: 15px;
+}
+.device-connections p span {
+  color: var(--device-muted);
+}
+.device-data-empty {
+  padding: 30px;
+  text-align: center;
+  color: var(--device-muted);
+  font-size: 22px;
+}
+.device-data-empty button {
+  margin-top: 20px;
+}
+.device-shell .calendar-toolbar {
+  padding: 0 0 16px;
+}
+.device-shell .calendar-toolbar h1 {
+  font-size: 32px;
+}
+.device-shell .toolbar-main p,
+.device-shell .zone-label {
+  color: var(--device-muted);
+  font-size: 18px;
+}
+.device-shell .toolbar-actions {
+  padding-right: 0;
+}
+.device-shell .segments {
+  background: var(--device-bg);
+  border-color: var(--device-line);
+}
+.device-shell .segments button {
+  font-size: 18px;
+  min-height: 48px;
+  padding: 10px 15px;
+  border-color: var(--device-line);
+}
+.device-shell .segments .selected {
+  background: var(--device-chip);
+  color: var(--device-accent);
+}
+.device-shell .date-controls .secondary {
+  min-height: 46px;
+}
+.device-shell .time-view {
+  height: calc(100dvh - 290px);
+  min-height: 290px;
+}
+.device-shell .time-grid-head,
+.device-shell .all-day-grid,
+.device-shell .time-grid-body,
+.device-shell .time-scroll {
+  min-width: 840px;
+}
+.device-shell .time-view.day .time-grid-head,
+.device-shell .time-view.day .all-day-grid,
+.device-shell .time-view.day .time-grid-body,
+.device-shell .time-view.day .time-scroll {
+  min-width: 0;
+}
+.device-shell .time-grid-head button,
+.device-shell .time-grid-head button > span:last-child,
+.device-shell .time-axis > div,
+.device-shell .all-day-label {
+  color: var(--device-muted);
+  font-size: 17px;
+}
+.device-shell .weekend {
+  background: var(--device-bg);
+}
+.device-shell .today {
+  background: var(--device-accent) !important;
+  color: var(--device-accent-ink) !important;
+}
+.device-shell .event-block {
+  background: var(--device-chip);
+  border-color: var(--device-accent);
+}
+.device-shell .event-title {
+  color: var(--device-fg);
+  font-size: 18px;
+  -webkit-line-clamp: 1;
+}
+.device-shell .event-time {
+  color: var(--device-muted);
+  font-size: 15px;
+}
+.device-shell .time-view.day .event-title {
+  font-size: 20px;
+}
+.device-shell .time-view.day .event-time {
+  font-size: 17px;
+}
+.device-shell .month-view {
+  padding: 0;
+}
+.device-shell .month-cell {
+  min-height: 112px;
+}
+.device-shell .month-weekdays > div {
+  color: var(--device-muted);
+  font-size: 17px;
+}
+.device-shell .day-number {
+  width: 42px;
+  height: 42px;
+  font-size: 19px;
+}
+.device-shell .compact .event-title {
+  font-size: 15px;
+}
+.device-shell .outside {
+  color: var(--device-dim);
+}
+
+@media (max-height: 680px) and (min-aspect-ratio: 1.2) {
+  .display-face {
+    padding-top: 20px;
+    padding-bottom: 18px;
+    gap: 17px;
+  }
+  .display-header {
+    padding-bottom: 18px;
+  }
+  .display-clock {
+    font-size: min(13.7vw, 20vh);
+  }
+  .display-date > div {
+    font-size: 4.7vw;
+  }
+  .display-date p {
+    font-size: 2.8vw;
+  }
+  .display-month h1 {
+    font-size: 3.8vw;
+    margin-bottom: 12px;
+  }
+  .display-weekdays span {
+    font-size: 2.35vw;
+  }
+  .display-month-grid .display-day-number {
+    width: 39px;
+    height: 39px;
+    font-size: 25px;
+  }
+  .display-month-grid.rows-6 button {
+    min-height: 30px;
+  }
+  .display-month-grid.rows-6 .display-day-number {
+    width: 32px;
+    height: 32px;
+    min-width: 30px;
+    min-height: 30px;
+    font-size: 23px;
+  }
+  .display-month-grid.rows-6 .display-event-dot {
+    width: 4px;
+    height: 4px;
+  }
+  .display-section-label {
+    font-size: 24px;
+  }
+  .display-lead strong {
+    font-size: 4.2vw;
+  }
+  .display-lead-time {
+    font-size: 2.8vw;
+  }
+  .display-later {
+    margin-top: 17px;
+    padding-top: 16px !important;
+  }
+  .display-later > span {
+    font-size: 2vw;
+  }
+  .display-later > strong {
+    font-size: 2.8vw;
+  }
+  .display-status span,
+  .display-manage {
+    font-size: 18px;
+  }
+  .display-status small {
+    font-size: 14px;
+  }
+  .display-footer {
+    min-height: 46px;
+  }
+  .display-face:has(.display-alert) .display-later:nth-of-type(3) {
+    display: none;
+  }
+  .display-face:has(.display-alert) .display-clock {
+    font-size: min(12vw, 18vh);
+  }
+  .display-face:has(.display-alert) .display-month h1 {
+    font-size: 3vw;
+    margin-bottom: 8px;
+  }
+  .display-face:has(.display-alert) .display-day-number {
+    width: 28px;
+    min-width: 28px;
+    height: 28px;
+    min-height: 28px;
+    font-size: 22px;
+  }
+  .display-face:has(.display-alert) .display-month-grid button {
+    min-height: 26px;
+  }
+}
+@media (max-aspect-ratio: 1.15) {
+  .display-face {
+    padding: 4vh 6vw 3vh;
+    gap: 3vh;
+    min-height: 800px;
+    height: 100dvh;
+    overflow-y: auto;
+  }
+  .display-header {
+    display: block;
+    padding-bottom: 2.2vh;
+  }
+  .display-clock {
+    display: block;
+    font-size: 24vw;
+    line-height: 1;
+    margin-bottom: 18px;
+  }
+  .display-date {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    text-align: left;
+    align-items: baseline;
+  }
+  .display-date > div {
+    font-size: 4.5vw;
+  }
+  .display-date p {
+    font-size: 3.5vw;
+  }
+  .display-content {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(270px, 1fr) auto;
+    gap: 3vh;
+  }
+  .display-month h1 {
+    font-size: 5.4vw;
+    margin-bottom: 1vh;
+  }
+  .display-weekdays span {
+    font-size: 3.6vw;
+  }
+  .display-day-number {
+    font-size: 3.9vw;
+    width: 6.5vw;
+    height: 6.5vw;
+  }
+  .display-event-dot {
+    width: 6px;
+    height: 6px;
+  }
+  .display-agenda {
+    border-top: 1px solid var(--device-line);
+    padding-top: 2.2vh;
+  }
+  .display-section-label {
+    font-size: 3.3vw;
+  }
+  .display-lead strong {
+    font-size: 6vw;
+  }
+  .display-lead-time {
+    font-size: 4vw;
+  }
+  .display-later {
+    padding-top: 1.4vh !important;
+    margin-top: 1.4vh;
+  }
+  .display-later > span {
+    font-size: 3vw;
+  }
+  .display-later > strong {
+    font-size: 4.1vw;
+  }
+  .display-later:nth-of-type(3) {
+    display: none;
+  }
+  .display-status {
+    gap: 12px;
+  }
+  .display-status span,
+  .display-manage {
+    font-size: max(16px, 2.7vw);
+  }
+  .display-status small {
+    font-size: max(13px, 2.1vw);
+  }
+  .display-manage svg {
+    display: none;
+  }
+  .display-footer {
+    align-items: flex-end;
+    gap: 12px;
+  }
+}
+@media (max-width: 760px) {
+  .device-shell .dialog,
+  .device-shell .dialog.wide {
+    width: calc(100vw - 20px);
+  }
+  .device-shell .dialog-header {
+    padding: 12px 20px;
+  }
+  .device-shell .dialog-body {
+    padding: 20px;
+  }
+  .device-actions > button {
+    font-size: 18px;
+    padding: 16px;
+    gap: 10px;
+  }
+  .appearance-options button {
+    font-size: 15px;
+    gap: 6px;
+  }
+  .appearance-options svg {
+    width: 18px;
+  }
+  .device-shell .field {
+    font-size: 16px;
+  }
+  .device-shell .field input,
+  .device-shell .field select {
+    font-size: 18px;
+  }
+  .device-shell .calendar-toolbar h1 {
+    font-size: 26px;
+  }
+  .device-shell .toolbar-main p,
+  .device-shell .zone-label {
+    font-size: 15px;
+  }
+  .device-shell .month-cell {
+    min-height: 90px;
+  }
+  .device-shell .month-cell .event-title {
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .device-shell * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@media (min-aspect-ratio: 1.2) {
+  .display-agenda {
+    container-type: size;
+    container-name: agenda;
+    overflow: hidden;
+  }
+  @container agenda (max-height: 370px) {
+    .display-later:nth-of-type(3) {
+      display: none;
+    }
+  }
+  @container agenda (max-height: 260px) {
+    .display-lead strong {
+      font-size: 34px;
+    }
+    .display-later {
+      margin-top: 12px;
+      padding-top: 10px !important;
+    }
+    .display-later > span {
+      font-size: 18px;
+    }
+    .display-later > strong {
+      font-size: 25px;
+      -webkit-line-clamp: 1;
+    }
+  }
+  @container agenda (min-height: 320px) and (max-height: 370px) {
+    .display-lead strong {
+      -webkit-line-clamp: 1;
+    }
+    .display-later:nth-of-type(3) {
+      display: flex;
+    }
+  }
+}

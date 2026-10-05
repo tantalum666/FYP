@@ -1,0 +1,13 @@
+{
+  "posture_source": "replay",
+  "calibration_steps": [
+    "forward",
+    "reference",
+    "side"
+  ],
+  "latest_outcome": "adjusted",
+  "paired_clients": 1,
+  "weather_status": "current",
+  "voice_configured": false,
+  "google_connected": false
+}

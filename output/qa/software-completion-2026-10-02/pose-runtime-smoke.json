@@ -1,0 +1,9 @@
+{
+  "model": "Pose Landmarker Lite",
+  "runtime": "0.10.35",
+  "input": "synthetic blank image; no camera accessed",
+  "detected_poses": 0,
+  "elapsed_seconds": 2.083,
+  "scope": "runtime loading and inference only; not posture accuracy",
+  "previous_failure": "mediapipe 1.0.1 aborted inside Metal helper; pinned 0.10.35 after upstream issue 6356 review"
+}

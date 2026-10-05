@@ -1,0 +1,21 @@
+{
+  "task": "Plan the new desk-companion software, functions, platforms, cross-device access and displayed content; do not begin application coding",
+  "user_confirmed": [
+    "Phone and computer must both control the system",
+    "User wants a touchscreen with direct device control",
+    "Calendar/character display layout undecided"
+  ],
+  "proposed_not_approved": [
+    "React TypeScript responsive frontends, Capacitor installed mobile app, computer browser, Pi Chromium kiosk",
+    "Python FastAPI SQLite local core with vision/audio/device workers",
+    "touchscreen main UI plus independently pluggable avatar display; software supports one screen before optional extra display",
+    "first demonstrate LAN access; remote internet access remains undecided; distinguish from AI cloud calls"
+  ],
+  "latest_commentary": "Explained local monitoring must continue when phone locks or computer closes; all surfaces share calendar/settings",
+  "memory_used": "MEMORY.md 126-139 used, but reminder-timing core in memory is superseded by current posture-feedback requirement",
+  "full_read_progress": "COMPLETE: 99 files, 9198 lines, 71 batches; documented rereads, no changes during reading",
+  "remaining": "User discussion of proposed stack and layout; next page layout/state design, then implementation",
+  "status": "Completed planning; no application implementation",
+  "output": "planning/2026-09-28/desk-software-scope-v1.md",
+  "latest_user_question": "Whether device touchscreen requires developing Linux software; answered existing Raspberry Pi OS plus local full-screen app"
+}

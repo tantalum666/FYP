@@ -1,0 +1,99 @@
+{
+  "status": "PASS",
+  "completed_at": "2026-09-16T00:06:36.309781+08:00",
+  "checks": {
+    "page_count_10": true,
+    "all_pages_have_searchable_text": true,
+    "all_final_pages_visually_reviewed": true,
+    "final_pdf_matches_reviewed_render": true,
+    "nine_native_tables": true,
+    "two_embedded_source_screenshots": true,
+    "repeating_table_headers": true,
+    "native_editable_quote_18_items_plus_total": true,
+    "quote_price_fields_blank": true,
+    "all_source_content_in_docx": true,
+    "all_source_content_in_pdf": true,
+    "all_56_requirement_ids_present": true,
+    "black_title_style": true,
+    "member_identifiers_absent_from_supplier_document": true,
+    "old_artifacts_preserved": true,
+    "school_guide_preserved": true,
+    "internal_links_exist": true,
+    "group_name_is_Group_2": true,
+    "no_replacement_character": true
+  },
+  "source_segments_checked": 320,
+  "missing_docx_segments": [],
+  "missing_pdf_segments": [],
+  "missing_requirement_ids": [],
+  "internal_link_count": 153,
+  "project_markdown_count": 25,
+  "broken_links": [],
+  "preservation": {
+    "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx": true,
+    "output/docx/AY26_ProjectSuggestion_Group 2.docx": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2.pdf": true,
+    "scripts/build_suggestion_v2.py": true,
+    "scripts/build_suggestion.py": true,
+    "planning/2026-09-14/group-2-details.json": true,
+    "planning/2026-09-15/procurement-data.json": true,
+    "outputs/01a07aeb-a256-7572-a42e-bd7e4668674f/Group 2_Hardware Procurement_20260915.xlsx": true,
+    "planning/2026-09-15/power-supply-data.json": true,
+    "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md": true
+  },
+  "artifacts": [
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "bytes": 22984,
+      "sha256": "1434e55732e1ccb5a514e9204c4923f704221a8be0dc5d13f32f419c671c9c13"
+    },
+    {
+      "path": "output/docx/Group 2_Hardware RFQ_v2.docx",
+      "bytes": 143332,
+      "sha256": "84f0995e5c85f1565e118fc2d7818919b4be2fb0d42a85c15cdbcfeefcba8e26"
+    },
+    {
+      "path": "output/pdf/Group 2_Hardware RFQ_v2.pdf",
+      "bytes": 1079733,
+      "sha256": "cf4c20eec433530cc67a9a586f9e10ade7936b7124b6204aea0e226da058b261"
+    }
+  ],
+  "visual_review": {
+    "render": "render-06",
+    "dpi": 120,
+    "view": "Original-size page PNGs viewed individually",
+    "pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "result": "All final pages readable; both complete source screenshots shown; tables, title, body, footer and blank quote fields fit. No blank overflow pages."
+  },
+  "render_repairs": [
+    "Initial CJK missing glyphs corrected using task-local Fontconfig referencing existing Arial Unicode MS. No global font install or bundled dependency edits.",
+    "Fixed inline image exact line spacing and page-break placement.",
+    "Replaced viewport screenshots with actual browser region captures to remove adjacent-page fragments."
+  ],
+  "template_picker": "declined; purpose-built native Word RFQ used",
+  "artifact_markers": "One successful create operation marker for DOCX and one for PDF before first authoring/export; retries retained same operations.",
+  "updated_project_markdown": [
+    "README.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-15/procurement-guide.md",
+    "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+    "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+    "planning/2026-09-15/hardware-fabrication-enquiry-v2.md"
+  ],
+  "evidence_boundary": "Document and source-image QA only. Proposed dimensions, mass precision, latency, power and heat tests have not been performed on hardware. No supplier messages, quote, purchase, commission, submission, model training or firmware test."
+}

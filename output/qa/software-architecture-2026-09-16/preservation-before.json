@@ -1,0 +1,23 @@
+{
+  "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx": "a133728c64be5bebf80110e6dca83d68f0df4070050689505c461536613917c2",
+  "output/docx/AY26_ProjectSuggestion_Group 2.docx": "dbbc4efa0c1a0f6a58041558ff1dbdf52f189fb8608552558c391bf9ec59d3b4",
+  "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf": "32efbfef5757f8a0480a22405227a7b0d079f54cdb45677a16174e87b72effa0",
+  "output/pdf/AY26_ProjectSuggestion_Group 2.pdf": "d4af42cbacf850d6a8e2006aff0dcd4e38001c8d3b7b9421dec9634e3830df85",
+  "scripts/build_suggestion_v2.py": "ed1f3813b75b374b799947ebfada91bb3d1780619254709e383cccae56cf81ab",
+  "scripts/build_suggestion.py": "4251a8cfda01a0a814f8116bc1f67e64e64ea220d224b67d236a19765465271d",
+  "planning/2026-09-14/group-2-details.json": "fa3d1fc3b68c68ea8964f07cea2266b1918b0724a35758186f81651f8b64056a",
+  "planning/2026-09-15/procurement-data.json": "fbb34a9390444fa1255d9c4679b0a66c484160647f48a153df1ce43a740447c7",
+  "outputs/01a07aeb-a256-7572-a42e-bd7e4668674f/Group 2_Hardware Procurement_20260915.xlsx": "ece373eb6404a11350ace9e23c27dc5eb6c523ecf7eacae23803d020ce9cf436",
+  "planning/2026-09-15/power-supply-data.json": "cf1ca5c4d02ec0764f08abfc8978477a000982f8dbd67a9a781e09538e8886d2",
+  "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md": "4bc962711143b8b982d7adba8e96f747f00cf2bc699d3d94835c08af8cb0d65b",
+  "planning/2026-09-15/hardware-fabrication-enquiry-v2.md": "1434e55732e1ccb5a514e9204c4923f704221a8be0dc5d13f32f419c671c9c13",
+  "output/docx/Group 2_Hardware RFQ_v2.docx": "84f0995e5c85f1565e118fc2d7818919b4be2fb0d42a85c15cdbcfeefcba8e26",
+  "output/pdf/Group 2_Hardware RFQ_v2.pdf": "cf4c20eec433530cc67a9a586f9e10ade7936b7124b6204aea0e226da058b261",
+  "output/qa/rfq-v2-2026-09-15/build_rfq.py": "9894f3d4a77ecbbb17d1f75949225b550fb947a0b488f41ad6fd47438ba526d8",
+  "planning/2026-09-15/hardware-fabrication-enquiry-v3.md": "9bc25bc85baaf4badca2a18e853ffbf18c818b53bde69798a1e0c813cbfd3538",
+  "output/docx/Group 2_Hardware RFQ_v3_Simple.docx": "8b834c31dee2bffd03e0a3e50be3a5a563dcf1d6d52dd547707bda54f38f77f9",
+  "output/pdf/Group 2_Hardware RFQ_v3_Simple.pdf": "c805bab3c04354947b2b12ccfc26f00a7d6819018146c99bcae287e8ad2474d9",
+  "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md": "ab69a75f60b9ac081617970c9dea0ad48e4af73e27f006085e77052835054965",
+  "output/docx/Group 2_Hardware RFQ_v3.1_Images.docx": "05896760332154d42a63f59c93b313eafa8994f8541ce78f555ab938b0a2d1e9",
+  "output/pdf/Group 2_Hardware RFQ_v3.1_Images.pdf": "f1ccced9ccaa4299e4761a5432d7324160e8b511fedd3e14aa8fae342a07094c"
+}

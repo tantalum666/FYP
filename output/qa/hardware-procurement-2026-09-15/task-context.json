@@ -1,0 +1,14 @@
+{
+  "training_computer": "MacBook M2 16GB, user stated",
+  "school_gpu": "unknown availability and configuration",
+  "pi_target": "Raspberry Pi 5 8GB proposed purchase; not confirmed owned",
+  "budget": "No total cap at this stage per user; retain value tradeoffs",
+  "taobao": "Browser site-safety policy blocked taobao.com and explicitly disallowed alternate-browser workarounds; no workaround attempted",
+  "jd": "Chrome reached login page; user selected manufacturer specifications and reference estimates instead",
+  "template_picker": "declined; use simple task-specific workbook",
+  "authoring_tools": "artifact-tool JS via bundled runtime; no workbook or operation marker created yet",
+  "role": "FYP team planning hardware purchases",
+  "audience": "three student team members",
+  "function": "procurement BOM and hardware comparison, not financial forecasting",
+  "industry": "educational AI/IoT prototype"
+}

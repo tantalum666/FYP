@@ -1,0 +1,151 @@
+
+FILE work-log.md L260-507 of 665
+- 收尾：更新product、README、handoff的赛事补充、decision-log、source-register；保留Logo／VI和商业计划的同期状态，不改其文件与资产。核对链接、JSON、文号、日期、人数和组员信息，[验证记录](output/qa/2026-09-16-world-vocational-registration/closeout-validation.json)。
+- 剩余：用户联系Marco，学校确认机构／组别／国籍学籍、可用届次与安排。未对外发送、拨号、登录、报名、签署、创建公司或定时任务；没有应用／硬件测试。
+
+
+## 2026-09-16 至2027年7月底参赛阶段计划
+
+- 目标：按用户未来时间窗，重新整理适合Group2的高认可度、有现金优先赛事，逐项说明报名、作品提交和决赛所需成熟度。
+- 阅读：沿用本赛事任务33份Markdown全读及历次补读记录，复核当前AGENTS、handoff、product相关变化、四份已有赛事报告和最新日志；记录新清单、读取范围与排除项于[阅读记录](output/qa/2026-09-16-competition-plan-to-2027-07/reading-record.json)。
+- 研究：再次核对Techathon2027正式日期／简报／奖金、香港大学生赛分阶段交件和实物FAQ、海峡两岸报告／演示要求、中美创客选拔原型与奖额、YPEC实物可选；新取得VTC广东赛完整文章及国家创新赛香港大专创意组入口。2027未知不以2026代替。
+- 原件：三份现有官方PDF不改动；补渲染并查看YPEC第3页和HKEPC第7页，复核中美第14–15页奖金；其它已通过的相关页视觉核对继承，不重复渲染。年报只用官方索引的举办周期段落，未声称全文视觉阅读。
+- 交付：[2027年7月底前阶段计划](research/2026-09-16-competitions/plan-to-july-2027.md)与[来源表](research/2026-09-16-competitions/plan-2027-source-register.json)，主选5项、省级训练路线1项、较晚赛程候选6项，并有准备月份和作品成熟度说明。
+- 收尾：更新product、README、handoff赛事信息和四份旧报告当前排序／访问状态，追加decision-log；[验证](output/qa/2026-09-16-competition-plan-to-2027-07/closeout-validation.json)核对本地链接、JSON、明确年份、原件哈希和当前品牌状态。
+- 剩余：用户最终选择组合，学院确认学生身份／支持／省赛训练，主办方确认中美作品顺序；其它2027公告尚未核到。未对外联系、报名、签署、注册公司、创建监控或实施软件硬件。
+
+## 2026-09-16 基于Measured的Logo修订R2
+
+- 目标：承接用户选择旧VI第1版并认为Logo一般般的反馈，保留整体工作基准，改进符号；不重选名字或将旧Logo标为批准。
+- 阅读：继承品牌任务全读，补读当前入口、VI说明、旧manifest、世界赛路线和同期至2027年7月底赛事计划；[记录](output/qa/senplate-logo-refinement-2026-09-16/reading-record.json)。
+- 生成：查看并实际附加Measured原图，内置ImageGen独立生成三张R2黑白／反白／图标研究；实际显示顺序1 Rim Fold、2 Poise、3 Contour S，各展示一次。原生成文件及项目副本保留。
+- 交付：[R2说明](planning/2026-09-16/senplate-logo-refinement-r2.md)、[映射与三图](output/brand/2026-09-16-senplate-logo-r2/manifest.json)、三个提示词；旧VI manifest仅更新基准选择，旧JSON存QA快照。
+- 视觉复核：文字可读，三种符号与旧圆形不同；记录G形误读、上部叶片联想、S独特性较弱和缩小路径一致性等取舍。没有把小图示意当真实24px验证；未变化配色不重复测试。
+- 收尾：更新product、README、V1选择状态、软件路由、decision-log及handoff；[核对](output/qa/senplate-logo-refinement-2026-09-16/closeout-validation.json)验证文件、顺序、选择层级、JSON和保护文件。同期赛事及商业成果保留。
+- 剩余：用户选R2符号或继续反馈，再做修订与可复用资产。没有购买、注册、对外发送、代码、硬件或模型测试。
+
+## 2026-09-16 Logo R3重整与候选筛选
+
+- 用户否决R2全部三张，并明确不足为太普通、缺少高级感和辨识度。关闭旧候选，保留原VI基准，未要求用户再从已否决组选择。
+- 读取Creative Production produce、logos、board-runtime及来源／精确内容参考；按其明确委派条款安排四个限定图像任务，每个恰好一次ImageGen，无模型覆盖。四个代理已完成、结果已消费并调用中断接口确认结束；接口无销毁句柄功能，不声称销毁。
+- 三个方向依据代理图像审阅报告筛除，保留字标稿；主代理另生成新图形，发现透明低对比度失效后用ImageGen修复一次。只做元数据读取及不改像素的文件复制，未用Python／SVG绘画。总共六次生成。
+- 交付：[R3说明](planning/2026-09-16/senplate-logo-reset-r3.md)、[清单及A／B](output/brand/2026-09-16-senplate-logo-r3/manifest.json)，原始提示词和无效／筛除结果保留并标明。没有原生创意画板或Figma，不冒称完整VI／独特性已完成。
+- 阅读和工具边界见[记录](output/qa/senplate-logo-reset-2026-09-16/reading-record.json)，继承本品牌任务全读；[收尾](output/qa/senplate-logo-reset-2026-09-16/closeout-validation.json)检查PNG／来源／状态／链接和保护文件。R2更新前JSON保留，其他图片和正式文档未覆盖。
+- 当前待用户判断字标路线或图形路线的气质是否接近；尚无Logo选择、矢量母版、实际字体、24px或印刷验证、App还原，未购买、注册、对外联系或部署。
+
+## 2026-09-16 Logo真实标记审美校准
+
+- 目标：回应用户认为后续稿越来越丑，撤下R3候选，改变连续生成普通符号的做法；原VI基准保留，当前没有Logo获批。
+- 阅读：继承本品牌任务完整阅读并补读当前入口、R3；Visualize技能初次组合输出截断后，以1–155和156–252行完整补读。[记录](output/qa/logo-reference-calibration-2026-09-16/reading-record.json)。
+- 研究：查看Oura／Withings／Ooni等公开入口，最终可视对照采用Polestar、Linear、Stripe、Notion的固定版本单色图形；记录库元数据和品牌来源，不手绘或重排原标志轮廓。
+- 交付：[校准说明](planning/2026-09-16/logo-reference-calibration.md)、[来源记录](research/2026-09-16-logo-references/reference-sources.json)，以及任务可写可视化目录中的senplate-logo-references.html响应内容。不是Senplate网页App、公开网站或新的品牌方案。
+- 验证：浏览器看到四个真实图形；修正初版按钮内标签被挤断的布局。检查选择、最多两个、空状态禁用，360px和320px均无水平溢出；取消分支已接线但未单独验收，未执行提交，清除测试选择并恢复视口，临时预览／服务器已关闭。
+- 收尾：更新product、README、VI／R3路由、软件下一步、decision-log及handoff；[核对](output/qa/logo-reference-calibration-2026-09-16/closeout-validation.json)检查来源、HTML、链接、R3撤下及保护文件。未生成／编辑新Logo、部署、采购、注册或对外联系。
+- 下一步：用户指出接近的真实参照，随后提取设计原则并重新设计原创Logo；没有合适参照时继续校准，不恢复旧草稿强制选择。
+
+## 2026-09-17 Senplate原创矢量Logo
+
+- 目标：响应用户选择Polestar／Linear并保留深绿、米白的要求，先归纳精简形状、统一斜切及负形原则，再做原创符号；不恢复被否决的候选。
+- 阅读：继承品牌任务全量记录，补读当前根规范、校准、VI、软件路由及日志；Figma技能与gotchas分段补齐，见[阅读记录](output/qa/senplate-vector-logo-2026-09-17/reading-record.json)。
+- 制作：新建Figma草稿文件Senplate — Logo Studies，只有一个计划可选，无需额外询问。检查空白文件与字体后直接定义向量，制作Interval与Balance；后者由助手筛除。A因向量原点归一化造成初始重叠，修正第二块偏移并重新截图。
+- 交付：[规范](planning/2026-09-17/senplate-vector-logo-studies.md)、[评审图与资产清单](output/brand/2026-09-17-senplate-vector/manifest.json)，Figma评审5:2／紧边界组合8:2。三SVG保留透明背景，组合字标转路径，Figma源文字可编辑；三个小尺寸PNG直接保存Figma字节。
+- 验证：主组合、反白和24／32／64px实际画布预览，拼写、切口、尺寸及无占位状态；[收尾](output/qa/senplate-vector-logo-2026-09-17/closeout-validation.json)核对SVG、PNG、内部链接、原交付物哈希和状态同步。
+- 同步：product、README、校准与来源、VI及软件当前路由、decision-log、handoff均更新。原学校文档、竞赛、商业计划、身份和旧品牌图片保留。
+- 剩余：用户评价本稿；尚无Logo批准、图形近似检索、最终字体归档、物理打样或完整VI。未写App、训练、购买、注册、发送或部署。
+
+## 2026-09-17 Interval图形商标近似初筛
+
+- 目标：在用户初步认可气质后检索相似品牌／商标，保留当前图稿，不预先宣布独特性或可注册。
+- 阅读：承接同一品牌任务的全读，补读当前入口、矢量规范、旧名称初筛及修改区段，见[记录](output/qa/senplate-logo-similarity-2026-09-17/reading-record.json)。
+- 检索：公开网页／图片及3454个固定版本图标作候选排序，人工查看38项；排序只是发现工具。Aqua Security纯图形在TSDR实时核为有效，90678592／6622466，9／42类具体为云／容器安全软件。另核OPNsense现行官网及RustDesk官方源码；没有把图库或品牌使用当注册证明。
+- 交付：[报告](research/2026-09-17-logo-similarity/similarity-review.md)、[对照图](research/2026-09-17-logo-similarity/comparison.jpg)、[来源](research/2026-09-17-logo-similarity/source-register.json)、算法与排序、官方页面观察与截图。
+- 香港后段完成：用户明确同意条款及查询后，页面已到上传页，代理未解验证码。原样导出192px PNG并查询，系统300候选含重复，审阅前50条资料／37个不同编号，核两条第9类详情：303321710机械革命所属公司图形、307039215 meterytech。保存[香港记录](research/2026-09-17-logo-similarity/hk-query-and-records.json)、观察和截图；先前独立权利人检索失败不当零记录。WIPO／内地／欧盟缺口仍记录。
+- 收尾：同步product、README、Interval、校准、软件路由、decision-log、handoff；[核对](output/qa/senplate-logo-similarity-2026-09-17/closeout-validation.json)检查原图及正式文档保护、链接、来源和PNG。研究对照HTML不是产品App，未运行应用测试或修改品牌图像。
+- 剩余：香港本次查询已完成。建议下一稿改变双折面方框结构并保留气质，尚未开始修订、申请、购买、发送或部署。追加香港对照页因跨域原图无法加载未交付，保留完整官方详情截图与国际品牌对照图；浏览器截图字节实为JPEG，已按实际格式命名，没有转码或重绘。
+
+## 2026-09-17 Profile R4结构修订
+
+- 目标：按用户要求调整近似的Interval，保留已认可的色调与字标气质，制作结构不同的可编辑图稿。
+- 阅读：继承连续品牌任务全读，补读当前入口、Interval与近似报告、修改区段；初次较长输出截断后补齐，见[记录](output/qa/senplate-logo-r4-2026-09-17/reading-record.json)。Figma技能与API沿用完整阅读，重新应用关键规则；未派代理。
+- 制作：Figma原生路径创建三个开放轮廓，随后把下端错开，减少柱形图联想。齐底稿及旧Interval归档，保留几何和旧图；最终所有组合／反白／小图同步同一母稿。
+- 对照：固定图库3454项候选排序，最终人工看21项；另检查Pillar Konstruksi实际图样。算法只辅助筛选，没有官方新稿图形查询或权利核准。
+- 交付：[R4规范](planning/2026-09-17/senplate-logo-profile-r4.md)、[主图](output/brand/2026-09-17-senplate-r4/profile-review.png)、3份SVG、4份原生PNG与[清单](output/brand/2026-09-17-senplate-r4/manifest.json)。初次输出超过工具长度上限后拆分重导，一次只读脚本语法错误修正后成功；没有部分截断文件当成有效交付。
+- 验证：主图／反白／24、32、64px查看，SVG解析、像素尺寸、内链及旧资产保护见[收尾](output/qa/senplate-logo-r4-2026-09-17/closeout-validation.json)。对照浏览器与临时服务器关闭；原学校文档、组员资料、商业／赛事与软件业务规格保留。
+- 剩余：用户评价本稿，采用后补官方图像检索与VI。没有App工程、模型训练、注册、购买、对外联系或部署。
+
+## 2026-09-17 R5餐食计量与GPT网页提示词
+
+- 目标：在R4视觉尚可的基础上强化项目意义，交付新图稿及可独立使用的提示词MD。
+- 阅读：继承连续品牌任务全读并补读当前入口与R4，截断资产段另补；沿用已完整阅读的Figma流程，见[记录](output/qa/senplate-logo-r5-2026-09-17/reading-record.json)。
+- 制作：新增浅盘／份量块／基准带，表达“餐食＋计量”的设计意图；R4保留为视觉参考，原几何与导出不变。R5评审28:2、母稿26:3、紧边界组合32:2。
+- 交付：[R5规范](planning/2026-09-17/senplate-logo-measured-plate-r5.md)、[评审图](output/brand/2026-09-17-senplate-r5/measured-plate-review.png)、3份SVG、4份原生PNG与[清单](output/brand/2026-09-17-senplate-r5/manifest.json)；[ImageGen简报](Senplate_Logo_ImageGen_Brief.md)含主提示词、后续细化及选择标准。
+- 验证：主图／反白／小尺寸查看，SVG／PNG、提示词完整性、内链与原文件保护见[收尾](output/qa/senplate-logo-r5-2026-09-17/closeout-validation.json)。初次合并脚本语法错误未执行，拆分后成功；未把尝试写成完成。
+- 范围：未操作用户GPT页面、提交或代其在网页生成图片；没有声称使用特定网页版图像模型。Figma为实际交付，无新稿近似查询、App代码、购买、申请或对外联系。
+- 剩余：用户比较R5和其网页版候选，选定视觉与语义方向后再精修及做最终几何的近似检查。
+
+## 2026-09-17 采用用户选定的A细化版并整理素材
+
+- 目标：执行用户“用这个吧”，将其上传的餐盘／份量／圆点Logo设为当前品牌；保留原图和历次稿件。
+- 阅读：继承连续品牌任务完整阅读记录，补读入口、R5、提示词、当前软件状态及需修改文件；压缩后精简恢复，见[本轮记录](output/qa/senplate-selected-a-2026-09-17/reading-record.json)。
+- 制作：原图逐字节复制；上方主色版按3个符号部分、8个字母提取轮廓，清理像素噪声后生成曲线路径，未替换字体。初期描摹毛刺及合并复合路径导入丢字已修复；按独立字母导入、保留原位置，并统一各配色与图标几何。Figma当前母版41:2／43:77，品牌板36:6；本轮失败试描节点已清理，历史稿保留。
+- 交付：[brand.md](brand.md)、[素材目录说明](output/brand/2026-09-17-senplate-selected-a/README.md)、[ZIP](output/brand/Senplate_Brand_Assets_v1.zip)。共7份SVG、13份Figma原生导出PNG及1份原始参考PNG；不是重新生成候选。
+- 检查：已查看主色／黑白／图标组合及24、32、64px小样。24px盘沿偏细，建议32px起、优先48px以上。一次超过5张的图像返回被工具截为5张，按实际字节长度核对并分批导出其余文件；PNG尺寸／透明度、SVG结构与同轮廓、原图／73项受保护文件哈希和内链见[收尾检查](output/qa/senplate-selected-a-2026-09-17/closeout-validation.json)。
+- 同步：product、README、handoff、decision-log、当前软件状态、R5／网页提示词／审美参照状态。品牌板文字与原图口号不作为正式文案。没有App代码、实物验证、购买、商标新查询／注册或对外联系。
+- 下一步：按选定Logo与配色设计第一组iPhone关键页面供审阅；字体来源及新图形近似核对保持独立待办，不将旧查询当成新稿权利证明。
+
+## 2026-09-17 A版曲线重建与大小写对照
+
+- 目标：修复用户指出的图形和字标毛边，并回答首字母大小写；保留已选A构图。
+- 阅读：延续上一轮品牌细化，沿用完整阅读链，补读入口、当前品牌规范／素材说明、最新决定／工作记录及软件状态。补读被截断的product区间；见[记录](output/qa/senplate-refined-a-v2-2026-09-17/reading-record.json)。
+- 制作：使用明确的少量Bezier控制点、圆形轮廓、水平／垂直边重新构建3个符号部分和8个字母；保留小写、单层a及图文位置，统一主色／黑白／图标。没有换字体或把AI位图再自动描摹；制作脚本只写矢量路径，PNG全部Figma原生导出。
+- 对照：首字母大写仅为比较，默认小写不变；[大小写](output/brand/2026-09-17-senplate-refined-a-v2/capitalization-comparison.png)、[V1/V2毛边对照](output/brand/2026-09-17-senplate-refined-a-v2/edge-comparison.png)已实际查看，确认旧版起伏和新版连续轮廓的差别。不是仅以文件扩展名证明光滑。
+- 交付：[V2素材ZIP](output/brand/Senplate_Brand_Assets_v2.zip)、[规范](brand.md)，8份SVG、16份原生PNG及原始参考PNG。主Logo53:2／符号53:15／品牌板55:2／大小写56:2；V1 Figma品牌板标记历史，几何与本地资产保留。
+- 验证：2056px主图、黑白／图标板、大小写、边缘放大及24／32／64px查看。小图仍建议32px起、优先48px；文件尺寸、透明度、同轮廓配色、原图及97项受保护文件、内链和规范同步见[收尾检查](output/qa/senplate-refined-a-v2-2026-09-17/closeout-validation.json)。
+- 状态：上一轮称V1已清理合格的判断被本轮质量修正取代；用户选定A构图仍有效。无App代码、字体识别结论、新商标检索或对外行动。
+
+## 2026-09-17 A版黄金分割V3
+
+- 目标：按用户要求使用黄金分割调整当前Logo，并延续中途“继续刚刚的工作”的指令；不重新选择品牌或开始App代码。
+- 阅读：继承连续品牌任务完整阅读链，补读AGENTS、product、handoff、brand、最新日志、软件状态及V2制作依据，见[阅读记录](output/qa/senplate-golden-a-v3-2026-09-17/reading-record.json)。
+- 构造：先计算φ，再确定符号宽高、份量宽高、感知点分割位置、图文间距与文字主竖笔高度，使用少量平滑曲线生成SVG。V2并非黄金比例稿，本轮没有倒推美学叙事；字母路径保留V2，仅整体缩放和定位。
+- 核对：除参数计算外，独立读取[Figma实际尺寸](output/qa/senplate-golden-a-v3-2026-09-17/figma-geometry.json)核对比例，记录浮点差异。已查看2036pxLogo、[构造图](output/brand/2026-09-17-senplate-golden-a-v3/golden-ratio-construction.png)、[前后对照](output/brand/2026-09-17-senplate-golden-a-v3/proportions-before-after.png)、主色／黑白／图标板及24／32／64px小样。
+- 交付：[V3素材ZIP](output/brand/Senplate_Brand_Assets_v3.zip)、[品牌规范](brand.md)，9份SVG、16份原生PNG及原始参考PNG；Figma主Logo60:2、符号60:15、品牌61:2、构造62:2、对照63:2。PNG为原生导出，像素整数取整与矢量比例分开记录。
+- 验证：[收尾检查](output/qa/senplate-golden-a-v3-2026-09-17/closeout-validation.json)包含五项实际黄金比例、字母路径保持、配色几何一致、SVG／PNG、原图和125项受保护文件、内链及规范同步。
+- 边界：黄金比例不是更美观的实证，大小写未自动改选，无新商标检索／注册、应用代码、硬件测量、购买或对外联系。
+
+## 2026-09-17 盘沿共享椭圆V4
+
+- 目标：处理用户指出的左右弧度不一致，保留食物监测语义，结合黄金分割重新构造；必要时才更换象征。
+- 阅读：继承连续品牌任务阅读链，补读当前入口、品牌与V3依据、最新日志及软件状态；截断的最新日志已补读。用户截图已查看并保存在QA，见[阅读记录](output/qa/senplate-ellipse-a-v4-2026-09-17/reading-record.json)。
+- 制作：以一对同心同轴椭圆建立盘沿，使用同角度镜像圆角与内外边相切。比较过平切、收尖和圆角的局部处理，最终采用镜像圆角；本轮临时试稿已移除，历史V1–V3保留。整体外框不再强制φ，外／内椭圆高度等仍按黄金比例。份量位置上移，圆点与餐盘更接近；字母路径保持。
+- 验证：解析椭圆722组成对采样核对位置与曲率；单独原生导出盘沿作左右翻转数值比较，并记录抗锯齿边缘差异。实际查看主Logo、整体／仅盘沿对照、构造图、黑白／图标及24／32／64px。详见[收尾](output/qa/senplate-ellipse-a-v4-2026-09-17/closeout-validation.json)。
+- 交付：[V4 ZIP](output/brand/Senplate_Brand_Assets_v4.zip)、[规范](brand.md)，10份SVG、18份Figma原生PNG及原始参考PNG。主Logo68:2、符号68:15、品牌69:2、整体对照70:31、仅盘沿71:2、构造72:2。
+- 工具修正：构造图首次脚本在移除网格后访问了缓存中的旧节点，工具回滚；后续读取确认新板不存在。改为先取得所需节点、再替换网格，完成构造图，未把失败尝试当成果。
+- 收尾：更新当前入口、品牌、软件状态与handoff，核对原图和154项受保护文件、SVG／PNG、镜像与相切、字母路径、同色几何、内部链接与ZIP。几何对称不代表已获审美批准；无App实现、注册、采购或新商标查询。
+
+## 2026-09-17 实体碗重新设计V5
+
+- 目标：执行用户明确重新设计的要求，解决V4不再像碗的问题；停止旧开口环路线，不再以几何测试维持被用户否决的方向。
+- 阅读：继承连续品牌任务完整阅读链并补读当前入口、品牌及软件状态。使用内置ImageGen技能和提示词指引；Creative Production的Logo指导作为参考，未启动其看板工作流或代理，见[阅读记录](output/qa/senplate-bowl-redesign-v5-2026-09-17/reading-record.json)。
+- 制作：一次全新ImageGen生成＋一次针对同图的背景／平面化编辑，形成清楚的椭圆碗口、完整碗身和底脚，口沿有阶梯形留白。原先的圆点和开口环未保留；候选字标采用Senplate。第一张返回透明背景，第二张实际不透明米白底；两次原生文件均保留，未用Python改图。
+- 交付：[当前概念](output/brand/2026-09-17-senplate-bowl-redesign-v5/bowl-01-concept.png)、[首次生成原稿](output/brand/2026-09-17-senplate-bowl-redesign-v5/bowl-01-generated.png)、[生成及编辑提示词](planning/2026-09-17/senplate-bowl-redesign-v5.md)和简短清单。没有扩展整套VI、生成SVG或制作App图标。
+- 检查：实际查看新图、碗体和Senplate拼写，读取PNG尺寸／透明度，保留轻微生成纹理及细线待精修的说明；未宣称实际黄金比例或32px已验证。旧186项资产／学校文件／身份保护、内链与规范同步见[收尾](output/qa/senplate-bowl-redesign-v5-2026-09-17/closeout-validation.json)。
+- 旧Figma的V4品牌板及三个对照／构造框已标记HISTORICAL，节点69:2、70:31、71:2、72:2；原几何不改，新候选未导入矢量稿。
+- 状态：新候选尚未被用户选择，旧V4的几何通过不能覆盖本次用户否决。下一步依据新造型反馈精修，再进行矢量、小尺寸与新图形近似核对；无App代码、注册、购买或对外联系。
+
+## 2026-09-17 实体碗黄金比例矢量V6
+
+- 目标：执行用户“开始吧”，把V5实体碗做成可编辑、可量度的黄金比例矢量稿，不再只依赖ImageGen提示词。
+- 阅读：继承连续品牌任务全读记录，补读入口、V5规范及当前软件状态；采用既有Figma流程，核对可用字体与官方Manrope OFL文本，见[记录](output/qa/senplate-bowl-golden-v6-2026-09-17/reading-record.json)。
+- 构造：先计算φ尺寸系列，使用椭圆口沿、半圆碗身、底脚和阶梯负形，通过布尔减法形成透明留白；未描摹生成纹理。建立Figma新页76:2，保留布尔构造77:8与文本76:3，导出生产轮廓78:9和主组合78:10。字标采用Manrope Bold，字体来源已记录。
+- 验证：直接读取最终矢量路径，解x=160的曲线交点，区分碗口、碗身底和脚底，再以外轮廓竖边测底脚宽；没有把输入参数当成测量结果。五项实测比值误差均小于0.0001，最大尺寸偏差约0.000608单位。574点外轮廓镜像采样最大距离约0.000001单位，口沿量位切口保留偏置。
+- 视觉：查看主稿、实际构造图、黑／反白和32／64／128px样本。口沿、碗身和底脚仍清楚，32px细节更弱，因此细节场景建议48px以上；不宣称真实用户识别率或已实机验证。
+- 交付：[V6说明](planning/2026-09-17/senplate-bowl-golden-v6.md)、[素材包](output/brand/Senplate_Bowl_Golden_Vector_v6.zip)、7份SVG、8份原生PNG及V5参考PNG、参数／实测JSON与字体许可。不是完整VI或App实现。
+- 导出复核：另从交付SVG文件重新解析曲线，最大尺寸误差约0.000824单位。检查器最初误设字标为单path，实际为8个字母path；修正检查器后通过，不改动图稿来适配假设。
+- 收尾：更新当前品牌、入口、软件状态、V5历史状态及handoff；旧190项文件原样保留。SVG／PNG、路径测量、配色几何、内链与ZIP见[收尾检查](output/qa/senplate-bowl-golden-v6-2026-09-17/closeout-validation.json)。新图形近似查询、视觉最终选择及后续界面仍未完成。
+
+## 2026-09-17 V6保留与刻度小修试稿
+
+- 目标：按用户要求完整保留V6，并独立试做刻度替代阶梯口沿的局部改动。
+- 阅读：沿用连续品牌任务全读记录，补读当前入口、V6规范与制作依据及最新日志；截断的work-log末段补齐，见[阅读记录](output/qa/senplate-v6-tick-study-2026-09-17/reading-record.json)。截图已查看并存入QA。
+- 制作：克隆V6布尔源稿，移除副本的阶梯内开口／连接缺口，补完整椭圆内口和三条右对齐圆端刻线。试稿84:3／84:22，组合85:2，预览85:6，上下对照85:13。原V6节点未重命名或修改。

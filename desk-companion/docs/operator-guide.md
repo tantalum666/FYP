@@ -1,0 +1,159 @@
+# Desk Companion 操作与安装说明
+
+适用：Group 2单拥有者原型。先使用本地日历，再按实际条件连接设备与服务。以下命令在`desk-companion/`执行。配置中没有真实账号密钥。
+
+## 1. 日常操作与配对
+
+拥有者登录有效8小时；配对屏幕使用独立身份，可在连接页撤销。长期常亮屏先登录，在设备界面的Connections选择“Keep this display paired”。退出登录会清理该终端凭据，不能用退出按钮保留同一配对身份。
+
+手机／另一浏览器选“Pair with an existing desk”，输入拥有者生成的8位单次码。码有效2分钟；申请有效5分钟。拥有者核对两端4位号码后批准。iPhone的长期令牌由原生桥保存到Keychain，不放入localStorage。拥有者管理、导出、分享和第三方授权要求重新进行拥有者登录。
+
+当前所有配对屏幕属于同一个人的工作空间，不是学校多人租户系统。私人／可展示是展示政策：普通已授权控制界面可编辑本人内容，常亮屏可在离桌或无法判断时隐藏私人标题。分享是单独生成的只读授权。
+
+## 2. Linux／Pi主机
+
+目标为64位Linux。Pi 5现场性能尚需实测。安装Node、uv和Python依赖后，执行README中的前端构建。系统需具备Chromium、摄像头权限、音频系统和中文字体；Debian系可按实际镜像安装`chromium`、`libgl1`、PortAudio和`fonts-noto-cjk`。不要把Mac安装结果当成Pi已安装。
+
+```sh
+uv sync --frozen --extra vision --extra audio
+.venv/bin/python scripts/fetch_models.py
+.venv/bin/python scripts/fetch_wake_model.py
+.venv/bin/python scripts/diagnose.py
+.venv/bin/python scripts/install_linux.py
+```
+
+最后一条默认只在`.runtime/linux-preview/`生成可审阅单元。目标Linux确认路径后：
+
+```sh
+.venv/bin/python scripts/install_linux.py --install --enable
+systemctl --user status desk-companion.service
+./scripts/kiosk.sh
+```
+
+它只启用API；相机、语音和输出单元保持关闭。可将kiosk启动器加入目标桌面会话的自动启动。X11启动器只调整当前显示会话的屏保／DPMS；Wayland的空闲抑制、触摸键盘、旋转和背光要在所用桌面环境上配置验证。Chromium保持默认沙箱。代码没有修改当前Mac的全局休眠。
+
+网络访问使用[示例Caddy配置](../config/Caddyfile.example)及`DESK_PUBLIC_ORIGIN`。先确定主机名／局域网地址、安装可信证书，再配对手机；不会自动开放公网或跳过证书验证。API继续绑定回环，由TLS代理转发。
+
+## 3. 摄像头与个人标定
+
+```sh
+PYTHONPATH=backend .venv/bin/python -m desk.agents.camera --camera 0
+```
+
+进程先查询“允许观察”，未允许／已暂停／控制连接失效时不会持续打开相机。允许后在界面依次记录平时姿势、轻微前倾、轻微侧移。每项需至少20个有效观察且持续至少5秒；无法分开的姿势会要求调整机位。移动相机、换输入或改变分辨率后应重新标定。设备编号相同的物理移动不一定能自动检测。
+
+模型只提供可见关键点。亮度、可见性、多人数、时序和标定匹配由程序检查；缺帧／遮挡等显示“无法判断”。不会用不可靠髋点算角度，也不把低置信度当作正确姿势。默认不保存或上传图像。
+
+macOS使用MediaPipe0.10.35，已实际运行空帧；1.0.1的macOS CPU图存在已复现的问题。Linux使用1.0.1，因为该发行版有官方aarch64轮子；Linux分支仅完成依赖选择，没有在Pi实跑。模型内容使用SHA256固定。
+
+## 4. 回放演示
+
+回放只能在明确设置`DESK_ALLOW_REPLAY=1`的隔离运行目录使用。主服务默认关闭。
+
+```sh
+DESK_RUNTIME_DIR="$PWD/.runtime/demo" DESK_ALLOW_REPLAY=1 .venv/bin/uvicorn desk.app:create_app --factory --app-dir backend --host 127.0.0.1 --port 8832 --no-access-log
+```
+
+在第二个终端启动：
+
+```sh
+.venv/bin/python scripts/replay_posture.py --runtime .runtime/demo --api http://127.0.0.1:8832 --seconds 600 --pose reference
+```
+
+界面标定时，回放会提供对应的合成姿势。可用`--pose forward`／`side`／`away`／`dark`演示，或使用`--control`指定仅包含姿势名称的本地文件。画面和记录始终显示Replay。回放产生的姿态提醒不会驱动已连接的真实输出。
+
+## 5. 自然语音
+
+后端从环境读取配置。复制[service.env.example](../config/service.env.example)到`.runtime/service.env`并设权限0600；systemd会读取该文件。手动启动时由本机安全加载环境后再启动服务，不把密钥粘贴到前端或Git。
+
+| 字段 | Qwen Audio | Gemini Live |
+|---|---|---|
+| `DESK_VOICE_PROVIDER` | `qwen_audio` | `gemini` |
+| `DESK_VOICE_MODEL` | 实际获准型号，如`qwen-audio-3.1-realtime-plus` | 实际获准型号，如`gemini-3.8-live` |
+| `DESK_VOICE_ENDPOINT` | 控制台工作空间的`wss://…maas.aliyuncs.com/api-ws/v1/realtime`，不带query | 可留空使用官方端点 |
+| `DESK_VOICE_API_KEY` | 对应工作空间密钥 | Gemini密钥 |
+| `DESK_VOICE_VOICE` | 可选官方音色名 | 可选官方音色名 |
+
+配置重启后，“Configured”仅表示字段可用；真实连接、语言效果、费用和自然度要另外测试。没有凭据时不会自动调用服务。供应商未最终选定，两个适配器都保留。
+
+浏览器／iPhone在助理里“Start conversation”后申请麦克风并持续交谈，不必按住按钮。浏览器请求AEC／降噪，结果取决于设备。输入PCM16、16kHz、单声道；输出24kHz。每次会话最多10分钟，45秒无活动会结束；不会自动重连造成重复费用。打断清空播放，取消未确认草稿；已保存日程不会被打断撤销。
+
+日历和命名动作由后端工具执行。创建／修改／删除／设备预设先在屏幕确认；模型没有确认接口。命名动作排队与驱动回执分开。软件停止可直接请求，不受另一个待保存日程阻挡。
+
+设备免按键唤醒使用本地工作进程：
+
+```sh
+PYTHONPATH=backend .venv/bin/python -m desk.agents.voice --language zh
+```
+
+需先在偏好中允许本地唤醒，且已配置服务。当前开发唤醒词为 **Hey desk**／**你好桌伴**，不是最终品牌决定。sherpa-onnx模型在本地识别，检测到词后才申请语音会话。sounddevice路径需使用合适的AEC麦克风／扬声器通道；尚无真实回声或唤醒率结论。浏览器会话与本地工作进程共用单会话限制。
+
+独立角色出口为`?surface=avatar`；反射显示可加`&mirror=1`。当前是状态动画，不承诺逐音素口型；风扇／反射器的输入接口与光学仍需实物确认。
+
+## 6. 灯光与机械臂
+
+默认停机，API只接受命名预设，没有任意角度、脚本或抓取接口。控制器需持续心跳；命令5秒过期、只领取一次、重启不重放。模拟回执显示Simulated。
+
+```sh
+PYTHONPATH=backend .venv/bin/python -m desk.agents.outputs --driver simulator --runtime .runtime/demo --api http://127.0.0.1:8832
+```
+
+真实驱动使用PCA9685／ServoKit与GPIO Zero，需在目标Linux安装相应驱动。以[outputs.example.json](../config/outputs.example.json)复制至`.runtime/outputs.json`，完成台架标定后再填写实际限位、脉宽、预设和停机GPIO；样例`commissioned=false`不能直接启动电机。
+
+```sh
+PYTHONPATH=backend .venv/bin/python -m desk.agents.outputs --driver pca9685 --config .runtime/outputs.json
+```
+
+采用常闭停机检测；实际设备还需要独立电源切断，不把GPIO软件检测当成物理急停。首次启用先在台架设定的rest位置开始。没有编码器，`driver_completed`仅说明驱动写入完成，不证明机械角度正确。实物型号／电源／包络仍须验证。
+
+## 7. 日历、分享与恢复
+
+- 普通事件保存本地墙钟时间和IANA时区；全天事件以日期表达。查询最多62天，最多3000个发生项；单库最多500项主事件。
+- 重复按公历；每月31日或闰日不存在时跳过。农历目前用于显示，不是农历重复。
+- 声音默认关闭；常亮屏需要主动启用声音。安静时段抑制声音，不删屏内提醒。简报使用可用的本地系统语音；没有本地语音时仍可显示／提示。
+- 香港天气每10分钟刷新，失败保留来源时间并标过期。假期数据覆盖2025–2027，指公众假期；其他地区未选时不猜测。
+- ICS导入展开所选范围内的发生项为单次副本，默认私人／无提醒。预览显示新增、相同、变化与跳过原因；匹配变化只有明确勾选后替换，版本冲突会拒绝整个应用。
+- ICS导出包含原生系列和例外。文件不是云端实时同步。
+- Google连接使用只读scope、一次性状态、PKCE和后端加密令牌。需自己的Cloud OAuth客户端与回调地址；导入前预览，不向Google写入，也不自动删除本地副本。
+- 忙闲分享只返回合并时间段；详情分享只返回可展示标题和时间。分享码在URL片段中，API校验撤销／到期；不自动发送链接或暴露公网。
+- 业务备份包含事件、例外、设置快照、事务及每件最近20条进展，不含登录、配对、云令牌、原始媒体或vault密钥。恢复只合并缺少的事项，保留现有事项、事务和当前设置；恢复的新增事务默认暂停跟进。JSON校验值用于发现损坏，不是加密或真实性证明。
+
+## 8. iPhone与系统功能
+
+```sh
+cd frontend
+npm ci
+npm run build
+npx cap sync ios
+node scripts/configure-ios-features.cjs
+cd ..
+.venv/bin/python scripts/prepare_ios.py
+```
+
+`prepare_ios.py`是Xcode下载受阻时的可复现路线：下载官方8.5.2框架、验证其官方SHA256、引用本地Swift包。不修改框架内容。SDK版本改变后需要重新核查，不能沿用旧校验值。
+
+打开`frontend/ios/App/App.xcodeproj`，scheme为App，bundle为`dev.group2.deskcompanion`，iOS17+。本轮模拟器已编译／安装；真机Team、App Group与签名需使用拥有者账号配置，未进行App Store提交。
+
+首次填桌面HTTPS地址，再配对。HTTP回环只对Simulator开放。通知由使用者在Device页面启用，最多缓存未来七天64条，离线时远端修改不会自动同步，重新打开App刷新。私人标题在通知及小组件中始终隐藏。
+
+WidgetKit含小／中尺寸，缓存超过20分钟提示刷新。系统控制实际刷新频率。快捷入口为打开Today和准备新事件，后者只打开表单，不直接创建。退出或撤销后本App清理本地快照和通知；没有跨设备推送服务。
+
+## 9. 主动事务与文字AI
+
+Tasks中创建并保存事务，记录截止与下一步。需要安排工作时点时选择“Choose time in calendar…”，检查并保存独立日程；这不会自动标记事务完成。下次检查到期后出现一个入口，可以保存进展、延后一小时、暂停、完成或取消；完成／取消可在History恢复。步骤全部勾选仍须明确确认整体完成。
+
+未配置AI时，助理明确使用本地规则：`Track: report`／`跟进：报告`准备事务草稿；在事务详情选择“Discuss this task”记录新进展，检查后保存。本地规则不会理解任意表达，也不会自动把进展改成新的状态。
+
+可选文字服务与语音分别配置：
+
+| 环境变量 | 内容 |
+|---|---|
+| DESK_TEXT_PROVIDER | none（默认）、qwen或gemini |
+| DESK_TEXT_MODEL | 账号实际可用、支持JSON输出的文字型号 |
+| DESK_TEXT_API_KEY | 该服务的密钥，仅留后端私有配置 |
+| DESK_TEXT_ENDPOINT | Qwen官方工作空间兼容接口，路径以/compatible-mode/v1/chat/completions结束；Gemini可留空 |
+| DESK_TEXT_BACKGROUND | 默认0；明确启用后1，为待跟进提示补充AI建议 |
+
+后台建议最多20次尝试／UTC日，失败计入，不自动重试中断请求；失败保留本地规则提示。主程序关闭后不能继续检查，主机仍须常开。自然语音单独按第5节配置；没有从本机其他项目读取或复用密钥。
+
+详情与数据边界见[事务契约](task-tracking.md)。本轮未使用真实付费模型；`configured`只是配置有效，不能当作连接、质量或费用验收。当前事务尚无远程锁屏推送、邮箱监控或学校服务器部署。

@@ -1,0 +1,115 @@
+{
+  "status": "PASS",
+  "completed_at": "2026-09-16T10:32:51.748548+08:00",
+  "checks": {
+    "three_pages": true,
+    "all_pages_visually_reviewed": true,
+    "reviewed_pdf_identical": true,
+    "four_distinct_original_reference_images": true,
+    "source_content_complete": true,
+    "first_two_pages_source_unchanged_except_version": true,
+    "hardware_table_unchanged": true,
+    "one_hardware_table_and_one_borderless_picture_grid": true,
+    "all_old_artifacts_preserved": true,
+    "all_links_exist": true,
+    "no_member_identifiers": true,
+    "all_figure_captions_present": true
+  },
+  "missing_docx": [],
+  "missing_pdf": [],
+  "content_segments": 45,
+  "preserved": {
+    "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx": true,
+    "output/docx/AY26_ProjectSuggestion_Group 2.docx": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2.pdf": true,
+    "scripts/build_suggestion_v2.py": true,
+    "scripts/build_suggestion.py": true,
+    "planning/2026-09-14/group-2-details.json": true,
+    "planning/2026-09-15/procurement-data.json": true,
+    "outputs/01a07aeb-a256-7572-a42e-bd7e4668674f/Group 2_Hardware Procurement_20260915.xlsx": true,
+    "planning/2026-09-15/power-supply-data.json": true,
+    "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md": true,
+    "planning/2026-09-15/hardware-fabrication-enquiry-v2.md": true,
+    "output/docx/Group 2_Hardware RFQ_v2.docx": true,
+    "output/pdf/Group 2_Hardware RFQ_v2.pdf": true,
+    "output/qa/rfq-v2-2026-09-15/build_rfq.py": true,
+    "planning/2026-09-15/hardware-fabrication-enquiry-v3.md": true,
+    "output/docx/Group 2_Hardware RFQ_v3_Simple.docx": true,
+    "output/pdf/Group 2_Hardware RFQ_v3_Simple.pdf": true
+  },
+  "project_markdown_count": 27,
+  "local_links": 173,
+  "broken_links": [],
+  "visual_review": {
+    "render": "render-01",
+    "dpi": 120,
+    "viewed_pages": [
+      1,
+      2,
+      3
+    ],
+    "result": "All pages checked at original size; four complete images, captions, hardware table and footer fit; original two-page scope remains."
+  },
+  "artifacts": [
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+      "bytes": 5279,
+      "sha256": "ab69a75f60b9ac081617970c9dea0ad48e4af73e27f006085e77052835054965"
+    },
+    {
+      "path": "output/docx/Group 2_Hardware RFQ_v3.1_Images.docx",
+      "bytes": 1001283,
+      "sha256": "05896760332154d42a63f59c93b313eafa8994f8541ce78f555ab938b0a2d1e9"
+    },
+    {
+      "path": "output/pdf/Group 2_Hardware RFQ_v3.1_Images.pdf",
+      "bytes": 664646,
+      "sha256": "f1ccced9ccaa4299e4761a5432d7324160e8b511fedd3e14aa8fae342a07094c"
+    }
+  ],
+  "updated_project_markdown": [
+    "product.md",
+    "README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+    "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+    "planning/2026-09-15/procurement-guide.md",
+    "planning/2026-09-15/yahboom-sourcing-and-customization.md"
+  ],
+  "source_assets": {
+    "created_at": "2026-09-16T10:29:01.628796+08:00",
+    "purpose": "Additional product reference images for RFQ V3.1; manufacturing scope unchanged.",
+    "files": [
+      {
+        "file": "metafoodx-product-clean-20260915.png",
+        "source": "https://www.metafoodx.com/product",
+        "method": "Existing 2026-09-15 browser screenshot",
+        "sha256": "2dedb7f5920b749b80c4890509a06919652da442fc389fec106b89ea4f2cdac8"
+      },
+      {
+        "file": "metafoodx-layout-clean-20260915.png",
+        "source": "https://www.metafoodx.com/product",
+        "method": "Existing 2026-09-15 browser screenshot",
+        "sha256": "eaa13f64e0fd5f4ca09b65356c4f63f9ba859523254ba6ccf685ff2a1f14ad88"
+      },
+      {
+        "file": "metafoodx-chef-user-reference.png",
+        "source": "User-attached codex-clipboard-15b20c30-58c3-459e-991a-3d08fb32851b.png",
+        "method": "Unmodified copy of supplied image; original provenance beyond user attachment not independently reverified.",
+        "sha256": "a834d134c14b0440b459992db1ed6eb26078d7e03eed1873fd62dd1238ce63d8"
+      },
+      {
+        "file": "metafoodx-pomona-installation.jpg",
+        "source": "User-supplied Metafoodx_Pomona_College_Case_Study.pdf, page2 image Im0.jpg",
+        "method": "pypdf extraction of the embedded photo, compared to rendered source page; no retouching, compositing or AI generation.",
+        "sha256": "1dc3447dbc040cb0ace0b7f61200b872e2675061de7820d33c2d79304f4237f9"
+      }
+    ],
+    "restrictions": "Appearance/layout reference only. No generated imagery, inferred internal hardware, extra supplier tasks or competitor performance commitments."
+  },
+  "artifact_markers": "One successful edit marker for each of DOCX and PDF before authoring/export.",
+  "boundary": "Only reference-image additions. No new supplier duties, generated product images, inferred internals, performance commitments, supplier messages, purchases or physical tests."
+}

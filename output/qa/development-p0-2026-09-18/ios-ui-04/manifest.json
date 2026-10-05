@@ -1,0 +1,44 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "20706706-4A24-4955-8748-BC050D2E1253.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "07-large-text-lower_0_0BD90334-169C-4D82-ABB0-CF4F55030E54.png",
+        "timestamp" : 1789750811.861
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "A4F696F1-1B8C-423F-AD67-E7F476203C77.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "06-large-text-top_0_2A97B35E-D630-421D-8B93-AD0CFE6F7983.png",
+        "timestamp" : 1789750809.176
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "6EC5313A-CD26-4667-94C7-234B35141240.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "05-completed-batch_0_1E2C6404-A7A6-4073-BCA5-398C582025B2.png",
+        "timestamp" : 1789750803.116
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "F57B6381-6448-434C-AE61-A2663F3458A7",
+        "deviceName" : "iPhone 17 Pro",
+        "exportedFileName" : "F7A0F149-661D-4209-A371-74AA0B9B99AD.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "04-verified-overview_0_2316D7F0-3460-475E-8973-7FC1442C64FC.png",
+        "timestamp" : 1789750796.795
+      }
+    ],
+    "testIdentifier" : "SenplateUITests/testVerifiedBatchAndLargeText()",
+    "testIdentifierURL" : "test://com.apple.xcode/Senplate/SenplateUITests/SenplateUITests/testVerifiedBatchAndLargeText"
+  }
+]

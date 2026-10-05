@@ -1,0 +1,29 @@
+{
+  "completed_at": "2026-09-16T07:30:09.383063+00:00",
+  "checks": {
+    "local_links_exist": true,
+    "group_label_and_teacher": true,
+    "deadlines_distinguished": true,
+    "no_verified_hk_extension": true,
+    "institutional_category_pending": true,
+    "draft_unsent": true,
+    "no_company_constraint": true,
+    "concurrent_brand_handoff_preserved": true,
+    "source_ids_unique": true
+  },
+  "local_links_checked": 227,
+  "missing_links": [],
+  "updated_documents": [
+    "research/2026-09-16-competitions/world-vocational-registration.md",
+    "research/2026-09-16-competitions/mainland-national-provincial.md",
+    "product.md",
+    "handoff.md",
+    "README.md",
+    "decision-log.md",
+    "work-log.md",
+    "research/2026-09-16-competitions/source-register.json"
+  ],
+  "verification_scope": "Research and documentation only; no application/hardware testing, no external communications or registration",
+  "all_passed": true,
+  "validation_note": "Initial link pass preceded creation of this QA record. Rechecked the only unresolved self-link after record creation; it exists."
+}

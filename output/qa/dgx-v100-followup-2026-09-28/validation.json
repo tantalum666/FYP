@@ -1,0 +1,40 @@
+{
+  "checked_at": "2026-09-28T16:07:35.363560",
+  "updated_markdown": [
+    "product.md",
+    "handoff.md",
+    "README.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-09-28/desk-software-scope-v1.md",
+    "research/2026-09-28-local-voice/server-deployment-comparison.md"
+  ],
+  "reading_record": "reading-record.json",
+  "local_links_checked": 449,
+  "broken_links": [],
+  "unbalanced_code_fences": [],
+  "protected_files_unchanged": {
+    "output/submission/2026-09-28/AY26_ProjectProposal_Group 2.docx": true,
+    "output/submission/2026-09-28/AY26_ProjectProposal_Group 2.pdf": true,
+    "output/docx/Group 2_DeskCompanion_ProjectProposal_ZH_Review_v3.docx": true,
+    "planning/2026-09-14/group-2-details.json": true
+  },
+  "facts_status": "Tentative user report DGX-1 V100; model, allocation and server runtime not inspected",
+  "checks_run": [
+    "Official NVIDIA, PyTorch, vLLM and model/runtime source review",
+    "Current V100 caveats and model baseline synchronisation",
+    "Markdown links and fences",
+    "Proposal and identity SHA-256 preservation"
+  ],
+  "not_run": [
+    "Server login",
+    "nvidia-smi",
+    "GPU inference",
+    "Package installation",
+    "Driver changes",
+    "Model download",
+    "Speech and hardware tests",
+    "School submission"
+  ],
+  "passed": true
+}

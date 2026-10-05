@@ -1,0 +1,511 @@
+{
+  "checked_at": "2026-09-16T06:02:37.290304+00:00",
+  "team_constraints": {
+    "group": "Group 2",
+    "member_count": 3,
+    "programme": "Higher Diploma in AI and Smart Technology (IT114124)",
+    "all_members_hk_permanent_residents": false,
+    "permanent_residency_source": "explicit user reply in this task; all three are not permanent residents",
+    "institution_evidence": "current project group-2-details.json; exact individual final competition eligibility not adjudicated",
+    "no_current_company_registration_plan": true,
+    "no_company_constraint_source": "Explicit user follow-up: no intention to register a company in any place for now."
+  },
+  "sources": [
+    {
+      "id": "hk_student_eligibility",
+      "url": "https://www.hkchallengeplus.com/application-info/",
+      "authority": "organizer",
+      "access": "web full text",
+      "finding": "2026 accepts Hong Kong full-time higher diploma; individual or unlimited-size team; permanent residence not stated as required."
+    },
+    {
+      "id": "hk_student_prizes",
+      "url": "https://www.hkchallengeplus.com/獎項/",
+      "authority": "organizer",
+      "access": "web full text",
+      "finding": "2026 special 80000 HKD; first 15000; second 8000; third 3000; total pool over 500000; selection opportunity for national competitions."
+    },
+    {
+      "id": "hk_student_deadline",
+      "url": "https://www.digitalpolicy.gov.hk/sc/our_work/digital_infrastructure/industry_development/industry_support/event_calendar/event_detail.html?id=10350102",
+      "authority": "government",
+      "access": "web full text",
+      "finding": "2026 registration closed March 30; national competition links described. Not a 2027 announcement."
+    },
+    {
+      "id": "hk_student_faq",
+      "url": "https://www.hkchallengeplus.com/attendtionm/questions-and-answers/",
+      "authority": "organizer",
+      "access": "web full text",
+      "finding": "Physical exhibit needed for finals; innovation versus entrepreneurship choice; cross-institution membership; Chinese/English local competition."
+    },
+    {
+      "id": "techathon_eligibility",
+      "url": "https://www.hktechathon.com/zh-hk/site/join",
+      "authority": "organizer",
+      "access": "web full text",
+      "finding": "2027 explicitly welcomes VTC higher diploma and FYP; 2-6 team; prior HKSTP funding excludes student group; 10-20 page deck; deadline January 11 23:59."
+    },
+    {
+      "id": "techathon_prizes",
+      "url": "https://www.hktechathon.com/en/site/awards",
+      "authority": "organizer",
+      "access": "web full text",
+      "finding": "Per group/theme gold 15000 HKD, silver 8000, bronze 5000; best presentation 10000; funding and interview routes subject to respective eligibility."
+    },
+    {
+      "id": "techathon_schedule",
+      "url": "https://www.hktechathon.com/en/site/keydates?lang=SC",
+      "authority": "organizer",
+      "access": "web full text",
+      "finding": "September 2026 application launch; January 11 2027 deadline; January 28-31 finale."
+    },
+    {
+      "id": "shenzhen_2026_teams",
+      "url": "https://szri.xmu.edu.cn/info/1281/8762.htm",
+      "authority": "university recruitment notice",
+      "access": "web full text",
+      "finding": "Team at least two; not yet Shenzhen/Shenshan registered; plan registration within one year; team awards 300000/200000/100000 RMB. June 30 date superseded by government extension."
+    },
+    {
+      "id": "shenzhen_2026_extension",
+      "url": "https://stic.sz.gov.cn/xxgk/ztzl/cxcyds/dsxx/content/post_12869896.html",
+      "authority": "government",
+      "access": "web full text",
+      "finding": "Latest accessed extension closes July 15 2026 24:00; total pool 10.2m RMB."
+    },
+    {
+      "id": "shenzhen_2025_payout",
+      "url": "https://stic.sz.gov.cn/xxgk/tzgg/content/post_12474641.html",
+      "authority": "government",
+      "access": "web and official search text",
+      "finding": "Historical 2025: 50% first, remaining 50% after Shenzhen registration/operations/social insurance. Not asserted as 2026 or 2027 rule."
+    },
+    {
+      "id": "guangzhou_2026",
+      "url": "https://kjj.gz.gov.cn/gkmlpt/content/10/10857/post_10857787.html",
+      "authority": "government organizer",
+      "access": "web full text",
+      "finding": "Team eligibility includes one member study over one year in HK/Macao/Taiwan institution; first prize 300000 RMB cash plus equal service value; general award Guangzhou actual operations required; student special 20000/10000/5000 has no landing requirement; August 14 17:00 deadline. VTC diploma classification not explicitly resolved."
+    },
+    {
+      "id": "ict_stream",
+      "url": "https://icta.itda.hk/streams",
+      "authority": "category organizer",
+      "access": "browser AX after selecting Higher Education",
+      "finding": "Full-time UGC-funded/self-financing postsecondary/VTC students, 1-5 members; prototype expected."
+    },
+    {
+      "id": "ict_benefits",
+      "url": "https://icta.itda.hk/winner-benefits",
+      "authority": "category organizer",
+      "access": "browser AX",
+      "finding": "Trophies and publicity, exhibitions, conditional seed-fund interview; no fixed cash award verified."
+    },
+    {
+      "id": "ict_timeline",
+      "url": "https://icta.itda.hk/",
+      "authority": "category organizer",
+      "access": "browser AX and official search text",
+      "finding": "2026 deadline July 20; adjudication August 17-September 25; presentation November 19 tentative."
+    },
+    {
+      "id": "national_innovation_2026",
+      "url": "https://hudong.moe.gov.cn/srcsite/A08/s5672/202607/t20260731_1445670.html",
+      "authority": "Ministry of Education",
+      "access": "web full text; annex clicks failed",
+      "finding": "National registration September 25 2026 12:00; Hong Kong/Macao/Taiwan quotas; does not establish an open VTC/Hong Kong nomination route or diploma track mapping."
+    },
+    {
+      "id": "challengecup_fyp",
+      "url": "https://2025.tiaozhanbei.net/media/ckeditor_uploads/49/2025/06/13/1.%E2%80%9C%E6%8C%91%E6%88%98%E6%9D%AF%E2%80%9D%E5%85%A8%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E8%AF%BE%E5%A4%96%E5%AD%A6%E6%9C%AF%E7%A7%91%E6%8A%80%E4%BD%9C%E5%93%81%E7%AB%9E%E8%B5%9B%E7%AB%A0%E7%A8%8B.pdf",
+      "authority": "organizer",
+      "access": "official search-index excerpt",
+      "finding": "2025 extracurricular works charter excludes graduation/course projects; no claim of full PDF reading."
+    },
+    {
+      "id": "challengecup_2027_crosscheck",
+      "url": "https://www.snnu.edu.cn/info/1015/119904.htm",
+      "authority": "university",
+      "access": "web full text relevant section",
+      "finding": "2027 preparatory notice retains FYP exclusion; university dates and internal eligibility not treated as national/Hong Kong rules."
+    },
+    {
+      "id": "hksec_eligibility",
+      "url": "https://hksec.hk/zh/competition-hk/參賽資格/",
+      "authority": "organizer",
+      "access": "web full text",
+      "finding": "Current Chinese page requires all members HK permanent residence; degree wording conflicts with diploma subitem. Not shortlisted for three nonpermanent residents."
+    },
+    {
+      "id": "hkust_hk_eligibility",
+      "url": "https://ec.hkust.edu.hk/one-million/hk/2026/application-and-eligibility",
+      "authority": "organizer",
+      "access": "web search detailed extract",
+      "finding": "HKUST member ownership or licensed technology condition; international track for non-local universities. HK study plus nonpermanent status does not automatically qualify."
+    },
+    {
+      "id": "hkust_hk_prizes",
+      "url": "https://ec.hkust.edu.hk/one-million/hk/2026/cash-awards",
+      "authority": "organizer",
+      "access": "web search detailed extract",
+      "finding": "HKUST track top 400000 HKD, company registration and business-use/payout conditions; not unconditional eligibility for Group 2."
+    },
+    {
+      "id": "dyson_rules",
+      "url": "https://app-jamesdysonaward-prod-uksouth.azurewebsites.net/terms-and-conditions/",
+      "authority": "organizer",
+      "access": "web search detailed extract",
+      "finding": "Team lead undergraduate/postgraduate/eligible degree apprenticeship; no automatic higher-diploma lead eligibility; 2026 July 15 close."
+    },
+    {
+      "id": "maker_hk",
+      "url": "https://makerinchina.hk/",
+      "authority": "organizer",
+      "access": "web full text",
+      "finding": "Hong Kong nonlisted companies; 2026 August 20 close; HK Tech 300 interview not 100000 HKD cash prize."
+    },
+    {
+      "id": "qianhai_rules",
+      "url": "https://www.ciec2026.com/#/competition/5",
+      "authority": "organizer",
+      "access": "browser AX full scheme",
+      "finding": "2026 regular competition requires eligible registered enterprises; challenge procurement separate team path; scheme lists gold/silver/bronze but no cash sums. September 22 deadline on 2026 homepage. Secondary 300000 cash claim not used as verified amount."
+    },
+    {
+      "id": "panpearl_hk_2026",
+      "url": "https://panpearl.iproa.org/web/",
+      "authority": "Hong Kong organizer",
+      "access": "web full text",
+      "finding": "Higher diploma/associate IT graduation projects explicitly accepted; no fixed cash award verified; HK selected finalists travel/meals/accommodation listed; 2026 May 25 close.",
+      "checked_at": "2026-09-16T06:22:51.615941+00:00"
+    },
+    {
+      "id": "chinaus_2026_requirements",
+      "url": "https://chinaus-maker.cscse.edu.cn/chinaus-maker/gyds/csyq22/index.html",
+      "authority": "Ministry of Education competition",
+      "access": "web full text",
+      "finding": "Individual or max five; Chinese/US citizens or permanent legal residents; age date range; noncommercial new/unpublished work and prior award restrictions; VTC track mapping to confirm.",
+      "checked_at": "2026-09-16T06:22:51.615941+00:00"
+    },
+    {
+      "id": "chinaus_2026_pdf",
+      "url": "https://chinaus-maker.cscse.edu.cn/chinaus-maker/attachDir/2026/05/2026052815315453361.pdf",
+      "authority": "organizer",
+      "access": "original downloaded, relevant text and page images",
+      "finding": "2026 both tracks first 15000 RMB, second 8000 RMB, pretax; payable to winning teams/individuals after withholding. No company/landing prerequisite in relevant entry and payout terms.",
+      "checked_at": "2026-09-16T06:22:51.615941+00:00"
+    },
+    {
+      "id": "hkepc_2026",
+      "url": "https://hkie.org.hk/en/events/hkepc/hkepc2026/",
+      "authority": "HKIE Electronics Division",
+      "access": "web full text and linked original InfoPack",
+      "finding": "Tertiary students separate from companies; max four and student ID; 2026 top award 6000 HKD; subdegree application award 2000; deadline extension February 16.",
+      "checked_at": "2026-09-16T06:22:51.615941+00:00"
+    },
+    {
+      "id": "hkepc_2026_pdf",
+      "url": "https://hkie.org.hk/en/wp-content/uploads/sites/10/hkie/3c1cd3f952add63df75b174d2680694b/HKEPC2026_InfoPack.pdf?ver=1780329466&x17457=",
+      "authority": "organizer",
+      "access": "original downloaded, relevant text and page images",
+      "finding": "18-page 2026 document body; obsolete PDF metadata title says 2024. Use dated 2026 body and page 9 prizes.",
+      "checked_at": "2026-09-16T06:22:51.615941+00:00"
+    },
+    {
+      "id": "iff_2026_submission",
+      "url": "https://www.innovateforfuture.com/submission/",
+      "authority": "HKETA competition organizer",
+      "access": "web full text",
+      "finding": "1-4 students QF level 4 or above including higher diploma; current results include HKIIT and IVE; English proposal/video/pitch; student entry not corporate entity.",
+      "checked_at": "2026-09-16T06:22:51.615941+00:00"
+    },
+    {
+      "id": "iff_2026_prizes",
+      "url": "https://www.innovateforfuture.com/",
+      "authority": "HKETA competition organizer",
+      "access": "web full text",
+      "finding": "AIoT theme; main cash 6000/4000/2500 HKD, three excellence awards 1500 each; total 17000; commercial mentorship subject to mutual agreement; 2026 registration April 30, submission June 30, showcase August 8 all passed.",
+      "checked_at": "2026-09-16T06:22:51.615941+00:00"
+    },
+    {
+      "id": "ypec_2026_pdf",
+      "url": "https://ietypec.org/wp-content/uploads/2026/03/YPEC-2026-Sub-degree-Section-Info-Sheet.pdf",
+      "authority": "IET Hong Kong",
+      "access": "original downloaded; full text retrieved and relevant page images",
+      "finding": "Title subdegree but eligibility paragraph says Undergraduate; flag mismatch. FYP permitted; max eight, first 1500 HKD, innovation 1000; May 24 close.",
+      "checked_at": "2026-09-16T06:22:51.615941+00:00"
+    },
+    {
+      "id": "ypec_vtc_evidence",
+      "url": "https://engineering.vtc.edu.hk/en/PastHighlightsOthersDetails.php?EDLDID=161",
+      "authority": "VTC",
+      "access": "official web extract",
+      "finding": "IVE computer/electronic higher diploma team won 2026 YPEC subdegree second runner-up; confirms actual subdegree participation without treating conflicting info sheet as flawless.",
+      "checked_at": "2026-09-16T06:22:51.615941+00:00"
+    },
+    {
+      "id": "hk_student_no_company",
+      "url": "https://www.hkchallengeplus.com/attendtionm/hk-atte/",
+      "authority": "organizer",
+      "access": "web full text",
+      "finding": "Individuals/teams; only registered operating entrepreneurship projects attach BR/CI; student innovation and unregistered plan routes retained.",
+      "checked_at": "2026-09-16T06:22:51.615941+00:00"
+    },
+    {
+      "id": "hkae_degree_screen",
+      "url": "https://pitchcomp.hkae.hk/en/index.asp",
+      "authority": "HKAE organizer",
+      "access": "web full text",
+      "finding": "Pitch competition specifically designed for undergraduate students; not shortlisted as confirmed higher diploma eligibility despite 50000 HKD headline.",
+      "checked_at": "2026-09-16T06:22:51.615941+00:00"
+    },
+    {
+      "id": "energy_2026_international",
+      "url": "https://www.jienengjianpai.org/sys-nd/20.html",
+      "authority": "competition organizer",
+      "access": "web full text",
+      "finding": "Hong Kong/Macao/Taiwan full-time junior college and degree students; team up to seven, head has eligible institution enrollment; no permanent-residency or company prerequisite; English certificates separate track, no fixed cash stated.",
+      "checked_at": "2026-09-16T06:47:06.382972+00:00"
+    },
+    {
+      "id": "energy_2026_final",
+      "url": "https://www.jienengjianpai.cn/sys-nd/421.html",
+      "authority": "competition organizer",
+      "access": "web official notice",
+      "finding": "July 31-August 2 2026 online finals, English 10-minute presentation plus five-minute Q&A. Not current open registration.",
+      "checked_at": "2026-09-16T06:47:06.382972+00:00"
+    },
+    {
+      "id": "world_vocational_2026",
+      "url": "https://www.moe.gov.cn/srcsite/A07/s7055/202608/t20260820_1447374.html",
+      "authority": "Ministry of Education",
+      "access": "public URL HTML retrieval after web timeout; complete body read",
+      "finding": "2026 school-based teams max four; applicable full-time Chinese-national vocational students and recent graduates including HK/Macao/Taiwan; AI track not profession-limited; HK/Macao/Taiwan can directly enter contention stage without quota cap, still school review and application; contention by September end. No fixed cash in implementation plan.",
+      "checked_at": "2026-09-16T06:47:06.382972+00:00"
+    },
+    {
+      "id": "iot_national_2026",
+      "url": "https://iot.sjtu.edu.cn/ueditor/net/upload/file/20260326/6391013243710844328303068.pdf",
+      "authority": "competition organizer",
+      "access": "original PDF downloaded; extracted pages 2-6; visual pages 1-5",
+      "finding": "National higher-vocational track separately judged, same-school up to four; free or supported platform options, self-chosen theme permitted; registration June 15 closed; no explicit HK route found.",
+      "checked_at": "2026-09-16T06:47:06.382972+00:00"
+    },
+    {
+      "id": "iot_vocational_clarification_2026",
+      "url": "https://iot.sjtu.edu.cn/show.aspx?flag=2&info_id=6083&info_lb=34",
+      "authority": "competition organizer",
+      "access": "public page link and original one-page PDF visually read",
+      "finding": "July 7 clarification concerns upgraded vocational universities with mixed bachelor/vocational programmes; July 20 confirmation email requested; does not establish VTC diploma acceptance.",
+      "checked_at": "2026-09-16T06:47:06.382972+00:00"
+    },
+    {
+      "id": "mobile_2026_official",
+      "url": "https://www.appcontest.net/home/newsDetails?newsId=123346",
+      "authority": "competition organizer",
+      "access": "browser verified 2026 notice/attachment labels",
+      "finding": "Official 2026 page dated April 20. No confirmed locally saved attachment after clicking link.",
+      "checked_at": "2026-09-16T06:47:06.382972+00:00"
+    },
+    {
+      "id": "mobile_2026_rules_text",
+      "url": "https://xk.qust.edu.cn/info/1047/5998.htm",
+      "authority": "Qingdao University of Science and Technology",
+      "access": "web full reproduced notice",
+      "finding": "Qidi/Qihang max three; Qiming max two; teacher required; iOS/iPadOS/visionOS free-topic apps and vocational award arrangement; June 30 Qidi and July 31 Qihang close; no fixed prize amount verified.",
+      "checked_at": "2026-09-16T06:47:06.382972+00:00"
+    },
+    {
+      "id": "hkiit_mobile_historical",
+      "url": "https://hkiit.edu.hk/zh-hans/student-achievement",
+      "authority": "HKIIT",
+      "access": "official search-index historical text and current web page",
+      "finding": "Official index documents 2024 mobile application awards for higher-diploma programmes. Current page separately shows 2026 Cross-Strait awards; do not conflate editions/events.",
+      "checked_at": "2026-09-16T06:47:06.382972+00:00"
+    },
+    {
+      "id": "ican_2026_innovation",
+      "url": "https://www.qdhhc.edu.cn/cxcy/p_detail.aspx?id=61198",
+      "authority": "university organizer of local selection",
+      "access": "web full text",
+      "finding": "2-5, innovation distinct from company-required entrepreneurship track; August 31 closed; HK institution route not verified. Institutional eligibility not copied as universal VTC approval.",
+      "checked_at": "2026-09-16T06:47:06.382972+00:00"
+    },
+    {
+      "id": "ican_2026_deadline",
+      "url": "https://jwc.glut.edu.cn/info/1837/10252.htm",
+      "authority": "Guilin University of Technology",
+      "access": "web official search extract",
+      "finding": "2026 innovation and entrepreneurship registration closes August 31.",
+      "checked_at": "2026-09-16T06:47:06.382972+00:00"
+    },
+    {
+      "id": "gd_provincial_vtc_example",
+      "url": "https://engineering.vtc.edu.hk/sc/PastHighlights.php",
+      "authority": "VTC",
+      "access": "official index and search text",
+      "finding": "May 2026 record of IVE team third prize in 2025-26 Guangdong IoT application development competition; detailed page returned old navigation, not counted as full news-body read.",
+      "checked_at": "2026-09-16T06:47:06.382972+00:00"
+    },
+    {
+      "id": "gd_provincial_organization",
+      "url": "https://jwc.gdipu.edu.cn/info/1063/5613.htm",
+      "authority": "Guangdong Industry Polytechnic University",
+      "access": "web official notice",
+      "finding": "Provincial student professional skills competition under Guangdong education department; school account registration January 10-26 2026, school-specific quotas not applicable automatically to HKIIT.",
+      "checked_at": "2026-09-16T06:47:06.382972+00:00"
+    },
+    {
+      "id": "gba_it_macao_2026_boundary",
+      "url": "https://cecp.must.edu.mo/news/article/view/id-42234.html?locale=zh_CN",
+      "authority": "Macau university transmitting organizer notice",
+      "access": "web full text",
+      "finding": "October 1 Macao deadline not Hong Kong deadline; Macao student route cannot be used to infer HK VTC entry; not classified as provincial education-department award.",
+      "checked_at": "2026-09-16T06:47:06.382972+00:00"
+    },
+    {
+      "id": "world_vocational_2026_registration_notice",
+      "url": "https://zhijiao.eol.cn/detail/2026/08/25/1787644727_28345.html",
+      "authority": "Competition Executive Committee notice reproduced by Education Online",
+      "access": "complete notice body read via web, lines 79-224",
+      "finding": "Issued August 21, 2026, No. 2. Domestic basic registration August 21-27; detailed materials September 7-10. School accounts and IP review; domestic same-school max four, up to two full-time teachers of that school; AI category based on institutional level. Hong Kong supplementary registration not verified.",
+      "checked_at": "2026-09-16T07:29:17.551969+00:00"
+    },
+    {
+      "id": "world_vocational_2026_fujian_registration",
+      "url": "https://jyt.fj.gov.cn/ztzl/fjszyjsjyzx/jnds/202608/t20260825_7203821.htm",
+      "authority": "Fujian Provincial Education Department",
+      "access": "official indexed full notice text, direct open intermittently failed",
+      "finding": "August 25 execution notice independently confirms national two-phase dates and school-account submission. Provincial quotas and international invitation arrangements are not Hong Kong procedures.",
+      "checked_at": "2026-09-16T07:29:17.551969+00:00"
+    }
+  ],
+  "access_limits": [
+    "MOE higher-education and vocational annexes not retrieved",
+    "HKICT PDF too large (24.8 MB), category organizer pages used instead",
+    "CUA in-app browser content export unsupported, no local full-text snapshot claimed"
+  ],
+  "actions_not_taken": [
+    "registration",
+    "account_creation",
+    "messages_to_organizers_or_supervisor",
+    "company_registration",
+    "automation_creation"
+  ],
+  "no_company_followup": {
+    "checked_at": "2026-09-16T06:22:51.615941+00:00",
+    "current_report": "no-company-options.md",
+    "dropped_current_targets": [
+      "shenzhen team landing awards",
+      "guangzhou general awards",
+      "guangzhou student special as workaround: entry itself asks Guangzhou entrepreneurship intent"
+    ],
+    "cash_comparison_excludes": [
+      "conditional incubator funding",
+      "investment",
+      "service packages"
+    ],
+    "new_pdf_sources": [
+      {
+        "path": "sources/ChinaUS-Maker-2026-Rules.pdf",
+        "sha256": "a6c774431c1fc176cb58c5b2e09684e38cda9e45529184dd955179c54846b36d",
+        "visual_pages_1_based": [
+          4,
+          5,
+          6,
+          14,
+          15
+        ],
+        "unchanged_original_download": true
+      },
+      {
+        "path": "sources/HKIE-Electronics-2026-InfoPack.pdf",
+        "sha256": "f33d64907b32ab9f27097861dba4f5b9dc6a1e3e2741f5b581ed18780421c8f9",
+        "visual_pages_1_based": [
+          6,
+          9,
+          15,
+          16,
+          17
+        ],
+        "unchanged_original_download": true
+      },
+      {
+        "path": "sources/IET-YPEC-2026-Subdegree-Rules.pdf",
+        "sha256": "0e7f9a807b8905f6ad74f646cbc6fe8d5b12621036f2489965aa0a531ce8b138",
+        "visual_pages_1_based": [
+          2,
+          4
+        ],
+        "unchanged_original_download": true
+      }
+    ]
+  },
+  "mainland_followup": {
+    "checked_at": "2026-09-16T06:47:06.382972+00:00",
+    "report": "mainland-national-provincial.md",
+    "constraints_preserved": [
+      "no company registration plan",
+      "three non-HK-permanent-resident higher-diploma students",
+      "single-device FYP scope"
+    ],
+    "official_country_or_province_vs_regional_separated": true,
+    "pending_eligibility": [
+      "VTC exact vocational classification for relevant competitions",
+      "iCAN and IoT HK portal/region",
+      "next-edition application paths",
+      "world competition nationality/school review"
+    ],
+    "access_limits": [
+      "bs4 was unavailable; standard-library parser used without installation",
+      "iCAN dynamic page and official PDF retrieval timed out; university official notice used; no claim of visual review of four-page iCAN scan",
+      "VTC detail page returned stale navigation; official achievement/index statements used",
+      "mobile official attachment not proven downloaded"
+    ],
+    "pdf_sources": [
+      {
+        "path": "sources/National-IoT-2026-Rules.pdf",
+        "sha256": "65676231f78dc9f007fcf8a6dc7eca7f8281c2c5c6251654dff4ef5cec9fe492",
+        "visual_pages": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "path": "sources/National-IoT-2026-Vocational-Eligibility.pdf",
+        "sha256": "19cf276d0aa50ea354ecd7787b589bb9620ca0ac10444bbaf7303b35d2981f71",
+        "visual_pages": [
+          1
+        ]
+      }
+    ]
+  },
+  "world_vocational_registration_followup": {
+    "checked_at": "2026-09-16T07:29:17.551969+00:00",
+    "report": "world-vocational-registration.md",
+    "status": "researched_not_contacted_or_registered",
+    "known_2026_domestic_deadlines": {
+      "basic": "2026-08-28T00:00:00+08:00",
+      "detailed": "2026-09-11T00:00:00+08:00",
+      "source_wording": "24:00 on closing day"
+    },
+    "unknowns": [
+      "Hong Kong school account assignment",
+      "HKIIT/VTC institutional category",
+      "all members nationality",
+      "Hong Kong late-registration exception",
+      "2027 rules and dates"
+    ],
+    "next_step": "User contacts Marco for school coordinator referral; draft provided, not sent",
+    "preserved_constraints": [
+      "no company registration",
+      "three non-HK-permanent residents",
+      "single-device FYP",
+      "concurrent Logo/VI selection and business plan remain unchanged"
+    ]
+  }
+}

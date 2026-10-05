@@ -1,0 +1,41 @@
+{
+  "nodeId": "8:2",
+  "width": 573,
+  "height": 142,
+  "reviewPlaceholder": false,
+  "reviewBounds": {
+    "width": 1440,
+    "height": 960
+  },
+  "fonts": [
+    {
+      "id": "8:6",
+      "font": {
+        "family": "Manrope",
+        "style": "Medium",
+        "variationSettings": {
+          "wght": 500
+        }
+      },
+      "text": "senplate"
+    }
+  ],
+  "page": [
+    {
+      "id": "2:2",
+      "name": "A / Interval"
+    },
+    {
+      "id": "2:3",
+      "name": "ARCHIVE / Balance / rejected by designer"
+    },
+    {
+      "id": "5:2",
+      "name": "Senplate / Interval / Review"
+    },
+    {
+      "id": "8:2",
+      "name": "Interval / signature export master"
+    }
+  ]
+}

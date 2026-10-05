@@ -1,0 +1,214 @@
+{
+  "completed_at": "2026-09-14T16:47:31.156165+08:00",
+  "file_count": 18,
+  "total_lines": 1613,
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "line_count": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256_at_read_completion": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "README.md",
+      "line_count": 33,
+      "read_ranges": [
+        [
+          1,
+          33
+        ]
+      ],
+      "sha256_at_read_completion": "ab2338128cdf5e99d3d45afcaa6d670f4a63d35cae422bddeac2c1b031b2a26f"
+    },
+    {
+      "path": "decision-log.md",
+      "line_count": 45,
+      "read_ranges": [
+        [
+          1,
+          45
+        ]
+      ],
+      "sha256_at_read_completion": "1567b276864213aeab9fe366eaf5699c3ec289c87616e3e485552be3c24e99b1"
+    },
+    {
+      "path": "handoff.md",
+      "line_count": 30,
+      "read_ranges": [
+        [
+          1,
+          30
+        ]
+      ],
+      "sha256_at_read_completion": "fc33c44026ec282b8f47ec2357b29d561b2fe1255569a3b7c45c14ad29e7d6d1"
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "line_count": 113,
+      "read_ranges": [
+        [
+          1,
+          113
+        ]
+      ],
+      "sha256_at_read_completion": "b26639527b34dc0c79b77c7e3d49f1f4ce6b80199db925e93d4b3847613b9b2f"
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "line_count": 106,
+      "read_ranges": [
+        [
+          1,
+          106
+        ]
+      ],
+      "sha256_at_read_completion": "ff8f84ea5264b6766c4ab68d2c30a12686ee429e49ed3c950cc9c422e6a2d10f"
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "line_count": 78,
+      "read_ranges": [
+        [
+          1,
+          78
+        ]
+      ],
+      "sha256_at_read_completion": "0546e0aee11211cbe5de981addd7f332da47e0b39f48785392b21b79bc0d1a21"
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "line_count": 160,
+      "read_ranges": [
+        [
+          1,
+          160
+        ]
+      ],
+      "sha256_at_read_completion": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5"
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "line_count": 108,
+      "read_ranges": [
+        [
+          1,
+          108
+        ]
+      ],
+      "sha256_at_read_completion": "ac5709dfbaf0c4bcd78d211595e961b0028bd9031475d16281a675b3826e895f"
+    },
+    {
+      "path": "product.md",
+      "line_count": 62,
+      "read_ranges": [
+        [
+          1,
+          62
+        ]
+      ],
+      "sha256_at_read_completion": "3a47f5edb8e3c59648a8e896fe57ab4e0052a9539bb8a9c9972079a3b38748f8"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "line_count": 165,
+      "read_ranges": [
+        [
+          1,
+          165
+        ]
+      ],
+      "sha256_at_read_completion": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "line_count": 38,
+      "read_ranges": [
+        [
+          1,
+          38
+        ]
+      ],
+      "sha256_at_read_completion": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "line_count": 44,
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ],
+      "sha256_at_read_completion": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "line_count": 47,
+      "read_ranges": [
+        [
+          1,
+          47
+        ]
+      ],
+      "sha256_at_read_completion": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "line_count": 287,
+      "read_ranges": [
+        [
+          1,
+          287
+        ]
+      ],
+      "sha256_at_read_completion": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "line_count": 171,
+      "read_ranges": [
+        [
+          1,
+          171
+        ]
+      ],
+      "sha256_at_read_completion": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "line_count": 25,
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ],
+      "sha256_at_read_completion": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7"
+    },
+    {
+      "path": "work-log.md",
+      "line_count": 51,
+      "read_ranges": [
+        [
+          1,
+          51
+        ]
+      ],
+      "sha256_at_read_completion": "1c85e50566b5ffd3a8e5fb976c76fa0ffbfc6c9795efdacb0c880ff649e7209d"
+    }
+  ],
+  "reading_evidence": "All project-owned Markdown read to EOF this turn. Repaired truncation by rereading scope-and-roles-for-review.md lines 125-EOF and competitive-review.md lines 1-45. Hardware review read in separate 1-155 and 156-EOF chunks. Hashes record end-of-read state, not substitute evidence.",
+  "excluded": [
+    ".git",
+    "dependencies/node_modules",
+    "source-cache",
+    "vendor",
+    "build/dist",
+    "output/qa generated evidence"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "checked_at": "2026-09-14T16:54:22.806585+08:00",
+  "initial_read_files": 18,
+  "initial_read_lines": 1613,
+  "current_markdown_files": 18,
+  "changed_markdown": [
+    "README.md",
+    "decision-log.md",
+    "handoff.md",
+    "planning/2026-09-14/ai-training-and-pi-deployment.md",
+    "planning/2026-09-14/continuous-monitoring-architecture.md",
+    "product.md",
+    "work-log.md"
+  ],
+  "local_links_checked": 76,
+  "broken_local_links": [],
+  "footnote_errors": [],
+  "table_errors": [],
+  "preserved_files": {
+    "output/docx/AY26_ProjectSuggestion_Group 2.docx": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2.pdf": true,
+    "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx": true,
+    "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf": true,
+    "scripts/build_suggestion.py": true,
+    "scripts/build_suggestion_v2.py": true,
+    "planning/2026-09-14/group-2-details.json": true
+  },
+  "scope_checks": {
+    "expected_changed_files_only": true,
+    "no_added_duplicate_guide": true,
+    "paired_depth_alignment": true,
+    "three_depth_routes": true,
+    "model_size_not_linear_with_samples": true,
+    "system_performance_not_guaranteed": true,
+    "early_device_check": true,
+    "no_benchmark_transplant": true,
+    "invalid_depth_handling": true,
+    "quantization_accuracy_limit": true
+  },
+  "model_training_executed": false,
+  "depth_geometry_experiments_executed": false,
+  "pi_runtime_benchmark_executed": false,
+  "new_suggestion_generated": false,
+  "passed": true
+}

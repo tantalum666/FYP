@@ -1,0 +1,1370 @@
+Browser tab: 10, Title: "Image Mark Finder", URL: "https://image-mark-finder.ipd.gov.hk/search".
+0 AXWebArea Image Mark Finder, URL: image-mark-finder.ipd.gov.hk/search
+	1 container
+		2 link Description: 跳至主要内容, Value: image-mark-finder.ipd.gov.hk/search
+		3 link Description: 香港特别行政区政府知识产权署的标志 商标「智快搜」, Value: image-mark-finder.ipd.gov.hk/
+		4 button 切换语言为 English
+		5 button 切换语言为繁體中文
+		6 button 使用说明
+		7 link Description: 图像检索, Value: image-mark-finder.ipd.gov.hk/upload
+		8 button 我的收藏
+		9 link Description: 查阅检索結果, Value: image-mark-finder.ipd.gov.hk/retrieve
+		10 container main-content
+			11 container 页面顶部
+				12 heading 图像检索 - 商标「智快搜」, Value: 1
+					13 text 图像检索  -  商标「智快搜」
+			14 button 返回上传页面
+			15 image imagePreview.uploadedImageAlt
+			16 combo box (collapsed) Description: 选择每页显示的结果数量, Value: 50, Secondary Actions: Expand
+				17 text 50
+			18 text 显示 1 - 50 共 300 结果
+			19 button 图像
+			20 button 详细内容
+			21 button 详细内容及货品/服务说明
+			22 button 打印
+			23 button (disabled) 加入我的收藏
+			24 button (disabled) 第一页
+			25 button (disabled) 上一页
+			26 combo box (collapsed) Description: 选择页码, Value: 1, Secondary Actions: Expand
+				27 text 1
+			28 button 下一页
+			29 button 最后一页
+			30 container
+				31 text 共 6 页
+			32 link esearch.ipd.gov.hk/nis-pos-view/
+			33 link Description: 306595084, Value: esearch.ipd.gov.hk/nis-pos-view/
+			34 text -
+			35 checkbox Description: 选择行 306595084 - 商标, Help: 选择行 306595084, Value: 0
+			36 definition list
+				37 container 商标文字
+					38 text 商标文字
+				39 container 商标编号
+					40 text 商标编号
+				41 text 306595084
+				42 container 申请/拥有人姓名/名称
+					43 text 申请/拥有人姓名/名称
+				44 text alpha trans Luft- und Seefrachtspedition GmbH & Co. KG
+				45 container 类别编号
+					46 text 类别编号
+				47 text 39
+				48 container 货品/服务说明
+					49 text 货品/服务说明
+				50 button 检视全部
+				51 button 隐藏全部
+				52 heading 39, Value: 3
+					53 button (collapsed) 39, ID: radix-_r_2m_, Secondary Actions: Expand
+			54 link esearch.ipd.gov.hk/nis-pos-view/
+			55 link Description: 304449466, Value: esearch.ipd.gov.hk/nis-pos-view/
+			56 text -
+			57 checkbox Description: 选择行 304449466 - 商标, Help: 选择行 304449466, Value: 0
+			58 definition list
+				59 container 商标文字
+					60 text 商标文字
+				61 container 商标编号
+					62 text 商标编号
+				63 text 304449466
+				64 container 申请/拥有人姓名/名称
+					65 text 申请/拥有人姓名/名称
+				66 text 投石創新研究中心有限公司(TOUSHI INNOVATION AND RESEARCH CENTER LIMITED)
+				67 container 类别编号
+					68 text 类别编号
+				69 text 35, 36, 41
+				70 container 货品/服务说明
+					71 text 货品/服务说明
+				72 button 检视全部
+				73 button 隐藏全部
+				74 container
+					75 heading 35, Value: 3
+						76 button (collapsed) 35, ID: radix-_r_2p_, Secondary Actions: Expand
+					77 heading 36, Value: 3
+						78 button (collapsed) 36, ID: radix-_r_2r_, Secondary Actions: Expand
+					79 heading 41, Value: 3
+						80 button (collapsed) 41, ID: radix-_r_2t_, Secondary Actions: Expand
+			81 link esearch.ipd.gov.hk/nis-pos-view/
+			82 link Description: 300013337, Value: esearch.ipd.gov.hk/nis-pos-view/
+			83 text -
+			84 checkbox Description: 选择行 300013337 - 商标, Help: 选择行 300013337, Value: 0
+			85 definition list
+				86 container 商标文字
+					87 text 商标文字
+				88 container 商标编号
+					89 text 商标编号
+				90 text 300013337
+				91 container 申请/拥有人姓名/名称
+					92 text 申请/拥有人姓名/名称
+				93 text Univar Solutions Inc.
+				94 container 类别编号
+					95 text 类别编号
+				96 text 1, 3, 4, 5, 35, 39, 40
+				97 container 货品/服务说明
+					98 text 货品/服务说明
+				99 button 检视全部
+				100 button 隐藏全部
+				101 container
+					102 heading 1, Value: 3
+						103 button (collapsed) 1, ID: radix-_r_30_, Secondary Actions: Expand
+					104 heading 3
+						105 button (collapsed) 3, ID: radix-_r_32_, Secondary Actions: Expand
+					106 heading 4, Value: 3
+						107 button (collapsed) 4, ID: radix-_r_34_, Secondary Actions: Expand
+					108 heading 5, Value: 3
+						109 button (collapsed) 5, ID: radix-_r_36_, Secondary Actions: Expand
+					110 heading 35, Value: 3
+						111 button (collapsed) 35, ID: radix-_r_38_, Secondary Actions: Expand
+					112 heading 39, Value: 3
+						113 button (collapsed) 39, ID: radix-_r_3a_, Secondary Actions: Expand
+					114 heading 40, Value: 3
+						115 button (collapsed) 40, ID: radix-_r_3c_, Secondary Actions: Expand
+			116 link esearch.ipd.gov.hk/nis-pos-view/
+			117 link Description: 303321710, Value: esearch.ipd.gov.hk/nis-pos-view/
+			118 text -
+			119 checkbox Description: 选择行 303321710 - 商标, Help: 选择行 303321710, Value: 0
+			120 definition list
+				121 container 商标文字
+					122 text 商标文字
+				123 container 商标编号
+					124 text 商标编号
+				125 text 303321710
+				126 container 申请/拥有人姓名/名称
+					127 text 申请/拥有人姓名/名称
+				128 text 智通智能技術（蘇州）有限公司
+				129 container 类别编号
+					130 text 类别编号
+				131 text 9
+				132 container 货品/服务说明
+					133 text 货品/服务说明
+				134 button 检视全部
+				135 button 隐藏全部
+				136 heading 9, Value: 3
+					137 button (collapsed) 9, ID: radix-_r_3f_, Secondary Actions: Expand
+			138 link esearch.ipd.gov.hk/nis-pos-view/
+			139 link Description: 307003395, Value: esearch.ipd.gov.hk/nis-pos-view/
+			140 text -
+			141 checkbox Description: 选择行 307003395 - 商标, Help: 选择行 307003395, Value: 0
+			142 definition list
+				143 container 商标文字
+					144 text 商标文字
+				145 container 商标编号
+					146 text 商标编号
+				147 text 307003395
+				148 container 申请/拥有人姓名/名称
+					149 text 申请/拥有人姓名/名称
+				150 text Public Bank Berhad
+				151 container 类别编号
+					152 text 类别编号
+				153 text 9, 16, 35, 36
+				154 container 货品/服务说明
+					155 text 货品/服务说明
+				156 button 检视全部
+				157 button 隐藏全部
+				158 container
+					159 heading 9, Value: 3
+						160 button (collapsed) 9, ID: radix-_r_3i_, Secondary Actions: Expand
+					161 heading 16, Value: 3
+						162 button (collapsed) 16, ID: radix-_r_3k_, Secondary Actions: Expand
+					163 heading 35, Value: 3
+						164 button (collapsed) 35, ID: radix-_r_3m_, Secondary Actions: Expand
+					165 heading 36, Value: 3
+						166 button (collapsed) 36, ID: radix-_r_3o_, Secondary Actions: Expand
+			167 link Description: meterytech, Value: esearch.ipd.gov.hk/nis-pos-view/
+			168 link Description: 307039215, Value: esearch.ipd.gov.hk/nis-pos-view/
+			169 text -  meterytech
+			170 checkbox Description: 选择行 307039215 - meterytech, Help: 选择行 307039215, Value: 0
+			171 definition list
+				172 container 商标文字
+					173 text 商标文字
+				174 text meterytech
+				175 container 商标编号
+					176 text 商标编号
+				177 text 307039215
+				178 container 申请/拥有人姓名/名称
+					179 text 申请/拥有人姓名/名称
+				180 text METERY TECHNOLOGY LIMITED
+				181 container 类别编号
+					182 text 类别编号
+				183 text 9
+				184 container 货品/服务说明
+					185 text 货品/服务说明
+				186 button 检视全部
+				187 button 隐藏全部
+				188 heading 9, Value: 3
+					189 button (collapsed) 9, ID: radix-_r_3r_, Secondary Actions: Expand
+			190 link esearch.ipd.gov.hk/nis-pos-view/
+			191 link Description: 306167683, Value: esearch.ipd.gov.hk/nis-pos-view/
+			192 text -
+			193 checkbox Description: 选择行 306167683 - 商标, Help: 选择行 306167683, Value: 0
+			194 definition list
+				195 container 商标文字
+					196 text 商标文字
+				197 container 商标编号
+					198 text 商标编号
+				199 text 306167683
+				200 container 申请/拥有人姓名/名称
+					201 text 申请/拥有人姓名/名称
+				202 text AstraZeneca AB
+				203 container 类别编号
+					204 text 类别编号
+				205 text 5
+				206 container 货品/服务说明
+					207 text 货品/服务说明
+				208 button 检视全部
+				209 button 隐藏全部
+				210 heading 5, Value: 3
+					211 button (collapsed) 5, ID: radix-_r_3u_, Secondary Actions: Expand
+			212 link esearch.ipd.gov.hk/nis-pos-view/
+			213 link Description: 305314455, Value: esearch.ipd.gov.hk/nis-pos-view/
+			214 text -
+			215 checkbox Description: 选择行 305314455 - 商标, Help: 选择行 305314455, Value: 0
+			216 definition list
+				217 container 商标文字
+					218 text 商标文字
+				219 container 商标编号
+					220 text 商标编号
+				221 text 305314455
+				222 container 申请/拥有人姓名/名称
+					223 text 申请/拥有人姓名/名称
+				224 text PLOTIO FINANCIAL GROUP LIMITED
+				225 container 类别编号
+					226 text 类别编号
+				227 text 35, 36, 41, 42
+				228 container 货品/服务说明
+					229 text 货品/服务说明
+				230 button 检视全部
+				231 button 隐藏全部
+				232 container
+					233 heading 35, Value: 3
+						234 button (collapsed) 35, ID: radix-_r_41_, Secondary Actions: Expand
+					235 heading 36, Value: 3
+						236 button (collapsed) 36, ID: radix-_r_43_, Secondary Actions: Expand
+					237 heading 41, Value: 3
+						238 button (collapsed) 41, ID: radix-_r_45_, Secondary Actions: Expand
+					239 heading 42, Value: 3
+						240 button (collapsed) 42, ID: radix-_r_47_, Secondary Actions: Expand
+			241 link esearch.ipd.gov.hk/nis-pos-view/
+			242 link Description: 306168952, Value: esearch.ipd.gov.hk/nis-pos-view/
+			243 text -
+			244 checkbox Description: 选择行 306168952 - 商标, Help: 选择行 306168952, Value: 0
+			245 definition list
+				246 container 商标文字
+					247 text 商标文字
+				248 container 商标编号
+					249 text 商标编号
+				250 text 306168952
+				251 container 申请/拥有人姓名/名称
+					252 text 申请/拥有人姓名/名称
+				253 text GAINWELL GROUP LIMITED
+				254 container 类别编号
+					255 text 类别编号
+				256 text 35, 36, 42
+				257 container 货品/服务说明
+					258 text 货品/服务说明
+				259 button 检视全部
+				260 button 隐藏全部
+				261 container
+					262 heading 35, Value: 3
+						263 button (collapsed) 35, ID: radix-_r_4a_, Secondary Actions: Expand
+					264 heading 36, Value: 3
+						265 button (collapsed) 36, ID: radix-_r_4c_, Secondary Actions: Expand
+					266 heading 42, Value: 3
+						267 button (collapsed) 42, ID: radix-_r_4e_, Secondary Actions: Expand
+			268 link esearch.ipd.gov.hk/nis-pos-view/
+			269 link Description: 306209181, Value: esearch.ipd.gov.hk/nis-pos-view/
+			270 text -
+			271 checkbox Description: 选择行 306209181 - 商标, Help: 选择行 306209181, Value: 0
+			272 definition list
+				273 container 商标文字
+					274 text 商标文字
+				275 container 商标编号
+					276 text 商标编号
+				277 text 306209181
+				278 container 申请/拥有人姓名/名称
+					279 text 申请/拥有人姓名/名称
+				280 text Taiwan Stock Exchange Corporation
+				281 container 类别编号
+					282 text 类别编号
+				283 text 36
+				284 container 货品/服务说明
+					285 text 货品/服务说明
+				286 button 检视全部
+				287 button 隐藏全部
+				288 heading 36, Value: 3
+					289 button (collapsed) 36, ID: radix-_r_4h_, Secondary Actions: Expand
+			290 link esearch.ipd.gov.hk/nis-pos-view/
+			291 link Description: 307265386, Value: esearch.ipd.gov.hk/nis-pos-view/
+			292 text -
+			293 checkbox Description: 选择行 307265386 - 商标, Help: 选择行 307265386, Value: 0
+			294 definition list
+				295 container 商标文字
+					296 text 商标文字
+				297 container 商标编号
+					298 text 商标编号
+				299 text 307265386
+				300 container 申请/拥有人姓名/名称
+					301 text 申请/拥有人姓名/名称
+				302 text OHLINS GROUP AB
+				303 container 类别编号
+					304 text 类别编号
+				305 text 6, 9, 12, 14, 16, 18, 21, 25, 28, 37, 42
+				306 container 货品/服务说明
+					307 text 货品/服务说明
+				308 button 检视全部
+				309 button 隐藏全部
+				310 container
+					311 heading 6, Value: 3
+						312 button (collapsed) 6, ID: radix-_r_4k_, Secondary Actions: Expand
+					313 heading 9, Value: 3
+						314 button (collapsed) 9, ID: radix-_r_4m_, Secondary Actions: Expand
+					315 heading 12, Value: 3
+						316 button (collapsed) 12, ID: radix-_r_4o_, Secondary Actions: Expand
+					317 heading 14, Value: 3
+						318 button (collapsed) 14, ID: radix-_r_4q_, Secondary Actions: Expand
+					319 heading 16, Value: 3
+						320 button (collapsed) 16, ID: radix-_r_4s_, Secondary Actions: Expand
+					321 heading 18, Value: 3
+						322 button (collapsed) 18, ID: radix-_r_4u_, Secondary Actions: Expand
+					323 heading 21, Value: 3
+						324 button (collapsed) 21, ID: radix-_r_50_, Secondary Actions: Expand
+					325 heading 25, Value: 3
+						326 button (collapsed) 25, ID: radix-_r_52_, Secondary Actions: Expand
+					327 heading 28, Value: 3
+						328 button (collapsed) 28, ID: radix-_r_54_, Secondary Actions: Expand
+					329 heading 37, Value: 3
+						330 button (collapsed) 37, ID: radix-_r_56_, Secondary Actions: Expand
+					331 heading 42, Value: 3
+						332 button (collapsed) 42, ID: radix-_r_58_, Secondary Actions: Expand
+			333 link esearch.ipd.gov.hk/nis-pos-view/
+			334 link Description: 307003395, Value: esearch.ipd.gov.hk/nis-pos-view/
+			335 text -
+			336 checkbox Description: 选择行 307003395 - 商标, Help: 选择行 307003395, Value: 0
+			337 definition list
+				338 container 商标文字
+					339 text 商标文字
+				340 container 商标编号
+					341 text 商标编号
+				342 text 307003395
+				343 container 申请/拥有人姓名/名称
+					344 text 申请/拥有人姓名/名称
+				345 text Public Bank Berhad
+				346 container 类别编号
+					347 text 类别编号
+				348 text 9, 16, 35, 36
+				349 container 货品/服务说明
+					350 text 货品/服务说明
+				351 button 检视全部
+				352 button 隐藏全部
+				353 container
+					354 heading 9, Value: 3
+						355 button (collapsed) 9, ID: radix-_r_5b_, Secondary Actions: Expand
+					356 heading 16, Value: 3
+						357 button (collapsed) 16, ID: radix-_r_5d_, Secondary Actions: Expand
+					358 heading 35, Value: 3
+						359 button (collapsed) 35, ID: radix-_r_5f_, Secondary Actions: Expand
+					360 heading 36, Value: 3
+						361 button (collapsed) 36, ID: radix-_r_5h_, Secondary Actions: Expand
+			362 link esearch.ipd.gov.hk/nis-pos-view/
+			363 link Description: 306168952, Value: esearch.ipd.gov.hk/nis-pos-view/
+			364 text -
+			365 checkbox Description: 选择行 306168952 - 商标, Help: 选择行 306168952, Value: 0
+			366 definition list
+				367 container 商标文字
+					368 text 商标文字
+				369 container 商标编号
+					370 text 商标编号
+				371 text 306168952
+				372 container 申请/拥有人姓名/名称
+					373 text 申请/拥有人姓名/名称
+				374 text GAINWELL GROUP LIMITED
+				375 container 类别编号
+					376 text 类别编号
+				377 text 35, 36, 42
+				378 container 货品/服务说明
+					379 text 货品/服务说明
+				380 button 检视全部
+				381 button 隐藏全部
+				382 container
+					383 heading 35, Value: 3
+						384 button (collapsed) 35, ID: radix-_r_5k_, Secondary Actions: Expand
+					385 heading 36, Value: 3
+						386 button (collapsed) 36, ID: radix-_r_5m_, Secondary Actions: Expand
+					387 heading 42, Value: 3
+						388 button (collapsed) 42, ID: radix-_r_5o_, Secondary Actions: Expand
+			389 link esearch.ipd.gov.hk/nis-pos-view/
+			390 link Description: 306168952, Value: esearch.ipd.gov.hk/nis-pos-view/
+			391 text -
+			392 checkbox Description: 选择行 306168952 - 商标, Help: 选择行 306168952, Value: 0
+			393 definition list
+				394 container 商标文字
+					395 text 商标文字
+				396 container 商标编号
+					397 text 商标编号
+				398 text 306168952
+				399 container 申请/拥有人姓名/名称
+					400 text 申请/拥有人姓名/名称
+				401 text GAINWELL GROUP LIMITED
+				402 container 类别编号
+					403 text 类别编号
+				404 text 35, 36, 42
+				405 container 货品/服务说明
+					406 text 货品/服务说明
+				407 button 检视全部
+				408 button 隐藏全部
+				409 container
+					410 heading 35, Value: 3
+						411 button (collapsed) 35, ID: radix-_r_5r_, Secondary Actions: Expand
+					412 heading 36, Value: 3
+						413 button (collapsed) 36, ID: radix-_r_5t_, Secondary Actions: Expand
+					414 heading 42, Value: 3
+						415 button (collapsed) 42, ID: radix-_r_5v_, Secondary Actions: Expand
+			416 link Description: LEGEND UPSTAR HOLDINGS 鋑聯控股, Value: esearch.ipd.gov.hk/nis-pos-view/
+			417 link Description: 306169023, Value: esearch.ipd.gov.hk/nis-pos-view/
+			418 text -  LEGEND UPSTAR HOLDINGS 鋑聯控股
+			419 checkbox Description: 选择行 306169023 - LEGEND UPSTAR HOLDINGS 鋑聯控股, Help: 选择行 306169023, Value: 0
+			420 definition list
+				421 container 商标文字
+					422 text 商标文字
+				423 text LEGEND UPSTAR HOLDINGS 鋑聯控股
+				424 container 商标编号
+					425 text 商标编号
+				426 text 306169023
+				427 container 申请/拥有人姓名/名称
+					428 text 申请/拥有人姓名/名称
+				429 text GAINWELL GROUP LIMITED
+				430 container 类别编号
+					431 text 类别编号
+				432 text 35, 36, 42
+				433 container 货品/服务说明
+					434 text 货品/服务说明
+				435 button 检视全部
+				436 button 隐藏全部
+				437 container
+					438 heading 35, Value: 3
+						439 button (collapsed) 35, ID: radix-_r_62_, Secondary Actions: Expand
+					440 heading 36, Value: 3
+						441 button (collapsed) 36, ID: radix-_r_64_, Secondary Actions: Expand
+					442 heading 42, Value: 3
+						443 button (collapsed) 42, ID: radix-_r_66_, Secondary Actions: Expand
+			444 link Description: S, Value: esearch.ipd.gov.hk/nis-pos-view/
+			445 link Description: 302720790, Value: esearch.ipd.gov.hk/nis-pos-view/
+			446 text -  S
+			447 checkbox Description: 选择行 302720790 - S, Help: 选择行 302720790, Value: 0
+			448 definition list
+				449 container 商标文字
+					450 text 商标文字
+				451 text S
+				452 container 商标编号
+					453 text 商标编号
+				454 text 302720790
+				455 container 申请/拥有人姓名/名称
+					456 text 申请/拥有人姓名/名称
+				457 text 東莞市華軒幕墻材料有限公司
+				458 container 类别编号
+					459 text 类别编号
+				460 text 6
+				461 container 货品/服务说明
+					462 text 货品/服务说明
+				463 button 检视全部
+				464 button 隐藏全部
+				465 heading 6, Value: 3
+					466 button (collapsed) 6, ID: radix-_r_69_, Secondary Actions: Expand
+			467 link esearch.ipd.gov.hk/nis-pos-view/
+			468 link Description: 19770490, Value: esearch.ipd.gov.hk/nis-pos-view/
+			469 text -
+			470 checkbox Description: 选择行 19770490 - 商标, Help: 选择行 19770490, Value: 0
+			471 definition list
+				472 container 商标文字
+					473 text 商标文字
+				474 container 商标编号
+					475 text 商标编号
+				476 text 19770490
+				477 container 申请/拥有人姓名/名称
+					478 text 申请/拥有人姓名/名称
+				479 text CONTINENTAL JEWELLERY (MFG) LIMITED
+				480 container 类别编号
+					481 text 类别编号
+				482 text 14
+				483 container 货品/服务说明
+					484 text 货品/服务说明
+				485 button 检视全部
+				486 button 隐藏全部
+				487 heading 14, Value: 3
+					488 button (collapsed) 14, ID: radix-_r_6c_, Secondary Actions: Expand
+			489 link Description: a, Value: esearch.ipd.gov.hk/nis-pos-view/
+			490 link Description: 305775869, Value: esearch.ipd.gov.hk/nis-pos-view/
+			491 text -  a
+			492 checkbox Description: 选择行 305775869 - a, Help: 选择行 305775869, Value: 0
+			493 definition list
+				494 container 商标文字
+					495 text 商标文字
+				496 text a
+				497 container 商标编号
+					498 text 商标编号
+				499 text 305775869
+				500 container 申请/拥有人姓名/名称
+					501 text 申请/拥有人姓名/名称
+				502 text Aberdeen Corporate Services Limited
+				503 container 类别编号
+					504 text 类别编号
+				505 text 9, 35, 36, 42
+				506 container 货品/服务说明
+					507 text 货品/服务说明
+				508 button 检视全部
+				509 button 隐藏全部
+				510 container
+					511 heading 9, Value: 3
+						512 button (collapsed) 9, ID: radix-_r_6f_, Secondary Actions: Expand
+					513 heading 35, Value: 3
+						514 button (collapsed) 35, ID: radix-_r_6h_, Secondary Actions: Expand
+					515 heading 36, Value: 3
+						516 button (collapsed) 36, ID: radix-_r_6j_, Secondary Actions: Expand
+					517 heading 42, Value: 3
+						518 button (collapsed) 42, ID: radix-_r_6l_, Secondary Actions: Expand
+			519 link Description: Daishin, Value: esearch.ipd.gov.hk/nis-pos-view/
+			520 link Description: 301617949, Value: esearch.ipd.gov.hk/nis-pos-view/
+			521 text -  Daishin
+			522 checkbox Description: 选择行 301617949 - Daishin, Help: 选择行 301617949, Value: 0
+			523 definition list
+				524 container 商标文字
+					525 text 商标文字
+				526 text Daishin
+				527 container 商标编号
+					528 text 商标编号
+				529 text 301617949
+				530 container 申请/拥有人姓名/名称
+					531 text 申请/拥有人姓名/名称
+				532 text Daishin Securities Joo-Sik-Hoi-Sa (Daishin Securities Co. Ltd)
+				533 container 类别编号
+					534 text 类别编号
+				535 text 36
+				536 container 货品/服务说明
+					537 text 货品/服务说明
+				538 button 检视全部
+				539 button 隐藏全部
+				540 heading 36, Value: 3
+					541 button (collapsed) 36, ID: radix-_r_6o_, Secondary Actions: Expand
+			542 link Description: BOMTECH ELECTRONICS CO., LTD., Value: esearch.ipd.gov.hk/nis-pos-view/
+			543 link Description: 303668284, Value: esearch.ipd.gov.hk/nis-pos-view/
+			544 text -  BOMTECH ELECTRONICS CO., LTD.
+			545 checkbox Description: 选择行 303668284 - BOMTECH ELECTRONICS CO., LTD., Help: 选择行 303668284, Value: 0
+			546 definition list
+				547 container 商标文字
+					548 text 商标文字
+				549 text BOMTECH ELECTRONICS CO., LTD.
+				550 container 商标编号
+					551 text 商标编号
+				552 text 303668284
+				553 container 申请/拥有人姓名/名称
+					554 text 申请/拥有人姓名/名称
+				555 text BOMTECH ELECTRONICS CO., LTD.
+				556 container 类别编号
+					557 text 类别编号
+				558 text 3, 8, 10, 11
+				559 container 货品/服务说明
+					560 text 货品/服务说明
+				561 button 检视全部
+				562 button 隐藏全部
+				563 container
+					564 heading 3
+						565 button (collapsed) 3, ID: radix-_r_6r_, Secondary Actions: Expand
+					566 heading 8, Value: 3
+						567 button (collapsed) 8, ID: radix-_r_6t_, Secondary Actions: Expand
+					568 heading 10, Value: 3
+						569 button (collapsed) 10, ID: radix-_r_6v_, Secondary Actions: Expand
+					570 heading 11, Value: 3
+						571 button (collapsed) 11, ID: radix-_r_71_, Secondary Actions: Expand
+			572 link Description: LEGEND UPSTAR HOLDINGS 鋑聯控股, Value: esearch.ipd.gov.hk/nis-pos-view/
+			573 link Description: 306169032, Value: esearch.ipd.gov.hk/nis-pos-view/
+			574 text -  LEGEND UPSTAR HOLDINGS 鋑聯控股
+			575 checkbox Description: 选择行 306169032 - LEGEND UPSTAR HOLDINGS 鋑聯控股, Help: 选择行 306169032, Value: 0
+			576 definition list
+				577 container 商标文字
+					578 text 商标文字
+				579 text LEGEND UPSTAR HOLDINGS 鋑聯控股
+				580 container 商标编号
+					581 text 商标编号
+				582 text 306169032
+				583 container 申请/拥有人姓名/名称
+					584 text 申请/拥有人姓名/名称
+				585 text GAINWELL GROUP LIMITED
+				586 container 类别编号
+					587 text 类别编号
+				588 text 35, 36, 42
+				589 container 货品/服务说明
+					590 text 货品/服务说明
+				591 button 检视全部
+				592 button 隐藏全部
+				593 container
+					594 heading 35, Value: 3
+						595 button (collapsed) 35, ID: radix-_r_7a_, Secondary Actions: Expand
+					596 heading 36, Value: 3
+						597 button (collapsed) 36, ID: radix-_r_7c_, Secondary Actions: Expand
+					598 heading 42, Value: 3
+						599 button (collapsed) 42, ID: radix-_r_7e_, Secondary Actions: Expand
+			600 link Description: LEGEND UPSTAR HOLDINGS 鋑聯控股, Value: esearch.ipd.gov.hk/nis-pos-view/
+			601 link Description: 306169023, Value: esearch.ipd.gov.hk/nis-pos-view/
+			602 text -  LEGEND UPSTAR HOLDINGS 鋑聯控股
+			603 checkbox Description: 选择行 306169023 - LEGEND UPSTAR HOLDINGS 鋑聯控股, Help: 选择行 306169023, Value: 0
+			604 definition list
+				605 container 商标文字
+					606 text 商标文字
+				607 text LEGEND UPSTAR HOLDINGS 鋑聯控股
+				608 container 商标编号
+					609 text 商标编号
+				610 text 306169023
+				611 container 申请/拥有人姓名/名称
+					612 text 申请/拥有人姓名/名称
+				613 text GAINWELL GROUP LIMITED
+				614 container 类别编号
+					615 text 类别编号
+				616 text 35, 36, 42
+				617 container 货品/服务说明
+					618 text 货品/服务说明
+				619 button 检视全部
+				620 button 隐藏全部
+				621 container
+					622 heading 35, Value: 3
+						623 button (collapsed) 35, ID: radix-_r_7h_, Secondary Actions: Expand
+					624 heading 36, Value: 3
+						625 button (collapsed) 36, ID: radix-_r_7j_, Secondary Actions: Expand
+					626 heading 42, Value: 3
+						627 button (collapsed) 42, ID: radix-_r_7l_, Secondary Actions: Expand
+			628 link Description: LZ, Value: esearch.ipd.gov.hk/nis-pos-view/
+			629 link Description: 301099747, Value: esearch.ipd.gov.hk/nis-pos-view/
+			630 text -  LZ
+			631 checkbox Description: 选择行 301099747 - LZ, Help: 选择行 301099747, Value: 0
+			632 definition list
+				633 container 商标文字
+					634 text 商标文字
+				635 text LZ
+				636 container 商标编号
+					637 text 商标编号
+				638 text 301099747
+				639 container 申请/拥有人姓名/名称
+					640 text 申请/拥有人姓名/名称
+				641 text 吳明華
+				642 container 类别编号
+					643 text 类别编号
+				644 text 26
+				645 container 货品/服务说明
+					646 text 货品/服务说明
+				647 button 检视全部
+				648 button 隐藏全部
+				649 heading 26, Value: 3
+					650 button (collapsed) 26, ID: radix-_r_7o_, Secondary Actions: Expand
+			651 link esearch.ipd.gov.hk/nis-pos-view/
+			652 link Description: 306168952, Value: esearch.ipd.gov.hk/nis-pos-view/
+			653 text -
+			654 checkbox Description: 选择行 306168952 - 商标, Help: 选择行 306168952, Value: 0
+			655 definition list
+				656 container 商标文字
+					657 text 商标文字
+				658 container 商标编号
+					659 text 商标编号
+				660 text 306168952
+				661 container 申请/拥有人姓名/名称
+					662 text 申请/拥有人姓名/名称
+				663 text GAINWELL GROUP LIMITED
+				664 container 类别编号
+					665 text 类别编号
+				666 text 35, 36, 42
+				667 container 货品/服务说明
+					668 text 货品/服务说明
+				669 button 检视全部
+				670 button 隐藏全部
+				671 container
+					672 heading 35, Value: 3
+						673 button (collapsed) 35, ID: radix-_r_7r_, Secondary Actions: Expand
+					674 heading 36, Value: 3
+						675 button (collapsed) 36, ID: radix-_r_7t_, Secondary Actions: Expand
+					676 heading 42, Value: 3
+						677 button (collapsed) 42, ID: radix-_r_7v_, Secondary Actions: Expand
+			678 link Description: MECHREV, Value: esearch.ipd.gov.hk/nis-pos-view/
+			679 link Description: 303321693, Value: esearch.ipd.gov.hk/nis-pos-view/
+			680 text -  MECHREV
+			681 checkbox Description: 选择行 303321693 - MECHREV, Help: 选择行 303321693, Value: 0
+			682 definition list
+				683 container 商标文字
+					684 text 商标文字
+				685 text MECHREV
+				686 container 商标编号
+					687 text 商标编号
+				688 text 303321693
+				689 container 申请/拥有人姓名/名称
+					690 text 申请/拥有人姓名/名称
+				691 text 智通智能技術（蘇州）有限公司
+				692 container 类别编号
+					693 text 类别编号
+				694 text 9
+				695 container 货品/服务说明
+					696 text 货品/服务说明
+				697 button 检视全部
+				698 button 隐藏全部
+				699 heading 9, Value: 3
+					700 button (collapsed) 9, ID: radix-_r_82_, Secondary Actions: Expand
+			701 link esearch.ipd.gov.hk/nis-pos-view/
+			702 link Description: 306739048, Value: esearch.ipd.gov.hk/nis-pos-view/
+			703 text -
+			704 checkbox Description: 选择行 306739048 - 商标, Help: 选择行 306739048, Value: 0
+			705 definition list
+				706 container 商标文字
+					707 text 商标文字
+				708 container 商标编号
+					709 text 商标编号
+				710 text 306739048
+				711 container 申请/拥有人姓名/名称
+					712 text 申请/拥有人姓名/名称
+				713 text Octus Intelligence, Inc.
+				714 container 类别编号
+					715 text 类别编号
+				716 text 9, 35, 36, 41, 42, 45
+				717 container 货品/服务说明
+					718 text 货品/服务说明
+				719 button 检视全部
+				720 button 隐藏全部
+				721 container
+					722 heading 9, Value: 3
+						723 button (collapsed) 9, ID: radix-_r_85_, Secondary Actions: Expand
+					724 heading 35, Value: 3
+						725 button (collapsed) 35, ID: radix-_r_87_, Secondary Actions: Expand
+					726 heading 36, Value: 3
+						727 button (collapsed) 36, ID: radix-_r_89_, Secondary Actions: Expand
+					728 heading 41, Value: 3
+						729 button (collapsed) 41, ID: radix-_r_8b_, Secondary Actions: Expand
+					730 heading 42, Value: 3
+						731 button (collapsed) 42, ID: radix-_r_8d_, Secondary Actions: Expand
+					732 heading 45, Value: 3
+						733 button (collapsed) 45, ID: radix-_r_8f_, Secondary Actions: Expand
+			734 link Description: 鋑聯, Value: esearch.ipd.gov.hk/nis-pos-view/
+			735 link Description: 306169005, Value: esearch.ipd.gov.hk/nis-pos-view/
+			736 text -  鋑聯
+			737 checkbox Description: 选择行 306169005 - 鋑聯, Help: 选择行 306169005, Value: 0
+			738 definition list
+				739 container 商标文字
+					740 text 商标文字
+				741 text 鋑聯
+				742 container 商标编号
+					743 text 商标编号
+				744 text 306169005
+				745 container 申请/拥有人姓名/名称
+					746 text 申请/拥有人姓名/名称
+				747 text GAINWELL GROUP LIMITED
+				748 container 类别编号
+					749 text 类别编号
+				750 text 35, 36, 42
+				751 container 货品/服务说明
+					752 text 货品/服务说明
+				753 button 检视全部
+				754 button 隐藏全部
+				755 container
+					756 heading 35, Value: 3
+						757 button (collapsed) 35, ID: radix-_r_8i_, Secondary Actions: Expand
+					758 heading 36, Value: 3
+						759 button (collapsed) 36, ID: radix-_r_8k_, Secondary Actions: Expand
+					760 heading 42, Value: 3
+						761 button (collapsed) 42, ID: radix-_r_8m_, Secondary Actions: Expand
+			762 link Description: EGIS, Value: esearch.ipd.gov.hk/nis-pos-view/
+			763 link Description: 19883075, Value: esearch.ipd.gov.hk/nis-pos-view/
+			764 text -  EGIS
+			765 checkbox Description: 选择行 19883075 - EGIS, Help: 选择行 19883075, Value: 0
+			766 definition list
+				767 container 商标文字
+					768 text 商标文字
+				769 text EGIS
+				770 container 商标编号
+					771 text 商标编号
+				772 text 19883075
+				773 container 申请/拥有人姓名/名称
+					774 text 申请/拥有人姓名/名称
+				775 text EGIS Gyógyszergyár Zrt.
+				776 container 类别编号
+					777 text 类别编号
+				778 text 5
+				779 container 货品/服务说明
+					780 text 货品/服务说明
+				781 button 检视全部
+				782 button 隐藏全部
+				783 heading 5, Value: 3
+					784 button (collapsed) 5, ID: radix-_r_8p_, Secondary Actions: Expand
+			785 link esearch.ipd.gov.hk/nis-pos-view/
+			786 link Description: 307097860, Value: esearch.ipd.gov.hk/nis-pos-view/
+			787 text -
+			788 checkbox Description: 选择行 307097860 - 商标, Help: 选择行 307097860, Value: 0
+			789 definition list
+				790 container 商标文字
+					791 text 商标文字
+				792 container 商标编号
+					793 text 商标编号
+				794 text 307097860
+				795 container 申请/拥有人姓名/名称
+					796 text 申请/拥有人姓名/名称
+				797 text 智通智能技術（蘇州）有限公司 (AISTONE INTELLIGENT LIMITED)
+				798 container 类别编号
+					799 text 类别编号
+				800 text 9
+				801 container 货品/服务说明
+					802 text 货品/服务说明
+				803 button 检视全部
+				804 button 隐藏全部
+				805 heading 9, Value: 3
+					806 button (collapsed) 9, ID: radix-_r_8s_, Secondary Actions: Expand
+			807 link esearch.ipd.gov.hk/nis-pos-view/
+			808 link Description: 304796489, Value: esearch.ipd.gov.hk/nis-pos-view/
+			809 text -
+			810 checkbox Description: 选择行 304796489 - 商标, Help: 选择行 304796489, Value: 0
+			811 definition list
+				812 container 商标文字
+					813 text 商标文字
+				814 container 商标编号
+					815 text 商标编号
+				816 text 304796489
+				817 container 申请/拥有人姓名/名称
+					818 text 申请/拥有人姓名/名称
+				819 text PPG INDUSTRIES OHIO, INC.
+				820 container 类别编号
+					821 text 类别编号
+				822 text 2
+				823 container 货品/服务说明
+					824 text 货品/服务说明
+				825 button 检视全部
+				826 button 隐藏全部
+				827 heading 2, Value: 3
+					828 button (collapsed) 2, ID: radix-_r_8v_, Secondary Actions: Expand
+			829 link Description: LEGEND UPSTAR HOLDINGS 鋑聯控股, Value: esearch.ipd.gov.hk/nis-pos-view/
+			830 link Description: 306169023, Value: esearch.ipd.gov.hk/nis-pos-view/
+			831 text -  LEGEND UPSTAR HOLDINGS 鋑聯控股
+			832 checkbox Description: 选择行 306169023 - LEGEND UPSTAR HOLDINGS 鋑聯控股, Help: 选择行 306169023, Value: 0
+			833 definition list
+				834 container 商标文字
+					835 text 商标文字
+				836 text LEGEND UPSTAR HOLDINGS 鋑聯控股
+				837 container 商标编号
+					838 text 商标编号
+				839 text 306169023
+				840 container 申请/拥有人姓名/名称
+					841 text 申请/拥有人姓名/名称
+				842 text GAINWELL GROUP LIMITED
+				843 container 类别编号
+					844 text 类别编号
+				845 text 35, 36, 42
+				846 container 货品/服务说明
+					847 text 货品/服务说明
+				848 button 检视全部
+				849 button 隐藏全部
+				850 container
+					851 heading 35, Value: 3
+						852 button (collapsed) 35, ID: radix-_r_92_, Secondary Actions: Expand
+					853 heading 36, Value: 3
+						854 button (collapsed) 36, ID: radix-_r_94_, Secondary Actions: Expand
+					855 heading 42, Value: 3
+						856 button (collapsed) 42, ID: radix-_r_96_, Secondary Actions: Expand
+			857 link Description: 鋑聯, Value: esearch.ipd.gov.hk/nis-pos-view/
+			858 link Description: 306169005, Value: esearch.ipd.gov.hk/nis-pos-view/
+			859 text -  鋑聯
+			860 checkbox Description: 选择行 306169005 - 鋑聯, Help: 选择行 306169005, Value: 0
+			861 definition list
+				862 container 商标文字
+					863 text 商标文字
+				864 text 鋑聯
+				865 container 商标编号
+					866 text 商标编号
+				867 text 306169005
+				868 container 申请/拥有人姓名/名称
+					869 text 申请/拥有人姓名/名称
+				870 text GAINWELL GROUP LIMITED
+				871 container 类别编号
+					872 text 类别编号
+				873 text 35, 36, 42
+				874 container 货品/服务说明
+					875 text 货品/服务说明
+				876 button 检视全部
+				877 button 隐藏全部
+				878 container
+					879 heading 35, Value: 3
+						880 button (collapsed) 35, ID: radix-_r_99_, Secondary Actions: Expand
+					881 heading 36, Value: 3
+						882 button (collapsed) 36, ID: radix-_r_9b_, Secondary Actions: Expand
+					883 heading 42, Value: 3
+						884 button (collapsed) 42, ID: radix-_r_9d_, Secondary Actions: Expand
+			885 link Description: CE, Value: esearch.ipd.gov.hk/nis-pos-view/
+			886 link Description: 307347268, Value: esearch.ipd.gov.hk/nis-pos-view/
+			887 text -  CE
+			888 checkbox Description: 选择行 307347268 - CE, Help: 选择行 307347268, Value: 0
+			889 definition list
+				890 container 商标文字
+					891 text 商标文字
+				892 text CE
+				893 container 商标编号
+					894 text 商标编号
+				895 text 307347268
+				896 container 申请/拥有人姓名/名称
+					897 text 申请/拥有人姓名/名称
+				898 text 星雲環球有限公司
+				899 container 类别编号
+					900 text 类别编号
+				901 text 35, 38
+				902 container 货品/服务说明
+					903 text 货品/服务说明
+				904 button 检视全部
+				905 button 隐藏全部
+				906 container
+					907 heading 35, Value: 3
+						908 button (collapsed) 35, ID: radix-_r_9g_, Secondary Actions: Expand
+					909 heading 38, Value: 3
+						910 button (collapsed) 38, ID: radix-_r_9i_, Secondary Actions: Expand
+			911 link esearch.ipd.gov.hk/nis-pos-view/
+			912 link Description: 306936003, Value: esearch.ipd.gov.hk/nis-pos-view/
+			913 text -
+			914 checkbox Description: 选择行 306936003 - 商标, Help: 选择行 306936003, Value: 0
+			915 definition list
+				916 container 商标文字
+					917 text 商标文字
+				918 container 商标编号
+					919 text 商标编号
+				920 text 306936003
+				921 container 申请/拥有人姓名/名称
+					922 text 申请/拥有人姓名/名称
+				923 text Blackbox Works Limited
+				924 container 类别编号
+					925 text 类别编号
+				926 text 39
+				927 container 货品/服务说明
+					928 text 货品/服务说明
+				929 button 检视全部
+				930 button 隐藏全部
+				931 heading 39, Value: 3
+					932 button (collapsed) 39, ID: radix-_r_9l_, Secondary Actions: Expand
+			933 link Description: OMODA, Value: esearch.ipd.gov.hk/nis-pos-view/
+			934 link Description: 306730542, Value: esearch.ipd.gov.hk/nis-pos-view/
+			935 text -  OMODA
+			936 checkbox Description: 选择行 306730542 - OMODA, Help: 选择行 306730542, Value: 0
+			937 definition list
+				938 container 商标文字
+					939 text 商标文字
+				940 text OMODA
+				941 container 商标编号
+					942 text 商标编号
+				943 text 306730542
+				944 container 申请/拥有人姓名/名称
+					945 text 申请/拥有人姓名/名称
+				946 text 奇瑞汽車股份有限公司
+				947 container 类别编号
+					948 text 类别编号
+				949 text 12, 37
+				950 container 货品/服务说明
+					951 text 货品/服务说明
+				952 button 检视全部
+				953 button 隐藏全部
+				954 container
+					955 heading 12, Value: 3
+						956 button (collapsed) 12, ID: radix-_r_9o_, Secondary Actions: Expand
+					957 heading 37, Value: 3
+						958 button (collapsed) 37, ID: radix-_r_9q_, Secondary Actions: Expand
+			959 link Description: LEGEND UPSTAR HOLDINGS 鋑聯控股, Value: esearch.ipd.gov.hk/nis-pos-view/
+			960 link Description: 306169023, Value: esearch.ipd.gov.hk/nis-pos-view/
+			961 text -  LEGEND UPSTAR HOLDINGS 鋑聯控股
+			962 checkbox Description: 选择行 306169023 - LEGEND UPSTAR HOLDINGS 鋑聯控股, Help: 选择行 306169023, Value: 0
+			963 definition list
+				964 container 商标文字
+					965 text 商标文字
+				966 text LEGEND UPSTAR HOLDINGS 鋑聯控股
+				967 container 商标编号
+					968 text 商标编号
+				969 text 306169023
+				970 container 申请/拥有人姓名/名称
+					971 text 申请/拥有人姓名/名称
+				972 text GAINWELL GROUP LIMITED
+				973 container 类别编号
+					974 text 类别编号
+				975 text 35, 36, 42
+				976 container 货品/服务说明
+					977 text 货品/服务说明
+				978 button 检视全部
+				979 button 隐藏全部
+				980 container
+					981 heading 35, Value: 3
+						982 button (collapsed) 35, ID: radix-_r_9t_, Secondary Actions: Expand
+					983 heading 36, Value: 3
+						984 button (collapsed) 36, ID: radix-_r_9v_, Secondary Actions: Expand
+					985 heading 42, Value: 3
+						986 button (collapsed) 42, ID: radix-_r_a1_, Secondary Actions: Expand
+			987 link Description: PURPLE, Value: esearch.ipd.gov.hk/nis-pos-view/
+			988 link Description: 304830868, Value: esearch.ipd.gov.hk/nis-pos-view/
+			989 text -  PURPLE
+			990 checkbox Description: 选择行 304830868 - PURPLE, Help: 选择行 304830868, Value: 0
+			991 definition list
+				992 container 商标文字
+					993 text 商标文字
+				994 text PURPLE
+				995 container 商标编号
+					996 text 商标编号
+				997 text 304830868
+				998 container 申请/拥有人姓名/名称
+					999 text 申请/拥有人姓名/名称
+				1000 text Purple Public Relations Limited
+				1001 container 类别编号
+					1002 text 类别编号
+				1003 text 35, 41, 42
+				1004 container 货品/服务说明
+					1005 text 货品/服务说明
+				1006 button 检视全部
+				1007 button 隐藏全部
+				1008 container
+					1009 heading 35, Value: 3
+						1010 button (collapsed) 35, ID: radix-_r_a4_, Secondary Actions: Expand
+					1011 heading 41, Value: 3
+						1012 button (collapsed) 41, ID: radix-_r_a6_, Secondary Actions: Expand
+					1013 heading 42, Value: 3
+						1014 button (collapsed) 42, ID: radix-_r_a8_, Secondary Actions: Expand
+			1015 link Description: 鋑聯, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1016 link Description: 306169014, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1017 text -  鋑聯
+			1018 checkbox Description: 选择行 306169014 - 鋑聯, Help: 选择行 306169014, Value: 0
+			1019 definition list
+				1020 container 商标文字
+					1021 text 商标文字
+				1022 text 鋑聯
+				1023 container 商标编号
+					1024 text 商标编号
+				1025 text 306169014
+				1026 container 申请/拥有人姓名/名称
+					1027 text 申请/拥有人姓名/名称
+				1028 text GAINWELL GROUP LIMITED
+				1029 container 类别编号
+					1030 text 类别编号
+				1031 text 35, 36, 42
+				1032 container 货品/服务说明
+					1033 text 货品/服务说明
+				1034 button 检视全部
+				1035 button 隐藏全部
+				1036 container
+					1037 heading 35, Value: 3
+						1038 button (collapsed) 35, ID: radix-_r_ab_, Secondary Actions: Expand
+					1039 heading 36, Value: 3
+						1040 button (collapsed) 36, ID: radix-_r_ad_, Secondary Actions: Expand
+					1041 heading 42, Value: 3
+						1042 button (collapsed) 42, ID: radix-_r_af_, Secondary Actions: Expand
+			1043 link Description: G, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1044 link Description: 304697498, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1045 text -  G
+			1046 checkbox Description: 选择行 304697498 - G, Help: 选择行 304697498, Value: 0
+			1047 definition list
+				1048 container 商标文字
+					1049 text 商标文字
+				1050 text G
+				1051 container 商标编号
+					1052 text 商标编号
+				1053 text 304697498
+				1054 container 申请/拥有人姓名/名称
+					1055 text 申请/拥有人姓名/名称
+				1056 text 深圳市高特佳投資集團有限公司
+				1057 container 类别编号
+					1058 text 类别编号
+				1059 text 36
+				1060 container 货品/服务说明
+					1061 text 货品/服务说明
+				1062 button 检视全部
+				1063 button 隐藏全部
+				1064 heading 36, Value: 3
+					1065 button (collapsed) 36, ID: radix-_r_ai_, Secondary Actions: Expand
+			1066 link Description: LEGEND UPSTAR HOLDINGS 鋑聯控股, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1067 link Description: 306169032, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1068 text -  LEGEND UPSTAR HOLDINGS 鋑聯控股
+			1069 checkbox Description: 选择行 306169032 - LEGEND UPSTAR HOLDINGS 鋑聯控股, Help: 选择行 306169032, Value: 0
+			1070 definition list
+				1071 container 商标文字
+					1072 text 商标文字
+				1073 text LEGEND UPSTAR HOLDINGS 鋑聯控股
+				1074 container 商标编号
+					1075 text 商标编号
+				1076 text 306169032
+				1077 container 申请/拥有人姓名/名称
+					1078 text 申请/拥有人姓名/名称
+				1079 text GAINWELL GROUP LIMITED
+				1080 container 类别编号
+					1081 text 类别编号
+				1082 text 35, 36, 42
+				1083 container 货品/服务说明
+					1084 text 货品/服务说明
+				1085 button 检视全部
+				1086 button 隐藏全部
+				1087 container
+					1088 heading 35, Value: 3
+						1089 button (collapsed) 35, ID: radix-_r_al_, Secondary Actions: Expand
+					1090 heading 36, Value: 3
+						1091 button (collapsed) 36, ID: radix-_r_an_, Secondary Actions: Expand
+					1092 heading 42, Value: 3
+						1093 button (collapsed) 42, ID: radix-_r_ap_, Secondary Actions: Expand
+			1094 link esearch.ipd.gov.hk/nis-pos-view/
+			1095 link Description: 305254029, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1096 text -
+			1097 checkbox Description: 选择行 305254029 - 商标, Help: 选择行 305254029, Value: 0
+			1098 definition list
+				1099 container 商标文字
+					1100 text 商标文字
+				1101 container 商标编号
+					1102 text 商标编号
+				1103 text 305254029
+				1104 container 申请/拥有人姓名/名称
+					1105 text 申请/拥有人姓名/名称
+				1106 text 森業顧問有限公司
+				1107 container 类别编号
+					1108 text 类别编号
+				1109 text 11, 35
+				1110 container 货品/服务说明
+					1111 text 货品/服务说明
+				1112 button 检视全部
+				1113 button 隐藏全部
+				1114 container
+					1115 heading 11, Value: 3
+						1116 button (collapsed) 11, ID: radix-_r_as_, Secondary Actions: Expand
+					1117 heading 35, Value: 3
+						1118 button (collapsed) 35, ID: radix-_r_au_, Secondary Actions: Expand
+			1119 link Description: 鋑聯, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1120 link Description: 306169005, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1121 text -  鋑聯
+			1122 checkbox Description: 选择行 306169005 - 鋑聯, Help: 选择行 306169005, Value: 0
+			1123 definition list
+				1124 container 商标文字
+					1125 text 商标文字
+				1126 text 鋑聯
+				1127 container 商标编号
+					1128 text 商标编号
+				1129 text 306169005
+				1130 container 申请/拥有人姓名/名称
+					1131 text 申请/拥有人姓名/名称
+				1132 text GAINWELL GROUP LIMITED
+				1133 container 类别编号
+					1134 text 类别编号
+				1135 text 35, 36, 42
+				1136 container 货品/服务说明
+					1137 text 货品/服务说明
+				1138 button 检视全部
+				1139 button 隐藏全部
+				1140 container
+					1141 heading 35, Value: 3
+						1142 button (collapsed) 35, ID: radix-_r_b1_, Secondary Actions: Expand
+					1143 heading 36, Value: 3
+						1144 button (collapsed) 36, ID: radix-_r_b3_, Secondary Actions: Expand
+					1145 heading 42, Value: 3
+						1146 button (collapsed) 42, ID: radix-_r_b5_, Secondary Actions: Expand
+			1147 link Description: FOUNDER 方正, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1148 link Description: 199900141, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1149 text -  FOUNDER 方正
+			1150 checkbox Description: 选择行 199900141 - FOUNDER 方正, Help: 选择行 199900141, Value: 0
+			1151 definition list
+				1152 container 商标文字
+					1153 text 商标文字
+				1154 text FOUNDER 方正
+				1155 container 商标编号
+					1156 text 商标编号
+				1157 text 199900141
+				1158 container 申请/拥有人姓名/名称
+					1159 text 申请/拥有人姓名/名称
+				1160 text 新方正控股發展有限責任公司
+				1161 container 类别编号
+					1162 text 类别编号
+				1163 text 9
+				1164 container 货品/服务说明
+					1165 text 货品/服务说明
+				1166 button 检视全部
+				1167 button 隐藏全部
+				1168 heading 9, Value: 3
+					1169 button (collapsed) 9, ID: radix-_r_b8_, Secondary Actions: Expand
+			1170 link Description: TWSE, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1171 link Description: 306209190, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1172 text -  TWSE
+			1173 checkbox Description: 选择行 306209190 - TWSE, Help: 选择行 306209190, Value: 0
+			1174 definition list
+				1175 container 商标文字
+					1176 text 商标文字
+				1177 text TWSE
+				1178 container 商标编号
+					1179 text 商标编号
+				1180 text 306209190
+				1181 container 申请/拥有人姓名/名称
+					1182 text 申请/拥有人姓名/名称
+				1183 text Taiwan Stock Exchange Corporation
+				1184 container 类别编号
+					1185 text 类别编号
+				1186 text 36
+				1187 container 货品/服务说明
+					1188 text 货品/服务说明
+				1189 button 检视全部
+				1190 button 隐藏全部
+				1191 heading 36, Value: 3
+					1192 button (collapsed) 36, ID: radix-_r_bb_, Secondary Actions: Expand
+			1193 link Description: KD, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1194 link Description: 199608419, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1195 text -  KD
+			1196 checkbox Description: 选择行 199608419 - KD, Help: 选择行 199608419, Value: 0
+			1197 definition list
+				1198 container 商标文字
+					1199 text 商标文字
+				1200 text KD
+				1201 container 商标编号
+					1202 text 商标编号
+				1203 text 199608419
+				1204 container 申请/拥有人姓名/名称
+					1205 text 申请/拥有人姓名/名称
+				1206 text KOWLOON DEVELOPMENT COMPANY LIMITED
+				1207 container 类别编号
+					1208 text 类别编号
+				1209 text 36
+				1210 container 货品/服务说明
+					1211 text 货品/服务说明
+				1212 button 检视全部
+				1213 button 隐藏全部
+				1214 heading 36, Value: 3
+					1215 button (collapsed) 36, ID: radix-_r_be_, Secondary Actions: Expand
+			1216 link Description: PLOTIO, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1217 link Description: 305314419, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1218 text -  PLOTIO
+			1219 checkbox Description: 选择行 305314419 - PLOTIO, Help: 选择行 305314419, Value: 0
+			1220 definition list
+				1221 container 商标文字
+					1222 text 商标文字
+				1223 text PLOTIO
+				1224 container 商标编号
+					1225 text 商标编号
+				1226 text 305314419
+				1227 container 申请/拥有人姓名/名称
+					1228 text 申请/拥有人姓名/名称
+				1229 text PLOTIO FINANCIAL GROUP LIMITED
+				1230 container 类别编号
+					1231 text 类别编号
+				1232 text 35, 36, 41, 42
+				1233 container 货品/服务说明
+					1234 text 货品/服务说明
+				1235 button 检视全部
+				1236 button 隐藏全部
+				1237 container
+					1238 heading 35, Value: 3
+						1239 button (collapsed) 35, ID: radix-_r_bh_, Secondary Actions: Expand
+					1240 heading 36, Value: 3
+						1241 button (collapsed) 36, ID: radix-_r_bj_, Secondary Actions: Expand
+					1242 heading 41, Value: 3
+						1243 button (collapsed) 41, ID: radix-_r_bl_, Secondary Actions: Expand
+					1244 heading 42, Value: 3
+						1245 button (collapsed) 42, ID: radix-_r_bn_, Secondary Actions: Expand
+			1246 link Description: LCH, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1247 link Description: 199801601, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1248 text -  LCH
+			1249 checkbox Description: 选择行 199801601 - LCH, Help: 选择行 199801601, Value: 0
+			1250 definition list
+				1251 container 商标文字
+					1252 text 商标文字
+				1253 text LCH
+				1254 container 商标编号
+					1255 text 商标编号
+				1256 text 199801601
+				1257 container 申请/拥有人姓名/名称
+					1258 text 申请/拥有人姓名/名称
+				1259 text LIU CHONG HING INVESTMENT LIMITED
+				1260 container 类别编号
+					1261 text 类别编号
+				1262 text 36
+				1263 container 货品/服务说明
+					1264 text 货品/服务说明
+				1265 button 检视全部
+				1266 button 隐藏全部
+				1267 heading 36, Value: 3
+					1268 button (collapsed) 36, ID: radix-_r_bq_, Secondary Actions: Expand
+			1269 link Description: a, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1270 link Description: 305775869, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1271 text -  a
+			1272 checkbox Description: 选择行 305775869 - a, Help: 选择行 305775869, Value: 0
+			1273 definition list
+				1274 container 商标文字
+					1275 text 商标文字
+				1276 text a
+				1277 container 商标编号
+					1278 text 商标编号
+				1279 text 305775869
+				1280 container 申请/拥有人姓名/名称
+					1281 text 申请/拥有人姓名/名称
+				1282 text Aberdeen Corporate Services Limited
+				1283 container 类别编号
+					1284 text 类别编号
+				1285 text 9, 35, 36, 42
+				1286 container 货品/服务说明
+					1287 text 货品/服务说明
+				1288 button 检视全部
+				1289 button 隐藏全部
+				1290 container
+					1291 heading 9, Value: 3
+						1292 button (collapsed) 9, ID: radix-_r_bt_, Secondary Actions: Expand
+					1293 heading 35, Value: 3
+						1294 button (collapsed) 35, ID: radix-_r_bv_, Secondary Actions: Expand
+					1295 heading 36, Value: 3
+						1296 button (collapsed) 36, ID: radix-_r_c1_, Secondary Actions: Expand
+					1297 heading 42, Value: 3
+						1298 button (collapsed) 42, ID: radix-_r_c3_, Secondary Actions: Expand
+			1299 link Description: PURPLE, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1300 link Description: 304830868, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1301 text -  PURPLE
+			1302 checkbox Description: 选择行 304830868 - PURPLE, Help: 选择行 304830868, Value: 0
+			1303 definition list
+				1304 container 商标文字
+					1305 text 商标文字
+				1306 text PURPLE
+				1307 container 商标编号
+					1308 text 商标编号
+				1309 text 304830868
+				1310 container 申请/拥有人姓名/名称
+					1311 text 申请/拥有人姓名/名称
+				1312 text Purple Public Relations Limited
+				1313 container 类别编号
+					1314 text 类别编号
+				1315 text 35, 41, 42
+				1316 container 货品/服务说明
+					1317 text 货品/服务说明
+				1318 button 检视全部
+				1319 button 隐藏全部
+				1320 container
+					1321 heading 35, Value: 3
+						1322 button (collapsed) 35, ID: radix-_r_c6_, Secondary Actions: Expand
+					1323 heading 41, Value: 3
+						1324 button (collapsed) 41, ID: radix-_r_c8_, Secondary Actions: Expand
+					1325 heading 42, Value: 3
+						1326 button (collapsed) 42, ID: radix-_r_ca_, Secondary Actions: Expand
+			1327 link Description: 鋑聯, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1328 link Description: 306169014, Value: esearch.ipd.gov.hk/nis-pos-view/
+			1329 text -  鋑聯
+			1330 checkbox Description: 选择行 306169014 - 鋑聯, Help: 选择行 306169014, Value: 0
+			1331 definition list
+				1332 container 商标文字
+					1333 text 商标文字
+				1334 text 鋑聯
+				1335 container 商标编号
+					1336 text 商标编号
+				1337 text 306169014
+				1338 container 申请/拥有人姓名/名称
+					1339 text 申请/拥有人姓名/名称
+				1340 text GAINWELL GROUP LIMITED
+				1341 container 类别编号
+					1342 text 类别编号
+				1343 text 35, 36, 42
+				1344 container 货品/服务说明
+					1345 text 货品/服务说明
+				1346 button 检视全部
+				1347 button 隐藏全部
+				1348 container
+					1349 heading 35, Value: 3
+						1350 button (collapsed) 35, ID: radix-_r_cd_, Secondary Actions: Expand
+					1351 heading 36, Value: 3
+						1352 button (collapsed) 36, ID: radix-_r_cf_, Secondary Actions: Expand
+					1353 heading 42, Value: 3
+						1354 button (collapsed) 42, ID: radix-_r_ch_, Secondary Actions: Expand
+			1355 button (disabled) 第一页
+			1356 button (disabled) 上一页
+			1357 combo box (collapsed) Description: 选择页码, Value: 1, Secondary Actions: Expand
+				1358 text 1
+			1359 button 下一页
+			1360 button 最后一页
+			1361 container
+				1362 text 共 6 页
+		1363 button 免责条款
+		1364 link Description: 联络我们, Value: …
+		1365 link Description: 有关网站使用者的私隐通告, Value: …
+		1366 link Description: 商标检索, Value: …
+
+The focused UI element is 16 combo box (collapsed) Description: 选择每页显示的结果数量, Value: 50, Secondary Actions: Expand

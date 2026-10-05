@@ -1,0 +1,10 @@
+{
+  "commissioned": false,
+  "stop_gpio": 17,
+  "light_gpio": 27,
+  "channels": [
+    {"channel": 0, "min_angle": 75, "max_angle": 105, "min_pulse": 1000, "max_pulse": 2000},
+    {"channel": 1, "min_angle": 75, "max_angle": 105, "min_pulse": 1000, "max_pulse": 2000}
+  ],
+  "poses": {"rest": [90, 90], "attention": [95, 85], "point_calendar": [100, 90]}
+}

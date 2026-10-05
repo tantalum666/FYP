@@ -1,0 +1,19 @@
+{
+  "checked_at": "2026-09-16T13:24:41.084219+08:00",
+  "sources": [
+    {
+      "url": "https://developer.apple.com/design/human-interface-guidelines/tab-bars",
+      "used": "Top-level navigation rather than action-only tabs; preserve navigation within each section."
+    },
+    {
+      "url": "https://developer.apple.com/documentation/swiftui/understanding-the-navigation-stack",
+      "used": "Use controlled paths and lightweight route identifiers."
+    }
+  ],
+  "skill": "build-ios-apps:swiftui-ui-patterns",
+  "skill_references": [
+    "references/app-wiring.md",
+    "references/navigationstack.md"
+  ],
+  "application": "Navigation, dependency/state ownership, context-switch cancellation and routing rules in design documents. No SwiftUI code was created, so no build or compiler validation claimed."
+}

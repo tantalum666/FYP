@@ -1,0 +1,164 @@
+FILE research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md | LINES 261-287 / 287
+[^4]: Metafoodx，[How Metafoodx Is Transforming Food Operations with Agentic AI](https://www.metafoodx.com/post/how-metafoodx-is-transforming-food-operations-with-agentic-ai)，页面标注 May 20，厂商技术／营销说明。
+[^5]: Metafoodx，[官方网站与 FAQ](https://www.metafoodx.com/)，前后扫描、餐盘登记、候选选择和识别准确率宣称。
+[^6]: Jun Du / Metafoodx，[Seeing in 3D](https://www.metafoodx.com/seeingin3d)，2025-05-28，厂商技术文章。
+[^7]: Jun Du / Metafoodx，[Too Hot to Fail](https://www.metafoodx.com/toohottofail)，2025-06-24，表面到核心温度推断及双时点扫描。
+[^8]: Pomona College，[Sustainability Report Shows Progress Toward Carbon Neutral 2030 Goal](https://www.pomona.edu/news/2025/10/20-sustainability-report-shows-progress-toward-carbon-neutral-2030-goal)，2025-10-20，学校自行发布。
+[^9]: Metafoodx，[Why the Scanner Is So Fast](https://www.youtube.com/watch?v=EylsY3-eN7s)，2026-04-30，约 1:20；本轮读取完整自动字幕。
+[^10]: Metafoodx，[No more guesswork for your kitchen operation](https://www.youtube.com/watch?v=tW2uKmoMjNg)，2025-08-07，约 1:07；本轮完整自动字幕和关键画面。
+[^11]: Metafoodx，[Inside the Kitchen Customer Stories: Pomona College](https://www.youtube.com/watch?v=1wBiESYxdrI)，2026-02-07，约 00:35；完整自动字幕和公开说明，内容是较早访谈回顾。
+[^12]: Metafoodx，[What Makes Metafoodx Unique?](https://www.youtube.com/watch?v=fPi2gixbeu4)，约 4:29；本轮重读 2026-09-14 保存的完整自动字幕，结合前次关键画面记录。
+[^13]: RealSense，[D405 产品规格](https://www.realsenseai.com/products/stereo-depth-camera-d405/)，近距、分辨率、视场和环境规格。
+[^14]: RealSense，[D435 产品规格](https://www.realsenseai.com/products/stereo-depth-camera-d435/)，RGB／depth 视场、输出和接口。
+[^15]: RealSense，[Compare All Cameras](https://www.realsenseai.com/compare-all-cameras/)，D405 US$272、D435 US$314 等参考价；非香港到手报价。
+[^16]: DFRobot，[SEN0581 3D ToF Depth Sensor Camera](https://www.dfrobot.com/product-2741.html)，US$29.90；[中国站商品页](https://www.dfrobot.com.cn/goods-3765.html)，人民币 199 元。无 RGB。
+[^17]: DFRobot，[SEN0583 RGB-D 3D ToF Sensor Camera](https://www.dfrobot.com/product-2740.html)，US$109，页面显示缺货；含深度、RGB 和接口规格。
+[^18]: Orbbec，[Gemini 2 官方商店](https://store.orbbec.com/products/gemini-2)，US$234，含技术规格和 SDK 信息。
+[^19]: Luxonis，[OAK-D Lite 官方商店](https://shop.luxonis.com/products/oak-d-lite-1)，US$269，RGB、深度及机内运算能力。
+[^20]: Luxonis，[OAK-D Lite 技术文档](https://docs.luxonis.com/hardware/products/OAK-D%20Lite)，近距配置及投射器信息；本轮可读取搜索索引正文，直接页面读取遇到 text/markdown 内容类型限制。仅使用明确可见的参数，不采用其中可疑的基线单位文字。
+[^21]: Luxonis，[OAK-D Short Range](https://shop.luxonis.com/collections/oak-cameras-1/products/oak-d-sr)，US$329，理想距离约 30 cm–1 m。
+[^22]: Melexis，[MLX90614 数据表](https://www.melexis.com/en/documents/documentation/datasheets/datasheet-mlx90614)，修订版 21，2026 年 6 月；[距离与光斑说明](https://distance-to-spot.melexis.com/)，视场覆盖、等温条件及测量精度约束。
+[^23]: Adafruit，[MLX90640 IR Thermal Camera Breakout - 55 Degree](https://www.adafruit.com/product/4407)，US$74.95，32×24 阵列、55°×35° 视场及 I2C。
+[^24]: SparkFun，[Load Cell Amplifier - HX711](https://www.sparkfun.com/sparkfun-load-cell-amplifier-hx711.html)，US$4.95，接口和采样速率；[使用指南](https://learn.sparkfun.com/tutorials/load-cell-amplifier-hx711-breakout-hookup-guide/introduction)。
+[^25]: SparkFun，[Load Cell - 10kg, Straight Bar (TAL220)](https://www.sparkfun.com/load-cell-10kg-straight-bar-tal220.html)，US$12.95，开发用称重元件。
+[^26]: RealSense，[librealsense SDK](https://github.com/realsenseai/librealsense)，开放 SDK、平台与语言接口；[Python Wrapper](https://github.com/IntelRealSense/librealsense/blob/master/wrappers/python/readme.md)。
+[^27]: PyTorch / Torchvision，[mobilenet_v3_small 文档](https://docs.pytorch.org/vision/master/models/generated/torchvision.models.mobilenet_v3_small.html)，已有模型和预训练权重。
+[^28]: Google Research，[Nutrition5k 数据集及 CVPR 2021 论文入口](https://github.com/google-research-datasets/Nutrition5k)，包含图像、部分顶视 RGB-D 和重量标注，明确数据地域和菜系局限。
+[^29]: Controliza，[AI Buffet Control](https://controliza.com/en/buffet)，持续餐盘监测、补餐和废弃记录，厂商产品说明。
+[^30]: Metafoodx，[Freshness Alert](https://www.metafoodx.com/post/metafoodx-serving-time-alert-know-exactly-how-long-food-has-been-on-the-line)，页面标注 Jun 4，更新 Aug 27；配置时限与扫描触发计时。
+
+
+FILE research/2026-09-14-suggestion-deep-review/deep-review.md | LINES 1-65 / 171
+# 补餐减损竞品与动态电子菜单研究
+
+## 研究结论
+
+Metafoodx 与 Controliza 已覆盖生产数据采集、需求分析和运营反馈，Controliza 的 Buffet 与 Kitchen 组合更直接对应餐中补餐与厨房生产安排。实时称重、补餐提醒、生产预测、本地处理和数据导出都不能单独作为新增竞争优势。电子菜单和扫码点餐同样已有成熟产品，Metafoodx 的集成伙伴 JAMIX 也提供二维码电子菜单。
+
+适合小型原型继续研究的方向，是将餐盘物理状态、后厨任务和必要的顾客订单统一为可靠的供应状态。补餐与减损应是主要目标；顾客扫码查看及点单作为辅助入口，承担减少信息滞后、表达待处理需求和反馈预计等待的作用。项目价值需要通过同一场景下的状态一致性、空盘、剩余及操作成本来验证。
+
+研究应承认商业产品已有能力，同时明确有限原型接受的范围与能力取舍。公开资料能支持功能对照和研究问题，尚不能支持对商用产品做性能排名，也不能证明拟议系统已经更便宜或更有效。
+
+## 证据的使用方式
+
+| 证据类型 | 能支持的判断 | 不能直接支持的判断 |
+|---|---|---|
+| 官方产品与技术资料 | 产品宣称的功能、公开流程、接口和部署方式 | 所有客户都达到同样性能、全部模块均包含在某报价中 |
+| 官方讲解视频与字幕 | 厂商如何解释产品、展示的交互与工作方式 | 对扫描精度、预测效果、食品安全和 ROI 的独立认证 |
+| 客户方公开报道 | 实际采用及所描述的现场使用流程 | 与供应商其他数字完全相同的统计口径或因果效果 |
+| 研究分析与原型设计 | 可进一步检验的取舍、假设和测试方法 | 已取得客户认可、导师接纳或商业竞争优势 |
+
+## Metafoodx 的产品与工作流程
+
+### 餐盘扫描作为物理数据入口
+
+Metafoodx 的公开主流程以餐盘出餐及回盘扫描为基础，记录餐品、净重、温度和剩余去向。官网描述自动识别容器与餐品，识别不确定时由员工确认。这种产品设计把数据采集放在可识别的工作动作上，减少另外填写日志的需要。扫描本身的时间不等于员工完整操作时间，移动餐盘、放置、确认和清洁仍应在现场评估。[^1]
+
+“What Makes Metafoodx Unique” 视频进一步说明 3D 视觉、本地推理与容器区分，并提及在移动船舶环境中保持称重工作的传感处理。视频没有公开完整硬件型号、校准方法或误差曲线，因此可以把它作为设计参考，不能据此推导一套确定的传感器清单。[^2]
+
+前后盘重量的差值主要反映从盘中取走或未返回的量。若要解释为实际食用，还需区分盘剩、遗洒、转移与其他去向。这个数据定义对补餐很重要：供应量、取用量、已完成订单和顾客吃下的量属于不同事件，不能混成一个“消耗”字段。
+
+### 餐中反馈与人员控制
+
+产品总览视频强调，厨师和管理者保留操作决策权，技术承担记录与计算。在约 00:44–01:19 的讲解中，扫描与现场反馈连在一起；在约 02:14–02:41，讲解提到不同规模厨房与餐品上台后的计时提醒。这说明“只面向大厨房”和“没有餐中反馈”都不是稳妥的竞争描述。[^3]
+
+Freshness Alert 在出餐扫描后计时，根据预先配置的持有时长给提示，并保存相关记录。它至少包含可理解的规则逻辑。计时提醒、表面温度读数和模型估计的核心温度应分别看待，不能把它们合并成自动判定食物安全的能力。[^4]
+
+移动端的 Live View 和 Scan Log 可供管理者在服务期间查看餐品与扫描信息；Catering Mode 则以活动编号组织生产、消耗及剩余数据。所谓实时查看可能反映扫描后的即时更新，不能自动证明每次顾客取餐都有连续物理测量。连续逐盘模式及自动补量的具体配置仍需演示确认。[^5][^6]
+
+### 预测与系统集成
+
+官方资料描述结合真实消耗、菜单周期、人数、天气和活动进行生产预测，同时连接其他厨房管理系统。集成视频在约 00:15–00:39 说明扫描生产与剩余后，经开放 API 连接现有工具；品牌名称应以官方文章为准，因为自动字幕存在拼写误差。[^7][^8]
+
+Metafoodx 与 Illumia 的介绍特别指出，NetMenu 的计划、配方等数据可与实际生产结果对照。这种模式的价值是保持原有业务数据和实际结果之间的连接，不能将“我们可接 POS／ERP”作为独有优势。[^9]
+
+### 实际采用证据及局限
+
+Pomona College 的校方报道确认餐盘在出餐前后进行称重、测温和拍照，用于菜单与采购改进，并引述避免食物浪费的成果。这是对实际部署流程有价值的客户方佐证。[^10]
+
+Metafoodx 的案例另报告九个月内过量生产下降 54%、每餐成本下降 8% 和 500% 以上 ROI。公开页面未提供足以统一核对的原始财务表和全部分母，不能把这些值当作本项目承诺。不同页面或视频的扫描时长、准确率和回报表述还需要按指标、环境和时期逐项核对。[^11]
+
+## Controliza 的产品与工作流程
+
+### Forecast 与 Kitchen 连接预测和生产
+
+Forecast 按菜品、时段、渠道及门店分析需求，并使用天气、节假日及活动等情境。Kitchen 将预测、现有库存、配方及加工得率转成班次生产安排，包含数量、顺序、解冻提前量和批次记录。它们体现的是业务数据驱动的生产流程，而不仅是餐盘低于阈值就发警报。[^12][^13]
+
+FAQ 说明历史数据和集团内相似门店／菜品可用于启动模型。新独立场地没有相似门店历史时的能力，需要另行确认。“菜品识别从第一天可用”和“新场地需求预测第一天准确”不是同一个条件。[^14]
+
+### Buffet 已包含餐中补餐与数量建议
+
+Buffet 的公开说明明确包含摄像头、IoT 称重、每盘余量、消耗速度、补餐提醒，以及根据消耗和收餐时间计算补量。补餐历史与餐末剩余会反馈给后续预测。这些已经覆盖原设想中的主要功能，不能再作为没有竞争者的创新点。[^15]
+
+自助餐运营文章进一步用消耗快时提醒补、消耗慢时建议不补的场景解释实际作用。其目标同时涉及维持供应和减少末端剩余，相关控制应放在完整餐期内评价，不能只统计警报次数。[^16]
+
+### 集成与部署范围
+
+
+
+FILE research/2026-09-14-suggestion-deep-review/deep-review.md | LINES 66-130 / 171
+Controliza 面向多店运营，公开支持 ERP、POS、PMS 和标准文件格式；技术页也列有本地 edge processing 及 MQTT。云端预测和本地处理可以属于不同层，不能据此认定矛盾，也不能把 MQTT 或本地运行当作差异。[^17][^18]
+
+实施页区分技术梳理、试点和扩展部署。标示的 4–6 周主要对应试点，而非完整集团所有场地都已上线；客户还需要提供数据接入和运营反馈。完整价格、最小模块组合、具体传感器精度以及独立小场地配置，公开资料仍不足以确定。[^19]
+
+### 视频及客户案例的证据强度
+
+公开 YouTube 频道可核对到一段 2021 年 5 月 6 日的介绍视频，主线是经营分析、采购与销量预测。关键画面和说明支持其早期定位，但没有展示当前 Buffet 硬件或生产任务的完整实操。培训学院页面需要登录，因此不能把未访问内容当作已学习的演示。[^20][^21]
+
+当前案例页的 Senator Hotels 场景与实时补餐直接相关，但缺少可独立复核的专属 KPI 原始记录。La Mafia 等多模块案例不能用于证明某个 Buffet 模块单独带来的收益，也不能把通用宣传数字分配给任意客户。[^22]
+
+## 视频学习记录
+
+| 视频 | 内容依据 | 对项目的启示 |
+|---|---|---|
+| Metafoodx Kitchen Intelligence with AI | 全文字幕；扫描和人员控制相关关键画面 | 采集应融入现有动作，建议留给人员确认；系统要处理人工工作方式 |
+| What Makes Metafoodx Unique | 全文自动字幕；本地推理与流程讲解 | 区分物理测量、模型估计和业务数据；自动字幕及宣传指标需交叉核对 |
+| How Metafoodx Integrates with Your Kitchen Systems | 全文自动字幕 | 新系统应有明确数据交换和来源关系，不能把别的系统当成凭空不存在 |
+| Controliza HORECA introduction | 公开说明与约 00:00／00:10／00:20／00:30／00:41 关键画面，无可导出字幕 | 只能支持早期经营分析／采购／预测定位，不能认证当前 Buffet 功能 |
+
+完整的时间定位和访问状态见同目录 `video-review-log.md`。视频中的扫描、准确率、回报和安全相关说法均为发布者陈述，未据此宣称设备测试已通过。
+
+## 电子菜单需要考虑的竞争生态
+
+JAMIX 已提供面向顾客的电子菜单，可通过二维码、网站或屏幕分享，并与厨房系统的菜品、价格及其他资料连接；公开页面也提到顾客反馈。Metafoodx 已公开介绍与 JAMIX 等工具的集成，但这不自动证明某种 Metafoodx 实时余量会直接写入 JAMIX 顾客菜单。[^23][^8]
+
+Square 的官方文档则展示扫码点餐、地点／桌号关联、订单进入 POS 与厨房显示系统的成熟流程。该资料用于证明扫码点餐已有普遍产品能力，不等于推荐其支付或地区服务用于本项目。[^24]
+
+Controliza 关于 POS 软件的文章也讨论数字菜单等外部工具与 POS 的连接。这是生态层面的竞争提醒：即使主产品页面未列原生顾客扫码模块，客户也可能通过集成得到相应能力。不能把未披露直接写成“没有”。[^25]
+
+因此，加入二维码只能构成系统范围扩展。需要检验的是：当订单和物理供应状态会变化时，菜单是否能持续给出可用的说明，后厨是否能避免重复备餐，顾客是否更少遇到点单后才得知缺货。
+
+## 两种服务场景的统一方式
+
+自助餐的普通菜品通常由顾客直接取用，不宜为了获得订单数据强迫每一次取菜都下单。其主信号仍应来自餐盘物理变化与员工确认，顾客菜单提供供应、取用趋势和补餐信息；现制／加点项目可以保留扫码订单入口。
+
+自选快餐可以让顾客扫码选菜并提交订单，由员工配餐或提供取餐状态。已接受而尚未配餐的数量表示待履约需求，需要与有效余量及已开始制作的批次一起判断。普通餐厅的完全按单制作可以作为扩展，但不宜与自助餐同等作为第一阶段的主评价场景。
+
+这两种模式可以共用餐品、餐期、制作任务和记录机制，但必须保留不同的履约规则。浏览、选菜意向、已确认订单、已取餐和餐盘重量变化各有含义，不应共用一个不断累加的需求计数。
+
+## 需要解决的数据一致性问题
+
+### 订单与传感器的重复计算
+
+订单接受后可记录待配餐数量；真正取出食物时，物理余量再发生变化。如果把下单当成实际消耗，之后又按传感器扣一次，会低估库存并触发过量补餐。系统应对账不同事件，而不是把各数据源简单相加。
+
+制作任务同样需要区分已建议、已接受、制作中、可出餐和已补入餐盘。一批已经在做时，补餐算法必须考虑它，避免后厨收到重复任务。员工修改、取消或实际出餐延迟也应更新状态。
+
+### 顾客可见状态
+
+可供应、余量较少、正在补餐和暂不可售，应由有效的供应数据和员工状态共同支持。传感器离线、数据过时或换盘期间，应明确降低确定性，不能继续显示看似精确的份数。
+
+预计等待来自制作任务与完成时间估计，应显示为估计或范围。菜单描述与价格由店方维护，不能让语言模型推断不存在的餐品、营养或食品安全事实。
+
+### 热销与取用趋势
+
+点餐场景的热销可按明确时间窗口内已完成订单统计，排除取消和重复订单。自助餐的取用趋势需要校准与合理归一化，不能把不同菜品的克数直接排列成人气。
+
+热门排序也可能改变之后的需求。算法评价应记录菜单展示策略，避免把自己造成的曝光变化误认为自然需求改变。将已备好餐品清楚呈现可以作为体验设计，但不能把待清空的菜冒充最受欢迎。
+
+## 拟议价值主张与验证范围
+
+可采用的研究命题是：在自助餐与批量备餐的自选快餐中，用少量传感节点连接有效供应、待处理需求、在制批次和顾客可见状态，能否在可接受操作成本下减少空盘、餐末可避免剩余和订单供应不一致。
+
+这一命题不依赖宣称竞品缺少 AI、没有本地处理或不服务小客户。它把重点放在有限场景的实现与可验证行为上。没有商业竞品试用时，应将性能结论限定为相对已定义基线，而不是声称超过 Metafoodx 或 Controliza。
+

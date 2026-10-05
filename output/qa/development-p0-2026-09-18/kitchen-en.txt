@@ -1,0 +1,72 @@
+- complementary:
+  - img "Senplate"
+  - navigation "Main navigation":
+    - button "Kitchen board":
+      - text: Kitchen board
+    - button "Event log":
+      - text: Event log
+    - button "Station display":
+      - text: Station display
+  - generic: Alex · Manager
+  - combobox "Workspace":
+    - option "Personal"
+    - option "Demo dining room" [selected]
+  - combobox "Language":
+    - option "English" [selected]
+    - option "简体中文"
+  - button "Sign out":
+    - text: Sign out
+- main:
+  - heading "Kitchen board" [level=1]
+  - paragraph: Demo dining room · Lunch
+  - generic: Demo data
+  - generic: Updated 12:10
+  - generic: Monitored stations
+  - strong: "1"
+  - generic: Suggestions
+  - strong: "1"
+  - generic: Active batches
+  - strong: "0"
+  - heading "Station 01" [level=2]
+  - paragraph: Herb-roasted chicken
+  - generic: Monitoring
+  - generic: 700 g
+  - paragraph: Remaining
+  - generic: Refill needed
+  - paragraph: Remaining (g)
+  - img "Remaining weight over time":
+    - generic: "0"
+    - generic: "600"
+    - generic: 1,200
+    - generic: 1,800
+    - generic: 1,500
+    - generic: 12:00
+    - generic: 1,200
+    - generic: 12:05
+    - generic: "700"
+    - generic: 12:10
+  - term: Food confirmed
+  - definition:
+    - text: "Yes"
+  - term: Weight stable
+  - definition: "Yes"
+  - heading "Replenishment suggestion" [level=2]
+  - generic: 1,000 g
+  - paragraph: Remaining has reached the 700 g threshold.
+  - strong: Rule-based baseline
+  - paragraph: Suggest 1,000 g when remaining is 700 g or less.
+  - strong: No batch in progress
+  - paragraph: Ready to create a kitchen task.
+  - button "Accept suggestion"
+  - button "Adjust amount"
+  - button "Not now"
+  - heading "Kitchen tasks" [level=2]
+  - generic "Task filters":
+    - button "All" [pressed]
+    - button "Planned"
+    - button "Preparing"
+    - button "Ready"
+    - button "Verify refill"
+    - button "Closed"
+  - paragraph: No replenishment tasks yet. Accepted suggestions appear here.
+  - generic: Demo time advances with each step.

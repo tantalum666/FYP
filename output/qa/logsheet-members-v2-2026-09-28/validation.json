@@ -1,0 +1,75 @@
+{
+  "completed_at": "2026-09-28T14:50:18.615311+08:00",
+  "result": "member breakdown draft complete, not submitted",
+  "period": "2026-09-14 to 2026-09-27",
+  "record_date": "2026-09-28",
+  "teacher_requirement": "one group log containing each student work, findings and plans",
+  "user_authorization": "User asked assistant to arrange attribution; exact individual past authorship not supplied",
+  "attribution_disclosure": "Member-review draft; individual attribution arranged under planned roles using group records; confirmed personal attribution not claimed",
+  "template_checks": {
+    "only_changed_package_part": [
+      "word/document.xml"
+    ],
+    "section_xml_unchanged": true,
+    "table_grid_properties_row_properties_and_cell_properties_unchanged": true,
+    "rows": 15,
+    "both_textbox_branches_filled": true,
+    "verification_note": "All OOXML assertions passed in preceding validation invocation; only PDF literal Not Done assertion failed on a line break, now checked using normalized whitespace."
+  },
+  "content_checks": {
+    "three_names_and_ids_in_header": true,
+    "three_named_work_rows": true,
+    "three_named_plan_rows": true,
+    "three_named_research_rows": true,
+    "shared_work_separate": true,
+    "uncompleted_work_per_member": true,
+    "AI_assistance_disclosed": true
+  },
+  "visual_review": {
+    "render": "render-02",
+    "pages": 1,
+    "inspected_pages": [
+      1
+    ],
+    "result": "pass; header identities readable, named rows clear, no clipping, remark visible",
+    "fixed_issue": "removed forced identity line breaks after render01 pushed remark onto page2"
+  },
+  "outputs": [
+    {
+      "path": "output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx",
+      "bytes": 26262,
+      "sha256": "d19fd48a37dc3ef172a842d44af3b0b658fd147f451720e7aec5d4c0c6a0f9f6"
+    },
+    {
+      "path": "output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf",
+      "bytes": 90279,
+      "sha256": "5299b79d99e50ea69c81b69212bbf784d98bd8ed19c7e721f91e92c5cdcf55fc"
+    }
+  ],
+  "preserved_files": [
+    "/Users/tantalum/Documents/ChatGPT/FYP/output/submission/2026-09-28/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx",
+    "/Users/tantalum/Documents/ChatGPT/FYP/output/submission/2026-09-28/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf",
+    "/Users/tantalum/Documents/ChatGPT/FYP/output/submission/2026-09-28/AY26_ProjectProposal_Group 2.docx",
+    "/Users/tantalum/Documents/ChatGPT/FYP/output/submission/2026-09-28/AY26_ProjectProposal_Group 2.pdf",
+    "/Users/tantalum/Documents/ChatGPT/FYP/output/docx/Group 2_DeskCompanion_ProjectProposal_ZH_Review_v3.docx",
+    "/Users/tantalum/Downloads/Final Year Project - Log Sheet (Bi-weekly) v4 AY26.docx"
+  ],
+  "updated_markdown": [
+    "product.md",
+    "handoff.md",
+    "README.md",
+    "planning/2026-09-28/logsheet-and-proposal-review.md",
+    "decision-log.md",
+    "work-log.md"
+  ],
+  "local_links_checked": 450,
+  "broken_links": [],
+  "reading_record": "reading-record.json",
+  "not_done": [
+    "verification of individual historical task attribution",
+    "Moodle upload or submission",
+    "supervisor signature or approval",
+    "new hardware or software experiments"
+  ],
+  "memory_used": "MEMORY.md:144-145 and 161-166 for logbook context and submission boundary; current local source verified"
+}

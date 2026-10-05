@@ -1,0 +1,243 @@
+# Senplate Project Proposal
+
+AI and IoT Based Food and Nutrition Monitoring System
+
+<!-- identity -->
+
+## 1 Statement of the problem to be solved
+
+We propose Senplate, a hardware and software system that continuously monitors food on one pan or plate position and turns valid measurements into practical feedback. Its main application is buffet and batch-prepared counter service. The same station will also support anonymous school meal samples and adult personal meal records.
+
+During service, staff must decide when to start preparing another batch and how much to prepare. A low tray level alone does not show how quickly food is being taken, how long preparation will take, whether another batch is already in progress, or how close the service is to closing. Late decisions can leave an empty tray; unnecessary or duplicate batches can leave excess food at the end. These are the operating problems we will investigate through workflow review and controlled experiments.
+
+Food quantity also needs a clear meaning. A menu name does not describe the portion actually served. A decrease in tray weight does not, by itself, prove that food was eaten or discarded. Senplate will keep measured supply, order reservations, future batches, remaining food and reference nutrition as separate records.
+
+### Project objectives
+
+1. Build one integrated station that records valid food weight and assists identification of four to six registered foods, with clear handling of unstable, missing and uncertain inputs.
+2. Develop and evaluate replenishment advice using current supply, recent demand, preparation lead time and outstanding kitchen work, followed by measurement of the actual refill.
+3. Connect this process to an English and Simplified Chinese iPhone app, kitchen and management web interface, and station screen, including auxiliary QR ordering and auditable meal records.
+
+<!-- pagebreak -->
+
+## 2 Background of the problem
+
+Hong Kong's Environmental Protection Department reports that approximately 3,001 tonnes of municipal food waste were landfilled each day in 2024, accounting for about 29% of municipal solid waste disposal [1]. This establishes the wider relevance of food management. Our project addresses the narrower decisions around monitored food portions and replenishment; it will not measure all kitchen waste or claim that all of this waste is avoidable.
+
+### Intended users and operating environments
+
+| Environment | Intended users | Feedback and scope |
+|---|---|---|
+| Buffet or batch-prepared counter | Kitchen staff and catering managers | Remaining supply, refill timing and quantity, task status, and end-of-service disposition for the monitored dish. |
+| School meal sampling | Authorised meal coordinators and catering staff | Anonymous sample portions, food groups, reference nutrition and total remaining food, compared with a reviewed meal plan. |
+| Adult personal recording | The individual using the station | Sequential portions, matched reference nutrition, total remaining weight and private history. |
+
+The school application supports observation and food education. The Department of Health provides lunch guidelines and monitoring resources that can inform a school-reviewed plan [2]. We will use anonymous demonstration meals rather than children's accounts. One sample cannot represent the intake of every pupil. Personal testing will initially involve adults.
+
+### Existing solutions and project positioning
+
+| Reference | Publicly described capability | Implication for Senplate |
+|---|---|---|
+| Metafoodx Metron [3] | A mobile scanner capturing food images, weight and temperature; its listed settings include universities and school cafeterias. | Our demonstration keeps the monitored pan in place during service, focusing on continuous quantity changes and a traceable refill task. |
+| Controliza Buffet [4] | Computer vision and IoT weighing, consumption-rate monitoring, replenishment alerts, suggested quantities and waste records. | Use these capabilities as a reference while evaluating a smaller independent station and its behaviour when historical data is limited. |
+
+Our proposed contribution is a configurable single-station prototype with explicit measurement validity, traceable advice-to-refill actions and consistent order reservations. We will examine its behaviour with limited historical data and preparation delays. Performance claims will be based on defined experimental baselines. Without equivalent competitor trials and quotations, we will not claim better accuracy, lower total cost or market uniqueness.
+
+We will seek workflow feedback from two or three catering staff, focusing on recent empty-tray incidents, duplicate preparation and the extra steps needed to use the prototype. Access is not yet secured; staff feedback and controlled volunteer tests will be reported separately.
+
+<!-- pagebreak -->
+
+## 3 Outline of the proposed solution
+
+### 3.1 System architecture and hardware
+
+The chef places a prepared pan on the station and serves from it while monitoring continues. A load cell measures quantity; an overhead RGB-D camera supplies colour and depth data for constrained visual assistance. A client-server architecture connects the station, iPhone and web interfaces to a shared backend. One station will be used sequentially in the three modes, not simultaneously at three sites.
+
+![Proposed system architecture](architecture.png)
+
+*Figure 1 Proposed architecture with a shared backend and separate acquisition and vision processing*
+
+| Component | Planned configuration | Purpose and engineering condition |
+|---|---|---|
+| Edge computer | Raspberry Pi 5 with 8GB RAM, active cooling and microSD storage [5] | Run acquisition, lightweight inference and the local interface; verify the complete service load before final deployment. |
+| Weighing system | One suitable 10kg platform load cell and NAU7802 ADC | One independent weighing position; gross working load initially limited to 5kg, including platform, container and food. |
+| Camera | One Orbbec Gemini 2 RGB-D camera [6] | USB 3 colour and depth input; verify SDK support, alignment and usable coverage on the selected Pi system. |
+| Local interaction | Approximately 7-inch touchscreen, confirmation/tare controls and status indicators | Clear local actions; screen and camera loads kept off the floating weighing platform. |
+| Structure and power | Rigid base and adjustable overhead support; enclosed low-voltage wiring | External adapter with one low-voltage lead; initial 12V/5A plan with a Pi-compatible supply branch and powered USB 3 hub. Validate every interface and load. |
+
+The existing Arduino UNO R4 WiFi is optional for acquisition diagnostics, not a required second controller. The preferred final target is Pi-based local operation. During development, the existing Mac hosts the services; if full Pi deployment is too demanding, the same interface will support Pi acquisition with the Mac backend while optimisation continues. No Pi performance result is assumed from its specification.
+
+<!-- pagebreak -->
+
+### 3.2 Functional scope
+
+| ID | Function | Required behaviour |
+|---|---|---|
+| F01 | Start and monitor a session | Select a mode, register the container/tare and confirm the food or batch. Show valid weight, timestamp and data origin; distinguish zero, instability, plate removal and stale data. |
+| F02 | Assist food identification | Suggest a registered food using the trained vision model. Allow human confirmation or correction. Unknown or obscured food must not be forced into a confident known label. |
+| F03 | Advise and verify replenishment | Explain refill timing and batch quantity using valid supply, preparation time and kitchen work. Staff accept, adjust or reject; an actual measured increase verifies the refill. |
+| F04 | Provide QR menu and basic ordering | In the iPhone app, show published dishes, supply status and completed-order popularity. Support applicable counter/add-on orders, kitchen acceptance, preparation and collection. Ordinary buffet self-service does not require an order for every serving. |
+| F05 | Record personal meals | Use a short-lived pairing code and explicit station confirmation. Select each food before adding it; record the stable weight increase, reference nutrition and subsequent total remaining weight. |
+| F06 | Record anonymous school samples | Generate sample identifiers, record portions and food groups, compare with an approved configuration, and provide scoped reports. Demonstration plans are clearly marked as unreviewed. |
+| F07 | Maintain information and access | Manage food/recipe references, menu settings, standard portions, preparation time, containers and authorised roles. Preserve the versions used by historical records. |
+| F08 | Review and export results | Record tasks, exceptions, actual refills and end-of-service dispositions. Filter reports by period and simulated, replay or hardware source; support authorised CSV export. |
+
+### 3.3 Data handled and consistency
+
+The system will store users and workplace permissions; devices, containers and calibration versions; food, recipe and nutrient references; session observations; model results; recommendations and kitchen tasks; menus, orders and reservations; portions, remaining food and disposition records. Necessary images and depth samples will be stored separately and linked to their session and model version.
+
+Physical stock, accepted but unfulfilled orders and planned future supply remain distinct. Accepting an order reserves food; it does not change the scale reading. When staff link the measured portioning event, the reservation is released without deducting the food twice. Marking a batch ready similarly does not increase measured stock.
+
+Each observation and write operation has a unique identifier. Database transactions, resource versions and repeat-safe requests prevent duplicate portions, tasks or refills. Old measurements may be retained for inspection but cannot replace a newer live state. Personal records belong to their owner; kitchen permissions do not grant access to another person's meals.
+
+<!-- pagebreak -->
+
+### 3.4 Algorithms and development approach
+
+**Measurement and event processing.** The acquisition service will calibrate the load cell against reference masses, filter short disturbances and identify stable changes. Container removal, tare changes, contact with the platform and missing samples will be treated as exceptions. Vision processing will run separately so that a slow image does not block weight acquisition. A latest-frame policy will prevent an old image queue from appearing live.
+
+**Food recognition.** We will start with a pretrained MobileNetV3-Large model and compare a smaller variant where useful. Transfer learning adapts existing visual features to our registered foods [7, 8]. Training will use the existing M2 Pro MacBook with 16GB memory; the selected model, preprocessing and class mapping will be exported for Pi inference. Initial classes will correspond to confirmed foods such as cooked rice, chicken, broccoli and banana, with expansion to no more than six classes when data supports it.
+
+We plan to collect roughly 200-300 curated images per class across at least six independent preparation or capture sessions. Training, validation and test sets will be separated by batch and date before augmentation; adjacent frames from one video will stay together. Tests will include different portion sizes, plausible lighting changes, empty plates, occlusion and unregistered foods. RGB is the baseline. Depth will first support plate location, height and data-quality checks; a small feature-fusion experiment will be retained only if its benefit justifies the added processing.
+
+**Replenishment decisions.** An exponentially weighted moving average of valid serving reductions will provide the initial demand estimate. We will compare a fixed quantity threshold, a consumption-rate rule, and a proposed rule that also uses preparation lead time, accepted reservations, outstanding batches and closing time. The proposed method will estimate whether usable supply can cover demand until the next batch arrives, then suggest a batch within configured size limits. It will reduce late-service recommendations and avoid recommending food already being prepared. A lightweight regression forecast may be evaluated if sufficient separate meal-period data becomes available; cold-start operation will remain supported by explicit rules.
+
+For example, low stock with an existing batch due shortly may justify waiting, whereas the same stock with a long preparation time may justify starting a new batch. Staff retain the decision and the system logs their adjustments. In-progress food is future supply, not food currently available for collection.
+
+**Portions and reference nutrition.** Stable totals of 0, 200, 300 and 450g produce three added portions of 200, 100 and 150g. Each nutrient estimate equals the recorded edible grams multiplied by its matched per-100g reference and divided by 100. USDA FoodData Central provides openly licensed reference data [9]. Food identity, cooking state, source ID and reference version must match; unknown values remain missing. A later total of 350g does not identify the nutrients eaten from each component.
+
+We will use iterative development with two-week work cycles, supervisor feedback, module tests and integration demonstrations. SwiftUI will implement the iPhone app; React/TypeScript will implement the web and station interfaces; Python/FastAPI and PostgreSQL will provide shared services. HTTP operations and foreground WebSocket updates will support the clients. The initial demonstration will use a local network without mandatory POS, ERP or cloud integration.
+
+<!-- pagebreak -->
+
+### 3.5 Non functional requirements and evaluation
+
+The following are proposed engineering acceptance targets. Hardware and model targets will be evaluated under documented conditions; they are not claims of achieved performance.
+
+| Area | Target or requirement | Verification |
+|---|---|---|
+| Measurement | Initial target of no more than 5g absolute static error across 100-3000g net load, within the 5kg gross limit. | Independent reference masses at multiple loading/unloading points; repeat placement, centre/corner tests and a two-hour drift record. |
+| Responsiveness | At least 95% of valid stable weight changes reach a foreground client within two seconds on the test network. | Timestamp acquisition, server receipt and client display with the full selected workload running. |
+| Recognition | Initial target of at least 0.85 macro F1 on held-out registered-food batches. | Report per-class precision/recall, confusion, unknown false acceptance, rejection rate and manual correction. Thresholds use validation data only. |
+| Reliability | Complete a two-hour integrated run without an unhandled crash; detect stale data and preserve records across tested restarts. | Exercise disconnect/reconnect, duplicate and late messages, plate removal, blocked sensors and concurrent user actions. |
+| Usability and language | English default with a saved Simplified Chinese choice; key numbers and actions remain readable at small screen and enlarged text sizes. | Task-based testing with 6-8 adult volunteers where available; record completion, errors and time, and inspect both languages. |
+| Security and maintenance | Server-side role/owner checks, separate device credentials, protected sessions, source/version logs and recoverable configuration. | Direct unauthorised-access tests, retry tests, backup/restore exercise and a repeatable installation guide. |
+
+### Experimental comparison
+
+We will run the replenishment methods against the same scripted demand traces, starting stock, preparation times and closing times. At least twelve traces will cover steady demand, a sudden rush, declining demand and interrupted measurements. The analysis will compare empty-tray minutes, food remaining at closing, duplicate tasks, recommendation changes and staff intervention. Leftovers will be classified by recorded destination rather than automatically counted as discarded waste.
+
+Physical tests will separately establish weighing error, valid measurement coverage, vision performance and complete-system latency. Formula tests will compare nutrient calculations with manual calculations from the same reference; this verifies arithmetic and matching, not the actual chemical composition of a meal.
+
+A real catering pilot will be pursued only if a suitable site becomes available. Controlled serving experiments and replay provide a viable assessment route without a partner venue. Their results will be labelled accordingly and will not be reported as proven commercial savings or school-wide health outcomes.
+
+<!-- pagebreak -->
+
+## 4 Why the proposed solution is appropriate
+
+The replenishment workflow connects advice to physical action. Staff receive a reasoned suggestion, record their decision, execute a kitchen task and link the resulting weight increase. The resulting history shows whether the suggested batch was actually added and supports evaluation of duplicate work and supply interruptions.
+
+Each type of information has a defined source. The scale measures weight, registered information and constrained vision support food identity, and matched references support nutrient conversion. Sequential additions provide component weights without requiring a camera to infer hidden ingredients. Human confirmation and explicit uncertainty are part of the intended workflow.
+
+Reusing the hardware, session model and measurement interface keeps the three scenarios achievable. The school demonstration records anonymous samples, while the adult mode adds ownership and personal history. The same local setup can demonstrate these uses without requiring a connection to an existing POS system or an additional sensing station.
+
+### Feasibility and current preparation
+
+By 19 September 2026, an initial local SwiftUI, React and FastAPI/PostgreSQL prototype had demonstrated simulated replenishment, QR menu ordering, meal pairing, sequential portions and anonymous sample reports. The latest software batch passed 55 backend tests and six staged iPhone simulator runs. This provides an integration starting point; it does not establish physical sensor accuracy, trained-model performance or successful Pi deployment.
+
+We can reuse the existing MacBook for development and lightweight model training. The proposed hardware uses available component types and one measurement position. Procurement, mechanical stability, calibration and food data collection remain the main practical dependencies. Component price estimates will be replaced by an itemised quotation before purchase; this proposal does not assume commercial product pricing or secured funding.
+
+| Main risk | Response within the project scope |
+|---|---|
+| Hardware or enclosure delay | Continue software and data preparation in parallel; assemble a functional bench station before finishing the enclosure. Keep the final deliverable to one device. |
+| Load bypass, heat or moisture | Separate the weighing load path, verify positioning and drift, isolate electronics and use removable food containers. Start with controlled room-temperature tests; validate any hot-pan use separately. |
+| SDK, USB or Pi load problems | Test capture and processing early. Use bounded queues, lower unnecessary image processing and retain the Mac backend fallback while optimising. |
+| Insufficient or confusing food images | Keep four to six classes, add independent batches, report unknown rejection and retain manual confirmation. Avoid claims about hidden ingredients or meat safety. |
+| No suitable trial venue | Use reference weights, real food and reproducible serving scripts, then report the limitations of controlled results. |
+
+The project excludes simultaneous multi-pan deployment, Android, online payment, delivery, full POS/ERP integration, autonomous cooking and medical diagnosis. Camera images will focus on food; raw video and children's identities are unnecessary for the planned demonstration.
+
+<!-- pagebreak -->
+
+## 5 Main stages and project plan
+
+The team plans approximately six months of development and evaluation. The dates below are team milestones, with revision time after the initial proposal. They will be aligned with supervisor feedback and the course assessment timetable. The initial submission target is 28 September 2026, ahead of the Moodle deadline of 29 September 2026 at 11:59pm.
+
+| Stage | Planned period | Target completion and evidence |
+|---|---|---|
+| Requirements and proposal | 21 Sep-9 Oct 2026 | Submit the initial proposal on 28 Sep; review feedback, user tasks, boundaries and acceptance criteria by 9 Oct. |
+| Detailed design and configuration | 28 Sep-30 Oct 2026 | Shared data/API specification, food and recipe versions, interface flows, hardware layout and updated quotation. |
+| Hardware and acquisition | 5 Oct-20 Nov 2026 | One connected bench station, calibrated weight input, RGB-D capture, exception logs and initial Pi load test. |
+| Vision and replenishment methods | 26 Oct-18 Dec 2026 | Batch-separated dataset, trained RGB baseline, depth comparison, exported model and three replenishment methods. |
+| Integrated applications | 23 Nov 2026-22 Jan 2027 | Complete role-based iPhone/web flows, real-device input, reference records, disposition and reports. |
+| Evaluation and refinement | 11 Jan-26 Feb 2027 | Controlled comparisons, fault tests, adult usability feedback and fixes; venue pilot if available. |
+| Final documentation and demonstration | 22 Feb-19 Mar 2027 | Reproducible demonstration, evaluated results, source/data package, manuals, final report and presentation. |
+
+Weekly integration reviews will check dependencies and unresolved failures. Each two-week cycle will produce a runnable increment or a documented experimental result. Calibration and basic capture must pass before model conclusions are drawn; the trained model must pass export-consistency checks before full-system evaluation.
+
+## 6 Main deliverables
+
+1. One integrated food monitoring prototype with a weighing platform, RGB-D camera, Pi-based processing target, local display, power distribution and documented component list.
+2. One iPhone app with personal/customer and authorised work roles, plus kitchen/management web and a station interface, in English and Simplified Chinese.
+3. Backend services, database schema, device protocol, versioned food/reference records, role controls and traceable replenishment, order and meal workflows.
+4. A labelled, permitted food-image dataset, trained model and inference package, together with baseline algorithms and reproducible comparison scripts.
+5. Calibration and reliability records, recognition and replenishment evaluation, usability findings and clearly separated simulated, replay and hardware evidence.
+6. Source code, dependency/licence information, setup and user manuals, individual work logs, the final written report, presentation and demonstration materials.
+
+<!-- pagebreak -->
+
+## 7 Responsibilities of each member
+
+The allocation below is the planned share of the whole project, totalling 100%. All members will participate in integration, review and the final demonstration. Actual individual contributions will be evidenced by implementation records, experiments, tests and work logs.
+
+| Member and share | Role | Main responsibilities and identifiable outputs |
+|---|---|---|
+| Yuan Yuchen\n250342840\n40% | Project Leader and Backend AI Lead | Coordinate requirements, architecture and milestones. Develop the shared API, database, permissions, replenishment logic and reference-nutrition processing; lead vision training, integration and comparative evaluation. Produce backend/model source, experiment analysis and consolidated report. |
+| Xu Ziqian\n250137555\n30% | IoT Hardware and Edge Processing Developer | Define and review the physical arrangement, power and interfaces. Implement Pi acquisition, calibration, stability filtering, tray events and recovery. Verify weighing, RGB-D capture and integrated load; produce device code, calibration records and installation/maintenance instructions. |
+| Li Wenhua\n250329909\n30% | iPhone and Web Application Developer | Implement the iPhone roles and meal/order journeys, kitchen and management web views, and station interactions with the shared API. Maintain bilingual presentation, QR flows and error states; lead interface/usability testing and prepare user guidance. |
+
+## 8 Projected resource requirements
+
+**Existing resources.** Yuan Yuchen's M2 Pro MacBook with 16GB memory will support development, simulation and initial model training. The existing Arduino UNO R4 WiFi can support diagnostics if needed. A compatible iPhone and a local network will be needed for physical-phone integration; the current simulator does not replace that test.
+
+**Resources to obtain.** The team will purchase or arrange access to the single-station components in Section 3.1, suitable reference masses, food containers and test food. Access to workshop tools or measurement equipment will be arranged where available; school GPU or workshop availability is not a prerequisite assumed by this plan.
+
+**Software and information.** Development will use Xcode/SwiftUI, React/TypeScript/Vite, Python/FastAPI, PostgreSQL, OpenCV, PyTorch and an appropriate edge inference runtime. FoodData Central reference records will be stored locally with their identifiers and versions. Dependency and model licences will be checked and retained.
+
+**External involvement.** A supplier may fabricate the enclosure and integrate purchased hardware under an agreed scope. The team remains responsible for requirements, acquisition software, calibration, models, applications and evaluation. Generative AI assistance is being used for research, drafting and code development; its use and third-party sources will be recorded. Each member must review, understand, modify and demonstrate the work claimed as their contribution. No external software delivery, purchase or deployment is committed by this proposal.
+
+<!-- pagebreak -->
+
+## 9 References
+
+Public sources accessed on 21 September 2026. Vendor pages establish publicly described capabilities; their advertised results are not Senplate test results.
+
+[1] Environmental Protection Department. Monitoring of Solid Waste in Hong Kong: Waste Statistics for 2024. December 2025, pp. 2 and 14. [Report](https://www.wastereduction.gov.hk/sites/default/files/resources_centre/waste_statistics/msw2024_eng.pdf).
+
+[2] Department of Health, Hong Kong. EatSmart at School: Lunch Arrangement and Monitoring, Guidelines and Relevant Documents. [Official resources](https://school.eatsmart.gov.hk/en/content_esas.aspx?id=6108).
+
+[3] Metafoodx. Product: Meet Metron. [Product description](https://www.metafoodx.com/product).
+
+[4] Controliza. AI Buffet Control. [Product description](https://controliza.com/en/buffet).
+
+[5] Raspberry Pi. Raspberry Pi 5: Specifications. [Manufacturer documentation](https://www.raspberrypi.com/products/raspberry-pi-5/).
+
+[6] Orbbec. Gemini 2: Product and Technical Specifications. [Manufacturer documentation](https://store.orbbec.com/products/gemini-2).
+
+[7] PyTorch. Transfer Learning for Computer Vision Tutorial. [Official tutorial](https://docs.pytorch.org/tutorials/beginner/transfer_learning_tutorial.html).
+
+[8] Torchvision. MobileNetV3 Large Model Documentation. [Model documentation](https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.mobilenet_v3_large.html).
+
+[9] U.S. Department of Agriculture, Agricultural Research Service. FoodData Central: API Guide and Licensing. [Data documentation](https://fdc.nal.usda.gov/api-guide/).
+
+## Supervisor and second reader review
+
+Supervisor comments
+
+<!-- comment-space -->
+
+Second reader comments
+
+<!-- comment-space -->
+
+<!-- signatures -->

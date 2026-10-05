@@ -1,0 +1,647 @@
+{
+  "created_at": "2026-09-16T14:26:47.884997+08:00",
+  "exclusions": [
+    ".git",
+    "dependencies",
+    "cache",
+    "third-party packages",
+    "build output",
+    "output/qa generated evidence snapshots"
+  ],
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "bytes": 4008,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "README.md",
+      "lines": 62,
+      "bytes": 7956,
+      "sha256": "80383d0e0f0d50651b510a35a11b2f6e1ff0cb2f68ce242d6b54b934755fbb1e",
+      "read_ranges": [
+        [
+          1,
+          62
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 178,
+      "bytes": 28204,
+      "sha256": "51530a7498b1b0f8de75ded9ba5463ae1f03a993fdc627ff04f903fa09b6ef3d",
+      "read_ranges": [
+        [
+          1,
+          178
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 35,
+      "bytes": 3348,
+      "sha256": "76e26e482687aa7b3f8386a1abdd849277ecfcd12db1a9782cd8e26ce746b577",
+      "read_ranges": [
+        [
+          1,
+          35
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "lines": 174,
+      "bytes": 20790,
+      "sha256": "f9b1f4e6b9004abd100aacb349966edeab9bba59b9e842f9058887d2f7d44c1d",
+      "read_ranges": [
+        [
+          1,
+          174
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 120,
+      "bytes": 16011,
+      "sha256": "d21172e196d7d308a5b8dd192a946abb0e1b972f36fb0b8f2ce4b8325937754f",
+      "read_ranges": [
+        [
+          1,
+          120
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "lines": 80,
+      "bytes": 10020,
+      "sha256": "cde0e64aba2575158f5d4fb228dfc25a8a2682d3cb7bb4c40b0fe6c0bc1dd0b3",
+      "read_ranges": [
+        [
+          1,
+          80
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160,
+      "bytes": 13322,
+      "sha256": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5",
+      "read_ranges": [
+        [
+          1,
+          160
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "lines": 108,
+      "bytes": 13642,
+      "sha256": "ac5709dfbaf0c4bcd78d211595e961b0028bd9031475d16281a675b3826e895f",
+      "read_ranges": [
+        [
+          1,
+          108
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "lines": 39,
+      "bytes": 4408,
+      "sha256": "4bc962711143b8b982d7adba8e96f747f00cf2bc699d3d94835c08af8cb0d65b",
+      "read_ranges": [
+        [
+          1,
+          39
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "lines": 183,
+      "bytes": 21374,
+      "sha256": "4fa54cbecb0f24b25f7360ea82bce8a66a5760a1aeb912b9ff344f8cb981a2e4",
+      "read_ranges": [
+        [
+          1,
+          183
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "lines": 18,
+      "bytes": 1883,
+      "sha256": "1d0ba46a3b015b3463b3fdd47394624f42b4930ec7e64b2b33639ebcc9d6ab42",
+      "read_ranges": [
+        [
+          1,
+          18
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "lines": 247,
+      "bytes": 22984,
+      "sha256": "1434e55732e1ccb5a514e9204c4923f704221a8be0dc5d13f32f419c671c9c13",
+      "read_ranges": [
+        [
+          1,
+          247
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+      "lines": 70,
+      "bytes": 5279,
+      "sha256": "ab69a75f60b9ac081617970c9dea0ad48e4af73e27f006085e77052835054965",
+      "read_ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+      "lines": 53,
+      "bytes": 4372,
+      "sha256": "9bc25bc85baaf4badca2a18e853ffbf18c818b53bde69798a1e0c813cbfd3538",
+      "read_ranges": [
+        [
+          1,
+          53
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-15/power-supply-detail.md",
+      "lines": 143,
+      "bytes": 14746,
+      "sha256": "5cf4999a5cfbbb1f0f7b3ae92707c5c2e774bb630c4b959b6243c9bdeda012e9",
+      "read_ranges": [
+        [
+          1,
+          143
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "lines": 212,
+      "bytes": 32079,
+      "sha256": "6ab9b851962e90f28578483b06173dc7a9e2eb434ace4ba0fe1455330e0a1c66",
+      "read_ranges": [
+        [
+          1,
+          212
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "lines": 107,
+      "bytes": 12700,
+      "sha256": "b22dfd416dca3223ef15ae88aaaff8989887e38d6a882e7b1ddb19c785ab3618",
+      "read_ranges": [
+        [
+          1,
+          107
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-16/app-pages-and-permissions.md",
+      "lines": 176,
+      "bytes": 16251,
+      "sha256": "9dac75aa92bd0f9ae6a226bad0c02a50c18460c7a73aae68d50923851c6eea01",
+      "read_ranges": [
+        [
+          1,
+          176
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-16/archive/software-scope-web-first-v1.md",
+      "lines": 189,
+      "bytes": 20003,
+      "sha256": "5ce1260f55f6410f1818630974321cf5202f93c9c97a05b73b52c863fec65cb1",
+      "read_ranges": [
+        [
+          1,
+          189
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-16/brand-visual-directions.md",
+      "lines": 54,
+      "bytes": 6595,
+      "sha256": "42e17699fb351b4d284fd3705b8f76819657e745e8a6bce10f06a9c506cb5856",
+      "read_ranges": [
+        [
+          1,
+          54
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-16/naming-shortlist.md",
+      "lines": 45,
+      "bytes": 4332,
+      "sha256": "3a2f9076376a21a34f8bbae36199bfb6d33e028b22c7322db1a217c5feff6f9d",
+      "read_ranges": [
+        [
+          1,
+          45
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-16/software-mvp-and-acceptance.md",
+      "lines": 100,
+      "bytes": 10424,
+      "sha256": "90246c664b4479e8da6f240397cba3159d8a045b325e117ba484aaad800ec9e4",
+      "read_ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-16/software-scope-and-architecture.md",
+      "lines": 204,
+      "bytes": 23660,
+      "sha256": "cb14e06d6b3b84e3d0e72e9b4368cae3b98fdf5cb2ab60845e190ec5674bf85f",
+      "read_ranges": [
+        [
+          1,
+          204
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "planning/2026-09-16/software-workflows-and-api.md",
+      "lines": 263,
+      "bytes": 21617,
+      "sha256": "e38d3d16d0706de89e0fa39d64c21322e3a437a619b1bade4547156f66b5ac4a",
+      "read_ranges": [
+        [
+          1,
+          263
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "product.md",
+      "lines": 120,
+      "bytes": 19303,
+      "sha256": "1027854fbf27f75c300db39bbdd72ba187ff2fb3895c9dbcc7287893d01f8917",
+      "read_ranges": [
+        [
+          1,
+          120
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165,
+      "bytes": 17746,
+      "sha256": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53",
+      "read_ranges": [
+        [
+          1,
+          165
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38,
+      "bytes": 3372,
+      "sha256": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410",
+      "read_ranges": [
+        [
+          1,
+          38
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44,
+      "bytes": 6438,
+      "sha256": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346",
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47,
+      "bytes": 4698,
+      "sha256": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a",
+      "read_ranges": [
+        [
+          1,
+          47
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287,
+      "bytes": 33760,
+      "sha256": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827",
+      "read_ranges": [
+        [
+          1,
+          287
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171,
+      "bytes": 18989,
+      "sha256": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4",
+      "read_ranges": [
+        [
+          1,
+          171
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25,
+      "bytes": 3220,
+      "sha256": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7",
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "research/2026-09-16-competitions/competition-shortlist.md",
+      "lines": 78,
+      "bytes": 13476,
+      "sha256": "41daddaad22419369d012a95bbfd4fed1ff924d0301dc84d680c5d1f19ae797c",
+      "read_ranges": [
+        [
+          1,
+          78
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "research/2026-09-16-competitions/no-company-options.md",
+      "lines": 51,
+      "bytes": 9286,
+      "sha256": "8d59016d9cb4589ccd8abbf0bb9cc1b276f91c52ca42bc132942117a3a149474",
+      "read_ranges": [
+        [
+          1,
+          51
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "research/2026-09-16-metafoodx-app/app-review.md",
+      "lines": 60,
+      "bytes": 7189,
+      "sha256": "bcb9f053a9647675b75d973ddabb8a4af3d1c34d6e5e727d7a8b0448a0311910",
+      "read_ranges": [
+        [
+          1,
+          60
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    },
+    {
+      "path": "work-log.md",
+      "lines": 207,
+      "bytes": 34552,
+      "sha256": "a1521b5f496fe7bac198063932150e6ee29b0e2f6cfd507d180641ce6d7bb4d3",
+      "read_ranges": [
+        [
+          1,
+          207
+        ]
+      ],
+      "read_method": "Full tool output; truncated ranges were reread"
+    }
+  ],
+  "completed_at": "2026-09-16T14:31:14.634997+08:00",
+  "changes_during_read": [],
+  "total_files": 37,
+  "total_lines": 4363,
+  "handoff_reconciliation": "Latest user request is Chinese business plan. Naming remains unselected; no company registration planned. No app implementation or image generation authorized by this document task.",
+  "supplemental_reading": [
+    {
+      "path": "product.md",
+      "read_ranges": [
+        [
+          1,
+          126
+        ]
+      ],
+      "purpose": "Read concurrent naming/competition updates; unchanged body retains initial full read."
+    },
+    {
+      "path": "README.md",
+      "read_ranges": [
+        [
+          1,
+          67
+        ]
+      ],
+      "purpose": "Read concurrent naming/competition updates; unchanged body retains initial full read."
+    },
+    {
+      "path": "handoff.md",
+      "read_ranges": [
+        [
+          1,
+          35
+        ]
+      ],
+      "purpose": "Read concurrent naming/competition updates; unchanged body retains initial full read."
+    },
+    {
+      "path": "decision-log.md",
+      "read_ranges": [
+        [
+          165,
+          204
+        ]
+      ],
+      "purpose": "Read concurrent naming/competition updates; unchanged body retains initial full read."
+    },
+    {
+      "path": "work-log.md",
+      "read_ranges": [
+        [
+          200,
+          240
+        ]
+      ],
+      "purpose": "Read concurrent naming/competition updates; unchanged body retains initial full read."
+    },
+    {
+      "path": "planning/2026-09-16/naming-shortlist.md",
+      "read_ranges": [
+        [
+          1,
+          45
+        ]
+      ],
+      "purpose": "Read concurrent naming/competition updates; unchanged body retains initial full read."
+    },
+    {
+      "path": "planning/2026-09-16/software-scope-and-architecture.md",
+      "read_ranges": [
+        [
+          1,
+          20
+        ],
+        [
+          185,
+          204
+        ]
+      ],
+      "purpose": "Read concurrent naming/competition updates; unchanged body retains initial full read."
+    },
+    {
+      "path": "planning/2026-09-16/software-mvp-and-acceptance.md",
+      "read_ranges": [
+        [
+          1,
+          8
+        ],
+        [
+          87,
+          100
+        ]
+      ],
+      "purpose": "Read concurrent naming/competition updates; unchanged body retains initial full read."
+    },
+    {
+      "path": "planning/2026-09-16/app-pages-and-permissions.md",
+      "read_ranges": [
+        [
+          169,
+          176
+        ]
+      ],
+      "purpose": "Read concurrent naming/competition updates; unchanged body retains initial full read."
+    },
+    {
+      "path": "planning/2026-09-16/brand-visual-directions.md",
+      "read_ranges": [
+        [
+          1,
+          7
+        ],
+        [
+          48,
+          54
+        ]
+      ],
+      "purpose": "Read concurrent naming/competition updates; unchanged body retains initial full read."
+    },
+    {
+      "path": "research/2026-09-16-competitions/no-company-options.md",
+      "read_ranges": [
+        [
+          1,
+          12
+        ]
+      ],
+      "purpose": "Read concurrent naming/competition updates; unchanged body retains initial full read."
+    },
+    {
+      "path": "research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md",
+      "read_ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "purpose": "Read concurrent naming/competition updates; unchanged body retains initial full read."
+    },
+    {
+      "path": "research/2026-09-16-competitions/mainland-national-provincial.md",
+      "read_ranges": [
+        [
+          1,
+          61
+        ]
+      ],
+      "purpose": "Read concurrent naming/competition updates; unchanged body retains initial full read."
+    }
+  ],
+  "supplement_completed_at": "2026-09-16T14:52:37.914916+08:00",
+  "authored_and_reviewed": [
+    "planning/2026-09-16/business-plan-zh.md"
+  ]
+}

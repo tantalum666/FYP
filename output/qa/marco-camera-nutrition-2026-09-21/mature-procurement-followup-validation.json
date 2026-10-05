@@ -1,0 +1,32 @@
+{
+  "at": "2026-09-21T07:45:49.769719+00:00",
+  "continuation_of": "Marco feedback and project value discussion",
+  "full_read_inherited": "reading-record.json",
+  "focused_reads": [
+    "handoff.md latest context",
+    "marco-camera-and-nutrition-review.md latest sections",
+    "decision-log.md latest entries"
+  ],
+  "sources": [
+    "https://www.metafoodx.com/post/metafoodx-integrates-with-illumia-formerly-transact-cbord-platform-to-cut-food-waste",
+    "https://controliza.com/en/buffet"
+  ],
+  "updated_markdown": [
+    "planning/2026-09-21/marco-camera-and-nutrition-review.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md"
+  ],
+  "local_links_checked": 343,
+  "broken_links": [],
+  "protected_files_unchanged": 338,
+  "protected_changed": [],
+  "example": "600g / (150g/min) = 4min; preparation 8min; hypothetical only",
+  "client_demand_validated": false,
+  "formal_proposal_reexported": false,
+  "submitted": false,
+  "purchased": false,
+  "messages_sent": false,
+  "hardware_or_software_tests_run": false
+}
