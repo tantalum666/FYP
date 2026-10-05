@@ -770,11 +770,11 @@
 - **保留：**107项学校／身份／旧Senplate文件不变；主7条事件内容哈希不变。测试事务只在隔离QA库；未调用付费服务、采集真人、启动真实硬件、登录DGX、发送外部消息、发布或提交学校。
 - **剩余：**真实服务／硬件／标签条件后的闭环与性能验证。事务自动化不含邮箱／全电脑监控或远程锁屏推送，本轮不作自然AI质量结论。
 
-## 2026-10-05｜全项目 GitHub 协作仓库（等待授权推送）
+## 2026-10-05｜全项目 GitHub 协作仓库与完整远端核验
 
 - **目标：**按用户要求建立暂名FYP的新仓库，将所有项目工作集中上传，并提供邀请组员与协作方法。
 - **开工：**119份项目自有Markdown / 11,237行 / 51批全文读取，无阅读期间变化；新复制的组员原始Markdown全读并核对字节。压缩后沿用本轮范围，不重启全库阅读。[阅读记录](output/qa/2026-10-05-github-bootstrap/reading-record.json)。
 - **准备完成：**当前 / 退役工程、学校各版、需求、研究、采购、设计、品牌及QA全部纳入；从Downloads补14份明确附件，原件保留。新增[协作说明](CONTRIBUTING.md)、输入来源清单与精确Gitleaks误报配置，更新README / product / 软件启动路径。
 - **验证：**Gitleaks目录与待提交扫描通过；104初始告警均核对为校验值 / 公开编号 / 存储键。另将13个已知私有配置值与所有文件 / 归档内容对比，发现两份二进制iOS记录含本机测试密码，备份原件后只替换密码；清理后无匹配。107项学校 / 身份 / 旧代码哈希未变、14份附件一致、9个源码 / 品牌ZIP无私有运行文件，无超限文件或剩余软链接。151条当前本地链接通过。没有应用代码或学校正文变更，不重跑旧业务测试 / 渲染。
-- **Git及远端：**首次提交 `fc5c7c9`，6,003文件。CLI GraphQL / REST新建被令牌权限拒绝，改用登录Chrome建立 [tantalum666/FYP](https://github.com/tantalum666/FYP)，确认Private。HTTPS推送403，现有SSH / OS凭据也未能认证，远端尚为空。
-- **未完成：**用户已同意仅增加FYP，其他权限保持；仍需在Chrome完成GitHub邮箱验证，随后保存该范围、推送及全远端文件核对。该范围未改、没有新令牌或SSH密钥注册、没有成员邀请、发布、学校提交或外部消息。[本轮QA](output/qa/2026-10-05-github-bootstrap/verification.md)保留具体状态。
+- **Git及远端：**首次提交 `fc5c7c9`，6,003文件。CLI GraphQL / REST新建被令牌权限拒绝，改用登录Chrome建立 [tantalum666/FYP](https://github.com/tantalum666/FYP)，确认Private。早期HTTPS推送403，现有SSH / OS凭据也未能认证。用户明确同意仅加入FYP并自行完成邮箱验证后，保留其余设置保存该范围；HTTPS全项目推送成功，main跟踪origin/main。首次远端6,005路径及所有类型 / 模式 / Git内容哈希完全一致，默认main且Private。
+- **收尾：**同步product / README / handoff / decision-log / 本日志及[本轮QA](output/qa/2026-10-05-github-bootstrap/verification.md)，收尾材料同样提交推送，最后回读HEAD及全文件树；[远端核验脚本](output/qa/2026-10-05-github-bootstrap/verify_remote.py)。只有现有令牌范围增加FYP，没有新令牌或SSH密钥注册、成员邀请、应用发布、学校提交或外部消息。邀请和组员本机环境由相应人员按协作说明完成。

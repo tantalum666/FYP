@@ -1,6 +1,6 @@
 # GitHub bootstrap verification · Group 2
 
-Date: 2026-10-05 (Asia/Hong_Kong). Status: local checks passed, private repository created; push is awaiting authorisation of the new repository in the existing GitHub credential.
+Date: 2026-10-05 (Asia/Hong_Kong). Status: full workspace pushed; private repository, default main and every committed file verified against the remote Git tree. The early authorisation blocker is resolved.
 
 ## Scope
 
@@ -27,8 +27,14 @@ Created [tantalum666/FYP](https://github.com/tantalum666/FYP) through the authen
 
 Local initial commit: `fc5c7c9`, 6,003 files; [upload checks](upload-manifest.json) include every source / output category and 13 known private runtime values checked against files and archive entries, with no remaining matches. Gitleaks staged scan also returned exit 0.
 
-Both `gh repo create` (GraphQL) and REST `POST user/repos` returned permission errors. Browser creation succeeded. The HTTPS push then returned `Write access to repository not granted` (403); API access cannot resolve the private new repository with the current scoped token. An existing local SSH key did not authenticate, and the existing OS Git credential also failed. These attempts do not prove upload completion. No credential was regenerated, no permissions were broadened and no new SSH key was registered.
+Both `gh repo create` (GraphQL) and REST `POST user/repos` returned permission errors. Browser creation succeeded. The HTTPS push then returned `Write access to repository not granted` (403); API access cannot resolve the private new repository with the current scoped token. An existing local SSH key did not authenticate, and the existing OS Git credential also failed. Those initial attempts did not prove upload completion. At that earlier checkpoint, no credential had been regenerated, no permissions broadened and no new SSH key registered. The later user-confirmed repository-scope change is recorded below.
 
-The existing fine-grained token's settings are behind GitHub's email-based **Confirm access** page. The user has been asked to complete that verification and confirm adding **only FYP** to the token's repository scope, keeping other permissions unchanged. The user has now explicitly confirmed adding only FYP; email verification is still pending. After authorisation, push `main`, then confirm remote HEAD and every path / Git blob against the local committed tree.
+The user explicitly confirmed adding **only FYP** and completed GitHub's email verification. The scope edit preserved the two already selected repositories, Contents and Workflows read/write, Metadata read-only, zero account permissions, the token's identity and expiry. GitHub displayed **Your personal access token has been updated**; subsequent CLI access to FYP and HTTPS push succeeded. No token was regenerated or disclosed.
+
+[Remote checkpoint](remote-verification-checkpoint.json): local and remote HEAD `916f6df3e970a3607a082803c2a6963deace91ed`, actual Git tree `b345322464aa71f6b8f73f807d25cf9f5b91471a`, 6,005 files, 586,595,934 committed bytes, non-truncated response, no missing / extra paths or content / mode mismatches. This is a point-in-time checkpoint before adding the final QA helpers and closing records.
+
+The closing commit adds these QA files and updates the current status. After its push, run the same [verification script](verify_remote.py) with output in private `.runtime/github-final-remote-check.json`; this verifies every final committed file, including this report, without creating self-referential commit IDs in the report. `upload-manifest.json` counts all indexed files and checks every source / output category; its per-file hashes exclude this QA directory to avoid self-referential evidence hashes.
 
 Private-repository creation screenshot: [GitHub page](github-repository-created.jpg).
+
+Uploaded repository screenshot: [GitHub files and Private badge](github-repository-uploaded.jpg).

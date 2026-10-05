@@ -1,14 +1,14 @@
 # Group 2 Current Handoff
 
-更新：2026-10-05。状态：**私人 FYP 仓库已创建；全项目首次提交完成；推送等待新仓库 GitHub 授权**。
+更新：2026-10-05。状态：**私人 FYP 协作仓库已创建；全项目已推送并完成远端文件核验**。
 
 ## 当前任务与状态
 
-用户授权新建暂名 FYP 的 GitHub 仓库并上传全部项目工作，方便三人协作。已通过登录 Chrome 创建 [tantalum666/FYP](https://github.com/tantalum666/FYP)，网页确认 Private；本地首次提交 `fc5c7c9` 收录6,003文件。当前 GitHub 令牌没有新仓库读写权限，HTTPS推送403，仓库仍为空。
+用户授权新建暂名FYP的GitHub仓库并上传全部项目工作。[tantalum666/FYP](https://github.com/tantalum666/FYP)现为Private、默认main，当前工程、历史Senplate、学校文件、研究、设计、交付和QA均已推送。首次远端核验6,005个文件，每一路径、文件类型、模式和Git内容哈希与本地提交一致；本轮收尾材料随后纳入同一仓库，最终回读使用同一验证脚本。
 
-已请用户在 Chrome「📦 FYP协作」完成 GitHub 邮箱验证，并确认仅将 FYP 加入现有令牌的仓库范围，保持其他权限不变；用户已在本轮明确同意仅增加FYP；邮箱验证仍在等待完成。令牌设置页已标为 handoff，仓库页标为 deliverable。不要自动扩大权限、生成新令牌或注册SSH密钥。获确认及验证完成后继续推送，不重做本轮内容整理。
+用户已明确同意仅给现有GitHub令牌增加FYP，且完成邮箱验证；该范围已保存生效，其他仓库、代码 / 工作流权限、账号权限及有效期未改。没有生成或保存新令牌、没有注册SSH密钥。旧403阻塞已经解决，不能按旧快照继续等待验证。
 
-[建仓QA](output/qa/2026-10-05-github-bootstrap/verification.md)记录实际结果及认证尝试；[协作说明](CONTRIBUTING.md)说明成员邀请、克隆、运行及分支 / PR。`origin` 当前为 `https://github.com/tantalum666/FYP.git`，本地分支main；Git身份只在本仓库配置为Yuan Yuchen及GitHub noreply邮箱。尚未发送邀请。
+[建仓QA](output/qa/2026-10-05-github-bootstrap/verification.md) / [远端核验检查点](output/qa/2026-10-05-github-bootstrap/remote-verification-checkpoint.json) / [协作说明](CONTRIBUTING.md)。本地origin为 `https://github.com/tantalum666/FYP.git`，main跟踪origin/main；Git身份仅在本仓库配置为Yuan Yuchen及GitHub noreply邮箱。成员邀请方法已提供，未发送邀请。
 
 ## 本轮完成与证据
 
@@ -28,4 +28,4 @@ Desk Companion包含日历、独立常亮 / 触摸入口、姿态标定 / 判断
 
 ## 唯一下一步
 
-**用户完成 GitHub 邮箱验证并确认仅增加 FYP 的令牌仓库范围后，推送main，核对远端HEAD与全部文件树，再将上传状态收尾为已验证。** 后续实机闭环仍未完成，不被此次建仓替代。
+**Yuan获取Xu Ziqian和Li Wenhua的GitHub用户名，在仓库Settings → Collaborators发送邀请；两人接受后按CONTRIBUTING克隆、运行当前desk-companion，并各自用分支 / PR协作。** 本轮建仓、上传和核验已完成；真实硬件 / 服务集成继续保留为后续独立验证。

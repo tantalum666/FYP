@@ -1,7 +1,7 @@
 {
   "date": "2026-10-05",
-  "status": "private_repository_created_push_pending_email_verification",
-  "local_links_checked": 167,
+  "status": "full_workspace_pushed_and_remote_checkpoint_verified",
+  "local_links_checked": 172,
   "broken_links": [],
   "updated_markdown": [
     "README.md",
@@ -35,8 +35,16 @@
     "application business tests",
     "DOCX / PDF page rendering"
   ],
-  "scope_confirmation": "received: add only FYP, retain other permissions",
-  "email_verification": "pending",
-  "remote_upload_verified": false,
-  "collaborator_invitations_sent": false
+  "scope_confirmation": "received; saved only FYP addition; other permissions unchanged",
+  "email_verification": "completed by user",
+  "remote_upload_verified": true,
+  "collaborator_invitations_sent": false,
+  "remote_checkpoint": "remote-verification-checkpoint.json",
+  "remote_checkpoint_files": 6005,
+  "final_verification_command": "python3 output/qa/2026-10-05-github-bootstrap/verify_remote.py --report .runtime/github-final-remote-check.json",
+  "closing_new_evidence": [
+    "verify_remote.py",
+    "remote-verification-checkpoint.json",
+    "github-repository-uploaded.jpg"
+  ]
 }

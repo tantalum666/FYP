@@ -1,7 +1,7 @@
 {
   "date": "2026-10-05",
-  "tracked_files": 6005,
-  "tracked_bytes": 586595338,
+  "tracked_files": 6008,
+  "tracked_bytes": 586708405,
   "top_level": {
     "[root]": 14,
     "apps": 83,
@@ -9,7 +9,7 @@
     "design": 16,
     "desk-companion": 156,
     "inputs": 16,
-    "output": 2052,
+    "output": 2055,
     "outputs": 2,
     "planning": 77,
     "research": 3554,
@@ -521,8 +521,8 @@
     },
     {
       "path": "decision-log.md",
-      "bytes": 104871,
-      "sha256": "b41c016dd5d573390c0b6b37a172f293c547975901c34b0a9148246a4d87a915"
+      "bytes": 104977,
+      "sha256": "509d4b3b73cbd1d1cc8b444082fec9372dbb182b35ad185081177bdc81183960"
     },
     {
       "path": "design/desk-companion/b1/calendar-desktop-prompt.txt",
@@ -1386,8 +1386,8 @@
     },
     {
       "path": "handoff.md",
-      "bytes": 4076,
-      "sha256": "501f17471aa180a7f37809ffd62a45d49033511876e61e87f7f8ecff425a78f1"
+      "bytes": 4161,
+      "sha256": "58abefc76768962bb013c08bb5190e91af6ee380a51468688b11d0c101e9614c"
     },
     {
       "path": "inputs/README.md",
@@ -3791,8 +3791,8 @@
     },
     {
       "path": "output/qa/2026-10-05-github-bootstrap/closeout-validation.json",
-      "bytes": 1211,
-      "sha256": "a680d62d5a06172b8b1dcdd50fbbfc2730b5b9159e87a441aa9160c13b5dc8b3"
+      "bytes": 1609,
+      "sha256": "90f52902adc56f82542474a28f1e2329e07dc6e90039c1dc021e8be1cd66ef9c"
     },
     {
       "path": "output/qa/2026-10-05-github-bootstrap/evidence-sanitization.json",
@@ -3810,6 +3810,11 @@
       "sha256": "be27a74162119868eb385cb0c8fc37a81246f71e3079bc56f4c00814e8f38cd6"
     },
     {
+      "path": "output/qa/2026-10-05-github-bootstrap/github-repository-uploaded.jpg",
+      "bytes": 106169,
+      "sha256": "8010224b6d4156d8cac50dcc7141ef49fa2eb17db663b7f2418f1f53ed48bf06"
+    },
+    {
       "path": "output/qa/2026-10-05-github-bootstrap/read_chunk.py",
       "bytes": 612,
       "sha256": "06eaf058c70b451f1e29a638824f87955045ecb4ce5ad3611f2b3a027f231248"
@@ -3820,19 +3825,29 @@
       "sha256": "361ff972201050258a0cbef05a6193aa07f27e16bba9e16d4884e2d49f47356c"
     },
     {
+      "path": "output/qa/2026-10-05-github-bootstrap/remote-verification-checkpoint.json",
+      "bytes": 972,
+      "sha256": "89ff46360c661319580576125c33e7390085d580146b0725b3989e6f5e8f1235"
+    },
+    {
       "path": "output/qa/2026-10-05-github-bootstrap/secret-classification.json",
       "bytes": 13352,
       "sha256": "e954741aee92836d46663b5eb0b457fddd370678d656338c3c7f02720de84eec"
     },
     {
       "path": "output/qa/2026-10-05-github-bootstrap/upload-manifest.json",
-      "bytes": 1176864,
-      "sha256": "9096183ed1a3e6d48a34648f4cc1a3a9eb4e94e291fbf868d5600a5dc15247d3"
+      "bytes": 1177460,
+      "sha256": "2b2dfbd094c17152693b4b4214f1f8c1a2f89203c5dcac20c8d9592d24194c4b"
     },
     {
       "path": "output/qa/2026-10-05-github-bootstrap/verification.md",
-      "bytes": 4595,
-      "sha256": "e57ff9075a4f135d68fe2aeb10ed92244db4ef43cd58cf32820f2ccfa928ba72"
+      "bytes": 5695,
+      "sha256": "132525cc8a1190331e069ed7a1c388dbc79c8581473dada27daa8bff4e5bd555"
+    },
+    {
+      "path": "output/qa/2026-10-05-github-bootstrap/verify_remote.py",
+      "bytes": 3118,
+      "sha256": "eeb8a83aef09bacba784eff7c5aae2ec632f2c26eee7581bdf68bbaba53a78aa"
     },
     {
       "path": "output/qa/ai-training-deployment-2026-09-14/closeout-validation.json",
@@ -12131,8 +12146,8 @@
     },
     {
       "path": "product.md",
-      "bytes": 11591,
-      "sha256": "32876376bdb75e4ccd4f2903c1f3c316552df759b0d14d7760dbdd3cfe8193c2"
+      "bytes": 11753,
+      "sha256": "16d4a784702d44339b7f7dc4c4e84eb4bfb103751d783079f9912a335b6c98cc"
     },
     {
       "path": "pyproject.toml",
@@ -30056,8 +30071,8 @@
     },
     {
       "path": "work-log.md",
-      "bytes": 143649,
-      "sha256": "dd7bbd25535bd03d83e658b8c7e70761dc2989af6537263fba2640c8df2a3ea4"
+      "bytes": 144010,
+      "sha256": "d559e450ab4ee5057ec42230ffc43d9f6517c0af54418a9a162f94bb44d673d9"
     }
   ],
   "manifest_scope": "All indexed file counts; per-file SHA256 excludes this QA directory to avoid self-referential evidence hashes. Remote Git-tree verification covers every committed file including QA."

@@ -16,7 +16,7 @@
 
 ## 已实现的软件范围
 
-10月5日用户授权将全部项目工作上传至新 GitHub 仓库，暂定仓库名 **FYP**，用于 Group 2 协作。采用私人个人仓库，当前软件名称仍为 Desk Companion；旧 Senplate、学校文件、研究、设计及 QA 记录保留。成员上手与分支 / PR 流程见 [CONTRIBUTING.md](CONTRIBUTING.md)。本机凭据、运行数据库、已安装依赖与缓存留在本地；所有实际上传及远端核验结果见 [GitHub 建仓 QA](output/qa/2026-10-05-github-bootstrap/verification.md)。这次授权包含建仓、首次提交和推送；成员邀请的操作方法提供给用户，不自动发出邀请。
+10月5日用户授权将全部项目工作上传至新 GitHub 仓库，暂定仓库名 **FYP**，用于 Group 2 协作。采用私人个人仓库，当前软件名称仍为 Desk Companion；旧 Senplate、学校文件、研究、设计及 QA 记录保留。成员上手与分支 / PR 流程见 [CONTRIBUTING.md](CONTRIBUTING.md)。私人仓库已推送且首次全文件核验通过；用户明确同意仅增加FYP的现有令牌范围，邮箱验证后已保存生效，其他权限未变。本机凭据、运行数据库、已安装依赖与缓存留在本地；所有实际上传及远端核验结果见 [GitHub 建仓 QA](output/qa/2026-10-05-github-bootstrap/verification.md)。这次授权包含建仓、首次提交和推送；成员邀请的操作方法提供给用户，不自动发出邀请。
 
 新代码位于[desk-companion](desk-companion/README.md)：React／TypeScript／Vite、FastAPI、SQLite；现场主机运行单个API进程，工作进程负责相机／唤醒／输出。旧食品代码与品牌保持独立。
 
