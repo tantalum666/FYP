@@ -1,7 +1,7 @@
 {
   "date": "2026-10-05",
   "tracked_files": 6008,
-  "tracked_bytes": 586708405,
+  "tracked_bytes": 586708060,
   "top_level": {
     "[root]": 14,
     "apps": 83,
@@ -3811,8 +3811,8 @@
     },
     {
       "path": "output/qa/2026-10-05-github-bootstrap/github-repository-uploaded.jpg",
-      "bytes": 106169,
-      "sha256": "8010224b6d4156d8cac50dcc7141ef49fa2eb17db663b7f2418f1f53ed48bf06"
+      "bytes": 74333,
+      "sha256": "e4a61c8157d6772750139e0f066843a4bda13079992505efdbd1ead73f026f9b"
     },
     {
       "path": "output/qa/2026-10-05-github-bootstrap/read_chunk.py",
@@ -3836,8 +3836,8 @@
     },
     {
       "path": "output/qa/2026-10-05-github-bootstrap/upload-manifest.json",
-      "bytes": 1177460,
-      "sha256": "2b2dfbd094c17152693b4b4214f1f8c1a2f89203c5dcac20c8d9592d24194c4b"
+      "bytes": 1178061,
+      "sha256": "129b05697dfd5cbea4a01cf7a74ac3a7b8812117add308235a50e5296fbc7a72"
     },
     {
       "path": "output/qa/2026-10-05-github-bootstrap/verification.md",
