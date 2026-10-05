@@ -785,5 +785,5 @@
 - **开工：**122份项目自有MD／11,376行／36批全读，截断处补读；期间无文件变化，15:31:24+08:00完成。[范围记录](output/qa/2026-10-05-rig-arm-feasibility/reading-record.json)。压缩只恢复入口、当前决定和聚焦文件，继续原轮范围。
 - **研究：**Chrome实际读取MakerWorld／整机商城／官方Arm开发、MCP、版本、下载与原理图索引；只读缓存rig_omni c2b42cd及rig_local 486500a，追踪Arm工具／IK／舵机反馈、local HTTP MCP构建与启动、文字工具回填和音频协议。确认套件109美元／整机124美元及预售；更新“原理图仍待发布”的旧评论印象为已有9月22日PDF入口。官方装配视频仅定位链接，未整段观看。
 - **交付：**[评估](research/2026-10-05-rig-arm/secondary-development-review.md)、[来源表](research/2026-10-05-rig-arm/source-register.json)，区分更换文字LLM、完整实时语音、外部AI控制RIG／RIG调用本组工具、本地控制器与主机、动作接受／到位、两个分支示教／微动差异及代码／模型许可。采购前问题仅在文档列出，未发送。
-- **同步与验证：**更新product、README、架构、操作、决定与当前handoff；[QA](output/qa/2026-10-05-rig-arm-feasibility/verification.md)记录源码静态证据、网页转录与截图、JSON／本地链接／组号／保护hash。应用源码和学校DOCX／PDF未改，不重跑既有业务测试或文档渲染。本轮Git协作以QA中的实际分支／PR回读为准。
+- **同步与验证：**更新product、README、架构、操作、决定与当前handoff；[QA](output/qa/2026-10-05-rig-arm-feasibility/verification.md)记录源码静态证据、网页转录与截图、JSON／本地链接／组号／保护hash。应用源码和学校DOCX／PDF未改，不重跑既有业务测试或文档渲染。研究分支codex/rig-arm-research已推送并核对远端ref／tree，登录Chrome建立[Draft PR #1](https://github.com/tantalum666/FYP/pull/1)，页面确认保存且附加当前聊天；CLI的PR权限不足未扩权，也没有合并main。
 - **剩余：**实际SKU／板型／固件／MCP入口、原装供电、负载、动作完成／取消／失联与台架；RIG输出驱动和重用设备音频仍未实现，固定姿态相机与独立大屏继续保留。没有采购、模型收费调用、厂商源码执行／编译、刷机、机械动作、外部联系、代签或学校提交；不把AI辅助研究当学生实际贡献成绩。

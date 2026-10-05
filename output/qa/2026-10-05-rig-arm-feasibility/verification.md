@@ -1,6 +1,6 @@
 # RIG-Arm研究核对｜2026-10-05
 
-状态：公开来源研究及本地文档／静态核对通过；Git上传收尾进行中。未进行实体设备验证。
+状态：公开来源研究、文档／静态检查及研究分支上传完成；Draft PR已创建，未合并。未进行实体设备验证。
 
 ## 阅读与来源
 
@@ -24,7 +24,7 @@ Chrome核对MakerWorld、商城SKU、Arm开发／MCP／版本／下载／原理�
 
 ## Git协作状态
 
-本轮使用codex/rig-arm-research，基于main的5b8ce5b。推送／PR尚待执行；记录到远端后再更新本节，不自动合并main，也不发送供应商或成员消息。
+本轮使用codex/rig-arm-research，基于main的5b8ce5b，研究提交761ae78已推送，远端ref和Git tree与本地一致，见[remote-verification.json](remote-verification.json)。已通过登录Chrome创建[Draft PR #1](https://github.com/tantalum666/FYP/pull/1)，页面回读标题／分支／提交与完整正文，且已附加到当前聊天。CLI现有令牌没有PR权限，未扩大令牌，使用已登录页面完成；不自动合并main，不发送供应商／成员消息。收尾材料继续提交到同一分支，最后以git ls-remote和tree回读核对最新提交。
 
 ## 未进行的检查与下一步
 

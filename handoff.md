@@ -18,7 +18,7 @@
 
 Desk Companion包含日历、独立常亮／触摸、坐姿标定／判断／反馈复测、配对、助理、Qwen／Gemini语音适配、受限输出、交换／分享／备份和iPhone；主动事务及UI／UX修复完成。[产品](product.md)／[软件README](desk-companion/README.md)／[事务](desk-companion/docs/task-tracking.md)／[操作](desk-companion/docs/operator-guide.md)。101后端、11前端及三端交互等[既有QA](output/qa/task-enhancement-ux-2026-10-03/verification.md)未在本轮重跑，不代表真人准确率、语音自然度或机械性能。输出仍默认停机，尚无RIG驱动。
 
-[私人tantalum666/FYP](https://github.com/tantalum666/FYP)已建仓、默认main，原全项目推送核验完成；旧令牌403已解决，仅增加FYP范围且其余权限保持。成员邀请未发送，按[CONTRIBUTING](CONTRIBUTING.md)由Yuan用组员GitHub用户名邀请。本轮研究分支／PR实际状态见本轮QA；不把研究上传当作应用部署或PR已合并。
+[私人tantalum666/FYP](https://github.com/tantalum666/FYP)已建仓、默认main，原全项目推送核验完成；旧令牌403已解决，仅增加FYP范围且其余权限保持。成员邀请未发送，按[CONTRIBUTING](CONTRIBUTING.md)由Yuan用组员GitHub用户名邀请。本轮codex/rig-arm-research已推送并建立[Draft PR #1](https://github.com/tantalum666/FYP/pull/1)，远端ref／tree核对见本轮QA；未合并main。CLI令牌缺少PR权限，改用已登录Chrome创建，未扩权限。研究上传不等于应用部署。
 
 本轮未重启／核实预览8831／5190；原账号owner、私有凭据在desk-companion/.runtime/credentials.json，不进Git。真实摄像头／标签、Pi常亮与触摸／负载、音频与AEC／费用、机械供电／停止／包络、光学、Google本人OAuth、Apple真机签名及DGX配额仍需对应实物或账号条件。学校正式双格式、三人明细日志和40／30／30计划份额保持，不代签、不提交。
 
