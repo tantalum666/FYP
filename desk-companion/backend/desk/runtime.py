@@ -15,6 +15,7 @@ from .exchange import ExchangeService
 from .google_calendar import GoogleCalendar
 from .tasks import TaskService
 from .text_ai import TextAssistant
+from .jobs import JobService
 
 
 class Runtime:
@@ -25,6 +26,8 @@ class Runtime:
         self.posture = PostureService(store)
         self.outputs = OutputService(store)
         self.tasks = TaskService(self)
+        self.jobs = JobService(self)
+        self.worker_health = {}
         self.assistant = AssistantService(self)
         self.data = WorkspaceData(store)
         self.voice = VoiceService(self)
@@ -49,6 +52,8 @@ class Runtime:
 
     def snapshot(self, principal):
         result = {
+            "computer": self.jobs.capabilities(),
+            "workers": dict(self.worker_health),
             "tasks": self.tasks.snapshot(),
             "text_ai": self.text_ai.snapshot(),
             "posture": self.posture.snapshot(),
@@ -86,3 +91,4 @@ class Runtime:
         self.store.tick()
         self.posture.tick()
         self.tasks.tick()
+        self.jobs.expire()

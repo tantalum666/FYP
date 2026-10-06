@@ -1,5 +1,4 @@
 import asyncio
-import contextlib
 import os
 import time
 from collections import defaultdict, deque
@@ -24,6 +23,7 @@ from .exchange_routes import exchange_routes
 from .google_calendar import google_routes
 from .phone import phone_snapshot
 from .tasks import task_routes
+from .jobs import job_routes
 
 from .schemas import CreateEvents, EventAction, Login, ReminderAction, SettingsInput
 from .store import DomainError, Store
@@ -49,33 +49,37 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
 
     @asynccontextmanager
     async def lifespan(app):
-        async def worker():
+        async def worker(name, action, interval):
             while True:
-                await asyncio.to_thread(services.tick)
-                await asyncio.sleep(1)
+                try:
+                    await asyncio.to_thread(action)
+                    services.worker_health[name] = "ready"
+                except Exception:
+                    # Keep transient failures from silently killing a scheduler.
+                    # Expose a safe status, never raw provider/private error text.
+                    services.worker_health[name] = "retrying_after_error"
+                await asyncio.sleep(interval)
 
-        task = asyncio.create_task(worker()) if scheduler else None
-
-        async def public_data_worker():
-            while True:
-                await asyncio.to_thread(services.data.poll_weather)
-                await asyncio.sleep(10)
-
-        data_task = asyncio.create_task(public_data_worker()) if scheduler else None
-
-        async def task_advice_worker():
-            while True:
-                await asyncio.to_thread(services.text_ai.enrich_one)
-                await asyncio.sleep(30)
-
-        advice_task = asyncio.create_task(task_advice_worker()) if scheduler else None
-        yield
-        for running in (task, data_task, advice_task):
-            if not running:
-                continue
-            running.cancel()
-            with contextlib.suppress(asyncio.CancelledError):
-                await running
+        workers = (
+            [
+                asyncio.create_task(worker(name, action, interval))
+                for name, action, interval in (
+                    ("rules", services.tick, 1),
+                    ("public_data", services.data.poll_weather, 10),
+                    ("task_advice", services.text_ai.enrich_one, 30),
+                    ("computer_jobs", services.jobs.run_one, 0.5),
+                )
+            ]
+            if scheduler
+            else []
+        )
+        try:
+            yield
+        finally:
+            services.jobs.shutdown()
+            for running in workers:
+                running.cancel()
+            await asyncio.gather(*workers, return_exceptions=True)
 
     app = FastAPI(title="Desk Companion", version="0.1.0", lifespan=lifespan)
     app.state.store = store
@@ -329,6 +333,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
 
     app.include_router(device_routes(services, authenticated, owner, agent, operation_id, limit))
     app.include_router(task_routes(services, authenticated, operation_id))
+    app.include_router(job_routes(services, owner, operation_id))
     app.include_router(assistant_routes(services, authenticated, operation_id))
     app.include_router(voice_routes(services, authenticated, agent, allowed_origins, limit))
     app.include_router(exchange_routes(services, authenticated, owner, operation_id))
