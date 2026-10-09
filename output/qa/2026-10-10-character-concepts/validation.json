@@ -1,0 +1,37 @@
+{
+  "checked_at": "2026-10-10T02:18:20.119999+08:00",
+  "initial_head": "e219fbecc60e5a12e51e71e8205fe5d129f8826e",
+  "links_checked": 602,
+  "missing_links": [],
+  "native_calls": 2,
+  "retries": 0,
+  "image_dimensions": [
+    1024,
+    1536
+  ],
+  "native_and_project_bytes_equal": true,
+  "prompts_preserved": true,
+  "actual_visual_review": "Semi-realistic stylized 3D; full bodies and clothing visible; framing/heels/shorts/accent deviations documented.",
+  "user_selection": null,
+  "protected_files": 107,
+  "protected_changes": [],
+  "app_source_diff": [],
+  "runtime_model_sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2",
+  "tests": "No app source or school-document changes; no repeated software suite / document render.",
+  "rich_board_mounted": false,
+  "direct_native_image_delivery": true,
+  "updated_docs": [
+    "README.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "desk-companion/docs/avatar.md",
+    "research/2026-10-10-avatar-art/popular-character-study.md",
+    "research/2026-10-10-avatar-art/wardrobe-study.md",
+    "research/2026-10-10-avatar-art/character-concepts.md",
+    "design/desk-companion/characters/2026-10-10-concepts/README.md",
+    "output/qa/2026-10-10-character-concepts/verification.md"
+  ],
+  "staged_gitleaks_findings": 0
+}
