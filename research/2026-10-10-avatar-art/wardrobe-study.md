@@ -1,6 +1,6 @@
 # Group 2｜A/B服装研究：丝袜、剪裁与适度性感
 
-2026年10月10日（Asia/Hong_Kong）。状态：**A1_B1_CONCEPTS_GENERATED / USER_REVIEW_PENDING / FINAL_OUTFIT_NOT_SELECTED**。
+2026年10月10日（Asia/Hong_Kong）。当前：**A1_SELECTED / ANIME_V2_GENERATED / STYLE_REVIEW_PENDING**。用户在首轮后选择A1并要求减少写实，[A1二次元V2](character-concepts.md)已完成；下文保留此前A/B四套服装研究，B方向不继续作为当前主选。
 
 用户同意保留A“银雾·柔科技”和B“墨青·都市伙伴”，并要求研究服装，提出丝袜及轻微性感可能更受欢迎。这是[同一美术研究](popular-character-study.md)的补充；A/B进入后续设计，C暂不推进，具体脸、服装、角色名字和最终模型尚未选定。
 

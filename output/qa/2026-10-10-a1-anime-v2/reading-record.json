@@ -1,0 +1,15 @@
+{
+  "task": "Same character-art workflow: user chooses A1 and requests less realism",
+  "inherited_full_read": "output/qa/2026-10-09-avatar-art-research/reading-record.json",
+  "inherited_generation_supplement": "output/qa/2026-10-10-character-concepts/reading-record.json",
+  "mode": "Continuation, focused current supplements; not a new whole-library read",
+  "actually_read": [
+    "AGENTS.md full",
+    "product.md full (combined-output tail repaired separately)",
+    "handoff.md full re-emitted separately",
+    "design/desk-companion/characters/2026-10-10-concepts/README.md full",
+    "decision-log.md last8",
+    "imagegen/SKILL.md full; remaining text already retained from prior turn"
+  ],
+  "completed_at": "2026-10-10T02:36:20.610712+08:00"
+}
