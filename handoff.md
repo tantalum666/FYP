@@ -1,25 +1,27 @@
 # Group 2 Current Handoff
 
-更新：2026-10-10。当前任务：**角色美术研究与参考板已推送并读回，原创概念／最终角色未定；沿功能分支 `codex/full-body-3d-avatar`／[PR #4](https://github.com/tantalum666/FYP/pull/4)保存，PR保持open。** main仍为已完成的Dot整合。
+更新：2026-10-10。当前任务：**用户已同意A/B继续设计，服装研究与四套文字简报完成；最终角色／服装尚未定稿。** 当前分支`codex/full-body-3d-avatar`／[PR #4](https://github.com/tantalum666/FYP/pull/4)，本次补充沿此协作分支保存；main保持Dot整合。
 
 ## 当前结果
 
-用户要求先研究目前受欢迎的二次元角色，为现有女性全身3D伙伴做美术优化。[研究与方向](research/2026-10-10-avatar-art/popular-character-study.md)区分近期季度社区投票、2026公布的2025年度结果和官方视觉参照；[8项图文参考板](research/2026-10-10-avatar-art/reference-board.html)可切浅／深背景，[来源与访问范围](research/2026-10-10-avatar-art/source-register.json)保留。工程建议先比较A“银雾·柔科技”和B“墨青·都市伙伴”，A优先；C“暖金·开朗日常”为对照。它们目前只有原创文字简报／色板，未生成角色图、未选定造型或品牌。
+[服装研究](research/2026-10-10-avatar-art/wardrobe-study.md)与[服装参考板](research/2026-10-10-avatar-art/wardrobe-reference-board.html)纳入用户的丝袜和轻微性感偏好。A1短外套短裙半透黑丝／B1都市剪裁哑光黑丝为首组建议，A2肩颈烟灰丝／B2非对称短裙为对照。四套为成年原创角色文字简报，约25岁是工程美术建议；具体脸、服装、名字、色板和最终模型未选定，也未生成新概念图。A/B已同意推进，C保留历史、暂不推进。
 
-既有VRM功能、许可样本和应用代码保持：全身骨骼状态动作、眨眼、播放音量开口、本地预览／替换、英简、纯黑／镜像与常亮集成。[角色契约](desk-companion/docs/avatar.md)仍限制音量口型、同源浏览器桥及物理光学；默认真实语音未配置。
+实际检查2B、卡芙卡、申鹤及授权礼服商品图；[来源表](research/2026-10-10-avatar-art/wardrobe-source-register.json)区分官方／授权图、D数指南与美术推断。没有把角色受欢迎归因于丝袜，也不把D数映射为模型透明度。首轮[人气研究](research/2026-10-10-avatar-art/popular-character-study.md)及[旧参考板](research/2026-10-10-avatar-art/reference-board.html)已补当前路由。
+
+现有pixiv样本与应用代码保持：骨骼动作、眨眼、音量口型、局部替换、英简、黑底／镜像与常亮集成。[角色契约](desk-companion/docs/avatar.md)仍限制同源浏览器音量桥与物理显示；默认真实语音未配置。
 
 ## 证据与入口
 
-[本轮QA](output/qa/2026-10-09-avatar-art-research/verification.md)记录128份Markdown／12,096行／48块全读、截断补读、来源、8图加载／浅深背景／无横向溢出，以及应用／模型／学校文件保留。任务10月9日开始、10日收尾，QA目录沿用任务起始日。没有应用或学校文件变更，不重跑之前通过的软件套件／DOCX渲染。
+[本次QA](output/qa/2026-10-10-avatar-wardrobe/verification.md)记录继承上一美术任务128份／12,096行全读、129份当前盘点及受影响文件补读、四张图实际加载、浅深切换和原资产／代码／学校文件保留。无代码／学校正文变化，不重跑旧应用套件或DOCX渲染。
 
-软件验证仍见[3D角色QA](output/qa/2026-10-09-3d-avatar/verification.md)的22前端／26定向后端及实际浏览器检查；Dot基线149后端／15前端见[整合QA](output/qa/2026-10-09-dot-integration/verification.md)。这些不是本轮新跑或Pi／自然语音成绩。
+软件证据仍见[3D角色QA](output/qa/2026-10-09-3d-avatar/verification.md)22前端／26定向后端，以及[Dot整合QA](output/qa/2026-10-09-dot-integration/verification.md)149后端／15前端。它们不是这次新跑或Pi／自然语音成绩。
 
-主预览：[管理](http://127.0.0.1:5190/)／[3D角色](http://127.0.0.1:5190/?surface=avatar)／[常亮](http://127.0.0.1:5190/?surface=device)，API8831；私有凭据仍在忽略的`.runtime`。研究参考板有[临时本地预览](http://127.0.0.1:5192/research/2026-10-10-avatar-art/reference-board.html)，仅loopback且限制到本轮研究／QA目录，不是公网部署。原七条日程不操作；学校／身份／旧工程107项保护文件保持。
+主预览：[管理](http://127.0.0.1:5190/)／[3D角色](http://127.0.0.1:5190/?surface=avatar)／[常亮](http://127.0.0.1:5190/?surface=device)，API8831；凭据留在忽略的`.runtime`。服装板有[本地预览](http://127.0.0.1:5192/research/2026-10-10-avatar-art/wardrobe-reference-board.html)，复用仅loopback且限制到原美术研究／QA目录的临时服务器；未发布公网。原七条日程不操作，107项保护文件保持。
 
 ## 未完成
 
-原创全身／脸部／表情概念与最终VRM、逐音素唇形、跨设备／Python音量桥、真实语音／AEC／费用、Pi／iPhone原生3D性能与光学效果仍需完成或实测。通用PC／LCU、长期记忆管理、作业归档／备份、真人姿态、RIG／清洁模块与物理停止继续保留，不因美术研究取消。未采购、开收费服务、改权限、发邀请、提交学校或自动合并新视觉功能。
+原创概念／最终VRM与衣服、逐音素口型、跨设备／Python声音桥、真实语音／AEC／费用、Pi／iPhone原生并发与物理光学仍待完成或实测。PC／LCU、长期记忆、作业归档／备份、真人姿态、RIG／清洁与物理停止继续保留。未采购、消费模型、变更权限、联系他人、提交学校或自动合并main。
 
 ## 唯一下一步
 
-**按A/B简报制作同一构图、光照与尺寸的原创全身和脸部／表情概念对照，再决定具体3D美术。** 本轮研究不等于用户已选A；后续模型复杂度仍须目标Pi并发实测后确定。
+**按服装研究制作A1/B1同一构图、站姿、光照与尺寸的原创全身和脸部概念。** A/B方向无需重复确认；具体服装和角色还需看实际概念。模型复杂度与衣物动画随后在目标Pi及真实骨骼中验证。

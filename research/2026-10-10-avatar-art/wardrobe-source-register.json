@@ -1,0 +1,75 @@
+{
+  "task": "Group 2 A/B wardrobe study",
+  "updated_at": "2026-10-10T01:35:27.191981+08:00",
+  "user_decision": "Continue A and B; include hosiery and mild sensual styling as candidates. No final outfit selected.",
+  "original_character_brief": "Adult young woman, approximately 25 as a proposed original design. This is not a claim about reference-IP ages.",
+  "references": [
+    {
+      "id": "2b",
+      "name": "2B · 原版服装",
+      "tag": "黑色材质的层次",
+      "page": "https://www.jp.square-enix.com/nierautomata/character/",
+      "image": "https://www.jp.square-enix.com/nierautomata/assets/img/character/id01_image.png",
+      "alt": "2B官方完整服装图：高领黑裙、半透腿部与长靴",
+      "learn": "高领与肩袖形成轮廓，布料、半透腿部和靴子有不同明暗。",
+      "adapt": "学习材质关系；原创角色保留可见眼睛，另做发型与衣服。",
+      "limits": "官方角色原图实际查看；腿部大面积是靴子，不称全部是丝袜。",
+      "credit": "© SQUARE ENIX"
+    },
+    {
+      "id": "kafka",
+      "name": "卡芙卡 · 原版服装",
+      "tag": "都市剪裁与外套",
+      "page": "https://hsr.hoyoverse.com/en-us/character?charIndex=6&worldIndex=5",
+      "image": "https://webstatic.hoyoverse.com/upload/op-public/2022/04/11/d9ab700ee0713acf78eb04d930f5c3fc_4622587084501383915.png",
+      "alt": "卡芙卡官方立绘，雨伞遮挡部分身体和腿部",
+      "learn": "浅色袖部、深色主体、腰线和外套构成有性格的都市层次。",
+      "adapt": "用于B1的明暗和剪裁；不从遮挡图断言袜子D数或背面结构。",
+      "limits": "旧索引链接首次显示Blade；通过可见角色选择器切到Kafka后核对名称与图片，实际URL记录。",
+      "credit": "© HoYoverse / COGNOSPHERE"
+    },
+    {
+      "id": "shenhe",
+      "name": "申鹤 · 冷花幽露",
+      "tag": "肩颈与深浅留白",
+      "page": "https://genshin.hoyoverse.com/fr/news/detail/119523",
+      "image": "https://fastcdn.hoyoverse.com/content-v2/hk4e/119523/cec38c64c8723d81138d32830aee2b8a_7139153117593105191.gif",
+      "still": "https://fastcdn.hoyoverse.com/content-v2/hk4e/119523/092a7440946ed6495803ad7d0d816e9e_4274340118675798765.jpg",
+      "alt": "申鹤官方全身服装示例，深色礼服、露肩与浅色腿部",
+      "learn": "深色贴合主体、浅发、肩部留白和独立袖部形成优雅对比。",
+      "adapt": "用于A2的领口和层次；重新设计下摆，减少长开衩与复杂装饰。",
+      "limits": "2024-01-24发布；当前浏览器文章与官方大图/GIF实际看过。游戏图不提供真实袜子织物/D数。",
+      "credit": "© HoYoverse / COGNOSPHERE",
+      "published": "2024-01-24"
+    },
+    {
+      "id": "kafka-live",
+      "name": "卡芙卡 · LIVE礼服",
+      "tag": "非对称与肩颈线条",
+      "page": "https://www.goodsmileus.com/product/honkai-star-rail-kafka-star-rail-live-ver-14128?page=47",
+      "image": "https://imgs2.goodsmileus.com/image/cache/data/productimages/ScaleFigures/HonkaiStarRail_Kafka_StarRailLIVEVer/1_2411041034462715-1200x1200.jpg",
+      "alt": "Myethos卡芙卡音乐会礼服手办：紫色礼服、露肩、非对称裙摆与小提琴",
+      "learn": "合身上身与肩颈留白，非对称下摆带来时装感。",
+      "adapt": "用于B2的非对称关系；取消大袖摆、长飘带和道具。",
+      "limits": "Good Smile US授权商品页；制造商Myethos，实体手办静态图，不是游戏可直接使用的动画模型。",
+      "credit": "© miHoYo / Myethos；Good Smile US商品图"
+    }
+  ],
+  "material_sources": [
+    {
+      "id": "wolford",
+      "url": "https://www.wolford.com/en-gb/our-tights-guide",
+      "type": "manufacturer_fashion_guide",
+      "used": "Matte workwear hosiery and evening sheen as visual styling references. No prices or buying advice used."
+    },
+    {
+      "id": "fogal",
+      "url": "https://fogal.com/blogs/product-pulse/what-is-denier-hosiery-guide",
+      "type": "manufacturer_hosiery_guide",
+      "published": "2026-06-26",
+      "used": "Denier is yarn linear density; example sheer/semi-opaque/opaque ranges. Not a shader alpha mapping."
+    }
+  ],
+  "no_popularity_causation_claim": true,
+  "no_generated_art_or_model_changes": true
+}

@@ -828,3 +828,12 @@
 - **下一步：**制作同规格A/B原创全身、脸部和表情概念对照；本轮没有ImageGen生成、模型替换、采购、付费服务、硬件动作、对外联系、学校提交或main合并。
 
 - **实际Git交付：**研究提交`876d89e`已推送，`git ls-remote`与连接器均读回同一head；PR #4保持open且补充研究范围，main仍`ccfac48c`。564条本地链接、107项保护hash、原模型／应用保持、8图显示与staged Gitleaks零结果通过；最后收尾提交只更新交付状态与证据。
+
+### 2026-10-10 同一美术任务补充：A/B服装研究
+
+- **用户补充：**同意A/B继续设计，要求研究丝袜及轻微性感服装；最终服装和角色未定，C暂不推进。
+- **阅读：**继承同一角色研究128份／12,096行全读记录，盘点当前129份项目Markdown，补读入口、当前研究、角色契约及README／决定／日志变化范围；[补读记录](output/qa/2026-10-10-avatar-wardrobe/reading-record.json)明确不冒称重新全库阅读。
+- **研究与产物：**[服装研究](research/2026-10-10-avatar-art/wardrobe-study.md)、[4项服装参考＋4套简报板](research/2026-10-10-avatar-art/wardrobe-reference-board.html)、[来源表](research/2026-10-10-avatar-art/wardrobe-source-register.json)。实际查看2B原图、卡芙卡官网、申鹤官方文章／全身GIF和Myethos授权卡芙卡礼服图；核Wolford／FOGAL。只把人气和服装关系写为假设。
+- **建议：**A1短外套短裙半透黑丝／B1都市剪裁哑光黑丝优先，A2肩颈烟灰丝／B2非对称裙装对照。角色设为成年外观，约25岁仅是原创简报建议；丝袜D数不映射成材质alpha，贴图与裙摆变形分别验收。
+- **同步与验证：**product、根README、角色契约、首轮研究／参考板、决定、handoff及日志更新；[本次QA](output/qa/2026-10-10-avatar-wardrobe/verification.md)记录图片加载／浅深切换、链接、保护hash、原模型与代码保留及Git交付。没有代码／学校文件变化，不重跑既有应用套件或DOCX渲染。
+- **下一步：**按四套简报先制作A1/B1同规格原创全身与脸部概念。没有生成角色图、制作VRM、采购、付费服务、实体运行、对外联系、学校提交或main合并。

@@ -1,0 +1,46 @@
+{
+  "checked_at": "2026-10-10T01:42:22.235588+08:00",
+  "initial_head": "26cdf9f425ad093ed6296a4d32f003874e76595f",
+  "local_links_checked": 593,
+  "missing_links": [],
+  "protected_files": 107,
+  "protected_changes": [],
+  "application_diff": [],
+  "model_sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2",
+  "references": 4,
+  "material_guides": 2,
+  "original_outfit_briefs": [
+    "A1",
+    "B1",
+    "A2",
+    "B2"
+  ],
+  "user_retained_directions": [
+    "A",
+    "B"
+  ],
+  "concept_images_generated": false,
+  "final_outfit_selected": false,
+  "browser": {
+    "default_viewport": "1280x720",
+    "images_loaded": 4,
+    "horizontal_overflow": false,
+    "light_dark_verified": true,
+    "viewport_override_set": false,
+    "narrow_or_reduced_motion_tested": false
+  },
+  "updated_docs": [
+    "README.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "desk-companion/docs/avatar.md",
+    "research/2026-10-10-avatar-art/popular-character-study.md",
+    "research/2026-10-10-avatar-art/wardrobe-study.md",
+    "output/qa/2026-10-10-avatar-wardrobe/verification.md"
+  ],
+  "tests": "No app/source or school document changes; no old suite or DOCX rerender repeated.",
+  "delivery": "Existing feature branch / PR4; final remote state read back in session.",
+  "staged_gitleaks_findings": 0
+}
