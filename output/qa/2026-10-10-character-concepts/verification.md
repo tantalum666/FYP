@@ -33,3 +33,5 @@ Product, root README, avatar contract, research / wardrobe current status, both 
 Git delivery uses `codex/full-body-3d-avatar` and the existing open [PR #4](https://github.com/tantalum666/FYP/pull/4). Staged scan and remote ref / PR head readback are recorded at closeout. No main merge, school submission, paid voice call, hardware action, purchase or external contact occurred.
 
 Completed checks: 602 local links valid, both PNG signatures/dimensions/hashes and native/workspace byte identity verified, all 107 protected files and application/model unchanged; staged Gitleaks scan returned zero findings.
+
+Actual delivery: concept commit `3cd7976b981c2a81032a0c550f7f470b667766bd` was pushed and independently read back by remote ref and PR metadata. Main remains `ccfac48ce8c68e6f9c8796911bbe5f35728d7807`; PR #4 is open/unmerged and its body now reflects generated concepts. A final documentation-only closeout commit follows the same push/readback path.

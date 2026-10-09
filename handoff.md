@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-更新：2026-10-10。当前任务：**A1/B1两张首轮全身概念已生成并实际检查，待用户审阅／选择。** 当前分支`codex/full-body-3d-avatar`／[PR #4](https://github.com/tantalum666/FYP/pull/4)；main保持Dot整合。
+更新：2026-10-10。当前任务：**A1/B1两张首轮全身概念已生成并实际检查，待用户审阅／选择。** 当前分支`codex/full-body-3d-avatar`／[PR #4](https://github.com/tantalum666/FYP/pull/4)；概念提交`3cd7976`已推送并读回，PR保持open；main保持Dot整合。
 
 ## 当前产物
 
