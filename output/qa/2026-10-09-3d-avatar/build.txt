@@ -21,7 +21,7 @@ dist/assets/DeviceApp-CNt-v6nl.js                             29.95 kB │ gzip:
 dist/assets/index-BJbOd0kj.js                                483.81 kB │ gzip: 152.63 kB
 dist/assets/AvatarScene-LmcuiOmn.js                        1,098.50 kB │ gzip: 288.37 kB
 
-[plugin builtin:vite-reporter] 
+[plugin builtin:vite-reporter]
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting

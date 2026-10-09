@@ -50,5 +50,16 @@
   "local_private_values_compared": 15,
   "private_value_matches": [],
   "staged_gitleaks_findings": 0,
-  "temporary_browser_overrides_cleared": true
+  "temporary_browser_overrides_cleared": true,
+  "services_after_qa": {
+    "8831": true,
+    "5190": true,
+    "8833": false,
+    "5191": false
+  },
+  "github_pr": "https://github.com/tantalum666/FYP/pull/4",
+  "software_commit": "c866d32a8c108509df4604234d2355bab92cdccc",
+  "main_merged": false,
+  "qa_services_stopped": true,
+  "closed_at": "2026-10-09T23:48:58.768808+08:00"
 }

@@ -56,8 +56,14 @@ School originals / proposal / log sheet, Group 2 identity and retired Senplate c
 
 The first directory-wide secret scan also inspected intentionally ignored private runtime files and reported 22 local credential occurrences. Its redacted report was moved into the ignored private research directory, not included in Git. The deliverable is checked using staged-file scanning and a comparison against local private values; final results are recorded in validation.json / gitleaks-staged.json.
 
-Updated: product, root/software READMEs, architecture, operator guide, device display specification, third-party notice/licences, new avatar contract, decision log, handoff and work log. Internal links, group terminology, asset provenance and deliverable existence are checked in validation.json. GitHub branch / PR outcome is appended after the actual push and readback.
+Updated: product, root/software READMEs, architecture, operator guide, device display specification, third-party notice/licences, new avatar contract, decision log, handoff and work log. Internal links, group terminology, asset provenance and deliverable existence are checked in validation.json. Staged Gitleaks scan found 0 items; 15 locally private values were compared with 47 initially staged files without matches. QA8833 / 5191 stopped, main8831 / 5190 retained; browser overrides and interception cleared. GitHub branch / PR outcome is appended after actual push and readback.
 
 ## Remaining limits
 
 Final character art, detailed visemes, real cloud voice / interruption / AEC, same-origin bridge with real provider output, cross-device / Python audio bridge, Pi thermal / GPU / parallel-workload performance, native iPhone rendering, optical/fan real-time input and actual posture/hardware accuracy remain unverified. The 30 Hz schedule is a target, not a measured hardware result. The avatar cannot approve tools or replace the mandatory fixed-camera posture reassessment loop.
+
+Shutdown readback initially ran before Uvicorn finished its graceful exit; the first assertion failed and was not used as proof. A later completed-process / port readback confirmed QA closed. Vendor build-log trailing whitespace was normalized without changing diagnostic content.
+
+## GitHub readback
+
+Software commit `c866d32a8c108509df4604234d2355bab92cdccc` was pushed to the private repository branch `codex/full-body-3d-avatar`. [PR #4](https://github.com/tantalum666/FYP/pull/4) was created and attached to the chat. Its returned head matched that commit; base `main` remained `ccfac48ce8c68e6f9c8796911bbe5f35728d7807`. No merge was performed. A following documentation-only closeout records service cleanup and PR delivery; tested application code remains unchanged.
