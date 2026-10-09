@@ -1,6 +1,6 @@
 # Group 2｜全身二次元桌面伙伴：角色美术研究
 
-研究：2026年10月9–10日（Asia/Hong_Kong）。当前：**A1_SELECTED / ANIME_V3_GENERATED / FINAL_CHARACTER_PENDING**。用户已从首轮选定A1，并要求减少写实；最新[A1平涂二次元V3](character-concepts.md)已生成，下文保留原始人气与多方向研究。
+研究：2026年10月9–10日（Asia/Hong_Kong）。当前：**A1_SELECTED / ANIME_V4_GENERATED / FINAL_CHARACTER_PENDING**。用户已从首轮选定A1，并要求减少写实；最新[A1平涂二次元V4](character-concepts.md)已生成，下文保留原始人气与多方向研究。
 
 用户要求先研究目前受欢迎的二次元角色，为现有女性全身3D伙伴做美术优化。本篇保留社区投票、官方设定和演示研究。用户随后同意A/B及丝袜／轻微性感服装，又明确要求出图，现已有[A1/B1全身概念](character-concepts.md)；[服装研究](wardrobe-study.md)与[参考板](wardrobe-reference-board.html)保留依据。没有修改VRM或应用代码，最终美术尚未定稿。
 

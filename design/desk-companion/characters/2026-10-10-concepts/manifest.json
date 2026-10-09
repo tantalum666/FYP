@@ -2,7 +2,7 @@
   "created_at": "2026-10-10T02:11:04.946098+08:00",
   "group": "Group 2",
   "task": "Generate A1 and B1 original adult female full-body character concepts",
-  "route": "Built-in ImageGen: first A1/B1 pair delegated; A1-v2 edited by coordinator",
+  "route": "Built-in ImageGen: initial A1/B1 pair delegated; A1 V2/V3/V4 edits by coordinator",
   "transparent_background": false,
   "assets": [
     {
@@ -66,13 +66,32 @@
       "pixel_edits_after_generation": false,
       "selected_as_final_art": false,
       "actual_style": "Flatter 2D anime coloring with hard-edged shadow shapes; reduced leg/hosiery/boot gradients. Face stays close to V2."
+    },
+    {
+      "id": "A1-v4",
+      "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+      "native_path": "/Users/tantalum/.codex/generated_images/01a07aeb-a256-7572-a42e-bd7e4668674f/exec-2775c383-240d-4182-ad68-98c47fe0cdcd.png",
+      "bytes": 1305868,
+      "width": 1024,
+      "height": 1536,
+      "sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0",
+      "prompt_path": "design/desk-companion/characters/2026-10-10-concepts/a1-anime-v4-prompt.txt",
+      "edit_target": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v3.png",
+      "edit_target_sha256": "7134f63aab5258e283af615cb8bc345f7e66a07e52f71fe628789cbbf3ba886d",
+      "attempts": 1,
+      "pixel_edits_after_generation": false,
+      "selected_as_final_art": false,
+      "actual_style": "Small further flattening, especially quieter top/fabric/hosiery tones; face/pose/outfit close to V3. Background retains a light gradient.",
+      "referenced_image_paths": [
+        "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v3.png"
+      ]
     }
   ],
-  "state": "A1 selected; user requested further reduction in realism after V2; V3 pending style review",
+  "state": "A1 selected; V4 subtle further reduction of realism, pending review",
   "application_model_unchanged": true,
   "current_direction": "A1 selected by user; stronger anime stylization requested",
-  "current_review_asset": "A1-v3",
-  "updated_at": "2026-10-10T02:50:40.285911+08:00",
+  "current_review_asset": "A1-v4",
+  "updated_at": "2026-10-10T03:02:08.174993+08:00",
   "initial_generation_input_images": null,
   "initial_round_actual_style": "Polished semi-realistic stylized 3D anime, less cel-shaded than the brief",
   "initial_round_limitations": [

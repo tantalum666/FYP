@@ -1,11 +1,9 @@
-# Group 2｜A1平涂二次元V3
+# Group 2｜A1二次元微调V4
 
-2026年10月10日。用户在V2后要求继续减少写实，**V3已完成，风格待审阅**。A1方向、服装和全身构图保留。
+2026年10月10日。用户要求在V3后再减少一点点写实，**V4已生成，待风格反馈**。
 
-- [最新A1 V3](../../design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v3.png)：平涂与硬边阴影更明确，衣物、丝袜／腿部与鞋的渐变减少；脸型大体保持V2。
-- [A1 V2](../../design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v2.png)：本次唯一编辑目标，保留对照。
-- [原图、全部提示词与版本来源](../../design/desk-companion/characters/2026-10-10-concepts/README.md)。
+- [最新A1 V4](../../design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png)：小幅进一步压平，上衣／布料／丝袜的色调更简洁；脸型、服装、站姿接近V3。背景仍有轻微渐变。
+- [V3编辑来源](../../design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v3.png)。
+- [原图、各版提示词及来源记录](../../design/desk-companion/characters/2026-10-10-concepts/README.md)。
 
-一次内置ImageGen编辑，原生1024×1536 PNG逐字节保留，没有像素后期、重生成或覆盖历史稿。当前是外观图；三视图、表情和可运行VRM仍未制作。
-
-下一步根据V3反馈定向精修A1，再补视图／表情。应用继续使用原许可样本；[服装研究](wardrobe-study.md)与[首轮研究](popular-character-study.md)保留。
+一次内置ImageGen编辑，1024×1536原PNG逐字节保留，无像素后期或重生成。A1方向保持，V4未最终定稿；旧版本与应用模型保持。下一步依据V4反馈继续精修A1，再补三视图／表情与模型工程。
