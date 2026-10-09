@@ -1,0 +1,45 @@
+{
+  "checked_at": "2026-10-10T01:09:12.152587+08:00",
+  "reading": {
+    "files": 128,
+    "lines": 12096,
+    "chunks": 48
+  },
+  "reading_complete": true,
+  "local_markdown_links_checked": 564,
+  "missing_links": [],
+  "protected_files": 107,
+  "protected_changes": [],
+  "app_source_diff": [],
+  "model_sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2",
+  "references": 8,
+  "additional_sources": 5,
+  "frame_hashes_verified": 2,
+  "preview_server": {
+    "pid": 79229,
+    "bind": "127.0.0.1:5192",
+    "research_status": 200,
+    "outside_scope_status": 404
+  },
+  "browser": {
+    "viewport": "1280x720 default, full-page screenshot",
+    "images_loaded": 8,
+    "horizontal_overflow": false,
+    "light_and_dark_visually_checked": true,
+    "narrow_viewport_tested": false
+  },
+  "updated_specs": [
+    "README.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "desk-companion/docs/avatar.md",
+    "research/2026-10-10-avatar-art/popular-character-study.md"
+  ],
+  "application_tests": "Not rerun: no application changes. Prior test results are referenced with their dates.",
+  "school_documents": "No edits; no re-render needed.",
+  "git_status": "Pending research commit/push readback.",
+  "staged_gitleaks_findings": 0,
+  "gitleaks_command": "gitleaks git --staged --redact --config .gitleaks.toml"
+}

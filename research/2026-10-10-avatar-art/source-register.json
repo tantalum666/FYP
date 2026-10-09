@@ -1,0 +1,213 @@
+{
+  "task": "Group 2 avatar art research",
+  "updated_at": "2026-10-10T00:59:22.445124+08:00",
+  "scope": "Popularity signals separated from first-hand visual analysis. Recommendations are not approved art.",
+  "references": [
+    {
+      "id": "emilia",
+      "name": "爱蜜莉雅",
+      "en": "Emilia",
+      "tag": "浅色层次 · 全身设定",
+      "source": "https://re-zero-anime.jp/tv/character/",
+      "image": "https://re-zero-anime.jp/tv/assets/character/c/2a.webp?v2",
+      "alt": "爱蜜莉雅官方当前全身设定图",
+      "credit": "© Re:ZERO 动画官方／原权利人",
+      "learn": "浅发、脸部框景、白与紫的大色块。",
+      "adapt": "简化斗篷，露出手臂；重新设计脸、发型与衣服。",
+      "seen": "CUA 角色导航与官方全身图实际查看；Web 角色页正文。"
+    },
+    {
+      "id": "frieren",
+      "name": "芙莉莲",
+      "en": "Frieren",
+      "tag": "安静常驻 · 全身设定",
+      "source": "https://frieren-anime.jp/character/chara_group1/1-1/",
+      "image": "https://frieren-anime.jp/wp-content/uploads/2023/08/chara01_full1.png",
+      "alt": "芙莉莲官方全身设定图",
+      "credit": "© 葬送的芙莉莲 动画官方／原权利人",
+      "learn": "轮廓清楚、大色块克制、安静的存在感。",
+      "adapt": "学习简洁层次；不复制精灵耳、双束发与原服装。",
+      "seen": "Web 官方角色页；CUA 官方全身图实际查看。"
+    },
+    {
+      "id": "maomao",
+      "name": "猫猫",
+      "en": "Maomao",
+      "tag": "眉眼表达 · 官方表情设定",
+      "source": "https://kusuriyanohitorigoto.jp/season1/index.html",
+      "image": "https://kusuriyanohitorigoto.jp/season1/assets/img/top/chara/chara1_img.png",
+      "alt": "猫猫官方全身与多种脸部表情设定",
+      "credit": "© 药屋少女的呢喃 动画官方／原权利人",
+      "learn": "眼睑、眉毛、嘴角带来的机敏与反差。",
+      "adapt": "把状态表情做清楚；中性脸避免一直困倦或不耐烦。",
+      "seen": "Web 官方第一季页面；CUA 设定图实际查看。"
+    },
+    {
+      "id": "marin",
+      "name": "喜多川海梦",
+      "en": "Marin Kitagawa",
+      "tag": "亲近感 · 官方角色卡",
+      "source": "https://bisquedoll-anime.com/character/",
+      "image": "https://bisquedoll-anime.com/assets/img/character/char_card_01.png",
+      "alt": "喜多川海梦官方角色卡",
+      "credit": "© 更衣人偶坠入爱河 动画官方／原权利人",
+      "learn": "明亮眼神、清楚上眼睑、笑容与生活感。",
+      "adapt": "原创角色设为成年年轻女性；保留活泼，另设计现代服装。",
+      "seen": "Web 官方角色页；CUA 角色卡实际查看。"
+    },
+    {
+      "id": "firefly",
+      "name": "流萤",
+      "en": "Firefly",
+      "tag": "柔科技 · 官方视频脸部取样",
+      "source": "https://www.youtube.com/watch?v=eFXQqY3ia6k",
+      "image": "../../output/qa/2026-10-09-avatar-art-research/firefly-official-portrait-frame.png",
+      "alt": "流萤官方角色预告约2分52秒的脸部截图",
+      "credit": "© HoYoverse；官方视频约2:52浏览器截图",
+      "learn": "柔和眼神、成组发束、干净的赛璐璐明暗。",
+      "adapt": "优先研究脸部；夕阳光照不当作精确固有色。",
+      "seen": "官方频道核对；CUA 取样130.2、167.4和172.4秒帧，未声称完整观看。",
+      "published": "2024-06-17"
+    },
+    {
+      "id": "furina",
+      "name": "芙宁娜",
+      "en": "Furina",
+      "tag": "性格动作 · 官方视频取样",
+      "source": "https://www.youtube.com/watch?v=EN79SfbcvIE",
+      "image": "../../output/qa/2026-10-09-avatar-art-research/furina-official-frame.png",
+      "alt": "芙宁娜官方角色演示约1分37秒的画面截图",
+      "credit": "© HoYoverse；官方视频约1:37浏览器截图",
+      "learn": "轮廓有身份、表情有节奏、动作能传达性格。",
+      "adapt": "小屏减少装饰与衣摆；常驻待机收敛动作。",
+      "seen": "官方频道核对；CUA 约0:05、1:37.516、2:45关键画面，未声称完整观看。",
+      "published": "2023-11-06"
+    },
+    {
+      "id": "miyabi",
+      "name": "星见雅",
+      "en": "Hoshimi Miyabi",
+      "tag": "都市剪裁 · 官方署名文章主图",
+      "source": "https://blog.playstation.com/2024/12/06/zenless-zone-zero-launches-version-1-4-december-18/?sf275696946=1",
+      "image": "https://blog.playstation.com/tachyon/2024/12/908366960ba1084b5421ab7fa6ebc96457ebbd08-scaled.jpg?crop_strategy=smart&resize=1088%2C612",
+      "alt": "绝区零官方群像主图，星见雅位于前景",
+      "credit": "© HoYoverse；PlayStation Blog官方署名文章",
+      "learn": "干练剪裁、材质层次、少量强调色。",
+      "adapt": "柔化眼神，取消武器；深发色需检查黑底分离。",
+      "seen": "HoYoverse Technical Lead署名文章全文；CUA 官方主图实际查看。动画短片只定位未观看。",
+      "published": "2024-12-06"
+    },
+    {
+      "id": "ava",
+      "name": "Razer AVA",
+      "en": "Product reference",
+      "tag": "桌面呈现 · 当前官网设备主图",
+      "source": "https://www.razer.com/razer-ava",
+      "image": "https://assets2.razerzone.com/images/pnx.assets/158552b1fd4c18ce2f6850164fdc3104/razer-project-ava-ces-2026-hero-desktop.webp",
+      "alt": "Razer AVA设备主图，舱中为绿色Razer标志，并非Kira人物图",
+      "credit": "© Razer；当前官网设备图，不是Kira角色图",
+      "learn": "角色、空间、声音和状态动作一起设计。",
+      "adapt": "1月Kira是历史参照；当前人格列AVA／SUMI／NIKO，仍在开发。",
+      "seen": "CUA 当前官网完整可见正文、图片DOM与主图实际查看。"
+    }
+  ],
+  "additional_sources": [
+    {
+      "id": "pop-ac",
+      "url": "https://animecorner.me/polls/vote/aots-summer2026-female-character/results",
+      "type": "organizer_primary_poll",
+      "calculated": "2026-10-05",
+      "facts": {
+        "participants": 15117,
+        "ranked_entries": 79,
+        "top_three": [
+          {
+            "name": "Orihime Inoue",
+            "displayed_percent": 17.4
+          },
+          {
+            "name": "Emilia",
+            "displayed_percent": 14
+          },
+          {
+            "name": "Kou Reirin",
+            "displayed_percent": 10
+          }
+        ]
+      },
+      "limits": "Multiple choices allowed. Community snapshot; age and gender 100% unknown. Not a global or China-representative ranking. Date range and 1-week label not reconciled."
+    },
+    {
+      "id": "pop-at",
+      "url": "https://anitrendz.net/news/2026/03/21/oguri-cap-and-belno-light-cross-the-finish-line-as-girl-and-supporting-girl-of-the-year-at-the-12th-anime-trending-awards/",
+      "type": "organizer_primary_results",
+      "published": "2026-03-21",
+      "period": "2025 anime characters",
+      "facts": {
+        "top_three": [
+          {
+            "name": "Oguri Cap",
+            "votes": 14697
+          },
+          {
+            "name": "Maomao",
+            "votes": 13532
+          },
+          {
+            "name": "Marin Kitagawa",
+            "votes": 12533
+          }
+        ]
+      },
+      "limits": "Published in 2026 but recognizes 2025 characters. Self-selected community, not directly comparable to Anime Corner."
+    },
+    {
+      "id": "frieren-poll",
+      "url": "https://websunday.net/frieren2603/",
+      "type": "official_poll_page",
+      "facts": "Official third poll and rules observed; final ranks not present in accessed page.",
+      "limits": "No precise rank used in report. Secondary ORICON results were located but are not needed for the art recommendation."
+    },
+    {
+      "id": "ava-january",
+      "url": "https://www.razer.com/newsroom/product-news/project-ava",
+      "published": "2026-01-06",
+      "type": "official_product_announcement",
+      "facts": "Names Kira and Zane and describes expressive avatar/lip-sync features.",
+      "limits": "Historical announcement; no popularity ranking, optical teardown or actual FYP performance evidence."
+    },
+    {
+      "id": "ava-february",
+      "url": "https://www.razer.com/newsroom/ai/human-creativity-should-be-augmented-by-ai-not-replace-it-razers-perspective-on-the-future-of-gaming",
+      "published": "2026-02-04",
+      "type": "official_product_article",
+      "facts": "Names Kira, Zane, SAO and Animation Inc.",
+      "limits": "Article read. Linked AVA image returned non-retryable tool error; not used as a successfully inspected Kira image."
+    }
+  ],
+  "local_frames": [
+    {
+      "reference": "firefly",
+      "path": "output/qa/2026-10-09-avatar-art-research/firefly-official-portrait-frame.png",
+      "sha256": "83f9c2863772fe12d07cf00b8816ca17c8dbfe07fbb33e8523d2bea117eaace3",
+      "rights": "Third-party official-video frame, internal reference only; not app art."
+    },
+    {
+      "reference": "furina",
+      "path": "output/qa/2026-10-09-avatar-art-research/furina-official-frame.png",
+      "sha256": "8c3d01e4a6f0f4784de7e1ae4ce0962eae7a131eb328036eb1785bc7d788f050",
+      "rights": "Third-party official-video frame, internal reference only; not app art."
+    }
+  ],
+  "not_relied_on": [
+    "Personal-account Agent of the Year recaps as global rankings",
+    "Official video views as 2026 popularity ranks",
+    "Unopened inaccessible HoYoverse article bodies",
+    "The January AVA green-logo key visual as a Kira character image"
+  ],
+  "assets_unchanged": {
+    "model": "desk-companion/frontend/public/avatars/pixiv-sample.vrm",
+    "sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2"
+  },
+  "no_generation_or_app_changes": true
+}

@@ -1,6 +1,6 @@
 # Full-body 3D companion
 
-Updated: 9 October 2026 · Group 2. This is the presentation layer of the existing Desk Companion assistant. The user requested a full-body anime-style female character with a Razer AVA-like desktop presence. The character is replaceable; the bundled development sample is not the final character design.
+Updated: 10 October 2026 · Group 2. Runtime verification remains dated 9 October. This is the presentation layer of the existing Desk Companion assistant. The user requested a full-body anime-style female character with a Razer AVA-like desktop presence. The character is replaceable; the bundled development sample is not the final character design.
 
 ## Use it
 
@@ -54,6 +54,12 @@ A real provider remains separately configured and user-started through Assistant
 - The runtime does not strip or change the model's metadata. User-selected local models keep their own terms and are not added to Git automatically.
 
 This sample is deliberately a development asset. Custom hair, clothing, materials, identity and authored animation remain separate character-art work, with source assets and rights to be agreed. No Razer / game character asset is copied.
+
+## Original character art research
+
+The user requested a study of current popular anime-style characters before changing the art. The [10 October study](../../research/2026-10-10-avatar-art/popular-character-study.md), [reference board](../../research/2026-10-10-avatar-art/reference-board.html) and [source record](../../research/2026-10-10-avatar-art/source-register.json) distinguish dated community polls from official design sheets / sampled video frames. Existing IP references are not reusable application assets.
+
+Silver / soft-tech and dark / urban companion concepts are the recommended first comparison, with a warm / cheerful direction retained as a third option. No direction, face, outfit, palette or formal name has been selected by the user. No original concept image or replacement VRM has been made in this research round. The next art deliverable is a comparable full-body / facial-expression concept set, followed by a properly licensed, rigged asset. Device tests remain necessary before fixing texture, geometry or render budgets; art research does not change the voice bridge or posture / tool-confirmation boundaries.
 
 ## Physical display and remaining validation
 
