@@ -1,6 +1,6 @@
 # Group 2 Dot integration verification — 2026-10-09
 
-Status: local review and validation complete; GitHub merge and local-main application pending. Final readback is recorded below after completion.
+Status: complete — Dot work reviewed, fixed, merged to GitHub main and applied locally. Final readback is recorded below.
 
 ## Scope and provenance
 
@@ -65,4 +65,8 @@ Not validated this round: paid voice quality or latency, real microphone / AEC /
 
 ## GitHub merge and local application
 
-Pending at this checkpoint. The integration PR must be attached, merged at its reviewed head, then origin/main fetched and local main fast-forwarded. Record actual resulting refs, original-data comparison and running-preview verification after these steps; do not infer completion from a pushed branch alone.
+[Integration PR #2](https://github.com/tantalum666/FYP/pull/2) was attached to this task and merged with expected reviewed head `9bbd6d31a7906bc66851524b78b93d2d490e41b8`. GitHub returned merged=true, software merge `8ca728d27a0290af784524210d152f67647f1770`. Fetch confirmed origin/main, local main was fast-forwarded to that merge, and all application files exactly match the tested integration head. Dot plan/code and RIG research are ancestors. GitHub also reports PR #1 closed/merged; neither source branch was force-pushed or removed.
+
+Main preview was started using scripts/dev.sh: API 8831, UI 5190. Actual browser login used the existing local credentials without printing them. The new Computer jobs panel rendered and clearly showed default-off execution. A direct same-origin check confirmed the production build and API; all four worker states are ready. The seven original event rows and content hash match the private pre-migration backup; main contains zero QA jobs. Isolated QA API/UI 8833/5191 were stopped, and main preview remains running for review.
+
+An initial readback script used the host's older Python and then inherited a loopback proxy response; neither attempt was counted as passed. The successful check used the project's Python 3.12 environment and a scoped trust_env=False local HTTP client, without changing system proxy settings. [Final validation](validation.json) contains actual statuses, refs, preservation hashes and URLs. Closeout commits only update documentation/QA; the reviewed application source remains unchanged.

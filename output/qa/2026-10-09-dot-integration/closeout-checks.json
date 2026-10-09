@@ -1,0 +1,24 @@
+{
+  "updated_specs": [
+    "README.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "desk-companion/README.md",
+    "desk-companion/docs/architecture.md",
+    "desk-companion/docs/operator-guide.md",
+    "desk-companion/docs/computer-jobs.md",
+    "planning/2026-10-06/cloud-software-delivery.md",
+    "planning/2026-10-06/software-architecture-audit.md",
+    "output/qa/2026-10-09-dot-integration/verification.md"
+  ],
+  "checked_current_local_links": 588,
+  "missing_links": [],
+  "protected_files": 107,
+  "protected_changed": 0,
+  "group_details": "verified",
+  "application_sources_unchanged_after_merge": true,
+  "qa_services": "stopped",
+  "main_preview": "running"
+}
