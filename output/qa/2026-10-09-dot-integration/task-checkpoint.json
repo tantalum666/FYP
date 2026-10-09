@@ -1,7 +1,7 @@
 {
   "task": "Review and fix Dot GitHub changes, merge to main and apply locally",
   "date": "2026-10-09",
-  "phase": "validated_before_merge",
+  "phase": "merged_and_applied",
   "last_full_chunk_read": 43,
   "next_chunk": null,
   "ack_next": null,
@@ -19,17 +19,31 @@
   "dot_software_parent_is_plan": true,
   "github_prs": [
     {
+      "number": 2,
+      "state": "closed",
+      "merged": true
+    },
+    {
       "number": 1,
-      "head": "codex/rig-arm-research",
-      "state": "open",
-      "draft": true,
-      "head_sha": "085dc01e3ea360d4d1555189f542c435cd5e40e3"
+      "state": "closed",
+      "merged": true
     }
   ],
   "read_policy": "All123 initial WORKTREE Markdown to EOF. Remote changed variants inherit only exact text-equal line blocks read in this round; all457 added/replaced lines emitted in42/43. Propagate and validate inheritance at completion. No fingerprints as read proof.",
-  "edits_so_far": "Dot branch merged into integration working tree; conflicts resolved preserving RIG and cloud history; voice delivery cleanup regression fixed; docs synchronized",
+  "edits_so_far": "Completed merge, voice fix, documentation synchronization and local application",
   "reviews_tests_run": "149 backend / 15 frontend / Ruff / TypeScript / Vite passed; actual UI note, cancellation, readback, lost-response dedup, draft and responsive checks passed",
   "integration_approach": "After all reading, preserve RIG current branch and merge Dot software (includes plan) on codex integration branch; resolve docs carefully, review full code, fix, test isolated UI and code, create PR, merge exact reviewed SHA under current user authorization, sync main locally. Do not force push Dot branches.",
   "remaining_external_scope": "No LCU install, OS permissions, real model calls, hardware, procurement or school submission authorized / performed",
-  "full_reading_complete": true
+  "full_reading_complete": true,
+  "integration_pr": "https://github.com/tantalum666/FYP/pull/2",
+  "integration_head": "9bbd6d31a7906bc66851524b78b93d2d490e41b8",
+  "main_software_merge": "8ca728d27a0290af784524210d152f67647f1770",
+  "main_preview": {
+    "api": "http://127.0.0.1:8831/",
+    "ui": "http://127.0.0.1:5190/",
+    "actual_owner_login": "passed",
+    "actual_assistant_new_job_panel": "passed",
+    "console_errors": 0
+  },
+  "next_step": "Define 1-2 permitted real Mac application tasks before selecting the next executor"
 }

@@ -1,5 +1,5 @@
 {
-  "phase": "validated_before_merge",
+  "phase": "merged_and_applied",
   "at": "2026-10-09T22:06:00.888479+08:00",
   "protected_files": 107,
   "protected_changed": [],
@@ -42,5 +42,31 @@
     "1280x800 en",
     "320x740 zh",
     "1024x600 device"
-  ]
+  ],
+  "completed_at": "2026-10-09T22:15:04.675131+08:00",
+  "integration_pr": "https://github.com/tantalum666/FYP/pull/2",
+  "integration_head": "9bbd6d31a7906bc66851524b78b93d2d490e41b8",
+  "github_merge": "8ca728d27a0290af784524210d152f67647f1770",
+  "pr1_merged": true,
+  "main_after": {
+    "count": 7,
+    "sha256": "cf661dc45cba241dcc91f0eed27ec42feebb3a6096957d618507f854fde1e91d"
+  },
+  "tested_application_tree_matches_main": true,
+  "main_computer_enabled": false,
+  "main_jobs_count": 0,
+  "main_workers": {
+    "task_advice": "ready",
+    "computer_jobs": "ready",
+    "public_data": "ready",
+    "rules": "ready"
+  },
+  "preview": {
+    "api": "http://127.0.0.1:8831/",
+    "ui": "http://127.0.0.1:5190/",
+    "actual_owner_login": "passed",
+    "actual_assistant_new_job_panel": "passed",
+    "console_errors": 0
+  },
+  "qa_services_stopped": true
 }
