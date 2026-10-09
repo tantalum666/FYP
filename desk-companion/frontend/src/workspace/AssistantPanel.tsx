@@ -287,6 +287,13 @@ export function AssistantPanel({
           </button>
         )}
       </div>
+      <p className="workspace-hint">
+        <a href="?surface=avatar" target="_blank" rel="noopener">
+          {t("Open 3D companion", "打开3D虚拟伙伴")}
+        </a>
+        {" · "}
+        {t("Full-body character, expressions and voice motion", "全身角色、表情与语音口型")}
+      </p>
       {voiceState !== "idle" && (
         <>
           <p role="status">

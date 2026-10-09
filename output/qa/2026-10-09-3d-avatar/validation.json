@@ -1,0 +1,54 @@
+{
+  "checked_at": "2026-10-09T23:43:05.378768+08:00",
+  "markdown_files_checked": [
+    "README.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "desk-companion/README.md",
+    "desk-companion/THIRD_PARTY.md",
+    "desk-companion/docs/avatar.md",
+    "desk-companion/docs/architecture.md",
+    "desk-companion/docs/operator-guide.md",
+    "planning/2026-09-30/device-display-spec.md",
+    "output/qa/2026-10-09-3d-avatar/verification.md"
+  ],
+  "local_links_checked": 607,
+  "missing_links": [],
+  "model_hash_matches": true,
+  "school_and_calendar_preservation": {
+    "protected_files": 107,
+    "protected_mismatches": [],
+    "main_events_unchanged": 7,
+    "main_event_rows_sha256": "cf661dc45cba241dcc91f0eed27ec42feebb3a6096957d618507f854fde1e91d"
+  },
+  "frontend_tests": 22,
+  "targeted_backend_tests": 26,
+  "build_passed": true,
+  "npm_reported_vulnerabilities": 0,
+  "browser_viewports": [
+    [
+      1280,
+      800
+    ],
+    [
+      390,
+      844
+    ],
+    [
+      1024,
+      600
+    ],
+    [
+      800,
+      800
+    ]
+  ],
+  "real_voice_hardware_or_optics_tested": false,
+  "staged_files_checked_for_private_values": 47,
+  "local_private_values_compared": 15,
+  "private_value_matches": [],
+  "staged_gitleaks_findings": 0,
+  "temporary_browser_overrides_cleared": true
+}

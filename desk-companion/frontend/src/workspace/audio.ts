@@ -1,3 +1,5 @@
+import { PlaybackMeter } from "../avatar/playback";
+
 export interface VoiceEvent {
   type: string;
   state?: string;
@@ -14,6 +16,7 @@ export class VoiceAudio {
   private stream: MediaStream | null = null;
   private socket: WebSocket | null = null;
   private sources = new Set<AudioBufferSourceNode>();
+  private meter: PlaybackMeter | null = null;
   private nextTime = 0;
   private ready = false;
   private stopped = false;
@@ -26,6 +29,7 @@ export class VoiceAudio {
     try {
       this.context = new AudioContext();
       await this.context.resume();
+      this.meter = new PlaybackMeter(this.context);
       this.stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           channelCount: 1,
@@ -110,10 +114,13 @@ export class VoiceAudio {
     }
     const source = context.createBufferSource();
     source.buffer = buffer;
-    source.connect(context.destination);
+    source.connect(this.meter?.input ?? context.destination);
+    this.meter?.start();
     this.sources.add(source);
     source.onended = () => {
       this.sources.delete(source);
+      source.disconnect();
+      if (!this.sources.size) this.meter?.reset();
       if (!this.sources.size && this.socket?.readyState === WebSocket.OPEN)
         this.socket.send(JSON.stringify({ type: "playback_ended" }));
     };
@@ -133,14 +140,18 @@ export class VoiceAudio {
       } catch {
         /* already ended */
       }
+      source.disconnect();
     }
     this.sources.clear();
     this.nextTime = 0;
+    this.meter?.reset();
   }
   close() {
     this.stopped = true;
     this.ready = false;
     this.clearPlayback();
+    this.meter?.close();
+    this.meter = null;
     this.stream?.getTracks().forEach((track) => track.stop());
     this.stream = null;
     if (this.socket) {

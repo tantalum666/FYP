@@ -88,7 +88,7 @@ PYTHONPATH=backend .venv/bin/python -m desk.agents.voice --language zh
 
 需先在偏好中允许本地唤醒，且已配置服务。当前开发唤醒词为 **Hey desk**／**你好桌伴**，不是最终品牌决定。sherpa-onnx模型在本地识别，检测到词后才申请语音会话。sounddevice路径需使用合适的AEC麦克风／扬声器通道；尚无真实回声或唤醒率结论。浏览器会话与本地工作进程共用单会话限制。
 
-独立角色出口为`?surface=avatar`；反射显示可加`&mirror=1`。当前是状态动画，不承诺逐音素口型；风扇／反射器的输入接口与光学仍需实物确认。
+独立全身3D角色出口为`?surface=avatar`，也可从Assistant打开。Character controls提供本地动作／合成元音口型预览、暂停、镜像和本地VRM替换；预览不调用AI。`&clean=1`隐藏界面并使用纯黑背景，反射显示再加`&mirror=1`。Device → Calendar & companion可保存“Companion & next event”来替换常亮页月历区。嘴部跟随本浏览器及同源标签页的实际播放音量，尚无逐音素口型／跨设备声音桥；Python语音工作进程也尚未接入角色音量。模型来源／许可、操作和边界见[角色契约](avatar.md)；Pi性能、风扇／反射器输入与光学仍需实物确认。
 
 ## 6. 灯光与机械臂
 
