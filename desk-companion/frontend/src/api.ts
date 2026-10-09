@@ -125,6 +125,66 @@ export function errorText(
 ) {
   const code = error instanceof ApiError ? error.code : "REQUEST_FAILED";
   const messages: Record<string, [string, string]> = {
+    COMPUTER_DISABLED: [
+      "Local note execution is disabled on this desk.",
+      "本桌面未启用本地笔记执行。",
+    ],
+    JOB_TASK_CHANGED: [
+      "The linked task changed. Prepare a new job using its current details.",
+      "关联事务已变化，请根据最新内容准备新作业。",
+    ],
+    JOB_NOT_REVIEWABLE: [
+      "This job has expired or was already handled. Refresh its status.",
+      "作业已到期或已处理，请刷新状态。",
+    ],
+    COMPUTER_TARGET_EXISTS: [
+      "A file already exists at this destination. It was left unchanged.",
+      "目标已有文件，原文件保持不变。",
+    ],
+    COMPUTER_SCOPE_UNAVAILABLE: [
+      "The dedicated notes folder is unavailable or has an unsafe link. Ask the operator to check it.",
+      "专用笔记目录不可用或含不安全链接，请操作人员检查。",
+    ],
+    COMPUTER_SCOPE_CHANGED: [
+      "The execution destination changed. Prepare and review a new job.",
+      "执行目标已变化，请重新准备并核对作业。",
+    ],
+    JOB_DEADLINE_EXCEEDED: [
+      "The job reached its time limit. Check its recorded result before trying again.",
+      "作业已达到时限，请先核对记录的结果。",
+    ],
+    JOB_CANCELLED_BEFORE_DISPATCH: [
+      "Cancelled before the file operation began.",
+      "已在文件操作开始前取消。",
+    ],
+    USER_CANCELLED: [
+      "Cancellation requested. Existing results are preserved.",
+      "已请求取消，已产生的结果仍保留。",
+    ],
+    EXECUTOR_RESULT_UNKNOWN: [
+      "The executor lost its receipt. Check the existing result; do not repeat the write.",
+      "执行回执丢失，请核验已有结果，不要重复写入。",
+    ],
+    JOB_VERIFICATION_FAILED: [
+      "The file could not be verified against the approved text. Review the existing result.",
+      "文件未能与批准内容核对一致，请检查已有结果。",
+    ],
+    PROCESS_RESTARTED: [
+      "The desk restarted during execution. Check the existing result.",
+      "桌面服务在执行期间重启，请核验已有结果。",
+    ],
+    SERVICE_STOPPED: [
+      "The service stopped during execution. Check the existing result.",
+      "服务在执行期间停止，请核验已有结果。",
+    ],
+    JOB_STILL_RUNNING: [
+      "The executor is still responding. Wait for it to stop, then check again.",
+      "执行器仍在响应，请等其停止后再次核验。",
+    ],
+    JOB_LIMIT: [
+      "The local job history has reached its limit. New jobs are unavailable; existing jobs and results remain accessible.",
+      "本地作业记录已达到上限，暂不能新建作业；已有作业和结果仍可查看。",
+    ],
     TASK_NOT_FOUND: ["This task is no longer available.", "此事务已不存在。"],
     TASK_CLOSED: [
       "Reopen this task before making changes.",

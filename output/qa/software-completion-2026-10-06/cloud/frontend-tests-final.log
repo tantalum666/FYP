@@ -1,0 +1,28 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> desk-companion-ui@0.1.0 test
+> node --experimental-strip-types --test tests/*.test.ts
+
+✔ approval requires fresh data and an unexpired review (0.938619ms)
+✔ cancellation remains available for active and unknown jobs only (0.317638ms)
+✔ recovering another operation must not clear the current unsaved note (0.235985ms)
+✔ pending note recovery is scoped to the same linked task (0.222559ms)
+✔ saved timed events return to the display's local date, including a date boundary (27.656764ms)
+✔ display appearance follows local hour at the two boundaries (0.901306ms)
+✔ five and six week months have complete, bounded grids (17.391619ms)
+✔ end of year display includes next month while obeying API range limit (28.906549ms)
+✔ upcoming excludes completed and ended items, keeps an ongoing cross-midnight event (1.449629ms)
+✔ upcoming ordering compares instants, not written timezone offsets (0.292958ms)
+✔ automatic return never interrupts editing or an unresolved save (0.155055ms)
+✔ audio worklet retains fractional phase across 128-sample blocks (79.754505ms)
+✔ busy duration merges overlaps, clips to day, and ignores completed events (35.402839ms)
+✔ lunar day is computed in the selected calendar timezone (2.855265ms)
+✔ a stale posture connection masks private content in a previously loaded display snapshot (0.443176ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 379.568114

@@ -8,6 +8,7 @@ import { useDraftGuard } from "../components/DraftGuard";
 import type { Task, TaskInput } from "./taskTypes";
 import { apiOrigin } from "../native";
 import { DateTime } from "luxon";
+import { ComputerJobsPanel } from "./ComputerJobsPanel";
 
 interface Proposal {
   id: string;
@@ -118,6 +119,7 @@ export function AssistantPanel({
         }),
       );
       await reload();
+      window.dispatchEvent(new Event("desk:jobs"));
       setText("");
     } catch (e) {
       setError(e);
@@ -192,6 +194,8 @@ export function AssistantPanel({
         }
         if (event.type === "proposal" || event.type === "proposals_changed")
           void reload();
+        if (event.type === "jobs_changed")
+          window.dispatchEvent(new Event("desk:jobs"));
         if (event.type === "error") {
           setNotice(
             t(
@@ -589,6 +593,7 @@ export function AssistantPanel({
           {errorText(error, t)}
         </p>
       )}
+      <ComputerJobsPanel t={t} taskId={taskId} />
     </div>
   );
 }

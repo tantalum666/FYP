@@ -1,0 +1,214 @@
+{
+  "group": "Group 2",
+  "checked_at": "2026-10-05T15:51:25.745639+08:00",
+  "status": "primary_source_research_only",
+  "sources": [
+    {
+      "id": "makerworld",
+      "url": "https://makerworld.com/zh/models/2913469-rig-arm-desktop-embodied-ai-arm-llm-multimodal?appSharePlatform=copy#profileId-3258768",
+      "method": "Chrome visible DOM, product image, expanded model licence, author replies",
+      "evidence": "../../output/qa/2026-10-05-rig-arm-feasibility/makerworld-visible.txt",
+      "supports": [
+        "5DOF / GC0308 0.3MP / 1.09 inch TFT / SCS009 family",
+        "XiaoZhi credited as framework",
+        "SDFL-C model licence",
+        "2026-09-20 author phone-payload response"
+      ],
+      "limits": [
+        "Marketing grasping claims not verified; no stock gripper / payload rating verified",
+        "No model download or terms acceptance"
+      ]
+    },
+    {
+      "id": "shop",
+      "url": "https://shop.xgorobot.com/products/rig-arm-programmable-robotic-arm-steam-education-rig-series-universal-research-secondary-development-platform?variant=49162969514235",
+      "method": "Chrome visible SKU selection and fresh rendered price",
+      "evidence": "../../output/qa/2026-10-05-rig-arm-feasibility/shop-full-unit-visible.txt",
+      "supports": [
+        "Electronics Kit USD109, shell excluded",
+        "Hand-built Full Unit USD124, assembled option",
+        "Pre-sale and separate approximately ten-day holiday delay banner",
+        "Qwen integration described"
+      ],
+      "limits": [
+        "No checkout / shipping / tax / actual discount / arrival verified",
+        "No purchase or supplier contact"
+      ]
+    },
+    {
+      "id": "arm-dev",
+      "url": "https://wiki.xgorobot.com/kb/the-rig-series-robot/rig_en_arm_develop",
+      "method": "Chrome visible complete body and reference-resource descriptions",
+      "evidence": "../../output/qa/2026-10-05-rig-arm-feasibility/arm-development-visible.txt",
+      "supports": [
+        "Custom tool / source / build and flash path",
+        "ESP-IDF initial guide5.5.2, Arm / ESP32-S3 model selection",
+        "Firmware versus USB logs versus MCP connection distinction",
+        "Published module reference drawings"
+      ],
+      "limits": [
+        "No build, flash, source execution or physical connection"
+      ]
+    },
+    {
+      "id": "mcp-guide",
+      "url": "https://wiki.xgorobot.com/kb/the-rig-series-robot/rig_en_mcp",
+      "method": "Chrome visible complete body",
+      "evidence": "../../output/qa/2026-10-05-rig-arm-feasibility/mcp-guide-visible.txt",
+      "supports": [
+        "External client device-control config can use existing tools without firmware changes",
+        "Separate WebSocket access point for agent external tools",
+        "Conditional account / region / firmware availability"
+      ],
+      "limits": [
+        "No user account, generated token or real tool connection accessed"
+      ]
+    },
+    {
+      "id": "versions",
+      "url": "https://wiki.xgorobot.com/kb/the-rig-series-robot/rig_en_versions",
+      "method": "Chrome visible complete body",
+      "evidence": "../../output/qa/2026-10-05-rig-arm-feasibility/version-notes-visible.txt",
+      "supports": [
+        "Source commit does not guarantee matching published binary",
+        "Per-board version files and kit revisions matter",
+        "Teach recording described as current power session"
+      ],
+      "limits": [
+        "No actual device firmware inspected"
+      ]
+    },
+    {
+      "id": "downloads",
+      "url": "https://wiki.xgorobot.com/kb/the-rig-series-robot/rig_en_downloads",
+      "method": "Chrome visible complete body",
+      "evidence": "../../output/qa/2026-10-05-rig-arm-feasibility/downloads-visible.txt",
+      "supports": [
+        "Firmware / model-specific resources and source route",
+        "Mechanical files distinct from electrical drawings"
+      ]
+    },
+    {
+      "id": "schematic-index",
+      "url": "https://wiki.xgorobot.com/kb/common-resources-en/e83d2b6f9491257670d2b05d2",
+      "method": "Chrome rendered resource table metadata",
+      "evidence": "../../output/qa/2026-10-05-rig-arm-feasibility/schematic-index-visible.txt",
+      "supports": [
+        "Hover and Arm share driver-board schematic entry",
+        "Published v2026.09.22 PDF URL and size0.61MB"
+      ],
+      "limits": [
+        "PDF contents not downloaded / visually checked",
+        "Not proof of matching board revision / complete PCB CAD or licence"
+      ]
+    },
+    {
+      "id": "schematic-file",
+      "url": "https://wiki.xgorobot.com/uploads/downloads/hardware/rig-series/RIG-Hover-Arm_DriverBoard_Schematic_v2026.09.22.pdf",
+      "method": "Link observed on official schematic index only",
+      "supports": [
+        "Published schematic destination"
+      ],
+      "limits": [
+        "Binary / electrical design not inspected"
+      ]
+    },
+    {
+      "id": "omni",
+      "url": "https://github.com/LuwuDynamics/rig_omni",
+      "method": "Public read-only Git clone and primary README browsing",
+      "commit": "c2b42cd73ef65f5cd2a158d6949f0273869454dc",
+      "supports": [
+        "Arm board, IK, action / motor code, Opus protocol and Apache2 declaration"
+      ],
+      "limits": [
+        "No root LICENSE file found; individual dependencies retain their own licences",
+        "No compile / runtime / hardware test"
+      ]
+    },
+    {
+      "id": "local",
+      "url": "https://github.com/LuwuDynamics/rig_local",
+      "method": "Public read-only Git clone, README and source tracing",
+      "commit": "486500a9ad9c93719680cd3d8273d2689d001cbf",
+      "supports": [
+        "Compatible text LLM with function calls / DashScope ASR and TTS",
+        "Arm controller and HTTP MCP built and started in code",
+        "LAN text / TTS tools and branch behaviour differences"
+      ],
+      "limits": [
+        "Overall software licence not established",
+        "Factory binary compatibility and physical success not established"
+      ]
+    },
+    {
+      "id": "video",
+      "url": "https://www.youtube.com/watch?v=QZNbjupsVAw",
+      "method": "Assembly video link located from official source",
+      "supports": [
+        "Assembly guide destination only"
+      ],
+      "limits": [
+        "Not watched fully or transcribed; not used for technical conclusions"
+      ]
+    }
+  ],
+  "repository_snapshots": [
+    {
+      "repository": "LuwuDynamics/rig_omni",
+      "commit": "c2b42cd73ef65f5cd2a158d6949f0273869454dc",
+      "selected_code_files": {
+        "README_CN.md": "9274e2a426680d7c0622ab68ff4b0e648bc3bb7b03540c7864180b380ce5e9b6",
+        "main/boards/arm/arm_board.cc": "f2251ac8655c5d304da9e76aeb4bffa90c41e4040f42862905353a1a3b76c437",
+        "main/boards/arm/motor.cc": "6b273aa03958f127c42ee87b38a0faa9a5c355d23d3e61184dcda22edec2c49a",
+        "main/boards/arm/robot_action.cc": "8d11a68cc67059ba3afeb093f80b09ecac8ca6fdcd38e56e2b7c6c45edd25ba5",
+        "main/boards/arm/ik.h": "30d8551726b51dace0800092cc7e25a684ec2a32e1442a4b7358b99ecbb5f0f8",
+        "main/mcp_server.cc": "4027916e8cb6b2bec1328bc07b616e0d465fb0d09b00905140fa6e5dae17a011",
+        "main/application.cc": "27b256df640645d12fb850925b27d8a609872dfa9392c566ad5901ccd8ec2f1b",
+        "main/CMakeLists.txt": "1a6a31a25671a920d25d32fbd15f011ed89fb965399d568a2fc7c001bf72454f",
+        "main/boards/arm/board_config.h": "a9a31173c454ca2d516f3617268c921693911e05aead52282087b3afe5279a25",
+        "README.md": "cb9bb3f05b1bb2c15471e4bf6197770bd51df64333fa6924e7e83b1c1a12b767",
+        "main/protocols/websocket_protocol.cc": "099b208b591ac6e86be9b55d70612e78d92d7e26bf1ca23a93c5ab8d23d96a3c"
+      }
+    },
+    {
+      "repository": "LuwuDynamics/rig_local",
+      "commit": "486500a9ad9c93719680cd3d8273d2689d001cbf",
+      "selected_code_files": {
+        "README.md": "097d9149184e0b6b6f478c26c65f5fe367fc2c87204b827a48dc8f9404647914",
+        "main/boards/arm/arm_board.cc": "95d9415dd95f32f6b0740520ed7a08f322a70a70dd4a5cc92ced9bc2299a650d",
+        "main/boards/arm/ik.h": "30d8551726b51dace0800092cc7e25a684ec2a32e1442a4b7358b99ecbb5f0f8",
+        "main/mcp_server.cc": "e0db1e2e61e252b9829dd7622999d14a659ab6dd3c66cdd91817681fd1fcebe7",
+        "main/application.cc": "c8c9c44b71a4fc1edcd8e7096e1b2b0b9cf13e2b2910ca8c65369d3fd75fdb39",
+        "main/CMakeLists.txt": "e3372f141b89685f000a1a14f383059f9f8e4066250ee3097b678397c591933e",
+        "main/boards/arm/board_config.h": "9c7a7fdbe3a386cb85b526bada24295082031c7de3b305448a6ed547fc381981",
+        "main/mcp_http_server.cc": "3bf6fb89d4a6265e59bbdbed0aae7f9fb71ed75bb4b9aff8a05b9b059b9c5fb0",
+        "main/cloud_api/cloud_api_protocol.cc": "1a0fb0cbc28a26f17a3af764f156a5d8895fd2101c98711b5ea68275103d5b1a",
+        "main/cloud_api/llm_client.cc": "31d6522381978c8a0a2fe2b3c8b7a8cb611642424aa6fdc05a51e558543c12d7",
+        "main/boards/arm/xgo.cc": "6c8e90fb954ef46c0dada77d5715b97c34ea30987f4892400aa18aebca76bde1"
+      }
+    }
+  ],
+  "web_extraction_limits": [
+    "MakerWorld, shop and later Wiki web-tool requests failed; rendered Chrome pages were used",
+    "GitHub primary README retrieved by web tool; source verified in read-only local caches"
+  ],
+  "screenshots": [
+    {
+      "path": "../../output/qa/2026-10-05-rig-arm-feasibility/rig-arm-full-unit-shop.jpg",
+      "sha256": "5c85f4d0d6f62ecf702c4e876be8da93107dc3e490e6c34bb68b1defd042c27c"
+    },
+    {
+      "path": "../../output/qa/2026-10-05-rig-arm-feasibility/rig-arm-makerworld.jpg",
+      "sha256": "841329ced0f2db465d71e100bcb6c237183e5750a7b3d04585dee112724edee7"
+    }
+  ],
+  "actions_not_taken": [
+    "purchase",
+    "supplier contact",
+    "API paid call",
+    "firmware compilation or flashing",
+    "physical arm command"
+  ],
+  "boundary": "Upstream repos remain in ignored .runtime; no mechanical model files or third-party source vendored into FYP"
+}

@@ -1,0 +1,46 @@
+{
+  "phase": "validated_before_merge",
+  "at": "2026-10-09T22:06:00.888479+08:00",
+  "protected_files": 107,
+  "protected_changed": [],
+  "main_before": {
+    "count": 7,
+    "sha256": "cf661dc45cba241dcc91f0eed27ec42feebb3a6096957d618507f854fde1e91d"
+  },
+  "backup_directory": "desk-companion/.runtime/dot-integration-backup-20261009",
+  "qa_jobs": [
+    {
+      "id": "fb4d51b010b84116942e0e4e13a7fb73",
+      "state": "succeeded"
+    },
+    {
+      "id": "a8c5e8f5a64a4beaa398dbbd4a8f4edc",
+      "state": "succeeded"
+    },
+    {
+      "id": "9bd2f7925838469981fb606fc6a800a1",
+      "state": "cancelled"
+    },
+    {
+      "id": "c99b2667d1994c68ac747b0f21b92d31",
+      "state": "cancelled"
+    }
+  ],
+  "qa_actual_files": 1,
+  "unknown_request_deduplicated": true,
+  "network_interception_cleared": true,
+  "viewport_override_reset": true,
+  "backend": {
+    "passed": 149,
+    "warnings": 1
+  },
+  "frontend_passed": 15,
+  "ruff": "passed",
+  "build": "passed",
+  "browser": "CUA in-app Browser APIs; no external Playwright fallback",
+  "viewports": [
+    "1280x800 en",
+    "320x740 zh",
+    "1024x600 device"
+  ]
+}
