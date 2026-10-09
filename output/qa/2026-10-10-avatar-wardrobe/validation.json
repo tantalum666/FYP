@@ -42,5 +42,14 @@
   ],
   "tests": "No app/source or school document changes; no old suite or DOCX rerender repeated.",
   "delivery": "Existing feature branch / PR4; final remote state read back in session.",
-  "staged_gitleaks_findings": 0
+  "staged_gitleaks_findings": 0,
+  "git_delivery": {
+    "research_commit": "b4e7589440119d807789ab549bb94a590fdce788",
+    "remote_head_readback": "b4e7589440119d807789ab549bb94a590fdce788",
+    "main_unchanged": "ccfac48ce8c68e6f9c8796911bbe5f35728d7807",
+    "pull_request": "https://github.com/tantalum666/FYP/pull/4",
+    "state": "open",
+    "merged": false,
+    "body_includes_wardrobe_supplement": true
+  }
 }

@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-更新：2026-10-10。当前任务：**用户已同意A/B继续设计，服装研究与四套文字简报完成；最终角色／服装尚未定稿。** 当前分支`codex/full-body-3d-avatar`／[PR #4](https://github.com/tantalum666/FYP/pull/4)，本次补充沿此协作分支保存；main保持Dot整合。
+更新：2026-10-10。当前任务：**用户已同意A/B继续设计，服装研究与四套文字简报完成；最终角色／服装尚未定稿。** 当前分支`codex/full-body-3d-avatar`／[PR #4](https://github.com/tantalum666/FYP/pull/4)，服装研究提交`b4e7589`已推送并读回，PR保持open；main保持Dot整合。
 
 ## 当前结果
 

@@ -40,3 +40,5 @@ The existing loopback-only 5192 preview serves the original art-research directo
 Delivery uses the current `codex/full-body-3d-avatar` branch and existing [PR #4](https://github.com/tantalum666/FYP/pull/4). Staged scan and Git ref / PR head readback are recorded at closeout. No main merge, public deployment, external contact, paid model, school submission or real-device validation is included.
 
 Checks completed: 593 local links valid, all 107 protected hashes unchanged, application paths and pinned model unchanged, four references loaded, and staged Gitleaks scan reported zero findings.
+
+Actual Git delivery: wardrobe research commit `b4e7589440119d807789ab549bb94a590fdce788` was pushed and read back through both `git ls-remote` and PR metadata. Main remains `ccfac48ce8c68e6f9c8796911bbe5f35728d7807`; PR #4 is open/unmerged and its body includes this supplement. A final documentation-only closeout commit follows the same push/readback path.
