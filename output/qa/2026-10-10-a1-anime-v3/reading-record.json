@@ -1,0 +1,17 @@
+{
+  "task": "Same A1 art iteration: further reduce realism",
+  "inherited_full_read": "output/qa/2026-10-09-avatar-art-research/reading-record.json",
+  "inherited_supplements": [
+    "output/qa/2026-10-10-character-concepts/reading-record.json",
+    "output/qa/2026-10-10-a1-anime-v2/reading-record.json"
+  ],
+  "actual_supplement": [
+    "AGENTS.md full",
+    "product.md full",
+    "handoff.md full",
+    "asset README full",
+    "A1-v2 edit target visually inspected"
+  ],
+  "continuation": true,
+  "completed_at": "2026-10-10T02:50:40.286921+08:00"
+}

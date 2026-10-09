@@ -50,13 +50,29 @@
         "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-v1.png"
       ],
       "edit_target_sha256": "5ab0ba141b9c6f9dded5b9b180473a1fb88877205534febdc479f85cf908e2de"
+    },
+    {
+      "id": "A1-v3",
+      "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v3.png",
+      "native_path": "/Users/tantalum/.codex/generated_images/01a07aeb-a256-7572-a42e-bd7e4668674f/exec-b41e9b72-9327-4802-9168-91d8baa202b1.png",
+      "bytes": 1350646,
+      "width": 1024,
+      "height": 1536,
+      "sha256": "7134f63aab5258e283af615cb8bc345f7e66a07e52f71fe628789cbbf3ba886d",
+      "prompt_path": "design/desk-companion/characters/2026-10-10-concepts/a1-anime-v3-prompt.txt",
+      "edit_target": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v2.png",
+      "edit_target_sha256": "e795cd4f31ef8ae93769d0970a3142157b9a213dc64950296673fd3c969f420e",
+      "attempts": 1,
+      "pixel_edits_after_generation": false,
+      "selected_as_final_art": false,
+      "actual_style": "Flatter 2D anime coloring with hard-edged shadow shapes; reduced leg/hosiery/boot gradients. Face stays close to V2."
     }
   ],
-  "state": "A1 working direction selected; v2 style edit generated and pending user review; not rigged VRM",
+  "state": "A1 selected; user requested further reduction in realism after V2; V3 pending style review",
   "application_model_unchanged": true,
   "current_direction": "A1 selected by user; stronger anime stylization requested",
-  "current_review_asset": "A1-v2",
-  "updated_at": "2026-10-10T02:36:20.610171+08:00",
+  "current_review_asset": "A1-v3",
+  "updated_at": "2026-10-10T02:50:40.285911+08:00",
   "initial_generation_input_images": null,
   "initial_round_actual_style": "Polished semi-realistic stylized 3D anime, less cel-shaded than the brief",
   "initial_round_limitations": [

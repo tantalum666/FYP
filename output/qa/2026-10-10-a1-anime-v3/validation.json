@@ -1,0 +1,32 @@
+{
+  "checked_at": "2026-10-10T02:53:59.131732+08:00",
+  "baseline": "c1b453c48045ac3a9b115752c32fcbc3f66d3c8b",
+  "native_edits": 1,
+  "target": "A1-v2",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 1350646,
+  "sha256": "7134f63aab5258e283af615cb8bc345f7e66a07e52f71fe628789cbbf3ba886d",
+  "native_project_bytes_equal": true,
+  "all_prior_png_hashes_unchanged": true,
+  "protected_files": 107,
+  "application_diff": [],
+  "model_sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2",
+  "local_links_checked": 613,
+  "v3_final_approval": false,
+  "no_new_vrm": true,
+  "updated_specs": [
+    "README.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "desk-companion/docs/avatar.md",
+    "research/2026-10-10-avatar-art/character-concepts.md",
+    "research/2026-10-10-avatar-art/popular-character-study.md",
+    "research/2026-10-10-avatar-art/wardrobe-study.md",
+    "design/desk-companion/characters/2026-10-10-concepts/README.md",
+    "output/qa/2026-10-10-a1-anime-v3/verification.md"
+  ],
+  "staged_gitleaks_findings": 0
+}
