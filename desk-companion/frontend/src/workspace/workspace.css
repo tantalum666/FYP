@@ -1,6 +1,44 @@
 .workspace-panel {
   color: var(--device-fg, #242936);
 }
+.computer-jobs form {
+  margin: 18px 0;
+}
+.computer-job {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--device-line, #e8eaf0);
+}
+.computer-job h4 {
+  font-size: 17px;
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+.computer-job pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 240px;
+  overflow: auto;
+  padding: 14px;
+  border: 1px solid var(--device-line, #e8eaf0);
+  font: inherit;
+  line-height: 1.6;
+}
+.computer-job summary {
+  cursor: pointer;
+  padding: 10px 0;
+}
+.computer-job .job-target,
+.computer-job code {
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+.computer-job code {
+  display: block;
+}
+.job-receipt svg {
+  vertical-align: middle;
+  margin-right: 6px;
+}
 .workspace-state {
   display: flex;
   gap: 16px;

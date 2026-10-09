@@ -327,7 +327,11 @@ class TaskService:
             rows = conn.execute(
                 "SELECT * FROM task_evidence WHERE task_id=? ORDER BY id DESC LIMIT 100", (task_id,)
             ).fetchall()
-        return {"task": projected, "evidence": [dict(r) for r in rows]}
+        return {
+            "task": projected,
+            "evidence": [dict(r) for r in rows],
+            "jobs": self.runtime.jobs.listing(task_id),
+        }
 
     def tick(self):
         now = iso(self.store.clock())

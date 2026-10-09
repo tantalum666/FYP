@@ -1,27 +1,19 @@
 # Group 2 Current Handoff
 
-更新：2026-10-05。状态：**RIG-Arm研究完成；机械臂仍为候选，未采购／接入**。
+更新：2026-10-09。状态：**Dot整合审查与本地验证完成；准备合并main**。
 
-## 当前任务与结果
+## 当前结果
 
-用户转述Marco推荐RIG-Arm，要求判断整机可用性及更换AI的二次开发范围。[完整评估](research/2026-10-05-rig-arm/secondary-development-review.md)／[来源](research/2026-10-05-rig-arm/source-register.json)核对官方网页及两个固定固件commit：可以改模型／工具／表情／动作／IK，也有官方MCP和local局域网控制实现。推荐本组主机处理AI／日历／坐姿，现成控制器处理小幅机械表达；不是已批准采购或已实现新驱动。
+用户授权检查GitHub中Dot工作、合并应用并直接修复。整合分支`codex/dot-integration-20261009`保留RIG研究`085dc01`，合入Dot代码`ba2b164`及讨论`597cfe7`。四份根文档冲突已保留两边历史并同步当前状态。
 
-整机页面标价US$124，套件US$109不含打印外壳，当前预售且有节日发货延迟。小智是框架，文字模型换接口和完整自然实时语音接入是不同工作。随臂相机／240×240小屏不替代固定姿态相机／常亮触摸屏。omni与local示教、微动默认行为不同，动作接受不等于到位；统一停止、失联、完成反馈与到货固件仍须台架核对。omni声明Apache2，local整体许可和机械SDFL-C分别处理，上游源码／STL留在Git忽略缓存，不纳入本仓库。
+受限笔记作业与非阻塞语音调度已实现；修复拒绝同ID不同／无效参数时误标原调用已送达、断连漏清理迟到草稿的问题。容量文案及安装说明已修正。[本地整合QA](output/qa/2026-10-09-dot-integration/verification.md)记录149后端、15前端、Ruff／类型／构建及实际保存、取消、unknown只读恢复、超时去重与草稿保护。英／简、桌面／320px手机／独立常亮屏已检查。
 
-## 完成项与证据
+## 保留与未完成
 
-- [全文阅读](output/qa/2026-10-05-rig-arm-feasibility/reading-record.json)：122份／11,376行，36批及截断补读至EOF，期间无变化；压缩沿用记录。
-- [本轮QA](output/qa/2026-10-05-rig-arm-feasibility/verification.md)：官方可见正文、商品截图、源码静态追踪、链接与保护文件核对。没有执行厂商代码、付费AI、刷机或实物动作。
-- product／README／架构／操作已同步候选与接入缺口；学校Proposal／团队日志、身份、旧Senplate和应用源码保持。
+[全文阅读](output/qa/2026-10-09-dot-integration/reading-record.json)覆盖123份本地MD及19个远端变化版本。107项学校／身份／旧工程保护项保持；主7条日程已备份和记录hash，测试只使用独立虚构库。
 
-## 已有工程与仍待验证条件
-
-Desk Companion包含日历、独立常亮／触摸、坐姿标定／判断／反馈复测、配对、助理、Qwen／Gemini语音适配、受限输出、交换／分享／备份和iPhone；主动事务及UI／UX修复完成。[产品](product.md)／[软件README](desk-companion/README.md)／[事务](desk-companion/docs/task-tracking.md)／[操作](desk-companion/docs/operator-guide.md)。101后端、11前端及三端交互等[既有QA](output/qa/task-enhancement-ux-2026-10-03/verification.md)未在本轮重跑，不代表真人准确率、语音自然度或机械性能。输出仍默认停机，尚无RIG驱动。
-
-[私人tantalum666/FYP](https://github.com/tantalum666/FYP)已建仓、默认main，原全项目推送核验完成；旧令牌403已解决，仅增加FYP范围且其余权限保持。成员邀请未发送，按[CONTRIBUTING](CONTRIBUTING.md)由Yuan用组员GitHub用户名邀请。本轮codex/rig-arm-research已推送并建立[Draft PR #1](https://github.com/tantalum666/FYP/pull/1)，远端ref／tree核对见本轮QA；未合并main。CLI令牌缺少PR权限，改用已登录Chrome创建，未扩权限。研究上传不等于应用部署。
-
-本轮未重启／核实预览8831／5190；原账号owner、私有凭据在desk-companion/.runtime/credentials.json，不进Git。真实摄像头／标签、Pi常亮与触摸／负载、音频与AEC／费用、机械供电／停止／包络、光学、Google本人OAuth、Apple真机签名及DGX配额仍需对应实物或账号条件。学校正式双格式、三人明细日志和40／30／30计划份额保持，不代签、不提交。
+笔记执行默认关闭；[作业契约](desk-companion/docs/computer-jobs.md)不含通用GUI／LCU。真实目标PC执行、长期记忆管理、作业归档／业务备份、自然语音／AEC／费用、Pi、真人姿态标签、RIG／清洁模块与物理停止仍待对应验收。没有采购、成员邀请、系统权限、收费模型或学校提交。
 
 ## 唯一下一步
 
-**取得候选RIG-Arm的实际SKU／板型、出厂固件与可调用工具清单；先做只读连通，再确定受限驱动及停止／回执台架方案。** 本轮已列可供核对的问题，尚未对外发送；没有把购买意向记成采购决定。
+**提交并合并经过本地验证的整合PR，回读origin/main并同步本地main；启动主预览，核对七条原日程保持后记录实际结果。** 当前尚未声称PR或预览已完成；凭据继续留在`desk-companion/.runtime/credentials.json`。

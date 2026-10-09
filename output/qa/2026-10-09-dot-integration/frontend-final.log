@@ -1,0 +1,127 @@
+
+> desk-companion-ui@0.1.0 test
+> node --experimental-strip-types --test tests/*.test.ts
+
+TAP version 13
+# Subtest: approval requires fresh data and an unexpired review
+ok 1 - approval requires fresh data and an unexpired review
+  ---
+  duration_ms: 0.692709
+  type: 'test'
+  ...
+# Subtest: cancellation remains available for active and unknown jobs only
+ok 2 - cancellation remains available for active and unknown jobs only
+  ---
+  duration_ms: 0.124042
+  type: 'test'
+  ...
+# Subtest: recovering another operation must not clear the current unsaved note
+ok 3 - recovering another operation must not clear the current unsaved note
+  ---
+  duration_ms: 0.0775
+  type: 'test'
+  ...
+# Subtest: pending note recovery is scoped to the same linked task
+ok 4 - pending note recovery is scoped to the same linked task
+  ---
+  duration_ms: 0.050666
+  type: 'test'
+  ...
+# Subtest: saved timed events return to the display's local date, including a date boundary
+ok 5 - saved timed events return to the display's local date, including a date boundary
+  ---
+  duration_ms: 16.261792
+  type: 'test'
+  ...
+# Subtest: display appearance follows local hour at the two boundaries
+ok 6 - display appearance follows local hour at the two boundaries
+  ---
+  duration_ms: 0.088167
+  type: 'test'
+  ...
+# Subtest: five and six week months have complete, bounded grids
+ok 7 - five and six week months have complete, bounded grids
+  ---
+  duration_ms: 5.495
+  type: 'test'
+  ...
+# Subtest: end of year display includes next month while obeying API range limit
+ok 8 - end of year display includes next month while obeying API range limit
+  ---
+  duration_ms: 12.842208
+  type: 'test'
+  ...
+# Subtest: upcoming excludes completed and ended items, keeps an ongoing cross-midnight event
+ok 9 - upcoming excludes completed and ended items, keeps an ongoing cross-midnight event
+  ---
+  duration_ms: 0.426458
+  type: 'test'
+  ...
+# Subtest: upcoming ordering compares instants, not written timezone offsets
+ok 10 - upcoming ordering compares instants, not written timezone offsets
+  ---
+  duration_ms: 0.139625
+  type: 'test'
+  ...
+# Subtest: automatic return never interrupts editing or an unresolved save
+ok 11 - automatic return never interrupts editing or an unresolved save
+  ---
+  duration_ms: 0.102625
+  type: 'test'
+  ...
+# Subtest: audio worklet retains fractional phase across 128-sample blocks
+ok 12 - audio worklet retains fractional phase across 128-sample blocks
+  ---
+  duration_ms: 37.408792
+  type: 'test'
+  ...
+# Subtest: busy duration merges overlaps, clips to day, and ignores completed events
+ok 13 - busy duration merges overlaps, clips to day, and ignores completed events
+  ---
+  duration_ms: 15.456417
+  type: 'test'
+  ...
+# Subtest: lunar day is computed in the selected calendar timezone
+ok 14 - lunar day is computed in the selected calendar timezone
+  ---
+  duration_ms: 1.188791
+  type: 'test'
+  ...
+# Subtest: a stale posture connection masks private content in a previously loaded display snapshot
+ok 15 - a stale posture connection masks private content in a previously loaded display snapshot
+  ---
+  duration_ms: 0.121625
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 224.782625
+
+> desk-companion-ui@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.1 building client environment for production...
+transforming...
+✓ 1925 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                              0.48 kB │ gzip:   0.30 kB
+dist/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2     10.25 kB
+dist/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2      11.23 kB
+dist/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2       18.74 kB
+dist/assets/inter-greek-wght-normal-CkhJZR-_.woff2          18.99 kB
+dist/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2   25.96 kB
+dist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2          48.25 kB
+dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2      85.06 kB
+dist/assets/DeviceApp-BU9g_Eb8.css                          18.50 kB │ gzip:   3.96 kB
+dist/assets/index-BaEz10K6.css                              42.70 kB │ gzip:   9.69 kB
+dist/assets/DeviceApp-CXQSwtia.js                           29.95 kB │ gzip:  10.76 kB
+dist/assets/index-DtjgXVdw.js                              473.88 kB │ gzip: 148.89 kB
+
+✓ built in 261ms

@@ -33,6 +33,9 @@ class TextPlan(StrictModel):
         "calendar_query",
         "calendar_create_draft",
         "calendar_change_draft",
+        "computer_job_draft",
+        "computer_job_status",
+        "computer_job_cancel",
     ] = "none"
     arguments: dict = Field(default_factory=dict)
 
@@ -269,6 +272,9 @@ class TextAssistant:
                 )
                 if "proposal" in result:
                     reply = {"mode": "ai", "kind": "draft", "message": plan.message, **result}
+                    break
+                if "job" in result:
+                    reply = {"mode": "ai", "kind": "job", "message": plan.message, **result}
                     break
                 context["last_tool_result"] = {"tool": plan.tool, "result": result}
             if reply is None:

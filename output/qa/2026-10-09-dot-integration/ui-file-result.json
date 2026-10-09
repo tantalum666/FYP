@@ -1,0 +1,15 @@
+{
+  "job_id": "fb4d51b010b84116942e0e4e13a7fb73",
+  "state": "succeeded",
+  "receipt": {
+    "artifact": "fb4d51b010b84116942e0e4e13a7fb73.txt",
+    "bytes": 63,
+    "executor": "local_notes_v1",
+    "reason": "read_back_matches",
+    "scope": "application_notes_only",
+    "sha256": "be7e8a848bb63488f57d5da6b3f099888d18017bdb3f2cdfab8a4d172c936743",
+    "verified": true
+  },
+  "actual_sha256": "be7e8a848bb63488f57d5da6b3f099888d18017bdb3f2cdfab8a4d172c936743",
+  "actual_bytes": 63
+}

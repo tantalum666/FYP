@@ -1,0 +1,957 @@
+{
+  "schema_version": 1,
+  "date_utc": "2026-10-06",
+  "repository": "tantalum666/FYP",
+  "base_commit": "5b8ce5b81dd075cae3cef6787c964bf0406591e2",
+  "mode": "same-discussion documentation continuation",
+  "prior_reading": {
+    "reported_completed_utc": "2026-10-05T08:34:00Z",
+    "project_markdown_files": 122,
+    "qa_reports": 13,
+    "core_source_or_test_files": 12,
+    "dependency_manifests": 2,
+    "scope": "前序阅读结论为以上文件已完整阅读；事务界面选读；不是完整代码审计",
+    "limitation": "本阶段未取得历史逐文件范围记录或13份QA的完整清单，不重建或虚构它们。本清单的SHA和行数仅证明固定版本盘点，不是新的全文阅读证据。"
+  },
+  "inventory": {
+    "method": "GitHub recursive tree; fetch text to calculate line counts",
+    "files": [
+      {
+        "path": "AGENTS.md",
+        "blob_sha": "6ffb0a17aaed8e95caee66257ea722747512c8be",
+        "lines": 51,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "brand.md",
+        "blob_sha": "0a6f7b26ced4c729c6f2b61e10aa6b8b3f57323a",
+        "lines": 61,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "CONTRIBUTING.md",
+        "blob_sha": "bb6e8b351c72d6990bdcfdbcb415a7a66edb191d",
+        "lines": 95,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "decision-log.md",
+        "blob_sha": "a4f5814e6f9a9c87812c8a70bc39667d49b87fbb",
+        "lines": 641,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "design/desk-companion/b1/design-spec.md",
+        "blob_sha": "5ffb8ed72cf1e93208d80d111851a379e45eada6",
+        "lines": 43,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "design/desk-companion/device-ambient-v1/README.md",
+        "blob_sha": "5c424d939fcde9ce3ac1ed0de7e22e77bc70f46b",
+        "lines": 12,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "desk-companion/docs/architecture.md",
+        "blob_sha": "d10b09bffd71c21374bebf7e697040e7a353c8a2",
+        "lines": 72,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "desk-companion/docs/evaluation.md",
+        "blob_sha": "8350cd0212a5ccb945d27e2f26d0acaf2d38fb10",
+        "lines": 61,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "desk-companion/docs/operator-guide.md",
+        "blob_sha": "88a720a07fbd4783bfa8f1fbedcc432685019abd",
+        "lines": 160,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "desk-companion/docs/task-tracking.md",
+        "blob_sha": "d1907dc19c1bc7bbf2bc04b75306f10f177a7825",
+        "lines": 55,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "desk-companion/frontend/ios/App/CapApp-SPM/README.md",
+        "blob_sha": "03964db900841d8d1125314f12ace8394c755b3b",
+        "lines": 6,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "desk-companion/README.md",
+        "blob_sha": "bc2a1e7f54a05dccec08cfda0fdb9d9ccb89fba9",
+        "lines": 101,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "desk-companion/THIRD_PARTY.md",
+        "blob_sha": "f6e73fb825aae6fddcadea783afd4450f44bc927",
+        "lines": 24,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "handoff.md",
+        "blob_sha": "6ccdfffcea1eaa50cafb5efe5e317ed2ff28e925",
+        "lines": 32,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "inputs/README.md",
+        "blob_sha": "8e5be5d02fb1b2abdec51b4ec1282fc9e37624d5",
+        "lines": 12,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "inputs/teammate/形态 A：智能音箱智能屏幕终端（如 小爱触屏音箱、小度在家、FotoCube 等）.md",
+        "blob_sha": "dc0f249ec8c520641de81dd64b3b4009e014d7cf",
+        "lines": 23,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-17-senplate-bowl-golden-v6/README.md",
+        "blob_sha": "558962f09a553fa4c04aa84ae7f4edcd8cd5dc11",
+        "lines": 26,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-17-senplate-bowl-redesign-v5/README.md",
+        "blob_sha": "7937d73cc58247fde7d44130802491e56693edb6",
+        "lines": 16,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-17-senplate-ellipse-a-v4/README.md",
+        "blob_sha": "96f9a7fbd370f2d01bc77ef74879b1a02c1e8677",
+        "lines": 30,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-17-senplate-golden-a-v3/README.md",
+        "blob_sha": "2ae8dcaddf1cdd476cb09d1f714a170a481125e9",
+        "lines": 37,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-17-senplate-refined-a-v2/README.md",
+        "blob_sha": "7cb66981f618757593810d98a3da2667b325bde1",
+        "lines": 26,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-17-senplate-selected-a/README.md",
+        "blob_sha": "ba876fe7b68f31b8a0df500b596e9f1470fae19b",
+        "lines": 29,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-17-senplate-v6-tick-study/README.md",
+        "blob_sha": "9be4644737ab844cea8de3d8bb02ffd5edd13890",
+        "lines": 15,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-18-senplate-plain-bowl-v7/README.md",
+        "blob_sha": "1fdf4389efb212881d656562e719003abbac1fc5",
+        "lines": 14,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-18-senplate-v6-curved-ticks/README.md",
+        "blob_sha": "78846c65420c19e80ae6e30193bfdbda7ff5da2f",
+        "lines": 10,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-18-senplate-v6-inner-scale/README.md",
+        "blob_sha": "23b65447d022700d8458113706fd8bf0907b3cdb",
+        "lines": 10,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-18-senplate-v6-rim-tick-study/README.md",
+        "blob_sha": "4e0ee48945faaa3f7acd93a1d44a85e91c9874af",
+        "lines": 16,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-18-senplate-v6-visible-ticks/README.md",
+        "blob_sha": "99245e4dfe9ffe1989634b868c2f3c1cbf01fa8a",
+        "lines": 13,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-18-senplate-vi-v1/05_Fonts_and_Licences/FONT-LICENCE-AUDIT.md",
+        "blob_sha": "fce1d01f1b4dc8d0ea14bd560725cf7b9a82f3ca",
+        "lines": 29,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-18-senplate-vi-v1/06_Source/Figma_Source.md",
+        "blob_sha": "c6a66efe9bebd14be25855e63b4faf4258aecb13",
+        "lines": 18,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-18-senplate-vi-v1/06_Source/VI_Rules.md",
+        "blob_sha": "4d56143777433d51298680ddef66001e479bfd36",
+        "lines": 15,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "output/brand/2026-09-18-senplate-vi-v1/README.md",
+        "blob_sha": "9ccdc125aaae0e04720b83d888d1d0df0f8f23b7",
+        "lines": 26,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+        "blob_sha": "3fff4c471723d6187e0d7ee2a9fabc718ea7e64b",
+        "lines": 175,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+        "blob_sha": "07d251ec594801b322cb9c8d7f1dc834574773e7",
+        "lines": 123,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+        "blob_sha": "65e8dd7dc0b457bc156214f2bfaea4af847dc714",
+        "lines": 81,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+        "blob_sha": "5acf3daef8e0e9c4affc56c54f5e3e061e2907a9",
+        "lines": 161,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+        "blob_sha": "c29a5088a74705a5ef2d459199c9a6b8c1a7a504",
+        "lines": 111,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+        "blob_sha": "fdbce751e106d811bc2500dda09e27863b7829b7",
+        "lines": 40,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-15/camera-power-and-scaling.md",
+        "blob_sha": "b31649fadbda14aaf74606e6cb572da957cd9079",
+        "lines": 186,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+        "blob_sha": "fa2920af193fe5ac3bd0f26a35e48d39ad1b15b9",
+        "lines": 23,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+        "blob_sha": "8f48048270452b7cce1404994eb981129a03d1bb",
+        "lines": 248,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+        "blob_sha": "bc3fc357d7dce5332b9f1c86ac0a75c5477be9de",
+        "lines": 71,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+        "blob_sha": "ba585b258ef6f24ac9ab27fe0a89d18de7a7f12d",
+        "lines": 54,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-15/power-supply-detail.md",
+        "blob_sha": "70c093e8ff8852560081cc6828d49f23b76567fd",
+        "lines": 144,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-15/procurement-guide.md",
+        "blob_sha": "fccc9b12bddf6830bfc0594a41b1eb5b1661f117",
+        "lines": 215,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+        "blob_sha": "f599745f750e5a43d7074138adb38a9e0c7e1524",
+        "lines": 108,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-16/app-pages-and-permissions.md",
+        "blob_sha": "11f030df92559e8ec9badbfbbd959c440588c4c7",
+        "lines": 181,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-16/archive/software-scope-web-first-v1.md",
+        "blob_sha": "769cff387eed0dfb4c519ba5e909e0d44fd15142",
+        "lines": 190,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-16/brand-visual-directions.md",
+        "blob_sha": "92ccd0685d0b5c93b8fe50e1918901384f4d4795",
+        "lines": 55,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-16/business-plan-zh.md",
+        "blob_sha": "bdf13508668fbe4d1610ac175a246b00dc3be920",
+        "lines": 450,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-16/logo-reference-calibration.md",
+        "blob_sha": "fc7a574ece2ffb15a57f78cb313e2ecd935e578b",
+        "lines": 53,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-16/naming-shortlist.md",
+        "blob_sha": "c8e99a970eae4d8684f8a850f3027290bca41bbf",
+        "lines": 46,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-16/senplate-logo-refinement-r2.md",
+        "blob_sha": "28c3c840d8c1c392b2953f50ef77c5e0846b9820",
+        "lines": 45,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-16/senplate-logo-reset-r3.md",
+        "blob_sha": "209cbb869dcc7b203cf48403da525da6fe75e2de",
+        "lines": 47,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-16/senplate-logo-vi-directions.md",
+        "blob_sha": "8092f51b2caf7aa5e9c546f8bbf23f6ff1f8dfda",
+        "lines": 64,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-16/software-mvp-and-acceptance.md",
+        "blob_sha": "657a22e17458a2b0018073251559ac55cf16544b",
+        "lines": 99,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-16/software-scope-and-architecture.md",
+        "blob_sha": "08502c7eebf1d790f2df75a494dc58c95e76cca3",
+        "lines": 207,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-16/software-workflows-and-api.md",
+        "blob_sha": "beb266eea36e0c413584fdada61a7fb5bc195ffc",
+        "lines": 292,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-17/senplate-bowl-golden-v6.md",
+        "blob_sha": "d9f5727f915e6b8a48ab444e8f910e0915832d1f",
+        "lines": 44,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-17/senplate-bowl-redesign-v5.md",
+        "blob_sha": "411566628fd47a2eed4d10e36610ca9f10e312e3",
+        "lines": 45,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-17/senplate-logo-measured-plate-r5.md",
+        "blob_sha": "d32ade1fb22555e4efc4467138de08edf4a2dd72",
+        "lines": 46,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-17/senplate-logo-profile-r4.md",
+        "blob_sha": "24c3568adf1fefcfd0a1a02cd5859dbb381f990e",
+        "lines": 41,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-17/senplate-v6-tick-study.md",
+        "blob_sha": "aaeb2d22c0da0892e64fbb23dd8283f11d41a96d",
+        "lines": 31,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-17/senplate-vector-logo-studies.md",
+        "blob_sha": "45772b034e182492fe6e8a1b0e6ed41ff93aeb47",
+        "lines": 52,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-18/development-p0.md",
+        "blob_sha": "3506df97961d1aaa82394fec732d5d2fe37f1eb3",
+        "lines": 71,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-18/senplate-plain-bowl-v7.md",
+        "blob_sha": "c84652bea0c1c6b5ee903518f7eb02618718dcfb",
+        "lines": 26,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-18/senplate-v6-curved-ticks.md",
+        "blob_sha": "03defe9e95d90aa9899dd8644ceb459a4b7e8aed",
+        "lines": 27,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-18/senplate-v6-inner-scale.md",
+        "blob_sha": "59099820c997d9d752217e2c1fcac984439e8ce3",
+        "lines": 25,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-18/senplate-v6-rim-tick-study.md",
+        "blob_sha": "8ff66eb35fa16208865effad355996749aa4ef73",
+        "lines": 31,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-18/senplate-v6-visible-ticks.md",
+        "blob_sha": "4738713b63869da6938c5b1d5dbf959fc14095fd",
+        "lines": 27,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-18/senplate-vi-v1.md",
+        "blob_sha": "73fa204dbb962973d79c998731a214a7d047ce50",
+        "lines": 34,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-19/meals-samples-contract.md",
+        "blob_sha": "c182d852b7848e646af8907bc6ea9b85b913c1b3",
+        "lines": 56,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-19/menu-orders-contract.md",
+        "blob_sha": "4537fa9b7e54b0f254a28ec33ab1385425062dfc",
+        "lines": 71,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-21/marco-camera-and-nutrition-review.md",
+        "blob_sha": "c949b3abd7d4994e9fea4eba286d9006e978b373",
+        "lines": 148,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-21/proposal-content.md",
+        "blob_sha": "61fd6731625eb5b2458074450d751b00d4b71ca0",
+        "lines": 244,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-21/proposal-spec.md",
+        "blob_sha": "007a4797861d6e8668edfe5cb3143d95b79007c7",
+        "lines": 42,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-25/desk-companion-proposal-zh-review-v2.md",
+        "blob_sha": "57e0d256c8c39f7ff62f1a2e4fbcaa7e83751e7a",
+        "lines": 149,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-25/desk-companion-proposal-zh-review.md",
+        "blob_sha": "28da20637169badd60b4453c29c4e6d4fcc15baa",
+        "lines": 143,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-26/ava-cylinder-route-a.md",
+        "blob_sha": "5b509dd2ff131016c2ff1fecad1a9de24a3ccc0a",
+        "lines": 56,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-28/desk-companion-proposal-en.md",
+        "blob_sha": "6338d714ce5c1b4ece5a7978f46dcbd435f51853",
+        "lines": 200,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-28/desk-companion-proposal-zh-v3.md",
+        "blob_sha": "e04cbdb6541e825ea5ebf2ac868501f7222c1ad4",
+        "lines": 200,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-28/desk-software-scope-v1.md",
+        "blob_sha": "6576b3f667cf4fb8751a4e522a2c4315f63f9cd5",
+        "lines": 223,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-28/logsheet-and-proposal-review.md",
+        "blob_sha": "9800fd7fad28c5d099a72e436b576b00575ca1f1",
+        "lines": 45,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-29/calendar-part1-functional-scope.md",
+        "blob_sha": "d5145c92e6efd6fffd74a8a16df03ad6cfee365e",
+        "lines": 153,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-29/calendar-part1-teammate-source.md",
+        "blob_sha": "02ecdb69cf033be44c7daa0dd8615e37ceff89dc",
+        "lines": 50,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-29/software-development-plan.md",
+        "blob_sha": "618461f601b57cb289fa269be3ffa6dad77ccef8",
+        "lines": 149,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-09-30/device-display-spec.md",
+        "blob_sha": "055f2a091e2476358c9a9367af5eb7935b1301ad",
+        "lines": 69,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-10-02/software-completion-plan.md",
+        "blob_sha": "39f47f842e9c59dea6fa4cecac72c6378e189b47",
+        "lines": 54,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "planning/2026-10-03-task-enhancement.md",
+        "blob_sha": "b80c9f8e82007d5d5a51eb6c93b4a403b819031a",
+        "lines": 23,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "product-senplate-historical.md",
+        "blob_sha": "d696bb8425b9cf9c9e2197c4a2e5df9a95ef16c9",
+        "lines": 169,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "product.md",
+        "blob_sha": "a6c399de063dd4103adcf756bb61cb885460060b",
+        "lines": 73,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "README.md",
+        "blob_sha": "e29d0d682b45d1e8f9558cefb47b99bd26ba9a73",
+        "lines": 223,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+        "blob_sha": "a351cf4affa478635318bd0f19e011ac2a81c1d3",
+        "lines": 166,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+        "blob_sha": "0ab800a2da56d8c10ca427dc22859a304175c06b",
+        "lines": 39,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+        "blob_sha": "7ea7d81d63da49f6b56bc272d30f57b3c46430a8",
+        "lines": 45,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+        "blob_sha": "43dc766a978f3019d8c6d54280da8d5b34005bb3",
+        "lines": 48,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+        "blob_sha": "38f7d40d2e22b2445458e4a22051923836f9b52e",
+        "lines": 288,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+        "blob_sha": "bcfd1fccd87e4619781b8a3c229f008fd6e9317d",
+        "lines": 172,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+        "blob_sha": "04020da8ad0e04290256a633ae01ef3db4d87fe6",
+        "lines": 26,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-16-competitions/competition-shortlist.md",
+        "blob_sha": "68c44d155cff537dc348f79db3b7d2d537aae3f0",
+        "lines": 81,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-16-competitions/mainland-national-provincial.md",
+        "blob_sha": "a059daa31ec1cf84ebd1b224855f68c10f380f86",
+        "lines": 65,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-16-competitions/no-company-options.md",
+        "blob_sha": "d07eda8f62dd8594830824155c8eae4f6369bbed",
+        "lines": 56,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-16-competitions/plan-to-july-2027.md",
+        "blob_sha": "99bec2bd1224ebfbbee1773463a7c654c267aaae",
+        "lines": 83,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-16-competitions/world-vocational-registration.md",
+        "blob_sha": "52b9756ece7642c4597783e6f6e2e9c2dcddebbe",
+        "lines": 53,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-16-metafoodx-app/app-review.md",
+        "blob_sha": "cf15af0f664be6a13758d042f3b4df6777f1985c",
+        "lines": 61,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md",
+        "blob_sha": "13b3d032432a173248e0c33b23b69dc59ccc4d94",
+        "lines": 73,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-17-logo-similarity/similarity-review.md",
+        "blob_sha": "fcd043f8877c6a2cefd411b61512e298ecbcc371",
+        "lines": 83,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-18-font-licences/font-licence-audit.md",
+        "blob_sha": "fce1d01f1b4dc8d0ea14bd560725cf7b9a82f3ca",
+        "lines": 29,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-18-senplate-trademark/trademark-review.md",
+        "blob_sha": "79a6393a666dc6eea3541216cfae83a1b71439c5",
+        "lines": 84,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-19-nutrition/reference-audit.md",
+        "blob_sha": "15554358207539237f87cc10ee257b91cbc9acd2",
+        "lines": 37,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-25-desk-companion/feasibility-review.md",
+        "blob_sha": "da8593aa138a4c0eb1952d91d68ad4a95b4ca3b9",
+        "lines": 128,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md",
+        "blob_sha": "31c4b5b706f032d832f4e6772179ac5557004983",
+        "lines": 64,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-25-desk-companion/voice-model-cost-review.md",
+        "blob_sha": "47704a52430d42ca3c6b9e007e27e979373d0524",
+        "lines": 56,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md",
+        "blob_sha": "814834274a165129b7d3b85bd041817cff2f87a6",
+        "lines": 41,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-26-desk-companion/hologram-fan-maturity.md",
+        "blob_sha": "746b889841d120ca9124cc764d4e46289028c7bf",
+        "lines": 38,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-26-desk-companion/razer-ava-like-feasibility.md",
+        "blob_sha": "53e8427a67b712d86e47d30c72633b67b7df9808",
+        "lines": 37,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-28-local-voice/server-deployment-comparison.md",
+        "blob_sha": "79ba4a9d5fb009d7457248002c3c22c4c823d8c8",
+        "lines": 206,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-29-voice-ai/naturalness-and-tools-review.md",
+        "blob_sha": "7900dad8916012a04ce66b78a54d16e006364e3b",
+        "lines": 150,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-09-29-voice-ai/price-and-value-ranking.md",
+        "blob_sha": "08530398e346565e86648d37ed482c04226c79c4",
+        "lines": 67,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "research/2026-10-03-dot/proactive-task-tracking.md",
+        "blob_sha": "ae4331d3fc64e3122d0f1c82b07d6cafc14911e1",
+        "lines": 99,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "Senplate_Logo_ImageGen_Brief.md",
+        "blob_sha": "63bd2f62b4ecbbde77aec818977c4500d1ec396d",
+        "lines": 54,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      },
+      {
+        "path": "work-log.md",
+        "blob_sha": "5eab71ab6d285961a1e1e87ddf2eb02f31e2adef",
+        "lines": 781,
+        "reading_evidence": "covered by inherited 122-file complete-reading report; per-file prior ranges not available",
+        "current_inventory_fetch": "success"
+      }
+    ],
+    "project_markdown_count": 122,
+    "total_line_records": 11498,
+    "exclusions": [
+      "output/qa 自动生成证据不计入122份项目Markdown；其中13份报告由前序阅读结论覆盖",
+      "第三方依赖、缓存、构建产物、学校二进制未作为本次Markdown阅读对象"
+    ],
+    "nested_agents": [
+      "AGENTS.md"
+    ]
+  },
+  "supplemental_reading": [
+    {
+      "path": "AGENTS.md",
+      "ranges": "全文",
+      "total_lines": 51
+    },
+    {
+      "path": "product.md",
+      "ranges": "全文",
+      "total_lines": 73
+    },
+    {
+      "path": "handoff.md",
+      "ranges": "全文",
+      "total_lines": 32
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "ranges": "全文",
+      "total_lines": 95
+    },
+    {
+      "path": "README.md",
+      "ranges": "当前入口；历史正文保留，不在本阶段重新全文阅读",
+      "total_lines": 223
+    },
+    {
+      "path": "desk-companion/README.md",
+      "ranges": "全文",
+      "total_lines": 101
+    },
+    {
+      "path": "desk-companion/docs/architecture.md",
+      "ranges": "全文",
+      "total_lines": 72
+    },
+    {
+      "path": "planning/2026-09-28/desk-software-scope-v1.md",
+      "ranges": "1-60；其余历史段落沿用前序阅读，不修改",
+      "total_lines": 223
+    },
+    {
+      "path": "decision-log.md",
+      "ranges": "最新相关决定；只追加本轮记录",
+      "total_lines": 641
+    },
+    {
+      "path": "work-log.md",
+      "ranges": "最新相关记录；只追加本轮记录",
+      "total_lines": 781
+    },
+    {
+      "path": "desk-companion/backend/desk/app.py",
+      "ranges": "39-77，调度",
+      "total_lines": 365
+    },
+    {
+      "path": "desk-companion/backend/desk/runtime.py",
+      "ranges": "全文",
+      "total_lines": 89
+    },
+    {
+      "path": "desk-companion/backend/desk/text_ai.py",
+      "ranges": "279-349，门槛与写回",
+      "total_lines": 349
+    },
+    {
+      "path": "desk-companion/backend/desk/voice.py",
+      "ranges": "471-565，工具与时限",
+      "total_lines": 660
+    }
+  ],
+  "completed_utc": "2026-10-06T13:54:00Z"
+}

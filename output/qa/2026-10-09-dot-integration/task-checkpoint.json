@@ -1,0 +1,35 @@
+{
+  "task": "Review and fix Dot GitHub changes, merge to main and apply locally",
+  "date": "2026-10-09",
+  "phase": "validated_before_merge",
+  "last_full_chunk_read": 43,
+  "next_chunk": null,
+  "ack_next": null,
+  "remote_changed_chunks_read": [
+    42,
+    43
+  ],
+  "initial_branch": "codex/rig-arm-research",
+  "initial_head": "085dc01e3ea360d4d1555189f542c435cd5e40e3",
+  "remote_main": "5b8ce5b81dd075cae3cef6787c964bf0406591e2",
+  "dot_plan": "597cfe7e90aec8d12a2f68963d2b8f4e1ff54220",
+  "dot_software": "ba2b164664c33db0427e05fa39eb23752430103e",
+  "dot_software_branch": "codex/fyp-cloud-software-20261006",
+  "dot_plan_branch": "codex/personal-agent-plan-20261006",
+  "dot_software_parent_is_plan": true,
+  "github_prs": [
+    {
+      "number": 1,
+      "head": "codex/rig-arm-research",
+      "state": "open",
+      "draft": true,
+      "head_sha": "085dc01e3ea360d4d1555189f542c435cd5e40e3"
+    }
+  ],
+  "read_policy": "All123 initial WORKTREE Markdown to EOF. Remote changed variants inherit only exact text-equal line blocks read in this round; all457 added/replaced lines emitted in42/43. Propagate and validate inheritance at completion. No fingerprints as read proof.",
+  "edits_so_far": "Dot branch merged into integration working tree; conflicts resolved preserving RIG and cloud history; voice delivery cleanup regression fixed; docs synchronized",
+  "reviews_tests_run": "149 backend / 15 frontend / Ruff / TypeScript / Vite passed; actual UI note, cancellation, readback, lost-response dedup, draft and responsive checks passed",
+  "integration_approach": "After all reading, preserve RIG current branch and merge Dot software (includes plan) on codex integration branch; resolve docs carefully, review full code, fix, test isolated UI and code, create PR, merge exact reviewed SHA under current user authorization, sync main locally. Do not force push Dot branches.",
+  "remaining_external_scope": "No LCU install, OS permissions, real model calls, hardware, procurement or school submission authorized / performed",
+  "full_reading_complete": true
+}
