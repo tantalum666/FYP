@@ -29,3 +29,5 @@
 本地核对结果：五PNG／五提示词／五资产来源条目一致，107项保护文件、原VRM及应用程序保持；本轮文档本地链接通过，精确数量见checks.json，八张参考图实际加载且无横向溢出。[机器检查结果](checks.json)与[浏览器检查](browser-check.json)保留。
 
 暂存变更秘密扫描：Gitleaks通过，0条发现；扫描约123.73KB的文本差异，PNG二进制不作为秘密文本扫描。[原始结果](gitleaks.json)。
+
+研究内容提交`9b9effbb54e8de3b57b9093dc3d0c19aba21fa06`已推送，远端分支ref与PR #4 head一致；PR说明已改为当前保留／研究范围，状态open且未合并。main仍为`ccfac48ce8c68e6f9c8796911bbe5f35728d7807`。[实际读回记录](git-delivery.json)；随后收尾提交仅保存此证据与检查计数。

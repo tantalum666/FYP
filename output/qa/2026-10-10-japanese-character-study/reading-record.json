@@ -113,7 +113,7 @@
     },
     {
       "path": "design/desk-companion/characters/2026-10-10-concepts/README.md",
-      "lines": 32
+      "lines": 30
     },
     {
       "path": "design/desk-companion/device-ambient-v1/README.md",
@@ -613,7 +613,7 @@
     },
     {
       "path": "work-log.md",
-      "lines": 884
+      "lines": 886
     }
   ],
   "current_inventory_count": 133,

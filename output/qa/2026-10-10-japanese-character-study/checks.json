@@ -1,5 +1,5 @@
 {
-  "completed_at": "2026-10-10T03:44:23.255166+08:00",
+  "completed_at": "2026-10-10T03:48:25.196797+08:00",
   "preserved_pngs": 5,
   "preserved_prompts": 5,
   "raw_asset_hashes_identical": true,
@@ -23,7 +23,7 @@
     "research/2026-10-10-avatar-art/wardrobe-study.md",
     "work-log.md"
   ],
-  "checked_local_links": 668,
+  "checked_local_links": 673,
   "broken_local_links": [],
   "sources": 13,
   "official_character_visuals": 6,

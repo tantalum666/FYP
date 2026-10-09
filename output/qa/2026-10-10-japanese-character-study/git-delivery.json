@@ -1,0 +1,13 @@
+{
+  "content_commit": "9b9effbb54e8de3b57b9093dc3d0c19aba21fa06",
+  "branch": "codex/full-body-3d-avatar",
+  "remote_feature_ref_verified": "9b9effbb54e8de3b57b9093dc3d0c19aba21fa06",
+  "remote_main_verified": "ccfac48ce8c68e6f9c8796911bbe5f35728d7807",
+  "main_unchanged": true,
+  "pr_url": "https://github.com/tantalum666/FYP/pull/4",
+  "pr_state": "open",
+  "merged": false,
+  "pr_description_updated": true,
+  "scope": "Preservation, Japanese anime research and documentation; runtime unchanged",
+  "note": "This receipt records the pushed content commit. The following closeout commit only persists verification evidence and refreshed counts."
+}
