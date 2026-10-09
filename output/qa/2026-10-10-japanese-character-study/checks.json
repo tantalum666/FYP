@@ -1,0 +1,32 @@
+{
+  "completed_at": "2026-10-10T03:44:23.255166+08:00",
+  "preserved_pngs": 5,
+  "preserved_prompts": 5,
+  "raw_asset_hashes_identical": true,
+  "manifest_asset_entries_identical": true,
+  "protected_files": 107,
+  "protected_files_unchanged": true,
+  "application_source_unchanged_since": "352199fd1cc5a3a8f40ccb4ad8ab61a44785ac8c",
+  "runtime_model_unchanged": true,
+  "checked_markdown_files": [
+    "README.md",
+    "decision-log.md",
+    "design/desk-companion/characters/2026-10-10-concepts/README.md",
+    "desk-companion/README.md",
+    "desk-companion/docs/avatar.md",
+    "handoff.md",
+    "output/qa/2026-10-10-japanese-character-study/verification.md",
+    "product.md",
+    "research/2026-10-10-avatar-art/character-concepts.md",
+    "research/2026-10-10-avatar-art/japanese-character-study.md",
+    "research/2026-10-10-avatar-art/popular-character-study.md",
+    "research/2026-10-10-avatar-art/wardrobe-study.md",
+    "work-log.md"
+  ],
+  "checked_local_links": 668,
+  "broken_local_links": [],
+  "sources": 13,
+  "official_character_visuals": 6,
+  "additional_visuals": 2,
+  "new_imagegen_calls": 0
+}

@@ -1,0 +1,194 @@
+{
+  "group": "Group 2",
+  "accessed_date": "2026-10-10",
+  "timezone": "Asia/Hong_Kong",
+  "scope": "Japanese anime appearance, characterization and 3D acting; existing concepts preserved",
+  "sources": [
+    {
+      "id": "VIVY_PROFILE",
+      "title": "Vivy official character profile",
+      "url": "https://vivy-portal.com/character/detail/?id=vivy",
+      "kind": "official profile",
+      "published_date": null,
+      "access": "Full character text; official still and character visual inspected in browser."
+    },
+    {
+      "id": "VIVY_VOICE",
+      "title": "Vivy official cast interview",
+      "url": "https://vivy-anime.com/special/interview/",
+      "kind": "primary cast interview",
+      "published_date": "2021-04-05",
+      "access": "Interview text read; no audio interview heard."
+    },
+    {
+      "id": "VIVY_PRODUCTION",
+      "title": "Vivy original story and production roundtable",
+      "url": "https://vivy-portal.com/special/talk0227/",
+      "kind": "primary production interview",
+      "published_date": "2021-02-27",
+      "access": "Main interview read through end; design and acting process."
+    },
+    {
+      "id": "YOR_VISUAL",
+      "title": "Yor official character visual",
+      "url": "https://spy-family.net/news/?p=1978",
+      "kind": "official visual release",
+      "published_date": "2025-04-25",
+      "access": "Release and poster inspected; later visual is separate from 2022 acting interview."
+    },
+    {
+      "id": "YOR_VOICE",
+      "title": "Saori Hayami interview, page 1",
+      "url": "https://www.animatetimes.com/news/details.php?id=1648804152",
+      "kind": "primary cast interview",
+      "published_date": "2022-04-08",
+      "access": "Page 1 main interview read; pages 2-4 not read or relied upon."
+    },
+    {
+      "id": "AOI_PROFILE",
+      "title": "SHIROBAKO TV Aoi Miyamori",
+      "url": "http://shirobako-anime.com/character-01.html",
+      "kind": "official TV character profile",
+      "published_date": null,
+      "access": "Reached from official studio site through TV character menu. Text, front/back sheet and four facial views inspected."
+    },
+    {
+      "id": "SHIROBAKO_STUDIO",
+      "title": "P.A.WORKS SHIROBAKO",
+      "url": "https://www.pa-works.jp/works/shirobako/",
+      "kind": "official studio work page",
+      "published_date": null,
+      "access": "Story and credits read; linked original TV site followed. Not the film version."
+    },
+    {
+      "id": "AKANE_PROFILE",
+      "title": "PSYCHO-PASS 2 Akane Tsunemori",
+      "url": "https://psycho-pass.com/archive/sp/character/tv2.php",
+      "kind": "official character profile",
+      "published_date": null,
+      "access": "Akane section and visual inspected; no season-3 age or story imported."
+    },
+    {
+      "id": "MOMOKA_PROFILE",
+      "title": "Girls Band Cry Momoka Kawaragi",
+      "url": "https://girls-band-cry.com/character/momoka/",
+      "kind": "official character profile",
+      "published_date": null,
+      "access": "Profile and visual inspected; explicitly states age 20."
+    },
+    {
+      "id": "GBC_DIRECTOR_P1",
+      "title": "Kazuo Sakai on Girls Band Cry, page 1",
+      "url": "https://febri.jp/topics/girls-band-cry_int_02_01/",
+      "kind": "primary director interview",
+      "published_date": null,
+      "access": "Main interview read; character choices, life and 3D drama."
+    },
+    {
+      "id": "GBC_DIRECTOR_P2",
+      "title": "Kazuo Sakai on Girls Band Cry, page 2",
+      "url": "https://febri.jp/topics/girls-band-cry_int_02_01/2/",
+      "kind": "primary director interview",
+      "published_date": null,
+      "access": "Main interview read, including motion/texture and shot-specific facial changes. Exact publication date not asserted."
+    },
+    {
+      "id": "MERYL_VISUAL",
+      "title": "TRIGUN STAMPEDE Meryl visual and profile",
+      "url": "https://trigun-anime.com/news/?p=210",
+      "kind": "official visual release",
+      "published_date": "2022-12-17",
+      "access": "Original STAMPEDE poster and reporter profile inspected. Site header now mentions STARGAZE; release itself is dated 2022."
+    },
+    {
+      "id": "ORANGE_CG",
+      "title": "Orange facial R&D interview for TRIGUN STAMPEDE",
+      "url": "https://cgworld.jp/article/202304-triguns1.html",
+      "kind": "primary CG production interview",
+      "published_date": "2023-04-26",
+      "access": "Main interview read; angle diagram inspected. Parts 2-3 and linked test videos not watched."
+    }
+  ],
+  "visuals": [
+    {
+      "id": "vivy",
+      "name": "Vivy",
+      "work": "Vivy · 2021",
+      "source": "VIVY_PROFILE",
+      "image": "https://vivy-portal.com/assets/img/character/img/img_vivy.png",
+      "observation": "大组发束、清楚眉眼与少量AI识别线索。",
+      "lesson": "身份与行为动机要一致。",
+      "rights": "©Vivy Score / Aniplex・WIT STUDIO"
+    },
+    {
+      "id": "yor",
+      "name": "约尔·福杰",
+      "work": "SPY×FAMILY · 2025官方视觉",
+      "source": "YOR_VISUAL",
+      "image": "https://spy-family.net/wp/wp-content/uploads/2025/04/news_character_visual_0425_2100_yor.jpg",
+      "observation": "黑发、红眼和少量金色配饰集中识别。",
+      "lesson": "表情随情境变化，亲近感有具体原因。",
+      "rights": "©遠藤達哉／集英社・SPY×FAMILY製作委員会"
+    },
+    {
+      "id": "aoi",
+      "name": "宫森葵",
+      "work": "SHIROBAKO · 2014 TV设定",
+      "source": "AOI_PROFILE",
+      "image": "http://shirobako-anime.com/images/character/1main.png",
+      "observation": "正背面保持同一轮廓，外套与运动鞋体现日常活动。",
+      "lesson": "可靠应体现在核对、协调与处理事情。",
+      "rights": "©「SHIROBAKO」製作委員会"
+    },
+    {
+      "id": "akane",
+      "name": "常守朱",
+      "work": "PSYCHO-PASS 2 · 第二季档案",
+      "source": "AKANE_PROFILE",
+      "image": "https://psycho-pass.com/archive/sp/images/character_tv201_main_sp.png",
+      "observation": "动漫眉眼、短发和职业服装仍有专业感。",
+      "lesson": "成熟不必依赖写实皮肤和鼻梁。",
+      "rights": "©サイコパス製作委員会"
+    },
+    {
+      "id": "momoka",
+      "name": "河原木桃香",
+      "work": "GIRLS BAND CRY · TV角色",
+      "source": "MOMOKA_PROFILE",
+      "image": "https://girls-band-cry.com/wp-content/themes/gbc_v1-1/assets/webp/common/character/img_body-momoka.webp",
+      "observation": "宽松深色上衣与放松重心形成直率气质。",
+      "lesson": "简洁服装与日常姿态也能有辨识度。",
+      "rights": "©東映アニメーション"
+    },
+    {
+      "id": "meryl",
+      "name": "梅丽鲁·史崔夫",
+      "work": "TRIGUN STAMPEDE · 2023版",
+      "source": "MERYL_VISUAL",
+      "image": "https://trigun-anime.com/news/wp-content/uploads/2022/12/MERYL-F%E2%80%BB12%E6%9C%8817%E6%97%A5%E5%9C%9F23%E6%99%82%E8%A7%A3%E7%A6%81_re-1.png",
+      "observation": "笔记本、手势与服装共同交代记者的目的。",
+      "lesson": "动作应回应任务；宣传图不等于实时模型。",
+      "rights": "©2023 内藤泰弘・少年画報社／TRIGUN STAMPEDE製作委員会"
+    }
+  ],
+  "extra_visuals": [
+    {
+      "id": "aoi-expressions",
+      "source": "AOI_PROFILE",
+      "image": "http://shirobako-anime.com/images/character/1circle.png",
+      "caption": "宫森葵官方表情与侧脸。看眉眼／嘴角怎样变化，轮廓仍保持同一角色。"
+    },
+    {
+      "id": "orange-angle",
+      "source": "ORANGE_CG",
+      "image": "https://cgworld.jp/article/c2303fa7e2b7efa6ac93a193ccb4387f58e49260.jpg",
+      "caption": "Orange公开的视角修形示意：工作空间中的脸与目标镜头呈现不同。不是FYP必须复刻的技术规格。"
+    }
+  ],
+  "limitations": [
+    "No complete episode viewing or new voice listening",
+    "No IP character model downloaded or reused",
+    "No new ImageGen, pixel edits, runtime changes or hardware tests",
+    "Visual observations and A1 proposals are author analysis, not creator intent or user approval"
+  ]
+}

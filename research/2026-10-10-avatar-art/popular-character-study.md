@@ -1,5 +1,12 @@
 # Group 2｜全身二次元桌面伙伴：角色美术研究
 
+**当前状态（2026-10-10）：**用户要求原样保留A1 V1–V4及B1，继续研究日本动画的形象与刻画。[本轮研究](japanese-character-study.md)／[图文板](japanese-character-board.html)已完成；A1工作方向保持，下一步先评审性格／六种表情简报。没有生成新图或替换VRM。
+
+## HISTORICAL：此前的人气／方向或服装研究
+
+以下正文保留当时的研究与建议；其中的后续生成顺序已由上方当前状态取代。
+
+
 研究：2026年10月9–10日（Asia/Hong_Kong）。当前：**A1_SELECTED / ANIME_V4_GENERATED / FINAL_CHARACTER_PENDING**。用户已从首轮选定A1，并要求减少写实；最新[A1平涂二次元V4](character-concepts.md)已生成，下文保留原始人气与多方向研究。
 
 用户要求先研究目前受欢迎的二次元角色，为现有女性全身3D伙伴做美术优化。本篇保留社区投票、官方设定和演示研究。用户随后同意A/B及丝袜／轻微性感服装，又明确要求出图，现已有[A1/B1全身概念](character-concepts.md)；[服装研究](wardrobe-study.md)与[参考板](wardrobe-reference-board.html)保留依据。没有修改VRM或应用代码，最终美术尚未定稿。

@@ -87,11 +87,11 @@
       ]
     }
   ],
-  "state": "A1 selected; V4 subtle further reduction of realism, pending review",
+  "state": "All five images and prompts preserved; Japanese anime study complete; final art pending",
   "application_model_unchanged": true,
-  "current_direction": "A1 selected by user; stronger anime stylization requested",
+  "current_direction": "A1 remains selected; character and expression recommendations await review",
   "current_review_asset": "A1-v4",
-  "updated_at": "2026-10-10T03:02:08.174993+08:00",
+  "updated_at": "2026-10-10T03:39:50.802444+08:00",
   "initial_generation_input_images": null,
   "initial_round_actual_style": "Polished semi-realistic stylized 3D anime, less cel-shaded than the brief",
   "initial_round_limitations": [
@@ -99,5 +99,14 @@
     "A1 heel higher than the low-heel preference",
     "B1 shorts shorter than the mid-thigh preference",
     "Small warm accent not clear in B1"
-  ]
+  ],
+  "current_phase": "Research completed without further generation or pixel edits",
+  "preserved_assets": [
+    "A1",
+    "A1-v2",
+    "A1-v3",
+    "A1-v4",
+    "B1"
+  ],
+  "research_path": "research/2026-10-10-avatar-art/japanese-character-study.md"
 }

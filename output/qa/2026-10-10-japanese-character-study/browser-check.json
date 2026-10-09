@@ -1,0 +1,67 @@
+{
+  "horizontalOverflow": false,
+  "images": [
+    {
+      "alt": "Vivy官方角色视觉",
+      "complete": true,
+      "height": 2260,
+      "src": "https://vivy-portal.com/assets/img/character/img/img_vivy.png",
+      "width": 1320
+    },
+    {
+      "alt": "约尔·福杰官方角色视觉",
+      "complete": true,
+      "height": 1697,
+      "src": "https://spy-family.net/wp/wp-content/uploads/2025/04/news_character_visual_0425_2100_yor.jpg",
+      "width": 1200
+    },
+    {
+      "alt": "宫森葵官方角色视觉",
+      "complete": true,
+      "height": 687,
+      "src": "http://shirobako-anime.com/images/character/1main.png",
+      "width": 437
+    },
+    {
+      "alt": "常守朱官方角色视觉",
+      "complete": true,
+      "height": 920,
+      "src": "https://psycho-pass.com/archive/sp/images/character_tv201_main_sp.png",
+      "width": 640
+    },
+    {
+      "alt": "河原木桃香官方角色视觉",
+      "complete": true,
+      "height": 1891,
+      "src": "https://girls-band-cry.com/wp-content/themes/gbc_v1-1/assets/webp/common/character/img_body-momoka.webp",
+      "width": 728
+    },
+    {
+      "alt": "梅丽鲁·史崔夫官方角色视觉",
+      "complete": true,
+      "height": 2784,
+      "src": "https://trigun-anime.com/news/wp-content/uploads/2022/12/MERYL-F%E2%80%BB12%E6%9C%8817%E6%97%A5%E5%9C%9F23%E6%99%82%E8%A7%A3%E7%A6%81_re-1.png",
+      "width": 1970
+    },
+    {
+      "alt": "宫森葵官方表情与侧脸。看眉眼／嘴角怎样变化，轮廓仍保持同一角色。",
+      "complete": true,
+      "height": 358,
+      "src": "http://shirobako-anime.com/images/character/1circle.png",
+      "width": 358
+    },
+    {
+      "alt": "Orange公开的视角修形示意：工作空间中的脸与目标镜头呈现不同。不是FYP必须复刻的技术规格。",
+      "complete": true,
+      "height": 537,
+      "src": "https://cgworld.jp/article/c2303fa7e2b7efa6ac93a193ccb4387f58e49260.jpg",
+      "width": 1000
+    }
+  ],
+  "title": "Group 2 · 日本动画角色研究",
+  "url": "http://127.0.0.1:5192/research/2026-10-10-avatar-art/japanese-character-board.html",
+  "viewport": {
+    "height": 720,
+    "width": 1280
+  }
+}
