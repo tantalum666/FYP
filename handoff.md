@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-更新：2026-10-10。当前任务：**角色美术研究已本地完成，原创概念／最终角色未定；研究沿功能分支 `codex/full-body-3d-avatar`／[PR #4](https://github.com/tantalum666/FYP/pull/4)整理，待本轮推送读回。** main仍为已完成的Dot整合。
+更新：2026-10-10。当前任务：**角色美术研究与参考板已推送并读回，原创概念／最终角色未定；沿功能分支 `codex/full-body-3d-avatar`／[PR #4](https://github.com/tantalum666/FYP/pull/4)保存，PR保持open。** main仍为已完成的Dot整合。
 
 ## 当前结果
 

@@ -45,3 +45,5 @@ A combined documentation patch initially failed because a partial README line di
 ## Git delivery
 
 Existing branch: `codex/full-body-3d-avatar`; existing open [PR #4](https://github.com/tantalum666/FYP/pull/4). Initial feature head `6ac85d53d824bebcc742071b5dddcb05bb331d6a`; initial main `ccfac48ce8c68e6f9c8796911bbe5f35728d7807`. The staged Gitleaks scan completed with zero findings (approximately 140 KB of staged text scanned). The 564 local Markdown links, protected hashes and unchanged application / model checks passed. Research commit / remote readback are recorded during closeout. No automatic merge into main or public deployment is performed.
+
+Actual delivery: research commit `876d89e5f3b97c8c9a25eac240244340a995ecdc` was pushed successfully. `git ls-remote` and connector PR metadata independently read back that head; main remains `ccfac48ce8c68e6f9c8796911bbe5f35728d7807`. PR #4 remains open and its description now includes the research scope. A final closeout commit only synchronizes these records and handoff status, then follows the same push/readback path.
