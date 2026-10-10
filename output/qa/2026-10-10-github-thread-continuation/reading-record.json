@@ -2038,5 +2038,38 @@
       "reason": "remote old-version context reconciliation"
     }
   ],
-  "closeout_changes_read": "All new/replacement Markdown text authored in structured apply_patch and reviewed; subsequent delivery-only changes reviewed in their patches."
+  "closeout_changes_read": "All new/replacement Markdown text authored in structured apply_patch and reviewed; subsequent delivery-only changes reviewed in their patches.",
+  "closeout_document_reads": [
+    {
+      "path": "handoff.md",
+      "current_lines": 15,
+      "read_scope": "full original body already read; all subsequent changed/replacement text read in structured patches",
+      "sha256": "b74b7ede296847e24e168fa3aa6586e8bd81e7ecfddebec796dd5248a1374e6d"
+    },
+    {
+      "path": "output/qa/2026-10-10-c1-mainstream-anime/verification.md",
+      "current_lines": 37,
+      "read_scope": "full original body already read; all subsequent changed/replacement text read in structured patches",
+      "sha256": "10f04c8506f00effa0a7c6cdfae1cee8527bf743b956ad58c331c023480ed49d"
+    },
+    {
+      "path": "output/qa/2026-10-10-github-thread-continuation/verification.md",
+      "current_lines": 33,
+      "read_scope": "full original body already read; all subsequent changed/replacement text read in structured patches",
+      "sha256": "1d4e4d04aaee9ece742b69403168f2f9ec1b0d7d175ab47ad1c7f75f148efe2f"
+    },
+    {
+      "path": "product.md",
+      "current_lines": 109,
+      "read_scope": "full original body already read; all subsequent changed/replacement text read in structured patches",
+      "sha256": "fa670a9da8128350a496f4558ad63d8a1f68e53cac0531f5ab1809b7c4907bb6"
+    },
+    {
+      "path": "work-log.md",
+      "current_lines": 917,
+      "read_scope": "full original body already read; all subsequent changed/replacement text read in structured patches",
+      "sha256": "15955e824ab93a9b2df8beced497d1742b3d13d6c76a31bb93a0c85a34fa4536"
+    }
+  ],
+  "closeout_read_at": "2026-10-10T20:24:54.124454+08:00"
 }

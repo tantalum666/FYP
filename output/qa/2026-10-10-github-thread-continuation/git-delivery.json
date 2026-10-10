@@ -1,9 +1,17 @@
 {
-  "status": "local_checks_complete_delivery_in_progress",
+  "status": "content_delivery_verified",
   "branch": "codex/full-body-3d-avatar",
   "pull_request": "https://github.com/tantalum666/FYP/pull/4",
   "initial_head": "ea92c2d6da4dd12bcdd64c7f246eccbadd6ae6e7",
   "main": "ccfac48ce8c68e6f9c8796911bbe5f35728d7807",
-  "pushed": false,
-  "pr_body_updated": false
+  "content_commit": "cc384427eaad78fe3bf47e85c85e885c4b396175",
+  "remote_ref_readback": "cc384427eaad78fe3bf47e85c85e885c4b396175",
+  "pr_head_readback": "cc384427eaad78fe3bf47e85c85e885c4b396175",
+  "pushed": true,
+  "pr_body_updated": true,
+  "pr_body_matches_reviewed_text": true,
+  "pr_state": "open",
+  "merged": false,
+  "main_unchanged": true,
+  "final_closeout": "A documentation-only commit follows this verified content delivery; final remote ref/tree and clean worktree are checked again before the response."
 }

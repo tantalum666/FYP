@@ -26,6 +26,8 @@
 
 ## 规范与交付
 
-已同步product当前状态及10月6日权限段的历史日期语境、decision-log日期／恢复决定、精简handoff、work-log与C1原QA。最终空白检查、暂存秘密扫描、实际commit／push、远端ref／tree／PR说明回读在[交付记录](git-delivery.json)保存；Git同步完成前不标为已交付。
+已同步product当前状态及10月6日权限段的历史日期语境、decision-log日期／恢复决定、精简handoff、work-log与C1原QA。暂存秘密扫描零发现，空白检查通过；全部项目Markdown与本轮QA共1,430条本地链接有效。C1内容提交`cc384427eaad78fe3bf47e85c85e885c4b396175`已推送，远端ref与PR #4 head一致，PR说明已更新且读回内容相同、open／未合并，main仍为原SHA。
+
+[交付记录](git-delivery.json)保存内容提交及远端核验；最终收尾提交仅补本段、product、handoff和work-log，不改已核对素材或应用。最终远端ref、完整Git树与工作区状态在结束前再次核对。
 
 唯一下一步：用户对照A1／C1后给出脸部、发型、服装或气质反馈，再细化选定方向。现有A1工作简报、E1与许可样本继续保留。

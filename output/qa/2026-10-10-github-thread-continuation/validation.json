@@ -22,5 +22,9 @@
   "runtime_tests_rerun": false,
   "historical_link_repair": "Expired temporary AVA screenshot marked unavailable; original observation and filename retained.",
   "staged_gitleaks_findings": 0,
-  "staged_whitespace_check": "passed after correcting pending PR body"
+  "staged_whitespace_check": "passed after correcting pending PR body",
+  "final_local_links": 1430,
+  "final_broken_links": [],
+  "final_checked_at": "2026-10-10T20:24:54.124454+08:00",
+  "content_commit": "cc384427eaad78fe3bf47e85c85e885c4b396175"
 }
