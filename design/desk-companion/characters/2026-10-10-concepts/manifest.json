@@ -87,11 +87,11 @@
       ]
     }
   ],
-  "state": "All five images and prompts preserved; Japanese anime study complete; final art pending",
+  "state": "A1 working brief accepted; all five originals preserved; separate E1 expression study awaits visual feedback",
   "application_model_unchanged": true,
-  "current_direction": "A1 remains selected; character and expression recommendations await review",
+  "current_direction": "A1 working character brief accepted; separate E1 image awaits visual feedback",
   "current_review_asset": "A1-v4",
-  "updated_at": "2026-10-10T03:39:50.802444+08:00",
+  "updated_at": "2026-10-10T18:14:49.086981+08:00",
   "initial_generation_input_images": null,
   "initial_round_actual_style": "Polished semi-realistic stylized 3D anime, less cel-shaded than the brief",
   "initial_round_limitations": [
@@ -100,7 +100,7 @@
     "B1 shorts shorter than the mid-thigh preference",
     "Small warm accent not clear in B1"
   ],
-  "current_phase": "Research completed without further generation or pixel edits",
+  "current_phase": "Character brief and six-expression E1 complete, runtime unchanged",
   "preserved_assets": [
     "A1",
     "A1-v2",
@@ -108,5 +108,10 @@
     "A1-v4",
     "B1"
   ],
-  "research_path": "research/2026-10-10-avatar-art/japanese-character-study.md"
+  "research_path": "research/2026-10-10-avatar-art/japanese-character-study.md",
+  "character_brief_path": "design/desk-companion/characters/a1-character-brief.md",
+  "expression_rules_path": "design/desk-companion/characters/a1-expression-rules.md",
+  "expression_study_path": "design/desk-companion/characters/2026-10-10-expression-study/manifest.json",
+  "current_full_body_reference": "A1-v4",
+  "current_expression_review_asset": "E1"
 }

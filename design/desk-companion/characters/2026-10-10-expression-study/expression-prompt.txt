@@ -1,0 +1,17 @@
+Use case: identity-preserve / stylized-concept.
+Asset: one original anime character facial expression design sheet for a desktop AI companion, landscape 3-column by 2-row layout.
+Input image 1 is the only identity and clothing reference: our original A1 V4 adult female character, about 25 years old. Create a separate expression study, preserving her recognizability; the original full-body image is not replaced.
+
+Draw six evenly sized head-and-shoulders portraits of exactly the same woman, matching head size and crop, in a clean spacious 3x2 grid on one warm pale neutral sheet. Full hair crown and hairclip visible in every portrait, ample breathing room between faces; ivory jacket shoulders and charcoal high-neck inner top visible. No hands or props. Silver-grey side-parted long hair with grouped locks, grey-blue eyes, original open-oval hairclip on the same side as the reference, same small ear stud. Keep the same mature youthful face and proportions throughout. Soft-tech, calm, intelligent, approachable.
+
+Reading order, left-to-right, top row then bottom row:
+1. NEUTRAL: awake, composed, relaxed brows, relaxed closed mouth with only a tiny natural lift, head level. Not grumpy, not a posed smile.
+2. LISTENING: focused warm eyes, subtly engaged brows, closed mouth, a slight head inclination. Clearly attentive rather than blank.
+3. QUESTION: one eyebrow slightly raised, eyes a little wider, mouth slightly parted, mild clear curiosity. Not angry or shocked.
+4. THINKING: gaze briefly to one side/down, subtly drawn brows, closed relaxed mouth, concentrated and alert. Not sleepy or stern.
+5. CARE: inner brows softly raised, gentle eyes and a softly concerned small mouth. Calm supportive concern, not sadness, no tears.
+6. JOY: eyes warm and slightly softened, a small clear closed-mouth smile, relaxed brows. A quiet moment of satisfaction, not laughing or flirting.
+
+Make the expressions distinct enough for an animation design study while retaining the same person. Prioritize eyes, eyelids, eyebrows and mouth corners. Japanese 2D anime model-sheet drawing: clean controlled thin outlines, flat color, limited hard-edged cel shadows, restrained iris highlights, simple nose and mouth. Preserve the V4 identity and palette; no additional realism, skin texture, glossy skin, airbrush volume, 3D-rendered material, doll face or chibi proportions. Do not copy any commercial anime character.
+
+No written text, labels, numbers, logos, watermarks, decorative panels, UI cards or speech bubbles. The six positions will be labelled separately in the accompanying document. Opaque warm light-grey background, not transparent. One character repeated in six expressions, not six different characters. Head-and-shoulder crop only, so no outfit redesign.

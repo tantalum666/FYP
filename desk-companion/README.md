@@ -8,7 +8,7 @@
 
 **2026-10-09角色更新：**加入可替换的全身女性二次元VRM角色、骨骼动作、眨眼、输出音量驱动开口、本地动作预览和纯黑／镜像出口。示范角色来自pixiv官方，非最终角色美术；Pi与物理显示效果待实测。详见[3D角色契约](docs/avatar.md)。
 
-**2026-10-10美术状态：**A1 V1–V4及B1与五份提示词原样保留；[日本动画形象／刻画研究](../research/2026-10-10-avatar-art/japanese-character-study.md)与[图文板](../research/2026-10-10-avatar-art/japanese-character-board.html)已完成。A1保持工作方向，性格／六种表情建议待评审，本轮未生成新图或替换模型。
+**2026-10-10美术状态：**用户同意A1方向后的[简明角色简报](../design/desk-companion/characters/a1-character-brief.md)、[表情／表演规则](../design/desk-companion/characters/a1-expression-rules.md)与[六表情E1](../design/desk-companion/characters/2026-10-10-expression-study/README.md)已完成。E1待图像反馈；原A1 V1–V4及B1／五提示词保持，许可样本与程序没有替换。
 
 ## 当前功能
 

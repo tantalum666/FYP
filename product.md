@@ -1,6 +1,6 @@
 # Group 2 Project Contract
 
-更新：2026-10-10。状态：**A1方向保持，五版概念及提示词原样保留；日本动漫形象／刻画研究已完成，新的性格与表情建议待评审；全身3D功能仍用原许可样本，Dot整合已在main**。
+更新：2026-10-10。状态：**用户同意A1简报方向；角色简报／六表情规则与E1对照已完成，E1待图像反馈；五版原稿保留，运行角色仍用原许可样本**。
 
 ## 当前方向与用户决定
 
@@ -36,9 +36,9 @@
 
 用户随后同意A“银雾·柔科技”和B“墨青·都市伙伴”继续设计，并要求研究丝袜及轻微性感服装；C“暖金·开朗日常”保留为历史候选、暂不推进。[服装研究](research/2026-10-10-avatar-art/wardrobe-study.md)与[服装参考板](research/2026-10-10-avatar-art/wardrobe-reference-board.html)形成A1／A2／B1／B2四套原创文字简报，首组建议A1短外套短裙半透黑丝与B1都市剪裁哑光黑丝。角色外观继续采用成年年轻女性；没有证据把角色人气归因于丝袜或露肤程度。
 
-A/B首轮各生成一张1024×1536全身概念，随后用户选择A1并连续要求降低写实度，形成V2／V3／V4。[五版与完整提示词](design/desk-companion/characters/2026-10-10-concepts/README.md)均逐字节保留。用户最新要求先保留几版，再研究日本动漫人物的形象与刻画；本轮完成[六角色研究](research/2026-10-10-avatar-art/japanese-character-study.md)、[图文板](research/2026-10-10-avatar-art/japanese-character-board.html)与13个来源记录。A1仍为工作方向，保留不等于否定V4或最终定稿；本轮没有继续生成或修改原图。
+A/B首轮各生成一张1024×1536全身概念，随后用户选择A1并连续降低写实度，形成V2／V3／V4。[原五版与提示词](design/desk-companion/characters/2026-10-10-concepts/README.md)均保留；[日本动漫六角色研究](research/2026-10-10-avatar-art/japanese-character-study.md)及13来源在研究阶段完成。用户随后明确同意按建议推进，安静、敏锐、可靠、熟悉后轻巧幽默成为当前性格工作基线，非最终角色名称／声音／模型定稿。
 
-现有pixiv VRM与应用代码保持。下一步建议先评审A1的一页性格／外形简报和六种表情规则，再依据具体反馈制作视图／表情。研究中的安静、敏锐、可靠与轻巧幽默是建议，不是用户已选性格；PNG不等于骨骼、贴图或可运行模型。现实D数不直接换算透明度；Pi并发、衣物穿插、语音桥和物理显示仍需实际验证。
+[简明角色简报](design/desk-companion/characters/a1-character-brief.md)、[六表情／表演规则](design/desk-companion/characters/a1-expression-rules.md)与[六表情对照E1](design/desk-companion/characters/2026-10-10-expression-study/README.md)已完成。E1以实际查看的V4为唯一参考，一次内置ImageGen生成1536×1024头肩对照；原图、完整提示词和hash保留，无像素后期。倾听与开心差异仍小，关切略偏担忧；E1待图像反馈，不是全身V5或已绑定表情。下一步据E1反馈定向微调，再补侧背面规范。应用／pixiv VRM保持，真实语音、Pi并发与光学效果仍需另验。
 
 ## 已实现的软件范围
 

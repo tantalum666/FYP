@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-10-10T18:16:44.991358+08:00",
+  "base_full_read": "full-reading-record.json",
+  "supplement": [
+    {
+      "path": "handoff.md",
+      "read_range": "changed text reviewed in full diff; complete body already read"
+    },
+    {
+      "path": "work-log.md",
+      "read_range": "888-896 newly authored and read back"
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/character-concepts.md",
+      "read_range": "changed text reviewed in full diff; complete body already read"
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/japanese-character-study.md",
+      "read_range": "changed text reviewed in full diff; complete body already read"
+    }
+  ],
+  "qa_verification": "new authored full body reviewed before commit; excluded from mandatory project Markdown audit"
+}

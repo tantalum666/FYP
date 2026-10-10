@@ -1,5 +1,7 @@
 # Group 2｜日本动画角色研究：外形、性格与3D表演
 
+**当前推进：**用户已同意研究后的建议。[简明角色简报](../../design/desk-companion/characters/a1-character-brief.md)、[六表情／表演规则](../../design/desk-companion/characters/a1-expression-rules.md)与[独立E1对照](../../design/desk-companion/characters/2026-10-10-expression-study/README.md)已完成，E1待图像反馈。以下是此前研究阶段记录，“本轮只研究”等表述仅指该阶段；原五版持续保留，研究访问范围不变。
+
 2026年10月10日，Asia/Hong_Kong。用户要求：**保留现有几版，再研究日本动漫人物的形象与刻画**。A1 V1／V2／V3／V4及B1原PNG、五份实际提示词均保留，未编辑或重新生成。A1仍为工作方向，具体版本未最终定稿。
 
 [图文参考板](japanese-character-board.html)／[来源与访问范围](japanese-character-sources.json)／[原稿索引](../../design/desk-companion/characters/2026-10-10-concepts/README.md)／[本轮QA](../../output/qa/2026-10-10-japanese-character-study/verification.md)。

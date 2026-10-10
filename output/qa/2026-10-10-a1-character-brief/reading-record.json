@@ -1,0 +1,631 @@
+{
+  "task": "Independent user-approved A1 brief and E1 expression-study round",
+  "inherited_full_read": "output/qa/2026-10-09-avatar-art-research/reading-record.json",
+  "inherited_totals": {
+    "files": 128,
+    "lines": 12096,
+    "chunks": 48
+  },
+  "prior_supplement": "output/qa/2026-10-10-japanese-character-study/reading-record.json",
+  "current_reads": [
+    {
+      "path": "AGENTS.md",
+      "range": "1-50"
+    },
+    {
+      "path": "product.md",
+      "range": "full, output truncation repaired with lines 44-61 and 58-84"
+    },
+    {
+      "path": "handoff.md",
+      "range": "full"
+    },
+    {
+      "path": "decision-log.md",
+      "range": "latest 17 lines; older body inherited"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-10-concepts/README.md",
+      "range": "full"
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/japanese-character-study.md",
+      "range": "full body authored/read in preceding phase; current focus lines 90-EOF"
+    },
+    {
+      "path": "design/desk-companion/characters/a1-character-brief.md",
+      "range": "new full body authored and reviewed"
+    }
+  ],
+  "inventory": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "lines": 94
+    },
+    {
+      "path": "README.md",
+      "lines": 230
+    },
+    {
+      "path": "Senplate_Logo_ImageGen_Brief.md",
+      "lines": 53
+    },
+    {
+      "path": "brand.md",
+      "lines": 60
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 737
+    },
+    {
+      "path": "design/desk-companion/b1/design-spec.md",
+      "lines": 42
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-10-concepts/README.md",
+      "lines": 30
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-10-expression-study/README.md",
+      "lines": 24
+    },
+    {
+      "path": "design/desk-companion/characters/a1-character-brief.md",
+      "lines": 18
+    },
+    {
+      "path": "design/desk-companion/characters/a1-expression-rules.md",
+      "lines": 47
+    },
+    {
+      "path": "design/desk-companion/device-ambient-v1/README.md",
+      "lines": 11
+    },
+    {
+      "path": "desk-companion/README.md",
+      "lines": 110
+    },
+    {
+      "path": "desk-companion/THIRD_PARTY.md",
+      "lines": 24
+    },
+    {
+      "path": "desk-companion/docs/architecture.md",
+      "lines": 98
+    },
+    {
+      "path": "desk-companion/docs/avatar.md",
+      "lines": 74
+    },
+    {
+      "path": "desk-companion/docs/computer-jobs.md",
+      "lines": 57
+    },
+    {
+      "path": "desk-companion/docs/evaluation.md",
+      "lines": 60
+    },
+    {
+      "path": "desk-companion/docs/operator-guide.md",
+      "lines": 167
+    },
+    {
+      "path": "desk-companion/docs/task-tracking.md",
+      "lines": 58
+    },
+    {
+      "path": "desk-companion/frontend/ios/App/CapApp-SPM/README.md",
+      "lines": 5
+    },
+    {
+      "path": "handoff.md",
+      "lines": 15
+    },
+    {
+      "path": "inputs/README.md",
+      "lines": 11
+    },
+    {
+      "path": "inputs/teammate/形态 A：智能音箱智能屏幕终端（如 小爱触屏音箱、小度在家、FotoCube 等）.md",
+      "lines": 22
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-bowl-golden-v6/README.md",
+      "lines": 25
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-bowl-redesign-v5/README.md",
+      "lines": 15
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-ellipse-a-v4/README.md",
+      "lines": 29
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-golden-a-v3/README.md",
+      "lines": 36
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-refined-a-v2/README.md",
+      "lines": 25
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-selected-a/README.md",
+      "lines": 28
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-v6-tick-study/README.md",
+      "lines": 14
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-plain-bowl-v7/README.md",
+      "lines": 13
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-curved-ticks/README.md",
+      "lines": 9
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-inner-scale/README.md",
+      "lines": 9
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-rim-tick-study/README.md",
+      "lines": 15
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-visible-ticks/README.md",
+      "lines": 12
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-vi-v1/05_Fonts_and_Licences/FONT-LICENCE-AUDIT.md",
+      "lines": 28
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-vi-v1/06_Source/Figma_Source.md",
+      "lines": 17
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-vi-v1/06_Source/VI_Rules.md",
+      "lines": 14
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-vi-v1/README.md",
+      "lines": 25
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "lines": 174
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 122
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "lines": 80
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "lines": 110
+    },
+    {
+      "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "lines": 39
+    },
+    {
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "lines": 185
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "lines": 22
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "lines": 247
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+      "lines": 70
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+      "lines": 53
+    },
+    {
+      "path": "planning/2026-09-15/power-supply-detail.md",
+      "lines": 143
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "lines": 214
+    },
+    {
+      "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "lines": 107
+    },
+    {
+      "path": "planning/2026-09-16/app-pages-and-permissions.md",
+      "lines": 180
+    },
+    {
+      "path": "planning/2026-09-16/archive/software-scope-web-first-v1.md",
+      "lines": 189
+    },
+    {
+      "path": "planning/2026-09-16/brand-visual-directions.md",
+      "lines": 54
+    },
+    {
+      "path": "planning/2026-09-16/business-plan-zh.md",
+      "lines": 449
+    },
+    {
+      "path": "planning/2026-09-16/logo-reference-calibration.md",
+      "lines": 52
+    },
+    {
+      "path": "planning/2026-09-16/naming-shortlist.md",
+      "lines": 45
+    },
+    {
+      "path": "planning/2026-09-16/senplate-logo-refinement-r2.md",
+      "lines": 44
+    },
+    {
+      "path": "planning/2026-09-16/senplate-logo-reset-r3.md",
+      "lines": 46
+    },
+    {
+      "path": "planning/2026-09-16/senplate-logo-vi-directions.md",
+      "lines": 63
+    },
+    {
+      "path": "planning/2026-09-16/software-mvp-and-acceptance.md",
+      "lines": 98
+    },
+    {
+      "path": "planning/2026-09-16/software-scope-and-architecture.md",
+      "lines": 206
+    },
+    {
+      "path": "planning/2026-09-16/software-workflows-and-api.md",
+      "lines": 291
+    },
+    {
+      "path": "planning/2026-09-17/senplate-bowl-golden-v6.md",
+      "lines": 43
+    },
+    {
+      "path": "planning/2026-09-17/senplate-bowl-redesign-v5.md",
+      "lines": 44
+    },
+    {
+      "path": "planning/2026-09-17/senplate-logo-measured-plate-r5.md",
+      "lines": 45
+    },
+    {
+      "path": "planning/2026-09-17/senplate-logo-profile-r4.md",
+      "lines": 40
+    },
+    {
+      "path": "planning/2026-09-17/senplate-v6-tick-study.md",
+      "lines": 30
+    },
+    {
+      "path": "planning/2026-09-17/senplate-vector-logo-studies.md",
+      "lines": 51
+    },
+    {
+      "path": "planning/2026-09-18/development-p0.md",
+      "lines": 70
+    },
+    {
+      "path": "planning/2026-09-18/senplate-plain-bowl-v7.md",
+      "lines": 25
+    },
+    {
+      "path": "planning/2026-09-18/senplate-v6-curved-ticks.md",
+      "lines": 26
+    },
+    {
+      "path": "planning/2026-09-18/senplate-v6-inner-scale.md",
+      "lines": 24
+    },
+    {
+      "path": "planning/2026-09-18/senplate-v6-rim-tick-study.md",
+      "lines": 30
+    },
+    {
+      "path": "planning/2026-09-18/senplate-v6-visible-ticks.md",
+      "lines": 26
+    },
+    {
+      "path": "planning/2026-09-18/senplate-vi-v1.md",
+      "lines": 33
+    },
+    {
+      "path": "planning/2026-09-19/meals-samples-contract.md",
+      "lines": 55
+    },
+    {
+      "path": "planning/2026-09-19/menu-orders-contract.md",
+      "lines": 70
+    },
+    {
+      "path": "planning/2026-09-21/marco-camera-and-nutrition-review.md",
+      "lines": 147
+    },
+    {
+      "path": "planning/2026-09-21/proposal-content.md",
+      "lines": 243
+    },
+    {
+      "path": "planning/2026-09-21/proposal-spec.md",
+      "lines": 41
+    },
+    {
+      "path": "planning/2026-09-25/desk-companion-proposal-zh-review-v2.md",
+      "lines": 148
+    },
+    {
+      "path": "planning/2026-09-25/desk-companion-proposal-zh-review.md",
+      "lines": 142
+    },
+    {
+      "path": "planning/2026-09-26/ava-cylinder-route-a.md",
+      "lines": 55
+    },
+    {
+      "path": "planning/2026-09-28/desk-companion-proposal-en.md",
+      "lines": 199
+    },
+    {
+      "path": "planning/2026-09-28/desk-companion-proposal-zh-v3.md",
+      "lines": 199
+    },
+    {
+      "path": "planning/2026-09-28/desk-software-scope-v1.md",
+      "lines": 222
+    },
+    {
+      "path": "planning/2026-09-28/logsheet-and-proposal-review.md",
+      "lines": 44
+    },
+    {
+      "path": "planning/2026-09-29/calendar-part1-functional-scope.md",
+      "lines": 152
+    },
+    {
+      "path": "planning/2026-09-29/calendar-part1-teammate-source.md",
+      "lines": 49
+    },
+    {
+      "path": "planning/2026-09-29/software-development-plan.md",
+      "lines": 148
+    },
+    {
+      "path": "planning/2026-09-30/device-display-spec.md",
+      "lines": 68
+    },
+    {
+      "path": "planning/2026-10-02/software-completion-plan.md",
+      "lines": 53
+    },
+    {
+      "path": "planning/2026-10-03-task-enhancement.md",
+      "lines": 22
+    },
+    {
+      "path": "planning/2026-10-06/cloud-software-delivery.md",
+      "lines": 28
+    },
+    {
+      "path": "planning/2026-10-06/personal-agent-discussion-and-next-steps.md",
+      "lines": 192
+    },
+    {
+      "path": "planning/2026-10-06/software-architecture-audit.md",
+      "lines": 69
+    },
+    {
+      "path": "product-senplate-historical.md",
+      "lines": 168
+    },
+    {
+      "path": "product.md",
+      "lines": 105
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25
+    },
+    {
+      "path": "research/2026-09-16-competitions/competition-shortlist.md",
+      "lines": 80
+    },
+    {
+      "path": "research/2026-09-16-competitions/mainland-national-provincial.md",
+      "lines": 64
+    },
+    {
+      "path": "research/2026-09-16-competitions/no-company-options.md",
+      "lines": 55
+    },
+    {
+      "path": "research/2026-09-16-competitions/plan-to-july-2027.md",
+      "lines": 82
+    },
+    {
+      "path": "research/2026-09-16-competitions/world-vocational-registration.md",
+      "lines": 52
+    },
+    {
+      "path": "research/2026-09-16-metafoodx-app/app-review.md",
+      "lines": 60
+    },
+    {
+      "path": "research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md",
+      "lines": 72
+    },
+    {
+      "path": "research/2026-09-17-logo-similarity/similarity-review.md",
+      "lines": 82
+    },
+    {
+      "path": "research/2026-09-18-font-licences/font-licence-audit.md",
+      "lines": 28
+    },
+    {
+      "path": "research/2026-09-18-senplate-trademark/trademark-review.md",
+      "lines": 83
+    },
+    {
+      "path": "research/2026-09-19-nutrition/reference-audit.md",
+      "lines": 36
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/feasibility-review.md",
+      "lines": 127
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md",
+      "lines": 63
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/voice-model-cost-review.md",
+      "lines": 55
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md",
+      "lines": 40
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/hologram-fan-maturity.md",
+      "lines": 37
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/razer-ava-like-feasibility.md",
+      "lines": 36
+    },
+    {
+      "path": "research/2026-09-28-local-voice/server-deployment-comparison.md",
+      "lines": 205
+    },
+    {
+      "path": "research/2026-09-29-voice-ai/naturalness-and-tools-review.md",
+      "lines": 149
+    },
+    {
+      "path": "research/2026-09-29-voice-ai/price-and-value-ranking.md",
+      "lines": 66
+    },
+    {
+      "path": "research/2026-10-03-dot/proactive-task-tracking.md",
+      "lines": 98
+    },
+    {
+      "path": "research/2026-10-05-rig-arm/secondary-development-review.md",
+      "lines": 155
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/character-concepts.md",
+      "lines": 9
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/japanese-character-study.md",
+      "lines": 121
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/popular-character-study.md",
+      "lines": 125
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/wardrobe-study.md",
+      "lines": 104
+    },
+    {
+      "path": "work-log.md",
+      "lines": 886
+    }
+  ],
+  "excluded": [
+    "output/qa/2026-10-03-dot-feasibility/verification.md",
+    "output/qa/2026-10-05-github-bootstrap/verification.md",
+    "output/qa/2026-10-05-rig-arm-feasibility/verification.md",
+    "output/qa/2026-10-06-personal-agent-plan/verification.md",
+    "output/qa/2026-10-09-3d-avatar/verification.md",
+    "output/qa/2026-10-09-avatar-art-research/verification.md",
+    "output/qa/2026-10-09-dot-integration/verification.md",
+    "output/qa/2026-10-10-a1-anime-v2/verification.md",
+    "output/qa/2026-10-10-a1-anime-v3/verification.md",
+    "output/qa/2026-10-10-a1-anime-v4/verification.md",
+    "output/qa/2026-10-10-a1-character-brief/verification.md",
+    "output/qa/2026-10-10-avatar-wardrobe/verification.md",
+    "output/qa/2026-10-10-character-concepts/verification.md",
+    "output/qa/2026-10-10-japanese-character-study/verification.md",
+    "output/qa/desk-development-batch1-2026-09-29/verification.md",
+    "output/qa/development-m1-2-meals-2026-09-19/verification.md",
+    "output/qa/development-p0-2026-09-18/verification.md",
+    "output/qa/development-p1-orders-2026-09-19/verification.md",
+    "output/qa/device-ambient-redesign-2026-09-30/verification.md",
+    "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+    "output/qa/logsheet-members-v2-2026-09-28/artifact.md",
+    "output/qa/logsheet-proposal-2026-09-28/artifact.md",
+    "output/qa/senplate-bowl-golden-v6-2026-09-17/brand-before-v6.md",
+    "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "output/qa/senplate-selected-a-2026-09-17/vendor/README.md",
+    "output/qa/software-completion-2026-10-02/verification.md",
+    "output/qa/software-completion-2026-10-06/verification.md",
+    "output/qa/suggestion-2026-09-14/artifact.md",
+    "output/qa/suggestion-v2-2026-09-14/artifact.md",
+    "output/qa/task-enhancement-ux-2026-10-03/verification.md"
+  ],
+  "exclusion_rule": "git, dependencies, third-party packages, caches, runtime, build outputs and generated output/qa snapshots only",
+  "completed_at": "2026-10-10T18:13:25.035451+08:00",
+  "same_workflow_continuation": false,
+  "initial_classification": "Superseded: same-workflow continuation",
+  "current_full_read": "output/qa/2026-10-10-a1-character-brief/full-reading-record.json",
+  "complete_current_full_read": true,
+  "current_full_read_totals": {
+    "files": 136,
+    "lines": 12707,
+    "chunks": 110
+  },
+  "note": "The initial same-workflow classification was corrected to an independent round. This actual complete current-source reading was performed after initial artifact generation and before final review/closeout; inherited historical evidence is not the proof for this round."
+}

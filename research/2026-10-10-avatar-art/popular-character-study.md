@@ -1,6 +1,6 @@
 # Group 2｜全身二次元桌面伙伴：角色美术研究
 
-**当前状态（2026-10-10）：**用户要求原样保留A1 V1–V4及B1，继续研究日本动画的形象与刻画。[本轮研究](japanese-character-study.md)／[图文板](japanese-character-board.html)已完成；A1工作方向保持，下一步先评审性格／六种表情简报。没有生成新图或替换VRM。
+**当前状态（2026-10-10）：**用户同意日本动画研究后的A1工作方向；[角色简报](../../design/desk-companion/characters/a1-character-brief.md)、[表情规则](../../design/desk-companion/characters/a1-expression-rules.md)与[六表情E1](../../design/desk-companion/characters/2026-10-10-expression-study/README.md)已完成。E1待图像反馈，原五版保留，VRM未替换；以下历史研究的旧下一步由此取代。
 
 ## HISTORICAL：此前的人气／方向或服装研究
 

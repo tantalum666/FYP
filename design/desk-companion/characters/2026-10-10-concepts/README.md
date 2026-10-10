@@ -1,6 +1,6 @@
 # Group 2｜角色概念版本索引
 
-2026年10月10日。当前：**A1_SELECTED / ALL_FIVE_VERSIONS_PRESERVED / JAPANESE_CHARACTER_STUDY_COMPLETE / FINAL_CHARACTER_PENDING**。
+2026年10月10日。当前：**A1_BRIEF_WORKING_V1 / ALL_FIVE_VERSIONS_PRESERVED / E1_VISUAL_REVIEW_PENDING**。
 
 用户要求保留几版，继续研究日本动漫形象与刻画。本轮五张PNG及五份提示词hash完全一致，没有重生成、像素修改或覆盖。A1仍为工作方向；V4、其他A1稿和B1均保留，具体最终版本未定。
 
@@ -12,7 +12,7 @@
 | A1 V4 | [小幅微调V4](a1-silver-mist-anime-v4.png) | [prompt](a1-anime-v4-prompt.txt) | 色调进一步收敛，背景仍有轻微渐变，脸／服装／姿态接近V3 |
 | B1 V1 | [墨青原稿](b1-ink-teal-v1.png) | [prompt](b1-prompt.txt) | 都市剪裁对照；保留为历史候选 |
 
-均为1024×1536原生ImageGen结果。来源／SHA／实际编辑输入见[manifest](manifest.json)。[日本动画研究](../../../../research/2026-10-10-avatar-art/japanese-character-study.md)及[图文参考板](../../../../research/2026-10-10-avatar-art/japanese-character-board.html)已完成；下一步建议先评审A1性格与六种表情规则。研究建议不是新定稿。PNG不等于三视图、绑定、动画或VRM，应用仍用原许可样本。
+均为1024×1536原生ImageGen结果。来源／SHA／实际编辑输入见[manifest](manifest.json)。用户已同意研究后的工作方向，现有[简明角色简报](../a1-character-brief.md)、[表情规则](../a1-expression-rules.md)及另存的[六表情E1](../2026-10-10-expression-study/README.md)。E1待图像反馈，以上五版继续原样保留；头肩表情图不命名为全身V5，应用仍用原许可样本。
 
 ## HISTORICAL：首轮生成与审阅
 
