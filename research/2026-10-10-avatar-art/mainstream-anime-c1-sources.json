@@ -1,0 +1,165 @@
+{
+  "group": "Group 2",
+  "checked_at": "2026-10-10T18:45:51.026270+08:00",
+  "purpose": "More mainstream recent anime screen and original C1 design",
+  "sources": [
+    {
+      "id": "OSHI-NEWS",
+      "url": "https://ichigoproduction.com/Season3/news/",
+      "provenance": "Official",
+      "supports": "March 2026 finale and fourth-season announcement; subsequent event news",
+      "access": "web relevant entries",
+      "character_image_actually_viewed": false
+    },
+    {
+      "id": "OSHI-4",
+      "url": "https://ichigoproduction.com/Season3/news/index01210000.html",
+      "provenance": "Official",
+      "supports": "Fourth Final Season production confirmed, not yet broadcast evidence",
+      "access": "web page",
+      "character_image_actually_viewed": false
+    },
+    {
+      "id": "OSHI-1M",
+      "url": "https://ichigoproduction.com/Season3/news/index01300000.html",
+      "provenance": "Official",
+      "supports": "July 7 2026 official X one-million-follower milestone; not unique viewers",
+      "access": "web relevant heading and dated campaign period",
+      "character_image_actually_viewed": false
+    },
+    {
+      "id": "KANA",
+      "url": "https://ichigoproduction.com/Season3/chara/kana.html",
+      "provenance": "Official character page",
+      "supports": "Stage outfit, face, hair and expression; not claimed casual outfit",
+      "access": "web plus actual CUA rendered image",
+      "character_image_actually_viewed": true
+    },
+    {
+      "id": "AKANE",
+      "url": "https://ichigoproduction.com/Season3/chara/akane.html",
+      "provenance": "Official character page",
+      "supports": "Face, blue hair color blocks and dark dress",
+      "access": "web plus actual CUA rendered image",
+      "character_image_actually_viewed": true
+    },
+    {
+      "id": "FRIEREN-NEWS",
+      "url": "https://frieren-anime.jp/news/",
+      "provenance": "Official",
+      "supports": "Second-season March 27 finale and third-season date news",
+      "access": "web relevant entries",
+      "character_image_actually_viewed": false
+    },
+    {
+      "id": "FRIEREN-3",
+      "url": "https://frieren-anime.jp/news/5417/",
+      "provenance": "Official",
+      "supports": "Third season October 2027; not currently airing",
+      "access": "web page",
+      "character_image_actually_viewed": false
+    },
+    {
+      "id": "FERN",
+      "url": "https://frieren-anime.jp/character/chara_group1/1-5/",
+      "provenance": "Official character page",
+      "supports": "Current page uses 2023-uploaded full-body art; grouped hair, eyelids, clothing blocks",
+      "access": "actual CUA rendered upper and lower image",
+      "character_image_actually_viewed": true
+    },
+    {
+      "id": "JJK-FINALE",
+      "url": "https://jujutsukaisen.jp/news/20260319_04.php",
+      "provenance": "Official",
+      "supports": "Season 3 episode 59 announced as March 26 2026 finale",
+      "access": "web page",
+      "character_image_actually_viewed": false
+    },
+    {
+      "id": "JJK-NEWS",
+      "url": "https://jujutsukaisen.jp/news/",
+      "provenance": "Official",
+      "supports": "January 17 2026 OP 10-million-view milestone; June 19 fourth-season PV",
+      "access": "web dated relevant entries",
+      "character_image_actually_viewed": false
+    },
+    {
+      "id": "DANDADAN-3",
+      "url": "https://anime-dandadan.com/news/2673/",
+      "provenance": "Official",
+      "supports": "Third season scheduled 2027, announcement December 21 2025",
+      "access": "web page and CUA current home",
+      "character_image_actually_viewed": false
+    },
+    {
+      "id": "MOMO",
+      "url": "https://anime-dandadan.com/character/",
+      "provenance": "Official character page",
+      "supports": "Compact hair, clear upper eyelids, expression and weight shift; character stated high-school student, C1 is unrelated adult",
+      "access": "web plus actual CUA rendered image",
+      "character_image_actually_viewed": true
+    },
+    {
+      "id": "REZE",
+      "url": "https://www.chainsawman.dog/movie_reze/character/",
+      "provenance": "Official character page",
+      "supports": "Contained/tied hair silhouette, long side strands, simple linework and black/white clothes",
+      "access": "actual CUA carousel Reze image",
+      "character_image_actually_viewed": true
+    },
+    {
+      "id": "REZE-BOX",
+      "url": "https://chainsawman.dog/news/260106_01/",
+      "provenance": "Official",
+      "supports": "January 6 2026: 6.55 million admissions and JPY 10 billion milestone; dated producer report",
+      "access": "web title and relevant page",
+      "character_image_actually_viewed": false
+    },
+    {
+      "id": "REZE-STREAM",
+      "url": "https://chainsawman.dog/news/260825_01/",
+      "provenance": "Official",
+      "supports": "August 25 announcement for September 19 Prime Video release; not new TV season",
+      "access": "web relevant page",
+      "character_image_actually_viewed": false
+    },
+    {
+      "id": "CSM-NEXT",
+      "url": "https://chainsawman.dog/news/251221_01/",
+      "provenance": "Official",
+      "supports": "Assassins Arc production announced; release date not inferred",
+      "access": "web page",
+      "character_image_actually_viewed": false
+    },
+    {
+      "id": "KIMETSU",
+      "url": "https://kimetsu.com/anime/mugenjyohen_movie/",
+      "provenance": "Official",
+      "supports": "First Infinity Castle film July 18 2025; not series completion",
+      "access": "web title and page",
+      "character_image_actually_viewed": false
+    },
+    {
+      "id": "CR-2026",
+      "url": "https://prtimes.jp/main/html/rd/p/000000014.000114805.html",
+      "provenance": "Crunchyroll LLC signed press release",
+      "supports": "May 23 2026 awards: Dandadan opening and Infinity Castle film; awards not worldwide popularity rank",
+      "access": "web relevant award entries",
+      "character_image_actually_viewed": false
+    }
+  ],
+  "character_images_actually_viewed": 5,
+  "series_screened": 6,
+  "primary_visual_series": 4,
+  "no_complete_episodes_watched": true,
+  "no_audio_listening": true,
+  "no_ip_reference_images_sent_to_imagegen": true,
+  "no_reference_art_downloaded_or_reused_as_application_asset": true,
+  "limitations": [
+    "Crunchyroll news article direct open returned empty content; used company signed press release for awards",
+    "Chainsaw Man KV image direct fetch failed; character art was inspected through the actual browser",
+    "Initial Oshi Season3 character/ URL redirected to portal; used observed Season3/chara/ navigation",
+    "Some initial browser screenshots captured page transitions; only subsequent visible character images count as visual inspection",
+    "No unified global popularity ranking or claim that hosiery causes popularity"
+  ]
+}

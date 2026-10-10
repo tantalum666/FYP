@@ -1,0 +1,26 @@
+{
+  "checked_at": "2026-10-10T20:21:23.275738+08:00",
+  "markdown_files": 139,
+  "local_links": 1430,
+  "broken_links": [],
+  "read_missing_ranges": [],
+  "source_changed_during_full_read": [],
+  "runtime_application_diff": [],
+  "updated_specs": [
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "output/qa/2026-10-10-c1-mainstream-anime/verification.md",
+    "research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md"
+  ],
+  "image_review": [
+    "C1 V1",
+    "A1 V4"
+  ],
+  "school_document_changes": [],
+  "runtime_tests_rerun": false,
+  "historical_link_repair": "Expired temporary AVA screenshot marked unavailable; original observation and filename retained.",
+  "staged_gitleaks_findings": 0,
+  "staged_whitespace_check": "passed after correcting pending PR body"
+}

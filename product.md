@@ -1,6 +1,6 @@
 # Group 2 Project Contract
 
-更新：2026-10-10。状态：**用户同意A1简报方向；角色简报／六表情规则与E1对照已完成，E1待图像反馈；五版原稿保留，运行角色仍用原许可样本**。
+更新：2026-10-10。状态：**A1简报与E1保留；近期主流动画复核和C1首稿完成，新聊天接续Git交付收尾，待A1／C1对照反馈；运行角色仍用原许可样本**。
 
 ## 当前方向与用户决定
 
@@ -22,7 +22,7 @@
 
 [amontlabs/lcu](https://github.com/amontlabs/lcu)进入优先验证候选，尚未采用或安装。建议Pi界面／语音→任务与权限核心→获授权PC执行服务→可替换API／浏览器／GUI执行器；先证明指定测试应用读写、独立结果校验、拒绝越权、取消和断线恢复。LCU的Pi adapter指agent框架，不是Raspberry Pi已验证；Linux缺少原厂逐应用审批，必须有真实服务／OS隔离边界。模型不能自行确认；10月6日代码已加入job_id持久作业与非阻塞语音调度，外部写入未知时不能盲目重试。
 
-实体概念是LUWU RIG-Arm＋Pi＋屏幕＋可拆卸迷你桌面清洁模块；ESP32、尺寸、具体BOM和接口仍待核。未确认采购、自动回座或无线充电。10月6日讨论时，[RIG研究PR #1](https://github.com/tantalum666/FYP/pull/1)尚未合并；10月9日用户授权合并应用Dot工作，该研究已随[整合PR #2](https://github.com/tantalum666/FYP/pull/2)合入main，PR #1也已标记合并。真实服务、电脑执行与新硬件均未实测；本次授权是先把讨论文档推到GitHub，不扩展为安装、权限、付费、硬件运行或部署授权。
+实体概念是LUWU RIG-Arm＋Pi＋屏幕＋可拆卸迷你桌面清洁模块；ESP32、尺寸、具体BOM和接口仍待核。未确认采购、自动回座或无线充电。10月6日讨论时，[RIG研究PR #1](https://github.com/tantalum666/FYP/pull/1)尚未合并；10月9日用户授权合并应用Dot工作，该研究已随[整合PR #2](https://github.com/tantalum666/FYP/pull/2)合入main，PR #1也已标记合并。真实服务、电脑执行与新硬件均未实测；10月6日当轮授权是先把讨论文档推到GitHub，后续代码／美术工作分别依照较新的用户指令接续，安装、权限、付费、硬件运行及部署仍需对应条件。
 
 ## 2026-10-09 全身3D虚拟形象
 
@@ -38,7 +38,11 @@
 
 A/B首轮各生成一张1024×1536全身概念，随后用户选择A1并连续降低写实度，形成V2／V3／V4。[原五版与提示词](design/desk-companion/characters/2026-10-10-concepts/README.md)均保留；[日本动漫六角色研究](research/2026-10-10-avatar-art/japanese-character-study.md)及13来源在研究阶段完成。用户随后明确同意按建议推进，安静、敏锐、可靠、熟悉后轻巧幽默成为当前性格工作基线，非最终角色名称／声音／模型定稿。
 
-[简明角色简报](design/desk-companion/characters/a1-character-brief.md)、[六表情／表演规则](design/desk-companion/characters/a1-expression-rules.md)与[六表情对照E1](design/desk-companion/characters/2026-10-10-expression-study/README.md)已完成。E1以实际查看的V4为唯一参考，一次内置ImageGen生成1536×1024头肩对照；原图、完整提示词和hash保留，无像素后期。倾听与开心差异仍小，关切略偏担忧；E1待图像反馈，不是全身V5或已绑定表情。下一步据E1反馈定向微调，再补侧背面规范。应用／pixiv VRM保持，真实语音、Pi并发与光学效果仍需另验。
+[简明角色简报](design/desk-companion/characters/a1-character-brief.md)、[六表情／表演规则](design/desk-companion/characters/a1-expression-rules.md)与[六表情对照E1](design/desk-companion/characters/2026-10-10-expression-study/README.md)已完成。E1以实际查看的V4为唯一参考，一次内置ImageGen生成1536×1024头肩对照；原图、完整提示词和hash保留，无像素后期。倾听与开心差异仍小，关切略偏担忧；E1待图像反馈，不是全身V5或已绑定表情。A1可据E1反馈定向微调，再补侧背面规范。应用／pixiv VRM保持，真实语音、Pi并发与光学效果仍需另验。
+
+用户随后要求选择更主流、近期仍有动画内容的作品，另出C1参考。[近期动画复核](research/2026-10-10-avatar-art/mainstream-anime-c1-study.md)核对六系列的发行／续作状态与传播依据，实际查看加奈、茜、绫濑桃、蕾塞、菲伦五项官方视觉；未完整观看剧集。新[C1紫暮首稿](design/desk-companion/characters/2026-10-10-c1-concept/README.md)为一次内置ImageGen生成的1024×1536成年女性全身概念，无IP参考图输入：深梅紫短发、琥珀眼、酒红露肩针织、米白叠片裙与丝袜。首稿保留柔和材质／背景渐变及较高鞋跟的实际差异。C1是独立备选，不取代已接受的A1工作简报，也不恢复历史暖金C；现有五版、E1与所有提示词保持。当前下一步比较A1与C1，再细化选定方向；无新VRM或应用改动。
+
+新聊天按用户要求完成138份自有Markdown全文恢复并读取旧聊天，确认C1阶段停在提交前的空行检查及连接中断。当前正在补齐既有分支／PR #4的实际保存与远端回读；[本轮收尾记录](output/qa/2026-10-10-github-thread-continuation/verification.md)区分本地成果、Git交付与待用户反馈，不重复生成图片或替用户选择角色。
 
 ## 已实现的软件范围
 

@@ -1,0 +1,32 @@
+{
+  "group": "Group 2",
+  "created_at": "2026-10-10T18:41:18.484223+08:00",
+  "candidate": "C1",
+  "working_name": "Plum Dusk / 紫暮",
+  "state": "Separate visual alternative for reference; not selected over A1",
+  "route": "Built-in ImageGen",
+  "attempts": 1,
+  "native_path": "/Users/tantalum/.codex/generated_images/01a07aeb-a256-7572-a42e-bd7e4668674f/exec-ecd32370-c718-471c-a72c-ee20b9fb9fc8.png",
+  "path": "design/desk-companion/characters/2026-10-10-c1-concept/c1-plum-dusk-v1.png",
+  "prompt_path": "design/desk-companion/characters/2026-10-10-c1-concept/c1-prompt.txt",
+  "sha256": "6bfe959040076307bf61fcdc4be60ab4908083851e02e978b04dc2ed51e16cb3",
+  "prompt_sha256": "b943d0a97e5caa10b4f97fda2c700f15ec7aefa10f005c778080e901f5f1c600",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 1587650,
+  "transparent_background": false,
+  "pixel_edits_after_generation": false,
+  "input_reference_images": null,
+  "source_ip_images_sent_to_generator": false,
+  "concept_only": true,
+  "selected_as_final_art": false,
+  "application_model_unchanged": true,
+  "observations": [
+    "Adult anime face, compact plum bob, amber eyes and silver bar pins visible",
+    "Wine-red asymmetric off-shoulder knit, ivory wrap miniskirt, charcoal tights and dark ankle boots visible",
+    "One figure, full body, both hands and both boots visible",
+    "Facial linework is clearly anime; fabric/tights/boots and background retain some gradients and gloss",
+    "Character fills more of the page and heels are higher than the prompt ideal",
+    "No text, inset faces or extra people"
+  ]
+}
