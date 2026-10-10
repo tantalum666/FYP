@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-10T18:16:45.424314+08:00",
+  "checked_at": "2026-10-10T18:19:26.009736+08:00",
   "original_pngs": 5,
   "original_prompts": 5,
   "original_hashes_unchanged": true,
@@ -34,6 +34,6 @@
     "research/2026-10-10-avatar-art/wardrobe-study.md",
     "work-log.md"
   ],
-  "checked_local_links": 704,
+  "checked_local_links": 705,
   "broken_links": []
 }

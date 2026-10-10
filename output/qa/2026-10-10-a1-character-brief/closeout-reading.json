@@ -19,5 +19,14 @@
       "read_range": "changed text reviewed in full diff; complete body already read"
     }
   ],
-  "qa_verification": "new authored full body reviewed before commit; excluded from mandatory project Markdown audit"
+  "qa_verification": "new authored full body reviewed before commit; excluded from mandatory project Markdown audit",
+  "closeout_delivery_readback": {
+    "reviewed_at": "2026-10-10T18:20:02.244016+08:00",
+    "full_changed_text_reviewed": [
+      "handoff.md line 3",
+      "work-log.md line 896",
+      "output/qa/2026-10-10-a1-character-brief/verification.md lines 25-31"
+    ],
+    "actual_git_receipt": "git-delivery.json"
+  }
 }

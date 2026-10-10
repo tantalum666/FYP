@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-更新：2026-10-10。当前：**用户同意A1简报方向；简报／六表情规则与E1图已完成，E1待图像反馈。** 分支`codex/full-body-3d-avatar`／[PR #4](https://github.com/tantalum666/FYP/pull/4)，main保持Dot整合。
+更新：2026-10-10。当前：**用户同意A1简报方向；简报／六表情规则与E1图已完成，E1待图像反馈。** 内容`8511d95`已推送分支`codex/full-body-3d-avatar`／[PR #4](https://github.com/tantalum666/FYP/pull/4)，说明与head已读回，PR未合并；main保持Dot整合。
 
 ## 当前成果与证据
 

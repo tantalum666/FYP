@@ -1,0 +1,16 @@
+{
+  "verified_at_utc": "2026-10-10T10:19:25.597Z",
+  "repository": "tantalum666/FYP",
+  "branch": "codex/full-body-3d-avatar",
+  "content_commit": "8511d95589e4f9db33b32783bdce957146a7f2ca",
+  "remote_feature_head": "8511d95589e4f9db33b32783bdce957146a7f2ca",
+  "main_sha": "ccfac48ce8c68e6f9c8796911bbe5f35728d7807",
+  "main_unchanged": true,
+  "pull_request": "https://github.com/tantalum666/FYP/pull/4",
+  "pull_request_state": "open",
+  "pull_request_merged": false,
+  "description_readback_exact": true,
+  "staged_gitleaks_exit_code": 0,
+  "staged_gitleaks_findings": 0,
+  "scope": "Content commit readback; subsequent closeout commit only records verification, local checks and this receipt."
+}
