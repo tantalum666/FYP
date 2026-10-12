@@ -1,0 +1,30 @@
+{
+  "inventory_content_commit": "55438c20b70c422862390abf535d0b0cf53aa2e0",
+  "verified_committed_file_bytes": [
+    "README.md",
+    "decision-log.md",
+    "desk-companion/README.md",
+    "desk-companion/docs/architecture.md",
+    "handoff.md",
+    "output/qa/2026-10-12-save-and-software-inventory/closeout-reading.json",
+    "output/qa/2026-10-12-save-and-software-inventory/final-validation.json",
+    "output/qa/2026-10-12-save-and-software-inventory/finalize_inventory.py",
+    "output/qa/2026-10-12-save-and-software-inventory/gitleaks-inventory.json",
+    "output/qa/2026-10-12-save-and-software-inventory/gitleaks-preservation.json",
+    "output/qa/2026-10-12-save-and-software-inventory/preservation-before-save.json",
+    "output/qa/2026-10-12-save-and-software-inventory/preservation-git-delivery.json",
+    "output/qa/2026-10-12-save-and-software-inventory/preservation-whitespace-check.json",
+    "output/qa/2026-10-12-save-and-software-inventory/reading-record.json",
+    "output/qa/2026-10-12-save-and-software-inventory/source-crosscheck.json",
+    "output/qa/2026-10-12-save-and-software-inventory/verification.md",
+    "planning/2026-10-12/software-function-inventory.md",
+    "product.md",
+    "work-log.md"
+  ],
+  "remote_refs": {
+    "refs/heads/codex/full-body-3d-avatar": "55438c20b70c422862390abf535d0b0cf53aa2e0",
+    "refs/heads/main": "ccfac48ce8c68e6f9c8796911bbe5f35728d7807"
+  },
+  "verification_scope": "All inventory commit files except the delivery record, which was intentionally updated after push.",
+  "completed_at": "2026-10-12T14:28:47.964487+08:00"
+}

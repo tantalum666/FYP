@@ -1,4 +1,22 @@
 {
-  "status": "pending final inventory push",
-  "preservation_commit": "e45afd2700e87f07c7e8044a7f67ce3b09237cae"
+  "status": "saved_and_remote_verified",
+  "preservation_commit": "e45afd2700e87f07c7e8044a7f67ce3b09237cae",
+  "inventory_content_commit": "55438c20b70c422862390abf535d0b0cf53aa2e0",
+  "branch": "codex/full-body-3d-avatar",
+  "remote_branch_head": "55438c20b70c422862390abf535d0b0cf53aa2e0",
+  "main_head": "ccfac48ce8c68e6f9c8796911bbe5f35728d7807",
+  "main_unchanged": true,
+  "repository_private": true,
+  "pr": {
+    "number": 4,
+    "url": "https://github.com/tantalum666/FYP/pull/4",
+    "title": "Add full-body VRM companion and preserve A1 design references",
+    "head": "55438c20b70c422862390abf535d0b0cf53aa2e0",
+    "state": "open",
+    "merged": false,
+    "body_verified_equal": true
+  },
+  "local_validation": "final-validation.json",
+  "application_code_changed": false,
+  "closeout_scope": "Following commit only records this completed readback in QA."
 }

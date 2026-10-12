@@ -21,3 +21,5 @@
 更新product、两README、架构入口、handoff、decision-log、work-log并新增17模块清单。只保留一个当前建议下一步：先确定一个目标OS与1–2个应用任务，完成有批准与独立结果的执行闭环；A1默认服装／原创VRM及角色细化继续保留。原图／prompt／学校文件／应用源码不变。
 
 [最终本地检查](final-validation.json)记录本地链接、身份／组号、交付物、图片／学校保护、源码无变化及本轮变更读回。后续软件清单／规范和QA沿现有角色分支保存；实际推送与PR状态的最后读回见[收尾交付](inventory-git-delivery.json)。没有合并main、发布应用、付费模型、硬件动作、成员消息／邀请或学校提交。
+
+清单与当前规范提交`55438c20b70c422862390abf535d0b0cf53aa2e0`已推送，远端ref／PR #4 head一致，PR标题／正文已更新并再次回读相同；仓库仍为private，main保持`ccfac48`。清单提交19项文件逐字节匹配blob，唯一排除的是推送后按实际结果更新的交付记录，见[inventory-byte-verification](inventory-byte-verification.json)。第二次暂存[Gitleaks](gitleaks-inventory.json)无发现，默认staged空白检查通过。随后收尾提交只保存此段及QA读回证据，不改功能清单、应用或既有资产。
