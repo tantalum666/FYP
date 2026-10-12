@@ -1,0 +1,59 @@
+{
+  "note": "Compact provenance only; captured raw vendor HTML remains outside the repository. Source/final URLs, retrieval time and hashes identify the read-only snapshots.",
+  "pages": [
+    {
+      "source_url": "https://docs.x.ai/grok-bot/overview",
+      "final_url": "https://docs.x.ai/grok-bot/overview",
+      "status": 200,
+      "retrieved_at": "2026-10-12T13:28:33.305234+00:00",
+      "bytes": 260465,
+      "sha256": "8796b620b12946ff459b1318c146414a6e3a8a014c5b972ddd5eae4285565fb9",
+      "file": "docs.x.ai__grok-bot__overview.html"
+    },
+    {
+      "source_url": "https://x.ai/news/introducing-grok-bot",
+      "final_url": "https://x.ai/news/introducing-grok-bot",
+      "status": 200,
+      "retrieved_at": "2026-10-12T13:28:36.389972+00:00",
+      "bytes": 188054,
+      "sha256": "32cef0ff2f0106f8659a0022422712b92c0a016204383684575c96704d8526e2",
+      "file": "x.ai__news__introducing-grok-bot.html"
+    },
+    {
+      "source_url": "https://x.ai/bot",
+      "final_url": "https://x.ai/bot",
+      "status": 200,
+      "retrieved_at": "2026-10-12T13:28:36.873931+00:00",
+      "bytes": 281293,
+      "sha256": "740d2e62d8d2e2d2ecc4463810fec5f573937fb19cc036ce38ccf949af4598d0",
+      "file": "x.ai__bot.html"
+    },
+    {
+      "source_url": "https://docs.x.ai/grok-bot/security-faq",
+      "final_url": "https://docs.x.ai/grok-bot/security-faq",
+      "status": 200,
+      "retrieved_at": "2026-10-12T13:28:38.387607+00:00",
+      "bytes": 290130,
+      "sha256": "5c7eeea9dfcf321be228f285f811cebace1bb01270af3f62bc08055da76a1176",
+      "file": "docs.x.ai__grok-bot__security-faq.html"
+    },
+    {
+      "source_url": "https://docs.x.ai/grok-bot/security",
+      "final_url": "https://docs.x.ai/grok-bot/security",
+      "status": 200,
+      "retrieved_at": "2026-10-12T13:28:38.751430+00:00",
+      "bytes": 308928,
+      "sha256": "6d95b218ecabc691e18504c63bcf0424cf0f1dd598b2fcbd865ba5acf8b2cc19",
+      "file": "docs.x.ai__grok-bot__security.html"
+    },
+    {
+      "source_url": "https://cursor.com/help/grok-bot/plans",
+      "final_url": "https://cursor.com/help/grok-bot/plans",
+      "status": 200,
+      "retrieved_at": "2026-10-12T13:28:42.858312+00:00",
+      "bytes": 273224,
+      "sha256": "8ed53037e73242a14f3eda7303b2f9930333a7048d3b6b57eb53455fbfc89047",
+      "file": "cursor.com__help__grok-bot__plans.html"
+    }
+  ]
+}

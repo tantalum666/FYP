@@ -1005,3 +1005,11 @@
 本次云端整体执行361项后端、50项前端、Ruff、TypeScript／Vite；A1与VRM来源hash另行检查通过。两个独立进程的HTTP写入与SQLite检查证明真实且单次的虚构记录创建。生产构建保留大chunk提示。详情与日志见[首批QA](output/qa/2026-10-12-agent-kernel/checkpoint-verification.md)。没有真实语音／模型调用、硬件或学校提交。
 
 根product、handoff、README、architecture与早期盘点取代说明同步更新；细分契约在personal-context、routines、provider-policy、computer-jobs、software-checks。已建必要6.1 Sol Max隔离Mac验收任务，补回原A1字节但等待本批准确SHA测新界面。下一步发布此批、核对远端CI和实际浏览器，再继续有界增强；未合并或部署。
+
+## 2026-10-12 14:54 UTC｜第一批发布确认与能力主线纠正
+
+源代码检查点`546734273c9c8305cf6226e96a8e07854ba5c0b1`、tree`e1845697adc939136954d488def71ee5b636078f`已保存PR #5；137项候选blob逐一回读一致，push38265188107和PR38265191556均成功。先前整体tree调用连续返回取消，未认定由用户取消；用户明确重新同意后，原批准内容分30小批叠加tree，最终单一提交／非强制ref更新成功。[回读证据](output/qa/2026-10-12-agent-kernel/publication-first-checkpoint.json)。
+
+响应用户对能力广度的质疑，补齐三家产品能力逐项差距、真实任务验收和LCU源码／权限边界研究；新[路线](planning/2026-10-12/agent-capability-roadmap.md)与[持久运行设计](planning/2026-10-12/durable-agent-run-design.md)取代先加供应商／归档的优先级。第二批源码正实现来源／成果服务、持续模型决策、真实浏览器适配器与控制UI；尚未把它们记为完成。
+
+必要Mac任务开始针对准确5467342真实浏览器验收，保持原预览与主数据不变。后续真实模型质量、通用桌面、OAuth／付费和硬件条件分别记录，不能拿第一批窄应用证据替代。

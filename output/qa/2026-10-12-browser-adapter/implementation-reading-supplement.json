@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-12T14:51:23.434715+00:00",
+  "inherited_gate": "../2026-10-12-agent-kernel/reading-union-status.json",
+  "scope": "Same ongoing task; changed/relevant follow-up read, truncated composite output supplemented by explicit ranges",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "eof": true
+    },
+    {
+      "path": "product.md",
+      "lines": 166,
+      "sha256": "300ad74f79082217bf3166f679a94ae6dd0633c9581b72e1794cd2e54016b789",
+      "read_ranges": [
+        [
+          1,
+          166
+        ]
+      ],
+      "eof": true
+    },
+    {
+      "path": "handoff.md",
+      "lines": 26,
+      "sha256": "1ad797250bfc8f056ea1034857f63c40367a5730301dfdacfaa9f541b2074e9c",
+      "read_ranges": [
+        [
+          1,
+          26
+        ]
+      ],
+      "eof": true
+    },
+    {
+      "path": "planning/2026-10-12/durable-agent-run-design.md",
+      "lines": 373,
+      "sha256": "98004d65819a84cc390717700d5963a5bd97865f4652d50e7e036461684c42e5",
+      "read_ranges": [
+        [
+          1,
+          373
+        ]
+      ],
+      "eof": true
+    },
+    {
+      "path": "desk-companion/docs/software-checks.md",
+      "lines": 31,
+      "sha256": "e79340661b0f8c8ee880503bd4cdf0e97243224c86c787f3e20bb4a73beafb67",
+      "read_ranges": [
+        [
+          1,
+          31
+        ]
+      ],
+      "eof": true
+    }
+  ]
+}

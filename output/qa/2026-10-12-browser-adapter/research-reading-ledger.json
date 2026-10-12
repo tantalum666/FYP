@@ -1,0 +1,360 @@
+{
+  "date": "2026-10-12T13:35:05.034349+00:00",
+  "lcu_pin": "146fe73fe08bf034756b91903269f6806eac2290",
+  "purpose": "Source-only cross-application follow-up; not an implementation gate for unread new files",
+  "records": [
+    {
+      "path": "desk-companion/docs/architecture.md",
+      "sha256": "47cbd64a6f89e8269bfc5c3a19d750b5cdf3389f87c698f3c20003107031125f",
+      "lines": 117,
+      "read_ranges": [
+        [
+          1,
+          117
+        ]
+      ],
+      "eof_verified": true,
+      "scope": "Current follow-up full read; source grep was supplemented by actual numbered ranges"
+    },
+    {
+      "path": "desk-companion/docs/computer-jobs.md",
+      "sha256": "f396e584311a99bee762cc92a4ee097d944830149894196211230098067f5ba1",
+      "lines": 102,
+      "read_ranges": [
+        [
+          1,
+          102
+        ]
+      ],
+      "eof_verified": true,
+      "scope": "Current follow-up full read; source grep was supplemented by actual numbered ranges"
+    },
+    {
+      "path": "planning/2026-10-12/personal-agent-implementation.md",
+      "sha256": "87991d01ee7dee7affc22e005a0f6b96d7dc39e8a26fcedc735c1befcbbdacd2",
+      "lines": 76,
+      "read_ranges": [
+        [
+          1,
+          76
+        ]
+      ],
+      "eof_verified": true,
+      "scope": "Current follow-up full read; source grep was supplemented by actual numbered ranges"
+    },
+    {
+      "path": "output/qa/2026-10-12-agent-kernel/checkpoint-verification.md",
+      "sha256": "fa4e20abd26194d404536e6a233a97be2a7a465838dfeace0df67770a1e6f5aa",
+      "lines": 23,
+      "read_ranges": [
+        [
+          1,
+          23
+        ]
+      ],
+      "eof_verified": true,
+      "scope": "Current follow-up full read; source grep was supplemented by actual numbered ranges"
+    },
+    {
+      "path": "desk-companion/backend/desk/executor_registry.py",
+      "sha256": "fed2fd3fea26f35b50b4ab5a97c348c8a7ce1f88f6faf34b15a5a62fd7f12b63",
+      "lines": 83,
+      "read_ranges": [
+        [
+          1,
+          83
+        ]
+      ],
+      "eof_verified": true,
+      "scope": "Current follow-up full read; source grep was supplemented by actual numbered ranges"
+    },
+    {
+      "path": "desk-companion/backend/desk/computer.py",
+      "sha256": "0530dc3a1f837a08868f5868dd4400d5bd0e7ec527be6422704cb631c0f41603",
+      "lines": 149,
+      "read_ranges": [
+        [
+          1,
+          149
+        ]
+      ],
+      "eof_verified": true,
+      "scope": "Current follow-up full read; source grep was supplemented by actual numbered ranges"
+    },
+    {
+      "path": "desk-companion/backend/desk/jobs.py",
+      "sha256": "fc0b167ad647747ec6c9f809f92d01a75374e2cf2d7f2ff12bafd3cee59d21c6",
+      "lines": 472,
+      "read_ranges": [
+        [
+          1,
+          472
+        ]
+      ],
+      "eof_verified": true,
+      "scope": "Current follow-up full read; source grep was supplemented by actual numbered ranges"
+    },
+    {
+      "path": "lcu-public/docs/ADAPTERS.md",
+      "sha256": "6f4bd91329547fb73f003763da9a816ab1726404a22c3587638c0ceeac3f7ee4",
+      "lines": 261,
+      "read_ranges": [
+        [
+          1,
+          54
+        ],
+        [
+          55,
+          65
+        ],
+        [
+          66,
+          88
+        ],
+        [
+          89,
+          149
+        ],
+        [
+          150,
+          230
+        ],
+        [
+          231,
+          261
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": true,
+      "scope": "Public source; prior same research turn ranges included; partial files explicitly not full-read"
+    },
+    {
+      "path": "lcu-public/docs/INSTRUCTIONS.md",
+      "sha256": "6bc06eb5dda2c3c5ff0741e907cb58401a286afc306a889686a661aa92b826b7",
+      "lines": 12,
+      "read_ranges": [
+        [
+          1,
+          12
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": true,
+      "scope": "Public source; prior same research turn ranges included; partial files explicitly not full-read"
+    },
+    {
+      "path": "lcu-public/docs/verification/harness-contract-audit-2026-09-25.md",
+      "sha256": "504a9684df7fe9ef97682950496f999e6be25a744ac57b1dfddec17644d5a3a4",
+      "lines": 20,
+      "read_ranges": [
+        [
+          1,
+          20
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": true,
+      "scope": "Public source; prior same research turn ranges included; partial files explicitly not full-read"
+    },
+    {
+      "path": "lcu-public/lcu/session.mjs",
+      "sha256": "64935f905ec690cae93515d6cfaea00791d52ede30bb20f7a8641893789deeff",
+      "lines": 98,
+      "read_ranges": [
+        [
+          1,
+          98
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": true,
+      "scope": "Public source; prior same research turn ranges included; partial files explicitly not full-read"
+    },
+    {
+      "path": "lcu-public/tested-versions.json",
+      "sha256": "1feab2cb67061cd40a21ca690d9373b482c89270d232a32ac92f0ef0ce629171",
+      "lines": 67,
+      "read_ranges": [
+        [
+          1,
+          67
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": true,
+      "scope": "Public source; prior same research turn ranges included; partial files explicitly not full-read"
+    },
+    {
+      "path": "lcu-public/adapters/client.mjs",
+      "sha256": "9ab38a04f139acf8e447d8c454ea79d80bd91f9363b4e2a8e77a0c84f7e971e4",
+      "lines": 765,
+      "read_ranges": [
+        [
+          1,
+          95
+        ],
+        [
+          538,
+          765
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": false,
+      "scope": "Public source; prior same research turn ranges included; partial files explicitly not full-read"
+    },
+    {
+      "path": "lcu-public/docs/verification/request-context-2026-09-27.md",
+      "sha256": "11bd7363e8e7ec65a2d431436f474577ed0ca9b421e4b7979fdb501b621b35b2",
+      "lines": 187,
+      "read_ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "eof_verified": false,
+      "full_read": false,
+      "scope": "Public source; prior same research turn ranges included; partial files explicitly not full-read"
+    },
+    {
+      "path": "public-xai/grok-bot__approvals-security-and-privacy.md",
+      "sha256": "da17951351eb9aee42c7260e6d2c328efc99d17d70334e4045af4033ff1b44ff",
+      "lines": 187,
+      "read_ranges": [
+        [
+          1,
+          187
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": true,
+      "scope": "Full product reread in this follow-up; rest of 47-page corpus previously reviewed"
+    },
+    {
+      "path": "public-xai/grok-bot__bots.md",
+      "sha256": "f5560fd0cb8c1fc9e4f1e69282919b36f58846d55c48b96481f73aa44e55f678",
+      "lines": 145,
+      "read_ranges": [
+        [
+          1,
+          145
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": true,
+      "scope": "Full product reread in this follow-up; rest of 47-page corpus previously reviewed"
+    },
+    {
+      "path": "public-xai/grok-bot__chat-and-collaboration.md",
+      "sha256": "f3db836d29d655b0122281a948a74e455c72b195db2d460f511ca1e1d4b7666a",
+      "lines": 181,
+      "read_ranges": [
+        [
+          1,
+          181
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": true,
+      "scope": "Full product reread in this follow-up; rest of 47-page corpus previously reviewed"
+    },
+    {
+      "path": "public-xai/grok-bot__computer-and-apps.md",
+      "sha256": "12c4fa816723086fa58f1a8a85daf5f433b89f8a5a9c7989e27636c95da4d11b",
+      "lines": 124,
+      "read_ranges": [
+        [
+          1,
+          124
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": true,
+      "scope": "Full product reread in this follow-up; rest of 47-page corpus previously reviewed"
+    },
+    {
+      "path": "public-xai/grok-bot__computers.md",
+      "sha256": "9a83b85aefebeeeb3f4d18e0abb2f3e58cd5f20c2234921c16d42660cf68fd28",
+      "lines": 168,
+      "read_ranges": [
+        [
+          1,
+          168
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": true,
+      "scope": "Full product reread in this follow-up; rest of 47-page corpus previously reviewed"
+    },
+    {
+      "path": "public-xai/grok-bot__files-and-results.md",
+      "sha256": "861cd7542dbb1c036069cc398cdcab9af2e3410619576ff4943fc2384ae6e5ca",
+      "lines": 112,
+      "read_ranges": [
+        [
+          1,
+          112
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": true,
+      "scope": "Full product reread in this follow-up; rest of 47-page corpus previously reviewed"
+    },
+    {
+      "path": "public-xai/grok-bot__security-faq.md",
+      "sha256": "47bb17a93a871e282652c6f289e5e40532807b3694cf7b2cd2a27e0b2dc4a065",
+      "lines": 176,
+      "read_ranges": [
+        [
+          1,
+          176
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": true,
+      "scope": "Full product reread in this follow-up; rest of 47-page corpus previously reviewed"
+    },
+    {
+      "path": "public-xai/grok-bot__settings-and-notifications.md",
+      "sha256": "218797f101ec78e84caefbaf1d3dce1342c5210adcf2f789bad99aefb568902e",
+      "lines": 183,
+      "read_ranges": [
+        [
+          1,
+          183
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": true,
+      "scope": "Full product reread in this follow-up; rest of 47-page corpus previously reviewed"
+    },
+    {
+      "path": "public-xai/grok-bot__skills-routines-and-automations.md",
+      "sha256": "02649c2619e937da99a07793c09fafecafb467976f8a87b85aa42c0d2b3b35ee",
+      "lines": 151,
+      "read_ranges": [
+        [
+          1,
+          151
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": true,
+      "scope": "Full product reread in this follow-up; rest of 47-page corpus previously reviewed"
+    },
+    {
+      "path": "public-xai/grok-bot__troubleshooting.md",
+      "sha256": "e990d83ad1cae6f2c7eb1c1e379aefe2d88ebee92596d1024bffbdf9eede4b05",
+      "lines": 183,
+      "read_ranges": [
+        [
+          1,
+          183
+        ]
+      ],
+      "eof_verified": true,
+      "full_read": true,
+      "scope": "Full product reread in this follow-up; rest of 47-page corpus previously reviewed"
+    }
+  ]
+}

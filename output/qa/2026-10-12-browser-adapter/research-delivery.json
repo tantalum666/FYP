@@ -1,0 +1,44 @@
+{
+  "recorded_at": "2026-10-12T13:37:19.132877+00:00",
+  "phase": "Public research and implementation design only",
+  "lcu_commit": "146fe73fe08bf034756b91903269f6806eac2290",
+  "review": "Browser recommendation independently reviewed; exact approval ordering, in-flight cancellation, export exception, ephemeral workspace, host-isolation limits and adapter-boundary failure injection corrected",
+  "files": [
+    {
+      "path": "grok-capability-gap.md",
+      "bytes": 18944,
+      "sha256": "4afab24a625bc3f07cfba977d92d356c772593f34dc98719101063fd7cf3df71",
+      "lines": 96
+    },
+    {
+      "path": "lcu-integration-plan.md",
+      "bytes": 20565,
+      "sha256": "479cc25ca24b4135ec11d0a46b7bf7dc328bb6ed1442152fee3587b0daee686c",
+      "lines": 143
+    },
+    {
+      "path": "lcu-security-provenance.md",
+      "bytes": 19179,
+      "sha256": "e774cda6f58dc3747e466c4930f79783a97e263d56ffd448f98f5d06bac179ce",
+      "lines": 145
+    },
+    {
+      "path": "bounded-browser-options.md",
+      "bytes": 17313,
+      "sha256": "41869f6ad8258610d2df8f5104e64fc2b38df51b34b90c90c731f27770b65c82",
+      "lines": 99
+    },
+    {
+      "path": "cross-app-reading-supplement.json",
+      "bytes": 10229,
+      "sha256": "ad27a0ca74d7a70b7eb862350d193b2c3002b80cdac42eb82148386147896a4d",
+      "lines": 360
+    },
+    {
+      "path": "grok-product-provenance/manifest.json",
+      "bytes": 2070,
+      "sha256": "235dd5dd26d392759b9fb91519e0e5ef4d270ec0fa82204641c558b174725dcd",
+      "lines": 56
+    }
+  ]
+}
