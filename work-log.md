@@ -975,3 +975,17 @@
 - **发现与修复：**桌面侧栏小月历grid160px／scroll202px、sidebar212px／scroll228px，最右日期列裁切；`.mini-grid`七列改minmax(0,1fr)、按钮宽min(28px,100%)及min-width:0。修后grid scroll160px、sidebar scroll212px，完整七列和周日点选通过。TypeScript／生产构建通过，既有3D大chunk提示保留；不为小幅CSS写镜像测试或重复旧业务套件。
 - **检查过程：**高层截图未匹配模拟宽度，改用tab级CDP明确clip并核对PNG尺寸；AX把pressed日期按钮显示为checkbox，定位失败后根据DOM改用button；隐私select精确label失败后用实际可匹配label成功。失败不算通过。前后截图／DOM与运行记录见[QA](output/qa/2026-10-12-web-linux-preview/verification.md)。
 - **收尾：**更新product、软件README、decision-log和handoff；链接／组号／旧资产／主库保护检查，服务与两个用户标签页保留，隐藏检查页关闭、尺寸覆盖清除。当前下一步是用户试用并反馈；当前Mac浏览器预览不构成Pi实装、真实语音或真人准确率验证，没有学校提交／硬件动作。
+
+## 2026-10-12 · A1常驻页面与完整2D收尾
+
+目标：把A1接入Web／独立设备页，支持互动、连续缩放、拖动和贴边收起，按现场纠正去除闭眼、分割和变形。
+
+完成：PageCompanion与纯几何偏好／贴边逻辑接入已登录App和DeviceApp；滚轮／拖角／1%滑条、半身／露头／隐藏／召回、刷新保存及同源同步、键盘／暂停／减少动态与弹窗暂避。最终单张完整睁眼图，只有微小整体刚性回应，无局部关节或深度变形。两张原生透明稿、完整实际prompt／receipt／hash保存，闭眼稿仅历史。
+
+纠正链：分块SVG、2.5D和3D尝试均被用户否决，已撤新3D／深度运行资产与代码；源工程及中间QA标HISTORICAL／superseded。原许可VRM保持，中间30项检查不称最终美术验收。
+
+验证：最终28项前端测试、类型／构建通过；实际单图、零关节mask／零canvas、刚性矩阵、连续缩放79%／87%／100%、拖动／三边收起、隐藏刷新召回、助理面板保护、减少动态及1280×800／390×844／1024×600通过，最终相关日志为空。原学校／角色／模型及主运行区保护检查见QA。
+
+位置：[页面规范](desk-companion/docs/page-companion.md)、[原图／实际prompt](design/desk-companion/characters/2026-10-12-a1-interface/README.md)、[3D历史稿](design/desk-companion/characters/2026-10-12-a1-3d/README.md)、[完整QA](output/qa/2026-10-12-a1-page-companion/verification.md)。同步product、两个README、角色简报／表演规则、avatar、清单、handoff和decision-log。
+
+剩余：独立手脚大动作需完整姿势帧；默认衣服、原创3D精制和真实服务／目标机验证仍待。下一步以当前完整2D为基线试用，不继续被否决3D或创建后台任务。

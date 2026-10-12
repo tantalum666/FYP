@@ -1,0 +1,1030 @@
+{
+  "current": false,
+  "reason": "User rejected segmented SVG, depth deformation and 3D attempt",
+  "initial": [
+    {
+      "label": "left-half via mouse drag",
+      "dock": "left",
+      "hasBubble": false,
+      "hasFigure": true,
+      "height": 800,
+      "hidden": false,
+      "mode": "half",
+      "rect": {
+        "height": 183.59375,
+        "width": 104.8203125,
+        "x": -14.671875,
+        "y": 326
+      },
+      "restore": null,
+      "savedMode": "half",
+      "scrollWidth": 1280,
+      "width": 1280
+    },
+    {
+      "label": "right-head via mouse drag",
+      "dock": "right",
+      "hasBubble": false,
+      "hasFigure": true,
+      "height": 800,
+      "hidden": false,
+      "mode": "head",
+      "rect": {
+        "height": 71.3984375,
+        "width": 104.8203125,
+        "x": 1189.84375,
+        "y": 306
+      },
+      "restore": null,
+      "savedMode": "head",
+      "scrollWidth": 1280,
+      "width": 1280
+    },
+    {
+      "label": "bottom-hidden via mouse drag",
+      "dock": "bottom",
+      "hasBubble": false,
+      "hasFigure": false,
+      "height": 800,
+      "hidden": false,
+      "mode": "hidden",
+      "rect": {
+        "height": 0,
+        "width": 104.8203125,
+        "x": 847.59375,
+        "y": 778
+      },
+      "restore": {
+        "height": 36,
+        "width": 36,
+        "x": 882.0078125,
+        "y": 740
+      },
+      "savedMode": "hidden",
+      "scrollWidth": 1280,
+      "width": 1280
+    },
+    {
+      "label": "hidden survives reload",
+      "dock": "bottom",
+      "hasBubble": false,
+      "hasFigure": false,
+      "height": 800,
+      "hidden": false,
+      "mode": "hidden",
+      "rect": {
+        "height": 0,
+        "width": 104.8203125,
+        "x": 847.59375,
+        "y": 778
+      },
+      "restore": {
+        "height": 36,
+        "width": 36,
+        "x": 882.0078125,
+        "y": 740
+      },
+      "savedMode": "hidden",
+      "scrollWidth": 1280,
+      "width": 1280
+    },
+    {
+      "label": "recall restores full body",
+      "dock": "free",
+      "hasBubble": true,
+      "hasFigure": true,
+      "height": 800,
+      "hidden": false,
+      "mode": "full",
+      "rect": {
+        "height": 340,
+        "width": 104.8203125,
+        "x": 847.59375,
+        "y": 411.71875
+      },
+      "restore": null,
+      "savedMode": "full",
+      "scrollWidth": 1280,
+      "width": 1280
+    }
+  ],
+  "openEyesIteration": [
+    {
+      "label": "upgraded-idle",
+      "action": "none",
+      "blocked": false,
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "pageWidth": 1280,
+      "rect": {
+        "h": 340,
+        "w": 104.8203125,
+        "x": 847.59375,
+        "y": 411.71875
+      },
+      "scale": "1.00",
+      "sources": [
+        "/companion/a1-idle-v1.png"
+      ],
+      "transforms": {
+        "head": "none",
+        "left-arm": "matrix(0.999999, 0.00101094, -0.00101094, 0.999999, 0, 0)",
+        "left-boot": "none",
+        "left-hand": "none",
+        "left-leg": "none"
+      },
+      "viewport": 1280
+    },
+    {
+      "label": "wheel-enlarged",
+      "action": "none",
+      "blocked": false,
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "pageWidth": 1280,
+      "rect": {
+        "h": 550.796875,
+        "w": 169.8125,
+        "x": 800.4140625,
+        "y": 208.1875
+      },
+      "scale": "1.62",
+      "sources": [
+        "/companion/a1-idle-v1.png"
+      ],
+      "transforms": {
+        "head": "none",
+        "left-arm": "matrix(1, 0.000182721, -0.000182721, 1, 0, 0)",
+        "left-boot": "none",
+        "left-hand": "none",
+        "left-leg": "none"
+      },
+      "viewport": 1280
+    },
+    {
+      "label": "grip-shrunk",
+      "action": "none",
+      "blocked": false,
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "pageWidth": 1280,
+      "rect": {
+        "h": 469.1953125,
+        "w": 144.65625,
+        "x": 818.6796875,
+        "y": 286.9765625
+      },
+      "scale": "1.38",
+      "sources": [
+        "/companion/a1-idle-v1.png"
+      ],
+      "transforms": {
+        "head": "none",
+        "left-arm": "matrix(1, 3.60038e-05, -3.60038e-05, 1, 0, 0)",
+        "left-boot": "none",
+        "left-hand": "none",
+        "left-leg": "none"
+      },
+      "viewport": 1280
+    },
+    {
+      "label": "slider-arbitrary-87-percent",
+      "action": "none",
+      "blocked": false,
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "pageWidth": 1280,
+      "rect": {
+        "h": 295.796875,
+        "w": 91.1953125,
+        "x": 857.484375,
+        "y": 454.3984375
+      },
+      "scale": "0.87",
+      "sources": [
+        "/companion/a1-idle-v1.png"
+      ],
+      "transforms": {
+        "head": "none",
+        "left-arm": "matrix(0.99998, 0.00630856, -0.00630856, 0.99998, 0, 0)",
+        "left-boot": "none",
+        "left-hand": "none",
+        "left-leg": "none"
+      },
+      "viewport": 1280
+    },
+    {
+      "label": "scale-persists-after-reload",
+      "action": "none",
+      "blocked": false,
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "pageWidth": 1280,
+      "rect": {
+        "h": 295.796875,
+        "w": 91.1953125,
+        "x": 857.484375,
+        "y": 454.3984375
+      },
+      "scale": "0.87",
+      "sources": [
+        "/companion/a1-idle-v1.png"
+      ],
+      "transforms": {
+        "head": "none",
+        "left-arm": "matrix(1, 0.000108452, -0.000108452, 1, 0, 0)",
+        "left-boot": "none",
+        "left-hand": "none",
+        "left-leg": "none"
+      },
+      "viewport": 1280
+    },
+    {
+      "label": "body-open-eye-wave",
+      "action": "wave",
+      "blocked": false,
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "pageWidth": 1280,
+      "rect": {
+        "h": 499.796875,
+        "w": 154.09375,
+        "x": 811.828125,
+        "y": 257.4296875
+      },
+      "scale": "1.47",
+      "sources": [
+        "/companion/a1-idle-v1.png"
+      ],
+      "transforms": {
+        "head": "matrix(0.99976, -0.0219146, 0.0219146, 0.99976, 0, 0)",
+        "left-arm": "matrix(0.742061, 0.670333, -0.670333, 0.742061, 0, 0)",
+        "left-boot": "none",
+        "left-hand": "matrix(0.991687, -0.128676, 0.128676, 0.991687, 0, 0)",
+        "left-leg": "none"
+      },
+      "viewport": 1280
+    },
+    {
+      "label": "body-wave-joints-moving",
+      "action": "wave",
+      "blocked": false,
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "pageWidth": 1280,
+      "rect": {
+        "h": 499.796875,
+        "w": 154.09375,
+        "x": 811.828125,
+        "y": 257.4296875
+      },
+      "scale": "1.47",
+      "sources": [
+        "/companion/a1-idle-v1.png"
+      ],
+      "transforms": {
+        "head": "matrix(0.999148, -0.04128, 0.04128, 0.999148, 0, 0)",
+        "left-arm": "matrix(0.634226, 0.773148, -0.773148, 0.634226, 0, 0)",
+        "left-boot": "none",
+        "left-hand": "matrix(0.984848, -0.173421, 0.173421, 0.984848, 0, 0)",
+        "left-leg": "none"
+      },
+      "viewport": 1280
+    },
+    {
+      "label": "foot-knee-and-boot-response",
+      "action": "step",
+      "blocked": false,
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "pageWidth": 1280,
+      "rect": {
+        "h": 499.796875,
+        "w": 154.09375,
+        "x": 811.828125,
+        "y": 257.4296875
+      },
+      "scale": "1.47",
+      "sources": [
+        "/companion/a1-idle-v1.png"
+      ],
+      "transforms": {
+        "head": "none",
+        "left-arm": "matrix(1, 0.000108767, -0.000108767, 1, 0, 0)",
+        "left-boot": "matrix(0.996218, 0.0868862, -0.0868862, 0.996218, 0, 0)",
+        "left-hand": "none",
+        "left-leg": "matrix(0.999691, 0.0237916, -0.0248534, 0.95698, 0, 0)"
+      },
+      "viewport": 1280
+    },
+    {
+      "label": "foot-knee-and-boot-moving",
+      "action": "step",
+      "blocked": false,
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "pageWidth": 1280,
+      "rect": {
+        "h": 499.796875,
+        "w": 154.09375,
+        "x": 811.828125,
+        "y": 257.4296875
+      },
+      "scale": "1.47",
+      "sources": [
+        "/companion/a1-idle-v1.png"
+      ],
+      "transforms": {
+        "head": "none",
+        "left-arm": "matrix(1, 0.000294351, -0.000294351, 1, 0, 0)",
+        "left-boot": "matrix(0.992546, 0.121869, -0.121869, 0.992546, 0, 0)",
+        "left-hand": "none",
+        "left-leg": "matrix(0.999391, 0.0328055, -0.0348995, 0.939427, 0, 0)"
+      },
+      "viewport": 1280
+    },
+    {
+      "label": "head-open-eye-nod",
+      "action": "nod",
+      "blocked": false,
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "pageWidth": 1280,
+      "rect": {
+        "h": 499.796875,
+        "w": 154.09375,
+        "x": 811.828125,
+        "y": 257.4296875
+      },
+      "scale": "1.47",
+      "sources": [
+        "/companion/a1-idle-v1.png"
+      ],
+      "transforms": {
+        "head": "matrix(0.999505, 0.0314534, -0.0314534, 0.999505, 0, 4.2057)",
+        "left-arm": "matrix(1, 0.0001202, -0.0001202, 1, 0, 0)",
+        "left-boot": "none",
+        "left-hand": "none",
+        "left-leg": "none"
+      },
+      "viewport": 1280
+    },
+    {
+      "label": "arbitrary-scale-left-half",
+      "action": "none",
+      "blocked": false,
+      "dock": "left",
+      "expression": "open-eyes",
+      "mode": "half",
+      "motion": "active",
+      "pageWidth": 1280,
+      "rect": {
+        "h": 499.796875,
+        "w": 154.09375,
+        "x": -21.5703125,
+        "y": 262
+      },
+      "scale": "1.47",
+      "sources": [
+        "/companion/a1-idle-v1.png"
+      ],
+      "transforms": {
+        "head": "none",
+        "left-arm": "matrix(1, 3.0439e-05, -3.0439e-05, 1, 0, 0)",
+        "left-boot": "none",
+        "left-hand": "none",
+        "left-leg": "none"
+      },
+      "viewport": 1280
+    },
+    {
+      "label": "arbitrary-scale-right-head",
+      "action": "none",
+      "blocked": false,
+      "dock": "right",
+      "expression": "open-eyes",
+      "mode": "head",
+      "motion": "active",
+      "pageWidth": 1280,
+      "rect": {
+        "h": 499.796875,
+        "w": 154.09375,
+        "x": 1147.4765625,
+        "y": 262
+      },
+      "scale": "1.47",
+      "sources": [
+        "/companion/a1-idle-v1.png"
+      ],
+      "transforms": {
+        "head": "none",
+        "left-arm": "matrix(1, 6.73139e-05, -6.73139e-05, 1, 0, 0)",
+        "left-boot": "none",
+        "left-hand": "none",
+        "left-leg": "none"
+      },
+      "viewport": 1280
+    },
+    {
+      "label": "arbitrary-scale-hidden",
+      "figures": 0,
+      "mode": "hidden",
+      "recall": {
+        "bottom": 776,
+        "height": 36,
+        "left": 882,
+        "right": 922,
+        "top": 740,
+        "width": 40,
+        "x": 882,
+        "y": 740
+      }
+    },
+    {
+      "label": "user-paused-motion",
+      "action": "none",
+      "blocked": false,
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "paused",
+      "pageWidth": 1280,
+      "rect": {
+        "h": 499.796875,
+        "w": 154.09375,
+        "x": 822.953125,
+        "y": 256.421875
+      },
+      "scale": "1.47",
+      "sources": [
+        "/companion/a1-idle-v1.png"
+      ],
+      "transforms": {
+        "head": "none",
+        "left-arm": "none",
+        "left-boot": "none",
+        "left-hand": "none",
+        "left-leg": "none"
+      },
+      "viewport": 1280
+    },
+    {
+      "label": "reduced-motion-preference",
+      "action": "none",
+      "blocked": false,
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "paused",
+      "pageWidth": 1280,
+      "rect": {
+        "h": 499.796875,
+        "w": 154.09375,
+        "x": 822.953125,
+        "y": 256.421875
+      },
+      "scale": "1.47",
+      "sources": [
+        "/companion/a1-idle-v1.png"
+      ],
+      "transforms": {
+        "head": "none",
+        "left-arm": "none",
+        "left-boot": "none",
+        "left-hand": "none",
+        "left-leg": "none"
+      },
+      "viewport": 1280
+    }
+  ],
+  "depthIteration": [
+    {
+      "label": "continuous-mesh-wave-peak",
+      "blocked": false,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "0.000,0.554",
+        "a1Pose": "wave:0.420,0.000,0.000,0.000",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "rect": {
+        "bottom": 756.21875,
+        "height": 499.796875,
+        "left": 822.953125,
+        "right": 977.046875,
+        "top": 256.421875,
+        "width": 154.09375,
+        "x": 822.953125,
+        "y": 256.421875
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.47",
+      "scrollWidth": 1280,
+      "svgParts": 0,
+      "viewport": 1280
+    },
+    {
+      "label": "continuous-mesh-nod",
+      "blocked": false,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "0.000,0.034",
+        "a1Pose": "nod:0.000,0.000,0.017,0.000",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "rect": {
+        "bottom": 756.21875,
+        "height": 499.796875,
+        "left": 822.953125,
+        "right": 977.046875,
+        "top": 256.421875,
+        "width": 154.09375,
+        "x": 822.953125,
+        "y": 256.421875
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.47",
+      "scrollWidth": 1280,
+      "svgParts": 0,
+      "viewport": 1280
+    },
+    {
+      "label": "depth-parallax-left",
+      "blocked": false,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "-0.696,-0.052",
+        "a1Pose": "none:0.000,0.000,0.000,0.000",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "rect": {
+        "bottom": 756.21875,
+        "height": 499.796875,
+        "left": 822.953125,
+        "right": 977.046875,
+        "top": 256.421875,
+        "width": 154.09375,
+        "x": 822.953125,
+        "y": 256.421875
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.47",
+      "scrollWidth": 1280,
+      "svgParts": 0,
+      "viewport": 1280
+    },
+    {
+      "label": "depth-parallax-right",
+      "blocked": false,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "0.420,0.038",
+        "a1Pose": "none:0.000,0.000,0.000,0.000",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "rect": {
+        "bottom": 756.21875,
+        "height": 499.796875,
+        "left": 822.953125,
+        "right": 977.046875,
+        "top": 256.421875,
+        "width": 154.09375,
+        "x": 822.953125,
+        "y": 256.421875
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.47",
+      "scrollWidth": 1280,
+      "svgParts": 0,
+      "viewport": 1280
+    },
+    {
+      "label": "continuous-mesh-foot-response",
+      "blocked": false,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "0.282,0.354",
+        "a1Pose": "none:0.000,0.000,0.000,0.000",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "rect": {
+        "bottom": 756.21875,
+        "height": 499.796875,
+        "left": 822.953125,
+        "right": 977.046875,
+        "top": 256.421875,
+        "width": 154.09375,
+        "x": 822.953125,
+        "y": 256.421875
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.47",
+      "scrollWidth": 1280,
+      "svgParts": 0,
+      "viewport": 1280
+    },
+    {
+      "label": "continuous-foot-peak",
+      "blocked": false,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "0.000,1.000",
+        "a1Pose": "step:0.000,0.000,0.000,0.998",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "rect": {
+        "bottom": 756.21875,
+        "height": 499.796875,
+        "left": 822.953125,
+        "right": 977.046875,
+        "top": 256.421875,
+        "width": 154.09375,
+        "x": 822.953125,
+        "y": 256.421875
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.47",
+      "scrollWidth": 1280,
+      "svgParts": 0,
+      "viewport": 1280
+    },
+    {
+      "label": "web-depth-default-100",
+      "blocked": false,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "-0.073,-0.438",
+        "a1Pose": "none:0.000,0.000,0.000,0.000",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "rect": {
+        "bottom": 766,
+        "height": 340,
+        "left": 1163.171875,
+        "right": 1267.9921875,
+        "top": 426,
+        "width": 104.8203125,
+        "x": 1163.171875,
+        "y": 426
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.00",
+      "scrollWidth": 1280,
+      "svgParts": 0,
+      "viewport": 1280
+    },
+    {
+      "label": "linux-layout-depth-1024x600",
+      "blocked": false,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "0.000,0.000",
+        "a1Pose": "none:0.000,0.000,0.000,0.000",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "rect": {
+        "bottom": 512,
+        "height": 276,
+        "left": 926.8984375,
+        "right": 1011.9921875,
+        "top": 236,
+        "width": 85.09375,
+        "x": 926.8984375,
+        "y": 236
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.00",
+      "scrollWidth": 1024,
+      "svgParts": 0,
+      "viewport": 1024
+    },
+    {
+      "label": "device-panel-blocks-overlay",
+      "blocked": true,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "0.000,0.000",
+        "a1Pose": "paused:0.000,0.000,0.000,0.000",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "paused",
+      "rect": {
+        "bottom": 0,
+        "height": 0,
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "width": 0,
+        "x": 0,
+        "y": 0
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.00",
+      "scrollWidth": 1024,
+      "svgParts": 0,
+      "viewport": 1024
+    },
+    {
+      "label": "narrow-web-390x844",
+      "blocked": false,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "0.000,0.000",
+        "a1Pose": "none:0.000,0.000,0.000,0.000",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "rect": {
+        "bottom": 752,
+        "height": 236,
+        "left": 305.234375,
+        "right": 377.9921875,
+        "top": 516,
+        "width": 72.7578125,
+        "x": 305.234375,
+        "y": 516
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.00",
+      "scrollWidth": 390,
+      "svgParts": 0,
+      "viewport": 390
+    },
+    {
+      "label": "depth-reduced-motion-paused",
+      "blocked": false,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "0.000,0.000",
+        "a1Pose": "paused:0.000,0.000,0.000,0.000",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "paused",
+      "rect": {
+        "bottom": 752,
+        "height": 236,
+        "left": 305.234375,
+        "right": 377.9921875,
+        "top": 516,
+        "width": 72.7578125,
+        "x": 305.234375,
+        "y": 516
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.00",
+      "scrollWidth": 390,
+      "svgParts": 0,
+      "viewport": 390
+    },
+    {
+      "label": "before-depth-wheel",
+      "blocked": false,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "0.000,0.000",
+        "a1Pose": "none:0.000,0.000,0.000,0.000",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "rect": {
+        "bottom": 766,
+        "height": 340,
+        "left": 1163.171875,
+        "right": 1267.9921875,
+        "top": 426,
+        "width": 104.8203125,
+        "x": 1163.171875,
+        "y": 426
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.00",
+      "scrollWidth": 1280,
+      "svgParts": 0,
+      "viewport": 1280
+    },
+    {
+      "label": "depth-wheel-continuous",
+      "blocked": false,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "0.000,0.115",
+        "a1Pose": "none:0.000,0.000,0.000,0.000",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "rect": {
+        "bottom": 765.9921875,
+        "height": 431.796875,
+        "left": 1134.8671875,
+        "right": 1267.9921875,
+        "top": 334.1953125,
+        "width": 133.125,
+        "x": 1134.8671875,
+        "y": 334.1953125
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.27",
+      "scrollWidth": 1280,
+      "svgParts": 0,
+      "viewport": 1280
+    },
+    {
+      "label": "depth-left-half",
+      "blocked": false,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "0.000,-0.052",
+        "a1Pose": "none:0.000,0.000,0.000,0.000",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "left",
+      "expression": "open-eyes",
+      "mode": "half",
+      "motion": "active",
+      "rect": {
+        "bottom": 693.796875,
+        "height": 431.796875,
+        "left": -18.6328125,
+        "right": 114.4921875,
+        "top": 262,
+        "width": 133.125,
+        "x": -18.6328125,
+        "y": 262
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.27",
+      "scrollWidth": 1280,
+      "svgParts": 0,
+      "viewport": 1280
+    },
+    {
+      "label": "depth-right-head",
+      "blocked": false,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "0.000,-0.023",
+        "a1Pose": "none:0.000,0.000,0.000,0.000",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "right",
+      "expression": "open-eyes",
+      "mode": "head",
+      "motion": "active",
+      "rect": {
+        "bottom": 693.796875,
+        "height": 431.796875,
+        "left": 1165.5078125,
+        "right": 1298.6328125,
+        "top": 262,
+        "width": 133.125,
+        "x": 1165.5078125,
+        "y": 262
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.27",
+      "scrollWidth": 1280,
+      "svgParts": 0,
+      "viewport": 1280
+    },
+    {
+      "label": "depth-hidden",
+      "blocked": false,
+      "canvas": null,
+      "dock": "bottom",
+      "expression": "open-eyes",
+      "mode": "hidden",
+      "motion": "active",
+      "renderer": "depth-mesh",
+      "scale": "1.27",
+      "scrollWidth": 1280,
+      "svgParts": 0,
+      "viewport": 1280
+    },
+    {
+      "label": "depth-hidden-reload",
+      "blocked": false,
+      "canvas": null,
+      "dock": "bottom",
+      "expression": "open-eyes",
+      "mode": "hidden",
+      "motion": "active",
+      "renderer": "loading",
+      "scale": "1.27",
+      "scrollWidth": 1280,
+      "svgParts": 0,
+      "viewport": 1280
+    },
+    {
+      "label": "depth-recall",
+      "blocked": false,
+      "canvas": {
+        "a1Depth": "sculpted-surface",
+        "a1Look": "0.000,0.000",
+        "a1Pose": "wave:0.002,0.000,0.000,0.000",
+        "a1Topology": "single-mesh:18721",
+        "engine": "three.js r186"
+      },
+      "dock": "free",
+      "expression": "open-eyes",
+      "mode": "full",
+      "motion": "active",
+      "rect": {
+        "bottom": 753.6015625,
+        "height": 431.796875,
+        "left": 833.4375,
+        "right": 966.5625,
+        "top": 321.8046875,
+        "width": 133.125,
+        "x": 833.4375,
+        "y": 321.8046875
+      },
+      "renderer": "depth-mesh",
+      "scale": "1.27",
+      "scrollWidth": 1280,
+      "svgParts": 0,
+      "viewport": 1280
+    }
+  ]
+}

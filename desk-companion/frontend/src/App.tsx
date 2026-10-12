@@ -55,6 +55,7 @@ import { ConnectionsPanel, PairDeviceForm } from "./workspace/ConnectionsPanel";
 import type { EditorState } from "./components/Dialogs";
 import { DeviceView, RecordsView, TodayView } from "./components/Views";
 import { isNative } from "./native";
+import { PageCompanion } from "./companion/PageCompanion";
 
 function LoginView({
   t,
@@ -776,6 +777,13 @@ export function App() {
           </button>
         ))}
       </nav>
+      <PageCompanion
+        t={t}
+        blocked={
+          !!(editor || detail || showReminders || leavePage || workspacePanel)
+        }
+        onOpenAssistant={() => setWorkspacePanel("assistant")}
+      />
       {leavePage && (
         <Modal
           title={t("Leave this page?", "离开当前页面？")}

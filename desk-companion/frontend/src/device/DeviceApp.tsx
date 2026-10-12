@@ -54,6 +54,7 @@ import { ExtrasPanel } from "../workspace/ExtrasPanel";
 import { useDeskSound } from "./DeskSound";
 import { PosturePanel } from "../workspace/PosturePanel";
 import { ConnectionsPanel } from "../workspace/ConnectionsPanel";
+import { PageCompanion } from "../companion/PageCompanion";
 
 type Panel =
   | "controls"
@@ -294,6 +295,14 @@ export function DeviceApp() {
         onTasks={() => setPanel("tasks")}
         t={t}
       />
+      {session && (
+        <PageCompanion
+          t={t}
+          surface="device"
+          blocked={!!(panel || editor || detail || reminders)}
+          onOpenAssistant={() => setPanel("assistant")}
+        />
+      )}
       {panel === "login" && (
         <DevicePanel
           title={t("Connect your calendar", "连接你的日历")}

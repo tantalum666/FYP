@@ -1,0 +1,26 @@
+{
+  "character": "A1",
+  "group": "Group 2",
+  "representation": "Selected A1 whole 2D illustration, rigid whole-image response; no segmented rig, depth mesh or A1 3D model",
+  "source_manifest": "design/desk-companion/characters/2026-10-12-a1-interface/manifest.json",
+  "source_image": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+  "generation": "Built-in ImageGen transparent edits, original PNG bytes retained",
+  "date": "2026-10-12",
+  "render_viewbox": [
+    282,
+    13,
+    460,
+    1492
+  ],
+  "assets": [
+    {
+      "image": "a1-idle-v1.png",
+      "width": 1024,
+      "height": 1536,
+      "sha256": "a7b428a2437da70880fea628dca23c0ded7a24294595b13437b4ae99fe5a09f9"
+    }
+  ],
+  "historical_asset": "design/desk-companion/characters/2026-10-12-a1-interface/a1-acknowledge-v1.png",
+  "interaction": "Open-eyed whole-image translations and small rigid rotations; continuous uniform scaling and edge crop",
+  "render_crop": "SVG viewBox only; original PNG bytes unchanged"
+}

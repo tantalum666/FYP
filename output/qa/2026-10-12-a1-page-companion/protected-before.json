@@ -1,0 +1,434 @@
+[
+  {
+    "path": "design/desk-companion/characters/2026-10-10-c1-concept/c1-plum-dusk-v1.png",
+    "sha256": "6bfe959040076307bf61fcdc4be60ab4908083851e02e978b04dc2ed51e16cb3"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-c1-concept/c1-prompt.txt",
+    "sha256": "b943d0a97e5caa10b4f97fda2c700f15ec7aefa10f005c778080e901f5f1c600"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-c1-concept/manifest.json",
+    "sha256": "65fd4440e3a9db298551c8cd34276b05e749defdd69167246d364cf897d54d86"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-concepts/a1-anime-v2-prompt.txt",
+    "sha256": "becec07851861551fab29dd0cf73d1e166069853af24b2464b12ba157f9d9b0f"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-concepts/a1-anime-v3-prompt.txt",
+    "sha256": "51224858a0990d10a421c3c73edb52e2523740d3b956b678ee0b1e68994a2f31"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-concepts/a1-anime-v4-prompt.txt",
+    "sha256": "2d3ae219f6a73ddb33c671180a5838ec96e78564aadd6661ac5f6a95bb03525e"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-concepts/a1-prompt.txt",
+    "sha256": "fd1c32603292247595c2a32974b215bd0c6a861703a3bb3b966b217ec6f12931"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v2.png",
+    "sha256": "e795cd4f31ef8ae93769d0970a3142157b9a213dc64950296673fd3c969f420e"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v3.png",
+    "sha256": "7134f63aab5258e283af615cb8bc345f7e66a07e52f71fe628789cbbf3ba886d"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+    "sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-v1.png",
+    "sha256": "5ab0ba141b9c6f9dded5b9b180473a1fb88877205534febdc479f85cf908e2de"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-concepts/b1-ink-teal-v1.png",
+    "sha256": "d4769b281ff138ac3de782dad6099459cd7690959c84ea90499476cc04c0293a"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-concepts/b1-prompt.txt",
+    "sha256": "05f3a1f7067760223ff5bc1af3f02c0726684f2ea8e2ded0ec9c37db53ded237"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-concepts/manifest.json",
+    "sha256": "3de949b426e9cce3f9ca14cab29087fde7ef1d0d6a2ac6c8eb16990e3a60fa5d"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-expression-study/a1-six-expressions-e1.png",
+    "sha256": "9e258c8909f3462c5bf599eb077e4d5feaed8896724f9db07e5908e1d50ea161"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-expression-study/expression-prompt.txt",
+    "sha256": "03280f82d82883dbfae24db2df2c4a4bca44998cb8ceec0b66ebfd3fe890d1e7"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-10-expression-study/manifest.json",
+    "sha256": "5ad5139bb45823fabeecdb71bdff3bc01e08d830ffca6f6ae106ba0e807f6f82"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d01-face.png",
+    "sha256": "2a7fea6044d059f0a13c8dfaf8fc96e1322825b29e0d8e3d457359c5366b4038"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d01-face.receipt.json",
+    "sha256": "1c7837fe0ded2f83748977ea358d827ef5ba6e471578ba4761d10b0296d23f1a"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d02-hair-back.png",
+    "sha256": "56119e3172e17b2abb075eb877c2751fa799a83a2642ea54a2a5c2a59d2b0ad1"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d02-hair-back.receipt.json",
+    "sha256": "c33dfb11421c48319f75fbb17130a841bf8b5564c6a7e13c1e6fd3a32f48fae2"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d03-outfit.png",
+    "sha256": "a02e1db2647f6c7d1b73b5f21854d6b61491c0d1bf0e1d09ff7c4c608ce3878a"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d03-outfit.receipt.json",
+    "sha256": "d34ae438a7ef5f284f3ba882584c2634f3a09ac61a9ccb04ffefc08a28c9bb23"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d04-boots-tights.png",
+    "sha256": "5f024e98ac1351bbbcffd13e0e67d808fd37e21b148bbc808b7d7fc740a613cc"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d04-boots-tights.receipt.json",
+    "sha256": "84379f36423c7fc2421a59d93627a7cf65b0631024e54789405de00adeb34466"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+    "sha256": "314e129ddde2f48f53c743e75cd505b6d695a8beae8bf838253094de867f2144"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.receipt.json",
+    "sha256": "86c4db8774b7d060a199a88f3976c3e56d5120fb2f629104cdac34705dc8b85a"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t02-left.png",
+    "sha256": "9a4da1d9dc2be3b64934f3752384830778bbf1f85bc24bf2a6a8e6766d2b789f"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t02-left.receipt.json",
+    "sha256": "2d29d4884ed20acfaed42880ba42e014360010ea47fd21c52c5b044bda340ab6"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t03-back.png",
+    "sha256": "2a7bab2b579d46d8f68a1e4c122978e96e4e291aa58dc7fc7be0813705e5f8ae"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t03-back.receipt.json",
+    "sha256": "e63cb6728df97a37fb329ccd7eab7a5cceabd047f374d5b399c5905087a5a233"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t04-right.png",
+    "sha256": "d776654cd1e2e6de0ffbda89e31d63bfd2bc4d0a8dbf77013d4ce3c8289763b3"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t04-right.receipt.json",
+    "sha256": "4c415472c5598a1369bce5c970b270e0827e6fc68d179926b6df773db7216bfa"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t05-front-three-quarter.png",
+    "sha256": "75db89c02b3451f89a22b4e1693c060396f41935af7896ae6c057692f245ba0f"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t05-front-three-quarter.receipt.json",
+    "sha256": "ab25d7aa7e4044ffc537bb9cd37cc131c031834bea300f747dcc0d2a1dfef9eb"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.attempt1-rejected.png",
+    "sha256": "6fa1ea29a1666ac8c140347c1a87017640b77a078921af59e4ba4c6253af438b"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.attempt1-rejected.receipt.json",
+    "sha256": "879b245cf3c43cc44edd1d55958ccd6ad96b908c44208335e728262cb9ae22df"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.attempt2.actual-prompt.txt",
+    "sha256": "4df566543a339895920da06febfc66242a9ed0288370a7cc6c00962f37418688"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.png",
+    "sha256": "4aa3254f1be14a74cd62ebafe3f38451f46a54cc5ab5b462a8f5a938f3386839"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.receipt.json",
+    "sha256": "71dcb866f88731160047774017f04e4e37319e70d695c4eb0bf3cdd089660d3c"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/generation-jobs.json",
+    "sha256": "a78f894ae367d024fa4a45374afdd3d846c617caceae2283ab8e26b34354d21f"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/manifest.json",
+    "sha256": "6b47a834f12b3e4d20774ab89d36275c495ca8afdd74f38c9f1de2a58997d722"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d01-face.txt",
+    "sha256": "0b983294dfe89c247ff6b8ff9f9b9fdb6e848ed93188358a5fc25008821ded01"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d02-hair-back.txt",
+    "sha256": "db067e2d3cb8f9cbef5e84224803e72beeaf9220e24b80480f1825ce19d8d42d"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d03-outfit.txt",
+    "sha256": "9e111ce08aa51d80def985c80b94d2050227b194b6afeb26f6f0e80ef0b9a2c0"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d04-boots-tights.txt",
+    "sha256": "1ea8f9193e812775b2c42ff616ab090a1226ec04ce4496f2b42b36f1499c5f5d"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t01-front.txt",
+    "sha256": "e7550cbf6f195a0bc756876a8daebe090378f19cae7fc11aabc821d6b85c8236"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t02-left.txt",
+    "sha256": "95906242996b2ab0c82eb2d3a9eb849c56458b5b6971fc357b3ba16dbd0fff43"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t03-back.txt",
+    "sha256": "492a784eb84ad730852ff7870f02811956e99e431cc4747371c3215e043d4429"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t04-right.txt",
+    "sha256": "fb67333e3a2f5f102277a28b41eddeb990056d9a1b00596f56f3dcb9f4680d37"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t05-front-three-quarter.txt",
+    "sha256": "ab8caef5dc1f2243ce313a6b8e8d4aeb58237199c7bc5521749f2e2b5a3f9d29"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t06-back-three-quarter.txt",
+    "sha256": "12fccb643a8878f3751fd419906026ea2c969555877188046d9d5a42e1420a61"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/review-board.html",
+    "sha256": "398f7379b3050c97a2e79cd73b3524cef57fedcd6b55296f2debf0d2169f541d"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/review-manifest.json",
+    "sha256": "fdf963b6209351e8fd98e7944f34be1ac342c733e14badd0f086172e13841673"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w4-modern-chinese.png",
+    "sha256": "7e726f3be7acaa80f4a6a97ee21f75291c2aed423cff96a5be064d829da48c3b"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w4-modern-chinese.receipt.json",
+    "sha256": "9aaf56b9fd5d7313c9bb2b27f39f1d0a6687bb7aeefee446772ef2cb3bea3fb4"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w5-soft-gothic.png",
+    "sha256": "2e894a309adfbbc95536f753b9509f0d624c63c8cc840f288e42fffdf7a58f4f"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w5-soft-gothic.receipt.json",
+    "sha256": "d53cbd15d8693f2ff6051b3138a4d3b863b3f6a2f35f39987f3a73abb869616a"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w6-cozy-knit.png",
+    "sha256": "41fddfe1c12f77e25cae40348fcecbf6cc1399a759a5588309527849bb7128f5"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w6-cozy-knit.receipt.json",
+    "sha256": "baa1c9cd3c5a3b45ca5dbaba16637cadf979ef4d52ddd4a044f05593ee151eff"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w7-space-explorer.png",
+    "sha256": "8263350755310f1fe0a6231467ce417f2aeff4b6613b272a4a5a026d87dfa35c"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w7-space-explorer.receipt.json",
+    "sha256": "f682dfab491a9bfa20e622e1a9381c957ca16803e17a65fb50f823f737dfc3c7"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w8-seaside-attempt1-rejected.png",
+    "sha256": "4fe1fd9cf12c0f2a369940af3476174e66bfa1b6ae2788cdab62e13d43535b9e"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w8-seaside.png",
+    "sha256": "b8bd100db8d5b6a568859b22d79ba6888b2a2a9489705e5d985753fd36bd664e"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w8-seaside.receipt.json",
+    "sha256": "7f976dad3090136ea84dadec9803d080803b205ac2f407e3978ce8b153ca59c4"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w9-starlight-dress.png",
+    "sha256": "bba359ea14da1775845d8934cbcc9762883564caa29e8a70944b6a12df6bbff4"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w9-starlight-dress.receipt.json",
+    "sha256": "8003b4c41b570f0ccb2866e27c4a623711177680b9400578f35825342c054816"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/generation-jobs.json",
+    "sha256": "c8234b611cf36f5876552230e0ae6c49226a998e442d8a1ad1a455ded9be7db3"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/manifest.json",
+    "sha256": "9b446082a438fc0c75643aac1ba548b185befb16b1855aeb111fb7c10f651694"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w4-modern-chinese.txt",
+    "sha256": "4800e2354da0aeb65a6f2fc3497229002a92986f65ca2c89f3638ea938823aca"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w5-soft-gothic.txt",
+    "sha256": "87a99eff767f5535618ae7d1fb04886e4d31816b2e63cde794e71d01c52b6e95"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w6-cozy-knit.txt",
+    "sha256": "cc60f45c812793c2a3a641d31c57d18a545e49f565d903d9b3d6e96a7f07c402"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w7-space-explorer.txt",
+    "sha256": "d5568ac98e41e4c4ca9834122d40688ea04a22e8a80d2c80a3f0bf4ed881854f"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w8-seaside.txt",
+    "sha256": "7d89d2852d7f128d026ced9ed1ac90bf9c41b9ff74fbb193414f0e7e700f9cfe"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w9-starlight-dress.txt",
+    "sha256": "f7abb43895808342b786067af9c4745cf81167577e5dd9ab6c196aec9c9be710"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/review-board.html",
+    "sha256": "a409b62733ead65f738edafd89cce4819ab00422886ccd631032b0d12d1b1856"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/review-manifest.json",
+    "sha256": "d0bafff77b40ce7122b817293bf5f9dad81458c18c419bffe17067e52ea047b6"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w1-soft-tech.png",
+    "sha256": "8404ae6573ec595db9f2c37da7a19452ec624838d0dc5cc11ada86f8cae02459"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w1-soft-tech.receipt.json",
+    "sha256": "6a937e6542b454195663616ad47965647266561d92c3171f3120fef8ff4f469c"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w2-light-outdoor.png",
+    "sha256": "a008ee10efec3af1be50dab26716e73cf8f3a9be58a77b259b78da6356f3fdde"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w2-light-outdoor.receipt.json",
+    "sha256": "b09aca74112991183f2a1d8534799f35f12871321260c24d80d1ac1af3067b72"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w3-astral-fantasy.png",
+    "sha256": "e38918b3ec665d2ca7b2b80e2d2a89579a5e3b6c3b67a024b08b5ddd09f69786"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w3-astral-fantasy.receipt.json",
+    "sha256": "14844710701a52b4d8d5f493d080926105cb16a366fec9bc128767fa484c0f99"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w1-music-stage.png",
+    "sha256": "d0f354336253df1192347b5688ece5b350b59b72178788b8544f4bdb8a7b3a32"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w1-music-stage.receipt.json",
+    "sha256": "d7831bc6850e7c65975333daccaf202881bb370a510c53df8bcbf98a458d60b8"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w2-sport-casual.png",
+    "sha256": "148c287a5d67f6f693e57ae9f92fe2327a77275f38a83d690750eb70c15905a2"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w2-sport-casual.receipt.json",
+    "sha256": "7accd7b34e906a95765df4c202e35fff2f40d17a085fe92b9d9e97d798375b46"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w3-modern-wa.png",
+    "sha256": "90bb9f0f34eb7e4a7ebbf5d3fa497b98c1fb94dc4ffc799e12c34644b7892c77"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w3-modern-wa.receipt.json",
+    "sha256": "957f2126a70cde31c43969f73e0f142ad5dc14eb154a2fd8e819767e3a90f257"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/generation-jobs.json",
+    "sha256": "b05b9911f87e8295d56257600352b69181cf00cb1a968e68a15d0fc1050349f1"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/manifest.json",
+    "sha256": "fa76e8e260b18c2999d695a52f79aa90ff7ab3178aecc7e2733c7c529f989364"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/a1-w1-soft-tech.txt",
+    "sha256": "bba52ffd6f814bba1fa99ac0d0fcf55e776be65df14a1562e22810311654a0f4"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/a1-w2-light-outdoor.txt",
+    "sha256": "3630be9eb88347edfa0c5db80cc9713b38653f2ce983b12624da4253ff1312b2"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/a1-w3-astral-fantasy.txt",
+    "sha256": "c45fc8cb69b9b8e1ead6f72194591a2fee5f303182a5fa6afa8189c3a4fda6c4"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/c1-w1-music-stage.txt",
+    "sha256": "cfaad5ed41ffc95fdec14568a35ac3f9640a9fe576647f2da1acea77591238e7"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/c1-w2-sport-casual.txt",
+    "sha256": "716f17b195d84f03fed775cc71bfb0976313ccb9864038fa3d96402565228c47"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/c1-w3-modern-wa.txt",
+    "sha256": "69ca3a2125551efcfc07cb551a34a8684db5fd00ee8e4564db57306156b62000"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/review-board.html",
+    "sha256": "688800e0bb4019a488e27fee4b764c98ca8e63afb8081c13cbe73efb473ee170"
+  },
+  {
+    "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/review-manifest.json",
+    "sha256": "6a0c7ee54955b3d62120de7ed061da8ed5f923cf93d452cc841932e85043e7cc"
+  },
+  {
+    "path": "output/submission/2026-09-28/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx",
+    "sha256": "593e66933649086b4b76584abbe1354457c6338ed28792c1360d8b02e9329eec"
+  },
+  {
+    "path": "output/submission/2026-09-28/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf",
+    "sha256": "817d7ebd48b7e68c646cb99dde2fdfa7dfb828d4fe6c683cff01759e0604170e"
+  },
+  {
+    "path": "output/submission/2026-09-28/AY26_ProjectProposal_Group 2.docx",
+    "sha256": "47ef46c16ff45925e2ddc0eae1968fed9c0428d2d207fea73c9f038671b8cccf"
+  },
+  {
+    "path": "output/submission/2026-09-28/AY26_ProjectProposal_Group 2.pdf",
+    "sha256": "a53dcfa38276f8468bf322559599e2c3845ae52a66ea866fa3626ce2fcb1c866"
+  },
+  {
+    "path": "output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx",
+    "sha256": "d19fd48a37dc3ef172a842d44af3b0b658fd147f451720e7aec5d4c0c6a0f9f6"
+  },
+  {
+    "path": "output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf",
+    "sha256": "5299b79d99e50ea69c81b69212bbf784d98bd8ed19c7e721f91e92c5cdcf55fc"
+  },
+  {
+    "path": "output/submission/2026-10-11/AY26_Logsheet_No2_Group 2_YuanYuchen_250342840.docx",
+    "sha256": "1bc6445ab33187d789595c3692b60969270f1c8f001b7e23ae1363b7a5db3ec3"
+  },
+  {
+    "path": "output/submission/2026-10-11/AY26_Logsheet_No2_Group 2_YuanYuchen_250342840.pdf",
+    "sha256": "d643fb5823d0669d5e0b9d3dc1ad16694a8db0bc16839ba644d3c02ed5cf59b8"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/pixiv-sample.vrm",
+    "sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2"
+  }
+]

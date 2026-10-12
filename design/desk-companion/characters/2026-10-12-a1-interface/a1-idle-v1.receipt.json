@@ -1,0 +1,67 @@
+{
+  "job_id": "idle",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-interface/prompts/a1-idle-v1.txt",
+  "prompt_sha256": "1b7f610709aebc51bca3be472647a7caf7013e3c7ca1fb814c607fd35a72db18",
+  "reference_paths": [
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png"
+  ],
+  "reference_sha256s": [
+    "314e129ddde2f48f53c743e75cd505b6d695a8beae8bf838253094de867f2144"
+  ],
+  "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-82a7d067-282c-4b3b-9f1d-7eb7f46381e9.png",
+  "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-interface/a1-idle-v1.png",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 1327738,
+  "sha256": "a7b428a2437da70880fea628dca23c0ded7a24294595b13437b4ae99fe5a09f9",
+  "attempt_count": 1,
+  "route": "built-in imagegen",
+  "transparent_background_requested": true,
+  "alpha_check": {
+    "mode": "RGBA",
+    "extrema": [
+      0,
+      254
+    ],
+    "zero_pixels": 1216350,
+    "alpha_1_to_15_pixels": 24499,
+    "alpha_16_to_127_pixels": 5245,
+    "alpha_128_to_249_pixels": 13696,
+    "alpha_250_to_254_pixels": 313074,
+    "alpha_255_pixels": 0,
+    "nonzero_bbox": [
+      19,
+      14,
+      986,
+      1504
+    ],
+    "alpha_at_least_16_bbox": [
+      286,
+      16,
+      739,
+      1501
+    ],
+    "background_sample_alpha": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "visual_observations": [
+    "Adult A1 face, open gray-blue eyes, calm closed-mouth smile, silver-gray grouped hair, studs and physical-left/viewer-right ring clip remain recognizable and unchanged in design.",
+    "Original frontal neutral pose, relaxed hands, source framing and full head/hands/boots are preserved.",
+    "Original ivory cropped jacket, opaque graphite high-neck top, cuff bands, blue-gray layered wrap skirt and hardware, matte tights and charcoal buckled boots are retained.",
+    "Real RGBA alpha is present: 1,216,350 fully transparent pixels; samples outside the body, between legs and below soles have alpha 0.",
+    "No floor or cast shadow remains in the alpha-visible foreground. Inspection and alpha statistics only; no pixel edits performed."
+  ],
+  "deviations": [
+    "Foreground alpha is mostly 250-254 rather than fully opaque 255; body samples are 252-254.",
+    "Sparse very low alpha pixels (1-15) extend outside the main silhouette, with nonzero-alpha bounds wider than the alpha>=16 foreground bounds.",
+    "Minor native image-generation re-rendering is present; this is not a pixel-identical extraction of the source foreground."
+  ],
+  "visual_check_passed": true,
+  "copy_verified_byte_identical": true
+}

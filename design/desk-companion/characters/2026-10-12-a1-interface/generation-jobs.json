@@ -1,0 +1,24 @@
+[
+  {
+    "id": "idle",
+    "slug": "a1-idle-v1",
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-interface/prompts/a1-idle-v1.txt",
+    "prompt_sha256": "1b7f610709aebc51bca3be472647a7caf7013e3c7ca1fb814c607fd35a72db18",
+    "reference_paths": [
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png"
+    ],
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-interface/a1-idle-v1.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-interface/a1-idle-v1.receipt.json"
+  },
+  {
+    "id": "acknowledge",
+    "slug": "a1-acknowledge-v1",
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-interface/prompts/a1-acknowledge-v1.txt",
+    "prompt_sha256": "55e0e41d2320ce45f8112b214b42e4898dd09bb7d8e3fe7d42ad5516a84140e5",
+    "reference_paths": [
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png"
+    ],
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-interface/a1-acknowledge-v1.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-interface/a1-acknowledge-v1.receipt.json"
+  }
+]

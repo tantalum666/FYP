@@ -2,6 +2,8 @@
 
 Updated: 12 October 2026 · Group 2. Runtime verification remains dated 9 October. This is the presentation layer of the existing Desk Companion assistant. The user requested a full-body anime-style female character with a Razer AVA-like desktop presence. The character is replaceable; the bundled development sample is not the final character design.
 
+The current persistent A1 layer uses [intact 2D artwork](page-companion.md), following the user’s latest correction on 12 October. Segmented/depth-mesh motion and an attempted A1 3D derivative were rejected and removed from the active page. This document describes the separate licensed VRM feature; it does not establish an approved A1 3D model.
+
 ## Use it
 
 - Assistant → **Open 3D companion**, or `?surface=avatar` on the same app origin.

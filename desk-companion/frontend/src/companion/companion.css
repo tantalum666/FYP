@@ -1,0 +1,412 @@
+.a1-companion {
+  position: fixed;
+  z-index: 12;
+  left: var(--a1-x, 0px);
+  top: var(--a1-y, 0px);
+  width: var(--a1-width, 110px);
+  height: var(--a1-visible, 340px);
+  pointer-events: none;
+  color: #303441;
+  font-family: Inter, system-ui, sans-serif;
+  isolation: isolate;
+}
+.a1-companion[hidden] {
+  display: none !important;
+}
+.a1-crop {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  clip-path: inset(0 -80px 0 -80px);
+  transition: height 180ms ease;
+}
+.a1-art,
+.a1-hit {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: var(--a1-width);
+  height: var(--a1-height);
+}
+.a1-art {
+  transform-origin: 50% 92%;
+  transform: translateX(var(--a1-follow, 0px)) rotate(var(--a1-lean, 0deg));
+  filter: drop-shadow(0 4px 3px #29384417);
+  transition: opacity 180ms ease;
+  pointer-events: none;
+}
+.a1-art svg {
+  display: block;
+  overflow: hidden;
+}
+.a1-image-motion,
+.a1-whole-response {
+  width: 100%;
+  height: 100%;
+}
+.a1-companion.has-motion:not(.is-dragging):not(.is-resizing) .a1-image-motion {
+  animation: a1-whole-idle 5s ease-in-out infinite;
+}
+.a1-companion.has-motion:not(.is-dragging):not(.is-resizing)
+  .a1-whole-response {
+  transform-origin: 50% 92%;
+}
+.a1-companion.has-motion .a1-whole-response.action-wave {
+  animation: a1-whole-greet 1100ms ease-in-out both;
+}
+.a1-companion.has-motion .a1-whole-response.action-nod {
+  animation: a1-whole-acknowledge 900ms ease-in-out both;
+}
+.a1-companion.has-motion .a1-whole-response.action-step {
+  animation: a1-whole-balance 1000ms ease-in-out both;
+}
+@keyframes a1-whole-idle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.6px);
+  }
+}
+@keyframes a1-whole-greet {
+  0%,
+  100% {
+    transform: rotate(0deg) translateX(0);
+  }
+  30% {
+    transform: rotate(-0.9deg) translateX(-0.5px);
+  }
+  62% {
+    transform: rotate(0.5deg) translateX(0.5px);
+  }
+}
+@keyframes a1-whole-acknowledge {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(1.6px);
+  }
+  70% {
+    transform: translateY(0.3px);
+  }
+}
+@keyframes a1-whole-balance {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  32% {
+    transform: translateX(1.6px) rotate(0.55deg);
+  }
+  66% {
+    transform: translateX(-0.7px) rotate(-0.3deg);
+  }
+}
+.a1-art image {
+  transition: opacity 140ms ease;
+}
+.a1-hit {
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  clip-path: polygon(
+    32% 0%,
+    68% 0%,
+    84% 16%,
+    85% 38%,
+    100% 52%,
+    83% 55%,
+    88% 100%,
+    20% 100%,
+    17% 55%,
+    0% 52%,
+    15% 38%,
+    16% 16%
+  );
+}
+.a1-hit:focus-visible {
+  outline: 2px dashed #7770c8;
+  outline-offset: -3px;
+}
+.a1-companion.is-dragging .a1-hit {
+  cursor: grabbing;
+}
+.a1-companion.is-dragging .a1-crop {
+  transition: none;
+}
+.a1-companion.will-hide .a1-art {
+  opacity: 0.38;
+}
+.a1-resize,
+.a1-options,
+.a1-restore {
+  position: fixed;
+  pointer-events: auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid #dce0e6 !important;
+  background: #fffffff2 !important;
+  color: #55566a !important;
+  box-shadow: 0 3px 14px #303d5310;
+}
+.a1-options {
+  left: var(--a1-options-x);
+  top: var(--a1-options-y);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  padding: 0 !important;
+  opacity: 0;
+  transition: opacity 150ms;
+}
+.a1-resize {
+  left: var(--a1-resize-x);
+  top: var(--a1-resize-y);
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  padding: 0 !important;
+  opacity: 0;
+  cursor: nwse-resize;
+}
+.a1-companion:hover .a1-resize,
+.a1-companion:focus-within .a1-resize,
+.a1-companion.is-resizing .a1-resize {
+  opacity: 1;
+}
+.a1-companion.is-resizing .a1-hit {
+  cursor: nwse-resize;
+}
+.a1-companion.is-resizing .a1-options,
+.a1-companion.is-dragging .a1-resize {
+  display: none;
+}
+.a1-companion:hover .a1-options,
+.a1-companion:focus-within .a1-options,
+.a1-options[aria-expanded="true"] {
+  opacity: 1;
+}
+.a1-restore {
+  left: var(--a1-handle-x);
+  top: var(--a1-handle-y);
+  width: 40px;
+  height: 36px;
+  border-radius: 12px;
+  padding: 0 !important;
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.72;
+  transition: opacity 150ms;
+}
+.a1-restore:hover,
+.a1-restore:focus-visible {
+  opacity: 1;
+}
+.a1-options:focus-visible,
+.a1-resize:focus-visible,
+.a1-restore:focus-visible,
+.a1-controls button:focus-visible {
+  outline: 2px solid #7770c8;
+  outline-offset: 3px;
+}
+.a1-bubble,
+.a1-hint {
+  position: fixed;
+  left: var(--a1-popup-x);
+  top: var(--a1-bubble-y);
+  width: 208px;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 12px;
+  border-radius: 14px 14px 5px 14px;
+  background: #fffffff7;
+  border: 1px solid #e4e5ee;
+  box-shadow: 0 6px 22px #3944540c;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+  pointer-events: none;
+}
+.a1-hint {
+  opacity: 0;
+  transition: opacity 180ms;
+  font-size: 11px;
+}
+.a1-companion:hover .a1-hint,
+.a1-companion:focus-within .a1-hint {
+  opacity: 1;
+}
+.a1-companion.is-dragging .a1-options {
+  display: none;
+}
+.a1-controls {
+  position: fixed;
+  left: var(--a1-popup-x);
+  top: var(--a1-menu-y);
+  width: 208px;
+  padding: 13px;
+  pointer-events: auto;
+  border: 1px solid #dfe2ec;
+  border-radius: 17px;
+  background: #fdfdfffa;
+  box-shadow: 0 14px 40px #2f395a22;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.a1-controls header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.a1-controls header > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 650;
+}
+.a1-controls header i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8299a4;
+}
+.a1-controls header small {
+  font-weight: 400;
+  color: #73788a;
+  font-size: 10px;
+}
+.a1-controls header button {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  padding: 0;
+}
+.a1-controls > p {
+  margin: 8px 0 12px;
+  color: #7b7f90;
+  font-size: 11px;
+}
+.a1-mode-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+  margin: 7px 0;
+}
+.a1-mode-options button {
+  padding: 6px 2px;
+  font-size: 11px;
+  border: 1px solid #e7e8ef;
+  border-radius: 7px;
+  background: #f9f9fc;
+  color: #606579;
+}
+.a1-mode-options button[aria-pressed="true"] {
+  color: #5750a1;
+  background: #eeedf9;
+  border-color: #d9d5ef;
+}
+.a1-menu-action,
+.a1-assistant-action {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 7px 3px;
+  font-size: 11px;
+  text-align: left;
+}
+.a1-scale-control {
+  margin: 10px 0 7px;
+  padding-top: 7px;
+  border-top: 1px solid #e7e8ef;
+}
+.a1-scale-control label {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 7px;
+  color: #666b7c;
+  font-size: 11px;
+}
+.a1-scale-control output {
+  font-variant-numeric: tabular-nums;
+  color: #5b54a7;
+}
+.a1-scale-control input[type="range"] {
+  flex-basis: 100%;
+  width: 100%;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  accent-color: #7770c8;
+  cursor: ew-resize;
+}
+.a1-assistant-action {
+  justify-content: center;
+  border-radius: 9px;
+  color: #fff;
+  background: #6860b7;
+  margin-top: 8px;
+  padding: 8px;
+}
+.a1-menu-action:hover {
+  background: #f1f2f7;
+  border-radius: 6px;
+}
+.a1-art-fallback {
+  display: grid;
+  justify-content: center;
+  align-content: start;
+  gap: 5px;
+  padding: 10px;
+  color: #77718e;
+}
+.a1-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+@media (max-width: 700px) {
+  .a1-options,
+  .a1-restore {
+    min-width: 36px;
+    min-height: 36px;
+  }
+}
+@media (hover: none) {
+  .a1-options,
+  .a1-resize {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .a1-image-motion,
+  .a1-whole-response {
+    animation: none !important;
+  }
+  .a1-art,
+  .a1-art image,
+  .a1-crop {
+    transition: none !important;
+  }
+}

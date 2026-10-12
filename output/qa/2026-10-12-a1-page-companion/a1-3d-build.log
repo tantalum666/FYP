@@ -1,0 +1,83 @@
+16:59:59 | INFO: Data are loaded, start creating Blender stuff
+16:59:59 | INFO: Blender create Mesh node Body
+16:59:59 | INFO: Blender create Mesh node Face
+16:59:59 | INFO: Blender create Mesh node Hair
+16:59:59 | INFO: glTF import finished in 0.15s
+/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-3d/build_a1.py:34: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m=bpy.data.materials.new(name);m.use_nodes=True
+/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-3d/build_a1.py:58: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  if not m.use_nodes: continue
+INFO Draco mesh compression is available, use library at /Applications/Blender.app/Contents/Resources/5.1/scripts/addons_core/io_scene_gltf2/libextern_draco.dylib
+17:00:00 | INFO: Starting glTF 2.0 export
+17:00:00 | INFO: Extracting primitive: A1_Cropped_Jacket
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_Front_Wrap_Fold
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: Cube.001
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_L_Boot_Cuff
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: Sphere
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_L_Cuff_0.476
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_L_Cuff_0.493
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: Sphere.003
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_L_Jacket_Sleeve
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_L_Lapel
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: Sphere.001
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: Sphere.002
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_Left_Open_Ring_Clip
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: Cube.003
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_R_Boot_Cuff
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: Sphere.004
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_R_Cuff_0.476
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_R_Cuff_0.493
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: Sphere.007
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_R_Jacket_Sleeve
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_R_Lapel
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: Sphere.005
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: Sphere.006
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_Turtleneck
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_Underskirt
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: Cube.004
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_Wrap_Light_Edge
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: A1_Wrap_Skirt
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Extracting primitive: Body
+17:00:00 | INFO: Primitives created: 3
+17:00:00 | INFO: Extracting primitive: Face
+17:00:00 | INFO: Primitives created: 7
+17:00:00 | INFO: Extracting primitive: Hair
+17:00:00 | INFO: Primitives created: 1
+17:00:00 | INFO: Finished glTF 2.0 export in 0.6417860984802246 s
+00:04.728  render           | Saved: '/Users/tantalum/Documents/ChatGPT/FYP/output/qa/2026-10-12-a1-page-companion/a1-3d-front.png'
+00:07.965  render           | Saved: '/Users/tantalum/Documents/ChatGPT/FYP/output/qa/2026-10-12-a1-page-companion/a1-3d-three-quarter.png'
+00:10.957  render           | Saved: '/Users/tantalum/Documents/ChatGPT/FYP/output/qa/2026-10-12-a1-page-companion/a1-3d-back.png'
+
+Info: No new files have been packed
+Info: Saved as "a1-engineering-v1.blend"
+Blender 5.1.2 (hash ec6e62d40fa9 built 2026-05-19 01:30:33)
+
+Blender quit

@@ -1,0 +1,58 @@
+{
+  "recorded_at": "2026-10-12T11:51:51.504187+00:00",
+  "protected": {
+    "checked": 108,
+    "failures": []
+  },
+  "original_runtime": {
+    "checked": 4,
+    "failures": []
+  },
+  "native_and_source": [
+    {
+      "asset": "a1-idle-v1",
+      "native": "a7b428a2437da70880fea628dca23c0ded7a24294595b13437b4ae99fe5a09f9",
+      "source": "a7b428a2437da70880fea628dca23c0ded7a24294595b13437b4ae99fe5a09f9",
+      "expected": "a7b428a2437da70880fea628dca23c0ded7a24294595b13437b4ae99fe5a09f9",
+      "prompt": "1b7f610709aebc51bca3be472647a7caf7013e3c7ca1fb814c607fd35a72db18"
+    },
+    {
+      "asset": "a1-acknowledge-v1",
+      "native": "fded6f6748626a0566e010728dece02614f294874383ebf62756cc2c1eddfdb0",
+      "source": "fded6f6748626a0566e010728dece02614f294874383ebf62756cc2c1eddfdb0",
+      "expected": "fded6f6748626a0566e010728dece02614f294874383ebf62756cc2c1eddfdb0",
+      "prompt": "55e0e41d2320ce45f8112b214b42e4898dd09bb7d8e3fe7d42ad5516a84140e5"
+    }
+  ],
+  "public_png_sha256": "a7b428a2437da70880fea628dca23c0ded7a24294595b13437b4ae99fe5a09f9",
+  "current_project_md_count": 148,
+  "changed_or_new_md": [
+    "handoff.md",
+    "decision-log.md",
+    "README.md",
+    "product.md",
+    "work-log.md",
+    "design/desk-companion/characters/2026-10-12-a1-interface/README.md",
+    "planning/2026-10-12/software-function-inventory.md",
+    "desk-companion/README.md",
+    "design/desk-companion/characters/2026-10-12-a1-3d/README.md",
+    "design/desk-companion/characters/a1-character-brief.md",
+    "design/desk-companion/characters/a1-expression-rules.md",
+    "desk-companion/docs/avatar.md",
+    "desk-companion/docs/page-companion.md"
+  ],
+  "local_links_checked": 814,
+  "broken_links": [],
+  "final_frontend_tests": 28,
+  "browser_records": 15,
+  "rigid_response_matrix": [
+    0.999968,
+    -0.00798996,
+    0.00798996,
+    0.999968,
+    -0.254323,
+    0.00203209
+  ],
+  "final_renderer": "whole-image-2d",
+  "original_vrm_sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2"
+}

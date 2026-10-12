@@ -10,11 +10,13 @@
 
 **2026-10-10美术状态：**用户同意A1方向后的[简明角色简报](../design/desk-companion/characters/a1-character-brief.md)、[表情／表演规则](../design/desk-companion/characters/a1-expression-rules.md)与[六表情E1](../design/desk-companion/characters/2026-10-10-expression-study/README.md)已完成。E1待图像反馈；原A1 V1–V4及B1／五提示词保持，许可样本与程序没有替换。新增[近期主流动画研究](../research/2026-10-10-avatar-art/mainstream-anime-c1-study.md)与独立[C1紫暮全身首稿](../design/desk-companion/characters/2026-10-10-c1-concept/README.md)供当时对照；A1／B1／E1保持，10月12日后续用户已选择A1，当前服装步骤见下段。
 
-**2026-10-12当前美术步骤：**用户已确定A1，要求先保存服装再做全方位和细节。[九套原图包](../output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip)已核对，原素材与提示词保留；[六个全身视角与四张细节](../design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md)完成并逐张查看，原V4服装只是统一工作参考。斜视角度偏浅、未见背部结构为新设计提案，具体默认服装仍待选。[视图规范](../design/desk-companion/characters/a1-turnaround-spec.md)与[A1九套总索引](../design/desk-companion/characters/a1-wardrobe-index.md)供后续；二维图不表示原创VRM／衣物绑定完成。
+**2026-10-12已保存美术资料：**用户已确定A1，要求先保存服装再做全方位和细节。[九套原图包](../output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip)已核对，原素材与提示词保留；[六个全身视角与四张细节](../design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md)完成并逐张查看，原V4服装只是统一工作参考。斜视角度偏浅、未见背部结构为新设计提案，具体默认服装仍待选。[视图规范](../design/desk-companion/characters/a1-turnaround-spec.md)与[A1九套总索引](../design/desk-companion/characters/a1-wardrobe-index.md)供后续；二维图不表示原创VRM／衣物绑定完成。
 
 **2026-10-12软件盘点：**[17模块功能／完成与待办清单](../planning/2026-10-12/software-function-inventory.md)核对现有代码和历史验证。近期日志／角色成果已推送现有分支`e45afd2`，PR #4保持开放；软件基础已具备，真实电脑应用执行、完整记忆管理／作业归档、A1原创VRM与真实服务／目标机验收仍待。下表是已实现功能，不能仅据“已实现”推定真实设备效果。
 
 **2026-10-12本机试用：**已启动独立测试工作区，[Web管理页](http://localhost:8832/)与[Linux常亮屏布局](http://localhost:8832/?surface=device)共用虚构数据。服务仅监听本机，使用`.runtime/user-preview-20261012`；原主工作区保持。已实际保存日程并核对两页显示、触摸管理／返回、桌面／窄屏；修复侧栏小月历最右列裁切。[本轮QA](../output/qa/2026-10-12-web-linux-preview/verification.md)记录证据。当前是Mac浏览器中的设备界面预览，Pi安装／触控／性能仍待；真实AI未配置，专用笔记须每项本人批准。
+
+**2026-10-12当前页面角色：**用户最终要求换回2D、去掉分割感。[A1常驻层](docs/page-companion.md)使用一张完整睁眼原图，轻微整体反馈；不拆关节、不做深度／局部变形。滚轮／拖角／滑条连续缩放，左右／下边缘半身／露头／隐藏与召回、偏好保存、弹窗暂避和减少动态已实现。[本轮QA](../output/qa/2026-10-12-a1-page-companion/verification.md)记录28项前端测试、构建和实际浏览器检查。分块／2.5D／3D尝试已被否决，新3D运行资产已移除；旧许可VRM入口独立保留。
 
 ## 当前功能
 
@@ -28,7 +30,7 @@
 | 配对 | 单次短码、拥有者核对批准、可撤销终端身份、常驻屏长期会话；iPhone令牌留在Keychain |
 | 助理 | 事务／日历查询、进展草稿、简报、确认／取消／过期、版本冲突；可选Qwen／Gemini文字模型，默认本地规则；模型只获得受限工具，停止输出可立即请求，其他动作先审阅 |
 | 语音 | Qwen Audio和Gemini Live适配、流式PCM、打断取消、时限、用量记录；本地中英唤醒工作进程；默认没有配置供应商 |
-| 反馈 | 全身3D VRM角色、状态动作／眨眼、浏览器实际播放驱动开口、本地预览、独立黑底／镜像出口；灯光／机械臂命名预设、去重／过期／停机／驱动回执；模拟与实物分开 |
+| 反馈 | 完整2D A1常驻伙伴、连续缩放／拖动／贴边收起与整体回应；原全身3D VRM角色、状态动作／眨眼、浏览器实际播放驱动开口、本地预览、独立黑底／镜像出口；灯光／机械臂命名预设、去重／过期／停机／驱动回执；模拟与实物分开 |
 | 日历辅助 | 选择地区后读取香港天气、缓存和过期状态、农历显示、香港2025–2027公众假期、日期占用摘要、安静时段与本地简报 |
 | 数据交换 | ICS预览／去重／导入／导出；只读忙闲或可展示标题分享／撤销；业务备份与保留现有数据的合并恢复 |
 | 外部日历 | Google主要日历的只读连接、刷新和预览应用；不写回Google、不自动删除本地副本。Outlook／Apple日历可通过ICS文件交换 |
@@ -69,6 +71,7 @@ cd ..
 
 ## 操作入口
 
+- **页面A1**：拖动换位置、靠边收起，滚轮或拖角连续缩放；右键／省略号控制，双击打开助理。
 - **Assistant → Computer jobs**：拥有者核对全文及目标后批准专用笔记保存；默认关闭，按[隔离试运行](docs/computer-jobs.md)启用。
 - **Assistant → Open 3D companion**：全身角色、双语、本地预览、模型替换和黑底镜像；自然语音仍需单独配置。
 - **Tasks**：创建事务、记录进展、查看／暂停跟进、安排日历时段、确认完成或恢复。
@@ -106,6 +109,7 @@ backend/desk/agents/     明确启动的相机、唤醒／声音、命名输出�
 frontend/src/           手机／网页管理界面与共享业务组件
 frontend/src/device/    独立常亮屏与触摸面板
 frontend/src/workspace/ 姿态、助理、连接、数据交换与角色入口
+frontend/src/companion/ 完整2D A1常驻层、连续缩放和位置／显示偏好
 frontend/src/avatar/    按需加载的3D场景、模型校验与播放音量桥
 frontend/ios/           iPhone、WidgetKit、App Intents与Keychain桥
 scripts/                安装、诊断、模型校验、回放、标注和评价
@@ -113,4 +117,4 @@ config/                 未启用的设备／服务示例配置
 .runtime/               本机私有运行数据、模型和构建缓存
 ```
 
-依赖与来源见[THIRD_PARTY.md](THIRD_PARTY.md)。框架与角色源稿可替换；当前角色为pixiv官方授权示范VRM，许可与嵌入设置单独保留；不是本组原创美术、Razer角色或已定稿品牌。
+依赖与来源见[THIRD_PARTY.md](THIRD_PARTY.md)。框架与角色源稿可替换；常驻A1为AI辅助二维原稿，独立3D入口仍为pixiv官方授权示范VRM，许可与嵌入设置单独保留；不是本组原创美术、Razer角色或已定稿品牌。

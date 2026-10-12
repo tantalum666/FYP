@@ -1,0 +1,16 @@
+{
+  "staged_files": 95,
+  "private_secret_values_checked": 1,
+  "matches": [],
+  "whitespace_exceptions": {
+    "output/qa/2026-10-12-a1-page-companion/build.log": [
+      24
+    ],
+    "output/qa/2026-10-12-a1-page-companion/build-static-reference.log": [
+      26
+    ]
+  },
+  "exception_reason": "Unchanged raw Vite reporter output; actual evidence whitespace retained",
+  "all_other_staged_whitespace": "passed",
+  "gitleaks": "passed, no leaks"
+}
