@@ -1,0 +1,47 @@
+{
+  "status": "passed_local",
+  "date": "2026-10-12T14:52:38.392251+08:00",
+  "updated_markdown": [
+    "product.md",
+    "desk-companion/README.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md"
+  ],
+  "application_source_changed": [
+    "desk-companion/frontend/src/styles.css"
+  ],
+  "project_markdown_count": 145,
+  "local_links_checked": 1664,
+  "broken_local_links": [],
+  "old_asset_and_school_protected_files_unchanged": 71,
+  "primary_runtime_files_unchanged": 4,
+  "build": "TypeScript and Vite passed after CSS fix; existing lazy chunk warning retained",
+  "rendered_viewports": [
+    [
+      1280,
+      800
+    ],
+    [
+      390,
+      844
+    ],
+    [
+      1024,
+      600
+    ]
+  ],
+  "ui_event_save_and_shared_display": true,
+  "linux_touch_manage_return": true,
+  "sidebar_clipping_fixed_and_sunday_selected": true,
+  "console_relevant_errors": 0,
+  "server_left_running": true,
+  "browser_deliverables": [
+    5,
+    6
+  ],
+  "temporary_qa_tab_closed": true,
+  "viewport_overrides_cleared": true,
+  "credentials_in_git_or_qa": false,
+  "full_business_tests_rerun": false
+}

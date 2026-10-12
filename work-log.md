@@ -965,3 +965,13 @@
 - **清单：**[17模块软件状态](planning/2026-10-12/software-function-inventory.md)列日历、提醒、事务、助理／文字模型、电脑作业、语音／唤醒、姿态、三端、配对、交换／Google、iPhone、3D、输出和安装；将已实现、本地验证、真实验证与缺失开发分开。149／15和22／26按原日期、范围引用，不混加或声称本轮重跑。
 - **规范同步：**product、根／软件README、架构状态入口、handoff、decision-log与本日志更新；当前下一步由单纯美术细化转为建议先明确一个实际电脑任务并完成有独立结果的执行闭环。美术后续和软件／AI对硬件分工保留。
 - **验证与后续：**[本轮QA](output/qa/2026-10-12-save-and-software-inventory/verification.md)记录本地链接／交付存在性、术语／身份、源码及图片／学校保护、清单补读与实际Git交付。完整个人记忆、作业归档、A1原创VRM／RIG适配和真实服务／真人／目标机验收仍待；无新增执行器安装、系统权限、付费调用、硬件运行或学校提交。
+
+## 2026-10-12 Web与Linux界面本地试用
+
+- **目标／补充：**用户要求现在试用Web和Linux版；追问账号密码后已在聊天回答本次独立测试凭据，未进入Git／QA。
+- **阅读：**继承同一FYP任务139份／12,884行全文与145份最新补读链，逐项验证当前正文未变；补读入口、前端测试技能、开发／样例脚本、package／Vite配置及运行／静态服务代码。首次组合输出截断后单独补读product和完整技能。[本轮记录](output/qa/2026-10-12-web-linux-preview/reading-record.json)。
+- **运行：**已有软件服务未运行；重新构建当前前端，在独立`.runtime/user-preview-20261012`启动同源Uvicorn单进程，回环8832、localhost用户入口。原主工作区四文件hash不变。当前周虚构日历与一条UI新建测试事件；真实AI未配置，后台AI关闭，专用笔记仍需本人逐项批准，未启动相机／音频／输出代理。
+- **实际浏览器：**Browser插件／skill未列出，按现有工具要求使用内置CUA的Playwright／CDP；没有外部UI自动化。Web表单保存测试日程→Event saved→Linux近期安排同条，Touch to manage→Back to display；桌面1280×800、窄屏390×844、设备1024×600，页面正文／无框架覆盖／相关控制台错误0／无水平溢出。可见Web页期间状态被手动切至Device，另建隐藏检查页继续，未把该变化误记为自己的交互。
+- **发现与修复：**桌面侧栏小月历grid160px／scroll202px、sidebar212px／scroll228px，最右日期列裁切；`.mini-grid`七列改minmax(0,1fr)、按钮宽min(28px,100%)及min-width:0。修后grid scroll160px、sidebar scroll212px，完整七列和周日点选通过。TypeScript／生产构建通过，既有3D大chunk提示保留；不为小幅CSS写镜像测试或重复旧业务套件。
+- **检查过程：**高层截图未匹配模拟宽度，改用tab级CDP明确clip并核对PNG尺寸；AX把pressed日期按钮显示为checkbox，定位失败后根据DOM改用button；隐私select精确label失败后用实际可匹配label成功。失败不算通过。前后截图／DOM与运行记录见[QA](output/qa/2026-10-12-web-linux-preview/verification.md)。
+- **收尾：**更新product、软件README、decision-log和handoff；链接／组号／旧资产／主库保护检查，服务与两个用户标签页保留，隐藏检查页关闭、尺寸覆盖清除。当前下一步是用户试用并反馈；当前Mac浏览器预览不构成Pi实装、真实语音或真人准确率验证，没有学校提交／硬件动作。

@@ -1,0 +1,58 @@
+{
+  "browserPath": "Browser plugin not available; built-in CUA documented Playwright/CDP interface used",
+  "web": {
+    "url": "http://localhost:8832/?page=today",
+    "title": "Desk Companion",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "meaningful": true,
+    "overlay": false,
+    "consoleErrors": [],
+    "fixtureSavedViaUI": true,
+    "sundaySelectionVerified": true,
+    "miniCalendarAfter": {
+      "grid": {
+        "clientWidth": 160,
+        "gridRight": 186.3359375,
+        "lastColumnRight": 186.328125,
+        "scrollWidth": 160,
+        "width": 160.3359375
+      },
+      "sidebar": {
+        "clientWidth": 212,
+        "scrollWidth": 212,
+        "width": 213.3359375
+      },
+      "viewport": 1280
+    }
+  },
+  "linux": {
+    "hasFixture": true,
+    "overlay": false,
+    "scrollWidth": 1024,
+    "title": "Desk Companion",
+    "url": "http://localhost:8832/?surface=device",
+    "viewport": {
+      "height": 600,
+      "width": 1024
+    }
+  },
+  "mobile": {
+    "hasFixture": true,
+    "hasToday": true,
+    "height": 844,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  "console": [],
+  "interaction": "Web Add -> Save event -> Event saved -> Linux shared Up next; Touch to manage -> Back to display; Sunday selection",
+  "screenshots": [
+    "web-preview.png",
+    "linux-display-preview.png",
+    "web-mobile-preview.png"
+  ],
+  "screenshotRoute": "Tab-scoped CDP with explicit clip dimensions; default IAB cropped capture replaced",
+  "credentialsRecorded": false
+}

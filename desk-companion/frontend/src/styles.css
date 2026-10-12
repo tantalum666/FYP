@@ -183,7 +183,7 @@ a {
 }
 .mini-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 1px;
 }
 .mini-grid > span,
@@ -199,7 +199,8 @@ a {
 }
 .mini-grid button {
   border-radius: 50%;
-  width: 28px;
+  width: min(28px, 100%);
+  min-width: 0;
   margin: auto;
 }
 .mini-grid button.selected {

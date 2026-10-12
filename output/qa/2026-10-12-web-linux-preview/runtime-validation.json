@@ -1,0 +1,62 @@
+{
+  "health": {
+    "service": "desk-companion",
+    "status": "ok"
+  },
+  "worker_health": {
+    "task_advice": "ready",
+    "public_data": "ready",
+    "rules": "ready",
+    "computer_jobs": "ready"
+  },
+  "runtime": "mac_local",
+  "computer_enabled": true,
+  "voice_configured": false,
+  "text_ai": {
+    "configured": false,
+    "provider": "none",
+    "background": false
+  },
+  "fixture_saved_once": true,
+  "fixture_title": "Test: Web + Linux preview",
+  "fixture_start": "2026-10-12T15:30:00",
+  "fixture_end": "2026-10-12T16:00:00",
+  "primary_runtime_files_unchanged": 4,
+  "main_runtime_changed": false,
+  "binding": "127.0.0.1:8832",
+  "user_origin": "http://localhost:8832",
+  "runtime_directory": "/Users/tantalum/Documents/ChatGPT/FYP/desk-companion/.runtime/user-preview-20261012",
+  "server_pid": 89265,
+  "exec_session": 15293,
+  "left_running_for_user": true,
+  "credentials_in_report": false,
+  "screenshots": [
+    {
+      "path": "web-before-mini-calendar.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "2fa6810d2f9dd197f279fa738b46ceb763f4b65a526a659749d16fddf25c375d"
+    },
+    {
+      "path": "web-preview.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "d2976083a6f6d6dbb546b56a8ba035e8ba553d2fd5640ca2f2ffa2580adcfcae"
+    },
+    {
+      "path": "linux-display-preview.png",
+      "width": 1024,
+      "height": 600,
+      "sha256": "78d938475762d68cd4d1459f21ebaeb9e47659dc515faff90a6f472707e5fc7e"
+    },
+    {
+      "path": "web-mobile-preview.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "9045649639f2519165f99b104420c31981b7dc0cbda85849e2d036a4b1e510bc"
+    }
+  ],
+  "completed_at": "2026-10-12T14:48:28.997093+08:00",
+  "outputs_stopped": true,
+  "outputs_connected": false
+}

@@ -1,13 +1,13 @@
 # Group 2 Current Handoff
 
-更新：2026-10-12后续。当前：**近期日志／角色成果已推送保存；17模块软件功能／完成与待办清单已整理。** 当前是保存与状态盘点，没有新增功能实现。
+更新：2026-10-12后续。当前：**Web与Linux常亮屏界面已启动，可在本机独立测试工作区试用；小月历裁切已修复并复核。** 用户刚追问的测试账号密码已在聊天回答，不写入仓库。
 
 ## 当前产物与证据
 
-- [软件功能与完成状态](planning/2026-10-12/software-function-inventory.md)：17模块，列已实现／本地证据、真实验证与未开发项，并给出后续建议；不会把所有余项简化为“只接硬件”。
-- 保存提交`e45afd2700e87f07c7e8044a7f67ce3b09237cae`已推送`codex/full-body-3d-avatar`，194文件逐项匹配提交blob；远端分支与[PR #4](https://github.com/tantalum666/FYP/pull/4) head一致，open／未合并，main仍`ccfac48`。[保存读回](output/qa/2026-10-12-save-and-software-inventory/preservation-git-delivery.json)与[本轮QA](output/qa/2026-10-12-save-and-software-inventory/verification.md)记录真实结果。
-- [九套服装原图包](output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip)及[A1六视角／四细节](design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md)保留；A1身份已定，默认衣服未定。后发／衣缝／裙后片是新增设计提案，斜视角度偏浅，二维细部仍需统一；运行角色仍为pixiv许可样本。
-- 既有验证：10月9日整合149后端／15前端，3D阶段22前端／26定向后端；本轮不重跑旧套件，也不把定向数相加为完整回归。
+- 用户入口：[Web管理页](http://localhost:8832/)／[Linux常亮屏界面](http://localhost:8832/?surface=device)。运行在Mac，绑定`127.0.0.1:8832`，独立目录`desk-companion/.runtime/user-preview-20261012`，当前服务PID89265、exec session15293保留运行；只用于本机试用，不是Pi实装或公网部署。
+- 本周虚构示例与一条Web UI保存的测试日程；两页共享显示、Linux触摸管理／返回、桌面1280×800／窄屏390×844／设备1024×600通过。侧栏月历160px被202px日期列撑开的问题已修复，周日可选；构建通过、相关控制台错误0。[本轮QA](output/qa/2026-10-12-web-linux-preview/verification.md)保留截图／DOM／运行及数据保护证据。
+- 测试目录仅启用需本人逐项批准的专用笔记和回放入口；真实文字／语音AI未配置，后台AI关闭，未启动相机／音频／输出代理。原主工作区四文件、学校及旧角色资产保持；用户标签页保留，临时检查页已关闭、尺寸覆盖清除。
+- [17模块功能／待办](planning/2026-10-12/software-function-inventory.md)、[九套服装包](output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip)与[A1六视角／四细节](design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md)保留。前阶段保存／清单及QA已推送至`ff3df6c`，[PR #4](https://github.com/tantalum666/FYP/pull/4)开放，main仍`ccfac48`；本轮仅增加布局修复与试用记录。
 
 ## 未完成与保留
 
@@ -17,4 +17,4 @@
 
 ## 唯一下一步
 
-**工程建议：先确定一个目标PC系统与1–2个具体应用任务，再完成一个经本人批准且能独立读回核验的执行闭环。** 用户本轮要求保存与清单，没有授权新安装／系统权限／付费或硬件动作；A1制作参考后续继续。
+**用户在两个测试入口试用日历、事务和设备界面并反馈具体问题。** 后续开发仍按17模块清单收敛真实PC任务／服务和目标设备验证，A1制作参考继续保留。

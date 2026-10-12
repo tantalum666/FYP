@@ -1,0 +1,22 @@
+[
+  {
+    "path": "desk-companion/.runtime/agent.json",
+    "sha256": "308e5d374707102def88cbc7bc557eb96345b00680f353901e83dcdea9769760",
+    "bytes": 56
+  },
+  {
+    "path": "desk-companion/.runtime/credentials.json",
+    "sha256": "6ada69a6da7f230b60c70c5308c269f1e5542147eb9ad8b7e668fabdfb98e45a",
+    "bytes": 59
+  },
+  {
+    "path": "desk-companion/.runtime/desk.sqlite3",
+    "sha256": "fc957730a274cba9cff6bcd6b9f811fbbb818f0a401a4392859dbc6739abd317",
+    "bytes": 233472
+  },
+  {
+    "path": "desk-companion/.runtime/vault.key",
+    "sha256": "89fe94bd90c81e8916f5af26325e5aa19855a2b6e7e4c5ef1a14838d09f24118",
+    "bytes": 44
+  }
+]
