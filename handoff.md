@@ -1,20 +1,20 @@
 # Group 2 Current Handoff
 
-更新：2026-10-12后续。当前：**A1身份已确定；九套服装原图／实际提示词已单独保存；六个全身视角与四张细节图完成并逐张检查。** C1历史保留，默认服装未选。
+更新：2026-10-12后续。当前：**近期日志／角色成果已推送保存；17模块软件功能／完成与待办清单已整理。** 当前是保存与状态盘点，没有新增功能实现。
 
 ## 当前产物与证据
 
-- [九套服装原图包](output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip)：九PNG＋九prompt＋V4身份参考＋索引，21项读回一致；[九套总索引](design/desk-companion/characters/a1-wardrobe-index.md)和原素材目录保留。
-- [A1六视角／四细节及预览](design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md)：正、左右侧、背、前后斜视，脸／发扣、后发、衣物、靴袜。原V4衣服只作工程参考，不是用户默认款决定；[视图规范](design/desk-companion/characters/a1-turnaround-spec.md)记录人物自身左右和原稿未见结构。
-- 十图均逐张view_image检查：八张1024×1536、两张1254×1254，共11次内置ImageGen；T06首稿头身方向不一致而重试一次，初始／实际prompt及拒绝图保留。原生与项目PNG字节一致，无像素后期。T05／T06实际角度偏浅，不称精确45度；侧面远侧手／鞋自然重叠。
-- 来源、真实提示词和逐图观察见[manifest](design/desk-companion/characters/2026-10-12-a1-turnaround-details/manifest.json)；[本轮QA](output/qa/2026-10-12-a1-turnaround-details/verification.md)继承同任务139份／12,884行全文及相关补读，核对71项保护文件、服装包、图片和链接。
+- [软件功能与完成状态](planning/2026-10-12/software-function-inventory.md)：17模块，列已实现／本地证据、真实验证与未开发项，并给出后续建议；不会把所有余项简化为“只接硬件”。
+- 保存提交`e45afd2700e87f07c7e8044a7f67ce3b09237cae`已推送`codex/full-body-3d-avatar`，194文件逐项匹配提交blob；远端分支与[PR #4](https://github.com/tantalum666/FYP/pull/4) head一致，open／未合并，main仍`ccfac48`。[保存读回](output/qa/2026-10-12-save-and-software-inventory/preservation-git-delivery.json)与[本轮QA](output/qa/2026-10-12-save-and-software-inventory/verification.md)记录真实结果。
+- [九套服装原图包](output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip)及[A1六视角／四细节](design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md)保留；A1身份已定，默认衣服未定。后发／衣缝／裙后片是新增设计提案，斜视角度偏浅，二维细部仍需统一；运行角色仍为pixiv许可样本。
+- 既有验证：10月9日整合149后端／15前端，3D阶段22前端／26定向后端；本轮不重跑旧套件，也不把定向数相加为完整回归。
 
 ## 未完成与保留
 
-后发分组、外套后缝和裹裙后片为本轮新增提案，跨视角细部仍待统一；二维参考不是共享精确3D几何。九套各自背部、默认服装、E1精修、正式名字／声音、原创VRM与绑定仍待。运行角色仍为pixiv许可样本；本次仅本地保存。
+待开发：指定应用／远端PC执行器及权限／恢复、长期个人记忆查看／纠正／删除、作业归档／完整业务导出、A1原创VRM／绑定、RIG专用适配与采用相应音频路径时的角色音量桥。LCU和清洁模块仍为候选；逐音素、CI等增强不自动变成本版必做。
 
-[第2份v5日志](planning/2026-10-11/logsheet-2-review.md)、学校原件、旧A1／B1／C1／E1和所有原提示词／manifest保持；本轮未核实学校提交状态。真实语音、Pi／iPhone／光学、PC／LCU、真人姿态及RIG实物仍按原契约分别完成或实测。
+待真实验证：语音／唤醒／AEC／费用、真人姿态、Pi并发与连续运行、iPhone签名／系统行为、Google本人OAuth、显示光学和机械停机／动作。[第2份v5日志](planning/2026-10-11/logsheet-2-review.md)、学校原件和所有旧资产保持；本轮未核实学校提交状态。
 
 ## 唯一下一步
 
-**以本套视角统一A1发束、外套背缝和裹裙结构，整理可制作参考。** 默认服装选择保留，不把本轮V4工作参考擅自定为最终款。
+**工程建议：先确定一个目标PC系统与1–2个具体应用任务，再完成一个经本人批准且能独立读回核验的执行闭环。** 用户本轮要求保存与清单，没有授权新安装／系统权限／付费或硬件动作；A1制作参考后续继续。

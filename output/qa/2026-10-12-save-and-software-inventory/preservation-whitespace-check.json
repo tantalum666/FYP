@@ -1,0 +1,1406 @@
+{
+  "default_staged_check_exit": 2,
+  "source_and_normalized_file_check_exit": 0,
+  "checked_files_count": 174,
+  "immutable_prompt_and_raw_generated_evidence_exceptions": [
+    "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.attempt2.actual-prompt.txt",
+    "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d01-face.txt",
+    "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d02-hair-back.txt",
+    "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d03-outfit.txt",
+    "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d04-boots-tights.txt",
+    "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t01-front.txt",
+    "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t02-left.txt",
+    "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t03-back.txt",
+    "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t04-right.txt",
+    "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t05-front-three-quarter.txt",
+    "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t06-back-three-quarter.txt",
+    "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+    "output/qa/2026-10-11-logsheet-2/template-diff/text_a.txt",
+    "output/qa/2026-10-11-logsheet-2/template-diff/text_diff.txt",
+    "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+    "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+    "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+    "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+    "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+    "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt"
+  ],
+  "exception_diagnostics": [
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.attempt2.actual-prompt.txt",
+      "line": 7,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d01-face.txt",
+      "line": 7,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d02-hair-back.txt",
+      "line": 7,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d03-outfit.txt",
+      "line": 7,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d04-boots-tights.txt",
+      "line": 7,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t01-front.txt",
+      "line": 7,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t02-left.txt",
+      "line": 7,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t03-back.txt",
+      "line": 7,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t04-right.txt",
+      "line": 7,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t05-front-three-quarter.txt",
+      "line": 7,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t06-back-three-quarter.txt",
+      "line": 7,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 10,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 11,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 14,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 15,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 18,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 19,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 22,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 23,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 26,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 27,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 30,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 31,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 34,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 35,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 38,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 43,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "line": 44,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/text_a.txt",
+      "line": 2,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/text_a.txt",
+      "line": 3,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/text_a.txt",
+      "line": 4,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/text_a.txt",
+      "line": 5,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/text_diff.txt",
+      "line": 5,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/text_diff.txt",
+      "line": 6,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/text_diff.txt",
+      "line": 7,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/text_diff.txt",
+      "line": 8,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 4,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 6,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 8,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 10,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 12,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 14,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 16,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 18,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 20,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 22,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 24,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 26,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 28,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 30,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 32,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 34,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 36,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 38,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 39,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "line": 41,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 4,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 6,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 15,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 17,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 19,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 21,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 23,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 28,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 30,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 32,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 34,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 39,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 41,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 43,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 45,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 53,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 55,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 57,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 59,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 61,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 66,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 68,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 73,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 75,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 77,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 79,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 81,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 90,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 92,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 94,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 96,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 101,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 103,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 105,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 107,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 109,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 111,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 113,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 115,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 124,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 126,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 128,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 135,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 137,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 139,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 141,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 143,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "line": 145,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 4,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 6,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 8,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 10,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 19,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 21,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 23,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 25,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 32,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 34,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 36,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 38,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 40,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 45,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 47,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 49,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 51,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 60,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 62,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 64,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 71,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 73,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 75,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 81,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 83,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 88,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 90,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 92,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 101,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 103,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 108,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 110,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 112,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 114,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 116,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 118,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 123,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 125,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 127,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 136,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 138,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 140,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 142,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 148,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 150,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "line": 152,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 4,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 6,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 8,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 13,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 15,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 17,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 30,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 32,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 34,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 36,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 38,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 40,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 42,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 44,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 46,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 48,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 50,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 55,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 57,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 59,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 61,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 73,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 75,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 80,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 82,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 84,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 86,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 88,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 90,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 92,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 94,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 98,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 100,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 102,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 107,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 109,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 111,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 116,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 118,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 120,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 122,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "line": 124,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 4,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 6,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 8,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 10,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 12,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 14,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 16,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 18,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 20,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 22,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 24,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 26,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 28,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 30,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 32,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 34,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 36,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 38,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 40,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 42,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 44,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 46,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 48,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 50,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 52,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 54,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 56,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 58,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 60,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 62,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 64,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 66,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 68,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 70,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 72,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 74,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 76,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 89,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 91,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 93,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 95,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 97,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 99,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 101,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 103,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 105,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 107,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 109,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 111,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "line": 113,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 4,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 6,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 10,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 15,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 17,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 19,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 21,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 23,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 25,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 27,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 31,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 33,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 35,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 37,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 39,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 41,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 46,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 51,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 53,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 55,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 57,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 58,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 60,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 62,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 67,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 69,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 71,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 73,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 74,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 76,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 78,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 83,
+      "diagnostic": "trailing whitespace."
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "line": 85,
+      "diagnostic": "trailing whitespace."
+    }
+  ],
+  "policy": "Preserve actual prompt bytes and generated evidence text exactly; do not trim them or silently suppress a default check failure. All other staged files pass whitespace check.",
+  "source_files_modified_for_whitespace": false
+}

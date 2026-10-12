@@ -1,0 +1,984 @@
+{
+  "created_at": "2026-10-12T14:12:47.302311+08:00",
+  "branch": "codex/full-body-3d-avatar",
+  "before_head": "12f2bbd4fd3c04e1a1f30e7e32307a73d24fb7e4",
+  "main_before": "ccfac48ce8c68e6f9c8796911bbe5f35728d7807",
+  "scope": "All pending logsheet and character-art work from this user conversation",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 29744,
+      "sha256": "71195f1e8d8aa3e200760e0bcc86fe1441cd83b94f6cfb2a0afb6f357ae8c3f7"
+    },
+    {
+      "path": "decision-log.md",
+      "bytes": 129489,
+      "sha256": "4fc2c4ae0b239baee956b5f66d2bfa7581689d2a78e0404e920f07a881b45082"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-10-c1-concept/README.md",
+      "bytes": 2729,
+      "sha256": "dc2f4c1440b6a7e63ff0b3329f6cfc05a7988e2cd83a1d2362dde229f50bf5ce"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-10-concepts/README.md",
+      "bytes": 3963,
+      "sha256": "78b657491a82475c92e952607de64bbbc8597f459f9765946433d1e5ecf05aea"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-10-expression-study/README.md",
+      "bytes": 2587,
+      "sha256": "cee7ad5e2edd6e48fc375cb8c2de4e45343669141c00bbd8c65f9e37c5e78c09"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md",
+      "bytes": 5258,
+      "sha256": "ae47f1b4bf955d3562dabddb08b9f70b2fec3b6db0a62c7e5ffa5f8a66b233c2"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d01-face.png",
+      "bytes": 1933770,
+      "sha256": "2a7fea6044d059f0a13c8dfaf8fc96e1322825b29e0d8e3d457359c5366b4038"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d01-face.receipt.json",
+      "bytes": 2271,
+      "sha256": "1c7837fe0ded2f83748977ea358d827ef5ba6e471578ba4761d10b0296d23f1a"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d02-hair-back.png",
+      "bytes": 1759842,
+      "sha256": "56119e3172e17b2abb075eb877c2751fa799a83a2642ea54a2a5c2a59d2b0ad1"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d02-hair-back.receipt.json",
+      "bytes": 3572,
+      "sha256": "c33dfb11421c48319f75fbb17130a841bf8b5564c6a7e13c1e6fd3a32f48fae2"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d03-outfit.png",
+      "bytes": 1771705,
+      "sha256": "a02e1db2647f6c7d1b73b5f21854d6b61491c0d1bf0e1d09ff7c4c608ce3878a"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d03-outfit.receipt.json",
+      "bytes": 3096,
+      "sha256": "d34ae438a7ef5f284f3ba882584c2634f3a09ac61a9ccb04ffefc08a28c9bb23"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d04-boots-tights.png",
+      "bytes": 1626085,
+      "sha256": "5f024e98ac1351bbbcffd13e0e67d808fd37e21b148bbc808b7d7fc740a613cc"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d04-boots-tights.receipt.json",
+      "bytes": 3063,
+      "sha256": "84379f36423c7fc2421a59d93627a7cf65b0631024e54789405de00adeb34466"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+      "bytes": 1640187,
+      "sha256": "314e129ddde2f48f53c743e75cd505b6d695a8beae8bf838253094de867f2144"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.receipt.json",
+      "bytes": 2124,
+      "sha256": "86c4db8774b7d060a199a88f3976c3e56d5120fb2f629104cdac34705dc8b85a"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t02-left.png",
+      "bytes": 1634349,
+      "sha256": "9a4da1d9dc2be3b64934f3752384830778bbf1f85bc24bf2a6a8e6766d2b789f"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t02-left.receipt.json",
+      "bytes": 2386,
+      "sha256": "2d29d4884ed20acfaed42880ba42e014360010ea47fd21c52c5b044bda340ab6"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t03-back.png",
+      "bytes": 1631384,
+      "sha256": "2a7bab2b579d46d8f68a1e4c122978e96e4e291aa58dc7fc7be0813705e5f8ae"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t03-back.receipt.json",
+      "bytes": 2460,
+      "sha256": "e63cb6728df97a37fb329ccd7eab7a5cceabd047f374d5b399c5905087a5a233"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t04-right.png",
+      "bytes": 1634728,
+      "sha256": "d776654cd1e2e6de0ffbda89e31d63bfd2bc4d0a8dbf77013d4ce3c8289763b3"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t04-right.receipt.json",
+      "bytes": 2958,
+      "sha256": "4c415472c5598a1369bce5c970b270e0827e6fc68d179926b6df773db7216bfa"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t05-front-three-quarter.png",
+      "bytes": 1656958,
+      "sha256": "75db89c02b3451f89a22b4e1693c060396f41935af7896ae6c057692f245ba0f"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t05-front-three-quarter.receipt.json",
+      "bytes": 2761,
+      "sha256": "ab25d7aa7e4044ffc537bb9cd37cc131c031834bea300f747dcc0d2a1dfef9eb"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.attempt1-rejected.png",
+      "bytes": 1618649,
+      "sha256": "6fa1ea29a1666ac8c140347c1a87017640b77a078921af59e4ba4c6253af438b"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.attempt1-rejected.receipt.json",
+      "bytes": 1675,
+      "sha256": "879b245cf3c43cc44edd1d55958ccd6ad96b908c44208335e728262cb9ae22df"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.attempt2.actual-prompt.txt",
+      "bytes": 3789,
+      "sha256": "4df566543a339895920da06febfc66242a9ed0288370a7cc6c00962f37418688"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.png",
+      "bytes": 1609838,
+      "sha256": "4aa3254f1be14a74cd62ebafe3f38451f46a54cc5ab5b462a8f5a938f3386839"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.receipt.json",
+      "bytes": 3079,
+      "sha256": "71dcb866f88731160047774017f04e4e37319e70d695c4eb0bf3cdd089660d3c"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/generation-jobs.json",
+      "bytes": 9363,
+      "sha256": "a78f894ae367d024fa4a45374afdd3d846c617caceae2283ab8e26b34354d21f"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/manifest.json",
+      "bytes": 28779,
+      "sha256": "6b47a834f12b3e4d20774ab89d36275c495ca8afdd74f38c9f1de2a58997d722"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d01-face.txt",
+      "bytes": 2647,
+      "sha256": "0b983294dfe89c247ff6b8ff9f9b9fdb6e848ed93188358a5fc25008821ded01"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d02-hair-back.txt",
+      "bytes": 2701,
+      "sha256": "db067e2d3cb8f9cbef5e84224803e72beeaf9220e24b80480f1825ce19d8d42d"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d03-outfit.txt",
+      "bytes": 2734,
+      "sha256": "9e111ce08aa51d80def985c80b94d2050227b194b6afeb26f6f0e80ef0b9a2c0"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d04-boots-tights.txt",
+      "bytes": 2596,
+      "sha256": "1ea8f9193e812775b2c42ff616ab090a1226ec04ce4496f2b42b36f1499c5f5d"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t01-front.txt",
+      "bytes": 2875,
+      "sha256": "e7550cbf6f195a0bc756876a8daebe090378f19cae7fc11aabc821d6b85c8236"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t02-left.txt",
+      "bytes": 3097,
+      "sha256": "95906242996b2ab0c82eb2d3a9eb849c56458b5b6971fc357b3ba16dbd0fff43"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t03-back.txt",
+      "bytes": 3408,
+      "sha256": "492a784eb84ad730852ff7870f02811956e99e431cc4747371c3215e043d4429"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t04-right.txt",
+      "bytes": 3051,
+      "sha256": "fb67333e3a2f5f102277a28b41eddeb990056d9a1b00596f56f3dcb9f4680d37"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t05-front-three-quarter.txt",
+      "bytes": 3011,
+      "sha256": "ab8caef5dc1f2243ce313a6b8e8d4aeb58237199c7bc5521749f2e2b5a3f9d29"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t06-back-three-quarter.txt",
+      "bytes": 3083,
+      "sha256": "12fccb643a8878f3751fd419906026ea2c969555877188046d9d5a42e1420a61"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/review-board.html",
+      "bytes": 2930,
+      "sha256": "398f7379b3050c97a2e79cd73b3524cef57fedcd6b55296f2debf0d2169f541d"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/review-manifest.json",
+      "bytes": 33824,
+      "sha256": "fdf963b6209351e8fd98e7944f34be1ac342c733e14badd0f086172e13841673"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/README.md",
+      "bytes": 4450,
+      "sha256": "418916c6fcdeff6044bb236d42867db533503001287c97559080e9d5f00a05b6"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w4-modern-chinese.png",
+      "bytes": 1660837,
+      "sha256": "7e726f3be7acaa80f4a6a97ee21f75291c2aed423cff96a5be064d829da48c3b"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w4-modern-chinese.receipt.json",
+      "bytes": 1800,
+      "sha256": "9aaf56b9fd5d7313c9bb2b27f39f1d0a6687bb7aeefee446772ef2cb3bea3fb4"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w5-soft-gothic.png",
+      "bytes": 1733700,
+      "sha256": "2e894a309adfbbc95536f753b9509f0d624c63c8cc840f288e42fffdf7a58f4f"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w5-soft-gothic.receipt.json",
+      "bytes": 1865,
+      "sha256": "d53cbd15d8693f2ff6051b3138a4d3b863b3f6a2f35f39987f3a73abb869616a"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w6-cozy-knit.png",
+      "bytes": 1654046,
+      "sha256": "41fddfe1c12f77e25cae40348fcecbf6cc1399a759a5588309527849bb7128f5"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w6-cozy-knit.receipt.json",
+      "bytes": 2049,
+      "sha256": "baa1c9cd3c5a3b45ca5dbaba16637cadf979ef4d52ddd4a044f05593ee151eff"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w7-space-explorer.png",
+      "bytes": 1696345,
+      "sha256": "8263350755310f1fe0a6231467ce417f2aeff4b6613b272a4a5a026d87dfa35c"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w7-space-explorer.receipt.json",
+      "bytes": 2222,
+      "sha256": "f682dfab491a9bfa20e622e1a9381c957ca16803e17a65fb50f823f737dfc3c7"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w8-seaside-attempt1-rejected.png",
+      "bytes": 1620441,
+      "sha256": "4fe1fd9cf12c0f2a369940af3476174e66bfa1b6ae2788cdab62e13d43535b9e"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w8-seaside.png",
+      "bytes": 1672195,
+      "sha256": "b8bd100db8d5b6a568859b22d79ba6888b2a2a9489705e5d985753fd36bd664e"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w8-seaside.receipt.json",
+      "bytes": 4247,
+      "sha256": "7f976dad3090136ea84dadec9803d080803b205ac2f407e3978ce8b153ca59c4"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w9-starlight-dress.png",
+      "bytes": 1645290,
+      "sha256": "bba359ea14da1775845d8934cbcc9762883564caa29e8a70944b6a12df6bbff4"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w9-starlight-dress.receipt.json",
+      "bytes": 2935,
+      "sha256": "8003b4c41b570f0ccb2866e27c4a623711177680b9400578f35825342c054816"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/generation-jobs.json",
+      "bytes": 5197,
+      "sha256": "c8234b611cf36f5876552230e0ae6c49226a998e442d8a1ad1a455ded9be7db3"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/manifest.json",
+      "bytes": 8186,
+      "sha256": "9b446082a438fc0c75643aac1ba548b185befb16b1855aeb111fb7c10f651694"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w4-modern-chinese.txt",
+      "bytes": 2581,
+      "sha256": "4800e2354da0aeb65a6f2fc3497229002a92986f65ca2c89f3638ea938823aca"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w5-soft-gothic.txt",
+      "bytes": 2536,
+      "sha256": "87a99eff767f5535618ae7d1fb04886e4d31816b2e63cde794e71d01c52b6e95"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w6-cozy-knit.txt",
+      "bytes": 2543,
+      "sha256": "cc60f45c812793c2a3a641d31c57d18a545e49f565d903d9b3d6e96a7f07c402"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w7-space-explorer.txt",
+      "bytes": 2624,
+      "sha256": "d5568ac98e41e4c4ca9834122d40688ea04a22e8a80d2c80a3f0bf4ed881854f"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w8-seaside.txt",
+      "bytes": 2592,
+      "sha256": "7d89d2852d7f128d026ced9ed1ac90bf9c41b9ff74fbb193414f0e7e700f9cfe"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w9-starlight-dress.txt",
+      "bytes": 2619,
+      "sha256": "f7abb43895808342b786067af9c4745cf81167577e5dd9ab6c196aec9c9be710"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/review-board.html",
+      "bytes": 2137,
+      "sha256": "a409b62733ead65f738edafd89cce4819ab00422886ccd631032b0d12d1b1856"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/review-manifest.json",
+      "bytes": 17730,
+      "sha256": "d0bafff77b40ce7122b817293bf5f9dad81458c18c419bffe17067e52ea047b6"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/README.md",
+      "bytes": 4819,
+      "sha256": "b447ff84fbf47a34f229d73d57f84141015fc7020952f81c468ec1fea2c63aec"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w1-soft-tech.png",
+      "bytes": 1671615,
+      "sha256": "8404ae6573ec595db9f2c37da7a19452ec624838d0dc5cc11ada86f8cae02459"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w1-soft-tech.receipt.json",
+      "bytes": 1720,
+      "sha256": "6a937e6542b454195663616ad47965647266561d92c3171f3120fef8ff4f469c"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w2-light-outdoor.png",
+      "bytes": 1656547,
+      "sha256": "a008ee10efec3af1be50dab26716e73cf8f3a9be58a77b259b78da6356f3fdde"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w2-light-outdoor.receipt.json",
+      "bytes": 1703,
+      "sha256": "b09aca74112991183f2a1d8534799f35f12871321260c24d80d1ac1af3067b72"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w3-astral-fantasy.png",
+      "bytes": 1683360,
+      "sha256": "e38918b3ec665d2ca7b2b80e2d2a89579a5e3b6c3b67a024b08b5ddd09f69786"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w3-astral-fantasy.receipt.json",
+      "bytes": 2539,
+      "sha256": "14844710701a52b4d8d5f493d080926105cb16a366fec9bc128767fa484c0f99"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w1-music-stage.png",
+      "bytes": 1664701,
+      "sha256": "d0f354336253df1192347b5688ece5b350b59b72178788b8544f4bdb8a7b3a32"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w1-music-stage.receipt.json",
+      "bytes": 2291,
+      "sha256": "d7831bc6850e7c65975333daccaf202881bb370a510c53df8bcbf98a458d60b8"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w2-sport-casual.png",
+      "bytes": 1677232,
+      "sha256": "148c287a5d67f6f693e57ae9f92fe2327a77275f38a83d690750eb70c15905a2"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w2-sport-casual.receipt.json",
+      "bytes": 2118,
+      "sha256": "7accd7b34e906a95765df4c202e35fff2f40d17a085fe92b9d9e97d798375b46"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w3-modern-wa.png",
+      "bytes": 1631890,
+      "sha256": "90bb9f0f34eb7e4a7ebbf5d3fa497b98c1fb94dc4ffc799e12c34644b7892c77"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w3-modern-wa.receipt.json",
+      "bytes": 2493,
+      "sha256": "957f2126a70cde31c43969f73e0f142ad5dc14eb154a2fd8e819767e3a90f257"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/generation-jobs.json",
+      "bytes": 4202,
+      "sha256": "b05b9911f87e8295d56257600352b69181cf00cb1a968e68a15d0fc1050349f1"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/manifest.json",
+      "bytes": 8872,
+      "sha256": "fa76e8e260b18c2999d695a52f79aa90ff7ab3178aecc7e2733c7c529f989364"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/a1-w1-soft-tech.txt",
+      "bytes": 3175,
+      "sha256": "bba52ffd6f814bba1fa99ac0d0fcf55e776be65df14a1562e22810311654a0f4"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/a1-w2-light-outdoor.txt",
+      "bytes": 2958,
+      "sha256": "3630be9eb88347edfa0c5db80cc9713b38653f2ce983b12624da4253ff1312b2"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/a1-w3-astral-fantasy.txt",
+      "bytes": 3026,
+      "sha256": "c45fc8cb69b9b8e1ead6f72194591a2fee5f303182a5fa6afa8189c3a4fda6c4"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/c1-w1-music-stage.txt",
+      "bytes": 2952,
+      "sha256": "cfaad5ed41ffc95fdec14568a35ac3f9640a9fe576647f2da1acea77591238e7"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/c1-w2-sport-casual.txt",
+      "bytes": 2918,
+      "sha256": "716f17b195d84f03fed775cc71bfb0976313ccb9864038fa3d96402565228c47"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/c1-w3-modern-wa.txt",
+      "bytes": 3000,
+      "sha256": "69ca3a2125551efcfc07cb551a34a8684db5fd00ee8e4564db57306156b62000"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/review-board.html",
+      "bytes": 2158,
+      "sha256": "688800e0bb4019a488e27fee4b764c98ca8e63afb8081c13cbe73efb473ee170"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/review-manifest.json",
+      "bytes": 20417,
+      "sha256": "6a0c7ee54955b3d62120de7ed061da8ed5f923cf93d452cc841932e85043e7cc"
+    },
+    {
+      "path": "design/desk-companion/characters/a1-character-brief.md",
+      "bytes": 2476,
+      "sha256": "ab2183a45adac37777456cad67923a8c3f5a900460be799cc74162ba1deba4ae"
+    },
+    {
+      "path": "design/desk-companion/characters/a1-expression-rules.md",
+      "bytes": 5422,
+      "sha256": "985fb2374e8bca6f1e5f87e58b4423f9fd7809a54465c55106183b020ee85825"
+    },
+    {
+      "path": "design/desk-companion/characters/a1-turnaround-spec.md",
+      "bytes": 4804,
+      "sha256": "ef4e1c55bd6ab3f8f29f8388c1a67fb123ef706422a8b4f2d414be451c71828b"
+    },
+    {
+      "path": "design/desk-companion/characters/a1-wardrobe-index.md",
+      "bytes": 2490,
+      "sha256": "0c57b55a0d0652ab1fb2389828768bdcee0f64c69a0e08ba7e80d62ac60cd353"
+    },
+    {
+      "path": "desk-companion/README.md",
+      "bytes": 11304,
+      "sha256": "8f026a59ee43afc763097291c3b5d42b26f38cdd42d1d7702dc981334fa14fba"
+    },
+    {
+      "path": "desk-companion/docs/avatar.md",
+      "bytes": 13080,
+      "sha256": "b7c8f449f8edbc92e44b428a78ee9d491bd0de5a8dcb6727b38df6eadc796f25"
+    },
+    {
+      "path": "handoff.md",
+      "bytes": 2359,
+      "sha256": "ffa67324d775d018549bffeb15a45906df123b63170ead8046d601cae0723a72"
+    },
+    {
+      "path": "inputs/README.md",
+      "bytes": 1587,
+      "sha256": "d1523be1c2c16d52adad5ef13ef1aec191f832b68678d982e6e193967acaf5b6"
+    },
+    {
+      "path": "output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip",
+      "bytes": 14221759,
+      "sha256": "dce682c73baeb3df9c45238104ab4e69c1b49d3d8168d3236be59b5bd750a6c5"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/artifact.md",
+      "bytes": 4797,
+      "sha256": "e2e4766f361ed51cb1a64cf39bb7215368b469ee0f232ae28a9c0de6f5d038c8"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/closeout-validation.json",
+      "bytes": 1985,
+      "sha256": "7a161bd6888250d7bbd55cd27fac7951b7454f625fcbdc7888a153c8fff7d7e3"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/content.json",
+      "bytes": 2519,
+      "sha256": "25021cae0e692e3ed58b15fd878bec8ed55eb8512624ff59014295ad3e9033ba"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/document-validation.json",
+      "bytes": 1521,
+      "sha256": "5f22f4306fd12631f32ff2156f413b9a0c20adb40a6cfec6784207974fa1f17b"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-fields-audit.txt",
+      "bytes": 49,
+      "sha256": "fa521c88c5ca1a7f9fba9657d56c815bd3fee96bff745c673e6a5c6902567668"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-pdf-text.txt",
+      "bytes": 2644,
+      "sha256": "07aceb63aa0dd4a4fb3a27a02dd934bfa331d89eb87d7701fb3a396d2d0223e8"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-section-audit.txt",
+      "bytes": 424,
+      "sha256": "f43cf399b5fbaf0c67cca9d7e7be0446dd12e09b2a595b7af5ea9786547a2162"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/final-style-audit.json",
+      "bytes": 3949,
+      "sha256": "9eb3214d69f85fb8416d149624059f5a11b6459de0e2bc881de87c3578094361"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/package-check.json",
+      "bytes": 387,
+      "sha256": "4beb01a43fa609fe40a826b8dab576357fba125f934bbe0c6040edb27eadfcc7"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/previous_log-source.json",
+      "bytes": 249,
+      "sha256": "907d24bd0ea579cda56c8908bae089dbf50e9284e45e4cf04454b2deae6bbd82"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/provided_template-source.json",
+      "bytes": 196,
+      "sha256": "462a0333f2e02ec6c2f2239ac1c551be7806ce047a17e92c1bc6149602cddad4"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/read_repository.py",
+      "bytes": 1492,
+      "sha256": "86a9b1d044273803f2bbd4695281c1b6dac777d136b11eaac247345984d632bb"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/reading-plan.json",
+      "bytes": 16930,
+      "sha256": "508c4a62afb6ae1106caf088dd8654375a2b10e5bf24181664a9b964e4b9b545"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/reading-record.json",
+      "bytes": 51497,
+      "sha256": "e713dcab6f6d75d73d50ec522ed8e34ceaaf1d5076246bff1c0d2de646e0e2bb"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/render-01/AY26_Logsheet_No2_Group 2_YuanYuchen_250342840.pdf",
+      "bytes": 90293,
+      "sha256": "3b5d27df141121786a984aea31c576f097a45a685ad890a1c562e3b8a476c6bb"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/render-01/page-1.png",
+      "bytes": 302013,
+      "sha256": "2af733a7998832a2ba1b9e322b71134d68295e1a12ac78100d8b848a331b0a33"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/render-01/page-2.png",
+      "bytes": 8018,
+      "sha256": "e9681c4ac26bb21d737230d84f14bc66f1f0df0b93009f7c4d3a36c7b8e3ba16"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/render-02/AY26_Logsheet_No2_Group 2_YuanYuchen_250342840.pdf",
+      "bytes": 90158,
+      "sha256": "d643fb5823d0669d5e0b9d3dc1ad16694a8db0bc16839ba644d3c02ed5cf59b8"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/render-02/page-1.png",
+      "bytes": 302013,
+      "sha256": "2af733a7998832a2ba1b9e322b71134d68295e1a12ac78100d8b848a331b0a33"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/a_render/page-1.png",
+      "bytes": 93236,
+      "sha256": "2d54051c5b9f84f9a8bfc82f2e5f0c8422e19f749d71b278e38d871d187942fb"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/a_render/page-2.png",
+      "bytes": 8018,
+      "sha256": "e9681c4ac26bb21d737230d84f14bc66f1f0df0b93009f7c4d3a36c7b8e3ba16"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/b_render/page-1.png",
+      "bytes": 302013,
+      "sha256": "2af733a7998832a2ba1b9e322b71134d68295e1a12ac78100d8b848a331b0a33"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/b_render/page-2.png",
+      "bytes": 8018,
+      "sha256": "e9681c4ac26bb21d737230d84f14bc66f1f0df0b93009f7c4d3a36c7b8e3ba16"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/diff_pages/diff-page-1.png",
+      "bytes": 239490,
+      "sha256": "b4b8364fd7164199eea3481ba95e8f821ea91ec38825a4b728997744901fb654"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/summary.json",
+      "bytes": 335,
+      "sha256": "4f51bd403349f7efa9786f9d5fb5ca6358d7ab28745c266a6432d603889b1393"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/text_a.txt",
+      "bytes": 659,
+      "sha256": "aba84f91a58793e782a945f39b40a73de8da7ad27c570d8cb702685797059ff3"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/text_b.txt",
+      "bytes": 2754,
+      "sha256": "fc294d4fc71283a57978a306e811cc2a6a6297b6f47d2e38111206e7d8d91a67"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-diff/text_diff.txt",
+      "bytes": 3168,
+      "sha256": "bc10569bb9a0e72a391b5cd752cc12ae86c573a5dc5ba9bcf14eaa73bb8528b2"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-fields-audit.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-fields-audit.txt",
+      "bytes": 49,
+      "sha256": "fa521c88c5ca1a7f9fba9657d56c815bd3fee96bff745c673e6a5c6902567668"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-reference-render/Final Year Project - Log Sheet (Bi-weekly) v5 AY26.pdf",
+      "bytes": 64886,
+      "sha256": "04f2548b2ff9c930384c9cf061b89a480e7323919713ef018f4d0e03d29f6c47"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-reference-render/page-1.png",
+      "bytes": 93236,
+      "sha256": "2d54051c5b9f84f9a8bfc82f2e5f0c8422e19f749d71b278e38d871d187942fb"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-reference-render/page-2.png",
+      "bytes": 8018,
+      "sha256": "e9681c4ac26bb21d737230d84f14bc66f1f0df0b93009f7c4d3a36c7b8e3ba16"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-reference.docx",
+      "bytes": 27088,
+      "sha256": "d3a9d16189057467a94cc6114e260e23c22f03c2f44e881649dde95c66af57f8"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-structure.json",
+      "bytes": 55683,
+      "sha256": "058e7ee731bd92bebf3f6ea8c4ce5364d808bbfbdf0eb7ffa6135539a2e45b93"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/template-style-audit.json",
+      "bytes": 3303,
+      "sha256": "12172eb4be4e0a34647fc1cfbf54516a04b05433500c5f47c16fee6eb1d5e457"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/validate_document.py",
+      "bytes": 4844,
+      "sha256": "52ac6c191fdd128ee361cfeb0ba6faa4a247f4983f3759d27d012d1730c7feae"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/verification.md",
+      "bytes": 4793,
+      "sha256": "da25dba0b3c5bd0f5b8ac50f7cb84ba0943395c83abd0ae55d096c092c03e791"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/closeout-reading.json",
+      "bytes": 11275,
+      "sha256": "2536f329868d322abfad404bb9706b8c8d3e5465478283b56c1d6da53b09dfed"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/final-validation.json",
+      "bytes": 2398,
+      "sha256": "edc792f541ab984e163df5c60c1ab677acba194e198ebdb241168eb8442c4416"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/finalize_assets.py",
+      "bytes": 7870,
+      "sha256": "06286b2e8faa7b5b06ccfb83a8ffc6e2eaf5bf2cd44fb00fc57feacecc7f9875"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/finalize_checks.py",
+      "bytes": 8571,
+      "sha256": "cbdc07202d78d9146976182a7c8976cd5831b9216aec6c14fa5512a5f50c4af4"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/image-validation.json",
+      "bytes": 28779,
+      "sha256": "6b47a834f12b3e4d20774ab89d36275c495ca8afdd74f38c9f1de2a58997d722"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/preview-verification.json",
+      "bytes": 1024,
+      "sha256": "2d9e5f35df24615ad07ccc7405ad659ec9ccdcc54b90e000e36fad70f0421a5e"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/protected-before.json",
+      "bytes": 13434,
+      "sha256": "e2f830bff0564d503b5fbf2aa19419ca89aacd358cf6461dfcadc45e581aa69d"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "bytes": 11076,
+      "sha256": "2d5d3c53da12177bd9e35dfc3ad761df6d75803ec479dc5434b5fbeaa84d42ab"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "bytes": 17050,
+      "sha256": "62744ff01807b4005a04f333b41f0a2343f52e677730737c4b5999d1c2dbd6c9"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "bytes": 18015,
+      "sha256": "6b62cebc44853309d477865f433eff559f9fb00f7b98ec1fb3544d060eb8ef98"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "bytes": 14475,
+      "sha256": "8bfe34eb333478bf76fbb6260249b298690d42a22248a099fc3a619a173d4a67"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "bytes": 22869,
+      "sha256": "294e597b6dd7f5a986b2d75ec9faa797b21c985ac7bede425215ab11b37d48c6"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "bytes": 13187,
+      "sha256": "52a8a8f2f7c46a9ab2c6e6192b578179fda706c298997718639168126b62585f"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/readback-plan.json",
+      "bytes": 3767,
+      "sha256": "ee405a56114affa9f3f972ef7ff9bfbb52ace2965e879d11de62b05ed7bbb3e1"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/reading-record.json",
+      "bytes": 54175,
+      "sha256": "cda8e6f42b097aa26bea513b510902d25f8c6b22b8f24b112c4f160f4ec06535"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/tool-route.json",
+      "bytes": 851,
+      "sha256": "94bfe9dcd9ec1e89ce8be2dad46dae9f0309ad869b744af264dc44e2f8bfaf56"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/update_documents.py",
+      "bytes": 21586,
+      "sha256": "c9d4ff322b09b3d1ed5146498a07e21266fa3ea3b4be2bf9a5932fdcec82cd1b"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/updated-markdown.json",
+      "bytes": 1147,
+      "sha256": "630c2dfd1acc2dedb607f18e7d9caff90f7f8a7003ba4e683207f4b301524c38"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/verification.md",
+      "bytes": 4020,
+      "sha256": "40cd188bb907eaa0f20c8e9912d7fddfa641e26a51e2a530d69251d3b5ffff8d"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/wardrobe-preservation.json",
+      "bytes": 6804,
+      "sha256": "2bcc2b8e140bf398cbb9059b50591a5f0ff20e0d125254315d24139c5e18233e"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-wardrobe-round2/closeout-reading.json",
+      "bytes": 3642,
+      "sha256": "b897337e9fe3519220be4b06910e29fef1373b33a2561944c3a7299b9abce4d7"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-wardrobe-round2/closeout-validation.json",
+      "bytes": 2094,
+      "sha256": "e846078a94e0230479aa91f896744b4306a6b8c5d4dfeacf061d14760cb5d4bd"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-wardrobe-round2/complete_round.py",
+      "bytes": 9035,
+      "sha256": "067b2d2f36a03ceda5bb8252b53a2e6fa8d934ce1fe72a0be56ef56dd26009c7"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-wardrobe-round2/image-validation.json",
+      "bytes": 2387,
+      "sha256": "54d5897095c6e2255a9dfed84dd4895a1e0642614c2ce8fa09c09924ec15ead4"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-wardrobe-round2/preview-server.json",
+      "bytes": 164,
+      "sha256": "f5ef2ed723a606e976c9538109d3ab9b92ae3cc4f15ba8fc170f0608fe3a82fa"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-wardrobe-round2/protected-before.json",
+      "bytes": 8950,
+      "sha256": "f5156108a089bf0151e570e90f78ce7e428de5e22ac6fc82868a77a67daf0e37"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-wardrobe-round2/reading-record.json",
+      "bytes": 27364,
+      "sha256": "0ca437a0579e174345da1c7b8cf35e4d6c6628755fefa1ef6bc9aef654c577fc"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-wardrobe-round2/tool-route.json",
+      "bytes": 240,
+      "sha256": "543a85d0fe415570ba7af196356421a7fd073e831c7a2c09fa5528a293c8fac5"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-wardrobe-round2/update_norms.py",
+      "bytes": 17173,
+      "sha256": "69202a619211bb2468c936cfa2c5a811881618be11a42bd5bc54ff5e2e025d2b"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-wardrobe-round2/updated-norms.json",
+      "bytes": 869,
+      "sha256": "af21060e92db38ca087ae4cee9247ba7d6dc14555534c1d9057d089cd8c5ba7c"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-wardrobe-round2/validate_closeout.py",
+      "bytes": 4747,
+      "sha256": "cb1edd72f17ba7d2349b4f0763db7eff325c657cc0a419372e734820f55c9b74"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-wardrobe-round2/verification.md",
+      "bytes": 4306,
+      "sha256": "5392aab0248166e9246a69e8e950a46ba9c8598896eaa1ffabe620d0e6864ba0"
+    },
+    {
+      "path": "output/qa/2026-10-12-wardrobe-variants/closeout-reading.json",
+      "bytes": 1131,
+      "sha256": "65abc1bb345fcc43e8f785e0e86e5d48c2fb743e0e0d95cb908530afd906f59c"
+    },
+    {
+      "path": "output/qa/2026-10-12-wardrobe-variants/closeout-validation.json",
+      "bytes": 10764,
+      "sha256": "16201ffa65cdf0360c2556912c62c061c1dd75c1b314271f7f5da58d97abee28"
+    },
+    {
+      "path": "output/qa/2026-10-12-wardrobe-variants/finalize_assets.py",
+      "bytes": 8009,
+      "sha256": "34556d0708bb9f268c7111b319588c42a750208f76f12a6df8a2de33b7c8ff73"
+    },
+    {
+      "path": "output/qa/2026-10-12-wardrobe-variants/image-validation.json",
+      "bytes": 3040,
+      "sha256": "9f9b94daf7c252a4916845bd286ef87fa254c100350c73dc639e9d2ee98318bc"
+    },
+    {
+      "path": "output/qa/2026-10-12-wardrobe-variants/preview-server.json",
+      "bytes": 201,
+      "sha256": "8f8ea5324a6045ba7c05869d2da92b697b618625a67fa6d29b40efb778866ca7"
+    },
+    {
+      "path": "output/qa/2026-10-12-wardrobe-variants/protected-before.json",
+      "bytes": 5810,
+      "sha256": "5b4ee70352680f94880e705fb6058b3967cba230b2f6f09f40b9bdde5694de9b"
+    },
+    {
+      "path": "output/qa/2026-10-12-wardrobe-variants/read_repository.py",
+      "bytes": 1492,
+      "sha256": "86a9b1d044273803f2bbd4695281c1b6dac777d136b11eaac247345984d632bb"
+    },
+    {
+      "path": "output/qa/2026-10-12-wardrobe-variants/reading-plan.json",
+      "bytes": 20752,
+      "sha256": "f76bdc785aac8d5a2c6d2d33a969cb68fe6a2d859187faec6fa9cbdf8a9fbedb"
+    },
+    {
+      "path": "output/qa/2026-10-12-wardrobe-variants/reading-record.json",
+      "bytes": 50406,
+      "sha256": "8ecbdcb6312800275b5bd8228912a6f54b31f6b4dbfc84740cf21b8088cecb64"
+    },
+    {
+      "path": "output/qa/2026-10-12-wardrobe-variants/tool-route.json",
+      "bytes": 461,
+      "sha256": "601e80c9dee175c3d89ac004f5f9475816876e5b0374cfc6104e2ae062cbd52e"
+    },
+    {
+      "path": "output/qa/2026-10-12-wardrobe-variants/update_norms.py",
+      "bytes": 17695,
+      "sha256": "f182ca9fb9ef41262ad525f7b5e76fad2335733e9f5bf96ec001a74ce9e001fe"
+    },
+    {
+      "path": "output/qa/2026-10-12-wardrobe-variants/updated-norms.json",
+      "bytes": 792,
+      "sha256": "3277b920a8efbf4e5b9914ef1cff6c28a85a125e661c7e9d88ef1414eed62e0f"
+    },
+    {
+      "path": "output/qa/2026-10-12-wardrobe-variants/validate_closeout.py",
+      "bytes": 4772,
+      "sha256": "1e3addc1e756b4e89a5dedbfa04be9eec63fd533ee0cf4cbb5c66e09a376de31"
+    },
+    {
+      "path": "output/qa/2026-10-12-wardrobe-variants/verification.md",
+      "bytes": 4223,
+      "sha256": "3cf11a798659943b8164ec035dad9a00730bca49bcb1c164a11d994373047240"
+    },
+    {
+      "path": "output/submission/2026-10-11/AY26_Logsheet_No2_Group 2_YuanYuchen_250342840.docx",
+      "bytes": 25677,
+      "sha256": "1bc6445ab33187d789595c3692b60969270f1c8f001b7e23ae1363b7a5db3ec3"
+    },
+    {
+      "path": "output/submission/2026-10-11/AY26_Logsheet_No2_Group 2_YuanYuchen_250342840.pdf",
+      "bytes": 90158,
+      "sha256": "d643fb5823d0669d5e0b9d3dc1ad16694a8db0bc16839ba644d3c02ed5cf59b8"
+    },
+    {
+      "path": "planning/2026-10-11/logsheet-2-review.md",
+      "bytes": 4887,
+      "sha256": "be7e02c4088ca20ab2490fea7746a780eb68991da52cc26b842c3d95b4fce4c3"
+    },
+    {
+      "path": "product.md",
+      "bytes": 26244,
+      "sha256": "4254f5074a879faa2c47b153e8f4de031b154595d7e16bd176ffb66d139f611c"
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/character-concepts.md",
+      "bytes": 2221,
+      "sha256": "5fe71231fbb1b61f066778c0f64b13684164c19dc161d3a9edd7b9a4051b8209"
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/japanese-character-study.md",
+      "bytes": 14204,
+      "sha256": "053d467dbf7e7ff555b21938c0722cf720b71627986d3c872fb9a704f375247c"
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/mainstream-anime-c1-study.md",
+      "bytes": 7550,
+      "sha256": "20a9c2375b44e88d3b3b44d4c08cf9edd0301934baa6be32409c3b9263ef3dad"
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/popular-character-study.md",
+      "bytes": 17979,
+      "sha256": "ff0b80c4fb8809bc7d463995a03aeb809dfd083241c2978f84a8063a00f81fd6"
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/wardrobe-study.md",
+      "bytes": 12022,
+      "sha256": "091bebff33696ac69289c6274be1f3586158fd2d3a7edb8f8aea1bce8ebf5b0e"
+    },
+    {
+      "path": "scripts/build_logsheet_20261011.py",
+      "bytes": 8839,
+      "sha256": "9c1f3a5bfe30e7346afbde2aea609e83c669ac93ce80bdbae9f93b220afd11c5"
+    },
+    {
+      "path": "work-log.md",
+      "bytes": 181635,
+      "sha256": "ccd992308002441d27904bfd50a56d2f705acd5fb0cba1d011388770ea4157de"
+    }
+  ],
+  "file_count": 194,
+  "total_bytes": 57566785,
+  "previous_144_markdown_unchanged": true,
+  "old_71_protected_files_unchanged": true,
+  "ten_native_images_unchanged": true
+}

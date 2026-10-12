@@ -1,0 +1,89 @@
+{
+  "method": "Read current route/declaration lists, actual LocalNotesExecutor and TextConfig, frontend entry references, plus focused project contracts and dated validation.",
+  "source_files_referenced": [
+    {
+      "path": "desk-companion/backend/desk/assistant.py",
+      "sha256": "26a960d382c013ab8f2adff5fed8451c1537f0f0692fae2bcffa9a6bedc51465"
+    },
+    {
+      "path": "desk-companion/backend/desk/calendar.py",
+      "sha256": "08330a4b58c20485b7a3ae90848123a383e183ba6b052d8b36762014997ecc21"
+    },
+    {
+      "path": "desk-companion/backend/desk/computer.py",
+      "sha256": "0530dc3a1f837a08868f5868dd4400d5bd0e7ec527be6422704cb631c0f41603"
+    },
+    {
+      "path": "desk-companion/backend/desk/exchange.py",
+      "sha256": "8a5632b1050b55223a26e9becbda4fec155cebb327f3191a117a2015b9fee95f"
+    },
+    {
+      "path": "desk-companion/backend/desk/google_calendar.py",
+      "sha256": "c63ecec83bdd80bd1a3a76164d6d7006678bb6948ddc4c10ded48ed918206dba"
+    },
+    {
+      "path": "desk-companion/backend/desk/jobs.py",
+      "sha256": "d1249a34724246e39507136f9996b01322e2602ac45945e2cff27b2f3d535dfd"
+    },
+    {
+      "path": "desk-companion/backend/desk/outputs.py",
+      "sha256": "2ce95c81dad96fae26babb0a829abe95dbba78541b636fea4465900af1c20169"
+    },
+    {
+      "path": "desk-companion/backend/desk/posture.py",
+      "sha256": "5c3449840599fe587a5bba2ac5bbf8f3638964dbf5fc47f0a375c9d67d5b7fc7"
+    },
+    {
+      "path": "desk-companion/backend/desk/posture_service.py",
+      "sha256": "820be7145f29638cc37160caf0614cc193ef8c26d57dedcfe1a87e1569172d9c"
+    },
+    {
+      "path": "desk-companion/backend/desk/store.py",
+      "sha256": "7976dcf603113a98e57859ef85c1d6ce17f1a9b119de66476bb023c188bf8690"
+    },
+    {
+      "path": "desk-companion/backend/desk/tasks.py",
+      "sha256": "885b2527acc73229f4a67a7dc25e4371daa4a2df83cbce420162eb3d695f2cc9"
+    },
+    {
+      "path": "desk-companion/backend/desk/text_ai.py",
+      "sha256": "72146ab89cc403952bf75c2c0ace3aa16f2f6f26dc0efe85604f98919dd9e5dc"
+    },
+    {
+      "path": "desk-companion/backend/desk/tool_dispatch.py",
+      "sha256": "88d7ba45a3098bb304b37a591cc959fc6edff994fcea9d2a6ef8b5afdace2aa4"
+    },
+    {
+      "path": "desk-companion/backend/desk/voice.py",
+      "sha256": "a41d71ff0124f709739991b1379e30cad80c5e7cfb6133a27fb3563cb5f2f016"
+    },
+    {
+      "path": "desk-companion/frontend/src/App.tsx",
+      "sha256": "ab24dd9160a66aeaf0f88a597a44550297690d6fc59e4efd50a1dd941b906edf"
+    },
+    {
+      "path": "desk-companion/frontend/src/avatar/AvatarScene.tsx",
+      "sha256": "7aaeb24200fe53a684c818bb7a425792b5b163908ff050a416cc1ab1a01a3fb1"
+    },
+    {
+      "path": "desk-companion/frontend/src/device/DeviceApp.tsx",
+      "sha256": "3a7c0b58a47ebfcb048c78b5bc8d9955e2157ce48e024a03976b6385e2566d34"
+    }
+  ],
+  "workflow_files": [],
+  "application_changes": [
+    "desk-companion/README.md",
+    "desk-companion/docs/architecture.md"
+  ],
+  "historical_validation": {
+    "2026-10-09-integration": {
+      "backend": 149,
+      "frontend": 15
+    },
+    "2026-10-09-avatar": {
+      "targeted_backend": 26,
+      "frontend": 22
+    }
+  },
+  "tests_rerun_this_inventory": false
+}

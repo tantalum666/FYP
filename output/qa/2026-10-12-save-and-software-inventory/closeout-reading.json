@@ -1,0 +1,90 @@
+{
+  "inherited_reading": "output/qa/2026-10-12-save-and-software-inventory/reading-record.json",
+  "actual_readback": [
+    {
+      "path": "README.md",
+      "ranges": [
+        [
+          13,
+          23
+        ]
+      ],
+      "sha256": "ee465c48c4de5e6dbda9cf484db03b7922db4f0290c859c957a91d07682ec7b0"
+    },
+    {
+      "path": "product.md",
+      "ranges": [
+        [
+          1,
+          4
+        ],
+        [
+          61,
+          79
+        ]
+      ],
+      "sha256": "797252d2f4d361a6b687b03c2efab852d079f1c23ceeabdaefe7d19767f4b9b3"
+    },
+    {
+      "path": "handoff.md",
+      "ranges": [
+        [
+          1,
+          20
+        ]
+      ],
+      "sha256": "40747ecdff16b50707d88da9aed609b29d78a221a365903214723b0e45736768"
+    },
+    {
+      "path": "desk-companion/README.md",
+      "ranges": [
+        [
+          9,
+          19
+        ]
+      ],
+      "sha256": "030da5b1eb0a9186634b5cc11ede9a811b0bde1d6c3a0a0cc9ac056bd0a41e8b"
+    },
+    {
+      "path": "desk-companion/docs/architecture.md",
+      "ranges": [
+        [
+          1,
+          8
+        ]
+      ],
+      "sha256": "20ff9067faeebbf585f700573eabeffd9576eed5ef50f18a456b0fa7ac34dc9c"
+    },
+    {
+      "path": "decision-log.md",
+      "ranges": [
+        [
+          784,
+          792
+        ]
+      ],
+      "sha256": "25d4597e0e91e50fbb3104ded88ff907e7fd15d2a8096271516e89972dcf56a1"
+    },
+    {
+      "path": "work-log.md",
+      "ranges": [
+        [
+          957,
+          967
+        ]
+      ],
+      "sha256": "8b2028b066daa14a8bd91b623b9b5f1ca72a116a448d59f183db084dae908cda"
+    },
+    {
+      "path": "planning/2026-10-12/software-function-inventory.md",
+      "ranges": [
+        [
+          1,
+          83
+        ]
+      ],
+      "sha256": "b6b2ac349d9caad9d28c381ae129d575f49de4505884b17064720bff30361463"
+    }
+  ],
+  "completed_at": "2026-10-12T14:25:25.094670+08:00"
+}

@@ -12,6 +12,8 @@
 
 **2026-10-12当前美术步骤：**用户已确定A1，要求先保存服装再做全方位和细节。[九套原图包](../output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip)已核对，原素材与提示词保留；[六个全身视角与四张细节](../design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md)完成并逐张查看，原V4服装只是统一工作参考。斜视角度偏浅、未见背部结构为新设计提案，具体默认服装仍待选。[视图规范](../design/desk-companion/characters/a1-turnaround-spec.md)与[A1九套总索引](../design/desk-companion/characters/a1-wardrobe-index.md)供后续；二维图不表示原创VRM／衣物绑定完成。
 
+**2026-10-12软件盘点：**[17模块功能／完成与待办清单](../planning/2026-10-12/software-function-inventory.md)核对现有代码和历史验证。近期日志／角色成果已推送现有分支`e45afd2`，PR #4保持开放；软件基础已具备，真实电脑应用执行、完整记忆管理／作业归档、A1原创VRM与真实服务／目标机验收仍待。下表是已实现功能，不能仅据“已实现”推定真实设备效果。
+
 ## 当前功能
 
 | 模块 | 已实现的行为 |
