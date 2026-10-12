@@ -1,0 +1,19 @@
+✔ private text retries preserve one immutable operation ID without browser storage (1.834968ms)
+✔ unknown outcomes reject changed requests; definite conflicts allow a new reviewed operation (0.410927ms)
+✔ repeated clicks cannot dispatch simultaneous operations (0.269227ms)
+✔ component disposal clears private recovery; a 410 receipt is never retried automatically (0.381182ms)
+✔ owner-only personal context fails closed for missing policy, offline and stale snapshots (0.174908ms)
+✔ saved-thread sends need opt-in; temporary text remains usable without history permission (0.183551ms)
+✔ retention and provider context are independent; only displayed configured destinations are approved (0.172495ms)
+✔ thread navigation preserves unsent drafts and cannot race writes or voice (0.180756ms)
+✔ reply labels use recorded mode, never configured-provider availability as proof (0.178533ms)
+✔ assistant and personal-context writes cannot route through the persistent write helper (1.06396ms)
+✔ a response fence rejects owner results after downgrade, hide/show or reauthentication (0.998244ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 130.513638

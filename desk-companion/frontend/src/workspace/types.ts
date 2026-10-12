@@ -42,6 +42,7 @@ export interface PostureSnapshot {
   } | null;
 }
 export interface WorkspaceSnapshot {
+  personal_context_visible?: boolean;
   text_ai: {
     configured: boolean;
     provider: string;

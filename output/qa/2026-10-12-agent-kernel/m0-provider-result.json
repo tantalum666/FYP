@@ -1,0 +1,19 @@
+{
+  "base_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "at": "2026-10-12T12:29:02.488135+00:00",
+  "scope": "M0 provider destination hardening",
+  "files": [
+    "desk-companion/backend/desk/provider_policy.py",
+    "desk-companion/backend/desk/voice.py",
+    "desk-companion/backend/desk/text_ai.py",
+    "desk-companion/tests/test_provider_policy.py",
+    "desk-companion/tests/test_voice_google.py",
+    "desk-companion/tests/test_tool_dispatch.py",
+    "desk-companion/docs/provider-policy.md"
+  ],
+  "focused_tests": "115 passed, 1 upstream Starlette deprecation warning",
+  "full_backend_tests": "232 passed, 1 upstream Starlette deprecation warning; shared working tree at test time, later integration changes require rerun",
+  "lint": "All M0 changed Python files passed; full-tree lint initially saw two unrelated in-progress conversations.py unused imports, reported to owner",
+  "network": "No provider calls, keys, real audio, hardware or user-computer access",
+  "tests_log": "output/qa/2026-10-12-agent-kernel/m0-backend-tests.txt"
+}

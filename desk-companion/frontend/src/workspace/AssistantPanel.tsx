@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Mic, MicOff, Send, Sparkles } from "lucide-react";
-import { errorText, request, write } from "../api";
+import { ApiError, errorText, request } from "../api";
 import type { EventInput, Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import { VoiceAudio } from "./audio";
@@ -9,12 +9,41 @@ import type { Task, TaskInput } from "./taskTypes";
 import { apiOrigin } from "../native";
 import { DateTime } from "luxon";
 import { ComputerJobsPanel } from "./ComputerJobsPanel";
+import { RoutinesPanel } from "./RoutinesPanel";
+import { Modal } from "../components/Dialogs";
+import { ResponseFence } from "./personal/responseFence";
+import { usePrivateMutation } from "./personal/usePrivateMutation";
+import { usePersonalContext } from "./personal/usePersonalContext";
+import {
+  personalContextVisible,
+  canSendText,
+  conversationSwitch,
+} from "./personal/types";
+import type { MemoryCategory } from "./personal/types";
+import {
+  PersonalContextPanel,
+  ModeLabel,
+} from "./personal/PersonalContextPanel";
+import { MutationFeedback } from "./personal/MutationFeedback";
+import { memoryCategory } from "./personal/MemoryPanel";
 
 interface Proposal {
   id: string;
-  kind: "create" | "change" | "output" | "task_create" | "task_change";
+  kind:
+    | "create"
+    | "change"
+    | "output"
+    | "task_create"
+    | "task_change"
+    | "memory_create"
+    | "memory_update"
+    | "memory_forget";
   expires_at: string;
   data: {
+    content?: string;
+    category?: MemoryCategory;
+    memory_id?: string;
+    expected_version?: number;
     task?: TaskInput;
     original_task?: Task;
     event?: EventInput;
@@ -45,20 +74,70 @@ interface Reply {
   kind: string;
   message: string;
   proposal?: Proposal;
+  conversation_id?: string | null;
+  history_saved?: boolean;
 }
 
 export function AssistantPanel({
   t,
   taskId,
+  displayMode = false,
 }: {
   t: Translate;
   taskId?: string;
+  displayMode?: boolean;
 }) {
-  const { data, refresh } = useWorkspace();
+  const { data, refresh, offline, stale } = useWorkspace();
   const [text, setText] = useState(""),
-    [busy, setBusy] = useState(false),
     [error, setError] = useState<unknown>(null);
-  const [reply, setReply] = useState<Reply | null>(null),
+  const mutation = usePrivateMutation();
+  const busy = mutation.busy;
+  const locked = busy || mutation.pending;
+  const [conversationId, setConversationId] = useState<string | null>(null);
+  const [switchTo, setSwitchTo] = useState<{ id: string | null } | null>(null);
+  const posture = data?.posture;
+  const displayConcealed =
+    displayMode &&
+    (!posture ||
+      (posture.preferences.enabled &&
+        posture.preferences.privacy_when_away &&
+        (!posture.connected ||
+          ["absent", "unknown", "paused"].includes(posture.status))));
+  const contextVisible = personalContextVisible(
+    data?.principal.kind === "owner",
+    data?.personal_context_visible,
+    offline || displayConcealed,
+    stale,
+  );
+  const personal = usePersonalContext(contextVisible, conversationId);
+  const contentVisible =
+    !!data &&
+    !offline &&
+    !stale &&
+    !displayConcealed &&
+    (data.principal.kind !== "owner" || contextVisible);
+  const contentVisibleNow = useRef(contentVisible);
+  contentVisibleNow.current = contentVisible;
+  const [sessionEpoch, setSessionEpoch] = useState(0);
+  const identity = `${data?.principal.kind ?? "none"}:${data?.principal.id ?? "none"}:${sessionEpoch}`;
+  const fence = useRef(new ResponseFence());
+  fence.current.update(identity, contentVisible);
+  const privacyEpoch = fence.current.version;
+  const previousIdentity = useRef(identity);
+  const currentIdentity = useRef(identity);
+  currentIdentity.current = identity;
+  const currentText = useRef(text);
+  currentText.current = text;
+  const transcriptEpoch = useRef(-1),
+    proposalEpoch = useRef(-1);
+  useEffect(() => {
+    const changed = () => setSessionEpoch((x) => x + 1);
+    window.addEventListener("desk:session", changed);
+    return () => window.removeEventListener("desk:session", changed);
+  }, []);
+  const [reply, setReply] = useState<(Reply & { viewEpoch: number }) | null>(
+      null,
+    ),
     [proposals, setProposals] = useState<Proposal[]>([]),
     [notice, setNotice] = useState("");
   const [voiceState, setVoiceState] = useState("idle"),
@@ -67,14 +146,39 @@ export function AssistantPanel({
     alive = useRef(true);
   const speechText = useRef({ user: "", assistant: "" });
   const knownProposals = useRef<Proposal[]>([]);
+  const proposalRequest = useRef(0);
   const language = t("en", "zh");
-  useDraftGuard(!!text.trim(), busy);
+  useDraftGuard(!!text.trim() || mutation.pending, busy);
+  function selectConversation(id: string | null) {
+    setConversationId(id);
+    setReply(null);
+    setText("");
+    setSwitchTo(null);
+  }
+  function requestConversation(id: string | null, mutationComplete = false) {
+    const decision = conversationSwitch(
+      conversationId,
+      id,
+      !!text.trim(),
+      locked && !mutationComplete,
+      voiceState !== "idle",
+    );
+    if (decision === "confirm") setSwitchTo({ id });
+    else if (decision === "switch") selectConversation(id);
+  }
   const reload = useCallback(async () => {
+    if (!contentVisibleNow.current) return;
+    const requestId = ++proposalRequest.current;
+    const epoch = fence.current.capture();
     try {
       const next = await request<{ proposals: Proposal[] }>(
         "/assistant/proposals",
       );
-      if (alive.current) {
+      if (
+        alive.current &&
+        fence.current.accepts(epoch) &&
+        proposalRequest.current === requestId
+      ) {
         if (
           knownProposals.current.some(
             (p) =>
@@ -88,87 +192,134 @@ export function AssistantPanel({
               : "The draft expired without making changes. Ask again to prepare a new one.",
           );
         }
+        proposalEpoch.current = epoch;
         knownProposals.current = next.proposals;
         setProposals(next.proposals);
       }
     } catch (e) {
-      if (alive.current) setError(e);
+      if (alive.current && proposalRequest.current === requestId) setError(e);
     }
-  }, [language]);
+  }, [language, privacyEpoch]);
   useEffect(() => {
     alive.current = true;
     void reload();
     const timer = setInterval(() => void reload(), 2000);
     return () => {
       alive.current = false;
+      proposalRequest.current += 1;
       clearInterval(timer);
       audio.current?.close();
     };
   }, [reload]);
+  useEffect(() => {
+    if (previousIdentity.current !== identity) {
+      previousIdentity.current = identity;
+      setText("");
+      mutation.clear();
+      setConversationId(null);
+      setSwitchTo(null);
+    }
+    setReply(null);
+    setTranscript("");
+    setProposals([]);
+    knownProposals.current = [];
+    speechText.current = { user: "", assistant: "" };
+    audio.current?.close();
+    setVoiceState("idle");
+  }, [privacyEpoch]);
   async function send(e: React.FormEvent) {
     e.preventDefault();
-    setBusy(true);
+    if (!contentVisibleNow.current) return;
+    if (
+      !canSendText(
+        text,
+        locked,
+        conversationId,
+        personal.settings,
+        contextVisible,
+      )
+    )
+      return;
     setError(null);
     setNotice("");
-    try {
-      setReply(
-        await write<Reply>("/assistant/messages", {
-          message: text,
-          language,
-          task_id: taskId ?? null,
-        }),
-      );
-      await reload();
-      window.dispatchEvent(new Event("desk:jobs"));
-      setText("");
-    } catch (e) {
-      setError(e);
-    } finally {
-      setBusy(false);
-    }
+    const epoch = fence.current.capture(),
+      senderIdentity = identity,
+      sentText = text;
+    await mutation.run<Reply>(
+      "/assistant/messages",
+      {
+        message: text,
+        language,
+        task_id: taskId ?? null,
+        conversation_id: conversationId,
+      },
+      async (result) => {
+        if (!alive.current) return;
+        if (
+          currentIdentity.current === senderIdentity &&
+          currentText.current === sentText
+        )
+          setText("");
+        if (!fence.current.accepts(epoch)) return;
+        setReply({ ...result, viewEpoch: epoch });
+        if (conversationId && result.history_saved === false)
+          setNotice(
+            t(
+              "This reply was not saved to conversation history.",
+              "此回复未保存到会话历史。",
+            ),
+          );
+        await reload();
+        await personal.reload(true);
+        window.dispatchEvent(new Event("desk:jobs"));
+      },
+    );
   }
   async function decide(id: string, action: "confirm" | "cancel") {
-    setBusy(true);
+    if (locked || offline || stale) return;
     setError(null);
-    try {
-      const result = await write<{ queued?: boolean; kind?: string }>(
-        `/assistant/proposals/${id}/decisions`,
-        { action },
-      );
-      setNotice(
-        result.queued
-          ? t(
-              "Action queued. Check the device receipt for its result.",
-              "动作已排队，请在设备回执中查看结果。",
-            )
-          : action === "confirm"
-            ? result.kind?.startsWith("task_")
-              ? t(
-                  "Task saved. Its progress is kept between conversations.",
-                  "事务已保存，进展会在交谈之间保留。",
-                )
-              : t("Saved to your calendar.", "已保存到日历。")
-            : t("Draft cancelled.", "草稿已取消。"),
-      );
-      await reload();
-      await refresh();
-      window.dispatchEvent(new Event("desk:calendar"));
-      window.dispatchEvent(new Event("desk:tasks"));
-    } catch (e) {
-      setError(e);
-      await reload();
-    } finally {
-      setBusy(false);
-    }
+    const kind = proposals.find((p) => p.id === id)?.kind;
+    await mutation.run<{ queued?: boolean; kind?: string }>(
+      `/assistant/proposals/${id}/decisions`,
+      { action },
+      async (result) => {
+        setNotice(
+          result.queued
+            ? t(
+                "Action queued. Check the device receipt for its result.",
+                "动作已排队，请在设备回执中查看结果。",
+              )
+            : action === "cancel"
+              ? t("Draft cancelled.", "草稿已取消。")
+              : (result.kind ?? kind)?.startsWith("memory_")
+                ? t(
+                    "Memory decision recorded. Review Personal memories for the current result.",
+                    "记忆决定已记录，请在个人记忆中核对当前结果。",
+                  )
+                : (result.kind ?? kind)?.startsWith("task_")
+                  ? t(
+                      "Task saved. Its progress is kept between conversations.",
+                      "事务已保存，进展会在交谈之间保留。",
+                    )
+                  : t("Saved to your calendar.", "已保存到日历。"),
+        );
+        await reload();
+        await refresh();
+        await personal.reload(true);
+        window.dispatchEvent(new Event("desk:calendar"));
+        window.dispatchEvent(new Event("desk:tasks"));
+      },
+    );
   }
   async function startVoice() {
+    const epoch = fence.current.capture();
     setError(null);
     setVoiceState("connecting");
     setTranscript("");
     speechText.current = { user: "", assistant: "" };
     try {
       const engine = new VoiceAudio((event) => {
-        if (!alive.current) return;
+        if (!alive.current || !fence.current.accepts(epoch)) return;
         if (event.type === "ready") setVoiceState("listening");
         if (event.type === "state" && event.state) setVoiceState(event.state);
         if (event.type === "audio") setVoiceState("speaking");
@@ -177,6 +328,7 @@ export function AssistantPanel({
         if (event.type === "interrupted")
           speechText.current = { user: "", assistant: "" };
         if (event.type === "transcript") {
+          transcriptEpoch.current = epoch;
           const role = event.role === "user" ? "user" : "assistant";
           speechText.current[role] = (
             event.final
@@ -197,6 +349,13 @@ export function AssistantPanel({
         if (event.type === "jobs_changed")
           window.dispatchEvent(new Event("desk:jobs"));
         if (event.type === "error") {
+          if (event.code === "VOICE_CONTEXT_CHANGED") {
+            setError(new ApiError(event.code));
+            setTranscript("");
+            speechText.current = { user: "", assistant: "" };
+            setVoiceState("idle");
+            return;
+          }
           setNotice(
             t(
               "Voice could not continue. Check the connection or provider configuration.",
@@ -268,7 +427,7 @@ export function AssistantPanel({
         {voiceState === "idle" ? (
           <button
             className="secondary"
-            disabled={!data?.voice.configured}
+            disabled={!data?.voice.configured || locked || !contentVisible}
             onClick={() => void startVoice()}
           >
             <Mic size={18} />
@@ -292,7 +451,10 @@ export function AssistantPanel({
           {t("Open 3D companion", "打开3D虚拟伙伴")}
         </a>
         {" · "}
-        {t("Full-body character, expressions and voice motion", "全身角色、表情与语音口型")}
+        {t(
+          "Full-body character, expressions and voice motion",
+          "全身角色、表情与语音口型",
+        )}
       </p>
       {voiceState !== "idle" && (
         <>
@@ -310,18 +472,50 @@ export function AssistantPanel({
           </button>
         </>
       )}
-      {transcript && (
+      <p className="workspace-hint">
+        {t(
+          "Voice transcripts are temporary and are not added to saved conversations or memories automatically.",
+          "语音转写仅临时显示，不会自动加入已保存会话或记忆。",
+        )}
+      </p>
+      {transcript && fence.current.accepts(transcriptEpoch.current) && (
         <p className="assistant-reply" aria-live="polite">
           {transcript}
         </p>
       )}
-      <form onSubmit={send}>
+      {contextVisible ? (
+        <PersonalContextPanel
+          context={personal}
+          selected={conversationId}
+          onSelect={requestConversation}
+          mutation={mutation}
+          draftDirty={!!text.trim()}
+          voiceActive={voiceState !== "idle"}
+          t={t}
+        />
+      ) : (
+        <p className="workspace-hint personal-private-notice">
+          {t(
+            "Saved conversations and personal memories require a current owner connection with private details visible.",
+            "查看已保存会话与个人记忆需要拥有者连接正常，并允许显示私人详情。",
+          )}
+        </p>
+      )}
+      {conversationId && !contextVisible && (
+        <p role="status">
+          {t(
+            "Private conversation hidden. Reconnect before continuing.",
+            "私人会话已隐藏，恢复连接后才能继续。",
+          )}
+        </p>
+      )}
+      <form onSubmit={send} hidden={!contentVisible}>
         <label className="field">
           {t("Your request", "你的要求")}
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
-            disabled={busy}
+            disabled={locked}
             required
             maxLength={3000}
             rows={3}
@@ -336,7 +530,18 @@ export function AssistantPanel({
           />
         </label>
         <div className="workspace-inline-actions">
-          <button className="primary" disabled={busy || !text.trim()}>
+          <button
+            className="primary"
+            disabled={
+              !canSendText(
+                text,
+                locked,
+                conversationId,
+                personal.settings,
+                contextVisible,
+              )
+            }
+          >
             <Send size={16} />
             {busy ? t("Preparing…", "处理中…") : t("Send", "发送")}
           </button>
@@ -344,7 +549,7 @@ export function AssistantPanel({
             <button
               type="button"
               className="text-button"
-              disabled={busy}
+              disabled={locked}
               onClick={() => setText(t("What is on today?", "今天的行程"))}
             >
               {t("Today’s briefing", "今日简报")}
@@ -363,243 +568,351 @@ export function AssistantPanel({
               "本地规则：用“跟进：报告”创建事务，或在事务内记录进展。AI语音单独连接。",
             )}
       </p>
-      {reply && (
-        <p className="assistant-reply" role="status">
-          {reply.message}
-        </p>
-      )}
-      {proposals.map((p) => {
-        const event = p.data.event ?? p.data.change?.event;
-        const task = p.data.task ?? p.data.change?.task ?? p.data.original_task;
-        const taskAction = p.data.change?.action ?? "create";
-        const taskActionLabel =
-          (
-            {
-              create: t("Create task", "创建事务"),
-              update: t("Update task details", "更新事务详情"),
-              note: t("Save progress note", "保存进展记录"),
-              complete: t(
-                "Mark complete and stop follow-ups",
-                "标记完成并停止跟进",
-              ),
-              cancel: t(
-                "Cancel task and stop follow-ups",
-                "取消事务并停止跟进",
-              ),
-              reopen: t("Reopen task", "恢复事务"),
-              pause: t("Pause follow-ups", "暂停跟进"),
-              resume: t("Resume follow-ups", "恢复跟进"),
-              snooze: t("Postpone check-in", "延后检查"),
-            } as Record<string, string>
-          )[taskAction] ?? taskAction;
-        const changedTask = p.data.task ?? p.data.change?.task;
-        return (
-          <article className="assistant-proposal" key={p.id}>
-            <span className="workspace-eyebrow">
-              {t("Review before saving", "保存前检查")}
-            </span>
-            <h3>
-              {task?.title ??
-                event?.title ??
-                (p.kind === "output"
-                  ? t("Device feedback", "设备反馈")
-                  : t("Change calendar event", "修改日历事项"))}
-            </h3>
-            {task ? (
-              <>
-                <p>
-                  <strong>{taskActionLabel}</strong>
-                </p>
-                <p>
-                  {t("Deadline: ", "截止：")}
-                  {task.due_local?.replace("T", " ") ??
-                    t("No deadline", "无截止时间")}{" "}
-                  · {task.timezone}
-                </p>
-                {task.next_step && (
-                  <p>
-                    {t("Next: ", "下一步：")}
-                    {task.next_step}
-                  </p>
-                )}
-                {task.status === "waiting" && task.waiting_for && (
-                  <p>
-                    {t("Waiting: ", "等待：")}
-                    {task.waiting_for}
-                  </p>
-                )}
-                {changedTask && (
-                  <>
-                    <p>
-                      {t("Status: ", "状态：")}
-                      {
-                        {
-                          todo: t("To do", "待处理"),
-                          in_progress: t("In progress", "进行中"),
-                          waiting: t("Waiting", "等待中"),
-                        }[changedTask.status]
-                      }
-                    </p>
-                    {!!changedTask.steps.length && (
-                      <ul>
-                        {changedTask.steps.map((step, i) => (
-                          <li key={i}>
-                            {step.done ? "✓ " : ""}
-                            {step.title}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                    <p>
-                      {changedTask.follow_up_enabled
-                        ? changedTask.check_in_local
-                          ? t("Next check-in: ", "下次检查：") +
-                            changedTask.check_in_local.replace("T", " ")
-                          : t(
-                              `Check in within ${changedTask.interval_minutes} minutes, or at an earlier upcoming deadline.`,
-                              `在${changedTask.interval_minutes}分钟后，或更早的截止时间检查。`,
-                            )
-                        : t("Follow-ups off", "跟进未开启")}
-                    </p>
-                    <p>
-                      {changedTask.visibility === "private"
-                        ? t("Private task", "私人事务")
-                        : t("May appear on the desk display", "可在常亮屏展示")}
-                    </p>
-                    {p.data.original_task?.paused && (
-                      <p>
-                        {t(
-                          "Follow-ups remain paused until you resume them.",
-                          "跟进会保持暂停，直到你手动恢复。",
-                        )}
-                      </p>
-                    )}
-                  </>
-                )}
-                {["snooze", "resume"].includes(taskAction) && (
-                  <p>
-                    {t("Next check-in: ", "下次检查：")}
-                    {DateTime.now()
-                      .setZone(task.timezone)
-                      .plus({ minutes: p.data.change?.minutes ?? 60 })
-                      .toFormat("d LLL HH:mm")}{" "}
-                    ({t("from confirmation", "从确认时计算")})
-                  </p>
-                )}
-                {p.data.change?.note && (
-                  <blockquote>{p.data.change.note}</blockquote>
-                )}
-                {taskAction === "note" && (
-                  <p>
-                    {t(
-                      "This saves your note; it does not change the status or next step.",
-                      "这会保存你提供的进展，不会改变状态和下一步。",
-                    )}
-                  </p>
-                )}
-                <small>
-                  {t(
-                    "Review saved details in Tasks. This does not reserve calendar time.",
-                    "保存后可在事务中编辑详情，不会自动占用日历时间。",
-                  )}
-                </small>
-              </>
-            ) : event ? (
-              <>
-                <p>
-                  {event.start_local.slice(0, 16).replace("T", " ")} →{" "}
-                  {event.end_local.slice(0, 16).replace("T", " ")}
-                </p>
-                <small>
-                  {event.timezone} ·{" "}
-                  {event.visibility === "private"
-                    ? t("Private", "私人")
-                    : t("Displayable", "可展示")}
-                </small>
-                {p.data.additional_dates?.length ? (
-                  <p>
-                    {t("Also on: ", "同时添加：")}
-                    {p.data.additional_dates.join(", ")}
-                  </p>
-                ) : null}
-                {event.recurrence.frequency !== "none" && (
-                  <p>
-                    {t("Repeats: ", "重复：")}
-                    {event.recurrence.frequency}
-                  </p>
-                )}
-              </>
-            ) : (
-              <>
-                {p.data.original && (
-                  <>
-                    <strong>
-                      {p.data.original.title || t("Private event", "私人事项")}
-                    </strong>
-                    <p>
-                      {p.data.original.start_local.replace("T", " ")} →{" "}
-                      {p.data.original.end_local.replace("T", " ")} ·{" "}
-                      {p.data.original.timezone}
-                    </p>
-                  </>
-                )}
-                {p.data.output && (
-                  <p>
-                    {p.data.output.kind === "arm"
-                      ? t("Arm", "机械臂")
-                      : t("Light", "灯光")}{" "}
-                    · {p.data.output.preset}
-                  </p>
-                )}
-                <p>
-                  {p.data.change?.action === "delete"
-                    ? t("Delete", "删除")
-                    : p.data.change?.action === "complete"
-                      ? t("Mark complete", "标记完成")
-                      : p.data.change?.action === "reopen"
-                        ? t("Mark incomplete", "取消完成")
-                        : p.data.change
-                          ? t("Update", "更新")
-                          : t("Named preset only", "仅执行预设动作")}
-                  {p.data.change &&
-                    (p.data.change.scope === "series"
-                      ? t(" · Entire series", " · 整个系列")
-                      : t(" · This occurrence", " · 仅本次"))}
-                </p>
-              </>
-            )}
+      {reply && fence.current.accepts(reply.viewEpoch) && (
+        <div className="assistant-reply" role="status">
+          <ModeLabel mode={reply.mode} t={t} />
+          <p>{reply.message}</p>
+          {reply.proposal && (
             <small>
-              {t("Expires at ", "有效至 ")}
-              {new Date(p.expires_at).toLocaleTimeString(
-                language === "zh" ? "zh-CN" : "en-GB",
-                { hour: "2-digit", minute: "2-digit" },
+              {t(
+                "A proposal is not a completed action. Review the current draft below.",
+                "提案不是已完成动作，请检查下方当前草稿。",
               )}
             </small>
-            <div className="workspace-inline-actions">
-              <button
-                className="primary"
-                disabled={busy}
-                onClick={() => void decide(p.id, "confirm")}
-              >
-                {t("Confirm & save", "确认并保存")}
-              </button>
-              <button
-                className="secondary"
-                disabled={busy}
-                onClick={() => void decide(p.id, "cancel")}
-              >
-                {t("Cancel draft", "取消草稿")}
-              </button>
-            </div>
-          </article>
-        );
-      })}
+          )}
+        </div>
+      )}
+      {proposals
+        .filter(
+          (p) =>
+            fence.current.accepts(proposalEpoch.current) &&
+            (!p.kind.startsWith("memory_") || contextVisible),
+        )
+        .map((p) => {
+          const memoryProposal = p.kind.startsWith("memory_");
+          const originalMemory = personal.memories.find(
+            (m) => m.id === p.data.memory_id,
+          );
+          const memoryReady =
+            !memoryProposal ||
+            (p.kind === "memory_create"
+              ? !!p.data.content
+              : !!originalMemory &&
+                originalMemory.version === p.data.expected_version);
+          const event = p.data.event ?? p.data.change?.event;
+          const task =
+            p.data.task ?? p.data.change?.task ?? p.data.original_task;
+          const taskAction = p.data.change?.action ?? "create";
+          const taskActionLabel =
+            (
+              {
+                create: t("Create task", "创建事务"),
+                update: t("Update task details", "更新事务详情"),
+                note: t("Save progress note", "保存进展记录"),
+                complete: t(
+                  "Mark complete and stop follow-ups",
+                  "标记完成并停止跟进",
+                ),
+                cancel: t(
+                  "Cancel task and stop follow-ups",
+                  "取消事务并停止跟进",
+                ),
+                reopen: t("Reopen task", "恢复事务"),
+                pause: t("Pause follow-ups", "暂停跟进"),
+                resume: t("Resume follow-ups", "恢复跟进"),
+                snooze: t("Postpone check-in", "延后检查"),
+              } as Record<string, string>
+            )[taskAction] ?? taskAction;
+          const changedTask = p.data.task ?? p.data.change?.task;
+          return (
+            <article className="assistant-proposal" key={p.id}>
+              <span className="workspace-eyebrow">
+                {t("Review before saving", "保存前检查")}
+              </span>
+              <h3>
+                {memoryProposal
+                  ? p.kind === "memory_create"
+                    ? t("Remember this", "记住此内容")
+                    : p.kind === "memory_update"
+                      ? t("Correct a memory", "更正记忆")
+                      : t("Forget a memory", "忘记记忆")
+                  : (task?.title ??
+                    event?.title ??
+                    (p.kind === "output"
+                      ? t("Device feedback", "设备反馈")
+                      : t("Change calendar event", "修改日历事项")))}
+              </h3>
+              {memoryProposal ? (
+                <>
+                  {originalMemory && (
+                    <p className="personal-text">
+                      {t("Current: ", "当前：")}
+                      {originalMemory.content}
+                    </p>
+                  )}
+                  {p.data.content && (
+                    <p className="personal-text">{p.data.content}</p>
+                  )}
+                  {p.data.category && (
+                    <p>{memoryCategory(p.data.category, t)}</p>
+                  )}
+                  {!memoryReady && (
+                    <p role="alert">
+                      {t(
+                        "The target memory is missing or changed. Refresh and prepare a new draft.",
+                        "目标记忆不存在或已变化，请刷新并重新准备草稿。",
+                      )}
+                    </p>
+                  )}
+                  <p>
+                    {p.kind === "memory_forget"
+                      ? t(
+                          "Removes this active memory from future context. Separate saved conversations and data already sent to providers are not erased.",
+                          "后续上下文不再使用此有效记忆，独立保存的会话及已发送提供商的数据不会因此删除。",
+                        )
+                      : t(
+                          "Saved only if you approve. This does not grant the assistant permission to act.",
+                          "仅在你批准后保存，不会授予助理执行动作的权限。",
+                        )}
+                  </p>
+                </>
+              ) : task ? (
+                <>
+                  <p>
+                    <strong>{taskActionLabel}</strong>
+                  </p>
+                  <p>
+                    {t("Deadline: ", "截止：")}
+                    {task.due_local?.replace("T", " ") ??
+                      t("No deadline", "无截止时间")}{" "}
+                    · {task.timezone}
+                  </p>
+                  {task.next_step && (
+                    <p>
+                      {t("Next: ", "下一步：")}
+                      {task.next_step}
+                    </p>
+                  )}
+                  {task.status === "waiting" && task.waiting_for && (
+                    <p>
+                      {t("Waiting: ", "等待：")}
+                      {task.waiting_for}
+                    </p>
+                  )}
+                  {changedTask && (
+                    <>
+                      <p>
+                        {t("Status: ", "状态：")}
+                        {
+                          {
+                            todo: t("To do", "待处理"),
+                            in_progress: t("In progress", "进行中"),
+                            waiting: t("Waiting", "等待中"),
+                          }[changedTask.status]
+                        }
+                      </p>
+                      {!!changedTask.steps.length && (
+                        <ul>
+                          {changedTask.steps.map((step, i) => (
+                            <li key={i}>
+                              {step.done ? "✓ " : ""}
+                              {step.title}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                      <p>
+                        {changedTask.follow_up_enabled
+                          ? changedTask.check_in_local
+                            ? t("Next check-in: ", "下次检查：") +
+                              changedTask.check_in_local.replace("T", " ")
+                            : t(
+                                `Check in within ${changedTask.interval_minutes} minutes, or at an earlier upcoming deadline.`,
+                                `在${changedTask.interval_minutes}分钟后，或更早的截止时间检查。`,
+                              )
+                          : t("Follow-ups off", "跟进未开启")}
+                      </p>
+                      <p>
+                        {changedTask.visibility === "private"
+                          ? t("Private task", "私人事务")
+                          : t(
+                              "May appear on the desk display",
+                              "可在常亮屏展示",
+                            )}
+                      </p>
+                      {p.data.original_task?.paused && (
+                        <p>
+                          {t(
+                            "Follow-ups remain paused until you resume them.",
+                            "跟进会保持暂停，直到你手动恢复。",
+                          )}
+                        </p>
+                      )}
+                    </>
+                  )}
+                  {["snooze", "resume"].includes(taskAction) && (
+                    <p>
+                      {t("Next check-in: ", "下次检查：")}
+                      {DateTime.now()
+                        .setZone(task.timezone)
+                        .plus({ minutes: p.data.change?.minutes ?? 60 })
+                        .toFormat("d LLL HH:mm")}{" "}
+                      ({t("from confirmation", "从确认时计算")})
+                    </p>
+                  )}
+                  {p.data.change?.note && (
+                    <blockquote>{p.data.change.note}</blockquote>
+                  )}
+                  {taskAction === "note" && (
+                    <p>
+                      {t(
+                        "This saves your note; it does not change the status or next step.",
+                        "这会保存你提供的进展，不会改变状态和下一步。",
+                      )}
+                    </p>
+                  )}
+                  <small>
+                    {t(
+                      "Review saved details in Tasks. This does not reserve calendar time.",
+                      "保存后可在事务中编辑详情，不会自动占用日历时间。",
+                    )}
+                  </small>
+                </>
+              ) : event ? (
+                <>
+                  <p>
+                    {event.start_local.slice(0, 16).replace("T", " ")} →{" "}
+                    {event.end_local.slice(0, 16).replace("T", " ")}
+                  </p>
+                  <small>
+                    {event.timezone} ·{" "}
+                    {event.visibility === "private"
+                      ? t("Private", "私人")
+                      : t("Displayable", "可展示")}
+                  </small>
+                  {p.data.additional_dates?.length ? (
+                    <p>
+                      {t("Also on: ", "同时添加：")}
+                      {p.data.additional_dates.join(", ")}
+                    </p>
+                  ) : null}
+                  {event.recurrence.frequency !== "none" && (
+                    <p>
+                      {t("Repeats: ", "重复：")}
+                      {event.recurrence.frequency}
+                    </p>
+                  )}
+                </>
+              ) : (
+                <>
+                  {p.data.original && (
+                    <>
+                      <strong>
+                        {p.data.original.title ||
+                          t("Private event", "私人事项")}
+                      </strong>
+                      <p>
+                        {p.data.original.start_local.replace("T", " ")} →{" "}
+                        {p.data.original.end_local.replace("T", " ")} ·{" "}
+                        {p.data.original.timezone}
+                      </p>
+                    </>
+                  )}
+                  {p.data.output && (
+                    <p>
+                      {p.data.output.kind === "arm"
+                        ? t("Arm", "机械臂")
+                        : t("Light", "灯光")}{" "}
+                      · {p.data.output.preset}
+                    </p>
+                  )}
+                  <p>
+                    {p.data.change?.action === "delete"
+                      ? t("Delete", "删除")
+                      : p.data.change?.action === "complete"
+                        ? t("Mark complete", "标记完成")
+                        : p.data.change?.action === "reopen"
+                          ? t("Mark incomplete", "取消完成")
+                          : p.data.change
+                            ? t("Update", "更新")
+                            : t("Named preset only", "仅执行预设动作")}
+                    {p.data.change &&
+                      (p.data.change.scope === "series"
+                        ? t(" · Entire series", " · 整个系列")
+                        : t(" · This occurrence", " · 仅本次"))}
+                  </p>
+                </>
+              )}
+              <small>
+                {t("Expires at ", "有效至 ")}
+                {new Date(p.expires_at).toLocaleTimeString(
+                  language === "zh" ? "zh-CN" : "en-GB",
+                  { hour: "2-digit", minute: "2-digit" },
+                )}
+              </small>
+              <div className="workspace-inline-actions">
+                <button
+                  className="primary"
+                  disabled={
+                    locked ||
+                    offline ||
+                    stale ||
+                    !memoryReady ||
+                    Date.parse(p.expires_at) <= Date.now()
+                  }
+                  onClick={() => void decide(p.id, "confirm")}
+                >
+                  {t("Confirm & save", "确认并保存")}
+                </button>
+                <button
+                  className="secondary"
+                  disabled={locked || offline || stale}
+                  onClick={() => void decide(p.id, "cancel")}
+                >
+                  {t("Cancel draft", "取消草稿")}
+                </button>
+              </div>
+            </article>
+          );
+        })}
+      <MutationFeedback mutation={mutation} t={t} />
+      {switchTo && (
+        <Modal
+          title={t("Leave this unsent message?", "离开未发送的消息？")}
+          closeLabel={t("Keep editing", "继续编辑")}
+          onClose={() => setSwitchTo(null)}
+        >
+          <p>
+            {t(
+              "Changing conversations discards the text still in the request box. It has not been sent or saved.",
+              "切换会话会放弃输入框中未发送的文字，这些文字尚未发送或保存。",
+            )}
+          </p>
+          <div className="workspace-inline-actions">
+            <button
+              type="button"
+              className="primary"
+              onClick={() => setSwitchTo(null)}
+            >
+              {t("Keep editing", "继续编辑")}
+            </button>
+            <button
+              type="button"
+              className="secondary"
+              onClick={() => selectConversation(switchTo.id)}
+            >
+              {t("Discard draft and switch", "放弃草稿并切换")}
+            </button>
+          </div>
+        </Modal>
+      )}
       {notice && <p role="status">{notice}</p>}
       {!!error && (
         <p className="error-message" role="alert">
           {errorText(error, t)}
         </p>
       )}
+      <RoutinesPanel t={t} visibleOverride={contextVisible} />
       <ComputerJobsPanel t={t} taskId={taskId} />
     </div>
   );

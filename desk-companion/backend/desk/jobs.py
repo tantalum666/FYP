@@ -17,7 +17,9 @@ from fastapi import APIRouter, Depends
 from pydantic import Field, model_validator
 
 from .calendar import iso
-from .computer import ComputerExecutor, ExecutionRejected, LocalNotesExecutor, VerificationReceipt
+from .computer import ComputerExecutor, ExecutionRejected, LocalNotesExecutor
+from .application_executor import ApplicationRecordsExecutor
+from .executor_registry import ExecutorRegistry
 from .schemas import StrictModel
 from .store import DomainError, encode
 
@@ -25,7 +27,7 @@ TERMINAL = {"succeeded", "failed", "cancelled", "expired"}
 
 
 class JobInput(StrictModel):
-    action: Literal["save_note", "verify_note"] = "save_note"
+    action: Literal["save_note", "verify_note", "create_record", "verify_record"] = "save_note"
     title: str = Field(min_length=1, max_length=120)
     content: str = Field(default="", max_length=8000)
     source_job_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
@@ -39,13 +41,17 @@ class JobInput(StrictModel):
             self.title.encode("utf-8")
         except UnicodeError:
             raise ValueError("Use valid Unicode text") from None
-        if not self.title.strip() or (self.action == "save_note" and not self.content.strip()):
+        if not self.title.strip() or (
+            self.action in {"save_note", "create_record"} and not self.content.strip()
+        ):
             raise ValueError("A title and note text are required")
         if (self.task_id is None) != (self.task_version is None):
             raise ValueError("Task ID and version must be supplied together")
-        if self.action == "save_note" and self.source_job_id is not None:
+        if self.action in {"save_note", "create_record"} and self.source_job_id is not None:
             raise ValueError("New notes cannot target an existing artifact")
-        if self.action == "verify_note" and (not self.source_job_id or self.content):
+        if self.action in {"verify_note", "verify_record"} and (
+            not self.source_job_id or self.content
+        ):
             raise ValueError("Verification requires a saved job, without replacement text")
         return self
 
@@ -63,6 +69,11 @@ class JobService:
     def __init__(self, runtime, executor: ComputerExecutor | None = None):
         self.runtime, self.store = runtime, runtime.store
         self.executor = executor or LocalNotesExecutor(self.store.directory)
+        app_origin = os.environ.get("DESK_DEMO_APP_ORIGIN")
+        self.registry = ExecutorRegistry(
+            lambda: self.executor,
+            ApplicationRecordsExecutor(app_origin) if app_origin else None,
+        )
         self.enabled = os.environ.get("DESK_COMPUTER_ENABLED") == "1"
         self.run_lock = threading.Lock()
         self.stopping = False
@@ -91,7 +102,16 @@ class JobService:
             "enabled": self.enabled,
             "executor": self.executor.identity,
             "scope": self.executor.scope,
-            "actions": ["save_note", "verify_note"] if self.enabled else [],
+            "actions": self.registry.actions() if self.enabled else [],
+            "application": {
+                "enabled": self.enabled and self.registry.application is not None,
+                "executor": "demo_records_api_v1",
+                "scope": "isolated_demo_records_only",
+                "target_origin": self.registry.application.origin
+                if self.registry.application
+                else None,
+                "interface": "application_api",
+            },
         }
 
     @staticmethod
@@ -193,20 +213,33 @@ class JobService:
             request = payload.model_dump()
             self._task_current(conn, request)
             job_id = uuid4().hex
-            request.update(
-                executor=self.executor.identity, scope=self.executor.scope, artifact_id=job_id
-            )
-            if payload.action == "verify_note":
+            request.update(artifact_id=job_id)
+            self.registry.bind(request)
+            if payload.action in {"verify_note", "verify_record"}:
                 source = self._row(conn, payload.source_job_id)
                 original = json.loads(source["request"])
-                if source["state"] != "succeeded" or original["action"] != "save_note":
+                source_action = "save_note" if payload.action == "verify_note" else "create_record"
+                if source["state"] != "succeeded" or original["action"] != source_action:
                     raise DomainError("JOB_SOURCE_UNVERIFIED", 409)
-                if (
-                    original["executor"] != self.executor.identity
-                    or original["scope"] != self.executor.scope
-                ):
-                    raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
+                self.registry.validate(original)
                 request.update(artifact_id=original["artifact_id"], content=original["content"])
+                if payload.action == "verify_record":
+                    if request["app_instance_id"] != original["app_instance_id"]:
+                        raise DomainError("APPLICATION_INSTANCE_CHANGED", 409)
+                    request.update(
+                        {
+                            name: original[name]
+                            for name in (
+                                "record_title",
+                                "content_sha256",
+                                "app_instance_id",
+                                "target_origin",
+                                "adapter_version",
+                                "schema_version",
+                            )
+                        }
+                    )
+                    request["record_intent_hash"] = source["intent_hash"]
             fingerprint = hashlib.sha256(encode(request).encode()).hexdigest()
             now = iso(self.store.clock())
             conn.execute(
@@ -243,11 +276,7 @@ class JobService:
                 raise DomainError("VERSION_CONFLICT", 409)
             request = json.loads(row["request"])
             self._task_current(conn, request)
-            if (
-                request["executor"] != self.executor.identity
-                or request["scope"] != self.executor.scope
-            ):
-                raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
+            self._authorized_request(row, request)
             conn.execute(
                 "UPDATE computer_jobs SET approved_by='owner',deadline=? WHERE id=?",
                 (iso(self.store.clock() + timedelta(seconds=60)), job_id),
@@ -290,21 +319,13 @@ class JobService:
                 state = "expired" if row["state"] in {"review", "queued"} else "unknown"
                 self._state(conn, row["id"], state, "JOB_DEADLINE_EXCEEDED")
 
+    def _authorized_request(self, row, request):
+        if hashlib.sha256(encode(request).encode()).hexdigest() != row["intent_hash"]:
+            raise DomainError("JOB_INTENT_CHANGED", 409)
+        return self.registry.validate(request)
+
     def _verify(self, request):
-        receipt = VerificationReceipt.model_validate(self.executor.verify(request)).model_dump(
-            exclude_none=True
-        )
-        if receipt["verified"]:
-            expected = request["content"].encode("utf-8")
-            if (
-                receipt["artifact"] != request["artifact_id"] + ".txt"
-                or receipt["sha256"] != hashlib.sha256(expected).hexdigest()
-                or receipt["bytes"] != len(expected)
-                or receipt["executor"] != request["executor"]
-                or receipt["scope"] != request["scope"]
-            ):
-                raise ValueError("Receipt does not match the authorized intent")
-        return receipt
+        return self.registry.verify(request)
 
     def run_one(self):
         if not self.enabled or self.stopping or not self.run_lock.acquire(False):
@@ -320,12 +341,9 @@ class JobService:
                 job_id, request, run_id = row["id"], json.loads(row["request"]), uuid4().hex
                 try:
                     self._task_current(conn, request)
-                    if (
-                        not row["approved_by"]
-                        or request["executor"] != self.executor.identity
-                        or request["scope"] != self.executor.scope
-                    ):
+                    if not row["approved_by"]:
                         raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
+                    executor = self._authorized_request(row, request)
                 except DomainError as error:
                     self._state(conn, job_id, "failed", error.code)
                     return
@@ -345,7 +363,7 @@ class JobService:
                         raise ExecutionRejected(error.code, error.status) from None
 
             try:
-                self.executor.execute(request, checkpoint)
+                executor.execute(request, checkpoint)
             except ExecutionRejected as error:
                 state = "cancelled" if error.code == "JOB_CANCELLED_BEFORE_DISPATCH" else "failed"
                 code, receipt = error.code, None
@@ -394,11 +412,7 @@ class JobService:
                 if row["state"] != "unknown":
                     return {"job": self._view(row)}
                 request = json.loads(row["request"])
-                if (
-                    request["executor"] != self.executor.identity
-                    or request["scope"] != self.executor.scope
-                ):
-                    raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
+                self._authorized_request(row, request)
             try:
                 receipt = self._verify(request)
             except Exception:
@@ -420,19 +434,30 @@ def job_routes(runtime, owner, operation_id):
     # Pairing and model tool access do not grant computer execution approval.
     router = APIRouter(prefix="/api/computer", dependencies=[Depends(owner)])
 
-    @router.get("/jobs")
-    def listing(task_id: str | None = None):
-        return {**runtime.jobs.capabilities(), "jobs": runtime.jobs.listing(task_id, review=True)}
+    def visible(principal=Depends(owner)):
+        runtime.personal_context.require_visible(principal)
+        return principal
 
-    @router.post("/jobs")
+    @router.get("/jobs")
+    def listing(task_id: str | None = None, principal=Depends(owner)):
+        return {
+            **runtime.jobs.capabilities(),
+            "jobs": runtime.jobs.listing(
+                task_id, review=runtime.personal_context.visible(principal)
+            ),
+        }
+
+    @router.post("/jobs", dependencies=[Depends(visible)])
     def prepare(payload: JobInput, key=Depends(operation_id)):
         return runtime.jobs.prepare(payload, key)
 
     @router.get("/jobs/{job_id}")
-    def detail(job_id: str):
-        return {"job": runtime.jobs.detail(job_id, review=True)}
+    def detail(job_id: str, principal=Depends(owner)):
+        return {
+            "job": runtime.jobs.detail(job_id, review=runtime.personal_context.visible(principal))
+        }
 
-    @router.post("/jobs/{job_id}/approve")
+    @router.post("/jobs/{job_id}/approve", dependencies=[Depends(visible)])
     def approve(job_id: str, payload: JobApproval, key=Depends(operation_id)):
         return runtime.jobs.approve(job_id, payload, key)
 

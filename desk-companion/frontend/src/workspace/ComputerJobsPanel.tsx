@@ -11,17 +11,31 @@ import {
 import { useDraftGuard } from "../components/DraftGuard";
 import type { Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
+import { personalContextVisible } from "./personal/types";
 import {
   jobCancellable,
+  isApplicationJob,
+  verificationAction,
   recoveryMatchesNote,
   reviewAvailable,
 } from "./jobTypes";
-import type { ComputerJob, JobState } from "./jobTypes";
+import type {
+  ComputerJob,
+  JobState,
+  JobAction,
+  CreateJobAction,
+} from "./jobTypes";
 import type { Task } from "./taskTypes";
 
 interface Snapshot {
   enabled: boolean;
   jobs: ComputerJob[];
+  actions: JobAction[];
+  application?: {
+    enabled: boolean;
+    target_origin: string | null;
+    interface: string;
+  };
 }
 
 export function ComputerJobsPanel({
@@ -37,6 +51,7 @@ export function ComputerJobsPanel({
   const [readError, setReadError] = useState<unknown>(null);
   const [error, setError] = useState<unknown>(null);
   const [title, setTitle] = useState("");
+  const [target, setTarget] = useState<CreateJobAction>("save_note");
   const [content, setContent] = useState("");
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
@@ -49,6 +64,13 @@ export function ComputerJobsPanel({
   const cancelGuard = useRef(false);
   const fresh =
     !readError && !offline && !stale && Date.now() - lastRead < 6000;
+  const showContents =
+    personalContextVisible(
+      owner,
+      data?.personal_context_visible,
+      offline,
+      stale,
+    ) && fresh;
   useDraftGuard(!!(title.trim() || content.trim()), busy);
   const reload = useCallback(async () => {
     const started = generation.current;
@@ -98,7 +120,7 @@ export function ComputerJobsPanel({
         ? (await request<{ task: Task }>(`/tasks/${taskId}`)).task
         : null;
       await write("/computer/jobs", {
-        action: "save_note",
+        action: target,
         title,
         content,
         task_id: taskId ?? null,
@@ -109,8 +131,8 @@ export function ComputerJobsPanel({
       setExpanded(false);
       setNotice(
         t(
-          "Prepared for review. No file has been written.",
-          "已准备待核对，尚未写入文件。",
+          "Prepared for review. Nothing has been executed.",
+          "已准备待核对，尚未执行任何操作。",
         ),
       );
       await reload();
@@ -135,8 +157,8 @@ export function ComputerJobsPanel({
       });
       setNotice(
         t(
-          "Cancellation requested. Check the current result; an existing file is not rolled back.",
-          "已请求取消。请核对当前结果，已写入的文件不会回滚。",
+          "Cancellation requested. Check the current result; an existing result is not rolled back.",
+          "已请求取消。请核对当前结果，已产生的结果不会回滚。",
         ),
       );
       await reload();
@@ -151,6 +173,8 @@ export function ComputerJobsPanel({
     job: ComputerJob,
     kind: "approve" | "reconcile" | "verify",
   ) {
+    if (!showContents || (kind === "approve" &&
+      !reviewAvailable(job, Date.now(), fresh))) return;
     setBusy(true);
     setError(null);
     setNotice("");
@@ -165,8 +189,8 @@ export function ComputerJobsPanel({
           ? (await request<{ task: Task }>(`/tasks/${taskId}`)).task
           : null;
         await write("/computer/jobs", {
-          action: "verify_note",
-          title: t("Verify saved note", "核验已保存笔记"),
+          action: verificationAction(job.action),
+          title: t("Verify saved result", "核验已保存结果"),
           source_job_id: job.id,
           task_id: taskId ?? null,
           task_version: task?.version ?? null,
@@ -235,8 +259,8 @@ export function ComputerJobsPanel({
           <h3>{t("Computer jobs", "电脑作业")}</h3>
           <p>
             {t(
-              "Save a note in this desk’s dedicated notes folder, then verify the actual file. Each job needs your approval.",
-              "将笔记保存到本桌面的专用笔记目录，再核验实际文件。每项作业都需要你批准。",
+              "Approve an exact operation, then check independent evidence. Application records use a configured test app API, not general desktop control.",
+              "批准具体操作后检查独立证据。应用记录通过已配置测试应用的API操作，不是通用桌面控制。",
             )}
           </p>
         </div>
@@ -244,8 +268,8 @@ export function ComputerJobsPanel({
       {snapshot && !snapshot.enabled && (
         <p role="status">
           {t(
-            "Local note execution is disabled on this desk. The operator can enable the bounded notes adapter using the setup guide.",
-            "本桌面尚未启用本地笔记执行，操作人员可按安装说明启用受限笔记适配器。",
+            "Computer execution is disabled. The operator can configure a bounded adapter using the setup guide.",
+            "本桌面尚未启用电脑执行，操作人员可按安装说明配置受限适配器。",
           )}
         </p>
       )}
@@ -257,7 +281,7 @@ export function ComputerJobsPanel({
           )}
         </p>
       )}
-      {snapshot?.enabled && (
+      {snapshot?.enabled && showContents && (
         <>
           <button
             type="button"
@@ -265,12 +289,35 @@ export function ComputerJobsPanel({
             onClick={() => setExpanded(!expanded)}
             aria-expanded={expanded}
           >
-            {t("Prepare a note", "准备笔记")}
+            {t("Prepare an operation", "准备操作")}
           </button>
           {expanded && (
             <form onSubmit={prepare}>
               <label className="field">
-                {t("Note title", "笔记标题")}
+                {t("Operation destination", "操作目标")}
+                <select
+                  value={target}
+                  disabled={busy}
+                  onChange={(e) => setTarget(e.target.value as CreateJobAction)}
+                >
+                  <option value="save_note">
+                    {t("Dedicated notes folder", "专用笔记目录")}
+                  </option>
+                  {snapshot.actions.includes("create_record") && (
+                    <option value="create_record">
+                      {t("Configured test application", "已配置测试应用")}
+                    </option>
+                  )}
+                </select>
+              </label>
+              {target === "create_record" && (
+                <p className="workspace-hint">
+                  {t("Application API target: ", "应用API目标：")}
+                  {snapshot.application?.target_origin}
+                </p>
+              )}
+              <label className="field">
+                {t("Title", "标题")}
                 <input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -280,7 +327,7 @@ export function ComputerJobsPanel({
                 />
               </label>
               <label className="field">
-                {t("Exact note text", "笔记全文")}
+                {t("Exact content", "完整内容")}
                 <textarea
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
@@ -292,7 +339,13 @@ export function ComputerJobsPanel({
               </label>
               <button
                 className="primary"
-                disabled={busy || !fresh || !title.trim() || !content.trim()}
+                disabled={
+                  busy ||
+                  !fresh ||
+                  !title.trim() ||
+                  !content.trim() ||
+                  !snapshot.actions.includes(target)
+                }
               >
                 {t("Prepare for review", "准备待核对")}
               </button>
@@ -300,13 +353,21 @@ export function ComputerJobsPanel({
           )}
         </>
       )}
+      {!showContents && (
+        <p role="status">
+          {t(
+            "Private job details are hidden until this desk is visible and current. You can still cancel a job.",
+            "私人作业详情暂时隐藏；恢复可见且最新的状态后可查看。你仍可取消作业。",
+          )}
+        </p>
+      )}
       {notice && <p role="status">{notice}</p>}
       {!!error && (
         <p className="error-message" role="alert">
           {errorText(error, t)}
         </p>
       )}
-      {pendingWrite()?.path.startsWith("/computer/") && (
+      {showContents && pendingWrite()?.path.startsWith("/computer/") && (
         <button
           className="secondary"
           disabled={busy}
@@ -316,7 +377,9 @@ export function ComputerJobsPanel({
             try {
               const recovered = pendingWrite();
               await retryPending();
-              if (recoveryMatchesNote(recovered, title, content, taskId)) {
+              if (
+                recoveryMatchesNote(recovered, title, content, taskId, target)
+              ) {
                 setTitle("");
                 setContent("");
               }
@@ -342,23 +405,57 @@ export function ComputerJobsPanel({
       {snapshot?.jobs.map((job) => (
         <article key={job.id} className="computer-job">
           <div className="workspace-eyebrow">{labels[job.state]}</div>
-          <h4>{job.request.title}</h4>
+          <h4>
+            {showContents
+              ? (job.request?.title ??
+                t("Job details unavailable", "作业详情不可用"))
+              : t("Private job", "私人作业")}
+          </h4>
           <p>
-            {job.action === "save_note"
-              ? t("Save a new note", "保存新笔记")
-              : t("Verify an existing note", "核验已有笔记")}
+            {
+              {
+                save_note: t("Save a new note", "保存新笔记"),
+                verify_note: t("Verify an existing note", "核验已有笔记"),
+                create_record: t(
+                  "Create an application record",
+                  "创建应用记录",
+                ),
+                verify_record: t(
+                  "Verify an application record",
+                  "核验应用记录",
+                ),
+              }[job.action]
+            }
           </p>
-          <p className="job-target">
-            {t(
-              "Destination: Desk Companion notes / ",
-              "目标：Desk Companion 笔记目录 / ",
-            )}
-            {job.request.artifact_id}.txt
-          </p>
-          <details open={job.state === "review"}>
-            <summary>{t("Review exact text", "核对笔记全文")}</summary>
-            <pre tabIndex={0}>{job.request.content}</pre>
-          </details>
+          {showContents && job.request && (
+            <>
+              <p className="job-target">
+                {isApplicationJob(job.action)
+                  ? t("Application API: ", "应用API：") +
+                    job.request.target_origin
+                  : t(
+                      "Destination: Desk Companion notes",
+                      "目标：Desk Companion 笔记目录",
+                    )}
+                {" / "}
+                {job.request.artifact_id}
+                {isApplicationJob(job.action) ? ".json" : ".txt"}
+              </p>
+              {isApplicationJob(job.action) && (
+                <p className="workspace-hint">
+                  {t("Application identity: ", "应用身份：")}
+                  {job.request.app_instance_id}
+                  {" · "}
+                  {t("Record title: ", "记录标题：")}
+                  {job.request.record_title}
+                </p>
+              )}
+              <details open={job.state === "review"}>
+                <summary>{t("Review exact content", "核对完整内容")}</summary>
+                <pre tabIndex={0}>{job.request.content}</pre>
+              </details>
+            </>
+          )}
           {job.task_id && (
             <small>
               {t(
@@ -384,16 +481,16 @@ export function ComputerJobsPanel({
           {job.cancel_requested && job.state === "succeeded" && (
             <p>
               {t(
-                "The file was already committed and verified. Cancellation did not remove it.",
-                "文件已写入并核验，取消没有删除已产生的结果。",
+                "The result was already saved and verified. Cancellation did not remove it.",
+                "结果已保存并核验，取消没有删除已产生的结果。",
               )}
             </p>
           )}
           {job.state === "unknown" && (
             <p>
               {t(
-                "Execution will not be repeated automatically. Check the existing file result first.",
-                "不会自动重复执行。请先核验已有文件结果。",
+                "Execution will not be repeated automatically. Check the existing result first.",
+                "不会自动重复执行。请先核验已有结果。",
               )}
             </p>
           )}
@@ -409,6 +506,8 @@ export function ComputerJobsPanel({
                 disabled={
                   busy ||
                   !snapshot.enabled ||
+                  !showContents ||
+                  !job.request ||
                   !reviewAvailable(job, Date.now(), fresh)
                 }
                 onClick={() => void action(job, "approve")}
@@ -428,21 +527,24 @@ export function ComputerJobsPanel({
             {job.state === "unknown" && (
               <button
                 className="secondary"
-                disabled={busy || !fresh || !snapshot.enabled}
+                disabled={busy || !fresh || !snapshot.enabled || !showContents}
                 onClick={() => void action(job, "reconcile")}
               >
                 {t("Check existing result", "核验已有结果")}
               </button>
             )}
-            {job.state === "succeeded" && job.action === "save_note" && (
-              <button
-                className="text-button"
-                disabled={busy || !fresh || !snapshot.enabled}
-                onClick={() => void action(job, "verify")}
-              >
-                {t("Prepare another verification", "准备再次核验")}
-              </button>
-            )}
+            {job.state === "succeeded" &&
+              ["save_note", "create_record"].includes(job.action) && (
+                <button
+                  className="text-button"
+                  disabled={
+                    busy || !fresh || !snapshot.enabled || !showContents
+                  }
+                  onClick={() => void action(job, "verify")}
+                >
+                  {t("Prepare another verification", "准备再次核验")}
+                </button>
+              )}
           </div>
         </article>
       ))}

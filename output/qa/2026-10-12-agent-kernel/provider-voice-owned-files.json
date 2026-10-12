@@ -1,0 +1,46 @@
+{
+  "base_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "frozen_at": "2026-10-12T12:42:14.839186+00:00",
+  "files": [
+    {
+      "path": "desk-companion/backend/desk/provider_policy.py",
+      "sha256": "991cedca7120eb93da1dc325fe44353bc596e0594659cdc143a0a9baf0bcc335",
+      "bytes": 3640
+    },
+    {
+      "path": "desk-companion/backend/desk/voice.py",
+      "sha256": "9da4b9bb1c379a5e5444f91da7ad4d3e1433ee13d5eafc3621bacd5e9bee8064",
+      "bytes": 31420
+    },
+    {
+      "path": "desk-companion/backend/desk/tool_dispatch.py",
+      "sha256": "52e9b98eea4ddb940a26047df2b87ed9b04dc890293b217ccc8da42585471857",
+      "bytes": 8360
+    },
+    {
+      "path": "desk-companion/tests/test_provider_policy.py",
+      "sha256": "ea6ad429bcfcf1abe0db140a9abdb6c751e3901eeb9212ffb3694271b7e76f47",
+      "bytes": 9065
+    },
+    {
+      "path": "desk-companion/tests/test_voice_context.py",
+      "sha256": "03b5a911a5c040e7bd52d4997c613f729813aae3da55ab7ba00efdc3b8dc4638",
+      "bytes": 10329
+    },
+    {
+      "path": "desk-companion/tests/test_voice_google.py",
+      "sha256": "c0eaefc38d0ab8c968b82a1217162fd70062cc52c41c8d6e23e5d68633bf2321",
+      "bytes": 9608
+    },
+    {
+      "path": "desk-companion/tests/test_tool_dispatch.py",
+      "sha256": "462a0677b148327bc4126909c8541a60908954175bba23d81ac5e360a7a13d71",
+      "bytes": 19018
+    },
+    {
+      "path": "desk-companion/docs/provider-policy.md",
+      "sha256": "fdc09a26c48c10b7932dbc9c9dec1a2478d8569ba78073d7fb3af0151ca2b942",
+      "bytes": 5735
+    }
+  ]
+}

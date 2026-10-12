@@ -10,10 +10,26 @@ import pytest
 from fastapi.testclient import TestClient
 
 from desk.app import create_app
+from desk.context import ContextSettings
 from desk.exchange import ImportApply, ShareInput
 from desk.google_calendar import GoogleCalendar, SCOPE
 from desk.store import DomainError
 from desk.voice import GeminiProtocol, QwenAudioProtocol, VoiceConfig, pcm_chunk
+
+
+def approve_business_context(runtime):
+    current = runtime.personal_context.settings()
+    runtime.personal_context.update(
+        ContextSettings(
+            expected_version=current["version"],
+            save_text_history=False,
+            use_text_history_in_ai=False,
+            use_memory_in_ai=False,
+            share_business_context=True,
+            approved_destinations=[d["id"] for d in current["destinations"]],
+        ),
+        uuid4().hex,
+    )
 
 
 class FakeProvider:
@@ -67,10 +83,11 @@ def test_realtime_transport_creates_only_a_draft_and_interrupt_cancels_it(tmp_pa
     voice = app.state.runtime.voice
     voice.config = VoiceConfig(
         provider="qwen_audio",
-        endpoint="wss://fixture.invalid/realtime",
+        endpoint="wss://fixture.cn-beijing.maas.aliyuncs.com/api-ws/v1/realtime",
         model="fixture",
         api_key="fixture-not-a-key",
     )
+    approve_business_context(app.state.runtime)
     fake = FakeProvider()
     voice.connector = lambda *args, **kwargs: fake
     client = TestClient(app)

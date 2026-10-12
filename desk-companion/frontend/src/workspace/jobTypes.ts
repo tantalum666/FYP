@@ -9,22 +9,30 @@ export type JobState =
   | "cancelled"
   | "expired"
   | "unknown";
+export type JobAction =
+  "save_note" | "verify_note" | "create_record" | "verify_record";
+export type CreateJobAction = "save_note" | "create_record";
 export interface ComputerJob {
   id: string;
   state: JobState;
   version: number;
-  intent_hash: string;
+  intent_hash?: string;
   expires_at: string;
   updated_at: string;
   error: string | null;
   cancel_requested: boolean;
-  action: "save_note" | "verify_note";
+  action: JobAction;
   task_id: string | null;
-  request: {
+  request?: {
     title: string;
     content: string;
     artifact_id: string;
     task_version: number | null;
+    target_origin?: string;
+    app_instance_id?: string;
+    adapter_version?: number;
+    schema_version?: number;
+    record_title?: string;
   };
   result: {
     verified: boolean;
@@ -35,7 +43,8 @@ export interface ComputerJob {
   } | null;
 }
 export function reviewAvailable(job: ComputerJob, now: number, fresh: boolean) {
-  return fresh && job.state === "review" && Date.parse(job.expires_at) > now;
+  return fresh && !!job.request && !!job.intent_hash &&
+    job.state === "review" && Date.parse(job.expires_at) > now;
 }
 export function jobCancellable(job: ComputerJob) {
   return (
@@ -50,6 +59,7 @@ export function recoveryMatchesNote(
   title: string,
   content: string,
   taskId?: string,
+  action: CreateJobAction = "save_note",
 ): boolean {
   if (
     !pending ||
@@ -60,9 +70,18 @@ export function recoveryMatchesNote(
     return false;
   const body = pending.body as Record<string, unknown>;
   return (
-    body.action === "save_note" &&
+    body.action === action &&
     body.title === title &&
     body.content === content &&
     (body.task_id ?? null) === (taskId ?? null)
   );
+}
+
+export function isApplicationJob(action: JobAction): boolean {
+  return action === "create_record" || action === "verify_record";
+}
+export function verificationAction(
+  action: JobAction,
+): "verify_note" | "verify_record" {
+  return isApplicationJob(action) ? "verify_record" : "verify_note";
 }

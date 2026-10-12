@@ -1,0 +1,56 @@
+{
+  "completed_at": "2026-10-12T12:39:48.652795+00:00",
+  "readback": [
+    {
+      "path": "desk-companion/docs/computer-jobs.md",
+      "lines": 102,
+      "ranges_read": [
+        [
+          1,
+          102
+        ]
+      ],
+      "eof_observed": true,
+      "sha256": "f396e584311a99bee762cc92a4ee097d944830149894196211230098067f5ba1"
+    },
+    {
+      "path": "output/qa/2026-10-12-agent-kernel/application-executor-verification.md",
+      "lines": 37,
+      "ranges_read": [
+        [
+          1,
+          37
+        ]
+      ],
+      "eof_observed": true,
+      "sha256": "5a59b01cc70dfa812312c8715a06cb70593c6494d5bbfe70f7366af18b4418f4"
+    }
+  ],
+  "owned_sources": [
+    {
+      "path": "desk-companion/backend/desk/jobs.py",
+      "sha256": "fc0b167ad647747ec6c9f809f92d01a75374e2cf2d7f2ff12bafd3cee59d21c6"
+    },
+    {
+      "path": "desk-companion/backend/desk/application_executor.py",
+      "sha256": "a873767dd62d96eb936a54003beeee22f0da2841140c920e3606c3567f525f12"
+    },
+    {
+      "path": "desk-companion/backend/desk/executor_registry.py",
+      "sha256": "fed2fd3fea26f35b50b4ab5a97c348c8a7ce1f88f6faf34b15a5a62fd7f12b63"
+    },
+    {
+      "path": "desk-companion/backend/desk/demo_application.py",
+      "sha256": "b906ede9070c64337dd6a108612f610c3f3db2321586944610451f2161e12e80"
+    },
+    {
+      "path": "desk-companion/tests/test_application_jobs.py",
+      "sha256": "1aab2b689b0af12aea8815d2d9abd6dc610ff1476069d9f3bb55ffc6a713b989"
+    },
+    {
+      "path": "desk-companion/scripts/check_application_executor.py",
+      "sha256": "9f88cc9215286178d53ea5c10fb34e1a6afd945e664e48f8908ef66a1828e992"
+    }
+  ],
+  "privacy_supplement": "Parent-requested pre-freeze change. Full updated QA report read back; computer-jobs.md changed paragraph lines32\u201346 read back with remaining body unchanged from full prior read."
+}

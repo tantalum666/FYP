@@ -1,0 +1,103 @@
+{
+  "worker": "read_fyp_project_history",
+  "source_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "recorded_utc": "2026-10-12T12:44:49.701616+00:00",
+  "files": [
+    {
+      "path": "desk-companion/backend/desk/routines.py",
+      "sha256": "907dad5a7d651bc9ecde6381e4c3498737f5c0104ddc4bb529e3226a80f735d9",
+      "lines": 537
+    },
+    {
+      "path": "desk-companion/tests/test_routines.py",
+      "sha256": "b6b4a5cefdaf47dbdfd23adddd0972f9ee4658686a9d88a7a4275f4b2ed7f56f",
+      "lines": 445
+    },
+    {
+      "path": "desk-companion/docs/routines.md",
+      "sha256": "2da78b3dd667f46b698820c84993a2697e7c94633607d6d2da49c3dac730d52f",
+      "lines": 168
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/RoutinesPanel.tsx",
+      "sha256": "ebfd6dc2da2701b25b8c60b8d9f07bfa923ec08162bb8bf337db17b72ccf0a83",
+      "lines": 776
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/routineTypes.ts",
+      "sha256": "b765fd3a7f4b38f1a510e125db98e0d346ab87cc57e1bbd95b15f206e87db64b",
+      "lines": 110
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/routines.css",
+      "sha256": "2b1d44399ef525a69b603a87efcecf0aadcfecca05aa8f217683bd353220c85e",
+      "lines": 69
+    },
+    {
+      "path": "desk-companion/frontend/tests/routines.test.ts",
+      "sha256": "6a82195ace8625434393ce57529ea6e7c6702a43d302871bb45d5670893a0651",
+      "lines": 99
+    }
+  ],
+  "verification": [
+    {
+      "command": ".venv/bin/ruff check backend/desk/routines.py tests/test_routines.py",
+      "outcome": "passed"
+    },
+    {
+      "command": ".venv/bin/ruff format --check backend/desk/routines.py tests/test_routines.py",
+      "outcome": "2 files already formatted"
+    },
+    {
+      "command": ".venv/bin/pytest -q tests/test_routines.py",
+      "outcome": "29 passed"
+    },
+    {
+      "command": ".venv/bin/pytest -q tests/test_routines.py tests/test_tasks.py tests/test_calendar.py --disable-warnings --maxfail=2",
+      "outcome": "91 passed, 1 warning",
+      "log": "routines-backend-regressions.log"
+    },
+    {
+      "command": "node --experimental-strip-types --test tests/routines.test.ts",
+      "outcome": "8 passed; 4 behavioral helper tests plus source contract checks, not browser interaction coverage"
+    },
+    {
+      "command": "npm test",
+      "outcome": "49 passed on shared integrated files as of this timestamp",
+      "log": "routines-frontend-tests.log"
+    },
+    {
+      "command": "npm run build",
+      "outcome": "passed; existing large chunk warning and npm proxy/version notices",
+      "log": "routines-frontend-build.log"
+    }
+  ],
+  "integration_owned_elsewhere": [
+    "Runtime/app wiring by research_dot_agent_architecture",
+    "AssistantPanel import/mount by research_muse_agent_architecture"
+  ],
+  "known_limits": [
+    "No hosted daemon or external delivery; requires local service running",
+    "Explicit at-most-once claim, same-key recovery while component stays open, history inspection after lost client key",
+    "50 routine definitions including terminal, 20 total pending, newest 50 histories plus preserved pending receipt",
+    "Browser interaction/visual acceptance belongs to parent integrated QA; not claimed by this worker"
+  ],
+  "review_fixes": [
+    "Cancelled or removed calendar occurrence keys no longer project live titles as available",
+    "Failed reads clear private cached UI results",
+    "Read selection/request generation fence plus private owner/visibility epoch on reveal callbacks",
+    "Stricter embedding privacy override and explicit form-discard controls"
+  ],
+  "completed_utc": "2026-10-12T12:46:26.449316+00:00",
+  "independent_review": {
+    "worker": "prepare_fyp_cloud_workspace",
+    "outcome": "No remaining concrete routines blocker; cancelled-occurrence reproducer passes; privacy scope-epoch guard reviewed",
+    "report": "output/qa/2026-10-12-agent-kernel/independent-privacy-review.md",
+    "reported_tests": "73 personal/routine/voice; 50 frontend shared-tree tests",
+    "browser_qa": "Separate parent-owned integrated QA; not claimed here"
+  },
+  "integration_confirmed": {
+    "runtime_app": "Existing Runtime tick and owner API integration exercised by tests",
+    "frontend": "AssistantPanel imports and mounts RoutinesPanel with visibleOverride=contextVisible"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "recorded_at": "2026-10-12T12:46:25.525966+00:00",
+  "scope": "Personal context frontend checkpoint; parent owns integrated commit and aggregate validation.",
+  "files": [
+    {
+      "path": "desk-companion/frontend/src/workspace/AssistantPanel.tsx",
+      "sha256": "56177d419ab618a13303f3cd68c7c44c2911c0c2ab129ec24c6c93edbedc5da7",
+      "bytes": 33804
+    },
+    {
+      "path": "desk-companion/frontend/src/api.ts",
+      "sha256": "5f13e2f35bdfd942119697a22c8be2da252216b4d0be09ad7dad254179952fd3",
+      "bytes": 16325
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/types.ts",
+      "sha256": "9d4c8e415d7e4b973c9a913d9791f616bc81c2f9f4ee2a6903048fb04188bd36",
+      "bytes": 3018
+    },
+    {
+      "path": "desk-companion/frontend/src/device/DeviceApp.tsx",
+      "sha256": "affed985a4cd2ac87e2ccea54020456f4a2f60eaab17177f31007abf3fe5dfd3",
+      "bytes": 20100
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/TaskPanel.tsx",
+      "sha256": "4b0fa39057e74ae6dab543156906bb41906b163e25026581536422b87d074ac4",
+      "bytes": 41665
+    },
+    {
+      "path": "desk-companion/frontend/tests/personal-context.test.ts",
+      "sha256": "c9b3eb8ab422739ffeb8fad825171baa7bb61de157d264066ccd581677a12358",
+      "bytes": 9363
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/ContextSettingsDialog.tsx",
+      "sha256": "f10cde0943356821033b131b02e68b1b3474c4e1f912e5168f9ca3094dd2f7b3",
+      "bytes": 6783
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/MemoryPanel.tsx",
+      "sha256": "1ba0b28c5d2ba379ada1fac659e68060ff746114093b63aceaab5d9f0177f47e",
+      "bytes": 8517
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/MutationFeedback.tsx",
+      "sha256": "92744af96507fd8066faea5c87bf91d6eaed4acb1e31431011948afa08791618",
+      "bytes": 1290
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/PersonalContextPanel.tsx",
+      "sha256": "b98b12e44904e5c4ad46b04c407e5ea3869dce5237467802d5b8f631a7343749",
+      "bytes": 13545
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/personal.css",
+      "sha256": "b86cbac159d602561ddfdda91cfa6d47e56b4f030ad3d11b87401e69b9386be2",
+      "bytes": 1492
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/privateWrite.ts",
+      "sha256": "f5968cfc308841981ebcd5c402550f43da9cc34bb5e3e66a4f32087febc2bcb6",
+      "bytes": 2235
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/responseFence.ts",
+      "sha256": "27cd3e93971cea4059afcf1f642ca2ef8dcf9b3b9611d7dbae3e6742fac0adb3",
+      "bytes": 508
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/types.ts",
+      "sha256": "c7eb671d8cb0bf1452ccb71bdff1d58142b67bb15d579369eff3631cee1a1fa5",
+      "bytes": 2762
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/usePersonalContext.ts",
+      "sha256": "c6b097fab8bb85f3dbe12ac872ed39358a8fe8a78c2ee875c7d7bddaa0fe3abe",
+      "bytes": 3571
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/usePrivateMutation.ts",
+      "sha256": "dd369ecf5acbea2714c28fd5980dd8c7ae5380c109434eba22104743d283db1c",
+      "bytes": 2163
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "frozen_at": "2026-10-12T12:39:48.653424+00:00",
+  "baseline": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "owner": "research_grok_bot_architecture",
+  "status": "ready_for_independent_review",
+  "self_manifest_not_self_hashed": "output/qa/2026-10-12-agent-kernel/application-owned-files.json",
+  "files": [
+    {
+      "path": "desk-companion/backend/desk/jobs.py",
+      "bytes": 20917,
+      "sha256": "fc0b167ad647747ec6c9f809f92d01a75374e2cf2d7f2ff12bafd3cee59d21c6",
+      "git_blob_sha": "78fecfbd78749098f77ffa10ec4bfa098cf9c6f8",
+      "baseline_git_blob_sha": "59bbd13a4b956c8d71c1ef79afdb0c5a4810adcd",
+      "change": "modified"
+    },
+    {
+      "path": "desk-companion/backend/desk/application_executor.py",
+      "bytes": 9013,
+      "sha256": "a873767dd62d96eb936a54003beeee22f0da2841140c920e3606c3567f525f12",
+      "git_blob_sha": "5013fa5ec445693ca56a91c34972dcbecdb54f60",
+      "baseline_git_blob_sha": null,
+      "change": "added"
+    },
+    {
+      "path": "desk-companion/backend/desk/executor_registry.py",
+      "bytes": 3404,
+      "sha256": "fed2fd3fea26f35b50b4ab5a97c348c8a7ce1f88f6faf34b15a5a62fd7f12b63",
+      "git_blob_sha": "fa7ba26c08322b926af8d0417c6d9fb10b076027",
+      "baseline_git_blob_sha": null,
+      "change": "added"
+    },
+    {
+      "path": "desk-companion/backend/desk/demo_application.py",
+      "bytes": 6866,
+      "sha256": "b906ede9070c64337dd6a108612f610c3f3db2321586944610451f2161e12e80",
+      "git_blob_sha": "118d74faebe4964bde706452604ffcff9a85394f",
+      "baseline_git_blob_sha": null,
+      "change": "added"
+    },
+    {
+      "path": "desk-companion/tests/test_application_jobs.py",
+      "bytes": 20957,
+      "sha256": "1aab2b689b0af12aea8815d2d9abd6dc610ff1476069d9f3bb55ffc6a713b989",
+      "git_blob_sha": "bcfc008727b56df6e51a051b423e98b7e3cb8741",
+      "baseline_git_blob_sha": null,
+      "change": "added"
+    },
+    {
+      "path": "desk-companion/scripts/check_application_executor.py",
+      "bytes": 8367,
+      "sha256": "9f88cc9215286178d53ea5c10fb34e1a6afd945e664e48f8908ef66a1828e992",
+      "git_blob_sha": "1290cdeba62c5d0b9e241a9b29d0724e4c9d895c",
+      "baseline_git_blob_sha": null,
+      "change": "added"
+    },
+    {
+      "path": "desk-companion/docs/computer-jobs.md",
+      "bytes": 8605,
+      "sha256": "f396e584311a99bee762cc92a4ee097d944830149894196211230098067f5ba1",
+      "git_blob_sha": "4def18e8d62d3d2ba6820fcdb62ac94a11fb5ed6",
+      "baseline_git_blob_sha": "e8354ca859a8dba312cb9b0dc1f41c1c5bbdfe46",
+      "change": "modified"
+    },
+    {
+      "path": "output/qa/2026-10-12-agent-kernel/application-executor-verification.md",
+      "bytes": 5506,
+      "sha256": "5a59b01cc70dfa812312c8715a06cb70593c6494d5bbfe70f7366af18b4418f4",
+      "git_blob_sha": "606b19480c55b18cda1290958a413c8cbbd22f7a",
+      "baseline_git_blob_sha": null,
+      "change": "added"
+    },
+    {
+      "path": "output/qa/2026-10-12-agent-kernel/application-executor-tests.log",
+      "bytes": 700,
+      "sha256": "df54d9e67df4d3a352afdd5104f0b20ef2c6e5de2dff9d28536a8402f4c6f26d",
+      "git_blob_sha": "62d0fc6fed23a46936103e9e7e5c58b1c737000f",
+      "baseline_git_blob_sha": null,
+      "change": "added"
+    },
+    {
+      "path": "output/qa/2026-10-12-agent-kernel/application-http-integration.json",
+      "bytes": 1928,
+      "sha256": "80d29d70ee02f43f5420f675eda64154abdbd3e624084af39a015cb87d6afb09",
+      "git_blob_sha": "eaef8f1f38d6bc559d23917f97a0cc4d8a21a661",
+      "baseline_git_blob_sha": null,
+      "change": "added"
+    },
+    {
+      "path": "output/qa/2026-10-12-agent-kernel/grok-implementation-supplement.json",
+      "bytes": 1860,
+      "sha256": "df1f976a5e8a8b954173504495f4087292f92799dc150bf149e4bff0076e6f95",
+      "git_blob_sha": "d4dfa3c05217d1780eaa287755e9a23e9d3aa28a",
+      "baseline_git_blob_sha": null,
+      "change": "added"
+    },
+    {
+      "path": "output/qa/2026-10-12-agent-kernel/grok-research-reading-ledger.json",
+      "bytes": 6638,
+      "sha256": "eb18ac2c8aea1e479528754b8928e29b2a7d17013c0ab703697edb83b03096a0",
+      "git_blob_sha": "23e25000bb1aab1c8ceb487bb90527cf71752107",
+      "baseline_git_blob_sha": null,
+      "change": "added"
+    },
+    {
+      "path": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+      "bytes": 18279,
+      "sha256": "3111d5f42ec5f7cb4a7729d9e2cdfb10b6e15aa33fa3cbd49afd5ea4b1d575a6",
+      "git_blob_sha": "cb306ac6a02fe016cc52b964c1634f92c1882340",
+      "baseline_git_blob_sha": null,
+      "change": "added"
+    }
+  ],
+  "preserved": [
+    {
+      "path": "desk-companion/backend/desk/computer.py",
+      "git_blob_sha": "13c2e603c591ee7978dc4af21580077d290a41f9",
+      "matches_baseline": true
+    },
+    {
+      "path": "desk-companion/tests/test_computer_jobs.py",
+      "git_blob_sha": "68308faa9aa2948fafdd3c65e6e45b98ff493cc5",
+      "matches_baseline": true
+    },
+    {
+      "path": "desk-companion/pyproject.toml",
+      "git_blob_sha": "2411c77ea3747832d1a88cddddaa284bb98a119b",
+      "matches_baseline": true
+    },
+    {
+      "path": "desk-companion/uv.lock",
+      "git_blob_sha": "527cd6d97a919dace2c1b48e1bf95a2ef5209a52",
+      "matches_baseline": true
+    }
+  ],
+  "privacy_fix_included": true
+}

@@ -125,6 +125,62 @@ export function errorText(
 ) {
   const code = error instanceof ApiError ? error.code : "REQUEST_FAILED";
   const messages: Record<string, [string, string]> = {
+    CONVERSATION_BUSY: [
+      "This conversation already has a reply in progress. Wait for it to finish, then try again.",
+      "此会话已有回复正在处理，请等待完成后再试。",
+    ],
+    PROVIDER_CONTEXT_CHANGED: [
+      "Privacy choices or the provider destination changed while responding. The late result was discarded. Review current settings before sending a new request.",
+      "回复期间隐私选择或提供商目的地已变化，迟到结果已丢弃。请核对当前设置后再发送新请求。",
+    ],
+    APPLICATION_UNAVAILABLE: [
+      "The configured test application is unreachable. Ask the operator to check it before preparing another request.",
+      "无法连接已配置的测试应用，请操作人员检查后再准备请求。",
+    ],
+    APPLICATION_INSTANCE_CHANGED: [
+      "The target application's identity changed. Prepare a new draft and review the destination again.",
+      "目标应用身份已变化，请重新准备草稿并核对目的地。",
+    ],
+    VOICE_CONTEXT_CHANGED: [
+      "Personal context changed. Review your settings and start a new voice session.",
+      "个人上下文已更改。请检查设置后重新开始语音会话。",
+    ],
+    CONTEXT_DESTINATION_CHANGED: [
+      "The provider destination changed. Reopen privacy choices and review the current endpoint before approving.",
+      "提供商目的地已变化，请重新打开隐私选择，核对当前端点后批准。",
+    ],
+    PRIVATE_CONTEXT_HIDDEN: [
+      "Personal context is hidden in your privacy settings.",
+      "隐私设置已隐藏个人上下文。",
+    ],
+    CONVERSATION_LIMIT_REACHED: [
+      "This workspace has reached its 30-conversation limit. Delete an unwanted conversation before creating another.",
+      "已达到30个会话上限，请先删除不再需要的会话。",
+    ],
+    CONVERSATION_FULL: [
+      "This conversation has reached its message limit. Start a new saved conversation; existing messages are preserved.",
+      "此会话已达到消息上限，请新建会话，已有消息保持。",
+    ],
+    CONVERSATION_NOT_FOUND: [
+      "This conversation is no longer available. Choose another or return to temporary chat.",
+      "此会话已不存在，请另选会话或返回临时聊天。",
+    ],
+    TEXT_HISTORY_DISABLED: [
+      "Saving text history is off. Choose temporary chat or explicitly enable retention.",
+      "文字历史保存已关闭，请选择临时聊天或明确开启保存。",
+    ],
+    MEMORY_LIMIT_REACHED: [
+      "There are already 100 active memories. Review and forget an unwanted entry first.",
+      "已有100条有效记忆，请先核对并忘记不再需要的条目。",
+    ],
+    MEMORY_NOT_FOUND: [
+      "This memory was removed or changed. Refresh before editing.",
+      "此记忆已移除或变化，请刷新后再编辑。",
+    ],
+    ASSISTANT_REPLY_NOT_RETAINED: [
+      "This request was already processed, but its reply was not retained. Check current drafts, tasks and jobs before making another request; do not repeat an action blindly.",
+      "此请求已处理，但回复未保留。再次请求前请核对当前草稿、事务与作业，不要盲目重复动作。",
+    ],
     COMPUTER_DISABLED: [
       "Local note execution is disabled on this desk.",
       "本桌面未启用本地笔记执行。",

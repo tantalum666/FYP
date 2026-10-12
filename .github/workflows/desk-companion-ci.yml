@@ -1,0 +1,52 @@
+name: Desk Companion software
+
+on:
+  pull_request:
+    paths:
+      - "desk-companion/**"
+      - ".github/workflows/desk-companion-ci.yml"
+  push:
+    branches: [main, "codex/**"]
+    paths:
+      - "desk-companion/**"
+      - ".github/workflows/desk-companion-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: desk-software-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  software:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: desk-companion
+        shell: bash
+    steps:
+      - name: Check out source without persisting credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            desk-companion
+            .github/workflows
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24.19.0"
+          cache: npm
+          cache-dependency-path: desk-companion/frontend/package-lock.json
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: "0.12.23"
+          python-version: "3.12.14"
+          enable-cache: true
+          cache-dependency-glob: desk-companion/uv.lock
+      - name: Run frozen software checks
+        run: bash scripts/check_software.sh --install

@@ -1,0 +1,37 @@
+[
+  {
+    "path": ".github/workflows/desk-companion-ci.yml",
+    "mode": "0o644",
+    "sha256": "56f9d89889ebb302ea80a3f5dee0c00fe63a0d528e076512dbd487eacfae42ab",
+    "git_blob": "6feeea9f5de34e8cdc99da9be93a6cff0e8d122d",
+    "bytes": 1505
+  },
+  {
+    "path": "desk-companion/scripts/check_assets.py",
+    "mode": "0o644",
+    "sha256": "28285d15204b16824f5e32590ea0b18573ecbc0ee0de2ac96b292c9c96e88414",
+    "git_blob": "a1bb978fda6dcf1c8572d4ff641f8388aa0adf6f",
+    "bytes": 2200
+  },
+  {
+    "path": "desk-companion/scripts/check_software.sh",
+    "mode": "0o755",
+    "sha256": "0ce2e0671d44d6fdbc5702675bd2732fc3b90c9cd8fb72823a7ca7385b53dabd",
+    "git_blob": "7c9a51629b18436a02819932bc520176e97ec24d",
+    "bytes": 2401
+  },
+  {
+    "path": "desk-companion/tests/test_software_checks.py",
+    "mode": "0o644",
+    "sha256": "bfd7cb1fc2a9c026bafb82250dedc03f6fb8ae2e8d7d967f47200da99e3d9693",
+    "git_blob": "8a0e8714e09ed050fc034a2903f2a979df4b1ffc",
+    "bytes": 5504
+  },
+  {
+    "path": "desk-companion/docs/software-checks.md",
+    "mode": "0o644",
+    "sha256": "e79340661b0f8c8ee880503bd4cdf0e97243224c86c787f3e20bb4a73beafb67",
+    "git_blob": "63ebc03915aa92e6049991d7b4c65e15d0caa48e",
+    "bytes": 3381
+  }
+]

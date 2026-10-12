@@ -14,6 +14,7 @@ from desk.store import DomainError, Store
 from desk.schemas import SettingsInput
 from desk.tasks import TaskInput, TaskAction
 from desk.text_ai import TextAssistant, TextConfig
+from desk.context import ContextSettings
 
 
 @pytest.fixture
@@ -21,6 +22,22 @@ def desk(tmp_path):
     clock = [datetime(2026, 10, 3, 1, tzinfo=UTC)]
     runtime = Runtime(Store(tmp_path, password="fixture-only", clock=lambda: clock[0]))
     return runtime, clock
+
+
+def approve_provider_context(runtime, service):
+    runtime.text_ai = service
+    current = runtime.personal_context.settings()
+    runtime.personal_context.update(
+        ContextSettings(
+            expected_version=current["version"],
+            save_text_history=False,
+            use_memory_in_ai=False,
+            use_text_history_in_ai=False,
+            share_business_context=True,
+            approved_destinations=[d["id"] for d in current["destinations"]],
+        ),
+        uuid4().hex,
+    )
 
 
 def create(runtime, **fields):
@@ -200,13 +217,16 @@ def test_text_provider_protocol_proposes_without_mutating_and_caches_retry(desk,
         else "",
     )
     service = TextAssistant(r, cfg, httpx.MockTransport(response))
+    approve_provider_context(r, service)
     payload = AssistantMessage(message="Please track my report")
-    one = service.message(payload, "request")
-    two = service.message(payload, "request")
+    one = service.message(payload, "request", principal={"kind": "owner"})
+    two = service.message(payload, "request", principal={"kind": "owner"})
     assert one == two and len(calls) == 1 and not r.tasks.listing()["tasks"]
     assert one["mode"] == "ai" and one["proposal"]["kind"] == "task_create"
     with pytest.raises(DomainError, match="OPERATION_ID_CONFLICT"):
-        service.message(AssistantMessage(message="Different"), "request")
+        service.message(
+            AssistantMessage(message="Different"), "request", principal={"kind": "owner"}
+        )
 
 
 def test_malformed_model_response_cannot_execute_or_claim_completion(desk):
@@ -272,6 +292,7 @@ def test_background_advice_does_not_overwrite_progress_changed_during_request(de
         ),
         httpx.MockTransport(response),
     )
+    approve_provider_context(r, service)
     service.enrich_one()
     assert (
         not r.tasks.snapshot()["due_count"]
@@ -381,6 +402,7 @@ def test_background_failed_attempts_count_toward_daily_limit(desk):
         ),
         httpx.MockTransport(response),
     )
+    approve_provider_context(r, service)
     for i in range(25):
         service.enrich_one()
     assert len(calls) == 20

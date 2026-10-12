@@ -997,3 +997,11 @@
 已完成186份自有Markdown协作全文阅读、行范围／EOF／blob验证；公开官方文档形成三份详细清洁房报告，见[实施入口](planning/2026-10-12/personal-agent-implementation.md)。云端重新通过149后端测试、28前端测试、Ruff、TypeScript和Vite构建。源码按完整清单hash验证，缺少的历史二进制明确记录，发布以远端基树保留而非删除。当前A1私有PNG尚未在云端取得，因此不能声称完整原画浏览器视觉验收。
 
 正在并行实施提供商边界、记忆／会话、受控应用执行、持续职责及对应UI／CI。此日志仅记录开工进度，不将这些功能写为完成；最终逐批验证和Git回执待追加。尚未创建额外Codex会话，未调用真实付费模型／硬件。
+
+## 2026-10-12 12:48 UTC｜个人Agent首批内核验证检查点
+
+在本轮完整阅读与三家公开研究后实现可审阅记忆／可保留文字线程、严格提供商目的地与单独业务上下文同意、独立回环应用创建／核验、本地持续职责及英中前端；补锁文件／资产校验和只读权限的GitHub Actions。通过独立审查修复隐私锁、迟到回调、重命名并发、取消日程投影及本地笔记草稿门控。
+
+本次云端整体执行361项后端、50项前端、Ruff、TypeScript／Vite；A1与VRM来源hash另行检查通过。两个独立进程的HTTP写入与SQLite检查证明真实且单次的虚构记录创建。生产构建保留大chunk提示。详情与日志见[首批QA](output/qa/2026-10-12-agent-kernel/checkpoint-verification.md)。没有真实语音／模型调用、硬件或学校提交。
+
+根product、handoff、README、architecture与早期盘点取代说明同步更新；细分契约在personal-context、routines、provider-policy、computer-jobs、software-checks。已建必要6.1 Sol Max隔离Mac验收任务，补回原A1字节但等待本批准确SHA测新界面。下一步发布此批、核对远端CI和实际浏览器，再继续有界增强；未合并或部署。

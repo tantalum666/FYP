@@ -1,0 +1,116 @@
+{
+  "at": "2026-10-12T12:47:09.662500+00:00",
+  "scope": "Review snapshot; other workers may subsequently change files",
+  "files": [
+    {
+      "path": "desk-companion/backend/desk/context.py",
+      "sha256": "82a620c2a113e5618299dd345e3e68f6c0f037753cf8c5be623d488aff4f988a",
+      "bytes": 12031
+    },
+    {
+      "path": "desk-companion/backend/desk/memory.py",
+      "sha256": "905ef10a5538c65d859847962583740884f975f8b87ad76fc185ba683306811d",
+      "bytes": 9453
+    },
+    {
+      "path": "desk-companion/backend/desk/conversations.py",
+      "sha256": "f7e9ee3b1043950f55003321ceff34cb3c605c322bf19aaf2bde37e08be6a4c8",
+      "bytes": 13762
+    },
+    {
+      "path": "desk-companion/backend/desk/routines.py",
+      "sha256": "907dad5a7d651bc9ecde6381e4c3498737f5c0104ddc4bb529e3226a80f735d9",
+      "bytes": 22062
+    },
+    {
+      "path": "desk-companion/backend/desk/assistant.py",
+      "sha256": "5858a83ba5d74aaf01395988821c5af249c2f2f1802e1e4801bedf89d1b22d7b",
+      "bytes": 30500
+    },
+    {
+      "path": "desk-companion/backend/desk/assistant_routes.py",
+      "sha256": "97b3ef2ae1dac81b114985b316a07c4dab1cd45da4a333d1ddde2d9d5d74863b",
+      "bytes": 1350
+    },
+    {
+      "path": "desk-companion/backend/desk/text_ai.py",
+      "sha256": "3ee3d1c07c955950c0c2b3779d7577a7d7d3a03dfdb1739daa649d95518aaef2",
+      "bytes": 19172
+    },
+    {
+      "path": "desk-companion/backend/desk/voice.py",
+      "sha256": "9da4b9bb1c379a5e5444f91da7ad4d3e1433ee13d5eafc3621bacd5e9bee8064",
+      "bytes": 31420
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/AssistantPanel.tsx",
+      "sha256": "56177d419ab618a13303f3cd68c7c44c2911c0c2ab129ec24c6c93edbedc5da7",
+      "bytes": 33804
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/RoutinesPanel.tsx",
+      "sha256": "ebfd6dc2da2701b25b8c60b8d9f07bfa923ec08162bb8bf337db17b72ccf0a83",
+      "bytes": 29300
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/ContextSettingsDialog.tsx",
+      "sha256": "f10cde0943356821033b131b02e68b1b3474c4e1f912e5168f9ca3094dd2f7b3",
+      "bytes": 6783
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/MemoryPanel.tsx",
+      "sha256": "1ba0b28c5d2ba379ada1fac659e68060ff746114093b63aceaab5d9f0177f47e",
+      "bytes": 8517
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/MutationFeedback.tsx",
+      "sha256": "92744af96507fd8066faea5c87bf91d6eaed4acb1e31431011948afa08791618",
+      "bytes": 1290
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/PersonalContextPanel.tsx",
+      "sha256": "b98b12e44904e5c4ad46b04c407e5ea3869dce5237467802d5b8f631a7343749",
+      "bytes": 13545
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/personal.css",
+      "sha256": "b86cbac159d602561ddfdda91cfa6d47e56b4f030ad3d11b87401e69b9386be2",
+      "bytes": 1492
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/privateWrite.ts",
+      "sha256": "f5968cfc308841981ebcd5c402550f43da9cc34bb5e3e66a4f32087febc2bcb6",
+      "bytes": 2235
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/responseFence.ts",
+      "sha256": "27cd3e93971cea4059afcf1f642ca2ef8dcf9b3b9611d7dbae3e6742fac0adb3",
+      "bytes": 508
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/types.ts",
+      "sha256": "c7eb671d8cb0bf1452ccb71bdff1d58142b67bb15d579369eff3631cee1a1fa5",
+      "bytes": 2762
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/usePersonalContext.ts",
+      "sha256": "c6b097fab8bb85f3dbe12ac872ed39358a8fe8a78c2ee875c7d7bddaa0fe3abe",
+      "bytes": 3571
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/usePrivateMutation.ts",
+      "sha256": "dd369ecf5acbea2714c28fd5980dd8c7ae5380c109434eba22104743d283db1c",
+      "bytes": 2163
+    },
+    {
+      "path": "desk-companion/docs/personal-context.md",
+      "sha256": "2de80030b52b1b4af797171face268a1f8292ac146f5c25ea35f1f25b8a2c265",
+      "bytes": 10762
+    },
+    {
+      "path": "desk-companion/docs/routines.md",
+      "sha256": "2da78b3dd667f46b698820c84993a2697e7c94633607d6d2da49c3dac730d52f",
+      "bytes": 10195
+    }
+  ]
+}

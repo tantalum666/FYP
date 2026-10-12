@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-12T12:42:47.028052+00:00",
+  "scope": "New or updated implementation documents fully read after editing/review",
+  "files": [
+    {
+      "path": "desk-companion/docs/provider-policy.md",
+      "sha256": "fdc09a26c48c10b7932dbc9c9dec1a2478d8569ba78073d7fb3af0151ca2b942",
+      "lines": 44,
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ],
+      "complete": true
+    },
+    {
+      "path": "desk-companion/docs/computer-jobs.md",
+      "sha256": "f396e584311a99bee762cc92a4ee097d944830149894196211230098067f5ba1",
+      "lines": 102,
+      "read_ranges": [
+        [
+          1,
+          102
+        ]
+      ],
+      "complete": true
+    },
+    {
+      "path": "output/qa/2026-10-12-agent-kernel/voice-provider-integration-review.md",
+      "sha256": "547c5d376638a3b9545b71e626669920fade21e3f2b91fd5d11fd59ffd309312",
+      "lines": 31,
+      "read_ranges": [
+        [
+          1,
+          31
+        ]
+      ],
+      "complete": true
+    }
+  ]
+}

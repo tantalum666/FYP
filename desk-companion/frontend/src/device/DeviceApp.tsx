@@ -608,7 +608,7 @@ export function DeviceApp() {
             ) : panel === "posture" ? (
               <PosturePanel t={t} />
             ) : panel === "assistant" ? (
-              <AssistantPanel t={t} />
+              <AssistantPanel t={t} displayMode />
             ) : panel === "extras" ? (
               <ExtrasPanel t={t} />
             ) : panel === "data" ? (

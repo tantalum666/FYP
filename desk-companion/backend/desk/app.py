@@ -24,6 +24,8 @@ from .google_calendar import google_routes
 from .phone import phone_snapshot
 from .tasks import task_routes
 from .jobs import job_routes
+from .context import personal_routes
+from .routines import routine_routes
 
 from .schemas import CreateEvents, EventAction, Login, ReminderAction, SettingsInput
 from .store import DomainError, Store
@@ -335,6 +337,8 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
     app.include_router(task_routes(services, authenticated, operation_id))
     app.include_router(job_routes(services, owner, operation_id))
     app.include_router(assistant_routes(services, authenticated, operation_id))
+    app.include_router(personal_routes(services, owner, operation_id))
+    app.include_router(routine_routes(services, owner, operation_id))
     app.include_router(voice_routes(services, authenticated, agent, allowed_origins, limit))
     app.include_router(exchange_routes(services, authenticated, owner, operation_id))
     app.include_router(google_routes(services, owner, operation_id))

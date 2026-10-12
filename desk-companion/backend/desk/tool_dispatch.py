@@ -27,8 +27,9 @@ class Invocation:
 
 
 class ToolDispatcher:
-    def __init__(self, runtime, session_id):
+    def __init__(self, runtime, session_id, authorize=None):
         self.runtime, self.session_id = runtime, session_id
+        self.authorize = authorize
         self.calls: dict[str, Invocation] = {}
         self.results = asyncio.Queue(maxsize=64)
         self.slots = asyncio.Semaphore(2)
@@ -116,6 +117,8 @@ class ToolDispatcher:
             result = {"error": "TOOL_CANCELLED", "saved": False}
         else:
             try:
+                if self.authorize is not None:
+                    self.authorize(call.event["name"])
                 result = self.runtime.assistant.tool(
                     call.event["name"],
                     call.event["arguments"],

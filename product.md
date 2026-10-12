@@ -90,6 +90,14 @@ A/B首轮各生成一张1024×1536全身概念，随后用户选择A1并连续�
 
 [本轮QA](output/qa/2026-10-12-a1-page-companion/verification.md)记录28项前端测试、类型／构建和最终浏览器检查。完整图片比例和关节对齐保持；当前反馈不是独立挥手、点头或迈步，大动作需另制完整姿势帧。[被否决3D稿](design/desk-companion/characters/2026-10-12-a1-3d/README.md)只作历史保留，运行副本和新3D／深度网格渲染已移除；原许可VRM独立入口保留，Pi／Linux实装及性能仍待验。
 
+## 2026-10-12 持续个人 Agent 内核
+
+用户要求深入阅读Grok Bot、Muse、dot公开开发文档，自主规划与实现，优先云端，将验证成果推到GitHub。新工作在[PR #5](https://github.com/tantalum666/FYP/pull/5)叠加PR #4；不自动合并、部署或改变A1美术。早期软件盘点中记忆／应用执行／CI缺口已由此阶段接续，历史正文保留其日期。
+
+当前新增代码包括[拥有者可审阅记忆与明确保留的连续文字会话](desk-companion/docs/personal-context.md)、[一次／每日／每周本地职责](desk-companion/docs/routines.md)、[独立测试应用的真实API创建／独立读回](desk-companion/docs/computer-jobs.md)、[提供商端点与上下文同意](desk-companion/docs/provider-policy.md)及[锁文件／资产／软件CI检查](desk-companion/docs/software-checks.md)。英中前端与隐私、冲突和未知回执处理正在整体验收；按[实施契约](planning/2026-10-12/personal-agent-implementation.md)和实际QA区分代码、测试、浏览器与远端发布状态。
+
+保存事实／历史不等于允许模型读取；额外业务上下文也需目的地绑定的独立同意。撤销／隐藏时不继续投影旧内容，不自动重连收费语音。临时对话不持久保存正文，但请求的业务草稿有独立保留契约；内容删除不宣称法证或远端擦除，无正文去重元数据仍有存储增长限制。职责是本机只读规则，不是无人批准外部写入。测试应用不等于任意电脑控制；真实自然语音／Pi／相机／硬件仍需实际条件。
+
 ## 已实现的软件范围
 
 10月5日用户授权将全部项目工作上传至新 GitHub 仓库，暂定仓库名 **FYP**，用于 Group 2 协作。采用私人个人仓库，当前软件名称仍为 Desk Companion；旧 Senplate、学校文件、研究、设计及 QA 记录保留。成员上手与分支 / PR 流程见 [CONTRIBUTING.md](CONTRIBUTING.md)。私人仓库已推送且首次全文件核验通过；用户明确同意仅增加FYP的现有令牌范围，邮箱验证后已保存生效，其他权限未变。本机凭据、运行数据库、已安装依赖与缓存留在本地；所有实际上传及远端核验结果见 [GitHub 建仓 QA](output/qa/2026-10-05-github-bootstrap/verification.md)。这次授权包含建仓、首次提交和推送；成员邀请的操作方法提供给用户，不自动发出邀请。

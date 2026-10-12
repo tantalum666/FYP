@@ -1175,7 +1175,7 @@ export function TaskPanel({
             void load();
           }}
         >
-          <AssistantPanel t={t} taskId={assistant} />
+          <AssistantPanel t={t} taskId={assistant} displayMode={displayMode} />
         </Modal>
       )}
     </div>

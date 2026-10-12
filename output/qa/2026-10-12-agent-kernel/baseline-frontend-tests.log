@@ -1,0 +1,61 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> desk-companion-ui@0.1.0 test
+> node --experimental-strip-types --test tests/*.test.ts
+
+✔ offline, paused, snoozed and replay posture cannot create a live character alert (1.165631ms)
+✔ live voice takes precedence and unknown provider states have a bounded fallback (0.131113ms)
+✔ mouth stops after missing playback and rejects invalid or future amplitude (0.162209ms)
+✔ output RMS ignores silence and never makes invalid audio a full-open mouth (0.324909ms)
+✔ local VRMs cannot fetch external images, buffers or unsupported codecs (0.900759ms)
+✖ bundled avatar matches the pinned upstream asset and permits redistribution (0.513829ms)
+✔ playback meter samples actual output and resets immediately on interruption / close (230.975112ms)
+✔ edge depth distinguishes free, half, head and hidden on left, right and bottom (2.285314ms)
+✔ invalid or blocked storage data cannot strand the companion (0.470494ms)
+✔ resizing keeps free figures and every hidden recall button inside usable screen bounds (0.570512ms)
+✔ saved continuous scale survives reload and legacy sizes migrate without losing placement (0.307304ms)
+✔ arbitrary scaling keeps a docked head cropped and the complete character fits after recall (0.354694ms)
+✔ a docked head can be dragged back to a complete in-bounds figure (0.214096ms)
+✔ approval requires fresh data and an unexpired review (1.316734ms)
+✔ cancellation remains available for active and unknown jobs only (0.269488ms)
+✔ recovering another operation must not clear the current unsaved note (0.421762ms)
+✔ pending note recovery is scoped to the same linked task (0.212884ms)
+✔ saved timed events return to the display's local date, including a date boundary (26.160806ms)
+✔ display appearance follows local hour at the two boundaries (0.206425ms)
+✔ five and six week months have complete, bounded grids (10.729718ms)
+✔ end of year display includes next month while obeying API range limit (19.714761ms)
+✔ upcoming excludes completed and ended items, keeps an ongoing cross-midnight event (0.916152ms)
+✔ upcoming ordering compares instants, not written timezone offsets (0.276488ms)
+✔ automatic return never interrupts editing or an unresolved save (0.141529ms)
+✔ audio worklet retains fractional phase across 128-sample blocks (58.451129ms)
+✔ busy duration merges overlaps, clips to day, and ignores completed events (16.211209ms)
+✔ lunar day is computed in the selected calendar timezone (1.747079ms)
+✔ a stale posture connection masks private content in a previously loaded display snapshot (0.233505ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 27
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 400.300019
+
+✖ failing tests:
+
+test at tests/avatar.test.ts:111:1
+✖ bundled avatar matches the pinned upstream asset and permits redistribution (0.513829ms)
+  Error: ENOENT: no such file or directory, open '/workspace/shared/fyp-agent-20261012/desk-companion/frontend/public/avatars/pixiv-sample.vrm'
+      at Object.openSync (node:fs:622:18)
+      at Object.readFileSync (node:fs:488:35)
+      at TestContext.<anonymous> (file:///workspace/shared/fyp-agent-20261012/desk-companion/frontend/tests/avatar.test.ts:112:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/workspace/shared/fyp-agent-20261012/desk-companion/frontend/public/avatars/pixiv-sample.vrm'
+  }

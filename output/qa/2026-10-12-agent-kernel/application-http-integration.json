@@ -1,0 +1,62 @@
+{
+  "checked_at": "2026-10-12T12:39:48.303937+00:00",
+  "origin": "http://127.0.0.1:18840",
+  "interface": "real_http_application_api",
+  "standalone_process": true,
+  "application_instance_id": "25c68d76487a4598973738aa22f1f635",
+  "job_id": "b767684286f54b77aad9d5131b234082",
+  "before_approval_records": 0,
+  "after_approval_records": 1,
+  "sqlite_independent_readback": true,
+  "repeat_draft_one_record": true,
+  "application_html_contains_record": true,
+  "content_sha256": "f2c67a07936a70f52fe493938dd9ab2e114d0a337c309fc03fa3c6e3f5e5d797",
+  "state": "succeeded",
+  "receipt": {
+    "adapter_version": 1,
+    "app_instance_id": "25c68d76487a4598973738aa22f1f635",
+    "artifact": "b767684286f54b77aad9d5131b234082.json",
+    "bytes": 79,
+    "executor": "demo_records_api_v1",
+    "reason": "read_back_matches",
+    "record_intent_hash": "c2765a2407f8aa0dd11daab359c9d129603b0d1f7759510713e1d86793352c07",
+    "schema_version": 1,
+    "scope": "isolated_demo_records_only",
+    "sha256": "f2c67a07936a70f52fe493938dd9ab2e114d0a337c309fc03fa3c6e3f5e5d797",
+    "target_origin": "http://127.0.0.1:18840",
+    "title_sha256": "5598bd163318c6fbd372428fa717f7636565ed0556c8745837eeef24b442a4f3",
+    "verified": true
+  },
+  "history": [
+    {
+      "at": "2026-10-12T12:39:48.266795Z",
+      "state": "review",
+      "code": null
+    },
+    {
+      "at": "2026-10-12T12:39:48.269803Z",
+      "state": "queued",
+      "code": null
+    },
+    {
+      "at": "2026-10-12T12:39:48.271198Z",
+      "state": "running",
+      "code": null
+    },
+    {
+      "at": "2026-10-12T12:39:48.289355Z",
+      "state": "verifying",
+      "code": null
+    },
+    {
+      "at": "2026-10-12T12:39:48.298031Z",
+      "state": "succeeded",
+      "code": null
+    }
+  ],
+  "paid_provider_calls": 0,
+  "browser_control_exercised": false,
+  "hardware_actions": 0,
+  "test_owned_process_stopped": true,
+  "temporary_test_data_removed_on_exit": true
+}

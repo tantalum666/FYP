@@ -16,6 +16,10 @@ from .google_calendar import GoogleCalendar
 from .tasks import TaskService
 from .text_ai import TextAssistant
 from .jobs import JobService
+from .context import PersonalContext
+from .memory import MemoryService
+from .conversations import ConversationService
+from .routines import RoutineService
 
 
 class Runtime:
@@ -26,6 +30,10 @@ class Runtime:
         self.posture = PostureService(store)
         self.outputs = OutputService(store)
         self.tasks = TaskService(self)
+        self.routines = RoutineService(self)
+        self.personal_context = PersonalContext(self)
+        self.memories = MemoryService(self)
+        self.conversations = ConversationService(self)
         self.jobs = JobService(self)
         self.worker_health = {}
         self.assistant = AssistantService(self)
@@ -52,6 +60,7 @@ class Runtime:
 
     def snapshot(self, principal):
         result = {
+            "personal_context_visible": self.personal_context.visible(principal),
             "computer": self.jobs.capabilities(),
             "workers": dict(self.worker_health),
             "tasks": self.tasks.snapshot(),
@@ -92,3 +101,5 @@ class Runtime:
         self.posture.tick()
         self.tasks.tick()
         self.jobs.expire()
+        self.memories.expire()
+        self.routines.tick()

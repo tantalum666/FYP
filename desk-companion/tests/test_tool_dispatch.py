@@ -9,7 +9,7 @@ from desk.app import create_app
 from desk.store import DomainError
 from desk.tool_dispatch import ToolDispatcher
 from desk.voice import VoiceConfig
-from test_voice_google import FakeProvider
+from test_voice_google import FakeProvider, approve_business_context
 
 
 def event(call_id="one", name="calendar_create_draft", arguments=None):
@@ -188,7 +188,8 @@ class FakeSocket:
 def test_slow_tool_does_not_block_provider_audio_or_interruption(tmp_path):
     runtime = create_app(tmp_path, password="fixture", scheduler=False).state.runtime
     voice = runtime.voice
-    voice.config = VoiceConfig("qwen_audio", "wss://fixture.invalid", "fixture", "not-a-key")
+    voice.config = VoiceConfig("qwen_audio", "wss://fixture.cn-beijing.maas.aliyuncs.com/api-ws/v1/realtime", "fixture", "not-a-key")
+    approve_business_context(runtime)
     original, entered, release = runtime.assistant.tool, threading.Event(), threading.Event()
 
     def slow(*args):
@@ -300,7 +301,8 @@ def test_stop_remains_available_after_lifetime_quota_without_growing_history(tmp
 def test_interrupt_during_result_delivery_never_revives_cancelled_draft(tmp_path, gate):
     runtime = create_app(tmp_path, password="fixture", scheduler=False).state.runtime
     voice = runtime.voice
-    voice.config = VoiceConfig("qwen_audio", "wss://fixture.invalid", "fixture", "not-a-key")
+    voice.config = VoiceConfig("qwen_audio", "wss://fixture.cn-beijing.maas.aliyuncs.com/api-ws/v1/realtime", "fixture", "not-a-key")
+    approve_business_context(runtime)
 
     async def scenario():
         blocked, release, interrupted = asyncio.Event(), asyncio.Event(), asyncio.Event()
