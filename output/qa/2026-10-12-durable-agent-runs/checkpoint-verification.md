@@ -22,3 +22,7 @@ Owner-selected immutable text sources; actual generated and independently read M
 No live paid-provider quality, real DOM/StackEdit acceptance, generic desktop control, hard browser egress isolation, external-account workflow, hardware performance or complete parity with Grok Bot/Muse/dot. Browser capability is separate from model-run tools. Source/run deletion and hidden-mode run stop UI remain documented limitations. Existing large-bundle and deprecation warnings remain visible in the logs.
 
 Publication overlays the full reviewed c9d7735 remote tree without deletion and uses a guarded fast-forward. Remote SHA/blob verification and CI are separate evidence collected after publication. No main merge or deployment is authorized by this checkpoint.
+
+## Remote publication
+
+Source commit c57b05288db30ed246dd3aefc354214f92f157e1, tree0ea7dbc3b1f44c66fbacf8bac9e61ed3e94ee2c7. All121candidateblobhashes match. Both exact-source CI runs passed: [PR](https://github.com/tantalum666/FYP/actions/runs/38271672313) and [push](https://github.com/tantalum666/FYP/actions/runs/38271664702). [Machine-readable proof](publication.json). Any subsequent documentation-only commit does not change this source acceptance boundary.
