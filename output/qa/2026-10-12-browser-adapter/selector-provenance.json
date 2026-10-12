@@ -1,0 +1,97 @@
+{
+  "retrieved_date": "2026-10-12",
+  "repository": "benweet/stackedit",
+  "commit": "6dce2a5e36b755a0c244522b48a06c91a2df0f59",
+  "method": "read-only public GitHub connector and HTTP HTML inspection; no downloaded upstream code executed",
+  "live_browser_acceptance": false,
+  "sources": [
+    {
+      "path": "src/components/menus/ImportExportMenu.vue",
+      "available": true,
+      "git_blob_sha": "e26cbd066bb0bc85cb45e24bcbc50816d14933f1",
+      "url": "https://github.com/benweet/stackedit/blob/6dce2a5e36b755a0c244522b48a06c91a2df0f59/src/components/menus/ImportExportMenu.vue",
+      "read_scope": "complete source file"
+    },
+    {
+      "path": "src/components/menus/MainMenu.vue",
+      "available": true,
+      "git_blob_sha": "85f2260ae19486e39032d2b9325a0fb39e3a19f4",
+      "url": "https://github.com/benweet/stackedit/blob/6dce2a5e36b755a0c244522b48a06c91a2df0f59/src/components/menus/MainMenu.vue",
+      "read_scope": "complete source file"
+    },
+    {
+      "path": "src/components/Editor.vue",
+      "available": true,
+      "git_blob_sha": "0802af448a5f03c81e8fcea941b5f9bd78044ae5",
+      "url": "https://github.com/benweet/stackedit/blob/6dce2a5e36b755a0c244522b48a06c91a2df0f59/src/components/Editor.vue",
+      "read_scope": "complete source file"
+    },
+    {
+      "path": "src/components/menus/common/MenuEntry.vue",
+      "available": true,
+      "git_blob_sha": "00072d09ce410f45e219a072a6cf875168f2dbbd",
+      "url": "https://github.com/benweet/stackedit/blob/6dce2a5e36b755a0c244522b48a06c91a2df0f59/src/components/menus/common/MenuEntry.vue",
+      "read_scope": "complete source file"
+    },
+    {
+      "path": "src/services/exportSvc.js",
+      "available": true,
+      "git_blob_sha": "877376d485d69c8033ecb1a6bf866bbe0baeb527",
+      "url": "https://github.com/benweet/stackedit/blob/6dce2a5e36b755a0c244522b48a06c91a2df0f59/src/services/exportSvc.js",
+      "read_scope": "complete source file"
+    },
+    {
+      "path": "src/components/NavigationBar.vue",
+      "available": true,
+      "git_blob_sha": "44549fce51d38ed4fd287e35e7feba5c69410016",
+      "url": "https://github.com/benweet/stackedit/blob/6dce2a5e36b755a0c244522b48a06c91a2df0f59/src/components/NavigationBar.vue",
+      "read_scope": "complete source file"
+    },
+    {
+      "path": "src/components/Explorer.vue",
+      "available": true,
+      "git_blob_sha": "5a81d46a9586108bbca925fd9f5b9e3f4a8b14f4",
+      "url": "https://github.com/benweet/stackedit/blob/6dce2a5e36b755a0c244522b48a06c91a2df0f59/src/components/Explorer.vue",
+      "read_scope": "complete source file"
+    },
+    {
+      "path": "src/components/SideBar.vue",
+      "available": true,
+      "git_blob_sha": "bf4019f94eb2828f204d87e088e2c937c440fe70",
+      "url": "https://github.com/benweet/stackedit/blob/6dce2a5e36b755a0c244522b48a06c91a2df0f59/src/components/SideBar.vue",
+      "read_scope": "complete source file"
+    },
+    {
+      "path": "src/components/ExplorerNode.vue",
+      "available": true,
+      "git_blob_sha": "e3771a3fedbd0fda6d5ebbf48b196a9c33e78019",
+      "url": "https://github.com/benweet/stackedit/blob/6dce2a5e36b755a0c244522b48a06c91a2df0f59/src/components/ExplorerNode.vue",
+      "read_scope": "first 190 lines"
+    },
+    {
+      "path": "src/components/Tour.vue",
+      "available": true,
+      "git_blob_sha": "2c291c6aab26b8b6e4c56e327545c84609707d62",
+      "url": "https://github.com/benweet/stackedit/blob/6dce2a5e36b755a0c244522b48a06c91a2df0f59/src/components/Tour.vue",
+      "read_scope": "first 190 lines"
+    },
+    {
+      "path": "src/services/explorerSvc.js",
+      "available": true,
+      "git_blob_sha": "0735f73f9bff573d116a3c0e25a5f87ff0b194e9",
+      "url": "https://github.com/benweet/stackedit/blob/6dce2a5e36b755a0c244522b48a06c91a2df0f59/src/services/explorerSvc.js",
+      "read_scope": "complete source file"
+    }
+  ],
+  "live_html": {
+    "url": "https://stackedit.io/app",
+    "status": 200,
+    "bytes": 4868,
+    "inspection": "HTML asset paths only, no browser JavaScript execution"
+  },
+  "limitations": [
+    "Source-derived selectors remain live-unverified",
+    "Only first 190 lines of ExplorerNode.vue and Tour.vue were read; no full-file claim",
+    "settings.yml fetch returned 404 and is not a read source"
+  ]
+}

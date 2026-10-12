@@ -1,0 +1,116 @@
+{
+  "at": "2026-10-12T13:36:15.990378+00:00",
+  "status": "design_only",
+  "base_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "reading": [
+    {
+      "path": "planning/2026-10-12/durable-agent-run-design.md",
+      "bytes": 47540,
+      "lines": 373,
+      "sha256": "98004d65819a84cc390717700d5963a5bd97865f4652d50e7e036461684c42e5",
+      "read_ranges": [
+        [
+          1,
+          124
+        ],
+        [
+          125,
+          250
+        ],
+        [
+          251,
+          373
+        ]
+      ],
+      "complete": true
+    },
+    {
+      "path": "research/2026-10-12-personal-agents/dot-capability-gap.md",
+      "bytes": 36223,
+      "lines": 255,
+      "sha256": "a9bb03f94441e0e81b4c0db3362d6023d86ebb1fe5945996c82c7b0692a23567",
+      "read_ranges": [
+        [
+          1,
+          130
+        ],
+        [
+          131,
+          255
+        ]
+      ],
+      "complete": true
+    },
+    {
+      "path": "research/2026-10-12-personal-agents/muse-capability-gap.md",
+      "bytes": 45312,
+      "lines": 252,
+      "sha256": "92b9b11906a06800233185c4f2e3c8c8da5bb307d741c5b01e9bc46ee63bfddf",
+      "read_ranges": [
+        [
+          1,
+          62
+        ],
+        [
+          63,
+          170
+        ],
+        [
+          171,
+          252
+        ]
+      ],
+      "complete": true
+    },
+    {
+      "path": "planning/2026-10-12/personal-agent-implementation.md",
+      "bytes": 8662,
+      "lines": 76,
+      "sha256": "87991d01ee7dee7affc22e005a0f6b96d7dc39e8a26fcedc735c1befcbbdacd2",
+      "read_ranges": [
+        [
+          1,
+          76
+        ]
+      ],
+      "complete": true
+    },
+    {
+      "path": "handoff.md",
+      "bytes": 2622,
+      "lines": 26,
+      "sha256": "1ad797250bfc8f056ea1034857f63c40367a5730301dfdacfaa9f541b2074e9c",
+      "read_ranges": [
+        [
+          1,
+          26
+        ]
+      ],
+      "complete": true
+    }
+  ],
+  "reading_notes": [
+    "Inherited full project reading ledgers; current product changes inspected with exact diff against previously read pinned copy",
+    "Repaired truncated tasks.py region with lines398-486 reread",
+    "Repaired combined Muse report truncation with three disjoint complete ranges",
+    "Read current design to EOF in three ranges; single-line ID clarification reread separately"
+  ],
+  "source_inspection": {
+    "desk-companion/backend/desk/text_ai.py": "complete 419 lines",
+    "desk-companion/backend/desk/assistant.py": "complete 678 lines",
+    "desk-companion/backend/desk/tasks.py": "complete486, truncation repaired398-486",
+    "desk-companion/backend/desk/jobs.py": "complete, final privacy amendment reviewed",
+    "desk-companion/backend/desk/runtime.py": "complete105",
+    "desk-companion/backend/desk/app.py": "lifespan and routes relevant excerpts, not full-new-read claim",
+    "desk-companion/backend/desk/routines.py": "interface/schema excerpts, prior full read retained",
+    "frontend": "AssistantPanel and ComputerJobsPanel relevant integration excerpts"
+  },
+  "checks": {
+    "internal_markdown_links": "all resolve",
+    "frozen_source_changes": false,
+    "paid_calls": 0,
+    "browser_or_desktop_execution": false,
+    "application_tests": "not rerun for design-only change"
+  },
+  "pending": "Parent design approval/file ownership before implementation"
+}

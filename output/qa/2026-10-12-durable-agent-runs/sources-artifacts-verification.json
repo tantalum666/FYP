@@ -1,0 +1,112 @@
+{
+  "worker": "read_fyp_project_history",
+  "checkpoint_base": "546734273c9c8305cf6226e96a8e07854ba5c0b1",
+  "recorded_utc": "2026-10-12T15:08:20.750367+00:00",
+  "reading": {
+    "path": "planning/2026-10-12/durable-agent-run-design.md",
+    "line_total": 373,
+    "read_ranges": [
+      [
+        1,
+        149
+      ],
+      [
+        150,
+        300
+      ],
+      [
+        300,
+        373
+      ]
+    ],
+    "eof": true,
+    "truncation_repaired": "Initial combined output truncated in middle; bounded 150-300 and 300-373 reads filled gap. Document is local worktree design; no claim it was in checkpoint commit.",
+    "sha256": "98004d65819a84cc390717700d5963a5bd97865f4652d50e7e036461684c42e5"
+  },
+  "owned_files": [
+    {
+      "path": "desk-companion/backend/desk/file_store.py",
+      "sha256": "e7a8bc6f00ea8751046176764ea6db77bae4ce032d5ce9d0ab898eca4489a55d",
+      "line_total": 315
+    },
+    {
+      "path": "desk-companion/backend/desk/sources.py",
+      "sha256": "96155e633e1fa1f7b770e0a055c17192e549cb0e3141efb1db57176ba9495053",
+      "line_total": 322
+    },
+    {
+      "path": "desk-companion/backend/desk/artifacts.py",
+      "sha256": "76d8da83efe692472a5f131bb19a8e2c08944a18b5c6016154a698afb2aa5911",
+      "line_total": 301
+    },
+    {
+      "path": "desk-companion/tests/test_artifacts.py",
+      "sha256": "b9aa097d65bd891d845c3826d3bccb56001176cc5993bc9826cfaa6ba3709965",
+      "line_total": 681
+    },
+    {
+      "path": "desk-companion/docs/sources-and-artifacts.md",
+      "sha256": "f481e7f84ac63a37e43dbdce581ef19fd1c1aaaa0c43465325577673005ee5e3",
+      "line_total": 210
+    }
+  ],
+  "tests": [
+    {
+      "command": ".venv/bin/pytest -q tests/test_artifacts.py --disable-warnings --maxfail=2",
+      "result": "50 passed, 1 warning in 7.54s",
+      "scope": "real SQLite/filesystem, independent byte parsing/hash inspection, subprocess exit/restart, exact API upload/preview/download, safety/durability boundaries"
+    },
+    {
+      "command": ".venv/bin/ruff check backend/desk/file_store.py backend/desk/sources.py backend/desk/artifacts.py tests/test_artifacts.py",
+      "result": "all checks passed"
+    },
+    {
+      "command": ".venv/bin/ruff format --check backend/desk/file_store.py backend/desk/sources.py backend/desk/artifacts.py tests/test_artifacts.py",
+      "result": "4 files already formatted"
+    },
+    {
+      "command": ".venv/bin/pytest -q tests/test_artifacts.py tests/test_routines.py --disable-warnings --maxfail=2",
+      "result": "79 passed, 1 warning in 10.77s",
+      "log": "source-artifact-tests.log"
+    }
+  ],
+  "integration": "Parent owns Runtime/app wiring; service APIs coordinated with run worker, browser adapter and frontend worker.",
+  "limits": [
+    "No external upload/provider call/search/browser execution by these services",
+    "Per-source provider transmission remains run-coordinator policy, separate from selecting or locally reading a source",
+    "Structural citation/reference/hash validation is not semantic fact checking",
+    "No delete/forget/automatic cleanup endpoint; unknown temporary reservations consume bounded capacity",
+    "Browser import checks supplied actual bytes and digest; actual GUI/export evidence belongs to trusted adapter",
+    "Private source/artifact UI browser QA is owned by parent integration"
+  ],
+  "review_fixes": [
+    "Temp fsync then atomic no-overwrite link + parent fsync, safe final readback",
+    "Reserved/unknown recovery must fsync exact final file and directory, cannot promote unfinished temporary object",
+    "Model read budget returns complete unchanged lines; no false range after excerpt trim",
+    "Source timestamp acquired_at explicitly means snapshot acquisition"
+  ],
+  "independent_review": {
+    "worker": "prepare_fyp_cloud_workspace",
+    "result": "No remaining storage blocker; 15 targeted tests passed, 63 deselected; inspected source/test hashes unchanged during run",
+    "evidence": [
+      "review-focused-tests.log",
+      "review-focused-before.sha256"
+    ]
+  },
+  "route_ui_check": {
+    "checked_utc": "2026-10-12T15:11:29.015367+00:00",
+    "pagination": "Run scope limit100 matches source cap100; per-run artifact cap4 fits default50; no dropped initial-page source/artifact found",
+    "matching_contracts": [
+      "raw UTF8 upload/response",
+      "whole-line source preview end_line+1 paging",
+      "artifact plain preview and download hash/byte_count"
+    ],
+    "observations_sent_to_parent_and_frontend": [
+      "Model source_read1800-byte bound explicitly rejects an overlong first line without recording false coverage; bilingual explanation needed",
+      "SourceRecord omitted status, so unknown reservation may appear selectable before run authorization blocks it",
+      "File input accept omitted .markdown although helper/backend accept it"
+    ],
+    "files_changed": "None"
+  },
+  "completed_utc": "2026-10-12T15:11:29.015381+00:00"
+}

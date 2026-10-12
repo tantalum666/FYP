@@ -1,0 +1,1 @@
+{'probe': 'observation_service_restart', 'post_restart_dispatch': True, 'response': 'returned_observation', 'persisted_state': 'observed'}

@@ -1,0 +1,2 @@
+{'probe': 'reserved_effect_key_collision', 'state': 'waiting_review', 'reason': 'RUN_REVIEW_REQUIRED', 'adopted_different_draft': True}
+{'terminal': 'succeeded', 'saved_titles': ['Different prior draft']}

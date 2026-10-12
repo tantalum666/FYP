@@ -1,0 +1,75 @@
+{
+  "checked_at": "2026-10-12T15:16:58.783212+00:00",
+  "source_files": [
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/ArtifactList.tsx",
+      "sha256": "02bbea3851d18393b739d017d072d139df5225f66593cb10defeebb141db28ae",
+      "bytes": 7844
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RequestFeedback.tsx",
+      "sha256": "1766a5102c04126a5c0ffd611f5e53066c3fae82b76ca49ceac6bfaa87ede21f",
+      "bytes": 1288
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunComposer.tsx",
+      "sha256": "503f1823a4bc497d0f57a5626430765c6960895dceff31c2c9ba390f3653ce50",
+      "bytes": 22562
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunDetail.tsx",
+      "sha256": "49b8a37db1deea4eb19d3ab1b42068a7591a0531ce1a59770416e0fc0169d492",
+      "bytes": 15341
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunPanel.tsx",
+      "sha256": "2607d489215e76f57e6addbe941c98b2e04e341553fd6b6c1ad702f36875fc08",
+      "bytes": 8692
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/SourcePreview.tsx",
+      "sha256": "715cdba2850670d594ee106cdfc0be32b73bf02c618f4ce7bd2cee8327d3321c",
+      "bytes": 3437
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/SourceUpload.tsx",
+      "sha256": "18d0d1421aa3c1aa86131c11c598721607971fb51ad6cae20b2033bc2faef0d6",
+      "bytes": 4551
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/agent.css",
+      "sha256": "18198ac7213f34c5c0250f7c4d55d7c982128d06feac503ed3b4613195c5b719",
+      "bytes": 3787
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/labels.ts",
+      "sha256": "c77d34aecd8a42e87d8f9756f6dd325a8093f961d45568dde005d175d7dcebf9",
+      "bytes": 12845
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/types.ts",
+      "sha256": "f30c4bcff8d3e056ddf4071cf670513cbe885ad7de56b168fe1cf0709d529d18",
+      "bytes": 7812
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/upload.ts",
+      "sha256": "2b3ce4a382ab2186e31fc388db3be2867f8fba6c3a48a564317c41e7a207a4b1",
+      "bytes": 1709
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/useAgentRuns.ts",
+      "sha256": "153055c7548706bf5f5ba69e226d1db08bc73c40164fe3473cb891e4747abfac",
+      "bytes": 3188
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/useUploadMutation.ts",
+      "sha256": "c196cfddd5a79140acd5b96a6527ee3c51de5f82b8d3237e8ca749136abfb475",
+      "bytes": 2083
+    },
+    {
+      "path": "desk-companion/frontend/tests/agent-runs.test.ts",
+      "sha256": "acaa5a6d79f1629ede242158539c571270a544ec2d6b3edc8f6f78ddab6a3339",
+      "bytes": 13029
+    }
+  ]
+}

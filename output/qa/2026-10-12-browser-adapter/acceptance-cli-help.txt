@@ -1,0 +1,17 @@
+usage: check_browser_workflow.py [-h] --chromium CHROMIUM --output OUTPUT
+                                 [--approve-public-fixture]
+
+Exercise FYP's actual sandboxed browser adapter with one public/synthetic
+brief. Requires an already provisioned Chromium executable. Installs nothing
+and never changes OS security settings. The output directory must not exist.
+Runtime/evidence are retained for inspection; do not publish its runtime/
+directory.
+
+options:
+  -h, --help            show this help message and exit
+  --chromium CHROMIUM   Absolute executable from an already authorized
+                        official installation
+  --output OUTPUT       New private evidence directory
+  --approve-public-fixture
+                        Approve the fixed public/synthetic brief in StackEdit
+                        and its local export

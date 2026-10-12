@@ -20,6 +20,10 @@ from .context import PersonalContext
 from .memory import MemoryService
 from .conversations import ConversationService
 from .routines import RoutineService
+from .sources import SourceService
+from .artifacts import ArtifactService
+from .agent_runs import AgentRunService
+from .browser_jobs import BrowserService
 
 
 class Runtime:
@@ -42,6 +46,10 @@ class Runtime:
         self.exchange = ExchangeService(self)
         self.google = GoogleCalendar(self)
         self.text_ai = TextAssistant(self)
+        self.sources = SourceService(self)
+        self.artifacts = ArtifactService(self)
+        self.agent_runs = AgentRunService(self)
+        self.browser_jobs = BrowserService(self)
         self.posture.on_prompt = self.on_posture_prompt
 
     def on_posture_prompt(self, event):

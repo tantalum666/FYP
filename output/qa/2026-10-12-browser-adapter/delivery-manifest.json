@@ -1,0 +1,62 @@
+{
+  "frozen_at": "2026-10-12T15:30:07.784444+00:00",
+  "files": [
+    {
+      "path": "desk-companion/backend/desk/browser_jobs.py",
+      "sha256": "d2ad78310cf40a107e9a6fc1db477d232006d78f723e170890fd992020dff439",
+      "bytes": 30884,
+      "lines": 543
+    },
+    {
+      "path": "desk-companion/backend/desk/browser_policy.py",
+      "sha256": "1ef3ae1b61a5600cd2f9151208302f876e5dba1f7d7def66a94a5c042db8e872",
+      "bytes": 9148,
+      "lines": 244
+    },
+    {
+      "path": "desk-companion/backend/desk/browser_supervisor.py",
+      "sha256": "4e502af6e755b6990193bb05215317bb12904a4e3484dff7b203b94b90211e8f",
+      "bytes": 8433,
+      "lines": 168
+    },
+    {
+      "path": "desk-companion/backend/desk/browser_worker.py",
+      "sha256": "95f0f845a7b373fff4c91ef8dd8230377063488edc30a490de7a17739eb70174",
+      "bytes": 10873,
+      "lines": 250
+    },
+    {
+      "path": "desk-companion/tests/test_browser_jobs.py",
+      "sha256": "badbd5d98654385072263948fab26b7d9b15d36fab1b32228e78445ac40cdb5b",
+      "bytes": 24263,
+      "lines": 524
+    },
+    {
+      "path": "desk-companion/scripts/check_browser_workflow.py",
+      "sha256": "6e575cb1412ee18f8acab608ccfad4d4aa26eb21ac593038ab60d0b2f2b55eea",
+      "bytes": 8362,
+      "lines": 152
+    },
+    {
+      "path": "desk-companion/docs/browser-workflow.md",
+      "sha256": "833bc1221e1139e1a6afc015074655ee3f67d9888a4d79296f13a8def78c5f75",
+      "bytes": 14178,
+      "lines": 99
+    },
+    {
+      "path": "desk-companion/pyproject.toml",
+      "sha256": "c24ec2113c8366cc1b324bba1c2c4b103c60050f801afed867055cb18c2800dc",
+      "bytes": 995,
+      "lines": 46
+    },
+    {
+      "path": "desk-companion/uv.lock",
+      "sha256": "2b0e5a5ef9f7a3c55a18a226abab7509ff576acefdc5794bcfe7464ce328a81b",
+      "bytes": 282419,
+      "lines": 1446
+    }
+  ],
+  "focused_tests": 37,
+  "live_browser_acceptance": "not_run_cloud_blocked",
+  "publication": "coordinator_only"
+}

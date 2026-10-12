@@ -1,0 +1,33 @@
+✔ persistent work requires an explicit retention choice and at least one valid selected source (1.779176ms)
+✔ local compilation never inherits provider transmission or mutation grants (0.899528ms)
+✔ unknown source reservations and finished or expired reviews cannot be selected (0.312732ms)
+✔ adaptive work requires exact text destination plus explicit selected-content sharing (0.35239ms)
+✔ selection count, source bytes and section requirements match server ceilings (1.703043ms)
+✔ reviewed request arrays are immutable snapshots rather than live checkbox arrays (0.177783ms)
+✔ unknown model outcome has an explicit new-attempt action and no ordinary resume (0.321915ms)
+✔ file selection validates UTF-8 bytes, suffix, display name and content before upload (1.527454ms)
+✔ source upload preserves raw Unicode and one operation ID across an unknown response without storage (1.024062ms)
+✔ a file hash or model message does not grant structural or semantic verification (0.618422ms)
+✔ privacy, identity and hide-show transitions permanently fence earlier replies (0.319762ms)
+✔ component contracts preserve modal drafts, selected-run fences and independent cancellation (0.727814ms)
+✔ all new run components avoid persistent browser bodies and raw generated HTML (1.580833ms)
+✔ browser readiness is fail-closed for missing, stale or unavailable runtime and altered target (1.581223ms)
+✔ approval requires exact visible intent, current deadline, ready runtime and no cancellation (0.534148ms)
+✔ an executor state string or click receipt cannot become verified export success (0.242869ms)
+✔ cancel and navigation controls do not imply rollback or discard uncertain requests (0.161499ms)
+✔ only an exact catalog source becomes a source hyperlink (0.211843ms)
+✔ same-ID recovery and independent cancellation remain separate requests (1.903199ms)
+✔ privacy, newer selection and owner session changes fence browser observations and exports (0.620035ms)
+✔ actual UTF-8 export bytes are independently hash checked (9.071168ms)
+✔ export rejects executable MIME, excessive streamed bytes and hidden response (1.093434ms)
+✔ privacy revocation while a download is awaiting bytes cancels its stream (1.480635ms)
+✔ browser UI uses volatile mutations, explicit review and plain-text source previews (0.940127ms)
+✔ public browser observation gets the bounded read timeout without changing other request timeouts (0.287575ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 176.693587

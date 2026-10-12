@@ -1,0 +1,43 @@
+{
+  "at": "2026-10-12T15:30:31.131762+00:00",
+  "inherited_reading_gate": "reading-union-status.json",
+  "scope": "same task continuation; new/changed relevant docs only",
+  "complete": [
+    {
+      "path": "desk-companion/docs/agent-runs.md",
+      "lines": 90,
+      "ranges": [
+        [
+          1,
+          90
+        ]
+      ],
+      "sha256": "fc447ce18c4db082a164e60313ae02737bd38c190b5a51dfabb8175628db6584"
+    },
+    {
+      "path": "desk-companion/docs/provider-policy.md",
+      "lines": 51,
+      "ranges": [
+        [
+          1,
+          51
+        ]
+      ],
+      "sha256": "38ba7f0776310a827bd3ec6b7216e11505ff9dfc64796a35ad6862cbdc51e1a4"
+    },
+    {
+      "path": "desk-companion/docs/sources-and-artifacts.md",
+      "lines": 210,
+      "ranges": [
+        [
+          1,
+          210
+        ]
+      ],
+      "sha256": "f481e7f84ac63a37e43dbdce581ef19fd1c1aaaa0c43465325577673005ee5e3"
+    }
+  ],
+  "design": "Original full design read in durable-run-design-review.json; changed status/base note and new section18 reviewed",
+  "links": "all own Markdown relative links resolve",
+  "truncation": "none in supplementary full reads"
+}

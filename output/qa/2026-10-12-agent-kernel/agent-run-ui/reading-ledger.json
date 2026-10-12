@@ -1,0 +1,43 @@
+{
+  "same_task_continuation": true,
+  "base_read_gate": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "supplemental_read_completed_at": "2026-10-12T15:16:58.783728+00:00",
+  "full_markdown_reads": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_ranges": "1-EOF (segmented; truncated output repaired)",
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 166,
+      "read_ranges": "1-EOF (segmented; truncated output repaired)",
+      "sha256": "300ad74f79082217bf3166f679a94ae6dd0633c9581b72e1794cd2e54016b789"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 28,
+      "read_ranges": "1-EOF (segmented; truncated output repaired)",
+      "sha256": "e03f0738ae39632f944f8cbe91f13f879a6f6c36d382c0cb2c665eb37d9ad3bb"
+    },
+    {
+      "path": "planning/2026-10-12/durable-agent-run-design.md",
+      "lines": 382,
+      "read_ranges": "1-EOF (segmented; truncated output repaired)",
+      "sha256": "7d5f780b5c99aea683b8f4a07c0df025cebf8c0509edc266bf909e2b768bfa96"
+    },
+    {
+      "path": "desk-companion/docs/sources-and-artifacts.md",
+      "lines": 210,
+      "read_ranges": "1-EOF (segmented; truncated output repaired)",
+      "sha256": "f481e7f84ac63a37e43dbdce581ef19fd1c1aaaa0c43465325577673005ee5e3"
+    }
+  ],
+  "additional_partial_read": [
+    {
+      "path": "decision-log.md",
+      "range": "latest 30 lines (current 2026-10-12 decisions)"
+    }
+  ]
+}

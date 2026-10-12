@@ -1,6 +1,6 @@
 # Group 2｜Durable goal-driven agent runs
 
-Date: 12 October 2026. Status: **implementation proposal, not a delivered capability**. This supersedes “add another voice provider next” as an engineering priority for the current personal-agent request. It does not supersede the product’s posture loop, owner approvals, privacy controls, A1 artwork, or unknown-write recovery rules.
+Date: 12 October 2026. Status: **engineering scope approved; a bounded local implementation is undergoing verification**. The actual implemented contract is [durable agent work packages](../../desk-companion/docs/agent-runs.md); unimplemented design items below remain a roadmap. This supersedes “add another voice provider next” as an engineering priority for the current personal-agent request. It does not supersede the product’s posture loop, owner approvals, privacy controls, A1 artwork, or unknown-write recovery rules.
 
 ## 1. Recommendation and the user-visible result
 
@@ -18,7 +18,7 @@ This is a reusable goal/plan/tool/result loop, not a hard-coded “create demo r
 
 ## 2. What the current code actually does
 
-Reviewed the local first-checkpoint source on the `50e174f50a4130b3c666f836f666f6aa4cde4b32` base. The parent owns the final publication SHA; this document does not claim that a local checkpoint has been published.
+Reviewed the local first-checkpoint source on the `50e174f50a4130b3c666f836f666f6aa4cde4b32` base. The parent subsequently published the first kernel checkpoint as `546734273c9c8305cf6226e96a8e07854ba5c0b1`. This design predates the run implementation and does not claim the new run slice is published.
 
 | Current seam | Verified behavior | Missing responsibility |
 | --- | --- | --- |
@@ -371,3 +371,12 @@ Unresolved external conditions: verified adapter API/runtime/install route and O
 ## 17. Verification of this design document
 
 This is a design deliverable only. Current source was inspected independently; the earlier full reading gate is inherited, and relevant changed project contracts were reread. No frozen application source, runtime data, school document or artwork was edited for this design. Implementation and actual-model/browser claims remain explicitly conditional. The parent owns root handoff/decision/work-log updates and publication coordination.
+
+
+## 18. Approved bounded implementation update
+
+The parent approved source/artifact services plus durable orchestration on 12 October after the first checkpoint. The implementation contract is now [agent-runs.md](../../desk-companion/docs/agent-runs.md). The actual slice has session-hash authority, a single worker, local selected sources and task/calendar reads, deterministic compilation, persisted adaptive model decisions, typed read batches, questions, reviewed local proposals, exact readback, two immutable output types, steering, cancellation and restart fences.
+
+Important reductions from this broader design: sequential bounded decisions rather than a general executable DAG; no run-facing browser write tool, desktop takeover, parallel children, recurring goal scheduling, deletion endpoint or durable notification outbox. The experimental browser service is independently admitted for fixed public/synthetic content. Model mode admits ten selected items, eight calls and actual transmitted line coverage; deterministic acquisition has separate parser coverage. Missing required evidence yields partial instead of claiming success from two files alone. Real model usefulness and real target-browser acceptance remain separately unverified.
+
+Current source/file/SQLite and protocol tests are being run against the new implementation; refer to the task QA evidence and the parent’s final checkpoint report for the exact tested tree and totals. No live provider calls, artwork changes, school-file changes, external account operation or hardware test is implied by this update.

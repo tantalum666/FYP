@@ -1,0 +1,2 @@
+{'unrelated_draft_still_pending': True, 'unrelated_draft_classified_as_run': False}
+{'probe': 'reserved_effect_key_collision', 'state': 'blocked', 'reason': 'RUN_EFFECT_RECEIPT_CONFLICT', 'adopted_different_draft': False}

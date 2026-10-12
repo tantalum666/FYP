@@ -10,6 +10,8 @@ import { apiOrigin } from "../native";
 import { DateTime } from "luxon";
 import { ComputerJobsPanel } from "./ComputerJobsPanel";
 import { RoutinesPanel } from "./RoutinesPanel";
+import { RunPanel } from "./agent/RunPanel";
+import { BrowserWorkflowPanel } from "./browser/BrowserWorkflowPanel";
 import { Modal } from "../components/Dialogs";
 import { ResponseFence } from "./personal/responseFence";
 import { usePrivateMutation } from "./personal/usePrivateMutation";
@@ -147,6 +149,8 @@ export function AssistantPanel({
   const speechText = useRef({ user: "", assistant: "" });
   const knownProposals = useRef<Proposal[]>([]);
   const proposalRequest = useRef(0);
+  const [reviewProposal, setReviewProposal] = useState<string | null>(null);
+  const proposalNodes = useRef(new Map<string, HTMLElement>());
   const language = t("en", "zh");
   useDraftGuard(!!text.trim() || mutation.pending, busy);
   function selectConversation(id: string | null) {
@@ -195,11 +199,23 @@ export function AssistantPanel({
         proposalEpoch.current = epoch;
         knownProposals.current = next.proposals;
         setProposals(next.proposals);
+        return next.proposals;
       }
     } catch (e) {
       if (alive.current && proposalRequest.current === requestId) setError(e);
     }
   }, [language, privacyEpoch]);
+  useEffect(() => {
+    if (!reviewProposal || !contentVisible) return;
+    const node = proposalNodes.current.get(reviewProposal);
+    if (!node) return;
+    const frame = requestAnimationFrame(() => {
+      node.scrollIntoView({ block: "center" });
+      node.focus({ preventScroll: true });
+      setReviewProposal(null);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [reviewProposal, proposals, contentVisible]);
   useEffect(() => {
     alive.current = true;
     void reload();
@@ -220,6 +236,7 @@ export function AssistantPanel({
       setSwitchTo(null);
     }
     setReply(null);
+    setReviewProposal(null);
     setTranscript("");
     setProposals([]);
     knownProposals.current = [];
@@ -625,7 +642,15 @@ export function AssistantPanel({
             )[taskAction] ?? taskAction;
           const changedTask = p.data.task ?? p.data.change?.task;
           return (
-            <article className="assistant-proposal" key={p.id}>
+            <article
+              className="assistant-proposal"
+              key={p.id}
+              tabIndex={-1}
+              ref={(node) => {
+                if (node) proposalNodes.current.set(p.id, node);
+                else proposalNodes.current.delete(p.id);
+              }}
+            >
               <span className="workspace-eyebrow">
                 {t("Review before saving", "保存前检查")}
               </span>
@@ -912,6 +937,27 @@ export function AssistantPanel({
           {errorText(error, t)}
         </p>
       )}
+      <RunPanel
+        t={t}
+        visibleOverride={contextVisible}
+        onReviewProposal={(id) => {
+          if (!contentVisibleNow.current) return;
+          const epoch = fence.current.capture();
+          void reload().then((current) => {
+            if (!current || !fence.current.accepts(epoch)) return;
+            if (current.some((proposal) => proposal.id === id)) {
+              setReviewProposal(id);
+            } else {
+              setReviewProposal(null);
+              setNotice(t(
+                "This draft is no longer awaiting review. It may have been handled or expired; reopen the work task to inspect its saved result.",
+                "此草稿已不再等待审阅，可能已处理或到期。请重新打开工作任务查看保存结果。",
+              ));
+            }
+          });
+        }}
+      />
+      <BrowserWorkflowPanel t={t} visibleOverride={contextVisible} />
       <RoutinesPanel t={t} visibleOverride={contextVisible} />
       <ComputerJobsPanel t={t} taskId={taskId} />
     </div>

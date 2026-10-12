@@ -15,7 +15,9 @@ export async function request<T>(
   const controller = new AbortController();
   const timer = window.setTimeout(
     () => controller.abort(),
-    path === "/assistant/messages" ? 75000 : 12000,
+    path === "/assistant/messages" || path === "/browser/observations"
+      ? 75000
+      : 12000,
   );
   try {
     const response = await apiFetch(path, {

@@ -1,0 +1,344 @@
+{
+  "review_frozen_at": "2026-10-12T15:30:41.157177+00:00",
+  "base_checkpoint": "546734273c9c8305cf6226e96a8e07854ba5c0b1",
+  "verdict": "go_for_documented_source_checkpoint",
+  "live_acceptance_established": false,
+  "files": [
+    {
+      "path": "desk-companion/backend/desk/agent_planner.py",
+      "bytes": 5682,
+      "mode": "100644",
+      "sha256": "a39dc75a51fcd4f001dbd2bd010c569c7e6c7908566a483ef030cb26928c42b6",
+      "git_blob_sha1": "027147ba22b57a55ba1d421e0360eb98c1f7d7f9"
+    },
+    {
+      "path": "desk-companion/backend/desk/agent_run_schemas.py",
+      "bytes": 3806,
+      "mode": "100644",
+      "sha256": "56b842fddb4fef4957d0fff2b1639acace696932d915c00ddddc0791332ced19",
+      "git_blob_sha1": "edd48591efe9d60e2306abf3c48c45dade15a970"
+    },
+    {
+      "path": "desk-companion/backend/desk/agent_runs.py",
+      "bytes": 48609,
+      "mode": "100644",
+      "sha256": "db6fe70c757e187fa6bb6fab1756c9a9c9947beed2c27944d4dfd230a7c54df4",
+      "git_blob_sha1": "6bd3a081c998e3378f488495a6674e4b1966e692"
+    },
+    {
+      "path": "desk-companion/backend/desk/agent_tools.py",
+      "bytes": 14275,
+      "mode": "100644",
+      "sha256": "029264c613eb9a143d20a3a24361499a83061845e27a1ad2d287052fef3c0817",
+      "git_blob_sha1": "4d5d2a942101dd341546074aeb7e3a234fb85dd8"
+    },
+    {
+      "path": "desk-companion/backend/desk/app.py",
+      "bytes": 16109,
+      "mode": "100644",
+      "sha256": "462287c8f917980b5442d747c274a30e42dabd8fac0e620a7daffdfad7a0582f",
+      "git_blob_sha1": "3f0e8a7ce2b9edba96ecaccecb0789d2e87f1877"
+    },
+    {
+      "path": "desk-companion/backend/desk/artifacts.py",
+      "bytes": 11004,
+      "mode": "100644",
+      "sha256": "76d8da83efe692472a5f131bb19a8e2c08944a18b5c6016154a698afb2aa5911",
+      "git_blob_sha1": "e7cd991765dcad2461519e938a110904ba7d81d0"
+    },
+    {
+      "path": "desk-companion/backend/desk/assistant_routes.py",
+      "bytes": 1854,
+      "mode": "100644",
+      "sha256": "0cd2af1eb13929ac6312d7725275000dcf7eead91ce55840e8ccc793eb908c96",
+      "git_blob_sha1": "1fac5ca08bc45d946072cd0f494f362aa6f99dfe"
+    },
+    {
+      "path": "desk-companion/backend/desk/browser_jobs.py",
+      "bytes": 30884,
+      "mode": "100644",
+      "sha256": "d2ad78310cf40a107e9a6fc1db477d232006d78f723e170890fd992020dff439",
+      "git_blob_sha1": "25ec0e8de72f971d9b531c48a2698d7446365d91"
+    },
+    {
+      "path": "desk-companion/backend/desk/browser_policy.py",
+      "bytes": 9148,
+      "mode": "100644",
+      "sha256": "1ef3ae1b61a5600cd2f9151208302f876e5dba1f7d7def66a94a5c042db8e872",
+      "git_blob_sha1": "749c548a3d45a14250f32af4b4c033acdbbed4ff"
+    },
+    {
+      "path": "desk-companion/backend/desk/browser_supervisor.py",
+      "bytes": 8433,
+      "mode": "100644",
+      "sha256": "4e502af6e755b6990193bb05215317bb12904a4e3484dff7b203b94b90211e8f",
+      "git_blob_sha1": "df6b9b9f4d8341e319498380aff0ac3188dbc3ab"
+    },
+    {
+      "path": "desk-companion/backend/desk/browser_worker.py",
+      "bytes": 10873,
+      "mode": "100644",
+      "sha256": "95f0f845a7b373fff4c91ef8dd8230377063488edc30a490de7a17739eb70174",
+      "git_blob_sha1": "6b1ea3debcc633f10aa3954f61cfc1bcb50df9d4"
+    },
+    {
+      "path": "desk-companion/backend/desk/file_store.py",
+      "bytes": 13090,
+      "mode": "100644",
+      "sha256": "e7a8bc6f00ea8751046176764ea6db77bae4ce032d5ce9d0ab898eca4489a55d",
+      "git_blob_sha1": "daf934d5745d99afe67c5600d764cc75d76a9f63"
+    },
+    {
+      "path": "desk-companion/backend/desk/runtime.py",
+      "bytes": 4502,
+      "mode": "100644",
+      "sha256": "f5706746f3546f467e2a1127a8e89aef41640d8cdcb27c0f28c6995695dabb2e",
+      "git_blob_sha1": "c839f87fc49f290de820886a5462ce152e9cb366"
+    },
+    {
+      "path": "desk-companion/backend/desk/sources.py",
+      "bytes": 12454,
+      "mode": "100644",
+      "sha256": "96155e633e1fa1f7b770e0a055c17192e549cb0e3141efb1db57176ba9495053",
+      "git_blob_sha1": "ddd77747c2407ece0d43e91d77996cfa4b5636b1"
+    },
+    {
+      "path": "desk-companion/backend/desk/text_ai.py",
+      "bytes": 21532,
+      "mode": "100644",
+      "sha256": "016b509f3f255bafc274983f6214f19885d9aaa7d82ad3c9ec64757635c8ce69",
+      "git_blob_sha1": "b7afd0c678d21b244f4b2c32ad870438c1220e85"
+    },
+    {
+      "path": "desk-companion/docs/agent-runs.md",
+      "bytes": 13078,
+      "mode": "100644",
+      "sha256": "fc447ce18c4db082a164e60313ae02737bd38c190b5a51dfabb8175628db6584",
+      "git_blob_sha1": "1b09eb76930c7666b04b2b978fb8610570bb2e60"
+    },
+    {
+      "path": "desk-companion/docs/browser-workflow.md",
+      "bytes": 14178,
+      "mode": "100644",
+      "sha256": "833bc1221e1139e1a6afc015074655ee3f67d9888a4d79296f13a8def78c5f75",
+      "git_blob_sha1": "f711ae83453a840e7792f279e7ac57a5d6799c9b"
+    },
+    {
+      "path": "desk-companion/docs/sources-and-artifacts.md",
+      "bytes": 12486,
+      "mode": "100644",
+      "sha256": "f481e7f84ac63a37e43dbdce581ef19fd1c1aaaa0c43465325577673005ee5e3",
+      "git_blob_sha1": "b6a5ef97c7dedf92a3ec8d45eb8d43b340aecd1e"
+    },
+    {
+      "path": "desk-companion/frontend/src/api.ts",
+      "bytes": 16373,
+      "mode": "100644",
+      "sha256": "c878d06e29d9d853b895ad1e9d1d26689599c40b750d0f61cd3967bc9df579df",
+      "git_blob_sha1": "1265181aea94c14fb858e5dbdbbe1a07082c332b"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/AssistantPanel.tsx",
+      "bytes": 35708,
+      "mode": "100644",
+      "sha256": "d2a0d608295eee480782f76fe7e28f6a103c1241a7d0ea622f7d34072568c38f",
+      "git_blob_sha1": "c4a2d5f9e069f953ec54d3be86dc1a6b37b2e595"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/ArtifactList.tsx",
+      "bytes": 7844,
+      "mode": "100644",
+      "sha256": "02bbea3851d18393b739d017d072d139df5225f66593cb10defeebb141db28ae",
+      "git_blob_sha1": "3cc4ec26a1c6ffa152740e794f2f9f920969dba2"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RequestFeedback.tsx",
+      "bytes": 1288,
+      "mode": "100644",
+      "sha256": "1766a5102c04126a5c0ffd611f5e53066c3fae82b76ca49ceac6bfaa87ede21f",
+      "git_blob_sha1": "16ace29c1e92d77453ebeda39f9094b7569ddd46"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunComposer.tsx",
+      "bytes": 22562,
+      "mode": "100644",
+      "sha256": "503f1823a4bc497d0f57a5626430765c6960895dceff31c2c9ba390f3653ce50",
+      "git_blob_sha1": "9dc023c3ab3d5328b4b073bc3e83f08411ae813b"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunDetail.tsx",
+      "bytes": 15341,
+      "mode": "100644",
+      "sha256": "49b8a37db1deea4eb19d3ab1b42068a7591a0531ce1a59770416e0fc0169d492",
+      "git_blob_sha1": "76713a4bf97faaba8c35de85badaeec41d7babea"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunPanel.tsx",
+      "bytes": 8692,
+      "mode": "100644",
+      "sha256": "2607d489215e76f57e6addbe941c98b2e04e341553fd6b6c1ad702f36875fc08",
+      "git_blob_sha1": "7ff22b13d4cd9c107cac7deb73666147dd80a6f0"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/SourcePreview.tsx",
+      "bytes": 3437,
+      "mode": "100644",
+      "sha256": "715cdba2850670d594ee106cdfc0be32b73bf02c618f4ce7bd2cee8327d3321c",
+      "git_blob_sha1": "24f13221a795cfd64d3529be6a7fafe3c4b0f35f"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/SourceUpload.tsx",
+      "bytes": 4551,
+      "mode": "100644",
+      "sha256": "18d0d1421aa3c1aa86131c11c598721607971fb51ad6cae20b2033bc2faef0d6",
+      "git_blob_sha1": "63ddfccbc7f6f4a5acdad4b2c1d0c4b2545eba79"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/agent.css",
+      "bytes": 3787,
+      "mode": "100644",
+      "sha256": "18198ac7213f34c5c0250f7c4d55d7c982128d06feac503ed3b4613195c5b719",
+      "git_blob_sha1": "7c18160cfa3543523fb55104a0c41e2e50495942"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/labels.ts",
+      "bytes": 12845,
+      "mode": "100644",
+      "sha256": "c77d34aecd8a42e87d8f9756f6dd325a8093f961d45568dde005d175d7dcebf9",
+      "git_blob_sha1": "9d6d317bb87e72bb6a13e1d86f229f34991e5a3e"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/types.ts",
+      "bytes": 7812,
+      "mode": "100644",
+      "sha256": "f30c4bcff8d3e056ddf4071cf670513cbe885ad7de56b168fe1cf0709d529d18",
+      "git_blob_sha1": "b9db078ed35720667498624105eb7f5bbefeafb5"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/upload.ts",
+      "bytes": 1709,
+      "mode": "100644",
+      "sha256": "2b3ce4a382ab2186e31fc388db3be2867f8fba6c3a48a564317c41e7a207a4b1",
+      "git_blob_sha1": "d7b5be36411627125a09c41e947eb76bd6b35fdb"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/useAgentRuns.ts",
+      "bytes": 3188,
+      "mode": "100644",
+      "sha256": "153055c7548706bf5f5ba69e226d1db08bc73c40164fe3473cb891e4747abfac",
+      "git_blob_sha1": "a02cb635372880554a6fe0586192429722222a8c"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/useUploadMutation.ts",
+      "bytes": 2083,
+      "mode": "100644",
+      "sha256": "c196cfddd5a79140acd5b96a6527ee3c51de5f82b8d3237e8ca749136abfb475",
+      "git_blob_sha1": "63e4a968ea4bbd1dd1ab190a5889ad0fc4664abd"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/BrowserJobDetail.tsx",
+      "bytes": 8120,
+      "mode": "100644",
+      "sha256": "29a0d07bd6ac2b9de9de6c0337199e366d7dec2e1e804035ab873e6c40c9631e",
+      "git_blob_sha1": "c392b5793bb94ffcdb24bf66c84035af85d80dd6"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/BrowserWorkflowPanel.tsx",
+      "bytes": 28011,
+      "mode": "100644",
+      "sha256": "d8bdd24bcad538c27afa0ee8106350e66bf0d9c0debc8c8f631bbed3262a4846",
+      "git_blob_sha1": "c6cc858d16a707ef12d79f3aca864acedf6337da"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/browser.css",
+      "bytes": 1987,
+      "mode": "100644",
+      "sha256": "30ed550df9e18192d3905eb251280db05c8f877a2b5c25a1a8c9f48e690da567",
+      "git_blob_sha1": "cfb8a3efd22916655edd25c64a1357377de9553f"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/download.ts",
+      "bytes": 2141,
+      "mode": "100644",
+      "sha256": "0645af04257d216a4b23a99b439dafb926cd7f5f7010dec7d7879a3a9816a438",
+      "git_blob_sha1": "cfc02fd8abbd9f170b98912e01b50e812a1558bd"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/exportVerification.ts",
+      "bytes": 2093,
+      "mode": "100644",
+      "sha256": "67941127c32e5a62def6cc41d176b80e6276ef70d26e4d9f91d3d218f76e3a3a",
+      "git_blob_sha1": "b79779879e5f6593fea30a9b0d9fb03f0d7b3dc3"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/labels.ts",
+      "bytes": 6156,
+      "mode": "100644",
+      "sha256": "66741b07c23f8f4b256b645643cfbafc76ed0663a2a0812a182ff322d0422d3d",
+      "git_blob_sha1": "186b9b727b6202ce3f5660abb4eb90bd462b2df1"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/types.ts",
+      "bytes": 4025,
+      "mode": "100644",
+      "sha256": "b9f25a17ce925a949a24cf6cb37f62e58287ed37d50e22e0473f0ea1c95d35d0",
+      "git_blob_sha1": "8076c0b11dc89bdb0258a75774a572ed8bf3b614"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/useBrowserData.ts",
+      "bytes": 3463,
+      "mode": "100644",
+      "sha256": "64a818f060bb2a56316364f3a9326879a5e1f43539b4daeb8552b0521687ec05",
+      "git_blob_sha1": "44a4e6689712ed8927163d9d35474065e22b24e1"
+    },
+    {
+      "path": "desk-companion/frontend/tests/agent-runs.test.ts",
+      "bytes": 13029,
+      "mode": "100644",
+      "sha256": "acaa5a6d79f1629ede242158539c571270a544ec2d6b3edc8f6f78ddab6a3339",
+      "git_blob_sha1": "f12e024d0537f85c073d73ccd323c948fb798dc8"
+    },
+    {
+      "path": "desk-companion/frontend/tests/browser-workflow.test.ts",
+      "bytes": 11531,
+      "mode": "100644",
+      "sha256": "14ba46baf661c2a1054eba0f72a54c572497e1f84835c3f4d4af230df5801045",
+      "git_blob_sha1": "fe4858215fb8321dbb1939b400501d5db6133db8"
+    },
+    {
+      "path": "desk-companion/scripts/check_browser_workflow.py",
+      "bytes": 8362,
+      "mode": "100644",
+      "sha256": "6e575cb1412ee18f8acab608ccfad4d4aa26eb21ac593038ab60d0b2f2b55eea",
+      "git_blob_sha1": "e35c23e888eb72e36cf684185916ba054b380e42"
+    },
+    {
+      "path": "desk-companion/tests/test_agent_runs.py",
+      "bytes": 34995,
+      "mode": "100644",
+      "sha256": "fe97ceab5081a8b6e08b7bcd3dea5bb78c6daece760e99809726d5e4f472ce6b",
+      "git_blob_sha1": "e79cea28b34fda60609f8801ced6a4f5b2a4c776"
+    },
+    {
+      "path": "desk-companion/tests/test_artifacts.py",
+      "bytes": 26315,
+      "mode": "100644",
+      "sha256": "b9aa097d65bd891d845c3826d3bccb56001176cc5993bc9826cfaa6ba3709965",
+      "git_blob_sha1": "d4bf7ac03f2b564afab942b9b61873dd2642716e"
+    },
+    {
+      "path": "desk-companion/tests/test_browser_jobs.py",
+      "bytes": 24263,
+      "mode": "100644",
+      "sha256": "badbd5d98654385072263948fab26b7d9b15d36fab1b32228e78445ac40cdb5b",
+      "git_blob_sha1": "c16d20fdda021a2e031e74493c158fbe7cd76038"
+    },
+    {
+      "path": "desk-companion/tests/test_text_response_bounds.py",
+      "bytes": 6435,
+      "mode": "100644",
+      "sha256": "d3c0e2b2af789727fc25930d781189b766c7e2d61618644d63b7d7b3ffff965d",
+      "git_blob_sha1": "096c5f8b5645698c14d803b1f64f9524a2cf129e"
+    }
+  ]
+}

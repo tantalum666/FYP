@@ -1013,3 +1013,13 @@
 响应用户对能力广度的质疑，补齐三家产品能力逐项差距、真实任务验收和LCU源码／权限边界研究；新[路线](planning/2026-10-12/agent-capability-roadmap.md)与[持久运行设计](planning/2026-10-12/durable-agent-run-design.md)取代先加供应商／归档的优先级。第二批源码正实现来源／成果服务、持续模型决策、真实浏览器适配器与控制UI；尚未把它们记为完成。
 
 必要Mac任务开始针对准确5467342真实浏览器验收，保持原预览与主数据不变。后续真实模型质量、通用桌面、OAuth／付费和硬件条件分别记录，不能拿第一批窄应用证据替代。
+
+## 2026-10-12 持久工作第二批整合
+
+- 目标：补齐从选定真实资料到持久逐步工作、真实文件、人工审阅、独立结果和恢复的能力，继续缩小公开竞品能力差距。
+- 实现：新增来源／成果、持久模型决策协调、英中紧凑工作入口、公开浏览器实验与受管子进程；共享路由为运行来源草稿增加真实拥有者限制；提供商响应采用有界原始字节读取和分段时间检查。
+- 实际证据：来源／成果使用真实文件与SQLite；运行协议使用明确标注的脚本模型；父级HTTP整合检查验证上传、实际运行、下载hash及登出拒绝。全套冻结检查见[第二批软件日志](output/qa/2026-10-12-durable-agent-runs/final-software-checks.log)，独立负向复核见[审查](output/qa/2026-10-12-durable-agent-runs/independent-batch2-review.md)。
+- 位置：[运行契约](desk-companion/docs/agent-runs.md)、[来源／成果](desk-companion/docs/sources-and-artifacts.md)、[浏览器](desk-companion/docs/browser-workflow.md)、[父级整合](output/qa/2026-10-12-durable-agent-runs/parent-integration.md)。README、产品当前状态、架构和交接同步。
+- 剩余：精确提交的真实界面／StackEdit适配器验收、真实模型质量与费用仍待；通用桌面、私人资料浏览器、搜索、并行子代理、外部账号及实体设备没有被这批实现自动完成。远端发布与CI另行核对，未合并／部署。
+
+第二批冻结全套结果：500后端／75前端通过，Ruff、TypeScript／Vite及A1／VRMhash通过；186源码／锁文件hash检查后无变化。独立复核记录21项具体发现及修复，无仍开放的已复现代码阻塞；真实浏览器／模型质量仍另验。

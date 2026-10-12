@@ -26,6 +26,10 @@ from .tasks import task_routes
 from .jobs import job_routes
 from .context import personal_routes
 from .routines import routine_routes
+from .sources import sources_routes
+from .artifacts import artifact_routes
+from .agent_runs import agent_run_routes
+from .browser_jobs import browser_routes
 
 from .schemas import CreateEvents, EventAction, Login, ReminderAction, SettingsInput
 from .store import DomainError, Store
@@ -70,6 +74,8 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
                     ("public_data", services.data.poll_weather, 10),
                     ("task_advice", services.text_ai.enrich_one, 30),
                     ("computer_jobs", services.jobs.run_one, 0.5),
+                    ("agent_runs", services.agent_runs.advance_one, 0.5),
+                    ("browser_jobs", services.browser_jobs.advance_one, 0.5),
                 )
             ]
             if scheduler
@@ -78,6 +84,8 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
         try:
             yield
         finally:
+            services.agent_runs.shutdown()
+            services.browser_jobs.shutdown()
             services.jobs.shutdown()
             for running in workers:
                 running.cancel()
@@ -339,6 +347,10 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
     app.include_router(assistant_routes(services, authenticated, operation_id))
     app.include_router(personal_routes(services, owner, operation_id))
     app.include_router(routine_routes(services, owner, operation_id))
+    app.include_router(sources_routes(services, owner, operation_id))
+    app.include_router(artifact_routes(services, owner, operation_id))
+    app.include_router(agent_run_routes(services, owner, operation_id))
+    app.include_router(browser_routes(services, owner, operation_id))
     app.include_router(voice_routes(services, authenticated, agent, allowed_origins, limit))
     app.include_router(exchange_routes(services, authenticated, owner, operation_id))
     app.include_router(google_routes(services, owner, operation_id))

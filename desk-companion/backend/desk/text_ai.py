@@ -5,6 +5,8 @@ The model can only prepare proposals; background advice cannot mutate task statu
 """
 
 import hashlib
+import json
+import time
 import re
 import os
 import threading
@@ -25,6 +27,50 @@ from .provider_policy import (
 )
 from .schemas import StrictModel
 from .store import DomainError, encode
+
+
+TEXT_RESPONSE_BYTES = 128 * 1024
+TEXT_RESPONSE_DEADLINE = 30.0
+TEXT_NETWORK_TIMEOUT = 5.0
+
+
+def bounded_json_post(client, endpoint, *, headers, json_body, clock=None):
+    """Bound raw response storage and check elapsed time between network chunks.
+
+    Phase inactivity timeout is enforced by HTTPX. This is not an OS-level
+    hard deadline: header parsing/blocked system calls cannot be interrupted here.
+    Never buffer/decompress an arbitrary provider body before checking its size.
+    """
+    clock = clock or time.monotonic
+    deadline = clock() + TEXT_RESPONSE_DEADLINE
+    with client.stream(
+        "POST", endpoint, headers={**headers, "Accept-Encoding": "identity"}, json=json_body
+    ) as response:
+        response.raise_for_status()
+        if response.headers.get("content-encoding", "identity").lower() != "identity":
+            raise ValueError("Compressed provider response is not admitted")
+        length = response.headers.get("content-length")
+        if length is not None and (not length.isdigit() or int(length) > TEXT_RESPONSE_BYTES):
+            raise ValueError("Provider response exceeds limit")
+        body = bytearray()
+        if clock() > deadline:
+            raise ValueError("Provider response deadline exceeded")
+        # No chunk_size: accumulating a large fixed chunk would hide tiny trickle
+        # reads from the deadline check. Each raw transport chunk is checked.
+        # MockTransport may supply a deliberately preloaded Response(json=...).
+        # Production network responses remain unconsumed here; apply the same
+        # byte/deadline checks to both paths without rereading a consumed stream.
+        chunks = [response.content] if response.is_stream_consumed else response.iter_raw()
+        for chunk in chunks:
+            if clock() > deadline or len(body) + len(chunk) > TEXT_RESPONSE_BYTES:
+                raise ValueError("Provider response exceeds budget")
+            body.extend(chunk)
+        if clock() > deadline:
+            raise ValueError("Provider response deadline exceeded")
+    try:
+        return json.loads(bytes(body))
+    except RecursionError:
+        raise ValueError("Provider JSON structure exceeds parser limits") from None
 
 
 class TextPlan(StrictModel):
@@ -128,13 +174,17 @@ class TextAssistant:
             )
         try:
             with httpx.Client(
-                timeout=20, transport=self.transport, follow_redirects=False, trust_env=False
+                timeout=TEXT_NETWORK_TIMEOUT,
+                transport=self.transport,
+                follow_redirects=False,
+                trust_env=False,
             ) as client:
                 if self.config.provider == "qwen":
-                    result = client.post(
+                    body = bounded_json_post(
+                        client,
                         self.config.endpoint,
                         headers={"Authorization": "Bearer " + self.config.api_key},
-                        json={
+                        json_body={
                             "model": self.config.model,
                             "messages": [
                                 {"role": "system", "content": prompt},
@@ -146,8 +196,6 @@ class TextAssistant:
                             "enable_thinking": False,
                         },
                     )
-                    result.raise_for_status()
-                    body = result.json()
                     raw = body["choices"][0]["message"]["content"]
                     usage = body.get("usage", {})
                 else:
@@ -157,10 +205,11 @@ class TextAssistant:
                         + self.config.model
                         + ":generateContent"
                     )
-                    result = client.post(
+                    body = bounded_json_post(
+                        client,
                         endpoint,
                         headers={"x-goog-api-key": self.config.api_key},
-                        json={
+                        json_body={
                             "systemInstruction": {"parts": [{"text": prompt}]},
                             "contents": [{"role": "user", "parts": [{"text": content}]}],
                             "generationConfig": {
@@ -169,8 +218,6 @@ class TextAssistant:
                             },
                         },
                     )
-                    result.raise_for_status()
-                    body = result.json()
                     raw = "".join(
                         p.get("text", "")
                         for p in body["candidates"][0]["content"]["parts"]
@@ -180,7 +227,16 @@ class TextAssistant:
                 if not isinstance(raw, str) or len(raw) > 20000:
                     raise ValueError()
                 parsed = schema.model_validate_json(raw)
-        except (httpx.HTTPError, ValueError, KeyError, IndexError, TypeError, ValidationError):
+        except (
+            httpx.HTTPError,
+            ValueError,
+            KeyError,
+            IndexError,
+            TypeError,
+            AttributeError,
+            RecursionError,
+            ValidationError,
+        ):
             raise DomainError("TEXT_AI_UNAVAILABLE", 503) from None
         # Store numeric usage only; never log provider responses, prompts, or secrets.
         safe_usage = (

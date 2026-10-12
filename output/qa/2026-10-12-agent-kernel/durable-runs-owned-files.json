@@ -1,0 +1,67 @@
+{
+  "at": "2026-10-12T15:30:31.131762+00:00",
+  "source_base": "546734273c9c8305cf6226e96a8e07854ba5c0b1",
+  "status": "local verified files; parent owns publication",
+  "files": [
+    {
+      "path": "desk-companion/backend/desk/agent_run_schemas.py",
+      "sha256": "56b842fddb4fef4957d0fff2b1639acace696932d915c00ddddc0791332ced19",
+      "bytes": 3806,
+      "lines": 93
+    },
+    {
+      "path": "desk-companion/backend/desk/agent_runs.py",
+      "sha256": "db6fe70c757e187fa6bb6fab1756c9a9c9947beed2c27944d4dfd230a7c54df4",
+      "bytes": 48609,
+      "lines": 1074
+    },
+    {
+      "path": "desk-companion/backend/desk/agent_planner.py",
+      "sha256": "a39dc75a51fcd4f001dbd2bd010c569c7e6c7908566a483ef030cb26928c42b6",
+      "bytes": 5682,
+      "lines": 114
+    },
+    {
+      "path": "desk-companion/backend/desk/agent_tools.py",
+      "sha256": "029264c613eb9a143d20a3a24361499a83061845e27a1ad2d287052fef3c0817",
+      "bytes": 14275,
+      "lines": 347
+    },
+    {
+      "path": "desk-companion/backend/desk/text_ai.py",
+      "sha256": "016b509f3f255bafc274983f6214f19885d9aaa7d82ad3c9ec64757635c8ce69",
+      "bytes": 21532,
+      "lines": 475
+    },
+    {
+      "path": "desk-companion/tests/test_agent_runs.py",
+      "sha256": "fe97ceab5081a8b6e08b7bcd3dea5bb78c6daece760e99809726d5e4f472ce6b",
+      "bytes": 34995,
+      "lines": 965
+    },
+    {
+      "path": "desk-companion/tests/test_text_response_bounds.py",
+      "sha256": "d3c0e2b2af789727fc25930d781189b766c7e2d61618644d63b7d7b3ffff965d",
+      "bytes": 6435,
+      "lines": 179
+    },
+    {
+      "path": "desk-companion/docs/agent-runs.md",
+      "sha256": "fc447ce18c4db082a164e60313ae02737bd38c190b5a51dfabb8175628db6584",
+      "bytes": 13078,
+      "lines": 90
+    },
+    {
+      "path": "desk-companion/docs/provider-policy.md",
+      "sha256": "38ba7f0776310a827bd3ec6b7216e11505ff9dfc64796a35ad6862cbdc51e1a4",
+      "bytes": 6967,
+      "lines": 51
+    },
+    {
+      "path": "planning/2026-10-12/durable-agent-run-design.md",
+      "sha256": "7d5f780b5c99aea683b8f4a07c0df025cebf8c0509edc266bf909e2b768bfa96",
+      "bytes": 49410,
+      "lines": 382
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "frozen_at": "2026-10-12T15:19:30.193853+00:00",
+  "files": [
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/BrowserJobDetail.tsx",
+      "bytes": 8120,
+      "sha256": "29a0d07bd6ac2b9de9de6c0337199e366d7dec2e1e804035ab873e6c40c9631e"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/BrowserWorkflowPanel.tsx",
+      "bytes": 28011,
+      "sha256": "d8bdd24bcad538c27afa0ee8106350e66bf0d9c0debc8c8f631bbed3262a4846"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/browser.css",
+      "bytes": 1987,
+      "sha256": "30ed550df9e18192d3905eb251280db05c8f877a2b5c25a1a8c9f48e690da567"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/download.ts",
+      "bytes": 2141,
+      "sha256": "0645af04257d216a4b23a99b439dafb926cd7f5f7010dec7d7879a3a9816a438"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/exportVerification.ts",
+      "bytes": 2093,
+      "sha256": "67941127c32e5a62def6cc41d176b80e6276ef70d26e4d9f91d3d218f76e3a3a"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/labels.ts",
+      "bytes": 6156,
+      "sha256": "66741b07c23f8f4b256b645643cfbafc76ed0663a2a0812a182ff322d0422d3d"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/types.ts",
+      "bytes": 4025,
+      "sha256": "b9f25a17ce925a949a24cf6cb37f62e58287ed37d50e22e0473f0ea1c95d35d0"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/browser/useBrowserData.ts",
+      "bytes": 3463,
+      "sha256": "64a818f060bb2a56316364f3a9326879a5e1f43539b4daeb8552b0521687ec05"
+    },
+    {
+      "path": "desk-companion/frontend/tests/browser-workflow.test.ts",
+      "bytes": 11531,
+      "sha256": "14ba46baf661c2a1054eba0f72a54c572497e1f84835c3f4d4af230df5801045"
+    },
+    {
+      "path": "desk-companion/frontend/src/api.ts",
+      "bytes": 16373,
+      "sha256": "c878d06e29d9d853b895ad1e9d1d26689599c40b750d0f61cd3967bc9df579df"
+    }
+  ]
+}

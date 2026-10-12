@@ -1,0 +1,1 @@
+{'probe': 'observation_privacy_cleanup', 'source_read_before_privacy_change': True, 'response': 'BROWSER_CONTEXT_CHANGED', 'persisted_state': 'failed', 'capability_reason': None}
