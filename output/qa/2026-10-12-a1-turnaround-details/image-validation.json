@@ -1,0 +1,490 @@
+{
+  "group": "Group 2",
+  "date": "2026-10-12",
+  "scope": "A1 2D turnaround and details",
+  "character_identity_user_selected": true,
+  "default_outfit_user_selected": false,
+  "working_outfit": "Original A1 V4; engineering continuity choice only",
+  "route": "built-in ImageGen",
+  "source_pixel_postprocessing": false,
+  "accepted_image_count": 10,
+  "full_body_count": 6,
+  "detail_count": 4,
+  "native_call_count": 11,
+  "all_ten_accepted_images_actually_viewed_by_root": true,
+  "dependency_review": "T01 reviewed before side/back; T03 reviewed before T06/D02",
+  "unseen_back_geometry": "New inferred design proposal, not recovered 3D geometry or user approval",
+  "angle_limit": "T05 and T06 are shallow oblique views, not measured 45-degree projections",
+  "items": [
+    {
+      "id": "A1-T01",
+      "title_zh": "正面全身",
+      "kind": "full-body",
+      "image": "a1-t01-front.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1640187,
+      "sha256": "314e129ddde2f48f53c743e75cd505b6d695a8beae8bf838253094de867f2144",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-f2fe43dd-9b56-49e7-90bb-7662728efa39.png",
+      "receipt": "a1-t01-front.receipt.json",
+      "specification_prompt": "prompts/a1-t01-front.txt",
+      "specification_prompt_sha256": "e7550cbf6f195a0bc756876a8daebe090378f19cae7fc11aabc821d6b85c8236",
+      "actual_prompt": "prompts/a1-t01-front.txt",
+      "actual_prompt_sha256": "e7550cbf6f195a0bc756876a8daebe090378f19cae7fc11aabc821d6b85c8236",
+      "references": [
+        {
+          "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+          "sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+        }
+      ],
+      "depends_on": [],
+      "attempt_count": 1,
+      "worker_observations": [
+        "Straight-on frontal view: shoulders square, both eyes evenly visible, level gaze and balanced weight.",
+        "Adult A1 identity remains recognizable with silver-gray grouped wavy hair, gray-blue eyes, original open ring clip on anatomical left/viewer-right, studs and calm closed-mouth smile.",
+        "Original ivory cropped jacket, graphite high-neck top, blue-gray layered wrap skirt, belt and hanging hardware, semi-sheer dark tights and cuffed/buckled block-heel ankle boots are preserved.",
+        "Both legs are straight, feet set a small distance apart and arms separated slightly from torso with relaxed hands.",
+        "Complete head, both hands and both boots are inside the portrait with clear margins; clean anime lines and quiet pale background."
+      ],
+      "deviations": [
+        "Arm separation is modest and visually closer to about 10 degrees than the requested about 15 degrees.",
+        "Frontal re-projection slightly simplifies some hair locks and skirt folds while retaining their identity and structure."
+      ],
+      "root_view_image_review": [
+        "正面平衡站姿；发扣在人物左侧／画面右；完整头手鞋。",
+        "手臂仅小幅分离，低于目标15度；衣物折面稍简化。"
+      ],
+      "status": "retained_2d_reference",
+      "pixel_postprocessing": false,
+      "copy_verified_byte_identical": true
+    },
+    {
+      "id": "A1-T02",
+      "title_zh": "人物左侧面",
+      "kind": "full-body",
+      "image": "a1-t02-left.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1634349,
+      "sha256": "9a4da1d9dc2be3b64934f3752384830778bbf1f85bc24bf2a6a8e6766d2b789f",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-cfdcdbd2-49a0-4015-a6e8-eda8fa869194.png",
+      "receipt": "a1-t02-left.receipt.json",
+      "specification_prompt": "prompts/a1-t02-left.txt",
+      "specification_prompt_sha256": "95906242996b2ab0c82eb2d3a9eb849c56458b5b6971fc357b3ba16dbd0fff43",
+      "actual_prompt": "prompts/a1-t02-left.txt",
+      "actual_prompt_sha256": "95906242996b2ab0c82eb2d3a9eb849c56458b5b6971fc357b3ba16dbd0fff43",
+      "references": [
+        {
+          "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+          "sha256": "314e129ddde2f48f53c743e75cd505b6d695a8beae8bf838253094de867f2144"
+        },
+        {
+          "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+          "sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+        }
+      ],
+      "depends_on": [
+        "A1-T01"
+      ],
+      "attempt_count": 1,
+      "worker_observations": [
+        "Left profile: nose points image-left, one eye visible, head and torso face the same direction with no turned-back gaze.",
+        "Ring clip remains on the near anatomical-left side; gray-blue eye, original stud earring, silver-gray grouped waves and calm closed-mouth expression are recognizable.",
+        "Adult proportions, ivory cropped jacket and lapels, graphite high-neck top, blue-gray layered wrap skirt and belt hardware, dark tights and buckled block-heel boots are retained.",
+        "Legs are straight and naturally overlap in side view, with both shoe silhouettes present; near hand is clear and far hand is naturally occluded.",
+        "Complete head and both boot silhouettes fit within margins; clean anime rendering and pale quiet background remain."
+      ],
+      "deviations": [
+        "The near arm lies closer to the torso than the front master arm separation; far hand is hidden by natural strict-profile overlap.",
+        "Rear hair shape and profile facial contour are coherent interpretations of unseen geometry, and hair appears slightly fuller than in the front master."
+      ],
+      "root_view_image_review": [
+        "鼻子朝画面左，近侧发扣位置正确；头到鞋完整，远侧手自然遮挡。",
+        "后发比正面稍饱满，侧脸轮廓是本轮补充推演。"
+      ],
+      "status": "retained_2d_reference",
+      "pixel_postprocessing": false,
+      "copy_verified_byte_identical": true
+    },
+    {
+      "id": "A1-T03",
+      "title_zh": "背面全身",
+      "kind": "full-body",
+      "image": "a1-t03-back.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1631384,
+      "sha256": "2a7bab2b579d46d8f68a1e4c122978e96e4e291aa58dc7fc7be0813705e5f8ae",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-8e250277-76bf-4cad-bcea-f956aa6b2eb0.png",
+      "receipt": "a1-t03-back.receipt.json",
+      "specification_prompt": "prompts/a1-t03-back.txt",
+      "specification_prompt_sha256": "492a784eb84ad730852ff7870f02811956e99e431cc4747371c3215e043d4429",
+      "actual_prompt": "prompts/a1-t03-back.txt",
+      "actual_prompt_sha256": "492a784eb84ad730852ff7870f02811956e99e431cc4747371c3215e043d4429",
+      "references": [
+        {
+          "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+          "sha256": "314e129ddde2f48f53c743e75cd505b6d695a8beae8bf838253094de867f2144"
+        },
+        {
+          "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+          "sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+        }
+      ],
+      "depends_on": [
+        "A1-T01"
+      ],
+      "attempt_count": 1,
+      "worker_observations": [
+        "Strict rear view: head and torso fully face away, no visible face or turned-back gaze.",
+        "Fixed anatomical-left ring clip appears on viewer-left with natural partial hair occlusion; grouped silver-gray waves remain loose and end just above the waist.",
+        "Plain ivory cropped jacket back has a simple center seam without front lapels or chest fasteners pasted onto the rear; matching blue-gray cuff bands preserved.",
+        "Blue-gray skirt rear continues the waistband, asymmetric wrap hem and dark underskirt; matte dark tights and rear boot cuffs, buckles and stable block heels remain coherent.",
+        "Front-master adult proportions and balanced neutral stance are closely matched, with complete head, both hands and both boots inside clear margins.",
+        "This is a proposed coherent unseen rear design inferred from frontal references, not documented original rear geometry."
+      ],
+      "deviations": [
+        "Rear jacket seam, hair grouping and skirt wrap construction are inferred details that require later cross-view design review.",
+        "Arm separation remains modest, similar to the accepted front master rather than a full 15 degrees."
+      ],
+      "root_view_image_review": [
+        "完整正背面无回头；发扣在画面左；后发至腰上，短外套与裹裙连续。",
+        "后发分组、外套中缝和裙装后片为新增设计提案。"
+      ],
+      "status": "retained_2d_reference",
+      "pixel_postprocessing": false,
+      "copy_verified_byte_identical": true
+    },
+    {
+      "id": "A1-T04",
+      "title_zh": "人物右侧面",
+      "kind": "full-body",
+      "image": "a1-t04-right.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1634728,
+      "sha256": "d776654cd1e2e6de0ffbda89e31d63bfd2bc4d0a8dbf77013d4ce3c8289763b3",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-4f20-7290-b321-9d67beb9c6a3/exec-3eaac5f4-9ce7-4517-9f1f-951126d4f25e.png",
+      "receipt": "a1-t04-right.receipt.json",
+      "specification_prompt": "prompts/a1-t04-right.txt",
+      "specification_prompt_sha256": "fb67333e3a2f5f102277a28b41eddeb990056d9a1b00596f56f3dcb9f4680d37",
+      "actual_prompt": "prompts/a1-t04-right.txt",
+      "actual_prompt_sha256": "fb67333e3a2f5f102277a28b41eddeb990056d9a1b00596f56f3dcb9f4680d37",
+      "references": [
+        {
+          "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+          "sha256": "314e129ddde2f48f53c743e75cd505b6d695a8beae8bf838253094de867f2144"
+        },
+        {
+          "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+          "sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+        }
+      ],
+      "depends_on": [
+        "A1-T01"
+      ],
+      "attempt_count": 1,
+      "worker_observations": [
+        "True right-side profile silhouette: nose points to image-right, visible anatomical-right eye and ear, head and torso aligned without looking toward viewer.",
+        "Fixed anatomical-left ring clip is on the far side and hidden; no ring has been relocated onto the visible right side.",
+        "Full head and both boots are inside the frame with margins. Near hand is entirely visible; far arm and hand overlap behind the near limb in this strict side projection.",
+        "Relaxed upright balanced stance, straight relaxed leg silhouette and natural side-view overlap; no extra limbs observed.",
+        "Adult A1 identity remains recognizable in profile through gray-blue eye, calm slight smile, normal ear with stud, grouped silver-gray waves and side-swept fringe.",
+        "Original working outfit continuity retained: cropped ivory jacket and lapels, graphite high neck, blue-gray cuff bands, layered wrap skirt with narrow belt/hardware, dark tights and original-style buckle ankle boots with block heels.",
+        "Single pale-gray portrait image with anime linework; no panels, inset, labels, text or props."
+      ],
+      "deviations": [
+        "Far hand is occluded by the near arm in the strict side view, consistent with natural side-view overlap; it cannot be separately inspected in this image."
+      ],
+      "root_view_image_review": [
+        "鼻子朝画面右；左发扣在远侧被遮住，没有搬到右侧；头到鞋完整。",
+        "远侧手和部分远侧鞋被自然侧视遮挡，不能分别检查。"
+      ],
+      "status": "retained_2d_reference",
+      "pixel_postprocessing": false,
+      "copy_verified_byte_identical": true
+    },
+    {
+      "id": "A1-T05",
+      "title_zh": "前斜视（角度较浅）",
+      "kind": "full-body",
+      "image": "a1-t05-front-three-quarter.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1656958,
+      "sha256": "75db89c02b3451f89a22b4e1693c060396f41935af7896ae6c057692f245ba0f",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-4f20-7290-b321-9d67beb9c6a3/exec-d76e78bf-4b6e-4012-8294-bb0b8ab61d32.png",
+      "receipt": "a1-t05-front-three-quarter.receipt.json",
+      "specification_prompt": "prompts/a1-t05-front-three-quarter.txt",
+      "specification_prompt_sha256": "ab8caef5dc1f2243ce313a6b8e8d4aeb58237199c7bc5521749f2e2b5a3f9d29",
+      "actual_prompt": "prompts/a1-t05-front-three-quarter.txt",
+      "actual_prompt_sha256": "ab8caef5dc1f2243ce313a6b8e8d4aeb58237199c7bc5521749f2e2b5a3f9d29",
+      "references": [
+        {
+          "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+          "sha256": "314e129ddde2f48f53c743e75cd505b6d695a8beae8bf838253094de867f2144"
+        },
+        {
+          "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+          "sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+        }
+      ],
+      "depends_on": [
+        "A1-T01"
+      ],
+      "attempt_count": 1,
+      "worker_observations": [
+        "Front-left oblique three-quarter view with both eyes readable, far eye naturally narrower, and the fixed anatomical-left open ring clip on the near side.",
+        "Full head, both hands and both boots visible with clear margins. Upright stance with low relaxed arms and separated planted feet; no fashion twist or crossed legs observed.",
+        "Adult A1 identity retained: gray-blue eyes, grouped silver-gray long waves, same ring clip and stud earring, source-like face and calm slight smile.",
+        "Original working outfit continuity retained: ivory cropped jacket and small lapel fasteners, graphite high collar, blue-gray cuff bands, asymmetric layered wrap skirt/dark underskirt, belt hardware, dark tights and cuff/buckle ankle boots.",
+        "Single pale-gray portrait image with clean anime linework; no panels, inset, labels, text or props."
+      ],
+      "deviations": [
+        "The left-front oblique angle reads shallower than the prompt target of approximately 45 degrees, especially at the head; still a distinct front-three-quarter direction."
+      ],
+      "root_view_image_review": [
+        "前左斜视；完整头手鞋，发扣在近侧，衣物延续原稿。",
+        "实际角度较浅，脸接近正面，不标为精确45度。"
+      ],
+      "status": "retained_2d_reference",
+      "pixel_postprocessing": false,
+      "copy_verified_byte_identical": true
+    },
+    {
+      "id": "A1-T06",
+      "title_zh": "后斜视（角度较浅）",
+      "kind": "full-body",
+      "image": "a1-t06-back-three-quarter.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1609838,
+      "sha256": "4aa3254f1be14a74cd62ebafe3f38451f46a54cc5ab5b462a8f5a938f3386839",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-b2f67cff-2ac9-42c3-8267-b490176e90b6.png",
+      "receipt": "a1-t06-back-three-quarter.receipt.json",
+      "specification_prompt": "prompts/a1-t06-back-three-quarter.txt",
+      "specification_prompt_sha256": "12fccb643a8878f3751fd419906026ea2c969555877188046d9d5a42e1420a61",
+      "actual_prompt": "a1-t06-back-three-quarter.attempt2.actual-prompt.txt",
+      "actual_prompt_sha256": "4df566543a339895920da06febfc66242a9ed0288370a7cc6c00962f37418688",
+      "references": [
+        {
+          "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t03-back.png",
+          "sha256": "2a7bab2b579d46d8f68a1e4c122978e96e4e291aa58dc7fc7be0813705e5f8ae"
+        },
+        {
+          "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+          "sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+        }
+      ],
+      "depends_on": [
+        "A1-T03"
+      ],
+      "attempt_count": 2,
+      "worker_observations": [
+        "Rear-left oblique view with head and torso facing away together; no visible eye or mouth and no turned-back frontal face.",
+        "Physical-left ring clip remains on near side; near ear and narrow cheek edge are natural at this angle.",
+        "Loose silver-gray rear hair groups, length to just above waist, plain cropped ivory jacket back and blue-gray asymmetric rear wrap skirt remain close to accepted T03.",
+        "Original materials, cuff bands, tights, boot cuffs/buckles and stable heels are retained, with complete head, both hands and both boots inside frame.",
+        "Neutral balanced stance, straight legs, relaxed hands and adult proportions are preserved."
+      ],
+      "deviations": [
+        "The camera angle reads as a relatively shallow rear three-quarter view, closer to straight back than the requested approximate 45 degrees.",
+        "Arm separation is modest, as in the accepted neutral masters."
+      ],
+      "root_view_image_review": [
+        "最终稿头身同向朝远处；无眼口，左发扣近侧，完整头手鞋；延续T03。",
+        "实际比目标45度更接近正背面。首稿头身方向不一致，由工作代理拒绝并保留。"
+      ],
+      "status": "retained_2d_reference",
+      "pixel_postprocessing": false,
+      "copy_verified_byte_identical": true
+    },
+    {
+      "id": "A1-D01",
+      "title_zh": "脸部与发扣",
+      "kind": "detail",
+      "image": "a1-d01-face.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1933770,
+      "sha256": "2a7fea6044d059f0a13c8dfaf8fc96e1322825b29e0d8e3d457359c5366b4038",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-4f20-7290-b321-9d67beb9c6a3/exec-ad4861bf-bb84-41d2-88a5-e164aeda414f.png",
+      "receipt": "a1-d01-face.receipt.json",
+      "specification_prompt": "prompts/a1-d01-face.txt",
+      "specification_prompt_sha256": "0b983294dfe89c247ff6b8ff9f9b9fdb6e848ed93188358a5fc25008821ded01",
+      "actual_prompt": "prompts/a1-d01-face.txt",
+      "actual_prompt_sha256": "0b983294dfe89c247ff6b8ff9f9b9fdb6e848ed93188358a5fc25008821ded01",
+      "references": [
+        {
+          "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+          "sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+        }
+      ],
+      "depends_on": [],
+      "attempt_count": 1,
+      "worker_observations": [
+        "Single square head-and-shoulders anime close-up, full top of hairstyle visible with a small margin; lower body intentionally outside the detail crop.",
+        "Recognizable adult original A1 V4 face preserved: gray-blue irises, source-like eyelids and brows, simple nose, calm slight closed-mouth smile and mature jaw proportions.",
+        "Grouped silver-gray wavy hair, side-swept fringe and original open circular ring clip retained on her anatomical left, viewer-right; no mirroring observed.",
+        "The anatomical-left small stud earring is clearly visible; opposite ear remains covered by source-like hair.",
+        "Original ivory jacket lapels with small metallic fasteners and opaque graphite high collar remain visible, connecting the detail to the original V4 working outfit.",
+        "Clean anime linework with restrained hair highlights, pale neutral background; no labels, watermark, inset, extra head, exploded component, props or scenery."
+      ],
+      "deviations": [],
+      "root_view_image_review": [
+        "完整头顶、灰蓝眉眼、概括鼻口及左侧开环发扣／耳钉清楚。",
+        "1254×1254原生近景，头肩取景符合用途。"
+      ],
+      "status": "retained_2d_reference",
+      "pixel_postprocessing": false,
+      "copy_verified_byte_identical": true
+    },
+    {
+      "id": "A1-D02",
+      "title_zh": "后发与发扣侧后",
+      "kind": "detail",
+      "image": "a1-d02-hair-back.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1759842,
+      "sha256": "56119e3172e17b2abb075eb877c2751fa799a83a2642ea54a2a5c2a59d2b0ad1",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-8c41-77f0-9547-2879361f0faa/exec-716c9e04-5d85-47a0-8f44-278516275d9a.png",
+      "receipt": "a1-d02-hair-back.receipt.json",
+      "specification_prompt": "prompts/a1-d02-hair-back.txt",
+      "specification_prompt_sha256": "db067e2d3cb8f9cbef5e84224803e72beeaf9220e24b80480f1825ce19d8d42d",
+      "actual_prompt": "prompts/a1-d02-hair-back.txt",
+      "actual_prompt_sha256": "db067e2d3cb8f9cbef5e84224803e72beeaf9220e24b80480f1825ce19d8d42d",
+      "references": [
+        {
+          "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t03-back.png",
+          "sha256": "2a7bab2b579d46d8f68a1e4c122978e96e4e291aa58dc7fc7be0813705e5f8ae"
+        },
+        {
+          "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+          "sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+        }
+      ],
+      "depends_on": [
+        "A1-T03"
+      ],
+      "attempt_count": 1,
+      "worker_observations": [
+        "One coherent rear-three-quarter upper-body study from the physical left side; the single open circular ring clip and stud earring are on the visible near left side.",
+        "Complete crown and every rear hair tip are inside the frame. Grouped silver-gray waves, crown flow, overlapping central groups and length near the cropped jacket hem follow the accepted T03 rear proposal.",
+        "Head and torso face away; only a narrow side-profile sliver of the face is visible. No frontal face looking back, duplicate clip or new ornament.",
+        "Ivory cropped jacket back, blue-gray cuff bands and visible original skirt palette remain consistent with the rear master and original V4 clothing authority.",
+        "Clean anime linework, restrained cel-shading, broad intentional hair groups and quiet pale-gray background are maintained.",
+        "The intentional detail crop contains partial forearms at the lower edge; it is an upper-body reference rather than a full-body image."
+      ],
+      "deviations": [
+        "Crop extends below the requested head-to-waist region to include the upper skirt and more of both sleeves.",
+        "The visible left-side ring clip is fully readable rather than only partly visible.",
+        "Upper-back jacket seam is more explicit in the close-up than in the full-back master."
+      ],
+      "root_view_image_review": [
+        "完整头顶与后发尾、近侧左发扣清楚；后发长度和分束沿用T03。",
+        "侧脸只露窄边；取景稍延伸至上裙和袖部，后背缝更明确。"
+      ],
+      "status": "retained_2d_reference",
+      "pixel_postprocessing": false,
+      "copy_verified_byte_identical": true
+    },
+    {
+      "id": "A1-D03",
+      "title_zh": "上衣、腰带与叠裙",
+      "kind": "detail",
+      "image": "a1-d03-outfit.png",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1771705,
+      "sha256": "a02e1db2647f6c7d1b73b5f21854d6b61491c0d1bf0e1d09ff7c4c608ce3878a",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-8c41-77f0-9547-2879361f0faa/exec-ed0c1daa-0cd1-49de-9836-eb5ccaee2485.png",
+      "receipt": "a1-d03-outfit.receipt.json",
+      "specification_prompt": "prompts/a1-d03-outfit.txt",
+      "specification_prompt_sha256": "9e111ce08aa51d80def985c80b94d2050227b194b6afeb26f6f0e80ef0b9a2c0",
+      "actual_prompt": "prompts/a1-d03-outfit.txt",
+      "actual_prompt_sha256": "9e111ce08aa51d80def985c80b94d2050227b194b6afeb26f6f0e80ef0b9a2c0",
+      "references": [
+        {
+          "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+          "sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+        }
+      ],
+      "depends_on": [],
+      "attempt_count": 1,
+      "worker_observations": [
+        "One attached outfit detail on the A1 body; the head is intentionally excluded. Crop includes shoulder/collar line, complete jacket and skirt, both cuff bands, both relaxed hands, and upper thighs.",
+        "Ivory cropped jacket lapels, small fasteners, blue-gray cuff bands, opaque graphite high-neck layer, belt and small metallic hardware match the original V4 clothing language and palette.",
+        "Diagonal blue-gray layered wrap panels, viewer-right hanging belt strip, dark underskirt and transition into matte dark-gray tights preserve the source garment asymmetry.",
+        "Construction is coherent and the garment remains attached to one body. No floating pieces, diagrams, labels, collage, added embroidery or new outfit.",
+        "Clean anime linework, restrained cel-shading and quiet pale-gray background remain consistent with V4."
+      ],
+      "deviations": [
+        "View is close to frontal with only a mild three-quarter turn.",
+        "The detail crop extends farther down the thighs than the minimum upper-thigh boundary."
+      ],
+      "root_view_image_review": [
+        "肩领、外套袖口、腰带小五金和斜向叠裙完整可读；头部按细节用途排除。",
+        "接近正面，取景下缘比目标略低至更多大腿。"
+      ],
+      "status": "retained_2d_reference",
+      "pixel_postprocessing": false,
+      "copy_verified_byte_identical": true
+    },
+    {
+      "id": "A1-D04",
+      "title_zh": "短靴与裤袜材质",
+      "kind": "detail",
+      "image": "a1-d04-boots-tights.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1626085,
+      "sha256": "5f024e98ac1351bbbcffd13e0e67d808fd37e21b148bbc808b7d7fc740a613cc",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-8c41-77f0-9547-2879361f0faa/exec-95c0bfb5-e094-4bb6-912e-9233d9ac9e36.png",
+      "receipt": "a1-d04-boots-tights.receipt.json",
+      "specification_prompt": "prompts/a1-d04-boots-tights.txt",
+      "specification_prompt_sha256": "1ea8f9193e812775b2c42ff616ab090a1226ec04ce4496f2b42b36f1499c5f5d",
+      "actual_prompt": "prompts/a1-d04-boots-tights.txt",
+      "actual_prompt_sha256": "1ea8f9193e812775b2c42ff616ab090a1226ec04ce4496f2b42b36f1499c5f5d",
+      "references": [
+        {
+          "path": "design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+          "sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+        }
+      ],
+      "depends_on": [],
+      "attempt_count": 1,
+      "worker_observations": [
+        "One square footwear/material study containing two natural lower legs and two complete ankle boots, with head, torso and skirt intentionally outside the crop.",
+        "Both complete closed toes, sole edges, ankle cuffs, straps, metallic buckle hardware and stable block heels are visible with margins.",
+        "Dark-gray matte semi-sheer tights remain visually separate from charcoal boots; source boot height, cuff treatment, outer-side buckles and broad heel proportions are recognizable.",
+        "Gentle three-quarter view makes both heel blocks and the front boot buckle readable. Legs are not crossed and no extra feet or floating components are present.",
+        "Neutral pale-gray background and controlled anime shading remain consistent with the source."
+      ],
+      "deviations": [
+        "Toe/vamp panel boundaries are more explicit in this enlarged study than in the original full-body image.",
+        "Boot material highlights are slightly stronger at the enlarged scale."
+      ],
+      "root_view_image_review": [
+        "两条小腿和两只短靴完整；带扣、鞋底与方跟清楚，裤袜与靴子材质区分。",
+        "1254×1254；鞋头分片和光泽比原V4更明确。"
+      ],
+      "status": "retained_2d_reference",
+      "pixel_postprocessing": false,
+      "copy_verified_byte_identical": true
+    }
+  ],
+  "rejected_attempts": [
+    {
+      "job_id": "A1-T06",
+      "image": "a1-t06-back-three-quarter.attempt1-rejected.png",
+      "receipt": "a1-t06-back-three-quarter.attempt1-rejected.receipt.json",
+      "sha256": "6fa1ea29a1666ac8c140347c1a87017640b77a078921af59e4ba4c6253af438b",
+      "reason": [
+        "Rejected: torso is close to full back while head turns toward profile, revealing an eye and much of the face. Head and body do not remain aligned away as required."
+      ],
+      "root_viewed": false
+    }
+  ],
+  "completed_at": "2026-10-12T13:58:37.390171+08:00"
+}

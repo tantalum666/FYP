@@ -1,0 +1,42 @@
+{
+  "job_id": "A1-W9",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w9-starlight-dress.txt",
+  "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+  "source_sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0",
+  "prompt_sha256": "f7abb43895808342b786067af9c4745cf81167577e5dd9ab6c196aec9c9be710",
+  "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-8c41-77f0-9547-2879361f0faa/exec-b2166058-08bb-442e-8645-88bd8e9c7c8f.png",
+  "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w9-starlight-dress.png",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 1645290,
+  "sha256": "bba359ea14da1775845d8934cbcc9762883564caa29e8a70944b6a12df6bbff4",
+  "attempt_count": 1,
+  "selected_attempt": 1,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "accepted",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-8c41-77f0-9547-2879361f0faa/exec-b2166058-08bb-442e-8645-88bd8e9c7c8f.png",
+      "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w9-starlight-dress.png"
+    }
+  ],
+  "route": "built-in imagegen",
+  "transparent_background": false,
+  "visual_observations": [
+    "Adult A1 facial presentation, gray-blue eyes, silver-gray grouped long hair, circular ring clip and stud earrings remain closely matched to original A1 V4.",
+    "Original relaxed arms, hands, slight weight shift and head angle retained. Entire head, both hands and both feet are visible with margins.",
+    "Midnight-blue evening dress has a clear asymmetric off-shoulder neckline, opaque shaped bodice, defined waist, small silver waist clasp and asymmetric knee-length hem.",
+    "Limited pale satin facing and sparse geometric silver accents near the lower hem support the evening brief without a train, cape or magical effects.",
+    "Dark gray semi-sheer matte tights and silver-gray closed pumps are coherent and fully visible. Adult proportions and clean anime rendering retained.",
+    "One full-body character against the quiet source-like pale background. No text, new hair ornament, necklace, prop or scenery."
+  ],
+  "deviations": [
+    "Pumps use a slender moderate heel, visibly taller than the requested low heel.",
+    "The longer asymmetric hem point extends slightly farther below the knee than a minimal knee-length hem."
+  ],
+  "visual_check_passed": true,
+  "copy_verified_byte_identical": true,
+  "inspection_method": "Source inspected using view_image; generated results visually inspected from imagegen and view_image high-detail rendering.",
+  "pixel_postprocessing": "none",
+  "completed_at": "2026-10-12T05:04:42.892077+00:00"
+}

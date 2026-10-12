@@ -1,0 +1,31 @@
+{
+  "job_id": "C1-W1",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/c1-w1-music-stage.txt",
+  "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-c1-concept/c1-plum-dusk-v1.png",
+  "native_path": "/Users/tantalum/.codex/generated_images/01a12e62-4f20-7290-b321-9d67beb9c6a3/exec-d64a38e9-8ff1-4cc4-a43f-69c992452e84.png",
+  "workspace_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w1-music-stage.png",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "bytes": 1664701,
+  "sha256": "d0f354336253df1192347b5688ece5b350b59b72178788b8544f4bdb8a7b3a32",
+  "attempts": 1,
+  "route": "built-in tools.image_gen__imagegen native edit with referenced_image_paths",
+  "transparent_background": false,
+  "copy_method": "raw PNG bytes copied unchanged; no crop, resize, composite or pixel postprocessing",
+  "raw_bytes_unchanged": true,
+  "visual_assessment": {
+    "valid": true,
+    "identity": "Adult original C1 identity is recognizable: short deep-plum asymmetric bob, two fine silver bar pins on the source side, amber eyes, original friendly playful smile, same head angle, raised conversational hand and relaxed opposite arm.",
+    "framing": "One full-body character, entire head, both hands and both feet visible with margins; quiet pale background retained.",
+    "outfit": "Distinct music-stage direction: deep wine and charcoal asymmetric dress, one long sleeve and opposite open shoulder, structured waist and narrow silver buckle, angular layered skirt, ivory neckline insert, dark matte semi-sheer tights and lace-free knee-high boots with stable block heels.",
+    "anatomy": "Adult proportions and relaxed source stance retained; visible hands are coherent.",
+    "exclusions": "No text, logo, watermark, props, weapons, additional characters, scene or comparison panel observed."
+  },
+  "deviations": [
+    "Angular wine skirt side panel hangs longer and is more layered than the compact skirt brief; this remains a coherent stage outfit.",
+    "Additional ivory skirt panel appears beyond the requested small ivory neckline insert."
+  ],
+  "completed_at_utc": "2026-10-12T04:35:29.372513+00:00"
+}

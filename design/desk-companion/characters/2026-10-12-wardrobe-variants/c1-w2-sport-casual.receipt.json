@@ -1,0 +1,28 @@
+{
+  "job_id": "C1-W2",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/c1-w2-sport-casual.txt",
+  "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-c1-concept/c1-plum-dusk-v1.png",
+  "native_path": "/Users/tantalum/.codex/generated_images/01a12e62-4f20-7290-b321-9d67beb9c6a3/exec-f988d9b8-8a03-4cac-81e7-a28940976b50.png",
+  "workspace_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w2-sport-casual.png",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "bytes": 1677232,
+  "sha256": "148c287a5d67f6f693e57ae9f92fe2327a77275f38a83d690750eb70c15905a2",
+  "attempts": 1,
+  "route": "built-in tools.image_gen__imagegen native edit with referenced_image_paths",
+  "transparent_background": false,
+  "copy_method": "raw PNG bytes copied unchanged; no crop, resize, composite or pixel postprocessing",
+  "raw_bytes_unchanged": true,
+  "visual_assessment": {
+    "valid": true,
+    "identity": "Adult original C1 identity is recognizable: short deep-plum asymmetric bob, two fine silver bar pins on the source side, amber eyes, original friendly playful smile, same head angle, raised conversational hand and relaxed opposite arm.",
+    "framing": "One full-body character, entire head, both hands and both feet visible with margins; quiet pale background retained.",
+    "outfit": "Distinct sporty weekend casual direction: cream cropped open zip jacket with wine sleeve stripes, opaque plum athletic top, high-waisted graphite shorts with curved ivory-trimmed hems and ivory drawcord, bare legs, ivory ribbed mid-calf socks and compact cream-and-wine sneakers with believable chunky soles.",
+    "anatomy": "Adult proportions and relaxed source stance retained; visible hands are coherent and cuffs leave them unobstructed.",
+    "exclusions": "No text, logo, watermark, props, gym equipment, additional characters, scene or comparison panel observed."
+  },
+  "deviations": [],
+  "completed_at_utc": "2026-10-12T04:35:29.376755+00:00"
+}

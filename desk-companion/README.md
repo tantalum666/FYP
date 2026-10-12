@@ -8,7 +8,9 @@
 
 **2026-10-09角色更新：**加入可替换的全身女性二次元VRM角色、骨骼动作、眨眼、输出音量驱动开口、本地动作预览和纯黑／镜像出口。示范角色来自pixiv官方，非最终角色美术；Pi与物理显示效果待实测。详见[3D角色契约](docs/avatar.md)。
 
-**2026-10-10美术状态：**用户同意A1方向后的[简明角色简报](../design/desk-companion/characters/a1-character-brief.md)、[表情／表演规则](../design/desk-companion/characters/a1-expression-rules.md)与[六表情E1](../design/desk-companion/characters/2026-10-10-expression-study/README.md)已完成。E1待图像反馈；原A1 V1–V4及B1／五提示词保持，许可样本与程序没有替换。新增[近期主流动画研究](../research/2026-10-10-avatar-art/mainstream-anime-c1-study.md)与独立[C1紫暮全身首稿](../design/desk-companion/characters/2026-10-10-c1-concept/README.md)供对照，A1／B1／E1保持，当前先比较方向。
+**2026-10-10美术状态：**用户同意A1方向后的[简明角色简报](../design/desk-companion/characters/a1-character-brief.md)、[表情／表演规则](../design/desk-companion/characters/a1-expression-rules.md)与[六表情E1](../design/desk-companion/characters/2026-10-10-expression-study/README.md)已完成。E1待图像反馈；原A1 V1–V4及B1／五提示词保持，许可样本与程序没有替换。新增[近期主流动画研究](../research/2026-10-10-avatar-art/mainstream-anime-c1-study.md)与独立[C1紫暮全身首稿](../design/desk-companion/characters/2026-10-10-c1-concept/README.md)供当时对照；A1／B1／E1保持，10月12日后续用户已选择A1，当前服装步骤见下段。
+
+**2026-10-12当前美术步骤：**用户已确定A1，要求先保存服装再做全方位和细节。[九套原图包](../output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip)已核对，原素材与提示词保留；[六个全身视角与四张细节](../design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md)完成并逐张查看，原V4服装只是统一工作参考。斜视角度偏浅、未见背部结构为新设计提案，具体默认服装仍待选。[视图规范](../design/desk-companion/characters/a1-turnaround-spec.md)与[A1九套总索引](../design/desk-companion/characters/a1-wardrobe-index.md)供后续；二维图不表示原创VRM／衣物绑定完成。
 
 ## 当前功能
 

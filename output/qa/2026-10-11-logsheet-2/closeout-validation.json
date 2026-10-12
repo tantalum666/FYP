@@ -1,0 +1,57 @@
+{
+  "completed_at": "2026-10-11T13:55:31.324923+08:00",
+  "original_read_files": 138,
+  "original_read_lines": 12819,
+  "current_project_markdown_files": 139,
+  "local_links_checked": 1455,
+  "missing_local_links": [],
+  "updated_markdown": [
+    "README.md",
+    "product.md",
+    "handoff.md",
+    "inputs/README.md",
+    "decision-log.md",
+    "work-log.md",
+    "planning/2026-10-11/logsheet-2-review.md"
+  ],
+  "names_ids_verified_against": "planning/2026-09-14/group-2-details.json",
+  "final_document_validation": "document-validation.json",
+  "outputs": [
+    {
+      "path": "/Users/tantalum/Documents/ChatGPT/FYP/output/submission/2026-10-11/AY26_Logsheet_No2_Group 2_YuanYuchen_250342840.docx",
+      "bytes": 25677,
+      "sha256": "1bc6445ab33187d789595c3692b60969270f1c8f001b7e23ae1363b7a5db3ec3"
+    },
+    {
+      "path": "/Users/tantalum/Documents/ChatGPT/FYP/output/submission/2026-10-11/AY26_Logsheet_No2_Group 2_YuanYuchen_250342840.pdf",
+      "bytes": 90158,
+      "sha256": "d643fb5823d0669d5e0b9d3dc1ad16694a8db0bc16839ba644d3c02ed5cf59b8"
+    }
+  ],
+  "original_and_first_log_unchanged": true,
+  "app_and_asset_paths_unchanged": true,
+  "git_whitespace_check": "PASS",
+  "authoring_marker": {
+    "operation": "edit",
+    "success": true,
+    "invocations": 1,
+    "expected_outputs": 2
+  },
+  "checks_run": [
+    "Full Markdown coverage and change detection",
+    "Original DOCX render and all-page inspection",
+    "Pre/post style, section, fields and controls inspection",
+    "Package / table geometry / non-fill cell comparison",
+    "DOCX final render and visual inspection",
+    "PDF text, page count and bounds",
+    "Original and first-log SHA256 comparison",
+    "Local links, identities and output existence",
+    "Git diff whitespace and unchanged app / assets"
+  ],
+  "remaining": [
+    "Member attribution and proposed hardware-plan review",
+    "Course submission under the current notice"
+  ],
+  "external_actions": [],
+  "git_writes": false
+}

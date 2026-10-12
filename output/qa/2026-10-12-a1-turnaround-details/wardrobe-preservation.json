@@ -1,0 +1,112 @@
+{
+  "archive_path": "/Users/tantalum/Documents/ChatGPT/FYP/output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip",
+  "sha256": "dce682c73baeb3df9c45238104ab4e69c1b49d3d8168d3236be59b5bd750a6c5",
+  "bytes": 14221759,
+  "outfit_count": 9,
+  "prompt_count": 9,
+  "member_count": 21,
+  "all_members_verified_byte_identical": true,
+  "original_files_overwritten": false,
+  "items": [
+    {
+      "id": "A1-W1",
+      "title_zh": "柔科技机能",
+      "image": "images/a1-w1-soft-tech.png",
+      "prompt": "prompts/a1-w1-soft-tech.txt",
+      "image_sha256": "8404ae6573ec595db9f2c37da7a19452ec624838d0dc5cc11ada86f8cae02459",
+      "prompt_sha256": "bba52ffd6f814bba1fa99ac0d0fcf55e776be65df14a1562e22810311654a0f4",
+      "source_manifest": "design/desk-companion/characters/2026-10-12-wardrobe-variants/manifest.json",
+      "source_manifest_sha256": "fa76e8e260b18c2999d695a52f79aa90ff7ab3178aecc7e2733c7c529f989364",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-b8491613-357a-4343-8c78-c2312fca0724.png"
+    },
+    {
+      "id": "A1-W2",
+      "title_zh": "轻户外",
+      "image": "images/a1-w2-light-outdoor.png",
+      "prompt": "prompts/a1-w2-light-outdoor.txt",
+      "image_sha256": "a008ee10efec3af1be50dab26716e73cf8f3a9be58a77b259b78da6356f3fdde",
+      "prompt_sha256": "3630be9eb88347edfa0c5db80cc9713b38653f2ce983b12624da4253ff1312b2",
+      "source_manifest": "design/desk-companion/characters/2026-10-12-wardrobe-variants/manifest.json",
+      "source_manifest_sha256": "fa76e8e260b18c2999d695a52f79aa90ff7ab3178aecc7e2733c7c529f989364",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-0a4bdeca-4b42-493f-bdf3-b899eb1d4034.png"
+    },
+    {
+      "id": "A1-W3",
+      "title_zh": "星旅轻奇幻",
+      "image": "images/a1-w3-astral-fantasy.png",
+      "prompt": "prompts/a1-w3-astral-fantasy.txt",
+      "image_sha256": "e38918b3ec665d2ca7b2b80e2d2a89579a5e3b6c3b67a024b08b5ddd09f69786",
+      "prompt_sha256": "c45fc8cb69b9b8e1ead6f72194591a2fee5f303182a5fa6afa8189c3a4fda6c4",
+      "source_manifest": "design/desk-companion/characters/2026-10-12-wardrobe-variants/manifest.json",
+      "source_manifest_sha256": "fa76e8e260b18c2999d695a52f79aa90ff7ab3178aecc7e2733c7c529f989364",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-8c41-77f0-9547-2879361f0faa/exec-2cf42ab1-3611-4bbc-bae5-7221c79cd205.png"
+    },
+    {
+      "id": "A1-W4",
+      "title_zh": "新中式",
+      "image": "images/a1-w4-modern-chinese.png",
+      "prompt": "prompts/a1-w4-modern-chinese.txt",
+      "image_sha256": "7e726f3be7acaa80f4a6a97ee21f75291c2aed423cff96a5be064d829da48c3b",
+      "prompt_sha256": "4800e2354da0aeb65a6f2fc3497229002a92986f65ca2c89f3638ea938823aca",
+      "source_manifest": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/manifest.json",
+      "source_manifest_sha256": "9b446082a438fc0c75643aac1ba548b185befb16b1855aeb111fb7c10f651694",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-8b13bd93-a752-4ea9-91da-781508c462f9.png"
+    },
+    {
+      "id": "A1-W5",
+      "title_zh": "轻哥特",
+      "image": "images/a1-w5-soft-gothic.png",
+      "prompt": "prompts/a1-w5-soft-gothic.txt",
+      "image_sha256": "2e894a309adfbbc95536f753b9509f0d624c63c8cc840f288e42fffdf7a58f4f",
+      "prompt_sha256": "87a99eff767f5535618ae7d1fb04886e4d31816b2e63cde794e71d01c52b6e95",
+      "source_manifest": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/manifest.json",
+      "source_manifest_sha256": "9b446082a438fc0c75643aac1ba548b185befb16b1855aeb111fb7c10f651694",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-c4f73331-f2ea-4181-a3f1-8bca046c6983.png"
+    },
+    {
+      "id": "A1-W6",
+      "title_zh": "居家针织",
+      "image": "images/a1-w6-cozy-knit.png",
+      "prompt": "prompts/a1-w6-cozy-knit.txt",
+      "image_sha256": "41fddfe1c12f77e25cae40348fcecbf6cc1399a759a5588309527849bb7128f5",
+      "prompt_sha256": "cc60f45c812793c2a3a641d31c57d18a545e49f565d903d9b3d6e96a7f07c402",
+      "source_manifest": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/manifest.json",
+      "source_manifest_sha256": "9b446082a438fc0c75643aac1ba548b185befb16b1855aeb111fb7c10f651694",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-4f20-7290-b321-9d67beb9c6a3/exec-a560a3d8-5dd1-465c-af62-f8b34692184b.png"
+    },
+    {
+      "id": "A1-W7",
+      "title_zh": "太空探索",
+      "image": "images/a1-w7-space-explorer.png",
+      "prompt": "prompts/a1-w7-space-explorer.txt",
+      "image_sha256": "8263350755310f1fe0a6231467ce417f2aeff4b6613b272a4a5a026d87dfa35c",
+      "prompt_sha256": "d5568ac98e41e4c4ca9834122d40688ea04a22e8a80d2c80a3f0bf4ed881854f",
+      "source_manifest": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/manifest.json",
+      "source_manifest_sha256": "9b446082a438fc0c75643aac1ba548b185befb16b1855aeb111fb7c10f651694",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-4f20-7290-b321-9d67beb9c6a3/exec-ab9f1c25-009c-49bd-84b0-27c218d775a1.png"
+    },
+    {
+      "id": "A1-W8",
+      "title_zh": "海风度假",
+      "image": "images/a1-w8-seaside.png",
+      "prompt": "prompts/a1-w8-seaside.txt",
+      "image_sha256": "b8bd100db8d5b6a568859b22d79ba6888b2a2a9489705e5d985753fd36bd664e",
+      "prompt_sha256": "7d89d2852d7f128d026ced9ed1ac90bf9c41b9ff74fbb193414f0e7e700f9cfe",
+      "source_manifest": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/manifest.json",
+      "source_manifest_sha256": "9b446082a438fc0c75643aac1ba548b185befb16b1855aeb111fb7c10f651694",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-8c41-77f0-9547-2879361f0faa/exec-a8c3d394-c61e-43a3-a831-e01e51ebe997.png"
+    },
+    {
+      "id": "A1-W9",
+      "title_zh": "星夜礼服",
+      "image": "images/a1-w9-starlight-dress.png",
+      "prompt": "prompts/a1-w9-starlight-dress.txt",
+      "image_sha256": "bba359ea14da1775845d8934cbcc9762883564caa29e8a70944b6a12df6bbff4",
+      "prompt_sha256": "f7abb43895808342b786067af9c4745cf81167577e5dd9ab6c196aec9c9be710",
+      "source_manifest": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/manifest.json",
+      "source_manifest_sha256": "9b446082a438fc0c75643aac1ba548b185befb16b1855aeb111fb7c10f651694",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-8c41-77f0-9547-2879361f0faa/exec-b2166058-08bb-442e-8645-88bd8e9c7c8f.png"
+    }
+  ],
+  "completed_at": "2026-10-12T13:33:00.662982+08:00"
+}

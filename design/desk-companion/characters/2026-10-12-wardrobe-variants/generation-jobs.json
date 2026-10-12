@@ -1,0 +1,62 @@
+[
+  {
+    "id": "A1-W1",
+    "slug": "a1-w1-soft-tech",
+    "title_zh": "柔科技机能",
+    "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/a1-w1-soft-tech.txt",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w1-soft-tech.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w1-soft-tech.receipt.json",
+    "attempt": 1
+  },
+  {
+    "id": "A1-W2",
+    "slug": "a1-w2-light-outdoor",
+    "title_zh": "轻户外",
+    "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/a1-w2-light-outdoor.txt",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w2-light-outdoor.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w2-light-outdoor.receipt.json",
+    "attempt": 1
+  },
+  {
+    "id": "A1-W3",
+    "slug": "a1-w3-astral-fantasy",
+    "title_zh": "星旅轻奇幻",
+    "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/a1-w3-astral-fantasy.txt",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w3-astral-fantasy.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w3-astral-fantasy.receipt.json",
+    "attempt": 1
+  },
+  {
+    "id": "C1-W1",
+    "slug": "c1-w1-music-stage",
+    "title_zh": "音乐舞台",
+    "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-c1-concept/c1-plum-dusk-v1.png",
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/c1-w1-music-stage.txt",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w1-music-stage.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w1-music-stage.receipt.json",
+    "attempt": 1
+  },
+  {
+    "id": "C1-W2",
+    "slug": "c1-w2-sport-casual",
+    "title_zh": "运动休闲",
+    "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-c1-concept/c1-plum-dusk-v1.png",
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/c1-w2-sport-casual.txt",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w2-sport-casual.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w2-sport-casual.receipt.json",
+    "attempt": 1
+  },
+  {
+    "id": "C1-W3",
+    "slug": "c1-w3-modern-wa",
+    "title_zh": "现代和风",
+    "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-c1-concept/c1-plum-dusk-v1.png",
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/c1-w3-modern-wa.txt",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w3-modern-wa.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/c1-w3-modern-wa.receipt.json",
+    "attempt": 1
+  }
+]

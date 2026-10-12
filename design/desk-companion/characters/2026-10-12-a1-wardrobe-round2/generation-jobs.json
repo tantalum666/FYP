@@ -1,0 +1,68 @@
+[
+  {
+    "id": "A1-W4",
+    "slug": "a1-w4-modern-chinese",
+    "title_zh": "新中式",
+    "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+    "source_sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0",
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w4-modern-chinese.txt",
+    "prompt_sha256": "4800e2354da0aeb65a6f2fc3497229002a92986f65ca2c89f3638ea938823aca",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w4-modern-chinese.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w4-modern-chinese.receipt.json"
+  },
+  {
+    "id": "A1-W5",
+    "slug": "a1-w5-soft-gothic",
+    "title_zh": "轻哥特",
+    "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+    "source_sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0",
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w5-soft-gothic.txt",
+    "prompt_sha256": "87a99eff767f5535618ae7d1fb04886e4d31816b2e63cde794e71d01c52b6e95",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w5-soft-gothic.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w5-soft-gothic.receipt.json"
+  },
+  {
+    "id": "A1-W6",
+    "slug": "a1-w6-cozy-knit",
+    "title_zh": "居家针织",
+    "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+    "source_sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0",
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w6-cozy-knit.txt",
+    "prompt_sha256": "cc60f45c812793c2a3a641d31c57d18a545e49f565d903d9b3d6e96a7f07c402",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w6-cozy-knit.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w6-cozy-knit.receipt.json"
+  },
+  {
+    "id": "A1-W7",
+    "slug": "a1-w7-space-explorer",
+    "title_zh": "太空探索",
+    "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+    "source_sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0",
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w7-space-explorer.txt",
+    "prompt_sha256": "d5568ac98e41e4c4ca9834122d40688ea04a22e8a80d2c80a3f0bf4ed881854f",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w7-space-explorer.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w7-space-explorer.receipt.json"
+  },
+  {
+    "id": "A1-W8",
+    "slug": "a1-w8-seaside",
+    "title_zh": "海风度假",
+    "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+    "source_sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0",
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w8-seaside.txt",
+    "prompt_sha256": "7d89d2852d7f128d026ced9ed1ac90bf9c41b9ff74fbb193414f0e7e700f9cfe",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w8-seaside.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w8-seaside.receipt.json"
+  },
+  {
+    "id": "A1-W9",
+    "slug": "a1-w9-starlight-dress",
+    "title_zh": "星夜礼服",
+    "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+    "source_sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0",
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w9-starlight-dress.txt",
+    "prompt_sha256": "f7abb43895808342b786067af9c4745cf81167577e5dd9ab6c196aec9c9be710",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w9-starlight-dress.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w9-starlight-dress.receipt.json"
+  }
+]

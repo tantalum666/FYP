@@ -1,0 +1,44 @@
+{
+  "job_id": "A1-T06",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.attempt2.actual-prompt.txt",
+  "prompt_sha256": "4df566543a339895920da06febfc66242a9ed0288370a7cc6c00962f37418688",
+  "specification_prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t06-back-three-quarter.txt",
+  "specification_prompt_sha256": "12fccb643a8878f3751fd419906026ea2c969555877188046d9d5a42e1420a61",
+  "reference_paths": [
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t03-back.png",
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+  ],
+  "reference_sha256s": [
+    "2a7bab2b579d46d8f68a1e4c122978e96e4e291aa58dc7fc7be0813705e5f8ae",
+    "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+  ],
+  "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-b2f67cff-2ac9-42c3-8267-b490176e90b6.png",
+  "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.png",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 1609838,
+  "sha256": "4aa3254f1be14a74cd62ebafe3f38451f46a54cc5ab5b462a8f5a938f3386839",
+  "attempt_count": 2,
+  "route": "built-in imagegen",
+  "rejected_attempts": [
+    {
+      "attempt": 1,
+      "workspace_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.attempt1-rejected.png",
+      "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.attempt1-rejected.receipt.json",
+      "reason": "Head turned toward profile while body remained near rear; head and torso directions were not aligned."
+    }
+  ],
+  "visual_observations": [
+    "Rear-left oblique view with head and torso facing away together; no visible eye or mouth and no turned-back frontal face.",
+    "Physical-left ring clip remains on near side; near ear and narrow cheek edge are natural at this angle.",
+    "Loose silver-gray rear hair groups, length to just above waist, plain cropped ivory jacket back and blue-gray asymmetric rear wrap skirt remain close to accepted T03.",
+    "Original materials, cuff bands, tights, boot cuffs/buckles and stable heels are retained, with complete head, both hands and both boots inside frame.",
+    "Neutral balanced stance, straight legs, relaxed hands and adult proportions are preserved."
+  ],
+  "deviations": [
+    "The camera angle reads as a relatively shallow rear three-quarter view, closer to straight back than the requested approximate 45 degrees.",
+    "Arm separation is modest, as in the accepted neutral masters."
+  ],
+  "visual_check_passed": true,
+  "copy_verified_byte_identical": true
+}

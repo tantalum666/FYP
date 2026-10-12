@@ -1,0 +1,429 @@
+{
+  "same_task_inherited_full_read": "output/qa/2026-10-12-wardrobe-variants/reading-record.json",
+  "method": "Six tool-output batches read in full; avatar actual changed range 56-71 separately read.",
+  "batch_count": 6,
+  "readback": [
+    {
+      "path": "README.md",
+      "lines": 234,
+      "ranges_actually_read": [
+        [
+          1,
+          40
+        ]
+      ],
+      "sha256": "71195f1e8d8aa3e200760e0bcc86fe1441cd83b94f6cfb2a0afb6f357ae8c3f7"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 784,
+      "ranges_actually_read": [
+        [
+          776,
+          784
+        ]
+      ],
+      "sha256": "4fc2c4ae0b239baee956b5f66d2bfa7581689d2a78e0404e920f07a881b45082"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-10-c1-concept/README.md",
+      "lines": 22,
+      "ranges_actually_read": [
+        [
+          1,
+          22
+        ]
+      ],
+      "sha256": "dc2f4c1440b6a7e63ff0b3329f6cfc05a7988e2cd83a1d2362dde229f50bf5ce"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-10-concepts/README.md",
+      "lines": 32,
+      "ranges_actually_read": [
+        [
+          1,
+          32
+        ]
+      ],
+      "sha256": "78b657491a82475c92e952607de64bbbc8597f459f9765946433d1e5ecf05aea"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-10-expression-study/README.md",
+      "lines": 26,
+      "ranges_actually_read": [
+        [
+          1,
+          26
+        ]
+      ],
+      "sha256": "cee7ad5e2edd6e48fc375cb8c2de4e45343669141c00bbd8c65f9e37c5e78c09"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md",
+      "lines": 47,
+      "ranges_actually_read": [
+        [
+          1,
+          47
+        ]
+      ],
+      "sha256": "ae47f1b4bf955d3562dabddb08b9f70b2fec3b6db0a62c7e5ffa5f8a66b233c2"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/README.md",
+      "lines": 39,
+      "ranges_actually_read": [
+        [
+          1,
+          39
+        ]
+      ],
+      "sha256": "418916c6fcdeff6044bb236d42867db533503001287c97559080e9d5f00a05b6"
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/README.md",
+      "lines": 41,
+      "ranges_actually_read": [
+        [
+          1,
+          41
+        ]
+      ],
+      "sha256": "b447ff84fbf47a34f229d73d57f84141015fc7020952f81c468ec1fea2c63aec"
+    },
+    {
+      "path": "design/desk-companion/characters/a1-character-brief.md",
+      "lines": 18,
+      "ranges_actually_read": [
+        [
+          1,
+          18
+        ]
+      ],
+      "sha256": "ab2183a45adac37777456cad67923a8c3f5a900460be799cc74162ba1deba4ae"
+    },
+    {
+      "path": "design/desk-companion/characters/a1-expression-rules.md",
+      "lines": 47,
+      "ranges_actually_read": [
+        [
+          1,
+          47
+        ]
+      ],
+      "sha256": "985fb2374e8bca6f1e5f87e58b4423f9fd7809a54465c55106183b020ee85825"
+    },
+    {
+      "path": "design/desk-companion/characters/a1-turnaround-spec.md",
+      "lines": 49,
+      "ranges_actually_read": [
+        [
+          1,
+          49
+        ]
+      ],
+      "sha256": "ef4e1c55bd6ab3f8f29f8388c1a67fb123ef706422a8b4f2d414be451c71828b"
+    },
+    {
+      "path": "design/desk-companion/characters/a1-wardrobe-index.md",
+      "lines": 23,
+      "ranges_actually_read": [
+        [
+          1,
+          23
+        ]
+      ],
+      "sha256": "0c57b55a0d0652ab1fb2389828768bdcee0f64c69a0e08ba7e80d62ac60cd353"
+    },
+    {
+      "path": "desk-companion/README.md",
+      "lines": 112,
+      "ranges_actually_read": [
+        [
+          1,
+          16
+        ]
+      ],
+      "sha256": "8f026a59ee43afc763097291c3b5d42b26f38cdd42d1d7702dc981334fa14fba"
+    },
+    {
+      "path": "desk-companion/docs/avatar.md",
+      "lines": 78,
+      "ranges_actually_read": [
+        [
+          72,
+          78
+        ],
+        [
+          56,
+          71
+        ]
+      ],
+      "sha256": "b7c8f449f8edbc92e44b428a78ee9d491bd0de5a8dcb6727b38df6eadc796f25"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 20,
+      "ranges_actually_read": [
+        [
+          1,
+          20
+        ]
+      ],
+      "sha256": "ffa67324d775d018549bffeb15a45906df123b63170ead8046d601cae0723a72"
+    },
+    {
+      "path": "product.md",
+      "lines": 134,
+      "ranges_actually_read": [
+        [
+          1,
+          112
+        ]
+      ],
+      "sha256": "4254f5074a879faa2c47b153e8f4de031b154595d7e16bd176ffb66d139f611c"
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/character-concepts.md",
+      "lines": 9,
+      "ranges_actually_read": [
+        [
+          1,
+          9
+        ]
+      ],
+      "sha256": "5fe71231fbb1b61f066778c0f64b13684164c19dc161d3a9edd7b9a4051b8209"
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/japanese-character-study.md",
+      "lines": 122,
+      "ranges_actually_read": [
+        [
+          1,
+          14
+        ]
+      ],
+      "sha256": "053d467dbf7e7ff555b21938c0722cf720b71627986d3c872fb9a704f375247c"
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/mainstream-anime-c1-study.md",
+      "lines": 46,
+      "ranges_actually_read": [
+        [
+          1,
+          14
+        ],
+        [
+          45,
+          46
+        ]
+      ],
+      "sha256": "20a9c2375b44e88d3b3b44d4c08cf9edd0301934baa6be32409c3b9263ef3dad"
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/popular-character-study.md",
+      "lines": 125,
+      "ranges_actually_read": [
+        [
+          1,
+          14
+        ]
+      ],
+      "sha256": "ff0b80c4fb8809bc7d463995a03aeb809dfd083241c2978f84a8063a00f81fd6"
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/wardrobe-study.md",
+      "lines": 104,
+      "ranges_actually_read": [
+        [
+          1,
+          14
+        ]
+      ],
+      "sha256": "091bebff33696ac69289c6274be1f3586158fd2d3a7edb8f8aea1bce8ebf5b0e"
+    },
+    {
+      "path": "work-log.md",
+      "lines": 957,
+      "ranges_actually_read": [
+        [
+          946,
+          957
+        ]
+      ],
+      "sha256": "ccd992308002441d27904bfd50a56d2f705acd5fb0cba1d011388770ea4157de"
+    }
+  ],
+  "batches": [
+    {
+      "batch": 1,
+      "evidence": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+      "ranges": [
+        {
+          "path": "README.md",
+          "start": 1,
+          "end": 40
+        }
+      ],
+      "actually_read": true,
+      "acknowledged_at": "2026-10-12T14:07:27.611349+08:00",
+      "evidence_sha256": "2d5d3c53da12177bd9e35dfc3ad761df6d75803ec479dc5434b5fbeaa84d42ab"
+    },
+    {
+      "batch": 2,
+      "evidence": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+      "ranges": [
+        {
+          "path": "decision-log.md",
+          "start": 776,
+          "end": 784
+        },
+        {
+          "path": "design/desk-companion/characters/2026-10-10-c1-concept/README.md",
+          "start": 1,
+          "end": 22
+        },
+        {
+          "path": "design/desk-companion/characters/2026-10-10-concepts/README.md",
+          "start": 1,
+          "end": 32
+        },
+        {
+          "path": "design/desk-companion/characters/2026-10-10-expression-study/README.md",
+          "start": 1,
+          "end": 26
+        },
+        {
+          "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md",
+          "start": 1,
+          "end": 47
+        }
+      ],
+      "actually_read": true,
+      "acknowledged_at": "2026-10-12T14:07:27.611349+08:00",
+      "evidence_sha256": "62744ff01807b4005a04f333b41f0a2343f52e677730737c4b5999d1c2dbd6c9"
+    },
+    {
+      "batch": 3,
+      "evidence": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+      "ranges": [
+        {
+          "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/README.md",
+          "start": 1,
+          "end": 39
+        },
+        {
+          "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/README.md",
+          "start": 1,
+          "end": 41
+        },
+        {
+          "path": "design/desk-companion/characters/a1-character-brief.md",
+          "start": 1,
+          "end": 18
+        },
+        {
+          "path": "design/desk-companion/characters/a1-expression-rules.md",
+          "start": 1,
+          "end": 47
+        }
+      ],
+      "actually_read": true,
+      "acknowledged_at": "2026-10-12T14:07:27.611349+08:00",
+      "evidence_sha256": "6b62cebc44853309d477865f433eff559f9fb00f7b98ec1fb3544d060eb8ef98"
+    },
+    {
+      "batch": 4,
+      "evidence": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+      "ranges": [
+        {
+          "path": "design/desk-companion/characters/a1-turnaround-spec.md",
+          "start": 1,
+          "end": 49
+        },
+        {
+          "path": "design/desk-companion/characters/a1-wardrobe-index.md",
+          "start": 1,
+          "end": 23
+        },
+        {
+          "path": "desk-companion/README.md",
+          "start": 1,
+          "end": 16
+        },
+        {
+          "path": "desk-companion/docs/avatar.md",
+          "start": 72,
+          "end": 78
+        },
+        {
+          "path": "handoff.md",
+          "start": 1,
+          "end": 20
+        }
+      ],
+      "actually_read": true,
+      "acknowledged_at": "2026-10-12T14:07:27.611349+08:00",
+      "evidence_sha256": "8bfe34eb333478bf76fbb6260249b298690d42a22248a099fc3a619a173d4a67"
+    },
+    {
+      "batch": 5,
+      "evidence": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+      "ranges": [
+        {
+          "path": "product.md",
+          "start": 1,
+          "end": 112
+        }
+      ],
+      "actually_read": true,
+      "acknowledged_at": "2026-10-12T14:07:27.611349+08:00",
+      "evidence_sha256": "294e597b6dd7f5a986b2d75ec9faa797b21c985ac7bede425215ab11b37d48c6"
+    },
+    {
+      "batch": 6,
+      "evidence": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+      "ranges": [
+        {
+          "path": "research/2026-10-10-avatar-art/character-concepts.md",
+          "start": 1,
+          "end": 9
+        },
+        {
+          "path": "research/2026-10-10-avatar-art/japanese-character-study.md",
+          "start": 1,
+          "end": 14
+        },
+        {
+          "path": "research/2026-10-10-avatar-art/mainstream-anime-c1-study.md",
+          "start": 1,
+          "end": 14
+        },
+        {
+          "path": "research/2026-10-10-avatar-art/mainstream-anime-c1-study.md",
+          "start": 45,
+          "end": 46
+        },
+        {
+          "path": "research/2026-10-10-avatar-art/popular-character-study.md",
+          "start": 1,
+          "end": 14
+        },
+        {
+          "path": "research/2026-10-10-avatar-art/wardrobe-study.md",
+          "start": 1,
+          "end": 14
+        },
+        {
+          "path": "work-log.md",
+          "start": 946,
+          "end": 957
+        }
+      ],
+      "actually_read": true,
+      "acknowledged_at": "2026-10-12T14:07:27.611349+08:00",
+      "evidence_sha256": "52a8a8f2f7c46a9ab2c6e6192b578179fda706c298997718639168126b62585f"
+    }
+  ],
+  "completed_at": "2026-10-12T14:07:27.611349+08:00"
+}

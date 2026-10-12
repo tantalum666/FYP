@@ -1,6 +1,6 @@
 # Group 2｜全身二次元桌面伙伴：角色美术研究
 
-**当前状态（2026-10-10）：**用户同意日本动画研究后的A1工作方向；[角色简报](../../design/desk-companion/characters/a1-character-brief.md)、[表情规则](../../design/desk-companion/characters/a1-expression-rules.md)与[六表情E1](../../design/desk-companion/characters/2026-10-10-expression-study/README.md)已完成。E1待图像反馈，原五版保留，VRM未替换；新增[近期主流动画与独立C1](mainstream-anime-c1-study.md)供用户对照，当前先比较A1／C1；以下历史研究的旧下一步由此取代。
+**当前状态（2026-10-12后续）：**A1角色已确定，C1历史保留；[九套服装](../../design/desk-companion/characters/a1-wardrobe-index.md)及实际prompt已另存[原图包](../../output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip)。用户随后要求全方位／细节，已完成[六个全身视角和四张细节](../../design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md)，原V4衣服仅作一致工作参考，默认服装仍未选。当前统一角色可制作参考；E1精修／原创VRM仍待。以下保留原研究日期、来源和访问范围，历史生成顺序不作为当前下一步。
 
 ## HISTORICAL：此前的人气／方向或服装研究
 

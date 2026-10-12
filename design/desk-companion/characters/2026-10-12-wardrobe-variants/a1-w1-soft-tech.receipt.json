@@ -1,0 +1,25 @@
+{
+  "job_id": "A1-W1",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/a1-w1-soft-tech.txt",
+  "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+  "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-b8491613-357a-4343-8c78-c2312fca0724.png",
+  "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w1-soft-tech.png",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 1671615,
+  "sha256": "8404ae6573ec595db9f2c37da7a19452ec624838d0dc5cc11ada86f8cae02459",
+  "attempt_count": 1,
+  "route": "built-in imagegen",
+  "copy_verified_byte_identical": true,
+  "visual_observations": [
+    "Adult anime appearance and recognizable A1 face, silver-gray grouped hair, ring clip, gray-blue eyes, studs, low relaxed hands and slight weight shift are closely preserved.",
+    "Entire head, both hands and both ankle boots are inside the frame with clear margins.",
+    "Graphite sleeveless dress, sculptural ivory collar and offset wrap panel, restrained teal seams, utility belt and integrated hip pocket provide a distinct soft-future silhouette.",
+    "Garment structure, anatomy and pale quiet background are coherent; no text or extra subject visible."
+  ],
+  "deviations": [
+    "Detached sleeves extend from above the elbows rather than forearms only.",
+    "Several visible sleeve/boot fasteners exceed the requested two or three; boots retain a modest block heel instead of a uniformly low sole."
+  ],
+  "visual_check_passed": true
+}

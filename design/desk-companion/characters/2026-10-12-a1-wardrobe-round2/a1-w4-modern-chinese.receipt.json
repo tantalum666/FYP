@@ -1,0 +1,26 @@
+{
+  "job_id": "A1-W4",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/prompts/a1-w4-modern-chinese.txt",
+  "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+  "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-8b13bd93-a752-4ea9-91da-781508c462f9.png",
+  "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/a1-w4-modern-chinese.png",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 1660837,
+  "sha256": "7e726f3be7acaa80f4a6a97ee21f75291c2aed423cff96a5be064d829da48c3b",
+  "attempt_count": 1,
+  "route": "built-in imagegen",
+  "visual_observations": [
+    "Recognizable adult A1 face, silver-gray grouped long hair, original ring clip, gray-blue eyes, studs, calm expression, low hands and slight weight shift closely match the source.",
+    "Entire head, both hands and both pumps remain inside frame with clear margins.",
+    "Ivory fitted wrap dress, ink-teal side panels, mandarin collar, diagonal knotted closure and smoky-blue short shoulder drape read clearly as contemporary Chinese-inspired fashion.",
+    "Opaque inner skirt layer, waist shaping, hosiery and pumps are coherent; background remains quiet and source-like."
+  ],
+  "deviations": [
+    "Cloud motif is a broader graphic hem pattern rather than one fine seam motif.",
+    "There are more than two knotted closure details and added small tassels on the shoulder drape and waist.",
+    "Pumps use a modest mid-height block heel rather than a particularly low one."
+  ],
+  "visual_check_passed": true,
+  "copy_verified_byte_identical": true
+}

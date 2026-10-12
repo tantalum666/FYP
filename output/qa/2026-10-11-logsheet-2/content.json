@@ -1,0 +1,27 @@
+{
+  "period": "28 September to 11 October 2026",
+  "next_period": "12 to 25 October 2026",
+  "date": "11 October 2026",
+  "work": [
+    "Yuan Yuchen: Led AI-assisted development of the Desk Companion calendar, posture and task prototype. Added voice adapters and approved note saving with independent read-back. Local checks passed.",
+    "Xu Ziqian: Jointly prepared the materials purchasing list with Li Wenhua for the desk prototype. Purchases, wiring, assembly and hardware test results still need confirmation.",
+    "Li Wenhua: Jointly prepared the materials purchasing list with Xu Ziqian. The list supports the next hardware phase; exact models and interface compatibility still need checking.",
+    "Yuan Yuchen: Added a licensed 3D sample and prepared character concepts with AI assistance. Preserved code, research and sources in the private GitHub repository. Custom 3D modelling is pending."
+  ],
+  "plan": [
+    "Yuan Yuchen: Define one permitted PC task and verify its result. Prepare consented posture evaluation and a short voice comparison once access and a test budget are available.",
+    "Xu Ziqian: Check the list against Pi, fixed-camera, audio and power requirements. Confirm exact models, quantities, cables and availability before assembly.",
+    "Li Wenhua: Check display, RIG-Arm and mounting requirements against the list. Prepare interface, motion-limit and stop-control checks for the hardware bench.",
+    "Group 2: Agree the hardware task split, review individual contributions and prepare the Progress I demonstration. Keep test records and AI-assisted work clearly identified."
+  ],
+  "pending": "Yuan: Real-camera/voice trials and general PC control remain pending. Xu/Li: Procurement, assembly and bench-test status still need confirmation.",
+  "other": "Period: 28 Sep-11 Oct 2026. Next: 12-25 Oct.\nPrepare Progress I for 26 Oct 2026.\nReview member contributions and proposed plans.",
+  "ai_purposes": [
+    "Requirements, technical research and proposal drafting.",
+    "Prototype code, debugging, test cases and review of local results.",
+    "UI references and original character concept images; no new 3D model.",
+    "Drafting, formatting and checking this bi-weekly team log."
+  ],
+  "ai_tools": "Tasks 1, 2 and 4\nOpenAI ChatGPT / Codex\n\nTask 3\nOpenAI ImageGen\nConcept and UI images only",
+  "attribution": "Hardware purchasing list jointly attributed following the user confirmation. Next hardware checks are proposed for member review. AI assistance is declared."
+}

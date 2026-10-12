@@ -1,0 +1,29 @@
+{
+  "url": "http://127.0.0.1:63165/2026-10-12-a1-turnaround-details/review-board.html",
+  "browser": "Codex In-app Browser",
+  "browser_id": "3",
+  "tab_id": "4",
+  "method": "CUA read-only DOM inspection and full-page screenshot actually viewed",
+  "viewport": {"width": 676, "height": 757},
+  "document_scroll_width": 676,
+  "image_count": 10,
+  "all_images_complete": true,
+  "image_sizes": {
+    "A1-T01": [1024, 1536],
+    "A1-T02": [1024, 1536],
+    "A1-T03": [1024, 1536],
+    "A1-T04": [1024, 1536],
+    "A1-T05": [1024, 1536],
+    "A1-T06": [1024, 1536],
+    "A1-D01": [1254, 1254],
+    "A1-D02": [1024, 1536],
+    "A1-D03": [1024, 1536],
+    "A1-D04": [1254, 1254]
+  },
+  "single_image_links": 10,
+  "labels_match_actual_views": true,
+  "full_page_visual_review": "Three columns at current panel width; all ten images and captions legible, no horizontal overflow or clipping of source image content.",
+  "tab_marked_deliverable": true,
+  "source_png_pixel_edits": false,
+  "derived_contact_sheet_created": false
+}

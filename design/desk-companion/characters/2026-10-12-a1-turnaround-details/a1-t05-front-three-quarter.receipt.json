@@ -1,0 +1,39 @@
+{
+  "job_id": "A1-T05",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t05-front-three-quarter.txt",
+  "prompt_sha256": "ab8caef5dc1f2243ce313a6b8e8d4aeb58237199c7bc5521749f2e2b5a3f9d29",
+  "reference_paths": [
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+  ],
+  "reference_sha256s": [
+    "314e129ddde2f48f53c743e75cd505b6d695a8beae8bf838253094de867f2144",
+    "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+  ],
+  "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-4f20-7290-b321-9d67beb9c6a3/exec-d76e78bf-4b6e-4012-8294-bb0b8ab61d32.png",
+  "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t05-front-three-quarter.png",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 1656958,
+  "sha256": "75db89c02b3451f89a22b4e1693c060396f41935af7896ae6c057692f245ba0f",
+  "attempt_count": 1,
+  "actual_prompt_paths": [
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t05-front-three-quarter.txt"
+  ],
+  "route": "built-in tools.image_gen__imagegen with exact saved prompt and referenced_image_paths",
+  "transparent_background": false,
+  "visual_observations": [
+    "Front-left oblique three-quarter view with both eyes readable, far eye naturally narrower, and the fixed anatomical-left open ring clip on the near side.",
+    "Full head, both hands and both boots visible with clear margins. Upright stance with low relaxed arms and separated planted feet; no fashion twist or crossed legs observed.",
+    "Adult A1 identity retained: gray-blue eyes, grouped silver-gray long waves, same ring clip and stud earring, source-like face and calm slight smile.",
+    "Original working outfit continuity retained: ivory cropped jacket and small lapel fasteners, graphite high collar, blue-gray cuff bands, asymmetric layered wrap skirt/dark underskirt, belt hardware, dark tights and cuff/buckle ankle boots.",
+    "Single pale-gray portrait image with clean anime linework; no panels, inset, labels, text or props."
+  ],
+  "deviations": [
+    "The left-front oblique angle reads shallower than the prompt target of approximately 45 degrees, especially at the head; still a distinct front-three-quarter direction."
+  ],
+  "visual_check_passed": true,
+  "copy_verified_byte_identical": true,
+  "pixel_postprocessing": false,
+  "completed_at_utc": "2026-10-12T05:45:18.655015+00:00"
+}

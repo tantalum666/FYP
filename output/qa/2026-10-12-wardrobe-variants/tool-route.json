@@ -1,0 +1,10 @@
+{
+  "generation_route": "built-in image_gen__imagegen through native Desktop workers",
+  "image_worker_count": 3,
+  "planned_outputs": 6,
+  "max_open_worker_handles": 4,
+  "board_mounted": false,
+  "board_limitation": "Only nested functions.exec route is exposed for creative_production_board; skill prohibits using that route to mount the UI. No direct callable board tool is available.",
+  "image_postprocessing": false,
+  "original_assets_read_only": true
+}

@@ -1,0 +1,160 @@
+[
+  {
+    "id": "A1-T01",
+    "slug": "a1-t01-front",
+    "title_zh": "正面参考",
+    "kind": "full-body",
+    "reference_paths": [
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+    ],
+    "depends_on": [],
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t01-front.txt",
+    "prompt_sha256": "e7550cbf6f195a0bc756876a8daebe090378f19cae7fc11aabc821d6b85c8236",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.receipt.json"
+  },
+  {
+    "id": "A1-T02",
+    "slug": "a1-t02-left",
+    "title_zh": "左侧面",
+    "kind": "full-body",
+    "reference_paths": [
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+    ],
+    "depends_on": [
+      "A1-T01"
+    ],
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t02-left.txt",
+    "prompt_sha256": "95906242996b2ab0c82eb2d3a9eb849c56458b5b6971fc357b3ba16dbd0fff43",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t02-left.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t02-left.receipt.json"
+  },
+  {
+    "id": "A1-T03",
+    "slug": "a1-t03-back",
+    "title_zh": "背面参考",
+    "kind": "full-body",
+    "reference_paths": [
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+    ],
+    "depends_on": [
+      "A1-T01"
+    ],
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t03-back.txt",
+    "prompt_sha256": "492a784eb84ad730852ff7870f02811956e99e431cc4747371c3215e043d4429",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t03-back.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t03-back.receipt.json"
+  },
+  {
+    "id": "A1-T04",
+    "slug": "a1-t04-right",
+    "title_zh": "右侧面",
+    "kind": "full-body",
+    "reference_paths": [
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+    ],
+    "depends_on": [
+      "A1-T01"
+    ],
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t04-right.txt",
+    "prompt_sha256": "fb67333e3a2f5f102277a28b41eddeb990056d9a1b00596f56f3dcb9f4680d37",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t04-right.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t04-right.receipt.json"
+  },
+  {
+    "id": "A1-T05",
+    "slug": "a1-t05-front-three-quarter",
+    "title_zh": "前四分之三",
+    "kind": "full-body",
+    "reference_paths": [
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+    ],
+    "depends_on": [
+      "A1-T01"
+    ],
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t05-front-three-quarter.txt",
+    "prompt_sha256": "ab8caef5dc1f2243ce313a6b8e8d4aeb58237199c7bc5521749f2e2b5a3f9d29",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t05-front-three-quarter.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t05-front-three-quarter.receipt.json"
+  },
+  {
+    "id": "A1-T06",
+    "slug": "a1-t06-back-three-quarter",
+    "title_zh": "后四分之三",
+    "kind": "full-body",
+    "reference_paths": [
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t03-back.png",
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+    ],
+    "depends_on": [
+      "A1-T03"
+    ],
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t06-back-three-quarter.txt",
+    "prompt_sha256": "12fccb643a8878f3751fd419906026ea2c969555877188046d9d5a42e1420a61",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.receipt.json"
+  },
+  {
+    "id": "A1-D01",
+    "slug": "a1-d01-face",
+    "title_zh": "脸部与发扣",
+    "kind": "detail",
+    "reference_paths": [
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+    ],
+    "depends_on": [],
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d01-face.txt",
+    "prompt_sha256": "0b983294dfe89c247ff6b8ff9f9b9fdb6e848ed93188358a5fc25008821ded01",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d01-face.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d01-face.receipt.json"
+  },
+  {
+    "id": "A1-D02",
+    "slug": "a1-d02-hair-back",
+    "title_zh": "后发与发扣侧后",
+    "kind": "detail",
+    "reference_paths": [
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t03-back.png",
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+    ],
+    "depends_on": [
+      "A1-T03"
+    ],
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d02-hair-back.txt",
+    "prompt_sha256": "db067e2d3cb8f9cbef5e84224803e72beeaf9220e24b80480f1825ce19d8d42d",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d02-hair-back.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d02-hair-back.receipt.json"
+  },
+  {
+    "id": "A1-D03",
+    "slug": "a1-d03-outfit",
+    "title_zh": "上衣腰带与裙装",
+    "kind": "detail",
+    "reference_paths": [
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+    ],
+    "depends_on": [],
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d03-outfit.txt",
+    "prompt_sha256": "9e111ce08aa51d80def985c80b94d2050227b194b6afeb26f6f0e80ef0b9a2c0",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d03-outfit.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d03-outfit.receipt.json"
+  },
+  {
+    "id": "A1-D04",
+    "slug": "a1-d04-boots-tights",
+    "title_zh": "短靴与腿部材质",
+    "kind": "detail",
+    "reference_paths": [
+      "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+    ],
+    "depends_on": [],
+    "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d04-boots-tights.txt",
+    "prompt_sha256": "1ea8f9193e812775b2c42ff616ab090a1226ec04ce4496f2b42b36f1499c5f5d",
+    "output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d04-boots-tights.png",
+    "receipt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d04-boots-tights.receipt.json"
+  }
+]

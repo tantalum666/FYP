@@ -1,0 +1,41 @@
+{
+  "job_id": "A1-T04",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t04-right.txt",
+  "prompt_sha256": "fb67333e3a2f5f102277a28b41eddeb990056d9a1b00596f56f3dcb9f4680d37",
+  "reference_paths": [
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+  ],
+  "reference_sha256s": [
+    "314e129ddde2f48f53c743e75cd505b6d695a8beae8bf838253094de867f2144",
+    "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+  ],
+  "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-4f20-7290-b321-9d67beb9c6a3/exec-3eaac5f4-9ce7-4517-9f1f-951126d4f25e.png",
+  "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t04-right.png",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 1634728,
+  "sha256": "d776654cd1e2e6de0ffbda89e31d63bfd2bc4d0a8dbf77013d4ce3c8289763b3",
+  "attempt_count": 1,
+  "actual_prompt_paths": [
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t04-right.txt"
+  ],
+  "route": "built-in tools.image_gen__imagegen with exact saved prompt and referenced_image_paths",
+  "transparent_background": false,
+  "visual_observations": [
+    "True right-side profile silhouette: nose points to image-right, visible anatomical-right eye and ear, head and torso aligned without looking toward viewer.",
+    "Fixed anatomical-left ring clip is on the far side and hidden; no ring has been relocated onto the visible right side.",
+    "Full head and both boots are inside the frame with margins. Near hand is entirely visible; far arm and hand overlap behind the near limb in this strict side projection.",
+    "Relaxed upright balanced stance, straight relaxed leg silhouette and natural side-view overlap; no extra limbs observed.",
+    "Adult A1 identity remains recognizable in profile through gray-blue eye, calm slight smile, normal ear with stud, grouped silver-gray waves and side-swept fringe.",
+    "Original working outfit continuity retained: cropped ivory jacket and lapels, graphite high neck, blue-gray cuff bands, layered wrap skirt with narrow belt/hardware, dark tights and original-style buckle ankle boots with block heels.",
+    "Single pale-gray portrait image with anime linework; no panels, inset, labels, text or props."
+  ],
+  "deviations": [
+    "Far hand is occluded by the near arm in the strict side view, consistent with natural side-view overlap; it cannot be separately inspected in this image."
+  ],
+  "visual_check_passed": true,
+  "copy_verified_byte_identical": true,
+  "pixel_postprocessing": false,
+  "completed_at_utc": "2026-10-12T05:45:18.650238+00:00"
+}

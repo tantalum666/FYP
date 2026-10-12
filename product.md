@@ -1,6 +1,6 @@
 # Group 2 Project Contract
 
-更新：2026-10-10。状态：**A1简报与E1保留；近期主流动画复核、C1首稿及Git交付完成，待A1／C1对照反馈；运行角色仍用原许可样本**。
+更新：2026-10-12。状态：**A1角色已确定；九套服装原图／提示词已单独打包；六个全身视角与四张细节图完成；默认服装待选，运行角色仍为许可样本**。
 
 ## 当前方向与用户决定
 
@@ -38,11 +38,33 @@
 
 A/B首轮各生成一张1024×1536全身概念，随后用户选择A1并连续降低写实度，形成V2／V3／V4。[原五版与提示词](design/desk-companion/characters/2026-10-10-concepts/README.md)均保留；[日本动漫六角色研究](research/2026-10-10-avatar-art/japanese-character-study.md)及13来源在研究阶段完成。用户随后明确同意按建议推进，安静、敏锐、可靠、熟悉后轻巧幽默成为当前性格工作基线，非最终角色名称／声音／模型定稿。
 
-[简明角色简报](design/desk-companion/characters/a1-character-brief.md)、[六表情／表演规则](design/desk-companion/characters/a1-expression-rules.md)与[六表情对照E1](design/desk-companion/characters/2026-10-10-expression-study/README.md)已完成。E1以实际查看的V4为唯一参考，一次内置ImageGen生成1536×1024头肩对照；原图、完整提示词和hash保留，无像素后期。倾听与开心差异仍小，关切略偏担忧；E1待图像反馈，不是全身V5或已绑定表情。A1可据E1反馈定向微调，再补侧背面规范。应用／pixiv VRM保持，真实语音、Pi并发与光学效果仍需另验。
+[简明角色简报](design/desk-companion/characters/a1-character-brief.md)、[六表情／表演规则](design/desk-companion/characters/a1-expression-rules.md)与[六表情对照E1](design/desk-companion/characters/2026-10-10-expression-study/README.md)已完成。E1以实际查看的V4为唯一参考，一次内置ImageGen生成1536×1024头肩对照；原图、完整提示词和hash保留，无像素后期。倾听与开心差异仍小，关切略偏担忧；E1待图像反馈，不是全身V5或已绑定表情。当时拟先据E1反馈微调再补侧背面；10月12日新指令已先推进视角和细节，E1精修仍待。应用／pixiv VRM保持，真实语音、Pi并发与光学效果仍需另验。
 
-用户随后要求选择更主流、近期仍有动画内容的作品，另出C1参考。[近期动画复核](research/2026-10-10-avatar-art/mainstream-anime-c1-study.md)核对六系列的发行／续作状态与传播依据，实际查看加奈、茜、绫濑桃、蕾塞、菲伦五项官方视觉；未完整观看剧集。新[C1紫暮首稿](design/desk-companion/characters/2026-10-10-c1-concept/README.md)为一次内置ImageGen生成的1024×1536成年女性全身概念，无IP参考图输入：深梅紫短发、琥珀眼、酒红露肩针织、米白叠片裙与丝袜。首稿保留柔和材质／背景渐变及较高鞋跟的实际差异。C1是独立备选，不取代已接受的A1工作简报，也不恢复历史暖金C；现有五版、E1与所有提示词保持。当前下一步比较A1与C1，再细化选定方向；无新VRM或应用改动。
+用户随后要求选择更主流、近期仍有动画内容的作品，另出C1参考。[近期动画复核](research/2026-10-10-avatar-art/mainstream-anime-c1-study.md)核对六系列的发行／续作状态与传播依据，实际查看加奈、茜、绫濑桃、蕾塞、菲伦五项官方视觉；未完整观看剧集。新[C1紫暮首稿](design/desk-companion/characters/2026-10-10-c1-concept/README.md)为一次内置ImageGen生成的1024×1536成年女性全身概念，无IP参考图输入：深梅紫短发、琥珀眼、酒红露肩针织、米白叠片裙与丝袜。首稿保留柔和材质／背景渐变及较高鞋跟的实际差异。C1是独立备选，不取代已接受的A1工作简报，也不恢复历史暖金C；现有五版、E1与所有提示词保持。10月10日当时的下一步是比较A1与C1；10月12日已按新指令扩为六套服装对照，当前入口见下节；仍无新VRM或应用改动。
 
 新聊天按用户要求完成138份自有Markdown全文恢复并读取旧聊天，确认C1阶段停在提交前的空行检查及连接中断。C1内容提交`cc38442`现已推送既有角色分支，远端ref与PR #4 head一致、说明已更新；[本轮收尾记录](output/qa/2026-10-10-github-thread-continuation/verification.md)区分本地成果、Git交付与待用户反馈。main保持`ccfac48`，最终收尾提交仅补当前状态和证据。
+
+## 2026-10-12 A1与C1服装再设计
+
+用户要求两位角色各再设计几版、尝试不同风格，不能只做都市上班族。这取代此前本阶段“保持既有服装”的限制，保留成年角色的脸、发型、眼睛、配饰与性格连续性。新的[六套服装与并排预览](design/desk-companion/characters/2026-10-12-wardrobe-variants/README.md)分别为A1柔科技机能／轻户外／星旅轻奇幻，以及C1音乐舞台／运动休闲／现代和风；每项一次内置ImageGen编辑，1024×1536，原PNG及完整实际提示词保存。
+
+协调代理逐张查看，六图头／双手／双鞋完整、主要身份稳定、服装结构可读。渐变、较高方跟、部分垂片／边饰比简报复杂的差异如实记录；六张均为有效首次结果，无重生成或像素后期。助手优先建议A1-W3与C1-W3进一步细化，属于视觉判断，不是用户已选型或人气结论。当时先比较六套；同日随后用户已选择A1，当前改为下节A1九套服装对照，E1反馈保留。原五版、E1、C1原图与提示词不覆盖，应用／学校文件不改。[本轮QA](output/qa/2026-10-12-wardrobe-variants/verification.md)记录完整阅读、来源与保护检查。
+
+## 2026-10-12 用户确定A1与第二轮服装
+
+用户明确“确定A1为后续形象，再设计几套A1的服装”。**A1角色身份已确定**，取代此前A1／C1仍并列待比较的当前状态；C1保留为历史参考。A1的银灰长发、灰蓝眼、开环发扣、成年脸型及既有性格继续，具体默认服装、正式名字／声音和原创3D资产尚未定稿。没有把用户选择A1解释为选择上一轮W1、W2或W3。
+
+[第二轮六套新服装](design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/README.md)为W4新中式、W5轻哥特、W6居家针织、W7太空探索、W8海风度假、W9星夜礼服；[A1九套总索引](design/desk-companion/characters/a1-wardrobe-index.md)保留前轮三套。每项以A1 V4为唯一参考，六张成稿1024×1536；W8首图未符合本套中长裙开口简报，以相同提示词重试一次，其余首次成功，原生文件和实际提示词保留。协调代理逐张查看六张，身份／站姿基本稳定，头手鞋完整，服装结构可读。
+
+助手建议优先比较W4与W6，W9可作正式主题装，是视觉建议而非用户已选默认衣服。该阶段原计划先从九套收敛服装；用户随后要求先保存服装并制作全方位／细节图，当前顺序以下节为准；E1反馈保留。原A1／B1／C1／E1、前轮原图／提示词、学校文件与运行许可模型保持。[本次QA](output/qa/2026-10-12-a1-wardrobe-round2/verification.md)继承同一美术任务全读与收尾记录，仅补读相关新增／变更，不重新声称全库阅读。
+
+## 2026-10-12 保留九套服装与A1全方位／细节
+
+用户明确先保存这些服装，再做A1全方位形象图和细节图。九套服装原PNG／九份实际prompt、原V4参考和索引另存[九套原图包](output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip)，21项包内字节读回一致；原素材目录保留。默认服装未选，沿用V4原服装仅为本轮一致的工程参考。
+
+[六个全身视角与四张细节](design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md)已完成：正面、左右侧面、背面、前后斜视，以及脸／发扣、后发、服装剪裁、短靴／裤袜。先检查T01正面，再制作侧背面；T03检查后才用于后斜视及后发细节。十张原生PNG逐张查看，共11次内置ImageGen；T06首稿头身方向不一致，补充明确指令重试一次，首稿与实际prompt均保留。八张1024×1536、两张1254×1254，无像素后期。
+
+发扣固定在人物自身左侧，右侧视角自然遮挡。T05／T06实际斜视角度偏浅，不称精确45度；严格侧面远侧手／鞋会自然重叠。原稿未展示的后发、外套背缝和裙后片为本轮新增设计提案，跨视角细部仍需统一，不能当作共享精确3D几何或已批准最终背面。当前按[视图工作规范](design/desk-companion/characters/a1-turnaround-spec.md)统一可制作参考；默认服装、E1精修和原创VRM／绑定仍分别待完成。[本次QA](output/qa/2026-10-12-a1-turnaround-details/verification.md)记录同任务阅读链、原图保存、十图检查及旧资产保护；学校和运行样本保持，本轮本地保存。
 
 ## 已实现的软件范围
 
@@ -93,6 +115,8 @@ Pi5 8GB仍为现场主机候选，现有Arduino UNO R4 WiFi可选。普通UVC相
 
 可拆卸清洁模块仍为讨论候选，需要单独的控制适配和台架证据；固定姿态相机不随机械臂移动。
 
+10月11日用户补充硬件已列出材料购买清单。本轮日志将它记为Xu Ziqian／Li Wenhua的共同清单工作，个人归属供成员复核；没有收到清单细目、订单或实物记录，不把此项升级为最终BOM、已采购、已装配或已测。下一期具体硬件核对范围属于日志中的建议分配。
+
 受限笔记作业证明本机文件保存与读回，不等于通用个人Agent电脑操作已完成。下一阶段确定1–2个真实应用任务与数据范围，再验证可替换执行器；LCU安装／系统权限仍需对应授权。整机集成仍需取得目标设备、用户的音视频许可与个人标定、所选语音服务或学校连接、Google账号授权、Apple真机签名，再完成真实闭环验证。不能用增加软件功能替代这些数据和台架检查。
 
 ## 学校文件与历史
@@ -100,7 +124,8 @@ Pi5 8GB仍为现场主机候选，现有Arduino UNO R4 WiFi可选。普通UVC相
 最新学校正文仍为[中文v3](planning/2026-09-28/desk-companion-proposal-zh-v3.md)和[对应英文](planning/2026-09-28/desk-companion-proposal-en.md)。
 
 - [英文Proposal DOCX](<output/submission/2026-09-28/AY26_ProjectProposal_Group 2.docx>)／[PDF](<output/submission/2026-09-28/AY26_ProjectProposal_Group 2.pdf>)。
-- [团队日志DOCX](<output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx>)／[PDF](<output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf>)：一份列三人工作，9月14–27日记录，9月28日填表；成员归属为用户授权安排的member-review draft。
+- [第2份团队日志DOCX](<output/submission/2026-10-11/AY26_Logsheet_No2_Group 2_YuanYuchen_250342840.docx>)／[PDF](<output/submission/2026-10-11/AY26_Logsheet_No2_Group 2_YuanYuchen_250342840.pdf>)：采用用户新提供的v5，记录9月28日至10月11日，10月11日填表，计划10月12–25日；三人分别列名，Part III填写AI使用声明，导师反馈留白。[制作与依据](planning/2026-10-11/logsheet-2-review.md)保留成员归属／计划复核与实测边界，未提交。
+- [首份团队日志DOCX](<output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx>)／[PDF](<output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf>)保持：9月14–27日记录，9月28日填表；成员归属为用户授权安排的member-review draft。
 
 Yuan Yuchen为组长，计划40%；Xu Ziqian及Li Wenhua各30%。此比例不是本轮实际完成贡献或评分。本轮AI辅助实现不自动归作学生已完成贡献。学校原件、现有双格式交付与签名状态未改，没有代签、上传或联系导师。
 

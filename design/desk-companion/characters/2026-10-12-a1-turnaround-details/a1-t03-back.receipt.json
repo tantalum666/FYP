@@ -1,0 +1,35 @@
+{
+  "job_id": "A1-T03",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t03-back.txt",
+  "prompt_sha256": "492a784eb84ad730852ff7870f02811956e99e431cc4747371c3215e043d4429",
+  "reference_paths": [
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+  ],
+  "reference_sha256s": [
+    "314e129ddde2f48f53c743e75cd505b6d695a8beae8bf838253094de867f2144",
+    "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+  ],
+  "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-8e250277-76bf-4cad-bcea-f956aa6b2eb0.png",
+  "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t03-back.png",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 1631384,
+  "sha256": "2a7bab2b579d46d8f68a1e4c122978e96e4e291aa58dc7fc7be0813705e5f8ae",
+  "attempt_count": 1,
+  "route": "built-in imagegen",
+  "visual_observations": [
+    "Strict rear view: head and torso fully face away, no visible face or turned-back gaze.",
+    "Fixed anatomical-left ring clip appears on viewer-left with natural partial hair occlusion; grouped silver-gray waves remain loose and end just above the waist.",
+    "Plain ivory cropped jacket back has a simple center seam without front lapels or chest fasteners pasted onto the rear; matching blue-gray cuff bands preserved.",
+    "Blue-gray skirt rear continues the waistband, asymmetric wrap hem and dark underskirt; matte dark tights and rear boot cuffs, buckles and stable block heels remain coherent.",
+    "Front-master adult proportions and balanced neutral stance are closely matched, with complete head, both hands and both boots inside clear margins.",
+    "This is a proposed coherent unseen rear design inferred from frontal references, not documented original rear geometry."
+  ],
+  "deviations": [
+    "Rear jacket seam, hair grouping and skirt wrap construction are inferred details that require later cross-view design review.",
+    "Arm separation remains modest, similar to the accepted front master rather than a full 15 degrees."
+  ],
+  "visual_check_passed": true,
+  "copy_verified_byte_identical": true
+}

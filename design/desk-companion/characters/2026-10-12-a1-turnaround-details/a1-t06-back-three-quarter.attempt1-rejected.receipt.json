@@ -1,0 +1,29 @@
+{
+  "job_id": "A1-T06",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t06-back-three-quarter.txt",
+  "prompt_sha256": "12fccb643a8878f3751fd419906026ea2c969555877188046d9d5a42e1420a61",
+  "reference_paths": [
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t03-back.png",
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+  ],
+  "reference_sha256s": [
+    "2a7bab2b579d46d8f68a1e4c122978e96e4e291aa58dc7fc7be0813705e5f8ae",
+    "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+  ],
+  "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-0150b753-3ca7-4e54-8311-0198ecdf2598.png",
+  "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t06-back-three-quarter.attempt1-rejected.png",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 1618649,
+  "sha256": "6fa1ea29a1666ac8c140347c1a87017640b77a078921af59e4ba4c6253af438b",
+  "attempt_count": 1,
+  "route": "built-in imagegen",
+  "visual_observations": [
+    "Original materials and rear hair/jacket/skirt construction are recognizable; full head, hands and boots are inside frame."
+  ],
+  "deviations": [
+    "Rejected: torso is close to full back while head turns toward profile, revealing an eye and much of the face. Head and body do not remain aligned away as required."
+  ],
+  "visual_check_passed": false,
+  "copy_verified_byte_identical": true
+}

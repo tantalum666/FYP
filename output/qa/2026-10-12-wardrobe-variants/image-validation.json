@@ -1,0 +1,98 @@
+{
+  "checked_at": "2026-10-12T12:37:53.962098+08:00",
+  "images": [
+    {
+      "id": "A1-W1",
+      "valid_png": true,
+      "nonempty": true,
+      "native_bytes_equal": true,
+      "source_exists": true,
+      "prompt_exists": true,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "root_visual_review": "PASS: identifiable adult character, full head/hands/feet, coherent outfit, distinct style",
+      "deviations": "分离袖长至上臂，扣件多于简报；鞋跟为适度方跟。"
+    },
+    {
+      "id": "A1-W2",
+      "valid_png": true,
+      "nonempty": true,
+      "native_bytes_equal": true,
+      "source_exists": true,
+      "prompt_exists": true,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "root_visual_review": "PASS: identifiable adult character, full head/hands/feet, coherent outfit, distinct style",
+      "deviations": "衣摆出现短调节绳环；不影响服装结构。"
+    },
+    {
+      "id": "A1-W3",
+      "valid_png": true,
+      "nonempty": true,
+      "native_bytes_equal": true,
+      "source_exists": true,
+      "prompt_exists": true,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "root_visual_review": "PASS: identifiable adult character, full head/hands/feet, coherent outfit, distinct style",
+      "deviations": "外层下摆及腰带垂片稍长，层次较简报复杂；靴子仍有小方跟。"
+    },
+    {
+      "id": "C1-W1",
+      "valid_png": true,
+      "nonempty": true,
+      "native_bytes_equal": true,
+      "source_exists": true,
+      "prompt_exists": true,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "root_visual_review": "PASS: identifiable adult character, full head/hands/feet, coherent outfit, distinct style",
+      "deviations": "侧裙片较长，额外出现米白裙片；仍有材质渐变。"
+    },
+    {
+      "id": "C1-W2",
+      "valid_png": true,
+      "nonempty": true,
+      "native_bytes_equal": true,
+      "source_exists": true,
+      "prompt_exists": true,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "root_visual_review": "PASS: identifiable adult character, full head/hands/feet, coherent outfit, distinct style",
+      "deviations": "短上衣留少量腰部，与完整运动穿搭协调；未见明显结构问题。"
+    },
+    {
+      "id": "C1-W3",
+      "valid_png": true,
+      "nonempty": true,
+      "native_bytes_equal": true,
+      "source_exists": true,
+      "prompt_exists": true,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "root_visual_review": "PASS: identifiable adult character, full head/hands/feet, coherent outfit, distinct style",
+      "deviations": "右袖几何边饰比目标更宽，短靴跟高于很低跟目标。"
+    }
+  ],
+  "image_count": 6,
+  "native_calls": 6,
+  "retry_count": 0,
+  "coordinator_inspected_all": true,
+  "native_image_workers": 3,
+  "terminal_results_consumed": 3,
+  "interrupt_confirmed_terminal": 3,
+  "destroy_handle_api_available": false,
+  "no_additional_workers_opened": true
+}

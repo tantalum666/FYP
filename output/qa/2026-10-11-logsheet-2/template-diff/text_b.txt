@@ -1,0 +1,55 @@
+Log Sheet No.: 2Log Sheet No.: 2Project ID: Group 2Project ID: Group 2Version 5Version 5Hong Kong Institute of Information TechnologyDiscipline of Information TechnologyFinal Year Project - Log Sheet (Bi-weekly)
+Log Sheet No.: 2
+Log Sheet No.: 2
+Project ID: Group 2
+Project ID: Group 2
+Version 5
+Version 5
+Programme/Class
+IT114124 / AIST-2B
+Student Name
+Yuan Yuchen / Xu Ziqian / Li Wenhua
+Date
+11 October 2026
+Supervisor
+Marco
+Student ID
+250342840 / 250137555 / 250329909
+Part I: Work Done & Findings Since Last Recording
+Part II: Plan of Work Before the Next Recording
+#1
+Yuan Yuchen: Led AI-assisted development of the Desk Companion calendar, posture and task prototype. Added voice adapters and approved note saving with independent read-back. Local checks passed.
+1
+Yuan Yuchen: Define one permitted PC task and verify its result. Prepare consented posture evaluation and a short voice comparison once access and a test budget are available.
+#2
+Xu Ziqian: Jointly prepared the materials purchasing list with Li Wenhua for the desk prototype. Purchases, wiring, assembly and hardware test results still need confirmation.
+2
+Xu Ziqian: Check the list against Pi, fixed-camera, audio and power requirements. Confirm exact models, quantities, cables and availability before assembly.
+#3
+Li Wenhua: Jointly prepared the materials purchasing list with Xu Ziqian. The list supports the next hardware phase; exact models and interface compatibility still need checking.
+3
+Li Wenhua: Check display, RIG-Arm and mounting requirements against the list. Prepare interface, motion-limit and stop-control checks for the hardware bench.
+#4
+Yuan Yuchen: Added a licensed 3D sample and prepared character concepts with AI assistance. Preserved code, research and sources in the private GitHub repository. Custom 3D modelling is pending.
+4
+Group 2: Agree the hardware task split, review individual contributions and prepare the Progress I demonstration. Keep test records and AI-assisted work clearly identified.
+Not
+Done
+Yuan: Real-camera/voice trials and general PC control remain pending. Xu/Li: Procurement, assembly and bench-test status still need confirmation.
+Other
+Period: 28 Sep-11 Oct 2026. Next: 12-25 Oct.Prepare Progress I for 26 Oct 2026.Review member contributions and proposed plans.
+Part III: Declaration of AI-Assisted Technologies Used
+Task #
+Purpose
+AI Tools / Platform Used
+1
+Requirements, technical research and proposal drafting.
+Tasks 1, 2 and 4OpenAI ChatGPT / CodexTask 3OpenAI ImageGenConcept and UI images only
+2
+Prototype code, debugging, test cases and review of local results.
+3
+UI references and original character concept images; no new 3D model.
+4
+Drafting, formatting and checking this bi-weekly team log.
+Supervisor’s
+Feedback

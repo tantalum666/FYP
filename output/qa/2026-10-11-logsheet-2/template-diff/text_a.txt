@@ -1,0 +1,36 @@
+Log Sheet No.: Log Sheet No.: Project ID: Project ID: Version 5Version 5Hong Kong Institute of Information TechnologyDiscipline of Information TechnologyFinal Year Project - Log Sheet (Bi-weekly)
+Log Sheet No.: 
+Log Sheet No.: 
+Project ID: 
+Project ID: 
+Version 5
+Version 5
+Programme/Class
+Student Name
+Date
+Supervisor
+Student ID
+Part I: Work Done & Findings Since Last Recording
+Part II: Plan of Work Before the Next Recording
+#1
+1
+#2
+2
+#3
+3
+#4
+4
+Not
+Done
+*Please state which part of the last plan has not yet been finished.
+Other
+Part III: Declaration of AI-Assisted Technologies Used
+Task #
+Purpose
+AI Tools / Platform Used
+1
+2
+3
+4
+Supervisor’s
+Feedback

@@ -1,5 +1,9 @@
 # Group 2｜近期主流日本动画与C1独立形象
 
+**当前状态（2026-10-12后续）：**A1角色已确定，C1历史保留；[九套服装](../../design/desk-companion/characters/a1-wardrobe-index.md)及实际prompt已另存[原图包](../../output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip)。用户随后要求全方位／细节，已完成[六个全身视角和四张细节](../../design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md)，原V4衣服仅作一致工作参考，默认服装仍未选。当前统一角色可制作参考；E1精修／原创VRM仍待。以下保留原研究日期、来源和访问范围，历史生成顺序不作为当前下一步。
+
+## HISTORICAL：原研究与当时建议
+
 2026-10-10，Asia/Hong_Kong。用户认为上一轮六例不够大众化，要求换一批热度较高、仍有动画更新或近期收官的作品，并另做一个C1供参考。上一轮侧重职业行为／AI身份／CG表演的方法研究仍保留；本页补充主流传播与近期动画依据，不把原研究冒充人气榜。
 
 ## 筛选与时间口径
@@ -39,4 +43,4 @@
 
 本次[完整简报与原图](../../design/desk-companion/characters/2026-10-10-c1-concept/README.md)使用一次内置ImageGen、无参考图输入；[提示词](../../design/desk-companion/characters/2026-10-10-c1-concept/c1-prompt.txt)保存。实际面部和线条更明确动漫化，布料／丝袜／鞋与背景仍有渐变，鞋跟及画面占比高于简报理想；无重生成或像素后期。原A1／B1／E1与模型继续保留。
 
-下一步对照A1与C1的脸部、发型轮廓、服装和长期相处的气质，按用户反馈再细化。没有新增VRM、表情绑定、程序／学校正文、真实语音或硬件测试。访问范围、来源与保留验证见[来源记录](mainstream-anime-c1-sources.json)和[本次QA](../../output/qa/2026-10-10-c1-mainstream-anime/verification.md)。
+10月12日先前已完成A1／C1六套服装；用户随后确定A1，当时转为A1九套服装比较；当前已按上方新指令完成保留与角色视图。没有新增VRM、表情绑定、程序／学校正文、真实语音或硬件测试。访问范围、来源与保留验证见[来源记录](mainstream-anime-c1-sources.json)和[本次QA](../../output/qa/2026-10-10-c1-mainstream-anime/verification.md)。

@@ -1,0 +1,2946 @@
+{
+  "defaults": {
+    "rPrDefault": [
+      [
+        "rPr",
+        {}
+      ]
+    ],
+    "pPrDefault": [
+      [
+        "pPr",
+        {}
+      ]
+    ]
+  },
+  "sections": [
+    [
+      [
+        "pgSz",
+        {
+          "w": "16838",
+          "h": "11906",
+          "orient": "landscape"
+        }
+      ],
+      [
+        "pgMar",
+        {
+          "top": "720",
+          "right": "720",
+          "bottom": "720",
+          "left": "720",
+          "header": "851",
+          "footer": "992",
+          "gutter": "0"
+        }
+      ],
+      [
+        "cols",
+        {
+          "space": "425"
+        }
+      ],
+      [
+        "docGrid",
+        {
+          "type": "lines",
+          "linePitch": "360"
+        }
+      ]
+    ]
+  ],
+  "grid": [
+    "978",
+    "708",
+    "426",
+    "3553",
+    "2029",
+    "938",
+    "2126",
+    "577",
+    "1408",
+    "2645"
+  ],
+  "bodyParagraphs": [
+    {
+      "text": "Log Sheet No.: Log Sheet No.: Project ID: Project ID: Version 5Version 5Hong Kong Institute of Information TechnologyDiscipline of Information TechnologyFinal Year Project - Log Sheet (Bi-weekly)",
+      "pPr": [
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ],
+        [
+          "rPr",
+          {}
+        ]
+      ]
+    },
+    {
+      "text": "",
+      "pPr": [
+        [
+          "rPr",
+          {}
+        ]
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "row": 0,
+      "trPr": [
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ]
+      ],
+      "cells": [
+        {
+          "col": 0,
+          "text": "Programme/Class",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "2112",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "3"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ],
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 1,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "3553",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        },
+        {
+          "col": 2,
+          "text": "Student Name",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "2029",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 3,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "3641",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "3"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        },
+        {
+          "col": 4,
+          "text": "Date",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "1408",
+                "type": "dxa"
+              }
+            ],
+            [
+              "vMerge",
+              {
+                "val": "restart"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ],
+            [
+              "vAlign",
+              {
+                "val": "center"
+              }
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 5,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "2645",
+                "type": "dxa"
+              }
+            ],
+            [
+              "vMerge",
+              {
+                "val": "restart"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        }
+      ]
+    },
+    {
+      "row": 1,
+      "trPr": [
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ]
+      ],
+      "cells": [
+        {
+          "col": 0,
+          "text": "Supervisor",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "2112",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "3"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 1,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "3553",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        },
+        {
+          "col": 2,
+          "text": "Student ID",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "2029",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 3,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "3641",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "3"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        },
+        {
+          "col": 4,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "1408",
+                "type": "dxa"
+              }
+            ],
+            [
+              "vMerge",
+              {}
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        },
+        {
+          "col": 5,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "2645",
+                "type": "dxa"
+              }
+            ],
+            [
+              "vMerge",
+              {}
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        }
+      ]
+    },
+    {
+      "row": 2,
+      "trPr": [
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ]
+      ],
+      "cells": [
+        {
+          "col": 0,
+          "text": "Part I: Work Done & Findings Since Last Recording",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "7694",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "5"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ],
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ],
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ],
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 1,
+          "text": "Part II: Plan of Work Before the Next Recording",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "7694",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "5"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ],
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ],
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "row": 3,
+      "trPr": [
+        [
+          "trHeight",
+          {
+            "val": "851"
+          }
+        ],
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ]
+      ],
+      "cells": [
+        {
+          "col": 0,
+          "text": "#1",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "978",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ],
+            [
+              "vAlign",
+              {
+                "val": "center"
+              }
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ],
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 1,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "6716",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "4"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        },
+        {
+          "col": 2,
+          "text": "1",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "938",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ],
+            [
+              "vAlign",
+              {
+                "val": "center"
+              }
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 3,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "6756",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "4"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        }
+      ]
+    },
+    {
+      "row": 4,
+      "trPr": [
+        [
+          "trHeight",
+          {
+            "val": "851"
+          }
+        ],
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ]
+      ],
+      "cells": [
+        {
+          "col": 0,
+          "text": "#2",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "978",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ],
+            [
+              "vAlign",
+              {
+                "val": "center"
+              }
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ],
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 1,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "6716",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "4"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        },
+        {
+          "col": 2,
+          "text": "2",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "938",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ],
+            [
+              "vAlign",
+              {
+                "val": "center"
+              }
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 3,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "6756",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "4"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        }
+      ]
+    },
+    {
+      "row": 5,
+      "trPr": [
+        [
+          "trHeight",
+          {
+            "val": "851"
+          }
+        ],
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ]
+      ],
+      "cells": [
+        {
+          "col": 0,
+          "text": "#3",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "978",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ],
+            [
+              "vAlign",
+              {
+                "val": "center"
+              }
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ],
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 1,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "6716",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "4"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        },
+        {
+          "col": 2,
+          "text": "3",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "938",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ],
+            [
+              "vAlign",
+              {
+                "val": "center"
+              }
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 3,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "6756",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "4"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        }
+      ]
+    },
+    {
+      "row": 6,
+      "trPr": [
+        [
+          "trHeight",
+          {
+            "val": "851"
+          }
+        ],
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ]
+      ],
+      "cells": [
+        {
+          "col": 0,
+          "text": "#4",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "978",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ],
+            [
+              "vAlign",
+              {
+                "val": "center"
+              }
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ],
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 1,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "6716",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "4"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        },
+        {
+          "col": 2,
+          "text": "4",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "938",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ],
+            [
+              "vAlign",
+              {
+                "val": "center"
+              }
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 3,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "6756",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "4"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        }
+      ]
+    },
+    {
+      "row": 7,
+      "trPr": [
+        [
+          "trHeight",
+          {
+            "val": "851"
+          }
+        ],
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ]
+      ],
+      "cells": [
+        {
+          "col": 0,
+          "text": "NotDone",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "978",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ],
+            [
+              "vAlign",
+              {
+                "val": "center"
+              }
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ],
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ],
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 1,
+          "text": "*Please state which part of the last plan has not yet been finished.",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "6716",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "4"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman",
+                  "hint": "eastAsia"
+                }
+              ],
+              [
+                "i",
+                {}
+              ],
+              [
+                "iCs",
+                {}
+              ],
+              [
+                "sz",
+                {
+                  "val": "18"
+                }
+              ],
+              [
+                "szCs",
+                {
+                  "val": "18"
+                }
+              ]
+            ],
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "i",
+                {}
+              ],
+              [
+                "iCs",
+                {}
+              ],
+              [
+                "sz",
+                {
+                  "val": "18"
+                }
+              ],
+              [
+                "szCs",
+                {
+                  "val": "18"
+                }
+              ]
+            ],
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "i",
+                {}
+              ],
+              [
+                "iCs",
+                {}
+              ],
+              [
+                "sz",
+                {
+                  "val": "18"
+                }
+              ],
+              [
+                "szCs",
+                {
+                  "val": "18"
+                }
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 2,
+          "text": "Other",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "938",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ],
+            [
+              "vAlign",
+              {
+                "val": "center"
+              }
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 3,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "6756",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "4"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        }
+      ]
+    },
+    {
+      "row": 8,
+      "trPr": [
+        [
+          "trHeight",
+          {
+            "val": "54"
+          }
+        ],
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ]
+      ],
+      "cells": [
+        {
+          "col": 0,
+          "text": "Part III: Declaration of AI-Assisted Technologies Used",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "15388",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "10"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ],
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "row": 9,
+      "trPr": [
+        [
+          "trHeight",
+          {
+            "val": "51"
+          }
+        ],
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ]
+      ],
+      "cells": [
+        {
+          "col": 0,
+          "text": "Task #",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "978",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 1,
+          "text": "Purpose",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "9780",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "6"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 2,
+          "text": "AI Tools / Platform Used",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "4630",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "3"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "row": 10,
+      "trPr": [
+        [
+          "trHeight",
+          {
+            "val": "51"
+          }
+        ],
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ]
+      ],
+      "cells": [
+        {
+          "col": 0,
+          "text": "1",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "978",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 1,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "9780",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "6"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        },
+        {
+          "col": 2,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "4630",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "3"
+              }
+            ],
+            [
+              "vMerge",
+              {
+                "val": "restart"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        }
+      ]
+    },
+    {
+      "row": 11,
+      "trPr": [
+        [
+          "trHeight",
+          {
+            "val": "51"
+          }
+        ],
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ]
+      ],
+      "cells": [
+        {
+          "col": 0,
+          "text": "2",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "978",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 1,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "9780",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "6"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        },
+        {
+          "col": 2,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "4630",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "3"
+              }
+            ],
+            [
+              "vMerge",
+              {}
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        }
+      ]
+    },
+    {
+      "row": 12,
+      "trPr": [
+        [
+          "trHeight",
+          {
+            "val": "51"
+          }
+        ],
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ]
+      ],
+      "cells": [
+        {
+          "col": 0,
+          "text": "3",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "978",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 1,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "9780",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "6"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        },
+        {
+          "col": 2,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "4630",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "3"
+              }
+            ],
+            [
+              "vMerge",
+              {}
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        }
+      ]
+    },
+    {
+      "row": 13,
+      "trPr": [
+        [
+          "trHeight",
+          {
+            "val": "51"
+          }
+        ],
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ]
+      ],
+      "cells": [
+        {
+          "col": 0,
+          "text": "4",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "978",
+                "type": "dxa"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 1,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "9780",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "6"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        },
+        {
+          "col": 2,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "4630",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "3"
+              }
+            ],
+            [
+              "vMerge",
+              {}
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        }
+      ]
+    },
+    {
+      "row": 14,
+      "trPr": [
+        [
+          "trHeight",
+          {
+            "val": "872"
+          }
+        ],
+        [
+          "jc",
+          {
+            "val": "center"
+          }
+        ]
+      ],
+      "cells": [
+        {
+          "col": 0,
+          "text": "Supervisor’sFeedback",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "1686",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "2"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ],
+            [
+              "vAlign",
+              {
+                "val": "center"
+              }
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ],
+            [
+              [
+                "jc",
+                {
+                  "val": "center"
+                }
+              ],
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": [
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ],
+            [
+              [
+                "rFonts",
+                {
+                  "ascii": "Times New Roman",
+                  "hAnsi": "Times New Roman",
+                  "cs": "Times New Roman"
+                }
+              ],
+              [
+                "b",
+                {}
+              ],
+              [
+                "bCs",
+                {}
+              ]
+            ]
+          ]
+        },
+        {
+          "col": 1,
+          "text": "",
+          "tcPr": [
+            [
+              "tcW",
+              {
+                "w": "13702",
+                "type": "dxa"
+              }
+            ],
+            [
+              "gridSpan",
+              {
+                "val": "8"
+              }
+            ],
+            [
+              "tcBorders",
+              {}
+            ]
+          ],
+          "pPr": [
+            [
+              [
+                "rPr",
+                {}
+              ]
+            ]
+          ],
+          "runs": []
+        }
+      ]
+    }
+  ]
+}

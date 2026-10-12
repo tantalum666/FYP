@@ -1,0 +1,34 @@
+{
+  "job_id": "A1-T02",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t02-left.txt",
+  "prompt_sha256": "95906242996b2ab0c82eb2d3a9eb849c56458b5b6971fc357b3ba16dbd0fff43",
+  "reference_paths": [
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+  ],
+  "reference_sha256s": [
+    "314e129ddde2f48f53c743e75cd505b6d695a8beae8bf838253094de867f2144",
+    "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+  ],
+  "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-cfdcdbd2-49a0-4015-a6e8-eda8fa869194.png",
+  "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t02-left.png",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 1634349,
+  "sha256": "9a4da1d9dc2be3b64934f3752384830778bbf1f85bc24bf2a6a8e6766d2b789f",
+  "attempt_count": 1,
+  "route": "built-in imagegen",
+  "visual_observations": [
+    "Left profile: nose points image-left, one eye visible, head and torso face the same direction with no turned-back gaze.",
+    "Ring clip remains on the near anatomical-left side; gray-blue eye, original stud earring, silver-gray grouped waves and calm closed-mouth expression are recognizable.",
+    "Adult proportions, ivory cropped jacket and lapels, graphite high-neck top, blue-gray layered wrap skirt and belt hardware, dark tights and buckled block-heel boots are retained.",
+    "Legs are straight and naturally overlap in side view, with both shoe silhouettes present; near hand is clear and far hand is naturally occluded.",
+    "Complete head and both boot silhouettes fit within margins; clean anime rendering and pale quiet background remain."
+  ],
+  "deviations": [
+    "The near arm lies closer to the torso than the front master arm separation; far hand is hidden by natural strict-profile overlap.",
+    "Rear hair shape and profile facial contour are coherent interpretations of unseen geometry, and hair appears slightly fuller than in the front master."
+  ],
+  "visual_check_passed": true,
+  "copy_verified_byte_identical": true
+}

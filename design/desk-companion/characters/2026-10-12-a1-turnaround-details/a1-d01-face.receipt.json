@@ -1,0 +1,33 @@
+{
+  "job_id": "A1-D01",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d01-face.txt",
+  "prompt_sha256": "0b983294dfe89c247ff6b8ff9f9b9fdb6e848ed93188358a5fc25008821ded01",
+  "reference_paths": [
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+  ],
+  "reference_sha256s": [
+    "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+  ],
+  "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-4f20-7290-b321-9d67beb9c6a3/exec-ad4861bf-bb84-41d2-88a5-e164aeda414f.png",
+  "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d01-face.png",
+  "width": 1254,
+  "height": 1254,
+  "bytes": 1933770,
+  "sha256": "2a7fea6044d059f0a13c8dfaf8fc96e1322825b29e0d8e3d457359c5366b4038",
+  "attempt_count": 1,
+  "route": "built-in tools.image_gen__imagegen with exact saved prompt and referenced_image_paths",
+  "transparent_background": false,
+  "visual_observations": [
+    "Single square head-and-shoulders anime close-up, full top of hairstyle visible with a small margin; lower body intentionally outside the detail crop.",
+    "Recognizable adult original A1 V4 face preserved: gray-blue irises, source-like eyelids and brows, simple nose, calm slight closed-mouth smile and mature jaw proportions.",
+    "Grouped silver-gray wavy hair, side-swept fringe and original open circular ring clip retained on her anatomical left, viewer-right; no mirroring observed.",
+    "The anatomical-left small stud earring is clearly visible; opposite ear remains covered by source-like hair.",
+    "Original ivory jacket lapels with small metallic fasteners and opaque graphite high collar remain visible, connecting the detail to the original V4 working outfit.",
+    "Clean anime linework with restrained hair highlights, pale neutral background; no labels, watermark, inset, extra head, exploded component, props or scenery."
+  ],
+  "deviations": [],
+  "visual_check_passed": true,
+  "copy_verified_byte_identical": true,
+  "pixel_postprocessing": false,
+  "completed_at_utc": "2026-10-12T05:38:31.407194+00:00"
+}

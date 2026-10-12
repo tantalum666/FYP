@@ -1,0 +1,9 @@
+{
+  "route": "built-in ImageGen edits",
+  "reuse_existing_image_workers": true,
+  "worker_handles": 3,
+  "planned_outputs": 6,
+  "board_direct_tool_available": false,
+  "board_nested_route_not_used": true,
+  "pixel_postprocessing": false
+}

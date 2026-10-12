@@ -8,4 +8,4 @@
 - `references/ava-shopping/`：用户提供的商品截图，用于研究显示方式；截图价格和宣传语不代表核实报价或实测。
 - `references/senplate/`：用户选用的历史品牌参考图片。
 
-最新学校交付在 [output/submission/2026-09-28](../output/submission/2026-09-28/)，历史版本在 `output/docx/` 和 `output/pdf/`。第三方资料保留来源和权利，不作为本组原创内容。
+最新日志为[2026-10-11第2份v5团队日志](../planning/2026-10-11/logsheet-2-review.md)，成稿在 [output/submission/2026-10-11](../output/submission/2026-10-11/)；本轮新原件及SHA在任务QA单独保留，不改此前manifest。最新Proposal与首份日志仍在 [output/submission/2026-09-28](../output/submission/2026-09-28/)，更早版本在 `output/docx/` 和 `output/pdf/`。第三方资料保留来源和权利，不作为本组原创内容。

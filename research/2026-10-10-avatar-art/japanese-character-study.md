@@ -1,6 +1,8 @@
 # Group 2｜日本动画角色研究：外形、性格与3D表演
 
-**当前推进：**用户已同意研究后的建议。[简明角色简报](../../design/desk-companion/characters/a1-character-brief.md)、[六表情／表演规则](../../design/desk-companion/characters/a1-expression-rules.md)与[独立E1对照](../../design/desk-companion/characters/2026-10-10-expression-study/README.md)已完成，E1待图像反馈。以下是此前研究阶段记录，“本轮只研究”等表述仅指该阶段；原五版持续保留，研究访问范围不变。用户随后要求补充更主流的近期动画，新增[主流动画复核与C1](mainstream-anime-c1-study.md)；当前先对照A1／C1，不直接把旧研究选择当作热度排名。
+**当前状态（2026-10-12后续）：**A1角色已确定，C1历史保留；[九套服装](../../design/desk-companion/characters/a1-wardrobe-index.md)及实际prompt已另存[原图包](../../output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip)。用户随后要求全方位／细节，已完成[六个全身视角和四张细节](../../design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md)，原V4衣服仅作一致工作参考，默认服装仍未选。当前统一角色可制作参考；E1精修／原创VRM仍待。以下保留原研究日期、来源和访问范围，历史生成顺序不作为当前下一步。
+
+## HISTORICAL：原研究与当时建议
 
 2026年10月10日，Asia/Hong_Kong。用户要求：**保留现有几版，再研究日本动漫人物的形象与刻画**。A1 V1／V2／V3／V4及B1原PNG、五份实际提示词均保留，未编辑或重新生成。A1仍为工作方向，具体版本未最终定稿。
 

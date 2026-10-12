@@ -1,0 +1,170 @@
+{
+  "input": "/Users/tantalum/Documents/ChatGPT/FYP/output/submission/2026-10-11/AY26_Logsheet_No2_Group 2_YuanYuchen_250342840.docx",
+  "fonts_by_char_count": {
+    "Times New Roman": 10963
+  },
+  "direct_run_formatting_runs": 225,
+  "direct_paragraph_formatting_paragraphs": 87,
+  "heading_like_paragraphs_not_heading_style": [
+    {
+      "para_index": 3,
+      "text": "Programme/Class",
+      "style": "Normal"
+    },
+    {
+      "para_index": 4,
+      "text": "Programme/Class",
+      "style": "Normal"
+    },
+    {
+      "para_index": 5,
+      "text": "Programme/Class",
+      "style": "Normal"
+    },
+    {
+      "para_index": 7,
+      "text": "Student Name",
+      "style": "Normal"
+    },
+    {
+      "para_index": 11,
+      "text": "Date",
+      "style": "Normal"
+    },
+    {
+      "para_index": 13,
+      "text": "Supervisor",
+      "style": "Normal"
+    },
+    {
+      "para_index": 14,
+      "text": "Supervisor",
+      "style": "Normal"
+    },
+    {
+      "para_index": 15,
+      "text": "Supervisor",
+      "style": "Normal"
+    },
+    {
+      "para_index": 17,
+      "text": "Student ID",
+      "style": "Normal"
+    },
+    {
+      "para_index": 21,
+      "text": "Date",
+      "style": "Normal"
+    },
+    {
+      "para_index": 23,
+      "text": "Part I: Work Done & Findings Since Last Recording",
+      "style": "Normal"
+    },
+    {
+      "para_index": 24,
+      "text": "Part I: Work Done & Findings Since Last Recording",
+      "style": "Normal"
+    },
+    {
+      "para_index": 25,
+      "text": "Part I: Work Done & Findings Since Last Recording",
+      "style": "Normal"
+    },
+    {
+      "para_index": 26,
+      "text": "Part I: Work Done & Findings Since Last Recording",
+      "style": "Normal"
+    },
+    {
+      "para_index": 27,
+      "text": "Part I: Work Done & Findings Since Last Recording",
+      "style": "Normal"
+    },
+    {
+      "para_index": 28,
+      "text": "Part II: Plan of Work Before the Next Recording",
+      "style": "Normal"
+    },
+    {
+      "para_index": 29,
+      "text": "Part II: Plan of Work Before the Next Recording",
+      "style": "Normal"
+    },
+    {
+      "para_index": 30,
+      "text": "Part II: Plan of Work Before the Next Recording",
+      "style": "Normal"
+    },
+    {
+      "para_index": 31,
+      "text": "Part II: Plan of Work Before the Next Recording",
+      "style": "Normal"
+    },
+    {
+      "para_index": 32,
+      "text": "Part II: Plan of Work Before the Next Recording",
+      "style": "Normal"
+    }
+  ],
+  "examples": {
+    "direct_run_formatting": [
+      {
+        "para_index": 1,
+        "run_text": "Hong Kong Institute of ",
+        "style": "Normal"
+      },
+      {
+        "para_index": 1,
+        "run_text": "Information Technology",
+        "style": "Normal"
+      },
+      {
+        "para_index": 1,
+        "run_text": "\nDiscipline of Information Technology",
+        "style": "Normal"
+      },
+      {
+        "para_index": 1,
+        "run_text": "\n",
+        "style": "Normal"
+      },
+      {
+        "para_index": 1,
+        "run_text": "Final Year Project - Log Sheet",
+        "style": "Normal"
+      }
+    ],
+    "direct_paragraph_formatting": [
+      {
+        "para_index": 2,
+        "text": "",
+        "style": "Normal"
+      },
+      {
+        "para_index": 6,
+        "text": "IT114124 / AIST-2B",
+        "style": "Normal"
+      },
+      {
+        "para_index": 8,
+        "text": "Yuan Yuchen / Xu Ziqian / Li Wenhua",
+        "style": "Normal"
+      },
+      {
+        "para_index": 9,
+        "text": "Yuan Yuchen / Xu Ziqian / Li Wenhua",
+        "style": "Normal"
+      },
+      {
+        "para_index": 10,
+        "text": "Yuan Yuchen / Xu Ziqian / Li Wenhua",
+        "style": "Normal"
+      }
+    ]
+  },
+  "notes": [
+    "Direct formatting is not always wrong, but it often causes inconsistent output when templates change.",
+    "Heading-like paragraphs not using Heading styles can break TOC and accessibility."
+  ]
+}

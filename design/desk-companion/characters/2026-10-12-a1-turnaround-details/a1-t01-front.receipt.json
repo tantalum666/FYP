@@ -1,0 +1,32 @@
+{
+  "job_id": "A1-T01",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-t01-front.txt",
+  "prompt_sha256": "e7550cbf6f195a0bc756876a8daebe090378f19cae7fc11aabc821d6b85c8236",
+  "reference_paths": [
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+  ],
+  "reference_sha256s": [
+    "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+  ],
+  "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-f2fe43dd-9b56-49e7-90bb-7662728efa39.png",
+  "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 1640187,
+  "sha256": "314e129ddde2f48f53c743e75cd505b6d695a8beae8bf838253094de867f2144",
+  "attempt_count": 1,
+  "route": "built-in imagegen",
+  "visual_observations": [
+    "Straight-on frontal view: shoulders square, both eyes evenly visible, level gaze and balanced weight.",
+    "Adult A1 identity remains recognizable with silver-gray grouped wavy hair, gray-blue eyes, original open ring clip on anatomical left/viewer-right, studs and calm closed-mouth smile.",
+    "Original ivory cropped jacket, graphite high-neck top, blue-gray layered wrap skirt, belt and hanging hardware, semi-sheer dark tights and cuffed/buckled block-heel ankle boots are preserved.",
+    "Both legs are straight, feet set a small distance apart and arms separated slightly from torso with relaxed hands.",
+    "Complete head, both hands and both boots are inside the portrait with clear margins; clean anime lines and quiet pale background."
+  ],
+  "deviations": [
+    "Arm separation is modest and visually closer to about 10 degrees than the requested about 15 degrees.",
+    "Frontal re-projection slightly simplifies some hair locks and skirt folds while retaining their identity and structure."
+  ],
+  "visual_check_passed": true,
+  "copy_verified_byte_identical": true
+}

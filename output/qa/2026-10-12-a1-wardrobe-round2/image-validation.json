@@ -1,0 +1,85 @@
+{
+  "image_count": 6,
+  "native_calls": 7,
+  "retry_count": 1,
+  "images": [
+    {
+      "id": "A1-W4",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "native_bytes_equal": true,
+      "prompt_unchanged": true,
+      "source_unchanged": true,
+      "coordinator_visual_review": "PASS: recognizable adult A1, complete head/hands/feet, coherent outfit, different silhouette",
+      "attempt_count": 1
+    },
+    {
+      "id": "A1-W5",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "native_bytes_equal": true,
+      "prompt_unchanged": true,
+      "source_unchanged": true,
+      "coordinator_visual_review": "PASS: recognizable adult A1, complete head/hands/feet, coherent outfit, different silhouette",
+      "attempt_count": 1
+    },
+    {
+      "id": "A1-W6",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "native_bytes_equal": true,
+      "prompt_unchanged": true,
+      "source_unchanged": true,
+      "coordinator_visual_review": "PASS: recognizable adult A1, complete head/hands/feet, coherent outfit, different silhouette",
+      "attempt_count": 1
+    },
+    {
+      "id": "A1-W7",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "native_bytes_equal": true,
+      "prompt_unchanged": true,
+      "source_unchanged": true,
+      "coordinator_visual_review": "PASS: recognizable adult A1, complete head/hands/feet, coherent outfit, different silhouette",
+      "attempt_count": 1
+    },
+    {
+      "id": "A1-W8",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "native_bytes_equal": true,
+      "prompt_unchanged": true,
+      "source_unchanged": true,
+      "coordinator_visual_review": "PASS: recognizable adult A1, complete head/hands/feet, coherent outfit, different silhouette",
+      "attempt_count": 2
+    },
+    {
+      "id": "A1-W9",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "native_bytes_equal": true,
+      "prompt_unchanged": true,
+      "source_unchanged": true,
+      "coordinator_visual_review": "PASS: recognizable adult A1, complete head/hands/feet, coherent outfit, different silhouette",
+      "attempt_count": 1
+    }
+  ],
+  "native_workers_reused": 3,
+  "new_worker_handles": 0,
+  "terminal_results_consumed": true,
+  "interrupt_confirmed_terminal": true,
+  "destroy_handle_api_available": false,
+  "completed_at": "2026-10-12T13:09:04.027153+08:00"
+}

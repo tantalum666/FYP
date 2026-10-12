@@ -1,0 +1,24 @@
+{
+  "job_id": "A1-W2",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/prompts/a1-w2-light-outdoor.txt",
+  "source_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png",
+  "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-1391-7ad3-ae8e-cdf86cd55046/exec-0a4bdeca-4b42-493f-bdf3-b899eb1d4034.png",
+  "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-wardrobe-variants/a1-w2-light-outdoor.png",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 1656547,
+  "sha256": "a008ee10efec3af1be50dab26716e73cf8f3a9be58a77b259b78da6356f3fdde",
+  "attempt_count": 1,
+  "route": "built-in imagegen",
+  "copy_verified_byte_identical": true,
+  "visual_observations": [
+    "Adult anime appearance and recognizable A1 face, long silver-gray grouped hair, ring clip, gray-blue eyes, earrings, relaxed low hands and original slight weight shift are closely preserved.",
+    "Entire head, both hands and both trail sneakers are inside the frame with clear margins.",
+    "Compact pale-sand hooded wind shell with hood down, opaque charcoal top, olive-gray cargo shorts, opaque charcoal leggings and pale teal-accented trail sneakers create a distinct light outdoor silhouette.",
+    "Visible pockets, zipper, drawcord hardware and footwear construction are coherent; no text, logos, extra subjects or props."
+  ],
+  "deviations": [
+    "The wind shell includes short hanging adjustment cord loops at the hem despite the prompt preference for no dangling straps."
+  ],
+  "visual_check_passed": true
+}

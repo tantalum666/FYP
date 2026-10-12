@@ -1,0 +1,50 @@
+{
+  "job_id": "A1-D02",
+  "prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d02-hair-back.txt",
+  "prompt_sha256": "db067e2d3cb8f9cbef5e84224803e72beeaf9220e24b80480f1825ce19d8d42d",
+  "reference_paths": [
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t03-back.png",
+    "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-10-concepts/a1-silver-mist-anime-v4.png"
+  ],
+  "reference_sha256s": [
+    "2a7bab2b579d46d8f68a1e4c122978e96e4e291aa58dc7fc7be0813705e5f8ae",
+    "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+  ],
+  "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-8c41-77f0-9547-2879361f0faa/exec-716c9e04-5d85-47a0-8f44-278516275d9a.png",
+  "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d02-hair-back.png",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 1759842,
+  "sha256": "56119e3172e17b2abb075eb877c2751fa799a83a2642ea54a2a5c2a59d2b0ad1",
+  "attempt_count": 1,
+  "route": "built-in imagegen",
+  "transparent_background": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "status": "accepted",
+      "actual_prompt_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/prompts/a1-d02-hair-back.txt",
+      "prompt_sha256": "db067e2d3cb8f9cbef5e84224803e72beeaf9220e24b80480f1825ce19d8d42d",
+      "native_original_path": "/Users/tantalum/.codex/generated_images/01a12e62-8c41-77f0-9547-2879361f0faa/exec-716c9e04-5d85-47a0-8f44-278516275d9a.png",
+      "workspace_output_path": "/Users/tantalum/Documents/ChatGPT/FYP/design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-d02-hair-back.png"
+    }
+  ],
+  "visual_observations": [
+    "One coherent rear-three-quarter upper-body study from the physical left side; the single open circular ring clip and stud earring are on the visible near left side.",
+    "Complete crown and every rear hair tip are inside the frame. Grouped silver-gray waves, crown flow, overlapping central groups and length near the cropped jacket hem follow the accepted T03 rear proposal.",
+    "Head and torso face away; only a narrow side-profile sliver of the face is visible. No frontal face looking back, duplicate clip or new ornament.",
+    "Ivory cropped jacket back, blue-gray cuff bands and visible original skirt palette remain consistent with the rear master and original V4 clothing authority.",
+    "Clean anime linework, restrained cel-shading, broad intentional hair groups and quiet pale-gray background are maintained.",
+    "The intentional detail crop contains partial forearms at the lower edge; it is an upper-body reference rather than a full-body image."
+  ],
+  "deviations": [
+    "Crop extends below the requested head-to-waist region to include the upper skirt and more of both sleeves.",
+    "The visible left-side ring clip is fully readable rather than only partly visible.",
+    "Upper-back jacket seam is more explicit in the close-up than in the full-back master."
+  ],
+  "visual_check_passed": true,
+  "copy_verified_byte_identical": true,
+  "inspection_method": "Both local reference images inspected using view_image before generation; generated native result and assigned copy inspected via imagegen rendering and view_image.",
+  "pixel_postprocessing": "none",
+  "completed_at": "2026-10-12T05:49:46.473019+00:00"
+}

@@ -1,5 +1,7 @@
 # A1 Six Expressions · E1
 
+**2026-10-12最新决定：**A1为后续角色，C1历史保留。[九套服装](../a1-wardrobe-index.md)及实际prompt已另存[原图包](../../../../output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip)；[六个全身视角与四张细节](../2026-10-12-a1-turnaround-details/README.md)已完成，采用V4原服装作工程参考，默认服装仍未选。以下是本目录原阶段记录；旧PNG／prompt／manifest保持。
+
 Group 2 · 2026-10-10。用户同意按日本动画研究建议推进，本轮完成[简明角色简报](../a1-character-brief.md)、[详细表情与表演规则](../a1-expression-rules.md)及一张六表情对照。A1性格与外形方向成为工作基线，**E1仍待图像反馈，未最终定稿**。
 
 ![A1六种表情E1](a1-six-expressions-e1.png)
@@ -21,4 +23,4 @@ Group 2 · 2026-10-10。用户同意按日本动画研究建议推进，本轮�
 
 E1是独立头肩表情研究，不命名为全身V5，也不是六个已绑定的3D表情。应用继续使用pixiv许可样本；没有新VRM、动画、模型权重或真实语音测试。
 
-下一步先收集E1的脸型／连续性和表情反馈，定向微调倾听与开心、关切的强度，再补侧面／背面规范；不自动把E1替换到应用。验证见[本轮QA](../../../../output/qa/2026-10-10-a1-character-brief/verification.md)。
+当前已保留九套服装并完成A1视角／细节参考；E1脸型与表情反馈继续保留，后续定向微调倾听／开心／关切。新视角不表示E1已修订或替换到应用。验证见[原阶段QA](../../../../output/qa/2026-10-10-a1-character-brief/verification.md)。

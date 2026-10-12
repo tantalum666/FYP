@@ -1,0 +1,159 @@
+[
+  {
+    "batch": 1,
+    "evidence": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/01.txt",
+    "ranges": [
+      {
+        "path": "README.md",
+        "start": 1,
+        "end": 40
+      }
+    ],
+    "actually_read": false
+  },
+  {
+    "batch": 2,
+    "evidence": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/02.txt",
+    "ranges": [
+      {
+        "path": "decision-log.md",
+        "start": 776,
+        "end": 784
+      },
+      {
+        "path": "design/desk-companion/characters/2026-10-10-c1-concept/README.md",
+        "start": 1,
+        "end": 22
+      },
+      {
+        "path": "design/desk-companion/characters/2026-10-10-concepts/README.md",
+        "start": 1,
+        "end": 32
+      },
+      {
+        "path": "design/desk-companion/characters/2026-10-10-expression-study/README.md",
+        "start": 1,
+        "end": 26
+      },
+      {
+        "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md",
+        "start": 1,
+        "end": 47
+      }
+    ],
+    "actually_read": false
+  },
+  {
+    "batch": 3,
+    "evidence": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/03.txt",
+    "ranges": [
+      {
+        "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/README.md",
+        "start": 1,
+        "end": 39
+      },
+      {
+        "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/README.md",
+        "start": 1,
+        "end": 41
+      },
+      {
+        "path": "design/desk-companion/characters/a1-character-brief.md",
+        "start": 1,
+        "end": 18
+      },
+      {
+        "path": "design/desk-companion/characters/a1-expression-rules.md",
+        "start": 1,
+        "end": 47
+      }
+    ],
+    "actually_read": false
+  },
+  {
+    "batch": 4,
+    "evidence": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/04.txt",
+    "ranges": [
+      {
+        "path": "design/desk-companion/characters/a1-turnaround-spec.md",
+        "start": 1,
+        "end": 49
+      },
+      {
+        "path": "design/desk-companion/characters/a1-wardrobe-index.md",
+        "start": 1,
+        "end": 23
+      },
+      {
+        "path": "desk-companion/README.md",
+        "start": 1,
+        "end": 16
+      },
+      {
+        "path": "desk-companion/docs/avatar.md",
+        "start": 72,
+        "end": 78
+      },
+      {
+        "path": "handoff.md",
+        "start": 1,
+        "end": 20
+      }
+    ],
+    "actually_read": false
+  },
+  {
+    "batch": 5,
+    "evidence": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/05.txt",
+    "ranges": [
+      {
+        "path": "product.md",
+        "start": 1,
+        "end": 112
+      }
+    ],
+    "actually_read": false
+  },
+  {
+    "batch": 6,
+    "evidence": "output/qa/2026-10-12-a1-turnaround-details/readback-batches/06.txt",
+    "ranges": [
+      {
+        "path": "research/2026-10-10-avatar-art/character-concepts.md",
+        "start": 1,
+        "end": 9
+      },
+      {
+        "path": "research/2026-10-10-avatar-art/japanese-character-study.md",
+        "start": 1,
+        "end": 14
+      },
+      {
+        "path": "research/2026-10-10-avatar-art/mainstream-anime-c1-study.md",
+        "start": 1,
+        "end": 14
+      },
+      {
+        "path": "research/2026-10-10-avatar-art/mainstream-anime-c1-study.md",
+        "start": 45,
+        "end": 46
+      },
+      {
+        "path": "research/2026-10-10-avatar-art/popular-character-study.md",
+        "start": 1,
+        "end": 14
+      },
+      {
+        "path": "research/2026-10-10-avatar-art/wardrobe-study.md",
+        "start": 1,
+        "end": 14
+      },
+      {
+        "path": "work-log.md",
+        "start": 946,
+        "end": 957
+      }
+    ],
+    "actually_read": false
+  }
+]

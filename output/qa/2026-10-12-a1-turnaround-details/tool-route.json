@@ -1,0 +1,22 @@
+{
+  "route": "built-in ImageGen native edits",
+  "image_workers_reused": 3,
+  "new_image_worker_handles": 0,
+  "planned_full_body_views": 6,
+  "planned_details": 4,
+  "front_reference_reviewed_before_side_back": true,
+  "front_master": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/a1-t01-front.png",
+  "rear_reference_review_required_before_T06_D02": true,
+  "board_direct_call_available": false,
+  "board_nested_route_not_used": true,
+  "pixel_postprocessing": false,
+  "updated_at": "2026-10-12T13:58:37.390171+08:00",
+  "rear_reference_reviewed_before_T06_D02": true,
+  "accepted_images": 10,
+  "native_calls": 11,
+  "worker_terminal_results_consumed": true,
+  "interrupt_confirmed_terminal_workers": 3,
+  "worker_handles_destroyed": false,
+  "handle_destruction_api_available": false,
+  "static_review_renderer_used": true
+}
