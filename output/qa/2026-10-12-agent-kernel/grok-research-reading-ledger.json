@@ -1,0 +1,213 @@
+{
+  "reader": "research_grok_bot_architecture",
+  "source_head": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "completed_at": "2026-10-12T12:17:45Z",
+  "scope": "Six voice/feasibility research files plus four Sept16 software planning files and mandatory entry context. This is a partial team reading ledger, not a claim of whole-repository reading.",
+  "excluded": [],
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "line_count": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "git_blob_sha": "6ffb0a17aaed8e95caee66257ea722747512c8be",
+      "note": "Full numbered body read through EOF without truncation."
+    },
+    {
+      "path": "product.md",
+      "line_count": 158,
+      "read_ranges": [
+        [
+          1,
+          158
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "c6a6328e2cfca7d1ed150203d9cf2e2b213d6210a509946daf6cc818553e1cf4",
+      "git_blob_sha": "3515116e6bf1d6ae752fed53ba25dde21509f116",
+      "note": "Full numbered body read through EOF without truncation."
+    },
+    {
+      "path": "handoff.md",
+      "line_count": 19,
+      "read_ranges": [
+        [
+          1,
+          19
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "be465fa4da626c7c54ec576a854fbf45f9ab6d185225588c250a92fce2fd106f",
+      "git_blob_sha": "61a8a11a88762b315077e451bc7506b02a2db563",
+      "note": "Full numbered body read through EOF without truncation."
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/feasibility-review.md",
+      "line_count": 127,
+      "read_ranges": [
+        [
+          1,
+          127
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "fa474711d5b3cf1b7cb020913bdebbed5780954c95f52db447ed90ba50d474e4",
+      "git_blob_sha": "da8593aa138a4c0eb1952d91d68ad4a95b4ca3b9",
+      "note": "Full numbered body read through EOF without truncation."
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md",
+      "line_count": 63,
+      "read_ranges": [
+        [
+          1,
+          63
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "85394afa7a2d822a2fe91372767a095cfc9db1015aab6463e769aeb8562826e2",
+      "git_blob_sha": "31c4b5b706f032d832f4e6772179ac5557004983",
+      "note": "Full numbered body read through EOF without truncation."
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/voice-model-cost-review.md",
+      "line_count": 55,
+      "read_ranges": [
+        [
+          1,
+          55
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "bea30346b2e9a57a9f8ae71b732bcd2df708b75002717e314c7c05eb864793d8",
+      "git_blob_sha": "47704a52430d42ca3c6b9e007e27e979373d0524",
+      "note": "Full numbered body read through EOF without truncation."
+    },
+    {
+      "path": "research/2026-09-28-local-voice/server-deployment-comparison.md",
+      "line_count": 205,
+      "read_ranges": [
+        [
+          1,
+          205
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "7c3afeecdfab87eeb2729b80aa93d58bcceb9d11075a600c76c7fb220e41f4ff",
+      "git_blob_sha": "79ba4a9d5fb009d7457248002c3c22c4c823d8c8",
+      "note": "Full numbered body read through EOF without truncation."
+    },
+    {
+      "path": "research/2026-09-29-voice-ai/naturalness-and-tools-review.md",
+      "line_count": 149,
+      "read_ranges": [
+        [
+          1,
+          149
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "f8abcc593b7201f2472a0cbdd8195a88676159a31320f4ca0bce96165507f88f",
+      "git_blob_sha": "7900dad8916012a04ce66b78a54d16e006364e3b",
+      "note": "Full numbered body read through EOF without truncation."
+    },
+    {
+      "path": "research/2026-09-29-voice-ai/price-and-value-ranking.md",
+      "line_count": 66,
+      "read_ranges": [
+        [
+          1,
+          66
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "01d76922e15faf0520954f25fcca740380635d9028e5e80640ddd02befeed8a1",
+      "git_blob_sha": "08530398e346565e86648d37ed482c04226c79c4",
+      "note": "Full numbered body read through EOF without truncation."
+    },
+    {
+      "path": "planning/2026-09-16/software-mvp-and-acceptance.md",
+      "line_count": 98,
+      "read_ranges": [
+        [
+          1,
+          98
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "bf589c3b6b7f07646dd3184a1da149f8a88e3b1d01ada291e00eed5b603d7422",
+      "git_blob_sha": "657a22e17458a2b0018073251559ac55cf16544b",
+      "note": "Full numbered body read through EOF without truncation."
+    },
+    {
+      "path": "planning/2026-09-16/app-pages-and-permissions.md",
+      "line_count": 180,
+      "read_ranges": [
+        [
+          1,
+          180
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "809a6faddbabd92fc5bb2b3fd165b4a151166483fd09c43216f97b12935045c8",
+      "git_blob_sha": "11f030df92559e8ec9badbfbbd959c440588c4c7",
+      "note": "Full numbered body read through EOF without truncation."
+    },
+    {
+      "path": "planning/2026-09-16/software-scope-and-architecture.md",
+      "line_count": 206,
+      "read_ranges": [
+        [
+          1,
+          159
+        ],
+        [
+          150,
+          206
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "9d2144b52e24dc6c2ffceffe27d4b8eb96a6e64de0f7e6e82e6fe3e7b7dead60",
+      "git_blob_sha": "08502c7eebf1d790f2df75a494dc58c95e76cca3",
+      "note": "Combined output truncated after line159; supplemented numbered lines150–206 and explicit last-line EOF."
+    },
+    {
+      "path": "planning/2026-09-16/software-workflows-and-api.md",
+      "line_count": 291,
+      "read_ranges": [
+        [
+          71,
+          291
+        ],
+        [
+          1,
+          100
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "b9d5bd3e387291f3678ca3142f35bf7bfd6ff1b128bd1e7d16f2b73fd7b9cec4",
+      "git_blob_sha": "beb266eea36e0c413584fdada61a7fb5bc195ffc",
+      "note": "Combined output retained tail lines71–291; supplemented numbered lines1–100 and explicit last-line EOF."
+    },
+    {
+      "path": "desk-companion/docs/architecture.md",
+      "line_count": 100,
+      "read_ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "20ff9067faeebbf585f700573eabeffd9576eed5ef50f18a456b0fa7ac34dc9c",
+      "git_blob_sha": "717dd709c01b9ef3332fc42795b73987a80280c6",
+      "note": "Pinned architecture reread in full after discovering main and pinned branch differ."
+    }
+  ]
+}

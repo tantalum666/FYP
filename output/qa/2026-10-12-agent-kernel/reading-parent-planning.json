@@ -1,0 +1,149 @@
+{
+  "source_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "worker": "root",
+  "status": "complete_for_assigned_scope",
+  "completed_utc": "2026-10-12T12:18:04.928190+00:00",
+  "files": [
+    {
+      "path": "planning/2026-09-25/desk-companion-proposal-zh-review-v2.md",
+      "line_count": 148,
+      "read_ranges_inclusive": [
+        [
+          1,
+          148
+        ]
+      ],
+      "eof_read": true,
+      "sha256_after_read": "72cc857c8796e0500e71fe4534404bbd8d10cceafa2441b2728152abfcfb8a67",
+      "local_blob_sha1_after_read": "57e0d256c8c39f7ff62f1a2e4fbcaa7e83751e7a",
+      "truncation": "none"
+    },
+    {
+      "path": "planning/2026-09-25/desk-companion-proposal-zh-review.md",
+      "line_count": 142,
+      "read_ranges_inclusive": [
+        [
+          1,
+          142
+        ]
+      ],
+      "eof_read": true,
+      "sha256_after_read": "0e8f4d18a84b04fac0fbe69cef5e1f6a8a0d47842ed7a51cbec61d7dd7c35ea7",
+      "local_blob_sha1_after_read": "28da20637169badd60b4453c29c4e6d4fcc15baa",
+      "truncation": "Sept25 v1 truncated first pass, full reread completed"
+    },
+    {
+      "path": "planning/2026-09-26/ava-cylinder-route-a.md",
+      "line_count": 55,
+      "read_ranges_inclusive": [
+        [
+          1,
+          55
+        ]
+      ],
+      "eof_read": true,
+      "sha256_after_read": "6c6b6e7c60a798860ea3984cc817ab0d241b405f8cfe218856979200e6132838",
+      "local_blob_sha1_after_read": "5b509dd2ff131016c2ff1fecad1a9de24a3ccc0a",
+      "truncation": "none"
+    },
+    {
+      "path": "planning/2026-09-28/desk-companion-proposal-en.md",
+      "line_count": 199,
+      "read_ranges_inclusive": [
+        [
+          1,
+          199
+        ]
+      ],
+      "eof_read": true,
+      "sha256_after_read": "d3481101bf18eb69d8e91bf36d4cbd4cb5840eaf694b30a6b67c43e282d3cc4b",
+      "local_blob_sha1_after_read": "6338d714ce5c1b4ece5a7978f46dcbd435f51853",
+      "truncation": "none"
+    },
+    {
+      "path": "planning/2026-09-28/desk-companion-proposal-zh-v3.md",
+      "line_count": 199,
+      "read_ranges_inclusive": [
+        [
+          1,
+          199
+        ]
+      ],
+      "eof_read": true,
+      "sha256_after_read": "ca697cddb83e77b6081e78ac30b5b61838ee2ed40c4140c0d4049025b3dc65da",
+      "local_blob_sha1_after_read": "e04cbdb6541e825ea5ebf2ac868501f7222c1ad4",
+      "truncation": "none"
+    },
+    {
+      "path": "planning/2026-09-28/desk-software-scope-v1.md",
+      "line_count": 222,
+      "read_ranges_inclusive": [
+        [
+          1,
+          222
+        ]
+      ],
+      "eof_read": true,
+      "sha256_after_read": "fb634ba655c1d23daaaf4f9ed6d18577c6b7f4f3c1c1c15861a8e1475d5eac93",
+      "local_blob_sha1_after_read": "6576b3f667cf4fb8751a4e522a2c4315f63f9cd5",
+      "truncation": "none"
+    },
+    {
+      "path": "planning/2026-09-28/logsheet-and-proposal-review.md",
+      "line_count": 44,
+      "read_ranges_inclusive": [
+        [
+          1,
+          44
+        ]
+      ],
+      "eof_read": true,
+      "sha256_after_read": "c11363ee0a0103347a341508b64010fa2b545ca2ebb1c188c5ce5296a8163e14",
+      "local_blob_sha1_after_read": "9800fd7fad28c5d099a72e436b576b00575ca1f1",
+      "truncation": "none"
+    },
+    {
+      "path": "planning/2026-09-29/calendar-part1-functional-scope.md",
+      "line_count": 152,
+      "read_ranges_inclusive": [
+        [
+          1,
+          152
+        ]
+      ],
+      "eof_read": true,
+      "sha256_after_read": "70a3c07d503e03c7655a923dea9b792e7bf5ec05e320e3e3175f166bc7abf4e4",
+      "local_blob_sha1_after_read": "d5145c92e6efd6fffd74a8a16df03ad6cfee365e",
+      "truncation": "none"
+    },
+    {
+      "path": "planning/2026-09-29/calendar-part1-teammate-source.md",
+      "line_count": 49,
+      "read_ranges_inclusive": [
+        [
+          1,
+          49
+        ]
+      ],
+      "eof_read": true,
+      "sha256_after_read": "e9f2cf7e024463e1e93a98103f07f835b3b366dcc5fcef53f07746d6eb0420c2",
+      "local_blob_sha1_after_read": "02ecdb69cf033be44c7daa0dd8615e37ceff89dc",
+      "truncation": "none"
+    },
+    {
+      "path": "planning/2026-09-29/software-development-plan.md",
+      "line_count": 148,
+      "read_ranges_inclusive": [
+        [
+          1,
+          148
+        ]
+      ],
+      "eof_read": true,
+      "sha256_after_read": "ab27007f01b9878715dda3b22b3f46d9177205e420432699140981637ebc40ce",
+      "local_blob_sha1_after_read": "618461f601b57cb289fa269be3ffa6dad77ccef8",
+      "truncation": "none"
+    }
+  ],
+  "exclusions": []
+}

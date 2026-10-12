@@ -1,0 +1,2930 @@
+{
+  "generated_utc": "2026-10-12T12:24:14.849466+00:00",
+  "source_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "status": "complete",
+  "expected": 186,
+  "covered": 186,
+  "missing": [],
+  "invalid": [],
+  "coverage_basis": "Union of actual full-text reader ledgers with EOF and complete inclusive line ranges; every current byte sequence separately checked against pinned Git blob. Hashes validate source identity only, not substitute for reading.",
+  "covered_files": {
+    "AGENTS.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            50
+          ]
+        ],
+        "git_blob_sha": "6ffb0a17aaed8e95caee66257ea722747512c8be",
+        "lines": 50
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            50
+          ]
+        ],
+        "git_blob_sha": "6ffb0a17aaed8e95caee66257ea722747512c8be",
+        "lines": 50
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            50
+          ]
+        ],
+        "git_blob_sha": "6ffb0a17aaed8e95caee66257ea722747512c8be",
+        "lines": 50
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            50
+          ]
+        ],
+        "git_blob_sha": "6ffb0a17aaed8e95caee66257ea722747512c8be",
+        "lines": 50
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            50
+          ]
+        ],
+        "git_blob_sha": "6ffb0a17aaed8e95caee66257ea722747512c8be",
+        "lines": 50
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            50
+          ]
+        ],
+        "git_blob_sha": "6ffb0a17aaed8e95caee66257ea722747512c8be",
+        "lines": 50
+      }
+    ],
+    "product.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            158
+          ]
+        ],
+        "git_blob_sha": "3515116e6bf1d6ae752fed53ba25dde21509f116",
+        "lines": 158
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            158
+          ]
+        ],
+        "git_blob_sha": "3515116e6bf1d6ae752fed53ba25dde21509f116",
+        "lines": 158
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            158
+          ]
+        ],
+        "git_blob_sha": "3515116e6bf1d6ae752fed53ba25dde21509f116",
+        "lines": 158
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            158
+          ]
+        ],
+        "git_blob_sha": "3515116e6bf1d6ae752fed53ba25dde21509f116",
+        "lines": 158
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            158
+          ]
+        ],
+        "git_blob_sha": "3515116e6bf1d6ae752fed53ba25dde21509f116",
+        "lines": 158
+      }
+    ],
+    "handoff.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            19
+          ]
+        ],
+        "git_blob_sha": "61a8a11a88762b315077e451bc7506b02a2db563",
+        "lines": 19
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            19
+          ]
+        ],
+        "git_blob_sha": "61a8a11a88762b315077e451bc7506b02a2db563",
+        "lines": 19
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            19
+          ]
+        ],
+        "git_blob_sha": "61a8a11a88762b315077e451bc7506b02a2db563",
+        "lines": 19
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            19
+          ]
+        ],
+        "git_blob_sha": "61a8a11a88762b315077e451bc7506b02a2db563",
+        "lines": 19
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            19
+          ]
+        ],
+        "git_blob_sha": "61a8a11a88762b315077e451bc7506b02a2db563",
+        "lines": 19
+      }
+    ],
+    "desk-companion/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            120
+          ]
+        ],
+        "git_blob_sha": "43549692e550459d52962b68249083c1b2162301",
+        "lines": 120
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            120
+          ]
+        ],
+        "git_blob_sha": "43549692e550459d52962b68249083c1b2162301",
+        "lines": 120
+      }
+    ],
+    "desk-companion/THIRD_PARTY.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            24
+          ]
+        ],
+        "git_blob_sha": "ab71335047dfbecbe992140b77f245adb40bd12e",
+        "lines": 24
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            24
+          ]
+        ],
+        "git_blob_sha": "ab71335047dfbecbe992140b77f245adb40bd12e",
+        "lines": 24
+      }
+    ],
+    "desk-companion/docs/architecture.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            100
+          ]
+        ],
+        "git_blob_sha": "717dd709c01b9ef3332fc42795b73987a80280c6",
+        "lines": 100
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            100
+          ]
+        ],
+        "git_blob_sha": "717dd709c01b9ef3332fc42795b73987a80280c6",
+        "lines": 100
+      }
+    ],
+    "desk-companion/docs/avatar.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            80
+          ]
+        ],
+        "git_blob_sha": "cc80ea879bc45cb998982aab4e42163c4fff3b61",
+        "lines": 80
+      }
+    ],
+    "desk-companion/docs/computer-jobs.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            57
+          ]
+        ],
+        "git_blob_sha": "e8354ca859a8dba312cb9b0dc1f41c1c5bbdfe46",
+        "lines": 57
+      }
+    ],
+    "desk-companion/docs/evaluation.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            60
+          ]
+        ],
+        "git_blob_sha": "8350cd0212a5ccb945d27e2f26d0acaf2d38fb10",
+        "lines": 60
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            60
+          ]
+        ],
+        "git_blob_sha": "8350cd0212a5ccb945d27e2f26d0acaf2d38fb10",
+        "lines": 60
+      }
+    ],
+    "desk-companion/docs/operator-guide.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            167
+          ]
+        ],
+        "git_blob_sha": "b95122b82bdd6ee2717f4707753fc7b33604c92e",
+        "lines": 167
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            167
+          ]
+        ],
+        "git_blob_sha": "b95122b82bdd6ee2717f4707753fc7b33604c92e",
+        "lines": 167
+      }
+    ],
+    "desk-companion/docs/page-companion.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            39
+          ]
+        ],
+        "git_blob_sha": "18ba3a8f330044166b6a6c59ae0f1f3fc7b71748",
+        "lines": 39
+      }
+    ],
+    "desk-companion/docs/task-tracking.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            58
+          ]
+        ],
+        "git_blob_sha": "b13b37a493c20ec398f9021a02761cd9e0a7a629",
+        "lines": 58
+      }
+    ],
+    "planning/2026-10-06/cloud-software-delivery.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            28
+          ]
+        ],
+        "git_blob_sha": "747ec005ab8534558e24bf0fcb523fc2fbd50f91",
+        "lines": 28
+      }
+    ],
+    "planning/2026-10-06/personal-agent-discussion-and-next-steps.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            192
+          ]
+        ],
+        "git_blob_sha": "3074a305dba416c8457845933e6b82662dd22749",
+        "lines": 192
+      }
+    ],
+    "planning/2026-10-06/software-architecture-audit.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            69
+          ]
+        ],
+        "git_blob_sha": "cba71a138badd09c845907eee150ac845dae004e",
+        "lines": 69
+      }
+    ],
+    "planning/2026-10-12/software-function-inventory.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            85
+          ]
+        ],
+        "git_blob_sha": "57cc609c0c4edcec44159bd5f465bd3f02073a79",
+        "lines": 85
+      }
+    ],
+    "desk-companion/frontend/ios/App/CapApp-SPM/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            5
+          ]
+        ],
+        "git_blob_sha": "03964db900841d8d1125314f12ace8394c755b3b",
+        "lines": 5
+      }
+    ],
+    "planning/2026-09-30/device-display-spec.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            68
+          ]
+        ],
+        "git_blob_sha": "fe06899e2dd02997fa3610d541cf246c39770333",
+        "lines": 68
+      }
+    ],
+    "planning/2026-10-02/software-completion-plan.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            53
+          ]
+        ],
+        "git_blob_sha": "39f47f842e9c59dea6fa4cecac72c6378e189b47",
+        "lines": 53
+      }
+    ],
+    "planning/2026-10-03-task-enhancement.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            22
+          ]
+        ],
+        "git_blob_sha": "b80c9f8e82007d5d5a51eb6c93b4a403b819031a",
+        "lines": 22
+      }
+    ],
+    "planning/2026-10-11/logsheet-2-review.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            39
+          ]
+        ],
+        "git_blob_sha": "224193ce541aa1da68e076e42b46264328e503f6",
+        "lines": 39
+      }
+    ],
+    "planning/2026-09-16/brand-visual-directions.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            54
+          ]
+        ],
+        "git_blob_sha": "92ccd0685d0b5c93b8fe50e1918901384f4d4795",
+        "lines": 54
+      }
+    ],
+    "planning/2026-09-16/logo-reference-calibration.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            52
+          ]
+        ],
+        "git_blob_sha": "fc7a574ece2ffb15a57f78cb313e2ecd935e578b",
+        "lines": 52
+      }
+    ],
+    "planning/2026-09-16/naming-shortlist.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            45
+          ]
+        ],
+        "git_blob_sha": "c8e99a970eae4d8684f8a850f3027290bca41bbf",
+        "lines": 45
+      }
+    ],
+    "planning/2026-09-16/senplate-logo-refinement-r2.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            44
+          ]
+        ],
+        "git_blob_sha": "28c3c840d8c1c392b2953f50ef77c5e0846b9820",
+        "lines": 44
+      }
+    ],
+    "planning/2026-09-16/senplate-logo-reset-r3.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            46
+          ]
+        ],
+        "git_blob_sha": "209cbb869dcc7b203cf48403da525da6fe75e2de",
+        "lines": 46
+      }
+    ],
+    "planning/2026-09-16/senplate-logo-vi-directions.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            63
+          ]
+        ],
+        "git_blob_sha": "8092f51b2caf7aa5e9c546f8bbf23f6ff1f8dfda",
+        "lines": 63
+      }
+    ],
+    "planning/2026-09-16/archive/software-scope-web-first-v1.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            189
+          ]
+        ],
+        "git_blob_sha": "769cff387eed0dfb4c519ba5e909e0d44fd15142",
+        "lines": 189
+      }
+    ],
+    "planning/2026-09-16/business-plan-zh.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-architecture-audit.json",
+        "ranges": [
+          [
+            1,
+            449
+          ]
+        ],
+        "git_blob_sha": "bdf13508668fbe4d1610ac175a246b00dc3be920",
+        "lines": 449
+      }
+    ],
+    "output/qa/2026-10-03-dot-feasibility/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            24
+          ]
+        ],
+        "git_blob_sha": "c03e10a41711474706499a3c73676d78833df2ff",
+        "lines": 24
+      }
+    ],
+    "output/qa/2026-10-05-github-bootstrap/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            40
+          ]
+        ],
+        "git_blob_sha": "ece3f0316e3c4c3247541b27a890f94d0e3c0ee2",
+        "lines": 40
+      }
+    ],
+    "output/qa/2026-10-05-rig-arm-feasibility/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            31
+          ]
+        ],
+        "git_blob_sha": "c71bc77bce0607277b9c3432463abc9fc578ee1c",
+        "lines": 31
+      }
+    ],
+    "output/qa/2026-10-06-personal-agent-plan/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            33
+          ]
+        ],
+        "git_blob_sha": "48427f2e50eecc7e1ecc5be332287db3657aca5f",
+        "lines": 33
+      }
+    ],
+    "output/qa/2026-10-09-3d-avatar/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            69
+          ]
+        ],
+        "git_blob_sha": "dcb57ed7e706c695bf40d003f63011f4b3af02d0",
+        "lines": 69
+      }
+    ],
+    "output/qa/2026-10-09-avatar-art-research/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            49
+          ]
+        ],
+        "git_blob_sha": "1c863b742d41e0fcb5908aa45655c91ddb749c1e",
+        "lines": 49
+      }
+    ],
+    "output/qa/2026-10-09-dot-integration/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            72
+          ]
+        ],
+        "git_blob_sha": "0a9dae33d6b57774ea166b2861fe2875258a6899",
+        "lines": 72
+      }
+    ],
+    "output/qa/2026-10-10-a1-anime-v2/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            17
+          ]
+        ],
+        "git_blob_sha": "e691a66d5a6bba96adf336527996b5c92aa63346",
+        "lines": 17
+      }
+    ],
+    "output/qa/2026-10-10-a1-anime-v3/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            11
+          ]
+        ],
+        "git_blob_sha": "07f53c1c2c68a29b9425d72ef49c12e857bd16f6",
+        "lines": 11
+      }
+    ],
+    "output/qa/2026-10-10-a1-anime-v4/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            11
+          ]
+        ],
+        "git_blob_sha": "b9a5b0f4d42f85749b6ebd740ebcb287ff7fbc53",
+        "lines": 11
+      }
+    ],
+    "output/qa/2026-10-10-a1-character-brief/pr-body.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            13
+          ]
+        ],
+        "git_blob_sha": "f8ccf43d9a819723f6788e462e65ab419a3ebb99",
+        "lines": 13
+      }
+    ],
+    "output/qa/2026-10-10-a1-character-brief/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            31
+          ]
+        ],
+        "git_blob_sha": "3af45e120ce7b4c210a95c0cc633ab667777d2c5",
+        "lines": 31
+      }
+    ],
+    "output/qa/2026-10-10-avatar-wardrobe/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            44
+          ]
+        ],
+        "git_blob_sha": "44ca50d459741803ea08f3918fd2aae94792dd78",
+        "lines": 44
+      }
+    ],
+    "output/qa/2026-10-10-c1-mainstream-anime/pr-body.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            13
+          ]
+        ],
+        "git_blob_sha": "87f56dd2f2f5c8ba91faecbf99233ea175dee55f",
+        "lines": 13
+      }
+    ],
+    "output/qa/2026-10-10-c1-mainstream-anime/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            37
+          ]
+        ],
+        "git_blob_sha": "41819c28b2434dc957e5f14694d3a3498a3d19cb",
+        "lines": 37
+      }
+    ],
+    "output/qa/2026-10-10-character-concepts/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            37
+          ]
+        ],
+        "git_blob_sha": "a3f4e23cc5eea05d0421b3b0a2d20e67b48b5db4",
+        "lines": 37
+      }
+    ],
+    "output/qa/2026-10-10-github-thread-continuation/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            33
+          ]
+        ],
+        "git_blob_sha": "4dd9317dc7c8dc645f3dec7cee56cc1bf3a9b439",
+        "lines": 33
+      }
+    ],
+    "output/qa/2026-10-10-japanese-character-study/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            33
+          ]
+        ],
+        "git_blob_sha": "230fa46a7ee704483c0dd18fa746b9c9faeea7da",
+        "lines": 33
+      }
+    ],
+    "output/qa/2026-10-11-logsheet-2/artifact.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            48
+          ]
+        ],
+        "git_blob_sha": "cd542aaa9debe8c4ca65a87ed71311b0c2a8aa8d",
+        "lines": 48
+      }
+    ],
+    "output/qa/2026-10-11-logsheet-2/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            38
+          ]
+        ],
+        "git_blob_sha": "d949ad7466e024544f7a72734192d9470414ea56",
+        "lines": 38
+      }
+    ],
+    "output/qa/2026-10-12-a1-page-companion/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            32
+          ]
+        ],
+        "git_blob_sha": "f6670e2c89cefc6a10bf0dc6266839bc22132501",
+        "lines": 32
+      }
+    ],
+    "output/qa/2026-10-12-a1-turnaround-details/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            31
+          ]
+        ],
+        "git_blob_sha": "cbb12ed2add39cc6bd1020c9e207aa9e202044a2",
+        "lines": 31
+      }
+    ],
+    "output/qa/2026-10-12-a1-wardrobe-round2/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            34
+          ]
+        ],
+        "git_blob_sha": "3c79f90e6385df7bc1d2b78d68531a39924e3520",
+        "lines": 34
+      }
+    ],
+    "output/qa/2026-10-12-save-and-software-inventory/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            25
+          ]
+        ],
+        "git_blob_sha": "3891ec78bffff0c546aba3a6adf9540faabaab9d",
+        "lines": 25
+      }
+    ],
+    "output/qa/2026-10-12-wardrobe-variants/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            38
+          ]
+        ],
+        "git_blob_sha": "604be62873defc970664529ef2c7cbc75f4e92f9",
+        "lines": 38
+      }
+    ],
+    "output/qa/2026-10-12-web-linux-preview/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            35
+          ]
+        ],
+        "git_blob_sha": "7ae63e01804e838e75b023c6c12ba44d78551fd4",
+        "lines": 35
+      }
+    ],
+    "output/qa/desk-development-batch1-2026-09-29/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            65
+          ]
+        ],
+        "git_blob_sha": "cb12dcbc34866b8b43e1164ff09604d1b25748ce",
+        "lines": 65
+      }
+    ],
+    "output/qa/development-m1-2-meals-2026-09-19/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            64
+          ]
+        ],
+        "git_blob_sha": "5d41eb11402bc4edfdeb68ec61104d758eddcb41",
+        "lines": 64
+      }
+    ],
+    "output/qa/development-p0-2026-09-18/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            79
+          ]
+        ],
+        "git_blob_sha": "7f777b44b934b8015600513b5ebe4f496c7a091a",
+        "lines": 79
+      }
+    ],
+    "output/qa/development-p1-orders-2026-09-19/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            74
+          ]
+        ],
+        "git_blob_sha": "badda014e0c3a69c2de626590374c8c49387f745",
+        "lines": 74
+      }
+    ],
+    "output/qa/device-ambient-redesign-2026-09-30/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            69
+          ]
+        ],
+        "git_blob_sha": "3465a402227fa5428bd5e37d0f319df21ef87ebc",
+        "lines": 69
+      }
+    ],
+    "output/qa/logsheet-members-v2-2026-09-28/artifact.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            11
+          ]
+        ],
+        "git_blob_sha": "e60985d825d6973b1192fd6a4bfa29c0aae30a29",
+        "lines": 11
+      }
+    ],
+    "output/qa/logsheet-proposal-2026-09-28/artifact.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            15
+          ]
+        ],
+        "git_blob_sha": "63653136c83d1d7b291435a67025c2273229e41d",
+        "lines": 15
+      }
+    ],
+    "output/qa/software-completion-2026-10-02/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            95
+          ]
+        ],
+        "git_blob_sha": "cbca8496a03be8b349a46b1768dc1e865d72d895",
+        "lines": 95
+      }
+    ],
+    "output/qa/software-completion-2026-10-06/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            55
+          ]
+        ],
+        "git_blob_sha": "3812971fae8bdbd0de32b90e2a80a40e0972957b",
+        "lines": 55
+      }
+    ],
+    "output/qa/suggestion-2026-09-14/artifact.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            56
+          ]
+        ],
+        "git_blob_sha": "bdfece69b85272a7a0affa3be24ae7eada0f603b",
+        "lines": 56
+      }
+    ],
+    "output/qa/suggestion-v2-2026-09-14/artifact.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            33
+          ]
+        ],
+        "git_blob_sha": "2dbd335a24dafabb9e2a3a28e612504db61c1f2a",
+        "lines": 33
+      }
+    ],
+    "output/qa/task-enhancement-ux-2026-10-03/verification.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-qa-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            59
+          ]
+        ],
+        "git_blob_sha": "e5a5cb76a0633b9e3a28254b80ab751828654f70",
+        "lines": 59
+      }
+    ],
+    "design/desk-companion/characters/2026-10-10-c1-concept/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            22
+          ]
+        ],
+        "git_blob_sha": "7a7eb674823b3f186d87cf8ce460b726691a76f4",
+        "lines": 22
+      }
+    ],
+    "design/desk-companion/characters/2026-10-10-concepts/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            32
+          ]
+        ],
+        "git_blob_sha": "54026dc4d730da434cd748ca2e9a5a03e3d363bf",
+        "lines": 32
+      }
+    ],
+    "design/desk-companion/characters/2026-10-10-expression-study/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            26
+          ]
+        ],
+        "git_blob_sha": "04338037214c33548fa5e912f484a67c27bacfd3",
+        "lines": 26
+      }
+    ],
+    "design/desk-companion/characters/2026-10-12-a1-3d/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            9
+          ]
+        ],
+        "git_blob_sha": "ad1638360cda23e1faf3ff0ab5c4d79c68dacb58",
+        "lines": 9
+      }
+    ],
+    "design/desk-companion/characters/2026-10-12-a1-interface/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            16
+          ]
+        ],
+        "git_blob_sha": "1e5ccb5ea13cb220d177da155f4b99af91a1dc95",
+        "lines": 16
+      }
+    ],
+    "design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            47
+          ]
+        ],
+        "git_blob_sha": "f5f93ddbbd637295c7fa57266deebc4834fe223b",
+        "lines": 47
+      }
+    ],
+    "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            39
+          ]
+        ],
+        "git_blob_sha": "bb5a44c6430a738ebd18a805200fd09ee8a3f130",
+        "lines": 39
+      }
+    ],
+    "design/desk-companion/characters/2026-10-12-wardrobe-variants/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            41
+          ]
+        ],
+        "git_blob_sha": "0f165bcff0548c1d0ad637ceb01def361335488b",
+        "lines": 41
+      }
+    ],
+    "design/desk-companion/characters/a1-character-brief.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            20
+          ]
+        ],
+        "git_blob_sha": "0137fa61e9a7395215b9a8cb1dc3eea85fd4c9c7",
+        "lines": 20
+      }
+    ],
+    "design/desk-companion/characters/a1-expression-rules.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            51
+          ]
+        ],
+        "git_blob_sha": "8919a7d8a3566be8cdd195d0ce97948bc60af24a",
+        "lines": 51
+      }
+    ],
+    "design/desk-companion/characters/a1-turnaround-spec.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            49
+          ]
+        ],
+        "git_blob_sha": "e13a74086467bfdc7a58769c9e1492e41a5d7067",
+        "lines": 49
+      }
+    ],
+    "design/desk-companion/characters/a1-wardrobe-index.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            23
+          ]
+        ],
+        "git_blob_sha": "7a795cb57c17d0f8c1ff2ebc8297fc09d23dfbc1",
+        "lines": 23
+      }
+    ],
+    "research/2026-10-10-avatar-art/character-concepts.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            9
+          ]
+        ],
+        "git_blob_sha": "fbc9ffa069162c1a5e406eeea1b3e85829515979",
+        "lines": 9
+      }
+    ],
+    "research/2026-10-10-avatar-art/japanese-character-study.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            122
+          ]
+        ],
+        "git_blob_sha": "97cb5ee64d016a020a26fbf738000ff3b3db32bb",
+        "lines": 122
+      }
+    ],
+    "research/2026-10-10-avatar-art/mainstream-anime-c1-study.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            46
+          ]
+        ],
+        "git_blob_sha": "f9f4e582baa80d617025f047bf803595071c870c",
+        "lines": 46
+      }
+    ],
+    "research/2026-10-10-avatar-art/popular-character-study.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            125
+          ]
+        ],
+        "git_blob_sha": "f2210c8c08f7eaa14483c74cc9bf81c6bf11f230",
+        "lines": 125
+      }
+    ],
+    "research/2026-10-10-avatar-art/wardrobe-study.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-design-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            104
+          ]
+        ],
+        "git_blob_sha": "e3b28f469e5d8029896d946b6bcb54be5c3d3bd8",
+        "lines": 104
+      }
+    ],
+    "work-log.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            140
+          ],
+          [
+            141,
+            300
+          ],
+          [
+            301,
+            470
+          ],
+          [
+            471,
+            640
+          ],
+          [
+            641,
+            800
+          ],
+          [
+            801,
+            991
+          ],
+          [
+            888,
+            920
+          ]
+        ],
+        "git_blob_sha": "00fa869672404518e58a1b8861f3349996c47f3b",
+        "lines": 991
+      }
+    ],
+    "decision-log.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            170
+          ],
+          [
+            171,
+            330
+          ],
+          [
+            331,
+            495
+          ],
+          [
+            496,
+            670
+          ],
+          [
+            671,
+            808
+          ]
+        ],
+        "git_blob_sha": "dbde08101b0ab7f4074052cabdfa393a911f9507",
+        "lines": 808
+      }
+    ],
+    "CONTRIBUTING.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            94
+          ]
+        ],
+        "git_blob_sha": "bb6e8b351c72d6990bdcfdbcb415a7a66edb191d",
+        "lines": 94
+      }
+    ],
+    "brand.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            60
+          ]
+        ],
+        "git_blob_sha": "0a6f7b26ced4c729c6f2b61e10aa6b8b3f57323a",
+        "lines": 60
+      }
+    ],
+    "Senplate_Logo_ImageGen_Brief.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            53
+          ]
+        ],
+        "git_blob_sha": "63bd2f62b4ecbbde77aec818977c4500d1ec396d",
+        "lines": 53
+      }
+    ],
+    "README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            120
+          ],
+          [
+            121,
+            238
+          ]
+        ],
+        "git_blob_sha": "164e0d0ece96744c6450ffcc6e5c5794ccea9278",
+        "lines": 238
+      }
+    ],
+    "product-senplate-historical.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            150
+          ],
+          [
+            151,
+            168
+          ]
+        ],
+        "git_blob_sha": "d696bb8425b9cf9c9e2197c4a2e5df9a95ef16c9",
+        "lines": 168
+      }
+    ],
+    "planning/2026-09-14/scope-and-roles-for-review.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            160
+          ]
+        ],
+        "git_blob_sha": "5acf3daef8e0e9c4affc56c54f5e3e061e2907a9",
+        "lines": 160
+      }
+    ],
+    "planning/2026-09-14/multi-scenario-suggestion-v2.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            80
+          ]
+        ],
+        "git_blob_sha": "65e8dd7dc0b457bc156214f2bfaea4af847dc714",
+        "lines": 80
+      }
+    ],
+    "planning/2026-09-14/single-station-recognition-reliability.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            110
+          ]
+        ],
+        "git_blob_sha": "c29a5088a74705a5ef2d459199c9a6b8c1a7a504",
+        "lines": 110
+      }
+    ],
+    "planning/2026-09-14/continuous-monitoring-architecture.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            60
+          ],
+          [
+            61,
+            122
+          ]
+        ],
+        "git_blob_sha": "07d251ec594801b322cb9c8d7f1dc834574773e7",
+        "lines": 122
+      }
+    ],
+    "planning/2026-09-14/ai-training-and-pi-deployment.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            90
+          ],
+          [
+            91,
+            174
+          ]
+        ],
+        "git_blob_sha": "3fff4c471723d6187e0d7ee2a9fabc718ea7e64b",
+        "lines": 174
+      }
+    ],
+    "planning/2026-09-15/hardware-fabrication-enquiry-draft.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            22
+          ]
+        ],
+        "git_blob_sha": "fa2920af193fe5ac3bd0f26a35e48d39ad1b15b9",
+        "lines": 22
+      }
+    ],
+    "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            39
+          ]
+        ],
+        "git_blob_sha": "fdbce751e106d811bc2500dda09e27863b7829b7",
+        "lines": 39
+      }
+    ],
+    "planning/2026-09-15/hardware-fabrication-enquiry-v3.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            53
+          ]
+        ],
+        "git_blob_sha": "ba585b258ef6f24ac9ab27fe0a89d18de7a7f12d",
+        "lines": 53
+      }
+    ],
+    "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            70
+          ]
+        ],
+        "git_blob_sha": "bc3fc357d7dce5332b9f1c86ac0a75c5477be9de",
+        "lines": 70
+      }
+    ],
+    "planning/2026-09-15/hardware-fabrication-enquiry-v2.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            130
+          ],
+          [
+            131,
+            247
+          ]
+        ],
+        "git_blob_sha": "8f48048270452b7cce1404994eb981129a03d1bb",
+        "lines": 247
+      }
+    ],
+    "planning/2026-09-15/yahboom-sourcing-and-customization.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            60
+          ],
+          [
+            61,
+            107
+          ]
+        ],
+        "git_blob_sha": "f599745f750e5a43d7074138adb38a9e0c7e1524",
+        "lines": 107
+      }
+    ],
+    "planning/2026-09-15/power-supply-detail.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            75
+          ],
+          [
+            76,
+            143
+          ]
+        ],
+        "git_blob_sha": "70c093e8ff8852560081cc6828d49f23b76567fd",
+        "lines": 143
+      }
+    ],
+    "planning/2026-09-15/camera-power-and-scaling.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            95
+          ],
+          [
+            96,
+            185
+          ]
+        ],
+        "git_blob_sha": "b31649fadbda14aaf74606e6cb572da957cd9079",
+        "lines": 185
+      }
+    ],
+    "planning/2026-09-15/procurement-guide.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            100
+          ],
+          [
+            101,
+            160
+          ],
+          [
+            161,
+            214
+          ]
+        ],
+        "git_blob_sha": "fccc9b12bddf6830bfc0594a41b1eb5b1661f117",
+        "lines": 214
+      }
+    ],
+    "inputs/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            11
+          ]
+        ],
+        "git_blob_sha": "89bc83fe7324873756e61180b8bf7122f82e6ef5",
+        "lines": 11
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            11
+          ]
+        ],
+        "git_blob_sha": "89bc83fe7324873756e61180b8bf7122f82e6ef5",
+        "lines": 11
+      }
+    ],
+    "inputs/teammate/形态 A：智能音箱智能屏幕终端（如 小爱触屏音箱、小度在家、FotoCube 等）.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            22
+          ]
+        ],
+        "git_blob_sha": "dc0f249ec8c520641de81dd64b3b4009e014d7cf",
+        "lines": 22
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            22
+          ]
+        ],
+        "git_blob_sha": "dc0f249ec8c520641de81dd64b3b4009e014d7cf",
+        "lines": 22
+      }
+    ],
+    "output/brand/2026-09-17-senplate-selected-a/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            28
+          ]
+        ],
+        "git_blob_sha": "ba876fe7b68f31b8a0df500b596e9f1470fae19b",
+        "lines": 28
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            28
+          ]
+        ],
+        "git_blob_sha": "ba876fe7b68f31b8a0df500b596e9f1470fae19b",
+        "lines": 28
+      }
+    ],
+    "output/brand/2026-09-17-senplate-refined-a-v2/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            25
+          ]
+        ],
+        "git_blob_sha": "7cb66981f618757593810d98a3da2667b325bde1",
+        "lines": 25
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            25
+          ]
+        ],
+        "git_blob_sha": "7cb66981f618757593810d98a3da2667b325bde1",
+        "lines": 25
+      }
+    ],
+    "output/brand/2026-09-17-senplate-golden-a-v3/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            36
+          ]
+        ],
+        "git_blob_sha": "2ae8dcaddf1cdd476cb09d1f714a170a481125e9",
+        "lines": 36
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            36
+          ]
+        ],
+        "git_blob_sha": "2ae8dcaddf1cdd476cb09d1f714a170a481125e9",
+        "lines": 36
+      }
+    ],
+    "output/brand/2026-09-17-senplate-ellipse-a-v4/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            29
+          ]
+        ],
+        "git_blob_sha": "96f9a7fbd370f2d01bc77ef74879b1a02c1e8677",
+        "lines": 29
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            29
+          ]
+        ],
+        "git_blob_sha": "96f9a7fbd370f2d01bc77ef74879b1a02c1e8677",
+        "lines": 29
+      }
+    ],
+    "output/brand/2026-09-17-senplate-bowl-redesign-v5/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            15
+          ]
+        ],
+        "git_blob_sha": "7937d73cc58247fde7d44130802491e56693edb6",
+        "lines": 15
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            15
+          ]
+        ],
+        "git_blob_sha": "7937d73cc58247fde7d44130802491e56693edb6",
+        "lines": 15
+      }
+    ],
+    "output/brand/2026-09-17-senplate-bowl-golden-v6/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            25
+          ]
+        ],
+        "git_blob_sha": "558962f09a553fa4c04aa84ae7f4edcd8cd5dc11",
+        "lines": 25
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            25
+          ]
+        ],
+        "git_blob_sha": "558962f09a553fa4c04aa84ae7f4edcd8cd5dc11",
+        "lines": 25
+      }
+    ],
+    "output/brand/2026-09-17-senplate-v6-tick-study/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            14
+          ]
+        ],
+        "git_blob_sha": "9be4644737ab844cea8de3d8bb02ffd5edd13890",
+        "lines": 14
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            14
+          ]
+        ],
+        "git_blob_sha": "9be4644737ab844cea8de3d8bb02ffd5edd13890",
+        "lines": 14
+      }
+    ],
+    "output/brand/2026-09-18-senplate-v6-rim-tick-study/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            15
+          ]
+        ],
+        "git_blob_sha": "4e0ee48945faaa3f7acd93a1d44a85e91c9874af",
+        "lines": 15
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            15
+          ]
+        ],
+        "git_blob_sha": "4e0ee48945faaa3f7acd93a1d44a85e91c9874af",
+        "lines": 15
+      }
+    ],
+    "output/brand/2026-09-18-senplate-v6-visible-ticks/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            12
+          ]
+        ],
+        "git_blob_sha": "99245e4dfe9ffe1989634b868c2f3c1cbf01fa8a",
+        "lines": 12
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            12
+          ]
+        ],
+        "git_blob_sha": "99245e4dfe9ffe1989634b868c2f3c1cbf01fa8a",
+        "lines": 12
+      }
+    ],
+    "output/brand/2026-09-18-senplate-v6-curved-ticks/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            9
+          ]
+        ],
+        "git_blob_sha": "78846c65420c19e80ae6e30193bfdbda7ff5da2f",
+        "lines": 9
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            9
+          ]
+        ],
+        "git_blob_sha": "78846c65420c19e80ae6e30193bfdbda7ff5da2f",
+        "lines": 9
+      }
+    ],
+    "output/brand/2026-09-18-senplate-v6-inner-scale/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            9
+          ]
+        ],
+        "git_blob_sha": "23b65447d022700d8458113706fd8bf0907b3cdb",
+        "lines": 9
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            9
+          ]
+        ],
+        "git_blob_sha": "23b65447d022700d8458113706fd8bf0907b3cdb",
+        "lines": 9
+      }
+    ],
+    "output/brand/2026-09-18-senplate-plain-bowl-v7/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-project-history.json",
+        "ranges": [
+          [
+            1,
+            13
+          ]
+        ],
+        "git_blob_sha": "1fdf4389efb212881d656562e719003abbac1fc5",
+        "lines": 13
+      },
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            13
+          ]
+        ],
+        "git_blob_sha": "1fdf4389efb212881d656562e719003abbac1fc5",
+        "lines": 13
+      }
+    ],
+    "planning/2026-09-17/senplate-bowl-golden-v6.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            43
+          ]
+        ],
+        "git_blob_sha": "d9f5727f915e6b8a48ab444e8f910e0915832d1f",
+        "lines": 43
+      }
+    ],
+    "planning/2026-09-17/senplate-bowl-redesign-v5.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            44
+          ]
+        ],
+        "git_blob_sha": "411566628fd47a2eed4d10e36610ca9f10e312e3",
+        "lines": 44
+      }
+    ],
+    "planning/2026-09-17/senplate-logo-measured-plate-r5.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            45
+          ]
+        ],
+        "git_blob_sha": "d32ade1fb22555e4efc4467138de08edf4a2dd72",
+        "lines": 45
+      }
+    ],
+    "planning/2026-09-17/senplate-logo-profile-r4.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            40
+          ]
+        ],
+        "git_blob_sha": "24c3568adf1fefcfd0a1a02cd5859dbb381f990e",
+        "lines": 40
+      }
+    ],
+    "planning/2026-09-17/senplate-v6-tick-study.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            30
+          ]
+        ],
+        "git_blob_sha": "aaeb2d22c0da0892e64fbb23dd8283f11d41a96d",
+        "lines": 30
+      }
+    ],
+    "planning/2026-09-17/senplate-vector-logo-studies.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            51
+          ]
+        ],
+        "git_blob_sha": "45772b034e182492fe6e8a1b0e6ed41ff93aeb47",
+        "lines": 51
+      }
+    ],
+    "planning/2026-09-18/development-p0.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            70
+          ]
+        ],
+        "git_blob_sha": "3506df97961d1aaa82394fec732d5d2fe37f1eb3",
+        "lines": 70
+      }
+    ],
+    "planning/2026-09-18/senplate-plain-bowl-v7.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            25
+          ]
+        ],
+        "git_blob_sha": "c84652bea0c1c6b5ee903518f7eb02618718dcfb",
+        "lines": 25
+      }
+    ],
+    "planning/2026-09-18/senplate-v6-curved-ticks.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            26
+          ]
+        ],
+        "git_blob_sha": "03defe9e95d90aa9899dd8644ceb459a4b7e8aed",
+        "lines": 26
+      }
+    ],
+    "planning/2026-09-18/senplate-v6-inner-scale.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            24
+          ]
+        ],
+        "git_blob_sha": "59099820c997d9d752217e2c1fcac984439e8ce3",
+        "lines": 24
+      }
+    ],
+    "planning/2026-09-18/senplate-v6-rim-tick-study.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            30
+          ]
+        ],
+        "git_blob_sha": "8ff66eb35fa16208865effad355996749aa4ef73",
+        "lines": 30
+      }
+    ],
+    "planning/2026-09-18/senplate-v6-visible-ticks.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            26
+          ]
+        ],
+        "git_blob_sha": "4738713b63869da6938c5b1d5dbf959fc14095fd",
+        "lines": 26
+      }
+    ],
+    "planning/2026-09-18/senplate-vi-v1.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            33
+          ]
+        ],
+        "git_blob_sha": "73fa204dbb962973d79c998731a214a7d047ce50",
+        "lines": 33
+      }
+    ],
+    "planning/2026-09-19/meals-samples-contract.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            55
+          ]
+        ],
+        "git_blob_sha": "c182d852b7848e646af8907bc6ea9b85b913c1b3",
+        "lines": 55
+      }
+    ],
+    "planning/2026-09-19/menu-orders-contract.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            70
+          ]
+        ],
+        "git_blob_sha": "4537fa9b7e54b0f254a28ec33ab1385425062dfc",
+        "lines": 70
+      }
+    ],
+    "planning/2026-09-21/marco-camera-and-nutrition-review.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            147
+          ]
+        ],
+        "git_blob_sha": "c949b3abd7d4994e9fea4eba286d9006e978b373",
+        "lines": 147
+      }
+    ],
+    "planning/2026-09-21/proposal-content.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            243
+          ]
+        ],
+        "git_blob_sha": "61fd6731625eb5b2458074450d751b00d4b71ca0",
+        "lines": 243
+      }
+    ],
+    "planning/2026-09-21/proposal-spec.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            41
+          ]
+        ],
+        "git_blob_sha": "007a4797861d6e8668edfe5cb3143d95b79007c7",
+        "lines": 41
+      }
+    ],
+    "output/brand/2026-09-18-senplate-vi-v1/05_Fonts_and_Licences/FONT-LICENCE-AUDIT.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            28
+          ]
+        ],
+        "git_blob_sha": "fce1d01f1b4dc8d0ea14bd560725cf7b9a82f3ca",
+        "lines": 28
+      }
+    ],
+    "output/brand/2026-09-18-senplate-vi-v1/06_Source/Figma_Source.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            17
+          ]
+        ],
+        "git_blob_sha": "c6a66efe9bebd14be25855e63b4faf4258aecb13",
+        "lines": 17
+      }
+    ],
+    "output/brand/2026-09-18-senplate-vi-v1/06_Source/VI_Rules.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            14
+          ]
+        ],
+        "git_blob_sha": "4d56143777433d51298680ddef66001e479bfd36",
+        "lines": 14
+      }
+    ],
+    "output/brand/2026-09-18-senplate-vi-v1/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+        "ranges": [
+          [
+            1,
+            25
+          ]
+        ],
+        "git_blob_sha": "9ccdc125aaae0e04720b83d888d1d0df0f8f23b7",
+        "lines": 25
+      }
+    ],
+    "planning/2026-09-25/desk-companion-proposal-zh-review-v2.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-parent-planning.json",
+        "ranges": [
+          [
+            1,
+            148
+          ]
+        ],
+        "git_blob_sha": "57e0d256c8c39f7ff62f1a2e4fbcaa7e83751e7a",
+        "lines": 148
+      }
+    ],
+    "planning/2026-09-25/desk-companion-proposal-zh-review.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-parent-planning.json",
+        "ranges": [
+          [
+            1,
+            142
+          ]
+        ],
+        "git_blob_sha": "28da20637169badd60b4453c29c4e6d4fcc15baa",
+        "lines": 142
+      }
+    ],
+    "planning/2026-09-26/ava-cylinder-route-a.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-parent-planning.json",
+        "ranges": [
+          [
+            1,
+            55
+          ]
+        ],
+        "git_blob_sha": "5b509dd2ff131016c2ff1fecad1a9de24a3ccc0a",
+        "lines": 55
+      }
+    ],
+    "planning/2026-09-28/desk-companion-proposal-en.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-parent-planning.json",
+        "ranges": [
+          [
+            1,
+            199
+          ]
+        ],
+        "git_blob_sha": "6338d714ce5c1b4ece5a7978f46dcbd435f51853",
+        "lines": 199
+      }
+    ],
+    "planning/2026-09-28/desk-companion-proposal-zh-v3.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-parent-planning.json",
+        "ranges": [
+          [
+            1,
+            199
+          ]
+        ],
+        "git_blob_sha": "e04cbdb6541e825ea5ebf2ac868501f7222c1ad4",
+        "lines": 199
+      }
+    ],
+    "planning/2026-09-28/desk-software-scope-v1.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-parent-planning.json",
+        "ranges": [
+          [
+            1,
+            222
+          ]
+        ],
+        "git_blob_sha": "6576b3f667cf4fb8751a4e522a2c4315f63f9cd5",
+        "lines": 222
+      }
+    ],
+    "planning/2026-09-28/logsheet-and-proposal-review.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-parent-planning.json",
+        "ranges": [
+          [
+            1,
+            44
+          ]
+        ],
+        "git_blob_sha": "9800fd7fad28c5d099a72e436b576b00575ca1f1",
+        "lines": 44
+      }
+    ],
+    "planning/2026-09-29/calendar-part1-functional-scope.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-parent-planning.json",
+        "ranges": [
+          [
+            1,
+            152
+          ]
+        ],
+        "git_blob_sha": "d5145c92e6efd6fffd74a8a16df03ad6cfee365e",
+        "lines": 152
+      }
+    ],
+    "planning/2026-09-29/calendar-part1-teammate-source.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-parent-planning.json",
+        "ranges": [
+          [
+            1,
+            49
+          ]
+        ],
+        "git_blob_sha": "02ecdb69cf033be44c7daa0dd8615e37ceff89dc",
+        "lines": 49
+      }
+    ],
+    "planning/2026-09-29/software-development-plan.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/reading-parent-planning.json",
+        "ranges": [
+          [
+            1,
+            148
+          ]
+        ],
+        "git_blob_sha": "618461f601b57cb289fa269be3ffa6dad77ccef8",
+        "lines": 148
+      }
+    ],
+    "research/2026-09-10-metafoodx-controliza/competitive-review.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            165
+          ]
+        ],
+        "git_blob_sha": "a351cf4affa478635318bd0f19e011ac2a81c1d3",
+        "lines": 165
+      }
+    ],
+    "research/2026-09-10-metafoodx-controliza/demo-questions.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            38
+          ]
+        ],
+        "git_blob_sha": "0ab800a2da56d8c10ca427dc22859a304175c06b",
+        "lines": 38
+      }
+    ],
+    "research/2026-09-10-metafoodx-controliza/evidence-register.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            44
+          ]
+        ],
+        "git_blob_sha": "7ea7d81d63da49f6b56bc272d30f57b3c46430a8",
+        "lines": 44
+      }
+    ],
+    "research/2026-09-14-metafoodx-hardware/evidence-review-log.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            47
+          ]
+        ],
+        "git_blob_sha": "43dc766a978f3019d8c6d54280da8d5b34005bb3",
+        "lines": 47
+      }
+    ],
+    "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            139
+          ],
+          [
+            140,
+            287
+          ]
+        ],
+        "git_blob_sha": "38f7d40d2e22b2445458e4a22051923836f9b52e",
+        "lines": 287
+      }
+    ],
+    "research/2026-09-14-suggestion-deep-review/deep-review.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            80
+          ],
+          [
+            81,
+            171
+          ]
+        ],
+        "git_blob_sha": "bcfd1fccd87e4619781b8a3c229f008fd6e9317d",
+        "lines": 171
+      }
+    ],
+    "research/2026-09-14-suggestion-deep-review/video-review-log.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            25
+          ]
+        ],
+        "git_blob_sha": "04020da8ad0e04290256a633ae01ef3db4d87fe6",
+        "lines": 25
+      }
+    ],
+    "research/2026-09-16-competitions/competition-shortlist.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            80
+          ]
+        ],
+        "git_blob_sha": "68c44d155cff537dc348f79db3b7d2d537aae3f0",
+        "lines": 80
+      }
+    ],
+    "research/2026-09-16-competitions/mainland-national-provincial.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            64
+          ]
+        ],
+        "git_blob_sha": "a059daa31ec1cf84ebd1b224855f68c10f380f86",
+        "lines": 64
+      }
+    ],
+    "research/2026-09-16-competitions/no-company-options.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            55
+          ]
+        ],
+        "git_blob_sha": "d07eda8f62dd8594830824155c8eae4f6369bbed",
+        "lines": 55
+      }
+    ],
+    "research/2026-09-16-competitions/plan-to-july-2027.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            82
+          ]
+        ],
+        "git_blob_sha": "99bec2bd1224ebfbbee1773463a7c654c267aaae",
+        "lines": 82
+      }
+    ],
+    "research/2026-09-16-competitions/world-vocational-registration.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            52
+          ]
+        ],
+        "git_blob_sha": "52b9756ece7642c4597783e6f6e2e9c2dcddebbe",
+        "lines": 52
+      }
+    ],
+    "research/2026-09-16-metafoodx-app/app-review.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            60
+          ]
+        ],
+        "git_blob_sha": "cf15af0f664be6a13758d042f3b4df6777f1985c",
+        "lines": 60
+      }
+    ],
+    "research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            72
+          ]
+        ],
+        "git_blob_sha": "13b3d032432a173248e0c33b23b69dc59ccc4d94",
+        "lines": 72
+      }
+    ],
+    "research/2026-09-17-logo-similarity/similarity-review.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            82
+          ]
+        ],
+        "git_blob_sha": "fcd043f8877c6a2cefd411b61512e298ecbcc371",
+        "lines": 82
+      }
+    ],
+    "research/2026-09-18-font-licences/font-licence-audit.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            28
+          ]
+        ],
+        "git_blob_sha": "fce1d01f1b4dc8d0ea14bd560725cf7b9a82f3ca",
+        "lines": 28
+      }
+    ],
+    "research/2026-09-18-senplate-trademark/trademark-review.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            83
+          ]
+        ],
+        "git_blob_sha": "79a6393a666dc6eea3541216cfae83a1b71439c5",
+        "lines": 83
+      }
+    ],
+    "research/2026-09-19-nutrition/reference-audit.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/muse-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            36
+          ]
+        ],
+        "git_blob_sha": "15554358207539237f87cc10ee257b91cbc9acd2",
+        "lines": 36
+      }
+    ],
+    "research/2026-09-25-desk-companion/feasibility-review.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            127
+          ]
+        ],
+        "git_blob_sha": "da8593aa138a4c0eb1952d91d68ad4a95b4ca3b9",
+        "lines": 127
+      }
+    ],
+    "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            63
+          ]
+        ],
+        "git_blob_sha": "31c4b5b706f032d832f4e6772179ac5557004983",
+        "lines": 63
+      }
+    ],
+    "research/2026-09-25-desk-companion/voice-model-cost-review.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            55
+          ]
+        ],
+        "git_blob_sha": "47704a52430d42ca3c6b9e007e27e979373d0524",
+        "lines": 55
+      }
+    ],
+    "research/2026-09-28-local-voice/server-deployment-comparison.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            205
+          ]
+        ],
+        "git_blob_sha": "79ba4a9d5fb009d7457248002c3c22c4c823d8c8",
+        "lines": 205
+      }
+    ],
+    "research/2026-09-29-voice-ai/naturalness-and-tools-review.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            149
+          ]
+        ],
+        "git_blob_sha": "7900dad8916012a04ce66b78a54d16e006364e3b",
+        "lines": 149
+      }
+    ],
+    "research/2026-09-29-voice-ai/price-and-value-ranking.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            66
+          ]
+        ],
+        "git_blob_sha": "08530398e346565e86648d37ed482c04226c79c4",
+        "lines": 66
+      }
+    ],
+    "planning/2026-09-16/software-mvp-and-acceptance.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            98
+          ]
+        ],
+        "git_blob_sha": "657a22e17458a2b0018073251559ac55cf16544b",
+        "lines": 98
+      }
+    ],
+    "planning/2026-09-16/app-pages-and-permissions.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            180
+          ]
+        ],
+        "git_blob_sha": "11f030df92559e8ec9badbfbbd959c440588c4c7",
+        "lines": 180
+      }
+    ],
+    "planning/2026-09-16/software-scope-and-architecture.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-research-reading-ledger.json",
+        "ranges": [
+          [
+            1,
+            159
+          ],
+          [
+            150,
+            206
+          ]
+        ],
+        "git_blob_sha": "08502c7eebf1d790f2df75a494dc58c95e76cca3",
+        "lines": 206
+      }
+    ],
+    "planning/2026-09-16/software-workflows-and-api.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/grok-research-reading-ledger.json",
+        "ranges": [
+          [
+            71,
+            291
+          ],
+          [
+            1,
+            100
+          ]
+        ],
+        "git_blob_sha": "beb266eea36e0c413584fdada61a7fb5bc195ffc",
+        "lines": 291
+      }
+    ],
+    "research/2026-10-03-dot/proactive-task-tracking.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            98
+          ]
+        ],
+        "git_blob_sha": "ae4331d3fc64e3122d0f1c82b07d6cafc14911e1",
+        "lines": 98
+      }
+    ],
+    "research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            40
+          ]
+        ],
+        "git_blob_sha": "9b591e441c423ad23ac308c87119a0e316aae83a",
+        "lines": 40
+      }
+    ],
+    "research/2026-09-26-desk-companion/hologram-fan-maturity.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            37
+          ]
+        ],
+        "git_blob_sha": "746b889841d120ca9124cc764d4e46289028c7bf",
+        "lines": 37
+      }
+    ],
+    "research/2026-09-26-desk-companion/razer-ava-like-feasibility.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            36
+          ]
+        ],
+        "git_blob_sha": "53e8427a67b712d86e47d30c72633b67b7df9808",
+        "lines": 36
+      }
+    ],
+    "design/desk-companion/b1/design-spec.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            42
+          ]
+        ],
+        "git_blob_sha": "5ffb8ed72cf1e93208d80d111851a379e45eada6",
+        "lines": 42
+      }
+    ],
+    "design/desk-companion/device-ambient-v1/README.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            11
+          ]
+        ],
+        "git_blob_sha": "5c424d939fcde9ce3ac1ed0de7e22e77bc70f46b",
+        "lines": 11
+      }
+    ],
+    "research/2026-10-05-rig-arm/secondary-development-review.md": [
+      {
+        "ledger": "output/qa/2026-10-12-agent-kernel/dot-reader-ledger.json",
+        "ranges": [
+          [
+            1,
+            155
+          ]
+        ],
+        "git_blob_sha": "e7a438cbbf89dd51ffbb4113a44016af73b9707b",
+        "lines": 155
+      }
+    ]
+  },
+  "excluded_qa_snapshots_and_vendor": [
+    {
+      "path": "output/qa/senplate-selected-a-2026-09-17/vendor/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "54f2e3fb8bc1a38ee9c3cebd8e574cc6b6ebf382",
+      "size": 9744,
+      "url": "https://api.github.com/repos/tantalum666/FYP/git/blobs/54f2e3fb8bc1a38ee9c3cebd8e574cc6b6ebf382",
+      "lines": 303,
+      "exclusion_reason": "Third-party vendor package README"
+    },
+    {
+      "path": "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a092b987cecd43f550160ba440663f6cd812dec3",
+      "size": 4752,
+      "url": "https://api.github.com/repos/tantalum666/FYP/git/blobs/a092b987cecd43f550160ba440663f6cd812dec3",
+      "lines": 30,
+      "exclusion_reason": "Automatic before-state evidence snapshot of an existing authored root document"
+    },
+    {
+      "path": "output/qa/senplate-bowl-golden-v6-2026-09-17/brand-before-v6.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f200c65028b2ef2f5038ba550bed94a1e731b26",
+      "size": 2817,
+      "url": "https://api.github.com/repos/tantalum666/FYP/git/blobs/9f200c65028b2ef2f5038ba550bed94a1e731b26",
+      "lines": 35,
+      "exclusion_reason": "Automatic before-state evidence snapshot of an existing authored root document"
+    },
+    {
+      "path": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e5f8fd9726bb7057ae8360c99092e82d533b8897",
+      "size": 8055,
+      "url": "https://api.github.com/repos/tantalum666/FYP/git/blobs/e5f8fd9726bb7057ae8360c99092e82d533b8897",
+      "lines": 81,
+      "exclusion_reason": "Automatic before-state evidence snapshot of an existing authored root document"
+    },
+    {
+      "path": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "366e70056a3689acae40efffa6709e3f416bd78c",
+      "size": 5612,
+      "url": "https://api.github.com/repos/tantalum666/FYP/git/blobs/366e70056a3689acae40efffa6709e3f416bd78c",
+      "lines": 69,
+      "exclusion_reason": "Automatic before-state evidence snapshot of an existing authored root document"
+    }
+  ]
+}

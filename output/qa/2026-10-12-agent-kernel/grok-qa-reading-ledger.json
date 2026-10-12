@@ -1,0 +1,616 @@
+{
+  "reader": "research_grok_bot_architecture",
+  "source_head": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "completed_at": "2026-10-12T12:22:43.584178+00:00",
+  "method": "All 13 numbered QA batches 0–12 emitted and read to explicit EOF; no batch output truncated. New authored baseline audit read separately in full. Fingerprints only validate unchanged source, not substitute for reading.",
+  "baseline_authored_files": 38,
+  "baseline_authored_bytes": 195309,
+  "read_files": [
+    {
+      "path": "output/qa/2026-10-03-dot-feasibility/verification.md",
+      "lines": 24,
+      "ranges_read": [
+        [
+          1,
+          24
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 2101,
+      "sha256": "b55a4cb551f85886613edffac5b33bbbdf4b19ca074da0a5173e470bce9006f8",
+      "git_blob_sha": "c03e10a41711474706499a3c73676d78833df2ff"
+    },
+    {
+      "path": "output/qa/2026-10-05-github-bootstrap/verification.md",
+      "lines": 40,
+      "ranges_read": [
+        [
+          1,
+          40
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 5695,
+      "sha256": "132525cc8a1190331e069ed7a1c388dbc79c8581473dada27daa8bff4e5bd555",
+      "git_blob_sha": "ece3f0316e3c4c3247541b27a890f94d0e3c0ee2"
+    },
+    {
+      "path": "output/qa/2026-10-05-rig-arm-feasibility/verification.md",
+      "lines": 31,
+      "ranges_read": [
+        [
+          1,
+          31
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 3771,
+      "sha256": "49dffe4bf7a91b9b4e4ef4cecb1b3f24e45ab364bce66d6fea65a3d99f27bc2a",
+      "git_blob_sha": "c71bc77bce0607277b9c3432463abc9fc578ee1c"
+    },
+    {
+      "path": "output/qa/2026-10-06-personal-agent-plan/verification.md",
+      "lines": 33,
+      "ranges_read": [
+        [
+          1,
+          33
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 3135,
+      "sha256": "a9e7555fdb652bae842d313497c24688e7501f1b2a9d3e01375563b58386e4f7",
+      "git_blob_sha": "48427f2e50eecc7e1ecc5be332287db3657aca5f"
+    },
+    {
+      "path": "output/qa/2026-10-09-3d-avatar/verification.md",
+      "lines": 69,
+      "ranges_read": [
+        [
+          1,
+          69
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 9718,
+      "sha256": "386dad703513ce17bb67109c82055ae11a2a7cedc53995dc4ae946b11a1e7d83",
+      "git_blob_sha": "dcb57ed7e706c695bf40d003f63011f4b3af02d0"
+    },
+    {
+      "path": "output/qa/2026-10-09-avatar-art-research/verification.md",
+      "lines": 49,
+      "ranges_read": [
+        [
+          1,
+          49
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 6697,
+      "sha256": "faadc1cde2347570339adbbee0b6a673488d427bd121bd17655afc7f85baf0c1",
+      "git_blob_sha": "1c863b742d41e0fcb5908aa45655c91ddb749c1e"
+    },
+    {
+      "path": "output/qa/2026-10-09-dot-integration/verification.md",
+      "lines": 72,
+      "ranges_read": [
+        [
+          1,
+          72
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 8977,
+      "sha256": "ae51f8325de5925cb35bd536aeeff2a736321dcdcfaaae082c05211386d4fe0a",
+      "git_blob_sha": "0a9dae33d6b57774ea166b2861fe2875258a6899"
+    },
+    {
+      "path": "output/qa/2026-10-10-a1-anime-v2/verification.md",
+      "lines": 17,
+      "ranges_read": [
+        [
+          1,
+          17
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 2808,
+      "sha256": "ec90a80ab91c5d50c60cf77af2266e998b1cc4cf5dddef028e001bd335e93985",
+      "git_blob_sha": "e691a66d5a6bba96adf336527996b5c92aa63346"
+    },
+    {
+      "path": "output/qa/2026-10-10-a1-anime-v3/verification.md",
+      "lines": 11,
+      "ranges_read": [
+        [
+          1,
+          11
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 1816,
+      "sha256": "141c6856f95b23e9d317a1eb45bd1e9144a7dd0fcd069b98e7d8d1f58a3d29e6",
+      "git_blob_sha": "07f53c1c2c68a29b9425d72ef49c12e857bd16f6"
+    },
+    {
+      "path": "output/qa/2026-10-10-a1-anime-v4/verification.md",
+      "lines": 11,
+      "ranges_read": [
+        [
+          1,
+          11
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 1803,
+      "sha256": "6eb0f46f1d11e9b04536e573866b036c3f1c59d31eec9dbed6b88160b99d56fd",
+      "git_blob_sha": "b9a5b0f4d42f85749b6ebd740ebcb287ff7fbc53"
+    },
+    {
+      "path": "output/qa/2026-10-10-a1-character-brief/pr-body.md",
+      "lines": 13,
+      "ranges_read": [
+        [
+          1,
+          13
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 3049,
+      "sha256": "1893d8730f01bbec7affb9c82c052bf844b843638257118c7c72c56be98057b2",
+      "git_blob_sha": "f8ccf43d9a819723f6788e462e65ab419a3ebb99"
+    },
+    {
+      "path": "output/qa/2026-10-10-a1-character-brief/verification.md",
+      "lines": 31,
+      "ranges_read": [
+        [
+          1,
+          31
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 3781,
+      "sha256": "8fecb2a228a1652c6301279fb48f1dd199bb91eeefe41764bdb3478fe28180d1",
+      "git_blob_sha": "3af45e120ce7b4c210a95c0cc633ab667777d2c5"
+    },
+    {
+      "path": "output/qa/2026-10-10-avatar-wardrobe/verification.md",
+      "lines": 44,
+      "ranges_read": [
+        [
+          1,
+          44
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 5503,
+      "sha256": "74f6d66add5e2d141ad93d9f89885621d281439ea05677880a3c5a1242e03bb4",
+      "git_blob_sha": "44ca50d459741803ea08f3918fd2aae94792dd78"
+    },
+    {
+      "path": "output/qa/2026-10-10-c1-mainstream-anime/pr-body.md",
+      "lines": 13,
+      "ranges_read": [
+        [
+          1,
+          13
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 2863,
+      "sha256": "50b700efd546528923146713d3b5f0adaba733ab64b0d4df92ecf0f8cc659a14",
+      "git_blob_sha": "87f56dd2f2f5c8ba91faecbf99233ea175dee55f"
+    },
+    {
+      "path": "output/qa/2026-10-10-c1-mainstream-anime/verification.md",
+      "lines": 37,
+      "ranges_read": [
+        [
+          1,
+          37
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 4178,
+      "sha256": "10f04c8506f00effa0a7c6cdfae1cee8527bf743b956ad58c331c023480ed49d",
+      "git_blob_sha": "41819c28b2434dc957e5f14694d3a3498a3d19cb"
+    },
+    {
+      "path": "output/qa/2026-10-10-character-concepts/verification.md",
+      "lines": 37,
+      "ranges_read": [
+        [
+          1,
+          37
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 5008,
+      "sha256": "e1620b4293b53d8f8cc81522359c82e3e85073442837030784ce278fd951fb6f",
+      "git_blob_sha": "a3f4e23cc5eea05d0421b3b0a2d20e67b48b5db4"
+    },
+    {
+      "path": "output/qa/2026-10-10-github-thread-continuation/verification.md",
+      "lines": 33,
+      "ranges_read": [
+        [
+          1,
+          33
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 4133,
+      "sha256": "1d4e4d04aaee9ece742b69403168f2f9ec1b0d7d175ab47ad1c7f75f148efe2f",
+      "git_blob_sha": "4dd9317dc7c8dc645f3dec7cee56cc1bf3a9b439"
+    },
+    {
+      "path": "output/qa/2026-10-10-japanese-character-study/verification.md",
+      "lines": 33,
+      "ranges_read": [
+        [
+          1,
+          33
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 3622,
+      "sha256": "3f778d4542f8b9fd86aeae27e5a6bff76182ac5e79e6851d03140d1b54eac8af",
+      "git_blob_sha": "230fa46a7ee704483c0dd18fa746b9c9faeea7da"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/artifact.md",
+      "lines": 48,
+      "ranges_read": [
+        [
+          1,
+          48
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 4797,
+      "sha256": "e2e4766f361ed51cb1a64cf39bb7215368b469ee0f232ae28a9c0de6f5d038c8",
+      "git_blob_sha": "cd542aaa9debe8c4ca65a87ed71311b0c2a8aa8d"
+    },
+    {
+      "path": "output/qa/2026-10-11-logsheet-2/verification.md",
+      "lines": 38,
+      "ranges_read": [
+        [
+          1,
+          38
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 4793,
+      "sha256": "da25dba0b3c5bd0f5b8ac50f7cb84ba0943395c83abd0ae55d096c092c03e791",
+      "git_blob_sha": "d949ad7466e024544f7a72734192d9470414ea56"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-page-companion/verification.md",
+      "lines": 32,
+      "ranges_read": [
+        [
+          1,
+          32
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 5408,
+      "sha256": "cfb9af54242d415ec9b2f77c4ad9eab475b12d7fdd5621dfb9a9358f1e07699a",
+      "git_blob_sha": "f6670e2c89cefc6a10bf0dc6266839bc22132501"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-turnaround-details/verification.md",
+      "lines": 31,
+      "ranges_read": [
+        [
+          1,
+          31
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 4020,
+      "sha256": "40cd188bb907eaa0f20c8e9912d7fddfa641e26a51e2a530d69251d3b5ffff8d",
+      "git_blob_sha": "cbb12ed2add39cc6bd1020c9e207aa9e202044a2"
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-wardrobe-round2/verification.md",
+      "lines": 34,
+      "ranges_read": [
+        [
+          1,
+          34
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 4306,
+      "sha256": "5392aab0248166e9246a69e8e950a46ba9c8598896eaa1ffabe620d0e6864ba0",
+      "git_blob_sha": "3c79f90e6385df7bc1d2b78d68531a39924e3520"
+    },
+    {
+      "path": "output/qa/2026-10-12-save-and-software-inventory/verification.md",
+      "lines": 25,
+      "ranges_read": [
+        [
+          1,
+          25
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 3570,
+      "sha256": "f646d8c8f3fa78765bb43e410d711e2880f465b96dc55cb1bc79dc0befdb4bfd",
+      "git_blob_sha": "3891ec78bffff0c546aba3a6adf9540faabaab9d"
+    },
+    {
+      "path": "output/qa/2026-10-12-wardrobe-variants/verification.md",
+      "lines": 38,
+      "ranges_read": [
+        [
+          1,
+          38
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 4223,
+      "sha256": "3cf11a798659943b8164ec035dad9a00730bca49bcb1c164a11d994373047240",
+      "git_blob_sha": "604be62873defc970664529ef2c7cbc75f4e92f9"
+    },
+    {
+      "path": "output/qa/2026-10-12-web-linux-preview/verification.md",
+      "lines": 35,
+      "ranges_read": [
+        [
+          1,
+          35
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 3877,
+      "sha256": "b00d978f50463c3a3742286f218876a6809cf70f06a335f0a8acd2559bcc15bd",
+      "git_blob_sha": "7ae63e01804e838e75b023c6c12ba44d78551fd4"
+    },
+    {
+      "path": "output/qa/desk-development-batch1-2026-09-29/verification.md",
+      "lines": 65,
+      "ranges_read": [
+        [
+          1,
+          65
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 6920,
+      "sha256": "f64649defbfcec9fc13be1b2b4245547b5f2917852e296eed990e28079a19c19",
+      "git_blob_sha": "cb12dcbc34866b8b43e1164ff09604d1b25748ce"
+    },
+    {
+      "path": "output/qa/development-m1-2-meals-2026-09-19/verification.md",
+      "lines": 64,
+      "ranges_read": [
+        [
+          1,
+          64
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 8249,
+      "sha256": "f3a869aacb87e9fdc7749ca9af00e8d4f0ccd8886ee33865650a582e073a1e9d",
+      "git_blob_sha": "5d41eb11402bc4edfdeb68ec61104d758eddcb41"
+    },
+    {
+      "path": "output/qa/development-p0-2026-09-18/verification.md",
+      "lines": 79,
+      "ranges_read": [
+        [
+          1,
+          79
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 9600,
+      "sha256": "66d81c3c0f2906bff5aa29549681f93b2cb0b18dc0214d32ea7b269223d7ad52",
+      "git_blob_sha": "7f777b44b934b8015600513b5ebe4f496c7a091a"
+    },
+    {
+      "path": "output/qa/development-p1-orders-2026-09-19/verification.md",
+      "lines": 74,
+      "ranges_read": [
+        [
+          1,
+          74
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 10751,
+      "sha256": "5e2946e8e19b584f3de5f5e29eca61c1e6445ec202f1fa101f381901a1a65aeb",
+      "git_blob_sha": "badda014e0c3a69c2de626590374c8c49387f745"
+    },
+    {
+      "path": "output/qa/device-ambient-redesign-2026-09-30/verification.md",
+      "lines": 69,
+      "ranges_read": [
+        [
+          1,
+          69
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 8747,
+      "sha256": "0d6fdc832789dcc717244f5da9aafc4cd05ec7ebef4d12b889b910998a1feeb1",
+      "git_blob_sha": "3465a402227fa5428bd5e37d0f319df21ef87ebc"
+    },
+    {
+      "path": "output/qa/logsheet-members-v2-2026-09-28/artifact.md",
+      "lines": 11,
+      "ranges_read": [
+        [
+          1,
+          11
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 2605,
+      "sha256": "dd86af682662a551b294dcea7cf32b962c983c586a7c59213a5e342dd277943a",
+      "git_blob_sha": "e60985d825d6973b1192fd6a4bfa29c0aae30a29"
+    },
+    {
+      "path": "output/qa/logsheet-proposal-2026-09-28/artifact.md",
+      "lines": 15,
+      "ranges_read": [
+        [
+          1,
+          15
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 2712,
+      "sha256": "b35d11f2a73f9aae3fce1fcc4d45ad3500189535e35710414a717f7d7ddf28cf",
+      "git_blob_sha": "63653136c83d1d7b291435a67025c2273229e41d"
+    },
+    {
+      "path": "output/qa/software-completion-2026-10-02/verification.md",
+      "lines": 95,
+      "ranges_read": [
+        [
+          1,
+          95
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 8438,
+      "sha256": "f23752abab86aa264181ac076a9494dfae2b83300004a517719c82dc76559312",
+      "git_blob_sha": "cbca8496a03be8b349a46b1768dc1e865d72d895"
+    },
+    {
+      "path": "output/qa/software-completion-2026-10-06/verification.md",
+      "lines": 55,
+      "ranges_read": [
+        [
+          1,
+          55
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 5873,
+      "sha256": "b1853dd37f6cff7c1a9ef1a43b1ca9fa2b997b8e83bb75f17a91813266fa8468",
+      "git_blob_sha": "3812971fae8bdbd0de32b90e2a80a40e0972957b"
+    },
+    {
+      "path": "output/qa/suggestion-2026-09-14/artifact.md",
+      "lines": 56,
+      "ranges_read": [
+        [
+          1,
+          56
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 5812,
+      "sha256": "b2a7c30b4303e720ad48014b0a2dd2a21668713e8c98141ed0c9cf5d0997aa84",
+      "git_blob_sha": "bdfece69b85272a7a0affa3be24ae7eada0f603b"
+    },
+    {
+      "path": "output/qa/suggestion-v2-2026-09-14/artifact.md",
+      "lines": 33,
+      "ranges_read": [
+        [
+          1,
+          33
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 3360,
+      "sha256": "d3c4719bacc74c189d128c8e49df14fb76ac561906a427e55b01003865e583d7",
+      "git_blob_sha": "2dbd335a24dafabb9e2a3a28e612504db61c1f2a"
+    },
+    {
+      "path": "output/qa/task-enhancement-ux-2026-10-03/verification.md",
+      "lines": 59,
+      "ranges_read": [
+        [
+          1,
+          59
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 8590,
+      "sha256": "ffa6589989ad0933d863a63128c7e6f23305af3e1f875951e65b03454521145a",
+      "git_blob_sha": "e5a5cb76a0633b9e3a28254b80ab751828654f70"
+    },
+    {
+      "path": "output/qa/2026-10-12-agent-kernel/baseline-architecture-audit.md",
+      "lines": 109,
+      "ranges_read": [
+        [
+          1,
+          109
+        ]
+      ],
+      "eof_observed": true,
+      "bytes": 15044,
+      "sha256": "4b1a0bb60bd1f5711516e2cd5580433f68bb7332277bd21ee5c898eb96139874",
+      "classification": "new authored team report, full read after baseline corpus"
+    }
+  ],
+  "excluded": [
+    {
+      "path": "output/qa/senplate-selected-a-2026-09-17/vendor/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "54f2e3fb8bc1a38ee9c3cebd8e574cc6b6ebf382",
+      "size": 9744,
+      "url": "https://api.github.com/repos/tantalum666/FYP/git/blobs/54f2e3fb8bc1a38ee9c3cebd8e574cc6b6ebf382",
+      "lines": 303,
+      "exclusion_reason": "Third-party vendor package README"
+    },
+    {
+      "path": "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a092b987cecd43f550160ba440663f6cd812dec3",
+      "size": 4752,
+      "url": "https://api.github.com/repos/tantalum666/FYP/git/blobs/a092b987cecd43f550160ba440663f6cd812dec3",
+      "lines": 30,
+      "exclusion_reason": "Automatic before-state evidence snapshot of an existing authored root document"
+    },
+    {
+      "path": "output/qa/senplate-bowl-golden-v6-2026-09-17/brand-before-v6.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f200c65028b2ef2f5038ba550bed94a1e731b26",
+      "size": 2817,
+      "url": "https://api.github.com/repos/tantalum666/FYP/git/blobs/9f200c65028b2ef2f5038ba550bed94a1e731b26",
+      "lines": 35,
+      "exclusion_reason": "Automatic before-state evidence snapshot of an existing authored root document"
+    },
+    {
+      "path": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e5f8fd9726bb7057ae8360c99092e82d533b8897",
+      "size": 8055,
+      "url": "https://api.github.com/repos/tantalum666/FYP/git/blobs/e5f8fd9726bb7057ae8360c99092e82d533b8897",
+      "lines": 81,
+      "exclusion_reason": "Automatic before-state evidence snapshot of an existing authored root document"
+    },
+    {
+      "path": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "366e70056a3689acae40efffa6709e3f416bd78c",
+      "size": 5612,
+      "url": "https://api.github.com/repos/tantalum666/FYP/git/blobs/366e70056a3689acae40efffa6709e3f416bd78c",
+      "lines": 69,
+      "exclusion_reason": "Automatic before-state evidence snapshot of an existing authored root document"
+    }
+  ],
+  "coverage_scope": "All 38 baseline authored QA Markdown plus one new team audit only; other repository slices separately assigned.",
+  "findings": [
+    "Latest A1 intact 2D is authoritative; rejected segmented/depth/3D paths historical.",
+    "No live provider, Pi, physical output or generalized computer validation follows from unit/build/browser results.",
+    "Preserve no blind retry of uncertain writes, independent verification, cancellation truthfulness, exact result object delivery regression.",
+    "Older Senplate evidence is historical, not current feature scope or new authorization.",
+    "School v5 log complete locally but not submitted; preserve documents and attribution limits."
+  ]
+}

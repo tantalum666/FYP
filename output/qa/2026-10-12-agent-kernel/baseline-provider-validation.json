@@ -1,0 +1,42 @@
+{
+  "source_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "method": "Evaluate unchanged config class ASTs only with synthetic key; no runtime/database/network call",
+  "checks": [
+    {
+      "kind": "voice",
+      "provider": "gemini",
+      "endpoint": "wss://unapproved.example.invalid/anything",
+      "valid": true
+    },
+    {
+      "kind": "voice",
+      "provider": "qwen_audio",
+      "endpoint": "wss://127.0.0.1:9443/private",
+      "valid": true
+    },
+    {
+      "kind": "voice",
+      "provider": "qwen_audio",
+      "endpoint": "wss://dashscope-intl.aliyuncs.com:invalid/anything",
+      "valid": true
+    },
+    {
+      "kind": "voice",
+      "provider": "gemini",
+      "endpoint": "wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent",
+      "valid": true
+    },
+    {
+      "kind": "text",
+      "provider": "qwen",
+      "endpoint": "https://dashscope-intl.aliyuncs.com:invalid/compatible-mode/v1/chat/completions",
+      "valid": "ValueError"
+    },
+    {
+      "kind": "text",
+      "provider": "qwen",
+      "endpoint": "https://unapproved.example.invalid/compatible-mode/v1/chat/completions",
+      "valid": false
+    }
+  ]
+}

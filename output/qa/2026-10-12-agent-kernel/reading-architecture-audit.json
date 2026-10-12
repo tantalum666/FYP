@@ -1,0 +1,415 @@
+{
+  "source_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "reader": "audit_fyp_agent_baseline",
+  "read_completed_utc": "2026-10-12T12:18:04.270028+00:00",
+  "method": "Read complete text via pinned connector or uncropped exec_command output; reread product/inventory after initial output truncation. All listed files read to EOF.",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 4008,
+      "lines": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "6ffb0a17aaed8e95caee66257ea722747512c8be"
+    },
+    {
+      "path": "product.md",
+      "bytes": 30984,
+      "lines": 158,
+      "read_ranges": [
+        [
+          1,
+          158
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "3515116e6bf1d6ae752fed53ba25dde21509f116"
+    },
+    {
+      "path": "handoff.md",
+      "bytes": 2502,
+      "lines": 19,
+      "read_ranges": [
+        [
+          1,
+          19
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "61a8a11a88762b315077e451bc7506b02a2db563"
+    },
+    {
+      "path": "desk-companion/README.md",
+      "bytes": 13326,
+      "lines": 120,
+      "read_ranges": [
+        [
+          1,
+          120
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "43549692e550459d52962b68249083c1b2162301"
+    },
+    {
+      "path": "desk-companion/THIRD_PARTY.md",
+      "bytes": 4191,
+      "lines": 24,
+      "read_ranges": [
+        [
+          1,
+          24
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "ab71335047dfbecbe992140b77f245adb40bd12e"
+    },
+    {
+      "path": "desk-companion/docs/architecture.md",
+      "bytes": 11276,
+      "lines": 100,
+      "read_ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "717dd709c01b9ef3332fc42795b73987a80280c6"
+    },
+    {
+      "path": "desk-companion/docs/avatar.md",
+      "bytes": 13430,
+      "lines": 80,
+      "read_ranges": [
+        [
+          1,
+          80
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "cc80ea879bc45cb998982aab4e42163c4fff3b61"
+    },
+    {
+      "path": "desk-companion/docs/computer-jobs.md",
+      "bytes": 4171,
+      "lines": 57,
+      "read_ranges": [
+        [
+          1,
+          57
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "e8354ca859a8dba312cb9b0dc1f41c1c5bbdfe46"
+    },
+    {
+      "path": "desk-companion/docs/evaluation.md",
+      "bytes": 4124,
+      "lines": 60,
+      "read_ranges": [
+        [
+          1,
+          60
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "8350cd0212a5ccb945d27e2f26d0acaf2d38fb10"
+    },
+    {
+      "path": "desk-companion/docs/operator-guide.md",
+      "bytes": 14282,
+      "lines": 167,
+      "read_ranges": [
+        [
+          1,
+          167
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "b95122b82bdd6ee2717f4707753fc7b33604c92e"
+    },
+    {
+      "path": "desk-companion/docs/page-companion.md",
+      "bytes": 4541,
+      "lines": 39,
+      "read_ranges": [
+        [
+          1,
+          39
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "18ba3a8f330044166b6a6c59ae0f1f3fc7b71748"
+    },
+    {
+      "path": "desk-companion/docs/task-tracking.md",
+      "bytes": 6928,
+      "lines": 58,
+      "read_ranges": [
+        [
+          1,
+          58
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "b13b37a493c20ec398f9021a02761cd9e0a7a629"
+    },
+    {
+      "path": "planning/2026-10-06/cloud-software-delivery.md",
+      "bytes": 2429,
+      "lines": 28,
+      "read_ranges": [
+        [
+          1,
+          28
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "747ec005ab8534558e24bf0fcb523fc2fbd50f91"
+    },
+    {
+      "path": "planning/2026-10-06/personal-agent-discussion-and-next-steps.md",
+      "bytes": 24079,
+      "lines": 192,
+      "read_ranges": [
+        [
+          1,
+          192
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "3074a305dba416c8457845933e6b82662dd22749"
+    },
+    {
+      "path": "planning/2026-10-06/software-architecture-audit.md",
+      "bytes": 7538,
+      "lines": 69,
+      "read_ranges": [
+        [
+          1,
+          69
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "cba71a138badd09c845907eee150ac845dae004e"
+    },
+    {
+      "path": "planning/2026-10-12/software-function-inventory.md",
+      "bytes": 16216,
+      "lines": 85,
+      "read_ranges": [
+        [
+          1,
+          85
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "57cc609c0c4edcec44159bd5f465bd3f02073a79"
+    },
+    {
+      "path": "desk-companion/frontend/ios/App/CapApp-SPM/README.md",
+      "bytes": 162,
+      "lines": 5,
+      "read_ranges": [
+        [
+          1,
+          5
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "03964db900841d8d1125314f12ace8394c755b3b",
+      "classification": "Generated Capacitor package note; read for completeness, not FYP design authority"
+    },
+    {
+      "path": "planning/2026-09-30/device-display-spec.md",
+      "bytes": 8940,
+      "lines": 68,
+      "read_ranges": [
+        [
+          1,
+          68
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "fe06899e2dd02997fa3610d541cf246c39770333"
+    },
+    {
+      "path": "planning/2026-10-02/software-completion-plan.md",
+      "bytes": 6816,
+      "lines": 53,
+      "read_ranges": [
+        [
+          1,
+          53
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "39f47f842e9c59dea6fa4cecac72c6378e189b47"
+    },
+    {
+      "path": "planning/2026-10-03-task-enhancement.md",
+      "bytes": 2705,
+      "lines": 22,
+      "read_ranges": [
+        [
+          1,
+          22
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "b80c9f8e82007d5d5a51eb6c93b4a403b819031a"
+    },
+    {
+      "path": "planning/2026-10-11/logsheet-2-review.md",
+      "bytes": 4887,
+      "lines": 39,
+      "read_ranges": [
+        [
+          1,
+          39
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "224193ce541aa1da68e076e42b46264328e503f6"
+    },
+    {
+      "path": "planning/2026-09-16/brand-visual-directions.md",
+      "bytes": 6727,
+      "lines": 54,
+      "read_ranges": [
+        [
+          1,
+          54
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "92ccd0685d0b5c93b8fe50e1918901384f4d4795"
+    },
+    {
+      "path": "planning/2026-09-16/logo-reference-calibration.md",
+      "bytes": 5284,
+      "lines": 52,
+      "read_ranges": [
+        [
+          1,
+          52
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "fc7a574ece2ffb15a57f78cb313e2ecd935e578b"
+    },
+    {
+      "path": "planning/2026-09-16/naming-shortlist.md",
+      "bytes": 4355,
+      "lines": 45,
+      "read_ranges": [
+        [
+          1,
+          45
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "c8e99a970eae4d8684f8a850f3027290bca41bbf"
+    },
+    {
+      "path": "planning/2026-09-16/senplate-logo-refinement-r2.md",
+      "bytes": 4629,
+      "lines": 44,
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "28c3c840d8c1c392b2953f50ef77c5e0846b9820"
+    },
+    {
+      "path": "planning/2026-09-16/senplate-logo-reset-r3.md",
+      "bytes": 5168,
+      "lines": 46,
+      "read_ranges": [
+        [
+          1,
+          46
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "209cbb869dcc7b203cf48403da525da6fe75e2de"
+    },
+    {
+      "path": "planning/2026-09-16/senplate-logo-vi-directions.md",
+      "bytes": 7488,
+      "lines": 63,
+      "read_ranges": [
+        [
+          1,
+          63
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "8092f51b2caf7aa5e9c546f8bbf23f6ff1f8dfda"
+    },
+    {
+      "path": "planning/2026-09-16/archive/software-scope-web-first-v1.md",
+      "bytes": 20003,
+      "lines": 189,
+      "read_ranges": [
+        [
+          1,
+          189
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "769cff387eed0dfb4c519ba5e909e0d44fd15142",
+      "truncation_repair": [
+        175,
+        189
+      ]
+    },
+    {
+      "path": "planning/2026-09-16/business-plan-zh.md",
+      "bytes": 38388,
+      "lines": 449,
+      "read_ranges": [
+        [
+          1,
+          449
+        ]
+      ],
+      "complete": true,
+      "git_blob_sha": "bdf13508668fbe4d1610ac175a246b00dc3be920",
+      "observed_batches": [
+        [
+          1,
+          225
+        ],
+        [
+          1,
+          20
+        ],
+        [
+          226,
+          449
+        ]
+      ],
+      "truncation_repair": [
+        1,
+        20
+      ]
+    }
+  ],
+  "not_claimed": "No full-repository read. Other workers own historical/root, design, research, other planning and QA. Source code audit is separately scoped.",
+  "historical_constraints": [
+    "Sept16 Senplate scope, brand, business plans are historical after Sept25 pivot; financial/market claims do not apply to Desk Companion.",
+    "Sept30 requires a distinct always-on device shell with 60-second idle return, edit protection and stale/private-cache hiding.",
+    "Oct2/3 software implementation and simulated tests are distinct from live voice, physical devices and human evaluation.",
+    "Oct11 Logsheet2 is local complete/member-review pending/not submitted; hardware purchase list does not imply procurement or bench verification."
+  ]
+}

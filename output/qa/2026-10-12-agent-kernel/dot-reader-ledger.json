@@ -1,0 +1,158 @@
+{
+  "reader": "research_dot_agent_architecture",
+  "pinned_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "scope": "Assigned seven research/design Markdown files plus required AGENTS/product/handoff entry files. Does not certify other project Markdown or implementation.",
+  "exclusions": [],
+  "records": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "6ffb0a17aaed8e95caee66257ea722747512c8be",
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "completed_at_utc": "2026-10-12T12:16:44.459481+00:00",
+      "method": "Full text read from current checkout with exec_command; no output truncation in completed reads. Hash verifies unchanged bytes only."
+    },
+    {
+      "path": "product.md",
+      "lines": 158,
+      "read_ranges": [
+        [
+          1,
+          158
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "3515116e6bf1d6ae752fed53ba25dde21509f116",
+      "sha256": "c6a6328e2cfca7d1ed150203d9cf2e2b213d6210a509946daf6cc818553e1cf4",
+      "completed_at_utc": "2026-10-12T12:16:44.459702+00:00",
+      "method": "Full text read from current checkout with exec_command; no output truncation in completed reads. Hash verifies unchanged bytes only."
+    },
+    {
+      "path": "handoff.md",
+      "lines": 19,
+      "read_ranges": [
+        [
+          1,
+          19
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "61a8a11a88762b315077e451bc7506b02a2db563",
+      "sha256": "be465fa4da626c7c54ec576a854fbf45f9ab6d185225588c250a92fce2fd106f",
+      "completed_at_utc": "2026-10-12T12:16:44.459747+00:00",
+      "method": "Full text read from current checkout with exec_command; no output truncation in completed reads. Hash verifies unchanged bytes only."
+    },
+    {
+      "path": "research/2026-10-03-dot/proactive-task-tracking.md",
+      "lines": 98,
+      "read_ranges": [
+        [
+          1,
+          98
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "ae4331d3fc64e3122d0f1c82b07d6cafc14911e1",
+      "sha256": "1d8d91493aadc3a6792110d3315740bf0fa8507c7730c253e6fdb8443fee1544",
+      "completed_at_utc": "2026-10-12T12:16:44.459953+00:00",
+      "method": "Full text read from current checkout with exec_command; no output truncation in completed reads. Hash verifies unchanged bytes only."
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md",
+      "lines": 40,
+      "read_ranges": [
+        [
+          1,
+          40
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "9b591e441c423ad23ac308c87119a0e316aae83a",
+      "sha256": "65ac0249c4bcc8ecaeca2938f7bcf618cdb0da982540eecaa31cd6d0be3d05d5",
+      "completed_at_utc": "2026-10-12T12:16:44.460011+00:00",
+      "method": "Full text read from current checkout with exec_command; no output truncation in completed reads. Hash verifies unchanged bytes only."
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/hologram-fan-maturity.md",
+      "lines": 37,
+      "read_ranges": [
+        [
+          1,
+          37
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "746b889841d120ca9124cc764d4e46289028c7bf",
+      "sha256": "d99e057177f3e158f17206a7ee7cdb9acf3218e695968b7879c852d8785582a7",
+      "completed_at_utc": "2026-10-12T12:16:44.460138+00:00",
+      "method": "Full text read from current checkout with exec_command; no output truncation in completed reads. Hash verifies unchanged bytes only."
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/razer-ava-like-feasibility.md",
+      "lines": 36,
+      "read_ranges": [
+        [
+          1,
+          36
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "53e8427a67b712d86e47d30c72633b67b7df9808",
+      "sha256": "7f71972d4cf787126ad28178bbf2d142baf473ed9a40584e4991a0a8707d0270",
+      "completed_at_utc": "2026-10-12T12:16:44.460234+00:00",
+      "method": "Full text read from current checkout with exec_command; no output truncation in completed reads. Hash verifies unchanged bytes only."
+    },
+    {
+      "path": "design/desk-companion/b1/design-spec.md",
+      "lines": 42,
+      "read_ranges": [
+        [
+          1,
+          42
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "5ffb8ed72cf1e93208d80d111851a379e45eada6",
+      "sha256": "70043e454f8733add4127c0732a93474c753d5a6a33db42d8929d97d2c1f5955",
+      "completed_at_utc": "2026-10-12T12:16:44.460278+00:00",
+      "method": "Full text read from current checkout with exec_command; no output truncation in completed reads. Hash verifies unchanged bytes only."
+    },
+    {
+      "path": "design/desk-companion/device-ambient-v1/README.md",
+      "lines": 11,
+      "read_ranges": [
+        [
+          1,
+          11
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "5c424d939fcde9ce3ac1ed0de7e22e77bc70f46b",
+      "sha256": "c764775dc71e184024b310429fcad8a2955f38052e4829f6acb62fd4bf207443",
+      "completed_at_utc": "2026-10-12T12:16:44.460300+00:00",
+      "method": "Full text read from current checkout with exec_command; no output truncation in completed reads. Hash verifies unchanged bytes only."
+    },
+    {
+      "path": "research/2026-10-05-rig-arm/secondary-development-review.md",
+      "lines": 155,
+      "read_ranges": [
+        [
+          1,
+          155
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "e7a438cbbf89dd51ffbb4113a44016af73b9707b",
+      "sha256": "0706c37da7d5bf129951fbe1f6e5d38fba8f8b04fff6fb6dd3ab24268a40d0bd",
+      "completed_at_utc": "2026-10-12T12:16:44.460485+00:00",
+      "method": "Full text read from current checkout with exec_command; no output truncation in completed reads. Hash verifies unchanged bytes only."
+    }
+  ]
+}

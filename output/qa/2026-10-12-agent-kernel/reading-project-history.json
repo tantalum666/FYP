@@ -1,0 +1,758 @@
+{
+  "schema_version": 1,
+  "task": "Personal-agent architecture and implementation prerequisite: root history reading",
+  "worker": "read_fyp_project_history",
+  "source_repository": "https://github.com/tantalum666/FYP",
+  "source_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "source_manifest": "/workspace/shared/fyp-agent-20261012-manifest.json",
+  "scope": "Complete assigned root history and historical root Markdown, all planning/2026-09-14 and planning/2026-09-15 Markdown including archive, plus 14 actually read overlapping inputs/non-QA output files; not a whole-repository reading claim",
+  "read_started_utc": "2026-10-12T12:10:26Z",
+  "updated_utc": "2026-10-12T12:19:30Z",
+  "completed_utc": "2026-10-12T12:19:30Z",
+  "status": "complete_for_assigned_scope",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "line_count": 50,
+      "read_ranges_inclusive": [
+        [
+          1,
+          50
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "6ffb0a17aaed8e95caee66257ea722747512c8be",
+      "local_blob_sha1_after_read": "6ffb0a17aaed8e95caee66257ea722747512c8be",
+      "sha256_after_read": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "truncation": "none"
+    },
+    {
+      "path": "work-log.md",
+      "line_count": 991,
+      "read_ranges_inclusive": [
+        [
+          1,
+          140
+        ],
+        [
+          141,
+          300
+        ],
+        [
+          301,
+          470
+        ],
+        [
+          471,
+          640
+        ],
+        [
+          641,
+          800
+        ],
+        [
+          801,
+          991
+        ],
+        [
+          888,
+          920
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "00fa869672404518e58a1b8861f3349996c47f3b",
+      "local_blob_sha1_after_read": "00fa869672404518e58a1b8861f3349996c47f3b",
+      "sha256_after_read": "1070a9fb96bafe4483c224db547a9742c23ab227393a01566701f5bb1e6a6390",
+      "truncation": "work-log.md 801-991 response had a short internal truncation in C1 section; 888-920 reread fully, repairing the missing text"
+    },
+    {
+      "path": "decision-log.md",
+      "line_count": 808,
+      "read_ranges_inclusive": [
+        [
+          1,
+          170
+        ],
+        [
+          171,
+          330
+        ],
+        [
+          331,
+          495
+        ],
+        [
+          496,
+          670
+        ],
+        [
+          671,
+          808
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "dbde08101b0ab7f4074052cabdfa393a911f9507",
+      "local_blob_sha1_after_read": "dbde08101b0ab7f4074052cabdfa393a911f9507",
+      "sha256_after_read": "20626a1e36f36e8c235641d60e63fe5e355e89bfc1798baf2cea9d47c4d24ae2",
+      "truncation": "none"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "line_count": 94,
+      "read_ranges_inclusive": [
+        [
+          1,
+          94
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "bb6e8b351c72d6990bdcfdbcb415a7a66edb191d",
+      "local_blob_sha1_after_read": "bb6e8b351c72d6990bdcfdbcb415a7a66edb191d",
+      "sha256_after_read": "a33c789be48ebff1d5eb0f0e9ee458c4a337adb748ba22b93a93197db431a194",
+      "truncation": "none"
+    },
+    {
+      "path": "brand.md",
+      "line_count": 60,
+      "read_ranges_inclusive": [
+        [
+          1,
+          60
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "0a6f7b26ced4c729c6f2b61e10aa6b8b3f57323a",
+      "local_blob_sha1_after_read": "0a6f7b26ced4c729c6f2b61e10aa6b8b3f57323a",
+      "sha256_after_read": "199abbe90c1e8956671438a3fef3fd2b98008a558f3615a8a563a974c2f7f5bd",
+      "truncation": "none"
+    },
+    {
+      "path": "Senplate_Logo_ImageGen_Brief.md",
+      "line_count": 53,
+      "read_ranges_inclusive": [
+        [
+          1,
+          53
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "63bd2f62b4ecbbde77aec818977c4500d1ec396d",
+      "local_blob_sha1_after_read": "63bd2f62b4ecbbde77aec818977c4500d1ec396d",
+      "sha256_after_read": "9e43354d89cbf331ed68fde35a658e697b28a2374a6c4b6ddf0864af7ddfb067",
+      "truncation": "none"
+    },
+    {
+      "path": "README.md",
+      "line_count": 238,
+      "read_ranges_inclusive": [
+        [
+          1,
+          120
+        ],
+        [
+          121,
+          238
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "164e0d0ece96744c6450ffcc6e5c5794ccea9278",
+      "local_blob_sha1_after_read": "164e0d0ece96744c6450ffcc6e5c5794ccea9278",
+      "sha256_after_read": "f6f2730943d4d47a590916d9f876d371123b7b4a45070a62c4b27fb97c0da6b2",
+      "truncation": "none"
+    },
+    {
+      "path": "product-senplate-historical.md",
+      "line_count": 168,
+      "read_ranges_inclusive": [
+        [
+          1,
+          150
+        ],
+        [
+          151,
+          168
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "d696bb8425b9cf9c9e2197c4a2e5df9a95ef16c9",
+      "local_blob_sha1_after_read": "d696bb8425b9cf9c9e2197c4a2e5df9a95ef16c9",
+      "sha256_after_read": "d0bd732aec1e59850e18874bfc9bd6d01919f9e36cd630820a86617120db5e01",
+      "truncation": "none"
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "line_count": 160,
+      "read_ranges_inclusive": [
+        [
+          1,
+          160
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "5acf3daef8e0e9c4affc56c54f5e3e061e2907a9",
+      "local_blob_sha1_after_read": "5acf3daef8e0e9c4affc56c54f5e3e061e2907a9",
+      "sha256_after_read": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5",
+      "truncation": "none"
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "line_count": 80,
+      "read_ranges_inclusive": [
+        [
+          1,
+          80
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "65e8dd7dc0b457bc156214f2bfaea4af847dc714",
+      "local_blob_sha1_after_read": "65e8dd7dc0b457bc156214f2bfaea4af847dc714",
+      "sha256_after_read": "cde0e64aba2575158f5d4fb228dfc25a8a2682d3cb7bb4c40b0fe6c0bc1dd0b3",
+      "truncation": "none"
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "line_count": 110,
+      "read_ranges_inclusive": [
+        [
+          1,
+          110
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "c29a5088a74705a5ef2d459199c9a6b8c1a7a504",
+      "local_blob_sha1_after_read": "c29a5088a74705a5ef2d459199c9a6b8c1a7a504",
+      "sha256_after_read": "1d12922c9f627cd8f4bd6ec7b664e16cd1cb297a27b8346d9a15c4b9b593b572",
+      "truncation": "none"
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "line_count": 122,
+      "read_ranges_inclusive": [
+        [
+          1,
+          60
+        ],
+        [
+          61,
+          122
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "07d251ec594801b322cb9c8d7f1dc834574773e7",
+      "local_blob_sha1_after_read": "07d251ec594801b322cb9c8d7f1dc834574773e7",
+      "sha256_after_read": "cdbec3bd86e562d2cb1a4c7aa4e77fe1d5c792d0ead9509debd166a5da7cfe00",
+      "truncation": "none"
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "line_count": 174,
+      "read_ranges_inclusive": [
+        [
+          1,
+          90
+        ],
+        [
+          91,
+          174
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "3fff4c471723d6187e0d7ee2a9fabc718ea7e64b",
+      "local_blob_sha1_after_read": "3fff4c471723d6187e0d7ee2a9fabc718ea7e64b",
+      "sha256_after_read": "f9b1f4e6b9004abd100aacb349966edeab9bba59b9e842f9058887d2f7d44c1d",
+      "truncation": "none"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "line_count": 22,
+      "read_ranges_inclusive": [
+        [
+          1,
+          22
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "fa2920af193fe5ac3bd0f26a35e48d39ad1b15b9",
+      "local_blob_sha1_after_read": "fa2920af193fe5ac3bd0f26a35e48d39ad1b15b9",
+      "sha256_after_read": "6cd023be13d858a5f1258c0b0375bc50c3c981c4b953649792158edb34fdd992",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:17:49Z"
+    },
+    {
+      "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "line_count": 39,
+      "read_ranges_inclusive": [
+        [
+          1,
+          39
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "fdbce751e106d811bc2500dda09e27863b7829b7",
+      "local_blob_sha1_after_read": "fdbce751e106d811bc2500dda09e27863b7829b7",
+      "sha256_after_read": "4bc962711143b8b982d7adba8e96f747f00cf2bc699d3d94835c08af8cb0d65b",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:17:49Z"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+      "line_count": 53,
+      "read_ranges_inclusive": [
+        [
+          1,
+          53
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "ba585b258ef6f24ac9ab27fe0a89d18de7a7f12d",
+      "local_blob_sha1_after_read": "ba585b258ef6f24ac9ab27fe0a89d18de7a7f12d",
+      "sha256_after_read": "9bc25bc85baaf4badca2a18e853ffbf18c818b53bde69798a1e0c813cbfd3538",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:17:49Z"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+      "line_count": 70,
+      "read_ranges_inclusive": [
+        [
+          1,
+          70
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "bc3fc357d7dce5332b9f1c86ac0a75c5477be9de",
+      "local_blob_sha1_after_read": "bc3fc357d7dce5332b9f1c86ac0a75c5477be9de",
+      "sha256_after_read": "ab69a75f60b9ac081617970c9dea0ad48e4af73e27f006085e77052835054965",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:17:49Z"
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "line_count": 247,
+      "read_ranges_inclusive": [
+        [
+          1,
+          130
+        ],
+        [
+          131,
+          247
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "8f48048270452b7cce1404994eb981129a03d1bb",
+      "local_blob_sha1_after_read": "8f48048270452b7cce1404994eb981129a03d1bb",
+      "sha256_after_read": "1434e55732e1ccb5a514e9204c4923f704221a8be0dc5d13f32f419c671c9c13",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:17:49Z"
+    },
+    {
+      "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "line_count": 107,
+      "read_ranges_inclusive": [
+        [
+          1,
+          60
+        ],
+        [
+          61,
+          107
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "f599745f750e5a43d7074138adb38a9e0c7e1524",
+      "local_blob_sha1_after_read": "f599745f750e5a43d7074138adb38a9e0c7e1524",
+      "sha256_after_read": "b22dfd416dca3223ef15ae88aaaff8989887e38d6a882e7b1ddb19c785ab3618",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:17:49Z"
+    },
+    {
+      "path": "planning/2026-09-15/power-supply-detail.md",
+      "line_count": 143,
+      "read_ranges_inclusive": [
+        [
+          1,
+          75
+        ],
+        [
+          76,
+          143
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "70c093e8ff8852560081cc6828d49f23b76567fd",
+      "local_blob_sha1_after_read": "70c093e8ff8852560081cc6828d49f23b76567fd",
+      "sha256_after_read": "5cf4999a5cfbbb1f0f7b3ae92707c5c2e774bb630c4b959b6243c9bdeda012e9",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:17:49Z"
+    },
+    {
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "line_count": 185,
+      "read_ranges_inclusive": [
+        [
+          1,
+          95
+        ],
+        [
+          96,
+          185
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "b31649fadbda14aaf74606e6cb572da957cd9079",
+      "local_blob_sha1_after_read": "b31649fadbda14aaf74606e6cb572da957cd9079",
+      "sha256_after_read": "602ca9919ace2925de6b6fac6662c3ab812f50c399c204983eddf7c773e1a361",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:17:49Z"
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "line_count": 214,
+      "read_ranges_inclusive": [
+        [
+          1,
+          100
+        ],
+        [
+          101,
+          160
+        ],
+        [
+          161,
+          214
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "fccc9b12bddf6830bfc0594a41b1eb5b1661f117",
+      "local_blob_sha1_after_read": "fccc9b12bddf6830bfc0594a41b1eb5b1661f117",
+      "sha256_after_read": "4aa617b780132046f43099bf241e6b29af2983f3e668db0f7e132ba3ccf0072d",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:17:49Z"
+    },
+    {
+      "path": "inputs/README.md",
+      "line_count": 11,
+      "read_ranges_inclusive": [
+        [
+          1,
+          11
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "89bc83fe7324873756e61180b8bf7122f82e6ef5",
+      "local_blob_sha1_after_read": "89bc83fe7324873756e61180b8bf7122f82e6ef5",
+      "sha256_after_read": "d1523be1c2c16d52adad5ef13ef1aec191f832b68678d982e6e193967acaf5b6",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:19:13Z",
+      "coverage_note": "Read during crossed allocation messages before workspace worker reported that all 18 inputs/non-QA output files were already fully read; included as actual overlapping reading, not needed twice for union coverage."
+    },
+    {
+      "path": "inputs/teammate/形态 A：智能音箱智能屏幕终端（如 小爱触屏音箱、小度在家、FotoCube 等）.md",
+      "line_count": 22,
+      "read_ranges_inclusive": [
+        [
+          1,
+          22
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "dc0f249ec8c520641de81dd64b3b4009e014d7cf",
+      "local_blob_sha1_after_read": "dc0f249ec8c520641de81dd64b3b4009e014d7cf",
+      "sha256_after_read": "d98a6f290f3dd7ec2a0f0c77f33c2e23a1d5bd1711d7e87ab71498b4bcaddecb",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:19:13Z",
+      "coverage_note": "Read during crossed allocation messages before workspace worker reported that all 18 inputs/non-QA output files were already fully read; included as actual overlapping reading, not needed twice for union coverage."
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-selected-a/README.md",
+      "line_count": 28,
+      "read_ranges_inclusive": [
+        [
+          1,
+          28
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "ba876fe7b68f31b8a0df500b596e9f1470fae19b",
+      "local_blob_sha1_after_read": "ba876fe7b68f31b8a0df500b596e9f1470fae19b",
+      "sha256_after_read": "6d9fc152b1037cfcfa68ad2248a0b31dc83c2271e9e2ba28c06e70b0e6292056",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:19:13Z",
+      "coverage_note": "Read during crossed allocation messages before workspace worker reported that all 18 inputs/non-QA output files were already fully read; included as actual overlapping reading, not needed twice for union coverage."
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-refined-a-v2/README.md",
+      "line_count": 25,
+      "read_ranges_inclusive": [
+        [
+          1,
+          25
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "7cb66981f618757593810d98a3da2667b325bde1",
+      "local_blob_sha1_after_read": "7cb66981f618757593810d98a3da2667b325bde1",
+      "sha256_after_read": "ba04ccfaa2ac51995bcc444c700d30a62ccbd1bd766248f814be27113f0fae31",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:19:13Z",
+      "coverage_note": "Read during crossed allocation messages before workspace worker reported that all 18 inputs/non-QA output files were already fully read; included as actual overlapping reading, not needed twice for union coverage."
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-golden-a-v3/README.md",
+      "line_count": 36,
+      "read_ranges_inclusive": [
+        [
+          1,
+          36
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "2ae8dcaddf1cdd476cb09d1f714a170a481125e9",
+      "local_blob_sha1_after_read": "2ae8dcaddf1cdd476cb09d1f714a170a481125e9",
+      "sha256_after_read": "8142045ff4c484b59137d15509fcb30483aaa55850872c00818f8355684db23e",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:19:13Z",
+      "coverage_note": "Read during crossed allocation messages before workspace worker reported that all 18 inputs/non-QA output files were already fully read; included as actual overlapping reading, not needed twice for union coverage."
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-ellipse-a-v4/README.md",
+      "line_count": 29,
+      "read_ranges_inclusive": [
+        [
+          1,
+          29
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "96f9a7fbd370f2d01bc77ef74879b1a02c1e8677",
+      "local_blob_sha1_after_read": "96f9a7fbd370f2d01bc77ef74879b1a02c1e8677",
+      "sha256_after_read": "5093948b2362e73a50c7a3f444daa5365c9f099f1f0f65396253cc9662fac189",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:19:13Z",
+      "coverage_note": "Read during crossed allocation messages before workspace worker reported that all 18 inputs/non-QA output files were already fully read; included as actual overlapping reading, not needed twice for union coverage."
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-bowl-redesign-v5/README.md",
+      "line_count": 15,
+      "read_ranges_inclusive": [
+        [
+          1,
+          15
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "7937d73cc58247fde7d44130802491e56693edb6",
+      "local_blob_sha1_after_read": "7937d73cc58247fde7d44130802491e56693edb6",
+      "sha256_after_read": "8d5ad052f1a1d9c91cb7641bb0dcde56e9d090c6f1adb33c07d658498aba546a",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:19:13Z",
+      "coverage_note": "Read during crossed allocation messages before workspace worker reported that all 18 inputs/non-QA output files were already fully read; included as actual overlapping reading, not needed twice for union coverage."
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-bowl-golden-v6/README.md",
+      "line_count": 25,
+      "read_ranges_inclusive": [
+        [
+          1,
+          25
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "558962f09a553fa4c04aa84ae7f4edcd8cd5dc11",
+      "local_blob_sha1_after_read": "558962f09a553fa4c04aa84ae7f4edcd8cd5dc11",
+      "sha256_after_read": "a0b789b00a79ba12f6674107801c400587262982c67f368506b7334eb57801a4",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:19:13Z",
+      "coverage_note": "Read during crossed allocation messages before workspace worker reported that all 18 inputs/non-QA output files were already fully read; included as actual overlapping reading, not needed twice for union coverage."
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-v6-tick-study/README.md",
+      "line_count": 14,
+      "read_ranges_inclusive": [
+        [
+          1,
+          14
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "9be4644737ab844cea8de3d8bb02ffd5edd13890",
+      "local_blob_sha1_after_read": "9be4644737ab844cea8de3d8bb02ffd5edd13890",
+      "sha256_after_read": "6581199fb4ef6f12745f1365267def60a270186c2e5beb2b774291eaa52ef5b3",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:19:13Z",
+      "coverage_note": "Read during crossed allocation messages before workspace worker reported that all 18 inputs/non-QA output files were already fully read; included as actual overlapping reading, not needed twice for union coverage."
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-rim-tick-study/README.md",
+      "line_count": 15,
+      "read_ranges_inclusive": [
+        [
+          1,
+          15
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "4e0ee48945faaa3f7acd93a1d44a85e91c9874af",
+      "local_blob_sha1_after_read": "4e0ee48945faaa3f7acd93a1d44a85e91c9874af",
+      "sha256_after_read": "cb59360e23759961e887549c379662aadca07376d35886a7e80fa9ae77fd2c47",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:19:13Z",
+      "coverage_note": "Read during crossed allocation messages before workspace worker reported that all 18 inputs/non-QA output files were already fully read; included as actual overlapping reading, not needed twice for union coverage."
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-visible-ticks/README.md",
+      "line_count": 12,
+      "read_ranges_inclusive": [
+        [
+          1,
+          12
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "99245e4dfe9ffe1989634b868c2f3c1cbf01fa8a",
+      "local_blob_sha1_after_read": "99245e4dfe9ffe1989634b868c2f3c1cbf01fa8a",
+      "sha256_after_read": "c51ef245711743d2d27d4dc37e7f6370a964e9bfceb2d630750a72d1af7d746d",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:19:13Z",
+      "coverage_note": "Read during crossed allocation messages before workspace worker reported that all 18 inputs/non-QA output files were already fully read; included as actual overlapping reading, not needed twice for union coverage."
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-curved-ticks/README.md",
+      "line_count": 9,
+      "read_ranges_inclusive": [
+        [
+          1,
+          9
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "78846c65420c19e80ae6e30193bfdbda7ff5da2f",
+      "local_blob_sha1_after_read": "78846c65420c19e80ae6e30193bfdbda7ff5da2f",
+      "sha256_after_read": "9661335bcfc1e3231af2308a8faa0361e92769c220deb4827f4c29adc3328177",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:19:13Z",
+      "coverage_note": "Read during crossed allocation messages before workspace worker reported that all 18 inputs/non-QA output files were already fully read; included as actual overlapping reading, not needed twice for union coverage."
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-inner-scale/README.md",
+      "line_count": 9,
+      "read_ranges_inclusive": [
+        [
+          1,
+          9
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "23b65447d022700d8458113706fd8bf0907b3cdb",
+      "local_blob_sha1_after_read": "23b65447d022700d8458113706fd8bf0907b3cdb",
+      "sha256_after_read": "671375399fc83c99af7309dc8aa78b836275ae87a65e0bd7ce00e7d201551ef2",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:19:13Z",
+      "coverage_note": "Read during crossed allocation messages before workspace worker reported that all 18 inputs/non-QA output files were already fully read; included as actual overlapping reading, not needed twice for union coverage."
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-plain-bowl-v7/README.md",
+      "line_count": 13,
+      "read_ranges_inclusive": [
+        [
+          1,
+          13
+        ]
+      ],
+      "eof_read": true,
+      "source_blob_sha1": "1fdf4389efb212881d656562e719003abbac1fc5",
+      "local_blob_sha1_after_read": "1fdf4389efb212881d656562e719003abbac1fc5",
+      "sha256_after_read": "743fb9a7d309f7386b8df6c228163c65af903d0838f80b88af174ed699b53041",
+      "truncation": "none",
+      "read_completed_utc": "2026-10-12T12:19:13Z",
+      "coverage_note": "Read during crossed allocation messages before workspace worker reported that all 18 inputs/non-QA output files were already fully read; included as actual overlapping reading, not needed twice for union coverage."
+    }
+  ],
+  "pending_files": [],
+  "other_root_files_assigned_to_other_reader": [
+    "product.md",
+    "handoff.md"
+  ],
+  "exclusions": [
+    {
+      "scope": ".git, dependencies, caches, third-party packages, build artifacts",
+      "reason": "Permitted by repository AGENTS; not assigned root project-owned Markdown"
+    },
+    {
+      "scope": "output/qa automatically generated evidence snapshots",
+      "reason": "Permitted by repository AGENTS; none used as a substitute for reading historical project-owned Markdown"
+    }
+  ],
+  "verification": "Every completed local file matches its source Git blob SHA from the pinned manifest after reading. Hashes check source identity and are not represented as reading proof.",
+  "unique_file_count": 36,
+  "unique_line_count": 4451,
+  "additional_scope_note": "planning/2026-09-10 contains no project Markdown in pinned tree; research/2026-09-10-metafoodx-controliza belongs to another worker and was not read here.",
+  "actionable_current_constraints": [
+    {
+      "finding": "Confirmed current product is a personal agent with bounded real computer/software execution; durable tasks and identity remain; fixed-camera posture calibration, sustained judgment, feedback and reassessment are mandatory. Retired Senplate requirements do not override current contract.",
+      "source": "decision-log.md:650-666; README.md:7-9"
+    },
+    {
+      "finding": "Current implementation is a modular monolith with durable JobService and ComputerExecutor; app-owned notes are the sole real execution adapter and do not establish general desktop control. Tasks and jobs remain separate.",
+      "source": "decision-log.md:660-666"
+    },
+    {
+      "finding": "Long tools should return job_id without blocking voice; approvals bind intention/version, unknown writes are reconciled read-only before retry, models cannot self-approve, physical stopping stays independent.",
+      "source": "decision-log.md:650-666; work-log.md:740-773"
+    },
+    {
+      "finding": "Latest A1 baseline is one complete open-eye 2D PNG with restrained whole-image rigid responses. Segmented SVG joints, depth deformation and attempted A1 3D adaptation were explicitly rejected; their runtime assets were removed. Preserve original art and licensed older VRM.",
+      "source": "decision-log.md:802-808; work-log.md:979-991"
+    },
+    {
+      "finding": "English is the default with Simplified Chinese available; always-on DeviceApp must retain its own layout separate from phone and desktop management.",
+      "source": "decision-log.md:388-396,603-609; README.md:9"
+    },
+    {
+      "finding": "Provider preference evolved and remains open. Qwen-first order was an earlier candidate order; later Gemini-first recommendation was research rather than final choice. LCU is an unadopted candidate and not a fully open-source runtime.",
+      "source": "decision-log.md:476-480,571-584,650-658; README.md:27"
+    },
+    {
+      "finding": "Previously fixed voice race: rejecting same call ID with different/invalid args falsely marked original result delivered, skipped disconnect/late-draft cleanup. Delivery must match actual result object, not ID alone. Preserve associated regression coverage.",
+      "source": "decision-log.md:668-675; work-log.md:800-808"
+    },
+    {
+      "finding": "Private repository preserves school originals, historical code/art and source prompts. Do not rewrite raw prompt bytes solely to satisfy whitespace checks; exclude secrets/runtime data and preserve third-party provenance.",
+      "source": "CONTRIBUTING.md:76-94; decision-log.md:786-792"
+    },
+    {
+      "finding": "Historical authorization and validation do not establish permission or success for LCU installation, OS/browser access expansion, paid model calls, real audio/video capture, physical hardware actions, school submission, or merging new PR #4 functionality. Current user authorization must govern any new actions.",
+      "source": "decision-log.md:650-684,794-808; work-log.md:959-991"
+    },
+    {
+      "finding": "Historical trials carefully distinguish synthetic/replay/protocol/simulator checks from real natural voice, posture accuracy, Pi/Linux device performance, iPhone hardware and optics. Do not combine old test counts or report them as rerun.",
+      "source": "README.md:19-29; decision-log.md:786-800"
+    },
+    {
+      "finding": "The Sept14 planning slice is fully historical food-monitoring design, not a basis to reintroduce Senplate hardware, branding, nutritional goals, PostgreSQL or SwiftUI into the current agent. Preserve it for provenance.",
+      "source": "product-senplate-historical.md:1-3; README.md:35-39"
+    },
+    {
+      "finding": "The Sept15 quotation and procurement documents are historical and unsent; no supplier design, purchase or contact is authorized. Exact wiring, parts and budgets do not define current desktop-agent hardware. Supplier assembly, SDK support and nominal ratings never substitute for actual calibration or full-load testing; AI assistance remains distinct from verified student contribution.",
+      "source": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md:1-22; planning/2026-09-15/yahboom-sourcing-and-customization.md:75-107"
+    },
+    {
+      "finding": "Teammate input includes broad claims about all competitors being passive and inferring focus, work quality and health scores. These are source ideas, explicitly not approved requirements or established capabilities; current product/evaluation boundaries take precedence.",
+      "source": "inputs/README.md:6; inputs/teammate/形态 A：智能音箱智能屏幕终端（如 小爱触屏音箱、小度在家、FotoCube 等）.md:12-22"
+    }
+  ],
+  "cross_worker_coverage": {
+    "inputs_and_non_qa_output_total_files": 18,
+    "complete_reader": "prepare_fyp_cloud_workspace",
+    "complete_ledger": "output/qa/2026-10-12-agent-kernel/reading-cloud-preparation.json",
+    "confirmation_received_utc": "2026-10-12T12:19:13Z",
+    "own_overlapping_files": 14,
+    "unread_here": [
+      "output/brand/2026-09-18-senplate-vi-v1/README.md",
+      "output/brand/2026-09-18-senplate-vi-v1/05_Fonts_and_Licences/FONT-LICENCE-AUDIT.md",
+      "output/brand/2026-09-18-senplate-vi-v1/06_Source/Figma_Source.md",
+      "output/brand/2026-09-18-senplate-vi-v1/06_Source/VI_Rules.md"
+    ]
+  }
+}

@@ -1,0 +1,263 @@
+{
+  "reader": "research_dot_agent_architecture",
+  "pinned_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "scope": "Remaining design Markdown and all October 10 avatar art research Markdown, disjoint from dot-reader-ledger.json. No implementation certification.",
+  "exclusions": [],
+  "records": [
+    {
+      "path": "design/desk-companion/characters/2026-10-10-c1-concept/README.md",
+      "lines": 22,
+      "read_ranges": [
+        [
+          1,
+          22
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "7a7eb674823b3f186d87cf8ce460b726691a76f4",
+      "sha256": "dc2f4c1440b6a7e63ff0b3329f6cfc05a7988e2cd83a1d2362dde229f50bf5ce",
+      "completed_at_utc": "2026-10-12T12:18:23.318623+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-10-concepts/README.md",
+      "lines": 32,
+      "read_ranges": [
+        [
+          1,
+          32
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "54026dc4d730da434cd748ca2e9a5a03e3d363bf",
+      "sha256": "78b657491a82475c92e952607de64bbbc8597f459f9765946433d1e5ecf05aea",
+      "completed_at_utc": "2026-10-12T12:18:23.318678+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-10-expression-study/README.md",
+      "lines": 26,
+      "read_ranges": [
+        [
+          1,
+          26
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "04338037214c33548fa5e912f484a67c27bacfd3",
+      "sha256": "cee7ad5e2edd6e48fc375cb8c2de4e45343669141c00bbd8c65f9e37c5e78c09",
+      "completed_at_utc": "2026-10-12T12:18:23.318714+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-3d/README.md",
+      "lines": 9,
+      "read_ranges": [
+        [
+          1,
+          9
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "ad1638360cda23e1faf3ff0ab5c4d79c68dacb58",
+      "sha256": "363e7ee8f9df58d9ce1d15bcb4a3be565af2d34ea3f9330553edc1928a6d13ef",
+      "completed_at_utc": "2026-10-12T12:18:23.318740+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-interface/README.md",
+      "lines": 16,
+      "read_ranges": [
+        [
+          1,
+          16
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "1e5ccb5ea13cb220d177da155f4b99af91a1dc95",
+      "sha256": "ee2c7556f3c24a3961f0c68b3d6accca19797251542ed7dc5c20acbb066e7318",
+      "completed_at_utc": "2026-10-12T12:18:23.318767+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md",
+      "lines": 47,
+      "read_ranges": [
+        [
+          1,
+          47
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "f5f93ddbbd637295c7fa57266deebc4834fe223b",
+      "sha256": "ae47f1b4bf955d3562dabddb08b9f70b2fec3b6db0a62c7e5ffa5f8a66b233c2",
+      "completed_at_utc": "2026-10-12T12:18:23.318803+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-a1-wardrobe-round2/README.md",
+      "lines": 39,
+      "read_ranges": [
+        [
+          1,
+          39
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "bb5a44c6430a738ebd18a805200fd09ee8a3f130",
+      "sha256": "418916c6fcdeff6044bb236d42867db533503001287c97559080e9d5f00a05b6",
+      "completed_at_utc": "2026-10-12T12:18:23.318837+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-12-wardrobe-variants/README.md",
+      "lines": 41,
+      "read_ranges": [
+        [
+          1,
+          41
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "0f165bcff0548c1d0ad637ceb01def361335488b",
+      "sha256": "b447ff84fbf47a34f229d73d57f84141015fc7020952f81c468ec1fea2c63aec",
+      "completed_at_utc": "2026-10-12T12:18:23.318869+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "design/desk-companion/characters/a1-character-brief.md",
+      "lines": 20,
+      "read_ranges": [
+        [
+          1,
+          20
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "0137fa61e9a7395215b9a8cb1dc3eea85fd4c9c7",
+      "sha256": "a74ce4e3c0026be0262d3d5745484da8104fdce3c0def24e4f81d49ad23c5643",
+      "completed_at_utc": "2026-10-12T12:18:23.318893+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "design/desk-companion/characters/a1-expression-rules.md",
+      "lines": 51,
+      "read_ranges": [
+        [
+          1,
+          51
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "8919a7d8a3566be8cdd195d0ce97948bc60af24a",
+      "sha256": "dd9c5b133a439f724ddd43e60579ba12e23735d2d84874760a94f5aa84da48c9",
+      "completed_at_utc": "2026-10-12T12:18:23.318927+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "design/desk-companion/characters/a1-turnaround-spec.md",
+      "lines": 49,
+      "read_ranges": [
+        [
+          1,
+          49
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "e13a74086467bfdc7a58769c9e1492e41a5d7067",
+      "sha256": "ef4e1c55bd6ab3f8f29f8388c1a67fb123ef706422a8b4f2d414be451c71828b",
+      "completed_at_utc": "2026-10-12T12:18:23.318958+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "design/desk-companion/characters/a1-wardrobe-index.md",
+      "lines": 23,
+      "read_ranges": [
+        [
+          1,
+          23
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "7a795cb57c17d0f8c1ff2ebc8297fc09d23dfbc1",
+      "sha256": "0c57b55a0d0652ab1fb2389828768bdcee0f64c69a0e08ba7e80d62ac60cd353",
+      "completed_at_utc": "2026-10-12T12:18:23.318981+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/character-concepts.md",
+      "lines": 9,
+      "read_ranges": [
+        [
+          1,
+          9
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "fbc9ffa069162c1a5e406eeea1b3e85829515979",
+      "sha256": "5fe71231fbb1b61f066778c0f64b13684164c19dc161d3a9edd7b9a4051b8209",
+      "completed_at_utc": "2026-10-12T12:18:23.319005+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/japanese-character-study.md",
+      "lines": 122,
+      "read_ranges": [
+        [
+          1,
+          122
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "97cb5ee64d016a020a26fbf738000ff3b3db32bb",
+      "sha256": "053d467dbf7e7ff555b21938c0722cf720b71627986d3c872fb9a704f375247c",
+      "completed_at_utc": "2026-10-12T12:18:23.319068+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/mainstream-anime-c1-study.md",
+      "lines": 46,
+      "read_ranges": [
+        [
+          1,
+          46
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "f9f4e582baa80d617025f047bf803595071c870c",
+      "sha256": "20a9c2375b44e88d3b3b44d4c08cf9edd0301934baa6be32409c3b9263ef3dad",
+      "completed_at_utc": "2026-10-12T12:18:23.319108+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/popular-character-study.md",
+      "lines": 125,
+      "read_ranges": [
+        [
+          1,
+          125
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "f2210c8c08f7eaa14483c74cc9bf81c6bf11f230",
+      "sha256": "ff0b80c4fb8809bc7d463995a03aeb809dfd083241c2978f84a8063a00f81fd6",
+      "completed_at_utc": "2026-10-12T12:18:23.319179+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    },
+    {
+      "path": "research/2026-10-10-avatar-art/wardrobe-study.md",
+      "lines": 104,
+      "read_ranges": [
+        [
+          1,
+          104
+        ]
+      ],
+      "read_to_eof": true,
+      "blob_sha": "e3b28f469e5d8029896d946b6bcb54be5c3d3bd8",
+      "sha256": "091bebff33696ac69289c6274be1f3586158fd2d3a7edb8f8aea1bce8ebf5b0e",
+      "completed_at_utc": "2026-10-12T12:18:23.319321+00:00",
+      "method": "Full text cat reads to EOF, no truncation; hashes verify unchanged bytes rather than replace reading."
+    }
+  ]
+}

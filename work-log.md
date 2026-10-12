@@ -989,3 +989,11 @@
 位置：[页面规范](desk-companion/docs/page-companion.md)、[原图／实际prompt](design/desk-companion/characters/2026-10-12-a1-interface/README.md)、[3D历史稿](design/desk-companion/characters/2026-10-12-a1-3d/README.md)、[完整QA](output/qa/2026-10-12-a1-page-companion/verification.md)。同步product、两个README、角色简报／表演规则、avatar、清单、handoff和decision-log。
 
 剩余：独立手脚大动作需完整姿势帧；默认衣服、原创3D精制和真实服务／目标机验证仍待。下一步以当前完整2D为基线试用，不继续被否决3D或创建后台任务。
+
+## 2026-10-12 持续个人 Agent：公开研究、基线与实施开始
+
+用户要求尽可能接近Grok Bot／Muse／dot的个人Agent，并授权必要的指定模型Codex协助，优先云端。本轮固定PR #4的50e174f完整树；以新分支隔离工作，原角色／学校／历史与运行数据保持。
+
+已完成186份自有Markdown协作全文阅读、行范围／EOF／blob验证；公开官方文档形成三份详细清洁房报告，见[实施入口](planning/2026-10-12/personal-agent-implementation.md)。云端重新通过149后端测试、28前端测试、Ruff、TypeScript和Vite构建。源码按完整清单hash验证，缺少的历史二进制明确记录，发布以远端基树保留而非删除。当前A1私有PNG尚未在云端取得，因此不能声称完整原画浏览器视觉验收。
+
+正在并行实施提供商边界、记忆／会话、受控应用执行、持续职责及对应UI／CI。此日志仅记录开工进度，不将这些功能写为完成；最终逐批验证和Git回执待追加。尚未创建额外Codex会话，未调用真实付费模型／硬件。

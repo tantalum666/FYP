@@ -806,3 +806,11 @@
 - **实现：**[页面伙伴](desk-companion/docs/page-companion.md)只用一张完整睁眼PNG，整体微小刚性移动／旋转回应，无独立关节或深度变形；滚轮／拖角／1%滑条连续缩放、贴边收起／召回、偏好记忆、弹窗暂避、键盘／暂停／减少动态可用。
 - **保留与边界：**[原图及实际prompt](design/desk-companion/characters/2026-10-12-a1-interface/README.md)保留，闭眼稿仅历史；[3D被否决稿](design/desk-companion/characters/2026-10-12-a1-3d/README.md)标HISTORICAL，其运行GLB及渲染已撤，旧许可VRM／学校／旧美术保持。默认衣服未选。独立挥手／行走需完整姿势帧，尚未制作。
 - **验证：**28项前端测试、类型／构建及最终单图、零关节mask／零canvas、刚性回应、连续缩放、贴边／刷新召回、面板保护和三尺寸通过，见[本轮QA](output/qa/2026-10-12-a1-page-companion/verification.md)。Pi／Linux实机仍待。
+
+## 2026-10-12 持续个人 Agent 新实施轮
+
+- **用户授权：**先全读GitHub现状，深入研究Grok Bot、Muse、dot公开开发文档，自主拆分／架构／实现；优先云端，必要时可用指定6.1 Sol Max新Codex会话；已完成且验证的成果推到GitHub供协作。
+- **工程安排：**以PR #4最新`50e174f`为基线建立独立`codex/personal-agent-kernel-20261012`，保留main／角色PR及A1完整2D。清洁房研究仅用公开资料，不声称获得私有实现或完整消费级产品API。
+- **发现与优先级：**现有持久任务／审批／笔记执行基础可保留；优先补提供商端点校验、可审阅记忆、明确保留的会话、独立测试应用执行与持续职责。详细[实施契约](planning/2026-10-12/personal-agent-implementation.md)区分计划、实际代码与待真实条件验证。
+- **已验证基线：**186份自有Markdown全文阅读与固定blob核对；149后端／28前端、Ruff／类型／构建通过。上述是本轮重新执行，不是新功能已完成。
+- **边界：**未开启付费模型、安装LCU、修改身份／凭据、操作实体硬件、合并或部署。后续新增结果按实际证据追加。

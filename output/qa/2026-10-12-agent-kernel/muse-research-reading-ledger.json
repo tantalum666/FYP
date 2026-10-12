@@ -1,0 +1,413 @@
+{
+  "reader": "research_muse_agent_architecture",
+  "source_head": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "completed_at": "2026-10-12T12:18:44Z",
+  "scope": "All 18 repository research Markdown files dated 2026-09-10 through 2026-09-19, assigned by workspace coordinator. This is one team coverage subset, not whole-repository reading.",
+  "excluded": [],
+  "nested_agents_files": [],
+  "total_files": 18,
+  "total_lines": 1471,
+  "total_bytes": 192356,
+  "files": [
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "line_count": 165,
+      "bytes": 17746,
+      "read_ranges": [
+        [
+          1,
+          165
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53",
+      "git_blob_sha": "a351cf4affa478635318bd0f19e011ac2a81c1d3",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "4e3e81"
+      ],
+      "note": "Full body read through explicit EOF marker."
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "line_count": 38,
+      "bytes": 3372,
+      "read_ranges": [
+        [
+          1,
+          38
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410",
+      "git_blob_sha": "0ab800a2da56d8c10ca427dc22859a304175c06b",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "4e3e81"
+      ],
+      "note": "Full body read through explicit EOF marker."
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "line_count": 44,
+      "bytes": 6438,
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346",
+      "git_blob_sha": "7ea7d81d63da49f6b56bc272d30f57b3c46430a8",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "4e3e81"
+      ],
+      "note": "Full body read through explicit EOF marker."
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "line_count": 47,
+      "bytes": 4698,
+      "read_ranges": [
+        [
+          1,
+          47
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a",
+      "git_blob_sha": "43dc766a978f3019d8c6d54280da8d5b34005bb3",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "4e3e81"
+      ],
+      "note": "Full body read through explicit EOF marker."
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "line_count": 287,
+      "bytes": 33760,
+      "read_ranges": [
+        [
+          1,
+          139
+        ],
+        [
+          140,
+          287
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827",
+      "git_blob_sha": "38f7d40d2e22b2445458e4a22051923836f9b52e",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "08f728",
+        "ffa3bb"
+      ],
+      "note": "First combined read was truncated; explicit range 140–287 reread repaired all missing content. EOF verified."
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "line_count": 171,
+      "bytes": 18989,
+      "read_ranges": [
+        [
+          1,
+          80
+        ],
+        [
+          81,
+          171
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4",
+      "git_blob_sha": "bcfd1fccd87e4619781b8a3c229f008fd6e9317d",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "ffa3bb",
+        "aa3932"
+      ],
+      "note": "Initial combined output was not trusted as full coverage; repaired with explicit ranges 1–80 and 81–171. EOF verified."
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "line_count": 25,
+      "bytes": 3220,
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7",
+      "git_blob_sha": "04020da8ad0e04290256a633ae01ef3db4d87fe6",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "08f728"
+      ],
+      "note": "Entire 25-line file and EOF marker visible after the middle truncation in combined output; no omitted text within this file."
+    },
+    {
+      "path": "research/2026-09-16-competitions/competition-shortlist.md",
+      "line_count": 80,
+      "bytes": 13823,
+      "read_ranges": [
+        [
+          1,
+          80
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "133355c882bbd37335530e8e17c8a2405bc68c707917343701fc88cfda842af2",
+      "git_blob_sha": "68c44d155cff537dc348f79db3b7d2d537aae3f0",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "aa3932"
+      ],
+      "note": "Full body read through explicit EOF marker."
+    },
+    {
+      "path": "research/2026-09-16-competitions/mainland-national-provincial.md",
+      "line_count": 64,
+      "bytes": 12740,
+      "read_ranges": [
+        [
+          1,
+          64
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "1c6a636ecfd74bca91a70225af9a4b1084fdb58abc8f4a601c05dfc32c2fd434",
+      "git_blob_sha": "a059daa31ec1cf84ebd1b224855f68c10f380f86",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "aa3932"
+      ],
+      "note": "Full body read through explicit EOF marker."
+    },
+    {
+      "path": "research/2026-09-16-competitions/no-company-options.md",
+      "line_count": 55,
+      "bytes": 10013,
+      "read_ranges": [
+        [
+          1,
+          55
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "4430f173ed645792cb56c67a941855ee9a2c71f7334125df427af941ece49692",
+      "git_blob_sha": "d07eda8f62dd8594830824155c8eae4f6369bbed",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "aa1c4a"
+      ],
+      "note": "Full body read through explicit EOF marker."
+    },
+    {
+      "path": "research/2026-09-16-competitions/plan-to-july-2027.md",
+      "line_count": 82,
+      "bytes": 15419,
+      "read_ranges": [
+        [
+          1,
+          82
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "deffcd40be67bc641141a2044b964f7f9346527b93f7a8e7b32809e6f4468113",
+      "git_blob_sha": "99bec2bd1224ebfbbee1773463a7c654c267aaae",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "aa1c4a"
+      ],
+      "note": "Full body read through explicit EOF marker."
+    },
+    {
+      "path": "research/2026-09-16-competitions/world-vocational-registration.md",
+      "line_count": 52,
+      "bytes": 7306,
+      "read_ranges": [
+        [
+          1,
+          52
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "1126554e5007d4227dd45ce35c83c58b1929952c23f427b68ac5301c168206b6",
+      "git_blob_sha": "52b9756ece7642c4597783e6f6e2e9c2dcddebbe",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "aa1c4a"
+      ],
+      "note": "Full body read through explicit EOF marker."
+    },
+    {
+      "path": "research/2026-09-16-metafoodx-app/app-review.md",
+      "line_count": 60,
+      "bytes": 7189,
+      "read_ranges": [
+        [
+          1,
+          60
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "bcb9f053a9647675b75d973ddabb8a4af3d1c34d6e5e727d7a8b0448a0311910",
+      "git_blob_sha": "cf15af0f664be6a13758d042f3b4df6777f1985c",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "14aa43"
+      ],
+      "note": "Full body read through explicit EOF marker."
+    },
+    {
+      "path": "research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md",
+      "line_count": 72,
+      "bytes": 8736,
+      "read_ranges": [
+        [
+          1,
+          72
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "d127f396aa563e381d41ad7fe78c14779fa82bbbd5d59502ed4d7e94ccac5928",
+      "git_blob_sha": "13b3d032432a173248e0c33b23b69dc59ccc4d94",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "14aa43"
+      ],
+      "note": "Full body read through explicit EOF marker."
+    },
+    {
+      "path": "research/2026-09-17-logo-similarity/similarity-review.md",
+      "line_count": 82,
+      "bytes": 10453,
+      "read_ranges": [
+        [
+          1,
+          82
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "4986cceb789567389d994d18d9818ab09c93a98c1307d927975a8ea18a25f78c",
+      "git_blob_sha": "fcd043f8877c6a2cefd411b61512e298ecbcc371",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "14aa43"
+      ],
+      "note": "Full body read through explicit EOF marker."
+    },
+    {
+      "path": "research/2026-09-18-font-licences/font-licence-audit.md",
+      "line_count": 28,
+      "bytes": 2285,
+      "read_ranges": [
+        [
+          1,
+          28
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "44f3f6a23cfac8266a573acd5100be24e8b4c58d18edf795b7d7223d04abc8f9",
+      "git_blob_sha": "fce1d01f1b4dc8d0ea14bd560725cf7b9a82f3ca",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "04c51a"
+      ],
+      "note": "Full body read through explicit EOF marker."
+    },
+    {
+      "path": "research/2026-09-18-senplate-trademark/trademark-review.md",
+      "line_count": 83,
+      "bytes": 12486,
+      "read_ranges": [
+        [
+          1,
+          83
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "6d66a3c5f76709072d05bc127a7d620f9333bcc7b45c7672fa0a536562a892d2",
+      "git_blob_sha": "79a6393a666dc6eea3541216cfae83a1b71439c5",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "04c51a"
+      ],
+      "note": "Full body read through explicit EOF marker."
+    },
+    {
+      "path": "research/2026-09-19-nutrition/reference-audit.md",
+      "line_count": 36,
+      "bytes": 3683,
+      "read_ranges": [
+        [
+          1,
+          36
+        ]
+      ],
+      "eof_confirmed": true,
+      "sha256": "455860fb89dfb3d1f23510a463f5fd73a1dfc16d84ba345eda1d3df4283725d6",
+      "git_blob_sha": "15554358207539237f87cc10ee257b91cbc9acd2",
+      "manifest_match": true,
+      "read_output_chunks": [
+        "04c51a"
+      ],
+      "note": "Full body read through explicit EOF marker."
+    }
+  ],
+  "entry_context": [
+    {
+      "path": "AGENTS.md",
+      "line_count": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "eof_confirmed": true,
+      "git_blob_sha": "6ffb0a17aaed8e95caee66257ea722747512c8be",
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "manifest_match": true,
+      "note": "Read in full earlier in this research turn; supporting entry context, separate from assigned research scope."
+    },
+    {
+      "path": "product.md",
+      "line_count": 158,
+      "read_ranges": [
+        [
+          1,
+          158
+        ]
+      ],
+      "eof_confirmed": true,
+      "git_blob_sha": "3515116e6bf1d6ae752fed53ba25dde21509f116",
+      "sha256": "c6a6328e2cfca7d1ed150203d9cf2e2b213d6210a509946daf6cc818553e1cf4",
+      "manifest_match": true,
+      "note": "Read in full earlier in this research turn; supporting entry context, separate from assigned research scope."
+    },
+    {
+      "path": "handoff.md",
+      "line_count": 19,
+      "read_ranges": [
+        [
+          1,
+          19
+        ]
+      ],
+      "eof_confirmed": true,
+      "git_blob_sha": "61a8a11a88762b315077e451bc7506b02a2db563",
+      "sha256": "be465fa4da626c7c54ec576a854fbf45f9ab6d185225588c250a92fce2fd106f",
+      "manifest_match": true,
+      "note": "Read in full earlier in this research turn; supporting entry context, separate from assigned research scope."
+    }
+  ],
+  "method": "Read actual full text, including repaired truncation ranges. Hashes verify pinned-file identity, not a substitute for reading. Historical URLs and factual claims were read as project history, not freshly revalidated web facts."
+}

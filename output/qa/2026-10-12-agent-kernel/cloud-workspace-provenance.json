@@ -1,0 +1,46 @@
+{
+  "source_repository": "tantalum666/FYP",
+  "branch": "codex/full-body-3d-avatar",
+  "pr": 4,
+  "base_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "base_tree": "5a8c782d80d651300ae3a13e21c4fd5af8c241a2",
+  "main_at_pin": "ccfac48ce8c68e6f9c8796911bbe5f35728d7807",
+  "remote_tree_truncated": false,
+  "remote_blob_count": 6521,
+  "remote_bytes": 693792520,
+  "materialized_verified_blob_count": 421,
+  "omitted_blob_count": 6100,
+  "changed_remote_files": [],
+  "workspace": "/workspace/shared/fyp-agent-20261012",
+  "method": "Pinned GitHub connector text/base64 downloads; exact Git blob SHA1 checks; old cache bytes used only after same-hash validation; public unchanged VRM fetched from manifest-pinned official pixiv upstream and checked against both SHA256 and Git blob SHA1. No credentials exported. No user computer access.",
+  "not_a_full_git_clone": true,
+  "publication_safety": "Use GitHub create_tree base_tree=5a8c782d80d651300ae3a13e21c4fd5af8c241a2 and add only intended changed/new blobs; omitted workspace files are not deletion requests. Refresh and compare remote branch before publishing.",
+  "full_manifest": "/workspace/shared/fyp-agent-20261012-manifest.json",
+  "omissions_manifest": "/workspace/shared/fyp-agent-20261012-omissions.json",
+  "verified_manifest": "/workspace/shared/fyp-agent-20261012-verified.json",
+  "active_desk_companion_missing": [
+    {
+      "path": "desk-companion/frontend/public/companion/a1-idle-v1.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "383bf1af9b8e879dfe512840388f09583ddf3bc6",
+      "size": 1327738,
+      "url": "https://api.github.com/repos/tantalum666/FYP/git/blobs/383bf1af9b8e879dfe512840388f09583ddf3bc6"
+    }
+  ],
+  "checks": {
+    "backend_pytest": "149 passed, 1 upstream Starlette/httpx deprecation warning,16.96 seconds",
+    "ruff": "All checks passed: backend scripts tests",
+    "frontend_node_tests": "28 passed after restoring pinned VRM; initial 27 pass/1 ENOENT failure preserved in baseline-frontend-tests.log",
+    "typescript_vite_build": "Passed; existing >500KB chunks warning. Last build rerun with VRM materialized.",
+    "browser_visual_qa": "Not run; private A1 PNG remains missing, browser depiction not complete",
+    "hardware_provider_ios": "Not run; no paid providers, camera, microphone, hardware agents or iOS executor started",
+    "legacy_senplate_tests": "Not run; unrelated legacy root tests require separate runtime/database"
+  },
+  "dependencies": {
+    "python": "CPython3.12.14 with uv0.12.23; uv sync --frozen --offline,35 locked packages from existing authorized cache",
+    "node": "Node24.19.0 npm11.9.0; npm ci --ignore-scripts,160 locked packages; offline attempt lacked zustand so successful official registry installation used existing cache where available",
+    "lockfiles_changed": false
+  },
+  "verified_utc": "2026-10-12T12:20:17.544107+00:00"
+}

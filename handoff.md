@@ -1,19 +1,26 @@
 # Group 2 Current Handoff
 
-更新：2026-10-12后续。当前：**用户最终要求换回完整2D A1并去掉分割感；Web／独立设备页已接入，连续缩放、拖动和贴边收起可用。** 分块SVG、2.5D变形和3D衍生稿均已被否决。
+更新：2026-10-12。当前：**持续个人Agent实施中**。用户最新要求读取现有工作、深入研究Grok Bot／Muse／dot、自主实现并将已验证工作推到GitHub；此任务取代前一轮单纯等待A1视觉反馈的当前下一步。
 
-## 当前实现与证据
+## 基线与保留
 
-- 用户入口：[Web](http://localhost:8832/)／[Linux目标布局](http://localhost:8832/?surface=device)，Mac回环服务PID89265，独立`.runtime/user-preview-20261012`。真实AI／后台AI未启用，未启动音视频／硬件代理；专用笔记仍需逐项本人批准。凭据只在聊天提供。
-- [页面契约](desk-companion/docs/page-companion.md)：单张完整睁眼PNG，轻微整体刚性回应，无关节切块／局部变形／透视；滚轮／拖角／1%滑条连续缩放，三边半身／露头／隐藏与召回、偏好记忆、键盘／暂停／减少动态和弹窗暂避。
-- [最终QA](output/qa/2026-10-12-a1-page-companion/verification.md)：28项前端测试、类型／构建、实际单图／零mask／零canvas、点击／缩放／贴边／刷新召回、面板保护与桌面／窄屏／设备布局。中间尝试另标superseded，Mac布局不等于Pi／Linux实机。
-- [透明原图／实际prompt](design/desk-companion/characters/2026-10-12-a1-interface/README.md)保留，闭眼稿仅历史；[3D失败尝试](design/desk-companion/characters/2026-10-12-a1-3d/README.md)只存历史源工程及证据，新3D运行GLB／深度渲染已移除，原pixiv许可VRM入口保持。
-- [九套服装包](output/character-art/2026-10-12/A1_Wardrobe_9_Outfits_20261012.zip)、[六视角／四细节](design/desk-companion/characters/2026-10-12-a1-turnaround-details/README.md)、学校与原主工作区保持。默认服装未选。沿既有`codex/full-body-3d-avatar`／[PR #4](https://github.com/tantalum666/FYP/pull/4)保存，不自动合并main。
+- PR #4仍为既有角色分支，不自动合并；本轮起点`50e174f50a4130b3c666f836f666f6aa4cde4b32`，main仍为`ccfac48ce8c68e6f9c8796911bbe5f35728d7807`
+- 独立分支`codex/personal-agent-kernel-20261012`；源码在云端开发，Git发布必须叠加完整基树，未下载的二进制不是删除项
+- A1保持单张完整2D、连续缩放／拖动／贴边召回；被否决的分块／2.5D／3D不恢复。学校、全部美术／实际prompt、旧许可VRM和用户Mac已有预览运行数据保留
+- 既有Mac预览localhost:8832是上一轮服务，不是本轮云端实例；没有据此声称Pi／Linux实机已验收
 
-## 剩余事项
+## 已完成并重新验证
 
-当前二维反馈不是独立挥手／点头／行走，大动作需完整姿势帧。长期缺口仍按[17模块清单](planning/2026-10-12/software-function-inventory.md)：真实PC执行、长期记忆／作业归档、真实语音／真人姿态、Pi／iPhone／光学／机械验证。被否决3D稿不算原创模型完成，学校提交状态本轮未核实。
+- 186份自有Markdown全文阅读，固定提交hash与行范围／EOF记录见[本轮QA](output/qa/2026-10-12-agent-kernel/reading-union-status.json)
+- 云端149项后端、28项前端、Ruff、TypeScript、Vite构建通过；[基线审查](output/qa/2026-10-12-agent-kernel/baseline-architecture-audit.md)
+- [三家公开研究与实施入口](planning/2026-10-12/personal-agent-implementation.md)，明确消费级产品和可用开发API的区别，没有取得或使用私有内部实现
+
+## 进行中与未验证
+
+提供商端点规则、可审阅长期记忆、选择保留的连续文字会话、独立测试应用执行器、持久本地职责、英中界面及CI正在实现，尚未在此处宣称完成。后续交付只包含通过测试的批次。
+
+云端尚缺私有大尺寸A1 PNG，视觉验收须补齐或明确缺图影响。真实模型自然度／费用、音频／摄像头、Pi／iPhone／RIG／清洁模块、一般PC／LCU及账号授权仍需真实条件，协议替身与软件测试不能冒充这些成果。
 
 ## 唯一下一步
 
-**用户刷新两个测试入口，以完整2D为基线检查原画完整性、大小及收起行为并反馈具体问题。** 后续大动作先制作和审阅完整姿势帧，不继续当前被否决3D路线。
+按[本轮实施契约](planning/2026-10-12/personal-agent-implementation.md)完成第一批功能与回归，核对真实应用结果，再将验证通过的变更推到独立分支并记录准确提交及剩余项。必要的新Codex会话按用户指定6.1 Sol Max，优先继续云端。
