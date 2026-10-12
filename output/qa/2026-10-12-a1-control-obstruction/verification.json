@@ -1,0 +1,205 @@
+{
+  "recorded_at": "2026-10-12T16:03:47.298593+00:00",
+  "baseline_source_commit": "c57b05288db30ed246dd3aefc354214f92f157e1",
+  "reported_browser_failure": {
+    "source": "parent-relayed isolated Mac acceptance",
+    "finding_id": "F1 P2",
+    "finding": "Web Device privacy checkbox obstructed by A1; keyboard Space succeeds",
+    "viewport": {
+      "width": 1288,
+      "height": 681,
+      "kind": "as-launched desktop"
+    },
+    "mac_evidence_files": [
+      "38-a1-obstructs-private-toggle.jpg",
+      "36-settings-private-controls.txt"
+    ],
+    "evidence_transfer": "Not transferred to cloud; no screenshot pixels or file contents inspected by this worker"
+  },
+  "production_change": "Add page === \"device\" to existing PageCompanion blocked prop in Web App; no other production code changed",
+  "source_red_green": {
+    "test": "Web Device page with no modal must block A1",
+    "before": {
+      "expression": "!!(editor || detail || showReminders || leavePage || workspacePanel)",
+      "actual": false,
+      "expected": true
+    },
+    "after": {
+      "expression": "page === \"device\" ||\n          !!(editor || detail || showReminders || leavePage || workspacePanel)",
+      "actual": true,
+      "expected": true
+    },
+    "baselineFails": true,
+    "correctedPasses": true,
+    "scope": "Source expression only; not browser hit testing"
+  },
+  "checks": [
+    {
+      "command": "node --experimental-strip-types --test tests/companion-*.test.ts",
+      "cwd": "desk-companion/frontend",
+      "exit_code": 0,
+      "passed": 10
+    },
+    {
+      "command": "npx --no-install prettier --check src/App.tsx tests/companion-visibility.test.ts",
+      "cwd": "desk-companion/frontend",
+      "exit_code": 0
+    },
+    {
+      "command": "bash scripts/check_software.sh",
+      "cwd": "desk-companion",
+      "exit_code": 0,
+      "asset_provenance": "passed",
+      "ruff": "passed",
+      "backend_passed": 500,
+      "frontend_passed": 79,
+      "typescript": "passed",
+      "vite_production_build": "passed"
+    }
+  ],
+  "nonfatal_warnings": [
+    "Existing Starlette/httpx deprecation",
+    "npm environment http-proxy config warning",
+    "Existing Vite chunk-size warning"
+  ],
+  "unchanged_files": [
+    {
+      "path": "desk-companion/frontend/src/companion/PageCompanion.tsx",
+      "before_sha256": "45a19c9a818c9fdcb74d9e4266fcce57fca6ad09f5a4bb777ed98ec7aa2dd5f9",
+      "after_sha256": "45a19c9a818c9fdcb74d9e4266fcce57fca6ad09f5a4bb777ed98ec7aa2dd5f9",
+      "unchanged": true
+    },
+    {
+      "path": "desk-companion/frontend/src/companion/companion.css",
+      "before_sha256": "3b80e10d985b9a60f5e27cf2530ef7f0c403fb8ed522402ad6cfa86fdc45c65b",
+      "after_sha256": "3b80e10d985b9a60f5e27cf2530ef7f0c403fb8ed522402ad6cfa86fdc45c65b",
+      "unchanged": true
+    },
+    {
+      "path": "desk-companion/frontend/src/companion/placement.ts",
+      "before_sha256": "20e09c0bf4c0c15aa7446cb5eb3076e51958b69fc685e2c8b281f9564605e135",
+      "after_sha256": "20e09c0bf4c0c15aa7446cb5eb3076e51958b69fc685e2c8b281f9564605e135",
+      "unchanged": true
+    },
+    {
+      "path": "desk-companion/frontend/src/device/DeviceApp.tsx",
+      "before_sha256": "affed985a4cd2ac87e2ccea54020456f4a2f60eaab17177f31007abf3fe5dfd3",
+      "after_sha256": "affed985a4cd2ac87e2ccea54020456f4a2f60eaab17177f31007abf3fe5dfd3",
+      "unchanged": true
+    },
+    {
+      "path": "desk-companion/frontend/public/companion/a1-idle-v1.png",
+      "before_sha256": "a7b428a2437da70880fea628dca23c0ded7a24294595b13437b4ae99fe5a09f9",
+      "after_sha256": "a7b428a2437da70880fea628dca23c0ded7a24294595b13437b4ae99fe5a09f9",
+      "unchanged": true
+    },
+    {
+      "path": "desk-companion/frontend/public/avatars/pixiv-sample.vrm",
+      "before_sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2",
+      "after_sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2",
+      "unchanged": true
+    }
+  ],
+  "reading": {
+    "same_round_full_read_ledger": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+    "full_library_reread": false,
+    "full_related_reads": [
+      {
+        "path": "AGENTS.md",
+        "lines": 50,
+        "read": "1-EOF",
+        "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+      },
+      {
+        "path": "product.md",
+        "lines": 174,
+        "read": "1-EOF",
+        "sha256": "1c96bc328dc6bca1ba4705e47e69159a5b93842d51022eba2ac14b810ef8e476"
+      },
+      {
+        "path": "handoff.md",
+        "lines": 35,
+        "read": "1-EOF",
+        "sha256": "ef6292078e94ab68d8c9c6d43cec3e1cf69fab5e0c312c86cdae45e677b42f58"
+      },
+      {
+        "path": "desk-companion/docs/page-companion.md",
+        "lines": 41,
+        "read": "1-EOF",
+        "sha256": "1d035eb19503fdd8e2003bf37d4a7740c24da57fb02eeac14e7d29233779f5d3"
+      },
+      {
+        "path": "desk-companion/docs/software-checks.md",
+        "lines": 31,
+        "read": "1-EOF",
+        "sha256": "e79340661b0f8c8ee880503bd4cdf0e97243224c86c787f3e20bb4a73beafb67"
+      },
+      {
+        "path": "desk-companion/frontend/src/App.tsx",
+        "lines": 892,
+        "read": "1-EOF",
+        "sha256": "f891e8ab3bd2381b1fed2cf135f866839e37506ad2a9931062d831290c5caec8"
+      },
+      {
+        "path": "desk-companion/frontend/src/companion/PageCompanion.tsx",
+        "lines": 852,
+        "read": "1-EOF",
+        "sha256": "45a19c9a818c9fdcb74d9e4266fcce57fca6ad09f5a4bb777ed98ec7aa2dd5f9"
+      },
+      {
+        "path": "desk-companion/frontend/src/companion/companion.css",
+        "lines": 412,
+        "read": "1-EOF",
+        "sha256": "3b80e10d985b9a60f5e27cf2530ef7f0c403fb8ed522402ad6cfa86fdc45c65b"
+      },
+      {
+        "path": "desk-companion/frontend/src/companion/placement.ts",
+        "lines": 177,
+        "read": "1-EOF",
+        "sha256": "20e09c0bf4c0c15aa7446cb5eb3076e51958b69fc685e2c8b281f9564605e135"
+      },
+      {
+        "path": "desk-companion/frontend/tests/companion-placement.test.ts",
+        "lines": 154,
+        "read": "1-EOF",
+        "sha256": "b92cf0d6a43ca4eeae65b79be6c29e8b94de220e7422235ee2643bcd8d13a38e"
+      },
+      {
+        "path": "desk-companion/frontend/tests/companion-visibility.test.ts",
+        "lines": 111,
+        "read": "1-EOF",
+        "sha256": "169fd992d360d7d0bb19b3836de7ffd1e5187edfc340e31a19ad30fe91260167"
+      }
+    ],
+    "additional_read": "Latest relevant decision-log sections; DeviceView settings and DeviceApp companion call sites"
+  },
+  "browser_recheck": "pending on exact pushed SHA; no cloud pointer/visual recheck claimed",
+  "limitations": [
+    "Source-expression regressions are not DOM interaction tests",
+    "No general collision avoidance on other pages",
+    "No new Linux/Pi, real model or hardware verification"
+  ],
+  "owned_deliverables": [
+    {
+      "path": "desk-companion/frontend/src/App.tsx",
+      "sha256": "f891e8ab3bd2381b1fed2cf135f866839e37506ad2a9931062d831290c5caec8",
+      "bytes": 27465
+    },
+    {
+      "path": "desk-companion/frontend/tests/companion-visibility.test.ts",
+      "sha256": "169fd992d360d7d0bb19b3836de7ffd1e5187edfc340e31a19ad30fe91260167",
+      "bytes": 3944
+    },
+    {
+      "path": "desk-companion/docs/page-companion.md",
+      "sha256": "1d035eb19503fdd8e2003bf37d4a7740c24da57fb02eeac14e7d29233779f5d3",
+      "bytes": 5365
+    },
+    {
+      "path": "output/qa/2026-10-12-a1-control-obstruction/verification.md",
+      "sha256": "0ee14ba0f3da4a01001ea80ad9317e64381cc15f9917954d33e462ae4d2fe3f9",
+      "bytes": 5016
+    }
+  ],
+  "raw_evidence_publication": "excluded; concise checked summary only"
+}

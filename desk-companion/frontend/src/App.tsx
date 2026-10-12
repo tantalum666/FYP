@@ -780,6 +780,7 @@ export function App() {
       <PageCompanion
         t={t}
         blocked={
+          page === "device" ||
           !!(editor || detail || showReminders || leavePage || workspacePanel)
         }
         onOpenAssistant={() => setWorkspacePanel("assistant")}

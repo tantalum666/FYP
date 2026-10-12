@@ -16,7 +16,7 @@ Updated: 12 October 2026 · Group 2. Current user decision: return to the select
 | Right-click / ellipsis | Display modes, scale, pause, position reset and assistant |
 | Double-click / Shift+Enter | Open the existing assistant |
 
-A1 is mounted on authenticated Web pages and independent DeviceApp; login, public share and the old standalone VRM page do not mount this overlay. Review/edit/management panels hide it and stop motion. Arrow keys move it; Shift increases the step. The corner handle accepts arrows. Escape cancels a drag/resize or closes controls. Pointer cancellation and viewport changes revert unfinished operations.
+A1 is mounted on authenticated Web pages and independent DeviceApp; login, public share and the old standalone VRM page do not mount this overlay. Review/edit/management panels and the Web **Device settings page** temporarily hide it and stop motion, so privacy, language, timezone and save controls remain reachable at every saved companion position and scale. Leaving settings restores the saved placement, scale and display mode without rewriting those preferences. The independent DeviceApp clock/display still shows A1 and hides it only while its management panels are open. Arrow keys move it; Shift increases the step. The corner handle accepts arrows. Escape cancels a drag/resize or closes controls. Pointer cancellation and viewport changes revert unfinished operations.
 
 Release depths are measured from the pointer to the nearest usable left/right/bottom edge: beyond 72px free/full; 36–72px half; 12–36px head; at most 12px hidden. Half/head are vertical crops of the original full-height illustration. Hidden mode removes the image and leaves a reachable recall tab. Bottom controls retain a reserved inset.
 
@@ -37,3 +37,5 @@ Refs and requestAnimationFrame handle pointer movement. Pausing, reduced-motion,
 ## Verification and limits
 
 [Task QA](../../output/qa/2026-10-12-a1-page-companion/verification.md) records 28 passing frontend tests, TypeScript/production build and actual final-browser checks. Evidence confirms one intact illustration, no joint masks/3D canvas, open eyes, continuous resizing, edge states, persistence, recall, panel protection, reduced-motion and responsive layouts. Superseded prototypes and their checks are labelled separately. Mac browser checks of DeviceApp do not establish Linux/Pi installation, touch, thermal or continuous-running performance.
+
+Later Agent UI acceptance reported A1 intercepting the Web Device page's privacy checkbox on source `c57b052`. The [control-obstruction correction](../../output/qa/2026-10-12-a1-control-obstruction/verification.md) extends the existing temporary panel avoidance to that settings page. Its code-level regression and software checks are separate from the pending real-browser recheck; the earlier browser evidence does not verify this correction.
