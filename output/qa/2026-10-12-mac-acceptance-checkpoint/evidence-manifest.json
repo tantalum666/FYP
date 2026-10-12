@@ -1,0 +1,66 @@
+{
+  "at": "2026-10-12T17:51:04.942806+00:00",
+  "source_sha": "91e6ed9db5e66283465564ea8f67252fe9772c15",
+  "checkpoint_only": true,
+  "screenshots": [
+    {
+      "path": "qa/batch2/65-a1-final-display.jpg",
+      "bytes": 46687,
+      "sha256": "230c33bd3efd6347d7908016ea24adbed2937fc48193a3ec52c039ea7ca1359b",
+      "width": 1288,
+      "height": 681,
+      "visually_reviewed": true
+    },
+    {
+      "path": "qa/batch2/66-fixed-desktop-checkbox-final.jpg",
+      "bytes": 40362,
+      "sha256": "7a8807d53f50a52e0445382ee3587b4d359d8de67a5a2fd4ed878dff181b1617",
+      "width": 1288,
+      "height": 681,
+      "visually_reviewed": true
+    },
+    {
+      "path": "qa/batch2/67-fixed-narrow-checkbox-final.jpg",
+      "bytes": 26027,
+      "sha256": "70a0b0ab276c2e225c963d245fa6d18c770cae7986493df84f5cdeeaea319aea",
+      "width": 390,
+      "height": 844,
+      "visually_reviewed": true
+    },
+    {
+      "path": "qa/batch2/68-deviceapp-1024-final.jpg",
+      "bytes": 49692,
+      "sha256": "acf6bb68ba514b1972b7f8f36573b893bea3e7014a85918603c2f2f0968ba51f",
+      "width": 1024,
+      "height": 600,
+      "visually_reviewed": true
+    },
+    {
+      "path": "qa/batch2/69-cn-narrow-csv-final.jpg",
+      "bytes": 57299,
+      "sha256": "f711060086652449e0d5096c5544bbe9744fb7f5f0e793abc311da8f06970841",
+      "width": 390,
+      "height": 844,
+      "visually_reviewed": true
+    },
+    {
+      "path": "qa/batch2/70-independent-demo-final.jpg",
+      "bytes": 54026,
+      "sha256": "b38102ad8953eab03d4c49ec7de212136f54d52aab2a137b1396a02aaf579e82",
+      "visually_reviewed": false,
+      "dimensions": "Not asserted in this checkpoint"
+    }
+  ],
+  "no_pending_tool_approval": true,
+  "actual_browser_markdown": {
+    "path": "qa/batch2/downloads/artifact-d1f211ef2cb5439bb1e57fe2a91b1c6a.md",
+    "bytes": 2288,
+    "sha256": "dc0af27d742c5e75eb93cd711f4af9101ef5bccc4cdcdf085c414b7f4810c81c"
+  },
+  "csv_browser_save": "Unverified; neither exact expected file path had a completed file at last check. Chrome history inspection was denied and no alternate route used.",
+  "fixture_controls": {
+    "app-control.json": {},
+    "demo-control.json": {}
+  },
+  "evidence_availability": "Recorded by Mac acceptance executor; binary files remain in isolated Mac QA workspace, not included in this Git publication."
+}

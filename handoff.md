@@ -1,35 +1,40 @@
 # Group 2 Current Handoff
 
-更新：2026-10-12。当前：**第二批c57b052已发布并核对121项blob，文档头0215964的CI也通过；Mac已执行部分真实验收，A1遮挡修复待发布后复验**。用户最新要求读取现有工作、深入研究Grok Bot／Muse／dot、自主实现并将已验证工作推到GitHub；此任务取代前一轮单纯等待A1视觉反馈的当前下一步。
+更新：2026-10-12。当前：**源码91e6ed9已推送、8项候选blob核对与两次CI通过；A1遮挡已完成真实指针复验。整体仍是有明确剩余门槛的验收检查点，不是全面完成或与竞品能力等同。**
 
-## 基线与保留
+## 当前分支与保护
 
-- PR #4仍为既有角色分支，不自动合并；本轮起点`50e174f50a4130b3c666f836f666f6aa4cde4b32`，main仍为`ccfac48ce8c68e6f9c8796911bbe5f35728d7807`
-- 独立分支`codex/personal-agent-kernel-20261012`／[PR #5](https://github.com/tantalum666/FYP/pull/5)，首批提交`546734273c9c8305cf6226e96a8e07854ba5c0b1`；137项发布候选blob逐一读回匹配。叠加完整基树，未下载二进制不是删除项
-- A1保持单张完整2D、连续缩放／拖动／贴边召回；被否决的分块／2.5D／3D不恢复。学校、全部美术／实际prompt、旧许可VRM和用户Mac已有预览运行数据保留
-- 既有Mac预览localhost:8832是上一轮服务，不是本轮云端实例；没有据此声称Pi／Linux实机已验收
+- 工作在`codex/personal-agent-kernel-20261012`／[Draft PR #5](https://github.com/tantalum666/FYP/pull/5)，叠加PR #4；不自动合并或部署
+- 本轮起点`50e174f50a4130b3c666f836f666f6aa4cde4b32`；main基线`ccfac48ce8c68e6f9c8796911bbe5f35728d7807`未由本轮修改
+- A1完整2D原图、全部美术／实际prompt、许可VRM、学校文件及原Mac8832预览保持；不恢复被否决分块／2.5D／3D
+- 继承186份自有Markdown完整阅读记录，仅补读本轮变化；[阅读证据](output/qa/2026-10-12-agent-kernel/reading-union-status.json)
 
-## 已完成并重新验证
+## 已交付和软件验证
 
-- 186份自有Markdown全文阅读，固定提交hash与行范围／EOF记录见[本轮QA](output/qa/2026-10-12-agent-kernel/reading-union-status.json)
-- 起点149后端／28前端通过；首批新增后361后端／50前端、Ruff、TypeScript、Vite构建通过；A1与VRM来源hash核对通过，详见[首批核验](output/qa/2026-10-12-agent-kernel/checkpoint-verification.md)
-- [三家公开研究与实施入口](planning/2026-10-12/personal-agent-implementation.md)，明确消费级产品和可用开发API的区别，没有取得或使用私有内部实现
+- 首批`5467342`：可审阅记忆、选择保留的会话、端点／上下文同意、真实独立测试应用API执行、持续职责及英中入口；361后端／50前端与两次远端CI通过
+- 第二批`c57b052`：来源快照、真实不可变文件、持久目标／有界模型规划、问题／审批／恢复、独立公开浏览器实验；121项候选blob核对，500后端／75前端、Ruff、类型／构建、原资产hash及两次CI通过；[发布证据](output/qa/2026-10-12-durable-agent-runs/publication.json)
+- 最新源码`91e6ed9db5e66283465564ea8f67252fe9772c15`：仅新增Web Device设置页的A1临时暂避条件，保持位置／大小／贴边偏好与独立DeviceApp；500后端／79前端、Ruff、类型／构建、资产检查及两次精确SHA CI通过；[修复证据](output/qa/2026-10-12-a1-control-obstruction/verification.md)
+- 三家公开研究／差距与实施入口见[能力路线](planning/2026-10-12/agent-capability-roadmap.md)。未获取私有实现，固定脚本或测试替身不代表通用自主能力
 
-## 进行中与未验证
+## 实际Mac验收检查点
 
-首批提供商端点规则、可审阅个人记忆、选择保留的文字线程、独立测试应用执行器、持久本地职责、英中界面及CI配置已实现并通过软件检查。独立审查发现的隐私／并发／旧来源问题已修复。远端push／PR两次[CI](https://github.com/tantalum666/FYP/actions/runs/38265191556)已通过，真实浏览器仍在隔离Mac任务验收，不把软件检查当作全链路已验收。用户质疑能力广度后，后续优先级调整为持久多步骤Agent、真实来源／成果文件和现有应用操作，不先堆供应商开关。
+[完整消敏报告](output/qa/2026-10-12-mac-acceptance-checkpoint/report.md)逐项标明准确源SHA；[证据清单](output/qa/2026-10-12-mac-acceptance-checkpoint/evidence-manifest.json)记录Mac报告的文件hash。截图／运行数据保留在隔离Mac工作区，未随此Git文本发布，不伪造可下载附件。
 
-A1原PNG已从必要的Mac验证任务补齐，原字节hash一致。原验收任务两次遇到上游文件下载503；纯文本替代任务现已在隔离工作区按c57b052实际执行，未改已有8832预览。Mac验收报告记忆／会话与职责检查通过，两个独立测试应用记录经真实读回与字节hash核对（含取消恢复）；仍不代表全部界面验收完成。真实模型自然度／费用、音频／摄像头、Pi／iPhone／RIG／清洁模块、一般PC／LCU及账号授权仍需真实条件，协议替身与软件测试不能冒充这些成果。
+- 首批源上：记忆／会话／改名冲突、身份及隐私迟到响应、一次／每日／每周职责与恢复实际通过
+- c57b052：重复批准仅创建一次独立测试应用记录；取消后未知读回再只读核验，两个真实记录分别93／100字节；不称一般跨应用能力
+- 91e6ed9：实际CSV上传、重复开始仅一个保留运行、完整三行来源覆盖、真实成果／预览；Markdown浏览器保存2288字节，SHA256匹配。暂停／继续／调整／取消和草稿守卫通过
+- 问题界面用明确标注的种子状态；实际协调器审阅只保存一个虚构事项。没有真实模型生成／选择验证
+- A1隐私复选框／保存原生点击在1288×681和390×844通过；反复设置进出保持角色状态。DeviceApp1024×600显示／触摸管理／偏好操作通过，仅为Mac浏览器布局，不是Pi实装
+- 当前无等待工具／审批，控制夹具已恢复空配置、保留运行均终止；原8832未改。旧上游下载503与本轮DNS拦截均不是用户取消
 
+## 未通过／未运行与接续责任
 
-第二批云端代码已整合：来源导入／不可变成果、持久目标／逐步模型决策、问题和审阅恢复、只限公开资料的独立浏览器实验、英中工作入口。相关实际契约：[运行](desk-companion/docs/agent-runs.md)、[文件](desk-companion/docs/sources-and-artifacts.md)、[浏览器](desk-companion/docs/browser-workflow.md)。冻结源码已通过500项后端、75项前端、Ruff、TypeScript／Vite及原A1／VRM来源hash检查；186项源码／锁文件hash在检查中保持不变。真实HTTP来源→运行→下载hash闭环通过，独立审查无未解决的已复现代码阻塞；第二批提交c57b05288db30ed246dd3aefc354214f92f157e1的121项候选blob逐一核对一致，两个精确SHA远端CI均通过；见[发布证据](output/qa/2026-10-12-durable-agent-runs/publication.json)。详细[整合记录](output/qa/2026-10-12-durable-agent-runs/parent-integration.md)及[独立审查](output/qa/2026-10-12-durable-agent-runs/independent-batch2-review.md)区分通过项与剩余问题。
-
-当前Mac新发现：A1可能挡住Device设置的隐私复选框；云端沿既有暂避机制增加Device设置页阻挡条件，500后端／79前端、Ruff、类型／构建和资产hash通过，真实指针复验仍待。固定公开浏览器实验在观察前返回BROWSER_PUBLIC_DNS_REQUIRED，没有执行StackEdit动作，Mac只读检查确认docs.python.org和stackedit.io分别解析为非公网198.18.0.144／145；不修改DNS／VPN或放宽公开地址校验。来源上传／运行／下载、问题／审阅、配对和响应式真实验收继续。
-
-当前明确限制：尚无真实付费模型质量／完整浏览器应用验收；浏览器不接入模型工具，只准公开／虚构资料且不是硬网络沙箱；目标／来源无删除界面；隐藏私人内容时运行停止只在API暴露、UI需重新显示后操作；异常进程清理未知不能靠重启清除。一般桌面、外部账号、搜索、并行子代理和硬件仍未完成。
+1. **CSV浏览器保存仍未证实**：生成822字节及预览通过，但两个预期保存位置无完成文件。Chrome下载历史访问被拒绝，未绕路检查历史、重复下载或制造预期文件。下一执行者先区分文件选择／保存状态；不得把服务端hash当成本机保存证据
+2. **FYP自身浏览器流程被环境拦住**：docs.python.org／stackedit.io解析为198.18.0.144／145，在观察前返回BROWSER_PUBLIC_DNS_REQUIRED，没有StackEdit动作。保持公网校验，不在当前条件下重复运行，不改DNS／VPN或绕过限制；需获得合适且获授权的执行条件后再测
+3. **真实模型与配对身份未测**：无已接入模型或既有配对夹具；不得自行创建长期凭据／扩大访问。另需准确的数据传输范围、模型／预算与必要授权，再验语义质量和真实规划
+4. 新批次完整迟到响应／会话／配对中断矩阵尚未实测；首批旧SHA的通过项不能自动覆盖新界面。Codex接续时应在同一隔离夹具补齐可执行项，并把环境／授权门分开记录
+5. 产品缺口：浏览器尚未进入模型工具；一般桌面、外部账号／搜索、并行代理、语音／硬件未完成；来源／目标删除界面和隐藏模式运行停止UI尚缺，未知进程清理不得靠重启抹掉
 
 ## 唯一下一步
 
-按[持久Agent设计](planning/2026-10-12/durable-agent-run-design.md)完成并验收真正的目标→计划／工具→审阅→结果→恢复工作链，同时修复现有Mac验收发现；只有通过检查的批次推到PR #5。必要的新Codex会话按用户指定6.1 Sol Max，优先继续云端。
-
-三家产品能力／差距、LCU边界与真实应用验收路线见[能力总览](planning/2026-10-12/agent-capability-roadmap.md)。真实模型质量、通用桌面及实物仍不得称为完成。
+按[运行契约](desk-companion/docs/agent-runs.md)、[来源文件契约](desk-companion/docs/sources-and-artifacts.md)和[浏览器契约](desk-companion/docs/browser-workflow.md)，由继续实施的Codex／执行者从上述CSV保存与新批次中断矩阵接续验收；需要环境／凭据／配对权限的步骤保留为明确门槛。优先云端源码工作，必要Mac任务继续既有隔离工作区；用户指定新Codex会话6.1 Sol Max。验证过的修复推PR #5，不将检查点称为正式全面验收。

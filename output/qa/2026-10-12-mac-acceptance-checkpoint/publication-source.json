@@ -1,0 +1,40 @@
+{
+  "source_commit": "91e6ed9db5e66283465564ea8f67252fe9772c15",
+  "source_tree": "8ada9a1aeb33776897180e9d629ac27e9dcb0190",
+  "verified_candidate_blobs": {
+    "desk-companion/frontend/src/App.tsx": "7fa0f73f6eab8a5be2af3dc04508f9a23713d52d",
+    "desk-companion/frontend/tests/companion-visibility.test.ts": "a283bf1aa73f89a017c91bad98ee9148ea081b21",
+    "desk-companion/docs/page-companion.md": "6907817fd41ef517b43ed845345abe1486f255cf",
+    "output/qa/2026-10-12-a1-control-obstruction/verification.md": "2b657b1a358e0a0029fb1090d95c302935aa98b2",
+    "output/qa/2026-10-12-a1-control-obstruction/verification.json": "197a2c7a750e8f1951cffb9f78efeacec82fe21a",
+    "handoff.md": "737f38c6255494cf409f75a74ff11a323ccf53a1",
+    "decision-log.md": "cd082ead4d7412624c3f8f327b2045dd23b14faf",
+    "work-log.md": "2d09e274fd203836373c23af674c69d48a1f0774"
+  },
+  "ci": [
+    {
+      "id": 38275004886,
+      "status": "completed",
+      "conclusion": "success",
+      "sha": "91e6ed9db5e66283465564ea8f67252fe9772c15",
+      "url": "https://github.com/tantalum666/FYP/actions/runs/38275004886"
+    },
+    {
+      "id": 38275000250,
+      "status": "completed",
+      "conclusion": "success",
+      "sha": "91e6ed9db5e66283465564ea8f67252fe9772c15",
+      "url": "https://github.com/tantalum666/FYP/actions/runs/38275000250"
+    }
+  ],
+  "actual_browser_report": "report.md",
+  "evidence_manifest": "evidence-manifest.json",
+  "no_merge_or_deployment": true,
+  "remaining_gates": [
+    "CSV actual browser save",
+    "non-global DNS blocks owned browser adapter",
+    "paired identity authorization/fixture",
+    "live model configuration, consent and budget",
+    "broader batch2 interruption matrix"
+  ]
+}
