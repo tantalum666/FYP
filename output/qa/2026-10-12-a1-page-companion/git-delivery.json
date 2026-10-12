@@ -1,0 +1,18 @@
+{
+  "observed_at": "2026-10-12T12:03:01.367143+00:00",
+  "feature_commit": "db61da0b9cacd7ed91b413be94dca7f6d95308f6",
+  "remote_branch": "codex/full-body-3d-avatar",
+  "remote_feature_head_matches": true,
+  "main": "ccfac48ce8c68e6f9c8796911bbe5f35728d7807",
+  "main_unchanged": true,
+  "pull_request": "https://github.com/tantalum666/FYP/pull/4",
+  "pr_state": "open",
+  "merged": false,
+  "pr_body_verified_equal": true,
+  "working_tree_clean_after_feature_commit": true,
+  "current_runtime": "intact whole-image 2D",
+  "tests": 28,
+  "protected_files_unchanged": 108,
+  "original_runtime_files_unchanged": 4,
+  "note": "This evidence observes the feature commit; the following evidence-only commit records it without altering runtime code or assets."
+}
