@@ -1,0 +1,63 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______________ test_ledger_end_failure_cannot_strand_voice_slot _______________
+
+[synthetic runtime fixture representation omitted]
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ff784f36db0>
+
+    def test_ledger_end_failure_cannot_strand_voice_slot(w,monkeypatch):
+        import asyncio
+        import sqlite3
+        import time
+        import sys
+        from pathlib import Path
+        sys.path.insert(0,str(Path(__file__).resolve().parents[3]/'desk-companion'/'tests'))
+        from test_voice_context import Provider, Socket
+        r,p,_,_=w
+        def failure(ref): raise sqlite3.OperationalError('synthetic ledger cleanup DB failure')
+        monkeypatch.setattr(r.voice.work,'end',failure)
+        async def scenario():
+            provider=Provider()
+            socket=Socket()
+            r.voice.connector=lambda *a,**kw:provider
+            r.voice.active,r.voice.started=True,time.monotonic()
+            try:
+                await asyncio.wait_for(r.voice.run(socket,p,'en'),4)
+            except sqlite3.OperationalError:
+                pass
+            assert r.voice.active is False, 'Ledger cleanup failure stranded active voice slot'
+            assert socket.closed is True, 'Ledger cleanup failure skipped socket close'
+>       asyncio.run(scenario())
+
+output/qa/2026-10-13-voice-work-authority-audit/test_independent_authority.py:221: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    async def scenario():
+        provider=Provider()
+        socket=Socket()
+        r.voice.connector=lambda *a,**kw:provider
+        r.voice.active,r.voice.started=True,time.monotonic()
+        try:
+            await asyncio.wait_for(r.voice.run(socket,p,'en'),4)
+        except sqlite3.OperationalError:
+            pass
+>       assert r.voice.active is False, 'Ledger cleanup failure stranded active voice slot'
+E       AssertionError: Ledger cleanup failure stranded active voice slot
+E       assert True is False
+E        +  where True = <desk.voice.VoiceService object at 0x7ff784f36de0>.active
+E        +    where <desk.voice.VoiceService object at 0x7ff784f36de0> = <desk.runtime.Runtime object at 0x7ff786f58ce0>.voice
+
+output/qa/2026-10-13-voice-work-authority-audit/test_independent_authority.py:219: AssertionError
+=========================== short test summary info ============================
+FAILED output/qa/2026-10-13-voice-work-authority-audit/test_independent_authority.py::test_ledger_end_failure_cannot_strand_voice_slot
+1 failed, 16 deselected in 1.01s

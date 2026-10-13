@@ -1,0 +1,23 @@
+{
+  "continuation_of": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "focused_contracts": [
+    "desk-companion/docs/voice-work.md",
+    "planning/2026-10-13/voice-work-continuity-design.md",
+    "desk-companion/docs/architecture.md"
+  ],
+  "parent_owned_source": [
+    "desk-companion/backend/desk/runtime.py"
+  ],
+  "worker_reading_evidence": [
+    "output/qa/2026-10-13-voice-work-backend/focused-reading.json",
+    "output/qa/2026-10-13-voice-work-interface/focused-reading.json"
+  ],
+  "root_docs_updated": [
+    "product.md",
+    "decision-log.md",
+    "handoff.md",
+    "work-log.md",
+    "desk-companion/README.md",
+    "desk-companion/docs/architecture.md"
+  ]
+}

@@ -1,3 +1,4 @@
+import { VoiceOriginLabel } from "../voiceWork/VoiceWorkPanel";
 import { useState } from "react";
 import { useDraftGuard } from "../../components/DraftGuard";
 import type { Translate } from "../../types";
@@ -103,6 +104,7 @@ export function RunDetail({
     <article className="agent-detail">
       <h3>{t("Requested result", "请求的结果")}</h3>
       <p className="agent-text">{run.goal}</p>
+      {run.voice_origin && <VoiceOriginLabel origin={run.voice_origin} t={t} />}
       <p className="agent-state" role="status">
         {stateLabel(run.state, t)} · {modeLabel(run.mode, t)}
       </p>

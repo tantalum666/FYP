@@ -1,6 +1,6 @@
 # Group 2 · Voice-to-Work continuity: next bounded slice
 
-Date: 2026-10-13. Status: design only; no implementation or live acceptance claim. This is a continuation of the existing cloud task and its [186-file intake](../../output/qa/2026-10-12-agent-kernel/reading-union-status.json), with focused reading of current code/contracts. It does not restart repository intake or replace the parent task's final documentation/verification responsibilities.
+Date: 2026-10-13. Status: the described first software slice is implemented and aggregate validation passed (791 backend /169 frontend); live acceptance remains unclaimed. The implementation contract is [voice-work.md](../../desk-companion/docs/voice-work.md). Original proposal details below retain their design context; the current contract and exact QA govern implemented behavior. This is a continuation of the existing cloud task and its [186-file intake](../../output/qa/2026-10-12-agent-kernel/reading-union-status.json), with focused reading of current code/contracts. It does not restart repository intake or replace the parent task's final documentation/verification responsibilities.
 
 ## Recommendation and completion boundary
 

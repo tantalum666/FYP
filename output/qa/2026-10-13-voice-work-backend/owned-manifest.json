@@ -1,0 +1,35 @@
+{
+  "captured_at": "2026-10-13T07:02:33.087701+00:00",
+  "files": [
+    {
+      "path": "desk-companion/backend/desk/voice_work.py",
+      "sha256": "dc1fb0efc4658c1760a12af4aed5ca8fb82e44be744731a48188aefc24bda0f0",
+      "bytes": 12990
+    },
+    {
+      "path": "desk-companion/backend/desk/voice.py",
+      "sha256": "035f54c09805b90441afb5a9e3b2f374c1a1e61c6c1d5f9c76eb4948668ece9d",
+      "bytes": 34768
+    },
+    {
+      "path": "desk-companion/backend/desk/agent_run_schemas.py",
+      "sha256": "ae454b9badb4c139f01074bbd1e6eccc5ef293da6120a470c1ece62faf81ec90",
+      "bytes": 7645
+    },
+    {
+      "path": "desk-companion/backend/desk/agent_runs.py",
+      "sha256": "5e851a8823e2076c4a861bbd60c8149bf540e4a62fe204f6b899d02affa66fb9",
+      "bytes": 70065
+    },
+    {
+      "path": "desk-companion/tests/test_voice_work.py",
+      "sha256": "ceb99ff101f95884bd0631d2d30d9fd59b90f5348c0991d16da8e1151dacf2b8",
+      "bytes": 27718
+    },
+    {
+      "path": "desk-companion/docs/voice-work.md",
+      "sha256": "6df6fe6081da672864af66046dc1d37fd7f945b427f8631dae26110035b315e6",
+      "bytes": 12188
+    }
+  ]
+}

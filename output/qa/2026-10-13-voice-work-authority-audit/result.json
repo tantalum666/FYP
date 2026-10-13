@@ -1,0 +1,13 @@
+{
+  "finished_at_utc": "2026-10-13T07:01:22.391693+00:00",
+  "independent_passed": 20,
+  "maintained_regressions_passed": 126,
+  "source_stable_during_regressions": true,
+  "unresolved_blockers": [],
+  "findings_fixed": [
+    "terminal cleanup failure stranded voice slot",
+    "wall-clock rollback extended volatile TTL",
+    "surrogate input mutated state before failing"
+  ],
+  "scope": "Synthetic protocol/SQLite only; no live calls, microphone, UI acceptance or Git mutation"
+}

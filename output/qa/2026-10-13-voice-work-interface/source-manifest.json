@@ -1,0 +1,69 @@
+{
+  "captured_at": "2026-10-13T07:05:35.413723+00:00",
+  "files": [
+    {
+      "path": "desk-companion/frontend/src/workspace/AssistantPanel.tsx",
+      "sha256": "06e986bc312b4a51bbd34cd8734b6ebae03ee6a4053898fc334a9807aae9071c"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/audio.ts",
+      "sha256": "841191dfd6a786c57e4bedc393a76248a9b6d42df9639088cf6eb46ec921a2c5"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/types.ts",
+      "sha256": "d248e42b8fa3029cc3f74873e532ee474f97a773e28db84914e5db001780ebdb"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/voiceWork/types.ts",
+      "sha256": "81983c2d4db34f3b55a021706ffc7f34df5e8c2af68c3a65b9b1d7b671945d89"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/voiceWork/VoiceWorkPanel.tsx",
+      "sha256": "09bc96d4a20f80bda67351233eda18a876d86daf98959db3265e2d4d9554a659"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/voiceWork/voiceWork.css",
+      "sha256": "b7f06f4298085f0a205cc18784ab4e9dea41e74199231b9274e6f0869ee81571"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/types.ts",
+      "sha256": "ff1cb2780ef5a0b2af015bf14056665d42bea723d5ba5a9de306745b3b36fb44"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunPanel.tsx",
+      "sha256": "f589bd57f4dfe8833606fba872c5b79d04d4945daf2a641c3764dcc28e62445a"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunComposer.tsx",
+      "sha256": "2d5401c8773a3938d5a62f1427a996980df4df95e2748460e3f34018a5b0dcee"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunDetail.tsx",
+      "sha256": "dcedab345fe758dc31b9c049ce9df366dbbf8f8b1ab6e01ee25b51d9d3a5c504"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/labels.ts",
+      "sha256": "03360c33ce002a12c43a9586298a20f4ddf16d298d7c3defe02213e75e19ccf3"
+    },
+    {
+      "path": "desk-companion/frontend/tests/voice-work.test.ts",
+      "sha256": "7067bfd00135c2d8062049c03edabd45a8bfec733269a1330da8c5c25f659ba9"
+    },
+    {
+      "path": "desk-companion/frontend/tests/voice-work-lifecycle.test.ts",
+      "sha256": "ef2da90a04971780d18b27e9fe63adc73c3b9ee72aec139b492b79d4af10f466"
+    },
+    {
+      "path": "desk-companion/frontend/tests/voice-work-render.test.ts",
+      "sha256": "915ee6ab2fe1368237b69c25b0d77cdb3221e0f5148231fb0d74b6ddf24e4692"
+    },
+    {
+      "path": "desk-companion/frontend/tests/voice-audio.test.ts",
+      "sha256": "aacc95a9d31f7e141ee531a41ab51a6cdcf8b068583fc2d0bbbff879dccc4028"
+    },
+    {
+      "path": "desk-companion/frontend/tests/agent-work-tools.test.ts",
+      "sha256": "2efbd2082d4f61e43ff64eead4ae504f86675512a4a7e2673ed7b948ffd445e4"
+    }
+  ]
+}

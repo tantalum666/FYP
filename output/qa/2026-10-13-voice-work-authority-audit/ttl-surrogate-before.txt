@@ -1,0 +1,60 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_____________ test_wall_clock_rollback_cannot_extend_transient_ttl _____________
+
+[synthetic runtime fixture representation omitted]
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f5a54a0b3e0>
+
+    def test_wall_clock_rollback_cannot_extend_transient_ttl(w,monkeypatch):
+        import time
+        elapsed=[1000.0]
+        monkeypatch.setattr(time,'monotonic',lambda:elapsed[0])
+        r,p,_,now=w
+        ref,s,d=draft(w)
+        r.voice.work.end(ref)
+        now[0]-=timedelta(hours=1)
+        elapsed[0]+=301
+        r.voice.work.cleanup()
+>       assert d['voice_origin_ref'] not in r.voice.work.drafts, 'Clock rollback extended volatile retention past 300 seconds'
+E       AssertionError: Clock rollback extended volatile retention past 300 seconds
+E       assert '65abc0aa99554947a1161019326873b9' not in {'65abc0aa99554947a1161019326873b9': {'type': 'voice_input', 'voice_session_ref': '5969c7d1804a45528637eb2f4d53c539', 'input_segment_id': '3ecd57e8d803468ba7a275ec37241e24', 'revision': 1, ...}}
+E        +  where {'65abc0aa99554947a1161019326873b9': {'type': 'voice_input', 'voice_session_ref': '5969c7d1804a45528637eb2f4d53c539', 'input_segment_id': '3ecd57e8d803468ba7a275ec37241e24', 'revision': 1, ...}} = <desk.voice_work.VoiceWorkLedger object at 0x7f5a54a0b320>.drafts
+E        +    where <desk.voice_work.VoiceWorkLedger object at 0x7f5a54a0b320> = <desk.voice.VoiceService object at 0x7f5a54a0b380>.work
+E        +      where <desk.voice.VoiceService object at 0x7f5a54a0b380> = <desk.runtime.Runtime object at 0x7f5a549f2330>.voice
+
+output/qa/2026-10-13-voice-work-authority-audit/test_independent_authority.py:247: AssertionError
+__________ test_malformed_surrogate_rejected_before_segment_mutation ___________
+
+[synthetic runtime fixture representation omitted]
+
+    def test_malformed_surrogate_rejected_before_segment_mutation(w):
+        r,p,_,_=w
+        ref=r.voice.work.begin(p)
+        first=r.voice.work.observe(ref,event('valid',boundary='unfinalized',op='append'))
+        state=r.voice.work.sessions[ref]
+        previous_sequence=state['sequence']
+        previous_segments=dict(state['segments'])
+>       result=r.voice.work.observe(ref,event('\ud800',seq=2,boundary='unfinalized',op='append'))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+output/qa/2026-10-13-voice-work-authority-audit/test_independent_authority.py:256: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+desk-companion/backend/desk/voice_work.py:208: in observe
+    oversized = len(value) > TEXT_CHARS or self._size(state, extra=segment) > TEXT_BYTES
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+desk-companion/backend/desk/voice_work.py:146: in _size
+    return sum(len(text.encode("utf-8")) for text in values.values())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <dict_valueiterator object at 0x7f5a54a914e0>
+
+>   return sum(len(text.encode("utf-8")) for text in values.values())
+                   ^^^^^^^^^^^^^^^^^^^^
+E   UnicodeEncodeError: 'utf-8' codec can't encode character '\ud800' in position 5: surrogates not allowed
+
+desk-companion/backend/desk/voice_work.py:146: UnicodeEncodeError
+=========================== short test summary info ============================
+FAILED output/qa/2026-10-13-voice-work-authority-audit/test_independent_authority.py::test_wall_clock_rollback_cannot_extend_transient_ttl
+FAILED output/qa/2026-10-13-voice-work-authority-audit/test_independent_authority.py::test_malformed_surrogate_rejected_before_segment_mutation
+2 failed, 18 deselected in 1.97s

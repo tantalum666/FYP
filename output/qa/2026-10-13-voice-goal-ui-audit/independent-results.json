@@ -1,0 +1,133 @@
+{
+  "category": "production reducer/component callback/hook and queue protocol-fake; not DOM/browser",
+  "results": [
+    {
+      "name": "server-normalized reducer cannot derive authority from display/tool/finality events",
+      "status": "pass"
+    },
+    {
+      "name": "codepoint-valid voice input is also a valid work handoff",
+      "status": "pass"
+    },
+    {
+      "name": "expired voice goal is rejected before queued Work navigation",
+      "status": "pass"
+    },
+    {
+      "name": "owner selection is explicit, deduped, immutable, and handoff carries no transcript duplicate",
+      "status": "pass"
+    },
+    {
+      "name": "freeze failure keeps speech alive and retries exact selected revision",
+      "status": "pass"
+    },
+    {
+      "name": "late freeze fenced before effects: owner",
+      "status": "pass"
+    },
+    {
+      "name": "late freeze fenced before effects: hidden",
+      "status": "pass"
+    },
+    {
+      "name": "late freeze fenced before effects: session",
+      "status": "pass"
+    },
+    {
+      "name": "late freeze fenced before effects: provider",
+      "status": "pass"
+    },
+    {
+      "name": "late freeze fenced before effects: offline",
+      "status": "pass"
+    },
+    {
+      "name": "non-owner selection callback never sends a freeze",
+      "status": "pass"
+    },
+    {
+      "name": "unknown run create retains exact serialized goal, origin and operation ID after expiry",
+      "status": "pass"
+    },
+    {
+      "name": "dirty Work draft survives queued voice handoff until explicit discard and carries exact origin",
+      "status": "pass"
+    },
+    {
+      "name": "expired queued goal cannot discard unrelated Work draft via an old navigation confirmation",
+      "status": "pass"
+    },
+    {
+      "name": "transient refresh failure keeps composer goal and origin mounted but disables handoff",
+      "status": "pass"
+    },
+    {
+      "name": "search navigation retains dirty guard without prematurely replacing composer",
+      "status": "pass"
+    },
+    {
+      "name": "voice composer deterministic with every consent/evidence clear; typed handoff retains model default",
+      "status": "pass"
+    },
+    {
+      "name": "composer cannot create after origin expiry and does not silently drop provenance",
+      "status": "pass"
+    },
+    {
+      "name": "saved composer Start callback cannot dispatch reviewed private goal after owner epoch changes",
+      "status": "pass"
+    },
+    {
+      "name": "saved input selection callback cannot dispatch freeze after owner epoch changes",
+      "status": "pass"
+    },
+    {
+      "name": "Assistant raw/partial/assistant events never auto-freeze or handoff, explicit reviewed handoff ends only voice",
+      "status": "pass"
+    },
+    {
+      "name": "Assistant owner render fences engine and queued goal before effect cleanup",
+      "status": "pass"
+    },
+    {
+      "name": "Assistant hidden render fences engine and queued goal before effect cleanup",
+      "status": "pass"
+    },
+    {
+      "name": "Assistant offline render fences engine and queued goal before effect cleanup",
+      "status": "pass"
+    },
+    {
+      "name": "Assistant provider render fences engine and queued goal before effect cleanup",
+      "status": "pass"
+    },
+    {
+      "name": "Assistant same-turn double Start cannot open two microphone engines",
+      "status": "pass"
+    },
+    {
+      "name": "freeze RUN_SESSION_EXPIRED invalidates immediately instead of preserving a private retry",
+      "status": "pass"
+    },
+    {
+      "name": "freeze PRIVATE_CONTEXT_HIDDEN invalidates immediately instead of preserving a private retry",
+      "status": "pass"
+    },
+    {
+      "name": "freeze VOICE_CONTEXT_CHANGED invalidates immediately instead of preserving a private retry",
+      "status": "pass"
+    },
+    {
+      "name": "freeze OWNER_SIGN_IN_REQUIRED invalidates immediately instead of preserving a private retry",
+      "status": "pass"
+    },
+    {
+      "name": "freeze AUTH_REQUIRED invalidates immediately instead of preserving a private retry",
+      "status": "pass"
+    },
+    {
+      "name": "Assistant ready and audio remain active until an actual ended event",
+      "status": "pass"
+    }
+  ]
+}

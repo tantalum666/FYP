@@ -1,0 +1,28 @@
+{
+  "commit": "fd4be86fc55a72ebba252b12dcec01b6ad55f6b9",
+  "tree": "bbc011657df31e82851f6f11f9c2d6f9c30a3494",
+  "parent": "8948b73b23591466b1167a68ea5a89b9ca65fa54",
+  "verified_candidates": 46,
+  "remote_ref_verified": true,
+  "backend_tests": 747,
+  "frontend_tests": 152,
+  "stable_source_files": 236,
+  "ci": [
+    {
+      "id": 38358941577,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/tantalum666/FYP/actions/runs/38358941577",
+      "head_sha": "fd4be86fc55a72ebba252b12dcec01b6ad55f6b9"
+    },
+    {
+      "id": 38358936395,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/tantalum666/FYP/actions/runs/38358936395",
+      "head_sha": "fd4be86fc55a72ebba252b12dcec01b6ad55f6b9"
+    }
+  ],
+  "pr": "https://github.com/tantalum666/FYP/pull/5",
+  "ci_verified_at": "2026-10-13T06:54:59Z"
+}

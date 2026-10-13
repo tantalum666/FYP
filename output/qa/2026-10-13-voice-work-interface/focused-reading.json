@@ -1,0 +1,58 @@
+{
+  "mode": "continuation of same 186-file intake, focused changed/related reading; not a new whole-repository intake",
+  "inherited": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_range": "1-EOF in focused batches"
+    },
+    {
+      "path": "product.md",
+      "lines": 190,
+      "read_range": "1-EOF in focused batches"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 51,
+      "read_range": "1-EOF in focused batches"
+    },
+    {
+      "path": "planning/2026-10-13/voice-work-continuity-design.md",
+      "lines": 105,
+      "read_range": "1-EOF in focused batches"
+    },
+    {
+      "path": "planning/2026-10-13/continuous-agent-capability-plan.md",
+      "lines": 34,
+      "read_range": "1-EOF in focused batches"
+    },
+    {
+      "path": "desk-companion/docs/agent-runs.md",
+      "lines": 134,
+      "read_range": "1-EOF in focused batches"
+    },
+    {
+      "path": "desk-companion/docs/agent-personal-context.md",
+      "lines": 50,
+      "read_range": "1-EOF in focused batches"
+    },
+    {
+      "path": "desk-companion/docs/personal-context.md",
+      "lines": 70,
+      "read_range": "1-EOF in focused batches"
+    },
+    {
+      "path": "desk-companion/docs/provider-policy.md",
+      "lines": 51,
+      "read_range": "1-EOF in focused batches"
+    },
+    {
+      "path": "desk-companion/docs/voice-work.md",
+      "lines": 73,
+      "read_range": "1-EOF in focused batches"
+    }
+  ],
+  "completed_at": "2026-10-13T07:05:10.037783+00:00",
+  "exclusions": "No new full-tree claim. Dependencies, generated build output and generated QA snapshots are not project normative intake."
+}

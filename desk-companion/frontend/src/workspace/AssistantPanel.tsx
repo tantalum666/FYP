@@ -4,6 +4,9 @@ import { ApiError, errorText, request } from "../api";
 import type { EventInput, Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import { VoiceAudio } from "./audio";
+import { VoiceWorkPanel } from "./voiceWork/VoiceWorkPanel";
+import { emptyVoiceInputs, reduceVoiceInputs } from "./voiceWork/types";
+import type { WorkGoalRequest } from "./agent/types";
 import { useDraftGuard } from "../components/DraftGuard";
 import type { Task, TaskInput } from "./taskTypes";
 import { apiOrigin } from "../native";
@@ -122,9 +125,13 @@ export function AssistantPanel({
   const contentVisibleNow = useRef(contentVisible);
   contentVisibleNow.current = contentVisible;
   const [sessionEpoch, setSessionEpoch] = useState(0);
+  const [contextEpoch, setContextEpoch] = useState(0);
   const identity = `${data?.principal.kind ?? "none"}:${data?.principal.id ?? "none"}:${sessionEpoch}`;
   const fence = useRef(new ResponseFence());
-  fence.current.update(identity, contentVisible);
+  fence.current.update(
+    `${identity}:${contextEpoch}:${apiOrigin()}:${data?.voice.config_revision ?? ""}`,
+    contentVisible,
+  );
   const privacyEpoch = fence.current.version;
   const previousIdentity = useRef(identity);
   const currentIdentity = useRef(identity);
@@ -134,9 +141,24 @@ export function AssistantPanel({
   const transcriptEpoch = useRef(-1),
     proposalEpoch = useRef(-1);
   useEffect(() => {
-    const changed = () => setSessionEpoch((x) => x + 1);
+    const changed = () => {
+      fence.current.update(`invalidated:${crypto.randomUUID()}`, false);
+      voiceGeneration.current += 1;
+      audio.current?.close();
+      setSessionEpoch((x) => x + 1);
+    };
+    const contextChanged = () => {
+      fence.current.update(`invalidated:${crypto.randomUUID()}`, false);
+      voiceGeneration.current += 1;
+      audio.current?.close();
+      setContextEpoch((x) => x + 1);
+    };
     window.addEventListener("desk:session", changed);
-    return () => window.removeEventListener("desk:session", changed);
+    window.addEventListener("desk:personal-context", contextChanged);
+    return () => {
+      window.removeEventListener("desk:session", changed);
+      window.removeEventListener("desk:personal-context", contextChanged);
+    };
   }, []);
   const [reply, setReply] = useState<(Reply & { viewEpoch: number }) | null>(
       null,
@@ -144,7 +166,12 @@ export function AssistantPanel({
     [proposals, setProposals] = useState<Proposal[]>([]),
     [notice, setNotice] = useState("");
   const [voiceState, setVoiceState] = useState("idle"),
-    [transcript, setTranscript] = useState("");
+    [transcript, setTranscript] = useState({ user: "", assistant: "" });
+  const [voiceInputs, setVoiceInputs] = useState(emptyVoiceInputs);
+  const [voiceView, setVoiceView] = useState(0);
+  const [speechMuted, setSpeechMuted] = useState(false);
+  const voiceGeneration = useRef(0);
+  const voiceActive = useRef(false);
   const audio = useRef<VoiceAudio | null>(null),
     alive = useRef(true);
   const speechText = useRef({ user: "", assistant: "" });
@@ -159,15 +186,15 @@ export function AssistantPanel({
     id: string;
     viewEpoch: number;
   } | null>(null);
-  const [workGoal, setWorkGoal] = useState<{
-    id: string;
-    text: string;
-    viewEpoch: number;
-  } | null>(null);
+  const [workGoal, setWorkGoal] = useState<
+    (WorkGoalRequest & { viewEpoch: number }) | null
+  >(null);
   const proposalNodes = useRef(new Map<string, HTMLElement>());
   const language = t("en", "zh");
   useDraftGuard(!!text.trim() || mutation.pending, busy);
   function selectConversation(id: string | null) {
+    setVoiceInputs(emptyVoiceInputs());
+    setVoiceView((x) => x + 1);
     setConversationId(id);
     setReply(null);
     setText("");
@@ -239,6 +266,7 @@ export function AssistantPanel({
       proposalRequest.current += 1;
       clearInterval(timer);
       audio.current?.close();
+      voiceActive.current = false;
     };
   }, [reload]);
   useEffect(() => {
@@ -254,13 +282,31 @@ export function AssistantPanel({
     setReviewBrowserJob(null);
     setReviewConnectorIntent(null);
     setWorkGoal(null);
-    setTranscript("");
+    setTranscript({ user: "", assistant: "" });
+    setVoiceInputs(emptyVoiceInputs());
+    setVoiceView((x) => x + 1);
+    setSpeechMuted(false);
+    voiceGeneration.current += 1;
     setProposals([]);
     knownProposals.current = [];
     speechText.current = { user: "", assistant: "" };
     audio.current?.close();
+    voiceActive.current = false;
     setVoiceState("idle");
   }, [privacyEpoch]);
+  useEffect(() => {
+    if (voiceState !== "idle") return;
+    const timer = setTimeout(
+      () => {
+        setVoiceInputs(emptyVoiceInputs());
+        setTranscript({ user: "", assistant: "" });
+        speechText.current = { user: "", assistant: "" };
+        setVoiceView((x) => x + 1);
+      },
+      5 * 60 * 1000,
+    );
+    return () => clearTimeout(timer);
+  }, [voiceState, voiceView]);
   async function send(e: React.FormEvent) {
     e.preventDefault();
     if (!contentVisibleNow.current) return;
@@ -345,62 +391,105 @@ export function AssistantPanel({
       },
     );
   }
-  async function startVoice() {
-    const epoch = fence.current.capture();
-    setError(null);
-    setVoiceState("connecting");
-    setTranscript("");
+  function clearVoiceDisplay() {
+    setVoiceInputs(emptyVoiceInputs());
+    setTranscript({ user: "", assistant: "" });
     speechText.current = { user: "", assistant: "" };
+  }
+  async function startVoice() {
+    if (
+      !contentVisibleNow.current ||
+      voiceActive.current ||
+      !fence.current.accepts(privacyEpoch)
+    )
+      return;
+    const epoch = privacyEpoch;
+    setError(null);
+    voiceActive.current = true;
+    setVoiceState("connecting");
+    setTranscript({ user: "", assistant: "" });
+    setVoiceInputs(emptyVoiceInputs());
+    setVoiceView((x) => x + 1);
+    setSpeechMuted(false);
+    voiceGeneration.current += 1;
+    speechText.current = { user: "", assistant: "" };
+    const generation = voiceGeneration.current;
     try {
-      const engine = new VoiceAudio((event) => {
-        if (!alive.current || !fence.current.accepts(epoch)) return;
-        if (event.type === "ready") setVoiceState("listening");
-        if (event.type === "state" && event.state) setVoiceState(event.state);
-        if (event.type === "audio") setVoiceState("speaking");
-        if (event.type === "turn_complete" || event.type === "interrupted")
-          setVoiceState("listening");
-        if (event.type === "interrupted")
-          speechText.current = { user: "", assistant: "" };
-        if (event.type === "transcript") {
-          transcriptEpoch.current = epoch;
-          const role = event.role === "user" ? "user" : "assistant";
-          speechText.current[role] = (
-            event.final
-              ? (event.text ?? "")
-              : speechText.current[role] + (event.text ?? "")
-          ).slice(-3000);
-          setTranscript(
-            (speechText.current.user
-              ? t("You: ", "你：") + speechText.current.user + "\n"
-              : "") +
-              (speechText.current.assistant
-                ? t("Companion: ", "助理：") + speechText.current.assistant
-                : ""),
-          );
-        }
-        if (event.type === "proposal" || event.type === "proposals_changed")
-          void reload();
-        if (event.type === "jobs_changed")
-          window.dispatchEvent(new Event("desk:jobs"));
-        if (event.type === "error") {
-          if (event.code === "VOICE_CONTEXT_CHANGED") {
-            setError(new ApiError(event.code));
-            setTranscript("");
-            speechText.current = { user: "", assistant: "" };
-            setVoiceState("idle");
+      const engine = new VoiceAudio(
+        (event) => {
+          if (
+            !alive.current ||
+            !fence.current.accepts(epoch) ||
+            generation !== voiceGeneration.current
+          )
             return;
+          if (event.type === "ready") setVoiceState("listening");
+          if (event.type === "state" && event.state) setVoiceState(event.state);
+          if (event.type === "audio" && !event.suppressed)
+            setVoiceState("speaking");
+          if (event.type === "speech_muted") {
+            setSpeechMuted(true);
+            setVoiceState("listening");
           }
-          setNotice(
-            t(
-              "Voice could not continue. Check the connection or provider configuration.",
-              "语音未能继续，请检查连接或服务配置。",
-            ),
-          );
-          setVoiceState("idle");
-        }
-        if (event.type === "closed" || event.type === "ended")
-          setVoiceState("idle");
-      });
+          if (event.type === "speech_resumed") setSpeechMuted(false);
+          if (event.type === "voice_input") {
+            transcriptEpoch.current = epoch;
+            setVoiceInputs((state) => reduceVoiceInputs(state, event));
+          }
+          if (event.type === "turn_complete" || event.type === "interrupted")
+            setVoiceState("listening");
+          if (
+            event.type === "transcript" &&
+            ["user", "assistant"].includes(event.role ?? "")
+          ) {
+            transcriptEpoch.current = epoch;
+            // Legacy user display is never parsed or offered as a Work candidate.
+            const role = event.role as "user" | "assistant";
+            speechText.current[role] = (
+              event.final
+                ? (event.text ?? "")
+                : speechText.current[role] + (event.text ?? "")
+            ).slice(-3000);
+            setTranscript({ ...speechText.current });
+          }
+          if (event.type === "proposal" || event.type === "proposals_changed")
+            void reload();
+          if (event.type === "jobs_changed")
+            window.dispatchEvent(new Event("desk:jobs"));
+          if (event.type === "error") {
+            if (event.code === "VOICE_CONTEXT_CHANGED") {
+              setError(new ApiError(event.code));
+              setTranscript({ user: "", assistant: "" });
+              setVoiceInputs(emptyVoiceInputs());
+              setVoiceView((x) => x + 1);
+              setSpeechMuted(false);
+              voiceGeneration.current += 1;
+              speechText.current = { user: "", assistant: "" };
+              voiceActive.current = false;
+              setVoiceState("idle");
+              return;
+            }
+            clearVoiceDisplay();
+            setNotice(
+              t(
+                "Voice could not continue. Check the connection or provider configuration.",
+                "语音未能继续，请检查连接或服务配置。",
+              ),
+            );
+            voiceActive.current = false;
+            setVoiceState("idle");
+          }
+          if (event.type === "closed" || event.type === "ended") {
+            clearVoiceDisplay();
+            voiceActive.current = false;
+            setVoiceState("idle");
+          }
+        },
+        () =>
+          alive.current &&
+          fence.current.accepts(epoch) &&
+          generation === voiceGeneration.current,
+      );
       audio.current = engine;
       const url = new URL("/api/voice/ws", apiOrigin());
       url.protocol = url.protocol === "https:" ? "wss:" : "ws:";
@@ -416,6 +505,13 @@ export function AssistantPanel({
         url.href,
       );
     } catch (e) {
+      if (
+        !alive.current ||
+        !fence.current.accepts(epoch) ||
+        generation !== voiceGeneration.current
+      )
+        return;
+      voiceActive.current = false;
       setVoiceState("idle");
       setError(e);
       setNotice(
@@ -471,7 +567,10 @@ export function AssistantPanel({
           <button
             className="secondary"
             onClick={() => {
+              voiceGeneration.current += 1;
               audio.current?.close();
+              clearVoiceDisplay();
+              voiceActive.current = false;
               setVoiceState("idle");
             }}
           >
@@ -504,6 +603,22 @@ export function AssistantPanel({
           >
             {t("Stop speaking", "停止播报")}
           </button>
+          {speechMuted && (
+            <>
+              <p role="status">
+                {t(
+                  "Speech playback is muted. Existing work and physical-output controls are unchanged.",
+                  "语音播放已静音，已有工作及实体输出控制不变。",
+                )}
+              </p>
+              <button
+                className="secondary"
+                onClick={() => audio.current?.hearAgain()}
+              >
+                {t("Hear speech again", "重新播放语音")}
+              </button>
+            </>
+          )}
         </>
       )}
       <p className="workspace-hint">
@@ -512,10 +627,53 @@ export function AssistantPanel({
           "语音转写仅临时显示，不会自动加入已保存会话或记忆。",
         )}
       </p>
-      {transcript && fence.current.accepts(transcriptEpoch.current) && (
-        <p className="assistant-reply" aria-live="polite">
-          {transcript}
-        </p>
+      {fence.current.accepts(transcriptEpoch.current) && (
+        <>
+          {!voiceInputs.inputs.length && transcript.user && (
+            <p className="assistant-reply">
+              {t("Voice input: ", "语音输入：")}
+              {transcript.user}
+            </p>
+          )}
+          {transcript.assistant && (
+            <p className="assistant-reply" aria-live="polite">
+              {t("Desk Companion: ", "Desk Companion：")}
+              {transcript.assistant}
+            </p>
+          )}
+          <VoiceWorkPanel
+            key={`${privacyEpoch}:${voiceView}`}
+            state={voiceInputs}
+            t={t}
+            fence={fence.current}
+            owner={contextVisible}
+            onInvalidated={() => {
+              fence.current.update(
+                `voice-invalidated:${crypto.randomUUID()}`,
+                false,
+              );
+              voiceGeneration.current += 1;
+              audio.current?.close();
+              setContextEpoch((x) => x + 1);
+            }}
+            onHandoff={(goal) => {
+              if (
+                !contextVisible ||
+                !fence.current.accepts(transcriptEpoch.current)
+              )
+                return;
+              voiceGeneration.current += 1;
+              audio.current?.close();
+              clearVoiceDisplay();
+              voiceActive.current = false;
+              setVoiceState("idle");
+              setWorkGoal({ ...goal, viewEpoch: fence.current.capture() });
+              setVoiceInputs(emptyVoiceInputs());
+              setTranscript({ user: "", assistant: "" });
+              speechText.current = { user: "", assistant: "" };
+            }}
+          />
+        </>
       )}
       {contextVisible ? (
         <PersonalContextPanel

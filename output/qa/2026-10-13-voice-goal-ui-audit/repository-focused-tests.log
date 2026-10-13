@@ -1,0 +1,45 @@
+✔ transient refresh keeps exact snapshot mounted but stale until successful refresh (121.781624ms)
+✔ auth, privacy, missing-resource and unexpected failures clear instead of retaining (104.660843ms)
+✔ parallel late privacy denial still clears after first transient failure (14.323878ms)
+✔ selection and privacy epoch changes hide cached content before late reads settle (16.045305ms)
+✔ retention is allowlisted and stale UI gates include retries, handoffs and delayed uploads (14.079573ms)
+✔ protocol-fake interrupt suppresses all late audio until explicit hear again (101.645207ms)
+✔ ordinary provider speech-start does not mute new responses; explicit mute stays latched (34.724532ms)
+✔ malformed PCM/base64 closes capture instead of throwing in a socket callback (60.977763ms)
+✔ freeze is explicit and deduped; editable snapshot survives live revisions and ends voice only at handoff (182.966658ms)
+✔ failed freeze keeps conversation and retries identical segment/revision; dismissal never starts Work (45.312379ms)
+✔ paired owner loss, epoch invalidation and unmount reject late freeze responses (111.148884ms)
+✔ actual composer initialization defaults only voice to deterministic and retains no scopes (149.748607ms)
+✔ stale selection callback cannot freeze an old input in a new owner epoch (15.113385ms)
+✔ reviewed Start callback cannot dispatch an old goal across an owner epoch change (26.232722ms)
+✔ protocol-fake normalized inputs stay separate and never infer Gemini finality (2.032947ms)
+✔ assistant, tools, raw deltas, completion and stale or foreign events never become inputs (0.305283ms)
+✔ blank and oversize input fail clearly without creating a truncated goal (2.181263ms)
+✔ input storage is bounded by eight records and 32KiB UTF-8, never concatenated (4.087199ms)
+✔ freeze receipt must match the exact selected snapshot and have a live expiry (0.415677ms)
+✔ voice origin adds no evidence, retention, sharing or provider permission (0.794661ms)
+✔ Unicode voice goals and Work admission agree; expired origins never become typed work (0.732379ms)
+✔ input is explicit, literal, bounded and never includes grants or operation IDs (2.82796ms)
+✔ compact pages reject malformed, mixed, duplicate, oversized and changed snapshots (1.141237ms)
+✔ same names stay distinct exact choices and paths cannot change endpoint scope (0.329872ms)
+✔ only exact detail records become previews; search hits and wrong IDs are rejected (0.572992ms)
+✔ sequence gate rejects reordered requests, hide/show, identity changes and cancellation (0.633247ms)
+✔ actual search hook never reads on mount, edits or filter change; submit POST has no mutation key (163.782904ms)
+✔ actual query B remains visible when query A completes later (39.590532ms)
+✔ actual exact detail selection uses a bare record, no start/resume/download/grant calls (24.888199ms)
+✔ a newer selection and close clear older exact-detail promises (26.429844ms)
+✔ stale/hide/identity transitions synchronously mask query and results and reject late file details (64.261799ms)
+✔ session and offline events fence immediately before any rerender (35.636759ms)
+✔ pagination is explicit and bound to submitted filter/query/snapshot; conflicts require new submit (28.426228ms)
+✔ late privacy denial clears newer search results rather than reviving older metadata (17.460279ms)
+✔ search integration retains navigation guards and the private/metadata split (1.387371ms)
+✔ previous page retains the exact snapshot and never restarts implicitly (13.06115ms)
+✔ run and source choices read their exact detail endpoints before handing off (14.266899ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1177.477316

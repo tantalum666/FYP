@@ -1,0 +1,57 @@
+{
+  "category": "actual VoiceAudio functions with fake AudioContext/WebSocket/capture; no live microphone",
+  "results": [
+    {
+      "name": "interrupt drops buffered and late audio, never Work or physical-stop messages",
+      "status": "pass"
+    },
+    {
+      "name": "render-before-effect epoch change blocks capture",
+      "status": "pass"
+    },
+    {
+      "name": "render-before-effect epoch change blocks playback",
+      "status": "pass"
+    },
+    {
+      "name": "render-before-effect epoch change blocks open",
+      "status": "pass"
+    },
+    {
+      "name": "epoch change during resume prevents later effects",
+      "status": "pass"
+    },
+    {
+      "name": "epoch change during microphone prevents later effects",
+      "status": "pass"
+    },
+    {
+      "name": "epoch change during module prevents later effects",
+      "status": "pass"
+    },
+    {
+      "name": "epoch change during ticket prevents later effects",
+      "status": "pass"
+    },
+    {
+      "name": "closed old socket callbacks cannot replay or upload",
+      "status": "pass"
+    },
+    {
+      "name": "malformed PCM fails closed without subsequent audio event: 4",
+      "status": "pass"
+    },
+    {
+      "name": "malformed PCM fails closed without subsequent audio event: 1",
+      "status": "pass"
+    },
+    {
+      "name": "malformed PCM fails closed without subsequent audio event: 640004",
+      "status": "pass"
+    },
+    {
+      "name": "ordinary provider barge-in clears queue and permits new response without releasing owner mute",
+      "status": "pass"
+    }
+  ]
+}

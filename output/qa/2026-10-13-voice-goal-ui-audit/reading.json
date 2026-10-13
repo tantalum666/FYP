@@ -1,0 +1,81 @@
+{
+  "completed_at": "2026-10-13T07:05:48.435959+00:00",
+  "continuation": "Inherited parent ongoing 186-file complete intake in output/qa/2026-10-12-agent-kernel/reading-union-status.json; no independent all-repository reread claimed.",
+  "focused_full_reads": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 190,
+      "ranges": [
+        [
+          1,
+          190
+        ]
+      ],
+      "sha256": "dc71b948d328fee1f41f8357a00b1087ff9a33b96b7acac4d69dc9bd49e2e957"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 51,
+      "ranges": [
+        [
+          1,
+          51
+        ]
+      ],
+      "sha256": "42d691275cc28ced4247574f82f6dcccea104ab2fe23e5e360e7a3e464c4ba5e"
+    },
+    {
+      "path": "planning/2026-10-13/voice-work-continuity-design.md",
+      "lines": 105,
+      "ranges": [
+        [
+          1,
+          105
+        ]
+      ],
+      "sha256": "22467844898e9d49ceebb6ed714fa7803b7456e8989c2f7c60013c0aa509e2f5"
+    },
+    {
+      "path": "desk-companion/docs/software-checks.md",
+      "lines": 31,
+      "ranges": [
+        [
+          1,
+          31
+        ]
+      ],
+      "sha256": "e79340661b0f8c8ee880503bd4cdf0e97243224c86c787f3e20bb4a73beafb67"
+    },
+    {
+      "path": "desk-companion/docs/voice-work.md",
+      "lines": 73,
+      "ranges": [
+        [
+          1,
+          73
+        ]
+      ],
+      "sha256": "6df6fe6081da672864af66046dc1d37fd7f945b427f8631dae26110035b315e6"
+    }
+  ],
+  "partial_read": [
+    "decision-log.md latest 35 lines; backend voice_work.py authority and freeze response contracts"
+  ],
+  "exclusions": [
+    ".git and absent Git metadata",
+    "dependencies and generated build output",
+    "output/qa generated historical evidence snapshots except relevant harness and intake references"
+  ],
+  "writes": "Only this audit QA directory. No source or Git edits."
+}

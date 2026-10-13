@@ -121,6 +121,12 @@ cd ..
 
 查询只在明确提交时运行，不写浏览器缓存、URL或数据库索引。隐藏／退出／断线／过期响应受身份与隐私围栏约束，选择不会自动开始或授予模型／工具权限。本地完整软件验证与真实界面验收分开记录于[检索QA](../output/qa/2026-10-13-work-search/verification.md)。
 
+## 2026-10-13 语音接续工作
+
+已配置语音时，可选择一段服务器观察到的输入，编辑核对后明确结束语音并打开Work。默认确定性整理，仍需选择材料并明确保留／开始；语音授权不自动变成文字模型或工具授权。过期草稿不能自行重跑，未知创建响应保留同一操作ID。没有配置语音或真实模型时，普通文字及已有确定性工作入口继续可用。
+
+“停止说话”只静音语音，不暂停已开始的工作；普通插话不会让后续回答一直静音。完整转写／录音不自动保存，最终明确保留目标和最小来源元数据独立保存。详见[语音与工作契约](docs/voice-work.md)及[整合证据](../output/qa/2026-10-13-voice-work-continuation/verification.md)。测试使用协议夹具，不能等同真实语音识别或实际界面验收。
+
 ## 验证与交付边界
 
 本轮角色验证见[3D角色QA](../output/qa/2026-10-09-3d-avatar/verification.md)；整合基线149项后端、15项前端及实际浏览器证据见[本地整合核验](../output/qa/2026-10-09-dot-integration/verification.md)；[10月6日云端软件核验](../output/qa/software-completion-2026-10-06/verification.md)保留当时结果。启用与复现实验见[电脑作业操作](docs/computer-jobs.md)。旧阶段证据在[事务增强与UI／UX审查](../output/qa/task-enhancement-ux-2026-10-03/verification.md)：101项后端、11项前端检查、生产／iPhone构建及实际三端交互。此前[S1–S10记录](../output/qa/software-completion-2026-10-02/verification.md)保留。测试数据库与主数据分开，10月9日交互使用独立`.runtime/dot-integration-qa/`；旧轮使用`.runtime/completion-qa/`。截图中的安排和回放是演示数据。正式主库原有示例保留，不自动移动到今天。

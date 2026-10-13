@@ -23,6 +23,7 @@ class RunCreate(StrictModel):
     task_ids: list[str] = Field(default_factory=list, max_length=10)
     event_ids: list[str] = Field(default_factory=list, max_length=10)
     retain: Literal[True]
+    voice_origin_ref: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
     scope_revision: str = Field(min_length=64, max_length=64)
     provider_destination_id: str | None = None
     share_sources_with_provider: bool = False
@@ -36,6 +37,13 @@ class RunCreate(StrictModel):
     browser_public_only: bool = Field(default=False, strict=True)
     model_call_budget: int = Field(default=8, ge=1, le=24, strict=True)
     tool_call_budget: int = Field(default=8, ge=1, le=16, strict=True)
+
+    @field_validator("retain", mode="before")
+    @classmethod
+    def explicit_retention(cls, value):
+        if value is not True:
+            raise ValueError("Explicit boolean retention acknowledgement required")
+        return value
 
     @field_validator("goal")
     @classmethod

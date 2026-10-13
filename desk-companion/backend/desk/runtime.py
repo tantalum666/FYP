@@ -118,3 +118,4 @@ class Runtime:
         self.jobs.expire()
         self.memories.expire()
         self.routines.tick()
+        self.voice.work.cleanup()

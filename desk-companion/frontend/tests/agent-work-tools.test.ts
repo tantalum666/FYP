@@ -225,7 +225,8 @@ test("goal handoffs preserve active drafts and linked browser review delegates w
     jobs = file("RunBrowserJobs.tsx");
   assert.match(panel, /initialGoal!.id === lastGoal.current/);
   assert.match(panel, /if \(guard.busy \|\| guard.dirty\) setPendingGoal/);
-  assert.match(panel, /initialGoal=\{composeGoal\}/);
+  assert.match(panel, /initialGoal=\{composeGoal\?\.text\}/);
+  assert.match(panel, /voiceOrigin=\{composeGoal\?\.voiceOrigin\}/);
   assert.match(composer, /newRunDraft\(initialGoal\)/);
   assert.match(jobs, /onReview\?\.\(job.id\)/);
   assert.doesNotMatch(jobs, /\/approve|usePrivateMutation|request\(/);

@@ -1,0 +1,44 @@
+....F.......                                                             [100%]
+=================================== FAILURES ===================================
+_____________ test_only_user_input_and_no_pre_retention_plaintext ______________
+
+[synthetic runtime fixture representation omitted]
+
+    def test_only_user_input_and_no_pre_retention_plaintext(w):
+        r,p,_,_=w
+        ref=r.voice.work.begin(p)
+        for ev in [event()|{'role':'assistant'},event()|{'type':'tool'},event()|{'boundary':'invented'},event()|{'input_sequence':True}]:
+            assert r.voice.work.observe(ref,ev) is None
+        r.voice.work.observe(ref,event('RAW_UNSELECTED_MARKER'))
+>       _,_,d=draft(w)
+              ^^^^^^^^
+
+output/qa/2026-10-13-voice-work-authority-audit/test_independent_authority.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+output/qa/2026-10-13-voice-work-authority-audit/test_independent_authority.py:31: in draft
+    ref=r.voice.work.begin(p)
+        ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <desk.voice_work.VoiceWorkLedger object at 0x7f79c467b6e0>
+principal = {'kind': 'owner', 'session': '[synthetic session omitted]'}
+
+    def begin(self, principal):
+        """Legacy paired/agent/hidden voice still works, without an owner ledger."""
+        with self.runtime.personal_context.lock, self.lock, self.store.connection() as conn:
+            self._purge(conn)
+            try:
+                session = self._owner(conn, principal)
+            except DomainError:
+                return None
+            transport = self.transport()
+            if transport is None:
+                return None
+            if any(not state["ended_at"] for state in self.sessions.values()):
+>               raise DomainError("VOICE_BUSY", 409)
+E               desk.store.DomainError: ('VOICE_BUSY', 409)
+
+desk-companion/backend/desk/voice_work.py:123: DomainError
+=========================== short test summary info ============================
+FAILED output/qa/2026-10-13-voice-work-authority-audit/test_independent_authority.py::test_only_user_input_and_no_pre_retention_plaintext
+1 failed, 11 passed in 7.05s

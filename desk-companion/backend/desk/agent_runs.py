@@ -63,6 +63,8 @@ class AgentRunService:
                     run_id TEXT NOT NULL,intent_hash TEXT NOT NULL);
                 CREATE TABLE IF NOT EXISTS agent_run_tool_intents(operation_key TEXT PRIMARY KEY,
                     run_id TEXT NOT NULL,tool TEXT NOT NULL,arguments TEXT NOT NULL,intent_hash TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS agent_voice_origins(reference_hash TEXT PRIMARY KEY,
+                    request_hash TEXT NOT NULL,run_id TEXT NOT NULL);
                 CREATE TABLE IF NOT EXISTS agent_run_operations(id TEXT PRIMARY KEY,
                     request_hash TEXT NOT NULL,run_id TEXT NOT NULL);
             """)
@@ -304,7 +306,10 @@ class AgentRunService:
 
     def create(self, payload, key, principal):
         session = self.session(principal)
-        request_hash = fingerprint(payload.model_dump(mode="json"))
+        request_data = payload.model_dump(mode="json")
+        if payload.voice_origin_ref is None:
+            request_data.pop("voice_origin_ref")  # Preserve existing typed-create receipt hashes.
+        request_hash = fingerprint(request_data)
         self._key(key)
         with self.lock:
             with self.store.connection() as conn:
@@ -314,7 +319,16 @@ class AgentRunService:
                 if old:
                     if old["request_hash"] != request_hash:
                         raise DomainError("OPERATION_ID_CONFLICT")
+                    self.context_bridge._owner(conn, session)
                     return {"run": self._view(self._get(conn, old["run_id"]))}
+                if (
+                    payload.voice_origin_ref
+                    and conn.execute(
+                        "SELECT 1 FROM agent_voice_origins WHERE reference_hash=?",
+                        (fingerprint(payload.voice_origin_ref),),
+                    ).fetchone()
+                ):
+                    raise DomainError("VOICE_DRAFT_ALREADY_USED", 409)
             scope = self.scope(principal)
             if payload.scope_revision != scope["scope_revision"]:
                 raise DomainError("RUN_SCOPE_CHANGED")
@@ -341,7 +355,7 @@ class AgentRunService:
                 for m in payload.mutation_requests
             ]
             run_id, now = uuid4().hex, iso(self.store.clock())
-            run = payload.model_dump(mode="json") | {
+            run = request_data | {
                 "id": run_id,
                 "connector_scope_revision": scope["connectors"]["scope_revision"],
                 "personal_context_binding": self.context_bridge.bind(
@@ -393,6 +407,7 @@ class AgentRunService:
                 "available_evidence": [],
                 "phase": "collect" if payload.mode == "deterministic" else "decide",
             }
+            run.pop("voice_origin_ref", None)
             for field, options, kind in [
                 ("source_ids", "sources", "source"),
                 ("task_ids", "tasks", "task"),
@@ -422,7 +437,39 @@ class AgentRunService:
             if payload.mode == "deterministic":
                 run["plan"] = [label for _, label in build_plan(mutations)]
             self._authorize(run)
-            with self.store.connection(write=True) as conn:
+            # Admission is one local transaction after preflight. Lock order matches
+            # AgentContextBridge; no provider/network I/O occurs in this boundary.
+            with (
+                self.runtime.personal_context.lock,
+                self.runtime.voice.work.lock,
+                self.store.connection(write=True) as conn,
+            ):
+                self.context_bridge._owner(conn, session)
+                revision = [
+                    conn.execute("SELECT epoch FROM personal_settings WHERE id=1").fetchone()[0],
+                    self.store.settings(conn)["version"],
+                    [d["id"] for d in self.runtime.personal_context.destinations()],
+                ]
+                if run["privacy_revision"] != revision:
+                    raise DomainError("RUN_CONTEXT_CHANGED", 403)
+                # Scope is a bounded read-only catalog; the write transaction blocks
+                # concurrent local source/task/calendar/consent changes until commit.
+                if payload.scope_revision != self.scope(principal)["scope_revision"]:
+                    raise DomainError("RUN_SCOPE_CHANGED", 409)
+                self._validate_personal(run, conn)
+                if payload.voice_origin_ref:
+                    if conn.execute(
+                        "SELECT 1 FROM agent_voice_origins WHERE reference_hash=?",
+                        (fingerprint(payload.voice_origin_ref),),
+                    ).fetchone():
+                        raise DomainError("VOICE_DRAFT_ALREADY_USED", 409)
+                    run["voice_origin"] = self.runtime.voice.work.resolve(
+                        payload.voice_origin_ref, session_hash=session, goal=payload.goal, conn=conn
+                    )
+                    conn.execute(
+                        "INSERT INTO agent_voice_origins VALUES(?,?,?)",
+                        (fingerprint(payload.voice_origin_ref), request_hash, run_id),
+                    )
                 if conn.execute("SELECT count(*) FROM agent_runs").fetchone()[0] >= 100:
                     raise DomainError("RUN_LIMIT_REACHED", 422)
                 conn.execute(

@@ -1,0 +1,47 @@
+{
+  "continuation_intake": "Inherited current 186-file intake at output/qa/2026-10-12-agent-kernel/reading-union-status.json; focused supplemental reading, no independent full-repository intake claim.",
+  "read_at_utc": "2026-10-13T06:59:30.200221+00:00",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_ranges": "1-EOF across segmented tool reads"
+    },
+    {
+      "path": "product.md",
+      "lines": 190,
+      "read_ranges": "1-EOF across segmented tool reads"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 51,
+      "read_ranges": "1-EOF across segmented tool reads"
+    },
+    {
+      "path": "planning/2026-10-13/voice-work-continuity-design.md",
+      "lines": 105,
+      "read_ranges": "1-EOF across segmented tool reads"
+    },
+    {
+      "path": "desk-companion/docs/agent-runs.md",
+      "lines": 134,
+      "read_ranges": "1-EOF across segmented tool reads"
+    },
+    {
+      "path": "desk-companion/docs/agent-personal-context.md",
+      "lines": 50,
+      "read_ranges": "1-EOF across segmented tool reads"
+    },
+    {
+      "path": "desk-companion/docs/personal-context.md",
+      "lines": 70,
+      "read_ranges": "1-EOF across segmented tool reads"
+    },
+    {
+      "path": "desk-companion/docs/provider-policy.md",
+      "lines": 51,
+      "read_ranges": "1-EOF across segmented tool reads"
+    }
+  ],
+  "exclusions": "Existing generated output/qa evidence snapshots were not bulk read. No dependencies, credentials, live services, microphone, user filesystem, or Git mutation."
+}

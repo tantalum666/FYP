@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { VoiceOriginLabel } from "../voiceWork/VoiceWorkPanel";
+import type { VoiceGoalOrigin } from "../voiceWork/types";
+import { useEffect, useRef, useState } from "react";
 import { Modal } from "../../components/Dialogs";
 import { useDraftGuard } from "../../components/DraftGuard";
 import type { Translate } from "../../types";
@@ -29,6 +31,7 @@ export function RunComposer({
   onCreated,
   onRefresh,
   initialGoal = "",
+  voiceOrigin,
 }: {
   t: Translate;
   scope: RunScope;
@@ -38,11 +41,27 @@ export function RunComposer({
   onCreated: (run: AgentRun) => void;
   onRefresh: () => void;
   initialGoal?: string;
+  voiceOrigin?: VoiceGoalOrigin;
 }) {
+  const mountEpoch = useRef(fence.capture());
+  const [originExpired, setOriginExpired] = useState(
+    () => !!voiceOrigin && Date.parse(voiceOrigin.expires_at) <= Date.now(),
+  );
+  useEffect(() => {
+    if (!voiceOrigin) return;
+    const timer = setTimeout(
+      () => setOriginExpired(true),
+      Math.max(0, Date.parse(voiceOrigin.expires_at) - Date.now()),
+    );
+    return () => clearTimeout(timer);
+  }, [voiceOrigin]);
   const [draft, setDraft] = useState<RunDraft>(() => ({
     ...newRunDraft(initialGoal),
+    ...(voiceOrigin ? { voice_origin_ref: voiceOrigin.voice_origin_ref } : {}),
     mode:
-      initialGoal && scope.modes.includes("model") ? "model" : "deterministic",
+      !voiceOrigin && initialGoal && scope.modes.includes("model")
+        ? "model"
+        : "deterministic",
   }));
   const [review, setReview] = useState<{
     input: RunCreateInput;
@@ -87,7 +106,8 @@ export function RunComposer({
   }
   async function start() {
     if (!fresh || !review || scopeChanged || locked) return;
-    const epoch = fence.capture();
+    if (voiceOrigin && Date.parse(voiceOrigin.expires_at) <= Date.now()) return;
+    const epoch = mountEpoch.current;
     if (!fence.accepts(epoch)) return;
     await mutation.run<{ run: AgentRun }>(
       "/agent-runs",
@@ -97,7 +117,7 @@ export function RunComposer({
       },
     );
   }
-  const viewEpoch = fence.capture();
+  const viewEpoch = mountEpoch.current;
   return (
     <Modal
       title={t("Start persistent work", "开始持续工作")}
@@ -108,6 +128,38 @@ export function RunComposer({
       dirty={dirty}
     >
       <div className="agent-composer">
+        {originExpired && (
+          <p role="status">
+            {mutation.pending
+              ? t(
+                  "The temporary voice reference expired. Check whether work started; only the original exact request can recover a committed run.",
+                  "临时语音引用已到期。请核对工作是否已开始，仅原来的同一请求可恢复已创建运行。",
+                )
+              : t(
+                  "The temporary voice reference expired. Starting is blocked. Select and review a new snapshot; this goal is not silently converted to typed work.",
+                  "临时语音引用已到期，不能开始。请重新选择并审阅快照，不会自动转为普通文字工作。",
+                )}
+          </p>
+        )}
+        {voiceOrigin && (
+          <>
+            <VoiceOriginLabel origin={voiceOrigin} t={t} />
+            <p>
+              {t(
+                "Save this reviewed goal and its work results locally. This does not save the full voice conversation or raw audio.",
+                "在本地保存此审阅后的目标及工作结果，不保存完整语音交谈或原始录音。",
+              )}
+            </p>
+            {draft.mode === "model" && (
+              <p>
+                {t(
+                  "The work provider may differ from the voice provider. Sharing this goal and selected context requires the separate exact-destination review below.",
+                  "工作提供商可能与语音提供商不同。共享此目标及所选上下文，需要下方独立的确切目的地审阅。",
+                )}
+              </p>
+            )}
+          </>
+        )}
         {!fresh && (
           <p className="agent-notice" role="status">
             {t(
@@ -315,6 +367,14 @@ export function RunComposer({
                 )}
               </p>
             )}
+            {voiceOrigin && mutation.pending && (
+              <p role="status">
+                {t(
+                  "Check whether work started. Retry only the same request; reconnecting voice is not needed.",
+                  "请核对工作是否已开始。仅重试同一请求，无需重连语音。",
+                )}
+              </p>
+            )}
             <RequestFeedback
               mutation={{
                 ...mutation,
@@ -336,7 +396,7 @@ export function RunComposer({
               </button>
               <button
                 className="primary"
-                disabled={!fresh || locked || scopeChanged}
+                disabled={!fresh || locked || scopeChanged || originExpired}
                 onClick={() => void start()}
               >
                 {mutation.busy
@@ -349,7 +409,8 @@ export function RunComposer({
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              if (fresh && input && !uploadDraft) setReview({ input, scope });
+              if (fresh && input && !uploadDraft && !originExpired)
+                setReview({ input, scope });
             }}
           >
             <label>
@@ -758,7 +819,7 @@ export function RunComposer({
             )}
             <button
               className="primary"
-              disabled={!fresh || !input || uploadDraft}
+              disabled={!fresh || !input || uploadDraft || originExpired}
             >
               {t("Review scope before starting", "开始前审阅范围")}
             </button>

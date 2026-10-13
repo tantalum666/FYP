@@ -212,6 +212,35 @@ export function agentError(error: unknown, t: Translate) {
   )
     return blockLabel(error.code, t);
   const messages: Record<string, [string, string]> = {
+    VOICE_INPUT_CHANGED: [
+      "The input changed before it could be frozen. Select the current snapshot and review it again.",
+      "固定前输入已变化，请选择当前快照并重新审阅。",
+    ],
+    VOICE_INPUT_TOO_LARGE: [
+      "This voice input is too large to use as a goal. No truncated text was selected.",
+      "此语音输入过长，不能作为目标；未选择截断文字。",
+    ],
+    VOICE_DRAFT_EXPIRED: [
+      "The temporary voice draft expired or was lost after restart. Review a new snapshot; work is not started automatically.",
+      "临时语音草稿已到期或因重启丢失。请审阅新快照，不会自动开始工作。",
+    ],
+    VOICE_DRAFT_RESPONSE_INVALID: [
+      "The snapshot response did not match your selection. Keep talking or select and review an input again.",
+      "快照响应与选择不符，可继续交谈或重新选择并审阅输入。",
+    ],
+    VOICE_DRAFT_LIMIT: [
+      "The temporary voice draft limit was reached. Wait for earlier drafts to expire.",
+      "已达到临时语音草稿数量上限，请等待先前草稿到期。",
+    ],
+    VOICE_CONTEXT_CHANGED: [
+      "Voice privacy, session or provider changed. Review a new snapshot in the current owner session.",
+      "语音隐私、会话或提供商已变化，请在当前拥有者会话中重新审阅快照。",
+    ],
+    VOICE_DRAFT_ALREADY_USED: [
+      "This voice snapshot already created work. Inspect the saved run instead of starting it again.",
+      "此语音快照已创建工作，请检查保存运行，不要再次开始。",
+    ],
+
     WORK_SEARCH_CHANGED: [
       "Saved records changed while paging. Submit the search again to refresh from the first page.",
       "翻页时保存记录已变化，请重新提交搜索，从第一页刷新。",

@@ -1,3 +1,4 @@
+import type { VoiceGoalOrigin, VoiceOrigin } from "../voiceWork/types";
 import { browserReady } from "../browser/types.ts";
 import type { BrowserCapabilities, BrowserJob } from "../browser/types.ts";
 export type RunMode = "deterministic" | "model";
@@ -78,6 +79,7 @@ export interface RunScope {
   personal_context?: RunContextCatalog;
 }
 export interface AgentRun {
+  voice_origin?: VoiceOrigin | null;
   id: string;
   goal?: string;
   mode: RunMode;
@@ -181,6 +183,7 @@ export interface RunDetailResponse {
   }[];
 }
 export interface RunCreateInput {
+  voice_origin_ref?: string;
   goal: string;
   mode: RunMode;
   source_ids: string[];
@@ -202,6 +205,7 @@ export interface RunCreateInput {
   personal_context: RunPersonalSelection | null;
 }
 export interface RunDraft {
+  voice_origin_ref?: string;
   goal: string;
   mode: RunMode;
   source_ids: string[];
@@ -221,11 +225,19 @@ export interface RunDraft {
   personal_context: RunPersonalSelection;
 }
 export interface WorkGoalRequest {
+  voiceOrigin?: VoiceGoalOrigin;
   id: string;
   text: string;
 }
 export function validWorkGoal(request: WorkGoalRequest | null | undefined) {
-  return !!request?.id && !!request.text.trim() && request.text.length <= 4000;
+  return (
+    !!request?.id &&
+    !!request.text.trim() &&
+    Array.from(request.text).length <= 4000 &&
+    (!request.voiceOrigin ||
+      (!!request.voiceOrigin.voice_origin_ref &&
+        Date.parse(request.voiceOrigin.expires_at) > Date.now()))
+  );
 }
 export function newRunDraft(initialGoal = ""): RunDraft {
   return {
@@ -317,7 +329,7 @@ export function prepareRun(
     ids.every((id) => choices.some((x) => x.id === id));
   if (
     !goal ||
-    goal.length > 4000 ||
+    Array.from(goal).length > 4000 ||
     !draft.retain ||
     scope.scope_revision.length !== 64 ||
     !scope.modes.includes(draft.mode)
@@ -422,6 +434,9 @@ export function prepareRun(
   )
     return null;
   return {
+    ...(draft.voice_origin_ref
+      ? { voice_origin_ref: draft.voice_origin_ref }
+      : {}),
     goal,
     mode: draft.mode,
     source_ids: [...draft.source_ids],

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { apiOrigin } from "../../native";
 import { Modal } from "../../components/Dialogs";
 import { useDraftState } from "../../components/DraftGuard";
 import type { Translate } from "../../types";
@@ -42,6 +43,7 @@ export function RunPanel({
   const visible = access.privateVisible;
   const [open, setOpen] = useState(false),
     [sessionEpoch, setSessionEpoch] = useState(0);
+  const [goalNotice, setGoalNotice] = useState(false);
   const [handledGoalId, setHandledGoalId] = useState<string | null>(null);
   const goalRequest = initialGoal?.id === handledGoalId ? null : initialGoal;
   function acknowledgeGoal() {
@@ -51,7 +53,7 @@ export function RunPanel({
   const fence = useRef(new ResponseFence());
   const identity = `${data?.principal.kind ?? "none"}:${data?.principal.id ?? "none"}:${sessionEpoch}`;
   fence.current.update(
-    `${identity}:${visible ? "private" : "metadata"}`,
+    `${identity}:${apiOrigin()}:${data?.voice.config_revision ?? ""}:${visible ? "private" : "metadata"}`,
     access.available,
   );
   const epoch = fence.current.version;
@@ -62,18 +64,35 @@ export function RunPanel({
       setSessionEpoch((x) => x + 1);
     };
     window.addEventListener("desk:session", changed);
-    return () => window.removeEventListener("desk:session", changed);
+    window.addEventListener("desk:personal-context", changed);
+    return () => {
+      window.removeEventListener("desk:session", changed);
+      window.removeEventListener("desk:personal-context", changed);
+    };
   }, []);
   useEffect(() => {
     setOpen(false);
   }, [epoch]);
   useEffect(() => {
     if (!goalRequest) return;
-    if (visible && validWorkGoal(goalRequest)) setOpen(true);
-    else acknowledgeGoal();
+    if (visible && validWorkGoal(goalRequest)) {
+      setGoalNotice(false);
+      setOpen(true);
+    } else {
+      if (visible) setGoalNotice(true);
+      acknowledgeGoal();
+    }
   }, [goalRequest, visible, onGoalHandled]);
   return (
     <div className="agent-entry">
+      {visible && goalNotice && (
+        <p role="status">
+          {t(
+            "The handoff goal expired or is no longer available. Select and review a new voice snapshot; no work was started.",
+            "移交目标已到期或不可用，请选择并审阅新的语音快照；未开始工作。",
+          )}
+        </p>
+      )}
       <button
         type="button"
         className="secondary"
@@ -176,7 +195,8 @@ function RunWorkspace({
   const [showSearch, setShowSearch] = useState(false);
   const [detailRefreshing, setDetailRefreshing] = useState(false);
   const detailRefreshToken = useRef(0);
-  const [composeGoal, setComposeGoal] = useState("");
+  const [composeGoal, setComposeGoal] = useState<WorkGoalRequest | null>(null);
+  const [expiredGoal, setExpiredGoal] = useState(false);
   const [pendingGoal, setPendingGoal] = useState<WorkGoalRequest | null>(null);
   const lastGoal = useRef<string | null>(null);
   const [navigate, setNavigate] = useState<{
@@ -186,7 +206,7 @@ function RunWorkspace({
     proposal?: string;
     browserJob?: string;
     connectorIntent?: string;
-    goal?: string;
+    goal?: WorkGoalRequest;
   } | null>(null);
   const guard = useDraftState();
   const { value, fresh, error, loading, reload } = useAgentRuns(
@@ -196,13 +216,30 @@ function RunWorkspace({
   );
   useEffect(() => {
     if (!fresh) return;
-    if (!validWorkGoal(initialGoal) || initialGoal!.id === lastGoal.current)
+    if (!validWorkGoal(initialGoal)) {
+      if (initialGoal) {
+        setExpiredGoal(true);
+        onGoalHandled?.();
+      }
       return;
+    }
+    if (initialGoal!.id === lastGoal.current) return;
     lastGoal.current = initialGoal!.id;
     if (guard.busy || guard.dirty) setPendingGoal(initialGoal!);
-    else commit({ id: selected, compose: true, goal: initialGoal!.text });
+    else commit({ id: selected, compose: true, goal: initialGoal! });
     onGoalHandled?.();
   }, [initialGoal, onGoalHandled, guard.busy, guard.dirty, selected, fresh]);
+  useEffect(() => {
+    if (!pendingGoal?.voiceOrigin) return;
+    const timer = setTimeout(
+      () => {
+        setPendingGoal(null);
+        setExpiredGoal(true);
+      },
+      Math.max(0, Date.parse(pendingGoal.voiceOrigin.expires_at) - Date.now()),
+    );
+    return () => clearTimeout(timer);
+  }, [pendingGoal]);
   function go(next: {
     id: string | null;
     compose: boolean;
@@ -210,7 +247,7 @@ function RunWorkspace({
     proposal?: string;
     browserJob?: string;
     connectorIntent?: string;
-    goal?: string;
+    goal?: WorkGoalRequest;
   }) {
     if (
       !fresh &&
@@ -232,7 +269,7 @@ function RunWorkspace({
     proposal?: string;
     browserJob?: string;
     connectorIntent?: string;
-    goal?: string;
+    goal?: WorkGoalRequest;
   }) {
     if (
       !fresh &&
@@ -243,6 +280,12 @@ function RunWorkspace({
         next.search)
     )
       return;
+    if (next.goal && !validWorkGoal(next.goal)) {
+      setNavigate(null);
+      setExpiredGoal(true);
+      return;
+    }
+    setExpiredGoal(false);
     setNavigate(null);
     setDetailGeneration((x) => x + 1);
     if (next.proposal) {
@@ -268,7 +311,7 @@ function RunWorkspace({
       });
     } else setDetailRefreshing(false);
     setShowSearch(next.search === true);
-    setComposeGoal(next.goal ?? "");
+    setComposeGoal(next.goal ?? null);
     setSelected(next.id);
     setCompose(next.compose);
   }
@@ -322,6 +365,14 @@ function RunWorkspace({
           )}
         </p>
       )}
+      {expiredGoal && (
+        <p role="status">
+          {t(
+            "The voice goal expired while waiting. Your existing draft is unchanged. Select and review a new snapshot.",
+            "等待期间语音目标已到期，现有草稿保持不变。请重新选择并审阅快照。",
+          )}
+        </p>
+      )}
       {pendingGoal && (
         <div className="agent-notice" role="status">
           <p>
@@ -334,7 +385,7 @@ function RunWorkspace({
             className="secondary"
             disabled={!fresh || guard.busy}
             onClick={() => {
-              go({ id: selected, compose: true, goal: pendingGoal.text });
+              go({ id: selected, compose: true, goal: pendingGoal });
               setPendingGoal(null);
             }}
           >
@@ -458,7 +509,8 @@ function RunWorkspace({
           scope={value.scope}
           fence={fence}
           fresh={fresh}
-          initialGoal={composeGoal}
+          initialGoal={composeGoal?.text}
+          voiceOrigin={composeGoal?.voiceOrigin}
           onRefresh={() => void reload(true)}
           onClose={() => setCompose(false)}
           onCreated={(run) => {

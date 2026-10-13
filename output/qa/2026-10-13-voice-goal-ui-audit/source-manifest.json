@@ -1,0 +1,66 @@
+{
+  "captured_at": "2026-10-13T07:05:48.435959+00:00",
+  "revision_note": "Cloud source materialization has no local .git; file hashes identify exact reviewed bytes. Publication revision is parent-owned.",
+  "files": [
+    {
+      "path": "desk-companion/frontend/src/workspace/AssistantPanel.tsx",
+      "sha256": "06e986bc312b4a51bbd34cd8734b6ebae03ee6a4053898fc334a9807aae9071c",
+      "bytes": 44005
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/audio.ts",
+      "sha256": "841191dfd6a786c57e4bedc393a76248a9b6d42df9639088cf6eb46ec921a2c5",
+      "bytes": 7401
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/voiceWork/types.ts",
+      "sha256": "81983c2d4db34f3b55a021706ffc7f34df5e8c2af68c3a65b9b1d7b671945d89",
+      "bytes": 4653
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/voiceWork/VoiceWorkPanel.tsx",
+      "sha256": "09bc96d4a20f80bda67351233eda18a876d86daf98959db3265e2d4d9554a659",
+      "bytes": 10484
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/voiceWork/voiceWork.css",
+      "sha256": "b7f06f4298085f0a205cc18784ab4e9dea41e74199231b9274e6f0869ee81571",
+      "bytes": 479
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunPanel.tsx",
+      "sha256": "f589bd57f4dfe8833606fba872c5b79d04d4945daf2a641c3764dcc28e62445a",
+      "bytes": 17665
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunComposer.tsx",
+      "sha256": "2d5401c8773a3938d5a62f1427a996980df4df95e2748460e3f34018a5b0dcee",
+      "bytes": 36270
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/types.ts",
+      "sha256": "ff1cb2780ef5a0b2af015bf14056665d42bea723d5ba5a9de306745b3b36fb44",
+      "bytes": 14492
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/labels.ts",
+      "sha256": "03360c33ce002a12c43a9586298a20f4ddf16d298d7c3defe02213e75e19ccf3",
+      "bytes": 19034
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/responseFence.ts",
+      "sha256": "27cd3e93971cea4059afcf1f642ca2ef8dcf9b3b9611d7dbae3e6742fac0adb3",
+      "bytes": 508
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/privateWrite.ts",
+      "sha256": "f5968cfc308841981ebcd5c402550f43da9cc34bb5e3e66a4f32087febc2bcb6",
+      "bytes": 2235
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/personal/usePrivateMutation.ts",
+      "sha256": "dd369ecf5acbea2714c28fd5980dd8c7ae5380c109434eba22104743d283db1c",
+      "bytes": 2163
+    }
+  ]
+}

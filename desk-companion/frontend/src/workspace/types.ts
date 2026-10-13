@@ -91,6 +91,7 @@ export interface WorkspaceSnapshot {
     }>;
   };
   voice: {
+    config_revision?: string;
     configured: boolean;
     state: string;
     provider: string;
