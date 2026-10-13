@@ -21,3 +21,7 @@ This batch advances reusable capabilities and closes verified defects. It does n
 ## Subsequent UI review
 
 A later independent UI review found that a transient background refresh could clear the fetched snapshot, unmount a draft/retry queue and lose the original operation ID. The localized frontend fix is complete: same-view transient failures preserve drafts and original retry IDs while disabling stale mutations; access/privacy changes clear immediately, and asynchronous source upload rechecks freshness. Final frontend suite: **131 tests**, TypeScript and Vite build passed. Backend/script/config/lock bytes remain identical to the 657-test complete run. The final 229-file manifest and exact six changed/one added frontend-file differential are recorded in final-source-manifest.json and final-source-differential.json. See [UI review](ui-refresh-review.md). Actual browser interruption testing remains separate.
+
+## Remote source verification
+
+Source `4e508411f973328e310721936b9e4d5cf224f8eb`, tree `3c4f420fa8c88f2cc58053940f8d91f343c2df68`: all 125 candidate blobs and branch ref read back exactly. Both [PR CI](https://github.com/tantalum666/FYP/actions/runs/38356288757) and [push CI](https://github.com/tantalum666/FYP/actions/runs/38356283483) concluded success, checked 2026-10-13 06:29:50 UTC. No merge or deployment. Actual new UI acceptance continues separately on the isolated Mac; work-history search is a subsequent unpublished source change.
