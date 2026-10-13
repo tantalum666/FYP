@@ -11,6 +11,13 @@ export function useResponsibilities(
   selected: string | null,
   selectionPath: string | null,
 ) {
+  const live = useRef(true);
+  useEffect(() => {
+    live.current = true;
+    return () => {
+      live.current = false;
+    };
+  }, []);
   const key = JSON.stringify([hidden, selected, selectionPath]);
   const current = useRef(key);
   current.current = key;
@@ -29,19 +36,40 @@ export function useResponsibilities(
   const reload = useCallback(
     async (force = false) => {
       const captured = fence.capture();
-      if (!fence.accepts(captured) || (!force && active.current !== null))
+      if (
+        !live.current ||
+        !fence.accepts(captured) ||
+        (!force && active.current !== null)
+      )
         return;
       const seq = ++sequence.current;
       active.current = seq;
       setLoading(true);
       const accepts = () =>
+        live.current &&
         fence.accepts(captured) &&
         current.current === key &&
         seq === sequence.current;
       let terminal: unknown = null;
       const read = <T>(path: string) =>
         request<T>(path).catch((reason) => {
-          if (!recoverableRunReadError(reason) && accepts()) {
+          const denial =
+            reason &&
+            typeof reason === "object" &&
+            (("status" in reason &&
+              (reason.status === 401 || reason.status === 403)) ||
+              ("code" in reason &&
+                /AUTH|SESSION|OWNER|PRIVATE|PRIVACY|CONTEXT_HIDDEN|CONTEXT_CHANGED/.test(
+                  String(reason.code),
+                )));
+          if (denial && live.current && fence.accepts(captured)) {
+            // Authority is shared across overlapping reads in this owner epoch.
+            // A newer request sequence cannot make an older denial harmless.
+            terminal = reason;
+            fence.update(`watch-denied:${captured}`, false);
+            setValue(null);
+            setError(reason);
+          } else if (!recoverableRunReadError(reason) && accepts()) {
             terminal = reason;
             setValue(null);
             setError(reason);

@@ -1,0 +1,35 @@
+{
+  "task": "Independent terminal watch runtime/API/migration audit",
+  "date": "2026-10-13",
+  "intake": "Inherited parent's same ongoing 186-document full intake; no new all-repository reading claim",
+  "read_complete": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "range": "1-50"
+    },
+    {
+      "path": "product.md",
+      "lines": 214,
+      "range": "1-214; truncated middle recovered with explicit80-170 reads"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 56,
+      "range": "1-56"
+    },
+    {
+      "path": "planning/2026-10-13/retained-work-recovery-design.md",
+      "lines": 155,
+      "range": "1-155; truncated middle recovered with explicit40-135 reads"
+    },
+    {
+      "path": "output/qa/2026-10-13-terminal-watch-retention-audit/review.md",
+      "lines": 62,
+      "range": "1-62 including parent's historical-source note"
+    }
+  ],
+  "source_focus": "Current changed Store/watch retention/capacity/API/CLI implementation, relevant original watch tests, tool-dispatch boundaries and focused new tests",
+  "exclusions": "Dependencies, caches, Git internals, runtime databases and unrelated generated evidence; no user data inspected",
+  "completed_at_utc": "2026-10-13T08:59:00Z"
+}

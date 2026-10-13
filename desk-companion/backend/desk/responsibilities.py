@@ -14,6 +14,22 @@ from .schemas import EventInput, StrictModel
 from .store import DomainError, encode
 from .tasks import TaskStep
 from .work_limits import WATCH_COUNT
+from .responsibility_retention import (
+    CHARGED_WATCH_PREDICATE,
+    LIFETIME_IDENTITIES,
+    TOMBSTONE,
+    PreviewCache,
+    RetentionAction,
+    RetentionPreviewRequest,
+    decode_body,
+    digest,
+    install_watch_triggers,
+    owner_epoch,
+    receipt_count,
+    validate_retention_row,
+    validate_watch_schema,
+    watch_accounting,
+)
 
 WatchField = Literal["status", "due", "next_step", "waiting_for", "steps", "progress"]
 FIELDS = ("status", "due", "next_step", "waiting_for", "steps", "progress")
@@ -29,6 +45,12 @@ LIMITS = dict(
     ordinary_operations=256,
 )
 TaskID = Annotated[str, Field(min_length=1, max_length=64, strict=True)]
+# Explicit safe projection for hidden stop controls. It never loads private JSON.
+WATCH_METADATA_COLUMNS = (
+    "id,version,generation,status,created_at,updated_at,baseline_at,expires_at,"
+    "review_budget,reviews_used,daily_review_budget,budget_day,daily_used,blocked_code,eval_order,"
+    "retention_state,retention_version,trashed_at,restored_at,purged_at"
+)
 
 
 def fingerprint(value):
@@ -108,54 +130,10 @@ class ResponsibilityAcknowledge(StrictModel):
 class ResponsibilityService:
     def __init__(self, runtime):
         self.runtime, self.store = runtime, runtime.store
+        self.retention_previews = PreviewCache(self.store.clock)
         with self.store.connection(write=True) as conn:
-            conn.executescript("""
-                CREATE TABLE IF NOT EXISTS responsibilities(
-                    id TEXT PRIMARY KEY,data TEXT NOT NULL,version INTEGER NOT NULL,
-                    generation INTEGER NOT NULL,status TEXT NOT NULL,created_at TEXT NOT NULL,
-                    updated_at TEXT NOT NULL,baseline_at TEXT NOT NULL,expires_at TEXT NOT NULL,
-                    review_budget INTEGER NOT NULL,reviews_used INTEGER NOT NULL,
-                    daily_review_budget INTEGER NOT NULL,budget_day TEXT NOT NULL,
-                    daily_used INTEGER NOT NULL,blocked_code TEXT,eval_order INTEGER NOT NULL);
-                CREATE INDEX IF NOT EXISTS responsibilities_status ON responsibilities(status,expires_at);
-                CREATE TABLE IF NOT EXISTS responsibility_sources(
-                    responsibility_id TEXT NOT NULL,source_id TEXT NOT NULL,
-                    dirty_generation INTEGER NOT NULL,consumed_generation INTEGER NOT NULL,
-                    observed_source_token TEXT NOT NULL,field_hashes TEXT NOT NULL,
-                    PRIMARY KEY(responsibility_id,source_id),
-                    FOREIGN KEY(responsibility_id) REFERENCES responsibilities(id));
-                CREATE INDEX IF NOT EXISTS responsibility_sources_id ON responsibility_sources(source_id);
-                CREATE INDEX IF NOT EXISTS responsibility_sources_dirty
-                    ON responsibility_sources(responsibility_id)
-                    WHERE dirty_generation != consumed_generation;
-                CREATE INDEX IF NOT EXISTS responsibility_latest_note ON task_evidence(task_id,kind,id);
-                CREATE TABLE IF NOT EXISTS responsibility_reviews(
-                    id TEXT PRIMARY KEY,responsibility_id TEXT NOT NULL,sequence INTEGER NOT NULL,
-                    version INTEGER NOT NULL,delivery_state TEXT NOT NULL,data TEXT NOT NULL,
-                    first_observed_at TEXT NOT NULL,last_observed_at TEXT NOT NULL,
-                    FOREIGN KEY(responsibility_id) REFERENCES responsibilities(id),
-                    UNIQUE(responsibility_id,sequence));
-                CREATE UNIQUE INDEX IF NOT EXISTS responsibility_one_pending
-                    ON responsibility_reviews(responsibility_id) WHERE delivery_state='pending';
-                CREATE TABLE IF NOT EXISTS responsibility_operations(
-                    id TEXT PRIMARY KEY,request_hash TEXT NOT NULL,responsibility_id TEXT NOT NULL,
-                    review_id TEXT,kind TEXT NOT NULL,
-                    FOREIGN KEY(responsibility_id) REFERENCES responsibilities(id));
-            """)
-            for operation, source in (("INSERT", "NEW"), ("UPDATE", "NEW"), ("DELETE", "OLD")):
-                conn.execute(f"""CREATE TRIGGER IF NOT EXISTS responsibility_task_{operation.lower()}
-                    AFTER {operation} ON tasks BEGIN
-                    UPDATE responsibility_sources SET dirty_generation=dirty_generation+1
-                    WHERE source_id={source}.id AND responsibility_id IN
-                        (SELECT id FROM responsibilities WHERE status IN ('active','paused','blocked'));
-                    END""")
-            for operation, source in (("INSERT", "NEW"), ("DELETE", "OLD")):
-                conn.execute(f"""CREATE TRIGGER IF NOT EXISTS responsibility_note_{operation.lower()}
-                    AFTER {operation} ON task_evidence WHEN {source}.kind='note' BEGIN
-                    UPDATE responsibility_sources SET dirty_generation=dirty_generation+1
-                    WHERE source_id={source}.task_id AND responsibility_id IN
-                        (SELECT id FROM responsibilities WHERE status IN ('active','paused','blocked'));
-                    END""")
+            validate_watch_schema(conn)
+            install_watch_triggers(conn)
 
     def _authority(self, conn, principal, *, visible=True):
         if (
@@ -176,18 +154,26 @@ class ResponsibilityService:
             raise DomainError("PRIVATE_CONTEXT_HIDDEN", 403)
         return hidden
 
-    def _reply(self, result, principal, *, visible=True, privacy_version=None):
+    def _reply(
+        self, result, principal, *, visible=True, privacy_version=None, authority_epoch=None
+    ):
         # A fresh snapshot catches logout/hide while the first read was in progress.
         with self.store.connection() as conn:
             self._authority(conn, principal, visible=visible)
             if visible and self.store.settings(conn)["version"] != privacy_version:
                 raise DomainError("RESPONSIBILITY_CONTEXT_CHANGED")
+            if (
+                authority_epoch is not None
+                and owner_epoch(conn, principal, self.store) != authority_epoch
+            ):
+                raise DomainError("RESPONSIBILITY_CONTEXT_CHANGED")
         return result
 
     @staticmethod
-    def _get(conn, responsibility_id):
+    def _get(conn, responsibility_id, *, private=True):
+        columns = "*" if private else WATCH_METADATA_COLUMNS
         row = conn.execute(
-            "SELECT * FROM responsibilities WHERE id=?", (responsibility_id,)
+            f"SELECT {columns} FROM responsibilities WHERE id=?", (responsibility_id,)
         ).fetchone()
         if row is None:
             raise DomainError("RESPONSIBILITY_NOT_FOUND", 404)
@@ -300,6 +286,8 @@ class ResponsibilityService:
         return self._reply(result, principal, privacy_version=privacy_version)
 
     def _view(self, conn, row, hidden=False):
+        validate_retention_row(row)
+        body = decode_body(row) if not hidden else None
         keys = (
             "id",
             "version",
@@ -315,6 +303,11 @@ class ResponsibilityService:
             "budget_day",
             "daily_used",
             "blocked_code",
+            "retention_state",
+            "retention_version",
+            "trashed_at",
+            "restored_at",
+            "purged_at",
         )
         result = {key: row[key] for key in keys}
         result.update(
@@ -325,7 +318,7 @@ class ResponsibilityService:
             ).fetchone()[0],
         )
         if not hidden:
-            result.update(json.loads(row["data"]))
+            result.update(body)
         return result
 
     @staticmethod
@@ -344,11 +337,12 @@ class ResponsibilityService:
             items = [
                 self._view(conn, row, hidden)
                 for row in conn.execute(
-                    "SELECT * FROM responsibilities ORDER BY created_at DESC,id"
+                    f"SELECT {WATCH_METADATA_COLUMNS if hidden else '*'} FROM responsibilities WHERE retention_state='retained' ORDER BY created_at DESC,id LIMIT 21"
                 )
             ]
             result = dict(
                 responsibilities=items,
+                maintenance_usage=watch_accounting(conn),
                 hidden=hidden,
                 pending_count=sum(item["pending_count"] for item in items),
                 revision=self.store.revision(conn),
@@ -362,6 +356,7 @@ class ResponsibilityService:
             self._authority(conn, principal)
             privacy_version = self.store.settings(conn)["version"]
             row = self._get(conn, responsibility_id)
+            self._require_retained(row)
             result = dict(
                 responsibility=self._view(conn, row),
                 reviews=[
@@ -372,7 +367,7 @@ class ResponsibilityService:
                     )
                 ],
                 selected_tasks=[
-                    self._label(conn, task_id) for task_id in json.loads(row["data"])["task_ids"]
+                    self._label(conn, task_id) for task_id in decode_body(row)["task_ids"]
                 ],
                 revision=self.store.revision(conn),
             )
@@ -385,6 +380,7 @@ class ResponsibilityService:
         with self.store.connection(write=True) as conn:
             hidden = self._authority(conn, principal, visible=visible)
             privacy_version = self.store.settings(conn)["version"]
+            authority_epoch = owner_epoch(conn, principal, self.store)
             old = conn.execute(
                 "SELECT * FROM responsibility_operations WHERE id=?", (key,)
             ).fetchone()
@@ -403,15 +399,45 @@ class ResponsibilityService:
                     (key, request_hash, responsibility_id, review_id, kind),
                 )
                 self.store.bump(conn)
-            result = dict(
-                responsibility=self._view(conn, self._get(conn, responsibility_id), hidden),
-                operation_id=key,
-                revision=self.store.revision(conn),
-                saved=True,
-            )
-            if kind == "acknowledge":
-                result.update(review_id=review_id, acknowledged=True)
-        return self._reply(result, principal, visible=not hidden, privacy_version=privacy_version)
+            row = self._get(conn, responsibility_id, private=not hidden)
+            if row["retention_state"] != "retained":
+                # Private maintenance/history is never a hidden-mode control.
+                self._authority(conn, principal)
+                validate_retention_row(row)
+                hidden = False
+                result = dict(
+                    kind="retention_disposition",
+                    responsibility_id=responsibility_id,
+                    retention_state=row["retention_state"],
+                    retention_version=row["retention_version"],
+                    original_operation_kind=kind,
+                    review_id=review_id,
+                    operation_id=key,
+                    revision=self.store.revision(conn),
+                    recorded_success=True,
+                )
+            else:
+                result = dict(
+                    responsibility=self._view(conn, row, hidden),
+                    operation_id=key,
+                    revision=self.store.revision(conn),
+                    saved=True,
+                )
+                if kind == "acknowledge":
+                    result.update(review_id=review_id, acknowledged=True)
+        return self._reply(
+            result,
+            principal,
+            visible=not hidden,
+            privacy_version=privacy_version,
+            authority_epoch=authority_epoch,
+        )
+
+    @staticmethod
+    def _require_retained(row):
+        if row["retention_state"] != "retained":
+            raise DomainError("RESPONSIBILITY_RETAINED_STATE_REQUIRED")
+        validate_retention_row(row)
 
     @staticmethod
     def _operation_capacity(conn, responsibility_id, action):
@@ -427,10 +453,25 @@ class ResponsibilityService:
 
         def apply(conn):
             if (
-                conn.execute("SELECT COUNT(*) FROM responsibilities").fetchone()[0]
+                len(
+                    conn.execute(
+                        f"SELECT 1 FROM responsibilities WHERE {CHARGED_WATCH_PREDICATE} LIMIT ?",
+                        (LIMITS["definitions"],),
+                    ).fetchall()
+                )
                 >= LIMITS["definitions"]
             ):
                 raise DomainError("RESPONSIBILITY_LIMIT", 422)
+            usage = watch_accounting(conn, LIMITS["definitions"])
+            if usage["state"] != "known":
+                raise DomainError("RESPONSIBILITY_METADATA_UNAVAILABLE")
+            if usage["lifetime_count"] >= LIFETIME_IDENTITIES:
+                raise DomainError("RESPONSIBILITY_METADATA_LIMIT", 422)
+            for existing in conn.execute(
+                f"SELECT * FROM responsibilities WHERE {CHARGED_WATCH_PREDICATE} LIMIT ?",
+                (LIMITS["definitions"] + 1,),
+            ):
+                decode_body(existing)
             now = self.store.clock()
             if not now < payload.expires_at <= now + timedelta(days=LIMITS["duration_days"]):
                 raise DomainError("RESPONSIBILITY_EXPIRY_INVALID", 422)
@@ -442,7 +483,7 @@ class ResponsibilityService:
                 k: data[k] for k in ("title", "kind", "task_ids", "fields", "retain_change_history")
             }
             conn.execute(
-                "INSERT INTO responsibilities VALUES(?,?,1,1,'active',?,?,?,?,?,0,?,?,0,NULL,0)",
+                "INSERT INTO responsibilities(id,data,version,generation,status,created_at,updated_at,baseline_at,expires_at,review_budget,reviews_used,daily_review_budget,budget_day,daily_used,blocked_code,eval_order) VALUES(?,?,1,1,'active',?,?,?,?,?,0,?,?,0,NULL,0)",
                 (
                     responsibility_id,
                     encode(definition),
@@ -471,7 +512,10 @@ class ResponsibilityService:
 
     def action(self, responsibility_id, payload, key, principal):
         def apply(conn):
-            row = self._get(conn, responsibility_id)
+            row = self._get(
+                conn, responsibility_id, private=payload.action not in {"pause", "cancel"}
+            )
+            self._require_retained(row)
             if row["version"] != payload.expected_version:
                 raise DomainError("VERSION_CONFLICT")
             if row["status"] in TERMINAL or row["expires_at"] <= iso(self.store.clock()):
@@ -532,7 +576,7 @@ class ResponsibilityService:
 
     def acknowledge(self, responsibility_id, review_id, payload, key, principal):
         def apply(conn):
-            self._get(conn, responsibility_id)
+            self._require_retained(self._get(conn, responsibility_id))
             row = conn.execute(
                 "SELECT * FROM responsibility_reviews WHERE id=? AND responsibility_id=?",
                 (review_id, responsibility_id),
@@ -562,8 +606,204 @@ class ResponsibilityService:
             apply,
         )
 
+    def maintenance_listing(self, principal):
+        with self.store.connection() as conn:
+            self._authority(conn, principal)
+            epoch = owner_epoch(conn, principal, self.store)
+            usage = watch_accounting(conn)
+            items = [
+                self._view(conn, row)
+                for row in conn.execute(
+                    "SELECT * FROM responsibilities WHERE retention_state='trashed' ORDER BY trashed_at DESC,id LIMIT 21"
+                )
+            ]
+            result = dict(
+                responsibilities=items,
+                maintenance_usage=usage,
+                revision=self.store.revision(conn),
+                server_time=iso(self.store.clock()),
+            )
+        return self._reply(result, principal, privacy_version=epoch[1], authority_epoch=epoch)
+
+    def maintenance_detail(self, responsibility_id, principal):
+        with self.store.connection() as conn:
+            self._authority(conn, principal)
+            epoch = owner_epoch(conn, principal, self.store)
+            row = self._get(conn, responsibility_id)
+            body = decode_body(row)  # Purged identities return stable 410, not a fake receipt.
+            result = dict(
+                responsibility=self._view(conn, row),
+                reviews=[
+                    self._review(review)
+                    for review in conn.execute(
+                        "SELECT * FROM responsibility_reviews WHERE responsibility_id=? ORDER BY sequence DESC LIMIT 51",
+                        (responsibility_id,),
+                    )
+                ],
+                selected_tasks=[self._label(conn, task_id) for task_id in body["task_ids"]],
+                revision=self.store.revision(conn),
+            )
+        return self._reply(result, principal, privacy_version=epoch[1], authority_epoch=epoch)
+
+    def _retention_inventory(self, conn, row):
+        body = decode_body(row)
+        sources = [
+            dict(r)
+            for r in conn.execute(
+                "SELECT * FROM responsibility_sources WHERE responsibility_id=? ORDER BY source_id LIMIT 11",
+                (row["id"],),
+            )
+        ]
+        reviews = [
+            dict(r)
+            for r in conn.execute(
+                "SELECT * FROM responsibility_reviews WHERE responsibility_id=? ORDER BY id LIMIT 51",
+                (row["id"],),
+            )
+        ]
+        if (
+            len(sources) > 10
+            or len(reviews) > 50
+            or {s["source_id"] for s in sources} != set(body["task_ids"])
+            or any(r["delivery_state"] == "pending" for r in reviews)
+            or any(len(encode(item).encode("utf-8")) > 65536 for item in sources + reviews)
+        ):
+            raise DomainError("RESPONSIBILITY_METADATA_UNAVAILABLE")
+        count = receipt_count(conn, row["id"])
+        return digest([dict(row), sources, reviews, count]), len(sources), len(reviews), count
+
+    @staticmethod
+    def _retention_transition(row, payload, count):
+        validate_retention_row(row)
+        if (
+            row["version"] != payload.expected_version
+            or row["retention_version"] != payload.expected_retention_version
+        ):
+            raise DomainError("VERSION_CONFLICT")
+        if row["status"] not in TERMINAL:
+            raise DomainError("RESPONSIBILITY_NOT_TERMINAL")
+        state, action = row["retention_state"], payload.action
+        if (
+            action == "trash"
+            and state != "retained"
+            or action == "restore"
+            and state != "trashed"
+            or action == "purge"
+            and state not in {"retained", "trashed"}
+        ):
+            raise DomainError("RESPONSIBILITY_RETENTION_INVALID")
+        if action == "trash" and count > LIMITS["ordinary_operations"] - 2:
+            raise DomainError("RESPONSIBILITY_OPERATION_LIMIT", 422)
+        if action == "restore" and count > LIMITS["ordinary_operations"] - 1:
+            raise DomainError("RESPONSIBILITY_OPERATION_LIMIT", 422)
+        if action == "purge" and count > LIMITS["ordinary_operations"] + 2:
+            raise DomainError("RESPONSIBILITY_OPERATION_LIMIT", 422)
+
+    @staticmethod
+    def _retention_binding(row, payload, epoch, inventory):
+        return (
+            row["id"],
+            payload.action,
+            payload.expected_version,
+            payload.expected_retention_version,
+            epoch,
+            inventory,
+        )
+
+    def retention_preview(self, responsibility_id, payload, principal):
+        with self.store.connection() as conn:
+            self._authority(conn, principal)
+            epoch = owner_epoch(conn, principal, self.store)
+            row = self._get(conn, responsibility_id)
+            count = receipt_count(conn, responsibility_id)
+            self._retention_transition(row, payload, count)
+            inventory, sources, reviews, count = self._retention_inventory(conn, row)
+            binding = self._retention_binding(row, payload, epoch, inventory)
+            preview_id, expiry = self.retention_previews.issue(binding)
+            result = dict(
+                kind="watch_retention_preview",
+                preview_id=preview_id,
+                action=payload.action,
+                responsibility={
+                    **{
+                        k: row[k]
+                        for k in ("id", "status", "version", "retention_state", "retention_version")
+                    },
+                    "title": decode_body(row)["title"],
+                },
+                counts=dict(
+                    definitions=1,
+                    source_baselines=sources,
+                    retained_reviews=reviews,
+                    operation_receipts=count,
+                ),
+                retained_operation_receipts_after=count + 1,
+                logical_slots_released=1 if payload.action == "purge" else 0,
+                receipts_retained=True,
+                independent_tasks_retained=True,
+                independent_work_retained=True,
+                expires_at=expiry,
+                maintenance_usage=watch_accounting(conn),
+                revision=self.store.revision(conn),
+            )
+        return self._reply(result, principal, privacy_version=epoch[1], authority_epoch=epoch)
+
+    def retention_action(self, responsibility_id, payload, key, principal):
+        def apply(conn):
+            # _operation has already checked the durable original-key receipt and
+            # actual visible owner in this write transaction before this closure.
+            row = self._get(conn, responsibility_id)
+            epoch = owner_epoch(conn, principal, self.store)
+            count = receipt_count(conn, responsibility_id)
+            self._retention_transition(row, payload, count)
+            inventory, _, _, _ = self._retention_inventory(conn, row)
+            self.retention_previews.check(
+                payload.preview_id, self._retention_binding(row, payload, epoch, inventory)
+            )
+            now = iso(self.store.clock())
+            if payload.action == "purge":
+                # DB-only: body/history, tombstone and receipt commit together.
+                conn.execute(
+                    "DELETE FROM responsibility_sources WHERE responsibility_id=?",
+                    (responsibility_id,),
+                )
+                conn.execute(
+                    "DELETE FROM responsibility_reviews WHERE responsibility_id=?",
+                    (responsibility_id,),
+                )
+                conn.execute(
+                    "UPDATE responsibilities SET data=?,retention_state='purged',retention_version=retention_version+1,purged_at=? WHERE id=?",
+                    (TOMBSTONE, now, responsibility_id),
+                )
+            elif payload.action == "trash":
+                conn.execute(
+                    "UPDATE responsibilities SET retention_state='trashed',retention_version=retention_version+1,trashed_at=? WHERE id=?",
+                    (now, responsibility_id),
+                )
+            else:
+                conn.execute(
+                    "UPDATE responsibilities SET retention_state='retained',retention_version=retention_version+1,restored_at=? WHERE id=?",
+                    (now, responsibility_id),
+                )
+            return responsibility_id, None, payload.action
+
+        return self._operation(
+            key,
+            {
+                "type": "retention",
+                "id": responsibility_id,
+                **payload.model_dump(mode="json", exclude_unset=True),
+            },
+            principal,
+            apply,
+        )
+
     def _evaluate(self, conn, row, now):
-        responsibility_id, data = row["id"], json.loads(row["data"])
+        current = self._get(conn, row["id"])
+        self._require_retained(current)
+        if current["generation"] != row["generation"] or current["status"] != "active":
+            raise DomainError("RESPONSIBILITY_CLOSED")
+        responsibility_id, data = row["id"], decode_body(row)
         sources = conn.execute(
             "SELECT * FROM responsibility_sources WHERE responsibility_id=? ORDER BY source_id",
             (responsibility_id,),
@@ -661,17 +901,17 @@ class ResponsibilityService:
             now = self.store.clock()
             expired = conn.execute(
                 "UPDATE responsibilities SET status='expired',version=version+1,generation=generation+1,updated_at=? "
-                "WHERE status IN ('active','paused','blocked') AND expires_at<=?",
+                "WHERE retention_state='retained' AND status IN ('active','paused','blocked') AND expires_at<=?",
                 (iso(now), iso(now)),
             ).rowcount
             if expired:
                 conn.execute(
                     "UPDATE responsibility_reviews SET delivery_state='dismissed',version=version+1 "
                     "WHERE delivery_state='pending' AND responsibility_id IN "
-                    "(SELECT id FROM responsibilities WHERE status='expired')"
+                    "(SELECT id FROM responsibilities WHERE retention_state='retained' AND status='expired')"
                 )
             rows = conn.execute(
-                "SELECT * FROM responsibilities WHERE status='active' AND EXISTS "
+                "SELECT * FROM responsibilities WHERE retention_state='retained' AND status='active' AND EXISTS "
                 "(SELECT 1 FROM responsibility_sources s WHERE s.responsibility_id=responsibilities.id "
                 "AND s.dirty_generation!=s.consumed_generation) "
                 "AND (daily_used<daily_review_budget OR budget_day<? OR reviews_used>=review_budget OR EXISTS "
@@ -735,6 +975,39 @@ def responsibility_routes(runtime, owner, operation_id):
         authenticated=Depends(owner),
     ):
         return runtime.responsibilities.create(payload, key, principal(request, authenticated))
+
+    @router.get("/maintenance")
+    def maintenance_listing(request: Request, authenticated=Depends(owner)):
+        return runtime.responsibilities.maintenance_listing(principal(request, authenticated))
+
+    @router.get("/{responsibility_id}/maintenance")
+    def maintenance_detail(responsibility_id: str, request: Request, authenticated=Depends(owner)):
+        return runtime.responsibilities.maintenance_detail(
+            responsibility_id, principal(request, authenticated)
+        )
+
+    @router.post("/{responsibility_id}/maintenance-preview")
+    def retention_preview(
+        responsibility_id: str,
+        payload: RetentionPreviewRequest,
+        request: Request,
+        authenticated=Depends(owner),
+    ):
+        return runtime.responsibilities.retention_preview(
+            responsibility_id, payload, principal(request, authenticated)
+        )
+
+    @router.post("/{responsibility_id}/retention")
+    def retention_action(
+        responsibility_id: str,
+        payload: RetentionAction,
+        request: Request,
+        key=Depends(operation_id),
+        authenticated=Depends(owner),
+    ):
+        return runtime.responsibilities.retention_action(
+            responsibility_id, payload, key, principal(request, authenticated)
+        )
 
     @router.get("/{responsibility_id}")
     def detail(responsibility_id: str, request: Request, authenticated=Depends(owner)):

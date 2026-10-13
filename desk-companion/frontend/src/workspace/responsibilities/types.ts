@@ -1,3 +1,4 @@
+import type { WatchMaintenanceUsage } from "./retention";
 export const watchedFields = [
   "status",
   "due",
@@ -12,6 +13,11 @@ export interface Responsibility {
   id: string;
   version: number;
   generation: number;
+  retention_state?: "retained" | "trashed";
+  retention_version?: number;
+  trashed_at?: string | null;
+  restored_at?: string | null;
+  purged_at?: string | null;
   status: string;
   created_at: string;
   updated_at: string;
@@ -57,6 +63,7 @@ export interface WatchDetail {
   revision: number;
 }
 export interface WatchList {
+  maintenance_usage?: WatchMaintenanceUsage;
   responsibilities: Responsibility[];
   pending_count: number;
   hidden: boolean;

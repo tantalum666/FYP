@@ -65,10 +65,14 @@ class HookHarness {
 function setup() {
   const hooks = new HookHarness();
   const posts: any[] = [];
+  const reloadedSelections: any[] = [];
   const pending: any[] = [];
   const row = {
     id: "watch-one",
     version: 3,
+    retention_state: "retained",
+    retention_version: 1,
+    hidden: false,
     status: "active",
     title: "Synthetic private watch",
     task_ids: ["one"],
@@ -179,11 +183,14 @@ function setup() {
               fresh,
               error: null,
               loading: false,
-              reload: async () => {},
+              reload: async () => {
+                reloadedSelections.push(id);
+              },
             };
           },
         };
       if (name === "./types") return watchTypes;
+      if (name === "./retention") return retentionTypes;
       if (name === "./labels")
         return {
           actionLabel: (a: string) => a,
@@ -209,16 +216,26 @@ function setup() {
       }),
     );
   const compiled: any[] = [];
-  const settle = async (error?: any) => {
+  const settle = async (error?: any, result?: any) => {
     const write = pending.shift();
     if (error) write.reject(error);
-    else write.resolve({ responsibility: row });
+    else
+      write.resolve(
+        result ?? {
+          responsibility: row,
+          saved: true,
+          operation_id: "synthetic-key",
+          revision: 1,
+        },
+      );
     await new Promise((resolve) => setImmediate(resolve));
     return render();
   };
   return {
     render,
     posts,
+    reloadedSelections,
+    selected: () => selected,
     pending,
     settle,
     fence,
@@ -236,6 +253,7 @@ function setup() {
   };
 }
 import { PrivateWriteQueue } from "../src/workspace/personal/privateWrite.ts";
+import * as retentionTypes from "../src/workspace/responsibilities/retention.ts";
 import * as watchTypes from "../src/workspace/responsibilities/types.ts";
 function nodes(tree: any): any[] {
   if (!tree || typeof tree !== "object") return [];
@@ -446,4 +464,47 @@ test("committed-but-fenced context change clears private view and tells owner to
   } finally {
     h.close();
   }
+});
+
+test("recorded removed disposition clears selected ordinary detail before refresh instead of fetching removed detail", async () => {
+  const h = setup();
+  try {
+    let tree = h.render();
+    button(tree, "Open reviews").props.onClick();
+    tree = h.render();
+    assert.equal(h.selected(), "watch-one");
+    review(tree).props.onAcknowledge();
+    tree = await h.settle(undefined, {
+      kind: "retention_disposition",
+      responsibility_id: "watch-one",
+      retention_state: "purged",
+      retention_version: 3,
+      original_operation_kind: "acknowledge",
+      review_id: "review-one",
+      operation_id: "synthetic-key",
+      revision: 2,
+      recorded_success: true,
+    });
+    assert.equal(h.selected(), null);
+    assert.equal(h.reloadedSelections.length, 0);
+    assert.equal(
+      nodes(tree).filter((n) => n.type === "WatchReviewCard").length,
+      0,
+    );
+  } finally {
+    h.close();
+  }
+});
+
+test("unmounted watch callbacks cannot acknowledge or compile under a still-valid shared owner", () => {
+  const h = setup();
+  let tree = h.render();
+  button(tree, "Open reviews").props.onClick();
+  tree = h.render();
+  const captured = review(tree);
+  h.close();
+  captured.props.onAcknowledge();
+  captured.props.onCompile(["one"]);
+  assert.equal(h.posts.length, 0);
+  assert.equal(h.compiled.length, 0);
 });

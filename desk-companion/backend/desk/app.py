@@ -44,13 +44,16 @@ COOKIE = "desk_companion_session"
 
 
 def create_app(directory=None, clock=None, password=None, scheduler=True, allow_replay=None,
-               connector_configs=None):
+               connector_configs=None, allow_watch_retention_migration=False):
     runtime = (
         directory
         or os.environ.get("DESK_RUNTIME_DIR")
         or Path(__file__).resolve().parents[2] / ".runtime"
     )
-    store = Store(runtime, clock=clock, password=password)
+    store = Store(
+        runtime, clock=clock, password=password,
+        allow_watch_retention_migration=allow_watch_retention_migration,
+    )
     if connector_configs is None:
         config_path = os.environ.get("DESK_MCP_CONFIG_PATH")
         connector_configs = load_connector_configs(config_path) if config_path else ()

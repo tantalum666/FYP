@@ -3,7 +3,7 @@ import json
 import os
 import secrets
 import sqlite3
-from contextlib import contextmanager
+from contextlib import closing, contextmanager
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from uuid import uuid4
@@ -24,17 +24,46 @@ def encode(value):
 
 
 class Store:
-    def __init__(self, directory, clock=None, password=None):
+    def __init__(
+        self, directory, clock=None, password=None, *, allow_watch_retention_migration=False
+    ):
+        if type(allow_watch_retention_migration) is not bool:
+            raise DomainError("SCHEMA_MIGRATION_OPT_IN_REQUIRED", 422)
         self.directory = Path(directory)
+        self.path = (self.directory / "desk.sqlite3").absolute()
+        from .responsibility_retention import (
+            SCHEMA_VERSION,
+            initialize_watch_schema,
+            validate_store_base,
+            validate_watch_schema,
+        )
+
+        existing = self.path.exists()
+        schema_version = 0
+        if existing:
+            # Check compatibility before journal mode, bootstrap DDL, settings,
+            # credentials or a version write. This cannot guard historical binaries.
+            with closing(sqlite3.connect(self.path.as_uri() + "?mode=ro", uri=True)) as inspection:
+                schema_version = inspection.execute("PRAGMA user_version").fetchone()[0]
+                if schema_version not in (1, SCHEMA_VERSION):
+                    raise DomainError("SCHEMA_VERSION_UNSUPPORTED")
+                validate_store_base(inspection)
+                validate_watch_schema(
+                    inspection, legacy=schema_version == 1, allow_absent=schema_version == 1
+                )
+                if schema_version < SCHEMA_VERSION and not allow_watch_retention_migration:
+                    raise DomainError("SCHEMA_MIGRATION_REQUIRED")
         self.directory.mkdir(mode=0o700, parents=True, exist_ok=True)
-        self.path = self.directory / "desk.sqlite3"
         self.clock = clock or (lambda: datetime.now(UTC))
         self.password_hasher = PasswordHash.recommended()
         # Installed only by the trusted runtime. No HTTP/model callback surface.
         self.operation_guard = None
-        with self.connection() as conn:
-            conn.executescript("""
-                PRAGMA journal_mode=WAL;
+        # Journal mode is selected only after existing-store compatibility checks.
+        with closing(sqlite3.connect(self.path, isolation_level=None)) as journal:
+            journal.execute("PRAGMA journal_mode=WAL")
+        with self.connection(write=True) as conn:
+            # Individual statements stay in this BEGIN IMMEDIATE transaction.
+            bootstrap = """
                 CREATE TABLE IF NOT EXISTS settings (id INTEGER PRIMARY KEY CHECK(id=1),
                     data TEXT NOT NULL, version INTEGER NOT NULL);
                 CREATE TABLE IF NOT EXISTS owner (id INTEGER PRIMARY KEY CHECK(id=1),
@@ -53,8 +82,12 @@ class Store:
                     status TEXT NOT NULL, snooze_until TEXT, version INTEGER NOT NULL DEFAULT 1);
                 CREATE TABLE IF NOT EXISTS state (id INTEGER PRIMARY KEY CHECK(id=1), revision INTEGER NOT NULL);
                 INSERT OR IGNORE INTO state VALUES(1, 1);
-                PRAGMA user_version=1;
-            """)
+            """
+            for statement in bootstrap.split(";"):
+                if statement.strip():
+                    conn.execute(statement)
+            initialize_watch_schema(conn, legacy=existing and schema_version == 1)
+            conn.execute(f"PRAGMA user_version={SCHEMA_VERSION}")
             if not conn.execute("SELECT 1 FROM owner").fetchone():
                 actual_password = password or secrets.token_urlsafe(12)
                 conn.execute(

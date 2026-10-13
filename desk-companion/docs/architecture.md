@@ -163,3 +163,11 @@ Tasks使用两秒轮询、页面可见时即时读取，选中事务的历史按
 一个query-only读取快照按各类上限加一行投影标量，计算所有保留位置，不按状态或当前成果成员过滤。文件JSON先检查UTF-8字节上限、字面NUL、对象和唯一整数字段，再投影byte_count；错误维度标未知，不回传正文或把损坏计为零。结束快照后在新事务复查会话、设置版本及个人上下文代次，隐藏后再显示也不能恢复旧回应。
 
 前端容量读取与工作刷新、草稿和未知操作队列分离，普通计量失败不封锁已有动作；身份／隐私拒绝则即时撤销共享私有视图。原RunDetail旧导航回调也重新检查当前围栏，避免在React重绘前打开旧审批。可展开说明使用实际配额和可读字节单位，剩余量不等于预约或物理磁盘空间。具体边界见[容量契约](work-capacity.md)。
+
+## Watch retention and schema compatibility (2026-10-13, frozen software checks passed)
+
+Watch status and retention are separate. The focused responsibility_retention module owns additive schema2 bootstrap/migration, strict typed maintenance contracts, finite receipt accounting and a32-entry/five-minute dual-clock preview cache. Store recognizes existing core/schema before bootstrap; legacy requires exact explicit opt-in, while new stores atomically create core watch tables and later TaskService-dependent triggers are installed by ResponsibilityService. Migration uses individual SQL statements under BEGIN IMMEDIATE, not executescript. Historical binaries remain operationally incompatible, not magically blocked by the new guard.
+
+Terminal-only Trash/Restore preserve identity/history/budgets; explicit final purge removes only watch baseline/review/body in the same transaction as a safe shell and original-key receipt. Malformed purported shells stay unavailable, never free capacity. Indexed charged-body counting and separately bounded lifetime metadata inform both admission and visible/hidden aggregate UI. Original receipt recovery precedes preview expiry and current admission; mutations still need actual current owner authority.
+
+The frontend maintenance queue is local to this feature, fences captured callbacks and keeps exact original key/body only within its valid private epoch. Ordinary watch reads also invalidate the shared fence on reordered same-epoch access denial. No cleanup scheduler, provider tool, file lifecycle or external-effect cascade was added. Actual mounted UI and production migration remain unverified separately; see [watch maintenance](watch-retention.md).

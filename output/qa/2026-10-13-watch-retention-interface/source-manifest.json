@@ -1,0 +1,70 @@
+{
+  "captured_at": "2026-10-13T08:55:57.213536+00:00",
+  "files": {
+    "desk-companion/frontend/src/workspace/responsibilities/CurrentTask.tsx": {
+      "sha256": "43f4638c34f59b92772da8c59f30fe95a51a235485ff7c4b6239db0cbdf2296a",
+      "bytes": 3890,
+      "lines": 123
+    },
+    "desk-companion/frontend/src/workspace/responsibilities/ResponsibilitiesPanel.tsx": {
+      "sha256": "c9fc7ed00ce011a292bac344fc1c680812c2ecea2d1fd82911afa784ce7aae92",
+      "bytes": 27033,
+      "lines": 733
+    },
+    "desk-companion/frontend/src/workspace/responsibilities/WatchRetention.tsx": {
+      "sha256": "80670e708a665d007ff9853fadc1d6ec3105bfaea98c5a22505d25bb802c1242",
+      "bytes": 15449,
+      "lines": 404
+    },
+    "desk-companion/frontend/src/workspace/responsibilities/WatchReviewCard.tsx": {
+      "sha256": "8ebf8e9c0ad8446762ea405918c576e55a71fd6faee1ea188ced2edf41a1dcbb",
+      "bytes": 3491,
+      "lines": 103
+    },
+    "desk-companion/frontend/src/workspace/responsibilities/labels.ts": {
+      "sha256": "af1bb95afcccee727c6a46f222c5a2b418d9b63c776c1f74710b00ddf7ddeb55",
+      "bytes": 6672,
+      "lines": 137
+    },
+    "desk-companion/frontend/src/workspace/responsibilities/responsibilities.css": {
+      "sha256": "d2f641e19e39a62a4897dd64567010704e662c8b152bded542465d450a6f8487",
+      "bytes": 1285,
+      "lines": 70
+    },
+    "desk-companion/frontend/src/workspace/responsibilities/retention.ts": {
+      "sha256": "868f341986c985cd9c3231dd19d563f36925f70e595f39656cc16be6af73c90a",
+      "bytes": 12099,
+      "lines": 395
+    },
+    "desk-companion/frontend/src/workspace/responsibilities/types.ts": {
+      "sha256": "abbcb3291d4ed4ea2cc5324a778fef8737cb6567c031fd14faae03aaf01b1a5c",
+      "bytes": 5877,
+      "lines": 200
+    },
+    "desk-companion/frontend/src/workspace/responsibilities/useResponsibilities.ts": {
+      "sha256": "db71a745159b9acc643ea8317f365705e12bf6f79a93bf529af2c2864c3460d3",
+      "bytes": 5046,
+      "lines": 151
+    },
+    "desk-companion/frontend/src/workspace/responsibilities/useWatchRetention.ts": {
+      "sha256": "7f2a4836349958d04749017a5e0b1a0f0e3bdbf4aac0ee04d79ab4b0477c4335",
+      "bytes": 9243,
+      "lines": 291
+    },
+    "desk-companion/frontend/tests/watch-retention.test.ts": {
+      "sha256": "78903f0c98800cc27064741dec6ea3df2a8cf24409cdb7a87829fb71d306b227",
+      "bytes": 17694,
+      "lines": 587
+    },
+    "desk-companion/frontend/tests/watch-retention-render.test.ts": {
+      "sha256": "66af3bccc59c35a19577c44e5f06607882fe38171cb1eef8d82679e3ddddaad5",
+      "bytes": 6042,
+      "lines": 182
+    },
+    "desk-companion/frontend/tests/responsibilities-callbacks.test.ts": {
+      "sha256": "b3b3022a79fdbbdb62efe5a152d1f3913d2c8a2de8a19a7dd25c12970e1db1a0",
+      "bytes": 15467,
+      "lines": 510
+    }
+  }
+}

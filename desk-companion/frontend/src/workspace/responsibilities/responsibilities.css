@@ -38,3 +38,33 @@
 .watch-form .agent-check {
   margin: 0.5rem 0;
 }
+.watch-maintenance {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+  border-top: 2px solid var(--border, #d7dee8);
+  padding-top: 1rem;
+}
+.watch-maintenance-row {
+  text-align: start;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.watch-retention-confirm {
+  border: 2px solid var(--border, #d7dee8);
+  padding: 1rem;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+.watch-retention-confirm.irreversible {
+  border-color: #b34d40;
+}
+.watch-retention-confirm .workspace-inline-actions {
+  margin-top: 1rem;
+}
+.watch-retention-confirm button {
+  white-space: normal;
+}
+.watch-usage {
+  overflow-wrap: anywhere;
+}

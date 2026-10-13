@@ -1,0 +1,61 @@
+{
+  "inherited": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "scope": "Same ongoing task; focused root reads, authored integration and independently pinned worker reviews",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 222,
+      "sha256": "df564ac16f4ca6fee1cbeacd3dbb57961f044f7b3f7a4efeb0fee5ac0bfd1005"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 56,
+      "sha256": "1e8378f2bd412e6cbf3f1ec18045a8f026fdbaefe7700318c8b4b1cb79ed479c"
+    },
+    {
+      "path": "desk-companion/docs/operator-guide.md",
+      "lines": 187,
+      "sha256": "99e55194d2031089caba2929372460df9e16264f9ab06017fed2de240d17a0bf"
+    },
+    {
+      "path": "desk-companion/docs/watch-retention.md",
+      "lines": 265,
+      "sha256": "7a8ae5b68d187732e60f31f542f6883accaaacde7cd7fe11f716e07ab0deb768"
+    },
+    {
+      "path": "desk-companion/docs/responsibilities.md",
+      "lines": 246,
+      "sha256": "27e956e8f33db797c73ed705aedf5f70ec6e50bed42297c1888121477a99150e"
+    },
+    {
+      "path": "desk-companion/docs/work-capacity.md",
+      "lines": 43,
+      "sha256": "1f0aeb735a23a5d2586d4ed6a9802bc3a7696d99e24accbd0dc4bb14f2df06a0"
+    },
+    {
+      "path": "desk-companion/backend/desk/app.py",
+      "lines": 407,
+      "sha256": "e4c396298210d3cb38db561b0ecb8683b60019090e40763a226b43a716f21a6e"
+    },
+    {
+      "path": "desk-companion/scripts/migrate_watch_retention.py",
+      "lines": 92,
+      "sha256": "1b3957bdef3147b848d3e4aa780238520b7654a34497eb93b4e3510a9246304e"
+    },
+    {
+      "path": "desk-companion/tests/test_watch_migration_cli.py",
+      "lines": 157,
+      "sha256": "44094cf871e4d190afcdeacd64886d78f893de53a44bdd3e5b11f9f9770f387e"
+    },
+    {
+      "path": "output/qa/2026-10-13-terminal-watch-runtime-audit/review.md",
+      "lines": 46,
+      "sha256": "552fb766fe643b5eaffd43b3561cb6b1a2f47e4993e2c657025bc35059a76bac"
+    }
+  ]
+}

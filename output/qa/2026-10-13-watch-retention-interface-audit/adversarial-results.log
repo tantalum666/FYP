@@ -1,0 +1,23 @@
+✔ AUDIT not-mounted: cancel before preview resolves suppresses its late success and final captured callback (180.249257ms)
+✔ AUDIT not-mounted: old preparation success cannot replace a newer action preview (40.245857ms)
+✔ AUDIT not-mounted: exact action and terminal states fail closed without mutation (78.47732ms)
+✔ AUDIT not-mounted: captured retry and delayed successful result are fenced synchronously by personal change (34.22498ms)
+✔ AUDIT not-mounted: queue cannot mint fresh key after malformed success, and no auto retry (21.608773ms)
+✔ AUDIT not-mounted: past expiry and non-boolean consent cannot call retention (20.846793ms)
+✔ AUDIT not-mounted: successful old read after denial does not restore access (14.913274ms)
+✔ AUDIT not-mounted: monotonic deadline blocks purge despite wall clock rollback (17.328113ms)
+✔ AUDIT ordinary acknowledgement disposition clears selected detail without calling stale selected reload (271.080683ms)
+✔ AUDIT maintenance callback clears ordinary selection before any reload and makes no Work handoff (91.043432ms)
+✔ AUDIT ordinary overlapping list denial must invalidate newer success (145.196413ms)
+✔ AUDIT hidden actual read only calls safe list, never maintenance or private capacity (35.110628ms)
+✔ AUDIT actual confirmation callbacks strict true only for purge; no action during render (4.307513ms)
+✔ AUDIT bilingual unknown invalid aggregates never become apparent free capacity (12.484246ms)
+✔ AUDIT bilingual long untrusted title and ID remain escaped as text and content includes narrow-safe wrappers (5.130399ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1129.320728

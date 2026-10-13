@@ -40,6 +40,38 @@ export function watchError(error: unknown, t: Translate) {
       ? String(error.code)
       : "";
   const messages: Record<string, string> = {
+    RESPONSIBILITY_REMOVED: t(
+      "This exact watch history was permanently removed. Opaque retry metadata remains; it cannot be restored.",
+      "此确切关注历史已永久移除。不含正文的重试元数据仍保留，无法恢复。",
+    ),
+    RESPONSIBILITY_RETENTION_INVALID: t(
+      "This history is no longer in the required state. Refresh its current disposition; no replacement action was started.",
+      "此历史已不处于所需状态，请刷新当前留存状态；未开始替代操作。",
+    ),
+    RESPONSIBILITY_RETAINED_STATE_REQUIRED: t(
+      "This watch is in Trash or permanently removed. Open history maintenance to inspect its current state.",
+      "此关注在废纸篓或已永久移除，请打开历史整理查看当前状态。",
+    ),
+    RESPONSIBILITY_PREVIEW_EXPIRED: t(
+      "The preview expired or is no longer available. A new action requires a new preview; recover an unknown sent request only with its original retry.",
+      "预览已到期或不可用。新操作需重新预览；已发送但未知的请求只能按原始请求重试。",
+    ),
+    RESPONSIBILITY_PREVIEW_CHANGED: t(
+      "The exact history or authority changed. Refresh and review a new action-specific preview.",
+      "确切历史或权限已变化，请刷新并重新审阅此操作的预览。",
+    ),
+    RESPONSIBILITY_METADATA_LIMIT: t(
+      "All 256 lifetime watch identities are used. Removing history does not reset this limit. Existing recovery and final stop controls remain available.",
+      "256个生命周期关注标识均已使用，移除历史不会重置此上限。仍可恢复原操作回执及使用最终停止控制。",
+    ),
+    RESPONSIBILITY_METADATA_UNAVAILABLE: t(
+      "Retained metadata cannot be counted safely. Usage is unknown; do not assume free space. Existing records were not discarded.",
+      "无法安全计量留存元数据，用量未知，请勿假定有空余容量。现有记录未被丢弃。",
+    ),
+    RESPONSIBILITY_NOT_TERMINAL: t(
+      "Cancel this watch first using its existing controls. History maintenance never cancels it automatically.",
+      "请先使用原有控制取消此关注，历史整理不会自动取消。",
+    ),
     RESPONSIBILITY_CONTEXT_CHANGED: t(
       "Private context changed before the response arrived. The action may already have saved; reopen current history before repeating it.",
       "响应返回前私人上下文已变化。操作可能已保存；重复操作前请重新打开当前历史。",

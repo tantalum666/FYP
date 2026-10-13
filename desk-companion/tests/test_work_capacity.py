@@ -30,7 +30,7 @@ def capacity(world):
 def watch(world, number, state="cancelled"):
     with world[0].store.connection(write=True) as conn:
         conn.execute(
-            "INSERT INTO responsibilities VALUES(?,?,1,1,?,'','','','',1,0,1,'',0,NULL,0)",
+            "INSERT INTO responsibilities(id,data,version,generation,status,created_at,updated_at,baseline_at,expires_at,review_budget,reviews_used,daily_review_budget,budget_day,daily_used,blocked_code,eval_order) VALUES(?,?,1,1,?,'','','','',1,0,1,'',0,NULL,0)",
             (f"{number:032x}", "malformed private body", state),
         )
 

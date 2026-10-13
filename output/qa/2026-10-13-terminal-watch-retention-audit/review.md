@@ -52,6 +52,8 @@ Use three retention states only for watches: retained/trashed/purged. `purge_pen
 
 ## Evidence and limits
 
+Historical probe source: `4c41dbaa3caec7c5bec0a73f807a80de4890776e` (Store was unchanged at `dd3ab24`). Reproduce `probe.py` on that pre-lifecycle checkout; its recorded old-bootstrap findings are not an assertion about the later corrected Store. New runtime acceptance pins separate source hashes.
+
 - `probe.py` ran against actual Store in the existing virtualenv, creating only temporary synthetic SQLite stores
 - `probe-results.json`: legacy bootstrap resets version2 to1; executescript changes survive context rollback; abstract receipt maximum259, lifetime maximum66,304
 - Inspected actual responsibilities service, Store, capacity query/model, watch list/detail/types/controls, private mutation helper, existing tests, product/handoff and relevant contracts

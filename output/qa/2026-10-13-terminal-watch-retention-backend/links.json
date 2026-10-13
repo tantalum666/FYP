@@ -1,0 +1,18 @@
+[
+  {
+    "target": "responsibilities.md",
+    "exists": true
+  },
+  {
+    "target": "../../output/qa/2026-10-13-terminal-watch-retention-backend/verification.md",
+    "exists": true
+  },
+  {
+    "target": "operator-guide.md",
+    "exists": true
+  },
+  {
+    "target": "../scripts/migrate_watch_retention.py",
+    "exists": true
+  }
+]

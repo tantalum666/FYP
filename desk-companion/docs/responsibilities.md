@@ -35,8 +35,10 @@ not an intermediate-change count or a reconstruction of old note/title values.
 
 ## Durable transaction boundaries
 
-`ResponsibilityService(runtime)` is constructed after `TaskService`. Its four
-SQLite tables retain definitions, per-selected-task dirty mailboxes and field
+`ResponsibilityService(runtime)` is constructed after `TaskService`. Store schema v2
+creates the four core watch tables atomically; task-dependent triggers/indexes are
+installed after TaskService. Existing legacy stores require explicit migration
+opt-in after stopping services and verifying a coherent backup. The tables retain definitions, per-selected-task dirty mailboxes and field
 hashes, change reviews, and hash-only operation receipts with stable references.
 Triggers run in the source transaction for task insert/update/delete and note
 insert/delete. They only update already-enrolled IDs and contain no source text,
@@ -96,7 +98,9 @@ a watch's review quota is exhausted.
 ## Lifecycle and retention
 
 States are `active`, `paused`, `blocked`, `cancelled`, `expired` and
-`budget_exhausted`. The last three are terminal and remain visible.
+`budget_exhausted`. The last three are terminal and remain visible while retained.
+Evaluation status and the separate retained/trashed/purged lifecycle are distinct;
+see [terminal-watch maintenance](watch-retention.md). Restore never resumes a watch.
 
 - Pause increments version/generation, stops evaluation and dismisses any pending
   delivery without deleting history
@@ -119,7 +123,9 @@ before/after text. Current task labels are loaded on visible reads.
 
 Hard bounds:
 
-- Twenty total definitions, including terminal definitions; no automatic deletion,
+- Twenty retained definition bodies, including terminal and trashed definitions;
+  validated completed purge shells do not consume a body slot. There are separately
+  at most256 lifetime identities, including tombstones. No automatic deletion,
   replacement, widening, renewal or reset
 - Ten selected tasks each; a future UTC expiry no more than thirty days ahead
 - One to one hundred lifetime review reservations, one to twenty per UTC day
@@ -127,9 +133,12 @@ Hard bounds:
 - Newest fifty retained reviews per definition, preserving pending reviews;
   pruning never deletes baselines, budgets or dedupe references
 - Two hundred fifty-six ordinary operation receipts per definition, including
-  creation and acknowledgment. At this cap a final pause and terminal cancel
-  remain available independently, for at most two additional receipts. A no-op
-  repeated pause is rejected and cannot consume the cancellation reserve
+  creation and acknowledgment; the admission threshold counts all existing receipts,
+  not a separate ordinary-kind bucket. At this cap a final pause and terminal cancel
+  remain available independently, for at most two additional receipts. A final
+  confirmed purge may use one more, at most259 in a valid identity lifetime.
+  Trash requires count<=254 and reserves its corresponding Restore up to256.
+  No-op repetition cannot consume stop/restore/purge reserves
 
 Same operation ID/body recovers stable IDs and a freshly authorized current
 projection, even after a review was pruned. Different body reuse conflicts.
@@ -140,8 +149,10 @@ protocol can also recover that key after fresh authorization, but the current
 UI deliberately clears its private draft/retry queue on identity or privacy
 epoch changes. In that case reopen current history and inspect the saved result;
 the UI does not offer a cross-epoch retry with a cleared key. Capacity failure is explicit; making a new definition does
-not erase an old definition's retained records. There is no deletion/forensic
-wipe API or promise about existing backups in this slice.
+not erase an old definition's retained records. Explicit terminal-watch maintenance
+can remove that watch body/history after its separate final confirmation, retaining
+opaque retry barriers. It cannot remove watched tasks or independent Work. There
+is no forensic wipe or promise about existing backups.
 
 ## Owner authority and privacy
 
@@ -180,7 +191,8 @@ All routes are under `/api/responsibilities`. Mutations require the existing
   nonempty `fields`, `scope_revision`, explicit `retain_change_history: true`,
   UTC `expires_at`, strict integer `review_budget` and `daily_review_budget`
 - `GET /`: `responsibilities`, `pending_count`, `hidden`, `revision`,
-  `server_time`, `limits`
+  `server_time`, `limits`, typed `maintenance_usage`; ordinary list excludes Trash
+  while retained_count still includes it
 - `GET /{id}`: `responsibility`, newest-first `reviews`, live `selected_tasks`,
   `revision`; missing labels have `available: false`
 - `POST /{id}/actions`: `action: pause|resume|cancel|recheck`, `expected_version`;
@@ -192,6 +204,10 @@ Mutation replies contain current `responsibility`, `saved`, `revision` and
 `acknowledged: true`. Background reviews do not change definition versions;
 owner lifecycle controls, blocking, expiry and lifetime exhaustion do.
 Each coalescence/acknowledgment/dismissal changes the separate review version.
+A replay whose resource is now trashed/purged instead returns the content-free
+`retention_disposition` union; it does not fabricate a full definition or a newly
+acknowledged review. Maintenance routes, preview freshness and strict purge
+confirmation are defined in [the maintenance contract](watch-retention.md).
 
 Important errors include `RESPONSIBILITY_SCOPE_CHANGED`,
 `RESPONSIBILITY_SOURCE_UNAVAILABLE`, `RESPONSIBILITY_SOURCE_KIND_UNSUPPORTED`,

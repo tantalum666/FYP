@@ -11,6 +11,7 @@ from .calendar import iso
 from .file_store import session_from_request
 from .schemas import StrictModel
 from .store import DomainError
+from .responsibility_retention import watch_accounting
 from .work_limits import (
     ARTIFACT_BYTES,
     ARTIFACT_COUNT,
@@ -161,6 +162,15 @@ class WorkCapacityService:
             file_bytes=file_cap,
         )
 
+    @staticmethod
+    def _watches(conn):
+        usage = watch_accounting(conn, capacity=True)
+        return CountCapacity(
+            count=dimension(
+                WATCH_COUNT, usage["retained_count"], overflow=usage["state"] == "over_limit"
+            )
+        )
+
     def _read(self, conn):
         return WorkCapacityResult(
             observed_at=iso(self.store.clock()),
@@ -181,7 +191,7 @@ class WorkCapacityService:
                 per_run_bytes=ARTIFACT_RUN_BYTES,
             ),
             runs=self._count(conn, "agent_runs", RUN_COUNT),
-            watches=self._count(conn, "responsibilities", WATCH_COUNT),
+            watches=self._watches(conn),
         )
 
     def snapshot(self, *, session_hash):

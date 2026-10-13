@@ -1,0 +1,13 @@
+{
+  "captured_at": "2026-10-13T08:59:39.774933+00:00",
+  "files": {
+    "desk-companion/backend/desk/responsibilities.py": "87aae262dab3cb31d14019b5b30a8afe271668deb78ea9f155dd6d31ca6c8f2a",
+    "desk-companion/backend/desk/responsibility_retention.py": "f2a60d91ee8bc35c3c828897e1229eb48405dbf6f9c5e168916c13e474c0f91c",
+    "desk-companion/backend/desk/store.py": "14ab5ff8530a52acf4b076ebc97bc55f491359a96405069d6479702f8b32d0ee",
+    "desk-companion/backend/desk/work_capacity.py": "73ec63c54e9cd0d8246c944984a4861e7e510eeb6512517eb105e22640924c41",
+    "desk-companion/tests/test_watch_retention.py": "e0ff3c992fdecfe5664b7051ebb2658bfd8ae850e0e7a00c1f513ab82935df02",
+    "desk-companion/tests/test_watch_retention_migration.py": "fbd4b845dfa286128b4f096948f23d51770871917b159aa6239c9410a266c73c",
+    "desk-companion/tests/test_work_capacity.py": "a7ccbe0ea0548c2ca690334604268b8c9b72d902d86bdb70a281519398878bfa",
+    "desk-companion/docs/watch-retention.md": "7a8ae5b68d187732e60f31f542f6883accaaacde7cd7fe11f716e07ab0deb768"
+  }
+}

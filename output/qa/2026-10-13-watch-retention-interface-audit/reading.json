@@ -1,0 +1,35 @@
+{
+  "intake": "Inherits parent same-task complete 186-document intake, not a new independent full-repository reading claim. Focused files reread to EOF in tool output chunks; source inspection and tests recorded separately.",
+  "focused": [
+    {
+      "file": "AGENTS.md",
+      "lines": 50,
+      "read": "1-EOF",
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "file": "product.md",
+      "lines": 214,
+      "read": "1-EOF",
+      "sha256": "280ca566dda430a9fb7c86a13d8fe50256741c7c258d3cecc11612d5a6d4078d"
+    },
+    {
+      "file": "handoff.md",
+      "lines": 56,
+      "read": "1-EOF",
+      "sha256": "1e8378f2bd412e6cbf3f1ec18045a8f026fdbaefe7700318c8b4b1cb79ed479c"
+    },
+    {
+      "file": "planning/2026-10-13/retained-work-recovery-design.md",
+      "lines": 155,
+      "read": "1-EOF",
+      "sha256": "7bee1297c2ab4b2afc2f393040930b5617114f7024a482023180bdee92495c99"
+    },
+    {
+      "file": "output/qa/2026-10-13-terminal-watch-retention-audit/review.md",
+      "lines": 62,
+      "read": "1-EOF",
+      "sha256": "9669462e93a411373d6231df90813bf1f52d6756aa24b521cff9a62e91bf6a2e"
+    }
+  ]
+}

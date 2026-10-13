@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-13T08:54:39.516284+00:00",
+  "files": {
+    "desk-companion/frontend/src/workspace/responsibilities/useResponsibilities.ts": "db71a745159b9acc643ea8317f365705e12bf6f79a93bf529af2c2864c3460d3",
+    "desk-companion/frontend/src/workspace/responsibilities/types.ts": "abbcb3291d4ed4ea2cc5324a778fef8737cb6567c031fd14faae03aaf01b1a5c",
+    "desk-companion/frontend/src/workspace/responsibilities/ResponsibilitiesPanel.tsx": "c9fc7ed00ce011a292bac344fc1c680812c2ecea2d1fd82911afa784ce7aae92",
+    "desk-companion/frontend/src/workspace/responsibilities/CurrentTask.tsx": "43f4638c34f59b92772da8c59f30fe95a51a235485ff7c4b6239db0cbdf2296a",
+    "desk-companion/frontend/src/workspace/responsibilities/labels.ts": "af1bb95afcccee727c6a46f222c5a2b418d9b63c776c1f74710b00ddf7ddeb55",
+    "desk-companion/frontend/src/workspace/responsibilities/WatchRetention.tsx": "80670e708a665d007ff9853fadc1d6ec3105bfaea98c5a22505d25bb802c1242",
+    "desk-companion/frontend/src/workspace/responsibilities/WatchReviewCard.tsx": "8ebf8e9c0ad8446762ea405918c576e55a71fd6faee1ea188ced2edf41a1dcbb",
+    "desk-companion/frontend/src/workspace/responsibilities/useWatchRetention.ts": "7f2a4836349958d04749017a5e0b1a0f0e3bdbf4aac0ee04d79ab4b0477c4335",
+    "desk-companion/frontend/src/workspace/responsibilities/retention.ts": "868f341986c985cd9c3231dd19d563f36925f70e595f39656cc16be6af73c90a",
+    "desk-companion/frontend/src/workspace/responsibilities/responsibilities.css": "d2f641e19e39a62a4897dd64567010704e662c8b152bded542465d450a6f8487",
+    "desk-companion/frontend/src/workspace/personal/responseFence.ts": "27cd3e93971cea4059afcf1f642ca2ef8dcf9b3b9611d7dbae3e6742fac0adb3",
+    "desk-companion/frontend/src/workspace/personal/usePrivateMutation.ts": "dd369ecf5acbea2714c28fd5980dd8c7ae5380c109434eba22104743d283db1c",
+    "desk-companion/frontend/src/workspace/personal/privateWrite.ts": "f5968cfc308841981ebcd5c402550f43da9cc34bb5e3e66a4f32087febc2bcb6",
+    "desk-companion/frontend/tests/responsibilities.test.ts": "a88f8d95ce44bef09e8d861ac325e48b75ad3c0a7631f53679aeb11fd8fd9c73",
+    "desk-companion/frontend/tests/responsibilities-render.test.ts": "35b719f99da3f258554262cf798ad2c78389129f9c87752118442b70e7c1cf1c",
+    "desk-companion/frontend/tests/responsibilities-callbacks.test.ts": "b3b3022a79fdbbdb62efe5a152d1f3913d2c8a2de8a19a7dd25c12970e1db1a0",
+    "desk-companion/frontend/tests/responsibilities-lifecycle.test.ts": "1540afd6681da7444f81c23eae34850fde9da82ce7dd37d865c124b7a55c00f3",
+    "desk-companion/frontend/tests/watch-retention-render.test.ts": "66af3bccc59c35a19577c44e5f06607882fe38171cb1eef8d82679e3ddddaad5",
+    "desk-companion/frontend/tests/watch-retention.test.ts": "78903f0c98800cc27064741dec6ea3df2a8cf24409cdb7a87829fb71d306b227"
+  }
+}

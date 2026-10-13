@@ -19,6 +19,8 @@ import type { Responsibility, WatchAction, WatchDraft } from "./types";
 import { useResponsibilities } from "./useResponsibilities";
 import { WatchReviewCard } from "./WatchReviewCard";
 import { CurrentTask } from "./CurrentTask";
+import { WatchRetention, WatchUsage } from "./WatchRetention";
+import { validWatchMutationResult } from "./retention";
 import "./responsibilities.css";
 export function ResponsibilitiesPanel({
   t,
@@ -49,9 +51,11 @@ export function ResponsibilitiesPanel({
     };
     window.addEventListener("desk:session", changed);
     window.addEventListener("desk:personal-context", changed);
+    window.addEventListener("offline", changed);
     return () => {
       window.removeEventListener("desk:session", changed);
       window.removeEventListener("desk:personal-context", changed);
+      window.removeEventListener("offline", changed);
     };
   }, []);
   useEffect(() => {
@@ -116,8 +120,16 @@ export function WatchWorkspace({
   t: Translate;
   onCompile: (goal: WorkGoalRequest) => void;
 }) {
+  const mounted = useRef(true);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
   const [selected, setSelected] = useState<string | null>(null),
-    [create, setCreate] = useState(false);
+    [create, setCreate] = useState(false),
+    [maintenance, setMaintenance] = useState(false);
   const [draft, setDraft] = useState<WatchDraft>(newWatchDraft);
   const [confirm, setConfirm] = useState<{
     row: Responsibility;
@@ -163,6 +175,7 @@ export function WatchWorkspace({
   useDraftGuard(dirty || mutation.pending || !!confirm, mutation.busy);
   const viewKey = JSON.stringify([
     selected,
+    maintenance,
     path,
     value?.scope?.scope_revision,
     value?.detail?.revision,
@@ -171,6 +184,7 @@ export function WatchWorkspace({
   const current = useRef({ fresh, hidden, viewKey });
   current.current = { fresh, hidden, viewKey };
   const acceptsAction = () =>
+    mounted.current &&
     current.current.fresh &&
     current.current.viewKey === viewKey &&
     fence.accepts(epoch);
@@ -201,9 +215,21 @@ export function WatchWorkspace({
   }
   async function write(path: string, body: unknown, created = false) {
     if (!acceptsAction() || locked) return;
-    await mutation.run(path, body, () => {
+    await mutation.run(path, body, (result: unknown) => {
       if (!fence.accepts(epoch)) return;
       setConfirm(null);
+      if (!validWatchMutationResult(result)) {
+        fence.update(`invalid-response:${epoch}`, false);
+        setSourceDenial({ code: "RESPONSIBILITY_RESPONSE_INVALID" });
+        return;
+      }
+      if ("kind" in result) {
+        setSelected(null);
+        setInspect(null);
+        setCreate(false);
+        if (!selected) void reload(true);
+        return;
+      }
       if (created) {
         setCreate(false);
         setDraft(newWatchDraft());
@@ -241,7 +267,7 @@ export function WatchWorkspace({
           <button
             type="button"
             className="primary"
-            disabled={blocked || create || !!confirm}
+            disabled={blocked || create || !!confirm || maintenance}
             onClick={() => {
               if (!acceptsAction() || locked) return;
               setCreate(true);
@@ -285,7 +311,11 @@ export function WatchWorkspace({
             className="secondary"
             disabled={!fresh || mutation.busy}
             onClick={() => {
-              if (current.current.fresh && fence.accepts(epoch))
+              if (
+                mounted.current &&
+                current.current.fresh &&
+                fence.accepts(epoch)
+              )
                 void mutation.retry();
             }}
           >
@@ -296,30 +326,25 @@ export function WatchWorkspace({
       {value && (
         <>
           <p>
-            {t("Pending reviews", "待查看变化")}: {value.list.pending_count} ·{" "}
-            {t("Saved definitions", "保存的关注")}:{" "}
-            {value.list.responsibilities.length}/
-            {value.list.limits.definitions ?? t("Unknown limit", "上限未知")}
-            {Number.isSafeInteger(value.list.limits.definitions) &&
-              value.list.limits.definitions >= 0 && (
-                <>
-                  {" "}
-                  ·{" "}
-                  {Math.max(
-                    0,
-                    value.list.limits.definitions -
-                      value.list.responsibilities.length,
-                  )}{" "}
-                  {t("slots remaining", "剩余位置")}
-                </>
-              )}
+            {t("Pending reviews", "待查看变化")}: {value.list.pending_count}
           </p>
-          <p>
-            {t(
-              "Cancelled, expired and budget-exhausted definitions remain saved and use slots. Cancellation does not free capacity; this version has no deletion control.",
-              "已取消、已到期和额度耗尽的关注定义仍保留并占用位置。取消不会释放容量；本版无删除入口。",
-            )}
-          </p>
+          <WatchUsage
+            usage={value.list.maintenance_usage}
+            limit={value.list.limits.definitions}
+            t={t}
+          />
+          {!hidden && (
+            <button
+              type="button"
+              className="secondary"
+              disabled={blocked || dirty || !!confirm || create || maintenance}
+              onClick={() => {
+                if (acceptsAction() && !locked) setMaintenance(true);
+              }}
+            >
+              {t("Manage terminal history and Trash", "整理已终止历史与废纸篓")}
+            </button>
+          )}
           <div className="watch-list">
             {value.list.responsibilities.map((row) => (
               <article key={row.id} className="watch-review">
@@ -338,7 +363,7 @@ export function WatchWorkspace({
                     <button
                       type="button"
                       className="secondary"
-                      disabled={blocked || dirty || !!confirm}
+                      disabled={blocked || dirty || !!confirm || maintenance}
                       onClick={() => choose(row.id)}
                     >
                       {t("Open reviews", "打开审阅")}
@@ -349,7 +374,7 @@ export function WatchWorkspace({
                       key={action}
                       type="button"
                       className="secondary"
-                      disabled={blocked || dirty || !!confirm}
+                      disabled={blocked || dirty || !!confirm || maintenance}
                       onClick={() => {
                         if (acceptsAction() && !locked)
                           setConfirm({ row, action });
@@ -363,6 +388,26 @@ export function WatchWorkspace({
             ))}
           </div>
         </>
+      )}
+      {!hidden && maintenance && (
+        <WatchRetention
+          fence={fence}
+          epoch={epoch}
+          fresh={fresh && !accessDenied}
+          revision={value?.list.revision}
+          rows={value?.list.responsibilities ?? []}
+          limit={value?.list.limits.definitions}
+          t={t}
+          onChanged={() => {
+            if (!fence.accepts(epoch)) return;
+            setSelected(null);
+            setInspect(null);
+            // Selection change drives a new hook read; never reload a closure for the removed detail.
+            if (!selected) void reload(true);
+          }}
+          onDenied={(reason) => setSourceDenial(reason)}
+          onClose={() => setMaintenance(false)}
+        />
       )}
       {confirm && (
         <div className="watch-review" role="alert">
@@ -551,8 +596,8 @@ export function WatchWorkspace({
             </p>
             <p>
               {t(
-                "Local retention: definition, selected IDs, field hashes and change metadata; newest 50 reviews plus pending/linked reviews. No copied before/after note text. Cancellation does not delete history; this version has no deletion control or forensic-erasure promise.",
-                "本地保留定义、所选ID、字段哈希与变化元数据；最新50项审阅及待处理／关联审阅。不复制变化前后的进展正文。取消不会删除历史；本版无删除入口，也不承诺法证擦除。",
+                "Local retention: definition, selected IDs, field hashes and change metadata; newest 50 reviews plus pending/linked reviews. No copied before/after note text. Cancellation does not delete history. Terminal history can be moved to Trash, restored without resuming, or separately confirmed for permanent removal. Opaque retry metadata remains; no forensic-erasure promise.",
+                "本地保留定义、所选ID、字段哈希与变化元数据；最新50项审阅及待处理／关联审阅。不复制变化前后的进展正文。取消不会删除历史。已终止历史可移到废纸篓、恢复但不重新开始，或单独确认永久移除。不含正文的重试元数据仍保留，不承诺法证擦除。",
               )}
             </p>
             <label className="agent-check">
@@ -637,7 +682,7 @@ export function WatchWorkspace({
               review={review}
               detail={value.detail!}
               t={t}
-              disabled={blocked || dirty || !!confirm}
+              disabled={blocked || dirty || !!confirm || maintenance}
               onInspect={(id) => {
                 if (acceptsAction() && !locked) setInspect(id);
               }}
