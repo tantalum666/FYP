@@ -1,0 +1,82 @@
+{
+  "scope": "Same ongoing task; inherited186-document intake; root focused review, ongoing implementation",
+  "inherited_intake": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "read_scope": "AGENTS/product/handoff/README/architecture/runtime/app complete; latest relevant decisions; complete task-watch design and backend; UI listed inspected sections, independent worker full UI reading separately",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 204,
+      "sha256": "8eabd04db9d4c7e67d559e0d9eb08d895e2edefa4aa4e489e3079da198d691c9"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 54,
+      "sha256": "55d06a801b3f577a98bf12400339c39f6980416d370b914c5bfc9b343b7b38cb"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 868,
+      "sha256": "b4cebf4941debe9f22665bcffcd9f2bb13ad2002233a30ea8caf83f7be9444cf"
+    },
+    {
+      "path": "desk-companion/README.md",
+      "lines": 169,
+      "sha256": "0e863f5e17d0bdcb2cd37aff201c0c4d77ad3cbda3e1c06ad13d43b4b0348ceb"
+    },
+    {
+      "path": "desk-companion/docs/architecture.md",
+      "lines": 157,
+      "sha256": "a10e9b4b98e00d6532cf9382cf0fd35dba2dbc213e29f5fcda7c723bcec1f7b2"
+    },
+    {
+      "path": "planning/2026-10-13/source-change-responsibilities-design.md",
+      "lines": 194,
+      "sha256": "6e6d827faea6d155d51d6a79c1b210249983ffd81ad9285239cdcc45160ed0af"
+    },
+    {
+      "path": "desk-companion/backend/desk/runtime.py",
+      "lines": 123,
+      "sha256": "b0c0bddf5b64891a71f6796f2e89440ff7ad3d174a9cab6ef795640e4b2ff1a6"
+    },
+    {
+      "path": "desk-companion/backend/desk/app.py",
+      "lines": 402,
+      "sha256": "7394a4b8fbf3461fb01300cdbe42ee3e5166b13fb2d098590b5bb08a13793258"
+    },
+    {
+      "path": "desk-companion/backend/desk/responsibilities.py",
+      "lines": 767,
+      "sha256": "d6dc00cdb94658fa39d9fe9e8de2d6498547d45ad154c74b12273b563e76a78a"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/responsibilities/ResponsibilitiesPanel.tsx",
+      "lines": 669,
+      "sha256": "3ff9d7c1e01eab2ea2df37fa178388d13d92f9ca73b622c0ebc37f5d236bb7a4"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/responsibilities/useResponsibilities.ts",
+      "lines": 123,
+      "sha256": "f6a17bd1af2184a8dfbcb1938ae7f5f4a0561b6d8d975b02fa7415cdbe465b22"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/responsibilities/types.ts",
+      "lines": 193,
+      "sha256": "ad5fc788d8ebf76db885145622fa16af67a47455935edef9f8239bb2cfd649f9"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/responsibilities/CurrentTask.tsx",
+      "lines": 123,
+      "sha256": "43f4638c34f59b92772da8c59f30fe95a51a235485ff7c4b6239db0cbdf2296a"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/responsibilities/WatchReviewCard.tsx",
+      "lines": 103,
+      "sha256": "8ebf8e9c0ad8446762ea405918c576e55a71fd6faee1ea188ced2edf41a1dcbb"
+    }
+  ]
+}

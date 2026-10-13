@@ -13,7 +13,13 @@ import { SourcePreview } from "./SourcePreview";
 import { RunBrowserSelection } from "./RunBrowserSelection";
 import { RunConnectorSelection } from "./RunConnectorSelection";
 import { RunContextSelection } from "./RunContextSelection";
-import { budgetLimit, newRunDraft, prepareRun, selectedBytes } from "./types";
+import {
+  budgetLimit,
+  newRunDraft,
+  prepareRun,
+  selectedBytes,
+  exactTaskHandoffReady,
+} from "./types";
 import type {
   AgentRun,
   RunCreateInput,
@@ -32,6 +38,7 @@ export function RunComposer({
   onRefresh,
   initialGoal = "",
   voiceOrigin,
+  exactTaskIds,
 }: {
   t: Translate;
   scope: RunScope;
@@ -42,6 +49,7 @@ export function RunComposer({
   onRefresh: () => void;
   initialGoal?: string;
   voiceOrigin?: VoiceGoalOrigin;
+  exactTaskIds?: string[];
 }) {
   const mountEpoch = useRef(fence.capture());
   const [originExpired, setOriginExpired] = useState(
@@ -57,9 +65,13 @@ export function RunComposer({
   }, [voiceOrigin]);
   const [draft, setDraft] = useState<RunDraft>(() => ({
     ...newRunDraft(initialGoal),
+    ...(exactTaskIds ? { task_ids: [...exactTaskIds] } : {}),
     ...(voiceOrigin ? { voice_origin_ref: voiceOrigin.voice_origin_ref } : {}),
     mode:
-      !voiceOrigin && initialGoal && scope.modes.includes("model")
+      !voiceOrigin &&
+      !exactTaskIds &&
+      initialGoal &&
+      scope.modes.includes("model")
         ? "model"
         : "deterministic",
   }));
@@ -71,7 +83,9 @@ export function RunComposer({
   const [preview, setPreview] = useState<SourceRecord | null>(null);
   const mutation = usePrivateMutation();
   const locked = mutation.busy || mutation.pending;
-  const input = prepareRun(draft, scope);
+  const handoffReady =
+    !exactTaskIds || exactTaskHandoffReady(exactTaskIds, draft, scope);
+  const input = handoffReady ? prepareRun(draft, scope) : null;
   const scopeChanged =
     !!review && review.input.scope_revision !== scope.scope_revision;
   const dirty =
@@ -105,7 +119,7 @@ export function RunComposer({
     }));
   }
   async function start() {
-    if (!fresh || !review || scopeChanged || locked) return;
+    if (!fresh || !review || scopeChanged || locked || !handoffReady) return;
     if (voiceOrigin && Date.parse(voiceOrigin.expires_at) <= Date.now()) return;
     const epoch = mountEpoch.current;
     if (!fence.accepts(epoch)) return;
@@ -128,6 +142,30 @@ export function RunComposer({
       dirty={dirty}
     >
       <div className="agent-composer">
+        {exactTaskIds && (
+          <div className="agent-notice">
+            <p>
+              {t(
+                "This handoff compiles exactly the enrolled tasks using current records. It is separate from acknowledgment and does not reconstruct historical values. Scope is refreshed; retention still needs your choice.",
+                "此移交使用当前记录整理已关注的确切事务，与已查看确认独立，也不会重建历史数值。范围已刷新，保留仍需你选择。",
+              )}
+            </p>
+            {!handoffReady && (
+              <p role="alert">
+                {t(
+                  "An enrolled task is unavailable or the exact selection changed. Starting is blocked; no ID is silently removed. Close this draft and review a new choice.",
+                  "已关注事务不可用或确切选择已变化，不能开始；不会自动移除ID。请关闭此草稿并审阅新的选择。",
+                )}
+              </p>
+            )}
+            <ul>
+              {exactTaskIds.map((id) => (
+                <li key={id}>{id}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {originExpired && (
           <p role="status">
             {mutation.pending
@@ -396,7 +434,13 @@ export function RunComposer({
               </button>
               <button
                 className="primary"
-                disabled={!fresh || locked || scopeChanged || originExpired}
+                disabled={
+                  !fresh ||
+                  locked ||
+                  scopeChanged ||
+                  originExpired ||
+                  !handoffReady
+                }
                 onClick={() => void start()}
               >
                 {mutation.busy
@@ -442,6 +486,7 @@ export function RunComposer({
             <label>
               {t("Working mode", "工作模式")}
               <select
+                disabled={!!exactTaskIds}
                 value={draft.mode}
                 onChange={(e) =>
                   setDraft((old) => ({
@@ -508,7 +553,7 @@ export function RunComposer({
                 )}
               </p>
             )}
-            <fieldset>
+            <fieldset disabled={!!exactTaskIds}>
               <legend>
                 {t(
                   "Selected files (up to 12 / 4 MiB)",
@@ -577,7 +622,7 @@ export function RunComposer({
               <SourceUpload
                 t={t}
                 fence={fence}
-                fresh={fresh}
+                fresh={fresh && !exactTaskIds}
                 onUploaded={() => onRefresh()}
                 onDraftChange={setUploadDraft}
               />
@@ -593,9 +638,10 @@ export function RunComposer({
                       type="checkbox"
                       checked={draft.task_ids.includes(x.id)}
                       disabled={
-                        !draft.task_ids.includes(x.id) &&
-                        (draft.task_ids.length >= 10 ||
-                          draft.connector_tool_ids.length > 0)
+                        !!exactTaskIds ||
+                        (!draft.task_ids.includes(x.id) &&
+                          (draft.task_ids.length >= 10 ||
+                            draft.connector_tool_ids.length > 0))
                       }
                       onChange={(e) =>
                         toggle("task_ids", x.id, e.target.checked)
@@ -614,7 +660,7 @@ export function RunComposer({
                 <p>{t("No available tasks.", "暂无可用事务。")}</p>
               )}
             </fieldset>
-            <fieldset>
+            <fieldset disabled={!!exactTaskIds}>
               <legend>
                 {t(
                   "Selected calendar records (up to 10)",

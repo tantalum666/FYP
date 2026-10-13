@@ -225,6 +225,8 @@ export interface RunDraft {
   personal_context: RunPersonalSelection;
 }
 export interface WorkGoalRequest {
+  /** Local handoff only, never authority or historical provenance. */
+  exactTaskIds?: string[];
   voiceOrigin?: VoiceGoalOrigin;
   id: string;
   text: string;
@@ -234,6 +236,14 @@ export function validWorkGoal(request: WorkGoalRequest | null | undefined) {
     !!request?.id &&
     !!request.text.trim() &&
     Array.from(request.text).length <= 4000 &&
+    (!request.exactTaskIds ||
+      (!request.voiceOrigin &&
+        request.exactTaskIds.length > 0 &&
+        request.exactTaskIds.length <= 10 &&
+        new Set(request.exactTaskIds).size === request.exactTaskIds.length &&
+        request.exactTaskIds.every(
+          (id) => typeof id === "string" && /^[a-zA-Z0-9_-]{1,128}$/.test(id),
+        ))) &&
     (!request.voiceOrigin ||
       (!!request.voiceOrigin.voice_origin_ref &&
         Date.parse(request.voiceOrigin.expires_at) > Date.now()))
@@ -509,5 +519,34 @@ export function canReviewProposal(
     !!proposal.expires_at &&
     Number.isFinite(Date.parse(proposal.expires_at)) &&
     Date.parse(proposal.expires_at) > now
+  );
+}
+
+/** Every enrolled ID must survive fresh acquisition. Never filter missing IDs. */
+export function exactTaskHandoffReady(
+  ids: string[],
+  draft: RunDraft,
+  scope: RunScope,
+) {
+  return (
+    ids.length > 0 &&
+    ids.length <= 10 &&
+    new Set(ids).size === ids.length &&
+    draft.task_ids.length === ids.length &&
+    ids.every(
+      (id) =>
+        draft.task_ids.includes(id) &&
+        scope.tasks.some((task) => task.id === id),
+    ) &&
+    draft.mode === "deterministic" &&
+    !draft.source_ids.length &&
+    !draft.event_ids.length &&
+    !draft.browser_source_ids.length &&
+    !draft.connector_tool_ids.length &&
+    !draft.personal_context.memory_ids.length &&
+    !draft.personal_context.conversation_id &&
+    !draft.share &&
+    !draft.allow_mutation_proposals &&
+    !draft.voice_origin_ref
   );
 }

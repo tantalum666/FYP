@@ -1,0 +1,61 @@
+{
+  "inherited_full_intake": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "inherited_sha256": "5040da4062685b2176434da38498b8107d829089b75af852aeffbbacb06be538",
+  "focused_read": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 198,
+      "ranges": [
+        [
+          1,
+          198
+        ]
+      ],
+      "sha256": "c1bf6dba2db2dd937e947c77b38a1f6e71b78da1f1e6f63b3619bcd163921d13"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 54,
+      "ranges": [
+        [
+          1,
+          54
+        ]
+      ],
+      "sha256": "55d06a801b3f577a98bf12400339c39f6980416d370b914c5bfc9b343b7b38cb"
+    },
+    {
+      "path": "planning/2026-10-13/source-change-responsibilities-design.md",
+      "lines": 194,
+      "ranges": [
+        [
+          1,
+          194
+        ]
+      ],
+      "sha256": "6e6d827faea6d155d51d6a79c1b210249983ffd81ad9285239cdcc45160ed0af"
+    }
+  ],
+  "latest_decisions_read": {
+    "path": "decision-log.md",
+    "ranges": [
+      [
+        804,
+        868
+      ]
+    ]
+  },
+  "no_new_full_intake": true,
+  "completed_at": "2026-10-13T07:30:03.002452+00:00"
+}

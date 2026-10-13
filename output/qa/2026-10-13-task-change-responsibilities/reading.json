@@ -1,0 +1,122 @@
+{
+  "continued_intake": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "scope": "Same ongoing implementation; inherited 186-document full reading, focused current contract reread. No new independent full-intake claim.",
+  "read_at_utc": "2026-10-13T07:35:40.974991+00:00",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 204,
+      "read_ranges": [
+        [
+          1,
+          204
+        ]
+      ],
+      "sha256": "8eabd04db9d4c7e67d559e0d9eb08d895e2edefa4aa4e489e3079da198d691c9"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 54,
+      "read_ranges": [
+        [
+          1,
+          54
+        ]
+      ],
+      "sha256": "55d06a801b3f577a98bf12400339c39f6980416d370b914c5bfc9b343b7b38cb"
+    },
+    {
+      "path": "planning/2026-10-13/source-change-responsibilities-design.md",
+      "lines": 194,
+      "read_ranges": [
+        [
+          1,
+          194
+        ]
+      ],
+      "sha256": "6e6d827faea6d155d51d6a79c1b210249983ffd81ad9285239cdcc45160ed0af"
+    },
+    {
+      "path": "planning/2026-10-13/continuous-agent-capability-plan.md",
+      "lines": 34,
+      "read_ranges": [
+        [
+          1,
+          34
+        ]
+      ],
+      "sha256": "41153ac0761bd6ff10962bda2b2db4fadd7edf41a5f4a8d672010cba46170eee"
+    },
+    {
+      "path": "desk-companion/docs/routines.md",
+      "lines": 168,
+      "read_ranges": [
+        [
+          1,
+          168
+        ]
+      ],
+      "sha256": "2da78b3dd667f46b698820c84993a2697e7c94633607d6d2da49c3dac730d52f"
+    },
+    {
+      "path": "desk-companion/docs/task-tracking.md",
+      "lines": 58,
+      "read_ranges": [
+        [
+          1,
+          58
+        ]
+      ],
+      "sha256": "13da5cf7c3a727e4802d720d00bff83b009fef179d6ee31560570e35ddfc1191"
+    },
+    {
+      "path": "desk-companion/docs/agent-runs.md",
+      "lines": 134,
+      "read_ranges": [
+        [
+          1,
+          134
+        ]
+      ],
+      "sha256": "0d7ccc95bcc22a6afc56fe16fff39c5f5c7b378f2d4b13c581d02016b85c8940"
+    },
+    {
+      "path": "desk-companion/docs/personal-context.md",
+      "lines": 70,
+      "read_ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "sha256": "2de80030b52b1b4af797171face268a1f8292ac146f5c25ea35f1f25b8a2c265"
+    },
+    {
+      "path": "desk-companion/docs/sources-and-artifacts.md",
+      "lines": 208,
+      "read_ranges": [
+        [
+          1,
+          208
+        ]
+      ],
+      "sha256": "800165ebf9f687c0664feeaf0570ea7803c5f6bd982ec9424cbaa2259ee4bda2"
+    }
+  ],
+  "exclusions": [
+    ".git",
+    "dependencies/caches/build products",
+    "output/qa automated snapshots"
+  ]
+}

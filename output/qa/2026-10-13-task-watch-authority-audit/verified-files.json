@@ -1,0 +1,25 @@
+{
+  "verified_at": "2026-10-13T07:34:40.377195+00:00",
+  "result": "31 passed",
+  "command": "PYTHONPATH=desk-companion/backend desk-companion/.venv/bin/python -m pytest -q output/qa/2026-10-13-task-watch-authority-audit/test_independent.py",
+  "scope": "cloud-local synthetic SQLite/HTTP and actual local artifact files; no live providers or actual browser UI",
+  "files": {
+    "desk-companion/backend/desk/responsibilities.py": {
+      "sha256": "d6dc00cdb94658fa39d9fe9e8de2d6498547d45ad154c74b12273b563e76a78a",
+      "bytes": 34778
+    },
+    "desk-companion/backend/desk/runtime.py": {
+      "sha256": "b0c0bddf5b64891a71f6796f2e89440ff7ad3d174a9cab6ef795640e4b2ff1a6",
+      "bytes": 5092
+    },
+    "desk-companion/backend/desk/app.py": {
+      "sha256": "7394a4b8fbf3461fb01300cdbe42ee3e5166b13fb2d098590b5bb08a13793258",
+      "bytes": 17101
+    },
+    "output/qa/2026-10-13-task-watch-authority-audit/test_independent.py": {
+      "sha256": "34b907e2c2938a4e84c6563294e9fe2a9ac5a08f05a1473fea51220c7362d400",
+      "bytes": 21832
+    }
+  },
+  "source_edits_by_auditor": false
+}

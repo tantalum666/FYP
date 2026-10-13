@@ -32,6 +32,7 @@ from .agent_runs import agent_run_routes
 from .browser_jobs import browser_routes
 from .connector_routes import connector_routes
 from .work_search import work_search_routes
+from .responsibilities import responsibility_routes
 from .connectors.contracts import load_connector_configs
 
 from .schemas import CreateEvents, EventAction, Login, ReminderAction, SettingsInput
@@ -79,6 +80,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
                 asyncio.create_task(worker(name, action, interval))
                 for name, action, interval in (
                     ("rules", services.tick, 1),
+                    ("responsibilities", services.responsibilities.advance, 1),
                     ("public_data", services.data.poll_weather, 10),
                     ("task_advice", services.text_ai.enrich_one, 30),
                     ("computer_jobs", services.jobs.run_one, 0.5),
@@ -359,6 +361,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
     app.include_router(assistant_routes(services, authenticated, operation_id))
     app.include_router(personal_routes(services, owner, operation_id))
     app.include_router(routine_routes(services, owner, operation_id))
+    app.include_router(responsibility_routes(services, owner, operation_id))
     app.include_router(sources_routes(services, owner, operation_id))
     app.include_router(artifact_routes(services, owner, operation_id))
     app.include_router(agent_run_routes(services, owner, operation_id))

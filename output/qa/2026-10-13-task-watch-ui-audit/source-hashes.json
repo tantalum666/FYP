@@ -1,0 +1,13 @@
+{
+  "desk-companion/frontend/src/workspace/responsibilities/useResponsibilities.ts": "f6a17bd1af2184a8dfbcb1938ae7f5f4a0561b6d8d975b02fa7415cdbe465b22",
+  "desk-companion/frontend/src/workspace/responsibilities/types.ts": "ad5fc788d8ebf76db885145622fa16af67a47455935edef9f8239bb2cfd649f9",
+  "desk-companion/frontend/src/workspace/responsibilities/ResponsibilitiesPanel.tsx": "3ff9d7c1e01eab2ea2df37fa178388d13d92f9ca73b622c0ebc37f5d236bb7a4",
+  "desk-companion/frontend/src/workspace/responsibilities/CurrentTask.tsx": "43f4638c34f59b92772da8c59f30fe95a51a235485ff7c4b6239db0cbdf2296a",
+  "desk-companion/frontend/src/workspace/responsibilities/labels.ts": "7839c4e5fbbe760bb6380ec156a33c4373b7a4711237fbeab29c94c902103d20",
+  "desk-companion/frontend/src/workspace/responsibilities/WatchReviewCard.tsx": "8ebf8e9c0ad8446762ea405918c576e55a71fd6faee1ea188ced2edf41a1dcbb",
+  "desk-companion/frontend/src/workspace/responsibilities/responsibilities.css": "3375f262cd221679863c11a3329dfc058d53903aa1038d480a96f42c27be0b90",
+  "desk-companion/frontend/src/workspace/agent/types.ts": "8efb2edbb53295e1c2f522d61cd5d8126428498a6cc9542dde8318ea44ef7c39",
+  "desk-companion/frontend/src/workspace/agent/RunPanel.tsx": "ff303dccb63fa4053182036f505a970532e11ea002e3be9330aba039c7fa2038",
+  "desk-companion/frontend/src/workspace/agent/RunComposer.tsx": "7b6488c2ae97067a69b9f83fa642f501133cef1603402165bbdfb3d721716d36",
+  "desk-companion/frontend/src/workspace/AssistantPanel.tsx": "80fe22e0172809b114732b456ae62fce6466ce11a44d0e804ff2c16928f74978"
+}

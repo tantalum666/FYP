@@ -1,0 +1,40 @@
+.watch-workspace {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+.watch-list {
+  display: grid;
+  gap: 0.75rem;
+}
+.watch-review {
+  border: 1px solid var(--border, #d7dee8);
+  border-radius: 12px;
+  padding: 1rem;
+  overflow-wrap: anywhere;
+}
+.watch-review small,
+.watch-form small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.watch-form,
+.watch-form > fieldset {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+.watch-form fieldset {
+  min-width: 0;
+}
+.watch-form label:not(.agent-check) {
+  display: grid;
+  gap: 0.4rem;
+}
+.watch-form input:not([type="checkbox"]) {
+  max-width: 100%;
+  min-width: 0;
+}
+.watch-form .agent-check {
+  margin: 0.5rem 0;
+}

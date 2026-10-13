@@ -27,6 +27,7 @@ from .browser_jobs import BrowserService
 from .connectors.service import build_connector_service
 from .connectors.agent_adapter import connector_adapters
 from .work_search import WorkSearchService
+from .responsibilities import ResponsibilityService
 
 
 class Runtime:
@@ -37,6 +38,7 @@ class Runtime:
         self.posture = PostureService(store)
         self.outputs = OutputService(store)
         self.tasks = TaskService(self)
+        self.responsibilities = ResponsibilityService(self)
         self.routines = RoutineService(self)
         self.personal_context = PersonalContext(self)
         self.memories = MemoryService(self)

@@ -1,0 +1,55 @@
+{
+  "continuation": true,
+  "inherited_full_reading": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "inherited_status": "complete: 186/186",
+  "focused_reading": [
+    {
+      "path": "AGENTS.md",
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "read_ranges": [
+        [
+          1,
+          204
+        ]
+      ],
+      "sha256": "8eabd04db9d4c7e67d559e0d9eb08d895e2edefa4aa4e489e3079da198d691c9"
+    },
+    {
+      "path": "handoff.md",
+      "read_ranges": [
+        [
+          1,
+          54
+        ]
+      ],
+      "sha256": "55d06a801b3f577a98bf12400339c39f6980416d370b914c5bfc9b343b7b38cb"
+    },
+    {
+      "path": "planning/2026-10-13/source-change-responsibilities-design.md",
+      "read_ranges": [
+        [
+          1,
+          194
+        ]
+      ],
+      "sha256": "6e6d827faea6d155d51d6a79c1b210249983ffd81ad9285239cdcc45160ed0af"
+    }
+  ],
+  "decision_log_read_range": [
+    774,
+    868
+  ],
+  "completed_utc": "2026-10-13T07:34:55.634211+00:00",
+  "exclusions": [
+    "Inherited full 186-file intake not repeated; unrelated and generated QA evidence not reread as project specification"
+  ]
+}

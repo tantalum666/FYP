@@ -1,0 +1,22 @@
+✔ freeze is explicit and deduped; editable snapshot survives live revisions and ends voice only at handoff (133.579501ms)
+✔ failed freeze keeps conversation and retries identical segment/revision; dismissal never starts Work (49.13784ms)
+✔ paired owner loss, epoch invalidation and unmount reject late freeze responses (85.607076ms)
+✔ actual composer initialization defaults only voice to deterministic and retains no scopes (115.083309ms)
+✔ stale selection callback cannot freeze an old input in a new owner epoch (19.313872ms)
+✔ reviewed Start callback cannot dispatch an old goal across an owner epoch change (38.939773ms)
+✔ actual voice markup is bilingual, escaped, unselected and honest about incomplete transcription (11.173878ms)
+✔ protocol-fake normalized inputs stay separate and never infer Gemini finality (3.871831ms)
+✔ assistant, tools, raw deltas, completion and stale or foreign events never become inputs (0.632982ms)
+✔ blank and oversize input fail clearly without creating a truncated goal (2.442328ms)
+✔ input storage is bounded by eight records and 32KiB UTF-8, never concatenated (3.94566ms)
+✔ freeze receipt must match the exact selected snapshot and have a live expiry (0.782412ms)
+✔ voice origin adds no evidence, retention, sharing or provider permission (0.764367ms)
+✔ Unicode voice goals and Work admission agree; expired origins never become typed work (0.439662ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1286.92968

@@ -1,0 +1,86 @@
+{
+  "time": "2026-10-13T07:35:24.703Z",
+  "browser_evidence": false,
+  "results": [
+    {
+      "name": "Hook mount and all refreshes are read-only, never acknowledge",
+      "status": "passed"
+    },
+    {
+      "name": "Late success fenced: owner",
+      "status": "passed"
+    },
+    {
+      "name": "Late success fenced: hide-show",
+      "status": "passed"
+    },
+    {
+      "name": "Late success fenced: offline",
+      "status": "passed"
+    },
+    {
+      "name": "Late success fenced: selection",
+      "status": "passed"
+    },
+    {
+      "name": "Hidden projection strips private row fields before React storage",
+      "status": "passed"
+    },
+    {
+      "name": "Transient failure retains original view as stale; late parallel denial erases it",
+      "status": "passed"
+    },
+    {
+      "name": "Enrollment exact IDs, fields, revision, retention, expiry and budgets enforced",
+      "status": "passed"
+    },
+    {
+      "name": "Unavailable enrolled ID never silently shrinks compile handoff",
+      "status": "passed"
+    },
+    {
+      "name": "Exact Work handoff rejects widened scope and former grants",
+      "status": "passed"
+    },
+    {
+      "name": "Watch controls and bilingual review semantics SSR",
+      "status": "passed"
+    },
+    {
+      "name": "Actual workspace acknowledge callback and unknown retry preserve exact operation",
+      "status": "passed"
+    },
+    {
+      "name": "Current task denial invalidates enclosing private response fence",
+      "status": "passed"
+    },
+    {
+      "name": "Current task redacted invalidates enclosing private response fence",
+      "status": "passed"
+    },
+    {
+      "name": "Actual Work composer starts exact current deterministic scope only after retention and review",
+      "status": "passed"
+    },
+    {
+      "name": "Current task inspection displays the watched authoritative status",
+      "status": "passed"
+    },
+    {
+      "name": "Actual entry panel owner/session/offline/hide gates unmount private workspace",
+      "status": "passed"
+    },
+    {
+      "name": "Stale receipt callbacks cannot compile or acknowledge after navigation",
+      "status": "passed"
+    },
+    {
+      "name": "Context-changed read clears private view and retry authority",
+      "status": "passed"
+    },
+    {
+      "name": "Context-changed mutation clears private view and retry authority",
+      "status": "passed"
+    }
+  ]
+}

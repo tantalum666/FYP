@@ -1,6 +1,6 @@
 # Group 2 · Scoped source-change responsibilities
 
-Date: 2026-10-13. Status: engineering proposal, not an implemented capability or a newly approved permission. Continuation of the existing full-project intake; focused reread of current product, handoff, continuous-capability plan, task/routine/run/source contracts and implementation. No implementation or root-document edits accompany this proposal.
+Date: 2026-10-13. Status: task-first slice implemented and independently reviewed; aggregate verification/publication in progress. Calendar/general-source and direct linked-run variants below remain proposals, not implemented capabilities or new permissions. The current implementation contract is [responsibilities.md](../../desk-companion/docs/responsibilities.md). This continues the existing full-project intake; original design reasoning is retained with the following corrections.
 
 ## Recommendation and useful first outcome
 
@@ -86,7 +86,7 @@ Install SQLite triggers after TaskService has created its tables. Triggers incre
 
 Triggers write no titles, notes, content, snapshots, source credentials or operation bodies. They do not call Python, network or a model. They cover assistant-confirmed edits, exchange/restore and normal UI actions without requiring every new write path to remember a notification hook. They do not make raw external database editing a supported integration.
 
-`ResponsibilityService.tick()` is called from the existing Runtime tick and selects only enrolled rows whose dirty_generation differs from consumed_generation. An unchanged tick is an indexed metadata query, not a full source scan, repeated report or model poll. Triggers provide durable wake evidence; a best-effort in-process event may reduce latency but is never the correctness mechanism.
+Implementation correction: `ResponsibilityService.advance()` (with `tick` alias) runs in a separate one-second application worker, not the legacy Runtime tick, so a failure cannot skip posture or voice cleanup. It selects only enrolled rows whose dirty_generation differs from consumed_generation. An unchanged tick is an indexed metadata query, not a full source scan, repeated report or model poll. Triggers provide durable wake evidence; a best-effort in-process event may reduce latency but is never the correctness mechanism.
 
 ### Enrollment transaction
 
@@ -115,11 +115,11 @@ Statuses: `active`, `paused`, `cancelled`, `expired`, `budget_exhausted`, `block
 - Cancel is terminal and generation-fenced; it clears pending delivery and prevents later automatic review publication
 - Hide-private does not revoke the narrow local hash comparison grant, just as current local routines can compute metadata while hidden. Detail, scope, acknowledgment, enrollment and Work creation remain denied. List and pause/cancel may expose only opaque IDs/status/budgets, following agent-run hidden controls; no title or field names
 - Definition survives owner-cookie expiry so local comparisons continue under enrollment, but every owner read/control requires current owner authority. No expired cookie is reused to create a full AgentRun
-- Expiry ends enrollment whether or not there are new changes; terminal state must remain visible without generating a new alert
+- Expiry ends enrollment whether or not there are new changes and dismisses/version-bumps pending delivery while retaining historical review; terminal state remains visible without generating a new alert
 
 Proposed bounds: 20 definitions including terminal definitions, ten selected tasks each, one pending receipt each, newest 50 review receipts plus pending/linked receipts, lifetime 100 review creations per definition. No automatic definition reset or replacement. Coalescing is bounded by selected IDs/field enums, not appended free text. Ten evaluated responsibilities per tick with persisted fair ordering prevents one busy definition starving others.
 
-Daily review creation budget exhaustion preserves dirty mailboxes without consuming their baseline. Next UTC budget day makes only pending dirty work eligible; an unchanged source does not wake. Persist a nondecreasing budget-day watermark so clock rollback cannot restore spent quota. Lifetime exhausted is terminal and does not auto-renew. Capacity failure must return a clear blocker before enrollment; source mutation itself must never be refused because a watch cannot deliver.
+Daily review creation budget exhaustion preserves dirty mailboxes without consuming their baseline. Next UTC budget day makes only pending dirty work eligible; an unchanged source does not wake. Persist a nondecreasing budget-day watermark so clock rollback cannot restore spent quota. An already-budgeted pending receipt may continue coalescing at the lifetime limit; after acknowledgment, a later distinct change requiring a new receipt makes the definition terminal. Lifetime exhaustion never auto-renews. Capacity failure must return a clear blocker before enrollment; source mutation itself must never be refused because a watch cannot deliver.
 
 Acknowledgment is separate from GET/reveal and from full Work start: `POST /{id}/reviews/{review_id}/acknowledge` with exact review version and operation ID. If a new change coalesced since the owner saw the receipt, return `REVIEW_CHANGED`; do not acknowledge unseen changes. Same-key same-body lost-response retry returns the original stable receipt references with live privacy. Reading or mounting a panel never consumes it. Acknowledgment marks the pending item acknowledged; a later distinct observed source change may create one new item. No re-alert merely because time passed or the owner did not respond.
 
@@ -192,3 +192,7 @@ The following are required, not optional hardening:
 ## Remaining limits to state plainly
 
 This is a local committed-data change detector and deterministic review path. It cannot see a remote mailbox, watch arbitrary files, reconstruct every intermediate edit while stopped, reason semantically about whether changed content matters, guarantee a person saw a displayed card, run after the local service stops, or restore private context after access is revoked. Those limits do not prevent shipping the task-first useful path now.
+
+## Task-first implementation evidence
+
+The task-first implementation uses four dedicated tables and task/note insert/delete trigger coverage, real owner/settings-epoch final-response checks, per-evaluation savepoints and independent worker isolation.47 focused backend tests and203 related regressions passed; independent31 backend probes and20 UI hook/callback/SSR scenarios passed, plus14 inherited voice checks. Full frontend186 tests/type/build passed; the aggregate frozen run is tracked separately. These are actual local SQLite/files and protocol/UI-function fixtures, not mounted-browser or model acceptance. Evidence: [backend](../../output/qa/2026-10-13-task-change-responsibilities/verification.md), [UI](../../output/qa/2026-10-13-task-watch-interface/verification.md), [independent backend](../../output/qa/2026-10-13-task-watch-authority-audit/findings.md), [independent UI](../../output/qa/2026-10-13-task-watch-ui-audit/report.md).

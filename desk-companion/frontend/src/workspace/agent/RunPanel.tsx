@@ -199,6 +199,10 @@ function RunWorkspace({
   const [expiredGoal, setExpiredGoal] = useState(false);
   const [pendingGoal, setPendingGoal] = useState<WorkGoalRequest | null>(null);
   const lastGoal = useRef<string | null>(null);
+  const [refreshedTaskGoal, setRefreshedTaskGoal] = useState<string | null>(
+    null,
+  );
+  const taskGoalRefresh = useRef<string | null>(null);
   const [navigate, setNavigate] = useState<{
     id: string | null;
     compose: boolean;
@@ -224,11 +228,33 @@ function RunWorkspace({
       return;
     }
     if (initialGoal!.id === lastGoal.current) return;
+    if (initialGoal!.exactTaskIds && refreshedTaskGoal !== initialGoal!.id) {
+      if (taskGoalRefresh.current !== initialGoal!.id) {
+        const id = initialGoal!.id;
+        taskGoalRefresh.current = id;
+        void reload(true).then(() => {
+          if (fence.accepts(epoch) && taskGoalRefresh.current === id)
+            setRefreshedTaskGoal(id);
+        });
+      }
+      return;
+    }
     lastGoal.current = initialGoal!.id;
     if (guard.busy || guard.dirty) setPendingGoal(initialGoal!);
     else commit({ id: selected, compose: true, goal: initialGoal! });
     onGoalHandled?.();
-  }, [initialGoal, onGoalHandled, guard.busy, guard.dirty, selected, fresh]);
+  }, [
+    initialGoal,
+    onGoalHandled,
+    guard.busy,
+    guard.dirty,
+    selected,
+    fresh,
+    refreshedTaskGoal,
+    reload,
+    fence,
+    epoch,
+  ]);
   useEffect(() => {
     if (!pendingGoal?.voiceOrigin) return;
     const timer = setTimeout(
@@ -511,6 +537,7 @@ function RunWorkspace({
           fresh={fresh}
           initialGoal={composeGoal?.text}
           voiceOrigin={composeGoal?.voiceOrigin}
+          exactTaskIds={composeGoal?.exactTaskIds}
           onRefresh={() => void reload(true)}
           onClose={() => setCompose(false)}
           onCreated={(run) => {

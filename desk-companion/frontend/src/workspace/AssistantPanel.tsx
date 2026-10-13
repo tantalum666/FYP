@@ -13,6 +13,7 @@ import { apiOrigin } from "../native";
 import { DateTime } from "luxon";
 import { ComputerJobsPanel } from "./ComputerJobsPanel";
 import { RoutinesPanel } from "./RoutinesPanel";
+import { ResponsibilitiesPanel } from "./responsibilities/ResponsibilitiesPanel";
 import { RunPanel } from "./agent/RunPanel";
 import { BrowserWorkflowPanel } from "./browser/BrowserWorkflowPanel";
 import { ConnectorReviewPanel } from "./connectors/ConnectorReviewPanel";
@@ -1186,6 +1187,14 @@ export function AssistantPanel({
         onReviewClosed={() => setReviewBrowserJob(null)}
       />
       <RoutinesPanel t={t} visibleOverride={contextVisible} />
+      <ResponsibilitiesPanel
+        t={t}
+        visibleOverride={!displayConcealed}
+        onCompile={(goal) => {
+          if (!contentVisibleNow.current) return;
+          setWorkGoal({ ...goal, viewEpoch: fence.current.capture() });
+        }}
+      />
       <ConnectorReviewPanel
         t={t}
         visibleOverride={!displayConcealed}

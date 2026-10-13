@@ -1,0 +1,32 @@
+{
+  "frozen_at_utc": "2026-10-13T07:38:32.086054+00:00",
+  "owned_files": [
+    {
+      "path": "desk-companion/backend/desk/responsibilities.py",
+      "sha256": "d6dc00cdb94658fa39d9fe9e8de2d6498547d45ad154c74b12273b563e76a78a",
+      "bytes": 34778
+    },
+    {
+      "path": "desk-companion/tests/test_responsibilities.py",
+      "sha256": "54414cf4a8f8bfc252577e5cda1a76939a9dba73f498a94d25dd602da5b0c871",
+      "bytes": 30983
+    },
+    {
+      "path": "desk-companion/docs/responsibilities.md",
+      "sha256": "28f995c0a64ad508de67dfbe66d4e23c6342a0adb2e69db0c9830d98680692ec",
+      "bytes": 13993
+    }
+  ],
+  "regression": {
+    "passed": 203,
+    "warning_count": 1,
+    "seconds": 64.04,
+    "log": "regression.txt"
+  },
+  "independent_audit": {
+    "passed": 31,
+    "path": "../2026-10-13-task-watch-authority-audit"
+  },
+  "git_actions": false,
+  "external_service_calls": false
+}
