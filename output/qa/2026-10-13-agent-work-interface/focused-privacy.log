@@ -1,0 +1,29 @@
+✔ connected hidden owners retain status access; paired, stale, offline and concealed views do not (2.666584ms)
+✔ hidden status loads only the list and projects all private fields out before retaining rows (3.214181ms)
+✔ unexpected status strings and date text cannot be echoed as private content (0.258876ms)
+✔ hidden controls are pause/cancel only and unknown or terminal states gain no authority (0.293514ms)
+✔ invalid list data is rejected rather than enabling controls from stale private objects (1.007676ms)
+✔ hide/show and identity transitions fence both private and metadata late responses (0.211294ms)
+✔ an uncertain or in-flight pause never occupies the cancellation queue and retries keep their original version (1.019459ms)
+✔ hidden component keeps uncertain queues through refresh failures and never requests private details (0.827629ms)
+✔ persistent work requires an explicit retention choice and at least one valid selected source (1.792996ms)
+✔ local compilation never inherits provider transmission or mutation grants (0.750867ms)
+✔ unknown source reservations and finished or expired reviews cannot be selected (0.247098ms)
+✔ adaptive work requires exact text destination plus explicit selected-content sharing (1.660854ms)
+✔ selection count, source bytes and section requirements match server ceilings (0.594603ms)
+✔ reviewed request arrays are immutable snapshots rather than live checkbox arrays (0.157136ms)
+✔ unknown model outcome has an explicit new-attempt action and no ordinary resume (0.816353ms)
+✔ file selection validates UTF-8 bytes, suffix, display name and content before upload (4.088716ms)
+✔ source upload preserves raw Unicode and one operation ID across an unknown response without storage (1.18243ms)
+✔ a file hash or model message does not grant structural or semantic verification (0.91975ms)
+✔ privacy, identity and hide-show transitions permanently fence earlier replies (0.414611ms)
+✔ component contracts preserve modal drafts, selected-run fences and independent cancellation (0.675063ms)
+✔ all new run components avoid persistent browser bodies and raw generated HTML (1.624796ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 241.306462

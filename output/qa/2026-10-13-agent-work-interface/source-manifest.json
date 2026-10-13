@@ -1,0 +1,167 @@
+{
+  "generated_utc": "2026-10-13T05:58:40.730096+00:00",
+  "base_source": "91e6ed9db5e66283465564ea8f67252fe9772c15",
+  "parent_reported_head": "908b567",
+  "scope": "Interface source and tests only; shared entry/review integration is separate. No Git checkout is materialized here.",
+  "sources": [
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunPanel.tsx",
+      "sha256": "ebb9a656ea568ebec7f33cbdb65e31d5753d23161977f1734867a73f74d64b03",
+      "bytes": 13323
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunComposer.tsx",
+      "sha256": "ef9cd0842067e506f0a766f9ed4cef26a8e7289d28c5ee0463f18c42fbc64c38",
+      "bytes": 32441
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunDetail.tsx",
+      "sha256": "2649f7de0da80255642c3666dad2a9152cb15b51c345b1cb4df6b592130b96b1",
+      "bytes": 17799
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunMetadataPanel.tsx",
+      "sha256": "59f3e54009a2a01daaf9b8b9775bb08416ebfa223a5e7a6221bb5d8e8cf77611",
+      "bytes": 8383
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/runMetadata.ts",
+      "sha256": "db8583eb928e065f861d1c8e147dbe1903bb7141e8bae1c87a5be6fd375b7622",
+      "bytes": 2376
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/useRunMetadata.ts",
+      "sha256": "5b9cff8e3d10f1d97bae1af22a20709906bd8a28550a0125c21152caf25adf55",
+      "bytes": 2316
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunBrowserSelection.tsx",
+      "sha256": "1e34876f59836064a9c4c755af654d333fe9f6b7934f4ad56da7f89b49b6dba2",
+      "bytes": 3708
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunBrowserJobs.tsx",
+      "sha256": "feae1094c5befe36e7485c4e3557e958f439b831459e5699cc0b4c81df52a54d",
+      "bytes": 2808
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunConnectorSelection.tsx",
+      "sha256": "e9e23c71ce1fca6188e9f3b7b88746c369ae255b5243db81660de77757655046",
+      "bytes": 4682
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunContextSelection.tsx",
+      "sha256": "d6a0d0f77f26e401c954265811ead299b6e711373e08bf3bed334609cf213ab2",
+      "bytes": 5615
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunConnectorResults.tsx",
+      "sha256": "2b2bb65bc7bbaf3ae64a27559a91a48cdf1cf09ec64f0e87e554391d7178c43e",
+      "bytes": 2405
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/types.ts",
+      "sha256": "a0f37cff8573b94d9ea00b36522cd9d70f05c15ca275905d596b0f1c42baf5ca",
+      "bytes": 14006
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/labels.ts",
+      "sha256": "60733837ab8b7e69215be4aa41c04a59b3fbd4c57d454b980558a0c0a27b5a3d",
+      "bytes": 16044
+    },
+    {
+      "path": "desk-companion/frontend/tests/agent-metadata.test.ts",
+      "sha256": "61fa976aa7649c99ec0709d4a05b4f7b418f6f0f96d26ba7ad0d9cff6e75785c",
+      "bytes": 6479
+    },
+    {
+      "path": "desk-companion/frontend/tests/agent-work-tools.test.ts",
+      "sha256": "40bb04c3ce11436189b58230b9b602cf6e3e963c4ecc5fe1ed908c29e24e5ec8",
+      "bytes": 15573
+    },
+    {
+      "path": "desk-companion/frontend/tests/agent-render.test.ts",
+      "sha256": "407e322caea579a713c2155c398d101b6b608f56ec9b09a308e1f0dd21674f34",
+      "bytes": 9260
+    },
+    {
+      "path": "desk-companion/frontend/tests/fixtures/render-tsx-loader.mjs",
+      "sha256": "638cc4941b6a87698e8e6b01ea133cb990ba52a89e0c3f145df292425600e8b8",
+      "bytes": 1231
+    }
+  ],
+  "logs": [
+    {
+      "path": "output/qa/2026-10-13-agent-work-interface/assets.log",
+      "sha256": "307a8c384c73034b0347feb219e83fa7c997982d0156c8c12212b2987368616f",
+      "bytes": 66
+    },
+    {
+      "path": "output/qa/2026-10-13-agent-work-interface/build.log",
+      "sha256": "448013af90bac2bd8a476777156426ae43e88b1b210d7dfba681fe8c5b2ef77b",
+      "bytes": 2031
+    },
+    {
+      "path": "output/qa/2026-10-13-agent-work-interface/focused-context-connectors.log",
+      "sha256": "6089f105f69b34b71e322646f1a330e4b11c5c7551a06c1f9d21fc26a9204a5c",
+      "bytes": 4206
+    },
+    {
+      "path": "output/qa/2026-10-13-agent-work-interface/focused-final.log",
+      "sha256": "0f2bf6fa36b49fa1fabff70b01f537e9156d38474c84140ecc331272044d416d",
+      "bytes": 4603
+    },
+    {
+      "path": "output/qa/2026-10-13-agent-work-interface/focused-privacy.log",
+      "sha256": "f8433e267d4a63855c38239b174462073081caacc613abb290c1eac8cf4a3b06",
+      "bytes": 2284
+    },
+    {
+      "path": "output/qa/2026-10-13-agent-work-interface/focused-tools.log",
+      "sha256": "b8de8ac99b81dbc48b226c8901551731cac29796e0196fd4042c8d39366c293c",
+      "bytes": 3056
+    },
+    {
+      "path": "output/qa/2026-10-13-agent-work-interface/format-final.log",
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "bytes": 66
+    },
+    {
+      "path": "output/qa/2026-10-13-agent-work-interface/format.log",
+      "sha256": "d6c459a48ffdfc1c5e836864726fe36c65dfc667ace347d9e1a148ef88ccdd95",
+      "bytes": 658
+    },
+    {
+      "path": "output/qa/2026-10-13-agent-work-interface/frontend-aggregate.log",
+      "sha256": "6c1a9b066b771678145cdab64e19ad8ca7f1ed367829a653c23b85d438d9d7d5",
+      "bytes": 12603
+    },
+    {
+      "path": "output/qa/2026-10-13-agent-work-interface/render-contract.log",
+      "sha256": "603df91753ef2ab8bdf5810ae57c071f90bdcdfa45419d1a7fa7c6589241d205",
+      "bytes": 449
+    },
+    {
+      "path": "output/qa/2026-10-13-agent-work-interface/typecheck-final.log",
+      "sha256": "3d19a51f284ba918005ff1c29aae072681b89cabcbba4d06608453d7a46aa752",
+      "bytes": 360
+    },
+    {
+      "path": "output/qa/2026-10-13-agent-work-interface/typecheck-privacy.log",
+      "sha256": "3d19a51f284ba918005ff1c29aae072681b89cabcbba4d06608453d7a46aa752",
+      "bytes": 360
+    }
+  ],
+  "protected_assets": [
+    {
+      "path": "desk-companion/frontend/public/companion/a1-idle-v1.png",
+      "sha256": "a7b428a2437da70880fea628dca23c0ded7a24294595b13437b4ae99fe5a09f9",
+      "bytes": 1327738
+    },
+    {
+      "path": "desk-companion/frontend/public/avatars/pixiv-sample.vrm",
+      "sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2",
+      "bytes": 10776032
+    }
+  ]
+}

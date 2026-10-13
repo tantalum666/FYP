@@ -1,0 +1,18 @@
+{
+  "checked_at": "2026-10-13T06:16:25.970753+00:00",
+  "changed_after_complete_checks": [
+    "frontend/src/workspace/agent/RunComposer.tsx",
+    "frontend/src/workspace/agent/RunDetail.tsx",
+    "frontend/src/workspace/agent/RunPanel.tsx",
+    "frontend/src/workspace/agent/SourceUpload.tsx",
+    "frontend/src/workspace/agent/useAgentRuns.ts",
+    "frontend/tests/agent-runs.test.ts"
+  ],
+  "added_after_complete_checks": [
+    "frontend/tests/agent-refresh-lifecycle.test.ts"
+  ],
+  "backend_unchanged": true,
+  "final_frontend_tests": 131,
+  "final_frontend_build": "passed",
+  "backend_tests_for_unchanged_source": 657
+}

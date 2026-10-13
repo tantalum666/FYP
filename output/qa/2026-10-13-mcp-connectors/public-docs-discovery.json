@@ -1,0 +1,7 @@
+{
+  "endpoint": "https://developers.openai.com/mcp",
+  "stage": "read_only_initialize_and_tools_list",
+  "state": "blocked",
+  "code": "CONNECTOR_PUBLIC_DNS_REQUIRED",
+  "status": 403
+}

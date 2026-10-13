@@ -190,7 +190,7 @@ class BrowserService:
                      (job_id, now, state, error))
         self.store.bump(conn)
 
-    def observe(self, payload: PublicObservationInput, key, *, session_hash):
+    def observe(self, payload: PublicObservationInput, key, *, session_hash, checkpoint=None, publication_checkpoint=None):
         self._guard(session_hash)
         revision = encode(self.runtime.personal_context.revision())
         claim = uuid4().hex
@@ -210,6 +210,8 @@ class BrowserService:
                     return {"observation": json.loads(old["data"]), "operation_id": key}
                 raise DomainError(old["error"] or "BROWSER_READ_PENDING", 409)
             def fence(_stage):
+                if checkpoint is not None:
+                    checkpoint()
                 self._guard(session_hash, revision)
                 with self.store.connection() as conn:
                     current = conn.execute("SELECT state,active_token FROM browser_observations WHERE id=?",
@@ -244,6 +246,9 @@ class BrowserService:
                 if observation["source_id"] != payload.source_id:
                     raise DomainError("BROWSER_SOURCE_CHANGED", 409)
                 with self.store.connection(write=True) as conn:
+                    self._guard(session_hash, revision)
+                    if publication_checkpoint is not None:
+                        publication_checkpoint(conn)
                     changed = conn.execute("UPDATE browser_observations SET state='observed',data=?,active_token=NULL "
                                            "WHERE id=? AND state='reading' AND active_token=?",
                                            (encode(observation), reference, claim)).rowcount
@@ -294,6 +299,43 @@ class BrowserService:
                 return job_id
             job_id, _ = self._operation(conn, key, payload.model_dump(), "prepare", create)
         return {"job": self.detail(job_id, review=True), "operation_id": key}
+
+    def lookup_operation(self, payload, key, *, kind):
+        """Internal read-only recovery; no authority, new work or client callback.
+
+        Validate both the receipt and its actual child before an orchestration
+        parent adopts or cancels it. This remains available when private data is
+        hidden so a previously authorized parent can stop its own exact child.
+        """
+        if kind not in {"observe", "prepare"}:
+            raise DomainError("BROWSER_OPERATION_KIND_DENIED", 422)
+        with self.store.connection() as conn:
+            receipt = conn.execute(
+                "SELECT * FROM browser_operations WHERE operation_key=?", (key,)
+            ).fetchone()
+            if not receipt:
+                return None
+            if receipt["kind"] != kind or receipt["request_hash"] != digest(payload.model_dump()):
+                raise DomainError("BROWSER_OPERATION_RECEIPT_CONFLICT", 409)
+            if kind == "observe":
+                row = conn.execute("SELECT * FROM browser_observations WHERE id=?",
+                                   (receipt["reference"],)).fetchone()
+                if not row:
+                    raise DomainError("BROWSER_OPERATION_RECEIPT_CONFLICT", 409)
+                observation = json.loads(row["data"]) if row["data"] else None
+                if observation:
+                    self._validate_observation(observation)
+                    if observation["id"] != row["id"] or observation["source_id"] != payload.source_id:
+                        raise DomainError("BROWSER_OPERATION_RECEIPT_CONFLICT", 409)
+                return {"reference_id": row["id"], "state": row["state"],
+                        "error": row["error"], "observation": observation}
+            row = self._row(conn, receipt["reference"])
+            intent = self._intent(row, execution=False)
+            if (intent["source"]["id"] != payload.observation_id
+                    or intent["title"] != payload.title
+                    or intent["content"] != brief_content(intent["source"], payload.title, payload.note)):
+                raise DomainError("BROWSER_OPERATION_RECEIPT_CONFLICT", 409)
+        return {"reference_id": row["id"], "job": self.detail(row["id"], review=True)}
 
     def _intent(self, row, execution=True):
         intent = BrowserIntent.model_validate(json.loads(row["request"])).model_dump()

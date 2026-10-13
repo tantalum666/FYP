@@ -5,6 +5,7 @@ from typing import Literal
 from pydantic import Field, field_validator, model_validator
 
 from .schemas import StrictModel
+from .agent_context import RunPersonalContextSelection
 
 
 class RunMutation(StrictModel):
@@ -28,6 +29,13 @@ class RunCreate(StrictModel):
     required_sections: list[str] = Field(default_factory=list, max_length=8)
     allow_mutation_proposals: bool = False
     mutation_requests: list[RunMutation] = Field(default_factory=list, max_length=3)
+    personal_context: RunPersonalContextSelection | None = None
+    share_connector_results_with_provider: bool = Field(default=False, strict=True)
+    connector_tool_ids: list[str] = Field(default_factory=list, max_length=8)
+    browser_source_ids: list[str] = Field(default_factory=list, max_length=2)
+    browser_public_only: bool = Field(default=False, strict=True)
+    model_call_budget: int = Field(default=8, ge=1, le=24, strict=True)
+    tool_call_budget: int = Field(default=8, ge=1, le=16, strict=True)
 
     @field_validator("goal")
     @classmethod
@@ -36,22 +44,61 @@ class RunCreate(StrictModel):
             raise ValueError("A goal is required")
         return value.strip()
 
-    @field_validator("source_ids", "task_ids", "event_ids")
+    @field_validator("source_ids", "task_ids", "event_ids", "browser_source_ids")
     @classmethod
     def ids(cls, values):
         if len(set(values)) != len(values) or any(not v or len(v) > 64 for v in values):
             raise ValueError("Unique bounded IDs required")
         return values
 
+    @field_validator("connector_tool_ids")
+    @classmethod
+    def connector_ids(cls, values):
+        if len(set(values)) != len(values) or any(not v or len(v) > 180 for v in values):
+            raise ValueError("Unique bounded tool IDs required")
+        return values
+
     @model_validator(mode="after")
     def selected(self):
-        if not (self.source_ids or self.task_ids or self.event_ids):
+        if not (
+            self.source_ids
+            or self.task_ids
+            or self.event_ids
+            or self.browser_source_ids
+            or self.connector_tool_ids
+        ):
             raise ValueError("Select evidence for this work package")
+        if self.browser_source_ids and (self.mode != "model" or not self.browser_public_only):
+            raise ValueError(
+                "Browser selection requires model mode and explicit public-only consent"
+            )
+        if self.connector_tool_ids and self.mode != "model":
+            raise ValueError("Connector tools require model mode")
+        if self.connector_tool_ids and not self.share_connector_results_with_provider:
+            raise ValueError(
+                "Explicit connector-result sharing with the selected provider is required"
+            )
+        if self.connector_tool_ids and (
+            self.source_ids
+            or self.task_ids
+            or self.event_ids
+            or self.personal_context
+            and self.personal_context.selected
+        ):
+            raise ValueError(
+                "Public connector runs cannot include private sources, application records or personal context"
+            )
+        if self.personal_context and self.personal_context.selected and self.mode != "model":
+            raise ValueError("Personal context requires model mode")
         if any(not s.strip() or len(s) > 160 for s in self.required_sections):
             raise ValueError("Bounded section titles required")
         if (
             self.mode == "model"
-            and len(self.source_ids) + len(self.task_ids) + len(self.event_ids) > 10
+            and len(self.source_ids)
+            + len(self.task_ids)
+            + len(self.event_ids)
+            + len(self.browser_source_ids)
+            > 10
         ):
             raise ValueError("Model mode supports at most ten selected evidence items")
         if self.mode == "model" and not self.provider_destination_id:
@@ -80,8 +127,16 @@ class WorkReport(StrictModel):
     limitations: list[str] = Field(default_factory=list, max_length=12)
 
 
+class RunToolCall(StrictModel):
+    """Registry lookup, never an executable tool name or authority supplied by a model."""
+
+    tool: str = Field(min_length=1, max_length=180, pattern=r"^[A-Za-z][A-Za-z0-9_.-]*$")
+    arguments: dict
+    required: bool = Field(default=True, strict=True)
+
+
 class AgentDecision(StrictModel):
-    action: Literal["plan", "read", "report", "propose", "ask", "finish"]
+    action: Literal["plan", "read", "report", "propose", "tool", "ask", "finish"]
     plan: list[str] = Field(default_factory=list, max_length=8)
     evidence_ids: list[str] = Field(default_factory=list, max_length=10)
     evidence_id: str | None = Field(default=None, max_length=80)
@@ -89,5 +144,32 @@ class AgentDecision(StrictModel):
     max_lines: int = Field(default=200, ge=1, le=200)
     report: WorkReport | None = None
     mutation: RunMutation | None = None
+    tool_call: RunToolCall | None = None
     question: str | None = Field(default=None, min_length=1, max_length=1000)
     summary: str = Field(default="", max_length=1000)
+
+
+class ToolObservation(StrictModel):
+    """Bounded untrusted evidence from a registered adapter, never authority."""
+
+    id: str = Field(min_length=1, max_length=160)
+    kind: Literal["browser", "connector"]
+    record_id: str = Field(min_length=1, max_length=180)
+    observation_id: str | None = Field(default=None, max_length=100)
+    label: str = Field(min_length=1, max_length=200)
+    sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    version: int = Field(ge=1, strict=True)
+    at: str = Field(min_length=1, max_length=40)
+    excerpt: str = Field(max_length=1800)
+    coverage: dict
+    statistics: None = None
+    provenance: None = None
+    url: str | None = Field(default=None, max_length=160)
+    heading: str | None = Field(default=None, max_length=300)
+
+
+class ToolReceipt(StrictModel):
+    reference_id: str = Field(min_length=1, max_length=100)
+    state: Literal["observed", "pending", "unknown", "rejected"]
+    result: dict
+    evidence: ToolObservation | None = None

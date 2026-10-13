@@ -109,6 +109,12 @@ cd ..
 
 [完整操作与安装说明](docs/operator-guide.md)包括Pi、iPhone、语音配置、模型、相机和输出控制。[架构与限制](docs/architecture.md)说明数据及权限边界。[评价流程](docs/evaluation.md)用于以后获同意的真人测试。
 
+## 2026-10-13 个人Agent续作
+
+模型规划可经[持久工具链](docs/agent-runs.md)调用限定公开浏览器与[精确审阅MCP连接器](docs/application-connectors.md)，观察结果进入后续规划；[选定个人上下文](docs/agent-personal-context.md)与来源证据、工具权限分开。普通聊天可显式移交目标，隐藏私人内容仍保留元数据停止控制。提供商和连接器默认不配置，没有因本轮代码而自动获得外部账号、真实模型或桌面权限。
+
+[持续计划](../planning/2026-10-13/continuous-agent-capability-plan.md)及[整合验证](../output/qa/2026-10-13-agent-continuation/verification.md)区分软件、协议、真实界面与远端发布；该检查点不是整体开发结束或商业产品等同。
+
 ## 验证与交付边界
 
 本轮角色验证见[3D角色QA](../output/qa/2026-10-09-3d-avatar/verification.md)；整合基线149项后端、15项前端及实际浏览器证据见[本地整合核验](../output/qa/2026-10-09-dot-integration/verification.md)；[10月6日云端软件核验](../output/qa/software-completion-2026-10-06/verification.md)保留当时结果。启用与复现实验见[电脑作业操作](docs/computer-jobs.md)。旧阶段证据在[事务增强与UI／UX审查](../output/qa/task-enhancement-ux-2026-10-03/verification.md)：101项后端、11项前端检查、生产／iPhone构建及实际三端交互。此前[S1–S10记录](../output/qa/software-completion-2026-10-02/verification.md)保留。测试数据库与主数据分开，10月9日交互使用独立`.runtime/dot-integration-qa/`；旧轮使用`.runtime/completion-qa/`。截图中的安排和回放是演示数据。正式主库原有示例保留，不自动移动到今天。

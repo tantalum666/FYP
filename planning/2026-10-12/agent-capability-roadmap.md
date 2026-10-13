@@ -2,6 +2,8 @@
 
 更新：2026-10-12 14:54 UTC。目标是用真实任务结果逐项接近Grok Bot、Muse和dot，不承诺复制未公开实现，不用测试数量计算“复现百分比”。
 
+> 本页保留10月12日当时路线与验收目标；当前接续状态见[10月13日持续计划](../2026-10-13/continuous-agent-capability-plan.md)和[当前交接](../../handoff.md)。后续代码、提交与检查不得由本页旧状态推断。
+
 ## 已保存的第一批
 
 [5467342](https://github.com/tantalum666/FYP/commit/546734273c9c8305cf6226e96a8e07854ba5c0b1)已推到[PR #5](https://github.com/tantalum666/FYP/pull/5)，不合并main。361后端／50前端、类型／构建与资产hash通过；远端push与PR CI均通过。独立演示应用实际HTTP写入／SQLite回读已验。新界面真实浏览器验收进行中。

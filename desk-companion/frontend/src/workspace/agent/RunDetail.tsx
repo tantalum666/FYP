@@ -4,6 +4,8 @@ import type { Translate } from "../../types";
 import type { ResponseFence } from "../personal/responseFence";
 import { usePrivateMutation } from "../personal/usePrivateMutation";
 import { ArtifactList } from "./ArtifactList";
+import { RunBrowserJobs } from "./RunBrowserJobs";
+import { RunConnectorResults } from "./RunConnectorResults";
 import { blockLabel, modeLabel, stateLabel } from "./labels";
 import { RequestFeedback } from "./RequestFeedback";
 import { canReviewProposal, runActions } from "./types";
@@ -22,14 +24,20 @@ export function RunDetail({
   detail,
   t,
   fence,
+  fresh,
   onChanged,
   onReviewProposal,
+  onReviewBrowserJob,
+  onReviewConnectorIntent,
 }: {
   detail: RunDetailResponse;
   t: Translate;
   fence: ResponseFence;
+  fresh: boolean;
   onChanged: () => void;
   onReviewProposal?: (id: string) => void;
+  onReviewBrowserJob?: (id: string) => void;
+  onReviewConnectorIntent?: (id: string) => void;
 }) {
   const run = detail.run;
   const mutation = usePrivateMutation(),
@@ -52,7 +60,13 @@ export function RunDetail({
   );
   async function perform(action: RunAction, version: number, text = "") {
     const operation = action === "cancel" ? cancellation : mutation;
-    if (operation.busy || operation.pending || version !== run.version) return;
+    if (
+      !fresh ||
+      operation.busy ||
+      operation.pending ||
+      version !== run.version
+    )
+      return;
     const epoch = fence.capture();
     if (!fence.accepts(epoch)) return;
     const body = {
@@ -76,6 +90,15 @@ export function RunDetail({
     );
   }
   const actions = runActions(run.state, run.state_reason, run.plan_revision);
+  const viewEpoch = fence.capture();
+  const feedback = (operation: typeof mutation) => ({
+    ...operation,
+    busy: operation.busy || !fresh,
+    retry: () =>
+      fresh && fence.accepts(viewEpoch)
+        ? operation.retry()
+        : Promise.resolve(false),
+  });
   return (
     <article className="agent-detail">
       <h3>{t("Requested result", "请求的结果")}</h3>
@@ -104,6 +127,19 @@ export function RunDetail({
         {run.evidence_count} {t("evidence records", "条证据记录")} ·{" "}
         {run.model_calls} {t("model calls recorded", "次已记录模型调用")}
       </p>
+      {run.mode === "model" && run.model_call_budget !== undefined && (
+        <p className="workspace-hint">
+          {t("Model attempts", "模型尝试")}: {run.model_calls} /{" "}
+          {run.model_call_budget}
+          {run.tool_call_budget !== undefined && (
+            <>
+              {" "}
+              · {t("Tool calls", "工具调用")}: {run.tool_calls ?? 0} /{" "}
+              {run.tool_call_budget}
+            </>
+          )}
+        </p>
+      )}
       <p className="workspace-hint">
         {t(
           "Completion means the required application checks passed; model-authored conclusions still need your review. Pausing or cancelling does not undo saved files or completed application actions.",
@@ -117,7 +153,7 @@ export function RunDetail({
             <button
               key={action}
               className="secondary"
-              disabled={locked || cancelLocked}
+              disabled={!fresh || locked || cancelLocked}
               onClick={() =>
                 setEditor({
                   action: action as Exclude<RunAction, "cancel">,
@@ -133,7 +169,7 @@ export function RunDetail({
         {actions.includes("cancel") && (
           <button
             className="secondary agent-stop"
-            disabled={cancelLocked}
+            disabled={!fresh || cancelLocked}
             onClick={() => setCancelVersion(run.version)}
           >
             {actionLabel("cancel", t)}
@@ -199,6 +235,7 @@ export function RunDetail({
             <button
               className="primary"
               disabled={
+                !fresh ||
                 locked ||
                 cancelLocked ||
                 editor.version !== run.version ||
@@ -214,7 +251,7 @@ export function RunDetail({
           </div>
         </fieldset>
       )}
-      <RequestFeedback mutation={mutation} t={t} />
+      <RequestFeedback mutation={feedback(mutation)} t={t} />
       {cancelVersion !== null && (
         <div className="agent-notice" role="alert">
           <p>
@@ -241,7 +278,7 @@ export function RunDetail({
             </button>
             <button
               className="secondary agent-stop"
-              disabled={cancelLocked || cancelVersion !== run.version}
+              disabled={!fresh || cancelLocked || cancelVersion !== run.version}
               onClick={() => void perform("cancel", cancelVersion)}
             >
               {t("Confirm cancellation", "确认取消")}
@@ -249,7 +286,7 @@ export function RunDetail({
           </div>
         </div>
       )}
-      <RequestFeedback mutation={cancellation} t={t} />
+      <RequestFeedback mutation={feedback(cancellation)} t={t} />
       <section>
         <h4>{t("Plan and observed progress", "计划与实际进展")}</h4>
         {!!run.plan?.length && (
@@ -357,12 +394,13 @@ export function RunDetail({
                 className="secondary"
                 disabled={
                   !onReviewProposal ||
+                  !fresh ||
                   !canReviewProposal(proposal) ||
                   mutation.busy ||
                   cancellation.busy
                 }
                 onClick={() => {
-                  if (canReviewProposal(proposal))
+                  if (fresh && canReviewProposal(proposal))
                     onReviewProposal?.(proposal.id);
                 }}
               >
@@ -379,6 +417,48 @@ export function RunDetail({
           </p>
         )}
       </section>
+      {!!run.tool_results?.length && (
+        <section>
+          <h4>
+            {t("Tool activity and result references", "工具活动与结果引用")}
+          </h4>
+          <p className="workspace-hint">
+            {t(
+              "These are recorded tool results, not a claim that the whole goal is complete. External responses remain untrusted; inspect the linked review and its evidence.",
+              "这些是工具结果记录，不代表整个目标完成。外部响应仍不可信，请检查关联审阅与证据。",
+            )}
+          </p>
+          <ol className="agent-steps">
+            {run.tool_results.map((result, index) => (
+              <li key={`${result.operation_key}:${index}`}>
+                <strong>{result.tool}</strong>
+                <span>
+                  {result.state === "observed"
+                    ? t("Response observed", "已观察响应")
+                    : result.state === "verified"
+                      ? t("Recorded verification available", "可检查已记录核验")
+                      : result.state === "rejected"
+                        ? t("Rejected", "已拒绝")
+                        : stateLabel(result.state, t)}
+                </span>
+                <small>{result.reference_id}</small>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+      <RunBrowserJobs
+        jobs={detail.browser_jobs ?? []}
+        t={t}
+        locked={!fresh || mutation.busy || cancellation.busy}
+        onReview={onReviewBrowserJob}
+      />
+      <RunConnectorResults
+        results={run.tool_results ?? []}
+        t={t}
+        locked={!fresh || mutation.busy || cancellation.busy}
+        onReview={onReviewConnectorIntent}
+      />
       <ArtifactList artifacts={detail.artifacts} t={t} fence={fence} />
       <details>
         <summary>{t("Activity history", "活动历史")}</summary>

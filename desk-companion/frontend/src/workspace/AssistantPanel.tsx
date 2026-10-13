@@ -12,6 +12,7 @@ import { ComputerJobsPanel } from "./ComputerJobsPanel";
 import { RoutinesPanel } from "./RoutinesPanel";
 import { RunPanel } from "./agent/RunPanel";
 import { BrowserWorkflowPanel } from "./browser/BrowserWorkflowPanel";
+import { ConnectorReviewPanel } from "./connectors/ConnectorReviewPanel";
 import { Modal } from "../components/Dialogs";
 import { ResponseFence } from "./personal/responseFence";
 import { usePrivateMutation } from "./personal/usePrivateMutation";
@@ -150,6 +151,19 @@ export function AssistantPanel({
   const knownProposals = useRef<Proposal[]>([]);
   const proposalRequest = useRef(0);
   const [reviewProposal, setReviewProposal] = useState<string | null>(null);
+  const [reviewBrowserJob, setReviewBrowserJob] = useState<{
+    id: string;
+    viewEpoch: number;
+  } | null>(null);
+  const [reviewConnectorIntent, setReviewConnectorIntent] = useState<{
+    id: string;
+    viewEpoch: number;
+  } | null>(null);
+  const [workGoal, setWorkGoal] = useState<{
+    id: string;
+    text: string;
+    viewEpoch: number;
+  } | null>(null);
   const proposalNodes = useRef(new Map<string, HTMLElement>());
   const language = t("en", "zh");
   useDraftGuard(!!text.trim() || mutation.pending, busy);
@@ -237,6 +251,9 @@ export function AssistantPanel({
     }
     setReply(null);
     setReviewProposal(null);
+    setReviewBrowserJob(null);
+    setReviewConnectorIntent(null);
+    setWorkGoal(null);
     setTranscript("");
     setProposals([]);
     knownProposals.current = [];
@@ -562,6 +579,29 @@ export function AssistantPanel({
             <Send size={16} />
             {busy ? t("Preparing…", "处理中…") : t("Send", "发送")}
           </button>
+          {data?.principal.kind === "owner" && (
+            <button
+              type="button"
+              className="secondary"
+              disabled={
+                !contextVisible ||
+                locked ||
+                voiceState !== "idle" ||
+                !text.trim()
+              }
+              onClick={() => {
+                if (!contentVisibleNow.current || locked || !text.trim())
+                  return;
+                setWorkGoal({
+                  id: crypto.randomUUID(),
+                  text: text.trim(),
+                  viewEpoch: fence.current.capture(),
+                });
+              }}
+            >
+              {t("Work on this…", "作为工作目标…")}
+            </button>
+          )}
           {!taskId && (
             <button
               type="button"
@@ -939,7 +979,23 @@ export function AssistantPanel({
       )}
       <RunPanel
         t={t}
-        visibleOverride={contextVisible}
+        visibleOverride={!displayConcealed}
+        initialGoal={
+          contextVisible &&
+          workGoal &&
+          fence.current.accepts(workGoal.viewEpoch)
+            ? workGoal
+            : undefined
+        }
+        onGoalHandled={() => setWorkGoal(null)}
+        onReviewBrowserJob={(id) => {
+          if (!contentVisibleNow.current) return;
+          setReviewBrowserJob({ id, viewEpoch: fence.current.capture() });
+        }}
+        onReviewConnectorIntent={(id) => {
+          if (!contentVisibleNow.current) return;
+          setReviewConnectorIntent({ id, viewEpoch: fence.current.capture() });
+        }}
         onReviewProposal={(id) => {
           if (!contentVisibleNow.current) return;
           const epoch = fence.current.capture();
@@ -949,16 +1005,41 @@ export function AssistantPanel({
               setReviewProposal(id);
             } else {
               setReviewProposal(null);
-              setNotice(t(
-                "This draft is no longer awaiting review. It may have been handled or expired; reopen the work task to inspect its saved result.",
-                "此草稿已不再等待审阅，可能已处理或到期。请重新打开工作任务查看保存结果。",
-              ));
+              setNotice(
+                t(
+                  "This draft is no longer awaiting review. It may have been handled or expired; reopen the work task to inspect its saved result.",
+                  "此草稿已不再等待审阅，可能已处理或到期。请重新打开工作任务查看保存结果。",
+                ),
+              );
             }
           });
         }}
       />
-      <BrowserWorkflowPanel t={t} visibleOverride={contextVisible} />
+      <BrowserWorkflowPanel
+        t={t}
+        visibleOverride={!displayConcealed}
+        reviewEffectId={
+          contextVisible &&
+          reviewBrowserJob &&
+          fence.current.accepts(reviewBrowserJob.viewEpoch)
+            ? reviewBrowserJob.id
+            : null
+        }
+        onReviewClosed={() => setReviewBrowserJob(null)}
+      />
       <RoutinesPanel t={t} visibleOverride={contextVisible} />
+      <ConnectorReviewPanel
+        t={t}
+        visibleOverride={!displayConcealed}
+        reviewIntentId={
+          contextVisible &&
+          reviewConnectorIntent &&
+          fence.current.accepts(reviewConnectorIntent.viewEpoch)
+            ? reviewConnectorIntent.id
+            : null
+        }
+        onReviewClosed={() => setReviewConnectorIntent(null)}
+      />
       <ComputerJobsPanel t={t} taskId={taskId} />
     </div>
   );

@@ -39,7 +39,7 @@ def assistant_routes(runtime, authenticated, operation_id):
     ):
         if principal.get("kind") == "owner":
             principal = {**principal, "session": request.cookies.get("desk_companion_session")}
-        runtime.agent_runs.require_proposal_access(proposal_id, principal)
+        runtime.agent_runs.require_proposal_access(proposal_id, principal, action=payload.action)
         return runtime.assistant.decide(
             proposal_id,
             payload.action,

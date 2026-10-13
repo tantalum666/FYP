@@ -1,0 +1,16 @@
+src/workspace/agent/RunPanel.tsx 182ms
+src/workspace/agent/RunComposer.tsx 112ms
+src/workspace/agent/RunDetail.tsx 61ms
+src/workspace/agent/RunMetadataPanel.tsx 23ms
+src/workspace/agent/runMetadata.ts 15ms
+src/workspace/agent/useRunMetadata.ts 11ms
+src/workspace/agent/RunBrowserSelection.tsx 9ms
+src/workspace/agent/RunBrowserJobs.tsx 6ms
+src/workspace/agent/RunConnectorSelection.tsx 7ms
+src/workspace/agent/RunContextSelection.tsx 10ms
+src/workspace/agent/RunConnectorResults.tsx 5ms
+src/workspace/agent/types.ts 37ms
+src/workspace/agent/labels.ts 19ms
+tests/agent-metadata.test.ts 26ms
+tests/agent-work-tools.test.ts 38ms
+tests/agent-render.test.ts 15ms

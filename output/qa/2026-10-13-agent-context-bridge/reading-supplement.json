@@ -1,0 +1,244 @@
+{
+  "task": "personal-context bridge continuation",
+  "completed_at_utc": "2026-10-13T05:47:01.053860+00:00",
+  "inherited_full_project_reading": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "scope": "Same ongoing task; inherited 186-file full reading gate, not a new full-repository reading claim",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines_current": 50,
+      "sha256_current": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "note": "Read complete body; truncated outputs were supplemented by smaller overlapping reads"
+    },
+    {
+      "path": "product.md",
+      "lines_current": 174,
+      "sha256_current": "1c96bc328dc6bca1ba4705e47e69159a5b93842d51022eba2ac14b810ef8e476",
+      "read_ranges": [
+        [
+          1,
+          174
+        ]
+      ],
+      "note": "Read complete body; truncated outputs were supplemented by smaller overlapping reads"
+    },
+    {
+      "path": "handoff.md",
+      "lines_current": 40,
+      "sha256_current": "8dadf629f70c91d4a923ae0dd4ae05b2c4fa6e547a691fca31881e5727ccea1c",
+      "read_ranges": [
+        [
+          1,
+          40
+        ]
+      ],
+      "note": "Read complete body; truncated outputs were supplemented by smaller overlapping reads"
+    },
+    {
+      "path": "desk-companion/docs/personal-context.md",
+      "lines_current": 70,
+      "sha256_current": "2de80030b52b1b4af797171face268a1f8292ac146f5c25ea35f1f25b8a2c265",
+      "read_ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "note": "Read complete body; truncated outputs were supplemented by smaller overlapping reads"
+    },
+    {
+      "path": "desk-companion/docs/agent-runs.md",
+      "lines_current": 90,
+      "sha256_current": "fc447ce18c4db082a164e60313ae02737bd38c190b5a51dfabb8175628db6584",
+      "read_ranges": [
+        [
+          1,
+          90
+        ]
+      ],
+      "note": "Read complete body; truncated outputs were supplemented by smaller overlapping reads"
+    },
+    {
+      "path": "desk-companion/docs/provider-policy.md",
+      "lines_current": 51,
+      "sha256_current": "38ba7f0776310a827bd3ec6b7216e11505ff9dfc64796a35ad6862cbdc51e1a4",
+      "read_ranges": [
+        [
+          1,
+          51
+        ]
+      ],
+      "note": "Read complete body; truncated outputs were supplemented by smaller overlapping reads"
+    },
+    {
+      "path": "planning/2026-10-12/personal-agent-implementation.md",
+      "lines_current": 84,
+      "sha256_current": "f332140d8bd36c4e87b8fa5677acb7a29dac7733eba8f049f6676ff814cc0cdb",
+      "read_ranges": [
+        [
+          1,
+          84
+        ]
+      ],
+      "note": "Read complete body; truncated outputs were supplemented by smaller overlapping reads"
+    },
+    {
+      "path": "planning/2026-10-12/durable-agent-run-design.md",
+      "lines_current": 382,
+      "sha256_current": "7d5f780b5c99aea683b8f4a07c0df025cebf8c0509edc266bf909e2b768bfa96",
+      "read_ranges": [
+        [
+          1,
+          382
+        ]
+      ],
+      "note": "Read complete body; truncated outputs were supplemented by smaller overlapping reads"
+    },
+    {
+      "path": "desk-companion/backend/desk/context.py",
+      "lines_current": 277,
+      "sha256_current": "82a620c2a113e5618299dd345e3e68f6c0f037753cf8c5be623d488aff4f988a",
+      "read_ranges": [
+        [
+          1,
+          277
+        ]
+      ],
+      "note": "Read complete body; truncated outputs were supplemented by smaller overlapping reads"
+    },
+    {
+      "path": "desk-companion/backend/desk/memory.py",
+      "lines_current": 233,
+      "sha256_current": "905ef10a5538c65d859847962583740884f975f8b87ad76fc185ba683306811d",
+      "read_ranges": [
+        [
+          1,
+          233
+        ]
+      ],
+      "note": "Read complete body; truncated outputs were supplemented by smaller overlapping reads"
+    },
+    {
+      "path": "desk-companion/backend/desk/conversations.py",
+      "lines_current": 291,
+      "sha256_current": "f7e9ee3b1043950f55003321ceff34cb3c605c322bf19aaf2bde37e08be6a4c8",
+      "read_ranges": [
+        [
+          1,
+          291
+        ]
+      ],
+      "note": "Read complete body; truncated outputs were supplemented by smaller overlapping reads"
+    },
+    {
+      "path": "desk-companion/backend/desk/agent_runs.py",
+      "lines_current": 1328,
+      "sha256_current": "c64bcc815a7ea8f96c34334943caf5f7cd1d714b8791e0ef3dd5e70e4d530ae6",
+      "read_ranges": [
+        [
+          1,
+          1074
+        ]
+      ],
+      "note": "Pre-integration file read completely; concurrent run-tool edits reviewed by focused changed ranges and integration tests, not claimed complete reread of later concurrent file"
+    },
+    {
+      "path": "desk-companion/backend/desk/agent_run_schemas.py",
+      "lines_current": 156,
+      "sha256_current": "87869b661bd6daf5b91539e313ef89a3fb2b60fa8a7efe1a8c9bbb9abea52e73",
+      "read_ranges": [
+        [
+          1,
+          97
+        ]
+      ],
+      "note": "Pre-integration file read completely; concurrent run-tool edits reviewed by focused changed ranges and integration tests, not claimed complete reread of later concurrent file"
+    },
+    {
+      "path": "desk-companion/backend/desk/agent_planner.py",
+      "lines_current": 132,
+      "sha256_current": "99be47c742d108aef1161836583601da72e03753a36689df6bccaf4f13aba114",
+      "read_ranges": [
+        [
+          1,
+          114
+        ]
+      ],
+      "note": "Pre-integration file read completely; concurrent run-tool edits reviewed by focused changed ranges and integration tests, not claimed complete reread of later concurrent file"
+    },
+    {
+      "path": "desk-companion/pyproject.toml",
+      "lines_current": 46,
+      "sha256_current": "c24ec2113c8366cc1b324bba1c2c4b103c60050f801afed867055cb18c2800dc",
+      "read_ranges": [
+        [
+          1,
+          46
+        ]
+      ],
+      "note": "Read complete body; truncated outputs were supplemented by smaller overlapping reads"
+    }
+  ],
+  "partial_related_reads": [
+    {
+      "path": "decision-log.md",
+      "ranges": "last 60 lines; relevant latest decisions"
+    },
+    {
+      "path": "desk-companion/backend/desk/store.py",
+      "ranges": [
+        [
+          73,
+          89
+        ],
+        [
+          122,
+          170
+        ]
+      ],
+      "purpose": "transaction and owner-session semantics"
+    },
+    {
+      "path": "desk-companion/tests/test_personal_context.py",
+      "ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "purpose": "fixture and consent helpers; additional related test excerpts inspected"
+    },
+    {
+      "path": "desk-companion/tests/test_agent_runs.py",
+      "ranges": [
+        [
+          1,
+          125
+        ]
+      ],
+      "purpose": "run fixtures and scripted model patterns"
+    },
+    {
+      "path": "desk-companion/tests/test_browser_jobs.py",
+      "ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "purpose": "explicit fake browser fixture"
+    }
+  ],
+  "exclusions": [
+    "Inherited unrelated project research not reread in this continuation",
+    "Dependency/cache/build/vendor files",
+    "Automatic prior QA snapshots"
+  ],
+  "fingerprints_are_not_reading_proof": true
+}

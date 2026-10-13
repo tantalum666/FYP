@@ -1,0 +1,36 @@
+✔ connected hidden owners retain status access; paired, stale, offline and concealed views do not (2.291808ms)
+✔ hidden status loads only the list and projects all private fields out before retaining rows (1.335167ms)
+✔ unexpected status strings and date text cannot be echoed as private content (0.356445ms)
+✔ hidden controls are pause/cancel only and unknown or terminal states gain no authority (0.312484ms)
+✔ invalid list data is rejected rather than enabling controls from stale private objects (0.693991ms)
+✔ hide/show and identity transitions fence both private and metadata late responses (0.171642ms)
+✔ an uncertain or in-flight pause never occupies the cancellation queue and retries keep their original version (0.557995ms)
+✔ hidden component keeps uncertain queues through refresh failures and never requests private details (0.808434ms)
+✔ persistent work requires an explicit retention choice and at least one valid selected source (1.571517ms)
+✔ local compilation never inherits provider transmission or mutation grants (0.993957ms)
+✔ unknown source reservations and finished or expired reviews cannot be selected (0.391197ms)
+✔ adaptive work requires exact text destination plus explicit selected-content sharing (0.267691ms)
+✔ selection count, source bytes and section requirements match server ceilings (0.500735ms)
+✔ reviewed request arrays are immutable snapshots rather than live checkbox arrays (0.15013ms)
+✔ unknown model outcome has an explicit new-attempt action and no ordinary resume (0.20838ms)
+✔ file selection validates UTF-8 bytes, suffix, display name and content before upload (1.582667ms)
+✔ source upload preserves raw Unicode and one operation ID across an unknown response without storage (0.7033ms)
+✔ a file hash or model message does not grant structural or semantic verification (0.868685ms)
+✔ privacy, identity and hide-show transitions permanently fence earlier replies (0.303989ms)
+✔ component contracts preserve modal drafts, selected-run fences and independent cancellation (0.738263ms)
+✔ all new run components avoid persistent browser bodies and raw generated HTML (1.883119ms)
+✔ chat goal prefill preserves exact user text but inherits no retention, data-sharing or tool permission (2.10739ms)
+✔ public-browser-only model work needs explicit source grant and independent provider consent (0.860266ms)
+✔ browser selection cannot invent sources, duplicate grants or bypass unavailable admission (0.397943ms)
+✔ browser selection counts toward model evidence total and snapshots grants at exact review (0.568019ms)
+✔ model and tool attempt budgets enforce exact integral bounds and lower operator ceilings (0.497786ms)
+✔ verified export bytes are distinct from browser completion with unresolved cleanup (0.447962ms)
+✔ goal handoffs preserve active drafts and linked browser review delegates without approving inside run detail (3.072428ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 205.946234

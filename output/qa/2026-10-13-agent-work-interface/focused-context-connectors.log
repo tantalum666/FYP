@@ -1,0 +1,46 @@
+✔ connected hidden owners retain status access; paired, stale, offline and concealed views do not (3.288353ms)
+✔ hidden status loads only the list and projects all private fields out before retaining rows (2.080802ms)
+✔ unexpected status strings and date text cannot be echoed as private content (0.415852ms)
+✔ hidden controls are pause/cancel only and unknown or terminal states gain no authority (0.362358ms)
+✔ invalid list data is rejected rather than enabling controls from stale private objects (0.923908ms)
+✔ hide/show and identity transitions fence both private and metadata late responses (0.292904ms)
+✔ an uncertain or in-flight pause never occupies the cancellation queue and retries keep their original version (1.158955ms)
+✔ hidden component keeps uncertain queues through refresh failures and never requests private details (0.828298ms)
+✔ actual metadata card markup has stop controls and no private fields in English or Chinese (10.616122ms)
+✔ metadata markup disables stale controls and removes all actions for terminal or unknown status (2.233861ms)
+✔ browser result markup separates verified bytes from uncertain cleanup and has no inline approval (2.229458ms)
+✔ persistent work requires an explicit retention choice and at least one valid selected source (2.058914ms)
+✔ local compilation never inherits provider transmission or mutation grants (2.603767ms)
+✔ unknown source reservations and finished or expired reviews cannot be selected (0.345695ms)
+✔ adaptive work requires exact text destination plus explicit selected-content sharing (0.318797ms)
+✔ selection count, source bytes and section requirements match server ceilings (0.447142ms)
+✔ reviewed request arrays are immutable snapshots rather than live checkbox arrays (0.164823ms)
+✔ unknown model outcome has an explicit new-attempt action and no ordinary resume (0.473554ms)
+✔ file selection validates UTF-8 bytes, suffix, display name and content before upload (1.8491ms)
+✔ source upload preserves raw Unicode and one operation ID across an unknown response without storage (1.140601ms)
+✔ a file hash or model message does not grant structural or semantic verification (0.798657ms)
+✔ privacy, identity and hide-show transitions permanently fence earlier replies (1.017319ms)
+✔ component contracts preserve modal drafts, selected-run fences and independent cancellation (0.843583ms)
+✔ all new run components avoid persistent browser bodies and raw generated HTML (1.995092ms)
+✔ chat goal prefill preserves exact user text but inherits no retention, data-sharing or tool permission (3.631473ms)
+✔ public-browser-only model work needs explicit source grant and independent provider consent (0.767689ms)
+✔ browser selection cannot invent sources, duplicate grants or bypass unavailable admission (0.400278ms)
+✔ browser selection counts toward model evidence total and snapshots grants at exact review (1.201623ms)
+✔ model and tool attempt budgets enforce exact integral bounds and lower operator ceilings (3.757451ms)
+✔ verified export bytes are distinct from browser completion with unresolved cleanup (0.439976ms)
+✔ goal handoffs preserve active drafts and linked browser review delegates without approving inside run detail (1.427309ms)
+✔ selected personal context requires explicit derived-retention acknowledgment and current category permission (0.685851ms)
+✔ personal selection rejects unlisted/duplicate facts and conversations with no eligible messages (0.425608ms)
+✔ personal context is never counted as evidence or silently added to local work (0.476583ms)
+✔ connector-only work requires two separate exact-provider sharing choices and no automatic call approval (0.361467ms)
+✔ public-only connector grants cannot combine private evidence or saved context but can include public browser sources (0.313891ms)
+✔ connector selection fails closed for unknown, duplicate, excessive and unreviewed tool grants (0.428573ms)
+✔ invalidated personal-context bindings cannot be refreshed by resume, steering or provider retry (0.264095ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 681.109361

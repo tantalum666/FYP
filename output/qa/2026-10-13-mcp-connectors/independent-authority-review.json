@@ -1,0 +1,86 @@
+{
+  "reviewed_utc": "2026-10-13T05:54:00Z",
+  "scope": "Read-only review of connectors, connector_routes, runtime/app and run-adapter integration; no live endpoint, provider call, credentials or account effects",
+  "inherited_intake": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "initial_findings": [
+    {
+      "id": "AR-1",
+      "severity": "P1 availability/control",
+      "state": "resolved_independently_verified",
+      "file": "desk-companion/backend/desk/connectors/mcp_transport.py",
+      "initial_lines": "83-94",
+      "finding": "Absolute request deadline is not checked while slow-dripped HTTP headers are parsed; idle socket timeout is insufficient",
+      "reproduction": "Loopback-only raw HTTP server sends headers at 10 ms per byte; MAX_SECONDS=0.05 but call returns only after 0.7056 seconds with CONNECTOR_DEADLINE",
+      "resolution": "Deadline-aware raw socket reader checks header/body reads and bounds headers; DNS uses one bounded daemon slot with caller deadline and no late connection/dispatch"
+    },
+    {
+      "id": "AR-2",
+      "severity": "P2 durable lifecycle",
+      "state": "resolved_independently_verified",
+      "file": "desk-companion/backend/desk/connectors/service.py",
+      "initial_lines": "337-351",
+      "finding": "Admitted remote result fits its parser budget but full ledger record exceeds canonical node budget, raising after dispatch and leaving permanent dispatching state",
+      "reproduction": "No-outputSchema descriptor; structuredContent contains 32 arrays of126 zeros. Result passes65536-byte canonical validation; execute raises CONNECTOR_DATA_LIMIT; detail state dispatching/dispatched=true and advance_one=false",
+      "resolution": "Entire terminal ledger candidate is bounded before save; oversize result is dropped and compact unknown_effect/CONNECTOR_RESULT_LIMIT is persisted without replay"
+    },
+    {
+      "id": "AR-3",
+      "severity": "P1 availability/control",
+      "state": "resolved_independently_verified",
+      "file": "desk-companion/backend/desk/agent_runs.py plus connectors/service.py",
+      "finding": "Parent run control lock held during remote discovery in effect preparation",
+      "resolution": "Connector preparation is now entirely local; fresh descriptor validation remains before remote execution"
+    },
+    {
+      "id": "AR-4",
+      "severity": "P2 immutable evidence",
+      "state": "resolved_independently_verified",
+      "file": "desk-companion/backend/desk/connectors/agent_adapter.py",
+      "finding": "Observation timestamp changed at each verification, invalidating identical prior evidence at finish",
+      "resolution": "Evidence timestamp uses persisted item.updated_at; builder regression test included in independently passing suite"
+    }
+  ],
+  "checks": [
+    {
+      "command": "PYTHONPATH=backend:tests .venv/bin/python -m pytest -q -s /tmp/test_connector_authority_review.py",
+      "result": "2 failures reproducing AR-1 and AR-2 before fixes"
+    },
+    {
+      "command": "PYTHONPATH=backend .venv/bin/python -m pytest -q tests/test_mcp_connectors.py",
+      "result": "53 passed,1 warning,23.16seconds"
+    },
+    {
+      "command": "PYTHONPATH=backend .venv/bin/python -m pytest -q tests/test_agent_connector_tools.py tests/test_connector_http_integration.py",
+      "result": "14 passed,1 warning,8.44seconds"
+    },
+    {
+      "command": "PYTHONPATH=backend:tests .venv/bin/python -m pytest -q -s /tmp/test_connector_authority_review.py",
+      "result": "3 passed in1.16seconds; result-node boundary unknown_effect/no exception;50ms header budget returned50.6ms;50ms DNS budget returned63.9ms; resolver busy is fail-closed and late connections=0"
+    },
+    {
+      "command": "PYTHONPATH=backend .venv/bin/python -m pytest -q tests/test_mcp_connectors.py tests/test_agent_connector_tools.py tests/test_connector_http_integration.py",
+      "result": "71 passed,2 known warnings,36.60seconds"
+    }
+  ],
+  "completed_utc": "2026-10-13T05:56:35.537671+00:00",
+  "final_assessment": "No remaining confirmed blocker in reviewed scope. Owner-session/visibility/provider and descriptor/grant/argument fences, exactly-once ledger dispatch, unknown-effect no-retry handling, public DNS IP pin/TLS hostname, redirect/proxy/cookie restrictions and bounded unsupported-schema rejection were checked. This is not a live external-server, provider-quality or general application acceptance claim.",
+  "limitations": [
+    "One OS resolver may outlive its cancelled caller; concurrent unresolved calls are rejected and the resolver cannot dispatch network application requests",
+    "Total HTTP deadline is enforced around application reads; OS TCP/TLS connection uses short phase timeouts and is not a process-kill guarantee",
+    "Review covers current in-progress source; later edits require delta review",
+    "No implementation source edited by this reviewer; only separate QA artifacts created"
+  ],
+  "source_sha256": {
+    "desk-companion/backend/desk/connectors/contracts.py": "e73bd6112e338395f9098bf49186b9ed42a9e50d7ce7ec1ff9b75c329299eeb4",
+    "desk-companion/backend/desk/connectors/agent_adapter.py": "186831280f64032ca5e0fd76d91a209dbd162712799eceb72363e81ef8ec2829",
+    "desk-companion/backend/desk/connectors/schema.py": "c11af76832155d5dd85fc98837bb6c2916b23b547ec93b19b38daa887b218725",
+    "desk-companion/backend/desk/connectors/__init__.py": "893d69d854f2bdf38a288b8edf1a0ad7531c74a65e449b2dd5e9f4f0b412564b",
+    "desk-companion/backend/desk/connectors/service.py": "a57e01b73eaf880f7b418f3c9407c9936b0cc8d69adaaae90081f9a5582e5a90",
+    "desk-companion/backend/desk/connectors/mcp_transport.py": "c98329b8b0a02cd40fbe12b743bf70e654cf2cedc7dba30eb06625a12d6d72fa",
+    "desk-companion/backend/desk/connector_routes.py": "8091c9df3ad3d5767294e19258ccea332b4448d91c56deaa7d7d24d7220df149",
+    "desk-companion/backend/desk/runtime.py": "5edfa6d18cdc69844d1fa7e9fe057089cf2c8adefb3a424081ce53e06cc01724",
+    "desk-companion/backend/desk/app.py": "4fc97830234910e71b404e9c7342e79b0fe4b6d8d966cddcfd336f05c1e8f95a",
+    "desk-companion/backend/desk/agent_tools.py": "e81b04929d8e398260503c7c48b03a4fa3db9b94e65fa5bd03c7233b3b4f4adc",
+    "desk-companion/backend/desk/agent_runs.py": "558b964e798a2569bca2c507950cc973613997e6be8e4d155447fee9b2a79a3a"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "completed_utc": "2026-10-13T06:01:07.302125+00:00",
+  "scope": "Independent read-only audit; implementation fixes made by the owning worker and root",
+  "inherited_reading_ledger": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "reading_mode": "Continuation of the same ongoing implementation round; no new whole-repository read claim",
+  "reviewed_contracts": [
+    "AGENTS.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md (latest relevant entries)",
+    "desk-companion/docs/agent-runs.md",
+    "desk-companion/docs/agent-personal-context.md",
+    "desk-companion/docs/browser-workflow.md",
+    "desk-companion/docs/sources-and-artifacts.md",
+    "planning/2026-10-12/durable-agent-run-design.md"
+  ],
+  "source_fingerprints": {
+    "desk-companion/backend/desk/agent_runs.py": {
+      "sha256": "afe4e76f69c99b38acff0befe490c1640d72fb29b8cda4c6f42a6ef3490ac214",
+      "lines": 1492
+    },
+    "desk-companion/backend/desk/agent_tools.py": {
+      "sha256": "d25b0af9a43b1ce2339c5d8a327be7f803497a139e85ee1e21889323698cea48",
+      "lines": 661
+    },
+    "desk-companion/backend/desk/agent_planner.py": {
+      "sha256": "64be15b7a70fdd84b754ffb95472730af8eb58f776c9e125c721051b391d9ebd",
+      "lines": 146
+    },
+    "desk-companion/backend/desk/agent_run_schemas.py": {
+      "sha256": "b84c1345d7911e97ad265c4c08bcf98253064dcf9757c0f7bc1c1dc04dc0daa6",
+      "lines": 175
+    },
+    "desk-companion/backend/desk/browser_jobs.py": {
+      "sha256": "0589900af94264a365e694509063ec2f1be4e16c45a90f9f0e82d6707aa50f5d",
+      "lines": 585
+    },
+    "desk-companion/backend/desk/agent_context.py": {
+      "sha256": "2034df6bb44776bf5b106571dbb7323da358671bcab2772824a32ae4d4311750",
+      "lines": 363
+    },
+    "desk-companion/backend/desk/file_store.py": {
+      "sha256": "a706bbe873ecd67793c36935a9262c93ddbf415960deb0cb8d5f69643501e489",
+      "lines": 339
+    },
+    "desk-companion/backend/desk/artifacts.py": {
+      "sha256": "c8fdd3ffdbbb9995af729479923bd4a62767771ca24665d89427d1c0a7299a4c",
+      "lines": 303
+    },
+    "desk-companion/backend/desk/store.py": {
+      "sha256": "1faa97d038d59ffb81b2c27809f39033321121a32b52996ceb981d243962677b",
+      "lines": 470
+    },
+    "desk-companion/backend/desk/assistant_routes.py": {
+      "sha256": "34c05cf6323dc70534be2800099accebb65403d8517ca9ecba02a0ffca80f438",
+      "lines": 50
+    },
+    "desk-companion/backend/desk/text_ai.py": {
+      "sha256": "7490061715ca4a2da1695c892b7bc219f5a24ad8670ef57358faa152eeaa10ca",
+      "lines": 520
+    },
+    "desk-companion/backend/desk/runtime.py": {
+      "sha256": "5edfa6d18cdc69844d1fa7e9fe057089cf2c8adefb3a424081ce53e06cc01724",
+      "lines": 118
+    },
+    "desk-companion/backend/desk/app.py": {
+      "sha256": "4fc97830234910e71b404e9c7342e79b0fe4b6d8d966cddcfd336f05c1e8f95a",
+      "lines": 397
+    }
+  },
+  "note": "Fingerprints identify inspected source and do not substitute for reading or live acceptance."
+}

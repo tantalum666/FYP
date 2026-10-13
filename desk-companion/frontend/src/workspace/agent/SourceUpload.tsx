@@ -11,11 +11,13 @@ import { useUploadMutation } from "./useUploadMutation";
 export function SourceUpload({
   t,
   fence,
+  fresh,
   onUploaded,
   onDraftChange,
 }: {
   t: Translate;
   fence: ResponseFence;
+  fresh: boolean;
   onUploaded: (source: SourceRecord) => void;
   onDraftChange: (dirty: boolean) => void;
 }) {
@@ -24,6 +26,14 @@ export function SourceUpload({
     [reading, setReading] = useState(false),
     [error, setError] = useState<unknown>(null);
   const mutation = useUploadMutation();
+  const freshNow = useRef(fresh);
+  freshNow.current = fresh;
+  useEffect(() => {
+    freshNow.current = fresh;
+    return () => {
+      freshNow.current = false;
+    };
+  }, [fresh]);
   const choosing = useRef(false),
     input = useRef<HTMLInputElement>(null);
   const busy = reading || mutation.busy,
@@ -33,14 +43,15 @@ export function SourceUpload({
     onDraftChange(!!file || locked);
   }, [file, locked, onDraftChange]);
   async function upload() {
-    if (!file || !retain || choosing.current || locked) return;
+    if (!freshNow.current || !file || !retain || choosing.current || locked)
+      return;
     choosing.current = true;
     setReading(true);
     setError(null);
     const epoch = fence.capture();
     try {
       const prepared = await readSourceFile(file);
-      if (!fence.accepts(epoch)) return;
+      if (!freshNow.current || !fence.accepts(epoch)) return;
       await mutation.run<{ source: SourceRecord }>(
         prepared.path,
         prepared.body,
@@ -79,7 +90,7 @@ export function SourceUpload({
           ref={input}
           type="file"
           accept=".txt,.md,.markdown,.csv,.json"
-          disabled={locked}
+          disabled={!fresh || locked}
           onChange={(e) => {
             setFile(e.target.files?.[0] ?? null);
             setRetain(false);
@@ -91,7 +102,7 @@ export function SourceUpload({
         <input
           type="checkbox"
           checked={retain}
-          disabled={locked || !file}
+          disabled={!fresh || locked || !file}
           onChange={(e) => setRetain(e.target.checked)}
         />
         {t(
@@ -103,7 +114,7 @@ export function SourceUpload({
         <button
           type="button"
           className="secondary"
-          disabled={!file || !retain || locked}
+          disabled={!fresh || !file || !retain || locked}
           onClick={() => void upload()}
         >
           {busy
@@ -129,7 +140,17 @@ export function SourceUpload({
           {agentError(error, t)}
         </p>
       )}
-      <RequestFeedback mutation={mutation} t={t} />
+      <RequestFeedback
+        mutation={{
+          ...mutation,
+          busy: mutation.busy || !fresh,
+          retry: () =>
+            freshNow.current && fence.accepts(fence.capture())
+              ? mutation.retry()
+              : Promise.resolve(false),
+        }}
+        t={t}
+      />
     </details>
   );
 }

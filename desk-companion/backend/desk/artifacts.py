@@ -162,6 +162,7 @@ class ArtifactService:
         run_id=None,
         step_id=None,
         _origin="generated",
+        checkpoint=None,
     ):
         if any(
             value is not None and (not isinstance(value, str) or not 1 <= len(value) <= 100)
@@ -192,6 +193,7 @@ class ArtifactService:
             max_bytes=ARTIFACT_BYTES,
             max_count=400,
             max_total=64 * 1024 * 1024,
+            checkpoint=checkpoint,
         )
         return {"artifact": self.view(result), "operation_id": key}
 

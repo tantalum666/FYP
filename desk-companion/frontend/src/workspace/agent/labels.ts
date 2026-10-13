@@ -145,6 +145,50 @@ export function blockLabel(code: string, t: Translate) {
       "Source versions or permissions changed. Refresh and review the scope again.",
       "来源版本或权限已变化，请刷新并重新审阅范围。",
     ],
+    personal_context_changed: [
+      "Selected personal context or its consent changed. Inspect earlier outputs and start new work with an explicit current selection; resuming cannot refresh this grant.",
+      "所选个人上下文或其许可已变化。请检查之前的输出，并明确选择当前内容后建立新工作；恢复不能刷新此授权。",
+    ],
+    personal_context_binding_changed: [
+      "The owner session or context binding changed. Start new work with a new explicit context selection.",
+      "本人会话或上下文绑定已变化。请重新明确选择上下文后建立新工作。",
+    ],
+    personal_context_binding_invalid: [
+      "The saved personal-context binding cannot be validated. Start new work with a new explicit selection.",
+      "无法核验保存的个人上下文绑定。请重新明确选择后建立新工作。",
+    ],
+    personal_context_unavailable: [
+      "Selected personal context is no longer available. A new scoped run is needed.",
+      "所选个人上下文已不可用，需要建立新的限定范围运行。",
+    ],
+    personal_context_not_approved: [
+      "Personal-context sharing is not approved for this run. Review settings and make a new explicit selection in new work.",
+      "此次运行未获准共享个人上下文。请检查设置，并在新工作中重新明确选择。",
+    ],
+    personal_context_limit: [
+      "The selected personal context exceeds the bounded projection. Choose a smaller selection in new work.",
+      "所选个人上下文超过有界投影限制。请在新工作中选择更少内容。",
+    ],
+    connector_scope_changed: [
+      "Configured connector tools or their permissions changed. Inspect existing effects before starting new work with the current tool scope.",
+      "已配置连接工具或其权限已变化。请先检查已有操作，再以当前工具范围建立新工作。",
+    ],
+    connector_sharing_not_approved: [
+      "Returning connector responses to the selected model destination is not approved.",
+      "尚未批准将连接工具响应返回至所选模型目的地。",
+    ],
+    tool_budget_exceeded: [
+      "The run reached its tool-call allowance. Inspect existing results and unknown effects before starting other work.",
+      "此次运行已达到工具调用额度。请先检查已有结果和未知操作，再开始其他工作。",
+    ],
+    tool_not_allowed: [
+      "The requested tool is outside this run's selected permissions.",
+      "请求工具超出此次运行选择的权限。",
+    ],
+    tool_receipt_conflict: [
+      "Tool evidence does not match its reserved request. Keep the outcome unresolved and inspect the linked effect.",
+      "工具证据与保留请求不匹配。结果仍未解决，请检查关联操作。",
+    ],
   };
   const normalized = code.toLowerCase().replace(/^(agent_run_|run_)/, "");
   return labels[normalized]
@@ -155,6 +199,18 @@ export function blockLabel(code: string, t: Translate) {
       );
 }
 export function agentError(error: unknown, t: Translate) {
+  if (
+    error instanceof ApiError &&
+    (error.code.startsWith("RUN_PERSONAL_CONTEXT_") ||
+      [
+        "RUN_CONNECTOR_SCOPE_CHANGED",
+        "RUN_CONNECTOR_SHARING_NOT_APPROVED",
+        "RUN_TOOL_BUDGET_EXCEEDED",
+        "RUN_TOOL_NOT_ALLOWED",
+        "RUN_TOOL_RECEIPT_CONFLICT",
+      ].includes(error.code))
+  )
+    return blockLabel(error.code, t);
   const messages: Record<string, [string, string]> = {
     AGENT_SCOPE_CHANGED: [
       "Sources or provider permissions changed. Refresh and review the scope again.",

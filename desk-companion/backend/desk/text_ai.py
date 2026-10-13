@@ -11,6 +11,7 @@ import re
 import os
 import threading
 from contextlib import nullcontext
+from contextvars import ContextVar
 from dataclasses import dataclass
 from datetime import timedelta
 from typing import Literal
@@ -32,6 +33,19 @@ from .store import DomainError, encode
 TEXT_RESPONSE_BYTES = 128 * 1024
 TEXT_RESPONSE_DEADLINE = 30.0
 TEXT_NETWORK_TIMEOUT = 5.0
+
+# Per-call/thread/task scope, never a model argument or persistent authority.
+_DISPATCH_CHECKPOINT = ContextVar("desk_text_dispatch_checkpoint", default=None)
+
+
+class TextDispatchRefused(DomainError):
+    """Known local denial before transport; distinct from an uncertain sent call."""
+
+
+def _request_checkpoint(_request):
+    checkpoint = _DISPATCH_CHECKPOINT.get()
+    if checkpoint is not None:
+        checkpoint(_request)
 
 
 def bounded_json_post(client, endpoint, *, headers, json_body, clock=None):
@@ -155,8 +169,38 @@ class TextAssistant:
             "background": self.config.valid() and self.config.background,
         }
 
+    def generate_guarded(self, system, context, schema, purpose, *, checkpoint):
+        """Preserve the generate test/provider seam while fencing real HTTP dispatch."""
+        config = self.config
+        expected_url = (
+            config.endpoint
+            if config.provider == "qwen"
+            else (
+                (config.endpoint or GEMINI_TEXT_ENDPOINT)
+                + "/models/"
+                + config.model
+                + ":generateContent"
+            )
+        )
+
+        def guard(request=None):
+            try:
+                checkpoint()
+                if request is not None and str(request.url) != expected_url:
+                    raise DomainError("PROVIDER_CONTEXT_NOT_APPROVED", 403)
+            except DomainError as exc:
+                raise TextDispatchRefused(exc.code, exc.status) from None
+
+        guard()  # Includes schema/context construction done by the run planner.
+        token = _DISPATCH_CHECKPOINT.set(guard)
+        try:
+            return self.generate(system, context, schema, purpose)
+        finally:
+            _DISPATCH_CHECKPOINT.reset(token)
+
     def generate(self, system, context, schema, purpose):
-        if not self.config.valid():
+        config = self.config
+        if not config.valid():
             raise DomainError("TEXT_AI_NOT_CONFIGURED", 503)
         prompt = (
             system
@@ -170,7 +214,7 @@ class TextAssistant:
         with self.store.connection(write=True) as conn:
             conn.execute(
                 "INSERT INTO text_ai_usage VALUES(?,?,?,?,?)",
-                (usage_id, iso(self.store.clock()), purpose, self.config.provider, "{}"),
+                (usage_id, iso(self.store.clock()), purpose, config.provider, "{}"),
             )
         try:
             with httpx.Client(
@@ -178,14 +222,15 @@ class TextAssistant:
                 transport=self.transport,
                 follow_redirects=False,
                 trust_env=False,
+                event_hooks={"request": [_request_checkpoint]},
             ) as client:
-                if self.config.provider == "qwen":
+                if config.provider == "qwen":
                     body = bounded_json_post(
                         client,
-                        self.config.endpoint,
-                        headers={"Authorization": "Bearer " + self.config.api_key},
+                        config.endpoint,
+                        headers={"Authorization": "Bearer " + config.api_key},
                         json_body={
-                            "model": self.config.model,
+                            "model": config.model,
                             "messages": [
                                 {"role": "system", "content": prompt},
                                 {"role": "user", "content": content},
@@ -200,15 +245,15 @@ class TextAssistant:
                     usage = body.get("usage", {})
                 else:
                     endpoint = (
-                        (self.config.endpoint or GEMINI_TEXT_ENDPOINT)
+                        (config.endpoint or GEMINI_TEXT_ENDPOINT)
                         + "/models/"
-                        + self.config.model
+                        + config.model
                         + ":generateContent"
                     )
                     body = bounded_json_post(
                         client,
                         endpoint,
-                        headers={"x-goog-api-key": self.config.api_key},
+                        headers={"x-goog-api-key": config.api_key},
                         json_body={
                             "systemInstruction": {"parts": [{"text": prompt}]},
                             "contents": [{"role": "user", "parts": [{"text": content}]}],

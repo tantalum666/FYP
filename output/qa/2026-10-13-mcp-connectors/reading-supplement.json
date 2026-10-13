@@ -1,0 +1,196 @@
+{
+  "completed_utc": "2026-10-13T05:59:07.544483+00:00",
+  "continuation_of": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "inherited_full_read_count": 186,
+  "scope": "Same ongoing task; targeted supplement, not a new all-repository reading claim",
+  "complete_supplemental_reads": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "read_basis": "Actual full-text reads in this supplemental implementation, including chunked/truncated-output补读",
+      "sha256_at_recording": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "read_snapshot_lines": 50
+    },
+    {
+      "path": "product.md",
+      "lines": 184,
+      "read_ranges": [
+        [
+          1,
+          174
+        ]
+      ],
+      "read_basis": "Actual full-text reads in this supplemental implementation, including chunked/truncated-output补读",
+      "sha256_at_recording": "4c14871743125c1a518ec4e440b8bb80b61eac25d10a19bb6affcdaeb047a63c",
+      "read_snapshot_lines": 174,
+      "parallel_change_note": "Current line count changed after initial read; new text belongs to parent/other worker supplemental reading"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 48,
+      "read_ranges": [
+        [
+          1,
+          40
+        ]
+      ],
+      "read_basis": "Actual full-text reads in this supplemental implementation, including chunked/truncated-output补读",
+      "sha256_at_recording": "042035d7519797d3a516fe3f43b6aa67d84abaa23e7396b502d69c4bd6cef263",
+      "read_snapshot_lines": 40,
+      "parallel_change_note": "Current line count changed after initial read; new text belongs to parent/other worker supplemental reading"
+    },
+    {
+      "path": "desk-companion/docs/agent-runs.md",
+      "lines": 130,
+      "read_ranges": [
+        [
+          1,
+          90
+        ]
+      ],
+      "read_basis": "Actual full-text reads in this supplemental implementation, including chunked/truncated-output补读",
+      "sha256_at_recording": "5ac358c8805e19105ad284e06336360b23460c9ca1c87a35ac5a181bedf6a3ea",
+      "read_snapshot_lines": 90,
+      "parallel_change_note": "Current line count changed after initial read; new text belongs to parent/other worker supplemental reading"
+    },
+    {
+      "path": "desk-companion/docs/computer-jobs.md",
+      "lines": 102,
+      "read_ranges": [
+        [
+          1,
+          102
+        ]
+      ],
+      "read_basis": "Actual full-text reads in this supplemental implementation, including chunked/truncated-output补读",
+      "sha256_at_recording": "f396e584311a99bee762cc92a4ee097d944830149894196211230098067f5ba1",
+      "read_snapshot_lines": 102
+    },
+    {
+      "path": "desk-companion/docs/browser-workflow.md",
+      "lines": 105,
+      "read_ranges": [
+        [
+          1,
+          99
+        ]
+      ],
+      "read_basis": "Actual full-text reads in this supplemental implementation, including chunked/truncated-output补读",
+      "sha256_at_recording": "8f9006f5b14bcb7057a897f740d05048e4bd2f09d2f2a79c67cd54aa384120ad",
+      "read_snapshot_lines": 99,
+      "parallel_change_note": "Current line count changed after initial read; new text belongs to parent/other worker supplemental reading"
+    },
+    {
+      "path": "planning/2026-10-12/personal-agent-implementation.md",
+      "lines": 84,
+      "read_ranges": [
+        [
+          1,
+          84
+        ]
+      ],
+      "read_basis": "Actual full-text reads in this supplemental implementation, including chunked/truncated-output补读",
+      "sha256_at_recording": "f332140d8bd36c4e87b8fa5677acb7a29dac7733eba8f049f6676ff814cc0cdb",
+      "read_snapshot_lines": 84
+    },
+    {
+      "path": "planning/2026-10-12/agent-capability-roadmap.md",
+      "lines": 42,
+      "read_ranges": [
+        [
+          1,
+          42
+        ]
+      ],
+      "read_basis": "Actual full-text reads in this supplemental implementation, including chunked/truncated-output补读",
+      "sha256_at_recording": "70e22195726449c21c157f14c954fcc3e51663443cc5681153841bc0ed4eb2e0",
+      "read_snapshot_lines": 42
+    },
+    {
+      "path": "research/2026-10-12-personal-agents/muse-capability-gap.md",
+      "lines": 252,
+      "read_ranges": [
+        [
+          1,
+          252
+        ]
+      ],
+      "read_basis": "Actual full-text reads in this supplemental implementation, including chunked/truncated-output补读",
+      "sha256_at_recording": "92b9b11906a06800233185c4f2e3c8c8da5bb307d741c5b01e9bc46ee63bfddf",
+      "read_snapshot_lines": 252
+    },
+    {
+      "path": "research/2026-10-12-personal-agents/dot-capability-gap.md",
+      "lines": 255,
+      "read_ranges": [
+        [
+          1,
+          255
+        ]
+      ],
+      "read_basis": "Actual full-text reads in this supplemental implementation, including chunked/truncated-output补读",
+      "sha256_at_recording": "a9bb03f94441e0e81b4c0db3362d6023d86ebb1fe5945996c82c7b0692a23567",
+      "read_snapshot_lines": 255
+    },
+    {
+      "path": "research/2026-10-12-personal-agents/grok-capability-gap.md",
+      "lines": 96,
+      "read_ranges": [
+        [
+          1,
+          96
+        ]
+      ],
+      "read_basis": "Actual full-text reads in this supplemental implementation, including chunked/truncated-output补读",
+      "sha256_at_recording": "4afab24a625bc3f07cfba977d92d356c772593f34dc98719101063fd7cf3df71",
+      "read_snapshot_lines": 96
+    }
+  ],
+  "partial_supplemental_reads": [
+    {
+      "path": "planning/2026-10-12/durable-agent-run-design.md",
+      "ranges": [
+        [
+          1,
+          70
+        ],
+        [
+          180,
+          206
+        ],
+        [
+          320,
+          352
+        ]
+      ],
+      "purpose": "Relevant run/executor/grant and recovery contracts; remaining text covered by inherited task reading chain"
+    },
+    {
+      "path": "decision-log.md",
+      "range": "last 100 lines",
+      "purpose": "Latest decisions only; prior full read inherited"
+    }
+  ],
+  "code_reviewed": [
+    "desk-companion/backend/desk/agent_tools.py",
+    "desk-companion/backend/desk/agent_runs.py",
+    "desk-companion/backend/desk/agent_run_schemas.py",
+    "desk-companion/backend/desk/executor_registry.py",
+    "desk-companion/backend/desk/computer.py",
+    "desk-companion/backend/desk/store.py",
+    "desk-companion/backend/desk/context.py",
+    "desk-companion/backend/desk/provider_policy.py"
+  ],
+  "exclusions": [
+    ".git",
+    "dependency/vendor/cache/build contents",
+    "automatic output/qa snapshots except task-relevant evidence"
+  ],
+  "note": "Hashes identify current files and do not substitute for textual reading; root/parallel workers may update shared contracts after these targeted reads."
+}

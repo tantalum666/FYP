@@ -1,0 +1,84 @@
+.connector-entry,
+.connector-workspace {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+}
+.connector-entry > small {
+  color: var(--text-muted, #667085);
+}
+.connector-review {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+}
+.connector-review h3,
+.connector-review h4,
+.connector-review p {
+  margin: 0;
+}
+.connector-facts {
+  display: grid;
+  grid-template-columns: minmax(7rem, 1fr) minmax(0, 2fr);
+  gap: 0.4rem 0.8rem;
+  margin: 0.2rem 0;
+}
+.connector-facts dt {
+  font-weight: 600;
+}
+.connector-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.connector-workspace pre {
+  max-width: 100%;
+  max-height: 24rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: 0.75rem;
+  border: 1px solid var(--border, #d0d5dd);
+  border-radius: 0.5rem;
+  margin: 0;
+  user-select: text;
+}
+.connector-warning {
+  background: var(--surface-soft, #f7f3e8);
+  border: 1px solid var(--border, #d0d5dd);
+  padding: 0.8rem;
+  border-radius: 0.6rem;
+  overflow-wrap: anywhere;
+}
+.connector-check {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+.connector-check input {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+.connector-result {
+  display: grid;
+  gap: 0.65rem;
+  min-width: 0;
+}
+.connector-state {
+  font-weight: 600;
+}
+.connector-stop {
+  justify-self: start;
+}
+@media (max-width: 520px) {
+  .connector-facts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+  }
+  .connector-facts dd {
+    margin-bottom: 0.5rem;
+  }
+}

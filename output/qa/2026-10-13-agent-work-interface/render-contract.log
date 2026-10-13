@@ -1,0 +1,11 @@
+✔ actual metadata card markup has stop controls and no private fields in English or Chinese (11.910922ms)
+✔ metadata markup disables stale controls and removes all actions for terminal or unknown status (2.420056ms)
+✔ browser result markup separates verified bytes from uncertain cleanup and has no inline approval (1.494082ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 820.880336

@@ -24,10 +24,12 @@ from .sources import SourceService
 from .artifacts import ArtifactService
 from .agent_runs import AgentRunService
 from .browser_jobs import BrowserService
+from .connectors.service import build_connector_service
+from .connectors.agent_adapter import connector_adapters
 
 
 class Runtime:
-    def __init__(self, store, allow_replay=False):
+    def __init__(self, store, allow_replay=False, connector_configs=()):
         self.store = store
         self.allow_replay = allow_replay
         self.access = AccessService(store)
@@ -48,8 +50,11 @@ class Runtime:
         self.text_ai = TextAssistant(self)
         self.sources = SourceService(self)
         self.artifacts = ArtifactService(self)
-        self.agent_runs = AgentRunService(self)
         self.browser_jobs = BrowserService(self)
+        self.connectors = build_connector_service(self, connector_configs)
+        self.agent_tool_adapters = connector_adapters(self.connectors)
+        self.agent_runs = AgentRunService(self)
+        self.store.operation_guard = self.agent_runs.guard_operation
         self.posture.on_prompt = self.on_posture_prompt
 
     def on_posture_prompt(self, event):

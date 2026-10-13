@@ -11,13 +11,31 @@ from datetime import timedelta
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, Request
+from pydantic import ValidationError
 
-from .agent_run_schemas import RunCreate, RunAction, AgentDecision
+from .agent_run_schemas import (
+    RunCreate,
+    RunAction,
+    AgentDecision,
+    RunToolCall,
+    ToolObservation,
+    ToolReceipt,
+)
 from .agent_planner import build_plan, compose, decide
-from .agent_tools import read_evidence, artifact_payloads, validate_mutation, verify_proposal
+from .agent_tools import (
+    read_evidence,
+    artifact_payloads,
+    validate_mutation,
+    verify_proposal,
+    tool_registry,
+    validate_tool_call,
+    proposal_confirmation_request,
+)
 from .calendar import iso
+from .agent_context import AgentContextBridge
 from .context import fingerprint
 from .store import DomainError, encode
+from .text_ai import TextDispatchRefused
 
 TERMINAL = {"succeeded", "partial", "failed", "cancelled"}
 
@@ -27,6 +45,7 @@ class AgentRunService:
         self.runtime, self.store = runtime, runtime.store
         self.lock, self.worker_lock = threading.RLock(), threading.Lock()
         self.stopped = False
+        self.context_bridge = AgentContextBridge(runtime)
         with self.store.connection(write=True) as conn:
             conn.executescript("""
                 CREATE TABLE IF NOT EXISTS agent_runs(id TEXT PRIMARY KEY,state TEXT NOT NULL,
@@ -42,6 +61,8 @@ class AgentRunService:
                     run_id TEXT NOT NULL,kind TEXT NOT NULL,at TEXT NOT NULL,details TEXT NOT NULL);
                 CREATE TABLE IF NOT EXISTS agent_run_effect_intents(operation_key TEXT PRIMARY KEY,
                     run_id TEXT NOT NULL,intent_hash TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS agent_run_tool_intents(operation_key TEXT PRIMARY KEY,
+                    run_id TEXT NOT NULL,tool TEXT NOT NULL,arguments TEXT NOT NULL,intent_hash TEXT NOT NULL);
                 CREATE TABLE IF NOT EXISTS agent_run_operations(id TEXT PRIMARY KEY,
                     request_hash TEXT NOT NULL,run_id TEXT NOT NULL);
             """)
@@ -109,20 +130,52 @@ class AgentRunService:
                 "events": 10,
                 "mutations": 3,
                 "model_calls": 8,
+                "model_call_budget_max": 24,
+                "tool_calls": 8,
+                "tool_call_budget_max": 16,
                 "plan_revisions": 2,
                 "model_selected_items": 10,
                 "source_bytes": 4194304,
             },
             "business_context_allowed": settings["share_business_context"],
+            "browser": self.runtime.browser_jobs.capabilities(),
+            "connectors": self._connector_catalog(),
+            "personal_context": self.context_bridge.catalog(session_hash=session),
         }
         result["scope_revision"] = fingerprint([result, self.runtime.personal_context.revision()])
         return result
+
+    def _connector_catalog(self):
+        service = getattr(self.runtime, "connectors", None)
+        return service.catalog_for_run() if service else {"tools": [], "scope_revision": None}
+
+    def _validate_personal(self, run, conn=None):
+        self.context_bridge.validate(
+            run.get("personal_context_binding"),
+            run_id=run["id"],
+            session_hash=run["session_hash"],
+            provider_destination_id=run.get("provider_destination_id"),
+            conn=conn,
+        )
 
     def _get(self, conn, run_id):
         row = conn.execute("SELECT * FROM agent_runs WHERE id=?", (run_id,)).fetchone()
         if not row:
             raise DomainError("RUN_NOT_FOUND", 404)
         return {
+            "browser_source_ids": [],
+            "browser_public_only": False,
+            "model_call_budget": 8,
+            "tool_call_budget": 8,
+            "tool_calls": 0,
+            "browser_job_ids": [],
+            "tool_results": [],
+            "pending_tool": None,
+            "tool_cancel_errors": [],
+            "connector_tool_ids": [],
+            "connector_scope_revision": None,
+            "personal_context_binding": None,
+            "share_connector_results_with_provider": False,
             **json.loads(row["data"]),
             **{
                 k: row[k]
@@ -195,6 +248,8 @@ class AgentRunService:
                 "report_evidence",
                 "pending_decision",
                 "pending_effect",
+                "pending_tool",
+                "personal_context_binding",
             }
         } | {"private_hidden": False, "evidence_count": len(run["evidence"])}
 
@@ -241,6 +296,10 @@ class AgentRunService:
             "events": events,
             "artifacts": artifacts,
             "proposals": proposals,
+            "browser_jobs": [
+                self.runtime.browser_jobs.detail(i, review=True)
+                for i in run.get("browser_job_ids", [])
+            ],
         }
 
     def create(self, payload, key, principal):
@@ -266,6 +325,14 @@ class AgentRunService:
             ]:
                 if not set(getattr(payload, field)).issubset({x["id"] for x in scope[options]}):
                     raise DomainError("RUN_SOURCE_NOT_SELECTED", 403)
+            connector_ids = {t["tool_id"] for t in scope["connectors"]["tools"]}
+            if not set(payload.connector_tool_ids).issubset(connector_ids):
+                raise DomainError("RUN_CONNECTOR_NOT_SELECTED", 403)
+            browser_ids = {s["id"] for s in scope["browser"]["sources"]}
+            if not set(payload.browser_source_ids).issubset(browser_ids):
+                raise DomainError("RUN_BROWSER_SOURCE_NOT_SELECTED", 403)
+            if payload.browser_source_ids and not scope["browser"]["ready"]:
+                raise DomainError(scope["browser"]["reason"] or "BROWSER_UNAVAILABLE", 409)
             selected_sources = [s for s in scope["sources"] if s["id"] in payload.source_ids]
             if sum(s["byte_count"] for s in selected_sources) > 4 * 1024 * 1024:
                 raise DomainError("RUN_SOURCE_SIZE_LIMIT", 413)
@@ -276,6 +343,15 @@ class AgentRunService:
             run_id, now = uuid4().hex, iso(self.store.clock())
             run = payload.model_dump(mode="json") | {
                 "id": run_id,
+                "connector_scope_revision": scope["connectors"]["scope_revision"],
+                "personal_context_binding": self.context_bridge.bind(
+                    payload.personal_context,
+                    run_id=run_id,
+                    session_hash=session,
+                    provider_destination_id=payload.provider_destination_id,
+                )
+                if payload.personal_context
+                else None,
                 "state": "queued",
                 "version": 1,
                 "generation": 1,
@@ -290,6 +366,11 @@ class AgentRunService:
                 "pending_decision": None,
                 "pending_effect": None,
                 "pending_reads": [],
+                "pending_tool": None,
+                "tool_results": [],
+                "tool_calls": 0,
+                "tool_cancel_errors": [],
+                "browser_job_ids": [],
                 "outcome_requirements": {
                     "formats": ["markdown", "csv"],
                     "selected_source_coverage": "complete",
@@ -327,6 +408,17 @@ class AgentRunService:
                     for i in scope[options]
                     if i["id"] in getattr(payload, field)
                 )
+            run["available_evidence"].extend(
+                {
+                    "id": "browser:" + i["id"],
+                    "kind": "browser",
+                    "record_id": i["id"],
+                    "label": i["label"],
+                    "scope": "one_public_excerpt",
+                }
+                for i in scope["browser"]["sources"]
+                if i["id"] in payload.browser_source_ids
+            )
             if payload.mode == "deterministic":
                 run["plan"] = [label for _, label in build_plan(mutations)]
             self._authorize(run)
@@ -365,6 +457,12 @@ class AgentRunService:
             source = self.runtime.sources.metadata(source_id, session_hash=run["session_hash"])
             if source["status"] != "verified":
                 raise DomainError("RUN_SOURCE_UNAVAILABLE", 409)
+        self._validate_personal(run)
+        if (
+            run.get("connector_tool_ids")
+            and run.get("connector_scope_revision") != self._connector_catalog()["scope_revision"]
+        ):
+            raise DomainError("RUN_CONNECTOR_SCOPE_CHANGED", 403)
         if run["privacy_revision"] != self._revision():
             raise DomainError("RUN_CONTEXT_CHANGED", 403)
         if iso(self.store.clock()) >= run["deadline"]:
@@ -377,10 +475,45 @@ class AgentRunService:
                 or run["provider_destination_id"] not in settings["approved_destinations"]
             ):
                 raise DomainError("PROVIDER_CONTEXT_NOT_APPROVED", 403)
+            if run.get("connector_tool_ids") and not run.get(
+                "share_connector_results_with_provider"
+            ):
+                raise DomainError("RUN_CONNECTOR_SHARING_NOT_APPROVED", 403)
             if run["source_ids"] and not run["share_sources_with_provider"]:
                 raise DomainError("RUN_SOURCE_SHARING_NOT_APPROVED", 403)
             if (run["task_ids"] or run["event_ids"]) and not settings["share_business_context"]:
                 raise DomainError("PROVIDER_CONTEXT_NOT_APPROVED", 403)
+
+    def publication_checkpoint(self, run, conn):
+        """Atomic local publication/effect fence, without nested writes or I/O."""
+        current = conn.execute(
+            "SELECT generation,state FROM agent_runs WHERE id=?", (run["id"],)
+        ).fetchone()
+        if (
+            self.stopped
+            or not current
+            or current["generation"] != run["generation"]
+            or current["state"] in TERMINAL | {"paused", "blocked"}
+        ):
+            raise DomainError("RUN_CONTROL_CHANGED", 409)
+        if not conn.execute(
+            "SELECT 1 FROM sessions WHERE token_hash=? AND expires>?",
+            (run["session_hash"], iso(self.store.clock())),
+        ).fetchone():
+            raise DomainError("RUN_SESSION_EXPIRED", 403)
+        settings = self.store.settings(conn)
+        if settings["hide_private"]:
+            raise DomainError("PRIVATE_CONTEXT_HIDDEN", 403)
+        revision = [
+            conn.execute("SELECT epoch FROM personal_settings WHERE id=1").fetchone()[0],
+            settings["version"],
+            [d["id"] for d in self.runtime.personal_context.destinations()],
+        ]
+        if run["privacy_revision"] != revision:
+            raise DomainError("RUN_CONTEXT_CHANGED", 403)
+        if iso(self.store.clock()) >= run["deadline"]:
+            raise DomainError("RUN_DEADLINE_EXCEEDED", 409)
+        self._validate_personal(run, conn)
 
     def action(self, run_id, payload, key, principal):
         session = self.session(principal, visible=payload.action not in {"pause", "cancel"})
@@ -430,7 +563,7 @@ class AgentRunService:
                 run["report_evidence"] = []
                 run["pending_reads"] = []
                 # Immutable files stay reusable; refresh changing application records.
-                run["evidence"] = [e for e in run["evidence"] if e["kind"] == "source"]
+                run["evidence"] = [e for e in run["evidence"] if e["kind"] in {"source", "browser"}]
                 run["phase"] = "collect" if run["mode"] == "deterministic" else "decide"
                 run["plan"] = [] if run["mode"] == "model" else run["plan"]
                 run["state"], run["state_reason"] = "queued", None
@@ -458,7 +591,8 @@ class AgentRunService:
                 self._authorize(run)
             if action in {"cancel", "pause"}:
                 for effect in run["effects"]:
-                    effect.update(verify_proposal(self.runtime, effect["proposal_id"]))
+                    if effect.get("kind") != "tool":
+                        effect.update(verify_proposal(self.runtime, effect["proposal_id"]))
             run["generation"] += 1
             run["lease_until"] = None
             with self.store.connection(write=True) as conn:
@@ -529,9 +663,39 @@ class AgentRunService:
                     return True
         return False
 
-    def require_proposal_access(self, proposal_id, principal):
-        if self.is_run_proposal(proposal_id):
+    def _proposal_runs(self, conn, proposal_id):
+        for intent in conn.execute(
+            "SELECT operation_key,intent_hash,run_id FROM agent_run_effect_intents"
+        ):
+            proposal = self._receipt_proposal(conn, intent["operation_key"], intent["intent_hash"])
+            if proposal and proposal["id"] == proposal_id:
+                yield self._get(conn, intent["run_id"])
+
+    def require_proposal_access(self, proposal_id, principal, *, action="confirm"):
+        with self.store.connection() as conn:
+            runs = list(self._proposal_runs(conn, proposal_id))
+        if runs:
             self.session(principal)
+            if action == "confirm":
+                for run in runs:
+                    self._authorize(run)
+
+    def guard_operation(self, conn, key, request):
+        """Installed by Runtime at Store's transaction boundary; legacy work unchanged."""
+        prefix = "assistant-confirm/"
+        if not key.startswith(prefix):
+            return
+        for run in self._proposal_runs(conn, key[len(prefix) :]):
+            row = conn.execute(
+                "SELECT kind,data FROM assistant_proposals WHERE id=?", (key[len(prefix) :],)
+            ).fetchone()
+            try:
+                expected = proposal_confirmation_request(row["kind"], json.loads(row["data"]))
+            except (KeyError, ValueError, ValidationError):
+                raise DomainError("RUN_EFFECT_RECEIPT_CONFLICT", 409) from None
+            if request != expected:
+                raise DomainError("RUN_EFFECT_RECEIPT_CONFLICT", 409)
+            self.publication_checkpoint(run, conn)
 
     def filter_proposals(self, proposals, principal):
         try:
@@ -572,18 +736,24 @@ class AgentRunService:
                         (pid,),
                     )
 
+        self._cancel_tool_work(run)
+
     def shutdown(self):
-        """Fence to_thread work before the application cancels its asyncio workers."""
+        """Fence work and queued child effects before asynchronous worker cancellation."""
         with self.lock:
             self.stopped = True
-            with self.store.connection(write=True) as conn:
-                rows = list(
-                    conn.execute(
+            with self.store.connection() as conn:
+                rows = [
+                    self._get(conn, r[0])
+                    for r in conn.execute(
                         "SELECT id FROM agent_runs WHERE state IN ('queued','running','waiting_review','waiting_input')"
                     )
-                )
-                for row in rows:
-                    run = self._get(conn, row[0])
+                ]
+            for run in rows:
+                # Child services own separate SQLite transactions. Never hold a
+                # parent write transaction while cancelling their durable work.
+                self._cancel_pending(run)
+                with self.store.connection(write=True) as conn:
                     active = conn.execute(
                         "SELECT 1 FROM agent_attempts WHERE run_id=? AND state='running'",
                         (run["id"],),
@@ -603,6 +773,7 @@ class AgentRunService:
             if current["generation"] != run["generation"]:
                 return False
             run["version"] = current["version"]
+            self.publication_checkpoint(run, conn)
             run["pending_decision"] = None
             run["lease_until"] = None
             self._save(conn, run, kind)
@@ -663,6 +834,8 @@ class AgentRunService:
             self._authorize(run)
             if run.get("pending_effect"):
                 return self._dispatch_effect(run)
+            if run.get("pending_tool"):
+                return self._dispatch_tool(run)
             if run.get("pending_reads"):
                 return self._batch_read(run)
             if run["state"] == "waiting_review":
@@ -698,6 +871,8 @@ class AgentRunService:
                 self._save(conn, current, "blocked", {"code": code})
 
     def _read(self, run, selected, start_line=1, max_lines=200):
+        if selected["kind"] not in {"source", "task", "event"}:
+            raise DomainError("RUN_REGISTERED_TOOL_REQUIRED", 422)
         evidence_id = selected["id"] + (
             f":L{start_line}" if start_line != 1 and selected["kind"] == "source" else ""
         )
@@ -734,7 +909,7 @@ class AgentRunService:
         if run.get("pending_decision"):
             decision = AgentDecision.model_validate(run["pending_decision"])
         else:
-            if run["model_calls"] >= 8:
+            if run["model_calls"] >= run.get("model_call_budget", 8):
                 raise DomainError("RUN_MODEL_BUDGET_EXCEEDED", 422)
             self._authorize(run)
             attempt = uuid4().hex
@@ -752,6 +927,12 @@ class AgentRunService:
                 )
             try:
                 decision = decide(self.runtime, run)
+            except TextDispatchRefused:
+                with self.store.connection(write=True) as conn:
+                    conn.execute(
+                        "UPDATE agent_attempts SET state='dispatch_refused' WHERE id=?", (attempt,)
+                    )
+                raise
             except BaseException:
                 raise DomainError("RUN_PROVIDER_OUTCOME_UNKNOWN", 409) from None
             self._authorize(run)
@@ -762,6 +943,7 @@ class AgentRunService:
                         "UPDATE agent_attempts SET state='discarded' WHERE id=?", (attempt,)
                     )
                     return False
+                self.publication_checkpoint(run, conn)
                 # Commit the returned structured decision with its attempt receipt.
                 # Restart can apply this decision without another paid call.
                 run["version"] = current["version"]
@@ -791,6 +973,10 @@ class AgentRunService:
                 for i in ids
             ]
             return self._checkpoint(run, "read_batch", {"count": len(ids)})
+        if decision.action == "tool":
+            if not decision.tool_call:
+                raise DomainError("RUN_TOOL_CALL_REQUIRED", 422)
+            return self._propose_tool(run, decision.tool_call)
         if decision.action == "ask":
             if not decision.question:
                 raise DomainError("RUN_QUESTION_REQUIRED", 422)
@@ -839,6 +1025,234 @@ class AgentRunService:
             )
             return self._propose(run, mutation, index)
         return self._finish(run)
+
+    def _propose_tool(self, run, call):
+        adapter, arguments = validate_tool_call(self.runtime, run, call)
+        signature = fingerprint({"tool": call.tool, "arguments": arguments})
+        key = f"run/{run['id']}/tool/{signature[:32]}"
+        existing = next((r for r in run["tool_results"] if r["operation_key"] == key), None)
+        if existing:
+            # Identical intent never repeats an external action, including an
+            # unknown or rejected outcome. Required cannot be downgraded later.
+            for effect in run["effects"]:
+                if effect.get("operation_key") == key:
+                    effect["required"] = effect["required"] or call.required
+            return self._checkpoint(
+                run, "tool_reused", {"tool": call.tool, "reference_id": existing["reference_id"]}
+            )
+        if run["tool_calls"] >= run["tool_call_budget"]:
+            raise DomainError("RUN_TOOL_BUDGET_EXCEEDED", 422)
+        if adapter.effect and len(run["effects"]) >= 3:
+            raise DomainError("RUN_EFFECT_BUDGET_EXCEEDED", 422)
+        self._authorize(run)
+        with self.lock, self.store.connection(write=True) as conn:
+            current = self._get(conn, run["id"])
+            if current["generation"] != run["generation"]:
+                return False
+            reserved = conn.execute(
+                "SELECT * FROM agent_run_tool_intents WHERE operation_key=?", (key,)
+            ).fetchone()
+            if reserved and (
+                reserved["run_id"] != run["id"] or reserved["intent_hash"] != signature
+            ):
+                raise DomainError("RUN_TOOL_RECEIPT_CONFLICT", 409)
+            if not reserved:
+                conn.execute(
+                    "INSERT INTO agent_run_tool_intents VALUES(?,?,?,?,?)",
+                    (key, run["id"], call.tool, encode(arguments), signature),
+                )
+            run["version"] = current["version"]
+            run["pending_tool"] = {
+                "operation_key": key,
+                "tool": call.tool,
+                "arguments": arguments,
+                "required": call.required,
+            }
+            run["tool_calls"] += 1
+            self._save(conn, run, "tool_reserved", {"tool": call.tool})
+        return self._dispatch_tool(run)
+
+    def _tool_adapter(self, intent, run):
+        adapter = tool_registry(self.runtime).get(intent["tool"])
+        if adapter is None:
+            raise DomainError("RUN_TOOL_UNAVAILABLE", 409)
+        with self.store.connection() as conn:
+            row = conn.execute(
+                "SELECT * FROM agent_run_tool_intents WHERE operation_key=?",
+                (intent["operation_key"],),
+            ).fetchone()
+        signature = fingerprint({"tool": intent["tool"], "arguments": intent["arguments"]})
+        if (
+            not row
+            or row["run_id"] != run["id"]
+            or row["intent_hash"] != signature
+            or row["tool"] != intent["tool"]
+            or json.loads(row["arguments"]) != intent["arguments"]
+        ):
+            raise DomainError("RUN_TOOL_RECEIPT_CONFLICT", 409)
+        return adapter
+
+    def _link_tool(self, run, intent, receipt):
+        try:
+            receipt = ToolReceipt.model_validate(receipt).model_dump(mode="json")
+        except ValidationError:
+            raise DomainError("RUN_TOOL_RECEIPT_CONFLICT", 409) from None
+        record = {k: intent[k] for k in ("tool", "arguments", "operation_key")}
+        record.update({k: receipt[k] for k in ("reference_id", "state", "result")})
+        if len(encode(record).encode()) > 24000:
+            raise DomainError("RUN_TOOL_RESULT_LIMIT", 422)
+        old = next(
+            (r for r in run["tool_results"] if r["operation_key"] == intent["operation_key"]), None
+        )
+        if old and old["reference_id"] != record["reference_id"]:
+            raise DomainError("RUN_TOOL_RECEIPT_CONFLICT", 409)
+        if not old:
+            run["tool_results"].append(record)
+        adapter = self._tool_adapter(intent, run)
+        if adapter.effect and not any(
+            e.get("operation_key") == intent["operation_key"] for e in run["effects"]
+        ):
+            run["effects"].append(
+                {
+                    **record,
+                    "kind": "tool",
+                    "state": "pending",
+                    "required": intent["required"],
+                    "request_index": None,
+                }
+            )
+        browser_id = record["result"].get("browser_job_id")
+        if browser_id and browser_id not in run["browser_job_ids"]:
+            run["browser_job_ids"].append(browser_id)
+        return record
+
+    def _dispatch_tool(self, run):
+        intent = run["pending_tool"]
+        self._authorize(run)
+        adapter = self._tool_adapter(intent, run)
+        validate_tool_call(
+            self.runtime,
+            run,
+            RunToolCall(
+                tool=intent["tool"], arguments=intent["arguments"], required=intent["required"]
+            ),
+        )
+
+        def checkpoint():
+            self._authorize(run)
+
+        # Preparation is local and serialized against parent cancel. Reads can
+        # be slow and run outside the lock with an explicit generation fence.
+        if adapter.effect:
+            with self.lock:
+                checkpoint()
+                receipt = adapter.dispatch(
+                    self.runtime, run, intent["arguments"], intent["operation_key"], checkpoint
+                )
+                self._link_tool(run, intent, receipt)
+                run["pending_tool"] = None
+                run["state"], run["state_reason"] = "waiting_review", "RUN_REVIEW_REQUIRED"
+                return self._checkpoint(
+                    run,
+                    "tool_prepared",
+                    {"tool": intent["tool"], "reference_id": receipt["reference_id"]},
+                )
+        receipt = adapter.dispatch(
+            self.runtime, run, intent["arguments"], intent["operation_key"], checkpoint
+        )
+        checkpoint()
+        self._link_tool(run, intent, receipt)
+        if receipt.get("evidence"):
+            self._adopt_tool_evidence(run, receipt["evidence"])
+        run["pending_tool"] = None
+        run["state"], run["state_reason"] = "running", None
+        return self._checkpoint(
+            run, "tool_observed", {"tool": intent["tool"], "state": receipt["state"]}
+        )
+
+    def _adopt_tool_evidence(self, run, evidence):
+        try:
+            value = ToolObservation.model_validate(evidence).model_dump(mode="json")
+        except ValidationError:
+            raise DomainError("RUN_TOOL_EVIDENCE_INVALID", 422) from None
+        selected = (
+            run.get("browser_source_ids", [])
+            if value["kind"] == "browser"
+            else run.get("connector_tool_ids", [])
+        )
+        if value["record_id"] not in selected:
+            raise DomainError("RUN_TOOL_EVIDENCE_NOT_SELECTED", 403)
+        if len(encode(value).encode()) > 12000:
+            raise DomainError("RUN_TOOL_EVIDENCE_LIMIT", 422)
+        prior = next((e for e in run["evidence"] if e["id"] == value["id"]), None)
+        if prior:
+            if prior != value:
+                raise DomainError("RUN_TOOL_EVIDENCE_CHANGED", 409)
+            return
+        if run["reads"] >= 32:
+            raise DomainError("RUN_READ_BUDGET_EXCEEDED", 422)
+        run["evidence"].append(value)
+        run["reads"] += 1
+
+    def _cancel_tool_work(self, run):
+        pending = run.get("pending_tool")
+        if pending:
+            try:
+                adapter = self._tool_adapter(pending, run)
+                receipt = adapter.recover(
+                    self.runtime, run, pending["arguments"], pending["operation_key"]
+                )
+                if receipt:
+                    self._link_tool(run, pending, receipt)
+                run["pending_tool"] = None
+            except DomainError as exc:
+                run["tool_cancel_errors"] = list(
+                    dict.fromkeys([*run["tool_cancel_errors"], exc.code])
+                )
+        for receipt in run.get("tool_results", []):
+            try:
+                adapter = self._tool_adapter(receipt, run)
+                if adapter.effect:
+                    adapter.cancel(self.runtime, run, receipt)
+                    result = self._verify_effect(run, receipt)
+                    for effect in run["effects"]:
+                        if effect.get("operation_key") == receipt["operation_key"]:
+                            effect.update(result)
+                    self._sync_tool_result(run, receipt, result)
+            except DomainError as exc:
+                run["tool_cancel_errors"] = list(
+                    dict.fromkeys([*run["tool_cancel_errors"], exc.code])
+                )
+
+    def _verify_effect(self, run, effect):
+        if effect.get("kind") != "tool" and "operation_key" not in effect:
+            return verify_proposal(self.runtime, effect["proposal_id"])
+        try:
+            adapter = self._tool_adapter(effect, run)
+            result = adapter.verify(self.runtime, run, effect)
+            if (
+                result.get("state")
+                not in {"pending", "verified", "observed", "unknown", "rejected"}
+                or len(encode(result).encode()) > 24000
+            ):
+                raise DomainError("RUN_TOOL_RESULT_INVALID", 422)
+            if result.get("evidence"):
+                self._adopt_tool_evidence(run, result["evidence"])
+                result = {k: v for k, v in result.items() if k != "evidence"}
+            return result
+        except DomainError as exc:
+            if exc.code in {"BROWSER_BUSY", "CONNECTOR_BUSY"}:
+                return {"state": "pending", "code": exc.code}
+            return {"state": "unknown", "code": exc.code}
+
+    @staticmethod
+    def _sync_tool_result(run, effect, result):
+        key = effect.get("operation_key")
+        if key is not None:
+            for receipt in run["tool_results"]:
+                if receipt["operation_key"] == key:
+                    receipt["state"] = result["state"]
+                    receipt["result"] = {**receipt["result"], **result}
 
     def _batch_read(self, run):
         entry = run["pending_reads"].pop(0)
@@ -906,7 +1320,7 @@ class AgentRunService:
         for effect in run["effects"]:
             if effect["state"] != "pending":
                 continue
-            result = verify_proposal(self.runtime, effect["proposal_id"])
+            result = self._verify_effect(run, effect)
             if result["state"] == "pending":
                 # Polling is read-only except the lease; no model calls or event flood.
                 with self.store.connection(write=True) as conn:
@@ -920,6 +1334,7 @@ class AgentRunService:
                     )
                 return False
             effect.update(result)
+            self._sync_tool_result(run, effect, result)
             changed = True
         if changed:
             run["state"], run["state_reason"] = "running", None
@@ -940,6 +1355,7 @@ class AgentRunService:
                 selected_source_ids=run["source_ids"],
                 run_id=run["id"],
                 step_id=None,
+                checkpoint=lambda conn: self.publication_checkpoint(run, conn),
             )
             artifact = result["artifact"]
             if artifact["status"] != "verified":
@@ -967,7 +1383,7 @@ class AgentRunService:
                 )
                 continue
             if (
-                selected["kind"] != "source"
+                selected["kind"] in {"task", "event"}
                 and run["mode"] == "model"
                 and any(e["coverage"].get("truncated") for e in matches)
             ):
@@ -1016,7 +1432,9 @@ class AgentRunService:
             ):
                 raise DomainError("RUN_REQUIRED_EFFECT_MISSING", 409)
         for effect in run["effects"]:
-            effect.update(verify_proposal(self.runtime, effect["proposal_id"]))
+            result = self._verify_effect(run, effect)
+            effect.update(result)
+            self._sync_tool_result(run, effect, result)
         run["unmet_requirements"] = self._unmet(run)
         if any(e["state"] == "pending" for e in run["effects"]):
             run["state"], run["state_reason"] = "waiting_review", "RUN_REVIEW_REQUIRED"

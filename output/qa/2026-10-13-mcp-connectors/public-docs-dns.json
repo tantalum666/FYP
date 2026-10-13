@@ -1,0 +1,6 @@
+{
+  "host": "developers.openai.com",
+  "error_type": "gaierror",
+  "errno": -3,
+  "error": "[Errno -3] Temporary failure in name resolution"
+}

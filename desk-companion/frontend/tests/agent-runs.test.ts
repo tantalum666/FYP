@@ -357,13 +357,17 @@ test("component contracts preserve modal drafts, selected-run fences and indepen
   assert.match(detail, /cancellation = usePrivateMutation\(\)/);
   assert.match(
     detail,
-    /disabled=\{cancelLocked\}\s+onClick=\{\(\) => setCancelVersion\(run\.version\)\}/,
+    /disabled=\{!fresh \|\| cancelLocked\}\s+onClick=\{\(\) => setCancelVersion\(run\.version\)\}/,
   );
   assert.match(detail, /editor\.version !== run\.version/);
   assert.match(detail, /NEW model attempt/);
   assert.match(reads, /current\.current !== id/);
   assert.match(reads, /sequence\.current !== seq/);
-  assert.match(reads, /setValue\(null\);\s+setError\(e\)/);
+  assert.match(
+    reads,
+    /if \(!recoverableRunReadError\(e\) \|\| terminalError\) setValue\(null\)/,
+  );
+  assert.match(reads, /fresh: !!visibleValue && !error/);
   assert.match(panel, /desk:session/);
   assert.match(panel, /key=\{epoch\}/);
   assert.match(panel, /setDetailGeneration/);

@@ -4,36 +4,55 @@ import { useDraftState } from "../../components/DraftGuard";
 import type { Translate } from "../../types";
 import { useWorkspace } from "../WorkspaceContext";
 import { ResponseFence } from "../personal/responseFence";
-import { personalContextVisible } from "../personal/types";
 import { agentError, modeLabel, stateLabel } from "./labels";
 import { RunComposer } from "./RunComposer";
 import { RunDetail } from "./RunDetail";
+import { RunMetadataPanel } from "./RunMetadataPanel";
+import { runAccess } from "./runMetadata";
+import { validWorkGoal } from "./types";
+import type { WorkGoalRequest } from "./types";
 import { useAgentRuns } from "./useAgentRuns";
 import "./agent.css";
 type Props = {
   t: Translate;
   visibleOverride?: boolean;
   onReviewProposal?: (proposalId: string) => void;
+  initialGoal?: WorkGoalRequest | null;
+  onGoalHandled?: () => void;
+  onReviewBrowserJob?: (jobId: string) => void;
+  onReviewConnectorIntent?: (intentId: string) => void;
 };
 export function RunPanel({
   t,
   visibleOverride = true,
   onReviewProposal,
+  initialGoal,
+  onGoalHandled,
+  onReviewBrowserJob,
+  onReviewConnectorIntent,
 }: Props) {
   const { data, offline, stale } = useWorkspace();
-  const visible =
-    visibleOverride &&
-    personalContextVisible(
-      data?.principal.kind === "owner",
-      data?.personal_context_visible,
-      offline,
-      stale,
-    );
+  const access = runAccess(
+    data?.principal.kind === "owner",
+    !offline && !stale,
+    visibleOverride,
+    data?.personal_context_visible === true,
+  );
+  const visible = access.privateVisible;
   const [open, setOpen] = useState(false),
     [sessionEpoch, setSessionEpoch] = useState(0);
+  const [handledGoalId, setHandledGoalId] = useState<string | null>(null);
+  const goalRequest = initialGoal?.id === handledGoalId ? null : initialGoal;
+  function acknowledgeGoal() {
+    if (goalRequest) setHandledGoalId(goalRequest.id);
+    onGoalHandled?.();
+  }
   const fence = useRef(new ResponseFence());
   const identity = `${data?.principal.kind ?? "none"}:${data?.principal.id ?? "none"}:${sessionEpoch}`;
-  fence.current.update(identity, visible);
+  fence.current.update(
+    `${identity}:${visible ? "private" : "metadata"}`,
+    access.available,
+  );
   const epoch = fence.current.version;
   useEffect(() => {
     const changed = () => {
@@ -47,12 +66,17 @@ export function RunPanel({
   useEffect(() => {
     setOpen(false);
   }, [epoch]);
+  useEffect(() => {
+    if (!goalRequest) return;
+    if (visible && validWorkGoal(goalRequest)) setOpen(true);
+    else acknowledgeGoal();
+  }, [goalRequest, visible, onGoalHandled]);
   return (
     <div className="agent-entry">
       <button
         type="button"
         className="secondary"
-        disabled={!visible}
+        disabled={!access.available}
         onClick={() => setOpen(true)}
       >
         {t("Work tasks", "工作任务")}
@@ -63,32 +87,64 @@ export function RunPanel({
               "Start scoped work, inspect progress and collect files",
               "开始限定范围的工作、查看进展并获取文件",
             )
-          : t(
-              "Owner sign-in and visible, connected private context required",
-              "需要本人登录且私人上下文可见、连接有效",
-            )}
+          : access.available
+            ? t(
+                "Private details hidden · status and stop controls available",
+                "私人详情已隐藏 · 可查看状态并停止工作",
+              )
+            : t(
+                "Owner sign-in and a current connection required",
+                "需要本人登录且连接有效",
+              )}
       </small>
-      {open && visible && (
+      {open && access.available && (
         <Modal
           title={t("Work tasks", "工作任务")}
           closeLabel={t("Close", "关闭")}
           onClose={() => setOpen(false)}
           wide
         >
-          <RunWorkspace
-            key={epoch}
-            t={t}
-            fence={fence.current}
-            epoch={epoch}
-            onReviewProposal={
-              onReviewProposal
-                ? (id) => {
-                    setOpen(false);
-                    onReviewProposal(id);
-                  }
-                : undefined
-            }
-          />
+          {visible ? (
+            <RunWorkspace
+              key={epoch}
+              t={t}
+              fence={fence.current}
+              epoch={epoch}
+              initialGoal={goalRequest}
+              onGoalHandled={acknowledgeGoal}
+              onReviewBrowserJob={
+                onReviewBrowserJob
+                  ? (id) => {
+                      setOpen(false);
+                      onReviewBrowserJob(id);
+                    }
+                  : undefined
+              }
+              onReviewConnectorIntent={
+                onReviewConnectorIntent
+                  ? (id) => {
+                      setOpen(false);
+                      onReviewConnectorIntent(id);
+                    }
+                  : undefined
+              }
+              onReviewProposal={
+                onReviewProposal
+                  ? (id) => {
+                      setOpen(false);
+                      onReviewProposal(id);
+                    }
+                  : undefined
+              }
+            />
+          ) : (
+            <RunMetadataPanel
+              key={epoch}
+              t={t}
+              fence={fence.current}
+              epoch={epoch}
+            />
+          )}
         </Modal>
       )}
     </div>
@@ -99,31 +155,62 @@ function RunWorkspace({
   fence,
   epoch,
   onReviewProposal,
+  initialGoal,
+  onGoalHandled,
+  onReviewBrowserJob,
+  onReviewConnectorIntent,
 }: {
   t: Translate;
   fence: ResponseFence;
   epoch: number;
   onReviewProposal?: (id: string) => void;
+  initialGoal?: WorkGoalRequest | null;
+  onGoalHandled?: () => void;
+  onReviewBrowserJob?: (id: string) => void;
+  onReviewConnectorIntent?: (id: string) => void;
 }) {
   const [selected, setSelected] = useState<string | null>(null),
     [compose, setCompose] = useState(false);
   const [detailGeneration, setDetailGeneration] = useState(0);
+  const [composeGoal, setComposeGoal] = useState("");
+  const [pendingGoal, setPendingGoal] = useState<WorkGoalRequest | null>(null);
+  const lastGoal = useRef<string | null>(null);
   const [navigate, setNavigate] = useState<{
     id: string | null;
     compose: boolean;
     proposal?: string;
+    browserJob?: string;
+    connectorIntent?: string;
+    goal?: string;
   } | null>(null);
   const guard = useDraftState();
-  const { value, error, loading, reload } = useAgentRuns(
+  const { value, fresh, error, loading, reload } = useAgentRuns(
     fence,
     selected,
     epoch,
   );
+  useEffect(() => {
+    if (!fresh) return;
+    if (!validWorkGoal(initialGoal) || initialGoal!.id === lastGoal.current)
+      return;
+    lastGoal.current = initialGoal!.id;
+    if (guard.busy || guard.dirty) setPendingGoal(initialGoal!);
+    else commit({ id: selected, compose: true, goal: initialGoal!.text });
+    onGoalHandled?.();
+  }, [initialGoal, onGoalHandled, guard.busy, guard.dirty, selected, fresh]);
   function go(next: {
     id: string | null;
     compose: boolean;
     proposal?: string;
+    browserJob?: string;
+    connectorIntent?: string;
+    goal?: string;
   }) {
+    if (
+      !fresh &&
+      (next.proposal || next.browserJob || next.connectorIntent || next.compose)
+    )
+      return;
     if (guard.busy) return;
     if (guard.dirty) setNavigate(next);
     else commit(next);
@@ -132,13 +219,30 @@ function RunWorkspace({
     id: string | null;
     compose: boolean;
     proposal?: string;
+    browserJob?: string;
+    connectorIntent?: string;
+    goal?: string;
   }) {
+    if (
+      !fresh &&
+      (next.proposal || next.browserJob || next.connectorIntent || next.compose)
+    )
+      return;
     setNavigate(null);
     setDetailGeneration((x) => x + 1);
     if (next.proposal) {
       onReviewProposal?.(next.proposal);
       return;
     }
+    if (next.browserJob) {
+      onReviewBrowserJob?.(next.browserJob);
+      return;
+    }
+    if (next.connectorIntent) {
+      onReviewConnectorIntent?.(next.connectorIntent);
+      return;
+    }
+    setComposeGoal(next.goal ?? "");
     setSelected(next.id);
     setCompose(next.compose);
   }
@@ -153,7 +257,7 @@ function RunWorkspace({
       <div className="workspace-inline-actions">
         <button
           className="primary"
-          disabled={!value?.scope || guard.busy}
+          disabled={!fresh || !value?.scope || guard.busy}
           onClick={() => go({ id: selected, compose: true })}
         >
           {t("Start persistent work", "开始持续工作")}
@@ -171,6 +275,37 @@ function RunWorkspace({
           {agentError(error, t)}
         </p>
       )}
+      {value && !fresh && (
+        <p className="agent-notice" role="status">
+          {t(
+            "Current work could not be refreshed. Your draft and exact retry data are preserved, but actions and linked reviews stay disabled until a fresh response arrives.",
+            "未能刷新当前工作。草稿与同一请求的重试资料已保留，但收到最新响应前，操作及关联审阅保持停用。",
+          )}
+        </p>
+      )}
+      {pendingGoal && (
+        <div className="agent-notice" role="status">
+          <p>
+            {t(
+              "A goal from chat is ready. Your current draft stays here until you choose to use it.",
+              "聊天中的目标已准备好。在您选择使用前，会保留当前草稿。",
+            )}
+          </p>
+          <button
+            className="secondary"
+            disabled={!fresh || guard.busy}
+            onClick={() => {
+              go({ id: selected, compose: true, goal: pendingGoal.text });
+              setPendingGoal(null);
+            }}
+          >
+            {t("Use the goal from chat", "使用聊天中的目标")}
+          </button>
+          <button className="secondary" onClick={() => setPendingGoal(null)}>
+            {t("Dismiss", "关闭")}
+          </button>
+        </div>
+      )}
       {loading && !value && (
         <p role="status">{t("Loading current work…", "正在读取当前工作…")}</p>
       )}
@@ -186,7 +321,11 @@ function RunWorkspace({
             <button className="primary" onClick={() => setNavigate(null)}>
               {t("Keep editing", "继续编辑")}
             </button>
-            <button className="secondary" onClick={() => commit(navigate)}>
+            <button
+              className="secondary"
+              disabled={!fresh || guard.busy}
+              onClick={() => commit(navigate)}
+            >
               {t("Discard and continue", "放弃并继续")}
             </button>
           </div>
@@ -232,11 +371,24 @@ function RunWorkspace({
                 detail={value.detail}
                 t={t}
                 fence={fence}
+                fresh={fresh}
                 onChanged={() => void reload(true)}
                 onReviewProposal={
                   onReviewProposal
                     ? (proposal) =>
                         go({ id: selected, compose: false, proposal })
+                    : undefined
+                }
+                onReviewBrowserJob={
+                  onReviewBrowserJob
+                    ? (browserJob) =>
+                        go({ id: selected, compose: false, browserJob })
+                    : undefined
+                }
+                onReviewConnectorIntent={
+                  onReviewConnectorIntent
+                    ? (connectorIntent) =>
+                        go({ id: selected, compose: false, connectorIntent })
                     : undefined
                 }
               />
@@ -253,9 +405,12 @@ function RunWorkspace({
       )}
       {compose && value?.scope && (
         <RunComposer
+          key={detailGeneration}
           t={t}
           scope={value.scope}
           fence={fence}
+          fresh={fresh}
+          initialGoal={composeGoal}
           onRefresh={() => void reload(true)}
           onClose={() => setCompose(false)}
           onCreated={(run) => {

@@ -1,0 +1,7 @@
+{
+  "checked_at": "2026-10-13T06:07:09.001363+00:00",
+  "file_count": 228,
+  "changed": [],
+  "same_sources": true,
+  "environment_interruption": "First aggregate handle disappeared during cloud restart; incomplete log retained; whole check rerun to terminal success."
+}

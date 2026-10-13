@@ -192,7 +192,8 @@ class ImmutableFiles:
                 raise
             return self.metadata(file_id, kind, session_hash)
 
-    def put(self, *, kind, body, metadata, key, session_hash, max_bytes, max_count, max_total):
+    def put(self, *, kind, body, metadata, key, session_hash, max_bytes, max_count, max_total,
+            checkpoint=None):
         if not key or len(key) > 100:
             raise DomainError("OPERATION_ID_REQUIRED", 422)
         if not body or len(body) > max_bytes:
@@ -201,6 +202,8 @@ class ImmutableFiles:
         request_hash = digest(encode(expected).encode())
         with self.store.connection(write=True) as conn:
             require_access(self.store, conn, session_hash)
+            if checkpoint is not None:
+                checkpoint(conn)
             old = conn.execute(
                 "SELECT * FROM private_files WHERE kind=? AND operation_key=?", (kind, key)
             ).fetchone()
@@ -239,16 +242,20 @@ class ImmutableFiles:
         row = self.metadata(file_id, kind, session_hash)
         self.phase("reserved", row)
         directory = None
+        pending_created = linked = False
         try:
             directory = self._directory(kind, create=True)
             with self.store.connection() as conn:
                 require_access(self.store, conn, session_hash)
+                if checkpoint is not None:
+                    checkpoint(conn)
             fd = os.open(
                 "." + row["id"] + ".pending",
                 os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
                 0o600,
                 dir_fd=directory,
             )
+            pending_created = True
             with os.fdopen(fd, "wb") as output:
                 self.phase("opened", row)
                 output.write(body)
@@ -257,8 +264,6 @@ class ImmutableFiles:
                 os.fsync(output.fileno())
                 written = os.fstat(output.fileno())
             self.phase("temp_synced", row)
-            with self.store.connection() as conn:
-                require_access(self.store, conn, session_hash)
             temporary = "." + row["id"] + ".pending"
             current = os.stat(temporary, dir_fd=directory, follow_symlinks=False)
             if (current.st_dev, current.st_ino, current.st_nlink) != (
@@ -267,13 +272,21 @@ class ImmutableFiles:
                 1,
             ):
                 raise OSError("temporary identity changed")
-            os.link(
-                temporary,
-                self.filename(row),
-                src_dir_fd=directory,
-                dst_dir_fd=directory,
-                follow_symlinks=False,
-            )
+            # Serialize the final publication point with run cancellation,
+            # privacy revocation and selected-context changes. No network,
+            # file writes or fsyncs happen while holding this transaction.
+            with self.store.connection(write=True) as conn:
+                require_access(self.store, conn, session_hash)
+                if checkpoint is not None:
+                    checkpoint(conn)
+                os.link(
+                    temporary,
+                    self.filename(row),
+                    src_dir_fd=directory,
+                    dst_dir_fd=directory,
+                    follow_symlinks=False,
+                )
+                linked = True
             current = os.stat(temporary, dir_fd=directory, follow_symlinks=False)
             final = os.stat(self.filename(row), dir_fd=directory, follow_symlinks=False)
             if (current.st_dev, current.st_ino, final.st_dev, final.st_ino, current.st_nlink) != (
@@ -288,6 +301,17 @@ class ImmutableFiles:
             self.phase("linked", row)
             os.fsync(directory)
             self.phase("synced", row)
+        except DomainError:
+            # Discard only this invocation's unpublished temporary body after
+            # an authorization/control fence rejects it. Never erase a final
+            # artifact, someone else's pending file, or unknown crash evidence.
+            if directory is not None and pending_created and not linked:
+                try:
+                    os.unlink("." + row["id"] + ".pending", dir_fd=directory)
+                    os.fsync(directory)
+                except OSError:
+                    pass  # Do not claim forensic erasure or mask the denial.
+            raise
         except OSError:
             return self._status(row, "unknown", "FILE_WRITE_UNCERTAIN", session_hash)
         finally:

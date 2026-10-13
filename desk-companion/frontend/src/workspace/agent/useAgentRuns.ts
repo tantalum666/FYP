@@ -2,6 +2,21 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { request } from "../../api";
 import type { ResponseFence } from "../personal/responseFence";
 import type { AgentRun, RunDetailResponse, RunScope } from "./types";
+
+/** Only transient transport/server failures may retain an already visible draft. */
+export function recoverableRunReadError(error: unknown) {
+  if (!error || typeof error !== "object") return false;
+  const { code, status } = error as { code?: unknown; status?: unknown };
+  if (
+    typeof code === "string" &&
+    /AUTH|SESSION|OWNER|PRIVATE|PRIVACY|CONTEXT_HIDDEN/.test(code)
+  )
+    return false;
+  return (
+    (code === "CONNECTION_LOST" && status === 0) ||
+    [408, 429, 500, 502, 503, 504].includes(Number(status))
+  );
+}
 export function useAgentRuns(
   fence: ResponseFence,
   selected: string | null,
@@ -38,14 +53,27 @@ export function useAgentRuns(
       const seq = ++sequence.current;
       active.current = { epoch: captured, selected: id, sequence: seq };
       setLoading(true);
+      let terminalError: unknown = null;
+      const currentResponse = () =>
+        fence.accepts(captured) &&
+        current.current === id &&
+        sequence.current === seq;
+      const read = <T>(path: string) =>
+        request<T>(path).catch((error) => {
+          // A parallel transient failure must not hide a later access denial.
+          if (!recoverableRunReadError(error) && currentResponse()) {
+            terminalError = error;
+            setValue(null);
+            setError(error);
+          }
+          throw error;
+        });
       try {
         const [list, scope, detail] = await Promise.all([
-          request<{ runs: AgentRun[] }>("/agent-runs"),
-          request<RunScope>("/agent-runs/scope"),
+          read<{ runs: AgentRun[] }>("/agent-runs"),
+          read<RunScope>("/agent-runs/scope"),
           id
-            ? request<RunDetailResponse>(
-                `/agent-runs/${encodeURIComponent(id)}`,
-              )
+            ? read<RunDetailResponse>(`/agent-runs/${encodeURIComponent(id)}`)
             : Promise.resolve(null),
         ]);
         if (
@@ -69,8 +97,11 @@ export function useAgentRuns(
           sequence.current !== seq
         )
           return;
-        setValue(null);
-        setError(e);
+        // Keep same-view editors and unknown-receipt queues mounted during a
+        // transient poll failure. No action may use this snapshot until refreshed.
+        // Access/privacy failures and malformed responses still clear immediately.
+        if (!recoverableRunReadError(e) || terminalError) setValue(null);
+        setError(terminalError ?? e);
       } finally {
         if (active.current?.sequence === seq) active.current = null;
         if (sequence.current === seq) setLoading(false);
@@ -103,5 +134,11 @@ export function useAgentRuns(
     value.selected === selected
       ? value
       : null;
-  return { value: visibleValue, error, loading, reload };
+  return {
+    value: visibleValue,
+    fresh: !!visibleValue && !error,
+    error,
+    loading,
+    reload,
+  };
 }

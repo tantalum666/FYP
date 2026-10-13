@@ -1,3 +1,5 @@
+import { browserReady } from "../browser/types.ts";
+import type { BrowserCapabilities, BrowserJob } from "../browser/types.ts";
 export type RunMode = "deterministic" | "model";
 export type RunAction =
   "pause" | "resume" | "cancel" | "steer" | "answer" | "retry_model";
@@ -18,6 +20,43 @@ export interface RunDestination {
   provider: string;
   endpoint: string;
 }
+export interface RunConnectorTool {
+  tool_id: string;
+  connector_id: string;
+  tool_name: string;
+  effect: "read" | "write";
+  input_schema: Record<string, unknown>;
+  descriptor_sha256: string;
+  grant_sha256: string;
+  destination_scope: string;
+  endpoint: string;
+  data_policy: "public_or_synthetic";
+  review_required: true;
+  live_acceptance: "not_verified_here";
+}
+export interface RunContextCatalog {
+  memories: {
+    id: string;
+    version: number;
+    category: string;
+    summary: string;
+  }[];
+  conversations: {
+    id: string;
+    version: number;
+    title: string;
+    eligible_message_count: number;
+  }[];
+  memory_allowed: boolean;
+  history_allowed: boolean;
+  limits: { memories: number; messages: number };
+  revision: string;
+}
+export interface RunPersonalSelection {
+  memory_ids: string[];
+  conversation_id: string | null;
+  retain_derived_context: boolean;
+}
 export interface RunScope {
   scope_revision: string;
   modes: RunMode[];
@@ -34,6 +73,9 @@ export interface RunScope {
   }[];
   limits: Record<string, number>;
   business_context_allowed: boolean;
+  browser?: BrowserCapabilities;
+  connectors?: { tools: RunConnectorTool[]; scope_revision: string };
+  personal_context?: RunContextCatalog;
 }
 export interface AgentRun {
   id: string;
@@ -51,6 +93,18 @@ export interface AgentRun {
   artifact_ids: string[];
   proposal_ids: string[];
   model_calls: number;
+  model_call_budget?: number;
+  tool_call_budget?: number;
+  tool_calls?: number;
+  browser_job_ids?: string[];
+  tool_results?: {
+    tool: string;
+    arguments: Record<string, unknown>;
+    operation_key: string;
+    reference_id: string;
+    state: "observed" | "pending" | "verified" | "unknown" | "rejected";
+    result: Record<string, unknown>;
+  }[];
   evidence_count: number;
   private_hidden?: boolean;
   question?: string | null;
@@ -118,6 +172,7 @@ export interface RunDetailResponse {
   }[];
   events: { sequence: number; kind: string; at: string; details?: unknown }[];
   artifacts: ArtifactRecord[];
+  browser_jobs?: BrowserJob[];
   proposals: {
     id: string;
     kind: string;
@@ -138,6 +193,13 @@ export interface RunCreateInput {
   mutation_requests: [];
   allow_mutation_proposals: boolean;
   required_sections: string[];
+  browser_source_ids: string[];
+  browser_public_only: boolean;
+  model_call_budget: number;
+  tool_call_budget: number;
+  connector_tool_ids: string[];
+  share_connector_results_with_provider: boolean;
+  personal_context: RunPersonalSelection | null;
 }
 export interface RunDraft {
   goal: string;
@@ -150,10 +212,24 @@ export interface RunDraft {
   share: boolean;
   allow_mutation_proposals: boolean;
   required_sections: string;
+  browser_source_ids: string[];
+  browser_public_only: boolean;
+  model_call_budget: number;
+  tool_call_budget: number;
+  connector_tool_ids: string[];
+  share_connector_results_with_provider: boolean;
+  personal_context: RunPersonalSelection;
 }
-export function newRunDraft(): RunDraft {
+export interface WorkGoalRequest {
+  id: string;
+  text: string;
+}
+export function validWorkGoal(request: WorkGoalRequest | null | undefined) {
+  return !!request?.id && !!request.text.trim() && request.text.length <= 4000;
+}
+export function newRunDraft(initialGoal = ""): RunDraft {
   return {
-    goal: "",
+    goal: initialGoal,
     mode: "deterministic",
     source_ids: [],
     task_ids: [],
@@ -163,6 +239,17 @@ export function newRunDraft(): RunDraft {
     share: false,
     allow_mutation_proposals: false,
     required_sections: "",
+    browser_source_ids: [],
+    browser_public_only: false,
+    model_call_budget: 8,
+    tool_call_budget: 8,
+    connector_tool_ids: [],
+    share_connector_results_with_provider: false,
+    personal_context: {
+      memory_ids: [],
+      conversation_id: null,
+      retain_derived_context: false,
+    },
   };
 }
 export function runActions(
@@ -172,6 +259,19 @@ export function runActions(
 ): RunAction[] {
   const steer: RunAction[] = planRevision < 2 ? ["steer"] : [];
   if (["cancelled", "cancelling"].includes(state)) return [];
+  if (
+    reason &&
+    [
+      "RUN_PERSONAL_CONTEXT_CHANGED",
+      "RUN_PERSONAL_CONTEXT_BINDING_CHANGED",
+      "RUN_PERSONAL_CONTEXT_BINDING_INVALID",
+      "RUN_PERSONAL_CONTEXT_UNAVAILABLE",
+      "RUN_PERSONAL_CONTEXT_NOT_APPROVED",
+      "RUN_PERSONAL_CONTEXT_LIMIT",
+      "RUN_CONNECTOR_SCOPE_CHANGED",
+    ].includes(reason)
+  )
+    return ["succeeded", "partial", "failed"].includes(state) ? [] : ["cancel"];
   if (["succeeded", "partial", "failed"].includes(state)) return steer;
   if (state === "waiting_input") return ["answer", ...steer, "cancel"];
   if (["paused", "blocked"].includes(state))
@@ -203,7 +303,10 @@ export function prepareRun(
     .map((x) => x.trim())
     .filter(Boolean);
   const selectionCount =
-    draft.source_ids.length + draft.task_ids.length + draft.event_ids.length;
+    draft.source_ids.length +
+    draft.task_ids.length +
+    draft.event_ids.length +
+    draft.browser_source_ids.length;
   const validSelection = (
     ids: string[],
     choices: { id: string }[],
@@ -221,7 +324,72 @@ export function prepareRun(
   )
     return null;
   if (
-    !selectionCount ||
+    !Number.isInteger(draft.model_call_budget) ||
+    draft.model_call_budget < 1 ||
+    draft.model_call_budget > budgetLimit(scope, "model") ||
+    !Number.isInteger(draft.tool_call_budget) ||
+    draft.tool_call_budget < 1 ||
+    draft.tool_call_budget > budgetLimit(scope, "tool")
+  )
+    return null;
+  if (
+    draft.browser_source_ids.length &&
+    (draft.mode !== "model" ||
+      !draft.browser_public_only ||
+      !browserReady(scope.browser ?? null, true) ||
+      !validSelection(
+        draft.browser_source_ids,
+        scope.browser?.sources ?? [],
+        2,
+      ))
+  )
+    return null;
+  const contextSelected =
+    draft.personal_context.memory_ids.length > 0 ||
+    !!draft.personal_context.conversation_id;
+  if (
+    draft.connector_tool_ids.length &&
+    (draft.mode !== "model" ||
+      !draft.share_connector_results_with_provider ||
+      !validSelection(
+        draft.connector_tool_ids,
+        scope.connectors?.tools
+          .filter(
+            (tool) =>
+              tool.review_required === true &&
+              tool.data_policy === "public_or_synthetic",
+          )
+          .map((tool) => ({ id: tool.tool_id })) ?? [],
+        8,
+      ) ||
+      draft.source_ids.length > 0 ||
+      draft.task_ids.length > 0 ||
+      draft.event_ids.length > 0 ||
+      contextSelected)
+  )
+    return null;
+  if (
+    contextSelected &&
+    (draft.mode !== "model" ||
+      !draft.personal_context.retain_derived_context ||
+      (draft.personal_context.memory_ids.length > 0 &&
+        !scope.personal_context?.memory_allowed) ||
+      !validSelection(
+        draft.personal_context.memory_ids,
+        scope.personal_context?.memories ?? [],
+        8,
+      ) ||
+      (draft.personal_context.conversation_id &&
+        (!scope.personal_context?.history_allowed ||
+          !scope.personal_context.conversations.some(
+            (item) =>
+              item.id === draft.personal_context.conversation_id &&
+              item.eligible_message_count > 0,
+          ))))
+  )
+    return null;
+  if (
+    (!selectionCount && !draft.connector_tool_ids.length) ||
     (draft.mode === "model" && selectionCount > 10) ||
     sections.length > 8 ||
     sections.some((x) => x.length > 160)
@@ -267,7 +435,34 @@ export function prepareRun(
     allow_mutation_proposals:
       draft.mode === "model" && draft.allow_mutation_proposals,
     required_sections: sections,
+    browser_source_ids:
+      draft.mode === "model" ? [...draft.browser_source_ids] : [],
+    browser_public_only:
+      draft.mode === "model" &&
+      draft.browser_source_ids.length > 0 &&
+      draft.browser_public_only,
+    model_call_budget: draft.model_call_budget,
+    tool_call_budget: draft.tool_call_budget,
+    connector_tool_ids:
+      draft.mode === "model" ? [...draft.connector_tool_ids] : [],
+    share_connector_results_with_provider:
+      draft.mode === "model" &&
+      draft.connector_tool_ids.length > 0 &&
+      draft.share_connector_results_with_provider,
+    personal_context: contextSelected
+      ? {
+          ...draft.personal_context,
+          memory_ids: [...draft.personal_context.memory_ids],
+        }
+      : null,
   };
+}
+export function budgetLimit(scope: RunScope, kind: "model" | "tool") {
+  const ceiling = kind === "model" ? 24 : 16;
+  const configured = scope.limits[`${kind}_call_budget_max`];
+  return Number.isInteger(configured) && configured > 0
+    ? Math.min(configured, ceiling)
+    : ceiling;
 }
 export function sourceFormat(name: string): FileFormat | null {
   const extension = name.toLowerCase().split(".").at(-1);

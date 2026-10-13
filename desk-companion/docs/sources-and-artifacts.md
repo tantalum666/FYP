@@ -14,9 +14,7 @@ private. A fabricated owner dictionary or unknown hash is not authority. Routes
 also use the application's owner dependency. Session cookies are not stored in
 source/artifact records; only a validated hash is passed internally by the run
 coordinator. Private-hide, expiry or sign-out blocks reads and new publication.
-If revocation happens during a filesystem operation, already written temporary
-or final bytes can remain inspectable under a later authorized session; no
-rollback or destructive cleanup is promised.
+Run-origin publication additionally validates generation, session, privacy and selected personal-context bindings at reservation and in a short SQLite write transaction at the final link point. If that fence rejects publication, this invocation attempts to remove only its own unpublished temporary body. Cleanup failure and earlier crashes may leave bytes; existing final artifacts remain separately retained. No rollback, forensic erasure or provider recall is promised.
 
 Selecting/importing a source explicitly persists a private snapshot. Creating an
 artifact persists a separate private result. There is no delete/forget endpoint
@@ -131,7 +129,7 @@ Publication order:
    byte count/digest and operation key in SQLite before disk effects
 2. Exclusively create a generated private temporary filename with no-follow
 3. Write bounded bytes, flush and fsync the file
-4. Revalidate the owner session/private mode and temporary inode
+4. Revalidate the owner session/private mode and temporary inode; for run-origin output, validate the trusted coordinator checkpoint again under the final publication write transaction
 5. Atomically hardlink to the final generated filename, failing if it exists;
    unlink only the verified matching temporary inode
 6. Fsync the directory and independently reopen/read the final bytes

@@ -1041,3 +1041,17 @@
 - CSV浏览器保存仍不确定，Chrome历史访问被拒后未绕路；实际公开浏览器适配器在DNS公网检查前阻塞，无StackEdit动作。配对身份、实时模型及新批次完整中断矩阵仍待，不把旧SHA通过项移作新证明。
 - 消敏完整报告与证据hash清单见output/qa/2026-10-12-mac-acceptance-checkpoint/。二进制截图和运行夹具保留Mac，不把文件名当GitHub附件；原8832保持、无等待工具／审批、运行终止。
 - 已同步handoff及page-companion当前状态，接续责任和各项环境／授权门写明；没有合并、部署、付费模型调用或真实硬件操作。
+
+## 2026-10-13 持续个人Agent能力与独立审查续作
+
+- 用户纠正：继续推进至尽可能接近Grok Bot／Muse／dot，不能把上一轮有限验收检查点作为停止条件；随后明确没有固定模型，要求回看GitHub讨论。
+- 实际实现：模型工具注册及精确参数、持久子操作与取消／恢复、固定公开浏览器链路、可扩展MCP连接器；明确选择记忆／会话水位，聊天目标移交、英中工具／预算选择、隐藏元数据停止控制与完整连接器审阅。默认仍不配置外部端点或付费模型。
+- 独立审查发现并修复：准备阶段远程发现阻塞控制锁、观察时间变化破坏稳定证据、慢速报头逃逸总期限、过大结果使已发送调用停留dispatching、隐藏／取消后的观察提交、上下文失效后的模型发送、已知未发送误标费用未知、伪造确认操作键与错误意图回执被当成所需效果。
+- 父级整合：连接器真实owner路由、运行worker／shutdown、精确元数据投影、类型化registry；最终文件发布与本地业务确认增加事务内运行／上下文边界检查。公开HTTP入口拒绝占用内部assistant-confirm操作键。
+- 证据分层：真实SQLite／文件／HTTP夹具和脚本模型检查保留；独立审查提供原失败及修复后复现。当前云浏览器无法访问自检成功的exec回环fixture；真实匿名官方Docs MCP在连接前DNS失败，没有外部查询返回。不得把测试替身、SSR渲染或host插件能力写成FYP真实模型／跨应用验收。
+- 本轮规范：[持续计划](planning/2026-10-13/continuous-agent-capability-plan.md)、[运行](desk-companion/docs/agent-runs.md)、[上下文](desk-companion/docs/agent-personal-context.md)、[连接器](desk-companion/docs/application-connectors.md)、[浏览器](desk-companion/docs/browser-workflow.md)及[父级整合](output/qa/2026-10-13-agent-continuation/integration-status.md)。源码冻结全套检查与远端提交证据随后按实际结果追加。
+- 接续：本批发布后继续工作／成果检索、变化驱动的职责及语音工作移交；必要Mac只使用既有隔离验收工作区，保护8832原预览。A1完整2D、学校原件、固定摄像头坐姿主线与硬件边界保持，没有自动合并／部署／新凭据或付费API调用。
+
+本轮冻结全套验证：657后端／126前端、Ruff、TypeScript／Vite与原A1／VRM hash通过；228项源码／测试／配置／锁文件前后hash一致。首次整套检查被云环境重启中断，保留不完整日志并从头重跑至成功，未归因用户取消。具体见[冻结验证](output/qa/2026-10-13-agent-continuation/verification.md)。远端发布与真实UI另行核验。
+
+后续独立UI审查再修复背景读取失败卸载草稿／未知回执队列的问题，保留同一视图的原操作ID并禁用过期动作，身份／隐私失效仍立即清空；异步文件读取后重查新鲜状态。最终131前端、TypeScript／Vite通过，六项旧前端文件修改及一项新测试的hash差异明确记录，657后端对应字节保持，最终229项manifest已保存。

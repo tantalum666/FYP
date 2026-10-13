@@ -30,6 +30,8 @@ class Store:
         self.path = self.directory / "desk.sqlite3"
         self.clock = clock or (lambda: datetime.now(UTC))
         self.password_hasher = PasswordHash.recommended()
+        # Installed only by the trusted runtime. No HTTP/model callback surface.
+        self.operation_guard = None
         with self.connection() as conn:
             conn.executescript("""
                 PRAGMA journal_mode=WAL;
@@ -106,6 +108,8 @@ class Store:
             raise DomainError("OPERATION_ID_REQUIRED", 422)
         request = encode(payload)
         with self.connection(write=True) as conn:
+            if self.operation_guard is not None:
+                self.operation_guard(conn, key, payload)
             old = conn.execute("SELECT * FROM operations WHERE id=?", (key,)).fetchone()
             if old:
                 if old["request"] != request:

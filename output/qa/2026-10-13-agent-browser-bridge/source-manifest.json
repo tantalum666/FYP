@@ -1,0 +1,11 @@
+{
+  "desk-companion/backend/desk/agent_runs.py": "afe4e76f69c99b38acff0befe490c1640d72fb29b8cda4c6f42a6ef3490ac214",
+  "desk-companion/backend/desk/agent_tools.py": "d25b0af9a43b1ce2339c5d8a327be7f803497a139e85ee1e21889323698cea48",
+  "desk-companion/backend/desk/agent_planner.py": "64be15b7a70fdd84b754ffb95472730af8eb58f776c9e125c721051b391d9ebd",
+  "desk-companion/backend/desk/agent_run_schemas.py": "b84c1345d7911e97ad265c4c08bcf98253064dcf9757c0f7bc1c1dc04dc0daa6",
+  "desk-companion/backend/desk/browser_jobs.py": "0589900af94264a365e694509063ec2f1be4e16c45a90f9f0e82d6707aa50f5d",
+  "desk-companion/backend/desk/text_ai.py": "7490061715ca4a2da1695c892b7bc219f5a24ad8670ef57358faa152eeaa10ca",
+  "desk-companion/tests/test_agent_browser_tools.py": "d9738bbb0714ba0d0de6317c904ec3f0cab3e28a6865fdf860d48c9764479c83",
+  "desk-companion/tests/test_agent_run_publication.py": "9a686833344aa253fa4bdc272e5bd65e1669c48e1815d41d96531b093cc55df2",
+  "desk-companion/tests/test_agent_effect_receipts.py": "38e538cdba586345e3cf4d0d44881fa399d88fa547a989d37a93129242d08c3c"
+}

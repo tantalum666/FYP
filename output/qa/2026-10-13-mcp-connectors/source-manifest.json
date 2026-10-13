@@ -1,0 +1,76 @@
+{
+  "generated_utc": "2026-10-13T06:00:01.602865+00:00",
+  "base_source": "91e6ed9db5e66283465564ea8f67252fe9772c15",
+  "git_push_performed": false,
+  "owned_source": [
+    {
+      "path": "desk-companion/backend/desk/connectors/__init__.py",
+      "bytes": 174,
+      "sha256": "893d69d854f2bdf38a288b8edf1a0ad7531c74a65e449b2dd5e9f4f0b412564b"
+    },
+    {
+      "path": "desk-companion/backend/desk/connectors/agent_adapter.py",
+      "bytes": 5109,
+      "sha256": "9005ebfdf9a9bbe257844d4a86b5c606a9f5e02a9fe96d557866031df728ef09"
+    },
+    {
+      "path": "desk-companion/backend/desk/connectors/contracts.py",
+      "bytes": 4090,
+      "sha256": "5ad94f859d9f090975e6d3a586af3a70676d003c2f1772f9eaf0f36e3a79ca53"
+    },
+    {
+      "path": "desk-companion/backend/desk/connectors/mcp_transport.py",
+      "bytes": 17460,
+      "sha256": "8cca871b9783e860e465ab2462f4107c869f0dd00eefc0f4236d77ccd0a18e6d"
+    },
+    {
+      "path": "desk-companion/backend/desk/connectors/schema.py",
+      "bytes": 7086,
+      "sha256": "6f15168bec9f6e0ad4b606da505870e6ea427d44efe4a64148aee893bfc88755"
+    },
+    {
+      "path": "desk-companion/backend/desk/connectors/service.py",
+      "bytes": 26707,
+      "sha256": "73513ec668cdcc8f0d990fe91363312324ce7e6592e1524f687a142ba45b138f"
+    },
+    {
+      "path": "desk-companion/docs/application-connectors.md",
+      "bytes": 15669,
+      "sha256": "f6e06311b98596074c79f68d1e2ad025e67eb854b45193b8384e8781e4e1e386"
+    },
+    {
+      "path": "desk-companion/tests/test_mcp_connectors.py",
+      "bytes": 33485,
+      "sha256": "3c0c73775a5a7c4244ea208236731ed01634233ebc13b03063c0c489d82946e5"
+    }
+  ],
+  "qa_files": [
+    "output/qa/2026-10-13-mcp-connectors/final-focused-integration-tests.log",
+    "output/qa/2026-10-13-mcp-connectors/final-independent-regressions.log",
+    "output/qa/2026-10-13-mcp-connectors/focused-tests.log",
+    "output/qa/2026-10-13-mcp-connectors/independent-authority-repros.py",
+    "output/qa/2026-10-13-mcp-connectors/independent-authority-review.json",
+    "output/qa/2026-10-13-mcp-connectors/link-check.json",
+    "output/qa/2026-10-13-mcp-connectors/public-docs-discovery.json",
+    "output/qa/2026-10-13-mcp-connectors/public-docs-dns.json",
+    "output/qa/2026-10-13-mcp-connectors/reading-supplement.json",
+    "output/qa/2026-10-13-mcp-connectors/ruff.log",
+    "output/qa/2026-10-13-mcp-connectors/verification.md"
+  ],
+  "checks": {
+    "owned_connector_tests": 56,
+    "final_connector_bridge_http_tests": 72,
+    "independent_regressions": 3,
+    "ruff": "passed",
+    "external_mcp": "blocked_before_connection_dns_errno_minus_3"
+  },
+  "shared_integration_owned_by_parent": [
+    "runtime.py",
+    "app.py",
+    "connector_routes.py",
+    "agent_tools.py",
+    "agent_runs.py",
+    "agent_run_schemas.py",
+    "frontend"
+  ]
+}

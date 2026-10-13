@@ -1,0 +1,161 @@
+{
+  "completed_utc": "2026-10-13T05:56:36.620220+00:00",
+  "inherited_full_reading": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "inherited_count": 186,
+  "basis": "Same ongoing implementation. This is a relevant supplement, not an independent full-repository reading. Fingerprints detect changes and are not substitutes for reading.",
+  "documents": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "read_kind": "Full text read in this continuing task; longer documents segmented, omitted/truncated intervals supplemented"
+    },
+    {
+      "path": "product.md",
+      "lines": 184,
+      "read_ranges": [
+        [
+          1,
+          184
+        ]
+      ],
+      "sha256": "4c14871743125c1a518ec4e440b8bb80b61eac25d10a19bb6affcdaeb047a63c",
+      "read_kind": "Full text read in this continuing task; longer documents segmented, omitted/truncated intervals supplemented"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 40,
+      "read_ranges": [
+        [
+          1,
+          40
+        ]
+      ],
+      "sha256": "8dadf629f70c91d4a923ae0dd4ae05b2c4fa6e547a691fca31881e5727ccea1c",
+      "read_kind": "Full text read in this continuing task; longer documents segmented, omitted/truncated intervals supplemented"
+    },
+    {
+      "path": "planning/2026-10-12/personal-agent-implementation.md",
+      "lines": 84,
+      "read_ranges": [
+        [
+          1,
+          84
+        ]
+      ],
+      "sha256": "f332140d8bd36c4e87b8fa5677acb7a29dac7733eba8f049f6676ff814cc0cdb",
+      "read_kind": "Full text read in this continuing task; longer documents segmented, omitted/truncated intervals supplemented"
+    },
+    {
+      "path": "planning/2026-10-12/durable-agent-run-design.md",
+      "lines": 382,
+      "read_ranges": [
+        [
+          1,
+          382
+        ]
+      ],
+      "sha256": "7d5f780b5c99aea683b8f4a07c0df025cebf8c0509edc266bf909e2b768bfa96",
+      "read_kind": "Full text read in this continuing task; longer documents segmented, omitted/truncated intervals supplemented"
+    },
+    {
+      "path": "planning/2026-10-12/agent-capability-roadmap.md",
+      "lines": 42,
+      "read_ranges": [
+        [
+          1,
+          42
+        ]
+      ],
+      "sha256": "70e22195726449c21c157f14c954fcc3e51663443cc5681153841bc0ed4eb2e0",
+      "read_kind": "Full text read in this continuing task; longer documents segmented, omitted/truncated intervals supplemented"
+    },
+    {
+      "path": "desk-companion/docs/agent-runs.md",
+      "lines": 130,
+      "read_ranges": [
+        [
+          1,
+          130
+        ]
+      ],
+      "sha256": "5ac358c8805e19105ad284e06336360b23460c9ca1c87a35ac5a181bedf6a3ea",
+      "read_kind": "Full text read in this continuing task; longer documents segmented, omitted/truncated intervals supplemented"
+    },
+    {
+      "path": "desk-companion/docs/browser-workflow.md",
+      "lines": 105,
+      "read_ranges": [
+        [
+          1,
+          105
+        ]
+      ],
+      "sha256": "0a16ded228b72f705b57e60bd9315e22eb9bfada7d78f4e6020a3d4814c6c120",
+      "read_kind": "Full text read in this continuing task; longer documents segmented, omitted/truncated intervals supplemented"
+    },
+    {
+      "path": "desk-companion/docs/personal-context.md",
+      "lines": 70,
+      "read_ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "sha256": "2de80030b52b1b4af797171face268a1f8292ac146f5c25ea35f1f25b8a2c265",
+      "read_kind": "Full text read in this continuing task; longer documents segmented, omitted/truncated intervals supplemented"
+    },
+    {
+      "path": "desk-companion/docs/agent-personal-context.md",
+      "lines": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "5d6f441347f94f6d32fb50a5862ddcff0fc3d7ac36623c01e3b6c36ae66160a3",
+      "read_kind": "Full text read in this continuing task; longer documents segmented, omitted/truncated intervals supplemented"
+    },
+    {
+      "path": "desk-companion/docs/sources-and-artifacts.md",
+      "lines": 208,
+      "read_ranges": [
+        [
+          1,
+          208
+        ]
+      ],
+      "sha256": "800165ebf9f687c0664feeaf0570ea7803c5f6bd982ec9424cbaa2259ee4bda2",
+      "read_kind": "Full text read in this continuing task; longer documents segmented, omitted/truncated intervals supplemented"
+    },
+    {
+      "path": "desk-companion/docs/software-checks.md",
+      "lines": 31,
+      "read_ranges": [
+        [
+          1,
+          31
+        ]
+      ],
+      "sha256": "e79340661b0f8c8ee880503bd4cdf0e97243224c86c787f3e20bb4a73beafb67",
+      "read_kind": "Full text read in this continuing task; longer documents segmented, omitted/truncated intervals supplemented"
+    }
+  ],
+  "additional_context": "Latest relevant decision-log sections and full edited UI files, private response/write queue, modal/draft guard, browser review types, and current backend scope/schema/context/connector seams were inspected.",
+  "excluded": [
+    ".git",
+    "dependencies",
+    "caches",
+    "third-party packages",
+    "build artifacts",
+    "automatically generated output/qa evidence snapshots"
+  ]
+}

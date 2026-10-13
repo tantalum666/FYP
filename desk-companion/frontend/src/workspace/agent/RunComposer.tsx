@@ -8,7 +8,10 @@ import { modeLabel } from "./labels";
 import { RequestFeedback } from "./RequestFeedback";
 import { SourceUpload } from "./SourceUpload";
 import { SourcePreview } from "./SourcePreview";
-import { newRunDraft, prepareRun, selectedBytes } from "./types";
+import { RunBrowserSelection } from "./RunBrowserSelection";
+import { RunConnectorSelection } from "./RunConnectorSelection";
+import { RunContextSelection } from "./RunContextSelection";
+import { budgetLimit, newRunDraft, prepareRun, selectedBytes } from "./types";
 import type {
   AgentRun,
   RunCreateInput,
@@ -21,18 +24,26 @@ export function RunComposer({
   t,
   scope,
   fence,
+  fresh,
   onClose,
   onCreated,
   onRefresh,
+  initialGoal = "",
 }: {
   t: Translate;
   scope: RunScope;
   fence: ResponseFence;
+  fresh: boolean;
   onClose: () => void;
   onCreated: (run: AgentRun) => void;
   onRefresh: () => void;
+  initialGoal?: string;
 }) {
-  const [draft, setDraft] = useState(newRunDraft);
+  const [draft, setDraft] = useState<RunDraft>(() => ({
+    ...newRunDraft(initialGoal),
+    mode:
+      initialGoal && scope.modes.includes("model") ? "model" : "deterministic",
+  }));
   const [review, setReview] = useState<{
     input: RunCreateInput;
     scope: RunScope;
@@ -48,7 +59,17 @@ export function RunComposer({
     JSON.stringify(draft) !== JSON.stringify(newRunDraft()) || mutation.pending;
   useDraftGuard(dirty, mutation.busy);
   useEffect(() => {
-    setDraft((old) => ({ ...old, share: false, retain: false }));
+    setDraft((old) => ({
+      ...old,
+      share: false,
+      retain: false,
+      browser_public_only: false,
+      share_connector_results_with_provider: false,
+      personal_context: {
+        ...old.personal_context,
+        retain_derived_context: false,
+      },
+    }));
   }, [scope.scope_revision]);
   const change = <K extends keyof RunDraft>(key: K, value: RunDraft[K]) =>
     setDraft((old) => ({ ...old, [key]: value }));
@@ -65,7 +86,7 @@ export function RunComposer({
     }));
   }
   async function start() {
-    if (!review || scopeChanged || locked) return;
+    if (!fresh || !review || scopeChanged || locked) return;
     const epoch = fence.capture();
     if (!fence.accepts(epoch)) return;
     await mutation.run<{ run: AgentRun }>(
@@ -76,6 +97,7 @@ export function RunComposer({
       },
     );
   }
+  const viewEpoch = fence.capture();
   return (
     <Modal
       title={t("Start persistent work", "开始持续工作")}
@@ -86,6 +108,14 @@ export function RunComposer({
       dirty={dirty}
     >
       <div className="agent-composer">
+        {!fresh && (
+          <p className="agent-notice" role="status">
+            {t(
+              "The current scope could not be refreshed. Your draft and retry data are preserved. Refresh must succeed before starting, retrying or uploading a source.",
+              "未能刷新当前范围，草稿与重试资料已保留。刷新成功前，不能开始、重试或上传来源。",
+            )}
+          </p>
+        )}
         {review ? (
           <>
             <h3>
@@ -125,6 +155,29 @@ export function RunComposer({
                     </small>
                   </li>
                 ))}
+              {review.scope.browser?.sources
+                .filter((source) =>
+                  review.input.browser_source_ids.includes(source.id),
+                )
+                .map((source) => (
+                  <li key={source.id}>
+                    {t("Public browser source", "公开浏览器来源")}:{" "}
+                    {source.label}
+                    <small>{source.url}</small>
+                  </li>
+                ))}
+              {review.scope.connectors?.tools
+                .filter((tool) =>
+                  review.input.connector_tool_ids.includes(tool.tool_id),
+                )
+                .map((tool) => (
+                  <li key={tool.tool_id}>
+                    {t("Proposable connector tool", "可提议调用的连接工具")}:{" "}
+                    {tool.connector_id} · {tool.tool_name}
+                    <small>{tool.endpoint}</small>
+                    <small>{tool.destination_scope}</small>
+                  </li>
+                ))}
             </ul>
             {review.input.required_sections.length > 0 && (
               <p>
@@ -134,7 +187,9 @@ export function RunComposer({
             )}
             {review.input.source_ids.length +
               review.input.task_ids.length +
-              review.input.event_ids.length ===
+              review.input.event_ids.length +
+              review.input.browser_source_ids.length +
+              review.input.connector_tool_ids.length ===
               0 && (
               <p>
                 {t(
@@ -160,6 +215,79 @@ export function RunComposer({
                     "目标及所选来源文本可发送至此目的地，用于规划和完成工作。事务／日历共享还需既有业务上下文许可；此处不授权全部账号数据、截图或原始录音。",
                   )}
                 </p>
+                <p>
+                  {t("Run limits", "运行上限")}:{" "}
+                  {review.input.model_call_budget}{" "}
+                  {t("model attempts", "次模型尝试")} ·{" "}
+                  {review.input.tool_call_budget}{" "}
+                  {t("tool calls", "次工具调用")}
+                </p>
+                <p className="workspace-hint">
+                  {t(
+                    "These are attempt limits, not a monetary cap. Unknown provider calls may have been billed and need explicit review before another attempt.",
+                    "这是尝试次数上限，不是金额上限。结果未知的提供商调用可能已计费，再次尝试前需要明确审阅。",
+                  )}
+                </p>
+                {review.input.browser_source_ids.length > 0 && (
+                  <p>
+                    {t(
+                      "Selected public pages may be read and their excerpts shared with this provider. A public-only brief can be prepared for https://stackedit.io/app, but no editor action is approved by starting this run. Open each linked browser review before approving its exact content and export.",
+                      "可读取所选公开页面，并向此提供商共享摘录。可为 https://stackedit.io/app 准备仅含公开内容的简报，但开始此次运行不批准编辑器动作。请打开每项关联浏览器审阅后，再批准确切内容与导出。",
+                    )}
+                  </p>
+                )}
+                {review.input.connector_tool_ids.length > 0 && (
+                  <p>
+                    {t(
+                      "Each selected connector call, including reads, still requires exact-argument approval. Its public or synthetic response may then be sent to this exact model provider so work can continue. A remote response is not independently verified completion.",
+                      "每项所选连接工具调用（包括读取）仍需批准确切参数。返回的公开或虚构响应随后可发送至此确切模型提供商，使工作继续。远端响应不等于已独立核验完成。",
+                    )}
+                  </p>
+                )}
+                {review.input.personal_context && (
+                  <div>
+                    <strong>
+                      {t(
+                        "Explicitly selected personal context",
+                        "明确选择的个人上下文",
+                      )}
+                    </strong>
+                    <ul>
+                      {review.scope.personal_context?.memories
+                        .filter((memory) =>
+                          review.input.personal_context!.memory_ids.includes(
+                            memory.id,
+                          ),
+                        )
+                        .map((memory) => (
+                          <li key={memory.id}>
+                            {memory.summary} · v{memory.version}
+                          </li>
+                        ))}
+                    </ul>
+                    {review.scope.personal_context?.conversations
+                      .filter(
+                        (thread) =>
+                          thread.id ===
+                          review.input.personal_context!.conversation_id,
+                      )
+                      .map((thread) => (
+                        <p key={thread.id}>
+                          {thread.title} ·{" "}
+                          {t(
+                            "up to 12 eligible messages present at start",
+                            "开始时已有的最多12条可用消息",
+                          )}
+                        </p>
+                      ))}
+                    <p>
+                      {t(
+                        "This context is not evidence or tool permission. Retained outputs may repeat it; later forgetting does not erase old outputs or provider copies.",
+                        "这些上下文不是证据或工具许可。保留输出可能重复其中内容，之后忘记不会删除旧输出或提供商副本。",
+                      )}
+                    </p>
+                  </div>
+                )}
                 <p>
                   {review.input.allow_mutation_proposals
                     ? t(
@@ -187,7 +315,17 @@ export function RunComposer({
                 )}
               </p>
             )}
-            <RequestFeedback mutation={mutation} t={t} />
+            <RequestFeedback
+              mutation={{
+                ...mutation,
+                busy: mutation.busy || !fresh,
+                retry: () =>
+                  fresh && fence.accepts(viewEpoch)
+                    ? mutation.retry()
+                    : Promise.resolve(false),
+              }}
+              t={t}
+            />
             <div className="workspace-inline-actions">
               <button
                 className="secondary"
@@ -198,7 +336,7 @@ export function RunComposer({
               </button>
               <button
                 className="primary"
-                disabled={locked || scopeChanged}
+                disabled={!fresh || locked || scopeChanged}
                 onClick={() => void start()}
               >
                 {mutation.busy
@@ -211,7 +349,7 @@ export function RunComposer({
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              if (input && !uploadDraft) setReview({ input, scope });
+              if (fresh && input && !uploadDraft) setReview({ input, scope });
             }}
           >
             <label>
@@ -252,6 +390,15 @@ export function RunComposer({
                     share: false,
                     retain: false,
                     allow_mutation_proposals: false,
+                    browser_source_ids: [],
+                    browser_public_only: false,
+                    connector_tool_ids: [],
+                    share_connector_results_with_provider: false,
+                    personal_context: {
+                      memory_ids: [],
+                      conversation_id: null,
+                      retain_derived_context: false,
+                    },
                   }))
                 }
               >
@@ -292,6 +439,14 @@ export function RunComposer({
                 )}
               </p>
             )}
+            {draft.connector_tool_ids.length > 0 && (
+              <p className="agent-notice">
+                {t(
+                  "Connector work is limited to public or synthetic data. Local files, tasks, calendar and personal context cannot be added to this run; public browser sources remain optional.",
+                  "连接工具工作仅限公开或虚构资料。此次运行不能加入本地文件、事务、日历或个人上下文；可选择公开浏览器来源。",
+                )}
+              </p>
+            )}
             <fieldset>
               <legend>
                 {t(
@@ -309,6 +464,7 @@ export function RunComposer({
                         disabled={
                           !draft.source_ids.includes(x.id) &&
                           (x.status !== "verified" ||
+                            draft.connector_tool_ids.length > 0 ||
                             draft.source_ids.length >= 12)
                         }
                         onChange={(e) =>
@@ -334,7 +490,7 @@ export function RunComposer({
                     <button
                       type="button"
                       className="secondary"
-                      disabled={x.status !== "verified"}
+                      disabled={!fresh || x.status !== "verified"}
                       onClick={() => setPreview(x)}
                     >
                       {t("Inspect text", "检查文本")}
@@ -360,6 +516,7 @@ export function RunComposer({
               <SourceUpload
                 t={t}
                 fence={fence}
+                fresh={fresh}
                 onUploaded={() => onRefresh()}
                 onDraftChange={setUploadDraft}
               />
@@ -376,7 +533,8 @@ export function RunComposer({
                       checked={draft.task_ids.includes(x.id)}
                       disabled={
                         !draft.task_ids.includes(x.id) &&
-                        draft.task_ids.length >= 10
+                        (draft.task_ids.length >= 10 ||
+                          draft.connector_tool_ids.length > 0)
                       }
                       onChange={(e) =>
                         toggle("task_ids", x.id, e.target.checked)
@@ -410,7 +568,8 @@ export function RunComposer({
                       checked={draft.event_ids.includes(x.id)}
                       disabled={
                         !draft.event_ids.includes(x.id) &&
-                        draft.event_ids.length >= 10
+                        (draft.event_ids.length >= 10 ||
+                          draft.connector_tool_ids.length > 0)
                       }
                       onChange={(e) =>
                         toggle("event_ids", x.id, e.target.checked)
@@ -436,23 +595,93 @@ export function RunComposer({
             </fieldset>
             <p className="workspace-hint">
               {t(
-                "Select at least one evidence item. Model mode allows up to 10 selected files/tasks/calendar records combined.",
-                "至少选择一项证据。模型模式下文件／事务／日历记录合计最多10项。",
+                "Select at least one evidence item or a configured connector tool. Model mode allows up to 10 files, tasks, calendar records and public browser sources combined; personal context is not evidence.",
+                "至少选择一项证据或已配置连接工具。模型模式下文件、事务、日历记录与公开浏览器来源合计最多10项；个人上下文不属于证据。",
               )}
             </p>
+            {draft.mode === "model" && (
+              <RunBrowserSelection
+                draft={draft}
+                scope={scope}
+                t={t}
+                onChange={setDraft}
+              />
+            )}
+            {draft.mode === "model" && (
+              <RunConnectorSelection
+                draft={draft}
+                scope={scope}
+                t={t}
+                onChange={setDraft}
+              />
+            )}
+            {draft.mode === "model" && (
+              <RunContextSelection
+                draft={draft}
+                scope={scope}
+                t={t}
+                onChange={setDraft}
+              />
+            )}
             {draft.mode === "model" && (
               <fieldset>
                 <legend>
                   {t("Provider and allowed use", "提供商与允许用途")}
                 </legend>
                 <label>
+                  {t("Maximum model attempts", "最多模型尝试次数")}
+                  <input
+                    type="number"
+                    min={1}
+                    max={budgetLimit(scope, "model")}
+                    step={1}
+                    required
+                    value={draft.model_call_budget}
+                    onChange={(event) =>
+                      change("model_call_budget", Number(event.target.value))
+                    }
+                  />
+                </label>
+                <label>
+                  {t(
+                    "Maximum browser / connector tool calls",
+                    "最多浏览器／连接工具调用次数",
+                  )}
+                  <input
+                    type="number"
+                    min={1}
+                    max={budgetLimit(scope, "tool")}
+                    step={1}
+                    required
+                    value={draft.tool_call_budget}
+                    onChange={(event) =>
+                      change("tool_call_budget", Number(event.target.value))
+                    }
+                  />
+                </label>
+                <p className="workspace-hint">
+                  {t(
+                    "Calls that fail or have an unknown result still use the run allowance. These limits do not set a currency budget or approve an application action.",
+                    "失败或结果未知的调用仍占用运行额度。这些上限不设定货币预算，也不批准应用操作。",
+                  )}
+                </p>
+                <label>
                   {t("Exact provider destination", "确切提供商目的地")}
                   <select
                     required
                     value={draft.destination}
                     onChange={(e) => {
-                      change("destination", e.target.value);
-                      change("share", false);
+                      setDraft((old) => ({
+                        ...old,
+                        destination: e.target.value,
+                        share: false,
+                        retain: false,
+                        share_connector_results_with_provider: false,
+                        personal_context: {
+                          ...old.personal_context,
+                          retain_derived_context: false,
+                        },
+                      }));
                     }}
                   >
                     <option value="">
@@ -527,7 +756,10 @@ export function RunComposer({
                 )}
               </p>
             )}
-            <button className="primary" disabled={!input || uploadDraft}>
+            <button
+              className="primary"
+              disabled={!fresh || !input || uploadDraft}
+            >
               {t("Review scope before starting", "开始前审阅范围")}
             </button>
           </form>
