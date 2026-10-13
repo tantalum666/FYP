@@ -1,0 +1,36 @@
+{
+  "commit": "4c41dbaa3caec7c5bec0a73f807a80de4890776e",
+  "tree": "9f488d433a34f5e8646926ebae604d3f08a4dc0a",
+  "parent": "2ad00700bcf80a2f9e7d2e12410f3d6cbf43087a",
+  "branch": "codex/personal-agent-kernel-20261012",
+  "candidate_count": 60,
+  "verified_blobs_modes_ref": true,
+  "expected_full_tree_match": true,
+  "remote_missing_local_retained": 6099,
+  "deletions": [],
+  "tests": {
+    "backend": 909,
+    "frontend": 194,
+    "stable_source_hashes": 271
+  },
+  "ci": [
+    {
+      "id": 38368439731,
+      "url": "https://github.com/tantalum666/FYP/actions/runs/38368439731",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "4c41dbaa3caec7c5bec0a73f807a80de4890776e"
+    },
+    {
+      "id": 38368431858,
+      "url": "https://github.com/tantalum666/FYP/actions/runs/38368431858",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "4c41dbaa3caec7c5bec0a73f807a80de4890776e"
+    }
+  ],
+  "verified_at": "2026-10-13T08:19:20Z",
+  "ci_checked_at": "2026-10-13T08:24:36Z"
+}

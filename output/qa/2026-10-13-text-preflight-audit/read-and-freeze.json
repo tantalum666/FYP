@@ -1,0 +1,79 @@
+{
+  "at": "2026-10-13T08:27:43.813732+00:00",
+  "intake": "Inherited same ongoing task 186-document intake; focused changed and referenced sources only",
+  "exclusions": "No unrelated full-repository reread; no .git, credentials, external accounts or real runtime data",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_range": "1-EOF",
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 208,
+      "read_range": "1-EOF",
+      "sha256": "db136a03c92fa0ed0ff9fb53f1594675ad45b2ab612ebfecb6889604efe3f900"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 56,
+      "read_range": "1-EOF",
+      "sha256": "566c3640e009cff3936e1b7aa6f6c3348fbd3ddaf7ef99d705b6e833dc2431f3"
+    },
+    {
+      "path": "desk-companion/backend/desk/text_trial_preflight.py",
+      "lines": 207,
+      "read_range": "1-EOF",
+      "sha256": "07ef50887b6e025ca660ff9285690e663e0bed86d63654f2239d886efa246575"
+    },
+    {
+      "path": "desk-companion/scripts/check_text_trial.py",
+      "lines": 78,
+      "read_range": "1-EOF",
+      "sha256": "f3e327330a96da683a5b5d0d8dae10a8e01ce52edddea911a9cbeefe47a77884"
+    },
+    {
+      "path": "desk-companion/tests/test_text_trial_preflight.py",
+      "lines": 283,
+      "read_range": "1-EOF",
+      "sha256": "c74321aa515d4c5e2aa119ec2ab1e4c3afc5b4f2180b11582dc4d39d9b9b6ed7"
+    },
+    {
+      "path": "desk-companion/docs/text-trial-preflight.md",
+      "lines": 54,
+      "read_range": "1-EOF",
+      "sha256": "bb205c1781a226195da1182d18de355498f1b240ebe8d448ef85c320a165da48"
+    },
+    {
+      "path": "desk-companion/backend/desk/text_ai.py",
+      "lines": 520,
+      "read_range": "1-EOF",
+      "sha256": "7490061715ca4a2da1695c892b7bc219f5a24ad8670ef57358faa152eeaa10ca"
+    },
+    {
+      "path": "desk-companion/backend/desk/provider_policy.py",
+      "lines": 110,
+      "read_range": "1-EOF",
+      "sha256": "991cedca7120eb93da1dc325fe44353bc596e0594659cdc143a0a9baf0bcc335"
+    },
+    {
+      "path": "desk-companion/tests/test_text_response_bounds.py",
+      "lines": 179,
+      "read_range": "1-EOF",
+      "sha256": "d3c0e2b2af789727fc25930d781189b766c7e2d61618644d63b7d7b3ffff965d"
+    },
+    {
+      "path": "desk-companion/tests/test_provider_policy.py",
+      "lines": 251,
+      "read_range": "1-EOF",
+      "sha256": "ea6ad429bcfcf1abe0db140a9abdb6c751e3901eeb9212ffb3694271b7e76f47"
+    },
+    {
+      "path": "planning/2026-10-13/live-model-trial-gates.md",
+      "lines": 101,
+      "read_range": "1-EOF",
+      "sha256": "91697c532e54f95d59df548be563888a9d7740b9847bd102e1c486b5427fb5c0"
+    }
+  ]
+}

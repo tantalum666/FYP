@@ -1,0 +1,18 @@
+{
+  "desk-companion/backend/desk/text_trial_preflight.py": {
+    "sha256": "07ef50887b6e025ca660ff9285690e663e0bed86d63654f2239d886efa246575",
+    "bytes": 8496
+  },
+  "desk-companion/scripts/check_text_trial.py": {
+    "sha256": "f3e327330a96da683a5b5d0d8dae10a8e01ce52edddea911a9cbeefe47a77884",
+    "bytes": 3116
+  },
+  "desk-companion/tests/test_text_trial_preflight.py": {
+    "sha256": "c74321aa515d4c5e2aa119ec2ab1e4c3afc5b4f2180b11582dc4d39d9b9b6ed7",
+    "bytes": 11800
+  },
+  "desk-companion/docs/text-trial-preflight.md": {
+    "sha256": "f390cdfa5f91ff96f5f819ddb69e379fe29adbd7f759be5f60263125689b86a0",
+    "bytes": 6973
+  }
+}

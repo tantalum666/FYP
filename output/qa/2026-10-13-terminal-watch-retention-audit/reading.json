@@ -1,0 +1,96 @@
+{
+  "completed_utc": "2026-10-13T08:27:16.851606+00:00",
+  "scope": "Same ongoing parent task; inherited 186-document intake. Supplemental full texts and focused actual source inspection only.",
+  "inherited": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "supplemental_documents": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 208,
+      "read_ranges": [
+        [
+          1,
+          208
+        ]
+      ],
+      "sha256": "db136a03c92fa0ed0ff9fb53f1594675ad45b2ab612ebfecb6889604efe3f900"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 56,
+      "read_ranges": [
+        [
+          1,
+          56
+        ]
+      ],
+      "sha256": "566c3640e009cff3936e1b7aa6f6c3348fbd3ddaf7ef99d705b6e833dc2431f3"
+    },
+    {
+      "path": "planning/2026-10-13/retained-work-recovery-design.md",
+      "lines": 138,
+      "read_ranges": [
+        [
+          1,
+          138
+        ]
+      ],
+      "sha256": "66e4909bbea3783b763c868dd133a2683b2741949a91ae391d7a93a1280d6e58"
+    },
+    {
+      "path": "planning/2026-10-13/continuous-agent-capability-plan.md",
+      "lines": 40,
+      "read_ranges": [
+        [
+          1,
+          40
+        ]
+      ],
+      "sha256": "86d6381b810fb6fd213bc189e3cfd7f1ddb0221b5be6d3bb1b1cf086da54fc2d"
+    },
+    {
+      "path": "desk-companion/docs/responsibilities.md",
+      "lines": 230,
+      "read_ranges": [
+        [
+          1,
+          230
+        ]
+      ],
+      "sha256": "28f995c0a64ad508de67dfbe66d4e23c6342a0adb2e69db0c9830d98680692ec"
+    },
+    {
+      "path": "desk-companion/docs/work-capacity.md",
+      "lines": 39,
+      "read_ranges": [
+        [
+          1,
+          39
+        ]
+      ],
+      "sha256": "338395daa658f06244208322fa01e9c3143bdf429909ae68ec69e1b67e9595f9"
+    }
+  ],
+  "focused_documents": [
+    {
+      "path": "decision-log.md",
+      "read": "last 60 lines"
+    }
+  ],
+  "excluded": [
+    "third-party/dependencies/cache/build outputs",
+    "unrelated history covered by inherited intake",
+    "generated QA snapshots except reading provenance"
+  ],
+  "tests": "probe.py synthetic SQLite and abstract receipt enumeration only"
+}

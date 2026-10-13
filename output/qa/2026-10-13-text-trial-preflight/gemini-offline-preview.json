@@ -1,0 +1,70 @@
+{
+  "status": "offline_preflight_passed",
+  "live_acceptance": "not_run",
+  "network_requests": 0,
+  "mock_requests": 1,
+  "adapter_usage_rows": 1,
+  "provider": "gemini",
+  "model": "fixture-model",
+  "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/fixture-model:generateContent",
+  "request": {
+    "method": "POST",
+    "json": {
+      "systemInstruction": {
+        "parts": [
+          {
+            "text": "You are Desk Companion in a synthetic acceptance fixture. Prepare exactly one task_create_draft plan for review, with only the requested title, UTC timezone and follow_up_enabled=false. Do not save, approve, schedule, execute or claim any completed action. Only the one advertised draft tool is available. Return JSON only.\nReturn only JSON matching this schema: {\"additionalProperties\":false,\"description\":\"Narrow existing production plan schema; never a separate planner.\",\"properties\":{\"arguments\":{\"additionalProperties\":true,\"title\":\"Arguments\",\"type\":\"object\"},\"message\":{\"maxLength\":2000,\"minLength\":1,\"title\":\"Message\",\"type\":\"string\"},\"tool\":{\"const\":\"task_create_draft\",\"title\":\"Tool\",\"type\":\"string\"}},\"required\":[\"message\",\"tool\"],\"title\":\"SyntheticTrialPlan\",\"type\":\"object\"}"
+          }
+        ]
+      },
+      "contents": [
+        {
+          "role": "user",
+          "parts": [
+            {
+              "text": "{\"language\":\"zh\",\"now\":\"2026-01-01T00:00:00Z\",\"timezone\":\"UTC\",\"tools\":[{\"description\":\"Prepare a local task draft for review. Does not save or schedule.\",\"name\":\"task_create_draft\",\"parameters\":{\"$defs\":{\"TaskStep\":{\"additionalProperties\":false,\"properties\":{\"done\":{\"default\":false,\"title\":\"Done\",\"type\":\"boolean\"},\"title\":{\"maxLength\":200,\"minLength\":1,\"title\":\"Title\",\"type\":\"string\"}},\"required\":[\"title\"],\"title\":\"TaskStep\",\"type\":\"object\"}},\"additionalProperties\":false,\"properties\":{\"check_in_local\":{\"anyOf\":[{\"format\":\"date-time\",\"type\":\"string\"},{\"type\":\"null\"}],\"default\":null,\"title\":\"Check In Local\"},\"due_local\":{\"anyOf\":[{\"format\":\"date-time\",\"type\":\"string\"},{\"type\":\"null\"}],\"default\":null,\"title\":\"Due Local\"},\"follow_up_enabled\":{\"default\":true,\"title\":\"Follow Up Enabled\",\"type\":\"boolean\"},\"interval_minutes\":{\"default\":1440,\"maximum\":10080,\"minimum\":15,\"title\":\"Interval Minutes\",\"type\":\"integer\"},\"next_step\":{\"default\":\"\",\"maxLength\":500,\"title\":\"Next Step\",\"type\":\"string\"},\"status\":{\"default\":\"todo\",\"enum\":[\"todo\",\"in_progress\",\"waiting\"],\"title\":\"Status\",\"type\":\"string\"},\"steps\":{\"items\":{\"$ref\":\"#/$defs/TaskStep\"},\"maxItems\":20,\"title\":\"Steps\",\"type\":\"array\"},\"timezone\":{\"default\":\"Asia/Hong_Kong\",\"title\":\"Timezone\",\"type\":\"string\"},\"title\":{\"maxLength\":160,\"minLength\":1,\"title\":\"Title\",\"type\":\"string\"},\"visibility\":{\"default\":\"private\",\"enum\":[\"private\",\"displayable\"],\"title\":\"Visibility\",\"type\":\"string\"},\"waiting_for\":{\"default\":\"\",\"maxLength\":500,\"title\":\"Waiting For\",\"type\":\"string\"}},\"required\":[\"title\"],\"title\":\"TaskInput\",\"type\":\"object\"}}],\"user_message\":\"请只建立一个待审阅的本地任务草稿，标题为“FYP synthetic test A”，不要保存任务或安排提醒。\"}"
+            }
+          ]
+        }
+      ],
+      "generationConfig": {
+        "responseMimeType": "application/json",
+        "maxOutputTokens": 1600
+      }
+    },
+    "bytes": 3041,
+    "sha256": "ab6cfec3ce8f1580e43a5d8e88763e75418e1c578121722557ffb7efeae413b9",
+    "headers": "Credential headers intentionally omitted; fixture key only"
+  },
+  "limits": {
+    "request_bytes": 16384,
+    "output_tokens_in_actual_payload": 1600,
+    "response_bytes": 131072,
+    "requests": 1,
+    "retries": 0
+  },
+  "synthetic_plan": {
+    "message": "这是待审阅的虚构任务计划，尚未保存，也未安排提醒。",
+    "tool": "task_create_draft",
+    "arguments": {
+      "follow_up_enabled": false,
+      "timezone": "UTC",
+      "title": "FYP synthetic test A"
+    }
+  },
+  "plan_dispatched": false,
+  "draft_persisted": false,
+  "tasks_saved": 0,
+  "billing": "not_run; no estimate or financial cap established",
+  "remaining_gates": [
+    "Explicit provider/model/region and exact data approval",
+    "Account eligibility, secure credential setup and one-call spending approval",
+    "Separately reviewed live transport and account cost controls",
+    "Actual provider response, semantic review and independent draft-only verification"
+  ],
+  "supervision": {
+    "worker_timeout_seconds": 45,
+    "credential_environment_inherited": false,
+    "notice": "Local process timeout only; no provider cancellation or billing cap claim"
+  }
+}

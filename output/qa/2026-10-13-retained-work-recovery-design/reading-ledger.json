@@ -1,0 +1,236 @@
+{
+  "completed_utc": "2026-10-13T08:22:06.943049+00:00",
+  "scope": "Same parent task; inherited 186-document full intake. No independent full-project reread claimed.",
+  "inherited": {
+    "path": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+    "status": "complete",
+    "expected": 186,
+    "covered": 186,
+    "missing": []
+  },
+  "supplemental_documents": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "mode": "supplemental full text; truncated combined outputs supplemented"
+    },
+    {
+      "path": "product.md",
+      "lines": 208,
+      "read_ranges": [
+        [
+          1,
+          208
+        ]
+      ],
+      "sha256": "db136a03c92fa0ed0ff9fb53f1594675ad45b2ab612ebfecb6889604efe3f900",
+      "mode": "supplemental full text; truncated combined outputs supplemented"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 56,
+      "read_ranges": [
+        [
+          1,
+          56
+        ]
+      ],
+      "sha256": "069b76fe14536f16a6630dec5275fdd4635d2a85263c6f2ea11f4f5cf6eb2bfb",
+      "mode": "supplemental full text; truncated combined outputs supplemented"
+    },
+    {
+      "path": "desk-companion/docs/work-capacity.md",
+      "lines": 39,
+      "read_ranges": [
+        [
+          1,
+          39
+        ]
+      ],
+      "sha256": "338395daa658f06244208322fa01e9c3143bdf429909ae68ec69e1b67e9595f9",
+      "mode": "supplemental full text; truncated combined outputs supplemented"
+    },
+    {
+      "path": "desk-companion/docs/sources-and-artifacts.md",
+      "lines": 208,
+      "read_ranges": [
+        [
+          1,
+          208
+        ]
+      ],
+      "sha256": "800165ebf9f687c0664feeaf0570ea7803c5f6bd982ec9424cbaa2259ee4bda2",
+      "mode": "supplemental full text; truncated combined outputs supplemented"
+    },
+    {
+      "path": "desk-companion/docs/agent-runs.md",
+      "lines": 134,
+      "read_ranges": [
+        [
+          1,
+          134
+        ]
+      ],
+      "sha256": "0d7ccc95bcc22a6afc56fe16fff39c5f5c7b378f2d4b13c581d02016b85c8940",
+      "mode": "supplemental full text; truncated combined outputs supplemented"
+    },
+    {
+      "path": "desk-companion/docs/responsibilities.md",
+      "lines": 230,
+      "read_ranges": [
+        [
+          1,
+          230
+        ]
+      ],
+      "sha256": "28f995c0a64ad508de67dfbe66d4e23c6342a0adb2e69db0c9830d98680692ec",
+      "mode": "supplemental full text; truncated combined outputs supplemented"
+    },
+    {
+      "path": "desk-companion/docs/voice-work.md",
+      "lines": 73,
+      "read_ranges": [
+        [
+          1,
+          73
+        ]
+      ],
+      "sha256": "6df6fe6081da672864af66046dc1d37fd7f945b427f8631dae26110035b315e6",
+      "mode": "supplemental full text; truncated combined outputs supplemented"
+    },
+    {
+      "path": "desk-companion/docs/work-search.md",
+      "lines": 169,
+      "read_ranges": [
+        [
+          1,
+          169
+        ]
+      ],
+      "sha256": "ab363d42495119da7c3e2cd6b2f00b1daeeea1eb4f0ff4604b4eaf9d5cd2746c",
+      "mode": "supplemental full text; truncated combined outputs supplemented"
+    },
+    {
+      "path": "planning/2026-10-13/continuous-agent-capability-plan.md",
+      "lines": 40,
+      "read_ranges": [
+        [
+          1,
+          40
+        ]
+      ],
+      "sha256": "3c27e0b1cc9c3273ba0a42f8dba6f6a719dc3200ffa195b70a7174b3db5caba7",
+      "mode": "supplemental full text; truncated combined outputs supplemented"
+    },
+    {
+      "path": "planning/2026-10-13/source-change-responsibilities-design.md",
+      "lines": 198,
+      "read_ranges": [
+        [
+          1,
+          198
+        ]
+      ],
+      "sha256": "85da455df56c94136ff3eb58c3d52c0e951c10e12cd395eb99ca8abe1fff3031",
+      "mode": "supplemental full text; truncated combined outputs supplemented"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 883,
+      "read_ranges": [
+        [
+          794,
+          883
+        ]
+      ],
+      "mode": "latest relevant decisions only; inherited historical intake"
+    }
+  ],
+  "code_inspection": {
+    "full_files": [
+      "desk-companion/backend/desk/file_store.py",
+      "desk-companion/backend/desk/sources.py",
+      "desk-companion/backend/desk/work_capacity.py",
+      "desk-companion/backend/desk/work_limits.py"
+    ],
+    "focused_files": [
+      "desk-companion/backend/desk/agent_runs.py",
+      "desk-companion/backend/desk/responsibilities.py",
+      "desk-companion/backend/desk/artifacts.py",
+      "desk-companion/backend/desk/store.py",
+      "desk-companion/tests/test_work_capacity_admission.py",
+      "desk-companion/tests/test_artifacts.py"
+    ],
+    "method": "Actual printed source bodies for relevant methods; symbol/line search supplemented receipt, table and test-boundary inventory. Focused files not claimed fully read."
+  },
+  "excluded": [
+    "Third-party/dependencies/cache/build outputs",
+    "Unrelated historical Markdown already covered by inherited intake",
+    "Generated QA evidence except inherited reading status; existing test descriptions are source observations, not tests rerun here"
+  ],
+  "design_revision_utc": "2026-10-13T08:30:14.719849+00:00",
+  "additional_focused_read_ranges": [
+    {
+      "path": "desk-companion/backend/desk/store.py",
+      "ranges": [
+        [
+          1,
+          100
+        ]
+      ]
+    },
+    {
+      "path": "desk-companion/backend/desk/responsibilities.py",
+      "ranges": [
+        [
+          304,
+          330
+        ]
+      ]
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/responsibilities/types.ts",
+      "ranges": [
+        [
+          1,
+          95
+        ]
+      ]
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/responsibilities/ResponsibilitiesPanel.tsx",
+      "mode": "quota/count exact source search hits lines300\u2013319"
+    }
+  ],
+  "review_artifacts_read": [
+    {
+      "path": "output/qa/2026-10-13-terminal-watch-retention-audit/review.md",
+      "lines": 60,
+      "read_ranges": [
+        [
+          1,
+          60
+        ]
+      ],
+      "sha256": "7bf1e9caf623e9371ba84dcf0bf5f2268c1bf0841997163a78e3646b19548c40"
+    },
+    {
+      "path": "output/qa/2026-10-13-terminal-watch-retention-audit/probe-results.json",
+      "lines": 13,
+      "read_ranges": [
+        [
+          1,
+          13
+        ]
+      ],
+      "sha256": "02e120a46943b8a42f716d2c86bdec948308e1a13b279769d8fe1eb0f4189a95"
+    }
+  ]
+}

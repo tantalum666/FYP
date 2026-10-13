@@ -140,6 +140,12 @@ Work内新增可展开的容量说明，显示来源、工作、成果和关注�
 
 容量是观察时刻的参考，不是保证可用空间。未知或损坏计量明确显示不可用；上传和报告生成的提示不替代服务端最终检查，也不禁止已有内容查看、停止或原操作恢复。容量刷新独立于工作范围和草稿，避免无关计数变化打断核对。详见[容量契约](docs/work-capacity.md)。
 
+## 离线模型请求预检
+
+[文字预检CLI](docs/text-trial-preflight.md)用固定虚构内容复用现有适配器，检查真实序列化字段、大小、单次调用与本地结果格式。它只使用内存模拟传输，没有在线开关，不读取密钥／业务库，也不保存任务。没有固定提供商时可明确选择两种已支持格式预览；示例型号是虚构标记，不证明账户／型号可用。
+
+独立进程期限只限制本地测试，不是费用保证。[真实试验提案](../planning/2026-10-13/live-model-trial-gates.md)仍需要账户条件及单独预算／数据批准，语音不包含在文字试验中。
+
 ## 验证与交付边界
 
 本轮角色验证见[3D角色QA](../output/qa/2026-10-09-3d-avatar/verification.md)；整合基线149项后端、15项前端及实际浏览器证据见[本地整合核验](../output/qa/2026-10-09-dot-integration/verification.md)；[10月6日云端软件核验](../output/qa/software-completion-2026-10-06/verification.md)保留当时结果。启用与复现实验见[电脑作业操作](docs/computer-jobs.md)。旧阶段证据在[事务增强与UI／UX审查](../output/qa/task-enhancement-ux-2026-10-03/verification.md)：101项后端、11项前端检查、生产／iPhone构建及实际三端交互。此前[S1–S10记录](../output/qa/software-completion-2026-10-02/verification.md)保留。测试数据库与主数据分开，10月9日交互使用独立`.runtime/dot-integration-qa/`；旧轮使用`.runtime/completion-qa/`。截图中的安排和回放是演示数据。正式主库原有示例保留，不自动移动到今天。

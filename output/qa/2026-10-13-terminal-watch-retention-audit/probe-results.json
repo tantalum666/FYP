@@ -1,0 +1,13 @@
+{
+  "legacy_bootstrap": {
+    "version_after_reopen": 1,
+    "marker_rows": 1
+  },
+  "executescript_after_context_rollback": 1,
+  "abstract_receipt_model": {
+    "states": 1282,
+    "max_receipts": 259,
+    "every_admitted_trash_restorable": true,
+    "lifetime_256_max_receipts": 66304
+  }
+}

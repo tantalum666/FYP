@@ -1,0 +1,200 @@
+{
+  "date_utc": "2026-10-13T08:28:13.801898+00:00",
+  "basis": "Continuation, not new independent full-repository intake",
+  "inherited": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "inherited_status": "complete: 186/186; original full-text ledgers remain authoritative",
+  "supplemental_reads": [
+    {
+      "path": "AGENTS.md",
+      "ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "mode": "supplemental full-text read in continuing task"
+    },
+    {
+      "path": "product.md",
+      "ranges": [
+        [
+          1,
+          208
+        ]
+      ],
+      "lines": 208,
+      "sha256": "db136a03c92fa0ed0ff9fb53f1594675ad45b2ab612ebfecb6889604efe3f900",
+      "mode": "supplemental full-text read in continuing task"
+    },
+    {
+      "path": "handoff.md",
+      "ranges": [
+        [
+          1,
+          56
+        ]
+      ],
+      "lines": 56,
+      "sha256": "566c3640e009cff3936e1b7aa6f6c3348fbd3ddaf7ef99d705b6e833dc2431f3",
+      "mode": "supplemental full-text read in continuing task"
+    },
+    {
+      "path": "planning/2026-10-13/continuous-agent-capability-plan.md",
+      "ranges": [
+        [
+          1,
+          40
+        ]
+      ],
+      "lines": 40,
+      "sha256": "86d6381b810fb6fd213bc189e3cfd7f1ddb0221b5be6d3bb1b1cf086da54fc2d",
+      "mode": "supplemental full-text read in continuing task"
+    },
+    {
+      "path": "desk-companion/docs/provider-policy.md",
+      "ranges": [
+        [
+          1,
+          51
+        ]
+      ],
+      "lines": 51,
+      "sha256": "38ba7f0776310a827bd3ec6b7216e11505ff9dfc64796a35ad6862cbdc51e1a4",
+      "mode": "supplemental full-text read in continuing task"
+    },
+    {
+      "path": "desk-companion/docs/personal-context.md",
+      "ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "lines": 70,
+      "sha256": "2de80030b52b1b4af797171face268a1f8292ac146f5c25ea35f1f25b8a2c265",
+      "mode": "supplemental full-text read in continuing task"
+    },
+    {
+      "path": "desk-companion/docs/software-checks.md",
+      "ranges": [
+        [
+          1,
+          31
+        ]
+      ],
+      "lines": 31,
+      "sha256": "e79340661b0f8c8ee880503bd4cdf0e97243224c86c787f3e20bb4a73beafb67",
+      "mode": "supplemental full-text read in continuing task"
+    },
+    {
+      "path": "desk-companion/backend/desk/text_ai.py",
+      "ranges": [
+        [
+          1,
+          520
+        ]
+      ],
+      "lines": 520,
+      "sha256": "7490061715ca4a2da1695c892b7bc219f5a24ad8670ef57358faa152eeaa10ca",
+      "mode": "supplemental full-text read in continuing task"
+    },
+    {
+      "path": "desk-companion/backend/desk/provider_policy.py",
+      "ranges": [
+        [
+          1,
+          110
+        ]
+      ],
+      "lines": 110,
+      "sha256": "991cedca7120eb93da1dc325fe44353bc596e0594659cdc143a0a9baf0bcc335",
+      "mode": "supplemental full-text read in continuing task"
+    },
+    {
+      "path": "desk-companion/tests/test_text_response_bounds.py",
+      "ranges": [
+        [
+          1,
+          179
+        ]
+      ],
+      "lines": 179,
+      "sha256": "d3c0e2b2af789727fc25930d781189b766c7e2d61618644d63b7d7b3ffff965d",
+      "mode": "supplemental full-text read in continuing task"
+    },
+    {
+      "path": "desk-companion/pyproject.toml",
+      "ranges": [
+        [
+          1,
+          46
+        ]
+      ],
+      "lines": 46,
+      "sha256": "c24ec2113c8366cc1b324bba1c2c4b103c60050f801afed867055cb18c2800dc",
+      "mode": "supplemental full-text read in continuing task"
+    },
+    {
+      "path": "desk-companion/backend/desk/store.py",
+      "ranges": [
+        [
+          1,
+          110
+        ]
+      ],
+      "lines": 470,
+      "sha256": "1faa97d038d59ffb81b2c27809f39033321121a32b52996ceb981d243962677b",
+      "mode": "targeted source/latest-decisions read; remainder not newly claimed"
+    },
+    {
+      "path": "desk-companion/backend/desk/tasks.py",
+      "ranges": [
+        [
+          1,
+          95
+        ]
+      ],
+      "lines": 486,
+      "sha256": "885b2527acc73229f4a67a7dc25e4371daa4a2df83cbce420162eb3d695f2cc9",
+      "mode": "targeted source/latest-decisions read; remainder not newly claimed"
+    },
+    {
+      "path": "desk-companion/backend/desk/schemas.py",
+      "ranges": [
+        [
+          1,
+          28
+        ]
+      ],
+      "lines": 128,
+      "sha256": "126bae48c934140ca56c72a37e3d7cedd8569b16c88f1331c9ddc177aaeb2260",
+      "mode": "targeted source/latest-decisions read; remainder not newly claimed"
+    },
+    {
+      "path": "decision-log.md",
+      "ranges": [
+        [
+          829,
+          883
+        ]
+      ],
+      "lines": 883,
+      "sha256": "58d43398e08a02d01ba38eb8d3156bdb8ff67a3c92708b4c33ee3ebd3f0778ab",
+      "mode": "targeted source/latest-decisions read; remainder not newly claimed"
+    },
+    {
+      "path": "/workspace/shared/FYP-live-provider-acceptance-2026-10-13.md",
+      "ranges": [
+        [
+          1,
+          74
+        ]
+      ],
+      "mode": "parent-supplied official-source research; not independently rebrowsed"
+    }
+  ],
+  "excluded": "Dependency trees, caches, build output and automatic QA snapshots are not project-authored intake; no real credential/runtime files accessed",
+  "shared_root_docs": "Parent owns integration updates; not modified by this slice"
+}

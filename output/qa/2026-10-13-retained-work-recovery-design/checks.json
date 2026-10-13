@@ -1,0 +1,63 @@
+{
+  "checked_utc": "2026-10-13T08:30:14.719849+00:00",
+  "design_path": "planning/2026-10-13/retained-work-recovery-design.md",
+  "design_sha256": "7bee1297c2ab4b2afc2f393040930b5617114f7024a482023180bdee92495c99",
+  "design_lines": 155,
+  "links": [
+    {
+      "target": "../../desk-companion/docs/work-capacity.md",
+      "exists": true
+    },
+    {
+      "target": "../../desk-companion/docs/sources-and-artifacts.md",
+      "exists": true
+    },
+    {
+      "target": "../../desk-companion/docs/agent-runs.md",
+      "exists": true
+    },
+    {
+      "target": "../../desk-companion/docs/responsibilities.md",
+      "exists": true
+    },
+    {
+      "target": "../../desk-companion/docs/work-search.md",
+      "exists": true
+    },
+    {
+      "target": "../../desk-companion/docs/voice-work.md",
+      "exists": true
+    },
+    {
+      "target": "../../output/qa/2026-10-13-terminal-watch-retention-audit/review.md",
+      "exists": true
+    }
+  ],
+  "trailing_whitespace": false,
+  "lifetime_receipt_bound_arithmetic": {
+    "per_identity": 259,
+    "identities": 256,
+    "maximum": 66304
+  },
+  "application_tests_run": false,
+  "runtime_data_opened_or_mutated": false,
+  "external_calls": false,
+  "git_commands": false,
+  "write_scope": [
+    "planning/2026-10-13/retained-work-recovery-design.md",
+    "output/qa/2026-10-13-retained-work-recovery-design/"
+  ],
+  "independent_review": "output/qa/2026-10-13-terminal-watch-retention-audit/review.md",
+  "revision_checks": {
+    "legacy_binary_cannot_be_retroactively_guarded": true,
+    "individual_statement_atomic_migration": true,
+    "explicit_trigger_replacement": true,
+    "all_receipts_counted": true,
+    "exact_trash_threshold": true,
+    "retained_count_independent_of_list": true,
+    "bounded_ephemeral_preview": true,
+    "strict_purge_confirmation": true,
+    "no_watch_search_expansion": true,
+    "watch_only_three_states": true
+  }
+}
