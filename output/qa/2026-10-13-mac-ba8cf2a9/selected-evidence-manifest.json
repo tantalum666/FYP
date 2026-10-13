@@ -1,0 +1,95 @@
+{
+  "source_sha": "ba8cf2a9516525b9778ab00214cf3bebc6a0ac60",
+  "tree_sha": "e04b2b5409c287ad55cc734ab328ce9623bc68b9",
+  "evidence_dir": "qa/2026-10-13-ba8cf2a9",
+  "status": "bounded_layout_acceptance_passed",
+  "screenshots": 23,
+  "reviewed": 9,
+  "columns": [
+    "filename",
+    "bytes",
+    "sha256"
+  ],
+  "files": [
+    [
+      "report.md",
+      7228,
+      "1c0dda1b31b0c94fd420640bf3950b569d670262d3f1d9de6a8ec5cb3a7ba701"
+    ],
+    [
+      "source-verification.json",
+      373,
+      "b84da76bc7c09d10678b1380309f8efedf4f46b1587f9cd21f89d952d3e6f8c3"
+    ],
+    [
+      "build.log",
+      1724,
+      "b13a08e9daa5830211be0edbcaf2ecca4ca5721e3e1180c3796d3880ea81bdd0"
+    ],
+    [
+      "served-assets.json",
+      580,
+      "78366a9e22aee1397f9307536f40df284865edaf5abc642050717aa68441e01e"
+    ],
+    [
+      "measurements-summary.json",
+      3185,
+      "6d148c083519c6aba7166f85ca0bc62902b280ace49ed2e27531a03310f886cb"
+    ],
+    [
+      "closeout-summary.json",
+      1335,
+      "a09bc3b1496f02f5816ed56fdebda4bdbd14637dc708b9504ec0eeccc02673f8"
+    ],
+    [
+      "console.json",
+      2,
+      "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    ],
+    [
+      "22-denied-create-response.json",
+      139,
+      "e53fbb74bfae0667f8429d7bdf91df1cd67a6c944a6466b00f174c4561bd1745"
+    ],
+    [
+      "17-narrow-en-long-fallback-visible.png",
+      72612,
+      "a67d118086d39141eca4dd025a4f8bc73991c8e3675f47f3f7a5e5f484d056c5"
+    ],
+    [
+      "19-narrow-zh-last-repeat-visible.png",
+      86688,
+      "77ccd94a37ef22d9707276da23865e61d98ff33f233e5342642a4577060a848a"
+    ],
+    [
+      "15-desktop-en-final-visible.png",
+      216230,
+      "bbad8ba18a55a7372ec08c98ef35c8b492249d48038c98e645e6f2e428c7645c"
+    ],
+    [
+      "20-desktop-zh-final-repeat-visible.png",
+      222668,
+      "1954c1fbf4e741f4e549d546b48689d815d5cbe88dd3612a79103900ef04b823"
+    ],
+    [
+      "21-desktop-zh-busy-denied-create.png",
+      213179,
+      "2873eea48280adfb2411bb7a976bbe6b6572079a3ba32524a6671b9b6039a546"
+    ],
+    [
+      "23-desktop-a1-restored-closeout.png",
+      113155,
+      "cacbc097b0efd572360fe829ceb60017618b38b112e07213853daff138fc028d"
+    ],
+    [
+      "library-attachment.json",
+      409,
+      "6abe8d4ff5910b0f73c21b9d5cbc07003ed8d0ded94613f6e5736df7e3c2334d"
+    ],
+    [
+      "evidence-manifest.json",
+      11577,
+      "b0c1718db6d204176da7095759536b9df449bf44b2490c564c81ff44b6017842"
+    ]
+  ]
+}

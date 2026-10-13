@@ -1165,3 +1165,9 @@ Mac固定4e508411检查点完成并报告390×844保留Work卡片标题不可见
 Mac将1e52e710准确source独立物化，重复定向build确认tsc退出2，PublicCapture.tsx／publicCapture.ts在不区分大小写FS的extensionless导入解析冲突；文件与Gitblob一致。原临时loopback绑定权限与构建失败是两个独立前置门，审批尚未提交，没有实际浏览器新结果。完整4712字节消敏报告及编译片段／源码hash已转交。云端byte-identical helper移动到capturePolicy.ts、四处生产导入及两个既有测试resolver更新，新增全src命名回归；246前端／类型／构建／资产通过，整套304文件冻结检查与独立审查进行中。用户获说明真实Mac失败原因，未将其说成已修好或用户取消。
 
 13:08 UTC：模块命名修复整套check_software exit0，1380后端／246前端、Ruff、类型／构建／资产通过，304项完整命令前后源码hash不变；独立28项检查、TypeScript双case-mode解析及四类实际目录fixture通过。准备包含旧helper删除的不可变发布；Mac准确新版本构建与临时本机服务许可仍需分步验证。
+
+13:19 UTC：模块命名修复ba8cf2a9516525b9778ab00214cf3bebc6a0ac60已核对54upsert及旧helper精确删除、7259其他blob保持、ref准确；精确PR CI38403160814与push CI38403150002均success。Mac正在同一任务按准确SHA重建，实际界面及临时本机服务权限仍单独验证，未声称通过。
+
+### 2026-10-13 14:50 UTC：Mac准确版本构建与卡片布局闭环
+
+Mac返回ba8cf2a完整7228字节报告SHA1c0dda1b31b0c94fd420640bf3950b569d670262d3f1d9de6a8ec5cb3a7ba701，真实build及servedJS/CSShash匹配；英中390×844／1280×800四场景12张卡片title21／42px、flex-shrink0、list288／512px有界，无横向溢出；滚动到最后、选择、长词／fallback、busy禁用、A1恢复通过。23截图中9关键图由Mac查看，一张虚构窄屏图已以Library附件给用户。正常允许执行后临时服务到时停止，12运行全部cancelled且零执行调用；旧运行库／服务及未知CSV／MCP证据保持。报告与精选manifest在output/qa/2026-10-13-mac-ba8cf2a9，父级逐字节核对report；不将边界内pass扩展到最新其他功能／真实模型／公网／配对／硬件。

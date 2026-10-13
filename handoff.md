@@ -1,76 +1,46 @@
 # Group 2 Current Handoff
 
-更新：2026-10-13。当前：**窄屏标题修复1e52e710已发布，精确push／PR CI均通过。Mac准确版本构建发现PublicCapture.tsx与publicCapture.ts的大小写不敏感解析冲突，实际新布局尚未开始；云端将helper移为capturePolicy.ts并补全src模块命名检查，246前端／类型／构建／资产通过，独立审查及1380后端／246前端整套检查通过，304项源码hash稳定，待发布及Mac准确版本复验。原127.0.0.1:5191绑定权限仍单独未解决，正常单次审批尚未提交，不推定批准。**
+更新：2026-10-13 14:50 UTC。当前：**源码ba8cf2a已发布，精确push／PR CI均success；准确版本Mac构建及英中390×844／1280×800的Work卡片实际回归通过。旧大小写模块解析和0px窄屏标题缺陷在本次范围内闭环；不等于全部新功能／模型／公网／硬件验收。**
 
-## 当前分支与保护
+## 分支、协作和保护
 
-- 工作在`codex/personal-agent-kernel-20261012`／[Draft PR #5](https://github.com/tantalum666/FYP/pull/5)，叠加PR #4；不自动合并或部署
-- 本轮起点`50e174f50a4130b3c666f836f666f6aa4cde4b32`；main基线`ccfac48ce8c68e6f9c8796911bbe5f35728d7807`未由本轮修改
-- A1完整2D原图、全部美术／实际prompt、许可VRM、学校文件及原Mac8832预览保持；不恢复被否决分块／2.5D／3D
-- 继承186份自有Markdown完整阅读记录，仅补读本轮变化；[阅读证据](output/qa/2026-10-12-agent-kernel/reading-union-status.json)
+- 工作分支codex/personal-agent-kernel-20261012，[Draft PR #5](https://github.com/tantalum666/FYP/pull/5)，叠加PR #4；未合并／部署
+- 最新源码ba8cf2a9516525b9778ab00214cf3bebc6a0ac60，tree e04b2b5409c287ad55cc734ab328ce9623bc68b9；54upsert及旧helper删除、7259其他blob保持已核对
+- main基线ccfac48ce8c68e6f9c8796911bbe5f35728d7807与PR4基线50e174f50a4130b3c666f836f666f6aa4cde4b32未动
+- A1完整2D PNG、全部美术／实际prompt、许可VRM、学校文件及原Mac8832运行数据保持，不恢复被否决分块／2.5D／3D
+- 继承[186份自有Markdown完整阅读记录](output/qa/2026-10-12-agent-kernel/reading-union-status.json)，同一任务补读相关变化，不机械重读全库
 
-## 上一批已发布和本轮续作
+## 已交付能力和准确软件证据
 
-- [持续实施计划](planning/2026-10-13/continuous-agent-capability-plan.md)：类型化工具与持久子操作、结果回馈规划、明确选择记忆／会话、隐藏模式停止控制、聊天目标移交与连接器逐项审阅
-- [MCP契约](desk-companion/docs/application-connectors.md)：默认关闭，只准精确配置的匿名公开／虚构工具；每次调用单独批准，远端响应仅是观察，必需写入没有独立核验则不能算完成
-- [个人上下文契约](desk-companion/docs/agent-personal-context.md)：内容只在获同意的模型调用前投影，忘记／修正／隐藏／会话变化封锁旧上下文；独立保留的成果不等于可继续重用旧资料
-- 本轮独立后端审查发现控制锁内远程发现、慢报头总期限、结果耐久性、观察迟到提交、调用前隐私变化及回执意图碰撞，均已修复并独立复验；[冻结软件检查](output/qa/2026-10-13-agent-continuation/verification.md)与真实UI／模型验收分开
-- 用户澄清没有固定模型，GitHub历史为统一助理核心＋实时语音＋按需文字推理；Gemini／Qwen是历史候选，真实模型密钥与付费预算仍未准备
+- 持久Work、明确来源／实际文件、类型化工具及独立结果回馈、选择记忆／会话、隐藏元数据停止、受审阅MCP／固定公开浏览器链已实现；商业Agent广度不由固定协议夹具推定
+- 元数据检索fd4be86、语音到Work e1807f4、事务变化关注2ad0070、容量4c41dba、离线模型预检dd3ab24、终止关注维护cc1751a已发布，各准确source CI通过
+- 单精确公开网址入口9cb5fc5已发布：默认关闭，离线准备→精确GET审阅→有界静态提取／不可变来源→本人独立选择Work；不等于搜索、模型自动采集或允许模型分享
+- 窄屏卡片非收缩修复1e52e710保留列表高度／滚动与标题截断；Mac进一步发现PublicCapture.tsx／publicCapture.ts在不区分大小写FS解析冲突，ba8cf2a将helper逐字节移为capturePolicy.ts并删除旧路径
+- [最新冻结整合](output/qa/2026-10-13-case-resolution-integration/verification.md)：1380后端／246前端、Ruff、类型／构建／原资产通过，304项前后hash稳定；独立28项检查与双case-mode编译器模拟通过
+- 最新精确[PR CI38403160814](https://github.com/tantalum666/FYP/actions/runs/38403160814)／[push CI38403150002](https://github.com/tantalum666/FYP/actions/runs/38403150002)均success；原helper远端不存在，新helper原blob保持
+- 关键契约：[agent-runs](desk-companion/docs/agent-runs.md)、[来源成果](desk-companion/docs/sources-and-artifacts.md)、[个人上下文](desk-companion/docs/agent-personal-context.md)、[连接器](desk-companion/docs/application-connectors.md)、[公开采集](desk-companion/docs/public-captures.md)、[软件检查](desk-companion/docs/software-checks.md)
 
-- 新[工作／成果检索](desk-companion/docs/work-search.md)支持明确提交、中英词项与快照分页、确切记录选择及当前／较早／未知成果关系；[完整冻结检查](output/qa/2026-10-13-work-search/verification.md)已通过，实际浏览器仍待
-- [语音工作契约](desk-companion/docs/voice-work.md)：明确选定和编辑输入、短期易失草稿、独立范围／保留／开始、原操作恢复和一个来源一个工作；[冻结整合验证](output/qa/2026-10-13-voice-work-continuation/verification.md)通过，真实麦克风／模型／UI仍待
-- [所选事务变化职责设计](planning/2026-10-13/source-change-responsibilities-design.md)task-first已实现并独立审查通过，840后端／186前端及262项稳定源码的整套冻结验证通过，已发布2ad0070并核对67项blob／ref，精确push／PR CI均通过；日历／一般来源仍提案
+## 实际Mac验收，严格按source归属
 
-- [容量契约](desk-companion/docs/work-capacity.md)及[冻结QA](output/qa/2026-10-13-work-capacity-continuation/verification.md)：可见拥有者只读有界计量、未知不估零、已有操作恢复／停止不受新增容量提示封锁；无自动清理／删除／扩大配额
+- [早期真实验收](output/qa/2026-10-12-mac-acceptance-checkpoint/report.md)：5467342／c57b052／91e6ed9的记忆、保留会话、职责、独立测试应用写入／读回、Markdown实际保存2288字节与A1布局；不自动覆盖后续source
+- [固定4e508411完整报告](output/qa/2026-10-13-mac-4e508411/report.md)：真实挂载移交、草稿／原键重试、并发权限拒绝、隐藏拥有者停止、会话变化、审批恢复、英中布局与A1；脚本context/budget／假browser／loopbackMCP证据独立标明
+- 4e实际发现窄屏英文goal矩形0px、卡片66px，英中视觉均缺标题；中文桌面goal42px。无computed flex-shrink或list client/scroll原测量，不混写语言几何来源
+- [准确ba8cf2a Mac报告](output/qa/2026-10-13-mac-ba8cf2a9/report.md)：真实Macbuild通过；served JS804454字节SHA34c33a20bbac80dc1f58f0bf7d3d5c0594cb0409fa0d4a3ce291edd2c5a953bd、CSS65027字节SHAb4d6985e1a27b36803c61f2d6e5ff32937761a408305f73ec5d3e0d71f2c1e19与构建匹配
+- ba8cf2a四种英中窄屏／桌面各12张卡片，title21／42px、flex-shrink0，list窄屏288px／桌面512px有界滚动，无document/list横向溢出；最后卡片可达／选择、长无空格／未命名fallback、忙碌禁用、开关和A1恢复通过
+- 23张实际截图、9张关键图由Mac执行者查看；一张虚构窄屏图通过Library交给用户。Git保留原报告／精选manifest，其他截图／详细JSON仍在Mac，不伪造下载链接
+- 临时5191服务在明确允许的受限执行与一次受审阅延长后正常到时停止，最终12个cancelled v3、全部model/tool/capture/connector/jobs计数0；旧5190／8843未改，原8832无listener且保持
 
-## 已交付和软件验证
+## 仍未通过／不得推定
 
-- 首批`5467342`：可审阅记忆、选择保留的会话、端点／上下文同意、真实独立测试应用API执行、持续职责及英中入口；361后端／50前端与两次远端CI通过
-- 第二批`c57b052`：来源快照、真实不可变文件、持久目标／有界模型规划、问题／审批／恢复、独立公开浏览器实验；121项候选blob核对，500后端／75前端、Ruff、类型／构建、原资产hash及两次CI通过；[发布证据](output/qa/2026-10-12-durable-agent-runs/publication.json)
-- 前轮A1修复源码`91e6ed9db5e66283465564ea8f67252fe9772c15`：仅新增Web Device设置页的A1临时暂避条件，保持位置／大小／贴边偏好与独立DeviceApp；500后端／79前端、Ruff、类型／构建、资产检查及两次精确SHA CI通过；[修复证据](output/qa/2026-10-12-a1-control-obstruction/verification.md)
-- 三家公开研究／差距与实施入口见[能力路线](planning/2026-10-12/agent-capability-roadmap.md)。未获取私有实现，固定脚本或测试替身不代表通用自主能力
+1. **CSV实际Save**：822字节生成／预览通过，实际浏览器保存未证实；原生状态检查与Chrome下载历史有安全拒绝，不绕路、不重复下载、不制造文件。转交审批与具体Save关联／处置未证实
+2. **公网**：4e正式MCP inspect在连接前因198.18.0.37被拒；此前docs.python.org／StackEdit亦为非公网DNS。云端允许域名没有已核实合适原始静态资料候选，零公网采集；不是测得产品不兼容。不改DNS／TLS／proxy或绕过地址校验
+3. **真实模型／语音／配对身份**：没有已接入真实模型或既有配对fixture。08:21UTC已有合资格账户与一次US$0.10合成文字试验询问仍未回复；不发送个人资料／音频、不创建凭据或付费调用。用户没有固定模型，Git历史为统一助理核心＋实时语音＋可选文字推理
+4. **新功能实际UI**：最新search、voice-work、task-watch、capacity、retention、capture入口没有因ba8cf2a标题回归自动变成实际验收通过；后续需分别验证
+5. **其他能力**：一般桌面／LCU、真实外部账号、任意web search、并行代理、实体硬件及Source／Work／artifact清理仍未完成；unknown外部效果不重放、不以重启抹除
+6. **运行数据兼容性**：schema3必须独立新合成库或明确操作者停机备份后的专门迁移；本轮没有迁移用户数据库。v1→2不隐含2→3许可。临时文件hardlink未知状态不自动补发布或回收容量
 
-## 实际Mac验收检查点
+## 下一步及责任
 
-[完整消敏报告](output/qa/2026-10-12-mac-acceptance-checkpoint/report.md)逐项标明准确源SHA；[证据清单](output/qa/2026-10-12-mac-acceptance-checkpoint/evidence-manifest.json)记录Mac报告的文件hash。截图／运行数据保留在隔离Mac工作区，未随此Git文本发布，不伪造可下载附件。
+当前执行者先将ba8cf2a实际Mac报告／精选manifest与状态交接推送并核对远端。随后优先对已实现但未实际验收的新工作界面做独立合成数据检查，复用原Mac任务和准确source；正常临时服务审批若需要仍单独请求，保持旧运行库／未知证据。先消除真实交互缺陷，再扩大模型编排，不能只增加测试数量声称接近竞品。
 
-- 首批源上：记忆／会话／改名冲突、身份及隐私迟到响应、一次／每日／每周职责与恢复实际通过
-- c57b052：重复批准仅创建一次独立测试应用记录；取消后未知读回再只读核验，两个真实记录分别93／100字节；不称一般跨应用能力
-- 91e6ed9：实际CSV上传、重复开始仅一个保留运行、完整三行来源覆盖、真实成果／预览；Markdown浏览器保存2288字节，SHA256匹配。暂停／继续／调整／取消和草稿守卫通过
-- 问题界面用明确标注的种子状态；实际协调器审阅只保存一个虚构事项。没有真实模型生成／选择验证
-- A1隐私复选框／保存原生点击在1288×681和390×844通过；反复设置进出保持角色状态。DeviceApp1024×600显示／触摸管理／偏好操作通过，仅为Mac浏览器布局，不是Pi实装
-- 该历史检查点无等待工具／审批，控制夹具已恢复空配置、保留运行均终止；原8832未改。旧上游下载503与本轮DNS拦截均不是用户取消
-
-## 未通过／未运行与接续责任
-
-1. **CSV浏览器保存仍未证实**：生成822字节及预览通过，但两个预期保存位置无完成文件。Chrome下载历史访问被拒绝，未绕路检查历史、重复下载或制造预期文件。下一执行者先区分文件选择／保存状态；不得把服务端hash当成本机保存证据
-2. **FYP自身浏览器流程被环境拦住**：docs.python.org／stackedit.io解析为198.18.0.144／145，在观察前返回BROWSER_PUBLIC_DNS_REQUIRED，没有StackEdit动作。保持公网校验，不在当前条件下重复运行，不改DNS／VPN或绕过限制；需获得合适且获授权的执行条件后再测
-3. **真实模型与配对身份未测**：无已接入模型或既有配对夹具；不得自行创建长期凭据／扩大访问。另需准确的数据传输范围、模型／预算与必要授权，再验语义质量和真实规划
-4. 新批次完整迟到响应／会话／配对中断矩阵尚未实测；首批旧SHA的通过项不能自动覆盖新界面。Codex接续时应在同一隔离夹具补齐可执行项，并把环境／授权门分开记录
-5. 本轮已在代码层接通固定公开浏览器的模型工具及隐藏模式运行停止UI，源码4e50841的软件检查与发布完成，真实界面验收待完成，不能沿用旧版本称已验收。一般桌面、外部账号／搜索、并行代理、真实语音／硬件、来源／目标删除界面继续待补；未知进程清理不得靠重启抹掉
-
-## 下一步及接续责任
-
-语音e1807f4和事务关注2ad0070两个精确CI均成功；容量4c41dba已核对60项远端blob／ref，精确CI均通过，cc1751a精确push／PR CI均已成功；有界手动公开URL采集已发布9cb5fc5并核对142项远端blob及完整tree，精确push／PR CI均通过；当前执行者核对实际公网验收条件；关注已实现安静去重和本人查看／整理证据流程；不自动创建模型任务或发送外部通知。Mac同一隔离任务的4e508411检查点已完成，实际报告及新发现见下节；不再沿用此前空白挂载仍未解决的状态。原8832保持原样。新源码验收需独立固定版本与新合成运行目录，禁止默默升级旧数据库。
-
-真实模型、账号／配对、实体硬件和受DNS限制的公网工作分别保留门槛，不停止无关开发；没有固定模型或获准付费预算。[真实模型试验提案](planning/2026-10-13/live-model-trial-gates.md)仅在已有合资格阿里云新加坡账户时建议一次虚构文字测试。08:21 UTC已询问账户与一次US$0.10上限，尚无回复；不发送音频／个人资料，不将预算提案当批准。[留存维护设计](planning/2026-10-13/retained-work-recovery-design.md)已完成独立审查；终止关注维护代码已完成冻结软件检查，来源／文件／Work清理仍未实现。[离线预检冻结QA](output/qa/2026-10-13-text-preflight-continuation/verification.md)已通过；它没有在线开关或真实凭据配置。必要Codex任务继续按用户指定6.1 Sol Max。所有发布保持Draft PR5，不合并／部署。
-
-公开URL采集[实现契约](desk-companion/docs/public-captures.md)与[冻结QA](output/qa/2026-10-13-public-capture-integration/verification.md)记录已实现默认关闭／精确审阅GET、单播及原始HTTP报头校验、nlink=2未知恢复、schema3独立迁移门和紧凑双语界面。软件证据不替代实际公网／浏览器验收，不执行实际用户数据库升级。下一能力方案单独评估，不能声称当前有搜索／模型自动采集。
-
-实际公开采集验收的云端前置检查：当前允许域名中没有已核实的合适官方静态资料候选，未发任何公网DNS／TLS／GET，不能将其写成产品不兼容。已准备[复用离线验收及真实操作清单](output/qa/2026-10-13-public-capture-qualification/verification.md)，原loopback场景重跑通过，不计新增测试广度。下一明确动作是在标题修复发布后由原Mac任务以新隔离运行库复验布局；真实公开来源到Work另需允许的网络条件；没有相应条件不绕过限制或改用户数据库。模型内置单网址槽仍只是仓库外建议，真实资料链合格前不发布编排扩展。
-
-## 2026-10-13 11:52 UTC 实际Mac新结果与标题修复
-
-既有Mac任务完成固定4e508411检查点，报告挂载移交、草稿保留、原操作重试、访问／会话边界、隐藏拥有者停止、审批恢复及英中布局检查通过；脚本上下文／预算证据与实际界面分开。390×844保留工作卡片目标标题隐藏是新缺陷；[完整消敏报告](output/qa/2026-10-13-mac-4e508411/report.md)已逐字核对12066字节及SHA；精简manifest与原缺陷说明已转交并核对，未以该旧版结果覆盖新source。
-
-四个基线运行终止、七个协议运行取消，零提供商请求；一次虚构MCP写入仍未知且没有重放。公开MCP在连接前因198.18.0.37非公网DNS停止。CSV822字节文件的原生保存状态检查被安全拒绝，转交审批处置未返回，不推定保存／同意／取消。原8832、数据和主工作区未改。
-
-云端仅为.agent-run-choice增加flex-shrink:0，保留列表高度／滚动与两行标题截断；源代码推断卡片受flex压缩，仍等实际几何确认。下一明确动作是推送已验证修复，再在原Mac隔离环境针对准确新source复验390px／桌面／英中标题、最后卡片可达及无横向溢出。禁止为此重开被拒绝的CSV检查、重复受阻公网请求或迁移用户数据库。
-
-## 2026-10-13 Mac实际构建阻断与跨平台修复
-
-[准确1e52e710 Mac构建报告](output/qa/2026-10-13-mac-case-resolution/report.md)4712字节与原SHA已核对。tsc在Vite前失败：大小写不敏感文件系统将./PublicCapture的优先.ts候选解析到publicCapture.ts helper，而不是PublicCapture.tsx组件。Linux CI通过不能替代Mac构建证据。
-
-工程最小修复将helper逐字节移动到capturePolicy.ts，更新四处生产引用及测试resolver，并新增递归全src的TS／TSX无扩展名case-insensitive冲突与目录大小写别名检查；声明伴随文件排除。必须在Git同时删除旧helper路径，保留.PublicCapture组件与全部语义、既有flex-shrink修复。实际Mac构建与布局需要新准确SHA后再验。
-
-下一明确动作：发布已通过独立审查与整套检查的源码并核对Git／CI；原Mac任务先重建新source，构建成功才通过正常审批申请临时127.0.0.1:5191服务并运行独立新schema3合成库。审批未获准则停止，不换端口／路线、不改防火墙／DNS、不碰旧库。CSV原生Save检查拒绝和公开MCP非公网DNS限制保持，不重复尝试。
+公网采集→来源→Work的[实际验收清单](output/qa/2026-10-13-public-capture-qualification/verification.md)保留门槛；无允许网络条件不启动。模型内建单URL槽仍是未实现提案，未发布为能力。真实模型、硬件、账号等条件各自待对应授权，不替代实测。必要Mac任务继续用户指定6.1Sol Max。所有发布仍Draft，不合并／部署。
