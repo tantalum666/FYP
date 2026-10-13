@@ -6,12 +6,9 @@ ambient auth, SDK callbacks, roots, sampling, elicitation, tasks or reconnection
 """
 
 import http.client
-import ipaddress
-import io
-import socket
-import ssl
+import socket as socket  # compatibility for existing test seams
+import ssl as ssl  # compatibility for existing test seams
 import time
-import threading
 from types import SimpleNamespace
 from urllib.parse import urlsplit
 from uuid import uuid4
@@ -24,105 +21,34 @@ MAX_REQUEST = 32768
 MAX_SECONDS = 20
 
 
-class _PinnedHTTPSConnection(http.client.HTTPSConnection):
-    def __init__(self, host, address, timeout):
-        super().__init__(host, 443, timeout=timeout, context=ssl.create_default_context())
-        self.address = address
-
-    def connect(self):
-        sock = socket.create_connection((self.address, 443), self.timeout)
-        try:
-            self.sock = self._context.wrap_socket(sock, server_hostname=self.host)
-        except BaseException:
-            sock.close()
-            raise
-
-
-_DNS_SLOT = threading.BoundedSemaphore(1)
+# Compatibility names remain available to existing callers and test seams.
+from .public_https import (  # noqa: E402
+    _DNS_SLOT as _DNS_SLOT,
+    _PinnedHTTPSConnection as _PinnedHTTPSConnection,
+    _DeadlineReader as _DeadlineReader,
+    _DeadlineSocket as _SharedDeadlineSocket,
+    PublicTransportError,
+    public_addresses as _shared_public_addresses,
+)
 
 
 def public_addresses(host, *, deadline=None, checkpoint=lambda: None):
-    """One resolver may outlive a caller; no unbounded blocked resolver/thread queue."""
-    deadline = deadline if deadline is not None else time.monotonic() + MAX_SECONDS
-    if not _DNS_SLOT.acquire(blocking=False):
-        raise ConnectorError("CONNECTOR_RESOLVER_BUSY", 503)
-    complete, values = threading.Event(), []
-
-    def resolve():
-        try:
-            values.append(socket.getaddrinfo(host, 443, type=socket.SOCK_STREAM))
-        except OSError:
-            values.append(None)
-        finally:
-            _DNS_SLOT.release()
-            complete.set()
-
-    threading.Thread(target=resolve, name="connector-dns", daemon=True).start()
-    while not complete.wait(0.02):
-        checkpoint()
-        if time.monotonic() >= deadline:
-            raise ConnectorError("CONNECTOR_DEADLINE", 504)
-    checkpoint()
-    if time.monotonic() >= deadline:
-        raise ConnectorError("CONNECTOR_DEADLINE", 504)
     try:
-        addresses = sorted({entry[4][0] for entry in values[0]})
-        if not addresses or any(not ipaddress.ip_address(ip).is_global for ip in addresses):
-            raise ValueError()
-    except (TypeError, ValueError):
-        raise ConnectorError("CONNECTOR_PUBLIC_DNS_REQUIRED", 403) from None
-    return addresses
+        return _shared_public_addresses(
+            host,
+            deadline=deadline if deadline is not None else time.monotonic() + MAX_SECONDS,
+            checkpoint=checkpoint,
+        )
+    except PublicTransportError as error:
+        raise ConnectorError("CONNECTOR_" + error.code, error.status) from None
 
 
-class _DeadlineReader(io.RawIOBase):
-    def __init__(self, wrapper):
-        self.wrapper = wrapper
-        wrapper.readers += 1
-
-    def readable(self):
-        return True
-
-    def readinto(self, buffer):
-        wrapper = self.wrapper
-        wrapper.check()
-        wrapper.socket.settimeout(max(0.001, min(3, wrapper.deadline - time.monotonic())))
-        count = wrapper.socket.recv_into(buffer)
-        wrapper.check()
-        if wrapper.header_phase:
-            wrapper.header_bytes += count
-            if wrapper.header_bytes > 16384:
-                raise ConnectorError("CONNECTOR_HEADERS_LIMIT", 502)
-        return count
-
-    def close(self):
-        if not self.closed:
-            self.wrapper.readers -= 1
-            self.wrapper.finish_close()
-        super().close()
-
-
-class _DeadlineSocket:
-    """http.client's header parser and body reads share the same total deadline."""
-
-    def __init__(self, sock, deadline, check):
-        self.socket, self.deadline, self.check = sock, deadline, check
-        self.readers, self.closing, self.header_bytes, self.header_phase = 0, False, 0, True
-
-    def __getattr__(self, name):
-        return getattr(self.socket, name)
-
+class _DeadlineSocket(_SharedDeadlineSocket):
     def makefile(self, mode):
-        if mode != "rb":
-            raise ConnectorError("CONNECTOR_TRANSPORT_INVALID", 502)
-        return io.BufferedReader(_DeadlineReader(self), buffer_size=4096)
-
-    def close(self):
-        self.closing = True
-        self.finish_close()
-
-    def finish_close(self):
-        if self.closing and self.readers == 0:
-            self.socket.close()
+        try:
+            return super().makefile(mode)
+        except PublicTransportError as error:
+            raise ConnectorError("CONNECTOR_" + error.code, error.status) from None
 
 
 class McpHttpClient:
@@ -252,6 +178,8 @@ class McpHttpClient:
             if content_type == "text/event-stream":
                 raise ConnectorError("CONNECTOR_STREAM_INCOMPLETE", 502)
             return self._message(parse_json(bytes(raw)), message["id"])
+        except PublicTransportError as error:
+            raise ConnectorError("CONNECTOR_" + error.code, error.status) from None
         except (OSError, http.client.HTTPException):
             raise ConnectorError("CONNECTOR_TRANSPORT_FAILED", 502) from None
         finally:

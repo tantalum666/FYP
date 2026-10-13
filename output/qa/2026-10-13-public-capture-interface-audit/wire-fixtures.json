@@ -1,0 +1,238 @@
+{
+  "prepare": {
+    "capture": {
+      "id": "8062fc8678fe404a9cec7bdd673a54d6",
+      "state": "review",
+      "version": 1,
+      "created_at": "2026-10-13T12:00:00.000000Z",
+      "updated_at": "2026-10-13T12:00:00.000000Z",
+      "expires_at": "2026-10-13T12:05:00.000000Z",
+      "dispatch_possible": false,
+      "error_code": null,
+      "cancel_available": true,
+      "url": "https://www.python.org/doc",
+      "label": null,
+      "display_name": "capture-8062fc8678fe404a9cec7bdd673a54d6.txt",
+      "intent_hash": "c3c51e1f11e2d67f932c70b738c9e3d934881ec3389aa43e7315afa016ee452e",
+      "source_id": null,
+      "source_status": "not_reserved",
+      "acquisition": null
+    },
+    "review": {
+      "url": "https://www.python.org/doc",
+      "label": null,
+      "retain_capture_record": true,
+      "capture_id": "8062fc8678fe404a9cec7bdd673a54d6",
+      "display_name": "capture-8062fc8678fe404a9cec7bdd673a54d6.txt",
+      "intent_version": 1,
+      "policy_version": 1,
+      "disclosure_version": 1,
+      "extractor_version": "static_text_v1",
+      "method": "GET",
+      "credentials": "none",
+      "redirects": "deny",
+      "public_only": true,
+      "retention": "local_indefinite_no_delete_control",
+      "raw_retention": "none",
+      "id": "8062fc8678fe404a9cec7bdd673a54d6",
+      "version": 1,
+      "state": "review",
+      "intent_hash": "c3c51e1f11e2d67f932c70b738c9e3d934881ec3389aa43e7315afa016ee452e",
+      "expires_at": "2026-10-13T12:05:00.000000Z",
+      "host": "www.python.org",
+      "destination": "https://www.python.org/doc",
+      "source_capacity": {
+        "count": {
+          "limit": 100,
+          "used": 0,
+          "remaining": 100,
+          "state": "known"
+        },
+        "bytes": {
+          "limit": 67108864,
+          "used": 0,
+          "remaining": 67108864,
+          "state": "known"
+        },
+        "file_bytes": 1048576
+      },
+      "history_used": 1,
+      "history_limit": 200,
+      "observed_at": "2026-10-13T12:00:00.000000Z",
+      "advisory": true,
+      "untrusted": true,
+      "starts_work": false,
+      "grants_model_sharing": false,
+      "disclosure": "host/path and connection metadata to website and DNS infrastructure",
+      "static_text_limitation": "Static text may differ from rendered text; sources cannot be deleted in this version"
+    },
+    "operation_id": "prepare"
+  },
+  "approve": {
+    "capture": {
+      "id": "8062fc8678fe404a9cec7bdd673a54d6",
+      "state": "queued",
+      "version": 2,
+      "created_at": "2026-10-13T12:00:00.000000Z",
+      "updated_at": "2026-10-13T12:00:00.000000Z",
+      "expires_at": "2026-10-13T12:05:00.000000Z",
+      "dispatch_possible": false,
+      "error_code": null,
+      "cancel_available": true,
+      "url": "https://www.python.org/doc",
+      "label": null,
+      "display_name": "capture-8062fc8678fe404a9cec7bdd673a54d6.txt",
+      "intent_hash": "c3c51e1f11e2d67f932c70b738c9e3d934881ec3389aa43e7315afa016ee452e",
+      "source_id": null,
+      "source_status": "not_reserved",
+      "acquisition": null
+    },
+    "operation_id": "approve"
+  },
+  "detail": {
+    "capture": {
+      "id": "8062fc8678fe404a9cec7bdd673a54d6",
+      "state": "verified",
+      "version": 6,
+      "created_at": "2026-10-13T12:00:00.000000Z",
+      "updated_at": "2026-10-13T12:00:00.000000Z",
+      "expires_at": "2026-10-13T12:05:00.000000Z",
+      "dispatch_possible": true,
+      "error_code": null,
+      "cancel_available": false,
+      "url": "https://www.python.org/doc",
+      "label": null,
+      "display_name": "capture-8062fc8678fe404a9cec7bdd673a54d6.txt",
+      "intent_hash": "c3c51e1f11e2d67f932c70b738c9e3d934881ec3389aa43e7315afa016ee452e",
+      "source_id": "5e4d6bd36bf84a23af7212efe3e94c07",
+      "source_status": "verified",
+      "acquisition": {
+        "response_mime": "text/html",
+        "response_charset": "utf-8",
+        "raw_sha256": "b74405582d4add5736580c010ac88a9b98970b2fe26eb58070f85c0c0d834325",
+        "raw_byte_count": 63,
+        "extracted_sha256": "8b1334f266179899ea83e60c49660b2dfe88ae862d1806bedbcfdefae13056bd",
+        "extracted_byte_count": 28,
+        "extractor_version": "static_text_v1",
+        "coverage": "complete_accepted_static_extraction",
+        "raw_retained": false,
+        "rendered_coverage": "unknown",
+        "capture_id": "8062fc8678fe404a9cec7bdd673a54d6",
+        "url": "https://www.python.org/doc",
+        "received_at": "2026-10-13T12:00:00.000000Z",
+        "http_status": 200,
+        "total_lines": 1
+      }
+    }
+  },
+  "list": {
+    "captures": [
+      {
+        "id": "8062fc8678fe404a9cec7bdd673a54d6",
+        "state": "verified",
+        "version": 6,
+        "created_at": "2026-10-13T12:00:00.000000Z",
+        "updated_at": "2026-10-13T12:00:00.000000Z",
+        "expires_at": "2026-10-13T12:05:00.000000Z",
+        "dispatch_possible": true,
+        "error_code": null,
+        "cancel_available": false,
+        "url": "https://www.python.org/doc",
+        "label": null,
+        "display_name": "capture-8062fc8678fe404a9cec7bdd673a54d6.txt",
+        "intent_hash": "c3c51e1f11e2d67f932c70b738c9e3d934881ec3389aa43e7315afa016ee452e",
+        "source_id": "5e4d6bd36bf84a23af7212efe3e94c07",
+        "source_status": "verified",
+        "acquisition": {
+          "response_mime": "text/html",
+          "response_charset": "utf-8",
+          "raw_sha256": "b74405582d4add5736580c010ac88a9b98970b2fe26eb58070f85c0c0d834325",
+          "raw_byte_count": 63,
+          "extracted_sha256": "8b1334f266179899ea83e60c49660b2dfe88ae862d1806bedbcfdefae13056bd",
+          "extracted_byte_count": 28,
+          "extractor_version": "static_text_v1",
+          "coverage": "complete_accepted_static_extraction",
+          "raw_retained": false,
+          "rendered_coverage": "unknown",
+          "capture_id": "8062fc8678fe404a9cec7bdd673a54d6",
+          "url": "https://www.python.org/doc",
+          "received_at": "2026-10-13T12:00:00.000000Z",
+          "http_status": 200,
+          "total_lines": 1
+        }
+      }
+    ],
+    "next_cursor": null
+  },
+  "reconcile": {
+    "capture": {
+      "id": "8062fc8678fe404a9cec7bdd673a54d6",
+      "state": "verified",
+      "version": 7,
+      "created_at": "2026-10-13T12:00:00.000000Z",
+      "updated_at": "2026-10-13T12:00:00.000000Z",
+      "expires_at": "2026-10-13T12:05:00.000000Z",
+      "dispatch_possible": true,
+      "error_code": null,
+      "cancel_available": false,
+      "url": "https://www.python.org/doc",
+      "label": null,
+      "display_name": "capture-8062fc8678fe404a9cec7bdd673a54d6.txt",
+      "intent_hash": "c3c51e1f11e2d67f932c70b738c9e3d934881ec3389aa43e7315afa016ee452e",
+      "source_id": "5e4d6bd36bf84a23af7212efe3e94c07",
+      "source_status": "verified",
+      "acquisition": {
+        "response_mime": "text/html",
+        "response_charset": "utf-8",
+        "raw_sha256": "b74405582d4add5736580c010ac88a9b98970b2fe26eb58070f85c0c0d834325",
+        "raw_byte_count": 63,
+        "extracted_sha256": "8b1334f266179899ea83e60c49660b2dfe88ae862d1806bedbcfdefae13056bd",
+        "extracted_byte_count": 28,
+        "extractor_version": "static_text_v1",
+        "coverage": "complete_accepted_static_extraction",
+        "raw_retained": false,
+        "rendered_coverage": "unknown",
+        "capture_id": "8062fc8678fe404a9cec7bdd673a54d6",
+        "url": "https://www.python.org/doc",
+        "received_at": "2026-10-13T12:00:00.000000Z",
+        "http_status": 200,
+        "total_lines": 1
+      }
+    },
+    "operation_id": "reconcile",
+    "verification": "source_verified"
+  },
+  "metadata": {
+    "capture": {
+      "id": "8062fc8678fe404a9cec7bdd673a54d6",
+      "state": "verified",
+      "version": 7,
+      "created_at": "2026-10-13T12:00:00.000000Z",
+      "updated_at": "2026-10-13T12:00:00.000000Z",
+      "expires_at": "2026-10-13T12:05:00.000000Z",
+      "dispatch_possible": true,
+      "error_code": null,
+      "cancel_available": false
+    }
+  },
+  "cancel": {
+    "capture": {
+      "id": "c816440ea15848d597eff1a388966c02",
+      "state": "cancelled",
+      "version": 2,
+      "created_at": "2026-10-13T12:00:00.000000Z",
+      "updated_at": "2026-10-13T12:00:00.000000Z",
+      "expires_at": "2026-10-13T12:05:00.000000Z",
+      "dispatch_possible": false,
+      "error_code": "CAPTURE_CANCELLED",
+      "cancel_available": false
+    },
+    "operation_id": "cancel"
+  },
+  "requests": [
+    [
+      "GET",
+      "https://www.python.org/doc"
+    ]
+  ]
+}

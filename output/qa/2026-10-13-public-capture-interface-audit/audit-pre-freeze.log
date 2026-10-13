@@ -1,0 +1,27 @@
+✔ capability defaults off, initial stale mount can recover capability, no automatic list or network mutation (157.536311ms)
+✔ disabled capture allows saved history reads but never preparation (48.775715ms)
+✔ prepare stores exact review and separate approval uses strict acknowledgments and double click lock (41.07376ms)
+✔ lost prepare response pins identical body key and only explicit retry recovers original (33.062417ms)
+✔ unknown approval can be stopped without generating a replacement capture, preserving original key (20.672544ms)
+✔ hidden uses scalar list/detail/stop only, rejects leaked private keys and cannot prepare reconcile or approve (24.33008ms)
+✔ all session privacy offline events revoke old callbacks pending retries and late response (64.91639ms)
+✔ stale freshness pauses mutation and retries without discarding original unknown request (28.132018ms)
+✔ old read access denial revokes newer view (64.93161ms)
+✔ unmount and A-B-A privacy epochs never revive old callbacks or replies (14.343626ms)
+✔ refresh immediately invalidates approval callback; malformed mutation response preserves original pending (14.072687ms)
+✔ strict parser rejects malformed scalar policy capacity and hidden projections (0.705173ms)
+✔ production intake callbacks retain volatile draft, require record acknowledgment and register dirty navigation (49.89634ms)
+✔ INDEPENDENT actual backend wire projections satisfy client decoders (1.062167ms)
+✔ INDEPENDENT rollback below review observation must prevent approve POST (17.775639ms)
+✔ INDEPENDENT source preview stale access denial revokes a newer visible page (9.484245ms)
+✔ INDEPENDENT disabled still reconciles and stops; queued refresh never posts approval (18.271467ms)
+✔ INDEPENDENT visible stop rejects private extra response and privacy change blocks followup read (30.730336ms)
+✔ INDEPENDENT monotonic elapsed expires approval with frozen wall clock (24.32379ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1218.34834

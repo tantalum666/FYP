@@ -1,0 +1,23 @@
+FF.................                                                      [100%]
+=================================== FAILURES ===================================
+____________ test_exact_metadata_canonical_hash_not_python_equality ____________
+output/qa/2026-10-13-public-capture-lifecycle-audit/test_independent_lifecycle.py:31: in test_exact_metadata_canonical_hash_not_python_equality
+    with pytest.raises(DomainError, match='CAPTURE_SOURCE_IDENTITY_INVALID'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE DomainError
+______________ test_exact_source_sql_bounds_materialized_scalars _______________
+output/qa/2026-10-13-public-capture-lifecycle-audit/test_independent_lifecycle.py:52: in test_exact_source_sql_bounds_materialized_scalars
+    assert max(observed)<65537, max(observed)
+E   AssertionError: 2000000
+E   assert 2000000 < 65537
+E    +  where 2000000 = max([32, 8, 539, 64, 64, 3, ...])
+=============================== warnings summary ===============================
+desk-companion/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/shared/fyp-agent-20261012/desk-companion/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED output/qa/2026-10-13-public-capture-lifecycle-audit/test_independent_lifecycle.py::test_exact_metadata_canonical_hash_not_python_equality
+FAILED output/qa/2026-10-13-public-capture-lifecycle-audit/test_independent_lifecycle.py::test_exact_source_sql_bounds_materialized_scalars
+2 failed, 17 passed, 1 warning in 8.64s

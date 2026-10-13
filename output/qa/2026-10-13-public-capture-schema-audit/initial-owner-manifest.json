@@ -1,0 +1,9 @@
+{
+  "desk-companion/backend/desk/store.py": "37dce82ee948a2ba9317d34b27b93bd9d7ff14b55cd672b32751940510b587d6",
+  "desk-companion/backend/desk/public_capture_schema.py": "27a60c2888a7d53ba710923d561ab2b0444c6372d5b3772305e8d5c4afe7a62a",
+  "desk-companion/scripts/migrate_public_capture.py": "3bcd6e0d450bb883f355e301389654a64454ab7ac1743b9bf4ac86058124c8f7",
+  "desk-companion/scripts/migrate_watch_retention.py": "7f796a559f55e3881d3b793ba69c2d25ddb8fa9cc44b77d33da9faf74d4a35cb",
+  "desk-companion/tests/test_public_capture_migration.py": "afb10d0ac3fb641fd69ff853d4721ad7f033d89c90384e45d40eda01d9029cda",
+  "desk-companion/tests/test_watch_retention_migration.py": "13eca5d4849a2555112d85e2e90b7b0f91c8f4acfdcef2cbcdff46d95743a178",
+  "desk-companion/tests/test_watch_migration_cli.py": "942775d2f7fe8dec6ec0b2e2c6599931882e702b2830571209dc6b19caa6c690"
+}

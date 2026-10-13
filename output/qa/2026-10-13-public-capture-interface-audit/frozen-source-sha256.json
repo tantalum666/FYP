@@ -1,0 +1,13 @@
+{
+  "desk-companion/frontend/src/workspace/agent/publicCapture.ts": "b3ddb5ebda8ee268c65e4929d222c78e76391ee848ff29c6a259e85749b8a7ca",
+  "desk-companion/frontend/src/workspace/agent/usePublicCaptures.ts": "25bd1287fdff6ab045a4428e0e144d7acd91c130cd253cb72346342fb49d0b4e",
+  "desk-companion/frontend/src/workspace/agent/PublicCapture.tsx": "28fdd8797bf368bd4ea8bd4b18486eace939875c15d84b7a116419b3959c3527",
+  "desk-companion/frontend/src/workspace/agent/CaptureProvenance.tsx": "21d5c9e445e877ab8b22358a0dca97a63bfabefcff8e5045eab83fce09e12bf7",
+  "desk-companion/frontend/src/workspace/agent/SourcePreview.tsx": "15e755453fe56dbe7551923e752d7b60ead4d1f95a6d6762d124f1e932d085c4",
+  "desk-companion/frontend/src/workspace/agent/RunComposer.tsx": "4d6101d9657b34785036b6621be9014ab114066c6d31183b649253dc4c015db3",
+  "desk-companion/frontend/src/workspace/agent/RunPanel.tsx": "cdc349fbb26b7313763c44fe092af55c5d4129b3771bb89c90c6b19237bf1409",
+  "desk-companion/frontend/src/workspace/agent/types.ts": "941a42290cb54f7c90da5f9f9ecba46125a9de1c1b94d57a9f1a1dc32bf97bfa",
+  "desk-companion/frontend/src/workspace/agent/agent.css": "8e95a6e4e8063bfd56a7e04d85b1f05d0be10493d2e7b0b33fd4d9c9c65cfb71",
+  "desk-companion/frontend/tests/public-capture-lifecycle.test.ts": "18e9b72718ccc00cc9fa3e0c03730a77162da8cd51b6f543a4b8850796f3f024",
+  "desk-companion/frontend/tests/public-capture-render.test.ts": "8f9fa8dd3fba97414553cc2636524c575b68b9e8016dbc2fa9627337860c66ab"
+}

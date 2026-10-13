@@ -1,0 +1,10 @@
+{
+  "desk-companion/backend/desk/connectors/mcp_transport.py": "53a99add168d985b16825713b97b5197a3b3d825aa06fe585b9f8c322927003e",
+  "desk-companion/backend/desk/connectors/public_https.py": "72c24b7601f80b73c207f4c6ec6fd3978a6b1a8b7d212f4bc6119d9f5b5e09cd",
+  "desk-companion/backend/desk/connectors/public_capture_transport.py": "4d69a8820086b3ea1d31dbfd870bc35edb998a55ceeaeecd56814345194d971b",
+  "desk-companion/backend/desk/public_capture_policy.py": "08957560de33b1e6d8dad4c88a1c2580de9f53e8a3df62b02560eb66eac9e314",
+  "desk-companion/tests/test_public_capture_transport.py": "0fd3bd350d4e6b3f4d5da175cb62582cf2e71f5ef65548a099f83f6a79802bf7",
+  "desk-companion/tests/test_public_capture_policy.py": "0cb76c9373e11eed283e6cbf4e246cff96799ffdc7d6071c57ef7a12eadba37e",
+  "desk-companion/tests/test_mcp_connectors.py": "3c0c73775a5a7c4244ea208236731ed01634233ebc13b03063c0c489d82946e5",
+  "desk-companion/tests/test_public_capture_review_regressions.py": "a4fd0309ecdc0e049931f9a1dda4032df74d50b233260292973e80947e977aa2"
+}

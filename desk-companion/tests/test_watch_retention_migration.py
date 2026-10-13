@@ -33,6 +33,8 @@ def legacy_runtime(tmp_path):
                 AFTER {operation} ON task_evidence WHEN {source}.kind='note' BEGIN UPDATE responsibility_sources
                 SET dirty_generation=dirty_generation+1 WHERE source_id={source}.task_id AND responsibility_id IN
                 (SELECT id FROM responsibilities WHERE status IN ('active','paused','blocked')); END""")
+        conn.execute("DROP TABLE public_capture_operations")
+        conn.execute("DROP TABLE public_captures")
         conn.execute("PRAGMA user_version=1")
     return store, watch
 
@@ -46,7 +48,7 @@ def test_fresh_store_current_reopen_and_standalone_core(tmp_path):
     first = Store(tmp_path, password="fixture-only")
     assert not (tmp_path / "credentials.json").exists()
     with first.connection() as conn:
-        assert conn.execute("PRAGMA user_version").fetchone()[0] == 2
+        assert conn.execute("PRAGMA user_version").fetchone()[0] == 3
         present = {
             row[0] for row in conn.execute("SELECT name FROM sqlite_master WHERE type='table'")
         }
@@ -119,6 +121,8 @@ def test_legacy_standalone_without_watch_tables_migrates_explicitly(tmp_path):
             "responsibilities",
         ):
             conn.execute(f"DROP TABLE {name}")
+        conn.execute("DROP TABLE public_capture_operations")
+        conn.execute("DROP TABLE public_captures")
         conn.execute("PRAGMA user_version=1")
     with pytest.raises(DomainError, match="SCHEMA_MIGRATION_REQUIRED"):
         Store(tmp_path)
@@ -127,7 +131,7 @@ def test_legacy_standalone_without_watch_tables_migrates_explicitly(tmp_path):
         assert conn.execute("SELECT COUNT(*) FROM responsibilities").fetchone()[0] == 0
 
 
-@pytest.mark.parametrize("version", [0, 3, 999])
+@pytest.mark.parametrize("version", [0, 4, 999])
 def test_unsupported_schema_is_not_reset_or_bootstrapped(tmp_path, version):
     store = Store(tmp_path, password="fixture-only")
     with store.connection(write=True) as conn:

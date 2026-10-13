@@ -34,6 +34,7 @@ from .connector_routes import connector_routes
 from .work_search import work_search_routes
 from .responsibilities import responsibility_routes
 from .work_capacity import work_capacity_routes
+from .public_captures import public_capture_routes
 from .connectors.contracts import load_connector_configs
 
 from .schemas import CreateEvents, EventAction, Login, ReminderAction, SettingsInput
@@ -44,7 +45,10 @@ COOKIE = "desk_companion_session"
 
 
 def create_app(directory=None, clock=None, password=None, scheduler=True, allow_replay=None,
-               connector_configs=None, allow_watch_retention_migration=False):
+               connector_configs=None, allow_watch_retention_migration=False,
+               allow_public_capture_migration=False, public_capture_enabled=None):
+    if public_capture_enabled is not None and type(public_capture_enabled) is not bool:
+        raise DomainError("CAPTURE_CAPABILITY_INVALID", 422)
     runtime = (
         directory
         or os.environ.get("DESK_RUNTIME_DIR")
@@ -53,6 +57,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
     store = Store(
         runtime, clock=clock, password=password,
         allow_watch_retention_migration=allow_watch_retention_migration,
+        allow_public_capture_migration=allow_public_capture_migration,
     )
     if connector_configs is None:
         config_path = os.environ.get("DESK_MCP_CONFIG_PATH")
@@ -63,6 +68,8 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
         if allow_replay is None
         else allow_replay,
         connector_configs=connector_configs,
+        public_capture_enabled=os.environ.get("DESK_PUBLIC_CAPTURE_ENABLED") == "1"
+        if public_capture_enabled is None else public_capture_enabled,
     )
     attempts = defaultdict(deque)
 
@@ -79,6 +86,8 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
                     services.worker_health[name] = "retrying_after_error"
                 await asyncio.sleep(interval)
 
+        if scheduler:
+            services.public_captures.start()
         workers = (
             [
                 asyncio.create_task(worker(name, action, interval))
@@ -99,13 +108,16 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
         try:
             yield
         finally:
-            services.agent_runs.shutdown()
-            services.browser_jobs.shutdown()
-            services.connectors.shutdown()
-            services.jobs.shutdown()
-            for running in workers:
-                running.cancel()
-            await asyncio.gather(*workers, return_exceptions=True)
+            try:
+                services.public_captures.stop()
+            finally:
+                services.agent_runs.shutdown()
+                services.browser_jobs.shutdown()
+                services.connectors.shutdown()
+                services.jobs.shutdown()
+                for running in workers:
+                    running.cancel()
+                await asyncio.gather(*workers, return_exceptions=True)
 
     app = FastAPI(title="Desk Companion", version="0.1.0", lifespan=lifespan)
     app.state.store = store
@@ -373,6 +385,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
     app.include_router(connector_routes(services, owner, operation_id))
     app.include_router(work_search_routes(services, owner))
     app.include_router(work_capacity_routes(services, owner))
+    app.include_router(public_capture_routes(services, owner, operation_id))
     app.include_router(voice_routes(services, authenticated, agent, allowed_origins, limit))
     app.include_router(exchange_routes(services, authenticated, owner, operation_id))
     app.include_router(google_routes(services, owner, operation_id))

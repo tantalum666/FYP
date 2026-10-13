@@ -1,0 +1,28 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_send_timeout_tracks_remaining_total_budget_after_tls ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f316d70bc50>
+
+    def test_send_timeout_tracks_remaining_total_budget_after_tls(monkeypatch):
+        now=[100.0]; sock=BytesSocket(frame()); observed=[]
+        monkeypatch.setattr(transport.time,'monotonic',lambda:now[0])
+        sock.connect=lambda address: None
+        class Context:
+            check_hostname=True; verify_mode=ssl.CERT_REQUIRED; post_handshake_auth=False
+            def set_alpn_protocols(self,*a): pass
+            def wrap_socket(self,raw,server_hostname): now[0]=102.9; return raw
+        oldsend=sock.sendall
+        def send(data): observed.append((sock.timeouts[-1],103-now[0])); oldsend(data)
+        sock.sendall=send
+        monkeypatch.setattr(public_https.ssl,'create_default_context',Context)
+        monkeypatch.setattr(socket,'socket',lambda *a:sock)
+        monkeypatch.setattr(transport,'public_addresses',lambda *a,**k:['1.1.1.1'])
+        assert transport.PublicCaptureClient().fetch('https://example.org/',deadline=103).raw==b'hello'
+>       assert observed and observed[0][0] <= observed[0][1]+0.00001
+E       assert ([(3, 0.09999999999999432)] and 3 <= (0.09999999999999432 + 1e-05))
+
+output/qa/2026-10-13-public-capture-transport-policy-audit/test_independent.py:197: AssertionError
+=========================== short test summary info ============================
+FAILED output/qa/2026-10-13-public-capture-transport-policy-audit/test_independent.py::test_send_timeout_tracks_remaining_total_budget_after_tls
+1 failed, 47 deselected in 0.20s

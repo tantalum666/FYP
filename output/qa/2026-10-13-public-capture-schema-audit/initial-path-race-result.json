@@ -1,0 +1,1 @@
+{"observed_at_utc":"2026-10-13T09:34:30Z","fixture_only":true,"preflight_completed":true,"injected_change":"approved desk.sqlite3 renamed then symlinked to another valid private synthetic v2","cli_result":0,"unapproved_target_version":3,"path_is_symlink":true,"status":"reported to owner and parent; pending fix and rerun"}

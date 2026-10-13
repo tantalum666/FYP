@@ -1,0 +1,80 @@
+{
+  "continuation": true,
+  "inherited_intake": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "inherited_documents": 186,
+  "at": "2026-10-13T09:28:45Z",
+  "read_complete": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 222,
+      "sha256": "1f354de5bc7efc4f6c566b8f4f1be56716615abe61006160178e770980b9bdf2"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 58,
+      "sha256": "aa02a351c9bb5f8f77f0974dcde638ba11fd02e7542b42816aff6a955a2f3542"
+    },
+    {
+      "path": "desk-companion/docs/architecture.md",
+      "lines": 173,
+      "sha256": "ddb593e28b7fc883b52ec6b15c99791a83709bf1ec95387b4917c5d383c055dc"
+    },
+    {
+      "path": "desk-companion/docs/operator-guide.md",
+      "lines": 187,
+      "sha256": "99e55194d2031089caba2929372460df9e16264f9ab06017fed2de240d17a0bf"
+    },
+    {
+      "path": "desk-companion/README.md",
+      "lines": 181,
+      "sha256": "3ed537b8e2c85f33f4258967e619f05c58717c71df01f63105526c28f0ff1c65"
+    },
+    {
+      "path": "planning/2026-10-13/exact-url-capture-implementation.md",
+      "lines": 168,
+      "sha256": "8ca6025fb7dee4b5c7f05f3756aa433fea7b364b3a1a9be71641f9d35184eee9"
+    },
+    {
+      "path": "output/qa/2026-10-13-exact-url-plan-review/review.md",
+      "lines": 77,
+      "sha256": "3fafbd7d46e415102477df39d86883b0c7062d840a10eb38ef5ea03663a9d95f"
+    },
+    {
+      "path": "desk-companion/backend/desk/app.py",
+      "lines": 409,
+      "sha256": "56085fe4f0c5f71650a732ff639c4e8e895ae071fb09a40875bbc03545782f53"
+    },
+    {
+      "path": "desk-companion/backend/desk/runtime.py",
+      "lines": 130,
+      "sha256": "9aefcc1a25f14d9c416094e5477a19cce8d14c9e0e936b232513db7cf04d099d"
+    },
+    {
+      "path": "desk-companion/config/service.env.example",
+      "lines": 42,
+      "sha256": "19266ab051679fb6fc746243d4aa4a7ab9c92ee74bd3ef418199bab455d9e363"
+    },
+    {
+      "path": "desk-companion/scripts/check_software.sh",
+      "lines": 72,
+      "sha256": "11dfd52ef6c9db3db4a577647174a8aeeaff179a9641d2221d2d78a0d94460c3"
+    },
+    {
+      "path": "desk-companion/tests/test_responsibility_worker.py",
+      "lines": 56,
+      "sha256": "3ff79e183728221c7ada72f9587931c182660d5f89d95e342d0a916ec3973e43"
+    },
+    {
+      "path": "desk-companion/tests/test_watch_migration_cli.py",
+      "lines": 165,
+      "sha256": "942775d2f7fe8dec6ec0b2e2c6599931882e702b2830571209dc6b19caa6c690"
+    }
+  ],
+  "additional_current_decisions": "decision-log.md final 95 lines read; unchanged historical intake retained",
+  "note": "Documentation current hashes include coordinator status updates after reading. Implementation files under active worker edits will be read/frozen separately; not claimed complete from search."
+}

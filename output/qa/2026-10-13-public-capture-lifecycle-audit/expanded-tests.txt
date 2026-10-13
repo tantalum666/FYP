@@ -1,0 +1,23 @@
+.............................FF.                                         [100%]
+=================================== FAILURES ===================================
+______________ test_exact_source_byte_capacity_at_reservation[27] ______________
+output/qa/2026-10-13-public-capture-lifecycle-audit/test_independent_lifecycle.py:227: in test_exact_source_byte_capacity_at_reservation
+    assert c['state']=='verified'
+E   AssertionError: assert 'unknown' == 'verified'
+E     
+E     - verified
+E     + unknown
+______________ test_exact_source_byte_capacity_at_reservation[28] ______________
+output/qa/2026-10-13-public-capture-lifecycle-audit/test_independent_lifecycle.py:232: in test_exact_source_byte_capacity_at_reservation
+    assert used==SOURCE_TOTAL_BYTES-remaining+(27 if remaining>=27 else 0)
+E   assert 67108864 == ((67108864 - 28) + 27)
+=============================== warnings summary ===============================
+desk-companion/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/shared/fyp-agent-20261012/desk-companion/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED output/qa/2026-10-13-public-capture-lifecycle-audit/test_independent_lifecycle.py::test_exact_source_byte_capacity_at_reservation[27]
+FAILED output/qa/2026-10-13-public-capture-lifecycle-audit/test_independent_lifecycle.py::test_exact_source_byte_capacity_at_reservation[28]
+2 failed, 30 passed, 1 warning in 21.78s

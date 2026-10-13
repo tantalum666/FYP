@@ -1,0 +1,48 @@
+{
+  "completed_at": "2026-10-13T09:33:30.194545+00:00",
+  "inherited_complete_intake": "output/qa/2026-10-12-agent-kernel/reading-union-status.json (186 project-owned Markdown files, ongoing task)",
+  "supplemental_reads": [
+    {
+      "path": "AGENTS.md",
+      "line_count": 50,
+      "read_range": "1-EOF (segmented where needed)",
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "line_count": 222,
+      "read_range": "1-EOF (segmented where needed)",
+      "sha256": "1f354de5bc7efc4f6c566b8f4f1be56716615abe61006160178e770980b9bdf2"
+    },
+    {
+      "path": "handoff.md",
+      "line_count": 58,
+      "read_range": "1-EOF (segmented where needed)",
+      "sha256": "aa02a351c9bb5f8f77f0974dcde638ba11fd02e7542b42816aff6a955a2f3542"
+    },
+    {
+      "path": "planning/2026-10-13/exact-url-capture-implementation.md",
+      "line_count": 168,
+      "read_range": "1-EOF (segmented where needed)",
+      "sha256": "8ca6025fb7dee4b5c7f05f3756aa433fea7b364b3a1a9be71641f9d35184eee9"
+    },
+    {
+      "path": "output/qa/2026-10-13-exact-url-plan-review/review.md",
+      "line_count": 77,
+      "read_range": "1-EOF (segmented where needed)",
+      "sha256": "3fafbd7d46e415102477df39d86883b0c7062d840a10eb38ef5ea03663a9d95f"
+    },
+    {
+      "path": "desk-companion/docs/watch-retention.md",
+      "line_count": 265,
+      "read_range": "1-EOF (segmented where needed)",
+      "sha256": "7a8ae5b68d187732e60f31f542f6883accaaacde7cd7fe11f716e07ab0deb768"
+    },
+    {
+      "path": "decision-log.md",
+      "read_range": "current decisions, final 100 lines and final 50 lines; inherited prior complete intake",
+      "line_count": 904
+    }
+  ],
+  "excluded_from_new_full_intake": "No independent new full intake claimed. Dependencies, caches, .git, third-party/build outputs and generated QA evidence excluded under AGENTS; shared docs handled by coordinator."
+}

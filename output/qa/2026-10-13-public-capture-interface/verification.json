@@ -1,0 +1,58 @@
+{
+  "inherited_intake": "ongoing 186-document intake; parent owns full-intake evidence",
+  "read_complete": [
+    "AGENTS.md",
+    "product.md",
+    "handoff.md",
+    "planning/2026-10-13/exact-url-capture-implementation.md",
+    "output/qa/2026-10-13-exact-url-plan-review/review.md"
+  ],
+  "decision_log": "latest 110 lines read",
+  "frontend": "Full original SourceUpload, SourcePreview, useUploadMutation, types, RunPanel, RunComposer, agent.css, useAgentRuns, useWorkCapacity, workCapacity, responseFence, DraftGuard and relevant test harnesses read",
+  "exclusions": "Dependencies, build products, unrelated already-inherited historical Markdown",
+  "completed_at": "2026-10-13T09:49:38.664073+00:00",
+  "checks": {
+    "capture_focused": 24,
+    "full_frontend": 238,
+    "typecheck": "pass",
+    "production_build": "pass; existing >500kB chunk advisory"
+  },
+  "limitations": [
+    "No mounted-browser acceptance",
+    "No live GET, DNS, models, credentials or runtime configuration change",
+    "No Git publication or database migration"
+  ],
+  "review_fixes": [
+    "Non-extending wall/monotonic review lifetime, max five minutes and irreversible rollback/expiry rejection",
+    "SourcePreview revokes shared privacy fence even for older request access denial; masks content/provenance and disables old paging callbacks",
+    "Complete service provenance includes capture ID, HTTP/charset, raw/extracted hashes and counts, generated line count and exact static-only coverage caveat",
+    "Synchronous hook epoch binding masks old React state independently of keyed parent remount"
+  ],
+  "reading_ranges": [
+    {
+      "path": "AGENTS.md",
+      "line_count": 50,
+      "read_ranges": "1\u2013EOF in complete or sequential chunks; inherited intake not repeated"
+    },
+    {
+      "path": "product.md",
+      "line_count": 222,
+      "read_ranges": "1\u2013EOF in complete or sequential chunks; inherited intake not repeated"
+    },
+    {
+      "path": "handoff.md",
+      "line_count": 58,
+      "read_ranges": "1\u2013EOF in complete or sequential chunks; inherited intake not repeated"
+    },
+    {
+      "path": "planning/2026-10-13/exact-url-capture-implementation.md",
+      "line_count": 168,
+      "read_ranges": "1\u2013EOF in complete or sequential chunks; inherited intake not repeated"
+    },
+    {
+      "path": "output/qa/2026-10-13-exact-url-plan-review/review.md",
+      "line_count": 77,
+      "read_ranges": "1\u2013EOF in complete or sequential chunks; inherited intake not repeated"
+    }
+  ]
+}

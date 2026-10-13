@@ -144,7 +144,7 @@ A1单图、固定摄像头坐姿主线、既有日历／语音／硬件边界保
 
 新增[离线文字请求预检](desk-companion/docs/text-trial-preflight.md)，复用生产Qwen／Gemini序列化与本地计划验证，固定虚构输入，仅内存传输／用量记录，不接网络、不读取凭据、不保存业务草稿。入口要求明确预览提供商／型号／端点，不锁定最终模型；实际JSON必须带1600输出token限制，正文最多16KiB，一次模拟请求，无重试，独立进程45秒本地期限不声称账单上限。
 
-真实账号资格、区域、具体数据和一次费用仍需另外批准，不能以模拟通过代替真实模型能力。用户08:21 UTC获询问已有账号及一次US$0.10合成文字试验，尚无回复。最新[研究与在线试验门槛](planning/2026-10-13/live-model-trial-gates.md)区分文字与后续语音，未给Qwen语音捏造服务端输出上限。[留存维护提案](planning/2026-10-13/retained-work-recovery-design.md)已独立审查，尚无删除或容量回收功能。
+真实账号资格、区域、具体数据和一次费用仍需另外批准，不能以模拟通过代替真实模型能力。用户08:21 UTC获询问已有账号及一次US$0.10合成文字试验，尚无回复。最新[研究与在线试验门槛](planning/2026-10-13/live-model-trial-gates.md)区分文字与后续语音，未给Qwen语音捏造服务端输出上限。[留存维护提案](planning/2026-10-13/retained-work-recovery-design.md)已独立审查；下节终止关注维护已实现，来源／Work删除与回收仍未实现。
 
 ## 2026-10-13 终止关注历史维护（软件整体验证通过，实际界面另验）
 
@@ -220,3 +220,9 @@ Yuan Yuchen为组长，计划40%；Xu Ziqian及Li Wenhua各30%。此比例不是
 10月26日Progress I、11月30日Initial、12月14日Progress II及后续节点以[学校提案／修订核对](planning/2026-09-28/logsheet-and-proposal-review.md)保留的证据为准。旧食品方案、品牌、采购、代码及Proposal均保留为历史，入口是[旧产品规范](product-senplate-historical.md)。
 
 当前操作入口：[软件README](desk-companion/README.md)／[安装与操作](desk-companion/docs/operator-guide.md)／[架构](desk-companion/docs/architecture.md)／[交接](handoff.md)／[决定](decision-log.md)／[工作记录](work-log.md)。
+
+## 2026-10-13 精确公开网页资料入口（软件整体验证通过，实际验收另记）
+
+按[单页采集契约](desk-companion/docs/public-captures.md)新增默认关闭的精确公开URL审阅、单次有界GET、可核验静态来源和独立Work选择。它不增加任意搜索、登录浏览器、自动网页操作、模型授权或语义比较。捕获记录／来源继续明确保留并计入原有界限；未知动作只核验，不通过重试制造第二次请求。
+
+独立审查已修复HTML未完整结束而误认成功、HTTP发送阶段旧超时、数据库迁移路径交接、捕获来源元数据类型／容量、最终链接后的取消及损坏字段有界读取等问题。各项软件／协议检查与整套冻结、Git发布、真实界面及公开网络分别记账；实际用户库未迁移，模型未选定或付费调用。

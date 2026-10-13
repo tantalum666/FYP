@@ -1,0 +1,12 @@
+{
+  "revised_utc": "2026-10-13T09:19:24.207629+00:00",
+  "review_path": "output/qa/2026-10-13-exact-url-plan-review/review.md",
+  "review_lines_read": [
+    1,
+    77
+  ],
+  "review_sha256": "3fafbd7d46e415102477df39d86883b0c7062d840a10eb38ef5ea03663a9d95f",
+  "proposal_sha256": "8ca6025fb7dee4b5c7f05f3756aa433fea7b364b3a1a9be71641f9d35184eee9",
+  "application_changes": false,
+  "live_requests": false
+}

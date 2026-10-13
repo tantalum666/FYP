@@ -21,6 +21,10 @@ def args(path):
 def fixture_store(tmp_path):
     root = tmp_path / "runtime"
     store = Store(root, password="fixture-only")
+    with store.connection(write=True) as conn:
+        conn.execute("DROP TABLE public_capture_operations")
+        conn.execute("DROP TABLE public_captures")
+        conn.execute("PRAGMA user_version=2")
     return root, store
 
 
@@ -109,7 +113,11 @@ def test_unrecognized_database_never_bootstraps(tmp_path, monkeypatch, invalid):
 
 
 def test_store_failure_does_not_echo_path_or_error_payload(tmp_path, monkeypatch, capsys):
-    root, _ = fixture_store(tmp_path)
+    root, store = fixture_store(tmp_path)
+    with store.connection(write=True) as conn:
+        for table in ("responsibility_operations", "responsibility_reviews", "responsibility_sources", "responsibilities"):
+            conn.execute(f"DROP TABLE {table}")
+        conn.execute("PRAGMA user_version=1")
 
     def fail(*args, **kwargs):
         raise RuntimeError("MUST_NOT_ECHO_SYNTHETIC")
@@ -150,8 +158,8 @@ def test_app_factory_does_not_infer_legacy_migration_consent(tmp_path):
     assert error.value.code == "SCHEMA_MIGRATION_REQUIRED"
     with store.connection() as conn:
         assert conn.execute("PRAGMA user_version").fetchone()[0] == 1
-    app = create_app(directory=root, scheduler=False, allow_watch_retention_migration=True)
-    assert app is not None
+    with pytest.raises(DomainError, match="SCHEMA_MIGRATION_REQUIRED"):
+        create_app(directory=root, scheduler=False, allow_watch_retention_migration=True)
     with store.connection() as conn:
         assert conn.execute("PRAGMA user_version").fetchone()[0] == 2
     assert not (root / "credentials.json").exists()

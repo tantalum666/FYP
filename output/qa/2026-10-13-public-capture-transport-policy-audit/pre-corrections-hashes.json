@@ -1,0 +1,9 @@
+{
+  "desk-companion/backend/desk/connectors/mcp_transport.py": "53a99add168d985b16825713b97b5197a3b3d825aa06fe585b9f8c322927003e",
+  "desk-companion/backend/desk/connectors/public_https.py": "72c24b7601f80b73c207f4c6ec6fd3978a6b1a8b7d212f4bc6119d9f5b5e09cd",
+  "desk-companion/backend/desk/connectors/public_capture_transport.py": "b23832c882a5b221389cd8b5fac3c75a00d79c20ff14783aeb9cb566af08cd39",
+  "desk-companion/backend/desk/public_capture_policy.py": "aea96e1deb0f0a6564a1d2f8f305fa52eb146ffa6f8a311171272b705f9bc204",
+  "desk-companion/tests/test_public_capture_transport.py": "0fd3bd350d4e6b3f4d5da175cb62582cf2e71f5ef65548a099f83f6a79802bf7",
+  "desk-companion/tests/test_public_capture_policy.py": "0cb76c9373e11eed283e6cbf4e246cff96799ffdc7d6071c57ef7a12eadba37e",
+  "desk-companion/tests/test_mcp_connectors.py": "3c0c73775a5a7c4244ea208236731ed01634233ebc13b03063c0c489d82946e5"
+}

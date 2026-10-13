@@ -1,0 +1,13 @@
+✔ actual bilingual intake/review states exact bounded GET disclosure, unchecked separate consents and inert URL/label (202.418137ms)
+✔ disabled still renders history/local reconciliation and cancelled source provenance without implying deletion (89.648744ms)
+✔ hidden projection renders handles/status/stop without private URL source or reconcile (62.215152ms)
+✔ acquisition preview is safe plaintext and invalid provenance never becomes evidence (5.001912ms)
+✔ INDEPENDENT actual backend acquisition rendered as full inert provenance (53.856556ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1551.275729

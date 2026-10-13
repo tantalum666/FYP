@@ -1,0 +1,11 @@
+{"case": "spaces", "bytes": 131009, "seconds": 0.04424099600146292, "checkpoint_count": 259, "max_checkpoint_gap_seconds": 0.017292761000135215, "accepted": true, "output_bytes": 2}
+{"case": "complete_attribute", "bytes": 131013, "seconds": 0.03529316300046048, "checkpoint_count": 259, "max_checkpoint_gap_seconds": 0.0015544699999736622, "accepted": true, "output_bytes": 2}
+{"case": "unclosed_attribute", "bytes": 131020, "seconds": 0.028707351000775816, "checkpoint_count": 257, "max_checkpoint_gap_seconds": 0.0006271540005400311, "accepted": false, "code": "CAPTURE_HTML_MALFORMED"}
+{"case": "repeated_attributes", "bytes": 130008, "seconds": 0.6425984880006581, "checkpoint_count": 255, "max_checkpoint_gap_seconds": 0.14534572400225443, "accepted": false, "code": "CAPTURE_HTML_MALFORMED"}
+{"case": "slashes", "bytes": 131009, "seconds": 0.05228447600165964, "checkpoint_count": 257, "max_checkpoint_gap_seconds": 0.01216385000225273, "accepted": false, "code": "CAPTURE_HTML_MALFORMED"}
+{"case": "complete_comment", "bytes": 131015, "seconds": 0.034391000001051, "checkpoint_count": 259, "max_checkpoint_gap_seconds": 0.0010004030009440612, "accepted": true, "output_bytes": 2}
+{"case": "unclosed_comment", "bytes": 131018, "seconds": 0.026585070001601707, "checkpoint_count": 257, "max_checkpoint_gap_seconds": 0.0009961729992937762, "accepted": false, "code": "CAPTURE_HTML_MALFORMED"}
+{"case": "entity", "bytes": 131009, "seconds": 0.09798444099942571, "checkpoint_count": 257, "max_checkpoint_gap_seconds": 0.0031794440001249313, "accepted": false, "code": "CAPTURE_HTML_MALFORMED"}
+{"case": "quote_backtracking", "bytes": 130018, "seconds": 0.551072803002171, "checkpoint_count": 255, "max_checkpoint_gap_seconds": 0.08585443099946133, "accepted": false, "code": "CAPTURE_HTML_MALFORMED"}
+{"case": "events", "bytes": 128000, "seconds": 0.10144536799998605, "checkpoint_count": 804, "max_checkpoint_gap_seconds": 0.003175603000272531, "accepted": false, "code": "CAPTURE_PARSER_LIMIT"}
+{"case": "plain_output_overflow", "bytes": 131072, "seconds": 0.01575656400018488, "checkpoint_count": 154, "max_checkpoint_gap_seconds": 0.0003645090000645723, "accepted": false, "code": "CAPTURE_OUTPUT_LIMIT"}

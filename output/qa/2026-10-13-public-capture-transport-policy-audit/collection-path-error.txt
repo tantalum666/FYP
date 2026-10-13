@@ -1,0 +1,49 @@
+
+==================================== ERRORS ====================================
+____ ERROR collecting desk-companion/tests/test_public_capture_transport.py ____
+ImportError while importing test module '/workspace/shared/fyp-agent-20261012/desk-companion/tests/test_public_capture_transport.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_public_capture_transport.py:8: in <module>
+    from desk.connectors import mcp_transport, public_https
+E   ModuleNotFoundError: No module named 'desk'
+_____ ERROR collecting desk-companion/tests/test_public_capture_policy.py ______
+ImportError while importing test module '/workspace/shared/fyp-agent-20261012/desk-companion/tests/test_public_capture_policy.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_public_capture_policy.py:8: in <module>
+    from desk.public_capture_policy import (
+E   ModuleNotFoundError: No module named 'desk'
+_________ ERROR collecting desk-companion/tests/test_mcp_connectors.py _________
+ImportError while importing test module '/workspace/shared/fyp-agent-20261012/desk-companion/tests/test_mcp_connectors.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_mcp_connectors.py:15: in <module>
+    from desk.connectors.agent_adapter import ConnectorToolAdapter
+E   ModuleNotFoundError: No module named 'desk'
+_ ERROR collecting output/qa/2026-10-13-public-capture-transport-policy-audit/test_independent.py _
+ImportError while importing test module '/workspace/shared/fyp-agent-20261012/output/qa/2026-10-13-public-capture-transport-policy-audit/test_independent.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../output/qa/2026-10-13-public-capture-transport-policy-audit/test_independent.py:8: in <module>
+    from desk.connectors import public_capture_transport as transport
+E   ModuleNotFoundError: No module named 'desk'
+=========================== short test summary info ============================
+ERROR tests/test_public_capture_transport.py
+ERROR tests/test_public_capture_policy.py
+ERROR tests/test_mcp_connectors.py
+ERROR ../output/qa/2026-10-13-public-capture-transport-policy-audit/test_independent.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 4 errors during collection !!!!!!!!!!!!!!!!!!!!
+4 errors in 0.25s

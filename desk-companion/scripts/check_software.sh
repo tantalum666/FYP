@@ -37,6 +37,7 @@ while IFS= read -r name; do
 done < <(compgen -A variable DESK_ || true)
 export DESK_TEXT_PROVIDER=none DESK_VOICE_PROVIDER=none DESK_TEXT_BACKGROUND=0
 export DESK_COMPUTER_ENABLED=0 DESK_ALLOW_REPLAY=0
+export DESK_PUBLIC_CAPTURE_ENABLED=0
 export PYTHONDONTWRITEBYTECODE=1
 if ((offline)); then
   export UV_OFFLINE=1 npm_config_offline=true

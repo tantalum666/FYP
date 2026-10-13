@@ -5,6 +5,7 @@ import json
 import os
 import re
 import stat
+from datetime import datetime
 from uuid import uuid4
 
 from .calendar import iso
@@ -106,6 +107,73 @@ class ImmutableFiles:
             "error_code": row["error_code"],
         }
 
+    def exact_operation(self, conn, *, kind, key, expected):
+        """Validate an immutable reservation without opening another connection.
+
+        expected is the complete code-owned request metadata before id/time/
+        version were appended. Never search by content hash or URL alone.
+        """
+        limits = {"id": 32, "kind": 16, "operation_key": 100, "request_hash": 64,
+                  "metadata": 65536, "status": 16, "error_code": 96}
+        columns = ",".join(
+            (f"CASE WHEN {name} IS NULL THEN NULL " if name == "error_code" else "CASE ")
+            + f"WHEN typeof({name})='text' AND length(CAST({name} AS BLOB))<={limit} "
+              f"AND instr({name},char(0))=0 THEN {name} ELSE x'00' END AS {name}"
+            for name, limit in limits.items()
+        )
+        sql = conn.execute(
+            f"SELECT {columns} FROM private_files WHERE kind=? AND operation_key=?", (kind, key)
+        ).fetchone()
+        if sql is None:
+            return None
+        try:
+            raw = sql["metadata"]
+            if not isinstance(raw, str) or len(raw.encode()) > 65536 or "\x00" in raw:
+                raise ValueError()
+            def unique(pairs):
+                result = {}
+                for name, value in pairs:
+                    if name in result:
+                        raise ValueError()
+                    result[name] = value
+                return result
+            row = json.loads(raw, object_pairs_hook=unique)
+            request = {k: v for k, v in row.items() if k not in {"id", "created_at", "version"}}
+            if (not isinstance(row, dict) or not ID.fullmatch(sql["id"])
+                    or row["id"] != sql["id"] or row["kind"] != kind
+                    or sql["operation_key"] != key or request != expected
+                    or sql["request_hash"] != digest(encode(expected).encode())
+                    or sql["request_hash"] != digest(encode(request).encode())
+                    or type(row["version"]) is not int or row["version"] != 1
+                    or not isinstance(row["created_at"], str)
+                    or len(row["created_at"]) != 27
+                    or iso(datetime.fromisoformat(row["created_at"].replace("Z", "+00:00"))) != row["created_at"]
+                    or sql["status"] not in {"reserved", "verified", "unknown"}
+                    or sql["error_code"] is not None and (not isinstance(sql["error_code"], str)
+                        or not re.fullmatch(r"[A-Z][A-Z0-9_]{0,95}", sql["error_code"]))):
+                raise ValueError()
+        except (ValueError, KeyError, TypeError, AttributeError, RecursionError):
+            raise DomainError("CAPTURE_SOURCE_IDENTITY_INVALID", 409) from None
+        return {**row, "status": sql["status"], "error_code": sql["error_code"]}
+
+    def reconcile_exact(self, row, session_hash, checkpoint):
+        """Read already validated exact bytes; never publish/repair a temporary."""
+        checkpoint()
+        try:
+            self._read_bytes(row)
+            status, error = "verified", None
+        except DomainError as failure:
+            if failure.code not in {"FILE_READBACK_UNAVAILABLE", "FILE_READBACK_MISMATCH",
+                                    "FILE_SCOPE_UNAVAILABLE"}:
+                raise
+            status, error = "unknown", failure.code
+        with self.store.connection(write=True) as conn:
+            require_access(self.store, conn, session_hash)
+            checkpoint(conn)
+            conn.execute("UPDATE private_files SET status=?,error_code=? WHERE id=?",
+                         (status, error, row["id"]))
+        return {**row, "status": status, "error_code": error}
+
     def metadata(self, file_id, kind, session_hash):
         with self.store.connection() as conn:
             require_access(self.store, conn, session_hash)
@@ -161,28 +229,34 @@ class ImmutableFiles:
         finally:
             os.close(directory)
 
-    def _status(self, row, state, error, session_hash):
+    def _status(self, row, state, error, session_hash, checkpoint=None):
         with self.store.connection(write=True) as conn:
             require_access(self.store, conn, session_hash)
+            if checkpoint is not None:
+                checkpoint(conn)
             conn.execute(
                 "UPDATE private_files SET status=?,error_code=? WHERE id=?",
                 (state, error, row["id"]),
             )
         return {**row, "status": state, "error_code": error}
 
-    def checked(self, file_id, kind, session_hash):
+    def checked(self, file_id, kind, session_hash, checkpoint=None):
         row = self.metadata(file_id, kind, session_hash)
+        if checkpoint is not None:
+            with self.store.connection() as conn:
+                require_access(self.store, conn, session_hash)
+                checkpoint(conn)
         try:
             body = self._read_bytes(row)
         except DomainError as error:
-            self._status(row, "unknown", error.code, session_hash)
+            self._status(row, "unknown", error.code, session_hash, checkpoint)
             raise
-        row = self._status(row, "verified", None, session_hash)
+        row = self._status(row, "verified", None, session_hash, checkpoint)
         return row, body
 
-    def reconcile(self, file_id, kind, session_hash):
+    def reconcile(self, file_id, kind, session_hash, checkpoint=None):
         try:
-            row, _ = self.checked(file_id, kind, session_hash)
+            row, _ = self.checked(file_id, kind, session_hash, checkpoint)
             return row
         except DomainError as error:
             if error.code not in {
@@ -239,7 +313,7 @@ class ImmutableFiles:
                 )
                 self.store.bump(conn)
         if not fresh:
-            return self.reconcile(file_id, kind, session_hash)
+            return self.reconcile(file_id, kind, session_hash, checkpoint)
         row = self.metadata(file_id, kind, session_hash)
         self.phase("reserved", row)
         directory = None
@@ -318,7 +392,7 @@ class ImmutableFiles:
         finally:
             if directory is not None:
                 os.close(directory)
-        result = self.reconcile(file_id, kind, session_hash)
+        result = self.reconcile(file_id, kind, session_hash, checkpoint)
         self.phase("published", result)
         return result
 

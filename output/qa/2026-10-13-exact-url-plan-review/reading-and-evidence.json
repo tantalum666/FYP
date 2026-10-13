@@ -1,0 +1,272 @@
+{
+  "completed_utc": "2026-10-13T09:16:09.317802+00:00",
+  "scope": "Same ongoing task; inherited 186-document intake, relevant delta/source review only",
+  "inherited_ledger": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "basis": "full task reread"
+    },
+    {
+      "path": "product.md",
+      "lines": 222,
+      "read_ranges": [
+        [
+          1,
+          222
+        ]
+      ],
+      "sha256": "6799e17bd212ad0fad1f9220c2644f4eb0bb35326f410e8cf2648c8dfe3a73ab",
+      "basis": "full task reread"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 56,
+      "read_ranges": [
+        [
+          1,
+          56
+        ]
+      ],
+      "sha256": "392d726f22df5325cfe14f05b2d027d236ce24255f3eafe4201ed315d35c1a59",
+      "basis": "full task reread"
+    },
+    {
+      "path": "planning/2026-10-13/exact-url-capture-implementation.md",
+      "lines": 161,
+      "read_ranges": [
+        [
+          1,
+          161
+        ]
+      ],
+      "sha256": "f79f3dc99fdd19a162eec48d66241d3671a88c6f42cb004fe5ed9345aee94e2e",
+      "basis": "full task reread"
+    },
+    {
+      "path": "planning/2026-10-13/public-research-workflow-design.md",
+      "lines": 126,
+      "read_ranges": [
+        [
+          1,
+          126
+        ]
+      ],
+      "sha256": "088a054f988654e78530074af7218293eaa2c63eb2b79d542f74727fc4b73c35",
+      "basis": "full task reread"
+    },
+    {
+      "path": "desk-companion/docs/work-capacity.md",
+      "lines": 43,
+      "read_ranges": [
+        [
+          1,
+          43
+        ]
+      ],
+      "sha256": "1f0aeb735a23a5d2586d4ed6a9802bc3a7696d99e24accbd0dc4bb14f2df06a0",
+      "basis": "full task reread"
+    },
+    {
+      "path": "desk-companion/docs/application-connectors.md",
+      "lines": 89,
+      "read_ranges": [
+        [
+          1,
+          89
+        ]
+      ],
+      "sha256": "f6e06311b98596074c79f68d1e2ad025e67eb854b45193b8384e8781e4e1e386",
+      "basis": "full task reread"
+    },
+    {
+      "path": "desk-companion/docs/sources-and-artifacts.md",
+      "lines": 208,
+      "read_ranges": [
+        [
+          1,
+          208
+        ]
+      ],
+      "sha256": "800165ebf9f687c0664feeaf0570ea7803c5f6bd982ec9424cbaa2259ee4bda2",
+      "basis": "full task reread"
+    },
+    {
+      "path": "desk-companion/backend/desk/sources.py",
+      "lines": 323,
+      "read_ranges": [
+        [
+          1,
+          323
+        ]
+      ],
+      "sha256": "34e5e5a600845b54c0defea87d842eb3d6f1fce27f3ae6d7c1c2e87ba746d428",
+      "basis": "full task reread"
+    },
+    {
+      "path": "desk-companion/backend/desk/file_store.py",
+      "lines": 340,
+      "read_ranges": [
+        [
+          1,
+          340
+        ]
+      ],
+      "sha256": "12f2e9678911928b080486ed31adbf535e4d54fdd169d2804cc913e46252e733",
+      "basis": "full task reread"
+    },
+    {
+      "path": "desk-companion/backend/desk/work_capacity.py",
+      "lines": 223,
+      "read_ranges": [
+        [
+          1,
+          223
+        ]
+      ],
+      "sha256": "73ec63c54e9cd0d8246c944984a4861e7e510eeb6512517eb105e22640924c41",
+      "basis": "full task reread"
+    },
+    {
+      "path": "desk-companion/backend/desk/connectors/mcp_transport.py",
+      "lines": 414,
+      "read_ranges": [
+        [
+          1,
+          414
+        ]
+      ],
+      "sha256": "8cca871b9783e860e465ab2462f4107c869f0dd00eefc0f4236d77ccd0a18e6d",
+      "basis": "full task reread"
+    },
+    {
+      "path": "desk-companion/backend/desk/connectors/contracts.py",
+      "lines": 127,
+      "read_ranges": [
+        [
+          1,
+          127
+        ]
+      ],
+      "sha256": "5ad94f859d9f090975e6d3a586af3a70676d003c2f1772f9eaf0f36e3a79ca53",
+      "basis": "full task reread"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/SourcePreview.tsx",
+      "lines": 120,
+      "read_ranges": [
+        [
+          1,
+          120
+        ]
+      ],
+      "sha256": "715cdba2850670d594ee106cdfc0be32b73bf02c618f4ce7bd2cee8327d3321c",
+      "basis": "full task reread"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 897,
+      "read_ranges": [
+        [
+          828,
+          897
+        ]
+      ],
+      "sha256": "505495a2d224b068750daf04c3b8eabc01591794d1d40a0ad39b640fd479d535",
+      "basis": "targeted source inspection"
+    },
+    {
+      "path": "desk-companion/docs/watch-retention.md",
+      "lines": 265,
+      "read_ranges": [
+        [
+          219,
+          265
+        ]
+      ],
+      "sha256": "7a8ae5b68d187732e60f31f542f6883accaaacde7cd7fe11f716e07ab0deb768",
+      "basis": "targeted source inspection"
+    },
+    {
+      "path": "desk-companion/backend/desk/store.py",
+      "lines": 503,
+      "read_ranges": [
+        [
+          1,
+          115
+        ]
+      ],
+      "sha256": "14ab5ff8530a52acf4b076ebc97bc55f491359a96405069d6479702f8b32d0ee",
+      "basis": "targeted source inspection"
+    },
+    {
+      "path": "desk-companion/backend/desk/responsibility_retention.py",
+      "lines": 536,
+      "read_ranges": [
+        [
+          1,
+          120
+        ]
+      ],
+      "sha256": "f2a60d91ee8bc35c3c828897e1229eb48405dbf6f9c5e168916c13e474c0f91c",
+      "basis": "targeted source inspection"
+    },
+    {
+      "path": "desk-companion/backend/desk/browser_policy.py",
+      "lines": 244,
+      "read_ranges": [
+        [
+          1,
+          120
+        ]
+      ],
+      "sha256": "1ef3ae1b61a5600cd2f9151208302f876e5dba1f7d7def66a94a5c042db8e872",
+      "basis": "targeted source inspection"
+    },
+    {
+      "path": "desk-companion/backend/desk/provider_policy.py",
+      "lines": 110,
+      "read_ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "sha256": "991cedca7120eb93da1dc325fe44353bc596e0594659cdc143a0a9baf0bcc335",
+      "basis": "targeted source inspection"
+    },
+    {
+      "path": "desk-companion/backend/desk/agent_tools.py",
+      "lines": 661,
+      "read_ranges": [
+        [
+          110,
+          170
+        ]
+      ],
+      "sha256": "d25b0af9a43b1ce2339c5d8a327be7f803497a139e85ee1e21889323698cea48",
+      "basis": "targeted source inspection"
+    }
+  ],
+  "exclusions": [
+    ".git",
+    "dependencies and caches",
+    "build outputs",
+    "generated output/qa snapshots"
+  ],
+  "checks": [
+    "Offline probes.py completed; see probes.json"
+  ],
+  "changes": [
+    "Only this separate QA directory was written; parent owns shared contract updates"
+  ],
+  "limits": "No full-suite, migration, application edits, network, user runtime, live browser or Git operations"
+}

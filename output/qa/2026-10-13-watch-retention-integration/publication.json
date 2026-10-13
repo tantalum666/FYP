@@ -1,0 +1,38 @@
+{
+  "source_sha": "cc1751afdcf777b22a34470e2cd87078ea4552af",
+  "parent_sha": "dd3ab2436aff6466a4662226c988e9f77e975193",
+  "tree_sha": "7d008c23776314e1c876a76c8f17ecc1b04c63de",
+  "branch": "codex/personal-agent-kernel-20261012",
+  "pr_url": "https://github.com/tantalum666/FYP/pull/5",
+  "verified_candidate_blobs": 75,
+  "verified_modes": true,
+  "verified_ref": true,
+  "verified_full_expected_tree": true,
+  "remote_tree_truncated": false,
+  "checked_at": "2026-10-13T09:18:55Z",
+  "backend_tests": 1048,
+  "frontend_tests": 214,
+  "stable_source_manifest": 284,
+  "ci": [
+    {
+      "id": 38375355822,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "head_sha": "cc1751afdcf777b22a34470e2cd87078ea4552af",
+      "url": "https://github.com/tantalum666/FYP/actions/runs/38375355822"
+    },
+    {
+      "id": 38375347486,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "head_sha": "cc1751afdcf777b22a34470e2cd87078ea4552af",
+      "url": "https://github.com/tantalum666/FYP/actions/runs/38375347486"
+    }
+  ],
+  "actual_user_migration": false,
+  "merged": false,
+  "deployed": false,
+  "ci_checked_at": "2026-10-13T09:24:52Z"
+}

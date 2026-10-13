@@ -6,6 +6,8 @@ export type RunAction =
   "pause" | "resume" | "cancel" | "steer" | "answer" | "retry_model";
 export type FileFormat = "text" | "markdown" | "csv" | "json";
 export interface SourceRecord {
+  provenance_kind?: string;
+  acquisition?: unknown;
   id: string;
   name: string;
   format: FileFormat;

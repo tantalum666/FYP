@@ -1,0 +1,35 @@
+{
+  "at_utc": "2026-10-13T09:49:52.001366+00:00",
+  "files": [
+    {
+      "path": "desk-companion/backend/desk/public_captures.py",
+      "sha256": "aa6ca78a58c34b19774761d96de8e96ce827531dd3de8c7db5b2982c4f3720bf",
+      "bytes": 40150
+    },
+    {
+      "path": "desk-companion/backend/desk/sources.py",
+      "sha256": "0630e524e46899f9f9038f2d56d66090415cfa425e00e5978748f54ebdbc1c01",
+      "bytes": 14703
+    },
+    {
+      "path": "desk-companion/backend/desk/file_store.py",
+      "sha256": "ae5d1b98fbd038468396c341097036867781f2ff567f768d5b77d843398b2618",
+      "bytes": 18479
+    },
+    {
+      "path": "desk-companion/backend/desk/work_capacity.py",
+      "sha256": "5a085a9dcf90ac7b546ab27d70f3cc84bb478595fc1e15a748c4f8e028dae333",
+      "bytes": 9103
+    },
+    {
+      "path": "desk-companion/tests/test_public_captures.py",
+      "sha256": "e0f9415c160d7b9c5bdebe30acb109d7fb7d41e48268b1eab2b73301d0a992df",
+      "bytes": 23027
+    },
+    {
+      "path": "desk-companion/docs/public-captures.md",
+      "sha256": "6aaca485e779d027e7ff03f39d86687b9ce62436a27e442fa2866b0520c8069a",
+      "bytes": 12198
+    }
+  ]
+}

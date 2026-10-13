@@ -1,0 +1,42 @@
+✔ capability defaults off, initial stale mount can recover capability, no automatic list or network mutation (140.386453ms)
+✔ disabled capture allows saved history reads but never preparation (46.608279ms)
+✔ prepare stores exact review and separate approval uses strict acknowledgments and double click lock (41.208225ms)
+✔ lost prepare response pins identical body key and only explicit retry recovers original (25.988874ms)
+✔ unknown approval can be stopped without generating a replacement capture, preserving original key (36.317267ms)
+✔ hidden uses scalar list/detail/stop only, rejects leaked private keys and cannot prepare reconcile or approve (18.850713ms)
+✔ all session privacy offline events revoke old callbacks pending retries and late response (68.740621ms)
+✔ stale freshness pauses mutation and retries without discarding original unknown request (20.52289ms)
+✔ old read access denial revokes newer view (64.494192ms)
+✔ unmount and A-B-A privacy epochs never revive old callbacks or replies (27.583726ms)
+✔ refresh immediately invalidates approval callback; malformed mutation response preserves original pending (23.936639ms)
+✔ strict parser rejects malformed scalar policy capacity and hidden projections (0.897441ms)
+✔ production intake callbacks retain volatile draft, require record acknowledgment and register dirty navigation (33.451176ms)
+✔ INDEPENDENT actual backend wire projections satisfy client decoders (0.921194ms)
+✖ INDEPENDENT rollback below review observation must prevent approve POST (18.986276ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 14
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1075.405006
+
+✖ failing tests:
+
+test at output/qa/2026-10-13-public-capture-interface-audit/audit.test.ts:636:1
+✖ INDEPENDENT rollback below review observation must prevent approve POST (18.986276ms)
+  AssertionError [ERR_ASSERTION]: clock rollback must not dispatch approval
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///workspace/shared/fyp-agent-20261012/output/qa/2026-10-13-public-capture-interface-audit/audit.test.ts:645:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

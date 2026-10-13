@@ -1,0 +1,121 @@
+{
+  "completed_at": "2026-10-13T09:30:53.085972+00:00",
+  "intake": "Same ongoing 186-project-Markdown intake inherited from coordinator, not a fresh independent full-library read",
+  "inherited_record": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "focused_supplements": [
+    {
+      "path": "AGENTS.md",
+      "lines_now": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256_now": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "note": "Full focused read, truncation supplemented with narrower ranges; current shared docs may advance under coordinator"
+    },
+    {
+      "path": "product.md",
+      "lines_now": 222,
+      "read_ranges": [
+        [
+          1,
+          222
+        ]
+      ],
+      "sha256_now": "1f354de5bc7efc4f6c566b8f4f1be56716615abe61006160178e770980b9bdf2",
+      "note": "Full focused read, truncation supplemented with narrower ranges; current shared docs may advance under coordinator"
+    },
+    {
+      "path": "handoff.md",
+      "lines_now": 58,
+      "read_ranges": [
+        [
+          1,
+          58
+        ]
+      ],
+      "sha256_now": "aa02a351c9bb5f8f77f0974dcde638ba11fd02e7542b42816aff6a955a2f3542",
+      "note": "Full focused read, truncation supplemented with narrower ranges; current shared docs may advance under coordinator"
+    },
+    {
+      "path": "decision-log.md",
+      "lines_now": 904,
+      "read_ranges": [
+        [
+          840,
+          904
+        ]
+      ],
+      "sha256_now": "e48ce18602f84d23a41235a80f48519f7172c3e105a30dbe253b5162545505fd",
+      "note": "Focused latest decisions; older body inherited"
+    },
+    {
+      "path": "planning/2026-10-13/exact-url-capture-implementation.md",
+      "lines_now": 168,
+      "read_ranges": [
+        [
+          1,
+          168
+        ]
+      ],
+      "sha256_now": "8ca6025fb7dee4b5c7f05f3756aa433fea7b364b3a1a9be71641f9d35184eee9",
+      "note": "Full focused read, truncation supplemented with narrower ranges; current shared docs may advance under coordinator"
+    },
+    {
+      "path": "output/qa/2026-10-13-exact-url-plan-review/review.md",
+      "lines_now": 77,
+      "read_ranges": [
+        [
+          1,
+          77
+        ]
+      ],
+      "sha256_now": "3fafbd7d46e415102477df39d86883b0c7062d840a10eb38ef5ea03663a9d95f",
+      "note": "Full focused read, truncation supplemented with narrower ranges; current shared docs may advance under coordinator"
+    },
+    {
+      "path": "desk-companion/docs/application-connectors.md",
+      "lines_now": 89,
+      "read_ranges": [
+        [
+          1,
+          89
+        ]
+      ],
+      "sha256_now": "f6e06311b98596074c79f68d1e2ad025e67eb854b45193b8384e8781e4e1e386",
+      "note": "Full focused read, truncation supplemented with narrower ranges; current shared docs may advance under coordinator"
+    },
+    {
+      "path": "desk-companion/backend/desk/connectors/mcp_transport.py",
+      "lines_now": 342,
+      "read_ranges": [
+        [
+          1,
+          342
+        ]
+      ],
+      "sha256_now": "53a99add168d985b16825713b97b5197a3b3d825aa06fe585b9f8c322927003e",
+      "note": "Full focused read, truncation supplemented with narrower ranges; current shared docs may advance under coordinator"
+    },
+    {
+      "path": "desk-companion/tests/test_mcp_connectors.py",
+      "lines_now": 857,
+      "read_ranges": [
+        [
+          1,
+          857
+        ]
+      ],
+      "sha256_now": "3c0c73775a5a7c4244ea208236731ed01634233ebc13b03063c0c489d82946e5",
+      "note": "Full focused read, truncation supplemented with narrower ranges; current shared docs may advance under coordinator"
+    }
+  ],
+  "excluded": [
+    ".git",
+    "dependency/cache/build/third-party directories",
+    "unrelated automatic QA snapshots"
+  ],
+  "scope": "Transport extraction/capture only. Coordinator owns shared specification updates, publication and application aggregate."
+}

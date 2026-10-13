@@ -1,0 +1,18 @@
+{
+  "completed_at_utc": "2026-10-13T09:43:15.077873+00:00",
+  "independent_cases_passed": 68,
+  "owner_regression_cases_rerun_passed": 129,
+  "counts_are_not_unique_additive_coverage": true,
+  "owner_suite_warning": "Existing Starlette/httpx TestClient deprecation; no dependency change made",
+  "audited_source_count": 10,
+  "changed_during_final_runs": [],
+  "owner_manifest_mismatches": [],
+  "reproduced_defects_fixed": 2,
+  "actual_user_migrations": 0,
+  "external_network_requests": 0,
+  "standalone_path_race_postfix": {
+    "cli_result": 1,
+    "other_target_version": 2
+  },
+  "limitation": "Pathname-based SQLite opens are not atomic no-follow; hostile ABA changes remain outside bounded identity checks"
+}

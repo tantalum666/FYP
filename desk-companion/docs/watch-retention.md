@@ -214,7 +214,7 @@ New stable errors include `RESPONSIBILITY_NOT_TERMINAL`,
 `RESPONSIBILITY_METADATA_UNAVAILABLE`. Existing operation conflict, version,
 receipt-limit, owner and privacy errors remain.
 
-## Schema2 and operator compatibility
+## Watch schema2 target and current operator compatibility
 
 The supported Store checks existing schema version and core ownership/settings/
 state structure before any journal-mode/bootstrap/settings/credential/version
@@ -227,10 +227,15 @@ an explicit acknowledgment that all app/workers are stopped and a coherent
 protected backup was separately verified. The flag proves neither condition.
 There is no backup service or automatic migration of an existing user store.
 
-Fresh Store initialization creates all four core watch tables and indexes in
-schema2 without Runtime. Only task-dependent triggers/indexes wait for
-TaskService. Current standalone Store can reopen normally; missing or partial
-core watch schema is rejected. Legacy databases with no watch tables are valid
+The released cc1751a Store initialized fresh schema2 with all four core watch
+tables and indexes without Runtime. The current public-capture development batch
+initializes fresh schema3, retaining those watch structures. Only task-dependent
+triggers/indexes wait for TaskService. Missing or partial core watch schema is
+rejected. A watch-only schema1 migration still stops at schema2; its returned Store
+is an offline migration handle, and current Runtime refuses to start on it.
+Use the separately acknowledged public-capture 2→3 migration before starting the
+current application. The watch CLI verifies already-valid schema2 read-only; it
+does not silently grant or perform the next migration. Legacy databases with no watch tables are valid
 supported inputs only when the other Store schema is recognized and migration
 is explicitly opted in.
 

@@ -1,0 +1,93 @@
+{
+  "inherited": "Same ongoing 186-document intake recorded at output/qa/2026-10-12-agent-kernel/reading-union-status.json; no new independent full-library read claim",
+  "completed_at": "2026-10-13T09:43:01.353120+00:00",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read": "1-EOF; changed lifecycle/source/test deltas reread during review",
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 222,
+      "read": "1-EOF; changed lifecycle/source/test deltas reread during review",
+      "sha256": "1f354de5bc7efc4f6c566b8f4f1be56716615abe61006160178e770980b9bdf2"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 58,
+      "read": "1-EOF; changed lifecycle/source/test deltas reread during review",
+      "sha256": "aa02a351c9bb5f8f77f0974dcde638ba11fd02e7542b42816aff6a955a2f3542"
+    },
+    {
+      "path": "planning/2026-10-13/exact-url-capture-implementation.md",
+      "lines": 168,
+      "read": "1-EOF; changed lifecycle/source/test deltas reread during review",
+      "sha256": "10470e02572735c59510a2a2205625a4dc9f19bc84646b4f44ad652238b043ec"
+    },
+    {
+      "path": "output/qa/2026-10-13-exact-url-plan-review/review.md",
+      "lines": 77,
+      "read": "1-EOF; changed lifecycle/source/test deltas reread during review",
+      "sha256": "3fafbd7d46e415102477df39d86883b0c7062d840a10eb38ef5ea03663a9d95f"
+    },
+    {
+      "path": "desk-companion/docs/sources-and-artifacts.md",
+      "lines": 208,
+      "read": "1-EOF; changed lifecycle/source/test deltas reread during review",
+      "sha256": "800165ebf9f687c0664feeaf0570ea7803c5f6bd982ec9424cbaa2259ee4bda2"
+    },
+    {
+      "path": "desk-companion/docs/work-capacity.md",
+      "lines": 43,
+      "read": "1-EOF; changed lifecycle/source/test deltas reread during review",
+      "sha256": "1f0aeb735a23a5d2586d4ed6a9802bc3a7696d99e24accbd0dc4bb14f2df06a0"
+    },
+    {
+      "path": "desk-companion/backend/desk/public_captures.py",
+      "lines": 906,
+      "read": "1-EOF; changed lifecycle/source/test deltas reread during review",
+      "sha256": "98a0f7701852067e94eb424a6cc0473f2ddf348b18a6d677dbca8322138247df"
+    },
+    {
+      "path": "desk-companion/backend/desk/sources.py",
+      "lines": 367,
+      "read": "1-EOF; changed lifecycle/source/test deltas reread during review",
+      "sha256": "0630e524e46899f9f9038f2d56d66090415cfa425e00e5978748f54ebdbc1c01"
+    },
+    {
+      "path": "desk-companion/backend/desk/file_store.py",
+      "lines": 411,
+      "read": "1-EOF; changed lifecycle/source/test deltas reread during review",
+      "sha256": "fd87351d7f769837ec46d0f24814b37e1e59555e0a4affba892a54c7c3e28f89"
+    },
+    {
+      "path": "desk-companion/backend/desk/work_capacity.py",
+      "lines": 243,
+      "read": "1-EOF; changed lifecycle/source/test deltas reread during review",
+      "sha256": "5a085a9dcf90ac7b546ab27d70f3cc84bb478595fc1e15a748c4f8e028dae333"
+    },
+    {
+      "path": "desk-companion/tests/test_public_captures.py",
+      "lines": 569,
+      "read": "1-EOF; changed lifecycle/source/test deltas reread during review",
+      "sha256": "24fb72cd309b4d519992d02dd09be69b13c2b44bd2c314ab719fc155f7d96ecf"
+    },
+    {
+      "path": "desk-companion/tests/test_public_capture_runtime.py",
+      "lines": 117,
+      "read": "1-EOF; changed lifecycle/source/test deltas reread during review",
+      "sha256": "15694ac5a3d1f63840934d69f4cdf415a6fa7184a1b8fda0b3d0b9c2751e7dbb"
+    }
+  ],
+  "focused_additional_reads": [
+    "decision-log.md current final decisions",
+    "app.py and runtime.py public capture imports/construction/routes/start-stop",
+    "public_capture_policy.py strict input and metadata definitions",
+    "public_capture_schema.py structural DDL context; schema audit separately owned"
+  ],
+  "exclusions": "Dependencies, build/cache and auto-generated QA snapshots; read relevant plan review despite QA location.",
+  "final_delta_read_at": "2026-10-13T09:49:00Z",
+  "final_delta_notes": "Reread changed receipt validation, authority/key projection, exact canonical source metadata, checkpoint-aware final readback/status commit, and reconcile CAS; final hashes separately recorded."
+}

@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-13T09:49:00.297663+00:00",
+  "files": {
+    "desk-companion/backend/desk/public_captures.py": "aa6ca78a58c34b19774761d96de8e96ce827531dd3de8c7db5b2982c4f3720bf",
+    "desk-companion/backend/desk/file_store.py": "ae5d1b98fbd038468396c341097036867781f2ff567f768d5b77d843398b2618",
+    "desk-companion/backend/desk/sources.py": "0630e524e46899f9f9038f2d56d66090415cfa425e00e5978748f54ebdbc1c01",
+    "desk-companion/backend/desk/work_capacity.py": "5a085a9dcf90ac7b546ab27d70f3cc84bb478595fc1e15a748c4f8e028dae333",
+    "desk-companion/backend/desk/runtime.py": "bbe929ad5e40d1897c783e963dc52fd4afbcaf5979ad14e0133c88ce104a1da0",
+    "desk-companion/backend/desk/app.py": "c424565e2455caadb5f15dc0bfead3f21683134e98bda6f6405119e2c81ba1a8",
+    "desk-companion/backend/desk/public_capture_policy.py": "08957560de33b1e6d8dad4c88a1c2580de9f53e8a3df62b02560eb66eac9e314",
+    "desk-companion/backend/desk/public_capture_schema.py": "27a60c2888a7d53ba710923d561ab2b0444c6372d5b3772305e8d5c4afe7a62a",
+    "desk-companion/tests/test_public_captures.py": "e0f9415c160d7b9c5bdebe30acb109d7fb7d41e48268b1eab2b73301d0a992df",
+    "desk-companion/tests/test_public_capture_runtime.py": "15694ac5a3d1f63840934d69f4cdf415a6fa7184a1b8fda0b3d0b9c2751e7dbb",
+    "output/qa/2026-10-13-public-capture-lifecycle-audit/test_independent_lifecycle.py": "bf2a217e89b997ebd1b9f90478120efbcf73c59f34f805d9e77d7d466734a04b"
+  },
+  "changed": []
+}

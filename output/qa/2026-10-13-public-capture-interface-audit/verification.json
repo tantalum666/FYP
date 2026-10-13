@@ -1,0 +1,31 @@
+{
+  "completed_at": "2026-10-13T09:51:47.575718+00:00",
+  "status": "pass; mounted UI/live public-network acceptance remains open",
+  "independent_tests": {
+    "production_hook_callback_and_wire": 19,
+    "real_react_ssr": 5,
+    "total": 24,
+    "failures": 0
+  },
+  "full_frontend_independently_rerun": {
+    "tests": 238,
+    "failures": 0
+  },
+  "typecheck_independently_rerun": "pass",
+  "production_build": "owner-reported pass; not rerun by QA-only auditor",
+  "fixed_findings": [
+    "F1 browser dual-clock review expiry",
+    "F2 reordered source-preview access denial",
+    "F3 full inert acquisition provenance"
+  ],
+  "frozen_manifest_sha256": "b63651a3c3b27a336423d5d3efdbd8f2cadd65e830be895391120b97c62a6ab6",
+  "source_hash_count": 11,
+  "changed_during_final_tests": [],
+  "backend_wire_source_sha256": {
+    "desk-companion/backend/desk/public_captures.py": "aa6ca78a58c34b19774761d96de8e96ce827531dd3de8c7db5b2982c4f3720bf",
+    "desk-companion/backend/desk/public_capture_policy.py": "08957560de33b1e6d8dad4c88a1c2580de9f53e8a3df62b02560eb66eac9e314",
+    "desk-companion/backend/desk/sources.py": "0630e524e46899f9f9038f2d56d66090415cfa425e00e5978748f54ebdbc1c01"
+  },
+  "wire": "Actual service with synthetic injected transport, temporary SQLite and source files; no live public DNS/GET, no browser, no actual user data",
+  "qa_scope": "Only own audit directory written; no application/Git/settings edits"
+}

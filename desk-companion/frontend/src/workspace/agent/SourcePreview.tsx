@@ -1,3 +1,5 @@
+import { captureDenial } from "./publicCapture";
+import { CaptureProvenance } from "./CaptureProvenance";
 import { useEffect, useRef, useState } from "react";
 import { request } from "../../api";
 import { Modal } from "../../components/Dialogs";
@@ -31,8 +33,18 @@ export function SourcePreview({
     [value, setValue] = useState<Content | null>(null),
     [error, setError] = useState<unknown>(null),
     [loading, setLoading] = useState(false);
-  const sequence = useRef(0);
+  const sequence = useRef(0),
+    live = useRef(true),
+    mountEpoch = useRef(fence.capture());
   useEffect(() => {
+    live.current = true;
+    return () => {
+      live.current = false;
+      sequence.current++;
+    };
+  }, []);
+  useEffect(() => {
+    if (!live.current || !fence.accepts(mountEpoch.current)) return;
     const token = ++sequence.current,
       epoch = fence.capture();
     setValue(null);
@@ -43,6 +55,7 @@ export function SourcePreview({
     )
       .then((body) => {
         if (
+          live.current &&
           sequence.current === token &&
           fence.accepts(epoch) &&
           body.id === source.id
@@ -50,7 +63,18 @@ export function SourcePreview({
           setValue(body);
       })
       .catch((e) => {
-        if (sequence.current === token && fence.accepts(epoch)) setError(e);
+        if (live.current && fence.accepts(epoch) && captureDenial(e)) {
+          fence.update(`source-preview-denied:${epoch}`, false);
+          sequence.current++;
+          setValue(null);
+          setLoading(false);
+          setError(e);
+        } else if (
+          live.current &&
+          sequence.current === token &&
+          fence.accepts(epoch)
+        )
+          setError(e);
       })
       .finally(() => {
         if (sequence.current === token && fence.accepts(epoch))
@@ -60,6 +84,7 @@ export function SourcePreview({
       sequence.current++;
     };
   }, [source.id, start, fence]);
+  if (!live.current || !fence.accepts(mountEpoch.current)) return null;
   return (
     <Modal
       title={t("Source preview", "来源预览")}
@@ -71,6 +96,9 @@ export function SourcePreview({
       <small>
         {source.id} · SHA-256: {source.sha256}
       </small>
+      {source.provenance_kind === "public_web_snapshot" && (
+        <CaptureProvenance value={source.acquisition} t={t} />
+      )}
       {loading && <p role="status">{t("Loading source…", "正在读取来源…")}</p>}
       {!!error && (
         <p role="alert" className="error-message">
@@ -97,7 +125,10 @@ export function SourcePreview({
               type="button"
               className="secondary"
               disabled={start === 1}
-              onClick={() => setStart(1)}
+              onClick={() => {
+                if (live.current && fence.accepts(mountEpoch.current))
+                  setStart(1);
+              }}
             >
               {t("First lines", "首段")}
             </button>
@@ -108,7 +139,10 @@ export function SourcePreview({
                 value.end_line >= value.total_lines ||
                 value.end_line < value.start_line
               }
-              onClick={() => setStart(value.end_line + 1)}
+              onClick={() => {
+                if (live.current && fence.accepts(mountEpoch.current))
+                  setStart(value.end_line + 1);
+              }}
             >
               {t("Next lines", "下一段")}
             </button>

@@ -6,6 +6,7 @@ import type { Translate } from "../../types";
 import { useWorkspace } from "../WorkspaceContext";
 import { ResponseFence } from "../personal/responseFence";
 import { agentError, modeLabel, stateLabel } from "./labels";
+import { PublicCapture } from "./PublicCapture";
 import { RunComposer } from "./RunComposer";
 import { RunDetail } from "./RunDetail";
 import { RunMetadataPanel } from "./RunMetadataPanel";
@@ -160,12 +161,23 @@ export function RunPanel({
               }
             />
           ) : (
-            <RunMetadataPanel
-              key={epoch}
-              t={t}
-              fence={fence.current}
-              epoch={epoch}
-            />
+            <>
+              <PublicCapture
+                key={`capture:${epoch}`}
+                t={t}
+                fence={fence.current}
+                epoch={epoch}
+                fresh={access.available}
+                hidden
+                historyOnly
+              />
+              <RunMetadataPanel
+                key={epoch}
+                t={t}
+                fence={fence.current}
+                epoch={epoch}
+              />
+            </>
           )}
         </Modal>
       )}
@@ -348,6 +360,17 @@ function RunWorkspace({
   }
   return (
     <div className="agent-workspace">
+      <PublicCapture
+        t={t}
+        fence={fence}
+        epoch={epoch}
+        fresh={fresh}
+        historyOnly
+        onChanged={() => {
+          void reload(true);
+          void capacity.refresh();
+        }}
+      />
       <WorkCapacitySummary
         value={capacity.value}
         t={t}

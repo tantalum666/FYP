@@ -1,0 +1,30 @@
+{
+  "existing_dns_224.0.0.1": [
+    "224.0.0.1"
+  ],
+  "existing_dns_ff02::1": [
+    "ff02::1"
+  ],
+  "default_response_interim": {
+    "status": 200,
+    "headers": [
+      [
+        "Content-Length",
+        "2"
+      ],
+      [
+        "Content-Type",
+        "text/plain"
+      ]
+    ],
+    "body": "ok"
+  },
+  "linked_pending_retained": {
+    "nlink": 2,
+    "error": "FILE_READBACK_MISMATCH"
+  },
+  "after_pending_unlinked": {
+    "nlink": 1,
+    "exact_readback": true
+  }
+}

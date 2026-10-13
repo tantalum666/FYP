@@ -213,6 +213,26 @@ class WorkCapacityService:
         return result
 
 
+def source_admission(conn, prospective_bytes=1):
+    """Trusted transaction-aware admission; reservations remain charged.
+
+    Call only for a new exact operation. Recovery must not inspect unrelated
+    accounting buckets or charge the already reserved source again.
+    """
+    usage = WorkCapacityService._files(
+        conn, "sources", SOURCE_COUNT, SOURCE_TOTAL_BYTES, SOURCE_BYTES
+    )
+    count, size = usage["count"], usage["bytes"]
+    if count.used is None or size.used is None:
+        raise DomainError("CAPTURE_SOURCE_CAPACITY_UNAVAILABLE", 409)
+    if (type(prospective_bytes) is not int or prospective_bytes < 1
+            or prospective_bytes > SOURCE_BYTES):
+        raise DomainError("SOURCE_SIZE_LIMIT", 413)
+    if count.used >= SOURCE_COUNT or size.used + prospective_bytes > SOURCE_TOTAL_BYTES:
+        raise DomainError("CAPTURE_SOURCE_CAPACITY_LIMIT", 422)
+    return FileCapacity(**usage).model_dump()
+
+
 def work_capacity_routes(runtime, owner):
     router = APIRouter(prefix="/api/work", dependencies=[Depends(owner)])
 

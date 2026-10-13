@@ -29,10 +29,16 @@ from .connectors.agent_adapter import connector_adapters
 from .work_search import WorkSearchService
 from .responsibilities import ResponsibilityService
 from .work_capacity import WorkCapacityService
+from .public_capture_schema import SCHEMA_VERSION
+from .public_captures import PublicCaptureService
 
 
 class Runtime:
-    def __init__(self, store, allow_replay=False, connector_configs=()):
+    def __init__(self, store, allow_replay=False, connector_configs=(), *, public_capture_enabled=False):
+        # A watch-only migration may intentionally stop at schema 2. It is an
+        # offline migration result, never permission to start newer services.
+        if store.schema_version != SCHEMA_VERSION:
+            raise DomainError("SCHEMA_MIGRATION_REQUIRED")
         self.store = store
         self.allow_replay = allow_replay
         self.access = AccessService(store)
@@ -60,6 +66,7 @@ class Runtime:
         self.agent_runs = AgentRunService(self)
         self.work_search = WorkSearchService(self)
         self.work_capacity = WorkCapacityService(self)
+        self.public_captures = PublicCaptureService(self, enabled=public_capture_enabled)
         self.store.operation_guard = self.agent_runs.guard_operation
         self.posture.on_prompt = self.on_posture_prompt
 

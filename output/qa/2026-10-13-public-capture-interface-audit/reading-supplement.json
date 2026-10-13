@@ -1,0 +1,214 @@
+{
+  "inherited": "output/qa/2026-10-12-agent-kernel/reading-union-status.json; ongoing 186-document intake, explicitly assigned by parent",
+  "scope": "Complete focused contract/source reading; supplements same ongoing round, not a fresh full repository reading claim",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "line_count": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "line_count": 228,
+      "read_ranges": [
+        [
+          1,
+          228
+        ]
+      ],
+      "sha256": "f85f0937217902209288ef296df642b5a0b4723e2613f46c70159650f79365c5"
+    },
+    {
+      "path": "handoff.md",
+      "line_count": 58,
+      "read_ranges": [
+        [
+          1,
+          58
+        ]
+      ],
+      "sha256": "aa02a351c9bb5f8f77f0974dcde638ba11fd02e7542b42816aff6a955a2f3542"
+    },
+    {
+      "path": "planning/2026-10-13/exact-url-capture-implementation.md",
+      "line_count": 168,
+      "read_ranges": [
+        [
+          1,
+          168
+        ]
+      ],
+      "sha256": "770e1f4ef82abb6ec3719e450c1e475f490cc6a3f591f71d8c7a2379c0bbacff"
+    },
+    {
+      "path": "desk-companion/docs/sources-and-artifacts.md",
+      "line_count": 208,
+      "read_ranges": [
+        [
+          1,
+          208
+        ]
+      ],
+      "sha256": "800165ebf9f687c0664feeaf0570ea7803c5f6bd982ec9424cbaa2259ee4bda2"
+    },
+    {
+      "path": "desk-companion/docs/public-captures.md",
+      "line_count": 191,
+      "read_ranges": [
+        [
+          1,
+          191
+        ]
+      ],
+      "sha256": "6aaca485e779d027e7ff03f39d86687b9ce62436a27e442fa2866b0520c8069a"
+    },
+    {
+      "path": "output/qa/2026-10-13-exact-url-plan-review/review.md",
+      "line_count": 77,
+      "read_ranges": [
+        [
+          1,
+          77
+        ]
+      ],
+      "sha256": "3fafbd7d46e415102477df39d86883b0c7062d840a10eb38ef5ea03663a9d95f"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/publicCapture.ts",
+      "line_count": 307,
+      "read_ranges": [
+        [
+          1,
+          307
+        ]
+      ],
+      "sha256": "b3ddb5ebda8ee268c65e4929d222c78e76391ee848ff29c6a259e85749b8a7ca"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/usePublicCaptures.ts",
+      "line_count": 418,
+      "read_ranges": [
+        [
+          1,
+          418
+        ]
+      ],
+      "sha256": "25bd1287fdff6ab045a4428e0e144d7acd91c130cd253cb72346342fb49d0b4e"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/PublicCapture.tsx",
+      "line_count": 532,
+      "read_ranges": [
+        [
+          1,
+          532
+        ]
+      ],
+      "sha256": "28fdd8797bf368bd4ea8bd4b18486eace939875c15d84b7a116419b3959c3527"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/CaptureProvenance.tsx",
+      "line_count": 56,
+      "read_ranges": [
+        [
+          1,
+          56
+        ]
+      ],
+      "sha256": "21d5c9e445e877ab8b22358a0dca97a63bfabefcff8e5045eab83fce09e12bf7"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/SourcePreview.tsx",
+      "line_count": 154,
+      "read_ranges": [
+        [
+          1,
+          154
+        ]
+      ],
+      "sha256": "15e755453fe56dbe7551923e752d7b60ead4d1f95a6d6762d124f1e932d085c4"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunComposer.tsx",
+      "line_count": 916,
+      "read_ranges": [
+        [
+          1,
+          916
+        ]
+      ],
+      "sha256": "4d6101d9657b34785036b6621be9014ab114066c6d31183b649253dc4c015db3"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunPanel.tsx",
+      "line_count": 597,
+      "read_ranges": [
+        [
+          1,
+          597
+        ]
+      ],
+      "sha256": "cdc349fbb26b7313763c44fe092af55c5d4129b3771bb89c90c6b19237bf1409"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/types.ts",
+      "line_count": 554,
+      "read_ranges": [
+        [
+          1,
+          554
+        ]
+      ],
+      "sha256": "941a42290cb54f7c90da5f9f9ecba46125a9de1c1b94d57a9f1a1dc32bf97bfa"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/agent.css",
+      "line_count": 314,
+      "read_ranges": [
+        [
+          1,
+          314
+        ]
+      ],
+      "sha256": "8e95a6e4e8063bfd56a7e04d85b1f05d0be10493d2e7b0b33fd4d9c9c65cfb71"
+    },
+    {
+      "path": "desk-companion/frontend/tests/public-capture-lifecycle.test.ts",
+      "line_count": 899,
+      "read_ranges": [
+        [
+          1,
+          899
+        ]
+      ],
+      "sha256": "18e9b72718ccc00cc9fa3e0c03730a77162da8cd51b6f543a4b8850796f3f024"
+    },
+    {
+      "path": "desk-companion/frontend/tests/public-capture-render.test.ts",
+      "line_count": 228,
+      "read_ranges": [
+        [
+          1,
+          228
+        ]
+      ],
+      "sha256": "8f9fa8dd3fba97414553cc2636524c575b68b9e8016dbc2fa9627337860c66ab"
+    }
+  ],
+  "additional_reading": [
+    "decision-log.md latest75 lines",
+    "frontend/src/components/DraftGuard.tsx full",
+    "frontend/src/workspace/personal/responseFence.ts full",
+    "backend/desk/public_captures.py projection/capability/prepare/review/detail/list/approve/cancel methods",
+    "test_public_captures.py fixture and test_work_search.py fixture"
+  ],
+  "excluded": "Dependencies/caches/build output and generated QA snapshots except named evidence; inherited historical Markdown not re-read",
+  "completed_at": "2026-10-13T09:51:47.575718+00:00",
+  "followup": "Read owner fixes/new tests and latest public-captures contract; full changed-source paths remain same"
+}

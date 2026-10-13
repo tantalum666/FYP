@@ -1,0 +1,77 @@
+{
+  "inherited_intake": "Same ongoing 186-document intake; focused supplement only",
+  "completed_at": "2026-10-13T09:32:14.871787+00:00",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_range": "1-EOF",
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 222,
+      "read_range": "1-EOF",
+      "sha256": "1f354de5bc7efc4f6c566b8f4f1be56716615abe61006160178e770980b9bdf2"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 58,
+      "read_range": "1-EOF",
+      "sha256": "aa02a351c9bb5f8f77f0974dcde638ba11fd02e7542b42816aff6a955a2f3542"
+    },
+    {
+      "path": "planning/2026-10-13/exact-url-capture-implementation.md",
+      "lines": 168,
+      "read_range": "1-EOF",
+      "sha256": "8ca6025fb7dee4b5c7f05f3756aa433fea7b364b3a1a9be71641f9d35184eee9"
+    },
+    {
+      "path": "output/qa/2026-10-13-exact-url-plan-review/review.md",
+      "lines": 77,
+      "read_range": "1-EOF",
+      "sha256": "3fafbd7d46e415102477df39d86883b0c7062d840a10eb38ef5ea03663a9d95f"
+    },
+    {
+      "path": "desk-companion/backend/desk/sources.py",
+      "lines": 367,
+      "read_range": "1-EOF",
+      "sha256": "0630e524e46899f9f9038f2d56d66090415cfa425e00e5978748f54ebdbc1c01"
+    },
+    {
+      "path": "desk-companion/backend/desk/provider_policy.py",
+      "lines": 110,
+      "read_range": "1-EOF",
+      "sha256": "991cedca7120eb93da1dc325fe44353bc596e0594659cdc143a0a9baf0bcc335"
+    },
+    {
+      "path": "desk-companion/pyproject.toml",
+      "lines": 46,
+      "read_range": "1-EOF",
+      "sha256": "c24ec2113c8366cc1b324bba1c2c4b103c60050f801afed867055cb18c2800dc"
+    },
+    {
+      "path": "desk-companion/backend/desk/public_capture_policy.py",
+      "lines": 483,
+      "read_range": "1-EOF",
+      "sha256": "aea96e1deb0f0a6564a1d2f8f305fa52eb146ffa6f8a311171272b705f9bc204"
+    },
+    {
+      "path": "desk-companion/tests/test_public_capture_policy.py",
+      "lines": 314,
+      "read_range": "1-EOF",
+      "sha256": "0cb76c9373e11eed283e6cbf4e246cff96799ffdc7d6071c57ef7a12eadba37e"
+    }
+  ],
+  "partial_context": [
+    {
+      "path": "decision-log.md",
+      "read_range": "833-897 latest decisions"
+    },
+    {
+      "path": "desk-companion/backend/desk/schemas.py",
+      "read_range": "1-100 strict base model conventions"
+    }
+  ],
+  "exclusions": "Inherited full intake exclusions unchanged; no dependency/cache/Git traversal; QA snapshot only required review read."
+}

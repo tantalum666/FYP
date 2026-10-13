@@ -1,0 +1,16 @@
+{
+  "historical_source_revision": "cc1751a",
+  "historical_store_sha256": "14ab5ff8530a52acf4b076ebc97bc55f491359a96405069d6479702f8b32d0ee",
+  "schema3_refused_without_database_changes": [
+    {
+      "watch_migration_flag": false,
+      "code": "SCHEMA_VERSION_UNSUPPORTED"
+    },
+    {
+      "watch_migration_flag": true,
+      "code": "SCHEMA_VERSION_UNSUPPORTED"
+    }
+  ],
+  "historical_v2_store_still_accepted": true,
+  "scope": "Exact archived Store module, unchanged relative dependencies; synthetic SQLite only, not a historical full-app acceptance test"
+}

@@ -1,0 +1,93 @@
+{
+  "completed_utc": "2026-10-13T09:49:52.001057+00:00",
+  "inherited_intake": "Same ongoing 186-document intake; not a new independent whole-repository reading claim",
+  "inherited_record": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "focused_supplement": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_range": "1-50 focused full text across segmented tool reads",
+      "sha256_current": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 228,
+      "read_range": "1-228 focused full text across segmented tool reads",
+      "sha256_current": "f85f0937217902209288ef296df642b5a0b4723e2613f46c70159650f79365c5"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 58,
+      "read_range": "1-58 focused full text across segmented tool reads",
+      "sha256_current": "aa02a351c9bb5f8f77f0974dcde638ba11fd02e7542b42816aff6a955a2f3542"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 904,
+      "read_range": "840-897 latest relevant decisions",
+      "sha256_current": "e48ce18602f84d23a41235a80f48519f7172c3e105a30dbe253b5162545505fd"
+    },
+    {
+      "path": "planning/2026-10-13/exact-url-capture-implementation.md",
+      "lines": 168,
+      "read_range": "1-168 focused full text across segmented tool reads",
+      "sha256_current": "770e1f4ef82abb6ec3719e450c1e475f490cc6a3f591f71d8c7a2379c0bbacff"
+    },
+    {
+      "path": "output/qa/2026-10-13-exact-url-plan-review/review.md",
+      "lines": 77,
+      "read_range": "1-77 focused full text across segmented tool reads",
+      "sha256_current": "3fafbd7d46e415102477df39d86883b0c7062d840a10eb38ef5ea03663a9d95f"
+    },
+    {
+      "path": "desk-companion/docs/sources-and-artifacts.md",
+      "lines": 208,
+      "read_range": "1-208 focused full text across segmented tool reads",
+      "sha256_current": "800165ebf9f687c0664feeaf0570ea7803c5f6bd982ec9424cbaa2259ee4bda2"
+    },
+    {
+      "path": "desk-companion/docs/work-capacity.md",
+      "lines": 43,
+      "read_range": "1-43 focused full text across segmented tool reads",
+      "sha256_current": "1f0aeb735a23a5d2586d4ed6a9802bc3a7696d99e24accbd0dc4bb14f2df06a0"
+    },
+    {
+      "path": "desk-companion/backend/desk/sources.py",
+      "lines": 367,
+      "read_range": "1-367 focused full text across segmented tool reads",
+      "sha256_current": "0630e524e46899f9f9038f2d56d66090415cfa425e00e5978748f54ebdbc1c01"
+    },
+    {
+      "path": "desk-companion/backend/desk/file_store.py",
+      "lines": 414,
+      "read_range": "1-414 focused full text across segmented tool reads",
+      "sha256_current": "ae5d1b98fbd038468396c341097036867781f2ff567f768d5b77d843398b2618"
+    },
+    {
+      "path": "desk-companion/backend/desk/work_capacity.py",
+      "lines": 243,
+      "read_range": "1-243 focused full text across segmented tool reads",
+      "sha256_current": "5a085a9dcf90ac7b546ab27d70f3cc84bb478595fc1e15a748c4f8e028dae333"
+    },
+    {
+      "path": "desk-companion/backend/desk/work_limits.py",
+      "lines": 12,
+      "read_range": "1-12 focused full text across segmented tool reads",
+      "sha256_current": "2ac2213f9813db345ffe77f90998416f76794480ac58e716e8024f095870c2a7"
+    },
+    {
+      "path": "desk-companion/backend/desk/public_capture_policy.py",
+      "lines": 498,
+      "read_range": "1-498 focused full text across segmented tool reads",
+      "sha256_current": "08957560de33b1e6d8dad4c88a1c2580de9f53e8a3df62b02560eb66eac9e314"
+    },
+    {
+      "path": "desk-companion/backend/desk/connectors/public_capture_transport.py",
+      "lines": 238,
+      "read_range": "1-238 focused full text across segmented tool reads",
+      "sha256_current": "4d69a8820086b3ea1d31dbfd870bc35edb998a55ceeaeecd56814345194d971b"
+    }
+  ],
+  "excluded": "Dependencies, caches, generated QA evidence; no unrelated full-intake restart",
+  "note": "Current hashes track changes only; do not replace the segmented reading record. Sibling-owned implementation modules were inspected for agreed interfaces."
+}

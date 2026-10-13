@@ -1,0 +1,12 @@
+{
+  "desk-companion/backend/desk/store.py": "9bcec03a1268cd7d24e9bf1126c04906b95f02da8bb3aa0155c4a113c2a10686",
+  "desk-companion/backend/desk/public_capture_schema.py": "27a60c2888a7d53ba710923d561ab2b0444c6372d5b3772305e8d5c4afe7a62a",
+  "desk-companion/scripts/migrate_public_capture.py": "1193bfc1897c34315d17bc8ea33cc35bb124b43008b8b1361f2aad7b954a4544",
+  "desk-companion/scripts/migrate_watch_retention.py": "6b10729c5b67f835427b3455df9fd58915e19eedf5968763bc443d1f9f24be26",
+  "desk-companion/tests/test_public_capture_migration.py": "d97c8e537aa1dd8884c794935ec77706040a5ab719476758aeb5f9d66ad11e10",
+  "desk-companion/tests/test_watch_retention_migration.py": "13eca5d4849a2555112d85e2e90b7b0f91c8f4acfdcef2cbcdff46d95743a178",
+  "desk-companion/tests/test_watch_migration_cli.py": "942775d2f7fe8dec6ec0b2e2c6599931882e702b2830571209dc6b19caa6c690",
+  "desk-companion/backend/desk/runtime.py": "bbe929ad5e40d1897c783e963dc52fd4afbcaf5979ad14e0133c88ce104a1da0",
+  "desk-companion/backend/desk/app.py": "c424565e2455caadb5f15dc0bfead3f21683134e98bda6f6405119e2c81ba1a8",
+  "desk-companion/backend/desk/responsibility_retention.py": "f2a60d91ee8bc35c3c828897e1229eb48405dbf6f9c5e168916c13e474c0f91c"
+}

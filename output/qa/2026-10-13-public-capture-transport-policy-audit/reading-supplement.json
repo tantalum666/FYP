@@ -1,0 +1,93 @@
+{
+  "inherited": "output/qa/2026-10-12-agent-kernel/reading-union-status.json: ongoing186-document intake inherited by explicit parent instruction; no new all-repository read claimed",
+  "completed_utc": "2026-10-13T09:34:39.712224+00:00",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "range": "1-EOF",
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 222,
+      "range": "1-EOF",
+      "sha256": "1f354de5bc7efc4f6c566b8f4f1be56716615abe61006160178e770980b9bdf2"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 58,
+      "range": "1-EOF",
+      "sha256": "aa02a351c9bb5f8f77f0974dcde638ba11fd02e7542b42816aff6a955a2f3542"
+    },
+    {
+      "path": "planning/2026-10-13/exact-url-capture-implementation.md",
+      "lines": 168,
+      "range": "1-EOF",
+      "sha256": "10470e02572735c59510a2a2205625a4dc9f19bc84646b4f44ad652238b043ec"
+    },
+    {
+      "path": "output/qa/2026-10-13-exact-url-plan-review/review.md",
+      "lines": 77,
+      "range": "1-EOF",
+      "sha256": "3fafbd7d46e415102477df39d86883b0c7062d840a10eb38ef5ea03663a9d95f"
+    },
+    {
+      "path": "output/qa/2026-10-13-public-capture-policy/verification.md",
+      "lines": 23,
+      "range": "1-EOF",
+      "sha256": "c9535f346c2e2f89fb9c67bc212bf5eac1413e132aa381f575d5ca7c874d4360"
+    },
+    {
+      "path": "desk-companion/backend/desk/connectors/mcp_transport.py",
+      "lines": 342,
+      "range": "1-EOF",
+      "sha256": "53a99add168d985b16825713b97b5197a3b3d825aa06fe585b9f8c322927003e"
+    },
+    {
+      "path": "desk-companion/backend/desk/connectors/public_https.py",
+      "lines": 120,
+      "range": "1-EOF",
+      "sha256": "72c24b7601f80b73c207f4c6ec6fd3978a6b1a8b7d212f4bc6119d9f5b5e09cd"
+    },
+    {
+      "path": "desk-companion/backend/desk/connectors/public_capture_transport.py",
+      "lines": 235,
+      "range": "1-EOF",
+      "sha256": "b23832c882a5b221389cd8b5fac3c75a00d79c20ff14783aeb9cb566af08cd39"
+    },
+    {
+      "path": "desk-companion/backend/desk/public_capture_policy.py",
+      "lines": 483,
+      "range": "1-EOF",
+      "sha256": "aea96e1deb0f0a6564a1d2f8f305fa52eb146ffa6f8a311171272b705f9bc204"
+    },
+    {
+      "path": "desk-companion/tests/test_public_capture_transport.py",
+      "lines": 444,
+      "range": "1-EOF",
+      "sha256": "0fd3bd350d4e6b3f4d5da175cb62582cf2e71f5ef65548a099f83f6a79802bf7"
+    },
+    {
+      "path": "desk-companion/tests/test_public_capture_policy.py",
+      "lines": 314,
+      "range": "1-EOF",
+      "sha256": "0cb76c9373e11eed283e6cbf4e246cff96799ffdc7d6071c57ef7a12eadba37e"
+    },
+    {
+      "path": "desk-companion/tests/test_mcp_connectors.py",
+      "lines": 857,
+      "range": "1-EOF",
+      "sha256": "3c0c73775a5a7c4244ea208236731ed01634233ebc13b03063c0c489d82946e5"
+    },
+    {
+      "path": "desk-companion/tests/test_public_capture_review_regressions.py",
+      "lines": 19,
+      "range": "1-EOF",
+      "sha256": "a4fd0309ecdc0e049931f9a1dda4032df74d50b233260292973e80947e977aa2"
+    }
+  ],
+  "exclusions": "Dependencies/cache/builds/Git/generatedQA snapshots; only relevant changed documents added in ongoing work",
+  "final_corrections_read_utc": "2026-10-13T09:41:32.774378+00:00",
+  "final_corrections": "Read full owner feed/tail change and coordinator direct comment parser / immediate pre-send timeout changes; final hashes in frozen-after.json"
+}

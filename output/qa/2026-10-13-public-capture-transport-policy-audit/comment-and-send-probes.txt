@@ -1,0 +1,40 @@
+.FFF                                                                     [100%]
+=================================== FAILURES ===================================
+______ test_malformed_comment_not_browser_repaired[<!-->not approved-->] _______
+
+tail = b'<!-->not approved-->'
+
+    @pytest.mark.parametrize('tail',[b'<!-->not approved-->',b'<!--->not approved-->',b'<!--foo--!>'])
+    def test_malformed_comment_not_browser_repaired(tail):
+>       with pytest.raises(DomainError) as err: extract_static_text(b'<p>visible</p>'+tail,'text/html')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE DomainError
+
+output/qa/2026-10-13-public-capture-transport-policy-audit/test_independent.py:201: Failed
+______ test_malformed_comment_not_browser_repaired[<!--->not approved-->] ______
+
+tail = b'<!--->not approved-->'
+
+    @pytest.mark.parametrize('tail',[b'<!-->not approved-->',b'<!--->not approved-->',b'<!--foo--!>'])
+    def test_malformed_comment_not_browser_repaired(tail):
+>       with pytest.raises(DomainError) as err: extract_static_text(b'<p>visible</p>'+tail,'text/html')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE DomainError
+
+output/qa/2026-10-13-public-capture-transport-policy-audit/test_independent.py:201: Failed
+___________ test_malformed_comment_not_browser_repaired[<!--foo--!>] ___________
+
+tail = b'<!--foo--!>'
+
+    @pytest.mark.parametrize('tail',[b'<!-->not approved-->',b'<!--->not approved-->',b'<!--foo--!>'])
+    def test_malformed_comment_not_browser_repaired(tail):
+>       with pytest.raises(DomainError) as err: extract_static_text(b'<p>visible</p>'+tail,'text/html')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE DomainError
+
+output/qa/2026-10-13-public-capture-transport-policy-audit/test_independent.py:201: Failed
+=========================== short test summary info ============================
+FAILED output/qa/2026-10-13-public-capture-transport-policy-audit/test_independent.py::test_malformed_comment_not_browser_repaired[<!-->not approved-->]
+FAILED output/qa/2026-10-13-public-capture-transport-policy-audit/test_independent.py::test_malformed_comment_not_browser_repaired[<!--->not approved-->]
+FAILED output/qa/2026-10-13-public-capture-transport-policy-audit/test_independent.py::test_malformed_comment_not_browser_repaired[<!--foo--!>]
+3 failed, 1 passed, 48 deselected in 0.27s

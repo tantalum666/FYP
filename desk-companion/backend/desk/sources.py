@@ -97,7 +97,8 @@ class SourceService:
             "provider_sharing": "not_granted_by_selection",
         }
 
-    def ingest(self, payload, body, key, *, session_hash, _artifact_id=None):
+    def ingest(self, payload, body, key, *, session_hash, _artifact_id=None,
+               _capture_metadata=None, _checkpoint=None):
         if not isinstance(body, bytes) or not body or len(body) > SOURCE_BYTES:
             raise DomainError("SOURCE_SIZE_LIMIT", 413)
         try:
@@ -139,14 +140,57 @@ class SourceService:
                 "total_lines": len(lines),
                 "provenance_kind": "artifact_snapshot" if _artifact_id else "owner_selected_file",
                 "parent_artifact_id": _artifact_id,
+                **(_capture_metadata or {}),
             },
             key=key,
             session_hash=session_hash,
             max_bytes=SOURCE_BYTES,
             max_count=SOURCE_COUNT,
             max_total=SOURCE_TOTAL_BYTES,
+            checkpoint=_checkpoint,
         )
         return {"source": self.view(result), "operation_id": key}
+
+    @staticmethod
+    def public_capture_metadata(intent, acquisition):
+        """Code-owned metadata only; no HTTP upload payload reaches this adapter."""
+        return {
+            "display_name": intent["display_name"], "format": "text",
+            "mime": FORMATS["text"][1], "total_lines": acquisition["total_lines"],
+            "provenance_kind": "public_web_snapshot", "parent_artifact_id": None,
+            "capture_id": intent["capture_id"], "url": intent["url"],
+            "policy_version": intent["policy_version"], "acquisition": acquisition,
+        }
+
+    def public_capture_lookup(self, conn, *, intent, acquisition, key):
+        expected = {
+            **self.public_capture_metadata(intent, acquisition), "kind": "sources",
+            "sha256": acquisition["extracted_sha256"],
+            "byte_count": acquisition["extracted_byte_count"],
+        }
+        return self.files.exact_operation(conn, kind="sources", key=key, expected=expected)
+
+    def ingest_public_capture(self, *, intent, acquisition, body, key, session_hash, checkpoint):
+        from .file_store import digest
+        from .work_capacity import source_admission
+        if (key != "capture:" + intent["capture_id"] + ":source:v1"
+                or digest(body) != acquisition["extracted_sha256"]
+                or len(body) != acquisition["extracted_byte_count"]
+                or len(body.decode("utf-8").splitlines(keepends=True)) != acquisition["total_lines"]):
+            raise DomainError("CAPTURE_SOURCE_IDENTITY_INVALID", 409)
+
+        def guarded(conn):
+            checkpoint(conn)
+            old = self.public_capture_lookup(conn, intent=intent, acquisition=acquisition, key=key)
+            if old is None:
+                source_admission(conn, len(body))
+
+        return self.ingest(
+            SourceInput(name=intent["display_name"], format="text"), body, key,
+            session_hash=session_hash,
+            _capture_metadata=self.public_capture_metadata(intent, acquisition),
+            _checkpoint=guarded,
+        )
 
     def from_artifact(self, artifact_id, key, *, session_hash):
         artifact, body = self.runtime.artifacts.download(artifact_id, session_hash=session_hash)

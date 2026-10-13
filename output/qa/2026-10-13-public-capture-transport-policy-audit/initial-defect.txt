@@ -1,0 +1,7 @@
+Observed at original policy SHA256 0bf69ad9680d5a9b76e6951f9f7ef64b219fc182172d9f2622bf14a45bc63b9c, 2026-10-13 approximately09:30UTC.
+Independent Python probe, no network:
+extract_static_text(b'<p>visible</p><p a="xxx','text/html').body -> b'visible\n'
+extract_static_text(b'<p>visible</p><p a="'+b'x'*120000,'text/html').body -> b'visible\n'
+extract_static_text(b'<p>visible</p><!--noend','text/html').body -> b'visible\n'
+extract_static_text(b'<p>visible</p><p a="<no>','text/html').body -> b'visible\n'
+The complete terminal output and contemporaneous parent/owner report are in task tool history. This file records the exact small observed evidence, not a fabricated initial pytest failure. The first independent pytest run occurred after the owner had already fixed the source and passed39 tests.

@@ -1,0 +1,27 @@
+✔ capability defaults off, initial stale mount can recover capability, no automatic list or network mutation (140.549391ms)
+✔ disabled capture allows saved history reads but never preparation (38.160166ms)
+✔ prepare stores exact review and separate approval uses strict acknowledgments and double click lock (43.612626ms)
+✔ lost prepare response pins identical body key and only explicit retry recovers original (37.263986ms)
+✔ unknown approval can be stopped without generating a replacement capture, preserving original key (23.199141ms)
+✔ hidden uses scalar list/detail/stop only, rejects leaked private keys and cannot prepare reconcile or approve (21.286522ms)
+✔ all session privacy offline events revoke old callbacks pending retries and late response (57.053715ms)
+✔ stale freshness pauses mutation and retries without discarding original unknown request (31.167967ms)
+✔ old read access denial revokes newer view (58.291858ms)
+✔ unmount and A-B-A privacy epochs never revive old callbacks or replies (18.53395ms)
+✔ refresh immediately invalidates approval callback; malformed mutation response preserves original pending (20.999201ms)
+✔ strict parser rejects malformed scalar policy capacity and hidden projections (0.748262ms)
+✔ production intake callbacks retain volatile draft, require record acknowledgment and register dirty navigation (38.040402ms)
+✔ INDEPENDENT actual backend wire projections satisfy client decoders (0.720754ms)
+✔ INDEPENDENT rollback below review observation must prevent approve POST (14.072935ms)
+✔ INDEPENDENT source preview stale access denial revokes a newer visible page (8.232635ms)
+✔ INDEPENDENT disabled still reconciles and stops; queued refresh never posts approval (17.950887ms)
+✔ INDEPENDENT visible stop rejects private extra response and privacy change blocks followup read (33.784981ms)
+✔ INDEPENDENT monotonic elapsed expires approval with frozen wall clock (15.289462ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1142.557154

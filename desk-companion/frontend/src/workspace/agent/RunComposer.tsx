@@ -10,6 +10,7 @@ import type { ResponseFence } from "../personal/responseFence";
 import { usePrivateMutation } from "../personal/usePrivateMutation";
 import { modeLabel } from "./labels";
 import { RequestFeedback } from "./RequestFeedback";
+import { PublicCapture } from "./PublicCapture";
 import { SourceUpload } from "./SourceUpload";
 import { SourcePreview } from "./SourcePreview";
 import { RunBrowserSelection } from "./RunBrowserSelection";
@@ -84,6 +85,7 @@ export function RunComposer({
     scope: RunScope;
   } | null>(null);
   const [uploadDraft, setUploadDraft] = useState(false);
+  const [captureDraft, setCaptureDraft] = useState(false);
   const [preview, setPreview] = useState<SourceRecord | null>(null);
   const mutation = usePrivateMutation();
   const locked = mutation.busy || mutation.pending;
@@ -93,7 +95,10 @@ export function RunComposer({
   const scopeChanged =
     !!review && review.input.scope_revision !== scope.scope_revision;
   const dirty =
-    JSON.stringify(draft) !== JSON.stringify(newRunDraft()) || mutation.pending;
+    JSON.stringify(draft) !== JSON.stringify(newRunDraft()) ||
+    mutation.pending ||
+    uploadDraft ||
+    captureDraft;
   useDraftGuard(dirty, mutation.busy);
   useEffect(() => {
     setDraft((old) => ({
@@ -462,7 +467,13 @@ export function RunComposer({
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              if (fresh && input && !uploadDraft && !originExpired)
+              if (
+                fresh &&
+                input &&
+                !uploadDraft &&
+                !captureDraft &&
+                !originExpired
+              )
                 setReview({ input, scope });
             }}
           >
@@ -635,6 +646,14 @@ export function RunComposer({
                 capacity={capacity}
                 onUploaded={() => onRefresh()}
                 onDraftChange={setUploadDraft}
+              />
+              <PublicCapture
+                t={t}
+                fence={fence}
+                epoch={viewEpoch}
+                fresh={fresh && !exactTaskIds}
+                onDraftChange={setCaptureDraft}
+                onChanged={onRefresh}
               />
             </fieldset>
             <fieldset>
@@ -865,17 +884,19 @@ export function RunComposer({
                 "在此服务端保留目标、所选来源引用、进展及产物",
               )}
             </label>
-            {uploadDraft && (
+            {(uploadDraft || captureDraft) && (
               <p className="workspace-hint">
                 {t(
-                  "Finish the upload or clear its selection before reviewing this run.",
-                  "请完成上传或清除文件选择后，再审阅此次运行。",
+                  "Finish the upload, clear the unsent source/capture draft, or recover the original capture operation before reviewing this run.",
+                  "请完成上传、清除未发送的来源／采集草稿，或恢复原采集操作后，再审阅此次运行。",
                 )}
               </p>
             )}
             <button
               className="primary"
-              disabled={!fresh || !input || uploadDraft || originExpired}
+              disabled={
+                !fresh || !input || uploadDraft || captureDraft || originExpired
+              }
             >
               {t("Review scope before starting", "开始前审阅范围")}
             </button>

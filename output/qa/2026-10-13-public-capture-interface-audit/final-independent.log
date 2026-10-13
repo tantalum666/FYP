@@ -1,0 +1,32 @@
+✔ capability defaults off, initial stale mount can recover capability, no automatic list or network mutation (225.249786ms)
+✔ disabled capture allows saved history reads but never preparation (68.543208ms)
+✔ prepare stores exact review and separate approval uses strict acknowledgments and double click lock (56.525549ms)
+✔ lost prepare response pins identical body key and only explicit retry recovers original (36.363819ms)
+✔ unknown approval can be stopped without generating a replacement capture, preserving original key (28.991223ms)
+✔ hidden uses scalar list/detail/stop only, rejects leaked private keys and cannot prepare reconcile or approve (42.662249ms)
+✔ all session privacy offline events revoke old callbacks pending retries and late response (85.664725ms)
+✔ stale freshness pauses mutation and retries without discarding original unknown request (37.434152ms)
+✔ old read access denial revokes newer view (74.715601ms)
+✔ unmount and A-B-A privacy epochs never revive old callbacks or replies (20.777375ms)
+✔ refresh immediately invalidates approval callback; malformed mutation response preserves original pending (17.047947ms)
+✔ strict parser rejects malformed scalar policy capacity and hidden projections (0.640623ms)
+✔ production intake callbacks retain volatile draft, require record acknowledgment and register dirty navigation (51.433681ms)
+✔ INDEPENDENT actual backend wire projections satisfy client decoders (1.1205ms)
+✔ INDEPENDENT rollback below review observation must prevent approve POST (20.689023ms)
+✔ INDEPENDENT source preview stale access denial revokes a newer visible page (13.982538ms)
+✔ INDEPENDENT disabled still reconciles and stops; queued refresh never posts approval (19.091353ms)
+✔ INDEPENDENT visible stop rejects private extra response and privacy change blocks followup read (35.705863ms)
+✔ INDEPENDENT monotonic elapsed expires approval with frozen wall clock (19.477779ms)
+✔ actual bilingual intake/review states exact bounded GET disclosure, unchecked separate consents and inert URL/label (167.993925ms)
+✔ disabled still renders history/local reconciliation and cancelled source provenance without implying deletion (58.055188ms)
+✔ hidden projection renders handles/status/stop without private URL source or reconcile (31.411835ms)
+✔ acquisition preview is safe plaintext and invalid provenance never becomes evidence (1.82948ms)
+✔ INDEPENDENT actual backend acquisition rendered as full inert provenance (33.918157ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1556.707529
