@@ -1,0 +1,2 @@
+evidence_id,kind,label,sha256,observed_at,coverage,statistics
+source:3884627f3f184067b7fe4e2bc151c262,source,capture-3d33210eab094205b4d8645c19ac874e.txt,7dbadf3d355a2fe08e1aa7e6a3ad1c19716da66c78699876f1045df83daa2d66,2026-10-13T12:00:00.000000Z,"{""end_line"":2,""excerpt_characters"":47,""start_line"":1,""total_lines"":2,""truncated"":false}",null

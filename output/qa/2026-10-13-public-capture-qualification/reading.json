@@ -1,0 +1,99 @@
+{
+  "same_task_inherited_intake": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "inherited_status": "complete, 186 of 186; not claimed as reread",
+  "completed_utc": "2026-10-13T10:17:28.514857+00:00",
+  "full_reads": {
+    "AGENTS.md": {
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "range": "1-EOF"
+    },
+    "product.md": {
+      "lines": 228,
+      "sha256": "a3871de2bd5f6bb5a25c6c08b8ef5aebcb70c4546623e5e826448bf989327444",
+      "range": "1-EOF"
+    },
+    "handoff.md": {
+      "lines": 58,
+      "sha256": "871c3eb764540a8bba24123c2bbedf2ef894f88f0b470e46123ae2ce90b421a8",
+      "range": "1-EOF"
+    },
+    "desk-companion/docs/public-captures.md": {
+      "lines": 191,
+      "sha256": "6aaca485e779d027e7ff03f39d86687b9ce62436a27e442fa2866b0520c8069a",
+      "range": "1-EOF"
+    },
+    "desk-companion/docs/sources-and-artifacts.md": {
+      "lines": 208,
+      "sha256": "800165ebf9f687c0664feeaf0570ea7803c5f6bd982ec9424cbaa2259ee4bda2",
+      "range": "1-EOF"
+    },
+    "desk-companion/docs/agent-runs.md": {
+      "lines": 134,
+      "sha256": "0d7ccc95bcc22a6afc56fe16fff39c5f5c7b378f2d4b13c581d02016b85c8940",
+      "range": "1-EOF"
+    },
+    "desk-companion/backend/desk/public_captures.py": {
+      "lines": 910,
+      "sha256": "aa6ca78a58c34b19774761d96de8e96ce827531dd3de8c7db5b2982c4f3720bf",
+      "range": "1-EOF"
+    },
+    "desk-companion/backend/desk/public_capture_policy.py": {
+      "lines": 498,
+      "sha256": "08957560de33b1e6d8dad4c88a1c2580de9f53e8a3df62b02560eb66eac9e314",
+      "range": "1-EOF"
+    },
+    "desk-companion/backend/desk/connectors/public_capture_transport.py": {
+      "lines": 238,
+      "sha256": "4d69a8820086b3ea1d31dbfd870bc35edb998a55ceeaeecd56814345194d971b",
+      "range": "1-EOF"
+    },
+    "desk-companion/backend/desk/connectors/public_https.py": {
+      "lines": 120,
+      "sha256": "72c24b7601f80b73c207f4c6ec6fd3978a6b1a8b7d212f4bc6119d9f5b5e09cd",
+      "range": "1-EOF"
+    },
+    "output/qa/2026-10-13-public-capture-integration/verification.md": {
+      "lines": 33,
+      "sha256": "0705a827690da3bfb6f82d7236f344f44f12399077aa8bf074625c8bbe84acce",
+      "range": "1-EOF"
+    },
+    "output/qa/2026-10-13-public-capture-integration/publication.json": {
+      "lines": 19,
+      "sha256": "48ccaa1ae4501ff944c255a958dafb2757eef1dcbdbdcc259ca28bab987af3e8",
+      "range": "1-EOF"
+    },
+    "output/qa/2026-10-13-public-capture-lifecycle/verification.md": {
+      "lines": 76,
+      "sha256": "003e1d086e7a331eedf0dd97b72b23365846d107562c4a3981629579712d9d58",
+      "range": "1-EOF"
+    }
+  },
+  "focused_ranges": {
+    "desk-companion/tests/test_public_captures.py": [
+      [
+        1,
+        110
+      ],
+      [
+        300,
+        405
+      ]
+    ],
+    "desk-companion/tests/test_work_search.py": [
+      [
+        1,
+        100
+      ]
+    ],
+    "desk-companion/backend/desk/runtime.py": [
+      [
+        1,
+        50
+      ]
+    ],
+    "decision-log.md": "last 45 lines"
+  },
+  "external_full_read": "/workspace/shared/fyp-next-workflow-proposal.md",
+  "exclusions": "Unchanged project Markdown inherits same-task intake; old generated QA snapshots not reread wholesale."
+}

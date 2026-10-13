@@ -1,0 +1,35 @@
+{
+  "commit": "9cb5fc50e48724b5b60fbc718292a797ce347257",
+  "tree": "99ef93d2ceab9ade8b7e5713c2a4f0afdfab3128",
+  "parent": "cc1751afdcf777b22a34470e2cd87078ea4552af",
+  "branch": "codex/personal-agent-kernel-20261012",
+  "pr": "https://github.com/tantalum666/FYP/pull/5",
+  "verified_entries": 142,
+  "backend_tests": 1380,
+  "frontend_tests": 238,
+  "stable_source_files": 302,
+  "remote_ci": [
+    {
+      "id": 38381693369,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/tantalum666/FYP/actions/runs/38381693369",
+      "event": "pull_request"
+    },
+    {
+      "id": 38381687552,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/tantalum666/FYP/actions/runs/38381687552",
+      "event": "push"
+    }
+  ],
+  "verified_at": "2026-10-13T10:11:55Z",
+  "limitations": [
+    "Actual public-site acceptance pending",
+    "Mounted browser acceptance pending",
+    "No live model calls",
+    "Not merged or deployed"
+  ],
+  "ci_verified_at": "2026-10-13T10:21:06Z"
+}

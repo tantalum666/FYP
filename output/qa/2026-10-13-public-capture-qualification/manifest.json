@@ -1,0 +1,39 @@
+{
+  "release": "9cb5fc50e48724b5b60fbc718292a797ce347257",
+  "frozen_application_files": 302,
+  "changed": [],
+  "files": {
+    "verification.md": {
+      "bytes": 9802,
+      "sha256": "8004aa14b77cafb464d4a8666a15771dbb492ef7fd199e6d63e47d8159b9d1d0"
+    },
+    "offline_acceptance.py": {
+      "bytes": 4848,
+      "sha256": "d90e8faf85956677ed4812835005559ed5c312b8b12911e3eef091278abdedff"
+    },
+    "offline-run/result.json": {
+      "bytes": 558,
+      "sha256": "01878bda2e8a1943265b7c13ac5a106145a1f6901098cacefa64a94171a809fc"
+    },
+    "offline-run/report.md": {
+      "bytes": 1072,
+      "sha256": "8fa4b2e0bf4dc7e708064ec2a531a0d43c017fc2cbd1d4054a42ec4a23eedbea"
+    },
+    "offline-run/evidence.json": {
+      "bytes": 10964,
+      "sha256": "caac246199a8b4ddcc82abb4176aa2e6c919598aafbef0c116e093478af80d1f"
+    },
+    "offline-run/evidence.csv": {
+      "bytes": 354,
+      "sha256": "55f53611553e3a09e73e3ac123e5d3142515eb0e22b58660faf34bd1a7369005"
+    },
+    "offline-run/source.txt": {
+      "bytes": 47,
+      "sha256": "7dbadf3d355a2fe08e1aa7e6a3ad1c19716da66c78699876f1045df83daa2d66"
+    },
+    "reading.json": {
+      "bytes": 3255,
+      "sha256": "b67b828a80911ef1c19846554d2596fe32192c9a76e023be4f682ef5f0d507be"
+    }
+  }
+}
