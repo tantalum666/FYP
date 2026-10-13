@@ -234,3 +234,7 @@ Yuan Yuchen为组长，计划40%；Xu Ziqian及Li Wenhua各30%。此比例不是
 ## 2026-10-13 Mac模块解析兼容性
 
 实际Mac构建发现TS／TSX同名大小写差异会导致无扩展名导入解析到错误模块；Linux通过不足以证明可在Mac构建。工程将公开资料helper改为明确不同的capturePolicy文件名，保留组件PublicCapture，并在现有前端测试中递归检查所有实现模块的命名冲突。此项不改变提供商、采集权限或资料处理语义。准确ba8cf2a实际Mac重建通过，served JS／CSS字节与构建匹配；独立英中布局回归亦通过，证据与尚未通过范围见上述实测报告。
+
+## 2026-10-13 后续实际工作界面验收
+
+准确ba8cf2a在独立合成schema3库完成metadata搜索、文件关系与预览、关注创建／合并变化／确认／暂停恢复／取消、提交回复丢失后的UI恢复、容量失败恢复和废纸篓还原的实际挂载检查。[完整报告](output/qa/2026-10-13-mac-feature-acceptance/report.md)与[证据限制](output/qa/2026-10-13-mac-feature-acceptance/transfer-notes.md)共同定义范围；未确认新生产缺陷。永久移除未执行，迟到搜索和精确重试键未捕获，完整窄屏／错误矩阵仍未验。真实语音／公开网页／模型／实体能力不由本轮推定。
