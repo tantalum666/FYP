@@ -14,7 +14,10 @@ from .schemas import StrictModel
 from .sources import SourceInput, validate_json
 from .store import DomainError
 
-ARTIFACT_BYTES = 256 * 1024
+from .work_limits import (
+    ARTIFACT_BYTES, ARTIFACT_COUNT, ARTIFACT_TOTAL_BYTES,
+    ARTIFACT_RUN_COUNT, ARTIFACT_RUN_BYTES,
+)
 
 
 class SourceReference(StrictModel):
@@ -191,8 +194,8 @@ class ArtifactService:
             key=key,
             session_hash=session_hash,
             max_bytes=ARTIFACT_BYTES,
-            max_count=400,
-            max_total=64 * 1024 * 1024,
+            max_count=ARTIFACT_COUNT,
+            max_total=ARTIFACT_TOTAL_BYTES,
             checkpoint=checkpoint,
         )
         return {"artifact": self.view(result), "operation_id": key}
@@ -238,10 +241,10 @@ class ArtifactService:
             "next_cursor": cursor,
             "limits": {
                 "file_bytes": ARTIFACT_BYTES,
-                "per_run_count": 4,
-                "per_run_bytes": 1024 * 1024,
-                "count": 400,
-                "total_bytes": 64 * 1024 * 1024,
+                "per_run_count": ARTIFACT_RUN_COUNT,
+                "per_run_bytes": ARTIFACT_RUN_BYTES,
+                "count": ARTIFACT_COUNT,
+                "total_bytes": ARTIFACT_TOTAL_BYTES,
             },
         }
 

@@ -1,0 +1,47 @@
+{
+  "recorded_at": "2026-10-13T08:02:30.679407+00:00",
+  "files": [
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/workCapacity.ts",
+      "sha256": "e82b619950ef29f19b57fb0bc6c0d27673721664827c7ee6efb9b9b8bbe196ed"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/useWorkCapacity.ts",
+      "sha256": "ed7150376c8f46c89fbdbdbf4ac0812dbe3b30cd4a1d90ffa3ce30da61b13b94"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RetainedCapacity.tsx",
+      "sha256": "3459b69e8854b6b4f58656c6b30df9ac5ad8dd6aa2ef361c4709bcf59e0cb07d"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunPanel.tsx",
+      "sha256": "e73e1362c4e2675e9d39741609efc9b00d714350dd4e39d53860b762a5a8bc2c"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunComposer.tsx",
+      "sha256": "8a347596d9a269332cc508466860e8c38d28cadeffbfbdc4c44c75275549b3f7"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/SourceUpload.tsx",
+      "sha256": "96c92b6817b9583c1d3511735afc04390799d57b738d9ca6ca4bab2c52fdb2a1"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/agent.css",
+      "sha256": "c9bd7abbe8941e1f9a231e24f21a23b9e28fcde0b58bf1f1532c15930adc35b9"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/responsibilities/ResponsibilitiesPanel.tsx",
+      "sha256": "b6732de4806bee14ac4471c06df9d85294eb6bc8ef5610969e91f9bd495e6504"
+    },
+    {
+      "path": "desk-companion/frontend/tests/work-capacity-lifecycle.test.ts",
+      "sha256": "583a1cc84f77ec50c487f0a0f3116237864a1d50ebdc0f8a051c13e3ad15a87b"
+    },
+    {
+      "path": "desk-companion/frontend/tests/work-capacity-render.test.ts",
+      "sha256": "506e441a5bfab12c142d868beed2ae3e4745c40521223af2abd337d910cfbf38"
+    }
+  ],
+  "freeze_confirmed_at": "2026-10-13T08:05:15.441885+00:00",
+  "verification": "All ten recorded source/test hashes unchanged after independent 33/33 pass and explicit source freeze."
+}

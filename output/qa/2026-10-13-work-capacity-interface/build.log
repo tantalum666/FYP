@@ -1,0 +1,36 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> desk-companion-ui@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.1 building client environment for production...
+transforming...
+✓ 2013 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                0.48 kB │ gzip:   0.30 kB
+dist/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2       10.25 kB
+dist/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2        11.23 kB
+dist/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2         18.74 kB
+dist/assets/inter-greek-wght-normal-CkhJZR-_.woff2            18.99 kB
+dist/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2     25.96 kB
+dist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2            48.25 kB
+dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2        85.06 kB
+dist/assets/DeviceApp-BU9g_Eb8.css                            18.50 kB │ gzip:   3.96 kB
+dist/assets/index-CZ1IySM9.css                                63.99 kB │ gzip:  14.28 kB
+dist/assets/download-B_hDhQ6N.js                               2.16 kB │ gzip:   1.13 kB
+dist/assets/DeviceApp-DHteVtKu.js                             30.07 kB │ gzip:  10.80 kB
+dist/assets/index-ChqHXfqu.js                                755.90 kB │ gzip: 236.58 kB
+dist/assets/AvatarScene-NMnPGMim.js                        1,098.50 kB │ gzip: 288.38 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 947ms
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

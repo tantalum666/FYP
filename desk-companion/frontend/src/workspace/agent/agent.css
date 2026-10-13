@@ -250,3 +250,31 @@
 .agent-search-summary {
   overflow-wrap: anywhere;
 }
+.agent-capacity {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  border: 1px solid var(--border, #d9dce1);
+  border-radius: 0.6rem;
+  padding: 0.7rem;
+  font-size: 0.9rem;
+}
+.agent-capacity > button {
+  margin-inline-start: 0.7rem;
+}
+.agent-capacity ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 0.35rem 1rem;
+  padding-inline-start: 1.2rem;
+}
+
+.agent-capacity summary {
+  cursor: pointer;
+}
+.agent-capacity summary > span {
+  display: block;
+  margin-top: 0.3rem;
+}
+.agent-capacity-counts {
+  color: var(--muted, #687078);
+}

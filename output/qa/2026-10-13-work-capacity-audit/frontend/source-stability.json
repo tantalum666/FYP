@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-13T08:05:28.051431+00:00",
+  "source_files": 21,
+  "all_unchanged": true,
+  "checks": {
+    "workspace/personal/responseFence.ts": true,
+    "workspace/agent/workCapacity.ts": true,
+    "workspace/browser/types.ts": true,
+    "workspace/agent/types.ts": true,
+    "workspace/agent/RetainedCapacity.tsx": true,
+    "workspace/agent/useWorkCapacity.ts": true,
+    "workspace/agent/useAgentRuns.ts": true,
+    "workspace/agent/runMetadata.ts": true,
+    "workspace/agent/RunPanel.tsx": true,
+    "workspace/personal/privateWrite.ts": true,
+    "workspace/personal/usePrivateMutation.ts": true,
+    "workspace/agent/RunComposer.tsx": true,
+    "workspace/agent/upload.ts": true,
+    "workspace/agent/useUploadMutation.ts": true,
+    "workspace/agent/SourceUpload.tsx": true,
+    "workspace/agent/RunDetail.tsx": true,
+    "workspace/agent/ArtifactList.tsx": true,
+    "workspace/responsibilities/types.ts": true,
+    "workspace/responsibilities/useResponsibilities.ts": true,
+    "workspace/responsibilities/labels.ts": true,
+    "workspace/responsibilities/ResponsibilitiesPanel.tsx": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "source_commit": "2ad00700bcf80a2f9e7d2e12410f3d6cbf43087a",
+  "parent": "e1807f441a5c9b09d48654825dfac633a2bdee03",
+  "tree": "436bbe5432ce2d5c506e3101cc58373d282bc445",
+  "candidate_blobs_verified": 67,
+  "ref_verified": true,
+  "backend_tests": 840,
+  "frontend_tests": 186,
+  "stable_source_hashes": 262,
+  "ci": [
+    {
+      "id": 38365608642,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "url": "https://github.com/tantalum666/FYP/actions/runs/38365608642",
+      "sha": "2ad00700bcf80a2f9e7d2e12410f3d6cbf43087a"
+    },
+    {
+      "id": 38365603741,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "push",
+      "url": "https://github.com/tantalum666/FYP/actions/runs/38365603741",
+      "sha": "2ad00700bcf80a2f9e7d2e12410f3d6cbf43087a"
+    }
+  ],
+  "actual_new_ui": "not yet verified",
+  "publication_retry": "Last tree request internal error; expected tree absent on read, same immutable request retry succeeded",
+  "ci_checked_utc": "2026-10-13T07:58:45Z"
+}

@@ -1,0 +1,67 @@
+{
+  "scope": "Same continuing task; inherited186-document intake and focused root integration reading",
+  "inherited": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "reading": "AGENTS/product/handoff/README/architecture, complete changed API/runtime/capacity/limits and capacity contract; latest decisions and focused source/UI boundaries. Detailed worker/audit reading records separate.",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 208,
+      "sha256": "9e128b3f57bab4ba57c7be79fd0a722244f4399e093cd04e8b8819e65785f39e"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 54,
+      "sha256": "e801332d99b9fa56bfa822b7fb17bb2648a8a636164727b1b58bed02d5834f55"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 883,
+      "sha256": "58d43398e08a02d01ba38eb8d3156bdb8ff67a3c92708b4c33ee3ebd3f0778ab"
+    },
+    {
+      "path": "desk-companion/README.md",
+      "lines": 175,
+      "sha256": "b85fef8d61b01fe029a9e704b2f1ae878ecccc67b98075edd0c1752433c3b54c"
+    },
+    {
+      "path": "desk-companion/docs/architecture.md",
+      "lines": 165,
+      "sha256": "4ee5df5798814f383dbb56acb0e064c84d208ea0c443f912c280a2a0ae70c77b"
+    },
+    {
+      "path": "desk-companion/docs/work-capacity.md",
+      "lines": 39,
+      "sha256": "338395daa658f06244208322fa01e9c3143bdf429909ae68ec69e1b67e9595f9"
+    },
+    {
+      "path": "desk-companion/backend/desk/app.py",
+      "lines": 404,
+      "sha256": "44850abeab0d3beb25d91c458d255f8eb2fc1febd7b693094d86cf90382fa200"
+    },
+    {
+      "path": "desk-companion/backend/desk/runtime.py",
+      "lines": 125,
+      "sha256": "a5f046d5e5f475bb88b261a1c45074eed5630160af38a8464e76881e976e64bf"
+    },
+    {
+      "path": "desk-companion/backend/desk/work_capacity.py",
+      "lines": 213,
+      "sha256": "c0c6f6152e3570eb8adbd71f05e08a2ef943f6d5874ea6749788331ac561dfe8"
+    },
+    {
+      "path": "desk-companion/backend/desk/work_limits.py",
+      "lines": 12,
+      "sha256": "2ac2213f9813db345ffe77f90998416f76794480ac58e716e8024f095870c2a7"
+    },
+    {
+      "path": "output/qa/2026-10-13-work-capacity-design/contract.md",
+      "lines": 104,
+      "sha256": "8153be14f98bac4386d9b6fdcd5ba3856d3b3605cefb5299b40ccbce1dce26f0"
+    }
+  ]
+}

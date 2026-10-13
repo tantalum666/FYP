@@ -28,6 +28,7 @@ from .connectors.service import build_connector_service
 from .connectors.agent_adapter import connector_adapters
 from .work_search import WorkSearchService
 from .responsibilities import ResponsibilityService
+from .work_capacity import WorkCapacityService
 
 
 class Runtime:
@@ -58,6 +59,7 @@ class Runtime:
         self.agent_tool_adapters = connector_adapters(self.connectors)
         self.agent_runs = AgentRunService(self)
         self.work_search = WorkSearchService(self)
+        self.work_capacity = WorkCapacityService(self)
         self.store.operation_guard = self.agent_runs.guard_operation
         self.posture.on_prompt = self.on_posture_prompt
 

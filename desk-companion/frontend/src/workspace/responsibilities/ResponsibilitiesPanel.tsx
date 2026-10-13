@@ -299,7 +299,26 @@ export function WatchWorkspace({
             {t("Pending reviews", "待查看变化")}: {value.list.pending_count} ·{" "}
             {t("Saved definitions", "保存的关注")}:{" "}
             {value.list.responsibilities.length}/
-            {value.list.limits.definitions ?? 20}
+            {value.list.limits.definitions ?? t("Unknown limit", "上限未知")}
+            {Number.isSafeInteger(value.list.limits.definitions) &&
+              value.list.limits.definitions >= 0 && (
+                <>
+                  {" "}
+                  ·{" "}
+                  {Math.max(
+                    0,
+                    value.list.limits.definitions -
+                      value.list.responsibilities.length,
+                  )}{" "}
+                  {t("slots remaining", "剩余位置")}
+                </>
+              )}
+          </p>
+          <p>
+            {t(
+              "Cancelled, expired and budget-exhausted definitions remain saved and use slots. Cancellation does not free capacity; this version has no deletion control.",
+              "已取消、已到期和额度耗尽的关注定义仍保留并占用位置。取消不会释放容量；本版无删除入口。",
+            )}
           </p>
           <div className="watch-list">
             {value.list.responsibilities.map((row) => (

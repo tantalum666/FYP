@@ -14,6 +14,8 @@ import { validWorkGoal } from "./types";
 import type { WorkGoalRequest } from "./types";
 import { useAgentRuns } from "./useAgentRuns";
 import { WorkSearchPanel } from "./WorkSearchPanel";
+import { useWorkCapacity } from "./useWorkCapacity";
+import { WorkCapacitySummary } from "./RetainedCapacity";
 import "./agent.css";
 type Props = {
   t: Translate;
@@ -213,6 +215,7 @@ function RunWorkspace({
     goal?: WorkGoalRequest;
   } | null>(null);
   const guard = useDraftState();
+  const capacity = useWorkCapacity(fence, epoch);
   const { value, fresh, error, loading, reload } = useAgentRuns(
     fence,
     selected,
@@ -275,6 +278,7 @@ function RunWorkspace({
     connectorIntent?: string;
     goal?: WorkGoalRequest;
   }) {
+    if (!fence.accepts(epoch)) return;
     if (
       !fresh &&
       (next.proposal ||
@@ -297,6 +301,7 @@ function RunWorkspace({
     connectorIntent?: string;
     goal?: WorkGoalRequest;
   }) {
+    if (!fence.accepts(epoch)) return;
     if (
       !fresh &&
       (next.proposal ||
@@ -343,6 +348,12 @@ function RunWorkspace({
   }
   return (
     <div className="agent-workspace">
+      <WorkCapacitySummary
+        value={capacity.value}
+        t={t}
+        loading={capacity.loading}
+        refresh={() => void capacity.refresh()}
+      />
       <p className="workspace-hint">
         {t(
           "Work continues while this panel is closed if the server and your authorization remain available. Ordinary chat is separate. Results stay here; this feature sends no outside notifications.",
@@ -373,7 +384,10 @@ function RunWorkspace({
         <button
           className="secondary"
           disabled={loading}
-          onClick={() => void reload(true)}
+          onClick={() => {
+            void reload(true);
+            void capacity.refresh();
+          }}
         >
           {t("Refresh", "刷新")}
         </button>
@@ -497,7 +511,10 @@ function RunWorkspace({
                 t={t}
                 fence={fence}
                 fresh={fresh && !detailRefreshing}
-                onChanged={() => void reload(true)}
+                onChanged={() => {
+                  void reload(true);
+                  void capacity.refresh();
+                }}
                 onReviewProposal={
                   onReviewProposal
                     ? (proposal) =>
@@ -533,17 +550,22 @@ function RunWorkspace({
           key={detailGeneration}
           t={t}
           scope={value.scope}
+          capacity={capacity.value}
           fence={fence}
           fresh={fresh}
           initialGoal={composeGoal?.text}
           voiceOrigin={composeGoal?.voiceOrigin}
           exactTaskIds={composeGoal?.exactTaskIds}
-          onRefresh={() => void reload(true)}
+          onRefresh={() => {
+            void reload(true);
+            void capacity.refresh();
+          }}
           onClose={() => setCompose(false)}
           onCreated={(run) => {
             setCompose(false);
             setSelected(run.id);
             void reload(true);
+            void capacity.refresh();
           }}
         />
       )}

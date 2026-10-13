@@ -33,6 +33,7 @@ from .browser_jobs import browser_routes
 from .connector_routes import connector_routes
 from .work_search import work_search_routes
 from .responsibilities import responsibility_routes
+from .work_capacity import work_capacity_routes
 from .connectors.contracts import load_connector_configs
 
 from .schemas import CreateEvents, EventAction, Login, ReminderAction, SettingsInput
@@ -368,6 +369,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
     app.include_router(browser_routes(services, owner, operation_id))
     app.include_router(connector_routes(services, owner, operation_id))
     app.include_router(work_search_routes(services, owner))
+    app.include_router(work_capacity_routes(services, owner))
     app.include_router(voice_routes(services, authenticated, agent, allowed_origins, limit))
     app.include_router(exchange_routes(services, authenticated, owner, operation_id))
     app.include_router(google_routes(services, owner, operation_id))

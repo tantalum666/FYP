@@ -19,9 +19,10 @@ from .file_store import ID, require_access, session_from_request
 from .schemas import StrictModel
 from .store import DomainError, encode
 
-RUN_CAP = 100
-SOURCE_CAP = 100
-ARTIFACT_CAP = 400
+from .work_limits import (
+    RUN_COUNT as RUN_CAP, SOURCE_COUNT as SOURCE_CAP, ARTIFACT_COUNT as ARTIFACT_CAP,
+)
+
 CORPUS_CAP = RUN_CAP + SOURCE_CAP + ARTIFACT_CAP
 FORMATS = {"text", "markdown", "csv", "json"}
 RUN_STATES = {

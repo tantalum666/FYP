@@ -9,6 +9,7 @@ from uuid import uuid4
 
 from .calendar import iso
 from .store import DomainError, encode
+from .work_limits import ARTIFACT_RUN_COUNT, ARTIFACT_RUN_BYTES
 
 FORMATS = {
     "text": ("txt", "text/plain; charset=utf-8"),
@@ -226,8 +227,8 @@ class ImmutableFiles:
                 if kind == "artifacts" and expected.get("run_id"):
                     same_run = [r for r in rows if r.get("run_id") == expected["run_id"]]
                     if (
-                        len(same_run) >= 4
-                        or sum(r["byte_count"] for r in same_run) + len(body) > 1024 * 1024
+                        len(same_run) >= ARTIFACT_RUN_COUNT
+                        or sum(r["byte_count"] for r in same_run) + len(body) > ARTIFACT_RUN_BYTES
                     ):
                         raise DomainError("ARTIFACT_RUN_LIMIT", 422)
                 file_id, fresh = uuid4().hex, True

@@ -1,3 +1,5 @@
+import type { WorkCapacity } from "./workCapacity";
+import { OutputCapacityHint } from "./RetainedCapacity";
 import { VoiceOriginLabel } from "../voiceWork/VoiceWorkPanel";
 import type { VoiceGoalOrigin } from "../voiceWork/types";
 import { useEffect, useRef, useState } from "react";
@@ -39,6 +41,7 @@ export function RunComposer({
   initialGoal = "",
   voiceOrigin,
   exactTaskIds,
+  capacity = null,
 }: {
   t: Translate;
   scope: RunScope;
@@ -50,6 +53,7 @@ export function RunComposer({
   initialGoal?: string;
   voiceOrigin?: VoiceGoalOrigin;
   exactTaskIds?: string[];
+  capacity?: WorkCapacity | null;
 }) {
   const mountEpoch = useRef(fence.capture());
   const [originExpired, setOriginExpired] = useState(
@@ -142,6 +146,11 @@ export function RunComposer({
       dirty={dirty}
     >
       <div className="agent-composer">
+        <OutputCapacityHint
+          value={capacity}
+          t={t}
+          deterministic={draft.mode === "deterministic"}
+        />
         {exactTaskIds && (
           <div className="agent-notice">
             <p>
@@ -623,6 +632,7 @@ export function RunComposer({
                 t={t}
                 fence={fence}
                 fresh={fresh && !exactTaskIds}
+                capacity={capacity}
                 onUploaded={() => onRefresh()}
                 onDraftChange={setUploadDraft}
               />
@@ -840,8 +850,8 @@ export function RunComposer({
             )}
             <p className="workspace-hint">
               {t(
-                "Outputs: a Markdown work report and CSV evidence register. At most two plan versions / four artifacts, 256 KiB each / 1 MiB per run; 100 retained runs. No deletion control in this version. Saved bytes and valid structure do not establish factual accuracy; inspect the results.",
-                "输出为Markdown工作报告和CSV证据表。最多两个计划版本／4个文件，每个256 KiB、每次运行合计1 MiB；保留运行上限100项。本版尚无删除入口。字节保存和结构正确不代表事实准确，请检查结果。",
+                "Outputs: a Markdown work report and CSV evidence register. At most two plan versions. No deletion control in this version. Saved bytes and valid structure do not establish factual accuracy; inspect the results.",
+                "输出为Markdown工作报告和CSV证据表。最多两个计划版本。本版尚无删除入口。字节保存和结构正确不代表事实准确，请检查结果。",
               )}
             </p>
             <label className="agent-check">

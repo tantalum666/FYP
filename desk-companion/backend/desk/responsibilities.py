@@ -13,13 +13,14 @@ from .calendar import iso, wall_to_utc
 from .schemas import EventInput, StrictModel
 from .store import DomainError, encode
 from .tasks import TaskStep
+from .work_limits import WATCH_COUNT
 
 WatchField = Literal["status", "due", "next_step", "waiting_for", "steps", "progress"]
 FIELDS = ("status", "due", "next_step", "waiting_for", "steps", "progress")
 DEFAULT_FIELDS = ["status", "due", "progress"]
 TERMINAL = {"cancelled", "expired", "budget_exhausted"}
 LIMITS = dict(
-    definitions=20,
+    definitions=WATCH_COUNT,
     tasks_per_definition=10,
     review_history=50,
     lifetime_reviews=100,

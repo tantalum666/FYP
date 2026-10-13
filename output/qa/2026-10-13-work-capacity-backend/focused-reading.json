@@ -1,0 +1,25 @@
+{
+  "inherited_full_intake": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "inherited_markdown_count": 186,
+  "mode": "Same continuous task; focused reread, not a new full-intake claim",
+  "focused_markdown": [
+    "AGENTS.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md (latest decisions)",
+    "output/qa/2026-10-13-work-capacity-design/contract.md",
+    "desk-companion/docs/work-capacity.md"
+  ],
+  "implementation_files_read": [
+    "backend/desk/work_limits.py",
+    "backend/desk/work_capacity.py",
+    "backend/desk/sources.py",
+    "backend/desk/artifacts.py",
+    "backend/desk/file_store.py",
+    "backend/desk/agent_runs.py",
+    "backend/desk/work_search.py",
+    "backend/desk/responsibilities.py"
+  ],
+  "completed_at": "2026-10-13T08:00:44Z",
+  "exclusions": "Dependencies, caches and generated QA snapshots retain prior exclusion policy"
+}

@@ -1,0 +1,161 @@
+{
+  "at": "2026-10-13T08:06:24.649Z",
+  "method": "Independent production hook/callback execution and React SSR, no browser DOM",
+  "results": [
+    {
+      "name": "Capacity hook mount/explicit refresh is read-only and adds no timer or provider request",
+      "status": "passed"
+    },
+    {
+      "name": "Immediate desk:session clears counts and refuses late responses/stale refresh callback",
+      "status": "passed"
+    },
+    {
+      "name": "Immediate desk:personal-context clears counts and refuses late responses/stale refresh callback",
+      "status": "passed"
+    },
+    {
+      "name": "Immediate offline clears counts and refuses late responses/stale refresh callback",
+      "status": "passed"
+    },
+    {
+      "name": "Epoch lifecycle identity-A-B-A cannot resurrect old response",
+      "status": "passed"
+    },
+    {
+      "name": "Epoch lifecycle hide-show cannot resurrect old response",
+      "status": "passed"
+    },
+    {
+      "name": "Epoch lifecycle stale-recover cannot resurrect old response",
+      "status": "passed"
+    },
+    {
+      "name": "Epoch lifecycle unmount cannot resurrect old response",
+      "status": "passed"
+    },
+    {
+      "name": "Out-of-order same-epoch success and ordinary failure only honor newest request",
+      "status": "passed"
+    },
+    {
+      "name": "Same-epoch reordered access denial invalidates shared fence {\"status\":401}",
+      "status": "passed"
+    },
+    {
+      "name": "Same-epoch reordered access denial invalidates shared fence {\"status\":403}",
+      "status": "passed"
+    },
+    {
+      "name": "Same-epoch reordered access denial invalidates shared fence {\"status\":409,\"code\":\"WORK_CAPACITY_PRIVACY_CHANGED\"}",
+      "status": "passed"
+    },
+    {
+      "name": "Same-epoch reordered access denial invalidates shared fence {\"status\":409,\"code\":\"CONTEXT_CHANGED\"}",
+      "status": "passed"
+    },
+    {
+      "name": "Same-epoch reordered access denial invalidates shared fence {\"code\":\"PRIVATE_CONTEXT_HIDDEN\"}",
+      "status": "passed"
+    },
+    {
+      "name": "Denial from an old identity epoch does not revoke new identity capacity",
+      "status": "passed"
+    },
+    {
+      "name": "Ordinary failure has unknown capacity without changing shared authority {\"status\":409,\"code\":\"WORK_CAPACITY_UNAVAILABLE\"}",
+      "status": "passed"
+    },
+    {
+      "name": "Ordinary failure has unknown capacity without changing shared authority {\"status\":503}",
+      "status": "passed"
+    },
+    {
+      "name": "Ordinary failure has unknown capacity without changing shared authority {\"code\":\"CONNECTION_LOST\",\"status\":0}",
+      "status": "passed"
+    },
+    {
+      "name": "Malformed server dimensions cannot show false empty capacity",
+      "status": "passed"
+    },
+    {
+      "name": "Actual Work workspace capacity failure preserves scope/composer and stop/inspect eligibility",
+      "status": "passed"
+    },
+    {
+      "name": "Actual Work workspace capacity denial masks retained private views on next render",
+      "status": "passed"
+    },
+    {
+      "name": "Access denial also revokes previously rendered linked-review callbacks immediately",
+      "status": "passed"
+    },
+    {
+      "name": "Actual bilingual SSR renders full/unavailable/over-limit and per-run limits without usage claim",
+      "status": "passed"
+    },
+    {
+      "name": "Actual composer exact watched IDs and retention survive full/missing capacity without scope reset",
+      "status": "passed"
+    },
+    {
+      "name": "Actual voice-origin unknown mutation survives capacity changes and expiry with same exact retry",
+      "status": "passed"
+    },
+    {
+      "name": "Composer saved start/retry callbacks reject confirmed capacity access revocation",
+      "status": "passed"
+    },
+    {
+      "name": "Production upload draft consent and unknown retry stay intact at full and unavailable capacity",
+      "status": "passed"
+    },
+    {
+      "name": "Actual RunDetail pause/cancel original-operation retry remains usable at full global capacity",
+      "status": "passed"
+    },
+    {
+      "name": "Production artifact preview and byte-verified download execute with no capacity gate",
+      "status": "passed"
+    },
+    {
+      "name": "Latest collapsed native summary exposes full/unknown/over-limit warnings before expansion",
+      "status": "passed"
+    },
+    {
+      "name": "Actual Work entry uses owner/visible-only capacity workspace; hidden owner preserves metadata controls",
+      "status": "passed"
+    },
+    {
+      "name": "Watch visible saved count and cancellation do not depend on capacity endpoint",
+      "status": "passed"
+    },
+    {
+      "name": "Watch hidden metadata saved count and cancellation do not depend on capacity endpoint",
+      "status": "passed"
+    }
+  ],
+  "sourceHashes": {
+    "workspace/personal/responseFence.ts": "27cd3e93971cea4059afcf1f642ca2ef8dcf9b3b9611d7dbae3e6742fac0adb3",
+    "workspace/agent/workCapacity.ts": "e82b619950ef29f19b57fb0bc6c0d27673721664827c7ee6efb9b9b8bbe196ed",
+    "workspace/browser/types.ts": "b9f25a17ce925a949a24cf6cb37f62e58287ed37d50e22e0473f0ea1c95d35d0",
+    "workspace/agent/types.ts": "8efb2edbb53295e1c2f522d61cd5d8126428498a6cc9542dde8318ea44ef7c39",
+    "workspace/agent/RetainedCapacity.tsx": "3459b69e8854b6b4f58656c6b30df9ac5ad8dd6aa2ef361c4709bcf59e0cb07d",
+    "workspace/agent/useWorkCapacity.ts": "ed7150376c8f46c89fbdbdbf4ac0812dbe3b30cd4a1d90ffa3ce30da61b13b94",
+    "workspace/agent/useAgentRuns.ts": "86147c33b7ac2d3aa5d1ea8fbc6653fde8a9e35ffcdbfa343e77bb0d4d3ba713",
+    "workspace/agent/runMetadata.ts": "db8583eb928e065f861d1c8e147dbe1903bb7141e8bae1c87a5be6fd375b7622",
+    "workspace/agent/RunPanel.tsx": "e73e1362c4e2675e9d39741609efc9b00d714350dd4e39d53860b762a5a8bc2c",
+    "workspace/personal/privateWrite.ts": "f5968cfc308841981ebcd5c402550f43da9cc34bb5e3e66a4f32087febc2bcb6",
+    "workspace/personal/usePrivateMutation.ts": "dd369ecf5acbea2714c28fd5980dd8c7ae5380c109434eba22104743d283db1c",
+    "workspace/agent/RunComposer.tsx": "8a347596d9a269332cc508466860e8c38d28cadeffbfbdc4c44c75275549b3f7",
+    "workspace/agent/upload.ts": "2b3ce4a382ab2186e31fc388db3be2867f8fba6c3a48a564317c41e7a207a4b1",
+    "workspace/agent/useUploadMutation.ts": "c196cfddd5a79140acd5b96a6527ee3c51de5f82b8d3237e8ca749136abfb475",
+    "workspace/agent/SourceUpload.tsx": "96c92b6817b9583c1d3511735afc04390799d57b738d9ca6ca4bab2c52fdb2a1",
+    "workspace/agent/RunDetail.tsx": "dcedab345fe758dc31b9c049ce9df366dbbf8f8b1ab6e01ee25b51d9d3a5c504",
+    "workspace/agent/ArtifactList.tsx": "02bbea3851d18393b739d017d072d139df5225f66593cb10defeebb141db28ae",
+    "workspace/responsibilities/types.ts": "ad5fc788d8ebf76db885145622fa16af67a47455935edef9f8239bb2cfd649f9",
+    "workspace/responsibilities/useResponsibilities.ts": "f6a17bd1af2184a8dfbcb1938ae7f5f4a0561b6d8d975b02fa7415cdbe465b22",
+    "workspace/responsibilities/labels.ts": "7839c4e5fbbe760bb6380ec156a33c4373b7a4711237fbeab29c94c902103d20",
+    "workspace/responsibilities/ResponsibilitiesPanel.tsx": "b6732de4806bee14ac4471c06df9d85294eb6bc8ef5610969e91f9bd495e6504"
+  }
+}

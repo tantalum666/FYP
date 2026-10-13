@@ -1,3 +1,5 @@
+import type { WorkCapacity } from "./workCapacity";
+import { CapacityLine, capacityBytes } from "./RetainedCapacity";
 import { useEffect, useRef, useState } from "react";
 import { ApiError } from "../../api";
 import { useDraftGuard } from "../../components/DraftGuard";
@@ -14,10 +16,12 @@ export function SourceUpload({
   fresh,
   onUploaded,
   onDraftChange,
+  capacity = null,
 }: {
   t: Translate;
   fence: ResponseFence;
   fresh: boolean;
+  capacity?: WorkCapacity | null;
   onUploaded: (source: SourceRecord) => void;
   onDraftChange: (dirty: boolean) => void;
 }) {
@@ -80,10 +84,49 @@ export function SourceUpload({
       <summary>{t("Add a selected local source", "添加指定本地来源")}</summary>
       <p className="workspace-hint">
         {t(
-          "TXT, Markdown, CSV or JSON in UTF-8, up to 1 MiB. Uploads are retained on this server; there is no delete control in this version. 100 sources / 64 MiB total. Selecting a file alone does not upload it or authorize sending it to an AI provider.",
-          "支持UTF-8的TXT、Markdown、CSV或JSON，最多1 MiB。上传内容会保留在此服务端，本版尚无删除入口；总上限100份／64 MiB。仅选择文件不会上传，也不授权向AI提供商发送。",
+          "TXT, Markdown, CSV or JSON in UTF-8. Uploads are retained on this server; there is no delete control in this version. Selecting a file alone does not upload it or authorize sending it to an AI provider.",
+          "支持UTF-8的TXT、Markdown、CSV或JSON。上传内容会保留在此服务端，本版尚无删除入口。仅选择文件不会上传，也不授权向AI提供商发送。",
         )}
       </p>
+      {capacity ? (
+        <div className="workspace-hint">
+          <ul>
+            <CapacityLine
+              label={t("Source slots", "来源位置")}
+              value={capacity.sources.count}
+              t={t}
+            />
+            <CapacityLine
+              label={t("Source reserved bytes", "来源保留字节")}
+              value={capacity.sources.bytes}
+              t={t}
+              bytes
+            />
+          </ul>
+          <p>
+            {t("Per-file limit", "单文件上限")}:{" "}
+            {capacityBytes(capacity.sources.file_bytes, t)}
+          </p>
+          {file &&
+            (file.size > capacity.sources.file_bytes ||
+              (capacity.sources.bytes.remaining !== null &&
+                file.size > capacity.sources.bytes.remaining)) && (
+              <p role="status">
+                {t(
+                  "The selected file exceeds the observed available bytes or per-file limit. The server makes the saving decision; your selection and retry data are preserved.",
+                  "所选文件超过观察到的剩余字节或单文件上限。保存时由服务端判定；文件选择与重试资料保留。",
+                )}
+              </p>
+            )}
+        </div>
+      ) : (
+        <p>
+          {t(
+            "Capacity unavailable; the server checks limits when saving.",
+            "容量不可用；保存时由服务端检查上限。",
+          )}
+        </p>
+      )}
       <label>
         {t("Source file", "来源文件")}
         <input

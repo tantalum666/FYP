@@ -13,7 +13,8 @@ from .file_store import FORMATS, ImmutableFiles, require_access, session_from_re
 from .schemas import StrictModel
 from .store import DomainError
 
-SOURCE_BYTES = 1024 * 1024
+from .work_limits import SOURCE_BYTES, SOURCE_COUNT, SOURCE_TOTAL_BYTES
+
 CHUNK_BYTES = 12 * 1024
 
 
@@ -142,8 +143,8 @@ class SourceService:
             key=key,
             session_hash=session_hash,
             max_bytes=SOURCE_BYTES,
-            max_count=100,
-            max_total=64 * SOURCE_BYTES,
+            max_count=SOURCE_COUNT,
+            max_total=SOURCE_TOTAL_BYTES,
         )
         return {"source": self.view(result), "operation_id": key}
 
@@ -165,8 +166,8 @@ class SourceService:
             "next_cursor": cursor,
             "limits": {
                 "file_bytes": SOURCE_BYTES,
-                "count": 100,
-                "total_bytes": 64 * SOURCE_BYTES,
+                "count": SOURCE_COUNT,
+                "total_bytes": SOURCE_TOTAL_BYTES,
                 "chunk_bytes": CHUNK_BYTES,
             },
         }

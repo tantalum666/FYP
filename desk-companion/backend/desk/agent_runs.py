@@ -36,6 +36,7 @@ from .agent_context import AgentContextBridge
 from .context import fingerprint
 from .store import DomainError, encode
 from .text_ai import TextDispatchRefused
+from .work_limits import RUN_COUNT, SOURCE_COUNT
 
 TERMINAL = {"succeeded", "partial", "failed", "cancelled"}
 
@@ -94,7 +95,7 @@ class AgentRunService:
 
     def scope(self, principal):
         session = self.session(principal)
-        sources = self.runtime.sources.listing(session_hash=session, limit=100)
+        sources = self.runtime.sources.listing(session_hash=session, limit=SOURCE_COUNT)
         sources = sources.get("sources", []) if isinstance(sources, dict) else sources
         with self.store.connection() as conn:
             tasks = [
@@ -264,7 +265,7 @@ class AgentRunService:
                 "runs": [
                     self._view(self._get(conn, r[0]), hidden)
                     for r in conn.execute(
-                        "SELECT id FROM agent_runs ORDER BY updated_at DESC LIMIT 100"
+                        "SELECT id FROM agent_runs ORDER BY updated_at DESC LIMIT ?", (RUN_COUNT,)
                     )
                 ]
             }
@@ -470,7 +471,7 @@ class AgentRunService:
                         "INSERT INTO agent_voice_origins VALUES(?,?,?)",
                         (fingerprint(payload.voice_origin_ref), request_hash, run_id),
                     )
-                if conn.execute("SELECT count(*) FROM agent_runs").fetchone()[0] >= 100:
+                if conn.execute("SELECT count(*) FROM agent_runs").fetchone()[0] >= RUN_COUNT:
                     raise DomainError("RUN_LIMIT_REACHED", 422)
                 conn.execute(
                     "INSERT INTO agent_runs VALUES(?,?,?,?,?,?,?,?)",
