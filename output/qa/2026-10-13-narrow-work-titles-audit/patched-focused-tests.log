@@ -1,0 +1,12 @@
+✔ bounded retained Work list scrolls without flex-shrinking its grid cards (2.570282ms)
+✔ retained Work goal wrapping and two-line clamp remain scoped to its card (0.460867ms)
+✔ production retained list keeps distinct long goals, status and fallback in EN/ZH (38.330826ms)
+✔ production retained card selection opens only a different exact run (6.013077ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 692.894205

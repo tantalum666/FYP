@@ -31,6 +31,8 @@
   overflow-y: auto;
 }
 .agent-run-choice {
+  /* Scroll the bounded list instead of collapsing the clipped goal row. */
+  flex-shrink: 0;
   width: 100%;
   text-align: left;
   display: grid;

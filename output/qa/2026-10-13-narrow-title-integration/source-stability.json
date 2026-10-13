@@ -1,0 +1,5 @@
+{
+  "files": 303,
+  "changed": [],
+  "timing": "Initial manifest invocation omitted required argument; corrected 303-file snapshot was taken shortly after aggregate began, before backend tests completed. Final snapshot matches; worker two-file freeze also matches. No claim of correctly captured pre-command manifest."
+}

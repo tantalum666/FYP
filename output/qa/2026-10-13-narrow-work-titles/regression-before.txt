@@ -1,0 +1,42 @@
+✖ bounded retained Work list scrolls without flex-shrinking its grid cards (8.12371ms)
+✔ retained Work goal wrapping and two-line clamp remain scoped to its card (0.493052ms)
+✔ production retained list keeps distinct long goals, status and fallback in EN/ZH (54.457004ms)
+✔ production retained card selection opens only a different exact run (11.71867ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1103.979339
+
+✖ failing tests:
+
+test at desk-companion/frontend/tests/work-card-layout.test.ts:49:1
+✖ bounded retained Work list scrolls without flex-shrinking its grid cards (8.12371ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /flex-shrink:\s*0\s*;/. Input:
+  
+  '\n' +
+    '  width: 100%;\n' +
+    '  text-align: left;\n' +
+    '  display: grid;\n' +
+    '  gap: 0.3rem;\n' +
+    '  padding: 0.7rem;\n' +
+    '  border: 1px solid var(--border, #d9dce1);\n' +
+    '  border-radius: 0.7rem;\n' +
+    '  background: var(--surface, #fff);\n' +
+    '  color: inherit;\n'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/fyp-agent-20261012/desk-companion/frontend/tests/work-card-layout.test.ts:56:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '\n  width: 100%;\n  text-align: left;\n  display: grid;\n  gap: 0.3rem;\n  padding: 0.7rem;\n  border: 1px solid var(--border, #d9dce1);\n  border-radius: 0.7rem;\n  background: var(--surface, #fff);\n  color: inherit;\n',
+    expected: /flex-shrink:\s*0\s*;/,
+    operator: 'match',
+    diff: 'simple'
+  }

@@ -1,0 +1,17 @@
+{
+  "frozen_utc": "2026-10-13T11:58:06.214719+00:00",
+  "production_change": "Only flex-shrink: 0 and its rationale comment in the retained Work card rule",
+  "prepatch_css_sha256": "8e95a6e4e8063bfd56a7e04d85b1f05d0be10493d2e7b0b33fd4d9c9c65cfb71",
+  "files": [
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/agent.css",
+      "bytes": 6059,
+      "sha256": "b0354005de5866438c8d1007af3a0adb57a1a5615104c121316dd22422034656"
+    },
+    {
+      "path": "desk-companion/frontend/tests/work-card-layout.test.ts",
+      "bytes": 4932,
+      "sha256": "84cc3ac855dc47c180bf7df001c1cc8beacb68682e8e3dacf938cf4d84d88407"
+    }
+  ]
+}

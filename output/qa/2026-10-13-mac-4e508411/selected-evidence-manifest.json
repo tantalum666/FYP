@@ -1,0 +1,204 @@
+{
+  "source_sha": "4e508411f973328e310721936b9e4d5cf224f8eb",
+  "mac_qa_directory": "/Users/tantalum/Documents/Codex/2026-10-12/task-2/qa/2026-10-13-4e508411",
+  "retained_in_mac_qa_directory": true,
+  "uploaded_to_git": false,
+  "directly_downloadable_from_git": false,
+  "files": [
+    {
+      "file": "report.md",
+      "bytes": 12066,
+      "sha256": "eb6c561a7a392c892b1e9dc1144f13612fad64dc74547d76e4ccd896fe143986"
+    },
+    {
+      "file": "narrow-run-title-finding.md",
+      "bytes": 2529,
+      "sha256": "0a28e2ba0fb0e3f54b57799b35d7643152b6d17a81b4aa00c476c3ec8534683f"
+    },
+    {
+      "file": "18-narrow-en-work.png",
+      "bytes": 85485,
+      "sha256": "829863898fcfa011eb14bd5e3d8c07cb23675b7c798f88c70172b37d79a594f8",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "33-narrow-zh-work.png",
+      "bytes": 78161,
+      "sha256": "93cdadeed403d35f13d8e1d453cd8de41032c4e34d024b2657e592a12a2b92a4",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "handoff-no-automatic-start.json",
+      "bytes": 112,
+      "sha256": "f1c5483451e4679767e759b6d85201bc83c487e8d82c477cdf88dfb514667ce8"
+    },
+    {
+      "file": "exact-retry-independent.json",
+      "bytes": 1092,
+      "sha256": "5048c226282f39609f3ce683c47f284ed17ec510e849f579999a1749806864b5"
+    },
+    {
+      "file": "hidden-stops-independent.json",
+      "bytes": 267,
+      "sha256": "58456e5d421a261d4092c27f7ff7d147d77274ccbf9a91626403128690dc1b63"
+    },
+    {
+      "file": "scripted-context-independent.json",
+      "bytes": 1958,
+      "sha256": "29a26d9a76d85d9de1b0f06c6f2e513a6aa0785827bb56d5d7fbd8f78d327efc"
+    },
+    {
+      "file": "closeout-independent.json",
+      "bytes": 9426,
+      "sha256": "299e2f8fcfd818a0d5013f7e027aeaff491cba7a2a4f24751bba3531e57f6eb9"
+    },
+    {
+      "file": "mcp-cancellation-independent.json",
+      "bytes": 1155,
+      "sha256": "49de608d300e7bebb658ac8f106fd49ec0ed11e7a92bf307b44f3743c42a0cca"
+    },
+    {
+      "file": "mcp-unknown-independent.json",
+      "bytes": 1115,
+      "sha256": "85389c0bcea94217306d2810c5e1760b40e0474cac78d6a7ec639f6d2597d5d6"
+    },
+    {
+      "file": "mcp-late-read-network.json",
+      "bytes": 699,
+      "sha256": "48af228977eee8ea31080bf2bab8a793606fce131ef31fc8574eb95b6dd2f054"
+    },
+    {
+      "file": "a1-settings-preserved.json",
+      "bytes": 1049,
+      "sha256": "13bc3f435a06b5eb5eac3c4ade2fcf1f815c15b593bf80f07eb3e2dd75b2acd9"
+    },
+    {
+      "file": "production-mcp-metadata.json",
+      "bytes": 506,
+      "sha256": "989e2a78931ca116b5bf67d5a5bcdb4ec5ba9b68338dd31068d1e2014441b579"
+    },
+    {
+      "file": "production-mcp-metadata-sandbox.json",
+      "bytes": 482,
+      "sha256": "d173fa669a27275c32a7617a4a27c96588c19eef36fca72c1aa1be4e5ce7e5dd"
+    }
+  ],
+  "finding_full_text": "# FYP mounted Mac finding — 4e508411\n\nExact source: `4e508411f973328e310721936b9e4d5cf224f8eb`.\n\nAt an actual 390×844 CSS viewport, open Assistant → Work tasks with four retained runs. The Saved work tasks list occupies a capped flex column (`max-height:18rem`). Its `.agent-run-choice` children retain default flex shrinking. The rendered button heights shrink to 66px and their goal `<strong>` boxes become 0px high; only state and timestamp remain visible. Accessible button text still contains the full goal. This makes visual selection of a specific goal difficult. The detail pane is readable after selection and no horizontal document overflow was measured (390px document width).\n\nEvidence: `18-narrow-en-work.png`, `18-narrow-en-work.txt`; actual read-only DOM geometry: first goal strong height 0px, button width 314px/height 66px, visualViewport width 390/scale1. Native IAB screenshot sizing did not faithfully capture the emulated viewport; this evidence was captured directly from the same tab through CUA's documented CDP screenshot capability at 390×844, without image editing.\n\nLikely narrow correction for the parent to review: prevent run cards from shrinking inside the scroll container, e.g. `.agent-run-choice { flex-shrink:0; }`, and verify multiple long English/Chinese goals still scroll. No local production source edit, push, merge or deployment was performed.\n\nIndependent accepted checks on this source: hidden-owner queued run `65718184922c4415b84cfd159f7e3c15` v2 → pause review/confirm → paused v3 → cancellation review/confirm → cancelled v4. No goal/source content was revealed, no model/tool calls or artifacts occurred. Real sign-out during delayed detail read closed the old workspace; a new owner session opened with empty chat and no old detail resurrection.\n\nCSV file-save boundary: a single visible Download file action for existing Evidence register v1, run `b27bf6f0f0814f94ad32d1e5060295e0`, artifact `ee722fa47e944f1ea2a4e85d0fc6474c` (822 bytes), from `http://127.0.0.1:5190` produced no completed download event before controller timeout/reset. The parent reported an associated platform approval pending at 10:32 UTC; its exact manager identity was not provided locally. No consent/cancellation was inferred. The attempted normal native Save-state inspection in `/Applications/ChatGPT.app` was explicitly denied by Computer Use, so that route was stopped. No repeated download, denied Chrome history lookup, alternate app-control route or manufactured file was used.\n",
+  "finding_qualification": "The saved finding uses 'associated' for the forwarded approval; that association was not proven. The fuller report explicitly qualifies it. Approval disposition remains unknown.",
+  "reproduction": {
+    "endpoint": "http://127.0.0.1:5190",
+    "steps": [
+      "Use the retained fictional acceptance Store with four work runs.",
+      "Set an actual 390×844 CSS viewport at visual scale1.",
+      "Open Assistant → Work tasks. Cards show status/mode/time but omit visible goal titles; full goal remains in accessible button text.",
+      "Close panels, choose 中文, then open 助理 → 工作任务. The same missing-title defect is visually present.",
+      "At1280×800, the same retained goals are visible."
+    ],
+    "retained_goals": [
+      "Fictional 4e acceptance: compile the selected count evidence and retain a reviewable local report.",
+      "虚构验收：在派发前取消本地工作，不保存成果。",
+      "Fictional QA 第二版：保留已选计数，制作本地证据文件。",
+      "Fictional QA: compile selected counts and task evidence into a Markdown report and CSV evidence register."
+    ]
+  },
+  "existing_dom_measurements": {
+    "measurement_scope": "Narrow geometry was measured in the English interface; desktop geometry was measured in the Chinese interface. Missing narrow titles were visually confirmed in both interface languages. No separate Chinese narrow computed-style probe or English desktop height probe was recorded.",
+    "narrow_viewport": {
+      "width": 390,
+      "height": 844,
+      "documentWidth": 390,
+      "visualWidth": 390,
+      "visualScale": 1
+    },
+    "narrow_cards": [
+      {
+        "title": "Fictional 4e acceptance: compile the selected count evidence and retain a reviewable local report.",
+        "buttonWidth": 314,
+        "buttonHeight": 66,
+        "buttonComputedOverflow": "visible",
+        "titleTag": "STRONG",
+        "titleComputedDisplay": "flow-root",
+        "titleRect": {
+          "x": 50.1953125,
+          "y": 291.7890625,
+          "height": 0
+        },
+        "statusHeight": 21,
+        "modeTimestampHeight": 34.984375
+      },
+      {
+        "title": "Fictional QA 第二版：保留已选计数，制作本地证据文件。",
+        "buttonWidth": 314,
+        "buttonHeight": 66,
+        "titleHeight": 0
+      },
+      {
+        "title": "Fictional QA: compile selected counts and task evidence into a Markdown report and CSV evidence register.",
+        "buttonWidth": 314,
+        "buttonHeight": 66,
+        "titleHeight": 0
+      }
+    ],
+    "desktop_viewport": {
+      "width": 1280,
+      "height": 800,
+      "documentWidth": 1280
+    },
+    "desktop_title_heights": [
+      42,
+      42,
+      42,
+      42
+    ],
+    "desktop_button_heights": [
+      131.96875,
+      131.96875,
+      152.96875,
+      152.96875
+    ],
+    "not_captured": [
+      "computed flex-shrink",
+      "list client height",
+      "list scroll height"
+    ]
+  },
+  "existing_source_evidence": {
+    "css_file": "desk-companion/frontend/src/workspace/agent/agent.css",
+    "list_rule_line": 26,
+    "list": {
+      "display": "flex",
+      "flex-direction": "column",
+      "gap": "0.5rem",
+      "max-height": "18rem",
+      "overflow-y": "auto"
+    },
+    "card_rule_line": 33,
+    "card": {
+      "width": "100%",
+      "text-align": "left",
+      "display": "grid",
+      "gap": "0.3rem",
+      "padding": "0.7rem",
+      "flex-shrink_override": "none in this rule"
+    },
+    "title_rule_line": 44,
+    "title": {
+      "display": "-webkit-box",
+      "-webkit-line-clamp": 2,
+      "-webkit-box-orient": "vertical",
+      "overflow": "hidden",
+      "overflow-wrap": "anywhere"
+    },
+    "responsive_rules": {
+      "min_width_850px_list_max_height": "32rem",
+      "max_width_480px_button_min_height": "42px"
+    },
+    "component_file": "desk-companion/frontend/src/workspace/agent/RunPanel.tsx",
+    "component_area": "approximately lines335–372",
+    "component_structure": "nav.agent-run-list → button.agent-run-choice → strong(run.goal or Untitled work), span(stateLabel), small(modeLabel and updated_at)",
+    "cause_status": "Flex shrinking is the CSS-based explanation; the measured evidence is the zero-height title and reduced card size. Computed flex-shrink was not captured locally."
+  },
+  "actions_this_reply": "Read-only evidence export. No file changes, UI reruns, blocked request retries, service changes, version switch or approval-disposition inference."
+}

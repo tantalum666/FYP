@@ -1,0 +1,117 @@
+{
+  "completed_utc": "2026-10-13T11:58:14.234419+00:00",
+  "inherited_same_task_intake": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "inherited_expected": 186,
+  "inherited_covered": 186,
+  "fresh_whole_repository_read_claimed": false,
+  "fully_read_supplements": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 228,
+      "read_ranges": [
+        [
+          1,
+          228
+        ]
+      ],
+      "sha256": "a3871de2bd5f6bb5a25c6c08b8ef5aebcb70c4546623e5e826448bf989327444"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 60,
+      "read_ranges": [
+        [
+          1,
+          60
+        ]
+      ],
+      "sha256": "eb4d7527c0dcaa27dc7f3484246647ae9180e346c1522f3198a9a91e8e84fb04"
+    },
+    {
+      "path": "desk-companion/docs/agent-runs.md",
+      "lines": 134,
+      "read_ranges": [
+        [
+          1,
+          134
+        ]
+      ],
+      "sha256": "0d7ccc95bcc22a6afc56fe16fff39c5f5c7b378f2d4b13c581d02016b85c8940"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/agent.css",
+      "lines": 316,
+      "read_ranges": [
+        [
+          1,
+          316
+        ]
+      ],
+      "sha256": "b0354005de5866438c8d1007af3a0adb57a1a5615104c121316dd22422034656"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/RunPanel.tsx",
+      "lines": 597,
+      "read_ranges": [
+        [
+          1,
+          597
+        ]
+      ],
+      "sha256": "cdc349fbb26b7313763c44fe092af55c5d4129b3771bb89c90c6b19237bf1409"
+    },
+    {
+      "path": "desk-companion/frontend/tests/work-card-layout.test.ts",
+      "lines": 140,
+      "read_ranges": [
+        [
+          1,
+          140
+        ]
+      ],
+      "sha256": "84cc3ac855dc47c180bf7df001c1cc8beacb68682e8e3dacf938cf4d84d88407"
+    },
+    {
+      "path": "desk-companion/frontend/package.json",
+      "lines": 41,
+      "read_ranges": [
+        [
+          1,
+          41
+        ]
+      ],
+      "sha256": "7db1839b000714e5f937f4d8e65d88733408390f7b1c89aebaa1a38b72a203a4"
+    }
+  ],
+  "partial_supporting_reads": {
+    "desk-companion/frontend/src/styles.css": [
+      [
+        1,
+        112
+      ],
+      [
+        1710,
+        1735
+      ]
+    ],
+    "desk-companion/frontend/src/workspace/workspace.css": [
+      [
+        35,
+        60
+      ]
+    ],
+    "decision-log.md": "latest 70 lines; relevant recent decisions only"
+  },
+  "exclusions": "Inherited original 186-document intake exclusions; no new full-repository intake. Dependency files, build artifacts, and generated QA snapshots were not treated as authored specifications."
+}
