@@ -902,3 +902,9 @@
 - 共享已有有界DNS／TLS传输原语；捕获单独检查公网单播和原始HTTP状态／报头，保留MCP现有协议。无重试、跳转、脚本或浏览器回退
 - 新库schema3，旧v2需独立命名2→3迁移许可；既有v1→2操作不顺带升级3，实际用户库不在本轮迁移范围
 - 临时文件／双hardlink窗口保持未知且计入容量，原键只读核验不能偷偷补发布。纯资料入库和实际可用验收分开，完整方案与审查证据见planning/2026-10-13/exact-url-capture-implementation.md
+
+## 2026-10-13 跨平台模块命名规则
+
+- 实际Mac编译证据确认PublicCapture.tsx／publicCapture.ts同basename大小写差异导致扩展名优先解析错误，采用明确不同的helper名capturePolicy.ts而非关闭TypeScript检查或修改文件系统
+- 在既有npm test加入全src实现TS／TSX无扩展名case-insensitive键与目录别名冲突检查，声明伴随文件排除；不称覆盖所有平台文件系统语义
+- Git发布须显式删除旧helper并核对新旧路径，源码／Linux CI／实际Mac构建及界面分别验证

@@ -1,0 +1,5 @@
+src/workspace/agent/CaptureProvenance.tsx(2,41): error TS1149: File name '<isolated-checkout>/desk-companion/frontend/src/workspace/agent/publicCapture.ts' differs from already included file name '<isolated-checkout>/desk-companion/frontend/src/workspace/agent/PublicCapture.ts' only in casing.
+src/workspace/agent/RunComposer.tsx(13,10): error TS1484: 'PublicCapture' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/workspace/agent/RunComposer.tsx(650,16): error TS2693: 'PublicCapture' only refers to a type, but is being used as a value here.
+src/workspace/agent/RunPanel.tsx(9,31): error TS1261: Already included file name '<isolated-checkout>/desk-companion/frontend/src/workspace/agent/PublicCapture.ts' differs from file name '<isolated-checkout>/desk-companion/frontend/src/workspace/agent/publicCapture.ts' only in casing.
+src/workspace/agent/RunPanel.tsx(165,16): error TS2693: 'PublicCapture' only refers to a type, but is being used as a value here.

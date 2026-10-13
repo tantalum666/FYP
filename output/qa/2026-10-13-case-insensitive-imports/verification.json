@@ -1,0 +1,29 @@
+{
+  "completed_utc": "2026-10-13T13:01:22.753689+00:00",
+  "baseline_source": "1e52e7106c03f5a1a365a9859dbec21cb0f921e6",
+  "baseline_tree": "42079660aad46c72fedc1bace18f22be6bab55a3",
+  "delete": [
+    "desk-companion/frontend/src/workspace/agent/publicCapture.ts"
+  ],
+  "upsert": {
+    "desk-companion/frontend/src/workspace/agent/CaptureProvenance.tsx": "0164967663b0fd5c84ef9a4be97d7dd5fc8a5080d7d550e1679fc3022f410c3b",
+    "desk-companion/frontend/src/workspace/agent/PublicCapture.tsx": "22d2eb5fa4098a8f718b58db2b1e0cf2715ecc641b5dc7bda34a8a6dffc922fe",
+    "desk-companion/frontend/src/workspace/agent/SourcePreview.tsx": "a2056bbdf5a193dd6045af17704fc4515586047f3ca671adedefbfe7ab068fb5",
+    "desk-companion/frontend/src/workspace/agent/usePublicCaptures.ts": "3a7cf647a39bb96196fcdd0a8d11255b010c405478ce5e42adbe47cc5264fe81",
+    "desk-companion/frontend/tests/public-capture-lifecycle.test.ts": "a1208028092a8c4d50199656cb83b09becfd3f81605d0c45f0e32522fc17680e",
+    "desk-companion/frontend/tests/public-capture-render.test.ts": "f41c65cb3d9008fabcadc9b08068f7b06e8bac111a1c23aad1082ded25346d19",
+    "desk-companion/frontend/tests/module-paths.test.ts": "c9e06e6c0ecdee40a9120abce937c049132af6e27205644ea08325ad4abece1b",
+    "desk-companion/frontend/src/workspace/agent/capturePolicy.ts": "b3ddb5ebda8ee268c65e4929d222c78e76391ee848ff29c6a259e85749b8a7ca"
+  },
+  "unchanged_helper_git_blob": "67630e12e97f8ebdd1407bf684ff78259b8a78ac",
+  "frontend_tests": {
+    "passed": 246,
+    "failed": 0
+  },
+  "typecheck_exit": 0,
+  "build_exit": 0,
+  "asset_check_exit": 0,
+  "original_guard_exit": 1,
+  "fixed_guard_exit": 0,
+  "actual_mac_retest": "not_run_here; parent owns existing Mac task"
+}

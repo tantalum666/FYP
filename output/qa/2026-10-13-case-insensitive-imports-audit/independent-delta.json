@@ -1,0 +1,38 @@
+[
+  {
+    "path": "desk-companion/frontend/src/workspace/agent/publicCapture.ts",
+    "change": "deleted"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/agent/CaptureProvenance.tsx",
+    "change": "modified"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/agent/usePublicCaptures.ts",
+    "change": "modified"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/agent/PublicCapture.tsx",
+    "change": "modified"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/agent/SourcePreview.tsx",
+    "change": "modified"
+  },
+  {
+    "path": "desk-companion/frontend/tests/public-capture-lifecycle.test.ts",
+    "change": "modified"
+  },
+  {
+    "path": "desk-companion/frontend/tests/public-capture-render.test.ts",
+    "change": "modified"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/agent/capturePolicy.ts",
+    "change": "added"
+  },
+  {
+    "path": "desk-companion/frontend/tests/module-paths.test.ts",
+    "change": "added"
+  }
+]

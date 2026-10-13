@@ -1,0 +1,30 @@
+[
+  {
+    "path": "desk-companion/frontend/src/workspace/agent/CaptureProvenance.tsx",
+    "only_change": "helper import specifier"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/agent/PublicCapture.tsx",
+    "only_change": "helper import specifier"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/agent/SourcePreview.tsx",
+    "only_change": "helper import specifier"
+  },
+  {
+    "path": "desk-companion/frontend/tests/public-capture-lifecycle.test.ts",
+    "only_change": "helper import specifier"
+  },
+  {
+    "path": "desk-companion/frontend/tests/public-capture-render.test.ts",
+    "only_change": "helper import specifier"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/agent/usePublicCaptures.ts",
+    "only_change": "helper import specifier"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/agent/capturePolicy.ts",
+    "only_change": "path rename; bytes unchanged"
+  }
+]

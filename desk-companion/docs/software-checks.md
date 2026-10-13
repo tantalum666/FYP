@@ -6,7 +6,7 @@ Run from `desk-companion/` with Python 3.12+, Node 22.12+ and uv:
 bash scripts/check_software.sh --install
 ```
 
-The script installs the exact committed Python/npm lockfiles, disables npm lifecycle scripts, verifies the bundled VRM and A1 PNG against their provenance hashes, runs Ruff and the complete backend test directory, then runs frontend tests and TypeScript/Vite production build. A failed stage stops the remaining stages. Dependency installation needs package-registry access unless caches are already complete.
+The script installs the exact committed Python/npm lockfiles, disables npm lifecycle scripts, verifies the bundled VRM and A1 PNG against their provenance hashes, runs Ruff and the complete backend test directory, then runs frontend tests and TypeScript/Vite production build. Frontend `npm test` also recursively checks all implementation `.ts`/`.tsx` files under `src` for case-insensitive extensionless module-key collisions and case-only directory aliases; `.d.ts` declaration companions are excluded. This source guard catches cross-platform naming ambiguity on Linux, but does not replace an actual Mac build. A failed stage stops the remaining stages. Dependency installation needs package-registry access unless caches are already complete.
 
 `--install` performs an exact base/dev dependency sync and may remove optional vision/audio packages from that virtual environment. Use a dedicated software-check checkout, or omit installation when retaining an existing hardware environment. For read-only home directories, set `UV_CACHE_DIR` and npm's `--cache`/`npm_config_cache` to an authorized writable cache location.
 

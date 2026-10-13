@@ -1,0 +1,39 @@
+{
+  "source_sha": "1e52e7106c03f5a1a365a9859dbec21cb0f921e6",
+  "tree_sha": "42079660aad46c72fedc1bace18f22be6bab55a3",
+  "status": "setup_blocked",
+  "actual_browser_result_claimed": false,
+  "screenshots": [],
+  "served_asset_hashes": null,
+  "retained_locally": true,
+  "uploaded_to_library": false,
+  "mac_qa_directory": "/Users/tantalum/Documents/Codex/2026-10-12/task-2/qa/2026-10-13-1e52e710",
+  "files": [
+    {
+      "file": "report.md",
+      "bytes": 2622,
+      "sha256": "83e34ff59fe810ee54643a091f16cebf68bd4931567670bb8a6238689dabff14"
+    },
+    {
+      "file": "permission-result.json",
+      "bytes": 617,
+      "sha256": "7605b91a2ea01e2dc9e351288440f7e3c0e30c0d4666107154fc3c454560b8f0"
+    },
+    {
+      "file": "remote-tree.json",
+      "bytes": 1266588,
+      "sha256": "8f393043db0d1034c6913e470817da4491857abc66fea1c5458d781325e7e0c7"
+    },
+    {
+      "file": "missing-source-blobs.json",
+      "bytes": 15020,
+      "sha256": "aaab581ba8fab352dcd44e3a0255020b00118ff634e976a37afc79057bb4c203"
+    }
+  ],
+  "prior_4e_report_sha256": "eb6c561a7a392c892b1e9dc1144f13612fad64dc74547d76e4ccd896fe143986",
+  "prior_4e_report_matches": true,
+  "new_permission_requested": false,
+  "database_opened_copied_or_migrated": false,
+  "existing_services_changed": false,
+  "pending_approval_disposition_inferred": false
+}

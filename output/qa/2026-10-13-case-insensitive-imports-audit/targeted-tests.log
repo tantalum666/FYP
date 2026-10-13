@@ -1,0 +1,36 @@
+✔ all frontend source module paths are unambiguous on case-insensitive filesystems (3.731749ms)
+✔ module guard catches nested mixed-extension and same-extension case collisions (0.309945ms)
+✔ module guard catches case-only directories even with different child basenames (0.480352ms)
+✔ module guard permits distinct directories, declaration companions and non-module assets (0.23922ms)
+✔ capability defaults off, initial stale mount can recover capability, no automatic list or network mutation (137.425091ms)
+✔ disabled capture allows saved history reads but never preparation (39.836122ms)
+✔ prepare stores exact review and separate approval uses strict acknowledgments and double click lock (45.19893ms)
+✔ lost prepare response pins identical body key and only explicit retry recovers original (35.632353ms)
+✔ unknown approval can be stopped without generating a replacement capture, preserving original key (18.424404ms)
+✔ hidden uses scalar list/detail/stop only, rejects leaked private keys and cannot prepare reconcile or approve (27.563455ms)
+✔ all session privacy offline events revoke old callbacks pending retries and late response (89.884819ms)
+✔ stale freshness pauses mutation and retries without discarding original unknown request (35.865014ms)
+✔ old read access denial revokes newer view (69.112948ms)
+✔ unmount and A-B-A privacy epochs never revive old callbacks or replies (16.784351ms)
+✔ refresh immediately invalidates approval callback; malformed mutation response preserves original pending (14.926866ms)
+✔ strict parser rejects malformed scalar policy capacity and hidden projections (0.831786ms)
+✔ production intake callbacks retain volatile draft, require record acknowledgment and register dirty navigation (42.95369ms)
+✔ production rollback below review observation must prevent approve POST (18.84252ms)
+✔ production source preview stale access denial revokes a newer visible page (10.215253ms)
+✔ production disabled still reconciles and stops; queued refresh never posts approval (17.184263ms)
+✔ production visible stop rejects private extra response and privacy change blocks followup read (34.345645ms)
+✔ production monotonic elapsed expires approval with frozen wall clock (16.467901ms)
+✔ review window independently expires on monotonic time and never revives after clock rollback (0.465528ms)
+✔ same review reread cannot renew a revoked deadline (23.456068ms)
+✔ actual bilingual intake/review states exact bounded GET disclosure, unchecked separate consents and inert URL/label (177.615097ms)
+✔ disabled still renders history/local reconciliation and cancelled source provenance without implying deletion (57.543631ms)
+✔ hidden projection renders handles/status/stop without private URL source or reconcile (24.799906ms)
+✔ acquisition preview is safe plaintext and invalid provenance never becomes evidence (1.908062ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1740.910225

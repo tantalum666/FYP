@@ -1,0 +1,41 @@
+{
+  "source_sha": "1e52e7106c03f5a1a365a9859dbec21cb0f921e6",
+  "tree_sha": "42079660aad46c72fedc1bace18f22be6bab55a3",
+  "source_files": [
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/PublicCapture.tsx",
+      "size": 20581,
+      "git_blob_sha": "17b1268a0e8e09d1db906032d8cb8dbd6179097c",
+      "disk_blob_sha": "17b1268a0e8e09d1db906032d8cb8dbd6179097c",
+      "matches": true,
+      "sha256": "28fdd8797bf368bd4ea8bd4b18486eace939875c15d84b7a116419b3959c3527"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/publicCapture.ts",
+      "size": 10032,
+      "git_blob_sha": "67630e12e97f8ebdd1407bf684ff78259b8a78ac",
+      "disk_blob_sha": "67630e12e97f8ebdd1407bf684ff78259b8a78ac",
+      "matches": true,
+      "sha256": "b3ddb5ebda8ee268c65e4929d222c78e76391ee848ff29c6a259e85749b8a7ca"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/agent.css",
+      "size": 6059,
+      "git_blob_sha": "68a52afc7b630ae69182ac1cd3ead97562e81e41",
+      "disk_blob_sha": "68a52afc7b630ae69182ac1cd3ead97562e81e41",
+      "matches": true,
+      "sha256": "b0354005de5866438c8d1007af3a0adb57a1a5615104c121316dd22422034656"
+    }
+  ],
+  "case_resolution_probe": {
+    "lowercase_helper_path": "desk-companion/frontend/src/workspace/agent/publicCapture.ts",
+    "uppercase_import_candidate": "desk-companion/frontend/src/workspace/agent/PublicCapture.ts",
+    "uppercase_candidate_resolves": true,
+    "same_file": true
+  },
+  "new_dist_exists": false,
+  "runtime_created": false,
+  "approval_requested": false,
+  "service_started": false,
+  "prior_builds_preserved": true
+}

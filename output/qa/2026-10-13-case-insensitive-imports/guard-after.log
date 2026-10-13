@@ -1,0 +1,12 @@
+✔ all frontend source module paths are unambiguous on case-insensitive filesystems (3.351104ms)
+✔ module guard catches nested mixed-extension and same-extension case collisions (0.262464ms)
+✔ module guard catches case-only directories even with different child basenames (0.235215ms)
+✔ module guard permits distinct directories, declaration companions and non-module assets (0.164851ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 187.875382

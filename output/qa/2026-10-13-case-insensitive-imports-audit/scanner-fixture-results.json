@@ -1,0 +1,26 @@
+[
+  {
+    "fixture": "old-pair",
+    "expected_success": false,
+    "exit_code": 1,
+    "matches_expectation": true
+  },
+  {
+    "fixture": "directory-case",
+    "expected_success": false,
+    "exit_code": 1,
+    "matches_expectation": true
+  },
+  {
+    "fixture": "distinct-and-declaration",
+    "expected_success": true,
+    "exit_code": 0,
+    "matches_expectation": true
+  },
+  {
+    "fixture": "nested-same-extension",
+    "expected_success": false,
+    "exit_code": 1,
+    "matches_expectation": true
+  }
+]

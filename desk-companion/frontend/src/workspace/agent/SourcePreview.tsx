@@ -1,4 +1,4 @@
-import { captureDenial } from "./publicCapture";
+import { captureDenial } from "./capturePolicy";
 import { CaptureProvenance } from "./CaptureProvenance";
 import { useEffect, useRef, useState } from "react";
 import { request } from "../../api";

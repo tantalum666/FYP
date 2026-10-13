@@ -1,0 +1,46 @@
+{
+  "typescript": "6.0.3",
+  "moduleResolution": "bundler",
+  "pre_fix": {
+    "case_sensitive": "/workspace/shared/fyp-agent-20261012/desk-companion/frontend/src/workspace/agent/PublicCapture.tsx",
+    "case_insensitive": "/workspace/shared/fyp-agent-20261012/desk-companion/frontend/src/workspace/agent/PublicCapture.ts"
+  },
+  "post_fix": [
+    {
+      "file": "RunComposer.tsx",
+      "specifier": "./PublicCapture",
+      "case_sensitive": "/workspace/shared/fyp-agent-20261012/desk-companion/frontend/src/workspace/agent/PublicCapture.tsx",
+      "case_insensitive": "/workspace/shared/fyp-agent-20261012/desk-companion/frontend/src/workspace/agent/PublicCapture.tsx"
+    },
+    {
+      "file": "RunPanel.tsx",
+      "specifier": "./PublicCapture",
+      "case_sensitive": "/workspace/shared/fyp-agent-20261012/desk-companion/frontend/src/workspace/agent/PublicCapture.tsx",
+      "case_insensitive": "/workspace/shared/fyp-agent-20261012/desk-companion/frontend/src/workspace/agent/PublicCapture.tsx"
+    },
+    {
+      "file": "PublicCapture.tsx",
+      "specifier": "./capturePolicy",
+      "case_sensitive": "/workspace/shared/fyp-agent-20261012/desk-companion/frontend/src/workspace/agent/capturePolicy.ts",
+      "case_insensitive": "/workspace/shared/fyp-agent-20261012/desk-companion/frontend/src/workspace/agent/capturePolicy.ts"
+    },
+    {
+      "file": "SourcePreview.tsx",
+      "specifier": "./capturePolicy",
+      "case_sensitive": "/workspace/shared/fyp-agent-20261012/desk-companion/frontend/src/workspace/agent/capturePolicy.ts",
+      "case_insensitive": "/workspace/shared/fyp-agent-20261012/desk-companion/frontend/src/workspace/agent/capturePolicy.ts"
+    },
+    {
+      "file": "CaptureProvenance.tsx",
+      "specifier": "./capturePolicy",
+      "case_sensitive": "/workspace/shared/fyp-agent-20261012/desk-companion/frontend/src/workspace/agent/capturePolicy.ts",
+      "case_insensitive": "/workspace/shared/fyp-agent-20261012/desk-companion/frontend/src/workspace/agent/capturePolicy.ts"
+    },
+    {
+      "file": "usePublicCaptures.ts",
+      "specifier": "./capturePolicy",
+      "case_sensitive": "/workspace/shared/fyp-agent-20261012/desk-companion/frontend/src/workspace/agent/capturePolicy.ts",
+      "case_insensitive": "/workspace/shared/fyp-agent-20261012/desk-companion/frontend/src/workspace/agent/capturePolicy.ts"
+    }
+  ]
+}

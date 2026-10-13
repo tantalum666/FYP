@@ -7,7 +7,7 @@ import * as runtime from "react/jsx-runtime";
 import { renderToStaticMarkup } from "react-dom/server";
 import ts from "typescript";
 import { ResponseFence } from "../src/workspace/personal/responseFence.ts";
-import * as policy from "../src/workspace/agent/publicCapture.ts";
+import * as policy from "../src/workspace/agent/capturePolicy.ts";
 register(new URL("./fixtures/render-tsx-loader.mjs", import.meta.url));
 const { CaptureProvenance } =
   await import("../src/workspace/agent/CaptureProvenance.tsx");
@@ -89,7 +89,7 @@ function component(api: any) {
     if (name === "./usePublicCaptures") return { usePublicCaptures: () => api };
     if (name === "../../components/DraftGuard")
       return { useDraftGuard: () => {} };
-    if (name === "./publicCapture") return policy;
+    if (name === "./capturePolicy") return policy;
     if (name === "./RetainedCapacity") return { CapacityLine };
     if (name === "./CaptureProvenance") return { CaptureProvenance };
     if (name === "./SourcePreview") return { SourcePreview: () => null };

@@ -1,0 +1,145 @@
+{
+  "continuation_of": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "inherited_status": "186 of 186 complete, same ongoing task; no fresh full-library reading claim",
+  "full_text_supplements": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "range": [
+        1,
+        50
+      ]
+    },
+    {
+      "path": "product.md",
+      "lines": 232,
+      "range": [
+        1,
+        232
+      ]
+    },
+    {
+      "path": "handoff.md",
+      "lines": 68,
+      "range": [
+        1,
+        68
+      ]
+    },
+    {
+      "path": "desk-companion/docs/software-checks.md",
+      "lines": 31,
+      "range": [
+        1,
+        31
+      ]
+    },
+    {
+      "path": "desk-companion/scripts/check_software.sh",
+      "lines": 72,
+      "range": [
+        1,
+        72
+      ]
+    },
+    {
+      "path": "desk-companion/frontend/package.json",
+      "lines": 41,
+      "range": [
+        1,
+        41
+      ]
+    },
+    {
+      "path": "desk-companion/frontend/tsconfig.json",
+      "lines": 15,
+      "range": [
+        1,
+        15
+      ]
+    },
+    {
+      "path": "desk-companion/frontend/tests/work-card-layout.test.ts",
+      "lines": 140,
+      "range": [
+        1,
+        140
+      ]
+    },
+    {
+      "path": "output/qa/2026-10-13-mac-case-resolution/report.md",
+      "lines": 27,
+      "range": [
+        1,
+        27
+      ]
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/CaptureProvenance.tsx",
+      "lines": 56,
+      "range": [
+        1,
+        56
+      ]
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/PublicCapture.tsx",
+      "lines": 532,
+      "range": [
+        1,
+        532
+      ]
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/SourcePreview.tsx",
+      "lines": 154,
+      "range": [
+        1,
+        154
+      ]
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/usePublicCaptures.ts",
+      "lines": 418,
+      "range": [
+        1,
+        418
+      ]
+    },
+    {
+      "path": "desk-companion/frontend/tests/public-capture-lifecycle.test.ts",
+      "lines": 899,
+      "range": [
+        1,
+        899
+      ]
+    },
+    {
+      "path": "desk-companion/frontend/tests/public-capture-render.test.ts",
+      "lines": 228,
+      "range": [
+        1,
+        228
+      ]
+    },
+    {
+      "path": "desk-companion/frontend/tests/module-paths.test.ts",
+      "lines": 106,
+      "range": [
+        1,
+        106
+      ]
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/agent/capturePolicy.ts",
+      "lines": 307,
+      "range": [
+        1,
+        307
+      ]
+    }
+  ],
+  "additional_reading": "Last 100 lines of decision-log.md; original helper full307 lines before rename; full touched components/hooks/tests before editing",
+  "excluded": "Dependencies, generated dist, caches; inherited historical documents not reread",
+  "completed_utc": "2026-10-13T13:01:22.756798+00:00"
+}

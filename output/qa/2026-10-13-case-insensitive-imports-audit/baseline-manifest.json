@@ -1,0 +1,618 @@
+{
+  "desk-companion/frontend/src/dates.ts": {
+    "sha256": "ba865be7cfddcf3941799bd77d043c621425feec6280a971c63698d0a11ac3c6",
+    "bytes": 2075
+  },
+  "desk-companion/frontend/src/types.ts": {
+    "sha256": "258d9443a8943927de3a6cd19d112a4862e7e7f994f291b3428c5b1456a33d99",
+    "bytes": 2320
+  },
+  "desk-companion/frontend/src/styles.css": {
+    "sha256": "41cc84e3c56c9c9b1136a5072ffe81e0983ba14ccac682e4911ac6d2dc6d9cec",
+    "bytes": 32732
+  },
+  "desk-companion/frontend/src/native.ts": {
+    "sha256": "3bbb17e3ff930dc8480614d668ac010ee5a044a60d9eb5038a44f02c02db3c23",
+    "bytes": 2344
+  },
+  "desk-companion/frontend/src/App.tsx": {
+    "sha256": "f891e8ab3bd2381b1fed2cf135f866839e37506ad2a9931062d831290c5caec8",
+    "bytes": 27465
+  },
+  "desk-companion/frontend/src/vite-env.d.ts": {
+    "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+    "bytes": 38
+  },
+  "desk-companion/frontend/src/api.ts": {
+    "sha256": "c878d06e29d9d853b895ad1e9d1d26689599c40b750d0f61cd3967bc9df579df",
+    "bytes": 16373
+  },
+  "desk-companion/frontend/src/main.tsx": {
+    "sha256": "196967e43064339490e891ada4254379c084ce34c6a65efa6aeb2cc9f812d557",
+    "bytes": 2056
+  },
+  "desk-companion/frontend/src/workspace/tasks.css": {
+    "sha256": "68d5446f19fad60791bcdc68b320fe21d3a66ed357c2e42c03c55a8b44cb8bd9",
+    "bytes": 5933
+  },
+  "desk-companion/frontend/src/workspace/DataPanel.tsx": {
+    "sha256": "b335f8416693cf136350b23c348b0e0717c16f61927f0999ae4c937da2d2c13b",
+    "bytes": 18340
+  },
+  "desk-companion/frontend/src/workspace/types.ts": {
+    "sha256": "d248e42b8fa3029cc3f74873e532ee474f97a773e28db84914e5db001780ebdb",
+    "bytes": 3048
+  },
+  "desk-companion/frontend/src/workspace/calendarExtras.ts": {
+    "sha256": "a90b32b49ed03f65bb3e0af9a4def27f6f5cc233a02285dd90bf90f48d9f9e9d",
+    "bytes": 1138
+  },
+  "desk-companion/frontend/src/workspace/ExportLink.tsx": {
+    "sha256": "34f2f956972cb9db1a7eda2c3632416546a4fe8c529ddd58c34b780c39d58cce",
+    "bytes": 848
+  },
+  "desk-companion/frontend/src/workspace/WorkspaceContext.tsx": {
+    "sha256": "3d6cfb83ec421a0dc5f93e71bd0456e2796d216e16a78e834ff8265b82a952ca",
+    "bytes": 2171
+  },
+  "desk-companion/frontend/src/workspace/PhoneFeatures.tsx": {
+    "sha256": "fbfd8af346a991c8b7ec4dc00fe13235fe078257342bf230832084bd5817aede",
+    "bytes": 4889
+  },
+  "desk-companion/frontend/src/workspace/audio.ts": {
+    "sha256": "841191dfd6a786c57e4bedc393a76248a9b6d42df9639088cf6eb46ec921a2c5",
+    "bytes": 7401
+  },
+  "desk-companion/frontend/src/workspace/taskTypes.ts": {
+    "sha256": "d345a6d1008d0709da6c3e06f2587a37754b9b5f93a7c07093a76f953fc6fdb3",
+    "bytes": 1138
+  },
+  "desk-companion/frontend/src/workspace/jobTypes.ts": {
+    "sha256": "8481f64aed05284a1dfbc363be9884c41e603135358599da17b1232c8bbe267f",
+    "bytes": 2216
+  },
+  "desk-companion/frontend/src/workspace/routines.css": {
+    "sha256": "2b1d44399ef525a69b603a87efcecf0aadcfecca05aa8f217683bd353220c85e",
+    "bytes": 1205
+  },
+  "desk-companion/frontend/src/workspace/PosturePanel.tsx": {
+    "sha256": "313c4cd93136f389e0f3f2239050f583c6706fd23aba3a8a1495b5e987c7f371",
+    "bytes": 14301
+  },
+  "desk-companion/frontend/src/workspace/SharedCalendar.tsx": {
+    "sha256": "0a646cd39fb67c2aead36419d3b6dba7e9f1707349ad3e57dd0d494b74c61a24",
+    "bytes": 3450
+  },
+  "desk-companion/frontend/src/workspace/OwnerAccess.tsx": {
+    "sha256": "b3f69ef6e2c099e22a5d037a23c067b2a0de0d3193ad840b6593ceda3449be11",
+    "bytes": 1858
+  },
+  "desk-companion/frontend/src/workspace/avatar.css": {
+    "sha256": "299afb4e0e473271f0fbb5af2b6cc3017d5bba7390532561a86be64f08773e0f",
+    "bytes": 6514
+  },
+  "desk-companion/frontend/src/workspace/routineTypes.ts": {
+    "sha256": "b765fd3a7f4b38f1a510e125db98e0d346ab87cc57e1bbd95b15f206e87db64b",
+    "bytes": 2876
+  },
+  "desk-companion/frontend/src/workspace/Avatar.tsx": {
+    "sha256": "96327d8502bd079492784ed06f1a3e71e40ef0463cf3c23d227ab29f0ee6862f",
+    "bytes": 14096
+  },
+  "desk-companion/frontend/src/workspace/RoutinesPanel.tsx": {
+    "sha256": "ebfd6dc2da2701b25b8c60b8d9f07bfa923ec08162bb8bf337db17b72ccf0a83",
+    "bytes": 29300
+  },
+  "desk-companion/frontend/src/workspace/AssistantPanel.tsx": {
+    "sha256": "80fe22e0172809b114732b456ae62fce6466ce11a44d0e804ff2c16928f74978",
+    "bytes": 44347
+  },
+  "desk-companion/frontend/src/workspace/workspace.css": {
+    "sha256": "5ba811747d9fd96e44c12d86fe97073080fc122e99199f796032e1398f4ae632",
+    "bytes": 11090
+  },
+  "desk-companion/frontend/src/workspace/ComputerJobsPanel.tsx": {
+    "sha256": "c2b82d64d2f27820fbd7dfc93849802482ff5b7fabeed2e967ba1c1a77257228",
+    "bytes": 19029
+  },
+  "desk-companion/frontend/src/workspace/ExtrasPanel.tsx": {
+    "sha256": "72bb111bccf668d82c07b240ce23a16dce0260bf58520348cb8ec592b6ca8b74",
+    "bytes": 7814
+  },
+  "desk-companion/frontend/src/workspace/TaskPanel.tsx": {
+    "sha256": "4b0fa39057e74ae6dab543156906bb41906b163e25026581536422b87d074ac4",
+    "bytes": 41665
+  },
+  "desk-companion/frontend/src/workspace/ConnectionsPanel.tsx": {
+    "sha256": "d7eff75499d18615feda6b53870928f1e914a9f27f114a1ca4d276517fda14ed",
+    "bytes": 15282
+  },
+  "desk-companion/frontend/src/workspace/NativeSetup.tsx": {
+    "sha256": "d04ef60e85aa48c58078f3be6db33af3601b42dec4adba45b87138df98bf1107",
+    "bytes": 3864
+  },
+  "desk-companion/frontend/src/avatar/model.ts": {
+    "sha256": "abe8ba52bb021cdf98421d9c9f651971d3145fdd793dfcdf1d7b60936b320311",
+    "bytes": 3527
+  },
+  "desk-companion/frontend/src/avatar/AvatarScene.tsx": {
+    "sha256": "7aaeb24200fe53a684c818bb7a425792b5b163908ff050a416cc1ab1a01a3fb1",
+    "bytes": 9515
+  },
+  "desk-companion/frontend/src/avatar/playback.ts": {
+    "sha256": "d7d6f78d02a6d1a9bbc040106ca836c4f8ce379e575a49361bac6d86ad3bdf70",
+    "bytes": 4114
+  },
+  "desk-companion/frontend/src/companion/art.ts": {
+    "sha256": "4cf77612b68a53055e3db82d0a625a45e54f9ac8973e902db6dc73814660c779",
+    "bytes": 137
+  },
+  "desk-companion/frontend/src/companion/companion.css": {
+    "sha256": "3b80e10d985b9a60f5e27cf2530ef7f0c403fb8ed522402ad6cfa86fdc45c65b",
+    "bytes": 8067
+  },
+  "desk-companion/frontend/src/companion/placement.ts": {
+    "sha256": "20e09c0bf4c0c15aa7446cb5eb3076e51958b69fc685e2c8b281f9564605e135",
+    "bytes": 5030
+  },
+  "desk-companion/frontend/src/companion/PageCompanion.tsx": {
+    "sha256": "45a19c9a818c9fdcb74d9e4266fcce57fca6ad09f5a4bb777ed98ec7aa2dd5f9",
+    "bytes": 27005
+  },
+  "desk-companion/frontend/src/device/privacy.ts": {
+    "sha256": "1eb872f05012fdd8596c6b57c6518193c3bdedae4066407f05fc78e55550ca2c",
+    "bytes": 913
+  },
+  "desk-companion/frontend/src/device/model.ts": {
+    "sha256": "1aef564137cfdafb09b5849724e23ee33fb17b348923f68f22c6159feb009550",
+    "bytes": 1772
+  },
+  "desk-companion/frontend/src/device/DisplayFace.tsx": {
+    "sha256": "bd5b83598dbdf65e70627f4594dbf40744f2459529cdf4aaa1e6d29eb2b01295",
+    "bytes": 12506
+  },
+  "desk-companion/frontend/src/device/DeviceApp.tsx": {
+    "sha256": "affed985a4cd2ac87e2ccea54020456f4a2f60eaab17177f31007abf3fe5dfd3",
+    "bytes": 20100
+  },
+  "desk-companion/frontend/src/device/useDeviceCalendar.ts": {
+    "sha256": "acca1aa116398bf4030c8e96c717f28cc5946720ba5bcdae9e7d5640408a9f83",
+    "bytes": 4292
+  },
+  "desk-companion/frontend/src/device/device.css": {
+    "sha256": "2ea2bc30a05c5324c0fcde2fcb8c4343ec8a4c4bd764d094c9e1d4a41f6fd412",
+    "bytes": 22543
+  },
+  "desk-companion/frontend/src/device/DevicePanels.tsx": {
+    "sha256": "ca94f0d6cc3cd101df4a0c3fda96027f3eb3f9d3ca2182b50cc7d20e82951c83",
+    "bytes": 7586
+  },
+  "desk-companion/frontend/src/device/useDisplay.ts": {
+    "sha256": "3b3cecd9de0518fad9aa9e8568f3d26b34f0ae1733d5fe92c0dcd600b7c0abbe",
+    "bytes": 3458
+  },
+  "desk-companion/frontend/src/device/DeskSound.tsx": {
+    "sha256": "7f8c9416b190034739528462a84bfe010c9ad858de4ca65289e913aef0d4cbdc",
+    "bytes": 4519
+  },
+  "desk-companion/frontend/src/components/Calendar.tsx": {
+    "sha256": "b830ccf53c68da9f5c320d6b7745c2804966b3c2043386a65398ee905874c2bc",
+    "bytes": 14182
+  },
+  "desk-companion/frontend/src/components/Views.tsx": {
+    "sha256": "7bdb91150f4191a425f70b08f166b10ece57cc23c2dce88450c0320046420079",
+    "bytes": 26424
+  },
+  "desk-companion/frontend/src/components/DraftGuard.tsx": {
+    "sha256": "6dc197279cf6c0028c5dbef0aea5ad9d2323933954ef551e9e5465315ae32eb7",
+    "bytes": 1982
+  },
+  "desk-companion/frontend/src/components/Dialogs.tsx": {
+    "sha256": "060769dd4cb1a366ff928c7e7808eee00058447990054d4239175f05486c95c1",
+    "bytes": 28574
+  },
+  "desk-companion/frontend/src/workspace/responsibilities/useResponsibilities.ts": {
+    "sha256": "db71a745159b9acc643ea8317f365705e12bf6f79a93bf529af2c2864c3460d3",
+    "bytes": 5046
+  },
+  "desk-companion/frontend/src/workspace/responsibilities/types.ts": {
+    "sha256": "abbcb3291d4ed4ea2cc5324a778fef8737cb6567c031fd14faae03aaf01b1a5c",
+    "bytes": 5877
+  },
+  "desk-companion/frontend/src/workspace/responsibilities/ResponsibilitiesPanel.tsx": {
+    "sha256": "c9fc7ed00ce011a292bac344fc1c680812c2ecea2d1fd82911afa784ce7aae92",
+    "bytes": 27033
+  },
+  "desk-companion/frontend/src/workspace/responsibilities/CurrentTask.tsx": {
+    "sha256": "43f4638c34f59b92772da8c59f30fe95a51a235485ff7c4b6239db0cbdf2296a",
+    "bytes": 3890
+  },
+  "desk-companion/frontend/src/workspace/responsibilities/labels.ts": {
+    "sha256": "af1bb95afcccee727c6a46f222c5a2b418d9b63c776c1f74710b00ddf7ddeb55",
+    "bytes": 6672
+  },
+  "desk-companion/frontend/src/workspace/responsibilities/WatchRetention.tsx": {
+    "sha256": "80670e708a665d007ff9853fadc1d6ec3105bfaea98c5a22505d25bb802c1242",
+    "bytes": 15449
+  },
+  "desk-companion/frontend/src/workspace/responsibilities/WatchReviewCard.tsx": {
+    "sha256": "8ebf8e9c0ad8446762ea405918c576e55a71fd6faee1ea188ced2edf41a1dcbb",
+    "bytes": 3491
+  },
+  "desk-companion/frontend/src/workspace/responsibilities/useWatchRetention.ts": {
+    "sha256": "7f2a4836349958d04749017a5e0b1a0f0e3bdbf4aac0ee04d79ab4b0477c4335",
+    "bytes": 9243
+  },
+  "desk-companion/frontend/src/workspace/responsibilities/retention.ts": {
+    "sha256": "868f341986c985cd9c3231dd19d563f36925f70e595f39656cc16be6af73c90a",
+    "bytes": 12099
+  },
+  "desk-companion/frontend/src/workspace/responsibilities/responsibilities.css": {
+    "sha256": "d2f641e19e39a62a4897dd64567010704e662c8b152bded542465d450a6f8487",
+    "bytes": 1285
+  },
+  "desk-companion/frontend/src/workspace/voiceWork/types.ts": {
+    "sha256": "81983c2d4db34f3b55a021706ffc7f34df5e8c2af68c3a65b9b1d7b671945d89",
+    "bytes": 4653
+  },
+  "desk-companion/frontend/src/workspace/voiceWork/voiceWork.css": {
+    "sha256": "b7f06f4298085f0a205cc18784ab4e9dea41e74199231b9274e6f0869ee81571",
+    "bytes": 479
+  },
+  "desk-companion/frontend/src/workspace/voiceWork/VoiceWorkPanel.tsx": {
+    "sha256": "09bc96d4a20f80bda67351233eda18a876d86daf98959db3265e2d4d9554a659",
+    "bytes": 10484
+  },
+  "desk-companion/frontend/src/workspace/agent/agent.css": {
+    "sha256": "b0354005de5866438c8d1007af3a0adb57a1a5615104c121316dd22422034656",
+    "bytes": 6059
+  },
+  "desk-companion/frontend/src/workspace/agent/RequestFeedback.tsx": {
+    "sha256": "1766a5102c04126a5c0ffd611f5e53066c3fae82b76ca49ceac6bfaa87ede21f",
+    "bytes": 1288
+  },
+  "desk-companion/frontend/src/workspace/agent/RunPanel.tsx": {
+    "sha256": "cdc349fbb26b7313763c44fe092af55c5d4129b3771bb89c90c6b19237bf1409",
+    "bytes": 19624
+  },
+  "desk-companion/frontend/src/workspace/agent/useWorkCapacity.ts": {
+    "sha256": "ed7150376c8f46c89fbdbdbf4ac0812dbe3b30cd4a1d90ffa3ce30da61b13b94",
+    "bytes": 3000
+  },
+  "desk-companion/frontend/src/workspace/agent/ArtifactList.tsx": {
+    "sha256": "02bbea3851d18393b739d017d072d139df5225f66593cb10defeebb141db28ae",
+    "bytes": 7844
+  },
+  "desk-companion/frontend/src/workspace/agent/useRunMetadata.ts": {
+    "sha256": "5b9cff8e3d10f1d97bae1af22a20709906bd8a28550a0125c21152caf25adf55",
+    "bytes": 2316
+  },
+  "desk-companion/frontend/src/workspace/agent/types.ts": {
+    "sha256": "941a42290cb54f7c90da5f9f9ecba46125a9de1c1b94d57a9f1a1dc32bf97bfa",
+    "bytes": 15823
+  },
+  "desk-companion/frontend/src/workspace/agent/RunContextSelection.tsx": {
+    "sha256": "d6a0d0f77f26e401c954265811ead299b6e711373e08bf3bed334609cf213ab2",
+    "bytes": 5615
+  },
+  "desk-companion/frontend/src/workspace/agent/labels.ts": {
+    "sha256": "03360c33ce002a12c43a9586298a20f4ddf16d298d7c3defe02213e75e19ccf3",
+    "bytes": 19034
+  },
+  "desk-companion/frontend/src/workspace/agent/workSearch.ts": {
+    "sha256": "37e349da0c42cc83937fd86dd9261ef41d4dddb1f9cbb254a2c88839285f6c70",
+    "bytes": 8101
+  },
+  "desk-companion/frontend/src/workspace/agent/publicCapture.ts": {
+    "sha256": "b3ddb5ebda8ee268c65e4929d222c78e76391ee848ff29c6a259e85749b8a7ca",
+    "bytes": 10032
+  },
+  "desk-companion/frontend/src/workspace/agent/CaptureProvenance.tsx": {
+    "sha256": "21d5c9e445e877ab8b22358a0dca97a63bfabefcff8e5045eab83fce09e12bf7",
+    "bytes": 2377
+  },
+  "desk-companion/frontend/src/workspace/agent/RunDetail.tsx": {
+    "sha256": "dcedab345fe758dc31b9c049ce9df366dbbf8f8b1ab6e01ee25b51d9d3a5c504",
+    "bytes": 18420
+  },
+  "desk-companion/frontend/src/workspace/agent/usePublicCaptures.ts": {
+    "sha256": "25bd1287fdff6ab045a4428e0e144d7acd91c130cd253cb72346342fb49d0b4e",
+    "bytes": 13740
+  },
+  "desk-companion/frontend/src/workspace/agent/PublicCapture.tsx": {
+    "sha256": "28fdd8797bf368bd4ea8bd4b18486eace939875c15d84b7a116419b3959c3527",
+    "bytes": 20581
+  },
+  "desk-companion/frontend/src/workspace/agent/SourcePreview.tsx": {
+    "sha256": "15e755453fe56dbe7551923e752d7b60ead4d1f95a6d6762d124f1e932d085c4",
+    "bytes": 4579
+  },
+  "desk-companion/frontend/src/workspace/agent/workCapacity.ts": {
+    "sha256": "e82b619950ef29f19b57fb0bc6c0d27673721664827c7ee6efb9b9b8bbe196ed",
+    "bytes": 2300
+  },
+  "desk-companion/frontend/src/workspace/agent/useAgentRuns.ts": {
+    "sha256": "86147c33b7ac2d3aa5d1ea8fbc6653fde8a9e35ffcdbfa343e77bb0d4d3ba713",
+    "bytes": 4600
+  },
+  "desk-companion/frontend/src/workspace/agent/RunConnectorSelection.tsx": {
+    "sha256": "e9e23c71ce1fca6188e9f3b7b88746c369ae255b5243db81660de77757655046",
+    "bytes": 4682
+  },
+  "desk-companion/frontend/src/workspace/agent/RunBrowserJobs.tsx": {
+    "sha256": "feae1094c5befe36e7485c4e3557e958f439b831459e5699cc0b4c81df52a54d",
+    "bytes": 2808
+  },
+  "desk-companion/frontend/src/workspace/agent/runMetadata.ts": {
+    "sha256": "db8583eb928e065f861d1c8e147dbe1903bb7141e8bae1c87a5be6fd375b7622",
+    "bytes": 2376
+  },
+  "desk-companion/frontend/src/workspace/agent/useWorkSearch.ts": {
+    "sha256": "81ac1d273c3fde93e92526537b4f24e71e989756fad981c2758aee4101ffc806",
+    "bytes": 6776
+  },
+  "desk-companion/frontend/src/workspace/agent/WorkSearchPanel.tsx": {
+    "sha256": "de1c5a7929e38c16e34d561caf6933a0ee01ceb6b81e08cec5a547b677bc2b22",
+    "bytes": 12297
+  },
+  "desk-companion/frontend/src/workspace/agent/RunMetadataPanel.tsx": {
+    "sha256": "59f3e54009a2a01daaf9b8b9775bb08416ebfa223a5e7a6221bb5d8e8cf77611",
+    "bytes": 8383
+  },
+  "desk-companion/frontend/src/workspace/agent/RunBrowserSelection.tsx": {
+    "sha256": "1e34876f59836064a9c4c755af654d333fe9f6b7934f4ad56da7f89b49b6dba2",
+    "bytes": 3708
+  },
+  "desk-companion/frontend/src/workspace/agent/useUploadMutation.ts": {
+    "sha256": "c196cfddd5a79140acd5b96a6527ee3c51de5f82b8d3237e8ca749136abfb475",
+    "bytes": 2083
+  },
+  "desk-companion/frontend/src/workspace/agent/RetainedCapacity.tsx": {
+    "sha256": "3459b69e8854b6b4f58656c6b30df9ac5ad8dd6aa2ef361c4709bcf59e0cb07d",
+    "bytes": 7483
+  },
+  "desk-companion/frontend/src/workspace/agent/upload.ts": {
+    "sha256": "2b3ce4a382ab2186e31fc388db3be2867f8fba6c3a48a564317c41e7a207a4b1",
+    "bytes": 1709
+  },
+  "desk-companion/frontend/src/workspace/agent/SourceUpload.tsx": {
+    "sha256": "96c92b6817b9583c1d3511735afc04390799d57b738d9ca6ca4bab2c52fdb2a1",
+    "bytes": 6647
+  },
+  "desk-companion/frontend/src/workspace/agent/RunConnectorResults.tsx": {
+    "sha256": "2b2bb65bc7bbaf3ae64a27559a91a48cdf1cf09ec64f0e87e554391d7178c43e",
+    "bytes": 2405
+  },
+  "desk-companion/frontend/src/workspace/agent/RunComposer.tsx": {
+    "sha256": "4d6101d9657b34785036b6621be9014ab114066c6d31183b649253dc4c015db3",
+    "bytes": 38920
+  },
+  "desk-companion/frontend/src/workspace/browser/types.ts": {
+    "sha256": "b9f25a17ce925a949a24cf6cb37f62e58287ed37d50e22e0473f0ea1c95d35d0",
+    "bytes": 4025
+  },
+  "desk-companion/frontend/src/workspace/browser/useBrowserData.ts": {
+    "sha256": "64a818f060bb2a56316364f3a9326879a5e1f43539b4daeb8552b0521687ec05",
+    "bytes": 3463
+  },
+  "desk-companion/frontend/src/workspace/browser/labels.ts": {
+    "sha256": "66741b07c23f8f4b256b645643cfbafc76ed0663a2a0812a182ff322d0422d3d",
+    "bytes": 6156
+  },
+  "desk-companion/frontend/src/workspace/browser/exportVerification.ts": {
+    "sha256": "67941127c32e5a62def6cc41d176b80e6276ef70d26e4d9f91d3d218f76e3a3a",
+    "bytes": 2093
+  },
+  "desk-companion/frontend/src/workspace/browser/BrowserJobDetail.tsx": {
+    "sha256": "29a0d07bd6ac2b9de9de6c0337199e366d7dec2e1e804035ab873e6c40c9631e",
+    "bytes": 8120
+  },
+  "desk-companion/frontend/src/workspace/browser/browser.css": {
+    "sha256": "30ed550df9e18192d3905eb251280db05c8f877a2b5c25a1a8c9f48e690da567",
+    "bytes": 1987
+  },
+  "desk-companion/frontend/src/workspace/browser/BrowserWorkflowPanel.tsx": {
+    "sha256": "d8bdd24bcad538c27afa0ee8106350e66bf0d9c0debc8c8f631bbed3262a4846",
+    "bytes": 28011
+  },
+  "desk-companion/frontend/src/workspace/browser/download.ts": {
+    "sha256": "0645af04257d216a4b23a99b439dafb926cd7f5f7010dec7d7879a3a9816a438",
+    "bytes": 2141
+  },
+  "desk-companion/frontend/src/workspace/connectors/types.ts": {
+    "sha256": "1b9fecd34357f4761d3baec11423c042fc79ae5a5b7104bc49fa02a1f8c9d655",
+    "bytes": 8264
+  },
+  "desk-companion/frontend/src/workspace/connectors/labels.ts": {
+    "sha256": "a25e7ff318a7394921ce5cd77e93975174d82343d5c925e32384821a397f4d66",
+    "bytes": 3017
+  },
+  "desk-companion/frontend/src/workspace/connectors/useConnectorData.ts": {
+    "sha256": "91926e8ae90b8f5cb077b67d697f9926f890bdc60855dfa82ce4eab436a7b069",
+    "bytes": 3668
+  },
+  "desk-companion/frontend/src/workspace/connectors/ConnectorIntentDetail.tsx": {
+    "sha256": "f7ad3c1d1a1e48e4c474f41a32b25340cb6cf9d2d130ac01ef83e9b642e93c24",
+    "bytes": 11018
+  },
+  "desk-companion/frontend/src/workspace/connectors/ConnectorReviewPanel.tsx": {
+    "sha256": "5f370a88ea56d50c7d7a56c83b9527b2e3474d6afa6f7a571ee23e18f105b495",
+    "bytes": 19049
+  },
+  "desk-companion/frontend/src/workspace/connectors/connectors.css": {
+    "sha256": "be4cf81aff199ad4fab881e370644c2fc7c20fff163a2e7499790c86a5ef0452",
+    "bytes": 1554
+  },
+  "desk-companion/frontend/src/workspace/personal/types.ts": {
+    "sha256": "c7eb671d8cb0bf1452ccb71bdff1d58142b67bb15d579369eff3631cee1a1fa5",
+    "bytes": 2762
+  },
+  "desk-companion/frontend/src/workspace/personal/MutationFeedback.tsx": {
+    "sha256": "92744af96507fd8066faea5c87bf91d6eaed4acb1e31431011948afa08791618",
+    "bytes": 1290
+  },
+  "desk-companion/frontend/src/workspace/personal/responseFence.ts": {
+    "sha256": "27cd3e93971cea4059afcf1f642ca2ef8dcf9b3b9611d7dbae3e6742fac0adb3",
+    "bytes": 508
+  },
+  "desk-companion/frontend/src/workspace/personal/privateWrite.ts": {
+    "sha256": "f5968cfc308841981ebcd5c402550f43da9cc34bb5e3e66a4f32087febc2bcb6",
+    "bytes": 2235
+  },
+  "desk-companion/frontend/src/workspace/personal/PersonalContextPanel.tsx": {
+    "sha256": "b98b12e44904e5c4ad46b04c407e5ea3869dce5237467802d5b8f631a7343749",
+    "bytes": 13545
+  },
+  "desk-companion/frontend/src/workspace/personal/ContextSettingsDialog.tsx": {
+    "sha256": "f10cde0943356821033b131b02e68b1b3474c4e1f912e5168f9ca3094dd2f7b3",
+    "bytes": 6783
+  },
+  "desk-companion/frontend/src/workspace/personal/usePrivateMutation.ts": {
+    "sha256": "dd369ecf5acbea2714c28fd5980dd8c7ae5380c109434eba22104743d283db1c",
+    "bytes": 2163
+  },
+  "desk-companion/frontend/src/workspace/personal/MemoryPanel.tsx": {
+    "sha256": "1ba0b28c5d2ba379ada1fac659e68060ff746114093b63aceaab5d9f0177f47e",
+    "bytes": 8517
+  },
+  "desk-companion/frontend/src/workspace/personal/usePersonalContext.ts": {
+    "sha256": "c6b097fab8bb85f3dbe12ac872ed39358a8fe8a78c2ee875c7d7bddaa0fe3abe",
+    "bytes": 3571
+  },
+  "desk-companion/frontend/src/workspace/personal/personal.css": {
+    "sha256": "b86cbac159d602561ddfdda91cfa6d47e56b4f030ad3d11b87401e69b9386be2",
+    "bytes": 1492
+  },
+  "desk-companion/frontend/tests/routines.test.ts": {
+    "sha256": "6a82195ace8625434393ce57529ea6e7c6702a43d302871bb45d5670893a0651",
+    "bytes": 3880
+  },
+  "desk-companion/frontend/tests/computer-jobs.test.ts": {
+    "sha256": "6f2bad39904a44b4a70fc636945ae117aca6d9316685b732406b106ca15bed05",
+    "bytes": 4158
+  },
+  "desk-companion/frontend/tests/responsibilities.test.ts": {
+    "sha256": "a88f8d95ce44bef09e8d861ac325e48b75ad3c0a7631f53679aeb11fd8fd9c73",
+    "bytes": 7443
+  },
+  "desk-companion/frontend/tests/agent-render.test.ts": {
+    "sha256": "407e322caea579a713c2155c398d101b6b608f56ec9b09a308e1f0dd21674f34",
+    "bytes": 9260
+  },
+  "desk-companion/frontend/tests/agent-metadata.test.ts": {
+    "sha256": "61fa976aa7649c99ec0709d4a05b4f7b418f6f0f96d26ba7ad0d9cff6e75785c",
+    "bytes": 6479
+  },
+  "desk-companion/frontend/tests/public-capture-lifecycle.test.ts": {
+    "sha256": "18e9b72718ccc00cc9fa3e0c03730a77162da8cd51b6f543a4b8850796f3f024",
+    "bytes": 27596
+  },
+  "desk-companion/frontend/tests/browser-workflow.test.ts": {
+    "sha256": "14ba46baf661c2a1054eba0f72a54c572497e1f84835c3f4d4af230df5801045",
+    "bytes": 11531
+  },
+  "desk-companion/frontend/tests/voice-work-lifecycle.test.ts": {
+    "sha256": "ef2da90a04971780d18b27e9fe63adc73c3b9ee72aec139b492b79d4af10f466",
+    "bytes": 12625
+  },
+  "desk-companion/frontend/tests/work-search-render.test.ts": {
+    "sha256": "6cbc34705c6b7c58e454b54dbcd6bb5a9a1aa0323f40bcc16cb351f75c4591b1",
+    "bytes": 7273
+  },
+  "desk-companion/frontend/tests/workspace.test.ts": {
+    "sha256": "76f673b5cb7c3c0c2a18216b672b74c381082270957d5ed33cc4e28ebf4d5bb2",
+    "bytes": 3729
+  },
+  "desk-companion/frontend/tests/voice-audio.test.ts": {
+    "sha256": "aacc95a9d31f7e141ee531a41ab51a6cdcf8b068583fc2d0bbbff879dccc4028",
+    "bytes": 5645
+  },
+  "desk-companion/frontend/tests/work-search.test.ts": {
+    "sha256": "8f3db02171f65045e64d3efb58b7f3d3fac871374afcee5ee91caf70e709196e",
+    "bytes": 19734
+  },
+  "desk-companion/frontend/tests/voice-work.test.ts": {
+    "sha256": "7067bfd00135c2d8062049c03edabd45a8bfec733269a1330da8c5c25f659ba9",
+    "bytes": 7141
+  },
+  "desk-companion/frontend/tests/watch-retention-render.test.ts": {
+    "sha256": "66af3bccc59c35a19577c44e5f06607882fe38171cb1eef8d82679e3ddddaad5",
+    "bytes": 6042
+  },
+  "desk-companion/frontend/tests/companion-placement.test.ts": {
+    "sha256": "b92cf0d6a43ca4eeae65b79be6c29e8b94de220e7422235ee2643bcd8d13a38e",
+    "bytes": 4693
+  },
+  "desk-companion/frontend/tests/work-card-layout.test.ts": {
+    "sha256": "84cc3ac855dc47c180bf7df001c1cc8beacb68682e8e3dacf938cf4d84d88407",
+    "bytes": 4932
+  },
+  "desk-companion/frontend/tests/work-capacity-lifecycle.test.ts": {
+    "sha256": "583a1cc84f77ec50c487f0a0f3116237864a1d50ebdc0f8a051c13e3ad15a87b",
+    "bytes": 11285
+  },
+  "desk-companion/frontend/tests/watch-retention.test.ts": {
+    "sha256": "78903f0c98800cc27064741dec6ea3df2a8cf24409cdb7a87829fb71d306b227",
+    "bytes": 17694
+  },
+  "desk-companion/frontend/tests/companion-visibility.test.ts": {
+    "sha256": "169fd992d360d7d0bb19b3836de7ffd1e5187edfc340e31a19ad30fe91260167",
+    "bytes": 3944
+  },
+  "desk-companion/frontend/tests/responsibilities-render.test.ts": {
+    "sha256": "35b719f99da3f258554262cf798ad2c78389129f9c87752118442b70e7c1cf1c",
+    "bytes": 3934
+  },
+  "desk-companion/frontend/tests/work-capacity-render.test.ts": {
+    "sha256": "506e441a5bfab12c142d868beed2ae3e4745c40521223af2abd337d910cfbf38",
+    "bytes": 3702
+  },
+  "desk-companion/frontend/tests/responsibilities-callbacks.test.ts": {
+    "sha256": "b3b3022a79fdbbdb62efe5a152d1f3913d2c8a2de8a19a7dd25c12970e1db1a0",
+    "bytes": 15467
+  },
+  "desk-companion/frontend/tests/connector-render.test.ts": {
+    "sha256": "965845228e8b476ececfa1c43b292e348287f8a529ef461614e882d84ec613a6",
+    "bytes": 6921
+  },
+  "desk-companion/frontend/tests/device-view.test.ts": {
+    "sha256": "1471dd8e5e4a13e2647ff88e334ed539b1212140f48f998fb2c7484b7d129a51",
+    "bytes": 4085
+  },
+  "desk-companion/frontend/tests/responsibilities-lifecycle.test.ts": {
+    "sha256": "1540afd6681da7444f81c23eae34850fde9da82ce7dd37d865c124b7a55c00f3",
+    "bytes": 8707
+  },
+  "desk-companion/frontend/tests/avatar.test.ts": {
+    "sha256": "9c04135c48f0b58c1408daa8f93d198cc4ab17f564260a12138ecbed82ff6321",
+    "bytes": 5446
+  },
+  "desk-companion/frontend/tests/agent-runs.test.ts": {
+    "sha256": "ffc804abf3b4c4d12cb6e2da433c52121982667b0d4f1d728cafc2e3650b3be0",
+    "bytes": 13151
+  },
+  "desk-companion/frontend/tests/public-capture-render.test.ts": {
+    "sha256": "8f9fa8dd3fba97414553cc2636524c575b68b9e8016dbc2fa9627337860c66ab",
+    "bytes": 7386
+  },
+  "desk-companion/frontend/tests/connector-review.test.ts": {
+    "sha256": "a4bd9f4900a47bfdee176dc03f9059c0b678c8976c237d49518380f5c045ad66",
+    "bytes": 13711
+  },
+  "desk-companion/frontend/tests/agent-work-tools.test.ts": {
+    "sha256": "2efbd2082d4f61e43ff64eead4ae504f86675512a4a7e2673ed7b948ffd445e4",
+    "bytes": 15650
+  },
+  "desk-companion/frontend/tests/personal-context.test.ts": {
+    "sha256": "c9b3eb8ab422739ffeb8fad825171baa7bb61de157d264066ccd581677a12358",
+    "bytes": 9363
+  },
+  "desk-companion/frontend/tests/voice-work-render.test.ts": {
+    "sha256": "915ee6ab2fe1368237b69c25b0d77cdb3221e0f5148231fb0d74b6ddf24e4692",
+    "bytes": 2172
+  },
+  "desk-companion/frontend/tests/agent-refresh-lifecycle.test.ts": {
+    "sha256": "7cf86f331071709c7a9846c99b793bd4907ac26bdeef418f0f58b09ab39e00f8",
+    "bytes": 8898
+  }
+}

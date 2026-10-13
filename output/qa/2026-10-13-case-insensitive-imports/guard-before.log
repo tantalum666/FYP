@@ -1,0 +1,43 @@
+✖ all frontend source module paths are unambiguous on case-insensitive filesystems (6.735096ms)
+✔ module guard catches nested mixed-extension and same-extension case collisions (0.386578ms)
+✔ module guard catches case-only directories even with different child basenames (0.26316ms)
+✔ module guard permits distinct directories, declaration companions and non-module assets (0.164915ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 332.379795
+
+✖ failing tests:
+
+test at tests/module-paths.test.ts:45:1
+✖ all frontend source module paths are unambiguous on case-insensitive filesystems (6.735096ms)
+  AssertionError [ERR_ASSERTION]: Rename colliding implementation modules/directories to meaningfully distinct names; extensionless imports cannot depend on case or TS/TSX extension
+  + actual - expected
+  
+    {
+      directories: [],
+  +   modules: [
+  +     [
+  +       'workspace/agent/PublicCapture.tsx',
+  +       'workspace/agent/publicCapture.ts'
+  +     ]
+  +   ]
+  -   modules: []
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/shared/fyp-agent-20261012/desk-companion/frontend/tests/module-paths.test.ts:49:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { modules: [ [Array] ], directories: [] },
+    expected: { modules: [], directories: [] },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

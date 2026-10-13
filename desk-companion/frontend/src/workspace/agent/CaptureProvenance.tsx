@@ -1,5 +1,5 @@
 import type { Translate } from "../../types";
-import { validCaptureAcquisition } from "./publicCapture";
+import { validCaptureAcquisition } from "./capturePolicy";
 export function CaptureProvenance({
   value,
   t,

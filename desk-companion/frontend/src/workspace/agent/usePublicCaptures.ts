@@ -9,8 +9,8 @@ import {
   captureUrl,
   validCaptureReview,
   validPublicCapture,
-} from "./publicCapture";
-import type { CaptureReview, PublicCapture } from "./publicCapture";
+} from "./capturePolicy";
+import type { CaptureReview, PublicCapture } from "./capturePolicy";
 export type CaptureOperation = {
   path: string;
   body: Readonly<Record<string, unknown>>;

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDraftGuard } from "../../components/DraftGuard";
 import type { Translate } from "../../types";
 import type { ResponseFence } from "../personal/responseFence";
-import { captureError, captureStateLabel, captureUrl } from "./publicCapture";
+import { captureError, captureStateLabel, captureUrl } from "./capturePolicy";
 import { usePublicCaptures } from "./usePublicCaptures";
 import { CapacityLine } from "./RetainedCapacity";
 import { SourcePreview } from "./SourcePreview";

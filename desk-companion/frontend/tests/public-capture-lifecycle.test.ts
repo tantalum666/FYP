@@ -3,7 +3,7 @@ import test from "node:test";
 import { readFileSync } from "node:fs";
 import ts from "typescript";
 import { ResponseFence } from "../src/workspace/personal/responseFence.ts";
-import * as policy from "../src/workspace/agent/publicCapture.ts";
+import * as policy from "../src/workspace/agent/capturePolicy.ts";
 class HookHarness {
   slots: any[] = [];
   index = 0;
@@ -176,7 +176,7 @@ function setup(hidden = false, freshInitially = true) {
           ),
       };
     if (name.endsWith("responseFence")) return { ResponseFence };
-    if (name === "./publicCapture") return policy;
+    if (name === "./capturePolicy") return policy;
     throw Error(name);
   });
   const fence = new ResponseFence();
@@ -562,7 +562,7 @@ test("production intake callbacks retain volatile draft, require record acknowle
     if (name === "./usePublicCaptures") return { usePublicCaptures: () => api };
     if (name === "../../components/DraftGuard")
       return { useDraftGuard: (...args: any[]) => guards.push(args) };
-    if (name === "./publicCapture") return policy;
+    if (name === "./capturePolicy") return policy;
     if (name === "./RetainedCapacity") return { CapacityLine: () => null };
     if (name === "./SourcePreview") return { SourcePreview: () => null };
     if (name === "./CaptureProvenance")
@@ -682,7 +682,7 @@ test("production source preview stale access denial revokes a newer visible page
       };
     if (name === "../../components/Dialogs") return { Modal: "modal" };
     if (name === "./labels") return { agentError: () => "error" };
-    if (name === "./publicCapture") return policy;
+    if (name === "./capturePolicy") return policy;
     if (name === "./CaptureProvenance")
       return { CaptureProvenance: "provenance" };
     throw Error(name);
