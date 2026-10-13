@@ -1,0 +1,71 @@
+{
+  "continued_task": true,
+  "inherited_full_read_evidence": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "inherited_coverage": 186,
+  "supplemental_read": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "ranges": [
+        [
+          1,
+          50
+        ]
+      ]
+    },
+    {
+      "path": "product.md",
+      "lines": 184,
+      "ranges": [
+        [
+          1,
+          184
+        ]
+      ]
+    },
+    {
+      "path": "handoff.md",
+      "lines": 48,
+      "ranges": [
+        [
+          1,
+          48
+        ]
+      ]
+    },
+    {
+      "path": "planning/2026-10-13/work-history-retrieval-design.md",
+      "lines": 35,
+      "ranges": [
+        [
+          1,
+          35
+        ]
+      ]
+    },
+    {
+      "path": "desk-companion/docs/sources-and-artifacts.md",
+      "lines": 208,
+      "ranges": [
+        [
+          1,
+          208
+        ]
+      ]
+    },
+    {
+      "path": "desk-companion/docs/agent-runs.md",
+      "lines": 134,
+      "ranges": [
+        [
+          1,
+          134
+        ]
+      ]
+    }
+  ],
+  "exclusions": [
+    "Generated output/qa evidence snapshots; dependencies and caches; unrelated unchanged material covered by inherited ledger"
+  ],
+  "completed_utc": "2026-10-13T06:38:46.328382+00:00"
+}

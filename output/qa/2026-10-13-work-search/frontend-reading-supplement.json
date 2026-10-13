@@ -1,0 +1,109 @@
+{
+  "completed_utc": "2026-10-13T06:41:14.209112+00:00",
+  "inherited_ledger": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "same_ongoing_work": true,
+  "basis": "Focused supplemental full-text reading; hashes only identify source bytes and do not substitute for reading. Repeated reads supplied ranges omitted by earlier tool-output truncation.",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 184,
+      "read_ranges": [
+        [
+          1,
+          184
+        ]
+      ],
+      "sha256": "4c14871743125c1a518ec4e440b8bb80b61eac25d10a19bb6affcdaeb047a63c"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 48,
+      "read_ranges": [
+        [
+          1,
+          48
+        ]
+      ],
+      "sha256": "4e3734a64ff3076c1296e6b41c6c5a24513172ea4f184e65f265d05277bf355d"
+    },
+    {
+      "path": "planning/2026-10-13/work-history-retrieval-design.md",
+      "lines": 35,
+      "read_ranges": [
+        [
+          1,
+          35
+        ]
+      ],
+      "sha256": "ccb0087ad1adbcbaffb79576e8ad8811b3d5cbec3bef240c37682895afa8559b"
+    },
+    {
+      "path": "planning/2026-10-13/continuous-agent-capability-plan.md",
+      "lines": 34,
+      "read_ranges": [
+        [
+          1,
+          34
+        ]
+      ],
+      "sha256": "41153ac0761bd6ff10962bda2b2db4fadd7edf41a5f4a8d672010cba46170eee"
+    },
+    {
+      "path": "desk-companion/docs/agent-runs.md",
+      "lines": 134,
+      "read_ranges": [
+        [
+          1,
+          134
+        ]
+      ],
+      "sha256": "0d7ccc95bcc22a6afc56fe16fff39c5f5c7b378f2d4b13c581d02016b85c8940"
+    },
+    {
+      "path": "desk-companion/docs/sources-and-artifacts.md",
+      "lines": 208,
+      "read_ranges": [
+        [
+          1,
+          208
+        ]
+      ],
+      "sha256": "800165ebf9f687c0664feeaf0570ea7803c5f6bd982ec9424cbaa2259ee4bda2"
+    },
+    {
+      "path": "desk-companion/docs/software-checks.md",
+      "lines": 31,
+      "read_ranges": [
+        [
+          1,
+          31
+        ]
+      ],
+      "sha256": "e79340661b0f8c8ee880503bd4cdf0e97243224c86c787f3e20bb4a73beafb67"
+    },
+    {
+      "path": "decision-log.md",
+      "read_ranges": [
+        [
+          840,
+          853
+        ]
+      ],
+      "note": "Latest decisions only; older complete document reading inherited from the same ongoing186-document intake ledger"
+    }
+  ],
+  "exclusions": [
+    "Dependencies, caches, generated build output, and automatic QA snapshots; no new claim of whole-repository independent intake"
+  ]
+}

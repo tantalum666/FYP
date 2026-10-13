@@ -1,0 +1,72 @@
+{
+  "continuation_of": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "scope": "Focused coordinating reads; implementation and independent worker reading logs separately linked",
+  "read_files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read": "full relevant current document; decision-log current decisions only",
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 190,
+      "read": "full relevant current document; decision-log current decisions only",
+      "sha256": "dc71b948d328fee1f41f8357a00b1087ff9a33b96b7acac4d69dc9bd49e2e957"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 51,
+      "read": "full relevant current document; decision-log current decisions only",
+      "sha256": "3649ca8672a1d531e2d9ac9352b87af6ab991549cc289cf258aa0e7bcb52dbdf"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 860,
+      "read": "full relevant current document; decision-log current decisions only",
+      "sha256": "fcf99fcc8ba32e371ed726611556264a57e61c01881d42c9cd7c78a49f67ed25"
+    },
+    {
+      "path": "desk-companion/README.md",
+      "lines": 156,
+      "read": "full relevant current document; decision-log current decisions only",
+      "sha256": "31f08e4b900734ab20fb0daf3f6d9d11bfa7ab9df4a79acd982e0e7b7de249c0"
+    },
+    {
+      "path": "desk-companion/docs/architecture.md",
+      "lines": 141,
+      "read": "full relevant current document; decision-log current decisions only",
+      "sha256": "ccf19052975dec530161d196fc0d7ca70e933412f2d92ba58a946898e62b6864"
+    },
+    {
+      "path": "desk-companion/backend/desk/runtime.py",
+      "lines": 120,
+      "read": "full relevant current document; decision-log current decisions only",
+      "sha256": "fcc34cc958f3cd7e19345a8f9e1eb51e9bdc32e1e6e6c7c2f441fb9b11d1bdd2"
+    },
+    {
+      "path": "desk-companion/backend/desk/app.py",
+      "lines": 399,
+      "read": "full relevant current document; decision-log current decisions only",
+      "sha256": "04e17675b9a61396ed40923a8d92b7b4f53cddc29235547df916e80a925e675b"
+    },
+    {
+      "path": "planning/2026-10-13/work-history-retrieval-design.md",
+      "lines": 35,
+      "read": "full relevant current document; decision-log current decisions only",
+      "sha256": "2e8db4f26e67eea476709c759f5893e75a829ddbf7ad67eb2787e8bfec4f0705"
+    },
+    {
+      "path": "planning/2026-10-13/source-change-responsibilities-design.md",
+      "lines": 194,
+      "read": "full relevant current document; decision-log current decisions only",
+      "sha256": "6e6d827faea6d155d51d6a79c1b210249983ffd81ad9285239cdcc45160ed0af"
+    },
+    {
+      "path": "planning/2026-10-13/voice-work-continuity-design.md",
+      "lines": 105,
+      "read": "full relevant current document; decision-log current decisions only",
+      "sha256": "22467844898e9d49ceebb6ed714fa7803b7456e8989c2f7c60013c0aa509e2f5"
+    }
+  ]
+}

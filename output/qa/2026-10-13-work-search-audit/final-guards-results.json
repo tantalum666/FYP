@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "actual_source_functions": [
+    "RunWorkspace.commit",
+    "WorkSearchPanel.open"
+  ],
+  "scenarios": [
+    "superseded refresh cannot unlock",
+    "parent privacy cannot unlock",
+    "search invalidation cannot hand off",
+    "current exact run may hand off"
+  ]
+}

@@ -26,6 +26,7 @@ from .agent_runs import AgentRunService
 from .browser_jobs import BrowserService
 from .connectors.service import build_connector_service
 from .connectors.agent_adapter import connector_adapters
+from .work_search import WorkSearchService
 
 
 class Runtime:
@@ -54,6 +55,7 @@ class Runtime:
         self.connectors = build_connector_service(self, connector_configs)
         self.agent_tool_adapters = connector_adapters(self.connectors)
         self.agent_runs = AgentRunService(self)
+        self.work_search = WorkSearchService(self)
         self.store.operation_guard = self.agent_runs.guard_operation
         self.posture.on_prompt = self.on_posture_prompt
 

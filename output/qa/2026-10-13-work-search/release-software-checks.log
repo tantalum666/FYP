@@ -1,0 +1,221 @@
+Bundled VRM and A1 asset hashes match their provenance manifests.
+All checks passed!
+........................................................................ [  9%]
+........................................................................ [ 19%]
+........................................................................ [ 28%]
+........................................................................ [ 38%]
+........................................................................ [ 48%]
+........................................................................ [ 57%]
+........................................................................ [ 67%]
+........................................................................ [ 77%]
+........................................................................ [ 86%]
+........................................................................ [ 96%]
+...........................                                              [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /workspace/shared/fyp-agent-20261012/desk-companion/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/test_mcp_connectors.py::test_actual_owner_session_required
+  /workspace/shared/fyp-agent-20261012/desk-companion/.venv/lib/python3.12/site-packages/_pytest/raises.py:613: PytestWarning: matching against an empty string will *always* pass. If you want to check for an empty message you need to pass '^$'. If you don't want to match you should pass `None` or leave out the parameter.
+    super().__init__(match=match, check=check)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+747 passed, 2 warnings in 195.03s (0:03:15)
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> desk-companion-ui@0.1.0 test
+> node --experimental-strip-types --test tests/*.test.ts
+
+✔ connected hidden owners retain status access; paired, stale, offline and concealed views do not (2.871281ms)
+✔ hidden status loads only the list and projects all private fields out before retaining rows (1.990647ms)
+✔ unexpected status strings and date text cannot be echoed as private content (0.356733ms)
+✔ hidden controls are pause/cancel only and unknown or terminal states gain no authority (0.432782ms)
+✔ invalid list data is rejected rather than enabling controls from stale private objects (1.023755ms)
+✔ hide/show and identity transitions fence both private and metadata late responses (0.296422ms)
+✔ an uncertain or in-flight pause never occupies the cancellation queue and retries keep their original version (1.106226ms)
+✔ hidden component keeps uncertain queues through refresh failures and never requests private details (1.013278ms)
+✔ transient refresh keeps exact snapshot mounted but stale until successful refresh (151.880411ms)
+✔ auth, privacy, missing-resource and unexpected failures clear instead of retaining (110.768401ms)
+✔ parallel late privacy denial still clears after first transient failure (19.580817ms)
+✔ selection and privacy epoch changes hide cached content before late reads settle (24.523143ms)
+✔ retention is allowlisted and stale UI gates include retries, handoffs and delayed uploads (16.011954ms)
+✔ actual metadata card markup has stop controls and no private fields in English or Chinese (13.656905ms)
+✔ metadata markup disables stale controls and removes all actions for terminal or unknown status (2.902296ms)
+✔ browser result markup separates verified bytes from uncertain cleanup and has no inline approval (1.813276ms)
+✔ actual personal-context and connector selections do not precheck permissions in either language (3.509851ms)
+✔ actual markup blocks mixing private context and public-only connectors (1.427755ms)
+✔ connector result markup cannot imply independent verification or follow a remote review URL (1.101924ms)
+✔ Work modal owns a separate draft guard from the retained parent chat input (3.387169ms)
+✔ persistent work requires an explicit retention choice and at least one valid selected source (3.401828ms)
+✔ local compilation never inherits provider transmission or mutation grants (1.436159ms)
+✔ unknown source reservations and finished or expired reviews cannot be selected (2.002234ms)
+✔ adaptive work requires exact text destination plus explicit selected-content sharing (0.705385ms)
+✔ selection count, source bytes and section requirements match server ceilings (1.047653ms)
+✔ reviewed request arrays are immutable snapshots rather than live checkbox arrays (0.395961ms)
+✔ unknown model outcome has an explicit new-attempt action and no ordinary resume (0.66386ms)
+✔ file selection validates UTF-8 bytes, suffix, display name and content before upload (2.845122ms)
+✔ source upload preserves raw Unicode and one operation ID across an unknown response without storage (1.553867ms)
+✔ a file hash or model message does not grant structural or semantic verification (1.097721ms)
+✔ privacy, identity and hide-show transitions permanently fence earlier replies (0.589436ms)
+✔ component contracts preserve modal drafts, selected-run fences and independent cancellation (1.851736ms)
+✔ all new run components avoid persistent browser bodies and raw generated HTML (7.047045ms)
+✔ chat goal prefill preserves exact user text but inherits no retention, data-sharing or tool permission (3.506126ms)
+✔ public-browser-only model work needs explicit source grant and independent provider consent (0.830524ms)
+✔ browser selection cannot invent sources, duplicate grants or bypass unavailable admission (0.419387ms)
+✔ browser selection counts toward model evidence total and snapshots grants at exact review (0.562166ms)
+✔ model and tool attempt budgets enforce exact integral bounds and lower operator ceilings (2.791477ms)
+✔ verified export bytes are distinct from browser completion with unresolved cleanup (0.826312ms)
+✔ goal handoffs preserve active drafts and linked browser review delegates without approving inside run detail (1.899493ms)
+✔ selected personal context requires explicit derived-retention acknowledgment and current category permission (0.521492ms)
+✔ personal selection rejects unlisted/duplicate facts and conversations with no eligible messages (0.646062ms)
+✔ personal context is never counted as evidence or silently added to local work (0.533237ms)
+✔ connector-only work requires two separate exact-provider sharing choices and no automatic call approval (0.462358ms)
+✔ public-only connector grants cannot combine private evidence or saved context but can include public browser sources (0.326213ms)
+✔ connector selection fails closed for unknown, duplicate, excessive and unreviewed tool grants (0.673648ms)
+✔ invalidated personal-context bindings cannot be refreshed by resume, steering or provider retry (1.173218ms)
+✔ offline, paused, snoozed and replay posture cannot create a live character alert (1.50004ms)
+✔ live voice takes precedence and unknown provider states have a bounded fallback (0.272812ms)
+✔ mouth stops after missing playback and rejects invalid or future amplitude (0.289441ms)
+✔ output RMS ignores silence and never makes invalid audio a full-open mouth (6.23706ms)
+✔ local VRMs cannot fetch external images, buffers or unsupported codecs (1.391393ms)
+✔ bundled avatar matches the pinned upstream asset and permits redistribution (55.328118ms)
+✔ playback meter samples actual output and resets immediately on interruption / close (236.100478ms)
+✔ browser readiness is fail-closed for missing, stale or unavailable runtime and altered target (1.85245ms)
+✔ approval requires exact visible intent, current deadline, ready runtime and no cancellation (0.921926ms)
+✔ an executor state string or click receipt cannot become verified export success (0.576959ms)
+✔ cancel and navigation controls do not imply rollback or discard uncertain requests (0.318793ms)
+✔ only an exact catalog source becomes a source hyperlink (0.614575ms)
+✔ same-ID recovery and independent cancellation remain separate requests (5.611723ms)
+✔ privacy, newer selection and owner session changes fence browser observations and exports (0.389893ms)
+✔ actual UTF-8 export bytes are independently hash checked (29.941563ms)
+✔ export rejects executable MIME, excessive streamed bytes and hidden response (1.682987ms)
+✔ privacy revocation while a download is awaiting bytes cancels its stream (1.702881ms)
+✔ browser UI uses volatile mutations, explicit review and plain-text source previews (2.021121ms)
+✔ public browser observation gets the bounded read timeout without changing other request timeouts (0.610556ms)
+✔ edge depth distinguishes free, half, head and hidden on left, right and bottom (2.643345ms)
+✔ invalid or blocked storage data cannot strand the companion (0.576596ms)
+✔ resizing keeps free figures and every hidden recall button inside usable screen bounds (1.32799ms)
+✔ saved continuous scale survives reload and legacy sizes migrate without losing placement (0.525647ms)
+✔ arbitrary scaling keeps a docked head cropped and the complete character fits after recall (0.381555ms)
+✔ a docked head can be dragged back to a complete in-bounds figure (0.28689ms)
+✔ Web settings temporarily hide A1 and leaving settings restores visibility (1.395736ms)
+✔ Web review, edit and management panels still hide A1 on every page (0.909066ms)
+✔ the independent device display keeps A1 and only yields to its panels (0.445748ms)
+✔ temporary blocking uses the existing hidden root without persisting a new mode (2.194001ms)
+✔ approval requires fresh data and an unexpired review (1.091106ms)
+✔ cancellation remains available for active and unknown jobs only (0.385987ms)
+✔ hidden job metadata cannot be approved without reviewed content and hash (0.331281ms)
+✔ recovering another operation must not clear the current unsaved note (0.207881ms)
+✔ pending note recovery is scoped to the same linked task (0.128074ms)
+✔ record recovery preserves a different destination draft (0.104756ms)
+✔ verification preserves adapter category (0.116612ms)
+✔ actual English and Chinese review markup shows exact endpoint, configured server, tool, arguments, effect and binding (21.743917ms)
+✔ hidden detail renders only safe status and Cancel even when accidentally given a full object (2.402958ms)
+✔ pending or unknown approval cannot disable independent cancellation (5.810089ms)
+✔ observed results are escaped plain text with independent-verification caveat, never active links or markup (6.602648ms)
+✔ unknown effect is not rendered as success or as an executable retry (2.112729ms)
+✔ only connected, visible owner surfaces can read status; private details have an additional gate (4.229422ms)
+✔ metadata reads demand server-side redaction and whitelist a content-free projection (4.65102ms)
+✔ hidden load never reads private detail or even capabilities (1.235435ms)
+✔ malformed or nested listing, private path injection, bad version and unknown status fail closed (1.60369ms)
+✔ approval is exact, current, public-only and bound to the operator catalog even for a read (1.23518ms)
+✔ checkbox binding changes for a new version, hash, destination, provider or arguments (1.587947ms)
+✔ Cancel is limited to current pre-terminal calls and does not imply rollback (0.492188ms)
+✔ review switching prompts for checked choices and unknown receipts and blocks active requests (0.2151ms)
+✔ pending approval and cancellation use independent operation IDs and retries retain exact version/hash (2.220112ms)
+✔ hide/show, disconnect/reconnect and same-principal session replacement fence late results (1.752566ms)
+✔ unmount clear prevents a late old queue from consuming a replacement component operation (1.024203ms)
+✔ production integration keeps drafts volatile, session fencing synchronous, and hidden cancellation separate (3.045969ms)
+✔ hidden linked calls outside the latest list use exact metadata-only detail and strip unexpected content (1.20363ms)
+✔ saved timed events return to the display's local date, including a date boundary (62.694639ms)
+✔ display appearance follows local hour at the two boundaries (0.331214ms)
+✔ five and six week months have complete, bounded grids (19.615442ms)
+✔ end of year display includes next month while obeying API range limit (43.58442ms)
+✔ upcoming excludes completed and ended items, keeps an ongoing cross-midnight event (1.041355ms)
+✔ upcoming ordering compares instants, not written timezone offsets (0.588058ms)
+✔ automatic return never interrupts editing or an unresolved save (0.238668ms)
+✔ private text retries preserve one immutable operation ID without browser storage (3.859403ms)
+✔ unknown outcomes reject changed requests; definite conflicts allow a new reviewed operation (1.072658ms)
+✔ repeated clicks cannot dispatch simultaneous operations (0.793799ms)
+✔ component disposal clears private recovery; a 410 receipt is never retried automatically (1.206992ms)
+✔ owner-only personal context fails closed for missing policy, offline and stale snapshots (0.420324ms)
+✔ saved-thread sends need opt-in; temporary text remains usable without history permission (0.389543ms)
+✔ retention and provider context are independent; only displayed configured destinations are approved (0.870969ms)
+✔ thread navigation preserves unsent drafts and cannot race writes or voice (0.292464ms)
+✔ reply labels use recorded mode, never configured-provider availability as proof (0.559105ms)
+✔ assistant and personal-context writes cannot route through the persistent write helper (4.301279ms)
+✔ a response fence rejects owner results after downgrade, hide/show or reauthentication (2.539126ms)
+✔ only active/paused routines expose lifecycle actions (2.145471ms)
+✔ delivery reveal fails closed for hidden, stale, locked or empty state (0.201392ms)
+✔ redacted or removed sources never display a cached title (0.139918ms)
+✔ notification deduplication uses delivery identity, not latest result identity (0.247552ms)
+✔ private requests use component-memory recovery and a navigation guard (0.375926ms)
+✔ mount and refresh read data without claiming a delivery (0.194003ms)
+✔ panel gates private content and offers bilingual schedule controls (0.930456ms)
+✔ late claim results cannot reappear across concealment or identity changes (0.252182ms)
+✔ actual results render separate choices, honest relationships and safe text in both languages (38.145605ms)
+✔ actual result rendering disables all choices while exact opening is pending (2.043353ms)
+✔ actual empty private search form states its local scope and has no automatic preview (3.760182ms)
+✔ actual stale search disables query, filter and submit in both languages (2.386025ms)
+✔ search errors give explicit refresh/record/privacy limits in English and Chinese (0.832806ms)
+✔ input is explicit, literal, bounded and never includes grants or operation IDs (2.246167ms)
+✔ compact pages reject malformed, mixed, duplicate, oversized and changed snapshots (0.911365ms)
+✔ same names stay distinct exact choices and paths cannot change endpoint scope (0.269371ms)
+✔ only exact detail records become previews; search hits and wrong IDs are rejected (0.380376ms)
+✔ sequence gate rejects reordered requests, hide/show, identity changes and cancellation (0.228123ms)
+✔ actual search hook never reads on mount, edits or filter change; submit POST has no mutation key (126.669714ms)
+✔ actual query B remains visible when query A completes later (24.778251ms)
+✔ actual exact detail selection uses a bare record, no start/resume/download/grant calls (16.391285ms)
+✔ a newer selection and close clear older exact-detail promises (24.720037ms)
+✔ stale/hide/identity transitions synchronously mask query and results and reject late file details (48.939637ms)
+✔ session and offline events fence immediately before any rerender (25.935516ms)
+✔ pagination is explicit and bound to submitted filter/query/snapshot; conflicts require new submit (21.634339ms)
+✔ late privacy denial clears newer search results rather than reviving older metadata (13.222774ms)
+✔ search integration retains navigation guards and the private/metadata split (2.744946ms)
+✔ previous page retains the exact snapshot and never restarts implicitly (14.005235ms)
+✔ run and source choices read their exact detail endpoints before handing off (10.9513ms)
+✔ audio worklet retains fractional phase across 128-sample blocks (127.467919ms)
+✔ busy duration merges overlaps, clips to day, and ignores completed events (36.848798ms)
+✔ lunar day is computed in the selected calendar timezone (4.37671ms)
+✔ a stale posture connection masks private content in a previously loaded display snapshot (0.486862ms)
+ℹ tests 152
+ℹ suites 0
+ℹ pass 152
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2260.571408
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> desk-companion-ui@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.1 building client environment for production...
+transforming...
+✓ 2000 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                0.48 kB │ gzip:   0.30 kB
+dist/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2       10.25 kB
+dist/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2        11.23 kB
+dist/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2         18.74 kB
+dist/assets/inter-greek-wght-normal-CkhJZR-_.woff2            18.99 kB
+dist/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2     25.96 kB
+dist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2            48.25 kB
+dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2        85.06 kB
+dist/assets/DeviceApp-BU9g_Eb8.css                            18.50 kB │ gzip:   3.96 kB
+dist/assets/index-BGRY8I94.css                                62.58 kB │ gzip:  13.98 kB
+dist/assets/download-kpphJRgU.js                               2.16 kB │ gzip:   1.13 kB
+dist/assets/DeviceApp-BbNVVAuR.js                             30.07 kB │ gzip:  10.80 kB
+dist/assets/index-BYl_xc1_.js                                705.25 kB │ gzip: 220.47 kB
+dist/assets/AvatarScene-DfGaReGU.js                        1,098.50 kB │ gzip: 288.37 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 697ms
+Software checks passed. Live providers, browser interactions and hardware are separate checks.

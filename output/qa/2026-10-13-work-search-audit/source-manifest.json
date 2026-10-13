@@ -1,0 +1,12 @@
+{
+  "recorded_utc": "2026-10-13T06:41:33.377506+00:00",
+  "files": {
+    "desk-companion/backend/desk/work_search.py": "2ade2a4215b4a658b0ff59a88c3f7263b7dd77f7d87164fcf90206dfbba414a2",
+    "desk-companion/backend/desk/runtime.py": "fcc34cc958f3cd7e19345a8f9e1eb51e9bdc32e1e6e6c7c2f441fb9b11d1bdd2",
+    "desk-companion/backend/desk/app.py": "04e17675b9a61396ed40923a8d92b7b4f53cddc29235547df916e80a925e675b",
+    "desk-companion/frontend/src/workspace/agent/workSearch.ts": "37e349da0c42cc83937fd86dd9261ef41d4dddb1f9cbb254a2c88839285f6c70",
+    "desk-companion/frontend/src/workspace/agent/useWorkSearch.ts": "81ac1d273c3fde93e92526537b4f24e71e989756fad981c2758aee4101ffc806",
+    "desk-companion/frontend/src/workspace/agent/WorkSearchPanel.tsx": "de1c5a7929e38c16e34d561caf6933a0ee01ceb6b81e08cec5a547b677bc2b22",
+    "desk-companion/frontend/src/workspace/agent/RunPanel.tsx": "9fec9cd6ff00016bbd0cff73e0b343df38e57136cbe64bd22773c0acc426d779"
+  }
+}

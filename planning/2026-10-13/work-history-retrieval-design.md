@@ -1,6 +1,6 @@
 # Next slice: find retained work and files
 
-Status: proposed implementation slice, not implemented. Read-only inspection completed during the current release check. The owner asked for continuing useful agent capabilities; this local retrieval closes a concrete usability gap without a model or paid service.
+Status: implementation complete, aggregate software validation passed (747 backend /152 frontend); actual browser acceptance remains separate. Read-only inspection completed during the current release check. The owner asked for continuing useful agent capabilities; this local retrieval closes a concrete usability gap without a model or paid service.
 
 ## Current gap
 

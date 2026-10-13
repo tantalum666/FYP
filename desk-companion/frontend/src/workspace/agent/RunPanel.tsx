@@ -12,6 +12,7 @@ import { runAccess } from "./runMetadata";
 import { validWorkGoal } from "./types";
 import type { WorkGoalRequest } from "./types";
 import { useAgentRuns } from "./useAgentRuns";
+import { WorkSearchPanel } from "./WorkSearchPanel";
 import "./agent.css";
 type Props = {
   t: Translate;
@@ -172,12 +173,16 @@ function RunWorkspace({
   const [selected, setSelected] = useState<string | null>(null),
     [compose, setCompose] = useState(false);
   const [detailGeneration, setDetailGeneration] = useState(0);
+  const [showSearch, setShowSearch] = useState(false);
+  const [detailRefreshing, setDetailRefreshing] = useState(false);
+  const detailRefreshToken = useRef(0);
   const [composeGoal, setComposeGoal] = useState("");
   const [pendingGoal, setPendingGoal] = useState<WorkGoalRequest | null>(null);
   const lastGoal = useRef<string | null>(null);
   const [navigate, setNavigate] = useState<{
     id: string | null;
     compose: boolean;
+    search?: boolean;
     proposal?: string;
     browserJob?: string;
     connectorIntent?: string;
@@ -201,6 +206,7 @@ function RunWorkspace({
   function go(next: {
     id: string | null;
     compose: boolean;
+    search?: boolean;
     proposal?: string;
     browserJob?: string;
     connectorIntent?: string;
@@ -208,7 +214,11 @@ function RunWorkspace({
   }) {
     if (
       !fresh &&
-      (next.proposal || next.browserJob || next.connectorIntent || next.compose)
+      (next.proposal ||
+        next.browserJob ||
+        next.connectorIntent ||
+        next.compose ||
+        next.search)
     )
       return;
     if (guard.busy) return;
@@ -218,6 +228,7 @@ function RunWorkspace({
   function commit(next: {
     id: string | null;
     compose: boolean;
+    search?: boolean;
     proposal?: string;
     browserJob?: string;
     connectorIntent?: string;
@@ -225,7 +236,11 @@ function RunWorkspace({
   }) {
     if (
       !fresh &&
-      (next.proposal || next.browserJob || next.connectorIntent || next.compose)
+      (next.proposal ||
+        next.browserJob ||
+        next.connectorIntent ||
+        next.compose ||
+        next.search)
     )
       return;
     setNavigate(null);
@@ -242,6 +257,17 @@ function RunWorkspace({
       onReviewConnectorIntent?.(next.connectorIntent);
       return;
     }
+    // Reopening an already selected search hit must refresh its version before
+    // controls become usable, even though the selected ID itself did not change.
+    const refreshToken = ++detailRefreshToken.current;
+    if (showSearch && !next.search && next.id && next.id === selected) {
+      setDetailRefreshing(true);
+      void reload(true).finally(() => {
+        if (refreshToken === detailRefreshToken.current && fence.accepts(epoch))
+          setDetailRefreshing(false);
+      });
+    } else setDetailRefreshing(false);
+    setShowSearch(next.search === true);
     setComposeGoal(next.goal ?? "");
     setSelected(next.id);
     setCompose(next.compose);
@@ -255,6 +281,19 @@ function RunWorkspace({
         )}
       </p>
       <div className="workspace-inline-actions">
+        <button
+          type="button"
+          className="secondary"
+          disabled={!fresh || guard.busy}
+          aria-pressed={showSearch}
+          onClick={() =>
+            go({ id: selected, compose: false, search: !showSearch })
+          }
+        >
+          {showSearch
+            ? t("Back to work", "返回工作")
+            : t("Find saved work", "查找已保存工作")}
+        </button>
         <button
           className="primary"
           disabled={!fresh || !value?.scope || guard.busy}
@@ -331,7 +370,16 @@ function RunWorkspace({
           </div>
         </div>
       )}
-      {value && (
+      {showSearch && (
+        <WorkSearchPanel
+          t={t}
+          fence={fence}
+          epoch={epoch}
+          fresh={fresh}
+          onOpenRun={(id) => go({ id, compose: false })}
+        />
+      )}
+      {value && !showSearch && (
         <div className="agent-layout">
           <nav
             aria-label={t("Saved work tasks", "保存的工作任务")}
@@ -371,7 +419,7 @@ function RunWorkspace({
                 detail={value.detail}
                 t={t}
                 fence={fence}
-                fresh={fresh}
+                fresh={fresh && !detailRefreshing}
                 onChanged={() => void reload(true)}
                 onReviewProposal={
                   onReviewProposal
@@ -403,7 +451,7 @@ function RunWorkspace({
           </div>
         </div>
       )}
-      {compose && value?.scope && (
+      {compose && !showSearch && value?.scope && (
         <RunComposer
           key={detailGeneration}
           t={t}

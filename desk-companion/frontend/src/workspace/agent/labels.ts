@@ -212,6 +212,30 @@ export function agentError(error: unknown, t: Translate) {
   )
     return blockLabel(error.code, t);
   const messages: Record<string, [string, string]> = {
+    WORK_SEARCH_CHANGED: [
+      "Saved records changed while paging. Submit the search again to refresh from the first page.",
+      "翻页时保存记录已变化，请重新提交搜索，从第一页刷新。",
+    ],
+    WORK_SEARCH_CAPACITY_EXCEEDED: [
+      "Saved metadata exceeds the search limit. Ask the operator to inspect retention; partial results are not shown.",
+      "保存的元数据超过搜索容量，请操作人员检查保留情况；不会显示不完整结果。",
+    ],
+    WORK_SEARCH_METADATA_INVALID: [
+      "Some saved metadata could not be read safely. Ask the operator to inspect the records; no files were changed.",
+      "部分保存元数据无法安全读取，请操作人员检查记录；文件未被更改。",
+    ],
+    WORK_SEARCH_PRIVACY_CHANGED: [
+      "Privacy changed during search. Reopen the current private view before searching again.",
+      "搜索期间隐私已变化，请重新打开当前私人界面后再搜索。",
+    ],
+    WORK_SEARCH_RESPONSE_INVALID: [
+      "The result did not match the requested record or page. Submit the search again before opening anything.",
+      "返回结果与所请求的记录或页面不符，请重新搜索后再打开。",
+    ],
+    WORK_SEARCH_QUERY_LIMIT: [
+      "Use a search query of at most 200 characters.",
+      "搜索内容不能超过200个字符。",
+    ],
     AGENT_SCOPE_CHANGED: [
       "Sources or provider permissions changed. Refresh and review the scope again.",
       "来源或提供商权限已变化，请刷新并重新审阅范围。",

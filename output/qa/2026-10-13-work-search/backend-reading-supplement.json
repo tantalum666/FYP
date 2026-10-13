@@ -1,0 +1,97 @@
+{
+  "scope": "Same ongoing task; targeted supplemental reading, not a new whole-repository intake",
+  "inherited_ledger": "output/qa/2026-10-12-agent-kernel/reading-union-status.json",
+  "inherited_owned_markdown_count": 186,
+  "completed_at_utc": "2026-10-13T06:38:33.683652+00:00",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ],
+      "sha256_at_supplement": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533"
+    },
+    {
+      "path": "product.md",
+      "lines": 184,
+      "read_ranges": [
+        [
+          1,
+          184
+        ]
+      ],
+      "sha256_at_supplement": "4c14871743125c1a518ec4e440b8bb80b61eac25d10a19bb6affcdaeb047a63c"
+    },
+    {
+      "path": "handoff.md",
+      "lines": 48,
+      "read_ranges": [
+        [
+          1,
+          48
+        ]
+      ],
+      "sha256_at_supplement": "4e3734a64ff3076c1296e6b41c6c5a24513172ea4f184e65f265d05277bf355d"
+    },
+    {
+      "path": "planning/2026-10-13/continuous-agent-capability-plan.md",
+      "lines": 34,
+      "read_ranges": [
+        [
+          1,
+          34
+        ]
+      ],
+      "sha256_at_supplement": "41153ac0761bd6ff10962bda2b2db4fadd7edf41a5f4a8d672010cba46170eee"
+    },
+    {
+      "path": "planning/2026-10-13/work-history-retrieval-design.md",
+      "lines": 35,
+      "read_ranges": [
+        [
+          1,
+          35
+        ]
+      ],
+      "sha256_at_supplement": "ccb0087ad1adbcbaffb79576e8ad8811b3d5cbec3bef240c37682895afa8559b"
+    },
+    {
+      "path": "desk-companion/docs/agent-runs.md",
+      "lines": 134,
+      "read_ranges": [
+        [
+          1,
+          134
+        ]
+      ],
+      "sha256_at_supplement": "0d7ccc95bcc22a6afc56fe16fff39c5f5c7b378f2d4b13c581d02016b85c8940"
+    },
+    {
+      "path": "desk-companion/docs/sources-and-artifacts.md",
+      "lines": 208,
+      "read_ranges": [
+        [
+          1,
+          208
+        ]
+      ],
+      "sha256_at_supplement": "800165ebf9f687c0664feeaf0570ea7803c5f6bd982ec9424cbaa2259ee4bda2"
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 853,
+      "read_ranges": [
+        [
+          804,
+          853
+        ]
+      ],
+      "sha256_at_supplement": "5a999da8df56858348fd0b95e33761d76092c55bcdc423578ff49043ff22960d"
+    }
+  ],
+  "excluded": "No new repository-wide reading claim; inherited exclusions unchanged. Focused service code and new owned files reviewed separately."
+}
