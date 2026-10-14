@@ -2,6 +2,8 @@
 
 Date: 14 October 2026. Group 2, Desk Companion. This note is for teammates and coding agents. It does not choose a vendor on the owner’s behalf, and it does not change the school proposal.
 
+**Merge status, 14 October 2026, later than the paragraphs below.** The owner put memory, the one folder action, the shared persona, and quiet follow-ups on `main` as draft PRs **#7 through #14**. That stack does not extend PR #5. Merge #7 first, then #8 through #14, using a merge commit. Rebase this docs PR onto `main` only after #7 is merged, and keep `main`’s copy of `handoff.md`, `product.md`, `decision-log.md`, and `work-log.md`. Do not merge PR #4 or PR #5. Do not open a hosted model account until the owner sets a spend cap. The Chinese summary below is a later-trial recommendation, not permission to open an account now. Sentences that say “implement on PR #5” or “memory is not on main” described this file’s original morning. They are not the merge plan.
+
 **Chinese summary.** 个人助理的大模型走托管 API，不在 Pi 或学校机器上自托管权重。记忆、工具执行、主动调度、人格提示和语音会话由本组软件负责。产品行为见 [companion-product-teardown.md](companion-product-teardown.md)；PR #5 上的早期接口研究不在这里重写。推荐先开通阿里云通义（Qwen）做第一次有预算的试用，Gemini 3.8 Live 作为同一套脚本的对照；这是工程建议，不是用户已选定的供应商。
 
 ## How to read the labels
@@ -26,7 +28,7 @@ An earlier public-source study of Meta’s Muse, ChatGPT’s dot, and Grok Bot a
 
 On `main`, the earlier baseline is [Your dot feasibility](../../research/2026-10-03-dot/proactive-task-tracking.md). The 6 October product discussion is [personal-agent-discussion-and-next-steps.md](../../planning/2026-10-06/personal-agent-discussion-and-next-steps.md). Those files separate vendor claims from FYP design. This note only adds the inference, the reason binary reversing cannot see the server, the hosted-API shape, and a provider recommendation.
 
-PR #5 also contains a large unmerged agent kernel (memory, durable runs, routines, bounded MCP, browser fixtures). Do not rebuild that kernel on `main` from this document. If the task is agent behavior, continue that branch or wait until the owner merges it. Repo layout and the merged baseline are in [fyp-repo-review.md](fyp-repo-review.md).
+PR #5 also contains a large unmerged agent kernel (memory, durable runs, routines, bounded MCP, browser fixtures). Do not merge that kernel. The owner’s later `main` stack is PRs #7–#14, which add owner-reviewed memory and one folder action on the existing note-job contract. Do not start a second job system and do not move #7–#14 onto PR #5. Repo layout at the time of this note is in [fyp-repo-review.md](fyp-repo-review.md).
 
 ## Inferred shape of Muse, Dot, and a personal agent
 

@@ -4,6 +4,8 @@ Date: 14 October 2026. Scope: `main` at `ccfac48` (software merge `8ca728d` plus
 
 The hosted-API design, the Muse/Dot inference, and the provider recommendation are in [companion-architecture.md](companion-architecture.md). The public product teardown (Meta Muse, both Dots, gaps, and a task list) is in [companion-product-teardown.md](companion-product-teardown.md).
 
+**Merge status, 14 October 2026.** This review describes `main` on the morning of 14 October. The owner later added PRs **#7–#14** (memory, one owner-named folder, persona, quiet follow-ups, job-card recovery, text adapters). Merge that stack onto `main`. Do not merge PR #4 or PR #5. Do not treat “implement on PR #5” below as the current plan.
+
 ## Goals
 
 From [product.md](../../product.md) and the 28 September proposal:
@@ -45,7 +47,7 @@ The repository’s open-issue count is 2. Both are pull requests. There is no se
 | [PR #4](https://github.com/tantalum666/FYP/pull/4) | `codex/full-body-3d-avatar` | Intact 2D A1 page companion, plus an earlier full-body VRM path that the PR text says is not the selected look. Large image set. | Not merged. Not a license to restart segmented 3D. |
 | [PR #5](https://github.com/tantalum666/FYP/pull/5) | `codex/personal-agent-kernel-20261012`, stacked on PR #4 | Public Muse, Dot, and Grok studies; memory; durable work runs; routines; bounded MCP and browser fixtures; CI; Mac notes for some checks. Head discussed in the PR body was `11dc2b8` on 13 October. | Not merged. Not commercial-agent parity. Live models, general desktop control, and hardware are still gated there too. |
 
-Read PR #5’s research before writing more product analysis. Implement agent features on that branch unless the owner asks for a `main`-only patch.
+Read PR #5’s research before writing another product survey. Do not implement the next agent features on that branch. The owner asked for the #7–#14 stack on `main` instead.
 
 ## Strengths
 

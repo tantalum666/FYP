@@ -2,6 +2,8 @@
 
 Date: 14 October 2026. Group 2, Desk Companion. Written for teammates and coding agents (including Codex).
 
+**Merge status, 14 October 2026, later than the roadmap below.** Memory and the folder action now exist as PRs **#7–#14** on the existing note-job contract, aimed at `main`. Do not merge PR #4 or PR #5. Do not extend PR #5. Do not open a hosted provider account until the owner sets a spend cap. Do not add unrestricted app or GUI control.
+
 **Chinese summary.** 和 Desk Companion 最吻合的 “Muse” 是 Meta 在 2026 年 9 月推出的个人代理，不是旧的视频站或冥想应用。名叫 Dot 的公开产品有两个：本组 10 月 3 日已经指定的是 ChatGPT 里的 Your dot；本轮提示里更可能指的是 New Computer 的 iOS 伴侣，该公司主页已宣布停运。下文只根据公开网页，不反编译、不提取提示词。差距和路线图对着 `main` 上的 Desk Companion，大模型仍走托管 API。
 
 This note describes what those products **say they do for a person**. It is not an audit, a benchmark, or a copy of their servers. A likely technical shape, and why a client binary cannot reveal it, is already in [companion-architecture.md](companion-architecture.md). The 12 October studies on unmerged [PR #5](https://github.com/tantalum666/FYP/pull/5) remain the earlier interface notes. Do not write a third survey.
@@ -172,7 +174,7 @@ Constraints, already decided in [companion-architecture.md](companion-architectu
 - Hosted LLM and hosted speech only. Do not self-host Glimmer, llama.cpp, vLLM, or Ollama as the assistant.
 - The team owns memory, tool checks, the scheduler, the persona text, and the voice session.
 - Engineering suggestion, not an owner lock: first paid trial is Qwen text plus short Qwen Audio sessions; Gemini 3.8 Live is the comparison if the account can call Google. Leave `DESK_TEXT_PROVIDER` and `DESK_VOICE_PROVIDER` at `none` until the owner sets a spend cap.
-- Do not merge PR #4 or PR #5 from this note. If a task already exists on PR #5, extend that branch instead of adding a second job system on `main`.
+- Do not merge PR #4 or PR #5. PRs #7–#14 already add memory and one folder action on `main`’s note-job contract. Do not move that work onto PR #5, and do not open a second job system.
 - Do not decompile Muse, ChatGPT, WhatsApp, or the New Computer app. A client binary cannot show the hosted model; see [companion-architecture.md](companion-architecture.md).
 
 Suggested stack, all already compatible with the repo or available as normal open-source libraries:
