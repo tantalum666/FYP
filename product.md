@@ -1,6 +1,6 @@
 # Group 2 Project Contract
 
-更新：2026-10-09。状态：**Dot工作已合并main并应用本地；受限笔记作业已实现，通用电脑操作待接入**。
+更新：2026-10-14。状态仍是：**Dot工作已合并main并应用本地；受限笔记作业已实现，通用电脑操作待接入**。本轮只增加文档入口，不改供应商或软件范围。
 
 ## 当前方向与用户决定
 
@@ -86,4 +86,4 @@ Yuan Yuchen为组长，计划40%；Xu Ziqian及Li Wenhua各30%。此比例不是
 
 10月26日Progress I、11月30日Initial、12月14日Progress II及后续节点以[学校提案／修订核对](planning/2026-09-28/logsheet-and-proposal-review.md)保留的证据为准。旧食品方案、品牌、采购、代码及Proposal均保留为历史，入口是[旧产品规范](product-senplate-historical.md)。
 
-当前操作入口：[软件README](desk-companion/README.md)／[安装与操作](desk-companion/docs/operator-guide.md)／[架构](desk-companion/docs/architecture.md)／[交接](handoff.md)／[决定](decision-log.md)／[工作记录](work-log.md)。
+当前操作入口：[软件README](desk-companion/README.md)／[安装与操作](desk-companion/docs/operator-guide.md)／[架构](desk-companion/docs/architecture.md)／[交接](handoff.md)／[决定](decision-log.md)／[工作记录](work-log.md)。2026-10-14补充的托管API架构、供应商工程建议与REA用法在[tooling-and-review](docs/tooling-and-review/companion-architecture.md)，不改变“供应商未锁定”。

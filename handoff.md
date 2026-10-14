@@ -1,25 +1,21 @@
 # Group 2 Current Handoff
 
-更新：2026-10-09。状态：**Dot工作已审查、修复、合并main并应用本地**。
+更新：2026-10-14。状态：**main 仍是 10 月 9 日已合并的 Desk Companion；本轮只新增 tooling 文档。**
 
 ## 当前结果
 
-[整合PR #2](https://github.com/tantalum666/FYP/pull/2)已按审查head `9bbd6d3`合并，main软件提交`8ca728d`。包含Dot讨论`597cfe7`、代码`ba2b164`及RIG研究`085dc01`；GitHub也将PR #1标记合并。四份根文档冲突保留两边历史，当前状态已同步。
+`main` 软件基线未改。新增 [docs/tooling-and-review](docs/tooling-and-review/fyp-repo-review.md)：仓库结构与缺口、[托管 API 架构与供应商建议](docs/tooling-and-review/companion-architecture.md)、[REA 构建记录](docs/tooling-and-review/rea-setup.md)。REA 在仓库外的 scratch 目录用 Rust 1.99 编过，`rea --help` 与自编译 ELF 的 one-shot 已跑通。没有把二进制、报告或密钥提交进来。
 
-新增持久笔记作业、拥有者意图／版本批准、真实文件独立读回、取消／期限／重启unknown对账和非阻塞语音调度。修复重复ID拒绝回复误标原调用已送达、断连漏掉迟到草稿清理的问题，两项回归先失败后通过；容量文案及试运行说明同步修正。
+供应商仍未由用户选定。文档里的 Qwen 优先、Gemini 对照是工程建议，不是购买或锁定。Muse／Dot 的公开拆解仍在未合并的 [PR #5](https://github.com/tantalum666/FYP/pull/5)，本轮没有重写。GitHub 打开项是 [PR #4](https://github.com/tantalum666/FYP/pull/4) 与 PR #5，没有单独的 open issue。
 
-## 验证与本地入口
+## 证据
 
-[本地QA](output/qa/2026-10-09-dot-integration/verification.md)：149后端、15前端、Ruff／TypeScript／构建、实际准备／批准／文件读回／取消／篡改对账／未知请求去重／草稿保护通过。1280×800英文桌面、320×740简中手机与1024×600独立常亮屏已检查；模拟语音不等于真实自然度成绩。
-
-主预览[管理界面](http://127.0.0.1:5190/)／[常亮页](http://127.0.0.1:5190/?surface=device)及API8831已启动，原owner账号可用，凭据在`desk-companion/.runtime/credentials.json`。新版作业面板已实际加载，四工作循环ready。笔记执行仍默认关闭，完整链路在独立虚构库验证；隔离QA服务已停止。[作业试运行说明](desk-companion/docs/computer-jobs.md)。
-
-[全文阅读](output/qa/2026-10-09-dot-integration/reading-record.json)覆盖123份本地MD及19个远端变化版本；压缩沿用记录。107项学校／身份／旧工程保护文件保持，原七条主日程内容hash一致，迁移前SQLite备份留在忽略的私有运行目录。主库无测试作业；无凭据或运行数据库上传。
+REA 验证命令与 JSON 字段见 [rea-setup.md](docs/tooling-and-review/rea-setup.md)。阅读范围见 [本轮 QA](output/qa/2026-10-14-tooling-and-review/reading-record.md)。未跑 Desk Companion 测试，未调用付费模型，未对商业客户端做逆向。
 
 ## 未完成
 
-通用PC／LCU／第三方GUI执行、远端执行权限与云传输范围、长期记忆管理、作业归档／业务备份、真实自然语音／AEC／费用、Pi、真人姿态标签、RIG／清洁模块与物理停止仍需对应验收。没有采购、系统权限变更、收费模型、成员邀请或学校提交；正式学校文件未改。
+通用电脑执行、真实语音与费用、Pi、真人姿态标签、RIG／清洁模块、PR #4／#5 合并，以及学校提交，都还开着。
 
 ## 唯一下一步
 
-**确定1–2个允许助理操作的真实Mac应用任务与数据范围，再沿现有作业契约接入可替换执行器并验证独立读回及取消。** LCU仍为候选，尚未安装；RIG驱动也尚未实现。
+**在 owner 指定的一个测试应用或目录上，沿现有作业契约做批准、独立读回和取消；不要新开一套任务系统，也不要在没有花费上限时开通模型账号。**

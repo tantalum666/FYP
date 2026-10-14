@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-更新：2026-10-09。追加式记录；当前状态以 handoff.md 为准。
+更新：2026-10-14。追加式记录；当前状态以 handoff.md 为准。
 
 ## 2026-09-14 建议书制作与上下文协议
 
@@ -805,3 +805,11 @@
 - **验证：**149后端、15前端、Ruff、TypeScript／Vite通过。实际界面准备→批准→63字节双语文件与独立哈希一致；取消前无文件、篡改后unknown且只读不覆盖、恢复后核验成功；HTTP200回复丢失后相同操作去重且保留新草稿；关闭保护、1280×800英文／320×740简中／1024×600独立常亮检查。测试选择器和CDP模式限制已处理并清除拦截／尺寸覆盖，未把首次失败当成功。
 - **证据与文件：**[核验记录](output/qa/2026-10-09-dot-integration/verification.md)、新回归测试和语音调度修改；product、两个README、架构／操作／作业说明、两份云端历史路由、决定和handoff同步。旧学校／身份／Senplate保护项与正式文件保持。
 - **实际合并与应用：**[整合PR #2](https://github.com/tantalum666/FYP/pull/2)已按审查head `9bbd6d3`合并，main软件提交`8ca728d`；RIG PR #1随祖先提交纳入后已标为合并。本地main快进、8831／5190主预览启动，实际原拥有者登录与新面板通过，四工作循环ready，七条日程内容hash保持，主库零测试作业且执行默认关闭。隔离QA服务已停止。收尾文档与证据随后提交；应用源码与已测试整合版本一致。无真实模型、LCU／系统权限、硬件动作、邀请、采购或学校提交；真实应用执行等缺口保持。
+
+## 2026-10-14｜REA 验证与托管 API 架构说明
+
+- **目标：**在 FYP 外编译并验证 tantalum666/rea；写仓库审查、REA 用法，以及基于已有 Muse／Dot 公开拆解的托管 API 架构。供应商未选定，需给出适合本项目的工程建议。不对商业客户端逆向。
+- **阅读：**当前契约、架构、助理／语音／作业实现、9 月语音与费用研究、9 月 28 日提案目标，以及 PR #5 上的 Muse／Dot 拆解。清单、行数和未逐行重读的历史品牌文件见 [reading-record.md](output/qa/2026-10-14-tooling-and-review/reading-record.md)。`output/qa/` 自动快照按 AGENTS.md 排除。
+- **REA：**scratch 克隆 `44310d8`。系统 Rust 1.83 因 edition2024 失败；rustup stable 1.99 的 release 构建成功。`rea --help`、`rea -V`（`rea 4.0.0`）、`rea mcp --config` 退出码 0。自编译 ELF one-shot 写出 md／pdf／json；JSON 标明 ELF 与 X86_64，样例字符串在 Markdown 报告中。无 OpenRouter key。产物未入库。
+- **文档：**[fyp-repo-review.md](docs/tooling-and-review/fyp-repo-review.md)、[companion-architecture.md](docs/tooling-and-review/companion-architecture.md)、[rea-setup.md](docs/tooling-and-review/rea-setup.md)。工程建议是先试用 Qwen 文字加 Qwen Audio，Gemini 3.8 Live 作对照；不是用户锁定。同步 product、README、handoff、decision-log。
+- **未做：**Desk Companion 测试、付费调用、合并 PR #4／#5、学校提交、硬件。下一步仍是一个指定测试动作的批准与独立读回。
