@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FileCheck2, FolderPen } from "lucide-react";
+import { DateTime } from "luxon";
 import {
   ApiError,
   errorText,
@@ -9,7 +10,8 @@ import {
   write,
 } from "../api";
 import { useDraftGuard } from "../components/DraftGuard";
-import type { Translate } from "../types";
+import { locale } from "../dates";
+import type { Language, Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import {
   isFolderAction,
@@ -36,6 +38,7 @@ export function ComputerJobsPanel({
   taskId?: string;
 }) {
   const { data, offline, stale } = useWorkspace();
+  const language: Language = t("en", "zh") === "zh" ? "zh" : "en";
   const owner = data?.principal.kind === "owner";
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
   const [readError, setReadError] = useState<unknown>(null);
@@ -579,7 +582,9 @@ export function ComputerJobsPanel({
           {job.state === "review" && (
             <p>
               {t("Approval expires at ", "批准有效至 ")}
-              {new Date(job.expires_at).toLocaleTimeString()}
+              {DateTime.fromISO(job.expires_at)
+                .setLocale(locale(language))
+                .toLocaleString(DateTime.TIME_SIMPLE)}
             </p>
           )}
           {job.result?.verified && (

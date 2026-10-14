@@ -497,6 +497,78 @@ def test_overdue_followups_are_released_a_few_at_a_time(desk):
     assert len(tasks) == 5
 
 
+def test_quiet_hold_follows_saved_preferences_across_restart(desk):
+    from desk.runtime import Runtime
+    from desk.workspace_data import PreferencesUpdate, WorkspacePreferences
+
+    r, c = desk
+    c[0] = datetime(2026, 10, 3, 15, tzinfo=UTC)
+    held = r.tasks.create(TaskInput(title="Held", interval_minutes=15), uuid4().hex)["task"]
+    later = r.tasks.create(
+        TaskInput(title="Later", check_in_local="2026-10-04T09:00"), uuid4().hex
+    )["task"]
+    c[0] += timedelta(minutes=16)
+    r.tick()
+    saved = r.tasks.detail(held["id"])["task"]
+    assert saved["followup"] is None
+    assert saved["next_check_at"].startswith("2026-10-03T23:00:00")
+    restarted = Runtime(r.store)
+    restarted.tick()
+    saved = restarted.tasks.detail(held["id"])["task"]
+    assert saved["followup"] is None
+    assert saved["next_check_at"].startswith("2026-10-03T23:00:00")
+    prefs = restarted.data.preferences()
+    restarted.data.update(
+        PreferencesUpdate(
+            expected_version=prefs["version"],
+            preferences=WorkspacePreferences(quiet_start="22:00", quiet_end="23:30"),
+        ),
+        "shorter-quiet",
+    )
+    restarted.tick()
+    saved = restarted.tasks.detail(held["id"])["task"]
+    assert saved["followup"] is None
+    assert saved["next_check_at"].startswith("2026-10-03T15:30:00")
+    scheduled = restarted.tasks.detail(later["id"])["task"]
+    assert scheduled["followup"] is None
+    assert scheduled["next_check_at"].startswith("2026-10-04T01:00:00")
+    prefs = restarted.data.preferences()
+    restarted.data.update(
+        PreferencesUpdate(
+            expected_version=prefs["version"],
+            preferences=WorkspacePreferences(quiet_enabled=False),
+        ),
+        "quiet-off",
+    )
+    restarted.tick()
+    assert restarted.tasks.detail(held["id"])["task"]["followup"]
+    assert restarted.tasks.detail(later["id"])["task"]["followup"] is None
+
+
+def test_snooze_survives_turning_quiet_hours_off(desk):
+    from desk.workspace_data import PreferencesUpdate, WorkspacePreferences
+
+    r, c = desk
+    c[0] = datetime(2026, 10, 3, 15, tzinfo=UTC)
+    task = create(r, interval_minutes=15)
+    c[0] += timedelta(minutes=16)
+    r.tick()
+    task = r.tasks.detail(task["id"])["task"]
+    task = act(r, task, "snooze", minutes=60)
+    prefs = r.data.preferences()
+    r.data.update(
+        PreferencesUpdate(
+            expected_version=prefs["version"],
+            preferences=WorkspacePreferences(quiet_enabled=False),
+        ),
+        "quiet-off-after-snooze",
+    )
+    r.tick()
+    current = r.tasks.detail(task["id"])["task"]
+    assert current["followup"] is None
+    assert current["next_check_at"].startswith("2026-10-03T16:16:00")
+
+
 def test_quiet_hours_do_not_send_queued_text_advice(desk):
     r, c = desk
     task = create(r, interval_minutes=15)

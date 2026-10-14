@@ -150,7 +150,7 @@ def test_quiet_hours_cross_midnight_and_csv_cannot_inject_formulas(runtime):
     assert quiet_until(prefs, datetime(2026, 10, 3, 12, tzinfo=hk)) is None
     always = {**prefs, "quiet_start": "00:00", "quiet_end": "00:00"}
     assert quiet_until(always, datetime(2026, 10, 3, 12, tzinfo=hk)) == datetime(
-        2026, 10, 4, 12, tzinfo=hk
+        2026, 10, 4, 0, tzinfo=hk
     )
     runtime.store.create(
         CreateEvents(
