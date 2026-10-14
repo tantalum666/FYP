@@ -8,4 +8,4 @@
 
 ## 检查
 
-完整后端与 Ruff 在收尾时运行。没有付费模型，没有新的浏览器流程。
+`uv run --no-sync pytest -q`：170 通过。`uv run --no-sync ruff check backend scripts tests` 通过。没有付费模型，没有新的浏览器流程。
