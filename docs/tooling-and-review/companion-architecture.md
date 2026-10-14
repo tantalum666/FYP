@@ -62,11 +62,9 @@ Voice is a speech front end. Ending the call does not have to end the task.
 | Voice / multimodal | Speech in and out, or images, attached to the same task identity | Speech-model weights; raw audio retention unless the product says so |
 | Persona | Stable instructions, voice, and a visible character | The vendor’s hidden personality prompt |
 
-## Why REA on a client app cannot reveal this
+## Why a client binary cannot reveal the server
 
-**FYP design constraint.** [REA](rea-setup.md) reads a file on disk: headers, strings, disassembly, a decompiled view, rules. That is useful for an ELF or firmware image this team built. It is the wrong tool for Muse or Dot, and it must not be aimed at those clients.
-
-The model weights, the system prompt, the memory database, the scheduler, and the tool sandbox are on the vendor’s network. A phone or desktop client typically contains UI, a login flow, caches, and a protocol stub that opens a session. Strings in that binary might name a host. They do not contain the production prompt, another user’s memory, or the code that decides when to speak first. Decompiling the client would still leave those pieces on the server. Emulating the client would not create a legitimate copy of the service.
+**FYP design constraint.** Muse and Dot keep the model weights, the system prompt, the memory store, the scheduler, and the tool sandbox on the vendor’s network. A phone or desktop client typically contains UI, a login flow, caches, and a protocol stub that opens a session. Strings in that binary might name a host. They do not contain the production prompt, another user’s memory, or the code that decides when to speak first. Decompiling or emulating the client still leaves those pieces on the server.
 
 This repository’s research was done from public pages. Do not try to fill the gaps with a commercial app binary, a prompt-extraction attack, or a stolen session. The gaps the October reports already mark as unknown — private memory schemas, ranking, and unlogged connector contracts — stay unknown.
 
@@ -140,7 +138,7 @@ Do these without a new provider and without reversing commercial apps. One task 
 3. **One real executor beyond notes, still on our tools.** Pick one Mac or Linux action the owner names (a file in a test folder, or one test app). Approval binds the full text. Independent read-back. A lost receipt stays `unknown` and is not replayed. This is the product handoff’s next step. PR #5 may already have fixtures; do not fork a second job system.
 4. **Persona file.** Move the instruction strings now embedded in `voice.py` and `text_ai.py` into one versioned text file the team can edit, still sent only as the hosted system instruction. Do not import a Muse or Dot prompt.
 5. **Voice handoff, fake provider.** A partial transcript must not approve a job. Ending the socket must not cancel an already approved job. Real microphones, Cantonese, echo, and invoices stay gated on the owner’s key and a quiet room.
-6. **Hardware, parallel and not blocked on the API.** Named RIG or cleaner preset behind the existing output queue, with a local stop that does not ask the LLM. Posture still needs consented labels before anyone cites the proposal’s F1 target. REA only if the image was built by this team; see [rea-setup.md](rea-setup.md).
+6. **Hardware, parallel and not blocked on the API.** Named RIG or cleaner preset behind the existing output queue, with a local stop that does not ask the LLM. Posture still needs consented labels before anyone cites the proposal’s F1 target.
 7. **Provider trial, only after a cap.** Recheck Hong Kong (or the account’s real region), model ids, and prices. Run the proposal’s style of Mandarin/English commands against Qwen, then Gemini if reachable. Record usage from the provider’s usage fields. Do not treat the September dollar examples as a bill.
 
 ## What not to claim

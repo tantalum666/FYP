@@ -806,18 +806,23 @@
 - **证据与文件：**[核验记录](output/qa/2026-10-09-dot-integration/verification.md)、新回归测试和语音调度修改；product、两个README、架构／操作／作业说明、两份云端历史路由、决定和handoff同步。旧学校／身份／Senplate保护项与正式文件保持。
 - **实际合并与应用：**[整合PR #2](https://github.com/tantalum666/FYP/pull/2)已按审查head `9bbd6d3`合并，main软件提交`8ca728d`；RIG PR #1随祖先提交纳入后已标为合并。本地main快进、8831／5190主预览启动，实际原拥有者登录与新面板通过，四工作循环ready，七条日程内容hash保持，主库零测试作业且执行默认关闭。隔离QA服务已停止。收尾文档与证据随后提交；应用源码与已测试整合版本一致。无真实模型、LCU／系统权限、硬件动作、邀请、采购或学校提交；真实应用执行等缺口保持。
 
-## 2026-10-14｜REA 验证与托管 API 架构说明
+## 2026-10-14｜托管 API 架构说明
 
-- **目标：**在 FYP 外编译并验证 tantalum666/rea；写仓库审查、REA 用法，以及基于已有 Muse／Dot 公开拆解的托管 API 架构。供应商未选定，需给出适合本项目的工程建议。不对商业客户端逆向。
+- **目标：**写仓库审查，以及基于已有 Muse／Dot 公开拆解的托管 API 架构。供应商未选定，需给出适合本项目的工程建议。不对商业客户端逆向。
 - **阅读：**当前契约、架构、助理／语音／作业实现、9 月语音与费用研究、9 月 28 日提案目标，以及 PR #5 上的 Muse／Dot 拆解。清单、行数和未逐行重读的历史品牌文件见 [reading-record.md](output/qa/2026-10-14-tooling-and-review/reading-record.md)。`output/qa/` 自动快照按 AGENTS.md 排除。
-- **REA：**scratch 克隆 `44310d8`。系统 Rust 1.83 因 edition2024 失败；rustup stable 1.99 的 release 构建成功。`rea --help`、`rea -V`（`rea 4.0.0`）、`rea mcp --config` 退出码 0。自编译 ELF one-shot 写出 md／pdf／json；JSON 标明 ELF 与 X86_64，样例字符串在 Markdown 报告中。无 OpenRouter key。产物未入库。
-- **文档：**[fyp-repo-review.md](docs/tooling-and-review/fyp-repo-review.md)、[companion-architecture.md](docs/tooling-and-review/companion-architecture.md)、[rea-setup.md](docs/tooling-and-review/rea-setup.md)。工程建议是先试用 Qwen 文字加 Qwen Audio，Gemini 3.8 Live 作对照；不是用户锁定。同步 product、README、handoff、decision-log。
+- **文档：**[fyp-repo-review.md](docs/tooling-and-review/fyp-repo-review.md)、[companion-architecture.md](docs/tooling-and-review/companion-architecture.md)。工程建议是先试用 Qwen 文字加 Qwen Audio，Gemini 3.8 Live 作对照；不是用户锁定。同步 product、README、handoff、decision-log。
 - **未做：**Desk Companion 测试、付费调用、合并 PR #4／#5、学校提交、硬件。下一步仍是一个指定测试动作的批准与独立读回。
 
 ## 2026-10-14｜Muse 与两个 Dot 的公开产品拆解
 
-- **目标：**在同一文档 PR 上增加产品拆解：认定 Muse，分开两个名叫 Dot 的产品，并给出相对 `main` 的差距和可执行路线。只用公开页面。不对商业客户端逆向或使用 REA。
+- **目标：**在同一文档 PR 上增加产品拆解：认定 Muse，分开两个名叫 Dot 的产品，并给出相对 `main` 的差距和可执行路线。只用公开页面。不对商业客户端逆向。
 - **完成：**[companion-product-teardown.md](docs/tooling-and-review/companion-product-teardown.md)。Muse 认定为 Meta 2026 年 9 月个人代理。ChatGPT Your dot 保留为 10 月 3 日用户指定的参照；New Computer Dot 按公司主页与 TechCrunch 记为已宣布停运的 iOS 伴侣。路线图沿用托管 API 与现有 FastAPI／SQLite／sherpa-onnx，不自托管权重，不新开第二套作业系统。
 - **来源：**Meta 设计文与安全文、WebWire 转载、New Computer 主页／产品页／数据承诺、两篇 TechCrunch、Klein 的 2024 设计评论、OpenAI dots 与 tasks-and-memory 文档。`about.fb.com` 未取到，发布演示未看，App Store 未打开。
 - **验证：**文档交叉链接已改 architecture、repo review、product、README、handoff、decision-log 与本记录。未跑测试，未调用模型。
 - **剩余：**通用电脑执行、真实语音与费用、Pi、姿态标签、RIG、PR #4／#5 合并、学校提交。下一步不变：一个指定测试动作的批准、独立读回和取消。
+
+## 2026-10-14｜REA 退出组员文档
+
+- **用户决定：**REA 只供所有者侧的 Grok Bot／Cursor agent 使用，不交给组员或 Codex。
+- **完成：**删除 `docs/tooling-and-review/rea-setup.md`。仓库审查、架构、产品拆解、product、README、handoff、decision-log 和本记录去掉安装、编译、MCP 和命令说明。[companion-architecture.md](docs/tooling-and-review/companion-architecture.md) 只保留一句：反编译 Muse／Dot 客户端看不到服务端模型、提示词和记忆。
+- **未做：**未改 Desk Companion 代码，未跑测试。下一步不变。

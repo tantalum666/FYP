@@ -6,7 +6,7 @@ Completed: 2026-10-14 (UTC). Branch `cursor/tooling-review-docs-8674`. This file
 
 - `.git/`, dependencies, caches, build outputs, and third-party packages.
 - `output/qa/` auto-generated evidence snapshots, except this new record.
-- REA source lives in `/tmp/scratch/rea` (commit `44310d8`) and is not part of the FYP tree. Its README, `Cargo.toml`, `cli.rs` usage, and `mcp.rs` config functions were read there.
+- Owner-only tooling outside this tree is not a teammate deliverable. Its setup is not recorded here.
 
 ## Read through to EOF for this task
 
@@ -76,15 +76,14 @@ Fetched 14 October 2026 and used in `docs/tooling-and-review/companion-product-t
 | https://www.fastcompany.com/91142350/dot-an-ai-companion-app-designed-by-an-apple-alum-launches-in-the-app-store | Fetch timed out; not cited |
 | Meta `about.fb.com` announcement | Not retrieved this session (earlier attempt HTTP 403); not cited as a fetched source |
 
-No commercial app binary, no REA run against Muse, ChatGPT, WhatsApp, or New Computer.
+No commercial app binary was inspected. Muse and Dot were read from public pages only.
 
 ## Checks run
 
-- REA release build and the commands recorded in `docs/tooling-and-review/rea-setup.md`.
 - `gh` open-issue count: 2, both pull requests (#4 and #5).
 - No Desk Companion pytest, ruff, or frontend build. Docs only.
 - No live model call and no commercial-app binary.
 
 ## Docs updated
 
-`docs/tooling-and-review/rea-setup.md`, `fyp-repo-review.md`, `companion-architecture.md`, `companion-product-teardown.md`, `product.md`, `README.md`, `handoff.md`, `decision-log.md`, `work-log.md`, and this record. The teardown was added after the first docs commit; no Desk Companion tests were re-run.
+`fyp-repo-review.md`, `companion-architecture.md`, `companion-product-teardown.md`, `product.md`, `README.md`, `handoff.md`, `decision-log.md`, `work-log.md`, and this record. The teardown was added after the first docs commit. On the owner’s later decision, `rea-setup.md` was removed and is not a team document. No Desk Companion tests were re-run.

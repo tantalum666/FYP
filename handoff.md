@@ -4,13 +4,13 @@
 
 ## 当前结果
 
-`main` 软件基线未改。新增 [docs/tooling-and-review](docs/tooling-and-review/fyp-repo-review.md)：仓库结构与缺口、[托管 API 架构与供应商建议](docs/tooling-and-review/companion-architecture.md)、[Muse／Dot 产品拆解与路线图](docs/tooling-and-review/companion-product-teardown.md)、[REA 构建记录](docs/tooling-and-review/rea-setup.md)。REA 在仓库外的 scratch 目录用 Rust 1.99 编过，`rea --help` 与自编译 ELF 的 one-shot 已跑通。没有把二进制、报告或密钥提交进来。
+`main` 软件基线未改。新增 [docs/tooling-and-review](docs/tooling-and-review/fyp-repo-review.md)：仓库结构与缺口、[托管 API 架构与供应商建议](docs/tooling-and-review/companion-architecture.md)、[Muse／Dot 产品拆解与路线图](docs/tooling-and-review/companion-product-teardown.md)。没有把密钥或二进制提交进来。
 
 供应商仍未由用户选定。文档里的 Qwen 优先、Gemini 对照是工程建议，不是购买或锁定。产品拆解认定 Desk Companion 语境下的 Muse 是 Meta 2026 年 9 月的个人代理；Dot 有两个公开产品，10 月 3 日用户指定的是 ChatGPT Your dot，本轮提示所指的 New Computer Dot 是已宣布停运的 iOS 伴侣。PR #5 上的早期接口研究仍未合并，本轮没有复制。GitHub 打开项是 [PR #4](https://github.com/tantalum666/FYP/pull/4) 与 PR #5，没有单独的 open issue。
 
 ## 证据
 
-REA 验证命令与 JSON 字段见 [rea-setup.md](docs/tooling-and-review/rea-setup.md)。产品页来源与不确定项见 [companion-product-teardown.md](docs/tooling-and-review/companion-product-teardown.md)。阅读范围见 [本轮 QA](output/qa/2026-10-14-tooling-and-review/reading-record.md)。未跑 Desk Companion 测试，未调用付费模型，未对商业客户端做逆向，也没有对 Muse、ChatGPT 或 New Computer 使用 REA。
+产品页来源与不确定项见 [companion-product-teardown.md](docs/tooling-and-review/companion-product-teardown.md)。阅读范围见 [本轮 QA](output/qa/2026-10-14-tooling-and-review/reading-record.md)。未跑 Desk Companion 测试，未调用付费模型，未对商业客户端做逆向。
 
 ## 未完成
 

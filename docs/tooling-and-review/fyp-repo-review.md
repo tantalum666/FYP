@@ -2,7 +2,7 @@
 
 Date: 14 October 2026. Scope: `main` at `ccfac48` (software merge `8ca728d` plus the 9 October closeout). Group 2. Desk Companion is the current product. Senplate food-monitoring material is historical and is not the specification.
 
-The hosted-API design, the Muse/Dot inference, and the provider recommendation are in [companion-architecture.md](companion-architecture.md). The public product teardown (Meta Muse, both Dots, gaps, and a task list) is in [companion-product-teardown.md](companion-product-teardown.md). REA setup is in [rea-setup.md](rea-setup.md).
+The hosted-API design, the Muse/Dot inference, and the provider recommendation are in [companion-architecture.md](companion-architecture.md). The public product teardown (Meta Muse, both Dots, gaps, and a task list) is in [companion-product-teardown.md](companion-product-teardown.md).
 
 ## Goals
 
@@ -68,7 +68,7 @@ Read PR #5’s research before writing more product analysis. Implement agent fe
 
 ## Tasks a teammate or Codex can pick up
 
-Match the task to the branch. The product teardown is [companion-product-teardown.md](companion-product-teardown.md); do not write another one. Do not self-host an LLM. Do not point REA at a commercial app.
+Match the task to the branch. The product teardown is [companion-product-teardown.md](companion-product-teardown.md); do not write another one. Do not self-host an LLM. Do not reverse-engineer a commercial client; that cannot show the hosted model, as [companion-architecture.md](companion-architecture.md) notes.
 
 | Priority | Task | Done when | Avoid |
 |---|---|---|---|

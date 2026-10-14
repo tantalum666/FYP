@@ -2,7 +2,7 @@
 
 Date: 14 October 2026. Group 2, Desk Companion. Written for teammates and coding agents (including Codex).
 
-**Chinese summary.** 和 Desk Companion 最吻合的 “Muse” 是 Meta 在 2026 年 9 月推出的个人代理，不是旧的视频站或冥想应用。名叫 Dot 的公开产品有两个：本组 10 月 3 日已经指定的是 ChatGPT 里的 Your dot；本轮提示里更可能指的是 New Computer 的 iOS 伴侣，该公司主页已宣布停运。下文只根据公开网页，不反编译、不提取提示词、不用 REA。差距和路线图对着 `main` 上的 Desk Companion，大模型仍走托管 API。
+**Chinese summary.** 和 Desk Companion 最吻合的 “Muse” 是 Meta 在 2026 年 9 月推出的个人代理，不是旧的视频站或冥想应用。名叫 Dot 的公开产品有两个：本组 10 月 3 日已经指定的是 ChatGPT 里的 Your dot；本轮提示里更可能指的是 New Computer 的 iOS 伴侣，该公司主页已宣布停运。下文只根据公开网页，不反编译、不提取提示词。差距和路线图对着 `main` 上的 Desk Companion，大模型仍走托管 API。
 
 This note describes what those products **say they do for a person**. It is not an audit, a benchmark, or a copy of their servers. A likely technical shape, and why a client binary cannot reveal it, is already in [companion-architecture.md](companion-architecture.md). The 12 October studies on unmerged [PR #5](https://github.com/tantalum666/FYP/pull/5) remain the earlier interface notes. Do not write a third survey.
 
@@ -13,7 +13,7 @@ This note describes what those products **say they do for a person**. It is not 
 | **Muse** | **Meta Muse**, the personal agent launched with the 8 September 2026 safety article and the September 2026 design article. | Desk Companion is a personal agent that should act in the user’s tools, keep memory, work after the chat closes, and remind the user. That is the product those two Meta pages describe. Older products that also use the name Muse (a former video host, meditation apps) do not match this brief. | Meta’s consumer announcement on `about.fb.com` was not retrieved (an earlier fetch returned HTTP 403). The launch demo video was not watched. No first-party checkout price was opened. “AI glasses, coming soon” and “free for most uses, subscriptions for more” appear in a [WebWire reprint](https://www.webwire.com/ViewPressRel.asp?aId=360321) (10 September 2026), not in the design article fetched here. |
 | **Dot** | **Two products, kept separate.** (1) OpenAI **ChatGPT “your dot”**, which the FYP owner named on 3 October 2026. (2) **New Computer’s Dot**, the iOS companion the latest request says is the likely Dot. | (1) Matches “acts in the user’s apps, keeps memory, works in the background, sends reminders,” and is already the baseline in [proactive-task-tracking.md](../../research/2026-10-03-dot/proactive-task-tracking.md). (2) Is a real 2024 companion, but its own site says the company is winding down. It is not the computer-use reference for this FYP. | New Computer’s [homepage](https://new.computer/) says Dot stays up until **October 5** and does not print the year. [TechCrunch, 5 September 2025](https://techcrunch.com/2025/09/05/personalized-ai-companion-app-dot-is-shutting-down/) dates that deadline as 5 October 2025. The [product page](https://new.computer/dot) was still written in the present tense when fetched on 14 October 2026. The App Store listing was not opened. |
 
-No page here was obtained by decompiling an app, extracting a hidden prompt, or running REA. Meta’s design article voluntarily quotes one line of its system prompt. That line is cited as their published sentence. It is not adopted as Desk Companion’s persona, and the rest of the prompt was not sought.
+No page here was obtained by decompiling an app or extracting a hidden prompt. Meta’s design article voluntarily quotes one line of its system prompt. That line is cited as their published sentence. It is not adopted as Desk Companion’s persona, and the rest of the prompt was not sought.
 
 ## Meta Muse
 
@@ -173,7 +173,7 @@ Constraints, already decided in [companion-architecture.md](companion-architectu
 - The team owns memory, tool checks, the scheduler, the persona text, and the voice session.
 - Engineering suggestion, not an owner lock: first paid trial is Qwen text plus short Qwen Audio sessions; Gemini 3.8 Live is the comparison if the account can call Google. Leave `DESK_TEXT_PROVIDER` and `DESK_VOICE_PROVIDER` at `none` until the owner sets a spend cap.
 - Do not merge PR #4 or PR #5 from this note. If a task already exists on PR #5, extend that branch instead of adding a second job system on `main`.
-- Do not point REA at Muse, ChatGPT, WhatsApp, or the New Computer app. REA is for ELF and firmware this team built; see [rea-setup.md](rea-setup.md).
+- Do not decompile Muse, ChatGPT, WhatsApp, or the New Computer app. A client binary cannot show the hosted model; see [companion-architecture.md](companion-architecture.md).
 
 Suggested stack, all already compatible with the repo or available as normal open-source libraries:
 

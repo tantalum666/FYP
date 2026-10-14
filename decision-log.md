@@ -674,17 +674,22 @@
 
 - **实际交付读回：**[PR #2](https://github.com/tantalum666/FYP/pull/2)按已审查head `9bbd6d3`成功合并，main软件提交`8ca728d`；RIG PR #1也由GitHub标记已合并。本地main已快进并启动8831／5190，原7条日程内容hash一致、四个工作循环ready，新面板实际加载且默认未启用执行。后续提交只补充本轮收尾文档与证据，不改变已测试应用代码。
 
-## 2026-10-14 托管 API 架构说明与 REA 用法
+## 2026-10-14 托管 API 架构说明
 
-- **用户要求：**阅读 FYP 与公开 REA 仓库；在 Linux 上按 README 编译并验证 REA；把用法和仓库审查写进 `docs/tooling-and-review/`。随后明确 Muse 指 Meta Muse，公开拆解已经存在就不要重写；改为推断 Muse、Dot 与一般个人助理的架构，并映射到 Desk Companion。再明确大模型走托管 API，记忆、工具、调度、人格和语音会话由本组实现。最后说明供应商尚未选定，要求在读完目标、约束、硬件、预算和语言需求后给出比较和一项适合本项目的建议。不对第三方商业应用做逆向。
+- **用户要求：**阅读 FYP，把仓库审查写进 `docs/tooling-and-review/`。随后明确 Muse 指 Meta Muse，公开拆解已经存在就不要重写；改为推断 Muse、Dot 与一般个人助理的架构，并映射到 Desk Companion。再明确大模型走托管 API，记忆、工具、调度、人格和语音会话由本组实现。最后说明供应商尚未选定，要求在读完目标、约束、硬件、预算和语言需求后给出比较和一项适合本项目的建议。不对第三方商业应用做逆向。
 - **工程建议，不是用户选定：**第一次申请账号时优先阿里云通义 Qwen 的文字模型加 Qwen Audio 短会话；Gemini 3.8 Live 作为同一脚本的对照。理由写在[companion-architecture.md](docs/tooling-and-review/companion-architecture.md)：现有适配器、学校提案中的第一候选、9 月 25 日香港区域记录、中英命令和粤语测试需求、以及学生预算下的短会话。OpenAI Live、Meta API 和自托管权重不作为当前默认。9 月价格与地区列表必须在开通前复核。没有创建密钥或产生费用。
 - **已有研究：**Muse 与 ChatGPT Dot 的接口级研究在未合并分支 `codex/personal-agent-kernel-20261012`。产品行为另写在 [companion-product-teardown.md](docs/tooling-and-review/companion-product-teardown.md)，不把 PR #5 的正文复制进来。
-- **REA：**在 FYP 之外用 Rust 1.99 编过 v4.0.0，并用本组自写的 ELF 做了 one-shot。二进制和报告未入库。
 - **未改变：**软件行为、供应商锁定、学校正文、采购、合并 PR #4／#5、成员邀请。
 
 ## 2026-10-14 公开产品拆解：Muse 与两个 Dot
 
-- **用户要求：**在同一 PR 增加 `docs/tooling-and-review/companion-product-teardown.md`。拆解 AI 伴侣 Muse 与 Dot；提示 Dot 很可能是 New Computer 的个人 AI。按 Desk Companion 语境判断哪个 Muse 最合理，并写明认定与不确定处。同时覆盖一类能在用户应用里行动、保持记忆、后台工作并主动提醒的通用个人代理。只用公开网页，附链接。不反编译、不提取代码或提示词、不对这些产品使用 REA。再写相对 Desk Companion 的差距和可交给组员与 Codex 的实现路线。
+- **用户要求：**在同一 PR 增加 `docs/tooling-and-review/companion-product-teardown.md`。拆解 AI 伴侣 Muse 与 Dot；提示 Dot 很可能是 New Computer 的个人 AI。按 Desk Companion 语境判断哪个 Muse 最合理，并写明认定与不确定处。同时覆盖一类能在用户应用里行动、保持记忆、后台工作并主动提醒的通用个人代理。只用公开网页，附链接。不反编译、不提取代码或提示词。再写相对 Desk Companion 的差距和可交给组员与 Codex 的实现路线。
 - **研究认定，不是用户改口：**Muse 采用 Meta 2026 年 9 月的个人代理（设计文与 9 月 8 日安全文）。其他同名产品不符合“在应用里办事的桌面个人代理”。Dot 仍有两个公开产品。10 月 3 日用户已经指定 Codex／ChatGPT 的 Your dot，公开文档也符合“操作应用、记忆、后台、提醒”。New Computer 的 Dot 是 2024 年的 iOS 伴侣，公司主页宣布停运至 10 月 5 日（主页未写年份；TechCrunch 2025-09-05 写为 2025-10-05）。它作为本轮点名的伴侣写入拆解，不取代 10 月 3 日的参照，也不当成仍在运营的电脑代理。
 - **工程建议未变：**路线图仍是托管 API、本组拥有记忆／工具／调度／人格／语音会话；Qwen 优先与 Gemini 对照仍不是供应商锁定。下一步仍是 owner 指定的一个测试动作，而不是仿造 Muse 的云虚拟机。
 - **未做：**未打开 App Store，未观看 Muse 发布演示，`about.fb.com` 公告此前为 HTTP 403、本轮未再取。未把 Meta 公开的那一句系统提示写进本组人格。
+
+## 2026-10-14 REA 仅限所有者侧使用
+
+- **用户决定：**REA 只给所有者本人的 Grok Bot／Cursor agent 使用，不给组员或 Codex。`docs/tooling-and-review/rea-setup.md` 从本 PR 删除。组员文档、PR 标题和 PR 正文不再写安装、编译、MCP 或命令用法。
+- **保留：**[companion-architecture.md](docs/tooling-and-review/companion-architecture.md) 仍用短段说明：反编译 Muse／Dot 客户端看不到服务端模型、提示词和记忆。这不是工具安装说明。
+- **未改变：**软件行为、供应商锁定、产品拆解结论、学校正文。
