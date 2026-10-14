@@ -129,6 +129,14 @@ export function errorText(
       "Local note execution is disabled on this desk.",
       "本桌面未启用本地笔记执行。",
     ],
+    FOLDER_NOT_CONFIGURED: [
+      "Name one real folder before preparing a folder file.",
+      "请先指定一个真实文件夹，再准备文件夹文件。",
+    ],
+    FOLDER_PATH_DENIED: [
+      "That folder must be an existing directory outside this desk’s runtime data, and it cannot be a shortcut.",
+      "该文件夹必须是已存在的目录，位于本桌面运行数据之外，且不能是快捷方式。",
+    ],
     JOB_TASK_CHANGED: [
       "The linked task changed. Prepare a new job using its current details.",
       "关联事务已变化，请根据最新内容准备新作业。",

@@ -812,3 +812,10 @@
 - **完成：**`desk/memory.py`、`desk/context.py`、助理草稿工具、英文／简体中文记忆页。[契约](desk-companion/docs/memory.md)。删除的事实不进入打包上下文；配对屏不能读记忆接口。
 - **验证：**`uv run --no-sync pytest -q` 152 通过；`ruff check backend scripts tests` 通过；前端 `npm test` 15 通过，`tsc --noEmit` 通过。没有付费模型，没有浏览器点击记忆页，没有商业客户端逆向。
 - **剩余：**指定一个测试应用或目录，沿现有作业契约做批准、独立读回和取消。其后才是人格文件、跟进静音和有花费上限的供应商试用。PR #4／#5 仍未合并。
+
+## 2026-10-14｜指定文件夹作业
+
+- **目标：**在现有电脑作业上增加一个拥有者命名的文件夹动作。批准全文、独立读回、取消。不平行再做一套队列，也不改动 PR #7 的记忆提交。
+- **完成：**`FolderDropExecutor` 与 `JobService` 按动作选择执行器。拥有者接口保存一个绝对真实目录。作业绑定名称和路径指纹，不保存路径。界面有英文和简体中文。[契约](desk-companion/docs/computer-jobs.md)。
+- **验证：**`uv run --no-sync pytest -q` 162 通过；`ruff check backend scripts tests` 通过；前端 `npm test` 16 通过，`tsc --noEmit` 通过。记录见 [QA](output/qa/2026-10-14-folder-job/reading-record.md)。没有付费模型，没有浏览器点击新表单，没有商业客户端逆向。
+- **剩余：**文字和语音共用一份人格文本，然后才是单独调低跟进。PR #4／#5／#7 仍未合并。

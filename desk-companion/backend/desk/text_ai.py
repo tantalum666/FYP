@@ -249,6 +249,7 @@ class TextAssistant:
                 "Ambiguous pronouns need a question unless selected_task or the user identifies one task. "
                 "User reported completion may prepare task_change_draft complete, never claim system verification. "
                 "Prepare at most one mutation draft per request; memory and computer drafts are not saved until the owner confirms. No confirmation tool exists. "
+                "A folder file uses the directory the owner already named. Never supply a path, URL, or shell command. "
                 "A calendar block is not a completed task. Ask missing time/duration for calendar writes. "
                 "Return message and either none for a reply/clarification or one permitted tool and arguments. "
                 "Task next steps may be recommendations, clearly say so. No external messaging or physical outputs."

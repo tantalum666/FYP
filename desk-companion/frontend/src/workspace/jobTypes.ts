@@ -18,13 +18,14 @@ export interface ComputerJob {
   updated_at: string;
   error: string | null;
   cancel_requested: boolean;
-  action: "save_note" | "verify_note";
+  action: "save_note" | "verify_note" | "save_folder_file" | "verify_folder_file";
   task_id: string | null;
   request: {
     title: string;
     content: string;
     artifact_id: string;
     task_version: number | null;
+    folder_label?: string;
   };
   result: {
     verified: boolean;
@@ -34,6 +35,10 @@ export interface ComputerJob {
     reason?: string;
   } | null;
 }
+export function isFolderAction(action: ComputerJob["action"]) {
+  return action === "save_folder_file" || action === "verify_folder_file";
+}
+
 export function reviewAvailable(job: ComputerJob, now: number, fresh: boolean) {
   return fresh && job.state === "review" && Date.parse(job.expires_at) > now;
 }
