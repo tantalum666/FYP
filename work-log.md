@@ -819,3 +819,10 @@
 - **完成：**`FolderDropExecutor` 与 `JobService` 按动作选择执行器。拥有者接口保存一个绝对真实目录。作业绑定名称和路径指纹，不保存路径。界面有英文和简体中文。[契约](desk-companion/docs/computer-jobs.md)。
 - **验证：**`uv run --no-sync pytest -q` 162 通过；`ruff check backend scripts tests` 通过；前端 `npm test` 16 通过，`tsc --noEmit` 通过。记录见 [QA](output/qa/2026-10-14-folder-job/reading-record.md)。没有付费模型，没有浏览器点击新表单，没有商业客户端逆向。
 - **剩余：**文字和语音共用一份人格文本，然后才是单独调低跟进。PR #4／#5／#7 仍未合并。
+
+## 2026-10-14｜共用人格文本
+
+- **目标：**文字规划和语音会话使用同一份拥有者可编辑的人格，而不是两处硬编码说明。
+- **完成：**`desk/persona.py` 保存正文和版本。三个通道先放正文，再附上各自的工具协议。界面有英文和简体中文的人格页。
+- **验证：**`uv run --no-sync pytest -q` 165 通过；`ruff check backend scripts tests` 通过；前端 `tsc --noEmit` 通过。没有付费模型，没有浏览器点击人格页。
+- **剩余：**已经排队的可选文字建议，在事务关闭跟进后仍可能发给模型。PR #4／#5／#7／#8 仍未合并。
