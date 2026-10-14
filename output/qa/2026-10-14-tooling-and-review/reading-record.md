@@ -56,6 +56,28 @@ Assistant tool list and provider env vars were read in `assistant.py`, `text_ai.
 
 `rg --files -g '*.md'` excluding `output/qa/` listed 123 project Markdown files, about 11,972 lines, including historical Senplate brand, competition, and hardware-enquiry notes. Those older files stay in force as historical records. This session did not re-read each of them line by line after the follow-up narrowed the deliverable to the existing teardown plus goals, hardware, budget, and language. The provider recommendation uses the current product contract and the dated voice, proposal, and feasibility files above, not the retired food brand pages.
 
+## Public pages fetched for the product teardown
+
+Fetched 14 October 2026 and used in `docs/tooling-and-review/companion-product-teardown.md`. Not a substitute for the repo reading above.
+
+| Page | Result |
+|---|---|
+| https://introducing.muse.ai/ | Design article, read |
+| https://research.meta.ai/blog/security-and-safety-for-ai-agents-our-approach-with-muse | Safety article, read (saved fetch from earlier in the session, through the conclusion) |
+| https://www.webwire.com/ViewPressRel.asp?aId=360321 | Secondary announcement reprint, read |
+| https://new.computer/ | Winding-down note, read |
+| https://new.computer/dot | Short product page, read |
+| https://new.computer/your-data | Privacy commitments, read |
+| https://techcrunch.com/2024/06/21/dots-ai-really-really-wants-to-get-to-know-you/ | Read |
+| https://techcrunch.com/2025/09/05/personalized-ai-companion-app-dot-is-shutting-down/ | Read |
+| https://diklein.com/writing/on-the-design-of-dot | Onboarding and permission sections read from the earlier fetch |
+| https://learn.chatgpt.com/docs/dots.md | Read |
+| https://learn.chatgpt.com/docs/dots/tasks-and-memory.md | Read |
+| https://www.fastcompany.com/91142350/dot-an-ai-companion-app-designed-by-an-apple-alum-launches-in-the-app-store | Fetch timed out; not cited |
+| Meta `about.fb.com` announcement | Not retrieved this session (earlier attempt HTTP 403); not cited as a fetched source |
+
+No commercial app binary, no REA run against Muse, ChatGPT, WhatsApp, or New Computer.
+
 ## Checks run
 
 - REA release build and the commands recorded in `docs/tooling-and-review/rea-setup.md`.
@@ -65,4 +87,4 @@ Assistant tool list and provider env vars were read in `assistant.py`, `text_ai.
 
 ## Docs updated
 
-`docs/tooling-and-review/rea-setup.md`, `fyp-repo-review.md`, `companion-architecture.md`, `product.md`, `README.md`, `handoff.md`, `decision-log.md`, `work-log.md`, and this record.
+`docs/tooling-and-review/rea-setup.md`, `fyp-repo-review.md`, `companion-architecture.md`, `companion-product-teardown.md`, `product.md`, `README.md`, `handoff.md`, `decision-log.md`, `work-log.md`, and this record. The teardown was added after the first docs commit; no Desk Companion tests were re-run.

@@ -813,3 +813,11 @@
 - **REA：**scratch 克隆 `44310d8`。系统 Rust 1.83 因 edition2024 失败；rustup stable 1.99 的 release 构建成功。`rea --help`、`rea -V`（`rea 4.0.0`）、`rea mcp --config` 退出码 0。自编译 ELF one-shot 写出 md／pdf／json；JSON 标明 ELF 与 X86_64，样例字符串在 Markdown 报告中。无 OpenRouter key。产物未入库。
 - **文档：**[fyp-repo-review.md](docs/tooling-and-review/fyp-repo-review.md)、[companion-architecture.md](docs/tooling-and-review/companion-architecture.md)、[rea-setup.md](docs/tooling-and-review/rea-setup.md)。工程建议是先试用 Qwen 文字加 Qwen Audio，Gemini 3.8 Live 作对照；不是用户锁定。同步 product、README、handoff、decision-log。
 - **未做：**Desk Companion 测试、付费调用、合并 PR #4／#5、学校提交、硬件。下一步仍是一个指定测试动作的批准与独立读回。
+
+## 2026-10-14｜Muse 与两个 Dot 的公开产品拆解
+
+- **目标：**在同一文档 PR 上增加产品拆解：认定 Muse，分开两个名叫 Dot 的产品，并给出相对 `main` 的差距和可执行路线。只用公开页面。不对商业客户端逆向或使用 REA。
+- **完成：**[companion-product-teardown.md](docs/tooling-and-review/companion-product-teardown.md)。Muse 认定为 Meta 2026 年 9 月个人代理。ChatGPT Your dot 保留为 10 月 3 日用户指定的参照；New Computer Dot 按公司主页与 TechCrunch 记为已宣布停运的 iOS 伴侣。路线图沿用托管 API 与现有 FastAPI／SQLite／sherpa-onnx，不自托管权重，不新开第二套作业系统。
+- **来源：**Meta 设计文与安全文、WebWire 转载、New Computer 主页／产品页／数据承诺、两篇 TechCrunch、Klein 的 2024 设计评论、OpenAI dots 与 tasks-and-memory 文档。`about.fb.com` 未取到，发布演示未看，App Store 未打开。
+- **验证：**文档交叉链接已改 architecture、repo review、product、README、handoff、decision-log 与本记录。未跑测试，未调用模型。
+- **剩余：**通用电脑执行、真实语音与费用、Pi、姿态标签、RIG、PR #4／#5 合并、学校提交。下一步不变：一个指定测试动作的批准、独立读回和取消。

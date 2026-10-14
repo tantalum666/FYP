@@ -2,7 +2,7 @@
 
 Date: 14 October 2026. Group 2, Desk Companion. This note is for teammates and coding agents. It does not choose a vendor on the owner’s behalf, and it does not change the school proposal.
 
-**Chinese summary.** 个人助理的大模型走托管 API，不在 Pi 或学校机器上自托管权重。记忆、工具执行、主动调度、人格提示和语音会话由本组软件负责。Meta Muse 与 ChatGPT Dot 的公开拆解已经写在未合并的研究分支里，本文不重写。推荐先开通阿里云通义（Qwen）做第一次有预算的试用，Gemini 3.8 Live 作为同一套脚本的对照；这是工程建议，不是用户已选定的供应商。
+**Chinese summary.** 个人助理的大模型走托管 API，不在 Pi 或学校机器上自托管权重。记忆、工具执行、主动调度、人格提示和语音会话由本组软件负责。产品行为见 [companion-product-teardown.md](companion-product-teardown.md)；PR #5 上的早期接口研究不在这里重写。推荐先开通阿里云通义（Qwen）做第一次有预算的试用，Gemini 3.8 Live 作为同一套脚本的对照；这是工程建议，不是用户已选定的供应商。
 
 ## How to read the labels
 
@@ -13,9 +13,11 @@ Date: 14 October 2026. Group 2, Desk Companion. This note is for teammates and c
 | FYP design | What this repository should build. It is ours. |
 | Not decided | The owner has not chosen a provider, a spend cap, or a hardware purchase. |
 
-## Do not duplicate the existing teardown
+## Product behavior and the earlier study
 
-A public-source teardown of Meta’s Muse, and the matching Dot and Grok Bot studies, already exist on the unmerged branch `codex/personal-agent-kernel-20261012` (draft [PR #5](https://github.com/tantalum666/FYP/pull/5)). They are not on `main`. Read them instead of writing another product survey:
+The product-facing teardown for this branch is [companion-product-teardown.md](companion-product-teardown.md) (14 October 2026). It identifies Meta Muse, separates ChatGPT “your dot” from New Computer’s Dot, and lists gaps and tasks against `main`. Read that file for features, personality, memory, proactivity, voice, hardware, and privacy. Do not add another survey.
+
+An earlier public-source study of Meta’s Muse, ChatGPT’s dot, and Grok Bot already exists on the unmerged branch `codex/personal-agent-kernel-20261012` (draft [PR #5](https://github.com/tantalum666/FYP/pull/5)). Those notes are not on `main`. They remain the interface-level study; this branch does not copy them:
 
 - [Muse architecture and reusable interfaces](https://github.com/tantalum666/FYP/blob/codex/personal-agent-kernel-20261012/research/2026-10-12-personal-agents/muse.md) (12 October 2026)
 - [Muse capability gap](https://github.com/tantalum666/FYP/blob/codex/personal-agent-kernel-20261012/research/2026-10-12-personal-agents/muse-capability-gap.md)

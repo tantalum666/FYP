@@ -2,7 +2,7 @@
 
 Date: 14 October 2026. Scope: `main` at `ccfac48` (software merge `8ca728d` plus the 9 October closeout). Group 2. Desk Companion is the current product. Senplate food-monitoring material is historical and is not the specification.
 
-The hosted-API design, the Muse/Dot inference, and the provider recommendation are in [companion-architecture.md](companion-architecture.md). REA setup is in [rea-setup.md](rea-setup.md).
+The hosted-API design, the Muse/Dot inference, and the provider recommendation are in [companion-architecture.md](companion-architecture.md). The public product teardown (Meta Muse, both Dots, gaps, and a task list) is in [companion-product-teardown.md](companion-product-teardown.md). REA setup is in [rea-setup.md](rea-setup.md).
 
 ## Goals
 
@@ -68,11 +68,11 @@ Read PR #5’s research before writing more product analysis. Implement agent fe
 
 ## Tasks a teammate or Codex can pick up
 
-Match the task to the branch. Do not restate the Muse teardown. Do not self-host an LLM. Do not point REA at a commercial app.
+Match the task to the branch. The product teardown is [companion-product-teardown.md](companion-product-teardown.md); do not write another one. Do not self-host an LLM. Do not point REA at a commercial app.
 
 | Priority | Task | Done when | Avoid |
 |---|---|---|---|
-| P0 | Read [companion-architecture.md](companion-architecture.md) and the four PR #5 research files it links. | The next patch names which branch it targets. | A second Muse/Dot survey. |
+| P0 | Read [companion-product-teardown.md](companion-product-teardown.md) and [companion-architecture.md](companion-architecture.md). | The next patch names which branch it targets and which roadmap item it is. | A third Muse/Dot survey. |
 | P1 | Context-packer test on the existing text adapter, no live HTTP. | The recorded request has persona and the selected task, and lacks the API key and deleted text. | A new provider. |
 | P1 | Prove the advice loop stays silent when the provider is `none` or the cap is spent. | A regression test fails if a model client is constructed in those cases. | Calling Qwen from the 1-second tick. |
 | P2 | One owner-named app or folder action with approval and independent read-back. | A lost receipt stays unknown and a second approve does not write twice. | Shell tools, LCU, or a parallel job framework if PR #5 already has the ledger. |
