@@ -20,6 +20,7 @@ from pydantic import Field, ValidationError
 from .calendar import iso
 from .context import pack_conversation
 from .persona import followup_system, text_system
+from .text_providers import text_adapter
 from .workspace_data import is_quiet
 from .schemas import StrictModel
 from .store import DomainError, encode
@@ -149,53 +150,9 @@ class TextAssistant:
             with httpx.Client(
                 timeout=20, transport=self.transport, follow_redirects=False
             ) as client:
-                if self.config.provider == "qwen":
-                    result = client.post(
-                        self.config.endpoint,
-                        headers={"Authorization": "Bearer " + self.config.api_key},
-                        json={
-                            "model": self.config.model,
-                            "messages": [
-                                {"role": "system", "content": prompt},
-                                {"role": "user", "content": content},
-                            ],
-                            "response_format": {"type": "json_object"},
-                            "stream": False,
-                            "max_tokens": 1600,
-                            "enable_thinking": False,
-                        },
-                    )
-                    result.raise_for_status()
-                    body = result.json()
-                    raw = body["choices"][0]["message"]["content"]
-                    usage = body.get("usage", {})
-                else:
-                    endpoint = (
-                        (self.config.endpoint or "https://generativelanguage.googleapis.com/v1beta")
-                        + "/models/"
-                        + self.config.model
-                        + ":generateContent"
-                    )
-                    result = client.post(
-                        endpoint,
-                        headers={"x-goog-api-key": self.config.api_key},
-                        json={
-                            "systemInstruction": {"parts": [{"text": prompt}]},
-                            "contents": [{"role": "user", "parts": [{"text": content}]}],
-                            "generationConfig": {
-                                "responseMimeType": "application/json",
-                                "maxOutputTokens": 1600,
-                            },
-                        },
-                    )
-                    result.raise_for_status()
-                    body = result.json()
-                    raw = "".join(
-                        p.get("text", "")
-                        for p in body["candidates"][0]["content"]["parts"]
-                        if not p.get("thought")
-                    )
-                    usage = body.get("usageMetadata", {})
+                raw, usage = text_adapter(self.config.provider).complete(
+                    client, self.config, prompt, content
+                )
                 if not isinstance(raw, str) or len(raw) > 20000:
                     raise ValueError()
                 parsed = schema.model_validate_json(raw)
