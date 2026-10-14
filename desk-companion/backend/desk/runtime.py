@@ -16,6 +16,7 @@ from .google_calendar import GoogleCalendar
 from .tasks import TaskService
 from .text_ai import TextAssistant
 from .jobs import JobService
+from .memory import MemoryService
 
 
 class Runtime:
@@ -26,6 +27,7 @@ class Runtime:
         self.posture = PostureService(store)
         self.outputs = OutputService(store)
         self.tasks = TaskService(self)
+        self.memory = MemoryService(self)
         self.jobs = JobService(self)
         self.worker_health = {}
         self.assistant = AssistantService(self)

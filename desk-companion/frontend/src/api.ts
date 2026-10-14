@@ -334,6 +334,14 @@ export function errorText(
       "尝试次数过多，请等一分钟。",
     ],
     EVENT_NOT_FOUND: ["This event is no longer available.", "此事项已不存在。"],
+    MEMORY_NOT_FOUND: [
+      "That fact is no longer active. Refresh the memory list.",
+      "这条事实已不在记忆中，请刷新列表。",
+    ],
+    MEMORY_LIMIT: [
+      "Memory is full. Delete a fact before saving another.",
+      "记忆已满，请先删除一条再保存。",
+    ],
     NARROW_DATE_RANGE: [
       "This view contains too many events. Choose a single day in the date picker or open Today.",
       "当前视图日程过多，请在日期选择器选择一天，或打开今天。",
