@@ -826,3 +826,10 @@
 - **完成：**`desk/persona.py` 保存正文和版本。三个通道先放正文，再附上各自的工具协议。界面有英文和简体中文的人格页。
 - **验证：**`uv run --no-sync pytest -q` 165 通过；`ruff check backend scripts tests` 通过；前端 `npm test` 16 通过，`tsc --noEmit` 通过。没有付费模型，没有浏览器点击人格页。
 - **剩余：**已经排队的可选文字建议，在事务关闭跟进后仍可能发给模型。PR #4／#5／#7／#8 仍未合并。
+
+## 2026-10-14｜关闭跟进后跳过文字建议
+
+- **目标：**跟进可以单独关掉，而不删除事务；已经排队的可选文字建议也不再发给模型。
+- **完成：**`TextAssistant.enrich_one` 在 `follow_up_enabled` 为假时把该条建议标为 skipped。正常的事务更新仍会结束待处理跟进。
+- **验证：**`uv run --no-sync pytest -q` 167 通过；`ruff check backend scripts tests` 通过。没有付费模型。
+- **剩余：**有花费上限之前不比较托管供应商。通用应用执行仍未做。PR #4／#5／#7／#8／#9 仍未合并。
