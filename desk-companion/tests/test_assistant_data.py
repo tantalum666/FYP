@@ -1,6 +1,7 @@
 import json
 from datetime import UTC, datetime, timedelta
 from uuid import uuid4
+from zoneinfo import ZoneInfo
 
 import httpx
 import pytest
@@ -9,7 +10,7 @@ from desk.assistant import AssistantMessage, TOOLS
 from desk.runtime import Runtime
 from desk.schemas import CreateEvents, EventAction, EventInput
 from desk.store import DomainError, Store
-from desk.workspace_data import PreferencesUpdate, WorkspacePreferences, is_quiet
+from desk.workspace_data import PreferencesUpdate, WorkspacePreferences, is_quiet, quiet_until
 
 
 @pytest.fixture
@@ -139,6 +140,18 @@ def test_quiet_hours_cross_midnight_and_csv_cannot_inject_formulas(runtime):
     assert is_quiet(prefs, datetime(2026, 10, 2, 23))
     assert is_quiet(prefs, datetime(2026, 10, 2, 6))
     assert not is_quiet(prefs, datetime(2026, 10, 2, 12))
+    hk = ZoneInfo("Asia/Hong_Kong")
+    assert quiet_until(prefs, datetime(2026, 10, 2, 23, tzinfo=hk)) == datetime(
+        2026, 10, 3, 7, tzinfo=hk
+    )
+    assert quiet_until(prefs, datetime(2026, 10, 3, 6, 30, tzinfo=hk)) == datetime(
+        2026, 10, 3, 7, tzinfo=hk
+    )
+    assert quiet_until(prefs, datetime(2026, 10, 3, 12, tzinfo=hk)) is None
+    always = {**prefs, "quiet_start": "00:00", "quiet_end": "00:00"}
+    assert quiet_until(always, datetime(2026, 10, 3, 12, tzinfo=hk)) == datetime(
+        2026, 10, 4, 12, tzinfo=hk
+    )
     runtime.store.create(
         CreateEvents(
             event=EventInput(

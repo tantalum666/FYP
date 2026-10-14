@@ -361,9 +361,12 @@ def test_task_sound_respects_quiet_hours_and_is_claimed_only_once(desk):
 def test_background_failed_attempts_count_toward_daily_limit(desk):
     r, c = desk
     for i in range(22):
-        create(r, interval_minutes=15)
+        r.tasks.create(TaskInput(title=f"Report {i}", interval_minutes=15), uuid4().hex)
     c[0] += timedelta(minutes=16)
-    r.tick()
+    # Reminders leave the queue a few at a time, so advance until 20 are pending.
+    for _ in range(20):
+        r.tick()
+        c[0] += timedelta(minutes=1)
     calls = []
 
     def response(request):
@@ -458,6 +461,55 @@ def test_queued_advice_is_skipped_when_followup_is_disabled_without_resolving(de
             "SELECT state, ai_status FROM task_followups WHERE task_id=?", (task["id"],)
         ).fetchone()
     assert row["state"] == "pending" and row["ai_status"] == "skipped"
+
+
+def test_quiet_hours_defer_followups_until_the_window_ends(desk):
+    r, c = desk
+    # 15:00 UTC is 23:00 in Asia/Hong_Kong, inside the default 22:00–07:00 quiet window.
+    c[0] = datetime(2026, 10, 3, 15, tzinfo=UTC)
+    task = create(r, interval_minutes=15)
+    c[0] += timedelta(minutes=16)
+    r.tick()
+    saved = r.tasks.detail(task["id"])["task"]
+    assert saved["followup"] is None
+    assert saved["next_check_at"].startswith("2026-10-03T23:00:00")
+    c[0] = datetime(2026, 10, 3, 23, 1, tzinfo=UTC)
+    r.tick()
+    assert r.tasks.detail(task["id"])["task"]["followup"]
+
+
+def test_overdue_followups_are_released_a_few_at_a_time(desk):
+    r, c = desk
+    tasks = [
+        r.tasks.create(TaskInput(title=f"Report {i}", interval_minutes=15), uuid4().hex)["task"]
+        for i in range(5)
+    ]
+    c[0] += timedelta(minutes=16)
+    r.tick()
+    due = [t for t in r.tasks.listing()["tasks"] if t["followup"]]
+    waiting = [t for t in r.tasks.listing()["tasks"] if t["next_check_at"]]
+    assert len(due) == 3 and len(waiting) == 2
+    c[0] += timedelta(minutes=1)
+    r.tick()
+    due = [t for t in r.tasks.listing()["tasks"] if t["followup"]]
+    assert len(due) == 4
+    assert all(item["status"] == "todo" for item in r.tasks.listing()["tasks"])
+    assert len(tasks) == 5
+
+
+def test_quiet_hours_do_not_send_queued_text_advice(desk):
+    r, c = desk
+    task = create(r, interval_minutes=15)
+    c[0] += timedelta(minutes=16)
+    r.tick()
+    service, calls = _advice_service(r)
+    c[0] = datetime(2026, 10, 3, 15, tzinfo=UTC)
+    service.enrich_one()
+    assert calls == []
+    c[0] = datetime(2026, 10, 3, 23, 30, tzinfo=UTC)
+    service.enrich_one()
+    assert calls == [True]
+    assert r.tasks.detail(task["id"])["task"]["status"] == "todo"
 
 
 def test_private_task_detail_uses_away_projection(desk, monkeypatch):

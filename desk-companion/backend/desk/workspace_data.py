@@ -54,6 +54,19 @@ def is_quiet(prefs, at):
     return start <= current < end if start < end else current >= start or current < end
 
 
+def quiet_until(prefs, at):
+    """Next instant when quiet hours end. `at` is timezone-aware. None when not quiet."""
+    if not is_quiet(prefs, at):
+        return None
+    if prefs["quiet_start"] == prefs["quiet_end"]:
+        return at + timedelta(days=1)
+    hour, minute = (int(part) for part in prefs["quiet_end"].split(":"))
+    end = at.replace(hour=hour, minute=minute, second=0, microsecond=0)
+    if end <= at:
+        end += timedelta(days=1)
+    return end
+
+
 class WorkspaceData:
     def __init__(self, store, transport=None):
         self.store, self.transport = store, transport

@@ -4,6 +4,7 @@ import json
 from datetime import datetime, timedelta
 from typing import Literal
 from uuid import uuid4
+from zoneinfo import ZoneInfo
 
 from fastapi import APIRouter, Depends
 from pydantic import Field, field_validator, model_validator
@@ -11,8 +12,11 @@ from pydantic import Field, field_validator, model_validator
 from .calendar import iso, wall_to_utc
 from .schemas import EventInput, StrictModel
 from .store import DomainError, encode
+from .workspace_data import quiet_until
 
 OPEN = {"todo", "in_progress", "waiting"}
+# One tick must not surface every overdue task at once. The rest wait a minute each.
+MAX_NEW_FOLLOWUPS = 3
 
 
 class TaskStep(StrictModel):
@@ -334,16 +338,40 @@ class TaskService:
         }
 
     def tick(self):
-        now = iso(self.store.clock())
+        now_at = self.store.clock()
+        now = iso(now_at)
+        prefs = self.runtime.data.preferences()
+        with self.store.connection() as conn:
+            zone = ZoneInfo(self.store.settings(conn)["timezone"])
+        quiet_end = quiet_until(prefs, now_at.astimezone(zone))
         with self.store.connection(write=True) as conn:
             rows = conn.execute(
-                "SELECT * FROM tasks WHERE status IN ('todo','in_progress','waiting') AND paused=0 AND next_check_at<=?",
+                "SELECT * FROM tasks WHERE status IN ('todo','in_progress','waiting') AND paused=0 AND next_check_at<=? ORDER BY next_check_at,rowid",
                 (now,),
             ).fetchall()
             changed = False
+            made = 0
+            waiting = 0
             for row in rows:
                 data = self.view(row)
                 if not data["follow_up_enabled"]:
+                    conn.execute("UPDATE tasks SET next_check_at=NULL WHERE id=?", (data["id"],))
+                    changed = True
+                    continue
+                if quiet_end is not None:
+                    conn.execute(
+                        "UPDATE tasks SET next_check_at=? WHERE id=?",
+                        (iso(quiet_end), data["id"]),
+                    )
+                    changed = True
+                    continue
+                if made >= MAX_NEW_FOLLOWUPS:
+                    waiting += 1
+                    conn.execute(
+                        "UPDATE tasks SET next_check_at=? WHERE id=?",
+                        (iso(now_at + timedelta(minutes=waiting)), data["id"]),
+                    )
+                    changed = True
                     continue
                 en, zh = (
                     "Any progress to record? Choose your next step.",
@@ -370,6 +398,7 @@ class TaskService:
                 conn.execute("UPDATE tasks SET next_check_at=NULL WHERE id=?", (data["id"],))
                 if cursor.rowcount:
                     self.evidence(conn, data["id"], data["version"], "followup", "", "local_rules")
+                    made += 1
                     changed = True
             if changed:
                 self.store.bump(conn)
