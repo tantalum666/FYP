@@ -721,3 +721,9 @@
 - **用户决定：**仍没有花费上限，不要开通托管模型账号，也不要做不受限的应用控制。组员需要 PR #6–#13 的合并顺序。安静时段的配置要能持久生效。
 - **工程选择：**被推迟的跟进写入 `task_quiet_holds`。重启后不重复生成。保存的安静时段变了，下一次调度改到新的结束时间，或在已经不处于安静时段时放回队列，仍每次最多 3 条。本人指定的未来检查和延后会清掉这条推迟。文字适配器和语音适配器仍分开，因为报文不同。合并顺序写在 `planning/2026-10-14/pr-stack-merge-order.md`：先 #7 再 #8 至 #13，#6 在 #7 之后处理四个活文档的冲突。PR #4／#5 不并进这条线。
 - **未改变：**供应商锁定、学校正文、采购、合并既有 PR、通用 GUI／LCU。
+
+## 2026-10-14 Review before Codex merges
+
+- **Owner decision:** Review PRs #6–#14. Mark them ready or leave them draft with required fixes. Do not merge. Codex merges later. Handoff text is English for that coding agent.
+- **Review result:** No blocking defect in the folder path gate, the job contract, or the quiet-hour hold. PR #6’s original “extend PR #5” lines were stale. Those lines now point at the #7–#14 stack and still forbid opening a hosted account.
+- **Unchanged:** No spend cap, so no provider trial. No unrestricted app control. PRs #4 and #5 stay unmerged. This review did not merge #6–#14.

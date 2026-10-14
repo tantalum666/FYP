@@ -1,19 +1,19 @@
 # Group 2 Current Handoff
 
-更新：2026-10-14。状态：**安静时段的推迟跟着已保存的偏好走，重启后仍在。PR #6–#13 的合并顺序已写给组员。通用电脑操作仍未接入。**
+Updated: 2026-10-14. Status: **PRs #6–#14 are reviewed and ready. Codex merges them. This review did not merge.**
 
-## 当前结果
+## Current result
 
-到期跟进在安静时段写入 `task_quiet_holds`。服务重启不会再生成第二条。拥有者改短、改长或关掉安静时段后，下一次调度按新偏好执行。本人指定的未来检查和延后不会被提前。组员合并顺序在 [pr-stack-merge-order.md](planning/2026-10-14/pr-stack-merge-order.md)。作业卡片的新文案有英文和简体中文，批准截止时间跟随界面语言。
+Quiet-hour holds follow the saved preference and survive a restart. The merge instructions for Codex are in [pr-stack-merge-order.md](planning/2026-10-14/pr-stack-merge-order.md) and in each PR body. PR #6’s teardown docs now say the memory and folder work is the #7–#14 stack, not PR #5.
 
-## 证据
+## Evidence
 
-重启后仍推迟、改短窗口、关掉安静时段后放出被推迟的事务、指定未来检查和延后不被提前。前端文案检查简体中文。没有付费模型。
+Review covered maintainability, the folder path gate, tests, and merge order. Tip checks before this doc update: pytest 175 passed, Ruff passed, frontend tests 17 passed, typecheck passed. No paid model call.
 
-## 未完成
+## Not done
 
-通用电脑／应用执行、真实语音与费用、Pi、真人姿态标签、RIG／清洁模块、PR #4／#5 合并，以及学校提交，都还开着。
+Unrestricted computer or app control, a real voice or text provider trial, Pi, real posture labels, RIG, the cleaner module, merging PR #4 or #5, and the school submission.
 
-## 唯一下一步
+## Next step
 
-**在有花费上限之前，不要开通模型账号。按合并顺序处理 PR #7 至 #13，#6 放在 #7 之后。不要把 PR #4 或 #5 并进这条线。**
+**Codex merges #7, then #8 through #14, with merge commits, then rebases #6 onto main and keeps main’s four living docs. Do not open a hosted model account. There is no spend cap. Do not build unrestricted app control.**

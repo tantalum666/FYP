@@ -861,3 +861,10 @@
 - **完成：**`task_quiet_holds`。改短或关掉安静时段后按新偏好调度。指定检查和延后不会被提前。合并顺序见 `planning/2026-10-14/pr-stack-merge-order.md`。作业卡片的新文案锁定英文和简体中文，批准截止时间跟随界面语言。
 - **验证：**`pytest -q` 175 通过，Ruff 通过。前端 `npm test` 17 通过，`tsc --noEmit` 通过。没有付费模型。
 - **剩余：**有花费上限之前不比较托管供应商。通用应用执行仍未做。PR #4／#5 与 #6–#13 仍未合并。
+
+## 2026-10-14｜Review for Codex merge
+
+- **Goal:** Review PRs #6–#14 for maintainability, bugs, folder-path safety, tests, and merge readiness. Leave English merge instructions for Codex. Do not merge.
+- **Done:** PR #6 docs no longer say to extend PR #5. `planning/2026-10-14/pr-stack-merge-order.md` is the English merge procedure, including #14. PR bodies carry the same procedure.
+- **Checks:** Tip already had pytest 175, Ruff, frontend 17 tests, and typecheck green. This pass changed docs and PR text only.
+- **Left:** Codex merges in the written order. No spend cap, so no provider trial. No unrestricted app control. PRs #4 and #5 stay unmerged.

@@ -60,7 +60,7 @@ git push -u origin feature/xu-calendar
 
 PR 流程是协作约定，当前没有声称已启用付费分支保护或强制审批。提交前用 `git status` 和 `git diff --staged` 核对内容；不要强制推送其他人的分支。
 
-2026-10-14 的 Desk Companion 叠栈（PR #6 至 #13）有单独的合并顺序，见 [pr-stack-merge-order.md](planning/2026-10-14/pr-stack-merge-order.md)。PR #4 和 #5 不在这条线上。
+Codex merge handoff for Desk Companion PRs #6–#14: [pr-stack-merge-order.md](planning/2026-10-14/pr-stack-merge-order.md). Do not merge PRs #4 or #5 with that stack.
 
 按变更运行相关检查。修改应用业务或界面时，从 `desk-companion/` 运行：
 
