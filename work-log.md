@@ -824,5 +824,5 @@
 
 - **目标：**文字规划和语音会话使用同一份拥有者可编辑的人格，而不是两处硬编码说明。
 - **完成：**`desk/persona.py` 保存正文和版本。三个通道先放正文，再附上各自的工具协议。界面有英文和简体中文的人格页。
-- **验证：**`uv run --no-sync pytest -q` 165 通过；`ruff check backend scripts tests` 通过；前端 `tsc --noEmit` 通过。没有付费模型，没有浏览器点击人格页。
+- **验证：**`uv run --no-sync pytest -q` 165 通过；`ruff check backend scripts tests` 通过；前端 `npm test` 16 通过，`tsc --noEmit` 通过。没有付费模型，没有浏览器点击人格页。
 - **剩余：**已经排队的可选文字建议，在事务关闭跟进后仍可能发给模型。PR #4／#5／#7／#8 仍未合并。

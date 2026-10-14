@@ -23,6 +23,7 @@
 
 - `uv run --no-sync pytest -q`：165 通过
 - `uv run --no-sync ruff check backend scripts tests`：通过
+- `npm test`：16 通过
 - `npm run typecheck`：通过
 
 没有浏览器点击人格页。没有付费模型。
