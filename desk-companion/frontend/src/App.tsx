@@ -48,6 +48,7 @@ import {
 } from "./components/Dialogs";
 import { useDraftState } from "./components/DraftGuard";
 import { MemoryPanel } from "./workspace/MemoryPanel";
+import { PersonaPanel } from "./workspace/PersonaPanel";
 import { TaskPanel } from "./workspace/TaskPanel";
 import { DataPanel } from "./workspace/DataPanel";
 import { AssistantPanel } from "./workspace/AssistantPanel";
@@ -174,6 +175,7 @@ const nav = [
   { id: "calendar", en: "Calendar", zh: "日历", Icon: CalendarDays },
   { id: "tasks", en: "Tasks", zh: "事务", Icon: ListTodo },
   { id: "memory", en: "Memory", zh: "记忆", Icon: Brain },
+  { id: "persona", en: "Persona", zh: "人格", Icon: Sparkles },
   { id: "records", en: "Records", zh: "记录", Icon: FileText },
   { id: "device", en: "Device", zh: "设备", Icon: Monitor },
 ] as const;
@@ -738,6 +740,7 @@ export function App() {
               />
             )}
             {page === "memory" && <MemoryPanel t={t} />}
+            {page === "persona" && <PersonaPanel t={t} />}
             {page === "records" && (
               <RecordsView
                 revision={visible.revision}

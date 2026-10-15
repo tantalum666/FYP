@@ -17,6 +17,7 @@ from .tasks import TaskService
 from .text_ai import TextAssistant
 from .jobs import JobService
 from .memory import MemoryService
+from .persona import PersonaService
 
 
 class Runtime:
@@ -28,6 +29,7 @@ class Runtime:
         self.outputs = OutputService(store)
         self.tasks = TaskService(self)
         self.memory = MemoryService(self)
+        self.persona = PersonaService(self)
         self.jobs = JobService(self)
         self.worker_health = {}
         self.assistant = AssistantService(self)
