@@ -755,3 +755,10 @@
 - **资料复核：**Claude5.5桌面toolset、GPT6.1 Sol／Astra电脑操作路线、Gemini3.8 Flash／4 Argon桌面支持已核读。Grok Voice与Grok Bot云电脑分开；OSWorld2.1部分分与2.0离线子集不混排。
 - **工程建议：**同一受限执行器与任务比较Sonnet5.5和6.1 Sol，复杂任务再加Opus5.5／Astra，保留Gemini挑战者；不宣称实测冠军或用户已选定。
 - **证据与范围：**[报告](research/2026-10-15-voice-ai/computer-use-comparison.md)及[QA](output/qa/2026-10-15-computer-use-comparison/verification.md)。沿用JobService，5秒普通查询与多应用完成分别验收；无应用代码、GUI执行、模型调用、安装或权限改动。
+
+## 2026-10-15 Pi Linux、地区与单模型路径
+
+- **用户明确：**程序在Pi Linux运行，最终希望Pi本机与另一台电脑两种操作；询问Linux优先是否更简单，尚未决定取消跨系统扩展。也询问6.1 Sol是否需VPN及一模型兼听说／电脑。
+- **资料事实：**Sol为文字／图像托管API；OpenAI直接API和Google Developer API当前未列香港。Foundry有6.1 Sol目录，账户资格／工具契约未验。Realtime2.1、Gemini3.8 Live和Qwen3.8 Omni可接语音、屏幕输入和函数；不等于专用GUI工具成绩。Pi默认Wayland，不能默认沿用X11执行器。
+- **工程建议：**先固定Linux应用／图形栈，验证本机后接第二台Linux主机，再扩系统；单模型路径先核验Qwen Omni新加坡SKU，复杂任务再按需委派。用户尚未选型号、账号、预算或冻结首版范围；不把VPN作为服务资格或交付前提。
+- **范围与证据：**[补充研究](research/2026-10-15-voice-ai/computer-use-comparison.md#树莓派linux网络与单模型补充)和[QA](output/qa/2026-10-15-pi-voice-computer/verification.md)。仅文档，无安装、系统网络／权限改动、模型消费、音视频或目标Pi实测。

@@ -24,6 +24,8 @@
 
 **10月15日跨应用选型补充：**用户明确要类似computer use的跨应用操作。[当前比较](research/2026-10-15-voice-ai/computer-use-comparison.md)建议日常桌面先对照Claude Sonnet5.5与GPT-6.1 Sol，复杂任务再看Opus5.5／Astra；Gemini3.8 Flash／4 Argon当前也支持桌面工具。语音型号、规划模型、执行器与Grok Bot等成品分开判断，评测版本／部分得分不可混排。这是工程建议，未锁定模型或执行器；通用GUI仍待实现。沿用同一JobService，普通日历5秒响应与多应用作业完成分别验收。
 
+**同日Pi与语音补充：**用户确认程序在树莓派Linux运行，希望兼有Pi本机和另一台电脑操作，正在考虑先只做Linux；首版系统范围未冻结。建议先固定Linux图形栈／应用验证，不自动切换当前默认Wayland为X11。单模型可用Realtime2.1／Gemini3.8 Live／Qwen3.8 Omni的屏幕输入与函数形成循环，仍需本组执行器。按一模型、中文、学生原型约束，Qwen Omni新加坡SKU是新增待验证建议；不继承现有Audio适配器或桌面成绩。Sol为托管文字／图像API，Linux不要求VPN；地区资格另核，OpenAI直连未列香港，Foundry已上架但本人资格未验。详见[补充研究](research/2026-10-15-voice-ai/computer-use-comparison.md#树莓派linux网络与单模型补充)。
+
 实体概念是LUWU RIG-Arm＋Pi＋屏幕＋可拆卸迷你桌面清洁模块；ESP32、尺寸、具体BOM和接口仍待核。未确认采购、自动回座或无线充电。10月6日讨论时，[RIG研究PR #1](https://github.com/tantalum666/FYP/pull/1)尚未合并；10月9日用户授权合并应用Dot工作，该研究已随[整合PR #2](https://github.com/tantalum666/FYP/pull/2)合入main，PR #1也已标记合并。真实服务、电脑执行与新硬件均未实测；本次授权是先把讨论文档推到GitHub，不扩展为安装、权限、付费、硬件运行或部署授权。
 
 ## 已实现的软件范围

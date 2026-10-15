@@ -8,6 +8,8 @@
 
 **同日跨应用补充：**用户希望类似computer use的真实跨应用操作。[独立比较](computer-use-comparison.md)讨论Claude／GPT／Gemini规划模型及执行器，本报告的语音质量／工具排名不作为GUI排名。日常GUI建议先对照Sonnet5.5与6.1 Sol，复杂任务再看Opus5.5／Astra；这不是用户已选供应商，也不是已接入。
 
+**同日Pi／一模型补充：**用户希望在Pi Linux运行，最终兼有本机与另一台电脑操作，并询问先Linux是否更简便。单模型听说、看截图和调用自定义动作可研究Realtime2.1、Gemini3.8 Live／Extended、Qwen3.8 Omni；这是能力组合，不是已验证的专用GUI Agent。按中文／Pi／学生原型约束，新增Qwen Omni新加坡SKU优先核验建议，未取代普通语音质量榜、冻结系统范围或选定提供商。地区与Wayland适配见[补充](computer-use-comparison.md#树莓派linux网络与单模型补充)。
+
 ## 1 这次实际更新了什么
 
 | 项目 | 当前核对结果 | 对旧结论的影响 |

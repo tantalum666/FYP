@@ -902,3 +902,10 @@
 - **完成：**[报告](research/2026-10-15-voice-ai/computer-use-comparison.md)复核Claude5.5、GPT6.1 Sol／Astra、Gemini3.8 Flash／4 Argon与Grok产品边界；记录版本、部分分和来源限制。建议Sonnet／Sol日常对照、Opus／Astra复杂对照，不编造统一排名。
 - **规范与验证：**同步product、handoff、决定、语音比较、架构和历史讨论入口。[QA](output/qa/2026-10-15-computer-use-comparison/verification.md)继承本轮阅读并记录补读、链接／术语、交付物与受保护路径检查。只改文档／QA，不重复应用测试和日历测量。
 - **剩余：**确切模型／花费上限、目标系统和应用、数据范围及真实GUI执行／核验待完成。沿同一JobService，5秒日历与跨应用完成分开验收；无模型调用、安装、权限、音视频或学校提交。
+
+## 2026-10-15 Pi Linux与语音／电脑单模型补充
+
+- **目标：**解释Linux部署、6.1 Sol地区／VPN和一个模型兼听说／屏幕动作；纳入用户兼要本机与另一台电脑、考虑Linux优先的澄清。
+- **完成：**[补充研究](research/2026-10-15-voice-ai/computer-use-comparison.md#树莓派linux网络与单模型补充)核读OpenAI地区／Sol／Realtime工具、Gemini Live与地区、Qwen Omni SKU／端点、Foundry目录和Pi图形栈。建议Linux优先及Qwen Omni单模型试验，保留Sonnet／Sol按需后台；明确两种目标、地区资格、执行器和成绩边界。
+- **规范／检查：**同步product、handoff、决定、语音比较；[QA](output/qa/2026-10-15-pi-voice-computer/verification.md)继承本轮阅读并补读当前相关正文，检查链接、范围、术语与交付物。纯文档未重复软件测试或日历测量。
+- **剩余：**首版系统范围、目标应用、实际账号／SKU／预算、Linux图形栈／ARM64执行器、单模型GUI与语音正确率／延迟均待验。没有VPN安装、账户／密钥、调用模型、Pi登录、捕获音视频、硬件或学校提交。

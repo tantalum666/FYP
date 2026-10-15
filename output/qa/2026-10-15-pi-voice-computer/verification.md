@@ -1,0 +1,13 @@
+# Group 2: Pi/Linux and unified voice-computer research QA
+
+15 October2026. Same-session follow-up: owner confirms a Raspberry Pi/Linux client, ultimately wants both local and another-computer control, and asks whether Linux-first simplifies delivery. No system scope or provider decision was fabricated.
+
+Reading inherits the previous [exact-text record](../2026-10-15-computer-use-comparison/reading-inventory.json) at83b2476. RootAGENTS/product/handoff and current50-line computer comparison were reread; latest decision/work-log tails and already observed current voice/architecture text cover append points. [Current record](reading-inventory.json) maps unchanged observed text and newly authored/reviewed ranges. No second full-repository read is claimed.
+
+Official OpenAI docs connector search and fetch worked in this follow-up. Read current supported-country list,6.1 Sol model,Realtime2.1 model and realtime tool contracts. Also opened Google Live/Extended and regions, Qwen Omni and regions, Microsoft Foundry model catalog, Raspberry Pi configuration/default desktop sources. No account console or model inference was used. Microsoft's listing establishes catalog presence only; personal subscription, quota, deployment and computer-tool compatibility remain unverified. Google/OpenAI direct API lists do not list Hong Kong. Qwen's Beijing/Singapore SKU is not a Hong Kong model deployment claim.
+
+The report distinguishes a single speech/vision/function model from a native computer tool and from validated GUI quality. Linux-first and Qwen Omni trial order are engineering advice; both owner goals remain. Pi's hosted-model client role, Wayland/ARM64 compatibility and remote executor requirements are explicit. No VPN workaround or default X11 switch was implemented.
+
+Updated product, handoff, decision log, work log, current voice comparison, companion architecture and computer-use report. [Document results](document-checks.json) record target existence, Group 2/identity, whitespace and protected-path checks. Only documents/QA changed, so application tests and the prior calendar benchmark are not repeated. No models, account/key/spend, installs/network/permission edits, Pi access, desktop/mic capture, hardware or school submission. Existing draftPR15 is extended and remains unmerged.
+
+Actual document checks passed:136 project Markdown versions inherited by exact observed text plus authored/reviewed changes;137 checked documents,1,319 local references,1,318 resolved and one expected install-generated credentials target absent. Zero unexpected missing links or wrong group numbers. Identity source, allowed paths and whitespace passed. Publication and staged secret checks are read back separately.

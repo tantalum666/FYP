@@ -6,6 +6,8 @@
 
 **工程建议，非用户决定：**首轮把Claude Sonnet5.5作为日常桌面GUI基线，与GPT-6.1 Sol对照；复杂任务再比较Claude Opus5.5和GPT-6 Astra。Gemini3.8 Flash／4 Argon是当前挑战者。此顺序来自公开能力、桌面证据和价格；没有同一执行器、同一任务的本组实测，不能宣布跨厂商冠军。
 
+**同日新增约束：**用户明确程序要运行在树莓派Linux，最终希望操作Pi自身和另一台电脑，并询问先只做Linux是否更简单、是否需VPN及能否单模型兼顾语音与电脑。下文Linux优先和Qwen Omni单模型试验是工程建议，用户尚未冻结首版系统范围或选定模型。
+
 目标是看截图、识别窗口、点击／输入、在浏览器与本机应用之间切换、保存并独立核验结果。调用注册好的日历函数、操作网页、操作完整桌面和长任务自主完成是不同层次。模型、编排程序、电脑执行器和成品助理分别判断。
 
 ## 当前模型与执行契约
@@ -48,3 +50,25 @@ Grok Bot是带持久云电脑、浏览器、命令行、文件和连接器的成
 建议任务：从允许的测试页面读取三项会议信息，在指定本地文档应用整理并另存文件，独立检查内容、名称和位置。另测弹窗／焦点、执行前取消、保存后回执丢失、断线恢复和范围外目标拒绝。记完整正确率、误操作、重复写入、有效反馈／总完成时间、人工介入、步数和每成功任务费用。不能把现有文件夹验证记成跨应用成功。
 
 阅读、来源限制与交付检查见[QA](../../output/qa/2026-10-15-computer-use-comparison/verification.md)。最终模型、目标系统、付费试验与执行器采用均未锁定。
+
+## 树莓派Linux、网络与单模型补充
+
+**Linux优先建议：**先验证一个固定Pi OS／桌面版本、两款指定应用和有界目录，随后在另一台Linux主机接同一执行协议，再扩展Windows／macOS。可减少安装、窗口、输入和权限适配组合；不能按OS数量推算节省百分比。Pi本机与远端电脑两种愿景保留，远端仍需目标机执行服务、配对、授权和断线恢复。
+
+Pi运行界面、音频、日历、JobService和执行器，云端运行所选托管模型。Linux／ARM64本身不要求VPN；网络可达、服务地区／账号资格和桌面执行兼容分别验证。GPT-6.1 Sol接受文字／图像并输出文字，不是直接语音模型。[官方模型卡](https://developers.openai.com/api/docs/models/gpt-6.1-sol)。
+
+截至本次核读，OpenAI直连API支持名单未列香港或中国大陆，Google Developer Gemini API名单也未列香港。VPN改变出口不建立官方服务资格，因此不把依赖VPN作为交付前提。[OpenAI地区](https://developers.openai.com/api/docs/supported-countries)、[Google地区](https://ai.google.dev/gemini-api/docs/available-regions)。Microsoft Foundry官方目录已上架6.1 Sol，但尚未验证本人订阅、配额、地区、费用或其computer-tool契约；这是可调查的正式渠道，不是已可用回执。[Foundry目录](https://ai.azure.com/catalog/models/gpt-6.1-sol)。
+
+**单模型可以组成“听说＋看屏幕＋工具调用”的循环，不强制每个点击再接第二个LLM。**下列公开能力支持该工程设计，但不构成专用computer工具或本组GUI成功证据：
+
+| 单模型候选 | 已核能力 | 仍需本组完成 |
+|---|---|---|
+| GPT-Realtime2.1 | 文字／音频／图像输入，文字／音频输出，函数和MCP工具 | 本地屏幕输入、受限动作执行、审批与核验；不能继承6.1 Sol桌面成绩。[模型](https://developers.openai.com/api/docs/models/gpt-realtime-2.1)、[工具](https://developers.openai.com/api/docs/guides/realtime-mcp) |
+| Gemini3.8 Live／Extended Thinking | 图像、音频和视频输入／语音输出、异步函数；Extended侧重多步后台推理 | 自定义桌面动作；Live函数不等于3.8 Flash的computer-use接口。[Live](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-live)、[Extended](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-live-extended-thinking) |
+| Qwen3.8 Omni Flash Realtime | 流式音频／连续图像帧输入、文字／音频输出、自定义函数和远程MCP | 新协议适配、截图定位与动作可靠性；不是现有Qwen Audio适配器换model字符串即可。[型号文档](https://www.alibabacloud.com/help/en/model-studio/qwen3-8-omni-flash-realtime) |
+
+**按“学生原型、Pi、中文、尽量一模型”约束的工程建议：**先核验Qwen3.8 Omni新加坡SKU及实际账户，再与可获准使用的Realtime／Gemini单模型配置对照。Qwen型号页目前仅列北京／新加坡；有香港workspace不等于此SKU在香港部署。地区、workspace key、模型和服务部署scope须对应。[地区与端点](https://www.alibabacloud.com/help/en/model-studio/regions)。此建议补充先前专用GUI候选，不否认复杂任务可按需委派Sonnet／Sol，也不宣称Qwen的GUI质量领先。
+
+Raspberry Pi OS当前默认Wayland／labwc；具体截图和输入执行器必须适配图形栈及ARM64。官方配置文档已不建议切到停止开发的X11，因此不把全机切换X11作为默认方案。Playwright浏览器路线与任意桌面应用控制分别验收；本次未安装、改系统或验证目标Pi。[Pi配置文档](https://www.raspberrypi.com/documentation/computers/configuration.html)、[官方默认桌面说明](https://www.raspberrypi.com/news/a-new-release-of-raspberry-pi-os/)。
+
+单模型减少第二个LLM交接，但截图／历史、动作步数与思考仍影响延迟和费用；不能直接保证5秒。普通日历查询沿直接工具，复杂作业沿持久任务；音频／姿态／浏览器并行负载和回声在目标Pi另测。[补充QA](../../output/qa/2026-10-15-pi-voice-computer/verification.md)。
