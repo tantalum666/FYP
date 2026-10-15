@@ -3,6 +3,8 @@ import test from "node:test";
 import {
   isFolderAction,
   jobCancellable,
+  readBackCopy,
+  recoveryCopy,
   recoveryMatchesNote,
   reviewAvailable,
 } from "../src/workspace/jobTypes.ts";
@@ -99,4 +101,26 @@ test("pending note recovery is scoped to the same linked task", () => {
   assert.equal(recoveryMatchesNote(pending, "Same", "Same", "task-A"), true);
   assert.equal(recoveryMatchesNote(pending, "Same", "Same", "task-B"), false);
   assert.equal(recoveryMatchesNote(pending, "Same", "Same"), false);
+});
+
+test("read-back and fingerprint failures name a recoverable next step", () => {
+  const mismatch = {
+    ...job("unknown"),
+    error: "JOB_VERIFICATION_FAILED",
+    action: "save_folder_file",
+    result: { verified: false, reason: "content_mismatch" },
+    request: { folder_fingerprint: "abc123def456" },
+  } as ComputerJob;
+  assert.match(readBackCopy("content_mismatch")![0], /left unchanged/);
+  assert.match(recoveryCopy(mismatch)![0], /check the file named above/i);
+  assert.equal(readBackCopy("read_back_matches"), null);
+  const rebound = {
+    ...job("failed"),
+    error: "COMPUTER_SCOPE_CHANGED",
+    result: null,
+  } as ComputerJob;
+  assert.match(recoveryCopy(rebound)![0], /prepare a new job/i);
+  const cancelled = { ...job("cancelled"), result: null } as ComputerJob;
+  assert.match(recoveryCopy(cancelled)![0], /No new file was written/);
+  assert.equal(recoveryCopy(job("succeeded")), null);
 });

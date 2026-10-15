@@ -14,6 +14,8 @@ import { useWorkspace } from "./WorkspaceContext";
 import {
   isFolderAction,
   jobCancellable,
+  readBackCopy,
+  recoveryCopy,
   recoveryMatchesNote,
   reviewAvailable,
 } from "./jobTypes";
@@ -556,6 +558,12 @@ export function ComputerJobsPanel({
                 )}
             {job.request.artifact_id}.txt
           </p>
+          {isFolderAction(job.action) && job.request.folder_fingerprint && (
+            <p className="job-target">
+              {t("Folder binding ", "文件夹绑定 ")}
+              <code>{job.request.folder_fingerprint.slice(0, 12)}</code>
+            </p>
+          )}
           <details open={job.state === "review"}>
             <summary>{t("Review exact text", "核对全文")}</summary>
             <pre tabIndex={0}>{job.request.content}</pre>
@@ -603,6 +611,12 @@ export function ComputerJobsPanel({
               {errorText(new ApiError(job.error), t)}
             </p>
           )}
+          {readBackCopy(job.result?.reason) && (
+            <p className="workspace-hint">
+              {t(...readBackCopy(job.result?.reason)!)}
+            </p>
+          )}
+          {recoveryCopy(job) && <p>{t(...recoveryCopy(job)!)}</p>}
           <div className="workspace-inline-actions">
             {job.state === "review" && (
               <button
