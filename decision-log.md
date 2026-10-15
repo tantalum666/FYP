@@ -1,6 +1,6 @@
 # Group 2 Decision Log
 
-更新：2026-10-03。记录采用追加方式；用户明确要求与工程建议分别标注。
+更新：2026-10-15。记录采用追加方式；用户明确要求与工程建议分别标注。
 
 ## 2026-09-14 当前要求与方案取代
 
@@ -727,3 +727,10 @@
 - **Owner decision:** Review PRs #6–#14. Mark them ready or leave them draft with required fixes. Do not merge. Codex merges later. Handoff text is English for that coding agent.
 - **Review result:** No blocking defect in the folder path gate, the job contract, or the quiet-hour hold. PR #6’s original “extend PR #5” lines were stale. Those lines now point at the #7–#14 stack and still forbid opening a hosted account.
 - **Unchanged:** No spend cap, so no provider trial. No unrestricted app control. PRs #4 and #5 stay unmerged. This review did not merge #6–#14.
+
+## 2026-10-15 独立审查、修复并合并Grok bot工作
+
+- **用户授权：**检查Git新增工作，确认没问题就合并。该新指令允许本批PR #6–#14的实际合并，取代这批文档中“留给Codex、尚未合并”的旧待办。
+- **审查结果与工程修复：**记忆拥有者边界必须覆盖助理草稿／决定、文字上下文／缓存和语音；指定目录必须逐级无符号链接打开；人格重置不能复用旧版本，失败也不能清除未保存草稿。新增回归先复现后修复，并更新source-map-js到1.2.2。
+- **交付方式：**先将修复以普通推送放回对应PR，逐层合并main以保留修复；功能栈使用merge commit。PR #6用普通merge对齐main，保留两边历史并修正过期路线，不使用force push。实际代码合并回执和182／17检查见[本轮QA](output/qa/2026-10-15-grok-review-merge/verification.md)。
+- **范围：**A1完整2D及PR #4、PR #5另线保持；真实提供商／模型和花费上限未选择，未开账号或调用模型；真实应用、硬件和学校提交没有被测试数替代。

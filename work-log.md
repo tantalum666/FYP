@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-更新：2026-10-09。追加式记录；当前状态以 handoff.md 为准。
+更新：2026-10-15。追加式记录；当前状态以 handoff.md 为准。
 
 ## 2026-09-14 建议书制作与上下文协议
 
@@ -868,3 +868,12 @@
 - **Done:** PR #6 docs no longer say to extend PR #5. `planning/2026-10-14/pr-stack-merge-order.md` is the English merge procedure, including #14. PR bodies carry the same procedure.
 - **Checks:** Tip already had pytest 175, Ruff, frontend 17 tests, and typecheck green. This pass changed docs and PR text only.
 - **Left:** Codex merges in the written order. No spend cap, so no provider trial. No unrestricted app control. PRs #4 and #5 stay unmerged.
+
+## 2026-10-15 Git工作独立审查、修复和合并
+
+- **目标：**按用户要求检查Grok bot工作并在验证后合并。完整恢复148份自有Markdown／13,432行；补读32个远端文档版本的全部不同正文，完全相同文本才继承本轮范围。旧角色分支保持。
+- **发现与修复：**配对终端可经助理访问／确认记忆；目录校验与打开之间的上级链接变化可改向；人格重置复用版本；失败覆盖草稿。回归先失败后通过。追加拥有者边界、逐级目录句柄、持久递增版本及明确加载／安全重试；修复已有source-map-js 1.2.1告警。
+- **验证：**原始175后端／17前端通过但未覆盖上述缺口；修复后的实际main代码`2c1e465`为182后端／17前端、Ruff、类型、生产构建与npm审计零发现。保留一条Starlette上游弃用提示。浏览器实际保存更正、双端人格冲突、HTTP200回执丢失后原操作恢复、审批前零文件与审批后27字节／SHA256读回一致；390×844简中无横向溢出。
+- **Git：**PR #7至#14已按依赖顺序合并，修复回推到对应分支，普通merge保留祖先；[PR #6](https://github.com/tantalum666/FYP/pull/6)承载公开研究的状态纠正、规范同步及本轮QA。原PR #4／#5保持开放另线，未强推或改原A1分支。
+- **规范／证据：**同步product、handoff、两个README、架构、记忆／作业／操作、协作和历史合并路线；重写三份tooling文档中过期的实现／下一步。证据、逐文件阅读范围、日志、截图和代码合并回执见[QA](output/qa/2026-10-15-grok-review-merge/verification.md)。
+- **保留与剩余：**原学校／角色文件和私人运行区保持。隔离测试服务、两标签、拦截与尺寸覆盖均清理。无真实模型、音视频、硬件、部署、采购或学校提交；下一步为一个明确真实应用任务与允许范围，然后沿同一作业契约验证。

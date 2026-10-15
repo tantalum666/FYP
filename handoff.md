@@ -1,19 +1,19 @@
 # Group 2 Current Handoff
 
-Updated: 2026-10-14. Status: **PRs #6–#14 are reviewed and ready. Codex merges them. This review did not merge.**
+Updated: 15 October 2026. **The reviewed #7–#14 code stack is merged into main. This #6 delivery reconciles the tooling research and records the independent review.** PRs #4 and #5 remain separate.
 
-## Current result
+## Current state and evidence
 
-Quiet-hour holds follow the saved preference and survive a restart. The merge instructions for Codex are in [pr-stack-merge-order.md](planning/2026-10-14/pr-stack-merge-order.md) and in each PR body. PR #6’s teardown docs now say the memory and folder work is the #7–#14 stack, not PR #5.
+- Owner-reviewed facts, one owner-named folder on the existing note-job ledger, a shared persona, quiet-hour holds, failure/recovery copy and replaceable text adapters are implemented.
+- Review fixes close paired access to facts through assistant/text/voice paths; reject symlinks in every folder ancestor; preserve persona versions across reset/migration; and retain drafts and repeat-safe save recovery. source-map-js is patched to 1.2.2.
+- [QA](output/qa/2026-10-15-grok-review-merge/verification.md): actual merged code `2c1e465` passed 182 backend tests, 17 frontend tests, Ruff, typecheck, production build and npm audit (zero findings). Browser fixtures cover memory persistence/lost replies, conflicting persona editors and an independently verified folder write. One upstream Starlette test-client deprecation remains.
+- Providers were disabled; no live model, camera, microphone or hardware action. Two temporary browser tabs, interception, viewport override and QA server were cleaned up. Original A1 branch and private runtime were not changed.
+- A1 is the user's selected identity and intact 2D is the latest visual direction, retained on [PR #4](https://github.com/tantalum666/FYP/pull/4). The separate kernel is [PR #5](https://github.com/tantalum666/FYP/pull/5). Neither is part of this merge.
 
-## Evidence
+## Remaining
 
-Review covered maintainability, the folder path gate, tests, and merge order. Tip checks before this doc update: pytest 175 passed, Ruff passed, frontend tests 17 passed, typecheck passed. No paid model call.
+Named real-application/remote-PC execution; archive and complete business backup; owner choice of real provider/model and spend cap; real voice/wake/AEC and consented posture labels; Pi/iPhone/optics/RIG/cleaner verification. School submission status was not refreshed. Research notes are dated evidence, not measurements of commercial products.
 
-## Not done
+## One next step
 
-Unrestricted computer or app control, a real voice or text provider trial, Pi, real posture labels, RIG, the cleaner module, merging PR #4 or #5, and the school submission.
-
-## Next step
-
-**Codex merges #7, then #8 through #14, with merge commits, then rebases #6 onto main and keeps main’s four living docs. Do not open a hosted model account. There is no spend cap. Do not build unrestricted app control.**
+**Define one real target computer/application task and allowed data scope, then validate approval → execution → independent read-back, including refusal, cancellation and unknown-result recovery, on the existing JobService.**

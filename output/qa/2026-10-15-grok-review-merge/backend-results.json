@@ -1,0 +1,25 @@
+[
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "pytest",
+      "-q"
+    ],
+    "exit_code": 0
+  },
+  {
+    "command": [
+      "uv",
+      "run",
+      "--no-sync",
+      "ruff",
+      "check",
+      "backend",
+      "scripts",
+      "tests"
+    ],
+    "exit_code": 0
+  }
+]

@@ -1,0 +1,51 @@
+{
+  "checked_at": "2026-10-15T01:27:53.572345+00:00",
+  "updated_markdown": [
+    "CONTRIBUTING.md",
+    "README.md",
+    "decision-log.md",
+    "desk-companion/README.md",
+    "desk-companion/docs/architecture.md",
+    "desk-companion/docs/memory.md",
+    "desk-companion/docs/operator-guide.md",
+    "docs/tooling-and-review/companion-architecture.md",
+    "docs/tooling-and-review/companion-product-teardown.md",
+    "docs/tooling-and-review/fyp-repo-review.md",
+    "handoff.md",
+    "output/qa/2026-10-14-tooling-and-review/reading-record.md",
+    "planning/2026-10-14/pr-stack-merge-order.md",
+    "product.md",
+    "research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md",
+    "work-log.md",
+    "output/qa/2026-10-15-grok-review-merge/verification.md"
+  ],
+  "local_links_checked": 621,
+  "missing_links": [],
+  "runtime_links_excluded": [
+    {
+      "file": "desk-companion/README.md",
+      "target": ".runtime/credentials.json"
+    }
+  ],
+  "protected_tracked_changes": [],
+  "primary_head": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "primary_status": [
+    "?? output/qa/2026-10-15-grok-review-merge/"
+  ],
+  "application_unchanged_since_merged_validation": true,
+  "remote_ci_workflows": [],
+  "checks_run": [
+    "pytest 182",
+    "Ruff",
+    "frontend 17",
+    "TypeScript",
+    "production build",
+    "npm audit zero",
+    "browser UI and isolated file readback",
+    "Git reviewed-head receipts",
+    "Markdown links and protected paths"
+  ],
+  "raw_output_whitespace_exception": "typecheck.log preserves npm stdout including a trailing blank line; all remaining staged files passed diff --check.",
+  "edited_markdown_readback": "All changed normative hunks and tooling revisions emitted and reviewed after reconciliation; original unchanged research retains the completed full-read coverage.",
+  "final_normative_checks_at": "2026-10-15T01:28:52.501088+00:00"
+}

@@ -1,0 +1,121 @@
+{
+  "repository": "tantalum666/FYP",
+  "main_before": "ccfac48ce8c68e6f9c8796911bbe5f35728d7807",
+  "scope": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "excluded_existing_workstreams": [
+    4,
+    5
+  ],
+  "review_worktree": "/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP",
+  "prs": [
+    {
+      "number": 6,
+      "title": "Document Muse/Dot teardown and hosted-API companion design",
+      "author": "tantalum666",
+      "base": "main",
+      "head": "cursor/tooling-review-docs-8674",
+      "sha": "1c9830ca972a0fe416793c06bfa4d7e32cc7b32b",
+      "state": "open",
+      "mergeable": true,
+      "summary": "<!-- CURSOR_AGENT_PR_BODY_BEGIN -->\n## This PR\n\nDocs only. Muse, Dot, and the hosted-API recommendation, under `docs/tooling-and-review/`.\n\nA later commit on this branch corrects the original “extend PR #5” lines. Memory and the folder action are PRs #7–#14 on `main`’s note-job contract. This PR does not choose a vendor and does not open an account.\n\n"
+    },
+    {
+      "number": 7,
+      "title": "Add owner-reviewed memory beside the existing note job",
+      "author": "tantalum666",
+      "base": "main",
+      "head": "cursor/owner-memory-agent-8674",
+      "sha": "3a95f5512e555c87f801ffda2e00702d22a50b0e",
+      "state": "open",
+      "mergeable": true,
+      "summary": "<!-- CURSOR_AGENT_PR_BODY_BEGIN -->\n## This PR\n\nOwner-reviewed memory on `main`, beside the existing note job. The owner saves, corrects, and deletes facts. The model can read active facts and prepare a draft. A draft does not write. Deleted facts are omitted from later model context. The paired display cannot open the list. Base is `main`. This is the bottom of the #7–#14 stack.\n\n"
+    },
+    {
+      "number": 8,
+      "title": "Add an owner-named folder on the existing computer job contract",
+      "author": "tantalum666",
+      "base": "cursor/owner-memory-agent-8674",
+      "head": "cursor/folder-job-action-8674",
+      "sha": "b1f100daa52d8df3642ab736a1dc501f4678ef0b",
+      "state": "open",
+      "mergeable": true,
+      "summary": "<!-- CURSOR_AGENT_PR_BODY_BEGIN -->\n## This PR\n\nOne owner-named folder on the same job contract as notes: approve the full text, write only `<job-id>.txt`, independent read-back, cancel does not pretend to roll back. Stacked on #7.\n\nPath gate reviewed: `accept_owner_folder` requires an absolute real directory, rejects NUL, symlinks, and the runtime tree (itself, parents, and children). `JobInput` has no path field. The model cannot submit a path. Writes use `O_EXCL | O_NOFOLLOW` and a 32-hex name. Owner routes use the owner dependency. Do not widen this while merging.\n\n"
+    },
+    {
+      "number": 9,
+      "title": "Share one owner-editable persona across text and voice",
+      "author": "tantalum666",
+      "base": "cursor/folder-job-action-8674",
+      "head": "cursor/persona-file-8674",
+      "sha": "8db8454a4ab4e7cc1ba08f00d56d0f3ab84cdf29",
+      "state": "open",
+      "mergeable": true,
+      "summary": "<!-- CURSOR_AGENT_PR_BODY_BEGIN -->\n## This PR\n\nOne owner-editable persona shared by text and voice. Tool rules stay in code after the persona text, so an edit cannot remove the “no self-confirm” rule. The model has no write tool for this text. Owner routes only. Stacked on #8.\n\n"
+    },
+    {
+      "number": 10,
+      "title": "Skip queued text advice when task follow-up is off",
+      "author": "tantalum666",
+      "base": "cursor/persona-file-8674",
+      "head": "cursor/quiet-followup-8674",
+      "sha": "c865a8a012c629926bd6dcaa5588c79886f38f74",
+      "state": "open",
+      "mergeable": true,
+      "summary": "<!-- CURSOR_AGENT_PR_BODY_BEGIN -->\n## This PR\n\nTurning follow-up off on one task skips optional text advice that is already queued. The task is not deleted. No model call is made for that row. Stacked on #9.\n\n"
+    },
+    {
+      "number": 11,
+      "title": "Defer follow-ups during quiet hours",
+      "author": "tantalum666",
+      "base": "cursor/quiet-followup-8674",
+      "head": "cursor/quiet-schedule-8674",
+      "sha": "5e307b684a948009a99d25adca69a3a37cb80266",
+      "state": "open",
+      "mergeable": true,
+      "summary": "<!-- CURSOR_AGENT_PR_BODY_BEGIN -->\n## This PR\n\nDuring quiet hours (default 22:00–07:00 in the workspace timezone) a due follow-up is deferred to the end of the window, and optional text advice is not sent. One scheduler pass creates at most three reminders. The rest wait a minute each. Stacked on #10. PR #14 later stores that deferral so a preference edit is honored. Merge #14 after this one. Do not stop the stack at #11.\n\n"
+    },
+    {
+      "number": 12,
+      "title": "Explain how to recover a failed computer job",
+      "author": "tantalum666",
+      "base": "cursor/quiet-schedule-8674",
+      "head": "cursor/job-recovery-ux-8674",
+      "sha": "98b6024113cd32ee0c90158c3d214bf72f888037",
+      "state": "open",
+      "mergeable": true,
+      "summary": "<!-- CURSOR_AGENT_PR_BODY_BEGIN -->\n## This PR\n\nNote and folder approval cards name a read-back mismatch, a missing file, an unsafe or unavailable read, and a changed folder binding. The next step is to check the existing file or prepare a new job. The old card stays the record. Cancel before a write says no new file was written. Folder jobs show the first 12 characters of the binding fingerprint. Copy is English and Simplified Chinese. Stacked on #11.\n\n"
+    },
+    {
+      "number": 13,
+      "title": "Register text providers and job actions",
+      "author": "tantalum666",
+      "base": "cursor/job-recovery-ux-8674",
+      "head": "cursor/text-adapters-8674",
+      "sha": "454735e74a028be76844a91c44eb96d722a7f854",
+      "state": "open",
+      "mergeable": true,
+      "summary": "<!-- CURSOR_AGENT_PR_BODY_BEGIN -->\n## This PR\n\n`TextAssistant.generate` selects `QwenTextAdapter` or `GeminiTextAdapter` from configuration. Callers do not branch on the vendor. Unknown providers are rejected before a request. Note and folder actions register on `JobService._bindings`. A later bounded action is another row, still using approve, independent read-back, and cancel. Tests use a mock HTTP transport. No account is opened. Stacked on #12.\n\n"
+    },
+    {
+      "number": 14,
+      "title": "Keep quiet-hour holds tied to saved preferences",
+      "author": "tantalum666",
+      "base": "cursor/text-adapters-8674",
+      "head": "cursor/quiet-preference-8674",
+      "sha": "6d02710dbc8c5a1cad3807631239b322d64a8a69",
+      "state": "open",
+      "mergeable": true,
+      "summary": "<!-- CURSOR_AGENT_PR_BODY_BEGIN -->\n## This PR\n\nA follow-up deferred during quiet hours is stored in `task_quiet_holds`. Restart does not create a second reminder. Shortening the saved window moves the hold. Turning quiet hours off releases only held tasks, still at most three per pass. A future check-in and a snooze stay where the owner set them. This branch also carries the English Codex merge file `planning/2026-10-14/pr-stack-merge-order.md`. Stacked on #13. Top of the #7–#14 stack.\n\n"
+    }
+  ]
+}

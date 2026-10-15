@@ -1,4 +1,6 @@
-# Codex merge handoff for PRs #6–#14
+# HISTORICAL: Codex merge handoff for PRs #6–#14
+
+Status updated 15 October: #7–#14 are merged. PR #6 records reconciled documentation and review evidence. The commands below preserve the original 14 October proposal and are not a current next step. The actual review used ordinary merges and normal pushes, preserving the fixes and both histories; no force push was used. [Current handoff](../../handoff.md).
 
 Date: 14 October 2026. Audience: the coding agent that merges. Do not merge from this file until the owner has asked you to merge. The review on 14 October marked these PRs ready. Nothing in this stack was merged by the review.
 

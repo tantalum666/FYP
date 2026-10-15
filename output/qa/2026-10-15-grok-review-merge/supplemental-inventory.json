@@ -1,0 +1,2864 @@
+{
+  "files": [
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "CONTRIBUTING.md",
+      "lines": 96,
+      "sha256": "faf01def4b35736404f5ad9ca3e58dc3d2474d0052c1833b5e9068db30ed5316",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            62
+          ],
+          "from_local": [
+            1,
+            62
+          ]
+        },
+        {
+          "range": [
+            65,
+            96
+          ],
+          "from_local": [
+            63,
+            94
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          63,
+          64
+        ]
+      ],
+      "read_ranges": [
+        [
+          63,
+          64
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "README.md",
+      "lines": 226,
+      "sha256": "a16a8e00af531ca1c1cc83aa54caaaa27293f24099383974ed48c8eccfb2d0b2",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            10
+          ],
+          "from_local": [
+            1,
+            10
+          ]
+        },
+        {
+          "range": [
+            12,
+            18
+          ],
+          "from_local": [
+            24,
+            30
+          ]
+        },
+        {
+          "range": [
+            20,
+            226
+          ],
+          "from_local": [
+            32,
+            238
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          11,
+          11
+        ],
+        [
+          19,
+          19
+        ]
+      ],
+      "read_ranges": [
+        [
+          11,
+          11
+        ],
+        [
+          19,
+          19
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "decision-log.md",
+      "lines": 729,
+      "sha256": "d741d116792fb737bb3874c8c411e78fdc696f080fe06cff4750e4afb10589c4",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            2
+          ],
+          "from_local": [
+            1,
+            2
+          ]
+        },
+        {
+          "range": [
+            4,
+            676
+          ],
+          "from_local": [
+            4,
+            676
+          ]
+        },
+        {
+          "range": [
+            678,
+            678
+          ],
+          "from_local": [
+            678,
+            678
+          ]
+        },
+        {
+          "range": [
+            682,
+            682
+          ],
+          "from_local": [
+            685,
+            685
+          ]
+        },
+        {
+          "range": [
+            684,
+            684
+          ],
+          "from_local": [
+            687,
+            687
+          ]
+        },
+        {
+          "range": [
+            688,
+            688
+          ],
+          "from_local": [
+            692,
+            692
+          ]
+        },
+        {
+          "range": [
+            690,
+            690
+          ],
+          "from_local": [
+            694,
+            694
+          ]
+        },
+        {
+          "range": [
+            695,
+            695
+          ],
+          "from_local": [
+            699,
+            699
+          ]
+        },
+        {
+          "range": [
+            697,
+            697
+          ],
+          "from_local": [
+            701,
+            701
+          ]
+        },
+        {
+          "range": [
+            700,
+            700
+          ],
+          "from_local": [
+            706,
+            706
+          ]
+        },
+        {
+          "range": [
+            702,
+            702
+          ],
+          "from_local": [
+            708,
+            708
+          ]
+        },
+        {
+          "range": [
+            706,
+            706
+          ],
+          "from_local": [
+            712,
+            712
+          ]
+        },
+        {
+          "range": [
+            708,
+            708
+          ],
+          "from_local": [
+            714,
+            714
+          ]
+        },
+        {
+          "range": [
+            712,
+            712
+          ],
+          "from_local": [
+            718,
+            718
+          ]
+        },
+        {
+          "range": [
+            714,
+            714
+          ],
+          "from_local": [
+            720,
+            720
+          ]
+        },
+        {
+          "range": [
+            718,
+            718
+          ],
+          "from_local": [
+            724,
+            724
+          ]
+        },
+        {
+          "range": [
+            720,
+            720
+          ],
+          "from_local": [
+            726,
+            726
+          ]
+        },
+        {
+          "range": [
+            724,
+            724
+          ],
+          "from_local": [
+            731,
+            731
+          ]
+        },
+        {
+          "range": [
+            726,
+            726
+          ],
+          "from_local": [
+            733,
+            733
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          677,
+          677
+        ],
+        [
+          679,
+          681
+        ],
+        [
+          683,
+          683
+        ],
+        [
+          685,
+          687
+        ],
+        [
+          689,
+          689
+        ],
+        [
+          691,
+          694
+        ],
+        [
+          696,
+          696
+        ],
+        [
+          698,
+          699
+        ],
+        [
+          701,
+          701
+        ],
+        [
+          703,
+          705
+        ],
+        [
+          707,
+          707
+        ],
+        [
+          709,
+          711
+        ],
+        [
+          713,
+          713
+        ],
+        [
+          715,
+          717
+        ],
+        [
+          719,
+          719
+        ],
+        [
+          721,
+          723
+        ],
+        [
+          725,
+          725
+        ],
+        [
+          727,
+          729
+        ]
+      ],
+      "read_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          677,
+          677
+        ],
+        [
+          679,
+          681
+        ],
+        [
+          683,
+          683
+        ],
+        [
+          685,
+          687
+        ],
+        [
+          689,
+          689
+        ],
+        [
+          691,
+          694
+        ],
+        [
+          696,
+          696
+        ],
+        [
+          698,
+          699
+        ],
+        [
+          701,
+          701
+        ],
+        [
+          703,
+          705
+        ],
+        [
+          707,
+          707
+        ],
+        [
+          709,
+          711
+        ],
+        [
+          713,
+          713
+        ],
+        [
+          715,
+          717
+        ],
+        [
+          719,
+          719
+        ],
+        [
+          721,
+          723
+        ],
+        [
+          725,
+          725
+        ],
+        [
+          727,
+          729
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "desk-companion/README.md",
+      "lines": 106,
+      "sha256": "2cbac64222312ceb308af8ad94e30fe8e28da2ad2cbb3a7328dac6ddac530896",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            8
+          ],
+          "from_local": [
+            1,
+            8
+          ]
+        },
+        {
+          "range": [
+            9,
+            12
+          ],
+          "from_local": [
+            21,
+            24
+          ]
+        },
+        {
+          "range": [
+            16,
+            22
+          ],
+          "from_local": [
+            26,
+            32
+          ]
+        },
+        {
+          "range": [
+            24,
+            49
+          ],
+          "from_local": [
+            34,
+            59
+          ]
+        },
+        {
+          "range": [
+            51,
+            59
+          ],
+          "from_local": [
+            61,
+            69
+          ]
+        },
+        {
+          "range": [
+            61,
+            63
+          ],
+          "from_local": [
+            71,
+            73
+          ]
+        },
+        {
+          "range": [
+            65,
+            77
+          ],
+          "from_local": [
+            77,
+            89
+          ]
+        },
+        {
+          "range": [
+            79,
+            98
+          ],
+          "from_local": [
+            91,
+            110
+          ]
+        },
+        {
+          "range": [
+            100,
+            105
+          ],
+          "from_local": [
+            114,
+            119
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          13,
+          15
+        ],
+        [
+          23,
+          23
+        ],
+        [
+          50,
+          50
+        ],
+        [
+          60,
+          60
+        ],
+        [
+          64,
+          64
+        ],
+        [
+          78,
+          78
+        ],
+        [
+          99,
+          99
+        ],
+        [
+          106,
+          106
+        ]
+      ],
+      "read_ranges": [
+        [
+          13,
+          15
+        ],
+        [
+          23,
+          23
+        ],
+        [
+          50,
+          50
+        ],
+        [
+          60,
+          60
+        ],
+        [
+          64,
+          64
+        ],
+        [
+          78,
+          78
+        ],
+        [
+          99,
+          99
+        ],
+        [
+          106,
+          106
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "desk-companion/THIRD_PARTY.md",
+      "lines": 23,
+      "sha256": "2a874f2ab830bd589c9ddddf53bb1872e08ebcf8caaee4b1af17c0dba84957e4",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            20
+          ],
+          "from_local": [
+            1,
+            20
+          ]
+        },
+        {
+          "range": [
+            22,
+            22
+          ],
+          "from_local": [
+            23,
+            23
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          21,
+          21
+        ],
+        [
+          23,
+          23
+        ]
+      ],
+      "read_ranges": [
+        [
+          21,
+          21
+        ],
+        [
+          23,
+          23
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "desk-companion/docs/architecture.md",
+      "lines": 97,
+      "sha256": "1a6cac2f3a89877b54464ffa421fb88730c8432d2322f71c2f1aafc47bb92d20",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            2
+          ],
+          "from_local": [
+            1,
+            2
+          ]
+        },
+        {
+          "range": [
+            4,
+            4
+          ],
+          "from_local": [
+            4,
+            4
+          ]
+        },
+        {
+          "range": [
+            6,
+            21
+          ],
+          "from_local": [
+            6,
+            21
+          ]
+        },
+        {
+          "range": [
+            23,
+            26
+          ],
+          "from_local": [
+            23,
+            26
+          ]
+        },
+        {
+          "range": [
+            28,
+            31
+          ],
+          "from_local": [
+            31,
+            34
+          ]
+        },
+        {
+          "range": [
+            33,
+            54
+          ],
+          "from_local": [
+            36,
+            57
+          ]
+        },
+        {
+          "range": [
+            56,
+            97
+          ],
+          "from_local": [
+            59,
+            100
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          22,
+          22
+        ],
+        [
+          27,
+          27
+        ],
+        [
+          32,
+          32
+        ],
+        [
+          55,
+          55
+        ]
+      ],
+      "read_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          22,
+          22
+        ],
+        [
+          27,
+          27
+        ],
+        [
+          32,
+          32
+        ],
+        [
+          55,
+          55
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "desk-companion/docs/computer-jobs.md",
+      "lines": 69,
+      "sha256": "a10712a128a1b9ed2d95e39e9a5336defa2aa52fdf63702168fe9e622b571eef",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            2
+          ],
+          "from_local": [
+            1,
+            2
+          ]
+        },
+        {
+          "range": [
+            4,
+            35
+          ],
+          "from_local": [
+            4,
+            35
+          ]
+        },
+        {
+          "range": [
+            38,
+            39
+          ],
+          "from_local": [
+            36,
+            37
+          ]
+        },
+        {
+          "range": [
+            50,
+            56
+          ],
+          "from_local": [
+            38,
+            44
+          ]
+        },
+        {
+          "range": [
+            58,
+            69
+          ],
+          "from_local": [
+            46,
+            57
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          36,
+          37
+        ],
+        [
+          40,
+          49
+        ],
+        [
+          57,
+          57
+        ]
+      ],
+      "read_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          36,
+          37
+        ],
+        [
+          40,
+          49
+        ],
+        [
+          57,
+          57
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "desk-companion/docs/memory.md",
+      "lines": 30,
+      "sha256": "380b4b517b40b1b41f13371a8ff78dae87cbfa803b4397c297c76dd2b489996b",
+      "inherited_exact_lines": [],
+      "pending_ranges": [
+        [
+          1,
+          30
+        ]
+      ],
+      "read_ranges": [
+        [
+          1,
+          30
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "desk-companion/docs/operator-guide.md",
+      "lines": 167,
+      "sha256": "1e0a26ece161ee47f2e252571e96c5317475531d6469542e17b049baa26eb9c3",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            90
+          ],
+          "from_local": [
+            1,
+            90
+          ]
+        },
+        {
+          "range": [
+            92,
+            164
+          ],
+          "from_local": [
+            92,
+            164
+          ]
+        },
+        {
+          "range": [
+            166,
+            167
+          ],
+          "from_local": [
+            166,
+            167
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          91,
+          91
+        ],
+        [
+          165,
+          165
+        ]
+      ],
+      "read_ranges": [
+        [
+          91,
+          91
+        ],
+        [
+          165,
+          165
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "desk-companion/docs/task-tracking.md",
+      "lines": 61,
+      "sha256": "7ed7e17d2d8c620fddcc7cecbbd55ad396e32a84332a04fa9e182b2b3644043c",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            22
+          ],
+          "from_local": [
+            1,
+            22
+          ]
+        },
+        {
+          "range": [
+            26,
+            33
+          ],
+          "from_local": [
+            23,
+            30
+          ]
+        },
+        {
+          "range": [
+            35,
+            61
+          ],
+          "from_local": [
+            32,
+            58
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          23,
+          25
+        ],
+        [
+          34,
+          34
+        ]
+      ],
+      "read_ranges": [
+        [
+          23,
+          25
+        ],
+        [
+          34,
+          34
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "handoff.md",
+      "lines": 19,
+      "sha256": "cc1a7bfd36b79595ccfa2262eabc555e3dc9c52cfb5312c9fa789402f79d300b",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            2
+          ],
+          "from_local": [
+            1,
+            2
+          ]
+        },
+        {
+          "range": [
+            4,
+            4
+          ],
+          "from_local": [
+            4,
+            4
+          ]
+        },
+        {
+          "range": [
+            6,
+            6
+          ],
+          "from_local": [
+            6,
+            6
+          ]
+        },
+        {
+          "range": [
+            8,
+            8
+          ],
+          "from_local": [
+            12,
+            12
+          ]
+        },
+        {
+          "range": [
+            10,
+            10
+          ],
+          "from_local": [
+            14,
+            14
+          ]
+        },
+        {
+          "range": [
+            12,
+            12
+          ],
+          "from_local": [
+            16,
+            16
+          ]
+        },
+        {
+          "range": [
+            14,
+            14
+          ],
+          "from_local": [
+            18,
+            18
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          9,
+          9
+        ],
+        [
+          11,
+          11
+        ],
+        [
+          13,
+          13
+        ],
+        [
+          15,
+          19
+        ]
+      ],
+      "read_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          9,
+          9
+        ],
+        [
+          11,
+          11
+        ],
+        [
+          13,
+          13
+        ],
+        [
+          15,
+          19
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "inputs/README.md",
+      "lines": 11,
+      "sha256": "722e893efd6254d17d20ec15071121e81b191d10c83b695c0e5d139cd735b9ab",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            10
+          ],
+          "from_local": [
+            1,
+            10
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          11,
+          11
+        ]
+      ],
+      "read_ranges": [
+        [
+          11,
+          11
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "planning/2026-09-30/device-display-spec.md",
+      "lines": 68,
+      "sha256": "651e955607af7edca0fb5556fad17770eff6ea17afd2dadf0a6b31cb12a5ba5f",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            61
+          ],
+          "from_local": [
+            1,
+            61
+          ]
+        },
+        {
+          "range": [
+            63,
+            68
+          ],
+          "from_local": [
+            63,
+            68
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          62,
+          62
+        ]
+      ],
+      "read_ranges": [
+        [
+          62,
+          62
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "planning/2026-10-14/pr-stack-merge-order.md",
+      "lines": 104,
+      "sha256": "3744e013410dabb327872c7297aed0ed3f3499d8dd836627c1d3a371319ce197",
+      "inherited_exact_lines": [],
+      "pending_ranges": [
+        [
+          1,
+          104
+        ]
+      ],
+      "read_ranges": [
+        [
+          1,
+          104
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "product.md",
+      "lines": 90,
+      "sha256": "0cfa58c4d49440e4ed0af55c7f21e1ba7e6e405800275f170f3c90562ad58f41",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            2
+          ],
+          "from_local": [
+            1,
+            2
+          ]
+        },
+        {
+          "range": [
+            4,
+            24
+          ],
+          "from_local": [
+            4,
+            24
+          ]
+        },
+        {
+          "range": [
+            26,
+            33
+          ],
+          "from_local": [
+            92,
+            99
+          ]
+        },
+        {
+          "range": [
+            35,
+            37
+          ],
+          "from_local": [
+            101,
+            103
+          ]
+        },
+        {
+          "range": [
+            41,
+            76
+          ],
+          "from_local": [
+            106,
+            141
+          ]
+        },
+        {
+          "range": [
+            78,
+            83
+          ],
+          "from_local": [
+            145,
+            150
+          ]
+        },
+        {
+          "range": [
+            85,
+            90
+          ],
+          "from_local": [
+            153,
+            158
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          25,
+          25
+        ],
+        [
+          34,
+          34
+        ],
+        [
+          38,
+          40
+        ],
+        [
+          77,
+          77
+        ],
+        [
+          84,
+          84
+        ]
+      ],
+      "read_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          25,
+          25
+        ],
+        [
+          34,
+          34
+        ],
+        [
+          38,
+          40
+        ],
+        [
+          77,
+          77
+        ],
+        [
+          84,
+          84
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md",
+      "lines": 40,
+      "sha256": "67cf096472d6a260d7e035770dc1c8eda9780ba33c8b9f79672256f20d400694",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            12
+          ],
+          "from_local": [
+            1,
+            12
+          ]
+        },
+        {
+          "range": [
+            14,
+            40
+          ],
+          "from_local": [
+            14,
+            40
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          13,
+          13
+        ]
+      ],
+      "read_ranges": [
+        [
+          13,
+          13
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/quiet-preference-8674",
+      "path": "work-log.md",
+      "lines": 870,
+      "sha256": "3375ce9ed6e17b6649c8e1e77d879126ac16997046ae4a16efaf87c499c2ce40",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            2
+          ],
+          "from_local": [
+            1,
+            2
+          ]
+        },
+        {
+          "range": [
+            4,
+            808
+          ],
+          "from_local": [
+            4,
+            808
+          ]
+        },
+        {
+          "range": [
+            810,
+            810
+          ],
+          "from_local": [
+            810,
+            810
+          ]
+        },
+        {
+          "range": [
+            815,
+            815
+          ],
+          "from_local": [
+            817,
+            817
+          ]
+        },
+        {
+          "range": [
+            817,
+            817
+          ],
+          "from_local": [
+            819,
+            819
+          ]
+        },
+        {
+          "range": [
+            822,
+            822
+          ],
+          "from_local": [
+            821,
+            821
+          ]
+        },
+        {
+          "range": [
+            824,
+            824
+          ],
+          "from_local": [
+            829,
+            829
+          ]
+        },
+        {
+          "range": [
+            829,
+            829
+          ],
+          "from_local": [
+            831,
+            831
+          ]
+        },
+        {
+          "range": [
+            831,
+            831
+          ],
+          "from_local": [
+            833,
+            833
+          ]
+        },
+        {
+          "range": [
+            836,
+            836
+          ],
+          "from_local": [
+            840,
+            840
+          ]
+        },
+        {
+          "range": [
+            838,
+            838
+          ],
+          "from_local": [
+            842,
+            842
+          ]
+        },
+        {
+          "range": [
+            843,
+            843
+          ],
+          "from_local": [
+            844,
+            844
+          ]
+        },
+        {
+          "range": [
+            845,
+            845
+          ],
+          "from_local": [
+            851,
+            851
+          ]
+        },
+        {
+          "range": [
+            850,
+            850
+          ],
+          "from_local": [
+            853,
+            853
+          ]
+        },
+        {
+          "range": [
+            852,
+            852
+          ],
+          "from_local": [
+            855,
+            855
+          ]
+        },
+        {
+          "range": [
+            857,
+            857
+          ],
+          "from_local": [
+            861,
+            861
+          ]
+        },
+        {
+          "range": [
+            859,
+            859
+          ],
+          "from_local": [
+            863,
+            863
+          ]
+        },
+        {
+          "range": [
+            864,
+            864
+          ],
+          "from_local": [
+            868,
+            868
+          ]
+        },
+        {
+          "range": [
+            866,
+            866
+          ],
+          "from_local": [
+            870,
+            870
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          809,
+          809
+        ],
+        [
+          811,
+          814
+        ],
+        [
+          816,
+          816
+        ],
+        [
+          818,
+          821
+        ],
+        [
+          823,
+          823
+        ],
+        [
+          825,
+          828
+        ],
+        [
+          830,
+          830
+        ],
+        [
+          832,
+          835
+        ],
+        [
+          837,
+          837
+        ],
+        [
+          839,
+          842
+        ],
+        [
+          844,
+          844
+        ],
+        [
+          846,
+          849
+        ],
+        [
+          851,
+          851
+        ],
+        [
+          853,
+          856
+        ],
+        [
+          858,
+          858
+        ],
+        [
+          860,
+          863
+        ],
+        [
+          865,
+          865
+        ],
+        [
+          867,
+          870
+        ]
+      ],
+      "read_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          809,
+          809
+        ],
+        [
+          811,
+          814
+        ],
+        [
+          816,
+          816
+        ],
+        [
+          818,
+          821
+        ],
+        [
+          823,
+          823
+        ],
+        [
+          825,
+          828
+        ],
+        [
+          830,
+          830
+        ],
+        [
+          832,
+          835
+        ],
+        [
+          837,
+          837
+        ],
+        [
+          839,
+          842
+        ],
+        [
+          844,
+          844
+        ],
+        [
+          846,
+          849
+        ],
+        [
+          851,
+          851
+        ],
+        [
+          853,
+          856
+        ],
+        [
+          858,
+          858
+        ],
+        [
+          860,
+          863
+        ],
+        [
+          865,
+          865
+        ],
+        [
+          867,
+          870
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/tooling-review-docs-8674",
+      "path": "README.md",
+      "lines": 226,
+      "sha256": "7a234245db24ebba7a6033da92cee0331bae47ea9836e320f10848d978c5ed90",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            8
+          ],
+          "from_local": [
+            1,
+            8
+          ]
+        },
+        {
+          "range": [
+            10,
+            10
+          ],
+          "from_local": [
+            10,
+            10
+          ]
+        },
+        {
+          "range": [
+            12,
+            18
+          ],
+          "from_local": [
+            24,
+            30
+          ]
+        },
+        {
+          "range": [
+            20,
+            226
+          ],
+          "from_local": [
+            32,
+            238
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          9,
+          9
+        ],
+        [
+          11,
+          11
+        ],
+        [
+          19,
+          19
+        ]
+      ],
+      "read_ranges": [
+        [
+          9,
+          9
+        ],
+        [
+          11,
+          11
+        ],
+        [
+          19,
+          19
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/tooling-review-docs-8674",
+      "path": "decision-log.md",
+      "lines": 695,
+      "sha256": "c6309c2fb9446b72d0c94e79f643cf86a8a59061b310981d72f01af9951a1dcf",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            2
+          ],
+          "from_local": [
+            1,
+            2
+          ]
+        },
+        {
+          "range": [
+            4,
+            676
+          ],
+          "from_local": [
+            4,
+            676
+          ]
+        },
+        {
+          "range": [
+            678,
+            678
+          ],
+          "from_local": [
+            678,
+            678
+          ]
+        },
+        {
+          "range": [
+            683,
+            683
+          ],
+          "from_local": [
+            685,
+            685
+          ]
+        },
+        {
+          "range": [
+            685,
+            685
+          ],
+          "from_local": [
+            687,
+            687
+          ]
+        },
+        {
+          "range": [
+            690,
+            690
+          ],
+          "from_local": [
+            692,
+            692
+          ]
+        },
+        {
+          "range": [
+            692,
+            692
+          ],
+          "from_local": [
+            694,
+            694
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          677,
+          677
+        ],
+        [
+          679,
+          682
+        ],
+        [
+          684,
+          684
+        ],
+        [
+          686,
+          689
+        ],
+        [
+          691,
+          691
+        ],
+        [
+          693,
+          695
+        ]
+      ],
+      "read_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          677,
+          677
+        ],
+        [
+          679,
+          682
+        ],
+        [
+          684,
+          684
+        ],
+        [
+          686,
+          689
+        ],
+        [
+          691,
+          691
+        ],
+        [
+          693,
+          695
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/tooling-review-docs-8674",
+      "path": "desk-companion/README.md",
+      "lines": 104,
+      "sha256": "b13f229f2c9a46492e50a8ef24e493f966f16f6e12033fc281970fe4d5c7a2d1",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            7
+          ],
+          "from_local": [
+            1,
+            7
+          ]
+        },
+        {
+          "range": [
+            8,
+            20
+          ],
+          "from_local": [
+            20,
+            32
+          ]
+        },
+        {
+          "range": [
+            22,
+            47
+          ],
+          "from_local": [
+            34,
+            59
+          ]
+        },
+        {
+          "range": [
+            49,
+            57
+          ],
+          "from_local": [
+            61,
+            69
+          ]
+        },
+        {
+          "range": [
+            59,
+            61
+          ],
+          "from_local": [
+            71,
+            73
+          ]
+        },
+        {
+          "range": [
+            62,
+            62
+          ],
+          "from_local": [
+            75,
+            75
+          ]
+        },
+        {
+          "range": [
+            63,
+            75
+          ],
+          "from_local": [
+            77,
+            89
+          ]
+        },
+        {
+          "range": [
+            77,
+            96
+          ],
+          "from_local": [
+            91,
+            110
+          ]
+        },
+        {
+          "range": [
+            98,
+            103
+          ],
+          "from_local": [
+            114,
+            119
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          21,
+          21
+        ],
+        [
+          48,
+          48
+        ],
+        [
+          58,
+          58
+        ],
+        [
+          76,
+          76
+        ],
+        [
+          97,
+          97
+        ],
+        [
+          104,
+          104
+        ]
+      ],
+      "read_ranges": [
+        [
+          21,
+          21
+        ],
+        [
+          48,
+          48
+        ],
+        [
+          58,
+          58
+        ],
+        [
+          76,
+          76
+        ],
+        [
+          97,
+          97
+        ],
+        [
+          104,
+          104
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/tooling-review-docs-8674",
+      "path": "desk-companion/THIRD_PARTY.md",
+      "lines": 23,
+      "sha256": "2a874f2ab830bd589c9ddddf53bb1872e08ebcf8caaee4b1af17c0dba84957e4",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            20
+          ],
+          "from_local": [
+            1,
+            20
+          ]
+        },
+        {
+          "range": [
+            22,
+            22
+          ],
+          "from_local": [
+            23,
+            23
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          21,
+          21
+        ],
+        [
+          23,
+          23
+        ]
+      ],
+      "read_ranges": [
+        [
+          21,
+          21
+        ],
+        [
+          23,
+          23
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/tooling-review-docs-8674",
+      "path": "desk-companion/docs/architecture.md",
+      "lines": 95,
+      "sha256": "6a1238c48e36e39abc8f2cea14efe34970958a55ddd1ec5f68b8799509a8f61f",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            1
+          ],
+          "from_local": [
+            1,
+            1
+          ]
+        },
+        {
+          "range": [
+            2,
+            24
+          ],
+          "from_local": [
+            4,
+            26
+          ]
+        },
+        {
+          "range": [
+            26,
+            29
+          ],
+          "from_local": [
+            31,
+            34
+          ]
+        },
+        {
+          "range": [
+            31,
+            95
+          ],
+          "from_local": [
+            36,
+            100
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          25,
+          25
+        ],
+        [
+          30,
+          30
+        ]
+      ],
+      "read_ranges": [
+        [
+          25,
+          25
+        ],
+        [
+          30,
+          30
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/tooling-review-docs-8674",
+      "path": "desk-companion/docs/operator-guide.md",
+      "lines": 167,
+      "sha256": "a56676d1c3f375c98dad054047c3bf7fb4704f310f43e481a3ea71ceb2c34789",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            90
+          ],
+          "from_local": [
+            1,
+            90
+          ]
+        },
+        {
+          "range": [
+            92,
+            167
+          ],
+          "from_local": [
+            92,
+            167
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          91,
+          91
+        ]
+      ],
+      "read_ranges": [
+        [
+          91,
+          91
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/tooling-review-docs-8674",
+      "path": "docs/tooling-and-review/companion-architecture.md",
+      "lines": 148,
+      "sha256": "6b0d931e6faaf6c5fc114076b48de7ddf1327ae6ecba33e1d634b75779dec245",
+      "inherited_exact_lines": [],
+      "pending_ranges": [
+        [
+          1,
+          148
+        ]
+      ],
+      "read_ranges": [
+        [
+          1,
+          137
+        ],
+        [
+          138,
+          148
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/tooling-review-docs-8674",
+      "path": "docs/tooling-and-review/companion-product-teardown.md",
+      "lines": 221,
+      "sha256": "dec2fbdf5cdedfc2336fdde60d953795383dbb51003749dfe7c911cc307ec00e",
+      "inherited_exact_lines": [],
+      "pending_ranges": [
+        [
+          1,
+          221
+        ]
+      ],
+      "read_ranges": [
+        [
+          1,
+          131
+        ],
+        [
+          132,
+          199
+        ],
+        [
+          200,
+          221
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/tooling-review-docs-8674",
+      "path": "docs/tooling-and-review/fyp-repo-review.md",
+      "lines": 94,
+      "sha256": "6202575aa903f0c758b22d50cf6c89e2199df31a26cf3723be72f9ac3bf13215",
+      "inherited_exact_lines": [],
+      "pending_ranges": [
+        [
+          1,
+          94
+        ]
+      ],
+      "read_ranges": [
+        [
+          1,
+          94
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/tooling-review-docs-8674",
+      "path": "handoff.md",
+      "lines": 21,
+      "sha256": "29398a09259d2151c0e2988336406e50201574cfa1b8e21138a0f3733504272f",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            2
+          ],
+          "from_local": [
+            1,
+            2
+          ]
+        },
+        {
+          "range": [
+            4,
+            4
+          ],
+          "from_local": [
+            4,
+            4
+          ]
+        },
+        {
+          "range": [
+            6,
+            6
+          ],
+          "from_local": [
+            6,
+            6
+          ]
+        },
+        {
+          "range": [
+            8,
+            8
+          ],
+          "from_local": [
+            12,
+            12
+          ]
+        },
+        {
+          "range": [
+            10,
+            10
+          ],
+          "from_local": [
+            14,
+            14
+          ]
+        },
+        {
+          "range": [
+            18,
+            20
+          ],
+          "from_local": [
+            16,
+            18
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          9,
+          9
+        ],
+        [
+          11,
+          17
+        ],
+        [
+          21,
+          21
+        ]
+      ],
+      "read_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          9,
+          9
+        ],
+        [
+          11,
+          17
+        ],
+        [
+          21,
+          21
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/tooling-review-docs-8674",
+      "path": "inputs/README.md",
+      "lines": 11,
+      "sha256": "722e893efd6254d17d20ec15071121e81b191d10c83b695c0e5d139cd735b9ab",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            10
+          ],
+          "from_local": [
+            1,
+            10
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          11,
+          11
+        ]
+      ],
+      "read_ranges": [
+        [
+          11,
+          11
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/tooling-review-docs-8674",
+      "path": "planning/2026-09-30/device-display-spec.md",
+      "lines": 68,
+      "sha256": "651e955607af7edca0fb5556fad17770eff6ea17afd2dadf0a6b31cb12a5ba5f",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            61
+          ],
+          "from_local": [
+            1,
+            61
+          ]
+        },
+        {
+          "range": [
+            63,
+            68
+          ],
+          "from_local": [
+            63,
+            68
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          62,
+          62
+        ]
+      ],
+      "read_ranges": [
+        [
+          62,
+          62
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/tooling-review-docs-8674",
+      "path": "product.md",
+      "lines": 89,
+      "sha256": "9501505f79c7a48ecfc4b30c8cbbb546d264f727d3db6716c4de120cde9aa940",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            2
+          ],
+          "from_local": [
+            1,
+            2
+          ]
+        },
+        {
+          "range": [
+            4,
+            24
+          ],
+          "from_local": [
+            4,
+            24
+          ]
+        },
+        {
+          "range": [
+            26,
+            33
+          ],
+          "from_local": [
+            92,
+            99
+          ]
+        },
+        {
+          "range": [
+            35,
+            75
+          ],
+          "from_local": [
+            101,
+            141
+          ]
+        },
+        {
+          "range": [
+            76,
+            82
+          ],
+          "from_local": [
+            144,
+            150
+          ]
+        },
+        {
+          "range": [
+            84,
+            88
+          ],
+          "from_local": [
+            153,
+            157
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          25,
+          25
+        ],
+        [
+          34,
+          34
+        ],
+        [
+          83,
+          83
+        ],
+        [
+          89,
+          89
+        ]
+      ],
+      "read_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          25,
+          25
+        ],
+        [
+          34,
+          34
+        ],
+        [
+          83,
+          83
+        ],
+        [
+          89,
+          89
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/tooling-review-docs-8674",
+      "path": "research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md",
+      "lines": 40,
+      "sha256": "67cf096472d6a260d7e035770dc1c8eda9780ba33c8b9f79672256f20d400694",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            12
+          ],
+          "from_local": [
+            1,
+            12
+          ]
+        },
+        {
+          "range": [
+            14,
+            40
+          ],
+          "from_local": [
+            14,
+            40
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          13,
+          13
+        ]
+      ],
+      "read_ranges": [
+        [
+          13,
+          13
+        ]
+      ]
+    },
+    {
+      "ref": "origin/cursor/tooling-review-docs-8674",
+      "path": "work-log.md",
+      "lines": 828,
+      "sha256": "d395580b62aa1b7ea88f316ac400fbe705e50532a0b718e6fa0ec0bf70e6bfd5",
+      "inherited_exact_lines": [
+        {
+          "range": [
+            1,
+            2
+          ],
+          "from_local": [
+            1,
+            2
+          ]
+        },
+        {
+          "range": [
+            4,
+            808
+          ],
+          "from_local": [
+            4,
+            808
+          ]
+        },
+        {
+          "range": [
+            810,
+            810
+          ],
+          "from_local": [
+            810,
+            810
+          ]
+        },
+        {
+          "range": [
+            815,
+            815
+          ],
+          "from_local": [
+            817,
+            817
+          ]
+        },
+        {
+          "range": [
+            817,
+            817
+          ],
+          "from_local": [
+            819,
+            819
+          ]
+        },
+        {
+          "range": [
+            823,
+            823
+          ],
+          "from_local": [
+            821,
+            821
+          ]
+        },
+        {
+          "range": [
+            825,
+            825
+          ],
+          "from_local": [
+            829,
+            829
+          ]
+        }
+      ],
+      "pending_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          809,
+          809
+        ],
+        [
+          811,
+          814
+        ],
+        [
+          816,
+          816
+        ],
+        [
+          818,
+          822
+        ],
+        [
+          824,
+          824
+        ],
+        [
+          826,
+          828
+        ]
+      ],
+      "read_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          809,
+          809
+        ],
+        [
+          811,
+          814
+        ],
+        [
+          816,
+          816
+        ],
+        [
+          818,
+          822
+        ],
+        [
+          824,
+          824
+        ],
+        [
+          826,
+          828
+        ]
+      ]
+    }
+  ],
+  "chunks_observed": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "method": "Only byte-exact matching source lines inherit the already observed local full read. Every unmatched line is emitted and read below.",
+  "updated_at": "2026-10-15T00:59:44.307261+00:00",
+  "completed_at": "2026-10-15T00:59:44.337987+00:00"
+}

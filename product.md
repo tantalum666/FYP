@@ -1,6 +1,6 @@
 # Group 2 Project Contract
 
-更新：2026-10-14。状态：**Dot工作已合并main；受限笔记作业、拥有者记忆和指定文件夹作业已实现，通用电脑操作待接入**。
+更新：2026-10-15。状态：**审查并修复后的PR #7–#14已合入main；拥有者记忆、指定目录、共用人格和安静跟进可用，真实应用／服务／目标机仍待验证**。
 
 ## 当前方向与用户决定
 
@@ -88,3 +88,13 @@ Yuan Yuchen为组长，计划40%；Xu Ziqian及Li Wenhua各30%。此比例不是
 10月26日Progress I、11月30日Initial、12月14日Progress II及后续节点以[学校提案／修订核对](planning/2026-09-28/logsheet-and-proposal-review.md)保留的证据为准。旧食品方案、品牌、采购、代码及Proposal均保留为历史，入口是[旧产品规范](product-senplate-historical.md)。
 
 当前操作入口：[软件README](desk-companion/README.md)／[安装与操作](desk-companion/docs/operator-guide.md)／[架构](desk-companion/docs/architecture.md)／[交接](handoff.md)／[决定](decision-log.md)／[工作记录](work-log.md)。
+
+## 2026-10-15 本轮审查与合并
+
+用户明确要求检查Grok bot的Git工作，没问题就合并。本轮审查PR #6–#14，功能栈按依赖顺序以merge commit合并；修改前完整读取148份项目Markdown／13,432行，远端新增／变化版本补读见[QA](output/qa/2026-10-15-grok-review-merge/verification.md)。PR #4角色分支和PR #5独立内核保持分开。
+
+修复了配对终端通过助理路径访问／确认拥有者记忆、目录校验后上级符号链接改向、人格重置复用版本以及失败覆盖草稿的问题；记忆保存回执丢失可沿原操作恢复。指定目录的新文件经独立读回核对，模型没有路径或批准权限。人格编辑后仍附加代码中的工具规则。开发依赖source-map-js升到1.2.2。
+
+实际合并代码`2c1e465`通过182项后端、17项前端、Ruff、类型／构建、npm审计零发现；真实浏览器验证记忆更正／刷新、成功回执丢失后的唯一保存、人格双端冲突保留草稿和27字节文件审批／读回。Mac浏览器检查不是Linux／Pi实装，未配置或调用付费模型，未启音视频／硬件。
+
+A1身份已由用户确定，最新视觉要求仍为完整2D、不拆关节、不做变形；该实现／素材留在[PR #4](https://github.com/tantalum666/FYP/pull/4)，不把本轮main功能合并记为角色分支已合并。学校原件、提交状态、真实机位／语音／RIG验证不由此更改。下一步按交接明确一个真实应用任务及允许的数据范围。
