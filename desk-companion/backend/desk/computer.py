@@ -93,7 +93,32 @@ def exclusive_write(directory: int, filename: str, body: bytes) -> None:
     os.fsync(directory)
 
 
-def read_artifact(directory: int, filename: str, expected: bytes, identity: str, scope: str) -> dict:
+def open_owner_directory(root: Path) -> int:
+    """Walk the approved absolute path without following links in any component.
+
+    Directory handles pin each parent while opening the next component, closing
+    the race between path validation and an ancestor being replaced by a link.
+    """
+    flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+    directory = None
+    try:
+        directory = os.open(root.anchor, flags)
+        for component in root.parts[1:]:
+            child = os.open(component, flags, dir_fd=directory)
+            os.close(directory)
+            directory = child
+        result, directory = directory, None
+        return result
+    except OSError:
+        raise ExecutionRejected("COMPUTER_SCOPE_UNAVAILABLE", 409) from None
+    finally:
+        if directory is not None:
+            os.close(directory)
+
+
+def read_artifact(
+    directory: int, filename: str, expected: bytes, identity: str, scope: str
+) -> dict:
     """Read the file back through a separate open. This does not repair it."""
     try:
         fd = os.open(filename, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
@@ -247,7 +272,7 @@ class FolderDropExecutor:
         body = job["content"].encode("utf-8")
         if len(body) > MAX_BYTES:
             raise ExecutionRejected("COMPUTER_CONTENT_TOO_LARGE", 422)
-        directory = open_real_directory(root, create=False)
+        directory = open_owner_directory(root)
         try:
             checkpoint()
             if job["action"] == "verify_folder_file":
@@ -259,7 +284,7 @@ class FolderDropExecutor:
     def verify(self, job):
         filename = LocalNotesExecutor.filename(job)
         root = self._bound_root(job)
-        directory = open_real_directory(root, create=False)
+        directory = open_owner_directory(root)
         try:
             return read_artifact(
                 directory, filename, job["content"].encode("utf-8"), self.identity, self.scope

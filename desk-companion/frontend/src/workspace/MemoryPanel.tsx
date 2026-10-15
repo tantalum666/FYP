@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Brain } from "lucide-react";
-import { errorText, request, write } from "../api";
+import { ApiError, errorText, request, write } from "../api";
+import type { PendingWrite } from "../api";
 import { useDraftGuard } from "../components/DraftGuard";
 import type { Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
@@ -18,9 +19,11 @@ export function MemoryPanel({ t }: { t: Translate }) {
   const owner = data?.principal.kind === "owner";
   const [facts, setFacts] = useState<MemoryFact[]>([]);
   const [body, setBody] = useState("");
-  const [editing, setEditing] = useState<{ id: string; body: string; version: number } | null>(
-    null,
-  );
+  const [editing, setEditing] = useState<{
+    id: string;
+    body: string;
+    version: number;
+  } | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
@@ -33,6 +36,28 @@ export function MemoryPanel({ t }: { t: Translate }) {
   useEffect(() => {
     void reload().catch((reason) => setError(reason));
   }, [reload]);
+  useEffect(() => {
+    const recovered = (event: Event) => {
+      const { operation } = (event as CustomEvent<{ operation: PendingWrite }>)
+        .detail;
+      if (!operation.path.startsWith("/memory")) return;
+      setError(null);
+      setNotice(t("Memory save confirmed.", "记忆保存已确认。"));
+      const payload = operation.body as { body?: string };
+      if (operation.path === "/memory" && payload.body === body) setBody("");
+      if (
+        editing &&
+        operation.path === `/memory/${editing.id}/revisions` &&
+        payload.body === editing.body
+      )
+        setEditing(null);
+      if (editing && operation.path === `/memory/${editing.id}/deletions`)
+        setEditing(null);
+      void reload().catch(setError);
+    };
+    window.addEventListener("desk:write-recovered", recovered);
+    return () => window.removeEventListener("desk:write-recovered", recovered);
+  }, [body, editing, reload, t]);
   async function add() {
     setBusy(true);
     setError(null);
@@ -72,7 +97,9 @@ export function MemoryPanel({ t }: { t: Translate }) {
     setError(null);
     setNotice("");
     try {
-      await write(`/memory/${fact.id}/deletions`, { expected_version: fact.version });
+      await write(`/memory/${fact.id}/deletions`, {
+        expected_version: fact.version,
+      });
       if (editing?.id === fact.id) setEditing(null);
       setNotice(
         t(
@@ -127,6 +154,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
             value={body}
             maxLength={500}
             rows={3}
+            disabled={busy}
             onChange={(event) => setBody(event.target.value)}
             placeholder={t(
               "Example: Friday’s report is waiting on the group’s figures.",
@@ -135,7 +163,11 @@ export function MemoryPanel({ t }: { t: Translate }) {
           />
         </label>
         <div className="workspace-inline-actions">
-          <button className="primary" type="submit" disabled={busy || !body.trim()}>
+          <button
+            className="primary"
+            type="submit"
+            disabled={busy || !body.trim()}
+          >
             {t("Save fact", "保存事实")}
           </button>
         </div>
@@ -149,6 +181,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
                 value={editing.body}
                 maxLength={500}
                 rows={3}
+                disabled={busy}
                 onChange={(event) =>
                   setEditing({ ...editing, body: event.target.value })
                 }
@@ -159,10 +192,20 @@ export function MemoryPanel({ t }: { t: Translate }) {
             <div className="workspace-inline-actions">
               {editing?.id === fact.id ? (
                 <>
-                  <button className="primary" type="button" disabled={busy} onClick={() => void saveEdit()}>
+                  <button
+                    className="primary"
+                    type="button"
+                    disabled={busy}
+                    onClick={() => void saveEdit()}
+                  >
                     {t("Save correction", "保存更正")}
                   </button>
-                  <button className="secondary" type="button" disabled={busy} onClick={() => setEditing(null)}>
+                  <button
+                    className="secondary"
+                    type="button"
+                    disabled={busy}
+                    onClick={() => setEditing(null)}
+                  >
                     {t("Cancel", "取消")}
                   </button>
                 </>
@@ -172,11 +215,22 @@ export function MemoryPanel({ t }: { t: Translate }) {
                     className="secondary"
                     type="button"
                     disabled={busy}
-                    onClick={() => setEditing({ id: fact.id, body: fact.body, version: fact.version })}
+                    onClick={() =>
+                      setEditing({
+                        id: fact.id,
+                        body: fact.body,
+                        version: fact.version,
+                      })
+                    }
                   >
                     {t("Correct", "更正")}
                   </button>
-                  <button className="secondary" type="button" disabled={busy} onClick={() => void remove(fact)}>
+                  <button
+                    className="secondary"
+                    type="button"
+                    disabled={busy}
+                    onClick={() => void remove(fact)}
+                  >
                     {t("Delete", "删除")}
                   </button>
                 </>
@@ -191,6 +245,27 @@ export function MemoryPanel({ t }: { t: Translate }) {
         <p className="error-message" role="alert">
           {errorText(error, t)}
         </p>
+      )}
+      {error instanceof ApiError && error.code === "VERSION_CONFLICT" && (
+        <button
+          type="button"
+          className="secondary"
+          disabled={busy}
+          onClick={async () => {
+            try {
+              await reload();
+              setEditing(null);
+              setError(null);
+            } catch (reason) {
+              setError(reason);
+            }
+          }}
+        >
+          {t(
+            "Discard correction and load current facts",
+            "放弃更正并加载当前事实",
+          )}
+        </button>
       )}
     </section>
   );
