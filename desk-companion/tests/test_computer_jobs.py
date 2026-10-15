@@ -25,6 +25,15 @@ def setup(tmp_path, monkeypatch):
     return app, app.state.runtime.jobs, clock
 
 
+def test_note_and_folder_actions_share_one_executor_registry(setup):
+    jobs = setup[1]
+    bound = [tuple(sorted(actions)) for actions, _ in jobs._bindings()]
+    assert bound == [
+        ("save_note", "verify_note"),
+        ("save_folder_file", "verify_folder_file"),
+    ]
+
+
 def prepare(jobs, key="prepare", **kwargs):
     return jobs.prepare(
         JobInput(title="Fictional report", content="你好 · Fictional notes 🦉\n", **kwargs), key

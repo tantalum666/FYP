@@ -156,19 +156,34 @@ class JobService:
             return {"configured": False, "label": None, "path": None}
         return {"configured": True, "label": cfg["label"], "path": cfg["path"]}
 
+    def _bindings(self):
+        # A later bounded action registers here. It still uses approve, read-back, and cancel.
+        return (
+            (NOTE_ACTIONS, self._notes_executor),
+            (FOLDER_ACTIONS, self._folder_executor),
+        )
+
+    def _notes_executor(self, preparing):
+        del preparing
+        if not self.enabled:
+            raise DomainError("COMPUTER_DISABLED", 409)
+        return self.executor
+
+    def _folder_executor(self, preparing):
+        if not self.folder.configured:
+            raise DomainError(
+                "FOLDER_NOT_CONFIGURED" if preparing else "COMPUTER_SCOPE_CHANGED", 409
+            )
+        return self.folder
+
     def _executor(self, request, *, preparing=False):
         action = request["action"]
-        if action in NOTE_ACTIONS:
-            if not self.enabled:
-                raise DomainError("COMPUTER_DISABLED", 409)
-            executor = self.executor
-        elif action in FOLDER_ACTIONS:
-            if not self.folder.configured:
-                raise DomainError(
-                    "FOLDER_NOT_CONFIGURED" if preparing else "COMPUTER_SCOPE_CHANGED", 409
-                )
-            executor = self.folder
-        else:
+        executor = None
+        for actions, resolve in self._bindings():
+            if action in actions:
+                executor = resolve(preparing)
+                break
+        if executor is None:
             raise DomainError("COMPUTER_ACTION_DENIED", 403)
         if request.get("executor") != executor.identity or request.get("scope") != executor.scope:
             raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
