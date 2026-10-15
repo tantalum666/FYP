@@ -1,8 +1,10 @@
-"""A replaceable, bounded executor. No shell, GUI bridge or ambient file access.
+"""Replaceable, bounded executors. No shell, GUI bridge or ambient file access.
 
-The first adapter creates new UTF-8 notes in one application-owned directory.
-Only generated job IDs reach the filesystem; existing files are never overwritten.
-Execution and independent verification are deliberately separate operations.
+Both adapters create one new UTF-8 file whose name is the generated job ID.
+Existing files are never overwritten. Execution and independent verification
+are separate operations. The notes adapter uses the application runtime
+directory. The folder adapter uses only the single real directory the owner
+named; the model cannot supply a path.
 """
 
 import hashlib
@@ -62,6 +64,111 @@ class ComputerExecutor(Protocol):
     def verify(self, job: dict) -> dict: ...
 
 
+def open_real_directory(root: Path, *, create: bool) -> int:
+    """Open a directory inode. The last component is not followed if it is a link."""
+    try:
+        if create:
+            root.mkdir(mode=0o700, exist_ok=True)
+        return os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    except OSError:
+        raise ExecutionRejected("COMPUTER_SCOPE_UNAVAILABLE", 409) from None
+
+
+def exclusive_write(directory: int, filename: str, body: bytes) -> None:
+    """Create a new regular file. An existing name is left untouched."""
+    try:
+        fd = os.open(
+            filename,
+            os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+            0o600,
+            dir_fd=directory,
+        )
+    except FileExistsError:
+        raise ExecutionRejected("COMPUTER_TARGET_EXISTS", 409) from None
+    # Failures after open are uncertain: a partial file may exist.
+    with os.fdopen(fd, "wb") as output:
+        output.write(body)
+        output.flush()
+        os.fsync(output.fileno())
+    os.fsync(directory)
+
+
+def open_owner_directory(root: Path) -> int:
+    """Walk the approved absolute path without following links in any component.
+
+    Directory handles pin each parent while opening the next component, closing
+    the race between path validation and an ancestor being replaced by a link.
+    """
+    flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+    directory = None
+    try:
+        directory = os.open(root.anchor, flags)
+        for component in root.parts[1:]:
+            child = os.open(component, flags, dir_fd=directory)
+            os.close(directory)
+            directory = child
+        result, directory = directory, None
+        return result
+    except OSError:
+        raise ExecutionRejected("COMPUTER_SCOPE_UNAVAILABLE", 409) from None
+    finally:
+        if directory is not None:
+            os.close(directory)
+
+
+def read_artifact(
+    directory: int, filename: str, expected: bytes, identity: str, scope: str
+) -> dict:
+    """Read the file back through a separate open. This does not repair it."""
+    try:
+        fd = os.open(filename, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
+    except FileNotFoundError:
+        return {"verified": False, "reason": "artifact_missing"}
+    except OSError:
+        return {"verified": False, "reason": "target_denied"}
+    with os.fdopen(fd, "rb") as source:
+        info = os.fstat(source.fileno())
+        if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or info.st_size > MAX_BYTES:
+            return {"verified": False, "reason": "target_denied"}
+        body = source.read(MAX_BYTES + 1)
+    digest = hashlib.sha256(body).hexdigest()
+    matched = digest == hashlib.sha256(expected).hexdigest()
+    return {
+        "verified": matched,
+        "reason": "read_back_matches" if matched else "content_mismatch",
+        "artifact": filename,
+        "bytes": len(body),
+        "sha256": digest,
+        "executor": identity,
+        "scope": scope,
+    }
+
+
+def accept_owner_folder(raw: str, runtime_directory: Path) -> tuple[str, str]:
+    """Accept one absolute real directory outside the desk runtime tree.
+
+    The model never supplies this path. Symlinks, missing paths, files, the
+    runtime directory, its parents and its children are rejected.
+    """
+    if not isinstance(raw, str) or "\x00" in raw or len(raw) > 4096:
+        raise DomainError("FOLDER_PATH_DENIED", 422)
+    candidate = Path(raw)
+    if not candidate.is_absolute():
+        raise DomainError("FOLDER_PATH_DENIED", 422)
+    try:
+        lexical = Path(os.path.abspath(candidate))
+        resolved = lexical.resolve(strict=True)
+        info = os.lstat(resolved)
+    except OSError:
+        raise DomainError("FOLDER_PATH_DENIED", 422) from None
+    if resolved != lexical or stat.S_ISLNK(info.st_mode) or not stat.S_ISDIR(info.st_mode):
+        raise DomainError("FOLDER_PATH_DENIED", 422)
+    runtime = Path(runtime_directory).resolve()
+    if resolved == runtime or runtime in resolved.parents or resolved in runtime.parents:
+        raise DomainError("FOLDER_PATH_DENIED", 422)
+    return str(resolved), hashlib.sha256(str(resolved).encode()).hexdigest()
+
+
 class LocalNotesExecutor:
     identity = "local_notes_v1"
     scope = "application_notes_only"
@@ -70,14 +177,9 @@ class LocalNotesExecutor:
         self.root = Path(runtime_directory) / "computer-notes"
 
     def _directory(self, create=False):
-        # NOFOLLOW applies to the last component. The parent is the trusted runtime
-        # directory supplied by the operator, never a model-provided path.
-        try:
-            if create:
-                self.root.mkdir(mode=0o700, exist_ok=True)
-            return os.open(self.root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
-        except OSError:
-            raise ExecutionRejected("COMPUTER_SCOPE_UNAVAILABLE", 409) from None
+        # The parent is the trusted runtime directory supplied by the operator,
+        # never a model-provided path.
+        return open_real_directory(self.root, create=create)
 
     @staticmethod
     def filename(job):
@@ -98,22 +200,7 @@ class LocalNotesExecutor:
             checkpoint()  # Immediately before the first possible external effect.
             if job["action"] == "verify_note":
                 return
-            try:
-                fd = os.open(
-                    filename,
-                    os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
-                    0o600,
-                    dir_fd=directory,
-                )
-            except FileExistsError:
-                raise ExecutionRejected("COMPUTER_TARGET_EXISTS", 409) from None
-            # Failures after open are uncertain: a partial file may exist. The
-            # service must reconcile, never automatically call execute again.
-            with os.fdopen(fd, "wb") as output:
-                output.write(body)
-                output.flush()
-                os.fsync(output.fileno())
-            os.fsync(directory)
+            exclusive_write(directory, filename, body)
         finally:
             os.close(directory)
 
@@ -121,29 +208,86 @@ class LocalNotesExecutor:
         filename = self.filename(job)
         directory = self._directory()
         try:
-            try:
-                fd = os.open(
-                    filename, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory
-                )
-            except FileNotFoundError:
-                return {"verified": False, "reason": "artifact_missing"}
-            except OSError:
-                return {"verified": False, "reason": "target_denied"}
-            with os.fdopen(fd, "rb") as source:
-                info = os.fstat(source.fileno())
-                if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or info.st_size > MAX_BYTES:
-                    return {"verified": False, "reason": "target_denied"}
-                body = source.read(MAX_BYTES + 1)
-            digest = hashlib.sha256(body).hexdigest()
-            expected = hashlib.sha256(job["content"].encode("utf-8")).hexdigest()
-            return {
-                "verified": digest == expected,
-                "reason": "read_back_matches" if digest == expected else "content_mismatch",
-                "artifact": filename,
-                "bytes": len(body),
-                "sha256": digest,
-                "executor": self.identity,
-                "scope": self.scope,
-            }
+            return read_artifact(
+                directory,
+                filename,
+                job["content"].encode("utf-8"),
+                self.identity,
+                self.scope,
+            )
+        finally:
+            os.close(directory)
+
+
+class FolderDropExecutor:
+    """Write one new text file into the single directory the owner named.
+
+    The path lives in SQLite and is re-checked on every use. Job payloads carry
+    the label and a fingerprint, never the path itself.
+    """
+
+    identity = "folder_drop_v1"
+
+    def __init__(self, lookup: Callable[[], dict | None]):
+        self.lookup = lookup
+
+    def configuration(self):
+        return self.lookup()
+
+    @property
+    def configured(self):
+        return self.configuration() is not None
+
+    @property
+    def scope(self):
+        cfg = self.configuration()
+        if not cfg:
+            return "owner_folder_unconfigured"
+        return "owner_folder:" + cfg["fingerprint"]
+
+    def _bound_root(self, job):
+        cfg = self.configuration()
+        if (
+            not cfg
+            or job.get("folder_fingerprint") != cfg["fingerprint"]
+            or job.get("scope") != self.scope
+            or job.get("executor") != self.identity
+        ):
+            raise ExecutionRejected("COMPUTER_SCOPE_CHANGED", 409)
+        if job["action"] not in {"save_folder_file", "verify_folder_file"}:
+            raise ExecutionRejected("COMPUTER_ACTION_DENIED", 403)
+        root = Path(cfg["path"])
+        try:
+            lexical = Path(os.path.abspath(root))
+            resolved = lexical.resolve(strict=True)
+        except OSError:
+            raise ExecutionRejected("COMPUTER_SCOPE_UNAVAILABLE", 409) from None
+        if str(resolved) != cfg["path"] or resolved != lexical:
+            raise ExecutionRejected("COMPUTER_SCOPE_CHANGED", 409)
+        return root
+
+    def execute(self, job, checkpoint):
+        filename = LocalNotesExecutor.filename(job)
+        root = self._bound_root(job)
+        body = job["content"].encode("utf-8")
+        if len(body) > MAX_BYTES:
+            raise ExecutionRejected("COMPUTER_CONTENT_TOO_LARGE", 422)
+        directory = open_owner_directory(root)
+        try:
+            checkpoint()
+            if job["action"] == "verify_folder_file":
+                return
+            exclusive_write(directory, filename, body)
+        finally:
+            os.close(directory)
+
+    def verify(self, job):
+        filename = LocalNotesExecutor.filename(job)
+        root = self._bound_root(job)
+        directory = open_owner_directory(root)
+        try:
+            return read_artifact(
+                directory, filename, job["content"].encode("utf-8"), self.identity, self.scope
+            )
         finally:
             os.close(directory)

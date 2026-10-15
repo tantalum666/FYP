@@ -12,6 +12,7 @@ import { useDraftGuard } from "../components/DraftGuard";
 import type { Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import {
+  isFolderAction,
   jobCancellable,
   recoveryMatchesNote,
   reviewAvailable,
@@ -21,6 +22,7 @@ import type { Task } from "./taskTypes";
 
 interface Snapshot {
   enabled: boolean;
+  folder?: { configured: boolean; label: string | null };
   jobs: ComputerJob[];
 }
 
@@ -38,6 +40,11 @@ export function ComputerJobsPanel({
   const [error, setError] = useState<unknown>(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [folderLabel, setFolderLabel] = useState("");
+  const [folderPath, setFolderPath] = useState("");
+  const [folderTitle, setFolderTitle] = useState("");
+  const [folderContent, setFolderContent] = useState("");
+  const [folderExpanded, setFolderExpanded] = useState(false);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
   const [lastRead, setLastRead] = useState(0);
@@ -49,7 +56,17 @@ export function ComputerJobsPanel({
   const cancelGuard = useRef(false);
   const fresh =
     !readError && !offline && !stale && Date.now() - lastRead < 6000;
-  useDraftGuard(!!(title.trim() || content.trim()), busy);
+  useDraftGuard(
+    !!(
+      title.trim() ||
+      content.trim() ||
+      folderLabel.trim() ||
+      folderPath.trim() ||
+      folderTitle.trim() ||
+      folderContent.trim()
+    ),
+    busy,
+  );
   const reload = useCallback(async () => {
     const started = generation.current;
     if (!owner || reading.current === started) return;
@@ -120,6 +137,79 @@ export function ComputerJobsPanel({
       setBusy(false);
     }
   }
+  async function nameFolder(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setError(null);
+    setNotice("");
+    try {
+      await write("/computer/folder", { label: folderLabel, path: folderPath });
+      setFolderLabel("");
+      setFolderPath("");
+      setNotice(
+        t(
+          "Folder saved. New folder jobs use this directory only after you approve the full text.",
+          "文件夹已保存。新的文件夹作业仍需你批准全文后才会写入。",
+        ),
+      );
+      await reload();
+    } catch (e) {
+      setError(e);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function clearFolder() {
+    setBusy(true);
+    setError(null);
+    setNotice("");
+    try {
+      await write("/computer/folder/clearance", {});
+      setNotice(
+        t(
+          "Folder cleared. Existing files stay where they are. Jobs that already named this folder cannot run.",
+          "已清除文件夹指定。已有文件仍留在原处。已经绑定该文件夹的作业不能再执行。",
+        ),
+      );
+      await reload();
+    } catch (e) {
+      setError(e);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function prepareFolder(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setError(null);
+    setNotice("");
+    try {
+      const task = taskId
+        ? (await request<{ task: Task }>(`/tasks/${taskId}`)).task
+        : null;
+      await write("/computer/jobs", {
+        action: "save_folder_file",
+        title: folderTitle,
+        content: folderContent,
+        task_id: taskId ?? null,
+        task_version: task?.version ?? null,
+      });
+      setFolderTitle("");
+      setFolderContent("");
+      setFolderExpanded(false);
+      setNotice(
+        t(
+          "Prepared for review. No file has been written.",
+          "已准备待核对，尚未写入文件。",
+        ),
+      );
+      await reload();
+    } catch (e) {
+      setError(e);
+    } finally {
+      setBusy(false);
+    }
+  }
   async function cancel(job: ComputerJob) {
     // Cancellation must remain reachable while an approval's HTTP result is
     // unknown. It does not share the normal write queue or its busy flag.
@@ -165,8 +255,12 @@ export function ComputerJobsPanel({
           ? (await request<{ task: Task }>(`/tasks/${taskId}`)).task
           : null;
         await write("/computer/jobs", {
-          action: "verify_note",
-          title: t("Verify saved note", "核验已保存笔记"),
+          action: isFolderAction(job.action)
+            ? "verify_folder_file"
+            : "verify_note",
+          title: isFolderAction(job.action)
+            ? t("Verify saved folder file", "核验已保存的文件夹文件")
+            : t("Verify saved note", "核验已保存笔记"),
           source_job_id: job.id,
           task_id: taskId ?? null,
           task_version: task?.version ?? null,
@@ -235,8 +329,8 @@ export function ComputerJobsPanel({
           <h3>{t("Computer jobs", "电脑作业")}</h3>
           <p>
             {t(
-              "Save a note in this desk’s dedicated notes folder, then verify the actual file. Each job needs your approval.",
-              "将笔记保存到本桌面的专用笔记目录，再核验实际文件。每项作业都需要你批准。",
+              "Save a note in this desk’s dedicated notes folder, or a file in one folder you name. Each job needs your approval, then an independent read-back.",
+              "可将笔记保存到本桌面的专用笔记目录，或保存到你指定的一个文件夹。每项作业都需要你批准，再独立读回。",
             )}
           </p>
         </div>
@@ -256,6 +350,105 @@ export function ComputerJobsPanel({
             "暂时无法读取作业状态，恢复连接后才可批准。",
           )}
         </p>
+      )}
+      <form onSubmit={nameFolder}>
+        <h4>{t("Named folder", "指定文件夹")}</h4>
+        <p className="workspace-hint">
+          {snapshot?.folder?.configured
+            ? t(
+                "Current folder: ",
+                "当前文件夹：",
+              ) + (snapshot.folder.label ?? "")
+            : t(
+                "No folder is named yet. Folder jobs stay unavailable until you choose one existing directory outside this desk’s runtime data.",
+                "尚未指定文件夹。在你选择本桌面运行数据之外的一个已有目录之前，文件夹作业不可用。",
+              )}
+        </p>
+        <label className="field">
+          {t("Folder label", "文件夹名称")}
+          <input
+            value={folderLabel}
+            onChange={(e) => setFolderLabel(e.target.value)}
+            maxLength={80}
+            required
+            disabled={busy}
+          />
+        </label>
+        <label className="field">
+          {t("Absolute folder path", "文件夹绝对路径")}
+          <input
+            value={folderPath}
+            onChange={(e) => setFolderPath(e.target.value)}
+            maxLength={4096}
+            required
+            disabled={busy}
+            spellCheck={false}
+            autoComplete="off"
+          />
+        </label>
+        <div className="workspace-inline-actions">
+          <button
+            className="primary"
+            disabled={busy || !fresh || !folderLabel.trim() || !folderPath.trim()}
+          >
+            {t("Save this folder", "保存此文件夹")}
+          </button>
+          {snapshot?.folder?.configured && (
+            <button
+              type="button"
+              className="secondary"
+              disabled={busy || !fresh}
+              onClick={() => void clearFolder()}
+            >
+              {t("Clear folder", "清除文件夹")}
+            </button>
+          )}
+        </div>
+      </form>
+      {snapshot?.folder?.configured && (
+        <>
+          <button
+            type="button"
+            className="secondary"
+            onClick={() => setFolderExpanded(!folderExpanded)}
+            aria-expanded={folderExpanded}
+          >
+            {t("Prepare a folder file", "准备文件夹文件")}
+          </button>
+          {folderExpanded && (
+            <form onSubmit={prepareFolder}>
+              <label className="field">
+                {t("File title", "文件标题")}
+                <input
+                  value={folderTitle}
+                  onChange={(e) => setFolderTitle(e.target.value)}
+                  maxLength={120}
+                  required
+                  disabled={busy}
+                />
+              </label>
+              <label className="field">
+                {t("Exact file text", "文件全文")}
+                <textarea
+                  value={folderContent}
+                  onChange={(e) => setFolderContent(e.target.value)}
+                  maxLength={8000}
+                  rows={4}
+                  required
+                  disabled={busy}
+                />
+              </label>
+              <button
+                className="primary"
+                disabled={
+                  busy || !fresh || !folderTitle.trim() || !folderContent.trim()
+                }
+              >
+                {t("Prepare for review", "准备待核对")}
+              </button>
+            </form>
+          )}
+        </>
       )}
       {snapshot?.enabled && (
         <>
@@ -346,17 +539,25 @@ export function ComputerJobsPanel({
           <p>
             {job.action === "save_note"
               ? t("Save a new note", "保存新笔记")
-              : t("Verify an existing note", "核验已有笔记")}
+              : job.action === "verify_note"
+                ? t("Verify an existing note", "核验已有笔记")
+                : job.action === "save_folder_file"
+                  ? t("Save a new folder file", "保存新的文件夹文件")
+                  : t("Verify an existing folder file", "核验已有文件夹文件")}
           </p>
           <p className="job-target">
-            {t(
-              "Destination: Desk Companion notes / ",
-              "目标：Desk Companion 笔记目录 / ",
-            )}
+            {isFolderAction(job.action)
+              ? t("Destination: ", "目标：") +
+                (job.request.folder_label ?? "") +
+                " / "
+              : t(
+                  "Destination: Desk Companion notes / ",
+                  "目标：Desk Companion 笔记目录 / ",
+                )}
             {job.request.artifact_id}.txt
           </p>
           <details open={job.state === "review"}>
-            <summary>{t("Review exact text", "核对笔记全文")}</summary>
+            <summary>{t("Review exact text", "核对全文")}</summary>
             <pre tabIndex={0}>{job.request.content}</pre>
           </details>
           {job.task_id && (
@@ -408,7 +609,9 @@ export function ComputerJobsPanel({
                 className="primary"
                 disabled={
                   busy ||
-                  !snapshot.enabled ||
+                  !(isFolderAction(job.action)
+                    ? snapshot.folder?.configured
+                    : snapshot.enabled) ||
                   !reviewAvailable(job, Date.now(), fresh)
                 }
                 onClick={() => void action(job, "approve")}
@@ -428,16 +631,29 @@ export function ComputerJobsPanel({
             {job.state === "unknown" && (
               <button
                 className="secondary"
-                disabled={busy || !fresh || !snapshot.enabled}
+                disabled={
+                  busy ||
+                  !fresh ||
+                  !(isFolderAction(job.action)
+                    ? snapshot.folder?.configured
+                    : snapshot.enabled)
+                }
                 onClick={() => void action(job, "reconcile")}
               >
                 {t("Check existing result", "核验已有结果")}
               </button>
             )}
-            {job.state === "succeeded" && job.action === "save_note" && (
+            {job.state === "succeeded" &&
+              (job.action === "save_note" || job.action === "save_folder_file") && (
               <button
                 className="text-button"
-                disabled={busy || !fresh || !snapshot.enabled}
+                disabled={
+                  busy ||
+                  !fresh ||
+                  !(isFolderAction(job.action)
+                    ? snapshot.folder?.configured
+                    : snapshot.enabled)
+                }
                 onClick={() => void action(job, "verify")}
               >
                 {t("Prepare another verification", "准备再次核验")}

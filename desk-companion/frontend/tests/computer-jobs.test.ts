@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  isFolderAction,
   jobCancellable,
   recoveryMatchesNote,
   reviewAvailable,
@@ -13,6 +14,12 @@ const job = (state: JobState, cancel_requested = false) =>
     cancel_requested,
     expires_at: "2026-10-06T12:05:00Z",
   }) as ComputerJob;
+test("folder jobs are distinct from the dedicated notes adapter", () => {
+  assert.equal(isFolderAction("save_folder_file"), true);
+  assert.equal(isFolderAction("verify_folder_file"), true);
+  assert.equal(isFolderAction("save_note"), false);
+  assert.equal(isFolderAction("verify_note"), false);
+});
 test("approval requires fresh data and an unexpired review", () => {
   assert.equal(
     reviewAvailable(job("review"), Date.parse("2026-10-06T12:04:00Z"), true),
