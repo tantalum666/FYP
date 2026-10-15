@@ -361,9 +361,12 @@ def test_task_sound_respects_quiet_hours_and_is_claimed_only_once(desk):
 def test_background_failed_attempts_count_toward_daily_limit(desk):
     r, c = desk
     for i in range(22):
-        create(r, interval_minutes=15)
+        r.tasks.create(TaskInput(title=f"Report {i}", interval_minutes=15), uuid4().hex)
     c[0] += timedelta(minutes=16)
-    r.tick()
+    # Reminders leave the queue a few at a time, so advance until 20 are pending.
+    for _ in range(20):
+        r.tick()
+        c[0] += timedelta(minutes=1)
     calls = []
 
     def response(request):
@@ -384,6 +387,201 @@ def test_background_failed_attempts_count_toward_daily_limit(desk):
     for i in range(25):
         service.enrich_one()
     assert len(calls) == 20
+
+
+def _advice_service(runtime):
+    calls = []
+
+    def response(request):
+        calls.append(True)
+        return httpx.Response(
+            200,
+            json={
+                "choices": [
+                    {"message": {"content": json.dumps({"en": "Check in?", "zh": "要更新吗？"})}}
+                ]
+            },
+        )
+
+    service = TextAssistant(
+        runtime,
+        TextConfig(
+            "qwen",
+            "test-model",
+            "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+            "fixture",
+            True,
+        ),
+        httpx.MockTransport(response),
+    )
+    return service, calls
+
+
+def test_turning_followup_off_keeps_the_task_and_skips_queued_advice(desk):
+    r, c = desk
+    task = create(r, interval_minutes=15)
+    c[0] += timedelta(minutes=16)
+    r.tick()
+    saved = r.tasks.action(
+        task["id"],
+        TaskAction(
+            action="update",
+            expected_version=task["version"],
+            task=TaskInput(title="Report", follow_up_enabled=False, interval_minutes=15),
+        ),
+        "quiet-followup",
+    )["task"]
+    service, calls = _advice_service(r)
+    service.enrich_one()
+    current = r.tasks.detail(saved["id"])["task"]
+    assert calls == []
+    assert current["status"] == "todo" and current["follow_up_enabled"] is False
+    with r.store.connection() as conn:
+        row = conn.execute(
+            "SELECT state FROM task_followups WHERE task_id=?", (saved["id"],)
+        ).fetchone()
+    assert row["state"] == "resolved"
+
+
+def test_queued_advice_is_skipped_when_followup_is_disabled_without_resolving(desk):
+    r, c = desk
+    task = create(r, interval_minutes=15)
+    c[0] += timedelta(minutes=16)
+    r.tick()
+    with r.store.connection(write=True) as conn:
+        raw = json.loads(conn.execute("SELECT data FROM tasks WHERE id=?", (task["id"],)).fetchone()[0])
+        raw["follow_up_enabled"] = False
+        conn.execute("UPDATE tasks SET data=? WHERE id=?", (json.dumps(raw), task["id"]))
+    service, calls = _advice_service(r)
+    service.enrich_one()
+    assert calls == []
+    assert r.tasks.detail(task["id"])["task"]["title"] == "Report"
+    with r.store.connection() as conn:
+        row = conn.execute(
+            "SELECT state, ai_status FROM task_followups WHERE task_id=?", (task["id"],)
+        ).fetchone()
+    assert row["state"] == "pending" and row["ai_status"] == "skipped"
+
+
+def test_quiet_hours_defer_followups_until_the_window_ends(desk):
+    r, c = desk
+    # 15:00 UTC is 23:00 in Asia/Hong_Kong, inside the default 22:00–07:00 quiet window.
+    c[0] = datetime(2026, 10, 3, 15, tzinfo=UTC)
+    task = create(r, interval_minutes=15)
+    c[0] += timedelta(minutes=16)
+    r.tick()
+    saved = r.tasks.detail(task["id"])["task"]
+    assert saved["followup"] is None
+    assert saved["next_check_at"].startswith("2026-10-03T23:00:00")
+    c[0] = datetime(2026, 10, 3, 23, 1, tzinfo=UTC)
+    r.tick()
+    assert r.tasks.detail(task["id"])["task"]["followup"]
+
+
+def test_overdue_followups_are_released_a_few_at_a_time(desk):
+    r, c = desk
+    tasks = [
+        r.tasks.create(TaskInput(title=f"Report {i}", interval_minutes=15), uuid4().hex)["task"]
+        for i in range(5)
+    ]
+    c[0] += timedelta(minutes=16)
+    r.tick()
+    due = [t for t in r.tasks.listing()["tasks"] if t["followup"]]
+    waiting = [t for t in r.tasks.listing()["tasks"] if t["next_check_at"]]
+    assert len(due) == 3 and len(waiting) == 2
+    c[0] += timedelta(minutes=1)
+    r.tick()
+    due = [t for t in r.tasks.listing()["tasks"] if t["followup"]]
+    assert len(due) == 4
+    assert all(item["status"] == "todo" for item in r.tasks.listing()["tasks"])
+    assert len(tasks) == 5
+
+
+def test_quiet_hold_follows_saved_preferences_across_restart(desk):
+    from desk.runtime import Runtime
+    from desk.workspace_data import PreferencesUpdate, WorkspacePreferences
+
+    r, c = desk
+    c[0] = datetime(2026, 10, 3, 15, tzinfo=UTC)
+    held = r.tasks.create(TaskInput(title="Held", interval_minutes=15), uuid4().hex)["task"]
+    later = r.tasks.create(
+        TaskInput(title="Later", check_in_local="2026-10-04T09:00"), uuid4().hex
+    )["task"]
+    c[0] += timedelta(minutes=16)
+    r.tick()
+    saved = r.tasks.detail(held["id"])["task"]
+    assert saved["followup"] is None
+    assert saved["next_check_at"].startswith("2026-10-03T23:00:00")
+    restarted = Runtime(r.store)
+    restarted.tick()
+    saved = restarted.tasks.detail(held["id"])["task"]
+    assert saved["followup"] is None
+    assert saved["next_check_at"].startswith("2026-10-03T23:00:00")
+    prefs = restarted.data.preferences()
+    restarted.data.update(
+        PreferencesUpdate(
+            expected_version=prefs["version"],
+            preferences=WorkspacePreferences(quiet_start="22:00", quiet_end="23:30"),
+        ),
+        "shorter-quiet",
+    )
+    restarted.tick()
+    saved = restarted.tasks.detail(held["id"])["task"]
+    assert saved["followup"] is None
+    assert saved["next_check_at"].startswith("2026-10-03T15:30:00")
+    scheduled = restarted.tasks.detail(later["id"])["task"]
+    assert scheduled["followup"] is None
+    assert scheduled["next_check_at"].startswith("2026-10-04T01:00:00")
+    prefs = restarted.data.preferences()
+    restarted.data.update(
+        PreferencesUpdate(
+            expected_version=prefs["version"],
+            preferences=WorkspacePreferences(quiet_enabled=False),
+        ),
+        "quiet-off",
+    )
+    restarted.tick()
+    assert restarted.tasks.detail(held["id"])["task"]["followup"]
+    assert restarted.tasks.detail(later["id"])["task"]["followup"] is None
+
+
+def test_snooze_survives_turning_quiet_hours_off(desk):
+    from desk.workspace_data import PreferencesUpdate, WorkspacePreferences
+
+    r, c = desk
+    c[0] = datetime(2026, 10, 3, 15, tzinfo=UTC)
+    task = create(r, interval_minutes=15)
+    c[0] += timedelta(minutes=16)
+    r.tick()
+    task = r.tasks.detail(task["id"])["task"]
+    task = act(r, task, "snooze", minutes=60)
+    prefs = r.data.preferences()
+    r.data.update(
+        PreferencesUpdate(
+            expected_version=prefs["version"],
+            preferences=WorkspacePreferences(quiet_enabled=False),
+        ),
+        "quiet-off-after-snooze",
+    )
+    r.tick()
+    current = r.tasks.detail(task["id"])["task"]
+    assert current["followup"] is None
+    assert current["next_check_at"].startswith("2026-10-03T16:16:00")
+
+
+def test_quiet_hours_do_not_send_queued_text_advice(desk):
+    r, c = desk
+    task = create(r, interval_minutes=15)
+    c[0] += timedelta(minutes=16)
+    r.tick()
+    service, calls = _advice_service(r)
+    c[0] = datetime(2026, 10, 3, 15, tzinfo=UTC)
+    service.enrich_one()
+    assert calls == []
+    c[0] = datetime(2026, 10, 3, 23, 30, tzinfo=UTC)
+    service.enrich_one()
+    assert calls == [True]
+    assert r.tasks.detail(task["id"])["task"]["status"] == "todo"
 
 
 def test_private_task_detail_uses_away_projection(desk, monkeypatch):

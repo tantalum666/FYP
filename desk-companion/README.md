@@ -10,7 +10,9 @@
 
 | 模块 | 已实现的行为 |
 |---|---|
-| 电脑作业 | 专用目录新建UTF-8笔记／再次核验、意图及事务版本审批、持久队列／历史、取消／未知结果读回；模型无批准工具 |
+| 电脑作业 | 专用笔记目录，或拥有者指定的一个真实文件夹；新建 UTF-8 文件／再次核验、意图及事务版本审批、同一持久队列、取消／未知结果读回；模型无批准工具，也不能提交路径 |
+| 记忆 | 拥有者保存／更正／删除事实；模型只能读活动事实并准备草稿；删除后不再进入模型上下文；配对屏不可读。见[记忆契约](docs/memory.md) |
+| 人格 | 拥有者编辑一段文字，文字助理和语音共用；程序仍附加工具规则。模型不能改这段文字 |
 | 日历 | 日／周／月、批量日期、公历重复与单次例外、编辑／删除／完成、冲突、提前提醒／延后、记录与CSV |
 | 主动事务 | 状态／截止／下一步／步骤、持久进展与来源、一次待处理检查、暂停／延后／完成／恢复；Tasks、Today和常亮入口 |
 | 常亮设备屏 | 独立大时钟／日期／月历／近期安排，日／夜／自动外观，触摸展开，60秒闲置返回，编辑保护；可切角色场景 |
@@ -59,7 +61,7 @@ cd ..
 
 ## 操作入口
 
-- **Assistant → Computer jobs**：拥有者核对全文及目标后批准专用笔记保存；默认关闭，按[隔离试运行](docs/computer-jobs.md)启用。
+- **Assistant → Computer jobs**：拥有者核对全文及目标后批准。专用笔记默认关闭；指定文件夹要先填写一个运行目录之外的真实路径。见[隔离试运行](docs/computer-jobs.md)。
 - **Tasks**：创建事务、记录进展、查看／暂停跟进、安排日历时段、确认完成或恢复。
 - **Today／Calendar**：查看与编辑日程；右上角助理可查询、生成草稿并确认。
 - **Device → Posture & feedback**：允许观察、个人标定、提示时间、暂停及复测状态。
@@ -73,7 +75,7 @@ cd ..
 
 ## 验证与交付边界
 
-最新149项后端、15项前端及实际浏览器证据见[本地整合核验](../output/qa/2026-10-09-dot-integration/verification.md)；[10月6日云端软件核验](../output/qa/software-completion-2026-10-06/verification.md)保留当时结果。启用与复现实验见[电脑作业操作](docs/computer-jobs.md)。旧阶段证据在[事务增强与UI／UX审查](../output/qa/task-enhancement-ux-2026-10-03/verification.md)：101项后端、11项前端检查、生产／iPhone构建及实际三端交互。此前[S1–S10记录](../output/qa/software-completion-2026-10-02/verification.md)保留。测试数据库与主数据分开，10月9日交互使用独立`.runtime/dot-integration-qa/`；旧轮使用`.runtime/completion-qa/`。截图中的安排和回放是演示数据。正式主库原有示例保留，不自动移动到今天。
+最新10月15日[审查与合并QA](../output/qa/2026-10-15-grok-review-merge/verification.md)为182项后端、17项前端，Ruff／类型／构建和npm审计零发现，含记忆／人格／目录的真实浏览器检查。历史149项后端、15项前端及实际浏览器证据见[本地整合核验](../output/qa/2026-10-09-dot-integration/verification.md)；[10月6日云端软件核验](../output/qa/software-completion-2026-10-06/verification.md)保留当时结果。启用与复现实验见[电脑作业操作](docs/computer-jobs.md)。旧阶段证据在[事务增强与UI／UX审查](../output/qa/task-enhancement-ux-2026-10-03/verification.md)：101项后端、11项前端检查、生产／iPhone构建及实际三端交互。此前[S1–S10记录](../output/qa/software-completion-2026-10-02/verification.md)保留。测试数据库与主数据分开，10月9日交互使用独立`.runtime/dot-integration-qa/`；旧轮使用`.runtime/completion-qa/`。截图中的安排和回放是演示数据。正式主库原有示例保留，不自动移动到今天。
 
 已经执行本地业务／API／协议测试、模型运行冒烟检查、浏览器交互，以及iPhone模拟器构建安装。仍需在取得条件后验证：真实摄像头视角和人工标签、实际唤醒／回声／自然语音、Pi并行性能、机械角度／电源／物理停机、显示光学、Google本人授权及Apple真机签名。没有调用付费语音API或采集真人音视频，也没有提交学校文件。
 

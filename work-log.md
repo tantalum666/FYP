@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-更新：2026-10-14。追加式记录；当前状态以 handoff.md 为准。
+更新：2026-10-15。追加式记录；当前状态以 handoff.md 为准。
 
 ## 2026-09-14 建议书制作与上下文协议
 
@@ -806,23 +806,74 @@
 - **证据与文件：**[核验记录](output/qa/2026-10-09-dot-integration/verification.md)、新回归测试和语音调度修改；product、两个README、架构／操作／作业说明、两份云端历史路由、决定和handoff同步。旧学校／身份／Senplate保护项与正式文件保持。
 - **实际合并与应用：**[整合PR #2](https://github.com/tantalum666/FYP/pull/2)已按审查head `9bbd6d3`合并，main软件提交`8ca728d`；RIG PR #1随祖先提交纳入后已标为合并。本地main快进、8831／5190主预览启动，实际原拥有者登录与新面板通过，四工作循环ready，七条日程内容hash保持，主库零测试作业且执行默认关闭。隔离QA服务已停止。收尾文档与证据随后提交；应用源码与已测试整合版本一致。无真实模型、LCU／系统权限、硬件动作、邀请、采购或学校提交；真实应用执行等缺口保持。
 
-## 2026-10-14｜托管 API 架构说明
+## 2026-10-14｜拥有者记忆与模型上下文
 
-- **目标：**写仓库审查，以及基于已有 Muse／Dot 公开拆解的托管 API 架构。供应商未选定，需给出适合本项目的工程建议。不对商业客户端逆向。
-- **阅读：**当前契约、架构、助理／语音／作业实现、9 月语音与费用研究、9 月 28 日提案目标，以及 PR #5 上的 Muse／Dot 拆解。清单、行数和未逐行重读的历史品牌文件见 [reading-record.md](output/qa/2026-10-14-tooling-and-review/reading-record.md)。`output/qa/` 自动快照按 AGENTS.md 排除。
-- **文档：**[fyp-repo-review.md](docs/tooling-and-review/fyp-repo-review.md)、[companion-architecture.md](docs/tooling-and-review/companion-architecture.md)。工程建议是先试用 Qwen 文字加 Qwen Audio，Gemini 3.8 Live 作对照；不是用户锁定。同步 product、README、handoff、decision-log。
-- **未做：**Desk Companion 测试、付费调用、合并 PR #4／#5、学校提交、硬件。下一步仍是一个指定测试动作的批准与独立读回。
+- **目标：**让 Desk Companion 更接近 Muse／Dot 式个人代理。main 已有批准后的笔记作业；本步补上可更正的长期记忆，并保持重大写入必须由拥有者确认。
+- **完成：**`desk/memory.py`、`desk/context.py`、助理草稿工具、英文／简体中文记忆页。[契约](desk-companion/docs/memory.md)。删除的事实不进入打包上下文；配对屏不能读记忆接口。
+- **验证：**`uv run --no-sync pytest -q` 152 通过；`ruff check backend scripts tests` 通过；前端 `npm test` 15 通过，`tsc --noEmit` 通过。没有付费模型，没有浏览器点击记忆页，没有商业客户端逆向。
+- **剩余：**指定一个测试应用或目录，沿现有作业契约做批准、独立读回和取消。其后才是人格文件、跟进静音和有花费上限的供应商试用。PR #4／#5 仍未合并。
 
-## 2026-10-14｜Muse 与两个 Dot 的公开产品拆解
+## 2026-10-14｜指定文件夹作业
 
-- **目标：**在同一文档 PR 上增加产品拆解：认定 Muse，分开两个名叫 Dot 的产品，并给出相对 `main` 的差距和可执行路线。只用公开页面。不对商业客户端逆向。
-- **完成：**[companion-product-teardown.md](docs/tooling-and-review/companion-product-teardown.md)。Muse 认定为 Meta 2026 年 9 月个人代理。ChatGPT Your dot 保留为 10 月 3 日用户指定的参照；New Computer Dot 按公司主页与 TechCrunch 记为已宣布停运的 iOS 伴侣。路线图沿用托管 API 与现有 FastAPI／SQLite／sherpa-onnx，不自托管权重，不新开第二套作业系统。
-- **来源：**Meta 设计文与安全文、WebWire 转载、New Computer 主页／产品页／数据承诺、两篇 TechCrunch、Klein 的 2024 设计评论、OpenAI dots 与 tasks-and-memory 文档。`about.fb.com` 未取到，发布演示未看，App Store 未打开。
-- **验证：**文档交叉链接已改 architecture、repo review、product、README、handoff、decision-log 与本记录。未跑测试，未调用模型。
-- **剩余：**通用电脑执行、真实语音与费用、Pi、姿态标签、RIG、PR #4／#5 合并、学校提交。下一步不变：一个指定测试动作的批准、独立读回和取消。
+- **目标：**在现有电脑作业上增加一个拥有者命名的文件夹动作。批准全文、独立读回、取消。不平行再做一套队列，也不改动 PR #7 的记忆提交。
+- **完成：**`FolderDropExecutor` 与 `JobService` 按动作选择执行器。拥有者接口保存一个绝对真实目录。作业绑定名称和路径指纹，不保存路径。界面有英文和简体中文。[契约](desk-companion/docs/computer-jobs.md)。
+- **验证：**`uv run --no-sync pytest -q` 162 通过；`ruff check backend scripts tests` 通过；前端 `npm test` 16 通过，`tsc --noEmit` 通过。记录见 [QA](output/qa/2026-10-14-folder-job/reading-record.md)。没有付费模型，没有浏览器点击新表单，没有商业客户端逆向。
+- **剩余：**文字和语音共用一份人格文本，然后才是单独调低跟进。PR #4／#5／#7 仍未合并。
 
-## 2026-10-14｜REA 退出组员文档
+## 2026-10-14｜共用人格文本
 
-- **用户决定：**REA 只供所有者侧的 Grok Bot／Cursor agent 使用，不交给组员或 Codex。
-- **完成：**删除 `docs/tooling-and-review/rea-setup.md`。仓库审查、架构、产品拆解、product、README、handoff、decision-log 和本记录去掉安装、编译、MCP 和命令说明。[companion-architecture.md](docs/tooling-and-review/companion-architecture.md) 只保留一句：反编译 Muse／Dot 客户端看不到服务端模型、提示词和记忆。
-- **未做：**未改 Desk Companion 代码，未跑测试。下一步不变。
+- **目标：**文字规划和语音会话使用同一份拥有者可编辑的人格，而不是两处硬编码说明。
+- **完成：**`desk/persona.py` 保存正文和版本。三个通道先放正文，再附上各自的工具协议。界面有英文和简体中文的人格页。
+- **验证：**`uv run --no-sync pytest -q` 165 通过；`ruff check backend scripts tests` 通过；前端 `npm test` 16 通过，`tsc --noEmit` 通过。没有付费模型，没有浏览器点击人格页。
+- **剩余：**已经排队的可选文字建议，在事务关闭跟进后仍可能发给模型。PR #4／#5／#7／#8 仍未合并。
+
+## 2026-10-14｜关闭跟进后跳过文字建议
+
+- **目标：**跟进可以单独关掉，而不删除事务；已经排队的可选文字建议也不再发给模型。
+- **完成：**`TextAssistant.enrich_one` 在 `follow_up_enabled` 为假时把该条建议标为 skipped。正常的事务更新仍会结束待处理跟进。
+- **验证：**`uv run --no-sync pytest -q` 167 通过；`ruff check backend scripts tests` 通过。没有付费模型。
+- **剩余：**有花费上限之前不比较托管供应商。通用应用执行仍未做。PR #4／#5／#7／#8／#9 仍未合并。
+
+## 2026-10-14｜安静时段与限流跟进
+
+- **目标：**跟进可以提醒，但安静时段不刷屏，长时间离开后也不一次弹出全部到期事务。
+- **完成：**`quiet_until` 计算安静时段结束。`tasks.tick` 在时段内改期，平时每次最多新建 3 条。`enrich_one` 在安静时段不调用模型。
+- **验证：**相关任务与安静时段测试通过；其后跑完整后端和 Ruff。没有付费模型。
+- **剩余：**电脑作业的取消、读回和指纹失败在界面上还不够清楚。PR #4／#5／#7／#8／#9／#10 仍未合并。
+
+## 2026-10-14｜作业卡片的可恢复说明
+
+- **目标：**笔记和文件夹作业在取消、读回失败或路径指纹变化时，界面写出原因和下一步。
+- **完成：**`readBackCopy` 与 `recoveryCopy`。文件夹卡片显示绑定指纹前 12 位。
+- **验证：**前端作业测试 6 项通过，`tsc --noEmit` 通过。没有付费模型。
+- **剩余：**文字模型调用还没有可替换适配器。PR #4／#5／#7／#8／#9／#10 仍未合并。
+
+## 2026-10-14｜文字适配器与作业绑定表
+
+- **目标：**Qwen 和 Gemini 可以按配置替换，以后的有边界应用动作可以挂到同一套作业上。
+- **完成：**`text_providers.py` 两个适配器。`JobService._bindings` 登记笔记和文件夹。
+- **验证：**`pytest -q` 173 通过，Ruff 通过。没有付费模型。
+- **剩余：**有花费上限之前不比较托管供应商。通用应用执行仍未做。PR #4／#5／#7／#8／#9／#10 仍未合并。
+
+## 2026-10-14｜安静时段偏好与合并顺序
+
+- **目标：**已保存的安静时段在重启和修改之后仍然约束跟进；给组员一份 PR #6–#13 的合并顺序。
+- **完成：**`task_quiet_holds`。改短或关掉安静时段后按新偏好调度。指定检查和延后不会被提前。合并顺序见 `planning/2026-10-14/pr-stack-merge-order.md`。作业卡片的新文案锁定英文和简体中文，批准截止时间跟随界面语言。
+- **验证：**`pytest -q` 175 通过，Ruff 通过。前端 `npm test` 17 通过，`tsc --noEmit` 通过。没有付费模型。
+- **剩余：**有花费上限之前不比较托管供应商。通用应用执行仍未做。PR #4／#5 与 #6–#13 仍未合并。
+
+## 2026-10-14｜Review for Codex merge
+
+- **Goal:** Review PRs #6–#14 for maintainability, bugs, folder-path safety, tests, and merge readiness. Leave English merge instructions for Codex. Do not merge.
+- **Done:** PR #6 docs no longer say to extend PR #5. `planning/2026-10-14/pr-stack-merge-order.md` is the English merge procedure, including #14. PR bodies carry the same procedure.
+- **Checks:** Tip already had pytest 175, Ruff, frontend 17 tests, and typecheck green. This pass changed docs and PR text only.
+- **Left:** Codex merges in the written order. No spend cap, so no provider trial. No unrestricted app control. PRs #4 and #5 stay unmerged.
+
+## 2026-10-15 Git工作独立审查、修复和合并
+
+- **目标：**按用户要求检查Grok bot工作并在验证后合并。完整恢复148份自有Markdown／13,432行；补读32个远端文档版本的全部不同正文，完全相同文本才继承本轮范围。旧角色分支保持。
+- **发现与修复：**配对终端可经助理访问／确认记忆；目录校验与打开之间的上级链接变化可改向；人格重置复用版本；失败覆盖草稿。回归先失败后通过。追加拥有者边界、逐级目录句柄、持久递增版本及明确加载／安全重试；修复已有source-map-js 1.2.1告警。
+- **验证：**原始175后端／17前端通过但未覆盖上述缺口；修复后的实际main代码`2c1e465`为182后端／17前端、Ruff、类型、生产构建与npm审计零发现。保留一条Starlette上游弃用提示。浏览器实际保存更正、双端人格冲突、HTTP200回执丢失后原操作恢复、审批前零文件与审批后27字节／SHA256读回一致；390×844简中无横向溢出。
+- **Git：**PR #7至#14已按依赖顺序合并，修复回推到对应分支，普通merge保留祖先；[PR #6](https://github.com/tantalum666/FYP/pull/6)承载公开研究的状态纠正、规范同步及本轮QA。原PR #4／#5保持开放另线，未强推或改原A1分支。
+- **规范／证据：**同步product、handoff、两个README、架构、记忆／作业／操作、协作和历史合并路线；重写三份tooling文档中过期的实现／下一步。证据、逐文件阅读范围、日志、截图和代码合并回执见[QA](output/qa/2026-10-15-grok-review-merge/verification.md)。
+- **保留与剩余：**原学校／角色文件和私人运行区保持。隔离测试服务、两标签、拦截与尺寸覆盖均清理。无真实模型、音视频、硬件、部署、采购或学校提交；下一步为一个明确真实应用任务与允许范围，然后沿同一作业契约验证。

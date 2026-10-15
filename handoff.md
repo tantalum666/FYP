@@ -1,21 +1,19 @@
 # Group 2 Current Handoff
 
-更新：2026-10-14。状态：**main 仍是 10 月 9 日已合并的 Desk Companion；本轮只新增 tooling 文档。**
+Updated: 15 October 2026. **The reviewed #7–#14 code stack is merged into main. This #6 delivery reconciles the tooling research and records the independent review.** PRs #4 and #5 remain separate.
 
-## 当前结果
+## Current state and evidence
 
-`main` 软件基线未改。新增 [docs/tooling-and-review](docs/tooling-and-review/fyp-repo-review.md)：仓库结构与缺口、[托管 API 架构与供应商建议](docs/tooling-and-review/companion-architecture.md)、[Muse／Dot 产品拆解与路线图](docs/tooling-and-review/companion-product-teardown.md)。没有把密钥或二进制提交进来。
+- Owner-reviewed facts, one owner-named folder on the existing note-job ledger, a shared persona, quiet-hour holds, failure/recovery copy and replaceable text adapters are implemented.
+- Review fixes close paired access to facts through assistant/text/voice paths; reject symlinks in every folder ancestor; preserve persona versions across reset/migration; and retain drafts and repeat-safe save recovery. source-map-js is patched to 1.2.2.
+- [QA](output/qa/2026-10-15-grok-review-merge/verification.md): actual merged code `2c1e465` passed 182 backend tests, 17 frontend tests, Ruff, typecheck, production build and npm audit (zero findings). Browser fixtures cover memory persistence/lost replies, conflicting persona editors and an independently verified folder write. One upstream Starlette test-client deprecation remains.
+- Providers were disabled; no live model, camera, microphone or hardware action. Two temporary browser tabs, interception, viewport override and QA server were cleaned up. Original A1 branch and private runtime were not changed.
+- A1 is the user's selected identity and intact 2D is the latest visual direction, retained on [PR #4](https://github.com/tantalum666/FYP/pull/4). The separate kernel is [PR #5](https://github.com/tantalum666/FYP/pull/5). Neither is part of this merge.
 
-供应商仍未由用户选定。文档里的 Qwen 优先、Gemini 对照是工程建议，不是购买或锁定。产品拆解认定 Desk Companion 语境下的 Muse 是 Meta 2026 年 9 月的个人代理；Dot 有两个公开产品，10 月 3 日用户指定的是 ChatGPT Your dot，本轮提示所指的 New Computer Dot 是已宣布停运的 iOS 伴侣。PR #5 上的早期接口研究仍未合并，本轮没有复制。GitHub 打开项是 [PR #4](https://github.com/tantalum666/FYP/pull/4) 与 PR #5，没有单独的 open issue。
+## Remaining
 
-## 证据
+Named real-application/remote-PC execution; archive and complete business backup; owner choice of real provider/model and spend cap; real voice/wake/AEC and consented posture labels; Pi/iPhone/optics/RIG/cleaner verification. School submission status was not refreshed. Research notes are dated evidence, not measurements of commercial products.
 
-产品页来源与不确定项见 [companion-product-teardown.md](docs/tooling-and-review/companion-product-teardown.md)。阅读范围见 [本轮 QA](output/qa/2026-10-14-tooling-and-review/reading-record.md)。未跑 Desk Companion 测试，未调用付费模型，未对商业客户端做逆向。
+## One next step
 
-## 未完成
-
-通用电脑执行、真实语音与费用、Pi、真人姿态标签、RIG／清洁模块、PR #4／#5 合并，以及学校提交，都还开着。
-
-## 唯一下一步
-
-**在 owner 指定的一个测试应用或目录上，沿现有作业契约做批准、独立读回和取消；不要新开一套任务系统，也不要在没有花费上限时开通模型账号。**
+**Define one real target computer/application task and allowed data scope, then validate approval → execution → independent read-back, including refusal, cancellation and unknown-result recovery, on the existing JobService.**

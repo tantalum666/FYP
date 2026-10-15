@@ -88,7 +88,15 @@ export async function write<T>(path: string, body: unknown): Promise<T> {
 }
 export async function retryPending(): Promise<unknown> {
   const op = pendingWrite();
-  if (op) return write(op.path, op.body);
+  if (op) {
+    const result = await write(op.path, op.body);
+    window.dispatchEvent(
+      new CustomEvent("desk:write-recovered", {
+        detail: { operation: op, result },
+      }),
+    );
+    return result;
+  }
 }
 export function clearPending() {
   sessionStorage.removeItem(pendingKey);
@@ -128,6 +136,14 @@ export function errorText(
     COMPUTER_DISABLED: [
       "Local note execution is disabled on this desk.",
       "本桌面未启用本地笔记执行。",
+    ],
+    FOLDER_NOT_CONFIGURED: [
+      "Name one real folder before preparing a folder file.",
+      "请先指定一个真实文件夹，再准备文件夹文件。",
+    ],
+    FOLDER_PATH_DENIED: [
+      "That folder must be an existing directory outside this desk’s runtime data, and it cannot be a shortcut.",
+      "该文件夹必须是已存在的目录，位于本桌面运行数据之外，且不能是快捷方式。",
     ],
     JOB_TASK_CHANGED: [
       "The linked task changed. Prepare a new job using its current details.",
@@ -334,6 +350,14 @@ export function errorText(
       "尝试次数过多，请等一分钟。",
     ],
     EVENT_NOT_FOUND: ["This event is no longer available.", "此事项已不存在。"],
+    MEMORY_NOT_FOUND: [
+      "That fact is no longer active. Refresh the memory list.",
+      "这条事实已不在记忆中，请刷新列表。",
+    ],
+    MEMORY_LIMIT: [
+      "Memory is full. Delete a fact before saving another.",
+      "记忆已满，请先删除一条再保存。",
+    ],
     NARROW_DATE_RANGE: [
       "This view contains too many events. Choose a single day in the date picker or open Today.",
       "当前视图日程过多，请在日期选择器选择一天，或打开今天。",

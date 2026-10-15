@@ -1,0 +1,54 @@
+{
+  "updated_at": "2026-10-15T01:27:09.536638+00:00",
+  "scope": "PRs 6-14 only; PRs 4-5 remain separate",
+  "primary_branch": "codex/full-body-3d-avatar",
+  "primary_head_preserved": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+  "review_worktree": "/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP",
+  "reviewed_tip": "6d02710dbc8c5a1cad3807631239b322d64a8a69",
+  "review_fix_commits": [
+    "827dcfb",
+    "14ae67d",
+    "3b3f639",
+    "98aee62"
+  ],
+  "validation": {
+    "original_stack_backend": 175,
+    "original_frontend": 17,
+    "fixed_stack_backend": 182,
+    "fixed_frontend": 17,
+    "ruff": "pass",
+    "typecheck": "pass",
+    "build": "pass",
+    "npm_audit_after": "zero reported"
+  },
+  "findings_fixed": [
+    "Owner-memory API restriction bypassed by assistant proposals/decisions and model context. Now enforced across text, voice and cached replies.",
+    "Approved folder validation could race with a symlink ancestor. Now all components open via directory handles and O_NOFOLLOW.",
+    "Persona reset reused old versions. Reset now persists a monotonically increasing version and migrates existing text.",
+    "Persona errors replaced unsaved drafts. Drafts now persist until explicit reload; memory lost-response recovery clears only its matching draft.",
+    "source-map-js 1.2.1 pre-existing high audit finding; updated to 1.2.2."
+  ],
+  "browser": {
+    "url": "http://127.0.0.1:5191/",
+    "runtime": "isolated ignored fixture directory",
+    "checks": [
+      "memory save and correction",
+      "memory reply lost after HTTP200: safe retry, one fact, matching draft cleared",
+      "two persona editors: stale save rejected, draft preserved, explicit load current",
+      "folder review: no file before approval; one 27-byte UTF-8 file after approval; independent SHA256 matches",
+      "390x844 Simplified Chinese: document width equals scrollWidth 390"
+    ],
+    "cleanup": "two temporary tabs closed; request interception and viewport cleared; QA server stopped"
+  },
+  "merged_so_far": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "remaining": "Real application/provider/device evidence as listed in the current handoff; tooling docs reconciled in PR #6."
+}

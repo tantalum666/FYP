@@ -1,6 +1,6 @@
 # Group 2 Decision Log
 
-更新：2026-10-14。记录采用追加方式；用户明确要求与工程建议分别标注。
+更新：2026-10-15。记录采用追加方式；用户明确要求与工程建议分别标注。
 
 ## 2026-09-14 当前要求与方案取代
 
@@ -674,22 +674,63 @@
 
 - **实际交付读回：**[PR #2](https://github.com/tantalum666/FYP/pull/2)按已审查head `9bbd6d3`成功合并，main软件提交`8ca728d`；RIG PR #1也由GitHub标记已合并。本地main已快进并启动8831／5190，原7条日程内容hash一致、四个工作循环ready，新面板实际加载且默认未启用执行。后续提交只补充本轮收尾文档与证据，不改变已测试应用代码。
 
-## 2026-10-14 托管 API 架构说明
+## 2026-10-14 拥有者记忆，沿用既有作业契约
 
-- **用户要求：**阅读 FYP，把仓库审查写进 `docs/tooling-and-review/`。随后明确 Muse 指 Meta Muse，公开拆解已经存在就不要重写；改为推断 Muse、Dot 与一般个人助理的架构，并映射到 Desk Companion。再明确大模型走托管 API，记忆、工具、调度、人格和语音会话由本组实现。最后说明供应商尚未选定，要求在读完目标、约束、硬件、预算和语言需求后给出比较和一项适合本项目的建议。不对第三方商业应用做逆向。
-- **工程建议，不是用户选定：**第一次申请账号时优先阿里云通义 Qwen 的文字模型加 Qwen Audio 短会话；Gemini 3.8 Live 作为同一脚本的对照。理由写在[companion-architecture.md](docs/tooling-and-review/companion-architecture.md)：现有适配器、学校提案中的第一候选、9 月 25 日香港区域记录、中英命令和粤语测试需求、以及学生预算下的短会话。OpenAI Live、Meta API 和自托管权重不作为当前默认。9 月价格与地区列表必须在开通前复核。没有创建密钥或产生费用。
-- **已有研究：**Muse 与 ChatGPT Dot 的接口级研究在未合并分支 `codex/personal-agent-kernel-20261012`。产品行为另写在 [companion-product-teardown.md](docs/tooling-and-review/companion-product-teardown.md)，不把 PR #5 的正文复制进来。
-- **未改变：**软件行为、供应商锁定、学校正文、采购、合并 PR #4／#5、成员邀请。
+- **用户决定：**Desk Companion 要接近 Meta Muse、ChatGPT Dot 和能在用户应用里行动的个人代理：保持记忆、后台工作、重大动作先征求批准，并保留坐姿、本地日历和中英界面。没有组员冲突，要求继续实现而不是只写文档。编码希望用可用的最强编码后端；本环境无法调用该后端，因此在当前分支完成这一片。
+- **工程选择，不是把 PR #5 整支合入：**未合并的 agent kernel 叠在 PR #4 上，范围远大于这一步。main 已有专用笔记作业的批准、独立读回和取消。本步只加拥有者记忆：`desk/memory.py` 保存事实，`desk/context.py` 决定发给模型的内容，草稿仍走现有确认接口。不自托管模型，不要求付费密钥，不新开第二套作业系统。
+- **未改变：**供应商锁定、学校正文、采购、合并 PR #4／#5、通用 GUI／LCU。下一步仍是 owner 指定的一个测试动作。
 
-## 2026-10-14 公开产品拆解：Muse 与两个 Dot
+## 2026-10-14 指定文件夹沿用同一作业契约
 
-- **用户要求：**在同一 PR 增加 `docs/tooling-and-review/companion-product-teardown.md`。拆解 AI 伴侣 Muse 与 Dot；提示 Dot 很可能是 New Computer 的个人 AI。按 Desk Companion 语境判断哪个 Muse 最合理，并写明认定与不确定处。同时覆盖一类能在用户应用里行动、保持记忆、后台工作并主动提醒的通用个人代理。只用公开网页，附链接。不反编译、不提取代码或提示词。再写相对 Desk Companion 的差距和可交给组员与 Codex 的实现路线。
-- **研究认定，不是用户改口：**Muse 采用 Meta 2026 年 9 月的个人代理（设计文与 9 月 8 日安全文）。其他同名产品不符合“在应用里办事的桌面个人代理”。Dot 仍有两个公开产品。10 月 3 日用户已经指定 Codex／ChatGPT 的 Your dot，公开文档也符合“操作应用、记忆、后台、提醒”。New Computer 的 Dot 是 2024 年的 iOS 伴侣，公司主页宣布停运至 10 月 5 日（主页未写年份；TechCrunch 2025-09-05 写为 2025-10-05）。它作为本轮点名的伴侣写入拆解，不取代 10 月 3 日的参照，也不当成仍在运营的电脑代理。
-- **工程建议未变：**路线图仍是托管 API、本组拥有记忆／工具／调度／人格／语音会话；Qwen 优先与 Gemini 对照仍不是供应商锁定。下一步仍是 owner 指定的一个测试动作，而不是仿造 Muse 的云虚拟机。
-- **未做：**未打开 App Store，未观看 Muse 发布演示，`about.fb.com` 公告此前为 HTTP 403、本轮未再取。未把 Meta 公开的那一句系统提示写进本组人格。
+- **用户决定：**继续接近 Muse／Dot／Grok-Bot。下一项是用笔记作业的同一契约做一个拥有者命名的测试应用或文件夹动作：批准全文、独立读回、取消。保持 PR #7 的记忆改动完整，并自行选定安全沙箱路径和结构。
+- **工程选择：**不新开第二套队列。`JobService` 按动作选择执行器。`LocalNotesExecutor` 行为不变，仍受 `DESK_COMPUTER_ENABLED` 控制。新增 `FolderDropExecutor`，只把 `<作业ID>.txt` 新建到拥有者指定的一个绝对真实目录。路径存在 SQLite，作业里只留名称和路径指纹。目录必须已存在、不是符号链接，且不能是运行目录、其上级或其子目录。模型没有 path 字段。批准前目录变化返回 `COMPUTER_SCOPE_CHANGED`。
+- **未改变：**供应商锁定、学校正文、采购、合并 PR #4／#5／#7、通用 GUI／LCU。下一步改为文字和语音共用一份人格文本。
 
-## 2026-10-14 REA 仅限所有者侧使用
+## 2026-10-14 文字和语音共用一份人格
 
-- **用户决定：**REA 只给所有者本人的 Grok Bot／Cursor agent 使用，不给组员或 Codex。`docs/tooling-and-review/rea-setup.md` 从本 PR 删除。组员文档、PR 标题和 PR 正文不再写安装、编译、MCP 或命令用法。
-- **保留：**[companion-architecture.md](docs/tooling-and-review/companion-architecture.md) 仍用短段说明：反编译 Muse／Dot 客户端看不到服务端模型、提示词和记忆。这不是工具安装说明。
-- **未改变：**软件行为、供应商锁定、产品拆解结论、学校正文。
+- **用户决定：**文件夹动作之后，若还有余量，继续做人格文件，再考虑把跟进单独调低。
+- **工程选择：**`desk/persona.py` 保存一份正文。未编辑时用内置文本，版本为 1。拥有者替换后版本递增，可以恢复内置文本。`text_system`、`voice_instructions` 和 `followup_system` 都先放这段正文，再附加各自的工具协议，避免人格编辑删掉「不能自行确认」。模型没有写入工具。配对屏不能改。
+- **已有跟进开关：**事务上的 `follow_up_enabled` 已经能停止新的本地检查。尚未拦住的是已经进入待处理状态的可选文字建议。
+- **未改变：**供应商锁定、学校正文、采购、合并既有 PR、通用 GUI／LCU。
+
+## 2026-10-14 关闭跟进后跳过已排队的文字建议
+
+- **工程选择：**不新增第二套静音开关。事务更新关闭跟进时，待处理跟进本来就会被标为已处理。`enrich_one` 再检查 `follow_up_enabled`：即使队列里还有一条待处理跟进，也不把可选文字建议发给模型，也不删除事务。
+- **未改变：**供应商锁定、学校正文、采购、合并既有 PR、通用 GUI／LCU。下一步改为：有花费上限之后才比较托管供应商。
+
+## 2026-10-14 安静时段与限流跟进
+
+- **用户决定：**继续接近 Muse／Dot／Grok-Bot，但不要付费试用托管模型，也不要做不受限的应用控制。跟进要能提醒，同时避免刷屏。
+- **工程选择：**沿用工作空间已有的安静时段，不另做一套日程。安静时段内 `tasks.tick` 把到期检查推到时段结束，`enrich_one` 不调用模型。一次 tick 最多新建 3 条跟进，其余按分钟错开。关闭跟进的事务移出到期队列。
+- **未改变：**供应商锁定、学校正文、采购、合并既有 PR、通用 GUI／LCU。
+
+## 2026-10-14 作业卡片的可恢复说明
+
+- **用户决定：**继续接近 Muse／Dot／Grok-Bot，但不要付费试用，也不要做不受限的应用控制。电脑作业的取消、读回和指纹失败要能看懂并恢复。
+- **工程选择：**不改作业状态机。卡片根据已有 `result.reason` 和错误码说明下一步：核验已有文件，或按当前文件夹重新准备。指纹只显示前 12 位。
+- **未改变：**执行器、批准全文、独立读回、供应商锁定、通用 GUI／LCU。
+
+## 2026-10-14 文字适配器与作业绑定表
+
+- **用户决定：**继续接近 Muse／Dot／Grok-Bot，但不要付费试用，也不要做不受限的应用控制。Qwen／Gemini 以后要能切换而不重写调用方。以后的应用动作要能挂到同一套作业上。
+- **工程选择：**`text_providers.py` 登记 Qwen 与 Gemini。`generate` 只按配置取适配器。`JobService._bindings` 登记笔记和文件夹动作。新动作是多一行，不是第二套队列。测试使用模拟 HTTP，没有开通账号。
+- **未改变：**供应商锁定、学校正文、采购、合并既有 PR、通用 GUI／LCU。下一步仍是有花费上限之后才比较托管供应商。
+
+## 2026-10-14 安静时段跟随已保存的偏好
+
+- **用户决定：**仍没有花费上限，不要开通托管模型账号，也不要做不受限的应用控制。组员需要 PR #6–#13 的合并顺序。安静时段的配置要能持久生效。
+- **工程选择：**被推迟的跟进写入 `task_quiet_holds`。重启后不重复生成。保存的安静时段变了，下一次调度改到新的结束时间，或在已经不处于安静时段时放回队列，仍每次最多 3 条。本人指定的未来检查和延后会清掉这条推迟。文字适配器和语音适配器仍分开，因为报文不同。合并顺序写在 `planning/2026-10-14/pr-stack-merge-order.md`：先 #7 再 #8 至 #13，#6 在 #7 之后处理四个活文档的冲突。PR #4／#5 不并进这条线。
+- **未改变：**供应商锁定、学校正文、采购、合并既有 PR、通用 GUI／LCU。
+
+## 2026-10-14 Review before Codex merges
+
+- **Owner decision:** Review PRs #6–#14. Mark them ready or leave them draft with required fixes. Do not merge. Codex merges later. Handoff text is English for that coding agent.
+- **Review result:** No blocking defect in the folder path gate, the job contract, or the quiet-hour hold. PR #6’s original “extend PR #5” lines were stale. Those lines now point at the #7–#14 stack and still forbid opening a hosted account.
+- **Unchanged:** No spend cap, so no provider trial. No unrestricted app control. PRs #4 and #5 stay unmerged. This review did not merge #6–#14.
+
+## 2026-10-15 独立审查、修复并合并Grok bot工作
+
+- **用户授权：**检查Git新增工作，确认没问题就合并。该新指令允许本批PR #6–#14的实际合并，取代这批文档中“留给Codex、尚未合并”的旧待办。
+- **审查结果与工程修复：**记忆拥有者边界必须覆盖助理草稿／决定、文字上下文／缓存和语音；指定目录必须逐级无符号链接打开；人格重置不能复用旧版本，失败也不能清除未保存草稿。新增回归先复现后修复，并更新source-map-js到1.2.2。
+- **交付方式：**先将修复以普通推送放回对应PR，逐层合并main以保留修复；功能栈使用merge commit。PR #6用普通merge对齐main，保留两边历史并修正过期路线，不使用force push。实际代码合并回执和182／17检查见[本轮QA](output/qa/2026-10-15-grok-review-merge/verification.md)。
+- **范围：**A1完整2D及PR #4、PR #5另线保持；真实提供商／模型和花费上限未选择，未开账号或调用模型；真实应用、硬件和学校提交没有被测试数替代。

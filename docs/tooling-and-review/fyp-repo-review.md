@@ -1,10 +1,10 @@
 # FYP repository review for teammates and coding agents
 
-Date: 14 October 2026. Scope: `main` at `ccfac48` (software merge `8ca728d` plus the 9 October closeout). Group 2. Desk Companion is the current product. Senplate food-monitoring material is historical and is not the specification.
+Date: 14 October 2026. Original scope: `main` at `ccfac48`; implementation status refreshed after the 15 October #7–#14 merges. Group 2. Desk Companion is the current product. Senplate food-monitoring material is historical and is not the specification.
 
 The hosted-API design, the Muse/Dot inference, and the provider recommendation are in [companion-architecture.md](companion-architecture.md). The public product teardown (Meta Muse, both Dots, gaps, and a task list) is in [companion-product-teardown.md](companion-product-teardown.md).
 
-**Merge status, 14 October 2026.** This review describes `main` on the morning of 14 October. The owner later added PRs **#7–#14** (memory, one owner-named folder, persona, quiet follow-ups, job-card recovery, text adapters). Merge that stack onto `main`. Do not merge PR #4 or PR #5. Do not treat “implement on PR #5” below as the current plan.
+**Review update, 15 October 2026.** The independent review fixed permission, directory-opening, persona-version and draft-recovery defects, then merged #7–#14 with merge commits. The actual merged code passed 182 backend tests, 17 frontend tests, Ruff, typecheck, production build and npm audit (zero findings). [Evidence](../../output/qa/2026-10-15-grok-review-merge/verification.md). The 9 October figures below retain their date. PRs #4 and #5 remain separate.
 
 ## Goals
 
@@ -29,7 +29,8 @@ Verified on 9 October in an isolated database, with fake providers and synthetic
 | Calendar | Day, week, month, recurrence, exceptions, reminders, CSV, ICS, read-only Google preview. No write-back to Google. |
 | Tasks | Durable tasks, evidence, one pending follow-up, pause and snooze. A 1-second loop applies rules. Optional text advice is off and capped at 20 attempts a day. |
 | Assistant | Draft tools for tasks, calendar, posture, device presets, and a bounded note job. The model cannot confirm. Owner approval is a separate request. |
-| Computer jobs | Default off. Creates a new UTF-8 file under the app’s `computer-notes/` directory, then reads it back (size, SHA-256, name). No shell, no arbitrary path, no third-party GUI. |
+| Computer jobs | Dedicated notes default off; an owner may configure one real folder. Approval binds exact text and scope, every directory component rejects symlinks, and independent read-back checks size/SHA-256. No shell or third-party GUI. |
+| Owner memory/persona | Correctable facts, deletion from future context and a shared owner persona. Paired text/voice cannot read facts or decide memory drafts. Persona reset preserves monotonic versions. |
 | Voice | Qwen Audio and Gemini Live adapters, PCM, barge-in, one session, time limits. Local Chinese/English wake word. Providers default to `none`. |
 | Posture | MediaPipe landmarks plus team thresholds. Replay does not move hardware. No human-labeled accuracy yet. |
 | Outputs | Named light and arm presets, 5-second claims, simulator and PCA9685. RIG-Arm is researched and not driven. |
@@ -38,9 +39,9 @@ Verified on 9 October in an isolated database, with fake providers and synthetic
 
 Code map: `backend/desk/` (calendar, tasks, assistant, voice, jobs), `backend/desk/agents/` (camera, wake, outputs), `frontend/src/device/` (always-on screen), `frontend/src/workspace/` (assistant and device panels), `frontend/ios/`, `scripts/`, `config/`. Private runtime data stays in `desk-companion/.runtime/` and is gitignored.
 
-## Two open GitHub items
+## Separate unmerged branches
 
-The repository’s open-issue count is 2. Both are pull requests. There is no separate open issue thread.
+The #7–#14 batch is independent of the two earlier feature branches below. Open issue counts are not used as completion evidence.
 
 | Item | Branch | What it contains | What it is not |
 |---|---|---|---|
@@ -61,27 +62,18 @@ Read PR #5’s research before writing another product survey. Do not implement 
 
 1. No hosted provider is configured, tried, or paid for. Naturalness, Cantonese, echo, and the real invoice are unknown. Adapters exist only for Qwen and Gemini.
 2. The only executed computer action on `main` is a note in the app directory. General GUI, LCU, and a remote PC executor are not built. LCU was a candidate on 6 October and was not installed.
-3. Long-term memory the owner can correct is not on `main`. Tasks are not a biography. PR #5 starts a fact store; it is unmerged.
+3. Owner facts and persona are implemented, but retention/archive and complete business backup remain open. Facts are not a full transcript or a biography.
 4. Job history is not in the business JSON backup, and there is no archive UI. The cap is 1000 jobs.
 5. Posture has no consented human labels, so the proposal’s F1 and false-alarm targets are plans. MediaPipe on Linux aarch64 has not been run on a Pi for this project.
 6. RIG-Arm, the cleaner module, the optical character path, and a physical stop are untested. PCA9685 does not speak the arm’s servo bus.
 7. iPhone signing on a real phone, Google OAuth with a real account, and an always-on desk install are unverified. There is no CI workflow on `main` (PR #5 adds one).
 8. School Progress I was dated 26 October 2026 in the proposal timetable. This review does not submit that report.
 
-## Tasks a teammate or Codex can pick up
+## Next work
 
-Match the task to the branch. The product teardown is [companion-product-teardown.md](companion-product-teardown.md); do not write another one. Do not self-host an LLM. Do not reverse-engineer a commercial client; that cannot show the hosted model, as [companion-architecture.md](companion-architecture.md) notes.
+Use the current [handoff](../../handoff.md). First define one real target application task and allowed data, and validate it through the existing approval/read-back/cancel contract. Do not fork another queue. Owner facts, shared persona, quiet holds and Qwen/Gemini text adapters are already implemented; do not add duplicate versions of them.
 
-| Priority | Task | Done when | Avoid |
-|---|---|---|---|
-| P0 | Read [companion-product-teardown.md](companion-product-teardown.md) and [companion-architecture.md](companion-architecture.md). | The next patch names which branch it targets and which roadmap item it is. | A third Muse/Dot survey. |
-| P1 | Context-packer test on the existing text adapter, no live HTTP. | The recorded request has persona and the selected task, and lacks the API key and deleted text. | A new provider. |
-| P1 | Prove the advice loop stays silent when the provider is `none` or the cap is spent. | A regression test fails if a model client is constructed in those cases. | Calling Qwen from the 1-second tick. |
-| P2 | One owner-named app or folder action with approval and independent read-back. | A lost receipt stays unknown and a second approve does not write twice. | Shell tools, LCU, or a parallel job framework if PR #5 already has the ledger. |
-| P2 | One editable persona text used by both voice and text setup. | UI language still follows the user; medical claims stay out. | Copying a vendor system prompt. |
-| P3 | Fake-provider voice test: partial audio cannot approve; hang-up does not cancel an approved job. | Tests only. Real mics wait for a key and a spend cap. | A billing trial hidden inside a refactor. |
-| P3 | Hardware preset or posture-label tooling, by the hardware members. | Simulator and “physical success” stay different statuses. | LLM-chosen motor angles. |
-| P4 | After the owner sets a cap, run the Mandarin/English command list on Qwen, then Gemini if the account works. | A short log of model id, region, failures, and usage. No accuracy claim beyond that log. | Treating September price examples as the invoice. |
+Then address archive/backup and real-service/device validation. A hosted model trial waits for the owner's provider/model and spend cap. Hardware and consented posture evaluation remain separate.
 
 Run, from `desk-companion/`, for code changes:
 

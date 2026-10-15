@@ -60,6 +60,8 @@ git push -u origin feature/xu-calendar
 
 PR 流程是协作约定，当前没有声称已启用付费分支保护或强制审批。提交前用 `git status` 和 `git diff --staged` 核对内容；不要强制推送其他人的分支。
 
+The #7–#14 code stack has been reviewed, fixed and merged; [review evidence](output/qa/2026-10-15-grok-review-merge/verification.md). The [original merge procedure](planning/2026-10-14/pr-stack-merge-order.md) is historical. PRs #4 and #5 remain separate.
+
 按变更运行相关检查。修改应用业务或界面时，从 `desk-companion/` 运行：
 
 ```sh

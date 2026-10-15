@@ -17,15 +17,30 @@ from fastapi import APIRouter, Depends
 from pydantic import Field, model_validator
 
 from .calendar import iso
-from .computer import ComputerExecutor, ExecutionRejected, LocalNotesExecutor, VerificationReceipt
+from .computer import (
+    ComputerExecutor,
+    ExecutionRejected,
+    FolderDropExecutor,
+    LocalNotesExecutor,
+    VerificationReceipt,
+    accept_owner_folder,
+)
 from .schemas import StrictModel
 from .store import DomainError, encode
 
 TERMINAL = {"succeeded", "failed", "cancelled", "expired"}
 
 
+NOTE_ACTIONS = {"save_note", "verify_note"}
+FOLDER_ACTIONS = {"save_folder_file", "verify_folder_file"}
+WRITE_ACTIONS = {"save_note", "save_folder_file"}
+CHECK_ACTIONS = {"verify_note", "verify_folder_file"}
+
+
 class JobInput(StrictModel):
-    action: Literal["save_note", "verify_note"] = "save_note"
+    action: Literal["save_note", "verify_note", "save_folder_file", "verify_folder_file"] = (
+        "save_note"
+    )
     title: str = Field(min_length=1, max_length=120)
     content: str = Field(default="", max_length=8000)
     source_job_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
@@ -39,14 +54,31 @@ class JobInput(StrictModel):
             self.title.encode("utf-8")
         except UnicodeError:
             raise ValueError("Use valid Unicode text") from None
-        if not self.title.strip() or (self.action == "save_note" and not self.content.strip()):
-            raise ValueError("A title and note text are required")
+        if not self.title.strip() or (self.action in WRITE_ACTIONS and not self.content.strip()):
+            raise ValueError("A title and file text are required")
         if (self.task_id is None) != (self.task_version is None):
             raise ValueError("Task ID and version must be supplied together")
-        if self.action == "save_note" and self.source_job_id is not None:
-            raise ValueError("New notes cannot target an existing artifact")
-        if self.action == "verify_note" and (not self.source_job_id or self.content):
+        if self.action in WRITE_ACTIONS and self.source_job_id is not None:
+            raise ValueError("New files cannot target an existing artifact")
+        if self.action in CHECK_ACTIONS and (not self.source_job_id or self.content):
             raise ValueError("Verification requires a saved job, without replacement text")
+        return self
+
+
+class FolderNaming(StrictModel):
+    label: str = Field(min_length=1, max_length=80)
+    path: str = Field(min_length=1, max_length=4096)
+
+    @model_validator(mode="after")
+    def readable_label(self):
+        try:
+            self.label.encode("utf-8")
+            self.path.encode("utf-8")
+        except UnicodeError:
+            raise ValueError("Use valid Unicode text") from None
+        self.label = " ".join(self.label.split())
+        if not self.label or len(self.label) > 80:
+            raise ValueError("A folder label is required")
         return self
 
 
@@ -63,6 +95,7 @@ class JobService:
     def __init__(self, runtime, executor: ComputerExecutor | None = None):
         self.runtime, self.store = runtime, runtime.store
         self.executor = executor or LocalNotesExecutor(self.store.directory)
+        self.folder = FolderDropExecutor(self.folder_config)
         self.enabled = os.environ.get("DESK_COMPUTER_ENABLED") == "1"
         self.run_lock = threading.Lock()
         self.stopping = False
@@ -75,6 +108,9 @@ class JobService:
                     approved_by TEXT, run_id TEXT, cancel_requested INTEGER NOT NULL DEFAULT 0,
                     result TEXT, error TEXT);
                 CREATE INDEX IF NOT EXISTS computer_jobs_state ON computer_jobs(state, created_at);
+                CREATE TABLE IF NOT EXISTS computer_folder(
+                    id INTEGER PRIMARY KEY CHECK (id=1), label TEXT NOT NULL,
+                    path TEXT NOT NULL, fingerprint TEXT NOT NULL, updated_at TEXT NOT NULL);
                 CREATE TABLE IF NOT EXISTS computer_job_events(
                     sequence INTEGER PRIMARY KEY AUTOINCREMENT, job_id TEXT NOT NULL,
                     at TEXT NOT NULL, state TEXT NOT NULL, code TEXT);
@@ -87,12 +123,80 @@ class JobService:
                 self._state(conn, row["id"], "unknown", "PROCESS_RESTARTED")
 
     def capabilities(self):
+        cfg = self.folder_config()
         return {
             "enabled": self.enabled,
             "executor": self.executor.identity,
             "scope": self.executor.scope,
             "actions": ["save_note", "verify_note"] if self.enabled else [],
+            "folder": {
+                "configured": cfg is not None,
+                "label": cfg["label"] if cfg else None,
+                "actions": ["save_folder_file", "verify_folder_file"] if cfg else [],
+            },
         }
+
+    def folder_config(self, conn=None):
+        def read(connection):
+            row = connection.execute(
+                "SELECT label, path, fingerprint FROM computer_folder WHERE id=1"
+            ).fetchone()
+            if not row:
+                return None
+            return {"label": row["label"], "path": row["path"], "fingerprint": row["fingerprint"]}
+
+        if conn is not None:
+            return read(conn)
+        with self.store.connection() as owned:
+            return read(owned)
+
+    def folder_status(self):
+        cfg = self.folder_config()
+        if not cfg:
+            return {"configured": False, "label": None, "path": None}
+        return {"configured": True, "label": cfg["label"], "path": cfg["path"]}
+
+    def _bindings(self):
+        # A later bounded action registers here. It still uses approve, read-back, and cancel.
+        return (
+            (NOTE_ACTIONS, self._notes_executor),
+            (FOLDER_ACTIONS, self._folder_executor),
+        )
+
+    def _notes_executor(self, preparing):
+        del preparing
+        if not self.enabled:
+            raise DomainError("COMPUTER_DISABLED", 409)
+        return self.executor
+
+    def _folder_executor(self, preparing):
+        if not self.folder.configured:
+            raise DomainError(
+                "FOLDER_NOT_CONFIGURED" if preparing else "COMPUTER_SCOPE_CHANGED", 409
+            )
+        return self.folder
+
+    def _executor(self, request, *, preparing=False):
+        action = request["action"]
+        executor = None
+        for actions, resolve in self._bindings():
+            if action in actions:
+                executor = resolve(preparing)
+                break
+        if executor is None:
+            raise DomainError("COMPUTER_ACTION_DENIED", 403)
+        if request.get("executor") != executor.identity or request.get("scope") != executor.scope:
+            raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
+        return executor
+
+    def _adopt_source(self, conn, source_job_id, request, expected_action):
+        source = self._row(conn, source_job_id)
+        original = json.loads(source["request"])
+        if source["state"] != "succeeded" or original["action"] != expected_action:
+            raise DomainError("JOB_SOURCE_UNVERIFIED", 409)
+        if original["executor"] != request["executor"] or original["scope"] != request["scope"]:
+            raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
+        request.update(artifact_id=original["artifact_id"], content=original["content"])
 
     @staticmethod
     def _row(conn, job_id):
@@ -177,9 +281,6 @@ class JobService:
                 raise DomainError("JOB_TASK_CHANGED", 409)
 
     def prepare(self, payload: JobInput, key):
-        if not self.enabled:
-            raise DomainError("COMPUTER_DISABLED", 409)
-
         def apply(conn):
             if conn.execute("SELECT COUNT(*) FROM computer_jobs").fetchone()[0] >= 1000:
                 raise DomainError("JOB_LIMIT", 429)
@@ -193,20 +294,25 @@ class JobService:
             request = payload.model_dump()
             self._task_current(conn, request)
             job_id = uuid4().hex
-            request.update(
-                executor=self.executor.identity, scope=self.executor.scope, artifact_id=job_id
-            )
-            if payload.action == "verify_note":
-                source = self._row(conn, payload.source_job_id)
-                original = json.loads(source["request"])
-                if source["state"] != "succeeded" or original["action"] != "save_note":
-                    raise DomainError("JOB_SOURCE_UNVERIFIED", 409)
-                if (
-                    original["executor"] != self.executor.identity
-                    or original["scope"] != self.executor.scope
-                ):
-                    raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
-                request.update(artifact_id=original["artifact_id"], content=original["content"])
+            request["artifact_id"] = job_id
+            if payload.action in NOTE_ACTIONS:
+                if not self.enabled:
+                    raise DomainError("COMPUTER_DISABLED", 409)
+                request.update(executor=self.executor.identity, scope=self.executor.scope)
+                if payload.action == "verify_note":
+                    self._adopt_source(conn, payload.source_job_id, request, "save_note")
+            else:
+                cfg = self.folder_config(conn)
+                if not cfg:
+                    raise DomainError("FOLDER_NOT_CONFIGURED", 409)
+                request.update(
+                    executor=self.folder.identity,
+                    scope="owner_folder:" + cfg["fingerprint"],
+                    folder_label=cfg["label"],
+                    folder_fingerprint=cfg["fingerprint"],
+                )
+                if payload.action == "verify_folder_file":
+                    self._adopt_source(conn, payload.source_job_id, request, "save_folder_file")
             fingerprint = hashlib.sha256(encode(request).encode()).hexdigest()
             now = iso(self.store.clock())
             conn.execute(
@@ -232,8 +338,6 @@ class JobService:
     def approve(self, job_id, payload: JobApproval, key):
         def apply(conn):
             row = self._row(conn, job_id)
-            if not self.enabled:
-                raise DomainError("COMPUTER_DISABLED", 409)
             if row["state"] != "review" or row["expires_at"] <= iso(self.store.clock()):
                 raise DomainError("JOB_NOT_REVIEWABLE", 409)
             if (
@@ -243,11 +347,7 @@ class JobService:
                 raise DomainError("VERSION_CONFLICT", 409)
             request = json.loads(row["request"])
             self._task_current(conn, request)
-            if (
-                request["executor"] != self.executor.identity
-                or request["scope"] != self.executor.scope
-            ):
-                raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
+            self._executor(request)
             conn.execute(
                 "UPDATE computer_jobs SET approved_by='owner',deadline=? WHERE id=?",
                 (iso(self.store.clock() + timedelta(seconds=60)), job_id),
@@ -291,9 +391,9 @@ class JobService:
                 self._state(conn, row["id"], state, "JOB_DEADLINE_EXCEEDED")
 
     def _verify(self, request):
-        receipt = VerificationReceipt.model_validate(self.executor.verify(request)).model_dump(
-            exclude_none=True
-        )
+        receipt = VerificationReceipt.model_validate(
+            self._executor(request).verify(request)
+        ).model_dump(exclude_none=True)
         if receipt["verified"]:
             expected = request["content"].encode("utf-8")
             if (
@@ -307,7 +407,7 @@ class JobService:
         return receipt
 
     def run_one(self):
-        if not self.enabled or self.stopping or not self.run_lock.acquire(False):
+        if self.stopping or not self.run_lock.acquire(False):
             return
         try:
             self.expire()
@@ -320,12 +420,9 @@ class JobService:
                 job_id, request, run_id = row["id"], json.loads(row["request"]), uuid4().hex
                 try:
                     self._task_current(conn, request)
-                    if (
-                        not row["approved_by"]
-                        or request["executor"] != self.executor.identity
-                        or request["scope"] != self.executor.scope
-                    ):
+                    if not row["approved_by"]:
                         raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
+                    executor = self._executor(request)
                 except DomainError as error:
                     self._state(conn, job_id, "failed", error.code)
                     return
@@ -341,11 +438,12 @@ class JobService:
                         raise ExecutionRejected("JOB_DEADLINE_EXCEEDED", 409)
                     try:
                         self._task_current(conn, request)
+                        self._executor(request)
                     except DomainError as error:
                         raise ExecutionRejected(error.code, error.status) from None
 
             try:
-                self.executor.execute(request, checkpoint)
+                executor.execute(request, checkpoint)
             except ExecutionRejected as error:
                 state = "cancelled" if error.code == "JOB_CANCELLED_BEFORE_DISPATCH" else "failed"
                 code, receipt = error.code, None
@@ -384,8 +482,6 @@ class JobService:
                 self._state(conn, row["id"], "unknown", "SERVICE_STOPPED")
 
     def reconcile(self, job_id):
-        if not self.enabled:
-            raise DomainError("COMPUTER_DISABLED", 409)
         if not self.run_lock.acquire(False):
             raise DomainError("JOB_STILL_RUNNING", 409)
         try:
@@ -394,11 +490,7 @@ class JobService:
                 if row["state"] != "unknown":
                     return {"job": self._view(row)}
                 request = json.loads(row["request"])
-                if (
-                    request["executor"] != self.executor.identity
-                    or request["scope"] != self.executor.scope
-                ):
-                    raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
+                self._executor(request)
             try:
                 receipt = self._verify(request)
             except Exception:
@@ -415,10 +507,48 @@ class JobService:
         finally:
             self.run_lock.release()
 
+    def set_folder(self, payload: FolderNaming, key):
+        path, fingerprint = accept_owner_folder(payload.path, self.store.directory)
+
+        def apply(conn):
+            now = iso(self.store.clock())
+            conn.execute(
+                "INSERT INTO computer_folder(id,label,path,fingerprint,updated_at) VALUES(1,?,?,?,?) "
+                "ON CONFLICT(id) DO UPDATE SET label=excluded.label, path=excluded.path, "
+                "fingerprint=excluded.fingerprint, updated_at=excluded.updated_at",
+                (payload.label, path, fingerprint, now),
+            )
+            self.store.record(conn, "computer_folder", details={"fingerprint": fingerprint})
+            return {"configured": True, "label": payload.label, "path": path}
+
+        return self.store.operation(
+            key, {"type": "computer_folder", "label": payload.label, "path": path}, apply
+        )
+
+    def clear_folder(self, key):
+        def apply(conn):
+            conn.execute("DELETE FROM computer_folder WHERE id=1")
+            self.store.record(conn, "computer_folder_cleared", details={})
+            return {"configured": False, "label": None, "path": None}
+
+        return self.store.operation(key, {"type": "computer_folder_clear"}, apply)
+
 
 def job_routes(runtime, owner, operation_id):
     # Pairing and model tool access do not grant computer execution approval.
     router = APIRouter(prefix="/api/computer", dependencies=[Depends(owner)])
+
+    @router.get("/folder")
+    def folder_status():
+        return runtime.jobs.folder_status()
+
+    @router.post("/folder")
+    def name_folder(payload: FolderNaming, key=Depends(operation_id)):
+        return runtime.jobs.set_folder(payload, key)
+
+    @router.post("/folder/clearance")
+    def clear_folder(key=Depends(operation_id)):
+        return runtime.jobs.clear_folder(key)
 
     @router.get("/jobs")
     def listing(task_id: str | None = None):

@@ -1,0 +1,48 @@
+{
+  "code_main": "2c1e465b4017a014d14aa2f5ef7293d182c930fa",
+  "merges": [
+    {
+      "pr": 7,
+      "sha": "080929b5a6412552883a0c7b9d9b31bfb6f4ea6e",
+      "head": "fd2dd2b2ce0d3457eaf5e143164f085f0815950f"
+    },
+    {
+      "pr": 8,
+      "sha": "7ffe8fd70a26bf094cf0ecd3ff5f4699ecb1899e",
+      "head": "482b117a799c225895fa5a598b742def0e6a2727"
+    },
+    {
+      "pr": 9,
+      "head": "a40b4f127d1e01e9736243e12fc0f105d0040a84",
+      "sha": "f2ef389ede6c36372fb6615d9fb98ebb2390e0c7"
+    },
+    {
+      "pr": 10,
+      "head": "1b10eda5697da40eadb8a58fdd024a294601ae3e",
+      "sha": "154d7fd4900702185e6f598c5b9cd5ee4f484b30"
+    },
+    {
+      "pr": 11,
+      "head": "bb4d35d3a79c582796821f82a387c0b72c5bfc3e",
+      "sha": "8c2e1fd847b4028cbeef987006fee85aafeb90c2"
+    },
+    {
+      "pr": 12,
+      "head": "b4a4a6b9d8b3c388585f45b30813e1e870144824",
+      "sha": "67a53c52aaea8bb8b0498e3e1a39a953f55be3aa"
+    },
+    {
+      "pr": 13,
+      "head": "c2bceee4cfff4c64bc15f01bb0ec7f6c7ae208f4",
+      "sha": "60013d99cda81700699865054f25ab867deac445"
+    },
+    {
+      "pr": 14,
+      "head": "a0adce39f58032fbd97b12014daeca425c6667da",
+      "sha": "2c1e465b4017a014d14aa2f5ef7293d182c930fa"
+    }
+  ],
+  "verified_at": "2026-10-15T01:21:54.740Z",
+  "docs_pr": 6,
+  "docs_status": "Documentation and review evidence reconciled in PR #6; final GitHub merge receipt read back after landing."
+}

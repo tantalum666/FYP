@@ -2,7 +2,7 @@
 
 Date: 14 October 2026. Group 2, Desk Companion. Written for teammates and coding agents (including Codex).
 
-**Merge status, 14 October 2026, later than the roadmap below.** Memory and the folder action now exist as PRs **#7–#14** on the existing note-job contract, aimed at `main`. Do not merge PR #4 or PR #5. Do not extend PR #5. Do not open a hosted provider account until the owner sets a spend cap. Do not add unrestricted app or GUI control.
+**Review update, 15 October 2026.** PRs #7–#14 are merged on the existing job contract. The Desk Companion comparison and roadmap below now reflect owner facts, one folder action, shared persona and quiet scheduling. The public product descriptions remain the dated 14 October research, with their original access limitations. See the [independent review](../../output/qa/2026-10-15-grok-review-merge/verification.md). PRs #4 and #5 remain separate; no hosted provider trial occurred.
 
 **Chinese summary.** 和 Desk Companion 最吻合的 “Muse” 是 Meta 在 2026 年 9 月推出的个人代理，不是旧的视频站或冥想应用。名叫 Dot 的公开产品有两个：本组 10 月 3 日已经指定的是 ChatGPT 里的 Your dot；本轮提示里更可能指的是 New Computer 的 iOS 伴侣，该公司主页已宣布停运。下文只根据公开网页，不反编译、不提取提示词。差距和路线图对着 `main` 上的 Desk Companion，大模型仍走托管 API。
 
@@ -152,20 +152,20 @@ The pattern below is what Muse and ChatGPT’s dot both publish. New Computer’
 
 ## Gap against Desk Companion on `main`
 
-Baseline: merged Desk Companion as reviewed in [fyp-repo-review.md](fyp-repo-review.md). Providers default to `none`. The notes job is off until `DESK_COMPUTER_ENABLED` is set. PR #5’s memory, routines, and browser fixtures are not on `main`.
+Baseline: Desk Companion after PRs #7–#14 and the 15 October review fixes. Providers default to `none`. Dedicated notes require `DESK_COMPUTER_ENABLED`; a folder action requires the owner to configure one real directory and approve each job. PR #5’s separate kernel, routines and browser fixtures remain unmerged.
 
 | Capability | Meta Muse (published) | ChatGPT dot (docs) | New Computer Dot (published) | Desk Companion on `main` |
 |---|---|---|---|---|
-| Acts in the user’s apps | Cloud computer, browser, connectors, purchases with approval | Cloud computer, one local PC, plugins, Codex/Work tasks | Not described; calendar and location inform replies | One bounded notes file under `computer-notes/`, default off. No inbox, browser, or shell. |
-| Memory | Editable memory files in the user’s VM | ChatGPT memory plus the dot’s own notes, not a full transcript | Personalization and paid Chronicles; export and account delete | Tasks and evidence. No general fact list the owner can edit. |
+| Acts in the user’s apps | Cloud computer, browser, connectors, purchases with approval | Cloud computer, one local PC, plugins, Codex/Work tasks | Not described; calendar and location inform replies | Bounded notes plus one owner-named real folder, each approved and independently read back. No inbox, browser or shell. |
+| Memory | Editable memory files in the user’s VM | ChatGPT memory plus the dot’s own notes, not a full transcript | Personalization and paid Chronicles; export and account delete | Tasks/evidence plus an owner-editable fact list with source, time, correction, deletion and model-context limits. |
 | Background work | Continues on a schedule and on events after the app closes; high bar before it messages | Agent chooses when to resume; schedules and event watches are explicit; proactive research does not itself message or act | Notification permission for reminders; no published off-phone worker | 1-second rules loop. Optional text advice is off, at most every 30 seconds, 20 attempts a day, and only when a follow-up is due. |
 | Proactive reminder | Yes, and the user can turn it down or off | Yes, by responsibility, schedule, or event; delivery channel is chosen | Claimed in 2024 onboarding copy | Local task reminders and calendar reminders. No model-written nudge unless the capped advice loop is enabled. |
 | Voice | Not established as a call in the pages fetched | Call inside ChatGPT; typing during the call; hang-up need not stop the task | Voice memos as uploaded data; live call not established | Qwen Audio and Gemini Live adapters, local wake word, 600-second cap, 45-second idle, audio not stored. Default provider `none`. |
-| Persona | User-named avatar; one published purpose line | User-named face; work-colleague instructions | “Living mirror,” sympathetic questions | One hardcoded “You are Desk Companion…” string in the text and voice adapters. A1 art is on unmerged PR #4. |
+| Persona | User-named avatar; one published purpose line | User-named face; work-colleague instructions | “Living mirror,” sympathetic questions | One owner-editable, versioned persona shared by text, voice and advice; immutable tool rules remain in code. A1 art is on unmerged PR #4. |
 | Hardware | Phone, web, WhatsApp; glasses claimed as coming soon on WebWire | Phone and desktop apps; optional PC | iPhone app | The product **is** a desk terminal: shared API, separate always-on screen, fixed camera, named light and motion presets. That form factor is ours. None of the three products replace the posture loop. |
 | Privacy controls we can actually ship | Their VM, Sentinel, and training opt-out are Meta’s. We do not host a copy. | Their plugin grants are OpenAI’s. | Their cloud chat is New Computer’s, and the service was announced as ending. | Keys stay in server env vars. Drafts expire. The model cannot confirm a write. Camera frames and the SQLite file are not the prompt. |
 
-The useful gaps are memory the owner can correct, one named action beyond a notes file, and a scheduler that stays quiet unless something is due. A cloud VM, a general browser, inbox access, and a companion personality are not the next prototype.
+Owner facts, the named folder and quiet-hour holds are implemented. Remaining gaps are a named real application task, complete retention/backup and real-provider/device evidence. A general cloud computer or inbox is not implied by these implementations.
 
 ## Implementation roadmap
 
@@ -188,19 +188,11 @@ Suggested stack, all already compatible with the repo or available as normal ope
 | MediaPipe posture path, already integrated | Local labels only | Asking the LLM to invent a posture score |
 | Playwright, only if the owner names a fixture | A later test page **this team hosts** | A general web agent, or driving Gmail, banks, or Muse |
 
-### Tasks a teammate or Codex can pick up
+### Current implementation and next validation
 
-Each task should name its branch (`main` or PR #5) in the patch. One task at a time.
+Memory, persona, folder actions, follow-up controls and provider adapters are implemented in PRs #7–#14. Their tests use local fixtures and fake providers. The 15 October review additionally closed paired-memory access, ancestor-link races and persona version/draft defects.
 
-1. **Persona file (small, `main`).** Move the instruction strings in `desk-companion/backend/desk/text_ai.py` and `voice.py` into one versioned text file. English by default, Simplified Chinese when the user is speaking Chinese, no medical claims, no self-approval. Done when both adapters send that file and a test fails if the API key or a camera frame appears in the outbound body. Do not paste Muse’s purpose line or Dot’s “living mirror” copy.
-2. **Context packer test (`main`, no live HTTP).** The recorded Qwen or Gemini request contains the persona and the selected task, and omits deleted task text. Use the fake transport the tests already have.
-3. **Quiet scheduler test (`main`).** The 30-second advice loop does not construct a model client when the provider is `none`, the daily cap is spent, or no follow-up is due. The 1-second loop stays rules only.
-4. **Editable facts, only if PR #5 is the target.** On that branch, memory already has a reviewed design. A `main` patch should not add a parallel table. If the owner wants it on `main` first, the minimum row is: text, source (user said this), time, corrected-by, deleted-at. Retrieval is a SQL query we write. The model may propose a fact; the owner confirms it. Deletion removes it from the next prompt.
-5. **One real action (product’s next step).** The owner names one folder or one test app. Approval binds the full text. Independent read-back (size, hash, or the app’s own receipt). A lost receipt stays `unknown` and is not replayed. A second approval does not write twice. Do not add a shell tool.
-6. **Voice session rules, fake provider.** A partial transcript cannot approve a job. Closing the socket does not cancel a job the owner already approved. Real microphones, Cantonese, and invoices wait for a key and a cap.
-7. **Reminders the user can turn down.** For an existing task follow-up, add a per-task “quiet” setting that suppresses the optional text advice without deleting the task. This is the FYP-sized version of Muse’s proactivity dial and of ChatGPT dot’s “message me only if a deadline is at risk.” It is not a new model loop.
-8. **Hardware, parallel.** A named light or arm preset behind the current output queue, with a local stop that does not ask the LLM. Posture accuracy still needs consented labels before anyone cites the proposal’s target. RIG-Arm stays a researched candidate until it is purchased and driven.
-9. **Provider trial, after a cap.** Recheck region, model id, and price. Run the proposal’s style of Mandarin and English commands on Qwen, then Gemini if reachable. Log usage from the provider. Do not treat the September 2026 dollar examples as a bill.
+The next software demonstration should name one target application and allowed data. Extend the existing job contract only within that scope, with independent results and cancellation. Archive/business backup remains incomplete. A real provider trial requires the owner's provider/model and spend cap; posture, Pi, voice/AEC and RIG still need their own evidence. Keep the fixed-camera posture loop and separate always-on UI.
 
 ## What not to claim
 

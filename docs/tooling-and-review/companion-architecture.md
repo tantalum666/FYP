@@ -2,7 +2,7 @@
 
 Date: 14 October 2026. Group 2, Desk Companion. This note is for teammates and coding agents. It does not choose a vendor on the owner’s behalf, and it does not change the school proposal.
 
-**Merge status, 14 October 2026, later than the paragraphs below.** The owner put memory, the one folder action, the shared persona, and quiet follow-ups on `main` as draft PRs **#7 through #14**. That stack does not extend PR #5. Merge #7 first, then #8 through #14, using a merge commit. Rebase this docs PR onto `main` only after #7 is merged, and keep `main`’s copy of `handoff.md`, `product.md`, `decision-log.md`, and `work-log.md`. Do not merge PR #4 or PR #5. Do not open a hosted model account until the owner sets a spend cap. The Chinese summary below is a later-trial recommendation, not permission to open an account now. Sentences that say “implement on PR #5” or “memory is not on main” described this file’s original morning. They are not the merge plan.
+**Review update, 15 October 2026.** PRs #7–#14 are merged into `main`. Memory, one owner-named folder, shared persona, quiet follow-ups, recovery copy and text adapters use the existing note-job contract. This PR #6 reconciles the dated research with those implementations and records the [independent review](../../output/qa/2026-10-15-grok-review-merge/verification.md). PRs #4 and #5 remain separate. Provider/model choice and a test-spend cap remain open. No hosted account was opened.
 
 **Chinese summary.** 个人助理的大模型走托管 API，不在 Pi 或学校机器上自托管权重。记忆、工具执行、主动调度、人格提示和语音会话由本组软件负责。产品行为见 [companion-product-teardown.md](companion-product-teardown.md)；PR #5 上的早期接口研究不在这里重写。推荐先开通阿里云通义（Qwen）做第一次有预算的试用，Gemini 3.8 Live 作为同一套脚本的对照；这是工程建议，不是用户已选定的供应商。
 
@@ -70,48 +70,34 @@ Voice is a speech front end. Ending the call does not have to end the task.
 
 This repository’s research was done from public pages. Do not try to fill the gaps with a commercial app binary, a prompt-extraction attack, or a stolen session. The gaps the October reports already mark as unknown — private memory schemas, ranking, and unlogged connector contracts — stay unknown.
 
-## FYP implementation: hosted LLM, everything else ours
+## FYP implementation: hosted LLM, team-owned state and tools
 
-**FYP design.** The owner’s constraint for this note is: call a hosted LLM API, and do not self-host the assistant model. Memory, tool calling, proactive scheduling, persona, and the voice session are built in Desk Companion. Raspberry Pi 5 (8 GB) remains the desk candidate for camera, calendar, wake word, speaker, and named motion presets. It is not the machine that loads a 30B model. School DGX / V100 capacity is still unknown and is not the plan.
+The 14 October design proposes hosted text and speech APIs with local state, tools and scheduling. A provider remains unselected. This is a design plan; it does not claim live-provider or hardware validation.
 
 ```text
-Web, iPhone, Linux desk screen
-        |
-        v
-One FastAPI process + SQLite          <- team
-  calendar, tasks, pairing, posture
-  context packer (what may be sent)
-  approval records and job ledger
-  scheduler loops (no model in the 1s tick)
-        |
-        +-- HTTPS text API ------------> hosted LLM, drafts only
-        +-- WSS audio API -------------> hosted speech model, short session
-        |
-        v
-Team executors: notes today; later one named app or device preset
-Independent read-back. Unknown writes are not retried.
-Local wake word (already sherpa-onnx) only opens the session.
-Persona text is our instruction string, not a second model.
+Web / iPhone / independent Linux screen
+                 |
+         FastAPI + SQLite
+ calendar, tasks, owner facts, persona, approval records
+ quiet-hour holds and capped optional advice
+                 |
+  configured text / short speech API -> model proposes tools
+                 |
+  existing JobService -> bounded notes or one named folder
+                 |
+        independent read-back and durable result
 ```
 
-What `main` already does, and should keep:
+The following are implemented after PRs #7–#14:
 
-- Text tools in `desk-companion/backend/desk/assistant.py` can read tasks, calendar, posture, and device state, and can prepare drafts. The model has no confirm tool. Drafts expire. Calendar writes check a version.
-- Voice in `voice.py` speaks as Desk Companion, forwards the same tools, and cancels unconfirmed drafts on barge-in. Audio is not stored. Sessions are capped (600 seconds total, 45 seconds idle).
-- Optional background text runs at most once each 30 seconds, only if `DESK_TEXT_BACKGROUND=1`, a provider is configured, and a follow-up is actually due, with a daily cap of 20 attempts. The 1-second loop is rules, not an LLM poll.
-- Keys stay in server environment variables (`DESK_TEXT_*`, `DESK_VOICE_*`). Endpoints are allowlisted. The browser, the ESP32, and prompts must not see the key.
-- Posture is MediaPipe plus team rules. The language model must not invent a posture label.
+1. `desk/context.py` selects active facts, saved tasks and a bounded calendar window. Paired text requests omit owner facts; response caches distinguish the access scope. Camera frames, credentials, full databases and folder paths are not context fields.
+2. `desk/memory.py` stores up to 200 owner-reviewed active facts with source, version and timestamps; at most 40 enter model context. Correction and deletion require the owner. Deleted facts are omitted from later context. This is not a complete chat transcript or a guarantee of removal from old provider sessions.
+3. Models prepare typed drafts; owner approval remains separate. Notes and one owner-named directory use the same job ledger. Directory components are opened without following links; generated files are never overwritten. Unknown writes are reconciled by read-back.
+4. Quiet-hour holds persist across restart and saved-preference edits. At most three new reminders appear per scheduler pass; optional model advice is disabled by default and capped at 20 attempts a day.
+5. A versioned owner persona is shared by text, voice and advice. Reset keeps versions increasing; immutable tool/data rules remain appended in code. Editing failures retain the local draft until the user explicitly loads the current text.
+6. Voice retains short sessions, interruption and bounded dispatch. Paired terminals cannot call memory tools; owner sessions and explicitly enabled local voice can. Protocol tests do not establish naturalness, echo cancellation or target-device latency.
 
-What the team still builds around the API:
-
-1. **Context packer.** Before each hosted call, select the current task, a short calendar window, and any facts the owner has explicitly saved. Send that text as untrusted data plus our persona instructions. Do not upload the SQLite file, raw camera frames, or the microphone stream outside an active voice session.
-2. **Memory.** On `main`, durable memory is tasks and their evidence, not a general fact store. A reviewed fact list exists only on PR #5. Prefer that design: source, time, correction, and deletion. Retrieval is a query we write. A hosted embedding API is optional later, and only for text we already decided may leave the machine. Do not run a local LLM to “remember.”
-3. **Tool calling.** The hosted model returns a tool name and arguments. Our process checks the schema, the owner, the task version, and whether the call is a draft or a read. Writes wait for an on-screen approval bound to the exact text. The provider’s “tool succeeded” flag is not success. Read the file, event, or device receipt.
-4. **Scheduling.** Keep due times in SQLite. Wake the text API only for a due follow-up that passed the caps above. A source watch, if added, should create a review for the owner. It should not start a paid call by itself.
-5. **Persona.** One versioned instruction the team writes: concise, English by default, Simplified Chinese when the user is speaking Chinese, no medical claims, no self-approval. The desk character (and the unmerged A1 art on [PR #4](https://github.com/tantalum666/FYP/pull/4)) shows listening, thinking, needs-approval, and working. Those are UI states. They are not a cloned Muse or Dot personality.
-6. **Voice.** The team owns wake, turn IDs, barge-in, playback stop, and the rule that a partial transcript cannot approve a write. The hosted speech API owns the audio model. Closing the socket does not cancel a job the owner already approved. Basic calendar and posture prompts must still work with the providers set to `none`.
-
-Self-hosting Muse Glimmer, llama.cpp, vLLM, or Ollama as the assistant is out of this design. The September research already said a from-scratch speech model does not fit a three-person prototype. The local wake-word model stays; it is a gate, not the assistant.
+The fixed-camera posture loop, local calendar and named hardware presets remain independent of model availability. RIG, the cleaner and Pi performance still require real devices.
 
 ## Provider comparison and recommendation
 
@@ -131,17 +117,12 @@ Goals that the choice has to serve: one desk prototype; English UI with Simplifi
 
 Until that trial exists, leave `DESK_TEXT_PROVIDER` and `DESK_VOICE_PROVIDER` at `none`. Local rules and the calendar still run.
 
-## Prioritized tasks
+## Remaining tasks
 
-Do these without a new provider and without reversing commercial apps. One task at a time. Say whether the result is on `main` or on PR #5.
-
-1. **Context packer on the current text adapter.** Add a test that the outbound Qwen or Gemini body contains the persona instructions and the selected task, and does not contain the API key, deleted task text, or posture frames. No live call. The fake transport already used in tests is enough.
-2. **Keep scheduling deterministic.** Add or extend a test that the 30-second advice loop does not call the hosted client when the provider is `none`, the daily cap is spent, or no follow-up is due. Do not put a model inside the 1-second rules tick.
-3. **One real executor beyond notes, still on our tools.** Pick one Mac or Linux action the owner names (a file in a test folder, or one test app). Approval binds the full text. Independent read-back. A lost receipt stays `unknown` and is not replayed. This shipped later as PR #8 on the existing note-job contract. Do not fork a second job system and do not move it onto PR #5.
-4. **Persona file.** Move the instruction strings now embedded in `voice.py` and `text_ai.py` into one versioned text file the team can edit, still sent only as the hosted system instruction. Do not import a Muse or Dot prompt.
-5. **Voice handoff, fake provider.** A partial transcript must not approve a job. Ending the socket must not cancel an already approved job. Real microphones, Cantonese, echo, and invoices stay gated on the owner’s key and a quiet room.
-6. **Hardware, parallel and not blocked on the API.** Named RIG or cleaner preset behind the existing output queue, with a local stop that does not ask the LLM. Posture still needs consented labels before anyone cites the proposal’s F1 target.
-7. **Provider trial, only after a cap.** Recheck Hong Kong (or the account’s real region), model ids, and prices. Run the proposal’s style of Mandarin/English commands against Qwen, then Gemini if reachable. Record usage from the provider’s usage fields. Do not treat the September dollar examples as a bill.
+1. Name one real target computer/application task and data scope, then prove approval, actual execution, independent read-back, refusal outside scope, cancellation and unknown-result recovery. The folder executor is a bounded file capability, not general GUI control.
+2. Define job-history retention/archive and business backup for facts, persona and jobs. Current calendar/task backup does not include all of these stores.
+3. Only after the owner chooses a provider/model and spend cap, refresh region, model IDs and pricing and run the same Mandarin/English command script. September prices remain dated examples.
+4. Validate real voice/wake/AEC, consented posture labels, Pi/iPhone operation, optical output and commissioned RIG presets separately. Software tests do not fill those evidence gaps.
 
 ## What not to claim
 
