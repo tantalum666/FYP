@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Sparkles } from "lucide-react";
-import { errorText, request, write } from "../api";
+import { ApiError, errorText, request, write } from "../api";
+import type { PendingWrite } from "../api";
 import { useDraftGuard } from "../components/DraftGuard";
 import type { Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
@@ -30,6 +31,30 @@ export function PersonaPanel({ t }: { t: Translate }) {
   useEffect(() => {
     void reload().catch((reason) => setError(reason));
   }, [reload]);
+  useEffect(() => {
+    const recovered = (event: Event) => {
+      const { operation, result } = (
+        event as CustomEvent<{
+          operation: PendingWrite;
+          result: { persona: Persona };
+        }>
+      ).detail;
+      if (
+        operation.path !== "/persona/revisions" &&
+        operation.path !== "/persona/reset"
+      )
+        return;
+      setPersona(result.persona);
+      if (
+        operation.path === "/persona/reset" ||
+        (operation.body as { body?: string }).body === body
+      )
+        setBody(result.persona.body);
+      setError(null);
+    };
+    window.addEventListener("desk:write-recovered", recovered);
+    return () => window.removeEventListener("desk:write-recovered", recovered);
+  }, [body]);
   if (!owner) {
     return (
       <section className="workspace-section">
@@ -64,7 +89,6 @@ export function PersonaPanel({ t }: { t: Translate }) {
       );
     } catch (reason) {
       setError(reason);
-      await reload().catch(() => undefined);
     } finally {
       setBusy(false);
     }
@@ -83,7 +107,6 @@ export function PersonaPanel({ t }: { t: Translate }) {
       setNotice(t("Restored the built-in persona.", "已恢复内置人格。"));
     } catch (reason) {
       setError(reason);
-      await reload().catch(() => undefined);
     } finally {
       setBusy(false);
     }
@@ -120,7 +143,10 @@ export function PersonaPanel({ t }: { t: Translate }) {
           />
         </label>
         <div className="workspace-inline-actions">
-          <button className="primary" disabled={busy || !persona || !body.trim() || !dirty}>
+          <button
+            className="primary"
+            disabled={busy || !persona || !body.trim() || !dirty}
+          >
             {t("Save persona", "保存人格")}
           </button>
           <button
@@ -138,6 +164,26 @@ export function PersonaPanel({ t }: { t: Translate }) {
         <p className="error-message" role="alert">
           {errorText(error, t)}
         </p>
+      )}
+      {error instanceof ApiError && error.code === "VERSION_CONFLICT" && (
+        <button
+          type="button"
+          className="secondary"
+          disabled={busy}
+          onClick={async () => {
+            try {
+              await reload();
+              setError(null);
+            } catch (reason) {
+              setError(reason);
+            }
+          }}
+        >
+          {t(
+            "Discard draft and load current persona",
+            "放弃草稿并加载当前人格",
+          )}
+        </button>
       )}
     </section>
   );

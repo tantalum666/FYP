@@ -27,8 +27,9 @@ class Invocation:
 
 
 class ToolDispatcher:
-    def __init__(self, runtime, session_id):
+    def __init__(self, runtime, session_id, *, allow_memory=True):
         self.runtime, self.session_id = runtime, session_id
+        self.allow_memory = allow_memory
         self.calls: dict[str, Invocation] = {}
         self.results = asyncio.Queue(maxsize=64)
         self.slots = asyncio.Semaphore(2)
@@ -116,6 +117,8 @@ class ToolDispatcher:
             result = {"error": "TOOL_CANCELLED", "saved": False}
         else:
             try:
+                if call.event["name"].startswith("memory_") and not self.allow_memory:
+                    raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
                 result = self.runtime.assistant.tool(
                     call.event["name"],
                     call.event["arguments"],
