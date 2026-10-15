@@ -1,19 +1,19 @@
 # Group 2 Current Handoff
 
-更新：2026-10-14。状态：**文字供应商可以按配置替换；跟进会在安静时段推迟；作业失败会说明下一步。通用电脑操作仍未接入。**
+Updated: 2026-10-14. Status: **PRs #6–#14 are reviewed and ready. Codex merges them. This review did not merge.**
 
-## 当前结果
+## Current result
 
-Qwen 和 Gemini 各有一个文字适配器，调用方仍是 `TextAssistant.generate`。模拟响应覆盖两种报文。笔记和文件夹动作登记在同一份作业绑定表里。安静时段推迟新的跟进，一次最多放出 3 条。作业卡片写出读回失败和路径变化后的下一步。
+Quiet-hour holds follow the saved preference and survive a restart. The merge instructions for Codex are in [pr-stack-merge-order.md](planning/2026-10-14/pr-stack-merge-order.md) and in each PR body. PR #6’s teardown docs now say the memory and folder work is the #7–#14 stack, not PR #5.
 
-## 证据
+## Evidence
 
-文字适配器测试确认两种报文和拒绝未知供应商。作业绑定表测试确认只有笔记和文件夹两类动作。安静时段与限流测试、前端恢复文案测试已通过。没有付费模型。
+Review covered maintainability, the folder path gate, tests, and merge order. Tip checks before this doc update: pytest 175 passed, Ruff passed, frontend tests 17 passed, typecheck passed. No paid model call.
 
-## 未完成
+## Not done
 
-通用电脑／应用执行、真实语音与费用、Pi、真人姿态标签、RIG／清洁模块、PR #4／#5 合并，以及学校提交，都还开着。
+Unrestricted computer or app control, a real voice or text provider trial, Pi, real posture labels, RIG, the cleaner module, merging PR #4 or #5, and the school submission.
 
-## 唯一下一步
+## Next step
 
-**在有花费上限之前，不要开通模型账号。下一项软件比较要等这个上限。若要再加一个有边界的应用动作，登记到现有作业绑定表，不要新开队列。**
+**Codex merges #7, then #8 through #14, with merge commits, then rebases #6 onto main and keeps main’s four living docs. Do not open a hosted model account. There is no spend cap. Do not build unrestricted app control.**

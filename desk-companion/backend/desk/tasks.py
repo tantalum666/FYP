@@ -101,6 +101,8 @@ class TaskService:
                     task_version INTEGER NOT NULL,created_at TEXT NOT NULL,state TEXT NOT NULL,
                     content TEXT NOT NULL,ai_status TEXT NOT NULL DEFAULT 'pending',
                     UNIQUE(task_id,task_version));
+                CREATE TABLE IF NOT EXISTS task_quiet_holds(
+                    task_id TEXT PRIMARY KEY, held_until TEXT NOT NULL);
             """)
             # Never retry an interrupted model request automatically after a restart.
             conn.execute("UPDATE task_followups SET ai_status='failed' WHERE ai_status='running'")
@@ -228,6 +230,7 @@ class TaskService:
                 "UPDATE task_followups SET state='resolved' WHERE task_id=? AND state='pending'",
                 (task_id,),
             )
+            conn.execute("DELETE FROM task_quiet_holds WHERE task_id=?", (task_id,))
             self.evidence(
                 conn,
                 task_id,
@@ -346,7 +349,14 @@ class TaskService:
         quiet_end = quiet_until(prefs, now_at.astimezone(zone))
         with self.store.connection(write=True) as conn:
             rows = conn.execute(
-                "SELECT * FROM tasks WHERE status IN ('todo','in_progress','waiting') AND paused=0 AND next_check_at<=? ORDER BY next_check_at,rowid",
+                """
+                SELECT t.*, h.held_until AS quiet_hold_until
+                FROM tasks t
+                LEFT JOIN task_quiet_holds h ON h.task_id=t.id
+                WHERE t.status IN ('todo','in_progress','waiting') AND t.paused=0
+                  AND (t.next_check_at<=? OR h.task_id IS NOT NULL)
+                ORDER BY t.next_check_at, t.rowid
+                """,
                 (now,),
             ).fetchall()
             changed = False
@@ -354,16 +364,31 @@ class TaskService:
             waiting = 0
             for row in rows:
                 data = self.view(row)
+                hold = row["quiet_hold_until"]
+                due = bool(data["next_check_at"] and data["next_check_at"] <= now)
                 if not data["follow_up_enabled"]:
                     conn.execute("UPDATE tasks SET next_check_at=NULL WHERE id=?", (data["id"],))
+                    conn.execute("DELETE FROM task_quiet_holds WHERE task_id=?", (data["id"],))
                     changed = True
                     continue
                 if quiet_end is not None:
+                    until = iso(quiet_end)
+                    if data["next_check_at"] == until and hold == until:
+                        continue
                     conn.execute(
                         "UPDATE tasks SET next_check_at=? WHERE id=?",
-                        (iso(quiet_end), data["id"]),
+                        (until, data["id"]),
+                    )
+                    conn.execute(
+                        """
+                        INSERT INTO task_quiet_holds(task_id, held_until) VALUES(?,?)
+                        ON CONFLICT(task_id) DO UPDATE SET held_until=excluded.held_until
+                        """,
+                        (data["id"], until),
                     )
                     changed = True
+                    continue
+                if not due and not hold:
                     continue
                 if made >= MAX_NEW_FOLLOWUPS:
                     waiting += 1
@@ -371,6 +396,7 @@ class TaskService:
                         "UPDATE tasks SET next_check_at=? WHERE id=?",
                         (iso(now_at + timedelta(minutes=waiting)), data["id"]),
                     )
+                    conn.execute("DELETE FROM task_quiet_holds WHERE task_id=?", (data["id"],))
                     changed = True
                     continue
                 en, zh = (
@@ -396,6 +422,7 @@ class TaskService:
                     ),
                 )
                 conn.execute("UPDATE tasks SET next_check_at=NULL WHERE id=?", (data["id"],))
+                conn.execute("DELETE FROM task_quiet_holds WHERE task_id=?", (data["id"],))
                 if cursor.rowcount:
                     self.evidence(conn, data["id"], data["version"], "followup", "", "local_rules")
                     made += 1

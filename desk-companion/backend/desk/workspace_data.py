@@ -59,7 +59,8 @@ def quiet_until(prefs, at):
     if not is_quiet(prefs, at):
         return None
     if prefs["quiet_start"] == prefs["quiet_end"]:
-        return at + timedelta(days=1)
+        # A stable boundary so a one-second scheduler does not rewrite the hold.
+        return at.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(days=1)
     hour, minute = (int(part) for part in prefs["quiet_end"].split(":"))
     end = at.replace(hour=hour, minute=minute, second=0, microsecond=0)
     if end <= at:

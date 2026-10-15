@@ -123,4 +123,22 @@ test("read-back and fingerprint failures name a recoverable next step", () => {
   const cancelled = { ...job("cancelled"), result: null } as ComputerJob;
   assert.match(recoveryCopy(cancelled)![0], /No new file was written/);
   assert.equal(recoveryCopy(job("succeeded")), null);
+  for (const reason of [
+    "content_mismatch",
+    "artifact_missing",
+    "target_denied",
+    "verification_unavailable",
+  ]) {
+    const copy = readBackCopy(reason);
+    assert.ok(copy);
+    assert.match(copy[0], /[A-Za-z]/);
+    assert.match(copy[1], /\p{Script=Han}/u);
+    assert.doesNotMatch(copy[1], /[與檢驗沒後這為裡]/u);
+  }
+  const cancelledCopy = recoveryCopy(cancelled);
+  assert.match(cancelledCopy![1], /\p{Script=Han}/u);
+  assert.doesNotMatch(cancelledCopy![1], /[與檢驗沒後這為裡]/u);
+  const reboundCopy = recoveryCopy(rebound);
+  assert.match(reboundCopy![1], /\p{Script=Han}/u);
+  assert.doesNotMatch(reboundCopy![1], /[與檢驗沒後這為裡]/u);
 });
