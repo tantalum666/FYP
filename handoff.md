@@ -10,6 +10,8 @@ Updated: 15 October 2026. **The current user task is a fresh voice-model compari
 - Code from PRs #6-#14 is merged on main a663d83; the [independent review](output/qa/2026-10-15-grok-review-merge/verification.md) records 182 backend /17 frontend checks on code2c1e465, browser recovery and folder read-back. Those are dated code results, not voice tests.
 - The A1 identity and intact2D direction remain on [PR #4](https://github.com/tantalum666/FYP/pull/4); separate kernel [PR #5](https://github.com/tantalum666/FYP/pull/5) remains unmerged. The original checkout/private runtime and school files are preserved.
 
+- Research delivery is [draft PR15](https://github.com/tantalum666/FYP/pull/15) on codex/voice-model-comparison-20261015. It is not merged into main; no new provider is enabled.
+
 ## Remaining
 
 Real provider/model and spend choice; Mandarin/English/Cantonese listening and tool acceptance; wake/AEC and Pi/iPhone evidence. Named real-application/remote-PC execution, full archive/business backup, consented posture labels and optics/RIG/cleaner validation also remain open. Public voice research did not authorize accounts, model spend or microphone capture.

@@ -18,10 +18,14 @@ Confirmed base examples: Gemini about4.20; Grok24.00; OpenAI Realtime full14.40/
 
 ## Documentation checks and delivery
 
-Document-link and whitespace checks passed. The link inventory checks 135 Markdown files including this QA report, with 1,285 local references: 1,284 resolve, and the existing desk-companion README link to .runtime/credentials.json is an explicitly expected install-generated target absent from this isolated worktree. No credential file was created or copied. Staged Gitleaks8 scan passed with no leaks across approximately156KB. Remote receipts are recorded at closeout. No application code changed, so the earlier182/17 application results were not rerun or presented as new voice evidence.
+Document-link and whitespace checks passed. The link inventory checks 135 Markdown files including this QA report, with 1,286 local references: 1,285 resolve, and the existing desk-companion README link to .runtime/credentials.json is an explicitly expected install-generated target absent from this isolated worktree. No credential file was created or copied. Staged Gitleaks8 scan passed with no leaks across approximately156KB. Remote receipts are recorded at closeout. No application code changed, so the earlier182/17 application results were not rerun or presented as new voice evidence.
 
 The report, source register, product, handoff, README, decision log, work log, companion architecture and two historical voice reports are the intended updated documents. Publication will stay on a feature branch and draft PR; this research request does not merge that PR into main.
 
 No account, key, trial, model call, audio collection, model download, school-server login, hardware action, deployment or school submission occurred. Providers remain none. The next gate is exact candidate/voice/backend configurations, actual account eligibility and a total test-spend cap before a shared short listening/tool trial.
 
 Reproduction: python3 output/qa/2026-10-15-voice-model-refresh/check_documents.py; git diff --staged --check. The application-source diff is empty. The staged secret scan exited0 with no leaks. Remote-delivery receipts follow.
+
+## Publication receipt
+
+Research commit22436ad44287e373903a9f2de3ccd681104d2eda was pushed to codex/voice-model-comparison-20261015. [Draft PR15](https://github.com/tantalum666/FYP/pull/15) was created and attached to this chat. The GitHub connector read back main base a663d83, draft=true and merged=false. [Receipt](remote-receipts.json) also records current open/unmerged PRs4/5 and the preserved original checkout. The CLI PR operation lacked its token's pullRequests grant; the existing connected GitHub operation succeeded without account or permission changes. A subsequent documentation-only closeout commit records this receipt.

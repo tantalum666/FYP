@@ -886,3 +886,4 @@
 - **验证：**Decimal计算脚本成功；当前132份Markdown沿用本轮完整阅读并按确切旧版本补读全部变化，新增正文由本轮编写和核对。内部链接检查区分隔离worktree中按安装生成的凭据链接，其他引用存在；最终检查回执见QA。应用代码未改，不重复跑182／17或将其称为真实语音成绩。
 - **文件与规范：**[完整比较](research/2026-10-15-voice-ai/voice-model-comparison.md)、[来源](research/2026-10-15-voice-ai/source-register.md)、[QA及算式](output/qa/2026-10-15-voice-model-refresh/verification.md)。同步product、handoff、README、架构和决定；两份9月29日语音报告明确标为HISTORICAL，旧先Qwen的工程顺序已取代。新工作保存在独立语音研究分支，不合并PR #4／#5。
 - **剩余：**没有试听、模型请求、账号／密钥、麦克风、硬件或学校改动。下一步为选定实际可用的确切型号／音色／后台与总花费上限，再跑相同短测及工具独立读回。真实电脑操作、归档／完整备份和姿态／Pi／RIG验证仍另行完成。
+- **Git交付：**研究提交22436ad已推送独立分支，已建立并绑定[草稿PR #15](https://github.com/tantalum666/FYP/pull/15)。GitHub回读为draft、未合并；原A1分支与PR #4／#5保持。后续仅补交付回执，不改变应用代码。
