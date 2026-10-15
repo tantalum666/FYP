@@ -88,7 +88,15 @@ export async function write<T>(path: string, body: unknown): Promise<T> {
 }
 export async function retryPending(): Promise<unknown> {
   const op = pendingWrite();
-  if (op) return write(op.path, op.body);
+  if (op) {
+    const result = await write(op.path, op.body);
+    window.dispatchEvent(
+      new CustomEvent("desk:write-recovered", {
+        detail: { operation: op, result },
+      }),
+    );
+    return result;
+  }
 }
 export function clearPending() {
   sessionStorage.removeItem(pendingKey);

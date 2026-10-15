@@ -5,7 +5,7 @@ from datetime import timedelta
 from .calendar import iso
 
 
-def pack_conversation(runtime, task_id=None):
+def pack_conversation(runtime, task_id=None, *, include_memory=True):
     now = runtime.store.clock()
     tasks = runtime.tasks.listing(include_closed=bool(task_id))
     selected = runtime.tasks.detail(task_id) if task_id else None
@@ -13,7 +13,7 @@ def pack_conversation(runtime, task_id=None):
     return {
         "now": iso(now),
         "timezone": tasks["timezone"],
-        "memory": runtime.memory.for_model(),
+        "memory": runtime.memory.for_model() if include_memory else [],
         "tasks": tasks["tasks"][:30],
         "more_tasks": len(tasks["tasks"]) > 30,
         "selected_task": selected,

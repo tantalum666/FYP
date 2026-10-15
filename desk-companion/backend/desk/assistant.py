@@ -162,12 +162,14 @@ class AssistantService:
                 "CREATE TABLE IF NOT EXISTS assistant_proposals(id TEXT PRIMARY KEY, kind TEXT NOT NULL, data TEXT NOT NULL, state TEXT NOT NULL, expires_at TEXT NOT NULL, created_at TEXT NOT NULL, result TEXT)"
             )
 
-    def proposals(self):
+    def proposals(self, *, allow_memory=True):
         with self.store.connection() as conn:
             return [
                 self._view(r)
                 for r in conn.execute(
-                    "SELECT * FROM assistant_proposals WHERE state='pending' AND expires_at>? ORDER BY created_at DESC LIMIT 20",
+                    "SELECT * FROM assistant_proposals WHERE state='pending' AND expires_at>? "
+                    + ("" if allow_memory else "AND kind NOT LIKE 'memory_%' ")
+                    + "ORDER BY created_at DESC LIMIT 20",
                     (iso(self.store.clock()),),
                 )
             ]
@@ -213,8 +215,10 @@ class AssistantService:
             key, {"type": "assistant_draft", "kind": kind, "data": payload}, apply
         )
 
-    def tool(self, name, arguments, call_key):
+    def tool(self, name, arguments, call_key, *, allow_memory=True):
         try:
+            if name.startswith("memory_") and not allow_memory:
+                raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
             if not isinstance(arguments, dict):
                 raise DomainError("TOOL_ARGUMENTS_INVALID", 422)
             if name == "memory_query" and not arguments:
@@ -383,7 +387,7 @@ class AssistantService:
         except ValidationError:
             raise DomainError("TOOL_ARGUMENTS_INVALID", 422) from None
 
-    def decide(self, proposal_id, action, key):
+    def decide(self, proposal_id, action, key, *, allow_memory=True):
         # A single runtime owns this SQLite database. Store.operation provides durable
         # repeat safety across crashes; the lock also prevents in-process cancel races.
         with self.lock:
@@ -394,6 +398,8 @@ class AssistantService:
                 ).fetchone()
                 if not row:
                     raise DomainError("DRAFT_NOT_FOUND", 404)
+                if row["kind"].startswith("memory_") and not allow_memory:
+                    raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
                 applied = conn.execute(
                     "SELECT response FROM operations WHERE id=?", (internal_key,)
                 ).fetchone()
@@ -484,9 +490,11 @@ class AssistantService:
             "result": result,
         }
 
-    def local_message(self, request, key):
+    def local_message(self, request, key, *, allow_memory=True):
         """A deliberately bounded offline parser, never presented as an AI model."""
         text, zh = request.message.strip(), request.language == "zh"
+        if not allow_memory and re.match(r"^(?:remember|forget|记住|忘掉)\s*[:：]", text, re.I):
+            raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
         remembered = re.match(r"^(?:remember|记住)\s*[:：]\s*(.+)$", text, re.I | re.S)
         if remembered:
             result = self.tool("memory_save_draft", {"body": remembered[1]}, key)
@@ -519,7 +527,9 @@ class AssistantService:
                 "mode": "local_rules",
                 "kind": "draft",
                 **result,
-                "message": "确认后才会删除这条记忆。" if zh else "Confirm before this fact is deleted.",
+                "message": "确认后才会删除这条记忆。"
+                if zh
+                else "Confirm before this fact is deleted.",
             }
         if match := re.match(r"^(?:save note|保存笔记)\s*[:：]\s*(.+)$", text, re.I | re.S):
             task = self.runtime.tasks.detail(request.task_id)["task"] if request.task_id else None

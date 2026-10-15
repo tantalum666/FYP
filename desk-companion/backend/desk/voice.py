@@ -98,7 +98,7 @@ class VoiceConfig:
 
 
 class QwenAudioProtocol:
-    def setup(self, config, instructions):
+    def setup(self, config, instructions, *, allow_memory=True):
         session = {
             "modalities": ["text", "audio"],
             "instructions": instructions,
@@ -112,6 +112,7 @@ class QwenAudioProtocol:
                     "function": {**tool, "parameters": flatten_schema(tool["parameters"])},
                 }
                 for tool in TOOLS
+                if allow_memory or not tool["name"].startswith("memory_")
             ],
         }
         if config.voice:
@@ -195,7 +196,7 @@ class QwenAudioProtocol:
 
 
 class GeminiProtocol:
-    def setup(self, config, instructions):
+    def setup(self, config, instructions, *, allow_memory=True):
         generation = {"responseModalities": ["AUDIO"]}
         if config.voice:
             generation["speechConfig"] = {
@@ -208,6 +209,7 @@ class GeminiProtocol:
                 "parametersJsonSchema": flatten_schema(t["parameters"]),
             }
             for t in TOOLS
+            if allow_memory or not t["name"].startswith("memory_")
         ]
         return {
             "setup": {
@@ -385,7 +387,8 @@ class VoiceService:
         )
         session_id = uuid4().hex
         drafts, usage = {}, {}
-        dispatcher = ToolDispatcher(self.runtime, session_id)
+        allow_memory = principal["kind"] in {"owner", "agent"}
+        dispatcher = ToolDispatcher(self.runtime, session_id, allow_memory=allow_memory)
         ready = asyncio.Event()
         send_lock = asyncio.Lock()
         provider_send_lock = asyncio.Lock()
@@ -437,7 +440,9 @@ class VoiceService:
                                 provider.send(json.dumps(response, ensure_ascii=False)), timeout=3
                             )
 
-                await send_provider(protocol.setup(self.config, instructions))
+                await send_provider(
+                    protocol.setup(self.config, instructions, allow_memory=allow_memory)
+                )
 
                 async def receive_client():
                     nonlocal input_bytes, last_activity
