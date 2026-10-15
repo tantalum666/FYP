@@ -22,6 +22,8 @@
 
 [amontlabs/lcu](https://github.com/amontlabs/lcu)进入优先验证候选，尚未采用或安装。建议Pi界面／语音→任务与权限核心→获授权PC执行服务→可替换API／浏览器／GUI执行器；先证明指定测试应用读写、独立结果校验、拒绝越权、取消和断线恢复。LCU的Pi adapter指agent框架，不是Raspberry Pi已验证；Linux缺少原厂逐应用审批，必须有真实服务／OS隔离边界。模型不能自行确认；10月6日代码已加入job_id持久作业与非阻塞语音调度，外部写入未知时不能盲目重试。
 
+**10月15日跨应用选型补充：**用户明确要类似computer use的跨应用操作。[当前比较](research/2026-10-15-voice-ai/computer-use-comparison.md)建议日常桌面先对照Claude Sonnet5.5与GPT-6.1 Sol，复杂任务再看Opus5.5／Astra；Gemini3.8 Flash／4 Argon当前也支持桌面工具。语音型号、规划模型、执行器与Grok Bot等成品分开判断，评测版本／部分得分不可混排。这是工程建议，未锁定模型或执行器；通用GUI仍待实现。沿用同一JobService，普通日历5秒响应与多应用作业完成分别验收。
+
 实体概念是LUWU RIG-Arm＋Pi＋屏幕＋可拆卸迷你桌面清洁模块；ESP32、尺寸、具体BOM和接口仍待核。未确认采购、自动回座或无线充电。10月6日讨论时，[RIG研究PR #1](https://github.com/tantalum666/FYP/pull/1)尚未合并；10月9日用户授权合并应用Dot工作，该研究已随[整合PR #2](https://github.com/tantalum666/FYP/pull/2)合入main，PR #1也已标记合并。真实服务、电脑执行与新硬件均未实测；本次授权是先把讨论文档推到GitHub，不扩展为安装、权限、付费、硬件运行或部署授权。
 
 ## 已实现的软件范围

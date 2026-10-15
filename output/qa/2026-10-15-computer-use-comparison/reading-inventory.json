@@ -1,0 +1,2721 @@
+{
+  "scope": "Same-session computer-use follow-up; inherited observed text plus authored/reviewed changes, not a fresh full read.",
+  "base_commit": "d062755f43d110f03a876173bdc802ea87ed1a32",
+  "inherited_read_record": "output/qa/2026-10-15-voice-latency/reading-inventory.json",
+  "exclusions": [
+    ".git",
+    "dependencies and caches",
+    "third-party packages",
+    "build outputs",
+    "output/qa generated evidence"
+  ],
+  "focused_reread": [
+    "AGENTS.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md latest85 lines",
+    "planning/2026-10-06/personal-agent-discussion-and-next-steps.md",
+    "desk-companion/docs/computer-jobs.md",
+    "docs/tooling-and-review/companion-architecture.md",
+    "research/2026-10-15-voice-ai/voice-model-comparison.md",
+    "work-log.md current52-line tail"
+  ],
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "lines": 50,
+      "sha256_after": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            50
+          ],
+          "prior": [
+            1,
+            50
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "lines": 96,
+      "sha256_after": "6d8d751217f39143ceb00e11bb7c613e7ec0b425e370d83896de3ec775e8ccd3",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            96
+          ],
+          "prior": [
+            1,
+            96
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "README.md",
+      "lines": 226,
+      "sha256_after": "12b69e90bc44437e349a08fc3285cd24efd99b8ee13fd6579afc36d6252cd950",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            226
+          ],
+          "prior": [
+            1,
+            226
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "Senplate_Logo_ImageGen_Brief.md",
+      "lines": 53,
+      "sha256_after": "9e43354d89cbf331ed68fde35a658e697b28a2374a6c4b6ddf0864af7ddfb067",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            53
+          ],
+          "prior": [
+            1,
+            53
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "brand.md",
+      "lines": 60,
+      "sha256_after": "199abbe90c1e8956671438a3fef3fd2b98008a558f3615a8a563a974c2f7f5bd",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            60
+          ],
+          "prior": [
+            1,
+            60
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 757,
+      "sha256_after": "914e7714ce8bebd9feef277bc7596161ab8fbc52094ec54ab21b027bf6493546",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            750
+          ],
+          "prior": [
+            1,
+            750
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": [
+        [
+          751,
+          757
+        ]
+      ]
+    },
+    {
+      "path": "design/desk-companion/b1/design-spec.md",
+      "lines": 42,
+      "sha256_after": "70043e454f8733add4127c0732a93474c753d5a6a33db42d8929d97d2c1f5955",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            42
+          ],
+          "prior": [
+            1,
+            42
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "design/desk-companion/device-ambient-v1/README.md",
+      "lines": 11,
+      "sha256_after": "c764775dc71e184024b310429fcad8a2955f38052e4829f6acb62fd4bf207443",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            11
+          ],
+          "prior": [
+            1,
+            11
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "desk-companion/README.md",
+      "lines": 106,
+      "sha256_after": "c8e6f2ac678cfab2e0cd3a14f16b771e1ede10b4c4f37707d805fc0cbed20e76",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            106
+          ],
+          "prior": [
+            1,
+            106
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "desk-companion/THIRD_PARTY.md",
+      "lines": 23,
+      "sha256_after": "2a874f2ab830bd589c9ddddf53bb1872e08ebcf8caaee4b1af17c0dba84957e4",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            23
+          ],
+          "prior": [
+            1,
+            23
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "desk-companion/docs/architecture.md",
+      "lines": 95,
+      "sha256_after": "7f5680a2f7d64f9920a8b1e496096904cdca6dbfde74149deadbe718c3616e5d",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            95
+          ],
+          "prior": [
+            1,
+            95
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "desk-companion/docs/computer-jobs.md",
+      "lines": 69,
+      "sha256_after": "fc9d95c23fa510248a54bd04b1abcfbc76fa3cae420ccf3037ad57b21347f66f",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            69
+          ],
+          "prior": [
+            1,
+            69
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "desk-companion/docs/evaluation.md",
+      "lines": 60,
+      "sha256_after": "5fcd7c2da8cc422c58faa58602615b1b83b99d7b370dad532691bc86a8d452d3",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            60
+          ],
+          "prior": [
+            1,
+            60
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "desk-companion/docs/memory.md",
+      "lines": 32,
+      "sha256_after": "ac56ac1fa8ad8d22cdc41083408499216d86bce18dbf57fb2046edb863fe75dc",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            32
+          ],
+          "prior": [
+            1,
+            32
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "desk-companion/docs/operator-guide.md",
+      "lines": 171,
+      "sha256_after": "914016584182bea392d55f44ad23208a79ebb88041805eeab9fdfcdb9581ba28",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            171
+          ],
+          "prior": [
+            1,
+            171
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "desk-companion/docs/task-tracking.md",
+      "lines": 61,
+      "sha256_after": "7ed7e17d2d8c620fddcc7cecbbd55ad396e32a84332a04fa9e182b2b3644043c",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            61
+          ],
+          "prior": [
+            1,
+            61
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "desk-companion/frontend/ios/App/CapApp-SPM/README.md",
+      "lines": 5,
+      "sha256_after": "42c535861f4a866e35f85764ed6af1ea046d6a409bf9852ecb00e5d292a1626e",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            5
+          ],
+          "prior": [
+            1,
+            5
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "docs/tooling-and-review/companion-architecture.md",
+      "lines": 133,
+      "sha256_after": "2451cb1db8d80fa4e4484725bb44decdf359fbd3499b6e5b2857586ae3eb4be6",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            123
+          ],
+          "prior": [
+            1,
+            123
+          ]
+        },
+        {
+          "current": [
+            126,
+            133
+          ],
+          "prior": [
+            124,
+            131
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": [
+        [
+          124,
+          125
+        ]
+      ]
+    },
+    {
+      "path": "docs/tooling-and-review/companion-product-teardown.md",
+      "lines": 213,
+      "sha256_after": "b969707ee356917dd6610d56e76e53e98a784ae82598f8fc8dd78d7dec1cb922",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            213
+          ],
+          "prior": [
+            1,
+            213
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "docs/tooling-and-review/fyp-repo-review.md",
+      "lines": 86,
+      "sha256_after": "10c16343f07aa5447d011199089ac7ff71164f617417da70ecca393901e210ce",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            86
+          ],
+          "prior": [
+            1,
+            86
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "handoff.md",
+      "lines": 20,
+      "sha256_after": "4ec1eeba8a5b837d8dfe1486f28531759edc09dab93747781833b7e07595d1c5",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            2
+          ],
+          "prior": [
+            1,
+            2
+          ]
+        },
+        {
+          "current": [
+            4,
+            6
+          ],
+          "prior": [
+            4,
+            6
+          ]
+        },
+        {
+          "current": [
+            13,
+            15
+          ],
+          "prior": [
+            16,
+            18
+          ]
+        },
+        {
+          "current": [
+            17,
+            19
+          ],
+          "prior": [
+            20,
+            22
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": [
+        [
+          3,
+          3
+        ],
+        [
+          7,
+          12
+        ],
+        [
+          16,
+          16
+        ],
+        [
+          20,
+          20
+        ]
+      ]
+    },
+    {
+      "path": "inputs/README.md",
+      "lines": 11,
+      "sha256_after": "722e893efd6254d17d20ec15071121e81b191d10c83b695c0e5d139cd735b9ab",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            11
+          ],
+          "prior": [
+            1,
+            11
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "inputs/teammate/\u5f62\u6001 A\uff1a\u667a\u80fd\u97f3\u7bb1\u667a\u80fd\u5c4f\u5e55\u7ec8\u7aef\uff08\u5982 \u5c0f\u7231\u89e6\u5c4f\u97f3\u7bb1\u3001\u5c0f\u5ea6\u5728\u5bb6\u3001FotoCube \u7b49\uff09.md",
+      "lines": 22,
+      "sha256_after": "d98a6f290f3dd7ec2a0f0c77f33c2e23a1d5bd1711d7e87ab71498b4bcaddecb",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            22
+          ],
+          "prior": [
+            1,
+            22
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-bowl-golden-v6/README.md",
+      "lines": 25,
+      "sha256_after": "a0b789b00a79ba12f6674107801c400587262982c67f368506b7334eb57801a4",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            25
+          ],
+          "prior": [
+            1,
+            25
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-bowl-redesign-v5/README.md",
+      "lines": 15,
+      "sha256_after": "8d5ad052f1a1d9c91cb7641bb0dcde56e9d090c6f1adb33c07d658498aba546a",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            15
+          ],
+          "prior": [
+            1,
+            15
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-ellipse-a-v4/README.md",
+      "lines": 29,
+      "sha256_after": "5093948b2362e73a50c7a3f444daa5365c9f099f1f0f65396253cc9662fac189",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            29
+          ],
+          "prior": [
+            1,
+            29
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-golden-a-v3/README.md",
+      "lines": 36,
+      "sha256_after": "8142045ff4c484b59137d15509fcb30483aaa55850872c00818f8355684db23e",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            36
+          ],
+          "prior": [
+            1,
+            36
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-refined-a-v2/README.md",
+      "lines": 25,
+      "sha256_after": "ba04ccfaa2ac51995bcc444c700d30a62ccbd1bd766248f814be27113f0fae31",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            25
+          ],
+          "prior": [
+            1,
+            25
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-selected-a/README.md",
+      "lines": 28,
+      "sha256_after": "6d9fc152b1037cfcfa68ad2248a0b31dc83c2271e9e2ba28c06e70b0e6292056",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            28
+          ],
+          "prior": [
+            1,
+            28
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-17-senplate-v6-tick-study/README.md",
+      "lines": 14,
+      "sha256_after": "6581199fb4ef6f12745f1365267def60a270186c2e5beb2b774291eaa52ef5b3",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            14
+          ],
+          "prior": [
+            1,
+            14
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-plain-bowl-v7/README.md",
+      "lines": 13,
+      "sha256_after": "743fb9a7d309f7386b8df6c228163c65af903d0838f80b88af174ed699b53041",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            13
+          ],
+          "prior": [
+            1,
+            13
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-curved-ticks/README.md",
+      "lines": 9,
+      "sha256_after": "9661335bcfc1e3231af2308a8faa0361e92769c220deb4827f4c29adc3328177",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            9
+          ],
+          "prior": [
+            1,
+            9
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-inner-scale/README.md",
+      "lines": 9,
+      "sha256_after": "671375399fc83c99af7309dc8aa78b836275ae87a65e0bd7ce00e7d201551ef2",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            9
+          ],
+          "prior": [
+            1,
+            9
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-rim-tick-study/README.md",
+      "lines": 15,
+      "sha256_after": "cb59360e23759961e887549c379662aadca07376d35886a7e80fa9ae77fd2c47",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            15
+          ],
+          "prior": [
+            1,
+            15
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-v6-visible-ticks/README.md",
+      "lines": 12,
+      "sha256_after": "c51ef245711743d2d27d4dc37e7f6370a964e9bfceb2d630750a72d1af7d746d",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            12
+          ],
+          "prior": [
+            1,
+            12
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-vi-v1/05_Fonts_and_Licences/FONT-LICENCE-AUDIT.md",
+      "lines": 28,
+      "sha256_after": "44f3f6a23cfac8266a573acd5100be24e8b4c58d18edf795b7d7223d04abc8f9",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            28
+          ],
+          "prior": [
+            1,
+            28
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-vi-v1/06_Source/Figma_Source.md",
+      "lines": 17,
+      "sha256_after": "967941ed3a0d92ea19e3d389b096bc97498f3fcc50898f8cc80c4ff83f526b91",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            17
+          ],
+          "prior": [
+            1,
+            17
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-vi-v1/06_Source/VI_Rules.md",
+      "lines": 14,
+      "sha256_after": "39248a48fe9cbd1b828b9289b68ca80c8ec24beba8f1cdcf6fb4457668423468",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            14
+          ],
+          "prior": [
+            1,
+            14
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "output/brand/2026-09-18-senplate-vi-v1/README.md",
+      "lines": 25,
+      "sha256_after": "53cedb259d2bb1a8b581396ea5706a1fc543c7b1ba4c936ddd76c5803a83e3b5",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            25
+          ],
+          "prior": [
+            1,
+            25
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "lines": 174,
+      "sha256_after": "f9b1f4e6b9004abd100aacb349966edeab9bba59b9e842f9058887d2f7d44c1d",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            174
+          ],
+          "prior": [
+            1,
+            174
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "lines": 122,
+      "sha256_after": "cdbec3bd86e562d2cb1a4c7aa4e77fe1d5c792d0ead9509debd166a5da7cfe00",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            122
+          ],
+          "prior": [
+            1,
+            122
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "lines": 80,
+      "sha256_after": "cde0e64aba2575158f5d4fb228dfc25a8a2682d3cb7bb4c40b0fe6c0bc1dd0b3",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            80
+          ],
+          "prior": [
+            1,
+            80
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "lines": 160,
+      "sha256_after": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            160
+          ],
+          "prior": [
+            1,
+            160
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "lines": 110,
+      "sha256_after": "1d12922c9f627cd8f4bd6ec7b664e16cd1cb297a27b8346d9a15c4b9b593b572",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            110
+          ],
+          "prior": [
+            1,
+            110
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "lines": 39,
+      "sha256_after": "4bc962711143b8b982d7adba8e96f747f00cf2bc699d3d94835c08af8cb0d65b",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            39
+          ],
+          "prior": [
+            1,
+            39
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "lines": 185,
+      "sha256_after": "602ca9919ace2925de6b6fac6662c3ab812f50c399c204983eddf7c773e1a361",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            185
+          ],
+          "prior": [
+            1,
+            185
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "lines": 22,
+      "sha256_after": "6cd023be13d858a5f1258c0b0375bc50c3c981c4b953649792158edb34fdd992",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            22
+          ],
+          "prior": [
+            1,
+            22
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "lines": 247,
+      "sha256_after": "1434e55732e1ccb5a514e9204c4923f704221a8be0dc5d13f32f419c671c9c13",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            247
+          ],
+          "prior": [
+            1,
+            247
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+      "lines": 70,
+      "sha256_after": "ab69a75f60b9ac081617970c9dea0ad48e4af73e27f006085e77052835054965",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            70
+          ],
+          "prior": [
+            1,
+            70
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+      "lines": 53,
+      "sha256_after": "9bc25bc85baaf4badca2a18e853ffbf18c818b53bde69798a1e0c813cbfd3538",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            53
+          ],
+          "prior": [
+            1,
+            53
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-15/power-supply-detail.md",
+      "lines": 143,
+      "sha256_after": "5cf4999a5cfbbb1f0f7b3ae92707c5c2e774bb630c4b959b6243c9bdeda012e9",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            143
+          ],
+          "prior": [
+            1,
+            143
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "lines": 214,
+      "sha256_after": "4aa617b780132046f43099bf241e6b29af2983f3e668db0f7e132ba3ccf0072d",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            214
+          ],
+          "prior": [
+            1,
+            214
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "lines": 107,
+      "sha256_after": "b22dfd416dca3223ef15ae88aaaff8989887e38d6a882e7b1ddb19c785ab3618",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            107
+          ],
+          "prior": [
+            1,
+            107
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-16/app-pages-and-permissions.md",
+      "lines": 180,
+      "sha256_after": "809a6faddbabd92fc5bb2b3fd165b4a151166483fd09c43216f97b12935045c8",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            180
+          ],
+          "prior": [
+            1,
+            180
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-16/archive/software-scope-web-first-v1.md",
+      "lines": 189,
+      "sha256_after": "5ce1260f55f6410f1818630974321cf5202f93c9c97a05b73b52c863fec65cb1",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            189
+          ],
+          "prior": [
+            1,
+            189
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-16/brand-visual-directions.md",
+      "lines": 54,
+      "sha256_after": "490c3fb0aeff234694d01573ba2ce6f77ba80820b31af011e26cd07a32d4954a",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            54
+          ],
+          "prior": [
+            1,
+            54
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-16/business-plan-zh.md",
+      "lines": 449,
+      "sha256_after": "34f5669582f2cba3c97c1083b0d5ba1c05ccc528dee48f2ed63da34a78906993",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            449
+          ],
+          "prior": [
+            1,
+            449
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-16/logo-reference-calibration.md",
+      "lines": 52,
+      "sha256_after": "ac59e1c4da18404b379cab2bec15f83ac42028efadddc2d771892b46eddcd212",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            52
+          ],
+          "prior": [
+            1,
+            52
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-16/naming-shortlist.md",
+      "lines": 45,
+      "sha256_after": "419ef467a07ea5127fdd366df191ca0ba79c2d23142842f883503fb98f4c1424",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            45
+          ],
+          "prior": [
+            1,
+            45
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-16/senplate-logo-refinement-r2.md",
+      "lines": 44,
+      "sha256_after": "0ced9649ff0f5c8216b9fb35ac187e3a5cfb6146b933e0e199db14dcb447a26b",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            44
+          ],
+          "prior": [
+            1,
+            44
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-16/senplate-logo-reset-r3.md",
+      "lines": 46,
+      "sha256_after": "aedd000ba74c50d3d5c4869e6fc506fd53673ff7d0ee1d7a78776a891727a640",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            46
+          ],
+          "prior": [
+            1,
+            46
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-16/senplate-logo-vi-directions.md",
+      "lines": 63,
+      "sha256_after": "cacc66c8fe06603081330ae7040932f125a9644923b6d2d8191c25175449a7b6",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            63
+          ],
+          "prior": [
+            1,
+            63
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-16/software-mvp-and-acceptance.md",
+      "lines": 98,
+      "sha256_after": "bf589c3b6b7f07646dd3184a1da149f8a88e3b1d01ada291e00eed5b603d7422",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            98
+          ],
+          "prior": [
+            1,
+            98
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-16/software-scope-and-architecture.md",
+      "lines": 206,
+      "sha256_after": "9d2144b52e24dc6c2ffceffe27d4b8eb96a6e64de0f7e6e82e6fe3e7b7dead60",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            206
+          ],
+          "prior": [
+            1,
+            206
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-16/software-workflows-and-api.md",
+      "lines": 291,
+      "sha256_after": "b9d5bd3e387291f3678ca3142f35bf7bfd6ff1b128bd1e7d16f2b73fd7b9cec4",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            291
+          ],
+          "prior": [
+            1,
+            291
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-17/senplate-bowl-golden-v6.md",
+      "lines": 43,
+      "sha256_after": "92f821214b8e2a4b2009aaebd57b8f2cee8ccf39ee6e94444e5c8a54e7d5b8f5",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            43
+          ],
+          "prior": [
+            1,
+            43
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-17/senplate-bowl-redesign-v5.md",
+      "lines": 44,
+      "sha256_after": "973315abcf7fcab0364cde29048daa5ff5b86b88747564eb0185db593acbf258",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            44
+          ],
+          "prior": [
+            1,
+            44
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-17/senplate-logo-measured-plate-r5.md",
+      "lines": 45,
+      "sha256_after": "5732e458c1943e924ad301d61554cf9afbcafade6764a06295fc5146398e37ad",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            45
+          ],
+          "prior": [
+            1,
+            45
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-17/senplate-logo-profile-r4.md",
+      "lines": 40,
+      "sha256_after": "0a7d0fef8b45d7e5686ffd921d2ac7796423817523b284a019987f994c2b003d",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            40
+          ],
+          "prior": [
+            1,
+            40
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-17/senplate-v6-tick-study.md",
+      "lines": 30,
+      "sha256_after": "af0a26015842f3d377f66de92708c804e6527c303d5e5fa91f2caaee266ede55",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            30
+          ],
+          "prior": [
+            1,
+            30
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-17/senplate-vector-logo-studies.md",
+      "lines": 51,
+      "sha256_after": "170e7e875ec2171f46f47aba20bff499c5a958d2b53453085fbcb340be0899ef",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            51
+          ],
+          "prior": [
+            1,
+            51
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-18/development-p0.md",
+      "lines": 70,
+      "sha256_after": "4868eec2628046e2c613fc3df195c0d4f1ac1843deb60c9fb857539f5b9583b5",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            70
+          ],
+          "prior": [
+            1,
+            70
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-18/senplate-plain-bowl-v7.md",
+      "lines": 25,
+      "sha256_after": "a3f1f6dd709594d7f7e5239cdd567c74956951009e63773b1d8edd828c92d121",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            25
+          ],
+          "prior": [
+            1,
+            25
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-18/senplate-v6-curved-ticks.md",
+      "lines": 26,
+      "sha256_after": "039d78b126afc7a9528d9f0db1e8961623805ca2fd87a5f3785340b67cfd640d",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            26
+          ],
+          "prior": [
+            1,
+            26
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-18/senplate-v6-inner-scale.md",
+      "lines": 24,
+      "sha256_after": "78332917176aa3b5e500182d7203743b262de58ad867e01e2ea034f240fdc598",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            24
+          ],
+          "prior": [
+            1,
+            24
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-18/senplate-v6-rim-tick-study.md",
+      "lines": 30,
+      "sha256_after": "38bd6a5e6c72745975b0fc97fcc00055139fff62bd27f9e2b2960908ec2194b9",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            30
+          ],
+          "prior": [
+            1,
+            30
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-18/senplate-v6-visible-ticks.md",
+      "lines": 26,
+      "sha256_after": "25c5464eed55037bbb95e0b536fec22b7d884a624fdb6b923cc1e4e4cfa16d7a",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            26
+          ],
+          "prior": [
+            1,
+            26
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-18/senplate-vi-v1.md",
+      "lines": 33,
+      "sha256_after": "8dfd1dd4fb2c536ff9969c39a3bab715bb6b71acef6e051e3afacf9f576c166d",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            33
+          ],
+          "prior": [
+            1,
+            33
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-19/meals-samples-contract.md",
+      "lines": 55,
+      "sha256_after": "74a0c6836157df554be545869233f56cd1193aa5b472cf38c03218703eeecb3d",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            55
+          ],
+          "prior": [
+            1,
+            55
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-19/menu-orders-contract.md",
+      "lines": 70,
+      "sha256_after": "495d67693e247654721eaf380352c4a2889f4f9f99bd306e9c3648709b5bd765",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            70
+          ],
+          "prior": [
+            1,
+            70
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-21/marco-camera-and-nutrition-review.md",
+      "lines": 147,
+      "sha256_after": "189856ea180a0c70fe42f62bde85f0191868bd8085bd83b5565cefe9767891e4",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            147
+          ],
+          "prior": [
+            1,
+            147
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-21/proposal-content.md",
+      "lines": 243,
+      "sha256_after": "f0f0e3d1a99fdd784204a32dd076ddd2bb11faf30215544b9d89c51148c496a1",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            243
+          ],
+          "prior": [
+            1,
+            243
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-21/proposal-spec.md",
+      "lines": 41,
+      "sha256_after": "e17afb38753e5ce495f412d9bba3aaf930a0ea902980dd9a50c1f2b2ca3d9b66",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            41
+          ],
+          "prior": [
+            1,
+            41
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-25/desk-companion-proposal-zh-review-v2.md",
+      "lines": 148,
+      "sha256_after": "72cc857c8796e0500e71fe4534404bbd8d10cceafa2441b2728152abfcfb8a67",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            148
+          ],
+          "prior": [
+            1,
+            148
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-25/desk-companion-proposal-zh-review.md",
+      "lines": 142,
+      "sha256_after": "0e8f4d18a84b04fac0fbe69cef5e1f6a8a0d47842ed7a51cbec61d7dd7c35ea7",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            142
+          ],
+          "prior": [
+            1,
+            142
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-26/ava-cylinder-route-a.md",
+      "lines": 55,
+      "sha256_after": "6c6b6e7c60a798860ea3984cc817ab0d241b405f8cfe218856979200e6132838",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            55
+          ],
+          "prior": [
+            1,
+            55
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-28/desk-companion-proposal-en.md",
+      "lines": 199,
+      "sha256_after": "d3481101bf18eb69d8e91bf36d4cbd4cb5840eaf694b30a6b67c43e282d3cc4b",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            199
+          ],
+          "prior": [
+            1,
+            199
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-28/desk-companion-proposal-zh-v3.md",
+      "lines": 199,
+      "sha256_after": "ca697cddb83e77b6081e78ac30b5b61838ee2ed40c4140c0d4049025b3dc65da",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            199
+          ],
+          "prior": [
+            1,
+            199
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-28/desk-software-scope-v1.md",
+      "lines": 222,
+      "sha256_after": "fb634ba655c1d23daaaf4f9ed6d18577c6b7f4f3c1c1c15861a8e1475d5eac93",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            222
+          ],
+          "prior": [
+            1,
+            222
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-28/logsheet-and-proposal-review.md",
+      "lines": 44,
+      "sha256_after": "c11363ee0a0103347a341508b64010fa2b545ca2ebb1c188c5ce5296a8163e14",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            44
+          ],
+          "prior": [
+            1,
+            44
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-29/calendar-part1-functional-scope.md",
+      "lines": 152,
+      "sha256_after": "70a3c07d503e03c7655a923dea9b792e7bf5ec05e320e3e3175f166bc7abf4e4",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            152
+          ],
+          "prior": [
+            1,
+            152
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-29/calendar-part1-teammate-source.md",
+      "lines": 49,
+      "sha256_after": "e9f2cf7e024463e1e93a98103f07f835b3b366dcc5fcef53f07746d6eb0420c2",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            49
+          ],
+          "prior": [
+            1,
+            49
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-29/software-development-plan.md",
+      "lines": 148,
+      "sha256_after": "ab27007f01b9878715dda3b22b3f46d9177205e420432699140981637ebc40ce",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            148
+          ],
+          "prior": [
+            1,
+            148
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-09-30/device-display-spec.md",
+      "lines": 68,
+      "sha256_after": "651e955607af7edca0fb5556fad17770eff6ea17afd2dadf0a6b31cb12a5ba5f",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            68
+          ],
+          "prior": [
+            1,
+            68
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-10-02/software-completion-plan.md",
+      "lines": 53,
+      "sha256_after": "050f7607bf5dc2747244433b590d811e4b0fc5b45b2e32a0a649c8dd164b46b6",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            53
+          ],
+          "prior": [
+            1,
+            53
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-10-03-task-enhancement.md",
+      "lines": 22,
+      "sha256_after": "153f2893c3449b12e71d296dca9daca55390fb404b594cf539e3d803d16c166e",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            22
+          ],
+          "prior": [
+            1,
+            22
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-10-06/cloud-software-delivery.md",
+      "lines": 28,
+      "sha256_after": "cee16c6801b909026f3ed68c59949514ca72bbf1642c659610951c669fb9b2cc",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            28
+          ],
+          "prior": [
+            1,
+            28
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-10-06/personal-agent-discussion-and-next-steps.md",
+      "lines": 194,
+      "sha256_after": "ed221990c7421a82c46f4b0243c8a7acb6cfd89b800af7b79f7e9a4d4bc9d056",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            5
+          ],
+          "prior": [
+            1,
+            5
+          ]
+        },
+        {
+          "current": [
+            8,
+            194
+          ],
+          "prior": [
+            6,
+            192
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": [
+        [
+          6,
+          7
+        ]
+      ]
+    },
+    {
+      "path": "planning/2026-10-06/software-architecture-audit.md",
+      "lines": 69,
+      "sha256_after": "28ec5e0672f150a87c0a7bfe3dae9bea4cce00a4ab5658afee8793afb5d8726b",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            69
+          ],
+          "prior": [
+            1,
+            69
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-10-14/pr-stack-merge-order.md",
+      "lines": 106,
+      "sha256_after": "1d78a01653c047fe560d93c01a0e810df42b1fbe445cd5c19aff256abecbb7ae",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            106
+          ],
+          "prior": [
+            1,
+            106
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "planning/2026-10-15/voice-response-latency.md",
+      "lines": 87,
+      "sha256_after": "908b882adc1479181043e58faf252db53f81fa40a218c90257c6c9fc10a34cc5",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            87
+          ],
+          "prior": [
+            1,
+            87
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "product-senplate-historical.md",
+      "lines": 168,
+      "sha256_after": "d0bd732aec1e59850e18874bfc9bd6d01919f9e36cd630820a86617120db5e01",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            168
+          ],
+          "prior": [
+            1,
+            168
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "product.md",
+      "lines": 104,
+      "sha256_after": "d1a63e2f2aaf158039019b375203fb902d01a4a21923642422f01c6622ae4a9e",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            23
+          ],
+          "prior": [
+            1,
+            23
+          ]
+        },
+        {
+          "current": [
+            26,
+            104
+          ],
+          "prior": [
+            24,
+            102
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": [
+        [
+          24,
+          25
+        ]
+      ]
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "lines": 165,
+      "sha256_after": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            165
+          ],
+          "prior": [
+            1,
+            165
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "lines": 38,
+      "sha256_after": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            38
+          ],
+          "prior": [
+            1,
+            38
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "lines": 44,
+      "sha256_after": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            44
+          ],
+          "prior": [
+            1,
+            44
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "lines": 47,
+      "sha256_after": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            47
+          ],
+          "prior": [
+            1,
+            47
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "lines": 287,
+      "sha256_after": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            287
+          ],
+          "prior": [
+            1,
+            287
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "lines": 171,
+      "sha256_after": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            171
+          ],
+          "prior": [
+            1,
+            171
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "lines": 25,
+      "sha256_after": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            25
+          ],
+          "prior": [
+            1,
+            25
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-16-competitions/competition-shortlist.md",
+      "lines": 80,
+      "sha256_after": "133355c882bbd37335530e8e17c8a2405bc68c707917343701fc88cfda842af2",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            80
+          ],
+          "prior": [
+            1,
+            80
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-16-competitions/mainland-national-provincial.md",
+      "lines": 64,
+      "sha256_after": "1c6a636ecfd74bca91a70225af9a4b1084fdb58abc8f4a601c05dfc32c2fd434",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            64
+          ],
+          "prior": [
+            1,
+            64
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-16-competitions/no-company-options.md",
+      "lines": 55,
+      "sha256_after": "4430f173ed645792cb56c67a941855ee9a2c71f7334125df427af941ece49692",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            55
+          ],
+          "prior": [
+            1,
+            55
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-16-competitions/plan-to-july-2027.md",
+      "lines": 82,
+      "sha256_after": "deffcd40be67bc641141a2044b964f7f9346527b93f7a8e7b32809e6f4468113",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            82
+          ],
+          "prior": [
+            1,
+            82
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-16-competitions/world-vocational-registration.md",
+      "lines": 52,
+      "sha256_after": "1126554e5007d4227dd45ce35c83c58b1929952c23f427b68ac5301c168206b6",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            52
+          ],
+          "prior": [
+            1,
+            52
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-16-metafoodx-app/app-review.md",
+      "lines": 60,
+      "sha256_after": "bcb9f053a9647675b75d973ddabb8a4af3d1c34d6e5e727d7a8b0448a0311910",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            60
+          ],
+          "prior": [
+            1,
+            60
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md",
+      "lines": 72,
+      "sha256_after": "d127f396aa563e381d41ad7fe78c14779fa82bbbd5d59502ed4d7e94ccac5928",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            72
+          ],
+          "prior": [
+            1,
+            72
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-17-logo-similarity/similarity-review.md",
+      "lines": 82,
+      "sha256_after": "4986cceb789567389d994d18d9818ab09c93a98c1307d927975a8ea18a25f78c",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            82
+          ],
+          "prior": [
+            1,
+            82
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-18-font-licences/font-licence-audit.md",
+      "lines": 28,
+      "sha256_after": "44f3f6a23cfac8266a573acd5100be24e8b4c58d18edf795b7d7223d04abc8f9",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            28
+          ],
+          "prior": [
+            1,
+            28
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-18-senplate-trademark/trademark-review.md",
+      "lines": 83,
+      "sha256_after": "6d66a3c5f76709072d05bc127a7d620f9333bcc7b45c7672fa0a536562a892d2",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            83
+          ],
+          "prior": [
+            1,
+            83
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-19-nutrition/reference-audit.md",
+      "lines": 36,
+      "sha256_after": "455860fb89dfb3d1f23510a463f5fd73a1dfc16d84ba345eda1d3df4283725d6",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            36
+          ],
+          "prior": [
+            1,
+            36
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/feasibility-review.md",
+      "lines": 127,
+      "sha256_after": "fa474711d5b3cf1b7cb020913bdebbed5780954c95f52db447ed90ba50d474e4",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            127
+          ],
+          "prior": [
+            1,
+            127
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md",
+      "lines": 63,
+      "sha256_after": "85394afa7a2d822a2fe91372767a095cfc9db1015aab6463e769aeb8562826e2",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            63
+          ],
+          "prior": [
+            1,
+            63
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/voice-model-cost-review.md",
+      "lines": 55,
+      "sha256_after": "bea30346b2e9a57a9f8ae71b732bcd2df708b75002717e314c7c05eb864793d8",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            55
+          ],
+          "prior": [
+            1,
+            55
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md",
+      "lines": 40,
+      "sha256_after": "186b68cdcd9c8470b1b26c373215ed307774475c2574779cd433e6e8c60c0f11",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            40
+          ],
+          "prior": [
+            1,
+            40
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/hologram-fan-maturity.md",
+      "lines": 37,
+      "sha256_after": "d99e057177f3e158f17206a7ee7cdb9acf3218e695968b7879c852d8785582a7",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            37
+          ],
+          "prior": [
+            1,
+            37
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/razer-ava-like-feasibility.md",
+      "lines": 36,
+      "sha256_after": "7f71972d4cf787126ad28178bbf2d142baf473ed9a40584e4991a0a8707d0270",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            36
+          ],
+          "prior": [
+            1,
+            36
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-28-local-voice/server-deployment-comparison.md",
+      "lines": 205,
+      "sha256_after": "7c3afeecdfab87eeb2729b80aa93d58bcceb9d11075a600c76c7fb220e41f4ff",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            205
+          ],
+          "prior": [
+            1,
+            205
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-29-voice-ai/naturalness-and-tools-review.md",
+      "lines": 151,
+      "sha256_after": "3e07ce07358887b2082e8b63d611d1c18e172c2367953706eb4d391b8f7f1d06",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            151
+          ],
+          "prior": [
+            1,
+            151
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-09-29-voice-ai/price-and-value-ranking.md",
+      "lines": 68,
+      "sha256_after": "6559aaf356ab711b7295b78e17051ef9cc5badfe1d0545ce61b583b54b48ad83",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            68
+          ],
+          "prior": [
+            1,
+            68
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-10-03-dot/proactive-task-tracking.md",
+      "lines": 98,
+      "sha256_after": "1d8d91493aadc3a6792110d3315740bf0fa8507c7730c253e6fdb8443fee1544",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            98
+          ],
+          "prior": [
+            1,
+            98
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-10-05-rig-arm/secondary-development-review.md",
+      "lines": 155,
+      "sha256_after": "0706c37da7d5bf129951fbe1f6e5d38fba8f8b04fff6fb6dd3ab24268a40d0bd",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            155
+          ],
+          "prior": [
+            1,
+            155
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-10-15-voice-ai/computer-use-comparison.md",
+      "lines": 50,
+      "sha256_after": "a91cccb0519e96d801a4c6f470f71cbde623f9c049585b81300251721b2be2df",
+      "prior_version_observed": false,
+      "inherited_exact_ranges": [],
+      "authored_and_reviewed_ranges": [
+        [
+          1,
+          50
+        ]
+      ]
+    },
+    {
+      "path": "research/2026-10-15-voice-ai/source-register.md",
+      "lines": 96,
+      "sha256_after": "8271948f03dc9dc8abd4ca430d3a81206a8e5fc9b776522da2d85a562507bfad",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            96
+          ],
+          "prior": [
+            1,
+            96
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": []
+    },
+    {
+      "path": "research/2026-10-15-voice-ai/voice-model-comparison.md",
+      "lines": 183,
+      "sha256_after": "1296abfe77caa6e6dd7233982db01180531886a772083b1320606d08658caec3",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            7
+          ],
+          "prior": [
+            1,
+            7
+          ]
+        },
+        {
+          "current": [
+            10,
+            183
+          ],
+          "prior": [
+            8,
+            181
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": [
+        [
+          8,
+          9
+        ]
+      ]
+    },
+    {
+      "path": "work-log.md",
+      "lines": 904,
+      "sha256_after": "faacbdf7ff7433f5b205c77e31ee84ba2baaf31444bff206058153c7ee571910",
+      "prior_version_observed": true,
+      "inherited_exact_ranges": [
+        {
+          "current": [
+            1,
+            897
+          ],
+          "prior": [
+            1,
+            897
+          ]
+        }
+      ],
+      "authored_and_reviewed_ranges": [
+        [
+          898,
+          904
+        ]
+      ]
+    }
+  ],
+  "completed_at": "2026-10-15T06:24:42.461194+00:00"
+}

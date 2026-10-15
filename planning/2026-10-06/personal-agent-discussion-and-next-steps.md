@@ -4,6 +4,8 @@
 
 > 后续实现更新：本文保留10月6日较早讨论阶段的建议／未实施状态。随后软件审查与受限笔记作业的实际完成、验证及剩余项见[架构审查](software-architecture-audit.md)及[QA](../../output/qa/software-completion-2026-10-06/verification.md)，不能从早先计划推定通用PC／LCU已完成。
 
+> 10月15日补充：[当前跨应用比较](../../research/2026-10-15-voice-ai/computer-use-comparison.md)区分语音、桌面规划模型、执行器和成品Agent，更新Claude／GPT／Gemini候选；本文LCU版本与早期模型建议仍为有日期的历史，不代表新实测。
+
 ## 1. 先明确要交付什么
 
 本项目要做的是**有桌面实体终端、能在用户授权范围内操作电脑或软件的个人 AI Agent**。自然语音、持续记忆、事务跟进和日历构成统一体验，但只有“能持续聊天／提醒”不足以满足这次明确的产品定位。

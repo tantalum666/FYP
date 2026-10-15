@@ -748,3 +748,10 @@
 - **工程建议：**从最后有效语音结束到客户端播放有依据的信息，目标p50≤3秒／p95≤5秒；10秒无有效结果按超时处理。统计口径、时间预算、简单本地工具路径与长任务分离见[方案](planning/2026-10-15/voice-response-latency.md)，不把“好的，我查一下”计为有效答案。
 - **实际证据：**使用真实calendar_query／ToolDispatcher和合成100／500条SQLite日程，200次计时查询加两次隐私投影核对；500条的p95为6.002ms。只测本地调度／查询／序列化，不含模型、网络、识别、合成或播音，没有真实日历或Pi成绩。
 - **保留边界：**这次未改应用代码、接入型号、调用模型或采集麦克风；现有会话超时不等于逐轮5／10秒控制。普通查询优先低延迟直接工具，复杂后台按需选择；最终提供商与花费上限仍未定。
+
+## 2026-10-15 跨应用computer use模型比较
+
+- **用户要求：**比较能像computer use一样跨应用操作的AI，进一步明确GUI目标，未指定模型或授权付费／电脑权限。
+- **资料复核：**Claude5.5桌面toolset、GPT6.1 Sol／Astra电脑操作路线、Gemini3.8 Flash／4 Argon桌面支持已核读。Grok Voice与Grok Bot云电脑分开；OSWorld2.1部分分与2.0离线子集不混排。
+- **工程建议：**同一受限执行器与任务比较Sonnet5.5和6.1 Sol，复杂任务再加Opus5.5／Astra，保留Gemini挑战者；不宣称实测冠军或用户已选定。
+- **证据与范围：**[报告](research/2026-10-15-voice-ai/computer-use-comparison.md)及[QA](output/qa/2026-10-15-computer-use-comparison/verification.md)。沿用JobService，5秒普通查询与多应用完成分别验收；无应用代码、GUI执行、模型调用、安装或权限改动。
