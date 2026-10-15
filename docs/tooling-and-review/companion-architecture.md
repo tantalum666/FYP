@@ -4,7 +4,7 @@ Date: 14 October 2026. Group 2, Desk Companion. This note is for teammates and c
 
 **Review update, 15 October 2026.** PRs #7–#14 are merged into `main`. Memory, one owner-named folder, shared persona, quiet follow-ups, recovery copy and text adapters use the existing note-job contract. This PR #6 reconciles the dated research with those implementations and records the [independent review](../../output/qa/2026-10-15-grok-review-merge/verification.md). PRs #4 and #5 remain separate. Provider/model choice and a test-spend cap remain open. No hosted account was opened.
 
-**Chinese summary.** 个人助理的大模型走托管 API，不在 Pi 或学校机器上自托管权重。记忆、工具执行、主动调度、人格提示和语音会话由本组软件负责。产品行为见 [companion-product-teardown.md](companion-product-teardown.md)；PR #5 上的早期接口研究不在这里重写。推荐先开通阿里云通义（Qwen）做第一次有预算的试用，Gemini 3.8 Live 作为同一套脚本的对照；这是工程建议，不是用户已选定的供应商。
+**Chinese summary.** 个人助理的大模型走托管 API，不在 Pi 或学校机器上自托管权重。记忆、工具执行、主动调度、人格提示和语音会话由本组软件负责。产品行为见 [companion-product-teardown.md](companion-product-teardown.md)；PR #5 上的早期接口研究不在这里重写。10月15日[语音全面复核](../../research/2026-10-15-voice-ai/voice-model-comparison.md)取代下述旧先Qwen的候选顺序：质量首轮建议Grok Voice3.0、Gemini3.8 Live、Qwen Audio3.1 Plus，分别看工具、日常交谈与中文／粤语。最终服务与花费上限未定，公开比较不等于开通试用。
 
 ## How to read the labels
 
@@ -101,7 +101,7 @@ The fixed-camera posture loop, local calendar and named hardware presets remain 
 
 ## Provider comparison and recommendation
 
-**Not decided by the owner.** The school proposal of 28 September names Qwen realtime as the first voice candidate, then Gemini, OpenAI Realtime, and GPT-Live, and says not all four will be integrated. [product.md](../../product.md) records that this order was later superseded as a quality ranking, that the final service is not locked, and that the Qwen and Gemini adapters in the tree are not a purchase or a listening test. The 29 September studies are the latest full comparison in the repo. Prices and region lists below are those dated snapshots. Recheck the vendor console before any key or invoice.
+**Not decided by the owner.** The school proposal of 28 September names Qwen realtime as the first voice candidate, then Gemini, OpenAI Realtime, and GPT-Live, and says not all four will be integrated. [product.md](../../product.md) records that this order was later superseded as a quality ranking, that the final service is not locked, and that the Qwen and Gemini adapters in the tree are not a purchase or a listening test. The [15 October voice refresh](../../research/2026-10-15-voice-ai/voice-model-comparison.md) is now the current comparison. The table below is **HISTORICAL: September evidence and the 14 October recommendation**, retained to explain the earlier rationale; it is not the current candidate order. Refresh account eligibility and exact SKU before a paid trial.
 
 Goals that the choice has to serve: one desk prototype; English UI with Simplified Chinese; hands-free short voice sessions after a local wake word; Mandarin and English commands (proposal target: 40 commands, at least 90% correctly executed, every calendar-write confirmation passing); later agent tests also want Cantonese and mixed speech, which are not yet measured; reliable tool drafts rather than the model announcing success; posture and motion staying local; a student budget with no spend approved; Hong Kong as the team’s location.
 
@@ -113,7 +113,7 @@ Goals that the choice has to serve: one desk prototype; English UI with Simplifi
 | **Meta Model API (Muse Spark) or consumer Muse.** | The October teardown shows a real inference API and a separate consumer product. Spark is a possible later adapter. | No code, no account, and consumer Muse is not an embeddable agent. Adding it now duplicates the teardown and skips the adapters we have. |
 | **StepAudio, Doubao, Grok Voice, ElevenAgents.** | September notes kept them as second-round or cost experiments. StepAudio’s preview was listed as temporarily free, with no end date. | No adapter, no listening test, and a free preview is not a six-month plan. |
 
-**Recommendation (engineering, not an owner decision).** Ask for one hosted account first: **Alibaba Cloud Model Studio, Qwen**. Use a cheap Qwen **text** model for drafts and the optional background follow-up. Use **Qwen Audio** realtime only for the wake-word session, and close it on the existing idle and total limits. Keep Gemini 3.8 Live as the single comparison: same tools, same Mandarin/English script, run only if the actual account can call Google. Switch the environment variables if Gemini wins that script or if the Qwen account cannot be opened. Do not add OpenAI, Meta, or a local LLM until that pair has a result. Do not create a key, accept terms, or spend until the owner sets a cap. A failed region check is a blocked account, not a reason to bypass it.
+**Current recommendation (15 October; engineering, not an owner decision).** Compare Grok Voice3.0, Gemini3.8 Live and Qwen Audio3.1 Plus as quality, daily-conversation and Mandarin/Cantonese candidates, subject to actual account eligibility. Qwen Audio3.0 Flash and temporarily free StepAudio3 are cost controls; Eleven v4 Turbo is a character-voice route; GPT-Live is a long-task/delegation comparison. Keep one task/approval backend and short wake-word sessions. This is a public-source recommendation: no account, key or paid trial is authorized until the owner chooses the exact configuration and a spend cap. The old first-Qwen order above is superseded; the hosted-model design remains. A failed region check does not authorize a bypass.
 
 Until that trial exists, leave `DESK_TEXT_PROVIDER` and `DESK_VOICE_PROVIDER` at `none`. Local rules and the calendar still run.
 
@@ -121,7 +121,7 @@ Until that trial exists, leave `DESK_TEXT_PROVIDER` and `DESK_VOICE_PROVIDER` at
 
 1. Name one real target computer/application task and data scope, then prove approval, actual execution, independent read-back, refusal outside scope, cancellation and unknown-result recovery. The folder executor is a bounded file capability, not general GUI control.
 2. Define job-history retention/archive and business backup for facts, persona and jobs. Current calendar/task backup does not include all of these stores.
-3. Only after the owner chooses a provider/model and spend cap, refresh region, model IDs and pricing and run the same Mandarin/English command script. September prices remain dated examples.
+3. Public model/version, benchmark and price research was refreshed on 15 October. After the owner chooses exact models/voices/backends and a spend cap, verify actual account eligibility and run the same Mandarin/English/Cantonese script. Source research is not live-provider acceptance.
 4. Validate real voice/wake/AEC, consented posture labels, Pi/iPhone operation, optical output and commissioned RIG presets separately. Software tests do not fill those evidence gaps.
 
 ## What not to claim

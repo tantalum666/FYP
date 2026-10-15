@@ -1,0 +1,122 @@
+{
+  "date": "2026-10-15",
+  "currency": "USD",
+  "days": 30,
+  "session_minutes": "300",
+  "user_speech_minutes": "150",
+  "assistant_speech_minutes": "150",
+  "exclusions": [
+    "history replay",
+    "text and reasoning",
+    "transcription",
+    "tools and backend agents",
+    "retries and reconnects",
+    "taxes and network",
+    "promotional discounts"
+  ],
+  "results": [
+    {
+      "model": "qwen-audio-3.0-realtime-flash",
+      "region": "Singapore",
+      "basis": "new audio only; two hypothetical input meters, not bill bounds",
+      "rates_per_million": {
+        "audio_input": "0.93",
+        "audio_output": "1.87"
+      },
+      "tokens_per_second": {
+        "audio_input": "12.5",
+        "audio_output": "12.5"
+      },
+      "usd_user_speech_input": "0.315",
+      "usd_full_stream_input": "0.419625",
+      "source": "https://www.alibabacloud.com/help/en/model-studio/model-pricing"
+    },
+    {
+      "model": "qwen3.8-omni-flash-realtime",
+      "region": "Singapore",
+      "basis": "new audio only; two hypothetical input meters, not bill bounds",
+      "rates_per_million": {
+        "audio_input": "0.93",
+        "audio_output": "1.87"
+      },
+      "tokens_per_second": {
+        "audio_input": "7",
+        "audio_output": "12.5"
+      },
+      "usd_user_speech_input": "0.268965",
+      "usd_full_stream_input": "0.327555",
+      "source": "https://www.alibabacloud.com/help/en/model-studio/realtime"
+    },
+    {
+      "model": "qwen-audio-3.1-realtime-plus",
+      "region": "Singapore",
+      "basis": "new audio only; two hypothetical input meters, not bill bounds",
+      "rates_per_million": {
+        "audio_input": "6.4",
+        "audio_output": "24"
+      },
+      "tokens_per_second": {
+        "audio_input": "12.5",
+        "audio_output": "12.5"
+      },
+      "usd_user_speech_input": "3.42",
+      "usd_full_stream_input": "4.14",
+      "source": "https://www.alibabacloud.com/help/en/model-studio/model-pricing"
+    },
+    {
+      "model": "gemini-3.8-live / extended-thinking",
+      "usd": "4.200",
+      "basis": "vendor approximate minutes; whole-session listening; no history/text/thinking",
+      "source": "https://ai.google.dev/gemini-api/docs/pricing"
+    },
+    {
+      "model": "higgs-realtime",
+      "usd_user_speech_input": "2.4450",
+      "usd_full_stream_input": "2.7900",
+      "basis": "vendor approximate minutes; actual token meter; transcription excluded",
+      "source": "https://www.boson.ai/pricing"
+    },
+    {
+      "model": "gpt-realtime-2.1-mini",
+      "usd": "4.5",
+      "basis": "VAD only commits speech; no history/text/cache effects",
+      "source": "https://developers.openai.com/api/docs/pricing"
+    },
+    {
+      "model": "gpt-realtime-2.1",
+      "usd": "14.4",
+      "basis": "VAD only commits speech; no history/text/cache effects",
+      "source": "https://developers.openai.com/api/docs/pricing"
+    },
+    {
+      "model": "gpt-live-1",
+      "usd": "15.00",
+      "basis": "active session including silence; backend excluded",
+      "source": "https://developers.openai.com/api/docs/pricing"
+    },
+    {
+      "model": "grok-voice-3.0",
+      "usd": "24.00",
+      "basis": "server_vad session; text events/tools excluded",
+      "source": "https://docs.x.ai/developers/models/speech-to-speech"
+    },
+    {
+      "model": "ElevenAgents Creator",
+      "usd": "24.00",
+      "basis": "regular monthly Creator plan, no first-month discount; LLM excluded",
+      "source": "https://elevenlabs.io/pricing/agents"
+    },
+    {
+      "model": "Deepgram Voice Agent Standard",
+      "usd": "22.500",
+      "basis": "post-2026-09-12 standard tier; configuration restrictions and external charges separate",
+      "source": "https://deepgram.com/pricing"
+    },
+    {
+      "model": "stepaudio-3-realtime-preview",
+      "usd": null,
+      "basis": "limited-time free model item; no guaranteed end date or account eligibility; not projected permanent zero",
+      "source": "https://platform.stepfun.ai/docs/en/guides/pricing/details"
+    }
+  ]
+}

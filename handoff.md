@@ -1,19 +1,19 @@
 # Group 2 Current Handoff
 
-Updated: 15 October 2026. **The reviewed #7–#14 code stack is merged into main. This #6 delivery reconciles the tooling research and records the independent review.** PRs #4 and #5 remain separate.
+Updated: 15 October 2026. **The current user task is a fresh voice-model comparison after Grok Voice3.0 and Gemini updates. Public research and base-cost arithmetic are complete; no live trial or provider selection occurred.**
 
 ## Current state and evidence
 
-- Owner-reviewed facts, one owner-named folder on the existing note-job ledger, a shared persona, quiet-hour holds, failure/recovery copy and replaceable text adapters are implemented.
-- Review fixes close paired access to facts through assistant/text/voice paths; reject symlinks in every folder ancestor; preserve persona versions across reset/migration; and retain drafts and repeat-safe save recovery. source-map-js is patched to 1.2.2.
-- [QA](output/qa/2026-10-15-grok-review-merge/verification.md): actual merged code `2c1e465` passed 182 backend tests, 17 frontend tests, Ruff, typecheck, production build and npm audit (zero findings). Browser fixtures cover memory persistence/lost replies, conflicting persona editors and an independently verified folder write. One upstream Starlette test-client deprecation remains.
-- Providers were disabled; no live model, camera, microphone or hardware action. Two temporary browser tabs, interception, viewport override and QA server were cleaned up. Original A1 branch and private runtime were not changed.
-- A1 is the user's selected identity and intact 2D is the latest visual direction, retained on [PR #4](https://github.com/tantalum666/FYP/pull/4). The separate kernel is [PR #5](https://github.com/tantalum666/FYP/pull/5). Neither is part of this merge.
+- [Voice comparison](research/2026-10-15-voice-ai/voice-model-comparison.md) and [sources](research/2026-10-15-voice-ai/source-register.md): confirmed Grok Voice3.0/API on 14 October; Gemini4 Argon has audio input but no audio generation/Live; Gemini3.8 remains the Live family. Added Nova2.5, Eleven v4, Hume's 13 November API sunset, current component/open-model coverage, AA snapshots with confidence limits and current base-cost calculations.
+- Engineering shortlist: Grok3.0 for quality/tool tasks, Gemini3.8 Live for daily conversation/value, Qwen Audio3.1 Plus for Mandarin/Cantonese. This supersedes earlier engineering candidate orders, not the owner's unmade provider/model/spend decision. Actual account eligibility and language quality are unverified.
+- [Research QA](output/qa/2026-10-15-voice-model-refresh/verification.md) records inherited full-read evidence, exact-text supplements, source limits, arithmetic and document checks. Only documentation/QA changed; software providers remain disabled.
+- Code from PRs #6-#14 is merged on main a663d83; the [independent review](output/qa/2026-10-15-grok-review-merge/verification.md) records 182 backend /17 frontend checks on code2c1e465, browser recovery and folder read-back. Those are dated code results, not voice tests.
+- The A1 identity and intact2D direction remain on [PR #4](https://github.com/tantalum666/FYP/pull/4); separate kernel [PR #5](https://github.com/tantalum666/FYP/pull/5) remains unmerged. The original checkout/private runtime and school files are preserved.
 
 ## Remaining
 
-Named real-application/remote-PC execution; archive and complete business backup; owner choice of real provider/model and spend cap; real voice/wake/AEC and consented posture labels; Pi/iPhone/optics/RIG/cleaner verification. School submission status was not refreshed. Research notes are dated evidence, not measurements of commercial products.
+Real provider/model and spend choice; Mandarin/English/Cantonese listening and tool acceptance; wake/AEC and Pi/iPhone evidence. Named real-application/remote-PC execution, full archive/business backup, consented posture labels and optics/RIG/cleaner validation also remain open. Public voice research did not authorize accounts, model spend or microphone capture.
 
 ## One next step
 
-**Define one real target computer/application task and allowed data scope, then validate approval → execution → independent read-back, including refusal, cancellation and unknown-result recovery, on the existing JobService.**
+**Choose two or three actually available exact model/voice/backend configurations and a total test-spend cap, then run the shared 20-scenario speech-and-tool script in the comparison report, with independent job read-back and per-language results.**

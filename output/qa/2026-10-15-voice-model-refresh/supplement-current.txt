@@ -1,0 +1,97 @@
+FILE decision-log.md L3-3
+3: 更新：2026-10-15。记录采用追加方式；用户明确要求与工程建议分别标注。
+
+FILE desk-companion/README.md L78-78
+78: 最新10月15日[审查与合并QA](../output/qa/2026-10-15-grok-review-merge/verification.md)为182项后端、17项前端，Ruff／类型／构建和npm审计零发现，含记忆／人格／目录的真实浏览器检查。历史149项后端、15项前端及实际浏览器证据见[本地整合核验](../output/qa/2026-10-09-dot-integration/verification.md)；[10月6日云端软件核验](../output/qa/software-completion-2026-10-06/verification.md)保留当时结果。启用与复现实验见[电脑作业操作](docs/computer-jobs.md)。旧阶段证据在[事务增强与UI／UX审查](../output/qa/task-enhancement-ux-2026-10-03/verification.md)：101项后端、11项前端检查、生产／iPhone构建及实际三端交互。此前[S1–S10记录](../output/qa/software-completion-2026-10-02/verification.md)保留。测试数据库与主数据分开，10月9日交互使用独立`.runtime/dot-integration-qa/`；旧轮使用`.runtime/completion-qa/`。截图中的安排和回放是演示数据。正式主库原有示例保留，不自动移动到今天。
+
+FILE desk-companion/docs/architecture.md L3-3
+3: 2026-10-15：下文为当前实现。拥有者事实、共享人格、指定目录和安静跟进已合入main；持久作业和非阻塞语音仍共用原结构。通用PC／LCU、作业归档／完整业务备份及RIG／清洁模块仍未完成，提供商未锁定。记忆的拥有者检查覆盖全部助理通道；目录逐级无链接打开；人格重置版本保持递增。验证见[本轮QA](../../output/qa/2026-10-15-grok-review-merge/verification.md)。
+
+FILE desk-companion/docs/computer-jobs.md L47-47
+47: 批准绑定当时的全文、标题、文件夹名称和路径指纹。批准前如果改了目录或清除了指定，作业返回 `COMPUTER_SCOPE_CHANGED`，两个目录都不会被写入。执行和核验都逐级通过目录句柄打开已批准的绝对路径，任一级变成符号链接都会拒绝，不只检查最后一级。写入仍是新建 `<作业ID>.txt`，已有同名文件保持不变。读回比较字节数和 SHA-256。取消不删除已写文件。核验是另一项需要批准的只读作业，不会把被改过的文件改回去。
+
+FILE desk-companion/docs/memory.md L14-14
+14: - 配对终端访问 `/api/memory` 得到 403，助理草稿列表、确认接口和文字／语音工具也执行相同的拥有者边界。配对文字请求不打包事实，回复缓存绑定调用权限；语音只向拥有者或已启用的本地语音工作进程开放记忆工具。常亮屏不展示这些事实。
+
+FILE desk-companion/docs/memory.md L20-20
+20: ## 现有能力与剩余验证
+
+FILE desk-companion/docs/memory.md L29-29
+29: 8. 真实模型验证：有花费上限之后，才用同一套工具比较托管供应商。供应商仍未锁定。
+
+FILE desk-companion/docs/memory.md L31-32
+31:
+32: 人格重置会保存新的递增版本，旧编辑不能因恢复默认而重新生效；已有配置追加迁移保留正文。保存失败／冲突保留本地草稿，只有明确选择加载当前文本才放弃。记忆、人格及作业尚未包含在现有业务JSON备份中；删除事实不保证从已有提供商会话或历史操作记录中擦除。
+
+FILE desk-companion/docs/operator-guide.md L165-165
+165: 默认`DESK_COMPUTER_ENABLED=0`，只控制专用笔记目录。拥有者还可以在 Computer jobs 指定一个已存在的真实文件夹；该路径的任一层不能是符号链接，也不能是运行目录本身、上级或子目录。按[电脑作业操作说明](computer-jobs.md)试用。助理面板内的 Computer jobs 要求拥有者会话，配对终端不能批准；模型只能准备、查询或请求取消，不能提交路径。每项作业核对全文及目标后再批准，结果未知时先核验，不要重复生成相同任务。
+
+FILE desk-companion/docs/operator-guide.md L168-171
+168:
+169: ## 2026-10-15 记忆与人格
+170:
+171: 拥有者可在Memory查看／更正事实，在Persona编辑共享语气。配对终端不能经助理草稿、文字或语音取得事实。人格冲突会保留草稿；“放弃草稿并加载当前人格”才替换为服务端版本。保存回执丢失时使用“安全重试”，不另建操作；恢复只清理匹配的草稿。重置默认人格仍增加版本。业务备份暂不包括记忆、人格和作业，请勿将日历备份误称完整恢复。
+
+FILE docs/tooling-and-review/companion-product-teardown.md L5-5
+5: **Review update, 15 October 2026.** PRs #7–#14 are merged on the existing job contract. The Desk Companion comparison and roadmap below now reflect owner facts, one folder action, shared persona and quiet scheduling. The public product descriptions remain the dated 14 October research, with their original access limitations. See the [independent review](../../output/qa/2026-10-15-grok-review-merge/verification.md). PRs #4 and #5 remain separate; no hosted provider trial occurred.
+
+FILE docs/tooling-and-review/companion-product-teardown.md L155-155
+155: Baseline: Desk Companion after PRs #7–#14 and the 15 October review fixes. Providers default to `none`. Dedicated notes require `DESK_COMPUTER_ENABLED`; a folder action requires the owner to configure one real directory and approve each job. PR #5’s separate kernel, routines and browser fixtures remain unmerged.
+
+FILE docs/tooling-and-review/companion-product-teardown.md L159-160
+159: | Acts in the user’s apps | Cloud computer, browser, connectors, purchases with approval | Cloud computer, one local PC, plugins, Codex/Work tasks | Not described; calendar and location inform replies | Bounded notes plus one owner-named real folder, each approved and independently read back. No inbox, browser or shell. |
+160: | Memory | Editable memory files in the user’s VM | ChatGPT memory plus the dot’s own notes, not a full transcript | Personalization and paid Chronicles; export and account delete | Tasks/evidence plus an owner-editable fact list with source, time, correction, deletion and model-context limits. |
+
+FILE docs/tooling-and-review/companion-product-teardown.md L164-164
+164: | Persona | User-named avatar; one published purpose line | User-named face; work-colleague instructions | “Living mirror,” sympathetic questions | One owner-editable, versioned persona shared by text, voice and advice; immutable tool rules remain in code. A1 art is on unmerged PR #4. |
+
+FILE docs/tooling-and-review/companion-product-teardown.md L168-168
+168: Owner facts, the named folder and quiet-hour holds are implemented. Remaining gaps are a named real application task, complete retention/backup and real-provider/device evidence. A general cloud computer or inbox is not implied by these implementations.
+
+FILE docs/tooling-and-review/companion-product-teardown.md L191-191
+191: ### Current implementation and next validation
+
+FILE docs/tooling-and-review/companion-product-teardown.md L193-193
+193: Memory, persona, folder actions, follow-up controls and provider adapters are implemented in PRs #7–#14. Their tests use local fixtures and fake providers. The 15 October review additionally closed paired-memory access, ancestor-link races and persona version/draft defects.
+
+FILE docs/tooling-and-review/companion-product-teardown.md L195-195
+195: The next software demonstration should name one target application and allowed data. Extend the existing job contract only within that scope, with independent results and cancellation. Archive/business backup remains incomplete. A real provider trial requires the owner's provider/model and spend cap; posture, Pi, voice/AEC and RIG still need their own evidence. Keep the fixed-camera posture loop and separate always-on UI.
+
+FILE docs/tooling-and-review/fyp-repo-review.md L3-3
+3: Date: 14 October 2026. Original scope: `main` at `ccfac48`; implementation status refreshed after the 15 October #7–#14 merges. Group 2. Desk Companion is the current product. Senplate food-monitoring material is historical and is not the specification.
+
+FILE docs/tooling-and-review/fyp-repo-review.md L7-7
+7: **Review update, 15 October 2026.** The independent review fixed permission, directory-opening, persona-version and draft-recovery defects, then merged #7–#14 with merge commits. The actual merged code passed 182 backend tests, 17 frontend tests, Ruff, typecheck, production build and npm audit (zero findings). [Evidence](../../output/qa/2026-10-15-grok-review-merge/verification.md). The 9 October figures below retain their date. PRs #4 and #5 remain separate.
+
+FILE docs/tooling-and-review/fyp-repo-review.md L32-33
+32: | Computer jobs | Dedicated notes default off; an owner may configure one real folder. Approval binds exact text and scope, every directory component rejects symlinks, and independent read-back checks size/SHA-256. No shell or third-party GUI. |
+33: | Owner memory/persona | Correctable facts, deletion from future context and a shared owner persona. Paired text/voice cannot read facts or decide memory drafts. Persona reset preserves monotonic versions. |
+
+FILE docs/tooling-and-review/fyp-repo-review.md L42-42
+42: ## Separate unmerged branches
+
+FILE docs/tooling-and-review/fyp-repo-review.md L44-44
+44: The #7–#14 batch is independent of the two earlier feature branches below. Open issue counts are not used as completion evidence.
+
+FILE docs/tooling-and-review/fyp-repo-review.md L65-65
+65: 3. Owner facts and persona are implemented, but retention/archive and complete business backup remain open. Facts are not a full transcript or a biography.
+
+FILE docs/tooling-and-review/fyp-repo-review.md L72-72
+72: ## Next work
+
+FILE docs/tooling-and-review/fyp-repo-review.md L74-74
+74: Use the current [handoff](../../handoff.md). First define one real target application task and allowed data, and validate it through the existing approval/read-back/cancel contract. Do not fork another queue. Owner facts, shared persona, quiet holds and Qwen/Gemini text adapters are already implemented; do not add duplicate versions of them.
+
+FILE docs/tooling-and-review/fyp-repo-review.md L76-76
+76: Then address archive/backup and real-service/device validation. A hosted model trial waits for the owner's provider/model and spend cap. Hardware and consented posture evaluation remain separate.
+
+FILE planning/2026-10-14/pr-stack-merge-order.md L1-3
+1: # HISTORICAL: Codex merge handoff for PRs #6–#14
+2:
+3: Status updated 15 October: #7–#14 are merged. PR #6 records reconciled documentation and review evidence. The commands below preserve the original 14 October proposal and are not a current next step. The actual review used ordinary merges and normal pushes, preserving the fixes and both histories; no force push was used. [Current handoff](../../handoff.md).
+
+FILE research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md L13-13
+13: - 用户当时提供的AVA网页截图只显示最终效果，不能看清光学截面；不能拿它证明AVA与淘宝盒子同一种光路。临时原文件`codex-clipboard-13c05e29-bdb2-4516-b6f2-6beb88a295f7.png`已不可用，保留有日期的观察，不再提供失效文件链接。
+
+FILE work-log.md L3-3
+3: 更新：2026-10-15。追加式记录；当前状态以 handoff.md 为准。

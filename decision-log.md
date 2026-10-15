@@ -734,3 +734,10 @@
 - **审查结果与工程修复：**记忆拥有者边界必须覆盖助理草稿／决定、文字上下文／缓存和语音；指定目录必须逐级无符号链接打开；人格重置不能复用旧版本，失败也不能清除未保存草稿。新增回归先复现后修复，并更新source-map-js到1.2.2。
 - **交付方式：**先将修复以普通推送放回对应PR，逐层合并main以保留修复；功能栈使用merge commit。PR #6用普通merge对齐main，保留两边历史并修正过期路线，不使用force push。实际代码合并回执和182／17检查见[本轮QA](output/qa/2026-10-15-grok-review-merge/verification.md)。
 - **范围：**A1完整2D及PR #4、PR #5另线保持；真实提供商／模型和花费上限未选择，未开账号或调用模型；真实应用、硬件和学校提交没有被测试数替代。
+
+## 2026-10-15 Grok Voice3.0与语音全清单再比较
+
+- **用户请求：**Grok3voice发布、Gemini疑似更新，重新比较主要语音模型。该请求允许公开资料复核，不是最终提供商选择或付费／麦克风试用授权。
+- **新事实：**Grok Voice3.0于10月14日开放API，latest已切换；Gemini10月13日更新为4 Argon，只有音频输入／文字输出，Live仍是3.8。Nova2.5、Eleven v4和Hume11月13日停服均影响旧清单。AA当前综合、真人偏好、工具、置信区间分别记录，不移植旧代成绩。
+- **工程建议：**Grok3.0升为质量首轮；Gemini3.8 Live作日常交谈／费用基线，Qwen Audio3.1 Plus重点验证中文／粤语。低价Flash／StepAudio3、角色声音Eleven v4、长任务GPT-Live及开放模型单列用途。此顺序取代9月29日和10月14日的旧工程排名，不将用户未作的选择写成决定。
+- **范围和证据：**[完整报告](research/2026-10-15-voice-ai/voice-model-comparison.md)与[QA](output/qa/2026-10-15-voice-model-refresh/verification.md)保留版本、语言、地区／SKU、计费及来源限制。无模型调用、试听、开通、密钥、设备改动或学校提交；当前代码仍只有Qwen／Gemini适配，默认none。

@@ -64,7 +64,7 @@ CAL-01至19的映射以[Part 1整理](planning/2026-09-29/calendar-part1-functio
 
 ## 语音与学校服务器
 
-用户强调自然交谈和可靠工具调用，先前Qwen→Gemini→Realtime→Live顺序已被后续全面质量与价格比较取代为历史考虑。截至9月29日的[自然度研究](research/2026-09-29-voice-ai/naturalness-and-tools-review.md)与[费用研究](research/2026-09-29-voice-ai/price-and-value-ranking.md)保留为有日期的比较；10月6日型号／架构核对见[本轮方案](planning/2026-10-06/personal-agent-discussion-and-next-steps.md)，最终服务未由用户锁定。代码保留Qwen／Gemini适配，不代表本组已试听、计费或批准购买服务。
+用户强调自然交谈和可靠工具调用。当前依据为10月15日[全面语音比较](research/2026-10-15-voice-ai/voice-model-comparison.md)：Grok Voice3.0升为首轮质量挑战者，Gemini3.8 Live保留日常交谈／费用基线，Qwen Audio3.1 Plus验证中文／粤语；这些是工程测试顺序，最终服务、型号及花费上限仍未由用户锁定。Gemini4 Argon是音频输入／文字输出后台，不支持Live或语音生成；Hume停服公告、Nova2.5及Eleven v4更新均已补入。旧[9月自然度](research/2026-09-29-voice-ai/naturalness-and-tools-review.md)／[费用](research/2026-09-29-voice-ai/price-and-value-ranking.md)及10月14日先Qwen的建议保留为历史。代码仍只有Qwen／Gemini语音适配；公开比较不等于新模型接入、试听、账单或购买批准。地区资格与新加坡SKU分别核对，不能以香港workspace代替具体型号可用性。
 
 学校设备初步被用户描述为DGX-1／Tesla V100；每卡显存、可用配额、系统与网络权限仍未知。[服务器比选](research/2026-09-28-local-voice/server-deployment-comparison.md)保留Volta兼容条件。本轮未登录学校服务器，也没有把商业Qwen实时API型号当作同款开源权重。取得实际资源后可按既有比较验证自托管方案。
 
