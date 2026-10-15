@@ -12,6 +12,7 @@ import threading
 from dataclasses import dataclass
 from typing import Literal
 from urllib.parse import urlsplit
+from zoneinfo import ZoneInfo
 
 import httpx
 from pydantic import Field, ValidationError
@@ -19,6 +20,7 @@ from pydantic import Field, ValidationError
 from .calendar import iso
 from .context import pack_conversation
 from .persona import followup_system, text_system
+from .workspace_data import is_quiet
 from .schemas import StrictModel
 from .store import DomainError, encode
 
@@ -280,12 +282,20 @@ class TextAssistant:
                 )
             return reply
 
+    def _quiet_now(self):
+        prefs = self.runtime.data.preferences()
+        with self.store.connection() as conn:
+            zone = ZoneInfo(self.store.settings(conn)["timezone"])
+        return is_quiet(prefs, self.store.clock().astimezone(zone))
+
     def enrich_one(self):
         if not (self.config.valid() and self.config.background) or not self.background_lock.acquire(
             False
         ):
             return
         try:
+            if self._quiet_now():
+                return
             with self.store.connection(write=True) as conn:
                 today = iso(self.store.clock())[:10]
                 if (
