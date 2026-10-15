@@ -386,6 +386,80 @@ def test_background_failed_attempts_count_toward_daily_limit(desk):
     assert len(calls) == 20
 
 
+def _advice_service(runtime):
+    calls = []
+
+    def response(request):
+        calls.append(True)
+        return httpx.Response(
+            200,
+            json={
+                "choices": [
+                    {"message": {"content": json.dumps({"en": "Check in?", "zh": "要更新吗？"})}}
+                ]
+            },
+        )
+
+    service = TextAssistant(
+        runtime,
+        TextConfig(
+            "qwen",
+            "test-model",
+            "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+            "fixture",
+            True,
+        ),
+        httpx.MockTransport(response),
+    )
+    return service, calls
+
+
+def test_turning_followup_off_keeps_the_task_and_skips_queued_advice(desk):
+    r, c = desk
+    task = create(r, interval_minutes=15)
+    c[0] += timedelta(minutes=16)
+    r.tick()
+    saved = r.tasks.action(
+        task["id"],
+        TaskAction(
+            action="update",
+            expected_version=task["version"],
+            task=TaskInput(title="Report", follow_up_enabled=False, interval_minutes=15),
+        ),
+        "quiet-followup",
+    )["task"]
+    service, calls = _advice_service(r)
+    service.enrich_one()
+    current = r.tasks.detail(saved["id"])["task"]
+    assert calls == []
+    assert current["status"] == "todo" and current["follow_up_enabled"] is False
+    with r.store.connection() as conn:
+        row = conn.execute(
+            "SELECT state FROM task_followups WHERE task_id=?", (saved["id"],)
+        ).fetchone()
+    assert row["state"] == "resolved"
+
+
+def test_queued_advice_is_skipped_when_followup_is_disabled_without_resolving(desk):
+    r, c = desk
+    task = create(r, interval_minutes=15)
+    c[0] += timedelta(minutes=16)
+    r.tick()
+    with r.store.connection(write=True) as conn:
+        raw = json.loads(conn.execute("SELECT data FROM tasks WHERE id=?", (task["id"],)).fetchone()[0])
+        raw["follow_up_enabled"] = False
+        conn.execute("UPDATE tasks SET data=? WHERE id=?", (json.dumps(raw), task["id"]))
+    service, calls = _advice_service(r)
+    service.enrich_one()
+    assert calls == []
+    assert r.tasks.detail(task["id"])["task"]["title"] == "Report"
+    with r.store.connection() as conn:
+        row = conn.execute(
+            "SELECT state, ai_status FROM task_followups WHERE task_id=?", (task["id"],)
+        ).fetchone()
+    assert row["state"] == "pending" and row["ai_status"] == "skipped"
+
+
 def test_private_task_detail_uses_away_projection(desk, monkeypatch):
     r, _ = desk
     task = create(r, next_step="Private next step")

@@ -303,7 +303,11 @@ class TextAssistant:
                     return
                 task = self.runtime.tasks.get(conn, row["task_id"])
                 # Hidden private material never goes to the background provider.
-                if self.store.settings(conn)["hide_private"] and task["visibility"] == "private":
+                # A task with follow-up turned off keeps its record, but optional
+                # text advice is not sent even if a check-in was already queued.
+                if (
+                    self.store.settings(conn)["hide_private"] and task["visibility"] == "private"
+                ) or not task.get("follow_up_enabled", True):
                     conn.execute(
                         "UPDATE task_followups SET ai_status='skipped' WHERE id=?", (row["id"],)
                     )
@@ -330,6 +334,7 @@ class TextAssistant:
                     current["version"] == row["task_version"]
                     and current["status"] in {"todo", "in_progress", "waiting"}
                     and not current["paused"]
+                    and current.get("follow_up_enabled", True)
                 ):
                     conn.execute(
                         "UPDATE task_followups SET content=?,ai_status='complete' WHERE id=? AND state='pending'",
