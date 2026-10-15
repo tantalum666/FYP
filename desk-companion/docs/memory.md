@@ -1,0 +1,27 @@
+# 拥有者记忆
+
+2026-10-14，Group 2。这是 Desk Companion 的长期事实，不是聊天全文，也不是电脑作业。
+
+英文：the owner saves, corrects, and deletes facts. The model may read active facts and prepare a draft. A draft does not write. Deleted facts are omitted from later model context. A paired display cannot open this list.
+
+## 行为
+
+- 拥有者在「记忆」页直接保存、更正或删除。每次写入带版本；版本不符返回 `VERSION_CONFLICT`。
+- 本地规则无需模型密钥：`记住：…`／`Remember: …` 只准备草稿；`忘掉：…`／`Forget: …` 仅在文字与某一条活动事实完全相同时准备删除草稿。确认前不写库。
+- 模型工具是 `memory_query`、`memory_save_draft`、`memory_replace_draft`、`memory_delete_draft`。没有确认工具。确认仍走既有助理草稿接口。
+- 发给托管模型的上下文由 `desk/context.py` 的 `pack_conversation` 组装，最多 40 条仍有效的事实。删除后的正文不再出现。密钥、相机帧和笔记文件内容不在这个包里。
+- 活动事实最多 200 条，每条折叠空白后不超过 500 字。达到上限是 `MEMORY_LIMIT`，不会静默丢掉旧事实。
+- 配对终端访问 `/api/memory` 得到 403，助理草稿列表、确认接口和文字／语音工具也执行相同的拥有者边界。配对文字请求不打包事实，回复缓存绑定调用权限；语音只向拥有者或已启用的本地语音工作进程开放记忆工具。常亮屏不展示这些事实。
+
+## 与电脑作业的关系
+
+受限笔记作业仍是已经落地的那一次真实动作：拥有者批准全文，执行器写入专用目录，独立读回字节数和 SHA-256，取消不会假装回滚。见 [computer-jobs.md](computer-jobs.md)。记忆不代替这项作业，也不新开第二套任务系统。
+
+## 尚未完成（按顺序）
+
+1. 本文件所述的记忆、草稿和上下文打包。已实现，并用模拟／本地规则测试，没有付费模型。
+2. 已在 main 上的专用笔记作业：批准、独立读回、取消。默认关闭。
+3. 下一步：由 owner 指定一个测试应用或目录，沿现有作业契约加一个可替换执行器。不要 shell，不要第二套队列。
+4. 其后：文字和语音共用一份可编辑人格文本；跟进可以单独调低，而不删除事务。
+5. 有花费上限之后，才用同一套工具比较托管供应商。供应商仍未锁定。
+6. 不在这一步：合并 PR #4／#5、通用浏览器、收件箱、自称姿态准确率或减损效果。

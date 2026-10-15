@@ -6,6 +6,7 @@ import {
   FileText,
   Globe,
   House,
+  Brain,
   ListTodo,
   LoaderCircle,
   Monitor,
@@ -46,6 +47,7 @@ import {
   Modal,
 } from "./components/Dialogs";
 import { useDraftState } from "./components/DraftGuard";
+import { MemoryPanel } from "./workspace/MemoryPanel";
 import { TaskPanel } from "./workspace/TaskPanel";
 import { DataPanel } from "./workspace/DataPanel";
 import { AssistantPanel } from "./workspace/AssistantPanel";
@@ -171,6 +173,7 @@ const nav = [
   { id: "today", en: "Today", zh: "今天", Icon: House },
   { id: "calendar", en: "Calendar", zh: "日历", Icon: CalendarDays },
   { id: "tasks", en: "Tasks", zh: "事务", Icon: ListTodo },
+  { id: "memory", en: "Memory", zh: "记忆", Icon: Brain },
   { id: "records", en: "Records", zh: "记录", Icon: FileText },
   { id: "device", en: "Device", zh: "设备", Icon: Monitor },
 ] as const;
@@ -734,6 +737,7 @@ export function App() {
                 }
               />
             )}
+            {page === "memory" && <MemoryPanel t={t} />}
             {page === "records" && (
               <RecordsView
                 revision={visible.revision}

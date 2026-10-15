@@ -12,7 +12,15 @@ import { ComputerJobsPanel } from "./ComputerJobsPanel";
 
 interface Proposal {
   id: string;
-  kind: "create" | "change" | "output" | "task_create" | "task_change";
+  kind:
+    | "create"
+    | "change"
+    | "output"
+    | "task_create"
+    | "task_change"
+    | "memory_save"
+    | "memory_replace"
+    | "memory_delete";
   expires_at: string;
   data: {
     task?: TaskInput;
@@ -30,6 +38,8 @@ interface Proposal {
       | "all_day"
     >;
     output?: { kind: string; preset: string };
+    body?: string;
+    previous?: string;
     change?: {
       action: string;
       scope?: string;
@@ -352,8 +362,8 @@ export function AssistantPanel({
               "文字AI使用已配置的服务；草稿需确认后才会修改记录。",
             )
           : t(
-              "Local rules: use Track: report to create a task, or discuss a saved task to record progress. AI voice is a separate connection.",
-              "本地规则：用“跟进：报告”创建事务，或在事务内记录进展。AI语音单独连接。",
+              "Local rules: Remember: a fact, Save note: text, or Track: report. Confirm before anything is stored. AI voice is a separate connection.",
+              "本地规则：用“记住：一条事实”、“保存笔记：文本”或“跟进：报告”。确认后才会保存。AI语音单独连接。",
             )}
       </p>
       {reply && (
@@ -386,11 +396,40 @@ export function AssistantPanel({
             } as Record<string, string>
           )[taskAction] ?? taskAction;
         const changedTask = p.data.task ?? p.data.change?.task;
+        const memoryKind =
+          p.kind === "memory_save" ||
+          p.kind === "memory_replace" ||
+          p.kind === "memory_delete";
         return (
           <article className="assistant-proposal" key={p.id}>
             <span className="workspace-eyebrow">
               {t("Review before saving", "保存前检查")}
             </span>
+            {memoryKind ? (
+              <>
+                <h3>
+                  {p.kind === "memory_delete"
+                    ? t("Delete a saved fact", "删除一条记忆")
+                    : p.kind === "memory_replace"
+                      ? t("Correct a saved fact", "更正一条记忆")
+                      : t("Save a fact", "保存一条记忆")}
+                </h3>
+                {p.data.previous && (
+                  <p>
+                    {t("Current: ", "当前：")}
+                    {p.data.previous}
+                  </p>
+                )}
+                {p.data.body && <blockquote>{p.data.body}</blockquote>}
+                <small>
+                  {t(
+                    "Nothing is stored until you confirm. A deleted fact is left out of later requests.",
+                    "确认前不会写入。删除后，之后的请求不再包含这条事实。",
+                  )}
+                </small>
+              </>
+            ) : (
+              <>
             <h3>
               {task?.title ??
                 event?.title ??
@@ -561,6 +600,8 @@ export function AssistantPanel({
                 </p>
               </>
             )}
+              </>
+            )}
             <small>
               {t("Expires at ", "有效至 ")}
               {new Date(p.expires_at).toLocaleTimeString(
@@ -574,7 +615,9 @@ export function AssistantPanel({
                 disabled={busy}
                 onClick={() => void decide(p.id, "confirm")}
               >
-                {t("Confirm & save", "确认并保存")}
+                {p.kind === "memory_delete"
+                  ? t("Confirm deletion", "确认删除")
+                  : t("Confirm & save", "确认并保存")}
               </button>
               <button
                 className="secondary"
