@@ -4,6 +4,8 @@
 
 本稿取代 [9月29日自然度报告](../2026-09-29-voice-ai/naturalness-and-tools-review.md)、[价格报告](../2026-09-29-voice-ai/price-and-value-ranking.md)及 [10月14日架构建议](../../docs/tooling-and-review/companion-architecture.md)中的**当前候选顺序**。旧资料保留为 HISTORICAL。学校 Proposal、已选 A1 完整2D形象、软件功能和购买权限不因此改变。
 
+**同日新增时效门槛：**用户要求“下周有什么会议”等查询约5秒给出有用答案、在10秒以内回答。当前[验收方案](../../planning/2026-10-15/voice-response-latency.md)把说完到实际播放有依据信息作为指标，首音／铺垫不能代替；本轮仅有本地工具离线测量，所有模型仍未通过端到端5秒验收。下述能力／费用优先级须同时受这一速度与正确性门槛约束。
+
 ## 1 这次实际更新了什么
 
 | 项目 | 当前核对结果 | 对旧结论的影响 |

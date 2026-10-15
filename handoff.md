@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-Updated: 15 October 2026. **The current user task is a fresh voice-model comparison after Grok Voice3.0 and Gemini updates. Public research and base-cost arithmetic are complete; no live trial or provider selection occurred.**
+Updated: 15 October 2026. **Voice comparison now includes the owner's requirement for useful next-week calendar answers around5 seconds and within10 seconds. The latency contract and offline tool measurement are complete; live end-to-end latency and provider selection remain unverified.**
 
 ## Current state and evidence
 
@@ -12,10 +12,12 @@ Updated: 15 October 2026. **The current user task is a fresh voice-model compari
 
 - Research delivery is [draft PR15](https://github.com/tantalum666/FYP/pull/15) on codex/voice-model-comparison-20261015. It is not merged into main; no new provider is enabled.
 
+- [Latency contract](planning/2026-10-15/voice-response-latency.md): measure actual playback of grounded information, not a generic preamble. The engineering target is p50<=3s / p95<=5s with10s timeout handling. A synthetic500-event Mac fixture measured local tool dispatch/query/serialization p95 at6.002ms; no model/network/audio/Pi measurement or application change. [Latency QA](output/qa/2026-10-15-voice-latency/verification.md).
+
 ## Remaining
 
 Real provider/model and spend choice; Mandarin/English/Cantonese listening and tool acceptance; wake/AEC and Pi/iPhone evidence. Named real-application/remote-PC execution, full archive/business backup, consented posture labels and optics/RIG/cleaner validation also remain open. Public voice research did not authorize accounts, model spend or microphone capture.
 
 ## One next step
 
-**Choose two or three actually available exact model/voice/backend configurations and a total test-spend cap, then run the shared 20-scenario speech-and-tool script in the comparison report, with independent job read-back and per-language results.**
+**Prepare the shared real-provider trial: choose available exact model/voice/reasoning configurations and a total spend cap, wire per-turn timestamps/timeout handling, then measure cold and ready-session grounded calendar replies against the5-second target with correct dates and independent results.**

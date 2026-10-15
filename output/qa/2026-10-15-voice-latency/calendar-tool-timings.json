@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-15",
+  "source_base": "9e371ffd095b78832ef4ada6f2b4f4905b174fc5",
+  "environment": {
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.5"
+  },
+  "measured_path": "ToolDispatcher.submit -> asyncio.to_thread -> AssistantService.calendar_query -> Store.snapshot -> recurrence expansion/privacy projection -> JSON serialization",
+  "fixture": "100/500 validated synthetic events, including daily/weekly recurrence; current application cap is 500. Direct fixture seeding is excluded from timing.",
+  "excluded": [
+    "microphone",
+    "speech end detection",
+    "provider connection",
+    "network",
+    "model inference",
+    "speech synthesis",
+    "browser playback",
+    "real calendar data",
+    "contended tool slots or database writers"
+  ],
+  "limits": "Repeated local process samples after fixture seeding; first_measured is not an OS cold boot or a live voice response. No paid calls or runtime workers.",
+  "results": [
+    {
+      "total_event_rows": 100,
+      "samples": 100,
+      "returned_occurrences": 33,
+      "serialized_bytes": 7188,
+      "first_measured_ms": 3.931,
+      "p50_ms": 1.949,
+      "p95_ms": 2.391,
+      "maximum_ms": 3.931,
+      "privacy_projection_checked": true
+    },
+    {
+      "total_event_rows": 500,
+      "samples": 100,
+      "returned_occurrences": 33,
+      "serialized_bytes": 7188,
+      "first_measured_ms": 5.633,
+      "p50_ms": 5.213,
+      "p95_ms": 6.002,
+      "maximum_ms": 6.254,
+      "privacy_projection_checked": true
+    }
+  ]
+}

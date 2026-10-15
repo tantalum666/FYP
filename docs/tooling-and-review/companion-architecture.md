@@ -117,6 +117,8 @@ Goals that the choice has to serve: one desk prototype; English UI with Simplifi
 
 Until that trial exists, leave `DESK_TEXT_PROVIDER` and `DESK_VOICE_PROVIDER` at `none`. Local rules and the calendar still run.
 
+**Latency requirement, 15 October.** The owner expects an ordinary next-week calendar answer around5 seconds and within10 seconds. The [acceptance plan](../../planning/2026-10-15/voice-response-latency.md) measures first grounded spoken content, not a generic preamble. Simple reads use one local tool path; complex work remains on durable jobs. An isolated500-event Mac fixture measured local dispatch/query/serialization p95 at6.002ms, excluding models/network/audio. No candidate has passed the live5-second target. Treat it as an additional selection gate, not a claimed SLA.
+
 ## Remaining tasks
 
 1. Name one real target computer/application task and data scope, then prove approval, actual execution, independent read-back, refusal outside scope, cancellation and unknown-result recovery. The folder executor is a bounded file capability, not general GUI control.

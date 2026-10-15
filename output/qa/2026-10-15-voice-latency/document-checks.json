@@ -1,0 +1,12 @@
+{
+  "markdown_files": 137,
+  "local_links_checked": 1304,
+  "resolved_links": 1303,
+  "broken_links": [],
+  "generated_local_targets_not_expected_in_isolated_worktree": [
+    {
+      "file": "desk-companion/README.md",
+      "target": ".runtime/credentials.json"
+    }
+  ]
+}
