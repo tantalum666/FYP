@@ -217,15 +217,17 @@ class TextAssistant:
             )
         return parsed
 
-    def context(self, task_id=None):
-        return pack_conversation(self.runtime, task_id)
+    def context(self, task_id=None, *, include_memory=True):
+        return pack_conversation(self.runtime, task_id, include_memory=include_memory)
 
-    def message(self, payload, key):
+    def message(self, payload, key, *, allow_memory=True):
         if not self.config.valid():
-            return self.runtime.assistant.local_message(payload, key)
+            return self.runtime.assistant.local_message(payload, key, allow_memory=allow_memory)
         if not key or len(key) > 100:
             raise DomainError("OPERATION_ID_REQUIRED", 422)
-        fingerprint = hashlib.sha256(encode(payload.model_dump()).encode()).hexdigest()
+        fingerprint = hashlib.sha256(
+            encode({**payload.model_dump(), "allow_memory": allow_memory}).encode()
+        ).hexdigest()
         with self.lock:
             with self.store.connection() as conn:
                 old = conn.execute("SELECT * FROM assistant_replies WHERE id=?", (key,)).fetchone()
@@ -238,11 +240,12 @@ class TextAssistant:
             context = {
                 "user_message": payload.message,
                 "language": payload.language,
-                **self.context(payload.task_id),
+                **self.context(payload.task_id, include_memory=allow_memory),
                 "tools": [
                     t
                     for t in TOOLS
                     if t["name"] in TextPlan.model_fields["tool"].annotation.__args__
+                    and (allow_memory or not t["name"].startswith("memory_"))
                 ],
             }
             system = text_system(self.runtime.persona.current()["body"])
@@ -256,6 +259,7 @@ class TextAssistant:
                     plan.tool,
                     plan.arguments,
                     "text/" + hashlib.sha256((key + "/" + str(index)).encode()).hexdigest(),
+                    allow_memory=allow_memory,
                 )
                 if "proposal" in result:
                     reply = {"mode": "ai", "kind": "draft", "message": plan.message, **result}

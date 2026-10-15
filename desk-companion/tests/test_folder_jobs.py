@@ -78,7 +78,10 @@ def test_rejected_paths_are_not_stored(desk, tmp_path):
     ]
     for path in denied:
         with pytest.raises(DomainError, match="FOLDER_PATH_DENIED"):
-            jobs.set_folder(FolderNaming(label="Denied", path=path), "denied-" + hashlib.sha256(path.encode()).hexdigest()[:12])
+            jobs.set_folder(
+                FolderNaming(label="Denied", path=path),
+                "denied-" + hashlib.sha256(path.encode()).hexdigest()[:12],
+            )
     status = jobs.folder_status()
     assert status["path"] == str(drop.resolve())
     assert status["label"] == "Sandbox"
@@ -153,7 +156,14 @@ def test_display_cannot_name_the_folder_or_prepare_a_file(desk):
     client = TestClient(app)
     headers = {"X-Desk-Request": "1", "X-Operation-Id": "display-folder"}
     assert client.get("/api/computer/folder", headers=headers).status_code == 403
-    assert client.post("/api/computer/jobs", json={"action": "save_folder_file", "title": "A", "content": "B"}, headers=headers).status_code == 403
+    assert (
+        client.post(
+            "/api/computer/jobs",
+            json={"action": "save_folder_file", "title": "A", "content": "B"},
+            headers=headers,
+        ).status_code
+        == 403
+    )
     owner = client.post(
         "/api/session",
         headers=headers,
@@ -184,17 +194,22 @@ def test_display_cannot_name_the_folder_or_prepare_a_file(desk):
     token = enrolled.cookies.get("desk_companion_device")
     display = TestClient(app)
     display.headers["Authorization"] = "Bearer " + token
-    assert display.post(
-        "/api/computer/folder",
-        json={"label": "Stolen", "path": str(drop)},
-        headers={"X-Desk-Request": "1", "X-Operation-Id": "display-rename"},
-    ).status_code == 403
+    assert (
+        display.post(
+            "/api/computer/folder",
+            json={"label": "Stolen", "path": str(drop)},
+            headers={"X-Desk-Request": "1", "X-Operation-Id": "display-rename"},
+        ).status_code
+        == 403
+    )
     assert app.state.runtime.jobs.folder_status()["label"] == "Renamed"
 
 
 def test_local_rule_prepares_a_review_and_does_not_write(desk):
     app, jobs, drop, _runtime = desk
-    bare = create_app(app.state.store.directory.parent / "bare", password="fictional-fixture", scheduler=False)
+    bare = create_app(
+        app.state.store.directory.parent / "bare", password="fictional-fixture", scheduler=False
+    )
     clarify = bare.state.runtime.assistant.local_message(
         AssistantMessage(message="保存到文件夹：还没指定目录", language="zh"),
         "folder-missing",
@@ -237,6 +252,32 @@ def test_a_folder_replaced_by_a_link_is_not_followed(desk, tmp_path):
     jobs.run_one()
     assert jobs.detail(job["id"])["state"] == "failed"
     assert list(real.iterdir()) == []
+
+
+def test_ancestor_link_changed_between_validation_and_open_is_not_followed(
+    desk, tmp_path, monkeypatch
+):
+    _app, jobs, _drop, _runtime = desk
+    parent = tmp_path / "parent"
+    target = parent / "drop"
+    target.mkdir(parents=True)
+    outside = tmp_path / "outside"
+    (outside / "drop").mkdir(parents=True)
+    jobs.set_folder(FolderNaming(label="Original", path=str(target)), "parent-folder")
+    job = prepare(jobs, key="ancestor-job")
+    approve(jobs, job, "approve-ancestor")
+    original = jobs.folder._bound_root
+
+    def changed(request):
+        root = original(request)
+        parent.rename(tmp_path / "moved-parent")
+        parent.symlink_to(outside, target_is_directory=True)
+        return root
+
+    monkeypatch.setattr(jobs.folder, "_bound_root", changed)
+    jobs.run_one()
+    assert jobs.detail(job["id"])["state"] == "failed"
+    assert list((outside / "drop").iterdir()) == []
 
 
 def test_tampered_folder_file_is_reported_and_not_repaired(desk):
