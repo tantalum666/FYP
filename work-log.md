@@ -909,3 +909,12 @@
 - **完成：**[补充研究](research/2026-10-15-voice-ai/computer-use-comparison.md#树莓派linux网络与单模型补充)核读OpenAI地区／Sol／Realtime工具、Gemini Live与地区、Qwen Omni SKU／端点、Foundry目录和Pi图形栈。建议Linux优先及Qwen Omni单模型试验，保留Sonnet／Sol按需后台；明确两种目标、地区资格、执行器和成绩边界。
 - **规范／检查：**同步product、handoff、决定、语音比较；[QA](output/qa/2026-10-15-pi-voice-computer/verification.md)继承本轮阅读并补读当前相关正文，检查链接、范围、术语与交付物。纯文档未重复软件测试或日历测量。
 - **剩余：**首版系统范围、目标应用、实际账号／SKU／预算、Linux图形栈／ARM64执行器、单模型GUI与语音正确率／延迟均待验。没有VPN安装、账户／密钥、调用模型、Pi登录、捕获音视频、硬件或学校提交。
+
+## 2026-10-16 Qwen选择、兼容指南与本机密钥保存
+
+- **目标：**用户已有国内Key，选定Omni3.8并提供千问兼容指南；用本机隐藏输入配置，秘密不进聊天／Git。
+- **完成：**新增[设置脚本](desk-companion/scripts/configure_qwen.py)和[操作说明](desk-companion/docs/qwen-local-setup.md)；私有配置位于仓库外，Key保存为DASHSCOPE_API_KEY，所选型号／聊天／实时地址分开记录，提供商仍none。逐级无链接目录、0600原子新建、不覆盖、取消和只读元数据验证已完成。没有换当前Codex模型或自动启动服务。
+- **验证：**7项专测及Ruff通过。本机首次因系统Python3.9注解失败，修复后重测；随后一次未完成保存，元数据确认无文件，再次本机输入成功。最终回执credential_present=true、provider_enabled=false、mode0600；不记录Key本体、片段或哈希。继承本轮精确阅读并补读相关规范／配置，见[QA](output/qa/2026-10-16-qwen-key-setup/verification.md)。
+- **规范：**更新product、handoff、决定、当前架构／README／操作及两份研究的后续决定；旧未选型号和强制workspace端点不能覆盖本次选择／新平台。应用后端协议未改，未调用模型／采集媒体／修改原A1运行库。
+- **剩余：**Omni适配与模拟协议、实际鉴权／模型权限、预算／音色、5秒语音与Pi／GUI验证。密钥存在不称接入完成；本轮没有花费或学校操作。
+- **引用维护：**检查发现3个旧Downloads绝对引用已失效；完整补读两份历史说明后，仅改为仓库inputs里的学校／组员留存件，不改任何学校二进制或正文。

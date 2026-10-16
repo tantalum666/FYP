@@ -64,6 +64,8 @@ DESK_RUNTIME_DIR="$PWD/.runtime/demo" DESK_ALLOW_REPLAY=1 .venv/bin/uvicorn desk
 
 ## 5. 自然语音
 
+**2026-10-16当前选择：**用户选择Qwen3.8 Omni Flash Realtime，并提供千问AI平台公共网关指南。[本机密钥设置](qwen-local-setup.md)已提供隐藏输入和仅本机保存；当前Omni适配器尚未实现，不能用下面旧`qwen_audio`的字段冒称接入成功。私有Key存在不等于真实鉴权、模型权限或语音测试通过。下面两种表格仍描述已实现的Audio／Gemini适配器，保持关闭。
+
 后端从环境读取配置。复制[service.env.example](../config/service.env.example)到`.runtime/service.env`并设权限0600；systemd会读取该文件。手动启动时由本机安全加载环境后再启动服务，不把密钥粘贴到前端或Git。
 
 | 字段 | Qwen Audio | Gemini Live |

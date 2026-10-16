@@ -1,0 +1,17 @@
+{
+  "project_markdown_versions": 137,
+  "documents_checked": 138,
+  "local_references": 1334,
+  "resolved": 1333,
+  "broken_links": [],
+  "expected_generated_targets": [
+    {
+      "file": "desk-companion/README.md",
+      "target": ".runtime/credentials.json"
+    }
+  ],
+  "wrong_group_names": [],
+  "identity_source_exists": true,
+  "existing_backend_and_protected_paths_unchanged": true,
+  "whitespace": "passed"
+}

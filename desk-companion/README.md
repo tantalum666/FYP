@@ -31,6 +31,8 @@
 
 ## 先运行软件
 
+10月16日用户已选择Qwen3.8 Omni Flash Realtime；[本机密钥设置](docs/qwen-local-setup.md)可隐藏输入并保存到仓库外私有配置。Omni协议仍待接入，普通启动继续不调用模型；已有Qwen Audio协议不能直接替代。API鉴权、花费上限与目标Pi实测仍未完成。
+
 需要Node 22.12+、Python 3.12+、uv。首次安装：
 
 ```sh

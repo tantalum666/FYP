@@ -762,3 +762,10 @@
 - **资料事实：**Sol为文字／图像托管API；OpenAI直接API和Google Developer API当前未列香港。Foundry有6.1 Sol目录，账户资格／工具契约未验。Realtime2.1、Gemini3.8 Live和Qwen3.8 Omni可接语音、屏幕输入和函数；不等于专用GUI工具成绩。Pi默认Wayland，不能默认沿用X11执行器。
 - **工程建议：**先固定Linux应用／图形栈，验证本机后接第二台Linux主机，再扩系统；单模型路径先核验Qwen Omni新加坡SKU，复杂任务再按需委派。用户尚未选型号、账号、预算或冻结首版范围；不把VPN作为服务资格或交付前提。
 - **范围与证据：**[补充研究](research/2026-10-15-voice-ai/computer-use-comparison.md#树莓派linux网络与单模型补充)和[QA](output/qa/2026-10-15-pi-voice-computer/verification.md)。仅文档，无安装、系统网络／权限改动、模型消费、音视频或目标Pi实测。
+
+## 2026-10-16 Qwen Omni选择与本机Key设置
+
+- **用户决定：**已创建国内Key；明确选Qwen3.8 Omni Flash Realtime，并提供千问AI平台Chat兼容指南和公共base URL。这取代当前“型号未选”的状态，不自动确认Key地域、模型权限、预算或已接入。
+- **完成：**本机隐藏输入保存到仓库外`~/.config/desk-companion/qwen.env`，目录0700／文件0600，状态只报告存在性与关闭。脚本不联网、不启用提供商、不读取其他项目密钥；不能覆盖已有配置或跟随链接。选择元数据和密钥同在私有文件。
+- **来源与接口：**实际核读[Chat](https://platform.qianwenai.com/docs/api-reference/chat/openai-chat)与[Realtime](https://platform.qianwenai.com/docs/api-reference/realtime-api/websocket-overview)。公共网关与旧百炼workspace路线分别判断；Chat兼容不等于Realtime或更换当前Codex模型。现有Audio协议仍不能代替Omni。
+- **验证与剩余：**7项新专测和Ruff通过；系统Python3.9注解兼容修复后本机输入完成。无网络鉴权、付费、音视频或Pi操作。下一步沿现有语音／JobService补Omni协议及模拟检查，再在花费上限明确后真实短测。[设置](desk-companion/docs/qwen-local-setup.md)／[QA](output/qa/2026-10-16-qwen-key-setup/verification.md)。

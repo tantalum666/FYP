@@ -1,6 +1,6 @@
 # Group 2 Project Contract
 
-更新：2026-10-15。状态：**审查并修复后的PR #7–#14已合入main；拥有者记忆、指定目录、共用人格和安静跟进可用，真实应用／服务／目标机仍待验证**。
+更新：2026-10-16。状态：**PR #7–#14已合入main；用户现已选择Qwen3.8 Omni Flash Realtime，本机Key已私有保存，Omni适配、真实服务与目标机仍待验证**。
 
 ## 当前方向与用户决定
 
@@ -68,7 +68,9 @@ CAL-01至19的映射以[Part 1整理](planning/2026-09-29/calendar-part1-functio
 
 ## 语音与学校服务器
 
-用户强调自然交谈和可靠工具调用。当前依据为10月15日[全面语音比较](research/2026-10-15-voice-ai/voice-model-comparison.md)：Grok Voice3.0升为首轮质量挑战者，Gemini3.8 Live保留日常交谈／费用基线，Qwen Audio3.1 Plus验证中文／粤语；这些是工程测试顺序，最终服务、型号及花费上限仍未由用户锁定。Gemini4 Argon是音频输入／文字输出后台，不支持Live或语音生成；Hume停服公告、Nova2.5及Eleven v4更新均已补入。旧[9月自然度](research/2026-09-29-voice-ai/naturalness-and-tools-review.md)／[费用](research/2026-09-29-voice-ai/price-and-value-ranking.md)及10月14日先Qwen的建议保留为历史。代码仍只有Qwen／Gemini语音适配；公开比较不等于新模型接入、试听、账单或购买批准。地区资格与新加坡SKU分别核对，不能以香港workspace代替具体型号可用性。
+用户强调自然交谈和可靠工具调用。10月15日[全面语音比较](research/2026-10-15-voice-ai/voice-model-comparison.md)的Grok／Gemini／Qwen Audio候选顺序为有日期的工程比较；**10月16日用户已明确选择Qwen3.8 Omni Flash Realtime**，并提供国内千问AI平台兼容指南。Key通过本机隐藏输入保存至仓库外0600私有配置，未进入聊天／Git，没有网络鉴权或消费。所选Chat公共base URL和Omni Realtime URL分别记录，不能混为一个接口；详见[本机设置](desk-companion/docs/qwen-local-setup.md)。型号选择已定，测试花费上限、音色、账号实际权限和Omni协议仍待完成。
+
+Gemini4 Argon不是实时发声前台；Nova／Eleven／Hume与旧语音比较保留研究价值。现有应用仍只有Qwen Audio／Gemini协议，模型保持none；本次没有把旧Audio适配器换个型号称为Omni完成。旧阿里百炼工作空间路线与此次千问平台公共网关分别按对应Key及官方契约验证，不默认互换。常驻A1、5秒有依据的日历回复与受限作业契约继续保留。
 
 **10月15日新增响应要求：**用户询问下周会议等已有日历信息时，约5秒得到有用答案，10秒已偏久。按[响应验收方案](planning/2026-10-15/voice-response-latency.md)，以说完到实际播放有依据的信息计时，铺垫语音不算达标；p50≤3秒／p95≤5秒及10秒超时处理是工程建议，尚未端到端验证。本地calendar_query在合成500条日程的隔离Mac测量中p95为6.002ms，只覆盖工具调度／查询／序列化，不代表模型、网络、TTS、Pi或整段语音成绩。简单查询直接走一次本地工具，复杂任务仍由后台作业推进；速度与外部日历数据新鲜度分别验证。
 

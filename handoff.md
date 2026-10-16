@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-Updated: 15 October 2026. **The comparison now covers natural speech, useful calendar answers around5 seconds, and screenshot-driven cross-application computer use. Public research is complete; provider selection and live voice/GUI acceptance remain unverified.**
+Updated: 16 October 2026. **Owner selected Qwen3.8 Omni Flash Realtime and provided the Qianwen platform gateway docs. The key is staged locally outside Git at0600 with providers disabled. Omni integration, live authentication and voice/GUI acceptance remain unfinished.**
 
 **Latest owner clarification:** The client runs on Raspberry Pi/Linux. Both Pi-local apps and control of another computer are desired; the owner is considering a Linux-only first scope, not yet freezing it. A single speech/vision/tool model is an option, so a second planning LLM is optional rather than mandatory.
 
@@ -11,13 +11,15 @@ Updated: 15 October 2026. **The comparison now covers natural speech, useful cal
 - [Latency contract](planning/2026-10-15/voice-response-latency.md): last speech to playback of grounded information, not a preamble. Engineering p50<=3s / p95<=5s with10s timeout handling. Synthetic500-event Mac tool dispatch/query/serialization p95=6.002ms; no model/network/audio/Pi result. [Latency QA](output/qa/2026-10-15-voice-latency/verification.md).
 - PRs #6-#14 are merged on main a663d83; [review QA](output/qa/2026-10-15-grok-review-merge/verification.md) records182 backend /17 frontend checks on code2c1e465, browser recovery and folder read-back. These are dated code results, not voice/GUI tests. Existing JobService handles bounded notes and one named folder; general GUI/remote-PC control is unimplemented.
 - A1 intact2D remains on [PR #4](https://github.com/tantalum666/FYP/pull/4); separate kernel [PR #5](https://github.com/tantalum666/FYP/pull/5) remains unmerged. The original checkout/private runtime and school files are preserved.
-- Research extends [draft PR15](https://github.com/tantalum666/FYP/pull/15), branch codex/voice-model-comparison-20261015. It is not merged into main; no new provider is enabled.
-- [Pi/single-model supplement](research/2026-10-15-voice-ai/computer-use-comparison.md#树莓派linux网络与单模型补充): Linux-first is engineering advice; retain both local/remote goals. Realtime2.1, Gemini3.8 Live and Qwen3.8 Omni support speech+screen+functions. Under student/Chinese/single-model constraints, investigate Qwen Omni's Singapore SKU/account first. OpenAI direct API does not list Hong Kong; Foundry lists6.1 Sol but the owner's eligibility/tool contract is unverified. VPN is not an OS requirement. Current Pi Wayland/ARM64 compatibility remains untested. [QA](output/qa/2026-10-15-pi-voice-computer/verification.md).
+- Research and local credential staging extend [draft PR15](https://github.com/tantalum666/FYP/pull/15), branch codex/voice-model-comparison-20261015. It is not merged into main; no provider is enabled.
+- [Pi/single-model supplement](research/2026-10-15-voice-ai/computer-use-comparison.md#树莓派linux网络与单模型补充): retain both local/remote goals; Linux-first remains advice. The15 October Singapore trial suggestion is superseded by the owner's domestic-platform Omni choice. Pi Wayland/ARM64 and general GUI remain untested. Other speech/planner alternatives remain dated research. [Earlier QA](output/qa/2026-10-15-pi-voice-computer/verification.md).
+
+- [Qwen local setup](desk-companion/docs/qwen-local-setup.md): hidden native input saved `~/.config/desk-companion/qwen.env`, owner-only directory/file, no network call or automatic loading. Separate official Chat base and Omni Realtime gateway are recorded. Existing text host validation and Audio protocol are not Qianwen Omni integration.7 dedicated checks and Ruff passed. [QA](output/qa/2026-10-16-qwen-key-setup/verification.md).
 
 ## Remaining
 
-Exact provider/model/voice/reasoning and spend choice; account eligibility; target computer/apps/data scope; bounded GUI executor and recovery. Live Mandarin/English/Cantonese, per-turn timing/timeout wiring, wake/AEC and Pi/iPhone remain unverified. Full archive/business backup, consented posture labels and optics/RIG/cleaner evidence also remain open. Informational comparisons do not authorize spend, installs, computer permissions or capture.
+Model choice is now Qwen3.8 Omni. Spend cap, voice, actual Key/model authorization, Omni adapter, target computer/apps/data scope and bounded GUI executor remain open. Live Mandarin/English/Cantonese, per-turn timing/timeout wiring, wake/AEC and Pi/iPhone are unverified. Full archive/business backup, posture labels and optics/RIG/cleaner evidence remain open. Key setup did not authorize spend or capture.
 
 ## One next step
 
-**Define one Linux/Pi application task and allowed data, then prepare the existing JobService's bounded executor and one-model speech/vision/tool trial after account/SKU and spend are chosen; compare a dedicated Sonnet/Sol backend only if needed, and keep grounded calendar replies on the separate5-second acceptance path.**
+**Implement the selected Qwen Omni protocol on the existing voice/JobService boundaries and validate with mocks; only after the owner sets a spend cap, load the staged key for a bounded live authentication/voice trial and measure grounded calendar replies against the5-second target.**

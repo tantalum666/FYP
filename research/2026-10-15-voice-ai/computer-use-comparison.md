@@ -2,6 +2,8 @@
 
 核对日期：2026-10-15。状态：公开官方资料与评测口径复核；没有模型调用、桌面录屏、执行器安装或最终选型。用户明确想比较类似computer use的跨应用操作能力。语音能力继续见[语音报告](voice-model-comparison.md)。
 
+**2026-10-16用户决定：**选择Qwen3.8 Omni Flash Realtime作为先接入的语音／视觉／工具模型，Key已[本机私有保存](../../desk-companion/docs/qwen-local-setup.md)。用户提供的千问AI平台文档使用公共网关，按其Chat和Realtime契约分别配置；此前新加坡SKU／未选型建议保留为10月15日历史。预算、Omni适配器、真正GUI执行与目标Pi证据仍未完成。
+
 ## 结论与适用范围
 
 **工程建议，非用户决定：**首轮把Claude Sonnet5.5作为日常桌面GUI基线，与GPT-6.1 Sol对照；复杂任务再比较Claude Opus5.5和GPT-6 Astra。Gemini3.8 Flash／4 Argon是当前挑战者。此顺序来自公开能力、桌面证据和价格；没有同一执行器、同一任务的本组实测，不能宣布跨厂商冠军。
