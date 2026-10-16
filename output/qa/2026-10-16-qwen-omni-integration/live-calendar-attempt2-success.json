@@ -1,0 +1,237 @@
+{
+  "authorization_cny": 5,
+  "inputs": "synthetic speech and fictional calendar only",
+  "real_mic_or_screen_capture": false,
+  "model": "qwen3.8-omni-flash-realtime",
+  "live_requests_in_this_trial": 1,
+  "tool_queries": [
+    {
+      "arguments": {
+        "start": "2026-10-19T00:00:00+08:00",
+        "end": "2026-10-25T23:59:59+08:00"
+      },
+      "returned_titles": [
+        "Planning sync",
+        "Design review",
+        "Demo rehearsal"
+      ]
+    }
+  ],
+  "wire_events": [
+    "session.created",
+    "session.updated",
+    "input_audio_buffer.speech_started",
+    "conversation.item.created",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "input_audio_buffer.speech_stopped",
+    "input_audio_buffer.committed",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.delta",
+    "conversation.item.input_audio_transcription.completed",
+    "response.created",
+    "response.output_item.added",
+    "conversation.item.created",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.delta",
+    "response.function_call_arguments.done",
+    "response.output_item.done",
+    "response.done",
+    "conversation.item.created",
+    "response.created",
+    "response.output_item.added",
+    "conversation.item.created",
+    "response.content_part.added",
+    "response.audio_transcript.done",
+    "response.audio.done",
+    "response.content_part.done",
+    "response.output_item.done",
+    "response.done"
+  ],
+  "usage": {
+    "total_tokens": 3697,
+    "input_tokens": 3421,
+    "output_tokens": 276,
+    "input_text_tokens": 3351,
+    "input_audio_tokens": 70,
+    "output_text_tokens": 133,
+    "output_audio_tokens": 143
+  },
+  "response_limit": 4,
+  "wall_timeout_seconds": 45,
+  "synthetic_audio_seconds": 6.538,
+  "conservative_trial_reserve_cny": 0.722208,
+  "ready_seconds": 3.656,
+  "function_envelopes": [
+    {
+      "type": "response.output_item.added",
+      "fields": [
+        "event_id",
+        "type",
+        "response_id",
+        "output_index",
+        "item"
+      ],
+      "metadata": {
+        "call_id": null,
+        "name": null,
+        "item_id": null,
+        "response_id": "resp_KNZGxya8TYEwc9CCXONQh"
+      },
+      "item_metadata": {
+        "id": "item_UHEXvBjpnvLOiLB7jm1do",
+        "call_id": "call_58c644d6e1ee4b2e8049aaa2",
+        "name": "calendar_query",
+        "type": "function_call"
+      }
+    },
+    {
+      "type": "response.function_call_arguments.done",
+      "fields": [
+        "event_id",
+        "type",
+        "response_id",
+        "item_id",
+        "output_index",
+        "name",
+        "call_id",
+        "arguments"
+      ],
+      "metadata": {
+        "call_id": "call_58c644d6e1ee4b2e8049aaa2",
+        "name": "calendar_query",
+        "item_id": "item_UHEXvBjpnvLOiLB7jm1do",
+        "response_id": "resp_KNZGxya8TYEwc9CCXONQh"
+      },
+      "item_metadata": {
+        "id": null,
+        "call_id": null,
+        "name": null,
+        "type": null
+      }
+    },
+    {
+      "type": "response.output_item.done",
+      "fields": [
+        "event_id",
+        "type",
+        "response_id",
+        "output_index",
+        "item"
+      ],
+      "metadata": {
+        "call_id": null,
+        "name": null,
+        "item_id": null,
+        "response_id": "resp_KNZGxya8TYEwc9CCXONQh"
+      },
+      "item_metadata": {
+        "id": "item_UHEXvBjpnvLOiLB7jm1do",
+        "call_id": "call_58c644d6e1ee4b2e8049aaa2",
+        "name": "calendar_query",
+        "type": "function_call"
+      }
+    }
+  ],
+  "recognized_request": "Please use my calendar tool to list the titles and times of my meetings next week.",
+  "done_shapes": [
+    {
+      "fields": [
+        "event_id",
+        "type",
+        "response"
+      ],
+      "response_fields": [
+        "id",
+        "object",
+        "conversation_id",
+        "status",
+        "modalities",
+        "voice",
+        "output_audio_format",
+        "output",
+        "usage"
+      ],
+      "usage_fields": [
+        "total_tokens",
+        "input_tokens",
+        "output_tokens",
+        "input_tokens_details",
+        "output_tokens_details"
+      ]
+    },
+    {
+      "fields": [
+        "event_id",
+        "type",
+        "response"
+      ],
+      "response_fields": [
+        "id",
+        "object",
+        "conversation_id",
+        "status",
+        "modalities",
+        "voice",
+        "output_audio_format",
+        "output",
+        "usage"
+      ],
+      "usage_fields": [
+        "total_tokens",
+        "input_tokens",
+        "output_tokens",
+        "input_tokens_details",
+        "output_tokens_details"
+      ]
+    }
+  ],
+  "grounded_audio_received_seconds": 3.176,
+  "grounded_answer_completed": true,
+  "answer_transcript": "Next week you have three meetings. Planning sync is Monday at 10:00 AM, Design review is Wednesday at 3:00 PM, and Demo rehearsal is Friday at 11:00 AM.",
+  "audio_bytes_received": 549120,
+  "expected_titles": [
+    "Planning sync",
+    "Design review",
+    "Demo rehearsal"
+  ],
+  "all_meetings_mentioned": true,
+  "conservative_usage_estimate_cny": 0.044364,
+  "billing_confirmed": false,
+  "latency_scope": "Synthetic last non-silent sample to grounded audio receipt; no browser playback or Pi measurement",
+  "elapsed_seconds": 16.141
+}

@@ -1,0 +1,64 @@
+### Result
+{"browser_plugin":"absent; regular Playwright CLI","url":"http://127.0.0.1:8832/?page=today&view=week&date=2026-10-17","title":"Desk Companion","initial_dialog":"- dialog \"Assistant\":\n  - banner:\n    - heading \"Assistant\" [level=2]\n    - button \"Close\"\n  - heading \"A little help with your day\" [level=3]\n  - paragraph: Check your calendar, track a task or update its progress.\n  - strong: Voice ready to connect\n  - text: qwen_omni · qwen3.8-omni-flash-realtime\n  - button \"Start conversation\"\n  - text: Your request\n  - textbox \"Your request\":\n    - /placeholder: \"Track: finish the project report\"\n  - button \"Send\" [disabled]\n  - button \"Today’s briefing\"\n  - paragraph: \"Local rules: Remember: a fact, Save note: text, or Track: report. Confirm before anything is stored. AI voice is a separate connection.\"\n  - region \"Computer jobs\":\n    - heading \"Computer jobs\" [level=3]\n    - paragraph: Save a note in this desk’s dedicated notes folder, or a file in one folder you name. Each job needs your approval, then an independent read-back.\n    - status: Local note execution is disabled on this desk. The operator can enable the bounded notes adapter using the setup guide.\n    - heading \"Named folder\" [level=4]\n    - paragraph: No folder is named yet. Folder jobs stay unavailable until you choose one existing directory outside this desk’s runtime data.\n    - text: Folder label\n    - textbox \"Folder label\"\n    - text: Absolute folder path\n    - textbox \"Absolute folder path\"\n    - button \"Save this folder\" [disabled]\n    - paragraph: No computer jobs yet. Prepared and completed jobs remain here after you return.","no_capture_before_start":true,"voice_snapshot":"- dialog \"Assistant\":\n  - banner:\n    - heading \"Assistant\" [level=2]\n    - button \"Close\"\n  - heading \"A little help with your day\" [level=3]\n  - paragraph: Check your calendar, track a task or update its progress.\n  - strong: Conversation active\n  - text: qwen_omni · qwen3.8-omni-flash-realtime\n  - button \"End conversation\"\n  - status: Speak naturally. You can interrupt; no need to hold a button.\n  - button \"Stop speaking\"\n  - paragraph: Share a selected image or screen with the configured voice provider. No camera is opened. Sent images stay in this conversation's context.\n  - button \"Share an image\"\n  - button \"Share selected screen\"\n  - status: Screen sharing off · 0 image frames sent\n  - paragraph: \"You: Synthetic UI fixture request Companion: Simulated provider ready. Select an image or screen to test sharing.\"\n  - text: Your request\n  - textbox \"Your request\":\n    - /placeholder: \"Track: finish the project report\"\n  - button \"Send\" [disabled]\n  - button \"Today’s briefing\"\n  - paragraph: \"Local rules: Remember: a fact, Save note: text, or Track: report. Confirm before anything is stored. AI voice is a separate connection.\"\n  - region \"Computer jobs\":\n    - heading \"Computer jobs\" [level=3]\n    - paragraph: Save a note in this desk’s dedicated notes folder, or a file in one folder you name. Each job needs your approval, then an independent read-back.\n    - status: Local note execution is disabled on this desk. The operator can enable the bounded notes adapter using the setup guide.\n    - heading \"Named folder\" [level=4]\n    - paragraph: No folder is named yet. Folder jobs stay unavailable until you choose one existing directory outside this desk’s runtime data.\n    - text: Folder label\n    - textbox \"Folder label\"\n    - text: Absolute folder path\n    - textbox \"Absolute folder path\"\n    - button \"Save this folder\" [disabled]\n    - paragraph: No computer jobs yet. Prepared and completed jobs remain here after you return.","single_image_accepted":true,"screen_sharing_active":true,"stop_blocks_frames":true,"screen_tracks_stopped":true,"no_horizontal_overflow":true,"mic_tracks_stopped":true,"javascript_errors":[],"no_framework_overlay":true}
+### Ran Playwright code
+```js
+await (async (page) => {
+  const checks = { browser_plugin: "absent; regular Playwright CLI", url: page.url(), title: await page.title() };
+  await page.setViewportSize({width:1440,height:1000});
+  await page.reload();
+  await page.getByRole("button",{name:"Open assistant",exact:true}).click();
+  checks.initial_dialog = await page.getByRole("dialog").ariaSnapshot();
+  await page.evaluate(() => {
+    window.__qaErrors=[];
+    window.addEventListener("error", e=>window.__qaErrors.push(e.message));
+    window.__syntheticMicCalls=0; window.__syntheticScreenCalls=0;
+    window.__syntheticContexts=[];
+    Object.defineProperty(navigator.mediaDevices,"getUserMedia",{configurable:true,value:async()=>{
+      window.__syntheticMicCalls++;
+      const context=new AudioContext();window.__syntheticContexts.push(context);
+      const oscillator=context.createOscillator(),gain=context.createGain(),destination=context.createMediaStreamDestination();
+      gain.gain.value=0;oscillator.connect(gain).connect(destination);oscillator.start();
+      window.__syntheticMicStream=destination.stream;return destination.stream;
+    }});
+    Object.defineProperty(navigator.mediaDevices,"getDisplayMedia",{configurable:true,value:async()=>{
+      window.__syntheticScreenCalls++;
+      const canvas=document.createElement("canvas");canvas.width=640;canvas.height=360;
+      const context=canvas.getContext("2d");context.fillStyle="#648cdc";context.fillRect(0,0,640,360);
+      context.fillStyle="white";context.font="24px sans-serif";context.fillText("Synthetic screen fixture",36,60);
+      window.__syntheticScreenStream=canvas.captureStream(1);return window.__syntheticScreenStream;
+    }});
+    const banner=document.createElement("div");banner.innerText="SYNTHETIC QA · no external provider calls";
+    banner.style="position:fixed;bottom:4px;left:4px;z-index:99999;background:#dfe5f5;font:10px sans-serif;padding:4px";document.body.append(banner);
+  });
+  checks.no_capture_before_start = await page.evaluate(()=>window.__syntheticMicCalls===0 && window.__syntheticScreenCalls===0);
+  await page.getByRole("button",{name:"Start conversation",exact:true}).click();
+  await page.getByRole("button",{name:"Share an image",exact:true}).waitFor({state:"visible"});
+  await page.waitForTimeout(250);
+  checks.voice_snapshot = await page.getByRole("dialog").ariaSnapshot();
+  await page.locator(".assistant-vision input[type=file]").setInputFiles("/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/desk-companion/tests/fixtures/qwen-vision.jpg");
+  await page.getByText(/1 image frames? sent/).waitFor();
+  checks.single_image_accepted = true;
+  await page.getByRole("button",{name:"Share selected screen",exact:true}).click();
+  await page.getByRole("button",{name:"Stop screen sharing",exact:true}).waitFor();
+  await page.waitForFunction(() => /[2-9] image frames sent/.test(document.body.innerText), undefined, {timeout:5000});
+  checks.screen_sharing_active = true;
+  await page.screenshot({path:"/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/output/qa/2026-10-16-qwen-omni-integration/ui-desktop.png",fullPage:false});
+  await page.getByRole("button",{name:"Stop screen sharing",exact:true}).click();
+  await page.getByText("Screen sharing off",{exact:false}).waitFor();
+  const count=await page.locator(".assistant-vision [role=status]").innerText();
+  await page.waitForTimeout(1300);
+  checks.stop_blocks_frames = count === await page.locator(".assistant-vision [role=status]").innerText();
+  checks.screen_tracks_stopped = await page.evaluate(() => window.__syntheticScreenStream.getTracks().every(track=>track.readyState==="ended"));
+  await page.setViewportSize({width:390,height:844});
+  checks.no_horizontal_overflow = await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth);
+  await page.screenshot({path:"/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/output/qa/2026-10-16-qwen-omni-integration/ui-mobile.png",fullPage:false});
+  await page.getByRole("button",{name:"End conversation",exact:true}).click();
+  await page.getByRole("button",{name:"Start conversation",exact:true}).waitFor();
+  checks.mic_tracks_stopped = await page.evaluate(() => window.__syntheticMicStream.getTracks().every(track=>track.readyState==="ended"));
+  checks.javascript_errors = await page.evaluate(() => window.__qaErrors);
+  checks.no_framework_overlay = await page.locator("vite-error-overlay").count()===0;
+  await page.evaluate(value => { window.__omniQAChecks=value; for (const context of window.__syntheticContexts) void context.close(); }, checks);
+  return checks;
+}
+)(page);
+```

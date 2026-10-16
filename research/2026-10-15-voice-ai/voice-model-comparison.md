@@ -2,7 +2,7 @@
 
 状态：公开资料、当前价格与独立评测复核完成；没有试听、麦克风采集、模型调用、账号开通或最终选型。适用对象是 Desk Companion 的自然交谈、普通话／英语／粤语与混说，以及日历和受限电脑作业。覆盖主要公开实时模型、托管组合平台、开放模型及 ASR／TTS 组件，不声称穷尽未公开系统。
 
-**后续用户决定，2026-10-16：**用户选择Qwen3.8 Omni Flash Realtime，并报告已开国内Key、提供千问平台公共网关指南。[本机设置](../../desk-companion/docs/qwen-local-setup.md)完成私有保存，未调用模型或启用提供商。下文“未选”指10月15日研究时点；当前型号已定，预算、Omni适配与真实验收仍待完成，旧工程排名不覆盖用户选择。
+**后续用户决定与实现，2026-10-16–17：**用户选择Qwen3.8 Omni Flash Realtime，提供国内千问平台指南并批准合成资料真实短测最多人民币5元。[本机设置](../../desk-companion/docs/qwen-local-setup.md)与独立[Omni适配](../../desk-companion/docs/qwen-omni.md)完成在草稿PR #15；两次虚构日历语音／一次生成图片问答通过。Mac收包3.176秒／2.619秒不是浏览器实际播音、p95或Pi验收。预留4.1元不是账单，已返回usage估算0.106608元有失败／取消缺口。下文“未选／未调用”指10月15日研究时点，旧排名不覆盖用户选择；自然度／多语言／GUI仍未验。详见[QA](../../output/qa/2026-10-16-qwen-omni-integration/verification.md)。
 
 本稿取代 [9月29日自然度报告](../2026-09-29-voice-ai/naturalness-and-tools-review.md)、[价格报告](../2026-09-29-voice-ai/price-and-value-ranking.md)及 [10月14日架构建议](../../docs/tooling-and-review/companion-architecture.md)中的**当前候选顺序**。旧资料保留为 HISTORICAL。学校 Proposal、已选 A1 完整2D形象、软件功能和购买权限不因此改变。
 
@@ -164,7 +164,7 @@ Grok的客户端`conversation.item.create`文字事件每条另收0.004美元，
 
 Google当前 [直接Gemini API地区页](https://ai.google.dev/gemini-api/docs/available-regions)仍未列香港；页面另指向企业平台路线，后者不能直接继承Developer API的价格与授权。Qwen当前Audio3.1及Omni3.8产品页列北京／新加坡SKU；有香港workspace不等于这些语音型号已有香港部署。Grok价目列us-east-1，这是处理集群，不是用户可申请地区清单。账号资格、部署地区、数据目的地和香港实测延迟是不同条件；本轮没有登录控制台验证个人权限。
 
-[现有voice.py](../../desk-companion/backend/desk/voice.py)只登记`qwen_audio`与`gemini`，Qwen使用smart_turn与10轮历史，Gemini使用音频及双向转写；提供商／型号／音色通过配置输入，默认none。支持两种协议不证明新版已经跑通。Grok／Realtime／GPT-Live需要对应适配器和协议验证；不能借用Qwen提供商名换一个URL就声称接入。Omni3.8自身结构也须单独映射。新增语音模型不会自动补齐真实GUI、持久记忆、审批、AEC或机械臂。
+10月15日代码只登记`qwen_audio`与`gemini`：前者smart_turn／10轮历史，后者音频／双向转写。10月17日[voice.py](../../desk-companion/backend/desk/voice.py)已新增独立`qwen_omni`，映射嵌套音频、semantic VAD、图像及函数生命周期；沿用工具／批准／JobService，默认none。真实合成短测见文首，不推为语言质量、GUI、AEC或机械臂验收。Grok／Realtime／GPT-Live仍需各自适配器，不能借用提供商名换URL冒称接入。
 
 **当前工程建议，非用户决定：**
 

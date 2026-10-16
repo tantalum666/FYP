@@ -14,7 +14,7 @@ import os
 import secrets
 import threading
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field as dataclass_field
 from urllib.parse import urlencode, urlsplit
 from uuid import uuid4
 from zoneinfo import ZoneInfo
@@ -27,6 +27,11 @@ from .assistant import TOOLS
 from .persona import voice_instructions
 from .store import DomainError
 from .tool_dispatch import ToolDispatcher
+from .voice_credentials import qwen_key
+from .voice_media import MAX_IMAGE_BASE64, jpeg_image
+
+QWEN_OMNI_MODEL = "qwen3.8-omni-flash-realtime"
+QWEN_OMNI_ENDPOINT = "wss://maas.qianwenaiapi.com/api-ws/v1/realtime"
 
 
 def flatten_schema(schema):
@@ -61,14 +66,15 @@ class VoiceConfig:
     provider: str = "none"
     endpoint: str = ""
     model: str = ""
-    api_key: str = ""
+    api_key: str = dataclass_field(default="", repr=False)
     voice: str = ""
+    configuration_error: str = ""
 
     @classmethod
     def environment(cls):
-        return cls(
-            *(
-                os.environ.get("DESK_VOICE_" + name, default)
+        config = cls(
+            **{
+                name.lower(): os.environ.get("DESK_VOICE_" + name, default)
                 for name, default in [
                     ("PROVIDER", "none"),
                     ("ENDPOINT", ""),
@@ -76,8 +82,18 @@ class VoiceConfig:
                     ("API_KEY", ""),
                     ("VOICE", ""),
                 ]
-            )
+            }
         )
+        if config.provider == "qwen_omni":
+            config.model = config.model or QWEN_OMNI_MODEL
+            config.endpoint = config.endpoint or QWEN_OMNI_ENDPOINT
+            path = os.environ.get("DESK_QWEN_CREDENTIAL_FILE")
+            if not config.api_key and path:
+                try:
+                    config.api_key = qwen_key(path)
+                except (ValueError, OSError, UnicodeError):
+                    config.configuration_error = "VOICE_CREDENTIALS_INVALID"
+        return config
 
     def valid(self):
         endpoint = self.endpoint or (
@@ -86,13 +102,29 @@ class VoiceConfig:
             else ""
         )
         parsed = urlsplit(endpoint)
+        if self.provider == "qwen_omni":
+            try:
+                allowed = (
+                    (
+                        parsed.hostname == "maas.qianwenaiapi.com"
+                        or bool(parsed.hostname and parsed.hostname.endswith(".maas.aliyuncs.com"))
+                    )
+                    and parsed.path == "/api-ws/v1/realtime"
+                    and parsed.port is None
+                )
+            except ValueError:
+                return False
+            if not allowed or self.model != QWEN_OMNI_MODEL:
+                return False
         return bool(
-            self.provider in {"qwen_audio", "gemini"}
+            self.provider in {"qwen_audio", "qwen_omni", "gemini"}
             and self.model
             and self.api_key
+            and not self.configuration_error
             and parsed.scheme == "wss"
             and parsed.hostname
             and not parsed.username
+            and not parsed.password
             and not parsed.query
             and not parsed.fragment
         )
@@ -194,6 +226,246 @@ class QwenAudioProtocol:
         if kind == "error":
             return [{"type": "error", "code": "VOICE_PROVIDER_ERROR"}]
         return []
+
+
+class QwenOmniProtocol(QwenAudioProtocol):
+    """Qwen3.8 Omni's nested audio, VAD, images and response/tool lifecycle."""
+
+    def __init__(self):
+        self.response_idle = asyncio.Event()
+        self.response_idle.set()
+        self.active_response = None
+        self.cancel_requested = False
+        self.tool_calls = {}
+        self.results = {}
+        self.resumed = set()
+        self.seen_usage = set()
+        self.audio_transcript = False
+        self.function_items = {}
+        self.dispatched_calls = set()
+        self.cancelled_responses = set()
+        self.pending_cancel = False
+
+    def tool_event(self, data, *, response_complete=False):
+        item = data.get("item", {})
+        item_id = data.get("item_id") or item.get("id")
+        cached = self.function_items.get(item_id, {})
+        merged = {
+            **cached,
+            **{key: value for key, value in item.items() if value is not None},
+            **{
+                key: data[key]
+                for key in ("call_id", "name", "arguments", "response_id")
+                if data.get(key) is not None
+            },
+        }
+        if item_id:
+            self.function_items[item_id] = merged
+        call_id, name = merged.get("call_id"), merged.get("name")
+        if (
+            not call_id
+            or not name
+            or call_id in self.dispatched_calls
+            or self.cancel_requested
+            or merged.get("response_id") in self.cancelled_responses
+        ):
+            return []
+        if "arguments" not in merged:
+            return []
+        group = merged.get("response_id") or data.get("response_id") or "unidentified"
+        self.dispatched_calls.add(call_id)
+        self.tool_calls.setdefault(group, set()).add(call_id)
+        if (
+            len(self.function_items) > 128
+            or len(self.tool_calls) > 256
+            or len(self.dispatched_calls) > 256
+        ):
+            return [{"type": "error", "code": "VOICE_SESSION_ENDED"}]
+        if not response_complete and group != "unidentified":
+            if self.active_response in {None, "pending", group}:
+                self.active_response = group
+                self.response_idle.clear()
+        return [
+            {
+                "type": "tool",
+                "id": call_id,
+                "name": name,
+                "arguments": merged["arguments"],
+                "response_id": group,
+            }
+        ]
+
+    def setup(self, config, instructions, *, allow_memory=True):
+        tools = super().setup(config, instructions, allow_memory=allow_memory)["session"]["tools"]
+        return {
+            "type": "session.update",
+            "session": {
+                "model": config.model,
+                "modalities": ["text", "audio"],
+                "instructions": instructions
+                + "\nCalendar ranges have an exclusive end. For a next-week query, start at next Monday 00:00 and end at the following Monday 00:00 in the user's timezone; do not use Sunday 23:59:59.",
+                "audio": {
+                    "input": {"format": {"type": "pcm", "sample_rate": 16000, "channels": 1}},
+                    "output": {
+                        "format": {"type": "pcm", "sample_rate": 24000},
+                        "voice": config.voice or "Tina",
+                    },
+                },
+                "input_audio_transcription": {"model": "qwen3-asr-flash-realtime"},
+                "turn_detection": {
+                    "type": "semantic_vad",
+                    "threshold": 0.5,
+                    "silence_duration_ms": 400,
+                },
+                "video": {"input": {"representation_compact": "none"}},
+                "enable_search": False,
+                "tools": tools,
+                "max_tokens": 1024,
+            },
+        }
+
+    def image(self, value):
+        return {"type": "input_image_buffer.append", "image": value}
+
+    def sent(self, message):
+        if message.get("type") == "response.create":
+            self.active_response = "pending"
+            self.response_idle.clear()
+
+    def cancel(self):
+        if self.response_idle.is_set() or self.cancel_requested:
+            return None
+        self.cancel_requested = True
+        if self.active_response == "pending":
+            self.pending_cancel = True
+            return None  # Cancel only after response.created confirms admission.
+        elif self.active_response:
+            self.cancelled_responses.add(self.active_response)
+        return {"type": "response.cancel"}
+
+    def result(self, call, value):
+        # Resume only once all function outputs for this response are returned.
+        return super().result(call, value)[:1]
+
+    def delivered_group(self, call, value):
+        group = call.get("response_id") or "unidentified"
+        values = self.results.setdefault(group, {})
+        values[call["id"]] = (call, value)
+        expected = self.tool_calls.get(group, {call["id"]})
+        if group in self.resumed or not expected.issubset(values):
+            return []
+        self.resumed.add(group)
+        return list(values.values())
+
+    def events(self, data):
+        kind = data.get("type")
+        if kind == "session.updated":
+            session = data.get("session", {})
+            output = session.get("audio", {}).get("output", {}).get("format", {})
+            fmt = output.get("type", session.get("output_audio_format", "pcm"))
+            if fmt not in {"pcm", "pcm16"} or output.get("sample_rate", 24000) != 24000:
+                return [{"type": "error", "code": "VOICE_AUDIO_FORMAT_UNSUPPORTED"}]
+        if kind == "response.created":
+            self.active_response = data.get("response", {}).get("id") or "pending"
+            self.response_idle.clear()
+            if self.pending_cancel:
+                self.cancelled_responses.add(self.active_response)
+                self.pending_cancel = False
+                self.cancel_requested = True
+                return [{"type": "cancel_response"}]
+            self.cancel_requested = self.active_response in self.cancelled_responses
+            self.audio_transcript = False
+            return [{"type": "state", "state": "thinking"}]
+        if kind in {"response.output_item.added", "response.output_item.done"}:
+            item = data.get("item", {})
+            if item.get("type") != "function_call":
+                return []
+            if kind == "response.output_item.added":
+                if item.get("id"):
+                    self.function_items[item["id"]] = {
+                        **item,
+                        "response_id": data.get("response_id"),
+                    }
+                if len(self.function_items) > 128:
+                    return [{"type": "error", "code": "VOICE_SESSION_ENDED"}]
+                return []
+            return self.tool_event(data)
+        if kind == "response.function_call_arguments.done":
+            return self.tool_event(data)
+        if kind == "response.done":
+            response = data.get("response", {})
+            response_id = response.get("id")
+            current = not self.active_response or self.active_response in {"pending", response_id}
+            if current:
+                if self.pending_cancel:
+                    if response_id:
+                        self.cancelled_responses.add(response_id)
+                    self.pending_cancel = False
+                self.active_response = None
+                self.response_idle.set()
+            result = []
+            for item in response.get("output", []):
+                if isinstance(item, dict) and item.get("type") == "function_call":
+                    result.extend(
+                        self.tool_event(
+                            {"item": item, "response_id": response_id}, response_complete=True
+                        )
+                    )
+            if current:
+                result.append({"type": "turn_complete"})
+            if response_id and response_id in self.seen_usage:
+                return result
+            if response_id:
+                self.seen_usage.add(response_id)
+            if len(self.seen_usage) > 256:
+                return [{"type": "error", "code": "VOICE_SESSION_ENDED"}]
+            usage = response.get("usage") or data.get("usage") or {}
+            safe = {}
+            if isinstance(usage, dict):
+                for name in ("total_tokens", "input_tokens", "output_tokens"):
+                    value = usage.get(name)
+                    if isinstance(value, int) and not isinstance(value, bool) and value >= 0:
+                        safe[name] = value
+                for direction in ("input", "output"):
+                    details = usage.get(direction + "_tokens_details", {})
+                    if isinstance(details, dict):
+                        for modality in ("text", "audio", "image", "video", "cached"):
+                            value = details.get(modality + "_tokens")
+                            if (
+                                isinstance(value, int)
+                                and not isinstance(value, bool)
+                                and value >= 0
+                            ):
+                                safe[f"{direction}_{modality}_tokens"] = value
+            return result + [{"type": "usage", "usage": safe}]
+        if (
+            self.cancel_requested or data.get("response_id") in self.cancelled_responses
+        ) and kind in {
+            "response.audio.delta",
+            "response.output_audio.delta",
+            "response.audio_transcript.delta",
+            "response.audio_transcript.done",
+            "response.text.delta",
+            "response.text.done",
+        }:
+            return []
+        if kind == "response.audio_transcript.delta":
+            self.audio_transcript = True
+        if kind == "response.text.delta":
+            return []  # Audio mode uses its transcript, avoiding duplicate text.
+        if kind in {"response.audio_transcript.done", "response.text.done"}:
+            if kind == "response.text.done" and self.audio_transcript:
+                return []
+            self.audio_transcript = kind == "response.audio_transcript.done"
+            return [
+                {
+                    "type": "transcript",
+                    "role": "assistant",
+                    "text": data.get("transcript", data.get("text", "")),
+                    "final": True,
+                }
+            ]
+        return super().events(data)
 
 
 class GeminiProtocol:
@@ -324,6 +596,8 @@ class VoiceService:
             "input_sample_rate": 16000,
             "output_sample_rate": 24000,
             "max_session_seconds": 600,
+            "supports_images": self.config.provider == "qwen_omni",
+            "configuration_error": self.config.configuration_error,
         }
 
     def ticket(self, principal):
@@ -363,7 +637,11 @@ class VoiceService:
             )
 
     async def run(self, socket, principal, language):
-        protocol = GeminiProtocol() if self.config.provider == "gemini" else QwenAudioProtocol()
+        protocol = {
+            "gemini": GeminiProtocol,
+            "qwen_audio": QwenAudioProtocol,
+            "qwen_omni": QwenOmniProtocol,
+        }[self.config.provider]()
         endpoint = (
             self.config.endpoint
             or "wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent"
@@ -373,7 +651,7 @@ class VoiceService:
             if self.config.provider == "gemini"
             else {"Authorization": "Bearer " + self.config.api_key}
         )
-        if self.config.provider == "qwen_audio":
+        if self.config.provider in {"qwen_audio", "qwen_omni"}:
             endpoint += "?" + urlencode({"model": self.config.model})
         with self.store.connection() as conn:
             zone = self.store.settings(conn)["timezone"]
@@ -392,6 +670,7 @@ class VoiceService:
         provider_send_lock = asyncio.Lock()
         last_activity = time.monotonic()
         input_bytes = 0
+        vision_active, last_image_at, image_count = False, None, 0
 
         async def send_client(value):
             async with send_lock:
@@ -416,6 +695,8 @@ class VoiceService:
 
                 async def send_provider(value):
                     async with provider_send_lock:
+                        if isinstance(protocol, QwenOmniProtocol):
+                            protocol.sent(value)
                         await asyncio.wait_for(
                             provider.send(json.dumps(value, ensure_ascii=False)), timeout=3
                         )
@@ -424,6 +705,45 @@ class VoiceService:
                     # An interruption can arrive while the client notification or
                     # a prior provider send is blocked. Check at each send boundary
                     # and never restart a cancelled Qwen response.
+                    if isinstance(protocol, QwenOmniProtocol):
+                        # Waiting does not hold the send lock: audio, interrupt and
+                        # provider response.done must remain able to make progress.
+                        end = time.monotonic() + 5
+                        while True:
+                            await asyncio.wait_for(
+                                protocol.response_idle.wait(),
+                                timeout=max(0.01, end - time.monotonic()),
+                            )
+                            async with provider_send_lock:
+                                if not protocol.response_idle.is_set():
+                                    if time.monotonic() >= end:
+                                        raise TimeoutError()
+                                    continue
+                                current = dispatcher.current_result(event, result)
+                                if (
+                                    current.get("error") == "TOOL_CANCELLED"
+                                    or protocol.cancel_requested
+                                ):
+                                    protocol.delivered_group(event, current)
+                                    return False
+                                for response in protocol.result(event, current):
+                                    await asyncio.wait_for(
+                                        provider.send(json.dumps(response, ensure_ascii=False)),
+                                        timeout=3,
+                                    )
+                                group = protocol.delivered_group(event, current)
+                                eligible = any(
+                                    dispatcher.current_result(call, value).get("error")
+                                    != "TOOL_CANCELLED"
+                                    for call, value in group
+                                )
+                                if eligible and not protocol.cancel_requested:
+                                    response = {"type": "response.create"}
+                                    protocol.sent(response)
+                                    await asyncio.wait_for(
+                                        provider.send(json.dumps(response)), timeout=3
+                                    )
+                                return True
                     async with provider_send_lock:
                         responses = protocol.result(event, result)
                         for index in range(len(responses)):
@@ -437,17 +757,18 @@ class VoiceService:
                             await asyncio.wait_for(
                                 provider.send(json.dumps(response, ensure_ascii=False)), timeout=3
                             )
+                    return True
 
                 await send_provider(
                     protocol.setup(self.config, instructions, allow_memory=allow_memory)
                 )
 
                 async def receive_client():
-                    nonlocal input_bytes, last_activity
+                    nonlocal input_bytes, last_activity, vision_active, last_image_at, image_count
                     await asyncio.wait_for(ready.wait(), timeout=15)
                     async for raw in socket.iter_text():
-                        if len(raw) > 20000:
-                            raise DomainError("INVALID_AUDIO", 422)
+                        if len(raw) > MAX_IMAGE_BASE64 + 2000:
+                            raise DomainError("VOICE_MESSAGE_TOO_LARGE", 422)
                         message = json.loads(raw)
                         if not isinstance(message, dict):
                             raise DomainError("VOICE_MESSAGE_NOT_ALLOWED", 422)
@@ -458,6 +779,30 @@ class VoiceService:
                             if input_bytes > (time.monotonic() - self.started + 1) * 32000 * 1.3:
                                 raise DomainError("AUDIO_RATE_LIMIT", 429)
                             await send_provider(protocol.audio(message["audio"]))
+                        elif message.get("type") in {"vision_start", "vision_stop", "image"}:
+                            if (
+                                not isinstance(protocol, QwenOmniProtocol)
+                                or principal["kind"] != "owner"
+                                or not self.principal_valid(principal)
+                            ):
+                                raise DomainError("VOICE_VISION_NOT_ALLOWED", 403)
+                            if message["type"] == "vision_start":
+                                vision_active = True
+                                await send_client({"type": "vision", "active": True})
+                            elif message["type"] == "vision_stop":
+                                vision_active = False
+                                await send_client({"type": "vision", "active": False})
+                            else:
+                                if not vision_active or not input_bytes:
+                                    raise DomainError("VOICE_VISION_NOT_READY", 409)
+                                now = time.monotonic()
+                                if last_image_at is not None and now - last_image_at < 0.9:
+                                    raise DomainError("VOICE_IMAGE_RATE_LIMIT", 429)
+                                jpeg_image(message.get("image"))
+                                await send_provider(protocol.image(message["image"]))
+                                last_image_at, last_activity = now, now
+                                image_count += 1
+                                await send_client({"type": "image_sent", "count": image_count})
                         elif message.get("type") == "text":
                             value = str(message.get("text", ""))
                             if not 1 <= len(value) <= 3000:
@@ -470,7 +815,11 @@ class VoiceService:
                         elif message.get("type") == "interrupt":
                             await cancel_drafts()
                             await send_client({"type": "interrupted"})
-                            if self.config.provider == "qwen_audio":
+                            if isinstance(protocol, QwenOmniProtocol):
+                                cancel = protocol.cancel()
+                                if cancel:
+                                    await send_provider(cancel)
+                            elif self.config.provider == "qwen_audio":
                                 await send_provider({"type": "response.cancel"})
                             else:
                                 for item in protocol.text(
@@ -485,17 +834,27 @@ class VoiceService:
                 async def receive_provider():
                     nonlocal last_activity, usage
                     async for raw in provider:
-                        for event in protocol.events(json.loads(raw)):
+                        data = json.loads(raw)
+                        if not isinstance(data, dict):
+                            raise DomainError("VOICE_PROVIDER_ERROR", 502)
+                        for event in protocol.events(data):
                             kind = event["type"]
                             if kind == "ready":
                                 ready.set()
                                 self.state = "listening"
+                            elif kind == "cancel_response":
+                                await send_provider({"type": "response.cancel"})
+                                continue
                             elif kind == "state":
                                 self.state = event["state"]
                                 last_activity = time.monotonic()
                             elif kind in {"interrupted", "cancel_tools"}:
                                 await cancel_drafts(event.get("ids"))
                                 self.state = "listening"
+                                if isinstance(protocol, QwenOmniProtocol):
+                                    cancel = protocol.cancel()
+                                    if cancel:
+                                        await send_provider(cancel)
                             elif kind == "audio":
                                 pcm_chunk(event["audio"], maximum=1_000_000)
                                 self.state = "speaking"
@@ -508,7 +867,11 @@ class VoiceService:
                                 dispatcher.submit(event)
                                 continue
                             elif kind == "usage":
-                                usage = event["usage"]
+                                if isinstance(protocol, QwenOmniProtocol):
+                                    for key, value in event["usage"].items():
+                                        usage[key] = usage.get(key, 0) + value
+                                else:
+                                    usage = event["usage"]
                                 continue
                             elif kind == "turn_complete":
                                 self.state = "confirm" if drafts else "listening"
@@ -529,8 +892,8 @@ class VoiceService:
                         result = dispatcher.current_result(event, result)
                         if "job" in result:
                             await send_client({"type": "jobs_changed", "job": result["job"]})
-                        await send_tool_result(event, result)
-                        dispatcher.delivered(event["id"], result)
+                        if await send_tool_result(event, result):
+                            dispatcher.delivered(event["id"], result)
                         last_activity = time.monotonic()
 
                 async def deadline():
@@ -614,6 +977,7 @@ class VoiceService:
                             "model": self.config.model,
                             "seconds": round(time.monotonic() - self.started, 1),
                             "input_audio_seconds": round(input_bytes / 32000, 1),
+                            "image_frames": image_count,
                             "usage": safe_usage,
                         },
                     )

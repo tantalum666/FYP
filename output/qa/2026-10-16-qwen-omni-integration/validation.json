@@ -1,0 +1,124 @@
+{
+  "recorded_at": "2026-10-16T17:00:22.230922+00:00",
+  "host": "Darwin",
+  "architecture": "arm64",
+  "backend_tests": {
+    "passed": 215,
+    "seconds": 16.43,
+    "warning": "Existing upstream Starlette/httpx TestClient deprecation"
+  },
+  "frontend_tests": {
+    "passed": 21
+  },
+  "ruff_backend_scripts_tests": "passed",
+  "ruff_changed_format": "passed",
+  "typescript_vite_production": "passed",
+  "browser": {
+    "driver": "regular Playwright CLI; Browser plugin unavailable",
+    "desktop": [
+      1440,
+      1000
+    ],
+    "mobile": [
+      390,
+      844
+    ],
+    "checks_file": "browser-checks.json",
+    "post_reload_console_errors": 0,
+    "post_reload_console_warnings": 0,
+    "screenshots_visually_inspected": true,
+    "synthetic_media_only": true
+  },
+  "live_trial": {
+    "model": "qwen3.8-omni-flash-realtime",
+    "connections": 5,
+    "calendar_attempts": 3,
+    "calendar_successes": 2,
+    "vision_successes": 1,
+    "setup_accepted": true,
+    "calendar_audio_receipt_seconds": [
+      3.176,
+      2.619
+    ],
+    "no_actual_playback_timing": true,
+    "no_real_mic_or_screen": true,
+    "reserved_cny": 4.1,
+    "usage_estimate_cny": 0.106608,
+    "invoice_confirmed": false,
+    "stopped": true
+  },
+  "updated_specifications": [
+    "README.md",
+    "decision-log.md",
+    "desk-companion/README.md",
+    "desk-companion/docs/architecture.md",
+    "desk-companion/docs/operator-guide.md",
+    "desk-companion/docs/qwen-local-setup.md",
+    "docs/tooling-and-review/companion-architecture.md",
+    "docs/tooling-and-review/companion-product-teardown.md",
+    "docs/tooling-and-review/fyp-repo-review.md",
+    "handoff.md",
+    "planning/2026-10-15/voice-response-latency.md",
+    "product.md",
+    "research/2026-10-15-voice-ai/computer-use-comparison.md",
+    "research/2026-10-15-voice-ai/voice-model-comparison.md",
+    "work-log.md",
+    "desk-companion/docs/qwen-omni.md"
+  ],
+  "cleanup": {
+    "playwright_browser_closed": true,
+    "task_ui_fixture_stopped": true,
+    "task_caches_removed": true
+  },
+  "primary_checkout": {
+    "head": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+    "branch": "codex/full-body-3d-avatar",
+    "unchanged_status": "only preexisting untracked output/qa/2026-10-15-grok-review-merge"
+  },
+  "main_before_push": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+  "staged_secret_scan": "passed;0 findings after source-digest metadata correction",
+  "git_delivery": "pending",
+  "code_files": [
+    {
+      "path": "desk-companion/backend/desk/voice.py",
+      "sha256": "930d5d6dae3ad0db4eb126085fc9c7fd8a3147378bed109f21c7c3dbc8589948"
+    },
+    {
+      "path": "desk-companion/backend/desk/voice_credentials.py",
+      "sha256": "6e3cca7e9d4e9dbe50a66ee8119bbc08f366c516b1281d07c357d94317186b43"
+    },
+    {
+      "path": "desk-companion/backend/desk/voice_media.py",
+      "sha256": "24e455204aaf8a71ab63a4a19d1ae6c9cb2dd461bdaff2780dd6b79348eab2de"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/AssistantPanel.tsx",
+      "sha256": "358c1617c7dad01c1c3e3a42e46faf876506b62e50de99a41711dc94e3ab4d50"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/audio.ts",
+      "sha256": "24cac45ce3f0e008215aa07483c4a5ed3f8952393022feca35b21f316f49c0d5"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/types.ts",
+      "sha256": "a7fd56a427a42e0617da607b836830ea150e3c1e72b5b7807a39f9acf7ae5588"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/vision.ts",
+      "sha256": "46054fce4ec412a79a5e5df4b75aa97bc1435f4b65c3cd8cb5f930d4230b6124"
+    },
+    {
+      "path": "desk-companion/tests/test_voice_omni.py",
+      "sha256": "1545089aa0fc017804119be3a07e8a9f634a2e7a3ae44fa69b9e2e9e44d5f1c4"
+    },
+    {
+      "path": "desk-companion/tests/fixtures/qwen-vision.jpg",
+      "sha256": "7fdebea8b5dc6fd77e0d8e22ee41abca34c6f0bcc45b064dd5ceea92e1a3cdc1"
+    },
+    {
+      "path": "desk-companion/frontend/tests/voice-vision.test.ts",
+      "sha256": "52764aea2046cd1e12aae593240a1bf97d1f907daee5fe41821a44f778e7dd36"
+    }
+  ],
+  "secret_scan_note": "Initial generic detector matched the SHA256 of the source file voice_credentials.py in a filename-keyed digest map. No credential value/hash was present. Paths and source digests are now separate fields; final staged scan rerun."
+}

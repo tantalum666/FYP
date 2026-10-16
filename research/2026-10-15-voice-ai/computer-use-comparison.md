@@ -2,7 +2,7 @@
 
 核对日期：2026-10-15。状态：公开官方资料与评测口径复核；没有模型调用、桌面录屏、执行器安装或最终选型。用户明确想比较类似computer use的跨应用操作能力。语音能力继续见[语音报告](voice-model-comparison.md)。
 
-**2026-10-16用户决定：**选择Qwen3.8 Omni Flash Realtime作为先接入的语音／视觉／工具模型，Key已[本机私有保存](../../desk-companion/docs/qwen-local-setup.md)。用户提供的千问AI平台文档使用公共网关，按其Chat和Realtime契约分别配置；此前新加坡SKU／未选型建议保留为10月15日历史。预算、Omni适配器、真正GUI执行与目标Pi证据仍未完成。
+**2026-10-16–17用户决定与实现：**选择Qwen3.8 Omni Flash Realtime作为语音／视觉／工具模型，并批准本轮合成资料短测最多人民币5元。Key已[私有保存](../../desk-companion/docs/qwen-local-setup.md)，独立[Omni适配](../../desk-companion/docs/qwen-omni.md)、真实虚构日历语音和生成蓝色图片问答通过在草稿PR #15。普通配置仍none，未采集真实屏幕／麦克风。此前新加坡SKU／未选型建议为10月15日历史；真正GUI执行、目标Pi和语音实际播音5秒验收仍未完成。[QA](../../output/qa/2026-10-16-qwen-omni-integration/verification.md)。
 
 ## 结论与适用范围
 
@@ -51,7 +51,7 @@ Grok Bot是带持久云电脑、浏览器、命令行、文件和连接器的成
 
 建议任务：从允许的测试页面读取三项会议信息，在指定本地文档应用整理并另存文件，独立检查内容、名称和位置。另测弹窗／焦点、执行前取消、保存后回执丢失、断线恢复和范围外目标拒绝。记完整正确率、误操作、重复写入、有效反馈／总完成时间、人工介入、步数和每成功任务费用。不能把现有文件夹验证记成跨应用成功。
 
-阅读、来源限制与交付检查见[QA](../../output/qa/2026-10-15-computer-use-comparison/verification.md)。最终模型、目标系统、付费试验与执行器采用均未锁定。
+阅读、来源限制与交付检查见[研究QA](../../output/qa/2026-10-15-computer-use-comparison/verification.md)。10月15日研究时未锁定型号；后续Omni选择／合成短测见文首。目标应用／系统范围与通用GUI执行器仍未锁定，单图理解不作为跨应用成功。
 
 ## 树莓派Linux、网络与单模型补充
 

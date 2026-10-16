@@ -1,5 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Mic, MicOff, Send, Sparkles } from "lucide-react";
+import {
+  ImagePlus,
+  MonitorUp,
+  Mic,
+  MicOff,
+  Send,
+  Sparkles,
+} from "lucide-react";
 import { errorText, request, write } from "../api";
 import type { EventInput, Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
@@ -73,6 +80,10 @@ export function AssistantPanel({
     [notice, setNotice] = useState("");
   const [voiceState, setVoiceState] = useState("idle"),
     [transcript, setTranscript] = useState("");
+  const [sharing, setSharing] = useState(false),
+    [visionBusy, setVisionBusy] = useState(false),
+    [imageCount, setImageCount] = useState(0);
+  const imageInput = useRef<HTMLInputElement | null>(null);
   const audio = useRef<VoiceAudio | null>(null),
     alive = useRef(true);
   const speechText = useRef({ user: "", assistant: "" });
@@ -175,11 +186,24 @@ export function AssistantPanel({
     setError(null);
     setVoiceState("connecting");
     setTranscript("");
+    setImageCount(0);
+    setSharing(false);
+    setVisionBusy(false);
     speechText.current = { user: "", assistant: "" };
     try {
       const engine = new VoiceAudio((event) => {
-        if (!alive.current) return;
+        if (!alive.current || audio.current !== engine) return;
         if (event.type === "ready") setVoiceState("listening");
+        if (event.type === "vision") setSharing(!!event.active);
+        if (event.type === "image_sent" && event.count)
+          setImageCount(event.count);
+        if (event.type === "vision_error")
+          setNotice(
+            t(
+              "Image sharing stopped. Try a smaller image or reconnect.",
+              "图像分享已停止，请尝试较小图片或重新连接。",
+            ),
+          );
         if (event.type === "state" && event.state) setVoiceState(event.state);
         if (event.type === "audio") setVoiceState("speaking");
         if (event.type === "turn_complete" || event.type === "interrupted")
@@ -241,6 +265,25 @@ export function AssistantPanel({
           "需要麦克风权限以及已配置的语音服务。",
         ),
       );
+    }
+  }
+  async function shareVisual(kind: "image" | "screen", file?: File) {
+    const engine = audio.current;
+    setVisionBusy(true);
+    setNotice("");
+    try {
+      if (kind === "screen") await engine?.shareScreen();
+      else if (file) await engine?.shareImage(file);
+    } catch {
+      if (alive.current && audio.current === engine)
+        setNotice(
+          t(
+            "Sharing did not start. Check permission, image size, and the voice connection.",
+            "分享未开始，请检查权限、图片大小和语音连接。",
+          ),
+        );
+    } finally {
+      if (alive.current && audio.current === engine) setVisionBusy(false);
     }
   }
   return (
@@ -311,6 +354,69 @@ export function AssistantPanel({
           >
             {t("Stop speaking", "停止播报")}
           </button>
+          {data?.voice.supports_images && data.principal.kind === "owner" ? (
+            <div className="assistant-vision">
+              <p className="workspace-hint">
+                {t(
+                  "Share a selected image or screen with the configured voice provider. No camera is opened. Sent images stay in this conversation's context.",
+                  "可主动向已配置的语音服务分享图片或所选屏幕，不开启摄像头。已发送图片仍在本次会话上下文中。",
+                )}
+              </p>
+              <input
+                ref={imageInput}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                hidden
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  event.target.value = "";
+                  if (file) void shareVisual("image", file);
+                }}
+              />
+              <div className="workspace-inline-actions">
+                <button
+                  className="secondary"
+                  disabled={
+                    voiceState === "connecting" || visionBusy || sharing
+                  }
+                  onClick={() => imageInput.current?.click()}
+                >
+                  <ImagePlus size={16} />
+                  {t("Share an image", "分享一张图片")}
+                </button>
+                {sharing ? (
+                  <button
+                    className="secondary"
+                    onClick={() => audio.current?.stopVision()}
+                  >
+                    {t("Stop screen sharing", "停止屏幕分享")}
+                  </button>
+                ) : (
+                  <button
+                    className="secondary"
+                    disabled={
+                      voiceState === "connecting" ||
+                      visionBusy ||
+                      !navigator.mediaDevices?.getDisplayMedia
+                    }
+                    onClick={() => void shareVisual("screen")}
+                  >
+                    <MonitorUp size={16} />
+                    {t("Share selected screen", "分享所选屏幕")}
+                  </button>
+                )}
+              </div>
+              <p role="status">
+                {sharing
+                  ? t("Sharing selected screen · ", "正在分享所选屏幕 · ")
+                  : t("Screen sharing off · ", "屏幕分享已关闭 · ")}
+                {t(
+                  `${imageCount} image ${imageCount === 1 ? "frame" : "frames"} sent`,
+                  `已发送 ${imageCount} 帧图片`,
+                )}
+              </p>
+            </div>
+          ) : null}
         </>
       )}
       {transcript && (
@@ -430,176 +536,180 @@ export function AssistantPanel({
               </>
             ) : (
               <>
-            <h3>
-              {task?.title ??
-                event?.title ??
-                (p.kind === "output"
-                  ? t("Device feedback", "设备反馈")
-                  : t("Change calendar event", "修改日历事项"))}
-            </h3>
-            {task ? (
-              <>
-                <p>
-                  <strong>{taskActionLabel}</strong>
-                </p>
-                <p>
-                  {t("Deadline: ", "截止：")}
-                  {task.due_local?.replace("T", " ") ??
-                    t("No deadline", "无截止时间")}{" "}
-                  · {task.timezone}
-                </p>
-                {task.next_step && (
-                  <p>
-                    {t("Next: ", "下一步：")}
-                    {task.next_step}
-                  </p>
-                )}
-                {task.status === "waiting" && task.waiting_for && (
-                  <p>
-                    {t("Waiting: ", "等待：")}
-                    {task.waiting_for}
-                  </p>
-                )}
-                {changedTask && (
+                <h3>
+                  {task?.title ??
+                    event?.title ??
+                    (p.kind === "output"
+                      ? t("Device feedback", "设备反馈")
+                      : t("Change calendar event", "修改日历事项"))}
+                </h3>
+                {task ? (
                   <>
                     <p>
-                      {t("Status: ", "状态：")}
-                      {
-                        {
-                          todo: t("To do", "待处理"),
-                          in_progress: t("In progress", "进行中"),
-                          waiting: t("Waiting", "等待中"),
-                        }[changedTask.status]
-                      }
+                      <strong>{taskActionLabel}</strong>
                     </p>
-                    {!!changedTask.steps.length && (
-                      <ul>
-                        {changedTask.steps.map((step, i) => (
-                          <li key={i}>
-                            {step.done ? "✓ " : ""}
-                            {step.title}
-                          </li>
-                        ))}
-                      </ul>
+                    <p>
+                      {t("Deadline: ", "截止：")}
+                      {task.due_local?.replace("T", " ") ??
+                        t("No deadline", "无截止时间")}{" "}
+                      · {task.timezone}
+                    </p>
+                    {task.next_step && (
+                      <p>
+                        {t("Next: ", "下一步：")}
+                        {task.next_step}
+                      </p>
                     )}
-                    <p>
-                      {changedTask.follow_up_enabled
-                        ? changedTask.check_in_local
-                          ? t("Next check-in: ", "下次检查：") +
-                            changedTask.check_in_local.replace("T", " ")
-                          : t(
-                              `Check in within ${changedTask.interval_minutes} minutes, or at an earlier upcoming deadline.`,
-                              `在${changedTask.interval_minutes}分钟后，或更早的截止时间检查。`,
-                            )
-                        : t("Follow-ups off", "跟进未开启")}
-                    </p>
-                    <p>
-                      {changedTask.visibility === "private"
-                        ? t("Private task", "私人事务")
-                        : t("May appear on the desk display", "可在常亮屏展示")}
-                    </p>
-                    {p.data.original_task?.paused && (
+                    {task.status === "waiting" && task.waiting_for && (
+                      <p>
+                        {t("Waiting: ", "等待：")}
+                        {task.waiting_for}
+                      </p>
+                    )}
+                    {changedTask && (
+                      <>
+                        <p>
+                          {t("Status: ", "状态：")}
+                          {
+                            {
+                              todo: t("To do", "待处理"),
+                              in_progress: t("In progress", "进行中"),
+                              waiting: t("Waiting", "等待中"),
+                            }[changedTask.status]
+                          }
+                        </p>
+                        {!!changedTask.steps.length && (
+                          <ul>
+                            {changedTask.steps.map((step, i) => (
+                              <li key={i}>
+                                {step.done ? "✓ " : ""}
+                                {step.title}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                        <p>
+                          {changedTask.follow_up_enabled
+                            ? changedTask.check_in_local
+                              ? t("Next check-in: ", "下次检查：") +
+                                changedTask.check_in_local.replace("T", " ")
+                              : t(
+                                  `Check in within ${changedTask.interval_minutes} minutes, or at an earlier upcoming deadline.`,
+                                  `在${changedTask.interval_minutes}分钟后，或更早的截止时间检查。`,
+                                )
+                            : t("Follow-ups off", "跟进未开启")}
+                        </p>
+                        <p>
+                          {changedTask.visibility === "private"
+                            ? t("Private task", "私人事务")
+                            : t(
+                                "May appear on the desk display",
+                                "可在常亮屏展示",
+                              )}
+                        </p>
+                        {p.data.original_task?.paused && (
+                          <p>
+                            {t(
+                              "Follow-ups remain paused until you resume them.",
+                              "跟进会保持暂停，直到你手动恢复。",
+                            )}
+                          </p>
+                        )}
+                      </>
+                    )}
+                    {["snooze", "resume"].includes(taskAction) && (
+                      <p>
+                        {t("Next check-in: ", "下次检查：")}
+                        {DateTime.now()
+                          .setZone(task.timezone)
+                          .plus({ minutes: p.data.change?.minutes ?? 60 })
+                          .toFormat("d LLL HH:mm")}{" "}
+                        ({t("from confirmation", "从确认时计算")})
+                      </p>
+                    )}
+                    {p.data.change?.note && (
+                      <blockquote>{p.data.change.note}</blockquote>
+                    )}
+                    {taskAction === "note" && (
                       <p>
                         {t(
-                          "Follow-ups remain paused until you resume them.",
-                          "跟进会保持暂停，直到你手动恢复。",
+                          "This saves your note; it does not change the status or next step.",
+                          "这会保存你提供的进展，不会改变状态和下一步。",
                         )}
                       </p>
                     )}
+                    <small>
+                      {t(
+                        "Review saved details in Tasks. This does not reserve calendar time.",
+                        "保存后可在事务中编辑详情，不会自动占用日历时间。",
+                      )}
+                    </small>
                   </>
-                )}
-                {["snooze", "resume"].includes(taskAction) && (
-                  <p>
-                    {t("Next check-in: ", "下次检查：")}
-                    {DateTime.now()
-                      .setZone(task.timezone)
-                      .plus({ minutes: p.data.change?.minutes ?? 60 })
-                      .toFormat("d LLL HH:mm")}{" "}
-                    ({t("from confirmation", "从确认时计算")})
-                  </p>
-                )}
-                {p.data.change?.note && (
-                  <blockquote>{p.data.change.note}</blockquote>
-                )}
-                {taskAction === "note" && (
-                  <p>
-                    {t(
-                      "This saves your note; it does not change the status or next step.",
-                      "这会保存你提供的进展，不会改变状态和下一步。",
-                    )}
-                  </p>
-                )}
-                <small>
-                  {t(
-                    "Review saved details in Tasks. This does not reserve calendar time.",
-                    "保存后可在事务中编辑详情，不会自动占用日历时间。",
-                  )}
-                </small>
-              </>
-            ) : event ? (
-              <>
-                <p>
-                  {event.start_local.slice(0, 16).replace("T", " ")} →{" "}
-                  {event.end_local.slice(0, 16).replace("T", " ")}
-                </p>
-                <small>
-                  {event.timezone} ·{" "}
-                  {event.visibility === "private"
-                    ? t("Private", "私人")
-                    : t("Displayable", "可展示")}
-                </small>
-                {p.data.additional_dates?.length ? (
-                  <p>
-                    {t("Also on: ", "同时添加：")}
-                    {p.data.additional_dates.join(", ")}
-                  </p>
-                ) : null}
-                {event.recurrence.frequency !== "none" && (
-                  <p>
-                    {t("Repeats: ", "重复：")}
-                    {event.recurrence.frequency}
-                  </p>
-                )}
-              </>
-            ) : (
-              <>
-                {p.data.original && (
+                ) : event ? (
                   <>
-                    <strong>
-                      {p.data.original.title || t("Private event", "私人事项")}
-                    </strong>
                     <p>
-                      {p.data.original.start_local.replace("T", " ")} →{" "}
-                      {p.data.original.end_local.replace("T", " ")} ·{" "}
-                      {p.data.original.timezone}
+                      {event.start_local.slice(0, 16).replace("T", " ")} →{" "}
+                      {event.end_local.slice(0, 16).replace("T", " ")}
+                    </p>
+                    <small>
+                      {event.timezone} ·{" "}
+                      {event.visibility === "private"
+                        ? t("Private", "私人")
+                        : t("Displayable", "可展示")}
+                    </small>
+                    {p.data.additional_dates?.length ? (
+                      <p>
+                        {t("Also on: ", "同时添加：")}
+                        {p.data.additional_dates.join(", ")}
+                      </p>
+                    ) : null}
+                    {event.recurrence.frequency !== "none" && (
+                      <p>
+                        {t("Repeats: ", "重复：")}
+                        {event.recurrence.frequency}
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {p.data.original && (
+                      <>
+                        <strong>
+                          {p.data.original.title ||
+                            t("Private event", "私人事项")}
+                        </strong>
+                        <p>
+                          {p.data.original.start_local.replace("T", " ")} →{" "}
+                          {p.data.original.end_local.replace("T", " ")} ·{" "}
+                          {p.data.original.timezone}
+                        </p>
+                      </>
+                    )}
+                    {p.data.output && (
+                      <p>
+                        {p.data.output.kind === "arm"
+                          ? t("Arm", "机械臂")
+                          : t("Light", "灯光")}{" "}
+                        · {p.data.output.preset}
+                      </p>
+                    )}
+                    <p>
+                      {p.data.change?.action === "delete"
+                        ? t("Delete", "删除")
+                        : p.data.change?.action === "complete"
+                          ? t("Mark complete", "标记完成")
+                          : p.data.change?.action === "reopen"
+                            ? t("Mark incomplete", "取消完成")
+                            : p.data.change
+                              ? t("Update", "更新")
+                              : t("Named preset only", "仅执行预设动作")}
+                      {p.data.change &&
+                        (p.data.change.scope === "series"
+                          ? t(" · Entire series", " · 整个系列")
+                          : t(" · This occurrence", " · 仅本次"))}
                     </p>
                   </>
                 )}
-                {p.data.output && (
-                  <p>
-                    {p.data.output.kind === "arm"
-                      ? t("Arm", "机械臂")
-                      : t("Light", "灯光")}{" "}
-                    · {p.data.output.preset}
-                  </p>
-                )}
-                <p>
-                  {p.data.change?.action === "delete"
-                    ? t("Delete", "删除")
-                    : p.data.change?.action === "complete"
-                      ? t("Mark complete", "标记完成")
-                      : p.data.change?.action === "reopen"
-                        ? t("Mark incomplete", "取消完成")
-                        : p.data.change
-                          ? t("Update", "更新")
-                          : t("Named preset only", "仅执行预设动作")}
-                  {p.data.change &&
-                    (p.data.change.scope === "series"
-                      ? t(" · Entire series", " · 整个系列")
-                      : t(" · This occurrence", " · 仅本次"))}
-                </p>
-              </>
-            )}
               </>
             )}
             <small>

@@ -1,0 +1,13 @@
+{
+  "authorization_cny": 5,
+  "trial": "setup_only",
+  "audio_sent": false,
+  "images_sent": false,
+  "account_eligibility": "setup_accepted",
+  "model": "qwen3.8-omni-flash-realtime",
+  "websocket_connected": true,
+  "session_configured": true,
+  "elapsed_seconds": 6.184,
+  "usage_observed": false,
+  "billing_confirmed": false
+}

@@ -2,7 +2,9 @@
 
 Date: 14 October 2026. Group 2, Desk Companion. Written for teammates and coding agents (including Codex).
 
-**Review update, 15 October 2026.** PRs #7–#14 are merged on the existing job contract. The Desk Companion comparison and roadmap below now reflect owner facts, one folder action, shared persona and quiet scheduling. The public product descriptions remain the dated 14 October research, with their original access limitations. See the [independent review](../../output/qa/2026-10-15-grok-review-merge/verification.md). PRs #4 and #5 remain separate; no hosted provider trial occurred.
+**Review update, 15 October 2026.** PRs #7–#14 are merged on the existing job contract. The Desk Companion comparison and roadmap below now reflect owner facts, one folder action, shared persona and quiet scheduling. The public product descriptions remain the dated 14 October research, with their original access limitations. See the [independent review](../../output/qa/2026-10-15-grok-review-merge/verification.md). PRs #4 and #5 remain separate; no hosted provider trial occurred in that review.
+
+**Omni follow-up,17 October.** The owner selected Qwen3.8 Omni and approved CNY5 maximum for synthetic trials. An independent adapter, explicit owner image/screen sharing and real selected-key calendar/image trials passed on draft PR #15. [Contract](../../desk-companion/docs/qwen-omni.md) / [QA](../../output/qa/2026-10-16-qwen-omni-integration/verification.md). Default providers stay none. The main-baseline table below retains its scope; real multilingual capture/AEC, Pi and general GUI remain open.
 
 **Chinese summary.** 和 Desk Companion 最吻合的 “Muse” 是 Meta 在 2026 年 9 月推出的个人代理，不是旧的视频站或冥想应用。名叫 Dot 的公开产品有两个：本组 10 月 3 日已经指定的是 ChatGPT 里的 Your dot；本轮提示里更可能指的是 New Computer 的 iOS 伴侣，该公司主页已宣布停运。下文只根据公开网页，不反编译、不提取提示词。差距和路线图对着 `main` 上的 Desk Companion，大模型仍走托管 API。
 
@@ -165,7 +167,7 @@ Baseline: Desk Companion after PRs #7–#14 and the 15 October review fixes. Pro
 | Hardware | Phone, web, WhatsApp; glasses claimed as coming soon on WebWire | Phone and desktop apps; optional PC | iPhone app | The product **is** a desk terminal: shared API, separate always-on screen, fixed camera, named light and motion presets. That form factor is ours. None of the three products replace the posture loop. |
 | Privacy controls we can actually ship | Their VM, Sentinel, and training opt-out are Meta’s. We do not host a copy. | Their plugin grants are OpenAI’s. | Their cloud chat is New Computer’s, and the service was announced as ending. | Keys stay in server env vars. Drafts expire. The model cannot confirm a write. Camera frames and the SQLite file are not the prompt. |
 
-Owner facts, the named folder and quiet-hour holds are implemented. Remaining gaps are a named real application task, complete retention/backup and real-provider/device evidence. A general cloud computer or inbox is not implied by these implementations.
+Owner facts, the named folder and quiet-hour holds are implemented. Remaining gaps are a named real application task, complete retention/backup and real-capture/device evidence. PR #15 adds bounded synthetic live-provider evidence separately. A general cloud computer or inbox is not implied by these implementations.
 
 ## Implementation roadmap
 
@@ -173,7 +175,7 @@ Constraints, already decided in [companion-architecture.md](companion-architectu
 
 - Hosted LLM and hosted speech only. Do not self-host Glimmer, llama.cpp, vLLM, or Ollama as the assistant.
 - The team owns memory, tool checks, the scheduler, the persona text, and the voice session.
-- Engineering suggestion, not an owner lock: first paid trial is Qwen text plus short Qwen Audio sessions; Gemini 3.8 Live is the comparison if the account can call Google. Leave `DESK_TEXT_PROVIDER` and `DESK_VOICE_PROVIDER` at `none` until the owner sets a spend cap.
+- The older Qwen Audio/Gemini trial suggestion is historical. The owner selected Qwen3.8 Omni and authorized at most CNY5 for synthetic trials; those trials are complete on PR #15. Defaults remain none, with explicit opt-in in the setup guide. This allowance is not a recurring budget.
 - Do not merge PR #4 or PR #5. PRs #7–#14 already add memory and one folder action on `main`’s note-job contract. Do not move that work onto PR #5, and do not open a second job system.
 - Do not decompile Muse, ChatGPT, WhatsApp, or the New Computer app. A client binary cannot show the hosted model; see [companion-architecture.md](companion-architecture.md).
 
@@ -192,11 +194,11 @@ Suggested stack, all already compatible with the repo or available as normal ope
 
 Memory, persona, folder actions, follow-up controls and provider adapters are implemented in PRs #7–#14. Their tests use local fixtures and fake providers. The 15 October review additionally closed paired-memory access, ancestor-link races and persona version/draft defects.
 
-The next software demonstration should name one target application and allowed data. Extend the existing job contract only within that scope, with independent results and cancellation. Archive/business backup remains incomplete. A real provider trial requires the owner's provider/model and spend cap; posture, Pi, voice/AEC and RIG still need their own evidence. Keep the fixed-camera posture loop and separate always-on UI.
+The next software demonstration should name one target application and allowed data. Extend the existing job contract only within that scope, with independent results and cancellation. Archive/business backup remains incomplete. The bounded Omni synthetic trial is complete; further paid/capture tests need a defined operating budget and input scope. Posture, Pi, voice/AEC and RIG still need their own evidence. Keep the fixed-camera posture loop and separate always-on UI.
 
 ## What not to claim
 
-A public product page is not a measurement of Muse’s or Dot’s success rate. New Computer’s download figures disagree with each other in the TechCrunch report; neither is our result. Desk Companion has not had a paid listening test, a Pi run, or a general computer-use demo. Local notes are not inbox access. This document does not submit the school proposal, choose a vendor, or approve a purchase.
+A public product page is not a measurement of Muse’s or Dot’s success rate. New Computer’s download figures disagree with each other in the TechCrunch report; neither is our result. Desk Companion now has a bounded synthetic Omni API trial, with no human listening-quality study, Pi run or general computer-use demo. Local notes are not inbox access. This document does not submit the school proposal, choose a vendor, or approve a purchase.
 
 ## Sources
 

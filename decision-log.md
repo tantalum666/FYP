@@ -769,3 +769,11 @@
 - **完成：**本机隐藏输入保存到仓库外`~/.config/desk-companion/qwen.env`，目录0700／文件0600，状态只报告存在性与关闭。脚本不联网、不启用提供商、不读取其他项目密钥；不能覆盖已有配置或跟随链接。选择元数据和密钥同在私有文件。
 - **来源与接口：**实际核读[Chat](https://platform.qianwenai.com/docs/api-reference/chat/openai-chat)与[Realtime](https://platform.qianwenai.com/docs/api-reference/realtime-api/websocket-overview)。公共网关与旧百炼workspace路线分别判断；Chat兼容不等于Realtime或更换当前Codex模型。现有Audio协议仍不能代替Omni。
 - **验证与剩余：**7项新专测和Ruff通过；系统Python3.9注解兼容修复后本机输入完成。无网络鉴权、付费、音视频或Pi操作。下一步沿现有语音／JobService补Omni协议及模拟检查，再在花费上限明确后真实短测。[设置](desk-companion/docs/qwen-local-setup.md)／[QA](output/qa/2026-10-16-qwen-key-setup/verification.md)。
+
+## 2026-10-16–17 Qwen Omni接入与5元合成短测
+
+- **用户决定：**“开始补齐吧”，随后批准本轮API测试最多人民币5元，限定合成音频／虚构日历，不开启真实麦克风或屏幕。沿既有国内千问平台Key和`qwen3.8-omni-flash-realtime`；该授权不扩大为日常预算、其他模型试验、系统权限或通用GUI。
+- **工程选择：**独立`qwen_omni`协议，嵌套PCM音频、semantic VAD、Tina默认声、显式私有文件加载；不source文件、不采纳文件内端点。拥有者手动图片／所选屏幕分享经JPEG缩放、身份／同意／大小／速率检查。既有ToolDispatcher／JobService、审批与固定摄像头坐姿闭环保持，不新建队列。
+- **修复与验证：**函数item／call／response关联、完成包fallback及去重；等待response结束后回传所有结果、仅恢复一次；取消中的旧音频／函数／未送结果不串入新轮次。215后端／21前端、Ruff／类型／构建与合成媒体桌面／窄屏检查通过。[Omni契约](desk-companion/docs/qwen-omni.md)／[QA](output/qa/2026-10-16-qwen-omni-integration/verification.md)。
+- **真实证据：**一次握手、三次日历尝试（先失败、后两次正确）和一次蓝色生成图片问答。成功日历语音首包收取3.176秒／2.619秒，从合成最后有效样本计，未标注有用词实际播音；不是Pi或p50／p95验收。第一次call_id失败保留，成功包带完整字段，不把缺字段当已证根因。
+- **费用／交付边界：**五次连接保守预留4.1元，三次成功响应已返回usage的全token高费率估算0.106608元；失败／取消缺usage，账单未确认。停止真实调用，普通服务none。增量延续草稿PR #15，不合main／PR #4／#5；实际音视频、Pi、逐轮10秒时限、通用GUI和硬件仍待验证。

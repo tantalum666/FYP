@@ -64,23 +64,25 @@ DESK_RUNTIME_DIR="$PWD/.runtime/demo" DESK_ALLOW_REPLAY=1 .venv/bin/uvicorn desk
 
 ## 5. 自然语音
 
-**2026-10-16当前选择：**用户选择Qwen3.8 Omni Flash Realtime，并提供千问AI平台公共网关指南。[本机密钥设置](qwen-local-setup.md)已提供隐藏输入和仅本机保存；当前Omni适配器尚未实现，不能用下面旧`qwen_audio`的字段冒称接入成功。私有Key存在不等于真实鉴权、模型权限或语音测试通过。下面两种表格仍描述已实现的Audio／Gemini适配器，保持关闭。
+**2026-10-17当前选择：**独立Qwen3.8 Omni Flash Realtime适配已实现在草稿PR #15，所选Key／公共网关已通过合成日历语音与单图真实短测。[本机设置](qwen-local-setup.md)提供显式启用命令；[Omni契约](qwen-omni.md)记录协议、数据、预算及验证限制。普通示例保持关闭，不自动加载私有Key。
 
 后端从环境读取配置。复制[service.env.example](../config/service.env.example)到`.runtime/service.env`并设权限0600；systemd会读取该文件。手动启动时由本机安全加载环境后再启动服务，不把密钥粘贴到前端或Git。
 
-| 字段 | Qwen Audio | Gemini Live |
-|---|---|---|
-| `DESK_VOICE_PROVIDER` | `qwen_audio` | `gemini` |
-| `DESK_VOICE_MODEL` | 实际获准型号，如`qwen-audio-3.1-realtime-plus` | 实际获准型号，如`gemini-3.8-live` |
-| `DESK_VOICE_ENDPOINT` | 控制台工作空间的`wss://…maas.aliyuncs.com/api-ws/v1/realtime`，不带query | 可留空使用官方端点 |
-| `DESK_VOICE_API_KEY` | 对应工作空间密钥 | Gemini密钥 |
-| `DESK_VOICE_VOICE` | 可选官方音色名 | 可选官方音色名 |
+| 字段 | Qwen Omni | Qwen Audio | Gemini Live |
+|---|---|---|---|
+| `DESK_VOICE_PROVIDER` | `qwen_omni` | `qwen_audio` | `gemini` |
+| `DESK_VOICE_MODEL` | 留空默认`qwen3.8-omni-flash-realtime` | 实际获准型号，如`qwen-audio-3.1-realtime-plus` | 实际获准型号，如`gemini-3.8-live` |
+| `DESK_VOICE_ENDPOINT` | 留空默认`wss://maas.qianwenaiapi.com/api-ws/v1/realtime`，不带query | 对应工作空间`wss://…maas.aliyuncs.com/api-ws/v1/realtime`，不带query | 可留空使用官方端点 |
+| `DESK_VOICE_API_KEY` | 可留空，显式`DESK_QWEN_CREDENTIAL_FILE`绝对路径读私有Key | 对应工作空间密钥 | Gemini密钥 |
+| `DESK_VOICE_VOICE` | 留空默认Tina，尚非最终选声 | 可选官方音色名 | 可选官方音色名 |
 
-配置重启后，“Configured”仅表示字段可用；真实连接、语言效果、费用和自然度要另外测试。没有凭据时不会自动调用服务。供应商未最终选定，两个适配器都保留。
+配置重启后，“Configured”仅表示字段可用；真实连接、语言效果、费用和自然度要另外测试。没有凭据时不会自动调用服务。用户选择Omni，其余适配器仍保留；Omni本次短测不替代真实麦克风、语言自然度或Pi验收。
 
 浏览器／iPhone在助理里“Start conversation”后申请麦克风并持续交谈，不必按住按钮。浏览器请求AEC／降噪，结果取决于设备。输入PCM16、16kHz、单声道；输出24kHz。每次会话最多10分钟，45秒无活动会结束；不会自动重连造成重复费用。打断清空播放，取消未确认草稿；已保存日程不会被打断撤销。
 
 日历和命名动作由后端工具执行。创建／修改／删除／设备预设先在屏幕确认；模型没有确认接口。命名动作排队与驱动回执分开。软件停止可直接请求，不受另一个待保存日程阻挡。
+
+Omni活动语音会话中，拥有者可主动选择一张图片或浏览器屏幕来源。图像会送至已配置语音提供商，不打开摄像头；最多1280×720 JPEG、1fps，后端检查身份、分享状态、大小与速率。停止屏幕分享或结束对话会释放采集，已发内容仍在当前提供商上下文中。选择图片后直接提问；模型使用随音频提交的图像。配对终端不开放该分享功能；移动端无屏幕接口时按钮禁用。
 
 设备免按键唤醒使用本地工作进程：
 
@@ -160,13 +162,13 @@ Tasks中创建并保存事务，记录截止与下一步。需要安排工作时
 
 后台建议最多20次尝试／UTC日，失败计入，不自动重试中断请求；失败保留本地规则提示。主程序关闭后不能继续检查，主机仍须常开。自然语音单独按第5节配置；没有从本机其他项目读取或复用密钥。
 
-详情与数据边界见[事务契约](task-tracking.md)。本轮未使用真实付费模型；`configured`只是配置有效，不能当作连接、质量或费用验收。当前事务尚无远程锁屏推送、邮箱监控或学校服务器部署。
+详情与数据边界见[事务契约](task-tracking.md)。可选文字服务尚未真实试测；第5节Omni完成合成资料真实短测。`configured`只是配置有效，不能当作质量或费用验收。当前事务尚无远程锁屏推送、邮箱监控或学校服务器部署。
 
 ## 10. 受限电脑作业
 
 默认`DESK_COMPUTER_ENABLED=0`，只控制专用笔记目录。拥有者还可以在 Computer jobs 指定一个已存在的真实文件夹；该路径的任一层不能是符号链接，也不能是运行目录本身、上级或子目录。按[电脑作业操作说明](computer-jobs.md)试用。助理面板内的 Computer jobs 要求拥有者会话，配对终端不能批准；模型只能准备、查询或请求取消，不能提交路径。每项作业核对全文及目标后再批准，结果未知时先核验，不要重复生成相同任务。
 
-没有安装LCU、启用录屏／Accessibility、接入真实供应商或操作硬件。10月6日[云端核验](../../output/qa/software-completion-2026-10-06/verification.md)保留当时浏览器受限的事实；10月9日[本地整合核验](../../output/qa/2026-10-09-dot-integration/verification.md)补充实际浏览器操作及语音断连回归。普通启动仍默认关闭笔记执行；需要试用时只按作业说明在独立运行目录启用。
+没有安装LCU、启用实际录屏／Accessibility或操作硬件；Omni仅做合成资料真实API短测，尚未交付通用GUI。10月6日[云端核验](../../output/qa/software-completion-2026-10-06/verification.md)保留当时浏览器受限的事实；10月9日[本地整合核验](../../output/qa/2026-10-09-dot-integration/verification.md)补充实际浏览器操作及语音断连回归。普通启动仍默认关闭笔记执行；需要试用时只按作业说明在独立运行目录启用。
 
 ## 2026-10-15 记忆与人格
 

@@ -1,0 +1,32 @@
+{
+  "authorized_cny": 5,
+  "account_billing_confirmed": false,
+  "reserve_is_not_spend": true,
+  "requests": [
+    {
+      "number": 1,
+      "kind": "setup_only",
+      "reserve_cny": 0.1
+    },
+    {
+      "number": 2,
+      "kind": "calendar_attempt1_failed",
+      "reserve_cny": 1
+    },
+    {
+      "number": 3,
+      "kind": "calendar_attempt2_success",
+      "reserve_cny": 1
+    },
+    {
+      "number": 4,
+      "kind": "calendar_voice",
+      "reserve_cny": 1
+    },
+    {
+      "number": 5,
+      "kind": "vision_voice",
+      "reserve_cny": 1
+    }
+  ]
+}

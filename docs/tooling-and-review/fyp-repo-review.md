@@ -6,6 +6,8 @@ The hosted-API design, the Muse/Dot inference, and the provider recommendation a
 
 **Review update, 15 October 2026.** The independent review fixed permission, directory-opening, persona-version and draft-recovery defects, then merged #7–#14 with merge commits. The actual merged code passed 182 backend tests, 17 frontend tests, Ruff, typecheck, production build and npm audit (zero findings). [Evidence](../../output/qa/2026-10-15-grok-review-merge/verification.md). The 9 October figures below retain their date. PRs #4 and #5 remain separate.
 
+**Omni follow-up,17 October.** The owner selected Qwen3.8 Omni and approved CNY5 maximum for synthetic trials. Independent voice/image adaptation and selected-key calendar/image trials are complete on draft [PR #15](https://github.com/tantalum666/FYP/pull/15), not main. [Contract](../../desk-companion/docs/qwen-omni.md) / [QA](../../output/qa/2026-10-16-qwen-omni-integration/verification.md). Default providers stay none; actual capture, multilingual quality, Pi and GUI remain open.
+
 ## Goals
 
 From [product.md](../../product.md) and the 28 September proposal:
@@ -15,7 +17,7 @@ From [product.md](../../product.md) and the 28 September proposal:
 - A local calendar and, since 6 October, a personal agent that can perform real but limited computer or software actions. Chat alone does not meet that later requirement.
 - English by default, Simplified Chinese in the UI. The proposal’s voice evaluation is Mandarin and English. Cantonese is a later test, not a result we have.
 - Three students, about six months, one prototype. Yuan Yuchen leads the software and AI work; the other two members lead hardware. The 40/30/30 split is a plan, not a grade.
-- Replaceable hosted voice. The provider is not chosen. This run’s design uses hosted LLM APIs and keeps memory, tools, scheduling, persona, and the voice session in our code.
+- Replaceable hosted voice. The owner selected Qwen3.8 Omni on16 October. This run’s design uses hosted LLM APIs and keeps memory, tools, scheduling, persona, and the voice session in our code.
 
 School files are unsubmitted drafts. Local software is not mentor approval or a Moodle upload.
 
@@ -60,8 +62,8 @@ Read PR #5’s research before writing another product survey. Do not implement 
 
 ## Gaps, in the order they block a demo
 
-1. No hosted provider is configured, tried, or paid for. Naturalness, Cantonese, echo, and the real invoice are unknown. Adapters exist only for Qwen and Gemini.
-2. The only executed computer action on `main` is a note in the app directory. General GUI, LCU, and a remote PC executor are not built. LCU was a candidate on 6 October and was not installed.
+1. Omni adapter and synthetic live trial evidence exist separately on PR #15. Main retains Audio/Gemini until merge. Naturalness, Cantonese, echo, Pi playback and the complete invoice remain unknown; ordinary configuration stays none.
+2. Main supports bounded notes and one owner-named folder. General GUI, LCU, and a remote PC executor are not built. LCU was a candidate on 6 October and was not installed.
 3. Owner facts and persona are implemented, but retention/archive and complete business backup remain open. Facts are not a full transcript or a biography.
 4. Job history is not in the business JSON backup, and there is no archive UI. The cap is 1000 jobs.
 5. Posture has no consented human labels, so the proposal’s F1 and false-alarm targets are plans. MediaPipe on Linux aarch64 has not been run on a Pi for this project.
@@ -73,7 +75,7 @@ Read PR #5’s research before writing another product survey. Do not implement 
 
 Use the current [handoff](../../handoff.md). First define one real target application task and allowed data, and validate it through the existing approval/read-back/cancel contract. Do not fork another queue. Owner facts, shared persona, quiet holds and Qwen/Gemini text adapters are already implemented; do not add duplicate versions of them.
 
-Then address archive/backup and real-service/device validation. A hosted model trial waits for the owner's provider/model and spend cap. Hardware and consented posture evaluation remain separate.
+Then address archive/backup and real-service/device validation. The CNY5 Omni synthetic trial is complete; further paid operating tests need their own budget and capture scope. Hardware and consented posture evaluation remain separate.
 
 Run, from `desk-companion/`, for code changes:
 

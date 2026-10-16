@@ -19,7 +19,7 @@
 | 坐姿 | 本地关键点采集适配、三步个人标定、可见性门槛、前倾／侧歪的持续判断、具体提示、复测、离桌／活动提醒、暂停／冷却／延后 |
 | 配对 | 单次短码、拥有者核对批准、可撤销终端身份、常驻屏长期会话；iPhone令牌留在Keychain |
 | 助理 | 事务／日历查询、进展草稿、简报、确认／取消／过期、版本冲突；可选Qwen／Gemini文字模型，默认本地规则；模型只获得受限工具，停止输出可立即请求，其他动作先审阅 |
-| 语音 | Qwen Audio和Gemini Live适配、流式PCM、打断取消、时限、用量记录；本地中英唤醒工作进程；默认没有配置供应商 |
+| 语音 | Qwen Audio、Gemini Live、独立Qwen Omni适配；流式PCM、函数关联／取消、时限、用量；Omni拥有者主动图片／所选屏幕分享；本地中英唤醒；默认none，Omni增量在草稿PR #15 |
 | 反馈 | 角色状态、独立黑底／镜像出口；灯光／机械臂命名预设、去重／过期／停机／驱动回执；模拟与实物分开 |
 | 日历辅助 | 选择地区后读取香港天气、缓存和过期状态、农历显示、香港2025–2027公众假期、日期占用摘要、安静时段与本地简报 |
 | 数据交换 | ICS预览／去重／导入／导出；只读忙闲或可展示标题分享／撤销；业务备份与保留现有数据的合并恢复 |
@@ -31,7 +31,7 @@
 
 ## 先运行软件
 
-10月16日用户已选择Qwen3.8 Omni Flash Realtime；[本机密钥设置](docs/qwen-local-setup.md)可隐藏输入并保存到仓库外私有配置。Omni协议仍待接入，普通启动继续不调用模型；已有Qwen Audio协议不能直接替代。API鉴权、花费上限与目标Pi实测仍未完成。
+10月16日用户选择Qwen3.8 Omni Flash Realtime，并批准合成资料短测最多5元；独立适配、真实鉴权／虚构日历语音／单图理解已通过，见[Omni契约](docs/qwen-omni.md)和[本机启用](docs/qwen-local-setup.md)。普通启动继续不调用模型；只有显式配置、用户开始对话才连接。真实采集、自然度和目标Pi仍待验。
 
 需要Node 22.12+、Python 3.12+、uv。首次安装：
 
@@ -64,6 +64,7 @@ cd ..
 ## 操作入口
 
 - **Assistant → Computer jobs**：拥有者核对全文及目标后批准。专用笔记默认关闭；指定文件夹要先填写一个运行目录之外的真实路径。见[隔离试运行](docs/computer-jobs.md)。
+- **Assistant → Start conversation**：启用Omni后可自然交谈；拥有者可主动分享图片或所选屏幕，停止分享／结束对话释放采集。见[语音与图像契约](docs/qwen-omni.md)。
 - **Tasks**：创建事务、记录进展、查看／暂停跟进、安排日历时段、确认完成或恢复。
 - **Today／Calendar**：查看与编辑日程；右上角助理可查询、生成草稿并确认。
 - **Device → Posture & feedback**：允许观察、个人标定、提示时间、暂停及复测状态。
@@ -77,9 +78,11 @@ cd ..
 
 ## 验证与交付边界
 
-最新10月15日[审查与合并QA](../output/qa/2026-10-15-grok-review-merge/verification.md)为182项后端、17项前端，Ruff／类型／构建和npm审计零发现，含记忆／人格／目录的真实浏览器检查。历史149项后端、15项前端及实际浏览器证据见[本地整合核验](../output/qa/2026-10-09-dot-integration/verification.md)；[10月6日云端软件核验](../output/qa/software-completion-2026-10-06/verification.md)保留当时结果。启用与复现实验见[电脑作业操作](docs/computer-jobs.md)。旧阶段证据在[事务增强与UI／UX审查](../output/qa/task-enhancement-ux-2026-10-03/verification.md)：101项后端、11项前端检查、生产／iPhone构建及实际三端交互。此前[S1–S10记录](../output/qa/software-completion-2026-10-02/verification.md)保留。测试数据库与主数据分开，10月9日交互使用独立`.runtime/dot-integration-qa/`；旧轮使用`.runtime/completion-qa/`。截图中的安排和回放是演示数据。正式主库原有示例保留，不自动移动到今天。
+已合入main的10月15日[审查与合并QA](../output/qa/2026-10-15-grok-review-merge/verification.md)为182项后端、17项前端，Ruff／类型／构建和npm审计零发现，含记忆／人格／目录的真实浏览器检查。历史149项后端、15项前端及实际浏览器证据见[本地整合核验](../output/qa/2026-10-09-dot-integration/verification.md)；[10月6日云端软件核验](../output/qa/software-completion-2026-10-06/verification.md)保留当时结果。启用与复现实验见[电脑作业操作](docs/computer-jobs.md)。旧阶段证据在[事务增强与UI／UX审查](../output/qa/task-enhancement-ux-2026-10-03/verification.md)：101项后端、11项前端检查、生产／iPhone构建及实际三端交互。此前[S1–S10记录](../output/qa/software-completion-2026-10-02/verification.md)保留。测试数据库与主数据分开，10月9日交互使用独立`.runtime/dot-integration-qa/`；旧轮使用`.runtime/completion-qa/`。截图中的安排和回放是演示数据。正式主库原有示例保留，不自动移动到今天。
 
-已经执行本地业务／API／协议测试、模型运行冒烟检查、浏览器交互，以及iPhone模拟器构建安装。仍需在取得条件后验证：真实摄像头视角和人工标签、实际唤醒／回声／自然语音、Pi并行性能、机械角度／电源／物理停机、显示光学、Google本人授权及Apple真机签名。没有调用付费语音API或采集真人音视频，也没有提交学校文件。
+10月16–17日[Omni QA](../output/qa/2026-10-16-qwen-omni-integration/verification.md)新增215项后端、21项前端、Ruff／类型／构建与桌面／窄屏合成媒体交互。两次真实API虚构日历回复、一次生成图片问答通过；Mac音频收包3.176秒／2.619秒不是浏览器播放或Pi的5秒验收。预算预留4.1元，已返回usage保守估算0.106608元，均非完整账单。
+
+已经执行本地业务／API／协议测试、模型运行冒烟检查、浏览器交互，以及iPhone模拟器构建安装。仍需在取得条件后验证：真实摄像头视角和人工标签、实际唤醒／回声／自然语音、Pi并行性能、机械角度／电源／物理停机、显示光学、Google本人授权及Apple真机签名。Omni已调用付费API做受限合成短测，没有采集真人音视频、运行Pi或提交学校文件。
 
 ```sh
 uv run --no-sync pytest -q

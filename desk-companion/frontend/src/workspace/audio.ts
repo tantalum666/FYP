@@ -1,3 +1,5 @@
+import { encodeVoiceImage } from "./vision.ts";
+
 export interface VoiceEvent {
   type: string;
   state?: string;
@@ -7,6 +9,8 @@ export interface VoiceEvent {
   audio?: string;
   sample_rate?: number;
   final?: boolean;
+  active?: boolean;
+  count?: number;
 }
 
 export class VoiceAudio {
@@ -17,7 +21,17 @@ export class VoiceAudio {
   private nextTime = 0;
   private ready = false;
   private stopped = false;
-  constructor(private onEvent: (event: VoiceEvent) => void) {}
+  private audioSent = false;
+  private visionActive = false;
+  private visionGeneration = 0;
+  private visionStream: MediaStream | null = null;
+  private visionVideo: HTMLVideoElement | null = null;
+  private visionTimer: ReturnType<typeof setTimeout> | null = null;
+  private lastImage = 0;
+  private onEvent: (event: VoiceEvent) => void;
+  constructor(onEvent: (event: VoiceEvent) => void) {
+    this.onEvent = onEvent;
+  }
   async start(
     getTicket: () => Promise<string>,
     language: string,
@@ -64,6 +78,7 @@ export class VoiceAudio {
         for (const value of new Uint8Array(event.data))
           binary += String.fromCharCode(value);
         socket.send(JSON.stringify({ type: "audio", audio: btoa(binary) }));
+        this.audioSent = true;
       };
       socket.onmessage = (raw) => {
         const event = JSON.parse(raw.data) as VoiceEvent;
@@ -125,6 +140,126 @@ export class VoiceAudio {
     if (this.socket?.readyState === WebSocket.OPEN)
       this.socket.send(JSON.stringify({ type: "interrupt" }));
   }
+  private visionReady() {
+    return (
+      !this.stopped &&
+      this.ready &&
+      this.audioSent &&
+      this.socket?.readyState === WebSocket.OPEN
+    );
+  }
+  private sendImage(image: string) {
+    if (!this.visionReady() || !this.socket)
+      throw new Error("VOICE_VISION_NOT_READY");
+    if (performance.now() - this.lastImage < 1000 && this.lastImage !== 0)
+      throw new Error("VOICE_IMAGE_RATE_LIMIT");
+    if (this.socket.bufferedAmount > 64000)
+      throw new Error("AUDIO_CONNECTION_SLOW");
+    if (!this.visionActive) {
+      this.socket.send(JSON.stringify({ type: "vision_start" }));
+      this.visionActive = true;
+    }
+    this.socket.send(JSON.stringify({ type: "image", image }));
+    this.lastImage = performance.now();
+  }
+  async shareImage(file: File) {
+    if (!this.visionReady()) throw new Error("VOICE_VISION_NOT_READY");
+    if (
+      !/^image\/(jpeg|png|webp)$/.test(file.type) ||
+      file.size > 4 * 1024 * 1024
+    )
+      throw new Error("INVALID_VOICE_IMAGE");
+    this.stopVision();
+    const generation = this.visionGeneration;
+    const image = await createImageBitmap(file);
+    try {
+      if (generation !== this.visionGeneration || !this.visionReady()) return;
+      this.sendImage(encodeVoiceImage(image, image.width, image.height));
+      // A still image is sent once. Previously sent content stays in session context.
+      this.stopVision();
+    } finally {
+      image.close();
+    }
+  }
+  async shareScreen() {
+    if (!this.visionReady() || !navigator.mediaDevices?.getDisplayMedia)
+      throw new Error("VOICE_VISION_NOT_READY");
+    this.stopVision();
+    const generation = this.visionGeneration;
+    const stream = await navigator.mediaDevices.getDisplayMedia({
+      video: { frameRate: { ideal: 1, max: 1 } },
+      audio: false,
+    });
+    if (generation !== this.visionGeneration || !this.visionReady()) {
+      stream.getTracks().forEach((track) => track.stop());
+      return;
+    }
+    this.visionStream = stream;
+    const video = document.createElement("video");
+    this.visionVideo = video;
+    video.muted = true;
+    video.playsInline = true;
+    video.srcObject = stream;
+    try {
+      await video.play();
+    } catch (error) {
+      this.stopVision();
+      throw error;
+    }
+    if (generation !== this.visionGeneration || !this.visionReady()) {
+      this.stopVision();
+      return;
+    }
+    for (const track of stream.getTracks())
+      track.onended = () => this.stopVision();
+    this.onEvent({ type: "vision", active: true });
+    const frame = () => {
+      if (generation !== this.visionGeneration || !this.visionReady()) return;
+      if (video.readyState >= 2 && video.videoWidth && video.videoHeight) {
+        try {
+          this.sendImage(
+            encodeVoiceImage(video, video.videoWidth, video.videoHeight),
+          );
+        } catch (error) {
+          if (
+            !(error instanceof Error) ||
+            error.message !== "VOICE_IMAGE_RATE_LIMIT"
+          ) {
+            this.onEvent({
+              type: "vision_error",
+              code:
+                error instanceof Error
+                  ? error.message
+                  : "VOICE_IMAGE_UNAVAILABLE",
+            });
+            this.stopVision();
+            return;
+          }
+        }
+      }
+      this.visionTimer = setTimeout(frame, 1000);
+    };
+    frame();
+  }
+  stopVision() {
+    this.visionGeneration++;
+    if (this.visionTimer) clearTimeout(this.visionTimer);
+    this.visionTimer = null;
+    this.visionStream?.getTracks().forEach((track) => {
+      track.onended = null;
+      track.stop();
+    });
+    this.visionStream = null;
+    if (this.visionVideo) {
+      this.visionVideo.pause();
+      this.visionVideo.srcObject = null;
+      this.visionVideo = null;
+    }
+    if (this.visionActive && this.socket?.readyState === WebSocket.OPEN)
+      this.socket.send(JSON.stringify({ type: "vision_stop" }));
+    this.visionActive = false;
+    this.onEvent({ type: "vision", active: false });
+  }
   private clearPlayback() {
     for (const source of this.sources) {
       source.onended = null;
@@ -140,6 +275,7 @@ export class VoiceAudio {
   close() {
     this.stopped = true;
     this.ready = false;
+    this.stopVision();
     this.clearPlayback();
     this.stream?.getTracks().forEach((track) => track.stop());
     this.stream = null;

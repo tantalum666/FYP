@@ -4,9 +4,11 @@ Date: 14 October 2026. Group 2, Desk Companion. This note is for teammates and c
 
 **Review update, 15 October 2026.** PRs #7–#14 are merged into `main`. Memory, one owner-named folder, shared persona, quiet follow-ups, recovery copy and text adapters use the existing note-job contract. The earlier PR #6 reconciled the dated research and [independent review](../../output/qa/2026-10-15-grok-review-merge/verification.md). PRs #4 and #5 remain separate.
 
-**Owner update,16 October.** The owner selected Qwen3.8 Omni Flash Realtime and supplied Qianwen platform gateway docs. [Local credential staging](../../desk-companion/docs/qwen-local-setup.md) is complete outside Git at0600; providers remain disabled. The owner reported creating the Key; this agent did not create an account or call a model. Omni integration, actual authorization and a spend cap remain open.
+**Owner update,16 October.** The owner selected Qwen3.8 Omni Flash Realtime and supplied Qianwen platform gateway docs. [Local credential staging](../../desk-companion/docs/qwen-local-setup.md) is complete outside Git at0600; providers remain disabled. At that staging step no model was called. The subsequent17 October integration below supersedes the pending adapter/trial state.
 
-**Chinese summary.** 个人助理的大模型走托管 API，不在 Pi 或学校机器上自托管权重。记忆、工具执行、主动调度、人格提示和语音会话由本组软件负责。产品行为见 [companion-product-teardown.md](companion-product-teardown.md)；PR #5 上的早期接口研究不在这里重写。10月15日[语音全面复核](../../research/2026-10-15-voice-ai/voice-model-comparison.md)取代下述旧先Qwen的候选顺序：质量首轮建议Grok Voice3.0、Gemini3.8 Live、Qwen Audio3.1 Plus，分别看工具、日常交谈与中文／粤语。最终服务与花费上限未定，公开比较不等于开通试用。
+**Chinese summary.** 个人助理的大模型走托管 API，不在 Pi 或学校机器上自托管权重。记忆、工具执行、主动调度、人格提示和语音会话由本组软件负责。产品行为见 [companion-product-teardown.md](companion-product-teardown.md)；PR #5 上的早期接口研究不在这里重写。10月15日[语音全面复核](../../research/2026-10-15-voice-ai/voice-model-comparison.md)取代下述旧先Qwen的候选顺序：质量首轮建议Grok Voice3.0、Gemini3.8 Live、Qwen Audio3.1 Plus，分别看工具、日常交谈与中文／粤语。这些为10月15日比较；后续用户已选Omni并批准5元合成短测，当前证据见上方17日更新。
+
+**Implementation update,17 October.** Independent [Omni voice/vision](../../desk-companion/docs/qwen-omni.md) is implemented on draft PR #15. The owner approved CNY5 maximum for synthetic-only trials: selected-key authentication, two fictional-calendar speech replies and one generated-image answer passed.215 backend /21 frontend checks and synthetic browser sharing checks passed. [QA](../../output/qa/2026-10-16-qwen-omni-integration/verification.md) keeps the earlier failed/cancelled attempt and distinguishes CNY4.1 reserved from an unconfirmed invoice. Defaults remain none; no real capture, Pi, multilingual quality or general GUI acceptance.
 
 ## How to read the labels
 
@@ -15,7 +17,7 @@ Date: 14 October 2026. Group 2, Desk Companion. This note is for teammates and c
 | Public record | Written in an official page and already captured in the dated research linked below. Not re-fetched for this note. |
 | Inference | A likely system shape drawn from that public record. Not a leak, not a decompilation, not a claim about private source. |
 | FYP design | What this repository should build. It is ours. |
-| Not decided | A spend cap, exact voice and hardware purchase remain open; the owner selected Qwen3.8 Omni on16 October. |
+| Not decided | Final character voice and hardware purchase remain open. The owner selected Omni and approved up to CNY5 for this synthetic trial only; Tina is an engineering default. |
 
 ## Product behavior and the earlier study
 
@@ -74,7 +76,7 @@ This repository’s research was done from public pages. Do not try to fill the 
 
 ## FYP implementation: hosted LLM, team-owned state and tools
 
-The14 October design proposed hosted text and speech APIs with local state, tools and scheduling. The owner selected Qwen3.8 Omni on16 October; its adapter and live-provider/hardware validation remain unfinished.
+The14 October design proposed hosted text and speech APIs with local state, tools and scheduling. The owner selected Qwen3.8 Omni on16 October; its adapter and bounded synthetic live validation are now complete on draft PR #15. Target hardware, real speech and general GUI remain unfinished.
 
 ```text
 Web / iPhone / independent Linux screen
@@ -97,7 +99,7 @@ The following are implemented after PRs #7–#14:
 3. Models prepare typed drafts; owner approval remains separate. Notes and one owner-named directory use the same job ledger. Directory components are opened without following links; generated files are never overwritten. Unknown writes are reconciled by read-back.
 4. Quiet-hour holds persist across restart and saved-preference edits. At most three new reminders appear per scheduler pass; optional model advice is disabled by default and capped at 20 attempts a day.
 5. A versioned owner persona is shared by text, voice and advice. Reset keeps versions increasing; immutable tool/data rules remain appended in code. Editing failures retain the local draft until the user explicitly loads the current text.
-6. Voice retains short sessions, interruption and bounded dispatch. Paired terminals cannot call memory tools; owner sessions and explicitly enabled local voice can. Protocol tests do not establish naturalness, echo cancellation or target-device latency.
+6. Voice retains short sessions, interruption and bounded dispatch; Omni adds owner-initiated bounded JPEG sharing and grouped/cancelled response handling. Paired terminals cannot call memory tools; owner sessions and explicitly enabled local voice can. Protocol tests do not establish naturalness, echo cancellation or target-device latency.
 
 The fixed-camera posture loop, local calendar and named hardware presets remain independent of model availability. RIG, the cleaner and Pi performance still require real devices.
 
@@ -105,7 +107,7 @@ The fixed-camera posture loop, local calendar and named hardware presets remain 
 
 **Historical selection context.** The28 September proposal names Qwen realtime first, then Gemini, OpenAI Realtime and GPT-Live. [product.md](../../product.md) records later engineering comparisons and the16 October owner choice of Qwen3.8 Omni. Existing Audio/Gemini adapters are not an Omni implementation or listening test. The [15 October comparison](../../research/2026-10-15-voice-ai/voice-model-comparison.md) remains dated evidence. The table below is **HISTORICAL: September evidence and the14 October recommendation**, retained for rationale. Validate the selected account/model before a paid trial.
 
-Goals that the choice has to serve: one desk prototype; English UI with Simplified Chinese; hands-free short voice sessions after a local wake word; Mandarin and English commands (proposal target: 40 commands, at least 90% correctly executed, every calendar-write confirmation passing); later agent tests also want Cantonese and mixed speech, which are not yet measured; reliable tool drafts rather than the model announcing success; posture and motion staying local; a student budget with no spend approved; Hong Kong as the team’s location.
+Historical14 October constraints used for the table below: one desk prototype; English UI with Simplified Chinese; hands-free short voice sessions after a local wake word; Mandarin and English commands (proposal target: 40 commands, at least 90% correctly executed, every calendar-write confirmation passing); later agent tests also want Cantonese and mixed speech, which are not yet measured; reliable tool drafts rather than the model announcing success; posture and motion staying local; a student budget with no spend approved; Hong Kong as the team’s location.
 
 | Hosted option | Why it fits | Why it is not an automatic winner |
 |---|---|---|
@@ -115,9 +117,9 @@ Goals that the choice has to serve: one desk prototype; English UI with Simplifi
 | **Meta Model API (Muse Spark) or consumer Muse.** | The October teardown shows a real inference API and a separate consumer product. Spark is a possible later adapter. | No code, no account, and consumer Muse is not an embeddable agent. Adding it now duplicates the teardown and skips the adapters we have. |
 | **StepAudio, Doubao, Grok Voice, ElevenAgents.** | September notes kept them as second-round or cost experiments. StepAudio’s preview was listed as temporarily free, with no end date. | No adapter, no listening test, and a free preview is not a six-month plan. |
 
-**15 October comparison, now historical after the owner's16 October choice.** Grok3.0, Gemini3.8 Live and Qwen Audio3.1 Plus were quality, daily-conversation and language candidates; low-cost, character-voice and delegation routes remain research alternatives. The selected implementation target is Qwen3.8 Omni through the owner-provided platform route. Keep one task/approval backend and short sessions. Local Key staging is authorized and complete; no paid trial occurred and the spend cap remains unset. Existing protocol adapters still need an Omni implementation. A failed account/region check does not establish access.
+**15 October comparison, now historical after the owner's16 October choice.** Grok3.0, Gemini3.8 Live and Qwen Audio3.1 Plus were quality, daily-conversation and language candidates; low-cost, character-voice and delegation routes remain research alternatives. The selected implementation target is Qwen3.8 Omni through the owner-provided platform route. Keep one task/approval backend and short sessions. Local Key staging and the independent Omni adapter are complete. Subsequent owner-authorized CNY5 synthetic trials passed against the public gateway; this does not validate other regions, providers or unrestricted GUI. See the17 October update above.
 
-Until that trial exists, leave `DESK_TEXT_PROVIDER` and `DESK_VOICE_PROVIDER` at `none`. Local rules and the calendar still run.
+Keep default `DESK_TEXT_PROVIDER` and `DESK_VOICE_PROVIDER` at `none`. Omni can be explicitly enabled using the setup guide; this test allowance is not a standing operating budget. Local rules and the calendar still run.
 
 **Latency requirement, 15 October.** The owner expects an ordinary next-week calendar answer around5 seconds and within10 seconds. The [acceptance plan](../../planning/2026-10-15/voice-response-latency.md) measures first grounded spoken content, not a generic preamble. Simple reads use one local tool path; complex work remains on durable jobs. An isolated500-event Mac fixture measured local dispatch/query/serialization p95 at6.002ms, excluding models/network/audio. No candidate has passed the live5-second target. Treat it as an additional selection gate, not a claimed SLA.
 
@@ -125,11 +127,11 @@ Until that trial exists, leave `DESK_TEXT_PROVIDER` and `DESK_VOICE_PROVIDER` at
 
 **Computer-use selection, 15 October.** The owner explicitly means screenshot-driven, cross-application work. The [current comparison](../../research/2026-10-15-voice-ai/computer-use-comparison.md) proposes Sonnet5.5 versus GPT-6.1 Sol for everyday GUI work, Opus5.5/Astra for harder tasks and current Gemini desktop tools as a challenger. These are untested engineering candidates. Speech, planning model, executor and finished products are separate layers; retain JobService. OSWorld partial scores across2.0/offline and2.1/full setups are not one completion-rate ranking. General GUI/remote-PC control and LCU installation remain open.
 
-**Latest Pi clarification.** The owner wants the client on Raspberry Pi/Linux and ultimately both local and another-computer actions, while considering Linux-first. The [supplement](../../research/2026-10-15-voice-ai/computer-use-comparison.md#树莓派linux网络与单模型补充) proposes a fixed Linux scope and a single speech/vision/function model; a second LLM is optional. Qwen3.8 Omni Singapore is a new engineering trial candidate under student/Chinese/single-model constraints, not a selection or proved GUI winner. Sol is a hosted text/image model; Linux does not require VPN. Direct API region eligibility, Foundry account/model access and Wayland/ARM64 execution must be verified separately.
+**Latest Pi clarification.** The owner wants the client on Raspberry Pi/Linux and ultimately both local and another-computer actions, while considering Linux-first. The [supplement](../../research/2026-10-15-voice-ai/computer-use-comparison.md#树莓派linux网络与单模型补充) proposes a fixed Linux scope and a single speech/vision/function model; a second LLM is optional. The15 October Singapore suggestion is historical; the owner selected the domestic Qianwen platform route on16 October. The synthetic trial does not prove GUI quality. Sol is a hosted text/image model; Linux does not require VPN. Direct API region eligibility, Foundry account/model access and Wayland/ARM64 execution must be verified separately.
 
 1. Name one real target computer/application task and data scope, then prove approval, actual execution, independent read-back, refusal outside scope, cancellation and unknown-result recovery. The folder executor is a bounded file capability, not general GUI control.
 2. Define job-history retention/archive and business backup for facts, persona and jobs. Current calendar/task backup does not include all of these stores.
-3. Implement the selected Qwen Omni adapter against the current platform contract and mocks. Once a spend cap/voice is set, verify actual Key/model authorization and run the same Mandarin/English/Cantonese script. Source research and staged credentials are not live-provider acceptance.
+3. Omni adapter, selected-key authorization and bounded synthetic calendar/image trials are complete. Next verify actual browser playback on Pi, per-turn timing/10-second handling and consented Mandarin/English/Cantonese/AEC samples within a separate operating budget. Mac audio receipt and fixtures are not end-to-end quality acceptance.
 4. Validate real voice/wake/AEC, consented posture labels, Pi/iPhone operation, optical output and commissioned RIG presets separately. Software tests do not fill those evidence gaps.
 
 ## What not to claim
