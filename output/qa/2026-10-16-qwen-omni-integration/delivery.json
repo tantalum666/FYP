@@ -1,1 +1,15 @@
-{}
+{
+  "observed_at": "2026-10-16T17:06:20.292192+00:00",
+  "implementation_commit": "c616a41959938ce92890a2262a557e302bbaa0bf",
+  "remote_branch_readback": "c616a41959938ce92890a2262a557e302bbaa0bf",
+  "pr_head_readback": "c616a41959938ce92890a2262a557e302bbaa0bf",
+  "main_readback": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+  "main_unchanged": true,
+  "pull_request": "https://github.com/tantalum666/FYP/pull/15",
+  "title": "feat: integrate Qwen Omni realtime voice and explicit vision sharing",
+  "state": "open",
+  "draft": true,
+  "merged": false,
+  "body_synchronized": true,
+  "following_receipt_commit": "Documentation and QA receipt only; application source fingerprints stay unchanged"
+}

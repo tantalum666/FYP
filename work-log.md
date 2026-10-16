@@ -928,3 +928,5 @@
 - **预算：**五次连接预留4.1元；已返回usage的保守估算共0.106608元，不能当完整实际费用。首次失败的缺usage估算由错误0改为null并写明更正；取消usage缺口保留。真实调用已停止，不启用普通服务或常驻预算。
 - **文件与规范：**新增`voice_credentials.py`、`voice_media.py`、前端`vision.ts`、合成JPEG／专测和[Omni契约](desk-companion/docs/qwen-omni.md)；修改语音代理及助理分享控件。同步product／handoff、两层README、设置／操作／架构、三份tooling说明、两份语音研究与时延方案。决定追加在decision-log；[QA](output/qa/2026-10-16-qwen-omni-integration/verification.md)保留继承阅读、脚本、真实响应、音频、截图及交付检查。
 - **交付与剩余：**沿现有草稿PR #15推送，不合main或A1／独立kernel分支；主运行库和学校原件保持。下一步是Pi上实际播音计时及逐轮10秒控制，然后按另定预算与采集许可做中英粤／AEC；通用GUI、备份归档、坐姿标签和RIG／光学仍独立待完成。
+
+- **实际Git交付：**实现提交`c616a41`已推送，远端ref／PR head分别读回一致；PR #15标题／描述改为Omni接入和有界真实试验，保持open／draft／unmerged，main仍为`a663d83`。后续提交只保存这些回执及交接，不改已验证应用源码。

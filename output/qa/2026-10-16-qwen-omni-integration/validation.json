@@ -77,7 +77,12 @@
   },
   "main_before_push": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
   "staged_secret_scan": "passed;0 findings after source-digest metadata correction",
-  "git_delivery": "pending",
+  "git_delivery": {
+    "implementation_commit": "c616a41959938ce92890a2262a557e302bbaa0bf",
+    "remote_and_pr_head_verified": true,
+    "main_unchanged": true,
+    "pr_draft_open": true
+  },
   "code_files": [
     {
       "path": "desk-companion/backend/desk/voice.py",
