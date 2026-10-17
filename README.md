@@ -1,6 +1,6 @@
 # FYP · Group 2
 
-**17 October 2026:** The assistant uses one focused composer/voice entry. The owner chose genuine 3D for A1; this branch includes a rotating/action-capable visual draft, resident interaction and intact 2D fallback. See [current scope](product.md), [avatar study](desk-companion/docs/avatar.md) and [QA](output/qa/2026-10-17-assistant-simplify-avatar/verification.md). Final likeness and target Pi remain unverified.
+**17 October 2026:** The assistant uses one focused composer/voice entry. The owner chose genuine 3D for A1; [draft PR #16](https://github.com/tantalum666/FYP/pull/16) includes a rotating/action-capable visual draft, resident interaction and intact 2D fallback. See [current scope](product.md), [avatar study](desk-companion/docs/avatar.md) and [QA](output/qa/2026-10-17-assistant-simplify-avatar/verification.md). Final likeness and target Pi remain unverified.
 
 **Team repository:** [tantalum666/FYP](https://github.com/tantalum666/FYP) · private · default branch `main`. The repository name is temporarily **FYP**; the current product development name remains **Desk Companion**. Start with the [collaboration and setup guide](CONTRIBUTING.md) to join, clone, run the software and contribute through branches / pull requests.
 

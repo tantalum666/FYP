@@ -942,3 +942,5 @@
 - **本机交付：**localhost:8832保留Web／Device／3D页；单独复制原preview数据库／凭据，原字节保持，提供商none、执行关闭、无采集worker。原账户可用，未输出凭据。独立分支叠在PR #15；实际远端回执在完成后追加，不合main／PR #4／#5。
 - **规范：**同步product、两层README、架构／操作／第三方、avatar／page-companion、设计／源工程说明、决定与handoff。学校原件、身份资料、旧模型／服装／主目录运行库保持；没有采购、联系、签名、提交或新收费会话。
 - **剩余：**脸／卷发相似度及年龄感、剪裁细节／接地／大动作穿插；Pi／Linux真实负载、自然语音／AEC／时延、通用GUI、姿态标签及硬件分别验证。下一步聚焦同源工程的脸／卷发，不把工作稿写成最终美术。
+
+- **实际Git交付：**实现／资产提交`78f66e7`已完整保存到[草稿PR #16](https://github.com/tantalum666/FYP/pull/16)，base为PR #15分支。三次普通smart-HTTP推送被网络reset；改用GitHub Git Database保存，35个二进制blob逐项核SHA，目录tree和最终commit SHA与本地完全一致。大VRM的一次失败回执经独立GET证实已接收，未把失败回执直接当成功。远端PR head独立读取一致，保持open／draft／unmerged；后续提交仅补QA／交接回执。自有QA浏览器／假提供商已停止，8832用户preview保留。

@@ -8,7 +8,11 @@
   "verified": "215 backend baseline, 29 final frontend, type/build, Ruff, Khronos 0 errors/0 warnings, browser/media/file approval/read-back checks; see verification.md",
   "preview": "localhost:8832; independent private runtime copy; providers none; original credentials preserved privately",
   "limits": "Likeness/hair/tailoring/foot contact not final; no Pi/live voice/real capture/paid test",
-  "remaining_this_task": "Commit/push draft PR and independent readback; QA fixture/browser stopped, user preview retained",
   "one_next_step": "A1 face/wavy-hair refinement against saved references",
-  "authorization": "No new Qwen paid calls; original CNY5 short trial stopped. No real media, hardware, purchase, school or main merge."
+  "authorization": "No new Qwen paid calls; original CNY5 short trial stopped. No real media, hardware, purchase, school or main merge.",
+  "published_source_commit": "78f66e7b5fe3e4c58732cbd7f3d42fae68359e0d",
+  "published_draft_pr": "https://github.com/tantalum666/FYP/pull/16",
+  "remote_source_tree_and_commit_verified": true,
+  "qa_fixture_and_browser_stopped": true,
+  "remaining_product_work": "A1 likeness/hair/tailoring/foot contact; target Pi and live voice/general GUI remain separate"
 }

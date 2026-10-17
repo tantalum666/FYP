@@ -1,0 +1,22 @@
+{
+  "verified_at": "2026-10-17",
+  "repository": "tantalum666/FYP",
+  "source_commit": "78f66e7b5fe3e4c58732cbd7f3d42fae68359e0d",
+  "source_tree": "see git-database-upload.json; remote tree verified identical",
+  "pull_request": "https://github.com/tantalum666/FYP/pull/16",
+  "pr_number": 16,
+  "pr_state": "open",
+  "draft": true,
+  "merged": false,
+  "base": "codex/voice-model-comparison-20261015",
+  "base_sha": "8129775b641126ead9e11425ef604f0296ce2bc8",
+  "independent_pr_head_readback": "78f66e7b5fe3e4c58732cbd7f3d42fae68359e0d",
+  "independent_ls_remote_head_readback": "78f66e7b5fe3e4c58732cbd7f3d42fae68359e0d",
+  "main_unchanged": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+  "transport": "Git Database API after 3 smart-HTTP resets; commit and tree identical; no force update",
+  "binary_blob_hashes_verified": 35,
+  "artifact_attached": true,
+  "following_commit_scope": "Only QA transport receipts and root authority references; application and model asset bytes unchanged",
+  "qa_fixture_and_owned_browser_stopped": true,
+  "owner_preview_running": "http://localhost:8832/"
+}
