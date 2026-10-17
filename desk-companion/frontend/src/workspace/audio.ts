@@ -1,4 +1,5 @@
 import { encodeVoiceImage } from "./vision.ts";
+import { OutputMeter } from "../companion/output.ts";
 
 export interface VoiceEvent {
   type: string;
@@ -15,6 +16,7 @@ export interface VoiceEvent {
 
 export class VoiceAudio {
   private context: AudioContext | null = null;
+  private meter: OutputMeter | null = null;
   private stream: MediaStream | null = null;
   private socket: WebSocket | null = null;
   private sources = new Set<AudioBufferSourceNode>();
@@ -125,10 +127,13 @@ export class VoiceAudio {
     }
     const source = context.createBufferSource();
     source.buffer = buffer;
-    source.connect(context.destination);
+    this.meter ??= new OutputMeter(context);
+    source.connect(this.meter.input);
+    this.meter.start();
     this.sources.add(source);
     source.onended = () => {
       this.sources.delete(source);
+      if (!this.sources.size) this.meter?.reset();
       if (!this.sources.size && this.socket?.readyState === WebSocket.OPEN)
         this.socket.send(JSON.stringify({ type: "playback_ended" }));
     };
@@ -261,6 +266,7 @@ export class VoiceAudio {
     this.onEvent({ type: "vision", active: false });
   }
   private clearPlayback() {
+    this.meter?.reset();
     for (const source of this.sources) {
       source.onended = null;
       try {
@@ -285,6 +291,8 @@ export class VoiceAudio {
       socket.onclose = null;
       socket.close();
     }
+    this.meter?.close();
+    this.meter = null;
     if (this.context) {
       void this.context.close();
       this.context = null;

@@ -1,0 +1,8 @@
+{
+  "source_runtime_unchanged": true,
+  "review_uses_independent_database_copy": true,
+  "original_credentials_reused_privately": true,
+  "providers": "none",
+  "listen": "localhost:8832",
+  "camera_microphone_output_agents_started": false
+}

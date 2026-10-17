@@ -92,7 +92,7 @@ PYTHONPATH=backend .venv/bin/python -m desk.agents.voice --language zh
 
 需先在偏好中允许本地唤醒，且已配置服务。当前开发唤醒词为 **Hey desk**／**你好桌伴**，不是最终品牌决定。sherpa-onnx模型在本地识别，检测到词后才申请语音会话。sounddevice路径需使用合适的AEC麦克风／扬声器通道；尚无真实回声或唤醒率结论。浏览器会话与本地工作进程共用单会话限制。
 
-独立角色出口为`?surface=avatar`；反射显示可加`&mirror=1`。当前是状态动画，不承诺逐音素口型；风扇／反射器的输入接口与光学仍需实物确认。
+独立3D工作稿出口为`?surface=avatar`，支持旋转／缩放／动作；纯黑输出加`&clean=1`，反射显示可加`&mirror=1`。嘴部跟随浏览器实际输出音量，尚无逐音素口型或跨设备声音桥；风扇／反射器接口与光学仍需实物确认。
 
 ## 6. 灯光与机械臂
 
@@ -173,3 +173,9 @@ Tasks中创建并保存事务，记录截止与下一步。需要安排工作时
 ## 2026-10-15 记忆与人格
 
 拥有者可在Memory查看／更正事实，在Persona编辑共享语气。配对终端不能经助理草稿、文字或语音取得事实。人格冲突会保留草稿；“放弃草稿并加载当前人格”才替换为服务端版本。保存回执丢失时使用“安全重试”，不另建操作；恢复只清理匹配的草稿。重置默认人格仍增加版本。业务备份暂不包括记忆、人格和作业，请勿将日历备份误称完整恢复。
+
+## 17 October 2026 assistant and A1 controls
+
+Assistant opens directly into one composer. Empty text shows the configured microphone action; entered text shows Send. More opens file activity/help/A1 study. Plus provides briefing, or selected-image/screen controls during an eligible owner voice session. File actions still require full-text review; unknown writes are independently reconciled. Local mode states the supported text-rule scope; voice and text are configured separately.
+
+Drag the resident A1, wheel/corner/slider resize continuously, and release near left/right/bottom to dock. The recall tab restores the figure. Right-click/ellipsis opens actions, pause, reset and intact2D selection. `?surface=avatar` provides orbit/zoom, all sides and larger local actions. See [avatar limits](avatar.md). This is a visual/motion draft, not final likeness or target Pi acceptance. Resident display never starts a microphone, screen share or paid session automatically.

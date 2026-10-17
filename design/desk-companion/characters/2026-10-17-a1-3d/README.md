@@ -1,0 +1,19 @@
+# A1 genuine 3D study v2
+
+Group 2 ·17 October 2026. Owner direction: remake A1 as genuine 3D that can turn and perform larger actions. **Visual and motion draft; owner likeness acceptance pending.** This replaces the earlier intact 2D-only development restriction for this branch, while preserving old art/source on [PR #4](https://github.com/tantalum666/FYP/pull/4).
+
+- [Packed Blender5.1.2 source](a1-v2.blend), [exported GLB](a1-v2.glb), [pinned provenance/licence/settings and runtime statistics](source.json).
+- [Reproducible build](build_model.py), [bounded ASF/AMC retargeter](cmu_motion.py), selected [original public motion files](motion-sources/).
+- Byte-preserved A1 working references: [V4](references/a1-v4.png), [front](references/a1-front.png), [rear](references/a1-back.png), [face](references/a1-face.png). These are the project’s previous native ImageGen originals, not new calls this round. V4 attire is not a newly owner-selected default outfit.
+
+Run the builder from this repository with the installed Blender executable, using `--background --python-exit-code 1 --python design/desk-companion/characters/2026-10-17-a1-3d/build_model.py`. It imports the pinned licensed VRM, constructs a new adaptation, exports runtime GLB and renders inspection frames. It never saves to the original sample or older rejected source. Source and binary are separate from the school originals and private runtime.
+
+The stock sample has deleted surfaces under its shirt. The initial surface-extraction experiment therefore exposed holes; that approach was replaced with fused continuous torso/shoulder/sleeve geometry, then tailored openings, thickness and smooth skin weights. Covered stock torso cutouts are replaced by continuous garments; visible legs/ankles remain continuous. Boot heel coverage and wave palm orientation were corrected after render review. New grouped hair/left clip, iris bake, eye geometry and fitted garments are real geometry/material work, not a portrait mapped onto a plane.
+
+Runtime clips: Idle, Wave, Walk, Turn, Stretch and Gesture. Gesture uses upper-body zero-based indices 1080–2160 (AMC frame numbers 1081–2161) from CMU14_26 at 120Hz, resampled to 30Hz with bounded smoothing. Its planted legs and modest finger curvature remain authored; CMU finger/thumb convenience channels are ignored. The other five clips are authored studies; Walk solves two-segment leg IK for a planted stance/lifted swing target and compensates ankle orientation. Source expressions remain in the packed project; the GLB keeps nine useful facial targets to reduce transfer size. This is not a cloth/foot-contact physics solution.
+
+Anatomy/base face/rig: ©2022 pixiv Inc., [VRM Public License1.0 and embedded settings](../../../../desk-companion/frontend/public/avatars/VRM-Public-License-1.0.txt). Changes are AI-assisted Group 2 adaptation, not wholly original student art or an endorsement. The same licence/settings apply to this derivative. The original sample/provenance are retained.
+
+CMU data are free for all uses and may be included in products, but the data itself cannot be resold directly, even converted. [Original database and terms](https://mocap.cs.cmu.edu/). Acknowledgement: The data used in this project was obtained from mocap.cs.cmu.edu. The database was created with funding from NSF EIA-0196217.
+
+Source/GLB renders, native viewport review, Khronos validation and browser evidence are in [task QA](../../../../output/qa/2026-10-17-assistant-simplify-avatar/verification.md). Current artistic limits: face still derives substantially from the sample; likeness/age expression, fringe and wave grouping, tailoring detail, foot contact and large-action hair/cloth intersections need further visual polish. No Pi, natural-voice or optical performance claim follows from these files.

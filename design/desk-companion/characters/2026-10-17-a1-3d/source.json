@@ -1,0 +1,135 @@
+{
+  "name": "A1 3D study v2",
+  "status": "Visual and motion draft; A1 likeness not approved",
+  "asset": "a1-v2.glb",
+  "stats": {
+    "file_bytes": 5694460,
+    "sha256": "690d62732c3b1c89345c210f42b3bf8a444876c209d85c506871329ced8c2f06",
+    "mesh_objects": 50,
+    "primitives": 58,
+    "triangles": 127234,
+    "bones": 159,
+    "actions": [
+      [
+        "Gesture",
+        9
+      ],
+      [
+        "Idle",
+        4
+      ],
+      [
+        "Stretch",
+        4.4
+      ],
+      [
+        "Turn",
+        4
+      ],
+      [
+        "Walk",
+        1.2
+      ],
+      [
+        "Wave",
+        3.2
+      ]
+    ],
+    "facial_targets": [
+      "Face_Blendshape.Fcl_BRW_Sorrow",
+      "Face_Blendshape.Fcl_BRW_Surprised",
+      "Face_Blendshape.Fcl_EYE_Close",
+      "Face_Blendshape.Fcl_EYE_Close_L",
+      "Face_Blendshape.Fcl_EYE_Close_R",
+      "Face_Blendshape.Fcl_MTH_Joy",
+      "Face_Blendshape.Fcl_MTH_A",
+      "Face_Blendshape.Fcl_MTH_I",
+      "Face_Blendshape.Fcl_MTH_O"
+    ]
+  },
+  "copyright": "Base anatomy, face and rig: (c) 2022 pixiv Inc. Garment/hair/fit/motion adaptation is AI-assisted Group 2 FYP work; not individual student contribution proof.",
+  "licence": "VRM Public License 1.0 plus original embedded settings retained below. Same terms apply to this adaptation; no endorsement.",
+  "licence_url": "https://vrm.dev/en/licenses/1.0/",
+  "licence_file": "/avatars/VRM-Public-License-1.0.txt",
+  "base": {
+    "asset": "pixiv-sample.vrm",
+    "source": "https://github.com/pixiv/three-vrm/blob/ff42fae4fcee1fcbca2cd262c7f5f8cbddeaf5ab/packages/three-vrm/examples/models/VRM1_Constraint_Twist_Sample.vrm",
+    "commit": "ff42fae4fcee1fcbca2cd262c7f5f8cbddeaf5ab",
+    "sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2",
+    "bytes": 10776032,
+    "licence": "VRM Public License 1.0 plus embedded model permissions",
+    "licence_url": "https://vrm.dev/en/licenses/1.0/",
+    "embedded_meta": {
+      "allowAntisocialOrHateUsage": false,
+      "allowExcessivelySexualUsage": true,
+      "allowExcessivelyViolentUsage": true,
+      "allowPoliticalOrReligiousUsage": true,
+      "allowRedistribution": true,
+      "authors": [
+        "pixiv Inc."
+      ],
+      "avatarPermission": "everyone",
+      "commercialUsage": "corporation",
+      "copyrightInformation": "(c) 2022 pixiv Inc.",
+      "creditNotation": "unnecessary",
+      "licenseUrl": "https://vrm.dev/licenses/1.0/",
+      "modification": "allowModificationRedistribution",
+      "name": "VRM1_Constraint_Twist_Sample",
+      "thumbnailImage": 18,
+      "version": "v1.0.1"
+    },
+    "purpose": "Replaceable development sample, not original Group 2 artwork or a Razer character."
+  },
+  "cmu": {
+    "database": "https://mocap.cs.cmu.edu/",
+    "subject": 14,
+    "trial": 26,
+    "source_rate_hz": 120,
+    "excerpt_indices_zero_based": [
+      1080,
+      2160
+    ],
+    "amc_frame_numbers": [
+      1081,
+      2161
+    ],
+    "export_rate_hz": 30,
+    "application": "Upper-body gesture study; authored planted lower body; captured finger/thumb convenience channels ignored",
+    "acknowledgement": "The data used in this project was obtained from mocap.cs.cmu.edu. The database was created with funding from NSF EIA-0196217.",
+    "terms": "Free for all uses; may include in products, may not resell the data directly, including converted data. See original database terms.",
+    "files": [
+      {
+        "name": "14.asf",
+        "url": "https://mocap.cs.cmu.edu/subjects/14/14.asf",
+        "sha256": "96a22ac52ac15bd464c296028936be0ae7d2f0ee4a056202b1aa17f4ad02ec7f"
+      },
+      {
+        "name": "14_26.amc",
+        "url": "https://mocap.cs.cmu.edu/subjects/14/14_26.amc",
+        "sha256": "3db9e3ffc844994d7ed3c7fb0159fc439f2080a56c7f8c1bfe69075496a8514c"
+      }
+    ]
+  },
+  "references": [
+    {
+      "name": "a1-back.png",
+      "source_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+      "sha256": "2a7bab2b579d46d8f68a1e4c122978e96e4e291aa58dc7fc7be0813705e5f8ae"
+    },
+    {
+      "name": "a1-face.png",
+      "source_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+      "sha256": "2a7fea6044d059f0a13c8dfaf8fc96e1322825b29e0d8e3d457359c5366b4038"
+    },
+    {
+      "name": "a1-front.png",
+      "source_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+      "sha256": "314e129ddde2f48f53c743e75cd505b6d695a8beae8bf838253094de867f2144"
+    },
+    {
+      "name": "a1-v4.png",
+      "source_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+      "sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+    }
+  ]
+}

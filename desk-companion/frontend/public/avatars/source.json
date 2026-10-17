@@ -1,0 +1,29 @@
+{
+  "asset": "pixiv-sample.vrm",
+  "source": "https://github.com/pixiv/three-vrm/blob/ff42fae4fcee1fcbca2cd262c7f5f8cbddeaf5ab/packages/three-vrm/examples/models/VRM1_Constraint_Twist_Sample.vrm",
+  "commit": "ff42fae4fcee1fcbca2cd262c7f5f8cbddeaf5ab",
+  "sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2",
+  "bytes": 10776032,
+  "licence": "VRM Public License 1.0 plus embedded model permissions",
+  "licence_url": "https://vrm.dev/en/licenses/1.0/",
+  "embedded_meta": {
+    "allowAntisocialOrHateUsage": false,
+    "allowExcessivelySexualUsage": true,
+    "allowExcessivelyViolentUsage": true,
+    "allowPoliticalOrReligiousUsage": true,
+    "allowRedistribution": true,
+    "authors": [
+      "pixiv Inc."
+    ],
+    "avatarPermission": "everyone",
+    "commercialUsage": "corporation",
+    "copyrightInformation": "(c) 2022 pixiv Inc.",
+    "creditNotation": "unnecessary",
+    "licenseUrl": "https://vrm.dev/licenses/1.0/",
+    "modification": "allowModificationRedistribution",
+    "name": "VRM1_Constraint_Twist_Sample",
+    "thumbnailImage": 18,
+    "version": "v1.0.1"
+  },
+  "purpose": "Replaceable development sample, not original Group 2 artwork or a Razer character."
+}

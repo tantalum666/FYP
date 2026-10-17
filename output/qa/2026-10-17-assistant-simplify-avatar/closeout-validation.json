@@ -1,0 +1,191 @@
+{
+  "checked_at": "2026-10-17T20:01:00.056725+08:00",
+  "updated_norms": [
+    "README.md",
+    "decision-log.md",
+    "design/desk-companion/assistant-minimal-20261017/README.md",
+    "design/desk-companion/characters/2026-10-17-a1-3d/README.md",
+    "desk-companion/README.md",
+    "desk-companion/THIRD_PARTY.md",
+    "desk-companion/docs/architecture.md",
+    "desk-companion/docs/avatar.md",
+    "desk-companion/docs/operator-guide.md",
+    "desk-companion/docs/page-companion.md",
+    "handoff.md",
+    "product.md",
+    "work-log.md"
+  ],
+  "internal_links_valid": true,
+  "group_terms_valid": true,
+  "historical_rejected_spellings_quoted_explicitly": [
+    {
+      "file": "decision-log.md",
+      "line": 7,
+      "rejected_term": "Group 02"
+    },
+    {
+      "file": "decision-log.md",
+      "line": 7,
+      "rejected_term": "Group02"
+    }
+  ],
+  "member_json_unchanged": true,
+  "school_originals_and_submission_paths_unchanged": true,
+  "primary_tracked_checkout_unchanged": true,
+  "original_sample_byte_integrity": true,
+  "references_match_primary_original_bytes": true,
+  "deliverables_exist": [
+    "design/desk-companion/characters/2026-10-17-a1-3d/a1-v2.blend",
+    "design/desk-companion/characters/2026-10-17-a1-3d/a1-v2.glb",
+    "desk-companion/frontend/public/companion/source.json",
+    "desk-companion/frontend/public/avatars/VRM-Public-License-1.0.txt",
+    "desk-companion/frontend/public/avatars/pixiv-sample.vrm",
+    "desk-companion/frontend/public/licenses/three-LICENSE.txt",
+    "design/desk-companion/assistant-minimal-20261017/reference.png"
+  ],
+  "reading_supplement": [
+    {
+      "path": "README.md",
+      "lines": 230,
+      "reviewed_ranges": [
+        [
+          1,
+          230
+        ]
+      ],
+      "basis": "Fresh initial full read for existing text; complete new authored bodies and final changed hunks reviewed during this same task."
+    },
+    {
+      "path": "decision-log.md",
+      "lines": 788,
+      "reviewed_ranges": [
+        [
+          1,
+          788
+        ]
+      ],
+      "basis": "Fresh initial full read for existing text; complete new authored bodies and final changed hunks reviewed during this same task."
+    },
+    {
+      "path": "design/desk-companion/assistant-minimal-20261017/README.md",
+      "lines": 11,
+      "reviewed_ranges": [
+        [
+          1,
+          11
+        ]
+      ],
+      "basis": "Fresh initial full read for existing text; complete new authored bodies and final changed hunks reviewed during this same task."
+    },
+    {
+      "path": "design/desk-companion/characters/2026-10-17-a1-3d/README.md",
+      "lines": 19,
+      "reviewed_ranges": [
+        [
+          1,
+          19
+        ]
+      ],
+      "basis": "Fresh initial full read for existing text; complete new authored bodies and final changed hunks reviewed during this same task."
+    },
+    {
+      "path": "desk-companion/README.md",
+      "lines": 113,
+      "reviewed_ranges": [
+        [
+          1,
+          113
+        ]
+      ],
+      "basis": "Fresh initial full read for existing text; complete new authored bodies and final changed hunks reviewed during this same task."
+    },
+    {
+      "path": "desk-companion/THIRD_PARTY.md",
+      "lines": 29,
+      "reviewed_ranges": [
+        [
+          1,
+          29
+        ]
+      ],
+      "basis": "Fresh initial full read for existing text; complete new authored bodies and final changed hunks reviewed during this same task."
+    },
+    {
+      "path": "desk-companion/docs/architecture.md",
+      "lines": 101,
+      "reviewed_ranges": [
+        [
+          1,
+          101
+        ]
+      ],
+      "basis": "Fresh initial full read for existing text; complete new authored bodies and final changed hunks reviewed during this same task."
+    },
+    {
+      "path": "desk-companion/docs/avatar.md",
+      "lines": 33,
+      "reviewed_ranges": [
+        [
+          1,
+          33
+        ]
+      ],
+      "basis": "Fresh initial full read for existing text; complete new authored bodies and final changed hunks reviewed during this same task."
+    },
+    {
+      "path": "desk-companion/docs/operator-guide.md",
+      "lines": 181,
+      "reviewed_ranges": [
+        [
+          1,
+          181
+        ]
+      ],
+      "basis": "Fresh initial full read for existing text; complete new authored bodies and final changed hunks reviewed during this same task."
+    },
+    {
+      "path": "desk-companion/docs/page-companion.md",
+      "lines": 23,
+      "reviewed_ranges": [
+        [
+          1,
+          23
+        ]
+      ],
+      "basis": "Fresh initial full read for existing text; complete new authored bodies and final changed hunks reviewed during this same task."
+    },
+    {
+      "path": "handoff.md",
+      "lines": 22,
+      "reviewed_ranges": [
+        [
+          1,
+          22
+        ]
+      ],
+      "basis": "Fresh initial full read for existing text; complete new authored bodies and final changed hunks reviewed during this same task."
+    },
+    {
+      "path": "product.md",
+      "lines": 122,
+      "reviewed_ranges": [
+        [
+          1,
+          122
+        ]
+      ],
+      "basis": "Fresh initial full read for existing text; complete new authored bodies and final changed hunks reviewed during this same task."
+    },
+    {
+      "path": "work-log.md",
+      "lines": 944,
+      "reviewed_ranges": [
+        [
+          1,
+          944
+        ]
+      ],
+      "basis": "Fresh initial full read for existing text; complete new authored bodies and final changed hunks reviewed during this same task."
+    }
+  ]
+}

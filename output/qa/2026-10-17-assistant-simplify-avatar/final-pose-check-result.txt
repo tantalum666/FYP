@@ -1,0 +1,6 @@
+### Result
+{"restAction":"Idle","finalRestAndBackScreenshots":true}
+### Ran Playwright code
+```js
+await (async(page)=>{await page.goto("http://127.0.0.1:5191/?surface=avatar");await page.locator(".a1-canvas[data-status=ready]").waitFor();await page.waitForFunction(()=>Number(document.querySelector(".a1-canvas").dataset.frames)>20);await page.screenshot({path:"output/qa/2026-10-17-assistant-simplify-avatar/3d-front-browser.png"});await page.getByRole("button",{name:"Back",exact:true}).click();await page.screenshot({path:"output/qa/2026-10-17-assistant-simplify-avatar/3d-back-browser.png"});return {restAction:await page.locator(".a1-canvas").getAttribute("data-action"),finalRestAndBackScreenshots:true};})(page);
+```

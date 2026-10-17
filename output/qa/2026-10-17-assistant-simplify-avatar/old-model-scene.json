@@ -1,0 +1,373 @@
+{
+  "version": "5.1.2",
+  "camera": "A1_Review_Camera",
+  "objects": [
+    {
+      "name": "A1_Rig",
+      "type": "ARMATURE",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "J_Bip_C_Head_end",
+      "type": "EMPTY",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "J_Bip_L_Index3_end",
+      "type": "EMPTY",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "J_Bip_L_Little3_end",
+      "type": "EMPTY",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "J_Bip_L_Middle3_end",
+      "type": "EMPTY",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "J_Bip_L_Ring3_end",
+      "type": "EMPTY",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "J_Bip_L_Thumb3_end",
+      "type": "EMPTY",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "J_Bip_R_Index3_end",
+      "type": "EMPTY",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "J_Bip_R_Little3_end",
+      "type": "EMPTY",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "J_Bip_R_Middle3_end",
+      "type": "EMPTY",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "J_Bip_R_Ring3_end",
+      "type": "EMPTY",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "J_Bip_R_Thumb3_end",
+      "type": "EMPTY",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "J_Bip_R_ToeBase_end",
+      "type": "EMPTY",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "Body",
+      "type": "MESH",
+      "vertices": 7977,
+      "materials": [
+        "Body_00_SKIN",
+        "Bottoms_01_CLOTH",
+        "Shoes_01_CLOTH",
+        "Tops_01_CLOTH",
+        "A1_Silver_Hair",
+        "A1_Matte_Tights"
+      ]
+    },
+    {
+      "name": "Face",
+      "type": "MESH",
+      "vertices": 4106,
+      "materials": [
+        "FaceMouth_00_FACE",
+        "A1_Grey_Blue_Iris",
+        "Face_00_SKIN",
+        "EyeWhite_00_EYE",
+        "FaceEyeline_00_FACE",
+        "A1_Gray_Brows",
+        "EyeHighlight_00_EYE"
+      ]
+    },
+    {
+      "name": "Hair",
+      "type": "MESH",
+      "vertices": 12868,
+      "materials": [
+        "A1_Silver_Hair"
+      ]
+    },
+    {
+      "name": "secondary",
+      "type": "EMPTY",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "A1_Turtleneck",
+      "type": "MESH",
+      "vertices": 343,
+      "materials": [
+        "A1_Graphite_Knit"
+      ]
+    },
+    {
+      "name": "A1_Cropped_Jacket",
+      "type": "MESH",
+      "vertices": 196,
+      "materials": [
+        "A1_Ivory_Jacket"
+      ]
+    },
+    {
+      "name": "A1_L_Lapel",
+      "type": "MESH",
+      "vertices": 4,
+      "materials": [
+        "A1_Lapel"
+      ]
+    },
+    {
+      "name": "A1_L_Jacket_Sleeve",
+      "type": "MESH",
+      "vertices": 168,
+      "materials": [
+        "A1_Ivory_Jacket"
+      ]
+    },
+    {
+      "name": "A1_L_Cuff_0.476",
+      "type": "MESH",
+      "vertices": 48,
+      "materials": [
+        "A1_Seam_Trim"
+      ]
+    },
+    {
+      "name": "A1_L_Cuff_0.493",
+      "type": "MESH",
+      "vertices": 48,
+      "materials": [
+        "A1_Ivory_Jacket"
+      ]
+    },
+    {
+      "name": "A1_R_Lapel",
+      "type": "MESH",
+      "vertices": 4,
+      "materials": [
+        "A1_Lapel"
+      ]
+    },
+    {
+      "name": "A1_R_Jacket_Sleeve",
+      "type": "MESH",
+      "vertices": 168,
+      "materials": [
+        "A1_Ivory_Jacket"
+      ]
+    },
+    {
+      "name": "A1_R_Cuff_0.476",
+      "type": "MESH",
+      "vertices": 48,
+      "materials": [
+        "A1_Seam_Trim"
+      ]
+    },
+    {
+      "name": "A1_R_Cuff_0.493",
+      "type": "MESH",
+      "vertices": 48,
+      "materials": [
+        "A1_Ivory_Jacket"
+      ]
+    },
+    {
+      "name": "A1_Underskirt",
+      "type": "MESH",
+      "vertices": 147,
+      "materials": [
+        "A1_Graphite_Knit"
+      ]
+    },
+    {
+      "name": "A1_Wrap_Skirt",
+      "type": "MESH",
+      "vertices": 196,
+      "materials": [
+        "A1_Slate_Wrap"
+      ]
+    },
+    {
+      "name": "A1_Front_Wrap_Fold",
+      "type": "MESH",
+      "vertices": 4,
+      "materials": [
+        "A1_Wrap_Fold"
+      ]
+    },
+    {
+      "name": "A1_Wrap_Light_Edge",
+      "type": "MESH",
+      "vertices": 4,
+      "materials": [
+        "A1_Ivory_Jacket"
+      ]
+    },
+    {
+      "name": "A1_L_Continuous_Boot",
+      "type": "MESH",
+      "vertices": 6590,
+      "materials": [
+        "A1_Graphite_Boots"
+      ]
+    },
+    {
+      "name": "A1_L_Outsole",
+      "type": "MESH",
+      "vertices": 266,
+      "materials": [
+        "A1_Boot_Sole"
+      ]
+    },
+    {
+      "name": "A1_L_Boot_Cuff",
+      "type": "MESH",
+      "vertices": 66,
+      "materials": [
+        "A1_Seam_Trim"
+      ]
+    },
+    {
+      "name": "A1_L_Boot_Buckle",
+      "type": "MESH",
+      "vertices": 56,
+      "materials": [
+        "A1_Brushed_Metal"
+      ]
+    },
+    {
+      "name": "A1_L_Pupil",
+      "type": "MESH",
+      "vertices": 266,
+      "materials": [
+        "A1_Pupil"
+      ]
+    },
+    {
+      "name": "A1_L_Ear_Stud",
+      "type": "MESH",
+      "vertices": 266,
+      "materials": [
+        "A1_Brushed_Metal"
+      ]
+    },
+    {
+      "name": "A1_R_Continuous_Boot",
+      "type": "MESH",
+      "vertices": 6590,
+      "materials": [
+        "A1_Graphite_Boots"
+      ]
+    },
+    {
+      "name": "A1_R_Outsole",
+      "type": "MESH",
+      "vertices": 266,
+      "materials": [
+        "A1_Boot_Sole"
+      ]
+    },
+    {
+      "name": "A1_R_Boot_Cuff",
+      "type": "MESH",
+      "vertices": 66,
+      "materials": [
+        "A1_Seam_Trim"
+      ]
+    },
+    {
+      "name": "A1_R_Boot_Buckle",
+      "type": "MESH",
+      "vertices": 56,
+      "materials": [
+        "A1_Brushed_Metal"
+      ]
+    },
+    {
+      "name": "A1_R_Pupil",
+      "type": "MESH",
+      "vertices": 266,
+      "materials": [
+        "A1_Pupil"
+      ]
+    },
+    {
+      "name": "A1_R_Ear_Stud",
+      "type": "MESH",
+      "vertices": 266,
+      "materials": [
+        "A1_Brushed_Metal"
+      ]
+    },
+    {
+      "name": "A1_Left_Open_Ring_Clip",
+      "type": "MESH",
+      "vertices": 328,
+      "materials": [
+        "A1_Brushed_Metal"
+      ]
+    },
+    {
+      "name": "A1_Waist_Buckle",
+      "type": "MESH",
+      "vertices": 56,
+      "materials": [
+        "A1_Brushed_Metal"
+      ]
+    },
+    {
+      "name": "A1_Review_Camera",
+      "type": "CAMERA",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "Area",
+      "type": "LIGHT",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "Area.001",
+      "type": "LIGHT",
+      "vertices": null,
+      "materials": null
+    },
+    {
+      "name": "Area.002",
+      "type": "LIGHT",
+      "vertices": null,
+      "materials": null
+    }
+  ]
+}

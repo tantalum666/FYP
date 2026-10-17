@@ -51,6 +51,7 @@ import { MemoryPanel } from "./workspace/MemoryPanel";
 import { PersonaPanel } from "./workspace/PersonaPanel";
 import { TaskPanel } from "./workspace/TaskPanel";
 import { DataPanel } from "./workspace/DataPanel";
+import { PageCompanion } from "./companion/PageCompanion";
 import { AssistantPanel } from "./workspace/AssistantPanel";
 import { ExtrasPanel } from "./workspace/ExtrasPanel";
 import { PosturePanel } from "./workspace/PosturePanel";
@@ -885,6 +886,13 @@ export function App() {
           )}
         </Modal>
       )}
+      <PageCompanion
+        t={t}
+        blocked={
+          !!(workspacePanel || editor || detail || showReminders || leavePage)
+        }
+        onOpenAssistant={() => setWorkspacePanel("assistant")}
+      />
     </div>
   );
 }

@@ -1,0 +1,45 @@
+{
+  "file_bytes": 5694460,
+  "sha256": "690d62732c3b1c89345c210f42b3bf8a444876c209d85c506871329ced8c2f06",
+  "mesh_objects": 50,
+  "primitives": 58,
+  "triangles": 127234,
+  "bones": 159,
+  "actions": [
+    [
+      "Gesture",
+      9
+    ],
+    [
+      "Idle",
+      4
+    ],
+    [
+      "Stretch",
+      4.4
+    ],
+    [
+      "Turn",
+      4
+    ],
+    [
+      "Walk",
+      1.2
+    ],
+    [
+      "Wave",
+      3.2
+    ]
+  ],
+  "facial_targets": [
+    "Face_Blendshape.Fcl_BRW_Sorrow",
+    "Face_Blendshape.Fcl_BRW_Surprised",
+    "Face_Blendshape.Fcl_EYE_Close",
+    "Face_Blendshape.Fcl_EYE_Close_L",
+    "Face_Blendshape.Fcl_EYE_Close_R",
+    "Face_Blendshape.Fcl_MTH_Joy",
+    "Face_Blendshape.Fcl_MTH_A",
+    "Face_Blendshape.Fcl_MTH_I",
+    "Face_Blendshape.Fcl_MTH_O"
+  ]
+}

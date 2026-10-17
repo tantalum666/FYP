@@ -1,0 +1,45 @@
+async (page) => {
+  await page.goto('http://127.0.0.1:5191/');
+  await page.getByRole('button',{name:'Open assistant',exact:true}).click();
+  const sizes=[{width:1440,height:1000},{width:390,height:844},{width:320,height:740}];const results=[];
+  for(const v of sizes){
+    await page.setViewportSize(v);
+    const box=await page.getByRole('textbox',{name:'Message the assistant',exact:true}).boundingBox();
+    const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+    if(overflow||!box||box.x<0||box.x+box.width>v.width)throw Error('composer overflow');
+    await page.screenshot({path:`output/qa/2026-10-17-assistant-simplify-avatar/assistant-${v.width}.png`});
+    results.push({viewport:v,horizontalOverflow:false,composerInBounds:true});
+  }
+  await page.getByRole('button',{name:'Close',exact:true}).click();
+  await page.setViewportSize({width:1280,height:800});
+  const companion=page.locator('[data-testid=page-companion]');
+  await page.locator('.a1-canvas[data-loaded=true]').waitFor();
+  await page.getByRole('button',{name:'A1 controls',exact:true}).click();
+  const slider=page.getByRole('slider',{name:'Character scale',exact:true});
+  await slider.focus();for(let i=0;i<7;i++)await slider.press('ArrowLeft');
+  if(await companion.getAttribute('data-scale')!=='0.93')throw Error('continuous scale did not persist');
+  await page.getByRole('button',{name:'Close A1 controls',exact:true}).click();
+  const hit=page.getByRole('button',{name:'A1 companion. Drag to move; double-click to open assistant.',exact:true});
+  const r=await hit.boundingBox();await page.mouse.move(r.x+r.width*.5,r.y+r.height*.4);await page.mouse.down();await page.mouse.move(25,350,{steps:15});await page.mouse.up();
+  if(await companion.getAttribute('data-saved-mode')!=='head')throw Error('edge head mode failed');
+  await page.screenshot({path:'output/qa/2026-10-17-assistant-simplify-avatar/3d-docked-head.png'});
+  await page.getByRole('button',{name:'A1 controls',exact:true}).click();
+  await page.getByRole('button',{name:'Hidden',exact:true}).click();
+  await page.reload();await page.getByRole('button',{name:'Show A1 companion',exact:true}).waitFor();
+  await page.getByRole('button',{name:'Show A1 companion',exact:true}).click();
+  await page.locator('.a1-canvas[data-loaded=true]').waitFor();
+  if(await companion.getAttribute('data-saved-mode')!=='full'||await companion.getAttribute('data-scale')!=='0.93')throw Error('recall lost preference');
+  await page.getByRole('button',{name:'A1 controls',exact:true}).click();
+  await page.getByRole('button',{name:'Use intact 2D',exact:true}).click();
+  if(await companion.getAttribute('data-renderer')!=='whole-image-2d'||await companion.locator('canvas').count()!==0)throw Error('2D fallback retained canvas');
+  await page.getByRole('button',{name:'Try the 3D model',exact:true}).click();
+  await page.getByRole('button',{name:'Close A1 controls',exact:true}).click();
+  await page.goto('http://127.0.0.1:5191/?surface=device');await page.setViewportSize({width:1024,height:600});
+  await page.getByRole('button',{name:'Touch to manage',exact:true}).click();
+  await page.getByRole('button',{name:'Assistant',exact:true}).click();
+  await page.getByRole('textbox',{name:'Message the assistant',exact:true}).waitFor();
+  await page.screenshot({path:'output/qa/2026-10-17-assistant-simplify-avatar/device-assistant.png'});
+  const deviceOverflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+  if(deviceOverflow)throw Error('device overflow');
+  return {sizes:results,continuousScale:'93%',headDock:true,hiddenReloadAndRecall:true,twoDFallbackDisposesCanvas:true,deviceAssistant:true,deviceOverflow:false};
+}

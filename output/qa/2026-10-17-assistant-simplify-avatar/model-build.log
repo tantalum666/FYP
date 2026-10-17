@@ -1,0 +1,177 @@
+19:49:37 | INFO: Data are loaded, start creating Blender stuff
+19:49:37 | INFO: Blender create Mesh node Body
+19:49:37 | INFO: Blender create Mesh node Face
+19:49:38 | INFO: Blender create Mesh node Hair
+19:49:38 | INFO: glTF import finished in 0.15s
+/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/design/desk-companion/characters/2026-10-17-a1-3d/build_model.py:29: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m=bpy.data.materials.new(n);m.use_nodes=True;p=m.node_tree.nodes.get('Principled BSDF');p.inputs['Base Color'].default_value=(*lin(c),1);p.inputs['Roughness'].default_value=rough;p.inputs['Metallic'].default_value=metal;m.diffuse_color=(*lin(c),1);return m
+/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/design/desk-companion/characters/2026-10-17-a1-3d/build_model.py:51: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  if not m.use_nodes:continue
+Info: Baking map saved to internal image, save it externally or pack it
+INFO Draco mesh compression is available, use library at /Applications/Blender.app/Contents/Resources/5.1/scripts/addons_core/io_scene_gltf2/libextern_draco.dylib
+19:49:41 | INFO: Starting glTF 2.0 export
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | WARNING: Armature must be the parent of skinned meshArmature is selected by its name, but may be false in case of instances
+19:49:41 | INFO: Extracting primitive: Body
+19:49:41 | INFO: Primitives created: 3
+19:49:41 | INFO: Extracting primitive: Face.001
+19:49:41 | INFO: Primitives created: 7
+19:49:41 | INFO: Extracting primitive: Jacket torso
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_Complete_Knit_Top
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_Soft_Highneck
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_L_Notched_Lapel
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_L_Fitted_Boot
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_L_Sole
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_R_Notched_Lapel
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_R_Fitted_Boot
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_R_Sole
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_Wrap_Skirt_Base
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_Diagonal_Wrap_Panel
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_Waistband
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: Cube
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: Cube.001
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: Cube.002
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: Cube.003
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: Cube.004
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: Cube.005
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: Cube.006
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_Continuous_Scalp
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_Back_Lock_0
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_Back_Lock_1
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_Back_Lock_2
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_Back_Lock_3
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_Back_Lock_4
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_Back_Lock_5
+19:49:41 | INFO: Primitives created: 1
+19:49:41 | INFO: Extracting primitive: A1_Back_Lock_6
+19:49:41 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_Back_Lock_7
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_Back_Lock_8
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_Back_Lock_9
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_Back_Lock_10
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_Back_Lock_11
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_Back_Lock_12
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_Back_Lock_13
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_Back_Lock_14
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_Swept_Fringe_0
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_Swept_Fringe_1
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_Swept_Fringe_2
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_Swept_Fringe_3
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_L_Face_Frame_0
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_L_Face_Frame_1
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_L_Face_Frame_2
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_L_Face_Frame_3
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_R_Face_Frame_0
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_R_Face_Frame_1
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_R_Face_Frame_2
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_R_Face_Frame_3
+19:49:42 | INFO: Primitives created: 1
+19:49:42 | INFO: Extracting primitive: A1_Left_Open_Ring
+19:49:42 | INFO: Primitives created: 1
+19:49:47 | INFO: Finished glTF 2.0 export in 5.380220174789429 s
+00:14.539  render           | Saved: '/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/output/qa/2026-10-17-assistant-simplify-avatar/a1-v2-front.png'
+00:16.332  render           | Saved: '/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/output/qa/2026-10-17-assistant-simplify-avatar/a1-v2-side.png'
+00:18.191  render           | Saved: '/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/output/qa/2026-10-17-assistant-simplify-avatar/a1-v2-back.png'
+00:20.040  render           | Saved: '/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/output/qa/2026-10-17-assistant-simplify-avatar/a1-v2-wave.png'
+00:21.879  render           | Saved: '/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/output/qa/2026-10-17-assistant-simplify-avatar/a1-v2-stretch.png'
+00:23.919  render           | Saved: '/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/output/qa/2026-10-17-assistant-simplify-avatar/a1-v2-walk.png'
+00:25.970  render           | Saved: '/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/output/qa/2026-10-17-assistant-simplify-avatar/a1-v2-gesture.png'
+
+Info: No new files have been packed
+Info: Saved as "a1-v2.blend"
+A1_V2_BUILD_DONE {"blender": "5.1.2", "meshes": 50, "vertices": 65599, "bones": 159, "actions": ["Idle", "Wave", "Walk", "Turn", "Stretch", "Gesture"], "runtime_bytes": 5694460, "visible_leg_ankle_topology_kept_continuous": true, "covered_stock_torso_cutouts_replaced_with_continuous_clothing": true, "face_morphs": ["Basis", "Face_Blendshape.Fcl_ALL_Neutral", "Face_Blendshape.Fcl_ALL_Angry", "Face_Blendshape.Fcl_ALL_Fun", "Face_Blendshape.Fcl_ALL_Joy", "Face_Blendshape.Fcl_ALL_Sorrow", "Face_Blendshape.Fcl_ALL_Su
+Blender 5.1.2 (hash ec6e62d40fa9 built 2026-05-19 01:30:33)
+
+Blender quit

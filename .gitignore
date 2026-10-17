@@ -12,6 +12,9 @@
 **/.build/
 **/DerivedData/
 .xcodebuildmcp/
+.playwright-cli/
+*.blend1
+*.blend2
 .env
 .env.*
 !.env.example

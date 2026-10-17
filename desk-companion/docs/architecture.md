@@ -27,7 +27,7 @@ flowchart LR
 
 现场主机是数据与设备控制中心。浏览器、常亮屏和iPhone共用API，界面布局分开。SQLite负责事件、例外、操作去重、记录、配对、提案与连接配置，另保存事务、进展依据和持久检查。姿态时间窗、输出停机与语音活动同时存在内存中，故必须使用一个API worker。进程重启清理不可靠的时序和未执行动作，不恢复旧的运动队列。
 
-日历版本与工作空间状态定期刷新；语音音频用WebSocket流动。角色是状态反馈，不是骨骼驱动或逐音素唇形系统。主触摸屏与独立角色页可以先用同一主机；最终是否能驱动特定风扇或光学模块，取决于该设备接口。
+日历版本与工作空间状态定期刷新；语音音频用WebSocket流动。A1现使用按需加载的Three.js蒙皮网格、骨骼动作与面部形变；浏览器输出音量驱动嘴部开合，尚无逐音素识别。独立3D页和常驻层共用呈现实现，完整2D保留为回退。主触摸屏与独立角色页可以先用同一主机；最终是否能驱动特定风扇或光学模块，取决于该设备接口。
 
 ## 身份与边界
 
@@ -95,3 +95,7 @@ Tasks使用两秒轮询、页面可见时即时读取，选中事务的历史按
 2026-10-09整合审查修复：工具调用ID的拒绝回复不代表原调用结果已送达。送达标记必须对应同一个Invocation保存的实际结果对象；重复ID带不同参数或无效参数时，断连仍会取消原调用及其迟到草稿。[本地整合证据](../../output/qa/2026-10-09-dot-integration/verification.md)补充两种先失败后通过的回归及实际浏览器验证。
 
 [运行与状态说明](computer-jobs.md)／[审查与剩余清单](../../planning/2026-10-06/software-architecture-audit.md)／[实际核验](../../output/qa/software-completion-2026-10-06/verification.md)。
+
+## 17 October 2026 presentation change
+
+AssistantPanel uses one composer and a focused voice view; file activity/help are secondary, while existing proposals/JobService and draft guards remain authoritative. Ephemeral conversation entries are not persistent memory. PageCompanion mounts on authenticated Web/DeviceApp, reusing placement/scale preferences and a lazy Three.js GLB renderer; [asset/motion/voice limits](avatar.md) and [resident behaviour](page-companion.md) are explicit. Speaker RMS sends only level/time on the same-origin presentation bridge. No provider, model approval or physical output boundary changes.

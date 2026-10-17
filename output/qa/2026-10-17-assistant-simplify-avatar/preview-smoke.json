@@ -1,0 +1,11 @@
+{
+  "owner_authentication": true,
+  "voice_provider": "none",
+  "voice_configured": false,
+  "text_provider": "none",
+  "html": 200,
+  "device_html": 200,
+  "avatar_html": 200,
+  "model_bytes": 5694460,
+  "model_matches_final_source": true
+}

@@ -49,6 +49,8 @@ import {
 import "./device.css";
 import { TaskPanel } from "../workspace/TaskPanel";
 import { DataPanel } from "../workspace/DataPanel";
+import { useWorkspace } from "../workspace/WorkspaceContext";
+import { PageCompanion } from "../companion/PageCompanion";
 import { AssistantPanel } from "../workspace/AssistantPanel";
 import { ExtrasPanel } from "../workspace/ExtrasPanel";
 import { useDeskSound } from "./DeskSound";
@@ -113,6 +115,7 @@ export function DeviceApp() {
     range.end.toUTC().toISO()!,
   );
   const { data, session } = workspace;
+  const presentation = useWorkspace();
   const wake = useScreenAwake();
   const sound = useDeskSound(t);
   const theme = appearanceAt(appearance, now.hour);
@@ -278,6 +281,7 @@ export function DeviceApp() {
   return (
     <div className={`device-shell ${theme}`}>
       <DisplayFace
+        blocked={!!(panel || editor || detail)}
         now={now}
         data={data}
         language={language}
@@ -642,6 +646,14 @@ export function DeviceApp() {
         <div className="toast" role="status">
           {sound.notice}
         </div>
+      )}
+      {session && presentation.data && presentation.data.calendar_extras.preferences.avatar_display !== "companion" && (
+        <PageCompanion
+          t={t}
+          surface="device"
+          blocked={!!(panel || editor || detail)}
+          onOpenAssistant={() => setPanel("assistant")}
+        />
       )}
     </div>
   );

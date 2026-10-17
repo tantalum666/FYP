@@ -1,0 +1,5 @@
+# Preserve downloaded motion/citation snapshot bytes; these are source evidence,
+# not authored application text. Avoid expanding 140k capture rows in PR diffs.
+design/desk-companion/characters/2026-10-17-a1-3d/motion-sources/14.asf binary
+design/desk-companion/characters/2026-10-17-a1-3d/motion-sources/14_26.amc binary
+output/qa/2026-10-17-assistant-simplify-avatar/cmu-subject-14.html binary

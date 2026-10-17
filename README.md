@@ -1,5 +1,7 @@
 # FYP · Group 2
 
+**17 October 2026:** The assistant uses one focused composer/voice entry. The owner chose genuine 3D for A1; this branch includes a rotating/action-capable visual draft, resident interaction and intact 2D fallback. See [current scope](product.md), [avatar study](desk-companion/docs/avatar.md) and [QA](output/qa/2026-10-17-assistant-simplify-avatar/verification.md). Final likeness and target Pi remain unverified.
+
 **Team repository:** [tantalum666/FYP](https://github.com/tantalum666/FYP) · private · default branch `main`. The repository name is temporarily **FYP**; the current product development name remains **Desk Companion**. Start with the [collaboration and setup guide](CONTRIBUTING.md) to join, clone, run the software and contribute through branches / pull requests.
 
 This repository preserves the complete project work: current and retired code, school deliverables and originals, planning, research, hardware procurement studies, design / brand assets, source delivery packages and QA evidence. User-supplied originals are indexed in [inputs](inputs/README.md). Local credentials, private runtime databases, installed dependencies and build caches are excluded and remain on each developer's machine. Third-party materials retain their own licences and provenance.

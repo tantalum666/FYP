@@ -17,13 +17,15 @@
     "lucide-react": "1.48.0",
     "luxon": "3.7.2",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "three": "0.186.1"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.5.2",
     "@types/luxon": "^3.7.1",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@types/three": "0.186.0",
     "@vitejs/plugin-react": "6.1.1",
     "prettier": "^3.9.8",
     "typescript": "~6.0.0",

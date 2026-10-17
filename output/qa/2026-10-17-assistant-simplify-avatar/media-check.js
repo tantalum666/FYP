@@ -1,0 +1,29 @@
+async (page) => {
+  await page.goto('http://127.0.0.1:5191/');
+  await page.getByRole('button',{name:'Open assistant',exact:true}).click();
+  await page.getByRole('button',{name:'More assistant options',exact:true}).click();
+  await page.keyboard.press('Escape');
+  if(!await page.getByRole('textbox',{name:'Message the assistant',exact:true}).isVisible())throw Error('Escape closed assistant');
+  await page.evaluate(()=>{
+    window.__qaStreams=[];window.__qaContexts=[];window.__qaMicCalls=0;window.__qaScreenCalls=0;
+    const audio=()=>{const c=new AudioContext();const d=c.createMediaStreamDestination();const o=c.createOscillator();o.connect(d);o.start();void c.resume();window.__qaContexts.push(c);window.__qaStreams.push(d.stream);return d.stream;};
+    navigator.mediaDevices.getUserMedia=()=>{window.__qaMicCalls++;const stream=audio();if(window.__qaMicCalls===1)return new Promise(resolve=>{window.__qaResolveMic=()=>resolve(stream);});return Promise.resolve(stream);};
+    navigator.mediaDevices.getDisplayMedia=()=>{window.__qaScreenCalls++;const canvas=document.createElement('canvas');canvas.width=900;canvas.height=600;const ctx=canvas.getContext('2d');ctx.fillStyle='#306dc4';ctx.fillRect(0,0,900,600);const stream=canvas.captureStream(1);window.__qaStreams.push(stream);return Promise.resolve(stream);};
+  });
+  await page.getByRole('button',{name:'Start conversation',exact:true}).click();
+  await page.getByRole('button',{name:'End conversation',exact:true}).click();
+  await page.evaluate(()=>window.__qaResolveMic());
+  await page.waitForFunction(()=>window.__qaStreams[0].getTracks().every(t=>t.readyState==='ended'));
+  await page.getByRole('button',{name:'Start conversation',exact:true}).click();
+  await page.getByText('Listening…',{exact:true}).waitFor({timeout:10000});
+  await page.getByRole('button',{name:'Share an image or screen',exact:true}).click();
+  await page.getByRole('button',{name:'Share selected screen',exact:true}).click();
+  await page.getByText('Screen sharing on',{exact:true}).waitFor();
+  await page.getByRole('button',{name:'Stop sharing',exact:true}).click();
+  await page.getByText('Screen sharing on',{exact:true}).waitFor({state:'hidden'});
+  await page.getByRole('button',{name:'End conversation',exact:true}).click();
+  const result=await page.evaluate(async()=>{const ended=window.__qaStreams.every(s=>s.getTracks().every(t=>t.readyState==='ended'));await Promise.all(window.__qaContexts.map(c=>c.close()));return {allSyntheticTracksEnded:ended,micRequests:window.__qaMicCalls,screenRequests:window.__qaScreenCalls};});
+  if(!result.allSyntheticTracksEnded||result.micRequests!==2||result.screenRequests!==1)throw Error('media lifecycle mismatch');
+  await page.screenshot({path:'output/qa/2026-10-17-assistant-simplify-avatar/assistant-after-voice.png'});
+  return {...result,lateMicReleased:true,restartAfterEnd:true,escapeOnlyClosesOptions:true,realMicrophoneAndScreenCalls:0};
+}

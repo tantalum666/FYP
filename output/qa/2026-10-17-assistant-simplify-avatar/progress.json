@@ -1,0 +1,14 @@
+{
+  "updated_at": "2026-10-17",
+  "current_task": "One-composer assistant and genuine skinned 3D A1 study",
+  "branch": "codex/assistant-a1-3d-20261017",
+  "base_head": "8129775b641126ead9e11425ef604f0296ce2bc8",
+  "reading": "Complete before implementation: 179 distinct versions, 18037 lines, 184 observed batches; see reading-inventory.json. Reuse on compaction; do not restart.",
+  "implemented": "UI, six clips, connected skinned garments, face morphs, output-level mouth, resident docking/scaling/fallback and standalone orbit, device deduplication/panel pause",
+  "verified": "215 backend baseline, 29 final frontend, type/build, Ruff, Khronos 0 errors/0 warnings, browser/media/file approval/read-back checks; see verification.md",
+  "preview": "localhost:8832; independent private runtime copy; providers none; original credentials preserved privately",
+  "limits": "Likeness/hair/tailoring/foot contact not final; no Pi/live voice/real capture/paid test",
+  "remaining_this_task": "Commit/push draft PR and independent readback; QA fixture/browser stopped, user preview retained",
+  "one_next_step": "A1 face/wavy-hair refinement against saved references",
+  "authorization": "No new Qwen paid calls; original CNY5 short trial stopped. No real media, hardware, purchase, school or main merge."
+}
