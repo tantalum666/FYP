@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-23",
+  "status": "procurement_pre_review_not_build_approved",
+  "previous_pdf_qa": {
+    "pages": 9,
+    "product_images": 13,
+    "clickable_links": 30,
+    "visual_qa": "All pages reviewed in the preceding PDF-authoring task; not re-rendered for this byte-identical upload."
+  },
+  "validation": {
+    "source_rows": 13,
+    "checklist_rows": 22,
+    "walking_subtotal_usd": "76.89",
+    "local_links_ok": true
+  },
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 6251,
+      "sha256": "18e71fd575885fa9bf185fbc981f0292d53c712de716e4cbec78647c4b1965a7",
+      "git_blob_sha1": "5699a6f89f43e4f4b4c334847f26e5902f18cf89"
+    },
+    {
+      "path": "verification-plan.md",
+      "bytes": 3883,
+      "sha256": "5414b6cdaf82c46fa1e63e73efb87ef6f01586f684249d3ef1e088ff5ec22a12",
+      "git_blob_sha1": "97b96c8f19a493951e77db0e0bbd49e1898b734e"
+    },
+    {
+      "path": "integration-notes.md",
+      "bytes": 2374,
+      "sha256": "4a5d9540c8c47697ba9d65a0ca6e6a07552c78f67546d8810f4936c417fd7e97",
+      "git_blob_sha1": "bfd12750b4497d0131c4fa1917cc488df13d6191"
+    },
+    {
+      "path": "component-sources.json",
+      "bytes": 11172,
+      "sha256": "6cda142a9dea77ebc945c3df0eca0ec395730a4ca8bafba3e6d3df8a5b274adc",
+      "git_blob_sha1": "33f21f9ee3fba88c21616beba5985399fc195c55"
+    },
+    {
+      "path": "completeness-checklist.json",
+      "bytes": 2667,
+      "sha256": "ad8fddc48cd6bf4e261030de6ffd916393e7c17ea3d077d422a088e47cd9b582",
+      "git_blob_sha1": "c19f40e1de70e3bcc0344f295cb2db37c22511e5"
+    },
+    {
+      "path": "mini_robot_finished_parts_catalog_expanded_20261023.pdf",
+      "bytes": 9576703,
+      "sha256": "4b225e9baa76c0b130891ba5f90557a0f5425ccf6185b9ff5f16f4a985d45182",
+      "git_blob_sha1": "b7a7153af106a427454c6f38e0a830654957057f"
+    }
+  ]
+}
