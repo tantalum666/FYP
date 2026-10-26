@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-23",
+  "repository": "tantalum666/FYP",
+  "base_commit": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+  "scope_override": {
+    "date": "2026-10-23",
+    "user": "允许，只核对本次相关文档",
+    "repository": "tantalum666/FYP",
+    "effect": "No full-repository reading claim. Scope limited to collaboration/current requirements/handoff/relevant hardware references and dated log context."
+  },
+  "inventory": {
+    "project_markdown_files": 132,
+    "full_repository_read_completed": false
+  },
+  "relevant_reading": [
+    {
+      "path": "AGENTS.md",
+      "scope": "full"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "scope": "full"
+    },
+    {
+      "path": "README.md",
+      "scope": "full"
+    },
+    {
+      "path": "product.md",
+      "scope": "full"
+    },
+    {
+      "path": "handoff.md",
+      "scope": "full"
+    },
+    {
+      "path": "decision-log.md",
+      "scope": "dated decisions; append-only update; existing body preserved"
+    },
+    {
+      "path": "work-log.md",
+      "scope": "latest entries including complete final 60 lines; append-only update; existing body preserved"
+    },
+    {
+      "path": "research/2026-10-05-rig-arm/secondary-development-review.md",
+      "scope": "full"
+    },
+    {
+      "path": "local hardware handoff and component source/checklist records",
+      "scope": "latest 2026-10-22/23 facts"
+    }
+  ],
+  "exclusions": [
+    ".git",
+    "installed dependencies and caches",
+    "third-party packages",
+    "build products",
+    "output/qa auto-generated evidence snapshots",
+    "unrelated historical research: omitted under explicit user scope override"
+  ],
+  "note": "Inventory and cached retrieval are not claimed as proof of reading. No source, runtime or deployment files edited."
+}

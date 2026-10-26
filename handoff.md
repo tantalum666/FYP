@@ -2,6 +2,12 @@
 
 Updated: 15 October 2026. **The reviewed #7–#14 code stack is merged into main. This #6 delivery reconciles the tooling research and records the independent review.** PRs #4 and #5 remain separate.
 
+## Hardware update — 23 October 2026
+
+Xu Ziqian's [hardware handoff](research/2026-10-23-mini-robot-hardware/README.md) adds the unchanged 9-page illustrated component PDF, 13 source records, a 22-function checklist and a procurement-before-test plan. Xu reports a school Pi 5 loan (RAM/power/cooling unconfirmed); Yuan separately confirmed a Pi 5 8GB test device on 22 October. Whether they refer to the same board is unconfirmed; the owner has paused Pi connectivity work. microSD and ESP32-CAM are already available, but CAM is not the proposed Maker ESP32. The current Mini requirement is one battery, solderless finished parts/stock wiring, 15–20 minutes cleaning and autonomous wireless docking. No purchases or real-device results are claimed; adapters, power/Qi/fan, safety, structure and the HK$2,000 full budget remain open.
+
+The original upload did not authorize a merge. On 26 October the repository owner authorized review, repairs and merging; deployment remains separate. The existing software status and next step below are preserved. **Hardware next step:** close the stock motor-adapter chain and single-battery/Qi/fan power design before approving purchases; see the [verification plan](research/2026-10-23-mini-robot-hardware/verification-plan.md).
+
 ## Current state and evidence
 
 - Owner-reviewed facts, one owner-named folder on the existing note-job ledger, a shared persona, quiet-hour holds, failure/recovery copy and replaceable text adapters are implemented.

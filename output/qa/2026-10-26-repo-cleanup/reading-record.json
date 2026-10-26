@@ -1,0 +1,2946 @@
+{
+  "completed_at": "2026-10-26T02:49:13.779003+00:00",
+  "method": "Full bodies read through EOF in bounded tool output; exact matching blocks inherited only from this same round after source ranges were read. SHA256 detects drift, not reading proof.",
+  "versions": 176,
+  "version_lines": 16752,
+  "entries": [
+    {
+      "source": "integration checkout",
+      "path": "AGENTS.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 50,
+      "sha256": "aa60f8ca11f0aebda3ba3f28c72a17505bc467f84329d32471b79c42c269b533",
+      "read_ranges": [
+        [
+          1,
+          50
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "CONTRIBUTING.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 96,
+      "sha256": "6d8d751217f39143ceb00e11bb7c613e7ec0b425e370d83896de3ec775e8ccd3",
+      "read_ranges": [
+        [
+          1,
+          96
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 226,
+      "sha256": "eeeb007a6557547ccc5fa594c1d0f759c6c72d693c2da1c71b3eda93c1138a95",
+      "read_ranges": [
+        [
+          1,
+          20
+        ],
+        [
+          21,
+          90
+        ],
+        [
+          91,
+          142
+        ],
+        [
+          143,
+          199
+        ],
+        [
+          200,
+          226
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "Senplate_Logo_ImageGen_Brief.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 53,
+      "sha256": "9e43354d89cbf331ed68fde35a658e697b28a2374a6c4b6ddf0864af7ddfb067",
+      "read_ranges": [
+        [
+          1,
+          53
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "brand.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 60,
+      "sha256": "199abbe90c1e8956671438a3fef3fd2b98008a558f3615a8a563a974c2f7f5bd",
+      "read_ranges": [
+        [
+          1,
+          60
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "decision-log.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 736,
+      "sha256": "e109080c747e33a5d20d5ec9d47e0744cded1720a415e620da1519d1f5860083",
+      "read_ranges": [
+        [
+          96,
+          181
+        ],
+        [
+          1,
+          95
+        ],
+        [
+          182,
+          268
+        ],
+        [
+          269,
+          374
+        ],
+        [
+          375,
+          458
+        ],
+        [
+          459,
+          521
+        ],
+        [
+          522,
+          591
+        ],
+        [
+          592,
+          656
+        ],
+        [
+          657,
+          736
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "design/desk-companion/b1/design-spec.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 42,
+      "sha256": "70043e454f8733add4127c0732a93474c753d5a6a33db42d8929d97d2c1f5955",
+      "read_ranges": [
+        [
+          1,
+          42
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "design/desk-companion/device-ambient-v1/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 11,
+      "sha256": "c764775dc71e184024b310429fcad8a2955f38052e4829f6acb62fd4bf207443",
+      "read_ranges": [
+        [
+          1,
+          11
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "desk-companion/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 106,
+      "sha256": "c8e6f2ac678cfab2e0cd3a14f16b771e1ede10b4c4f37707d805fc0cbed20e76",
+      "read_ranges": [
+        [
+          1,
+          106
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "desk-companion/THIRD_PARTY.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 23,
+      "sha256": "2a874f2ab830bd589c9ddddf53bb1872e08ebcf8caaee4b1af17c0dba84957e4",
+      "read_ranges": [
+        [
+          1,
+          23
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "desk-companion/docs/architecture.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 95,
+      "sha256": "7f5680a2f7d64f9920a8b1e496096904cdca6dbfde74149deadbe718c3616e5d",
+      "read_ranges": [
+        [
+          1,
+          95
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "desk-companion/docs/computer-jobs.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 69,
+      "sha256": "fc9d95c23fa510248a54bd04b1abcfbc76fa3cae420ccf3037ad57b21347f66f",
+      "read_ranges": [
+        [
+          1,
+          69
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "desk-companion/docs/evaluation.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 60,
+      "sha256": "5fcd7c2da8cc422c58faa58602615b1b83b99d7b370dad532691bc86a8d452d3",
+      "read_ranges": [
+        [
+          1,
+          60
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "desk-companion/docs/memory.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 32,
+      "sha256": "ac56ac1fa8ad8d22cdc41083408499216d86bce18dbf57fb2046edb863fe75dc",
+      "read_ranges": [
+        [
+          1,
+          32
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "desk-companion/docs/operator-guide.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 171,
+      "sha256": "914016584182bea392d55f44ad23208a79ebb88041805eeab9fdfcdb9581ba28",
+      "read_ranges": [
+        [
+          1,
+          146
+        ],
+        [
+          147,
+          171
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "desk-companion/docs/task-tracking.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 61,
+      "sha256": "7ed7e17d2d8c620fddcc7cecbbd55ad396e32a84332a04fa9e182b2b3644043c",
+      "read_ranges": [
+        [
+          1,
+          61
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "desk-companion/frontend/ios/App/CapApp-SPM/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 5,
+      "sha256": "42c535861f4a866e35f85764ed6af1ea046d6a409bf9852ecb00e5d292a1626e",
+      "read_ranges": [
+        [
+          1,
+          5
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "docs/tooling-and-review/companion-architecture.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 129,
+      "sha256": "77be51afbde4046cc4e86839298e149c1518bc1c798120188caf2d238b6b9e4e",
+      "read_ranges": [
+        [
+          1,
+          53
+        ],
+        [
+          54,
+          105
+        ],
+        [
+          106,
+          129
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "docs/tooling-and-review/companion-product-teardown.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 213,
+      "sha256": "b969707ee356917dd6610d56e76e53e98a784ae82598f8fc8dd78d7dec1cb922",
+      "read_ranges": [
+        [
+          1,
+          39
+        ],
+        [
+          40,
+          93
+        ],
+        [
+          94,
+          145
+        ],
+        [
+          146,
+          185
+        ],
+        [
+          186,
+          213
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "docs/tooling-and-review/fyp-repo-review.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 86,
+      "sha256": "10c16343f07aa5447d011199089ac7ff71164f617417da70ecca393901e210ce",
+      "read_ranges": [
+        [
+          1,
+          55
+        ],
+        [
+          56,
+          86
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "handoff.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 19,
+      "sha256": "426afb833ce00a26f5030e107c1d372329cf326e0932f029454c49a8deb41af4",
+      "read_ranges": [
+        [
+          1,
+          19
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "inputs/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 11,
+      "sha256": "722e893efd6254d17d20ec15071121e81b191d10c83b695c0e5d139cd735b9ab",
+      "read_ranges": [
+        [
+          1,
+          11
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "inputs/teammate/形态 A：智能音箱智能屏幕终端（如 小爱触屏音箱、小度在家、FotoCube 等）.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 22,
+      "sha256": "d98a6f290f3dd7ec2a0f0c77f33c2e23a1d5bd1711d7e87ab71498b4bcaddecb",
+      "read_ranges": [
+        [
+          1,
+          22
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-17-senplate-bowl-golden-v6/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 25,
+      "sha256": "a0b789b00a79ba12f6674107801c400587262982c67f368506b7334eb57801a4",
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-17-senplate-bowl-redesign-v5/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 15,
+      "sha256": "8d5ad052f1a1d9c91cb7641bb0dcde56e9d090c6f1adb33c07d658498aba546a",
+      "read_ranges": [
+        [
+          1,
+          15
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-17-senplate-ellipse-a-v4/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 29,
+      "sha256": "5093948b2362e73a50c7a3f444daa5365c9f099f1f0f65396253cc9662fac189",
+      "read_ranges": [
+        [
+          1,
+          29
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-17-senplate-golden-a-v3/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 36,
+      "sha256": "8142045ff4c484b59137d15509fcb30483aaa55850872c00818f8355684db23e",
+      "read_ranges": [
+        [
+          1,
+          36
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-17-senplate-refined-a-v2/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 25,
+      "sha256": "ba04ccfaa2ac51995bcc444c700d30a62ccbd1bd766248f814be27113f0fae31",
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-17-senplate-selected-a/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 28,
+      "sha256": "6d9fc152b1037cfcfa68ad2248a0b31dc83c2271e9e2ba28c06e70b0e6292056",
+      "read_ranges": [
+        [
+          1,
+          28
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-17-senplate-v6-tick-study/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 14,
+      "sha256": "6581199fb4ef6f12745f1365267def60a270186c2e5beb2b774291eaa52ef5b3",
+      "read_ranges": [
+        [
+          1,
+          14
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-18-senplate-plain-bowl-v7/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 13,
+      "sha256": "743fb9a7d309f7386b8df6c228163c65af903d0838f80b88af174ed699b53041",
+      "read_ranges": [
+        [
+          1,
+          13
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-18-senplate-v6-curved-ticks/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 9,
+      "sha256": "9661335bcfc1e3231af2308a8faa0361e92769c220deb4827f4c29adc3328177",
+      "read_ranges": [
+        [
+          1,
+          9
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-18-senplate-v6-inner-scale/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 9,
+      "sha256": "671375399fc83c99af7309dc8aa78b836275ae87a65e0bd7ce00e7d201551ef2",
+      "read_ranges": [
+        [
+          1,
+          9
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-18-senplate-v6-rim-tick-study/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 15,
+      "sha256": "cb59360e23759961e887549c379662aadca07376d35886a7e80fa9ae77fd2c47",
+      "read_ranges": [
+        [
+          1,
+          15
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-18-senplate-v6-visible-ticks/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 12,
+      "sha256": "c51ef245711743d2d27d4dc37e7f6370a964e9bfceb2d630750a72d1af7d746d",
+      "read_ranges": [
+        [
+          1,
+          12
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-18-senplate-vi-v1/05_Fonts_and_Licences/FONT-LICENCE-AUDIT.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 28,
+      "sha256": "44f3f6a23cfac8266a573acd5100be24e8b4c58d18edf795b7d7223d04abc8f9",
+      "read_ranges": [
+        [
+          1,
+          28
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-18-senplate-vi-v1/06_Source/Figma_Source.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 17,
+      "sha256": "967941ed3a0d92ea19e3d389b096bc97498f3fcc50898f8cc80c4ff83f526b91",
+      "read_ranges": [
+        [
+          1,
+          17
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-18-senplate-vi-v1/06_Source/VI_Rules.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 14,
+      "sha256": "39248a48fe9cbd1b828b9289b68ca80c8ec24beba8f1cdcf6fb4457668423468",
+      "read_ranges": [
+        [
+          1,
+          14
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/brand/2026-09-18-senplate-vi-v1/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 25,
+      "sha256": "53cedb259d2bb1a8b581396ea5706a1fc543c7b1ba4c936ddd76c5803a83e3b5",
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-03-dot-feasibility/verification.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 24,
+      "sha256": "b55a4cb551f85886613edffac5b33bbbdf4b19ca074da0a5173e470bce9006f8",
+      "read_ranges": [
+        [
+          1,
+          24
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-05-github-bootstrap/verification.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 40,
+      "sha256": "132525cc8a1190331e069ed7a1c388dbc79c8581473dada27daa8bff4e5bd555",
+      "read_ranges": [
+        [
+          1,
+          40
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-05-rig-arm-feasibility/verification.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 31,
+      "sha256": "49dffe4bf7a91b9b4e4ef4cecb1b3f24e45ab364bce66d6fea65a3d99f27bc2a",
+      "read_ranges": [
+        [
+          1,
+          31
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-06-personal-agent-plan/verification.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 33,
+      "sha256": "a9e7555fdb652bae842d313497c24688e7501f1b2a9d3e01375563b58386e4f7",
+      "read_ranges": [
+        [
+          1,
+          33
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-09-dot-integration/verification.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 72,
+      "sha256": "ae51f8325de5925cb35bd536aeeff2a736321dcdcfaaae082c05211386d4fe0a",
+      "read_ranges": [
+        [
+          1,
+          55
+        ],
+        [
+          56,
+          72
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-14-folder-job/reading-record.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 31,
+      "sha256": "855ab33a49c9462631c798ca99bcc0048ef0b2c0ff63c1336ca86cc92709fd9f",
+      "read_ranges": [
+        [
+          1,
+          31
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-14-job-recovery-ux/reading-record.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 11,
+      "sha256": "a6def10f5fa97a8982f6e1f70b2271861d3f9ebb5be850662b2103fe2e907ea5",
+      "read_ranges": [
+        [
+          1,
+          11
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-14-owner-memory/reading-record.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 22,
+      "sha256": "6e1cf98e279382867d576ed60374184ed6fdf686bc8e87bd159083ebf7584d16",
+      "read_ranges": [
+        [
+          1,
+          22
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-14-persona/reading-record.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 29,
+      "sha256": "9d598cc8292b096209d114de8f0202bc344dda9becd49dd99bed7c6c6acc6dfc",
+      "read_ranges": [
+        [
+          1,
+          29
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-14-quiet-followup/reading-record.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 10,
+      "sha256": "a5b277eaf3ddc8005853446c12e245e881508faef1f3f5e6011d3fad8971b55e",
+      "read_ranges": [
+        [
+          1,
+          10
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-14-quiet-preference/reading-record.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 11,
+      "sha256": "a16ef69c9b467f0f7c2b4e2eceb7c48fb21275c19be6ac8426718e3e9cadc333",
+      "read_ranges": [
+        [
+          1,
+          11
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-14-quiet-schedule/reading-record.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 11,
+      "sha256": "310ce4ad406d7d15c742b751aed1b20e02e575ead5b6ad8a77223ab438d36641",
+      "read_ranges": [
+        [
+          1,
+          11
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-14-stack-review/reading-record.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 11,
+      "sha256": "bbd677ba3b51126a41f059aacf94c14fd2f3c0bdc6b66156a47b9eaa1e2bf327",
+      "read_ranges": [
+        [
+          1,
+          11
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-14-text-adapters/reading-record.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 11,
+      "sha256": "68feda7fd1d623bc35dfd1be2d31a7440f885c20b85baffde1ad4c691ef7810f",
+      "read_ranges": [
+        [
+          1,
+          11
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-14-tooling-and-review/reading-record.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 89,
+      "sha256": "65c21d346ac80113ebd6b906d5d61d152c57f28dd65f72cdb1a455d6270d1d47",
+      "read_ranges": [
+        [
+          1,
+          89
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/2026-10-15-grok-review-merge/verification.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 61,
+      "sha256": "db17e3fc647a5b772c54dd9a12517b7de853a06f70b52e78d25ba71c8c8adba0",
+      "read_ranges": [
+        [
+          1,
+          54
+        ],
+        [
+          55,
+          61
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/desk-development-batch1-2026-09-29/verification.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 65,
+      "sha256": "f64649defbfcec9fc13be1b2b4245547b5f2917852e296eed990e28079a19c19",
+      "read_ranges": [
+        [
+          1,
+          65
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/development-m1-2-meals-2026-09-19/verification.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 64,
+      "sha256": "f3a869aacb87e9fdc7749ca9af00e8d4f0ccd8886ee33865650a582e073a1e9d",
+      "read_ranges": [
+        [
+          1,
+          47
+        ],
+        [
+          48,
+          64
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/development-p0-2026-09-18/verification.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 79,
+      "sha256": "66d81c3c0f2906bff5aa29549681f93b2cb0b18dc0214d32ea7b269223d7ad52",
+      "read_ranges": [
+        [
+          1,
+          52
+        ],
+        [
+          53,
+          79
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/development-p1-orders-2026-09-19/verification.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 74,
+      "sha256": "5e2946e8e19b584f3de5f5e29eca61c1e6445ec202f1fa101f381901a1a65aeb",
+      "read_ranges": [
+        [
+          1,
+          48
+        ],
+        [
+          49,
+          74
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/device-ambient-redesign-2026-09-30/verification.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 69,
+      "sha256": "0d6fdc832789dcc717244f5da9aafc4cd05ec7ebef4d12b889b910998a1feeb1",
+      "read_ranges": [
+        [
+          1,
+          69
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 30,
+      "sha256": "94bf18312787035bd3f061946cdad6cc2d1731c4718ea6cdb6c8944bc2586a87",
+      "read_ranges": [
+        [
+          1,
+          30
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/logsheet-members-v2-2026-09-28/artifact.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 11,
+      "sha256": "dd86af682662a551b294dcea7cf32b962c983c586a7c59213a5e342dd277943a",
+      "read_ranges": [
+        [
+          1,
+          11
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/logsheet-proposal-2026-09-28/artifact.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 15,
+      "sha256": "b35d11f2a73f9aae3fce1fcc4d45ad3500189535e35710414a717f7d7ddf28cf",
+      "read_ranges": [
+        [
+          1,
+          15
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/senplate-bowl-golden-v6-2026-09-17/brand-before-v6.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 35,
+      "sha256": "b8576ca18e32cd878acbc41e8a650c92299d75727522a1afb48b6b6c8b1ff5b8",
+      "read_ranges": [
+        [
+          1,
+          35
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 69,
+      "sha256": "a99688db40a3a566d532ff0b79965f60b20566b1a84b33af8176824f5beaf818",
+      "read_ranges": [
+        [
+          1,
+          69
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 81,
+      "sha256": "a686975cabcd648063200550c3732c790b3c7aab759e076ae2271853e29eeaf1",
+      "read_ranges": [
+        [
+          1,
+          81
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/senplate-selected-a-2026-09-17/vendor/README.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 303,
+      "sha256": "311e2f9168b6e45dcb261fe17f8ee38e41258c0f2a5241cd3174fdeb5a2f5053",
+      "read_ranges": [
+        [
+          1,
+          180
+        ],
+        [
+          181,
+          303
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/software-completion-2026-10-02/verification.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 95,
+      "sha256": "f23752abab86aa264181ac076a9494dfae2b83300004a517719c82dc76559312",
+      "read_ranges": [
+        [
+          1,
+          95
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/software-completion-2026-10-06/verification.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 55,
+      "sha256": "b1853dd37f6cff7c1a9ef1a43b1ca9fa2b997b8e83bb75f17a91813266fa8468",
+      "read_ranges": [
+        [
+          1,
+          55
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/suggestion-2026-09-14/artifact.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 56,
+      "sha256": "b2a7c30b4303e720ad48014b0a2dd2a21668713e8c98141ed0c9cf5d0997aa84",
+      "read_ranges": [
+        [
+          1,
+          56
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/suggestion-v2-2026-09-14/artifact.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 33,
+      "sha256": "d3c4719bacc74c189d128c8e49df14fb76ac561906a427e55b01003865e583d7",
+      "read_ranges": [
+        [
+          1,
+          33
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "output/qa/task-enhancement-ux-2026-10-03/verification.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 59,
+      "sha256": "ffa6589989ad0933d863a63128c7e6f23305af3e1f875951e65b03454521145a",
+      "read_ranges": [
+        [
+          1,
+          59
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 174,
+      "sha256": "f9b1f4e6b9004abd100aacb349966edeab9bba59b9e842f9058887d2f7d44c1d",
+      "read_ranges": [
+        [
+          1,
+          131
+        ],
+        [
+          132,
+          174
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-14/continuous-monitoring-architecture.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 122,
+      "sha256": "cdbec3bd86e562d2cb1a4c7aa4e77fe1d5c792d0ead9509debd166a5da7cfe00",
+      "read_ranges": [
+        [
+          1,
+          103
+        ],
+        [
+          104,
+          122
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 80,
+      "sha256": "cde0e64aba2575158f5d4fb228dfc25a8a2682d3cb7bb4c40b0fe6c0bc1dd0b3",
+      "read_ranges": [
+        [
+          1,
+          80
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-14/scope-and-roles-for-review.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 160,
+      "sha256": "38ebdd7ca4539b077e8931124c78bbc53ada774501e68ad5b2b1cf97a88321e5",
+      "read_ranges": [
+        [
+          1,
+          151
+        ],
+        [
+          152,
+          160
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-14/single-station-recognition-reliability.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 110,
+      "sha256": "1d12922c9f627cd8f4bd6ec7b664e16cd1cb297a27b8346d9a15c4b9b593b572",
+      "read_ranges": [
+        [
+          1,
+          110
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 39,
+      "sha256": "4bc962711143b8b982d7adba8e96f747f00cf2bc699d3d94835c08af8cb0d65b",
+      "read_ranges": [
+        [
+          1,
+          39
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-15/camera-power-and-scaling.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 185,
+      "sha256": "602ca9919ace2925de6b6fac6662c3ab812f50c399c204983eddf7c773e1a361",
+      "read_ranges": [
+        [
+          1,
+          110
+        ],
+        [
+          111,
+          185
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 22,
+      "sha256": "6cd023be13d858a5f1258c0b0375bc50c3c981c4b953649792158edb34fdd992",
+      "read_ranges": [
+        [
+          1,
+          22
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 247,
+      "sha256": "1434e55732e1ccb5a514e9204c4923f704221a8be0dc5d13f32f419c671c9c13",
+      "read_ranges": [
+        [
+          1,
+          139
+        ],
+        [
+          140,
+          247
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 70,
+      "sha256": "ab69a75f60b9ac081617970c9dea0ad48e4af73e27f006085e77052835054965",
+      "read_ranges": [
+        [
+          1,
+          70
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 53,
+      "sha256": "9bc25bc85baaf4badca2a18e853ffbf18c818b53bde69798a1e0c813cbfd3538",
+      "read_ranges": [
+        [
+          1,
+          53
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-15/power-supply-detail.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 143,
+      "sha256": "5cf4999a5cfbbb1f0f7b3ae92707c5c2e774bb630c4b959b6243c9bdeda012e9",
+      "read_ranges": [
+        [
+          1,
+          121
+        ],
+        [
+          122,
+          143
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-15/procurement-guide.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 214,
+      "sha256": "4aa617b780132046f43099bf241e6b29af2983f3e668db0f7e132ba3ccf0072d",
+      "read_ranges": [
+        [
+          1,
+          83
+        ],
+        [
+          84,
+          132
+        ],
+        [
+          133,
+          214
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 107,
+      "sha256": "b22dfd416dca3223ef15ae88aaaff8989887e38d6a882e7b1ddb19c785ab3618",
+      "read_ranges": [
+        [
+          1,
+          107
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-16/app-pages-and-permissions.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 180,
+      "sha256": "809a6faddbabd92fc5bb2b3fd165b4a151166483fd09c43216f97b12935045c8",
+      "read_ranges": [
+        [
+          1,
+          149
+        ],
+        [
+          150,
+          180
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-16/archive/software-scope-web-first-v1.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 189,
+      "sha256": "5ce1260f55f6410f1818630974321cf5202f93c9c97a05b73b52c863fec65cb1",
+      "read_ranges": [
+        [
+          1,
+          146
+        ],
+        [
+          147,
+          189
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-16/brand-visual-directions.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 54,
+      "sha256": "490c3fb0aeff234694d01573ba2ce6f77ba80820b31af011e26cd07a32d4954a",
+      "read_ranges": [
+        [
+          1,
+          54
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-16/business-plan-zh.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 449,
+      "sha256": "34f5669582f2cba3c97c1083b0d5ba1c05ccc528dee48f2ed63da34a78906993",
+      "read_ranges": [
+        [
+          1,
+          171
+        ],
+        [
+          172,
+          351
+        ],
+        [
+          352,
+          449
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-16/logo-reference-calibration.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 52,
+      "sha256": "ac59e1c4da18404b379cab2bec15f83ac42028efadddc2d771892b46eddcd212",
+      "read_ranges": [
+        [
+          1,
+          52
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-16/naming-shortlist.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 45,
+      "sha256": "419ef467a07ea5127fdd366df191ca0ba79c2d23142842f883503fb98f4c1424",
+      "read_ranges": [
+        [
+          1,
+          45
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-16/senplate-logo-refinement-r2.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 44,
+      "sha256": "0ced9649ff0f5c8216b9fb35ac187e3a5cfb6146b933e0e199db14dcb447a26b",
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-16/senplate-logo-reset-r3.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 46,
+      "sha256": "aedd000ba74c50d3d5c4869e6fc506fd53673ff7d0ee1d7a78776a891727a640",
+      "read_ranges": [
+        [
+          1,
+          46
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-16/senplate-logo-vi-directions.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 63,
+      "sha256": "cacc66c8fe06603081330ae7040932f125a9644923b6d2d8191c25175449a7b6",
+      "read_ranges": [
+        [
+          1,
+          63
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-16/software-mvp-and-acceptance.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 98,
+      "sha256": "bf589c3b6b7f07646dd3184a1da149f8a88e3b1d01ada291e00eed5b603d7422",
+      "read_ranges": [
+        [
+          1,
+          98
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-16/software-scope-and-architecture.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 206,
+      "sha256": "9d2144b52e24dc6c2ffceffe27d4b8eb96a6e64de0f7e6e82e6fe3e7b7dead60",
+      "read_ranges": [
+        [
+          1,
+          126
+        ],
+        [
+          127,
+          206
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-16/software-workflows-and-api.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 291,
+      "sha256": "b9d5bd3e387291f3678ca3142f35bf7bfd6ff1b128bd1e7d16f2b73fd7b9cec4",
+      "read_ranges": [
+        [
+          1,
+          104
+        ],
+        [
+          105,
+          258
+        ],
+        [
+          259,
+          291
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-17/senplate-bowl-golden-v6.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 43,
+      "sha256": "92f821214b8e2a4b2009aaebd57b8f2cee8ccf39ee6e94444e5c8a54e7d5b8f5",
+      "read_ranges": [
+        [
+          1,
+          43
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-17/senplate-bowl-redesign-v5.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 44,
+      "sha256": "973315abcf7fcab0364cde29048daa5ff5b86b88747564eb0185db593acbf258",
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-17/senplate-logo-measured-plate-r5.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 45,
+      "sha256": "5732e458c1943e924ad301d61554cf9afbcafade6764a06295fc5146398e37ad",
+      "read_ranges": [
+        [
+          1,
+          45
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-17/senplate-logo-profile-r4.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 40,
+      "sha256": "0a7d0fef8b45d7e5686ffd921d2ac7796423817523b284a019987f994c2b003d",
+      "read_ranges": [
+        [
+          1,
+          40
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-17/senplate-v6-tick-study.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 30,
+      "sha256": "af0a26015842f3d377f66de92708c804e6527c303d5e5fa91f2caaee266ede55",
+      "read_ranges": [
+        [
+          1,
+          30
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-17/senplate-vector-logo-studies.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 51,
+      "sha256": "170e7e875ec2171f46f47aba20bff499c5a958d2b53453085fbcb340be0899ef",
+      "read_ranges": [
+        [
+          1,
+          51
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-18/development-p0.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 70,
+      "sha256": "4868eec2628046e2c613fc3df195c0d4f1ac1843deb60c9fb857539f5b9583b5",
+      "read_ranges": [
+        [
+          1,
+          70
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-18/senplate-plain-bowl-v7.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 25,
+      "sha256": "a3f1f6dd709594d7f7e5239cdd567c74956951009e63773b1d8edd828c92d121",
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-18/senplate-v6-curved-ticks.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 26,
+      "sha256": "039d78b126afc7a9528d9f0db1e8961623805ca2fd87a5f3785340b67cfd640d",
+      "read_ranges": [
+        [
+          1,
+          26
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-18/senplate-v6-inner-scale.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 24,
+      "sha256": "78332917176aa3b5e500182d7203743b262de58ad867e01e2ea034f240fdc598",
+      "read_ranges": [
+        [
+          1,
+          24
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-18/senplate-v6-rim-tick-study.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 30,
+      "sha256": "38bd6a5e6c72745975b0fc97fcc00055139fff62bd27f9e2b2960908ec2194b9",
+      "read_ranges": [
+        [
+          1,
+          30
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-18/senplate-v6-visible-ticks.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 26,
+      "sha256": "25c5464eed55037bbb95e0b536fec22b7d884a624fdb6b923cc1e4e4cfa16d7a",
+      "read_ranges": [
+        [
+          1,
+          26
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-18/senplate-vi-v1.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 33,
+      "sha256": "8dfd1dd4fb2c536ff9969c39a3bab715bb6b71acef6e051e3afacf9f576c166d",
+      "read_ranges": [
+        [
+          1,
+          33
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-19/meals-samples-contract.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 55,
+      "sha256": "74a0c6836157df554be545869233f56cd1193aa5b472cf38c03218703eeecb3d",
+      "read_ranges": [
+        [
+          1,
+          55
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-19/menu-orders-contract.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 70,
+      "sha256": "495d67693e247654721eaf380352c4a2889f4f9f99bd306e9c3648709b5bd765",
+      "read_ranges": [
+        [
+          1,
+          70
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-21/marco-camera-and-nutrition-review.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 147,
+      "sha256": "189856ea180a0c70fe42f62bde85f0191868bd8085bd83b5565cefe9767891e4",
+      "read_ranges": [
+        [
+          1,
+          107
+        ],
+        [
+          108,
+          147
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-21/proposal-content.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 243,
+      "sha256": "f0f0e3d1a99fdd784204a32dd076ddd2bb11faf30215544b9d89c51148c496a1",
+      "read_ranges": [
+        [
+          1,
+          62
+        ],
+        [
+          63,
+          102
+        ],
+        [
+          103,
+          141
+        ],
+        [
+          142,
+          194
+        ],
+        [
+          195,
+          243
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-21/proposal-spec.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 41,
+      "sha256": "e17afb38753e5ce495f412d9bba3aaf930a0ea902980dd9a50c1f2b2ca3d9b66",
+      "read_ranges": [
+        [
+          1,
+          41
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-25/desk-companion-proposal-zh-review-v2.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 148,
+      "sha256": "72cc857c8796e0500e71fe4534404bbd8d10cceafa2441b2728152abfcfb8a67",
+      "read_ranges": [
+        [
+          1,
+          105
+        ],
+        [
+          106,
+          148
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-25/desk-companion-proposal-zh-review.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 142,
+      "sha256": "0e8f4d18a84b04fac0fbe69cef5e1f6a8a0d47842ed7a51cbec61d7dd7c35ea7",
+      "read_ranges": [
+        [
+          1,
+          115
+        ],
+        [
+          116,
+          142
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-26/ava-cylinder-route-a.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 55,
+      "sha256": "6c6b6e7c60a798860ea3984cc817ab0d241b405f8cfe218856979200e6132838",
+      "read_ranges": [
+        [
+          1,
+          55
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-28/desk-companion-proposal-en.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 199,
+      "sha256": "d3481101bf18eb69d8e91bf36d4cbd4cb5840eaf694b30a6b67c43e282d3cc4b",
+      "read_ranges": [
+        [
+          1,
+          68
+        ],
+        [
+          69,
+          102
+        ],
+        [
+          103,
+          146
+        ],
+        [
+          147,
+          199
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-28/desk-companion-proposal-zh-v3.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 199,
+      "sha256": "ca697cddb83e77b6081e78ac30b5b61838ee2ed40c4140c0d4049025b3dc65da",
+      "read_ranges": [
+        [
+          1,
+          142
+        ],
+        [
+          143,
+          199
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-28/desk-software-scope-v1.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 222,
+      "sha256": "fb634ba655c1d23daaaf4f9ed6d18577c6b7f4f3c1c1c15861a8e1475d5eac93",
+      "read_ranges": [
+        [
+          1,
+          96
+        ],
+        [
+          97,
+          214
+        ],
+        [
+          215,
+          222
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-28/logsheet-and-proposal-review.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 44,
+      "sha256": "c11363ee0a0103347a341508b64010fa2b545ca2ebb1c188c5ce5296a8163e14",
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-29/calendar-part1-functional-scope.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 152,
+      "sha256": "70a3c07d503e03c7655a923dea9b792e7bf5ec05e320e3e3175f166bc7abf4e4",
+      "read_ranges": [
+        [
+          1,
+          145
+        ],
+        [
+          146,
+          152
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-29/calendar-part1-teammate-source.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 49,
+      "sha256": "e9f2cf7e024463e1e93a98103f07f835b3b366dcc5fcef53f07746d6eb0420c2",
+      "read_ranges": [
+        [
+          1,
+          49
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-29/software-development-plan.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 148,
+      "sha256": "ab27007f01b9878715dda3b22b3f46d9177205e420432699140981637ebc40ce",
+      "read_ranges": [
+        [
+          1,
+          135
+        ],
+        [
+          136,
+          148
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-09-30/device-display-spec.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 68,
+      "sha256": "651e955607af7edca0fb5556fad17770eff6ea17afd2dadf0a6b31cb12a5ba5f",
+      "read_ranges": [
+        [
+          1,
+          68
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-10-02/software-completion-plan.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 53,
+      "sha256": "050f7607bf5dc2747244433b590d811e4b0fc5b45b2e32a0a649c8dd164b46b6",
+      "read_ranges": [
+        [
+          1,
+          53
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-10-03-task-enhancement.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 22,
+      "sha256": "153f2893c3449b12e71d296dca9daca55390fb404b594cf539e3d803d16c166e",
+      "read_ranges": [
+        [
+          1,
+          22
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-10-06/cloud-software-delivery.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 28,
+      "sha256": "cee16c6801b909026f3ed68c59949514ca72bbf1642c659610951c669fb9b2cc",
+      "read_ranges": [
+        [
+          1,
+          28
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-10-06/personal-agent-discussion-and-next-steps.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 192,
+      "sha256": "1a2e77c1a015da6cfd707e61934670231cc5c0070432f3ac69a277e616b91ee0",
+      "read_ranges": [
+        [
+          1,
+          100
+        ],
+        [
+          101,
+          192
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-10-06/software-architecture-audit.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 69,
+      "sha256": "28ec5e0672f150a87c0a7bfe3dae9bea4cce00a4ab5658afee8793afb5d8726b",
+      "read_ranges": [
+        [
+          1,
+          69
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "planning/2026-10-14/pr-stack-merge-order.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 106,
+      "sha256": "1d78a01653c047fe560d93c01a0e810df42b1fbe445cd5c19aff256abecbb7ae",
+      "read_ranges": [
+        [
+          1,
+          105
+        ],
+        [
+          106,
+          106
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "product-senplate-historical.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 168,
+      "sha256": "d0bd732aec1e59850e18874bfc9bd6d01919f9e36cd630820a86617120db5e01",
+      "read_ranges": [
+        [
+          1,
+          65
+        ],
+        [
+          66,
+          143
+        ],
+        [
+          144,
+          168
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "product.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 100,
+      "sha256": "75cc9d7635f3a26db8c5a046720d8a93ce74b229992e66748c2eb26d4d2f0b16",
+      "read_ranges": [
+        [
+          1,
+          100
+        ],
+        [
+          1,
+          68
+        ],
+        [
+          69,
+          100
+        ]
+      ],
+      "supplemental_full_read_at": "2026-10-26T01:28:23.357891+00:00",
+      "supplemental_read_evidence": "Complete direct tool output; product at compaction recovery, integration and verification in pre-compaction PDF review."
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 165,
+      "sha256": "fb6fb09c63c7ff87310e65424ce5565b7842f008f9272cd566b0d480cc72db53",
+      "read_ranges": [
+        [
+          1,
+          109
+        ],
+        [
+          110,
+          165
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 38,
+      "sha256": "94fa20b3e9e07297620c953c1575f1caa0e61a690e89e217c372648b36086410",
+      "read_ranges": [
+        [
+          1,
+          38
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 44,
+      "sha256": "94ffcf96fedfe1574362fdf209c511490d2020d3a9d267ae3c68ca1945a5f346",
+      "read_ranges": [
+        [
+          1,
+          44
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 47,
+      "sha256": "a4eff90a67e6b7ff2be1fe6fa7ed3e5a31625da703e61a33085034732bac8d1a",
+      "read_ranges": [
+        [
+          1,
+          47
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 287,
+      "sha256": "34d178ed4f8d50ab8bb11d0ba257d729e47346ac7d54824be394cac4d99e7827",
+      "read_ranges": [
+        [
+          1,
+          118
+        ],
+        [
+          119,
+          255
+        ],
+        [
+          256,
+          287
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 171,
+      "sha256": "f367d21a670d06841fafb3aeb193636d197dfa2ffa6cfbf706f8bfaa955aa7f4",
+      "read_ranges": [
+        [
+          1,
+          147
+        ],
+        [
+          148,
+          171
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 25,
+      "sha256": "d56256dc3dd44cdcc96beb221b489f46fe913e045dd12a83ec2653e7e5114ed7",
+      "read_ranges": [
+        [
+          1,
+          25
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-16-competitions/competition-shortlist.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 80,
+      "sha256": "133355c882bbd37335530e8e17c8a2405bc68c707917343701fc88cfda842af2",
+      "read_ranges": [
+        [
+          1,
+          70
+        ],
+        [
+          71,
+          80
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-16-competitions/mainland-national-provincial.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 64,
+      "sha256": "1c6a636ecfd74bca91a70225af9a4b1084fdb58abc8f4a601c05dfc32c2fd434",
+      "read_ranges": [
+        [
+          1,
+          64
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-16-competitions/no-company-options.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 55,
+      "sha256": "4430f173ed645792cb56c67a941855ee9a2c71f7334125df427af941ece49692",
+      "read_ranges": [
+        [
+          1,
+          55
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-16-competitions/plan-to-july-2027.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 82,
+      "sha256": "deffcd40be67bc641141a2044b964f7f9346527b93f7a8e7b32809e6f4468113",
+      "read_ranges": [
+        [
+          1,
+          63
+        ],
+        [
+          64,
+          82
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-16-competitions/world-vocational-registration.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 52,
+      "sha256": "1126554e5007d4227dd45ce35c83c58b1929952c23f427b68ac5301c168206b6",
+      "read_ranges": [
+        [
+          1,
+          52
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-16-metafoodx-app/app-review.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 60,
+      "sha256": "bcb9f053a9647675b75d973ddabb8a4af3d1c34d6e5e727d7a8b0448a0311910",
+      "read_ranges": [
+        [
+          1,
+          60
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 72,
+      "sha256": "d127f396aa563e381d41ad7fe78c14779fa82bbbd5d59502ed4d7e94ccac5928",
+      "read_ranges": [
+        [
+          1,
+          72
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-17-logo-similarity/similarity-review.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 82,
+      "sha256": "4986cceb789567389d994d18d9818ab09c93a98c1307d927975a8ea18a25f78c",
+      "read_ranges": [
+        [
+          1,
+          82
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-18-font-licences/font-licence-audit.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 28,
+      "sha256": "44f3f6a23cfac8266a573acd5100be24e8b4c58d18edf795b7d7223d04abc8f9",
+      "read_ranges": [
+        [
+          1,
+          28
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-18-senplate-trademark/trademark-review.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 83,
+      "sha256": "6d66a3c5f76709072d05bc127a7d620f9333bcc7b45c7672fa0a536562a892d2",
+      "read_ranges": [
+        [
+          1,
+          78
+        ],
+        [
+          79,
+          83
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-19-nutrition/reference-audit.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 36,
+      "sha256": "455860fb89dfb3d1f23510a463f5fd73a1dfc16d84ba345eda1d3df4283725d6",
+      "read_ranges": [
+        [
+          1,
+          36
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-25-desk-companion/feasibility-review.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 127,
+      "sha256": "fa474711d5b3cf1b7cb020913bdebbed5780954c95f52db447ed90ba50d474e4",
+      "read_ranges": [
+        [
+          1,
+          74
+        ],
+        [
+          75,
+          127
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 63,
+      "sha256": "85394afa7a2d822a2fe91372767a095cfc9db1015aab6463e769aeb8562826e2",
+      "read_ranges": [
+        [
+          1,
+          38
+        ],
+        [
+          39,
+          63
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-25-desk-companion/voice-model-cost-review.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 55,
+      "sha256": "bea30346b2e9a57a9f8ae71b732bcd2df708b75002717e314c7c05eb864793d8",
+      "read_ranges": [
+        [
+          1,
+          55
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 40,
+      "sha256": "186b68cdcd9c8470b1b26c373215ed307774475c2574779cd433e6e8c60c0f11",
+      "read_ranges": [
+        [
+          1,
+          40
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-26-desk-companion/hologram-fan-maturity.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 37,
+      "sha256": "d99e057177f3e158f17206a7ee7cdb9acf3218e695968b7879c852d8785582a7",
+      "read_ranges": [
+        [
+          1,
+          37
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-26-desk-companion/razer-ava-like-feasibility.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 36,
+      "sha256": "7f71972d4cf787126ad28178bbf2d142baf473ed9a40584e4991a0a8707d0270",
+      "read_ranges": [
+        [
+          1,
+          36
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-28-local-voice/server-deployment-comparison.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 205,
+      "sha256": "7c3afeecdfab87eeb2729b80aa93d58bcceb9d11075a600c76c7fb220e41f4ff",
+      "read_ranges": [
+        [
+          1,
+          89
+        ],
+        [
+          90,
+          175
+        ],
+        [
+          176,
+          205
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-29-voice-ai/naturalness-and-tools-review.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 149,
+      "sha256": "f8abcc593b7201f2472a0cbdd8195a88676159a31320f4ca0bce96165507f88f",
+      "read_ranges": [
+        [
+          1,
+          84
+        ],
+        [
+          85,
+          149
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-09-29-voice-ai/price-and-value-ranking.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 66,
+      "sha256": "01d76922e15faf0520954f25fcca740380635d9028e5e80640ddd02befeed8a1",
+      "read_ranges": [
+        [
+          1,
+          66
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-10-03-dot/proactive-task-tracking.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 98,
+      "sha256": "1d8d91493aadc3a6792110d3315740bf0fa8507c7730c253e6fdb8443fee1544",
+      "read_ranges": [
+        [
+          1,
+          98
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "research/2026-10-05-rig-arm/secondary-development-review.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 155,
+      "sha256": "0706c37da7d5bf129951fbe1f6e5d38fba8f8b04fff6fb6dd3ab24268a40d0bd",
+      "read_ranges": [
+        [
+          1,
+          109
+        ],
+        [
+          110,
+          155
+        ]
+      ]
+    },
+    {
+      "source": "integration checkout",
+      "path": "work-log.md",
+      "ref": "a663d83d28ce9209849cedc332bf7ed107a5a13d",
+      "lines": 879,
+      "sha256": "af64e2629fa81c310db12cd24a28134d9977aa86f3b6e195f316178c16a851ba",
+      "read_ranges": [
+        [
+          1,
+          79
+        ],
+        [
+          80,
+          145
+        ],
+        [
+          146,
+          214
+        ],
+        [
+          215,
+          280
+        ],
+        [
+          281,
+          347
+        ],
+        [
+          348,
+          410
+        ],
+        [
+          411,
+          486
+        ],
+        [
+          487,
+          542
+        ],
+        [
+          543,
+          601
+        ],
+        [
+          602,
+          653
+        ],
+        [
+          654,
+          713
+        ],
+        [
+          714,
+          776
+        ],
+        [
+          777,
+          841
+        ],
+        [
+          842,
+          879
+        ]
+      ]
+    },
+    {
+      "source": "PR17 head",
+      "path": "README.md",
+      "ref": "8141d374e6e3d476d874310a7fed158a51fc28df",
+      "lines": 228,
+      "sha256": "bed0a7ab65863bfcb5d9ead8148fb82ed7e52692e1b6f215c9bc74b5c4b4c23b",
+      "read_ranges": [
+        [
+          1,
+          21
+        ],
+        [
+          24,
+          228
+        ],
+        [
+          22,
+          22
+        ],
+        [
+          23,
+          23
+        ]
+      ],
+      "inherited_exact_line_ranges": [
+        {
+          "source_entry": 2,
+          "source_lines": [
+            1,
+            21
+          ],
+          "target_lines": [
+            1,
+            21
+          ]
+        },
+        {
+          "source_entry": 2,
+          "source_lines": [
+            22,
+            226
+          ],
+          "target_lines": [
+            24,
+            228
+          ]
+        }
+      ],
+      "supplemental_new_lines_read_at": "2026-10-26T01:12:20.136372+00:00"
+    },
+    {
+      "source": "PR17 head",
+      "path": "decision-log.md",
+      "ref": "8141d374e6e3d476d874310a7fed158a51fc28df",
+      "lines": 743,
+      "sha256": "fa0f12dc72ac48bf2830fcb0d783c62ee36f2762448bb7bb0bb0a68ce16d6970",
+      "read_ranges": [
+        [
+          1,
+          736
+        ],
+        [
+          737,
+          737
+        ],
+        [
+          738,
+          738
+        ],
+        [
+          739,
+          739
+        ],
+        [
+          740,
+          740
+        ],
+        [
+          741,
+          741
+        ],
+        [
+          742,
+          742
+        ],
+        [
+          743,
+          743
+        ],
+        [
+          742,
+          743
+        ]
+      ],
+      "inherited_exact_line_ranges": [
+        {
+          "source_entry": 5,
+          "source_lines": [
+            1,
+            736
+          ],
+          "target_lines": [
+            1,
+            736
+          ]
+        }
+      ],
+      "supplemental_new_lines_read_at": "2026-10-26T01:12:20.136812+00:00"
+    },
+    {
+      "source": "PR17 head",
+      "path": "handoff.md",
+      "ref": "8141d374e6e3d476d874310a7fed158a51fc28df",
+      "lines": 25,
+      "sha256": "b8c3c8e4129fde53683f948a8a4e436acea63090d47f26a5e59568b4e2208fd8",
+      "read_ranges": [
+        [
+          1,
+          3
+        ],
+        [
+          10,
+          25
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          6
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          9,
+          9
+        ],
+        [
+          1,
+          25
+        ]
+      ],
+      "inherited_exact_line_ranges": [
+        {
+          "source_entry": 20,
+          "source_lines": [
+            1,
+            3
+          ],
+          "target_lines": [
+            1,
+            3
+          ]
+        },
+        {
+          "source_entry": 20,
+          "source_lines": [
+            4,
+            19
+          ],
+          "target_lines": [
+            10,
+            25
+          ]
+        }
+      ],
+      "supplemental_new_lines_read_at": "2026-10-26T01:12:20.136814+00:00"
+    },
+    {
+      "source": "PR17 head",
+      "path": "output/qa/2026-10-23-hardware-progress-upload/verification.md",
+      "ref": "8141d374e6e3d476d874310a7fed158a51fc28df",
+      "lines": 28,
+      "sha256": "1ae27b887c0a3060d6868bbfdc0cf90716ba5d5a39d0cccea4b38cecb716f839",
+      "read_ranges": [
+        [
+          1,
+          28
+        ]
+      ]
+    },
+    {
+      "source": "PR17 head",
+      "path": "product.md",
+      "ref": "8141d374e6e3d476d874310a7fed158a51fc28df",
+      "lines": 110,
+      "sha256": "baa024f21876d257035b3923274ca9cb9cdf7621193a04dde02e654ae936a101",
+      "read_ranges": [
+        [
+          1,
+          72
+        ],
+        [
+          74,
+          77
+        ],
+        [
+          88,
+          110
+        ],
+        [
+          73,
+          73
+        ],
+        [
+          78,
+          87
+        ],
+        [
+          1,
+          68
+        ],
+        [
+          69,
+          110
+        ]
+      ],
+      "inherited_exact_line_ranges": [
+        {
+          "source_entry": 134,
+          "source_lines": [
+            1,
+            72
+          ],
+          "target_lines": [
+            1,
+            72
+          ]
+        },
+        {
+          "source_entry": 134,
+          "source_lines": [
+            74,
+            77
+          ],
+          "target_lines": [
+            74,
+            77
+          ]
+        },
+        {
+          "source_entry": 134,
+          "source_lines": [
+            78,
+            100
+          ],
+          "target_lines": [
+            88,
+            110
+          ]
+        }
+      ]
+    },
+    {
+      "source": "PR17 head",
+      "path": "research/2026-10-23-mini-robot-hardware/README.md",
+      "ref": "8141d374e6e3d476d874310a7fed158a51fc28df",
+      "lines": 62,
+      "sha256": "18e71fd575885fa9bf185fbc981f0292d53c712de716e4cbec78647c4b1965a7",
+      "read_ranges": [
+        [
+          1,
+          62
+        ]
+      ]
+    },
+    {
+      "source": "PR17 head",
+      "path": "research/2026-10-23-mini-robot-hardware/integration-notes.md",
+      "ref": "8141d374e6e3d476d874310a7fed158a51fc28df",
+      "lines": 27,
+      "sha256": "4a5d9540c8c47697ba9d65a0ca6e6a07552c78f67546d8810f4936c417fd7e97",
+      "read_ranges": [
+        [
+          1,
+          27
+        ],
+        [
+          1,
+          27
+        ]
+      ],
+      "supplemental_full_read_at": "2026-10-26T01:28:23.358082+00:00",
+      "supplemental_read_evidence": "Complete direct tool output; product at compaction recovery, integration and verification in pre-compaction PDF review."
+    },
+    {
+      "source": "PR17 head",
+      "path": "research/2026-10-23-mini-robot-hardware/verification-plan.md",
+      "ref": "8141d374e6e3d476d874310a7fed158a51fc28df",
+      "lines": 35,
+      "sha256": "5414b6cdaf82c46fa1e63e73efb87ef6f01586f684249d3ef1e088ff5ec22a12",
+      "read_ranges": [
+        [
+          1,
+          35
+        ],
+        [
+          1,
+          35
+        ]
+      ],
+      "supplemental_full_read_at": "2026-10-26T01:28:23.358084+00:00",
+      "supplemental_read_evidence": "Complete direct tool output; product at compaction recovery, integration and verification in pre-compaction PDF review."
+    },
+    {
+      "source": "PR17 head",
+      "path": "work-log.md",
+      "ref": "8141d374e6e3d476d874310a7fed158a51fc28df",
+      "lines": 887,
+      "sha256": "9d6b6e5e38199bc005519613fc83e9570d567a463a2e382384220f8ab6e32c25",
+      "read_ranges": [
+        [
+          1,
+          879
+        ],
+        [
+          880,
+          887
+        ],
+        [
+          1,
+          79
+        ],
+        [
+          80,
+          145
+        ],
+        [
+          146,
+          214
+        ],
+        [
+          215,
+          280
+        ],
+        [
+          281,
+          347
+        ],
+        [
+          348,
+          410
+        ],
+        [
+          411,
+          486
+        ],
+        [
+          487,
+          542
+        ],
+        [
+          543,
+          601
+        ],
+        [
+          602,
+          653
+        ],
+        [
+          654,
+          713
+        ],
+        [
+          714,
+          776
+        ],
+        [
+          777,
+          841
+        ],
+        [
+          842,
+          887
+        ]
+      ],
+      "inherited_exact_line_ranges": [
+        {
+          "source_entry": 164,
+          "source_lines": [
+            1,
+            879
+          ],
+          "target_lines": [
+            1,
+            879
+          ]
+        }
+      ]
+    },
+    {
+      "source": "preserved latest local authority",
+      "path": "/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/product.md",
+      "ref": "working tree 2026-10-26",
+      "lines": 172,
+      "sha256": "af465ce8c40f55f92eaefccfdf7ab688782f6d581e012de261c441609aab2cc1",
+      "read_ranges": [
+        [
+          1,
+          51
+        ],
+        [
+          52,
+          119
+        ],
+        [
+          120,
+          172
+        ]
+      ]
+    },
+    {
+      "source": "preserved latest local authority",
+      "path": "/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/handoff.md",
+      "ref": "working tree 2026-10-26",
+      "lines": 24,
+      "sha256": "07a90673b5286b92d7aca3d9fb986760eb256087de2faba7542c7dea91f0dabc",
+      "read_ranges": [
+        [
+          1,
+          24
+        ]
+      ]
+    }
+  ],
+  "excluded": [],
+  "extras": "Includes QA summaries, generated/third-party readmes and two latest unpublished authority files; no project-owned Markdown omitted.",
+  "missing_ranges": [],
+  "drift": []
+}
