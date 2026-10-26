@@ -1,0 +1,297 @@
+[
+  {
+    "source": "desk-companion/README.md",
+    "target": "desk-companion/.runtime/credentials.json",
+    "raw": ".runtime/credentials.json"
+  },
+  {
+    "source": "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+    "target": "output/qa/local-voice-models-2026-09-28/output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx",
+    "raw": "<output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx>"
+  },
+  {
+    "source": "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+    "target": "output/qa/local-voice-models-2026-09-28/output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf",
+    "raw": "<output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf>"
+  },
+  {
+    "source": "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+    "target": "output/qa/local-voice-models-2026-09-28/output/qa/logsheet-members-v2-2026-09-28/validation.json",
+    "raw": "output/qa/logsheet-members-v2-2026-09-28/validation.json"
+  },
+  {
+    "source": "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+    "target": "output/qa/local-voice-models-2026-09-28/planning/2026-09-28/desk-software-scope-v1.md",
+    "raw": "planning/2026-09-28/desk-software-scope-v1.md"
+  },
+  {
+    "source": "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+    "target": "output/qa/local-voice-models-2026-09-28/output/qa/desk-software-scope-2026-09-28/reading-record.json",
+    "raw": "output/qa/desk-software-scope-2026-09-28/reading-record.json"
+  },
+  {
+    "source": "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+    "target": "output/qa/local-voice-models-2026-09-28/output/qa/desk-software-scope-2026-09-28/validation.json",
+    "raw": "output/qa/desk-software-scope-2026-09-28/validation.json"
+  },
+  {
+    "source": "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+    "target": "output/qa/local-voice-models-2026-09-28/output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx",
+    "raw": "<output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.docx>"
+  },
+  {
+    "source": "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+    "target": "output/qa/local-voice-models-2026-09-28/output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf",
+    "raw": "<output/submission/2026-09-28/member-breakdown-v2/AY26_Logsheet_Group 2_YuanYuchen_250342840.pdf>"
+  },
+  {
+    "source": "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+    "target": "output/qa/local-voice-models-2026-09-28/output/submission/2026-09-28/AY26_ProjectProposal_Group 2.docx",
+    "raw": "<output/submission/2026-09-28/AY26_ProjectProposal_Group 2.docx>"
+  },
+  {
+    "source": "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+    "target": "output/qa/local-voice-models-2026-09-28/output/submission/2026-09-28/AY26_ProjectProposal_Group 2.pdf",
+    "raw": "<output/submission/2026-09-28/AY26_ProjectProposal_Group 2.pdf>"
+  },
+  {
+    "source": "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+    "target": "output/qa/local-voice-models-2026-09-28/output/docx/Group 2_DeskCompanion_ProjectProposal_ZH_Review_v3.docx",
+    "raw": "<output/docx/Group 2_DeskCompanion_ProjectProposal_ZH_Review_v3.docx>"
+  },
+  {
+    "source": "output/qa/senplate-bowl-golden-v6-2026-09-17/brand-before-v6.md",
+    "target": "output/qa/senplate-bowl-golden-v6-2026-09-17/output/brand/2026-09-17-senplate-bowl-redesign-v5/bowl-01-concept.png",
+    "raw": "output/brand/2026-09-17-senplate-bowl-redesign-v5/bowl-01-concept.png"
+  },
+  {
+    "source": "output/qa/senplate-bowl-golden-v6-2026-09-17/brand-before-v6.md",
+    "target": "output/qa/senplate-bowl-golden-v6-2026-09-17/output/brand/2026-09-17-senplate-bowl-redesign-v5/bowl-01-concept.png",
+    "raw": "output/brand/2026-09-17-senplate-bowl-redesign-v5/bowl-01-concept.png"
+  },
+  {
+    "source": "output/qa/senplate-bowl-golden-v6-2026-09-17/brand-before-v6.md",
+    "target": "output/qa/senplate-bowl-golden-v6-2026-09-17/output/brand/2026-09-17-senplate-bowl-redesign-v5/bowl-01-generated.png",
+    "raw": "output/brand/2026-09-17-senplate-bowl-redesign-v5/bowl-01-generated.png"
+  },
+  {
+    "source": "output/qa/senplate-bowl-golden-v6-2026-09-17/brand-before-v6.md",
+    "target": "output/qa/senplate-bowl-golden-v6-2026-09-17/planning/2026-09-17/senplate-bowl-redesign-v5.md",
+    "raw": "planning/2026-09-17/senplate-bowl-redesign-v5.md"
+  },
+  {
+    "source": "output/qa/senplate-bowl-golden-v6-2026-09-17/brand-before-v6.md",
+    "target": "output/qa/senplate-bowl-golden-v6-2026-09-17/output/brand/2026-09-17-senplate-bowl-redesign-v5/README.md",
+    "raw": "output/brand/2026-09-17-senplate-bowl-redesign-v5/README.md"
+  },
+  {
+    "source": "output/qa/senplate-bowl-golden-v6-2026-09-17/brand-before-v6.md",
+    "target": "output/qa/senplate-bowl-golden-v6-2026-09-17/output/brand/2026-09-17-senplate-bowl-redesign-v5/manifest.json",
+    "raw": "output/brand/2026-09-17-senplate-bowl-redesign-v5/manifest.json"
+  },
+  {
+    "source": "output/qa/senplate-bowl-golden-v6-2026-09-17/brand-before-v6.md",
+    "target": "output/qa/senplate-bowl-golden-v6-2026-09-17/output/qa/senplate-bowl-redesign-v5-2026-09-17/closeout-validation.json",
+    "raw": "output/qa/senplate-bowl-redesign-v5-2026-09-17/closeout-validation.json"
+  },
+  {
+    "source": "output/qa/senplate-bowl-golden-v6-2026-09-17/brand-before-v6.md",
+    "target": "output/qa/senplate-bowl-golden-v6-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/brand-preview.png",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/brand-preview.png"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/brand-preview.png",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/brand-preview.png"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/ellipse-construction.png",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/ellipse-construction.png"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/bowl-before-after.png",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/bowl-before-after.png"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/curves-before-after.png",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/curves-before-after.png"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/qa/senplate-ellipse-a-v4-2026-09-17/ellipse-construction.json",
+    "raw": "output/qa/senplate-ellipse-a-v4-2026-09-17/ellipse-construction.json"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/Senplate_Brand_Assets_v4.zip",
+    "raw": "output/brand/Senplate_Brand_Assets_v4.zip"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/README.md",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/README.md"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/manifest.json",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/manifest.json"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/senplate-logo-green.svg",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/senplate-logo-green.svg"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/senplate-logo-green.png",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/senplate-logo-green.png"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/senplate-mark-green.svg",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/senplate-mark-green.svg"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/senplate-wordmark-green.svg",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/senplate-wordmark-green.svg"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/senplate-capital-s-comparison.png",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/senplate-capital-s-comparison.png"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/app-icon-forest-1024.png",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/app-icon-forest-1024.png"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/app-icon-ivory-1024.png",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/app-icon-ivory-1024.png"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/app-icon-black-1024.png",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/app-icon-black-1024.png"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/brand/2026-09-17-senplate-ellipse-a-v4/source-selected-a.png",
+    "raw": "output/brand/2026-09-17-senplate-ellipse-a-v4/source-selected-a.png"
+  },
+  {
+    "source": "output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+    "target": "output/qa/senplate-bowl-redesign-v5-2026-09-17/output/qa/senplate-ellipse-a-v4-2026-09-17/closeout-validation.json",
+    "raw": "output/qa/senplate-ellipse-a-v4-2026-09-17/closeout-validation.json"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/2026-09-17-senplate-golden-a-v3/brand-preview.png",
+    "raw": "output/brand/2026-09-17-senplate-golden-a-v3/brand-preview.png"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/Senplate_Brand_Assets_v3.zip",
+    "raw": "output/brand/Senplate_Brand_Assets_v3.zip"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/2026-09-17-senplate-golden-a-v3/senplate-logo-green.svg",
+    "raw": "output/brand/2026-09-17-senplate-golden-a-v3/senplate-logo-green.svg"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/2026-09-17-senplate-golden-a-v3/senplate-logo-green.png",
+    "raw": "output/brand/2026-09-17-senplate-golden-a-v3/senplate-logo-green.png"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/2026-09-17-senplate-golden-a-v3/senplate-mark-green.svg",
+    "raw": "output/brand/2026-09-17-senplate-golden-a-v3/senplate-mark-green.svg"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/2026-09-17-senplate-golden-a-v3/senplate-wordmark-green.svg",
+    "raw": "output/brand/2026-09-17-senplate-golden-a-v3/senplate-wordmark-green.svg"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/2026-09-17-senplate-golden-a-v3/source-selected-a.png",
+    "raw": "output/brand/2026-09-17-senplate-golden-a-v3/source-selected-a.png"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/2026-09-17-senplate-golden-a-v3/manifest.json",
+    "raw": "output/brand/2026-09-17-senplate-golden-a-v3/manifest.json"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/2026-09-17-senplate-golden-a-v3/README.md",
+    "raw": "output/brand/2026-09-17-senplate-golden-a-v3/README.md"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/qa/senplate-golden-a-v3-2026-09-17/closeout-validation.json",
+    "raw": "output/qa/senplate-golden-a-v3-2026-09-17/closeout-validation.json"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/qa/senplate-golden-a-v3-2026-09-17/golden-ratio-construction.json",
+    "raw": "output/qa/senplate-golden-a-v3-2026-09-17/golden-ratio-construction.json"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/qa/senplate-golden-a-v3-2026-09-17/figma-geometry.json",
+    "raw": "output/qa/senplate-golden-a-v3-2026-09-17/figma-geometry.json"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/2026-09-17-senplate-golden-a-v3/golden-ratio-construction.png",
+    "raw": "output/brand/2026-09-17-senplate-golden-a-v3/golden-ratio-construction.png"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/2026-09-17-senplate-golden-a-v3/proportions-before-after.png",
+    "raw": "output/brand/2026-09-17-senplate-golden-a-v3/proportions-before-after.png"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/2026-09-17-senplate-golden-a-v3/senplate-capital-s-comparison.png",
+    "raw": "output/brand/2026-09-17-senplate-golden-a-v3/senplate-capital-s-comparison.png"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/2026-09-17-senplate-refined-a-v2/edge-comparison.png",
+    "raw": "output/brand/2026-09-17-senplate-refined-a-v2/edge-comparison.png"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/2026-09-17-senplate-golden-a-v3/app-icon-forest-1024.png",
+    "raw": "output/brand/2026-09-17-senplate-golden-a-v3/app-icon-forest-1024.png"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/2026-09-17-senplate-golden-a-v3/app-icon-ivory-1024.png",
+    "raw": "output/brand/2026-09-17-senplate-golden-a-v3/app-icon-ivory-1024.png"
+  },
+  {
+    "source": "output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+    "target": "output/qa/senplate-ellipse-a-v4-2026-09-17/output/brand/2026-09-17-senplate-golden-a-v3/app-icon-black-1024.png",
+    "raw": "output/brand/2026-09-17-senplate-golden-a-v3/app-icon-black-1024.png"
+  },
+  {
+    "source": "output/qa/senplate-selected-a-2026-09-17/vendor/README.md",
+    "target": "output/qa/senplate-selected-a-2026-09-17/vendor/docimages/s1.png",
+    "raw": "docimages/s1.png"
+  },
+  {
+    "source": "output/qa/senplate-selected-a-2026-09-17/vendor/README.md",
+    "target": "output/qa/senplate-selected-a-2026-09-17/vendor/docimages/option_presets_small.png",
+    "raw": "docimages/option_presets_small.png"
+  }
+]

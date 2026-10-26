@@ -60,7 +60,7 @@ git push -u origin feature/xu-calendar
 
 PR 流程是协作约定，当前没有声称已启用付费分支保护或强制审批。提交前用 `git status` 和 `git diff --staged` 核对内容；不要强制推送其他人的分支。
 
-The #7–#14 code stack has been reviewed, fixed and merged; [review evidence](output/qa/2026-10-15-grok-review-merge/verification.md). The [original merge procedure](planning/2026-10-14/pr-stack-merge-order.md) is historical. PRs #4 and #5 remain separate.
+The #7–#14 code stack has been reviewed, fixed and merged; [review evidence](output/qa/2026-10-15-grok-review-merge/verification.md). The [original merge procedure](planning/2026-10-14/pr-stack-merge-order.md) is historical. PRs #4/#5/#15/#16 remain separate historical owner branches/drafts. Hardware PR #17 was reviewed, repaired and merged on 26 October; see the [current handoff](handoff.md). Latest local AliceChan/Omni work is not yet all on main.
 
 按变更运行相关检查。修改应用业务或界面时，从 `desk-companion/` 运行：
 
@@ -82,8 +82,8 @@ npm test
 | 需求、研究、决定及工作记录 | `planning/`、`research/`、根目录 Markdown |
 | 学校输入原件及组员原始方案 | `inputs/`；[来源与完整性清单](inputs/manifest.json) |
 | Proposal、Log sheet、询价、品牌及源码交付包 | `output/`、`outputs/`；保留各版 |
-| 设计、参考资料、字体许可及验证证据 | `assets/`、`design/`、`output/qa/` |
-| 已退役的 Senplate 工程 | `apps/`、`services/`、`tests/` 等；不作为当前产品要求 |
+| 设计、参考资料、字体许可及验证证据 | `design/desk-companion/`、`output/qa/`；退役材料随Senplate集中归档 |
+| 已退役的 Senplate 工程 | [archive/senplate](archive/senplate/README.md)；包含旧代码、设计、研究、学校版本和QA，不作为当前产品要求 |
 | 密钥、登录密码、配对令牌、运行数据库 | `.runtime/`、`.env` 等，Git 忽略；各人本机配置 |
 | 已安装依赖、工具缓存、构建结果 | `node_modules/`、`.venv/`、`python_packages/` 等；从锁文件重建 |
 

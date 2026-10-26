@@ -56,7 +56,7 @@
       "original_preserved": true
     },
     {
-      "path": "inputs/references/metafoodx/Metafoodx_Pomona_College_Case_Study.pdf",
+      "path": "archive/senplate/inputs/references/metafoodx/Metafoodx_Pomona_College_Case_Study.pdf",
       "original_name": "Metafoodx_Pomona_College_Case_Study.pdf",
       "provided_by": "user attachment",
       "source_location": "Downloads",
@@ -110,7 +110,7 @@
       "original_preserved": true
     },
     {
-      "path": "inputs/references/senplate/ChatGPT Image 2026年9月17日 11_43_29.png",
+      "path": "archive/senplate/inputs/references/senplate/ChatGPT Image 2026年9月17日 11_43_29.png",
       "original_name": "ChatGPT Image 2026年9月17日 11_43_29.png",
       "provided_by": "user attachment",
       "source_location": "Downloads",
@@ -128,5 +128,7 @@
       "original_preserved": true
     }
   ],
-  "missing_from_explicit_attachment_list": []
+  "missing_from_explicit_attachment_list": [],
+  "relocated_on": "2026-10-26",
+  "relocation_note": "Only retired Metafoodx/Senplate references moved; all original bytes and source metadata preserved."
 }

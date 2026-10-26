@@ -1,0 +1,108 @@
+{
+  "base_commit": "4417e3656959bd3deb7e0d42a2e42654723dfba4",
+  "moved_files": 5127,
+  "byte_identical_moved_files": 5111,
+  "intentional_text_changes": [
+    {
+      "path": "archive/senplate/apps/operations-web/package-lock.json",
+      "reason": "Vite build dependencies and source-map-js 1.2.2 patch"
+    },
+    {
+      "path": "archive/senplate/apps/operations-web/package.json",
+      "reason": "Vite 8.3.5 security patch"
+    },
+    {
+      "path": "archive/senplate/brand.md",
+      "reason": "Navigational Markdown links"
+    },
+    {
+      "path": "archive/senplate/output/qa/development-p1-orders-2026-09-19/verification.md",
+      "reason": "Navigational Markdown links"
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-14/scope-and-roles-for-review.md",
+      "reason": "Navigational Markdown links"
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-15/camera-power-and-scaling.md",
+      "reason": "Navigational Markdown links"
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "reason": "Navigational Markdown links"
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-15/procurement-guide.md",
+      "reason": "Navigational Markdown links"
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-16/business-plan-zh.md",
+      "reason": "Navigational Markdown links"
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-16/software-scope-and-architecture.md",
+      "reason": "Navigational Markdown links"
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-18/development-p0.md",
+      "reason": "Navigational Markdown links"
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-21/proposal-spec.md",
+      "reason": "Navigational Markdown links"
+    },
+    {
+      "path": "archive/senplate/product-senplate-historical.md",
+      "reason": "Navigational Markdown links"
+    },
+    {
+      "path": "archive/senplate/research/2026-09-16-competitions/competition-shortlist.md",
+      "reason": "Navigational Markdown links"
+    },
+    {
+      "path": "archive/senplate/research/2026-09-16-competitions/no-company-options.md",
+      "reason": "Navigational Markdown links"
+    },
+    {
+      "path": "archive/senplate/scripts/dev.py",
+      "reason": "Loopback TCP avoids deep Unix socket path limit"
+    }
+  ],
+  "preserved_media_documents_fonts_archives": 731,
+  "preserved_licence_files": 7,
+  "canonical_identity_preserved": true,
+  "exact_historical_identity_snapshot": true,
+  "input_original_hashes_checked": 14,
+  "current_school_deliverables_unchanged": 9,
+  "active_application_business_source_unchanged": true,
+  "allowed_active_changes": [
+    "desk-companion/README.md",
+    "desk-companion/frontend/package-lock.json",
+    "desk-companion/frontend/package.json"
+  ],
+  "maintained_markdown_links_checked": 1486,
+  "broken_maintained_links": [],
+  "frozen_snapshot_or_vendor_exclusions": [
+    {
+      "path": "archive/senplate/output/qa/senplate-bowl-golden-v6-2026-09-17/brand-before-v6.md",
+      "reason": "Frozen automatic snapshot or third-party example; retain original bytes and historical links"
+    },
+    {
+      "path": "archive/senplate/output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+      "reason": "Frozen automatic snapshot or third-party example; retain original bytes and historical links"
+    },
+    {
+      "path": "archive/senplate/output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+      "reason": "Frozen automatic snapshot or third-party example; retain original bytes and historical links"
+    },
+    {
+      "path": "archive/senplate/output/qa/senplate-selected-a-2026-09-17/vendor/README.md",
+      "reason": "Frozen automatic snapshot or third-party example; retain original bytes and historical links"
+    },
+    {
+      "path": "output/qa/local-voice-models-2026-09-28/handoff-before.md",
+      "reason": "Frozen automatic snapshot or third-party example; retain original bytes and historical links"
+    }
+  ],
+  "original_paths_accounted_for": 6123
+}
