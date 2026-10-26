@@ -4,8 +4,8 @@
 
 - `school/`：FYP Guide、Suggestion 模板、Proposal Guidelines / 范例和双周 Log Sheet 模板。文件名中的 `GroupX` 是学校原模板命名，已完成的本组文档继续使用 **Group 2**。
 - `teammate/`：用户提供的组员 DOCX 及智能屏／电子墨水日历 Markdown。其原始建议、竞品判断和健康表述属于组员输入；当前验证边界以 [product.md](../product.md) 为准，原文不自动成为已批准要求。
-- `references/metafoodx/`：用户提供的 Pomona 案例，属于已退役 Senplate 方向的研究证据。
+- [归档Metafoodx原件](../archive/senplate/inputs/references/metafoodx/)：用户提供的 Pomona 案例，属于已退役 Senplate 方向的研究证据。
 - `references/ava-shopping/`：用户提供的商品截图，用于研究显示方式；截图价格和宣传语不代表核实报价或实测。
-- `references/senplate/`：用户选用的历史品牌参考图片。
+- [归档Senplate参考图](../archive/senplate/inputs/references/senplate/)：用户选用的历史品牌参考图片。
 
-最新学校交付在 [output/submission/2026-09-28](../output/submission/2026-09-28/)，历史版本在 `output/docx/` 和 `output/pdf/`。第三方资料保留来源和权利，不作为本组原创内容。
+最新学校交付在 [output/submission/2026-09-28](../output/submission/2026-09-28)，桌面项目历史版本在 `output/docx/`；旧食品交付在 [Senplate归档](../archive/senplate/README.md)。第三方资料保留来源和权利，不作为本组原创内容。

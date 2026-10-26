@@ -1,25 +1,15 @@
 # Group 2 Current Handoff
 
-Updated: 15 October 2026. **The reviewed #7–#14 code stack is merged into main. This #6 delivery reconciles the tooling research and records the independent review.** PRs #4 and #5 remain separate.
+更新：2026-10-26。当前任务是仓库归档与组员PR整合。**硬件PR #17已审查修订并合并；Senplate集中归档与运行验证已完成。**Git交付入口见本轮QA。
 
-## Hardware update — 23 October 2026
+## 当前状态与证据
 
-Xu Ziqian's [hardware handoff](research/2026-10-23-mini-robot-hardware/README.md) adds the unchanged 9-page illustrated component PDF, 13 source records, a 22-function checklist and a procurement-before-test plan. Xu reports a school Pi 5 loan (RAM/power/cooling unconfirmed); Yuan separately confirmed a Pi 5 8GB test device on 22 October. Whether they refer to the same board is unconfirmed; the owner has paused Pi connectivity work. microSD and ESP32-CAM are already available, but CAM is not the proposed Maker ESP32. The current Mini requirement is one battery, solderless finished parts/stock wiring, 15–20 minutes cleaning and autonomous wireless docking. No purchases or real-device results are claimed; adapters, power/Qi/fan, safety, structure and the HK$2,000 full budget remain open.
+- [PR #17](https://github.com/tantalum666/FYP/pull/17)合并提交`4417e3656959bd3deb7e0d42a2e42654723dfba4`，审查头`0f7fbb19b17ab4801e5f3d8d621c022a85197e1d`。修正Pi记录混用、硬件目标归属、轴长和报价币种，补命令去重／期限／停止／完成证据；[审查QA](output/qa/2026-10-26-repo-cleanup/pr17-review.md)。没有新增硬件测试或部署。
+- [archive/senplate](archive/senplate/README.md)集中退役食品代码、规划／研究、品牌、采购、旧学校交付和QA；[原路径清单](archive/senplate/archive-manifest.json)记录迁移校验。当前代码在`desk-companion/`，学校原件、桌面Proposal／Log sheet和身份入口继续保留。
+- 本轮[完整阅读记录](output/qa/2026-10-26-repo-cleanup/reading-record.json)覆盖176个文件版本／16,752行；继承只用于同一轮已读的完全相同文本。验证与合并收尾见[QA](output/qa/2026-10-26-repo-cleanup/verification.md)。
+- 最新AliceChan／统一Omni／语音计时／Linux工作保存在软件本地工作区，未被本次归档覆盖或批量上传；main的实现边界见[product](product.md)。Pi继续暂停，旧API测试预算已关闭。
+- 其余开放PR #4、#5、#15、#16是拥有者较早分支／草稿；#4冲突，#5依赖#4，#16依赖#15且包含已否决人物。只核对依赖与状态，未声称完成它们的独立代码审查，也未盲合旧美术。
 
-The original upload did not authorize a merge. On 26 October the repository owner authorized review, repairs and merging; deployment remains separate. The existing software status and next step below are preserved. **Hardware next step:** close the stock motor-adapter chain and single-battery/Qi/fan power design before approving purchases; see the [verification plan](research/2026-10-23-mini-robot-hardware/verification-plan.md).
+## 一个下一步
 
-## Current state and evidence
-
-- Owner-reviewed facts, one owner-named folder on the existing note-job ledger, a shared persona, quiet-hour holds, failure/recovery copy and replaceable text adapters are implemented.
-- Review fixes close paired access to facts through assistant/text/voice paths; reject symlinks in every folder ancestor; preserve persona versions across reset/migration; and retain drafts and repeat-safe save recovery. source-map-js is patched to 1.2.2.
-- [QA](output/qa/2026-10-15-grok-review-merge/verification.md): actual merged code `2c1e465` passed 182 backend tests, 17 frontend tests, Ruff, typecheck, production build and npm audit (zero findings). Browser fixtures cover memory persistence/lost replies, conflicting persona editors and an independently verified folder write. One upstream Starlette test-client deprecation remains.
-- Providers were disabled; no live model, camera, microphone or hardware action. Two temporary browser tabs, interception, viewport override and QA server were cleaned up. Original A1 branch and private runtime were not changed.
-- A1 is the user's selected identity and intact 2D is the latest visual direction, retained on [PR #4](https://github.com/tantalum666/FYP/pull/4). The separate kernel is [PR #5](https://github.com/tantalum666/FYP/pull/5). Neither is part of this merge.
-
-## Remaining
-
-Named real-application/remote-PC execution; archive and complete business backup; owner choice of real provider/model and spend cap; real voice/wake/AEC and consented posture labels; Pi/iPhone/optics/RIG/cleaner verification. School submission status was not refreshed. Research notes are dated evidence, not measurements of commercial products.
-
-## One next step
-
-**Define one real target computer/application task and allowed data scope, then validate approval → execution → independent read-back, including refusal, cancellation and unknown-result recovery, on the existing JobService.**
+**单独整理并审查最新本地AliceChan／Omni软件增量。**保留当前未发布成果，按当前角色和统一模型方向拆出可审阅提交，不直接合并旧A1造型栈。真实人体／声学与目标Pi验收仍是独立后续事项。

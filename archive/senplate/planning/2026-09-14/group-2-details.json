@@ -1,0 +1,102 @@
+{
+  "group_number": "2",
+  "programme": "Higher Diploma in AI and Smart Technology (IT114124)",
+  "class_code": "AIST-2B",
+  "proposed_supervisor": "Marco",
+  "supervisor_verbal_agreement": null,
+  "stage": "multi_scenario_suggestion_v2_completed_for_review",
+  "primary_scenarios": [
+    "foodservice_replenishment",
+    "school_meal_support",
+    "personal_meal_awareness"
+  ],
+  "secondary_feature": "customer QR digital menu and ordering",
+  "members": [
+    {
+      "name": "Yuan Yuchen",
+      "student_id": "250342840",
+      "email": "250342840@stu.vtc.edu.hk",
+      "leader": true,
+      "planned_contribution_percent": 40
+    },
+    {
+      "name": "Xu Ziqian",
+      "student_id": "250137555",
+      "email": "250137555@stu.vtc.edu.hk",
+      "leader": false,
+      "planned_contribution_percent": 30
+    },
+    {
+      "name": "Li Wenhua",
+      "student_id": "250329909",
+      "email": "250329909@stu.vtc.edu.hk",
+      "leader": false,
+      "planned_contribution_percent": 30
+    }
+  ],
+  "notes": [
+    "Supervisor spelling is preserved exactly as supplied by the user.",
+    "Emails are derived using the explicit rule supplied by the user.",
+    "Contribution shares are a proposed workload allocation, not final assessment marks.",
+    "Do not sign, select supervisor approval, or submit the form based on this file.",
+    "All future group labels must use Group 2, as explicitly requested on 2026-09-14.",
+    "The user reported a discussion with Marco and requested broader scenarios. V1 files retain the earlier spelling; the revised scope has not been recorded as formally approved."
+  ],
+  "group_display_name": "Group 2",
+  "monitoring_mode": "continuous_in_place_monitoring_during_service",
+  "physical_workflow": "Chef places the prepared pan on the monitoring base; the pan remains there while customers are served.",
+  "owned_hardware": [
+    {
+      "model": "Arduino UNO R4 WiFi",
+      "quantity": 1,
+      "source": "explicit user statement"
+    }
+  ],
+  "design_reference": "Metafoodx form factor: weighing base, upright sensing head and display; adapted for continuous in-place monitoring.",
+  "compute_recommendation": {
+    "preferred_architecture": "single Raspberry Pi 5 with digital sensing interfaces and a directly connected camera",
+    "development": "reuse existing computer for development and training; UNO optional for acquisition/debugging",
+    "arduino_required": false,
+    "fallbacks_if_testing_requires": [
+      "separate acquisition controller",
+      "small form factor computer"
+    ],
+    "selection_status": "proposed in suggestion; no hardware performance validation or purchase"
+  },
+  "suggestion_outputs": {
+    "version": "v2",
+    "docx": "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx",
+    "pdf": "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf",
+    "page_count": 4,
+    "content_and_layout_checked": true,
+    "uploaded": false,
+    "signed": false
+  },
+  "supervisor_discussion_completed": true,
+  "supervisor_review_status": "discussion completed; revised v2 scope for review",
+  "supervisor_feedback": {
+    "date": "2026-09-14",
+    "source": "user-reported discussion with Marco",
+    "summary": "Technical approach, hardware and pain point broadly acceptable; broaden use cases and social value, for example schools and personal nutrition monitoring.",
+    "formal_approval_recorded": false
+  },
+  "project_title": "AI and IoT Based Food and Nutrition Monitoring System",
+  "suggestion_versions": [
+    {
+      "version": "v1",
+      "title": "AI and IoT Based Food Replenishment and Waste Reduction System",
+      "docx": "output/docx/AY26_ProjectSuggestion_Group 2.docx",
+      "pdf": "output/pdf/AY26_ProjectSuggestion_Group 2.pdf",
+      "status": "preserved_previous_version",
+      "page_count": 4
+    },
+    {
+      "version": "v2",
+      "title": "AI and IoT Based Food and Nutrition Monitoring System",
+      "docx": "output/docx/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.docx",
+      "pdf": "output/pdf/AY26_ProjectSuggestion_Group 2_v2_MultiScenario.pdf",
+      "status": "completed_for_supervisor_review",
+      "page_count": 4
+    }
+  ]
+}

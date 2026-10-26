@@ -22,7 +22,7 @@
 **/.mypy_cache/
 **/.coverage
 **/htmlcov/
-output/qa/**/fonts/ArialUnicode.ttf
+**/output/qa/**/fonts/ArialUnicode.ttf
 
 # Local private credentials or signing material must never enter a team snapshot.
 *.p12
