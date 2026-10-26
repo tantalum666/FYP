@@ -16,9 +16,9 @@
   "files": [
     {
       "path": "README.md",
-      "bytes": 6251,
-      "sha256": "18e71fd575885fa9bf185fbc981f0292d53c712de716e4cbec78647c4b1965a7",
-      "git_blob_sha1": "5699a6f89f43e4f4b4c334847f26e5902f18cf89"
+      "bytes": 7077,
+      "sha256": "2e3c7a40fd22d903fe4cd78c070dd7276f75150bd581ddcd1fb99fd19c41945c",
+      "git_blob_sha1": "b25c502010a5ebb7ceda7b2dc0152ae60d5fd577"
     },
     {
       "path": "verification-plan.md",
@@ -28,15 +28,15 @@
     },
     {
       "path": "integration-notes.md",
-      "bytes": 2374,
-      "sha256": "4a5d9540c8c47697ba9d65a0ca6e6a07552c78f67546d8810f4936c417fd7e97",
-      "git_blob_sha1": "bfd12750b4497d0131c4fa1917cc488df13d6191"
+      "bytes": 3821,
+      "sha256": "9001fa8f5bdcf99aa3d2a30b9a8faff8d9bddfcd659fde63f84983cfe6964191",
+      "git_blob_sha1": "f0a53dc1e80aad7b86a07dfaaff391b123460271"
     },
     {
       "path": "component-sources.json",
-      "bytes": 11172,
-      "sha256": "6cda142a9dea77ebc945c3df0eca0ec395730a4ca8bafba3e6d3df8a5b274adc",
-      "git_blob_sha1": "33f21f9ee3fba88c21616beba5985399fc195c55"
+      "bytes": 11322,
+      "sha256": "c5c7a273222f46e22cec0ad3681d57b0084bdfa8b17ea0553e707de230e98edb",
+      "git_blob_sha1": "7a6844c00748b00a56f5178ffbe428f2924d18dd"
     },
     {
       "path": "completeness-checklist.json",
@@ -50,5 +50,7 @@
       "sha256": "4b225e9baa76c0b130891ba5f90557a0f5425ccf6185b9ff5f16f4a985d45182",
       "git_blob_sha1": "b7a7153af106a427454c6f38e0a830654957057f"
     }
-  ]
+  ],
+  "reviewed_at": "2026-10-26",
+  "review_note": "Text repaired during merge review; PDF is unchanged. Current hashes below supersede the original upload text hashes. Full visual review repeated for all 9 pages."
 }

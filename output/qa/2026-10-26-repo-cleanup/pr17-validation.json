@@ -1,0 +1,17 @@
+{
+  "original_head": "8141d374e6e3d476d874310a7fed158a51fc28df",
+  "manifest_hashes": "pass",
+  "source_records": 13,
+  "checklist_rows": 22,
+  "walking_subtotal_usd": "76.89",
+  "pdf": {
+    "pages": 9,
+    "images": 13,
+    "links": 30,
+    "bytes_unchanged": true,
+    "all_pages_visually_checked": true
+  },
+  "relative_links_checked": 453,
+  "application_source_unchanged": true,
+  "remote_ci": "No checks or statuses exist for the original PR head; not represented as a pass."
+}

@@ -6,11 +6,11 @@
     "qty": "1块（候选）",
     "page": "https://sg.cytron.io/p-robo-esp32",
     "image": "https://raw.githubusercontent.com/CytronTechnologies/Cytron-ROBO-ESP32/main/images/robo-esp32-features-label.png",
-    "price": "官网单板 US$16.40；不含ESP32主控",
+    "price": "2026-10-26新加坡站 S$21.29；旧US$16.40仅为2026-10-22历史参考，不据新加坡链接确认美元价",
     "size": "外形见厂家尺寸图，数字待复核",
     "note": "出厂成品：带主控母座、Grove插座、两路电机螺丝端子、单节锂电池插座和总开关。可替代独立双轮驱动和部分分电连线。",
     "limit": "充电/供电总能力、温度反馈和新增风机分电还没核定；不能据此宣布整机供电通过。",
-    "price_review_date": "2026-10-22 reference retained"
+    "price_review_date": "2026-10-26"
   },
   {
     "id": "A2",
@@ -110,7 +110,7 @@
     "model": "Pololu 5113 · 100:1 Micro Metal Gearmotor LP 6V",
     "qty": "2只：左右各1只（电机本体单只销售）",
     "price": "US$29.95/只；2只 US$59.90",
-    "size": "主体10 × 12 × 32mm；轴另约10mm，D轴直径3mm",
+    "size": "减速箱截面10 × 12mm；主体约32mm，输出D轴9mm长、直径3mm；编码器凸出按厂家图留空间",
     "note": "成品带12 CPR编码器及侧向六针插座，不是裸电机加散件编码器。额定6V空载130rpm；该数值不是单节锂电下的实测速率。",
     "limit": "编码器侧向超出主体截面，布置须看厂家图；低压扭矩、载荷、库存和整条免焊引出链仍待确认。",
     "page": "https://www.pololu.com/product/5113",
@@ -119,7 +119,8 @@
     "unit_price_usd": "29.95",
     "purchase_packages": 2,
     "units_per_package": 1,
-    "subtotal_usd": "59.90"
+    "subtotal_usd": "59.90",
+    "dimension_review_date": "2026-10-26"
   },
   {
     "id": "D2",
@@ -190,4 +191,3 @@
     "subtotal_usd": "6.64"
   }
 ]
-
