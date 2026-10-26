@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-更新：2026-10-26。当前任务是仓库归档与组员PR整合。**硬件PR #17已审查修订并合并；Senplate集中归档与运行验证已完成。**Git交付入口见本轮QA。
+更新：2026-10-26。当前任务是仓库归档与组员PR整合。**硬件PR #17已审查修订并合并；Senplate集中归档与运行验证已完成。**Git交付：[硬件PR #17](https://github.com/tantalum666/FYP/pull/17)／[整理PR #18](https://github.com/tantalum666/FYP/pull/18)。
 
 ## 当前状态与证据
 
