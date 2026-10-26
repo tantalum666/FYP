@@ -41,11 +41,15 @@
 
 ## 硬件事实与待办
 
-[已合并的PR #17](https://github.com/tantalum666/FYP/pull/17)提供Xu的[硬件研究包](research/2026-10-23-mini-robot-hardware/README.md)：9页图册、来源、完整性表和采购前验证计划。固定主机、luwu rig arm、亚博7寸HDMI IPS触摸屏、Type-G单根主电源，以及单电池／免焊／15–20分钟清扫／自动回座无线充电，是硬件成员讨论中的设计目标；合并资料不等于整组采购批准或已测试。
+[PR #17](https://github.com/tantalum666/FYP/pull/17)的9页图册已合并并保留历史。Xu于10月26日提交新的[硬件采购评审包](research/2026-10-26-hardware-procurement-review/README.md)：5页带实物图教师审核版、首批3件、8条列价与13条必要未计价配套/线材。当前采购评审以此包为准；合并研究不等于整组或老师批准采购。
 
-学校可借Pi5的内存／电源／散热待核。拥有者另于10月22日确认软件测试机为 **Pi5 8GB**；是否同一台未知。Pi已在本地工作记录中启动并完成安装，但Mac USB网络未接通，用户要求暂停该工作。已有ESP32-CAM不是Maker ESP32替代。
+首批为luwu rig arm成品“手搓整机”、1400mAh Type-C桌面吸尘器改造样机及亚博7寸1024×600 HDMI IPS触摸屏；Rig约¥700仍为暂估。列价小计HK$1,158.43（预算换算1CNY=HK$1.10），余量HK$841.57；必要电源/Qi/风机驱动/线材/结构及运费未计全，HK$2,000整机预算仍未闭合。低价行走/控制方向为带线N20两轮、WROOM-32D完整开发板和出厂已焊排针DRV8833，均未实物验收。
 
-免焊电机转接、风机／电池／Qi完整供电、保护、结构、定位与HK$2,000整机预算仍未闭合。RIG相机持续取流未证明，不替代固定姿态相机或本地防跌落。模型不获得任意速度／GPIO／角度权限；详见[集成需求](research/2026-10-23-mini-robot-hardware/integration-notes.md)及[台架顺序](research/2026-10-23-mini-robot-hardware/verification-plan.md)。
+Xu本轮确认学校可借Pi 5主板、配套电源与散热器，microSD已有；借机内存未确认。Yuan于10月22日另确认软件测试机为 **Pi5 8GB**，是否同一台未知；软件Pi连接工作继续暂停。已有ESP32-CAM+下载底板不等于本次拟购的38Pin WROOM-32D主控。
+
+固定主机、左上luwu rig arm、右上手机Qi、具体亚博7寸屏、Type-G单根主线经单适配器低压分电，以及Mini单电池/自身垃圾仓/免焊/15–20分钟/自动回座无线充，是硬件成员的设计目标。主机无轮、无垃圾仓；Mini最终尺寸按实物紧凑排布，尚无已锁定尺寸或性能结果。
+
+原吸尘器/风机/电池插头与电流、完整单电池唯一充电管理及免焊供电、马达固定/支撑、桌边检测和自动对准仍待闭合。Rig固定观察位和Mini顶盖标记已获硬件成员允许，但持续取图/路线闭环未证明；不替代项目固定机位坐姿相机或本地防跌落/失联停车。模型不获得任意速度/GPIO/角度权限；[控制契约](research/2026-10-23-mini-robot-hardware/integration-notes.md)保留，最新[验证顺序](research/2026-10-26-hardware-procurement-review/assembly-and-verification.md)接续历史计划。没有新增采购、台架或固件结果。
 
 ## 数据与验证边界
 

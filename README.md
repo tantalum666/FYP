@@ -10,7 +10,7 @@
 | --- | --- |
 | 当前要求、完成边界和下一步 | [product.md](product.md) · [handoff.md](handoff.md) |
 | 软件代码与运行说明 | [desk-companion](desk-companion/README.md) · [操作指南](desk-companion/docs/operator-guide.md) |
-| 硬件成员最新进度 | [Mini图册、元件与采购前待办](research/2026-10-23-mini-robot-hardware/README.md) |
+| 硬件成员最新进度 | [10月26日教师审核版、采购表及待办](research/2026-10-26-hardware-procurement-review/README.md) |
 | 机械臂技术依据 | [RIG-Arm二次开发研究](research/2026-10-05-rig-arm/secondary-development-review.md) |
 | 当前学校提案与团队日志 | [2026-09-28交付目录](output/submission/2026-09-28/) · [制作与审阅记录](planning/2026-09-28/logsheet-and-proposal-review.md) |
 | 学校原件、成员与协作 | [inputs](inputs/README.md) · [Group 2资料](planning/2026-09-14/group-2-details.json) · [CONTRIBUTING](CONTRIBUTING.md) |
@@ -39,4 +39,4 @@ cd ..
 
 当前产品方向采用AliceChan和同一Omni会话；旧A1造型／独立内核草稿见PR #4／#5，早期Omni和A1研究草稿见PR #15／#16。它们保留待单独梳理，不能按编号直接把已否决的人物实现合回去。下一步见交接中的唯一任务。
 
-硬件目录是采购前研究，仍缺完整免焊转接、电源／Qi／风机及实物验证；学校文件完成不等于已签署或提交。进入本仓库的代理先遵守 [AGENTS.md](AGENTS.md)。本次整理和验证见 [QA](output/qa/2026-10-26-repo-cleanup/verification.md)。
+10月26日硬件采购审核稿含首批3件及低价测试件；列价小计HK$1,158.43，必要未计价配套另列，仍非完整到手总价。硬件仍缺完整免焊供电/线束、电源／Qi／风机及实物验证；学校文件完成不等于已签署或提交。进入本仓库的代理先遵守 [AGENTS.md](AGENTS.md)。本次整理和验证见 [QA](output/qa/2026-10-26-repo-cleanup/verification.md)。

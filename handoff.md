@@ -1,8 +1,10 @@
 # Group 2 Current Handoff
 
-更新：2026-10-26。当前任务是仓库归档与组员PR整合。**硬件PR #17已审查修订并合并；Senplate集中归档与运行验证已完成。**Git交付：[硬件PR #17](https://github.com/tantalum666/FYP/pull/17)／[整理PR #18](https://github.com/tantalum666/FYP/pull/18)。
+更新：2026-10-26。仓库归档与组员PR整合已完成；本轮同步Xu的采购前硬件评审进度，软件下一步保持。**硬件PR #17已审查修订并合并；Senplate集中归档与运行验证已完成。**Git交付：[硬件PR #17](https://github.com/tantalum666/FYP/pull/17)／[整理PR #18](https://github.com/tantalum666/FYP/pull/18)。
 
 ## 当前状态与证据
+
+- Xu最新[硬件采购评审包](research/2026-10-26-hardware-procurement-review/README.md)包含5页教师审核PDF、首批3件、低价行走/主控/检测及13条必要未计价配套/线材；HK$1,158.43只是列价小计，未关闭HK$2,000预算。学校Pi5电源/散热器已确认可借，内存与软件8GB设备身份仍分开。没有采购、台架或固件；待老师/团队审核首批、核实际接口/电流与Rig连续图像。本次只开新PR，不合并/部署，不改变下方软件工作。
 
 - [PR #17](https://github.com/tantalum666/FYP/pull/17)合并提交`4417e3656959bd3deb7e0d42a2e42654723dfba4`，审查头`0f7fbb19b17ab4801e5f3d8d621c022a85197e1d`。修正Pi记录混用、硬件目标归属、轴长和报价币种，补命令去重／期限／停止／完成证据；[审查QA](output/qa/2026-10-26-repo-cleanup/pr17-review.md)。没有新增硬件测试或部署。
 - [archive/senplate](archive/senplate/README.md)集中退役食品代码、规划／研究、品牌、采购、旧学校交付和QA；[原路径清单](archive/senplate/archive-manifest.json)记录迁移校验。当前代码在`desk-companion/`，学校原件、桌面Proposal／Log sheet和身份入口继续保留。
