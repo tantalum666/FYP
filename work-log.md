@@ -409,3 +409,9 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **目标：**多轮文字上下文按预算保留人格摘要、最近轮次、排序后的记忆和工具结果，并且不丢掉待批准状态。
 - **完成：**`context_budget.py` 与 `assistant_turns`。拥有者通道在回复之后写入轮次。配对会话不读取这些轮次。
 - **验证：**`pytest -q` 222 通过，Ruff 通过。前端没有改动。没有付费 API。
+
+### 同日补充：语音轮次进入同一预算
+
+- **目标：**拥有者语音转写进入文字上下文预算，配对会话不写。
+- **完成：**`VoiceTranscript` 与语音提示里的预算轮次、待批准草稿。音频不入库。
+- **验证：**`pytest -q` 226 通过，Ruff 通过。前端没有改动。没有付费 API。

@@ -1,7 +1,9 @@
 """Server-held credentials, bounded realtime sessions, replaceable wire protocols.
 
-No audio or transcript is persisted here. Only duration and provider-reported usage
-are recorded. Read/write tools share the same proposal service as the text UI.
+Audio is not stored. Owner and local-desk voice transcripts are text rows in
+the same turn budget as typed chat. A paired display does not write or read
+them. Duration and provider-reported usage are still the only session metrics.
+Read/write tools share the same proposal service as the text UI.
 """
 
 import asyncio
@@ -24,10 +26,12 @@ from fastapi import APIRouter, Depends, WebSocket, Request
 from starlette.websockets import WebSocketDisconnect
 
 from .assistant import TOOLS
-from .tool_policy import tool_visible
+from .context import voice_context_note
 from .persona import voice_instructions
 from .store import DomainError
 from .tool_dispatch import ToolDispatcher
+from .tool_policy import tool_visible
+from .turns import apply_voice_event, voice_turn_log
 
 
 def flatten_schema(schema):
@@ -387,6 +391,11 @@ class VoiceService:
         session_id = uuid4().hex
         drafts, usage = {}, {}
         allow_memory = principal["kind"] in {"owner", "agent"}
+        transcript = voice_turn_log(self.runtime, session_id, principal)
+        if allow_memory:
+            note = voice_context_note(self.runtime)
+            if note:
+                instructions = instructions + "\n" + note
         dispatcher = ToolDispatcher(
             self.runtime, session_id, allow_memory=allow_memory, language=language
         )
@@ -466,6 +475,7 @@ class VoiceService:
                             if not 1 <= len(value) <= 3000:
                                 raise DomainError("INVALID_TEXT", 422)
                             last_activity = time.monotonic()
+                            transcript.add_typed(value)
                             for item in protocol.text(value):
                                 await send_provider(item)
                         elif message.get("type") in {"stop", "mute"}:
@@ -497,6 +507,7 @@ class VoiceService:
                                 self.state = event["state"]
                                 last_activity = time.monotonic()
                             elif kind in {"interrupted", "cancel_tools"}:
+                                apply_voice_event(transcript, event)
                                 await cancel_drafts(event.get("ids"))
                                 self.state = "listening"
                             elif kind == "audio":
@@ -505,6 +516,7 @@ class VoiceService:
                                 last_activity = time.monotonic()
                             elif kind == "transcript":
                                 last_activity = time.monotonic()
+                                apply_voice_event(transcript, event)
                             elif kind == "tool":
                                 self.state = "thinking"
                                 last_activity = time.monotonic()
@@ -514,6 +526,7 @@ class VoiceService:
                                 usage = event["usage"]
                                 continue
                             elif kind == "turn_complete":
+                                apply_voice_event(transcript, event)
                                 self.state = "confirm" if drafts else "listening"
                             elif kind == "error":
                                 await send_client(event)
@@ -598,6 +611,7 @@ class VoiceService:
         finally:
             dispatcher.stop_accepting()
             try:
+                transcript.commit()
                 # Only numeric usage is evidence, not arbitrary provider response text.
                 safe_usage = (
                     {
