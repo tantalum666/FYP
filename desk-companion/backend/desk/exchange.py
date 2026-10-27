@@ -294,6 +294,23 @@ class ExchangeService:
                 if row["kind"] == "backup"
                 else {"created": 0, "kept": 0}
             )
+            persona_result = (
+                self.runtime.persona.restore(
+                    conn, preview["metadata"].get("persona_bundle", {"persona": None})
+                )
+                if row["kind"] == "backup"
+                else {"created": 0, "kept": 0}
+            )
+            job_result = (
+                self.runtime.jobs.restore(
+                    conn,
+                    preview["metadata"].get(
+                        "job_bundle", {"jobs": [], "events": [], "folder": None}
+                    ),
+                )
+                if row["kind"] == "backup"
+                else {"created": 0, "kept": 0}
+            )
             conn.execute("UPDATE import_previews SET state='applied' WHERE id=?", (preview_id,))
             self.store.record(
                 conn,
@@ -308,6 +325,10 @@ class ExchangeService:
                 "tasks_kept": task_result["kept"],
                 "memories_created": memory_result["created"],
                 "memories_kept": memory_result["kept"],
+                "persona_created": persona_result["created"],
+                "persona_kept": persona_result["kept"],
+                "jobs_created": job_result["created"],
+                "jobs_kept": job_result["kept"],
                 "applied": True,
             }
 
@@ -386,6 +407,8 @@ class ExchangeService:
                 "workspace_preferences": self.runtime.data.preferences(),
                 "task_bundle": self.runtime.tasks.export(),
                 "memory_bundle": self.runtime.memory.export(),
+                "persona_bundle": self.runtime.persona.export(),
+                "job_bundle": self.runtime.jobs.export(),
             }
         return {
             "format": "desk-companion-backup",
@@ -408,6 +431,12 @@ class ExchangeService:
             task_bundle = self.runtime.tasks.validate_backup(content.get("task_bundle", {}))
             memory_bundle = self.runtime.memory.validate_backup(
                 content.get("memory_bundle", {"memories": [], "revisions": []})
+            )
+            persona_bundle = self.runtime.persona.validate_backup(
+                content.get("persona_bundle", {"persona": None})
+            )
+            job_bundle = self.runtime.jobs.validate_backup(
+                content.get("job_bundle", {"jobs": [], "events": [], "folder": None})
             )
             rows, ids = [], set()
             from .calendar import is_occurrence
@@ -458,6 +487,11 @@ class ExchangeService:
                 "memory_bundle": memory_bundle,
                 "memories_count": len(memory_bundle["memories"]),
                 "memory_restore": "merge_keep_existing",
+                "persona_bundle": persona_bundle,
+                "persona_restore": "merge_keep_existing",
+                "job_bundle": job_bundle,
+                "jobs_count": len(job_bundle["jobs"]),
+                "job_restore": "merge_keep_existing_running_becomes_review",
             },
         )
 
