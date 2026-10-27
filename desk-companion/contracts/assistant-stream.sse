@@ -1,0 +1,16 @@
+data: {"type":"tool","phase":"started","tool":"owner_clock"}
+
+data: {"type":"preview","text":"Checking the clock"}
+
+data: {"type":"preview","text":""}
+
+data: {"type":"tool","phase":"finished","tool":"owner_clock","outcome":"ok","saved":false}
+
+data: {"type":"preview","text":"It is Tuesday."}
+
+data: {"type":"delta","text":" Morning."}
+
+data: {"type":"done","reply":{"kind":"reply","message":"It is Tuesday. Morning.","mode":"owner"}}
+
+data: {"type":"error","code":"TEXT_AI_UNAVAILABLE","status":503}
+

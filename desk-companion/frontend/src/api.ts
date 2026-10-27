@@ -1,3 +1,4 @@
+import { readBody } from "./replyStream";
 import { apiFetch, isNative, native } from "./native";
 export class ApiError extends Error {
   constructor(
@@ -86,6 +87,14 @@ export async function write<T>(path: string, body: unknown): Promise<T> {
     throw error;
   }
 }
+function aborted(signal: AbortSignal): Promise<never> {
+  return new Promise((_, reject) => {
+    const fail = () => reject(new DOMException("The operation was aborted.", "AbortError"));
+    if (signal.aborted) fail();
+    else signal.addEventListener("abort", fail, { once: true });
+  });
+}
+
 export async function writeStream(
   path: string,
   body: unknown,
@@ -103,17 +112,20 @@ export async function writeStream(
   const controller = new AbortController();
   const timer = window.setTimeout(() => controller.abort(), 75000);
   try {
-    const response = await fetch("/api" + path, {
-      method: "POST",
-      credentials: "same-origin",
-      signal: controller.signal,
-      headers: {
-        "Content-Type": "application/json",
-        "X-Desk-Request": "1",
-        "X-Operation-Id": operation.key,
-      },
-      body: JSON.stringify(body),
-    });
+    const response = await Promise.race([
+      apiFetch(path, {
+        method: "POST",
+        credentials: "same-origin",
+        signal: controller.signal,
+        headers: {
+          "Content-Type": "application/json",
+          "X-Desk-Request": "1",
+          "X-Operation-Id": operation.key,
+        },
+        body: JSON.stringify(body),
+      }),
+      aborted(controller.signal),
+    ]);
     if (!response.ok) {
       let code = "REQUEST_FAILED";
       try {
@@ -124,14 +136,7 @@ export async function writeStream(
       }
       throw new ApiError(code, response.status);
     }
-    if (!response.body) throw new ApiError("CONNECTION_LOST");
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      onChunk(decoder.decode(value, { stream: true }));
-    }
+    await Promise.race([readBody(response, onChunk), aborted(controller.signal)]);
     sessionStorage.removeItem(pendingKey);
   } catch (error) {
     if (

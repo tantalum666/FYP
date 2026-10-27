@@ -397,3 +397,9 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **目标：**用确定性排序替换笔记、事务、日历和记忆的子串扫描，并覆盖中文和更新时间。
 - **完成：**`rank.py`。`memory_query` 可选查询。离线场景在 `retrieval_eval.py`。
 - **验证：**`pytest -q` 213 通过，Ruff 通过。没有付费 API。
+
+### 同日补充：手机与网页共用回复流
+
+- **目标：**iPhone 使用和网页相同的 `POST /api/assistant/messages/stream` 契约，并写成文档和契约测试。
+- **完成：**原生发送不再改走 JSON。同一份 SSE 样例由 Python 和前端测试解析。网页按块读，手机桥可以一次交回正文。
+- **验证：**`pytest -q` 215 通过，Ruff 通过。前端 `npm test` 25 通过，`npm run build` 通过。本机 Chrome 登录后发送 “Remember: the stream code is lantern”，看到待批准草稿和 Draft cancelled。没有付费 API。

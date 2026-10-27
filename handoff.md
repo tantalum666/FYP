@@ -1,6 +1,11 @@
 # Group 2 Current Handoff
 
-更新：2026-10-27。当前分支在真实片段之上改检索排序。真实片段、对话质量、有界计划和代理循环仍然有效。下面 2026-10-26 的归档交接仍然有效。
+更新：2026-10-27。当前分支在检索排序之上改手机回复流。检索、真实片段、对话质量、有界计划和代理循环仍然有效。下面 2026-10-26 的归档交接仍然有效。
+
+## 手机回复流
+
+- 网页和 iPhone 都请求 `POST /api/assistant/messages/stream`。事件是 `tool`、`preview`、`delta`、`done`、`error`。手机桥可以一次交回整个正文，解析相同。
+- 样例在 `desk-companion/contracts/assistant-stream.sse`。契约见 [assistant-stream.md](desk-companion/docs/assistant-stream.md)。JSON 接口仍保留。
 
 ## 检索排序
 
@@ -10,7 +15,7 @@
 ## 真实片段
 
 - Qwen／Gemini 的 `deltas()` 交出文本片段。可见文字来自 JSON 里的 `message`。流失败且没有文本时，同一条用量里改走 `complete()`，再按短段送出。
-- 工具进度仍在。草稿仍要拥有者批准。手机原生请求仍走 JSON。
+- 工具进度仍在。草稿仍要拥有者批准。手机和网页共用上面的回复流。
 - 契约见 [agent-loop.md](desk-companion/docs/agent-loop.md)。
 
 ## 对话质量
@@ -44,7 +49,7 @@
 
 ## 这一支的下一步
 
-按顺序审阅：PR #20，#32，#34，#37，#41，#44，然后这一支的检索排序。若同时改 `handoff.md`、`decision-log.md`、`work-log.md`，保留两边的条目。
+按顺序审阅：PR #20，#32，#34，#37，#41，#44，#47，然后这一支的手机回复流。若同时改 `handoff.md`、`decision-log.md`、`work-log.md`，保留两边的条目。
 
 ## 2026-10-26 仓库归档交接
 

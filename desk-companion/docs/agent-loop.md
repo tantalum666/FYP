@@ -70,7 +70,7 @@
 
 ## 回复流
 
-`POST /api/assistant/messages` 仍然一次返回整段 JSON。网页发送走 `POST /api/assistant/messages/stream`，用 `text/event-stream`。Qwen 与 Gemini 的 `deltas()` 按提供方的流式接口交出文本片段。程序从尚未写完的 JSON 里抽出 `message`，用 `preview` 事件替换当前可见文字。读取工具在下一步之前会清空这段预览。草稿或最终回复如果已经按真实片段出现，就不再切成 24 字。流失败且还没有任何文本时，同一条用量记录里改走原来的 `complete()`，再按最多 24 字分段。工具事件仍只有名字和阶段。未配置文字模型时走本地规则的分段。同一操作 id 的缓存回复不会再调用提供方。手机原生请求仍走原来的 JSON 接口。
+`POST /api/assistant/messages` 仍然一次返回整段 JSON。网页发送走 `POST /api/assistant/messages/stream`，用 `text/event-stream`。Qwen 与 Gemini 的 `deltas()` 按提供方的流式接口交出文本片段。程序从尚未写完的 JSON 里抽出 `message`，用 `preview` 事件替换当前可见文字。读取工具在下一步之前会清空这段预览。草稿或最终回复如果已经按真实片段出现，就不再切成 24 字。流失败且还没有任何文本时，同一条用量记录里改走原来的 `complete()`，再按最多 24 字分段。工具事件仍只有名字和阶段。未配置文字模型时走本地规则的分段。同一操作 id 的缓存回复不会再调用提供方。网页和 iPhone 都请求这条流；手机桥可能一次交回整个正文，解析规则相同。字段见 [assistant-stream.md](assistant-stream.md)。原来的 JSON 接口仍保留。
 
 ## 审计
 

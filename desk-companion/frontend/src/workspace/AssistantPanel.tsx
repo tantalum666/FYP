@@ -7,7 +7,7 @@ import { useWorkspace } from "./WorkspaceContext";
 import { VoiceAudio } from "./audio";
 import { useDraftGuard } from "../components/DraftGuard";
 import type { Task, TaskInput } from "./taskTypes";
-import { apiOrigin, isNative } from "../native";
+import { apiOrigin } from "../native";
 import { DateTime } from "luxon";
 import { ComputerJobsPanel } from "./ComputerJobsPanel";
 import { ToolActivity, type ToolCall } from "./ToolActivity";
@@ -148,24 +148,20 @@ export function AssistantPanel({
     setProgress([]);
     try {
       const body = { message: text, language, task_id: taskId ?? null };
-      if (isNative) {
-        setReply(await write<Reply>("/assistant/messages", body));
-      } else {
-        let state = emptyStream();
-        let pending = "";
-        await writeStream("/assistant/messages/stream", body, (chunk) => {
-          const next = consumeChunk(state, pending, chunk);
-          state = next.state;
-          pending = next.buffer;
-          if (alive.current) {
-            setLiveMessage(state.message);
-            setProgress(state.tools);
-          }
-        });
-        if (state.error) throw new ApiError(state.error, state.status ?? 500);
-        if (!state.reply) throw new ApiError("CONNECTION_LOST");
-        if (alive.current) setReply(state.reply as Reply);
-      }
+      let state = emptyStream();
+      let pending = "";
+      await writeStream("/assistant/messages/stream", body, (chunk) => {
+        const next = consumeChunk(state, pending, chunk);
+        state = next.state;
+        pending = next.buffer;
+        if (alive.current) {
+          setLiveMessage(state.message);
+          setProgress(state.tools);
+        }
+      });
+      if (state.error) throw new ApiError(state.error, state.status ?? 500);
+      if (!state.reply) throw new ApiError("CONNECTION_LOST");
+      if (alive.current) setReply(state.reply as Reply);
       await reload();
       window.dispatchEvent(new Event("desk:jobs"));
       setText("");

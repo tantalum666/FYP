@@ -130,3 +130,22 @@ export function consumeChunk(
   const parsed = parseSse(buffer + chunk);
   return { state: parsed.events.reduce(reduceReply, state), buffer: parsed.rest };
 }
+
+/** Read a Response body, one chunk at a time. A buffered phone body is one chunk. */
+export async function readBody(
+  response: Response,
+  onChunk: (text: string) => void,
+): Promise<void> {
+  if (!response.body) throw new Error("NO_BODY");
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) {
+      const tail = decoder.decode();
+      if (tail) onChunk(tail);
+      return;
+    }
+    onChunk(decoder.decode(value, { stream: true }));
+  }
+}
