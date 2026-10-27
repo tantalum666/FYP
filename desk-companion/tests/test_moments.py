@@ -81,7 +81,11 @@ def test_quiet_hours_and_a_short_gap_suggest_nothing(tmp_path):
         ),
         "soon",
     )
-    assert runtime.moments.view()["suggestion"] is None
+    soon = runtime.moments.view()["suggestion"]
+    assert soon["kind"] == "open_loop"
+    assert "finish the report" in soon["reason_en"]
+    assert "30 to 180" in soon["reason_en"]
+    assert "Soon" not in soon["reason_en"]
 
 
 def test_display_cannot_read_suggestions(tmp_path):
@@ -105,3 +109,41 @@ def test_display_cannot_read_suggestions(tmp_path):
         }
     )
     assert display.get("/api/moments").status_code == 403
+
+
+def test_an_unanswered_followup_is_the_open_loop_and_three_dismissals_pause_it(tmp_path):
+    clock = [datetime(2026, 10, 27, 2, tzinfo=UTC)]
+    runtime = Runtime(Store(tmp_path, password="fixture-only", clock=lambda: clock[0]))
+    from desk.tasks import TaskInput
+
+    runtime.tasks.create(TaskInput(title="Call the lab", interval_minutes=15), "task")
+    reply = runtime.assistant.local_message(
+        AssistantMessage(message="Goal: finish the report by Friday"),
+        "goal",
+    )
+    runtime.assistant.decide(reply["proposal"]["id"], "confirm", "confirm-goal")
+    clock[0] = datetime(2026, 10, 27, 2, 16, tzinfo=UTC)
+    runtime.tasks.tick()
+    current = runtime.moments.view()["suggestion"]
+    assert current["kind"] == "open_loop"
+    assert current["title"] == "Call the lab"
+    assert "unanswered" in current["reason_en"] and "30 to 180" in current["reason_en"]
+    for index, message in enumerate(
+        (
+            "Goal: send the notes by Friday",
+            "Goal: file the receipt by Friday",
+        )
+    ):
+        extra = runtime.assistant.local_message(AssistantMessage(message=message), f"goal-{index}")
+        runtime.assistant.decide(extra["proposal"]["id"], "confirm", f"confirm-{index}")
+    # The follow-up is one loop. Dismiss it, then two goal loops, and the kind pauses.
+    runtime.moments.dismiss(current["id"], "dismiss-follow")
+    for index in range(2):
+        nxt = runtime.moments.view()["suggestion"]
+        assert nxt["kind"] == "open_loop"
+        runtime.moments.dismiss(nxt["id"], f"dismiss-loop-{index}")
+    paused = runtime.moments.view()
+    assert paused["suggestion"] is None and paused["paused"] is True
+    assert "Open-loop" in paused["pause_reason_en"]
+    restored = runtime.moments.reset("reset-loops")
+    assert restored["paused"] is False and restored["suggestion"]["kind"] == "open_loop"

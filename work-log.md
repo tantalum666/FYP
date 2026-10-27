@@ -395,3 +395,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **完成：**`desk/moments.py`。三次关闭后暂停，可清空。空档不等于真的有空。
 - **验证：**`uv run --no-sync pytest -q` 216 通过。前端 `npm test` 21 通过，`npm run build` 通过。
 - **剩余：**带日期的记忆引用和语气设置。不依赖每日反省那条 PR。
+
+## 2026-10-27｜未完成事项
+
+- **目标：**没有落在空隙窗口的定时日程时，仍温和地提出一条未完成事项。
+- **完成：**跟进优先，其次七天内到期的目标，再次两天未更新的事务。说明原因。同一种关闭三次后暂停。
+- **验证：**`uv run --no-sync pytest -q` 217 passed。`uv run --no-sync ruff check backend scripts tests` 通过。前端 `npm test` 21 passed，`npm run build` 通过。无付费调用。
+- **剩余：**没有合适的未完成事项时仍然不提议。不调用模型。
