@@ -20,6 +20,10 @@ from .assistant import CalendarQuery, ChangeProposal
 
 Risk = Literal["read", "draft", "cancel", "stop"]
 
+# A timeout stops waiting and discards a late unapproved draft. It does not kill
+# the worker thread; SQLite may still finish the write that is already in flight.
+TIMEOUTS = {"read": 5.0, "draft": 8.0, "cancel": 5.0, "stop": 3.0}
+
 
 class EmptyArgs(StrictModel):
     pass
@@ -35,8 +39,15 @@ class FeedbackDraft(StrictModel):
 
 
 class Capability:
-    def __init__(self, name: str, risk: Risk, model: type[StrictModel]):
+    def __init__(
+        self,
+        name: str,
+        risk: Risk,
+        model: type[StrictModel],
+        timeout: float | None = None,
+    ):
         self.name, self.risk, self.model = name, risk, model
+        self.timeout = TIMEOUTS[risk] if timeout is None else timeout
 
 
 def _capabilities() -> dict[str, Capability]:

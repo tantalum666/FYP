@@ -30,17 +30,40 @@ class ToolAudit:
                     outcome TEXT NOT NULL,
                     saved INTEGER NOT NULL,
                     ref_kind TEXT,
-                    ref_id TEXT
+                    ref_id TEXT,
+                    message TEXT NOT NULL DEFAULT ''
+                )"""
+            )
+            columns = {row[1] for row in conn.execute("PRAGMA table_info(tool_calls)")}
+            if "message" not in columns:
+                conn.execute("ALTER TABLE tool_calls ADD COLUMN message TEXT NOT NULL DEFAULT ''")
+            conn.execute(
+                """CREATE TABLE IF NOT EXISTS tool_effects(
+                    call_key TEXT PRIMARY KEY,
+                    outcome TEXT NOT NULL,
+                    result TEXT NOT NULL
                 )"""
             )
 
-    def record(self, *, name, arguments, call_key, outcome, result, risk="unknown", channel=None):
+    def record(
+        self,
+        *,
+        name,
+        arguments,
+        call_key,
+        outcome,
+        result,
+        risk="unknown",
+        channel=None,
+        message="",
+    ):
         saved, ref_kind, ref_id = _effect(result)
         with self.store.connection(write=True) as conn:
             conn.execute(
                 """INSERT INTO tool_calls(
-                    at, channel, call_key, tool, risk, arguments, outcome, saved, ref_kind, ref_id
-                ) VALUES(?,?,?,?,?,?,?,?,?,?)""",
+                    at, channel, call_key, tool, risk, arguments, outcome, saved, ref_kind, ref_id,
+                    message
+                ) VALUES(?,?,?,?,?,?,?,?,?,?,?)""",
                 (
                     iso(self.store.clock()),
                     _clip(channel or channel_for(call_key), 16),
@@ -52,6 +75,7 @@ class ToolAudit:
                     saved,
                     ref_kind,
                     ref_id,
+                    _clip(message if isinstance(message, str) else "", 500),
                 ),
             )
 
@@ -112,6 +136,7 @@ def _view(row):
         "saved": bool(row["saved"]),
         "ref_kind": row["ref_kind"],
         "ref_id": row["ref_id"],
+        "message": row["message"] or "",
     }
 
 

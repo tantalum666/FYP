@@ -235,8 +235,9 @@ def test_malformed_model_response_cannot_execute_or_claim_completion(desk):
         "fixture",
     )
     service = TextAssistant(r, config, httpx.MockTransport(response))
-    with pytest.raises(DomainError, match="TEXT_AI_UNAVAILABLE"):
-        service.message(AssistantMessage(message="Create"), "invalid")
+    reply = service.message(AssistantMessage(message="Create"), "invalid")
+    assert reply["kind"] == "clarify" and reply["saved"] is False
+    assert "could not use" in reply["message"]
     assert not r.tasks.listing()["tasks"]
 
 

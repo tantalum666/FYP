@@ -1,13 +1,14 @@
 # Group 2 Current Handoff
 
-更新：2026-10-27。本片只做文字代理循环和工具调用。下面 2026-10-26 的归档交接仍然有效，不是本片的下一步。
+更新：2026-10-27。本片做文字代理循环、语音共用工具策略、离线场景和工具失败处理。下面 2026-10-26 的归档交接仍然有效，不是本片的下一步。
 
 ## 本片状态
 
-- 文字回合走 `desk/agent_loop.py`：工具注册表、参数校验、最多 3 步／45 秒、`read`／`draft`／`cancel`／`stop`。草稿和作业准备仍要拥有者批准。取消和软件停止沿用原路径。未知工具直接拒绝。
-- 每次工具调用写入 `tool_calls`。拥有者在助理面板和 `GET /api/assistant/tool-calls` 查看。配对屏 403。
-- Qwen／Gemini 仍只经 `text_providers.py`。`DESK_TEXT_DAILY_CAP` 默认 40。离线场景用 `ScriptedProvider`，不联网。契约见 [agent-loop.md](desk-companion/docs/agent-loop.md)。
-- 验证：`pytest -q` 190 通过，Ruff 通过，前端 `npm test` 17 通过，`npm run build` 通过。没有付费 API。
+- 文字回合走 `desk/agent_loop.py`。语音不跑多步循环，但和文字一样走 `desk/tool_policy.py`：注册表、风险、审计、每工具超时，以及同一操作只接受一个副作用结果。草稿和作业准备仍要拥有者批准。
+- 无法使用的模型回复最多试 3 次，然后给拥有者一句说明，不执行工具。超时后晚到的未批准草稿或待审作业会被取消。
+- 离线场景覆盖提醒、记忆回忆、拒绝越界、待批准的电脑笔记、步数和时间上限，以及文字／语音同一次拒绝。不联网。见 [agent-loop.md](desk-companion/docs/agent-loop.md)。
+- 每次工具调用写入 `tool_calls`，含一句说明。拥有者在助理面板和 `GET /api/assistant/tool-calls` 查看。配对屏 403。本机 Chrome 打开过面板。
+- 验证：`pytest -q` 193 通过，Ruff 通过，前端 `npm test` 19 通过，`npm run build` 通过。没有付费 API。
 - 未做：任意电脑或应用控制；合并 PR #4／#5／#15／#16；真实模型试听。
 
 ## 本片下一步

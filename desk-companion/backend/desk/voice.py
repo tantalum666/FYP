@@ -386,7 +386,9 @@ class VoiceService:
         session_id = uuid4().hex
         drafts, usage = {}, {}
         allow_memory = principal["kind"] in {"owner", "agent"}
-        dispatcher = ToolDispatcher(self.runtime, session_id, allow_memory=allow_memory)
+        dispatcher = ToolDispatcher(
+            self.runtime, session_id, allow_memory=allow_memory, language=language
+        )
         ready = asyncio.Event()
         send_lock = asyncio.Lock()
         provider_send_lock = asyncio.Lock()

@@ -331,6 +331,11 @@
   align-items: baseline;
   font-size: 13px;
 }
+.tool-audit-message {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
 .tool-audit pre {
   white-space: pre-wrap;
   overflow-wrap: anywhere;

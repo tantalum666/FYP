@@ -22,6 +22,7 @@ from .tasks import TaskInput, TaskChange, TaskQuery, TaskAction
 from .jobs import JobInput, JobQuery
 from .memory import MemoryDeleteDraft, MemoryReplaceDraft, MemorySaveDraft
 from .tool_audit import ToolAudit, channel_for
+from .tool_policy import audit_suppressed, memory_blocked, outcome_message
 
 
 class AssistantMessage(StrictModel):
@@ -217,19 +218,29 @@ class AssistantService:
             key, {"type": "assistant_draft", "kind": kind, "data": payload}, apply
         )
 
-    def tool(self, name, arguments, call_key, *, allow_memory=True):
-        """Execute one already-routed call and record it. Confirmation is not a tool."""
+    def tool(self, name, arguments, call_key, *, allow_memory=True, audit=True):
+        """Execute one already-routed call and record it. Confirmation is not a tool.
+
+        execute_tool() records the single owner-facing row and suppresses this
+        audit for that call. Direct callers, including local rules, still record.
+        """
+        record = audit and not audit_suppressed()
         try:
             result = self._execute_tool(name, arguments, call_key, allow_memory=allow_memory)
         except DomainError as error:
-            self._record_tool(name, arguments, call_key, error.code, {"error": error.code, "saved": False})
+            if record:
+                self._record_tool(
+                    name, arguments, call_key, error.code, {"error": error.code, "saved": False}
+                )
             raise
         except Exception:
-            self._record_tool(
-                name, arguments, call_key, "TOOL_FAILED", {"error": "TOOL_FAILED", "saved": False}
-            )
+            if record:
+                self._record_tool(
+                    name, arguments, call_key, "TOOL_FAILED", {"error": "TOOL_FAILED", "saved": False}
+                )
             raise
-        self._record_tool(name, arguments, call_key, "ok", result)
+        if record:
+            self._record_tool(name, arguments, call_key, "ok", result)
         return result
 
     def _record_tool(self, name, arguments, call_key, outcome, result):
@@ -244,11 +255,12 @@ class AssistantService:
             risk=risk,
             outcome=outcome,
             result=result,
+            message=outcome_message(outcome, result),
         )
 
     def _execute_tool(self, name, arguments, call_key, *, allow_memory=True):
         try:
-            if name.startswith("memory_") and not allow_memory:
+            if memory_blocked(name, allow_memory):
                 raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
             if not isinstance(arguments, dict):
                 raise DomainError("TOOL_ARGUMENTS_INVALID", 422)

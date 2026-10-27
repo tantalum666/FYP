@@ -1,11 +1,21 @@
-"""Offline scenarios for the agent loop. No network and no hosted model."""
+"""Offline scenarios for the agent loop. No network and no hosted model.
 
+Add a scenario by writing `scenario_<name>(new_runtime)`, raising AssertionError
+when the contract fails, and registering the function in `run_all`. Use
+ScriptedProvider for model steps. Do not open a socket. The text and voice
+paths share execute_tool(); a scenario that needs voice submits one call
+through ToolDispatcher and compares the audit row with the text loop.
+"""
+
+import asyncio
 import copy
+import os
 from dataclasses import dataclass
 
 from .agent_loop import AgentLoop
 from .model_provider import ModelStep, ScriptedProvider
 from .store import DomainError
+from .tool_dispatch import ToolDispatcher
 
 
 @dataclass(frozen=True)
@@ -22,7 +32,11 @@ def run_all(new_runtime) -> list[ScenarioResult]:
         scenario_remind,
         scenario_recall,
         scenario_refuse,
+        scenario_approval,
+        scenario_step_bound,
+        scenario_time_bound,
         scenario_provider_retry,
+        scenario_voice_same_policy,
     ):
         try:
             scenario(new_runtime)
@@ -105,6 +119,73 @@ def scenario_refuse(new_runtime):
     _expect_audit(runtime, tool="shell_exec", risk="refused", outcome="TOOL_NOT_ALLOWED", saved=False)
 
 
+def scenario_approval(new_runtime):
+    previous = os.environ.get("DESK_COMPUTER_ENABLED")
+    os.environ["DESK_COMPUTER_ENABLED"] = "1"
+    try:
+        runtime = new_runtime()
+        provider = ScriptedProvider(
+            [
+                ModelStep(
+                    "Review this note.",
+                    "computer_job_draft",
+                    {"title": "Note", "content": "Hello"},
+                )
+            ]
+        )
+        reply = _run(runtime, provider, "approve")
+        if reply["kind"] != "job" or reply["saved"] is not False or reply["job"]["state"] != "review":
+            raise AssertionError(reply)
+        if provider.calls != 1:
+            raise AssertionError("approval draft was retried")
+        if list(runtime.store.directory.glob("computer-notes/*.txt")):
+            raise AssertionError("note was written before approval")
+        _expect_audit(runtime, tool="computer_job_draft", risk="draft", outcome="ok", saved=False)
+    finally:
+        if previous is None:
+            os.environ.pop("DESK_COMPUTER_ENABLED", None)
+        else:
+            os.environ["DESK_COMPUTER_ENABLED"] = previous
+
+
+def scenario_step_bound(new_runtime):
+    runtime = new_runtime()
+    provider = ScriptedProvider([ModelStep("Checking.", "memory_query", {})] * 4)
+    reply = AgentLoop(runtime, provider, max_steps=3).run(
+        system="You are a test persona.",
+        context={"user_message": "steps"},
+        key="steps",
+        language="en",
+        allow_memory=True,
+    )
+    if provider.calls != 3 or reply["kind"] != "clarify" or "identify the task" not in reply["message"]:
+        raise AssertionError((provider.calls, reply))
+    if reply["saved"] is not False:
+        raise AssertionError(reply)
+
+
+def scenario_time_bound(new_runtime):
+    runtime = new_runtime()
+    ticks = iter([0, 0, 0, 100])
+    provider = ScriptedProvider(
+        [
+            ModelStep("Checking.", "memory_query", {}),
+            ModelStep("Again.", "memory_query", {}),
+        ]
+    )
+    reply = AgentLoop(runtime, provider, max_seconds=10, clock=lambda: next(ticks)).run(
+        system="You are a test persona.",
+        context={"user_message": "time"},
+        key="time",
+        language="en",
+        allow_memory=True,
+    )
+    if provider.calls != 1 or reply["kind"] != "clarify" or "time limit" not in reply["message"]:
+        raise AssertionError((provider.calls, reply))
+    if len(runtime.assistant.audit.listing()) != 1:
+        raise AssertionError(runtime.assistant.audit.listing())
+
+
 def scenario_provider_retry(new_runtime):
     runtime = new_runtime()
     provider = ScriptedProvider(
@@ -115,6 +196,34 @@ def scenario_provider_retry(new_runtime):
         raise AssertionError((provider.calls, reply))
     if runtime.assistant.audit.listing():
         raise AssertionError("a provider retry recorded a tool call")
+
+
+def scenario_voice_same_policy(new_runtime):
+    runtime = new_runtime()
+    provider = ScriptedProvider(
+        [ModelStep("I deleted the folder.", "shell_exec", {"command": "rm -rf /"})]
+    )
+    reply = _run(runtime, provider, "voice-policy")
+
+    async def once():
+        dispatcher = ToolDispatcher(runtime, "eval-voice", allow_memory=True)
+        dispatcher.submit({"id": "call-1", "name": "shell_exec", "arguments": {"command": "rm -rf /"}})
+        _event, result = await asyncio.wait_for(dispatcher.results.get(), timeout=2)
+        await dispatcher.close()
+        return result
+
+    result = asyncio.run(once())
+    if result != {"error": "TOOL_NOT_ALLOWED", "saved": False}:
+        raise AssertionError(result)
+    if reply.get("error") != "TOOL_NOT_ALLOWED" or reply["saved"] is not False:
+        raise AssertionError(reply)
+    rows = [row for row in runtime.assistant.audit.listing() if row["tool"] == "shell_exec"]
+    if len(rows) != 2 or {row["channel"] for row in rows} != {"text", "voice"}:
+        raise AssertionError(rows)
+    if any(row["outcome"] != "TOOL_NOT_ALLOWED" or row["risk"] != "refused" or row["saved"] for row in rows):
+        raise AssertionError(rows)
+    if rows[0]["message"] != rows[1]["message"] or "Nothing was changed" not in rows[0]["message"]:
+        raise AssertionError(rows)
 
 
 def _run(runtime, provider, key):

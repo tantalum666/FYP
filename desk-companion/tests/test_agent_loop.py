@@ -47,12 +47,26 @@ def test_registry_matches_the_voice_tool_list_and_rejects_unknown_calls():
         parse_call("memory_query", {"body": "extra"})
     capability, arguments = parse_call("memory_save_draft", {"body": "A fact"})
     assert capability.risk == "draft" and arguments == {"body": "A fact"}
+    assert CAPABILITIES["memory_query"].timeout == 5
+    assert CAPABILITIES["calendar_create_draft"].timeout == 8
+    assert CAPABILITIES["computer_job_cancel"].timeout == 5
+    assert CAPABILITIES["stop_physical_outputs"].timeout == 3
 
 
-def test_offline_scenarios_cover_remind_recall_refusal_and_provider_retry(tmp_path):
+def test_offline_scenarios_cover_the_scripted_contracts(tmp_path):
     results = run_all(lambda: _runtime(tmp_path))
     failed = [result for result in results if not result.passed]
-    assert not failed and len(results) == 4
+    assert [result.name for result in results] == [
+        "scenario_remind",
+        "scenario_recall",
+        "scenario_refuse",
+        "scenario_approval",
+        "scenario_step_bound",
+        "scenario_time_bound",
+        "scenario_provider_retry",
+        "scenario_voice_same_policy",
+    ]
+    assert not failed
 
 
 def test_read_failure_is_returned_to_the_model_and_a_bad_draft_is_not_retried(tmp_path):
@@ -233,7 +247,112 @@ def test_malformed_hosted_output_is_retried_then_rejected(tmp_path):
         ),
         httpx.MockTransport(response),
     )
-    with pytest.raises(DomainError, match="TEXT_AI_UNAVAILABLE"):
-        service.message(AssistantMessage(message="Create"), "invalid")
+    reply = service.message(AssistantMessage(message="Create"), "invalid")
+    assert reply["kind"] == "clarify" and reply["saved"] is False
+    assert "could not use" in reply["message"]
+    assert reply.get("error") is None
+    assert service.message(AssistantMessage(message="Create"), "invalid") == reply
     assert len(calls) == 3 and not runtime.tasks.listing()["tasks"]
+    assert runtime.assistant.proposals() == []
     assert os.environ.get("DESK_TEXT_PROVIDER", "none") == "none"
+
+
+def test_unusable_model_step_retries_then_stays_a_readable_reply(tmp_path):
+    runtime = _runtime(tmp_path)
+    recovered = ScriptedProvider([ModelStep("  ", "none", {}), ModelStep("Recovered.", "none", {})])
+    reply = _run(runtime, recovered, "recover")
+    assert recovered.calls == 2 and reply["message"] == "Recovered."
+
+    exhausted = ScriptedProvider([ModelStep("", "none", {})] * 3)
+    failed = _run(runtime, exhausted, "exhausted")
+    assert exhausted.calls == 3
+    assert failed["kind"] == "clarify" and failed["saved"] is False
+    assert "could not use" in failed["message"]
+    assert runtime.assistant.audit.listing() == []
+
+
+def test_same_side_effect_is_prepared_once(tmp_path):
+    from desk.tool_policy import execute_tool
+
+    runtime = _runtime(tmp_path)
+    arguments = {"body": "A fact"}
+    first = execute_tool(
+        runtime, "memory_save_draft", arguments, "text/one", scope="same-op", language="en"
+    )
+    second = execute_tool(
+        runtime, "memory_save_draft", arguments, "text/two", scope="same-op", language="en"
+    )
+    assert first["proposal"]["id"] == second["proposal"]["id"]
+    assert first["saved"] is False and runtime.memory.for_model() == []
+    with runtime.store.connection() as conn:
+        assert conn.execute("SELECT COUNT(*) FROM assistant_proposals").fetchone()[0] == 1
+    assert len(runtime.assistant.audit.listing()) == 1
+    other = execute_tool(
+        runtime,
+        "memory_save_draft",
+        {"body": "Another fact"},
+        "text/three",
+        scope="same-op",
+        language="en",
+    )
+    assert other["proposal"]["id"] != first["proposal"]["id"]
+
+
+def test_tool_timeout_discards_the_late_draft_and_is_not_replayed(tmp_path):
+    import threading
+    import time
+
+    from desk.tool_policy import execute_tool
+
+    runtime = _runtime(tmp_path)
+    original = runtime.assistant.tool
+    started, release = threading.Event(), threading.Event()
+    calls = []
+
+    def slow(*args):
+        calls.append(args[0])
+        started.set()
+        assert release.wait(2)
+        return original(*args)
+
+    runtime.assistant.tool = slow
+
+    def waiter(done, _seconds):
+        assert started.wait(2)
+        return False
+
+    result = execute_tool(
+        runtime,
+        "memory_save_draft",
+        {"body": "Once"},
+        "text/timeout",
+        scope="timeout-op",
+        language="en",
+        waiter=waiter,
+    )
+    assert result == {"error": "TOOL_TIMEOUT", "saved": False}
+    release.set()
+    deadline = time.monotonic() + 2
+    state = None
+    while time.monotonic() < deadline:
+        with runtime.store.connection() as conn:
+            row = conn.execute("SELECT state FROM assistant_proposals").fetchone()
+        state = None if row is None else row["state"]
+        if state == "cancelled":
+            break
+        time.sleep(0.02)
+    assert state == "cancelled"
+    assert runtime.assistant.proposals() == []
+    assert runtime.memory.for_model() == []
+    again = execute_tool(
+        runtime,
+        "memory_save_draft",
+        {"body": "Once"},
+        "text/timeout-again",
+        scope="timeout-op",
+        language="en",
+    )
+    assert again == result and calls == ["memory_save_draft"]
+    rows = runtime.assistant.audit.listing()
+    assert len(rows) == 1 and rows[0]["outcome"] == "TOOL_TIMEOUT"
+    assert "too long" in rows[0]["message"]

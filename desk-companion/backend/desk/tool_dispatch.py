@@ -6,13 +6,13 @@ unapproved proposal in the thread itself, including after the socket has closed.
 """
 
 import asyncio
-import contextlib
 import hashlib
 import json
 import threading
 from dataclasses import dataclass, field
 
 from .store import DomainError, encode
+from .tool_policy import discard_unapproved, execute_tool, kind_for, owner_message
 
 
 @dataclass
@@ -27,9 +27,10 @@ class Invocation:
 
 
 class ToolDispatcher:
-    def __init__(self, runtime, session_id, *, allow_memory=True):
+    def __init__(self, runtime, session_id, *, allow_memory=True, language="en"):
         self.runtime, self.session_id = runtime, session_id
         self.allow_memory = allow_memory
+        self.language = "zh" if language == "zh" else "en"
         self.calls: dict[str, Invocation] = {}
         self.results = asyncio.Queue(maxsize=64)
         self.slots = asyncio.Semaphore(2)
@@ -61,6 +62,7 @@ class ToolDispatcher:
             risk=risk,
             outcome=code,
             result={"error": code, "saved": False},
+            message=owner_message(kind_for(code), self.language),
         )
 
     def submit(self, event):
@@ -129,34 +131,26 @@ class ToolDispatcher:
         call.task = asyncio.create_task(self._run(call))
 
     def _discard(self, result):
-        if not result:
-            return
-        with contextlib.suppress(DomainError):
-            if "proposal" in result:
-                proposal_id = result["proposal"]["id"]
-                self.runtime.assistant.decide(proposal_id, "cancel", "voice-discard/" + proposal_id)
-            if "job" in result and result["job"]["state"] == "review":
-                job_id = result["job"]["id"]
-                self.runtime.jobs.cancel(job_id, "voice-discard/" + job_id, review_only=True)
+        discard_unapproved(self.runtime, result, "voice-discard")
 
     def _invoke(self, call):
         if call.cancelled.is_set():
             result = {"error": "TOOL_CANCELLED", "saved": False}
             self._audit_reject(call.event, "TOOL_CANCELLED")
         else:
-            try:
-                if call.event["name"].startswith("memory_") and not self.allow_memory:
-                    raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
-                result = self.runtime.assistant.tool(
-                    call.event["name"],
-                    call.event["arguments"],
-                    "voice/"
-                    + hashlib.sha256((self.session_id + call.event["id"]).encode()).hexdigest(),
-                )
-            except DomainError as error:
-                result = {"error": error.code, "saved": False}
-            except Exception:
-                result = {"error": "TOOL_FAILED", "saved": False}
+            call_key = "voice/" + hashlib.sha256(
+                (self.session_id + call.event["id"]).encode()
+            ).hexdigest()
+            result = execute_tool(
+                self.runtime,
+                call.event["name"],
+                call.event["arguments"],
+                call_key,
+                scope=self.session_id + "\n" + call.event["id"],
+                allow_memory=self.allow_memory,
+                language=self.language,
+                channel="voice",
+            )
         with call.lock:
             if call.cancelled.is_set():
                 self._discard(result)

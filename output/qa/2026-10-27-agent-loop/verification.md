@@ -22,7 +22,24 @@ npm run build
 
 结果：17 通过。`tsc --noEmit` 与 Vite 生产构建通过。npm audit 报告 0 vulnerabilities。
 
-离线场景由 pytest 调用 `desk.agent_eval.run_all`，不打开网络。覆盖：日历提醒草稿不写入、记忆查询后才回答、拒绝 `shell_exec`、提供方第一次 `TEXT_AI_UNAVAILABLE` 后重试成功。
+离线场景由 pytest 调用 `desk.agent_eval.run_all`，不打开网络。当时覆盖：日历提醒草稿不写入、记忆查询后才回答、拒绝 `shell_exec`、提供方第一次 `TEXT_AI_UNAVAILABLE` 后重试成功。
+
+## 同日补充
+
+继续同一分支。没有重读全库 Markdown。补读并修改了代理循环、工具策略、语音调度、审计、离线场景、助理面板和上面列出的规范。
+
+```sh
+.venv/bin/pytest -q
+.venv/bin/ruff check backend scripts tests
+```
+
+结果：193 通过，仍是那条既有 Starlette／httpx 弃用警告。Ruff 通过。
+
+`frontend` 下 `npm test` 19 通过，`npm run build` 通过，`npm audit` 0。
+
+离线场景现为八个：提醒、记忆回忆、拒绝 `shell_exec`、待批准电脑笔记、三步上限、注入时钟的时间上限、提供方重试、文字与语音同一次拒绝。
+
+本机 Chrome 打开 `http://127.0.0.1:5190/`，以拥有者登录后打开助理。面板显示 `memory_save_draft`、Needs approval、ok、Not saved、local，以及 “Prepared for review. Nothing was saved.”。展开参数后可见该草稿正文。没有批准，没有付费 API。
 
 ## 本轮更新的规范
 

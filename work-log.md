@@ -353,3 +353,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **完成：**`capabilities.py` 登记现有工具和风险。`agent_loop.py` 限制 3 步、45 秒，并在工具执行前重试临时失败。`tool_audit.py` 记录每次调用，拥有者可在 `/api/assistant/tool-calls` 和助理面板查看。`ScriptedProvider` 与 `agent_eval.py` 覆盖提醒草稿、记忆查询、拒绝 shell，以及提供方失败后的重试。`DESK_TEXT_DAILY_CAP` 默认 40。
 - **验证：**在 `desk-companion/` 执行 `.venv/bin/pytest -q`，190 通过；`.venv/bin/ruff check backend scripts tests` 通过。`frontend` 下 `npm test` 17 通过，`npm run build` 通过。没有付费 API。记录见 [QA](output/qa/2026-10-27-agent-loop/verification.md)。
 - **剩余：**任意电脑或应用控制仍未做。真实模型效果未测。PR #4／#5／#15／#16 未合并。主动跟进调度不在本片。
+
+### 同日补充：语音共用策略、离线场景和失败处理
+
+- **目标：**语音工具调用与文字走同一注册表、执行和审计；补齐离线场景；畸形输出、单工具超时、副作用幂等和拥有者能读的错误说明。
+- **完成：**`tool_policy.py` 的 `execute_tool()` 同时服务文字循环和语音调度。同一操作、工具和参数只保留先写入的结果。超时后取消晚到的未批准草稿或待审作业。无法使用的完成最多三次，然后返回说明。离线场景增加待批准笔记、步数、时间，以及文字／语音同一次拒绝。助理面板显示这句说明。
+- **验证：**`pytest -q` 193 通过，Ruff 通过。前端 `npm test` 19 通过，`npm run build` 通过，npm audit 0。本机 Chrome 登录后打开助理面板，看到 `memory_save_draft`、待批准、未保存和“Prepared for review. Nothing was saved.”。没有付费 API。
+- **剩余：**同上。真实模型效果仍未测。
