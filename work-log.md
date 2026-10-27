@@ -388,3 +388,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **完成：**`persona_bundle` 与 `job_bundle`。运行令牌不导出。非终态作业恢复为待审阅。已有行不覆盖。
 - **验证：**`uv run --no-sync pytest -q` 213 通过。`uv run --no-sync ruff check backend scripts tests` 通过。前端未改。
 - **剩余：**笔记文件字节仍在本机目录，不在 JSON 里。没有 Web Push 发送。PR #4／#5／#15／#16 仍不合并。
+
+## 2026-10-27｜语气与主动程度
+
+- **目标：**主人在设置页明确选择语气、详略和主动程度，对话不能擅自改写。
+- **完成：**三项写入现有工作区偏好。`pack_conversation` 带一行风格说明。主动程度关闭时不发早晨／晚间检查；较少时跳过晚间检查。旧记录缺这三项时用默认值。
+- **验证：**`uv run --no-sync pytest -q` 214 通过。`uv run --no-sync ruff check backend scripts tests` 通过。前端 `npm test` 20 通过，`npm run build` 通过。没有付费调用。
+- **剩余：**不从聊天里推断语气。空隙建议和每日反省在各自的 PR 里读取同一字段。事务跟进仍用各自的开关。

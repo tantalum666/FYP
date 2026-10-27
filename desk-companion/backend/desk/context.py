@@ -3,6 +3,7 @@
 from datetime import timedelta
 
 from .calendar import iso
+from .workspace_data import owner_style
 
 
 def pack_conversation(runtime, task_id=None, *, include_memory=True):
@@ -19,4 +20,5 @@ def pack_conversation(runtime, task_id=None, *, include_memory=True):
         "more_tasks": len(tasks["tasks"]) > 30,
         "selected_task": selected,
         "calendar": window["occurrences"][:80],
+        "style": owner_style(runtime.data.preferences()),
     }
