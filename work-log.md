@@ -388,3 +388,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **完成：**`persona_bundle` 与 `job_bundle`。运行令牌不导出。非终态作业恢复为待审阅。已有行不覆盖。
 - **验证：**`uv run --no-sync pytest -q` 213 通过。`uv run --no-sync ruff check backend scripts tests` 通过。前端未改。
 - **剩余：**笔记文件字节仍在本机目录，不在 JSON 里。没有 Web Push 发送。PR #4／#5／#15／#16 仍不合并。
+
+## 2026-10-27｜空隙建议
+
+- **目标：**在下一项日程前的空档提出一条下一步，说明原因，关闭后记住。
+- **完成：**`desk/moments.py`。三次关闭后暂停，可清空。空档不等于真的有空。
+- **验证：**随后补记完整 pytest 与前端构建。
+- **剩余：**带日期的记忆引用和语气设置。不依赖每日反省那条 PR。

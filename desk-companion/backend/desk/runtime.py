@@ -17,6 +17,7 @@ from .tasks import TaskService
 from .text_ai import TextAssistant
 from .jobs import JobService
 from .memory import MemoryService
+from .moments import MomentService
 from .goals import GoalService
 from .nudges import NudgeService
 from .notify import Notifier
@@ -41,6 +42,7 @@ class Runtime:
         self.assistant = AssistantService(self)
         self.data = WorkspaceData(store)
         self.nudges = NudgeService(self)
+        self.moments = MomentService(self)
         self.notify = Notifier(self.store)
         self.voice = VoiceService(self)
         self.exchange = ExchangeService(self)

@@ -48,6 +48,7 @@ import {
 } from "./components/Dialogs";
 import { useDraftState } from "./components/DraftGuard";
 import { MemoryPanel } from "./workspace/MemoryPanel";
+import { MomentCard } from "./workspace/MomentCard";
 import { NoticeInbox } from "./workspace/NoticeInbox";
 import { PersonaPanel } from "./workspace/PersonaPanel";
 import { TaskPanel } from "./workspace/TaskPanel";
@@ -716,6 +717,8 @@ export function App() {
               </>
             )}
             {page === "today" && (
+              <>
+              <MomentCard t={t} />
               <TodayView
                 snapshot={visible}
                 language={language}
@@ -731,6 +734,7 @@ export function App() {
                 onTasks={() => goPage("tasks")}
                 t={t}
               />
+              </>
             )}
             {page === "tasks" && (
               <TaskPanel
