@@ -55,6 +55,19 @@
 4. 把函数名加进 `run_all` 的元组。`tests/test_agent_loop.py` 会按这个顺序检查。
 5. 语音只比较调度结果时，用 `ToolDispatcher.submit` 发一条调用，并和文字循环的审计行对照。不要另写一套参数校验。
 
+## 对话质量
+
+`desk/conversation_eval.py` 另有一组场景，不放进上面的 `run_all`，所以原来的名单保持不变。离线检查人格是否进入系统提示并且回复仍自称 Desk Companion、越界或危险请求被拒绝、含糊请求只问一个问题且不调用工具。中英文都有。`pytest` 用 `ScriptedProvider`，不联网。
+
+### 如何加一个对话场景
+
+1. 在 `cases()` 里加一条 `ConversationCase`。`expect` 只能是 `persona`、`refuse` 或 `clarify`。
+2. `scripted_message` 和 `scripted_tool` 是离线模型的那一步。拒绝场景要给出注册表里没有的工具名。含糊场景的工具是 `none`，回复里只能有一个 `?` 或 `？`。
+3. 检查函数是 `check_persona`、`check_refuse`、`check_clarify`。真实提供方脚本用同一套函数。
+4. 把名字加进 `tests/test_conversation_eval.py` 的顺序断言。
+
+可选的真实提供方只在 `scripts/conversation_eval.py`。它在这三个条件同时成立时才发请求：`DESK_CONVERSATION_EVAL=1`、文字提供方已按现有规则配置、`DESK_CONVERSATION_EVAL_CAP` 是 1 到 24 的整数。上限在每次调用前检查，用完就停。每个场景用一套新的临时运行时，不打开拥有者的数据库。不要把这个脚本放进 CI。
+
 ## 审计
 
 模型路径上的每次调用只写一行 `tool_calls`：文字循环、语音调度，以及两者在执行前就拒绝的调用。本地规则直接调用 `assistant.tool` 时仍会写一行。记录通道（`text`、`voice`、`local`）、工具、风险、参数、结果代码、是否保存、提案或作业 id，以及给拥有者看的短句。参数最长约 12000 字符，更长则只留截断预览。不记录 API 密钥。

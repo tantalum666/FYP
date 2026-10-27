@@ -373,3 +373,9 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **目标：**“安排这一周”或“准备明天”时，模型给出有限步骤，拥有者看得到，副作用只进待批准草稿。
 - **完成：**`propose_plan` 最多五步。回复和审计都带上计划摘要。随后的草稿仍不写入。
 - **验证：**`pytest -q` 197 通过，Ruff 通过。前端 `npm test` 20 通过，`npm run build` 通过。没有付费 API。
+
+### 同日补充：对话质量
+
+- **目标：**离线覆盖人格、拒绝越界或不安全请求、含糊时只问一个问题，以及中英文。同一套检查可以在明确环境变量和硬上限下对真实提供方再跑，且不进入 CI。
+- **完成：**`conversation_eval.py` 与 `scripts/conversation_eval.py`。脚本默认直接拒绝。离线测试不联网。
+- **验证：**`pytest -q` 202 通过，Ruff 通过。脚本在未设置环境变量时退出码 2。没有付费 API。

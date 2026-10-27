@@ -1,6 +1,12 @@
 # Group 2 Current Handoff
 
-更新：2026-10-27。当前分支在只读查询之上加有界计划。只读查询和代理循环仍然有效。下面 2026-10-26 的归档交接仍然有效。
+更新：2026-10-27。当前分支在有界计划之上加对话质量检查。有界计划、只读查询和代理循环仍然有效。下面 2026-10-26 的归档交接仍然有效。
+
+## 对话质量
+
+- 离线场景在 `desk/conversation_eval.py`，不并进原来的 `agent_eval.run_all`。覆盖人格、拒绝越界或危险请求、含糊时只问一个问题，以及中英文。
+- `scripts/conversation_eval.py` 只有在 `DESK_CONVERSATION_EVAL=1`、文字提供方已配置、并且 `DESK_CONVERSATION_EVAL_CAP` 是 1 到 24 的整数时才调用真实提供方。不进入 CI。
+- 契约见 [agent-loop.md](desk-companion/docs/agent-loop.md)。
 
 ## 有界计划
 
@@ -27,7 +33,7 @@
 
 ## 这一支的下一步
 
-按顺序审阅：先合并代理循环 PR #20，再把只读查询对准 `main` 后合并，然后合并有界计划。若同时改 `handoff.md`、`decision-log.md`、`work-log.md`，保留两边的条目。
+按顺序审阅：PR #20，再只读查询，再有界计划，然后这一支的对话质量。若同时改 `handoff.md`、`decision-log.md`、`work-log.md`，保留两边的条目。
 
 ## 2026-10-26 仓库归档交接
 
