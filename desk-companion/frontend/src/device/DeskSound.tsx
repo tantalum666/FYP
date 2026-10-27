@@ -3,7 +3,9 @@ import { DateTime } from "luxon";
 import { request } from "../api";
 import type { Translate } from "../types";
 interface Announcement {
-  kind: "reminder" | "brief" | "posture" | "task" | "evening";
+  kind: "reminder" | "brief" | "posture" | "task" | "evening" | "notice";
+  body_en?: string;
+  body_zh?: string;
   reason_en?: string;
   reason_zh?: string;
   position?: string;
@@ -79,7 +81,8 @@ export function useDeskSound(t: Translate) {
           a.kind === "brief" ||
           a.kind === "posture" ||
           a.kind === "task" ||
-          a.kind === "evening"
+          a.kind === "evening" ||
+          a.kind === "notice"
         ) {
           const text = (a.events ?? [])
             .map(
@@ -88,7 +91,9 @@ export function useDeskSound(t: Translate) {
             )
             .join(". ");
           const full =
-            a.kind === "evening"
+            a.kind === "notice"
+              ? t(a.body_en ?? a.reason_en ?? "Check-in.", a.body_zh ?? a.reason_zh ?? "检查。")
+              : a.kind === "evening"
               ? t(
                   a.reason_en ?? "Evening check-in.",
                   a.reason_zh ?? "晚间检查。",

@@ -360,3 +360,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **完成：**未删除事实和更正记录写入 `desk-backup.json`，恢复只补缺少的行。忘掉一条会删除仍含该句的回复缓存、取消相关草稿，并结束正在进行的语音会话。填充词、同一姓名和同一偏好主题生成带说明的建议，确认仍走既有草稿，默认不调用模型。「我了解的关于你的事」页包含更正、忘掉和「为什么提醒我」。离线场景在 `desk-companion/evals/memory_proactivity.json`。仍在 [PR #23](https://github.com/tantalum666/FYP/pull/23)。
 - **验证：**`uv run --no-sync pytest -q` 201 通过（一条既有 Starlette 弃用提示）；`uv run --no-sync ruff check backend scripts tests` 通过。前端 `npm test` 19 通过，`npm run build` 通过。没有付费模型调用。
 - **剩余：**提供商自己的日志无法从本机擦除。人格和作业仍不在这份备份里。近义但不同主题的句子不会自动合并。检查仍是本机 tick 后拉取。PR #4／#5／#15／#16 仍不合并。
+
+## 2026-10-27｜通知通道
+
+- **目标：**简报和提醒在页面打开时和设备上到达，遵守安静时段，并且不重复。
+- **完成：**`desk/notify.py` 三个通道：页面收件箱、Web Push 形状载荷（不联网）、设备提示音队列。测试用假通道。跟进的设备播报仍用原来的事务领取。
+- **验证：**`uv run --no-sync pytest -q` 205 通过；前端 `npm test` 20 通过，`npm run build` 通过。没有付费调用。
+- **剩余：**没有真正的 Web Push 订阅发送。目标与承诺、档案摘要、人格和作业备份在后续 PR。

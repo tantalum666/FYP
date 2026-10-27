@@ -48,6 +48,7 @@ import {
 } from "./components/Dialogs";
 import { useDraftState } from "./components/DraftGuard";
 import { MemoryPanel } from "./workspace/MemoryPanel";
+import { NoticeInbox } from "./workspace/NoticeInbox";
 import { PersonaPanel } from "./workspace/PersonaPanel";
 import { TaskPanel } from "./workspace/TaskPanel";
 import { DataPanel } from "./workspace/DataPanel";
@@ -642,6 +643,7 @@ export function App() {
             </button>
           </div>
         )}
+        <NoticeInbox t={t} language={language === "zh" ? "zh" : "en"} />
         {pendingWrite() && !editor && (
           <div className="connection-banner pending" role="status">
             {t("A save is awaiting confirmation.", "有一项保存等待确认。")}

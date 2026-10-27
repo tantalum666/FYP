@@ -10,6 +10,7 @@ from fastapi import APIRouter, Depends
 from pydantic import Field, field_validator, model_validator
 
 from .calendar import iso, wall_to_utc
+from .notify import Notice
 from .schemas import EventInput, StrictModel
 from .store import DomainError, encode
 from .workspace_data import quiet_until
@@ -408,6 +409,7 @@ class TaskService:
             changed = False
             made = 0
             waiting = 0
+            outbound = []
             for row in rows:
                 data = self.view(row)
                 hold = row["quiet_hold_until"]
@@ -445,14 +447,16 @@ class TaskService:
                     conn.execute("DELETE FROM task_quiet_holds WHERE task_id=?", (data["id"],))
                     changed = True
                     continue
+                notice = followup_notice(data, bool(hold))
+                followup_id = uuid4().hex
                 cursor = conn.execute(
                     "INSERT OR IGNORE INTO task_followups(id,task_id,task_version,created_at,state,content) VALUES(?,?,?,?,'pending',?)",
                     (
-                        uuid4().hex,
+                        followup_id,
                         data["id"],
                         data["version"],
                         now,
-                        encode(followup_notice(data, bool(hold))),
+                        encode(notice),
                     ),
                 )
                 conn.execute("UPDATE tasks SET next_check_at=NULL WHERE id=?", (data["id"],))
@@ -461,8 +465,37 @@ class TaskService:
                     self.evidence(conn, data["id"], data["version"], "followup", "", "local_rules")
                     made += 1
                     changed = True
+                    hidden = (
+                        self.store.settings(conn)["hide_private"] and data["visibility"] == "private"
+                    )
+                    body_en = (
+                        "A saved check-in is ready. The details stay hidden."
+                        if hidden
+                        else notice["reason_en"]
+                    )
+                    body_zh = "已到保存的检查时间。细节保持隐藏。" if hidden else notice["reason_zh"]
+                    outbound.append(
+                        Notice(
+                            "followup-" + followup_id,
+                            "followup",
+                            "Follow-up",
+                            "跟进",
+                            body_en,
+                            body_zh,
+                            body_en,
+                            body_zh,
+                        )
+                    )
             if changed:
                 self.store.bump(conn)
+        self._publish(outbound)
+
+    def _publish(self, notices) -> None:
+        notifier = getattr(self.runtime, "notify", None)
+        if notifier is None:
+            return
+        for notice in notices:
+            notifier.publish(notice, quiet=False)
 
     def snapshot(self):
         result = self.listing(display=True)

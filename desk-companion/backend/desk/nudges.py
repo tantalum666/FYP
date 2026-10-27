@@ -12,6 +12,7 @@ from zoneinfo import ZoneInfo
 from fastapi import APIRouter, Depends
 
 from .calendar import iso
+from .notify import Notice
 from .store import DomainError, encode
 from .workspace_data import is_quiet
 
@@ -136,6 +137,7 @@ class NudgeService:
             begin = now_local.replace(hour=0, minute=0, second=0, microsecond=0)
             events = len(self.store.snapshot(begin, begin + timedelta(days=1))["occurrences"])
         day = now_local.date().isoformat()
+        pending = []
         with self.store.connection(write=True) as conn:
             wrote = False
             for kind in kinds:
@@ -154,9 +156,30 @@ class NudgeService:
                     (nudge_id, kind, iso(self.store.clock()), encode(content)),
                 )
                 self.store.record(conn, "nudge_opened", details={"kind": kind})
+                title = (
+                    ("Morning briefing", "早晨简报")
+                    if kind == "morning_brief"
+                    else ("Evening check-in", "晚间检查")
+                )
+                pending.append(
+                    Notice(
+                        nudge_id,
+                        kind,
+                        title[0],
+                        title[1],
+                        content["summary_en"],
+                        content["summary_zh"],
+                        content["reason_en"],
+                        content["reason_zh"],
+                    )
+                )
                 wrote = True
             if wrote:
                 self.store.bump(conn)
+        notifier = getattr(self.runtime, "notify", None)
+        if notifier:
+            for notice in pending:
+                notifier.publish(notice, quiet=is_quiet(prefs, now_local))
 
     def listing(self) -> dict:
         with self.store.connection() as conn:

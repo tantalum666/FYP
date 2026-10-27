@@ -254,6 +254,15 @@ class WorkspaceData:
             now = self.store.clock().astimezone(ZoneInfo(zone))
             if is_quiet(prefs, now):
                 return {"announcement": None, "quiet": True}
+            from .notify import claim_device_notice
+
+            queued = claim_device_notice(self.store, conn, client_id, zone)
+            if queued:
+                self.store.record(
+                    conn, "announcement_claimed", details={"kind": "notice", "client_id": client_id}
+                )
+                self.store.bump(conn)
+                return {"announcement": queued, "quiet": False}
             candidates = []
             feedback = posture.get("feedback") if posture else None
             if (
