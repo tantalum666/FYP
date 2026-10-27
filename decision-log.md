@@ -1,6 +1,6 @@
 # Group 2 Decision Log
 
-Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
+Updated: 27 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
 
 ## 2026-09-25 用户推翻 Senplate，研究智能工作台新方向
 
@@ -303,3 +303,9 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **审查：**Xu的PR #17已修复并合并。其他4个开放PR为拥有者历史分支／草稿，依赖与冲突已记录；本轮不把已否决人物或未审查栈直接恢复到main。
 - **工程修复：**归档路径触发PostgreSQL socket长度限制，开发集群改用既有客户端所用的loopback TCP；Vite修补到8.3.5，归档source-map-js到1.2.2，重新验证。应用业务源码保持。
 - **当前状态：**AliceChan、统一Omni、语音计时和Linux最新增量在本地未发布工作区；根文档区分已提交与未发布，避免把早期主分支误称最新成果。证据见[整理QA](output/qa/2026-10-26-repo-cleanup/verification.md)。
+
+## 2026-10-27 离线演示与安全卫生
+
+- **用户指令：**在 #21、#22、#24 之外继续四支独立 PR。避免 `voice.py`、记忆模块和助理工具循环。演示必须离线；冒烟默认不运行、不进 CI、不花钱。
+- **工程选择而非新产品决定：**`DESK_TEXT_PROVIDER=fake` 只增加离线演示，不改变 `none`、Qwen 和 Gemini。演示目录的安静时段写成 00:00–23:59，以便任何讲解时间都能看到推迟；产品默认仍是 22:00–07:00。凭据文件改为创建时即 0600。`DESK_PUBLIC_ORIGIN` 为 HTTPS 时会话 cookie 加 Secure；纯本地 HTTP 保持非 Secure。文字冒烟的 token 上限限制在 1–64，缺省或超出都跳过。未新增 CORS 白名单，也未改变登录限流。
+- **状态：**PR 号和合并顺序见 [handoff](handoff.md)。没有付费调用，也没有合并 A1 草稿。

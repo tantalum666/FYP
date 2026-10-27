@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated: 27 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -346,3 +346,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **修复：**新深层路径的PostgreSQL socket限制改为loopback TCP；两前端Vite升级8.3.5，归档source-map-js为1.2.2。修复导航与本机凭据的链接表达。
 - **验证：**当前182后端／17前端、归档55后端、两前端类型／构建、两套Ruff通过；npm audit均零报告。隔离新建PostgreSQL，不复用旧演示库；无模型API／真实音视频／硬件或部署。完整记录见[QA](output/qa/2026-10-26-repo-cleanup/verification.md)。
 - **保留与剩余：**原主检出及最新AliceChan／统一Omni本地工作区保留；PR #4／#5／#15／#16仍待单独按当前方向审查。整理分支已通过文件／运行校验，经[PR #18](https://github.com/tantalum666/FYP/pull/18)交付；具体Git回执以整理QA和远端PR状态为准。
+
+## 2026-10-27 离线演示、界面恢复、安全卫生与文字冒烟
+
+- **目标：**在不改语音、记忆模块和助理工具循环的前提下，补四支独立 PR：离线演示、拥有者／设备界面的加载与失败状态、已核对的安全问题和默认不花钱的文字冒烟。
+- **完成：**[#25](https://github.com/tantalum666/FYP/pull/25) 假文字适配器、`.demo-runtime` 种子和十分钟演示稿。[#27](https://github.com/tantalum666/FYP/pull/27) 把离线、HTTP 错误和过期会话分开，并补通知组件测试。[#28](https://github.com/tantalum666/FYP/pull/28) 以 0600 创建凭据文件，HTTPS 公网源下的会话 cookie 加 Secure，开发服务关闭访问日志。文字冒烟脚本只在 `DESK_SMOKE_TEXT=1` 且 token 上限为 1–64 时调用 Qwen 或 Gemini。
+- **验证：**#25 后端 186 通过；#27 前端 19 通过、`npm run build` 通过；#28 后端 190 通过；文字冒烟分支后端 187 通过。没有真实模型调用。GitHub Actions 仍因账户支出上限未启动。
+- **剩余：**恢复 Actions 额度后重跑 #21。Codex 按 handoff 的顺序合并。A1 草稿 #4、#5、#15、#16 仍不合并。

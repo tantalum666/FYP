@@ -32,6 +32,7 @@ def test_qwen_and_gemini_adapters_are_selected_by_config(desk):
             assert request.headers["authorization"] == "Bearer fixture-key"
             body = json.loads(request.content)
             assert body["model"] == "qwen-test" and body["response_format"]["type"] == "json_object"
+            assert body["max_tokens"] == 1600
             return httpx.Response(
                 200,
                 json={
