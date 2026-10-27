@@ -392,10 +392,9 @@ class VoiceService:
         drafts, usage = {}, {}
         allow_memory = principal["kind"] in {"owner", "agent"}
         transcript = voice_turn_log(self.runtime, session_id, principal)
-        if allow_memory:
-            note = voice_context_note(self.runtime)
-            if note:
-                instructions = instructions + "\n" + note
+        note = voice_context_note(self.runtime, allow_memory=allow_memory)
+        if note:
+            instructions = instructions + "\n" + note
         dispatcher = ToolDispatcher(
             self.runtime, session_id, allow_memory=allow_memory, language=language
         )

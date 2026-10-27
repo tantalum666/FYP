@@ -8,7 +8,8 @@ from fastapi.testclient import TestClient
 
 from desk.app import create_app
 from desk.context import pack_conversation, voice_context_note
-from desk.turns import VoiceTranscript, apply_voice_event, voice_turn_log
+from desk.store import encode
+from desk.turns import VoiceTranscript, apply_voice_event, remember_exchange, voice_turn_log
 from desk.voice import VoiceConfig
 
 from test_agent_loop import _runtime
@@ -56,8 +57,9 @@ def test_paired_and_disabled_logs_write_nothing(tmp_path):
     disabled.commit()
     assert pack_conversation(runtime)["turns"] == []
     note = voice_context_note(runtime)
-    assert "Private owner fact" not in note
+    assert "Private owner fact" in note
     assert "still hidden" not in note
+    assert voice_context_note(runtime, allow_memory=False) == ""
 
 
 def test_local_desk_worker_is_stored_and_a_pending_draft_survives(tmp_path):
@@ -76,6 +78,37 @@ def test_local_desk_worker_is_stored_and_a_pending_draft_survives(tmp_path):
     note = voice_context_note(runtime)
     assert draft["proposal"]["id"] in note
     assert "saved=false" in note
+
+
+def _stamp(runtime, memory_id, updated_at):
+    with runtime.store.connection(write=True) as conn:
+        conn.execute(
+            "UPDATE owner_memories SET updated_at=? WHERE id=?",
+            (updated_at, memory_id),
+        )
+
+
+def test_owner_voice_prompt_ranks_memory_and_keeps_the_pending_draft(tmp_path):
+    runtime = _runtime(tmp_path)
+    older = runtime.memory.create("晚上要带红灯笼。", "lantern")["memory"]
+    newer = runtime.memory.create("苹果" * 40, "apple")["memory"]
+    _stamp(runtime, older["id"], "2026-10-01T00:00:00+00:00")
+    _stamp(runtime, newer["id"], "2026-10-20T00:00:00+00:00")
+    draft = runtime.assistant.tool(
+        "memory_save_draft", {"body": "Keep this approval"}, "voice-memory-draft"
+    )
+    remember_exchange(runtime, "said-lantern", "灯笼", "好")
+    packed = pack_conversation(runtime, user_message="灯笼", budget=100000)
+    without_apple = dict(packed)
+    without_apple["memory"] = [row for row in packed["memory"] if "苹果" not in row["body"]]
+    tight = voice_context_note(runtime, budget=len(encode(without_apple)))
+    assert "晚上要带红灯笼。" in tight
+    assert newer["body"] not in tight
+    assert tight.index("saved=false") < tight.index("晚上要带红灯笼。")
+    assert draft["proposal"]["id"] in tight
+    runtime.memory.delete(older["id"], older["version"], "delete-lantern")
+    assert "红灯笼" not in voice_context_note(runtime, user_message="灯笼")
+    assert voice_context_note(runtime, allow_memory=False, user_message="灯笼") == ""
 
 
 class _Speak:

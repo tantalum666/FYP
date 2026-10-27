@@ -427,3 +427,9 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **目标：**从当前代码写出代理循环交接，而不是再开半成品功能。
 - **完成：**`desk-companion/docs/agent-loop-handoff.md`。`agent-loop.md` 的提供方一句改成与 `generate`／`generate_live` 一致。
 - **验证：**`pytest -q` 230 通过，Ruff 通过。没有付费 API。
+
+### 同日补充：拥有者语音提示里的记忆命中
+
+- **目标：**交接说明的第一件下一步：拥有者语音提示带上排序后的记忆命中和待批准草稿。
+- **完成：**`voice_context_note` 使用 `pack_conversation` 的排序和预算。配对会话得到空提示。
+- **验证：**`pytest -q` 231 通过，Ruff 通过。前端没有改动。没有付费 API。

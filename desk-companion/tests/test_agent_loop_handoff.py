@@ -18,5 +18,6 @@ def test_agent_loop_handoff_names_the_live_extension_points():
     ):
         assert needle in text
     assert "PR #4" in text
-    assert text.index("说话时看不到排序后的记忆") < text.index("语音不跑有界多步循环")
+    assert "记忆命中" in text
+    assert "说话时看不到排序后的记忆" not in text
     assert text.index("语音不跑有界多步循环") < text.index("字符预算没有罩住真正送出的提示")
