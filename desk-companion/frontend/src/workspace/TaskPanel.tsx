@@ -721,6 +721,11 @@ export function TaskPanel({
             <aside className="task-checkin">
               <strong>{t("Time for an update", "更新一下进展")}</strong>
               <p>{t(task.followup.en, task.followup.zh)}</p>
+              {task.followup.reason_en && (
+                <small>
+                  {t(task.followup.reason_en, task.followup.reason_zh ?? "")}
+                </small>
+              )}
               <small>
                 {task.followup.mode === "ai"
                   ? t(

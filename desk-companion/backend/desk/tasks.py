@@ -19,6 +19,43 @@ OPEN = {"todo", "in_progress", "waiting"}
 MAX_NEW_FOLLOWUPS = 3
 
 
+def followup_notice(data, held: bool) -> dict:
+    """Local check-in copy plus the rule that made this nudge fire."""
+    if data["status"] == "waiting":
+        en, zh = (
+            "Has the item you are waiting for arrived?",
+            "你等待的事项有结果了吗？",
+        )
+        why_en = (
+            "This nudge fired because a waiting task reached its saved check time "
+            "and follow-up is still on."
+        )
+        why_zh = "这条提醒已触发：等待中的事务到了已保存的检查时间，且跟进仍然开启。"
+    else:
+        en, zh = (
+            "Any progress to record? Choose your next step.",
+            "有新的进展吗？更新后继续安排下一步。",
+        )
+        why_en = (
+            "This nudge fired because an open task reached its saved check time "
+            "and follow-up is still on."
+        )
+        why_zh = "这条提醒已触发：未完成的事务到了已保存的检查时间，且跟进仍然开启。"
+    if data["next_step"]:
+        en += " Next step: " + data["next_step"]
+        zh += " 下一步：" + data["next_step"]
+    if held:
+        why_en += " It waited until quiet hours ended."
+        why_zh += "它曾被推迟到安静时段结束。"
+    return {
+        "en": en,
+        "zh": zh,
+        "mode": "local_rules",
+        "reason_en": why_en,
+        "reason_zh": why_zh,
+    }
+
+
 class TaskStep(StrictModel):
     title: str = Field(min_length=1, max_length=200)
     done: bool = False
@@ -295,10 +332,19 @@ class TaskService:
                     task.update(title="", next_step="", waiting_for="", steps=[])
                     if task["followup"]:
                         task["followup"] = {
-                            **task["followup"],
+                            "id": task["followup"]["id"],
+                            "created_at": task["followup"]["created_at"],
+                            "ai_status": task["followup"].get("ai_status", ""),
                             "en": "A private task needs an update.",
                             "zh": "一项私人事务需要更新进展。",
                             "mode": "local_rules",
+                            "reason_en": (
+                                "This nudge fired because a private task reached its saved "
+                                "check time. The details stay hidden."
+                            ),
+                            "reason_zh": (
+                                "这条提醒已触发：一项私人事务到了已保存的检查时间。详情保持隐藏。"
+                            ),
                         }
                 items.append(task)
             items.sort(
@@ -399,18 +445,6 @@ class TaskService:
                     conn.execute("DELETE FROM task_quiet_holds WHERE task_id=?", (data["id"],))
                     changed = True
                     continue
-                en, zh = (
-                    "Any progress to record? Choose your next step.",
-                    "有新的进展吗？更新后继续安排下一步。",
-                )
-                if data["status"] == "waiting":
-                    en, zh = (
-                        "Has the item you are waiting for arrived?",
-                        "你等待的事项有结果了吗？",
-                    )
-                if data["next_step"]:
-                    en += " Next step: " + data["next_step"]
-                    zh += " 下一步：" + data["next_step"]
                 cursor = conn.execute(
                     "INSERT OR IGNORE INTO task_followups(id,task_id,task_version,created_at,state,content) VALUES(?,?,?,?,'pending',?)",
                     (
@@ -418,7 +452,7 @@ class TaskService:
                         data["id"],
                         data["version"],
                         now,
-                        encode({"en": en, "zh": zh, "mode": "local_rules"}),
+                        encode(followup_notice(data, bool(hold))),
                     ),
                 )
                 conn.execute("UPDATE tasks SET next_check_at=NULL WHERE id=?", (data["id"],))

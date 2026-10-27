@@ -1,6 +1,6 @@
 # Group 2 Decision Log
 
-Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
+Updated: 27 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
 
 ## 2026-09-25 用户推翻 Senplate，研究智能工作台新方向
 
@@ -303,3 +303,8 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **审查：**Xu的PR #17已修复并合并。其他4个开放PR为拥有者历史分支／草稿，依赖与冲突已记录；本轮不把已否决人物或未审查栈直接恢复到main。
 - **工程修复：**归档路径触发PostgreSQL socket长度限制，开发集群改用既有客户端所用的loopback TCP；Vite修补到8.3.5，归档source-map-js到1.2.2，重新验证。应用业务源码保持。
 - **当前状态：**AliceChan、统一Omni、语音计时和Linux最新增量在本地未发布工作区；根文档区分已提交与未发布，避免把早期主分支误称最新成果。证据见[整理QA](output/qa/2026-10-26-repo-cleanup/verification.md)。
+
+## 2026-10-27 记忆核对与主动检查
+
+- **工程选择，不是新的用户供应商决定：**拥有者记忆增加去重、更正留痕、到期，以及相同文字的核对。核对的确认和取消仍走既有助理草稿，不另做一套批准。对话里的姓名和偏好只准备草稿。托管提取默认关闭；必须同时设置 `DESK_MEMORY_EXTRACT=1` 和正的 `DESK_MEMORY_EXTRACT_CAP`，并只走现有文字适配器。早晨简报与晚间检查使用已有安静时段和同一份偏好。事务跟进写明触发原因。
+- **未改变：**不合并 PR #4／#5／#15／#16，不调用付费模型，不扩大电脑或应用控制，不改硬件研究或 `archive/`。记忆仍不在业务 JSON 备份里。

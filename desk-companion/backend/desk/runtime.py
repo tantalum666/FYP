@@ -17,6 +17,7 @@ from .tasks import TaskService
 from .text_ai import TextAssistant
 from .jobs import JobService
 from .memory import MemoryService
+from .nudges import NudgeService
 from .persona import PersonaService
 
 
@@ -34,6 +35,7 @@ class Runtime:
         self.worker_health = {}
         self.assistant = AssistantService(self)
         self.data = WorkspaceData(store)
+        self.nudges = NudgeService(self)
         self.voice = VoiceService(self)
         self.exchange = ExchangeService(self)
         self.google = GoogleCalendar(self)
@@ -95,4 +97,6 @@ class Runtime:
         self.store.tick()
         self.posture.tick()
         self.tasks.tick()
+        self.memory.expire_due()
+        self.nudges.tick()
         self.jobs.expire()

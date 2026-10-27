@@ -27,10 +27,12 @@ class WorkspacePreferences(StrictModel):
     quiet_end: str = "07:00"
     daily_brief_time: str = "08:00"
     daily_brief_enabled: bool = False
+    evening_check_time: str = "21:00"
+    evening_check_enabled: bool = False
     avatar_display: Literal["calendar", "companion"] = "calendar"
     voice_enabled: bool = False
 
-    @field_validator("quiet_start", "quiet_end", "daily_brief_time")
+    @field_validator("quiet_start", "quiet_end", "daily_brief_time", "evening_check_time")
     @classmethod
     def time_of_day(cls, value):
         import re
@@ -105,7 +107,14 @@ class WorkspaceData:
     def preferences(self):
         with self.store.connection() as conn:
             row = conn.execute("SELECT * FROM workspace_preferences WHERE id=1").fetchone()
-            return {"version": row["version"], **json.loads(row["data"])}
+        stored = json.loads(row["data"])
+        known = WorkspacePreferences.model_fields
+        merged = {
+            **WorkspacePreferences().model_dump(),
+            **{key: value for key, value in stored.items() if key in known},
+        }
+        parsed = WorkspacePreferences.model_validate(merged).model_dump()
+        return {"version": row["version"], **parsed}
 
     def update(self, payload, key):
         def apply(conn):
@@ -288,13 +297,10 @@ class WorkspaceData:
                         candidates.append(
                             ("task/" + alert["id"], {"kind": "task", "title": "", "redacted": True})
                         )
-            brief_at = now.replace(
-                hour=int(prefs["daily_brief_time"][:2]),
-                minute=int(prefs["daily_brief_time"][3:]),
-                second=0,
-                microsecond=0,
-            )
-            if prefs["daily_brief_enabled"] and 0 <= (now - brief_at).total_seconds() < 120:
+            from .nudges import due_kinds, explain
+
+            kinds = due_kinds(prefs, now)
+            if "morning_brief" in kinds:
                 from .calendar import expand_all, redact
 
                 events, exceptions = self.store.data(conn)
@@ -314,6 +320,22 @@ class WorkspaceData:
                                 for o in items[:20]
                             ],
                             "total": len(items),
+                            **explain("morning_brief", prefs["daily_brief_time"]),
+                        },
+                    )
+                )
+            if "evening_check" in kinds:
+                open_tasks = sum(
+                    task.get("status") in {"todo", "in_progress", "waiting"}
+                    for task in (tasks or [])
+                )
+                candidates.append(
+                    (
+                        "evening/" + str(now.date()),
+                        {
+                            "kind": "evening",
+                            "open_tasks": open_tasks,
+                            **explain("evening_check", prefs["evening_check_time"]),
                         },
                     )
                 )

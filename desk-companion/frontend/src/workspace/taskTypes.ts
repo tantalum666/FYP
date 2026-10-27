@@ -34,6 +34,8 @@ export interface Task extends Omit<TaskInput, "status"> {
     zh: string;
     mode: string;
     ai_status: string;
+    reason_en?: string;
+    reason_zh?: string;
   };
 }
 export interface TaskEvidence {

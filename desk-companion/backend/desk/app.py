@@ -16,6 +16,7 @@ from starlette.middleware.cors import CORSMiddleware
 from .access import DEVICE_COOKIE
 from .assistant_routes import assistant_routes
 from .memory import memory_routes
+from .nudges import nudge_routes
 from .persona import persona_routes
 from .device_routes import device_routes
 from .runtime import Runtime
@@ -337,6 +338,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
     app.include_router(task_routes(services, authenticated, operation_id))
     app.include_router(job_routes(services, owner, operation_id))
     app.include_router(memory_routes(services, owner, operation_id))
+    app.include_router(nudge_routes(services, owner, operation_id))
     app.include_router(persona_routes(services, owner, operation_id))
     app.include_router(assistant_routes(services, authenticated, operation_id))
     app.include_router(voice_routes(services, authenticated, agent, allowed_origins, limit))

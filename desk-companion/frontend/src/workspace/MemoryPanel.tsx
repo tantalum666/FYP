@@ -10,14 +10,58 @@ interface MemoryFact {
   id: string;
   body: string;
   source: string;
+  note: string;
+  state: string;
   version: number;
+  created_at: string;
   updated_at: string;
+  expires_at: string | null;
+  previous_body: string | null;
+  retired_duplicates: number;
+}
+
+interface MemorySuggestion {
+  reason_en: string;
+  reason_zh: string;
+  keep: MemoryFact;
+  retire: MemoryFact[];
+}
+
+interface ReviewDraft {
+  id: string;
+  data: {
+    keep_body?: string;
+    retire?: Array<{ body: string }>;
+    reason_en?: string;
+    reason_zh?: string;
+  };
+}
+
+function sourceLabel(source: string, t: Translate) {
+  if (source === "owner") return t("Saved by you", "由你保存");
+  if (source === "conversation")
+    return t("From a message you confirmed", "来自你确认的消息");
+  if (source === "assistant_confirmed")
+    return t("From a draft you confirmed", "来自你确认的草稿");
+  return source;
+}
+
+function noteLabel(note: string, t: Translate) {
+  if (!note) return "";
+  if (note === "explicit") return t("You asked to remember this.", "你要求记住这一点。");
+  if (note === "preference") return t("You stated a preference.", "你说了一项偏好。");
+  if (note === "identity") return t("You stated your name.", "你说了自己的名字。");
+  return note;
 }
 
 export function MemoryPanel({ t }: { t: Translate }) {
   const { data } = useWorkspace();
   const owner = data?.principal.kind === "owner";
   const [facts, setFacts] = useState<MemoryFact[]>([]);
+  const [expired, setExpired] = useState<MemoryFact[]>([]);
+  const [retired, setRetired] = useState<MemoryFact[]>([]);
+  const [suggestions, setSuggestions] = useState<MemorySuggestion[]>([]);
+  const [review, setReview] = useState<ReviewDraft | null>(null);
   const [body, setBody] = useState("");
   const [editing, setEditing] = useState<{
     id: string;
@@ -30,8 +74,16 @@ export function MemoryPanel({ t }: { t: Translate }) {
   useDraftGuard(!!(body.trim() || editing), busy);
   const reload = useCallback(async () => {
     if (!owner) return;
-    const next = await request<{ memories: MemoryFact[] }>("/memory");
+    const next = await request<{
+      memories: MemoryFact[];
+      expired: MemoryFact[];
+      retired: MemoryFact[];
+      suggestions: MemorySuggestion[];
+    }>("/memory");
     setFacts(next.memories);
+    setExpired(next.expired);
+    setRetired(next.retired);
+    setSuggestions(next.suggestions);
   }, [owner]);
   useEffect(() => {
     void reload().catch((reason) => setError(reason));
@@ -63,9 +115,13 @@ export function MemoryPanel({ t }: { t: Translate }) {
     setError(null);
     setNotice("");
     try {
-      await write("/memory", { body });
+      const saved = await write<{ duplicate?: boolean }>("/memory", { body });
       setBody("");
-      setNotice(t("Saved to memory.", "已保存到记忆。"));
+      setNotice(
+        saved.duplicate
+          ? t("That fact is already saved.", "这条事实已经保存。")
+          : t("Saved to memory.", "已保存到记忆。"),
+      );
       await reload();
     } catch (reason) {
       setError(reason);
@@ -85,6 +141,68 @@ export function MemoryPanel({ t }: { t: Translate }) {
       });
       setEditing(null);
       setNotice(t("Memory updated.", "记忆已更新。"));
+      await reload();
+    } catch (reason) {
+      setError(reason);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function expire(fact: MemoryFact, days: number | null) {
+    setBusy(true);
+    setError(null);
+    setNotice("");
+    try {
+      await write(`/memory/${fact.id}/expiry`, {
+        expected_version: fact.version,
+        expires_at:
+          days === null
+            ? null
+            : new Date(Date.now() + days * 86400000).toISOString(),
+      });
+      setNotice(
+        days === null
+          ? t("Expiry cleared.", "已取消到期。")
+          : t("Expiry saved.", "已保存到期时间。"),
+      );
+      await reload();
+    } catch (reason) {
+      setError(reason);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function reviewSuggestion(suggestion: MemorySuggestion) {
+    setBusy(true);
+    setError(null);
+    setNotice("");
+    try {
+      const drafted = await write<{ proposal: ReviewDraft }>(
+        "/memory/consolidation",
+        {
+          keep_id: suggestion.keep.id,
+          retire_ids: suggestion.retire.map((fact) => fact.id),
+        },
+      );
+      setReview(drafted.proposal);
+    } catch (reason) {
+      setError(reason);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function decideReview(action: "confirm" | "cancel") {
+    if (!review) return;
+    setBusy(true);
+    setError(null);
+    try {
+      await write(`/assistant/proposals/${review.id}/decisions`, { action });
+      setReview(null);
+      setNotice(
+        action === "confirm"
+          ? t("Duplicate facts retired.", "已停用重复事实。")
+          : t("Review cancelled.", "已取消核对。"),
+      );
       await reload();
     } catch (reason) {
       setError(reason);
@@ -132,11 +250,11 @@ export function MemoryPanel({ t }: { t: Translate }) {
       <div className="workspace-state">
         <Brain />
         <div>
-          <h2>{t("Memory", "记忆")}</h2>
+          <h2>{t("What I know about you", "我了解的关于你的事")}</h2>
           <p className="workspace-hint">
             {t(
-              "Facts you save here are sent with later assistant requests. The assistant can only propose a change; you confirm it. Deleting a fact removes it from future requests.",
-              "你保存在这里的事实会随之后的助理请求发出。助理只能提出修改，由你确认。删除后，之后的请求不再包含这条事实。",
+              "Facts you save here are sent with later assistant requests. The assistant can only propose a change; you confirm it. Forgetting a fact removes it from future requests. The same wording is kept once.",
+              "你保存在这里的事实会随之后的助理请求发出。助理只能提出修改，由你确认。忘掉一条后，之后的请求不再包含它。相同文字只保留一次。",
             )}
           </p>
         </div>
@@ -187,7 +305,25 @@ export function MemoryPanel({ t }: { t: Translate }) {
                 }
               />
             ) : (
-              <p>{fact.body}</p>
+              <>
+                <p>{fact.body}</p>
+                <small>
+                  {sourceLabel(fact.source, t)}
+                  {noteLabel(fact.note, t) ? ` · ${noteLabel(fact.note, t)}` : ""}
+                  {fact.expires_at
+                    ? ` · ${t("Expires ", "到期 ")}${new Date(fact.expires_at).toLocaleString()}`
+                    : ""}
+                  {fact.retired_duplicates
+                    ? ` · ${t("Kept after retiring a duplicate", "停用重复后保留")}`
+                    : ""}
+                </small>
+                {fact.previous_body && (
+                  <small>
+                    {t("Corrected from: ", "更正前：")}
+                    {fact.previous_body}
+                  </small>
+                )}
+              </>
             )}
             <div className="workspace-inline-actions">
               {editing?.id === fact.id ? (
@@ -231,7 +367,17 @@ export function MemoryPanel({ t }: { t: Translate }) {
                     disabled={busy}
                     onClick={() => void remove(fact)}
                   >
-                    {t("Delete", "删除")}
+                    {t("Forget", "忘掉")}
+                  </button>
+                  <button
+                    className="secondary"
+                    type="button"
+                    disabled={busy}
+                    onClick={() => void expire(fact, fact.expires_at ? null : 7)}
+                  >
+                    {fact.expires_at
+                      ? t("Keep without expiry", "取消到期")
+                      : t("Expire in 7 days", "7天后到期")}
                   </button>
                 </>
               )}
@@ -240,6 +386,90 @@ export function MemoryPanel({ t }: { t: Translate }) {
         ))}
       </ul>
       {!facts.length && <p>{t("No saved facts yet.", "还没有保存的事实。")}</p>}
+      {suggestions.map((suggestion) => (
+        <div key={suggestion.keep.id}>
+          <p>{t(suggestion.reason_en, suggestion.reason_zh)}</p>
+          <button
+            className="secondary"
+            type="button"
+            disabled={busy}
+            onClick={() => void reviewSuggestion(suggestion)}
+          >
+            {t("Review duplicates", "核对重复项")}
+          </button>
+        </div>
+      ))}
+      {review && (
+        <div>
+          <p>{t(review.data.reason_en ?? "", review.data.reason_zh ?? "")}</p>
+          <p>
+            {t("Keep: ", "保留：")}
+            {review.data.keep_body}
+          </p>
+          {(review.data.retire ?? []).map((row, index) => (
+            <p key={index}>
+              {t("Retire: ", "停用：")}
+              {row.body}
+            </p>
+          ))}
+          <div className="workspace-inline-actions">
+            <button
+              className="primary"
+              type="button"
+              disabled={busy}
+              onClick={() => void decideReview("confirm")}
+            >
+              {t("Confirm and retire duplicates", "确认并停用重复项")}
+            </button>
+            <button
+              className="secondary"
+              type="button"
+              disabled={busy}
+              onClick={() => void decideReview("cancel")}
+            >
+              {t("Cancel", "取消")}
+            </button>
+          </div>
+        </div>
+      )}
+      {!!expired.length && (
+        <>
+          <h3>{t("Expired", "已到期")}</h3>
+          <ul className="calibration-steps">
+            {expired.map((fact) => (
+              <li key={fact.id}>
+                <p>{fact.body}</p>
+                <small>
+                  {t(
+                    "Expired facts are not sent to the assistant.",
+                    "到期的事实不会发给助理。",
+                  )}
+                </small>
+                <button
+                  className="secondary"
+                  type="button"
+                  disabled={busy}
+                  onClick={() => void remove(fact)}
+                >
+                  {t("Forget", "忘掉")}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+      {!!retired.length && (
+        <details>
+          <summary>{t("Retired wording", "已停用的文字")}</summary>
+          <ul className="calibration-steps">
+            {retired.map((fact) => (
+              <li key={fact.id}>
+                <p>{fact.body}</p>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
       {notice && <p role="status">{notice}</p>}
       {!!error && (
         <p className="error-message" role="alert">

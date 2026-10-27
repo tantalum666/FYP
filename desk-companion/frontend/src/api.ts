@@ -358,6 +358,18 @@ export function errorText(
       "Memory is full. Delete a fact before saving another.",
       "记忆已满，请先删除一条再保存。",
     ],
+    MEMORY_DUPLICATE: [
+      "That wording is already saved. Correct the existing fact or retire the duplicate.",
+      "这条文字已经保存。请更正原事实，或停用重复的一条。",
+    ],
+    MEMORY_REVIEW_STALE: [
+      "Those facts changed. Refresh the list before retiring duplicates.",
+      "这些事实已变化。请刷新列表后再停用重复项。",
+    ],
+    INVALID_EXPIRY: [
+      "Choose a timezone-aware expiry time, or clear it.",
+      "请选择带时区的到期时间，或清除到期时间。",
+    ],
     NARROW_DATE_RANGE: [
       "This view contains too many events. Choose a single day in the date picker or open Today.",
       "当前视图日程过多，请在日期选择器选择一天，或打开今天。",
