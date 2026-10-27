@@ -56,6 +56,16 @@ test("tool progress moves from working to done without keeping arguments", () =>
   assert.equal("arguments" in finished.tools[0], false);
 });
 
+test("a preview replaces the visible text and a later delta appends", () => {
+  const preview = reduceReply(emptyStream(), { type: "preview", text: "Tue" });
+  const grown = reduceReply(preview, { type: "preview", text: "Tuesday morning" });
+  assert.equal(grown.message, "Tuesday morning");
+  const cleared = reduceReply(grown, { type: "preview", text: "" });
+  assert.equal(cleared.message, "");
+  const fallback = reduceReply(cleared, { type: "delta", text: "Hello" });
+  assert.equal(fallback.message, "Hello");
+});
+
 test("an error event ends the turn", () => {
   const state = reduceReply(emptyStream(), {
     type: "error",

@@ -385,3 +385,9 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **目标：**网页里助理回复分段出现，并显示工具调用进度。保留原来的 JSON 接口。
 - **完成：**`POST /api/assistant/messages/stream`。工具事件不含参数。本地规则的草稿也先出现进度。手机原生请求仍走 JSON。
 - **验证：**`pytest -q` 207 通过，Ruff 通过。前端 `npm test` 23 通过，`npm run build` 通过。本机 Chrome 登录后发送“Remember: the stream code is lantern”，看到 `memory_save_draft`、完成、核对句和保存前检查，取消草稿后显示 Draft cancelled。没有付费 API。
+
+### 同日补充：真实文本片段
+
+- **目标：**Qwen／Gemini 和假提供方都交出文本片段。网页用这些片段，失败时退回一次完成，工具进度保留。
+- **完成：**`deltas()`、部分 JSON 的 `message` 抽取、`preview` 事件，以及无文本时的 `complete()` 退路。
+- **验证：**`pytest -q` 210 通过，Ruff 通过。前端 `npm test` 24 通过，`npm run build` 通过。没有付费 API。

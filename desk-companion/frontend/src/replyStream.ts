@@ -27,6 +27,7 @@ export type StreamEvent =
       outcome?: string;
     }
   | { type: "delta"; text: string }
+  | { type: "preview"; text: string }
   | { type: "done"; reply: StreamReply }
   | { type: "error"; code: string; status?: number };
 
@@ -51,6 +52,9 @@ export function progressLabel(phase: "started" | "finished", language: string): 
 export function reduceReply(state: StreamState, event: StreamEvent): StreamState {
   if (event.type === "delta") {
     return { ...state, message: state.message + event.text };
+  }
+  if (event.type === "preview") {
+    return { ...state, message: event.text };
   }
   if (event.type === "tool") {
     const tools = state.tools.slice();
@@ -108,6 +112,7 @@ export function parseSse(buffer: string): { events: StreamEvent[]; rest: string 
       parsed &&
       (parsed.type === "tool" ||
         parsed.type === "delta" ||
+        parsed.type === "preview" ||
         parsed.type === "done" ||
         parsed.type === "error")
     ) {

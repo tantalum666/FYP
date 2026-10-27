@@ -24,6 +24,7 @@ from .context import pack_conversation
 from .model_provider import HostedTextProvider
 from .persona import followup_system, text_system
 from .reply_stream import audit_events, sse_encode, text_chunks
+from .token_stream import extract_message
 from .text_providers import text_adapter
 from .workspace_data import is_quiet
 from .schemas import StrictModel
@@ -205,6 +206,59 @@ class TextAssistant:
             )
         return parsed
 
+    def generate_live(self, system, context, schema, purpose, on_delta):
+        """Stream provider deltas. A failed stream with no text falls back to complete()."""
+        if not self.config.valid():
+            raise DomainError("TEXT_AI_NOT_CONFIGURED", 503)
+        if purpose == "conversation" and self.conversation_calls_today() >= self.daily_cap():
+            raise DomainError("TEXT_AI_CAP", 429)
+        prompt = (
+            system
+            + "\nReturn only JSON matching this schema: "
+            + encode(schema.model_json_schema())
+        )
+        content = encode(context)
+        from uuid import uuid4
+
+        usage_id = uuid4().hex
+        with self.store.connection(write=True) as conn:
+            conn.execute(
+                "INSERT INTO text_ai_usage VALUES(?,?,?,?,?)",
+                (usage_id, iso(self.store.clock()), purpose, self.config.provider, "{}"),
+            )
+        streamed = False
+        try:
+            with httpx.Client(
+                timeout=20, transport=self.transport, follow_redirects=False
+            ) as client:
+                adapter = text_adapter(self.config.provider)
+                try:
+                    raw, usage, streamed = _read_deltas(
+                        adapter, client, self.config, prompt, content, on_delta
+                    )
+                except _StreamFailed:
+                    raw, usage = adapter.complete(client, self.config, prompt, content)
+                    streamed = False
+                if not isinstance(raw, str) or len(raw) > 20000:
+                    raise ValueError()
+                parsed = schema.model_validate_json(raw)
+        except (httpx.HTTPError, ValueError, KeyError, IndexError, TypeError, ValidationError):
+            raise DomainError("TEXT_AI_UNAVAILABLE", 503) from None
+        safe_usage = (
+            {
+                k: v
+                for k, v in usage.items()
+                if isinstance(v, (int, float)) and not isinstance(v, bool)
+            }
+            if isinstance(usage, dict)
+            else {}
+        )
+        with self.store.connection(write=True) as conn:
+            conn.execute(
+                "UPDATE text_ai_usage SET usage=? WHERE id=?", (encode(safe_usage), usage_id)
+            )
+        return parsed, streamed
+
     def context(self, task_id=None, *, include_memory=True):
         return pack_conversation(self.runtime, task_id, include_memory=include_memory)
 
@@ -247,7 +301,7 @@ class TextAssistant:
                 ],
             }
             system = text_system(self.runtime.persona.current()["body"])
-            reply = AgentLoop(self.runtime, HostedTextProvider(self.generate)).run(
+            reply = AgentLoop(self.runtime, HostedTextProvider(self.generate, self.generate_live)).run(
                 system=system,
                 context=context,
                 key=key,
@@ -262,17 +316,22 @@ class TextAssistant:
             return reply
 
     def event_stream(self, payload, key, *, allow_memory=True):
-        """SSE bytes. Tool events are queued while the turn runs; the reply is then split."""
+        """SSE bytes. Real message deltas when the provider streams; otherwise short pieces."""
         pending = Queue()
+        live = {"final": False}
 
         def on_event(event):
-            pending.put(event)
+            outgoing = dict(event)
+            if outgoing.get("type") == "preview" and outgoing.pop("final", False):
+                live["final"] = True
+            pending.put(outgoing)
 
         def work():
             try:
                 reply = self.message(payload, key, allow_memory=allow_memory, on_event=on_event)
-                for piece in text_chunks(str(reply.get("message") or "")):
-                    pending.put({"type": "delta", "text": piece})
+                if not live["final"]:
+                    for piece in text_chunks(str(reply.get("message") or "")):
+                        pending.put({"type": "delta", "text": piece})
                 pending.put({"type": "done", "reply": reply})
             except DomainError as error:
                 pending.put({"type": "error", "code": error.code, "status": error.status})
@@ -357,3 +416,35 @@ class TextAssistant:
                     self.store.bump(conn)
         finally:
             self.background_lock.release()
+
+
+class _StreamFailed(Exception):
+    """The provider stream produced no text, so complete() may still run once."""
+
+
+def _read_deltas(adapter, client, config, prompt, content, on_delta):
+    parts: list[str] = []
+    shown = ""
+    try:
+        iterator, box = adapter.deltas(client, config, prompt, content)
+        for piece in iterator:
+            if not isinstance(piece, str) or not piece:
+                continue
+            parts.append(piece)
+            raw = "".join(parts)
+            if len(raw) > 20000:
+                raise ValueError()
+            grown = extract_message(raw)
+            if isinstance(grown, str) and grown.startswith(shown) and len(grown) > len(shown):
+                on_delta(grown[len(shown) :])
+                shown = grown
+        if not parts:
+            raise _StreamFailed()
+        usage = dict(box) if isinstance(box, dict) else {}
+        return "".join(parts), usage, shown != ""
+    except _StreamFailed:
+        raise
+    except (httpx.HTTPError, ValueError, KeyError, IndexError, TypeError):
+        if parts:
+            raise
+        raise _StreamFailed() from None

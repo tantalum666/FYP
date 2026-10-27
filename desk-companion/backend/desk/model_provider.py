@@ -16,10 +16,11 @@ class ModelStep:
     message: str
     tool: str = "none"
     arguments: dict = field(default_factory=dict)
+    streamed: bool = False
 
 
 class TextModel(Protocol):
-    def complete(self, system: str, context: dict) -> ModelStep: ...
+    def complete(self, system: str, context: dict, on_delta=None) -> ModelStep: ...
 
 
 class ScriptedProvider:
@@ -30,7 +31,7 @@ class ScriptedProvider:
         self.calls = 0
         self.contexts: list[dict] = []
 
-    def complete(self, system: str, context: dict) -> ModelStep:
+    def complete(self, system: str, context: dict, on_delta=None) -> ModelStep:
         self.calls += 1
         self.contexts.append(copy.deepcopy(context))
         if not self._steps:
@@ -38,17 +39,30 @@ class ScriptedProvider:
         step = self._steps.pop(0)
         if isinstance(step, Exception):
             raise step
-        return step
+        if on_delta is None or not step.message:
+            return step
+        for index in range(0, len(step.message), 5):
+            on_delta(step.message[index : index + 5])
+        return ModelStep(step.message, step.tool, dict(step.arguments), streamed=True)
 
 
 class HostedTextProvider:
     """One completion through the existing text adapter and its configured cap."""
 
-    def __init__(self, generate):
+    def __init__(self, generate, generate_live=None):
         self._generate = generate
+        self._generate_live = generate_live
 
-    def complete(self, system: str, context: dict) -> ModelStep:
+    def complete(self, system: str, context: dict, on_delta=None) -> ModelStep:
         from .text_ai import TextPlan
 
-        plan = self._generate(system, context, TextPlan, "conversation")
-        return ModelStep(message=plan.message, tool=plan.tool, arguments=dict(plan.arguments))
+        if on_delta is None or self._generate_live is None:
+            plan = self._generate(system, context, TextPlan, "conversation")
+            return ModelStep(message=plan.message, tool=plan.tool, arguments=dict(plan.arguments))
+        plan, streamed = self._generate_live(system, context, TextPlan, "conversation", on_delta)
+        return ModelStep(
+            message=plan.message,
+            tool=plan.tool,
+            arguments=dict(plan.arguments),
+            streamed=streamed,
+        )

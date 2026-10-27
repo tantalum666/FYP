@@ -2,6 +2,7 @@
 
 import json
 
+import httpx
 from fastapi.testclient import TestClient
 
 from desk.agent_loop import AgentLoop
@@ -60,47 +61,52 @@ def test_loop_reports_tool_progress_without_arguments(tmp_path):
         allow_memory=True,
         on_event=seen.append,
     )
-    assert [event["phase"] for event in seen] == ["started", "finished"]
-    assert seen[0]["tool"] == "owner_clock" and "arguments" not in seen[0]
-    assert seen[1]["saved"] is False and seen[1]["outcome"] == "ok"
+    tools = [event for event in seen if event["type"] == "tool"]
+    assert [event["phase"] for event in tools] == ["started", "finished"]
+    assert tools[0]["tool"] == "owner_clock" and "arguments" not in tools[0]
+    assert tools[1]["saved"] is False and tools[1]["outcome"] == "ok"
+    assert any(event.get("type") == "preview" and event.get("text") == "" for event in seen)
+    final = [event for event in seen if event.get("type") == "preview" and event.get("final")]
+    assert final[-1]["text"] == reply["message"]
     assert reply["kind"] == "reply" and "Tuesday" in reply["message"]
 
 
 def test_cached_stream_does_not_call_the_provider_again(tmp_path):
     runtime = _runtime(tmp_path)
-    service = TextAssistant(runtime, config=_configured())
     calls = []
+    message = "Tuesday morning is clear. Nothing was saved."
+    plan = json.dumps({"message": message, "tool": "none", "arguments": {}})
+    pieces = [plan[:12], plan[12:28], plan[28:]]
 
-    def generate(_system, context, schema, _purpose):
-        calls.append(context.get("user_message"))
-        if "last_tool_result" not in context:
-            return schema.model_validate(
-                {"message": "Checking the clock.", "tool": "owner_clock", "arguments": {}}
+    def response(request):
+        calls.append(json.loads(request.content).get("stream"))
+        if calls[-1] is True:
+            lines = [
+                "data: "
+                + json.dumps({"choices": [{"delta": {"content": piece}}]})
+                + "\n\n"
+                for piece in pieces
+            ]
+            lines.append(
+                'data: {"choices":[],"usage":{"prompt_tokens":3}}\n\ndata: [DONE]\n\n'
             )
-        return schema.model_validate(
-            {
-                "message": "Tuesday morning is clear. Nothing was saved.",
-                "tool": "none",
-                "arguments": {},
-            }
+            return httpx.Response(200, content="".join(lines).encode())
+        return httpx.Response(
+            200,
+            json={"choices": [{"message": {"content": plan}}], "usage": {"prompt_tokens": 3}},
         )
 
-    service.generate = generate
+    service = TextAssistant(runtime, config=_configured(), transport=httpx.MockTransport(response))
     payload = AssistantMessage(message="What time is it?", language="en")
     first = _events(service.event_stream(payload, "clock-turn"))
     second = _events(service.event_stream(payload, "clock-turn"))
-    assert len(calls) == 2
-    tools = [event for event in first if event["type"] == "tool"]
-    assert tools[0] == {"type": "tool", "phase": "started", "tool": "owner_clock"}
-    assert tools[1]["phase"] == "finished" and tools[1]["saved"] is False
-    assert "arguments" not in tools[1]
-    deltas = [event["text"] for event in first if event["type"] == "delta"]
-    assert first[-1]["type"] == "done"
-    assert "".join(deltas) == first[-1]["reply"]["message"]
-    assert len(first[-1]["reply"]["message"]) > 24
-    assert deltas == text_chunks(first[-1]["reply"]["message"])
+    assert calls == [True]
+    previews = [event["text"] for event in first if event["type"] == "preview"]
+    assert previews[-1] == message
+    assert not [event for event in first if event["type"] == "delta"]
+    assert first[-1]["type"] == "done" and first[-1]["reply"]["message"] == message
     assert [event["type"] for event in second] == ["delta", "delta", "done"]
-    assert second[-1]["reply"]["message"] == first[-1]["reply"]["message"]
+    assert "".join(event["text"] for event in second if event["type"] == "delta") == message
 
 
 def test_missing_operation_is_an_event_and_makes_no_provider_call(tmp_path):

@@ -60,8 +60,18 @@ class AgentLoop:
         for index in range(self.max_steps):
             if self.clock() > deadline:
                 return finish(_notice(language, "timeout"))
+            preview = ""
+
+            def on_delta(piece):
+                nonlocal preview
+                if not isinstance(piece, str) or not piece:
+                    return
+                preview += piece
+                if on_event is not None:
+                    on_event({"type": "preview", "text": preview})
+
             try:
-                step = self._complete(system, context)
+                step = self._complete(system, context, on_delta if on_event is not None else None)
             except DomainError as error:
                 if error.code == "TEXT_AI_CAP":
                     return finish(_notice(language, "cap"))
@@ -69,10 +79,14 @@ class AgentLoop:
             if step is None:
                 return finish(_notice(language, "unavailable"))
             if step.tool == "none":
+                _mark_streamed(on_event, step)
                 return finish({"mode": "ai", "kind": "reply", "message": step.message})
             if self.clock() > deadline:
                 return finish(_notice(language, "timeout"))
             call_key = "text/" + hashlib.sha256(f"{key}/{index}".encode()).hexdigest()
+            risk = CAPABILITIES[step.tool].risk if step.tool in CAPABILITIES else "refused"
+            if on_event is not None and risk == "read" and preview:
+                on_event({"type": "preview", "text": ""})
             if on_event is not None:
                 on_event({"type": "tool", "phase": "started", "tool": step.tool})
             result = execute_tool(
@@ -99,14 +113,19 @@ class AgentLoop:
             if summary:
                 plan = summary
             if _ends_turn(step.tool, result):
+                if risk != "read":
+                    _mark_streamed(on_event, step)
                 return finish(_side_reply(step.message, result, language))
             context["last_tool_result"] = {"tool": step.tool, "result": result}
         return finish(_notice(language, "steps"))
 
-    def _complete(self, system: str, context: dict) -> ModelStep | None:
+    def _complete(self, system: str, context: dict, on_delta) -> ModelStep | None:
         for attempt in range(self.attempts):
             try:
-                step = self.provider.complete(system, context)
+                if on_delta is None:
+                    step = self.provider.complete(system, context)
+                else:
+                    step = self.provider.complete(system, context, on_delta=on_delta)
             except DomainError as error:
                 if error.code == "TEXT_AI_CAP" or error.code != "TEXT_AI_UNAVAILABLE":
                     raise
@@ -118,6 +137,11 @@ class AgentLoop:
             if attempt + 1 == self.attempts:
                 return None
         return None
+
+
+def _mark_streamed(on_event, step: ModelStep) -> None:
+    if on_event is not None and step.streamed:
+        on_event({"type": "preview", "text": step.message, "final": True})
 
 
 def _plan_summary(result: dict) -> str | None:
