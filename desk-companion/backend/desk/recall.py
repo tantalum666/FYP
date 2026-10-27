@@ -77,14 +77,17 @@ def spoken_day(created_at: str, zone: ZoneInfo, zh: bool) -> str:
 
 
 def matching(runtime, tokens: list[str]) -> list[dict]:
-    """Active facts whose wording contains every topic token. Newest first."""
+    """Active facts whose wording contains every topic token, including aliases."""
+    from .aliases import equivalents, match_groups
+
     rows = runtime.memory.listing()["memories"]
     if not tokens:
         return rows
+    groups = match_groups(runtime.store)
     chosen = []
     for row in rows:
         body = row["body"].casefold()
-        if all(token.casefold() in body for token in tokens):
+        if all(any(term in body for term in equivalents(token, groups)) for token in tokens):
             chosen.append(row)
     return chosen
 

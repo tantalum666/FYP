@@ -73,6 +73,7 @@ test("the memory page is the knowledge screen and extras no longer repeats nudge
   assert.match(memory, /knowledgeCopy\.title/);
   assert.match(memory, /<CheckIns/);
   assert.match(memory, /<GoalList/);
+  assert.match(memory, /<AliasList/);
   assert.match(memory, /<ProfileSummary/);
   assert.equal(knowledgeCopy.profileTitle[0], "Profile used in replies");
   assert.match(checks, /knowledgeCopy\.nudgeTitle/);

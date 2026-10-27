@@ -38,23 +38,31 @@ def test_a_recalled_fact_names_the_day_and_forget_that_waits_for_confirm(tmp_pat
     runtime = app.state.runtime
     runtime.memory.create("I prefer tea", "save-tea")
     runtime.memory.create("我更喜欢茶", "save-zh")
+    runtime.memory.create("The desk lamp preset is calm", "save-lamp")
     reply = runtime.assistant.local_message(
         AssistantMessage(message="What do you remember about tea?"),
         "ask",
     )
-    assert reply["kind"] == "recall"
-    assert "You told me on 3 Oct 2026" in reply["message"]
-    assert "I prefer tea" in reply["message"]
+    assert "more than one fact" in reply["message"]
+    assert "I prefer tea" in reply["message"] and "我更喜欢茶" in reply["message"]
     zh = runtime.assistant.local_message(
         AssistantMessage(message="你还记得茶吗", language="zh"),
         "ask-zh",
     )
-    assert zh["message"] == "你在2026年10月3日告诉我：我更喜欢茶"
+    assert "I prefer tea" in zh["message"] and "我更喜欢茶" in zh["message"]
+    lamp = runtime.assistant.local_message(
+        AssistantMessage(message="what do you remember about the lamp"),
+        "ask-lamp",
+    )
+    assert lamp["message"] == "You told me on 3 Oct 2026: The desk lamp preset is calm"
     draft = runtime.assistant.local_message(AssistantMessage(message="forget that"), "forget")
     assert draft["kind"] == "draft" and draft["saved"] is False
-    assert {row["body"] for row in runtime.memory.for_model()} == {"I prefer tea", "我更喜欢茶"}
+    bodies = {row["body"] for row in runtime.memory.for_model()}
+    assert "The desk lamp preset is calm" in bodies
     runtime.assistant.decide(draft["proposal"]["id"], "confirm", "confirm-forget")
-    assert [row["body"] for row in runtime.memory.for_model()] == ["I prefer tea"]
+    assert "The desk lamp preset is calm" not in {
+        row["body"] for row in runtime.memory.for_model()
+    }
     again = runtime.assistant.local_message(AssistantMessage(message="忘掉那个", language="zh"), "again")
     assert again["kind"] == "clarify"
 
