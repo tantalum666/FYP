@@ -391,3 +391,9 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **目标：**Qwen／Gemini 和假提供方都交出文本片段。网页用这些片段，失败时退回一次完成，工具进度保留。
 - **完成：**`deltas()`、部分 JSON 的 `message` 抽取、`preview` 事件，以及无文本时的 `complete()` 退路。
 - **验证：**`pytest -q` 210 通过，Ruff 通过。前端 `npm test` 24 通过，`npm run build` 通过。没有付费 API。
+
+### 同日补充：检索排序
+
+- **目标：**用确定性排序替换笔记、事务、日历和记忆的子串扫描，并覆盖中文和更新时间。
+- **完成：**`rank.py`。`memory_query` 可选查询。离线场景在 `retrieval_eval.py`。
+- **验证：**`pytest -q` 213 通过，Ruff 通过。没有付费 API。

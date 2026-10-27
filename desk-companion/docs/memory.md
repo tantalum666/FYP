@@ -8,7 +8,7 @@
 
 - 拥有者在「记忆」页直接保存、更正或删除。每次写入带版本；版本不符返回 `VERSION_CONFLICT`。
 - 本地规则无需模型密钥：`记住：…`／`Remember: …` 只准备草稿；`忘掉：…`／`Forget: …` 仅在文字与某一条活动事实完全相同时准备删除草稿。确认前不写库。
-- 模型工具是 `memory_query`、`memory_save_draft`、`memory_replace_draft`、`memory_delete_draft`。没有确认工具。确认仍走既有助理草稿接口。
+- 模型工具是 `memory_query`、`memory_save_draft`、`memory_replace_draft`、`memory_delete_draft`。`memory_query` 可以不带参数，返回最近的活动事实；带 `query` 时按词和中文相邻字排序，不写入。没有确认工具。确认仍走既有助理草稿接口。
 - 发给托管模型的上下文由 `desk/context.py` 的 `pack_conversation` 组装，最多 40 条仍有效的事实。删除后的正文不再出现。密钥、相机帧和笔记文件内容不在这个包里。
 - 活动事实最多 200 条，每条折叠空白后不超过 500 字。达到上限是 `MEMORY_LIMIT`，不会静默丢掉旧事实。
 - 配对终端访问 `/api/memory` 得到 403，助理草稿列表、确认接口和文字／语音工具也执行相同的拥有者边界。配对文字请求不打包事实，回复缓存绑定调用权限；语音只向拥有者或已启用的本地语音工作进程开放记忆工具。常亮屏不展示这些事实。

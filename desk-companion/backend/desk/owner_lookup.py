@@ -12,6 +12,7 @@ from zoneinfo import ZoneInfo
 
 from pydantic import Field, field_validator
 
+from .rank import rank_rows
 from .schemas import StrictModel
 from .store import DomainError
 
@@ -127,107 +128,105 @@ def _public(bounds: dict) -> dict:
     }
 
 
-def _contains(value, query: str) -> bool:
-    return query.casefold() in str(value or "").casefold()
-
-
 def _snippet(value: str, limit: int = 80) -> str:
     text = " ".join(str(value or "").split())
     return text if len(text) <= limit else text[: limit - 1] + "…"
 
 
 def _notes(runtime, query: str) -> list[dict]:
-    hits = []
+    candidates = []
     with runtime.store.connection() as conn:
         rows = conn.execute(
-            "SELECT id, state, request FROM computer_jobs ORDER BY created_at DESC"
+            "SELECT id, state, request, created_at FROM computer_jobs"
         ).fetchall()
     for row in rows:
         request = json.loads(row["request"])
         if request.get("action") != "save_note":
             continue
         title, content = request.get("title") or "", request.get("content") or ""
-        if not (_contains(title, query) or _contains(content, query)):
-            continue
-        hits.append(
+        candidates.append(
             {
-                "source": "notes",
                 "id": row["id"],
-                "state": row["state"],
-                "title": title,
-                "snippet": _snippet(content),
+                "time": row["created_at"] or "",
+                "text": f"{title}\n{content}",
+                "payload": {
+                    "source": "notes",
+                    "id": row["id"],
+                    "state": row["state"],
+                    "title": title,
+                    "snippet": _snippet(content),
+                },
             }
         )
-        if len(hits) >= _LIMIT:
-            break
-    return hits
+    return rank_rows(query, candidates, limit=_LIMIT)
 
 
 def _tasks(runtime, query: str) -> list[dict]:
-    hits = []
+    candidates = []
     for task in runtime.tasks.listing(include_closed=True)["tasks"]:
         if task.get("redacted"):
             continue
-        blob = " ".join(
-            str(task.get(key) or "") for key in ("title", "next_step", "waiting_for")
-        )
-        if not _contains(blob, query):
-            continue
-        hits.append(
+        candidates.append(
             {
-                "source": "tasks",
                 "id": task["id"],
-                "title": task["title"],
-                "status": task["status"],
-                "due_local": task.get("due_local"),
+                "time": task.get("updated_at") or "",
+                "text": " ".join(
+                    str(task.get(key) or "") for key in ("title", "next_step", "waiting_for")
+                ),
+                "payload": {
+                    "source": "tasks",
+                    "id": task["id"],
+                    "title": task["title"],
+                    "status": task["status"],
+                    "due_local": task.get("due_local"),
+                },
             }
         )
-        if len(hits) >= _LIMIT:
-            break
-    return hits
+    return rank_rows(query, candidates, limit=_LIMIT)
 
 
 def _calendar(runtime, query: str) -> list[dict]:
     bounds = _bounds(runtime)
     start = bounds["today_start"] - timedelta(days=14)
     end = bounds["today_end"] + timedelta(days=45)
-    hits = []
+    candidates = []
     for item in runtime.store.snapshot(start, end)["occurrences"]:
         if item.get("redacted"):
             continue
-        blob = " ".join(str(item.get(key) or "") for key in ("title", "location", "notes"))
-        if not _contains(blob, query):
-            continue
-        hits.append(
+        candidates.append(
             {
-                "source": "calendar",
-                "id": item.get("id"),
-                "title": item.get("title") or "",
-                "start": item.get("start"),
-                "end": item.get("end"),
+                "id": item.get("id") or "",
+                "time": item.get("start") or "",
+                "text": " ".join(str(item.get(key) or "") for key in ("title", "location", "notes")),
+                "payload": {
+                    "source": "calendar",
+                    "id": item.get("id"),
+                    "title": item.get("title") or "",
+                    "start": item.get("start"),
+                    "end": item.get("end"),
+                },
             }
         )
-        if len(hits) >= _LIMIT:
-            break
-    return hits
+    return rank_rows(query, candidates, limit=_LIMIT)
 
 
 def _memory(runtime, query: str) -> list[dict]:
-    hits = []
-    for row in runtime.memory.for_model():
-        if not _contains(row.get("body"), query):
-            continue
-        hits.append(
+    candidates = []
+    for row in runtime.memory.listing()["memories"]:
+        candidates.append(
             {
-                "source": "memory",
                 "id": row["id"],
-                "version": row["version"],
-                "snippet": _snippet(row["body"], 160),
+                "time": row.get("updated_at") or "",
+                "text": row.get("body") or "",
+                "payload": {
+                    "source": "memory",
+                    "id": row["id"],
+                    "version": row["version"],
+                    "snippet": _snippet(row["body"], 160),
+                },
             }
         )
-        if len(hits) >= _LIMIT:
-            break
-    return hits
+    return rank_rows(query, candidates, limit=_LIMIT)
 
 
 def _plate_tasks(runtime, start: datetime, end: datetime) -> list[dict]:

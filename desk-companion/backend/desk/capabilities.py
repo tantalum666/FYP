@@ -10,7 +10,7 @@ from typing import Literal
 from pydantic import Field, ValidationError
 
 from .jobs import JobInput, JobQuery
-from .memory import MemoryDeleteDraft, MemoryReplaceDraft, MemorySaveDraft
+from .memory import MemoryDeleteDraft, MemoryQuery, MemoryReplaceDraft, MemorySaveDraft
 from .outputs import PRESETS
 from .schemas import CreateEvents, StrictModel
 from .store import DomainError
@@ -54,7 +54,7 @@ class Capability:
 
 def _capabilities() -> dict[str, Capability]:
     rows = [
-        Capability("memory_query", "read", EmptyArgs),
+        Capability("memory_query", "read", MemoryQuery),
         Capability("memory_save_draft", "draft", MemorySaveDraft),
         Capability("memory_replace_draft", "draft", MemoryReplaceDraft),
         Capability("memory_delete_draft", "draft", MemoryDeleteDraft),
