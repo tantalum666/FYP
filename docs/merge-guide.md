@@ -1,6 +1,6 @@
 # Merge guide for open Grok Bot pull requests
 
-Completed by Grok Bot via a Cursor cloud agent on 2026-10-27. This is a merge plan, not a merge. Codex merges. Do not merge PR #4, #5, #15, #16, or #19. Those are outside this set (#19 is the hardware procurement review; #4/#5/#15/#16 stay unmerged).
+Completed by Grok Bot via a Cursor cloud agent on 2026-10-27. This is a merge plan, not a merge. Codex merges. The set is every open Grok Bot pull request from #20 through #50. This guide is #51. Do not merge PR #4, #5, #15, #16, or #19. Those are outside this set (#19 is the hardware procurement review; #4/#5/#15/#16 stay unmerged).
 
 Tips below were the branch tips used for `git merge-tree --write-tree --name-only`. A later push to the same branch can change a conflict. Re-run merge-tree if a tip moved.
 
@@ -26,9 +26,9 @@ This pull request only adds `docs/merge-guide.md`. It does not edit `handoff.md`
 
 Sections that must exist when the set is fully merged:
 
-- Handoff: `## 代理循环那一片`, `## 只读查询`, `## 有界计划`, `## 对话质量`, `## 回复流`, `## 真实片段`, `## 检索排序`, `## 2026-10-26 仓库归档交接`, `## 2026-10-27 记忆与主动检查切片`, `## 2026-10-27 通知通道`, `## 2026-10-27 目标`, `## 2026-10-27 档案摘要`, `## 2026-10-27 备份`, `## 2026-10-27 反省`, `## 2026-10-27 空隙建议`, `## 2026-10-27 未完成事项`, `## 2026-10-27 记忆引用`, `## 2026-10-27 别名`, `## 2026-10-27 语气与主动程度`, `## 2026-10-27 对话风格`, `## 2026-10-27 Web Push`.
-- Decision log: `## 2026-10-27 软件健康：可复现、CI 与作业动作边界`, `## 2026-10-27 离线演示与安全卫生`, `## 2026-10-27 文字代理循环与工具审计` plus the `### 同日补充` blocks for 工具策略, 只读查询, 有界计划, 对话质量, 网页回复流, 真实文本片段, 检索排序, then `## 2026-10-27 记忆核对与主动检查`, `## 2026-10-27 记忆备份、本机会话清理与确定性核对`, `## 2026-10-27 反省、建议、引用和语气`, `## 2026-10-27 对话里引用已保存事实`, `## 2026-10-27 引用用别名表而不是模型`, `## 2026-10-27 语气、详略和主动程度`, `## 2026-10-27 对话遵守已保存的风格`, `## 2026-10-27 没有空隙时的未完成事项`, `## 2026-10-27 Web Push 默认关闭`.
-- Work log: the matching `## 2026-10-27` sections, including `## 2026-10-27｜通知通道`, `## 2026-10-27｜目标与承诺`, `## 2026-10-27｜关系档案`, `## 2026-10-27｜人格与作业备份`, `## 2026-10-27｜每日与每周反省`, `## 2026-10-27｜空隙建议`, `## 2026-10-27｜未完成事项`, `## 2026-10-27｜记忆引用`, `## 2026-10-27｜别名`, `## 2026-10-27｜语气与主动程度`, `## 2026-10-27｜对话风格`, `## 2026-10-27｜Web Push`.
+- Handoff: `## 代理循环那一片`, `## 只读查询`, `## 有界计划`, `## 对话质量`, `## 回复流`, `## 真实片段`, `## 检索排序`, `## 2026-10-26 仓库归档交接`, `## 2026-10-27 记忆与主动检查切片`, `## 2026-10-27 通知通道`, `## 2026-10-27 目标`, `## 2026-10-27 档案摘要`, `## 2026-10-27 备份`, `## 2026-10-27 反省`, `## 2026-10-27 空隙建议`, `## 2026-10-27 未完成事项`, `## 2026-10-27 记忆引用`, `## 2026-10-27 别名`, `## 2026-10-27 语气与主动程度`, `## 2026-10-27 对话风格`, `## 2026-10-27 Web Push`. After #50, the single `## 当前状态与证据` block uses #50's bullets.
+- Decision log: `## 2026-10-27 软件健康：可复现、CI 与作业动作边界`, `## 2026-10-27 离线演示与安全卫生`, `## 2026-10-27 文字代理循环与工具审计` plus the `### 同日补充` blocks for 工具策略, 只读查询, 有界计划, 对话质量, 网页回复流, 真实文本片段, 检索排序, then `## 2026-10-27 记忆核对与主动检查`, `## 2026-10-27 记忆备份、本机会话清理与确定性核对`, `## 2026-10-27 反省、建议、引用和语气`, `## 2026-10-27 对话里引用已保存事实`, `## 2026-10-27 引用用别名表而不是模型`, `## 2026-10-27 语气、详略和主动程度`, `## 2026-10-27 对话遵守已保存的风格`, `## 2026-10-27 没有空隙时的未完成事项`, `## 2026-10-27 Web Push 默认关闭`, `## 2026-10-27 软件切片与报告草稿`.
+- Work log: the matching `## 2026-10-27` sections, including `## 2026-10-27｜通知通道`, `## 2026-10-27｜目标与承诺`, `## 2026-10-27｜关系档案`, `## 2026-10-27｜人格与作业备份`, `## 2026-10-27｜每日与每周反省`, `## 2026-10-27｜空隙建议`, `## 2026-10-27｜未完成事项`, `## 2026-10-27｜记忆引用`, `## 2026-10-27｜别名`, `## 2026-10-27｜语气与主动程度`, `## 2026-10-27｜对话风格`, `## 2026-10-27｜Web Push`, `## 2026-10-27 覆盖、运维、PWA 与软件章节`.
 
 ## `context.py`: required result
 
@@ -304,6 +304,39 @@ Keep the imports `HttpPushSender`, `PushService`, and `push_enabled`. Do not lea
 `knowledge.test.ts`: keep the `form.tone` / `form.verbosity` / `form.proactivity` asserts and `assert.match(extras, /Web Push stays off until DESK_WEB_PUSH=1/)`.
 
 `moments.py` auto-merged at step 27. If it conflicts, keep #38's free-time card when a timed event falls in 30–180 minutes, and #48's open loop only when `free_gap` is missing. Pause counts are per `kind`.
+
+### 5. Two later main-based pull requests
+
+These opened after the first walk. Each was merge-tree'd onto the tree produced by steps 1–29. Merge them after #46.
+
+| Step | PR | Tip | Base | Head | At this step |
+| --- | --- | --- | --- | --- | --- |
+| 30 | [#49](https://github.com/tantalum666/FYP/pull/49) | `0b51606` | `main` | `cursor/desk-pwa-shell-2d6c` | `frontend/public/sw.js` add/add |
+| 31 | [#50](https://github.com/tantalum666/FYP/pull/50) | `0651809` | `main` | `cursor/desk-report-chapter-2d6c` | the three logs |
+
+30. Installable shell. The service worker does not cache `/api`.
+31. Software-chapter draft from the code and the decision log. Open pull requests are not described as already merged.
+
+Step 30, `desk-companion/frontend/public/sw.js`. #46 and #49 both add this file. Keep #49's install, activate, and fetch handlers (`SHELL_CACHE`, `deskFetchPlan`, no cache for `/api`). Append #46's `push` listener at the end. Do not drop either listener.
+
+```javascript
+self.addEventListener("push", (event) => {
+  let data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch (_error) {
+    data = {};
+  }
+  event.waitUntil(
+    self.registration.showNotification(data.title || "Desk Companion", {
+      body: data.body || "",
+      tag: data.tag || "desk",
+    }),
+  );
+});
+```
+
+Step 31 uses the log rule. Keep #50's decision-log section `## 2026-10-27 软件切片与报告草稿` and work-log section `## 2026-10-27 覆盖、运维、PWA 与软件章节`. For `## 当前状态与证据`, use #50's bullets (they already name #21, #22, #24, #25, #27, #28, #30, #36, #42, #49, and #50) and do not delete the feature `##` sections from earlier steps. Keep `## 2026-10-26 仓库归档交接`. The new chapter file `desk-companion/docs/report/software-chapter.md` does not collide.
 
 ## After the last merge
 
