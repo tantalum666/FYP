@@ -360,3 +360,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **完成：**`tool_policy.py` 的 `execute_tool()` 同时服务文字循环和语音调度。同一操作、工具和参数只保留先写入的结果。超时后取消晚到的未批准草稿或待审作业。无法使用的完成最多三次，然后返回说明。离线场景增加待批准笔记、步数、时间，以及文字／语音同一次拒绝。助理面板显示这句说明。
 - **验证：**`pytest -q` 193 通过，Ruff 通过。前端 `npm test` 19 通过，`npm run build` 通过，npm audit 0。本机 Chrome 登录后打开助理面板，看到 `memory_save_draft`、待批准、未保存和“Prepared for review. Nothing was saved.”。没有付费 API。
 - **剩余：**同上。真实模型效果仍未测。
+
+### 同日补充：拥有者只读查询
+
+- **目标：**在现有注册表里增加笔记／事务／日历／记忆检索、今日或本周摘要，以及尊重拥有者时区的时钟。
+- **完成：**三个 `read` 工具走原来的校验、审计和配对拒绝。笔记检索只看 `save_note` 正文。
+- **验证：**`pytest -q` 195 通过，Ruff 通过。没有付费 API。
+- **剩余：**真实模型效果未测。任意目录读取未做。

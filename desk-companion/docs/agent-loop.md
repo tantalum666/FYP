@@ -23,9 +23,11 @@
 
 `desk/capabilities.py` 给每个现有工具一个风险，并用原来的 Pydantic 模型校验参数。名称集合与 `assistant.TOOLS` 相同，避免语音工具表和文字循环各写一份名单后走样。
 
+`owner_search` 在拥有者的笔记、事务、日历和记忆里做有限的子串检索。笔记只包括已经交给电脑作业的 `save_note` 正文，不读任意目录。`plate_summary` 用拥有者时区列出今天或本周（周一到周日）的未完成事务和日历项。`owner_clock` 返回同一时区的当前时间、今天和这一周的日期。配对会话看不到这三个工具，调用也会被拒绝。
+
 | 风险 | 工具 | 执行后 |
 |---|---|---|
-| read | `memory_query`、`task_query`、`task_details`、`calendar_query`、`computer_job_status`、`device_status`、`posture_status` | 只返回数据 |
+| read | `memory_query`、`task_query`、`task_details`、`calendar_query`、`computer_job_status`、`device_status`、`posture_status`、`owner_search`、`plate_summary`、`owner_clock` | 只返回数据 |
 | draft | 记忆、事务、日历、设备预设和电脑作业的准备工具 | 提案或待审作业，拥有者另确认后才写入 |
 | cancel | `computer_job_cancel` | 原作业取消路径。未开始的作业不产生文件；已写入的文件不假装回滚 |
 | stop | `stop_physical_outputs` | 原软件停止闩。不表示物理断电已经确认 |

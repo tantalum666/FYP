@@ -94,8 +94,23 @@ def kind_for(code: str) -> str:
     return CODE_KIND.get(code, "invalid")
 
 
+OWNER_ONLY_TOOLS = frozenset({"owner_search", "plate_summary", "owner_clock"})
+
+
 def memory_blocked(name: object, allow_memory: bool) -> bool:
-    return not allow_memory and isinstance(name, str) and name.startswith("memory_")
+    """True when a paired session must not run this tool.
+
+    Memory tools and the owner lookup tools stay on the owner session.
+    Voice advertising uses the same check, so the model is not offered a tool
+    the dispatcher would refuse.
+    """
+    if allow_memory or not isinstance(name, str):
+        return False
+    return name.startswith("memory_") or name in OWNER_ONLY_TOOLS
+
+
+def tool_visible(name: str, allow_memory: bool) -> bool:
+    return not memory_blocked(name, allow_memory)
 
 
 def audit_suppressed() -> bool:

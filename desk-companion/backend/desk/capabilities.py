@@ -16,6 +16,7 @@ from .schemas import CreateEvents, StrictModel
 from .store import DomainError
 from .tasks import TaskChange, TaskInput, TaskQuery
 from .assistant import CalendarQuery, ChangeProposal
+from .owner_lookup import OwnerClockArgs, OwnerSearch, PlateQuery
 
 
 Risk = Literal["read", "draft", "cancel", "stop"]
@@ -70,6 +71,9 @@ def _capabilities() -> dict[str, Capability]:
         Capability("calendar_create_draft", "draft", CreateEvents),
         Capability("calendar_change_draft", "draft", ChangeProposal),
         Capability("posture_status", "read", EmptyArgs),
+        Capability("owner_search", "read", OwnerSearch),
+        Capability("plate_summary", "read", PlateQuery),
+        Capability("owner_clock", "read", OwnerClockArgs),
     ]
     return {row.name: row for row in rows}
 

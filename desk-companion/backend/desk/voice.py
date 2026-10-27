@@ -24,6 +24,7 @@ from fastapi import APIRouter, Depends, WebSocket, Request
 from starlette.websockets import WebSocketDisconnect
 
 from .assistant import TOOLS
+from .tool_policy import tool_visible
 from .persona import voice_instructions
 from .store import DomainError
 from .tool_dispatch import ToolDispatcher
@@ -113,7 +114,7 @@ class QwenAudioProtocol:
                     "function": {**tool, "parameters": flatten_schema(tool["parameters"])},
                 }
                 for tool in TOOLS
-                if allow_memory or not tool["name"].startswith("memory_")
+                if tool_visible(tool["name"], allow_memory)
             ],
         }
         if config.voice:
@@ -210,7 +211,7 @@ class GeminiProtocol:
                 "parametersJsonSchema": flatten_schema(t["parameters"]),
             }
             for t in TOOLS
-            if allow_memory or not t["name"].startswith("memory_")
+            if tool_visible(t["name"], allow_memory)
         ]
         return {
             "setup": {

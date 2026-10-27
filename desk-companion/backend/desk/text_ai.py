@@ -26,6 +26,7 @@ from .text_providers import text_adapter
 from .workspace_data import is_quiet
 from .schemas import StrictModel
 from .store import DomainError, encode
+from .tool_policy import tool_visible
 
 DEFAULT_DAILY_CAP = 40
 MAX_DAILY_CAP = 500
@@ -49,6 +50,9 @@ class TextPlan(StrictModel):
         "memory_save_draft",
         "memory_replace_draft",
         "memory_delete_draft",
+        "owner_search",
+        "plate_summary",
+        "owner_clock",
     ] = "none"
     arguments: dict = Field(default_factory=dict)
 
@@ -226,7 +230,7 @@ class TextAssistant:
                     t
                     for t in TOOLS
                     if t["name"] in TextPlan.model_fields["tool"].annotation.__args__
-                    and (allow_memory or not t["name"].startswith("memory_"))
+                    and tool_visible(t["name"], allow_memory)
                 ],
             }
             system = text_system(self.runtime.persona.current()["body"])
