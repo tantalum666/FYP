@@ -14,7 +14,8 @@ class DeskCapture extends AudioWorkletProcessor {
       if (this.chunk.length === 640) {
         const pcm = new ArrayBuffer(1280), view = new DataView(pcm);
         this.chunk.forEach((v, index) => view.setInt16(index*2, v, true));
-        this.port.postMessage(pcm, [pcm]); this.chunk = [];
+        const end = currentTime + input.length/sampleRate - Math.max(0, this.buffer.length-this.position)/sampleRate;
+        this.port.postMessage({pcm, end_context_time:end}, [pcm]); this.chunk = [];
       }
     }
     const consumed = Math.min(Math.floor(this.position), this.buffer.length);

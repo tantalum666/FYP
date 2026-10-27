@@ -125,6 +125,9 @@ class Store:
         valid = self.password_hasher.verify(password, stored)
         if username != "owner" or not valid:
             raise DomainError("INVALID_LOGIN", 401)
+        return self.create_owner_session()
+
+    def create_owner_session(self):
         token = secrets.token_urlsafe(32)
         with self.connection(write=True) as conn:
             conn.execute("DELETE FROM sessions WHERE expires<=?", (iso(self.clock()),))

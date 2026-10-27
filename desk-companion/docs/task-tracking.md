@@ -1,5 +1,9 @@
 # 主动事务跟进 · Group 2
 
+<!-- FYP-CONTEXT-20261027 -->
+> 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
+<!-- /FYP-CONTEXT-20261027 -->
+
 更新：2026-10-03。状态：**IMPLEMENTED_LOCAL_VERIFIED**。对应用户要求“先做软件增强，再做UI／UX交互逻辑审查”。设计来源是[Dot可行性研究](../../research/2026-10-03-dot/proactive-task-tracking.md)，本组实现不是直接嵌入Dot。
 
 ## 使用者现在可以做什么
@@ -59,3 +63,12 @@
 ## 2026-10-06 执行作业关联
 
 事务详情现返回关联作业的安全状态／校验元数据，全文仅在拥有者电脑作业审阅API返回。可从事务助理准备专用目录笔记；任务版本变化、结束或取消会阻止旧意图批准／开始执行。按task_id先筛选，再对未解决作业优先分页，避免其他任务的新记录掩盖旧结果。作业成功不自动完成事务，也不说明第三方应用任务已经完成。笔记文件／作业历史尚未加入业务JSON备份或归档UI，私有SQLite备份仍需操作人员妥善保护。
+
+## 2026-10-23 AI验证状态补充
+
+拥有者配置Omni后，输入框和语音共用同一实时模型／上下文／工具；未配置服务仍走本地规则，备用HTTP文字适配器未因此启用。已有事务／记忆仍持久保存在原服务，临时聊天只在有界RAM／面板中。后端279项重跑、前端56项沿用，暂停／安静时段／重启规则回归包含在内；真实日历／记忆链及600秒生命周期已测。充值后完成剩余合成采样、停顿／插话和负面用例，详见最新QA (local historical material: `output/qa/2026-10-23-ai-acceptance/resumed/verification.md`; not included in this checkpoint)、[统一对话契约](omni-conversation.md)和[24场景状态](../../planning/2026-10-23/ai-validation-plan.md)。这些不等于自由多轮真人事务跟进全验收，Pi仍暂停。
+
+
+## 2026-10-27 网页交互修正
+
+关闭 `follow_up_enabled` 后，网页不再显示无效的“1小时后检查／暂停跟进”；需要时通过编辑开启。网页事务讨论复用App中的同一助理面板并显示事务标题；已有其他对话时先正常关闭／处理草稿，避免叠开第二个对话。跟进调度和后端确认规则未改。网页QA (local historical material: `output/qa/2026-10-27-web-ui-implementation/verification.md`; not included in this checkpoint)。

@@ -25,6 +25,7 @@ from .computer import (
     VerificationReceipt,
     accept_owner_folder,
 )
+from .linux_desktop import LinuxDesktopExecutor
 from .schemas import StrictModel
 from .store import DomainError, encode
 
@@ -33,14 +34,20 @@ TERMINAL = {"succeeded", "failed", "cancelled", "expired"}
 
 NOTE_ACTIONS = {"save_note", "verify_note"}
 FOLDER_ACTIONS = {"save_folder_file", "verify_folder_file"}
-WRITE_ACTIONS = {"save_note", "save_folder_file"}
-CHECK_ACTIONS = {"verify_note", "verify_folder_file"}
+DESKTOP_ACTIONS = {"linux_note_preview", "verify_linux_file"}
+WRITE_ACTIONS = {"save_note", "save_folder_file", "linux_note_preview"}
+CHECK_ACTIONS = {"verify_note", "verify_folder_file", "verify_linux_file"}
 
 
 class JobInput(StrictModel):
-    action: Literal["save_note", "verify_note", "save_folder_file", "verify_folder_file"] = (
-        "save_note"
-    )
+    action: Literal[
+        "save_note",
+        "verify_note",
+        "save_folder_file",
+        "verify_folder_file",
+        "linux_note_preview",
+        "verify_linux_file",
+    ] = "save_note"
     title: str = Field(min_length=1, max_length=120)
     content: str = Field(default="", max_length=8000)
     source_job_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
@@ -96,6 +103,7 @@ class JobService:
         self.runtime, self.store = runtime, runtime.store
         self.executor = executor or LocalNotesExecutor(self.store.directory)
         self.folder = FolderDropExecutor(self.folder_config)
+        self.desktop = LinuxDesktopExecutor(self.store.directory)
         self.enabled = os.environ.get("DESK_COMPUTER_ENABLED") == "1"
         self.run_lock = threading.Lock()
         self.stopping = False
@@ -125,6 +133,7 @@ class JobService:
     def capabilities(self):
         cfg = self.folder_config()
         return {
+            "desktop": self.desktop.status(),
             "enabled": self.enabled,
             "executor": self.executor.identity,
             "scope": self.executor.scope,
@@ -161,7 +170,14 @@ class JobService:
         return (
             (NOTE_ACTIONS, self._notes_executor),
             (FOLDER_ACTIONS, self._folder_executor),
+            (DESKTOP_ACTIONS, self._desktop_executor),
         )
+
+    def _desktop_executor(self, preparing):
+        del preparing
+        if not self.desktop.status()["ready"]:
+            raise DomainError("LINUX_DESKTOP_UNAVAILABLE", 409)
+        return self.desktop
 
     def _notes_executor(self, preparing):
         del preparing
@@ -301,6 +317,11 @@ class JobService:
                 request.update(executor=self.executor.identity, scope=self.executor.scope)
                 if payload.action == "verify_note":
                     self._adopt_source(conn, payload.source_job_id, request, "save_note")
+            elif payload.action in DESKTOP_ACTIONS:
+                self._desktop_executor(True)
+                request.update(executor=self.desktop.identity, scope=self.desktop.scope)
+                if payload.action == "verify_linux_file":
+                    self._adopt_source(conn, payload.source_job_id, request, "linux_note_preview")
             else:
                 cfg = self.folder_config(conn)
                 if not cfg:
@@ -395,6 +416,11 @@ class JobService:
             self._executor(request).verify(request)
         ).model_dump(exclude_none=True)
         if receipt["verified"]:
+            if request["action"] == "linux_note_preview" and receipt.get("apps_verified") != [
+                "mousepad",
+                "chromium",
+            ]:
+                raise ValueError("Both approved applications require observed completion")
             expected = request["content"].encode("utf-8")
             if (
                 receipt["artifact"] != request["artifact_id"] + ".txt"

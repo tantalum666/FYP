@@ -18,7 +18,13 @@ export interface ComputerJob {
   updated_at: string;
   error: string | null;
   cancel_requested: boolean;
-  action: "save_note" | "verify_note" | "save_folder_file" | "verify_folder_file";
+  action:
+    | "save_note"
+    | "verify_note"
+    | "save_folder_file"
+    | "verify_folder_file"
+    | "linux_note_preview"
+    | "verify_linux_file";
   task_id: string | null;
   request: {
     title: string;
@@ -34,16 +40,25 @@ export interface ComputerJob {
     bytes?: number;
     sha256?: string;
     reason?: string;
+    apps_verified?: string[];
   } | null;
 }
 export function isFolderAction(action: ComputerJob["action"]) {
   return action === "save_folder_file" || action === "verify_folder_file";
 }
 
+export function isDesktopAction(action: ComputerJob["action"]) {
+  return action === "linux_note_preview" || action === "verify_linux_file";
+}
+
 export function reviewAvailable(job: ComputerJob, now: number, fresh: boolean) {
   return fresh && job.state === "review" && Date.parse(job.expires_at) > now;
 }
 const READ_BACK: Record<string, [string, string]> = {
+  workflow_incomplete: [
+    "The file may exist, but both application steps were not verified. Review the desktop before preparing another job.",
+    "文件可能已保存，但两个应用步骤尚未全部核验。请先检查桌面，再决定是否准备另一项作业。",
+  ],
   content_mismatch: [
     "The file does not match the approved text. It was left unchanged.",
     "文件与批准全文不一致，原文件没有被修改。",
@@ -62,7 +77,9 @@ const READ_BACK: Record<string, [string, string]> = {
   ],
 };
 
-export function readBackCopy(reason: string | undefined): [string, string] | null {
+export function readBackCopy(
+  reason: string | undefined,
+): [string, string] | null {
   if (!reason || reason === "read_back_matches") return null;
   return READ_BACK[reason] ?? null;
 }
@@ -103,6 +120,7 @@ export function recoveryMatchesNote(
   title: string,
   content: string,
   taskId?: string,
+  action: ComputerJob["action"] = "save_note",
 ): boolean {
   if (
     !pending ||
@@ -113,7 +131,7 @@ export function recoveryMatchesNote(
     return false;
   const body = pending.body as Record<string, unknown>;
   return (
-    body.action === "save_note" &&
+    body.action === action &&
     body.title === title &&
     body.content === content &&
     (body.task_id ?? null) === (taskId ?? null)

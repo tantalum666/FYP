@@ -127,6 +127,17 @@ class ToolDispatcher:
                 )
             except DomainError as error:
                 result = {"error": error.code, "saved": False}
+                if getattr(error, "tool_fields", None):
+                    result["fields"] = error.tool_fields
+                    result["hint"] = error.tool_hint
+                elif error.code == "INVALID_OCCURRENCE":
+                    result["hint"] = (
+                        "For scope=occurrence copy occurrence_key from calendar_query. For the whole event use scope=series."
+                    )
+                elif error.code in {"EVENT_NOT_FOUND", "VERSION_CONFLICT"}:
+                    result["hint"] = (
+                        "Query the current calendar/task/memory before retrying. A proposal id is not an event id; copy the current record id and version from the appropriate read tool."
+                    )
             except Exception:
                 result = {"error": "TOOL_FAILED", "saved": False}
         with call.lock:
@@ -182,10 +193,10 @@ class ToolDispatcher:
         if call is not None and result is call.result:
             call.delivered = True
 
-    def stop_accepting(self):
+    def stop_accepting(self, *, cancel_delivered=False):
         self.closed = True
         for call in self.calls.values():
-            if not call.delivered:
+            if cancel_delivered or not call.delivered:
                 call.cancelled.set()
 
     async def close(self):

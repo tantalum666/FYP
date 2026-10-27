@@ -185,7 +185,7 @@ class FakeSocket:
         pass
 
 
-def test_slow_tool_does_not_block_provider_audio_or_interruption(tmp_path):
+def test_slow_tool_withholds_ungrounded_audio_but_never_blocks_interruption(tmp_path):
     runtime = create_app(tmp_path, password="fixture", scheduler=False).state.runtime
     voice = runtime.voice
     voice.config = VoiceConfig("qwen_audio", "wss://fixture.invalid", "fixture", "not-a-key")
@@ -216,8 +216,10 @@ def test_slow_tool_does_not_block_provider_audio_or_interruption(tmp_path):
                 }
             )
             assert await asyncio.to_thread(entered.wait, 2)
+            assert (await asyncio.wait_for(socket.outgoing.get(), 1))["type"] == "turn_waiting"
             await provider.queue.put({"type": "response.audio.delta", "delta": "AAA="})
-            assert (await asyncio.wait_for(socket.outgoing.get(), 1))["type"] == "audio"
+            # Pre-tool speech must not be presented as a completed business answer.
+            # The following interrupt still has to pass the pending tool immediately.
             await provider.queue.put({"type": "input_audio_buffer.speech_started"})
             assert (await asyncio.wait_for(socket.outgoing.get(), 1))["type"] == "proposals_changed"
             assert (await asyncio.wait_for(socket.outgoing.get(), 1))["type"] == "interrupted"

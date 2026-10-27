@@ -29,13 +29,27 @@ class AudioDevice:
         self.input_device = input_device
         self.output_device = output_device
         self.input = queue.Queue(maxsize=25)
-        self.output = queue.Queue(maxsize=150)
+        self.output = queue.Queue(maxsize=750)
         self.playing = bytearray()
+        self.play_lock = threading.Lock()
+        self.marks = []
+        self.timings = queue.Queue(maxsize=64)
+        self.last_voice_at = None
+        self.playback_end = 0.0
         self.stream_in = None
         self.stream_out = None
 
     def start(self):
         def capture(data, frames, timestamp, status):
+            pcm = memoryview(bytes(data)).cast("h")
+            voiced = next((i for i in range(len(pcm) - 1, -1, -1) if abs(pcm[i]) >= 328), None)
+            if voiced is not None:
+                self.last_voice_at = (
+                    time.monotonic()
+                    + timestamp.inputBufferAdcTime
+                    - timestamp.currentTime
+                    + (voiced + 1) / 16000
+                )
             try:
                 self.input.put_nowait(bytes(data))
             except queue.Full:
@@ -45,14 +59,33 @@ class AudioDevice:
 
         def playback(data, frames, timestamp, status):
             needed = frames * 2
-            while len(self.playing) < needed:
-                try:
-                    self.playing.extend(self.output.get_nowait())
-                except queue.Empty:
-                    break
-            payload = self.playing[:needed]
-            del self.playing[:needed]
-            data[:] = bytes(payload) + b"\x00" * (needed - len(payload))
+            with self.play_lock:
+                while len(self.playing) < needed:
+                    try:
+                        item = self.output.get_nowait()
+                    except queue.Empty:
+                        break
+                    block, marker = item if isinstance(item, tuple) else (item, None)
+                    if marker:
+                        pcm = memoryview(block).cast("h")
+                        first = next((i for i, value in enumerate(pcm) if abs(value) >= 33), None)
+                        if first is not None:
+                            self.marks.append((len(self.playing) + first * 2, marker))
+                    self.playing.extend(block)
+                payload = self.playing[:needed]
+                del self.playing[:needed]
+                at = time.monotonic() + timestamp.outputBufferDacTime - timestamp.currentTime
+                remaining = []
+                for offset, marker in self.marks:
+                    if offset < len(payload):
+                        with contextlib.suppress(queue.Full):
+                            self.timings.put_nowait({**marker, "played_at": at + offset / 48000})
+                    else:
+                        remaining.append((offset - len(payload), marker))
+                self.marks = remaining
+                if payload:
+                    self.playback_end = at + len(payload) / 48000
+                data[:] = bytes(payload) + b"\x00" * (needed - len(payload))
 
         self.stream_in = self.sd.RawInputStream(
             device=self.input_device,
@@ -74,10 +107,20 @@ class AudioDevice:
         self.stream_out.start()
 
     def silence(self):
-        self.playing.clear()
-        while not self.output.empty():
-            with contextlib.suppress(queue.Empty):
-                self.output.get_nowait()
+        with self.play_lock:
+            self.playing.clear()
+            self.marks.clear()
+            self.playback_end = 0
+            for items in (self.output, self.timings):
+                while not items.empty():
+                    with contextlib.suppress(queue.Empty):
+                        items.get_nowait()
+
+    def drained(self):
+        with self.play_lock:
+            return (
+                not self.playing and self.output.empty() and time.monotonic() >= self.playback_end
+            )
 
     def close(self):
         for stream in (self.stream_in, self.stream_out):
@@ -102,6 +145,14 @@ async def conversation(api, headers, audio, language, allowed):
     ) as socket:
         await socket.send(json.dumps({"ticket": ticket, "language": language}))
         ready = asyncio.Event()
+        timing = {
+            "turn": None,
+            "end": 0,
+            "endpoint": "provider_event",
+            "first": False,
+            "post": False,
+            "complete": False,
+        }
 
         async def send():
             await asyncio.wait_for(ready.wait(), timeout=20)
@@ -123,22 +174,89 @@ async def conversation(api, headers, audio, language, allowed):
                 if event["type"] == "ready":
                     # A ready cue should be added through a real speaker after AEC testing.
                     ready.set()
+                elif event["type"] == "turn_waiting":
+                    if timing["turn"] != event["turn_id"]:
+                        now = time.monotonic()
+                        valid = (
+                            audio.last_voice_at is not None and 0 <= now - audio.last_voice_at < 15
+                        )
+                        timing.update(
+                            turn=event["turn_id"],
+                            end=audio.last_voice_at if valid else now,
+                            endpoint="capture_energy" if valid else "provider_event",
+                            first=False,
+                            post=False,
+                            complete=False,
+                        )
+                elif event["type"] == "turn_complete":
+                    if event.get("turn_id") == timing["turn"]:
+                        timing["complete"] = True
                 elif event["type"] == "interrupted":
+                    timing.update(turn=None, complete=False)
                     audio.silence()
                 elif event["type"] == "audio":
                     from desk.voice import pcm_chunk
 
                     data = pcm_chunk(event["audio"], maximum=1_000_000)
-                    # Rechunk to bound output backlog to at most six seconds.
+                    # Match the browser's 30-second bound. A provider can generate
+                    # a normal calendar answer much faster than the DAC plays it.
                     for i in range(0, len(data), 1920):
                         try:
-                            audio.output.put_nowait(data[i : i + 1920])
+                            audio.output.put_nowait(
+                                (
+                                    data[i : i + 1920],
+                                    {
+                                        "turn_id": event.get("turn_id"),
+                                        "audio_id": event.get("audio_id"),
+                                        "after_tool": event.get("after_tool", False),
+                                    },
+                                )
+                            )
                         except queue.Full:
                             raise RuntimeError("Playback queue exceeded limit") from None
                 elif event["type"] in {"error", "ended"}:
                     return
 
-        tasks = [asyncio.create_task(send()), asyncio.create_task(receive())]
+        async def report_playback():
+            while allowed():
+                try:
+                    mark = audio.timings.get_nowait()
+                except queue.Empty:
+                    mark = None
+                if (
+                    mark
+                    and mark["turn_id"] == timing["turn"]
+                    and (not timing["first"] or (mark["after_tool"] and not timing["post"]))
+                ):
+                    await asyncio.sleep(max(0, mark["played_at"] - time.monotonic()))
+                    if mark["turn_id"] != timing["turn"]:
+                        continue
+                    await socket.send(
+                        json.dumps(
+                            {
+                                "type": "playback_started",
+                                "turn_id": mark["turn_id"],
+                                "audio_id": mark["audio_id"],
+                                "elapsed_ms": max(0, (mark["played_at"] - timing["end"]) * 1000),
+                                "timing_source": "portaudio_dac",
+                                "endpoint_source": timing["endpoint"],
+                            }
+                        )
+                    )
+                    timing["first"] = True
+                    timing["post"] = timing["post"] or mark["after_tool"]
+                if timing["complete"] and audio.drained():
+                    await socket.send(
+                        json.dumps({"type": "playback_ended", "turn_id": timing["turn"]})
+                    )
+                    timing["complete"] = False
+                await asyncio.sleep(0.02)
+
+        tasks = [
+            asyncio.create_task(send()),
+            asyncio.create_task(receive()),
+            asyncio.create_task(report_playback()),
+        ]
         try:
             done, _ = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
             for task in done:

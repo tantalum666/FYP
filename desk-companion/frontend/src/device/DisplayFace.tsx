@@ -22,6 +22,7 @@ interface Props {
   language: Language;
   state: "loading" | "ready" | "offline" | "locked";
   pending: boolean;
+  blocked?: boolean;
   onManage: () => void;
   onEvent: (event: Occurrence) => void;
   onDay: (day: DateTime) => void;
@@ -60,6 +61,7 @@ export function DisplayFace({
   language,
   state,
   pending,
+  blocked = false,
   onManage,
   onEvent,
   onDay,
@@ -135,7 +137,7 @@ export function DisplayFace({
       </header>
       <div className="display-content">
         {extras?.preferences.avatar_display === "companion" ? (
-          <Avatar language={language} />
+          <Avatar language={language} blocked={blocked} />
         ) : (
           <section
             className="display-month"

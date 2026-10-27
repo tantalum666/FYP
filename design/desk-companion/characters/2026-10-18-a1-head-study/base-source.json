@@ -1,0 +1,60 @@
+{
+  "registry_commit": "0f9a1b2fd99894736563d55b2c9dc9125700d081",
+  "registry_collection": "100avatars-r3",
+  "declared_collection_license": "CC0",
+  "entry": {
+    "id": "8dd2c5c1-a58a-4139-aa5e-b7440b06522e",
+    "name": "Anna",
+    "project_id": "100avatars-r3",
+    "description": "Avatar 270: Anna",
+    "model_file_url": "https://arweave.net/RqDioyluCcxDNHFPoXLUlbEQjhP1Fy9HtaGzLFVh0mE",
+    "format": "VRM",
+    "is_public": true,
+    "is_draft": false,
+    "created_at": "2025-03-11T16:41:51.497Z",
+    "updated_at": "2025-03-11T16:41:51.497Z",
+    "metadata": {
+      "number": "270",
+      "series": "R3",
+      "alternateModels": {},
+      "ardriveFiles": {
+        "models": [
+          "270_Anna.vrm"
+        ],
+        "thumbnails": [
+          "270_Anna_Icon.png",
+          "270_Anna_FullBody.png"
+        ],
+        "textures": [
+          "270_Anna_MidShot.png"
+        ]
+      }
+    },
+    "thumbnail_url": "https://arweave.net/w1coZXsJed2XwPaVJ-vBz2yb2NYu-g8AIzwwmZbY-Gk"
+  },
+  "bytes": 7744412,
+  "sha256": "8694d2a0c09014524d5bc7fdf870f55b6efb8dbd5b399d91bde353b779502779",
+  "embedded_meta": {
+    "title": "Anna",
+    "version": "1.1",
+    "author": "0xded150f6c599b08950919cfb0b97516b6235a36b",
+    "contactInformation": "opensourceavatars.com",
+    "reference": "opensourceavatars.com",
+    "allowedUserName": "Everyone",
+    "violentUssageName": "Allow",
+    "sexualUssageName": "Allow",
+    "commercialUssageName": "Allow",
+    "licenseType": 0,
+    "licenseName": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "allowExcessivelyViolent": true,
+    "allowExcessivelySexual": true,
+    "allowPoliticalOrReligiousUsage": true,
+    "allowAntisocialOrHateUsage": true,
+    "allowCommercialUse": true,
+    "creditNotation": "UNNECESSARY",
+    "allowRedistribution": true,
+    "modification": "ALLOW",
+    "otherLicenseUrl": "ipfs://QmefitbnXfoUeCWy2tYqAGnV7AKEDU3rCc4GPZ2qRLJNMq"
+  }
+}

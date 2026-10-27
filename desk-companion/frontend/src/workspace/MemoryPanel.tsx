@@ -15,7 +15,7 @@ interface MemoryFact {
 }
 
 export function MemoryPanel({ t }: { t: Translate }) {
-  const { data } = useWorkspace();
+  const { data, offline, refresh } = useWorkspace();
   const owner = data?.principal.kind === "owner";
   const [facts, setFacts] = useState<MemoryFact[]>([]);
   const [body, setBody] = useState("");
@@ -27,11 +27,17 @@ export function MemoryPanel({ t }: { t: Translate }) {
   const [error, setError] = useState<unknown>(null);
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState<string | null>(null);
   useDraftGuard(!!(body.trim() || editing), busy);
   const reload = useCallback(async () => {
     if (!owner) return;
-    const next = await request<{ memories: MemoryFact[] }>("/memory");
-    setFacts(next.memories);
+    try {
+      const next = await request<{ memories: MemoryFact[] }>("/memory");
+      setFacts(next.memories);
+    } finally {
+      setLoading(false);
+    }
   }, [owner]);
   useEffect(() => {
     void reload().catch((reason) => setError(reason));
@@ -101,10 +107,11 @@ export function MemoryPanel({ t }: { t: Translate }) {
         expected_version: fact.version,
       });
       if (editing?.id === fact.id) setEditing(null);
+      setDeleting(null);
       setNotice(
         t(
-          "Memory deleted. The assistant will not see it again.",
-          "记忆已删除，助理之后不会再看到它。",
+          "Memory deleted. Future assistant requests will not include this fact.",
+          "记忆已删除，之后的助理请求不会再包含这条事实。",
         ),
       );
       await reload();
@@ -114,10 +121,27 @@ export function MemoryPanel({ t }: { t: Translate }) {
       setBusy(false);
     }
   }
+  if (!data) {
+    return (
+      <section className="workspace-section">
+        <h1>{t("Saved memories", "已保存记忆")}</h1>
+        <p role="status">
+          {offline
+            ? t("Unable to connect to your desk.", "暂时无法连接桌面主机。")
+            : t("Loading your workspace…", "正在读取工作空间…")}
+        </p>
+        {offline && (
+          <button className="secondary" onClick={() => void refresh()}>
+            {t("Reconnect", "重新连接")}
+          </button>
+        )}
+      </section>
+    );
+  }
   if (!owner) {
     return (
       <section className="workspace-section" aria-label={t("Memory", "记忆")}>
-        <h2>{t("Memory", "记忆")}</h2>
+        <h1>{t("Saved memories", "已保存记忆")}</h1>
         <p>
           {t(
             "Sign in as owner to read or change saved facts. A paired display cannot.",
@@ -128,28 +152,31 @@ export function MemoryPanel({ t }: { t: Translate }) {
     );
   }
   return (
-    <section className="workspace-section" aria-label={t("Memory", "记忆")}>
+    <section
+      className="workspace-section memory-page"
+      aria-label={t("Saved memories", "已保存记忆")}
+    >
       <div className="workspace-state">
         <Brain />
         <div>
-          <h2>{t("Memory", "记忆")}</h2>
+          <h1>{t("Saved memories", "已保存记忆")}</h1>
           <p className="workspace-hint">
             {t(
-              "Facts you save here are sent with later assistant requests. The assistant can only propose a change; you confirm it. Deleting a fact removes it from future requests.",
-              "你保存在这里的事实会随之后的助理请求发出。助理只能提出修改，由你确认。删除后，之后的请求不再包含这条事实。",
+              "Keep useful details for future conversations. You choose what to save, correct or remove.",
+              "保存对未来对话有用的细节，由你决定保留、更正或删除。",
             )}
           </p>
         </div>
       </div>
       <form
-        className="workspace-form-grid"
+        className="memory-compose"
         onSubmit={(event) => {
           event.preventDefault();
           void add();
         }}
       >
-        <label>
-          {t("New fact", "新事实")}
+        <label className="field">
+          {t("Add a memory", "添加记忆")}
           <textarea
             value={body}
             maxLength={500}
@@ -171,13 +198,24 @@ export function MemoryPanel({ t }: { t: Translate }) {
             {t("Save fact", "保存事实")}
           </button>
         </div>
+        <p className="workspace-hint">
+          {t(
+            "Saved facts are included in later assistant requests. Deleting one stops it being included in future requests.",
+            "已保存的事实会用于之后的助理请求；删除后，新的请求不再包含它。",
+          )}
+        </p>
       </form>
-      <ul className="calibration-steps">
+      {loading && (
+        <p role="status">
+          {t("Loading saved memories…", "正在读取已保存记忆…")}
+        </p>
+      )}
+      <ul className="memory-list">
         {facts.map((fact) => (
           <li key={fact.id}>
-            <span>{fact.version}</span>
             {editing?.id === fact.id ? (
               <textarea
+                aria-label={t("Correct saved memory", "更正已保存记忆")}
                 value={editing.body}
                 maxLength={500}
                 rows={3}
@@ -229,17 +267,45 @@ export function MemoryPanel({ t }: { t: Translate }) {
                     className="secondary"
                     type="button"
                     disabled={busy}
-                    onClick={() => void remove(fact)}
+                    onClick={() => setDeleting(fact.id)}
                   >
                     {t("Delete", "删除")}
                   </button>
                 </>
               )}
             </div>
+            {deleting === fact.id && (
+              <div className="memory-delete-confirm" role="alert">
+                <p>{t("Delete this saved memory?", "删除这条已保存记忆？")}</p>
+                <div className="workspace-inline-actions">
+                  <button
+                    className="danger-button"
+                    disabled={busy}
+                    onClick={() => void remove(fact)}
+                  >
+                    {t("Delete memory", "删除记忆")}
+                  </button>
+                  <button
+                    className="secondary"
+                    disabled={busy}
+                    onClick={() => setDeleting(null)}
+                  >
+                    {t("Keep memory", "保留记忆")}
+                  </button>
+                </div>
+              </div>
+            )}
           </li>
         ))}
       </ul>
-      {!facts.length && <p>{t("No saved facts yet.", "还没有保存的事实。")}</p>}
+      {!loading && !error && !facts.length && (
+        <p className="management-empty">
+          {t(
+            "No saved memories yet. Add a useful detail above to get started.",
+            "还没有保存的记忆，可以先添加一条有用的细节。",
+          )}
+        </p>
+      )}
       {notice && <p role="status">{notice}</p>}
       {!!error && (
         <p className="error-message" role="alert">

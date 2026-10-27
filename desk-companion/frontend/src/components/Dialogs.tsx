@@ -38,6 +38,9 @@ export function Modal({
   busy = false,
   closeLabel,
   dirty = false,
+  docked = false,
+  className = "",
+  footer,
 }: {
   title: string;
   onClose: () => void;
@@ -46,6 +49,9 @@ export function Modal({
   busy?: boolean;
   closeLabel: string;
   dirty?: boolean;
+  docked?: boolean;
+  className?: string;
+  footer?: ReactNode;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
@@ -53,6 +59,15 @@ export function Modal({
   const [discard, setDiscard] = useState(false);
   const locked = busy || guard.busy;
   const zh = document.documentElement.lang.startsWith("zh");
+  const focusField = () => {
+    Array.from(
+      ref.current?.querySelectorAll<HTMLElement>(
+        "[data-initial-focus], input[required]:not([type=checkbox]), textarea",
+      ) ?? [],
+    )
+      .find((field) => field.getClientRects().length > 0)
+      ?.focus();
+  };
   const close = () => {
     if (locked) return;
     if (dirty || guard.dirty) setDiscard(true);
@@ -61,24 +76,34 @@ export function Modal({
   useEffect(() => {
     const dialog = ref.current!;
     const previous = document.activeElement as HTMLElement | null;
-    dialog.showModal();
-    queueMicrotask(() =>
-      dialog
-        .querySelector<HTMLElement>(
-          "[data-initial-focus], input[required]:not([type=checkbox]), textarea",
-        )
-        ?.focus(),
-    );
+    if (docked) dialog.show();
+    else dialog.showModal();
+    window.dispatchEvent(new Event("desk:modal-state"));
+    queueMicrotask(focusField);
     return () => {
       dialog.close();
+      window.dispatchEvent(new Event("desk:modal-state"));
       if (previous?.isConnected) previous.focus();
     };
-  }, []);
+  }, [docked]);
   return (
     <dialog
       ref={ref}
       aria-labelledby={titleId}
-      className={`dialog ${wide ? "wide" : ""}`}
+      className={`dialog ${wide ? "wide" : ""} ${docked ? "docked" : ""} ${className}`}
+      aria-modal={docked ? undefined : true}
+      data-companion-blocking={docked ? "false" : "true"}
+      onKeyDown={(event) => {
+        if (
+          docked &&
+          event.key === "Escape" &&
+          !event.nativeEvent.isComposing &&
+          !event.defaultPrevented
+        ) {
+          event.preventDefault();
+          close();
+        }
+      }}
       onCancel={(e) => {
         e.preventDefault();
         close();
@@ -106,7 +131,14 @@ export function Modal({
                   : "Continue editing to keep your current input."}
               </p>
               <div className="workspace-inline-actions">
-                <button className="primary" onClick={() => setDiscard(false)}>
+                <button
+                  autoFocus
+                  className="primary"
+                  onClick={() => {
+                    setDiscard(false);
+                    requestAnimationFrame(focusField);
+                  }}
+                >
                   {zh ? "继续编辑" : "Continue editing"}
                 </button>
                 <button className="secondary" onClick={onClose}>
@@ -118,6 +150,7 @@ export function Modal({
           <div hidden={discard}>{children}</div>
         </div>
       </GuardContextProvider>
+      {footer && <div className="dialog-footer">{footer}</div>}
     </dialog>
   );
 }
@@ -136,12 +169,17 @@ export function EventEditor({
   onClose,
   onSaved,
   t,
+  progressive = false,
 }: {
   state: EditorState;
   onClose: () => void;
   onSaved: (event: EventInput) => void;
   t: Translate;
+  progressive?: boolean;
 }) {
+  const formId = useId();
+  const formRef = useRef<HTMLFormElement>(null);
+  const [advancedOpen, setAdvancedOpen] = useState(false);
   const [form, setForm] = useState<EventInput>(() => editable(state.initial));
   const [dates, setDates] = useState<string[]>([]),
     [extraDate, setExtraDate] = useState("");
@@ -233,6 +271,25 @@ export function EventEditor({
     [1440, "1 day before", "提前1天"],
     [10080, "1 week before", "提前1周"],
   ];
+  const actions = (
+    <footer className="dialog-actions">
+      <button
+        type="button"
+        className="secondary"
+        disabled={saving}
+        onClick={closeEditor}
+      >
+        {t("Cancel", "取消")}
+      </button>
+      <button form={formId} type="submit" className="primary" disabled={saving}>
+        {saving
+          ? t("Saving…", "保存中…")
+          : pending
+            ? t("Retry save", "重试保存")
+            : t("Save event", "保存日程")}
+      </button>
+    </footer>
+  );
   return (
     <Modal
       title={
@@ -242,12 +299,25 @@ export function EventEditor({
       closeLabel={t("Close", "关闭")}
       wide
       busy={saving}
+      className={progressive ? "event-editor-dialog" : ""}
+      footer={progressive && !discard ? actions : undefined}
     >
       {discard && (
         <div role="alert">
           <h3>{t("Discard unsaved changes?", "放弃未保存的修改？")}</h3>
           <div className="workspace-inline-actions">
-            <button className="primary" onClick={() => setDiscard(false)}>
+            <button
+              autoFocus
+              className="primary"
+              onClick={() => {
+                setDiscard(false);
+                requestAnimationFrame(() =>
+                  formRef.current
+                    ?.querySelector<HTMLElement>("[data-initial-focus]")
+                    ?.focus(),
+                );
+              }}
+            >
               {t("Continue editing", "继续编辑")}
             </button>
             <button className="secondary" onClick={onClose}>
@@ -256,7 +326,17 @@ export function EventEditor({
           </div>
         </div>
       )}
-      <form onSubmit={save} className="event-form" hidden={discard}>
+      <form
+        id={formId}
+        ref={formRef}
+        onSubmit={save}
+        className="event-form"
+        hidden={discard}
+        onInvalid={(event) => {
+          if ((event.target as HTMLElement).closest(".event-options"))
+            setAdvancedOpen(true);
+        }}
+      >
         <fieldset disabled={locked}>
           <label className="field title-field">
             {t("Title", "标题")}
@@ -332,257 +412,305 @@ export function EventEditor({
               />
             </label>
           </div>
-          <div className="form-grid">
-            <label className="field">
-              {t("Timezone", "时区")}
-              <select
-                value={form.timezone}
-                onChange={(e) => update("timezone", e.target.value)}
-              >
-                {Array.from(
-                  new Set([
-                    form.timezone,
-                    "Asia/Hong_Kong",
-                    "Asia/Shanghai",
-                    "Asia/Tokyo",
-                    "Europe/London",
-                    "America/New_York",
-                    "UTC",
-                  ]),
-                ).map((z) => (
-                  <option key={z}>{z}</option>
-                ))}
-              </select>
-            </label>
-            <label className="field">
-              {t("Calendar", "日历分类")}
-              <select
-                value={form.calendar}
-                onChange={(e) =>
-                  update("calendar", e.target.value as EventInput["calendar"])
-                }
-              >
-                <option value="personal">{t("Personal", "个人")}</option>
-                <option value="study">{t("Study", "学习")}</option>
-              </select>
-            </label>
-          </div>
-          <label className="field">
-            {t("Repeat", "重复")}
-            <select
-              disabled={
-                (!!state.id && state.scope === "occurrence") || dates.length > 0
-              }
-              value={form.recurrence.frequency}
-              onChange={(e) =>
-                update("recurrence", {
-                  frequency: e.target.value as Frequency,
-                  interval: 1,
-                  until: null,
-                })
-              }
-            >
-              {(
-                ["none", "daily", "weekly", "monthly", "yearly"] as Frequency[]
-              ).map((v, i) => (
-                <option value={v} key={v}>
-                  {t(
-                    ["Does not repeat", "Daily", "Weekly", "Monthly", "Yearly"][
-                      i
-                    ],
-                    ["不重复", "每日", "每周", "每月", "每年"][i],
-                  )}
-                </option>
-              ))}
-            </select>
-          </label>
-          {form.recurrence.frequency !== "none" && (
-            <>
-              <div className="form-grid">
-                <label className="field">
-                  {t("Repeat interval", "重复间隔")}
-                  <input
-                    type="number"
-                    min={1}
-                    max={52}
-                    required
-                    value={form.recurrence.interval}
-                    onChange={(e) =>
-                      update("recurrence", {
-                        ...form.recurrence,
-                        interval: Number(e.target.value),
-                      })
-                    }
-                  />
-                </label>
-                <label className="field">
-                  {t("Repeat until (optional)", "重复结束日期（可留空）")}
-                  <input
-                    type="date"
-                    min={form.start_local.slice(0, 10)}
-                    value={form.recurrence.until ?? ""}
-                    onInput={(e) =>
-                      update("recurrence", {
-                        ...form.recurrence,
-                        until: e.currentTarget.value || null,
-                      })
-                    }
-                  />
-                </label>
-              </div>
-              <p className="form-note">
-                {t(
-                  "Uses the Gregorian calendar. Dates that do not exist are skipped; repeated clock-change times use the first occurrence.",
-                  "按公历重复，不存在的日期会跳过；夏令时重复时刻采用第一次发生。",
-                )}
-              </p>
-            </>
+          {progressive && (
+            <p className="form-note">
+              {t("Times in ", "时间采用 ")}
+              {form.timezone.replaceAll("_", " ")}
+            </p>
           )}
-          {!state.id && form.recurrence.frequency === "none" && (
-            <details className="form-details">
-              <summary>
-                {t("Add this event on more dates", "将此安排添加到更多日期")}
-                {dates.length > 0 && ` (${dates.length + 1})`}
-              </summary>
-              <div className="batch-entry">
-                <input
-                  type="date"
-                  value={extraDate}
-                  aria-label={t("Additional date", "额外日期")}
-                  onInput={(e) => setExtraDate(e.currentTarget.value)}
-                />
-                <button
-                  className="secondary"
-                  type="button"
-                  onClick={addDate}
-                  disabled={
-                    !extraDate ||
-                    extraDate === form.start_local.slice(0, 10) ||
-                    dates.includes(extraDate)
+          <details
+            className="event-options"
+            open={!progressive || advancedOpen}
+            onToggle={(event) => {
+              if (progressive) setAdvancedOpen(event.currentTarget.open);
+            }}
+          >
+            <summary hidden={!progressive}>
+              <span>{t("Details & reminders", "详情与提醒")}</span>
+              <small>
+                {form.calendar === "personal"
+                  ? t("Personal", "个人")
+                  : t("Study", "学习")}{" "}
+                ·{" "}
+                {form.visibility === "private"
+                  ? t("Private", "私人")
+                  : t("Displayable", "可展示")}
+                <br />
+                {form.reminder_minutes.length
+                  ? reminders
+                      .filter(([value]) =>
+                        form.reminder_minutes.includes(value),
+                      )
+                      .map(([, en, zh]) => t(en, zh))
+                      .join(" · ")
+                  : t("No reminders", "无提醒")}
+                {form.recurrence.frequency !== "none" &&
+                  ` · ${t("Repeating", "重复日程")}`}
+              </small>
+            </summary>
+            <div className="form-grid">
+              <label className="field">
+                {t("Timezone", "时区")}
+                <select
+                  value={form.timezone}
+                  onChange={(e) => update("timezone", e.target.value)}
+                >
+                  {Array.from(
+                    new Set([
+                      form.timezone,
+                      "Asia/Hong_Kong",
+                      "Asia/Shanghai",
+                      "Asia/Tokyo",
+                      "Europe/London",
+                      "America/New_York",
+                      "UTC",
+                    ]),
+                  ).map((z) => (
+                    <option key={z}>{z}</option>
+                  ))}
+                </select>
+              </label>
+              <label className="field">
+                {t("Calendar", "日历分类")}
+                <select
+                  value={form.calendar}
+                  onChange={(e) =>
+                    update("calendar", e.target.value as EventInput["calendar"])
                   }
                 >
-                  {t("Add date", "添加日期")}
-                </button>
-              </div>
-              <div className="date-chips">
-                {dates.map((d) => (
-                  <button
-                    key={d}
-                    type="button"
-                    className="date-chip"
-                    onClick={() => setDates(dates.filter((v) => v !== d))}
-                  >
-                    {d}
-                    <X size={13} />
-                  </button>
-                ))}
-              </div>
-              <p className="form-note">
-                {t(
-                  "Each chosen date becomes an independent event.",
-                  "每个所选日期会创建一条独立日程。",
-                )}
-              </p>
-            </details>
-          )}
-          <div className="field">
-            <span>
-              {t("Reminders (choose up to four)", "提醒（最多四项）")}
-            </span>
-            <div className="reminder-options">
-              {reminders.map(([value, en, zh]) => (
-                <label key={value}>
-                  <input
-                    type="checkbox"
-                    checked={form.reminder_minutes.includes(value)}
-                    disabled={
-                      !form.reminder_minutes.includes(value) &&
-                      form.reminder_minutes.length >= 4
-                    }
-                    onChange={(e) =>
-                      update(
-                        "reminder_minutes",
-                        e.target.checked
-                          ? [...form.reminder_minutes, value]
-                          : form.reminder_minutes.filter((v) => v !== value),
-                      )
-                    }
-                  />
-                  {t(en, zh)}
-                </label>
-              ))}
+                  <option value="personal">{t("Personal", "个人")}</option>
+                  <option value="study">{t("Study", "学习")}</option>
+                </select>
+              </label>
             </div>
-          </div>
-          <div className="form-grid">
             <label className="field">
-              {t("Display privacy", "展示隐私")}
+              {t("Repeat", "重复")}
               <select
-                value={form.visibility}
+                disabled={
+                  (!!state.id && state.scope === "occurrence") ||
+                  dates.length > 0
+                }
+                value={form.recurrence.frequency}
                 onChange={(e) =>
-                  update(
-                    "visibility",
-                    e.target.value as EventInput["visibility"],
-                  )
+                  update("recurrence", {
+                    frequency: e.target.value as Frequency,
+                    interval: 1,
+                    until: null,
+                  })
                 }
               >
-                <option value="private">{t("Private", "私人")}</option>
-                <option value="displayable">
-                  {t("May show details", "允许展示详情")}
-                </option>
+                {(
+                  [
+                    "none",
+                    "daily",
+                    "weekly",
+                    "monthly",
+                    "yearly",
+                  ] as Frequency[]
+                ).map((v, i) => (
+                  <option value={v} key={v}>
+                    {t(
+                      [
+                        "Does not repeat",
+                        "Daily",
+                        "Weekly",
+                        "Monthly",
+                        "Yearly",
+                      ][i],
+                      ["不重复", "每日", "每周", "每月", "每年"][i],
+                    )}
+                  </option>
+                ))}
               </select>
             </label>
-            <label className="field">
-              {t("Availability", "忙闲")}
-              <select
-                value={form.busy ? "busy" : "free"}
-                onChange={(e) => update("busy", e.target.value === "busy")}
-              >
-                <option value="busy">{t("Busy", "忙碌")}</option>
-                <option value="free">{t("Free", "空闲")}</option>
-              </select>
-            </label>
-          </div>
-          <div
-            className="color-options"
-            aria-label={t("Event color", "日程颜色")}
-          >
-            {(["lavender", "blue", "sage", "peach"] as EventColor[]).map(
-              (c, i) => (
-                <button
-                  key={c}
-                  type="button"
-                  aria-label={t(
-                    ["Lavender", "Blue", "Sage", "Peach"][i],
-                    ["紫", "蓝", "绿", "桃"][i],
+            {form.recurrence.frequency !== "none" && (
+              <>
+                <div className="form-grid">
+                  <label className="field">
+                    {t("Repeat interval", "重复间隔")}
+                    <input
+                      type="number"
+                      min={1}
+                      max={52}
+                      required
+                      value={form.recurrence.interval}
+                      onChange={(e) =>
+                        update("recurrence", {
+                          ...form.recurrence,
+                          interval: Number(e.target.value),
+                        })
+                      }
+                    />
+                  </label>
+                  <label className="field">
+                    {t("Repeat until (optional)", "重复结束日期（可留空）")}
+                    <input
+                      type="date"
+                      min={form.start_local.slice(0, 10)}
+                      value={form.recurrence.until ?? ""}
+                      onInput={(e) =>
+                        update("recurrence", {
+                          ...form.recurrence,
+                          until: e.currentTarget.value || null,
+                        })
+                      }
+                    />
+                  </label>
+                </div>
+                <p className="form-note">
+                  {t(
+                    "Uses the Gregorian calendar. Dates that do not exist are skipped; repeated clock-change times use the first occurrence.",
+                    "按公历重复，不存在的日期会跳过；夏令时重复时刻采用第一次发生。",
                   )}
-                  aria-pressed={form.color === c}
-                  className={`color-choice ${c} ${form.color === c ? "selected" : ""}`}
-                  onClick={() => update("color", c)}
-                >
-                  {form.color === c && <Check size={15} />}
-                </button>
-              ),
+                </p>
+              </>
             )}
-          </div>
-          <details className="form-details">
-            <summary>{t("Location & notes", "地点与备注")}</summary>
-            <label className="field">
-              {t("Location", "地点")}
-              <input
-                maxLength={300}
-                value={form.location}
-                onChange={(e) => update("location", e.target.value)}
-              />
-            </label>
-            <label className="field">
-              {t("Notes", "备注")}
-              <textarea
-                rows={3}
-                maxLength={2000}
-                value={form.notes}
-                onChange={(e) => update("notes", e.target.value)}
-              />
-            </label>
+            {!state.id && form.recurrence.frequency === "none" && (
+              <details className="form-details">
+                <summary>
+                  {t("Add this event on more dates", "将此安排添加到更多日期")}
+                  {dates.length > 0 && ` (${dates.length + 1})`}
+                </summary>
+                <div className="batch-entry">
+                  <input
+                    type="date"
+                    value={extraDate}
+                    aria-label={t("Additional date", "额外日期")}
+                    onInput={(e) => setExtraDate(e.currentTarget.value)}
+                  />
+                  <button
+                    className="secondary"
+                    type="button"
+                    onClick={addDate}
+                    disabled={
+                      !extraDate ||
+                      extraDate === form.start_local.slice(0, 10) ||
+                      dates.includes(extraDate)
+                    }
+                  >
+                    {t("Add date", "添加日期")}
+                  </button>
+                </div>
+                <div className="date-chips">
+                  {dates.map((d) => (
+                    <button
+                      key={d}
+                      type="button"
+                      className="date-chip"
+                      onClick={() => setDates(dates.filter((v) => v !== d))}
+                    >
+                      {d}
+                      <X size={13} />
+                    </button>
+                  ))}
+                </div>
+                <p className="form-note">
+                  {t(
+                    "Each chosen date becomes an independent event.",
+                    "每个所选日期会创建一条独立日程。",
+                  )}
+                </p>
+              </details>
+            )}
+            <div className="field">
+              <span>
+                {t("Reminders (choose up to four)", "提醒（最多四项）")}
+              </span>
+              <div className="reminder-options">
+                {reminders.map(([value, en, zh]) => (
+                  <label key={value}>
+                    <input
+                      type="checkbox"
+                      checked={form.reminder_minutes.includes(value)}
+                      disabled={
+                        !form.reminder_minutes.includes(value) &&
+                        form.reminder_minutes.length >= 4
+                      }
+                      onChange={(e) =>
+                        update(
+                          "reminder_minutes",
+                          e.target.checked
+                            ? [...form.reminder_minutes, value]
+                            : form.reminder_minutes.filter((v) => v !== value),
+                        )
+                      }
+                    />
+                    {t(en, zh)}
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div className="form-grid">
+              <label className="field">
+                {t("Display privacy", "展示隐私")}
+                <select
+                  value={form.visibility}
+                  onChange={(e) =>
+                    update(
+                      "visibility",
+                      e.target.value as EventInput["visibility"],
+                    )
+                  }
+                >
+                  <option value="private">{t("Private", "私人")}</option>
+                  <option value="displayable">
+                    {t("May show details", "允许展示详情")}
+                  </option>
+                </select>
+              </label>
+              <label className="field">
+                {t("Availability", "忙闲")}
+                <select
+                  value={form.busy ? "busy" : "free"}
+                  onChange={(e) => update("busy", e.target.value === "busy")}
+                >
+                  <option value="busy">{t("Busy", "忙碌")}</option>
+                  <option value="free">{t("Free", "空闲")}</option>
+                </select>
+              </label>
+            </div>
+            <div
+              className="color-options"
+              aria-label={t("Event color", "日程颜色")}
+            >
+              {(["lavender", "blue", "sage", "peach"] as EventColor[]).map(
+                (c, i) => (
+                  <button
+                    key={c}
+                    type="button"
+                    aria-label={t(
+                      ["Lavender", "Blue", "Sage", "Peach"][i],
+                      ["紫", "蓝", "绿", "桃"][i],
+                    )}
+                    aria-pressed={form.color === c}
+                    className={`color-choice ${c} ${form.color === c ? "selected" : ""}`}
+                    onClick={() => update("color", c)}
+                  >
+                    {form.color === c && <Check size={15} />}
+                  </button>
+                ),
+              )}
+            </div>
+            <details className="form-details">
+              <summary>{t("Location & notes", "地点与备注")}</summary>
+              <label className="field">
+                {t("Location", "地点")}
+                <input
+                  maxLength={300}
+                  value={form.location}
+                  onChange={(e) => update("location", e.target.value)}
+                />
+              </label>
+              <label className="field">
+                {t("Notes", "备注")}
+                <textarea
+                  rows={3}
+                  maxLength={2000}
+                  value={form.notes}
+                  onChange={(e) => update("notes", e.target.value)}
+                />
+              </label>
+            </details>
           </details>
         </fieldset>
         {!!error && (
@@ -590,23 +718,7 @@ export function EventEditor({
             {errorText(error, t)}
           </p>
         )}
-        <footer className="dialog-actions">
-          <button
-            type="button"
-            className="secondary"
-            disabled={saving}
-            onClick={closeEditor}
-          >
-            {t("Cancel", "取消")}
-          </button>
-          <button className="primary" disabled={saving}>
-            {saving
-              ? t("Saving…", "保存中…")
-              : pending
-                ? t("Retry save", "重试保存")
-                : t("Save event", "保存日程")}
-          </button>
-        </footer>
+        {!progressive && actions}
       </form>
     </Modal>
   );

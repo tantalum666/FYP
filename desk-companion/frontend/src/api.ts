@@ -29,9 +29,16 @@ export async function request<T>(
       },
     });
     const body = await response.json();
-    if (!response.ok)
+    if (!response.ok) {
+      if (
+        path !== "/session" &&
+        response.status === 401 &&
+        body.error?.code === "AUTH_REQUIRED"
+      )
+        window.dispatchEvent(new Event("desk:auth-required"));
       throw new ApiError(body.error?.code ?? "REQUEST_FAILED", response.status);
-    if (path === "/session" && options.method)
+    }
+    if ((path === "/session" || path === "/session/preview") && options.method)
       window.dispatchEvent(new Event("desk:session"));
     return body as T;
   } catch (error) {
@@ -133,6 +140,10 @@ export function errorText(
 ) {
   const code = error instanceof ApiError ? error.code : "REQUEST_FAILED";
   const messages: Record<string, [string, string]> = {
+    LINUX_DESKTOP_UNAVAILABLE: [
+      "The Linux desktop, editor, browser or accessibility bridge is not ready. Open a desktop session and check the setup.",
+      "Linux 桌面、编辑器、浏览器或辅助功能连接尚未就绪。请打开桌面会话并检查配置。",
+    ],
     COMPUTER_DISABLED: [
       "Local note execution is disabled on this desk.",
       "本桌面未启用本地笔记执行。",

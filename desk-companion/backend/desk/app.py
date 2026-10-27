@@ -92,6 +92,8 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
         for host in ("localhost", "127.0.0.1", "testserver")
         for port in ("", ":5190", ":8831", ":5191", ":8832")
     }
+    # The Mac-to-Pi SSH launcher binds this port on Mac loopback only.
+    allowed_origins.update({"http://127.0.0.1:8891", "http://localhost:8891"})
     allowed_hosts = ["localhost", "127.0.0.1", "testserver"]
     if public_origin:
         parts = urlsplit(public_origin)
@@ -192,6 +194,49 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
     def health():
         return {"service": "desk-companion", "status": "ok"}
 
+    def local_preview(request: Request):
+        # Explicit development mode only. Forwarded/public requests never opt in.
+        return (
+            os.environ.get("DESK_LOCAL_PREVIEW") == "1"
+            and not public_origin
+            and request.client is not None
+            and request.client.host in {"127.0.0.1", "::1"}
+            and request.url.hostname in {"localhost", "127.0.0.1"}
+            and not any(
+                h in request.headers for h in ("forwarded", "x-forwarded-for", "x-forwarded-host")
+            )
+            and (
+                not request.headers.get("origin")
+                or (
+                    urlsplit(request.headers["origin"]).scheme == "http"
+                    and urlsplit(request.headers["origin"]).hostname in {"localhost", "127.0.0.1"}
+                )
+            )
+        )
+
+    @app.get("/api/session-mode")
+    def session_mode(request: Request):
+        return {"local_preview": local_preview(request)}
+
+    @app.post("/api/session/preview")
+    def preview_session(request: Request, response: Response):
+        if not local_preview(request):
+            raise DomainError("LOCAL_PREVIEW_DISABLED", 403)
+        limit("preview", request, 20, 60)
+        token = request.cookies.get(COOKIE)
+        if not store.session_valid(token):
+            token = store.create_owner_session()
+        response.set_cookie(
+            COOKIE,
+            token,
+            httponly=True,
+            samesite="strict",
+            secure=request.url.scheme == "https",
+            max_age=8 * 3600,
+            path="/api",
+        )
+        return {"local_preview": True}
+
     @app.post("/api/session")
     def login(payload: Login, request: Request, response: Response):
         ip = request.client.host if request.client else "local"
@@ -229,7 +274,12 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
                     path="/api",
                 )
         with store.connection() as conn:
-            return {"username": "owner", "settings": store.settings(conn), "principal": principal}
+            return {
+                "username": "owner",
+                "settings": store.settings(conn),
+                "principal": principal,
+                "local_preview": local_preview(request),
+            }
 
     @app.delete("/api/session", dependencies=[Depends(authenticated)])
     def logout(request: Request, response: Response, principal=Depends(authenticated)):

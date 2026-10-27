@@ -1,6 +1,6 @@
 import { ExportLink } from "../workspace/ExportLink";
 import { useDraftGuard } from "./DraftGuard";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { DateTime } from "luxon";
 import {
   ArrowUpRight,
@@ -111,7 +111,7 @@ export function TodayView({
         <span>{now.toFormat("HH:mm")}</span>
         <small>{zone.replaceAll("_", " ").split("/").at(-1)}</small>
       </div>
-      <div className="today-columns">
+      <div className={`today-columns ${events.length ? "" : "is-empty"}`}>
         <section className="next-section">
           <h2>{t("Up next", "接下来")}</h2>
           {upcoming ? (
@@ -143,44 +143,49 @@ export function TodayView({
             </div>
           )}
         </section>
-        <section className="agenda-section">
-          <div className="section-heading">
-            <h2>{t("Your schedule", "今日安排")}</h2>
-            <button className="text-button" onClick={onCalendar}>
-              {t("View calendar", "查看日历")}
-              <ChevronRight size={16} />
-            </button>
-          </div>
-          {events.length === 0 && (
-            <p className="empty-text">
-              {t("Your day is yours to plan.", "从添加第一件事开始安排今天。")}
-            </p>
-          )}
-          {events.map((e) => (
-            <button
-              className={`agenda-row ${e.completed ? "completed" : ""}`}
-              key={e.id + e.occurrence_key}
-              onClick={() => onOpen(e)}
-            >
-              <time>
-                {e.all_day
-                  ? t("All day", "全天")
-                  : inZone(e.start, zone).toFormat("HH:mm")}
-              </time>
-              <i className={e.color} />
-              <span>
-                <strong>{title(e, language)}</strong>
-                <small>
-                  {eventTime(e, zone, language)} ·{" "}
-                  {e.calendar === "study"
-                    ? t("Study", "学习")
-                    : t("Personal", "个人")}
-                </small>
-              </span>
-              {e.completed && <Check size={17} />}
-            </button>
-          ))}
-        </section>
+        {events.length > 0 && (
+          <section className="agenda-section">
+            <div className="section-heading">
+              <h2>{t("Your schedule", "今日安排")}</h2>
+              <button className="text-button" onClick={onCalendar}>
+                {t("View calendar", "查看日历")}
+                <ChevronRight size={16} />
+              </button>
+            </div>
+            {events.length === 0 && (
+              <p className="empty-text">
+                {t(
+                  "Your day is yours to plan.",
+                  "从添加第一件事开始安排今天。",
+                )}
+              </p>
+            )}
+            {events.map((e) => (
+              <button
+                className={`agenda-row ${e.completed ? "completed" : ""}`}
+                key={e.id + e.occurrence_key}
+                onClick={() => onOpen(e)}
+              >
+                <time>
+                  {e.all_day
+                    ? t("All day", "全天")
+                    : inZone(e.start, zone).toFormat("HH:mm")}
+                </time>
+                <i className={e.color} />
+                <span>
+                  <strong>{title(e, language)}</strong>
+                  <small>
+                    {eventTime(e, zone, language)} ·{" "}
+                    {e.calendar === "study"
+                      ? t("Study", "学习")
+                      : t("Personal", "个人")}
+                  </small>
+                </span>
+                {e.completed && <Check size={17} />}
+              </button>
+            ))}
+          </section>
+        )}
       </div>
       <button className="desk-status-row" onClick={onDevice}>
         <Monitor />
@@ -266,17 +271,33 @@ export function RecordsView({
     ...(start ? { start } : {}),
     ...(end ? { end } : {}),
   }).toString();
+  const [loading, setLoading] = useState(true);
+  const [loadedQuery, setLoadedQuery] = useState<string | null>(null);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const filterId = useId();
+  const activeFilters =
+    Number(kind !== "all") +
+    Number(source !== "all") +
+    Number(!!start) +
+    Number(!!end);
+  const currentRows = loadedQuery === query ? rows : [];
   useEffect(() => {
     let alive = true;
+    setLoading(true);
     void request<{ records: RecordEntry[] }>(`/records?${query}`)
       .then((result) => {
         if (alive) {
           setRows(result.records);
+          setLoadedQuery(query);
           setError(null);
+          setLoading(false);
         }
       })
       .catch((e) => {
-        if (alive) setError(e);
+        if (alive) {
+          setError(e);
+          setLoading(false);
+        }
       });
     return () => {
       alive = false;
@@ -311,6 +332,11 @@ export function RecordsView({
     assistant_draft: ["Assistant draft prepared", "已生成助理草稿"],
     assistant_confirmed: ["Assistant change saved", "已保存助理操作"],
     assistant_cancelled: ["Assistant draft cancelled", "已取消助理草稿"],
+    memory_saved: ["Memory saved", "记忆已保存"],
+    memory_replaced: ["Memory corrected", "记忆已更正"],
+    memory_deleted: ["Memory removed", "记忆已删除"],
+    persona_replace: ["Assistant style updated", "助理风格已更新"],
+    persona_reset: ["Assistant style reset", "助理风格已重置"],
     device_paired: ["Screen paired", "已配对终端"],
     device_revoked: ["Screen access revoked", "已撤销终端"],
     output_queued: ["Output queued", "反馈已排队"],
@@ -344,65 +370,104 @@ export function RecordsView({
           </p>
         </div>
       </header>
-      <div className="records-toolbar workspace-record-filters">
-        <label>
-          {t("Category", "类别")}
-          <select value={kind} onChange={(e) => setKind(e.target.value)}>
-            {[
-              "all",
-              "calendar",
-              "tasks",
-              "posture",
-              "devices",
-              "assistant",
-            ].map((v, i) => (
-              <option key={v} value={v}>
-                {t(
-                  [
-                    "All",
-                    "Calendar",
-                    "Tasks",
-                    "Posture",
-                    "Devices",
-                    "Assistant",
-                  ][i],
-                  ["全部", "日历", "事务", "坐姿", "设备", "助理"][i],
+      <div className="records-filter-summary">
+        <span>
+          {loading
+            ? t("Loading records…", "正在读取记录…")
+            : error
+              ? t("Records unavailable", "暂时无法读取记录")
+              : t(
+                  `${currentRows.length} recent record${currentRows.length === 1 ? "" : "s"}`,
+                  `${currentRows.length}条最近记录`,
                 )}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          {t("Source", "来源")}
-          <select value={source} onChange={(e) => setSource(e.target.value)}>
-            <option value="all">{t("All sources", "全部来源")}</option>
-            <option value="live">{t("Live input", "实时输入")}</option>
-            <option value="replay">{t("Replay only", "仅回放")}</option>
-          </select>
-        </label>
-        <label>
-          {t("From", "开始")}
-          <input
-            type="date"
-            value={start}
-            onInput={(e) => setStart(e.currentTarget.value)}
-          />
-        </label>
-        <label>
-          {t("Until", "结束")}
-          <input
-            type="date"
-            value={end}
-            onInput={(e) => setEnd(e.currentTarget.value)}
-          />
-        </label>
-        <ExportLink
-          path={`/records.csv?${query}`}
-          filename="desk-records.csv"
-          onError={setError}
-        >
-          {t("Export CSV", "导出CSV")}
-        </ExportLink>
+        </span>
+        <div className="workspace-inline-actions">
+          <button
+            className="secondary"
+            aria-expanded={filtersOpen}
+            aria-controls={filterId}
+            onClick={() => setFiltersOpen(!filtersOpen)}
+          >
+            <SlidersHorizontal size={16} />
+            {t("Filters", "筛选")}
+            {activeFilters ? ` (${activeFilters})` : ""}
+          </button>
+          {activeFilters > 0 && (
+            <button
+              className="text-button"
+              onClick={() => {
+                setKind("all");
+                setSource("all");
+                setStart("");
+                setEnd("");
+              }}
+            >
+              {t("Clear filters", "清除筛选")}
+            </button>
+          )}
+          <ExportLink
+            path={`/records.csv?${query}`}
+            filename="desk-records.csv"
+            onError={setError}
+          >
+            {t("Export CSV", "导出CSV")}
+          </ExportLink>
+        </div>
+      </div>
+      <div id={filterId} className="records-filter-panel" hidden={!filtersOpen}>
+        <div className="records-toolbar workspace-record-filters">
+          <label>
+            {t("Category", "类别")}
+            <select value={kind} onChange={(e) => setKind(e.target.value)}>
+              {[
+                "all",
+                "calendar",
+                "tasks",
+                "posture",
+                "devices",
+                "assistant",
+              ].map((v, i) => (
+                <option key={v} value={v}>
+                  {t(
+                    [
+                      "All",
+                      "Calendar",
+                      "Tasks",
+                      "Posture",
+                      "Devices",
+                      "Assistant",
+                    ][i],
+                    ["全部", "日历", "事务", "坐姿", "设备", "助理"][i],
+                  )}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            {t("Source", "来源")}
+            <select value={source} onChange={(e) => setSource(e.target.value)}>
+              <option value="all">{t("All sources", "全部来源")}</option>
+              <option value="live">{t("Live input", "实时输入")}</option>
+              <option value="replay">{t("Replay only", "仅回放")}</option>
+            </select>
+          </label>
+          <label>
+            {t("From", "开始")}
+            <input
+              type="date"
+              value={start}
+              onInput={(e) => setStart(e.currentTarget.value)}
+            />
+          </label>
+          <label>
+            {t("Until", "结束")}
+            <input
+              type="date"
+              value={end}
+              onInput={(e) => setEnd(e.currentTarget.value)}
+            />
+          </label>
+        </div>
       </div>
       <p className="footnote">
         {t(
@@ -410,9 +475,13 @@ export function RecordsView({
           "界面最多显示300条，导出包含最近最多10,000条匹配记录。",
         )}
       </p>
-      {!!error && <p className="error-message">{errorText(error, t)}</p>}
-      <div className="activity-list">
-        {rows.slice(0, 300).map((r) => (
+      {!!error && (
+        <p className="error-message" role="alert">
+          {errorText(error, t)}
+        </p>
+      )}
+      <div className="activity-list" aria-busy={loading}>
+        {currentRows.slice(0, 300).map((r) => (
           <div className="activity-row" key={r.sequence}>
             <span className="activity-icon">
               <Circle size={12} />
@@ -463,9 +532,14 @@ export function RecordsView({
             </time>
           </div>
         ))}
-        {!rows.length && (
+        {!loading && !error && !currentRows.length && (
           <p className="empty-text">
-            {t("No records match these filters.", "没有符合筛选条件的记录。")}
+            {activeFilters
+              ? t("No records match these filters.", "没有符合筛选条件的记录。")
+              : t(
+                  "No activity yet. Saved changes will appear here.",
+                  "还没有活动记录，之后保存的更改会显示在这里。",
+                )}
           </p>
         )}
       </div>
@@ -479,6 +553,7 @@ export function DeviceView({
   setLanguage,
   onSaved,
   onLogout,
+  localPreview = false,
   onDeviceLayout,
   onOpenWorkspace,
   t,
@@ -488,6 +563,7 @@ export function DeviceView({
   setLanguage: (l: Language) => void;
   onSaved: () => void;
   onLogout: () => void;
+  localPreview?: boolean;
   onDeviceLayout: () => void;
   onOpenWorkspace: (
     panel: "posture" | "connections" | "assistant" | "extras" | "data",
@@ -533,11 +609,11 @@ export function DeviceView({
     <div className="standard-page">
       <header className="page-heading">
         <div>
-          <h1>{t("Device", "设备")}</h1>
+          <h1>{t("Settings", "设置")}</h1>
           <p>
             {t(
-              "A quieter desk. Your preferences.",
-              "让桌面更从容，按你的习惯设置。",
+              "Workspace preferences, connections and controls.",
+              "管理工作空间偏好、连接与设备控制。",
             )}
           </p>
         </div>
@@ -741,16 +817,25 @@ export function DeviceView({
         <div className="setting-row">
           <span>
             <strong>{workspace.data?.principal.name ?? "Owner"}</strong>
-            <small>{t("Local workspace", "本地工作空间")}</small>
+            <small>
+              {localPreview
+                ? t(
+                    "Local preview · no sign-in required",
+                    "本机预览 · 无需登录",
+                  )
+                : t("Local workspace", "本地工作空间")}
+            </small>
           </span>
-          <button
-            className="secondary"
-            onClick={onLogout}
-            disabled={!!pendingWrite() || dirty || busy}
-          >
-            <LogOut size={16} />
-            {t("Sign out", "退出")}
-          </button>
+          {!localPreview && (
+            <button
+              className="secondary"
+              onClick={onLogout}
+              disabled={!!pendingWrite() || dirty || busy}
+            >
+              <LogOut size={16} />
+              {t("Sign out", "退出")}
+            </button>
+          )}
         </div>
       </section>
       <PhoneFeatures t={t} />

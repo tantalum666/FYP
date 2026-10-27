@@ -1,0 +1,5 @@
+# Local runtime/fault-injection helpers and superseded intermediate notes.
+dev-server.log
+expire-preview.py
+progress.md
+link-scope-before.json

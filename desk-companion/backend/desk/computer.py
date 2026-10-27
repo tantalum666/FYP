@@ -31,10 +31,12 @@ class VerificationReceipt(StrictModel):
         "target_denied",
         "content_mismatch",
         "verification_unavailable",
+        "workflow_incomplete",
     ]
     artifact: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}\.txt$")
     bytes: int | None = Field(default=None, ge=0, le=MAX_BYTES, strict=True)
     sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    apps_verified: list[Literal["mousepad", "chromium"]] | None = None
     executor: str | None = None
     scope: str | None = None
 

@@ -95,6 +95,8 @@ export interface WorkspaceSnapshot {
     provider: string;
     model: string;
     active: boolean;
+    supports_images?: boolean;
+    configuration_error?: string;
   };
   calendar_extras: {
     preferences: WorkspacePreferences;

@@ -303,3 +303,11 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **审查：**Xu的PR #17已修复并合并。其他4个开放PR为拥有者历史分支／草稿，依赖与冲突已记录；本轮不把已否决人物或未审查栈直接恢复到main。
 - **工程修复：**归档路径触发PostgreSQL socket长度限制，开发集群改用既有客户端所用的loopback TCP；Vite修补到8.3.5，归档source-map-js到1.2.2，重新验证。应用业务源码保持。
 - **当前状态：**AliceChan、统一Omni、语音计时和Linux最新增量在本地未发布工作区；根文档区分已提交与未发布，避免把早期主分支误称最新成果。证据见[整理QA](output/qa/2026-10-26-repo-cleanup/verification.md)。
+
+## 2026-10-28 Maintainable AI/software and milestone publication
+
+- **Owner instruction:** continue AI/software autonomously, build maintainable code, read Markdown selectively at startup, update docs/handoffs promptly, and push important milestones to GitHub. This replaces automatic full-library startup reading and the earlier no-publication boundary for the authorized milestone; it does not resume Pi or paid budgets.
+- **Implementation:** separate phone presentation/data/environment responsibilities; share login, session recovery and event editing with web. Coalesce calendar reads, reject stale results and closed-editor responses, preserve scoped drafts, show blocked actions within the modal, and layer full conversation correctly.
+- **AI correction:** selected task ID now reaches the real voice-start route, is resolved by the server and binds owner/task replay. Switching task closes the old connection and clears its resume handle; explicit input is still required to reconnect. Model approval rights and provider selection remain unchanged.
+- **Evidence:**303backend/65frontend, lint/types/build, real browser save/readback/guards, controlled session-expiry and delayed-read recovery; native build/install/launch/visual proof. New provider tests are scripted, not new hosted-model quality results. Native touch/keyboard/real-device acceptance remains separate.
+- **Publication choice:** integrate current application source on a new branch from archived main, preserve main's Vite8.3.5 and the original dirty checkout, add default-off CI, keep private runtime/authoring/raw history local. No blind merge of previous art/kernel/agent-loop PRs. Exact publication receipt is in the current QA/PR; source propagation is not main merge or Pi deployment.

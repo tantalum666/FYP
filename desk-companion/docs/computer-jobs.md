@@ -1,6 +1,10 @@
 # 受限电脑作业：运行、验收与边界
 
-2026-10-14，Group 2。已实现两件**同一作业契约**上的本机写入：专用笔记目录，以及拥有者指定的一个真实文件夹。两者都要批准全文、独立读回和取消。通用电脑操作、任意路径和 shell 仍未接入。软件在谁的主机运行，文件就写在该主机上，不能把本机保存称为远端 PC 控制。
+<!-- FYP-CONTEXT-20261027 -->
+> 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
+<!-- /FYP-CONTEXT-20261027 -->
+
+2026-10-22，Group 2。原有两件**同一作业契约**上的本机写入：专用笔记目录，以及拥有者指定的一个真实文件夹。两者都要批准全文、独立读回和取消；现另加入受限Linux编辑器→浏览器流程。通用电脑操作、任意路径和 shell 仍未接入。软件在谁的主机运行，文件就写在该主机上，不能把本机保存称为远端 PC 控制。
 
 ## 在隔离目录试运行
 
@@ -67,3 +71,11 @@ npm run build
 ```
 
 自动检查使用临时目录、虚构任务与模拟提供商；没有付费模型、LCU、真实GUI或硬件动作。[10月6日云端证据](../../output/qa/software-completion-2026-10-06/verification.md)保留当时浏览器未完成的限制；[10月9日本地整合验证](../../output/qa/2026-10-09-dot-integration/verification.md)补充实际浏览器保存、取消、只读对账、未知请求恢复及响应式检查。
+
+## 2026-10-22：Linux编辑器 → 浏览器
+
+DESK_LINUX_DESKTOP_ENABLED=1另行启用linux_note_preview／verify_linux_file。仍登记在同一个JobService；先准备全文、拥有者批准，再由本机Mousepad独立实例实际编辑并保存，Chromium独立配置打开固定本地文本。浏览器DOM和文件SHA都一致才返回apps_verified=[mousepad,chromium]。助理More中的作业表单可选该流程，或输入“编辑并预览：…”／“Editor preview: …”。模型不提交路径、URL、shell或JS，也无批准工具。
+
+需要Linux图形会话、D-Bus、Mousepad、Chromium、python3-pyatspi和python3-websockets。GTK由AT-SPI输入／保存；浏览器使用新配置的随机回环调试端口，只读取固定文件的document.body.innerText。保留Chromium沙盒，不使用--no-sandbox；子进程不继承模型Key。执行35秒上限／取消只清理本次进程组。文件一旦预留，即使只留下空文件也按结果未知处理，不声称撤销写入。服务重启后没有两应用证据，文件相同也不能补写整个工作流成功。
+
+隔离ARM64 Linux容器已实跑“API准备无副作用→拥有者批准→Mousepad保存→Chromium读DOM→SHA读回”。156字节中英文／字面脚本内容正确，脚本文本未执行。容器X11结果不是Pi默认Wayland结果。该流程不具备任意桌面截图、点击、网页登录或远端电脑能力。证据 (local historical material: `output/qa/2026-10-22-voice-linux-sd/verification.md`; not included in this checkpoint)／[Pi准备](pi5-first-boot.md)。

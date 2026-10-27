@@ -13,13 +13,14 @@ interface Persona {
 }
 
 export function PersonaPanel({ t }: { t: Translate }) {
-  const { data } = useWorkspace();
+  const { data, offline, refresh } = useWorkspace();
   const owner = data?.principal.kind === "owner";
   const [persona, setPersona] = useState<Persona | null>(null);
   const [body, setBody] = useState("");
   const [error, setError] = useState<unknown>(null);
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const dirty = !!persona && body !== persona.body;
   useDraftGuard(dirty, busy);
   const reload = useCallback(async () => {
@@ -55,10 +56,27 @@ export function PersonaPanel({ t }: { t: Translate }) {
     window.addEventListener("desk:write-recovered", recovered);
     return () => window.removeEventListener("desk:write-recovered", recovered);
   }, [body]);
+  if (!data) {
+    return (
+      <section className="workspace-section">
+        <h1>{t("Assistant style", "助理风格")}</h1>
+        <p role="status">
+          {offline
+            ? t("Unable to connect to your desk.", "暂时无法连接桌面主机。")
+            : t("Loading your workspace…", "正在读取工作空间…")}
+        </p>
+        {offline && (
+          <button className="secondary" onClick={() => void refresh()}>
+            {t("Reconnect", "重新连接")}
+          </button>
+        )}
+      </section>
+    );
+  }
   if (!owner) {
     return (
       <section className="workspace-section">
-        <h3>{t("Persona", "人格")}</h3>
+        <h1>{t("Assistant style", "助理风格")}</h1>
         <p>
           {t(
             "Sign in as owner to edit how the assistant speaks. Pairing alone does not change it.",
@@ -112,32 +130,65 @@ export function PersonaPanel({ t }: { t: Translate }) {
     }
   }
   return (
-    <section className="workspace-section" aria-label={t("Persona", "人格")}>
+    <section
+      className="workspace-section persona-page"
+      aria-label={t("Assistant style", "助理风格")}
+    >
       <div className="workspace-state">
         <Sparkles />
         <div>
-          <h3>{t("Persona", "人格")}</h3>
+          <h1>{t("Assistant style", "助理风格")}</h1>
           <p>
             {t(
-              "One text for both the text assistant and voice. The desk still appends its tool rules, so editing this does not grant a confirmation or a file path.",
-              "文字助理和语音共用这一段。桌面仍会附上工具规则，因此修改这里不会获得确认权或文件路径。",
+              "Choose how your assistant responds in text and voice. Actions still need your confirmation.",
+              "设定助理在文字和语音中的回应方式，实际操作仍然由你确认。",
             )}
           </p>
         </div>
       </div>
-      {persona?.source === "default" && (
-        <p className="workspace-hint">
-          {t("Using the built-in persona.", "正在使用内置人格。")}
+      <div className="persona-summary">
+        <h2>
+          {persona?.source === "owner"
+            ? t("Your custom instructions", "你的自定义指令")
+            : t("Built-in assistant style", "内置助理风格")}
+        </h2>
+        <p>
+          {persona
+            ? persona.source === "default"
+              ? t(
+                  "Concise, natural replies that follow your language.",
+                  "简洁自然地回应，并跟随你的语言。",
+                )
+              : t(
+                  "Your saved instructions apply to both text and voice.",
+                  "你保存的指令会同时用于文字与语音。",
+                )
+            : t("Loading instructions…", "正在读取指令…")}
         </p>
-      )}
-      <form onSubmit={save}>
+        <button
+          className="secondary"
+          type="button"
+          aria-expanded={expanded}
+          onClick={() => setExpanded(!expanded)}
+        >
+          {expanded
+            ? t("Collapse editor", "收起编辑器")
+            : t("Edit instructions", "编辑指令")}
+        </button>
+        {dirty && (
+          <span className="unsaved-label" role="status">
+            {t("Unsaved changes", "有未保存的修改")}
+          </span>
+        )}
+      </div>
+      <form onSubmit={save} hidden={!expanded} className="persona-editor">
         <label className="field">
-          {t("Persona text", "人格文本")}
+          {t("Assistant instructions", "助理指令")}
           <textarea
             value={body}
             onChange={(e) => setBody(e.target.value)}
             maxLength={4000}
-            rows={10}
+            rows={8}
             required
             disabled={busy || !persona}
           />
@@ -147,7 +198,7 @@ export function PersonaPanel({ t }: { t: Translate }) {
             className="primary"
             disabled={busy || !persona || !body.trim() || !dirty}
           >
-            {t("Save persona", "保存人格")}
+            {t("Save instructions", "保存指令")}
           </button>
           <button
             type="button"

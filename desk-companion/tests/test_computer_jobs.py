@@ -31,6 +31,7 @@ def test_note_and_folder_actions_share_one_executor_registry(setup):
     assert bound == [
         ("save_note", "verify_note"),
         ("save_folder_file", "verify_folder_file"),
+        ("linux_note_preview", "verify_linux_file"),
     ]
 
 

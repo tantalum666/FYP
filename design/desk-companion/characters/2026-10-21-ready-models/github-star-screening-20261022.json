@@ -1,0 +1,221 @@
+{
+  "date": "2026-10-22",
+  "timezone": "Asia/Hong_Kong",
+  "group": "Group 2",
+  "final_character_selected": false,
+  "user_feedback": "uDesktopMascot and AliceChan acceptable as style references; continue GitHub free/personal-use complete-character screening",
+  "stars_scope": "Parent project attention, not asset popularity or permission. Nike asset repo1star versus AITuberKit1127; two Amica looks share one1617-star project.",
+  "github_api_results": [
+    {
+      "repo": "MidraLab/uDesktopMascot",
+      "stars": 357,
+      "branch": "develop",
+      "license": "Apache-2.0",
+      "url": "https://github.com/MidraLab/uDesktopMascot"
+    },
+    {
+      "repo": "yuna0x0/AliceChan",
+      "stars": 8,
+      "branch": "main",
+      "license": "CC-BY-SA-4.0",
+      "url": "https://github.com/yuna0x0/AliceChan"
+    },
+    {
+      "repo": "hinzka/52blendshapes-for-VRoid-face",
+      "stars": 271,
+      "branch": "main",
+      "license": null,
+      "url": "https://github.com/hinzka/52blendshapes-for-VRoid-face"
+    },
+    {
+      "repo": "madjin/vrm-samples",
+      "stars": 91,
+      "branch": "master",
+      "license": null,
+      "url": "https://github.com/madjin/vrm-samples"
+    },
+    {
+      "repo": "semperai/amica",
+      "stars": 1617,
+      "branch": "master",
+      "license": "MIT",
+      "url": "https://github.com/semperai/amica"
+    },
+    {
+      "repo": "moeru-ai/airi",
+      "stars": 50559,
+      "branch": "main",
+      "license": "MIT",
+      "url": "https://github.com/moeru-ai/airi"
+    },
+    {
+      "repo": "uezo/ChatdollKit",
+      "stars": 1241,
+      "branch": "master",
+      "license": "Apache-2.0",
+      "url": "https://github.com/uezo/ChatdollKit"
+    },
+    {
+      "repo": "tegnike/aituber-kit",
+      "stars": 1127,
+      "branch": "main",
+      "license": "NOASSERTION",
+      "url": "https://github.com/tegnike/aituber-kit"
+    },
+    {
+      "repo": "ColinLeung-NiloCat/UnityURPToonLitShaderExample",
+      "stars": 7825,
+      "branch": "master",
+      "license": "MIT",
+      "url": "https://github.com/ColinLeung-NiloCat/UnityURPToonLitShaderExample"
+    },
+    {
+      "repo": "met4citizen/TalkingHead",
+      "stars": 1626,
+      "branch": "main",
+      "license": "MIT",
+      "url": "https://github.com/met4citizen/TalkingHead"
+    },
+    {
+      "repo": "vrm-c/vrm-specification",
+      "stars": 343,
+      "branch": "master",
+      "license": null,
+      "url": "https://github.com/vrm-c/vrm-specification"
+    },
+    {
+      "repo": "unity3d-jp/UnityChanToonShaderVer2_Project",
+      "stars": 4103,
+      "branch": "release/legacy/2.0",
+      "license": null,
+      "url": "https://github.com/unity3d-jp/UnityChanToonShaderVer2_Project"
+    }
+  ],
+  "nike_asset_repo_stars": 1,
+  "rocketbox_stars": 654,
+  "models": [
+    {
+      "name": "Nike-v2-outerwear",
+      "url": "https://raw.githubusercontent.com/tegnike/aituber-kit/main/public/vrm/nikechan_v2_outerwear.vrm",
+      "bytes": 24819176,
+      "sha256": "f9c9c31cbf675e66f7cf80f84b7960398f6e5b5439888a887b640b0a7b55d12d",
+      "meta": {
+        "allowAntisocialOrHateUsage": false,
+        "allowExcessivelySexualUsage": false,
+        "allowExcessivelyViolentUsage": false,
+        "allowPoliticalOrReligiousUsage": false,
+        "allowRedistribution": false,
+        "authors": [
+          "tamagon"
+        ],
+        "avatarPermission": "onlyAuthor",
+        "commercialUsage": "personalNonProfit",
+        "creditNotation": "required",
+        "licenseUrl": "https://vrm.dev/licenses/1.0/",
+        "modification": "allowModification",
+        "name": "Nikechan",
+        "thumbnailImage": 16,
+        "version": "v1.3.9-2"
+      },
+      "thumbnail": "/tmp/fyp-github-model-screening-20261022/Nike-v2-outerwear.png",
+      "images": [
+        "nike-full-review.jpg",
+        "nike-portrait-review.jpg"
+      ],
+      "gltf_materials": 13,
+      "meshes": 5,
+      "private_copy": "/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/desk-companion/.runtime/github-model-screening-20261022/Nike-v2-outerwear.vrm",
+      "original_bytes_unchanged": true
+    },
+    {
+      "name": "Amica-B",
+      "url": "https://raw.githubusercontent.com/semperai/amica/master/public/vrm/AvatarSample_B.vrm",
+      "bytes": 15097732,
+      "sha256": "82754e287e0b26b5d7a1fd223ed0fd5debcabed81f36549fb2c16b201f3e5ca9",
+      "meta": {
+        "version": "1.0",
+        "author": "VRoid Project",
+        "reference": "",
+        "title": "AvatarSample_A",
+        "allowedUserName": "Everyone",
+        "violentUssageName": "Allow",
+        "sexualUssageName": "Allow",
+        "commercialUssageName": "Allow",
+        "otherPermissionUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+        "licenseName": "Other",
+        "otherLicenseUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow"
+      },
+      "thumbnail": "/tmp/fyp-github-model-screening-20261022/Amica-B.png",
+      "images": [
+        "amica-b-full-review.jpg",
+        "amica-b-portrait-review.jpg"
+      ],
+      "gltf_materials": 17,
+      "meshes": 3,
+      "private_copy": "/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/desk-companion/.runtime/github-model-screening-20261022/Amica-B.vrm",
+      "original_bytes_unchanged": true
+    },
+    {
+      "name": "Amica-C",
+      "url": "https://raw.githubusercontent.com/semperai/amica/master/public/vrm/AvatarSample_C.vrm",
+      "bytes": 15438676,
+      "sha256": "04a490afc384382a91f0c52596bc3f9b929797118aacb03f9bad4d4bf607887b",
+      "meta": {
+        "version": "1.0",
+        "author": "VRoid Project",
+        "reference": "",
+        "title": "AvatarSample_B",
+        "allowedUserName": "Everyone",
+        "violentUssageName": "Allow",
+        "sexualUssageName": "Allow",
+        "commercialUssageName": "Allow",
+        "otherPermissionUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+        "licenseName": "Other",
+        "otherLicenseUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow"
+      },
+      "thumbnail": "/tmp/fyp-github-model-screening-20261022/Amica-C.png",
+      "images": [
+        "amica-c-full-review.jpg",
+        "amica-c-portrait-review.jpg"
+      ],
+      "gltf_materials": 19,
+      "meshes": 3,
+      "private_copy": "/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/desk-companion/.runtime/github-model-screening-20261022/Amica-C.vrm",
+      "original_bytes_unchanged": true
+    }
+  ],
+  "permissions": {
+    "Nike-v2-outerwear": {
+      "terms": "https://github.com/tegnike/nikechan-assets/blob/main/vrms/README.md",
+      "derivative": "https://github.com/tegnike/nikechan-assets/blob/main/guidelines/derivative_creation_guideline.md",
+      "ai": "https://github.com/tegnike/nikechan-assets/blob/main/guidelines/ai_generation_guideline.md",
+      "scope": "Personal noncommercial reference; no official model redistribution/bundling. School/group/institution use not cleared. Current official terms supersede stale embeddedflags. Only permitted VRM inputs used; no Live2D/voice."
+    },
+    "Amica-B/C": {
+      "terms": "https://vroid.pixiv.help/hc/en-us/articles/4402394424089-VRoidPreset-A-Z",
+      "scope": "Official pixiv samples, personal/commercial use and conditional modification/redistribution; notCC0; no fee redistribution or sample-based character-creation service. Internal titles A/B differ from repo filenames B/C."
+    }
+  },
+  "excluded": {
+    "Amica_1": "FileAvatarSample_A, ExplicitlyLicensedPerson/prohibitedredistribution; separate grant not verified. No avatar-use preview.",
+    "ChatdollKit Unagirl": "OnlyAuthor embeddedflags versus repoApache reference; notcleared, no runtime avataruse.",
+    "Mate-Engine": "Default avatar All Rights Reserved; no redistributing in other builds.",
+    "hinzka52blendshapes": "271star expression/base reference, not new dressed character.",
+    "AIRI": "50559star runtime reference, no automatic assetMIT claim.",
+    "Rocketbox": "654star115-characterMIT alternative; not downloaded/rendered this round."
+  },
+  "actual_preview": {
+    "origin": "http://127.0.0.1:8843",
+    "kind": "Existing staticdist, separate origin; no API/backend/provider/media service",
+    "models_loaded": 3,
+    "near_and_full_views_seen": true,
+    "palette": "original",
+    "head_ratio": 1,
+    "source_code_changed": false,
+    "resident_replaced": false,
+    "main_8832": "No listener initially; no DB/config/cache change",
+    "issues": "Changedmodel framing button could disagree with initialportrait; toggled before correctfullbody capture. Earlyclip screenshots poorlyframed, replaced with fullviewport evidence.",
+    "no_full_compatibility_or_pi_performance_claim": true
+  },
+  "storage": "VRMs, thumbnails and review images only in ignored .runtime; no model/raster inpublic/dist/Git."
+}

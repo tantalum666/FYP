@@ -1,5 +1,6 @@
 export type Language = "en" | "zh";
-export type Page = "today" | "calendar" | "tasks" | "memory" | "persona" | "records" | "device";
+export type Page =
+  "today" | "calendar" | "tasks" | "memory" | "persona" | "records" | "device";
 export type View = "day" | "week" | "month";
 export type Frequency = "none" | "daily" | "weekly" | "monthly" | "yearly";
 export type EventColor = "lavender" | "blue" | "sage" | "peach";
@@ -64,6 +65,7 @@ export interface RecordEntry {
   details: Record<string, unknown>;
 }
 export interface Session {
+  local_preview?: boolean;
   username: string;
   settings: Settings;
 }

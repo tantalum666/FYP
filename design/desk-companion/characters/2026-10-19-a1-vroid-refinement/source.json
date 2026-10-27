@@ -1,0 +1,84 @@
+{
+  "name": "A1 Native Refinement v1",
+  "version": "0.1.0",
+  "date": "2026-10-19",
+  "group": "Group 2",
+  "status": "Rejected by owner on 2026-10-21; archived; stop further native face/hair refinement",
+  "authoring_tool": "VRoid Studio 2.14.0",
+  "runtime": {
+    "file": "a1-native-v1.vrm",
+    "bytes": 15909228,
+    "sha256": "6c629580037157d2ad198fa0b58c9e1009b4e36269276ec88e6f3bfd9dedd2c5",
+    "format": "VRM0 / glTF2",
+    "change_from_native_export": "Only VRM meta credits, version and source URLs normalized",
+    "bin_and_non_metadata_json_unchanged": true,
+    "changed_meta_fields": [
+      "version"
+    ]
+  },
+  "editable_source": {
+    "file": "design/desk-companion/characters/2026-10-19-a1-vroid-refinement/a1-native-v1.vroid",
+    "sha256": "9c6ad14616b2f03cba524b511a0842cdc0a01e2b7f0e6e42845abea68567ed4d",
+    "bytes": 6979013
+  },
+  "base": {
+    "name": "Official AvatarSample_J",
+    "author": "pixiv Inc. / pixiv VRoid Project",
+    "original_sha256": "a489bf225e8940c1845969139fd11ca03422f7d9967e606e715d969d76a0ae60",
+    "licence": "AvatarSample A-Z separate conditions, not CC0",
+    "terms": "https://vroid.pixiv.help/hc/en-us/articles/4402394424089-VRoidPreset-A-Z",
+    "scope": "Fixed authored character review; no sample-based character-creation controls"
+  },
+  "hair": {
+    "name": "Reira Wavy Hair V1 and Edited Bangs V1",
+    "author": "Dahlia / Reira’s Items",
+    "source": "https://booth.pm/ja/items/4138976",
+    "terms": "https://hub.vroid.com/en/characters/2503153150187103847/models/5733583802599684396",
+    "obtained": "Owner downloaded to Downloads; local inbound originals copied unchanged",
+    "checked_at": "2026-10-19T15:12:34.813256+08:00",
+    "licence": "Creator conditions: alterations and redistribution allowed; attribution required; not CC0",
+    "files": [
+      {
+        "file": "Wavy_Hair_V1_ReiraAssets.vroidcustomitem",
+        "bytes": 448341,
+        "sha256": "67ab42ba9de0b7b34488a61ed71912416c1d56b2e40b56a642993b2d5b6cc3b3",
+        "zip_crc": "passed",
+        "original_preserved": true
+      },
+      {
+        "file": "Edited_Bangs_V1.vroidcustomitem",
+        "bytes": 651133,
+        "sha256": "2535e1f2262ae1732f221a8b28799eaaad44ffbd5cd2dd6558723a70181e3abf",
+        "zip_crc": "passed",
+        "original_preserved": true
+      }
+    ],
+    "imported": true
+  },
+  "adaptation": [
+    "Native complete-model face/chin adjustments; preserve topology, rig and facial expressions",
+    "Native narrow eye-set preset, grey-blue iris, fine eyeliner and ash eyebrow colour",
+    "Reira complete Back and Front items imported; Front group flipped using native Flip to match A1 side",
+    "Hair main B7B5CA, highlight CAC5D4; front outline70717F; native shade/outline adjustments",
+    "Removed original cat ears and fox tail",
+    "Plain native high-neck template coloured383B46 / shade2C2F39, for face/hair review only",
+    "Replaced old navy base-hair cap with native recolourable cap; mainB7B5CA and shadeFFFFFF match the waves, removing dark root patches found in side/back review"
+  ],
+  "preserved": {
+    "complete_humanoid_bones": 54,
+    "blendshape_groups": 14,
+    "spring_bone_groups": 12,
+    "triangles": 41794,
+    "materials": 13,
+    "original_art_unchanged": true
+  },
+  "unfinished": [
+    "Final face likeness and maturity acceptance",
+    "More upper-length hair volume and ear-side fit",
+    "Ring hair clip and stud earrings",
+    "Chosen A1 complete outfit; current high-neck garment is temporary",
+    "Resident replacement and Pi/Linux performance"
+  ],
+  "rights": "Source models and hair are third-party works; Group 2 adaptation is AI-assisted. Keep pixiv conditions and Dahlia/Reira attribution. No CC0 claim or endorsement.",
+  "archive_route": "?surface=a1-history"
+}

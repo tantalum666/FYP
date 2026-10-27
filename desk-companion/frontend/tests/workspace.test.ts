@@ -13,34 +13,41 @@ test("audio worklet retains fractional phase across 128-sample blocks", () => {
   for (const rate of [44100, 48000]) {
     let Constructor: any;
     let emitted = 0;
+    let lastTimestamp = 0;
     const Processor = class {
       port = {
-        postMessage: (data: ArrayBuffer) => {
-          emitted += data.byteLength / 2;
+        postMessage: (data: { pcm: ArrayBuffer; end_context_time: number }) => {
+          emitted += data.pcm.byteLength / 2;
+          assert.ok(data.end_context_time >= lastTimestamp);
+          lastTimestamp = data.end_context_time;
         },
       };
+    };
+    const environment = {
+      AudioWorkletProcessor: Processor,
+      sampleRate: rate,
+      currentTime: 0,
+      registerProcessor: (_: string, value: any) => (Constructor = value),
+      DataView,
+      ArrayBuffer,
     };
     vm.runInNewContext(
       fs.readFileSync(
         new URL("../public/audio-capture.js", import.meta.url),
         "utf8",
       ),
-      {
-        AudioWorkletProcessor: Processor,
-        sampleRate: rate,
-        registerProcessor: (_: string, value: any) => (Constructor = value),
-        DataView,
-        ArrayBuffer,
-      },
+      environment,
     );
     const processor = new Constructor();
     for (let index = 0; index < rate * 2; index += 128) {
+      environment.currentTime = index / rate;
       processor.process([[new Float32Array(Math.min(128, rate * 2 - index))]]);
     }
     assert.ok(
       Math.abs(emitted + processor.chunk.length - 32000) <= 1,
       `${rate} Hz must preserve two seconds of audio`,
     );
+    assert.ok(Math.abs(lastTimestamp - emitted / 16000) < 0.001);
     assert.ok(
       processor.buffer.length < 4,
       "resampling buffer must remain bounded",

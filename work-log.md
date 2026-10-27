@@ -346,3 +346,15 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **修复：**新深层路径的PostgreSQL socket限制改为loopback TCP；两前端Vite升级8.3.5，归档source-map-js为1.2.2。修复导航与本机凭据的链接表达。
 - **验证：**当前182后端／17前端、归档55后端、两前端类型／构建、两套Ruff通过；npm audit均零报告。隔离新建PostgreSQL，不复用旧演示库；无模型API／真实音视频／硬件或部署。完整记录见[QA](output/qa/2026-10-26-repo-cleanup/verification.md)。
 - **保留与剩余：**原主检出及最新AliceChan／统一Omni本地工作区保留；PR #4／#5／#15／#16仍待单独按当前方向审查。整理分支已通过文件／运行校验，经[PR #18](https://github.com/tantalum666/FYP/pull/18)交付；具体Git回执以整理QA和远端PR状态为准。
+
+## 2026-10-28 · AI task context and maintainable software checkpoint
+
+Goal: continue software/AI independently with maintainable structure and publish an important, verified milestone. Startup used the owner's new focused-reading rule; AGENTS now records that rule and publication expectations.
+
+Delivered a dedicated phone composition with separate home/plan/management/data/environment modules and shared web/phone login, session recovery and calendar editing. Added coalesced/scoped calendar reads, late editor-read protection, progress-note tab guards and visible modal notices. Fixed the unified conversation's missing selected-task ID, including server lookup, owner/task replay binding, current-version refresh and explicit-input-only reconnection.
+
+Local integrated source passed303backend/65frontend checks, Ruff and TypeScript/Vite; actual browser flows and independent readback passed. Controlled session expiry retained exact unsent drafts in web and phone, and a delayed response did not reopen a closed editor. The current iPhone17Pro/iOS26.5 build was installed/launched and its real frame inspected. Native touch/keyboard and real media/device measurements remain open.
+
+Built the publication checkout from main46ac167 at`/Users/tantalum/.codex/worktrees/software-ai-maintenance/FYP`, branch`codex/software-ai-maintenance-20261028`. Preserved the archive, the older dirty source and private backups, retained Vite8.3.5, and added CI with models/executors disabled. Distributed model assets retain their source/licence metadata; personal authoring originals and omitted historical raw QA stay local.
+
+Current contract:[software-maintenance](desk-companion/docs/software-maintenance.md). Evidence:[QA](output/qa/2026-10-28-maintainable-ai/verification.md). Publication checks/readback are finalized there and in handoff. No new model charges, microphone/camera/user-screen sharing, Pi/Luwu action or school report change/submission.

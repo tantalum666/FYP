@@ -1,0 +1,26 @@
+{
+  "name": "Reira Wavy Hair V1 and Edited Bangs V1",
+  "author": "Dahlia / Reira’s Items",
+  "source": "https://booth.pm/ja/items/4138976",
+  "terms": "https://hub.vroid.com/en/characters/2503153150187103847/models/5733583802599684396",
+  "obtained": "Owner downloaded to Downloads; local inbound originals copied unchanged",
+  "checked_at": "2026-10-19T15:12:34.813256+08:00",
+  "licence": "Creator conditions: alterations and redistribution allowed; attribution required; not CC0",
+  "files": [
+    {
+      "file": "Wavy_Hair_V1_ReiraAssets.vroidcustomitem",
+      "bytes": 448341,
+      "sha256": "67ab42ba9de0b7b34488a61ed71912416c1d56b2e40b56a642993b2d5b6cc3b3",
+      "zip_crc": "passed",
+      "original_preserved": true
+    },
+    {
+      "file": "Edited_Bangs_V1.vroidcustomitem",
+      "bytes": 651133,
+      "sha256": "2535e1f2262ae1732f221a8b28799eaaad44ffbd5cd2dd6558723a70181e3abf",
+      "zip_crc": "passed",
+      "original_preserved": true
+    }
+  ],
+  "imported": true
+}

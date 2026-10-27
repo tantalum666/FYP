@@ -1,0 +1,40 @@
+{
+  "name": "VRoid AvatarSample_J editable-source evaluation",
+  "status": "Original preserved; separate native face/eyes/Reira-hair v1 saved, exported and rendered for review; final A1 not accepted",
+  "author": "pixiv Inc.",
+  "source": {
+    "asset": "desk-companion/.runtime/open-model-pivot-20261018/AvatarSample_J.bundle",
+    "source": "https://vroid-mobile-assetbundle.s3-ap-northeast-1.amazonaws.com/asset/VRoidStudio/StandaloneOSX/bundles/v10239163/avatarsamples_assets_assets/vroid/studio/data/addressableassets/avatarsamples/avatarsample_j.vroid.bytes_c88b230e12fbff2d0042dd6e1d2d0e0b.bundle",
+    "discovered_from": "official VRoid Studio 2.14.0 Addressables catalog 10239163",
+    "sha256": "2316e450efb4760955c6f1ebe9ca85041b1e6054d1dbd068d6df1d96a873f8b0",
+    "bytes": 8709748,
+    "licence": "pixiv AvatarSample A-Z conditions; NOT CC0",
+    "terms_url": "https://vroid.pixiv.help/hc/en-us/articles/4402394424089-VRoidPreset-A-Z",
+    "scope": "local editable-source evaluation, not selected A1 or public character-creation service",
+    "executed": false
+  },
+  "original_vroid": {
+    "asset": "desk-companion/.runtime/open-model-pivot-20261018/AvatarSample_J-original.vroid",
+    "bytes": 8708042,
+    "sha256": "a489bf225e8940c1845969139fd11ca03422f7d9967e606e715d969d76a0ae60",
+    "UnityPy": "1.25.4",
+    "zip": true,
+    "scope": "Local original editable sample; not A1 adaptation or runtime export"
+  },
+  "native_ui": "VRoid2.14 key-window focus restored; complete source copy edited/saved, both hair items imported and native export verified. No legal agreement clicked by assistant.",
+  "licence": "AvatarSample A-Z conditions; NOT CC0",
+  "licence_url": "https://vroid.pixiv.help/hc/en-us/articles/4402394424089-VRoidPreset-A-Z",
+  "allowed_scope": "Local authoring and fixed-character use subject to original conditions. Do not incorporate sample data into a character-creation service.",
+  "published_in_app": true,
+  "preserved_reference": "A1 Silver Mist; current Shino remains display baseline and not final A1 selection",
+  "adaptation": {
+    "asset": "design/desk-companion/characters/2026-10-19-a1-vroid-refinement/a1-native-v1.vroid",
+    "sha256_at_saved_face_stage": "a4f17da6fc8c5320f232405c75de877989cea9fb3ae79ade285964d82a67a128",
+    "scope": "Fixed authored face/eyes/hair review with temporary clothing; no model creation controls",
+    "hair_imported": true,
+    "published_in_app": true,
+    "native_current_sha256": "9c6ad14616b2f03cba524b511a0842cdc0a01e2b7f0e6e42845abea68567ed4d",
+    "runtime_file": "desk-companion/frontend/public/avatars/a1-native-v1/a1-native-v1.vrm",
+    "runtime_sha256": "6c629580037157d2ad198fa0b58c9e1009b4e36269276ec88e6f3bfd9dedd2c5"
+  }
+}

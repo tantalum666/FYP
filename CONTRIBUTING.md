@@ -94,3 +94,9 @@ npm test
 ```sh
 gitleaks git --pre-commit --staged --redact --max-archive-depth 2
 ```
+
+## 2026-10-28 maintenance convention
+
+Follow the latest AGENTS focused-reading workflow. Keep UI composition, data lifecycle, business edits and provider protocols separate; share existing services instead of copying state machines. Important verified milestones should be committed/pushed on a dedicated branch and reviewed through a PR. Source/asset/secret checks and remote readback are distinct from merging/deploying.
+
+The current application includes the Alice/web/phone and unified conversation checkpoint. Local development may explicitly use`DESK_LOCAL_PREVIEW=1 ./scripts/dev.sh`; default authentication and real-device HTTPS/pairing remain. CI checks backend lint/tests and frontend tests/build with models and executors disabled. Native touch, live models and hardware need independent evidence.

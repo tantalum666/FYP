@@ -1,6 +1,10 @@
 # 拥有者记忆
 
-2026-10-14，Group 2。这是 Desk Companion 的长期事实，不是聊天全文，也不是电脑作业。
+<!-- FYP-CONTEXT-20261027 -->
+> 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
+<!-- /FYP-CONTEXT-20261027 -->
+
+更新2026-10-24，Group 2。这是 Desk Companion 的长期事实，不是聊天全文，也不是电脑作业。
 
 英文：the owner saves, corrects, and deletes facts. The model may read active facts and prepare a draft. A draft does not write. Deleted facts are omitted from later model context. A paired display cannot open this list.
 
@@ -19,14 +23,18 @@
 
 ## 现有能力与剩余验证
 
-1. 本文件所述的记忆、草稿和上下文打包。已实现，并用模拟／本地规则测试，没有付费模型。
+1. 本文件所述的记忆、草稿和上下文打包。已实现；本次已用真实Omni与虚构事实跑完建立、更正、删除、取消、重复确认、版本冲突及新连接重问。
 2. 已在 main 上的专用笔记作业：批准、独立读回、取消。默认关闭。
 3. 拥有者指定一个真实文件夹，沿现有作业契约保存、独立读回和取消。已实现，见 [computer-jobs.md](computer-jobs.md)。模型不能提交路径。
 4. 文字和语音共用一份可编辑人格文本。已实现，见 [persona.py](../backend/desk/persona.py)。模型不能改这段文字。工具协议仍由程序附加，避免删掉确认限制。
 5. 关闭单项跟进后，已经排队的可选文字建议不再发给模型，事务本身保留。已实现。
 6. 安静时段推迟新的跟进，同一次检查最多放出 3 条。推迟保存在库里，重启和改保存的时段之后仍按当前偏好执行。已实现。
-7. 文字供应商是可替换适配器，用模拟响应测试。已实现。有花费上限之前不要开通模型账号。
-8. 真实模型验证：有花费上限之后，才用同一套工具比较托管供应商。供应商仍未锁定。
+7. 拥有者配置Omni时，输入框与语音共用同一实时模型；备用文字适配器仍可替换。测试预算与日常使用配置分开。
+8. 本轮累计预算经用户授权从10提高至15元，已覆盖真实完整链：Aurora→新连接读取→同ID更正星穹蓝→新连接读取→删除→再问明确未知。假设与取消不写，版本冲突409不覆盖，最新中午偏好读回正确。真人措辞泛化和供应商侧历史擦除未验证。
 9. 不在这一步：合并 PR #4／#5、通用浏览器、收件箱、自称姿态准确率或减损效果。
 
 人格重置会保存新的递增版本，旧编辑不能因恢复默认而重新生效；已有配置追加迁移保留正文。保存失败／冲突保留本地草稿，只有明确选择加载当前文本才放弃。记忆、人格及作业尚未包含在现有业务JSON备份中；删除事实不保证从已有提供商会话或历史操作记录中擦除。
+
+2026-10-23续轮已实现：拥有者配置Omni后，文字和语音共用实时会话、短期上下文及本服务的长期事实。前文只在有界RAM缓存和当前面板，不是聊天全文永久存储；旧HTTP文字适配器仍独立保留。记忆变更会结束旧连接、清除短期缓存，下次明确输入加载最新事实，避免重放已删除内容。完整链记录在自动验收QA (local historical material: `output/qa/2026-10-23-ai-acceptance/verification.md`; not included in this checkpoint)。测试发现删除后编造代号、将取消草稿当已保存，已补memory_query要求、零事实提示、排除历史确认记忆回执，并在新连接重测通过；不代表任意自由对话都不会幻觉。详见[统一对话契约](omni-conversation.md)和[场景清单](../../planning/2026-10-23/ai-validation-plan.md)。
+
+充值后续轮完成缺信息／伪指令／语音接续补测，未新增真实用户事实；记忆完整链不重复执行。当前最新QA (local historical material: `output/qa/2026-10-23-ai-acceptance/resumed/verification.md`; not included in this checkpoint)与[交接](../../handoff.md)取代访问拒绝的旧下一步。

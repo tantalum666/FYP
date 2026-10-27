@@ -1,0 +1,57 @@
+{
+  "mode": "built-in image_gen; no CLI/API fallback",
+  "date": "2026-10-18",
+  "generated_root": "/Users/tantalum/.codex/generated_images/01a125b8-1edb-7d21-83c1-3d593c5a9584",
+  "copies": "Workspace PNGs are unchanged generated output bytes. Face albedo is a separate native Blender material bake.",
+  "quality": "Material components, not finished 3D result or owner acceptance.",
+  "requests": [
+    {
+      "file": "textures/a1-hair-atlas-v1.png",
+      "output": "exec-50d63b32-3542-4a23-bcf6-5a99c8d50ff6.png",
+      "transparent": true,
+      "inputs": [
+        "../2026-10-17-a1-3d/references/a1-face.png (style reference)"
+      ],
+      "prompt": "Use case: identity-preserve material extraction. Produce a game-ready HAIR TEXTURE ATLAS derived from the silver-ash lavender hair palette and delicate Japanese-anime painted strands in the attached A1 character reference. This is a MATERIAL COMPONENT for a real 3D mesh, not a character portrait. Output a square texture on genuinely transparent alpha, divided into FOUR equal vertical lanes with generous transparent gutters. Each lane contains ONE straight, long, tapered flat lock of hair from root at the top to fine frayed tips at the bottom. Keep the locks STRAIGHT in texture space; the 3D mesh supplies the waves. Locks fill nearly the full vertical length, smoothly taper in the bottom quarter, subtle irregular fine edges, no horizontal curls. Broad middle-width lock per lane, distinct root-to-tip micro strands, soft anime ink detailing, a few tiny separated flyaway fibers near the edge. Silver grey slightly lavender with shadow strands cool slate grey, restrained pearl-grey highlights, no pure-white blown highlights, no metallic shine. Sophisticated hand-painted high-quality anime game texturing, delicate high-frequency strands and low-frequency blended light/shade; clean readable hierarchy. Match A1 hair colors, maintain consistent light direction and scale in all four lanes. Exactly four vertical hair strips, no face, no head, no body, no text, no labels, no numbers, no watermark, no checkerboard pixels, no baked backdrop, no cast shadow outside hair. High resolution material atlas."
+    },
+    {
+      "file": "textures/a1-face-paint-v1.png",
+      "output": "exec-ea40e420-c294-4641-a6f1-4aab4948557c.png",
+      "transparent": true,
+      "inputs": [
+        "textures/face-uv-template.png (edit target, native Blender bake)",
+        "../2026-10-17-a1-3d/references/a1-face.png (style reference)"
+      ],
+      "prompt": "Use case: precise-object-edit, identity-preserving texture repaint. Image1 is the EDIT TARGET: a front-projected UV COLOR TEXTURE for a real 3D head, not a portrait. Image2 is the A1 CHARACTER STYLE REFERENCE only. Repaint image1 into a clean professional Japanese anime game facial ALBEDO texture matching A1's refined adult feminine style, warm ivory skin, restrained soft nose shadow, thin natural pink lips, clear ash-grey eyebrows and delicate tapered black upper eyelid lines. CRITICAL: keep EXACTLY the same square canvas, UV mask silhouette, ears, head size, eye-opening positions, nose-tip position and mouth position as image1. Do NOT change the layout or geometry. Maintain truly transparent background outside the original mask. Remove the pink painted scalp/hair area along the top and replace it with neutral warm ivory skin, because hair is a separate 3D mesh. Remove the heavy black eye-shadow blocks and muddy blush from the template; make the eye-rim detail a delicate anime lash line at the SAME coordinates. The two eye-opening inner regions must remain plain light skin/blank areas with NO irises, NO pupils, NO eyeballs: eyes are separate 3D geometry, this atlas supplies only face skin and eyelid rims. Maintain the current eye openings; do NOT close or move them. Add crisp, elegant medium-grey eyebrows in the existing faint eyebrow positions, an adult calm relaxed expression with a very slight confident smile using the same mouth location, extremely subtle cheek tint, graceful nose definition. Sophisticated smooth hand-painted anime albedo at high resolution, no photoreal skin pores, no specular glare, no directional cast shadows, no plastic look, no actual hair strands, no jewellery, no clothing. No text, labels, border, watermark or checkerboard. The output must remain a usable UV texture matching image1, not a newly posed character illustration. Preserve the original mask boundaries and feature alignment rigorously."
+    },
+    {
+      "file": "textures/a1-iris-v1.png",
+      "output": "exec-a6beefb7-b567-42c5-8483-1f6ce3eeda49.png",
+      "transparent": false,
+      "inputs": [
+        "../2026-10-17-a1-3d/references/a1-face.png (style reference)"
+      ],
+      "prompt": "Create a game-ready EYE IRIS ALBEDO texture component that closely matches the A1 reference's refined grey-blue eyes. Output a square texture, a single perfectly circular iris exactly centered, frontal orthographic flat texture, no eyeball shape perspective. Iris diameter is exactly 80% of canvas width. The remaining surrounding area is uniform very pale warm off-white sclera, full opaque image with NO transparency. A crisp near-black centered circular pupil with diameter around 30% of the iris diameter, deep slate grey limbal ring, sophisticated cool grey-blue radial iris fibers, delicate desaturated blue-grey midtones, slightly lighter bottom of iris, dark upper quarter under the eyelid, and a small clean soft white catchlight in the upper-left with one tiny secondary reflection. Elegant mature Japanese anime eye painting like the attached A1, high-definition clean game texture, subtle natural variation, no neon blue, no photoreal blood vessels, no eyelashes, no eyelids, no eyebrows, no surrounding face, no 3D sphere rendering, no labels or text, no logo or watermark. A flat circular iris texture for UV mapping onto real 3D eye geometry."
+    },
+    {
+      "file": "textures/a1-hair-atlas-v2.png",
+      "output": "exec-8119ac77-7de6-4b5d-9e25-41c67c9e2050.png",
+      "transparent": true,
+      "inputs": [
+        "textures/a1-hair-atlas-v1.png (edit target)",
+        "../2026-10-17-a1-3d/references/a1-face.png (style reference)"
+      ],
+      "prompt": "Use case: precise-object-edit. Image 1 is the EDIT TARGET: an existing square, four-lane vertical hair-card texture atlas for a true 3D A1 character. Image 2 is the selected A1 illustration and is the exact style/color reference. Repaint only the hair strips in image 1, preserving the square canvas, exactly FOUR vertical lanes, root-at-top tip-at-bottom, strip silhouettes and genuinely transparent gutters/background. Match A1's broad clean anime locks: each strip should have three to five elegant broad, slightly tapered painted sections, cool ash-lavender grey base, deep slate-lavender shadows, thin dark contour accents and restrained pearl highlight patches. Remove the dense fine-thread texture and plastic streaking; use smooth mostly flat color areas and deliberate clean 2D anime line art like the original. Keep every lock straight in texture space, as 3D geometry creates the waves. No face, no portrait, no body, no hair curls across the lanes, no white background, no checkerboard, no text or watermark. High quality production albedo with clear big-to-small structure, not photoreal fibers. Preserve alpha and the four separate strip placements."
+    },
+    {
+      "file": "textures/a1-face-paint-v2.png",
+      "output": "exec-70037f87-4ce2-4281-966e-0bfbf642f618.png",
+      "transparent": true,
+      "inputs": [
+        "textures/a1-face-paint-v1.png (edit target)",
+        "../2026-10-17-a1-3d/references/a1-face.png (style reference)"
+      ],
+      "prompt": "Use case: precise-object-edit. Image 1 is the UV TEXTURE EDIT TARGET, and image 2 is the A1 original illustration STYLE REFERENCE. Keep the exact canvas, facial UV mask, forehead, ear outlines, eye openings, eyebrow locations, nose position and mouth location of image 1. Do not pose or resize the face. Repaint the target into the same clean anime illustration style as A1: smooth flat warm ivory skin with very restrained soft cheek shading; crisp tapered charcoal upper eyelid ink and slender muted grey eyebrows; a clear but small warm taupe shadow wedge on the left side of the nose and a fine tiny nose-tip accent; thin natural muted peach lips with one clear fine smile line. Remove the airbrushed doll makeup, heavy eyelid wrinkles, shiny plump lips and soft blurry 3D shading. Preserve the eye holes exactly as blank transparent openings, no iris or pupil because separate 3D eyes already exist. Truly transparent outside the original face mask. Sharp controlled anime lines, deliberate two-tone painted shadow areas, mature calm confident expression like the original A1, not photoreal skin. This is a flat front-projected UV map for an already built 3D head, not a character portrait. No hair, neck, body, jewellery, labels, watermark, white backdrop or checkerboard. Keep every feature position unchanged."
+    }
+  ]
+}
