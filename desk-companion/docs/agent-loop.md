@@ -27,7 +27,7 @@
 
 | 风险 | 工具 | 执行后 |
 |---|---|---|
-| read | `memory_query`、`task_query`、`task_details`、`calendar_query`、`computer_job_status`、`device_status`、`posture_status`、`owner_search`、`plate_summary`、`owner_clock` | 只返回数据 |
+| read | `memory_query`、`task_query`、`task_details`、`calendar_query`、`computer_job_status`、`device_status`、`posture_status`、`owner_search`、`plate_summary`、`owner_clock`、`propose_plan` | 只返回数据。`propose_plan` 最多五个步骤，不写入 |
 | draft | 记忆、事务、日历、设备预设和电脑作业的准备工具 | 提案或待审作业，拥有者另确认后才写入 |
 | cancel | `computer_job_cancel` | 原作业取消路径。未开始的作业不产生文件；已写入的文件不假装回滚 |
 | stop | `stop_physical_outputs` | 原软件停止闩。不表示物理断电已经确认 |

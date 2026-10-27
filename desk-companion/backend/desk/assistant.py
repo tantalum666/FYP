@@ -23,6 +23,7 @@ from .jobs import JobInput, JobQuery
 from .memory import MemoryDeleteDraft, MemoryReplaceDraft, MemorySaveDraft
 from .tool_audit import ToolAudit, channel_for
 from .owner_lookup import OwnerClockArgs, OwnerSearch, PlateQuery, owner_clock, owner_search, plate_summary
+from .owner_plan import ProposePlan, propose_plan
 from .tool_policy import audit_suppressed, memory_blocked, outcome_message
 
 
@@ -167,6 +168,11 @@ TOOLS = [
         "name": "owner_clock",
         "description": "Read the current local time, today's date, and this week's Monday-Sunday dates in the owner timezone.",
         "parameters": OwnerClockArgs.model_json_schema(),
+    },
+    {
+        "name": "propose_plan",
+        "description": "Show the owner a bounded plan of at most five steps. Does not save or execute. Use a draft tool afterwards for any calendar, task, memory, or note change.",
+        "parameters": ProposePlan.model_json_schema(),
     },
 ]
 
@@ -428,6 +434,8 @@ class AssistantService:
                 return plate_summary(self.runtime, arguments)
             if name == "owner_clock" and not arguments:
                 return owner_clock(self.runtime)
+            if name == "propose_plan":
+                return propose_plan(arguments)
             if name == "posture_status" and not arguments:
                 return self.runtime.posture.snapshot()
             if name == "device_status" and not arguments:

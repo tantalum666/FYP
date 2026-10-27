@@ -304,6 +304,12 @@
   line-height: 1.7;
   padding: 18px 0;
 }
+.assistant-reply p {
+  margin: 0;
+}
+.assistant-plan {
+  margin-top: 8px;
+}
 .tool-activity {
   margin-top: 8px;
 }
@@ -333,6 +339,12 @@
 }
 .tool-audit-message {
   margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.tool-plan {
+  margin: 6px 0 0;
+  padding-left: 1.2rem;
   font-size: 13px;
   line-height: 1.5;
 }

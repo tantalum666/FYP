@@ -55,6 +55,7 @@ interface Reply {
   mode: string;
   kind: string;
   message: string;
+  plan?: string;
   proposal?: Proposal;
 }
 
@@ -387,9 +388,10 @@ export function AssistantPanel({
             )}
       </p>
       {reply && (
-        <p className="assistant-reply" role="status">
-          {reply.message}
-        </p>
+        <div className="assistant-reply" role="status">
+          <p>{reply.message}</p>
+          {reply.plan ? <p className="assistant-plan">{reply.plan}</p> : null}
+        </div>
       )}
       {proposals.map((p) => {
         const event = p.data.event ?? p.data.change?.event;

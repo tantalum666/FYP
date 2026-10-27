@@ -53,6 +53,7 @@ class TextPlan(StrictModel):
         "owner_search",
         "plate_summary",
         "owner_clock",
+        "propose_plan",
     ] = "none"
     arguments: dict = Field(default_factory=dict)
 

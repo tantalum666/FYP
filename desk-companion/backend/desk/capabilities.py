@@ -17,6 +17,7 @@ from .store import DomainError
 from .tasks import TaskChange, TaskInput, TaskQuery
 from .assistant import CalendarQuery, ChangeProposal
 from .owner_lookup import OwnerClockArgs, OwnerSearch, PlateQuery
+from .owner_plan import ProposePlan
 
 
 Risk = Literal["read", "draft", "cancel", "stop"]
@@ -74,6 +75,7 @@ def _capabilities() -> dict[str, Capability]:
         Capability("owner_search", "read", OwnerSearch),
         Capability("plate_summary", "read", PlateQuery),
         Capability("owner_clock", "read", OwnerClockArgs),
+        Capability("propose_plan", "read", ProposePlan),
     ]
     return {row.name: row for row in rows}
 

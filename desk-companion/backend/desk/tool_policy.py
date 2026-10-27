@@ -94,7 +94,9 @@ def kind_for(code: str) -> str:
     return CODE_KIND.get(code, "invalid")
 
 
-OWNER_ONLY_TOOLS = frozenset({"owner_search", "plate_summary", "owner_clock"})
+OWNER_ONLY_TOOLS = frozenset(
+    {"owner_search", "plate_summary", "owner_clock", "propose_plan"}
+)
 
 
 def memory_blocked(name: object, allow_memory: bool) -> bool:
@@ -333,6 +335,10 @@ def _claim(runtime, key: str, outcome: str, result: dict):
 def outcome_message(outcome: str, result, language: str = "en") -> str:
     if outcome == "ok" and _pending_side_effect(result):
         return owner_message("prepared", language)
+    if outcome == "ok" and isinstance(result, dict):
+        plan = result.get("plan")
+        if isinstance(plan, dict) and isinstance(plan.get("summary"), str) and plan["summary"].strip():
+            return plan["summary"].strip()
     if outcome == "ok":
         return ""
     return owner_message(kind_for(outcome), language)

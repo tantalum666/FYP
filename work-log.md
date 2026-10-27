@@ -367,3 +367,9 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **完成：**三个 `read` 工具走原来的校验、审计和配对拒绝。笔记检索只看 `save_note` 正文。
 - **验证：**`pytest -q` 195 通过，Ruff 通过。没有付费 API。
 - **剩余：**真实模型效果未测。任意目录读取未做。
+
+### 同日补充：有界计划
+
+- **目标：**“安排这一周”或“准备明天”时，模型给出有限步骤，拥有者看得到，副作用只进待批准草稿。
+- **完成：**`propose_plan` 最多五步。回复和审计都带上计划摘要。随后的草稿仍不写入。
+- **验证：**`pytest -q` 197 通过，Ruff 通过。前端 `npm test` 20 通过，`npm run build` 通过。没有付费 API。

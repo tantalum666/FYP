@@ -41,21 +41,28 @@ class AgentLoop:
     def run(self, *, system: str, context: dict, key: str, language: str, allow_memory: bool):
         context = dict(context)
         deadline = self.clock() + self.max_seconds
+        plan = None
+
+        def finish(reply):
+            if plan and isinstance(reply, dict):
+                return {**reply, "plan": plan}
+            return reply
+
         for index in range(self.max_steps):
             if self.clock() > deadline:
-                return _notice(language, "timeout")
+                return finish(_notice(language, "timeout"))
             try:
                 step = self._complete(system, context)
             except DomainError as error:
                 if error.code == "TEXT_AI_CAP":
-                    return _notice(language, "cap")
+                    return finish(_notice(language, "cap"))
                 raise
             if step is None:
-                return _notice(language, "unavailable")
+                return finish(_notice(language, "unavailable"))
             if step.tool == "none":
-                return {"mode": "ai", "kind": "reply", "message": step.message}
+                return finish({"mode": "ai", "kind": "reply", "message": step.message})
             if self.clock() > deadline:
-                return _notice(language, "timeout")
+                return finish(_notice(language, "timeout"))
             call_key = "text/" + hashlib.sha256(f"{key}/{index}".encode()).hexdigest()
             result = execute_tool(
                 self.runtime,
@@ -67,10 +74,13 @@ class AgentLoop:
                 language=language,
                 channel="text",
             )
+            summary = _plan_summary(result)
+            if summary:
+                plan = summary
             if _ends_turn(step.tool, result):
-                return _side_reply(step.message, result, language)
+                return finish(_side_reply(step.message, result, language))
             context["last_tool_result"] = {"tool": step.tool, "result": result}
-        return _notice(language, "steps")
+        return finish(_notice(language, "steps"))
 
     def _complete(self, system: str, context: dict) -> ModelStep | None:
         for attempt in range(self.attempts):
@@ -89,7 +99,19 @@ class AgentLoop:
         return None
 
 
+def _plan_summary(result: dict) -> str | None:
+    plan = result.get("plan") if isinstance(result, dict) else None
+    if not isinstance(plan, dict):
+        return None
+    summary = plan.get("summary")
+    if isinstance(summary, str) and summary.strip():
+        return summary.strip()
+    return None
+
+
 def _ends_turn(name: str, result: dict) -> bool:
+    if name == "propose_plan" and result.get("error"):
+        return True
     if result.get("error") == "TOOL_TIMEOUT":
         return True
     risk = CAPABILITIES[name].risk if name in CAPABILITIES else "refused"

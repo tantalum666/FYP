@@ -76,13 +76,32 @@ export function sentenceFor(call: ToolCall, t: Translate) {
     return t("Prepared for review. Nothing was saved.", "已准备待审，没有保存。");
   }
   if (call.outcome !== "ok" && call.message) return call.message;
+  if (call.outcome === "ok" && call.message && planSteps(call).length > 0) return call.message;
   return "";
+}
+
+export function planSteps(call: ToolCall): string[] {
+  const raw = call.arguments.steps;
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .map((step) => {
+      if (typeof step === "string") return step;
+      if (step && typeof step === "object" && "text" in step) {
+        const text = (step as { text?: unknown }).text;
+        return typeof text === "string" ? text : "";
+      }
+      return "";
+    })
+    .filter((step) => step.length > 0);
 }
 
 export type ActivityState =
   | { kind: "hidden" }
   | { kind: "empty" }
-  | { kind: "list"; rows: { call: ToolCall; risk: string; sentence: string }[] };
+  | {
+      kind: "list";
+      rows: { call: ToolCall; risk: string; sentence: string; steps: string[] }[];
+    };
 
 export function activityState(calls: ToolCall[] | null, t: Translate): ActivityState {
   if (!calls) return { kind: "hidden" };
@@ -93,6 +112,7 @@ export function activityState(calls: ToolCall[] | null, t: Translate): ActivityS
       call,
       risk: riskLabel(call.risk, t),
       sentence: sentenceFor(call, t),
+      steps: planSteps(call),
     })),
   };
 }

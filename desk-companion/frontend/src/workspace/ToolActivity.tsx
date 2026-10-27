@@ -29,6 +29,13 @@ export function ToolActivity({
                 <span>{row.call.channel}</span>
               </div>
               {row.sentence ? <p className="tool-audit-message">{row.sentence}</p> : null}
+              {row.steps.length > 0 ? (
+                <ol className="tool-plan">
+                  {row.steps.map((step, index) => (
+                    <li key={`${index}-${step}`}>{step}</li>
+                  ))}
+                </ol>
+              ) : null}
               <details>
                 <summary>{t("Arguments", "参数")}</summary>
                 <pre>{JSON.stringify(row.call.arguments, null, 2)}</pre>
