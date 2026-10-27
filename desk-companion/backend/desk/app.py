@@ -27,6 +27,7 @@ from .phone import phone_snapshot
 from .tasks import task_routes
 from .jobs import job_routes
 
+from .cookies import cookie_secure
 from .schemas import CreateEvents, EventAction, Login, ReminderAction, SettingsInput
 from .store import DomainError, Store
 
@@ -209,7 +210,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
             token,
             httponly=True,
             samesite="strict",
-            secure=request.url.scheme == "https",
+            secure=cookie_secure(request),
             max_age=8 * 3600,
             path="/api",
         )
@@ -224,7 +225,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
                     token,
                     httponly=True,
                     samesite="strict",
-                    secure=request.url.scheme == "https",
+                    secure=cookie_secure(request),
                     max_age=365 * 86400,
                     path="/api",
                 )

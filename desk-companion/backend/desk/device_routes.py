@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, Request, Response
 
+from .cookies import cookie_secure
 from .access import (
     DEVICE_COOKIE,
     EnrolDisplay,
@@ -22,7 +23,7 @@ def device_routes(runtime, authenticated, owner, agent, operation_id, limit):
             token,
             httponly=True,
             samesite="strict",
-            secure=request.url.scheme == "https",
+            secure=cookie_secure(request),
             max_age=365 * 86400,
             path="/api",
         )
