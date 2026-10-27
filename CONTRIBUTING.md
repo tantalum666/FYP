@@ -35,7 +35,7 @@ cd ..
 ./scripts/dev.sh
 ```
 
-打开 `http://127.0.0.1:5190/`；常亮屏是 `http://127.0.0.1:5190/?surface=device`。账号 `owner` 的密码在**每位成员自己的** `desk-companion/.runtime/credentials.json` 首次生成。本机凭据、数据库和模型不从 GitHub 分发。
+打开 `http://127.0.0.1:5190/`；常亮屏是 `http://127.0.0.1:5190/?surface=device`。默认账号 `owner` 的密码在**每位成员自己的** `desk-companion/.runtime/credentials.json` 首次生成；显式本机预览可免登录。本机凭据与数据库不分发，相机／唤醒权重按说明下载；许可允许分发的角色素材保留来源与许可。
 
 可选相机／音频依赖、Linux 设备安装、iPhone 框架准备、真实服务配置及评价步骤见[软件 README](desk-companion/README.md)和[操作指南](desk-companion/docs/operator-guide.md)。没有实体设备或语音密钥也可先开发日历、事务和界面。硬件及模型实际表现仍须另行验证。
 

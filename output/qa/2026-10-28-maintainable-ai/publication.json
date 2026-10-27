@@ -1,0 +1,16 @@
+{
+  "code_commit": "71e4bd8a76533cb4a734dbf04e89f158432ed303",
+  "branch": "codex/software-ai-maintenance-20261028",
+  "pull_request": "https://github.com/tantalum666/FYP/pull/60",
+  "draft": true,
+  "merged": false,
+  "mergeable_at_readback": true,
+  "ci_run": "https://github.com/tantalum666/FYP/actions/runs/40557551354",
+  "hosted_tests_executed": false,
+  "ci_gate": "account-level Actions restriction",
+  "billing_settings_changed": false,
+  "local_backend_passed": 303,
+  "local_frontend_passed": 65,
+  "native_visual_verified": true,
+  "native_touch_keyboard_verified": false
+}

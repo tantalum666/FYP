@@ -11,5 +11,7 @@
     "CONTRIBUTING.md all",
     "desk-companion/docs/omni-conversation.md all"
   ],
-  "not_read_this_turn": "historical full Markdown library; not required by latest owner instruction"
+  "not_read_this_turn": "historical full Markdown library; not required by latest owner instruction",
+  "completion": "Focused reads plus actual implementation/QA sources; no full-library claim",
+  "new_scope": "managed software-ai-maintenance checkout from origin/main; archived main docs and linked asset provenance read selectively"
 }
