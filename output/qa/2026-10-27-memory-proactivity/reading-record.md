@@ -24,3 +24,11 @@ Archive, `output/qa/` snapshots, `.git`, and dependency trees were excluded. Har
 ## Code read for this slice
 
 `desk/memory.py`, `desk/context.py`, `desk/persona.py` (persona text and protocols), `desk/assistant.py` (tools, proposals, local rules), `desk/text_ai.py`, `desk/tasks.py` (follow-up tick), `desk/workspace_data.py` (preferences, quiet hours, announcements), `desk/runtime.py`, the memory tests, and the Memory / Assistant / Extras panels.
+
+## Specs updated
+
+`product.md`, `decision-log.md`, `handoff.md` (slice section only), `work-log.md`, `desk-companion/README.md`, `desk-companion/docs/memory.md`, `desk-companion/docs/task-tracking.md`, `desk-companion/docs/architecture.md`, `desk-companion/docs/operator-guide.md`.
+
+## Checks
+
+See [verification.md](verification.md). Hardware research, `archive/`, and PRs #4 / #5 / #15 / #16 were not modified.

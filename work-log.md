@@ -346,3 +346,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **修复：**新深层路径的PostgreSQL socket限制改为loopback TCP；两前端Vite升级8.3.5，归档source-map-js为1.2.2。修复导航与本机凭据的链接表达。
 - **验证：**当前182后端／17前端、归档55后端、两前端类型／构建、两套Ruff通过；npm audit均零报告。隔离新建PostgreSQL，不复用旧演示库；无模型API／真实音视频／硬件或部署。完整记录见[QA](output/qa/2026-10-26-repo-cleanup/verification.md)。
 - **保留与剩余：**原主检出及最新AliceChan／统一Omni本地工作区保留；PR #4／#5／#15／#16仍待单独按当前方向审查。整理分支已通过文件／运行校验，经[PR #18](https://github.com/tantalum666/FYP/pull/18)交付；具体Git回执以整理QA和远端PR状态为准。
+
+## 2026-10-27｜记忆核对与主动检查
+
+- **目标：**让拥有者能核对、更正和忘记长期记忆，并让提醒、简报和晚间检查说明为什么出现。姓名和偏好只产生可取消的草稿。
+- **完成：**相同文字只保留一条，更正留下上一句，到期后离开模型上下文。重复项经既有助理草稿停用。本地提取只接受明确记住或单句姓名／偏好；托管提取默认关闭，须同时打开开关和每日上限，并只走现有文字适配器。早晨简报与默认关闭的晚间检查沿用同一份偏好和安静时段。跟进写入中英原因。交付 [PR #23](https://github.com/tantalum666/FYP/pull/23)。证据见 [QA](output/qa/2026-10-27-memory-proactivity/verification.md)。
+- **验证：**在 `desk-companion/` 执行 `uv run --no-sync pytest -q`（195 通过，一条既有 Starlette 弃用提示）、`uv run --no-sync ruff check backend scripts tests`（通过）。前端 `npm ci`、`npm test`（17 通过）、`npm run build`（通过，npm audit 零发现）。没有付费模型调用。
+- **剩余：**记忆仍不在业务 JSON 备份里。删除记忆不清供应商会话。没有近义矛盾检测。检查是本机 tick 后拉取，不是远端推送。PR #4／#5／#15／#16 仍不合并。Codex 审查并合并 #23。
