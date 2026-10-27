@@ -352,4 +352,4 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **目标：**从 `main` 开四个独立 PR。不改 voice、记忆模块、助理工具循环、通知代码、硬件和归档。
 - **完成：**[#36](https://github.com/tantalum666/FYP/pull/36) 补高风险测试，并修目录读回会抛异常的缺陷。[#42](https://github.com/tantalum666/FYP/pull/42) 增加脱敏 JSON 日志、拥有者只读诊断和最多 7 份本地 SQLite 备份。[#49](https://github.com/tantalum666/FYP/pull/49) 增加拥有者／常亮屏 manifest，服务工作者不缓存 `/api`。软件章节草稿在 [software-chapter.md](desk-companion/docs/report/software-chapter.md)。
 - **验证：**#36 为本地 pytest 193、前端 20。#42 为 pytest 187、前端 19、构建通过，并在浏览器看过诊断页。#49 为前端 20、构建通过，无头 Chrome 确认两份 manifest。`main` 覆盖率测量约 78%（4620 语句、1016 未执行），未写入锁文件。GitHub Actions 仍因账单未跑。
-- **剩余：**这些 PR 都未合并。AliceChan／Omni 未发布。没有硬件验收、付费模型调用或学校提交。交接与 #24、#30 冲突时保留 2026-10-27 这一份。
+- **剩余：**这些 PR 都未合并。AliceChan／Omni 未发布。没有硬件验收、付费模型调用或学校提交。交接在 [#50](https://github.com/tantalum666/FYP/pull/50)；与 #24、#30 冲突时保留这一份。
