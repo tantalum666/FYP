@@ -126,10 +126,13 @@ def read_artifact(
         return {"verified": False, "reason": "artifact_missing"}
     except OSError:
         return {"verified": False, "reason": "target_denied"}
+    # A directory can be opened on Linux, and fdopen then raises. Reject it
+    # before that so verification stays an unverified receipt.
+    info = os.fstat(fd)
+    if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or info.st_size > MAX_BYTES:
+        os.close(fd)
+        return {"verified": False, "reason": "target_denied"}
     with os.fdopen(fd, "rb") as source:
-        info = os.fstat(source.fileno())
-        if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or info.st_size > MAX_BYTES:
-            return {"verified": False, "reason": "target_denied"}
         body = source.read(MAX_BYTES + 1)
     digest = hashlib.sha256(body).hexdigest()
     matched = digest == hashlib.sha256(expected).hexdigest()
