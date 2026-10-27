@@ -77,4 +77,5 @@ test("the memory page is the knowledge screen and extras no longer repeats nudge
   assert.equal(knowledgeCopy.profileTitle[0], "Profile used in replies");
   assert.match(checks, /knowledgeCopy\.nudgeTitle/);
   assert.doesNotMatch(extras, /<CheckIns/);
+  assert.match(extras, /Web Push stays off until DESK_WEB_PUSH=1/);
 });

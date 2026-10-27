@@ -20,6 +20,7 @@ from .memory import MemoryService
 from .goals import GoalService
 from .nudges import NudgeService
 from .notify import Notifier
+from .web_push import HttpPushSender, PushService, push_enabled
 from .persona import PersonaService
 from .profile import ProfileService
 
@@ -41,7 +42,14 @@ class Runtime:
         self.assistant = AssistantService(self)
         self.data = WorkspaceData(store)
         self.nudges = NudgeService(self)
-        self.notify = Notifier(self.store)
+        self.notify = Notifier(
+            self.store,
+            push=PushService(
+                self.store, HttpPushSender(), self.store.directory / "vapid-private.pem"
+            )
+            if push_enabled()
+            else None,
+        )
         self.voice = VoiceService(self)
         self.exchange = ExchangeService(self)
         self.google = GoogleCalendar(self)

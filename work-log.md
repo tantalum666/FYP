@@ -388,3 +388,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **完成：**`persona_bundle` 与 `job_bundle`。运行令牌不导出。非终态作业恢复为待审阅。已有行不覆盖。
 - **验证：**`uv run --no-sync pytest -q` 213 通过。`uv run --no-sync ruff check backend scripts tests` 通过。前端未改。
 - **剩余：**笔记文件字节仍在本机目录，不在 JSON 里。没有 Web Push 发送。PR #4／#5／#15／#16 仍不合并。
+
+## 2026-10-27｜Web Push
+
+- **目标：**在功能开关后实现真正的 Web Push，默认关闭，测试不联网。
+- **完成：**`desk/web_push.py`。本机 VAPID 私钥 0600。订阅可保存和撤销。`HttpPushSender` 可换成假发送器。安静时段和重复 id 不发送。说明在 `docs/web-push.md`。
+- **验证：**`uv run --no-sync pytest -q` 216 通过。`uv run --no-sync ruff check backend scripts tests` 通过。前端 `npm test` 20 通过，`npm run build` 通过。没有联网发送，也没有付费调用。
+- **剩余：**未设置开关时不会向推送服务发送。浏览器仍需允许通知。

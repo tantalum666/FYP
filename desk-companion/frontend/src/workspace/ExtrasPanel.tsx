@@ -191,6 +191,12 @@ export function ExtrasPanel({ t }: { t: Translate }) {
       </section>
       <section className="workspace-section">
         <h3>{t("Companion", "桌面助理")}</h3>
+        <p className="workspace-hint">
+          {t(
+            "Web Push stays off until DESK_WEB_PUSH=1. The private key is created on this machine only then, with mode 0600. Quiet hours and duplicate notice ids still apply.",
+            "在设置 DESK_WEB_PUSH=1 之前，Web Push 保持关闭。私钥只在那时在本机生成，权限为 0600。安静时段和重复的通知 id 仍然有效。",
+          )}
+        </p>
         <label className="check-field">
           <input
             type="checkbox"
