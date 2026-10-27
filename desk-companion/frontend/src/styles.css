@@ -1894,3 +1894,17 @@ a {
     scroll-behavior: auto !important;
   }
 }
+.diagnostics {
+  display: grid;
+  gap: 12px;
+  max-width: 40rem;
+}
+.diagnostics dl {
+  display: grid;
+  grid-template-columns: minmax(8rem, 12rem) 1fr;
+  gap: 8px 16px;
+  margin: 0;
+}
+.diagnostics dt {
+  color: var(--muted);
+}

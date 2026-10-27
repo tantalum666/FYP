@@ -6,6 +6,7 @@ import {
   FileText,
   Globe,
   House,
+  Activity,
   Brain,
   ListTodo,
   LoaderCircle,
@@ -22,6 +23,7 @@ import {
   request,
   retryPending,
 } from "./api";
+import { DiagnosticsPanel } from "./diagnostics.tsx";
 import { dayISO, savedEventPosition, viewRange } from "./dates";
 import { editable } from "./types";
 import type {
@@ -178,6 +180,7 @@ const nav = [
   { id: "persona", en: "Persona", zh: "人格", Icon: Sparkles },
   { id: "records", en: "Records", zh: "记录", Icon: FileText },
   { id: "device", en: "Device", zh: "设备", Icon: Monitor },
+  { id: "diagnostics", en: "Diagnostics", zh: "诊断", Icon: Activity },
 ] as const;
 
 export function App() {
@@ -208,6 +211,7 @@ export function App() {
         : "week",
   );
   const deviceLayout = query.get("surface") === "device";
+  const pages = nav.filter((item) => item.id !== "diagnostics" || !deviceLayout);
   const [session, setSession] = useState<Session | null | undefined>(undefined);
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null),
     [connection, setConnection] = useState<"connecting" | "online" | "offline">(
@@ -530,7 +534,7 @@ export function App() {
           Companion
         </div>
         <nav aria-label={t("Main navigation", "主导航")}>
-          {nav.map(({ id, en, zh, Icon }) => (
+          {pages.map(({ id, en, zh, Icon }) => (
             <button
               key={id}
               className={page === id ? "selected" : ""}
@@ -767,11 +771,14 @@ export function App() {
                 onOpenWorkspace={setWorkspacePanel}
               />
             )}
+            {page === "diagnostics" && (
+              <DiagnosticsPanel t={t} language={language} />
+            )}
           </>
         )}
       </main>
       <nav className="bottom-nav" aria-label={t("Main navigation", "主导航")}>
-        {nav.map(({ id, en, zh, Icon }) => (
+        {pages.map(({ id, en, zh, Icon }) => (
           <button
             key={id}
             onClick={() => goPage(id)}

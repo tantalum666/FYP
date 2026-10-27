@@ -16,6 +16,7 @@ from .google_calendar import GoogleCalendar
 from .tasks import TaskService
 from .text_ai import TextAssistant
 from .jobs import JobService
+from .backups import LocalBackups
 from .memory import MemoryService
 from .persona import PersonaService
 
@@ -36,6 +37,7 @@ class Runtime:
         self.data = WorkspaceData(store)
         self.voice = VoiceService(self)
         self.exchange = ExchangeService(self)
+        self.backups = LocalBackups(self)
         self.google = GoogleCalendar(self)
         self.text_ai = TextAssistant(self)
         self.posture.on_prompt = self.on_posture_prompt
