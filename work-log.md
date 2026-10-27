@@ -350,6 +350,6 @@ Updated: 27 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 ## 2026-10-27 离线演示、界面恢复、安全卫生与文字冒烟
 
 - **目标：**在不改语音、记忆模块和助理工具循环的前提下，补四支独立 PR：离线演示、拥有者／设备界面的加载与失败状态、已核对的安全问题和默认不花钱的文字冒烟。
-- **完成：**[#25](https://github.com/tantalum666/FYP/pull/25) 假文字适配器、`.demo-runtime` 种子和十分钟演示稿。[#27](https://github.com/tantalum666/FYP/pull/27) 把离线、HTTP 错误和过期会话分开，并补通知组件测试。[#28](https://github.com/tantalum666/FYP/pull/28) 以 0600 创建凭据文件，HTTPS 公网源下的会话 cookie 加 Secure，开发服务关闭访问日志。文字冒烟脚本只在 `DESK_SMOKE_TEXT=1` 且 token 上限为 1–64 时调用 Qwen 或 Gemini。
+- **完成：**[#25](https://github.com/tantalum666/FYP/pull/25) 假文字适配器、`.demo-runtime` 种子和十分钟演示稿。[#27](https://github.com/tantalum666/FYP/pull/27) 把离线、HTTP 错误和过期会话分开，并补通知组件测试。[#28](https://github.com/tantalum666/FYP/pull/28) 以 0600 创建凭据文件，HTTPS 公网源下的会话 cookie 加 Secure，开发服务关闭访问日志。[#30](https://github.com/tantalum666/FYP/pull/30) 的文字冒烟脚本只在 `DESK_SMOKE_TEXT=1` 且 token 上限为 1–64 时调用 Qwen 或 Gemini。
 - **验证：**#25 后端 186 通过；#27 前端 19 通过、`npm run build` 通过；#28 后端 190 通过；文字冒烟分支后端 187 通过。没有真实模型调用。GitHub Actions 仍因账户支出上限未启动。
 - **剩余：**恢复 Actions 额度后重跑 #21。Codex 按 handoff 的顺序合并。A1 草稿 #4、#5、#15、#16 仍不合并。
