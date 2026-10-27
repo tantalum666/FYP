@@ -29,7 +29,7 @@
 
 这些是代码里还没做完的事，不是已经测得的产品效果。
 
-1. **语音不跑有界多步循环。** 实时模型给出一次调用，`ToolDispatcher` 执行一次。读完再决定要不要草稿，发生在供应商那一侧，不受文字这边的 3 步和 45 秒约束。
+1. **语音不跑有界多步循环。** 实时模型给出一次调用，`ToolDispatcher` 执行一次。读完再决定要不要草稿，发生在供应商那一侧，不受文字这边的 3 步和 45 秒约束。做法写在下面的设计里，本文件不实现它。
 2. **字符预算没有罩住真正送出的提示。** 工具名单在预算之外。当前 `TOOLS` 的 JSON 大约 17000 字，长过默认的 12000 字预算。模型仍可能先看到名单，后看到被裁过的日历。
 3. **流在第一段文字之后失败不会退回。** 退回只发生在还没有任何文本的时候。手机桥不是逐 token 回调，75 秒计时器也不会取消已经发出的原生请求。
 4. **`memory_query` 的查询只看见最新 40 条。** 更早的活动事实可以出现在 `owner_search`、文字包和拥有者语音提示里，但不能出现在这条工具的查询结果里。
@@ -41,10 +41,34 @@
 
 按上面的顺序做。每一项都应单独开分支，并继续走 `execute_tool()` 和现有草稿。
 
-1. 语音在读工具之后，用现有的 `AgentLoop` 步数和时限决定下一步，而不是把多步计划交给实时模型自己续写。
+1. 按下面的设计实现拥有者语音的有界后续步骤。这一份只写设计和测试，不改调度代码。
 2. 把工具名单算进预算，或按这一轮可能用到的名字缩短名单，使 12000 字的限制真的限制送出的提示。
 3. 流在已经发出第一段之后失败时，给出不重复文字的收尾，而不是再拼一段 `delta`。
 4. 让带查询的 `memory_query` 排序全部活动事实，再按原上限截断。
 5. 只有在明确的花费上限下，才用 `scripts/conversation_eval.py` 跑一次真实提供方。不要把它放进 CI，也不要用那一次结果宣称商业收益。
 
 不要做的事：任意 shell、浏览器或 GUI；绕过拥有者批准的新写入；合并 PR #4、#5、#15、#16；把离线场景写成真实准确率或减损效果。
+
+## 语音走文字循环的设计（未实现）
+
+这次不改 `ToolDispatcher` 或 `voice.py`。把 `AgentLoop.run` 直接放进 `ToolDispatcher._invoke` 或 `receive_provider` 不安全：那条线程在等实时套接字，`AgentLoop` 会再调文字提供方，可能计入 `DESK_TEXT_DAILY_CAP` 并发起付费请求；Qwen 的 `protocol.result` 在工具结果之后还会发 `response.create`，实时模型会自己续写下一步，和文字循环抢同一次草稿。Gemini 只回 `toolResponse`，两条协议不能用同一处补丁蒙混。
+
+以后单独实现时遵守这些边界。
+
+- 只有 `allow_memory` 为真的拥有者会话和本机语音工作进程进入后续循环。配对会话保持今天的 `ToolDispatcher`，不调用 `AgentLoop`。
+- 实时模型给出的那一次调用仍由 `execute_tool()` 执行一次。语音幂等范围仍是会话 id 加 call id。文字循环里随后的步骤用新的 `voice-loop/` 前缀加会话 id 和步号，不能复用已经执行过的 call id，也不能把同一次读取再执行一遍。
+- 后续步骤调用现有 `AgentLoop`，`max_steps` 用剩余步数，上限仍是 `MAX_STEPS`（3），`max_seconds` 用剩余时间，上限仍是 `MAX_SECONDS`（45）。结束条件用现在的 `_ends_turn`：草稿、取消、停止、读超时、`propose_plan` 失败，以及 `OWNER_SIGN_IN_REQUIRED` 和 `TOOL_NOT_ALLOWED` 都结束。`propose_plan` 成功不结束。`stop_physical_outputs` 即使本轮已结束也必须还能执行。
+- 读工具没有结束本轮、并且文字提供方已配置时，不要再发 Qwen 的 `response.create`，也不要再发会让 Gemini 继续生成的用户内容。`AgentLoop` 的回复只作为客户端转写文本。上下文用 `pack_conversation` 加上这次的 `last_tool_result`，系统提示用现有的 `voice_instructions` 和 `voice_context_note`。
+- 文字提供方未配置时，保持今天的路径：结果仍经 `protocol.result` 交回实时模型，现有的草稿套接字测试继续成立。
+- 不新增工具，不给模型确认工具。草稿的 `saved` 仍是 false。
+
+测试必须离线，用 `ScriptedProvider` 或假套接字，不访问网络。实现时按这些名字写，断言如下。
+
+1. `test_owner_voice_read_then_stops_at_three_steps`：连续读取只执行 3 次。第 4 次不调用 `execute_tool`，审计里没有第 4 条成功行，回复的 `saved` 不是 true。
+2. `test_owner_voice_draft_ends_the_turn`：合法的 `calendar_create_draft` 产生提案且 `saved` 为 false，日历表不加行。紧接着的 `memory_query` 不执行。`stop_physical_outputs` 仍然执行。
+3. `test_owner_voice_time_bound_uses_injected_clock`：注入时钟从 0 跳到 46 秒后，第二个工具不开始。说明句与文字循环的超时句相同。
+4. `test_paired_voice_does_not_enter_the_text_loop`：`allow_memory` 为 false 时 `ScriptedProvider.calls` 保持 0，上下文里没有拥有者记忆。
+5. `test_realtime_response_create_is_not_sent_after_an_owner_read`：假的 Qwen 连接在拥有者读取之后不再发出 `response.create`。客户端看到的是循环给出的那句文本。没有真实 HTTP。
+6. `test_unconfigured_text_keeps_the_current_voice_result_path`：文字提供方无效时，一次读取仍走 `protocol.result`，其中包含今天的 `response.create`。`test_realtime_transport_creates_only_a_draft_and_interrupt_cancels_it` 仍然通过。
+7. `scenario_voice_same_policy` 保持不变：文字和语音对 `shell_exec` 的拒绝仍各写一行，结果都是 `TOOL_NOT_ALLOWED`，`saved` 为 false。
+8. 第 4 次若是草稿，提案数不增加。已执行的第一次读取不会因为进入 `AgentLoop` 再执行一次。

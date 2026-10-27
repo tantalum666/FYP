@@ -433,3 +433,9 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **目标：**交接说明的第一件下一步：拥有者语音提示带上排序后的记忆命中和待批准草稿。
 - **完成：**`voice_context_note` 使用 `pack_conversation` 的排序和预算。配对会话得到空提示。
 - **验证：**`pytest -q` 231 通过，Ruff 通过。前端没有改动。没有付费 API。
+
+### 同日补充：语音走文字循环只写设计
+
+- **目标：**判断拥有者语音能否用小差异走文字 `AgentLoop`。不能安全做到，所以只写设计和测试计划。
+- **完成：**`agent-loop-handoff.md` 新增未实现设计，列出 6 个新测试名，并写明现有拒绝场景和第 4 次草稿不得再执行。没有改调度代码。
+- **验证：**`pytest -q` 231 通过，Ruff 通过。没有付费 API。没有改运行时代码。
