@@ -1,6 +1,6 @@
 # 文字代理循环与工具审计
 
-2026-10-27，Group 2。这是工程实现，不是供应商决定，也不是任意电脑或应用控制。
+2026-10-27，Group 2。这是工程实现，不是供应商决定，也不是任意电脑或应用控制。交接清单见 [agent-loop-handoff.md](agent-loop-handoff.md)。
 
 托管模型只负责提出一个结构化调用。执行、拒绝、批准和记录都在本组代码里。Qwen 与 Gemini 仍是仅有的文字适配器，入口仍是 `text_providers.py`。
 
@@ -34,7 +34,7 @@
 
 ## 提供方
 
-`HostedTextProvider` 只调用 `TextAssistant.generate`。因此密钥、端点白名单和 JSON 解析仍在原适配器。`DESK_TEXT_DAILY_CAP` 默认 40，只接受 1 到 500 的整数，否则仍用 40。它按 UTC 日统计 `purpose=conversation` 的调用，失败和重试都计数。达到上限后不再发请求，并告诉拥有者没有修改。跟进建议仍单独每天最多 20 次，这段循环不会把失败的建议自动重试。
+`HostedTextProvider` 在没有流式回调时调用 `TextAssistant.generate`。网页流走 `generate_live`；流失败且还没有文本时，同一条用量记录再调用一次适配器的 `complete()`。密钥、端点白名单和 JSON 解析仍在原适配器。`DESK_TEXT_DAILY_CAP` 默认 40，只接受 1 到 500 的整数，否则仍用 40。它按 UTC 日统计 `purpose=conversation` 的调用，失败和重试都计数。达到上限后不再发请求，并告诉拥有者没有修改。跟进建议仍单独每天最多 20 次，这段循环不会把失败的建议自动重试。
 
 `ScriptedProvider` 按给定步骤返回，不打开网络。离线场景在 `desk/agent_eval.py`，由 `pytest` 调用，不需要网络：
 

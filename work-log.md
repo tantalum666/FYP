@@ -420,4 +420,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 
 - **目标：**一条命令跑完全部离线场景并打印通过／失败表。
 - **完成：**`scripts/tool_eval.py` 与 `desk/eval_report.py`。文档在 `agent-loop.md`。
-- **验证：**`pytest -q` 229 通过，Ruff 通过。`scripts/tool_eval.py` 退出码 0。前端没有改动。没有付费 API。
+- **验证：**`pytest -q` 229 通过，Ruff 通过。`scripts/tool_eval.py` 退出码 0，末行 `29 passed, 0 failed`。前端没有改动。没有付费 API。
+
+### 同日补充：代理循环交接
+
+- **目标：**从当前代码写出代理循环交接，而不是再开半成品功能。
+- **完成：**`desk-companion/docs/agent-loop-handoff.md`。`agent-loop.md` 的提供方一句改成与 `generate`／`generate_live` 一致。
+- **验证：**`pytest -q` 230 通过，Ruff 通过。没有付费 API。
