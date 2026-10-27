@@ -9,6 +9,7 @@ import json
 import os
 import re
 import threading
+from queue import Queue
 from dataclasses import dataclass
 from typing import Literal
 from urllib.parse import urlsplit
@@ -22,6 +23,7 @@ from .calendar import iso
 from .context import pack_conversation
 from .model_provider import HostedTextProvider
 from .persona import followup_system, text_system
+from .reply_stream import audit_events, sse_encode, text_chunks
 from .text_providers import text_adapter
 from .workspace_data import is_quiet
 from .schemas import StrictModel
@@ -206,9 +208,19 @@ class TextAssistant:
     def context(self, task_id=None, *, include_memory=True):
         return pack_conversation(self.runtime, task_id, include_memory=include_memory)
 
-    def message(self, payload, key, *, allow_memory=True):
+    def message(self, payload, key, *, allow_memory=True, on_event=None):
         if not self.config.valid():
-            return self.runtime.assistant.local_message(payload, key, allow_memory=allow_memory)
+            before = {row["id"] for row in self.runtime.assistant.audit.listing(100)}
+            reply = self.runtime.assistant.local_message(payload, key, allow_memory=allow_memory)
+            if on_event is not None:
+                fresh = [
+                    row
+                    for row in self.runtime.assistant.audit.listing(100)
+                    if row["id"] not in before
+                ]
+                for event in audit_events(sorted(fresh, key=lambda row: row["id"])):
+                    on_event(event)
+            return reply
         if not key or len(key) > 100:
             raise DomainError("OPERATION_ID_REQUIRED", 422)
         fingerprint = hashlib.sha256(
@@ -241,12 +253,38 @@ class TextAssistant:
                 key=key,
                 language=payload.language,
                 allow_memory=allow_memory,
+                on_event=on_event,
             )
             with self.store.connection(write=True) as conn:
                 conn.execute(
                     "INSERT INTO assistant_replies VALUES(?,?,?)", (key, fingerprint, encode(reply))
                 )
             return reply
+
+    def event_stream(self, payload, key, *, allow_memory=True):
+        """SSE bytes. Tool events are queued while the turn runs; the reply is then split."""
+        pending = Queue()
+
+        def on_event(event):
+            pending.put(event)
+
+        def work():
+            try:
+                reply = self.message(payload, key, allow_memory=allow_memory, on_event=on_event)
+                for piece in text_chunks(str(reply.get("message") or "")):
+                    pending.put({"type": "delta", "text": piece})
+                pending.put({"type": "done", "reply": reply})
+            except DomainError as error:
+                pending.put({"type": "error", "code": error.code, "status": error.status})
+            finally:
+                pending.put(None)
+
+        threading.Thread(target=work, name="desk-reply-stream", daemon=True).start()
+        while True:
+            item = pending.get()
+            if item is None:
+                break
+            yield sse_encode(item)
 
     def _quiet_now(self):
         prefs = self.runtime.data.preferences()

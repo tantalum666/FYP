@@ -348,6 +348,23 @@
   font-size: 13px;
   line-height: 1.5;
 }
+.tool-progress {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.tool-progress li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  padding: 8px 12px;
+  border: 1px solid var(--device-line, #dde3eb);
+  border-radius: 12px;
+}
 .tool-audit pre {
   white-space: pre-wrap;
   overflow-wrap: anywhere;

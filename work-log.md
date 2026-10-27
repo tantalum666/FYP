@@ -379,3 +379,9 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **目标：**离线覆盖人格、拒绝越界或不安全请求、含糊时只问一个问题，以及中英文。同一套检查可以在明确环境变量和硬上限下对真实提供方再跑，且不进入 CI。
 - **完成：**`conversation_eval.py` 与 `scripts/conversation_eval.py`。脚本默认直接拒绝。离线测试不联网。
 - **验证：**`pytest -q` 202 通过，Ruff 通过。脚本在未设置环境变量时退出码 2。没有付费 API。
+
+### 同日补充：网页回复流
+
+- **目标：**网页里助理回复分段出现，并显示工具调用进度。保留原来的 JSON 接口。
+- **完成：**`POST /api/assistant/messages/stream`。工具事件不含参数。本地规则的草稿也先出现进度。手机原生请求仍走 JSON。
+- **验证：**`pytest -q` 207 通过，Ruff 通过。前端 `npm test` 23 通过，`npm run build` 通过。本机 Chrome 登录后发送“Remember: the stream code is lantern”，看到 `memory_save_draft`、完成、核对句和保存前检查，取消草稿后显示 Draft cancelled。没有付费 API。

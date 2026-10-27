@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Mic, MicOff, Send, Sparkles } from "lucide-react";
-import { ApiError, errorText, request, write } from "../api";
+import { ApiError, errorText, request, write, writeStream } from "../api";
+import { consumeChunk, emptyStream, progressLabel, type ToolProgress } from "../replyStream";
 import type { EventInput, Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import { VoiceAudio } from "./audio";
 import { useDraftGuard } from "../components/DraftGuard";
 import type { Task, TaskInput } from "./taskTypes";
-import { apiOrigin } from "../native";
+import { apiOrigin, isNative } from "../native";
 import { DateTime } from "luxon";
 import { ComputerJobsPanel } from "./ComputerJobsPanel";
 import { ToolActivity, type ToolCall } from "./ToolActivity";
@@ -71,6 +72,8 @@ export function AssistantPanel({
     [busy, setBusy] = useState(false),
     [error, setError] = useState<unknown>(null);
   const [reply, setReply] = useState<Reply | null>(null),
+    [liveMessage, setLiveMessage] = useState(""),
+    [progress, setProgress] = useState<ToolProgress[]>([]),
     [proposals, setProposals] = useState<Proposal[]>([]),
     [calls, setCalls] = useState<ToolCall[] | null>(null),
     [notice, setNotice] = useState("");
@@ -140,14 +143,29 @@ export function AssistantPanel({
     setBusy(true);
     setError(null);
     setNotice("");
+    setReply(null);
+    setLiveMessage("");
+    setProgress([]);
     try {
-      setReply(
-        await write<Reply>("/assistant/messages", {
-          message: text,
-          language,
-          task_id: taskId ?? null,
-        }),
-      );
+      const body = { message: text, language, task_id: taskId ?? null };
+      if (isNative) {
+        setReply(await write<Reply>("/assistant/messages", body));
+      } else {
+        let state = emptyStream();
+        let pending = "";
+        await writeStream("/assistant/messages/stream", body, (chunk) => {
+          const next = consumeChunk(state, pending, chunk);
+          state = next.state;
+          pending = next.buffer;
+          if (alive.current) {
+            setLiveMessage(state.message);
+            setProgress(state.tools);
+          }
+        });
+        if (state.error) throw new ApiError(state.error, state.status ?? 500);
+        if (!state.reply) throw new ApiError("CONNECTION_LOST");
+        if (alive.current) setReply(state.reply as Reply);
+      }
       await reload();
       window.dispatchEvent(new Event("desk:jobs"));
       setText("");
@@ -387,10 +405,20 @@ export function AssistantPanel({
               "本地规则：用“记住：一条事实”、“保存笔记：文本”或“跟进：报告”。确认后才会保存。AI语音单独连接。",
             )}
       </p>
-      {reply && (
+      {progress.length > 0 && (
+        <ol className="tool-progress" aria-live="polite">
+          {progress.map((item, index) => (
+            <li key={`${index}-${item.tool}`}>
+              <span>{item.tool}</span>
+              <span>{progressLabel(item.phase, language)}</span>
+            </li>
+          ))}
+        </ol>
+      )}
+      {(liveMessage || reply) && (
         <div className="assistant-reply" role="status">
-          <p>{reply.message}</p>
-          {reply.plan ? <p className="assistant-plan">{reply.plan}</p> : null}
+          <p>{reply?.message ?? liveMessage}</p>
+          {reply?.plan ? <p className="assistant-plan">{reply.plan}</p> : null}
         </div>
       )}
       {proposals.map((p) => {

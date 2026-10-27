@@ -38,7 +38,16 @@ class AgentLoop:
         self.attempts = attempts
         self.clock = clock or _monotonic
 
-    def run(self, *, system: str, context: dict, key: str, language: str, allow_memory: bool):
+    def run(
+        self,
+        *,
+        system: str,
+        context: dict,
+        key: str,
+        language: str,
+        allow_memory: bool,
+        on_event: Callable[[dict], None] | None = None,
+    ):
         context = dict(context)
         deadline = self.clock() + self.max_seconds
         plan = None
@@ -64,6 +73,8 @@ class AgentLoop:
             if self.clock() > deadline:
                 return finish(_notice(language, "timeout"))
             call_key = "text/" + hashlib.sha256(f"{key}/{index}".encode()).hexdigest()
+            if on_event is not None:
+                on_event({"type": "tool", "phase": "started", "tool": step.tool})
             result = execute_tool(
                 self.runtime,
                 step.tool,
@@ -74,6 +85,16 @@ class AgentLoop:
                 language=language,
                 channel="text",
             )
+            if on_event is not None:
+                on_event(
+                    {
+                        "type": "tool",
+                        "phase": "finished",
+                        "tool": step.tool,
+                        "outcome": result.get("error") or "ok",
+                        "saved": bool(result.get("saved")),
+                    }
+                )
             summary = _plan_summary(result)
             if summary:
                 plan = summary

@@ -86,6 +86,68 @@ export async function write<T>(path: string, body: unknown): Promise<T> {
     throw error;
   }
 }
+export async function writeStream(
+  path: string,
+  body: unknown,
+  onChunk: (text: string) => void,
+): Promise<void> {
+  const existing = pendingWrite();
+  if (
+    existing &&
+    (existing.path !== path || JSON.stringify(existing.body) !== JSON.stringify(body))
+  ) {
+    throw new ApiError("PENDING_WRITE");
+  }
+  const operation = existing ?? { path, body, key: crypto.randomUUID() };
+  sessionStorage.setItem(pendingKey, JSON.stringify(operation));
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), 75000);
+  try {
+    const response = await fetch("/api" + path, {
+      method: "POST",
+      credentials: "same-origin",
+      signal: controller.signal,
+      headers: {
+        "Content-Type": "application/json",
+        "X-Desk-Request": "1",
+        "X-Operation-Id": operation.key,
+      },
+      body: JSON.stringify(body),
+    });
+    if (!response.ok) {
+      let code = "REQUEST_FAILED";
+      try {
+        const payload = await response.json();
+        code = payload.error?.code ?? code;
+      } catch {
+        /* The status is enough when the body is not JSON. */
+      }
+      throw new ApiError(code, response.status);
+    }
+    if (!response.body) throw new ApiError("CONNECTION_LOST");
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      onChunk(decoder.decode(value, { stream: true }));
+    }
+    sessionStorage.removeItem(pendingKey);
+  } catch (error) {
+    if (
+      error instanceof ApiError &&
+      error.status >= 400 &&
+      error.status < 500 &&
+      error.status !== 401 &&
+      error.status !== 408
+    )
+      sessionStorage.removeItem(pendingKey);
+    if (error instanceof ApiError) throw error;
+    throw new ApiError("CONNECTION_LOST");
+  } finally {
+    clearTimeout(timer);
+  }
+}
 export async function retryPending(): Promise<unknown> {
   const op = pendingWrite();
   if (op) {
