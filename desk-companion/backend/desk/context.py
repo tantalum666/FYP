@@ -14,6 +14,12 @@ def pack_conversation(runtime, task_id=None, *, include_memory=True):
         "now": iso(now),
         "timezone": tasks["timezone"],
         "memory": runtime.memory.for_model() if include_memory else [],
+        "memory_citation": (
+            "When an answer uses one saved fact, name the day from that fact's created_at. "
+            "Do not invent a day."
+            if include_memory
+            else ""
+        ),
         "profile": runtime.profile.text() if include_memory else "",
         "tasks": tasks["tasks"][:30],
         "more_tasks": len(tasks["tasks"]) > 30,

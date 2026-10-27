@@ -248,7 +248,7 @@ class MemoryService:
         now = iso(self.store.clock())
         with self.store.connection() as conn:
             rows = conn.execute(
-                "SELECT id, version, body, updated_at, source FROM owner_memories "
+                "SELECT id, version, body, created_at, updated_at, source FROM owner_memories "
                 "WHERE state='active' AND (expires_at IS NULL OR expires_at>?) "
                 "ORDER BY updated_at DESC, id LIMIT ?",
                 (now, MAX_MODEL),

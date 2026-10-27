@@ -388,3 +388,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **完成：**`persona_bundle` 与 `job_bundle`。运行令牌不导出。非终态作业恢复为待审阅。已有行不覆盖。
 - **验证：**`uv run --no-sync pytest -q` 213 通过。`uv run --no-sync ruff check backend scripts tests` 通过。前端未改。
 - **剩余：**笔记文件字节仍在本机目录，不在 JSON 里。没有 Web Push 发送。PR #4／#5／#15／#16 仍不合并。
+
+## 2026-10-27｜记忆引用
+
+- **目标：**回答里引用已保存事实的日期，并用“忘掉那个”走既有删除草稿。
+- **完成：**`desk/recall.py`。只命中一条才记住“那个”。多条、未引用、或事实已删除时要求写出原文。配对终端得到 403。文字供应商已配置时也不为这两类话调用模型。
+- **验证：**随后补记。
+- **剩余：**语气、详略和主动程度的设置页。不依赖反省或空隙建议那两条 PR。
