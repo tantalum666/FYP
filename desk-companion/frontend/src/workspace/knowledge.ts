@@ -3,6 +3,13 @@
 export const knowledgeCopy = {
   title: ["What I know about you", "我了解的关于你的事"],
   nudgeTitle: ["Why did you nudge me", "为什么提醒我"],
+  goalsTitle: ["Goals you stated", "你说过的目标"],
+  goalsEmpty: ["No open goals.", "没有未完成的目标。"],
+  goalClose: ["Ask before closing", "关闭前先问我"],
+  goalConfirm: [
+    "Confirm before this goal is closed. It stays open until you do.",
+    "确认后才会结束。在此之前它保持未完成。",
+  ],
   correct: ["Correct", "更正"],
   forget: ["Forget", "忘掉"],
   saveCorrection: ["Save correction", "保存更正"],
@@ -57,6 +64,18 @@ export interface NudgeLine {
   summaryEn: string;
   summaryZh: string;
   canDismiss: boolean;
+}
+
+export function goalLine(goal: {
+  title: string;
+  due_at: string | null;
+  state: string;
+}) {
+  return {
+    title: goal.title,
+    open: goal.state !== "closed",
+    due: goal.due_at,
+  };
 }
 
 export function nudgeLine(nudge: {

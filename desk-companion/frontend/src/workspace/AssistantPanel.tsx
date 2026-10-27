@@ -45,6 +45,7 @@ interface Proposal {
     retire?: Array<{ body: string }>;
     reason_en?: string;
     reason_zh?: string;
+    goal?: boolean;
     change?: {
       action: string;
       scope?: string;
@@ -465,6 +466,14 @@ export function AssistantPanel({
                 <p>
                   <strong>{taskActionLabel}</strong>
                 </p>
+                {p.data.goal && (
+                  <p>
+                    {t(
+                      "This is a goal. It stays open until you confirm a close.",
+                      "这是一个目标。确认关闭之前，它保持未完成。",
+                    )}
+                  </p>
+                )}
                 <p>
                   {t("Deadline: ", "截止：")}
                   {task.due_local?.replace("T", " ") ??

@@ -216,6 +216,8 @@ class TextAssistant:
                 return json.loads(old["result"])
             turn = self.runtime.assistant.memory_turn(payload, key, allow_memory=allow_memory)
             if turn is None:
+                turn = self.runtime.goals.turn(payload, key, allow=allow_memory)
+            if turn is None:
                 turn = self.maybe_extract(payload, key, allow_memory=allow_memory)
             if turn is not None:
                 reply = turn

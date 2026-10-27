@@ -367,3 +367,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **完成：**`desk/notify.py` 三个通道：页面收件箱、Web Push 形状载荷（不联网）、设备提示音队列。测试用假通道。跟进的设备播报仍用原来的事务领取。
 - **验证：**`uv run --no-sync pytest -q` 205 通过；前端 `npm test` 20 通过，`npm run build` 通过。没有付费调用。
 - **剩余：**没有真正的 Web Push 订阅发送。目标与承诺、档案摘要、人格和作业备份在后续 PR。
+
+## 2026-10-27｜目标与承诺
+
+- **目标：**主人说出“周五前完成报告”后，伙伴跟踪、在合适时间跟进、关闭前先问，并显示在“我了解的你”。
+- **完成：**沿用事务草稿和确认。取消不写入。到期不自动完成。
+- **验证：**`uv run --no-sync pytest -q` 209 通过。前端 `npm test` 20 通过，`npm run build` 通过。
+- **剩余：**档案摘要和人格／作业备份在后续 PR。没有付费调用。

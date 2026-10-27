@@ -17,6 +17,7 @@ from .tasks import TaskService
 from .text_ai import TextAssistant
 from .jobs import JobService
 from .memory import MemoryService
+from .goals import GoalService
 from .nudges import NudgeService
 from .notify import Notifier
 from .persona import PersonaService
@@ -30,6 +31,7 @@ class Runtime:
         self.posture = PostureService(store)
         self.outputs = OutputService(store)
         self.tasks = TaskService(self)
+        self.goals = GoalService(self)
         self.memory = MemoryService(self)
         self.persona = PersonaService(self)
         self.jobs = JobService(self)
@@ -101,4 +103,5 @@ class Runtime:
         self.tasks.tick()
         self.memory.expire_due()
         self.nudges.tick()
+        self.goals.tick()
         self.jobs.expire()

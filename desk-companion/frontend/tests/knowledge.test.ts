@@ -5,6 +5,7 @@ import {
   actionsFor,
   knowledgeCopy,
   noteCopy,
+  goalLine,
   nudgeLine,
   sourceCopy,
 } from "../src/workspace/knowledge.ts";
@@ -23,6 +24,12 @@ test("the knowledge screen offers correct and forget, and explains a nudge", () 
   assert.deepEqual(actionsFor("expired", "2020-01-01T00:00:00Z"), ["forget"]);
   assert.equal(knowledgeCopy.title[0], "What I know about you");
   assert.equal(knowledgeCopy.nudgeTitle[0], "Why did you nudge me");
+  assert.equal(knowledgeCopy.goalsTitle[0], "Goals you stated");
+  assert.equal(
+    goalLine({ title: "finish the report", due_at: "2026-10-30T10:00:00+00:00", state: "open" }).open,
+    true,
+  );
+  assert.equal(goalLine({ title: "finish the report", due_at: null, state: "closed" }).open, false);
   assert.match(knowledgeCopy.forgot[0], /provider's own logs/);
   assert.deepEqual(sourceCopy("owner"), ["Saved by you", "由你保存"]);
   assert.equal(noteCopy("preference")?.[0], "You stated a preference.");
@@ -65,6 +72,7 @@ test("the memory page is the knowledge screen and extras no longer repeats nudge
   assert.match(memory, /actionsFor\(/);
   assert.match(memory, /knowledgeCopy\.title/);
   assert.match(memory, /<CheckIns/);
+  assert.match(memory, /<GoalList/);
   assert.match(checks, /knowledgeCopy\.nudgeTitle/);
   assert.doesNotMatch(extras, /<CheckIns/);
 });

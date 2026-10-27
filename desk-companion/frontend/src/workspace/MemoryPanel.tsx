@@ -5,6 +5,7 @@ import type { PendingWrite } from "../api";
 import { useDraftGuard } from "../components/DraftGuard";
 import type { Translate } from "../types";
 import { CheckIns } from "./CheckIns";
+import { GoalList } from "./GoalList";
 import {
   actionsFor,
   knowledgeCopy,
@@ -490,6 +491,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
           </ul>
         </details>
       )}
+      <GoalList t={t} />
       <CheckIns t={t} />
       {notice && <p role="status">{notice}</p>}
       {!!error && (

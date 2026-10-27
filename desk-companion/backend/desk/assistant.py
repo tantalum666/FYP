@@ -435,6 +435,12 @@ class AssistantService:
                     internal_key,
                     origin="assistant_confirmed",
                 )
+                if payload.get("goal"):
+                    self.runtime.goals.record(
+                        result["task"]["id"],
+                        payload.get("goal_title") or payload["task"]["title"],
+                        payload.get("due_at"),
+                    )
             elif row["kind"] == "task_change":
                 result = self.runtime.tasks.action(
                     payload["task_id"],
@@ -442,6 +448,8 @@ class AssistantService:
                     internal_key,
                     origin="assistant_confirmed",
                 )
+                if payload.get("change", {}).get("action") == "complete":
+                    self.runtime.goals.close_for_task(payload["task_id"])
             elif row["kind"] == "create":
                 result = self.store.create(
                     CreateEvents.model_validate(payload), internal_key, origin="assistant"
@@ -568,6 +576,9 @@ class AssistantService:
         reviewed = self.memory_turn(request, key, allow_memory=allow_memory)
         if reviewed:
             return reviewed
+        stated = self.runtime.goals.turn(request, key, allow=allow_memory)
+        if stated:
+            return stated
         text, zh = request.message.strip(), request.language == "zh"
         if match := re.match(r"^(?:save to folder|保存到文件夹)\s*[:：]\s*(.+)$", text, re.I | re.S):
             task = self.runtime.tasks.detail(request.task_id)["task"] if request.task_id else None
