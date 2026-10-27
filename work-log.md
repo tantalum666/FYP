@@ -346,3 +346,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **修复：**新深层路径的PostgreSQL socket限制改为loopback TCP；两前端Vite升级8.3.5，归档source-map-js为1.2.2。修复导航与本机凭据的链接表达。
 - **验证：**当前182后端／17前端、归档55后端、两前端类型／构建、两套Ruff通过；npm audit均零报告。隔离新建PostgreSQL，不复用旧演示库；无模型API／真实音视频／硬件或部署。完整记录见[QA](output/qa/2026-10-26-repo-cleanup/verification.md)。
 - **保留与剩余：**原主检出及最新AliceChan／统一Omni本地工作区保留；PR #4／#5／#15／#16仍待单独按当前方向审查。整理分支已通过文件／运行校验，经[PR #18](https://github.com/tantalum666/FYP/pull/18)交付；具体Git回执以整理QA和远端PR状态为准。
+
+## 2026-10-27 文字代理循环与工具调用
+
+- **目标：**让托管模型通过结构化工具调用行动。读取可以直接返回；写入、取消和停止沿用已有批准、读回和取消路径。提供方可替换，测试不联网。
+- **完成：**`capabilities.py` 登记现有工具和风险。`agent_loop.py` 限制 3 步、45 秒，并在工具执行前重试临时失败。`tool_audit.py` 记录每次调用，拥有者可在 `/api/assistant/tool-calls` 和助理面板查看。`ScriptedProvider` 与 `agent_eval.py` 覆盖提醒草稿、记忆查询、拒绝 shell，以及提供方失败后的重试。`DESK_TEXT_DAILY_CAP` 默认 40。
+- **验证：**在 `desk-companion/` 执行 `.venv/bin/pytest -q`，190 通过；`.venv/bin/ruff check backend scripts tests` 通过。`frontend` 下 `npm test` 17 通过，`npm run build` 通过。没有付费 API。记录见 [QA](output/qa/2026-10-27-agent-loop/verification.md)。
+- **剩余：**任意电脑或应用控制仍未做。真实模型效果未测。PR #4／#5／#15／#16 未合并。主动跟进调度不在本片。

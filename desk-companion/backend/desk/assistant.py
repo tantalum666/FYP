@@ -21,6 +21,7 @@ from .outputs import OutputRequest, PRESETS
 from .tasks import TaskInput, TaskChange, TaskQuery, TaskAction
 from .jobs import JobInput, JobQuery
 from .memory import MemoryDeleteDraft, MemoryReplaceDraft, MemorySaveDraft
+from .tool_audit import ToolAudit, channel_for
 
 
 class AssistantMessage(StrictModel):
@@ -161,6 +162,7 @@ class AssistantService:
             conn.execute(
                 "CREATE TABLE IF NOT EXISTS assistant_proposals(id TEXT PRIMARY KEY, kind TEXT NOT NULL, data TEXT NOT NULL, state TEXT NOT NULL, expires_at TEXT NOT NULL, created_at TEXT NOT NULL, result TEXT)"
             )
+        self.audit = ToolAudit(self.store)
 
     def proposals(self, *, allow_memory=True):
         with self.store.connection() as conn:
@@ -216,6 +218,35 @@ class AssistantService:
         )
 
     def tool(self, name, arguments, call_key, *, allow_memory=True):
+        """Execute one already-routed call and record it. Confirmation is not a tool."""
+        try:
+            result = self._execute_tool(name, arguments, call_key, allow_memory=allow_memory)
+        except DomainError as error:
+            self._record_tool(name, arguments, call_key, error.code, {"error": error.code, "saved": False})
+            raise
+        except Exception:
+            self._record_tool(
+                name, arguments, call_key, "TOOL_FAILED", {"error": "TOOL_FAILED", "saved": False}
+            )
+            raise
+        self._record_tool(name, arguments, call_key, "ok", result)
+        return result
+
+    def _record_tool(self, name, arguments, call_key, outcome, result):
+        from .capabilities import CAPABILITIES
+
+        risk = CAPABILITIES[name].risk if isinstance(name, str) and name in CAPABILITIES else "refused"
+        self.audit.record(
+            name=name,
+            arguments=arguments,
+            call_key=call_key,
+            channel=channel_for(call_key),
+            risk=risk,
+            outcome=outcome,
+            result=result,
+        )
+
+    def _execute_tool(self, name, arguments, call_key, *, allow_memory=True):
         try:
             if name.startswith("memory_") and not allow_memory:
                 raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)

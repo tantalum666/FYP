@@ -17,13 +17,18 @@ from zoneinfo import ZoneInfo
 import httpx
 from pydantic import Field, ValidationError
 
+from .agent_loop import AgentLoop
 from .calendar import iso
 from .context import pack_conversation
+from .model_provider import HostedTextProvider
 from .persona import followup_system, text_system
 from .text_providers import text_adapter
 from .workspace_data import is_quiet
 from .schemas import StrictModel
 from .store import DomainError, encode
+
+DEFAULT_DAILY_CAP = 40
+MAX_DAILY_CAP = 500
 
 
 class TextPlan(StrictModel):
@@ -129,9 +134,28 @@ class TextAssistant:
             "background": self.config.valid() and self.config.background,
         }
 
+    def daily_cap(self) -> int:
+        raw = os.environ.get("DESK_TEXT_DAILY_CAP", str(DEFAULT_DAILY_CAP))
+        if not raw.isdigit():
+            return DEFAULT_DAILY_CAP
+        value = int(raw)
+        if not 1 <= value <= MAX_DAILY_CAP:
+            return DEFAULT_DAILY_CAP
+        return value
+
+    def conversation_calls_today(self) -> int:
+        today = iso(self.store.clock())[:10]
+        with self.store.connection() as conn:
+            return conn.execute(
+                "SELECT COUNT(*) FROM text_ai_usage WHERE purpose='conversation' AND at>=?",
+                (today,),
+            ).fetchone()[0]
+
     def generate(self, system, context, schema, purpose):
         if not self.config.valid():
             raise DomainError("TEXT_AI_NOT_CONFIGURED", 503)
+        if purpose == "conversation" and self.conversation_calls_today() >= self.daily_cap():
+            raise DomainError("TEXT_AI_CAP", 429)
         prompt = (
             system
             + "\nReturn only JSON matching this schema: "
@@ -206,33 +230,13 @@ class TextAssistant:
                 ],
             }
             system = text_system(self.runtime.persona.current()["body"])
-            reply = None
-            for index in range(3):
-                plan = self.generate(system, context, TextPlan, "conversation")
-                if plan.tool == "none":
-                    reply = {"mode": "ai", "kind": "reply", "message": plan.message}
-                    break
-                result = self.runtime.assistant.tool(
-                    plan.tool,
-                    plan.arguments,
-                    "text/" + hashlib.sha256((key + "/" + str(index)).encode()).hexdigest(),
-                    allow_memory=allow_memory,
-                )
-                if "proposal" in result:
-                    reply = {"mode": "ai", "kind": "draft", "message": plan.message, **result}
-                    break
-                if "job" in result:
-                    reply = {"mode": "ai", "kind": "job", "message": plan.message, **result}
-                    break
-                context["last_tool_result"] = {"tool": plan.tool, "result": result}
-            if reply is None:
-                reply = {
-                    "mode": "ai",
-                    "kind": "clarify",
-                    "message": "请明确要跟进哪件事。"
-                    if payload.language == "zh"
-                    else "Please identify the task you want to follow up.",
-                }
+            reply = AgentLoop(self.runtime, HostedTextProvider(self.generate)).run(
+                system=system,
+                context=context,
+                key=key,
+                language=payload.language,
+                allow_memory=allow_memory,
+            )
             with self.store.connection(write=True) as conn:
                 conn.execute(
                     "INSERT INTO assistant_replies VALUES(?,?,?)", (key, fingerprint, encode(reply))

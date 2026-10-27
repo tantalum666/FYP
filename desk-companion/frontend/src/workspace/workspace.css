@@ -304,6 +304,39 @@
   line-height: 1.7;
   padding: 18px 0;
 }
+.tool-activity {
+  margin-top: 8px;
+}
+.tool-activity h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+.tool-audit {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tool-audit li {
+  border: 1px solid var(--device-line, #dde3eb);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+.tool-audit-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: baseline;
+  font-size: 13px;
+}
+.tool-audit pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 8px 0 0;
+  font-size: 12px;
+}
 .assistant-proposal {
   padding: 22px;
   border: 1px solid var(--device-line, #dde3eb);

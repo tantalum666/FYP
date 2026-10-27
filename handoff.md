@@ -1,6 +1,22 @@
 # Group 2 Current Handoff
 
-更新：2026-10-26。当前任务是仓库归档与组员PR整合。**硬件PR #17已审查修订并合并；Senplate集中归档与运行验证已完成。**Git交付：[硬件PR #17](https://github.com/tantalum666/FYP/pull/17)／[整理PR #18](https://github.com/tantalum666/FYP/pull/18)。
+更新：2026-10-27。本片只做文字代理循环和工具调用。下面 2026-10-26 的归档交接仍然有效，不是本片的下一步。
+
+## 本片状态
+
+- 文字回合走 `desk/agent_loop.py`：工具注册表、参数校验、最多 3 步／45 秒、`read`／`draft`／`cancel`／`stop`。草稿和作业准备仍要拥有者批准。取消和软件停止沿用原路径。未知工具直接拒绝。
+- 每次工具调用写入 `tool_calls`。拥有者在助理面板和 `GET /api/assistant/tool-calls` 查看。配对屏 403。
+- Qwen／Gemini 仍只经 `text_providers.py`。`DESK_TEXT_DAILY_CAP` 默认 40。离线场景用 `ScriptedProvider`，不联网。契约见 [agent-loop.md](desk-companion/docs/agent-loop.md)。
+- 验证：`pytest -q` 190 通过，Ruff 通过，前端 `npm test` 17 通过，`npm run build` 通过。没有付费 API。
+- 未做：任意电脑或应用控制；合并 PR #4／#5／#15／#16；真实模型试听。
+
+## 本片下一步
+
+Codex 审查并合并本 PR。记忆／主动行为和质量／CI 若同时改 `handoff.md`、`decision-log.md`、`work-log.md`，合并时保留两边的条目，不要互相覆盖功能代码。
+
+## 2026-10-26 仓库归档交接
+
+当前任务是仓库归档与组员PR整合。**硬件PR #17已审查修订并合并；Senplate集中归档与运行验证已完成。**Git交付：[硬件PR #17](https://github.com/tantalum666/FYP/pull/17)／[整理PR #18](https://github.com/tantalum666/FYP/pull/18)。
 
 ## 当前状态与证据
 
@@ -10,6 +26,6 @@
 - 最新AliceChan／统一Omni／语音计时／Linux工作保存在软件本地工作区，未被本次归档覆盖或批量上传；main的实现边界见[product](product.md)。Pi继续暂停，旧API测试预算已关闭。
 - 其余开放PR #4、#5、#15、#16是拥有者较早分支／草稿；#4冲突，#5依赖#4，#16依赖#15且包含已否决人物。只核对依赖与状态，未声称完成它们的独立代码审查，也未盲合旧美术。
 
-## 一个下一步
+## 2026-10-26 的下一步（不是本片）
 
-**单独整理并审查最新本地AliceChan／Omni软件增量。**保留当前未发布成果，按当前角色和统一模型方向拆出可审阅提交，不直接合并旧A1造型栈。真实人体／声学与目标Pi验收仍是独立后续事项。
+单独整理并审查最新本地AliceChan／Omni软件增量。保留当前未发布成果，按当前角色和统一模型方向拆出可审阅提交，不直接合并旧A1造型栈。真实人体／声学与目标Pi验收仍是独立后续事项。

@@ -42,6 +42,27 @@ class ToolDispatcher:
         except asyncio.QueueFull:
             raise DomainError("TOOL_LIMIT_REACHED", 429) from None
 
+    def _audit_reject(self, event, code):
+        call_id = event.get("id")
+        if isinstance(call_id, str) and 1 <= len(call_id) <= 150:
+            call_key = "voice/" + hashlib.sha256((self.session_id + call_id).encode()).hexdigest()
+        else:
+            call_key = "voice/rejected"
+        arguments = event.get("arguments")
+        name = event.get("name")
+        from .capabilities import CAPABILITIES
+
+        risk = CAPABILITIES[name].risk if isinstance(name, str) and name in CAPABILITIES else "refused"
+        self.runtime.assistant.audit.record(
+            name=name,
+            arguments=arguments if isinstance(arguments, dict) else {},
+            call_key=call_key,
+            channel="voice",
+            risk=risk,
+            outcome=code,
+            result={"error": code, "saved": False},
+        )
+
     def submit(self, event):
         if self.closed:
             return
@@ -50,6 +71,7 @@ class ToolDispatcher:
         event = {**event, "_dispatch_generation": self.generation}
         call_id = event.get("id")
         if not isinstance(call_id, str) or not 1 <= len(call_id) <= 150:
+            self._audit_reject(event, "TOOL_ARGUMENTS_INVALID")
             raise DomainError("TOOL_ARGUMENTS_INVALID", 422)
         arguments = event.get("arguments", {})
         try:
@@ -57,6 +79,7 @@ class ToolDispatcher:
             if not isinstance(arguments, dict) or len(encode(arguments)) > 20000:
                 raise ValueError()
         except (TypeError, ValueError):
+            self._audit_reject(event, "TOOL_ARGUMENTS_INVALID")
             self._enqueue(event, {"error": "TOOL_ARGUMENTS_INVALID", "saved": False})
             return
         event = {**event, "arguments": arguments}
@@ -64,6 +87,7 @@ class ToolDispatcher:
         old = self.calls.get(call_id)
         if old:
             if old.signature != signature:
+                self._audit_reject(event, "TOOL_CALL_CONFLICT")
                 self._enqueue(event, {"error": "TOOL_CALL_CONFLICT", "saved": False})
             elif old.result is not None and old.delivered:
                 old.delivered = False
@@ -86,15 +110,18 @@ class ToolDispatcher:
                 None,
             )
             if event["name"] != "stop_physical_outputs":
+                self._audit_reject(event, "TOOL_LIMIT_REACHED")
                 self._enqueue(event, {"error": "TOOL_LIMIT_REACHED", "saved": False})
                 return
             if completed_stop is not None:
                 del self.calls[completed_stop]
             elif len(self.calls) >= 33:
+                self._audit_reject(event, "TOOLS_BUSY")
                 self._enqueue(event, {"error": "TOOLS_BUSY", "saved": False})
                 return
         pending_limit = 9 if event["name"] == "stop_physical_outputs" else 8
         if sum(call.result is None for call in self.calls.values()) >= pending_limit:
+            self._audit_reject(event, "TOOLS_BUSY")
             self._enqueue(event, {"error": "TOOLS_BUSY", "saved": False})
             return
         call = Invocation(event, signature)
@@ -115,6 +142,7 @@ class ToolDispatcher:
     def _invoke(self, call):
         if call.cancelled.is_set():
             result = {"error": "TOOL_CANCELLED", "saved": False}
+            self._audit_reject(call.event, "TOOL_CANCELLED")
         else:
             try:
                 if call.event["name"].startswith("memory_") and not self.allow_memory:

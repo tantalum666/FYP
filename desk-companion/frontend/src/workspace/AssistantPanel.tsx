@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Mic, MicOff, Send, Sparkles } from "lucide-react";
-import { errorText, request, write } from "../api";
+import { ApiError, errorText, request, write } from "../api";
 import type { EventInput, Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import { VoiceAudio } from "./audio";
@@ -9,6 +9,7 @@ import type { Task, TaskInput } from "./taskTypes";
 import { apiOrigin } from "../native";
 import { DateTime } from "luxon";
 import { ComputerJobsPanel } from "./ComputerJobsPanel";
+import { ToolActivity, type ToolCall } from "./ToolActivity";
 
 interface Proposal {
   id: string;
@@ -70,6 +71,7 @@ export function AssistantPanel({
     [error, setError] = useState<unknown>(null);
   const [reply, setReply] = useState<Reply | null>(null),
     [proposals, setProposals] = useState<Proposal[]>([]),
+    [calls, setCalls] = useState<ToolCall[] | null>(null),
     [notice, setNotice] = useState("");
   const [voiceState, setVoiceState] = useState("idle"),
     [transcript, setTranscript] = useState("");
@@ -78,6 +80,7 @@ export function AssistantPanel({
   const speechText = useRef({ user: "", assistant: "" });
   const knownProposals = useRef<Proposal[]>([]);
   const language = t("en", "zh");
+  const ownerView = data?.principal.kind === "owner";
   useDraftGuard(!!text.trim(), busy);
   const reload = useCallback(async () => {
     try {
@@ -104,7 +107,23 @@ export function AssistantPanel({
     } catch (e) {
       if (alive.current) setError(e);
     }
-  }, [language]);
+    if (!ownerView) {
+      if (alive.current) setCalls(null);
+      return;
+    }
+    try {
+      const audit = await request<{ calls: ToolCall[] }>(
+        "/assistant/tool-calls",
+      );
+      if (alive.current) setCalls(audit.calls);
+    } catch (e) {
+      if (e instanceof ApiError && e.status === 403) {
+        if (alive.current) setCalls(null);
+        return;
+      }
+      if (alive.current) setError(e);
+    }
+  }, [language, ownerView]);
   useEffect(() => {
     alive.current = true;
     void reload();
@@ -355,6 +374,7 @@ export function AssistantPanel({
           )}
         </div>
       </form>
+      <ToolActivity t={t} calls={calls} />
       <p className="workspace-hint">
         {data?.text_ai?.configured
           ? t(
