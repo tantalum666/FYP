@@ -20,7 +20,7 @@ interface Props {
   now: DateTime;
   data: Snapshot | null;
   language: Language;
-  state: "loading" | "ready" | "offline" | "locked";
+  state: "loading" | "ready" | "offline" | "error" | "locked" | "session-expired";
   pending: boolean;
   onManage: () => void;
   onEvent: (event: Occurrence) => void;
@@ -89,12 +89,17 @@ export function DisplayFace({
   const upcoming = upcomingEvents(events, now);
   const lead = upcoming[0];
   const due = data?.reminders.filter((r) => r.status === "due") ?? [];
+  const signedOut = state === "locked" || state === "session-expired";
   const unavailable =
-    state === "locked"
-      ? t("Calendar locked", "日历已锁定")
-      : state === "loading"
-        ? t("Connecting calendar…", "正在连接日历…")
-        : t("Calendar unavailable", "暂时无法读取日历");
+    state === "session-expired"
+      ? t("Your session expired", "会话已过期")
+      : state === "locked"
+        ? t("Calendar locked", "日历已锁定")
+        : state === "loading"
+          ? t("Connecting calendar…", "正在连接日历…")
+          : state === "error"
+            ? t("The desk could not load this calendar", "桌面未能读取这份日历")
+            : t("Calendar unavailable", "暂时无法读取日历");
   return (
     <main
       className="display-face"
@@ -241,16 +246,20 @@ export function DisplayFace({
               </div>
             )
           ) : (
-            <div className="display-empty">
+            <div className="display-empty" role="status">
               <span className="display-section-label">
                 {t("Your calendar", "你的日历")}
               </span>
               <h2>{unavailable}</h2>
-              <button onClick={state === "locked" ? onManage : onRetry}>
-                {state === "locked" ? <LockKeyhole /> : <RefreshCw />}
-                {state === "locked"
-                  ? t("Sign in", "登录")
-                  : t("Reconnect", "重新连接")}
+              <button onClick={signedOut ? onManage : onRetry}>
+                {signedOut ? <LockKeyhole /> : <RefreshCw />}
+                {state === "session-expired"
+                  ? t("Sign in again", "重新登录")
+                  : state === "locked"
+                    ? t("Sign in", "登录")
+                    : state === "error"
+                      ? t("Retry", "重试")
+                      : t("Reconnect", "重新连接")}
               </button>
             </div>
           )}
@@ -312,7 +321,7 @@ export function DisplayFace({
             </button>
           )}
         <div className="display-status">
-          <CameraOff />
+          <CameraOff aria-hidden="true" />
           <div>
             <span>
               {workspace.offline
@@ -325,10 +334,27 @@ export function DisplayFace({
             {data?.has_samples && (
               <small>{t("Example calendar", "含示例日程")}</small>
             )}
-            {state === "offline" && (
-              <button onClick={onRetry}>
-                <WifiOff size={16} />
-                {t("Offline", "已离线")}
+            {(state === "offline" || state === "error" || state === "session-expired") && (
+              <button
+                onClick={state === "session-expired" ? onManage : onRetry}
+                aria-label={
+                  state === "session-expired"
+                    ? t("Session expired. Sign in again.", "会话已过期。请重新登录。")
+                    : state === "error"
+                      ? t("Desk error. Retry.", "桌面返回错误。重试。")
+                      : t("Offline. Reconnect.", "已离线。重新连接。")
+                }
+              >
+                {state === "session-expired" ? (
+                  <LockKeyhole size={16} aria-hidden="true" />
+                ) : (
+                  <WifiOff size={16} aria-hidden="true" />
+                )}
+                {state === "session-expired"
+                  ? t("Session expired", "会话已过期")
+                  : state === "error"
+                    ? t("Desk error", "桌面返回错误")
+                    : t("Offline", "已离线")}
                 {data &&
                   ` · ${inZone(data.server_time, now.zoneName!).toFormat("HH:mm")}`}
               </button>

@@ -58,22 +58,33 @@ import { ConnectionsPanel, PairDeviceForm } from "./workspace/ConnectionsPanel";
 import type { EditorState } from "./components/Dialogs";
 import { DeviceView, RecordsView, TodayView } from "./components/Views";
 import { isNative } from "./native";
+import { classifyFailure } from "./surfaceStatus";
+import {
+  failureNotice,
+  loadingNotice,
+  offlineNotice,
+  sessionExpiredNotice,
+} from "./surfaceNotice";
 
 function LoginView({
   t,
   language,
   setLanguage,
   onLogin,
+  expired,
+  startupError,
 }: {
   t: Translate;
   language: Language;
   setLanguage: (l: Language) => void;
   onLogin: (s: Session) => void;
+  expired: boolean;
+  startupError: unknown;
 }) {
   const [username, setUsername] = useState("owner"),
     [password, setPassword] = useState(""),
     [busy, setBusy] = useState(false),
-    [error, setError] = useState<unknown>(null);
+    [error, setError] = useState<unknown>(startupError);
   const [pairing, setPairing] = useState(false);
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -105,7 +116,7 @@ function LoginView({
         </select>
       </div>
       <form className="login-form" onSubmit={submit}>
-        <CalendarDays size={34} strokeWidth={1.5} />
+        <CalendarDays size={34} strokeWidth={1.5} aria-hidden="true" />
         <h1>{t("Your day starts here.", "从容安排每一天。")}</h1>
         <p>
           {t(
@@ -113,11 +124,20 @@ function LoginView({
             "登录你的本地桌面工作空间。",
           )}
         </p>
+        {expired &&
+          sessionExpiredNotice(
+            t(
+              "Your owner session expired. Sign in again.",
+              "拥有者会话已过期，请重新登录。",
+            ),
+          )}
         <label className="field">
           {t("Username", "账号")}
           <input
             autoComplete="username"
             required
+            aria-invalid={!!error}
+            aria-describedby={error ? "owner-login-error" : undefined}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -128,16 +148,18 @@ function LoginView({
             type="password"
             autoComplete="current-password"
             required
+            aria-invalid={!!error}
+            aria-describedby={error ? "owner-login-error" : undefined}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
         {!!error && (
-          <p className="error-message" role="alert">
+          <p id="owner-login-error" className="error-message" role="alert">
             {errorText(error, t)}
           </p>
         )}
-        <button className="primary" disabled={busy}>
+        <button className="primary" disabled={busy} aria-busy={busy}>
           {busy ? t("Signing in…", "登录中…") : t("Sign in", "登录")}
         </button>
       </form>
@@ -227,7 +249,10 @@ export function App() {
     [showReminders, setShowReminders] = useState(false);
   const [filters, setFilters] = useState({ personal: true, study: true });
   const [error, setError] = useState<unknown>(null),
+    [startupError, setStartupError] = useState<unknown>(null),
+    [sessionExpired, setSessionExpired] = useState(false),
     [recovering, setRecovering] = useState(false);
+  const hadSession = useRef(false);
   const currentRevision = useRef(0);
   const needsRefresh = useRef(false);
   const [loadedRange, setLoadedRange] = useState("");
@@ -284,17 +309,33 @@ export function App() {
     const timer = setInterval(() => setNow(DateTime.now()), 15000);
     return () => clearInterval(timer);
   }, []);
+  function failOwnerRequest(e: unknown) {
+    const kind = classifyFailure(e, hadSession.current);
+    if (kind === "session-expired") {
+      setSessionExpired(true);
+      setSession(null);
+      return;
+    }
+    if (kind === "error") {
+      setError(e);
+      setConnection("online");
+      return;
+    }
+    setConnection("offline");
+  }
   useEffect(() => {
     let alive = true;
     request<Session>("/session")
       .then((s) => {
-        if (alive) setSession(s);
+        if (!alive) return;
+        hadSession.current = true;
+        setSession(s);
       })
       .catch((e) => {
-        if (alive) {
-          setSession(null);
-          if (!(e instanceof ApiError && e.status === 401)) setError(e);
-        }
+        if (!alive) return;
+        setSession(null);
+        if (e instanceof ApiError && e.status === 401) return;
+        setStartupError(e);
       });
     return () => {
       alive = false;
@@ -318,9 +359,7 @@ export function App() {
       .catch((e) => {
         if (active) {
           needsRefresh.current = true;
-          setConnection("offline");
-          if (e instanceof ApiError && e.status === 401) setSession(null);
-          else if (e instanceof ApiError && e.status) setError(e);
+          failOwnerRequest(e);
         }
       });
     return () => {
@@ -346,8 +385,7 @@ export function App() {
       } catch (e) {
         if (active) {
           needsRefresh.current = true;
-          setConnection("offline");
-          if (e instanceof ApiError && e.status === 401) setSession(null);
+          failOwnerRequest(e);
         }
       } finally {
         working = false;
@@ -493,11 +531,9 @@ export function App() {
   }
 
   if (session === undefined)
-    return (
-      <div className="app-loading">
-        <LoaderCircle className="spinner" />
-        <span>{t("Opening your workspace…", "正在打开工作空间…")}</span>
-      </div>
+    return loadingNotice(
+      t("Opening your workspace…", "正在打开工作空间…"),
+      <LoaderCircle className="spinner" aria-hidden="true" />,
     );
   if (session === null)
     return (
@@ -505,7 +541,12 @@ export function App() {
         t={t}
         language={language}
         setLanguage={setLanguage}
+        expired={sessionExpired}
+        startupError={startupError}
         onLogin={(s) => {
+          hadSession.current = true;
+          setSessionExpired(false);
+          setStartupError(null);
           setSession(s);
           setError(null);
           refresh();
@@ -630,18 +671,16 @@ export function App() {
           <Bell size={19} />
           {dueCount > 0 && <span>{dueCount}</span>}
         </button>
-        {connection === "offline" && (
-          <div className="connection-banner" role="status">
-            {t(
+        {connection === "offline" &&
+          offlineNotice(
+            t(
               "Offline. Showing your last loaded calendar.",
               "已离线，当前显示上次读取的日历。",
-            )}
-            <button onClick={refresh}>
-              <RefreshCw size={14} />
-              {t("Reconnect", "重新连接")}
-            </button>
-          </div>
-        )}
+            ),
+            t("Reconnect", "重新连接"),
+            refresh,
+            <RefreshCw size={14} aria-hidden="true" />,
+          )}
         {pendingWrite() && !editor && (
           <div className="connection-banner pending" role="status">
             {t("A save is awaiting confirmation.", "有一项保存等待确认。")}
@@ -650,24 +689,15 @@ export function App() {
             </button>
           </div>
         )}
-        {!!error && (
-          <div className="global-error" role="alert">
-            {errorText(error, t)}
-            <button onClick={() => setError(null)}>
-              {t("Dismiss", "关闭")}
-            </button>
-          </div>
-        )}
+        {!!error &&
+          failureNotice(errorText(error, t), t("Dismiss", "关闭"), () =>
+            setError(null),
+          )}
         {!visible ? (
-          <div className="app-loading">
-            <LoaderCircle className="spinner" />
-            <span>{t("Loading your calendar…", "正在读取日历…")}</span>
-            {connection === "offline" && (
-              <button className="secondary" onClick={refresh}>
-                {t("Retry", "重试")}
-              </button>
-            )}
-          </div>
+          loadingNotice(
+            t("Loading your calendar…", "正在读取日历…"),
+            <LoaderCircle className="spinner" aria-hidden="true" />,
+          )
         ) : (
           <>
             {page === "calendar" && (
