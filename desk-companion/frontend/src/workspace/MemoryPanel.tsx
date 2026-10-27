@@ -6,6 +6,7 @@ import { useDraftGuard } from "../components/DraftGuard";
 import type { Translate } from "../types";
 import { CheckIns } from "./CheckIns";
 import { GoalList } from "./GoalList";
+import { ProfileSummary } from "./ProfileSummary";
 import {
   actionsFor,
   knowledgeCopy,
@@ -491,6 +492,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
           </ul>
         </details>
       )}
+      <ProfileSummary t={t} />
       <GoalList t={t} />
       <CheckIns t={t} />
       {notice && <p role="status">{notice}</p>}

@@ -374,3 +374,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **完成：**沿用事务草稿和确认。取消不写入。到期不自动完成。
 - **验证：**`uv run --no-sync pytest -q` 209 通过。前端 `npm test` 20 通过，`npm run build` 通过。
 - **剩余：**档案摘要和人格／作业备份在后续 PR。没有付费调用。
+
+## 2026-10-27｜关系档案
+
+- **目标：**用已确认记忆整理一段有长度上限的档案，放进提示，并给离线场景。
+- **完成：**`desk/profile.py` 按身份、偏好、人物、日常、目标排序，800 字封顶。移出档案不删除记忆。场景在 `evals/profile_continuity.json`。
+- **验证：**见本轮完整 `pytest` 与前端构建。
+- **剩余：**人格和电脑作业仍不在业务备份里。

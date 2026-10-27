@@ -21,6 +21,7 @@ from .goals import GoalService
 from .nudges import NudgeService
 from .notify import Notifier
 from .persona import PersonaService
+from .profile import ProfileService
 
 
 class Runtime:
@@ -33,6 +34,7 @@ class Runtime:
         self.tasks = TaskService(self)
         self.goals = GoalService(self)
         self.memory = MemoryService(self)
+        self.profile = ProfileService(self)
         self.persona = PersonaService(self)
         self.jobs = JobService(self)
         self.worker_health = {}
