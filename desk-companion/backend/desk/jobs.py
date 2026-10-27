@@ -301,7 +301,7 @@ class JobService:
                 request.update(executor=self.executor.identity, scope=self.executor.scope)
                 if payload.action == "verify_note":
                     self._adopt_source(conn, payload.source_job_id, request, "save_note")
-            else:
+            elif payload.action in FOLDER_ACTIONS:
                 cfg = self.folder_config(conn)
                 if not cfg:
                     raise DomainError("FOLDER_NOT_CONFIGURED", 409)
@@ -313,6 +313,10 @@ class JobService:
                 )
                 if payload.action == "verify_folder_file":
                     self._adopt_source(conn, payload.source_job_id, request, "save_folder_file")
+            else:
+                # JobInput's literal is the public contract. Anything else must not
+                # fall through into the folder executor.
+                raise DomainError("COMPUTER_ACTION_DENIED", 403)
             fingerprint = hashlib.sha256(encode(request).encode()).hexdigest()
             now = iso(self.store.clock())
             conn.execute(

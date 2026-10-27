@@ -74,6 +74,14 @@ def open_real_directory(root: Path, *, create: bool) -> int:
         raise ExecutionRejected("COMPUTER_SCOPE_UNAVAILABLE", 409) from None
 
 
+def artifact_filename(job) -> str:
+    """The only permitted name is the generated job id plus .txt."""
+    artifact = job["artifact_id"]
+    if not isinstance(artifact, str) or not re.fullmatch(r"[a-f0-9]{32}", artifact):
+        raise ExecutionRejected("COMPUTER_TARGET_DENIED", 403)
+    return artifact + ".txt"
+
+
 def exclusive_write(directory: int, filename: str, body: bytes) -> None:
     """Create a new regular file. An existing name is left untouched."""
     try:
@@ -181,15 +189,8 @@ class LocalNotesExecutor:
         # never a model-provided path.
         return open_real_directory(self.root, create=create)
 
-    @staticmethod
-    def filename(job):
-        artifact = job["artifact_id"]
-        if not isinstance(artifact, str) or not re.fullmatch(r"[a-f0-9]{32}", artifact):
-            raise ExecutionRejected("COMPUTER_TARGET_DENIED", 403)
-        return artifact + ".txt"
-
     def execute(self, job, checkpoint):
-        filename = self.filename(job)
+        filename = artifact_filename(job)
         if job["action"] not in {"save_note", "verify_note"}:
             raise ExecutionRejected("COMPUTER_ACTION_DENIED", 403)
         body = job["content"].encode("utf-8")
@@ -205,7 +206,7 @@ class LocalNotesExecutor:
             os.close(directory)
 
     def verify(self, job):
-        filename = self.filename(job)
+        filename = artifact_filename(job)
         directory = self._directory()
         try:
             return read_artifact(
@@ -267,7 +268,7 @@ class FolderDropExecutor:
         return root
 
     def execute(self, job, checkpoint):
-        filename = LocalNotesExecutor.filename(job)
+        filename = artifact_filename(job)
         root = self._bound_root(job)
         body = job["content"].encode("utf-8")
         if len(body) > MAX_BYTES:
@@ -282,7 +283,7 @@ class FolderDropExecutor:
             os.close(directory)
 
     def verify(self, job):
-        filename = LocalNotesExecutor.filename(job)
+        filename = artifact_filename(job)
         root = self._bound_root(job)
         directory = open_owner_directory(root)
         try:
