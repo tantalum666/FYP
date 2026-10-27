@@ -31,4 +31,4 @@ Archive, `output/qa/` snapshots, `.git`, and dependency trees were excluded. Har
 
 ## Checks
 
-See [verification.md](verification.md). Hardware research, `archive/`, and PRs #4 / #5 / #15 / #16 were not modified.
+See [verification.md](verification.md). The follow-up on this branch re-read the memory, backup, voice-session, and knowledge-screen code it changed. Hardware research, `archive/`, and PRs #4 / #5 / #15 / #16 were not modified. Full backend pytest, Ruff, frontend tests, and the frontend build were run after that follow-up.

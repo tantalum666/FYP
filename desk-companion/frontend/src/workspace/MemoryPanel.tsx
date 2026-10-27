@@ -4,6 +4,13 @@ import { ApiError, errorText, request, write } from "../api";
 import type { PendingWrite } from "../api";
 import { useDraftGuard } from "../components/DraftGuard";
 import type { Translate } from "../types";
+import { CheckIns } from "./CheckIns";
+import {
+  actionsFor,
+  knowledgeCopy,
+  noteCopy,
+  sourceCopy,
+} from "./knowledge";
 import { useWorkspace } from "./WorkspaceContext";
 
 interface MemoryFact {
@@ -38,20 +45,13 @@ interface ReviewDraft {
 }
 
 function sourceLabel(source: string, t: Translate) {
-  if (source === "owner") return t("Saved by you", "由你保存");
-  if (source === "conversation")
-    return t("From a message you confirmed", "来自你确认的消息");
-  if (source === "assistant_confirmed")
-    return t("From a draft you confirmed", "来自你确认的草稿");
-  return source;
+  const [en, zh] = sourceCopy(source);
+  return t(en, zh);
 }
 
 function noteLabel(note: string, t: Translate) {
-  if (!note) return "";
-  if (note === "explicit") return t("You asked to remember this.", "你要求记住这一点。");
-  if (note === "preference") return t("You stated a preference.", "你说了一项偏好。");
-  if (note === "identity") return t("You stated your name.", "你说了自己的名字。");
-  return note;
+  const copy = noteCopy(note);
+  return copy ? t(copy[0], copy[1]) : "";
 }
 
 export function MemoryPanel({ t }: { t: Translate }) {
@@ -219,12 +219,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
         expected_version: fact.version,
       });
       if (editing?.id === fact.id) setEditing(null);
-      setNotice(
-        t(
-          "Memory deleted. The assistant will not see it again.",
-          "记忆已删除，助理之后不会再看到它。",
-        ),
-      );
+      setNotice(t(knowledgeCopy.forgot[0], knowledgeCopy.forgot[1]));
       await reload();
     } catch (reason) {
       setError(reason);
@@ -250,7 +245,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
       <div className="workspace-state">
         <Brain />
         <div>
-          <h2>{t("What I know about you", "我了解的关于你的事")}</h2>
+          <h2>{t(knowledgeCopy.title[0], knowledgeCopy.title[1])}</h2>
           <p className="workspace-hint">
             {t(
               "Facts you save here are sent with later assistant requests. The assistant can only propose a change; you confirm it. Forgetting a fact removes it from future requests. The same wording is kept once.",
@@ -291,7 +286,9 @@ export function MemoryPanel({ t }: { t: Translate }) {
         </div>
       </form>
       <ul className="calibration-steps">
-        {facts.map((fact) => (
+        {facts.map((fact) => {
+          const actions = actionsFor("active", fact.expires_at);
+          return (
           <li key={fact.id}>
             <span>{fact.version}</span>
             {editing?.id === fact.id ? (
@@ -334,7 +331,10 @@ export function MemoryPanel({ t }: { t: Translate }) {
                     disabled={busy}
                     onClick={() => void saveEdit()}
                   >
-                    {t("Save correction", "保存更正")}
+                    {t(
+                      knowledgeCopy.saveCorrection[0],
+                      knowledgeCopy.saveCorrection[1],
+                    )}
                   </button>
                   <button
                     className="secondary"
@@ -347,45 +347,63 @@ export function MemoryPanel({ t }: { t: Translate }) {
                 </>
               ) : (
                 <>
-                  <button
-                    className="secondary"
-                    type="button"
-                    disabled={busy}
-                    onClick={() =>
-                      setEditing({
-                        id: fact.id,
-                        body: fact.body,
-                        version: fact.version,
-                      })
-                    }
-                  >
-                    {t("Correct", "更正")}
-                  </button>
-                  <button
-                    className="secondary"
-                    type="button"
-                    disabled={busy}
-                    onClick={() => void remove(fact)}
-                  >
-                    {t("Forget", "忘掉")}
-                  </button>
-                  <button
-                    className="secondary"
-                    type="button"
-                    disabled={busy}
-                    onClick={() => void expire(fact, fact.expires_at ? null : 7)}
-                  >
-                    {fact.expires_at
-                      ? t("Keep without expiry", "取消到期")
-                      : t("Expire in 7 days", "7天后到期")}
-                  </button>
+                  {actions.includes("correct") && (
+                    <button
+                      className="secondary"
+                      type="button"
+                      disabled={busy}
+                      onClick={() =>
+                        setEditing({
+                          id: fact.id,
+                          body: fact.body,
+                          version: fact.version,
+                        })
+                      }
+                    >
+                      {t(knowledgeCopy.correct[0], knowledgeCopy.correct[1])}
+                    </button>
+                  )}
+                  {actions.includes("forget") && (
+                    <button
+                      className="secondary"
+                      type="button"
+                      disabled={busy}
+                      onClick={() => void remove(fact)}
+                    >
+                      {t(knowledgeCopy.forget[0], knowledgeCopy.forget[1])}
+                    </button>
+                  )}
+                  {(actions.includes("expire_week") ||
+                    actions.includes("clear_expiry")) && (
+                    <button
+                      className="secondary"
+                      type="button"
+                      disabled={busy}
+                      onClick={() =>
+                        void expire(fact, fact.expires_at ? null : 7)
+                      }
+                    >
+                      {fact.expires_at
+                        ? t(
+                            knowledgeCopy.clearExpiry[0],
+                            knowledgeCopy.clearExpiry[1],
+                          )
+                        : t(
+                            knowledgeCopy.expireWeek[0],
+                            knowledgeCopy.expireWeek[1],
+                          )}
+                    </button>
+                  )}
                 </>
               )}
             </div>
           </li>
-        ))}
+          );
+        })}
       </ul>
-      {!facts.length && <p>{t("No saved facts yet.", "还没有保存的事实。")}</p>}
+      {!facts.length && (
+        <p>{t(knowledgeCopy.emptyFacts[0], knowledgeCopy.emptyFacts[1])}</p>
+      )}
       {suggestions.map((suggestion) => (
         <div key={suggestion.keep.id}>
           <p>{t(suggestion.reason_en, suggestion.reason_zh)}</p>
@@ -445,14 +463,16 @@ export function MemoryPanel({ t }: { t: Translate }) {
                     "到期的事实不会发给助理。",
                   )}
                 </small>
-                <button
-                  className="secondary"
-                  type="button"
-                  disabled={busy}
-                  onClick={() => void remove(fact)}
-                >
-                  {t("Forget", "忘掉")}
-                </button>
+                {actionsFor("expired", fact.expires_at).includes("forget") && (
+                  <button
+                    className="secondary"
+                    type="button"
+                    disabled={busy}
+                    onClick={() => void remove(fact)}
+                  >
+                    {t(knowledgeCopy.forget[0], knowledgeCopy.forget[1])}
+                  </button>
+                )}
               </li>
             ))}
           </ul>
@@ -470,6 +490,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
           </ul>
         </details>
       )}
+      <CheckIns t={t} />
       {notice && <p role="status">{notice}</p>}
       {!!error && (
         <p className="error-message" role="alert">

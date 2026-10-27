@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { errorText, request, write } from "../api";
 import type { Translate } from "../types";
+import { knowledgeCopy, nudgeLine } from "./knowledge";
 import { useWorkspace } from "./WorkspaceContext";
 
 interface Nudge {
@@ -30,37 +31,39 @@ export function CheckIns({ t }: { t: Translate }) {
   if (!owner) return null;
   return (
     <div>
-      <h3>{t("Recent check-ins", "最近的检查")}</h3>
+      <h3>{t(knowledgeCopy.nudgeTitle[0], knowledgeCopy.nudgeTitle[1])}</h3>
       {!nudges.length && (
         <p className="workspace-hint">
-          {t(
-            "No morning briefing or evening check-in yet.",
-            "还没有早晨简报或晚间检查。",
-          )}
+          {t(knowledgeCopy.emptyNudges[0], knowledgeCopy.emptyNudges[1])}
         </p>
       )}
       <ul className="calibration-steps">
-        {nudges.map((nudge) => (
-          <li key={nudge.id}>
-            <p>{t(nudge.reason_en, nudge.reason_zh)}</p>
-            <p>{t(nudge.summary_en, nudge.summary_zh)}</p>
-            {nudge.state === "open" ? (
-              <button
-                className="secondary"
-                type="button"
-                onClick={() =>
-                  void write(`/nudges/${nudge.id}/dismissals`, {})
-                    .then(() => reload())
-                    .catch((reason) => setError(reason))
-                }
-              >
-                {t("Dismiss", "知道了")}
-              </button>
-            ) : (
-              <small>{t("Dismissed", "已关闭")}</small>
-            )}
-          </li>
-        ))}
+        {nudges.map((nudge) => {
+          const line = nudgeLine(nudge);
+          return (
+            <li key={line.id}>
+              <p>{t(line.reasonEn, line.reasonZh)}</p>
+              <p>{t(line.summaryEn, line.summaryZh)}</p>
+              {line.canDismiss ? (
+                <button
+                  className="secondary"
+                  type="button"
+                  onClick={() =>
+                    void write(`/nudges/${line.id}/dismissals`, {})
+                      .then(() => reload())
+                      .catch((reason) => setError(reason))
+                  }
+                >
+                  {t(knowledgeCopy.dismiss[0], knowledgeCopy.dismiss[1])}
+                </button>
+              ) : (
+                <small>
+                  {t(knowledgeCopy.dismissed[0], knowledgeCopy.dismissed[1])}
+                </small>
+              )}
+            </li>
+          );
+        })}
       </ul>
       {!!error && (
         <p className="error-message" role="alert">

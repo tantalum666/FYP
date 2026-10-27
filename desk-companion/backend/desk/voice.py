@@ -309,10 +309,23 @@ class VoiceService:
         self.config = config or VoiceConfig.environment()
         self.tickets = {}
         self.lock = threading.Lock()
+        self.forget_session = threading.Event()
         self.active = False
         self.state = "idle"
         self.started = None
         self.connector = websockets.connect
+
+    def drop_live_session(self) -> bool:
+        """Close an open provider socket so it stops using turns that included a forgotten fact.
+
+        Returns False when no voice session is running. Logs the provider already
+        stored on its own side are outside this desk.
+        """
+        if not self.active:
+            self.forget_session.clear()
+            return False
+        self.forget_session.set()
+        return True
 
     def snapshot(self):
         return {
@@ -536,6 +549,10 @@ class VoiceService:
                 async def deadline():
                     while True:
                         await asyncio.sleep(1)
+                        if self.forget_session.is_set():
+                            self.forget_session.clear()
+                            await send_client({"type": "ended", "reason": "memory_forgotten"})
+                            return
                         if not self.principal_valid(principal):
                             return
                         if (

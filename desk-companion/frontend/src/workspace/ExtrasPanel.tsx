@@ -3,7 +3,6 @@ import { useDraftGuard } from "../components/DraftGuard";
 import { errorText, write } from "../api";
 import type { Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
-import { CheckIns } from "./CheckIns";
 import type { WorkspacePreferences } from "./types";
 
 export function ExtrasPanel({ t }: { t: Translate }) {
@@ -189,7 +188,6 @@ export function ExtrasPanel({ t }: { t: Translate }) {
             "早晨简报和晚间检查使用这里的时间和上方的安静时段。每一条都会说明触发原因，不会另建一套提醒。",
           )}
         </p>
-        <CheckIns t={t} />
       </section>
       <section className="workspace-section">
         <h3>{t("Companion", "桌面助理")}</h3>

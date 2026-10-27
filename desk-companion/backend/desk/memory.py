@@ -13,6 +13,8 @@ from fastapi import APIRouter, Depends
 from pydantic import Field, field_validator
 
 from .calendar import iso
+from .memory_review import review_suggestions, suggestion_matches
+from .retention import forget_local_copies
 from .schemas import StrictModel
 from .store import DomainError
 
@@ -381,14 +383,30 @@ class MemoryService:
                 "updated_at=?, deleted_at=? WHERE id=?",
                 (now, now, memory_id),
             )
+            phrases = [row["body"]]
+            phrases.extend(
+                revision["body"]
+                for revision in conn.execute(
+                    "SELECT body FROM memory_revisions WHERE memory_id=?", (memory_id,)
+                )
+            )
+            local = forget_local_copies(conn, memory_id=memory_id, phrases=phrases)
             self.store.record(conn, "memory_deleted", details={"memory_id": memory_id})
-            return {"memory_id": memory_id, "state": "deleted", "saved": True}
+            return {
+                "memory_id": memory_id,
+                "state": "deleted",
+                "saved": True,
+                "local_session": local,
+            }
 
-        return self.store.operation(
+        result = self.store.operation(
             key,
             {"type": "memory_delete", "memory_id": memory_id, "expected_version": expected_version},
             apply,
         )
+        voice = getattr(self.runtime, "voice", None)
+        result["live_voice_closed"] = bool(voice and voice.drop_live_session())
+        return result
 
     def expire_due(self) -> None:
         """Mark active facts whose saved expiry has passed. Idempotent across ticks."""
@@ -441,14 +459,22 @@ class MemoryService:
             rows = []
             for item in retire:
                 row = self._active(conn, item["memory_id"])
-                if (
-                    row["version"] != item["expected_version"]
-                    or row["id"] == keep_id
-                    or fact_key(row["body"]) != fact_key(keep["body"])
-                ):
+                if row["version"] != item["expected_version"] or row["id"] == keep_id:
                     raise DomainError("MEMORY_REVIEW_STALE", 409)
                 rows.append(row)
             now = iso(self.store.clock())
+            active = [
+                {"id": item["id"], "body": item["body"], "updated_at": item["updated_at"]}
+                for item in conn.execute(
+                    "SELECT id, body, updated_at, expires_at FROM owner_memories "
+                    "WHERE state='active'"
+                )
+                if not item["expires_at"] or item["expires_at"] > now
+            ]
+            if not suggestion_matches(
+                active, keep_id, [row["id"] for row in rows], fact_key=fact_key
+            ):
+                raise DomainError("MEMORY_REVIEW_STALE", 409)
             for row in rows:
                 conn.execute(
                     "UPDATE owner_memories SET state='superseded', superseded_by=?, "
@@ -486,29 +512,191 @@ class MemoryService:
             apply,
         )
 
+    def export(self):
+        """Non-deleted facts and their correction history. Forgotten facts stay out."""
+        with self.store.connection() as conn:
+            memories = [
+                {
+                    "id": row["id"],
+                    "body": row["body"],
+                    "source": row["source"],
+                    "state": row["state"],
+                    "version": row["version"],
+                    "created_at": row["created_at"],
+                    "updated_at": row["updated_at"],
+                    "expires_at": row["expires_at"],
+                    "attribution": row["attribution"] or "",
+                    "supersedes_id": row["supersedes_id"],
+                    "superseded_by": row["superseded_by"],
+                }
+                for row in conn.execute(
+                    "SELECT * FROM owner_memories WHERE state!='deleted' ORDER BY created_at, id"
+                )
+            ]
+            identifiers = {row["id"] for row in memories}
+            revisions = [
+                {
+                    "id": row["id"],
+                    "memory_id": row["memory_id"],
+                    "body": row["body"],
+                    "source": row["source"],
+                    "created_at": row["created_at"],
+                }
+                for row in conn.execute(
+                    "SELECT * FROM memory_revisions ORDER BY created_at, id"
+                )
+                if row["memory_id"] in identifiers
+            ]
+        return {"memories": memories, "revisions": revisions}
+
+    @staticmethod
+    def validate_backup(bundle):
+        """Check a memory section from a business backup. Raises ValueError when it is not usable."""
+        if not isinstance(bundle, dict):
+            raise ValueError("Invalid memory backup")
+        rows, revisions = bundle.get("memories", []), bundle.get("revisions", [])
+        if (
+            not isinstance(rows, list)
+            or not isinstance(revisions, list)
+            or len(rows) > 500
+            or len(revisions) > 2000
+        ):
+            raise ValueError("Invalid memory backup")
+        def instant(value):
+            try:
+                return parse_expiry(value)
+            except DomainError:
+                raise ValueError("Invalid memory time") from None
+
+        memories, identifiers = [], set()
+        for row in rows:
+            memory_id = row["id"]
+            if (
+                not isinstance(memory_id, str)
+                or len(memory_id) != 32
+                or any(char not in "0123456789abcdef" for char in memory_id)
+                or memory_id in identifiers
+            ):
+                raise ValueError("Invalid memory id")
+            identifiers.add(memory_id)
+            body = row["body"]
+            if not isinstance(body, str) or not 1 <= len(body) <= 500 or row["state"] not in {
+                "active",
+                "expired",
+                "superseded",
+            }:
+                raise ValueError("Invalid memory")
+            if row["source"] not in ORIGINS or not isinstance(row["version"], int) or row["version"] < 1:
+                raise ValueError("Invalid memory")
+            note = row.get("attribution") or ""
+            if not isinstance(note, str) or len(note) > 160:
+                raise ValueError("Invalid memory note")
+            for field in ("created_at", "updated_at"):
+                instant(row[field])
+            if row.get("expires_at") is not None:
+                instant(row["expires_at"])
+            for link in ("supersedes_id", "superseded_by"):
+                value = row.get(link)
+                if value is not None and (
+                    not isinstance(value, str) or len(value) != 32
+                ):
+                    raise ValueError("Invalid memory link")
+            memories.append(
+                {
+                    "id": memory_id,
+                    "body": " ".join(body.split()),
+                    "source": row["source"],
+                    "state": row["state"],
+                    "version": row["version"],
+                    "created_at": instant(row["created_at"]),
+                    "updated_at": instant(row["updated_at"]),
+                    "expires_at": instant(row.get("expires_at")),
+                    "attribution": " ".join(note.split()),
+                    "supersedes_id": row.get("supersedes_id"),
+                    "superseded_by": row.get("superseded_by"),
+                }
+            )
+        kept_revisions, seen = [], set()
+        for row in revisions:
+            revision_id, memory_id = row["id"], row["memory_id"]
+            if (
+                memory_id not in identifiers
+                or not isinstance(revision_id, str)
+                or len(revision_id) != 32
+                or revision_id in seen
+            ):
+                raise ValueError("Invalid memory revision")
+            seen.add(revision_id)
+            body = row["body"]
+            if not isinstance(body, str) or not 1 <= len(body) <= 500 or row["source"] not in ORIGINS:
+                raise ValueError("Invalid memory revision")
+            kept_revisions.append(
+                {
+                    "id": revision_id,
+                    "memory_id": memory_id,
+                    "body": " ".join(body.split()),
+                    "source": row["source"],
+                    "created_at": instant(row["created_at"]),
+                }
+            )
+        return {"memories": memories, "revisions": kept_revisions}
+
+    def restore(self, conn, bundle):
+        """Insert facts that are missing. An existing id is left as it is."""
+        missing = [
+            row
+            for row in bundle["memories"]
+            if not conn.execute("SELECT 1 FROM owner_memories WHERE id=?", (row["id"],)).fetchone()
+        ]
+        active = conn.execute(
+            "SELECT COUNT(*) FROM owner_memories WHERE state='active'"
+        ).fetchone()[0]
+        if active + sum(row["state"] == "active" for row in missing) > MAX_ACTIVE:
+            raise DomainError("MEMORY_LIMIT", 422)
+        created = {row["id"] for row in missing}
+        for row in missing:
+            conn.execute(
+                "INSERT INTO owner_memories("
+                "id, body, source, state, version, created_at, updated_at, deleted_at, "
+                "attribution, expires_at, supersedes_id, superseded_by"
+                ") VALUES(?,?,?,?,?,?,?,NULL,?,?,?,?)",
+                (
+                    row["id"],
+                    row["body"],
+                    row["source"],
+                    row["state"],
+                    row["version"],
+                    row["created_at"],
+                    row["updated_at"],
+                    row["attribution"],
+                    row["expires_at"],
+                    row["supersedes_id"],
+                    row["superseded_by"],
+                ),
+            )
+        for revision in bundle["revisions"]:
+            if revision["memory_id"] not in created:
+                continue
+            if conn.execute(
+                "SELECT 1 FROM memory_revisions WHERE id=?", (revision["id"],)
+            ).fetchone():
+                continue
+            conn.execute(
+                "INSERT INTO memory_revisions VALUES(?,?,?,?,?)",
+                (
+                    revision["id"],
+                    revision["memory_id"],
+                    revision["body"],
+                    revision["source"],
+                    revision["created_at"],
+                ),
+            )
+        return {"created": len(missing), "kept": len(bundle["memories"]) - len(missing)}
+
 
 def suggestions_for(active):
-    """Exact-wording groups. The newest fact is the one a review can keep."""
-    groups = {}
-    for fact in active:
-        groups.setdefault(fact_key(fact["body"]), []).append(fact)
-    suggestions = []
-    for facts in groups.values():
-        if len(facts) < 2:
-            continue
-        ordered = sorted(facts, key=lambda item: (item["updated_at"], item["id"]), reverse=True)
-        suggestions.append(
-            {
-                "kind": "duplicate",
-                "reason_en": (
-                    "These facts use the same wording. You can keep the newest and retire the others."
-                ),
-                "reason_zh": "这些事实文字相同。可以保留最新的一条，并停用其余几条。",
-                "keep": ordered[0],
-                "retire": ordered[1:],
-            }
-        )
-    return suggestions
+    """Review groups. The newest fact is the one a review can keep."""
+    return review_suggestions(active, fact_key=fact_key)
 
 
 def memory_routes(runtime, owner, operation_id):

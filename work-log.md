@@ -352,4 +352,11 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **目标：**让拥有者能核对、更正和忘记长期记忆，并让提醒、简报和晚间检查说明为什么出现。姓名和偏好只产生可取消的草稿。
 - **完成：**相同文字只保留一条，更正留下上一句，到期后离开模型上下文。重复项经既有助理草稿停用。本地提取只接受明确记住或单句姓名／偏好；托管提取默认关闭，须同时打开开关和每日上限，并只走现有文字适配器。早晨简报与默认关闭的晚间检查沿用同一份偏好和安静时段。跟进写入中英原因。交付 [PR #23](https://github.com/tantalum666/FYP/pull/23)。证据见 [QA](output/qa/2026-10-27-memory-proactivity/verification.md)。
 - **验证：**在 `desk-companion/` 执行 `uv run --no-sync pytest -q`（195 通过，一条既有 Starlette 弃用提示）、`uv run --no-sync ruff check backend scripts tests`（通过）。前端 `npm ci`、`npm test`（17 通过）、`npm run build`（通过，npm audit 零发现）。没有付费模型调用。
-- **剩余：**记忆仍不在业务 JSON 备份里。删除记忆不清供应商会话。没有近义矛盾检测。检查是本机 tick 后拉取，不是远端推送。PR #4／#5／#15／#16 仍不合并。Codex 审查并合并 #23。
+- **剩余：**记忆仍不在业务 JSON 备份里。删除记忆不清供应商会话。没有近义矛盾检测。检查是本机 tick 后拉取，不是远端推送。PR #4／#5／#15／#16 仍不合并。Codex 审查并合并 #23。上述备份、本机清理和同一主题核对已在下一节完成。
+
+## 2026-10-27｜记忆备份、本机清理与确定性核对
+
+- **目标：**补上上一节列出的缺口：事实进入现有备份，忘掉一条时清掉本机仍留着的提供商会话副本，同一主题的偏好可以核对，并在同一页说明为什么提醒。
+- **完成：**未删除事实和更正记录写入 `desk-backup.json`，恢复只补缺少的行。忘掉一条会删除仍含该句的回复缓存、取消相关草稿，并结束正在进行的语音会话。填充词、同一姓名和同一偏好主题生成带说明的建议，确认仍走既有草稿，默认不调用模型。「我了解的关于你的事」页包含更正、忘掉和「为什么提醒我」。离线场景在 `desk-companion/evals/memory_proactivity.json`。仍在 [PR #23](https://github.com/tantalum666/FYP/pull/23)。
+- **验证：**`uv run --no-sync pytest -q` 201 通过（一条既有 Starlette 弃用提示）；`uv run --no-sync ruff check backend scripts tests` 通过。前端 `npm test` 19 通过，`npm run build` 通过。没有付费模型调用。
+- **剩余：**提供商自己的日志无法从本机擦除。人格和作业仍不在这份备份里。近义但不同主题的句子不会自动合并。检查仍是本机 tick 后拉取。PR #4／#5／#15／#16 仍不合并。

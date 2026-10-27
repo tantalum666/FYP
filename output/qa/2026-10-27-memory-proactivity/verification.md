@@ -21,6 +21,26 @@ From `desk-companion/frontend/`:
 
 `product.md`, `decision-log.md`, `handoff.md` (appended slice only), `work-log.md`, `desk-companion/README.md`, `desk-companion/docs/memory.md`, `desk-companion/docs/task-tracking.md`, `desk-companion/docs/architecture.md`, `desk-companion/docs/operator-guide.md`.
 
-## Left open
+## Left open after the first commit
 
-Memory, persona, and jobs are still outside the business JSON backup. Deleting a fact does not erase provider session history. Consolidation matches an exact fact key only. Live hosted extraction was not called. Check-ins are a local tick plus pull, not a remote push. PRs #4, #5, #15, and #16 were not merged. Hardware docs and `archive/` were not edited.
+These were closed in the follow-up on the same branch, except where the later section still lists them.
+
+## Follow-up · backup, local session cleanup, review, screen, eval
+
+From `desk-companion/`:
+
+- `uv run --no-sync pytest -q` — 201 passed, 1 existing `StarletteDeprecationWarning`, 28.23s.
+- `uv run --no-sync ruff check backend scripts tests` — all checks passed.
+
+From `desk-companion/frontend/`:
+
+- `npm test` — 19 passed, 0 failed.
+- `npm run build` — succeeded.
+
+No paid model API was called.
+
+Specs updated again: `product.md`, `decision-log.md`, `handoff.md`, `work-log.md`, `desk-companion/README.md`, `desk-companion/docs/memory.md`, `desk-companion/docs/architecture.md`, `desk-companion/docs/operator-guide.md`.
+
+## Still left open
+
+The provider's own logs cannot be erased from this desk. Persona and computer jobs are still outside the business JSON backup. Facts about different subjects are not merged. Check-ins remain a local tick plus pull. Live hosted extraction was not called. PRs #4, #5, #15, and #16 were not merged. Hardware docs and `archive/` were not edited.

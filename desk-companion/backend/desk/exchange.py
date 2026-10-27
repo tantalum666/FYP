@@ -284,6 +284,16 @@ class ExchangeService:
                 if row["kind"] == "backup"
                 else {"created": 0, "kept": 0}
             )
+            memory_result = (
+                self.runtime.memory.restore(
+                    conn,
+                    preview["metadata"].get(
+                        "memory_bundle", {"memories": [], "revisions": []}
+                    ),
+                )
+                if row["kind"] == "backup"
+                else {"created": 0, "kept": 0}
+            )
             conn.execute("UPDATE import_previews SET state='applied' WHERE id=?", (preview_id,))
             self.store.record(
                 conn,
@@ -296,6 +306,8 @@ class ExchangeService:
                 "kept": len(rows) - len(selected),
                 "tasks_created": task_result["created"],
                 "tasks_kept": task_result["kept"],
+                "memories_created": memory_result["created"],
+                "memories_kept": memory_result["kept"],
                 "applied": True,
             }
 
@@ -373,6 +385,7 @@ class ExchangeService:
                 "calendar_settings": self.store.settings(conn),
                 "workspace_preferences": self.runtime.data.preferences(),
                 "task_bundle": self.runtime.tasks.export(),
+                "memory_bundle": self.runtime.memory.export(),
             }
         return {
             "format": "desk-companion-backup",
@@ -393,6 +406,9 @@ class ExchangeService:
             if len(content["events"]) > 500:
                 raise ValueError()
             task_bundle = self.runtime.tasks.validate_backup(content.get("task_bundle", {}))
+            memory_bundle = self.runtime.memory.validate_backup(
+                content.get("memory_bundle", {"memories": [], "revisions": []})
+            )
             rows, ids = [], set()
             from .calendar import is_occurrence
 
@@ -439,6 +455,9 @@ class ExchangeService:
                 "task_bundle": task_bundle,
                 "tasks_count": len(task_bundle["tasks"]),
                 "task_followups": "restored_paused",
+                "memory_bundle": memory_bundle,
+                "memories_count": len(memory_bundle["memories"]),
+                "memory_restore": "merge_keep_existing",
             },
         )
 
