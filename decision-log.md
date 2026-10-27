@@ -1,6 +1,6 @@
 # Group 2 Decision Log
 
-Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
+Updated: 27 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
 
 ## 2026-09-25 用户推翻 Senplate，研究智能工作台新方向
 
@@ -303,3 +303,9 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **审查：**Xu的PR #17已修复并合并。其他4个开放PR为拥有者历史分支／草稿，依赖与冲突已记录；本轮不把已否决人物或未审查栈直接恢复到main。
 - **工程修复：**归档路径触发PostgreSQL socket长度限制，开发集群改用既有客户端所用的loopback TCP；Vite修补到8.3.5，归档source-map-js到1.2.2，重新验证。应用业务源码保持。
 - **当前状态：**AliceChan、统一Omni、语音计时和Linux最新增量在本地未发布工作区；根文档区分已提交与未发布，避免把早期主分支误称最新成果。证据见[整理QA](output/qa/2026-10-26-repo-cleanup/verification.md)。
+
+## 2026-10-27 软件健康：可复现、CI 与作业动作边界
+
+- **用户决定：**本轮要求按 README 复现 Desk Companion，补上运行现有检查的 CI，做小步且不改变行为的可维护性修复，并按代码写清模块、扩展点和安全限制。不改硬件文档和 `archive/`，不合并 PR #4／#5／#15／#16。没有新的产品范围、供应商或花费上限。
+- **工程选择，不是新的产品决定：**CI 只运行仓库里已经使用的 Ruff、pytest、前端测试和生产构建，并缓存 uv 与 npm。不另加 mypy 或 ESLint。开发脚本的端口检查改为使用已安装的 `.venv`，避免安装完成后新 shell 因找不到 `uv` 而失败；这项在 PR #21。PR #22 让 `JobService.prepare` 对未登记动作返回 `COMPUTER_ACTION_DENIED`，不再进入文件夹分支。模块对照写入 `desk-companion/docs/modules.md`，只记录已读源码的行为。
+- **状态：**三支 PR 待审查。本地测试通过不等于远端 CI 已经变绿，也不等于导师批准或学校提交。10 月 6 日“本轮不增加 CI”的说法只属于那次交付。

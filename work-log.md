@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated: 27 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -346,3 +346,11 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **修复：**新深层路径的PostgreSQL socket限制改为loopback TCP；两前端Vite升级8.3.5，归档source-map-js为1.2.2。修复导航与本机凭据的链接表达。
 - **验证：**当前182后端／17前端、归档55后端、两前端类型／构建、两套Ruff通过；npm audit均零报告。隔离新建PostgreSQL，不复用旧演示库；无模型API／真实音视频／硬件或部署。完整记录见[QA](output/qa/2026-10-26-repo-cleanup/verification.md)。
 - **保留与剩余：**原主检出及最新AliceChan／统一Omni本地工作区保留；PR #4／#5／#15／#16仍待单独按当前方向审查。整理分支已通过文件／运行校验，经[PR #18](https://github.com/tantalum666/FYP/pull/18)交付；具体Git回执以整理QA和远端PR状态为准。
+
+## 2026-10-27 Desk Companion 软件健康与可复现
+
+- **目标：**按 README 复现当前软件，补上 CI，修一处已复现的作业动作误入文件夹分支，并按代码写下模块、扩展点和安全限制。不改硬件研究、`archive/`，不合并 PR #4／#5／#15／#16。
+- **完成：**[#21](https://github.com/tantalum666/FYP/pull/21) 增加 `.github/workflows/desk-companion.yml`，并把 `scripts/dev.sh` 的端口检查改到 `.venv/bin/python`。[#22](https://github.com/tantalum666/FYP/pull/22) 拒绝未登记作业动作，笔记和文件夹共用 `artifact_filename`。本分支新增 [modules.md](desk-companion/docs/modules.md)，并指向现有架构说明。
+- **验证：**`uv sync --frozen`、`npm ci`（128 包，audit 0）、`npm run build`、Ruff、`pytest -q` 182 通过（#22 上为 184）、`npm test` 17 通过。`./scripts/dev.sh` 的 `/api/health` 为 ok，5190 为 HTTP 200。去掉 PATH 中的 `uv` 后，旧脚本退出 127，修复后同样返回 ok 和 HTTP 200。未登记动作的回归在旧代码上得到 `FOLDER_NOT_CONFIGURED`，修复后为 `COMPUTER_ACTION_DENIED` 且没有作业行。没有付费 API。
+- **位置：**workflow、`desk-companion/scripts/dev.sh`、`desk-companion/backend/desk/jobs.py`、`desk-companion/backend/desk/computer.py`、`desk-companion/tests/test_computer_jobs.py`、`desk-companion/docs/modules.md`。阅读范围见 [QA](output/qa/2026-10-27-software-health/reading-record.md)。
+- **剩余：**三支 PR 待 Codex 审查合并，顺序先 #21。远端 CI 要等 #21 进入 `main`。Starlette 的 httpx 弃用警告仍在。未发布的 AliceChan／Omni 增量、真人验收和 Pi 仍未做。PR #4／#5／#15／#16 保持不合并。
