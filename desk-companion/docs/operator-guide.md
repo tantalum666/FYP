@@ -150,13 +150,15 @@ Tasks中创建并保存事务，记录截止与下一步。需要安排工作时
 
 | 环境变量 | 内容 |
 |---|---|
-| DESK_TEXT_PROVIDER | none（默认）、qwen或gemini |
+| DESK_TEXT_PROVIDER | none（默认）、qwen、gemini，或离线演示用的fake |
 | DESK_TEXT_MODEL | 账号实际可用、支持JSON输出的文字型号 |
 | DESK_TEXT_API_KEY | 该服务的密钥，仅留后端私有配置 |
 | DESK_TEXT_ENDPOINT | Qwen官方工作空间兼容接口，路径以/compatible-mode/v1/chat/completions结束；Gemini可留空 |
 | DESK_TEXT_BACKGROUND | 默认0；明确启用后1，为待跟进提示补充AI建议 |
 
 后台建议最多20次尝试／UTC日，失败计入，不自动重试中断请求；失败保留本地规则提示。主程序关闭后不能继续检查，主机仍须常开。自然语音单独按第5节配置；没有从本机其他项目读取或复用密钥。
+
+`DESK_TEXT_PROVIDER=fake`只用于离线演示。它不读取密钥，也不发起网络请求。演示数据、口令和十分钟讲解顺序见[演示稿](demo-script.md)。
 
 详情与数据边界见[事务契约](task-tracking.md)。本轮未使用真实付费模型；`configured`只是配置有效，不能当作连接、质量或费用验收。当前事务尚无远程锁屏推送、邮箱监控或学校服务器部署。
 
