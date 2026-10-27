@@ -126,7 +126,7 @@ The fake adapter is an offline demonstration. It never opens a network connectio
 `deltas` yields text pieces. `complete` remains the one-shot fallback.
 ```
 
-Step 15, handoff: #44 deletes `## 回复流` and adds `## 真实片段`. Keep both. Restore this section from #41 above `## 真实片段`:
+Step 15, handoff: #44 deletes `## 回复流` and adds `## 真实片段`. Keep both. In the 2026-10-27 rehearsal this deletion applied with no conflict markers (`handoff.md` was not in the conflict list; only `text_providers.py` was). After the merge, search for `## 回复流`. If it is gone, restore this section from #41 above `## 真实片段` anyway:
 
 ```markdown
 ## 回复流
@@ -359,3 +359,41 @@ npm run build
 Do not set `DESK_WEB_PUSH` in that run. Web Push stays off unless the operator sets it later. Do not call a paid model. Counts will be higher than any single pull request's count because the suites add up; a failure needs a look at the resolution above before changing a feature.
 
 `desk-companion/docs/companion-gaps.md` on #35 still describes digest, moments, recall, and style as next work. Leave that file as #35 wrote it. This guide is the newer order.
+
+## Rehearsal, 2026-10-27
+
+Completed by Grok Bot via a Cursor cloud agent. Local scratch branch `cursor/merge-rehearsal-scratch-2d6c` from `origin/main` `46ac167`. Not pushed. Every tip in the tables above still matched the fetched branch tip. `DESK_WEB_PUSH` was unset. No paid model call.
+
+Commands, from `desk-companion/` then `desk-companion/frontend/`:
+
+```bash
+uv run --no-sync ruff check backend scripts tests
+uv run --no-sync pytest -q
+npm test
+npm run build
+```
+
+Results:
+
+- Ruff: all checks passed.
+- pytest: 3 failed, 295 passed, 1 warning, 56.16s. The warning is the existing Starlette `httpx` deprecation in `fastapi/testclient.py`, not a new failure.
+- `npm test`: 38 passed, 0 failed.
+- `npm run build`: passed. Vite printed the existing chunk-size note for `index-*.js` (about 517 kB). That is not a test failure.
+
+No `<<<<<<<` markers remained in source files. `context.py` `pack_conversation` matches the required keys in this file. `scripts/dev.sh` has the `.venv/bin/python` port check, `runtime_dir="${DESK_RUNTIME_DIR:-.runtime}"` with `${runtime_dir}/credentials.json`, and uvicorn `--no-access-log`. `app.py` includes the diagnostics routes and `nudge_routes`, `notice_routes`, `goal_routes`, `profile_routes`, `moment_routes`, `digest_routes`, and `push_routes`. `runtime.py` has one `self.notify` that passes `push`, plus moments, digests, and `LocalBackups`. `sw.js` has the shell install/activate/fetch handlers and the push listener. The handoff status block is #50's bullets, and `## 回复流` was restored.
+
+### Where the conflict notes were wrong or easy to miss
+
+- Steps 13, 14, and 16 (`#37`, `#41`, `#47`) did not conflict once earlier log conflicts had been resolved by keeping both sides' sections. The table still records the unresolved `git merge-tree` result. A clean handoff merge at those steps is expected after that resolution.
+- Step 15's handoff change is a silent deletion. See the restore note above. Do not treat a clean merge as "keep #44's handoff as-is".
+- Step 9 (`#42`, `b4c2e90`) is clean at its place in the order. This rehearsal also merged it after #50; that merge was clean too (diagnostics, `log.py`, `backups.py`, `test_ops.py`, and the diagnostics panel came in beside the later routers). Leave it at step 9. A late merge is not a different resolution.
+
+### Failures left on the merged tree
+
+These are cross-slice failures. This pull request does not change the other slices.
+
+1. `tests/test_agent_loop.py::test_local_and_voice_calls_are_audited_for_the_owner_only` at line 176. `runtime.assistant.audit.listing()[0]` raises `IndexError: list index out of range`. The call is `local_message` with `Remember: the code is lantern`. The reply still has `saved is False` and `memory.for_model()` is empty, so the assertions above that line pass. `_local_message` now calls `memory_turn` first. That path saves the draft with `propose_fact`, which does not call `tool()` and does not write an audit row. The older local parser that called `tool("memory_save_draft")` and recorded `channel=local` is not reached.
+
+2. `tests/test_reply_stream.py::test_http_stream_shows_a_local_draft_without_saving` at line 144. `tools[0]` raises `IndexError: list index out of range`. `POST /api/assistant/messages/stream` returns 200 `text/event-stream` and there is no event with `type=tool`. `TextAssistant.message` returns from `memory_turn` before `AgentLoop` emits the tool started/finished events this test expects (`memory_save_draft`, phases `started` then `finished`, `saved` false, no `arguments`).
+
+3. `tests/test_retrieval.py::test_ranked_scenarios`. `scenario_newer_tie_wins` fails; the other three scenarios in that test passed. `retrieval_eval.scenario_newer_tie_wins` creates two memories with the same body, `The code word is lantern.`, stamps `updated_at` to 2026-10-01 and 2026-10-20, and expects `memory_query` for `lantern` to return the newer id then the older id. After #23, a second save of the same text does not insert a second row. The query result is one memory (`created_at` on the rehearsal day, `updated_at` `2026-10-20T00:00:00+00:00`). `assert not failed` therefore fails.
