@@ -6,7 +6,9 @@ if [[ ! -d .venv || ! -d frontend/node_modules ]]; then
   echo "Install dependencies first: uv sync --frozen; then npm ci in frontend/." >&2
   exit 1
 fi
-uv run --no-sync python - <<'PY'
+# The port check uses the venv created by `uv sync`. A later shell does not
+# need `uv` itself on PATH.
+.venv/bin/python - <<'PY'
 import socket
 for port in (8831, 5190):
     with socket.socket() as sock:
