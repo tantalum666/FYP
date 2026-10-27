@@ -393,5 +393,5 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 
 - **目标：**回答里引用已保存事实的日期，并用“忘掉那个”走既有删除草稿。
 - **完成：**`desk/recall.py`。只命中一条才记住“那个”。多条、未引用、或事实已删除时要求写出原文。配对终端得到 403。文字供应商已配置时也不为这两类话调用模型。
-- **验证：**随后补记。
+- **验证：**`uv run --no-sync pytest -q` 217 通过。`uv run --no-sync ruff check backend scripts tests` 通过。前端 `npm test` 20 通过，`npm run build` 通过。没有付费调用。
 - **剩余：**语气、详略和主动程度的设置页。不依赖反省或空隙建议那两条 PR。
