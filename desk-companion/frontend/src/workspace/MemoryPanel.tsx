@@ -6,6 +6,7 @@ import { useDraftGuard } from "../components/DraftGuard";
 import type { Translate } from "../types";
 import { CheckIns } from "./CheckIns";
 import { GoalList } from "./GoalList";
+import { DigestPanel } from "./DigestPanel";
 import { ProfileSummary } from "./ProfileSummary";
 import {
   actionsFor,
@@ -492,6 +493,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
           </ul>
         </details>
       )}
+      <DigestPanel t={t} />
       <ProfileSummary t={t} />
       <GoalList t={t} />
       <CheckIns t={t} />

@@ -17,6 +17,7 @@ from .tasks import TaskService
 from .text_ai import TextAssistant
 from .jobs import JobService
 from .memory import MemoryService
+from .digest import DigestService
 from .goals import GoalService
 from .nudges import NudgeService
 from .notify import Notifier
@@ -42,6 +43,7 @@ class Runtime:
         self.data = WorkspaceData(store)
         self.nudges = NudgeService(self)
         self.notify = Notifier(self.store)
+        self.digests = DigestService(self)
         self.voice = VoiceService(self)
         self.exchange = ExchangeService(self)
         self.google = GoogleCalendar(self)

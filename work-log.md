@@ -388,3 +388,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **完成：**`persona_bundle` 与 `job_bundle`。运行令牌不导出。非终态作业恢复为待审阅。已有行不覆盖。
 - **验证：**`uv run --no-sync pytest -q` 213 通过。`uv run --no-sync ruff check backend scripts tests` 通过。前端未改。
 - **剩余：**笔记文件字节仍在本机目录，不在 JSON 里。没有 Web Push 发送。PR #4／#5／#15／#16 仍不合并。
+
+## 2026-10-27｜每日与每周反省
+
+- **目标：**用已保存记录做一段反省，给主人看，并可在设备上播报数量。
+- **完成：**`desk/digest.py`。可选润色走文字适配器，每日最多 2 次，默认不调用。差距表写入 `docs/companion-gaps.md`。
+- **验证：**`uv run --no-sync pytest -q` 216 通过。前端 `npm test` 20 通过，`npm run build` 通过。
+- **剩余：**空隙建议、带日期的记忆引用、语气设置。
