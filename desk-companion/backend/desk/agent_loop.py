@@ -10,6 +10,7 @@ import hashlib
 from typing import Callable
 
 from .capabilities import CAPABILITIES
+from .context_budget import fit_context
 from .model_provider import HostedTextProvider, ModelStep, TextModel
 from .store import DomainError
 from .tool_policy import execute_tool, kind_for, owner_message
@@ -117,6 +118,7 @@ class AgentLoop:
                     _mark_streamed(on_event, step)
                 return finish(_side_reply(step.message, result, language))
             context["last_tool_result"] = {"tool": step.tool, "result": result}
+            context = fit_context(context)
         return finish(_notice(language, "steps"))
 
     def _complete(self, system: str, context: dict, on_delta) -> ModelStep | None:

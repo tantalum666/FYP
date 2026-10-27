@@ -403,3 +403,9 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **目标：**iPhone 使用和网页相同的 `POST /api/assistant/messages/stream` 契约，并写成文档和契约测试。
 - **完成：**原生发送不再改走 JSON。同一份 SSE 样例由 Python 和前端测试解析。网页按块读，手机桥可以一次交回正文。
 - **验证：**`pytest -q` 215 通过，Ruff 通过。前端 `npm test` 25 通过，`npm run build` 通过。本机 Chrome 登录后发送 “Remember: the stream code is lantern”，看到待批准草稿和 Draft cancelled。没有付费 API。
+
+### 同日补充：上下文预算
+
+- **目标：**多轮文字上下文按预算保留人格摘要、最近轮次、排序后的记忆和工具结果，并且不丢掉待批准状态。
+- **完成：**`context_budget.py` 与 `assistant_turns`。拥有者通道在回复之后写入轮次。配对会话不读取这些轮次。
+- **验证：**`pytest -q` 222 通过，Ruff 通过。前端没有改动。没有付费 API。

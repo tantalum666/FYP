@@ -21,6 +21,7 @@ from pydantic import Field, ValidationError
 from .agent_loop import AgentLoop
 from .calendar import iso
 from .context import pack_conversation
+from .turns import remember_exchange
 from .model_provider import HostedTextProvider
 from .persona import followup_system, text_system
 from .reply_stream import audit_events, sse_encode, text_chunks
@@ -259,13 +260,20 @@ class TextAssistant:
             )
         return parsed, streamed
 
-    def context(self, task_id=None, *, include_memory=True):
-        return pack_conversation(self.runtime, task_id, include_memory=include_memory)
+    def context(self, task_id=None, *, include_memory=True, user_message=""):
+        return pack_conversation(
+            self.runtime,
+            task_id,
+            include_memory=include_memory,
+            user_message=user_message,
+        )
 
     def message(self, payload, key, *, allow_memory=True, on_event=None):
         if not self.config.valid():
             before = {row["id"] for row in self.runtime.assistant.audit.listing(100)}
             reply = self.runtime.assistant.local_message(payload, key, allow_memory=allow_memory)
+            if allow_memory and key:
+                remember_exchange(self.runtime, key, payload.message, str(reply.get("message") or ""))
             if on_event is not None:
                 fresh = [
                     row
@@ -290,9 +298,12 @@ class TextAssistant:
             from .assistant import TOOLS
 
             context = {
-                "user_message": payload.message,
                 "language": payload.language,
-                **self.context(payload.task_id, include_memory=allow_memory),
+                **self.context(
+                    payload.task_id,
+                    include_memory=allow_memory,
+                    user_message=payload.message,
+                ),
                 "tools": [
                     t
                     for t in TOOLS
@@ -309,6 +320,8 @@ class TextAssistant:
                 allow_memory=allow_memory,
                 on_event=on_event,
             )
+            if allow_memory and key:
+                remember_exchange(self.runtime, key, payload.message, str(reply.get("message") or ""))
             with self.store.connection(write=True) as conn:
                 conn.execute(
                     "INSERT INTO assistant_replies VALUES(?,?,?)", (key, fingerprint, encode(reply))
