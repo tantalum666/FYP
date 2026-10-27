@@ -1,0 +1,48 @@
+{
+  "scenarios": [
+    {
+      "name": "english brief warm drops the extra sentence and suggestions",
+      "language": "en",
+      "tone": "warm",
+      "verbosity": "brief",
+      "proactivity": "off",
+      "persona": "You are Desk Companion, a concise and natural desktop assistant.",
+      "message": "The report is still open. Want to start the report? You could also file the notes.",
+      "contains": ["Sure — ", "The report is still open."],
+      "absent": ["Want to start", "You could also"]
+    },
+    {
+      "name": "chinese normal low keeps one suggestion",
+      "language": "zh",
+      "tone": "warm",
+      "verbosity": "normal",
+      "proactivity": "low",
+      "persona": "你是桌面伙伴。",
+      "message": "报告还开着。要不要开始写报告？不妨先整理笔记。",
+      "contains": ["好的，", "报告还开着。", "要不要开始写报告？"],
+      "absent": ["不妨先整理笔记"]
+    },
+    {
+      "name": "english defaults leave the reply unchanged",
+      "language": "en",
+      "tone": "plain",
+      "verbosity": "normal",
+      "proactivity": "normal",
+      "persona": "You are Desk Companion, a concise and natural desktop assistant.",
+      "message": "Check the event and times, then confirm to save. Nothing is written yet.",
+      "contains": ["Nothing is written yet."],
+      "absent": ["Sure —", "Glad to help"]
+    },
+    {
+      "name": "chinese brief keeps the first sentence",
+      "language": "zh",
+      "tone": "plain",
+      "verbosity": "brief",
+      "proactivity": "normal",
+      "persona": "你是桌面伙伴。",
+      "message": "请给出标题、日期、开始和结束时间，例如“明天15:00到16:00 项目讨论”。也可以查询“今天的行程”。",
+      "contains": ["请给出标题"],
+      "absent": ["也可以查询"]
+    }
+  ]
+}

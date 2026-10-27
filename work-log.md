@@ -395,3 +395,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **完成：**三项写入现有工作区偏好。`pack_conversation` 带一行风格说明。主动程度关闭时不发早晨／晚间检查；较少时跳过晚间检查。旧记录缺这三项时用默认值。
 - **验证：**`uv run --no-sync pytest -q` 214 通过。`uv run --no-sync ruff check backend scripts tests` 通过。前端 `npm test` 20 通过，`npm run build` 通过。没有付费调用。
 - **剩余：**不从聊天里推断语气。空隙建议和每日反省在各自的 PR 里读取同一字段。事务跟进仍用各自的开关。
+
+## 2026-10-27｜对话风格
+
+- **目标：**聊天真正遵守已保存的语气、详略和主动程度，并检查人格没有被风格句子盖住。
+- **完成：**`desk/style.py` 生成提示并改写本地回复。默认值不改原文。场景在 `evals/persona_style.json`，中英都有。
+- **验证：**`uv run --no-sync pytest -q` 216 通过。`uv run --no-sync ruff check backend scripts tests` 通过。前端 `npm test` 20 通过，`npm run build` 通过。没有付费调用。
+- **剩余：**风格不从对话里学习。不调用模型。

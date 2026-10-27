@@ -573,6 +573,12 @@ class AssistantService:
 
     def local_message(self, request, key, *, allow_memory=True):
         """A deliberately bounded offline parser, never presented as an AI model."""
+        from .style import present
+
+        reply = self._local_message(request, key, allow_memory=allow_memory)
+        return present(reply, self.runtime.data.preferences(), request.language)
+
+    def _local_message(self, request, key, *, allow_memory=True):
         reviewed = self.memory_turn(request, key, allow_memory=allow_memory)
         if reviewed:
             return reviewed

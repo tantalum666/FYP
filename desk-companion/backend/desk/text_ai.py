@@ -20,7 +20,7 @@ from pydantic import Field, ValidationError
 from .calendar import iso
 from .context import pack_conversation
 from .memory_extract import EXTRACT_INSTRUCTIONS, accept_stated_fact
-from .persona import followup_system, text_system
+from .style import present, render_prompt
 from .text_providers import text_adapter
 from .workspace_data import is_quiet
 from .schemas import StrictModel
@@ -220,7 +220,7 @@ class TextAssistant:
             if turn is None:
                 turn = self.maybe_extract(payload, key, allow_memory=allow_memory)
             if turn is not None:
-                reply = turn
+                reply = present(turn, self.runtime.data.preferences(), payload.language)
                 with self.store.connection(write=True) as conn:
                     conn.execute(
                         "INSERT INTO assistant_replies VALUES(?,?,?)",
@@ -240,7 +240,11 @@ class TextAssistant:
                     and (allow_memory or not t["name"].startswith("memory_"))
                 ],
             }
-            system = text_system(self.runtime.persona.current()["body"])
+            system = render_prompt(
+                self.runtime.persona.current()["body"],
+                self.runtime.data.preferences(),
+                payload.language,
+            )
             reply = None
             for index in range(3):
                 plan = self.generate(system, context, TextPlan, "conversation")
@@ -268,6 +272,7 @@ class TextAssistant:
                     if payload.language == "zh"
                     else "Please identify the task you want to follow up.",
                 }
+            reply = present(reply, self.runtime.data.preferences(), payload.language)
             with self.store.connection(write=True) as conn:
                 conn.execute(
                     "INSERT INTO assistant_replies VALUES(?,?,?)", (key, fingerprint, encode(reply))
@@ -359,7 +364,12 @@ class TextAssistant:
                 )
             try:
                 advice = self.generate(
-                    followup_system(self.runtime.persona.current()["body"]),
+                    render_prompt(
+                        self.runtime.persona.current()["body"],
+                        self.runtime.data.preferences(),
+                        "en",
+                        channel="followup",
+                    ),
                     self.context(row["task_id"]),
                     FollowUpAdvice,
                     "followup",
