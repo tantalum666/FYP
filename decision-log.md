@@ -303,3 +303,10 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **审查：**Xu的PR #17已修复并合并。其他4个开放PR为拥有者历史分支／草稿，依赖与冲突已记录；本轮不把已否决人物或未审查栈直接恢复到main。
 - **工程修复：**归档路径触发PostgreSQL socket长度限制，开发集群改用既有客户端所用的loopback TCP；Vite修补到8.3.5，归档source-map-js到1.2.2，重新验证。应用业务源码保持。
 - **当前状态：**AliceChan、统一Omni、语音计时和Linux最新增量在本地未发布工作区；根文档区分已提交与未发布，避免把早期主分支误称最新成果。证据见[整理QA](output/qa/2026-10-26-repo-cleanup/verification.md)。
+
+## 2026-10-27 软件切片与报告草稿
+
+- **用户要求：**从 `main` 再开独立 PR：高风险覆盖与真实缺陷回归、脱敏日志／拥有者诊断／定时本地备份、不缓存认证 API 的可安装外壳、以及只依据代码和 decision-log 的软件章节草稿。不改 voice、记忆模块、助理工具循环、通知、硬件和归档。
+- **工程记录，不是新的产品决定：**[#36](https://github.com/tantalum666/FYP/pull/36) 证明 `main` 的笔记读回在目标为目录时抛出 `IsADirectoryError`，并在该分支改为未核验回执。诊断、备份保留和 PWA 是新增操作能力，不改变日历、作业批准或模型权限。报告草稿不把未合并 PR 写成 `main` 行为。
+- **观察到的不一致：**README 的 uvicorn 示例含 `--no-access-log`，`scripts/dev.sh` 没有。本轮没有改脚本。
+- **未改变：**供应商和花费上限、AliceChan／Omni 的发布、A1、学校提交、硬件验收。
