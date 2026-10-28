@@ -26,6 +26,8 @@ from .tool_audit import ToolAudit, channel_for
 from .owner_lookup import OwnerClockArgs, OwnerSearch, PlateQuery, owner_clock, owner_search, plate_summary
 from .owner_plan import ProposePlan, propose_plan
 from .tool_policy import audit_suppressed, memory_blocked, outcome_message
+from .recall import cited_id, classify, matching, render, set_focus, zone_of
+from .recall import ensure as ensure_recall
 
 
 class AssistantMessage(StrictModel):
@@ -191,6 +193,7 @@ class AssistantService:
                 "CREATE TABLE IF NOT EXISTS assistant_proposals(id TEXT PRIMARY KEY, kind TEXT NOT NULL, data TEXT NOT NULL, state TEXT NOT NULL, expires_at TEXT NOT NULL, created_at TEXT NOT NULL, result TEXT)"
             )
         self.audit = ToolAudit(self.store)
+        ensure_recall(self.store)
 
     def proposals(self, *, allow_memory=True):
         with self.store.connection() as conn:
@@ -746,6 +749,62 @@ class AssistantService:
             "message": "确认后才会删除这条记忆。" if zh else "Confirm before this fact is deleted.",
         }
 
+    def recall_turn(self, request, key, *, allow_memory=True):
+        """Cite saved facts, or draft deletion of the one fact just cited.
+
+        A paired display gets the same owner refusal as the other memory tools.
+        Nothing here deletes a fact.
+        """
+        parsed = classify(request.message)
+        if parsed is None:
+            return None
+        if not allow_memory:
+            raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
+        zh = request.language == "zh"
+        if parsed["name"] == "forget":
+            return self._forget_cited(key, zh=zh)
+        rows = matching(self.runtime, parsed["tokens"])
+        zone = zone_of(self.runtime)
+        set_focus(
+            self.store,
+            rows[0]["id"] if len(rows) == 1 else None,
+            iso(self.store.clock()),
+        )
+        return {
+            "mode": "local_rules",
+            "kind": "recall",
+            "message": render(rows, parsed["tokens"], zone, zh),
+            "citations": [
+                {"id": row["id"], "created_at": row["created_at"], "body": row["body"]}
+                for row in rows[:3]
+            ],
+        }
+
+    def _forget_cited(self, key, *, zh):
+        focus = cited_id(self.store)
+        active = {row["id"]: row for row in self.runtime.memory.listing()["memories"]}
+        row = active.get(focus) if focus else None
+        if not row:
+            set_focus(self.store, None, iso(self.store.clock()))
+            return {
+                "mode": "local_rules",
+                "kind": "clarify",
+                "message": "还没有引用单独的一条。请写出与保存内容完全相同的文字，或在记忆页选择。"
+                if zh
+                else "I have not cited one fact yet. Repeat its exact saved text, or open Memory.",
+            }
+        result = self.tool(
+            "memory_delete_draft",
+            {"memory_id": row["id"], "expected_version": row["version"]},
+            key,
+        )
+        return {
+            "mode": "local_rules",
+            "kind": "draft",
+            **result,
+            "message": "确认后才会删除这条记忆。" if zh else "Confirm before this fact is deleted.",
+        }
+
     def local_message(self, request, key, *, allow_memory=True):
         """A deliberately bounded offline parser, never presented as an AI model."""
         from .style import present
@@ -760,6 +819,9 @@ class AssistantService:
         stated = self.runtime.goals.turn(request, key, allow=allow_memory)
         if stated:
             return stated
+        recalled = self.recall_turn(request, key, allow_memory=allow_memory)
+        if recalled:
+            return recalled
         text, zh = request.message.strip(), request.language == "zh"
         if match := re.match(r"^(?:save to folder|保存到文件夹)\s*[:：]\s*(.+)$", text, re.I | re.S):
             task = self.runtime.tasks.detail(request.task_id)["task"] if request.task_id else None

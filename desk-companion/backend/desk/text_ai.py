@@ -324,6 +324,10 @@ class TextAssistant:
             if turn is None:
                 turn = self.runtime.goals.turn(payload, key, allow=allow_memory)
             if turn is None:
+                turn = self.runtime.assistant.recall_turn(
+                    payload, key, allow_memory=allow_memory
+                )
+            if turn is None:
                 turn = self.maybe_extract(payload, key, allow_memory=allow_memory)
             if turn is not None:
                 reply = present(turn, self.runtime.data.preferences(), payload.language)

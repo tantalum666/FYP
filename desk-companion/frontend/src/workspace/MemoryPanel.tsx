@@ -7,6 +7,7 @@ import type { Translate } from "../types";
 import { CheckIns } from "./CheckIns";
 import { GoalList } from "./GoalList";
 import { DigestPanel } from "./DigestPanel";
+import { AliasList } from "./AliasList";
 import { ProfileSummary } from "./ProfileSummary";
 import {
   actionsFor,
@@ -517,6 +518,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
         </details>
       )}
       <DigestPanel t={t} />
+      <AliasList t={t} />
       <ProfileSummary t={t} />
       <GoalList t={t} />
       <CheckIns t={t} />

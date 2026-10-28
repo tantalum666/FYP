@@ -73,6 +73,12 @@ def pack_conversation(
     packed = {
         "now": iso(now),
         "timezone": tasks["timezone"],
+        "memory_citation": (
+            "When an answer uses one saved fact, name the day from that fact's created_at. "
+            "Do not invent a day."
+            if include_memory
+            else ""
+        ),
         "profile": runtime.profile.text() if include_memory else "",
         "pending_approvals": _approvals(runtime, allow_memory=include_memory),
         "memory": _memories(runtime, user_message) if include_memory else [],

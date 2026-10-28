@@ -12,6 +12,11 @@ from uuid import uuid4
 from fastapi import APIRouter, Depends
 from pydantic import Field, field_validator
 
+from .aliases import AliasInput
+from .aliases import add as add_alias
+from .aliases import ensure as ensure_aliases
+from .aliases import listing as alias_listing
+from .aliases import remove as remove_alias
 from .calendar import iso
 from .memory_review import review_suggestions, suggestion_matches
 from .retention import forget_local_copies
@@ -157,6 +162,7 @@ class MemoryService:
             ):
                 if name not in have:
                     conn.execute(f"ALTER TABLE owner_memories ADD COLUMN {name} {ddl}")
+        ensure_aliases(self.store)
 
     def _view(self, row, previous="", retired=0):
         return {
@@ -264,7 +270,7 @@ class MemoryService:
         now = iso(self.store.clock())
         with self.store.connection() as conn:
             rows = conn.execute(
-                "SELECT id, version, body, updated_at, source FROM owner_memories "
+                "SELECT id, version, body, created_at, updated_at, source FROM owner_memories "
                 "WHERE state='active' AND (expires_at IS NULL OR expires_at>?) "
                 "ORDER BY updated_at DESC, id LIMIT ?",
                 (now, MAX_MODEL),
@@ -721,6 +727,18 @@ def memory_routes(runtime, owner, operation_id):
     @router.get("")
     def listing():
         return runtime.memory.listing()
+
+    @router.get("/aliases")
+    def aliases():
+        return alias_listing(runtime.store)
+
+    @router.post("/aliases")
+    def save_alias(payload: AliasInput, key=Depends(operation_id)):
+        return add_alias(runtime.store, payload.terms, key)
+
+    @router.post("/aliases/{group_id}/deletions")
+    def delete_alias(group_id: str, key=Depends(operation_id)):
+        return remove_alias(runtime.store, group_id, key)
 
     @router.post("")
     def create(payload: MemoryCreate, key=Depends(operation_id)):
