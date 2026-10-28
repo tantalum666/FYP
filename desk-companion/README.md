@@ -88,7 +88,7 @@ cd ..
 - **Records**：按类别、来源和日期筛选，导出CSV；回放会单独标记。
 - **iPhone → Device → On this iPhone**：用户主动启用通知、刷新小组件摘要。没有自动授予系统权限。
 
-[完整操作与安装说明](docs/operator-guide.md)包括Pi、iPhone、语音配置、模型、相机和输出控制。[架构与限制](docs/architecture.md)说明数据及权限边界。[评价流程](docs/evaluation.md)用于以后获同意的真人测试。
+[完整操作与安装说明](docs/operator-guide.md)包括Pi、iPhone、语音配置、模型、相机和输出控制。[架构与限制](docs/architecture.md)说明数据及权限边界。[模块与扩展点](docs/modules.md)对照当前代码列出供应商、工具和作业的接入位置。[评价流程](docs/evaluation.md)用于以后获同意的真人测试。
 
 ## 验证与交付边界
 
