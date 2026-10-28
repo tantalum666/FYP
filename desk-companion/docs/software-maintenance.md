@@ -1,11 +1,12 @@
 # Group 2 · Software maintenance contract
 
-28 October2026. This checkpoint integrates Grok PRs20–59 with the current Alice/Omni/web/phone baseline in PR60. It also fixes selected-task context and interaction recovery. The owner requests focused documentation reading, maintainable implementation and GitHub publication of meaningful milestones.
+28 October2026. The current checkpoint follows merged Grok/PR60 integration and fixes older-memory continuity and shared memory browsing. Selected-task context and interaction recovery remain in place. The owner requests focused documentation reading, maintainable implementation and GitHub publication of meaningful milestones.
 
 ## Frontend responsibilities
 
 | Module | Responsibility |
 |---|---|
+| [MemoryPanel](../frontend/src/workspace/MemoryPanel.tsx) / [MemoryFactList](../frontend/src/workspace/MemoryFactList.tsx) | Panel owns requests, versions and draft protection; list owns fact rendering and transient local search. Searching does not write or fetch. During correction, the search and competing fact actions are disabled so the same draft stays visible |
 | [PhoneApp](../frontend/src/phone/PhoneApp.tsx) | Compose the phone surface, selected panel/task, native route intents and user notices; it does not implement each management page or duplicate the calendar polling machinery |
 | [PhoneHome](../frontend/src/phone/PhoneHome.tsx) | Alice scene, renderer fallback, Plan/More entry points and upcoming-event presentation |
 | [PhonePlan](../frontend/src/phone/PhonePlan.tsx) | Day/month calendar and tasks; refuse a section change while its form/progress draft is dirty or busy |
@@ -34,11 +35,17 @@ Qwen Omni remains the tested integration baseline, not the only/final model choi
 
 ## Validation and publication
 
-The [current QA](../../output/qa/2026-10-28-grok-review-merge/verification.md) separates current automated/browser contracts from the earlier #60 native visual proof. This integration does not claim a new Simulator installation or native touch/keyboard pass. The current integration has450 backend and89 frontend checks; the earlier303/65 result is historical #60 evidence. Historical real-model results are dated evidence and are not counted as new passes.
+The [current QA](../../output/qa/2026-10-28-native-memory/verification.md) records459 backend/89 frontend checks, Ruff/types/build, desktop/phone browser interactions and a fresh native build/install/launch. Native touch/soft-keyboard acceptance remains open: the current input automation did not deliver a reliable app transition. The earlier450/89 integration and303/65 #60 results are historical. Historical real-model results are not counted as new passes. Product acceptance gates and the next integrated journey are in [delivery readiness](delivery-readiness.md).
 
 The branch retains main's Vite8.3.5 dependency. Validation runs locally: backend lint/tests, frontend tests/build and scoped interaction checks, with models and executors disabled unless separately authorized. The owner does not want GitHub CI; the workflow was removed. Do not recreate it or treat Actions/account limits as unfinished work. Relevant local checks remain mandatory before publication.
 
 Before another substantial change, read the focused contract and relevant implementation, preserve the user's data/dirty work, use the existing service boundaries and validate the affected behavior. Add abstractions only where they clarify a real responsibility or remove duplication; line count alone is not quality. Update this contract when ownership or lifecycle changes.
+
+## Active memory projection
+
+MemoryService owns `active_facts()`, a model-safe current snapshot of all active facts under the existing200-fact cap; deleted, superseded and read-time-expired rows are absent. `for_model()` keeps the recent40 prompt window. Query tools rank the whole active set but return at most8; draft version checks and exact local forgetting also use the whole set. Owner checks remain at the calling boundary and confirmations recheck versions.
+
+Conversation revision hashes that whole snapshot, while the initial prompt stays at40. Older facts can enter replay through search, so removal/expiry outside the prompt window must also invalidate RAM replay and recall focus. This reuses the existing Conversations lifecycle, without a second cache/store or automatic provider call.
 
 ## Integrated review invariants
 

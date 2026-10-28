@@ -384,3 +384,15 @@ The exact-head Actions run40642113382 returned failure annotations saying both j
 用户再次明确不用CI。移除唯一的当前工作流，更新AGENTS／product／CONTRIBUTING／README／START_HERE／维护规范和精简handoff，取消“CI账户问题”待办。本机Actions管理API无相应权限，因此通过仓库源码删除工作流实现，不扩大令牌权限。
 
 本轮只改工作流配置和文档，核对应用文件哈希、工作流清单、差异空白与内部链接，不重复运行未受影响的450／89项应用测试。450／89是上轮修复后成绩，并非Grok原始交付直接通过。阅读和验证见[本轮QA](output/qa/2026-10-28-local-validation-only/verification.md)。
+
+## 2026-10-28 · Older-memory continuity and current native build
+
+**Goal:** continue AI/software toward real delivery, starting from the open native phone gate and long-term assistant reliability. Startup used focused Markdown reading; exact scope is recorded in[reading record](output/qa/2026-10-28-native-memory/reading-record.json).
+
+**Implemented:** one model-safe active-fact projection, complete active-memory query/draft/exact-forget access, whole-memory revision invalidation while keeping40 prompt/8 query result limits. SharedMemoryFactList handles web/phone local search and rendering; MemoryPanel keeps requests, versions and unsaved guards. Correction cannot be replaced by search/another row; save/error feedback is adjacent and prior wording separates cleanly. No new dependency, queue, model adapter or transcript store.
+
+**Validation:** original source failed8 of9 meaningful regressions; repaired source passes43 related and459 full backend tests,89 frontend tests, Ruff and type/Vite build. Real1365×900 web and393×852/320×740 phone browser checked42-fact English/Chinese search, empty/clear, correction, navigation/return guards and independent API/current recall readback. Phone Plan→New→Save→Back passed in browser. The current source passed pinned native framework checks, Capacitor sync and fresh Simulator build/install/launch. Its actual Alice frame showed the browser-created event through native API reads. Native touch/soft keyboard remains open because mirror/native input automation did not produce a reliable app transition; no native pass is claimed.
+
+**Files and next step:**[QA](output/qa/2026-10-28-native-memory/verification.md), updated memory/Omni/maintenance/phone contracts, product/readmes/entry/handoff/decisions and[delivery gates](desk-companion/docs/delivery-readiness.md). Next is one task → approved bounded job → independently verified result → phone continuation with lost acknowledgement/restart. Older runtimes/worktrees and school originals are preserved.
+
+**Boundaries:** all checks local; no CI, hosted calls, live media, external accounts or Pi/Luwu. Qwen remains a baseline, alternatives stay open. Important progress is published on a separate branch/PR after diff/secret/evidence checks; exact publication readback is recorded separately, not treated as main merge/deployment.

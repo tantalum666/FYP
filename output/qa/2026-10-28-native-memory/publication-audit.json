@@ -1,0 +1,27 @@
+{
+  "file_count": 37,
+  "broken_local_links": [],
+  "secret_pattern_files": [],
+  "published_images": [
+    {
+      "path": "output/qa/2026-10-28-native-memory/native-phone.jpg",
+      "bytes": 30505
+    },
+    {
+      "path": "output/qa/2026-10-28-native-memory/phone-memory-320.jpg",
+      "bytes": 25652
+    },
+    {
+      "path": "output/qa/2026-10-28-native-memory/phone-memory.jpg",
+      "bytes": 31589
+    },
+    {
+      "path": "output/qa/2026-10-28-native-memory/web-memory.jpg",
+      "bytes": 66426
+    }
+  ],
+  "workflow_yamls": [],
+  "private_extensions": [],
+  "secret_scan_note": "Token boundaries exclude sk- substrings inside existing desk-/task- pathnames. No credentials/private runtime files in selected publication.",
+  "gitleaks": "Staged scan: no leaks found; normalized only trailing whitespace in captured logs."
+}

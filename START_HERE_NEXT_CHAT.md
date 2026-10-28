@@ -1,24 +1,25 @@
 # Group 2 · Current software entry
 
-28 October 2026. The owner authorized review/fix/merge of Grok PRs20–59 and explicitly included #60 while retaining the latest Alice, phone and unified Omni baseline.
+28 October 2026. The current continuation is older-memory reliability and shared memory search, following the completed Grok/#60 integration and the owner's no-CI correction.
 
 ## Start here
 
-Use `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, which follows the merged main plus its document receipt closeout; inspect Git status before choosing a new branch. Read [AGENTS](AGENTS.md), [product](product.md), [handoff](handoff.md), the latest relevant [decisions](decision-log.md), and [software maintenance](desk-companion/docs/software-maintenance.md). Read only the additional focused sections needed for the next task.
+Use `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, current branch`codex/native-memory-reliability-20261028`, based on main`9bfe2eedf0ea05b9f7d143a18388d84e36e19de0`. Inspect Git status and[handoff](handoff.md) before creating a new branch; do not overwrite unpublished work. Read[AGENTS](AGENTS.md),[product](product.md), latest relevant[decisions](decision-log.md) and[software maintenance](desk-companion/docs/software-maintenance.md). Current scope/evidence:[QA](output/qa/2026-10-28-native-memory/verification.md); remaining integrated goals:[delivery gates](desk-companion/docs/delivery-readiness.md).
 
-[PR61](https://github.com/tantalum666/FYP/pull/61) merged reviewed head923a1e2 into main as c2037cd. All41 original PRs20–60 are confirmed merged and included by ancestry. The original three Grok rehearsal failures and further cross-stack permission/context/backup/recovery bugs were repaired. Current local checks are450 backend/89 frontend, Ruff, types/build and controlled desktop/mobile browser flows. Verified publication/merge receipts and exact hashes are in [QA receipts](output/qa/2026-10-28-grok-review-merge/publication.json); do not substitute a local commit for remote readback.
+Current local checks:459backend/89frontend, Ruff/types/build; actual web/phone search, correction and draft recovery with independent API readback. The current source is installed/launched in Simulator, but native touch/soft-keyboard input is still unverified. The recent40 prompt window no longer limits memory lookup/drafts or lifecycle invalidation.
 
-The detached `grok-integration-review/FYP` checkout preserves the sealed pre-fix review snapshot188f7b5; do not copy it over the fixed branch. `software-ai-maintenance/FYP` preserves #60 and its earlier live preview. The older dirty `grok-review-merge-20261015/FYP` and primary `Documents/ChatGPT/FYP` preserve authoring, private runtime data and school originals. Do not reset or republish them wholesale.
+## Preserve the reviewed baseline
 
-## Boundaries
+[PR61](https://github.com/tantalum666/FYP/pull/61) already merged Grok20–59 and#60. All41 original PRs were read back merged;[receipts](output/qa/2026-10-28-grok-review-merge/publication.json) record the exact source heads. That round's450/89 checks and security review are historical evidence, not a new scan of this checkpoint.
 
-- Validation is local only. Do not create, restore or trigger GitHub CI, or treat Actions/account limits as pending project work. GitHub remains the source/PR/merge record.
+The detached`grok-integration-review/FYP` checkout preserves pre-fix188f7b5. `software-ai-maintenance/FYP` preserves#60. The older dirty`grok-review-merge-20261015/FYP` and primary`Documents/ChatGPT/FYP` preserve authoring/private runtime/school originals. Do not copy those over the current fixed branch or republish them wholesale.
 
-- Phone keeps full-screen Alice and Plan/More; desktop/device remain separate layouts.
-- Temporary context is login/task-scoped RAM. Durable operation receipts, approved facts and job history are separate persisted data.
-- Qwen is the measured baseline, not the sole/final AI choice. Prior paid budgets remain closed; current tests use fake/scripted providers.
-- The450/89 and browser results do not update the installed native Simulator or establish real-device, media, power or notification delivery acceptance.
-- Pi remains paused. This semester prioritizes software/AI; Luwu/Pi integration is best-effort and separately authorized.
-- No school report was changed or submitted. Historical PRs4/5/15/16 and hardware19 remain outside this merge.
+## Boundaries and next step
 
-The one next step and running preview processes are in [handoff](handoff.md). The original Grok merge guide and software-chapter draft are historical, not current run instructions.
+- Local validation only. Do not create, restore or trigger GitHub CI or list Actions/account limits as pending work.
+- Keep full-screen Alice and Plan/More. Shared current facts and business receipts are distinct from login/task-scoped temporary RAM chat.
+- Qwen is the measured baseline, not the final/only choice; old paid budgets stay closed and current provider fixtures are offline/scripted.
+- Pi remains paused. This semester prioritizes software/AI; Luwu/Pi integration and real media remain separately evidenced work.
+- No school report was changed or submitted; unrelated historical PRs stay separate.
+
+Follow the single next step in[handoff](handoff.md): task → approved bounded job → independently verified result → phone continuation, with lost-acknowledgement/restart recovery. Recheck its listed local services before reuse. Native keyboard acceptance is open and must not be inferred from browser tests or another successful build.

@@ -1,22 +1,26 @@
 # Group 2 Current Handoff
 
-28 October 2026, Asia/Hong_Kong. **Merged: Grok PRs #20–#59 and current baseline #60, through [integration PR #61](https://github.com/tantalum666/FYP/pull/61).** Reviewed code head `923a1e2a53f79d432db0ba0bf31f6c216f5e292c`; main software merge `c2037cda480fde7448dbfbfc4ea9aac2e4086ba8`. All 41 original PRs were read back as merged. [Receipts](output/qa/2026-10-28-grok-review-merge/publication.json). This is source integration, not deployment.
+28 October 2026, Asia/Hong_Kong. Current continuation: **older-memory continuity and shared memory browsing**, on `codex/native-memory-reliability-20261028` in `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`. Base is main `9bfe2eedf0ea05b9f7d143a18388d84e36e19de0` (local-validation-only policy). Publication is recorded in this checkpoint's QA; a branch/PR is not main merge or deployment.
 
-## Current state
+## Completed in this checkpoint
 
-- Active checkout: `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, following merged main with a document-only receipt closeout. Check Git status for the current local branch. All 41 captured heads are included; original base was46ac167. Prior dirty/source/runtime worktrees remain preserved.
-- Retains Alice, mobile Plan/More, shared web/phone session/editor services, selected-task Omni context and all three bounded job executors. Integrates Grok agent loop/SSE, memory/goals/aliases/profile, notifications, backup/diagnostics/PWA and offline evaluation.
-- Repairs owner boundaries at backup apply/goal decisions; complete job import/path fingerprint validation; fresh read tools after forgetting; login/task-scoped RAM context; scoped receipt recovery; omitted calendar-field preservation; provider fallback counting and fake streaming. Latest [maintenance contract](desk-companion/docs/software-maintenance.md) names the responsibility boundaries.
-- [QA](output/qa/2026-10-28-grok-review-merge/verification.md):450 backend/89 frontend, Ruff/types/build, actual desktop1365×900 and phone390×844. Verified stream-loss recovery with one draft/zero approved facts, principal downgrade clears private chat/diagnostics, preview renewal keeps input, phone event save/web readback and alias draft guard.
-- Security review is sealed against pre-fix188f7b5:196 source items,11 candidates,10 low findings and1 rejected trusted-owner push candidate. Fixes and current validation are recorded in QA; the immutable report is not a second scan of the fixed tree.
-- **Validation is local only, per the owner’s reiterated instruction.** The automatic GitHub workflow is removed by the current policy correction. Historical CI records remain in the dated QA; Actions/account limits are not a project gate or next task. Local checks remain the acceptance evidence.
+- Fixed the recent40 prompt window being mistaken for all memory: English/Chinese queries, correction/deletion drafts and exact forgetting now cover all active facts. Shared filtered projection preserves owner checks, confirmation/version checks and bounded prompt/results.
+- Deletion/expiry outside that40-fact window now changes the conversation revision and clears stale replay/recall focus. No additional transcript store, model connection or provider fee.
+- `MemoryFactList` handles shared web/phone search/rendering; `MemoryPanel` owns requests/writes/draft guards. During correction, search and competing fact actions are locked. Save/error messages stay near the list and previous wording has a separate line.
+- [QA](output/qa/2026-10-28-native-memory/verification.md):8 failures reproduced before repair;43 focused and459 full backend checks,89 frontend, Ruff/types/build. Actual1365×900 web,393×852/320×740 phone search, correction, navigation/draft recovery and API readback passed. Phone browser Plan→New→Save→Back passed.
+- Current source was built, installed and launched on iPhone17Pro/iOS26.5. Live native Alice frame and the event saved in the browser were visible. **Native touch/soft keyboard remains unverified:** mirror taps did not produce app transitions, while native CUA showed a transformed/offscreen Device Hub thumbnail and rejected coordinate input. Builds/AX labels do not close that gate.
 
-## Review environment
+## Current environment and preserved work
 
-New isolated fictional preview: web5191/API8832. API exec23018; Vite exec75722. Runtime is this checkout's `desk-companion/.runtime/grok-review-preview`; loopback preview on, text=fake, voice=none, background/extraction/push/executors off. Older web5190/API8831 remains the #60 preview from software-ai-maintenance; its private data was not migrated.
+- API `127.0.0.1:8832`, exec85864; Vite `127.0.0.1:5191`, exec5997. Isolated runtime: this checkout's `desk-companion/.runtime/native-memory-20261028`, with42 fictional facts and a demo event. Preview loopback enabled, providersnone; background/extraction/push/computer/Linux executorsoff. Recheck listeners before reuse.
+- Simulator UDID `F57B6381-6448-434C-AE61-A2663F3458A7`, bundle`dev.group2.deskcompanion`; launch-only defaults override selects API8832. Native saved server/TLS policy unchanged. Mirror `http://localhost:3200`, exec56630, scoped to that Simulator with cleanup trap.
+- Previous #60/#61 runtimes/worktrees and school files are preserved; old5190/8831 processes were not running at startup. Do not present old process IDs as active or migrate private data automatically.
+- Grok20–59 plus#60 were already merged through[PR61](https://github.com/tantalum666/FYP/pull/61); all41 original PR receipts remain in[prior QA](output/qa/2026-10-28-grok-review-merge/publication.json). This continuation does not reopen that review or merge unrelated historical PRs.
 
-The existing iPhone17Pro/iOS26.5 Simulator installation and mirror3200 remain the earlier #60 build. This round checked the browser phone surface, not a fresh native installation. Native touch/keyboard, real-device energy and external delivery remain unverified. Qwen alternatives stay open, prior paid budgets closed, Pi paused.
+## Boundaries
+
+**Local validation only; no GitHub CI.** Pi paused, previous paid budgets closed, no live media or external accounts used. Qwen remains the measured baseline; alternatives and fair comparison remain open. Alice and Plan/More are retained. Full product readiness is tracked by[delivery gates](desk-companion/docs/delivery-readiness.md), including native/real-device acceptance, human voice, notification delivery and posture.
 
 ## One next step
 
-Validate the native iPhone Plan→New→Save→Back and software-keyboard/draft-recovery flow using this merged source. Browser mobile checks are complete for the recorded scope; the installed Simulator still contains the earlier #60 build. Use local validation and keep Pi and paid-model work paused.
+Validate one actual task from web discussion through exact-content approval, the existing bounded file job, independent result verification, and phone continuation; include lost acknowledgement/restart without duplicate execution. Use a disposable local fixture and offline/scripted model responses, reuse TaskService/JobService and fix observed integration failures. Native input remains a separate open environment gate rather than a reason to stop independent software work.

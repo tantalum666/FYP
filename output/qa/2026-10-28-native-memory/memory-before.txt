@@ -1,0 +1,217 @@
+FFFFFFFF.                                                                [100%]
+=================================== FAILURES ===================================
+_ test_query_finds_older_english_and_chinese_facts_without_expanding_default_prompt[My lab locker is Orion.-lab locker] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-23/test_query_finds_older_english0')
+body = 'My lab locker is Orion.', query = 'lab locker'
+
+    @pytest.mark.parametrize(
+        ("body", "query"),
+        [("My lab locker is Orion.", "lab locker"), ("实验室柜子的代号是星河", "实验室柜子")],
+    )
+    def test_query_finds_older_english_and_chinese_facts_without_expanding_default_prompt(
+        tmp_path, body, query
+    ):
+        runtime = _runtime(tmp_path)
+        fact = older_fact(runtime, body)
+        recent = tool(runtime, "memory_query", {})["memories"]
+        assert len(recent) == MAX_MODEL and fact["id"] not in {row["id"] for row in recent}
+        matched = tool(runtime, "memory_query", {"query": query})["memories"]
+>       assert [row["id"] for row in matched] == [fact["id"]]
+E       AssertionError: assert [] == ['8b2b96a923d...7cc9526eace8']
+E
+E         Right contains one more item: '8b2b96a923dd46bc93ae7cc9526eace8'
+E         Use -v to get more diff
+
+tests/test_memory_continuity.py:43: AssertionError
+_ test_query_finds_older_english_and_chinese_facts_without_expanding_default_prompt[\u5b9e\u9a8c\u5ba4\u67dc\u5b50\u7684\u4ee3\u53f7\u662f\u661f\u6cb3-\u5b9e\u9a8c\u5ba4\u67dc\u5b50] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-23/test_query_finds_older_english1')
+body = '实验室柜子的代号是星河', query = '实验室柜子'
+
+    @pytest.mark.parametrize(
+        ("body", "query"),
+        [("My lab locker is Orion.", "lab locker"), ("实验室柜子的代号是星河", "实验室柜子")],
+    )
+    def test_query_finds_older_english_and_chinese_facts_without_expanding_default_prompt(
+        tmp_path, body, query
+    ):
+        runtime = _runtime(tmp_path)
+        fact = older_fact(runtime, body)
+        recent = tool(runtime, "memory_query", {})["memories"]
+        assert len(recent) == MAX_MODEL and fact["id"] not in {row["id"] for row in recent}
+        matched = tool(runtime, "memory_query", {"query": query})["memories"]
+>       assert [row["id"] for row in matched] == [fact["id"]]
+E       AssertionError: assert [] == ['40c3e7ffb16...6eaf45282428']
+E
+E         Right contains one more item: '40c3e7ffb1694e1586176eaf45282428'
+E         Use -v to get more diff
+
+tests/test_memory_continuity.py:43: AssertionError
+_ test_older_fact_changes_require_review_and_recheck_version_at_confirmation[replace] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-23/test_older_fact_changes_requir0')
+action = 'replace'
+
+    @pytest.mark.parametrize("action", ["replace", "delete"])
+    def test_older_fact_changes_require_review_and_recheck_version_at_confirmation(tmp_path, action):
+        runtime = _runtime(tmp_path)
+        fact = older_fact(runtime)
+        arguments = {"memory_id": fact["id"], "expected_version": fact["version"]}
+        if action == "replace":
+            arguments["body"] = "My lab locker is Vega."
+        prepared = tool(runtime, f"memory_{action}_draft", arguments, "prepare")
+>       assert "proposal" in prepared and prepared["saved"] is False
+E       AssertionError: assert ('proposal' in {'error': 'VERSION_CONFLICT', 'hint': 'Query the current calendar/task/memory before retrying. A proposal id is not an event id; copy the current record id and version from the appropriate read tool.', 'saved': False})
+
+tests/test_memory_continuity.py:57: AssertionError
+_ test_older_fact_changes_require_review_and_recheck_version_at_confirmation[delete] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-23/test_older_fact_changes_requir1')
+action = 'delete'
+
+    @pytest.mark.parametrize("action", ["replace", "delete"])
+    def test_older_fact_changes_require_review_and_recheck_version_at_confirmation(tmp_path, action):
+        runtime = _runtime(tmp_path)
+        fact = older_fact(runtime)
+        arguments = {"memory_id": fact["id"], "expected_version": fact["version"]}
+        if action == "replace":
+            arguments["body"] = "My lab locker is Vega."
+        prepared = tool(runtime, f"memory_{action}_draft", arguments, "prepare")
+>       assert "proposal" in prepared and prepared["saved"] is False
+E       AssertionError: assert ('proposal' in {'error': 'VERSION_CONFLICT', 'hint': 'Query the current calendar/task/memory before retrying. A proposal id is not an event id; copy the current record id and version from the appropriate read tool.', 'saved': False})
+
+tests/test_memory_continuity.py:57: AssertionError
+_______ test_exact_forget_of_an_older_fact_prepares_only_a_draft[Forget] _______
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-23/test_exact_forget_of_an_older_0')
+prefix = 'Forget'
+
+    @pytest.mark.parametrize("prefix", ["Forget", "忘掉"])
+    def test_exact_forget_of_an_older_fact_prepares_only_a_draft(tmp_path, prefix):
+        runtime = _runtime(tmp_path)
+        fact = older_fact(runtime)
+        draft = runtime.assistant.memory_turn(
+            AssistantMessage(message=f"{prefix}: {fact['body']}"), "forget-old"
+        )
+>       assert draft["kind"] == "draft" and draft["saved"] is False
+E       AssertionError: assert ('clarify' == 'draft'
+E
+E         - draft
+E         + clarify)
+
+tests/test_memory_continuity.py:83: AssertionError
+____ test_exact_forget_of_an_older_fact_prepares_only_a_draft[\u5fd8\u6389] ____
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-23/test_exact_forget_of_an_older_1')
+prefix = '忘掉'
+
+    @pytest.mark.parametrize("prefix", ["Forget", "忘掉"])
+    def test_exact_forget_of_an_older_fact_prepares_only_a_draft(tmp_path, prefix):
+        runtime = _runtime(tmp_path)
+        fact = older_fact(runtime)
+        draft = runtime.assistant.memory_turn(
+            AssistantMessage(message=f"{prefix}: {fact['body']}"), "forget-old"
+        )
+>       assert draft["kind"] == "draft" and draft["saved"] is False
+E       AssertionError: assert ('clarify' == 'draft'
+E
+E         - draft
+E         + clarify)
+
+tests/test_memory_continuity.py:83: AssertionError
+_ test_older_fact_lifecycle_invalidates_http_replay_even_when_recent_window_is_unchanged[delete] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-23/test_older_fact_lifecycle_inva0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10cb83100>
+change = 'delete'
+
+    @pytest.mark.parametrize("change", ["delete", "expire"])
+    def test_older_fact_lifecycle_invalidates_http_replay_even_when_recent_window_is_unchanged(
+        tmp_path, monkeypatch, change
+    ):
+        from desk.app import create_app
+        from desk.text_ai import TextPlan
+
+        app = create_app(tmp_path, password="fixture", scheduler=False)
+        runtime = app.state.runtime
+        expiry = runtime.store.clock() + timedelta(minutes=2)
+        fact = older_fact(runtime, expires_at=expiry.isoformat() if change == "expire" else None)
+        client = owner_client(app)
+        principal = {"kind": "owner", "session": client.cookies.get("desk_companion_session")}
+        initial = send(client, "A temporary conversation").json()
+        revision, _prompt = memory_context(runtime, True)
+        chat = runtime.voice.conversations.open(principal, revision, initial["conversation_id"])
+        chat.append("assistant", fact["body"])
+        chat.recall_id = fact["id"]
+        recent = runtime.memory.for_model()
+        if change == "delete":
+            runtime.memory.delete(fact["id"], fact["version"], "remove-old")
+        else:
+            # No scheduler tick: read-time expiry alone must invalidate old context.
+            runtime.store.clock = lambda: expiry + timedelta(seconds=1)
+        assert runtime.memory.for_model() == recent
+>       assert memory_context(runtime, True)[0] != revision
+E       AssertionError: assert 'd397fdbda1dd23dfb8cfe1acfbdf95561c0f7e3198c994d02e39f7f488f7f1f5' != 'd397fdbda1dd23dfb8cfe1acfbdf95561c0f7e3198c994d02e39f7f488f7f1f5'
+
+tests/test_memory_continuity.py:114: AssertionError
+----------------------------- Captured stderr call -----------------------------
+{"event": "http", "method": "POST", "path": "/api/session", "query": "", "status": 200}
+{"event": "http", "method": "POST", "path": "/api/assistant/messages", "query": "", "status": 200}
+_ test_older_fact_lifecycle_invalidates_http_replay_even_when_recent_window_is_unchanged[expire] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-23/test_older_fact_lifecycle_inva1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10cb80d60>
+change = 'expire'
+
+    @pytest.mark.parametrize("change", ["delete", "expire"])
+    def test_older_fact_lifecycle_invalidates_http_replay_even_when_recent_window_is_unchanged(
+        tmp_path, monkeypatch, change
+    ):
+        from desk.app import create_app
+        from desk.text_ai import TextPlan
+
+        app = create_app(tmp_path, password="fixture", scheduler=False)
+        runtime = app.state.runtime
+        expiry = runtime.store.clock() + timedelta(minutes=2)
+        fact = older_fact(runtime, expires_at=expiry.isoformat() if change == "expire" else None)
+        client = owner_client(app)
+        principal = {"kind": "owner", "session": client.cookies.get("desk_companion_session")}
+        initial = send(client, "A temporary conversation").json()
+        revision, _prompt = memory_context(runtime, True)
+        chat = runtime.voice.conversations.open(principal, revision, initial["conversation_id"])
+        chat.append("assistant", fact["body"])
+        chat.recall_id = fact["id"]
+        recent = runtime.memory.for_model()
+        if change == "delete":
+            runtime.memory.delete(fact["id"], fact["version"], "remove-old")
+        else:
+            # No scheduler tick: read-time expiry alone must invalidate old context.
+            runtime.store.clock = lambda: expiry + timedelta(seconds=1)
+        assert runtime.memory.for_model() == recent
+>       assert memory_context(runtime, True)[0] != revision
+E       AssertionError: assert '0a65aa3e0f86fe237a8ba479d1d3a25d5e6abf2e52508f09a7f8c427c0f42e9d' != '0a65aa3e0f86fe237a8ba479d1d3a25d5e6abf2e52508f09a7f8c427c0f42e9d'
+
+tests/test_memory_continuity.py:114: AssertionError
+----------------------------- Captured stderr call -----------------------------
+{"event": "http", "method": "POST", "path": "/api/session", "query": "", "status": 200}
+{"event": "http", "method": "POST", "path": "/api/assistant/messages", "query": "", "status": 200}
+------------------------------ Captured log call -------------------------------
+INFO     desk:log.py:67 {"event": "http", "method": "POST", "path": "/api/session", "query": "", "status": 200}
+INFO     desk:log.py:67 {"event": "http", "method": "POST", "path": "/api/assistant/messages", "query": "", "status": 200}
+=============================== warnings summary ===============================
+.venv/lib/python3.14/site-packages/fastapi/testclient.py:1
+  /Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/.venv/lib/python3.14/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_memory_continuity.py::test_query_finds_older_english_and_chinese_facts_without_expanding_default_prompt[My lab locker is Orion.-lab locker]
+FAILED tests/test_memory_continuity.py::test_query_finds_older_english_and_chinese_facts_without_expanding_default_prompt[\u5b9e\u9a8c\u5ba4\u67dc\u5b50\u7684\u4ee3\u53f7\u662f\u661f\u6cb3-\u5b9e\u9a8c\u5ba4\u67dc\u5b50]
+FAILED tests/test_memory_continuity.py::test_older_fact_changes_require_review_and_recheck_version_at_confirmation[replace]
+FAILED tests/test_memory_continuity.py::test_older_fact_changes_require_review_and_recheck_version_at_confirmation[delete]
+FAILED tests/test_memory_continuity.py::test_exact_forget_of_an_older_fact_prepares_only_a_draft[Forget]
+FAILED tests/test_memory_continuity.py::test_exact_forget_of_an_older_fact_prepares_only_a_draft[\u5fd8\u6389]
+FAILED tests/test_memory_continuity.py::test_older_fact_lifecycle_invalidates_http_replay_even_when_recent_window_is_unchanged[delete]
+FAILED tests/test_memory_continuity.py::test_older_fact_lifecycle_invalidates_http_replay_even_when_recent_window_is_unchanged[expire]
+8 failed, 1 passed, 1 warning in 2.02s

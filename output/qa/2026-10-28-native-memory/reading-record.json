@@ -1,0 +1,20 @@
+{
+  "scope": "Native phone event/keyboard/draft acceptance plus older-memory retrieval/correction/deletion and replay invalidation; local-only validation.",
+  "read": [
+    "AGENTS.md, product.md, handoff.md full",
+    "decision-log.md latest28Oct decisions",
+    "software-maintenance.md, agent-loop-handoff.md, companion-gaps.md full",
+    "planning/2026-10-28/phone-simulator-implementation.md full",
+    "planning/2026-10-06/personal-agent-discussion-and-next-steps.md sections1-3 for accepted journey/context only",
+    "scripts/prepare_ios.py and current SwiftPM/Capacitor setup",
+    "memory model projection and assistant memory tools; related callers/tests inspected as work proceeds",
+    "memory.md full; omni-conversation.md current lifecycle/selected-task sections plus dated evidence/HTTP integration",
+    "MemoryPanel.tsx full, new MemoryFactList.tsx full, affected web-workspace.css section; related phone environment and native AppDelegate setup",
+    "memory.py active facts/draft/lifecycle sections; assistant.py tool handlers/exact forget; conversation.py full; tool_policy execution boundary; context/rank and relevant regression tests",
+    "README and desk-companion/README current intro/checkpoint sections, START_HERE full, work-log latest entries",
+    "iOS debugger/simulator-browser and React/frontend-testing skills; CUA native/browser/local-web docs",
+    "CONTRIBUTING.md full for branch, local validation and publication scope"
+  ],
+  "bounds": "No CI, paid models, Pi or physical media capture; old runtimes preserved. CUA for actual UI. Native build/visual readback verified; native taps/keyboard remain unverified.",
+  "state": "implementation and local checks complete; final publication readback pending"
+}

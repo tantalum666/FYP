@@ -1,6 +1,6 @@
 # Group 2 Decision Log
 
-Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
+Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
 
 ## 2026-09-25 用户推翻 Senplate，研究智能工作台新方向
 
@@ -327,3 +327,11 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **用户决定：**“我说了不用CI，本地弄就好。”此要求取代此前添加工作流、排查Actions或把账户限制保留为待办的工程安排。
 - **落实：**移除`.github/workflows/desk-companion.yml`，同步AGENTS、产品、协作、入口、维护规范和handoff；保留本地测试／lint／构建／实际交互验收。此前“default-off CI”的表述不准确：工作流实际配置了push、pull_request和手动触发，现撤除。
 - **边界：**GitHub继续用于源码、PR及合并；不调整账单或申请额外Actions权限。历史CI失败记录保留为历史证据，不再是当前门槛。该次改动不修改应用源码；Grok质量评价以已完成的审查和复现为依据。
+
+## 2026-10-28 继续推进：长期记忆与实际交付门槛
+
+- **用户指令：**继续推进，指出离目标仍有距离。保留本学期软件／AI优先、可维护性、精简阅读与本地验收，不据此开启收费试验或恢复硬件。
+- **工程修复：**把活动事实投影与最近40条提示窗口分开，查询／草稿检查和精确忘掉覆盖全部有效事实；修订指纹也覆盖旧事实删除／到期。保留200条存储上限、40条初始化／8条查询结果和确认时版本核对。网页／手机共用MemoryFactList，Panel继续负责请求和写入，搜索／并行更正不能替换未保存编辑。
+- **实际证据：**先复现8个失败，再通过43项相关和459项全套后端；89前端、lint/types/build、42条虚构事实的实际搜索／更正／草稿保护／API读回。当前原生包已重装／启动并显示数据，但镜像／Device Hub输入没有可靠触控转换，因此原生软键盘仍未通过。
+- **工程推进顺序：**新增按用户旅程而非功能数量记录的[交付门槛](desk-companion/docs/delivery-readiness.md)，下一步验证同一事务从批准作业到结果读回再到手机继续处理，沿用已有队列和证据。不是新建一套任务或代理系统，也不是声称当前产品已完成。
+- **发布边界：**本轮重要增量经本地检查后推独立分支／PR，保留原工作区／学校原件／运行数据。该新功能PR不自动继承此前Grok整合的合并动作；最终分支／PR回执见本轮QA。
