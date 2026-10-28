@@ -12,6 +12,7 @@ from pathlib import Path
 from .computer import (
     ExecutionRejected,
     LocalNotesExecutor,
+    artifact_filename,
     MAX_BYTES,
     exclusive_write,
     open_real_directory,
@@ -56,7 +57,7 @@ class LinuxDesktopExecutor:
             raise ExecutionRejected("COMPUTER_ACTION_DENIED", 403)
         if not self.status()["ready"]:
             raise ExecutionRejected("LINUX_DESKTOP_UNAVAILABLE", 409)
-        filename = LocalNotesExecutor.filename(job)
+        filename = artifact_filename(job)
         content = job["content"].encode("utf-8")
         if len(content) > MAX_BYTES:
             raise ExecutionRejected("COMPUTER_CONTENT_TOO_LARGE", 422)
@@ -97,7 +98,7 @@ class LinuxDesktopExecutor:
             GSETTINGS_BACKEND="memory",
         )
         helper = Path(__file__).with_name("linux_desktop_bridge.py")
-        target = self.root / LocalNotesExecutor.filename(job)
+        target = self.root / artifact_filename(job)
         process = subprocess.Popen(
             ["/usr/bin/python3", str(helper), str(target)],
             stdin=subprocess.PIPE,
@@ -139,7 +140,7 @@ class LinuxDesktopExecutor:
         try:
             receipt = read_artifact(
                 directory,
-                LocalNotesExecutor.filename(job),
+                artifact_filename(job),
                 job["content"].encode("utf-8"),
                 self.identity,
                 self.scope,
