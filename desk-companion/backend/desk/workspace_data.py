@@ -31,6 +31,9 @@ class WorkspacePreferences(StrictModel):
     evening_check_enabled: bool = False
     avatar_display: Literal["calendar", "companion"] = "calendar"
     voice_enabled: bool = False
+    tone: Literal["plain", "warm"] = "plain"
+    verbosity: Literal["brief", "normal"] = "normal"
+    proactivity: Literal["off", "low", "normal"] = "normal"
 
     @field_validator("quiet_start", "quiet_end", "daily_brief_time", "evening_check_time")
     @classmethod
@@ -45,6 +48,20 @@ class WorkspacePreferences(StrictModel):
 class PreferencesUpdate(StrictModel):
     expected_version: int = Field(ge=1)
     preferences: WorkspacePreferences
+
+
+def owner_style(prefs) -> str:
+    """How the owner asked to be addressed. Missing keys keep the previous defaults.
+
+    Chat does not write these. The owner saves them on the preferences page.
+    """
+    tone = prefs.get("tone", "plain")
+    verbosity = prefs.get("verbosity", "normal")
+    proactivity = prefs.get("proactivity", "normal")
+    return (
+        f"Owner style: tone {tone}; verbosity {verbosity}; proactivity {proactivity}. "
+        "Follow this style. Do not change it from the conversation."
+    )
 
 
 def is_quiet(prefs, at):

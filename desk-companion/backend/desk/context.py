@@ -7,6 +7,7 @@ from .context_budget import fit_context
 from .rank import rank_rows
 from .store import encode
 from .turns import recent_turns
+from .workspace_data import owner_style
 
 
 def voice_context_note(runtime, *, allow_memory=True, user_message="", budget=None) -> str:
@@ -80,6 +81,7 @@ def pack_conversation(
         "more_tasks": len(tasks["tasks"]) > 30,
         "selected_task": selected,
         "calendar": window["occurrences"][:80],
+        "style": owner_style(runtime.data.preferences()),
     }
     if user_message:
         packed["user_message"] = user_message

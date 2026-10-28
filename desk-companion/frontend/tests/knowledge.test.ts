@@ -78,4 +78,9 @@ test("the memory page is the knowledge screen and extras no longer repeats nudge
   assert.equal(knowledgeCopy.profileTitle[0], "Profile used in replies");
   assert.match(checks, /knowledgeCopy\.nudgeTitle/);
   assert.doesNotMatch(extras, /<CheckIns/);
+  assert.match(extras, /How I should talk and interrupt/);
+  assert.match(extras, /form\.tone/);
+  assert.match(extras, /form\.verbosity/);
+  assert.match(extras, /form\.proactivity/);
+  assert.match(extras, /Chat does not change these/);
 });

@@ -8,9 +8,10 @@ import httpx
 from fastapi.testclient import TestClient
 
 from desk.app import create_app
+from desk.context import pack_conversation
 from desk.runtime import Runtime
 from desk.schemas import SettingsInput
-from desk.store import Store
+from desk.store import Store, encode
 from desk.tasks import TaskInput
 from desk.text_ai import TextAssistant, TextConfig
 from desk.workspace_data import PreferencesUpdate, WorkspacePreferences
@@ -192,3 +193,45 @@ def test_background_advice_keeps_the_nudge_reason(tmp_path):
     service.enrich_one()
     followup = runtime.tasks.detail(task["id"])["task"]["followup"]
     assert followup["mode"] == "ai" and followup["reason_en"] == reason
+
+
+def test_saved_style_is_packed_and_proactivity_gates_check_ins(tmp_path):
+    runtime, _clock = _runtime(tmp_path, datetime(2026, 10, 2, tzinfo=UTC))
+    _prefs(
+        runtime,
+        tone="warm",
+        verbosity="brief",
+        proactivity="off",
+        daily_brief_enabled=True,
+        evening_check_enabled=True,
+    )
+    assert "tone warm" in pack_conversation(runtime)["style"]
+    assert "verbosity brief" in pack_conversation(runtime)["style"]
+    runtime.tick()
+    assert runtime.nudges.listing()["nudges"] == []
+
+    low, _low_clock = _runtime(tmp_path / "low", datetime(2026, 10, 2, tzinfo=UTC))
+    _prefs(
+        low,
+        proactivity="low",
+        daily_brief_enabled=True,
+        evening_check_enabled=True,
+    )
+    low.tick()
+    assert [row["kind"] for row in low.nudges.listing()["nudges"]] == ["morning_brief"]
+    clock_low = datetime(2026, 10, 2, 13, tzinfo=UTC)
+    evening, _evening_clock = _runtime(tmp_path / "evening", clock_low)
+    _prefs(evening, proactivity="low", evening_check_enabled=True, daily_brief_enabled=True)
+    evening.tick()
+    assert evening.nudges.listing()["nudges"] == []
+
+    with runtime.store.connection(write=True) as conn:
+        conn.execute(
+            "UPDATE workspace_preferences SET data=? WHERE id=1",
+            (encode({"quiet_enabled": True, "reminder_strength": "chime"}),),
+        )
+    restored = runtime.data.preferences()
+    assert restored["tone"] == "plain"
+    assert restored["verbosity"] == "normal"
+    assert restored["proactivity"] == "normal"
+    assert restored["reminder_strength"] == "chime"

@@ -131,4 +131,7 @@ export interface WorkspacePreferences {
   evening_check_enabled: boolean;
   avatar_display: "calendar" | "companion";
   voice_enabled: boolean;
+  tone: "plain" | "warm";
+  verbosity: "brief" | "normal";
+  proactivity: "off" | "low" | "normal";
 }

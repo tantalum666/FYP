@@ -27,7 +27,6 @@ from starlette.websockets import WebSocketDisconnect
 
 from .assistant import TOOLS
 from .conversation import Conversations, draft_context, memory_context, task_context
-from .persona import voice_instructions
 from .store import DomainError
 from .tool_dispatch import ToolDispatcher
 from .voice_credentials import qwen_key
@@ -772,11 +771,15 @@ class VoiceService:
             endpoint += "?" + urlencode({"model": self.config.model})
         with self.store.connection() as conn:
             zone = self.store.settings(conn)["timezone"]
-        instructions = voice_instructions(
+        from .style import render_prompt
+
+        instructions = render_prompt(
             self.runtime.persona.current()["body"],
+            self.runtime.data.preferences(),
             language,
-            self.store.clock().astimezone(ZoneInfo(zone)).isoformat(),
-            zone,
+            channel="voice",
+            now_iso=self.store.clock().astimezone(ZoneInfo(zone)).isoformat(),
+            zone=zone,
         )
         session_id = uuid4().hex
         drafts, usage = {}, {}

@@ -24,9 +24,9 @@ from .context import pack_conversation
 from .turns import remember_exchange
 from .model_provider import HostedTextProvider
 from .memory_extract import EXTRACT_INSTRUCTIONS, accept_stated_fact
-from .persona import followup_system, text_system
 from .reply_stream import audit_events, sse_encode, text_chunks
 from .token_stream import extract_message
+from .style import present, render_prompt
 from .text_providers import text_adapter
 from .workspace_data import is_quiet
 from .schemas import StrictModel
@@ -326,7 +326,7 @@ class TextAssistant:
             if turn is None:
                 turn = self.maybe_extract(payload, key, allow_memory=allow_memory)
             if turn is not None:
-                reply = turn
+                reply = present(turn, self.runtime.data.preferences(), payload.language)
                 with self.store.connection(write=True) as conn:
                     conn.execute(
                         "INSERT INTO assistant_replies VALUES(?,?,?)",
@@ -349,7 +349,7 @@ class TextAssistant:
                     and tool_visible(t["name"], allow_memory)
                 ],
             }
-            system = text_system(self.runtime.persona.current()["body"])
+            system = render_prompt(self.runtime.persona.current()["body"], self.runtime.data.preferences(), payload.language)
             reply = AgentLoop(self.runtime, HostedTextProvider(self.generate, self.generate_live)).run(
                 system=system,
                 context=context,
@@ -358,6 +358,7 @@ class TextAssistant:
                 allow_memory=allow_memory,
                 on_event=on_event,
             )
+            reply = present(reply, self.runtime.data.preferences(), payload.language)
             if allow_memory and key:
                 remember_exchange(self.runtime, key, payload.message, str(reply.get("message") or ""))
             with self.store.connection(write=True) as conn:
@@ -481,7 +482,12 @@ class TextAssistant:
                 )
             try:
                 advice = self.generate(
-                    followup_system(self.runtime.persona.current()["body"]),
+                    render_prompt(
+                        self.runtime.persona.current()["body"],
+                        self.runtime.data.preferences(),
+                        "en",
+                        channel="followup",
+                    ),
                     self.context(row["task_id"]),
                     FollowUpAdvice,
                     "followup",

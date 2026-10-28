@@ -119,10 +119,17 @@ class NudgeService:
 
     def tick(self) -> None:
         prefs = self.runtime.data.preferences()
+        # Off stops both check-ins. Low keeps the morning briefing and skips the evening one.
+        # Per-task follow-ups stay on their own switch.
+        level = prefs.get("proactivity", "normal")
+        if level == "off":
+            return
         with self.store.connection() as conn:
             zone = ZoneInfo(self.store.settings(conn)["timezone"])
         now_local = self.store.clock().astimezone(zone)
         kinds = due_kinds(prefs, now_local)
+        if level == "low":
+            kinds = [kind for kind in kinds if kind != "evening_check"]
         if not kinds:
             return
         tasks = self.runtime.tasks.listing()["tasks"]
