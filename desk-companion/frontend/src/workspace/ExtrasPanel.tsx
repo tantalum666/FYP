@@ -165,6 +165,29 @@ export function ExtrasPanel({ t }: { t: Translate }) {
             onInput={(e) => change("daily_brief_time", e.currentTarget.value)}
           />
         </label>
+        <label className="check-field">
+          <input
+            type="checkbox"
+            checked={form.evening_check_enabled}
+            onChange={(e) => change("evening_check_enabled", e.target.checked)}
+          />
+          {t("Evening check-in", "晚间检查")}
+        </label>
+        <label className="field">
+          {t("Check-in time", "检查时间")}
+          <input
+            type="time"
+            required
+            value={form.evening_check_time}
+            onInput={(e) => change("evening_check_time", e.currentTarget.value)}
+          />
+        </label>
+        <p className="workspace-hint">
+          {t(
+            "Morning and evening check-ins use these times and the quiet hours above. Each one explains why it fired. They do not create a second reminder schedule.",
+            "早晨简报和晚间检查使用这里的时间和上方的安静时段。每一条都会说明触发原因，不会另建一套提醒。",
+          )}
+        </p>
       </section>
       <section className="workspace-section">
         <h3>{t("Companion", "桌面助理")}</h3>

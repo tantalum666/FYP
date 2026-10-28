@@ -1,0 +1,83 @@
+{
+  "recall": [
+    {
+      "name": "a forgotten fact is not recalled",
+      "steps": [
+        {"save": "I prefer tea"},
+        {"save": "My name is Yuan"},
+        {"delete": "My name is Yuan"}
+      ],
+      "present": ["I prefer tea"],
+      "absent": ["My name is Yuan"]
+    },
+    {
+      "name": "an expired fact is not recalled",
+      "steps": [
+        {"save": "Visiting next month", "expires_at": "2020-01-01T00:00:00+00:00"}
+      ],
+      "present": [],
+      "absent": ["Visiting next month"]
+    },
+    {
+      "name": "a newer preference about the same subject is the one recalled",
+      "steps": [
+        {"save": "I prefer tea"},
+        {"save": "I prefer tea without sugar"},
+        {"confirm_suggestion": true}
+      ],
+      "present": ["I prefer tea without sugar"],
+      "absent": ["I prefer tea"]
+    }
+  ],
+  "timing": [
+    {
+      "name": "morning brief in the open window",
+      "now": "2026-10-02T00:00:30+00:00",
+      "zone": "Asia/Hong_Kong",
+      "preferences": {"daily_brief_enabled": true, "daily_brief_time": "08:00"},
+      "kinds": ["morning_brief"]
+    },
+    {
+      "name": "quiet hours block the brief",
+      "now": "2026-10-02T00:00:30+00:00",
+      "zone": "Asia/Hong_Kong",
+      "preferences": {
+        "daily_brief_enabled": true,
+        "daily_brief_time": "08:00",
+        "quiet_enabled": true,
+        "quiet_start": "07:30",
+        "quiet_end": "09:00"
+      },
+      "kinds": []
+    },
+    {
+      "name": "evening check stays off unless enabled",
+      "now": "2026-10-02T13:00:10+00:00",
+      "zone": "Asia/Hong_Kong",
+      "preferences": {"evening_check_enabled": false, "evening_check_time": "21:00"},
+      "kinds": []
+    },
+    {
+      "name": "the window closes at two minutes",
+      "now": "2026-10-02T00:02:00+00:00",
+      "zone": "Asia/Hong_Kong",
+      "preferences": {
+        "daily_brief_enabled": true,
+        "daily_brief_time": "08:00",
+        "quiet_enabled": false
+      },
+      "kinds": []
+    },
+    {
+      "name": "enabled evening check inside the window",
+      "now": "2026-10-02T13:00:10+00:00",
+      "zone": "Asia/Hong_Kong",
+      "preferences": {
+        "evening_check_enabled": true,
+        "evening_check_time": "21:00",
+        "quiet_enabled": false
+      },
+      "kinds": ["evening_check"]
+    }
+  ]
+}

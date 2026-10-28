@@ -10,6 +10,7 @@ from fastapi import APIRouter, Depends
 from pydantic import Field, field_validator, model_validator
 
 from .calendar import iso, wall_to_utc
+from .notify import Notice
 from .schemas import EventInput, StrictModel
 from .store import DomainError, encode
 from .workspace_data import quiet_until
@@ -17,6 +18,43 @@ from .workspace_data import quiet_until
 OPEN = {"todo", "in_progress", "waiting"}
 # One tick must not surface every overdue task at once. The rest wait a minute each.
 MAX_NEW_FOLLOWUPS = 3
+
+
+def followup_notice(data, held: bool) -> dict:
+    """Local check-in copy plus the rule that made this nudge fire."""
+    if data["status"] == "waiting":
+        en, zh = (
+            "Has the item you are waiting for arrived?",
+            "你等待的事项有结果了吗？",
+        )
+        why_en = (
+            "This nudge fired because a waiting task reached its saved check time "
+            "and follow-up is still on."
+        )
+        why_zh = "这条提醒已触发：等待中的事务到了已保存的检查时间，且跟进仍然开启。"
+    else:
+        en, zh = (
+            "Any progress to record? Choose your next step.",
+            "有新的进展吗？更新后继续安排下一步。",
+        )
+        why_en = (
+            "This nudge fired because an open task reached its saved check time "
+            "and follow-up is still on."
+        )
+        why_zh = "这条提醒已触发：未完成的事务到了已保存的检查时间，且跟进仍然开启。"
+    if data["next_step"]:
+        en += " Next step: " + data["next_step"]
+        zh += " 下一步：" + data["next_step"]
+    if held:
+        why_en += " It waited until quiet hours ended."
+        why_zh += "它曾被推迟到安静时段结束。"
+    return {
+        "en": en,
+        "zh": zh,
+        "mode": "local_rules",
+        "reason_en": why_en,
+        "reason_zh": why_zh,
+    }
 
 
 class TaskStep(StrictModel):
@@ -295,10 +333,19 @@ class TaskService:
                     task.update(title="", next_step="", waiting_for="", steps=[])
                     if task["followup"]:
                         task["followup"] = {
-                            **task["followup"],
+                            "id": task["followup"]["id"],
+                            "created_at": task["followup"]["created_at"],
+                            "ai_status": task["followup"].get("ai_status", ""),
                             "en": "A private task needs an update.",
                             "zh": "一项私人事务需要更新进展。",
                             "mode": "local_rules",
+                            "reason_en": (
+                                "This nudge fired because a private task reached its saved "
+                                "check time. The details stay hidden."
+                            ),
+                            "reason_zh": (
+                                "这条提醒已触发：一项私人事务到了已保存的检查时间。详情保持隐藏。"
+                            ),
                         }
                 items.append(task)
             items.sort(
@@ -362,6 +409,7 @@ class TaskService:
             changed = False
             made = 0
             waiting = 0
+            outbound = []
             for row in rows:
                 data = self.view(row)
                 hold = row["quiet_hold_until"]
@@ -399,26 +447,16 @@ class TaskService:
                     conn.execute("DELETE FROM task_quiet_holds WHERE task_id=?", (data["id"],))
                     changed = True
                     continue
-                en, zh = (
-                    "Any progress to record? Choose your next step.",
-                    "有新的进展吗？更新后继续安排下一步。",
-                )
-                if data["status"] == "waiting":
-                    en, zh = (
-                        "Has the item you are waiting for arrived?",
-                        "你等待的事项有结果了吗？",
-                    )
-                if data["next_step"]:
-                    en += " Next step: " + data["next_step"]
-                    zh += " 下一步：" + data["next_step"]
+                notice = followup_notice(data, bool(hold))
+                followup_id = uuid4().hex
                 cursor = conn.execute(
                     "INSERT OR IGNORE INTO task_followups(id,task_id,task_version,created_at,state,content) VALUES(?,?,?,?,'pending',?)",
                     (
-                        uuid4().hex,
+                        followup_id,
                         data["id"],
                         data["version"],
                         now,
-                        encode({"en": en, "zh": zh, "mode": "local_rules"}),
+                        encode(notice),
                     ),
                 )
                 conn.execute("UPDATE tasks SET next_check_at=NULL WHERE id=?", (data["id"],))
@@ -427,8 +465,37 @@ class TaskService:
                     self.evidence(conn, data["id"], data["version"], "followup", "", "local_rules")
                     made += 1
                     changed = True
+                    hidden = (
+                        self.store.settings(conn)["hide_private"] and data["visibility"] == "private"
+                    )
+                    body_en = (
+                        "A saved check-in is ready. The details stay hidden."
+                        if hidden
+                        else notice["reason_en"]
+                    )
+                    body_zh = "已到保存的检查时间。细节保持隐藏。" if hidden else notice["reason_zh"]
+                    outbound.append(
+                        Notice(
+                            "followup-" + followup_id,
+                            "followup",
+                            "Follow-up",
+                            "跟进",
+                            body_en,
+                            body_zh,
+                            body_en,
+                            body_zh,
+                        )
+                    )
             if changed:
                 self.store.bump(conn)
+        self._publish(outbound)
+
+    def _publish(self, notices) -> None:
+        notifier = getattr(self.runtime, "notify", None)
+        if notifier is None:
+            return
+        for notice in notices:
+            notifier.publish(notice, quiet=False)
 
     def snapshot(self):
         result = self.listing(display=True)

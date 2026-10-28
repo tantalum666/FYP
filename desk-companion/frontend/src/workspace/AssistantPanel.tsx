@@ -39,7 +39,8 @@ interface Proposal {
     | "task_change"
     | "memory_save"
     | "memory_replace"
-    | "memory_delete";
+    | "memory_delete"
+    | "memory_consolidate";
   expires_at: string;
   data: {
     task?: TaskInput;
@@ -59,6 +60,11 @@ interface Proposal {
     output?: { kind: string; preset: string };
     body?: string;
     previous?: string;
+    keep_body?: string;
+    retire?: Array<{ body: string }>;
+    reason_en?: string;
+    reason_zh?: string;
+    goal?: boolean;
     change?: {
       action: string;
       scope?: string;
@@ -974,7 +980,7 @@ export function AssistantPanel({
             const memoryKind =
               p.kind === "memory_save" ||
               p.kind === "memory_replace" ||
-              p.kind === "memory_delete";
+              p.kind === "memory_delete" || p.kind === "memory_consolidate";
             return (
               <article className="assistant-proposal" key={p.id}>
                 <span className="workspace-eyebrow">
@@ -983,12 +989,19 @@ export function AssistantPanel({
                 {memoryKind ? (
                   <>
                     <h3>
-                      {p.kind === "memory_delete"
+                      {p.kind === "memory_consolidate"
+                        ? t("Review duplicate facts", "核对重复事实")
+                        : p.kind === "memory_delete"
                         ? t("Delete a saved fact", "删除一条记忆")
                         : p.kind === "memory_replace"
                           ? t("Correct a saved fact", "更正一条记忆")
                           : t("Save a fact", "保存一条记忆")}
                     </h3>
+                    {p.kind === "memory_consolidate" && <>
+                      <p>{t(p.data.reason_en ?? "", p.data.reason_zh ?? "")}</p>
+                      <p>{t("Keep: ", "保留：")}{p.data.keep_body}</p>
+                      {(p.data.retire ?? []).map((row, index) => <p key={index}>{t("Retire: ", "停用：")}{row.body}</p>)}
+                    </>}
                     {p.data.previous && (
                       <p>
                         {t("Current: ", "当前：")}
@@ -1016,6 +1029,7 @@ export function AssistantPanel({
                       <>
                         <p>
                           <strong>{taskActionLabel}</strong>
+                          {p.data.goal && <span>{t(" — Goal stays open until you confirm completion.", " — 目标在你确认完成前保持开启。")}</span>}
                         </p>
                         <p>
                           {t("Deadline: ", "截止：")}
@@ -1194,7 +1208,9 @@ export function AssistantPanel({
                     disabled={busy}
                     onClick={() => void decide(p.id, "confirm")}
                   >
-                    {p.kind === "memory_delete"
+                    {p.kind === "memory_consolidate"
+                        ? t("Review duplicate facts", "核对重复事实")
+                        : p.kind === "memory_delete"
                       ? t("Confirm deletion", "确认删除")
                       : t("Confirm & save", "确认并保存")}
                   </button>

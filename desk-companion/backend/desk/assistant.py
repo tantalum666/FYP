@@ -354,7 +354,7 @@ class AssistantService:
                 return {"memories": ranked}
             if name == "memory_save_draft":
                 draft = MemorySaveDraft.model_validate(arguments)
-                return self.propose("memory_save", {"body": draft.body}, call_key)
+                return self.propose_fact(draft.body, call_key, origin="assistant_confirmed")
             if name == "memory_replace_draft":
                 draft = MemoryReplaceDraft.model_validate(arguments)
                 current = self.runtime.memory.for_model()
@@ -610,6 +610,12 @@ class AssistantService:
                     internal_key,
                     origin="assistant_confirmed",
                 )
+                if payload.get("goal"):
+                    self.runtime.goals.record(
+                        result["task"]["id"],
+                        payload.get("goal_title") or payload["task"]["title"],
+                        payload.get("due_at"),
+                    )
             elif row["kind"] == "task_change":
                 result = self.runtime.tasks.action(
                     payload["task_id"],
@@ -617,6 +623,8 @@ class AssistantService:
                     internal_key,
                     origin="assistant_confirmed",
                 )
+                if payload.get("change", {}).get("action") == "complete":
+                    self.runtime.goals.close_for_task(payload["task_id"])
             elif row["kind"] == "create":
                 result = self.store.create(
                     CreateEvents.model_validate(payload), internal_key, origin="assistant"
@@ -626,8 +634,19 @@ class AssistantService:
                     OutputRequest.model_validate(payload["output"]), internal_key
                 )
             elif row["kind"] == "memory_save":
+                origin = payload.get("origin") or "assistant_confirmed"
+                if origin not in {"owner", "assistant_confirmed", "conversation"}:
+                    origin = "assistant_confirmed"
+                note = payload.get("note") if isinstance(payload.get("note"), str) else ""
                 result = self.runtime.memory.create(
-                    payload["body"], internal_key, origin="assistant_confirmed"
+                    payload["body"], internal_key, origin=origin, note=note
+                )
+            elif row["kind"] == "memory_consolidate":
+                result = self.runtime.memory.supersede(
+                    payload["keep_id"],
+                    payload["keep_version"],
+                    payload["retire"],
+                    internal_key,
                 )
             elif row["kind"] == "memory_replace":
                 result = self.runtime.memory.replace(
@@ -665,14 +684,35 @@ class AssistantService:
             "result": result,
         }
 
-    def local_message(self, request, key, *, allow_memory=True):
-        """A deliberately bounded offline parser, never presented as an AI model."""
+    def propose_fact(self, body, key, *, origin, note=""):
+        draft = MemorySaveDraft(body=body)
+        if origin not in {"owner", "assistant_confirmed", "conversation"}:
+            raise DomainError("TOOL_ARGUMENTS_INVALID", 422)
+        return self.propose(
+            "memory_save",
+            {"body": draft.body, "origin": origin, "note": " ".join(note.split())[:160]},
+            key,
+        )
+
+    def memory_turn(self, request, key, *, allow_memory=True):
+        """A reviewable memory draft, or None when this message is not a fact.
+
+        Forget still requires the saved wording. Nothing here writes memory.
+        """
+        from .memory_extract import extract_candidate
+
         text, zh = request.message.strip(), request.language == "zh"
-        if not allow_memory and re.match(r"^(?:remember|forget|记住|忘掉)\s*[:：]", text, re.I):
+        explicit = re.match(r"^(?:remember|forget|记住|忘掉)\s*[:：]", text, re.I)
+        candidate = extract_candidate(text)
+        if not allow_memory and (explicit or candidate):
             raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
-        remembered = re.match(r"^(?:remember|记住)\s*[:：]\s*(.+)$", text, re.I | re.S)
-        if remembered:
-            result = self.tool("memory_save_draft", {"body": remembered[1]}, key)
+        if candidate:
+            try:
+                result = self.propose_fact(
+                    candidate.body, key, origin="conversation", note=candidate.note
+                )
+            except ValidationError:
+                raise DomainError("TOOL_ARGUMENTS_INVALID", 422) from None
             return {
                 "mode": "local_rules",
                 "kind": "draft",
@@ -682,33 +722,40 @@ class AssistantService:
                 else "Review this fact, then confirm before it is saved.",
             }
         forgotten = re.match(r"^(?:forget|忘掉)\s*[:：]\s*(.+)$", text, re.I | re.S)
-        if forgotten:
-            needle = " ".join(forgotten[1].split())
-            matches = [row for row in self.runtime.memory.for_model() if row["body"] == needle]
-            if len(matches) != 1:
-                return {
-                    "mode": "local_rules",
-                    "kind": "clarify",
-                    "message": "请在记忆页选择要删除的那一条，或写出与保存内容完全相同的文字。"
-                    if zh
-                    else "Open Memory and choose the fact to delete, or repeat its exact saved text.",
-                }
-            result = self.tool(
-                "memory_delete_draft",
-                {"memory_id": matches[0]["id"], "expected_version": matches[0]["version"]},
-                key,
-            )
+        if not forgotten:
+            return None
+        needle = " ".join(forgotten[1].split())
+        matches = [row for row in self.runtime.memory.for_model() if row["body"] == needle]
+        if len(matches) != 1:
             return {
                 "mode": "local_rules",
-                "kind": "draft",
-                **result,
-                "message": "确认后才会删除这条记忆。"
+                "kind": "clarify",
+                "message": "请在记忆页选择要删除的那一条，或写出与保存内容完全相同的文字。"
                 if zh
-                else "Confirm before this fact is deleted.",
+                else "Open Memory and choose the fact to delete, or repeat its exact saved text.",
             }
-        if match := re.match(
-            r"^(?:save to folder|保存到文件夹)\s*[:：]\s*(.+)$", text, re.I | re.S
-        ):
+        result = self.tool(
+            "memory_delete_draft",
+            {"memory_id": matches[0]["id"], "expected_version": matches[0]["version"]},
+            key,
+        )
+        return {
+            "mode": "local_rules",
+            "kind": "draft",
+            **result,
+            "message": "确认后才会删除这条记忆。" if zh else "Confirm before this fact is deleted.",
+        }
+
+    def local_message(self, request, key, *, allow_memory=True):
+        """A deliberately bounded offline parser, never presented as an AI model."""
+        reviewed = self.memory_turn(request, key, allow_memory=allow_memory)
+        if reviewed:
+            return reviewed
+        stated = self.runtime.goals.turn(request, key, allow=allow_memory)
+        if stated:
+            return stated
+        text, zh = request.message.strip(), request.language == "zh"
+        if match := re.match(r"^(?:save to folder|保存到文件夹)\s*[:：]\s*(.+)$", text, re.I | re.S):
             task = self.runtime.tasks.detail(request.task_id)["task"] if request.task_id else None
             try:
                 result = self.tool(

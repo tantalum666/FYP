@@ -72,7 +72,7 @@ def pack_conversation(
     packed = {
         "now": iso(now),
         "timezone": tasks["timezone"],
-        "profile": _profile(runtime),
+        "profile": runtime.profile.text() if include_memory else "",
         "pending_approvals": _approvals(runtime, allow_memory=include_memory),
         "memory": _memories(runtime, user_message) if include_memory else [],
         "turns": recent_turns(runtime) if include_memory else [],

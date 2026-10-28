@@ -39,6 +39,7 @@ import {
 } from "./components/Dialogs";
 import { useDraftState } from "./components/DraftGuard";
 import { MemoryPanel } from "./workspace/MemoryPanel";
+import { NoticeInbox } from "./workspace/NoticeInbox";
 import { PersonaPanel } from "./workspace/PersonaPanel";
 import { TaskPanel } from "./workspace/TaskPanel";
 import { DataPanel } from "./workspace/DataPanel";
@@ -535,6 +536,7 @@ export function App() {
           </div>
         </div>
         {connection === "offline" && offlineNotice(t("Offline. Showing your last loaded calendar.", "已离线，当前显示上次读取的日历。"), t("Reconnect", "重新连接"), refresh, <RefreshCw size={14} aria-hidden="true" />)}
+        <NoticeInbox t={t} language={language === "zh" ? "zh" : "en"} />
         {pendingWrite() && !editor && (
           <div className="connection-banner pending" role="status">
             {t("A save is awaiting confirmation.", "有一项保存等待确认。")}

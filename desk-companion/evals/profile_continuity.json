@@ -1,0 +1,46 @@
+{
+  "scenarios": [
+    {
+      "name": "preference and name stay in a fixed order",
+      "facts": [
+        {"id": "b", "body": "I prefer tea", "note": "preference"},
+        {"id": "a", "body": "My name is Yuan", "note": "identity"}
+      ],
+      "goals": [],
+      "omit": [],
+      "contains": ["Identity: My name is Yuan", "Preferences: I prefer tea"],
+      "absent": [],
+      "order": ["Identity", "Preferences"]
+    },
+    {
+      "name": "an omitted fact stays out of the summary",
+      "facts": [
+        {"id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "body": "I prefer tea", "note": "preference"}
+      ],
+      "goals": [],
+      "omit": ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
+      "contains": [],
+      "absent": ["tea"]
+    },
+    {
+      "name": "an open goal is an ongoing project",
+      "facts": [],
+      "goals": [
+        {"id": "g", "title": "finish the report", "state": "open"},
+        {"id": "h", "title": "old poster", "state": "closed"}
+      ],
+      "omit": [],
+      "contains": ["Projects: finish the report"],
+      "absent": ["old poster"]
+    },
+    {
+      "name": "the summary stops at the character budget",
+      "facts": [],
+      "goals": [],
+      "omit": [],
+      "contains": [],
+      "absent": ["UNUSED"],
+      "budget_only": true
+    }
+  ]
+}

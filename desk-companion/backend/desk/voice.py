@@ -671,12 +671,25 @@ class VoiceService:
         self.config = config or VoiceConfig.environment()
         self.tickets = {}
         self.lock = threading.Lock()
+        self.forget_session = threading.Event()
         self.active = False
         self.state = "idle"
         self.started = None
         self.connector = websockets.connect
         self.turn_factory = VoiceTurns
         self.conversations = Conversations()
+
+    def drop_live_session(self) -> bool:
+        """Close an open provider socket so it stops using turns that included a forgotten fact.
+
+        Returns False when no voice session is running. Logs the provider already
+        stored on its own side are outside this desk.
+        """
+        if not self.active:
+            self.forget_session.clear()
+            return False
+        self.forget_session.set()
+        return True
 
     def snapshot(self):
         self.conversations.prune()
@@ -1285,6 +1298,10 @@ class VoiceService:
                         if time.monotonic() - last_check < 1:
                             continue
                         last_check = time.monotonic()
+                        if self.forget_session.is_set():
+                            self.forget_session.clear()
+                            await send_client({"type": "ended", "reason": "memory_forgotten"})
+                            return
                         if not self.principal_valid(principal):
                             return
                         if conversation:

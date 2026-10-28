@@ -207,6 +207,72 @@ class PersonaService:
             key, {"type": "persona_reset", "expected_version": expected_version}, apply
         )
 
+    def export(self):
+        """The saved persona, or nothing when the desk is still on the built-in text."""
+        with self.store.connection() as conn:
+            row = conn.execute(
+                "SELECT body, version, source, updated_at FROM assistant_persona WHERE id=1"
+            ).fetchone()
+        if not row:
+            return {"persona": None}
+        return {
+            "persona": {
+                "body": row["body"],
+                "version": row["version"],
+                "source": row["source"],
+                "updated_at": row["updated_at"],
+            }
+        }
+
+    @staticmethod
+    def validate_backup(bundle):
+        if bundle is None:
+            bundle = {"persona": None}
+        if not isinstance(bundle, dict):
+            raise ValueError("Invalid persona backup")
+        persona = bundle.get("persona")
+        if persona is None:
+            return {"persona": None}
+        body, version = persona.get("body"), persona.get("version")
+        source, updated = persona.get("source", "owner"), persona.get("updated_at") or ""
+        if (
+            not isinstance(body, str)
+            or not body.strip()
+            or len(body) > MAX_BODY
+            or not isinstance(version, int)
+            or version < 1
+            or source not in {"owner", "default"}
+            or not isinstance(updated, str)
+            or len(updated) > 40
+        ):
+            raise ValueError("Invalid persona backup")
+        return {
+            "persona": {
+                "body": body.strip(),
+                "version": version,
+                "source": source,
+                "updated_at": updated,
+            }
+        }
+
+    def restore(self, conn, bundle):
+        """Insert the persona only when this desk has never saved one."""
+        persona = bundle.get("persona")
+        if not persona:
+            return {"created": 0, "kept": 0}
+        if conn.execute("SELECT 1 FROM assistant_persona WHERE id=1").fetchone():
+            return {"created": 0, "kept": 1}
+        conn.execute(
+            "INSERT INTO assistant_persona(id,body,version,updated_at,source) VALUES(1,?,?,?,?)",
+            (
+                persona["body"],
+                persona["version"],
+                persona["updated_at"] or iso(self.store.clock()),
+                persona["source"],
+            ),
+        )
+        return {"created": 1, "kept": 0}
+
 
 def persona_routes(runtime, owner, operation_id):
     router = APIRouter(prefix="/api/persona", dependencies=[Depends(owner)])

@@ -127,6 +127,8 @@ export interface WorkspacePreferences {
   quiet_end: string;
   daily_brief_time: string;
   daily_brief_enabled: boolean;
+  evening_check_time: string;
+  evening_check_enabled: boolean;
   avatar_display: "calendar" | "companion";
   voice_enabled: boolean;
 }

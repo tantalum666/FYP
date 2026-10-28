@@ -18,7 +18,12 @@ from .text_ai import TextAssistant
 from .jobs import JobService
 from .backups import LocalBackups
 from .memory import MemoryService
+from .digest import DigestService
+from .goals import GoalService
+from .nudges import NudgeService
+from .notify import Notifier
 from .persona import PersonaService
+from .profile import ProfileService
 
 
 class Runtime:
@@ -29,12 +34,17 @@ class Runtime:
         self.posture = PostureService(store)
         self.outputs = OutputService(store)
         self.tasks = TaskService(self)
+        self.goals = GoalService(self)
         self.memory = MemoryService(self)
+        self.profile = ProfileService(self)
         self.persona = PersonaService(self)
         self.jobs = JobService(self)
         self.worker_health = {}
         self.assistant = AssistantService(self)
         self.data = WorkspaceData(store)
+        self.nudges = NudgeService(self)
+        self.notify = Notifier(self.store)
+        self.digests = DigestService(self)
         self.voice = VoiceService(self)
         self.exchange = ExchangeService(self)
         self.backups = LocalBackups(self)
@@ -97,4 +107,7 @@ class Runtime:
         self.store.tick()
         self.posture.tick()
         self.tasks.tick()
+        self.memory.expire_due()
+        self.nudges.tick()
+        self.goals.tick()
         self.jobs.expire()
