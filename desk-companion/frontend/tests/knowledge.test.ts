@@ -84,4 +84,5 @@ test("the memory page is the knowledge screen and extras no longer repeats nudge
   assert.match(extras, /form\.verbosity/);
   assert.match(extras, /form\.proactivity/);
   assert.match(extras, /Chat does not change these/);
+  assert.match(extras, /Web Push stays off until DESK_WEB_PUSH=1/);
 });

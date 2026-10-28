@@ -3,7 +3,7 @@
 The owner still pulls history from the nudge list. This module is how a new
 nudge is handed to an open page, a browser notification, and the device
 surface. Quiet hours suppress every channel. The same notice id is delivered
-once per channel. Nothing here contacts a push service or a model.
+once per channel. Web Push is sent only when a PushService is attached.
 """
 
 from dataclasses import dataclass
@@ -120,8 +120,9 @@ class DeviceChannel:
 
 
 class Notifier:
-    def __init__(self, store, channels=None):
+    def __init__(self, store, channels=None, push=None):
         self.store = store
+        self.push = push
         self.channels = channels if channels is not None else [
             InAppChannel(),
             BrowserChannel(),
@@ -165,8 +166,9 @@ class Notifier:
         if not notice.id or len(notice.id) > 80:
             raise DomainError("NOTICE_ID_INVALID", 422)
         at = self.store.clock()
+        results = []
+        browser_delivered = False
         with self.store.connection(write=True) as conn:
-            results = []
             wrote = False
             for channel in self.channels:
                 seen = conn.execute(
@@ -185,9 +187,13 @@ class Notifier:
                 )
                 results.append({"channel": channel.name, "status": "delivered"})
                 wrote = True
+                if channel.name == "browser":
+                    browser_delivered = True
             if wrote:
                 self.store.bump(conn)
-            return results
+        if browser_delivered and self.push is not None:
+            self.push.dispatch(notice.payload()["push"])
+        return results
 
     def listing(self) -> dict:
         with self.store.connection() as conn:
