@@ -4,7 +4,7 @@
 
 **2026-10-26 仓库整理：**组员的 [硬件 PR #17](https://github.com/tantalum666/FYP/pull/17) 已完成审查、修订并合入 `main`。退役食品项目的代码、设计、采购、学校版本和验证资料统一放在 [archive/senplate](archive/senplate/README.md)。
 
-**2026-10-28 软件整合：**Grok #20–#59 与 #60 已通过 [PR #61](https://github.com/tantalum666/FYP/pull/61) 合入 main；41个原PR均已读回为merged。当前软件主线、修复及450／89项本地验证见[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)。Pi仍暂停，GitHub CI因账户限制未启动。
+**2026-10-28 软件整合：**Grok #20–#59 与 #60 已通过 [PR #61](https://github.com/tantalum666/FYP/pull/61) 合入 main；41个原PR均已读回为merged。当前软件主线、修复及450／89项本地验证见[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)。Pi仍暂停，软件按用户要求只做本地验证。
 
 ## 从哪里开始
 
@@ -41,6 +41,6 @@ cd ..
 
 Qwen为已测基线，其他AI候选仍开放。本轮使用模拟提供商及虚构本地数据，没有新收费调用。Pi暂停；原生触控／键盘、真机和硬件另验。旧PR与作者工程留作历史，不把独立软件分支推送称为合并或部署。
 
-仅本机开发预览可用`DESK_LOCAL_PREVIEW=1 ./scripts/dev.sh`免输入账号密码；正式默认认证和外部访问保护保留。手机浏览器调试入口为`?surface=phone`，原生iPhone使用同一独立PhoneApp。CI运行后端Lint／测试和前端测试／构建，不连接模型或硬件。
+仅本机开发预览可用`DESK_LOCAL_PREVIEW=1 ./scripts/dev.sh`免输入账号密码；正式默认认证和外部访问保护保留。手机浏览器调试入口为`?surface=phone`，原生iPhone使用同一独立PhoneApp。本地运行后端Lint／测试和前端测试／构建，不连接模型或硬件；不使用GitHub CI。
 
 硬件目录是采购前研究，仍缺完整免焊转接、电源／Qi／风机及实物验证；学校文件完成不等于已签署或提交。进入本仓库的代理先遵守 [AGENTS.md](AGENTS.md)。本次整理和验证见 [QA](output/qa/2026-10-26-repo-cleanup/verification.md)。

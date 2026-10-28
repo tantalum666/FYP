@@ -62,7 +62,7 @@ PR 流程是协作约定，当前没有声称已启用付费分支保护或强�
 
 The #7–#14 code stack has been reviewed, fixed and merged; [review evidence](output/qa/2026-10-15-grok-review-merge/verification.md). The [original merge procedure](planning/2026-10-14/pr-stack-merge-order.md) is historical. PRs #4/#5/#15/#16 remain separate historical owner branches/drafts. Hardware PR #17 was reviewed, repaired and merged on 26 October; see the [current handoff](handoff.md). The 2026-10-28 owner-authorized integration merged Grok PRs20–59 and the Alice/mobile/Omni baseline#60 through PR61; all41 source PRs are merged. Exact receipts are in the current handoff. Older per-slice merge restrictions do not replace that explicit authorization.
 
-按变更运行相关检查。修改应用业务或界面时，从 `desk-companion/` 运行：
+**只做本地验证，不使用 GitHub CI。**按变更运行相关检查，不需要配置或修复 Actions／账户额度。修改应用业务或界面时，从 `desk-companion/` 运行：
 
 ```sh
 uv run --no-sync pytest -q
@@ -99,4 +99,4 @@ gitleaks git --pre-commit --staged --redact --max-archive-depth 2
 
 Follow the latest AGENTS focused-reading workflow. Keep UI composition, data lifecycle, business edits and provider protocols separate; share existing services instead of copying state machines. Important verified milestones should be committed/pushed on a dedicated branch and reviewed through a PR. Source/asset/secret checks and remote readback are distinct from merging/deploying.
 
-The current application includes the Alice/web/phone and unified conversation checkpoint. Local development may explicitly use`DESK_LOCAL_PREVIEW=1 ./scripts/dev.sh`; default authentication and real-device HTTPS/pairing remain. CI checks backend lint/tests and frontend tests/build with models and executors disabled. Native touch, live models and hardware need independent evidence.
+The current application includes the Alice/web/phone and unified conversation checkpoint. Local development may explicitly use`DESK_LOCAL_PREVIEW=1 ./scripts/dev.sh`; default authentication and real-device HTTPS/pairing remain. Run backend lint/tests and frontend tests/build locally with models and executors disabled. GitHub Actions is not used. Native touch, live models and hardware need independent evidence.

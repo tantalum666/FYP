@@ -9,7 +9,7 @@
 - Repairs owner boundaries at backup apply/goal decisions; complete job import/path fingerprint validation; fresh read tools after forgetting; login/task-scoped RAM context; scoped receipt recovery; omitted calendar-field preservation; provider fallback counting and fake streaming. Latest [maintenance contract](desk-companion/docs/software-maintenance.md) names the responsibility boundaries.
 - [QA](output/qa/2026-10-28-grok-review-merge/verification.md):450 backend/89 frontend, Ruff/types/build, actual desktop1365×900 and phone390×844. Verified stream-loss recovery with one draft/zero approved facts, principal downgrade clears private chat/diagnostics, preview renewal keeps input, phone event save/web readback and alias draft guard.
 - Security review is sealed against pre-fix188f7b5:196 source items,11 candidates,10 low findings and1 rejected trusted-owner push candidate. Fixes and current validation are recorded in QA; the immutable report is not a second scan of the fixed tree.
-- Hosted [CI40642113382](https://github.com/tantalum666/FYP/actions/runs/40642113382) did not start either job due to the account payment/spending-limit restriction. Normal merge succeeded without changing billing or protections. No new paid-model, capture, hardware or school action occurred.
+- **Validation is local only, per the owner’s reiterated instruction.** The automatic GitHub workflow is removed by the current policy correction. Historical CI records remain in the dated QA; Actions/account limits are not a project gate or next task. Local checks remain the acceptance evidence.
 
 ## Review environment
 
@@ -19,4 +19,4 @@ The existing iPhone17Pro/iOS26.5 Simulator installation and mirror3200 remain th
 
 ## One next step
 
-Validate the native iPhone Plan→New→Save→Back and software-keyboard/draft-recovery flow using this merged source. Browser mobile checks are complete for the recorded scope; the installed Simulator still contains the earlier #60 build. Keep the hosted-CI account issue separate and do not resume Pi or paid-model work.
+Validate the native iPhone Plan→New→Save→Back and software-keyboard/draft-recovery flow using this merged source. Browser mobile checks are complete for the recorded scope; the installed Simulator still contains the earlier #60 build. Use local validation and keep Pi and paid-model work paused.

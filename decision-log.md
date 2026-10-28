@@ -321,3 +321,9 @@ Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **Evidence/publication:** [integration QA](output/qa/2026-10-28-grok-review-merge/verification.md) and [receipts](output/qa/2026-10-28-grok-review-merge/publication.json) separate local validation, branch publication, GitHub merge and deployment. The historical software-chapter draft is not an updated or submitted Progress Report I.
 
 - **Verified GitHub result:** integration PR61 merged reviewed head923a1e2 as mainc2037cd at2026-10-28T06:14:19Z. All41 original PRs20–60 read back merged;4/5/15/16/19 remain open. Hosted run40642113382 did not start because of the account-level restriction. No admin override, billing/protection change, deployment or new spending was used.
+
+## 2026-10-28 用户重申：只做本地验证，不使用CI
+
+- **用户决定：**“我说了不用CI，本地弄就好。”此要求取代此前添加工作流、排查Actions或把账户限制保留为待办的工程安排。
+- **落实：**移除`.github/workflows/desk-companion.yml`，同步AGENTS、产品、协作、入口、维护规范和handoff；保留本地测试／lint／构建／实际交互验收。此前“default-off CI”的表述不准确：工作流实际配置了push、pull_request和手动触发，现撤除。
+- **边界：**GitHub继续用于源码、PR及合并；不调整账单或申请额外Actions权限。历史CI失败记录保留为历史证据，不再是当前门槛。该次改动不修改应用源码；Grok质量评价以已完成的审查和复现为依据。

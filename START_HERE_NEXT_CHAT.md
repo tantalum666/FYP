@@ -12,6 +12,8 @@ The detached `grok-integration-review/FYP` checkout preserves the sealed pre-fix
 
 ## Boundaries
 
+- Validation is local only. Do not create, restore or trigger GitHub CI, or treat Actions/account limits as pending project work. GitHub remains the source/PR/merge record.
+
 - Phone keeps full-screen Alice and Plan/More; desktop/device remain separate layouts.
 - Temporary context is login/task-scoped RAM. Durable operation receipts, approved facts and job history are separate persisted data.
 - Qwen is the measured baseline, not the sole/final AI choice. Prior paid budgets remain closed; current tests use fake/scripted providers.
