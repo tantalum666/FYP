@@ -19,6 +19,7 @@ import {
   request,
   retryPending,
 } from "../api";
+import { sessionExpiredNotice } from "../surfaceNotice";
 import { dayISO, savedEventPosition, viewRange } from "../dates";
 import { editable } from "../types";
 import type {
@@ -304,6 +305,13 @@ export function DeviceApp() {
           onClose={returnDisplay}
           t={t}
         >
+          {workspace.state === "session-expired" &&
+            sessionExpiredNotice(
+              t(
+                "Your owner session expired. Sign in again.",
+                "拥有者会话已过期，请重新登录。",
+              ),
+            )}
           <DeviceLogin
             t={t}
             onLogin={(s) => {
@@ -527,26 +535,42 @@ export function DeviceApp() {
               />
             )
           ) : (
-            <div className="device-data-empty">
+            <div className="device-data-empty" role="status">
               <p>
-                {workspace.state === "offline"
+                {workspace.state === "error"
                   ? t(
-                      "Calendar unavailable. Reconnect to load this date.",
-                      "日历暂不可用，重新连接后读取此日期。",
+                      "The desk could not load this date.",
+                      "桌面未能读取此日期。",
                     )
-                  : t("Loading your calendar…", "正在读取日历…")}
+                  : workspace.state === "session-expired"
+                    ? t(
+                        "Your session expired. Sign in again.",
+                        "会话已过期，请重新登录。",
+                      )
+                    : workspace.state === "offline"
+                      ? t(
+                          "Calendar unavailable. Reconnect to load this date.",
+                          "日历暂不可用，重新连接后读取此日期。",
+                        )
+                      : t("Loading your calendar…", "正在读取日历…")}
               </p>
               <button
                 className="secondary"
                 onClick={() => void workspace.reconnect()}
               >
-                {t("Reconnect", "重新连接")}
+                {workspace.state === "error"
+                  ? t("Retry", "重试")
+                  : workspace.state === "session-expired"
+                    ? t("Sign in again", "重新登录")
+                    : t("Reconnect", "重新连接")}
               </button>
             </div>
           )}
           {mutationError}
-          {!!workspace.loadError && workspace.state !== "offline" && (
-            <p className="error-message">{errorText(workspace.loadError, t)}</p>
+          {workspace.state === "error" && !!workspace.loadError && (
+            <p className="error-message" role="alert">
+              {errorText(workspace.loadError, t)}
+            </p>
           )}
         </DevicePanel>
       )}

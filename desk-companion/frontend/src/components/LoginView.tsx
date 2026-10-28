@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { CalendarDays } from "lucide-react";
-import { errorText, request } from "../api";
+import { ApiError, errorText, request } from "../api";
 import type { Language, Session, Translate } from "../types";
 import { isNative } from "../native";
 import { Modal } from "./Dialogs";
+import { sessionExpiredNotice } from "../surfaceNotice";
 import { PairDeviceForm } from "../workspace/ConnectionsPanel";
 
 export function LoginView({
@@ -11,17 +12,22 @@ export function LoginView({
   language,
   setLanguage,
   onLogin,
+  expired = false,
+  startupError = null,
 }: {
   t: Translate;
   language: Language;
   setLanguage: (l: Language) => void;
   onLogin: (s: Session) => void;
+  expired?: boolean;
+  startupError?: unknown;
 }) {
   const [username, setUsername] = useState("owner"),
     [password, setPassword] = useState(""),
     [busy, setBusy] = useState(false),
-    [error, setError] = useState<unknown>(null);
+    [error, setError] = useState<unknown>(startupError);
   const [pairing, setPairing] = useState(false);
+  const invalidCredentials = error instanceof ApiError && error.code === "INVALID_LOGIN";
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
@@ -60,11 +66,14 @@ export function LoginView({
             "登录你的本地桌面工作空间。",
           )}
         </p>
+        {expired && sessionExpiredNotice(t("Your owner session expired. Sign in again.", "拥有者会话已过期，请重新登录。"))}
         <label className="field">
           {t("Username", "账号")}
           <input
             autoComplete="username"
             required
+            aria-invalid={invalidCredentials}
+            aria-describedby={error ? "owner-login-error" : undefined}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -75,16 +84,18 @@ export function LoginView({
             type="password"
             autoComplete="current-password"
             required
+            aria-invalid={invalidCredentials}
+            aria-describedby={error ? "owner-login-error" : undefined}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
         {!!error && (
-          <p className="error-message" role="alert">
+          <p id="owner-login-error" className="error-message" role="alert">
             {errorText(error, t)}
           </p>
         )}
-        <button className="primary" disabled={busy}>
+        <button className="primary" disabled={busy} aria-busy={busy}>
           {busy ? t("Signing in…", "登录中…") : t("Sign in", "登录")}
         </button>
       </form>

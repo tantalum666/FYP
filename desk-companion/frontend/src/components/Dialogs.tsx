@@ -1005,7 +1005,11 @@ export function ReminderDialog({
           </div>
         </div>
       ))}
-      {!!error && <p className="error-message">{errorText(error, t)}</p>}
+      {!!error && (
+        <p className="error-message" role="alert">
+          {errorText(error, t)}
+        </p>
+      )}
     </Modal>
   );
 }

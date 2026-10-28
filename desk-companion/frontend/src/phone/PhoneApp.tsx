@@ -42,7 +42,7 @@ export function PhoneApp() {
     setLang(value);
   };
   const [error, setError] = useState<unknown>(null);
-  const { session, setSession } = useWorkspaceSession(setError);
+  const { session, setSession, expired: sessionExpired } = useWorkspaceSession(setError);
   const [panel, setPanel] = useState<PhonePanel | null>(null);
   const [planTab, setPlanTab] = useState<"calendar" | "tasks">("calendar");
   const [reminders, setReminders] = useState(false);
@@ -183,7 +183,9 @@ export function PhoneApp() {
           t={t}
           language={language}
           setLanguage={setLanguage}
-          onLogin={setSession}
+          expired={sessionExpired}
+          startupError={error}
+          onLogin={value => { setSession(value); setError(null); }}
         />
         {!!error && (
           <p className="error-message" role="alert">

@@ -49,6 +49,8 @@ import { useCalendarEditor } from "./components/useCalendarEditor";
 import { DeviceView, RecordsView, TodayView } from "./components/Views";
 import { LoginView } from "./components/LoginView";
 import { useWorkspaceSession } from "./useWorkspaceSession";
+import { classifyFailure } from "./surfaceStatus";
+import { failureNotice, loadingNotice, offlineNotice } from "./surfaceNotice";
 
 const nav = [
   { id: "today", en: "Today", zh: "今天", Icon: House },
@@ -105,7 +107,7 @@ export function App() {
   const [filters, setFilters] = useState({ personal: true, study: true });
   const [error, setError] = useState<unknown>(null),
     [recovering, setRecovering] = useState(false);
-  const { session, setSession, recoverSession } = useWorkspaceSession(setError);
+  const { session, setSession, recoverSession, expired: sessionExpired } = useWorkspaceSession(setError);
   const currentRevision = useRef(0);
   const needsRefresh = useRef(false);
   const [loadedRange, setLoadedRange] = useState("");
@@ -208,6 +210,12 @@ export function App() {
     return () => clearInterval(timer);
   }, []);
 
+  function failOwnerRequest(error: unknown) {
+    const kind = classifyFailure(error, !!session);
+    if (kind === "session-expired" || kind === "signed-out") void recoverSession();
+    else if (kind === "error") { setError(error); setConnection("online"); }
+    else setConnection("offline");
+  }
   useEffect(() => {
     if (!session) return;
     let active = true;
@@ -226,9 +234,7 @@ export function App() {
       .catch((e) => {
         if (active) {
           needsRefresh.current = true;
-          setConnection("offline");
-          if (e instanceof ApiError && e.status === 401) void recoverSession();
-          else if (e instanceof ApiError && e.status) setError(e);
+          failOwnerRequest(e);
         }
       });
     return () => {
@@ -254,8 +260,7 @@ export function App() {
       } catch (e) {
         if (active) {
           needsRefresh.current = true;
-          setConnection("offline");
-          if (e instanceof ApiError && e.status === 401) void recoverSession();
+          failOwnerRequest(e);
         }
       } finally {
         working = false;
@@ -354,11 +359,9 @@ export function App() {
   }
 
   if (session === undefined)
-    return (
-      <div className="app-loading">
-        <LoaderCircle className="spinner" />
-        <span>{t("Opening your workspace…", "正在打开工作空间…")}</span>
-      </div>
+    return loadingNotice(
+      t("Opening your workspace…", "正在打开工作空间…"),
+      <LoaderCircle className="spinner" aria-hidden="true" />,
     );
   if (session === null)
     return (
@@ -366,6 +369,8 @@ export function App() {
         t={t}
         language={language}
         setLanguage={setLanguage}
+        expired={sessionExpired}
+        startupError={error}
         onLogin={(s) => {
           setSession(s);
           setError(null);
@@ -525,18 +530,7 @@ export function App() {
             </button>
           </div>
         </div>
-        {connection === "offline" && (
-          <div className="connection-banner" role="status">
-            {t(
-              "Desk offline. Information may be out of date.",
-              "桌面已离线，当前显示的信息可能不是最新状态。",
-            )}
-            <button onClick={refresh}>
-              <RefreshCw size={14} />
-              {t("Reconnect", "重新连接")}
-            </button>
-          </div>
-        )}
+        {connection === "offline" && offlineNotice(t("Offline. Showing your last loaded calendar.", "已离线，当前显示上次读取的日历。"), t("Reconnect", "重新连接"), refresh, <RefreshCw size={14} aria-hidden="true" />)}
         {pendingWrite() && !editor && (
           <div className="connection-banner pending" role="status">
             {t("A save is awaiting confirmation.", "有一项保存等待确认。")}
@@ -545,14 +539,10 @@ export function App() {
             </button>
           </div>
         )}
-        {!!error && (
-          <div className="global-error" role="alert">
-            {errorText(error, t)}
-            <button onClick={() => setError(null)}>
-              {t("Dismiss", "关闭")}
-            </button>
-          </div>
-        )}
+        {!!error &&
+          failureNotice(errorText(error, t), t("Dismiss", "关闭"), () =>
+            setError(null),
+          )}
         {!visible ? (
           <div className="app-loading">
             <LoaderCircle className="spinner" />
