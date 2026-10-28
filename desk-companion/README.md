@@ -4,7 +4,7 @@
 > 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../START_HERE_NEXT_CHAT.md)。
 <!-- /FYP-CONTEXT-20261027 -->
 
-更新：2026-10-28。本分支整合此前本地Alice／Omni／网页／手机代码，并完成事务上下文、共享会话恢复和组件职责拆分。[维护契约](docs/software-maintenance.md)／[本轮QA](../output/qa/2026-10-28-grok-review-merge/verification.md)记录当前450项后端、89项前端、Grok整合修复与实际操作证据。Pi继续暂停，旧收费预算关闭。
+更新：2026-10-28。Grok软件栈及#60的Alice／Omni／网页／手机代码已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main；事务上下文、共享会话恢复和组件职责拆分均保留。[维护契约](docs/software-maintenance.md)／[本轮QA](../output/qa/2026-10-28-grok-review-merge/verification.md)记录当前450项后端、89项前端、Grok整合修复与实际操作证据。Pi继续暂停，旧收费预算关闭。
 
 网页侧栏角色、宽屏助理、记忆／风格／设置、日程和记录已改；[全屏手机](../planning/2026-10-28/phone-simulator-implementation.md)已真实接入并装到模拟器。手机以Alice为首页，Plan集中日历／事务，More展开管理。原生触控／键盘和真机验收仍待。Qwen只是已测基线，其他AI候选继续保留。
 

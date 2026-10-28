@@ -9,7 +9,7 @@
 - Combined pre-fix review candidate: `188f7b504ca4ab9107c1754d499f3991655999f6`.
 - Current fix checkout: `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, branch `codex/grok-integration-20261028`.
 - [Captured PR inventory](pr-inventory.json), [merge events](merge-events.json), [dependency tips](integration-order.json), [head verification](head-verification.json). All 41 captured heads are included by ancestry and were unchanged at prepublication readback; main was still46ac167.
-- Final branch/PR/merge receipts will be recorded in [publication.json](publication.json). At preparation of this record, publication and merge are pending. A local merge commit or successful push alone is not a main merge.
+- Final receipts: [publication.json](publication.json) and [all original PR readbacks](original-pr-readback.json). [PR61](https://github.com/tantalum666/FYP/pull/61) merged reviewed head `923a1e2a53f79d432db0ba0bf31f6c216f5e292c` into main as `c2037cda480fde7448dbfbfc4ea9aac2e4086ba8` at2026-10-28T06:14:19Z. Every PR20–60 is confirmed merged; only4/5/15/16/19 remain open. The source integration is complete; receipt closeout changes documents only.
 
 The original Grok guide is preserved as historical evidence in `docs/merge-guide.md` and [the captured source](merge-guide-source.md). Its rehearsal excluded the newer Omni/mobile baseline and reported three failures; it was not a passed combined release.
 
@@ -72,4 +72,4 @@ Updated contracts: root entry/product/handoff/decision/work log and contribution
 
 ## Remaining limits
 
-No new live model quality/latency/acoustics, paid budget, external push delivery, native Simulator installation/touch/keyboard, real phone, Pi/Wayland, Luwu or physical safety acceptance occurred. Earlier #60 native visual proof remains dated evidence. Tool-schema-inclusive budgeting, realtime policy follow-up limits and memory-query's latest40-fact input remain stated module limits. Hosted Actions status must be read separately; the prior account-level restriction did not execute tests, and no billing or branch-protection setting is changed by this task.
+No new live model quality/latency/acoustics, paid budget, external push delivery, native Simulator installation/touch/keyboard, real phone, Pi/Wayland, Luwu or physical safety acceptance occurred. Earlier #60 native visual proof remains dated evidence. Tool-schema-inclusive budgeting, realtime policy follow-up limits and memory-query's latest40-fact input remain stated module limits. Hosted [run40642113382](https://github.com/tantalum666/FYP/actions/runs/40642113382) reported both jobs as failure because they never started under the account payment/spending-limit restriction. No remote tests ran. Normal GitHub merge succeeded without a protection/billing change.

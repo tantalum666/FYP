@@ -1,6 +1,6 @@
 # Group 2 Project Contract
 
-更新：2026-10-28。当前方向为 **Desk Companion个人AI助理**。本分支基于完成归档的main，整合Grok #20–#59和#60的Alice／统一Omni／网页／手机软件，修复权限、上下文、恢复和跨栈兼容问题。分支推送、PR合并、目标设备部署及真实模型验收分别记录；当前结果见[交接](handoff.md)与[QA](output/qa/2026-10-28-grok-review-merge/verification.md)。
+更新：2026-10-28。Grok #20–#59及#60已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main（软件合并c2037cd），原41个PR状态均已核对。当前方向为 **Desk Companion个人AI助理**。本分支基于完成归档的main，整合Grok #20–#59和#60的Alice／统一Omni／网页／手机软件，修复权限、上下文、恢复和跨栈兼容问题。分支推送、PR合并、目标设备部署及真实模型验收分别记录；当前结果见[交接](handoff.md)与[QA](output/qa/2026-10-28-grok-review-merge/verification.md)。
 
 ## 当前要求
 

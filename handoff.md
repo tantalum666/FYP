@@ -1,15 +1,15 @@
 # Group 2 Current Handoff
 
-28 October 2026, Asia/Hong_Kong. **Grok #20–#59 and current baseline #60 are integrated and repaired locally; final publication/merge is in progress.** Exact receipts: [publication](output/qa/2026-10-28-grok-review-merge/publication.json). Do not read a successful local merge/test as a remote main merge or deployment.
+28 October 2026, Asia/Hong_Kong. **Merged: Grok PRs #20–#59 and current baseline #60, through [integration PR #61](https://github.com/tantalum666/FYP/pull/61).** Reviewed code head `923a1e2a53f79d432db0ba0bf31f6c216f5e292c`; main software merge `c2037cda480fde7448dbfbfc4ea9aac2e4086ba8`. All 41 original PRs were read back as merged. [Receipts](output/qa/2026-10-28-grok-review-merge/publication.json). This is source integration, not deployment.
 
 ## Current state
 
-- Active checkout: `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`; branch `codex/grok-integration-20261028`. All41 captured PR heads are unchanged and included by ancestry; base main46ac167. Prior dirty/source/runtime worktrees remain preserved.
+- Active checkout: `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, following merged main with a document-only receipt closeout. Check Git status for the current local branch. All 41 captured heads are included; original base was46ac167. Prior dirty/source/runtime worktrees remain preserved.
 - Retains Alice, mobile Plan/More, shared web/phone session/editor services, selected-task Omni context and all three bounded job executors. Integrates Grok agent loop/SSE, memory/goals/aliases/profile, notifications, backup/diagnostics/PWA and offline evaluation.
 - Repairs owner boundaries at backup apply/goal decisions; complete job import/path fingerprint validation; fresh read tools after forgetting; login/task-scoped RAM context; scoped receipt recovery; omitted calendar-field preservation; provider fallback counting and fake streaming. Latest [maintenance contract](desk-companion/docs/software-maintenance.md) names the responsibility boundaries.
 - [QA](output/qa/2026-10-28-grok-review-merge/verification.md):450 backend/89 frontend, Ruff/types/build, actual desktop1365×900 and phone390×844. Verified stream-loss recovery with one draft/zero approved facts, principal downgrade clears private chat/diagnostics, preview renewal keeps input, phone event save/web readback and alias draft guard.
 - Security review is sealed against pre-fix188f7b5:196 source items,11 candidates,10 low findings and1 rejected trusted-owner push candidate. Fixes and current validation are recorded in QA; the immutable report is not a second scan of the fixed tree.
-- Hosted CI previously could not start due to an account-level Actions restriction. Current PR checks must be read back; no billing/protection setting is to be changed or bypassed. No new paid-model, capture, hardware or school action occurred.
+- Hosted [CI40642113382](https://github.com/tantalum666/FYP/actions/runs/40642113382) did not start either job due to the account payment/spending-limit restriction. Normal merge succeeded without changing billing or protections. No new paid-model, capture, hardware or school action occurred.
 
 ## Review environment
 
@@ -19,4 +19,4 @@ The existing iPhone17Pro/iOS26.5 Simulator installation and mirror3200 remain th
 
 ## One next step
 
-Finish this authorized publication: final diff/secret/link checks, push the integrated branch, create/attach its PR, retarget the captured stack where needed, merge using the exact reviewed head and verify main plus every PR state. Then record the receipts here and in work-log. The next product validation after that is the native Plan→New→Save→Back and software-keyboard recovery flow.
+Validate the native iPhone Plan→New→Save→Back and software-keyboard/draft-recovery flow using this merged source. Browser mobile checks are complete for the recorded scope; the installed Simulator still contains the earlier #60 build. Keep the hosted-CI account issue separate and do not resume Pi or paid-model work.
