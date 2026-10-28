@@ -12,7 +12,7 @@ from .store import DomainError
 class QwenTextAdapter:
     name = "qwen"
 
-    def complete(self, client, config, prompt, content):
+    def complete(self, client, config, prompt, content, max_tokens=1600):
         result = client.post(
             config.endpoint,
             headers={"Authorization": "Bearer " + config.api_key},
@@ -24,7 +24,7 @@ class QwenTextAdapter:
                 ],
                 "response_format": {"type": "json_object"},
                 "stream": False,
-                "max_tokens": 1600,
+                "max_tokens": max_tokens,
                 "enable_thinking": False,
             },
         )
@@ -37,7 +37,7 @@ class QwenTextAdapter:
 class GeminiTextAdapter:
     name = "gemini"
 
-    def complete(self, client, config, prompt, content):
+    def complete(self, client, config, prompt, content, max_tokens=1600):
         base = config.endpoint or "https://generativelanguage.googleapis.com/v1beta"
         result = client.post(
             base + "/models/" + config.model + ":generateContent",
@@ -47,7 +47,7 @@ class GeminiTextAdapter:
                 "contents": [{"role": "user", "parts": [{"text": content}]}],
                 "generationConfig": {
                     "responseMimeType": "application/json",
-                    "maxOutputTokens": 1600,
+                    "maxOutputTokens": max_tokens,
                 },
             },
         )
