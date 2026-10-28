@@ -1,11 +1,35 @@
 {
-  "status": "validated_local_candidate",
+  "status": "merged",
   "repository": "tantalum666/FYP",
-  "branch": "codex/grok-integration-20261028",
-  "base_main": "46ac1679f57191b8ed4ff51ff15829cb81c83cc4",
-  "reviewed_pre_fix_candidate": "188f7b504ca4ab9107c1754d499f3991655999f6",
-  "scope": "PRs20-59 plus PR60, owner-authorized review/fix/merge",
-  "pushed": false,
-  "merged": false,
-  "deployed": false
+  "integration_pr": {
+    "number": 61,
+    "url": "https://github.com/tantalum666/FYP/pull/61",
+    "reviewed_head": "923a1e2a53f79d432db0ba0bf31f6c216f5e292c",
+    "merge_commit": "c2037cda480fde7448dbfbfc4ea9aac2e4086ba8",
+    "merged_at": "2026-10-28T06:14:19Z"
+  },
+  "original_scope": {
+    "first": 20,
+    "last": 60,
+    "total": 41,
+    "merged": 41
+  },
+  "remaining_open_prs": [
+    19,
+    16,
+    15,
+    5,
+    4
+  ],
+  "deployed": false,
+  "paid_provider_calls": false,
+  "pi_resumed": false,
+  "native_simulator_updated": false,
+  "ci": {
+    "head": "923a1e2a53f79d432db0ba0bf31f6c216f5e292c",
+    "run_url": "https://github.com/tantalum666/FYP/actions/runs/40642113382",
+    "executed": false,
+    "result": "jobs not started: GitHub account payment/spending-limit restriction",
+    "settings_changed": false
+  }
 }

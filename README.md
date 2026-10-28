@@ -4,6 +4,8 @@
 
 **2026-10-26 仓库整理：**组员的 [硬件 PR #17](https://github.com/tantalum666/FYP/pull/17) 已完成审查、修订并合入 `main`。退役食品项目的代码、设计、采购、学校版本和验证资料统一放在 [archive/senplate](archive/senplate/README.md)。
 
+**2026-10-28 软件整合：**Grok #20–#59 与 #60 已通过 [PR #61](https://github.com/tantalum666/FYP/pull/61) 合入 main；41个原PR均已读回为merged。当前软件主线、修复及450／89项本地验证见[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)。Pi仍暂停，GitHub CI因账户限制未启动。
+
 ## 从哪里开始
 
 | 内容 | 入口 |

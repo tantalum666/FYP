@@ -372,3 +372,9 @@ Publication readback: pushed code commit71e4bd8a76533cb4a734dbf04e89f158432ed303
 **Files:** [QA](output/qa/2026-10-28-grok-review-merge/verification.md), [reading record](output/qa/2026-10-28-grok-review-merge/reading-record.json), [publication receipt](output/qa/2026-10-28-grok-review-merge/publication.json), updated root entry/handoff/product/decision and affected software contracts. Historical merge/report notes are explicitly marked.
 
 **Pending at this entry:** final publication and exact-head GitHub merge/readback. Hosted-CI account restrictions remain separate. After receipt closeout, resume the native Plan→New→Save→Back/keyboard validation gate; Pi and prior API budgets stay paused/closed.
+
+### GitHub receipt closeout — same task
+
+[PR61](https://github.com/tantalum666/FYP/pull/61) is merged: reviewed head `923a1e2a53f79d432db0ba0bf31f6c216f5e292c`, main merge `c2037cda480fde7448dbfbfc4ea9aac2e4086ba8`,2026-10-28T06:14:19Z. All41 original PRs20–60 were individually read back as merged. Twenty-six stacked bases were retargeted to main and#60 marked ready, preserving source heads/ancestry; no force-push or unrelated PR merge. Remaining open PRs are4/5/15/16/19. The fix checkout fast-forwarded to the software merge; this closeout changes records only.
+
+The exact-head Actions run40642113382 returned failure annotations saying both jobs never started due to account payment/spending limits. Local450/89 checks passed. No account or branch-protection setting changed. Current next product gate is native Plan/new/save/back and keyboard recovery; the software/source merge is complete.

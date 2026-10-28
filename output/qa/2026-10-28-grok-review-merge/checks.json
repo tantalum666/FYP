@@ -10,5 +10,11 @@
   "links_checked": 505,
   "broken_links": 0,
   "frontend": "89 passed; final build pass",
-  "backend": "450 passed"
+  "backend": "450 passed",
+  "final_fix_commit_findings": 0,
+  "reviewed_head": "923a1e2a53f79d432db0ba0bf31f6c216f5e292c",
+  "merged_software_commit": "c2037cda480fde7448dbfbfc4ea9aac2e4086ba8",
+  "closeout_links_checked": 508,
+  "unchanged_application_files": 281,
+  "closeout_scope": "Markdown and QA receipts only"
 }
