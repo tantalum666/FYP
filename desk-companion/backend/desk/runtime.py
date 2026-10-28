@@ -19,6 +19,7 @@ from .jobs import JobService
 from .backups import LocalBackups
 from .memory import MemoryService
 from .digest import DigestService
+from .moments import MomentService
 from .goals import GoalService
 from .nudges import NudgeService
 from .notify import Notifier
@@ -43,6 +44,7 @@ class Runtime:
         self.assistant = AssistantService(self)
         self.data = WorkspaceData(store)
         self.nudges = NudgeService(self)
+        self.moments = MomentService(self)
         self.notify = Notifier(self.store)
         self.digests = DigestService(self)
         self.voice = VoiceService(self)
