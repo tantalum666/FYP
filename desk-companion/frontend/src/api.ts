@@ -1,3 +1,4 @@
+import { readBody } from "./replyStream";
 import { apiFetch, isNative, native } from "./native";
 export class ApiError extends Error {
   constructor(
@@ -91,6 +92,72 @@ export async function write<T>(path: string, body: unknown): Promise<T> {
     )
       sessionStorage.removeItem(pendingKey);
     throw error;
+  }
+}
+function aborted(signal: AbortSignal): Promise<never> {
+  return new Promise((_, reject) => {
+    const fail = () => reject(new DOMException("The operation was aborted.", "AbortError"));
+    if (signal.aborted) fail();
+    else signal.addEventListener("abort", fail, { once: true });
+  });
+}
+
+export async function writeStream(
+  path: string,
+  body: unknown,
+  onChunk: (text: string) => void,
+): Promise<void> {
+  const existing = pendingWrite();
+  if (
+    existing &&
+    (existing.path !== path || JSON.stringify(existing.body) !== JSON.stringify(body))
+  ) {
+    throw new ApiError("PENDING_WRITE");
+  }
+  const operation = existing ?? { path, body, key: crypto.randomUUID() };
+  sessionStorage.setItem(pendingKey, JSON.stringify(operation));
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), 75000);
+  try {
+    const response = await Promise.race([
+      apiFetch(path, {
+        method: "POST",
+        credentials: "same-origin",
+        signal: controller.signal,
+        headers: {
+          "Content-Type": "application/json",
+          "X-Desk-Request": "1",
+          "X-Operation-Id": operation.key,
+        },
+        body: JSON.stringify(body),
+      }),
+      aborted(controller.signal),
+    ]);
+    if (!response.ok) {
+      let code = "REQUEST_FAILED";
+      try {
+        const payload = await response.json();
+        code = payload.error?.code ?? code;
+      } catch {
+        /* The status is enough when the body is not JSON. */
+      }
+      throw new ApiError(code, response.status);
+    }
+    await Promise.race([readBody(response, onChunk), aborted(controller.signal)]);
+    sessionStorage.removeItem(pendingKey);
+  } catch (error) {
+    if (
+      error instanceof ApiError &&
+      error.status >= 400 &&
+      error.status < 500 &&
+      error.status !== 401 &&
+      error.status !== 408
+    )
+      sessionStorage.removeItem(pendingKey);
+    if (error instanceof ApiError) throw error;
+    throw new ApiError("CONNECTION_LOST");
+  } finally {
+    clearTimeout(timer);
   }
 }
 export async function retryPending(): Promise<unknown> {

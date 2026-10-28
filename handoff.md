@@ -18,6 +18,14 @@ iPhone17Pro/iOS26.5 UDID`F57B6381-6448-434C-AE61-A2663F3458A7`, bundle`dev.group
 
 Qwen remains a tested baseline with other candidates open. Pi stays paused; old paid budgets are closed. No new microphone/camera/user-screen sharing, hardware, school-report change/submission, or external contact occurred.
 
+## Active integration review — 28 October 2026
+
+The owner authorized review/fix/merge of Grok PRs #20–#59 and explicitly included #60, retaining the latest Alice, mobile and unified Omni baseline. The review checkout is `/Users/tantalum/.codex/worktrees/grok-integration-review/FYP`, branch `codex/grok-integration-20261028`. Local preparation merges do not mean GitHub main has changed. No remote merge has happened in this task.
+
+PRs 21, 22, 36, 24, 25, 27, 28, 30 and 42 have been combined locally. The PR58 stack is currently being resolved; the memory/notification stack follows. Preserve both the existing Linux executor filename contract and the shared session/UI recovery components. Keep all tests from the two different `test_voice_turns.py` histories (the incoming transcript tests are now `test_voice_context_turns.py`). The new persistent transcript implementation conflicts with the accepted login/task-scoped RAM conversation boundary and must be reconciled before merge.
+
+Evidence and immutable PR inventory: [review QA](output/qa/2026-10-28-grok-review-merge/). Candidate validation and the final security review are still pending. The existing 303/65 result above belongs to #60, not this integration. Existing preview and private runtimes remain untouched.
+
 ## One next step
 
-Complete native Plan→New→Save→Back and software-keyboard/draft-recovery validation from this branch. The hosted-CI account gate must be resolved separately before claiming a remote pass. Keep real-model/real-device evidence separate from scripted protocol and browser results.
+Finish the in-progress PR58 integration in the review checkout, then integrate the remaining captured stack tips, fix cross-stack regressions and validate the complete candidate before any GitHub merge. Continue from the QA merge-events and `.runtime/merge_grok_heads.py`; do not restart the earlier merges. Hosted CI remains separately blocked at the account level until verified otherwise.

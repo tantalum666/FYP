@@ -46,6 +46,7 @@ flowchart LR
 
 - 拥有者会话8小时，口令使用Argon2，Cookie为HttpOnly／SameSite Strict，TLS时启用Secure。
 - 配对码一次使用；终端需拥有者批准，长期身份可单独撤销。网页用HttpOnly Cookie，iPhone令牌留在Keychain。
+- 网页和 iPhone 的文字回复使用同一条 SSE。原生桥可以一次交回整个正文。契约见[助理回复流](assistant-stream.md)。
 - 本机工作进程用独立令牌，不借用拥有者口令。相机与输出API只接受该身份。
 - 分享令牌与控制身份分开，只能访问服务端投影，不获得写入或设备权限。
 - 外部提供商的密钥留在后端。Google令牌使用本机Fernet密钥加密；业务JSON备份不带这些秘密。

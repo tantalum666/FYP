@@ -14,7 +14,8 @@ import {
   HelpCircle,
   Box,
 } from "lucide-react";
-import { errorText, request, write } from "../api";
+import { ApiError, errorText, request, write, writeStream } from "../api";
+import { consumeChunk, emptyStream, progressLabel, type ToolProgress } from "../replyStream";
 import type { EventInput, Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import { VoiceAudio } from "./audio";
@@ -26,6 +27,7 @@ import { apiOrigin } from "../native";
 import { DateTime } from "luxon";
 import { ComputerJobsPanel } from "./ComputerJobsPanel";
 import "./assistant-minimal.css";
+import { ToolActivity, type ToolCall } from "./ToolActivity";
 
 interface Proposal {
   id: string;
@@ -71,6 +73,7 @@ interface Reply {
   mode: string;
   kind: string;
   message: string;
+  plan?: string;
   proposal?: Proposal;
 }
 
@@ -104,7 +107,7 @@ export function AssistantPanel({
       kind?: string;
     }>
   >([]);
-  const [view, setView] = useState<"chat" | "jobs" | "help" | "timing">("chat");
+  const [view, setView] = useState<"chat" | "jobs" | "help" | "timing" | "activity">("chat");
   const [jobsOpened, setJobsOpened] = useState(false);
   const [voiceSlow, setVoiceSlow] = useState(false);
   const [voiceTimings, setVoiceTimings] = useState<TurnMeasurement[]>([]);
@@ -135,7 +138,10 @@ export function AssistantPanel({
     [busy, setBusy] = useState(false),
     [error, setError] = useState<unknown>(null);
   const [reply, setReply] = useState<Reply | null>(null),
+    [liveMessage, setLiveMessage] = useState(""),
+    [progress, setProgress] = useState<ToolProgress[]>([]),
     [proposals, setProposals] = useState<Proposal[]>([]),
+    [calls, setCalls] = useState<ToolCall[] | null>(null),
     [notice, setNotice] = useState("");
   const [voiceState, setVoiceState] = useState("idle"),
     [transcript, setTranscript] = useState("");
@@ -194,7 +200,7 @@ export function AssistantPanel({
       top: conversation.current.scrollHeight,
       behavior: "instant",
     });
-  }, [turns, proposals, transcript, notice, error, view]);
+  }, [turns, proposals, transcript, liveMessage, notice, error, view]);
   function endVoice() {
     const engine = audio.current;
     audio.current = null;
@@ -239,6 +245,7 @@ export function AssistantPanel({
   useEffect(() => {
     if (immersive && !expanded) setView("chat");
   }, [immersive, expanded]);
+  const ownerView = data?.principal.kind === "owner";
   useDraftGuard(!!text.trim(), busy);
   const reload = useCallback(async () => {
     void loadActivity();
@@ -266,7 +273,23 @@ export function AssistantPanel({
     } catch (e) {
       if (alive.current) setError(e);
     }
-  }, [language, loadActivity]);
+    if (!ownerView) {
+      if (alive.current) setCalls(null);
+      return;
+    }
+    try {
+      const audit = await request<{ calls: ToolCall[] }>(
+        "/assistant/tool-calls",
+      );
+      if (alive.current) setCalls(audit.calls);
+    } catch (e) {
+      if (e instanceof ApiError && e.status === 403) {
+        if (alive.current) setCalls(null);
+        return;
+      }
+      if (alive.current) setError(e);
+    }
+  }, [language, ownerView, loadActivity]);
   useEffect(() => {
     alive.current = true;
     return () => {
@@ -295,6 +318,9 @@ export function AssistantPanel({
     setBusy(true);
     setError(null);
     setNotice("");
+    setReply(null);
+    setLiveMessage("");
+    setProgress([]);
     try {
       if (omni) {
         pendingSubmission.current = submitted;
@@ -304,25 +330,30 @@ export function AssistantPanel({
         setText("");
         return;
       }
-      const result = await write<Reply>("/assistant/messages", {
-        message: submitted,
-        language,
-        task_id: taskId ?? null,
+      const body = { message: submitted, language, task_id: taskId ?? null };
+      let state = emptyStream();
+      let pending = "";
+      await writeStream("/assistant/messages/stream", body, (chunk) => {
+        const next = consumeChunk(state, pending, chunk);
+        state = next.state;
+        pending = next.buffer;
+        if (alive.current) {
+          setLiveMessage(state.message);
+          setProgress(state.tools);
+        }
       });
-      setReply(result);
+      if (state.error) throw new ApiError(state.error, state.status ?? 500);
+      if (!state.reply) throw new ApiError("CONNECTION_LOST");
+      if (alive.current) setReply(state.reply as Reply);
+      const result = state.reply as Reply;
       const id = Date.now();
-      setTurns((old) =>
-        [
-          ...old,
+      if (alive.current) {
+        setLiveMessage("");
+        setTurns((old) => [...old,
           { id, role: "user" as const, body: submitted },
-          {
-            id: id + 1,
-            role: "assistant" as const,
-            body: result.message,
-            kind: result.kind,
-          },
-        ].slice(-40),
-      );
+          { id: id + 1, role: "assistant" as const, body: result.message, kind: result.kind },
+        ].slice(-40));
+      }
       setText("");
       void reload();
       window.dispatchEvent(new Event("desk:jobs"));
@@ -799,6 +830,9 @@ export function AssistantPanel({
               <FolderCheck size={18} />
               {t("File actions & activity", "文件操作与进度")}
             </button>
+            {ownerView && <button onClick={() => { setView("activity"); setMenu(false); }}>
+              {t("Tool activity", "工具记录")}
+            </button>}
             <a href="?surface=avatar" target="_blank" rel="noreferrer">
               <Box size={18} />
               {t("Character & appearance", "角色与外观")}
@@ -823,6 +857,7 @@ export function AssistantPanel({
           </div>
         )}
       </div>
+      {view === "activity" && <ToolActivity t={t} calls={calls} />}
       <section
         className="assistant-chat"
         hidden={view !== "chat"}
@@ -885,6 +920,12 @@ export function AssistantPanel({
               )}
             </div>
           ))}
+          {liveMessage && <p className="assistant-turn assistant" aria-live="polite">{liveMessage}</p>}
+          {busy && progress.length > 0 && <ol className="tool-progress" aria-live="polite">
+            {progress.map((item, index) => <li key={`${index}-${item.tool}`}>
+              <span>{item.tool}</span><span>{progressLabel(item.phase, language)}</span>
+            </li>)}
+          </ol>}
           {transcript && (
             <p className="assistant-turn voice-transcript" aria-live="polite">
               {transcript}

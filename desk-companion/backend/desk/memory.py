@@ -18,6 +18,22 @@ MAX_ACTIVE = 200
 MAX_MODEL = 40
 
 
+class MemoryQuery(StrictModel):
+    query: str | None = None
+
+    @field_validator("query")
+    @classmethod
+    def compact_query(cls, value):
+        if value is None:
+            return None
+        text = " ".join(value.split())
+        if not text:
+            raise ValueError("Memory query is empty")
+        if len(text) > 80:
+            raise ValueError("Memory query is too long")
+        return text
+
+
 class MemoryText(StrictModel):
     body: str = Field(min_length=1, max_length=500)
 
