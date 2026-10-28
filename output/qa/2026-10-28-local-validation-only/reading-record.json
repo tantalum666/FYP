@@ -1,0 +1,17 @@
+{
+  "request": "Use local validation only; assess Grok delivered code using completed review evidence.",
+  "read": [
+    "AGENTS.md full",
+    "product.md full",
+    "handoff.md full",
+    "decision-log.md latest related sections",
+    "CONTRIBUTING.md workflow/checks and maintenance convention",
+    "desk-companion/docs/software-maintenance.md full",
+    ".github/workflows/desk-companion.yml full before removal",
+    "output/qa/2026-10-28-grok-review-merge/verification.md full",
+    "README.md and START_HERE_NEXT_CHAT.md relevant CI/validation paragraphs"
+  ],
+  "scope": "Remove automatic CI definition and update current policy; no application changes or new security scan.",
+  "application_hashes_unchanged": 281,
+  "actions_api": "gh read-only inventory returned403; no permission or billing change attempted"
+}

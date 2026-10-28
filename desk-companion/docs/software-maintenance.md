@@ -36,7 +36,7 @@ Qwen Omni remains the tested integration baseline, not the only/final model choi
 
 The [current QA](../../output/qa/2026-10-28-grok-review-merge/verification.md) separates current automated/browser contracts from the earlier #60 native visual proof. This integration does not claim a new Simulator installation or native touch/keyboard pass. The current integration has450 backend and89 frontend checks; the earlier303/65 result is historical #60 evidence. Historical real-model results are dated evidence and are not counted as new passes.
 
-The branch retains main's Vite8.3.5 dependency. [CI](../../.github/workflows/desk-companion.yml) runs backend lint/tests and frontend tests/build with model and executor defaults disabled. It uses locked dependencies and read-only repository permissions. A green CI run does not imply real voice, device, energy or hardware acceptance.
+The branch retains main's Vite8.3.5 dependency. Validation runs locally: backend lint/tests, frontend tests/build and scoped interaction checks, with models and executors disabled unless separately authorized. The owner does not want GitHub CI; the workflow was removed. Do not recreate it or treat Actions/account limits as unfinished work. Relevant local checks remain mandatory before publication.
 
 Before another substantial change, read the focused contract and relevant implementation, preserve the user's data/dirty work, use the existing service boundaries and validate the affected behavior. Add abstractions only where they clarify a real responsibility or remove duplication; line count alone is not quality. Update this contract when ownership or lifecycle changes.
 

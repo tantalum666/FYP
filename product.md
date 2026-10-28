@@ -46,7 +46,7 @@
 
 退役Senplate维持[统一归档](archive/senplate/README.md)，学校原件与既有报告不改、不代签或提交。旧软件工作区及私有备份继续保留；本分支只发布可复现软件、分发素材、规范与本轮选定QA，不上传凭据、运行数据库或个人限定作者原件。
 
-开工按最新[AGENTS](AGENTS.md)精简阅读，重要进度在检查后推送独立分支／PR。当前唯一下一步以[handoff](handoff.md)为准。
+开工按最新[AGENTS](AGENTS.md)精简阅读，验证只在本地完成，不使用GitHub CI，也不把Actions／账户额度列为待办；重要进度在检查后推送独立分支／PR。当前唯一下一步以[handoff](handoff.md)为准。
 
 ## 2026-10-28 整合规则
 
