@@ -77,6 +77,9 @@ class TextConfig:
         )
 
     def valid(self):
+        # Offline demonstration only. The fake adapter never reads the API key.
+        if self.provider == "fake":
+            return True
         if self.provider not in {"qwen", "gemini"} or not self.model or not self.api_key:
             return False
         if not re.fullmatch(r"[A-Za-z0-9._-]{1,100}", self.model):

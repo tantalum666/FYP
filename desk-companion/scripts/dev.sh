@@ -29,7 +29,8 @@ api_pid=$!
 node frontend/node_modules/vite/bin/vite.js frontend --host 127.0.0.1 --port 5190 --strictPort &
 ui_pid=$!
 echo "Desk Companion: http://127.0.0.1:5190/"
-echo "Account: owner. Local password: .runtime/credentials.json"
+runtime_dir="${DESK_RUNTIME_DIR:-.runtime}"
+echo "Account: owner. Local password: ${runtime_dir}/credentials.json"
 while kill -0 "$api_pid" 2>/dev/null && kill -0 "$ui_pid" 2>/dev/null; do
   sleep 1
 done
