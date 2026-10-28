@@ -396,3 +396,5 @@ The exact-head Actions run40642113382 returned failure annotations saying both j
 **Files and next step:**[QA](output/qa/2026-10-28-native-memory/verification.md), updated memory/Omni/maintenance/phone contracts, product/readmes/entry/handoff/decisions and[delivery gates](desk-companion/docs/delivery-readiness.md). Next is one task → approved bounded job → independently verified result → phone continuation with lost acknowledgement/restart. Older runtimes/worktrees and school originals are preserved.
 
 **Boundaries:** all checks local; no CI, hosted calls, live media, external accounts or Pi/Luwu. Qwen remains a baseline, alternatives stay open. Important progress is published on a separate branch/PR after diff/secret/evidence checks; exact publication readback is recorded separately, not treated as main merge/deployment.
+
+Publication readback: code commit`1c6c589607eb3c61e7ef0b03531d2deb50705488` pushed to`codex/native-memory-reliability-20261028`;[draft PR64](https://github.com/tantalum666/FYP/pull/64) opened and attached. GitHub returned the matching head/base. The PR remains unmerged; this receipt closeout changes documentation only.

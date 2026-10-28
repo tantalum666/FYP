@@ -51,3 +51,5 @@ The earlier8831 installation/runtime and historical450/89 integration evidence r
 Updated product/entry/handoff, memory/Omni/maintenance contracts, phone implementation note, decision/work log and [delivery gates](../../../desk-companion/docs/delivery-readiness.md). The next software slice is one actual task → approved bounded job → independently verified result → phone continuation, including restart/lost-acknowledgement handling. Native input, human voice comparison, real delivery, posture and Pi/Luwu retain their separate gates.
 
 Alice screenshot content uses the project's existing AliceChan asset, edisonlee55/yuna0x0, CC BY-SA4.0; [source/licence](../../../desk-companion/frontend/public/avatars/alice/LICENSE.md). No art asset was changed. Publication receipt records branch/PR state separately from main merge and deployment.
+
+Publication: draft[PR64](https://github.com/tantalum666/FYP/pull/64), code commit`1c6c589607eb3c61e7ef0b03531d2deb50705488`, open/unmerged. The GitHub response confirmed the source head and main base;[receipt](publication.json). Final remote head is checked again after this documentation closeout.

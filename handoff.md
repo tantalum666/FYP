@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-28 October 2026, Asia/Hong_Kong. Current continuation: **older-memory continuity and shared memory browsing**, on `codex/native-memory-reliability-20261028` in `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`. Base is main `9bfe2eedf0ea05b9f7d143a18388d84e36e19de0` (local-validation-only policy). Publication is recorded in this checkpoint's QA; a branch/PR is not main merge or deployment.
+28 October 2026, Asia/Hong_Kong. Current continuation: **older-memory continuity and shared memory browsing**, on `codex/native-memory-reliability-20261028` in `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`. Base is main `9bfe2eedf0ea05b9f7d143a18388d84e36e19de0` (local-validation-only policy). Published as draft[PR64](https://github.com/tantalum666/FYP/pull/64); code commit`1c6c589607eb3c61e7ef0b03531d2deb50705488`, verified in the GitHub response. [Receipt](output/qa/2026-10-28-native-memory/publication.json). This PR is open/unmerged, not deployment.
 
 ## Completed in this checkpoint
 

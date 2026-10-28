@@ -4,7 +4,7 @@
 
 ## Start here
 
-Use `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, current branch`codex/native-memory-reliability-20261028`, based on main`9bfe2eedf0ea05b9f7d143a18388d84e36e19de0`. Inspect Git status and[handoff](handoff.md) before creating a new branch; do not overwrite unpublished work. Read[AGENTS](AGENTS.md),[product](product.md), latest relevant[decisions](decision-log.md) and[software maintenance](desk-companion/docs/software-maintenance.md). Current scope/evidence:[QA](output/qa/2026-10-28-native-memory/verification.md); remaining integrated goals:[delivery gates](desk-companion/docs/delivery-readiness.md).
+Use `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, current branch`codex/native-memory-reliability-20261028`, based on main`9bfe2eedf0ea05b9f7d143a18388d84e36e19de0`. Inspect Git status and[handoff](handoff.md) before creating a new branch; do not overwrite unpublished work. Read[AGENTS](AGENTS.md),[product](product.md), latest relevant[decisions](decision-log.md) and[software maintenance](desk-companion/docs/software-maintenance.md). Published as draft[PR64](https://github.com/tantalum666/FYP/pull/64), not merged. Current scope/evidence:[QA](output/qa/2026-10-28-native-memory/verification.md); remaining integrated goals:[delivery gates](desk-companion/docs/delivery-readiness.md).
 
 Current local checks:459backend/89frontend, Ruff/types/build; actual web/phone search, correction and draft recovery with independent API readback. The current source is installed/launched in Simulator, but native touch/soft-keyboard input is still unverified. The recent40 prompt window no longer limits memory lookup/drafts or lifecycle invalidation.
 

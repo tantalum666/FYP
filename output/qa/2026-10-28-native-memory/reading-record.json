@@ -16,5 +16,5 @@
     "CONTRIBUTING.md full for branch, local validation and publication scope"
   ],
   "bounds": "No CI, paid models, Pi or physical media capture; old runtimes preserved. CUA for actual UI. Native build/visual readback verified; native taps/keyboard remain unverified.",
-  "state": "implementation and local checks complete; final publication readback pending"
+  "state": "complete: source pushed, draft PR64 open; final documentation head readback follows"
 }
