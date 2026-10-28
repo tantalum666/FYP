@@ -61,5 +61,22 @@
     "work-log.md"
   ],
   "boundaries": "Pi paused; old paid budgets closed; no school-report editing/submission; no private runtime publication",
-  "publication": "PR61 merged; PR20-60 individually verified merged; source/asset checks retained; receipt closeout is documentation only"
+  "publication": "PR61 merged; PR20-60 individually verified merged; source/asset checks retained; receipt closeout is documentation only",
+  "local_router_updates": [
+    {
+      "path": "/Users/tantalum/Documents/ChatGPT/FYP/START_HERE_NEXT_CHAT.md",
+      "previous_sha256": "e599b36fb3cbe20041a3d4c93b4a21b02e97a264e1c1abc57a978c8592022183",
+      "change": "routing note only; prior text retained locally"
+    },
+    {
+      "path": "/Users/tantalum/.codex/worktrees/software-ai-maintenance/FYP/START_HERE_NEXT_CHAT.md",
+      "previous_sha256": "75b019187a5a15ae868b02337add2fff17cd6acc3e0c480fc776b54c46786ba8",
+      "change": "routing note only; prior text retained locally"
+    },
+    {
+      "path": "/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP/START_HERE_NEXT_CHAT.md",
+      "previous_sha256": "e599b36fb3cbe20041a3d4c93b4a21b02e97a264e1c1abc57a978c8592022183",
+      "change": "routing note only; prior text retained locally"
+    }
+  ]
 }
