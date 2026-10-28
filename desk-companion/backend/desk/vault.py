@@ -1,9 +1,10 @@
 """Local encryption for temporary credentials and optional provider refresh tokens."""
 
-import os
 from pathlib import Path
 
 from cryptography.fernet import Fernet
+
+from .private_file import write_private
 
 
 class Vault:
@@ -11,9 +12,7 @@ class Vault:
         path = Path(directory) / "vault.key"
         if not path.exists():
             try:
-                with path.open("xb") as stream:
-                    os.chmod(path, 0o600)
-                    stream.write(Fernet.generate_key())
+                write_private(path, Fernet.generate_key())
             except FileExistsError:
                 pass
         self.cipher = Fernet(path.read_bytes())

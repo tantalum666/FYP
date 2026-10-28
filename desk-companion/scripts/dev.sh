@@ -24,7 +24,8 @@ cleanup() {
   wait 2>/dev/null || true
 }
 trap cleanup EXIT INT TERM
-.venv/bin/uvicorn desk.app:create_app --factory --app-dir backend --host 127.0.0.1 --port 8831 &
+# No access log: the Google callback puts an OAuth code in the query string.
+.venv/bin/uvicorn desk.app:create_app --factory --app-dir backend --host 127.0.0.1 --port 8831 --no-access-log &
 api_pid=$!
 node frontend/node_modules/vite/bin/vite.js frontend --host 127.0.0.1 --port 5190 --strictPort &
 ui_pid=$!
