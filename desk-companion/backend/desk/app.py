@@ -9,7 +9,7 @@ from urllib.parse import urlsplit
 
 from fastapi import Depends, FastAPI, Header, Request, Response, HTTPException
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, HTMLResponse
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.middleware.cors import CORSMiddleware
 
@@ -26,6 +26,9 @@ from .google_calendar import google_routes
 from .phone import phone_snapshot
 from .tasks import task_routes
 from .jobs import job_routes
+from .backups import CHECK_INTERVAL_SECONDS
+from .diagnostics import diagnostics_html, diagnostics_report
+from .log import configure, log_event, redact_text
 
 from .cookies import cookie_secure
 from .schemas import CreateEvents, EventAction, Login, ReminderAction, SettingsInput
@@ -41,6 +44,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
         or os.environ.get("DESK_RUNTIME_DIR")
         or Path(__file__).resolve().parents[2] / ".runtime"
     )
+    configure()
     store = Store(runtime, clock=clock, password=password)
     services = Runtime(
         store,
@@ -49,6 +53,14 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
         else allow_replay,
     )
     attempts = defaultdict(deque)
+
+    schedule = (
+        ("rules", services.tick, 1),
+        ("public_data", services.data.poll_weather, 10),
+        ("task_advice", services.text_ai.enrich_one, 30),
+        ("computer_jobs", services.jobs.run_one, 0.5),
+        ("local_backup", services.backups.tick, CHECK_INTERVAL_SECONDS),
+    )
 
     @asynccontextmanager
     async def lifespan(app):
@@ -64,15 +76,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
                 await asyncio.sleep(interval)
 
         workers = (
-            [
-                asyncio.create_task(worker(name, action, interval))
-                for name, action, interval in (
-                    ("rules", services.tick, 1),
-                    ("public_data", services.data.poll_weather, 10),
-                    ("task_advice", services.text_ai.enrich_one, 30),
-                    ("computer_jobs", services.jobs.run_one, 0.5),
-                )
-            ]
+            [asyncio.create_task(worker(name, action, interval)) for name, action, interval in schedule]
             if scheduler
             else []
         )
@@ -87,6 +91,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
     app = FastAPI(title="Desk Companion", version="0.1.0", lifespan=lifespan)
     app.state.store = store
     app.state.runtime = services
+    app.state.scheduled = tuple((name, interval) for name, _action, interval in schedule)
     public_origin = os.environ.get("DESK_PUBLIC_ORIGIN", "").rstrip("/")
     allowed_origins = {
         f"http://{host}{port}"
@@ -128,16 +133,28 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
 
     @app.middleware("http")
     async def local_request_boundary(request, call_next):
+        def access_log(status):
+            log_event(
+                "http",
+                method=request.method,
+                path=request.url.path,
+                query=redact_text(request.url.query),
+                status=status,
+            )
+
         origin = request.headers.get("origin")
         if origin:
             if origin not in allowed_origins:
+                access_log(403)
                 return JSONResponse({"error": {"code": "ORIGIN_NOT_ALLOWED"}}, status_code=403)
         if request.method not in {"GET", "HEAD", "OPTIONS"} and request.url.path.startswith(
             "/api/"
         ):
             if request.headers.get("x-desk-request") != "1":
+                access_log(403)
                 return JSONResponse({"error": {"code": "REQUEST_HEADER_REQUIRED"}}, status_code=403)
         response = await call_next(request)
+        access_log(response.status_code)
         response.headers["Cache-Control"] = (
             "public, max-age=31536000, immutable"
             if request.url.path.startswith("/assets/") and response.status_code == 200
@@ -382,6 +399,23 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
             str(payload.get("client_id", "")),
             services.posture.snapshot(),
             services.tasks.listing(display=True)["tasks"],
+        )
+
+    @app.get("/api/diagnostics", dependencies=[Depends(owner)])
+    def diagnostics():
+        return diagnostics_report(services, app.version)
+
+    @app.get("/api/diagnostics/page", dependencies=[Depends(owner)])
+    def diagnostics_page():
+        report = diagnostics_report(services, app.version)
+        return HTMLResponse(
+            diagnostics_html(report),
+            headers={
+                "Content-Security-Policy": (
+                    "default-src 'none'; style-src 'unsafe-inline'; "
+                    "base-uri 'none'; frame-ancestors 'none'"
+                )
+            },
         )
 
     app.include_router(device_routes(services, authenticated, owner, agent, operation_id, limit))

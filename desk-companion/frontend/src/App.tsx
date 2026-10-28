@@ -6,6 +6,7 @@ import {
   FileText,
   Globe,
   House,
+  Activity,
   Brain,
   ListTodo,
   LoaderCircle,
@@ -21,6 +22,7 @@ import {
   request,
   retryPending,
 } from "./api";
+import { DiagnosticsPanel } from "./diagnostics.tsx";
 import { dayISO, savedEventPosition, viewRange } from "./dates";
 import type { Language, Page, Snapshot, Translate, View } from "./types";
 import {
@@ -60,6 +62,7 @@ const nav = [
   { id: "persona", en: "Style", zh: "风格", Icon: Sparkles },
   { id: "records", en: "Records", zh: "记录", Icon: FileText },
   { id: "device", en: "Settings", zh: "设置", Icon: SettingsIcon },
+  { id: "diagnostics", en: "Diagnostics", zh: "诊断", Icon: Activity },
 ] as const;
 
 export function App() {
@@ -90,6 +93,7 @@ export function App() {
         : "week",
   );
   const deviceLayout = query.get("surface") === "device";
+  const pages = nav.filter(item => item.id !== "diagnostics" || !deviceLayout);
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null),
     [connection, setConnection] = useState<"connecting" | "online" | "offline">(
       "connecting",
@@ -399,7 +403,7 @@ export function App() {
         </div>
         <div className="sidebar-scroll">
           <nav aria-label={t("Main navigation", "主导航")}>
-            {nav.map(({ id, en, zh, Icon }, index) => (
+            {pages.map(({ id, en, zh, Icon }, index) => (
               <div className="sidebar-nav-item" key={id}>
                 {(index === 3 || index === 5) && (
                   <p className="sidebar-group-label">
@@ -666,11 +670,14 @@ export function App() {
                 }
               />
             )}
+            {page === "diagnostics" && (
+              <DiagnosticsPanel t={t} language={language} />
+            )}
           </>
         )}
       </main>
       <nav className="bottom-nav" aria-label={t("Main navigation", "主导航")}>
-        {nav.map(({ id, en, zh, Icon }) => (
+        {pages.map(({ id, en, zh, Icon }) => (
           <button
             key={id}
             onClick={() => goPage(id)}
