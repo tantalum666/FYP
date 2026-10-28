@@ -1,5 +1,7 @@
 name: Desk Companion
 on:
+  push:
+    branches: [main]
   pull_request:
     paths:
       - 'desk-companion/**'
