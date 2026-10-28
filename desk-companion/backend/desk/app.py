@@ -9,13 +9,20 @@ from urllib.parse import urlsplit
 
 from fastapi import Depends, FastAPI, Header, Request, Response, HTTPException
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, HTMLResponse
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.middleware.cors import CORSMiddleware
 
 from .access import DEVICE_COOKIE
 from .assistant_routes import assistant_routes
 from .memory import memory_routes
+from .moments import moment_routes
+from .nudges import nudge_routes
+from .digest import digest_routes
+from .goals import goal_routes
+from .profile import profile_routes
+from .notify import notice_routes
+from .web_push import push_routes
 from .persona import persona_routes
 from .device_routes import device_routes
 from .runtime import Runtime
@@ -26,7 +33,11 @@ from .google_calendar import google_routes
 from .phone import phone_snapshot
 from .tasks import task_routes
 from .jobs import job_routes
+from .backups import CHECK_INTERVAL_SECONDS
+from .diagnostics import diagnostics_html, diagnostics_report
+from .log import configure, log_event, redact_text
 
+from .cookies import cookie_secure
 from .schemas import CreateEvents, EventAction, Login, ReminderAction, SettingsInput
 from .store import DomainError, Store
 
@@ -40,6 +51,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
         or os.environ.get("DESK_RUNTIME_DIR")
         or Path(__file__).resolve().parents[2] / ".runtime"
     )
+    configure()
     store = Store(runtime, clock=clock, password=password)
     services = Runtime(
         store,
@@ -48,6 +60,14 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
         else allow_replay,
     )
     attempts = defaultdict(deque)
+
+    schedule = (
+        ("rules", services.tick, 1),
+        ("public_data", services.data.poll_weather, 10),
+        ("task_advice", services.text_ai.enrich_one, 30),
+        ("computer_jobs", services.jobs.run_one, 0.5),
+        ("local_backup", services.backups.tick, CHECK_INTERVAL_SECONDS),
+    )
 
     @asynccontextmanager
     async def lifespan(app):
@@ -63,15 +83,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
                 await asyncio.sleep(interval)
 
         workers = (
-            [
-                asyncio.create_task(worker(name, action, interval))
-                for name, action, interval in (
-                    ("rules", services.tick, 1),
-                    ("public_data", services.data.poll_weather, 10),
-                    ("task_advice", services.text_ai.enrich_one, 30),
-                    ("computer_jobs", services.jobs.run_one, 0.5),
-                )
-            ]
+            [asyncio.create_task(worker(name, action, interval)) for name, action, interval in schedule]
             if scheduler
             else []
         )
@@ -86,12 +98,15 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
     app = FastAPI(title="Desk Companion", version="0.1.0", lifespan=lifespan)
     app.state.store = store
     app.state.runtime = services
+    app.state.scheduled = tuple((name, interval) for name, _action, interval in schedule)
     public_origin = os.environ.get("DESK_PUBLIC_ORIGIN", "").rstrip("/")
     allowed_origins = {
         f"http://{host}{port}"
         for host in ("localhost", "127.0.0.1", "testserver")
         for port in ("", ":5190", ":8831", ":5191", ":8832")
     }
+    # The Mac-to-Pi SSH launcher binds this port on Mac loopback only.
+    allowed_origins.update({"http://127.0.0.1:8891", "http://localhost:8891"})
     allowed_hosts = ["localhost", "127.0.0.1", "testserver"]
     if public_origin:
         parts = urlsplit(public_origin)
@@ -125,16 +140,28 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
 
     @app.middleware("http")
     async def local_request_boundary(request, call_next):
+        def access_log(status):
+            log_event(
+                "http",
+                method=request.method,
+                path=request.url.path,
+                query=redact_text(request.url.query),
+                status=status,
+            )
+
         origin = request.headers.get("origin")
         if origin:
             if origin not in allowed_origins:
+                access_log(403)
                 return JSONResponse({"error": {"code": "ORIGIN_NOT_ALLOWED"}}, status_code=403)
         if request.method not in {"GET", "HEAD", "OPTIONS"} and request.url.path.startswith(
             "/api/"
         ):
             if request.headers.get("x-desk-request") != "1":
+                access_log(403)
                 return JSONResponse({"error": {"code": "REQUEST_HEADER_REQUIRED"}}, status_code=403)
         response = await call_next(request)
+        access_log(response.status_code)
         response.headers["Cache-Control"] = (
             "public, max-age=31536000, immutable"
             if request.url.path.startswith("/assets/") and response.status_code == 200
@@ -192,6 +219,49 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
     def health():
         return {"service": "desk-companion", "status": "ok"}
 
+    def local_preview(request: Request):
+        # Explicit development mode only. Forwarded/public requests never opt in.
+        return (
+            os.environ.get("DESK_LOCAL_PREVIEW") == "1"
+            and not public_origin
+            and request.client is not None
+            and request.client.host in {"127.0.0.1", "::1"}
+            and request.url.hostname in {"localhost", "127.0.0.1"}
+            and not any(
+                h in request.headers for h in ("forwarded", "x-forwarded-for", "x-forwarded-host")
+            )
+            and (
+                not request.headers.get("origin")
+                or (
+                    urlsplit(request.headers["origin"]).scheme == "http"
+                    and urlsplit(request.headers["origin"]).hostname in {"localhost", "127.0.0.1"}
+                )
+            )
+        )
+
+    @app.get("/api/session-mode")
+    def session_mode(request: Request):
+        return {"local_preview": local_preview(request)}
+
+    @app.post("/api/session/preview")
+    def preview_session(request: Request, response: Response):
+        if not local_preview(request):
+            raise DomainError("LOCAL_PREVIEW_DISABLED", 403)
+        limit("preview", request, 20, 60)
+        token = request.cookies.get(COOKIE)
+        if not store.session_valid(token):
+            token = store.create_owner_session()
+        response.set_cookie(
+            COOKIE,
+            token,
+            httponly=True,
+            samesite="strict",
+            secure=request.url.scheme == "https",
+            max_age=8 * 3600,
+            path="/api",
+        )
+        return {"local_preview": True}
+
     @app.post("/api/session")
     def login(payload: Login, request: Request, response: Response):
         ip = request.client.host if request.client else "local"
@@ -209,7 +279,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
             token,
             httponly=True,
             samesite="strict",
-            secure=request.url.scheme == "https",
+            secure=cookie_secure(request),
             max_age=8 * 3600,
             path="/api",
         )
@@ -224,12 +294,17 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
                     token,
                     httponly=True,
                     samesite="strict",
-                    secure=request.url.scheme == "https",
+                    secure=cookie_secure(request),
                     max_age=365 * 86400,
                     path="/api",
                 )
         with store.connection() as conn:
-            return {"username": "owner", "settings": store.settings(conn), "principal": principal}
+            return {
+                "username": "owner",
+                "settings": store.settings(conn),
+                "principal": principal,
+                "local_preview": local_preview(request),
+            }
 
     @app.delete("/api/session", dependencies=[Depends(authenticated)])
     def logout(request: Request, response: Response, principal=Depends(authenticated)):
@@ -333,10 +408,34 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
             services.tasks.listing(display=True)["tasks"],
         )
 
+    @app.get("/api/diagnostics", dependencies=[Depends(owner)])
+    def diagnostics():
+        return diagnostics_report(services, app.version)
+
+    @app.get("/api/diagnostics/page", dependencies=[Depends(owner)])
+    def diagnostics_page():
+        report = diagnostics_report(services, app.version)
+        return HTMLResponse(
+            diagnostics_html(report),
+            headers={
+                "Content-Security-Policy": (
+                    "default-src 'none'; style-src 'unsafe-inline'; "
+                    "base-uri 'none'; frame-ancestors 'none'"
+                )
+            },
+        )
+
     app.include_router(device_routes(services, authenticated, owner, agent, operation_id, limit))
     app.include_router(task_routes(services, authenticated, operation_id))
     app.include_router(job_routes(services, owner, operation_id))
     app.include_router(memory_routes(services, owner, operation_id))
+    app.include_router(moment_routes(services, owner, operation_id))
+    app.include_router(nudge_routes(services, owner, operation_id))
+    app.include_router(notice_routes(services, owner, operation_id))
+    app.include_router(push_routes(services, owner, operation_id))
+    app.include_router(goal_routes(services, owner, operation_id))
+    app.include_router(digest_routes(services, owner, operation_id))
+    app.include_router(profile_routes(services, owner, operation_id))
     app.include_router(persona_routes(services, owner, operation_id))
     app.include_router(assistant_routes(services, authenticated, operation_id))
     app.include_router(voice_routes(services, authenticated, agent, allowed_origins, limit))

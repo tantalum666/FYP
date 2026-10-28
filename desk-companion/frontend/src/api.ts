@@ -1,3 +1,4 @@
+import { readReply, type StreamReply, type StreamState } from "./replyStream";
 import { apiFetch, isNative, native } from "./native";
 export class ApiError extends Error {
   constructor(
@@ -29,9 +30,16 @@ export async function request<T>(
       },
     });
     const body = await response.json();
-    if (!response.ok)
+    if (!response.ok) {
+      if (
+        path !== "/session" &&
+        response.status === 401 &&
+        body.error?.code === "AUTH_REQUIRED"
+      )
+        window.dispatchEvent(new Event("desk:auth-required"));
       throw new ApiError(body.error?.code ?? "REQUEST_FAILED", response.status);
-    if (path === "/session" && options.method)
+    }
+    if ((path === "/session" || path === "/session/preview") && options.method)
       window.dispatchEvent(new Event("desk:session"));
     return body as T;
   } catch (error) {
@@ -48,6 +56,7 @@ export interface PendingWrite {
   key: string;
 }
 const pendingKey = "desk.pending-write";
+let identityGeneration = 0;
 export function pendingWrite(): PendingWrite | null {
   try {
     return JSON.parse(sessionStorage.getItem(pendingKey) ?? "null");
@@ -72,7 +81,7 @@ export async function write<T>(path: string, body: unknown): Promise<T> {
       body: JSON.stringify(body),
       headers: { "X-Operation-Id": operation.key },
     });
-    sessionStorage.removeItem(pendingKey);
+    clearPending(operation.key);
     return response;
   } catch (error) {
     if (
@@ -82,14 +91,95 @@ export async function write<T>(path: string, body: unknown): Promise<T> {
       error.status !== 401 &&
       error.status !== 408
     )
-      sessionStorage.removeItem(pendingKey);
+      clearPending(operation.key);
     throw error;
+  }
+}
+function aborted(signal: AbortSignal): Promise<never> {
+  return new Promise((_, reject) => {
+    const fail = () =>
+      reject(new DOMException("The operation was aborted.", "AbortError"));
+    if (signal.aborted) fail();
+    else signal.addEventListener("abort", fail, { once: true });
+  });
+}
+
+export async function writeStream(
+  path: string,
+  body: unknown,
+  onState: (state: StreamState) => void,
+): Promise<StreamReply> {
+  const existing = pendingWrite();
+  if (
+    existing &&
+    (existing.path !== path ||
+      JSON.stringify(existing.body) !== JSON.stringify(body))
+  ) {
+    throw new ApiError("PENDING_WRITE");
+  }
+  const operation = existing ?? { path, body, key: crypto.randomUUID() };
+  sessionStorage.setItem(pendingKey, JSON.stringify(operation));
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), 75000);
+  try {
+    const response = await Promise.race([
+      apiFetch(path, {
+        method: "POST",
+        credentials: "same-origin",
+        signal: controller.signal,
+        headers: {
+          "Content-Type": "application/json",
+          "X-Desk-Request": "1",
+          "X-Operation-Id": operation.key,
+        },
+        body: JSON.stringify(body),
+      }),
+      aborted(controller.signal),
+    ]);
+    if (!response.ok) {
+      let code = "REQUEST_FAILED";
+      try {
+        const payload = await response.json();
+        code = payload.error?.code ?? code;
+      } catch {
+        /* The status is enough when the body is not JSON. */
+      }
+      if (response.status === 401 && code === "AUTH_REQUIRED")
+        window.dispatchEvent(new Event("desk:auth-required"));
+      throw new ApiError(code, response.status);
+    }
+    const state = await Promise.race([
+      readReply(response, onState),
+      aborted(controller.signal),
+    ]);
+    if (state.error) throw new ApiError(state.error, state.status ?? 500);
+    if (!state.done || !state.reply) throw new ApiError("CONNECTION_LOST");
+    clearPending(operation.key);
+    return state.reply;
+  } catch (error) {
+    if (
+      error instanceof ApiError &&
+      error.status >= 400 &&
+      error.status < 500 &&
+      error.status !== 401 &&
+      error.status !== 408
+    )
+      clearPending(operation.key);
+    if (error instanceof ApiError) throw error;
+    throw new ApiError("CONNECTION_LOST");
+  } finally {
+    clearTimeout(timer);
   }
 }
 export async function retryPending(): Promise<unknown> {
   const op = pendingWrite();
   if (op) {
-    const result = await write(op.path, op.body);
+    const generation = identityGeneration;
+    const result =
+      op.path === "/assistant/messages/stream"
+        ? await writeStream(op.path, op.body, () => {})
+        : await write(op.path, op.body);
+    if (generation !== identityGeneration) return;
     window.dispatchEvent(
       new CustomEvent("desk:write-recovered", {
         detail: { operation: op, result },
@@ -98,8 +188,10 @@ export async function retryPending(): Promise<unknown> {
     return result;
   }
 }
-export function clearPending() {
-  sessionStorage.removeItem(pendingKey);
+export function clearPending(key?: string) {
+  if (key === undefined) identityGeneration += 1;
+  if (key === undefined || pendingWrite()?.key === key)
+    sessionStorage.removeItem(pendingKey);
 }
 
 export async function downloadFile(path: string, filename: string) {
@@ -133,6 +225,10 @@ export function errorText(
 ) {
   const code = error instanceof ApiError ? error.code : "REQUEST_FAILED";
   const messages: Record<string, [string, string]> = {
+    LINUX_DESKTOP_UNAVAILABLE: [
+      "The Linux desktop, editor, browser or accessibility bridge is not ready. Open a desktop session and check the setup.",
+      "Linux 桌面、编辑器、浏览器或辅助功能连接尚未就绪。请打开桌面会话并检查配置。",
+    ],
     COMPUTER_DISABLED: [
       "Local note execution is disabled on this desk.",
       "本桌面未启用本地笔记执行。",
@@ -357,6 +453,18 @@ export function errorText(
     MEMORY_LIMIT: [
       "Memory is full. Delete a fact before saving another.",
       "记忆已满，请先删除一条再保存。",
+    ],
+    MEMORY_DUPLICATE: [
+      "That wording is already saved. Correct the existing fact or retire the duplicate.",
+      "这条文字已经保存。请更正原事实，或停用重复的一条。",
+    ],
+    MEMORY_REVIEW_STALE: [
+      "Those facts changed. Refresh the list before retiring duplicates.",
+      "这些事实已变化。请刷新列表后再停用重复项。",
+    ],
+    INVALID_EXPIRY: [
+      "Choose a timezone-aware expiry time, or clear it.",
+      "请选择带时区的到期时间，或清除到期时间。",
     ],
     NARROW_DATE_RANGE: [
       "This view contains too many events. Choose a single day in the date picker or open Today.",

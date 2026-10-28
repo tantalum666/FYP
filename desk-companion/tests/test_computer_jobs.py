@@ -3,14 +3,23 @@ import json
 import threading
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime, timedelta
+from typing import get_args
 
 import pytest
 from fastapi.testclient import TestClient
 from pydantic import ValidationError
 
 from desk.app import create_app
-from desk.computer import ExecutionRejected, LocalNotesExecutor
-from desk.jobs import JobApproval, JobInput
+from desk.computer import ExecutionRejected, LocalNotesExecutor, artifact_filename
+from desk.jobs import (
+    CHECK_ACTIONS,
+    DESKTOP_ACTIONS,
+    FOLDER_ACTIONS,
+    NOTE_ACTIONS,
+    WRITE_ACTIONS,
+    JobApproval,
+    JobInput,
+)
 from desk.store import DomainError
 from desk.tasks import TaskAction, TaskInput
 
@@ -31,7 +40,42 @@ def test_note_and_folder_actions_share_one_executor_registry(setup):
     assert bound == [
         ("save_note", "verify_note"),
         ("save_folder_file", "verify_folder_file"),
+        ("linux_note_preview", "verify_linux_file"),
     ]
+    allowed = set(get_args(JobInput.model_fields["action"].annotation))
+    assert allowed == NOTE_ACTIONS | FOLDER_ACTIONS | DESKTOP_ACTIONS
+    assert NOTE_ACTIONS.isdisjoint(FOLDER_ACTIONS)
+    assert WRITE_ACTIONS | CHECK_ACTIONS == allowed
+    assert WRITE_ACTIONS.isdisjoint(CHECK_ACTIONS)
+    covered = set()
+    for actions, _resolve in jobs._bindings():
+        assert covered.isdisjoint(actions)
+        covered |= set(actions)
+    assert covered == allowed
+
+
+def test_unknown_action_is_denied_instead_of_using_the_folder(setup):
+    jobs = setup[1]
+    payload = JobInput.model_construct(
+        action="shell",
+        title="Fictional",
+        content="do not run",
+        source_job_id=None,
+        task_id=None,
+        task_version=None,
+    )
+    with pytest.raises(DomainError) as caught:
+        jobs.prepare(payload, "unknown-action")
+    assert caught.value.code == "COMPUTER_ACTION_DENIED"
+    assert jobs.listing() == []
+
+
+def test_artifact_name_is_the_job_id_for_every_executor():
+    name = "a" * 32
+    assert artifact_filename({"artifact_id": name}) == name + ".txt"
+    with pytest.raises(ExecutionRejected) as caught:
+        artifact_filename({"artifact_id": "../escape"})
+    assert caught.value.code == "COMPUTER_TARGET_DENIED"
 
 
 def prepare(jobs, key="prepare", **kwargs):

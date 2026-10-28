@@ -2,7 +2,6 @@
 
 import hashlib
 import json
-import os
 import secrets
 from datetime import timedelta
 from pathlib import Path
@@ -12,6 +11,7 @@ from uuid import uuid4
 from pydantic import Field, field_validator
 
 from .calendar import iso
+from .private_file import write_private
 from .schemas import StrictModel
 from .store import DomainError
 from .vault import Vault
@@ -80,9 +80,7 @@ class AccessService:
         path = Path(store.directory) / "agent.json"
         if not path.exists():
             try:
-                with path.open("x") as stream:
-                    os.chmod(path, 0o600)
-                    json.dump({"token": secrets.token_urlsafe(32)}, stream)
+                write_private(path, json.dumps({"token": secrets.token_urlsafe(32)}))
             except FileExistsError:
                 pass
         self.agent_hash = digest(json.loads(path.read_text())["token"])

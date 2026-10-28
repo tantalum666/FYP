@@ -1,0 +1,1134 @@
+[
+  {
+    "path": "desk-companion/.gitignore",
+    "sha256": "6cd10871a0fb10aee4bbfb0491ae26c4efb5df4eb10b1715c4ecd7527cdca0c1"
+  },
+  {
+    "path": "desk-companion/README.md",
+    "sha256": "ed5180d68e6154569bbcafc1f64828e3ac4d2d9b479bd29d4a91a0852b726545"
+  },
+  {
+    "path": "desk-companion/THIRD_PARTY.md",
+    "sha256": "958aacbc4c65f05aedc233af16509dc84c011c64376dd4ee87ca85b3306641e8"
+  },
+  {
+    "path": "desk-companion/backend/desk/__init__.py",
+    "sha256": "3adcb8ebfc5839fd24a95c1ceb563d6ab390a2dbda596d438947fb4137cd304e"
+  },
+  {
+    "path": "desk-companion/backend/desk/access.py",
+    "sha256": "999deb973870b2ab36627b87d8c0547db4db8e5e9cdcb4592aca3d55dd814c86"
+  },
+  {
+    "path": "desk-companion/backend/desk/agents/__init__.py",
+    "sha256": "3014a6245b990c3577d11aa512555751114e8c403c8efbb1af428fdda342b114"
+  },
+  {
+    "path": "desk-companion/backend/desk/agents/camera.py",
+    "sha256": "8bb12de2944eb14d245079331a1a2f8d074c7e5fa69c52b2787ee181c43fe184"
+  },
+  {
+    "path": "desk-companion/backend/desk/agents/outputs.py",
+    "sha256": "26e451c0d658ed7ce41e4541dffc690df633725ee1d4dd7dd3e8fc92abee9b54"
+  },
+  {
+    "path": "desk-companion/backend/desk/agents/voice.py",
+    "sha256": "1548c1817fe5911fefbb0db0e35d1067036635c981226c845864ad7992c5ca4c"
+  },
+  {
+    "path": "desk-companion/backend/desk/agents/wake.py",
+    "sha256": "a202838401fc3410d15cc365e3e558b5890df5d11f300b6714e7e71e511079cc"
+  },
+  {
+    "path": "desk-companion/backend/desk/app.py",
+    "sha256": "cb75074ae89ad8ee47e9fe545f502c327cc4930af1c144b809a5fbcd34200483"
+  },
+  {
+    "path": "desk-companion/backend/desk/assistant.py",
+    "sha256": "baf04a5690a73b5da86f798aff1d6339890913e1533771fa7a0eae12e4027829"
+  },
+  {
+    "path": "desk-companion/backend/desk/assistant_routes.py",
+    "sha256": "9210bbb23b6fe149c2f5d72abf22c81c4ed8d592a51fdf3fe8f8ddc29df211ca"
+  },
+  {
+    "path": "desk-companion/backend/desk/calendar.py",
+    "sha256": "08330a4b58c20485b7a3ae90848123a383e183ba6b052d8b36762014997ecc21"
+  },
+  {
+    "path": "desk-companion/backend/desk/computer.py",
+    "sha256": "6aba320e7a2496a7c763ce67c617e98935f5a0b4b38967af974f1ef7d6bd926f"
+  },
+  {
+    "path": "desk-companion/backend/desk/context.py",
+    "sha256": "d4b0cb74ce28648532af564d9245950f9a53d3d9f17dab829b82d3cbe7ceccb2"
+  },
+  {
+    "path": "desk-companion/backend/desk/conversation.py",
+    "sha256": "e575ba34abb0f964034827244b916ac47f6605041061cdc018a5c1966cf66c52"
+  },
+  {
+    "path": "desk-companion/backend/desk/data/hk-holidays-en.json",
+    "sha256": "8d797fb380825eec3f53fe456cc85ad30e2f91635675081abb671eca3bfd757d"
+  },
+  {
+    "path": "desk-companion/backend/desk/data/hk-holidays-sc.json",
+    "sha256": "b52d8ae6f66238c3c45311e2d670dbd06af24cc8bae34ba5535c773ad2ee28de"
+  },
+  {
+    "path": "desk-companion/backend/desk/device_routes.py",
+    "sha256": "eb485f59206afba1be9547e69d0dc63edf84efd82a1f32457a0a0a9b1f3bf5d4"
+  },
+  {
+    "path": "desk-companion/backend/desk/exchange.py",
+    "sha256": "8a5632b1050b55223a26e9becbda4fec155cebb327f3191a117a2015b9fee95f"
+  },
+  {
+    "path": "desk-companion/backend/desk/exchange_routes.py",
+    "sha256": "50d5e26ee3ab923f92caab8068475cdcd7bf5e57654859123a96dc44a435b3bb"
+  },
+  {
+    "path": "desk-companion/backend/desk/google_calendar.py",
+    "sha256": "c63ecec83bdd80bd1a3a76164d6d7006678bb6948ddc4c10ded48ed918206dba"
+  },
+  {
+    "path": "desk-companion/backend/desk/jobs.py",
+    "sha256": "cff1148ddcc437558701ebebd53387eb45c5ddd70657a936c3a83f24c3b7d02c"
+  },
+  {
+    "path": "desk-companion/backend/desk/linux_desktop.py",
+    "sha256": "9acada9abc239457d7c545c467029399edbb985913d2ed5cf3aad93c6ec1eaf4"
+  },
+  {
+    "path": "desk-companion/backend/desk/linux_desktop_bridge.py",
+    "sha256": "55eb4334fcca7b9caf9fac98bab6dac814738746c09e0fbaa3f5537de14be750"
+  },
+  {
+    "path": "desk-companion/backend/desk/memory.py",
+    "sha256": "583ccf98b436635ff8c365e0e7f38fbcc36a96c618127f30d3559934fb80d279"
+  },
+  {
+    "path": "desk-companion/backend/desk/outputs.py",
+    "sha256": "2ce95c81dad96fae26babb0a829abe95dbba78541b636fea4465900af1c20169"
+  },
+  {
+    "path": "desk-companion/backend/desk/persona.py",
+    "sha256": "45b6ddd347fcdb0210b89881e7bf4b38c491f126378c639fa1dd4a58a211d3df"
+  },
+  {
+    "path": "desk-companion/backend/desk/phone.py",
+    "sha256": "d4df4fc368d47625ed69436d26a30778b385f21ccc222e6f517edd401c3426c2"
+  },
+  {
+    "path": "desk-companion/backend/desk/posture.py",
+    "sha256": "5c3449840599fe587a5bba2ac5bbf8f3638964dbf5fc47f0a375c9d67d5b7fc7"
+  },
+  {
+    "path": "desk-companion/backend/desk/posture_service.py",
+    "sha256": "820be7145f29638cc37160caf0614cc193ef8c26d57dedcfe1a87e1569172d9c"
+  },
+  {
+    "path": "desk-companion/backend/desk/runtime.py",
+    "sha256": "e3125d79876bc00ec70f544e669461a67b650735255783b13ba2517fcf3d511f"
+  },
+  {
+    "path": "desk-companion/backend/desk/schemas.py",
+    "sha256": "126bae48c934140ca56c72a37e3d7cedd8569b16c88f1331c9ddc177aaeb2260"
+  },
+  {
+    "path": "desk-companion/backend/desk/store.py",
+    "sha256": "5a5f436a2c980ce0ad808187593ebb291c06ffeea9a15fd4b5bd8ad75f04e138"
+  },
+  {
+    "path": "desk-companion/backend/desk/tasks.py",
+    "sha256": "08597bef898dd350b953a3fe5c5e057543cc5fca6e351fb39877ccdba6f0c2a2"
+  },
+  {
+    "path": "desk-companion/backend/desk/text_ai.py",
+    "sha256": "ec9f0081284964a0fdc4127d1e34ad67bea2336a4b0c8e875953f54b294d95e0"
+  },
+  {
+    "path": "desk-companion/backend/desk/text_providers.py",
+    "sha256": "119c2b6dabdb7edadc44cea7fd7300a2a468f7a6f2ca5f8928cc8b5a25a0f5fa"
+  },
+  {
+    "path": "desk-companion/backend/desk/tool_dispatch.py",
+    "sha256": "c1d7b32dd2308fd8cee9de9a04b8a707fb345167fda674d7066b13d9c185602d"
+  },
+  {
+    "path": "desk-companion/backend/desk/vault.py",
+    "sha256": "c9d89a1130661ceab354a8a733c40facd3db0d315a5161c86ea57b51bdc2bf52"
+  },
+  {
+    "path": "desk-companion/backend/desk/voice.py",
+    "sha256": "3b02614a31078a7bc9b2b5bb81c5a9631a7e72da80c9895955fcae7a139c75b4"
+  },
+  {
+    "path": "desk-companion/backend/desk/voice_credentials.py",
+    "sha256": "6e3cca7e9d4e9dbe50a66ee8119bbc08f366c516b1281d07c357d94317186b43"
+  },
+  {
+    "path": "desk-companion/backend/desk/voice_media.py",
+    "sha256": "24e455204aaf8a71ab63a4a19d1ae6c9cb2dd461bdaff2780dd6b79348eab2de"
+  },
+  {
+    "path": "desk-companion/backend/desk/voice_turns.py",
+    "sha256": "77436c22bb3427e17f116269ae7ed1f6df5d08600a798ffd32a59e5e1c8e4c9e"
+  },
+  {
+    "path": "desk-companion/backend/desk/workspace_data.py",
+    "sha256": "2f3c5180becdfe72cbd004f6f1c58036a9c11789893bef53978a012d64852a25"
+  },
+  {
+    "path": "desk-companion/config/Caddyfile.example",
+    "sha256": "090c625a485464e090089155f8a7c1a0fad6453e465aa6cfe78f53cb26df0cab"
+  },
+  {
+    "path": "desk-companion/config/models.json",
+    "sha256": "0db009c7c69c7b5f9c170b0e79e66e15bf222c987df6efdf7366cbc6ee6b7cc3"
+  },
+  {
+    "path": "desk-companion/config/outputs.example.json",
+    "sha256": "be4c33e23de3d03401838131bef61edb6a2783a9fb9dee64d972559346a52fab"
+  },
+  {
+    "path": "desk-companion/config/service.env.example",
+    "sha256": "289b577a2f878e5daa5d7680ea0807dffcc69bb58a885ca16b1d20a022fd1be9"
+  },
+  {
+    "path": "desk-companion/config/wake-model.json",
+    "sha256": "6103639a0f006b2f41ae8c7200adac33b8879ffd69e9cc518ec2547b112bb338"
+  },
+  {
+    "path": "desk-companion/docs/architecture.md",
+    "sha256": "c5fefa407dd09b0910dfa578c58b29327358dfc219c7701d7c72ed914c40cc7d"
+  },
+  {
+    "path": "desk-companion/docs/avatar.md",
+    "sha256": "31962296ecfeb1bbcfb16c7daf12134ca1e32296b83fcc89187a7a5955454245"
+  },
+  {
+    "path": "desk-companion/docs/computer-jobs.md",
+    "sha256": "df172b7c35b4e8795070bb4c647f2748be5ebaaf969bf101f79da0b1611590c4"
+  },
+  {
+    "path": "desk-companion/docs/evaluation.md",
+    "sha256": "3093db487c541d5c643c4eb2877767e6b5b510882a2c0fffd0dc3165c4565d90"
+  },
+  {
+    "path": "desk-companion/docs/memory.md",
+    "sha256": "5674edd4d5cfaef1488a1e057d3953a92b989569fc71bb6fa76ad0b1885fac92"
+  },
+  {
+    "path": "desk-companion/docs/omni-conversation.md",
+    "sha256": "d52c6194f7a1acb3e6ed86dc0cdae5c687f9aa90d6e826922480582c76c5d912"
+  },
+  {
+    "path": "desk-companion/docs/operator-guide.md",
+    "sha256": "d972b1d4ebad6fe4a173888437d3635e716989ac2b9436f0a6c91908cf473399"
+  },
+  {
+    "path": "desk-companion/docs/page-companion.md",
+    "sha256": "1329121bb252d8864f9ed7391bf78aa5826f5a29507b9840d96e91fbfb0bc12f"
+  },
+  {
+    "path": "desk-companion/docs/pi5-first-boot.md",
+    "sha256": "cea840472a051677a3c919608f8549db7ee4ed47566621a3b1c93aa68f66d7c7"
+  },
+  {
+    "path": "desk-companion/docs/pi5-usb-mac.md",
+    "sha256": "bc782475705b6650d08cf5664eff63fd26e7b5f37577badb2f24422b3327efb7"
+  },
+  {
+    "path": "desk-companion/docs/qwen-local-setup.md",
+    "sha256": "a8cbb8ae545a7a4d69f93b44806099b9a123ae567768577b3c8a1861f7585e88"
+  },
+  {
+    "path": "desk-companion/docs/qwen-omni.md",
+    "sha256": "f1257c7db1dfcf6d48438d2ae8e53c109a94a1414ce090292b34b93d79e22653"
+  },
+  {
+    "path": "desk-companion/docs/software-maintenance.md",
+    "sha256": "d80b7ec731f166df8f9802e2c951c0909e7ee966e6ff1efc9362980a48592a87"
+  },
+  {
+    "path": "desk-companion/docs/task-tracking.md",
+    "sha256": "46c81e65b92060e6b8aaf75f88ac76c6c0bab58d9308723afa460191cc047bcd"
+  },
+  {
+    "path": "desk-companion/frontend/capacitor.config.ts",
+    "sha256": "f89b4e1522b356c2b307e6e5aaf99305ef54dc4122fc6af85de980a047ab79b5"
+  },
+  {
+    "path": "desk-companion/frontend/index.html",
+    "sha256": "5fc31b8635f9e536ea037f037a70cc5a702e1b1b066dde81a577cf6017f5d8f7"
+  },
+  {
+    "path": "desk-companion/frontend/ios/.gitignore",
+    "sha256": "2b7132a9943d2622e51e656897ca5162f56b121b40b423dedce1fbc699dba88a"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App.xcodeproj/project.pbxproj",
+    "sha256": "25742b902a9f8b3fec3acbb8649cc2c2893984017ccf9ccd2e5d17c965c5d135"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+    "sha256": "dfa0f9bb85b95ccba9c6811adadf8cb407fb5d52088e89db83ebc308ec448542"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App/App.entitlements",
+    "sha256": "291a36f98a93653d2994a34c4a2843ef4ec303e9e57c3a21bdacaad942120f58"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App/AppDelegate.swift",
+    "sha256": "09956a713117c695187350f677824e136b9fbc3a76d2c6c80268f230a9652c70"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png",
+    "sha256": "29e4777e319de3ee5a52c3a8004ec19d0568414004257e36d7c94a077d71c93b"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App/Assets.xcassets/AppIcon.appiconset/Contents.json",
+    "sha256": "5c09bec6eede599b14fa9e4c44b03e7febebc930615a0cd70f02981c09dfe48a"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App/Assets.xcassets/Contents.json",
+    "sha256": "972ec1fd42325872438eb085ac29e94f51c10788ec18ec5549439950866c541d"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App/Assets.xcassets/Splash.imageset/Contents.json",
+    "sha256": "041481917eb249533ac6dd63d283bc6190b2d0642a93deda11b2ed0f6f7b605a"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732-1.png",
+    "sha256": "1b5002b74a5500e697298ced06ca2811ac33f2771f236f3c720ff23243890530"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732-2.png",
+    "sha256": "1b5002b74a5500e697298ced06ca2811ac33f2771f236f3c720ff23243890530"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732.png",
+    "sha256": "1b5002b74a5500e697298ced06ca2811ac33f2771f236f3c720ff23243890530"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App/Base.lproj/LaunchScreen.storyboard",
+    "sha256": "87a42e842164d75f39cca56a2cf743652f4d8e858f2eba12ae21a8ddcd9a21c6"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App/Base.lproj/Main.storyboard",
+    "sha256": "00931cb2f041d335fb06bbec86304d06874dc29ebb57d41ee1372414473a946c"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App/DeskIntents.swift",
+    "sha256": "d976b9a616814d73fb21734f1222206960b04372ac8bbd16aadda95582f6252a"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App/DeskPhoneFeatures.swift",
+    "sha256": "ac17b9171bf6b9e150809d9b3329164e9de05b73d506b550661c0539bc77fb03"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App/Info.plist",
+    "sha256": "85e84366c8e9ab7f302a4cb9e416beeb7aff5e2da6c536b927a16cb687c09f52"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/App/SceneDelegate.swift",
+    "sha256": "665a4f912104032339236b7d3fdfe930be9e25d46a341ea77266f9d68c3281ba"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/CapApp-SPM/.gitignore",
+    "sha256": "4b958e2b4dd57319aadef2551153c74b9cb5ffe9f89d6e3e491122a94913f016"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/CapApp-SPM/Package.swift",
+    "sha256": "51e50ffc44c338adb3061c01a3c01104b03c8103cda66d745dc134739e88064f"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/CapApp-SPM/README.md",
+    "sha256": "42c535861f4a866e35f85764ed6af1ea046d6a409bf9852ecb00e5d292a1626e"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/CapApp-SPM/Sources/CapApp-SPM/CapApp-SPM.swift",
+    "sha256": "70bf9dafddc35e3877dfb133a996f5be7ccd1e132897a98fdbf4869ff605ece9"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/DeskWidget/DeskWidget-Info.plist",
+    "sha256": "57a6e7fdf7850fe13e9d7dc04ac8b23e52b2e83e2377bf721de4df561d5c6794"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/DeskWidget/DeskWidget.entitlements",
+    "sha256": "291a36f98a93653d2994a34c4a2843ef4ec303e9e57c3a21bdacaad942120f58"
+  },
+  {
+    "path": "desk-companion/frontend/ios/App/DeskWidget/DeskWidget.swift",
+    "sha256": "c01305057532dc5ce6182b7d278cfa21f78c5a02e8cf9271ba9edc337be78d31"
+  },
+  {
+    "path": "desk-companion/frontend/ios/debug.xcconfig",
+    "sha256": "4838938a72b913b99cfda54a43bbe73f05893071dc6e3702b0adc44794b64272"
+  },
+  {
+    "path": "desk-companion/frontend/package-lock.json",
+    "sha256": "b561781755a0bb173dd3bf11f017d04d9db8d3f0cd2d85dc561da9c137f8af81"
+  },
+  {
+    "path": "desk-companion/frontend/package.json",
+    "sha256": "4502074fec86691b1447fbe8a14f6eb125c8495b946bc2625166c9bd7449f721"
+  },
+  {
+    "path": "desk-companion/frontend/public/audio-capture.js",
+    "sha256": "fdf6f97eee79a5fccfb0ad7d3f6b18977ea5e6cc7f85fa53fc79a5e41fb937e0"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/VRM-Public-License-1.0.txt",
+    "sha256": "c5d3fe3171111cb2bce48731ab6c7f3f584b61a11d209537b6d253d0cd576b3a"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/a1-native-v1/a1-native-v1.vrm",
+    "sha256": "6c629580037157d2ad198fa0b58c9e1009b4e36269276ec88e6f3bfd9dedd2c5"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/a1-native-v1/source.json",
+    "sha256": "852515b93a6bcfe3c421b737cb20d742284fa3f930abf991f816fb4c95eaad08"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/alice/LICENSE.md",
+    "sha256": "430a64621972fb3dd825e18ed245a6e6bc18ec42a06ce7d4053242ce2382eb67"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/alice/alice-ready.vrm",
+    "sha256": "370b2312e9f97834db868751e43e9dd33b9112e5d151d592757c3f47315e195e"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/alice/phone-fallback.jpg",
+    "sha256": "afd790cde3be69c88c3a870ffadc8edfb619619908a35f3849db9fd83c1b6544"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/alice/phone-fallback.source.json",
+    "sha256": "11ff9abd828dd44e37399c260850114600b906633e9a871d63d54bfad013ad9b"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/alice/source.json",
+    "sha256": "8f6c3faf9f4bf0cc469e66c9e91d0ffb02bed7d0d21c9cfe482ccf4ba6831dcd"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/open-models/shino-original.vrm",
+    "sha256": "f11b2648e7e588ae171ad1c32e465f84e5b130b1d1789e3a3702946c0981d2a9"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/open-models/shino-ready.vrm",
+    "sha256": "136ac176c0e55655bd61b1fe84a0fbc72fed24e9318ab308eb7d78106ecda1eb"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/open-models/source.json",
+    "sha256": "af7d7c8ff8276467fe8cd07c01cdf81e85f91f64013610edd5bbd92616be96b5"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/open-models/victoria-original.vrm",
+    "sha256": "ad5750ce944b708155abb7ac6807e19d7f5e73a939f0ee32daf0539acfca57c0"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/open-models/victoria-ready.vrm",
+    "sha256": "d9be3c0b71a0e967c28ba5037490ce84151c41608a95e20c838fabc282a7138d"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/pixiv-sample.vrm",
+    "sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2"
+  },
+  {
+    "path": "desk-companion/frontend/public/avatars/source.json",
+    "sha256": "27cb4b41f0e86628110e4905742b8bff67ccfb0176bd38d484b699e256cf8599"
+  },
+  {
+    "path": "desk-companion/frontend/public/companion/a1-head-source.json",
+    "sha256": "3b72a55cad85ba5726a53cffd880c5f6ae126d5b0f30fa658999a86dfbe074ae"
+  },
+  {
+    "path": "desk-companion/frontend/public/companion/a1-head-study.glb",
+    "sha256": "b5bb1e0408a744eb5321527a12afd4e7b903e8cef5048e768aa873472e11fff8"
+  },
+  {
+    "path": "desk-companion/frontend/public/companion/a1-idle-v1.png",
+    "sha256": "a7b428a2437da70880fea628dca23c0ded7a24294595b13437b4ae99fe5a09f9"
+  },
+  {
+    "path": "desk-companion/frontend/public/companion/a1-reference-face.png",
+    "sha256": "2a7fea6044d059f0a13c8dfaf8fc96e1322825b29e0d8e3d457359c5366b4038"
+  },
+  {
+    "path": "desk-companion/frontend/public/companion/a1-reference-fit.json",
+    "sha256": "cf6a05d48fa4a4b7b1ab6a5c971fe2f7092b416e984f67bb02ff3d0f3573c292"
+  },
+  {
+    "path": "desk-companion/frontend/public/companion/a1-reference-full.png",
+    "sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+  },
+  {
+    "path": "desk-companion/frontend/public/companion/a1-v2.glb",
+    "sha256": "690d62732c3b1c89345c210f42b3bf8a444876c209d85c506871329ced8c2f06"
+  },
+  {
+    "path": "desk-companion/frontend/public/companion/a1-v3.glb",
+    "sha256": "0f970cc67bf69e05b158f25cd31cbe56b0fcfeb13b6e829b0fa27333176568d6"
+  },
+  {
+    "path": "desk-companion/frontend/public/companion/source.json",
+    "sha256": "ce8bdb0dc264ea7e564c05a239cc63fe1c3a4fbee579cb0bf9c778046eb69c81"
+  },
+  {
+    "path": "desk-companion/frontend/public/licenses/inter-OFL.txt",
+    "sha256": "3b0a5fca3d17942cde889069889dedbbbd075e9b599968c82a95f4d944e9b345"
+  },
+  {
+    "path": "desk-companion/frontend/public/licenses/lucide-LICENSE.txt",
+    "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57"
+  },
+  {
+    "path": "desk-companion/frontend/public/licenses/pixiv-three-vrm-LICENSE.txt",
+    "sha256": "279ec82987aec7e72ecb9850bb704a87e352d577bc7581454c30f3551a88ea92"
+  },
+  {
+    "path": "desk-companion/frontend/public/licenses/three-LICENSE.txt",
+    "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+  },
+  {
+    "path": "desk-companion/frontend/scripts/configure-ios-features.cjs",
+    "sha256": "5db22c22905f5e882e2d41347853b4fe57027b7006d98e83b8c661eb8c2e07fc"
+  },
+  {
+    "path": "desk-companion/frontend/src/App.tsx",
+    "sha256": "315d0325a42b6a020822f04753f1c0210ef6b2a9410f5e96c033d208047b61d3"
+  },
+  {
+    "path": "desk-companion/frontend/src/api.ts",
+    "sha256": "b06a8aecd145e761957b76192dd540d98c6260c60b7447814cdf2bf7af9cce5d"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/A1Canvas.tsx",
+    "sha256": "4fc96c12509c944429d219ddab75ee7f9704265612c14e9f142d30341c004a76"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/PageCompanion.tsx",
+    "sha256": "3087ece73c644af972f0039ba21bbfeef57462f0f8b4d48df9f00c9c20370c16"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/appearance.ts",
+    "sha256": "dca9aefbb16966c0f3250c93cd14c25fbcf9ff6883daad30dafdb91963690a39"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/art.ts",
+    "sha256": "4cf77612b68a53055e3db82d0a625a45e54f9ac8973e902db6dc73814660c779"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/companion.css",
+    "sha256": "b7eb80d4da85746cdf99d3bda9d73ba7a67f6f9ec1f8496ee8892e9aa15fc637"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/head-renderer.ts",
+    "sha256": "047721b39b7c45e4c1b4c18c80ed94ec1c11e749a8625a371426a1f4d7a54e18"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/local-vrm.ts",
+    "sha256": "6be8d12d2438dcbc64a7b653fba4b974ee96a5987a04d3b964d7ddd017f60be1"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/output.ts",
+    "sha256": "8a622c63a4be515cf43d0fe499a9ac152301c0d5238e782e8b2cd50e2db810e8"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/placement.ts",
+    "sha256": "753f4d9750e279e847445a006f6d5e16c673bd91a732ab5382ec133bb7c8ba79"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/renderer.ts",
+    "sha256": "d94fed77c288ceaee5d07eb4066cb001defe2ac83febb8645682f8a3b4aa3a52"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/vrm-viewer.ts",
+    "sha256": "35103f458e6873dcba69500c3581be226e7aa1bc22aae9533de02a34b57486be"
+  },
+  {
+    "path": "desk-companion/frontend/src/components/Calendar.tsx",
+    "sha256": "bee5e349a2f80e6b927a4da8beea88ca13655667b14a6a9a1101019ce31085af"
+  },
+  {
+    "path": "desk-companion/frontend/src/components/Dialogs.tsx",
+    "sha256": "37f2edb29dee07fc6a03142e1a54349e0f510eb31e081d2bbd01ea6b8f1a28d8"
+  },
+  {
+    "path": "desk-companion/frontend/src/components/DraftGuard.tsx",
+    "sha256": "6dc197279cf6c0028c5dbef0aea5ad9d2323933954ef551e9e5465315ae32eb7"
+  },
+  {
+    "path": "desk-companion/frontend/src/components/LoginView.tsx",
+    "sha256": "0e77bfb50161a231f2d9912a1efc0daf10b4dd27a3ccd66599f0c13d3fb23b22"
+  },
+  {
+    "path": "desk-companion/frontend/src/components/Views.tsx",
+    "sha256": "9c0567bfbd7701477d55f855cb6328a21b0f24bf09db0367c220750ad58675cf"
+  },
+  {
+    "path": "desk-companion/frontend/src/components/useCalendarEditor.ts",
+    "sha256": "fd5f699a7161c8a573100d09a8d30bb3211f5f0a8b757ed44835dfab8c24e3f4"
+  },
+  {
+    "path": "desk-companion/frontend/src/dates.ts",
+    "sha256": "ba865be7cfddcf3941799bd77d043c621425feec6280a971c63698d0a11ac3c6"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/DeskSound.tsx",
+    "sha256": "7f8c9416b190034739528462a84bfe010c9ad858de4ca65289e913aef0d4cbdc"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/DeviceApp.tsx",
+    "sha256": "1e067174369e552e0f98aabcc5b826296f6837368930b68a90b8c4c2b4cdda22"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/DevicePanels.tsx",
+    "sha256": "ca94f0d6cc3cd101df4a0c3fda96027f3eb3f9d3ca2182b50cc7d20e82951c83"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/DisplayFace.tsx",
+    "sha256": "049dd952e1a115afe336c789036d0826e72d6e1bf726240ee1d94bbd949a88bf"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/device.css",
+    "sha256": "2ea2bc30a05c5324c0fcde2fcb8c4343ec8a4c4bd764d094c9e1d4a41f6fd412"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/model.ts",
+    "sha256": "1aef564137cfdafb09b5849724e23ee33fb17b348923f68f22c6159feb009550"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/privacy.ts",
+    "sha256": "1eb872f05012fdd8596c6b57c6518193c3bdedae4066407f05fc78e55550ca2c"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/useDeviceCalendar.ts",
+    "sha256": "acca1aa116398bf4030c8e96c717f28cc5946720ba5bcdae9e7d5640408a9f83"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/useDisplay.ts",
+    "sha256": "3b3cecd9de0518fad9aa9e8568f3d26b34f0ae1733d5fe92c0dcd600b7c0abbe"
+  },
+  {
+    "path": "desk-companion/frontend/src/main.tsx",
+    "sha256": "94d078c065efc766cf3326f5f82f40696a99b3144e8d0c0a9a111734ee3cc113"
+  },
+  {
+    "path": "desk-companion/frontend/src/native.ts",
+    "sha256": "3bbb17e3ff930dc8480614d668ac010ee5a044a60d9eb5038a44f02c02db3c23"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/PhoneApp.tsx",
+    "sha256": "9cb81d2ab14a29dbb7405986fc8ceb9edd568ca1e1c5601ca335eaed04094cf7"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/PhoneHome.tsx",
+    "sha256": "d3e73aec6b0fab2ef63828d18c26506f644b978ba2bbdf84ffb444ae4ce6e0ca"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/PhoneManagement.tsx",
+    "sha256": "103bfc47f5e5ba9a2d66fe8acea550789088b58c1dc3dde6edbca5cc60160edf"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/PhonePlan.tsx",
+    "sha256": "7704c1bc495ad9b7d0512cb020492c5af4b2b37f213847e43dfeb8afb657e1aa"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/calendar-reader.ts",
+    "sha256": "6ea6af0a66e7814d171201ce3e134d25a6c35d3de48a80d919b55802ca290ed1"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/phone.css",
+    "sha256": "1f3ba4ddf9abb01537844056ae3e6922c12a1c69682bc4c5c45f1ae64e70e6b4"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/usePhoneCalendar.ts",
+    "sha256": "ce975e2df633667e35fd343a471358fe620e923e304b73be3440736a2600b86c"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/usePhoneEnvironment.ts",
+    "sha256": "360a43677be4222e8cbfe35d87e1d584e5111114a3b9ee059dd81d0e18e49c19"
+  },
+  {
+    "path": "desk-companion/frontend/src/session.ts",
+    "sha256": "c2b4a5b683ede18459962db710c2126c873c511efc8629f10da893575d2f5d57"
+  },
+  {
+    "path": "desk-companion/frontend/src/styles.css",
+    "sha256": "b087187ee101151f825825eaa37dfa3bce43d1db2ddc714027082addd230f5d8"
+  },
+  {
+    "path": "desk-companion/frontend/src/types.ts",
+    "sha256": "e2a7cd186f34a05365bdc876ccdc96f2efe683eec26255a4bbb26f4165a878ce"
+  },
+  {
+    "path": "desk-companion/frontend/src/useWorkspaceSession.ts",
+    "sha256": "224363d3548aeb3ed48e4de1f4cbebe4eda9126ca995dffde401350cdf2b0626"
+  },
+  {
+    "path": "desk-companion/frontend/src/vite-env.d.ts",
+    "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+  },
+  {
+    "path": "desk-companion/frontend/src/web-workspace.css",
+    "sha256": "8726785f07c67d34f92946cb881644804952ce8216463e984badd2ad9f35f454"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/A1NativeReview.tsx",
+    "sha256": "46be1810f27cf9c3767c639eb2482913711fc60b1690974dd0f6679f9637d2dc"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/AssistantPanel.tsx",
+    "sha256": "1a32ebcf8f2525aaccac341bbf9d361b01a24cc7fccab354189c57f94b3c07d8"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/Avatar.tsx",
+    "sha256": "ebb31c83f3e6ecb3be912ce048313099aba275d891bd5843d6f5efdde7b78baa"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/CleanAvatar.tsx",
+    "sha256": "76465c6a5332b8d351c14223c607b20cf11660b8f8af6f3e8ccad16fdd4315e4"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/ComputerJobsPanel.tsx",
+    "sha256": "0ac3d854731f8c3ffda715e86cfa09736c1156a58298d2abc0a6f5eafd10a8a2"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/ConnectionsPanel.tsx",
+    "sha256": "d7eff75499d18615feda6b53870928f1e914a9f27f114a1ca4d276517fda14ed"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/DataPanel.tsx",
+    "sha256": "b335f8416693cf136350b23c348b0e0717c16f61927f0999ae4c937da2d2c13b"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/ExistingAvatar.tsx",
+    "sha256": "57c399c2417d0b8ff92ce80747ba5d255fc7f1617302df8e4167d32ba250d202"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/ExportLink.tsx",
+    "sha256": "34f2f956972cb9db1a7eda2c3632416546a4fe8c529ddd58c34b780c39d58cce"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/ExtrasPanel.tsx",
+    "sha256": "72bb111bccf668d82c07b240ce23a16dce0260bf58520348cb8ec592b6ca8b74"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/HeadStudy.tsx",
+    "sha256": "2d89441d386a6d225dee715f77d405fc491104d74e49f1389d6ef6d19b60ae51"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/MemoryPanel.tsx",
+    "sha256": "da74295493f8384967eb173fcfbaf92cdb848a346c273dacc162ca241850105e"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/NativeSetup.tsx",
+    "sha256": "d04ef60e85aa48c58078f3be6db33af3601b42dec4adba45b87138df98bf1107"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/OwnerAccess.tsx",
+    "sha256": "b3f69ef6e2c099e22a5d037a23c067b2a0de0d3193ad840b6593ceda3449be11"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/PersonaPanel.tsx",
+    "sha256": "6c892d01ed5465c3cca36ee5fc2f85250606d0328f89c84bd0bf5a4e445d8fad"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/PhoneFeatures.tsx",
+    "sha256": "fbfd8af346a991c8b7ec4dc00fe13235fe078257342bf230832084bd5817aede"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/PosturePanel.tsx",
+    "sha256": "313c4cd93136f389e0f3f2239050f583c6706fd23aba3a8a1495b5e987c7f371"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/SharedCalendar.tsx",
+    "sha256": "0a646cd39fb67c2aead36419d3b6dba7e9f1707349ad3e57dd0d494b74c61a24"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/TaskPanel.tsx",
+    "sha256": "fc2c32bac00f4636066ca20b59c3dafb62d68b50567b09c6007d49065565ea1b"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/WorkspaceContext.tsx",
+    "sha256": "3d6cfb83ec421a0dc5f93e71bd0456e2796d216e16a78e834ff8265b82a952ca"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/assistant-minimal.css",
+    "sha256": "887aea56b15200ab6b6e09ec02c9d6a80ffa8050d05d6c65ad8deb15462548ee"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/audio.ts",
+    "sha256": "1b73bd185e0b4246bd480206664f6adfd63b2bc25f7dc0c8a63187b5a7da9d95"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/avatar.css",
+    "sha256": "9026c7b9deb90c0a980fc1bcfca145dbddd47749ea729d7a4f82c9ca0a2408b7"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/calendarExtras.ts",
+    "sha256": "a90b32b49ed03f65bb3e0af9a4def27f6f5cc233a02285dd90bf90f48d9f9e9d"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/existing-avatar.css",
+    "sha256": "5634a6350374bb689dc7b3d126e004671868d2600fbd0539778da0abf6218a87"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/head-study.css",
+    "sha256": "33a7559353723a8284c7027ff27cced368d07b4bc1f141c50eca2d55be1ec964"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/jobTypes.ts",
+    "sha256": "5bd16a7244449ca485f80f3e3bb3835ebc5c040bafc9c1c33f7db17a61df242b"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/taskTypes.ts",
+    "sha256": "d345a6d1008d0709da6c3e06f2587a37754b9b5f93a7c07093a76f953fc6fdb3"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/tasks.css",
+    "sha256": "68d5446f19fad60791bcdc68b320fe21d3a66ed357c2e42c03c55a8b44cb8bd9"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/types.ts",
+    "sha256": "a7fd56a427a42e0617da607b836830ea150e3c1e72b5b7807a39f9acf7ae5588"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/vision.ts",
+    "sha256": "46054fce4ec412a79a5e5df4b75aa97bc1435f4b65c3cd8cb5f930d4230b6124"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/voice-ticket.ts",
+    "sha256": "f83823ae71e9abf576de479d14191c0c01a8add14fc3dcb4f09582a8fb4ff892"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/voice-timing.ts",
+    "sha256": "436c7c416761da48b0d06544c1dca56379f837b11d037527f6810e47141ef512"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/workspace.css",
+    "sha256": "5ba811747d9fd96e44c12d86fe97073080fc122e99199f796032e1398f4ae632"
+  },
+  {
+    "path": "desk-companion/frontend/tests/appearance.test.ts",
+    "sha256": "17f3ddb5c268202e7abef3d39138c4dbebe5bd41860ec5183a9698d60d5e47a3"
+  },
+  {
+    "path": "desk-companion/frontend/tests/companion-output.test.ts",
+    "sha256": "03f157cdee361279497af4c13fda71d91b881ee868fb62cbed37bb679ddca8c1"
+  },
+  {
+    "path": "desk-companion/frontend/tests/companion-placement.test.ts",
+    "sha256": "fa49a133d3e096a675b4342bed26de2c2c8198d48fdbc5f73f214d9430568f8c"
+  },
+  {
+    "path": "desk-companion/frontend/tests/computer-jobs.test.ts",
+    "sha256": "c141d3f83c3955e10990c36ef838d3d9aa81fa43406eb4ffcc7c11d67a1a5415"
+  },
+  {
+    "path": "desk-companion/frontend/tests/device-view.test.ts",
+    "sha256": "1471dd8e5e4a13e2647ff88e334ed539b1212140f48f998fb2c7484b7d129a51"
+  },
+  {
+    "path": "desk-companion/frontend/tests/local-vrm.test.ts",
+    "sha256": "8fc616bc85044e4db578f57ace7fc5f0895205f959bd9af92525bbd23a636dbf"
+  },
+  {
+    "path": "desk-companion/frontend/tests/phone-calendar-reader.test.ts",
+    "sha256": "25365fe20e0388689fe5cf19ae34b59cc20b096f572d7d92414f08f6cf360a4d"
+  },
+  {
+    "path": "desk-companion/frontend/tests/voice-lifecycle.test.ts",
+    "sha256": "f1747c1a4b9f74915458354b715c26e39ff9322f55fafadfad667986f0120991"
+  },
+  {
+    "path": "desk-companion/frontend/tests/voice-ticket.test.ts",
+    "sha256": "a874a1f23bfb1c991a5e484d2c57102e5b704176a7c6a0ecfd653c41f0077e4a"
+  },
+  {
+    "path": "desk-companion/frontend/tests/voice-timing.test.ts",
+    "sha256": "858c625ba10152c63d0f51fd3f7aae3ffb6d5269d78f40183715fa2e1ecc22bd"
+  },
+  {
+    "path": "desk-companion/frontend/tests/voice-vision.test.ts",
+    "sha256": "52764aea2046cd1e12aae593240a1bf97d1f907daee5fe41821a44f778e7dd36"
+  },
+  {
+    "path": "desk-companion/frontend/tests/web-companion-placement.test.ts",
+    "sha256": "5b6ecdf3c1cee1d85971157a203a7915b203c2cadeab5a5def5295553b8c68d9"
+  },
+  {
+    "path": "desk-companion/frontend/tests/workspace.test.ts",
+    "sha256": "e6842015f3757b0e5f6012ff1e98b5491b7484f8f4cb065cda7aa0a4bed2c099"
+  },
+  {
+    "path": "desk-companion/frontend/tsconfig.json",
+    "sha256": "7354c0134d8ed9557b696f9043d6581500b445ef1d2e778820aa37c0c381f2a8"
+  },
+  {
+    "path": "desk-companion/frontend/vite.config.ts",
+    "sha256": "1e06ab9758d2e8f97d549bb5fea2b8830b4cfe1471f6866368f57f494a448889"
+  },
+  {
+    "path": "desk-companion/licenses/capacitor-core-LICENSE.txt",
+    "sha256": "9c6ebf3e5ab832ba4d5af38f340978e1fedbfee6e3d23662dfdb8917a9d864dd"
+  },
+  {
+    "path": "desk-companion/licenses/cryptography-LICENSE.txt",
+    "sha256": "3e0c7c091a948b82533ba98fd7cbb40432d6f1a9acbf85f5922d2f99a93ae6bb"
+  },
+  {
+    "path": "desk-companion/licenses/fastapi-LICENSE.txt",
+    "sha256": "4ec89ffc81485b97fec584b2d4a961032eeffe834453894fd9c1274906cc744e"
+  },
+  {
+    "path": "desk-companion/licenses/httpx-LICENSE.txt",
+    "sha256": "4ec59d544f12b5f539a3a716fd321ac58ccd8030b465221f2c880200cdf28d8d"
+  },
+  {
+    "path": "desk-companion/licenses/inter-OFL.txt",
+    "sha256": "3b0a5fca3d17942cde889069889dedbbbd075e9b599968c82a95f4d944e9b345"
+  },
+  {
+    "path": "desk-companion/licenses/lucide-LICENSE.txt",
+    "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57"
+  },
+  {
+    "path": "desk-companion/licenses/mediapipe-LICENSE.txt",
+    "sha256": "8707eef0533987efc5b155d64761eeb6e20793f50b9bd1a68dad1cf4719d0ed8"
+  },
+  {
+    "path": "desk-companion/licenses/pixiv-three-vrm-LICENSE.txt",
+    "sha256": "279ec82987aec7e72ecb9850bb704a87e352d577bc7581454c30f3551a88ea92"
+  },
+  {
+    "path": "desk-companion/licenses/react-LICENSE.txt",
+    "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+  },
+  {
+    "path": "desk-companion/licenses/react-dom-LICENSE.txt",
+    "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+  },
+  {
+    "path": "desk-companion/licenses/recurring-ical-events-LICENSE.txt",
+    "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118"
+  },
+  {
+    "path": "desk-companion/licenses/sherpa-onnx-LICENSE.txt",
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  },
+  {
+    "path": "desk-companion/licenses/three-LICENSE.txt",
+    "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+  },
+  {
+    "path": "desk-companion/licenses/websockets-LICENSE.txt",
+    "sha256": "3d6a0c050d8bec52fabad502e45fb25bd02bcadbd70dea34d447b6a0ff4e6da8"
+  },
+  {
+    "path": "desk-companion/pyproject.toml",
+    "sha256": "47b293cdfcad9cb37da28b63370ec5baca6b9d2f3fb37abddd4e38077267c94e"
+  },
+  {
+    "path": "desk-companion/scripts/apply_labels.py",
+    "sha256": "22bdd26c9961c983523bee1e472fbb0c2a80471534305edd17206c9fe7702ce0"
+  },
+  {
+    "path": "desk-companion/scripts/configure_qwen.py",
+    "sha256": "3addfaf9f885d035bb9befc8f5e90f81211ab8bd4d75fe2a156557139361df24"
+  },
+  {
+    "path": "desk-companion/scripts/dev.sh",
+    "sha256": "c158506d02d2d7f609b2a6ebf8abe2f969201e1725537760b3d4d574754b584f"
+  },
+  {
+    "path": "desk-companion/scripts/diagnose.py",
+    "sha256": "ebbb1789182d667748aa4995defe257d9d1911d6d365d1fe896a5953c71997e0"
+  },
+  {
+    "path": "desk-companion/scripts/evaluate_posture.py",
+    "sha256": "0740db25a7981c50532bf53340ea78a618d75e506e61d0b15de25be0fd51c354"
+  },
+  {
+    "path": "desk-companion/scripts/extract_landmarks.py",
+    "sha256": "395ae9aedcb0b1712b77e84a0efabe0938e387d8b679158143428005e9403a33"
+  },
+  {
+    "path": "desk-companion/scripts/fetch_models.py",
+    "sha256": "e73754b4b51a5c7fff6391729f781bd23ad6f4c9781154d5680ee7a95f60cc78"
+  },
+  {
+    "path": "desk-companion/scripts/fetch_wake_model.py",
+    "sha256": "f42773e396f05aab61b9458f374f4c59d1d0a85eed233bf17827e63f8dad41b1"
+  },
+  {
+    "path": "desk-companion/scripts/install_linux.py",
+    "sha256": "69e96f4f0a2c64fa3be9832c6fe21c9e334821c14d0a508bcc603ee0f2de7fd6"
+  },
+  {
+    "path": "desk-companion/scripts/kiosk.sh",
+    "sha256": "688331544b1817dbb87e0ef81cf537f46ba41640f9327d1c9b7b3b8be8caf1e0"
+  },
+  {
+    "path": "desk-companion/scripts/pi/connect_mac.command",
+    "sha256": "7d946c40ce6710482cf6c7a11eb41e810100c10c60ceacfcbc717ff8fc1ccef8"
+  },
+  {
+    "path": "desk-companion/scripts/pi/firstboot.py",
+    "sha256": "efdfba82325fe03c0505d65806095bd5772d62c1c3aec8eb8d5050eb6bcfa117"
+  },
+  {
+    "path": "desk-companion/scripts/pi/session.sh",
+    "sha256": "145bf5f4cd013838739a70f873112d9b1ca9c68c5d1d4ca3bf67db66b4d68c0f"
+  },
+  {
+    "path": "desk-companion/scripts/pi/setup_classroom_access.py",
+    "sha256": "05aae8b17868000aea085c1943e868c84eb71b2d49bd4eaecc79bc359d85baa4"
+  },
+  {
+    "path": "desk-companion/scripts/pi/setup_dorm_access.py",
+    "sha256": "0eb2d96e22e36f0746953e7e0f2e47c5484c39e9172082981c8f66f29ce744b3"
+  },
+  {
+    "path": "desk-companion/scripts/pi/setup_usb_headless.py",
+    "sha256": "c1688d4b207b70d7bb71b961bcc44bd9f16324456a6352cf83036dab5e463daf"
+  },
+  {
+    "path": "desk-companion/scripts/pi/setup_vtc_access.py",
+    "sha256": "fe7a2d6e84329feb229286d315edc42ae46387cf891ad4f00a458fc815ac3b23"
+  },
+  {
+    "path": "desk-companion/scripts/pi/welcome.py",
+    "sha256": "339ad11f98fc2e07e7fc7e880ae9da0cb8868823001d0422fa35996d07e45315"
+  },
+  {
+    "path": "desk-companion/scripts/prepare_ios.py",
+    "sha256": "f1a2ed9ee2d6371a4391934a34198edaf5170fd720087833c1b0c3e07299dfa4"
+  },
+  {
+    "path": "desk-companion/scripts/replay_posture.py",
+    "sha256": "2134d4f3bf9f0b0a37dbe3b4d1c3fc62fceda223761095f087178249e71fac79"
+  },
+  {
+    "path": "desk-companion/scripts/seed_sample.py",
+    "sha256": "c6a14343cddd49ff0438108524a999b73197e24b761b9de91db428de8dca422d"
+  },
+  {
+    "path": "desk-companion/tests/fixtures/qwen-vision.jpg",
+    "sha256": "7fdebea8b5dc6fd77e0d8e22ee41abca34c6f0bcc45b064dd5ceea92e1a3cdc1"
+  },
+  {
+    "path": "desk-companion/tests/test_acceptance_chains.py",
+    "sha256": "5354d20f4639ec46c70f53e559ae54741ccaf2e40b50240e17cc83d5adc95b54"
+  },
+  {
+    "path": "desk-companion/tests/test_access_outputs.py",
+    "sha256": "ad642aeb1a722cc53f3e7c4874d683547b2a3a1d20dcaff35d59b627a0688cfe"
+  },
+  {
+    "path": "desk-companion/tests/test_assistant_data.py",
+    "sha256": "02330c59094759303552ef6873b8c0d71f2510b27edec098cb7bdc3b90ead3fb"
+  },
+  {
+    "path": "desk-companion/tests/test_calendar.py",
+    "sha256": "63d5506d3c3b672fae3c27989e23ba8ddf7f9eddb78f9b7d250d6b6b1b55b256"
+  },
+  {
+    "path": "desk-companion/tests/test_calendar_brief_ranges.py",
+    "sha256": "4eff9d13846707327515e4dbae023d4e5b106fda4f0a509794937aa1958e637b"
+  },
+  {
+    "path": "desk-companion/tests/test_completion_edges.py",
+    "sha256": "365c99757442bb3cc4e89411750624c2b04f6fd38934f437fa9c891991b6f460"
+  },
+  {
+    "path": "desk-companion/tests/test_computer_jobs.py",
+    "sha256": "4eb9507f852062f914bde26f04d78a505b731caa837b1a9112491aca218d1b44"
+  },
+  {
+    "path": "desk-companion/tests/test_exchange.py",
+    "sha256": "02e8feeda1d4f5f12c05834ca45fcd69dbc93f297799d12050097792f815f50c"
+  },
+  {
+    "path": "desk-companion/tests/test_folder_jobs.py",
+    "sha256": "f13898de0daa4acf9972b0d099068d51b8b94428578053090e49cadc4cce9d21"
+  },
+  {
+    "path": "desk-companion/tests/test_linux_desktop.py",
+    "sha256": "ecaa6c6513260c526acdbeb1ab2c249a5a1ced6963e9cff7c569693fc3bde2c8"
+  },
+  {
+    "path": "desk-companion/tests/test_local_preview.py",
+    "sha256": "7a4aac209f869a27abb6839d07464bc656e28f770717bde9927317e2a80c7a27"
+  },
+  {
+    "path": "desk-companion/tests/test_memory.py",
+    "sha256": "65c170ca03b168c0f5b48028e9cf88861db4d1d33873a852d31bc4c7f5a73d98"
+  },
+  {
+    "path": "desk-companion/tests/test_omni_conversation.py",
+    "sha256": "c2b84581ed1873ca6d49ea0dc160dd75641f4240a9c29fec46bcb22955009be6"
+  },
+  {
+    "path": "desk-companion/tests/test_persona.py",
+    "sha256": "937ac6b0b6e1478dacadd9552ea6dc5a2cfe7e84e2575e4a13205206280470ae"
+  },
+  {
+    "path": "desk-companion/tests/test_pi_bootstrap.py",
+    "sha256": "9324dcf1a2ca692b0a1d9a4351adc587ef65a69d7661308a54ad73810313d748"
+  },
+  {
+    "path": "desk-companion/tests/test_pi_web_tunnel.py",
+    "sha256": "50e3db72a5bb67339fe64e156d946ce586de0669e3ebe242acbe5233ffbfadec"
+  },
+  {
+    "path": "desk-companion/tests/test_posture.py",
+    "sha256": "5721210ca7d300e12209e8ee79c420705efae967a96f637978f2c197ff0bf905"
+  },
+  {
+    "path": "desk-companion/tests/test_qwen_key_setup.py",
+    "sha256": "221e9797c5c5531f07cef94d9f96e463cf720dbe73112a76cb04136e1630506f"
+  },
+  {
+    "path": "desk-companion/tests/test_task_conversation.py",
+    "sha256": "86c16d15153f2e2231cbec5c2f279be62877721bded843db6a673c5f5be03de4"
+  },
+  {
+    "path": "desk-companion/tests/test_tasks.py",
+    "sha256": "628762e3d34717ba0ab16310ffdf0a0062023163b96d17546b93f352663a2d3c"
+  },
+  {
+    "path": "desk-companion/tests/test_text_adapters.py",
+    "sha256": "cd2adbb5ce017ea23caf6b99f9f6263bcda34985233ca10fa0ade831c398e922"
+  },
+  {
+    "path": "desk-companion/tests/test_tool_dispatch.py",
+    "sha256": "18d8be8242837a3afc104ad26a1a306b763ed76d0eea7a61b4072c9257ca06cf"
+  },
+  {
+    "path": "desk-companion/tests/test_voice_device_timing.py",
+    "sha256": "67f0b206bfe548c7da51baca2eb3751015e80a63db96b296e9815059597df9ff"
+  },
+  {
+    "path": "desk-companion/tests/test_voice_google.py",
+    "sha256": "e7f5bafb31cfed62358c7487d7d6c14e1d3581a643444cf5eaba8f7970f15e5a"
+  },
+  {
+    "path": "desk-companion/tests/test_voice_omni.py",
+    "sha256": "f6fd3b4aff76155ec06bd71a3f3bb45e523e304e19e1f2521f2945f9f709c384"
+  },
+  {
+    "path": "desk-companion/tests/test_voice_turns.py",
+    "sha256": "4aad4ffdc48af127f0339646df7929607947a04beddd9ac8ea9826b009d08077"
+  },
+  {
+    "path": "desk-companion/tests/test_workspace_api.py",
+    "sha256": "d8bc1dfa702dde72fd0158c476ab91aa2fcf680e15fdc67095a240ff15da2bf3"
+  },
+  {
+    "path": "desk-companion/uv.lock",
+    "sha256": "8a869455a7771d26debecd1ef3e3b7460e3e3ed5e3e3d69abcdd11ba32d3add0"
+  }
+]

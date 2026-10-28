@@ -11,8 +11,15 @@ def exchange_routes(runtime, authenticated, owner, operation_id):
         return runtime.exchange.preview_ics(payload, key)
 
     @router.post("/exchange/{preview_id}/apply", dependencies=[Depends(authenticated)])
-    def apply(preview_id: str, payload: ImportApply, key=Depends(operation_id)):
-        return runtime.exchange.apply(preview_id, payload, key)
+    def apply(
+        preview_id: str,
+        payload: ImportApply,
+        key=Depends(operation_id),
+        principal=Depends(authenticated),
+    ):
+        return runtime.exchange.apply(
+            preview_id, payload, key, allow_backup=principal["kind"] == "owner"
+        )
 
     @router.get("/exchange/calendar.ics", dependencies=[Depends(owner)])
     def export():

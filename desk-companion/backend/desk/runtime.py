@@ -16,8 +16,16 @@ from .google_calendar import GoogleCalendar
 from .tasks import TaskService
 from .text_ai import TextAssistant
 from .jobs import JobService
+from .backups import LocalBackups
 from .memory import MemoryService
+from .digest import DigestService
+from .moments import MomentService
+from .goals import GoalService
+from .nudges import NudgeService
+from .notify import Notifier
+from .web_push import HttpPushSender, PushService, push_enabled
 from .persona import PersonaService
+from .profile import ProfileService
 
 
 class Runtime:
@@ -28,14 +36,28 @@ class Runtime:
         self.posture = PostureService(store)
         self.outputs = OutputService(store)
         self.tasks = TaskService(self)
+        self.goals = GoalService(self)
         self.memory = MemoryService(self)
+        self.profile = ProfileService(self)
         self.persona = PersonaService(self)
         self.jobs = JobService(self)
         self.worker_health = {}
         self.assistant = AssistantService(self)
         self.data = WorkspaceData(store)
+        self.nudges = NudgeService(self)
+        self.moments = MomentService(self)
+        self.digests = DigestService(self)
+        self.notify = Notifier(
+            self.store,
+            push=PushService(
+                self.store, HttpPushSender(), self.store.directory / "vapid-private.pem"
+            )
+            if push_enabled()
+            else None,
+        )
         self.voice = VoiceService(self)
         self.exchange = ExchangeService(self)
+        self.backups = LocalBackups(self)
         self.google = GoogleCalendar(self)
         self.text_ai = TextAssistant(self)
         self.posture.on_prompt = self.on_posture_prompt
@@ -95,4 +117,7 @@ class Runtime:
         self.store.tick()
         self.posture.tick()
         self.tasks.tick()
+        self.memory.expire_due()
+        self.nudges.tick()
+        self.goals.tick()
         self.jobs.expire()

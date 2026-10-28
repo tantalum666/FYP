@@ -1,0 +1,62 @@
+{
+  "name": "Alice Chan (Uniform ver.)",
+  "author": "edisonlee55 (now yuna0x0)",
+  "source": "https://github.com/yuna0x0/AliceChan/releases/download/v1.0.4/Alice.Chan.Uniform.ver.1.0.2.vrm",
+  "release": "v1.0.4",
+  "asset_version": "1.0.2",
+  "downloaded_at": "2026-10-22T10:22:54.966389+00:00",
+  "sha256": "f04f0585aa73d47843ffe1a3042e776d679e345a3d7301c349f4d81e641b19bd",
+  "bytes": 16791024,
+  "license": "CC-BY-SA-4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "original_unchanged": true,
+  "changes": "Runtime copy corrects three optional skin.skeleton common-root references. Geometry, binary payload, node indices, materials, textures, expressions and VRM permissions are unchanged. Runtime copy distributed under CC BY-SA 4.0; original preserved in design source folder.",
+  "meta": {
+    "allowedUserName": "Everyone",
+    "author": "edisonlee55",
+    "commercialUssageName": "Allow",
+    "contactInformation": "https://twitter.com/edisonlee55",
+    "licenseName": "CC_BY_SA",
+    "otherPermissionUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=necessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+    "reference": "https://hub.vroid.com/en/characters/8722809851642259362/models/3746498118724430196",
+    "sexualUssageName": "Allow",
+    "texture": 21,
+    "title": "Alice Chan (Uniform ver)",
+    "version": "1.0.2",
+    "violentUssageName": "Allow"
+  },
+  "extensions": [
+    "VRM",
+    "KHR_materials_unlit",
+    "KHR_texture_transform"
+  ],
+  "nodes": 190,
+  "meshes": 3,
+  "materials": 16,
+  "external_uris": [],
+  "runtime_file": "alice-ready.vrm",
+  "runtime": {
+    "changes": [
+      {
+        "skin": 0,
+        "from": 1,
+        "to": 0
+      },
+      {
+        "skin": 1,
+        "from": 1,
+        "to": 0
+      },
+      {
+        "skin": 2,
+        "from": 1,
+        "to": 0
+      }
+    ],
+    "source_sha256": "f04f0585aa73d47843ffe1a3042e776d679e345a3d7301c349f4d81e641b19bd",
+    "runtime_sha256": "370b2312e9f97834db868751e43e9dd33b9112e5d151d592757c3f47315e195e",
+    "runtime_bytes": 16790968,
+    "binary_chunk_unchanged": true,
+    "binary_sha256": "bd996bc8df0acf209e9d8376352254dc475633194cc579e1982d669087dfd3dc"
+  }
+}

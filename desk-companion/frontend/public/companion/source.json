@@ -1,0 +1,136 @@
+{
+  "name": "A1 v3 rejected study",
+  "status": "REJECTED_BY_OWNER_2026-10-18 — preserved failed visual study; not accepted A1 art",
+  "asset": "a1-v3.glb",
+  "stats": {
+    "file_bytes": 7458148,
+    "sha256": "0f970cc67bf69e05b158f25cd31cbe56b0fcfeb13b6e829b0fa27333176568d6",
+    "mesh_objects": 30,
+    "primitives": 37,
+    "triangles": 156880,
+    "bones": 162,
+    "actions": [
+      "Gesture",
+      "Idle",
+      "Stretch",
+      "Turn",
+      "Walk",
+      "Wave"
+    ]
+  },
+  "copyright": "Base anatomy, face and rig: (c) 2022 pixiv Inc. Garment/hair/fit/motion adaptation is AI-assisted Group 2 FYP work; not individual student contribution proof.",
+  "licence": "VRM Public License 1.0 plus original embedded settings retained below. Same terms apply to this adaptation; no endorsement.",
+  "licence_url": "https://vrm.dev/en/licenses/1.0/",
+  "licence_file": "/avatars/VRM-Public-License-1.0.txt",
+  "base": {
+    "asset": "pixiv-sample.vrm",
+    "source": "https://github.com/pixiv/three-vrm/blob/ff42fae4fcee1fcbca2cd262c7f5f8cbddeaf5ab/packages/three-vrm/examples/models/VRM1_Constraint_Twist_Sample.vrm",
+    "commit": "ff42fae4fcee1fcbca2cd262c7f5f8cbddeaf5ab",
+    "sha256": "12c2b97e95e700783a6a550dc0eee2d7880aeedccef9ae67bc4c5a2f0f2631a2",
+    "bytes": 10776032,
+    "licence": "VRM Public License 1.0 plus embedded model permissions",
+    "licence_url": "https://vrm.dev/en/licenses/1.0/",
+    "embedded_meta": {
+      "allowAntisocialOrHateUsage": false,
+      "allowExcessivelySexualUsage": true,
+      "allowExcessivelyViolentUsage": true,
+      "allowPoliticalOrReligiousUsage": true,
+      "allowRedistribution": true,
+      "authors": [
+        "pixiv Inc."
+      ],
+      "avatarPermission": "everyone",
+      "commercialUsage": "corporation",
+      "copyrightInformation": "(c) 2022 pixiv Inc.",
+      "creditNotation": "unnecessary",
+      "licenseUrl": "https://vrm.dev/licenses/1.0/",
+      "modification": "allowModificationRedistribution",
+      "name": "VRM1_Constraint_Twist_Sample",
+      "thumbnailImage": 18,
+      "version": "v1.0.1"
+    },
+    "purpose": "Replaceable development sample, not original Group 2 artwork or a Razer character."
+  },
+  "cmu": {
+    "database": "https://mocap.cs.cmu.edu/",
+    "subject": 14,
+    "trial": 26,
+    "source_rate_hz": 120,
+    "excerpt_indices_zero_based": [
+      1080,
+      2160
+    ],
+    "amc_frame_numbers": [
+      1081,
+      2161
+    ],
+    "export_rate_hz": 30,
+    "application": "Upper-body gesture study; authored planted lower body; captured finger/thumb convenience channels ignored",
+    "acknowledgement": "The data used in this project was obtained from mocap.cs.cmu.edu. The database was created with funding from NSF EIA-0196217.",
+    "terms": "Free for all uses; may include in products, may not resell the data directly, including converted data. See original database terms.",
+    "files": [
+      {
+        "name": "14.asf",
+        "url": "https://mocap.cs.cmu.edu/subjects/14/14.asf",
+        "sha256": "96a22ac52ac15bd464c296028936be0ae7d2f0ee4a056202b1aa17f4ad02ec7f"
+      },
+      {
+        "name": "14_26.amc",
+        "url": "https://mocap.cs.cmu.edu/subjects/14/14_26.amc",
+        "sha256": "3db9e3ffc844994d7ed3c7fb0159fc439f2080a56c7f8c1bfe69075496a8514c"
+      }
+    ]
+  },
+  "references": [
+    {
+      "name": "a1-back.png",
+      "source_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+      "sha256": "2a7bab2b579d46d8f68a1e4c122978e96e4e291aa58dc7fc7be0813705e5f8ae"
+    },
+    {
+      "name": "a1-face.png",
+      "source_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+      "sha256": "2a7fea6044d059f0a13c8dfaf8fc96e1322825b29e0d8e3d457359c5366b4038"
+    },
+    {
+      "name": "a1-front.png",
+      "source_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+      "sha256": "314e129ddde2f48f53c743e75cd505b6d695a8beae8bf838253094de867f2144"
+    },
+    {
+      "name": "a1-v4.png",
+      "source_commit": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+      "sha256": "796005f553b8f3bbe1cd085585f99794e2ae427dde1220ceec5ba4c6f498ecf0"
+    }
+  ],
+  "current_route": "Inspect a professionally authored reusable base before another adaptation; no replacement selected",
+  "cc0_motion": {
+    "repository": "https://github.com/Mesh2Motion/mesh2motion-assets",
+    "commit": "c5b0b6c821dbf2fa1dfe49590a6f431fd9f707ce",
+    "licence": "CC0-1.0",
+    "clips": [
+      "Idle",
+      "Wave",
+      "Walk"
+    ],
+    "files": [
+      {
+        "name": "animation-human-greeting.blend",
+        "sha256": "e49b75ee98a0629ccea7d64d91d3c60bf8371aaebc8e13ae6e609485b969e1bf"
+      },
+      {
+        "name": "animation-human-idle-subtle.blend",
+        "sha256": "163198b4da4833f0c4d545e40349ca9fae69e51e900ac40c04e48723f9f58fe4"
+      },
+      {
+        "name": "animation-human-walk-female.blend",
+        "sha256": "97461bc837aa109e786a1794c327ac4fa701cc62c17d9dc07d38cd27a57f381d"
+      },
+      {
+        "name": "rig-human.blend",
+        "sha256": "3e4a63a6c9740a95e0589611f160f9377a3c55ab78284a7f55251b1a8e40cc0c"
+      }
+    ]
+  },
+  "verification": "Engineering builds/tests do not establish likeness. Browser acceptance was interrupted by owner rejection; no final visual QA pass."
+}

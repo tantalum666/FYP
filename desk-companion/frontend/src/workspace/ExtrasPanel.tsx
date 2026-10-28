@@ -165,9 +165,82 @@ export function ExtrasPanel({ t }: { t: Translate }) {
             onInput={(e) => change("daily_brief_time", e.currentTarget.value)}
           />
         </label>
+        <label className="check-field">
+          <input
+            type="checkbox"
+            checked={form.evening_check_enabled}
+            onChange={(e) => change("evening_check_enabled", e.target.checked)}
+          />
+          {t("Evening check-in", "晚间检查")}
+        </label>
+        <label className="field">
+          {t("Check-in time", "检查时间")}
+          <input
+            type="time"
+            required
+            value={form.evening_check_time}
+            onInput={(e) => change("evening_check_time", e.currentTarget.value)}
+          />
+        </label>
+        <p className="workspace-hint">
+          {t(
+            "Morning and evening check-ins use these times and the quiet hours above. Each one explains why it fired. They do not create a second reminder schedule.",
+            "早晨简报和晚间检查使用这里的时间和上方的安静时段。每一条都会说明触发原因，不会另建一套提醒。",
+          )}
+        </p>
+      </section>
+      <section className="workspace-section">
+        <h3>{t("How I should talk and interrupt", "我该怎么说、何时打扰")}</h3>
+        <label className="field">
+          {t("Tone", "语气")}
+          <select
+            value={form.tone}
+            onChange={(e) => change("tone", e.target.value as "plain" | "warm")}
+          >
+            <option value="plain">{t("Plain", "平实")}</option>
+            <option value="warm">{t("Warm", "温暖")}</option>
+          </select>
+        </label>
+        <label className="field">
+          {t("Verbosity", "详略")}
+          <select
+            value={form.verbosity}
+            onChange={(e) =>
+              change("verbosity", e.target.value as "brief" | "normal")
+            }
+          >
+            <option value="brief">{t("Brief", "简短")}</option>
+            <option value="normal">{t("Normal", "平常")}</option>
+          </select>
+        </label>
+        <label className="field">
+          {t("Proactivity", "主动程度")}
+          <select
+            value={form.proactivity}
+            onChange={(e) =>
+              change("proactivity", e.target.value as "off" | "low" | "normal")
+            }
+          >
+            <option value="off">{t("Off", "关闭")}</option>
+            <option value="low">{t("Low", "较少")}</option>
+            <option value="normal">{t("Normal", "平常")}</option>
+          </select>
+        </label>
+        <p className="workspace-hint">
+          {t(
+            "Saved only when you press Save. Chat does not change these. Off stops morning and evening check-ins. Low keeps the morning briefing and skips the evening check-in. Task follow-ups keep their own switch.",
+            "只有按下保存才会写入。对话不会擅自修改。关闭会停掉早晨和晚间检查。较少保留早晨简报并跳过晚间检查。事务跟进仍用各自的开关。",
+          )}
+        </p>
       </section>
       <section className="workspace-section">
         <h3>{t("Companion", "桌面助理")}</h3>
+        <p className="workspace-hint">
+          {t(
+            "Web Push stays off until DESK_WEB_PUSH=1. The private key is created on this machine only then, with mode 0600. Quiet hours and duplicate notice ids still apply.",
+            "在设置 DESK_WEB_PUSH=1 之前，Web Push 保持关闭。私钥只在那时在本机生成，权限为 0600。安静时段和重复的通知 id 仍然有效。",
+          )}
+        </p>
         <label className="check-field">
           <input
             type="checkbox"

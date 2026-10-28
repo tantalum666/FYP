@@ -4,6 +4,6 @@ const config: CapacitorConfig = {
   appName: "Desk Companion",
   webDir: "dist",
   loggingBehavior: "none",
-  ios: { contentInset: "always", preferredContentMode: "mobile" },
+  ios: { contentInset: "never", preferredContentMode: "mobile" },
 };
 export default config;

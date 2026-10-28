@@ -6,6 +6,8 @@ assistant speaks without removing those checks. The model has no tool that
 writes this text.
 """
 
+from datetime import datetime, timedelta
+
 from fastapi import APIRouter, Depends
 from pydantic import Field, model_validator
 
@@ -40,9 +42,24 @@ TEXT_PROTOCOL = (
 
 VOICE_PROTOCOL = (
     " Use task_query and task_details to read saved commitments and progress across conversations. "
-    "Use memory_query for active personal facts. Use task drafts to record new commitments, updates "
+    "For questions about saved personal facts, preferences, names or project codes, you MUST call memory_query before answering. "
+    "Only its current active facts count as saved memory. Chat statements, hypotheses, cancelled drafts and your own earlier replies are NOT saved facts. "
+    "If the relevant fact is absent, clearly say it is not saved or you do not know. NEVER invent a replacement name/value, and never claim provider-side deletion. "
+    "Use task drafts to record new commitments, updates "
     "and explicit user-reported completion. Use calendar_query for actual schedules. "
-    "Ask for missing dates or duration."
+    "For a NEW timed calendar event, the user must supply its end time or duration, in this turn or explicitly earlier in this conversation. "
+    "If the user supplies only a start time, ask how long it lasts BEFORE calling calendar_create_draft. "
+    "NEVER assume 30 minutes or one hour, even for a tentative/unconfirmed draft. Saying 'tentatively one hour' does not meet this rule. "
+    "An existing event's duration may be preserved when rescheduling that existing event; this is not a default for new events. "
+    "Ask for missing dates as well. "
+    "To prepare or recreate a draft in a new user turn, you MUST call the appropriate *_draft tool in that SAME turn and receive a pending proposal. "
+    "Never claim a draft was generated/prepared merely by repeating a previous reply. A cancelled draft cannot be reused; recreating it requires a new tool call. "
+    "Calendar range ends are exclusive: next week starts next Monday 00:00 and ends at the following Monday 00:00, never Sunday 23:59:59. "
+    "Display dates/times from the returned start_local/end_local and timezone. occurrence_key is an identity for the ORIGINAL instance, not its current date after a move. "
+    "For EVERY question about the current schedule or meeting count, including repeated questions and count-only requests, you MUST call calendar_query in that SAME turn before answering. Never reuse a previous turn's result: the calendar can change between turns. For a simple calendar query, call calendar_query immediately and only for the requested range. "
+    "Do not preface with filler such as 'let me check'. After the tool returns, start with the "
+    "actual count and date range, then the first event; offer the remainder briefly. Honor a count-only request by starting directly with the actual number and keeping it short. Empty results must "
+    "come from the tool. Aim for one local tool round trip; do not query unrelated memory or tasks."
 )
 
 FOLLOWUP_PROTOCOL = (
@@ -67,10 +84,23 @@ def text_system(body: str) -> str:
 
 def voice_instructions(body: str, language: str, now_iso: str, zone: str) -> str:
     spoken = "Simplified Chinese" if language == "zh" else "English"
+    day = datetime.fromisoformat(now_iso).date()
+    monday = day + timedelta(days=7 - day.weekday())
+    weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    anchors = ", ".join(
+        f"{name}={(monday + timedelta(days=i)).isoformat()}" for i, name in enumerate(weekdays)
+    )
     return (
         body.strip()
         + TOOL_RULES
         + f" Speak {spoken}. Current local date and time: {now_iso}. Timezone: {zone}."
+        + f" Resolve relative dates from current_date={day.isoformat()}, never from dates in chat or calendar results. "
+        + f"Next calendar week is [{monday.isoformat()}, {(monday + timedelta(days=7)).isoformat()}); its weekdays: {anchors}. "
+        + "For calendar writes start_local/end_local have NO offset; use YYYY-MM-DDTHH:MM and timezone separately. "
+        + "For one occurrence, copy its exact occurrence_key and use scope=occurrence. "
+        + "A corrected draft for the same event occurrence replaces the older unapproved draft. "
+        + "For updates, omit optional event fields the user did not ask to change; the app preserves them. "
+        + "If a tool rejects fields, correct them rather than repeating identical arguments."
         + VOICE_PROTOCOL
     )
 
@@ -176,6 +206,72 @@ class PersonaService:
         return self.store.operation(
             key, {"type": "persona_reset", "expected_version": expected_version}, apply
         )
+
+    def export(self):
+        """The saved persona, or nothing when the desk is still on the built-in text."""
+        with self.store.connection() as conn:
+            row = conn.execute(
+                "SELECT body, version, source, updated_at FROM assistant_persona WHERE id=1"
+            ).fetchone()
+        if not row:
+            return {"persona": None}
+        return {
+            "persona": {
+                "body": row["body"],
+                "version": row["version"],
+                "source": row["source"],
+                "updated_at": row["updated_at"],
+            }
+        }
+
+    @staticmethod
+    def validate_backup(bundle):
+        if bundle is None:
+            bundle = {"persona": None}
+        if not isinstance(bundle, dict):
+            raise ValueError("Invalid persona backup")
+        persona = bundle.get("persona")
+        if persona is None:
+            return {"persona": None}
+        body, version = persona.get("body"), persona.get("version")
+        source, updated = persona.get("source", "owner"), persona.get("updated_at") or ""
+        if (
+            not isinstance(body, str)
+            or not body.strip()
+            or len(body) > MAX_BODY
+            or not isinstance(version, int)
+            or version < 1
+            or source not in {"owner", "default"}
+            or not isinstance(updated, str)
+            or len(updated) > 40
+        ):
+            raise ValueError("Invalid persona backup")
+        return {
+            "persona": {
+                "body": body.strip(),
+                "version": version,
+                "source": source,
+                "updated_at": updated,
+            }
+        }
+
+    def restore(self, conn, bundle):
+        """Insert the persona only when this desk has never saved one."""
+        persona = bundle.get("persona")
+        if not persona:
+            return {"created": 0, "kept": 0}
+        if conn.execute("SELECT 1 FROM assistant_persona WHERE id=1").fetchone():
+            return {"created": 0, "kept": 1}
+        conn.execute(
+            "INSERT INTO assistant_persona(id,body,version,updated_at,source) VALUES(1,?,?,?,?)",
+            (
+                persona["body"],
+                persona["version"],
+                persona["updated_at"] or iso(self.store.clock()),
+                persona["source"],
+            ),
+        )
+        return {"created": 1, "kept": 0}
 
 
 def persona_routes(runtime, owner, operation_id):

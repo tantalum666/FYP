@@ -1,0 +1,223 @@
+.existing-avatar {
+  min-height: 100dvh;
+  padding: 0 32px 28px;
+  background: #faf9f7;
+  color: #303541;
+}
+.existing-avatar header {
+  max-width: 1320px;
+  min-height: 72px;
+  margin: auto;
+  border-bottom: 1px solid #e2e1dd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.existing-avatar a {
+  color: #666c86;
+  text-decoration: none;
+}
+.existing-avatar header span {
+  color: #858895;
+  font-size: 13px;
+}
+.existing-avatar-layout {
+  max-width: 1320px;
+  margin: 28px auto 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(280px, 1fr);
+  gap: 36px;
+}
+.existing-avatar-stage {
+  position: relative;
+  min-width: 0;
+}
+.existing-avatar-comparison {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+.is-comparing .existing-avatar-comparison {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.existing-avatar-current {
+  min-width: 0;
+}
+.existing-avatar-reference {
+  min-width: 0;
+  margin: 0;
+}
+.existing-avatar-reference img {
+  display: block;
+  width: 100%;
+  height: min(72vh, 800px);
+  min-height: 480px;
+  border-radius: 14px;
+  object-fit: contain;
+  background: #f1f0ee;
+}
+.existing-avatar-reference figcaption,
+.existing-avatar-caption {
+  margin: 10px 0 0;
+  text-align: center;
+  color: #6c7180;
+  font-size: 12px;
+}
+.existing-avatar-comparison-note {
+  color: #737987;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.existing-avatar-canvas {
+  width: 100%;
+  height: min(72vh, 800px);
+  min-height: 480px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #f1f0ee;
+  touch-action: none;
+}
+.existing-avatar-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.existing-avatar button,
+.existing-avatar select {
+  font: inherit;
+  border: 1px solid #dedee5;
+  color: #596073;
+  background: white;
+  border-radius: 8px;
+  padding: 9px 13px;
+}
+.existing-avatar button {
+  cursor: pointer;
+}
+.existing-avatar button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.existing-avatar button[aria-pressed="true"] {
+  color: #52518b;
+  background: #eeecf8;
+  border-color: #d0cbed;
+}
+.existing-avatar button:focus-visible,
+.existing-avatar a:focus-visible,
+.existing-avatar select:focus-visible,
+.existing-avatar input:focus-visible {
+  outline: 2px solid #7771b6;
+  outline-offset: 3px;
+}
+.existing-avatar-angles,
+.existing-avatar-expression {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+.existing-avatar-loading {
+  position: absolute;
+  inset: 40% 10% auto;
+  text-align: center;
+}
+.existing-avatar-kicker {
+  color: #868999;
+  font-size: 12px;
+  margin: 12px 0;
+}
+.existing-avatar h1 {
+  font-size: clamp(25px, 3vw, 36px);
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  margin: 12px 0 20px;
+}
+.existing-avatar aside > p {
+  line-height: 1.75;
+  color: #777d8b;
+  font-size: 14px;
+}
+.existing-avatar-panel {
+  display: grid;
+  gap: 20px;
+  border-top: 1px solid #e2e1dd;
+  border-bottom: 1px solid #e2e1dd;
+  padding: 24px 0;
+  margin: 24px 0;
+}
+.existing-avatar label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+.existing-avatar input {
+  width: 100%;
+  accent-color: #7973b7;
+}
+.existing-avatar-note {
+  font-size: 12px !important;
+}
+.existing-avatar-filename {
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  margin: 0;
+}
+.existing-avatar-options summary {
+  cursor: pointer;
+  color: #737987;
+  font-size: 13px;
+}
+.existing-avatar-candidates {
+  display: grid;
+  gap: 12px;
+  margin: 24px 0;
+  padding-top: 20px;
+  border-top: 1px solid #e2e1dd;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.existing-avatar-candidates h2 {
+  margin: 0 0 4px;
+  font-size: 15px;
+}
+@media (min-width: 761px) {
+  .existing-avatar-stage {
+    position: sticky;
+    top: 16px;
+    align-self: start;
+  }
+}
+@media (max-width: 760px) {
+  .existing-avatar {
+    padding: 0 16px 24px;
+  }
+  .existing-avatar header {
+    min-height: 62px;
+  }
+  .existing-avatar header span {
+    display: none;
+  }
+  .existing-avatar-layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 18px;
+  }
+  .existing-avatar-canvas,
+  .existing-avatar-reference img {
+    min-height: 380px;
+    height: 55vh;
+  }
+  .existing-avatar h1 {
+    font-size: 27px;
+  }
+}
+@media (max-width: 560px) {
+  .is-comparing .existing-avatar-comparison {
+    grid-template-columns: 1fr;
+  }
+}

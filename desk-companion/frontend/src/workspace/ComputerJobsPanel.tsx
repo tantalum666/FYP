@@ -15,6 +15,7 @@ import type { Language, Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import {
   isFolderAction,
+  isDesktopAction,
   jobCancellable,
   readBackCopy,
   recoveryCopy,
@@ -26,6 +27,7 @@ import type { Task } from "./taskTypes";
 
 interface Snapshot {
   enabled: boolean;
+  desktop?: { enabled: boolean; ready: boolean; apps: string[] };
   folder?: { configured: boolean; label: string | null };
   jobs: ComputerJob[];
 }
@@ -54,6 +56,19 @@ export function ComputerJobsPanel({
   const [notice, setNotice] = useState("");
   const [lastRead, setLastRead] = useState(0);
   const [expanded, setExpanded] = useState(false);
+  const [noteAction, setNoteAction] = useState<
+    "save_note" | "linux_note_preview"
+  >("save_note");
+  const effectiveAction =
+    !snapshot?.enabled && snapshot?.desktop?.ready
+      ? "linux_note_preview"
+      : noteAction;
+  const executorAvailable = (job: ComputerJob) =>
+    isDesktopAction(job.action)
+      ? snapshot?.desktop?.ready
+      : isFolderAction(job.action)
+        ? snapshot?.folder?.configured
+        : snapshot?.enabled;
   const alive = useRef(false);
   const generation = useRef(0);
   const reading = useRef<number | null>(null);
@@ -120,7 +135,7 @@ export function ComputerJobsPanel({
         ? (await request<{ task: Task }>(`/tasks/${taskId}`)).task
         : null;
       await write("/computer/jobs", {
-        action: "save_note",
+        action: effectiveAction,
         title,
         content,
         task_id: taskId ?? null,
@@ -260,9 +275,11 @@ export function ComputerJobsPanel({
           ? (await request<{ task: Task }>(`/tasks/${taskId}`)).task
           : null;
         await write("/computer/jobs", {
-          action: isFolderAction(job.action)
-            ? "verify_folder_file"
-            : "verify_note",
+          action: isDesktopAction(job.action)
+            ? "verify_linux_file"
+            : isFolderAction(job.action)
+              ? "verify_folder_file"
+              : "verify_note",
           title: isFolderAction(job.action)
             ? t("Verify saved folder file", "核验已保存的文件夹文件")
             : t("Verify saved note", "核验已保存笔记"),
@@ -360,10 +377,8 @@ export function ComputerJobsPanel({
         <h4>{t("Named folder", "指定文件夹")}</h4>
         <p className="workspace-hint">
           {snapshot?.folder?.configured
-            ? t(
-                "Current folder: ",
-                "当前文件夹：",
-              ) + (snapshot.folder.label ?? "")
+            ? t("Current folder: ", "当前文件夹：") +
+              (snapshot.folder.label ?? "")
             : t(
                 "No folder is named yet. Folder jobs stay unavailable until you choose one existing directory outside this desk’s runtime data.",
                 "尚未指定文件夹。在你选择本桌面运行数据之外的一个已有目录之前，文件夹作业不可用。",
@@ -394,7 +409,9 @@ export function ComputerJobsPanel({
         <div className="workspace-inline-actions">
           <button
             className="primary"
-            disabled={busy || !fresh || !folderLabel.trim() || !folderPath.trim()}
+            disabled={
+              busy || !fresh || !folderLabel.trim() || !folderPath.trim()
+            }
           >
             {t("Save this folder", "保存此文件夹")}
           </button>
@@ -455,7 +472,7 @@ export function ComputerJobsPanel({
           )}
         </>
       )}
-      {snapshot?.enabled && (
+      {(snapshot?.enabled || snapshot?.desktop?.ready) && (
         <>
           <button
             type="button"
@@ -463,10 +480,44 @@ export function ComputerJobsPanel({
             onClick={() => setExpanded(!expanded)}
             aria-expanded={expanded}
           >
-            {t("Prepare a note", "准备笔记")}
+            {t("Prepare a note or app workflow", "准备笔记或跨应用操作")}
           </button>
           {expanded && (
             <form onSubmit={prepare}>
+              <label className="field">
+                {t("How to save", "保存方式")}
+                <select
+                  value={effectiveAction}
+                  onChange={(e) =>
+                    setNoteAction(
+                      e.target.value as "save_note" | "linux_note_preview",
+                    )
+                  }
+                  disabled={busy}
+                >
+                  {snapshot?.enabled && (
+                    <option value="save_note">
+                      {t("Save in notes folder", "保存到笔记目录")}
+                    </option>
+                  )}
+                  {snapshot?.desktop?.ready && (
+                    <option value="linux_note_preview">
+                      {t(
+                        "Mousepad → Chromium preview",
+                        "Mousepad 编辑 → Chromium 预览",
+                      )}
+                    </option>
+                  )}
+                </select>
+              </label>
+              {effectiveAction === "linux_note_preview" && (
+                <p>
+                  {t(
+                    "Opens separate editor and browser windows on this Linux desktop, then verifies the saved text. Existing documents stay untouched.",
+                    "在本台 Linux 桌面打开独立的编辑器和浏览器窗口，然后核对保存的全文。已有文档保持不变。",
+                  )}
+                </p>
+              )}
               <label className="field">
                 {t("Note title", "笔记标题")}
                 <input
@@ -514,7 +565,15 @@ export function ComputerJobsPanel({
             try {
               const recovered = pendingWrite();
               await retryPending();
-              if (recoveryMatchesNote(recovered, title, content, taskId)) {
+              if (
+                recoveryMatchesNote(
+                  recovered,
+                  title,
+                  content,
+                  taskId,
+                  effectiveAction,
+                )
+              ) {
                 setTitle("");
                 setContent("");
               }
@@ -542,23 +601,41 @@ export function ComputerJobsPanel({
           <div className="workspace-eyebrow">{labels[job.state]}</div>
           <h4>{job.request.title}</h4>
           <p>
-            {job.action === "save_note"
-              ? t("Save a new note", "保存新笔记")
-              : job.action === "verify_note"
-                ? t("Verify an existing note", "核验已有笔记")
-                : job.action === "save_folder_file"
-                  ? t("Save a new folder file", "保存新的文件夹文件")
-                  : t("Verify an existing folder file", "核验已有文件夹文件")}
+            {job.action === "linux_note_preview"
+              ? t(
+                  "Edit in Mousepad and preview in Chromium",
+                  "在 Mousepad 编辑并在 Chromium 预览",
+                )
+              : job.action === "verify_linux_file"
+                ? t(
+                    "Verify saved Linux workflow file",
+                    "核验跨应用流程的已保存文件",
+                  )
+                : job.action === "save_note"
+                  ? t("Save a new note", "保存新笔记")
+                  : job.action === "verify_note"
+                    ? t("Verify an existing note", "核验已有笔记")
+                    : job.action === "save_folder_file"
+                      ? t("Save a new folder file", "保存新的文件夹文件")
+                      : t(
+                          "Verify an existing folder file",
+                          "核验已有文件夹文件",
+                        )}
           </p>
           <p className="job-target">
-            {isFolderAction(job.action)
-              ? t("Destination: ", "目标：") +
-                (job.request.folder_label ?? "") +
-                " / "
-              : t(
-                  "Destination: Desk Companion notes / ",
-                  "目标：Desk Companion 笔记目录 / ",
-                )}
+            {isDesktopAction(job.action)
+              ? t(
+                  "Destination: Linux workflow notes / ",
+                  "目标：Linux 跨应用笔记 / ",
+                )
+              : isFolderAction(job.action)
+                ? t("Destination: ", "目标：") +
+                  (job.request.folder_label ?? "") +
+                  " / "
+                : t(
+                    "Destination: Desk Companion notes / ",
+                    "目标：Desk Companion 笔记目录 / ",
+                  )}
             {job.request.artifact_id}.txt
           </p>
           {isFolderAction(job.action) && job.request.folder_fingerprint && (
@@ -593,6 +670,14 @@ export function ComputerJobsPanel({
               {t("Independent read-back matched", "独立读回一致")} ·{" "}
               {job.result.bytes} {t("bytes", "字节")}
               <code>SHA256 {job.result.sha256}</code>
+              {job.result.apps_verified?.length === 2 && (
+                <span>
+                  {t(
+                    "Mousepad save and Chromium content observed",
+                    "已观察到 Mousepad 保存与 Chromium 展示内容",
+                  )}
+                </span>
+              )}
             </p>
           )}
           {job.cancel_requested && job.state === "succeeded" && (
@@ -628,9 +713,7 @@ export function ComputerJobsPanel({
                 className="primary"
                 disabled={
                   busy ||
-                  !(isFolderAction(job.action)
-                    ? snapshot.folder?.configured
-                    : snapshot.enabled) ||
+                  !executorAvailable(job) ||
                   !reviewAvailable(job, Date.now(), fresh)
                 }
                 onClick={() => void action(job, "approve")}
@@ -650,34 +733,24 @@ export function ComputerJobsPanel({
             {job.state === "unknown" && (
               <button
                 className="secondary"
-                disabled={
-                  busy ||
-                  !fresh ||
-                  !(isFolderAction(job.action)
-                    ? snapshot.folder?.configured
-                    : snapshot.enabled)
-                }
+                disabled={busy || !fresh || !executorAvailable(job)}
                 onClick={() => void action(job, "reconcile")}
               >
                 {t("Check existing result", "核验已有结果")}
               </button>
             )}
             {job.state === "succeeded" &&
-              (job.action === "save_note" || job.action === "save_folder_file") && (
-              <button
-                className="text-button"
-                disabled={
-                  busy ||
-                  !fresh ||
-                  !(isFolderAction(job.action)
-                    ? snapshot.folder?.configured
-                    : snapshot.enabled)
-                }
-                onClick={() => void action(job, "verify")}
-              >
-                {t("Prepare another verification", "准备再次核验")}
-              </button>
-            )}
+              (job.action === "save_note" ||
+                job.action === "save_folder_file" ||
+                job.action === "linux_note_preview") && (
+                <button
+                  className="text-button"
+                  disabled={busy || !fresh || !executorAvailable(job)}
+                  onClick={() => void action(job, "verify")}
+                >
+                  {t("Prepare another verification", "准备再次核验")}
+                </button>
+              )}
           </div>
         </article>
       ))}

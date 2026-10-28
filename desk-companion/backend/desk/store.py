@@ -11,6 +11,7 @@ from uuid import uuid4
 from pwdlib import PasswordHash
 
 from .calendar import expand_all, is_occurrence, iso, redact
+from .private_file import reserve_private, write_private
 from .schemas import EventInput
 
 
@@ -28,6 +29,7 @@ class Store:
         self.directory = Path(directory)
         self.directory.mkdir(mode=0o700, parents=True, exist_ok=True)
         self.path = self.directory / "desk.sqlite3"
+        reserve_private(self.path)
         self.clock = clock or (lambda: datetime.now(UTC))
         self.password_hasher = PasswordHash.recommended()
         with self.connection() as conn:
@@ -59,11 +61,10 @@ class Store:
                     "INSERT INTO owner VALUES(1,?)", (self.password_hasher.hash(actual_password),)
                 )
                 if password is None:
-                    path = self.directory / "credentials.json"
-                    path.write_text(
-                        json.dumps({"username": "owner", "password": actual_password}, indent=2)
+                    write_private(
+                        self.directory / "credentials.json",
+                        json.dumps({"username": "owner", "password": actual_password}, indent=2),
                     )
-                    path.chmod(0o600)
             conn.execute(
                 "INSERT OR IGNORE INTO settings VALUES(1,?,1)",
                 (encode({"timezone": "Asia/Hong_Kong", "hide_private": False}),),
@@ -125,6 +126,9 @@ class Store:
         valid = self.password_hasher.verify(password, stored)
         if username != "owner" or not valid:
             raise DomainError("INVALID_LOGIN", 401)
+        return self.create_owner_session()
+
+    def create_owner_session(self):
         token = secrets.token_urlsafe(32)
         with self.connection(write=True) as conn:
             conn.execute("DELETE FROM sessions WHERE expires<=?", (iso(self.clock()),))

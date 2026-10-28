@@ -169,9 +169,11 @@ export function CalendarToolbar({
           </h1>
           <p>
             {view === "week"
-              ? `${first.toFormat("d LLL")} – ${first.plus({ days: 6 }).toFormat("d LLL")}`
+              ? `${first.toFormat(language === "en" ? "d LLL" : "M月d日")} – ${first.plus({ days: 6 }).toFormat(language === "en" ? "d LLL" : "M月d日")}`
               : view === "day"
-                ? anchor.setLocale(locale(language)).toFormat("cccc, d LLL")
+                ? anchor
+                    .setLocale(locale(language))
+                    .toFormat(language === "en" ? "cccc, d LLL" : "M月d日 cccc")
                 : t(
                     "A little room for everything.",
                     "让每件事都有合适的时间。",
@@ -406,11 +408,18 @@ export function TimeGrid({
             key={dayISO(d)}
             onClick={() => onDay(d)}
             className={d.weekday > 5 ? "weekend" : ""}
+            aria-label={d
+              .setLocale(locale(language))
+              .toFormat(language === "en" ? "ccc d LLL" : "M月d日 ccc")}
           >
             <span>{d.setLocale(locale(language)).toFormat("ccc")}</span>
             <span>
-              <b className={dayISO(d) === today ? "today" : ""}>{d.day}</b>{" "}
-              {d.setLocale(locale(language)).toFormat("LLL")}
+              {language === "zh" && `${d.month}月`}
+              <b className={dayISO(d) === today ? "today" : ""}>{d.day}</b>
+              {language === "en" ? " " : ""}
+              {language === "zh"
+                ? "日"
+                : d.setLocale(locale(language)).toFormat("LLL")}
             </span>
           </button>
         ))}

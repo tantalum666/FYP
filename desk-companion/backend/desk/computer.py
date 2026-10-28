@@ -31,10 +31,12 @@ class VerificationReceipt(StrictModel):
         "target_denied",
         "content_mismatch",
         "verification_unavailable",
+        "workflow_incomplete",
     ]
     artifact: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}\.txt$")
     bytes: int | None = Field(default=None, ge=0, le=MAX_BYTES, strict=True)
     sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    apps_verified: list[Literal["mousepad", "chromium"]] | None = None
     executor: str | None = None
     scope: str | None = None
 
@@ -72,6 +74,14 @@ def open_real_directory(root: Path, *, create: bool) -> int:
         return os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
     except OSError:
         raise ExecutionRejected("COMPUTER_SCOPE_UNAVAILABLE", 409) from None
+
+
+def artifact_filename(job) -> str:
+    """The only permitted name is the generated job id plus .txt."""
+    artifact = job["artifact_id"]
+    if not isinstance(artifact, str) or not re.fullmatch(r"[a-f0-9]{32}", artifact):
+        raise ExecutionRejected("COMPUTER_TARGET_DENIED", 403)
+    return artifact + ".txt"
 
 
 def exclusive_write(directory: int, filename: str, body: bytes) -> None:
@@ -126,10 +136,13 @@ def read_artifact(
         return {"verified": False, "reason": "artifact_missing"}
     except OSError:
         return {"verified": False, "reason": "target_denied"}
+    # A directory can be opened on Linux, and fdopen then raises. Reject it
+    # before that so verification stays an unverified receipt.
+    info = os.fstat(fd)
+    if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or info.st_size > MAX_BYTES:
+        os.close(fd)
+        return {"verified": False, "reason": "target_denied"}
     with os.fdopen(fd, "rb") as source:
-        info = os.fstat(source.fileno())
-        if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or info.st_size > MAX_BYTES:
-            return {"verified": False, "reason": "target_denied"}
         body = source.read(MAX_BYTES + 1)
     digest = hashlib.sha256(body).hexdigest()
     matched = digest == hashlib.sha256(expected).hexdigest()
@@ -181,15 +194,8 @@ class LocalNotesExecutor:
         # never a model-provided path.
         return open_real_directory(self.root, create=create)
 
-    @staticmethod
-    def filename(job):
-        artifact = job["artifact_id"]
-        if not isinstance(artifact, str) or not re.fullmatch(r"[a-f0-9]{32}", artifact):
-            raise ExecutionRejected("COMPUTER_TARGET_DENIED", 403)
-        return artifact + ".txt"
-
     def execute(self, job, checkpoint):
-        filename = self.filename(job)
+        filename = artifact_filename(job)
         if job["action"] not in {"save_note", "verify_note"}:
             raise ExecutionRejected("COMPUTER_ACTION_DENIED", 403)
         body = job["content"].encode("utf-8")
@@ -205,7 +211,7 @@ class LocalNotesExecutor:
             os.close(directory)
 
     def verify(self, job):
-        filename = self.filename(job)
+        filename = artifact_filename(job)
         directory = self._directory()
         try:
             return read_artifact(
@@ -262,12 +268,16 @@ class FolderDropExecutor:
             resolved = lexical.resolve(strict=True)
         except OSError:
             raise ExecutionRejected("COMPUTER_SCOPE_UNAVAILABLE", 409) from None
-        if str(resolved) != cfg["path"] or resolved != lexical:
+        if (
+            str(resolved) != cfg["path"]
+            or resolved != lexical
+            or hashlib.sha256(str(resolved).encode()).hexdigest() != cfg["fingerprint"]
+        ):
             raise ExecutionRejected("COMPUTER_SCOPE_CHANGED", 409)
         return root
 
     def execute(self, job, checkpoint):
-        filename = LocalNotesExecutor.filename(job)
+        filename = artifact_filename(job)
         root = self._bound_root(job)
         body = job["content"].encode("utf-8")
         if len(body) > MAX_BYTES:
@@ -282,7 +292,7 @@ class FolderDropExecutor:
             os.close(directory)
 
     def verify(self, job):
-        filename = LocalNotesExecutor.filename(job)
+        filename = artifact_filename(job)
         root = self._bound_root(job)
         directory = open_owner_directory(root)
         try:

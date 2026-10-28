@@ -33,10 +33,12 @@ cd ..
 
 网页为 `http://127.0.0.1:5190/`，设备布局为 `http://127.0.0.1:5190/?surface=device`。账号 `owner` 的密码在各成员本机首次生成的 `desk-companion/.runtime/credentials.json`，不随仓库分发。真实相机、麦克风、模型服务和机械输出按操作指南另行配置。
 
-## GitHub与本地工作区的状态
+## 当前软件检查点
 
-`main`包含已审查的日历／事务／记忆／人格／受限文件作业基础，以及本次硬件研究。最新的 **AliceChan常驻形象、同一Qwen Omni文字与语音、每轮超时／实际播音计时、Linux双应用流程**仍保存在软件负责人的本地工作区，尚未全部提交到 `main`。因此新克隆不能被描述为已包含这些最新功能。
+本分支基于归档后的main，整合**AliceChan、统一Omni文字／语音、有界上下文、逐轮时限、Linux固定双应用、网页与全屏手机**；同时整合Grok #20–#59：有界工具循环、流式回复、记忆／目标／通知、备份与诊断；保留手机职责拆分，并修复权限、恢复、数据保留和跨栈兼容问题。实现见[维护契约](desk-companion/docs/software-maintenance.md)，验证见[本轮QA](output/qa/2026-10-28-grok-review-merge/verification.md)。
 
-当前产品方向采用AliceChan和同一Omni会话；旧A1造型／独立内核草稿见PR #4／#5，早期Omni和A1研究草稿见PR #15／#16。它们保留待单独梳理，不能按编号直接把已否决的人物实现合回去。下一步见交接中的唯一任务。
+Qwen为已测基线，其他AI候选仍开放。本轮使用模拟提供商及虚构本地数据，没有新收费调用。Pi暂停；原生触控／键盘、真机和硬件另验。旧PR与作者工程留作历史，不把独立软件分支推送称为合并或部署。
+
+仅本机开发预览可用`DESK_LOCAL_PREVIEW=1 ./scripts/dev.sh`免输入账号密码；正式默认认证和外部访问保护保留。手机浏览器调试入口为`?surface=phone`，原生iPhone使用同一独立PhoneApp。CI运行后端Lint／测试和前端测试／构建，不连接模型或硬件。
 
 硬件目录是采购前研究，仍缺完整免焊转接、电源／Qi／风机及实物验证；学校文件完成不等于已签署或提交。进入本仓库的代理先遵守 [AGENTS.md](AGENTS.md)。本次整理和验证见 [QA](output/qa/2026-10-26-repo-cleanup/verification.md)。

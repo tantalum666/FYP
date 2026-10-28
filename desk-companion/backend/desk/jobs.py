@@ -8,13 +8,14 @@ path; a late verified receipt remains truthful even after a cancellation request
 import hashlib
 import json
 import os
+import re
 import threading
 from datetime import timedelta
 from typing import Literal
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends
-from pydantic import Field, model_validator
+from pydantic import Field, ValidationError, model_validator
 
 from .calendar import iso
 from .computer import (
@@ -25,6 +26,7 @@ from .computer import (
     VerificationReceipt,
     accept_owner_folder,
 )
+from .linux_desktop import LinuxDesktopExecutor
 from .schemas import StrictModel
 from .store import DomainError, encode
 
@@ -33,14 +35,20 @@ TERMINAL = {"succeeded", "failed", "cancelled", "expired"}
 
 NOTE_ACTIONS = {"save_note", "verify_note"}
 FOLDER_ACTIONS = {"save_folder_file", "verify_folder_file"}
-WRITE_ACTIONS = {"save_note", "save_folder_file"}
-CHECK_ACTIONS = {"verify_note", "verify_folder_file"}
+DESKTOP_ACTIONS = {"linux_note_preview", "verify_linux_file"}
+WRITE_ACTIONS = {"save_note", "save_folder_file", "linux_note_preview"}
+CHECK_ACTIONS = {"verify_note", "verify_folder_file", "verify_linux_file"}
 
 
 class JobInput(StrictModel):
-    action: Literal["save_note", "verify_note", "save_folder_file", "verify_folder_file"] = (
-        "save_note"
-    )
+    action: Literal[
+        "save_note",
+        "verify_note",
+        "save_folder_file",
+        "verify_folder_file",
+        "linux_note_preview",
+        "verify_linux_file",
+    ] = "save_note"
     title: str = Field(min_length=1, max_length=120)
     content: str = Field(default="", max_length=8000)
     source_job_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
@@ -63,6 +71,48 @@ class JobInput(StrictModel):
         if self.action in CHECK_ACTIONS and (not self.source_job_id or self.content):
             raise ValueError("Verification requires a saved job, without replacement text")
         return self
+
+
+def validate_saved_request(request: dict) -> dict:
+    """Backups carry completed intents, including verification's adopted content."""
+    required = set(JobInput.model_fields) | {"artifact_id", "executor", "scope"}
+    extras = {"folder_label", "folder_fingerprint"}
+    if not required <= request.keys() or set(request) - required - extras:
+        raise ValueError("Incomplete job intent")
+    public = {key: request[key] for key in JobInput.model_fields}
+    if request["action"] in CHECK_ACTIONS:
+        public["content"] = ""
+    try:
+        JobInput.model_validate(public)
+    except ValidationError:
+        raise ValueError("Invalid job intent") from None
+    if (
+        not isinstance(request["content"], str)
+        or not 1 <= len(request["content"].encode("utf-8")) <= 32000
+    ):
+        raise ValueError("Invalid job content")
+    if not isinstance(request["artifact_id"], str) or not re.fullmatch(
+        r"[a-f0-9]{32}", request["artifact_id"]
+    ):
+        raise ValueError("Invalid artifact id")
+    if request["action"] in FOLDER_ACTIONS:
+        fingerprint = request.get("folder_fingerprint")
+        if (
+            not isinstance(fingerprint, str)
+            or not re.fullmatch(r"[a-f0-9]{64}", fingerprint)
+            or not isinstance(request.get("folder_label"), str)
+            or not 1 <= len(request["folder_label"].strip()) <= 80
+            or request["executor"] != FolderDropExecutor.identity
+            or request["scope"] != "owner_folder:" + fingerprint
+        ):
+            raise ValueError("Invalid folder intent")
+    else:
+        executor = (
+            LinuxDesktopExecutor if request["action"] in DESKTOP_ACTIONS else LocalNotesExecutor
+        )
+        if request["executor"] != executor.identity or request["scope"] != executor.scope:
+            raise ValueError("Invalid executor intent")
+    return dict(request)
 
 
 class FolderNaming(StrictModel):
@@ -96,6 +146,7 @@ class JobService:
         self.runtime, self.store = runtime, runtime.store
         self.executor = executor or LocalNotesExecutor(self.store.directory)
         self.folder = FolderDropExecutor(self.folder_config)
+        self.desktop = LinuxDesktopExecutor(self.store.directory)
         self.enabled = os.environ.get("DESK_COMPUTER_ENABLED") == "1"
         self.run_lock = threading.Lock()
         self.stopping = False
@@ -125,6 +176,7 @@ class JobService:
     def capabilities(self):
         cfg = self.folder_config()
         return {
+            "desktop": self.desktop.status(),
             "enabled": self.enabled,
             "executor": self.executor.identity,
             "scope": self.executor.scope,
@@ -161,7 +213,14 @@ class JobService:
         return (
             (NOTE_ACTIONS, self._notes_executor),
             (FOLDER_ACTIONS, self._folder_executor),
+            (DESKTOP_ACTIONS, self._desktop_executor),
         )
+
+    def _desktop_executor(self, preparing):
+        del preparing
+        if not self.desktop.status()["ready"]:
+            raise DomainError("LINUX_DESKTOP_UNAVAILABLE", 409)
+        return self.desktop
 
     def _notes_executor(self, preparing):
         del preparing
@@ -301,7 +360,12 @@ class JobService:
                 request.update(executor=self.executor.identity, scope=self.executor.scope)
                 if payload.action == "verify_note":
                     self._adopt_source(conn, payload.source_job_id, request, "save_note")
-            else:
+            elif payload.action in DESKTOP_ACTIONS:
+                self._desktop_executor(True)
+                request.update(executor=self.desktop.identity, scope=self.desktop.scope)
+                if payload.action == "verify_linux_file":
+                    self._adopt_source(conn, payload.source_job_id, request, "linux_note_preview")
+            elif payload.action in FOLDER_ACTIONS:
                 cfg = self.folder_config(conn)
                 if not cfg:
                     raise DomainError("FOLDER_NOT_CONFIGURED", 409)
@@ -313,6 +377,10 @@ class JobService:
                 )
                 if payload.action == "verify_folder_file":
                     self._adopt_source(conn, payload.source_job_id, request, "save_folder_file")
+            else:
+                # JobInput's literal is the public contract. Anything else must not
+                # fall through into the folder executor.
+                raise DomainError("COMPUTER_ACTION_DENIED", 403)
             fingerprint = hashlib.sha256(encode(request).encode()).hexdigest()
             now = iso(self.store.clock())
             conn.execute(
@@ -395,6 +463,11 @@ class JobService:
             self._executor(request).verify(request)
         ).model_dump(exclude_none=True)
         if receipt["verified"]:
+            if request["action"] == "linux_note_preview" and receipt.get("apps_verified") != [
+                "mousepad",
+                "chromium",
+            ]:
+                raise ValueError("Both approved applications require observed completion")
             expected = request["content"].encode("utf-8")
             if (
                 receipt["artifact"] != request["artifact_id"] + ".txt"
@@ -532,6 +605,200 @@ class JobService:
             return {"configured": False, "label": None, "path": None}
 
         return self.store.operation(key, {"type": "computer_folder_clear"}, apply)
+
+    def export(self):
+        """Job records and the chosen folder. Run tokens are left out."""
+        with self.store.connection() as conn:
+            jobs = []
+            events = []
+            for row in conn.execute("SELECT * FROM computer_jobs ORDER BY created_at, id"):
+                request = json.loads(row["request"])
+                jobs.append(
+                    {
+                        "id": row["id"],
+                        "request": request,
+                        "intent_hash": row["intent_hash"],
+                        "state": row["state"],
+                        "version": row["version"],
+                        "created_at": row["created_at"],
+                        "updated_at": row["updated_at"],
+                        "expires_at": row["expires_at"],
+                        "deadline": row["deadline"],
+                        "error": row["error"],
+                        "result": json.loads(row["result"]) if row["result"] else None,
+                    }
+                )
+                events.extend(
+                    {
+                        "job_id": item["job_id"],
+                        "at": item["at"],
+                        "state": item["state"],
+                        "code": item["code"],
+                    }
+                    for item in conn.execute(
+                        "SELECT job_id, at, state, code FROM computer_job_events "
+                        "WHERE job_id=? ORDER BY sequence DESC LIMIT 20",
+                        (row["id"],),
+                    )
+                )
+            folder_row = conn.execute(
+                "SELECT label, path, fingerprint, updated_at FROM computer_folder WHERE id=1"
+            ).fetchone()
+        folder = dict(folder_row) if folder_row else None
+        return {"jobs": jobs, "events": events, "folder": folder}
+
+    @staticmethod
+    def validate_backup(bundle):
+        if bundle is None:
+            bundle = {"jobs": [], "events": [], "folder": None}
+        if not isinstance(bundle, dict):
+            raise ValueError("Invalid job backup")
+        rows, events = bundle.get("jobs", []), bundle.get("events", [])
+        if (
+            not isinstance(rows, list)
+            or not isinstance(events, list)
+            or len(rows) > 1000
+            or len(events) > 20000
+        ):
+            raise ValueError("Invalid job backup")
+        known = set(TERMINAL) | {
+            "review",
+            "queued",
+            "running",
+            "verifying",
+            "unknown",
+            "cancel_requested",
+        }
+        jobs, identifiers = [], set()
+        for row in rows:
+            if not isinstance(row, dict):
+                raise ValueError("Invalid job backup")
+            job_id = row.get("id")
+            request = row.get("request")
+            if (
+                not isinstance(job_id, str)
+                or len(job_id) != 32
+                or any(char not in "0123456789abcdef" for char in job_id)
+                or job_id in identifiers
+                or not isinstance(request, dict)
+                or request.get("action") not in NOTE_ACTIONS | FOLDER_ACTIONS | DESKTOP_ACTIONS
+                or row.get("state") not in known
+                or not isinstance(row.get("intent_hash"), str)
+                or len(row["intent_hash"]) != 64
+            ):
+                raise ValueError("Invalid job backup")
+            request = validate_saved_request(request)
+            if row["intent_hash"] != hashlib.sha256(encode(request).encode()).hexdigest():
+                raise ValueError("Invalid job intent hash")
+            identifiers.add(job_id)
+            jobs.append(
+                {
+                    "id": job_id,
+                    "request": request,
+                    "intent_hash": row["intent_hash"],
+                    "state": row["state"],
+                    "version": row.get("version") if isinstance(row.get("version"), int) else 0,
+                    "created_at": str(row.get("created_at") or "")[:40],
+                    "updated_at": str(row.get("updated_at") or "")[:40],
+                    "expires_at": str(row.get("expires_at") or "")[:40],
+                    "deadline": row.get("deadline"),
+                    "error": row.get("error") if isinstance(row.get("error"), str) else None,
+                    "result": row.get("result") if isinstance(row.get("result"), dict) else None,
+                }
+            )
+        kept_events = []
+        for item in events:
+            if not isinstance(item, dict):
+                raise ValueError("Invalid job backup")
+            if item.get("job_id") not in identifiers or item.get("state") not in known:
+                raise ValueError("Invalid job backup")
+            kept_events.append(
+                {
+                    "job_id": item["job_id"],
+                    "at": str(item.get("at") or "")[:40],
+                    "state": item["state"],
+                    "code": item.get("code") if isinstance(item.get("code"), str) else None,
+                }
+            )
+        folder = bundle.get("folder")
+        if folder is not None:
+            if (
+                not isinstance(folder, dict)
+                or not isinstance(folder.get("label"), str)
+                or not isinstance(folder.get("path"), str)
+                or not isinstance(folder.get("fingerprint"), str)
+                or not 1 <= len(folder["label"]) <= 80
+                or not 1 <= len(folder["path"]) <= 4096
+                or "\x00" in folder["path"]
+                or len(folder["fingerprint"]) != 64
+            ):
+                raise ValueError("Invalid job backup")
+            folder = {
+                "label": folder["label"],
+                "path": folder["path"],
+                "fingerprint": folder["fingerprint"],
+                "updated_at": str(folder.get("updated_at") or "")[:40],
+            }
+        return {"jobs": jobs, "events": kept_events, "folder": folder}
+
+    def restore(self, conn, bundle):
+        """Insert missing jobs. A job that was still running comes back as a review."""
+        created = []
+        kept = 0
+        existing = conn.execute("SELECT COUNT(*) FROM computer_jobs").fetchone()[0]
+        incoming = []
+        for row in bundle["jobs"]:
+            if conn.execute("SELECT 1 FROM computer_jobs WHERE id=?", (row["id"],)).fetchone():
+                kept += 1
+                continue
+            incoming.append(row)
+        if existing + len(incoming) > 1000:
+            raise DomainError("JOB_LIMIT", 429)
+        for row in incoming:
+            state = row["state"] if row["state"] in TERMINAL else "review"
+            conn.execute(
+                "INSERT INTO computer_jobs("
+                "id, request, intent_hash, state, version, created_at, updated_at, expires_at, "
+                "deadline, approved_by, run_id, cancel_requested, result, error"
+                ") VALUES(?,?,?,?,?,?,?,?,?,NULL,NULL,0,?,?)",
+                (
+                    row["id"],
+                    encode(row["request"]),
+                    row["intent_hash"],
+                    state,
+                    max(row["version"], 0),
+                    row["created_at"],
+                    row["updated_at"],
+                    row["expires_at"],
+                    row["deadline"],
+                    encode(row["result"]) if row["result"] is not None else None,
+                    row["error"],
+                ),
+            )
+            created.append(row["id"])
+        created_ids = set(created)
+        for item in bundle["events"]:
+            if item["job_id"] not in created_ids:
+                continue
+            conn.execute(
+                "INSERT INTO computer_job_events(job_id, at, state, code) VALUES(?,?,?,?)",
+                (item["job_id"], item["at"], item["state"], item["code"]),
+            )
+        folder = bundle.get("folder")
+        if folder and not conn.execute("SELECT 1 FROM computer_folder WHERE id=1").fetchone():
+            path, fingerprint = accept_owner_folder(folder["path"], self.store.directory)
+            if fingerprint != folder["fingerprint"]:
+                raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
+            conn.execute(
+                "INSERT INTO computer_folder(id,label,path,fingerprint,updated_at) VALUES(1,?,?,?,?)",
+                (
+                    folder["label"],
+                    path,
+                    fingerprint,
+                    folder["updated_at"] or iso(self.store.clock()),
+                ),
+            )
+        return {"created": len(created), "kept": kept}
 
 
 def job_routes(runtime, owner, operation_id):

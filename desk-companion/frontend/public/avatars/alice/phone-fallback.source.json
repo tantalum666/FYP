@@ -1,0 +1,10 @@
+{
+  "file": "phone-fallback.jpg",
+  "source_render": "output/qa/2026-10-22-alice-software/clean-alice.jpg",
+  "sha256": "afd790cde3be69c88c3a870ffadc8edfb619619908a35f3849db9fd83c1b6544",
+  "author": "edisonlee55 / yuna0x0",
+  "model": "Alice Chan (Uniform ver.)",
+  "license": "CC-BY-SA-4.0",
+  "source": "https://github.com/yuna0x0/AliceChan",
+  "changes": "Existing project render copied without image editing. Used for reduced motion and renderer failure."
+}

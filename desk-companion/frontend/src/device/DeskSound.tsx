@@ -3,7 +3,11 @@ import { DateTime } from "luxon";
 import { request } from "../api";
 import type { Translate } from "../types";
 interface Announcement {
-  kind: "reminder" | "brief" | "posture" | "task";
+  kind: "reminder" | "brief" | "posture" | "task" | "evening" | "notice";
+  body_en?: string;
+  body_zh?: string;
+  reason_en?: string;
+  reason_zh?: string;
   position?: string;
   title?: string;
   redacted?: boolean;
@@ -73,7 +77,13 @@ export function useDeskSound(t: Translate) {
         oscillator.connect(gain).connect(ctx.destination);
         oscillator.start();
         oscillator.stop(ctx.currentTime + 0.5);
-        if (a.kind === "brief" || a.kind === "posture" || a.kind === "task") {
+        if (
+          a.kind === "brief" ||
+          a.kind === "posture" ||
+          a.kind === "task" ||
+          a.kind === "evening" ||
+          a.kind === "notice"
+        ) {
           const text = (a.events ?? [])
             .map(
               (e) =>
@@ -81,7 +91,14 @@ export function useDeskSound(t: Translate) {
             )
             .join(". ");
           const full =
-            a.kind === "task"
+            a.kind === "notice"
+              ? t(a.body_en ?? a.reason_en ?? "Check-in.", a.body_zh ?? a.reason_zh ?? "检查。")
+              : a.kind === "evening"
+              ? t(
+                  a.reason_en ?? "Evening check-in.",
+                  a.reason_zh ?? "晚间检查。",
+                )
+              : a.kind === "task"
               ? t(
                   "A task is ready for a progress update.",
                   "有一件事需要更新进展。",

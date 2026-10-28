@@ -212,7 +212,15 @@ class ExchangeService:
             },
         )
 
-    def apply(self, preview_id, payload, key):
+    def apply(self, preview_id, payload, key, *, allow_backup=True):
+        # Check before Store.operation can return a cached private restore receipt.
+        with self.store.connection() as conn:
+            source = conn.execute(
+                "SELECT kind FROM import_previews WHERE id=?", (preview_id,)
+            ).fetchone()
+            if source and source["kind"] == "backup" and not allow_backup:
+                raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
+
         def apply(conn):
             row = conn.execute("SELECT * FROM import_previews WHERE id=?", (preview_id,)).fetchone()
             if not row or row["expires_at"] <= iso(self.store.clock()) or row["state"] != "pending":
@@ -284,6 +292,31 @@ class ExchangeService:
                 if row["kind"] == "backup"
                 else {"created": 0, "kept": 0}
             )
+            memory_result = (
+                self.runtime.memory.restore(
+                    conn,
+                    preview["metadata"].get("memory_bundle", {"memories": [], "revisions": []}),
+                )
+                if row["kind"] == "backup"
+                else {"created": 0, "kept": 0}
+            )
+            persona_result = (
+                self.runtime.persona.restore(
+                    conn, preview["metadata"].get("persona_bundle", {"persona": None})
+                )
+                if row["kind"] == "backup"
+                else {"created": 0, "kept": 0}
+            )
+            job_result = (
+                self.runtime.jobs.restore(
+                    conn,
+                    preview["metadata"].get(
+                        "job_bundle", {"jobs": [], "events": [], "folder": None}
+                    ),
+                )
+                if row["kind"] == "backup"
+                else {"created": 0, "kept": 0}
+            )
             conn.execute("UPDATE import_previews SET state='applied' WHERE id=?", (preview_id,))
             self.store.record(
                 conn,
@@ -296,6 +329,12 @@ class ExchangeService:
                 "kept": len(rows) - len(selected),
                 "tasks_created": task_result["created"],
                 "tasks_kept": task_result["kept"],
+                "memories_created": memory_result["created"],
+                "memories_kept": memory_result["kept"],
+                "persona_created": persona_result["created"],
+                "persona_kept": persona_result["kept"],
+                "jobs_created": job_result["created"],
+                "jobs_kept": job_result["kept"],
                 "applied": True,
             }
 
@@ -373,6 +412,9 @@ class ExchangeService:
                 "calendar_settings": self.store.settings(conn),
                 "workspace_preferences": self.runtime.data.preferences(),
                 "task_bundle": self.runtime.tasks.export(),
+                "memory_bundle": self.runtime.memory.export(),
+                "persona_bundle": self.runtime.persona.export(),
+                "job_bundle": self.runtime.jobs.export(),
             }
         return {
             "format": "desk-companion-backup",
@@ -393,6 +435,15 @@ class ExchangeService:
             if len(content["events"]) > 500:
                 raise ValueError()
             task_bundle = self.runtime.tasks.validate_backup(content.get("task_bundle", {}))
+            memory_bundle = self.runtime.memory.validate_backup(
+                content.get("memory_bundle", {"memories": [], "revisions": []})
+            )
+            persona_bundle = self.runtime.persona.validate_backup(
+                content.get("persona_bundle", {"persona": None})
+            )
+            job_bundle = self.runtime.jobs.validate_backup(
+                content.get("job_bundle", {"jobs": [], "events": [], "folder": None})
+            )
             rows, ids = [], set()
             from .calendar import is_occurrence
 
@@ -439,6 +490,14 @@ class ExchangeService:
                 "task_bundle": task_bundle,
                 "tasks_count": len(task_bundle["tasks"]),
                 "task_followups": "restored_paused",
+                "memory_bundle": memory_bundle,
+                "memories_count": len(memory_bundle["memories"]),
+                "memory_restore": "merge_keep_existing",
+                "persona_bundle": persona_bundle,
+                "persona_restore": "merge_keep_existing",
+                "job_bundle": job_bundle,
+                "jobs_count": len(job_bundle["jobs"]),
+                "job_restore": "merge_keep_existing_running_becomes_review",
             },
         )
 

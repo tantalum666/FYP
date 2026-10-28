@@ -82,16 +82,18 @@ export function DeviceLogin({
           type="password"
           autoComplete="current-password"
           required
+          aria-invalid={!!error}
+          aria-describedby={error ? "device-login-error" : undefined}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
       {!!error && (
-        <p className="error-message" role="alert">
+        <p id="device-login-error" className="error-message" role="alert">
           {errorText(error, t)}
         </p>
       )}
-      <button className="primary" disabled={busy}>
+      <button className="primary" disabled={busy} aria-busy={busy}>
         {busy ? t("Signing in…", "登录中…") : t("Sign in", "登录")}
       </button>
     </form>

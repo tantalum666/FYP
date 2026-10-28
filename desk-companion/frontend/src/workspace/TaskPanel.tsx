@@ -433,11 +433,13 @@ export function TaskPanel({
   t,
   zone = "Asia/Hong_Kong",
   onPlan,
+  onDiscuss,
   displayMode = false,
 }: {
   t: Translate;
   zone?: string;
   onPlan?: (event: EventInput) => void;
+  onDiscuss?: (id: string, title: string) => void;
   displayMode?: boolean;
 }) {
   const workspace = useWorkspace();
@@ -721,6 +723,11 @@ export function TaskPanel({
             <aside className="task-checkin">
               <strong>{t("Time for an update", "更新一下进展")}</strong>
               <p>{t(task.followup.en, task.followup.zh)}</p>
+              {task.followup.reason_en && (
+                <small>
+                  {t(task.followup.reason_en, task.followup.reason_zh ?? "")}
+                </small>
+              )}
               <small>
                 {task.followup.mode === "ai"
                   ? t(
@@ -766,10 +773,10 @@ export function TaskPanel({
             <Clock3 size={15} />{" "}
             {!openTask(task)
               ? t("Follow-ups ended", "跟进已结束")
-              : task.paused
-                ? t("Follow-ups paused", "跟进已暂停")
-                : !task.follow_up_enabled
-                  ? t("Follow-ups off", "跟进未开启")
+              : !task.follow_up_enabled
+                ? t("Follow-ups off", "跟进未开启")
+                : task.paused
+                  ? t("Follow-ups paused", "跟进已暂停")
                   : task.followup
                     ? t("Waiting for your update", "等待你更新进展")
                     : t("Next check-in: ", "下次检查：") +
@@ -805,7 +812,11 @@ export function TaskPanel({
                 <button
                   className="secondary"
                   disabled={busy || offline}
-                  onClick={() => setAssistant(task.id)}
+                  onClick={() =>
+                    onDiscuss
+                      ? onDiscuss(task.id, task.title)
+                      : setAssistant(task.id)
+                  }
                 >
                   <Sparkles size={16} />
                   {t("Discuss this task", "讨论这件事")}
@@ -826,26 +837,38 @@ export function TaskPanel({
                   <Pencil size={16} />
                   {t("Edit", "编辑")}
                 </button>
-                <button
-                  className="secondary"
-                  disabled={busy || offline}
-                  onClick={() => void action("snooze", 60)}
-                >
-                  {t("Check in in 1 hour", "1小时后检查")}
-                </button>
-                <button
-                  className="secondary"
-                  disabled={busy || offline}
-                  onClick={() =>
-                    void action(task.paused ? "resume" : "pause", 60)
-                  }
-                >
-                  <Pause size={16} />
-                  {task.paused
-                    ? t("Resume in 1 hour", "1小时后恢复")
-                    : t("Pause follow-ups", "暂停跟进")}
-                </button>
+                {task.follow_up_enabled && (
+                  <>
+                    <button
+                      className="secondary"
+                      disabled={busy || offline}
+                      onClick={() => void action("snooze", 60)}
+                    >
+                      {t("Check in in 1 hour", "1小时后检查")}
+                    </button>
+                    <button
+                      className="secondary"
+                      disabled={busy || offline}
+                      onClick={() =>
+                        void action(task.paused ? "resume" : "pause", 60)
+                      }
+                    >
+                      <Pause size={16} />
+                      {task.paused
+                        ? t("Resume in 1 hour", "1小时后恢复")
+                        : t("Pause follow-ups", "暂停跟进")}
+                    </button>
+                  </>
+                )}
               </div>
+              {!task.follow_up_enabled && (
+                <p className="workspace-hint">
+                  {t(
+                    "Use Edit to turn on follow-ups for this task.",
+                    "如需定时跟进，可以在编辑中开启。",
+                  )}
+                </p>
+              )}
               {onPlan && (
                 <button
                   className="text-button"

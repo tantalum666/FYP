@@ -349,6 +349,7 @@ dependencies = [
     { name = "icalendar" },
     { name = "pwdlib", extra = ["argon2"] },
     { name = "python-dateutil" },
+    { name = "python-socks" },
     { name = "recurring-ical-events" },
     { name = "uvicorn" },
     { name = "websockets" },
@@ -383,6 +384,7 @@ requires-dist = [
     { name = "mediapipe", marker = "sys_platform == 'linux' and extra == 'vision'", specifier = "==1.0.1" },
     { name = "pwdlib", extras = ["argon2"], specifier = ">=0.2,<1" },
     { name = "python-dateutil", specifier = ">=2.9,<4" },
+    { name = "python-socks", extras = ["asyncio"], specifier = ">=2.8,<3" },
     { name = "recurring-ical-events", specifier = ">=3,<4" },
     { name = "sentencepiece", marker = "extra == 'audio'", specifier = ">=0.2,<1" },
     { name = "sherpa-onnx", marker = "extra == 'audio'", specifier = "==1.13.8" },
@@ -1027,6 +1029,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/66/c0/0c8b6ad9f17a802ee498c46e004a0eb49bc148f2fd230864601a86dcf6db/python-dateutil-2.9.0.post0.tar.gz", hash = "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3", size = 342432, upload-time = "2024-03-01T18:36:20.211Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ec/57/56b9bcc3c9c6a792fcbaf139543cee77261f3651ca9da0c93f5c1221264b/python_dateutil-2.9.0.post0-py2.py3-none-any.whl", hash = "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427", size = 229892, upload-time = "2024-03-01T18:36:18.57Z" },
+]
+
+[[package]]
+name = "python-socks"
+version = "2.8.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/db/ad/5bbfab3d3a266963cca0c09e23a725bbf5f0535d21c8bd1d5272e4430771/python_socks-2.8.2.tar.gz", hash = "sha256:ffc493951854fa3fc0551e0434a09a7b9f9047f9ad666dce42cb94a52e8a34b6", size = 39656, upload-time = "2026-06-23T05:22:01.994Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3d/18/23b981b1cf58c1e7b7e36fa1392daf12878b6a3c26c5e4248601647a6d09/python_socks-2.8.2-py3-none-any.whl", hash = "sha256:7cf785d0631e0659384a773b3c402bc22cccdc23894ba1d65f8524748ace1193", size = 55501, upload-time = "2026-06-23T05:22:00.658Z" },
 ]
 
 [[package]]

@@ -1,0 +1,19 @@
+{
+  "event": {
+    "title": "Maintenance QA — Shared editor",
+    "version": 1,
+    "start_local": "2026-10-29T14:00:00",
+    "end_local": "2026-10-29T15:00:00",
+    "visibility": "private",
+    "reminder_minutes": [
+      10
+    ]
+  },
+  "unique_event": true,
+  "task_version": 1,
+  "task_status": "todo",
+  "cancelled_drafts_not_written": true,
+  "pending_proposals": 0,
+  "voice_configured": false,
+  "text_ai_configured": false
+}

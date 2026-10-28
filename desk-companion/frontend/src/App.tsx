@@ -6,10 +6,10 @@ import {
   FileText,
   Globe,
   House,
+  Activity,
   Brain,
   ListTodo,
   LoaderCircle,
-  Monitor,
   Sparkles,
   RefreshCw,
   Settings as SettingsIcon,
@@ -22,18 +22,9 @@ import {
   request,
   retryPending,
 } from "./api";
+import { DiagnosticsPanel } from "./diagnostics.tsx";
 import { dayISO, savedEventPosition, viewRange } from "./dates";
-import { editable } from "./types";
-import type {
-  EventInput,
-  Language,
-  Occurrence,
-  Page,
-  Session,
-  Snapshot,
-  Translate,
-  View,
-} from "./types";
+import type { Language, Page, Snapshot, Translate, View } from "./types";
 import {
   CalendarToolbar,
   MiniMonth,
@@ -48,136 +39,32 @@ import {
 } from "./components/Dialogs";
 import { useDraftState } from "./components/DraftGuard";
 import { MemoryPanel } from "./workspace/MemoryPanel";
+import { MomentCard } from "./workspace/MomentCard";
+import { NoticeInbox } from "./workspace/NoticeInbox";
 import { PersonaPanel } from "./workspace/PersonaPanel";
 import { TaskPanel } from "./workspace/TaskPanel";
 import { DataPanel } from "./workspace/DataPanel";
+import { PageCompanion } from "./companion/PageCompanion";
 import { AssistantPanel } from "./workspace/AssistantPanel";
 import { ExtrasPanel } from "./workspace/ExtrasPanel";
 import { PosturePanel } from "./workspace/PosturePanel";
-import { ConnectionsPanel, PairDeviceForm } from "./workspace/ConnectionsPanel";
-import type { EditorState } from "./components/Dialogs";
+import { ConnectionsPanel } from "./workspace/ConnectionsPanel";
+import { useCalendarEditor } from "./components/useCalendarEditor";
 import { DeviceView, RecordsView, TodayView } from "./components/Views";
-import { isNative } from "./native";
-
-function LoginView({
-  t,
-  language,
-  setLanguage,
-  onLogin,
-}: {
-  t: Translate;
-  language: Language;
-  setLanguage: (l: Language) => void;
-  onLogin: (s: Session) => void;
-}) {
-  const [username, setUsername] = useState("owner"),
-    [password, setPassword] = useState(""),
-    [busy, setBusy] = useState(false),
-    [error, setError] = useState<unknown>(null);
-  const [pairing, setPairing] = useState(false);
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    setBusy(true);
-    setError(null);
-    try {
-      await request("/session", {
-        method: "POST",
-        body: JSON.stringify({ username, password }),
-      });
-      onLogin(await request<Session>("/session"));
-    } catch (e) {
-      setError(e);
-    } finally {
-      setBusy(false);
-    }
-  }
-  return (
-    <main className="login-page">
-      <div className="login-top">
-        <strong>Desk Companion</strong>
-        <select
-          value={language}
-          aria-label="Language"
-          onChange={(e) => setLanguage(e.target.value as Language)}
-        >
-          <option value="en">English</option>
-          <option value="zh">简体中文</option>
-        </select>
-      </div>
-      <form className="login-form" onSubmit={submit}>
-        <CalendarDays size={34} strokeWidth={1.5} />
-        <h1>{t("Your day starts here.", "从容安排每一天。")}</h1>
-        <p>
-          {t(
-            "Sign in to your local desk workspace.",
-            "登录你的本地桌面工作空间。",
-          )}
-        </p>
-        <label className="field">
-          {t("Username", "账号")}
-          <input
-            autoComplete="username"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </label>
-        <label className="field">
-          {t("Password", "密码")}
-          <input
-            type="password"
-            autoComplete="current-password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-        {!!error && (
-          <p className="error-message" role="alert">
-            {errorText(error, t)}
-          </p>
-        )}
-        <button className="primary" disabled={busy}>
-          {busy ? t("Signing in…", "登录中…") : t("Sign in", "登录")}
-        </button>
-      </form>
-      <button
-        className="text-button pair-login-link"
-        onClick={() => setPairing(true)}
-      >
-        {t("Pair with an existing desk", "与已有桌面设备配对")}
-      </button>
-      {pairing && (
-        <>
-          <Modal
-            title={t("Pair this screen", "配对本终端")}
-            closeLabel={t("Close", "关闭")}
-            onClose={() => setPairing(false)}
-          >
-            <PairDeviceForm t={t} onPaired={onLogin} />
-          </Modal>
-        </>
-      )}
-      {isNative && (
-        <button
-          className="text-button pair-login-link"
-          onClick={() => window.dispatchEvent(new Event("desk:change-server"))}
-        >
-          {t("Change desk address", "更换桌面地址")}
-        </button>
-      )}
-    </main>
-  );
-}
+import { LoginView } from "./components/LoginView";
+import { useWorkspaceSession } from "./useWorkspaceSession";
+import { classifyFailure } from "./surfaceStatus";
+import { failureNotice, loadingNotice, offlineNotice } from "./surfaceNotice";
 
 const nav = [
   { id: "today", en: "Today", zh: "今天", Icon: House },
   { id: "calendar", en: "Calendar", zh: "日历", Icon: CalendarDays },
   { id: "tasks", en: "Tasks", zh: "事务", Icon: ListTodo },
   { id: "memory", en: "Memory", zh: "记忆", Icon: Brain },
-  { id: "persona", en: "Persona", zh: "人格", Icon: Sparkles },
+  { id: "persona", en: "Style", zh: "风格", Icon: Sparkles },
   { id: "records", en: "Records", zh: "记录", Icon: FileText },
-  { id: "device", en: "Device", zh: "设备", Icon: Monitor },
+  { id: "device", en: "Settings", zh: "设置", Icon: SettingsIcon },
+  { id: "diagnostics", en: "Diagnostics", zh: "诊断", Icon: Activity },
 ] as const;
 
 export function App() {
@@ -208,7 +95,9 @@ export function App() {
         : "week",
   );
   const deviceLayout = query.get("surface") === "device";
-  const [session, setSession] = useState<Session | null | undefined>(undefined);
+  const pages = nav.filter(
+    (item) => item.id !== "diagnostics" || !deviceLayout,
+  );
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null),
     [connection, setConnection] = useState<"connecting" | "online" | "offline">(
       "connecting",
@@ -222,19 +111,61 @@ export function App() {
   const [now, setNow] = useState(DateTime.now()),
     [nonce, setNonce] = useState(0),
     [notice, setNotice] = useState("");
-  const [editor, setEditor] = useState<EditorState | null>(null),
-    [detail, setDetail] = useState<Occurrence | null>(null),
-    [showReminders, setShowReminders] = useState(false);
+  const [showReminders, setShowReminders] = useState(false);
   const [filters, setFilters] = useState({ personal: true, study: true });
   const [error, setError] = useState<unknown>(null),
     [recovering, setRecovering] = useState(false);
+  const {
+    session,
+    setSession,
+    recoverSession,
+    expired: sessionExpired,
+  } = useWorkspaceSession(setError);
   const currentRevision = useRef(0);
   const needsRefresh = useRef(false);
   const [loadedRange, setLoadedRange] = useState("");
   const [scrollHour, setScrollHour] = useState(8);
   const [workspacePanel, setWorkspacePanel] = useState<
-    "posture" | "connections" | "assistant" | "extras" | "data" | null
+    "posture" | "connections" | "extras" | "data" | null
   >(null);
+  const [assistantOpen, setAssistantOpen] = useState(false);
+  const [assistantTask, setAssistantTask] = useState<{
+    id: string;
+    title: string;
+  }>();
+  useEffect(() => {
+    if (session === null) {
+      setAssistantOpen(false);
+      setAssistantTask(undefined);
+    }
+  }, [session]);
+  const [wideWorkspace, setWideWorkspace] = useState(
+    () => matchMedia("(min-width: 1200px)").matches,
+  );
+  const assistantDocked = assistantOpen && wideWorkspace;
+  const openAssistant = () => {
+    if (!assistantOpen) setAssistantTask(undefined);
+    setAssistantOpen(true);
+  };
+  const discussTask = (id: string, title: string) => {
+    if (assistantOpen && assistantTask?.id !== id) {
+      setNotice(
+        t(
+          "Close the current assistant before starting a task discussion.",
+          "请先关闭当前助理，再开始这件事务的讨论。",
+        ),
+      );
+      return;
+    }
+    setAssistantTask({ id, title });
+    setAssistantOpen(true);
+  };
+  useEffect(() => {
+    const media = matchMedia("(min-width: 1200px)");
+    const update = () => setWideWorkspace(media.matches);
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
   const zone =
     snapshot?.settings.timezone ??
     session?.settings.timezone ??
@@ -248,6 +179,13 @@ export function App() {
   const startISO = range.start.toUTC().toISO()!,
     endISO = range.end.toUTC().toISO()!;
   const refresh = useCallback(() => setNonce((n) => n + 1), []);
+  const { editor, setEditor, detail, setDetail, newEvent, editEvent } =
+    useCalendarEditor({
+      selectedDate: page === "today" ? dayISO(today) : anchorDate,
+      now,
+      zone,
+      onError: setError,
+    });
   const intentHandled = useRef(false);
   useEffect(() => {
     if (
@@ -284,22 +222,16 @@ export function App() {
     const timer = setInterval(() => setNow(DateTime.now()), 15000);
     return () => clearInterval(timer);
   }, []);
-  useEffect(() => {
-    let alive = true;
-    request<Session>("/session")
-      .then((s) => {
-        if (alive) setSession(s);
-      })
-      .catch((e) => {
-        if (alive) {
-          setSession(null);
-          if (!(e instanceof ApiError && e.status === 401)) setError(e);
-        }
-      });
-    return () => {
-      alive = false;
-    };
-  }, []);
+
+  function failOwnerRequest(error: unknown) {
+    const kind = classifyFailure(error, !!session);
+    if (kind === "session-expired" || kind === "signed-out")
+      void recoverSession();
+    else if (kind === "error") {
+      setError(error);
+      setConnection("online");
+    } else setConnection("offline");
+  }
   useEffect(() => {
     if (!session) return;
     let active = true;
@@ -318,15 +250,13 @@ export function App() {
       .catch((e) => {
         if (active) {
           needsRefresh.current = true;
-          setConnection("offline");
-          if (e instanceof ApiError && e.status === 401) setSession(null);
-          else if (e instanceof ApiError && e.status) setError(e);
+          failOwnerRequest(e);
         }
       });
     return () => {
       active = false;
     };
-  }, [session, startISO, endISO, nonce]);
+  }, [session, startISO, endISO, nonce, recoverSession]);
   useEffect(() => {
     if (!session) return;
     let active = true,
@@ -346,8 +276,7 @@ export function App() {
       } catch (e) {
         if (active) {
           needsRefresh.current = true;
-          setConnection("offline");
-          if (e instanceof ApiError && e.status === 401) setSession(null);
+          failOwnerRequest(e);
         }
       } finally {
         working = false;
@@ -365,7 +294,7 @@ export function App() {
       window.removeEventListener("focus", onFocus);
       document.removeEventListener("visibilitychange", onVisible);
     };
-  }, [session, refresh]);
+  }, [session, refresh, recoverSession]);
   useEffect(() => {
     const p = new URLSearchParams(location.search);
     p.set("page", page);
@@ -406,63 +335,16 @@ export function App() {
     setAnchorDate(dayISO(next));
     setPickerDate(dayISO(next));
   }
-  function newEvent() {
-    if (pendingWrite()) {
-      setError(new ApiError("PENDING_WRITE"));
+  async function logout() {
+    if (assistantOpen) {
+      setNotice(
+        t(
+          "Close the assistant before signing out.",
+          "请先关闭助理，再退出登录。",
+        ),
+      );
       return;
     }
-    const day = page === "today" ? today : anchor;
-    const start = day.set({
-      hour: Math.min(22, Math.max(9, now.setZone(zone).hour + 1)),
-      minute: 0,
-    });
-    setEditor({
-      scope: "series",
-      initial: {
-        title: "",
-        start_local: start.toFormat("yyyy-MM-dd'T'HH:mm"),
-        end_local: start.plus({ hours: 1 }).toFormat("yyyy-MM-dd'T'HH:mm"),
-        timezone: zone,
-        all_day: false,
-        calendar: "personal",
-        color: "lavender",
-        visibility: "private",
-        busy: true,
-        location: "",
-        notes: "",
-        recurrence: { frequency: "none", interval: 1, until: null },
-        reminder_minutes: [10],
-      },
-    });
-  }
-  async function editEvent(scope: "series" | "occurrence") {
-    if (!detail) return;
-    try {
-      const initial =
-        scope === "series"
-          ? await request<EventInput>(`/events/${detail.id}`)
-          : {
-              ...editable(detail),
-              recurrence: {
-                frequency: "none" as const,
-                interval: 1,
-                until: null,
-              },
-            };
-      setEditor({
-        initial,
-        id: detail.id,
-        version: detail.version,
-        occurrenceKey: detail.occurrence_key,
-        scope,
-        repeating: detail.series_recurrence.frequency !== "none",
-      });
-      setDetail(null);
-    } catch (e) {
-      setError(e);
-    }
-  }
-  async function logout() {
     if (pendingWrite()) {
       setError(new ApiError("PENDING_WRITE"));
       return;
@@ -480,8 +362,17 @@ export function App() {
     setRecovering(true);
     setError(null);
     try {
+      const recoveredChat =
+        pendingWrite()?.path === "/assistant/messages/stream";
       await retryPending();
-      setNotice(t("Save confirmed", "已确认保存"));
+      setNotice(
+        recoveredChat
+          ? t(
+              "Reply recovered. Review any draft before saving.",
+              "回复已恢复。草稿仍需核对后确认保存。",
+            )
+          : t("Save confirmed", "已确认保存"),
+      );
       setEditor(null);
       setDetail(null);
       refresh();
@@ -493,11 +384,9 @@ export function App() {
   }
 
   if (session === undefined)
-    return (
-      <div className="app-loading">
-        <LoaderCircle className="spinner" />
-        <span>{t("Opening your workspace…", "正在打开工作空间…")}</span>
-      </div>
+    return loadingNotice(
+      t("Opening your workspace…", "正在打开工作空间…"),
+      <LoaderCircle className="spinner" aria-hidden="true" />,
     );
   if (session === null)
     return (
@@ -505,6 +394,8 @@ export function App() {
         t={t}
         language={language}
         setLanguage={setLanguage}
+        expired={sessionExpired}
+        startupError={error}
         onLogin={(s) => {
           setSession(s);
           setError(null);
@@ -522,68 +413,93 @@ export function App() {
   const dueCount =
     snapshot?.reminders.filter((r) => r.status === "due").length ?? 0;
   return (
-    <div className={`app-shell ${deviceLayout ? "device-layout" : ""}`}>
+    <div
+      className={`app-shell ${deviceLayout ? "device-layout" : ""} ${assistantDocked ? "assistant-docked" : ""}`}
+    >
       <aside className="sidebar">
         <div className="app-name">
           Desk
           <br />
           Companion
         </div>
-        <nav aria-label={t("Main navigation", "主导航")}>
-          {nav.map(({ id, en, zh, Icon }) => (
-            <button
-              key={id}
-              className={page === id ? "selected" : ""}
-              onClick={() => goPage(id)}
-              aria-current={page === id ? "page" : undefined}
-            >
-              <Icon />
-              {t(en, zh)}
-            </button>
-          ))}
-        </nav>
-        {(page === "today" || page === "calendar") && (
-          <>
-            <MiniMonth
-              anchor={DateTime.fromISO(pickerDate, { zone })}
-              selected={anchor}
-              language={language}
-              onSelect={selectDay}
-              onMonth={(n) =>
-                setPickerDate(
-                  dayISO(
-                    DateTime.fromISO(pickerDate, { zone }).plus({ months: n }),
-                  ),
-                )
-              }
-            />
-            <div className="calendar-filters">
-              <h3>{t("Calendars", "日历分类")}</h3>
-              {(["personal", "study"] as const).map((c) => (
-                <label key={c}>
-                  <span className={`filter-dot ${c}`} />
-                  <span>
-                    {c === "personal"
-                      ? t("Personal", "个人")
-                      : t("Study", "学习")}
-                  </span>
-                  <input
-                    type="checkbox"
-                    checked={filters[c]}
-                    onChange={(e) =>
-                      setFilters({ ...filters, [c]: e.target.checked })
-                    }
-                  />
-                </label>
-              ))}
-              {snapshot?.has_samples && (
-                <p className="sample-note">
-                  {t("Example calendar", "含示例日程")}
-                </p>
-              )}
-            </div>
-          </>
-        )}
+        <div className="sidebar-scroll">
+          <nav aria-label={t("Main navigation", "主导航")}>
+            {pages.map(({ id, en, zh, Icon }, index) => (
+              <div className="sidebar-nav-item" key={id}>
+                {(index === 3 || index === 5) && (
+                  <p className="sidebar-group-label">
+                    {index === 3
+                      ? t("Assistant", "助理")
+                      : t("Workspace", "工作空间")}
+                  </p>
+                )}
+                <button
+                  className={page === id ? "selected" : ""}
+                  onClick={() => goPage(id)}
+                  aria-current={page === id ? "page" : undefined}
+                >
+                  <Icon />
+                  {id === "memory"
+                    ? t("Saved memories", "已保存记忆")
+                    : id === "persona"
+                      ? t("Assistant style", "助理风格")
+                      : t(en, zh)}
+                </button>
+              </div>
+            ))}
+          </nav>
+          {(page === "today" || page === "calendar") && (
+            <details className="sidebar-calendar-tools">
+              <summary>{t("Calendar shortcuts", "日历快捷操作")}</summary>
+              <MiniMonth
+                anchor={DateTime.fromISO(pickerDate, { zone })}
+                selected={anchor}
+                language={language}
+                onSelect={selectDay}
+                onMonth={(n) =>
+                  setPickerDate(
+                    dayISO(
+                      DateTime.fromISO(pickerDate, { zone }).plus({
+                        months: n,
+                      }),
+                    ),
+                  )
+                }
+              />
+              <div className="calendar-filters">
+                <h3>{t("Calendars", "日历分类")}</h3>
+                {(["personal", "study"] as const).map((c) => (
+                  <label key={c}>
+                    <span className={`filter-dot ${c}`} />
+                    <span>
+                      {c === "personal"
+                        ? t("Personal", "个人")
+                        : t("Study", "学习")}
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={filters[c]}
+                      onChange={(e) =>
+                        setFilters({ ...filters, [c]: e.target.checked })
+                      }
+                    />
+                  </label>
+                ))}
+                {snapshot?.has_samples && (
+                  <p className="sample-note">
+                    {t("Example calendar", "含示例日程")}
+                  </p>
+                )}
+              </div>
+            </details>
+          )}
+        </div>
+        <div id="web-companion-home" className="sidebar-companion-home">
+          <button className="text-button" onClick={openAssistant}>
+            <Sparkles size={16} />
+            {t("Chat with assistant", "和助理聊聊")}
+          </button>
+        </div>
         <footer className="sidebar-footer">
           <label>
             <Globe />
@@ -596,10 +512,6 @@ export function App() {
               <option value="zh">简体中文</option>
             </select>
           </label>
-          <button onClick={() => goPage("device")}>
-            <SettingsIcon />
-            {t("Settings", "设置")}
-          </button>
         </footer>
       </aside>
       <div className="mobile-top">
@@ -614,54 +526,62 @@ export function App() {
         </select>
       </div>
       <main className={`main-content page-${page}`}>
-        <button
-          className="assistant-open"
-          onClick={() => setWorkspacePanel("assistant")}
-          aria-label={t("Open assistant", "打开助理")}
-        >
-          <Sparkles size={18} />
-          <span>{t("Assistant", "助理")}</span>
-        </button>
-        <button
-          className={`reminder-button ${dueCount ? "has-due" : ""}`}
-          aria-label={t("Open reminders", "打开提醒")}
-          onClick={() => setShowReminders(true)}
-        >
-          <Bell size={19} />
-          {dueCount > 0 && <span>{dueCount}</span>}
-        </button>
-        {connection === "offline" && (
-          <div className="connection-banner" role="status">
-            {t(
-              "Offline. Showing your last loaded calendar.",
-              "已离线，当前显示上次读取的日历。",
-            )}
-            <button onClick={refresh}>
-              <RefreshCw size={14} />
-              {t("Reconnect", "重新连接")}
+        <div className="workspace-topbar">
+          <span className={`workspace-connection ${connection}`} role="status">
+            <i aria-hidden="true" />
+            {connection === "online"
+              ? t("Desk connected", "已连接桌面")
+              : connection === "offline"
+                ? t("Desk offline", "桌面已离线")
+                : t("Connecting to desk…", "正在连接桌面…")}
+          </span>
+          <div className="workspace-topbar-actions">
+            <button
+              className="assistant-open"
+              onClick={openAssistant}
+              aria-label={t("Open assistant", "打开助理")}
+              aria-expanded={assistantOpen}
+            >
+              <Sparkles size={18} />
+              <span>{t("Assistant", "助理")}</span>
+            </button>
+            <button
+              className={`reminder-button ${dueCount ? "has-due" : ""}`}
+              aria-label={t("Open reminders", "打开提醒")}
+              onClick={() => setShowReminders(true)}
+            >
+              <Bell size={19} />
+              {dueCount > 0 && <span>{dueCount}</span>}
             </button>
           </div>
-        )}
+        </div>
+        {connection === "offline" &&
+          offlineNotice(
+            t(
+              "Offline. Showing your last loaded calendar.",
+              "已离线，当前显示上次读取的日历。",
+            ),
+            t("Reconnect", "重新连接"),
+            refresh,
+            <RefreshCw size={14} aria-hidden="true" />,
+          )}
+        <NoticeInbox t={t} language={language === "zh" ? "zh" : "en"} />
         {pendingWrite() && !editor && (
           <div className="connection-banner pending" role="status">
             {t("A save is awaiting confirmation.", "有一项保存等待确认。")}
             <button onClick={recover} disabled={recovering}>
-              {t("Retry safely", "安全重试")}
+              {t("Check save status", "核对保存状态")}
             </button>
           </div>
         )}
-        {!!error && (
-          <div className="global-error" role="alert">
-            {errorText(error, t)}
-            <button onClick={() => setError(null)}>
-              {t("Dismiss", "关闭")}
-            </button>
-          </div>
-        )}
+        {!!error &&
+          failureNotice(errorText(error, t), t("Dismiss", "关闭"), () =>
+            setError(null),
+          )}
         {!visible ? (
           <div className="app-loading">
             <LoaderCircle className="spinner" />
-            <span>{t("Loading your calendar…", "正在读取日历…")}</span>
+            <span>{t("Loading your workspace…", "正在读取工作空间…")}</span>
             {connection === "offline" && (
               <button className="secondary" onClick={refresh}>
                 {t("Retry", "重试")}
@@ -714,33 +634,45 @@ export function App() {
               </>
             )}
             {page === "today" && (
-              <TodayView
-                snapshot={visible}
-                language={language}
-                now={now.setZone(zone)}
-                onNew={newEvent}
-                onOpen={setDetail}
-                onCalendar={() => {
-                  setAnchorDate(dayISO(today));
-                  goPage("calendar");
-                  setView("day");
-                }}
-                onDevice={() => goPage("device")}
-                onTasks={() => goPage("tasks")}
-                t={t}
-              />
+              <>
+                <MomentCard t={t} />
+                <TodayView
+                  snapshot={visible}
+                  language={language}
+                  now={now.setZone(zone)}
+                  onNew={newEvent}
+                  onOpen={setDetail}
+                  onCalendar={() => {
+                    setAnchorDate(dayISO(today));
+                    goPage("calendar");
+                    setView("day");
+                  }}
+                  onDevice={() => goPage("device")}
+                  onTasks={() => goPage("tasks")}
+                  t={t}
+                />
+              </>
             )}
             {page === "tasks" && (
               <TaskPanel
                 t={t}
                 zone={zone}
+                onDiscuss={discussTask}
                 onPlan={(event) =>
                   setEditor({ initial: event, scope: "series" })
                 }
               />
             )}
-            {page === "memory" && <MemoryPanel t={t} />}
-            {page === "persona" && <PersonaPanel t={t} />}
+            {page === "memory" && (
+              <div className="standard-page management-view workspace-panel">
+                <MemoryPanel t={t} />
+              </div>
+            )}
+            {page === "persona" && (
+              <div className="standard-page management-view workspace-panel">
+                <PersonaPanel t={t} />
+              </div>
+            )}
             {page === "records" && (
               <RecordsView
                 revision={visible.revision}
@@ -756,6 +688,7 @@ export function App() {
                 setLanguage={setLanguage}
                 onSaved={refresh}
                 onLogout={logout}
+                localPreview={session.local_preview}
                 onDeviceLayout={() =>
                   window.open(
                     "/?surface=device&page=today",
@@ -764,14 +697,21 @@ export function App() {
                   )
                 }
                 t={t}
-                onOpenWorkspace={setWorkspacePanel}
+                onOpenWorkspace={(panel) =>
+                  panel === "assistant"
+                    ? openAssistant()
+                    : setWorkspacePanel(panel)
+                }
               />
+            )}
+            {page === "diagnostics" && (
+              <DiagnosticsPanel t={t} language={language} />
             )}
           </>
         )}
       </main>
       <nav className="bottom-nav" aria-label={t("Main navigation", "主导航")}>
-        {nav.map(({ id, en, zh, Icon }) => (
+        {pages.map(({ id, en, zh, Icon }) => (
           <button
             key={id}
             onClick={() => goPage(id)}
@@ -811,6 +751,7 @@ export function App() {
       {editor && (
         <EventEditor
           state={editor}
+          progressive
           t={t}
           onClose={() => setEditor(null)}
           onSaved={(event) => {
@@ -860,13 +801,11 @@ export function App() {
           title={
             workspacePanel === "posture"
               ? t("Posture & feedback", "坐姿与反馈")
-              : workspacePanel === "assistant"
-                ? t("Assistant", "助理")
-                : workspacePanel === "extras"
-                  ? t("Calendar & companion", "日历与助理")
-                  : workspacePanel === "data"
-                    ? t("Import & share", "导入与分享")
-                    : t("Connections", "连接")
+              : workspacePanel === "extras"
+                ? t("Calendar & companion", "日历与助理")
+                : workspacePanel === "data"
+                  ? t("Import & share", "导入与分享")
+                  : t("Connections", "连接")
           }
           closeLabel={t("Close", "关闭")}
           onClose={() => setWorkspacePanel(null)}
@@ -874,8 +813,6 @@ export function App() {
         >
           {workspacePanel === "posture" ? (
             <PosturePanel t={t} />
-          ) : workspacePanel === "assistant" ? (
-            <AssistantPanel t={t} />
           ) : workspacePanel === "extras" ? (
             <ExtrasPanel t={t} />
           ) : workspacePanel === "data" ? (
@@ -885,6 +822,40 @@ export function App() {
           )}
         </Modal>
       )}
+      {assistantOpen && (
+        <Modal
+          title={t("Assistant", "助理")}
+          closeLabel={t("Close assistant", "关闭助理")}
+          onClose={() => {
+            setAssistantOpen(false);
+            setAssistantTask(undefined);
+          }}
+          wide
+          docked={assistantDocked}
+          className="assistant-dialog"
+        >
+          <AssistantPanel
+            t={t}
+            taskId={assistantTask?.id}
+            taskTitle={assistantTask?.title}
+          />
+        </Modal>
+      )}
+      <PageCompanion
+        t={t}
+        homeId="web-companion-home"
+        blocked={
+          !!(
+            workspacePanel ||
+            editor ||
+            detail ||
+            showReminders ||
+            leavePage ||
+            (assistantOpen && !assistantDocked)
+          )
+        }
+        onOpenAssistant={openAssistant}
+      />
     </div>
   );
 }

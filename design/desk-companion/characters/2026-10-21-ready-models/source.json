@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-21",
+  "group": "Group 2",
+  "direction": "Creator-made complete characters; preserve original appearance; A1 native v1 rejected",
+  "selected_final_character": false,
+  "reveria": {
+    "author": "NYOA.",
+    "source": "https://24a.booth.pm/items/7916400",
+    "hub": "https://hub.vroid.com/en/characters/1620962556119159363/models/5182328233780193434",
+    "terms_en": "https://drive.google.com/file/d/1FN4HXTCxsQWqBY1ZYSApL1fsljHZYK15/view",
+    "local_original": "/Users/tantalum/Downloads/reverie_TypeA_Lite_vrm_1_5.vrm",
+    "bytes": 47832328,
+    "sha256": "0c920efefe68e057079484996904505eb90acda305bae89588440451cf16bf8e",
+    "embedded_meta": {
+      "allowedUserName": "Everyone",
+      "author": "NYOA.",
+      "commercialUssageName": "Allow",
+      "licenseName": "CC0",
+      "sexualUssageName": "Allow",
+      "texture": 7,
+      "title": "reveria",
+      "version": "1.5",
+      "violentUssageName": "Allow"
+    },
+    "license_conflict": "VRM metadata says CC0; Hub settings allow redistribution, while linked VN3 English terms prohibit original redistribution and require contacting the author for modified distribution. Personal local preview only, no model file vendored or published. Japanese terms take precedence; not independently reviewed here.",
+    "model_bytes_modified": false,
+    "runtime_loaded": true,
+    "browser_storage": "IndexedDB at localhost:8832; no upload; removable copy",
+    "raw_gltf_validation": {
+      "errors": 6,
+      "warnings": 1,
+      "infos": 89,
+      "error_code": "SKIN_SKELETON_INVALID",
+      "unchanged_for_preview": true
+    }
+  },
+  "paid_candidates": [
+    {
+      "name": "SELESTIA",
+      "author": "STUDIO JINGO",
+      "price_jpy": 6000,
+      "url": "https://booth.pm/ja/items/4035411",
+      "formats_advertised": [
+        "blend",
+        "PSD",
+        "FBX",
+        "VRM"
+      ],
+      "viewing_only": "Author poster reviewed; Hub player requires first-user account/terms. No agreement accepted through Hub, no protected file extracted.",
+      "purchased": false,
+      "imported": false
+    },
+    {
+      "name": "RINDO",
+      "author": "STUDIO JINGO",
+      "price_jpy": 7000,
+      "url": "https://booth.pm/ja/items/3443188",
+      "formats_advertised": [
+        "blend",
+        "PSD",
+        "FBX",
+        "VRM",
+        "PMX"
+      ],
+      "author_caveat": "VRM/PMX provided as temporary test formats; local application compatibility not verified",
+      "viewing_only": "Author poster reviewed; no model download or import",
+      "purchased": false,
+      "imported": false
+    }
+  ]
+}

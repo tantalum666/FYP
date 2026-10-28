@@ -95,6 +95,8 @@ export interface WorkspaceSnapshot {
     provider: string;
     model: string;
     active: boolean;
+    supports_images?: boolean;
+    configuration_error?: string;
   };
   calendar_extras: {
     preferences: WorkspacePreferences;
@@ -125,6 +127,11 @@ export interface WorkspacePreferences {
   quiet_end: string;
   daily_brief_time: string;
   daily_brief_enabled: boolean;
+  evening_check_time: string;
+  evening_check_enabled: boolean;
   avatar_display: "calendar" | "companion";
   voice_enabled: boolean;
+  tone: "plain" | "warm";
+  verbosity: "brief" | "normal";
+  proactivity: "off" | "low" | "normal";
 }

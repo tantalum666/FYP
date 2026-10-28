@@ -259,8 +259,8 @@ export function DataPanel({ t }: { t: Translate }) {
           {preview.kind === "backup" && (
             <p>
               {t(
-                "Recovery merges missing events and tasks. Existing data and preferences are kept. Restored tasks have follow-ups paused.",
-                "恢复合并缺少的日程与事务，保留已有数据及当前偏好。恢复的事务暂不自动跟进。",
+                "Recovery merges missing events, tasks and saved facts. Existing data and preferences are kept. Restored tasks have follow-ups paused.",
+                "恢复合并缺少的日程、事务和已保存的事实，保留已有数据及当前偏好。恢复的事务暂不自动跟进。",
               )}
             </p>
           )}
@@ -268,6 +268,9 @@ export function DataPanel({ t }: { t: Translate }) {
             <p>
               {Number(preview.metadata.tasks_count ?? 0)}{" "}
               {t("tasks in this backup", "项事务在此备份中")}
+              {" · "}
+              {Number(preview.metadata.memories_count ?? 0)}{" "}
+              {t("saved facts in this backup", "条已保存的事实在此备份中")}
             </p>
           )}
           <div className="import-preview-list">
@@ -309,7 +312,9 @@ export function DataPanel({ t }: { t: Translate }) {
               className="primary"
               disabled={
                 busy ||
-                (!preview.rows.length && !Number(preview.metadata.tasks_count))
+                (!preview.rows.length &&
+                  !Number(preview.metadata.tasks_count) &&
+                  !Number(preview.metadata.memories_count))
               }
               onClick={() =>
                 void act(async () => {
@@ -319,13 +324,15 @@ export function DataPanel({ t }: { t: Translate }) {
                     kept: number;
                     tasks_created: number;
                     tasks_kept: number;
+                    memories_created?: number;
+                    memories_kept?: number;
                   }>(`/exchange/${preview.preview_id}/apply`, {
                     replace_matching: replace,
                   });
                   setNotice(
                     t(
-                      `Imported: ${result.created} added, ${result.updated} updated; ${result.kept} kept. Tasks: ${result.tasks_created} added, ${result.tasks_kept} kept.`,
-                      `导入完成：新增${result.created}项，更新${result.updated}项，保留${result.kept}项。事务：新增${result.tasks_created}项，保留${result.tasks_kept}项。`,
+                      `Imported: ${result.created} added, ${result.updated} updated; ${result.kept} kept. Tasks: ${result.tasks_created} added, ${result.tasks_kept} kept. Facts: ${result.memories_created ?? 0} added, ${result.memories_kept ?? 0} kept.`,
+                      `导入完成：新增${result.created}项，更新${result.updated}项，保留${result.kept}项。事务：新增${result.tasks_created}项，保留${result.tasks_kept}项。事实：新增${result.memories_created ?? 0}条，保留${result.memories_kept ?? 0}条。`,
                     ),
                   );
                   setPreview(null);
@@ -353,8 +360,8 @@ export function DataPanel({ t }: { t: Translate }) {
             </h3>
             <p>
               {t(
-                "Backups contain calendar details, tasks and their latest 20 progress records, plus settings. Login and provider secrets are excluded. Store the file privately.",
-                "备份包含日历、事务及各事务最近20条进展与设置，不含登录或服务密钥。请妥善保存文件。",
+                "Backups contain calendar details, tasks and their latest 20 progress records, saved facts, plus settings. Login and provider secrets are excluded. Store the file privately.",
+                "备份包含日历、事务及各事务最近20条进展、已保存的事实与设置，不含登录或服务密钥。请妥善保存文件。",
               )}
             </p>
             <div className="workspace-inline-actions">

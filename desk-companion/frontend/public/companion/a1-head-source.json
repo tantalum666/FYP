@@ -1,0 +1,37 @@
+{
+  "stage": "Owner rejected the custom head; work discontinued on 2026-10-18",
+  "face_source": "Anna v1.1, CC0 collection and embedded terms",
+  "source_sha256": "8694d2a0c09014524d5bc7fdf870f55b6efb8dbd5b399d91bde353b779502779",
+  "source_url": "https://arweave.net/RqDioyluCcxDNHFPoXLUlbEQjhP1Fy9HtaGzLFVh0mE",
+  "source_registry_commit": "0f9a1b2fd99894736563d55b2c9dc9125700d081",
+  "source_half_face_components": [
+    1,
+    40,
+    25,
+    26,
+    55
+  ],
+  "new_hair": "new manually placed curve-card guides with generated A1 paint atlas; no v3 hair geometry",
+  "originals_untouched": true,
+  "reference_projection_status": "rejected after side-view duplicate jaw lines; current texture is generated paint, actual sculpt and separate iris geometry",
+  "not_a_game_character_adoption": true,
+  "objects": 53,
+  "vertices": 36474,
+  "face_vertices": 7589,
+  "morphs": [
+    "Basis",
+    "Anger",
+    "Sorrow",
+    "Joy",
+    "Happy",
+    "U",
+    "O",
+    "I",
+    "AE",
+    "blink",
+    "A1Smile"
+  ],
+  "blend_bytes": 13866548,
+  "glb_bytes": 9630348,
+  "superseded_by": "../2026-10-18-existing-model-adaptation/README.md"
+}

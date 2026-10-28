@@ -1,0 +1,14 @@
+{
+  "gitleaks_version": "8.30.1",
+  "staged_findings": 0,
+  "range_findings": 0,
+  "history_commits_scanned": 54,
+  "range": "46ac167..fd98fc5",
+  "no_allowlist_change": true,
+  "whitespace": "pass",
+  "ruff": "pass",
+  "links_checked": 505,
+  "broken_links": 0,
+  "frontend": "89 passed; final build pass",
+  "backend": "450 passed"
+}

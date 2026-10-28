@@ -1,0 +1,433 @@
+{
+  "metadata_copied": [
+    "design/desk-companion/characters/2026-10-22-alice/README.md",
+    "design/desk-companion/characters/2026-10-21-ready-models/github-star-screening-20261022.md",
+    "design/desk-companion/characters/2026-10-18-existing-model-adaptation/source.json",
+    "design/desk-companion/characters/2026-10-18-existing-model-adaptation/editable-source-j.json",
+    "design/desk-companion/characters/2026-10-19-a1-vroid-refinement/README.md",
+    "design/desk-companion/characters/2026-10-18-a1-head-study/base-source.json",
+    "design/desk-companion/characters/2026-10-18-a1-head-study/imagegen-prompts.json",
+    "design/desk-companion/characters/2026-10-17-a1-3d/source.json",
+    "design/desk-companion/characters/2026-10-21-ready-models/source.json",
+    "planning/2026-10-23/ai-validation-plan.md",
+    "design/desk-companion/characters/2026-10-17-a1-3d/README.md",
+    "design/desk-companion/characters/2026-10-22-alice/compatibility.json",
+    "design/desk-companion/characters/2026-10-21-ready-models/README.md",
+    "design/desk-companion/characters/2026-10-21-ready-models/github-star-screening-20261022.json",
+    "design/desk-companion/characters/2026-10-19-a1-vroid-refinement/source.json",
+    "design/desk-companion/characters/2026-10-19-a1-vroid-refinement/third-party/reira/source.json",
+    "planning/2026-10-15/voice-response-latency.md",
+    "design/desk-companion/characters/2026-10-18-a1-3d-refinement/README.md",
+    "research/2026-10-15-voice-ai/voice-model-comparison.md",
+    "design/desk-companion/characters/2026-10-18-a1-3d-refinement/base-source.json",
+    "design/desk-companion/characters/2026-10-18-a1-3d-refinement/motion-sources/License.txt",
+    "design/desk-companion/characters/2026-10-18-a1-3d-refinement/replacement-screening.md",
+    "design/desk-companion/characters/2026-10-18-a1-3d-refinement/personal-use-shortlist.md",
+    "design/desk-companion/characters/2026-10-18-a1-3d-refinement/github-comparison.md",
+    "design/desk-companion/characters/2026-10-18-a1-3d-refinement/toon-quality-scope.md",
+    "design/desk-companion/characters/2026-10-18-a1-head-study/README.md"
+  ],
+  "historical_local_references_marked": [
+    {
+      "file": "desk-companion/README.md",
+      "reference": "output/qa/2026-10-23-ai-acceptance/resumed/verification.md"
+    },
+    {
+      "file": "desk-companion/README.md",
+      "reference": "output/qa/2026-10-16-qwen-omni-integration/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/operator-guide.md",
+      "reference": "output/qa/2026-10-23-ai-acceptance/resumed/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/operator-guide.md",
+      "reference": "output/qa/2026-10-27-phone-simulator/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/pi5-first-boot.md",
+      "reference": "output/qa/2026-10-26-pi5-dorm/pause-state.json"
+    },
+    {
+      "file": "desk-companion/docs/pi5-first-boot.md",
+      "reference": "output/qa/2026-10-26-pi5-classroom/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/pi5-first-boot.md",
+      "reference": "output/qa/2026-10-22-voice-linux-sd/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/pi5-first-boot.md",
+      "reference": "output/qa/2026-10-26-pi5-vtc/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/architecture.md",
+      "reference": "output/qa/2026-10-23-ai-acceptance/resumed/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/omni-conversation.md",
+      "reference": "output/qa/2026-10-23-ai-acceptance/resumed/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/omni-conversation.md",
+      "reference": "output/qa/2026-10-23-ai-acceptance/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/pi5-usb-mac.md",
+      "reference": "output/qa/2026-10-26-pi5-dorm/pause-state.json"
+    },
+    {
+      "file": "desk-companion/docs/pi5-usb-mac.md",
+      "reference": "output/qa/2026-10-26-pi5-classroom/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/pi5-usb-mac.md",
+      "reference": "output/qa/2026-10-26-pi5-vtc/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/pi5-usb-mac.md",
+      "reference": "output/qa/2026-10-26-pi5-dorm/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/pi5-usb-mac.md",
+      "reference": "output/qa/2026-10-26-pi5-dorm/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/computer-jobs.md",
+      "reference": "output/qa/2026-10-22-voice-linux-sd/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/page-companion.md",
+      "reference": "output/qa/2026-10-27-web-ui-implementation/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/page-companion.md",
+      "reference": "output/qa/2026-10-27-mobile-immersive/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/page-companion.md",
+      "reference": "output/qa/2026-10-17-assistant-simplify-avatar/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/qwen-omni.md",
+      "reference": "output/qa/2026-10-23-ai-acceptance/resumed/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/qwen-omni.md",
+      "reference": "output/qa/2026-10-23-omni-unified/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/qwen-omni.md",
+      "reference": "output/qa/2026-10-22-alice-software/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/qwen-omni.md",
+      "reference": "output/qa/2026-10-16-qwen-omni-integration/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/qwen-omni.md",
+      "reference": "output/qa/2026-10-22-voice-linux-sd/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/memory.md",
+      "reference": "output/qa/2026-10-23-ai-acceptance/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/memory.md",
+      "reference": "output/qa/2026-10-23-ai-acceptance/resumed/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/avatar.md",
+      "reference": "output/qa/2026-10-22-alice-software/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/avatar.md",
+      "reference": "output/qa/2026-10-19-a1-vroid-native-refinement/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/avatar.md",
+      "reference": "output/qa/2026-10-17-assistant-simplify-avatar/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/task-tracking.md",
+      "reference": "output/qa/2026-10-23-ai-acceptance/resumed/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/task-tracking.md",
+      "reference": "output/qa/2026-10-27-web-ui-implementation/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/qwen-local-setup.md",
+      "reference": "output/qa/2026-10-16-qwen-key-setup/verification.md"
+    },
+    {
+      "file": "desk-companion/docs/qwen-local-setup.md",
+      "reference": "output/qa/2026-10-16-qwen-omni-integration/verification.md"
+    },
+    {
+      "file": "planning/2026-10-27/mobile-ux-ui-plan.md",
+      "reference": "output/qa/2026-10-27-phone-simulator/verification.md"
+    },
+    {
+      "file": "planning/2026-10-27/mobile-ux-ui-plan.md",
+      "reference": "output/qa/2026-10-27-mobile-immersive/compact-plan-before.md"
+    },
+    {
+      "file": "planning/2026-10-27/mobile-ux-ui-plan.md",
+      "reference": "output/qa/2026-10-27-mobile-immersive/verification.md"
+    },
+    {
+      "file": "planning/2026-10-27/mobile-ux-ui-plan.md",
+      "reference": "output/qa/2026-10-27-web-mobile-ux/reading-ledger.json"
+    },
+    {
+      "file": "planning/2026-10-27/web-ui-implementation.md",
+      "reference": "output/qa/2026-10-27-web-ui-implementation/verification.md"
+    },
+    {
+      "file": "planning/2026-10-28/phone-simulator-implementation.md",
+      "reference": "output/qa/2026-10-27-phone-simulator/verification.md"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-22-alice/README.md",
+      "reference": "design/desk-companion/characters/2026-10-22-alice/alice-original.vrm"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-22-alice/README.md",
+      "reference": "design/desk-companion/characters/2026-10-22-alice/build_runtime.py"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-22-alice/README.md",
+      "reference": "output/qa/2026-10-22-alice-software/verification.md"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-21-ready-models/github-star-screening-20261022.md",
+      "reference": "output/qa/2026-10-22-github-model-screening/verification.md"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-19-a1-vroid-refinement/README.md",
+      "reference": "design/desk-companion/characters/2026-10-19-a1-vroid-refinement/a1-native-v1.vroid"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-19-a1-vroid-refinement/README.md",
+      "reference": "design/desk-companion/characters/2026-10-19-a1-vroid-refinement/a1-native-v1.vrm"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-19-a1-vroid-refinement/README.md",
+      "reference": "design/desk-companion/characters/2026-10-19-a1-vroid-refinement/a1-native-v1-ready.vrm"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-19-a1-vroid-refinement/README.md",
+      "reference": "design/desk-companion/characters/2026-10-19-a1-vroid-refinement/prepare_runtime.py"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-19-a1-vroid-refinement/README.md",
+      "reference": "output/qa/2026-10-19-a1-vroid-native-refinement/progress.json"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-19-a1-vroid-refinement/README.md",
+      "reference": "output/qa/2026-10-19-a1-vroid-native-refinement/verification.md"
+    },
+    {
+      "file": "planning/2026-10-23/ai-validation-plan.md",
+      "reference": "progress-report-i-spec.md"
+    },
+    {
+      "file": "planning/2026-10-23/ai-validation-plan.md",
+      "reference": "output/qa/2026-10-23-ai-acceptance/resumed/verification.md"
+    },
+    {
+      "file": "planning/2026-10-23/ai-validation-plan.md",
+      "reference": "output/qa/2026-10-23-ai-acceptance/verification.md"
+    },
+    {
+      "file": "planning/2026-10-23/ai-validation-plan.md",
+      "reference": "output/qa/2026-10-23-omni-unified/verification.md"
+    },
+    {
+      "file": "planning/2026-10-23/ai-validation-plan.md",
+      "reference": "output/qa/2026-10-22-voice-linux-sd/verification.md"
+    },
+    {
+      "file": "planning/2026-10-23/ai-validation-plan.md",
+      "reference": "output/qa/2026-10-23-ai-validation-review/verification.md"
+    },
+    {
+      "file": "planning/2026-10-23/ai-validation-plan.md",
+      "reference": "output/qa/2026-10-23-omni-unified/verification.md"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-17-a1-3d/README.md",
+      "reference": "design/desk-companion/characters/2026-10-17-a1-3d/a1-v2.blend"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-17-a1-3d/README.md",
+      "reference": "design/desk-companion/characters/2026-10-17-a1-3d/a1-v2.glb"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-17-a1-3d/README.md",
+      "reference": "design/desk-companion/characters/2026-10-17-a1-3d/build_model.py"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-17-a1-3d/README.md",
+      "reference": "design/desk-companion/characters/2026-10-17-a1-3d/cmu_motion.py"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-17-a1-3d/README.md",
+      "reference": "design/desk-companion/characters/2026-10-17-a1-3d/motion-sources"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-17-a1-3d/README.md",
+      "reference": "design/desk-companion/characters/2026-10-17-a1-3d/references/a1-v4.png"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-17-a1-3d/README.md",
+      "reference": "design/desk-companion/characters/2026-10-17-a1-3d/references/a1-front.png"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-17-a1-3d/README.md",
+      "reference": "design/desk-companion/characters/2026-10-17-a1-3d/references/a1-back.png"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-17-a1-3d/README.md",
+      "reference": "design/desk-companion/characters/2026-10-17-a1-3d/references/a1-face.png"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-17-a1-3d/README.md",
+      "reference": "output/qa/2026-10-17-assistant-simplify-avatar/verification.md"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-21-ready-models/README.md",
+      "reference": "output/qa/2026-10-20-ready-models/verification.md"
+    },
+    {
+      "file": "planning/2026-10-15/voice-response-latency.md",
+      "reference": "output/qa/2026-10-23-ai-acceptance/resumed/verification.md"
+    },
+    {
+      "file": "planning/2026-10-15/voice-response-latency.md",
+      "reference": "output/qa/2026-10-23-ai-acceptance/resumed/latency-summary.json"
+    },
+    {
+      "file": "planning/2026-10-15/voice-response-latency.md",
+      "reference": "output/qa/2026-10-23-ai-acceptance/verification.md"
+    },
+    {
+      "file": "planning/2026-10-15/voice-response-latency.md",
+      "reference": "output/qa/2026-10-16-qwen-omni-integration/verification.md"
+    },
+    {
+      "file": "planning/2026-10-15/voice-response-latency.md",
+      "reference": "output/qa/2026-10-15-voice-latency/verification.md"
+    },
+    {
+      "file": "planning/2026-10-15/voice-response-latency.md",
+      "reference": "output/qa/2026-10-22-voice-linux-sd/verification.md"
+    },
+    {
+      "file": "planning/2026-10-15/voice-response-latency.md",
+      "reference": "output/qa/2026-10-23-omni-unified/verification.md"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/README.md",
+      "reference": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/build_model.py"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/README.md",
+      "reference": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/extract_motion.py"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/README.md",
+      "reference": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/retarget_motion.py"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/README.md",
+      "reference": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/a1-v3.blend"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/README.md",
+      "reference": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/a1-v3.glb"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/README.md",
+      "reference": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/motion-sources/LICENSE"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/README.md",
+      "reference": "output/qa/2026-10-18-a1-likeness-motion/verification.md"
+    },
+    {
+      "file": "research/2026-10-15-voice-ai/voice-model-comparison.md",
+      "reference": "output/qa/2026-10-16-qwen-omni-integration/verification.md"
+    },
+    {
+      "file": "research/2026-10-15-voice-ai/voice-model-comparison.md",
+      "reference": "research/2026-10-15-voice-ai/computer-use-comparison.md"
+    },
+    {
+      "file": "research/2026-10-15-voice-ai/voice-model-comparison.md",
+      "reference": "research/2026-10-15-voice-ai/computer-use-comparison.md"
+    },
+    {
+      "file": "research/2026-10-15-voice-ai/voice-model-comparison.md",
+      "reference": "output/qa/2026-10-15-voice-model-refresh/verification.md"
+    },
+    {
+      "file": "research/2026-10-15-voice-ai/voice-model-comparison.md",
+      "reference": "research/2026-10-15-voice-ai/source-register.md"
+    },
+    {
+      "file": "research/2026-10-15-voice-ai/voice-model-comparison.md",
+      "reference": "output/qa/2026-10-15-voice-model-refresh/verification.md"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/personal-use-shortlist.md",
+      "reference": "design/desk-companion/characters/2026-10-18-existing-model-adaptation/README.md"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/personal-use-shortlist.md",
+      "reference": "output/qa/2026-10-18-a1-likeness-motion/personal-use-preview-sources.json"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/github-comparison.md",
+      "reference": "design/desk-companion/characters/2026-10-18-existing-model-adaptation/README.md"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/github-comparison.md",
+      "reference": "output/qa/2026-10-18-a1-likeness-motion/verification.md"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-3d-refinement/toon-quality-scope.md",
+      "reference": "design/desk-companion/characters/2026-10-18-existing-model-adaptation/README.md"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-head-study/README.md",
+      "reference": "design/desk-companion/characters/2026-10-18-existing-model-adaptation/README.md"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-head-study/README.md",
+      "reference": "design/desk-companion/characters/2026-10-18-a1-head-study/a1-head-study.blend"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-head-study/README.md",
+      "reference": "design/desk-companion/characters/2026-10-18-a1-head-study/a1-head-study.glb"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-head-study/README.md",
+      "reference": "design/desk-companion/characters/2026-10-18-a1-head-study/source.json"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-head-study/README.md",
+      "reference": "output/qa/2026-10-18-a1-likeness-motion/head-study/verification.md"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-head-study/README.md",
+      "reference": "design/desk-companion/characters/2026-10-18-a1-head-study/textures/a1-face-albedo.png"
+    },
+    {
+      "file": "design/desk-companion/characters/2026-10-18-a1-head-study/README.md",
+      "reference": "output/qa/2026-10-18-a1-likeness-motion/head-study/pass6-failed-projection"
+    }
+  ],
+  "active_missing_links": []
+}

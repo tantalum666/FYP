@@ -6,13 +6,13 @@ unapproved proposal in the thread itself, including after the socket has closed.
 """
 
 import asyncio
-import contextlib
 import hashlib
 import json
 import threading
 from dataclasses import dataclass, field
 
 from .store import DomainError, encode
+from .tool_policy import discard_unapproved, execute_tool, kind_for, owner_message
 
 
 @dataclass
@@ -27,9 +27,10 @@ class Invocation:
 
 
 class ToolDispatcher:
-    def __init__(self, runtime, session_id, *, allow_memory=True):
+    def __init__(self, runtime, session_id, *, allow_memory=True, language="en"):
         self.runtime, self.session_id = runtime, session_id
         self.allow_memory = allow_memory
+        self.language = "zh" if language == "zh" else "en"
         self.calls: dict[str, Invocation] = {}
         self.results = asyncio.Queue(maxsize=64)
         self.slots = asyncio.Semaphore(2)
@@ -42,6 +43,28 @@ class ToolDispatcher:
         except asyncio.QueueFull:
             raise DomainError("TOOL_LIMIT_REACHED", 429) from None
 
+    def _audit_reject(self, event, code):
+        call_id = event.get("id")
+        if isinstance(call_id, str) and 1 <= len(call_id) <= 150:
+            call_key = "voice/" + hashlib.sha256((self.session_id + call_id).encode()).hexdigest()
+        else:
+            call_key = "voice/rejected"
+        arguments = event.get("arguments")
+        name = event.get("name")
+        from .capabilities import CAPABILITIES
+
+        risk = CAPABILITIES[name].risk if isinstance(name, str) and name in CAPABILITIES else "refused"
+        self.runtime.assistant.audit.record(
+            name=name,
+            arguments=arguments if isinstance(arguments, dict) else {},
+            call_key=call_key,
+            channel="voice",
+            risk=risk,
+            outcome=code,
+            result={"error": code, "saved": False},
+            message=owner_message(kind_for(code), self.language),
+        )
+
     def submit(self, event):
         if self.closed:
             return
@@ -50,6 +73,7 @@ class ToolDispatcher:
         event = {**event, "_dispatch_generation": self.generation}
         call_id = event.get("id")
         if not isinstance(call_id, str) or not 1 <= len(call_id) <= 150:
+            self._audit_reject(event, "TOOL_ARGUMENTS_INVALID")
             raise DomainError("TOOL_ARGUMENTS_INVALID", 422)
         arguments = event.get("arguments", {})
         try:
@@ -57,6 +81,7 @@ class ToolDispatcher:
             if not isinstance(arguments, dict) or len(encode(arguments)) > 20000:
                 raise ValueError()
         except (TypeError, ValueError):
+            self._audit_reject(event, "TOOL_ARGUMENTS_INVALID")
             self._enqueue(event, {"error": "TOOL_ARGUMENTS_INVALID", "saved": False})
             return
         event = {**event, "arguments": arguments}
@@ -64,6 +89,7 @@ class ToolDispatcher:
         old = self.calls.get(call_id)
         if old:
             if old.signature != signature:
+                self._audit_reject(event, "TOOL_CALL_CONFLICT")
                 self._enqueue(event, {"error": "TOOL_CALL_CONFLICT", "saved": False})
             elif old.result is not None and old.delivered:
                 old.delivered = False
@@ -86,15 +112,18 @@ class ToolDispatcher:
                 None,
             )
             if event["name"] != "stop_physical_outputs":
+                self._audit_reject(event, "TOOL_LIMIT_REACHED")
                 self._enqueue(event, {"error": "TOOL_LIMIT_REACHED", "saved": False})
                 return
             if completed_stop is not None:
                 del self.calls[completed_stop]
             elif len(self.calls) >= 33:
+                self._audit_reject(event, "TOOLS_BUSY")
                 self._enqueue(event, {"error": "TOOLS_BUSY", "saved": False})
                 return
         pending_limit = 9 if event["name"] == "stop_physical_outputs" else 8
         if sum(call.result is None for call in self.calls.values()) >= pending_limit:
+            self._audit_reject(event, "TOOLS_BUSY")
             self._enqueue(event, {"error": "TOOLS_BUSY", "saved": False})
             return
         call = Invocation(event, signature)
@@ -102,33 +131,26 @@ class ToolDispatcher:
         call.task = asyncio.create_task(self._run(call))
 
     def _discard(self, result):
-        if not result:
-            return
-        with contextlib.suppress(DomainError):
-            if "proposal" in result:
-                proposal_id = result["proposal"]["id"]
-                self.runtime.assistant.decide(proposal_id, "cancel", "voice-discard/" + proposal_id)
-            if "job" in result and result["job"]["state"] == "review":
-                job_id = result["job"]["id"]
-                self.runtime.jobs.cancel(job_id, "voice-discard/" + job_id, review_only=True)
+        discard_unapproved(self.runtime, result, "voice-discard")
 
     def _invoke(self, call):
         if call.cancelled.is_set():
             result = {"error": "TOOL_CANCELLED", "saved": False}
+            self._audit_reject(call.event, "TOOL_CANCELLED")
         else:
-            try:
-                if call.event["name"].startswith("memory_") and not self.allow_memory:
-                    raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
-                result = self.runtime.assistant.tool(
-                    call.event["name"],
-                    call.event["arguments"],
-                    "voice/"
-                    + hashlib.sha256((self.session_id + call.event["id"]).encode()).hexdigest(),
-                )
-            except DomainError as error:
-                result = {"error": error.code, "saved": False}
-            except Exception:
-                result = {"error": "TOOL_FAILED", "saved": False}
+            call_key = "voice/" + hashlib.sha256(
+                (self.session_id + call.event["id"]).encode()
+            ).hexdigest()
+            result = execute_tool(
+                self.runtime,
+                call.event["name"],
+                call.event["arguments"],
+                call_key,
+                scope=self.session_id + "\n" + call.event["id"],
+                allow_memory=self.allow_memory,
+                language=self.language,
+                channel="voice",
+            )
         with call.lock:
             if call.cancelled.is_set():
                 self._discard(result)
@@ -182,10 +204,10 @@ class ToolDispatcher:
         if call is not None and result is call.result:
             call.delivered = True
 
-    def stop_accepting(self):
+    def stop_accepting(self, *, cancel_delivered=False):
         self.closed = True
         for call in self.calls.values():
-            if not call.delivered:
+            if cancel_delivered or not call.delivered:
                 call.cancelled.set()
 
     async def close(self):

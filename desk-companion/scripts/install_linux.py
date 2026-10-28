@@ -11,20 +11,25 @@ import subprocess
 from pathlib import Path
 
 
-def service(root, description, command, after="network-online.target"):
+def service(root, description, command, after="network-online.target", runtime=None):
     def quote(value):
         return '"' + str(value).replace("\\", "\\\\").replace('"', '\\"').replace("%", "%%") + '"'
 
+    # These two directives take one literal path, unlike ExecStart/Environment.
+    # Surrounding quotes become part of the path on the target systemd version.
+    working_directory = str(root).replace("%", "%%")
+    environment_file = str((runtime or root / ".runtime") / "service.env").replace("%", "%%")
     return f"""[Unit]
 Description={description}
 After={after}
 
 [Service]
 Type=simple
-WorkingDirectory={quote(root)}
+WorkingDirectory={working_directory}
 Environment=PYTHONUNBUFFERED=1
 Environment={quote("PYTHONPATH=" + str(root / "backend"))}
-EnvironmentFile={quote("-" + str(root / ".runtime/service.env"))}
+Environment={quote("DESK_RUNTIME_DIR=" + str(runtime or root / ".runtime"))}
+EnvironmentFile=-{environment_file}
 ExecStart={" ".join(quote(v) for v in command)}
 Restart=on-failure
 RestartSec=3
@@ -36,7 +41,8 @@ WantedBy=default.target
 """
 
 
-def render(root):
+def render(root, runtime=None):
+    runtime = runtime or root / ".runtime"
     python = root / ".venv/bin/python"
     return {
         "desk-companion.service": service(
@@ -56,18 +62,21 @@ def render(root):
                 "1",
                 "--no-access-log",
             ],
+            runtime=runtime,
         ),
         "desk-camera.service": service(
             root,
             "Desk Companion optional camera worker",
-            [python, "-m", "desk.agents.camera", "--camera", "0"],
+            [python, "-m", "desk.agents.camera", "--camera", "0", "--runtime", runtime],
             "desk-companion.service",
+            runtime=runtime,
         ),
         "desk-voice.service": service(
             root,
             "Desk Companion optional wake and voice worker",
-            [python, "-m", "desk.agents.voice"],
+            [python, "-m", "desk.agents.voice", "--runtime", runtime],
             "desk-companion.service",
+            runtime=runtime,
         ),
         "desk-outputs.service": service(
             root,
@@ -79,9 +88,12 @@ def render(root):
                 "--driver",
                 "pca9685",
                 "--config",
-                root / ".runtime/outputs.json",
+                runtime / "outputs.json",
+                "--runtime",
+                runtime,
             ],
             "desk-companion.service",
+            runtime=runtime,
         ),
     }
 
@@ -90,9 +102,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--install", action="store_true")
     parser.add_argument("--enable", action="store_true")
+    parser.add_argument("--runtime", type=Path)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
-    units = render(root)
+    runtime = args.runtime or Path(os.environ.get("DESK_RUNTIME_DIR", root / ".runtime"))
+    if not runtime.is_absolute():
+        parser.error("--runtime must be an absolute path")
+    units = render(root, runtime)
     if not args.install:
         target = root / ".runtime/linux-preview"
         target.mkdir(parents=True, exist_ok=True)

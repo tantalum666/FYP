@@ -35,7 +35,7 @@ cd ..
 ./scripts/dev.sh
 ```
 
-打开 `http://127.0.0.1:5190/`；常亮屏是 `http://127.0.0.1:5190/?surface=device`。账号 `owner` 的密码在**每位成员自己的** `desk-companion/.runtime/credentials.json` 首次生成。本机凭据、数据库和模型不从 GitHub 分发。
+打开 `http://127.0.0.1:5190/`；常亮屏是 `http://127.0.0.1:5190/?surface=device`。默认账号 `owner` 的密码在**每位成员自己的** `desk-companion/.runtime/credentials.json` 首次生成；显式本机预览可免登录。本机凭据与数据库不分发，相机／唤醒权重按说明下载；许可允许分发的角色素材保留来源与许可。
 
 可选相机／音频依赖、Linux 设备安装、iPhone 框架准备、真实服务配置及评价步骤见[软件 README](desk-companion/README.md)和[操作指南](desk-companion/docs/operator-guide.md)。没有实体设备或语音密钥也可先开发日历、事务和界面。硬件及模型实际表现仍须另行验证。
 
@@ -60,7 +60,7 @@ git push -u origin feature/xu-calendar
 
 PR 流程是协作约定，当前没有声称已启用付费分支保护或强制审批。提交前用 `git status` 和 `git diff --staged` 核对内容；不要强制推送其他人的分支。
 
-The #7–#14 code stack has been reviewed, fixed and merged; [review evidence](output/qa/2026-10-15-grok-review-merge/verification.md). The [original merge procedure](planning/2026-10-14/pr-stack-merge-order.md) is historical. PRs #4/#5/#15/#16 remain separate historical owner branches/drafts. Hardware PR #17 was reviewed, repaired and merged on 26 October; see the [current handoff](handoff.md). Latest local AliceChan/Omni work is not yet all on main.
+The #7–#14 code stack has been reviewed, fixed and merged; [review evidence](output/qa/2026-10-15-grok-review-merge/verification.md). The [original merge procedure](planning/2026-10-14/pr-stack-merge-order.md) is historical. PRs #4/#5/#15/#16 remain separate historical owner branches/drafts. Hardware PR #17 was reviewed, repaired and merged on 26 October; see the [current handoff](handoff.md). The2026-10-28 owner-authorized integration combines Grok20–59 with the Alice/mobile/Omni baseline#60; exact publication/merge state is in the current handoff. Older per-slice merge restrictions do not replace that explicit authorization.
 
 按变更运行相关检查。修改应用业务或界面时，从 `desk-companion/` 运行：
 
@@ -94,3 +94,9 @@ npm test
 ```sh
 gitleaks git --pre-commit --staged --redact --max-archive-depth 2
 ```
+
+## 2026-10-28 maintenance convention
+
+Follow the latest AGENTS focused-reading workflow. Keep UI composition, data lifecycle, business edits and provider protocols separate; share existing services instead of copying state machines. Important verified milestones should be committed/pushed on a dedicated branch and reviewed through a PR. Source/asset/secret checks and remote readback are distinct from merging/deploying.
+
+The current application includes the Alice/web/phone and unified conversation checkpoint. Local development may explicitly use`DESK_LOCAL_PREVIEW=1 ./scripts/dev.sh`; default authentication and real-device HTTPS/pairing remain. CI checks backend lint/tests and frontend tests/build with models and executors disabled. Native touch, live models and hardware need independent evidence.

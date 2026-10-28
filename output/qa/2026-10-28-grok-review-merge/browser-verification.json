@@ -1,0 +1,66 @@
+{
+  "webViewport": {
+    "width": 1365,
+    "height": 900
+  },
+  "phoneViewport": {
+    "width": 390,
+    "height": 844
+  },
+  "identityDowngrade": {
+    "privateConversationVisible": false,
+    "cachedBackupVisible": false,
+    "controlledResponses": [
+      {
+        "path": "/api/workspace",
+        "status": 200
+      },
+      {
+        "path": "/api/session",
+        "status": 200
+      },
+      {
+        "path": "/api/diagnostics",
+        "status": 403
+      },
+      {
+        "path": "/api/diagnostics",
+        "status": 403
+      },
+      {
+        "path": "/api/workspace",
+        "status": 200
+      },
+      {
+        "path": "/api/workspace",
+        "status": 200
+      }
+    ]
+  },
+  "streamRecovery": {
+    "before": {
+      "path": "/assistant/messages/stream",
+      "operation_id": "e3c69850-ec14-4682-a929-943c37193490"
+    },
+    "after": null,
+    "composerCleared": true,
+    "errorCleared": true,
+    "draftRemainsUnconfirmed": true
+  },
+  "previewRenewal": {
+    "inputRetained": true,
+    "subsequentMessageSucceeded": true
+  },
+  "phone": {
+    "aliceVisible": true,
+    "primaryNavigation": [
+      "Plan",
+      "More"
+    ],
+    "newEventSaved": true,
+    "eventVisibleOnWeb": true,
+    "aliasDraftGuard": true,
+    "consoleErrors": []
+  },
+  "networkInterceptionRestored": true
+}
