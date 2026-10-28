@@ -212,7 +212,15 @@ class ExchangeService:
             },
         )
 
-    def apply(self, preview_id, payload, key):
+    def apply(self, preview_id, payload, key, *, allow_backup=True):
+        # Check before Store.operation can return a cached private restore receipt.
+        with self.store.connection() as conn:
+            source = conn.execute(
+                "SELECT kind FROM import_previews WHERE id=?", (preview_id,)
+            ).fetchone()
+            if source and source["kind"] == "backup" and not allow_backup:
+                raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
+
         def apply(conn):
             row = conn.execute("SELECT * FROM import_previews WHERE id=?", (preview_id,)).fetchone()
             if not row or row["expires_at"] <= iso(self.store.clock()) or row["state"] != "pending":
@@ -287,9 +295,7 @@ class ExchangeService:
             memory_result = (
                 self.runtime.memory.restore(
                     conn,
-                    preview["metadata"].get(
-                        "memory_bundle", {"memories": [], "revisions": []}
-                    ),
+                    preview["metadata"].get("memory_bundle", {"memories": [], "revisions": []}),
                 )
                 if row["kind"] == "backup"
                 else {"created": 0, "kept": 0}

@@ -96,4 +96,4 @@ def parse_call(name: object, arguments: object) -> tuple[Capability, dict]:
         raise DomainError("TOOL_ARGUMENTS_INVALID", 422) from None
     if capability.name == "device_feedback_draft" and parsed.preset not in PRESETS[parsed.kind]:
         raise DomainError("PRESET_NOT_ALLOWED", 422)
-    return capability, parsed.model_dump(mode="json")
+    return capability, parsed.model_dump(mode="json", exclude_unset=True)

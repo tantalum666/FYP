@@ -11,7 +11,6 @@ from pathlib import Path
 
 from .computer import (
     ExecutionRejected,
-    LocalNotesExecutor,
     artifact_filename,
     MAX_BYTES,
     exclusive_write,

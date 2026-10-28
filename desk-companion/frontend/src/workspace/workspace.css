@@ -637,3 +637,7 @@
   opacity: 0.5;
   pointer-events: none;
 }
+
+.knowledge-section { border-top: 1px solid var(--border, #e6e8eb); padding: 16px 0; }
+.knowledge-section > summary { cursor: pointer; font-weight: 600; padding: 8px 0; }
+.knowledge-section[open] > summary { margin-bottom: 12px; }

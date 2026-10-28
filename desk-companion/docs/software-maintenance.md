@@ -1,6 +1,6 @@
 # Group 2 · Software maintenance contract
 
-28 October2026. This checkpoint turns the current local Alice/Omni/web/phone work into a reproducible branch based on the archived main repository. It also fixes selected-task context and interaction recovery. The owner requests focused documentation reading, maintainable implementation and GitHub publication of meaningful milestones.
+28 October2026. This checkpoint integrates Grok PRs20–59 with the current Alice/Omni/web/phone baseline in PR60. It also fixes selected-task context and interaction recovery. The owner requests focused documentation reading, maintainable implementation and GitHub publication of meaningful milestones.
 
 ## Frontend responsibilities
 
@@ -34,8 +34,17 @@ Qwen Omni remains the tested integration baseline, not the only/final model choi
 
 ## Validation and publication
 
-The [current QA](../../output/qa/2026-10-28-maintainable-ai/verification.md) separates automated contracts, actual browser operations, session-expiry/late-response fault checks and native visual proof. Backend303 and frontend65 checks cover the integrated source. Historical real-model results are dated evidence and are not counted as new passes.
+The [current QA](../../output/qa/2026-10-28-grok-review-merge/verification.md) separates current automated/browser contracts from the earlier #60 native visual proof. This integration does not claim a new Simulator installation or native touch/keyboard pass. The current integration has450 backend and89 frontend checks; the earlier303/65 result is historical #60 evidence. Historical real-model results are dated evidence and are not counted as new passes.
 
 The branch retains main's Vite8.3.5 dependency. [CI](../../.github/workflows/desk-companion.yml) runs backend lint/tests and frontend tests/build with model and executor defaults disabled. It uses locked dependencies and read-only repository permissions. A green CI run does not imply real voice, device, energy or hardware acceptance.
 
 Before another substantial change, read the focused contract and relevant implementation, preserve the user's data/dirty work, use the existing service boundaries and validate the affected behavior. Add abstractions only where they clarify a real responsibility or remove duplication; line count alone is not quality. Update this contract when ownership or lifecycle changes.
+
+## Integrated review invariants
+
+- WorkspaceProvider owns the principal-transition boundary. A changed principal kind/id remounts private views and clears stale pending data; a same-principal preview renewal preserves input. Late replies cannot restore an unmounted identity.
+- SSE transport owns framing and completion acknowledgement. EOF alone retains the original operation; recovery uses the same endpoint/key and updates only the matching conversation/draft.
+- The existing Conversations pool owns temporary context. HTTP/realtime views and recall focus reuse it; no duplicate global transcript table or second model loop. Durable principal-scoped receipts are separate from login/task-scoped history.
+- Shared tool validation preserves omitted fields. Read tools recheck current state; effects keep durable idempotence. Forgetting redacts/tombstones matching historical copies without deleting execution keys.
+- Backup apply checks owner authority before cached results. Stored job requests are fully validated, all three executor families round-trip, and imported folders pass normal path/fingerprint controls.
+- Current notification/proactivity services reuse existing preferences and scheduler. Advanced memory UI is disclosed on demand instead of expanding mobile primary navigation.

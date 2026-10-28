@@ -23,11 +23,12 @@ class Conversation:
     touched: float
     task_id: str | None = None
     items: list = field(default_factory=list)
+    recall_id: str | None = None
 
-    def append(self, role, text):
+    def append(self, role, text, **metadata):
         if not isinstance(text, str) or not text.strip():
             return
-        self.items.append({"role": role, "text": text[:8000]})
+        self.items.append({"role": role, "text": text[:8000], **metadata})
         while len(self.items) > 40 or sum(len(i["text"]) for i in self.items) > 32000:
             self.items.pop(0)
 
@@ -87,6 +88,7 @@ class Conversations:
                 raise DomainError("CONVERSATION_SCOPE_CHANGED", 409)
             if entry.revision != revision:
                 entry.items.clear()
+                entry.recall_id = None
                 entry.revision = revision
         else:
             if len(self.entries) >= 16:

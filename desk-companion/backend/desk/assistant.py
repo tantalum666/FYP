@@ -23,17 +23,24 @@ from .jobs import JobInput, JobQuery
 from .memory import MemoryDeleteDraft, MemoryQuery, MemoryReplaceDraft, MemorySaveDraft
 from .rank import rank_rows
 from .tool_audit import ToolAudit, channel_for
-from .owner_lookup import OwnerClockArgs, OwnerSearch, PlateQuery, owner_clock, owner_search, plate_summary
+from .owner_lookup import (
+    OwnerClockArgs,
+    OwnerSearch,
+    PlateQuery,
+    owner_clock,
+    owner_search,
+    plate_summary,
+)
 from .owner_plan import ProposePlan, propose_plan
 from .tool_policy import audit_suppressed, memory_blocked, outcome_message
 from .recall import cited_id, classify, matching, render, set_focus, zone_of
-from .recall import ensure as ensure_recall
 
 
 class AssistantMessage(StrictModel):
     message: str = Field(min_length=1, max_length=3000)
     language: Literal["en", "zh"] = "en"
     task_id: str | None = Field(default=None, max_length=64)
+    conversation_id: str | None = Field(default=None, max_length=128)
 
 
 class ProposalDecision(StrictModel):
@@ -193,7 +200,6 @@ class AssistantService:
                 "CREATE TABLE IF NOT EXISTS assistant_proposals(id TEXT PRIMARY KEY, kind TEXT NOT NULL, data TEXT NOT NULL, state TEXT NOT NULL, expires_at TEXT NOT NULL, created_at TEXT NOT NULL, result TEXT)"
             )
         self.audit = ToolAudit(self.store)
-        ensure_recall(self.store)
 
     def proposals(self, *, allow_memory=True):
         with self.store.connection() as conn:
@@ -201,7 +207,11 @@ class AssistantService:
                 self._view(r)
                 for r in conn.execute(
                     "SELECT * FROM assistant_proposals WHERE state='pending' AND expires_at>? "
-                    + ("" if allow_memory else "AND kind NOT LIKE 'memory_%' ")
+                    + (
+                        ""
+                        if allow_memory
+                        else "AND kind NOT LIKE 'memory_%' AND COALESCE(json_extract(data, '$.goal'),0)=0 "
+                    )
                     + "ORDER BY created_at DESC LIMIT 20",
                     (iso(self.store.clock()),),
                 )
@@ -308,7 +318,11 @@ class AssistantService:
         except Exception:
             if record:
                 self._record_tool(
-                    name, arguments, call_key, "TOOL_FAILED", {"error": "TOOL_FAILED", "saved": False}
+                    name,
+                    arguments,
+                    call_key,
+                    "TOOL_FAILED",
+                    {"error": "TOOL_FAILED", "saved": False},
                 )
             raise
         if record:
@@ -318,7 +332,9 @@ class AssistantService:
     def _record_tool(self, name, arguments, call_key, outcome, result):
         from .capabilities import CAPABILITIES
 
-        risk = CAPABILITIES[name].risk if isinstance(name, str) and name in CAPABILITIES else "refused"
+        risk = (
+            CAPABILITIES[name].risk if isinstance(name, str) and name in CAPABILITIES else "refused"
+        )
         self.audit.record(
             name=name,
             arguments=arguments,
@@ -357,7 +373,9 @@ class AssistantService:
                 return {"memories": ranked}
             if name == "memory_save_draft":
                 draft = MemorySaveDraft.model_validate(arguments)
-                return self.propose_fact(draft.body, call_key, origin="assistant_confirmed")
+                return self.propose_fact(
+                    draft.body, call_key, origin="assistant_confirmed", audit=False
+                )
             if name == "memory_replace_draft":
                 draft = MemoryReplaceDraft.model_validate(arguments)
                 current = self.runtime.memory.for_model()
@@ -576,7 +594,9 @@ class AssistantService:
                 ).fetchone()
                 if not row:
                     raise DomainError("DRAFT_NOT_FOUND", 404)
-                if row["kind"].startswith("memory_") and not allow_memory:
+                if not allow_memory and (
+                    row["kind"].startswith("memory_") or json.loads(row["data"]).get("goal")
+                ):
                     raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
                 applied = conn.execute(
                     "SELECT response FROM operations WHERE id=?", (internal_key,)
@@ -687,15 +707,18 @@ class AssistantService:
             "result": result,
         }
 
-    def propose_fact(self, body, key, *, origin, note=""):
+    def propose_fact(self, body, key, *, origin, note="", audit=True):
         draft = MemorySaveDraft(body=body)
         if origin not in {"owner", "assistant_confirmed", "conversation"}:
             raise DomainError("TOOL_ARGUMENTS_INVALID", 422)
-        return self.propose(
+        result = self.propose(
             "memory_save",
             {"body": draft.body, "origin": origin, "note": " ".join(note.split())[:160]},
             key,
         )
+        if audit and not audit_suppressed():
+            self._record_tool("memory_save_draft", {"body": draft.body}, key, "ok", result)
+        return result
 
     def memory_turn(self, request, key, *, allow_memory=True):
         """A reviewable memory draft, or None when this message is not a fact.
@@ -749,7 +772,7 @@ class AssistantService:
             "message": "确认后才会删除这条记忆。" if zh else "Confirm before this fact is deleted.",
         }
 
-    def recall_turn(self, request, key, *, allow_memory=True):
+    def recall_turn(self, request, key, *, allow_memory=True, conversation=None):
         """Cite saved facts, or draft deletion of the one fact just cited.
 
         A paired display gets the same owner refusal as the other memory tools.
@@ -762,13 +785,12 @@ class AssistantService:
             raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
         zh = request.language == "zh"
         if parsed["name"] == "forget":
-            return self._forget_cited(key, zh=zh)
+            return self._forget_cited(key, zh=zh, conversation=conversation)
         rows = matching(self.runtime, parsed["tokens"])
         zone = zone_of(self.runtime)
         set_focus(
-            self.store,
+            conversation,
             rows[0]["id"] if len(rows) == 1 else None,
-            iso(self.store.clock()),
         )
         return {
             "mode": "local_rules",
@@ -780,12 +802,12 @@ class AssistantService:
             ],
         }
 
-    def _forget_cited(self, key, *, zh):
-        focus = cited_id(self.store)
+    def _forget_cited(self, key, *, zh, conversation=None):
+        focus = cited_id(conversation)
         active = {row["id"]: row for row in self.runtime.memory.listing()["memories"]}
         row = active.get(focus) if focus else None
         if not row:
-            set_focus(self.store, None, iso(self.store.clock()))
+            set_focus(conversation, None)
             return {
                 "mode": "local_rules",
                 "kind": "clarify",
@@ -805,25 +827,31 @@ class AssistantService:
             "message": "确认后才会删除这条记忆。" if zh else "Confirm before this fact is deleted.",
         }
 
-    def local_message(self, request, key, *, allow_memory=True):
+    def local_message(self, request, key, *, allow_memory=True, conversation=None):
         """A deliberately bounded offline parser, never presented as an AI model."""
         from .style import present
 
-        reply = self._local_message(request, key, allow_memory=allow_memory)
+        reply = self._local_message(
+            request, key, allow_memory=allow_memory, conversation=conversation
+        )
         return present(reply, self.runtime.data.preferences(), request.language)
 
-    def _local_message(self, request, key, *, allow_memory=True):
+    def _local_message(self, request, key, *, allow_memory=True, conversation=None):
         reviewed = self.memory_turn(request, key, allow_memory=allow_memory)
         if reviewed:
             return reviewed
         stated = self.runtime.goals.turn(request, key, allow=allow_memory)
         if stated:
             return stated
-        recalled = self.recall_turn(request, key, allow_memory=allow_memory)
+        recalled = self.recall_turn(
+            request, key, allow_memory=allow_memory, conversation=conversation
+        )
         if recalled:
             return recalled
         text, zh = request.message.strip(), request.language == "zh"
-        if match := re.match(r"^(?:save to folder|保存到文件夹)\s*[:：]\s*(.+)$", text, re.I | re.S):
+        if match := re.match(
+            r"^(?:save to folder|保存到文件夹)\s*[:：]\s*(.+)$", text, re.I | re.S
+        ):
             task = self.runtime.tasks.detail(request.task_id)["task"] if request.task_id else None
             try:
                 result = self.tool(

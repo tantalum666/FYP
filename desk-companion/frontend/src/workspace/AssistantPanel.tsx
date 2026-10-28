@@ -15,7 +15,7 @@ import {
   Box,
 } from "lucide-react";
 import { ApiError, errorText, request, write, writeStream } from "../api";
-import { consumeChunk, emptyStream, progressLabel, type ToolProgress } from "../replyStream";
+import { progressLabel, type ToolProgress } from "../replyStream";
 import type { EventInput, Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import { VoiceAudio } from "./audio";
@@ -76,6 +76,7 @@ interface Proposal {
   };
 }
 interface Reply {
+  conversation_id?: string;
   mode: string;
   kind: string;
   message: string;
@@ -113,7 +114,9 @@ export function AssistantPanel({
       kind?: string;
     }>
   >([]);
-  const [view, setView] = useState<"chat" | "jobs" | "help" | "timing" | "activity">("chat");
+  const [view, setView] = useState<
+    "chat" | "jobs" | "help" | "timing" | "activity"
+  >("chat");
   const [jobsOpened, setJobsOpened] = useState(false);
   const [voiceSlow, setVoiceSlow] = useState(false);
   const [voiceTimings, setVoiceTimings] = useState<TurnMeasurement[]>([]);
@@ -165,6 +168,12 @@ export function AssistantPanel({
     alive = useRef(true);
   const conversationId = useRef<string | undefined>(undefined);
   const pendingSubmission = useRef<string | null>(null);
+  const submissionGeneration = useRef(0);
+  const pendingHttp = useRef<{
+    body: object;
+    generation: number;
+    message: string;
+  } | null>(null);
   const modeSwitching = useRef(false);
   const [microphone, setMicrophone] = useState(false);
   const speechText = useRef({ user: "", assistant: "" });
@@ -224,12 +233,21 @@ export function AssistantPanel({
     if (unavailable) endVoice();
   }, [unavailable]);
   useEffect(() => {
+    const renewed = () => {
+      conversationId.current = undefined;
+      endVoice();
+    };
+    window.addEventListener("desk:session", renewed);
+    return () => window.removeEventListener("desk:session", renewed);
+  }, []);
+  useEffect(() => {
     if (suspended && audio.current) endVoice();
   }, [suspended]);
   const previousTask = useRef(taskId);
   useEffect(() => {
     if (previousTask.current === taskId) return;
     previousTask.current = taskId;
+    submissionGeneration.current += 1;
     if (pendingSubmission.current) setText(pendingSubmission.current);
     pendingSubmission.current = null;
     finishTranscript(true);
@@ -275,6 +293,11 @@ export function AssistantPanel({
         }
         knownProposals.current = next.proposals;
         setProposals(next.proposals);
+        setError((current: unknown) =>
+          current instanceof ApiError && current.code === "AUTH_REQUIRED"
+            ? null
+            : current,
+        );
       }
     } catch (e) {
       if (alive.current) setError(e);
@@ -300,6 +323,7 @@ export function AssistantPanel({
     alive.current = true;
     return () => {
       alive.current = false;
+      submissionGeneration.current += 1;
       const engine = audio.current;
       audio.current = null;
       engine?.close();
@@ -317,10 +341,58 @@ export function AssistantPanel({
       document.removeEventListener("visibilitychange", tick);
     };
   }, [reload, suspended]);
+  const showHttpReply = useCallback((submitted: string, result: Reply) => {
+    setReply(result);
+    conversationId.current = result.conversation_id;
+    setLiveMessage("");
+    setProgress([]);
+    setError(null);
+    const id = Date.now();
+    setTurns((old) =>
+      [
+        ...old,
+        { id, role: "user" as const, body: submitted },
+        {
+          id: id + 1,
+          role: "assistant" as const,
+          body: result.message,
+          kind: result.kind,
+        },
+      ].slice(-40),
+    );
+    setText((current) => (current === submitted ? "" : current));
+    pendingHttp.current = null;
+  }, []);
+  useEffect(() => {
+    const recovered = (event: Event) => {
+      const { operation, result } = (
+        event as CustomEvent<{
+          operation: { path: string; body: object };
+          result: Reply;
+        }>
+      ).detail;
+      const pending = pendingHttp.current;
+      if (
+        !pending ||
+        !alive.current ||
+        pending.generation !== submissionGeneration.current ||
+        operation.path !== "/assistant/messages/stream" ||
+        JSON.stringify(operation.body) !== JSON.stringify(pending.body) ||
+        typeof result?.message !== "string"
+      )
+        return;
+      showHttpReply(pending.message, result);
+      void reload();
+    };
+    window.addEventListener("desk:write-recovered", recovered);
+    return () => window.removeEventListener("desk:write-recovered", recovered);
+  }, [reload, showHttpReply]);
   async function send(e: React.FormEvent) {
     e.preventDefault();
     if (busy || !text.trim() || unavailable) return;
     const submitted = text;
+    const previousHttp = pendingHttp.current;
+    const generation = ++submissionGeneration.current;
     setBusy(true);
     setError(null);
     setNotice("");
@@ -336,34 +408,33 @@ export function AssistantPanel({
         setText("");
         return;
       }
-      const body = { message: submitted, language, task_id: taskId ?? null };
-      let state = emptyStream();
-      let pending = "";
-      await writeStream("/assistant/messages/stream", body, (chunk) => {
-        const next = consumeChunk(state, pending, chunk);
-        state = next.state;
-        pending = next.buffer;
-        if (alive.current) {
-          setLiveMessage(state.message);
-          setProgress(state.tools);
-        }
-      });
-      if (state.error) throw new ApiError(state.error, state.status ?? 500);
-      if (!state.reply) throw new ApiError("CONNECTION_LOST");
-      if (alive.current) setReply(state.reply as Reply);
-      const result = state.reply as Reply;
-      const id = Date.now();
-      if (alive.current) {
-        setLiveMessage("");
-        setTurns((old) => [...old,
-          { id, role: "user" as const, body: submitted },
-          { id: id + 1, role: "assistant" as const, body: result.message, kind: result.kind },
-        ].slice(-40));
-      }
-      setText("");
+      const body = {
+        message: submitted,
+        language,
+        task_id: taskId ?? null,
+        conversation_id: conversationId.current ?? null,
+      };
+      pendingHttp.current = { body, generation, message: submitted };
+      const result = (await writeStream(
+        "/assistant/messages/stream",
+        body,
+        (state) => {
+          if (alive.current && generation === submissionGeneration.current) {
+            setLiveMessage(state.message);
+            setProgress(state.tools);
+          }
+        },
+      )) as Reply;
+      if (!alive.current || generation !== submissionGeneration.current) return;
+      showHttpReply(submitted, result);
       void reload();
       window.dispatchEvent(new Event("desk:jobs"));
     } catch (e) {
+      if (!alive.current || generation !== submissionGeneration.current) return;
+      if (e instanceof ApiError && e.code === "PENDING_WRITE") {
+        pendingHttp.current = previousHttp;
+        if (previousHttp) previousHttp.generation = generation;
+      }
       if (!omni) setError(e);
       else {
         // No text was admitted yet. Keep the specific connection notice instead
@@ -380,7 +451,7 @@ export function AssistantPanel({
       pendingSubmission.current = null;
       setBusy(false);
     } finally {
-      if (!omni) setBusy(false);
+      if (!omni && generation === submissionGeneration.current) setBusy(false);
     }
   }
   async function decide(id: string, action: "confirm" | "cancel") {
@@ -470,6 +541,8 @@ export function AssistantPanel({
     queueMicrotask(() => composer.current?.focus());
   }
   async function newConversation() {
+    submissionGeneration.current += 1;
+    pendingHttp.current = null;
     const id = conversationId.current;
     endVoice();
     try {
@@ -824,8 +897,8 @@ export function AssistantPanel({
               }
             }}
           >
-            {omni && (
-              <button onClick={() => void newConversation()}>
+            {ownerView && (
+              <button disabled={busy} onClick={() => void newConversation()}>
                 {t("New conversation", "新对话")}
               </button>
             )}
@@ -836,9 +909,16 @@ export function AssistantPanel({
               <FolderCheck size={18} />
               {t("File actions & activity", "文件操作与进度")}
             </button>
-            {ownerView && <button onClick={() => { setView("activity"); setMenu(false); }}>
-              {t("Tool activity", "工具记录")}
-            </button>}
+            {ownerView && (
+              <button
+                onClick={() => {
+                  setView("activity");
+                  setMenu(false);
+                }}
+              >
+                {t("Tool activity", "工具记录")}
+              </button>
+            )}
             <a href="?surface=avatar" target="_blank" rel="noreferrer">
               <Box size={18} />
               {t("Character & appearance", "角色与外观")}
@@ -926,12 +1006,21 @@ export function AssistantPanel({
               )}
             </div>
           ))}
-          {liveMessage && <p className="assistant-turn assistant" aria-live="polite">{liveMessage}</p>}
-          {busy && progress.length > 0 && <ol className="tool-progress" aria-live="polite">
-            {progress.map((item, index) => <li key={`${index}-${item.tool}`}>
-              <span>{item.tool}</span><span>{progressLabel(item.phase, language)}</span>
-            </li>)}
-          </ol>}
+          {liveMessage && (
+            <p className="assistant-turn assistant" aria-live="polite">
+              {liveMessage}
+            </p>
+          )}
+          {busy && progress.length > 0 && (
+            <ol className="tool-progress" aria-live="polite">
+              {progress.map((item, index) => (
+                <li key={`${index}-${item.tool}`}>
+                  <span>{item.tool}</span>
+                  <span>{progressLabel(item.phase, language)}</span>
+                </li>
+              ))}
+            </ol>
+          )}
           {transcript && (
             <p className="assistant-turn voice-transcript" aria-live="polite">
               {transcript}
@@ -980,7 +1069,8 @@ export function AssistantPanel({
             const memoryKind =
               p.kind === "memory_save" ||
               p.kind === "memory_replace" ||
-              p.kind === "memory_delete" || p.kind === "memory_consolidate";
+              p.kind === "memory_delete" ||
+              p.kind === "memory_consolidate";
             return (
               <article className="assistant-proposal" key={p.id}>
                 <span className="workspace-eyebrow">
@@ -992,16 +1082,28 @@ export function AssistantPanel({
                       {p.kind === "memory_consolidate"
                         ? t("Review duplicate facts", "核对重复事实")
                         : p.kind === "memory_delete"
-                        ? t("Delete a saved fact", "删除一条记忆")
-                        : p.kind === "memory_replace"
-                          ? t("Correct a saved fact", "更正一条记忆")
-                          : t("Save a fact", "保存一条记忆")}
+                          ? t("Delete a saved fact", "删除一条记忆")
+                          : p.kind === "memory_replace"
+                            ? t("Correct a saved fact", "更正一条记忆")
+                            : t("Save a fact", "保存一条记忆")}
                     </h3>
-                    {p.kind === "memory_consolidate" && <>
-                      <p>{t(p.data.reason_en ?? "", p.data.reason_zh ?? "")}</p>
-                      <p>{t("Keep: ", "保留：")}{p.data.keep_body}</p>
-                      {(p.data.retire ?? []).map((row, index) => <p key={index}>{t("Retire: ", "停用：")}{row.body}</p>)}
-                    </>}
+                    {p.kind === "memory_consolidate" && (
+                      <>
+                        <p>
+                          {t(p.data.reason_en ?? "", p.data.reason_zh ?? "")}
+                        </p>
+                        <p>
+                          {t("Keep: ", "保留：")}
+                          {p.data.keep_body}
+                        </p>
+                        {(p.data.retire ?? []).map((row, index) => (
+                          <p key={index}>
+                            {t("Retire: ", "停用：")}
+                            {row.body}
+                          </p>
+                        ))}
+                      </>
+                    )}
                     {p.data.previous && (
                       <p>
                         {t("Current: ", "当前：")}
@@ -1029,7 +1131,14 @@ export function AssistantPanel({
                       <>
                         <p>
                           <strong>{taskActionLabel}</strong>
-                          {p.data.goal && <span>{t(" — Goal stays open until you confirm completion.", " — 目标在你确认完成前保持开启。")}</span>}
+                          {p.data.goal && (
+                            <span>
+                              {t(
+                                " — Goal stays open until you confirm completion.",
+                                " — 目标在你确认完成前保持开启。",
+                              )}
+                            </span>
+                          )}
                         </p>
                         <p>
                           {t("Deadline: ", "截止：")}
@@ -1209,10 +1318,10 @@ export function AssistantPanel({
                     onClick={() => void decide(p.id, "confirm")}
                   >
                     {p.kind === "memory_consolidate"
-                        ? t("Review duplicate facts", "核对重复事实")
-                        : p.kind === "memory_delete"
-                      ? t("Confirm deletion", "确认删除")
-                      : t("Confirm & save", "确认并保存")}
+                      ? t("Confirm and retire duplicates", "确认并停用重复项")
+                      : p.kind === "memory_delete"
+                        ? t("Confirm deletion", "确认删除")
+                        : t("Confirm & save", "确认并保存")}
                   </button>
                   <button
                     className="secondary"

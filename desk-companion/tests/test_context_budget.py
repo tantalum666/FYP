@@ -6,6 +6,7 @@ from uuid import uuid4
 from desk.agent_loop import AgentLoop
 from desk.assistant import AssistantMessage
 from desk.context import pack_conversation
+from desk.conversation import memory_context
 from desk.context_budget import fit_context
 from desk.model_provider import ModelStep, ScriptedProvider
 from desk.runtime import Runtime
@@ -61,16 +62,22 @@ def test_pending_approval_survives_a_tiny_budget(tmp_path):
 
 def test_older_turns_drop_before_the_newest_and_the_profile_stays(tmp_path):
     runtime = _runtime(tmp_path)
+    runtime.memory.create("My name is Ada", "identity")
+    conversation = runtime.voice.conversations.open(
+        {"kind": "owner", "session": "fixture"}, memory_context(runtime, True)[0]
+    )
     for index in range(4):
-        remember_exchange(runtime, f"op-{index}", f"user-{index}", f"assistant-{index}")
-    wide = pack_conversation(runtime, budget=100000)
-    assert wide["profile"].startswith("You are Desk Companion")
+        remember_exchange(
+            runtime, f"op-{index}", f"user-{index}", f"assistant-{index}", conversation=conversation
+        )
+    wide = pack_conversation(runtime, budget=100000, conversation=conversation)
+    assert "My name is Ada" in wide["profile"]
     assert wide["turns"][0]["body"] == "assistant-3"
-    tight = pack_conversation(runtime, budget=len(encode(wide)) - 1)
+    tight = pack_conversation(runtime, budget=len(encode(wide)) - 1, conversation=conversation)
     bodies = [row["body"] for row in tight["turns"]]
     assert "assistant-3" in bodies
     assert "user-0" not in bodies
-    assert tight["profile"].startswith("You are Desk Companion")
+    assert "My name is Ada" in tight["profile"]
 
 
 def test_selected_task_and_tool_result_outlive_calendar_tasks_and_memories():
@@ -174,8 +181,15 @@ def test_owner_turns_are_replayed_and_a_paired_session_does_not_receive_them(tmp
 
     monkeypatch.setattr(runtime.text_ai.config, "valid", lambda: True)
     monkeypatch.setattr(runtime.text_ai, "generate", generate)
-    runtime.text_ai.message(AssistantMessage(message="Hello lantern"), "owner-one")
-    runtime.text_ai.message(AssistantMessage(message="Next question"), "owner-two")
+    principal = {"kind": "owner", "session": "fixture"}
+    first = runtime.text_ai.message(
+        AssistantMessage(message="Hello lantern"), "owner-one", principal=principal
+    )
+    runtime.text_ai.message(
+        AssistantMessage(message="Next question", conversation_id=first["conversation_id"]),
+        "owner-two",
+        principal=principal,
+    )
     runtime.text_ai.message(
         AssistantMessage(message="Hello lantern"), "display-one", allow_memory=False
     )
@@ -193,5 +207,10 @@ def test_store_clock_used_by_turns_is_the_runtime_clock(tmp_path):
     runtime = Runtime(
         Store(folder, password="fixture-only", clock=lambda: datetime(2026, 10, 27, tzinfo=UTC))
     )
-    remember_exchange(runtime, "one", "hello", "there")
-    assert pack_conversation(runtime)["turns"][0]["created_at"].startswith("2026-10-27")
+    conversation = runtime.voice.conversations.open(
+        {"kind": "owner", "session": "fixture"}, memory_context(runtime, True)[0]
+    )
+    remember_exchange(runtime, "one", "hello", "there", conversation=conversation)
+    assert pack_conversation(runtime, conversation=conversation)["turns"][0][
+        "created_at"
+    ].startswith("2026-10-27")

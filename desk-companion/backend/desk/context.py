@@ -10,7 +10,9 @@ from .turns import recent_turns
 from .workspace_data import owner_style
 
 
-def voice_context_note(runtime, *, allow_memory=True, user_message="", budget=None) -> str:
+def voice_context_note(
+    runtime, *, allow_memory=True, user_message="", budget=None, conversation=None
+) -> str:
     """Owner voice sees budgeted memory hits, pending approvals, and turns.
 
     A paired session gets nothing. Ranking uses the caller's words, or the
@@ -19,18 +21,16 @@ def voice_context_note(runtime, *, allow_memory=True, user_message="", budget=No
     """
     if not allow_memory:
         return ""
-    query = " ".join(str(user_message or "").split()) or _latest_user_text(runtime)
+    query = " ".join(str(user_message or "").split()) or _latest_user_text(runtime, conversation)
     packed = pack_conversation(
-        runtime, include_memory=True, user_message=query, budget=budget
+        runtime, include_memory=True, user_message=query, budget=budget, conversation=conversation
     )
     lines = []
     approvals = packed.get("pending_approvals") or []
     if approvals:
         lines.append("Pending approvals are not saved until the owner confirms them on screen.")
         for row in approvals:
-            lines.append(
-                f"- {row['id']} {row['kind']} expires {row['expires_at']} saved=false"
-            )
+            lines.append(f"- {row['id']} {row['kind']} expires {row['expires_at']} saved=false")
     memories = packed.get("memory") or []
     if memories:
         lines.append(
@@ -50,8 +50,8 @@ def voice_context_note(runtime, *, allow_memory=True, user_message="", budget=No
     return "\n".join(lines)
 
 
-def _latest_user_text(runtime) -> str:
-    for row in recent_turns(runtime):
+def _latest_user_text(runtime, conversation) -> str:
+    for row in recent_turns(runtime, conversation=conversation):
         if row.get("role") == "user" and row.get("body"):
             return str(row["body"])
     return ""
@@ -64,6 +64,7 @@ def pack_conversation(
     include_memory=True,
     user_message="",
     last_tool_result=None,
+    conversation=None,
     budget=None,
 ):
     now = runtime.store.clock()
@@ -82,7 +83,7 @@ def pack_conversation(
         "profile": runtime.profile.text() if include_memory else "",
         "pending_approvals": _approvals(runtime, allow_memory=include_memory),
         "memory": _memories(runtime, user_message) if include_memory else [],
-        "turns": recent_turns(runtime) if include_memory else [],
+        "turns": recent_turns(runtime, conversation=conversation) if include_memory else [],
         "tasks": tasks["tasks"][:30],
         "more_tasks": len(tasks["tasks"]) > 30,
         "selected_task": selected,
@@ -94,11 +95,6 @@ def pack_conversation(
     if last_tool_result is not None:
         packed["last_tool_result"] = last_tool_result
     return fit_context(packed, budget=budget)
-
-
-def _profile(runtime) -> str:
-    body = runtime.persona.current()["body"]
-    return " ".join(str(body or "").split())[:240]
 
 
 def _approvals(runtime, *, allow_memory: bool) -> list[dict]:
@@ -127,6 +123,7 @@ def _memories(runtime, user_message: str) -> list[dict]:
                 "version": item["version"],
                 "body": item["body"],
                 "updated_at": item["updated_at"],
+                "created_at": item["created_at"],
             }
         )
     rows = [

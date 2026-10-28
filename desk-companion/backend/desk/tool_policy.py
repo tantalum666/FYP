@@ -94,9 +94,7 @@ def kind_for(code: str) -> str:
     return CODE_KIND.get(code, "invalid")
 
 
-OWNER_ONLY_TOOLS = frozenset(
-    {"owner_search", "plate_summary", "owner_clock", "propose_plan"}
-)
+OWNER_ONLY_TOOLS = frozenset({"owner_search", "plate_summary", "owner_clock", "propose_plan"})
 
 
 def memory_blocked(name: object, allow_memory: bool) -> bool:
@@ -201,7 +199,7 @@ def execute_tool(
         )
         return result
     key = effect_key(scope, capability.name, parsed)
-    stored = _stored(runtime, key)
+    stored = _stored(runtime, key) if capability.risk != "read" else None
     if stored is not None:
         return stored
     seconds = capability.timeout if timeout is None else timeout
@@ -216,6 +214,7 @@ def execute_tool(
         seconds,
         waiter or _wait,
         CAPABILITIES,
+        cache=capability.risk != "read",
     )
 
 
@@ -230,9 +229,24 @@ def _run_bounded(
     seconds: float,
     waiter: Callable[[threading.Event, float], bool],
     capabilities: dict,
+    *,
+    cache: bool,
 ) -> dict:
     holder: dict[str, Any] = {}
     done = threading.Event()
+    outcome_lock = threading.Lock()
+    read_outcome = {}
+
+    def claim(code, result):
+        if cache:
+            return _claim(runtime, key, code, result)
+        # Read results are never persisted/replayed across revisions. Keep only
+        # this call's timeout race outcome, without duplicating the draft policy.
+        with outcome_lock:
+            inserted = not read_outcome
+            if inserted:
+                read_outcome.update(code=code, result=result)
+            return inserted, read_outcome["code"], read_outcome["result"]
 
     def work() -> None:
         produced: dict = {"error": "TOOL_FAILED", "saved": False}
@@ -243,7 +257,9 @@ def _run_bounded(
                     # Positional only: voice tests replace tool() and reject new keywords.
                     # Memory denial is handled before this call.
                     value = runtime.assistant.tool(name, arguments, key)
-                produced = value if isinstance(value, dict) else {"error": "TOOL_FAILED", "saved": False}
+                produced = (
+                    value if isinstance(value, dict) else {"error": "TOOL_FAILED", "saved": False}
+                )
                 code = "ok" if isinstance(value, dict) else "TOOL_FAILED"
             except DomainError as error:
                 produced = tool_error(error)
@@ -252,7 +268,7 @@ def _run_bounded(
                 produced = {"error": "TOOL_FAILED", "saved": False}
                 code = "TOOL_FAILED"
             holder["produced"] = produced
-            inserted, outcome, stored = _claim(runtime, key, code, produced)
+            inserted, outcome, stored = claim(code, produced)
             holder["stored"] = stored
             if outcome == "TOOL_TIMEOUT":
                 discard_unapproved(runtime, produced)
@@ -273,9 +289,13 @@ def _run_bounded(
 
     threading.Thread(target=work, name="tool-policy", daemon=True).start()
     if waiter(done, seconds):
-        return holder.get("stored") or holder.get("produced") or {"error": "TOOL_FAILED", "saved": False}
+        return (
+            holder.get("stored")
+            or holder.get("produced")
+            or {"error": "TOOL_FAILED", "saved": False}
+        )
     timeout_result = {"error": "TOOL_TIMEOUT", "saved": False}
-    inserted, outcome, stored = _claim(runtime, key, "TOOL_TIMEOUT", timeout_result)
+    inserted, outcome, stored = claim("TOOL_TIMEOUT", timeout_result)
     if inserted:
         _audit(
             runtime,
@@ -337,7 +357,11 @@ def outcome_message(outcome: str, result, language: str = "en") -> str:
         return owner_message("prepared", language)
     if outcome == "ok" and isinstance(result, dict):
         plan = result.get("plan")
-        if isinstance(plan, dict) and isinstance(plan.get("summary"), str) and plan["summary"].strip():
+        if (
+            isinstance(plan, dict)
+            and isinstance(plan.get("summary"), str)
+            and plan["summary"].strip()
+        ):
             return plan["summary"].strip()
     if outcome == "ok":
         return ""
@@ -353,7 +377,9 @@ def _pending_side_effect(result: dict) -> bool:
     return isinstance(job, dict) and job.get("state") == "review"
 
 
-def _audit(runtime, name, arguments, call_key, channel_name, outcome, result, language, capabilities):
+def _audit(
+    runtime, name, arguments, call_key, channel_name, outcome, result, language, capabilities
+):
     message = outcome_message(outcome, result, language)
     risk = "refused"
     if isinstance(name, str) and name in capabilities:
@@ -377,7 +403,11 @@ def tool_error(error: DomainError) -> dict:
         result["fields"] = error.tool_fields
         result["hint"] = error.tool_hint
     elif error.code == "INVALID_OCCURRENCE":
-        result["hint"] = "For scope=occurrence copy occurrence_key from calendar_query. For the whole event use scope=series."
+        result["hint"] = (
+            "For scope=occurrence copy occurrence_key from calendar_query. For the whole event use scope=series."
+        )
     elif error.code in {"EVENT_NOT_FOUND", "VERSION_CONFLICT"}:
-        result["hint"] = "Query the current calendar/task/memory before retrying. A proposal id is not an event id; copy the current record id and version from the appropriate read tool."
+        result["hint"] = (
+            "Query the current calendar/task/memory before retrying. A proposal id is not an event id; copy the current record id and version from the appropriate read tool."
+        )
     return result

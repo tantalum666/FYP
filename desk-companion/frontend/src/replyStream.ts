@@ -41,15 +41,28 @@ export interface StreamState {
 }
 
 export function emptyStream(): StreamState {
-  return { message: "", tools: [], reply: null, error: null, status: null, done: false };
+  return {
+    message: "",
+    tools: [],
+    reply: null,
+    error: null,
+    status: null,
+    done: false,
+  };
 }
 
-export function progressLabel(phase: "started" | "finished", language: string): string {
+export function progressLabel(
+  phase: "started" | "finished",
+  language: string,
+): string {
   if (phase === "started") return language === "zh" ? "进行中" : "Working";
   return language === "zh" ? "完成" : "Done";
 }
 
-export function reduceReply(state: StreamState, event: StreamEvent): StreamState {
+export function reduceReply(
+  state: StreamState,
+  event: StreamEvent,
+): StreamState {
   if (event.type === "delta") {
     return { ...state, message: state.message + event.text };
   }
@@ -67,7 +80,10 @@ export function reduceReply(state: StreamState, event: StreamEvent): StreamState
     if (event.phase === "finished") {
       let index = -1;
       for (let cursor = tools.length - 1; cursor >= 0; cursor -= 1) {
-        if (tools[cursor].tool === event.tool && tools[cursor].phase === "started") {
+        if (
+          tools[cursor].tool === event.tool &&
+          tools[cursor].phase === "started"
+        ) {
           index = cursor;
           break;
         }
@@ -81,7 +97,9 @@ export function reduceReply(state: StreamState, event: StreamEvent): StreamState
   }
   if (event.type === "done") {
     const message =
-      typeof event.reply?.message === "string" ? event.reply.message : state.message;
+      typeof event.reply?.message === "string"
+        ? event.reply.message
+        : state.message;
     return {
       ...state,
       message,
@@ -91,12 +109,20 @@ export function reduceReply(state: StreamState, event: StreamEvent): StreamState
     };
   }
   if (event.type === "error") {
-    return { ...state, error: event.code, status: event.status ?? 500, done: true };
+    return {
+      ...state,
+      error: event.code,
+      status: event.status ?? 500,
+      done: true,
+    };
   }
   return state;
 }
 
-export function parseSse(buffer: string): { events: StreamEvent[]; rest: string } {
+export function parseSse(buffer: string): {
+  events: StreamEvent[];
+  rest: string;
+} {
   const parts = buffer.replace(/\r\n/g, "\n").split("\n\n");
   const rest = parts.pop() ?? "";
   const events: StreamEvent[] = [];
@@ -128,7 +154,10 @@ export function consumeChunk(
   chunk: string,
 ): { state: StreamState; buffer: string } {
   const parsed = parseSse(buffer + chunk);
-  return { state: parsed.events.reduce(reduceReply, state), buffer: parsed.rest };
+  return {
+    state: parsed.events.reduce(reduceReply, state),
+    buffer: parsed.rest,
+  };
 }
 
 /** Read a Response body, one chunk at a time. A buffered phone body is one chunk. */
@@ -148,4 +177,20 @@ export async function readBody(
     }
     onChunk(decoder.decode(value, { stream: true }));
   }
+}
+
+/** Decode one complete reply. Only a terminal done frame acknowledges a write. */
+export async function readReply(
+  response: Response,
+  onState: (state: StreamState) => void,
+): Promise<StreamState> {
+  let state = emptyStream();
+  let pending = "";
+  await readBody(response, (chunk) => {
+    const next = consumeChunk(state, pending, chunk);
+    state = next.state;
+    pending = next.buffer;
+    onState(state);
+  });
+  return state;
 }

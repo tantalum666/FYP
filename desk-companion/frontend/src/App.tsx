@@ -95,7 +95,9 @@ export function App() {
         : "week",
   );
   const deviceLayout = query.get("surface") === "device";
-  const pages = nav.filter(item => item.id !== "diagnostics" || !deviceLayout);
+  const pages = nav.filter(
+    (item) => item.id !== "diagnostics" || !deviceLayout,
+  );
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null),
     [connection, setConnection] = useState<"connecting" | "online" | "offline">(
       "connecting",
@@ -113,7 +115,12 @@ export function App() {
   const [filters, setFilters] = useState({ personal: true, study: true });
   const [error, setError] = useState<unknown>(null),
     [recovering, setRecovering] = useState(false);
-  const { session, setSession, recoverSession, expired: sessionExpired } = useWorkspaceSession(setError);
+  const {
+    session,
+    setSession,
+    recoverSession,
+    expired: sessionExpired,
+  } = useWorkspaceSession(setError);
   const currentRevision = useRef(0);
   const needsRefresh = useRef(false);
   const [loadedRange, setLoadedRange] = useState("");
@@ -218,9 +225,12 @@ export function App() {
 
   function failOwnerRequest(error: unknown) {
     const kind = classifyFailure(error, !!session);
-    if (kind === "session-expired" || kind === "signed-out") void recoverSession();
-    else if (kind === "error") { setError(error); setConnection("online"); }
-    else setConnection("offline");
+    if (kind === "session-expired" || kind === "signed-out")
+      void recoverSession();
+    else if (kind === "error") {
+      setError(error);
+      setConnection("online");
+    } else setConnection("offline");
   }
   useEffect(() => {
     if (!session) return;
@@ -352,8 +362,17 @@ export function App() {
     setRecovering(true);
     setError(null);
     try {
+      const recoveredChat =
+        pendingWrite()?.path === "/assistant/messages/stream";
       await retryPending();
-      setNotice(t("Save confirmed", "已确认保存"));
+      setNotice(
+        recoveredChat
+          ? t(
+              "Reply recovered. Review any draft before saving.",
+              "回复已恢复。草稿仍需核对后确认保存。",
+            )
+          : t("Save confirmed", "已确认保存"),
+      );
       setEditor(null);
       setDetail(null);
       refresh();
@@ -536,7 +555,16 @@ export function App() {
             </button>
           </div>
         </div>
-        {connection === "offline" && offlineNotice(t("Offline. Showing your last loaded calendar.", "已离线，当前显示上次读取的日历。"), t("Reconnect", "重新连接"), refresh, <RefreshCw size={14} aria-hidden="true" />)}
+        {connection === "offline" &&
+          offlineNotice(
+            t(
+              "Offline. Showing your last loaded calendar.",
+              "已离线，当前显示上次读取的日历。",
+            ),
+            t("Reconnect", "重新连接"),
+            refresh,
+            <RefreshCw size={14} aria-hidden="true" />,
+          )}
         <NoticeInbox t={t} language={language === "zh" ? "zh" : "en"} />
         {pendingWrite() && !editor && (
           <div className="connection-banner pending" role="status">
@@ -607,22 +635,22 @@ export function App() {
             )}
             {page === "today" && (
               <>
-              <MomentCard t={t} />
-              <TodayView
-                snapshot={visible}
-                language={language}
-                now={now.setZone(zone)}
-                onNew={newEvent}
-                onOpen={setDetail}
-                onCalendar={() => {
-                  setAnchorDate(dayISO(today));
-                  goPage("calendar");
-                  setView("day");
-                }}
-                onDevice={() => goPage("device")}
-                onTasks={() => goPage("tasks")}
-                t={t}
-              />
+                <MomentCard t={t} />
+                <TodayView
+                  snapshot={visible}
+                  language={language}
+                  now={now.setZone(zone)}
+                  onNew={newEvent}
+                  onOpen={setDetail}
+                  onCalendar={() => {
+                    setAnchorDate(dayISO(today));
+                    goPage("calendar");
+                    setView("day");
+                  }}
+                  onDevice={() => goPage("device")}
+                  onTasks={() => goPage("tasks")}
+                  t={t}
+                />
               </>
             )}
             {page === "tasks" && (

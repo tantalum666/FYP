@@ -1,21 +1,22 @@
 # Group 2 · Current software entry
 
-28 October2026. Latest owner instruction: continue AI/software autonomously, keep code maintainable, read Markdown selectively at startup, update handoffs at closeout, and publish meaningful milestones to GitHub.
+28 October 2026. The owner authorized review/fix/merge of Grok PRs20–59 and explicitly included #60 while retaining the latest Alice, phone and unified Omni baseline.
 
 ## Start here
 
-Use`/Users/tantalum/.codex/worktrees/software-ai-maintenance/FYP`, branch`codex/software-ai-maintenance-20261028`. Read[AGENTS](AGENTS.md),[current product](product.md),[handoff](handoff.md), recent[decisions](decision-log.md), and the[maintenance contract](desk-companion/docs/software-maintenance.md). Read additional focused sources as needed; do not restart the old full-library reading process unless the owner explicitly asks.
+Use `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, branch `codex/grok-integration-20261028`. Read [AGENTS](AGENTS.md), [product](product.md), [handoff](handoff.md), the latest relevant [decisions](decision-log.md), and [software maintenance](desk-companion/docs/software-maintenance.md). Read only the additional focused sections needed for the next task.
 
-This branch is based on main46ac167 and contains the recent Alice, unified Omni, Linux fixed-workflow, web and native phone source plus maintainability/task-context/recovery fixes. It is published in[draft PR #60](https://github.com/tantalum666/FYP/pull/60), not merged. The archive layout remains. Source tests:303backend/65frontend; actual browser/native visual evidence is in[current QA](output/qa/2026-10-28-maintainable-ai/verification.md). Hosted CI did not start because of an account-level Actions restriction; do not call it a remote test pass or an executed code failure.
+All41 captured heads are integrated by ancestry. The original three Grok rehearsal failures and further cross-stack permission/context/backup/recovery bugs were repaired. Current local checks are450 backend/89 frontend, Ruff, types/build and controlled desktop/mobile browser flows. Publication/merge state and exact hashes are in [QA receipts](output/qa/2026-10-28-grok-review-merge/publication.json); do not substitute a local commit for remote readback.
 
-The old`/Users/tantalum/.codex/worktrees/grok-review-merge-20261015/FYP`retains its dirty original software/authoring/evidence. The default`/Users/tantalum/Documents/ChatGPT/FYP`retains older code and school originals. The archive worktree retains previous repository/hardware work. Do not overwrite any of them or push their private backups. Authoring materials and complete historical raw QA not included in this checkpoint remain local; source manifests/licences for distributed runtime assets are retained.
+The detached `grok-integration-review/FYP` checkout preserves the sealed pre-fix review snapshot188f7b5; do not copy it over the fixed branch. `software-ai-maintenance/FYP` preserves #60 and its earlier live preview. The older dirty `grok-review-merge-20261015/FYP` and primary `Documents/ChatGPT/FYP` preserve authoring, private runtime data and school originals. Do not reset or republish them wholesale.
 
-## Boundaries and next gate
+## Boundaries
 
-- Phone has full-screen Alice and Plan/More; no return to the rejected seven-tab/four-tab-with-small-character directions. Desktop and Device keep independent layouts.
-- Qwen is the implemented/tested baseline, not a final exclusive AI choice. Paid budgets are closed. Current tests use scripted providers and fictional local data; no new real-model quality/latency claims.
-- Native build/install/launch/visual proof is current. Native WebView touch/keyboard automation, real phone, media, power/temperature and notifications still need independent evidence.
-- Pi remains paused at the previously prepared Halls cold-start state. Do not boot, network-test, rewrite SD or deploy this code unless explicitly resumed.
-- This semester prioritizes software and AI; Luwu/Pi integration is best-effort. No school document modification or submission follows from software work.
+- Phone keeps full-screen Alice and Plan/More; desktop/device remain separate layouts.
+- Temporary context is login/task-scoped RAM. Durable operation receipts, approved facts and job history are separate persisted data.
+- Qwen is the measured baseline, not the sole/final AI choice. Prior paid budgets remain closed; current tests use fake/scripted providers.
+- The450/89 and browser results do not update the installed native Simulator or establish real-device, media, power or notification delivery acceptance.
+- Pi remains paused. This semester prioritizes software/AI; Luwu/Pi integration is best-effort and separately authorized.
+- No school report was changed or submitted. Historical PRs4/5/15/16 and hardware19 remain outside this merge.
 
-The one current next step and live local URLs/processes are kept in[handoff](handoff.md). Old PRs #4/#5/#15/#16 and newer independent PR20 are not automatically merged by this checkpoint.
+The one next step and running preview processes are in [handoff](handoff.md). The original Grok merge guide and software-chapter draft are historical, not current run instructions.

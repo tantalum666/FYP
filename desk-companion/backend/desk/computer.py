@@ -268,7 +268,11 @@ class FolderDropExecutor:
             resolved = lexical.resolve(strict=True)
         except OSError:
             raise ExecutionRejected("COMPUTER_SCOPE_UNAVAILABLE", 409) from None
-        if str(resolved) != cfg["path"] or resolved != lexical:
+        if (
+            str(resolved) != cfg["path"]
+            or resolved != lexical
+            or hashlib.sha256(str(resolved).encode()).hexdigest() != cfg["fingerprint"]
+        ):
             raise ExecutionRejected("COMPUTER_SCOPE_CHANGED", 409)
         return root
 

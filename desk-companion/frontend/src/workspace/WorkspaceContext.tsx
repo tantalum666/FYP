@@ -1,5 +1,6 @@
 import {
   createContext,
+  Fragment,
   useCallback,
   useContext,
   useEffect,
@@ -7,7 +8,7 @@ import {
   useState,
 } from "react";
 import type { ReactNode } from "react";
-import { ApiError, request } from "../api";
+import { ApiError, request, clearPending } from "../api";
 import type { WorkspaceSnapshot } from "./types";
 
 const WorkspaceContext = createContext<{
@@ -22,6 +23,8 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const [offline, setOffline] = useState(false);
   const [stale, setStale] = useState(true);
   const lastSuccess = useRef(0);
+  const principal = useRef<string | null>(null);
+  const [principalKey, setPrincipalKey] = useState("initial");
   const live = useRef(false),
     busy = useRef(false);
   const refresh = useCallback(async () => {
@@ -30,6 +33,14 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     try {
       const next = await request<WorkspaceSnapshot>("/workspace");
       if (live.current) {
+        const identity = `${next.principal.kind}:${next.principal.id}`;
+        if (principal.current !== identity) {
+          if (principal.current !== null) {
+            clearPending();
+            setPrincipalKey(identity);
+          }
+          principal.current = identity;
+        }
         setData(next);
         setOffline(false);
         lastSuccess.current = Date.now();
@@ -67,7 +78,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   }, [refresh]);
   return (
     <WorkspaceContext.Provider value={{ data, offline, stale, refresh }}>
-      {children}
+      <Fragment key={principalKey}>{children}</Fragment>
     </WorkspaceContext.Provider>
   );
 }

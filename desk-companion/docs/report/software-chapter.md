@@ -1,5 +1,7 @@
 # 软件章节草稿
 
+> HISTORICAL — 2026-10-27基于main46ac167的软件章节草稿。下文“未合并／未实现”与测试数只适用于该快照，不是当前软件状态，也不是本轮改写或提交的Progress Report I。当前实现与验证见[产品](../../../product.md)和[整合QA](../../../output/qa/2026-10-28-grok-review-merge/verification.md)。
+
 Group 2。日期：2026-10-27。这是 FYP 报告的软件章节草稿，只写 `main` `46ac167` 里已经提交的 Desk Companion 代码，以及 [decision-log.md](../../../decision-log.md) 里已经记下的决定。开放 PR 单独放在第 3 节，不能写成已经合并。没有实测的数字不写成设备准确率、时延或商业收益。
 
 更细的模块说明见 [architecture.md](../architecture.md)（2026-10-15）。本草稿不取代那份说明，也不把研究假设升成已批准功能。

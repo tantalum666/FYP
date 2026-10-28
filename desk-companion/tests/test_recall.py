@@ -8,6 +8,7 @@ from fastapi.testclient import TestClient
 
 from desk.app import create_app
 from desk.assistant import AssistantMessage
+from desk.conversation import memory_context
 from desk.store import DomainError
 from desk.text_ai import TextAssistant, TextConfig
 
@@ -50,20 +51,26 @@ def test_a_recalled_fact_names_the_day_and_forget_that_waits_for_confirm(tmp_pat
         "ask-zh",
     )
     assert "I prefer tea" in zh["message"] and "我更喜欢茶" in zh["message"]
+    conversation = runtime.voice.conversations.open(
+        {"kind": "owner", "session": "fixture"}, memory_context(runtime, True)[0]
+    )
     lamp = runtime.assistant.local_message(
         AssistantMessage(message="what do you remember about the lamp"),
         "ask-lamp",
+        conversation=conversation,
     )
     assert lamp["message"] == "You told me on 3 Oct 2026: The desk lamp preset is calm"
-    draft = runtime.assistant.local_message(AssistantMessage(message="forget that"), "forget")
+    draft = runtime.assistant.local_message(
+        AssistantMessage(message="forget that"), "forget", conversation=conversation
+    )
     assert draft["kind"] == "draft" and draft["saved"] is False
     bodies = {row["body"] for row in runtime.memory.for_model()}
     assert "The desk lamp preset is calm" in bodies
     runtime.assistant.decide(draft["proposal"]["id"], "confirm", "confirm-forget")
-    assert "The desk lamp preset is calm" not in {
-        row["body"] for row in runtime.memory.for_model()
-    }
-    again = runtime.assistant.local_message(AssistantMessage(message="忘掉那个", language="zh"), "again")
+    assert "The desk lamp preset is calm" not in {row["body"] for row in runtime.memory.for_model()}
+    again = runtime.assistant.local_message(
+        AssistantMessage(message="忘掉那个", language="zh"), "again", conversation=conversation
+    )
     assert again["kind"] == "clarify"
 
 
@@ -98,10 +105,17 @@ def test_a_configured_provider_is_not_called_for_recall_or_forget_that(tmp_path)
         TextConfig("qwen", "test-model", ENDPOINT, "fixture-key"),
         httpx.MockTransport(response),
     )
-    reply = service.message(AssistantMessage(message="do you remember tea"), "paid-recall")
+    principal = {"kind": "owner", "session": "fixture"}
+    reply = service.message(
+        AssistantMessage(message="do you remember tea"), "paid-recall", principal=principal
+    )
     assert calls == []
     assert "3 Oct 2026" in reply["message"]
-    forgotten = service.message(AssistantMessage(message="forget it"), "paid-forget")
+    forgotten = service.message(
+        AssistantMessage(message="forget it", conversation_id=reply["conversation_id"]),
+        "paid-forget",
+        principal=principal,
+    )
     assert calls == [] and forgotten["kind"] == "draft"
 
 

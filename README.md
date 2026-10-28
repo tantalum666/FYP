@@ -35,7 +35,7 @@ cd ..
 
 ## 当前软件检查点
 
-本分支基于归档后的main，整合**AliceChan、统一Omni文字／语音、有界上下文、逐轮时限、Linux固定双应用、网页与全屏手机**；同时拆分手机代码职责，增加选中事务会话绑定、读取去重、迟到响应和会话失效恢复。实现见[维护契约](desk-companion/docs/software-maintenance.md)，验证见[本轮QA](output/qa/2026-10-28-maintainable-ai/verification.md)。
+本分支基于归档后的main，整合**AliceChan、统一Omni文字／语音、有界上下文、逐轮时限、Linux固定双应用、网页与全屏手机**；同时整合Grok #20–#59：有界工具循环、流式回复、记忆／目标／通知、备份与诊断；保留手机职责拆分，并修复权限、恢复、数据保留和跨栈兼容问题。实现见[维护契约](desk-companion/docs/software-maintenance.md)，验证见[本轮QA](output/qa/2026-10-28-grok-review-merge/verification.md)。
 
 Qwen为已测基线，其他AI候选仍开放。本轮使用模拟提供商及虚构本地数据，没有新收费调用。Pi暂停；原生触控／键盘、真机和硬件另验。旧PR与作者工程留作历史，不把独立软件分支推送称为合并或部署。
 

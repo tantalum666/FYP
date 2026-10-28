@@ -1,8 +1,8 @@
 """Server-held credentials, bounded realtime sessions, replaceable wire protocols.
 
-Audio is not stored. Owner and local-desk voice transcripts are text rows in
-the same turn budget as typed chat. A paired display does not write or read
-them. Duration and provider-reported usage are still the only session metrics.
+Audio is not stored. Owner text uses login/task-scoped bounded RAM continuity;
+paired and local-agent sessions do not create a reusable owner history.
+Duration and provider-reported usage are the only persisted session metrics.
 Read/write tools share the same proposal service as the text UI.
 """
 
@@ -33,11 +33,11 @@ from .voice_credentials import qwen_key
 from .voice_media import MAX_IMAGE_BASE64, jpeg_image
 from .voice_turns import VoiceTurns
 
-QWEN_OMNI_MODEL = "qwen3.8-omni-flash-realtime"
-QWEN_OMNI_ENDPOINT = "wss://maas.qianwenaiapi.com/api-ws/v1/realtime"
 from .context import voice_context_note
 from .tool_policy import tool_visible
-from .turns import apply_voice_event, voice_turn_log
+
+QWEN_OMNI_MODEL = "qwen3.8-omni-flash-realtime"
+QWEN_OMNI_ENDPOINT = "wss://maas.qianwenaiapi.com/api-ws/v1/realtime"
 
 
 def flatten_schema(schema):
@@ -795,10 +795,6 @@ class VoiceService:
         restored = False
         if isinstance(protocol, QwenOmniProtocol):
             protocol.mode = mode
-        transcript = voice_turn_log(self.runtime, session_id, principal)
-        note = voice_context_note(self.runtime, allow_memory=allow_memory)
-        if note:
-            instructions = instructions + "\n" + note
         dispatcher = ToolDispatcher(
             self.runtime, session_id, allow_memory=allow_memory, language=language
         )
@@ -826,9 +822,12 @@ class VoiceService:
             ):
                 raise DomainError("VOICE_MESSAGE_NOT_ALLOWED", 422)
             instructions += task_context(self.runtime, principal, task_id)
-            if isinstance(protocol, QwenOmniProtocol):
-                conversation = self.conversations.open(
-                    principal, revision, conversation_id, task_id=task_id
+            conversation = self.conversations.open(
+                principal, revision, conversation_id, task_id=task_id
+            )
+            if not isinstance(protocol, QwenOmniProtocol):
+                instructions += "\n" + voice_context_note(
+                    self.runtime, allow_memory=allow_memory, conversation=conversation
                 )
             async with self.connector(
                 endpoint,
@@ -924,11 +923,13 @@ class VoiceService:
                         return False
                     with self.store.connection() as conn:
                         current_zone = self.store.settings(conn)["timezone"]
-                    current = voice_instructions(
+                    current = render_prompt(
                         self.runtime.persona.current()["body"],
+                        self.runtime.data.preferences(),
                         language,
-                        self.store.clock().astimezone(ZoneInfo(current_zone)).isoformat(),
-                        current_zone,
+                        channel="voice",
+                        now_iso=self.store.clock().astimezone(ZoneInfo(current_zone)).isoformat(),
+                        zone=current_zone,
                     )
                     current += current_facts + draft_context(
                         self.runtime, principal["kind"] == "owner"
@@ -1015,7 +1016,6 @@ class VoiceService:
                             if conversation:
                                 conversation.append("user", value)
                                 conversation.touched = time.monotonic()
-                            transcript.add_typed(value)
                             for item in protocol.text(value):
                                 await send_provider(item)
                             await send_client(
@@ -1104,7 +1104,11 @@ class VoiceService:
                         for event in protocol.events(data):
                             kind = event["type"]
                             if kind == "ready":
-                                if conversation and not restored:
+                                if (
+                                    conversation
+                                    and not restored
+                                    and isinstance(protocol, QwenOmniProtocol)
+                                ):
                                     for item in conversation.replay():
                                         await send_provider(item)
                                     restored = True
@@ -1129,7 +1133,6 @@ class VoiceService:
                                     turns.finish("interrupted")
                                     if event.get("speech_started"):
                                         turns.start()
-                                apply_voice_event(transcript, event)
                                 await cancel_drafts(event.get("ids"))
                                 self.state = "listening"
                                 if isinstance(protocol, QwenOmniProtocol):
@@ -1175,7 +1178,6 @@ class VoiceService:
                                         if timing:
                                             await send_client(timing)
                                 last_activity = time.monotonic()
-                                apply_voice_event(transcript, event)
                             elif kind == "tool":
                                 self.state = "thinking"
                                 last_activity = time.monotonic()
@@ -1237,7 +1239,6 @@ class VoiceService:
                                 assistant_text = ""
                                 if mode == "text":
                                     turns.finish("text_complete")
-                                apply_voice_event(transcript, event)
                                 self.state = "confirm" if drafts else "listening"
                             elif kind == "error":
                                 await send_client(event)
@@ -1373,7 +1374,6 @@ class VoiceService:
             dispatcher.stop_accepting()
             turns.finish("session_ended")
             try:
-                transcript.commit()
                 # Only numeric usage is evidence, not arbitrary provider response text.
                 safe_usage = (
                     {

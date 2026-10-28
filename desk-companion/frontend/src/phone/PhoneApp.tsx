@@ -42,7 +42,11 @@ export function PhoneApp() {
     setLang(value);
   };
   const [error, setError] = useState<unknown>(null);
-  const { session, setSession, expired: sessionExpired } = useWorkspaceSession(setError);
+  const {
+    session,
+    setSession,
+    expired: sessionExpired,
+  } = useWorkspaceSession(setError);
   const [panel, setPanel] = useState<PhonePanel | null>(null);
   const [planTab, setPlanTab] = useState<"calendar" | "tasks">("calendar");
   const [reminders, setReminders] = useState(false);
@@ -160,9 +164,18 @@ export function PhoneApp() {
   const recover = async () => {
     setRecovering(true);
     try {
+      const recoveredChat =
+        pendingWrite()?.path === "/assistant/messages/stream";
       await retryPending();
       refresh();
-      setNotice(t("Save confirmed", "已确认保存"));
+      setNotice(
+        recoveredChat
+          ? t(
+              "Reply recovered. Review any draft before saving.",
+              "回复已恢复。草稿仍需核对后确认保存。",
+            )
+          : t("Save confirmed", "已确认保存"),
+      );
     } catch (e) {
       setError(e);
     } finally {
@@ -185,13 +198,11 @@ export function PhoneApp() {
           setLanguage={setLanguage}
           expired={sessionExpired}
           startupError={error}
-          onLogin={value => { setSession(value); setError(null); }}
+          onLogin={(value) => {
+            setSession(value);
+            setError(null);
+          }}
         />
-        {!!error && (
-          <p className="error-message" role="alert">
-            {errorText(error, t)}
-          </p>
-        )}
       </>
     );
   return (

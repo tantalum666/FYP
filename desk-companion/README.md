@@ -4,13 +4,13 @@
 > 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../START_HERE_NEXT_CHAT.md)。
 <!-- /FYP-CONTEXT-20261027 -->
 
-更新：2026-10-28。本分支整合此前本地Alice／Omni／网页／手机代码，并完成事务上下文、共享会话恢复和组件职责拆分。[维护契约](docs/software-maintenance.md)／[本轮QA](../output/qa/2026-10-28-maintainable-ai/verification.md)记录当前303项后端、65项前端与实际操作证据。Pi继续暂停，旧收费预算关闭。
+更新：2026-10-28。本分支整合此前本地Alice／Omni／网页／手机代码，并完成事务上下文、共享会话恢复和组件职责拆分。[维护契约](docs/software-maintenance.md)／[本轮QA](../output/qa/2026-10-28-grok-review-merge/verification.md)记录当前450项后端、89项前端、Grok整合修复与实际操作证据。Pi继续暂停，旧收费预算关闭。
 
 网页侧栏角色、宽屏助理、记忆／风格／设置、日程和记录已改；[全屏手机](../planning/2026-10-28/phone-simulator-implementation.md)已真实接入并装到模拟器。手机以Alice为首页，Plan集中日历／事务，More展开管理。原生触控／键盘和真机验收仍待。Qwen只是已测基线，其他AI候选继续保留。
 
 当前常驻角色是 AliceChan；一个输入框和语音按钮连接同一个 Qwen Omni，共享短期上下文与已批准的长期记忆。完整角色原件、A1 历史、九套服装和所有研究已保存。[角色来源](../design/desk-companion/characters/2026-10-22-alice/README.md)／[统一对话](docs/omni-conversation.md)。
 
-2026-10-23–24历史试验已通过虚构资料下日历／记忆操作链、变化画面、600秒生命周期和合成停顿／插话；40条有效实际开声计时p50=3.0741秒、p95=3.8889秒。当时应用基线为279／56项，不能当作本轮真实模型重测。当前软件303／65项及新增事务上下文、恢复检查见文首QA；真人声学与Pi仍待。历史AI记录 (local historical material: `output/qa/2026-10-23-ai-acceptance/resumed/verification.md`; not included in this checkpoint)。
+2026-10-23–24历史试验已通过虚构资料下日历／记忆操作链、变化画面、600秒生命周期和合成停顿／插话；40条有效实际开声计时p50=3.0741秒、p95=3.8889秒。当时应用基线为279／56项，不能当作本轮真实模型重测。当前整合软件450／89项及新增事务上下文、恢复检查见文首QA；真人声学与Pi仍待。历史AI记录 (local historical material: `output/qa/2026-10-23-ai-acceptance/resumed/verification.md`; not included in this checkpoint)。
 
 Linux Mousepad→Chromium 固定流程已在 ARM64 容器实际保存、显示及 SHA 读回。Pi5 已启动并在教室完成 SSH／网页／Mac 桌面验证；宿舍 Student 能接入但远程超时，Halls 未完成。Pi 当前运行 10 月 22 日包加部署修复，最新统一 Omni 尚未同步；USB 数据、Pi 声学、Wayland 双应用和持续负载另验。[当前交接](../handoff.md)／[Mac 无屏幕访问](docs/pi5-usb-mac.md)。
 
@@ -37,7 +37,7 @@ Linux Mousepad→Chromium 固定流程已在 ARM64 容器实际保存、显示�
 | iPhone | 全屏Alice、Plan／More和共享业务／草稿保护；Capacitor工程、Keychain、导出、Widget／快捷入口及可选缓存通知。模拟器视觉已验，完整原生触控仍待 |
 | Linux | Pi5离线启动镜像／首次设置窗口、受限双应用；同源生产服务、kiosk启动、用户级systemd文件生成／安装、诊断、可独立启动的相机／唤醒／输出工作进程 |
 
-文字离线入口是明确标注的日期规则，例如 `Tomorrow 15:00–16:00 Project discussion` 或 `明天15:00到16:00 项目讨论`。缺少结束时间时会要求补充，不冒充语言模型。主动事务可使用 `Track: finish the report`／`跟进：完成报告`或表单；已有事务的讨论会保留进展。Omni 配置下输入框和语音共用同一模型；独立文字适配器主要保留给显式后台建议，见[事务契约](docs/task-tracking.md)。真人语音自然度仍需实际试听。
+文字离线入口是明确标注的日期规则，例如 `Tomorrow 15:00–16:00 Project discussion` 或 `明天15:00到16:00 项目讨论`。缺少结束时间时会要求补充，不冒充语言模型。主动事务可使用 `Track: finish the report`／`跟进：完成报告`或表单；已有事务的讨论会保留进展。Omni 配置下输入框和语音共用同一模型；独立文字适配器用于未配置Omni时的显式HTTP文字入口及后台建议，见[事务契约](docs/task-tracking.md)。真人语音自然度仍需实际试听。
 
 ## 先运行软件
 

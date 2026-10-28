@@ -8,13 +8,14 @@ path; a late verified receipt remains truthful even after a cancellation request
 import hashlib
 import json
 import os
+import re
 import threading
 from datetime import timedelta
 from typing import Literal
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends
-from pydantic import Field, model_validator
+from pydantic import Field, ValidationError, model_validator
 
 from .calendar import iso
 from .computer import (
@@ -70,6 +71,48 @@ class JobInput(StrictModel):
         if self.action in CHECK_ACTIONS and (not self.source_job_id or self.content):
             raise ValueError("Verification requires a saved job, without replacement text")
         return self
+
+
+def validate_saved_request(request: dict) -> dict:
+    """Backups carry completed intents, including verification's adopted content."""
+    required = set(JobInput.model_fields) | {"artifact_id", "executor", "scope"}
+    extras = {"folder_label", "folder_fingerprint"}
+    if not required <= request.keys() or set(request) - required - extras:
+        raise ValueError("Incomplete job intent")
+    public = {key: request[key] for key in JobInput.model_fields}
+    if request["action"] in CHECK_ACTIONS:
+        public["content"] = ""
+    try:
+        JobInput.model_validate(public)
+    except ValidationError:
+        raise ValueError("Invalid job intent") from None
+    if (
+        not isinstance(request["content"], str)
+        or not 1 <= len(request["content"].encode("utf-8")) <= 32000
+    ):
+        raise ValueError("Invalid job content")
+    if not isinstance(request["artifact_id"], str) or not re.fullmatch(
+        r"[a-f0-9]{32}", request["artifact_id"]
+    ):
+        raise ValueError("Invalid artifact id")
+    if request["action"] in FOLDER_ACTIONS:
+        fingerprint = request.get("folder_fingerprint")
+        if (
+            not isinstance(fingerprint, str)
+            or not re.fullmatch(r"[a-f0-9]{64}", fingerprint)
+            or not isinstance(request.get("folder_label"), str)
+            or not 1 <= len(request["folder_label"].strip()) <= 80
+            or request["executor"] != FolderDropExecutor.identity
+            or request["scope"] != "owner_folder:" + fingerprint
+        ):
+            raise ValueError("Invalid folder intent")
+    else:
+        executor = (
+            LinuxDesktopExecutor if request["action"] in DESKTOP_ACTIONS else LocalNotesExecutor
+        )
+        if request["executor"] != executor.identity or request["scope"] != executor.scope:
+            raise ValueError("Invalid executor intent")
+    return dict(request)
 
 
 class FolderNaming(StrictModel):
@@ -628,6 +671,8 @@ class JobService:
         }
         jobs, identifiers = [], set()
         for row in rows:
+            if not isinstance(row, dict):
+                raise ValueError("Invalid job backup")
             job_id = row.get("id")
             request = row.get("request")
             if (
@@ -636,17 +681,15 @@ class JobService:
                 or any(char not in "0123456789abcdef" for char in job_id)
                 or job_id in identifiers
                 or not isinstance(request, dict)
-                or request.get("action") not in NOTE_ACTIONS | FOLDER_ACTIONS
+                or request.get("action") not in NOTE_ACTIONS | FOLDER_ACTIONS | DESKTOP_ACTIONS
                 or row.get("state") not in known
                 or not isinstance(row.get("intent_hash"), str)
                 or len(row["intent_hash"]) != 64
             ):
                 raise ValueError("Invalid job backup")
-            title, content = request.get("title"), request.get("content", "")
-            if not isinstance(title, str) or not 1 <= len(title) <= 120:
-                raise ValueError("Invalid job backup")
-            if not isinstance(content, str) or len(content) > 8000:
-                raise ValueError("Invalid job backup")
+            request = validate_saved_request(request)
+            if row["intent_hash"] != hashlib.sha256(encode(request).encode()).hexdigest():
+                raise ValueError("Invalid job intent hash")
             identifiers.add(job_id)
             jobs.append(
                 {
@@ -665,6 +708,8 @@ class JobService:
             )
         kept_events = []
         for item in events:
+            if not isinstance(item, dict):
+                raise ValueError("Invalid job backup")
             if item.get("job_id") not in identifiers or item.get("state") not in known:
                 raise ValueError("Invalid job backup")
             kept_events.append(
@@ -741,12 +786,15 @@ class JobService:
             )
         folder = bundle.get("folder")
         if folder and not conn.execute("SELECT 1 FROM computer_folder WHERE id=1").fetchone():
+            path, fingerprint = accept_owner_folder(folder["path"], self.store.directory)
+            if fingerprint != folder["fingerprint"]:
+                raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
             conn.execute(
                 "INSERT INTO computer_folder(id,label,path,fingerprint,updated_at) VALUES(1,?,?,?,?)",
                 (
                     folder["label"],
-                    folder["path"],
-                    folder["fingerprint"],
+                    path,
+                    fingerprint,
                     folder["updated_at"] or iso(self.store.clock()),
                 ),
             )

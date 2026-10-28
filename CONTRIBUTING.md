@@ -60,7 +60,7 @@ git push -u origin feature/xu-calendar
 
 PR 流程是协作约定，当前没有声称已启用付费分支保护或强制审批。提交前用 `git status` 和 `git diff --staged` 核对内容；不要强制推送其他人的分支。
 
-The #7–#14 code stack has been reviewed, fixed and merged; [review evidence](output/qa/2026-10-15-grok-review-merge/verification.md). The [original merge procedure](planning/2026-10-14/pr-stack-merge-order.md) is historical. PRs #4/#5/#15/#16 remain separate historical owner branches/drafts. Hardware PR #17 was reviewed, repaired and merged on 26 October; see the [current handoff](handoff.md). Latest local AliceChan/Omni work is not yet all on main.
+The #7–#14 code stack has been reviewed, fixed and merged; [review evidence](output/qa/2026-10-15-grok-review-merge/verification.md). The [original merge procedure](planning/2026-10-14/pr-stack-merge-order.md) is historical. PRs #4/#5/#15/#16 remain separate historical owner branches/drafts. Hardware PR #17 was reviewed, repaired and merged on 26 October; see the [current handoff](handoff.md). The2026-10-28 owner-authorized integration combines Grok20–59 with the Alice/mobile/Omni baseline#60; exact publication/merge state is in the current handoff. Older per-slice merge restrictions do not replace that explicit authorization.
 
 按变更运行相关检查。修改应用业务或界面时，从 `desk-companion/` 运行：
 

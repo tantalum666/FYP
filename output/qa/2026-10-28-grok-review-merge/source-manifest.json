@@ -1,0 +1,1126 @@
+[
+  {
+    "path": "desk-companion/backend/desk/__init__.py",
+    "sha256": "3adcb8ebfc5839fd24a95c1ceb563d6ab390a2dbda596d438947fb4137cd304e"
+  },
+  {
+    "path": "desk-companion/backend/desk/access.py",
+    "sha256": "55e1e173c3690302d9f94f302497375e04eb57149902f9bf33bfb71a3b14775c"
+  },
+  {
+    "path": "desk-companion/backend/desk/agent_eval.py",
+    "sha256": "9330b805d634bf7320b9c929cf45e0d7901b64f41b4dd0dab653cd54fd62899d"
+  },
+  {
+    "path": "desk-companion/backend/desk/agent_loop.py",
+    "sha256": "a02b1fbd50d04feeaf97a27e46beac15c84c02b9c990e612b57c9d743dc77a16"
+  },
+  {
+    "path": "desk-companion/backend/desk/agents/__init__.py",
+    "sha256": "3014a6245b990c3577d11aa512555751114e8c403c8efbb1af428fdda342b114"
+  },
+  {
+    "path": "desk-companion/backend/desk/agents/camera.py",
+    "sha256": "8bb12de2944eb14d245079331a1a2f8d074c7e5fa69c52b2787ee181c43fe184"
+  },
+  {
+    "path": "desk-companion/backend/desk/agents/outputs.py",
+    "sha256": "26e451c0d658ed7ce41e4541dffc690df633725ee1d4dd7dd3e8fc92abee9b54"
+  },
+  {
+    "path": "desk-companion/backend/desk/agents/voice.py",
+    "sha256": "1548c1817fe5911fefbb0db0e35d1067036635c981226c845864ad7992c5ca4c"
+  },
+  {
+    "path": "desk-companion/backend/desk/agents/wake.py",
+    "sha256": "a202838401fc3410d15cc365e3e558b5890df5d11f300b6714e7e71e511079cc"
+  },
+  {
+    "path": "desk-companion/backend/desk/aliases.py",
+    "sha256": "9d79900dca5fd9f0253f47e97049d6420d7a37874a7f86bb0925f256f9aba9bb"
+  },
+  {
+    "path": "desk-companion/backend/desk/app.py",
+    "sha256": "4caeb315a0b0d09f77021efd7cbc842e01f79a8ccc5f65d716becaa3ffe455b7"
+  },
+  {
+    "path": "desk-companion/backend/desk/assistant.py",
+    "sha256": "41a61624cd9bda0fafffe6bb6d27df82e23e61dd82e8d08777ed6fde689b3c97"
+  },
+  {
+    "path": "desk-companion/backend/desk/assistant_routes.py",
+    "sha256": "05dd4ceb53a5ea0a46c2525c5e654646ee09a8f7e5ff4c84b8b8c52f25bc5451"
+  },
+  {
+    "path": "desk-companion/backend/desk/backups.py",
+    "sha256": "df3f2c6d6269eb6bd99f8e2bb2fb62467500c759bc010c05f9209c7af1ceea2f"
+  },
+  {
+    "path": "desk-companion/backend/desk/calendar.py",
+    "sha256": "08330a4b58c20485b7a3ae90848123a383e183ba6b052d8b36762014997ecc21"
+  },
+  {
+    "path": "desk-companion/backend/desk/capabilities.py",
+    "sha256": "258f1f5378a4e00d5e58648559389799fa0093f16fa5f5ff809874e6e62769b7"
+  },
+  {
+    "path": "desk-companion/backend/desk/computer.py",
+    "sha256": "25a2aec2eb098515beb87285ef1e863dafd1b97cacfffa3020fcefe53cf0401b"
+  },
+  {
+    "path": "desk-companion/backend/desk/context.py",
+    "sha256": "b5551b5625d86f534c93f7e8d9ed3ebbda5a5086b7f6f578b2471eb04323f3db"
+  },
+  {
+    "path": "desk-companion/backend/desk/context_budget.py",
+    "sha256": "8ab32bda3f407934ff7c7ac095edd77a3b003545d439491f0a8616cfa146f614"
+  },
+  {
+    "path": "desk-companion/backend/desk/conversation.py",
+    "sha256": "b1623f2c704b632ea28f2106d7e0bdf2db4460b92bf305cad5a1a2d5325a356f"
+  },
+  {
+    "path": "desk-companion/backend/desk/conversation_eval.py",
+    "sha256": "72d3c140af2c2f0284fd7e09f96eacb3e3f809bc0604be361b7b96306b83e504"
+  },
+  {
+    "path": "desk-companion/backend/desk/cookies.py",
+    "sha256": "686da4433f6e9d7792240c6f1a06d1da77e16a59b77c905f6e671cfc6ab589c7"
+  },
+  {
+    "path": "desk-companion/backend/desk/data/hk-holidays-en.json",
+    "sha256": "8d797fb380825eec3f53fe456cc85ad30e2f91635675081abb671eca3bfd757d"
+  },
+  {
+    "path": "desk-companion/backend/desk/data/hk-holidays-sc.json",
+    "sha256": "b52d8ae6f66238c3c45311e2d670dbd06af24cc8bae34ba5535c773ad2ee28de"
+  },
+  {
+    "path": "desk-companion/backend/desk/device_routes.py",
+    "sha256": "147f45dc8c6c89d3807fd3f24b615ae96c3bac779273b52727f314026a541d41"
+  },
+  {
+    "path": "desk-companion/backend/desk/diagnostics.py",
+    "sha256": "2806b30827c4d450ccd9044daedbf9b783a1ddc439cff659b54292ef65ae1fab"
+  },
+  {
+    "path": "desk-companion/backend/desk/digest.py",
+    "sha256": "7d8b57ceafdaaaa46320ff097b0e9d6c2a826642e095c8ba24002550adb7d24b"
+  },
+  {
+    "path": "desk-companion/backend/desk/eval_report.py",
+    "sha256": "a265f4960fa98b6b4cdaa1090cee0e458318c75d509c24319933f0f0f7006d86"
+  },
+  {
+    "path": "desk-companion/backend/desk/exchange.py",
+    "sha256": "ac47446a17c6145192f390e7a016a284731d96d3113e78017a86f2e12448d178"
+  },
+  {
+    "path": "desk-companion/backend/desk/exchange_routes.py",
+    "sha256": "46c977a6c870c8a05c1b89c3685c097f25636af8babc3515d4bc799dcc55bdaa"
+  },
+  {
+    "path": "desk-companion/backend/desk/goals.py",
+    "sha256": "46fc6cd0474b3c227de3dffd7a2c1f9581a5d9c104f2e8b992ffffac715d8c36"
+  },
+  {
+    "path": "desk-companion/backend/desk/google_calendar.py",
+    "sha256": "c63ecec83bdd80bd1a3a76164d6d7006678bb6948ddc4c10ded48ed918206dba"
+  },
+  {
+    "path": "desk-companion/backend/desk/jobs.py",
+    "sha256": "0c9722d1d8f68a0980a3b1d70b2ca5369d0cd3c05aeb91177ff50d11a034106f"
+  },
+  {
+    "path": "desk-companion/backend/desk/linux_desktop.py",
+    "sha256": "063de03d4370b57f5cfea4731c73e1ad8cf8ef75a7f1b7bdecd173b5f920065b"
+  },
+  {
+    "path": "desk-companion/backend/desk/linux_desktop_bridge.py",
+    "sha256": "55eb4334fcca7b9caf9fac98bab6dac814738746c09e0fbaa3f5537de14be750"
+  },
+  {
+    "path": "desk-companion/backend/desk/log.py",
+    "sha256": "4b6d84839853df17f565b15732d80bd0b0948e777d62e44170d938b5b5fd5f86"
+  },
+  {
+    "path": "desk-companion/backend/desk/memory.py",
+    "sha256": "533b309a6ae4855296c3f1921fd90f9a5ddce3eab06e71a62a6c11869c9e751d"
+  },
+  {
+    "path": "desk-companion/backend/desk/memory_extract.py",
+    "sha256": "ad0256b3faa0ccb84f2fb9f2a1b2f9ebfdaa2f2cc01d8c2c4195c32312beecaf"
+  },
+  {
+    "path": "desk-companion/backend/desk/memory_review.py",
+    "sha256": "455262848a39d2a9652223db8edbb1299c70f5a75ce33e6e8f59010babb2b169"
+  },
+  {
+    "path": "desk-companion/backend/desk/model_provider.py",
+    "sha256": "56755ffa81ce01fdd5757a2467fab433f2b01f05706a3936d341c3205f4b4b59"
+  },
+  {
+    "path": "desk-companion/backend/desk/moments.py",
+    "sha256": "c1ba2be453cb5df5a6d62827b5ba046f0aefaf7a58289f9c360c70482ae37175"
+  },
+  {
+    "path": "desk-companion/backend/desk/notify.py",
+    "sha256": "ddd318c1607f2bf406f4b3ace01176d0e29cd276e688f4740dbaf490193477aa"
+  },
+  {
+    "path": "desk-companion/backend/desk/nudges.py",
+    "sha256": "28e8acf9f7d074ed73957cd55ee7dc2c01a8aa186fb4d59c68f836ba68ff4a11"
+  },
+  {
+    "path": "desk-companion/backend/desk/outputs.py",
+    "sha256": "2ce95c81dad96fae26babb0a829abe95dbba78541b636fea4465900af1c20169"
+  },
+  {
+    "path": "desk-companion/backend/desk/owner_lookup.py",
+    "sha256": "274d2721ddc2dc9765d042ec121a418eba1ab394fc14bc2a9b7abd54ed110c90"
+  },
+  {
+    "path": "desk-companion/backend/desk/owner_plan.py",
+    "sha256": "851c23663dfb9beef62f7e41380dff89f03e4cbbfb4adcda5a11426be8b76563"
+  },
+  {
+    "path": "desk-companion/backend/desk/persona.py",
+    "sha256": "e60dd8930af1b1c2e54adc8b2660181d1f50f9745f14353484619f1135f7ae4b"
+  },
+  {
+    "path": "desk-companion/backend/desk/phone.py",
+    "sha256": "d4df4fc368d47625ed69436d26a30778b385f21ccc222e6f517edd401c3426c2"
+  },
+  {
+    "path": "desk-companion/backend/desk/posture.py",
+    "sha256": "5c3449840599fe587a5bba2ac5bbf8f3638964dbf5fc47f0a375c9d67d5b7fc7"
+  },
+  {
+    "path": "desk-companion/backend/desk/posture_service.py",
+    "sha256": "820be7145f29638cc37160caf0614cc193ef8c26d57dedcfe1a87e1569172d9c"
+  },
+  {
+    "path": "desk-companion/backend/desk/private_file.py",
+    "sha256": "a7bd98c6256809ddc9dd956a504936d7c88885e66ace81a33872345590959594"
+  },
+  {
+    "path": "desk-companion/backend/desk/profile.py",
+    "sha256": "54e43038ade86d70e0b7eaf4650b8bc6350019c0c6907211ae82da89b5580eb2"
+  },
+  {
+    "path": "desk-companion/backend/desk/rank.py",
+    "sha256": "a5cfefcc27be68acf15fdabee05c8dae2df9dfe5f5218c80c2e1b2a49036382a"
+  },
+  {
+    "path": "desk-companion/backend/desk/recall.py",
+    "sha256": "80da9a1f045257b93b6ba42d87837c5c3987e48128f0e73dc127dd68e2780eef"
+  },
+  {
+    "path": "desk-companion/backend/desk/reply_stream.py",
+    "sha256": "b6b29167c617b2c5625d608621145a8813670169bb2127027a0b7ec38ebb30ab"
+  },
+  {
+    "path": "desk-companion/backend/desk/retention.py",
+    "sha256": "86456ead995e908cb7430ed364014e234f161b07eb013002fa3dca8560a7c8b3"
+  },
+  {
+    "path": "desk-companion/backend/desk/retrieval_eval.py",
+    "sha256": "77a7011f8bb67fc7d84d8631098856dd9bff4219e6e193ef4a7fc1bbb534c858"
+  },
+  {
+    "path": "desk-companion/backend/desk/runtime.py",
+    "sha256": "d29cacb52e3502090bf982f8427212b5b33ad0cb6f37d5a3041da01cf2bee479"
+  },
+  {
+    "path": "desk-companion/backend/desk/schemas.py",
+    "sha256": "126bae48c934140ca56c72a37e3d7cedd8569b16c88f1331c9ddc177aaeb2260"
+  },
+  {
+    "path": "desk-companion/backend/desk/store.py",
+    "sha256": "fc75fda00e605996e8a5850ca8d7f2acee4910e31570df1a95b724561f12846c"
+  },
+  {
+    "path": "desk-companion/backend/desk/stream_contract.py",
+    "sha256": "a4042e4c3723472d2b5479fe719cac4fcc0f1110bd0af6b631298e9327420105"
+  },
+  {
+    "path": "desk-companion/backend/desk/style.py",
+    "sha256": "ba5b9b5b5644b7b4056cf5cef957b569fc80f0b9659a0a10189402c9dab30435"
+  },
+  {
+    "path": "desk-companion/backend/desk/tasks.py",
+    "sha256": "7bb19bd7bf63896d988698392c88b4ceaed716ae50880617bcdd23bd54abd04f"
+  },
+  {
+    "path": "desk-companion/backend/desk/text_ai.py",
+    "sha256": "c806f71bdc5bf8399d00a18084fd1822f4f7124cd3d9b5f192e5eae948427b88"
+  },
+  {
+    "path": "desk-companion/backend/desk/text_providers.py",
+    "sha256": "749f997c529c289a5b846567410648238e486bad067e08270de2e8a20e225b34"
+  },
+  {
+    "path": "desk-companion/backend/desk/token_stream.py",
+    "sha256": "8cadadf6926e4e44f320dba9ee159d8979cd0f4ac88152498051f87960b2609f"
+  },
+  {
+    "path": "desk-companion/backend/desk/tool_audit.py",
+    "sha256": "ea8eb245c55cac15044722c789f0dc9e04f4b6cc5dc88e87583bd5b8c557caf2"
+  },
+  {
+    "path": "desk-companion/backend/desk/tool_dispatch.py",
+    "sha256": "642ad58bf9304da247eb8472b0f041415c36e72711ad8a4cdc6ea9bc76a76fb2"
+  },
+  {
+    "path": "desk-companion/backend/desk/tool_policy.py",
+    "sha256": "d6f6ffcdb5994f31af2f3ae115e1d990994ce29db4d9ccbbdbf998982fe47cf8"
+  },
+  {
+    "path": "desk-companion/backend/desk/turns.py",
+    "sha256": "111cff73bd88feaf629b7f3d34cbf7eca2f206ef9d5086c09d2e85d045c522b5"
+  },
+  {
+    "path": "desk-companion/backend/desk/vault.py",
+    "sha256": "9224cf3e2e04e9e1c5b7f822db5f35f911ad90467ab8ad17767384993dee1c53"
+  },
+  {
+    "path": "desk-companion/backend/desk/voice.py",
+    "sha256": "5861e7c07667225c22692c4f474b9107ec22d934180451bb433bdbb6a9405fe8"
+  },
+  {
+    "path": "desk-companion/backend/desk/voice_credentials.py",
+    "sha256": "6e3cca7e9d4e9dbe50a66ee8119bbc08f366c516b1281d07c357d94317186b43"
+  },
+  {
+    "path": "desk-companion/backend/desk/voice_media.py",
+    "sha256": "24e455204aaf8a71ab63a4a19d1ae6c9cb2dd461bdaff2780dd6b79348eab2de"
+  },
+  {
+    "path": "desk-companion/backend/desk/voice_turns.py",
+    "sha256": "77436c22bb3427e17f116269ae7ed1f6df5d08600a798ffd32a59e5e1c8e4c9e"
+  },
+  {
+    "path": "desk-companion/backend/desk/web_push.py",
+    "sha256": "cacd91bf4630a22d23eae7cdc63c4a14c3aa2c39e9f863b59120b78d9b886598"
+  },
+  {
+    "path": "desk-companion/backend/desk/workspace_data.py",
+    "sha256": "dcf1ab4e6f4952d53f7c035ed81fbb3696a6889cd4d9a0a820f307ea0c0284cc"
+  },
+  {
+    "path": "desk-companion/frontend/src/App.tsx",
+    "sha256": "d6b4666c51ab32e58f5e6fb3fb7963278ac0b76e32d3d8a919e5b89ab0e48bcb"
+  },
+  {
+    "path": "desk-companion/frontend/src/api.ts",
+    "sha256": "797d8d3503235773ef24ba88017d19a76f0d2c2c0160c13bed4a60a83d5c80a3"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/A1Canvas.tsx",
+    "sha256": "4fc96c12509c944429d219ddab75ee7f9704265612c14e9f142d30341c004a76"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/PageCompanion.tsx",
+    "sha256": "3087ece73c644af972f0039ba21bbfeef57462f0f8b4d48df9f00c9c20370c16"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/appearance.ts",
+    "sha256": "dca9aefbb16966c0f3250c93cd14c25fbcf9ff6883daad30dafdb91963690a39"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/art.ts",
+    "sha256": "4cf77612b68a53055e3db82d0a625a45e54f9ac8973e902db6dc73814660c779"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/companion.css",
+    "sha256": "b7eb80d4da85746cdf99d3bda9d73ba7a67f6f9ec1f8496ee8892e9aa15fc637"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/head-renderer.ts",
+    "sha256": "047721b39b7c45e4c1b4c18c80ed94ec1c11e749a8625a371426a1f4d7a54e18"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/local-vrm.ts",
+    "sha256": "6be8d12d2438dcbc64a7b653fba4b974ee96a5987a04d3b964d7ddd017f60be1"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/output.ts",
+    "sha256": "8a622c63a4be515cf43d0fe499a9ac152301c0d5238e782e8b2cd50e2db810e8"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/placement.ts",
+    "sha256": "753f4d9750e279e847445a006f6d5e16c673bd91a732ab5382ec133bb7c8ba79"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/renderer.ts",
+    "sha256": "d94fed77c288ceaee5d07eb4066cb001defe2ac83febb8645682f8a3b4aa3a52"
+  },
+  {
+    "path": "desk-companion/frontend/src/companion/vrm-viewer.ts",
+    "sha256": "35103f458e6873dcba69500c3581be226e7aa1bc22aae9533de02a34b57486be"
+  },
+  {
+    "path": "desk-companion/frontend/src/components/Calendar.tsx",
+    "sha256": "bee5e349a2f80e6b927a4da8beea88ca13655667b14a6a9a1101019ce31085af"
+  },
+  {
+    "path": "desk-companion/frontend/src/components/Dialogs.tsx",
+    "sha256": "1708e18da8a979950ae07b356511bbec1ae2460eff91873d213c1f649c322d54"
+  },
+  {
+    "path": "desk-companion/frontend/src/components/DraftGuard.tsx",
+    "sha256": "6dc197279cf6c0028c5dbef0aea5ad9d2323933954ef551e9e5465315ae32eb7"
+  },
+  {
+    "path": "desk-companion/frontend/src/components/LoginView.tsx",
+    "sha256": "50f4a81e970efe68240942aefd90b4bf2fcf2b89c475c65a123a23083e8492b4"
+  },
+  {
+    "path": "desk-companion/frontend/src/components/Views.tsx",
+    "sha256": "9c0567bfbd7701477d55f855cb6328a21b0f24bf09db0367c220750ad58675cf"
+  },
+  {
+    "path": "desk-companion/frontend/src/components/useCalendarEditor.ts",
+    "sha256": "fd5f699a7161c8a573100d09a8d30bb3211f5f0a8b757ed44835dfab8c24e3f4"
+  },
+  {
+    "path": "desk-companion/frontend/src/dates.ts",
+    "sha256": "ba865be7cfddcf3941799bd77d043c621425feec6280a971c63698d0a11ac3c6"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/DeskSound.tsx",
+    "sha256": "a746f33c826cb4a70fb03d4413f249221a20bf60586abcc5f21fa17196e9886d"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/DeviceApp.tsx",
+    "sha256": "3c874329b03f13bd572f8f85a3c6d6e908125f4fecb46a5f677f14b18383feaa"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/DevicePanels.tsx",
+    "sha256": "14ab01436dd39d353c0dc8ea021ed7ac3b6b83f59783211b65ceae7d5935b1cc"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/DisplayFace.tsx",
+    "sha256": "879b7d42dedacd1720db79e1cff5a7054be1e3b8705f70d3fb1a4dd347b33e4a"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/device.css",
+    "sha256": "2ea2bc30a05c5324c0fcde2fcb8c4343ec8a4c4bd764d094c9e1d4a41f6fd412"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/model.ts",
+    "sha256": "1aef564137cfdafb09b5849724e23ee33fb17b348923f68f22c6159feb009550"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/privacy.ts",
+    "sha256": "1eb872f05012fdd8596c6b57c6518193c3bdedae4066407f05fc78e55550ca2c"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/useDeviceCalendar.ts",
+    "sha256": "a7d42771badbad90c9450631454a40163ba94734d7fdde89dfacda0f0b7cbcb9"
+  },
+  {
+    "path": "desk-companion/frontend/src/device/useDisplay.ts",
+    "sha256": "3b3cecd9de0518fad9aa9e8568f3d26b34f0ae1733d5fe92c0dcd600b7c0abbe"
+  },
+  {
+    "path": "desk-companion/frontend/src/diagnostics.ts",
+    "sha256": "cee9e2c257b7e8223ef4f81333845dc45783956dcb2cba9883cac5fc7ecb496c"
+  },
+  {
+    "path": "desk-companion/frontend/src/diagnostics.tsx",
+    "sha256": "71dfc8a982f11dd510eb3cf24a35c7d00c28380765553f21edf71e775777e3bf"
+  },
+  {
+    "path": "desk-companion/frontend/src/main.tsx",
+    "sha256": "94d078c065efc766cf3326f5f82f40696a99b3144e8d0c0a9a111734ee3cc113"
+  },
+  {
+    "path": "desk-companion/frontend/src/native.ts",
+    "sha256": "3bbb17e3ff930dc8480614d668ac010ee5a044a60d9eb5038a44f02c02db3c23"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/PhoneApp.tsx",
+    "sha256": "63c00eaaf050df48e026bb0c743d638b34a3b87f7f47b892ccd4ecd273f5c7a6"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/PhoneHome.tsx",
+    "sha256": "d3e73aec6b0fab2ef63828d18c26506f644b978ba2bbdf84ffb444ae4ce6e0ca"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/PhoneManagement.tsx",
+    "sha256": "103bfc47f5e5ba9a2d66fe8acea550789088b58c1dc3dde6edbca5cc60160edf"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/PhonePlan.tsx",
+    "sha256": "7704c1bc495ad9b7d0512cb020492c5af4b2b37f213847e43dfeb8afb657e1aa"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/calendar-reader.ts",
+    "sha256": "6ea6af0a66e7814d171201ce3e134d25a6c35d3de48a80d919b55802ca290ed1"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/phone.css",
+    "sha256": "1f3ba4ddf9abb01537844056ae3e6922c12a1c69682bc4c5c45f1ae64e70e6b4"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/usePhoneCalendar.ts",
+    "sha256": "ce975e2df633667e35fd343a471358fe620e923e304b73be3440736a2600b86c"
+  },
+  {
+    "path": "desk-companion/frontend/src/phone/usePhoneEnvironment.ts",
+    "sha256": "360a43677be4222e8cbfe35d87e1d584e5111114a3b9ee059dd81d0e18e49c19"
+  },
+  {
+    "path": "desk-companion/frontend/src/replyStream.ts",
+    "sha256": "0ea66e9a89187112808e739712fa0cb680d3bcc51898c141a0c6e36dbd24887e"
+  },
+  {
+    "path": "desk-companion/frontend/src/session.ts",
+    "sha256": "c2b4a5b683ede18459962db710c2126c873c511efc8629f10da893575d2f5d57"
+  },
+  {
+    "path": "desk-companion/frontend/src/styles.css",
+    "sha256": "1c2040c942e7da82ab16e054b69282168b60632e0eb40ac5d39bac72bdc59245"
+  },
+  {
+    "path": "desk-companion/frontend/src/surfaceNotice.ts",
+    "sha256": "04026f7d5a9e68aa3eac13d41ee9ec25fd8a2ea0b7044885cbcb5e655208d583"
+  },
+  {
+    "path": "desk-companion/frontend/src/surfaceStatus.ts",
+    "sha256": "273683a95ab45b742678868ea5db097dcc3bb38d2455515a47d4b402ae5d528c"
+  },
+  {
+    "path": "desk-companion/frontend/src/types.ts",
+    "sha256": "adca32565a8e4a324d91f6fecca075576e1de24743e077e82e6e7099cbad62dd"
+  },
+  {
+    "path": "desk-companion/frontend/src/useWorkspaceSession.ts",
+    "sha256": "ce690d15344bc15af4416e0279583d433ff210614f6a7a59bd2d14913d551de6"
+  },
+  {
+    "path": "desk-companion/frontend/src/vite-env.d.ts",
+    "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+  },
+  {
+    "path": "desk-companion/frontend/src/web-workspace.css",
+    "sha256": "8726785f07c67d34f92946cb881644804952ce8216463e984badd2ad9f35f454"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/A1NativeReview.tsx",
+    "sha256": "46be1810f27cf9c3767c639eb2482913711fc60b1690974dd0f6679f9637d2dc"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/AliasList.tsx",
+    "sha256": "f6a7d55b044d5d4abbbf49e77f6f82b3917217686ef066f5da49ef12464f3cbb"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/AssistantPanel.tsx",
+    "sha256": "91f081806353ccd6290c9ea613c8526ed8484b9b64acd44655114e15064b30dd"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/Avatar.tsx",
+    "sha256": "ebb31c83f3e6ecb3be912ce048313099aba275d891bd5843d6f5efdde7b78baa"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/CheckIns.tsx",
+    "sha256": "0a97f52a3f0668f9d96fb5351506dec3b92ee6c95cb05f3a7d2f5d19037639a4"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/CleanAvatar.tsx",
+    "sha256": "76465c6a5332b8d351c14223c607b20cf11660b8f8af6f3e8ccad16fdd4315e4"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/ComputerJobsPanel.tsx",
+    "sha256": "0ac3d854731f8c3ffda715e86cfa09736c1156a58298d2abc0a6f5eafd10a8a2"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/ConnectionsPanel.tsx",
+    "sha256": "d7eff75499d18615feda6b53870928f1e914a9f27f114a1ca4d276517fda14ed"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/DataPanel.tsx",
+    "sha256": "ccad5ffc9c113d3c452a2467dbf32c7bbe0146d08054b9f88abe0af1842c01ed"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/DigestPanel.tsx",
+    "sha256": "2f5d89124cbaf6852bcecd160e04eaae15b04dea128abc48e97047dc66de2a68"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/ExistingAvatar.tsx",
+    "sha256": "57c399c2417d0b8ff92ce80747ba5d255fc7f1617302df8e4167d32ba250d202"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/ExportLink.tsx",
+    "sha256": "34f2f956972cb9db1a7eda2c3632416546a4fe8c529ddd58c34b780c39d58cce"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/ExtrasPanel.tsx",
+    "sha256": "bba17055ef5c1919bbf88adc237c51e350a04e82d3bc8dd1cf75062d53e4b7af"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/GoalList.tsx",
+    "sha256": "b74fe4bb709c967e60154daa954db133be5cdaa55e18223a8934ed6c3b8f085a"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/HeadStudy.tsx",
+    "sha256": "2d89441d386a6d225dee715f77d405fc491104d74e49f1389d6ef6d19b60ae51"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/MemoryPanel.tsx",
+    "sha256": "7c671e3d4e225abd943e3a4b2801b86522dfcbef1b559fbdc5a9126ac5237672"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/MomentCard.tsx",
+    "sha256": "ac37dbe7ed63bd1e841b505ef6217d5b88fd1ff67053955b20700ca2a7dfc32b"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/NativeSetup.tsx",
+    "sha256": "d04ef60e85aa48c58078f3be6db33af3601b42dec4adba45b87138df98bf1107"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/NoticeInbox.tsx",
+    "sha256": "c984a0d80b96af2307c18c9f785cd17f17adf0146322a6927758749270699e4c"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/OwnerAccess.tsx",
+    "sha256": "b3f69ef6e2c099e22a5d037a23c067b2a0de0d3193ad840b6593ceda3449be11"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/PersonaPanel.tsx",
+    "sha256": "6c892d01ed5465c3cca36ee5fc2f85250606d0328f89c84bd0bf5a4e445d8fad"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/PhoneFeatures.tsx",
+    "sha256": "fbfd8af346a991c8b7ec4dc00fe13235fe078257342bf230832084bd5817aede"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/PosturePanel.tsx",
+    "sha256": "313c4cd93136f389e0f3f2239050f583c6706fd23aba3a8a1495b5e987c7f371"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/ProfileSummary.tsx",
+    "sha256": "2f5a60dd1a422fcb91fdc09c873baaa4219f287ddb4be06a7ccc4a13e4afacc5"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/SharedCalendar.tsx",
+    "sha256": "0a646cd39fb67c2aead36419d3b6dba7e9f1707349ad3e57dd0d494b74c61a24"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/TaskPanel.tsx",
+    "sha256": "b1ed0d2f066a47e160477a27a8389b1832b5e05e958c46140d799d79bb93362c"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/ToolActivity.tsx",
+    "sha256": "fcabf4f0d5b232f09e791a16bd280a32d8c34624b96c2fb93c82dafb29c44f95"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/WorkspaceContext.tsx",
+    "sha256": "f8d671f385f9c6f6b2b44adc4bd8b7eae233a9b798807f1caa7ac489100249ef"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/assistant-minimal.css",
+    "sha256": "887aea56b15200ab6b6e09ec02c9d6a80ffa8050d05d6c65ad8deb15462548ee"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/audio.ts",
+    "sha256": "1b73bd185e0b4246bd480206664f6adfd63b2bc25f7dc0c8a63187b5a7da9d95"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/avatar.css",
+    "sha256": "9026c7b9deb90c0a980fc1bcfca145dbddd47749ea729d7a4f82c9ca0a2408b7"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/calendarExtras.ts",
+    "sha256": "a90b32b49ed03f65bb3e0af9a4def27f6f5cc233a02285dd90bf90f48d9f9e9d"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/existing-avatar.css",
+    "sha256": "5634a6350374bb689dc7b3d126e004671868d2600fbd0539778da0abf6218a87"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/head-study.css",
+    "sha256": "33a7559353723a8284c7027ff27cced368d07b4bc1f141c50eca2d55be1ec964"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/jobTypes.ts",
+    "sha256": "5bd16a7244449ca485f80f3e3bb3835ebc5c040bafc9c1c33f7db17a61df242b"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/knowledge.ts",
+    "sha256": "d16e49fd1d1be91cd3ea78e2f147d91ec3b157e3112573dffb32fcae51708276"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/notices.ts",
+    "sha256": "f146030b2c384f18a58a80ab0f224128dbe60c55c2dc979413d671264e5c9ff8"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/taskTypes.ts",
+    "sha256": "2537ff8048314259356aefebd1aa130fa96321ff878fb8ab8f2e00a307fbae6a"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/tasks.css",
+    "sha256": "68d5446f19fad60791bcdc68b320fe21d3a66ed357c2e42c03c55a8b44cb8bd9"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/tool-activity-state.ts",
+    "sha256": "14a4b9fcfdccf356396deb88d94c87d7e33894b5ccbd1ad40085f69495af95b3"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/types.ts",
+    "sha256": "ebccd29f92fd6b6d7f768a0767e7375f9477b0e40cc0b17ebbae3b24a5c7b6fd"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/vision.ts",
+    "sha256": "46054fce4ec412a79a5e5df4b75aa97bc1435f4b65c3cd8cb5f930d4230b6124"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/voice-ticket.ts",
+    "sha256": "f83823ae71e9abf576de479d14191c0c01a8add14fc3dcb4f09582a8fb4ff892"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/voice-timing.ts",
+    "sha256": "436c7c416761da48b0d06544c1dca56379f837b11d037527f6810e47141ef512"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/workspace.css",
+    "sha256": "627e25392a5086ef616709ba02d09ff32b8f2eb0dd1d705ea27bef7d26892fb2"
+  },
+  {
+    "path": "desk-companion/frontend/tests/appearance.test.ts",
+    "sha256": "17f3ddb5c268202e7abef3d39138c4dbebe5bd41860ec5183a9698d60d5e47a3"
+  },
+  {
+    "path": "desk-companion/frontend/tests/companion-output.test.ts",
+    "sha256": "03f157cdee361279497af4c13fda71d91b881ee868fb62cbed37bb679ddca8c1"
+  },
+  {
+    "path": "desk-companion/frontend/tests/companion-placement.test.ts",
+    "sha256": "fa49a133d3e096a675b4342bed26de2c2c8198d48fdbc5f73f214d9430568f8c"
+  },
+  {
+    "path": "desk-companion/frontend/tests/computer-jobs.test.ts",
+    "sha256": "c141d3f83c3955e10990c36ef838d3d9aa81fa43406eb4ffcc7c11d67a1a5415"
+  },
+  {
+    "path": "desk-companion/frontend/tests/dates-risk.test.ts",
+    "sha256": "1081587bafa928ac9015a04f694489ecff7849bf6498790d198b80386a5da473"
+  },
+  {
+    "path": "desk-companion/frontend/tests/device-view.test.ts",
+    "sha256": "1471dd8e5e4a13e2647ff88e334ed539b1212140f48f998fb2c7484b7d129a51"
+  },
+  {
+    "path": "desk-companion/frontend/tests/diagnostics.test.ts",
+    "sha256": "26576c9ae16bae2df3556bc2e19e5a4d5725fc780c482a9e2da9400cb1051e53"
+  },
+  {
+    "path": "desk-companion/frontend/tests/knowledge.test.ts",
+    "sha256": "5c688df98a543899f7a573dbf12fd954804df9c12809f84f637894d3817082f4"
+  },
+  {
+    "path": "desk-companion/frontend/tests/local-vrm.test.ts",
+    "sha256": "8fc616bc85044e4db578f57ace7fc5f0895205f959bd9af92525bbd23a636dbf"
+  },
+  {
+    "path": "desk-companion/frontend/tests/moments.test.ts",
+    "sha256": "5c76850ed0e58f9bbcbd5ebc208bfed9466d6a2b45263ea20405c0881df67b89"
+  },
+  {
+    "path": "desk-companion/frontend/tests/notices.test.ts",
+    "sha256": "66e3f7b7060480eab1d91324facd89beeba6c758a3caa8b9f882dd19c647dd36"
+  },
+  {
+    "path": "desk-companion/frontend/tests/phone-calendar-reader.test.ts",
+    "sha256": "25365fe20e0388689fe5cf19ae34b59cc20b096f572d7d92414f08f6cf360a4d"
+  },
+  {
+    "path": "desk-companion/frontend/tests/pwa-shell.test.ts",
+    "sha256": "73aa76d649967991f8e28ca42a1735231157cfe79c303ca10d8dff8e88955d88"
+  },
+  {
+    "path": "desk-companion/frontend/tests/reply-stream.test.ts",
+    "sha256": "cf6218149761798e525c5cdd2a38c625fdb76e628f6a5f895fb1bfce3e14c7ea"
+  },
+  {
+    "path": "desk-companion/frontend/tests/stream-contract.test.ts",
+    "sha256": "0865223849c3f9dcbc2fcc9f53734fc0066c661fe2c099dfc4e91279b321be34"
+  },
+  {
+    "path": "desk-companion/frontend/tests/surface-notice.test.ts",
+    "sha256": "499d501961afe9ec2d5dfb8e6c83163cdfeffd7ed0c35e2dfb3ada0f00f4adcc"
+  },
+  {
+    "path": "desk-companion/frontend/tests/tool-activity.test.ts",
+    "sha256": "3080171a6c85b7164f0e9ed523a4e4c036a83ceeba0b5adce6bb79411adc948f"
+  },
+  {
+    "path": "desk-companion/frontend/tests/voice-lifecycle.test.ts",
+    "sha256": "f1747c1a4b9f74915458354b715c26e39ff9322f55fafadfad667986f0120991"
+  },
+  {
+    "path": "desk-companion/frontend/tests/voice-ticket.test.ts",
+    "sha256": "a874a1f23bfb1c991a5e484d2c57102e5b704176a7c6a0ecfd653c41f0077e4a"
+  },
+  {
+    "path": "desk-companion/frontend/tests/voice-timing.test.ts",
+    "sha256": "858c625ba10152c63d0f51fd3f7aae3ffb6d5269d78f40183715fa2e1ecc22bd"
+  },
+  {
+    "path": "desk-companion/frontend/tests/voice-vision.test.ts",
+    "sha256": "52764aea2046cd1e12aae593240a1bf97d1f907daee5fe41821a44f778e7dd36"
+  },
+  {
+    "path": "desk-companion/frontend/tests/web-companion-placement.test.ts",
+    "sha256": "5b6ecdf3c1cee1d85971157a203a7915b203c2cadeab5a5def5295553b8c68d9"
+  },
+  {
+    "path": "desk-companion/frontend/tests/workspace.test.ts",
+    "sha256": "e6842015f3757b0e5f6012ff1e98b5491b7484f8f4cb065cda7aa0a4bed2c099"
+  },
+  {
+    "path": "desk-companion/scripts/apply_labels.py",
+    "sha256": "22bdd26c9961c983523bee1e472fbb0c2a80471534305edd17206c9fe7702ce0"
+  },
+  {
+    "path": "desk-companion/scripts/configure_qwen.py",
+    "sha256": "3addfaf9f885d035bb9befc8f5e90f81211ab8bd4d75fe2a156557139361df24"
+  },
+  {
+    "path": "desk-companion/scripts/conversation_eval.py",
+    "sha256": "3dd414063b978cb6a49488f39cff2cb01c5ba1070b23e295f52a62dc21a26724"
+  },
+  {
+    "path": "desk-companion/scripts/dev.sh",
+    "sha256": "07cbbb62bee0c5e521839b1735b32b6e9624c0e304cca6084550ac8b1d421fe8"
+  },
+  {
+    "path": "desk-companion/scripts/diagnose.py",
+    "sha256": "ebbb1789182d667748aa4995defe257d9d1911d6d365d1fe896a5953c71997e0"
+  },
+  {
+    "path": "desk-companion/scripts/evaluate_posture.py",
+    "sha256": "0740db25a7981c50532bf53340ea78a618d75e506e61d0b15de25be0fd51c354"
+  },
+  {
+    "path": "desk-companion/scripts/extract_landmarks.py",
+    "sha256": "395ae9aedcb0b1712b77e84a0efabe0938e387d8b679158143428005e9403a33"
+  },
+  {
+    "path": "desk-companion/scripts/fetch_models.py",
+    "sha256": "e73754b4b51a5c7fff6391729f781bd23ad6f4c9781154d5680ee7a95f60cc78"
+  },
+  {
+    "path": "desk-companion/scripts/fetch_wake_model.py",
+    "sha256": "f42773e396f05aab61b9458f374f4c59d1d0a85eed233bf17827e63f8dad41b1"
+  },
+  {
+    "path": "desk-companion/scripts/install_linux.py",
+    "sha256": "69e96f4f0a2c64fa3be9832c6fe21c9e334821c14d0a508bcc603ee0f2de7fd6"
+  },
+  {
+    "path": "desk-companion/scripts/kiosk.sh",
+    "sha256": "688331544b1817dbb87e0ef81cf537f46ba41640f9327d1c9b7b3b8be8caf1e0"
+  },
+  {
+    "path": "desk-companion/scripts/pi/connect_mac.command",
+    "sha256": "7d946c40ce6710482cf6c7a11eb41e810100c10c60ceacfcbc717ff8fc1ccef8"
+  },
+  {
+    "path": "desk-companion/scripts/pi/firstboot.py",
+    "sha256": "efdfba82325fe03c0505d65806095bd5772d62c1c3aec8eb8d5050eb6bcfa117"
+  },
+  {
+    "path": "desk-companion/scripts/pi/session.sh",
+    "sha256": "145bf5f4cd013838739a70f873112d9b1ca9c68c5d1d4ca3bf67db66b4d68c0f"
+  },
+  {
+    "path": "desk-companion/scripts/pi/setup_classroom_access.py",
+    "sha256": "05aae8b17868000aea085c1943e868c84eb71b2d49bd4eaecc79bc359d85baa4"
+  },
+  {
+    "path": "desk-companion/scripts/pi/setup_dorm_access.py",
+    "sha256": "0eb2d96e22e36f0746953e7e0f2e47c5484c39e9172082981c8f66f29ce744b3"
+  },
+  {
+    "path": "desk-companion/scripts/pi/setup_usb_headless.py",
+    "sha256": "c1688d4b207b70d7bb71b961bcc44bd9f16324456a6352cf83036dab5e463daf"
+  },
+  {
+    "path": "desk-companion/scripts/pi/setup_vtc_access.py",
+    "sha256": "fe7a2d6e84329feb229286d315edc42ae46387cf891ad4f00a458fc815ac3b23"
+  },
+  {
+    "path": "desk-companion/scripts/pi/welcome.py",
+    "sha256": "339ad11f98fc2e07e7fc7e880ae9da0cb8868823001d0422fa35996d07e45315"
+  },
+  {
+    "path": "desk-companion/scripts/prepare_ios.py",
+    "sha256": "f1a2ed9ee2d6371a4391934a34198edaf5170fd720087833c1b0c3e07299dfa4"
+  },
+  {
+    "path": "desk-companion/scripts/replay_posture.py",
+    "sha256": "2134d4f3bf9f0b0a37dbe3b4d1c3fc62fceda223761095f087178249e71fac79"
+  },
+  {
+    "path": "desk-companion/scripts/seed_demo.py",
+    "sha256": "c11166ce21041333b0990b994f9f2e8a955c2fcc6b49fd482c32b8bee92847d2"
+  },
+  {
+    "path": "desk-companion/scripts/seed_sample.py",
+    "sha256": "c6a14343cddd49ff0438108524a999b73197e24b761b9de91db428de8dca422d"
+  },
+  {
+    "path": "desk-companion/scripts/smoke_text_provider.py",
+    "sha256": "0ed840574f61a528296407bd4e3d4e9dbe782f8fba18f84f9b69446601dfce34"
+  },
+  {
+    "path": "desk-companion/scripts/tool_eval.py",
+    "sha256": "8bb330205e2014a48efa0c4d64938157c5c67c08eee7751606cf8c9e99198967"
+  },
+  {
+    "path": "desk-companion/tests/fixtures/qwen-vision.jpg",
+    "sha256": "7fdebea8b5dc6fd77e0d8e22ee41abca34c6f0bcc45b064dd5ceea92e1a3cdc1"
+  },
+  {
+    "path": "desk-companion/tests/test_acceptance_chains.py",
+    "sha256": "5354d20f4639ec46c70f53e559ae54741ccaf2e40b50240e17cc83d5adc95b54"
+  },
+  {
+    "path": "desk-companion/tests/test_access_outputs.py",
+    "sha256": "ad642aeb1a722cc53f3e7c4874d683547b2a3a1d20dcaff35d59b627a0688cfe"
+  },
+  {
+    "path": "desk-companion/tests/test_agent_loop.py",
+    "sha256": "10de4ecd71812aecd1c692cb90de98ef261bb465f9c32a6ea5cefbb12660dc7f"
+  },
+  {
+    "path": "desk-companion/tests/test_aliases.py",
+    "sha256": "4316cf33750ecb72076381056b208c6895caa46dc4c6ef37203c0f78d864d722"
+  },
+  {
+    "path": "desk-companion/tests/test_assistant_data.py",
+    "sha256": "02330c59094759303552ef6873b8c0d71f2510b27edec098cb7bdc3b90ead3fb"
+  },
+  {
+    "path": "desk-companion/tests/test_backup_persona_jobs.py",
+    "sha256": "38ca50dffc23c3b60271483b617dd2bf3141f2212ef50af512f161461b205d61"
+  },
+  {
+    "path": "desk-companion/tests/test_calendar.py",
+    "sha256": "63d5506d3c3b672fae3c27989e23ba8ddf7f9eddb78f9b7d250d6b6b1b55b256"
+  },
+  {
+    "path": "desk-companion/tests/test_calendar_brief_ranges.py",
+    "sha256": "4eff9d13846707327515e4dbae023d4e5b106fda4f0a509794937aa1958e637b"
+  },
+  {
+    "path": "desk-companion/tests/test_completion_edges.py",
+    "sha256": "365c99757442bb3cc4e89411750624c2b04f6fd38934f437fa9c891991b6f460"
+  },
+  {
+    "path": "desk-companion/tests/test_computer_jobs.py",
+    "sha256": "04d1162437e4f86e5ad0adf11669560783f67ac91347225dc9e9154b54011fc4"
+  },
+  {
+    "path": "desk-companion/tests/test_context_budget.py",
+    "sha256": "7bb88fef2f49d848324ee170dd9cb9ea7b2234e9f5626ec96fd5fa2a04179588"
+  },
+  {
+    "path": "desk-companion/tests/test_conversation_eval.py",
+    "sha256": "d20d73c49ffa45a97a60a702c51bae0fb349c86616f0f1fbec080d13d1918831"
+  },
+  {
+    "path": "desk-companion/tests/test_demo_seed.py",
+    "sha256": "32b41c2f5b413a93fcb12dad5ac79acd8ef58731926b74e1d16a4ecc1231f30f"
+  },
+  {
+    "path": "desk-companion/tests/test_digest.py",
+    "sha256": "88c074d3d7a5c7598bc39d235fad513c2c39fbb050a16efea63fc926be8bd371"
+  },
+  {
+    "path": "desk-companion/tests/test_eval_report.py",
+    "sha256": "50fe4be3552ce4e2560ae47d0bfed08a6af3dc4745c2d311863f3531c0fd083f"
+  },
+  {
+    "path": "desk-companion/tests/test_exchange.py",
+    "sha256": "02e8feeda1d4f5f12c05834ca45fcd69dbc93f297799d12050097792f815f50c"
+  },
+  {
+    "path": "desk-companion/tests/test_folder_jobs.py",
+    "sha256": "f13898de0daa4acf9972b0d099068d51b8b94428578053090e49cadc4cce9d21"
+  },
+  {
+    "path": "desk-companion/tests/test_goals.py",
+    "sha256": "0e6c42e066ee8fa37620920f48c60867d57797d9a6bd55e4f9b8a32d736d45d4"
+  },
+  {
+    "path": "desk-companion/tests/test_integration_boundaries.py",
+    "sha256": "73edc95001619fb824a674f21a00e7c9b0b0daba1d9876ba9d072ede9de6dcf1"
+  },
+  {
+    "path": "desk-companion/tests/test_linux_desktop.py",
+    "sha256": "ecaa6c6513260c526acdbeb1ab2c249a5a1ced6963e9cff7c569693fc3bde2c8"
+  },
+  {
+    "path": "desk-companion/tests/test_local_preview.py",
+    "sha256": "7a4aac209f869a27abb6839d07464bc656e28f770717bde9927317e2a80c7a27"
+  },
+  {
+    "path": "desk-companion/tests/test_memory.py",
+    "sha256": "65c170ca03b168c0f5b48028e9cf88861db4d1d33873a852d31bc4c7f5a73d98"
+  },
+  {
+    "path": "desk-companion/tests/test_memory_eval.py",
+    "sha256": "c27cac7ef63ad247a430821297cad7443ec3fd8778bf4fb76fe600bb593f3c97"
+  },
+  {
+    "path": "desk-companion/tests/test_memory_extract.py",
+    "sha256": "bba89f00ceb2c4af557febb04d006fafd93ae57d6e155c90e2fc43081b82219f"
+  },
+  {
+    "path": "desk-companion/tests/test_memory_gaps.py",
+    "sha256": "00a78b755d8c3672777f2002f3e3c398068ecd2321b0a82b44f502b7cf1622b6"
+  },
+  {
+    "path": "desk-companion/tests/test_memory_review.py",
+    "sha256": "d31b1387de57b2ecddf68c4a91774f63dff6423c511ca0dd61a22594f19f74c6"
+  },
+  {
+    "path": "desk-companion/tests/test_moments.py",
+    "sha256": "e4efb9a6af5df86ffcfc87334f57419f99fcef2557b27e41e20bae73bc051d85"
+  },
+  {
+    "path": "desk-companion/tests/test_notify.py",
+    "sha256": "8022d8ae76bb59e0d2e772f7752193fd61c964570e82459ebd781dc361ff0e24"
+  },
+  {
+    "path": "desk-companion/tests/test_nudges.py",
+    "sha256": "ff88089e5c4b3d7a92703ec6072e7503a4b6ff3e769597c9f03a814baacdf198"
+  },
+  {
+    "path": "desk-companion/tests/test_omni_conversation.py",
+    "sha256": "c2b84581ed1873ca6d49ea0dc160dd75641f4240a9c29fec46bcb22955009be6"
+  },
+  {
+    "path": "desk-companion/tests/test_ops.py",
+    "sha256": "5e2470ad3cb4b28311965b4e00781250b808b79ca9fc65b0bf276d48450e8448"
+  },
+  {
+    "path": "desk-companion/tests/test_owner_lookup.py",
+    "sha256": "c962541589daa88dcf1ced1b9d2cbfcad34c2649d4bb7370c58b4674a7c80351"
+  },
+  {
+    "path": "desk-companion/tests/test_owner_plan.py",
+    "sha256": "e627e1b964b70988c5ffd3f345f52862947b21f8c380e4f7d7971dcfcf451011"
+  },
+  {
+    "path": "desk-companion/tests/test_persona.py",
+    "sha256": "937ac6b0b6e1478dacadd9552ea6dc5a2cfe7e84e2575e4a13205206280470ae"
+  },
+  {
+    "path": "desk-companion/tests/test_pi_bootstrap.py",
+    "sha256": "9324dcf1a2ca692b0a1d9a4351adc587ef65a69d7661308a54ad73810313d748"
+  },
+  {
+    "path": "desk-companion/tests/test_pi_web_tunnel.py",
+    "sha256": "50e3db72a5bb67339fe64e156d946ce586de0669e3ebe242acbe5233ffbfadec"
+  },
+  {
+    "path": "desk-companion/tests/test_posture.py",
+    "sha256": "5721210ca7d300e12209e8ee79c420705efae967a96f637978f2c197ff0bf905"
+  },
+  {
+    "path": "desk-companion/tests/test_profile.py",
+    "sha256": "6ceb3dc536b432279e7928129b9d40ddae0ed798d6e20b58af0cb50318220995"
+  },
+  {
+    "path": "desk-companion/tests/test_provider_smoke.py",
+    "sha256": "61b818cff03781f53c54bebd17052fffc6fc20e3cbb7337373e52c5e6c9ae457"
+  },
+  {
+    "path": "desk-companion/tests/test_qwen_key_setup.py",
+    "sha256": "221e9797c5c5531f07cef94d9f96e463cf720dbe73112a76cb04136e1630506f"
+  },
+  {
+    "path": "desk-companion/tests/test_recall.py",
+    "sha256": "a9f240d54732288ae3053e5984dd02f48868c2112ff8af7e3f351404b067c65d"
+  },
+  {
+    "path": "desk-companion/tests/test_reply_stream.py",
+    "sha256": "ad5308248883fd061037b0aa04c6b6057d4e13e6e0d6369945b80c34d18284f1"
+  },
+  {
+    "path": "desk-companion/tests/test_retrieval.py",
+    "sha256": "18bfc37776ac2f14b4328321ee35690857d8acbe43d79ddcbf96b18f9c810c48"
+  },
+  {
+    "path": "desk-companion/tests/test_risk_gaps.py",
+    "sha256": "acd23252b9ce445b5f9a9a6a8a606c36c0fb881b359ed58cd31d674cacbd72e8"
+  },
+  {
+    "path": "desk-companion/tests/test_security_hygiene.py",
+    "sha256": "3bca7d7a87b2c8fc765d4c1985ba06fb4c75d9a6748ecc8171cf7b721b090527"
+  },
+  {
+    "path": "desk-companion/tests/test_stream_contract.py",
+    "sha256": "6085c7e6b88ac7765140f39e165b202361942bd7b8ebba8ec927aaf64c007804"
+  },
+  {
+    "path": "desk-companion/tests/test_style.py",
+    "sha256": "a200d3bd7e50e38f03e4328397d5a2ef77008ba3a41d2b50c92889d3e672da13"
+  },
+  {
+    "path": "desk-companion/tests/test_task_conversation.py",
+    "sha256": "86c16d15153f2e2231cbec5c2f279be62877721bded843db6a673c5f5be03de4"
+  },
+  {
+    "path": "desk-companion/tests/test_tasks.py",
+    "sha256": "8f8fcc78d8ce1df85b76fc261b0ff1f572b8191904808aca30bc4073020d7118"
+  },
+  {
+    "path": "desk-companion/tests/test_text_adapters.py",
+    "sha256": "6cca9bee93f65fe017ac42c11478bae02e098d87a0f08a0aa803b495bbf0ffbe"
+  },
+  {
+    "path": "desk-companion/tests/test_text_conversation_scope.py",
+    "sha256": "f6ae028bb346f3c262c5638d34ef5a55d89592a7ea1f4b79ee410ce8a32e7a1f"
+  },
+  {
+    "path": "desk-companion/tests/test_token_stream.py",
+    "sha256": "352c2b438e5da0e6af622963e432d13ec8510f491f9c5af128125411599cc134"
+  },
+  {
+    "path": "desk-companion/tests/test_tool_dispatch.py",
+    "sha256": "18d8be8242837a3afc104ad26a1a306b763ed76d0eea7a61b4072c9257ca06cf"
+  },
+  {
+    "path": "desk-companion/tests/test_voice_context_turns.py",
+    "sha256": "c145b40d6df85efee9515d70258b6e7029a2f943da902b5f8287009ecb8e75cb"
+  },
+  {
+    "path": "desk-companion/tests/test_voice_device_timing.py",
+    "sha256": "67f0b206bfe548c7da51baca2eb3751015e80a63db96b296e9815059597df9ff"
+  },
+  {
+    "path": "desk-companion/tests/test_voice_google.py",
+    "sha256": "e7f5bafb31cfed62358c7487d7d6c14e1d3581a643444cf5eaba8f7970f15e5a"
+  },
+  {
+    "path": "desk-companion/tests/test_voice_omni.py",
+    "sha256": "f6fd3b4aff76155ec06bd71a3f3bb45e523e304e19e1f2521f2945f9f709c384"
+  },
+  {
+    "path": "desk-companion/tests/test_voice_turns.py",
+    "sha256": "4aad4ffdc48af127f0339646df7929607947a04beddd9ac8ea9826b009d08077"
+  },
+  {
+    "path": "desk-companion/tests/test_web_push.py",
+    "sha256": "14552b206b52737f93aa0984e749e30f65a894ba07f061854276bbba3e38b697"
+  },
+  {
+    "path": "desk-companion/tests/test_workspace_api.py",
+    "sha256": "d8bc1dfa702dde72fd0158c476ab91aa2fcf680e15fdc67095a240ff15da2bf3"
+  }
+]

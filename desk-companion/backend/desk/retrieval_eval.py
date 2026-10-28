@@ -19,7 +19,9 @@ def run_all(new_runtime) -> list[ScenarioResult]:
         try:
             scenario(new_runtime)
         except Exception as error:
-            results.append(ScenarioResult(scenario.__name__, False, f"{type(error).__name__}: {error}"))
+            results.append(
+                ScenarioResult(scenario.__name__, False, f"{type(error).__name__}: {error}")
+            )
         else:
             results.append(ScenarioResult(scenario.__name__, True, ""))
     return results
@@ -50,9 +52,7 @@ def scenario_chinese_bigram(new_runtime):
     runtime = new_runtime()
     hit = runtime.memory.create("晚上要带红灯笼。", "zh-hit")["memory"]
     runtime.memory.create("苹果放在桌上。", "zh-miss")
-    found = runtime.assistant.tool(
-        "memory_query", {"query": "灯笼"}, "rank-zh"
-    )
+    found = runtime.assistant.tool("memory_query", {"query": "灯笼"}, "rank-zh")
     bodies = [row["body"] for row in found["memories"]]
     if bodies != ["晚上要带红灯笼。"]:
         raise AssertionError(bodies)
@@ -62,8 +62,8 @@ def scenario_chinese_bigram(new_runtime):
 
 def scenario_newer_tie_wins(new_runtime):
     runtime = new_runtime()
-    older = runtime.memory.create("The code word is lantern.", "tie-old")["memory"]
-    newer = runtime.memory.create("The code word is lantern.", "tie-new")["memory"]
+    older = runtime.memory.create("The old code word was lantern.", "tie-old")["memory"]
+    newer = runtime.memory.create("The new code word is lantern.", "tie-new")["memory"]
     _stamp(runtime, older["id"], "2026-10-01T00:00:00+00:00")
     _stamp(runtime, newer["id"], "2026-10-20T00:00:00+00:00")
     found = runtime.assistant.tool("memory_query", {"query": "lantern"}, "rank-tie")
@@ -76,7 +76,9 @@ def scenario_search_does_not_write(new_runtime):
     runtime.memory.create("The project code is lantern.", "recall-fact")
     provider = ScriptedProvider(
         [
-            ModelStep("I will search.", "owner_search", {"query": "lantern", "sources": ["memory"]}),
+            ModelStep(
+                "I will search.", "owner_search", {"query": "lantern", "sources": ["memory"]}
+            ),
             ModelStep("The project code is lantern.", "none", {}),
         ]
     )

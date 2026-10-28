@@ -4,7 +4,7 @@
 > 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
 <!-- /FYP-CONTEXT-20261027 -->
 
-2026-10-22，Group 2。原有两件**同一作业契约**上的本机写入：专用笔记目录，以及拥有者指定的一个真实文件夹。两者都要批准全文、独立读回和取消；现另加入受限Linux编辑器→浏览器流程。通用电脑操作、任意路径和 shell 仍未接入。软件在谁的主机运行，文件就写在该主机上，不能把本机保存称为远端 PC 控制。
+2026-10-28，Group 2。原有两件**同一作业契约**上的本机写入：专用笔记目录，以及拥有者指定的一个真实文件夹。两者都要批准全文、独立读回和取消；现另加入受限Linux编辑器→浏览器流程。通用电脑操作、任意路径和 shell 仍未接入。软件在谁的主机运行，文件就写在该主机上，不能把本机保存称为远端 PC 控制。
 
 ## 在隔离目录试运行
 
@@ -79,3 +79,9 @@ DESK_LINUX_DESKTOP_ENABLED=1另行启用linux_note_preview／verify_linux_file�
 需要Linux图形会话、D-Bus、Mousepad、Chromium、python3-pyatspi和python3-websockets。GTK由AT-SPI输入／保存；浏览器使用新配置的随机回环调试端口，只读取固定文件的document.body.innerText。保留Chromium沙盒，不使用--no-sandbox；子进程不继承模型Key。执行35秒上限／取消只清理本次进程组。文件一旦预留，即使只留下空文件也按结果未知处理，不声称撤销写入。服务重启后没有两应用证据，文件相同也不能补写整个工作流成功。
 
 隔离ARM64 Linux容器已实跑“API准备无副作用→拥有者批准→Mousepad保存→Chromium读DOM→SHA读回”。156字节中英文／字面脚本内容正确，脚本文本未执行。容器X11结果不是Pi默认Wayland结果。该流程不具备任意桌面截图、点击、网页登录或远端电脑能力。证据 (local historical material: `output/qa/2026-10-22-voice-linux-sd/verification.md`; not included in this checkpoint)／[Pi准备](pi5-first-boot.md)。
+
+## 2026-10-28 备份恢复校验
+
+业务备份可往返笔记、指定目录和 Linux 两类动作。导入先校验完整持久意图：action、task字段、artifact_id、executor／scope及内容摘要，不能把缺字段记录写入后才使管理页报错。非终态恢复为review，approved_by／run_id均不恢复；最终应用需要拥有者身份。
+
+导入的目录也必须走 accept_owner_folder：存在、绝对、逐级无链接、位于运行树之外，并重新计算路径指纹。复制另一个目录的指纹不能复用旧批准；执行前再次检查实际路径摘要。原先已存在的作业／目录保留，不覆盖。不存在或不安全的跨主机目录必须先由拥有者在目标主机处理，不能放宽验证来“完成恢复”。

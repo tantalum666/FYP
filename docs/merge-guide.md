@@ -1,5 +1,7 @@
 # Merge guide for open Grok Bot pull requests
 
+> HISTORICAL — Grok 原始合并演练（2026-10-27）。下文的分支顺序、3项失败和旧handoff段落是当时证据，已由2026-10-28整合审查取代；当前状态见[handoff](../handoff.md)和[整合QA](../output/qa/2026-10-28-grok-review-merge/verification.md)。不能再按此文把旧界面覆盖#60。
+
 Completed by Grok Bot via a Cursor cloud agent on 2026-10-27. This is a merge plan, not a merge. Codex merges. The set is every open Grok Bot pull request from #20 through #50. This guide is #51. Do not merge PR #4, #5, #15, #16, or #19. Those are outside this set (#19 is the hardware procurement review; #4/#5/#15/#16 stay unmerged).
 
 Tips below were the branch tips used for `git merge-tree --write-tree --name-only`. A later push to the same branch can change a conflict. Re-run merge-tree if a tip moved.

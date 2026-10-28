@@ -5,6 +5,7 @@ import {
   emptyStream,
   progressLabel,
   reduceReply,
+  readReply,
 } from "../src/replyStream.ts";
 
 function frame(event: unknown): string {
@@ -14,13 +15,20 @@ function frame(event: unknown): string {
 test("partial frames accumulate the reply and then a done event replaces it", () => {
   let state = emptyStream();
   let buffer = "";
-  const first = frame({ type: "delta", text: "Hello, this is a partial" }).slice(0, 18);
+  const first = frame({
+    type: "delta",
+    text: "Hello, this is a partial",
+  }).slice(0, 18);
   const rest =
     frame({ type: "delta", text: "Hello, this is a partial" }).slice(18) +
     frame({ type: "delta", text: " reply." }) +
     frame({
       type: "done",
-      reply: { mode: "ai", kind: "reply", message: "Hello, this is a partial reply." },
+      reply: {
+        mode: "ai",
+        kind: "reply",
+        message: "Hello, this is a partial reply.",
+      },
     });
   ({ state, buffer } = consumeChunk(state, buffer, first));
   assert.equal(state.message, "");
@@ -58,7 +66,10 @@ test("tool progress moves from working to done without keeping arguments", () =>
 
 test("a preview replaces the visible text and a later delta appends", () => {
   const preview = reduceReply(emptyStream(), { type: "preview", text: "Tue" });
-  const grown = reduceReply(preview, { type: "preview", text: "Tuesday morning" });
+  const grown = reduceReply(preview, {
+    type: "preview",
+    text: "Tuesday morning",
+  });
   assert.equal(grown.message, "Tuesday morning");
   const cleared = reduceReply(grown, { type: "preview", text: "" });
   assert.equal(cleared.message, "");
@@ -75,4 +86,36 @@ test("an error event ends the turn", () => {
   assert.equal(state.done, true);
   assert.equal(state.error, "OPERATION_ID_REQUIRED");
   assert.equal(state.status, 422);
+});
+
+test("an EOF after a preview is not a completed operation", async () => {
+  const state = await readReply(
+    new Response(frame({ type: "preview", text: "Preparing…" })),
+    () => {},
+  );
+  assert.equal(state.message, "Preparing…");
+  assert.equal(state.done, false);
+  assert.equal(state.reply, null);
+});
+
+test("a buffered native reply and an error frame retain distinct terminal states", async () => {
+  const reply = {
+    message: "Review this draft",
+    kind: "draft",
+    saved: false,
+    conversation_id: "scope",
+  };
+  const complete = await readReply(
+    new Response(frame({ type: "done", reply })),
+    () => {},
+  );
+  assert.equal(complete.done, true);
+  assert.deepEqual(complete.reply, reply);
+  const failed = await readReply(
+    new Response(frame({ type: "error", code: "AUTH_REQUIRED", status: 401 })),
+    () => {},
+  );
+  assert.equal(failed.done, true);
+  assert.equal(failed.status, 401);
+  assert.equal(failed.reply, null);
 });

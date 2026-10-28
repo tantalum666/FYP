@@ -1,4 +1,4 @@
-import { readBody } from "./replyStream";
+import { readReply, type StreamReply, type StreamState } from "./replyStream";
 import { apiFetch, isNative, native } from "./native";
 export class ApiError extends Error {
   constructor(
@@ -56,6 +56,7 @@ export interface PendingWrite {
   key: string;
 }
 const pendingKey = "desk.pending-write";
+let identityGeneration = 0;
 export function pendingWrite(): PendingWrite | null {
   try {
     return JSON.parse(sessionStorage.getItem(pendingKey) ?? "null");
@@ -80,7 +81,7 @@ export async function write<T>(path: string, body: unknown): Promise<T> {
       body: JSON.stringify(body),
       headers: { "X-Operation-Id": operation.key },
     });
-    sessionStorage.removeItem(pendingKey);
+    clearPending(operation.key);
     return response;
   } catch (error) {
     if (
@@ -90,13 +91,14 @@ export async function write<T>(path: string, body: unknown): Promise<T> {
       error.status !== 401 &&
       error.status !== 408
     )
-      sessionStorage.removeItem(pendingKey);
+      clearPending(operation.key);
     throw error;
   }
 }
 function aborted(signal: AbortSignal): Promise<never> {
   return new Promise((_, reject) => {
-    const fail = () => reject(new DOMException("The operation was aborted.", "AbortError"));
+    const fail = () =>
+      reject(new DOMException("The operation was aborted.", "AbortError"));
     if (signal.aborted) fail();
     else signal.addEventListener("abort", fail, { once: true });
   });
@@ -105,12 +107,13 @@ function aborted(signal: AbortSignal): Promise<never> {
 export async function writeStream(
   path: string,
   body: unknown,
-  onChunk: (text: string) => void,
-): Promise<void> {
+  onState: (state: StreamState) => void,
+): Promise<StreamReply> {
   const existing = pendingWrite();
   if (
     existing &&
-    (existing.path !== path || JSON.stringify(existing.body) !== JSON.stringify(body))
+    (existing.path !== path ||
+      JSON.stringify(existing.body) !== JSON.stringify(body))
   ) {
     throw new ApiError("PENDING_WRITE");
   }
@@ -141,10 +144,18 @@ export async function writeStream(
       } catch {
         /* The status is enough when the body is not JSON. */
       }
+      if (response.status === 401 && code === "AUTH_REQUIRED")
+        window.dispatchEvent(new Event("desk:auth-required"));
       throw new ApiError(code, response.status);
     }
-    await Promise.race([readBody(response, onChunk), aborted(controller.signal)]);
-    sessionStorage.removeItem(pendingKey);
+    const state = await Promise.race([
+      readReply(response, onState),
+      aborted(controller.signal),
+    ]);
+    if (state.error) throw new ApiError(state.error, state.status ?? 500);
+    if (!state.done || !state.reply) throw new ApiError("CONNECTION_LOST");
+    clearPending(operation.key);
+    return state.reply;
   } catch (error) {
     if (
       error instanceof ApiError &&
@@ -153,7 +164,7 @@ export async function writeStream(
       error.status !== 401 &&
       error.status !== 408
     )
-      sessionStorage.removeItem(pendingKey);
+      clearPending(operation.key);
     if (error instanceof ApiError) throw error;
     throw new ApiError("CONNECTION_LOST");
   } finally {
@@ -163,7 +174,12 @@ export async function writeStream(
 export async function retryPending(): Promise<unknown> {
   const op = pendingWrite();
   if (op) {
-    const result = await write(op.path, op.body);
+    const generation = identityGeneration;
+    const result =
+      op.path === "/assistant/messages/stream"
+        ? await writeStream(op.path, op.body, () => {})
+        : await write(op.path, op.body);
+    if (generation !== identityGeneration) return;
     window.dispatchEvent(
       new CustomEvent("desk:write-recovered", {
         detail: { operation: op, result },
@@ -172,8 +188,10 @@ export async function retryPending(): Promise<unknown> {
     return result;
   }
 }
-export function clearPending() {
-  sessionStorage.removeItem(pendingKey);
+export function clearPending(key?: string) {
+  if (key === undefined) identityGeneration += 1;
+  if (key === undefined || pendingWrite()?.key === key)
+    sessionStorage.removeItem(pendingKey);
 }
 
 export async function downloadFile(path: string, filename: string) {

@@ -42,6 +42,34 @@ def forget_local_copies(conn, *, memory_id: str, phrases: list[str]) -> dict[str
                 ),
             )
             proposals += 1
+    # Preserve operation keys: a retry must not recreate a forgotten draft.
+    if _table(conn, "operations"):
+        for row in conn.execute("SELECT id,response FROM operations"):
+            result = _json(row["response"])
+            if _mentions(result, memory_id, kept):
+                conn.execute(
+                    "UPDATE operations SET response=? WHERE id=?",
+                    (encode(_redact(result, kept)), row["id"]),
+                )
+    if _table(conn, "tool_effects"):
+        for row in conn.execute("SELECT call_key,result FROM tool_effects"):
+            if _mentions(_json(row["result"]), memory_id, kept):
+                conn.execute(
+                    "UPDATE tool_effects SET outcome=?,result=? WHERE call_key=?",
+                    (
+                        "MEMORY_NOT_FOUND",
+                        encode({"error": "MEMORY_NOT_FOUND", "saved": False}),
+                        row["call_key"],
+                    ),
+                )
+    if _table(conn, "tool_calls"):
+        for row in conn.execute("SELECT id,arguments,message FROM tool_calls"):
+            args = _json(row["arguments"])
+            if _mentions(args, memory_id, kept) or _mentions(row["message"], memory_id, kept):
+                conn.execute(
+                    "UPDATE tool_calls SET arguments=?,message=? WHERE id=?",
+                    (encode(_redact(args, kept)), _redact(row["message"], kept), row["id"]),
+                )
     return {"replies_removed": replies, "proposals_cleared": proposals}
 
 

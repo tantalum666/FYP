@@ -73,10 +73,14 @@ export function sentenceFor(call: ToolCall, t: Translate) {
     !call.saved &&
     (call.ref_kind === "proposal" || call.ref_kind === "job")
   ) {
-    return t("Prepared for review. Nothing was saved.", "已准备待审，没有保存。");
+    return t(
+      "Prepared for review. Nothing was saved.",
+      "已准备待审，没有保存。",
+    );
   }
   if (call.outcome !== "ok" && call.message) return call.message;
-  if (call.outcome === "ok" && call.message && planSteps(call).length > 0) return call.message;
+  if (call.outcome === "ok" && call.message && planSteps(call).length > 0)
+    return call.message;
   return "";
 }
 
@@ -100,10 +104,18 @@ export type ActivityState =
   | { kind: "empty" }
   | {
       kind: "list";
-      rows: { call: ToolCall; risk: string; sentence: string; steps: string[] }[];
+      rows: {
+        call: ToolCall;
+        risk: string;
+        sentence: string;
+        steps: string[];
+      }[];
     };
 
-export function activityState(calls: ToolCall[] | null, t: Translate): ActivityState {
+export function activityState(
+  calls: ToolCall[] | null,
+  t: Translate,
+): ActivityState {
   if (!calls) return { kind: "hidden" };
   if (calls.length === 0) return { kind: "empty" };
   return {

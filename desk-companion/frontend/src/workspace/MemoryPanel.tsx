@@ -9,12 +9,7 @@ import { GoalList } from "./GoalList";
 import { DigestPanel } from "./DigestPanel";
 import { AliasList } from "./AliasList";
 import { ProfileSummary } from "./ProfileSummary";
-import {
-  actionsFor,
-  knowledgeCopy,
-  noteCopy,
-  sourceCopy,
-} from "./knowledge";
+import { actionsFor, knowledgeCopy, noteCopy, sourceCopy } from "./knowledge";
 import { useWorkspace } from "./WorkspaceContext";
 
 interface MemoryFact {
@@ -81,17 +76,19 @@ export function MemoryPanel({ t }: { t: Translate }) {
   const reload = useCallback(async () => {
     if (!owner) return;
     try {
-    const next = await request<{
-      memories: MemoryFact[];
-      expired: MemoryFact[];
-      retired: MemoryFact[];
-      suggestions: MemorySuggestion[];
-    }>("/memory");
-    setFacts(next.memories);
-    setExpired(next.expired);
-    setRetired(next.retired);
-    setSuggestions(next.suggestions);
-    } finally { setLoading(false); }
+      const next = await request<{
+        memories: MemoryFact[];
+        expired: MemoryFact[];
+        retired: MemoryFact[];
+        suggestions: MemorySuggestion[];
+      }>("/memory");
+      setFacts(next.memories);
+      setExpired(next.expired);
+      setRetired(next.retired);
+      setSuggestions(next.suggestions);
+    } finally {
+      setLoading(false);
+    }
   }, [owner]);
   useEffect(() => {
     void reload().catch((reason) => setError(reason));
@@ -255,7 +252,10 @@ export function MemoryPanel({ t }: { t: Translate }) {
   }
   if (!owner) {
     return (
-      <section className="workspace-section memory-page" aria-label={t("Memory", "记忆")}>
+      <section
+        className="workspace-section memory-page"
+        aria-label={t("Memory", "记忆")}
+      >
         <h1>{t("Memory", "记忆")}</h1>
         <p>
           {t(
@@ -267,15 +267,18 @@ export function MemoryPanel({ t }: { t: Translate }) {
     );
   }
   return (
-    <section className="workspace-section memory-page" aria-label={t("Memory", "记忆")}>
+    <section
+      className="workspace-section memory-page"
+      aria-label={t("Memory", "记忆")}
+    >
       <div className="workspace-state">
         <Brain />
         <div>
           <h1>{t(knowledgeCopy.title[0], knowledgeCopy.title[1])}</h1>
           <p className="workspace-hint">
             {t(
-              "Facts you save here are sent with later assistant requests. The assistant can only propose a change; you confirm it. Forgetting a fact removes it from future requests. The same wording is kept once.",
-              "你保存在这里的事实会随之后的助理请求发出。助理只能提出修改，由你确认。忘掉一条后，之后的请求不再包含它。相同文字只保留一次。",
+              "Keep useful details for future conversations. You choose what to save, correct or remove. Saved facts are included in later assistant requests.",
+              "保留对未来对话有用的细节，由你决定保存、更正或删除。已保存的事实会用于之后的助理请求。",
             )}
           </p>
         </div>
@@ -311,120 +314,126 @@ export function MemoryPanel({ t }: { t: Translate }) {
           </button>
         </div>
       </form>
-      {loading && <p role="status">{t("Loading saved memories…", "正在读取已保存记忆…")}</p>}
+      {loading && (
+        <p role="status">
+          {t("Loading saved memories…", "正在读取已保存记忆…")}
+        </p>
+      )}
       <ul className="memory-list">
         {facts.map((fact) => {
           const actions = actionsFor("active", fact.expires_at);
           return (
-          <li key={fact.id}>
-            {editing?.id === fact.id ? (
-              <textarea
-                aria-label={t("Correct saved memory", "更正已保存记忆")}
-                value={editing.body}
-                maxLength={500}
-                rows={3}
-                disabled={busy}
-                onChange={(event) =>
-                  setEditing({ ...editing, body: event.target.value })
-                }
-              />
-            ) : (
-              <>
-                <p>{fact.body}</p>
-                <small>
-                  {sourceLabel(fact.source, t)}
-                  {noteLabel(fact.note, t) ? ` · ${noteLabel(fact.note, t)}` : ""}
-                  {fact.expires_at
-                    ? ` · ${t("Expires ", "到期 ")}${new Date(fact.expires_at).toLocaleString()}`
-                    : ""}
-                  {fact.retired_duplicates
-                    ? ` · ${t("Kept after retiring a duplicate", "停用重复后保留")}`
-                    : ""}
-                </small>
-                {fact.previous_body && (
-                  <small>
-                    {t("Corrected from: ", "更正前：")}
-                    {fact.previous_body}
-                  </small>
-                )}
-              </>
-            )}
-            <div className="workspace-inline-actions">
+            <li key={fact.id}>
               {editing?.id === fact.id ? (
-                <>
-                  <button
-                    className="primary"
-                    type="button"
-                    disabled={busy}
-                    onClick={() => void saveEdit()}
-                  >
-                    {t(
-                      knowledgeCopy.saveCorrection[0],
-                      knowledgeCopy.saveCorrection[1],
-                    )}
-                  </button>
-                  <button
-                    className="secondary"
-                    type="button"
-                    disabled={busy}
-                    onClick={() => setEditing(null)}
-                  >
-                    {t("Cancel", "取消")}
-                  </button>
-                </>
+                <textarea
+                  aria-label={t("Correct saved memory", "更正已保存记忆")}
+                  value={editing.body}
+                  maxLength={500}
+                  rows={3}
+                  disabled={busy}
+                  onChange={(event) =>
+                    setEditing({ ...editing, body: event.target.value })
+                  }
+                />
               ) : (
                 <>
-                  {actions.includes("correct") && (
-                    <button
-                      className="secondary"
-                      type="button"
-                      disabled={busy}
-                      onClick={() =>
-                        setEditing({
-                          id: fact.id,
-                          body: fact.body,
-                          version: fact.version,
-                        })
-                      }
-                    >
-                      {t(knowledgeCopy.correct[0], knowledgeCopy.correct[1])}
-                    </button>
-                  )}
-                  {actions.includes("forget") && (
-                    <button
-                      className="secondary"
-                      type="button"
-                      disabled={busy}
-                      onClick={() => setDeleting(fact)}
-                    >
-                      {t(knowledgeCopy.forget[0], knowledgeCopy.forget[1])}
-                    </button>
-                  )}
-                  {(actions.includes("expire_week") ||
-                    actions.includes("clear_expiry")) && (
-                    <button
-                      className="secondary"
-                      type="button"
-                      disabled={busy}
-                      onClick={() =>
-                        void expire(fact, fact.expires_at ? null : 7)
-                      }
-                    >
-                      {fact.expires_at
-                        ? t(
-                            knowledgeCopy.clearExpiry[0],
-                            knowledgeCopy.clearExpiry[1],
-                          )
-                        : t(
-                            knowledgeCopy.expireWeek[0],
-                            knowledgeCopy.expireWeek[1],
-                          )}
-                    </button>
+                  <p>{fact.body}</p>
+                  <small>
+                    {sourceLabel(fact.source, t)}
+                    {noteLabel(fact.note, t)
+                      ? ` · ${noteLabel(fact.note, t)}`
+                      : ""}
+                    {fact.expires_at
+                      ? ` · ${t("Expires ", "到期 ")}${new Date(fact.expires_at).toLocaleString()}`
+                      : ""}
+                    {fact.retired_duplicates
+                      ? ` · ${t("Kept after retiring a duplicate", "停用重复后保留")}`
+                      : ""}
+                  </small>
+                  {fact.previous_body && (
+                    <small>
+                      {t("Corrected from: ", "更正前：")}
+                      {fact.previous_body}
+                    </small>
                   )}
                 </>
               )}
-            </div>
-          </li>
+              <div className="workspace-inline-actions">
+                {editing?.id === fact.id ? (
+                  <>
+                    <button
+                      className="primary"
+                      type="button"
+                      disabled={busy}
+                      onClick={() => void saveEdit()}
+                    >
+                      {t(
+                        knowledgeCopy.saveCorrection[0],
+                        knowledgeCopy.saveCorrection[1],
+                      )}
+                    </button>
+                    <button
+                      className="secondary"
+                      type="button"
+                      disabled={busy}
+                      onClick={() => setEditing(null)}
+                    >
+                      {t("Cancel", "取消")}
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {actions.includes("correct") && (
+                      <button
+                        className="secondary"
+                        type="button"
+                        disabled={busy}
+                        onClick={() =>
+                          setEditing({
+                            id: fact.id,
+                            body: fact.body,
+                            version: fact.version,
+                          })
+                        }
+                      >
+                        {t(knowledgeCopy.correct[0], knowledgeCopy.correct[1])}
+                      </button>
+                    )}
+                    {actions.includes("forget") && (
+                      <button
+                        className="secondary"
+                        type="button"
+                        disabled={busy}
+                        onClick={() => setDeleting(fact)}
+                      >
+                        {t(knowledgeCopy.forget[0], knowledgeCopy.forget[1])}
+                      </button>
+                    )}
+                    {(actions.includes("expire_week") ||
+                      actions.includes("clear_expiry")) && (
+                      <button
+                        className="secondary"
+                        type="button"
+                        disabled={busy}
+                        onClick={() =>
+                          void expire(fact, fact.expires_at ? null : 7)
+                        }
+                      >
+                        {fact.expires_at
+                          ? t(
+                              knowledgeCopy.clearExpiry[0],
+                              knowledgeCopy.clearExpiry[1],
+                            )
+                          : t(
+                              knowledgeCopy.expireWeek[0],
+                              knowledgeCopy.expireWeek[1],
+                            )}
+                      </button>
+                    )}
+                  </>
+                )}
+              </div>
+            </li>
           );
         })}
       </ul>
@@ -517,19 +526,53 @@ export function MemoryPanel({ t }: { t: Translate }) {
           </ul>
         </details>
       )}
-      <DigestPanel t={t} />
-      <AliasList t={t} />
-      <ProfileSummary t={t} />
-      <GoalList t={t} />
-      <CheckIns t={t} />
-      {deleting && <div className="memory-delete-confirm" role="alert">
-        <p>{t("Delete this saved memory?", "删除这条已保存记忆？")}</p>
-        <blockquote>{deleting.body}</blockquote>
-        <div className="workspace-inline-actions">
-          <button className="danger-button" disabled={busy} onClick={() => void remove(deleting)}>{t("Delete memory", "删除记忆")}</button>
-          <button className="secondary" disabled={busy} onClick={() => setDeleting(null)}>{t("Keep memory", "保留记忆")}</button>
+      <details className="knowledge-section">
+        <summary>{t("Recent activity", "近期活动")}</summary>
+        <DigestPanel t={t} />
+      </details>
+      <details className="knowledge-section">
+        <summary>
+          {t("Words Alice should recognize", "让 Alice 理解你的用词")}
+        </summary>
+        <AliasList t={t} />
+      </details>
+      <details className="knowledge-section">
+        <summary>{t("Your profile", "你的档案")}</summary>
+        <ProfileSummary
+          key={facts.map((f) => `${f.id}:${f.version}`).join(",")}
+          t={t}
+        />
+      </details>
+      <details className="knowledge-section">
+        <summary>{t("Goals and commitments", "目标与承诺")}</summary>
+        <GoalList t={t} />
+      </details>
+      <details className="knowledge-section">
+        <summary>{t("Check-in history", "提醒记录")}</summary>
+        <CheckIns t={t} />
+      </details>
+      {deleting && (
+        <div className="memory-delete-confirm" role="alert">
+          <p>{t("Delete this saved memory?", "删除这条已保存记忆？")}</p>
+          <blockquote>{deleting.body}</blockquote>
+          <div className="workspace-inline-actions">
+            <button
+              className="danger-button"
+              disabled={busy}
+              onClick={() => void remove(deleting)}
+            >
+              {t("Delete memory", "删除记忆")}
+            </button>
+            <button
+              className="secondary"
+              disabled={busy}
+              onClick={() => setDeleting(null)}
+            >
+              {t("Keep memory", "保留记忆")}
+            </button>
+          </div>
         </div>
-      </div>}
+      )}
       {notice && <p role="status">{notice}</p>}
       {!!error && (
         <p className="error-message" role="alert">

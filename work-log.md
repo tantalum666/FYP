@@ -360,3 +360,15 @@ Built the publication checkout from main46ac167 at`/Users/tantalum/.codex/worktr
 Current contract:[software-maintenance](desk-companion/docs/software-maintenance.md). Evidence:[QA](output/qa/2026-10-28-maintainable-ai/verification.md). Publication checks/readback are finalized there and in handoff. No new model charges, microphone/camera/user-screen sharing, Pi/Luwu action or school report change/submission.
 
 Publication readback: pushed code commit71e4bd8a76533cb4a734dbf04e89f158432ed303 and opened[PR #60](https://github.com/tantalum666/FYP/pull/60) as a draft. Remote branch/head match; PR was mergeable and unmerged. Hosted CI did not execute because GitHub refused runner admission at the account level; local303/65 checks remain the actual test evidence. No account setting was changed. Final documentation records this boundary; the next software acceptance gate is native touch/keyboard and draft recovery.
+
+## 2026-10-28 · Review and integrate Grok PRs20–59 with #60
+
+**Goal:** inspect Grok's work, repair blockers and perform the owner-authorized merge while preserving current Alice/mobile/Omni behavior and maintainability.
+
+**Completed locally:** captured all40 Grok heads plus#60; resolved the three dependency stacks on an isolated candidate; reviewed196 authoritative source items with an independent architecture pass; reproduced and repaired permission, context/cache, imported-job/folder, SSE recovery, omitted-field and cross-stack failures. Shared modules and the original job queue remain; no new global transcript table or second voice model loop. The separate pre-fix review checkout and prior dirty work are preserved.
+
+**Validation:**450 backend/89 frontend, Ruff/types/build; real1365×900 web and390×844 phone UI. Controlled principal downgrade removes private chat/diagnostics. Stream EOF retains the operation key; recovery produces one draft with zero approved facts, clears matching error/input and labels the result correctly. Preview-session expiry preserves unsent text and next send works. Phone calendar save appears on web; Alice and Plan/More remain; alias edits are guarded. No native Simulator reinstall or hardware/live-model result is claimed.
+
+**Files:** [QA](output/qa/2026-10-28-grok-review-merge/verification.md), [reading record](output/qa/2026-10-28-grok-review-merge/reading-record.json), [publication receipt](output/qa/2026-10-28-grok-review-merge/publication.json), updated root entry/handoff/product/decision and affected software contracts. Historical merge/report notes are explicitly marked.
+
+**Pending at this entry:** final publication and exact-head GitHub merge/readback. Hosted-CI account restrictions remain separate. After receipt closeout, resume the native Plan→New→Save→Back/keyboard validation gate; Pi and prior API budgets stay paused/closed.

@@ -32,14 +32,6 @@ _MONTHS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
 _SHOWN = 3
 
 
-def ensure(store) -> None:
-    with store.connection(write=True) as conn:
-        conn.execute(
-            "CREATE TABLE IF NOT EXISTS recall_focus("
-            "id INTEGER PRIMARY KEY CHECK(id=1), memory_id TEXT NOT NULL, cited_at TEXT NOT NULL)"
-        )
-
-
 def classify(text: str):
     """A forget-that or recall question, or None when another parser should run."""
     raw = text.strip()
@@ -96,7 +88,9 @@ def render(rows: list[dict], tokens: list[str], zone: ZoneInfo, zh: bool) -> str
     shown = rows[:_SHOWN]
     if not rows:
         if tokens:
-            return "我没有保存过关于这件事的事实。" if zh else "I do not have a saved fact about that."
+            return (
+                "我没有保存过关于这件事的事实。" if zh else "I do not have a saved fact about that."
+            )
         return "还没有保存过事实。" if zh else "I do not have any saved facts yet."
     if len(rows) == 1:
         day = spoken_day(rows[0]["created_at"], zone, zh)
@@ -111,7 +105,9 @@ def render(rows: list[dict], tokens: list[str], zone: ZoneInfo, zh: bool) -> str
     ]
     if zh:
         head = "你告诉过我不止一件事：" if tokens else "你告诉过我："
-        extra = "其余的在记忆页。" if len(rows) > len(shown) else "请指出要忘掉的原文，或打开记忆页。"
+        extra = (
+            "其余的在记忆页。" if len(rows) > len(shown) else "请指出要忘掉的原文，或打开记忆页。"
+        )
     else:
         head = "You told me more than one fact about that:" if tokens else "You told me:"
         extra = (
@@ -122,20 +118,11 @@ def render(rows: list[dict], tokens: list[str], zone: ZoneInfo, zh: bool) -> str
     return head + "\n" + "\n".join(lines) + "\n" + extra
 
 
-def cited_id(store) -> str | None:
-    with store.connection() as conn:
-        row = conn.execute("SELECT memory_id FROM recall_focus WHERE id=1").fetchone()
-    return row["memory_id"] if row else None
+def cited_id(conversation) -> str | None:
+    return conversation.recall_id if conversation is not None else None
 
 
-def set_focus(store, memory_id: str | None, at: str) -> None:
-    """Remember the single cited fact. Several matches clear the pointer."""
-    with store.connection(write=True) as conn:
-        if memory_id is None:
-            conn.execute("DELETE FROM recall_focus WHERE id=1")
-            return
-        conn.execute(
-            "INSERT INTO recall_focus(id, memory_id, cited_at) VALUES(1, ?, ?) "
-            "ON CONFLICT(id) DO UPDATE SET memory_id=excluded.memory_id, cited_at=excluded.cited_at",
-            (memory_id, at),
-        )
+def set_focus(conversation, memory_id: str | None) -> None:
+    """Only a validated RAM conversation may resolve a later 'forget that'."""
+    if conversation is not None:
+        conversation.recall_id = memory_id

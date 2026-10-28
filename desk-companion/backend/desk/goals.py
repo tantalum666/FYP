@@ -57,7 +57,9 @@ def _collapse(value: str) -> str:
 
 
 def _due_on(day, now_local: datetime) -> datetime | None:
-    due = now_local.replace(year=day.year, month=day.month, day=day.day, hour=18, minute=0, second=0, microsecond=0)
+    due = now_local.replace(
+        year=day.year, month=day.month, day=day.day, hour=18, minute=0, second=0, microsecond=0
+    )
     return due if due > now_local else None
 
 
@@ -155,18 +157,23 @@ class GoalService:
 
     def listing(self) -> dict:
         with self.store.connection() as conn:
-            rows = conn.execute(
-                "SELECT * FROM owner_goals ORDER BY created_at, id"
-            ).fetchall()
+            rows = conn.execute("SELECT * FROM owner_goals ORDER BY created_at, id").fetchall()
         goals = []
         for row in rows:
-            task = self.runtime.tasks.detail(row["task_id"])["task"]
+            try:
+                task = self.runtime.tasks.detail(row["task_id"])["task"]
+            except DomainError as error:
+                if error.code in {"PRIVATE_TASK_HIDDEN", "TASK_NOT_FOUND"}:
+                    continue
+                raise
             goals.append(
                 {
                     "id": row["id"],
                     "title": row["title"],
                     "due_at": row["due_at"],
-                    "state": "closed" if task["status"] not in {"todo", "in_progress", "waiting"} else row["state"],
+                    "state": "closed"
+                    if task["status"] not in {"todo", "in_progress", "waiting"}
+                    else row["state"],
                     "task_id": row["task_id"],
                     "task_status": task["status"],
                 }
@@ -192,7 +199,9 @@ class GoalService:
                 return {
                     "mode": "local_rules",
                     "kind": "clarify",
-                    "message": "没有找到同名的未完成目标。" if zh else "No open goal has that exact title.",
+                    "message": "没有找到同名的未完成目标。"
+                    if zh
+                    else "No open goal has that exact title.",
                 }
             return self.ask_close(matches[0]["id"], key, zh=zh)
         parsed = parse_goal(text, now_local)

@@ -23,13 +23,15 @@ _NUDGE_ID = re.compile(r"(?:morning_brief|evening_check)-\d{4}-\d{2}-\d{2}")
 
 def due_kinds(prefs: dict, now_local: datetime) -> list[str]:
     """Kinds whose saved clock time is in the last two minutes, outside quiet hours."""
-    if now_local.tzinfo is None or is_quiet(prefs, now_local):
+    if prefs.get("proactivity") == "off" or now_local.tzinfo is None or is_quiet(prefs, now_local):
         return []
     due = []
     for kind, flag, clock_key in (
         ("morning_brief", "daily_brief_enabled", "daily_brief_time"),
         ("evening_check", "evening_check_enabled", "evening_check_time"),
     ):
+        if kind == "evening_check" and prefs.get("proactivity") == "low":
+            continue
         clock = prefs.get(clock_key) or ""
         if not prefs.get(flag) or len(clock) != 5:
             continue
@@ -119,17 +121,10 @@ class NudgeService:
 
     def tick(self) -> None:
         prefs = self.runtime.data.preferences()
-        # Off stops both check-ins. Low keeps the morning briefing and skips the evening one.
-        # Per-task follow-ups stay on their own switch.
-        level = prefs.get("proactivity", "normal")
-        if level == "off":
-            return
         with self.store.connection() as conn:
             zone = ZoneInfo(self.store.settings(conn)["timezone"])
         now_local = self.store.clock().astimezone(zone)
         kinds = due_kinds(prefs, now_local)
-        if level == "low":
-            kinds = [kind for kind in kinds if kind != "evening_check"]
         if not kinds:
             return
         tasks = self.runtime.tasks.listing()["tasks"]

@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { errorText, request, write } from "../api";
+import { useDraftGuard } from "../components/DraftGuard";
 import type { Translate } from "../types";
 
 interface AliasGroup {
@@ -13,6 +14,8 @@ export function AliasList({ t }: { t: Translate }) {
   const [left, setLeft] = useState("");
   const [right, setRight] = useState("");
   const [error, setError] = useState<unknown>(null);
+  const [busy, setBusy] = useState(false);
+  useDraftGuard(!!(left.trim() || right.trim()), busy);
 
   async function load() {
     const data = await request<{ groups: AliasGroup[] }>("/memory/aliases");
@@ -25,6 +28,8 @@ export function AliasList({ t }: { t: Translate }) {
 
   async function add(event: FormEvent) {
     event.preventDefault();
+    if (busy) return;
+    setBusy(true);
     setError(null);
     try {
       const data = await write<{ groups: AliasGroup[] }>("/memory/aliases", {
@@ -35,6 +40,8 @@ export function AliasList({ t }: { t: Translate }) {
       setRight("");
     } catch (reason) {
       setError(reason);
+    } finally {
+      setBusy(false);
     }
   }
 
@@ -75,11 +82,19 @@ export function AliasList({ t }: { t: Translate }) {
       <form onSubmit={(event) => void add(event)}>
         <label className="field">
           {t("Word", "词")}
-          <input value={left} onChange={(event) => setLeft(event.target.value)} required />
+          <input
+            value={left}
+            onChange={(event) => setLeft(event.target.value)}
+            required
+          />
         </label>
         <label className="field">
           {t("Same as", "等同于")}
-          <input value={right} onChange={(event) => setRight(event.target.value)} required />
+          <input
+            value={right}
+            onChange={(event) => setRight(event.target.value)}
+            required
+          />
         </label>
         <button className="secondary" type="submit">
           {t("Add pair", "添加一对")}

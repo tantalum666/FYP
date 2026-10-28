@@ -68,7 +68,7 @@ MediaPipe提供头、双肩与双耳的二维关键点。程序用亮度、关�
 
 Qwen Omni、Qwen Audio与Gemini协议由不同适配器转换。Omni按响应关联函数、等待生成结束并批量回传，取消响应的旧结果不送失效call_id；显式私有文件加载Key。拥有者主动图片／屏幕分享先经浏览器选择、JPEG缩放／编码和后端会话／速率检查；停止后不传未来帧，已发内容仍在提供商会话中。图片不进应用数据库，固定姿态相机保持独立。
 
-输入16kHz PCM16，输出24kHz，队列受限；插话清空播放并取消未确认草稿。会话有单实例、短期票据、空闲和总时长限制；记录时长、图像帧计数和提供商用量字段，不落盘原始音频、图像或转写。主动开始／唤醒后的语音及所请求的日历上下文会经过所配置提供商；Omni 配置下拥有者输入框直接走同一实时模型，纯文字不创建 AudioContext 或申请麦克风；未配置时保留明确的本地规则。旧独立文字配置用于显式后台建议，不是日常对话自动多模型。
+输入16kHz PCM16，输出24kHz，队列受限；插话清空播放并取消未确认草稿。会话有单实例、短期票据、空闲和总时长限制；记录时长、图像帧计数和提供商用量字段，不落盘原始音频、图像或转写。主动开始／唤醒后的语音及所请求的日历上下文会经过所配置提供商；Omni 配置下拥有者输入框直接走同一实时模型，纯文字不创建 AudioContext 或申请麦克风；未配置时保留明确的本地规则。未配置Omni时可显式选择HTTP文字服务或离线规则；HTTP走有界AgentLoop／SSE，Omni仍不自动调用第二个模型。
 
 同一上下文最多 40 条／32,000 字符，登录隔离、闲置 30 分钟失效、服务器重启清空；长期事实经本人批准后持久保存。记忆修订结束旧连接并清重放缓存，不承诺提供商删除。5 秒等待提示／10 秒截止不随工具回合延长；新连接最多 5 秒 PCM 缓冲。缺本轮成功工具依据的日历答案不转发，在原期限内最多补查一次；图片问答以本人分享的画面为依据。[统一契约](omni-conversation.md)。
 
@@ -80,13 +80,13 @@ Qwen Omni、Qwen Audio与Gemini协议由不同适配器转换。Omni按响应关
 
 2026-10-05的[RIG-Arm评估](../../research/2026-10-05-rig-arm/secondary-development-review.md)提出“本组核心 → 受限RIG适配器 → 现成ESP32／总线舵机”的候选路线，尚未实现。当前PCA9685驱动不能直接控制SCS009总线；厂商工具的接受回执不能冒充动作完成。选定后需匹配固件、预设、取消／失联、命令去重和关节反馈，固定姿态相机与独立常亮屏仍由主机负责。更换原机文字LLM与接入Qwen／Gemini实时音频是不同工作，后者需网关或固件协议适配。
 
-屏内提醒、桌面提示音、iPhone通知是三个不同通道。桌面提示音一次领取，遵守安静时段；失败不会重复响。手机只缓存未来七天最多64条，远端离线修改不会自动推送。Widget缓存过期后提示刷新。通知权限由使用者操作，OS交付与刷新时机仍须真机验证。
+屏内提醒、桌面提示音、iPhone本地通知和默认关闭的浏览器Web Push分开。Web Push需明确配置并订阅，实际交付未由单元测试证明。桌面提示音一次领取，遵守安静时段；失败不会重复响。手机只缓存未来七天最多64条，远端离线修改不会自动推送。Widget缓存过期后提示刷新。通知权限由使用者操作，OS交付与刷新时机仍须真机验证。
 
 ## 数据交换
 
 ICS导入明确展开所选日期内的发生项为单次副本，检查大小、规则、日期、UID和匹配版本；不静默假装完整双向同步。Google使用只读OAuth与预览应用，不改远端数据。忙闲分享合并区间，不泄露标题或事件数量；可展示详情分享也不包含私人字段。
 
-JSON恢复校验内容完整性，合并缺少的事项和未删除事实，保留既有事件、事实和偏好。原始SQLite备份与用户可导出的业务备份不同：前者可能含本机认证资料，应保存在受限运行目录中。
+JSON恢复校验内容完整性、完整作业意图及实际目录指纹，合并缺少的事项／事实／人格／作业记录；已有记录保留。备份最终应用及缓存回执都要求当前拥有者身份，恢复作业不带批准／运行令牌。原始SQLite备份与用户可导出的业务备份不同：前者可能含本机认证资料，应保存在受限运行目录中。
 
 ## 主动事务层
 
@@ -117,3 +117,9 @@ Tasks使用两秒轮询、页面可见时即时读取，选中事务的历史按
 ## 当前界面与角色呈现（2026-10-27）
 
 AssistantPanel uses one composer and a focused voice view; file activity/help are secondary, while existing proposals/JobService and draft guards remain authoritative. Ephemeral conversation entries are not persistent memory. PageCompanion mounts on authenticated Web/DeviceApp, reusing placement/scale preferences and a lazy complete VRM/MToon renderer for AliceChan; [asset/motion/voice limits](avatar.md) and [resident behaviour](page-companion.md) are explicit. Speaker RMS sends only level/time on the same-origin presentation bridge. No provider, model approval or physical output boundary changes.
+
+## 2026-10-28 整合后的身份与会话
+
+共享 WorkspaceProvider 在服务器 principal 类型／ID 改变时重建子树并清掉旧待确认请求，防止拥有者 Cookie 到期后成功回退到配对身份仍显示旧聊天／诊断。普通本地预览续期不改变这个身份边界，保留未发送输入。流式 EOF 不能当完成，恢复只使用原操作 id。
+
+`turns.py`是现有RAM会话的预算视图，不建SQL转写表。读工具不持久缓存旧结果；副作用回执仍幂等，删除记忆不会因清掉操作键而重新执行。具体修复、测试和远端状态见[整合QA](../../output/qa/2026-10-28-grok-review-merge/verification.md)。

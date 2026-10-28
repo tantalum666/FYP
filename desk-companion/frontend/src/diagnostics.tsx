@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import { request } from "./api";
+import { request, errorText } from "./api";
 import { diagnosticsLines, type DiagnosticsReport } from "./diagnostics";
 import type { Language, Translate } from "./types";
 
@@ -11,26 +11,22 @@ export function DiagnosticsPanel({
   language: Language;
 }) {
   const [report, setReport] = useState<DiagnosticsReport | null>(null);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<unknown>(null);
   useEffect(() => {
     let cancelled = false;
     request<DiagnosticsReport>("/diagnostics")
       .then((body) => {
         if (!cancelled) setReport(body);
       })
-      .catch((reason: { code?: string }) => {
-        if (!cancelled) setError(reason.code ?? "REQUEST_FAILED");
+      .catch((reason: unknown) => {
+        if (!cancelled) setError(reason);
       });
     return () => {
       cancelled = true;
     };
   }, []);
   if (error) {
-    return (
-      <p role="alert">
-        {t("Diagnostics are unavailable.", "诊断信息暂不可用。")} {error}
-      </p>
-    );
+    return <p role="alert">{errorText(error, t)}</p>;
   }
   if (!report) {
     return <p role="status">{t("Loading diagnostics", "正在读取诊断")}</p>;

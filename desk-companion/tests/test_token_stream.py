@@ -47,7 +47,11 @@ def test_qwen_and_gemini_deltas_skip_thoughts_and_keep_usage(tmp_path):
         + json.dumps(
             {
                 "candidates": [
-                    {"content": {"parts": [{"thought": True, "text": "hidden"}, {"text": plan[:10]}]}}
+                    {
+                        "content": {
+                            "parts": [{"thought": True, "text": "hidden"}, {"text": plan[:10]}]
+                        }
+                    }
                 ]
             }
         )
@@ -117,4 +121,33 @@ def test_stream_failure_falls_back_to_one_completion(tmp_path):
     assert "".join(deltas) == events[-1]["reply"]["message"]
     assert events[-1]["reply"].get("saved") is not True
     with runtime.store.connection() as conn:
-        assert conn.execute("SELECT COUNT(*) FROM text_ai_usage").fetchone()[0] == 1
+        assert conn.execute("SELECT COUNT(*) FROM text_ai_usage").fetchone()[0] == 2
+
+
+def test_fake_provider_stream_works_without_network(tmp_path):
+    runtime = _runtime(tmp_path)
+
+    def forbidden(request):
+        raise AssertionError("Offline provider attempted network")
+
+    service = TextAssistant(
+        runtime, config=TextConfig(provider="fake"), transport=httpx.MockTransport(forbidden)
+    )
+    events = _events(service.event_stream(AssistantMessage(message="Hello"), "offline-stream"))
+    assert events[-1]["type"] == "done"
+    assert "offline" in events[-1]["reply"]["message"].lower()
+
+
+def test_stream_fallback_cannot_exceed_daily_attempt_budget(tmp_path, monkeypatch):
+    runtime = _runtime(tmp_path)
+    monkeypatch.setenv("DESK_TEXT_DAILY_CAP", "1")
+    calls = []
+
+    def response(request):
+        calls.append(request)
+        return httpx.Response(503)
+
+    service = TextAssistant(runtime, config=_configured(), transport=httpx.MockTransport(response))
+    events = _events(service.event_stream(AssistantMessage(message="Hello"), "bounded-fallback"))
+    assert len(calls) == 1
+    assert "daily limit" in events[-1]["reply"]["message"]
