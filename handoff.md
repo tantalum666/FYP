@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-29 October 2026, Asia/Hong_Kong. Current checkpoint: **bounded OpenAI real-time voice evaluation** on `codex/openai-realtime-evaluation-20261029`, workspace `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`. Base is open[PR65](https://github.com/tantalum666/FYP/pull/65) head`61db1c2c2fc592887bdf78170ef7fc9e28cba33c`; that PR is stacked on openPR64. This checkpoint is locally complete; its independent publication receipt is being finalized. No implicit merge.
+29 October 2026, Asia/Hong_Kong. Current checkpoint: **bounded OpenAI real-time voice evaluation** on `codex/openai-realtime-evaluation-20261029`, workspace `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`. Base is open[PR65](https://github.com/tantalum666/FYP/pull/65) head`61db1c2c2fc592887bdf78170ef7fc9e28cba33c`; that PR is stacked on openPR64. Published as draft[PR66](https://github.com/tantalum666/FYP/pull/66), tested source`f5b9417cfda62e6f8400c7b5ac85ec3a49be3b2a`;[receipt](output/qa/2026-10-29-openai-realtime/publication.json). PR64/65/66 remain open/unmerged.
 
 ## Completed now
 

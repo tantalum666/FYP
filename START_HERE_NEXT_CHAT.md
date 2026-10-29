@@ -2,7 +2,7 @@
 
 29 October 2026. Resume **OpenAI real-time voice evaluation and the next App integration gate**.
 
-Workspace: `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`. Branch:`codex/openai-realtime-evaluation-20261029`, based on open[PR65](https://github.com/tantalum666/FYP/pull/65) head`61db1c2c2fc592887bdf78170ef7fc9e28cba33c`. PR65 depends on openPR64. New evaluation publication is being finalized; do not infer any merge or deployment.
+Workspace: `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`. Branch:`codex/openai-realtime-evaluation-20261029`, based on open[PR65](https://github.com/tantalum666/FYP/pull/65) head`61db1c2c2fc592887bdf78170ef7fc9e28cba33c`. PR65 depends on openPR64. Published as draft[PR66](https://github.com/tantalum666/FYP/pull/66), verified source`f5b9417cfda62e6f8400c7b5ac85ec3a49be3b2a`;[receipt](output/qa/2026-10-29-openai-realtime/publication.json). All three stacked PRs remain unmerged; no deployment is implied.
 
 Read[AGENTS](AGENTS.md),[product](product.md), concise[handoff](handoff.md), latest relevant[decisions](decision-log.md), then[OpenAI evaluation contract](desk-companion/docs/openai-voice-evaluation.md) and[current QA](output/qa/2026-10-29-openai-realtime/verification.md). Check Git status before branching or overwriting work.
 
