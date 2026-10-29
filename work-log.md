@@ -426,3 +426,13 @@ Publication readback: code commit`1c6c589607eb3c61e7ef0b03531d2deb50705488` push
 **Files:**[QA and audio](output/qa/2026-10-29-openai-realtime/verification.md), [plan](planning/2026-10-29/openai-realtime-evaluation.md), [evaluation contract](desk-companion/docs/openai-voice-evaluation.md), runner/package and15 tests; updated current product/entry/handoff/delivery boundaries. Source published as draft[PR66](https://github.com/tantalum666/FYP/pull/66) onPR65, verified commit`f5b9417cfda62e6f8400c7b5ac85ec3a49be3b2a`;[receipt](output/qa/2026-10-29-openai-realtime/publication.json). Scoped secret/link checks pass. No main merge or deployment.
 
 **Next:** bounded App integration and user-controlled A/B listening through existing voice/permission boundaries. No final model choice or general autonomy/real-device claim follows from these small synthetic samples.
+
+## 2026-10-30 · Prepare a harder voice-to-application acceptance task
+
+Started29October and continued across local midnight without restarting completed reading. The owner rejected the simple note-preview proposal and requested a harder task.
+
+Created the fictionalGroup 2demo-preparation challenge:11 task rows, meeting update, three-member availability/current events, frozenFX and four suppliers/five versions in actual localHTML. The main workflow requires browser/Calc/Writer/PDF/calendar/task evidence, then budget/quantity/day corrections, necessary clarification and one lost-save/restart recovery. Separate variants cover revocation, cancellation, source/layout changes and untrusted source instructions.
+
+The independent reference verifies initialAster809.60HKD, no feasible revised colour offer, then approved black-and-whiteDelta669.24HKD including minimum50copies; rate variation changes the winner. It also checks9 distinct/7 open tasks/14.5hours and conflict-free rehearsal updates. Six local checks plusRuff/format pass. These are fixture checks, not a model/GUI execution pass; no production source or paid round changed.
+
+Updated product, delivery/computer-job/maintenance/OpenAI boundaries, entry/handoff and decisions. [Specification](planning/2026-10-30/complex-application-acceptance.md),[fixture](desk-companion/evals/app_workflow_v1/README.md),[QA](output/qa/2026-10-30-complex-app-task/verification.md). Next is bounded application execution/readback/recovery on existing task/job/permission services. Important fixture/spec progress is published separately after scope/secret/link checks; no implicit merge or deployment.

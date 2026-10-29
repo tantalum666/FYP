@@ -1,0 +1,314 @@
+{
+  "reference_only": true,
+  "application_execution": "not_run",
+  "candidate_submission": "not_evaluated",
+  "tasks": {
+    "unique_tasks": 9,
+    "remaining_count": 7,
+    "remaining_hours": "14.5",
+    "tasks": [
+      {
+        "id": "T01",
+        "title": "Permission controls",
+        "owner": "A",
+        "status": "completed",
+        "remaining_hours": "0",
+        "depends_on": "",
+        "updated_at": "2026-10-29T09:00:00+08:00"
+      },
+      {
+        "id": "T02",
+        "title": "Voice candidate review",
+        "owner": "A",
+        "status": "in_progress",
+        "remaining_hours": "3",
+        "depends_on": "T01",
+        "updated_at": "2026-10-29T10:00:00+08:00"
+      },
+      {
+        "id": "T03",
+        "title": "Desktop application workflow",
+        "owner": "B",
+        "status": "todo",
+        "remaining_hours": "4",
+        "depends_on": "T01",
+        "updated_at": "2026-10-29T09:00:00+08:00"
+      },
+      {
+        "id": "T04",
+        "title": "Recovery boundary checks",
+        "owner": "A",
+        "status": "completed",
+        "remaining_hours": "0",
+        "depends_on": "T01",
+        "updated_at": "2026-10-29T14:00:00+08:00",
+        "source": "meeting-notes.md"
+      },
+      {
+        "id": "T05",
+        "title": "Mobile usability review",
+        "owner": "C",
+        "status": "todo",
+        "remaining_hours": "2",
+        "depends_on": "T01",
+        "updated_at": "2026-10-29T09:00:00+08:00"
+      },
+      {
+        "id": "T06",
+        "title": "Demo presentation draft",
+        "owner": "C",
+        "status": "todo",
+        "remaining_hours": "2",
+        "depends_on": "T02;T03;T05",
+        "updated_at": "2026-10-29T09:00:00+08:00"
+      },
+      {
+        "id": "T07",
+        "title": "Rehearsal preparation",
+        "owner": "B",
+        "status": "todo",
+        "remaining_hours": "1.5",
+        "depends_on": "T06",
+        "updated_at": "2026-10-29T11:00:00+08:00"
+      },
+      {
+        "id": "T08",
+        "title": "Package demo artifacts",
+        "owner": "A",
+        "status": "todo",
+        "remaining_hours": "1",
+        "depends_on": "T06;T07",
+        "updated_at": "2026-10-29T09:00:00+08:00"
+      },
+      {
+        "id": "T09",
+        "title": "Review print proposal",
+        "owner": "C",
+        "status": "todo",
+        "remaining_hours": "1",
+        "depends_on": "T06",
+        "updated_at": "2026-10-29T09:00:00+08:00"
+      }
+    ]
+  },
+  "phases": {
+    "initial": {
+      "budget": {
+        "quotes": [
+          {
+            "supplier": "Aster",
+            "quote_id": "A-2",
+            "currency": "HKD",
+            "booklets_purchased": 25,
+            "delivered_hkd": "736.00",
+            "reserve_hkd": "73.60",
+            "total_hkd": "809.60",
+            "eligible": true,
+            "exclusions": []
+          },
+          {
+            "supplier": "Birch",
+            "quote_id": "B-3",
+            "currency": "HKD",
+            "booklets_purchased": 25,
+            "delivered_hkd": "746.80",
+            "reserve_hkd": "74.68",
+            "total_hkd": "821.48",
+            "eligible": true,
+            "exclusions": []
+          },
+          {
+            "supplier": "Cedar",
+            "quote_id": "C-2",
+            "currency": "HKD",
+            "booklets_purchased": 25,
+            "delivered_hkd": "665.00",
+            "reserve_hkd": "66.50",
+            "total_hkd": "731.50",
+            "eligible": false,
+            "exclusions": [
+              "late_delivery"
+            ]
+          },
+          {
+            "supplier": "Delta",
+            "quote_id": "D-4",
+            "currency": "USD",
+            "booklets_purchased": 50,
+            "delivered_hkd": "959.40",
+            "reserve_hkd": "95.94",
+            "total_hkd": "1055.34",
+            "eligible": true,
+            "exclusions": []
+          }
+        ],
+        "selected": {
+          "supplier": "Aster",
+          "quote_id": "A-2",
+          "currency": "HKD",
+          "booklets_purchased": 25,
+          "delivered_hkd": "736.00",
+          "reserve_hkd": "73.60",
+          "total_hkd": "809.60",
+          "eligible": true,
+          "exclusions": []
+        },
+        "clarification_required": false
+      },
+      "rehearsals": [
+        {
+          "start": "2026-11-03T16:15:00+08:00",
+          "end": "2026-11-03T17:00:00+08:00"
+        },
+        {
+          "start": "2026-11-04T15:15:00+08:00",
+          "end": "2026-11-04T16:00:00+08:00"
+        }
+      ]
+    },
+    "revision": {
+      "budget": {
+        "quotes": [
+          {
+            "supplier": "Aster",
+            "quote_id": "A-2",
+            "currency": "HKD",
+            "booklets_purchased": 40,
+            "delivered_hkd": "1006.00",
+            "reserve_hkd": "100.60",
+            "total_hkd": "1106.60",
+            "eligible": false,
+            "exclusions": [
+              "over_budget"
+            ]
+          },
+          {
+            "supplier": "Birch",
+            "quote_id": "B-3",
+            "currency": "HKD",
+            "booklets_purchased": 40,
+            "delivered_hkd": "1031.80",
+            "reserve_hkd": "103.18",
+            "total_hkd": "1134.98",
+            "eligible": false,
+            "exclusions": [
+              "over_budget"
+            ]
+          },
+          {
+            "supplier": "Cedar",
+            "quote_id": "C-2",
+            "currency": "HKD",
+            "booklets_purchased": 40,
+            "delivered_hkd": "890.00",
+            "reserve_hkd": "89.00",
+            "total_hkd": "979.00",
+            "eligible": false,
+            "exclusions": [
+              "late_delivery"
+            ]
+          },
+          {
+            "supplier": "Delta",
+            "quote_id": "D-4",
+            "currency": "USD",
+            "booklets_purchased": 50,
+            "delivered_hkd": "959.40",
+            "reserve_hkd": "95.94",
+            "total_hkd": "1055.34",
+            "eligible": false,
+            "exclusions": [
+              "over_budget"
+            ]
+          }
+        ],
+        "selected": null,
+        "clarification_required": true
+      },
+      "rehearsals": [
+        {
+          "start": "2026-11-03T16:15:00+08:00",
+          "end": "2026-11-03T17:00:00+08:00"
+        },
+        {
+          "start": "2026-11-05T15:15:00+08:00",
+          "end": "2026-11-05T16:00:00+08:00"
+        }
+      ]
+    },
+    "clarified": {
+      "budget": {
+        "quotes": [
+          {
+            "supplier": "Aster",
+            "quote_id": "A-2",
+            "currency": "HKD",
+            "booklets_purchased": 40,
+            "delivered_hkd": "686.00",
+            "reserve_hkd": "68.60",
+            "total_hkd": "754.60",
+            "eligible": true,
+            "exclusions": []
+          },
+          {
+            "supplier": "Birch",
+            "quote_id": "B-3",
+            "currency": "HKD",
+            "booklets_purchased": 40,
+            "delivered_hkd": "613.80",
+            "reserve_hkd": "61.38",
+            "total_hkd": "675.18",
+            "eligible": true,
+            "exclusions": []
+          },
+          {
+            "supplier": "Cedar",
+            "quote_id": "C-2",
+            "currency": "HKD",
+            "booklets_purchased": 40,
+            "delivered_hkd": "530.00",
+            "reserve_hkd": "53.00",
+            "total_hkd": "583.00",
+            "eligible": false,
+            "exclusions": [
+              "late_delivery"
+            ]
+          },
+          {
+            "supplier": "Delta",
+            "quote_id": "D-4",
+            "currency": "USD",
+            "booklets_purchased": 50,
+            "delivered_hkd": "608.40",
+            "reserve_hkd": "60.84",
+            "total_hkd": "669.24",
+            "eligible": true,
+            "exclusions": []
+          }
+        ],
+        "selected": {
+          "supplier": "Delta",
+          "quote_id": "D-4",
+          "currency": "USD",
+          "booklets_purchased": 50,
+          "delivered_hkd": "608.40",
+          "reserve_hkd": "60.84",
+          "total_hkd": "669.24",
+          "eligible": true,
+          "exclusions": []
+        },
+        "clarification_required": false
+      },
+      "rehearsals": [
+        {
+          "start": "2026-11-03T16:15:00+08:00",
+          "end": "2026-11-03T17:00:00+08:00"
+        },
+        {
+          "start": "2026-11-05T15:15:00+08:00",
+          "end": "2026-11-05T16:00:00+08:00"
+        }
+      ]
+    }
+  }
+}

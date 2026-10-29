@@ -1,0 +1,13 @@
+{
+  "base": "4f96fa7f5d56271a758b8a9e9f66930c7f359c41",
+  "files": [
+    {
+      "path": "desk-companion/scripts/app_workflow_reference.py",
+      "sha256": "3103448b980da2bf600b5049c623b0b4f001131505bd088373d0704291104c7e"
+    },
+    {
+      "path": "desk-companion/tests/test_complex_app_fixture.py",
+      "sha256": "1d996d5bdd5d89966d94500f80763ca50fe0e30cb699294595b444880c6f383c"
+    }
+  ]
+}

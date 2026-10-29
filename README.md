@@ -50,3 +50,7 @@ Qwen为已测基线，其他AI候选仍开放。本轮使用模拟提供商及�
 ## 2026-10-29 OpenAI实时语音试验
 
 完成Realtime2.1与GPT-Live1＋Luna两条路线的真实短测，并加入Mini英文费用参照。16次会话包含11次最终控制条件检查，费用按返回usage保守估算约0.304美元；本轮5美元额度已关闭。英／普／粤日历、待确认记忆及合成插话结果、初次失败和可试听录音见[QA](output/qa/2026-10-29-openai-realtime/verification.md)。504后端／15专项检查通过，无CI。这是独立评测工具，日常App尚未新增OpenAI提供商入口；[接入边界](desk-companion/docs/openai-voice-evaluation.md)。
+
+## 2026-10-30 复杂应用任务
+
+按用户要求，将主验收提高为浏览器＋电子表格＋文档／PDF＋日历／事务的[演示准备包](planning/2026-10-30/complex-application-acceptance.md)，包含中途改预算／数量／日期、不可行条件澄清、丢回执和重启恢复。[固定材料](desk-companion/evals/app_workflow_v1/README.md)与六项离线核对已完成；真实应用适配器和完整语音执行尚未通过，未产生新模型费用。

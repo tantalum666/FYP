@@ -1,26 +1,25 @@
 # Group 2 Current Handoff
 
-29 October 2026, Asia/Hong_Kong. Current checkpoint: **bounded OpenAI real-time voice evaluation** on `codex/openai-realtime-evaluation-20261029`, workspace `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`. Base is open[PR65](https://github.com/tantalum666/FYP/pull/65) head`61db1c2c2fc592887bdf78170ef7fc9e28cba33c`; that PR is stacked on openPR64. Published as draft[PR66](https://github.com/tantalum666/FYP/pull/66), tested source`f5b9417cfda62e6f8400c7b5ac85ec3a49be3b2a`;[receipt](output/qa/2026-10-29-openai-realtime/publication.json). PR64/65/66 remain open/unmerged.
+30 October2026, Asia/Hong_Kong. Current checkpoint: **harder cross-application task, prepared fixtures and reference checks**. Branch`codex/complex-app-acceptance-20261030` in`/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, based on open[PR66](https://github.com/tantalum666/FYP/pull/66) head`4f96fa7f5d56271a758b8a9e9f66930c7f359c41`. Local preparation complete; publication receipt pending. No implicit merge/deployment.
 
-## Completed now
+## Latest owner steering
 
-- User asked to test both real-time voice routes with restrained use of reportedUSD170 credit. They approved new-key creation, selected the Platform project, and explicitly approved `desk-companion/.env.local`. Key is0600/Git-ignored; never print/read it through ordinary output or commit it.
-- Separate opt-in runner tests `gpt-realtime-2.1`, `gpt-live-1`＋`gpt-6-luna`, with aMini English reference. It reuses existing FYP tool schemas/execute_tool/Runtime/Store in fresh fictional databases; normal frontend/native/provider code was not changed.
-- 16 actual short sessions,11 final controlled checks. Both principal routes handled English/Mandarin/Cantonese meeting queries, pending-only memory and synthetic interruption. Retained early language failures, initial harness premature close and ambiguousLive memory acknowledgment; fixed/retested without hiding their cost.
-- [QA](output/qa/2026-10-29-openai-realtime/verification.md):504 backend/15 focused tests, lint/format; all trials/raw usage/CSV and real output WAVs. First non-silent network audio includes acknowledgments, not first useful word or actual playback. Human naturalness/phonetics/AEC are not accepted by synthetic results.
-- **Paid round CLOSED:**USD5 operating ceiling; conservative returned-usage estimateUSD0.3035168833 across all16 sessions, not an audited bill. All final usage receipts present. Actual ledger refuses a new reservation withEXPERIMENT_CLOSED. No paid process left running; oldQwen budgets remain closed.
+The owner rejected the simple “write a note and preview it” proposal as too easy. That flow is now a smoke check. The main gate is the[complex demo-preparation task](planning/2026-10-30/complex-application-acceptance.md): source reconciliation, real browser/Calc/Writer/PDF, calendar/task updates, mid-task budget/quantity/day correction, necessary clarification and recovery after lost acknowledgment/restart.
 
-## Runtime and preserved previous work
+## What is actually ready
 
-- Experiment runtime: `desk-companion/.runtime/openai-realtime-20261029`; private ledger, synthetic inputs and disposable service databases. Only output audio/fictional receipts and source/docs are published. `scripts/openai_voice_eval.py --allow-paid` is an explicit runner, not a daemon; this round refuses further spending.
-- Previous shared UI/permission work is preserved inPR65: Ask first/Full access, contextual cards, full-screen phone navigation, real task/file/restart/phone journey and forgotten-request replay fix. [Prior QA](output/qa/2026-10-29-assistant-permissions/verification.md). PR64 memory improvements remain in the ancestry; Grok20–59/#60 already merged viaPR61.
-- Previous no-login local preview was `localhost:5190`, phone`?surface=phone`, API`127.0.0.1:8833` with fictional task data/providersnone. Mirror`localhost:3200` uses iPhone17Pro/iOS26.5, UDID`F57B6381-6448-434C-AE61-A2663F3458A7`, bundle`dev.group2.deskcompanion`. These were not reconfigured or reaccepted in this API round; recheck ownership/listeners before using them.
-- Native input/soft keyboard remain open from prior checkpoint. Older memory runtime, dirty worktrees, school originals and private backups are preserved.
+- [Fictional input pack](desk-companion/evals/app_workflow_v1/README.md):11 task rows/9 unique tasks, later meeting update, availability/existing events, frozenFX, four suppliers/five quote revisions in localHTML, controller correction/fault checkpoints and source hashes.
+- Independent offline reference confirms initialAster809.60HKD, no feasible corrected colour offer, then approved black-and-whiteDelta669.24HKD including minimum50copies; a rate variation changes the winner. Remaining work is7tasks/14.5hours; the second rehearsal must update the same event fromWednesday toThursday.
+- [Six fixture checks](output/qa/2026-10-30-complex-app-task/verification.md),Ruff/format pass. **No candidate model or desktop app ran this complex task.** Content correctness, actual application execution and agent-level task success are separate gates. Controller/oracle/QA must not be exposed to the evaluated model.
+- Capability audit: currentJobInput has only six note/verification actions; LinuxExecutor is fixedMousepad→Chromium. Spreadsheet/doc editing,PDF export, general source browsing and persistent multi-step stage recovery need implementation. Do not label the fixture/reference solver as that implementation.
 
-## Boundaries
+## Preserve prior state
 
-**Local verification only; no GitHub CI.** This round's explicitly authorized OpenAI calls do not reopen oldQwen budgets, Pi/Luwu or media capture. No production provider choice has been finalized. Normal App has no newOpenAI entry yet; the evaluation harness is not a production adapter. Read[OpenAI evaluation contract](desk-companion/docs/openai-voice-evaluation.md),[permissions](desk-companion/docs/assistant-permissions.md),[maintenance](desk-companion/docs/software-maintenance.md) and[delivery gates](desk-companion/docs/delivery-readiness.md).
+- PR64 memory,PR65 permissions/task continuity andPR66OpenAI evaluation remain open/unmerged. Grok20–59/#60 were already merged viaPR61. Existing Alice/full-screen phone and shared application services stay intact.
+- OpenAI evaluation:16 real short sessions/11 controlled checks;504 full backend/15 focused;USD0.3035168833 conservative usage estimate. [QA](output/qa/2026-10-29-openai-realtime/verification.md). **That USD5 round remains closed**, all sessions ended; no model call this turn. Qwen's old budgets also remain closed. Normal App has noOpenAI provider entry yet.
+- Explicitly approved OpenAI credential remains only inGit-ignored0600`desk-companion/.env.local`; never print it. Private evaluation runtimes/inputs/databases and old dirty worktrees/school originals remain preserved.
+- Prior preview waslocalhost:5190/phone`?surface=phone`, API8833/providersnone, Simulator mirror3200. This task did not reconfigure/reaccept those services; recheck ownership/listeners before reuse. Native taps/soft keyboard remain unaccepted from prior checkpoint. Pi/Luwu paused.
 
 ## One next step
 
-Connect a boundedOpenAI candidate to the existing application voice/session/permission boundary for a user-controlled shortA/B listening test. Design Live conversation versus backend work/playback/context recovery explicitly; keep one set of business services and avoid another transcript store/queue. Prepare offline first and give any later paid round a fresh explicit scope/limit. Human audio and native input remain separate acceptance gates.
+Implement and offline-verify bounded browser/Calc/Writer operations and independent readback for the prepared fixture, including one saved-but-unacknowledged recovery. ReuseTaskService/JobService/permissions/versioned receipts; add clear persistent stage evidence instead of another queue or monolithic all-in-one solver. Then connect voice candidates for the same task and human listening under a separately scoped paid round. NoCI, physical hardware, purchase, external message or school submission.

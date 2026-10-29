@@ -1,0 +1,52 @@
+{
+  "id": "group2-demo-preparation-v1",
+  "fictional": true,
+  "clock": "2026-10-30T10:00:00+08:00",
+  "timezone": "Asia/Hong_Kong",
+  "delivery_deadline": "2026-11-05",
+  "demo": "2026-11-06T16:00:00+08:00",
+  "contingency_rate": "0.10",
+  "quantity": {
+    "posters": 2,
+    "badges": 3
+  },
+  "phases": {
+    "initial": {
+      "budget_hkd": "1300.00",
+      "booklets": 25,
+      "mode": "colour",
+      "exclude_weekdays": []
+    },
+    "revision": {
+      "budget_hkd": "1000.00",
+      "booklets": 40,
+      "mode": "colour",
+      "exclude_weekdays": [
+        2
+      ]
+    },
+    "clarified": {
+      "budget_hkd": "1000.00",
+      "booklets": 40,
+      "mode": "black_white",
+      "exclude_weekdays": [
+        2
+      ]
+    }
+  },
+  "task_updates": {
+    "T04": {
+      "status": "completed",
+      "remaining_hours": "0",
+      "updated_at": "2026-10-29T14:00:00+08:00",
+      "source": "meeting-notes.md"
+    }
+  },
+  "rehearsal_minutes": 45,
+  "rehearsals": 2,
+  "members": [
+    "A",
+    "B",
+    "C"
+  ]
+}

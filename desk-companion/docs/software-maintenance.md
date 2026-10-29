@@ -1,6 +1,6 @@
 # Group 2 · Software maintenance contract
 
-29 October2026. The current checkpoint completes the bounded task/file/phone journey and implements shared conversational actions with owner-selected permissions, on top of PR64 older-memory reliability. Selected-task context and interaction recovery remain in place. The owner requests focused documentation reading, maintainable implementation and GitHub publication of meaningful milestones.
+30 October2026. The current checkpoint prepares a harder application acceptance fixture and reference checks. Earlier bounded task/file/phone, shared permissions and OpenAI evaluation work remains in place; the new complex workflow has not been implemented or run. Selected-task context and interaction recovery remain in place. The owner requests focused documentation reading, maintainable implementation and GitHub publication of meaningful milestones.
 
 ## Frontend responsibilities
 
@@ -73,3 +73,7 @@ The frontend permission request intentionally bypasses the normal pending busine
 The opt-in `scripts/openai_voice_eval.py` runner is separate from production voice selection. `voice_eval/budget.py` owns durable reservations and closing; `fixtures.py` owns paced synthetic speech and isolated existing FYP services; `session.py` owns Realtime/Live wire handling. Tool definitions, authorization and business effects reuse existing code. No second production transcript store, executor queue or frontend model key is introduced.
 
 [QA](../../output/qa/2026-10-29-openai-realtime/verification.md) records16 paid short sessions,11 final controlled checks,USD0.3035168833 conservative usage and a closed ledger.504 full backend/15 focused checks pass; frontend/native source was not changed in this round. The initial Live pause/completion bug, language-following failures and ambiguous memory acknowledgment remain in the evidence. Production integration and human audio acceptance are still separate work.
+
+## Complex application-task fixture boundary (30October)
+
+`evals/app_workflow_v1/inputs` contains only fictional source material. Its controller and `scripts/app_workflow_reference.py` are evaluation infrastructure, never a model tool or production application executor. Six offline checks validate the constraint changes, versions, calendar conflict and cost arithmetic; they do not certify GUI execution. [Acceptance contract](../../planning/2026-10-30/complex-application-acceptance.md) requires independent app evidence and keeps current task/job/permission services as the implementation base. Do not implement the whole fixture as a privileged one-shot solver or silently expand existing note-only actions into arbitrary shell access.

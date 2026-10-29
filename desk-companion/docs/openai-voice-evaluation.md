@@ -39,3 +39,7 @@ Explicit selected-language instructions are needed in both the Live conversation
 Mini is the lowest-cost English reference in this small set. Live's separate backend fits the existing permission/business-service boundary, but full-duplex context, playback and interrupted backend work require additional application integration. Realtime has the more direct function-call integration. No final provider choice or broad naturalness ranking is made from these samples.
 
 Full [QA, per-run receipts and audio](../../output/qa/2026-10-29-openai-realtime/verification.md) and [test plan](../../planning/2026-10-29/openai-realtime-evaluation.md) retain failures and limits. Local checks:504 backend tests,15 focused evaluation tests, Ruff and formatting. Frontend and native source were not changed in this evaluation. Native input, real human Cantonese/English naturalness, microphone/AEC/noise, weak networks and long sessions remain separate gates. No CI, Qwen charge or Pi/Luwu work.
+
+## Updated next acceptance target —30October
+
+The owner requested a harder real application task. The next main gate is the [complex demo-preparation workflow](../../planning/2026-10-30/complex-application-acceptance.md), whose source fixtures and offline reference are ready. Application adapters and durable multi-step execution must be built and verified before a meaningful voice-to-app comparison. The earlier voice/API results remain valid within their scope; no new model calls or reopening of this closed spending round occurred while preparing the challenge.

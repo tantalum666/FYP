@@ -93,3 +93,7 @@ DESK_LINUX_DESKTOP_ENABLED=1另行启用linux_note_preview／verify_linux_file�
 拥有者显式启用Full access后，新拥有者请求中的受支持作业可按该版本持续授权；旧待审作业不自动执行。排队自动作业在领取与执行前重核模式版本，撤回后返回PERMISSION_CHANGED。手动一次批准不被模式切换替代，已经写成的文件不声称回滚。具体范围见[权限契约](assistant-permissions.md)。
 
 事务详情仅向拥有者界面补可读标题，模型／常亮投影仍不带完整请求。TaskJobs显示文件结果并接回Alice；文件成功不自动完成事务。隔离实际旅程包含丢HTTP200响应、真实API重启、同键恢复、独立SHA／mtime不变及手机记录／完成；见[当前QA](../../output/qa/2026-10-29-assistant-permissions/verification.md)。
+
+## 2026-10-30 复杂任务门槛
+
+现有固定编辑器／浏览器路径降为冒烟检查。用户要求的下一主任务是[演示准备包](../../planning/2026-10-30/complex-application-acceptance.md)，涉及真实浏览器资料核对、Calc公式与版本保存、Writer／PDF，以及日历／事务更新和中断恢复。测试输入和离线参考已准备，尚未执行。当前六种JobInput动作不能完成它；需要受限应用适配器和持久阶段记录，复用现有批准／版本／未知结果读回，不另建队列或把成功文件伪称为真实应用操作证据。
