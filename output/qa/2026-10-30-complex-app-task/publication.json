@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-30",
+  "repository": "tantalum666/FYP",
+  "branch": "codex/complex-app-acceptance-20261030",
+  "tested_source_commit": "6f2e076c6927bc79641caec548e86515e2997b15",
+  "base": "codex/openai-realtime-evaluation-20261029",
+  "base_sha": "4f96fa7f5d56271a758b8a9e9f66930c7f359c41",
+  "pr": {
+    "url": "https://github.com/tantalum666/FYP/pull/67",
+    "number": 67,
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "mergeable": true
+  },
+  "verification": {
+    "fixture_tests": 6,
+    "ruff": "pass",
+    "format": "pass",
+    "markdown_links": 308,
+    "html_links": 10,
+    "fixture_hashes": "match",
+    "staged_gitleaks": "no leaks found"
+  },
+  "delivery": {
+    "specification": "prepared",
+    "fictional_inputs": "prepared",
+    "offline_reference": "verified",
+    "production_app_changes": false,
+    "application_execution": "not_run",
+    "candidate_model_execution": "not_run",
+    "new_api_spending_usd": 0
+  },
+  "note": "Tested fixture/reference commit matches GitHub and git remote. The following documentation-only receipt closeout does not alter source/input hashes. No merge, deployment, CI, hardware or school submission."
+}

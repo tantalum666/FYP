@@ -1,5 +1,5 @@
 {
-  "markdown_links_checked": 302,
+  "markdown_links_checked": 308,
   "missing": [],
   "html_local_links_checked": 10,
   "external_html_assets": 0,
@@ -12,5 +12,6 @@
   },
   "production_source_changed": false,
   "application_execution": "not_run",
-  "model_calls": 0
+  "model_calls": 0,
+  "source_and_input_hashes_unchanged_at_closeout": true
 }
