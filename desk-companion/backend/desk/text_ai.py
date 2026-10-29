@@ -26,6 +26,7 @@ from .turns import remember_exchange
 from .model_provider import HostedTextProvider
 from .memory_extract import EXTRACT_INSTRUCTIONS, accept_stated_fact
 from .reply_stream import audit_events, sse_encode, text_chunks
+from .retention import retired_reply_key
 from .token_stream import extract_message
 from .style import present, render_prompt
 from .text_providers import text_adapter
@@ -151,7 +152,7 @@ class TextAssistant:
         self.runtime, self.store = runtime, runtime.store
         self.config = config or TextConfig.environment()
         self.transport = transport
-        self.lock = threading.Lock()
+        self.lock = threading.RLock()
         self.background_lock = threading.Lock()
         with self.store.connection(write=True) as conn:
             conn.execute(
@@ -303,10 +304,18 @@ class TextAssistant:
         )
 
     def message(self, payload, key, *, allow_memory=True, on_event=None, principal=None):
+        # Serialize receipt lookup, action application and reply persistence together.
+        # A duplicate arriving during a permission change must not gain a new grant.
+        with self.lock:
+            return self._scoped_message(payload, key, allow_memory=allow_memory,
+                                        on_event=on_event, principal=principal)
+
+    def _scoped_message(self, payload, key, *, allow_memory=True, on_event=None, principal=None):
         if not key or len(key) > 100:
             raise DomainError("OPERATION_ID_REQUIRED", 422)
         conversation = None
         cached = None
+        grant = self.runtime.permissions.capture(principal, payload.task_id)
         if principal is not None:
             task_context(self.runtime, principal, payload.task_id)
             # Durable business receipts follow the principal, while temporary
@@ -338,6 +347,10 @@ class TextAssistant:
                 conversation=conversation,
             )
         )
+        reply = (self.runtime.permissions.apply_reply(reply, grant, language=payload.language)
+                 if cached is None else self.runtime.permissions.refresh_reply(reply, language=payload.language))
+        with self.store.connection(write=True) as conn:
+            conn.execute("UPDATE assistant_replies SET result=? WHERE id=?", (encode(reply), key))
         if cached is None:
             remember_exchange(
                 self.runtime,
@@ -359,10 +372,26 @@ class TextAssistant:
     def _cached_reply(self, payload, key, allow_memory):
         with self.store.connection() as conn:
             old = conn.execute("SELECT * FROM assistant_replies WHERE id=?", (key,)).fetchone()
+            retired = conn.execute(
+                "SELECT request FROM operations WHERE id=?", (retired_reply_key(key),)
+            ).fetchone() if old is None else None
         if old:
             if old["request_hash"] != self._fingerprint(payload, allow_memory):
                 raise DomainError("OPERATION_ID_CONFLICT")
             return json.loads(old["result"])
+        if retired:
+            marker = json.loads(retired["request"])
+            if (marker.get("type") != "assistant_reply_retired"
+                    or marker.get("request_hash") != self._fingerprint(payload, allow_memory)):
+                raise DomainError("OPERATION_ID_CONFLICT")
+            return {
+                "mode": "local_rules", "kind": "reply", "saved": False,
+                "message": (
+                    "遗忘信息后，这条旧回复已清除。没有执行新的操作。"
+                    if payload.language == "zh" else
+                    "This earlier response was cleared after forgetting information. No new action was run."
+                ),
+            }
         return None
 
     def _message(self, payload, key, *, allow_memory=True, on_event=None, conversation=None):

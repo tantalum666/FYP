@@ -4,13 +4,13 @@
 > 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../START_HERE_NEXT_CHAT.md)。
 <!-- /FYP-CONTEXT-20261027 -->
 
-更新：2026-10-28。Grok软件栈及#60的Alice／Omni／网页／手机代码已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main；事务上下文、共享会话恢复和组件职责拆分均保留。[维护契约](docs/software-maintenance.md)／[本轮QA](../output/qa/2026-10-28-native-memory/verification.md)记录当前459项后端、89项前端、旧记忆连续性修复、共用记忆搜索及实际操作证据；450／89是此前整合结果。产品尚余门槛见[交付状态](docs/delivery-readiness.md)。Pi继续暂停，旧收费预算关闭。
+更新：2026-10-29。Grok软件栈及#60的Alice／Omni／网页／手机代码已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main；事务上下文、共享会话恢复和组件职责拆分均保留。[维护契约](docs/software-maintenance.md)／[本轮QA](../output/qa/2026-10-29-assistant-permissions/verification.md)记录当前489项后端、89项前端、对话内操作／持续权限、忘掉后恢复边界和实际跨端旅程；459／89与450／89分别是此前记忆／整合结果。产品尚余门槛见[交付状态](docs/delivery-readiness.md)。Pi继续暂停，旧收费预算关闭。
 
 网页侧栏角色、宽屏助理、记忆／风格／设置、日程和记录已改；[全屏手机](../planning/2026-10-28/phone-simulator-implementation.md)已真实接入并装到模拟器。手机以Alice为首页，Plan集中日历／事务，More展开管理。原生触控／键盘和真机验收仍待。Qwen只是已测基线，其他AI候选继续保留。
 
 当前常驻角色是 AliceChan；一个输入框和语音按钮连接同一个 Qwen Omni，共享短期上下文与已批准的长期记忆。完整角色原件、A1 历史、九套服装和所有研究已保存。[角色来源](../design/desk-companion/characters/2026-10-22-alice/README.md)／[统一对话](docs/omni-conversation.md)。
 
-2026-10-23–24历史试验已通过虚构资料下日历／记忆操作链、变化画面、600秒生命周期和合成停顿／插话；40条有效实际开声计时p50=3.0741秒、p95=3.8889秒。当时应用基线为279／56项，不能当作本轮真实模型重测。此前整合软件450／89项及事务上下文／恢复结果仍按原日期保存；最新459／89项与记忆连续性检查见文首QA；真人声学与Pi仍待。历史AI记录 (local historical material: `output/qa/2026-10-23-ai-acceptance/resumed/verification.md`; not included in this checkpoint)。
+2026-10-23–24历史试验已通过虚构资料下日历／记忆操作链、变化画面、600秒生命周期和合成停顿／插话；40条有效实际开声计时p50=3.0741秒、p95=3.8889秒。当时应用基线为279／56项，不能当作本轮真实模型重测。此前整合软件450／89项及事务上下文／恢复结果仍按原日期保存；最新489／89项与权限／接续检查见文首QA；真人声学与Pi仍待。历史AI记录 (local historical material: `output/qa/2026-10-23-ai-acceptance/resumed/verification.md`; not included in this checkpoint)。
 
 Linux Mousepad→Chromium 固定流程已在 ARM64 容器实际保存、显示及 SHA 读回。Pi5 已启动并在教室完成 SSH／网页／Mac 桌面验证；宿舍 Student 能接入但远程超时，Halls 未完成。Pi 当前运行 10 月 22 日包加部署修复，最新统一 Omni 尚未同步；USB 数据、Pi 声学、Wayland 双应用和持续负载另验。[当前交接](../handoff.md)／[Mac 无屏幕访问](docs/pi5-usb-mac.md)。
 
@@ -28,6 +28,7 @@ Linux Mousepad→Chromium 固定流程已在 ARM64 容器实际保存、显示�
 | 常亮设备屏 | 独立大时钟／日期／月历／近期安排，日／夜／自动外观，触摸展开，60秒闲置返回，编辑保护；可切角色场景 |
 | 坐姿 | 本地关键点采集适配、三步个人标定、可见性门槛、前倾／侧歪的持续判断、具体提示、复测、离桌／活动提醒、暂停／冷却／延后 |
 | 配对 | 单次短码、拥有者核对批准、可撤销终端身份、常驻屏长期会话；iPhone令牌留在Keychain |
+| 助理权限 | 默认Ask first；输入框旁／Settings可选Full access，独立服务验证新拥有者请求、撤回与版本；不扩大实体／媒体／账号／执行器范围。见[权限契约](docs/assistant-permissions.md) |
 | 助理 | Omni 配置下文字／语音同一模型、上下文和记忆；未配置时明确本地规则。事务／日历／记忆草稿、确认／取消／过期、版本冲突与独立读回；模型不能确认，软件停止可直接请求 |
 | 语音 | Qwen Audio、Gemini Live、独立Qwen Omni适配；流式PCM、函数关联／取消、时限、用量；Omni拥有者主动图片／所选屏幕分享；本地中英唤醒；普通配置默认none；本分支含统一会话与事务上下文，PR #15只是早期版本 |
 | 反馈 | AliceChan（CC BY-SA4.0）的原生VRM／MToon／表情与发骨、注意／短回应、常驻拖动／缩放／贴边收起、完整2D回退和黑底／镜像；新成品本地VRM预览／缓存恢复已实现；原生v1已否决，AliceChan已作为当前常驻。灯光／机械臂命名预设及回执与模拟／实物分开 |
@@ -77,7 +78,7 @@ cd ..
 
 ## 操作入口
 
-- **Assistant → More → File actions & activity**：拥有者核对全文及目标后批准。专用笔记默认关闭；指定文件夹要先填写一个运行目录之外的真实路径。见[隔离试运行](docs/computer-jobs.md)。
+- **Assistant 对话卡片**：默认Allow once／Not now；输入框旁或Settings可显式保存Full access，让受支持的新软件请求按策略执行。**More → File activity**保留历史、手动草稿及目录设置。专用笔记默认关闭；指定文件夹要先填写一个运行目录之外的真实路径。见[隔离试运行](docs/computer-jobs.md)。
 - **Assistant → Start conversation**：启用Omni后可自然交谈；拥有者可主动分享图片或所选屏幕，停止分享／结束对话释放采集。见[语音与图像契约](docs/qwen-omni.md)。
 - **Tasks**：创建事务、记录进展、查看／暂停跟进、安排日历时段、确认完成或恢复。
 - **Today／Calendar**：查看与编辑日程；右上角助理可查询、生成草稿并确认。

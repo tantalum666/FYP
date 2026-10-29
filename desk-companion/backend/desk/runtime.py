@@ -26,6 +26,7 @@ from .notify import Notifier
 from .web_push import HttpPushSender, PushService, push_enabled
 from .persona import PersonaService
 from .profile import ProfileService
+from .permissions import PermissionService
 
 
 class Runtime:
@@ -43,6 +44,7 @@ class Runtime:
         self.jobs = JobService(self)
         self.worker_health = {}
         self.assistant = AssistantService(self)
+        self.permissions = PermissionService(self)
         self.data = WorkspaceData(store)
         self.nudges = NudgeService(self)
         self.moments = MomentService(self)
@@ -94,6 +96,7 @@ class Runtime:
         }
         if principal["kind"] == "owner":
             result["pairing"] = self.access.listing()
+            result["permissions"] = self.permissions.snapshot()
         return result
 
     def device_status(self):

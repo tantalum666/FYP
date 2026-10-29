@@ -24,6 +24,7 @@ from .profile import profile_routes
 from .notify import notice_routes
 from .web_push import push_routes
 from .persona import persona_routes
+from .permissions import permission_routes
 from .device_routes import device_routes
 from .runtime import Runtime
 from .workspace_data import PreferencesUpdate
@@ -428,6 +429,7 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
     app.include_router(device_routes(services, authenticated, owner, agent, operation_id, limit))
     app.include_router(task_routes(services, authenticated, operation_id))
     app.include_router(job_routes(services, owner, operation_id))
+    app.include_router(permission_routes(services, owner, operation_id))
     app.include_router(memory_routes(services, owner, operation_id))
     app.include_router(moment_routes(services, owner, operation_id))
     app.include_router(nudge_routes(services, owner, operation_id))

@@ -138,16 +138,19 @@ def draft_context(runtime, allowed):
     now = iso(runtime.store.clock())
     with runtime.store.connection() as conn:
         for row in conn.execute(
-            "SELECT id,kind,state,data,result,expires_at FROM assistant_proposals "
+            "SELECT id,kind,state,data,result,expires_at, "
+            "EXISTS (SELECT 1 FROM operations WHERE id='assistant-confirm/' || assistant_proposals.id) AS applied "
+            "FROM assistant_proposals "
             "ORDER BY (state='pending' AND expires_at>?) DESC,rowid DESC LIMIT 40",
             (now,),
         ):
             # Positive historical memory receipts can outlive correction/deletion.
             # Only memory_context's active snapshot is evidence of saved facts.
-            if row["kind"].startswith("memory_") and row["state"] == "confirmed":
+            if row["kind"].startswith("memory_") and (row["state"] == "confirmed" or row["applied"]):
                 continue
             data = json.loads(row["data"])
             state = (
+                "confirmed" if row["applied"] else
                 "expired"
                 if row["state"] == "pending" and row["expires_at"] <= now
                 else row["state"]

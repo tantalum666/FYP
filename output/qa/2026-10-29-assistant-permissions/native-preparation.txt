@@ -1,0 +1,1 @@
+Official iOS frameworks verified; local Swift package prepared.

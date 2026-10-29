@@ -25,7 +25,7 @@ from .store import DomainError
 
 MAX_ACTIVE = 200
 MAX_MODEL = 40
-ORIGINS = {"owner", "assistant_confirmed", "conversation"}
+ORIGINS = {"owner", "assistant_confirmed", "conversation", "owner_policy"}
 _EDGE = ".,;:。，；：!！"
 
 

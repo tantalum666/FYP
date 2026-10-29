@@ -207,6 +207,7 @@ class AssistantService:
                 self._view(r)
                 for r in conn.execute(
                     "SELECT * FROM assistant_proposals WHERE state='pending' AND expires_at>? "
+                    "AND NOT EXISTS (SELECT 1 FROM operations WHERE id='assistant-confirm/' || assistant_proposals.id) "
                     + (
                         ""
                         if allow_memory
@@ -583,10 +584,13 @@ class AssistantService:
             )
             raise failure from None
 
-    def decide(self, proposal_id, action, key, *, allow_memory=True):
+    def decide(self, proposal_id, action, key, *, allow_memory=True, permission_version=None):
         # A single runtime owns this SQLite database. Store.operation provides durable
         # repeat safety across crashes; the lock also prevents in-process cancel races.
         with self.lock:
+            if permission_version is not None and not self.runtime.permissions.current(permission_version):
+                raise DomainError("PERMISSION_CHANGED", 409)
+            approval_origin = "owner_policy" if permission_version is not None else "assistant_confirmed"
             internal_key = "assistant-confirm/" + proposal_id
             with self.store.connection() as conn:
                 row = conn.execute(
@@ -594,6 +598,10 @@ class AssistantService:
                 ).fetchone()
                 if not row:
                     raise DomainError("DRAFT_NOT_FOUND", 404)
+                if permission_version is not None:
+                    from .permissions import SOFTWARE_PROPOSALS
+                    if row["kind"] not in SOFTWARE_PROPOSALS:
+                        raise DomainError("OWNER_APPROVAL_REQUIRED", 403)
                 if not allow_memory and (
                     row["kind"].startswith("memory_") or json.loads(row["data"]).get("goal")
                 ):
@@ -601,17 +609,18 @@ class AssistantService:
                 applied = conn.execute(
                     "SELECT response FROM operations WHERE id=?", (internal_key,)
                 ).fetchone()
-                if applied or row["state"] == "confirmed":
-                    if action == "cancel":
-                        raise DomainError("DRAFT_ALREADY_SAVED", 409)
-                    return self.confirmation_result(
-                        row["kind"], json.loads(applied[0] if applied else row["result"])
-                    )
-                if row["state"] == "cancelled" and action == "cancel":
-                    return {"state": "cancelled", "saved": False}
-                if row["state"] != "pending" or row["expires_at"] <= iso(self.store.clock()):
-                    raise DomainError("DRAFT_EXPIRED", 410)
-                payload = json.loads(row["data"])
+            if applied or row["state"] == "confirmed":
+                if action == "cancel":
+                    raise DomainError("DRAFT_ALREADY_SAVED", 409)
+                return self._finish_confirmation(
+                    proposal_id, row["kind"], json.loads(applied[0] if applied else row["result"]),
+                    approval_origin="existing_receipt", recovered=True,
+                )
+            if row["state"] == "cancelled" and action == "cancel":
+                return {"state": "cancelled", "saved": False}
+            if row["state"] != "pending" or row["expires_at"] <= iso(self.store.clock()):
+                raise DomainError("DRAFT_EXPIRED", 410)
+            payload = json.loads(row["data"])
             if action == "cancel":
 
                 def cancel(conn):
@@ -631,7 +640,7 @@ class AssistantService:
                 result = self.runtime.tasks.create(
                     TaskInput.model_validate(payload["task"]),
                     internal_key,
-                    origin="assistant_confirmed",
+                    origin=approval_origin,
                 )
                 if payload.get("goal"):
                     self.runtime.goals.record(
@@ -644,7 +653,7 @@ class AssistantService:
                     payload["task_id"],
                     TaskAction.model_validate(payload["change"]),
                     internal_key,
-                    origin="assistant_confirmed",
+                    origin=approval_origin,
                 )
                 if payload.get("change", {}).get("action") == "complete":
                     self.runtime.goals.close_for_task(payload["task_id"])
@@ -657,8 +666,8 @@ class AssistantService:
                     OutputRequest.model_validate(payload["output"]), internal_key
                 )
             elif row["kind"] == "memory_save":
-                origin = payload.get("origin") or "assistant_confirmed"
-                if origin not in {"owner", "assistant_confirmed", "conversation"}:
+                origin = "owner_policy" if permission_version is not None else payload.get("origin") or "assistant_confirmed"
+                if origin not in {"owner", "assistant_confirmed", "conversation", "owner_policy"}:
                     origin = "assistant_confirmed"
                 note = payload.get("note") if isinstance(payload.get("note"), str) else ""
                 result = self.runtime.memory.create(
@@ -677,7 +686,7 @@ class AssistantService:
                     payload["body"],
                     payload["expected_version"],
                     internal_key,
-                    origin="assistant_confirmed",
+                    origin=approval_origin,
                 )
             elif row["kind"] == "memory_delete":
                 result = self.runtime.memory.delete(
@@ -688,13 +697,21 @@ class AssistantService:
                     {k: v for k, v in payload.items() if k in ChangeProposal.model_fields}
                 )
                 result = self.store.event_action(change.event_id, change.change, internal_key)
-            with self.store.connection(write=True) as conn:
-                conn.execute(
-                    "UPDATE assistant_proposals SET state='confirmed',result=? WHERE id=?",
-                    (encode(result), proposal_id),
-                )
-                self.store.record(conn, "assistant_confirmed", details={"proposal_id": proposal_id})
-            return self.confirmation_result(row["kind"], result)
+            return self._finish_confirmation(proposal_id, row["kind"], result,
+                                             approval_origin=approval_origin,
+                                             permission_version=permission_version)
+
+    def _finish_confirmation(self, proposal_id, kind, result, *, approval_origin,
+                             permission_version=None, recovered=False):
+        with self.store.connection(write=True) as conn:
+            row = conn.execute("SELECT state FROM assistant_proposals WHERE id=?", (proposal_id,)).fetchone()
+            if row["state"] != "confirmed":
+                conn.execute("UPDATE assistant_proposals SET state='confirmed',result=? WHERE id=?",
+                             (encode(result), proposal_id))
+                self.store.record(conn, "assistant_confirmation_recovered" if recovered else "assistant_confirmed",
+                                  details={"proposal_id": proposal_id, "authorization": approval_origin,
+                                           "permission_version": permission_version})
+        return self.confirmation_result(kind, result)
 
     @staticmethod
     def confirmation_result(kind, result):
@@ -836,6 +853,11 @@ class AssistantService:
         )
         return present(reply, self.runtime.data.preferences(), request.language)
 
+    def _job_task_scope(self, request):
+        """Use the selected task's current version for every local file command."""
+        task = self.runtime.tasks.detail(request.task_id)["task"] if request.task_id else None
+        return {"task_id": request.task_id, "task_version": task["version"] if task else None}
+
     def _local_message(self, request, key, *, allow_memory=True, conversation=None):
         reviewed = self.memory_turn(request, key, allow_memory=allow_memory)
         if reviewed:
@@ -852,7 +874,6 @@ class AssistantService:
         if match := re.match(
             r"^(?:save to folder|保存到文件夹)\s*[:：]\s*(.+)$", text, re.I | re.S
         ):
-            task = self.runtime.tasks.detail(request.task_id)["task"] if request.task_id else None
             try:
                 result = self.tool(
                     "computer_job_draft",
@@ -860,8 +881,7 @@ class AssistantService:
                         "action": "save_folder_file",
                         "title": match[1].splitlines()[0][:120],
                         "content": match[1],
-                        "task_id": request.task_id,
-                        "task_version": task["version"] if task else None,
+                        **self._job_task_scope(request),
                     },
                     key,
                 )
@@ -879,9 +899,9 @@ class AssistantService:
                 "mode": "local_rules",
                 "kind": "job",
                 **result,
-                "message": "请在电脑作业中核对全文和文件夹名称，再由拥有者批准。尚未写入文件。"
+                "message": "请核对下面的内容和目标位置，再决定是否允许这次文件操作。尚未写入文件。"
                 if zh
-                else "Review the full text and folder label in Computer jobs, then approve as owner. No file has been written.",
+                else "Review the content and destination below before allowing this file action. Nothing has been written.",
             }
         if match := re.match(r"^(?:editor preview|编辑并预览)\s*[:：]\s*(.+)$", text, re.I | re.S):
             result = self.tool(
@@ -890,6 +910,7 @@ class AssistantService:
                     "action": "linux_note_preview",
                     "title": match[1].splitlines()[0][:120],
                     "content": match[1],
+                    **self._job_task_scope(request),
                 },
                 key,
             )
@@ -902,14 +923,12 @@ class AssistantService:
                 else "Review the text, then approve Mousepad save and Chromium preview.",
             }
         if match := re.match(r"^(?:save note|保存笔记)\s*[:：]\s*(.+)$", text, re.I | re.S):
-            task = self.runtime.tasks.detail(request.task_id)["task"] if request.task_id else None
             result = self.tool(
                 "computer_job_draft",
                 {
                     "title": match[1].splitlines()[0][:120],
                     "content": match[1],
-                    "task_id": request.task_id,
-                    "task_version": task["version"] if task else None,
+                    **self._job_task_scope(request),
                 },
                 key,
             )
@@ -917,9 +936,9 @@ class AssistantService:
                 "mode": "local_rules",
                 "kind": "job",
                 **result,
-                "message": "请在电脑作业中核对全文和目标，再由拥有者批准。尚未写入文件。"
+                "message": "请核对下面的文件操作，准备好后选择允许这一次。尚未写入文件。"
                 if zh
-                else "Review the full note and destination in Computer jobs, then approve as owner. No file has been written.",
+                else "Review the file action below and choose Allow once when you are ready. Nothing has been written.",
             }
         with self.store.connection() as conn:
             zone = self.store.settings(conn)["timezone"]

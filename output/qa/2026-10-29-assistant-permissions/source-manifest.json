@@ -1,0 +1,161 @@
+{
+  "base": "b02d92b132a83dccb4674abb25f33d7613fbcd28",
+  "files": [
+    {
+      "path": "desk-companion/backend/desk/app.py",
+      "sha256": "7bc3241d5c12db6993e5e395f14d2cd4a6a76c2bd278cf0d7d488d646ae76929"
+    },
+    {
+      "path": "desk-companion/backend/desk/assistant.py",
+      "sha256": "2d3ea1598725f8e6dbc6da903122d7dd4a5d86fb5f33797c34df73b8db51e8de"
+    },
+    {
+      "path": "desk-companion/backend/desk/conversation.py",
+      "sha256": "8676843433ec9fb86a9457c6d8261659e0c803ec2bfdc3cec1280e4de9b96e0e"
+    },
+    {
+      "path": "desk-companion/backend/desk/jobs.py",
+      "sha256": "6ff404268c6c828f5219efce81d6c6c52498dc55b482b45c6710cdf2cd98216d"
+    },
+    {
+      "path": "desk-companion/backend/desk/memory.py",
+      "sha256": "380b5b7b244a17b0133520c884a1bb25e20028f2c181eb78744a0f32ea624bb7"
+    },
+    {
+      "path": "desk-companion/backend/desk/permissions.py",
+      "sha256": "b4d6d4609c57655618d8a536a675f847b6eb59540452d030b76497b5973045a2"
+    },
+    {
+      "path": "desk-companion/backend/desk/retention.py",
+      "sha256": "76243dadb149aa3ffbd7e03c9e60f187015de476be23539cfc349cbf4aa44d29"
+    },
+    {
+      "path": "desk-companion/backend/desk/runtime.py",
+      "sha256": "ead73d96a96ed4e04511db3f50355abea8ec122c892909fe47420a2f715eb73a"
+    },
+    {
+      "path": "desk-companion/backend/desk/tasks.py",
+      "sha256": "9cb59ed3dad210e2608444f7d7837851e1f15fbad012835ee4d0d76c16d65633"
+    },
+    {
+      "path": "desk-companion/backend/desk/text_ai.py",
+      "sha256": "7284e5eaac66442de0686b07c991cdeece6d365322e4c0b7591eda0155b92445"
+    },
+    {
+      "path": "desk-companion/backend/desk/tool_dispatch.py",
+      "sha256": "d67a60b502f98cba75142cc458cc44400b5327bfe10c72183b4fa6131ed2e4f3"
+    },
+    {
+      "path": "desk-companion/backend/desk/voice.py",
+      "sha256": "b8a1ef5f87b80ecd242bdac0b181078372b070d35662fa4c201f3734bc7ea908"
+    },
+    {
+      "path": "desk-companion/frontend/src/App.tsx",
+      "sha256": "8ec8a140932f2b1ef2ceea20b983e9d45ffbd3a3e3b296170a71c551235dea02"
+    },
+    {
+      "path": "desk-companion/frontend/src/api.ts",
+      "sha256": "12d3b0a6dc2e52028738479c48c68ceb2ebca571204597d341feee06e390a125"
+    },
+    {
+      "path": "desk-companion/frontend/src/components/Views.tsx",
+      "sha256": "2188a60e3172b09ffc8ffd0c1c2c0004dae4012d85cc7f362aaa77c48e4946c2"
+    },
+    {
+      "path": "desk-companion/frontend/src/phone/PhoneApp.tsx",
+      "sha256": "ede6b37145b710c6c2dd9bf12bf24b762935e7c54337848ec209a17bb24dff57"
+    },
+    {
+      "path": "desk-companion/frontend/src/phone/PhoneHome.tsx",
+      "sha256": "93e330e037d0ab18fb1c3adf3c1a7543e5652523c807d378648b745bc980d8ee"
+    },
+    {
+      "path": "desk-companion/frontend/src/phone/PhoneManagement.tsx",
+      "sha256": "752198b140de150f821e652092f210279eef61dbef3961cf1ede47c065025d81"
+    },
+    {
+      "path": "desk-companion/frontend/src/phone/PhoneScreen.tsx",
+      "sha256": "e84817cff08fda07a93eefca023d851a74092d1e2ffada231e08f1885125e663"
+    },
+    {
+      "path": "desk-companion/frontend/src/phone/phone.css",
+      "sha256": "b460ccbf558508cb32437c62d84baf87b51d02dc063ca69f8cb7f069d546ad18"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/AssistantPanel.tsx",
+      "sha256": "1e7ed1385f2d90888929c2b7ab34752bbc815b524dce370e998e63c7ebd0803a"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/ComputerJobsPanel.tsx",
+      "sha256": "a49af7f85792a5296710ee8cabe89842ed96a77ae210be9872611df2cb4f17fa"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/JobActionCard.tsx",
+      "sha256": "8d97292f61527eaf8c7d2bca4b6a40a6cef1582a96f1b2290608ef693f946446"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/PermissionsPanel.tsx",
+      "sha256": "d9b302e2e532993b14bdc860c6b12b57688e1dcc85456a98ec317ad296b1d403"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/ProposalActionCard.tsx",
+      "sha256": "8aab38b02f20db2a2ac5bedfb611f35f43e2426919d694cbab2cc10a96ba0b87"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/TaskJobs.tsx",
+      "sha256": "6a2a4f4fb35e976816ae4fa05ddb032ea779e6506d2ec9016edea4168dce936d"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/TaskPanel.tsx",
+      "sha256": "d46eaf30c098d097346754d609f5b2727992a6e37aa120038f99d3f81c877254"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/WorkspaceContext.tsx",
+      "sha256": "41ef65d670d07bf8ba731b66b0bc200ac12c3b168b9cbbacfbeaa862e5afc0c9"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/assistantTypes.ts",
+      "sha256": "a5bb8fa2294e055d699014e5a11ed21cda3c33fddf158ef212528903a6353ea6"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/jobRequests.ts",
+      "sha256": "56e8d1f6fbc1cc017cd3052e58fc0f51b762655c96eabd51554877c2019415b9"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/jobTypes.ts",
+      "sha256": "560feb67ca711650f0d3d2c420dd9294286df89d58fca3652965fee8fec6448d"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/knowledge.ts",
+      "sha256": "ed8fca31319d71d193359bcdbf7dcfc43ab37f00d8580d7602c20437c4e78f1c"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/permissions.css",
+      "sha256": "855190996450f4b01ba66709f8d7908f92b0a598896e93488a8152576ed7d2f4"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/taskTypes.ts",
+      "sha256": "c493af1cdbba850dc1866e1c7ff0ed1bd543e211e9d8b079a0806d6c22b029b0"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/tasks.css",
+      "sha256": "34ce29d62f67eafdd1e7d971754e03c072bd9976c747aadcb7b536d4bfa0db22"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/types.ts",
+      "sha256": "ec30d63f7c3c0929de5de3fba42e421ba623bbdfdba47a4265d73c4f82a009c0"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/workspace.css",
+      "sha256": "1c68484504da747be54b78b1ffd2c1af45c7464ab912a84744b71365a2cfac78"
+    },
+    {
+      "path": "desk-companion/tests/test_permissions.py",
+      "sha256": "9657fc44a7f4dcd1318fc808acc60ee9a48c64fe22ba0fdfd1f5329e52bd783b"
+    },
+    {
+      "path": "desk-companion/tests/test_task_job_journey.py",
+      "sha256": "46df3e70222c21fbe864da14e404193472c3c4c801acf69dfb2197156068fa80"
+    }
+  ]
+}

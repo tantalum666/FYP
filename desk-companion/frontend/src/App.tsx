@@ -308,6 +308,10 @@ export function App() {
     return () => clearTimeout(timer);
   }, [notice]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [page]);
+
   function goPage(p: Page) {
     if (p === page) return;
     if (draftState.busy) return;

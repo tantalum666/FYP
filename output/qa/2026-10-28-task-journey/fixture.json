@@ -1,0 +1,10 @@
+{
+  "task_id": "132d1f2a33d24bcdbd70b4e07655f0ba",
+  "job_id": "96559f52d9c949578c8f62e30bb14798",
+  "title": "Demo: prepare a software review note",
+  "approved_text": "Demo software review\nCheck the task, review the note, and verify the saved file.\n演示流程：批准后才保存。",
+  "before_approval": {
+    "job_state": "review",
+    "file_exists": false
+  }
+}

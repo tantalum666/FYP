@@ -1,5 +1,4 @@
 import {
-  ArrowLeft,
   Bell,
   Brain,
   ChevronRight,
@@ -35,7 +34,7 @@ export type PhonePanel =
   | "connections"
   | "extras";
 export const phoneHeadings = (t: Translate): Record<PhonePanel, string> => ({
-  plan: t("Your plan", "你的计划"),
+  plan: t("Calendar & tasks", "日历与事务"),
   more: t("Your workspace", "你的工作空间"),
   memory: t("Saved memories", "已保存记忆"),
   persona: t("Assistant style", "助理风格"),
@@ -158,16 +157,6 @@ export function PhoneManagement({
   const guard = useDraftState();
   return (
     <>
-      <button
-        className="text-button phone-back"
-        disabled={guard.dirty || guard.busy}
-        onClick={() => onNavigate("more")}
-      >
-        <ArrowLeft size={17} />
-        {guard.dirty
-          ? t("Save or cancel your edit first", "请先保存或取消编辑")
-          : t("Workspace", "工作空间")}
-      </button>
       {panel === "memory" && <MemoryPanel t={t} />}
       {panel === "persona" && <PersonaPanel t={t} />}
       {panel === "records" && (
@@ -195,7 +184,15 @@ export function PhoneManagement({
             )
           }
           onOpenWorkspace={(value) => {
-            if (guard.dirty || guard.busy) return;
+            if (guard.dirty || guard.busy) {
+              onNotice(
+                t(
+                  "Save or cancel your current changes first.",
+                  "请先保存或取消当前修改。",
+                ),
+              );
+              return;
+            }
             if (value === "assistant") onConversation();
             else onNavigate(value);
           }}

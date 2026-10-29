@@ -1,12 +1,16 @@
 # Group 2 · Software maintenance contract
 
-28 October2026. The current checkpoint follows merged Grok/PR60 integration and fixes older-memory continuity and shared memory browsing. Selected-task context and interaction recovery remain in place. The owner requests focused documentation reading, maintainable implementation and GitHub publication of meaningful milestones.
+29 October2026. The current checkpoint completes the bounded task/file/phone journey and implements shared conversational actions with owner-selected permissions, on top of PR64 older-memory reliability. Selected-task context and interaction recovery remain in place. The owner requests focused documentation reading, maintainable implementation and GitHub publication of meaningful milestones.
 
 ## Frontend responsibilities
 
 | Module | Responsibility |
 |---|---|
 | [MemoryPanel](../frontend/src/workspace/MemoryPanel.tsx) / [MemoryFactList](../frontend/src/workspace/MemoryFactList.tsx) | Panel owns requests, versions and draft protection; list owns fact rendering and transient local search. Searching does not write or fetch. During correction, the search and competing fact actions are disabled so the same draft stays visible |
+| [PermissionsPanel](../frontend/src/workspace/PermissionsPanel.tsx) / [PermissionService](../backend/desk/permissions.py) | UI owns explicit choice and recoverable setting request; server owns versioned standing authority. WorkspaceProvider accepts authoritative receipts and rejects older reads |
+| [JobActionCard](../frontend/src/workspace/JobActionCard.tsx) / [jobRequests](../frontend/src/workspace/jobRequests.ts) | Shared inline/activity rendering and action requests; AssistantPanel owns scoped reads and existing refresh lifecycle, no per-card polling |
+| [ProposalActionCard](../frontend/src/workspace/ProposalActionCard.tsx) / [TaskJobs](../frontend/src/workspace/TaskJobs.tsx) | Reviewable business proposal presentation; compact task evidence and continuation into the same assistant |
+| [PhoneScreen](../frontend/src/phone/PhoneScreen.tsx) | Navigation screen, back/focus behavior and existing draft registry; actual editors retain their own dialogs |
 | [PhoneApp](../frontend/src/phone/PhoneApp.tsx) | Compose the phone surface, selected panel/task, native route intents and user notices; it does not implement each management page or duplicate the calendar polling machinery |
 | [PhoneHome](../frontend/src/phone/PhoneHome.tsx) | Alice scene, renderer fallback, Plan/More entry points and upcoming-event presentation |
 | [PhonePlan](../frontend/src/phone/PhonePlan.tsx) | Day/month calendar and tasks; refuse a section change while its form/progress draft is dirty or busy |
@@ -19,7 +23,7 @@
 
 Calendar results are tied to both range and session. Leaving a range/screen discards future commits from its old reader; it does not claim to cancel an already-sent native HTTP request. Failed reads remain retryable. Polling/assistant activity reads stop while the relevant phone surface is suspended or hidden.
 
-A phone panel owns its form guard. A draft in the underlying assistant does not prevent opening/closing a read-only plan; it does prevent changing the selected discussion. A progress note inside Tasks blocks Calendar/Tasks switching. Close offers Continue or explicit Discard. Notices for a blocked action render inside the modal footer, not behind the top layer.
+A phone panel owns its form guard. A draft in the underlying assistant does not prevent opening/closing a read-only plan; it does prevent changing the selected discussion. A progress note inside Tasks blocks Calendar/Tasks switching. Close offers Continue or explicit Discard. Notices for a blocked action render inside the active navigation/editor surface. Full-screen management no longer nests a page inside a generic root modal.
 
 ## Selected task and AI context
 
@@ -35,7 +39,7 @@ Qwen Omni remains the tested integration baseline, not the only/final model choi
 
 ## Validation and publication
 
-The [current QA](../../output/qa/2026-10-28-native-memory/verification.md) records459 backend/89 frontend checks, Ruff/types/build, desktop/phone browser interactions and a fresh native build/install/launch. Native touch/soft-keyboard acceptance remains open: the current input automation did not deliver a reliable app transition. The earlier450/89 integration and303/65 #60 results are historical. Historical real-model results are not counted as new passes. Product acceptance gates and the next integrated journey are in [delivery readiness](delivery-readiness.md).
+The [current QA](../../output/qa/2026-10-29-assistant-permissions/verification.md) records489 backend/89 frontend checks, Ruff/types/build, actual inline approvals, standing permission, response-loss recovery, cross-client task results and a fresh native build/install/launch. Native touch/soft-keyboard acceptance remains open: the current input automation did not deliver a reliable app transition. The earlier450/89 integration and303/65 #60 results are historical. Historical real-model results are not counted as new passes. Product acceptance gates and the next integrated journey are in [delivery readiness](delivery-readiness.md).
 
 The branch retains main's Vite8.3.5 dependency. Validation runs locally: backend lint/tests, frontend tests/build and scoped interaction checks, with models and executors disabled unless separately authorized. The owner does not want GitHub CI; the workflow was removed. Do not recreate it or treat Actions/account limits as unfinished work. Relevant local checks remain mandatory before publication.
 
@@ -55,3 +59,11 @@ Conversation revision hashes that whole snapshot, while the initial prompt stays
 - Shared tool validation preserves omitted fields. Read tools recheck current state; effects keep durable idempotence. Forgetting redacts/tombstones matching historical copies without deleting execution keys.
 - Backup apply checks owner authority before cached results. Stored job requests are fully validated, all three executor families round-trip, and imported folders pass normal path/fingerprint controls.
 - Current notification/proactivity services reuse existing preferences and scheduler. Advanced memory UI is disclosed on demand instead of expanding mobile primary navigation.
+
+## Standing authority and receipt ownership
+
+[Assistant permissions](assistant-permissions.md) specifies the service boundary. Owner policy applies only to new eligible actions after current session/version/cancellation checks. Physical and background authority stays separate. JobService preserves its one queue and rechecks automatic policy before dispatch; automatic completion/source is never labeled user_confirmed.
+
+TextAssistant serializes request-cache lookup/application/persistence and reuses existing confirmation receipts after interruption. Retention deletes forgotten reply bodies but keeps content-free retired identities in the existing operation ledger, preventing replay from putting forgotten user text into new RAM context. The newest regression reproduces that RAM leak before repair and checks both languages/restart/conflicting keys afterward.
+
+The frontend permission request intentionally bypasses the normal pending business-write queue so a lost file response cannot block revocation. Inline recovery preserves other unsent text. Job detail responses are tied to the selected task/scope; TaskPanel refresh includes workspace revision and refuses a mismatched detail. The latest CSS fix separates a long task title from its End task discussion control on narrow screens.

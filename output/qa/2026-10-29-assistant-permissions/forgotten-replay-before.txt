@@ -1,0 +1,46 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__ test_full_access_applies_new_owner_facts_and_forgetting_cannot_replay_them __
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-42/test_full_access_applies_new_o0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x109404770>
+
+    def test_full_access_applies_new_owner_facts_and_forgetting_cannot_replay_them(tmp_path, monkeypatch):
+        app, client, _ = setup(tmp_path, monkeypatch)
+        runtime = app.state.runtime
+        mode(client, "full", "enable")
+        reply = send(client, "Remember: Fictional orchid code", key="remember").json()
+        assert reply["saved"] is True and reply["proposal"] is None
+        assert reply["authorization"]["mode"] == "full"
+        assert runtime.memory.for_model()[0]["source"] == "owner_policy"
+        forgotten = send(client, "Forget: Fictional orchid code", key="forget").json()
+        assert forgotten["saved"] is True and runtime.memory.for_model() == []
+        replay = send(client, "Remember: Fictional orchid code", key="remember").json()
+        assert "Fictional orchid code" not in str(replay)
+        assert runtime.memory.for_model() == []
+        recovered_chat = runtime.voice.conversations.entries[replay["conversation_id"]]
+>       assert "Fictional orchid code" not in str(recovered_chat.items)
+E       assert 'Fictional orchid code' not in "[{'role': '...9faac3400'}]"
+E
+E         'Fictional orchid code' is contained here:
+E         ?                                      ^^
+E           [{'role': 'user', 'text': 'Remember: Fictional orchid code', 'created_at': '2026-10-29T06:15:20.984753Z', 'operation_id': 'chat/37bbcf3343495697fce0efcde5096c9da3a509898b8951cbdc39c969faac3400'}, {'role': 'assistant', 'text': 'This action was completed.', 'created_at': '2026-10-29T06:15:20.984767Z', 'operation_id': 'chat/37bbcf3343495697fce0efcde5096c9da3a509898b8951cbdc39c969faac3400'}]
+E         ?                                      ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_permissions.py:69: AssertionError
+----------------------------- Captured stderr call -----------------------------
+{"event": "http", "method": "POST", "path": "/api/session", "query": "", "status": 200}
+{"event": "http", "method": "GET", "path": "/api/permissions", "query": "", "status": 200}
+{"event": "http", "method": "POST", "path": "/api/permissions", "query": "", "status": 200}
+{"event": "http", "method": "POST", "path": "/api/assistant/messages", "query": "", "status": 200}
+{"event": "http", "method": "POST", "path": "/api/assistant/messages", "query": "", "status": 200}
+{"event": "http", "method": "POST", "path": "/api/assistant/messages", "query": "", "status": 200}
+=============================== warnings summary ===============================
+.venv/lib/python3.14/site-packages/fastapi/testclient.py:1
+  /Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/.venv/lib/python3.14/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_permissions.py::test_full_access_applies_new_owner_facts_and_forgetting_cannot_replay_them
+1 failed, 1 warning in 1.20s

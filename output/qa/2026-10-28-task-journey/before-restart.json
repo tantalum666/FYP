@@ -1,0 +1,18 @@
+{
+  "lost_approval_response_status": 200,
+  "file_count": 2,
+  "files": [
+    {
+      "job_id": "5bbf370e7a264847a63318d76fd4b3ef",
+      "state": "succeeded",
+      "mtime_ns": 1793199645331767513,
+      "sha256": "967a984bd62d9a35ab1dd868db52ddc2b0eb79cbdfe462b1b43f2a529cdc1cf9"
+    },
+    {
+      "job_id": "96559f52d9c949578c8f62e30bb14798",
+      "state": "succeeded",
+      "mtime_ns": 1793199049994166264,
+      "sha256": "443fc3b410524d596f77d0d3ebca69407e12d5ada5edc6e38dbcc45694bc7a98"
+    }
+  ]
+}

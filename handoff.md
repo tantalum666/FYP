@@ -1,26 +1,28 @@
 # Group 2 Current Handoff
 
-28 October 2026, Asia/Hong_Kong. Current continuation: **older-memory continuity and shared memory browsing**, on `codex/native-memory-reliability-20261028` in `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`. Base is main `9bfe2eedf0ea05b9f7d143a18388d84e36e19de0` (local-validation-only policy). Published as draft[PR64](https://github.com/tantalum666/FYP/pull/64); code commit`1c6c589607eb3c61e7ef0b03531d2deb50705488`, verified in the GitHub response. [Receipt](output/qa/2026-10-28-native-memory/publication.json). This PR is open/unmerged, not deployment.
+29 October 2026, Asia/Hong_Kong. Current checkpoint: **shared assistant permissions/action UX and verified task/file/phone continuity**. Workspace `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, branch `codex/assistant-permissions-20261029`, based on open [PR64](https://github.com/tantalum666/FYP/pull/64) head `b02d92b132a83dccb4674abb25f33d7613fbcd28`. This checkpoint is locally complete; GitHub publication receipt is being finalized. Neither PR64 nor this work is implicitly merged.
 
-## Completed in this checkpoint
+## Completed
 
-- Fixed the recent40 prompt window being mistaken for all memory: English/Chinese queries, correction/deletion drafts and exact forgetting now cover all active facts. Shared filtered projection preserves owner checks, confirmation/version checks and bounded prompt/results.
-- Deletion/expiry outside that40-fact window now changes the conversation revision and clears stale replay/recall focus. No additional transcript store, model connection or provider fee.
-- `MemoryFactList` handles shared web/phone search/rendering; `MemoryPanel` owns requests/writes/draft guards. During correction, search and competing fact actions are locked. Save/error messages stay near the list and previous wording has a separate line.
-- [QA](output/qa/2026-10-28-native-memory/verification.md):8 failures reproduced before repair;43 focused and459 full backend checks,89 frontend, Ruff/types/build. Actual1365×900 web,393×852/320×740 phone search, correction, navigation/draft recovery and API readback passed. Phone browser Plan→New→Save→Back passed.
-- Current source was built, installed and launched on iPhone17Pro/iOS26.5. Live native Alice frame and the event saved in the browser were visible. **Native touch/soft keyboard remains unverified:** mirror taps did not produce app transitions, while native CUA showed a transformed/offscreen Device Hub thumbnail and rejected coordinate input. Builds/AX labels do not close that gate.
+- Web and App share contextual ProposalActionCard/JobActionCard and Ask first / Full access controls by the composer and in Settings. Phone Calendar/Tasks/More are full-screen pages with back/draft protection; Alice remains the home. Task results continue in the same selected-task conversation.
+- Independent PermissionService defaults to Ask. New eligible owner requests may use versioned Full access; old pending work, background/internal/paired requests and physical outputs do not acquire that grant. Automatic provenance differs from a one-time user click. Revocation fences delayed Full requests and queued automatic execution.
+- Fixed all local file commands' task binding, terminal-task fresh read-only verification, current task-result refresh and crash-after-effect confirmation recovery. Real web task→approved file→independent readback→API restart/lost-response recovery→phone verification/cancel/progress/manual completion passed without duplicate writes.
+- Inline response recovery preserves unrelated unsent text and does not block permission revocation. Forgetting now preserves content-free retired request identities, so old retries cannot restore the original user text to a new RAM conversation or recreate a fact.
+- [QA](output/qa/2026-10-29-assistant-permissions/verification.md):489 backend,89 frontend, Ruff, TypeScript/Vite and frontend formatting; actual desktop/393/320px phone checks, Chinese labels, short viewport and independent API/file proofs. Current source rebuilt/installed/launched on iPhone17Pro/iOS26.5 with new permission entry visible. **Native taps/soft keyboard remain unaccepted:** the fresh mirror Plan tap did not produce a transition.
 
-## Current environment and preserved work
+## Current preview and preserved data
 
-- API `127.0.0.1:8832`, exec85864; Vite `127.0.0.1:5191`, exec5997. Isolated runtime: this checkout's `desk-companion/.runtime/native-memory-20261028`, with42 fictional facts and a demo event. Preview loopback enabled, providersnone; background/extraction/push/computer/Linux executorsoff. Recheck listeners before reuse.
-- Simulator UDID `F57B6381-6448-434C-AE61-A2663F3458A7`, bundle`dev.group2.deskcompanion`; launch-only defaults override selects API8832. Native saved server/TLS policy unchanged. Mirror `http://localhost:3200`, exec56630, scoped to that Simulator with cleanup trap.
-- Previous #60/#61 runtimes/worktrees and school files are preserved; old5190/8831 processes were not running at startup. Do not present old process IDs as active or migrate private data automatically.
-- Grok20–59 plus#60 were already merged through[PR61](https://github.com/tantalum666/FYP/pull/61); all41 original PR receipts remain in[prior QA](output/qa/2026-10-28-grok-review-merge/publication.json). This continuation does not reopen that review or merge unrelated historical PRs.
+- Browser `http://localhost:5190/`, phone `http://localhost:5190/?surface=phone`; Vite exec19902. API `127.0.0.1:8833`, exec64926. Recheck listeners before reuse; IDs are a recorded checkpoint, not a permanent service guarantee.
+- Isolated runtime `desk-companion/.runtime/task-journey-20261028`; fictional task/files only. Providersnone, background AI/extraction/push/Linux executor off, fixed local-note executor on. Final policy **Ask, version5**; [readback](output/qa/2026-10-29-assistant-permissions/final-preview-readback.json). Use localhost for Vite to avoid prior127.0.0.1 cookie collision.
+- Simulator UDID `F57B6381-6448-434C-AE61-A2663F3458A7`, bundle `dev.group2.deskcompanion`, launch-only API8833 override. Saved native server/TLS policy unchanged. Live mirror `http://localhost:3200/`, original exec56630. No other simulator touched.
+- Previous API8832/Vite5191 processes were checked and stopped; their42-fact memory runtime remains intact. Prior dirty worktrees, original school files, historical QA and private backups are preserved. No migration or data deletion.
 
-## Boundaries
+## Boundaries and entry points
 
-**Local validation only; no GitHub CI.** Pi paused, previous paid budgets closed, no live media or external accounts used. Qwen remains the measured baseline; alternatives and fair comparison remain open. Alice and Plan/More are retained. Full product readiness is tracked by[delivery gates](desk-companion/docs/delivery-readiness.md), including native/real-device acceptance, human voice, notification delivery and posture.
+**Local validation only; no GitHub CI.** Pi paused; old paid budgets closed; no live media or external account work. Qwen remains the measured baseline, alternatives stay open. Full access here means already connected software capabilities, not arbitrary OS access, new model spend or hardware control.
+
+Read [permission contract](desk-companion/docs/assistant-permissions.md), [maintenance](desk-companion/docs/software-maintenance.md), [delivery gates](desk-companion/docs/delivery-readiness.md) and current QA. The [first journey evidence](output/qa/2026-10-28-task-journey/reading-record.json) precedes the owner's UX correction; its old nested layout is superseded. Grok20–59/#60 integration is already merged throughPR61; do not redo it or merge unrelated PRs.
 
 ## One next step
 
-Validate one actual task from web discussion through exact-content approval, the existing bounded file job, independent result verification, and phone continuation; include lost acknowledgement/restart without duplicate execution. Use a disposable local fixture and offline/scripted model responses, reuse TaskService/JobService and fix observed integration failures. Native input remains a separate open environment gate rather than a reason to stop independent software work.
+Define and validate one mixed calendar/memory/file task with an offline/scripted provider: partial success, permission revocation between effects and restart/recovery from existing receipts. The current HTTP loop still ends after one effect-producing tool; do not assume a complete multi-step autonomous agent or add a second queue/transcript store. Native keyboard acceptance remains a separate open gate.

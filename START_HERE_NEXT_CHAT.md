@@ -1,25 +1,15 @@
 # Group 2 · Current software entry
 
-28 October 2026. The current continuation is older-memory reliability and shared memory search, following the completed Grok/#60 integration and the owner's no-CI correction.
+29 October 2026. Resume the **shared assistant permissions and task/file/phone continuity** checkpoint; the owner explicitly required the UX correction on web and App, not just mobile.
 
-## Start here
+Use `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, branch `codex/assistant-permissions-20261029`. Base is open [PR64](https://github.com/tantalum666/FYP/pull/64) head `b02d92b132a83dccb4674abb25f33d7613fbcd28`; main remains the separate local-validation-only baseline. Publication receipt is being finalized in the current QA; do not infer merge/deployment.
 
-Use `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, current branch`codex/native-memory-reliability-20261028`, based on main`9bfe2eedf0ea05b9f7d143a18388d84e36e19de0`. Inspect Git status and[handoff](handoff.md) before creating a new branch; do not overwrite unpublished work. Read[AGENTS](AGENTS.md),[product](product.md), latest relevant[decisions](decision-log.md) and[software maintenance](desk-companion/docs/software-maintenance.md). Published as draft[PR64](https://github.com/tantalum666/FYP/pull/64), not merged. Current scope/evidence:[QA](output/qa/2026-10-28-native-memory/verification.md); remaining integrated goals:[delivery gates](desk-companion/docs/delivery-readiness.md).
+Read [AGENTS](AGENTS.md), [product](product.md), concise [handoff](handoff.md) and latest relevant [decisions](decision-log.md), then [permissions](desk-companion/docs/assistant-permissions.md) / [maintenance](desk-companion/docs/software-maintenance.md). Inspect Git status before changing branches or overwriting anything.
 
-Current local checks:459backend/89frontend, Ruff/types/build; actual web/phone search, correction and draft recovery with independent API readback. The current source is installed/launched in Simulator, but native touch/soft-keyboard input is still unverified. The recent40 prompt window no longer limits memory lookup/drafts or lifecycle invalidation.
+Current [QA](output/qa/2026-10-29-assistant-permissions/verification.md):489 backend/89 frontend, lint/types/build/format, actual web/phone inline approval/Full access/recovery, independent file readback, current Simulator build and real frame. Native taps/soft keyboard remain unaccepted; browser checks do not close that gate. Ask first is still selected in the disposable preview.
 
-## Preserve the reviewed baseline
+Grok20–59 and#60 already merged via [PR61](https://github.com/tantalum666/FYP/pull/61). PR64 older-memory changes are the base for this increment, still open/unmerged. Original integration [receipts](output/qa/2026-10-28-grok-review-merge/publication.json), dirty worktrees, school originals and private runtimes remain preserved.
 
-[PR61](https://github.com/tantalum666/FYP/pull/61) already merged Grok20–59 and#60. All41 original PRs were read back merged;[receipts](output/qa/2026-10-28-grok-review-merge/publication.json) record the exact source heads. That round's450/89 checks and security review are historical evidence, not a new scan of this checkpoint.
+Keep full-screen Alice, intentional phone navigation and common business services. Local validation only, **no CI**. Qwen is a tested baseline rather than the final/only model; paid budgets stay closed. Pi/Luwu stay paused. Source publication, native installation, real-device acceptance and school submission remain distinct.
 
-The detached`grok-integration-review/FYP` checkout preserves pre-fix188f7b5. `software-ai-maintenance/FYP` preserves#60. The older dirty`grok-review-merge-20261015/FYP` and primary`Documents/ChatGPT/FYP` preserve authoring/private runtime/school originals. Do not copy those over the current fixed branch or republish them wholesale.
-
-## Boundaries and next step
-
-- Local validation only. Do not create, restore or trigger GitHub CI or list Actions/account limits as pending work.
-- Keep full-screen Alice and Plan/More. Shared current facts and business receipts are distinct from login/task-scoped temporary RAM chat.
-- Qwen is the measured baseline, not the final/only choice; old paid budgets stay closed and current provider fixtures are offline/scripted.
-- Pi remains paused. This semester prioritizes software/AI; Luwu/Pi integration and real media remain separately evidenced work.
-- No school report was changed or submitted; unrelated historical PRs stay separate.
-
-Follow the single next step in[handoff](handoff.md): task → approved bounded job → independently verified result → phone continuation, with lost-acknowledgement/restart recovery. Recheck its listed local services before reuse. Native keyboard acceptance is open and must not be inferred from browser tests or another successful build.
+The one next step is in [handoff](handoff.md): mixed-action partial-success/revocation/restart acceptance using offline/scripted providers and existing receipts. Current ports, process ownership and preserved old data are also recorded there; recheck before reuse.

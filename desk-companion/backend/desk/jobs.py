@@ -265,7 +265,7 @@ class JobService:
         return row
 
     @staticmethod
-    def _view(row, review=False):
+    def _view(row, review=False, describe=False):
         request = json.loads(row["request"])
         view = {
             k: row[k]
@@ -286,8 +286,14 @@ class JobService:
             cancel_requested=bool(row["cancel_requested"]),
             result=json.loads(row["result"]) if row["result"] else None,
         )
+        if review or describe:
+            view["title"] = request["title"]
         if review:
-            view.update(request=request, intent_hash=row["intent_hash"])
+            authority = row["approved_by"] or ""
+            authorization = ({"mode": "full", "version": int(authority.split(":", 1)[1])}
+                             if authority.startswith("owner_policy:") else
+                             {"mode": "once"} if authority == "owner" else None)
+            view.update(request=request, intent_hash=row["intent_hash"], authorization=authorization)
         return view
 
     def detail(self, job_id, review=False):
@@ -302,7 +308,7 @@ class JobService:
             ]
             return view
 
-    def listing(self, task_id=None, review=False):
+    def listing(self, task_id=None, review=False, describe=False):
         with self.store.connection() as conn:
             # Filter before paging: an older task must not disappear behind
             # unrelated history. Unresolved outcomes take priority over history.
@@ -313,7 +319,7 @@ class JobService:
                 "created_at DESC,rowid DESC LIMIT 200",
                 (task_id,) if task_id is not None else (),
             )
-            return [self._view(r, review) for r in rows]
+            return [self._view(r, review, describe) for r in rows]
 
     def _state(self, conn, job_id, state, code=None, result=None):
         now = iso(self.store.clock())
@@ -333,10 +339,9 @@ class JobService:
     def _task_current(self, conn, request):
         if request["task_id"]:
             task = self.runtime.tasks.get(conn, request["task_id"])
-            if task["version"] != request["task_version"] or task["status"] in {
-                "completed",
-                "cancelled",
-            }:
+            if task["version"] != request["task_version"] or (
+                request["action"] in WRITE_ACTIONS and task["status"] in {"completed", "cancelled"}
+            ):
                 raise DomainError("JOB_TASK_CHANGED", 409)
 
     def prepare(self, payload: JobInput, key):
@@ -403,7 +408,7 @@ class JobService:
         # Return live state on retries; an old 'review' response is not current truth.
         return {**result, "job": self.detail(result["job"]["id"])}
 
-    def approve(self, job_id, payload: JobApproval, key):
+    def approve(self, job_id, payload: JobApproval, key, *, permission_version=None):
         def apply(conn):
             row = self._row(conn, job_id)
             if row["state"] != "review" or row["expires_at"] <= iso(self.store.clock()):
@@ -416,11 +421,18 @@ class JobService:
             request = json.loads(row["request"])
             self._task_current(conn, request)
             self._executor(request)
+            if permission_version is not None and not self.runtime.permissions.current(permission_version, conn):
+                raise DomainError("PERMISSION_CHANGED", 409)
+            approved_by = "owner" if permission_version is None else f"owner_policy:{permission_version}"
             conn.execute(
-                "UPDATE computer_jobs SET approved_by='owner',deadline=? WHERE id=?",
-                (iso(self.store.clock() + timedelta(seconds=60)), job_id),
+                "UPDATE computer_jobs SET approved_by=?,deadline=? WHERE id=?",
+                (approved_by, iso(self.store.clock() + timedelta(seconds=60)), job_id),
             )
             self._state(conn, job_id, "queued")
+            if permission_version is not None:
+                self.store.record(conn, "permission_action", details={
+                    "job_id": job_id, "permission_version": permission_version,
+                })
             return {"job_id": job_id}
 
         self.store.operation(
@@ -479,6 +491,13 @@ class JobService:
                 raise ValueError("Receipt does not match the authorized intent")
         return receipt
 
+    def _approval_current(self, conn, row):
+        authority = row["approved_by"] or ""
+        if authority.startswith("owner_policy:"):
+            version = int(authority.split(":", 1)[1])
+            if not self.runtime.permissions.current(version, conn):
+                raise DomainError("PERMISSION_CHANGED", 409)
+
     def run_one(self):
         if self.stopping or not self.run_lock.acquire(False):
             return
@@ -495,6 +514,7 @@ class JobService:
                     self._task_current(conn, request)
                     if not row["approved_by"]:
                         raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
+                    self._approval_current(conn, row)
                     executor = self._executor(request)
                 except DomainError as error:
                     self._state(conn, job_id, "failed", error.code)
@@ -511,6 +531,7 @@ class JobService:
                         raise ExecutionRejected("JOB_DEADLINE_EXCEEDED", 409)
                     try:
                         self._task_current(conn, request)
+                        self._approval_current(conn, current)
                         self._executor(request)
                     except DomainError as error:
                         raise ExecutionRejected(error.code, error.status) from None

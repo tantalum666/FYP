@@ -2,6 +2,26 @@
   max-width: 980px;
   margin: 0 auto;
 }
+.task-job-result {
+  padding: 14px 0;
+  border-top: 1px solid var(--device-line, #e8eaf0);
+}
+.task-job-result small {
+  display: block;
+  margin-top: 4px;
+}
+.task-job-result p {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.task-job-result code {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  margin-bottom: 14px;
+}
 .task-heading {
   display: flex;
   align-items: center;

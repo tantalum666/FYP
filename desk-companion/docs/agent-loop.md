@@ -1,6 +1,6 @@
 # 文字代理循环与工具审计
 
-2026-10-28，Group 2。这是工程实现，不是供应商决定，也不是任意电脑或应用控制。交接清单见 [agent-loop-handoff.md](agent-loop-handoff.md)。
+2026-10-29，Group 2。这是工程实现，不是供应商决定，也不是任意电脑或应用控制。交接清单见 [agent-loop-handoff.md](agent-loop-handoff.md)。
 
 托管模型只负责提出一个结构化调用。执行、拒绝、批准和记录都在本组代码里。Qwen 与 Gemini 是当前托管文字适配器；另有明确离线的 fake 演示适配器，其他候选未被排除，入口仍是 `text_providers.py`。
 
@@ -28,7 +28,7 @@
 | 风险 | 工具 | 执行后 |
 |---|---|---|
 | read | `memory_query`、`task_query`、`task_details`、`calendar_query`、`computer_job_status`、`device_status`、`posture_status`、`owner_search`、`plate_summary`、`owner_clock`、`propose_plan` | 只返回数据。`propose_plan` 最多五个步骤，不写入 |
-| draft | 记忆、事务、日历、设备预设和电脑作业的准备工具 | 提案或待审作业，拥有者另确认后才写入 |
+| draft | 记忆、事务、日历、设备预设和电脑作业的准备工具 | 提案或待审作业；默认单次确认，适用的新拥有者请求可由独立Full access策略应用 |
 | cancel | `computer_job_cancel` | 原作业取消路径。未开始的作业不产生文件；已写入的文件不假装回滚 |
 | stop | `stop_physical_outputs` | 原软件停止闩。不表示物理断电已经确认 |
 
@@ -95,3 +95,7 @@
 ## 2026-10-28 整合约束
 
 参数校验保留未提供字段的状态，不能把默认值补进改期请求而清空备注、地点、提醒或重复规则。记忆删除会清理关联回复、草稿、历史操作／审计副本，并把旧工具结果变成失效回执；不删除操作键后重新执行。目标标记的草稿在列出和决定时都要求拥有者。完整证据见[整合QA](../../output/qa/2026-10-28-grok-review-merge/verification.md).
+
+## 2026-10-29：独立的持续授权
+
+Full access不修改这个循环的三步／一次effect限制。HTTP在得到新回复后、实时调度在新draft结果后，通过PermissionService核验拥有者会话／策略版本／请求边界，再使用原业务服务应用。模型不获得确认或改权限工具；read状态查询及旧缓存不会借此批准旧待审动作。自动效果与单次确认记录不同来源。详见[权限契约](assistant-permissions.md)；多效果串行编排与部分成功恢复尚未因此实现。

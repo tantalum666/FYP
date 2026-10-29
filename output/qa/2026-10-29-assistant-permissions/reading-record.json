@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-29",
+  "continuation_of": "../2026-10-28-task-journey/reading-record.json",
+  "full_files": [
+    "AGENTS.md",
+    "product.md",
+    "handoff.md",
+    "START_HERE_NEXT_CHAT.md",
+    "desk-companion/docs/computer-jobs.md",
+    "desk-companion/docs/memory.md",
+    "desk-companion/docs/omni-conversation.md",
+    "desk-companion/docs/task-tracking.md",
+    "desk-companion/docs/software-maintenance.md",
+    "desk-companion/docs/delivery-readiness.md",
+    "desk-companion/docs/agent-loop.md",
+    "planning/2026-10-28/phone-simulator-implementation.md",
+    "planning/2026-10-29/assistant-permission-ux.md",
+    "README.md"
+  ],
+  "focused_ranges": {
+    "decision-log.md": "2026-10-28 maintainability/integration/local-only validation/memory continuation sections; current additions",
+    "work-log.md": "recent28October entries and publication closeout",
+    "desk-companion/README.md": "current summary, feature table, runtime and action entry points",
+    "desk-companion/docs/operator-guide.md": "current preview; voice/calendar actions; phone; task/text AI; file actions; memory/persona; current assistant operation and integration",
+    "desk-companion/docs/architecture.md": "current scope; assistant/voice; tasks; job lifecycle and integrated boundaries"
+  },
+  "implementation": "Affected source files read during implementation and final scoped review; added retention.py full and TextAssistant scoped-cache section during final forgetting regression. Manifest is a scope/hash inventory, not a claim of extra full reading.",
+  "skills_used": [
+    "Build Web Apps frontend testing/debugging and React practices",
+    "Product Design audit with before screenshots and existing app context",
+    "iOS debugger and simulator browser",
+    "OpenAI Docs for permission/Dot primary references"
+  ],
+  "controls": "Only root AGENTS applies to these paths. Selected chapters were read; no full archive reading claim. Earlier completed task checks were retained; extra runs followed concrete code/behavior changes.",
+  "state": "implemented and locally verified; publication receipt separate; native input acceptance incomplete"
+}

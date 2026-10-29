@@ -244,8 +244,9 @@ class TaskService:
                 data["follow_up_enabled"] = True
                 data["check_in_local"] = None
                 next_at = iso(self.store.clock() + timedelta(minutes=payload.minutes))
+            completion_origin = "owner_policy" if origin == "owner_policy" else "user_confirmed"
             data["completion_source"] = (
-                "user_confirmed"
+                completion_origin
                 if action == "complete"
                 else None
                 if action == "reopen"
@@ -275,7 +276,7 @@ class TaskService:
                 version,
                 action,
                 payload.note.strip(),
-                "user_confirmed" if action == "complete" else origin,
+                completion_origin if action == "complete" else origin,
             )
             return {"task": self.get(conn, task_id), "saved": True}
 
@@ -363,7 +364,7 @@ class TaskService:
                 "timezone": self.store.settings(conn)["timezone"],
             }
 
-    def detail(self, task_id, display=False):
+    def detail(self, task_id, display=False, *, describe_jobs=False):
         projected = next(
             (
                 t
@@ -384,7 +385,7 @@ class TaskService:
         return {
             "task": projected,
             "evidence": [dict(r) for r in rows],
-            "jobs": self.runtime.jobs.listing(task_id),
+            "jobs": self.runtime.jobs.listing(task_id, describe=describe_jobs),
         }
 
     def tick(self):
@@ -599,8 +600,9 @@ def task_routes(runtime, authenticated, operation_id):
         return runtime.tasks.create(payload, key)
 
     @router.get("/{task_id}")
-    def detail(task_id: str, display: bool = False):
-        return runtime.tasks.detail(task_id, display=display)
+    def detail(task_id: str, display: bool = False, principal=Depends(authenticated)):
+        return runtime.tasks.detail(task_id, display=display,
+                                    describe_jobs=principal["kind"] == "owner" and not display)
 
     @router.post("/{task_id}/actions")
     def action(task_id: str, payload: TaskAction, key=Depends(operation_id)):

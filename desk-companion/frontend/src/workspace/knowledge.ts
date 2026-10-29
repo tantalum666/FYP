@@ -42,6 +42,8 @@ export function actionsFor(
 }
 
 export function sourceCopy(source: string): [string, string] {
+  if (source === "owner_policy")
+    return ["Saved with full access", "按完整权限保存"];
   if (source === "owner") return ["Saved by you", "由你保存"];
   if (source === "conversation")
     return ["From a message you confirmed", "来自你确认的消息"];
@@ -56,7 +58,8 @@ export function noteCopy(note: string): [string, string] | null {
     return ["You asked to remember this.", "你要求记住这一点。"];
   if (note === "preference")
     return ["You stated a preference.", "你说了一项偏好。"];
-  if (note === "identity") return ["You stated your name.", "你说了自己的名字。"];
+  if (note === "identity")
+    return ["You stated your name.", "你说了自己的名字。"];
   return [note, note];
 }
 

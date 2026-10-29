@@ -241,6 +241,10 @@ export function errorText(
       "That folder must be an existing directory outside this desk’s runtime data, and it cannot be a shortcut.",
       "该文件夹必须是已存在的目录，位于本桌面运行数据之外，且不能是快捷方式。",
     ],
+    PERMISSION_CHANGED: [
+      "Automatic permission changed before this action started. Review a newly prepared action.",
+      "操作开始前自动权限已改变，请核对重新准备的操作。",
+    ],
     JOB_TASK_CHANGED: [
       "The linked task changed. Prepare a new job using its current details.",
       "关联事务已变化，请根据最新内容准备新作业。",

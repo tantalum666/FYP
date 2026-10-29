@@ -1,3 +1,4 @@
+import { PermissionsPanel } from "../workspace/PermissionsPanel";
 import { ExportLink } from "../workspace/ExportLink";
 import { useDraftGuard } from "./DraftGuard";
 import { useEffect, useId, useState } from "react";
@@ -618,6 +619,7 @@ export function DeviceView({
           </p>
         </div>
       </header>
+      <PermissionsPanel t={t} />
       <section className="settings-section">
         <h2>{t("Workspace", "工作空间")}</h2>
         <div className="setting-row">

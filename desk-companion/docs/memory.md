@@ -4,9 +4,9 @@
 > 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
 <!-- /FYP-CONTEXT-20261027 -->
 
-更新2026-10-28，Group 2。这是 Desk Companion 的长期事实，不是聊天全文，也不是电脑作业。
+更新2026-10-29，Group 2。这是 Desk Companion 的长期事实，不是聊天全文，也不是电脑作业。
 
-英文：the owner saves, corrects, and deletes facts. The model may read active facts and prepare a draft. A draft does not write. Deleted facts are omitted from later model context. A paired display cannot open this list.
+英文：the owner saves, corrects, and deletes facts. The model may read active facts and prepare a draft. A draft alone does not write; a new eligible owner request can be applied by the separately saved Full access policy. Deleted facts are omitted from later model context. A paired display cannot open this list.
 
 ## 行为
 
@@ -14,10 +14,10 @@
 - 折叠空白、忽略大小写和句末标点后文字相同的事实只保留一条。再次保存返回已有事实，`duplicate: true`，不占新名额。把一条改成另一条已有事实的文字返回 `MEMORY_DUPLICATE`。
 - 更正会留下上一版正文，模型上下文只看到新正文。到期时间由拥有者设置；到期后事实仍在「已到期」里，可忘掉，但 `for_model` 不再包含它。
 - 已经分别保存的相同文字会出现在核对建议里。去掉“一直”“非常”这类填充词后仍相同的句子、两句姓名，以及同一主题的偏好（例如 tea 与 tea without sugar）也会出现在建议里，并写明原因。这是确定性规则，默认不调用模型。拥有者发起的核对走既有助理草稿：确认后保留最新一条并停用其余，取消不写库。草稿过期或版本变化返回 `MEMORY_REVIEW_STALE`。不在当前建议里的两条不能被停用。
-- 本地规则无需模型密钥：`记住：…`／`Remember: …`，以及整句的姓名或偏好（`My name is …`／`我叫…`／`I prefer …`／`我更喜欢…`）只准备草稿。问句、任务和约会不提取。`忘掉：…`／`Forget: …` 仅在文字与某一条活动事实完全相同时准备删除草稿。确认前不写库。
+- 本地规则无需模型密钥：`记住：…`／`Remember: …`，以及整句的姓名或偏好（`My name is …`／`我叫…`／`I prefer …`／`我更喜欢…`）只准备草稿。问句、任务和约会不提取。`忘掉：…`／`Forget: …` 仅在文字与某一条活动事实完全相同时准备删除草稿。默认Ask first下确认前不写库；Full access可由服务端代表拥有者授权受支持的新请求，详见[权限契约](assistant-permissions.md)。
 - 问“what do you remember about …”或“你还记得…吗”时，回答引用那条事实的保存日（工作区时区），例如 “You told me on 3 Oct 2026”。只命中一条时，同一已验证 RAM 会话内随后的 “forget that”／“忘掉那个” 准备既有删除草稿；命中多条或还没有引用时，要求写出原文或到记忆页选择。配对终端不能走这条路径。已配置文字供应商时，这两类话也不调用模型。发给模型的事实带 `created_at`，上下文要求引用该日，不能编造日期。
 - 引用时把一小张别名表当成同一个词，例如 tea 与 茶。表在代码里有几对，拥有者可以在记忆页再加一对或删掉自己加的一对。内置词对不能删。重叠的组在匹配时合成一组。不调用模型。
-- 可选的托管提取必须同时设置 `DESK_MEMORY_EXTRACT=1` 和 `DESK_MEMORY_EXTRACT_CAP`（1–20，按 UTC 日计算，含失败）。它只走现有文字适配器。模型给出的事实必须原样出现在该条消息里，否则丢弃。默认上限是 0，不会调用。确认仍由拥有者完成。
+- 可选的托管提取必须同时设置 `DESK_MEMORY_EXTRACT=1` 和 `DESK_MEMORY_EXTRACT_CAP`（1–20，按 UTC 日计算，含失败）。它只走现有文字适配器。模型给出的事实必须原样出现在该条消息里，否则丢弃。默认上限是 0，不会调用。授权由拥有者的单次决定或适用的完整权限策略提供，模型不能确认。
 - 模型工具是 `memory_query`、`memory_save_draft`、`memory_replace_draft`、`memory_delete_draft`。无查询条件时只给最近40条；带查询条件会在全部有效事实中排序，最多返回8条。更正／删除草稿及精确原文忘掉不受最近40条窗口限制。统一`active_facts()`只含当前正文／ID／版本／时间／来源，不带旧正文或归因备注。没有确认工具，也没有合并工具。确认仍走既有助理草稿接口并再次检查版本。
 - 发给托管模型的上下文由 `desk/context.py` 的 `pack_conversation` 组装，按当前消息相关性排序并受字符预算限制的有效事实；待批准草稿不因预算丢弃。删除、到期和已停用的正文不再出现。密钥、相机帧和笔记文件内容不在这个包里。
 - 同一批已确认事实会再整理成一段档案：身份、偏好、人物、日常、进行中的目标。顺序固定，全文不超过 800 字，不调用模型。拥有者可以让某一条不出现在档案里，而不删除记忆。配对终端不能读取这段档案。
@@ -55,3 +55,9 @@
 ## 2026-10-28 长期使用修复
 
 旧实现把最近40条的提示窗口误当成全部事实，旧事实因此可能查不到或准备更正／删除时被误报版本冲突。本轮先用9项回归复现8项失败，再统一有效事实投影；43项相关检查及459项全套后端通过。会话修订指纹覆盖全部有效事实，而初始化提示仍最多40条，因此第41条及更早事实的删除／自然到期也会使旧RAM重放与引用失效。手机和网页用同一个记忆列表组件，42条虚构事实的实际搜索、更正、返回保护及API读回见[QA](../../output/qa/2026-10-28-native-memory/verification.md)。没有新增真实模型测试，不能据此宣称自然语言泛化已达标。
+
+## 2026-10-29：持续授权与忘掉后的旧请求
+
+新拥有者请求中的事实保存／更正／删除／合并可由Full access持续授权，来源记作owner_policy，不冒充逐次手动确认；旧待确认提案、背景建议和配对请求仍不能自动写入。目标以task_create／task_change提案表示时遵循事务授权；定时生成或页面单独准备的旧目标草稿不因此自动执行。
+
+忘掉时删除匹配的assistant_replies正文，并在已有operations中保留不含原文的请求哈希标记。旧请求重试只返回“旧回复已清除、没有新操作”，不重新保存事实，也不把原用户句子插入新RAM对话；更换正文复用旧键返回冲突。新操作键仍允许本人有意再次记住。中英文／重启回归和全套489项见[QA](../../output/qa/2026-10-29-assistant-permissions/verification.md)。
