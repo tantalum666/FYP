@@ -1,0 +1,33 @@
+{
+  "base": "61db1c2c2fc592887bdf78170ef7fc9e28cba33c",
+  "files": [
+    {
+      "path": "desk-companion/scripts/openai_voice_eval.py",
+      "sha256": "3b7b80fb1dcb7c972e45e4953f738366efde5da0a697c93517957a3764e1d1ab"
+    },
+    {
+      "path": "desk-companion/scripts/voice_eval/__init__.py",
+      "sha256": "98711a5b488e533d434205682d6ef893156fdac2e508aab50dfb192e28c42baa"
+    },
+    {
+      "path": "desk-companion/scripts/voice_eval/budget.py",
+      "sha256": "45973f4d62bce642e2ab04b5babc34df8bb677e66bdfbaafd49c4cd4a917c310"
+    },
+    {
+      "path": "desk-companion/scripts/voice_eval/fixtures.py",
+      "sha256": "2f089149e64d14eb0c30aae87bae4d6d0ef83178a56fc16c955f08f4d40b9699"
+    },
+    {
+      "path": "desk-companion/scripts/voice_eval/session.py",
+      "sha256": "cabcd3453ed37f1a143b8b6edb12a7754876f29ca5439a5863a3a79baa9a65f7"
+    },
+    {
+      "path": "desk-companion/tests/test_voice_eval_budget.py",
+      "sha256": "b24c6a0b3d9bf094ec08441426b1726f064bd21e3c303b7c774636d0b0a9dfd4"
+    },
+    {
+      "path": "desk-companion/tests/test_voice_eval_protocol.py",
+      "sha256": "c283e4c2990dc2b4349ca39efa7faf4925279007f2ad0d024b0243769868d8dc"
+    }
+  ]
+}

@@ -1,0 +1,479 @@
+{
+  "model": "gpt-realtime-2.1",
+  "backend_model": null,
+  "language_mode": "zh",
+  "harness_protocol": "v2-live-completion-language",
+  "ready": true,
+  "end_reason": "quiet_after_reply",
+  "errors": [],
+  "elapsed_s": 15.2453,
+  "input_end_s": 6.022,
+  "first_non_silent_output_s": 7.2632,
+  "first_audio_after_input_s": 1.2412,
+  "interrupt_at_s": null,
+  "voice_usage_seconds": 0,
+  "provider_usage": {
+    "resp_EeL0dEyXUvxKpPXQ1S4pq": {
+      "total_tokens": 829,
+      "input_tokens": 562,
+      "output_tokens": 267,
+      "input_token_details": {
+        "text_tokens": 511,
+        "audio_tokens": 51,
+        "image_tokens": 0,
+        "cached_tokens": 0,
+        "cached_tokens_details": {
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "output_token_details": {
+        "text_tokens": 164,
+        "audio_tokens": 103,
+        "reasoning_tokens": 75
+      }
+    },
+    "resp_EeL0gD48nCGfEpZokTDvI": {
+      "total_tokens": 1327,
+      "input_tokens": 1139,
+      "output_tokens": 188,
+      "input_token_details": {
+        "text_tokens": 1088,
+        "audio_tokens": 51,
+        "image_tokens": 0,
+        "cached_tokens": 0,
+        "cached_tokens_details": {
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "output_token_details": {
+        "text_tokens": 44,
+        "audio_tokens": 144
+      }
+    }
+  },
+  "usage_finalized": true,
+  "estimated_uncached_usd": 0.03046,
+  "transcript": "好的，我先帮你看看明天日程里有哪些会议和开始时间。明天有三场会议，开始时间分别是上午9点30分、下午2点、以及下午4点。",
+  "transcript_events": [
+    {
+      "at": 6.9303,
+      "text": "好的",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.9371,
+      "text": "，",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.2636,
+      "text": "我",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.2636,
+      "text": "先",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.2636,
+      "text": "帮",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.2636,
+      "text": "你",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.4634,
+      "text": "看看",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.4634,
+      "text": "明",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.4634,
+      "text": "天",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.4634,
+      "text": "日",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5247,
+      "text": "程",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5247,
+      "text": "里",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5247,
+      "text": "有哪些",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5247,
+      "text": "会议",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5247,
+      "text": "和",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5247,
+      "text": "开始",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.145,
+      "text": "时间",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.145,
+      "text": "。",
+      "response_id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.7135,
+      "text": "明",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.7217,
+      "text": "天",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.7278,
+      "text": "有",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.7389,
+      "text": "三",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.9555,
+      "text": "场",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.9555,
+      "text": "会议",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.9555,
+      "text": "，",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.0793,
+      "text": "开始",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.0793,
+      "text": "时间",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.4095,
+      "text": "分别",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.4096,
+      "text": "是",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.4096,
+      "text": "上午",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.4096,
+      "text": "9",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.4096,
+      "text": "点",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.4096,
+      "text": "30",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.4096,
+      "text": "分",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.4096,
+      "text": "、",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.672,
+      "text": "下午",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.682,
+      "text": "2",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.6882,
+      "text": "点",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.7023,
+      "text": "、",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.7051,
+      "text": "以及",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.7139,
+      "text": "下午",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 11.125,
+      "text": "4",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 11.1329,
+      "text": "点",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 11.1397,
+      "text": "。",
+      "response_id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "start_ms": null,
+      "end_ms": null
+    }
+  ],
+  "events": [
+    {
+      "type": "session.updated",
+      "at": 1.3217
+    },
+    {
+      "type": "input_audio_buffer.speech_started",
+      "at": 1.7151
+    },
+    {
+      "type": "fixture.input_end",
+      "at": 6.022
+    },
+    {
+      "type": "input_audio_buffer.speech_stopped",
+      "at": 6.738
+    },
+    {
+      "type": "response.created",
+      "at": 6.738,
+      "id": "resp_EeL0dEyXUvxKpPXQ1S4pq"
+    },
+    {
+      "type": "response.done",
+      "at": 9.1801,
+      "id": "resp_EeL0dEyXUvxKpPXQ1S4pq",
+      "status": "completed",
+      "status_details": null
+    },
+    {
+      "type": "fixture.tool_result",
+      "name": "calendar_query",
+      "at": 9.1851,
+      "saved": false
+    },
+    {
+      "type": "response.created",
+      "at": 9.4507,
+      "id": "resp_EeL0gD48nCGfEpZokTDvI"
+    },
+    {
+      "type": "response.done",
+      "at": 11.4557,
+      "id": "resp_EeL0gD48nCGfEpZokTDvI",
+      "status": "completed",
+      "status_details": null
+    }
+  ],
+  "backend_text_events": [],
+  "business_evidence": {
+    "tools": [
+      {
+        "name": "calendar_query",
+        "result": {
+          "timezone": "Asia/Hong_Kong",
+          "occurrence_key_note": "Identity of the original instance; after rescheduling it is NOT the actual start date. Display start_local/end_local instead.",
+          "occurrences": [
+            {
+              "id": "fe0252c57e214a7aaeb495850e17012a",
+              "version": 1,
+              "occurrence_key": "2026-10-30T09:30",
+              "title": "Design review",
+              "start": "2026-10-30T01:30:00.000000Z",
+              "end": "2026-10-30T02:00:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T09:30",
+              "end_local": "2026-10-30T10:00"
+            },
+            {
+              "id": "f1e477081ffc4ec6ae8b0fc0f1d82283",
+              "version": 1,
+              "occurrence_key": "2026-10-30T14:00",
+              "title": "Project check-in",
+              "start": "2026-10-30T06:00:00.000000Z",
+              "end": "2026-10-30T06:30:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T14:00",
+              "end_local": "2026-10-30T14:30"
+            },
+            {
+              "id": "23c0d5e1ae4d402481b8c7b396166b9a",
+              "version": 1,
+              "occurrence_key": "2026-10-30T16:00",
+              "title": "Software demo",
+              "start": "2026-10-30T08:00:00.000000Z",
+              "end": "2026-10-30T08:30:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T16:00",
+              "end_local": "2026-10-30T16:30"
+            }
+          ]
+        }
+      }
+    ],
+    "active_memories": [],
+    "pending_proposals": []
+  },
+  "measurement": "Paced synthetic PCM, network-received audio above RMS100; not DAC playback or human-use latency.",
+  "case": "calendar-zh",
+  "run_id": "realtime-zh-01",
+  "reserved_usd": 1.5,
+  "synthetic_input": "请查一下明天有几场会议，分别几点开始？"
+}

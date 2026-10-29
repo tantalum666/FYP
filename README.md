@@ -46,3 +46,7 @@ Qwen为已测基线，其他AI候选仍开放。本轮使用模拟提供商及�
 仅本机开发预览可用`DESK_LOCAL_PREVIEW=1 ./scripts/dev.sh`免输入账号密码；正式默认认证和外部访问保护保留。手机浏览器调试入口为`?surface=phone`，原生iPhone使用同一独立PhoneApp。本地运行后端Lint／测试和前端测试／构建，不连接模型或硬件；不使用GitHub CI。
 
 硬件目录是采购前研究，仍缺完整免焊转接、电源／Qi／风机及实物验证；学校文件完成不等于已签署或提交。进入本仓库的代理先遵守 [AGENTS.md](AGENTS.md)。本次整理和验证见 [QA](output/qa/2026-10-26-repo-cleanup/verification.md)。
+
+## 2026-10-29 OpenAI实时语音试验
+
+完成Realtime2.1与GPT-Live1＋Luna两条路线的真实短测，并加入Mini英文费用参照。16次会话包含11次最终控制条件检查，费用按返回usage保守估算约0.304美元；本轮5美元额度已关闭。英／普／粤日历、待确认记忆及合成插话结果、初次失败和可试听录音见[QA](output/qa/2026-10-29-openai-realtime/verification.md)。504后端／15专项检查通过，无CI。这是独立评测工具，日常App尚未新增OpenAI提供商入口；[接入边界](desk-companion/docs/openai-voice-evaluation.md)。

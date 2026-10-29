@@ -1,0 +1,513 @@
+{
+  "model": "gpt-realtime-2.1",
+  "backend_model": null,
+  "language_mode": "yue",
+  "harness_protocol": "v2-live-completion-language",
+  "ready": true,
+  "end_reason": "quiet_after_reply",
+  "errors": [],
+  "elapsed_s": 14.7767,
+  "input_end_s": 6.1446,
+  "first_non_silent_output_s": 7.3066,
+  "first_audio_after_input_s": 1.162,
+  "interrupt_at_s": null,
+  "voice_usage_seconds": 0,
+  "provider_usage": {
+    "resp_EeL1K7ML72EWZYry3OEAn": {
+      "total_tokens": 771,
+      "input_tokens": 567,
+      "output_tokens": 204,
+      "input_token_details": {
+        "text_tokens": 517,
+        "audio_tokens": 50,
+        "image_tokens": 0,
+        "cached_tokens": 0,
+        "cached_tokens_details": {
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "output_token_details": {
+        "text_tokens": 95,
+        "audio_tokens": 109
+      }
+    },
+    "resp_EeL1M13JXdTWdMXGkKHZc": {
+      "total_tokens": 1360,
+      "input_tokens": 1151,
+      "output_tokens": 209,
+      "input_token_details": {
+        "text_tokens": 1101,
+        "audio_tokens": 50,
+        "image_tokens": 0,
+        "cached_tokens": 512,
+        "cached_tokens_details": {
+          "text_tokens": 512,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "output_token_details": {
+        "text_tokens": 46,
+        "audio_tokens": 163
+      }
+    }
+  },
+  "usage_finalized": true,
+  "estimated_uncached_usd": 0.030463999999999998,
+  "transcript": "好，我幫你查一下明天的行事曆，再簡單跟你說出開始時間。明天有三個會議，開始時間分別係上午九點半、下午兩點同埋下午四點。",
+  "transcript_events": [
+    {
+      "at": 7.0263,
+      "text": "好",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.0338,
+      "text": "，我",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.055,
+      "text": "幫",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.3069,
+      "text": "你",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.3069,
+      "text": "查",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.3069,
+      "text": "一下",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.3069,
+      "text": "明",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5001,
+      "text": "天",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5001,
+      "text": "的",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5002,
+      "text": "行",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5002,
+      "text": "事",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5734,
+      "text": "曆",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5735,
+      "text": "，再",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5735,
+      "text": "簡",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5735,
+      "text": "單",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5792,
+      "text": "跟",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5792,
+      "text": "你",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5792,
+      "text": "說",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5793,
+      "text": "出",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.8358,
+      "text": "開始",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.8479,
+      "text": "時間",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.8495,
+      "text": "。",
+      "response_id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.2457,
+      "text": "明",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.2511,
+      "text": "天",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.2647,
+      "text": "有",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.356,
+      "text": "三",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.4503,
+      "text": "個",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.4503,
+      "text": "會",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.4503,
+      "text": "議",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.4514,
+      "text": "，",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.5901,
+      "text": "開始",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.5901,
+      "text": "時間",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.7202,
+      "text": "分",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.7291,
+      "text": "別",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.7334,
+      "text": "係",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.7495,
+      "text": "上午",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.7636,
+      "text": "九",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.7697,
+      "text": "點",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.0273,
+      "text": "半",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.0334,
+      "text": "、",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.0446,
+      "text": "下午",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.0491,
+      "text": "兩",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.0572,
+      "text": "點",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.0605,
+      "text": "同",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.4932,
+      "text": "埋",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.497,
+      "text": "下午",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.5052,
+      "text": "四",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.5165,
+      "text": "點",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.5184,
+      "text": "。",
+      "response_id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "start_ms": null,
+      "end_ms": null
+    }
+  ],
+  "events": [
+    {
+      "type": "session.updated",
+      "at": 1.5441
+    },
+    {
+      "type": "input_audio_buffer.speech_started",
+      "at": 1.7613
+    },
+    {
+      "type": "fixture.input_end",
+      "at": 6.1446
+    },
+    {
+      "type": "input_audio_buffer.speech_stopped",
+      "at": 6.8207
+    },
+    {
+      "type": "response.created",
+      "at": 6.8307,
+      "id": "resp_EeL1K7ML72EWZYry3OEAn"
+    },
+    {
+      "type": "response.done",
+      "at": 8.5827,
+      "id": "resp_EeL1K7ML72EWZYry3OEAn",
+      "status": "completed",
+      "status_details": null
+    },
+    {
+      "type": "fixture.tool_result",
+      "name": "calendar_query",
+      "at": 8.5867,
+      "saved": false
+    },
+    {
+      "type": "response.created",
+      "at": 8.8362,
+      "id": "resp_EeL1M13JXdTWdMXGkKHZc"
+    },
+    {
+      "type": "response.done",
+      "at": 10.9319,
+      "id": "resp_EeL1M13JXdTWdMXGkKHZc",
+      "status": "completed",
+      "status_details": null
+    }
+  ],
+  "backend_text_events": [],
+  "business_evidence": {
+    "tools": [
+      {
+        "name": "calendar_query",
+        "result": {
+          "timezone": "Asia/Hong_Kong",
+          "occurrence_key_note": "Identity of the original instance; after rescheduling it is NOT the actual start date. Display start_local/end_local instead.",
+          "occurrences": [
+            {
+              "id": "434a0925a62e49e5bda41cadf26d2d8f",
+              "version": 1,
+              "occurrence_key": "2026-10-30T09:30",
+              "title": "Design review",
+              "start": "2026-10-30T01:30:00.000000Z",
+              "end": "2026-10-30T02:00:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T09:30",
+              "end_local": "2026-10-30T10:00"
+            },
+            {
+              "id": "f7cda83b53fa4e4092a618af4a0dfb25",
+              "version": 1,
+              "occurrence_key": "2026-10-30T14:00",
+              "title": "Project check-in",
+              "start": "2026-10-30T06:00:00.000000Z",
+              "end": "2026-10-30T06:30:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T14:00",
+              "end_local": "2026-10-30T14:30"
+            },
+            {
+              "id": "a72c600d94be46638be9eed4120b0fdd",
+              "version": 1,
+              "occurrence_key": "2026-10-30T16:00",
+              "title": "Software demo",
+              "start": "2026-10-30T08:00:00.000000Z",
+              "end": "2026-10-30T08:30:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T16:00",
+              "end_local": "2026-10-30T16:30"
+            }
+          ]
+        }
+      }
+    ],
+    "active_memories": [],
+    "pending_proposals": []
+  },
+  "measurement": "Paced synthetic PCM, network-received audio above RMS100; not DAC playback or human-use latency.",
+  "case": "calendar-yue",
+  "run_id": "realtime-yue-01",
+  "reserved_usd": 1.5,
+  "synthetic_input": "幫我睇吓聽日有幾多個會議，分別幾點開始？"
+}

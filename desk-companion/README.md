@@ -124,3 +124,7 @@ config/                 未启用的设备／服务示例配置
 ```
 
 依赖与来源见[THIRD_PARTY.md](THIRD_PARTY.md)。当前默认AliceChan来自yuna0x0／edisonlee55，CC BY-SA4.0；Shino／Victoria旧版CC0样本作为可选基线保留；旧pixiv许可全身改作、自制Anna头部和原生ImageGen完整2D各自保留来源与否决／回退状态，不混称全部学生原创、Razer角色或已定稿品牌。
+
+## OpenAI实时语音评测（2026-10-29）
+
+[评测工具与费用保护](docs/openai-voice-evaluation.md)在隔离虚构数据上实际测试了gpt-realtime-2.1和gpt-live-1＋gpt-6-luna，另测Mini英文参照。16次会话／11次最终控制条件检查，总保守usage估算USD0.3035168833。当前轮账本已关闭，不允许继续预留费用。504后端／15专项检查通过；[JSON、CSV及录音](../output/qa/2026-10-29-openai-realtime/verification.md)区分实际结果、初次失败和真人未验项。正常App提供商选择没有新增OpenAI；该脚本不是生产实时音频适配器。

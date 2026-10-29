@@ -1,0 +1,10 @@
+{
+  "closed": true,
+  "reservation_check": "EXPERIMENT_CLOSED",
+  "sessions": 16,
+  "all_provider_usage_finalized": true,
+  "estimated_uncached_usd": 0.3035168833333333,
+  "invoice_verified": false,
+  "normal_app_provider_changed": false,
+  "microphone_capture": false
+}

@@ -1,0 +1,588 @@
+{
+  "model": "gpt-realtime-2.1-mini",
+  "backend_model": null,
+  "ready": true,
+  "end_reason": "quiet_after_reply",
+  "errors": [],
+  "elapsed_s": 14.6172,
+  "input_end_s": 6.5584,
+  "first_non_silent_output_s": 8.0505,
+  "first_audio_after_input_s": 1.4921,
+  "interrupt_at_s": null,
+  "voice_usage_seconds": 0,
+  "provider_usage": {
+    "resp_EeKpdAizkveYhDVIgrLEg": {
+      "total_tokens": 852,
+      "input_tokens": 545,
+      "output_tokens": 307,
+      "input_token_details": {
+        "text_tokens": 497,
+        "audio_tokens": 48,
+        "image_tokens": 0,
+        "cached_tokens": 0,
+        "cached_tokens_details": {
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "output_token_details": {
+        "text_tokens": 218,
+        "audio_tokens": 89,
+        "reasoning_tokens": 129
+      }
+    },
+    "resp_EeKpfJ2LIbSCKFdFl6dqU": {
+      "total_tokens": 1389,
+      "input_tokens": 1117,
+      "output_tokens": 272,
+      "input_token_details": {
+        "text_tokens": 1069,
+        "audio_tokens": 48,
+        "image_tokens": 0,
+        "cached_tokens": 512,
+        "cached_tokens_details": {
+          "text_tokens": 512,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "output_token_details": {
+        "text_tokens": 62,
+        "audio_tokens": 210
+      }
+    }
+  },
+  "usage_finalized": true,
+  "estimated_uncached_usd": 0.0085516,
+  "transcript": "Okay, let me check tomorrow’s calendar events and then we’ll go over the details.Tomorrow has three meetings. First, a Design review at 9:30 AM. Next, a Project check-in at 2:00 PM. Finally, a Software demo at 4:00 PM.",
+  "transcript_events": [
+    {
+      "at": 7.5767,
+      "text": "Okay",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5992,
+      "text": ",",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.7007,
+      "text": " let",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.0509,
+      "text": " me",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.0509,
+      "text": " check",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.0509,
+      "text": " tomorrow",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.0513,
+      "text": "’s",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.0776,
+      "text": " calendar",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.0776,
+      "text": " events",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.2393,
+      "text": " and",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.2393,
+      "text": " then",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.2393,
+      "text": " we",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.2393,
+      "text": "’ll",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.2393,
+      "text": " go",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.2403,
+      "text": " over",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.2403,
+      "text": " the",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.2403,
+      "text": " details",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.2404,
+      "text": ".",
+      "response_id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.6468,
+      "text": "Tomorrow",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.6491,
+      "text": " has",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.9479,
+      "text": " three",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.9479,
+      "text": " meetings",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.9479,
+      "text": ".",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.0383,
+      "text": " First",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.0682,
+      "text": ",",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.1379,
+      "text": " a",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.1414,
+      "text": " Design",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.1429,
+      "text": " review",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.1479,
+      "text": " at",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.1492,
+      "text": " ",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.1506,
+      "text": "9",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.1577,
+      "text": ":",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.1631,
+      "text": "30",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.1703,
+      "text": " AM",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.1703,
+      "text": ".",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.3199,
+      "text": " Next",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.3199,
+      "text": ",",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.3199,
+      "text": " a",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.3199,
+      "text": " Project",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.3199,
+      "text": " check",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.3871,
+      "text": "-in",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.3871,
+      "text": " at",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.3871,
+      "text": " ",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.3906,
+      "text": "2",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.3936,
+      "text": ":",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.397,
+      "text": "00",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.4002,
+      "text": " PM",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.4015,
+      "text": ".",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.4055,
+      "text": " Finally",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.4086,
+      "text": ",",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.575,
+      "text": " a",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.5785,
+      "text": " Software",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.5801,
+      "text": " demo",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.5834,
+      "text": " at",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.5868,
+      "text": " ",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.5909,
+      "text": "4",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.5924,
+      "text": ":",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.602,
+      "text": "00",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.6053,
+      "text": " PM",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 10.6138,
+      "text": ".",
+      "response_id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "start_ms": null,
+      "end_ms": null
+    }
+  ],
+  "events": [
+    {
+      "type": "session.updated",
+      "at": 2.1573
+    },
+    {
+      "type": "input_audio_buffer.speech_started",
+      "at": 2.4522
+    },
+    {
+      "type": "fixture.input_end",
+      "at": 6.5584
+    },
+    {
+      "type": "input_audio_buffer.speech_stopped",
+      "at": 7.3494
+    },
+    {
+      "type": "response.created",
+      "at": 7.3495,
+      "id": "resp_EeKpdAizkveYhDVIgrLEg"
+    },
+    {
+      "type": "response.done",
+      "at": 8.9532,
+      "id": "resp_EeKpdAizkveYhDVIgrLEg",
+      "status": "completed",
+      "status_details": null
+    },
+    {
+      "type": "fixture.tool_result",
+      "name": "calendar_query",
+      "at": 8.9596,
+      "saved": false
+    },
+    {
+      "type": "response.created",
+      "at": 9.2682,
+      "id": "resp_EeKpfJ2LIbSCKFdFl6dqU"
+    },
+    {
+      "type": "response.done",
+      "at": 11.0061,
+      "id": "resp_EeKpfJ2LIbSCKFdFl6dqU",
+      "status": "completed",
+      "status_details": null
+    }
+  ],
+  "business_evidence": {
+    "tools": [
+      {
+        "name": "calendar_query",
+        "result": {
+          "timezone": "Asia/Hong_Kong",
+          "occurrence_key_note": "Identity of the original instance; after rescheduling it is NOT the actual start date. Display start_local/end_local instead.",
+          "occurrences": [
+            {
+              "id": "886e263ff8aa488da064e09e20bcb5ee",
+              "version": 1,
+              "occurrence_key": "2026-10-30T09:30",
+              "title": "Design review",
+              "start": "2026-10-30T01:30:00.000000Z",
+              "end": "2026-10-30T02:00:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T09:30",
+              "end_local": "2026-10-30T10:00"
+            },
+            {
+              "id": "e7eadcd812b74ae696f5d4fd8ad5d927",
+              "version": 1,
+              "occurrence_key": "2026-10-30T14:00",
+              "title": "Project check-in",
+              "start": "2026-10-30T06:00:00.000000Z",
+              "end": "2026-10-30T06:30:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T14:00",
+              "end_local": "2026-10-30T14:30"
+            },
+            {
+              "id": "dc66f25fc56749e0bd0f0fd171de490e",
+              "version": 1,
+              "occurrence_key": "2026-10-30T16:00",
+              "title": "Software demo",
+              "start": "2026-10-30T08:00:00.000000Z",
+              "end": "2026-10-30T08:30:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T16:00",
+              "end_local": "2026-10-30T16:30"
+            }
+          ]
+        }
+      }
+    ],
+    "active_memories": [],
+    "pending_proposals": []
+  },
+  "measurement": "Paced synthetic PCM, network-received audio above RMS100; not DAC playback or human-use latency.",
+  "case": "calendar-en",
+  "run_id": "mini-en-01",
+  "reserved_usd": 0.5,
+  "synthetic_input": "Please check tomorrow's meetings. How many are there, and when do they start?"
+}

@@ -1,0 +1,476 @@
+{
+  "model": "gpt-live-1",
+  "backend_model": "gpt-6-luna",
+  "ready": true,
+  "end_reason": "quiet_after_reply",
+  "errors": [],
+  "elapsed_s": 24.8113,
+  "input_end_s": 5.8745,
+  "first_non_silent_output_s": 8.4156,
+  "first_audio_after_input_s": 2.5411,
+  "interrupt_at_s": null,
+  "voice_usage_seconds": 18.0,
+  "provider_usage": {
+    "resp_0922172ce44f64fc006ae350e4bd2087d080876330f84cad9e": {
+      "input_tokens": 1045,
+      "input_tokens_details": {
+        "cache_write_tokens": 0,
+        "cached_tokens": 0
+      },
+      "output_tokens": 52,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 1097
+    },
+    "resp_0922172ce44f64fc006ae350e651a887d0998ed02cf9177700": {
+      "input_tokens": 1601,
+      "input_tokens_details": {
+        "cache_write_tokens": 1598,
+        "cached_tokens": 0
+      },
+      "output_tokens": 30,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 1631
+    }
+  },
+  "usage_finalized": true,
+  "estimated_uncached_usd": 0.015545300000000001,
+  "transcript": " Okay, let me pull up tomorrow. 明天有3個會議:上午9:30、下午2點同4點開始。",
+  "transcript_events": [
+    {
+      "at": 7.8801,
+      "text": " Okay,",
+      "response_id": null,
+      "start_ms": 5200,
+      "end_ms": 5400
+    },
+    {
+      "at": 8.4159,
+      "text": " let",
+      "response_id": null,
+      "start_ms": 5400,
+      "end_ms": 5600
+    },
+    {
+      "at": 8.9372,
+      "text": " me",
+      "response_id": null,
+      "start_ms": 5800,
+      "end_ms": 6000
+    },
+    {
+      "at": 9.1163,
+      "text": " pull up",
+      "response_id": null,
+      "start_ms": 6000,
+      "end_ms": 6200
+    },
+    {
+      "at": 9.4858,
+      "text": " tomorrow.",
+      "response_id": null,
+      "start_ms": 6200,
+      "end_ms": 6400
+    },
+    {
+      "at": 10.7284,
+      "text": " 明天",
+      "response_id": null,
+      "start_ms": 8400,
+      "end_ms": 8600
+    },
+    {
+      "at": 11.3855,
+      "text": "有3",
+      "response_id": null,
+      "start_ms": 9200,
+      "end_ms": 9400
+    },
+    {
+      "at": 11.9043,
+      "text": "個會",
+      "response_id": null,
+      "start_ms": 9400,
+      "end_ms": 9600
+    },
+    {
+      "at": 11.9405,
+      "text": "議",
+      "response_id": null,
+      "start_ms": 9600,
+      "end_ms": 9800
+    },
+    {
+      "at": 12.2577,
+      "text": ":",
+      "response_id": null,
+      "start_ms": 9800,
+      "end_ms": 10000
+    },
+    {
+      "at": 12.8283,
+      "text": "上午",
+      "response_id": null,
+      "start_ms": 10200,
+      "end_ms": 10400
+    },
+    {
+      "at": 13.1418,
+      "text": "9:",
+      "response_id": null,
+      "start_ms": 10800,
+      "end_ms": 11000
+    },
+    {
+      "at": 13.6051,
+      "text": "30",
+      "response_id": null,
+      "start_ms": 11000,
+      "end_ms": 11200
+    },
+    {
+      "at": 14.234,
+      "text": "、",
+      "response_id": null,
+      "start_ms": 11600,
+      "end_ms": 11800
+    },
+    {
+      "at": 14.5263,
+      "text": "下午",
+      "response_id": null,
+      "start_ms": 11800,
+      "end_ms": 12000
+    },
+    {
+      "at": 15.6214,
+      "text": "2",
+      "response_id": null,
+      "start_ms": 12800,
+      "end_ms": 13000
+    },
+    {
+      "at": 16.3161,
+      "text": "點",
+      "response_id": null,
+      "start_ms": 13200,
+      "end_ms": 13400
+    },
+    {
+      "at": 16.6231,
+      "text": "同",
+      "response_id": null,
+      "start_ms": 13600,
+      "end_ms": 13800
+    },
+    {
+      "at": 16.9912,
+      "text": "4",
+      "response_id": null,
+      "start_ms": 13800,
+      "end_ms": 14000
+    },
+    {
+      "at": 17.8485,
+      "text": "點",
+      "response_id": null,
+      "start_ms": 14400,
+      "end_ms": 14600
+    },
+    {
+      "at": 17.8997,
+      "text": "開始",
+      "response_id": null,
+      "start_ms": 14600,
+      "end_ms": 14800
+    },
+    {
+      "at": 18.4198,
+      "text": "。",
+      "response_id": null,
+      "start_ms": 15000,
+      "end_ms": 15200
+    }
+  ],
+  "events": [
+    {
+      "type": "session.started",
+      "at": 1.4735
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 3.0887,
+      "text": "Please"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 3.1585,
+      "text": " check"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 3.5541,
+      "text": " tomorrow's"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.1663,
+      "text": " meetings"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.6548,
+      "text": ". How"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 5.3703,
+      "text": " many"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 5.3704,
+      "text": " are"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 5.3705,
+      "text": " there"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 5.7994,
+      "text": ", and"
+    },
+    {
+      "type": "fixture.input_end",
+      "at": 5.8745
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 6.1828,
+      "text": " when"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 6.3192,
+      "text": " do"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 6.6695,
+      "text": " they"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 7.0548,
+      "text": " start"
+    },
+    {
+      "type": "session.delegation.created",
+      "at": 7.8798
+    },
+    {
+      "type": "response.created",
+      "at": 7.8799,
+      "id": "resp_0922172ce44f64fc006ae350e4bd2087d080876330f84cad9e"
+    },
+    {
+      "type": "response.completed",
+      "at": 8.4164,
+      "id": "resp_0922172ce44f64fc006ae350e4bd2087d080876330f84cad9e",
+      "status": "completed",
+      "status_details": null
+    },
+    {
+      "type": "fixture.tool_result",
+      "name": "calendar_query",
+      "at": 8.42,
+      "saved": false
+    },
+    {
+      "type": "response.created",
+      "at": 8.7607,
+      "id": "resp_0922172ce44f64fc006ae350e651a887d0998ed02cf9177700"
+    },
+    {
+      "type": "response.completed",
+      "at": 9.8075,
+      "id": "resp_0922172ce44f64fc006ae350e651a887d0998ed02cf9177700",
+      "status": "completed",
+      "status_details": null
+    },
+    {
+      "type": "session.closed",
+      "at": 22.823,
+      "reason": "close_requested",
+      "usage": {
+        "seconds": 18.0
+      }
+    }
+  ],
+  "backend_text_events": [
+    {
+      "at": 9.4702,
+      "text": "明"
+    },
+    {
+      "at": 9.4857,
+      "text": "天"
+    },
+    {
+      "at": 9.4857,
+      "text": "有"
+    },
+    {
+      "at": 9.4857,
+      "text": "3"
+    },
+    {
+      "at": 9.4857,
+      "text": "個"
+    },
+    {
+      "at": 9.4857,
+      "text": "會"
+    },
+    {
+      "at": 9.4857,
+      "text": "議"
+    },
+    {
+      "at": 9.4857,
+      "text": "，"
+    },
+    {
+      "at": 9.4857,
+      "text": "分"
+    },
+    {
+      "at": 9.4857,
+      "text": "別"
+    },
+    {
+      "at": 9.4858,
+      "text": "喺"
+    },
+    {
+      "at": 9.4858,
+      "text": "上午"
+    },
+    {
+      "at": 9.4858,
+      "text": "9"
+    },
+    {
+      "at": 9.4858,
+      "text": ":"
+    },
+    {
+      "at": 9.4858,
+      "text": "30"
+    },
+    {
+      "at": 9.4858,
+      "text": "、"
+    },
+    {
+      "at": 9.4858,
+      "text": "下午"
+    },
+    {
+      "at": 9.4858,
+      "text": "2"
+    },
+    {
+      "at": 9.4859,
+      "text": "點"
+    },
+    {
+      "at": 9.6347,
+      "text": "同"
+    },
+    {
+      "at": 9.6347,
+      "text": "下午"
+    },
+    {
+      "at": 9.6347,
+      "text": "4"
+    },
+    {
+      "at": 9.6347,
+      "text": "點"
+    },
+    {
+      "at": 9.6347,
+      "text": "開始"
+    },
+    {
+      "at": 9.6347,
+      "text": "。"
+    }
+  ],
+  "business_evidence": {
+    "tools": [
+      {
+        "name": "calendar_query",
+        "result": {
+          "timezone": "Asia/Hong_Kong",
+          "occurrence_key_note": "Identity of the original instance; after rescheduling it is NOT the actual start date. Display start_local/end_local instead.",
+          "occurrences": [
+            {
+              "id": "c885b450ee80443d92cf0b4a2e97c1fd",
+              "version": 1,
+              "occurrence_key": "2026-10-30T09:30",
+              "title": "Design review",
+              "start": "2026-10-30T01:30:00.000000Z",
+              "end": "2026-10-30T02:00:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T09:30",
+              "end_local": "2026-10-30T10:00"
+            },
+            {
+              "id": "53827fe07e934a34aef23f1ffab7289c",
+              "version": 1,
+              "occurrence_key": "2026-10-30T14:00",
+              "title": "Project check-in",
+              "start": "2026-10-30T06:00:00.000000Z",
+              "end": "2026-10-30T06:30:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T14:00",
+              "end_local": "2026-10-30T14:30"
+            },
+            {
+              "id": "eeb13e8961e14ecea4d2f977349c0c0f",
+              "version": 1,
+              "occurrence_key": "2026-10-30T16:00",
+              "title": "Software demo",
+              "start": "2026-10-30T08:00:00.000000Z",
+              "end": "2026-10-30T08:30:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T16:00",
+              "end_local": "2026-10-30T16:30"
+            }
+          ]
+        }
+      }
+    ],
+    "active_memories": [],
+    "pending_proposals": []
+  },
+  "measurement": "Paced synthetic PCM, network-received audio above RMS100; not DAC playback or human-use latency.",
+  "case": "calendar-en",
+  "run_id": "live-en-02",
+  "reserved_usd": 0.25,
+  "synthetic_input": "Please check tomorrow's meetings. How many are there, and when do they start?"
+}

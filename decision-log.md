@@ -343,3 +343,11 @@ Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **授权与恢复：**复用原业务服务和队列，来源记owner_policy或单次确认。撤回可从旧界面生效并围栏迟到的Full请求；排队自动作业执行前复核。丢失业务响应不阻塞权限设置；旧回执恢复不重放副作用。忘掉后保留无正文的请求身份，修复旧用户句子回流RAM上下文的问题。
 - **证据：**489后端／89前端、lint/types/build/format及实际web／phone批准、自动执行、取消、丢回执恢复、事务接续与文件SHA／mtime读回。当前iPhone包重建安装并看到新版入口；镜像触控仍未成功，原生键盘不计通过。新模型相关检查仅离线／模拟。
 - **发布与下一步：**本轮在PR64之上推独立分支／PR，不隐式合并。只做本地验证，不使用CI；Pi与旧收费预算保持暂停／关闭。下一步是混合软件任务的部分成功／撤回／重启恢复契约，沿用已有服务，不新增平行队列或聊天存储。详见[QA](output/qa/2026-10-29-assistant-permissions/verification.md)和[权限契约](desk-companion/docs/assistant-permissions.md)。
+
+## 2026-10-29 OpenAI实时语音与新小额预算
+
+- **用户授权：**表示OpenAI API约有170美元额度，要求节省，并测试“gpt voice”和“gpt live”；随后澄清两项都测实时语音。用户选择安全创建Key、确认组织／项目，并明确允许保存到FYP的desk-companion/.env.local。此前“所有供应商都未获新收费授权”的状态在本轮OpenAI范围内被取代；旧Qwen预算与Pi暂停不变。
+- **工程限制：**先采用已向用户说明的5美元操作上限；不把170美元余额当实验预算。选用官方Realtime2.1和Live1＋Luna，Mini只作低价英文参照。独立评测脚本、合成PCM、隔离虚构数据与原有工具服务；不切换日常App或自动采集真人音视频。
+- **实际结果：**16次真实短连接，11次最终控制条件检查；英／普／粤日历、待批记忆和合成插话通过各自检查。保留自动语言偏差、测试脚本过早收尾和Live含糊记忆铺垫句；固定语言、修正收尾与草稿措辞后复测。504后端／15专项检查通过，未运行CI。
+- **费用／关闭：**基于已返回token／duration及当前官方价格保守估算USD0.3035168833，包含全部校准；不是已核Platform账单。全部用量回执已归集、16连接均结束，实际账本关闭后拒绝新预留。Key只在0600的Git忽略文件中。
+- **下一步，尚未完成：**接进现有App会话／权限边界后做用户可控制的短A/B试听；真人语音、自然度、噪音／AEC、弱网、持续负载及多步骤业务恢复另验。没有最终排除Qwen／Gemini或决定只用OpenAI。详见[评测契约](desk-companion/docs/openai-voice-evaluation.md)与[QA](output/qa/2026-10-29-openai-realtime/verification.md)。

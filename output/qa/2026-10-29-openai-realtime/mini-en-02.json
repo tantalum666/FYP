@@ -1,0 +1,583 @@
+{
+  "model": "gpt-realtime-2.1-mini",
+  "backend_model": null,
+  "language_mode": "en",
+  "harness_protocol": "v3-live-memory-ack",
+  "ready": true,
+  "end_reason": "quiet_after_reply",
+  "errors": [],
+  "elapsed_s": 13.5867,
+  "input_end_s": 5.869,
+  "first_non_silent_output_s": 7.2284,
+  "first_audio_after_input_s": 1.3594,
+  "interrupt_at_s": null,
+  "voice_usage_seconds": 0,
+  "provider_usage": {
+    "resp_EeL7Li1uBhgCzBgfCnyDc": {
+      "total_tokens": 722,
+      "input_tokens": 557,
+      "output_tokens": 165,
+      "input_token_details": {
+        "text_tokens": 509,
+        "audio_tokens": 48,
+        "image_tokens": 0,
+        "cached_tokens": 0,
+        "cached_tokens_details": {
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "output_token_details": {
+        "text_tokens": 88,
+        "audio_tokens": 77
+      }
+    },
+    "resp_EeL7NEinntbhdczi3ISxo": {
+      "total_tokens": 1392,
+      "input_tokens": 1130,
+      "output_tokens": 262,
+      "input_token_details": {
+        "text_tokens": 1082,
+        "audio_tokens": 48,
+        "image_tokens": 0,
+        "cached_tokens": 0,
+        "cached_tokens_details": {
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "output_token_details": {
+        "text_tokens": 60,
+        "audio_tokens": 202
+      }
+    }
+  },
+  "usage_finalized": true,
+  "estimated_uncached_usd": 0.0078498,
+  "transcript": "Got it, let me check your calendar for tomorrow and then I’ll share what I find.You have three meetings tomorrow. First, a design review at 9:30. Next, a project check-in at 14:00. Finally, a software demo at 16:00.",
+  "transcript_events": [
+    {
+      "at": 6.8637,
+      "text": "Got",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.8691,
+      "text": " it",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.8727,
+      "text": ",",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.2288,
+      "text": " let",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.2288,
+      "text": " me",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.2288,
+      "text": " check",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.2288,
+      "text": " your",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.2288,
+      "text": " calendar",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.2836,
+      "text": " for",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.3978,
+      "text": " tomorrow",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5283,
+      "text": " and",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5283,
+      "text": " then",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5283,
+      "text": " I",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5283,
+      "text": "’ll",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5283,
+      "text": " share",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5283,
+      "text": " what",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5283,
+      "text": " I",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5283,
+      "text": " find",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 7.5283,
+      "text": ".",
+      "response_id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.5804,
+      "text": "You",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.5804,
+      "text": " have",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.5804,
+      "text": " three",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.687,
+      "text": " meetings",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.8255,
+      "text": " tomorrow",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.8256,
+      "text": ".",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.9481,
+      "text": " First",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 8.9625,
+      "text": ",",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.101,
+      "text": " a",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.101,
+      "text": " design",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.101,
+      "text": " review",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.101,
+      "text": " at",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.101,
+      "text": " ",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.101,
+      "text": "9",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.101,
+      "text": ":",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.101,
+      "text": "30",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.101,
+      "text": ".",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.1566,
+      "text": " Next",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.1609,
+      "text": ",",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.1904,
+      "text": " a",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.2134,
+      "text": " project",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.2205,
+      "text": " check",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.2298,
+      "text": "-in",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.2298,
+      "text": " at",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.2367,
+      "text": " ",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.2374,
+      "text": "14",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.2572,
+      "text": ":",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.628,
+      "text": "00",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.628,
+      "text": ".",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.628,
+      "text": " Finally",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.628,
+      "text": ",",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.628,
+      "text": " a",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.628,
+      "text": " software",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.628,
+      "text": " demo",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.6296,
+      "text": " at",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.6296,
+      "text": " ",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.6296,
+      "text": "16",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.6296,
+      "text": ":",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.6302,
+      "text": "00",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 9.6323,
+      "text": ".",
+      "response_id": "resp_EeL7NEinntbhdczi3ISxo",
+      "start_ms": null,
+      "end_ms": null
+    }
+  ],
+  "events": [
+    {
+      "type": "session.updated",
+      "at": 1.4679
+    },
+    {
+      "type": "input_audio_buffer.speech_started",
+      "at": 1.766
+    },
+    {
+      "type": "fixture.input_end",
+      "at": 5.869
+    },
+    {
+      "type": "input_audio_buffer.speech_stopped",
+      "at": 6.5468
+    },
+    {
+      "type": "response.created",
+      "at": 6.5535,
+      "id": "resp_EeL7Li1uBhgCzBgfCnyDc"
+    },
+    {
+      "type": "response.done",
+      "at": 7.9384,
+      "id": "resp_EeL7Li1uBhgCzBgfCnyDc",
+      "status": "completed",
+      "status_details": null
+    },
+    {
+      "type": "fixture.tool_result",
+      "name": "calendar_query",
+      "at": 7.9433,
+      "saved": false
+    },
+    {
+      "type": "response.created",
+      "at": 8.2727,
+      "id": "resp_EeL7NEinntbhdczi3ISxo"
+    },
+    {
+      "type": "response.done",
+      "at": 9.8304,
+      "id": "resp_EeL7NEinntbhdczi3ISxo",
+      "status": "completed",
+      "status_details": null
+    }
+  ],
+  "backend_text_events": [],
+  "business_evidence": {
+    "tools": [
+      {
+        "name": "calendar_query",
+        "result": {
+          "timezone": "Asia/Hong_Kong",
+          "occurrence_key_note": "Identity of the original instance; after rescheduling it is NOT the actual start date. Display start_local/end_local instead.",
+          "occurrences": [
+            {
+              "id": "01d0c67f6ea94cd58dcb36b87d9788fc",
+              "version": 1,
+              "occurrence_key": "2026-10-30T09:30",
+              "title": "Design review",
+              "start": "2026-10-30T01:30:00.000000Z",
+              "end": "2026-10-30T02:00:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T09:30",
+              "end_local": "2026-10-30T10:00"
+            },
+            {
+              "id": "4aaaea711149484bbbacf1ef8c0538f6",
+              "version": 1,
+              "occurrence_key": "2026-10-30T14:00",
+              "title": "Project check-in",
+              "start": "2026-10-30T06:00:00.000000Z",
+              "end": "2026-10-30T06:30:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T14:00",
+              "end_local": "2026-10-30T14:30"
+            },
+            {
+              "id": "942d51524edb4f63a1ef36870752983f",
+              "version": 1,
+              "occurrence_key": "2026-10-30T16:00",
+              "title": "Software demo",
+              "start": "2026-10-30T08:00:00.000000Z",
+              "end": "2026-10-30T08:30:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T16:00",
+              "end_local": "2026-10-30T16:30"
+            }
+          ]
+        }
+      }
+    ],
+    "active_memories": [],
+    "pending_proposals": []
+  },
+  "measurement": "Paced synthetic PCM, network-received audio above RMS100; not DAC playback or human-use latency.",
+  "case": "calendar-en",
+  "run_id": "mini-en-02",
+  "reserved_usd": 0.5,
+  "synthetic_input": "Please check tomorrow's meetings. How many are there, and when do they start?"
+}

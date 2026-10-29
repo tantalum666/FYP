@@ -67,3 +67,9 @@ Conversation revision hashes that whole snapshot, while the initial prompt stays
 TextAssistant serializes request-cache lookup/application/persistence and reuses existing confirmation receipts after interruption. Retention deletes forgotten reply bodies but keeps content-free retired identities in the existing operation ledger, preventing replay from putting forgotten user text into new RAM context. The newest regression reproduces that RAM leak before repair and checks both languages/restart/conflicting keys afterward.
 
 The frontend permission request intentionally bypasses the normal pending business-write queue so a lost file response cannot block revocation. Inline recovery preserves other unsent text. Job detail responses are tied to the selected task/scope; TaskPanel refresh includes workspace revision and refuses a mismatched detail. The latest CSS fix separates a long task title from its End task discussion control on narrow screens.
+
+## OpenAI evaluation boundary (29 October)
+
+The opt-in `scripts/openai_voice_eval.py` runner is separate from production voice selection. `voice_eval/budget.py` owns durable reservations and closing; `fixtures.py` owns paced synthetic speech and isolated existing FYP services; `session.py` owns Realtime/Live wire handling. Tool definitions, authorization and business effects reuse existing code. No second production transcript store, executor queue or frontend model key is introduced.
+
+[QA](../../output/qa/2026-10-29-openai-realtime/verification.md) records16 paid short sessions,11 final controlled checks,USD0.3035168833 conservative usage and a closed ledger.504 full backend/15 focused checks pass; frontend/native source was not changed in this round. The initial Live pause/completion bug, language-following failures and ambiguous memory acknowledgment remain in the evidence. Production integration and human audio acceptance are still separate work.

@@ -1,0 +1,201 @@
+{
+  "closed": true,
+  "ceiling_usd": 5.0,
+  "observed_uncached_estimate_usd": 0.3035168833333333,
+  "accounted_usd": 0.3035168833333333,
+  "runs": [
+    {
+      "id": "mini-en-01",
+      "model": "gpt-realtime-2.1-mini",
+      "reserve": 0.5,
+      "estimate": 0.0085516,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T13:51:38.601540+00:00"
+    },
+    {
+      "id": "live-en-01",
+      "model": "gpt-live-1",
+      "reserve": 0.25,
+      "estimate": 0.008083050000000001,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T13:53:45.474277+00:00"
+    },
+    {
+      "id": "realtime-en-01",
+      "model": "gpt-realtime-2.1",
+      "reserve": 1.5,
+      "estimate": 0.028644,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T13:55:20.196503+00:00"
+    },
+    {
+      "id": "live-en-02",
+      "model": "gpt-live-1",
+      "reserve": 0.25,
+      "estimate": 0.015545300000000001,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T13:57:49.785455+00:00"
+    },
+    {
+      "id": "realtime-en-02",
+      "model": "gpt-realtime-2.1",
+      "reserve": 1.5,
+      "estimate": 0.026704,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T14:00:31.350168+00:00"
+    },
+    {
+      "id": "live-en-03",
+      "model": "gpt-live-1",
+      "reserve": 0.25,
+      "estimate": 0.018917683333333334,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T14:00:48.106925+00:00"
+    },
+    {
+      "id": "realtime-zh-01",
+      "model": "gpt-realtime-2.1",
+      "reserve": 1.5,
+      "estimate": 0.03046,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T14:03:01.139268+00:00"
+    },
+    {
+      "id": "live-zh-01",
+      "model": "gpt-live-1",
+      "reserve": 0.25,
+      "estimate": 0.018079550000000003,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T14:03:16.931834+00:00"
+    },
+    {
+      "id": "realtime-yue-01",
+      "model": "gpt-realtime-2.1",
+      "reserve": 1.5,
+      "estimate": 0.030463999999999998,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T14:03:43.607823+00:00"
+    },
+    {
+      "id": "live-yue-01",
+      "model": "gpt-live-1",
+      "reserve": 0.25,
+      "estimate": 0.015590500000000002,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T14:03:58.928483+00:00"
+    },
+    {
+      "id": "realtime-memory-01",
+      "model": "gpt-realtime-2.1",
+      "reserve": 1.5,
+      "estimate": 0.0283,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T14:05:11.546633+00:00"
+    },
+    {
+      "id": "live-memory-01",
+      "model": "gpt-live-1",
+      "reserve": 0.25,
+      "estimate": 0.020530100000000003,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T14:05:26.385372+00:00"
+    },
+    {
+      "id": "realtime-interrupt-01",
+      "model": "gpt-realtime-2.1",
+      "reserve": 1.5,
+      "estimate": 0.015248000000000001,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T14:05:58.313280+00:00"
+    },
+    {
+      "id": "live-interrupt-01",
+      "model": "gpt-live-1",
+      "reserve": 0.25,
+      "estimate": 0.011666666666666667,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T14:06:14.142050+00:00"
+    },
+    {
+      "id": "live-memory-02",
+      "model": "gpt-live-1",
+      "reserve": 0.25,
+      "estimate": 0.018882633333333333,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T14:09:30.657698+00:00"
+    },
+    {
+      "id": "mini-en-02",
+      "model": "gpt-realtime-2.1-mini",
+      "reserve": 0.5,
+      "estimate": 0.0078498,
+      "finalized": 1,
+      "result": {
+        "end_reason": "quiet_after_reply",
+        "errors": []
+      },
+      "at": "2026-10-29T14:09:57.157926+00:00"
+    }
+  ],
+  "billing_note": "Provider usage estimates, not a verified account bill. Unknown runs retain reservations."
+}

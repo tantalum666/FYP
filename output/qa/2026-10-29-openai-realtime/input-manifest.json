@@ -1,0 +1,32 @@
+[
+  {
+    "file": "calendar-en.wav",
+    "sha256": "1fc7ebacb70d177f176e81879db1ac6cf97cd050a009596875849f8ff0df5d1c",
+    "source": "macOS local speech synthesis; fictional test utterance; no microphone"
+  },
+  {
+    "file": "calendar-yue.wav",
+    "sha256": "0b7a9ae986528164535ff16b13e678fb0b458aaeb3ddc38ae0c75288cbb0c199",
+    "source": "macOS local speech synthesis; fictional test utterance; no microphone"
+  },
+  {
+    "file": "calendar-zh.wav",
+    "sha256": "623b76c6043a94b6c21fa0c0779bbef0259a6012b506dbe102baaa2b8cbd9f73",
+    "source": "macOS local speech synthesis; fictional test utterance; no microphone"
+  },
+  {
+    "file": "interrupt-en.wav",
+    "sha256": "af12c408329a73e10c06a49dd77c6711969c234fb54f4d2dad8594530f99414e",
+    "source": "macOS local speech synthesis; fictional test utterance; no microphone"
+  },
+  {
+    "file": "memory-zh.wav",
+    "sha256": "c4636d63f3a07f8cd981b7bc981112fbca615d3bd23e5bbda3e5670aba98b81b",
+    "source": "macOS local speech synthesis; fictional test utterance; no microphone"
+  },
+  {
+    "file": "stop-en.wav",
+    "sha256": "646346be021015b6cb6f5ff5d6aac04b99112df86d263bd44afbd6ae2daeaa26",
+    "source": "macOS local speech synthesis; fictional test utterance; no microphone"
+  }
+]
