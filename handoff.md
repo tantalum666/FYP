@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-29 October 2026, Asia/Hong_Kong. Current checkpoint: **shared assistant permissions/action UX and verified task/file/phone continuity**. Workspace `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, branch `codex/assistant-permissions-20261029`, based on open [PR64](https://github.com/tantalum666/FYP/pull/64) head `b02d92b132a83dccb4674abb25f33d7613fbcd28`. This checkpoint is locally complete; GitHub publication receipt is being finalized. Neither PR64 nor this work is implicitly merged.
+29 October 2026, Asia/Hong_Kong. Current checkpoint: **shared assistant permissions/action UX and verified task/file/phone continuity**. Workspace `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, branch `codex/assistant-permissions-20261029`, based on open [PR64](https://github.com/tantalum666/FYP/pull/64) head `b02d92b132a83dccb4674abb25f33d7613fbcd28`. Published as draft [PR65](https://github.com/tantalum666/FYP/pull/65), verified implementation commit `4c6b8911ae19862a44b9d68450aaed4f2615ccdb`; [receipt](output/qa/2026-10-29-assistant-permissions/publication.json). Both PR64 and PR65 remain open/unmerged.
 
 ## Completed
 

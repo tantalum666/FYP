@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-29",
+  "repository": "tantalum666/FYP",
+  "visibility_verified": "private",
+  "tested_source_commit": "4c6b8911ae19862a44b9d68450aaed4f2615ccdb",
+  "branch": "codex/assistant-permissions-20261029",
+  "base": "codex/native-memory-reliability-20261028",
+  "base_sha": "b02d92b132a83dccb4674abb25f33d7613fbcd28",
+  "pr": {
+    "url": "https://github.com/tantalum666/FYP/pull/65",
+    "number": 65,
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "mergeable": true
+  },
+  "remote_heads_verified": {
+    "source": "4c6b8911ae19862a44b9d68450aaed4f2615ccdb",
+    "parent_pr64": "b02d92b132a83dccb4674abb25f33d7613fbcd28",
+    "main": "9bfe2eedf0ea05b9f7d143a18388d84e36e19de0"
+  },
+  "validation": {
+    "backend": 489,
+    "frontend": 89,
+    "focused_retention_permission": 31,
+    "ruff": "pass",
+    "types_build": "pass",
+    "frontend_format": "pass",
+    "local_links_checked": 411,
+    "missing_local_links": 0,
+    "staged_gitleaks": "no leaks found",
+    "source_manifest_files": 39
+  },
+  "delivery": {
+    "browser_journeys": "passed with fictional local fixtures",
+    "native_build_install_launch": "passed",
+    "native_live_frame": "verified",
+    "native_touch_keyboard": "not accepted; mirror input produced no transition",
+    "pi_deployment": false,
+    "school_submission": false
+  },
+  "note": "This receipt identifies the tested implementation commit. The following documentation-only closeout records this receipt without changing source hashes. PR remains draft/open and is not merged. No CI or paid-model work."
+}

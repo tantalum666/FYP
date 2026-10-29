@@ -1,6 +1,6 @@
 # Group 2 · Assistant permissions and task continuity
 
-29 October 2026, Asia/Hong_Kong. This continuation began with a real task/file/phone journey and then incorporated the owner's explicit correction: approvals and Full access must work consistently on **web and app**, with simpler phone navigation. Current source is on `codex/assistant-permissions-20261029`, based on open PR64 head `b02d92b132a83dccb4674abb25f33d7613fbcd28`. Publication is recorded separately in `publication.json`; local completion is not a merge or deployment.
+29 October 2026, Asia/Hong_Kong. This continuation began with a real task/file/phone journey and then incorporated the owner's explicit correction: approvals and Full access must work consistently on **web and app**, with simpler phone navigation. Current source is on `codex/assistant-permissions-20261029`, based on open PR64 head `b02d92b132a83dccb4674abb25f33d7613fbcd28`. Published as draft [PR65](https://github.com/tantalum666/FYP/pull/65); tested implementation commit `4c6b8911ae19862a44b9d68450aaed4f2615ccdb` matches the remote. [Publication receipt](publication.json) records the open/unmerged state. Local completion is not a merge or deployment.
 
 ## Result
 
@@ -43,12 +43,12 @@ For “Inline recovery demo”, dropped a real approval response after it reache
 
 - Current browser target: `http://localhost:5190/`; phone browser: `?surface=phone`. API is127.0.0.1:8833, isolated `desk-companion/.runtime/task-journey-20261028`. Use localhost for Vite so the old127.0.0.1 memory preview cookie does not collide. No Origin allowlist was widened.
 - API was restarted after the final retention repair. Providers are `none`, background AI/extraction/push and Linux executor are off; only the fixed local-note executor is enabled for these fixtures. Current policy is Ask first.
-- Current native app uses launch-only `-desk.server.origin.v1 http://127.0.0.1:8833`. Saved device address and real-device TLS policy remain unchanged. Mirror `http://localhost:3200/` is the installed app stream, not a browser emulation. Temporary browser viewport overrides are reset at closeout.
+- Current native app uses launch-only `-desk.server.origin.v1 http://127.0.0.1:8833`. Saved device address and real-device TLS policy remain unchanged. Mirror `http://localhost:3200/` is the installed app stream, not a browser emulation. Temporary browser viewport overrides were reset at closeout; all three review tabs are retained. Previous owned API8832/Vite5191 were stopped after checking process/cwd; their runtime data remains intact.
 - Final browser error/warning reads returned empty. Earlier deliberately injected network failures belong to the recovery test. No live media, hosted-model calls, external-account actions, Pi/Luwu work or school-document changes/submissions occurred.
 
 ## Reading, documentation and publication checks
 
-Focused reading continued from the same task rather than restarting the archive. [Reading record](reading-record.json) separates full files from relevant chapters. Updated product, permission/job/memory/Omni/task/maintenance/architecture/operator/agent-loop contracts, delivery gates, phone implementation note, design brief, readmes, decisions, work log, entry and concise handoff. Internal links, scoped diff, sources and staged secrets are checked before publication; exact results go in `publication.json`.
+Focused reading continued from the same task rather than restarting the archive. [Reading record](reading-record.json) separates full files from relevant chapters. Updated product, permission/job/memory/Omni/task/maintenance/architecture/operator/agent-loop contracts, delivery gates, phone implementation note, design brief, readmes, decisions, work log, entry and concise handoff. 411 local links have no missing targets; scoped diff/whitespace and staged Gitleaks passed with no leaks. No runtime databases, credentials, dependency archives, authoring originals or workflows are staged. Exact publication results are in [publication.json](publication.json).
 
 Source hashes in `source-manifest.json` identify the implementation checked, without pretending a hash is a full read. Screenshots retain the existing AliceChan attribution: edisonlee55 / yuna0x0, [source metadata](../../../desk-companion/frontend/public/avatars/alice/source.json), [CC BY-SA4.0](../../../desk-companion/frontend/public/avatars/alice/LICENSE.md). No new model asset or private authoring original is published.
 

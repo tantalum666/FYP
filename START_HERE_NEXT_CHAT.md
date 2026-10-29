@@ -2,7 +2,7 @@
 
 29 October 2026. Resume the **shared assistant permissions and task/file/phone continuity** checkpoint; the owner explicitly required the UX correction on web and App, not just mobile.
 
-Use `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, branch `codex/assistant-permissions-20261029`. Base is open [PR64](https://github.com/tantalum666/FYP/pull/64) head `b02d92b132a83dccb4674abb25f33d7613fbcd28`; main remains the separate local-validation-only baseline. Publication receipt is being finalized in the current QA; do not infer merge/deployment.
+Use `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, branch `codex/assistant-permissions-20261029`. Base is open [PR64](https://github.com/tantalum666/FYP/pull/64) head `b02d92b132a83dccb4674abb25f33d7613fbcd28`; main remains the separate local-validation-only baseline. Published as draft [PR65](https://github.com/tantalum666/FYP/pull/65), implementation `4c6b8911ae19862a44b9d68450aaed4f2615ccdb`; [receipt](output/qa/2026-10-29-assistant-permissions/publication.json). Both stacked PRs remain unmerged; source publication is not deployment.
 
 Read [AGENTS](AGENTS.md), [product](product.md), concise [handoff](handoff.md) and latest relevant [decisions](decision-log.md), then [permissions](desk-companion/docs/assistant-permissions.md) / [maintenance](desk-companion/docs/software-maintenance.md). Inspect Git status before changing branches or overwriting anything.
 
