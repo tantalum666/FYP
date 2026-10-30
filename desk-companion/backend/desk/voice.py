@@ -790,13 +790,15 @@ class VoiceService:
         revision, facts = memory_context(self.runtime, allow_memory)
         instructions += facts
         instructions += draft_context(self.runtime, principal["kind"] == "owner")
+        instructions += self.runtime.permissions.instructions(principal)
         conversation = None
         assistant_text = ""
         restored = False
         if isinstance(protocol, QwenOmniProtocol):
             protocol.mode = mode
         dispatcher = ToolDispatcher(
-            self.runtime, session_id, allow_memory=allow_memory, language=language
+            self.runtime, session_id, allow_memory=allow_memory, language=language,
+            principal=principal, task_id=task_id,
         )
         ready = asyncio.Event()
         send_lock = asyncio.Lock()
@@ -935,6 +937,7 @@ class VoiceService:
                         self.runtime, principal["kind"] == "owner"
                     )
                     current += task_context(self.runtime, principal, task_id)
+                    current += self.runtime.permissions.instructions(principal)
                     ready.clear()
                     await send_provider(
                         {"type": "session.update", "session": {"instructions": current}}

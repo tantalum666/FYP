@@ -38,6 +38,8 @@
 
 用户最新指令 → product.md 当前要求 → decision-log.md 较新决定 → 当前任务聚焦规范 → 当前实现与验证结果 → 历史研究及竞品资料。
 
+涉及个人 Agent 定位、Muse／Dot／Grok、邮件跟踪、购物或旅行代办时，先读[研究总入口](research/personal-agent-research-index.md)，沿用有日期的来源及当前实现差距；不能因旧代码 PR 未合并而遗漏其中的研究。
+
 研究假设不是已批准决定；旧方案被取代后保留明确标记和链接，不能和新方案混用。所有组号写 **Group 2**。完整组员资料以 [group-2-details.json](planning/2026-09-14/group-2-details.json) 为准。
 
 ## 每次完工

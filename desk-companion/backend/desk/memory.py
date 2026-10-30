@@ -25,7 +25,7 @@ from .store import DomainError
 
 MAX_ACTIVE = 200
 MAX_MODEL = 40
-ORIGINS = {"owner", "assistant_confirmed", "conversation"}
+ORIGINS = {"owner", "assistant_confirmed", "conversation", "owner_policy"}
 _EDGE = ".,;:。，；：!！"
 
 
@@ -265,17 +265,25 @@ class MemoryService:
             "suggestions": suggestions_for(active),
         }
 
-    def for_model(self):
-        """Facts the hosted model may see. Deleted, expired, and superseded rows are absent."""
+    def active_facts(self):
+        """Model-safe projection of every active fact, bounded by the store's active cap.
+
+        Search and version checks must not confuse the recent prompt window with
+        the whole memory. Never include revision history or attribution notes.
+        """
         now = iso(self.store.clock())
         with self.store.connection() as conn:
             rows = conn.execute(
                 "SELECT id, version, body, created_at, updated_at, source FROM owner_memories "
                 "WHERE state='active' AND (expires_at IS NULL OR expires_at>?) "
-                "ORDER BY updated_at DESC, id LIMIT ?",
-                (now, MAX_MODEL),
+                "ORDER BY updated_at DESC, id",
+                (now,),
             ).fetchall()
         return [dict(row) for row in rows]
+
+    def for_model(self):
+        """Bounded recent prompt; query tools can search the complete active projection."""
+        return self.active_facts()[:MAX_MODEL]
 
     def create(self, body, key, origin="owner", note="", expires_at=None):
         text = MemoryText(body=body).body

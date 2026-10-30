@@ -1,0 +1,9 @@
+{
+  "http_status_counts": {
+    "401": 2,
+    "200": 6302
+  },
+  "tracebacks_in_api_log": false,
+  "vite_proxy_refused_during_intentional_api_restart": true,
+  "raw_logs": "Local ignored live logs; not publication artifacts."
+}

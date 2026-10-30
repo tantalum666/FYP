@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-29",
+  "task": "Compare OpenAI Realtime and GPT-Live with a conservative USD5 first round",
+  "user_authorization": "User says USD170 credits available and asks to save money; explicitly requests both real-time voice routes. User approved creating a key and exact local .env.local destination. USD5 is the smaller operating ceiling stated for this round, not permission to consume the account balance.",
+  "read": {
+    "AGENTS.md": "full, current",
+    "product.md": "full, current",
+    "handoff.md": "full, current",
+    "decision-log.md": "latest local-only, software continuation and permission entries",
+    "planning/2026-10-23/ai-validation-plan.md": "current coverage and synthetic/human evidence boundaries; historical target table",
+    "desk-companion/docs/qwen-omni.md": "configuration, audio/response lifecycle and historical evidence; existing tested baseline retained",
+    "desk-companion/backend/desk/assistant.py": "existing tool schemas and tool service entry",
+    "desk-companion/backend/desk/runtime.py": "initialization",
+    "desk-companion/backend/desk/store.py": "sessions and event creation",
+    "desk-companion/backend/desk/tool_policy.py": "execute_tool contract",
+    "desk-companion/backend/desk/voice_credentials.py": "safe local credential convention",
+    "desk-companion/pyproject.toml": "dependencies, existing WebSocket runtime and test settings"
+  },
+  "skills": [
+    "OpenAI API Key secure setup (explicit destination approved after initial decline)",
+    "OpenAI Docs (official Realtime, Live, pricing, WebSocket, delegation and lifecycle pages)"
+  ],
+  "scope": "Separate evaluation harness, synthetic speech, isolated existing FYP business services; no production provider switch, microphone/camera, Pi, CI or additional service purchase",
+  "state": "completed; 16 paid sessions, 11 controlled checks, closed round, publication receipt separate"
+}

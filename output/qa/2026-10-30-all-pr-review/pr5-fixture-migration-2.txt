@@ -1,0 +1,1 @@
+Migration not verified. Keep the store stopped and inspect the documented compatibility requirements.

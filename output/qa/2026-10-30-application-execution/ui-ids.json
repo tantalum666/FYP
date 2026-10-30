@@ -1,0 +1,8 @@
+{
+  "task_id": "d8f5a1ea81024d08aab42ce7ff2e15f2",
+  "job_id": "42692169b3834d9cb0ba6f2c040f7648",
+  "initial_state": "review",
+  "update_job_id": "3f7c74deb0f84010a9b67dcf72915fd3",
+  "cancel_job_id": "ae3839fda4fc4d6e9dc007752be47c9f",
+  "updated_result_sha256": "715dcd62da0aa3f4abf92b253f914f633bd320605b98e976c7c7b07e83b753c1"
+}

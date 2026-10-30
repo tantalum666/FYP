@@ -1,0 +1,133 @@
+da7f3eddf0a25333540f9d7096535aa2ab40f912
+100644 b3a8d7dac7314c4d3ae531b42f5eea0050d13019 1	README.md
+100644 03d97fee0310be1b9e1832a5f63fe13e03a2f3fd 2	README.md
+100644 7306078459771ca464fae67c8820e2cdb9791842 3	README.md
+100644 8c7b3a6c2feeaf4bf1b1079f1d03b25d8bb89c24 1	decision-log.md
+100644 d31374bd22939007175855d0eab4eaaeb0afa088 2	decision-log.md
+100644 5c2706d3ce8be51dfc32fed874516e613c0c29e7 3	decision-log.md
+100644 cbaf18647cf2077ff3458c7b8b17fd4d1bfa8730 2	design/desk-companion/characters/2026-10-17-a1-3d/README.md
+100644 05381b88cf35a85ecf1e5b42aaf87658e6469989 3	design/desk-companion/characters/2026-10-17-a1-3d/README.md
+100644 4e504b74a9d1c235b60aeac2dbb62291c9cbff18 1	desk-companion/README.md
+100644 d8e92963b03b4cda5e84aef32b75af80a51c58e0 2	desk-companion/README.md
+100644 8d88720f5b4f007198f90a247b42d34373cd6fc9 3	desk-companion/README.md
+100644 f6e73fb825aae6fddcadea783afd4450f44bc927 1	desk-companion/THIRD_PARTY.md
+100644 1d7b3d1a39ddff4401c8c439dc532ac7986b1adf 2	desk-companion/THIRD_PARTY.md
+100644 c6fa0100aa7bfcc537fd37bfc5535ad94cf9b84e 3	desk-companion/THIRD_PARTY.md
+100644 abe23997eb2211520faaf681fbf856f670f89f5e 1	desk-companion/backend/desk/voice.py
+100644 e92021aeb9027a60e6a9e8a4028d6d58e26a818b 2	desk-companion/backend/desk/voice.py
+100644 36dc0e254623bad8c023f4358801b1791499ecd2 3	desk-companion/backend/desk/voice.py
+100644 b4fd9dd08387865d4ae7e6c0a45eb0c48028a4da 1	desk-companion/docs/architecture.md
+100644 3631cbb3e64e7ef299d62faa7e0857c876c439d4 2	desk-companion/docs/architecture.md
+100644 4308b885128fa092bba11b7a65ca653a13204523 3	desk-companion/docs/architecture.md
+100644 0a201a616536d9206151883ddd360908a6fb78a7 2	desk-companion/docs/avatar.md
+100644 e83ccb3cda220b5b9a3984ad25dde6082a12bc5a 3	desk-companion/docs/avatar.md
+100644 300666e0f82ad0befeb30ae02c36a4f7f7db3560 1	desk-companion/docs/operator-guide.md
+100644 a6d53b0a89ab801506aa7d1dfc16c43bff6980be 2	desk-companion/docs/operator-guide.md
+100644 c79c41059198ee95254f4dd549ff3b75e9e8343d 3	desk-companion/docs/operator-guide.md
+100644 b3f514732911ab36f0e4f787651b1341cb234cce 2	desk-companion/docs/page-companion.md
+100644 88cb499887900cb992690313cf6489b467ca63b6 3	desk-companion/docs/page-companion.md
+100644 b073b63c8da3a1b83949fa39de6a379d81943aab 2	desk-companion/docs/qwen-local-setup.md
+100644 decfa86b37e4b537a038cc0090a638d8899e806f 3	desk-companion/docs/qwen-local-setup.md
+100644 018987d6ade91cf9442de663f6c01e805e26bae8 2	desk-companion/docs/qwen-omni.md
+100644 fac0fc2b3ce86d17f8f379f0ba430552181bf472 3	desk-companion/docs/qwen-omni.md
+100644 57b66fcdfe836c8cb942f47215f9683d35344f6f 2	desk-companion/frontend/public/companion/source.json
+100644 0a758203ec2db3a401b6d4b6f6e9b97b1ea486bb 3	desk-companion/frontend/public/companion/source.json
+100644 4cb9e1754582cbffe0cfa24eddfdaf7dfda3f6d5 1	desk-companion/frontend/src/App.tsx
+100644 ef461ab0e60cd8040ebb309b807ce7481a44f0aa 2	desk-companion/frontend/src/App.tsx
+100644 1c29e246030bfbe722af372dc24c254ab3da67f5 3	desk-companion/frontend/src/App.tsx
+100644 0e3ea368ec7215f87bbfc4d83a3c3111130582f7 2	desk-companion/frontend/src/companion/A1Canvas.tsx
+100644 8b00e7dc1abfe91320494b1c7a0d978d14573f54 3	desk-companion/frontend/src/companion/A1Canvas.tsx
+100644 420fc7f13a9931b890e973192bc7aa2b49f2771d 2	desk-companion/frontend/src/companion/PageCompanion.tsx
+100644 c6765946795c78f574ba553a1caca108a0ce2dbd 3	desk-companion/frontend/src/companion/PageCompanion.tsx
+100644 adedb1ece6e810c85b35851eea699032e979bd9e 2	desk-companion/frontend/src/companion/placement.ts
+100644 9da6f27380e71f45498f4ed9934f0e03623f22ec 3	desk-companion/frontend/src/companion/placement.ts
+100644 c92a85b540d75134db241966e5ca4eb28869850e 2	desk-companion/frontend/src/companion/renderer.ts
+100644 ed3925cf839a4e5ae37467babab3001de207552e 3	desk-companion/frontend/src/companion/renderer.ts
+100644 159586a4d73b7758098e5b1e628a9b7306751002 1	desk-companion/frontend/src/workspace/AssistantPanel.tsx
+100644 9c3e49a86616693bcff4ce2fe0b07d74542fa331 2	desk-companion/frontend/src/workspace/AssistantPanel.tsx
+100644 1ef06196db9cde8a46f3095b6a485dad42605987 3	desk-companion/frontend/src/workspace/AssistantPanel.tsx
+100644 146070da393af75c806b8e774c63bd6fc785109f 1	desk-companion/frontend/src/workspace/Avatar.tsx
+100644 704b88ac94e660769a014b80886adad3da054849 2	desk-companion/frontend/src/workspace/Avatar.tsx
+100644 3d6922728399946fd05b10ba8de7872cec089b09 3	desk-companion/frontend/src/workspace/Avatar.tsx
+100644 77a9731e7ae157d5a86d1d8bed0193e1cca705cc 1	desk-companion/frontend/src/workspace/audio.ts
+100644 0ac2e22b26b81898924620d9d5c39de09f2b35ac 2	desk-companion/frontend/src/workspace/audio.ts
+100644 4ac2cd5a85a7f20073db8c219353f30c859089ed 3	desk-companion/frontend/src/workspace/audio.ts
+100644 ea2f5cba3fa8994525b5191afc91c36ef0d92087 2	desk-companion/tests/test_voice_omni.py
+100644 3bc515635baa489357a303a962c6cbb8603bca9f 3	desk-companion/tests/test_voice_omni.py
+100644 3b099d817ce39f84d439c5d1115e3834aa591186 1	handoff.md
+100644 49740fd11c9ef9aeb751ed20c2e4676e5409b2fe 2	handoff.md
+100644 ef543dc8d6de1b65d681cb7a3a2a942654d71834 3	handoff.md
+100644 6553ba45f5dca51ac6f9b36146699345cffb2853 2	planning/2026-10-15/voice-response-latency.md
+100644 de1c13b7d58bd5d8c96f38ede084354ac88e03f0 3	planning/2026-10-15/voice-response-latency.md
+100644 197fa7d674ab035c1eb92ed38c5348c538af5a28 1	product.md
+100644 5b6d8c46fb9560315bd73e69a5025eb2f140ba70 2	product.md
+100644 887ae7821f224a98875f051336ded7079ac91a22 3	product.md
+100644 4202c3a772314e97c6f4c901d4d301b7a9e70f19 2	research/2026-10-15-voice-ai/voice-model-comparison.md
+100644 a97556e9fa113ca5395496c20eeb83771d8280c4 3	research/2026-10-15-voice-ai/voice-model-comparison.md
+100644 840a58ce551f3f6a78211d7e08ac664723fd1fec 1	work-log.md
+100644 02cdc1a6d4077cd129aa254e519c09fa34ae0a1b 2	work-log.md
+100644 87dbe32fd3d02458f9f38bda73e17c546472e379 3	work-log.md
+
+Auto-merging .gitignore
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+Auto-merging decision-log.md
+CONFLICT (content): Merge conflict in decision-log.md
+Auto-merging design/desk-companion/characters/2026-10-17-a1-3d/README.md
+CONFLICT (add/add): Merge conflict in design/desk-companion/characters/2026-10-17-a1-3d/README.md
+Auto-merging desk-companion/README.md
+CONFLICT (content): Merge conflict in desk-companion/README.md
+Auto-merging desk-companion/THIRD_PARTY.md
+CONFLICT (content): Merge conflict in desk-companion/THIRD_PARTY.md
+Auto-merging desk-companion/backend/desk/voice.py
+CONFLICT (content): Merge conflict in desk-companion/backend/desk/voice.py
+Auto-merging desk-companion/docs/architecture.md
+CONFLICT (content): Merge conflict in desk-companion/docs/architecture.md
+Auto-merging desk-companion/docs/avatar.md
+CONFLICT (add/add): Merge conflict in desk-companion/docs/avatar.md
+Auto-merging desk-companion/docs/operator-guide.md
+CONFLICT (content): Merge conflict in desk-companion/docs/operator-guide.md
+Auto-merging desk-companion/docs/page-companion.md
+CONFLICT (add/add): Merge conflict in desk-companion/docs/page-companion.md
+Auto-merging desk-companion/docs/qwen-local-setup.md
+CONFLICT (add/add): Merge conflict in desk-companion/docs/qwen-local-setup.md
+Auto-merging desk-companion/docs/qwen-omni.md
+CONFLICT (add/add): Merge conflict in desk-companion/docs/qwen-omni.md
+Auto-merging desk-companion/frontend/package-lock.json
+Auto-merging desk-companion/frontend/package.json
+Auto-merging desk-companion/frontend/public/companion/source.json
+CONFLICT (add/add): Merge conflict in desk-companion/frontend/public/companion/source.json
+Auto-merging desk-companion/frontend/src/App.tsx
+CONFLICT (content): Merge conflict in desk-companion/frontend/src/App.tsx
+Auto-merging desk-companion/frontend/src/companion/A1Canvas.tsx
+CONFLICT (add/add): Merge conflict in desk-companion/frontend/src/companion/A1Canvas.tsx
+Auto-merging desk-companion/frontend/src/companion/PageCompanion.tsx
+CONFLICT (add/add): Merge conflict in desk-companion/frontend/src/companion/PageCompanion.tsx
+Auto-merging desk-companion/frontend/src/companion/placement.ts
+CONFLICT (add/add): Merge conflict in desk-companion/frontend/src/companion/placement.ts
+Auto-merging desk-companion/frontend/src/companion/renderer.ts
+CONFLICT (add/add): Merge conflict in desk-companion/frontend/src/companion/renderer.ts
+Auto-merging desk-companion/frontend/src/device/DeviceApp.tsx
+Auto-merging desk-companion/frontend/src/device/DisplayFace.tsx
+Auto-merging desk-companion/frontend/src/workspace/AssistantPanel.tsx
+CONFLICT (content): Merge conflict in desk-companion/frontend/src/workspace/AssistantPanel.tsx
+Auto-merging desk-companion/frontend/src/workspace/Avatar.tsx
+CONFLICT (content): Merge conflict in desk-companion/frontend/src/workspace/Avatar.tsx
+Auto-merging desk-companion/frontend/src/workspace/audio.ts
+CONFLICT (content): Merge conflict in desk-companion/frontend/src/workspace/audio.ts
+Auto-merging desk-companion/frontend/src/workspace/types.ts
+Auto-merging desk-companion/tests/test_voice_omni.py
+CONFLICT (add/add): Merge conflict in desk-companion/tests/test_voice_omni.py
+Auto-merging docs/tooling-and-review/companion-architecture.md
+Auto-merging docs/tooling-and-review/companion-product-teardown.md
+Auto-merging handoff.md
+CONFLICT (content): Merge conflict in handoff.md
+Auto-merging planning/2026-10-15/voice-response-latency.md
+CONFLICT (add/add): Merge conflict in planning/2026-10-15/voice-response-latency.md
+Auto-merging product.md
+CONFLICT (content): Merge conflict in product.md
+Auto-merging research/2026-09-25-desk-companion/feasibility-review.md
+Auto-merging research/2026-10-15-voice-ai/voice-model-comparison.md
+CONFLICT (add/add): Merge conflict in research/2026-10-15-voice-ai/voice-model-comparison.md
+Auto-merging work-log.md
+CONFLICT (content): Merge conflict in work-log.md

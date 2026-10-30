@@ -1,0 +1,267 @@
+{
+  "model": "gpt-live-1",
+  "backend_model": "gpt-6-luna",
+  "ready": true,
+  "end_reason": "quiet_after_reply",
+  "errors": [],
+  "elapsed_s": 14.8932,
+  "input_end_s": 7.0486,
+  "first_non_silent_output_s": 8.2763,
+  "first_audio_after_input_s": 1.2277,
+  "interrupt_at_s": null,
+  "voice_usage_seconds": 9.0,
+  "provider_usage": {
+    "resp_0ab72c344919ab5c006ae34ff157ac87d0ab75b8cefef15508": {
+      "input_tokens": 1045,
+      "input_tokens_details": {
+        "cache_write_tokens": 0,
+        "cached_tokens": 0
+      },
+      "output_tokens": 101,
+      "output_tokens_details": {
+        "reasoning_tokens": 47
+      },
+      "total_tokens": 1146
+    },
+    "resp_0ab72c344919ab5c006ae34ff39d3087d0b0ccb1b7d43cbd53": {
+      "input_tokens": 1654,
+      "input_tokens_details": {
+        "cache_write_tokens": 1651,
+        "cached_tokens": 0
+      },
+      "output_tokens": 30,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 1684
+    }
+  },
+  "usage_finalized": true,
+  "estimated_uncached_usd": 0.008083050000000001,
+  "transcript": " Okay, I'm checking tomorrow now. 明天有",
+  "transcript_events": [
+    {
+      "at": 8.2293,
+      "text": " Okay,",
+      "response_id": null,
+      "start_ms": 4800,
+      "end_ms": 5000
+    },
+    {
+      "at": 8.7535,
+      "text": " I'm",
+      "response_id": null,
+      "start_ms": 5400,
+      "end_ms": 5600
+    },
+    {
+      "at": 8.8453,
+      "text": " checking",
+      "response_id": null,
+      "start_ms": 5600,
+      "end_ms": 5800
+    },
+    {
+      "at": 9.2792,
+      "text": " tomorrow",
+      "response_id": null,
+      "start_ms": 6000,
+      "end_ms": 6200
+    },
+    {
+      "at": 9.8595,
+      "text": " now.",
+      "response_id": null,
+      "start_ms": 6600,
+      "end_ms": 6800
+    },
+    {
+      "at": 11.977,
+      "text": " 明天",
+      "response_id": null,
+      "start_ms": 8800,
+      "end_ms": 9000
+    },
+    {
+      "at": 12.0958,
+      "text": "有",
+      "response_id": null,
+      "start_ms": 9000,
+      "end_ms": 9200
+    }
+  ],
+  "events": [
+    {
+      "type": "session.started",
+      "at": 2.6474
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.0321,
+      "text": "Please"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.1551,
+      "text": " check"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.7475,
+      "text": " tomorrow's"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 5.1756,
+      "text": " meetings"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 5.7404,
+      "text": ". How"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 5.9829,
+      "text": " many"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 6.127,
+      "text": " are"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 6.4959,
+      "text": " there"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 6.8769,
+      "text": ", and when"
+    },
+    {
+      "type": "fixture.input_end",
+      "at": 7.0486
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 7.1779,
+      "text": " do"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 7.2468,
+      "text": " they"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 7.9919,
+      "text": " start"
+    },
+    {
+      "type": "session.delegation.created",
+      "at": 8.2411
+    },
+    {
+      "type": "response.created",
+      "at": 8.2449,
+      "id": "resp_0ab72c344919ab5c006ae34ff157ac87d0ab75b8cefef15508"
+    },
+    {
+      "type": "response.completed",
+      "at": 10.0184,
+      "id": "resp_0ab72c344919ab5c006ae34ff157ac87d0ab75b8cefef15508",
+      "status": "completed",
+      "status_details": null
+    },
+    {
+      "type": "fixture.tool_result",
+      "name": "calendar_query",
+      "at": 10.0234,
+      "saved": false
+    },
+    {
+      "type": "response.created",
+      "at": 10.3378,
+      "id": "resp_0ab72c344919ab5c006ae34ff39d3087d0b0ccb1b7d43cbd53"
+    },
+    {
+      "type": "response.completed",
+      "at": 11.3747,
+      "id": "resp_0ab72c344919ab5c006ae34ff39d3087d0b0ccb1b7d43cbd53",
+      "status": "completed",
+      "status_details": null
+    },
+    {
+      "type": "session.closed",
+      "at": 12.9436,
+      "reason": "close_requested",
+      "usage": {
+        "seconds": 9.0
+      }
+    }
+  ],
+  "business_evidence": {
+    "tools": [
+      {
+        "name": "calendar_query",
+        "result": {
+          "timezone": "Asia/Hong_Kong",
+          "occurrence_key_note": "Identity of the original instance; after rescheduling it is NOT the actual start date. Display start_local/end_local instead.",
+          "occurrences": [
+            {
+              "id": "3bd9f8557e4d4fc79ebdd31218088b1a",
+              "version": 1,
+              "occurrence_key": "2026-10-30T09:30",
+              "title": "Design review",
+              "start": "2026-10-30T01:30:00.000000Z",
+              "end": "2026-10-30T02:00:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T09:30",
+              "end_local": "2026-10-30T10:00"
+            },
+            {
+              "id": "a1f2b0ff21b847d2947f561f02b8c7ad",
+              "version": 1,
+              "occurrence_key": "2026-10-30T14:00",
+              "title": "Project check-in",
+              "start": "2026-10-30T06:00:00.000000Z",
+              "end": "2026-10-30T06:30:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T14:00",
+              "end_local": "2026-10-30T14:30"
+            },
+            {
+              "id": "6a7c1dc29c2d4f88b8f895178a263001",
+              "version": 1,
+              "occurrence_key": "2026-10-30T16:00",
+              "title": "Software demo",
+              "start": "2026-10-30T08:00:00.000000Z",
+              "end": "2026-10-30T08:30:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T16:00",
+              "end_local": "2026-10-30T16:30"
+            }
+          ]
+        }
+      }
+    ],
+    "active_memories": [],
+    "pending_proposals": []
+  },
+  "measurement": "Paced synthetic PCM, network-received audio above RMS100; not DAC playback or human-use latency.",
+  "case": "calendar-en",
+  "run_id": "live-en-01",
+  "reserved_usd": 0.25,
+  "synthetic_input": "Please check tomorrow's meetings. How many are there, and when do they start?",
+  "cost_note": "Recomputed with conservative cache-write pricing; original estimate 0.007835400000000001",
+  "valid_for_quality_comparison": false,
+  "exclusion_reason": "Initial harness closed in pause between acknowledgment and the full spoken backend answer."
+}

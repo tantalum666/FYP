@@ -26,6 +26,51 @@
 .phone-app select {
   -webkit-tap-highlight-color: transparent;
 }
+.phone-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  background: #faf9f6;
+  color: #252b37;
+}
+.phone-screen-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: max(12px, env(safe-area-inset-top)) 16px 12px;
+  border-bottom: 1px solid #e8e7e3;
+  flex: 0 0 auto;
+}
+.phone-screen-header h1 {
+  font-size: 20px;
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+.phone-screen-content {
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 20px 20px max(24px, env(safe-area-inset-bottom));
+  min-height: 0;
+  flex: 1;
+}
+.phone-screen-footer {
+  padding: 0 20px 12px;
+}
+.phone-screen .task-heading h1,
+.phone-screen .task-heading .workspace-eyebrow {
+  display: none;
+}
+.phone-screen .standard-page {
+  padding: 0;
+}
+.phone-screen .page-heading {
+  padding-top: 0;
+}
+.phone-leave-prompt {
+  padding: 14px 0;
+}
 .phone-scene {
   position: absolute;
   inset: 10% -7% 13%;
@@ -349,26 +394,6 @@
   background: #08131dcc;
   backdrop-filter: blur(8px);
 }
-.phone-surface .phone-sheet {
-  width: 100%;
-  max-width: 700px;
-  height: calc(100dvh - env(safe-area-inset-top) - 24px);
-  max-height: calc(100dvh - env(safe-area-inset-top) - 24px);
-  margin: auto auto 0;
-  background: #faf9f5;
-  color: #283442;
-}
-.phone-surface .phone-sheet > .dialog-header {
-  padding: 16px 20px;
-  border-bottom: 1px solid #e3e5e2;
-}
-.phone-surface .phone-sheet > .dialog-header h2 {
-  font-size: 20px;
-  font-weight: 550;
-}
-.phone-surface .phone-sheet > .dialog-body {
-  padding: 18px 20px max(24px, env(safe-area-inset-bottom));
-}
 .phone-surface .dialog .icon-button,
 .phone-surface .dialog button,
 .phone-surface .dialog select {
@@ -594,7 +619,7 @@
   .phone-day-hint {
     top: auto;
   }
-  .phone-surface .phone-sheet > .dialog-body {
+  .phone-screen-content {
     padding-left: 15px;
     padding-right: 15px;
   }
@@ -625,4 +650,34 @@
 }
 .phone-plan-edit-status {
   margin: -4px 0 14px;
+}
+
+.phone-screen button,
+.phone-screen select {
+  min-height: 44px;
+}
+.phone-screen input,
+.phone-screen textarea,
+.phone-screen select {
+  font-size: 16px;
+}
+.phone-screen-header h1:focus {
+  outline: none;
+}
+
+.phone-screen .standard-page > .page-heading h1 {
+  display: none;
+}
+
+.phone-assistant.expanded .assistant-toolbar button,
+.phone-app .permission-control > summary {
+  min-height: 44px;
+}
+
+.phone-app .permission-popover {
+  max-height: min(
+    60dvh,
+    480px,
+    calc(var(--phone-viewport-height, 100dvh) - 132px)
+  );
 }

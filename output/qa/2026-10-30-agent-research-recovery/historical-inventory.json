@@ -1,0 +1,191 @@
+{
+  "source_pr": 5,
+  "source_pr_open": true,
+  "source_pr_merged": false,
+  "files": [
+    {
+      "path": "research/2026-10-12-personal-agents/muse.md",
+      "source_commit": "11dc2b84cebe6e8250b28ca4442fc91f0dfec676",
+      "git_blob": "2b31a23253505a614c90fbb2440aa2cfd3cec4da",
+      "sha256": "118a55d018ae71a0f5b6e416ce8af2ccd0b811a281c19dfd44791264b97d98d6",
+      "lines": 264,
+      "bytes": 37355,
+      "current_checkout_before": false,
+      "recovered_sha256": "34dc8c603ad5c603e5177fadcaf0fab013cd6525b012b526723431d5c6e0cede",
+      "link_updates": [],
+      "transformation": "Historical banner, pinned links outside the six restored reports, and trailing-whitespace normalization; original narrative retained."
+    },
+    {
+      "path": "research/2026-10-12-personal-agents/muse-capability-gap.md",
+      "source_commit": "11dc2b84cebe6e8250b28ca4442fc91f0dfec676",
+      "git_blob": "85c3bb24ef8b4509f611051b72a5db4b32577506",
+      "sha256": "92b9b11906a06800233185c4f2e3c8c8da5bb307d741c5b01e9bc46ee63bfddf",
+      "lines": 252,
+      "bytes": 45312,
+      "current_checkout_before": false,
+      "recovered_sha256": "cd7ad5d086a2daee09f2e27ebe3f98d49e208679a65048aa45f8c2e68a66fd3b",
+      "link_updates": [
+        {
+          "target": "../../planning/2026-10-12/personal-agent-implementation.md",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/planning/2026-10-12/personal-agent-implementation.md"
+        },
+        {
+          "target": "../../output/qa/2026-10-12-agent-kernel/checkpoint-verification.md",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/output/qa/2026-10-12-agent-kernel/checkpoint-verification.md"
+        },
+        {
+          "target": "../../desk-companion/docs/personal-context.md",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/docs/personal-context.md"
+        },
+        {
+          "target": "../../desk-companion/docs/task-tracking.md",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/docs/task-tracking.md"
+        },
+        {
+          "target": "../../desk-companion/docs/computer-jobs.md",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/docs/computer-jobs.md"
+        },
+        {
+          "target": "../../desk-companion/docs/routines.md",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/docs/routines.md"
+        },
+        {
+          "target": "../../desk-companion/docs/provider-policy.md",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/docs/provider-policy.md"
+        }
+      ],
+      "transformation": "Historical banner, pinned links outside the six restored reports, and trailing-whitespace normalization; original narrative retained. One equivalent prose phrase is recorded in text_updates.",
+      "text_updates": [
+        {
+          "to": "references to a credential vault, expiration and revocation",
+          "reason": "Equivalent prose rewrite; original span is identified by offsets/hash to avoid repeating a scanner false positive in this metadata. No credential was present.",
+          "source_start": 9467,
+          "source_end": 9513,
+          "source_phrase_sha256": "1ef6fbd0c2eb1a916ae9b6a28efd036003c7e930f3bd7a672d0c7c29ae05ea56"
+        }
+      ]
+    },
+    {
+      "path": "research/2026-10-12-personal-agents/dot.md",
+      "source_commit": "11dc2b84cebe6e8250b28ca4442fc91f0dfec676",
+      "git_blob": "422375aacceb6c541f1c647b10e6f823444490c6",
+      "sha256": "43ed0c02d3e64889f50cd1f504448b785e2ea3874e05f539a8a70ef81c030193",
+      "lines": 178,
+      "bytes": 34173,
+      "current_checkout_before": false,
+      "recovered_sha256": "30138664b8d81f34a2caa7b40ac012ca94dacda35f1b7360d98593fd1b3b50fe",
+      "link_updates": [],
+      "transformation": "Historical banner, pinned links outside the six restored reports, and trailing-whitespace normalization; original narrative retained."
+    },
+    {
+      "path": "research/2026-10-12-personal-agents/dot-capability-gap.md",
+      "source_commit": "11dc2b84cebe6e8250b28ca4442fc91f0dfec676",
+      "git_blob": "901a8dfdd66ec5ae55a1b7344310579824d10019",
+      "sha256": "a9bb03f94441e0e81b4c0db3362d6023d86ebb1fe5945996c82c7b0692a23567",
+      "lines": 255,
+      "bytes": 36223,
+      "current_checkout_before": false,
+      "recovered_sha256": "72114e7d79e12dd3d4446ee0ad90d310246f7678fe98379580ba3fb095e249a9",
+      "link_updates": [
+        {
+          "target": "../../output/qa/2026-10-12-agent-kernel/checkpoint-verification.md",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/output/qa/2026-10-12-agent-kernel/checkpoint-verification.md"
+        },
+        {
+          "target": "../../desk-companion/docs/computer-jobs.md",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/docs/computer-jobs.md"
+        },
+        {
+          "target": "../../desk-companion/backend/desk/text_ai.py",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/backend/desk/text_ai.py"
+        },
+        {
+          "target": "../../desk-companion/backend/desk/assistant.py",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/backend/desk/assistant.py"
+        },
+        {
+          "target": "../../desk-companion/backend/desk/jobs.py",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/backend/desk/jobs.py"
+        },
+        {
+          "target": "../../desk-companion/backend/desk/executor_registry.py",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/backend/desk/executor_registry.py"
+        },
+        {
+          "target": "../../desk-companion/backend/desk/application_executor.py",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/backend/desk/application_executor.py"
+        },
+        {
+          "target": "../../desk-companion/backend/desk/routines.py",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/backend/desk/routines.py"
+        },
+        {
+          "target": "../../desk-companion/docs/routines.md",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/docs/routines.md"
+        },
+        {
+          "target": "../../desk-companion/backend/desk/context.py",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/backend/desk/context.py"
+        },
+        {
+          "target": "../../desk-companion/backend/desk/conversations.py",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/backend/desk/conversations.py"
+        },
+        {
+          "target": "../../desk-companion/docs/personal-context.md",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/docs/personal-context.md"
+        },
+        {
+          "target": "../../desk-companion/backend/desk/google_calendar.py",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/backend/desk/google_calendar.py"
+        },
+        {
+          "target": "../../desk-companion/backend/desk/voice.py",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/backend/desk/voice.py"
+        },
+        {
+          "target": "../../desk-companion/backend/desk/tool_dispatch.py",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/backend/desk/tool_dispatch.py"
+        },
+        {
+          "target": "../../desk-companion/docs/operator-guide.md",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/desk-companion/docs/operator-guide.md"
+        },
+        {
+          "target": "../../output/qa/2026-10-12-agent-kernel/checkpoint-verification.md",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/output/qa/2026-10-12-agent-kernel/checkpoint-verification.md"
+        }
+      ],
+      "transformation": "Historical banner, pinned links outside the six restored reports, and trailing-whitespace normalization; original narrative retained."
+    },
+    {
+      "path": "research/2026-10-12-personal-agents/grok.md",
+      "source_commit": "11dc2b84cebe6e8250b28ca4442fc91f0dfec676",
+      "git_blob": "3169a5d1a206112d11ee01b111073c35656a7d2f",
+      "sha256": "b64cc78219b1ffb51574cdbc88b932e6531814afe39c20a7b2be0249b6a64c61",
+      "lines": 259,
+      "bytes": 33220,
+      "current_checkout_before": false,
+      "recovered_sha256": "c88c520aa0ec940cea963fd47a0efbc805b5a488a74c48662123555908d2ec6d",
+      "link_updates": [],
+      "transformation": "Historical banner, pinned links outside the six restored reports, and trailing-whitespace normalization; original narrative retained."
+    },
+    {
+      "path": "research/2026-10-12-personal-agents/grok-capability-gap.md",
+      "source_commit": "11dc2b84cebe6e8250b28ca4442fc91f0dfec676",
+      "git_blob": "3740a9fb38fba627e5486bf14c4438bf0c414add",
+      "sha256": "4afab24a625bc3f07cfba977d92d356c772593f34dc98719101063fd7cf3df71",
+      "lines": 96,
+      "bytes": 18944,
+      "current_checkout_before": false,
+      "recovered_sha256": "3050d3f846528420e802202e5d8b5e725c73838bb4f035d487c946747dd203bc",
+      "link_updates": [
+        {
+          "target": "bounded-browser-options.md",
+          "replacement": "https://github.com/tantalum666/FYP/blob/11dc2b84cebe6e8250b28ca4442fc91f0dfec676/research/2026-10-12-personal-agents/bounded-browser-options.md"
+        }
+      ],
+      "transformation": "Historical banner, pinned links outside the six restored reports, and trailing-whitespace normalization; original narrative retained."
+    }
+  ]
+}

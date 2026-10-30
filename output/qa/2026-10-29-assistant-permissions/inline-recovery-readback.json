@@ -1,0 +1,17 @@
+{
+  "job_id": "e975fab145b7427eb7a8dc4b8fa78f87",
+  "state": "succeeded",
+  "authorization": {
+    "mode": "once"
+  },
+  "one_job": true,
+  "bytes": 83,
+  "sha256": "f9b47c429765546d3725a307e642176f1bc380feed4651e84cd91318a63f692e",
+  "final_permissions": {
+    "mode": "ask",
+    "version": 5,
+    "updated_at": "2026-10-29T05:28:36.567483Z"
+  },
+  "unsent_draft_preserved_in_ui": true,
+  "raw_cdp_interception_cleared": true
+}

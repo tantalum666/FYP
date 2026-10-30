@@ -1,0 +1,8 @@
+{
+  "diagnostic_copy_only": true,
+  "starts_after_guard_fix_and_migration": true,
+  "schema_version": 3,
+  "current_owner_facts_still_stored": 1,
+  "visible_to_old_memory_api": 0,
+  "old_personal_memories_rows": 0
+}

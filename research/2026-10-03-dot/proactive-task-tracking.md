@@ -2,6 +2,8 @@
 
 日期：2026-10-03。状态：**HISTORICAL_FEASIBILITY_BASELINE — 首版已在后续同日实施**。
 
+30 日恢复入口：[三家个人 Agent 研究与当前实现对照](../personal-agent-research-index.md)。原研究日期和原始证据保留。
+
 **当前路由：**用户随后明确要求先增强软件再审查UI／UX，现已完成[主动事务首版](../../desk-companion/docs/task-tracking.md)及[交互审查](../../output/qa/task-enhancement-ux-2026-10-03/verification.md)。以下“尚未开发／建议”描述本次研究开始时的状态；结构化事务、持久调度、三端入口和可选文字适配现已落地，外部来源监控和付费模型实测仍未完成。
 
 用户询问新推出的 Dot 能否自动跟踪事务，并明确所指是 Codex／ChatGPT 中的 Your dot。本轮核对官方资料和当前 Desk Companion 代码，提出扩展方案；没有开启任何实际跟踪、读取个人邮件、修改应用行为或更换学校 Proposal。持续坐姿检测、反馈与复测仍为必做。

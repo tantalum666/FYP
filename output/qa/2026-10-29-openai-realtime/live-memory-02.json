@@ -1,0 +1,656 @@
+{
+  "model": "gpt-live-1",
+  "backend_model": "gpt-6-luna",
+  "language_mode": "zh",
+  "harness_protocol": "v3-live-memory-ack",
+  "ready": true,
+  "end_reason": "quiet_after_reply",
+  "errors": [],
+  "elapsed_s": 25.9481,
+  "input_end_s": 5.4093,
+  "first_non_silent_output_s": 7.3481,
+  "first_audio_after_input_s": 1.9388,
+  "interrupt_at_s": null,
+  "voice_usage_seconds": 22.0,
+  "provider_usage": {
+    "resp_02c0f353b6d8a48d006ae353a1813c87d0aa7ada3893f63068": {
+      "input_tokens": 1180,
+      "input_tokens_details": {
+        "cache_write_tokens": 1051,
+        "cached_tokens": 0
+      },
+      "output_tokens": 89,
+      "output_tokens_details": {
+        "reasoning_tokens": 54
+      },
+      "total_tokens": 1269
+    },
+    "resp_02c0f353b6d8a48d006ae353a3f51487d0ae52da00c42bf98d": {
+      "input_tokens": 1465,
+      "input_tokens_details": {
+        "cache_write_tokens": 411,
+        "cached_tokens": 1051
+      },
+      "output_tokens": 42,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 1507
+    }
+  },
+  "usage_finalized": true,
+  "estimated_uncached_usd": 0.018882633333333333,
+  "transcript": "好的,我明白了,我来准备一份记忆草稿,你的虚构项目代号是“蓝色云雀”。草稿还需要你在屏幕上批准后才能确认。",
+  "transcript_events": [
+    {
+      "at": 7.1566,
+      "text": "好的",
+      "response_id": null,
+      "start_ms": 5200,
+      "end_ms": 5400
+    },
+    {
+      "at": 7.4827,
+      "text": ",",
+      "response_id": null,
+      "start_ms": 5600,
+      "end_ms": 5800
+    },
+    {
+      "at": 7.7198,
+      "text": "我",
+      "response_id": null,
+      "start_ms": 5800,
+      "end_ms": 6000
+    },
+    {
+      "at": 7.8872,
+      "text": "明",
+      "response_id": null,
+      "start_ms": 6000,
+      "end_ms": 6200
+    },
+    {
+      "at": 8.3402,
+      "text": "白",
+      "response_id": null,
+      "start_ms": 6200,
+      "end_ms": 6400
+    },
+    {
+      "at": 8.3426,
+      "text": "了",
+      "response_id": null,
+      "start_ms": 6400,
+      "end_ms": 6600
+    },
+    {
+      "at": 8.5271,
+      "text": ",",
+      "response_id": null,
+      "start_ms": 6600,
+      "end_ms": 6800
+    },
+    {
+      "at": 8.8646,
+      "text": "我",
+      "response_id": null,
+      "start_ms": 6800,
+      "end_ms": 7000
+    },
+    {
+      "at": 8.8647,
+      "text": "来",
+      "response_id": null,
+      "start_ms": 7000,
+      "end_ms": 7200
+    },
+    {
+      "at": 9.249,
+      "text": "准备",
+      "response_id": null,
+      "start_ms": 7400,
+      "end_ms": 7600
+    },
+    {
+      "at": 9.5769,
+      "text": "一",
+      "response_id": null,
+      "start_ms": 7800,
+      "end_ms": 8000
+    },
+    {
+      "at": 9.7426,
+      "text": "份",
+      "response_id": null,
+      "start_ms": 8000,
+      "end_ms": 8200
+    },
+    {
+      "at": 10.0919,
+      "text": "记",
+      "response_id": null,
+      "start_ms": 8400,
+      "end_ms": 8600
+    },
+    {
+      "at": 10.4358,
+      "text": "忆草",
+      "response_id": null,
+      "start_ms": 8800,
+      "end_ms": 9000
+    },
+    {
+      "at": 10.79,
+      "text": "稿",
+      "response_id": null,
+      "start_ms": 9200,
+      "end_ms": 9400
+    },
+    {
+      "at": 11.5069,
+      "text": ",",
+      "response_id": null,
+      "start_ms": 10000,
+      "end_ms": 10200
+    },
+    {
+      "at": 11.6653,
+      "text": "你的",
+      "response_id": null,
+      "start_ms": 10200,
+      "end_ms": 10400
+    },
+    {
+      "at": 11.8392,
+      "text": "虚",
+      "response_id": null,
+      "start_ms": 10400,
+      "end_ms": 10600
+    },
+    {
+      "at": 12.198,
+      "text": "构项目",
+      "response_id": null,
+      "start_ms": 10800,
+      "end_ms": 11000
+    },
+    {
+      "at": 12.7108,
+      "text": "代",
+      "response_id": null,
+      "start_ms": 11400,
+      "end_ms": 11600
+    },
+    {
+      "at": 12.8914,
+      "text": "号",
+      "response_id": null,
+      "start_ms": 11600,
+      "end_ms": 11800
+    },
+    {
+      "at": 13.2631,
+      "text": "是",
+      "response_id": null,
+      "start_ms": 12000,
+      "end_ms": 12200
+    },
+    {
+      "at": 13.5803,
+      "text": "“",
+      "response_id": null,
+      "start_ms": 12400,
+      "end_ms": 12600
+    },
+    {
+      "at": 13.7087,
+      "text": "蓝",
+      "response_id": null,
+      "start_ms": 12600,
+      "end_ms": 12800
+    },
+    {
+      "at": 13.9251,
+      "text": "色",
+      "response_id": null,
+      "start_ms": 12800,
+      "end_ms": 13000
+    },
+    {
+      "at": 14.2498,
+      "text": "云",
+      "response_id": null,
+      "start_ms": 13200,
+      "end_ms": 13400
+    },
+    {
+      "at": 14.665,
+      "text": "雀",
+      "response_id": null,
+      "start_ms": 13600,
+      "end_ms": 13800
+    },
+    {
+      "at": 14.8489,
+      "text": "”。",
+      "response_id": null,
+      "start_ms": 13800,
+      "end_ms": 14000
+    },
+    {
+      "at": 15.68,
+      "text": "草",
+      "response_id": null,
+      "start_ms": 14600,
+      "end_ms": 14800
+    },
+    {
+      "at": 15.8214,
+      "text": "稿",
+      "response_id": null,
+      "start_ms": 14800,
+      "end_ms": 15000
+    },
+    {
+      "at": 16.3592,
+      "text": "还",
+      "response_id": null,
+      "start_ms": 15200,
+      "end_ms": 15400
+    },
+    {
+      "at": 16.5226,
+      "text": "需要",
+      "response_id": null,
+      "start_ms": 15400,
+      "end_ms": 15600
+    },
+    {
+      "at": 16.7298,
+      "text": "你",
+      "response_id": null,
+      "start_ms": 15600,
+      "end_ms": 15800
+    },
+    {
+      "at": 16.8139,
+      "text": "在",
+      "response_id": null,
+      "start_ms": 15800,
+      "end_ms": 16000
+    },
+    {
+      "at": 16.9996,
+      "text": "屏",
+      "response_id": null,
+      "start_ms": 16000,
+      "end_ms": 16200
+    },
+    {
+      "at": 17.253,
+      "text": "幕",
+      "response_id": null,
+      "start_ms": 16200,
+      "end_ms": 16400
+    },
+    {
+      "at": 17.3858,
+      "text": "上",
+      "response_id": null,
+      "start_ms": 16400,
+      "end_ms": 16600
+    },
+    {
+      "at": 17.5993,
+      "text": "批准",
+      "response_id": null,
+      "start_ms": 16600,
+      "end_ms": 16800
+    },
+    {
+      "at": 17.9393,
+      "text": "后",
+      "response_id": null,
+      "start_ms": 17000,
+      "end_ms": 17200
+    },
+    {
+      "at": 18.1813,
+      "text": "才能",
+      "response_id": null,
+      "start_ms": 17200,
+      "end_ms": 17400
+    },
+    {
+      "at": 18.3006,
+      "text": "确认",
+      "response_id": null,
+      "start_ms": 17400,
+      "end_ms": 17600
+    },
+    {
+      "at": 18.8954,
+      "text": "。",
+      "response_id": null,
+      "start_ms": 18000,
+      "end_ms": 18200
+    }
+  ],
+  "events": [
+    {
+      "type": "session.started",
+      "at": 1.3081
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 2.6191,
+      "text": "请"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 2.8158,
+      "text": "记"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 2.9703,
+      "text": "住"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 3.6222,
+      "text": ",我的"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 3.9713,
+      "text": "虚"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.0285,
+      "text": "构"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.4676,
+      "text": "项目"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.5134,
+      "text": "代"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.9816,
+      "text": "号"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 5.0783,
+      "text": "是"
+    },
+    {
+      "type": "fixture.input_end",
+      "at": 5.4093
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 5.4897,
+      "text": "“蓝色"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 5.9142,
+      "text": "云"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 6.0764,
+      "text": "雀"
+    },
+    {
+      "type": "session.delegation.created",
+      "at": 7.0969
+    },
+    {
+      "type": "response.created",
+      "at": 7.0999,
+      "id": "resp_02c0f353b6d8a48d006ae353a1813c87d0aa7ada3893f63068"
+    },
+    {
+      "type": "response.completed",
+      "at": 9.1837,
+      "id": "resp_02c0f353b6d8a48d006ae353a1813c87d0aa7ada3893f63068",
+      "status": "completed",
+      "status_details": null
+    },
+    {
+      "type": "fixture.tool_result",
+      "name": "memory_save_draft",
+      "at": 9.1902,
+      "saved": false
+    },
+    {
+      "type": "response.created",
+      "at": 9.5669,
+      "id": "resp_02c0f353b6d8a48d006ae353a3f51487d0ae52da00c42bf98d"
+    },
+    {
+      "type": "response.completed",
+      "at": 10.6162,
+      "id": "resp_02c0f353b6d8a48d006ae353a3f51487d0ae52da00c42bf98d",
+      "status": "completed",
+      "status_details": null
+    },
+    {
+      "type": "session.closed",
+      "at": 23.9464,
+      "reason": "close_requested",
+      "usage": {
+        "seconds": 22.0
+      }
+    }
+  ],
+  "backend_text_events": [
+    {
+      "at": 10.0918,
+      "text": "我"
+    },
+    {
+      "at": 10.0918,
+      "text": "会"
+    },
+    {
+      "at": 10.0918,
+      "text": "为"
+    },
+    {
+      "at": 10.0919,
+      "text": "你"
+    },
+    {
+      "at": 10.0919,
+      "text": "准备"
+    },
+    {
+      "at": 10.0919,
+      "text": "一"
+    },
+    {
+      "at": 10.0919,
+      "text": "条"
+    },
+    {
+      "at": 10.1039,
+      "text": "记"
+    },
+    {
+      "at": 10.1066,
+      "text": "忆"
+    },
+    {
+      "at": 10.1137,
+      "text": "草"
+    },
+    {
+      "at": 10.1328,
+      "text": "稿"
+    },
+    {
+      "at": 10.1414,
+      "text": "："
+    },
+    {
+      "at": 10.1436,
+      "text": "你的"
+    },
+    {
+      "at": 10.1437,
+      "text": "虚"
+    },
+    {
+      "at": 10.177,
+      "text": "构"
+    },
+    {
+      "at": 10.1799,
+      "text": "项目"
+    },
+    {
+      "at": 10.18,
+      "text": "代"
+    },
+    {
+      "at": 10.1826,
+      "text": "号"
+    },
+    {
+      "at": 10.1939,
+      "text": "是"
+    },
+    {
+      "at": 10.1997,
+      "text": "“"
+    },
+    {
+      "at": 10.1997,
+      "text": "蓝"
+    },
+    {
+      "at": 10.2169,
+      "text": "色"
+    },
+    {
+      "at": 10.2228,
+      "text": "云"
+    },
+    {
+      "at": 10.2262,
+      "text": "雀"
+    },
+    {
+      "at": 10.2285,
+      "text": "”。"
+    },
+    {
+      "at": 10.2417,
+      "text": "草"
+    },
+    {
+      "at": 10.2478,
+      "text": "稿"
+    },
+    {
+      "at": 10.2631,
+      "text": "尚"
+    },
+    {
+      "at": 10.277,
+      "text": "未"
+    },
+    {
+      "at": 10.2794,
+      "text": "保存"
+    },
+    {
+      "at": 10.2922,
+      "text": "，需要"
+    },
+    {
+      "at": 10.3219,
+      "text": "你"
+    },
+    {
+      "at": 10.3318,
+      "text": "在"
+    },
+    {
+      "at": 10.3413,
+      "text": "屏"
+    },
+    {
+      "at": 10.3431,
+      "text": "幕"
+    },
+    {
+      "at": 10.4358,
+      "text": "上"
+    },
+    {
+      "at": 10.4358,
+      "text": "批准"
+    },
+    {
+      "at": 10.4358,
+      "text": "。"
+    }
+  ],
+  "business_evidence": {
+    "tools": [
+      {
+        "name": "memory_save_draft",
+        "result": {
+          "operation_id": "fx/98f5575f3d92f1418cb4529f537ba012e5c988811ea48dd29f7a8d044309f26f",
+          "proposal": {
+            "created_at": "2026-10-29T02:00:00.000000Z",
+            "data": {
+              "body": "用户的虚构项目代号是“蓝色云雀”。",
+              "note": "",
+              "origin": "assistant_confirmed"
+            },
+            "expires_at": "2026-10-29T02:05:00.000000Z",
+            "id": "f6c5fe83f9464362a6a151dfc27dded3",
+            "kind": "memory_save",
+            "state": "pending"
+          },
+          "revision": 5,
+          "saved": false,
+          "superseded_ids": []
+        }
+      }
+    ],
+    "active_memories": [],
+    "pending_proposals": [
+      {
+        "id": "f6c5fe83f9464362a6a151dfc27dded3",
+        "kind": "memory_save",
+        "state": "pending",
+        "expires_at": "2026-10-29T02:05:00.000000Z",
+        "created_at": "2026-10-29T02:00:00.000000Z",
+        "data": {
+          "body": "用户的虚构项目代号是“蓝色云雀”。",
+          "note": "",
+          "origin": "assistant_confirmed"
+        }
+      }
+    ]
+  },
+  "measurement": "Paced synthetic PCM, network-received audio above RMS100; not DAC playback or human-use latency.",
+  "case": "memory-zh",
+  "run_id": "live-memory-02",
+  "reserved_usd": 0.25,
+  "synthetic_input": "请记住，我的虚构项目代号是蓝色云雀。"
+}

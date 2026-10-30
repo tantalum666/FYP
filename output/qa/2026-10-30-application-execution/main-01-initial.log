@@ -1,0 +1,13 @@
+{"stage": "budget", "state": "failed", "error": "APPLICATION_BRIDGE_FAILED", "id": "a4161e8fdc1c43b6914781de4028db40"}
+Traceback (most recent call last):
+  File "/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/scripts/application_acceptance.py", line 347, in <module>
+    main()
+    ~~~~^^
+  File "/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/scripts/application_acceptance.py", line 343, in main
+    getattr(controller, args.phase)()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/scripts/application_acceptance.py", line 241, in initial
+    budget = self.step("budget", self.workbook(), "Build the initial comparison workbook")
+  File "/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/scripts/application_acceptance.py", line 100, in step
+    raise RuntimeError("Application step did not succeed: " + str(job["error"]))
+RuntimeError: Application step did not succeed: APPLICATION_BRIDGE_FAILED

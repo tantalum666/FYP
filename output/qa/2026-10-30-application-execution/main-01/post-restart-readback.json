@@ -1,0 +1,27 @@
+{
+  "budget": {
+    "id": "3da9c4ba30974daa8e0f8df6f7d9a025",
+    "verified": true,
+    "sha256": "2646daed43aef3abbe0e45eea94bf3d5700e526257b58f7c15d9be93429c55c3"
+  },
+  "brief": {
+    "id": "1b1a1a69899f42dabb9293b2a33c7115",
+    "verified": true,
+    "sha256": "7a88d9eb7b5062756aef2d253551c6d15dbb151f71ee0e173d37c7fcf6bb9bd5"
+  },
+  "pdf": {
+    "id": "66a9a4173c7a459d825d9fdc5935cf08",
+    "verified": true,
+    "sha256": "f46fbb046731aeb22f208ecca37d144bd5870d3e54c22806b6cd57008f8e2bec"
+  },
+  "plan": {
+    "id": "57e45cce1f7b413eacbc500866e54b60",
+    "verified": true,
+    "sha256": "32cda46e4e84bc8741db738eb3da1e8b6a4d35e3177e019a7abdded007e8ea0e"
+  },
+  "email": {
+    "id": "d7eabfe902684013956cb908a539ce74",
+    "verified": true,
+    "sha256": "32e337d03634494569d8baf9e4ef70abfd0ecc7845b69273801b9adf23beb3bb"
+  }
+}

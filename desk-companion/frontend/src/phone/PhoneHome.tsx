@@ -29,6 +29,7 @@ export function PhoneHome({
     <>
       <div
         className="phone-scene"
+        aria-hidden={obscured}
         aria-label={t("Alice, your desk companion", "Alice，你的桌面伙伴")}
         role="img"
       >

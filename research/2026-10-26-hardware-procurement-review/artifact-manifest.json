@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-26",
+  "files": [
+    {
+      "path": "FYP_hardware_procurement_teacher_review_20261026.pdf",
+      "bytes": 9537272,
+      "sha256": "6cca77bdef39ba0ac0bf6cda73350f99f627f0a339cb8d041000ac32843fa149",
+      "git_blob_sha": "02fcad3dd5f6f604c13b2eee22c839229d32f8a4"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4164,
+      "sha256": "4285158f01c4c012f144aeff16725f7d7cc86cafcb54c52b9bf37b05290372f2",
+      "git_blob_sha": "16097dd593dbc0c6aacd928ea1a4026849013cce"
+    },
+    {
+      "path": "assembly-and-verification.md",
+      "bytes": 4507,
+      "sha256": "a84daa32c722e1cad12c43fa76877ee7621ede1aa93787ebc34f9bd599eb81b4",
+      "git_blob_sha": "a9bee31d738d3132cb9c108c46ff90891d2385aa"
+    },
+    {
+      "path": "procurement-list.json",
+      "bytes": 12898,
+      "sha256": "5a906bc46c7bbfde8910aaa60a99175aed3b15f5420037ffb299c438170add62",
+      "git_blob_sha": "a444352f4da2e0b69cd75a675131388765bce144"
+    }
+  ],
+  "manifest_excludes_itself": true,
+  "pdf_copied_byte_identically": true,
+  "pdf_qa": {
+    "pages": 5,
+    "photos": 8,
+    "links": 15,
+    "visual_review_pages": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "review_origin": "same_conversation_teacher_review_creation",
+    "regenerated_during_upload": false
+  },
+  "budget_fully_costed": false,
+  "hardware_tested": false
+}

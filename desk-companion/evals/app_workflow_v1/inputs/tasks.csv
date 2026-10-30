@@ -1,0 +1,12 @@
+id,title,owner,status,remaining_hours,depends_on,updated_at
+T01,Permission controls,A,completed,0,,2026-10-29T09:00:00+08:00
+T02,Voice candidate review,A,completed,0,T01,2026-10-27T09:00:00+08:00
+T02,Voice candidate review,A,in_progress,3,T01,2026-10-29T10:00:00+08:00
+T03,Desktop application workflow,B,todo,4,T01,2026-10-29T09:00:00+08:00
+T04,Recovery boundary checks,A,in_progress,2,T01,2026-10-29T09:00:00+08:00
+T05,Mobile usability review,C,todo,2,T01,2026-10-29T09:00:00+08:00
+T06,Demo presentation draft,C,todo,2,T02;T03;T05,2026-10-29T09:00:00+08:00
+T07,Rehearsal preparation,B,in_progress,2,T06,2026-10-27T09:00:00+08:00
+T07,Rehearsal preparation,B,todo,1.5,T06,2026-10-29T11:00:00+08:00
+T08,Package demo artifacts,A,todo,1,T06;T07,2026-10-29T09:00:00+08:00
+T09,Review print proposal,C,todo,1,T06,2026-10-29T09:00:00+08:00

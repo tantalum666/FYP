@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/scripts/application_acceptance.py", line 359, in <module>
+    main()
+    ~~~~^^
+  File "/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/scripts/application_acceptance.py", line 355, in main
+    getattr(controller, args.phase)()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/scripts/application_acceptance.py", line 296, in recover
+    assert result["state"] == "succeeded" and path.stat().st_mtime_ns == lost["mtime_ns"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

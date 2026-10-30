@@ -4,7 +4,7 @@
 > 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
 <!-- /FYP-CONTEXT-20261027 -->
 
-2026-10-28，Group 2。原有两件**同一作业契约**上的本机写入：专用笔记目录，以及拥有者指定的一个真实文件夹。两者都要批准全文、独立读回和取消；现另加入受限Linux编辑器→浏览器流程。通用电脑操作、任意路径和 shell 仍未接入。软件在谁的主机运行，文件就写在该主机上，不能把本机保存称为远端 PC 控制。
+2026-10-30，Group 2。原有两件**同一作业契约**上的本机写入：专用笔记目录，以及拥有者指定的一个真实文件夹。两者都保留完整意图授权、独立读回和取消；现另加入受限Linux编辑器→浏览器流程。通用电脑操作、任意路径和 shell 仍未接入。软件在谁的主机运行，文件就写在该主机上，不能把本机保存称为远端 PC 控制。
 
 ## 在隔离目录试运行
 
@@ -20,13 +20,13 @@ DESK_RUNTIME_DIR="$PWD/.runtime/computer-demo" DESK_COMPUTER_ENABLED=1 \
   --host 127.0.0.1 --port 8831 --workers 1 --no-access-log
 ```
 
-打开`http://127.0.0.1:8831/`，以owner登录。新目录首次口令由服务生成，保存在该目录的`credentials.json`；不要上传该文件。打开助理，再找到Computer jobs：
+打开`http://127.0.0.1:8831/`，以owner登录。新目录首次口令由服务生成，保存在该目录的`credentials.json`；不要上传该文件。默认Ask first模式下，打开助理直接输入文件请求；也可在More → File activity手动准备：
 
 1. Prepare a note：输入虚构标题及完整文本，准备后还没有写入文件
-2. 核对全文及显示的生成文件名，选择Approve this job
+2. 在对话卡片核对全文与目标，选择Allow once；文件名／SHA等信息在Details
 3. 后台保存到`computer-demo/computer-notes/<作业ID>.txt`，独立读回一致后显示Verified、字节数及SHA256
 4. 文件内容即批准的文本，标题用于作业识别，不额外写入文件。可用系统文件工具另行读取核对
-5. Prepare another verification创建只读核验意图，仍需拥有者批准；不会修复、替换或覆盖文件
+5. Check the file again创建只读核验意图；这一手动准备入口仍保留单次批准；不会修复、替换或覆盖文件
 
 本地规则也接受`Save note: fictional text`／`保存笔记：虚构文本`，返回待审作业；自然语言模型默认关闭。关联事务入口使用当前task_id／version，保存文件不自动完成事务。
 
@@ -44,7 +44,7 @@ DESK_RUNTIME_DIR="$PWD/.runtime/computer-demo" DESK_COMPUTER_ENABLED=1 \
 
 ## 拥有者指定的一个文件夹
 
-笔记适配器仍由 `DESK_COMPUTER_ENABLED=1` 打开，目录固定在运行目录的 `computer-notes/`。文件夹适配器不看这个开关。拥有者在 Computer jobs 里填写名称和**绝对路径**后，服务才接受 `save_folder_file`。未指定时准备作业返回 `FOLDER_NOT_CONFIGURED`。
+笔记适配器仍由 `DESK_COMPUTER_ENABLED=1` 打开，目录固定在运行目录的 `computer-notes/`。文件夹适配器不看这个开关。拥有者在 File activity 的文件夹设置里填写名称和**绝对路径**后，服务才接受 `save_folder_file`。未指定时准备作业返回 `FOLDER_NOT_CONFIGURED`。
 
 路径必须是已经存在的真实目录，不能是符号链接，也不能是运行目录本身、它的上级或它里面的子目录。这样不会把文件写到 SQLite、凭据或专用笔记目录旁边。模型工具没有 path 字段；作业记录里只有文件夹名称和路径指纹，不保存路径字符串。配对显示屏不能改这个目录。
 
@@ -85,3 +85,15 @@ DESK_LINUX_DESKTOP_ENABLED=1另行启用linux_note_preview／verify_linux_file�
 业务备份可往返笔记、指定目录和 Linux 两类动作。导入先校验完整持久意图：action、task字段、artifact_id、executor／scope及内容摘要，不能把缺字段记录写入后才使管理页报错。非终态恢复为review，approved_by／run_id均不恢复；最终应用需要拥有者身份。
 
 导入的目录也必须走 accept_owner_folder：存在、绝对、逐级无链接、位于运行树之外，并重新计算路径指纹。复制另一个目录的指纹不能复用旧批准；执行前再次检查实际路径摘要。原先已存在的作业／目录保留，不覆盖。不存在或不安全的跨主机目录必须先由拥有者在目标主机处理，不能放宽验证来“完成恢复”。
+
+## 2026-10-29：对话内操作、权限与事务接续
+
+文件请求在同一助理中显示内容、Allow once／Not now、运行／停止、核验结果；File activity作为次级历史与目录管理入口，共用JobActionCard及请求契约。详情中的Check the file again读取当前事务版本，允许已完成／取消事务的新只读核验；新写入及旧版本仍拒绝。所有本地文件命令，包括Editor preview／编辑并预览，使用同一个事务范围解析函数。
+
+拥有者显式启用Full access后，新拥有者请求中的受支持作业可按该版本持续授权；旧待审作业不自动执行。排队自动作业在领取与执行前重核模式版本，撤回后返回PERMISSION_CHANGED。手动一次批准不被模式切换替代，已经写成的文件不声称回滚。具体范围见[权限契约](assistant-permissions.md)。
+
+事务详情仅向拥有者界面补可读标题，模型／常亮投影仍不带完整请求。TaskJobs显示文件结果并接回Alice；文件成功不自动完成事务。隔离实际旅程包含丢HTTP200响应、真实API重启、同键恢复、独立SHA／mtime不变及手机记录／完成；见[当前QA](../../output/qa/2026-10-29-assistant-permissions/verification.md)。
+
+## 2026-10-30 复杂任务门槛
+
+现有固定编辑器／浏览器路径降为冒烟检查。用户要求的下一主任务是[演示准备包](../../planning/2026-10-30/complex-application-acceptance.md)，涉及真实浏览器资料核对、Calc公式与版本保存、Writer／PDF，以及日历／事务更新和中断恢复。测试输入和离线参考已准备，后续[真实应用轮](../../output/qa/2026-10-30-application-execution/verification.md)通过受控脚本执行。新增单独的 ApplicationJobInput 与原六种 JobInput 并列，复用同一批准／队列／版本／未知结果读回；[应用执行契约](application-execution.md)记录实际 Calc／Writer／PDF、暂存与版本文件、来源哈希、阶段投影和重启恢复。脚本通过不代表语音 Agent 自主完成，正常 HTTP 模型仍需任务接续工作。

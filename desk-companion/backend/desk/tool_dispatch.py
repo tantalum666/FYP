@@ -19,6 +19,7 @@ from .tool_policy import discard_unapproved, execute_tool, kind_for, owner_messa
 class Invocation:
     event: dict
     signature: str
+    grant: object = None
     cancelled: threading.Event = field(default_factory=threading.Event)
     lock: threading.RLock = field(default_factory=threading.RLock)
     result: dict | None = None
@@ -27,9 +28,10 @@ class Invocation:
 
 
 class ToolDispatcher:
-    def __init__(self, runtime, session_id, *, allow_memory=True, language="en"):
+    def __init__(self, runtime, session_id, *, allow_memory=True, language="en", principal=None, task_id=None):
         self.runtime, self.session_id = runtime, session_id
         self.allow_memory = allow_memory
+        self.principal, self.task_id = principal, task_id
         self.language = "zh" if language == "zh" else "en"
         self.calls: dict[str, Invocation] = {}
         self.results = asyncio.Queue(maxsize=64)
@@ -126,12 +128,20 @@ class ToolDispatcher:
             self._audit_reject(event, "TOOLS_BUSY")
             self._enqueue(event, {"error": "TOOLS_BUSY", "saved": False})
             return
-        call = Invocation(event, signature)
+        grant = self.runtime.permissions.capture(self.principal, self.task_id) if self.principal else None
+        call = Invocation(event, signature, grant=grant)
         self.calls[call_id] = call
         call.task = asyncio.create_task(self._run(call))
 
     def _discard(self, result):
         discard_unapproved(self.runtime, result, "voice-discard")
+
+    @staticmethod
+    def _cancelled_result(result=None):
+        if result and result.get("authorization", {}).get("mode") == "full" and (result.get("saved") or result.get("queued")):
+            # Interruption cannot erase an already committed effect or its receipt.
+            return {**result, "error": "TOOL_CANCELLED", "interrupted": True}
+        return {"error": "TOOL_CANCELLED", "saved": False}
 
     def _invoke(self, call):
         if call.cancelled.is_set():
@@ -152,9 +162,15 @@ class ToolDispatcher:
                 channel="voice",
             )
         with call.lock:
+            from .capabilities import CAPABILITIES
+            capability = CAPABILITIES.get(call.event["name"])
+            if not call.cancelled.is_set() and call.grant is not None and capability and capability.risk == "draft":
+                result = self.runtime.permissions.apply_reply(
+                    result, call.grant, language=self.language, cancelled=call.cancelled.is_set,
+                )
             if call.cancelled.is_set():
                 self._discard(result)
-                result = {"error": "TOOL_CANCELLED", "saved": False}
+                result = self._cancelled_result(result)
             call.result = result
         return result
 
@@ -176,7 +192,7 @@ class ToolDispatcher:
                 call.cancelled.set()
                 self._discard(call.result)
                 if call.result is not None:
-                    call.result = {"error": "TOOL_CANCELLED", "saved": False}
+                    call.result = self._cancelled_result(call.result)
 
     async def cancel(self, ids=None):
         if ids is None:
@@ -190,10 +206,10 @@ class ToolDispatcher:
 
     def current_result(self, event, result):
         if event.get("_dispatch_generation", self.generation) != self.generation:
-            return {"error": "TOOL_CANCELLED", "saved": False}
+            return self._cancelled_result(result)
         call = self.calls.get(event["id"])
         if call and call.cancelled.is_set() and result.get("error") != "TOOL_CALL_CONFLICT":
-            return {"error": "TOOL_CANCELLED", "saved": False}
+            return self._cancelled_result(result)
         return result
 
     def delivered(self, call_id, result):

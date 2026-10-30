@@ -1,5 +1,7 @@
 # Companion architecture: hosted models, team-owned agent
 
+> **HISTORICAL — 14–15 October 2026.** Use the [current research entry](../../research/personal-agent-research-index.md) for product identity, current source checks and implementation priorities. Dated provider recommendations, budgets, missing-feature statements and old next steps below are not current instructions.
+
 Date: 14 October 2026. Group 2, Desk Companion. This note is for teammates and coding agents. It does not choose a vendor on the owner’s behalf, and it does not change the school proposal.
 
 **Review update, 15 October 2026.** PRs #7–#14 are merged into `main`. Memory, one owner-named folder, shared persona, quiet follow-ups, recovery copy and text adapters use the existing note-job contract. This PR #6 reconciles the dated research with those implementations and records the [independent review](../../output/qa/2026-10-15-grok-review-merge/verification.md). PRs #4 and #5 remain separate. Provider/model choice and a test-spend cap remain open. No hosted account was opened.
@@ -19,12 +21,14 @@ Date: 14 October 2026. Group 2, Desk Companion. This note is for teammates and c
 
 The product-facing teardown for this branch is [companion-product-teardown.md](companion-product-teardown.md) (14 October 2026). It identifies Meta Muse, separates ChatGPT “your dot” from New Computer’s Dot, and lists gaps and tasks against `main`. Read that file for features, personality, memory, proactivity, voice, hardware, and privacy. Do not add another survey.
 
-An earlier public-source study of Meta’s Muse, ChatGPT’s dot, and Grok Bot already exists on the unmerged branch `codex/personal-agent-kernel-20261012` (draft [PR #5](https://github.com/tantalum666/FYP/pull/5)). Those notes are not on `main`. They remain the interface-level study; this branch does not copy them:
+An earlier public-source study of Meta’s Muse, ChatGPT’s dot, and Grok Bot already exists on the unmerged branch `codex/personal-agent-kernel-20261012` (draft [PR #5](https://github.com/tantalum666/FYP/pull/5)). Those notes were absent from this checkout until the 30 October research recovery. The six reports are now available below with historical labels; PR #5 application code remains unmerged:
 
-- [Muse architecture and reusable interfaces](https://github.com/tantalum666/FYP/blob/codex/personal-agent-kernel-20261012/research/2026-10-12-personal-agents/muse.md) (12 October 2026)
-- [Muse capability gap](https://github.com/tantalum666/FYP/blob/codex/personal-agent-kernel-20261012/research/2026-10-12-personal-agents/muse-capability-gap.md)
-- [Dot and reusable agent primitives](https://github.com/tantalum666/FYP/blob/codex/personal-agent-kernel-20261012/research/2026-10-12-personal-agents/dot.md)
-- [Dot capability gap](https://github.com/tantalum666/FYP/blob/codex/personal-agent-kernel-20261012/research/2026-10-12-personal-agents/dot-capability-gap.md)
+- [Muse architecture and reusable interfaces](../../research/2026-10-12-personal-agents/muse.md) (12 October 2026)
+- [Muse capability gap](../../research/2026-10-12-personal-agents/muse-capability-gap.md)
+- [Dot and reusable agent primitives](../../research/2026-10-12-personal-agents/dot.md)
+- [Dot capability gap](../../research/2026-10-12-personal-agents/dot-capability-gap.md)
+- [Grok Bot mechanisms and interfaces](../../research/2026-10-12-personal-agents/grok.md)
+- [Grok Bot capability gap](../../research/2026-10-12-personal-agents/grok-capability-gap.md)
 
 On `main`, the earlier baseline is [Your dot feasibility](../../research/2026-10-03-dot/proactive-task-tracking.md). The 6 October product discussion is [personal-agent-discussion-and-next-steps.md](../../planning/2026-10-06/personal-agent-discussion-and-next-steps.md). Those files separate vendor claims from FYP design. This note only adds the inference, the reason binary reversing cannot see the server, the hosted-API shape, and a provider recommendation.
 

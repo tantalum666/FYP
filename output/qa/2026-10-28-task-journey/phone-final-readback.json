@@ -1,0 +1,140 @@
+{
+  "task": {
+    "check_in_local": null,
+    "completion_source": "user_confirmed",
+    "due_local": null,
+    "follow_up_enabled": false,
+    "interval_minutes": 1440,
+    "next_step": "Save the approved note, verify it, then review it on phone.",
+    "status": "completed",
+    "steps": [],
+    "timezone": "Asia/Hong_Kong",
+    "title": "Demo: prepare a software review note",
+    "visibility": "private",
+    "waiting_for": "",
+    "id": "132d1f2a33d24bcdbd70b4e07655f0ba",
+    "version": 3,
+    "next_check_at": null,
+    "created_at": "2026-10-28T14:47:55.688518Z",
+    "updated_at": "2026-10-29T00:50:10.451420Z",
+    "paused": false,
+    "due_at": null,
+    "overdue": false,
+    "redacted": false,
+    "followup": null
+  },
+  "evidence": [
+    {
+      "id": 3,
+      "task_id": "132d1f2a33d24bcdbd70b4e07655f0ba",
+      "at": "2026-10-29T00:50:10.451485Z",
+      "kind": "complete",
+      "note": "",
+      "task_version": 3,
+      "source": "user_confirmed"
+    },
+    {
+      "id": 2,
+      "task_id": "132d1f2a33d24bcdbd70b4e07655f0ba",
+      "at": "2026-10-29T00:50:04.994477Z",
+      "kind": "note",
+      "note": "Reviewed both saved files on phone after restart. The extra action was cancelled.",
+      "task_version": 2,
+      "source": "manual"
+    },
+    {
+      "id": 1,
+      "task_id": "132d1f2a33d24bcdbd70b4e07655f0ba",
+      "at": "2026-10-28T14:47:55.688573Z",
+      "kind": "created",
+      "note": "",
+      "task_version": 1,
+      "source": "manual"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "aed87e544c664f579db80e96f4014a90",
+      "state": "cancelled",
+      "version": 2,
+      "created_at": "2026-10-29T00:49:49.082399Z",
+      "updated_at": "2026-10-29T00:50:04.383227Z",
+      "expires_at": "2026-10-29T00:54:49.082412Z",
+      "deadline": null,
+      "error": "USER_CANCELLED",
+      "action": "save_note",
+      "task_id": "132d1f2a33d24bcdbd70b4e07655f0ba",
+      "cancel_requested": true,
+      "result": null
+    },
+    {
+      "id": "34bf42bfceff4f4cb1f89235110ca47f",
+      "state": "succeeded",
+      "version": 5,
+      "created_at": "2026-10-29T00:49:35.171185Z",
+      "updated_at": "2026-10-29T00:49:48.619820Z",
+      "expires_at": "2026-10-29T00:54:35.171204Z",
+      "deadline": "2026-10-29T00:50:48.536665Z",
+      "error": null,
+      "action": "verify_note",
+      "task_id": "132d1f2a33d24bcdbd70b4e07655f0ba",
+      "cancel_requested": false,
+      "result": {
+        "artifact": "96559f52d9c949578c8f62e30bb14798.txt",
+        "bytes": 117,
+        "executor": "local_notes_v1",
+        "reason": "read_back_matches",
+        "scope": "application_notes_only",
+        "sha256": "443fc3b410524d596f77d0d3ebca69407e12d5ada5edc6e38dbcc45694bc7a98",
+        "verified": true
+      }
+    },
+    {
+      "id": "5bbf370e7a264847a63318d76fd4b3ef",
+      "state": "succeeded",
+      "version": 5,
+      "created_at": "2026-10-28T14:59:56.427182Z",
+      "updated_at": "2026-10-28T15:00:45.334503Z",
+      "expires_at": "2026-10-28T15:04:56.427198Z",
+      "deadline": "2026-10-28T15:01:45.324514Z",
+      "error": null,
+      "action": "save_note",
+      "task_id": "132d1f2a33d24bcdbd70b4e07655f0ba",
+      "cancel_requested": false,
+      "result": {
+        "artifact": "5bbf370e7a264847a63318d76fd4b3ef.txt",
+        "bytes": 66,
+        "executor": "local_notes_v1",
+        "reason": "read_back_matches",
+        "scope": "application_notes_only",
+        "sha256": "967a984bd62d9a35ab1dd868db52ddc2b0eb79cbdfe462b1b43f2a529cdc1cf9",
+        "verified": true
+      }
+    },
+    {
+      "id": "96559f52d9c949578c8f62e30bb14798",
+      "state": "succeeded",
+      "version": 5,
+      "created_at": "2026-10-28T14:49:43.286943Z",
+      "updated_at": "2026-10-28T14:50:49.996369Z",
+      "expires_at": "2026-10-28T14:54:43.286975Z",
+      "deadline": "2026-10-28T14:51:49.609879Z",
+      "error": null,
+      "action": "save_note",
+      "task_id": "132d1f2a33d24bcdbd70b4e07655f0ba",
+      "cancel_requested": false,
+      "result": {
+        "artifact": "96559f52d9c949578c8f62e30bb14798.txt",
+        "bytes": 117,
+        "executor": "local_notes_v1",
+        "reason": "read_back_matches",
+        "scope": "application_notes_only",
+        "sha256": "443fc3b410524d596f77d0d3ebca69407e12d5ada5edc6e38dbcc45694bc7a98",
+        "verified": true
+      }
+    }
+  ],
+  "file_count": 2,
+  "original_files_unchanged": true,
+  "cancelled_file_absent": true
+}

@@ -1,0 +1,125 @@
+{
+  "job": {
+    "id": "96559f52d9c949578c8f62e30bb14798",
+    "state": "succeeded",
+    "version": 5,
+    "created_at": "2026-10-28T14:49:43.286943Z",
+    "updated_at": "2026-10-28T14:50:49.996369Z",
+    "expires_at": "2026-10-28T14:54:43.286975Z",
+    "deadline": "2026-10-28T14:51:49.609879Z",
+    "error": null,
+    "action": "save_note",
+    "task_id": "132d1f2a33d24bcdbd70b4e07655f0ba",
+    "cancel_requested": false,
+    "result": {
+      "artifact": "96559f52d9c949578c8f62e30bb14798.txt",
+      "bytes": 117,
+      "executor": "local_notes_v1",
+      "reason": "read_back_matches",
+      "scope": "application_notes_only",
+      "sha256": "443fc3b410524d596f77d0d3ebca69407e12d5ada5edc6e38dbcc45694bc7a98",
+      "verified": true
+    },
+    "request": {
+      "action": "save_note",
+      "artifact_id": "96559f52d9c949578c8f62e30bb14798",
+      "content": "Demo software review\nCheck the task, review the note, and verify the saved file.\n演示流程：批准后才保存。",
+      "executor": "local_notes_v1",
+      "scope": "application_notes_only",
+      "source_job_id": null,
+      "task_id": "132d1f2a33d24bcdbd70b4e07655f0ba",
+      "task_version": 1,
+      "title": "Demo software review"
+    },
+    "intent_hash": "a6fc702c92071d796a3e7ae00fdbeb4d7142be8176d7c883bdd6321a8cf3bbc7",
+    "history": [
+      {
+        "at": "2026-10-28T14:49:43.287010Z",
+        "state": "review",
+        "code": null
+      },
+      {
+        "at": "2026-10-28T14:50:49.609907Z",
+        "state": "queued",
+        "code": null
+      },
+      {
+        "at": "2026-10-28T14:50:49.991934Z",
+        "state": "running",
+        "code": null
+      },
+      {
+        "at": "2026-10-28T14:50:49.994708Z",
+        "state": "verifying",
+        "code": null
+      },
+      {
+        "at": "2026-10-28T14:50:49.996369Z",
+        "state": "succeeded",
+        "code": null
+      }
+    ]
+  },
+  "task_detail": {
+    "task": {
+      "check_in_local": null,
+      "due_local": null,
+      "follow_up_enabled": false,
+      "interval_minutes": 1440,
+      "next_step": "Save the approved note, verify it, then review it on phone.",
+      "status": "todo",
+      "steps": [],
+      "timezone": "Asia/Hong_Kong",
+      "title": "Demo: prepare a software review note",
+      "visibility": "private",
+      "waiting_for": "",
+      "id": "132d1f2a33d24bcdbd70b4e07655f0ba",
+      "version": 1,
+      "next_check_at": null,
+      "created_at": "2026-10-28T14:47:55.688518Z",
+      "updated_at": "2026-10-28T14:47:55.688518Z",
+      "paused": false,
+      "due_at": null,
+      "overdue": false,
+      "redacted": false,
+      "followup": null
+    },
+    "evidence": [
+      {
+        "id": 1,
+        "task_id": "132d1f2a33d24bcdbd70b4e07655f0ba",
+        "at": "2026-10-28T14:47:55.688573Z",
+        "kind": "created",
+        "note": "",
+        "task_version": 1,
+        "source": "manual"
+      }
+    ],
+    "jobs": [
+      {
+        "id": "96559f52d9c949578c8f62e30bb14798",
+        "state": "succeeded",
+        "version": 5,
+        "created_at": "2026-10-28T14:49:43.286943Z",
+        "updated_at": "2026-10-28T14:50:49.996369Z",
+        "expires_at": "2026-10-28T14:54:43.286975Z",
+        "deadline": "2026-10-28T14:51:49.609879Z",
+        "error": null,
+        "action": "save_note",
+        "task_id": "132d1f2a33d24bcdbd70b4e07655f0ba",
+        "cancel_requested": false,
+        "result": {
+          "artifact": "96559f52d9c949578c8f62e30bb14798.txt",
+          "bytes": 117,
+          "executor": "local_notes_v1",
+          "reason": "read_back_matches",
+          "scope": "application_notes_only",
+          "sha256": "443fc3b410524d596f77d0d3ebca69407e12d5ada5edc6e38dbcc45694bc7a98",
+          "verified": true
+        }
+      }
+    ]
+  },
+  "file_sha256": "443fc3b410524d596f77d0d3ebca69407e12d5ada5edc6e38dbcc45694bc7a98",
+  "file_count": 1
+}

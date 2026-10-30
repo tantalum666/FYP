@@ -1,0 +1,5 @@
+{"stage": "brief", "state": "succeeded", "error": null, "id": "1b1a1a69899f42dabb9293b2a33c7115"}
+{"stage": "pdf", "state": "succeeded", "error": null, "id": "66a9a4173c7a459d825d9fdc5935cf08"}
+{"stage": "plan", "state": "succeeded", "error": null, "id": "57e45cce1f7b413eacbc500866e54b60"}
+{"stage": "email", "state": "succeeded", "error": null, "id": "d7eabfe902684013956cb908a539ce74"}
+{"completed_execution_layer": true, "artifacts": {"budget": {"filename": "demo-budget.xlsx", "sha256": "2646daed43aef3abbe0e45eea94bf3d5700e526257b58f7c15d9be93429c55c3", "bytes": 12647}, "brief": {"filename": "demo-brief.odt", "sha256": "7a88d9eb7b5062756aef2d253551c6d15dbb151f71ee0e173d37c7fcf6bb9bd5", "bytes": 26542}, "pdf": {"filename": "demo-brief.pdf", "sha256": "f46fbb046731aeb22f208ecca37d144bd5870d3e54c22806b6cd57008f8e2bec", "bytes": 82658}, "plan": {"filename": "action-plan.md", "sha256": "32cda46e4e84bc8741db738eb3da1e8b6a4d35e3177e019a7abdded007e8ea0e", "bytes": 270}, "email": {"filename": "email-draft.txt", "sha256": "32e337d03634494569d8baf9e4ef70abfd0ecc7845b69273801b9adf23beb3bb", "bytes": 291}}, "model_calls": 0}

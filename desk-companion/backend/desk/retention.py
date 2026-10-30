@@ -5,9 +5,15 @@ the copies this desk stored and could send again: cached replies and proposal
 payloads. It does not call a provider and cannot erase that provider's logs.
 """
 
+import hashlib
 import json
 
 from .store import encode
+
+
+def retired_reply_key(reply_id: str) -> str:
+    """Keep a content-free retry marker in the existing operation ledger."""
+    return "reply-retired/" + hashlib.sha256(reply_id.encode()).hexdigest()
 
 
 def forget_local_copies(conn, *, memory_id: str, phrases: list[str]) -> dict[str, int]:
@@ -20,9 +26,19 @@ def forget_local_copies(conn, *, memory_id: str, phrases: list[str]) -> dict[str
     kept = _phrases(phrases)
     replies = 0
     if _table(conn, "assistant_replies"):
-        for row in conn.execute("SELECT id, result FROM assistant_replies"):
+        for row in conn.execute("SELECT id, request_hash, result FROM assistant_replies"):
             parsed = _json(row["result"])
             if _mentions(parsed, memory_id, kept):
+                # Deleting only the body makes an old retry look like a new
+                # request and can reintroduce its user text into RAM context.
+                conn.execute(
+                    "INSERT OR IGNORE INTO operations VALUES(?,?,?)",
+                    (
+                        retired_reply_key(row["id"]),
+                        encode({"type": "assistant_reply_retired", "request_hash": row["request_hash"]}),
+                        encode({"retired": True}),
+                    ),
+                )
                 conn.execute("DELETE FROM assistant_replies WHERE id=?", (row["id"],))
                 replies += 1
     proposals = 0

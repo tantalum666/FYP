@@ -1,0 +1,176 @@
+{
+  "model": "gpt-live-1",
+  "backend_model": "gpt-6-luna",
+  "language_mode": "en",
+  "harness_protocol": "v2-live-completion-language",
+  "ready": true,
+  "end_reason": "quiet_after_reply",
+  "errors": [],
+  "elapsed_s": 18.5588,
+  "input_end_s": 5.0331,
+  "first_non_silent_output_s": 7.0716,
+  "first_audio_after_input_s": 2.0385,
+  "interrupt_at_s": 7.8831,
+  "voice_usage_seconds": 14.0,
+  "provider_usage": {},
+  "usage_finalized": true,
+  "estimated_uncached_usd": 0.011666666666666667,
+  "transcript": "Sure. Keep a steady rhythm,Ready.",
+  "transcript_events": [
+    {
+      "at": 6.7801,
+      "text": "Sure.",
+      "response_id": null,
+      "start_ms": 4600,
+      "end_ms": 4800
+    },
+    {
+      "at": 7.5487,
+      "text": " Keep",
+      "response_id": null,
+      "start_ms": 5400,
+      "end_ms": 5600
+    },
+    {
+      "at": 7.898,
+      "text": " a",
+      "response_id": null,
+      "start_ms": 5600,
+      "end_ms": 5800
+    },
+    {
+      "at": 8.4092,
+      "text": " steady",
+      "response_id": null,
+      "start_ms": 5800,
+      "end_ms": 6000
+    },
+    {
+      "at": 8.4095,
+      "text": " rhythm,",
+      "response_id": null,
+      "start_ms": 6000,
+      "end_ms": 6200
+    },
+    {
+      "at": 11.9512,
+      "text": "Ready.",
+      "response_id": null,
+      "start_ms": 10000,
+      "end_ms": 10200
+    }
+  ],
+  "events": [
+    {
+      "type": "session.started",
+      "at": 1.632
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 3.2048,
+      "text": "Explain a"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.0511,
+      "text": " detailed"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.2314,
+      "text": " study"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.4751,
+      "text": " plan"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.7534,
+      "text": " for"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.7797,
+      "text": " the"
+    },
+    {
+      "type": "fixture.input_end",
+      "at": 5.0331
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 5.4151,
+      "text": " next"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 5.5156,
+      "text": " five"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 6.152,
+      "text": " days"
+    },
+    {
+      "type": "fixture.interruption",
+      "at": 7.8831
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 9.6529,
+      "text": "Stop"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 10.1375,
+      "text": ". Just"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 10.5021,
+      "text": " say"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 10.7429,
+      "text": " ready"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 11.3987,
+      "text": " and"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 11.3987,
+      "text": " nothing"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 11.8134,
+      "text": " else"
+    },
+    {
+      "type": "session.closed",
+      "at": 17.1868,
+      "reason": "close_requested",
+      "usage": {
+        "seconds": 14.0
+      }
+    }
+  ],
+  "backend_text_events": [],
+  "business_evidence": {
+    "tools": [],
+    "active_memories": [],
+    "pending_proposals": []
+  },
+  "measurement": "Paced synthetic PCM, network-received audio above RMS100; not DAC playback or human-use latency.",
+  "case": "interrupt-en",
+  "run_id": "live-interrupt-01",
+  "reserved_usd": 0.25,
+  "synthetic_input": "Explain a detailed study plan for the next five days."
+}

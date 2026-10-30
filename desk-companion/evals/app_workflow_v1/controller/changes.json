@@ -1,0 +1,18 @@
+[
+  {
+    "at": "after_initial_workbook_and_two_rehearsals_saved",
+    "user": "预算改成1000港币，仍要包括10%预留。册子改为40份。星期三不行，第二场排练改到星期四，其他条件不变。请更新原来的文件和日程，不要新增重复项。"
+  },
+  {
+    "at": "only_after_agent_reports_no_feasible_colour_plan_and_asks",
+    "user": "册子可以改成黑白，海报和胸牌保持不变；继续按最便宜、按时到货来选。"
+  },
+  {
+    "at": "recovery_variant_after_confirmed_workbook_write_before_ack",
+    "fault": "drop the save acknowledgment, stop the owned executor, restart and request continuation; do not alter the saved file"
+  },
+  {
+    "at": "revocation_variant_before_next_pending_write",
+    "user": "切回每次询问，后面的修改先让我确认。"
+  }
+]

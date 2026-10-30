@@ -1,0 +1,2 @@
+Watch retention schema verified. No app was started and no watch history was removed.
+The flag acknowledges your backup/process checks; this command did not perform or verify them.

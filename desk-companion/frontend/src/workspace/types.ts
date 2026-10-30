@@ -1,3 +1,9 @@
+export interface PermissionState {
+  mode: "ask" | "full";
+  version: number;
+  updated_at: string;
+}
+
 export interface PosturePreferences {
   enabled: boolean;
   persistence_seconds: number;
@@ -42,6 +48,13 @@ export interface PostureSnapshot {
   } | null;
 }
 export interface WorkspaceSnapshot {
+  permissions?: PermissionState;
+  computer?: {
+    enabled: boolean;
+    folder?: { configured: boolean; label: string | null };
+    desktop?: { ready: boolean };
+    applications?: { enabled: boolean; configured: boolean };
+  };
   text_ai: {
     configured: boolean;
     provider: string;

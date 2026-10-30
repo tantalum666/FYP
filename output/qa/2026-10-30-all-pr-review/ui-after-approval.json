@@ -1,0 +1,9 @@
+{
+  "job_id": "5fad40b48b74409791613bef3ba8729d",
+  "state": "succeeded",
+  "file_sha256": "a66c0bd982aba9270b9f947d15818980b697a0f679317244b4bd36e7ff41cd48",
+  "bytes": 48,
+  "task_id": "7539994aeae54d259b3785d077d37bdc",
+  "files": 1,
+  "independent_bytes_match": true
+}

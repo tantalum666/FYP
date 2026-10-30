@@ -1,0 +1,586 @@
+{
+  "model": "gpt-live-1",
+  "backend_model": "gpt-6-luna",
+  "language_mode": "en",
+  "harness_protocol": "v2-live-completion-language",
+  "ready": true,
+  "end_reason": "quiet_after_reply",
+  "errors": [],
+  "elapsed_s": 25.8458,
+  "input_end_s": 6.1246,
+  "first_non_silent_output_s": 8.0472,
+  "first_audio_after_input_s": 1.9226,
+  "interrupt_at_s": null,
+  "voice_usage_seconds": 22.0,
+  "provider_usage": {
+    "resp_0df47116a5d389df006ae35197497087d09fcf7978deb9249a": {
+      "input_tokens": 1068,
+      "input_tokens_details": {
+        "cache_write_tokens": 0,
+        "cached_tokens": 0
+      },
+      "output_tokens": 88,
+      "output_tokens_details": {
+        "reasoning_tokens": 34
+      },
+      "total_tokens": 1156
+    },
+    "resp_0df47116a5d389df006ae3519a324c87d0909429a54c2bcac9": {
+      "input_tokens": 1660,
+      "input_tokens_details": {
+        "cache_write_tokens": 1657,
+        "cached_tokens": 0
+      },
+      "output_tokens": 38,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 1698
+    }
+  },
+  "usage_finalized": true,
+  "estimated_uncached_usd": 0.018917683333333334,
+  "transcript": " Let me check. Pulling up tomorrow now. You have three meetings tomorrow. They start at nine-thirty a.m., two p.m., and four p.m., all in Hong Kong time.",
+  "transcript_events": [
+    {
+      "at": 7.6601,
+      "text": " Let me",
+      "response_id": null,
+      "start_ms": 5400,
+      "end_ms": 5600
+    },
+    {
+      "at": 7.6824,
+      "text": " check",
+      "response_id": null,
+      "start_ms": 5600,
+      "end_ms": 5800
+    },
+    {
+      "at": 8.1715,
+      "text": ". ",
+      "response_id": null,
+      "start_ms": 6000,
+      "end_ms": 6200
+    },
+    {
+      "at": 8.2177,
+      "text": "Pulling",
+      "response_id": null,
+      "start_ms": 6200,
+      "end_ms": 6400
+    },
+    {
+      "at": 8.9188,
+      "text": " up",
+      "response_id": null,
+      "start_ms": 6600,
+      "end_ms": 6800
+    },
+    {
+      "at": 8.9189,
+      "text": " tomorrow",
+      "response_id": null,
+      "start_ms": 6800,
+      "end_ms": 7000
+    },
+    {
+      "at": 9.9346,
+      "text": " now",
+      "response_id": null,
+      "start_ms": 7400,
+      "end_ms": 7600
+    },
+    {
+      "at": 9.9488,
+      "text": ".",
+      "response_id": null,
+      "start_ms": 7800,
+      "end_ms": 8000
+    },
+    {
+      "at": 12.428,
+      "text": " You have",
+      "response_id": null,
+      "start_ms": 10400,
+      "end_ms": 10600
+    },
+    {
+      "at": 12.8901,
+      "text": " three",
+      "response_id": null,
+      "start_ms": 10800,
+      "end_ms": 11000
+    },
+    {
+      "at": 12.9153,
+      "text": " meetings",
+      "response_id": null,
+      "start_ms": 11000,
+      "end_ms": 11200
+    },
+    {
+      "at": 13.4139,
+      "text": " tomorrow",
+      "response_id": null,
+      "start_ms": 11400,
+      "end_ms": 11600
+    },
+    {
+      "at": 13.838,
+      "text": ".",
+      "response_id": null,
+      "start_ms": 11800,
+      "end_ms": 12000
+    },
+    {
+      "at": 14.1231,
+      "text": " They",
+      "response_id": null,
+      "start_ms": 12200,
+      "end_ms": 12400
+    },
+    {
+      "at": 14.2309,
+      "text": " start",
+      "response_id": null,
+      "start_ms": 12400,
+      "end_ms": 12600
+    },
+    {
+      "at": 14.4656,
+      "text": " at",
+      "response_id": null,
+      "start_ms": 12600,
+      "end_ms": 12800
+    },
+    {
+      "at": 14.6699,
+      "text": " nine-th",
+      "response_id": null,
+      "start_ms": 12800,
+      "end_ms": 13000
+    },
+    {
+      "at": 14.8928,
+      "text": "irty",
+      "response_id": null,
+      "start_ms": 13000,
+      "end_ms": 13200
+    },
+    {
+      "at": 15.1758,
+      "text": " a.m",
+      "response_id": null,
+      "start_ms": 13400,
+      "end_ms": 13600
+    },
+    {
+      "at": 15.5093,
+      "text": ".,",
+      "response_id": null,
+      "start_ms": 13600,
+      "end_ms": 13800
+    },
+    {
+      "at": 16.3544,
+      "text": " two",
+      "response_id": null,
+      "start_ms": 14200,
+      "end_ms": 14400
+    },
+    {
+      "at": 16.3545,
+      "text": " p.m",
+      "response_id": null,
+      "start_ms": 14400,
+      "end_ms": 14600
+    },
+    {
+      "at": 16.5619,
+      "text": ".,",
+      "response_id": null,
+      "start_ms": 14600,
+      "end_ms": 14800
+    },
+    {
+      "at": 16.7518,
+      "text": " and",
+      "response_id": null,
+      "start_ms": 15000,
+      "end_ms": 15200
+    },
+    {
+      "at": 17.4524,
+      "text": " four",
+      "response_id": null,
+      "start_ms": 15200,
+      "end_ms": 15400
+    },
+    {
+      "at": 17.4525,
+      "text": " p.m",
+      "response_id": null,
+      "start_ms": 15400,
+      "end_ms": 15600
+    },
+    {
+      "at": 17.6132,
+      "text": ".,",
+      "response_id": null,
+      "start_ms": 15600,
+      "end_ms": 15800
+    },
+    {
+      "at": 17.8844,
+      "text": " all",
+      "response_id": null,
+      "start_ms": 16200,
+      "end_ms": 16400
+    },
+    {
+      "at": 18.3833,
+      "text": " in",
+      "response_id": null,
+      "start_ms": 16600,
+      "end_ms": 16800
+    },
+    {
+      "at": 18.8401,
+      "text": " Hong",
+      "response_id": null,
+      "start_ms": 16800,
+      "end_ms": 17000
+    },
+    {
+      "at": 19.0179,
+      "text": " Kong",
+      "response_id": null,
+      "start_ms": 17000,
+      "end_ms": 17200
+    },
+    {
+      "at": 19.018,
+      "text": " time",
+      "response_id": null,
+      "start_ms": 17200,
+      "end_ms": 17400
+    },
+    {
+      "at": 19.3575,
+      "text": ".",
+      "response_id": null,
+      "start_ms": 17600,
+      "end_ms": 17800
+    }
+  ],
+  "events": [
+    {
+      "type": "session.started",
+      "at": 1.7243
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 3.1203,
+      "text": "Please"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 3.1784,
+      "text": " check"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 3.9907,
+      "text": " tomorrow's"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.3386,
+      "text": " meetings"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 4.8785,
+      "text": ". How"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 5.3871,
+      "text": " many are"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 5.5512,
+      "text": " there"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 5.9649,
+      "text": " and"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 6.0738,
+      "text": " when"
+    },
+    {
+      "type": "fixture.input_end",
+      "at": 6.1246
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 6.2976,
+      "text": " do"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 6.3132,
+      "text": " they"
+    },
+    {
+      "type": "session.input_transcript.delta",
+      "at": 7.0057,
+      "text": " start"
+    },
+    {
+      "type": "session.delegation.created",
+      "at": 7.66
+    },
+    {
+      "type": "response.created",
+      "at": 7.6823,
+      "id": "resp_0df47116a5d389df006ae35197497087d09fcf7978deb9249a"
+    },
+    {
+      "type": "response.completed",
+      "at": 9.9489,
+      "id": "resp_0df47116a5d389df006ae35197497087d09fcf7978deb9249a",
+      "status": "completed",
+      "status_details": null
+    },
+    {
+      "type": "fixture.tool_result",
+      "name": "calendar_query",
+      "at": 9.9533,
+      "saved": false
+    },
+    {
+      "type": "response.created",
+      "at": 10.3454,
+      "id": "resp_0df47116a5d389df006ae3519a324c87d0909429a54c2bcac9"
+    },
+    {
+      "type": "response.completed",
+      "at": 12.0336,
+      "id": "resp_0df47116a5d389df006ae3519a324c87d0909429a54c2bcac9",
+      "status": "completed",
+      "status_details": null
+    },
+    {
+      "type": "session.closed",
+      "at": 23.91,
+      "reason": "close_requested",
+      "usage": {
+        "seconds": 22.0
+      }
+    }
+  ],
+  "backend_text_events": [
+    {
+      "at": 11.3272,
+      "text": "You"
+    },
+    {
+      "at": 11.3272,
+      "text": " have"
+    },
+    {
+      "at": 11.5311,
+      "text": " three"
+    },
+    {
+      "at": 11.5311,
+      "text": " meetings"
+    },
+    {
+      "at": 11.5311,
+      "text": " tomorrow"
+    },
+    {
+      "at": 11.5311,
+      "text": ","
+    },
+    {
+      "at": 11.5311,
+      "text": " starting"
+    },
+    {
+      "at": 11.5311,
+      "text": " at"
+    },
+    {
+      "at": 11.5311,
+      "text": " "
+    },
+    {
+      "at": 11.5311,
+      "text": "9"
+    },
+    {
+      "at": 11.7517,
+      "text": ":"
+    },
+    {
+      "at": 11.7518,
+      "text": "30"
+    },
+    {
+      "at": 11.7518,
+      "text": " a"
+    },
+    {
+      "at": 11.7518,
+      "text": ".m"
+    },
+    {
+      "at": 11.7518,
+      "text": ".,"
+    },
+    {
+      "at": 11.7518,
+      "text": " "
+    },
+    {
+      "at": 11.7518,
+      "text": "2"
+    },
+    {
+      "at": 11.7518,
+      "text": ":"
+    },
+    {
+      "at": 11.7518,
+      "text": "00"
+    },
+    {
+      "at": 11.7518,
+      "text": " p"
+    },
+    {
+      "at": 11.7518,
+      "text": ".m"
+    },
+    {
+      "at": 11.7518,
+      "text": ".,"
+    },
+    {
+      "at": 11.7519,
+      "text": " and"
+    },
+    {
+      "at": 11.7519,
+      "text": " "
+    },
+    {
+      "at": 11.7519,
+      "text": "4"
+    },
+    {
+      "at": 11.7519,
+      "text": ":"
+    },
+    {
+      "at": 11.7519,
+      "text": "00"
+    },
+    {
+      "at": 11.7519,
+      "text": " p"
+    },
+    {
+      "at": 11.7519,
+      "text": ".m"
+    },
+    {
+      "at": 11.7519,
+      "text": "."
+    },
+    {
+      "at": 11.7519,
+      "text": " Hong"
+    },
+    {
+      "at": 11.7519,
+      "text": " Kong"
+    },
+    {
+      "at": 11.7519,
+      "text": " time"
+    },
+    {
+      "at": 11.7519,
+      "text": "."
+    }
+  ],
+  "business_evidence": {
+    "tools": [
+      {
+        "name": "calendar_query",
+        "result": {
+          "timezone": "Asia/Hong_Kong",
+          "occurrence_key_note": "Identity of the original instance; after rescheduling it is NOT the actual start date. Display start_local/end_local instead.",
+          "occurrences": [
+            {
+              "id": "23c5be9dd74249e886ce5113329bdf8e",
+              "version": 1,
+              "occurrence_key": "2026-10-30T09:30",
+              "title": "Design review",
+              "start": "2026-10-30T01:30:00.000000Z",
+              "end": "2026-10-30T02:00:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T09:30",
+              "end_local": "2026-10-30T10:00"
+            },
+            {
+              "id": "ac5d1e22f35b4cdb971fd4f6c138179d",
+              "version": 1,
+              "occurrence_key": "2026-10-30T14:00",
+              "title": "Project check-in",
+              "start": "2026-10-30T06:00:00.000000Z",
+              "end": "2026-10-30T06:30:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T14:00",
+              "end_local": "2026-10-30T14:30"
+            },
+            {
+              "id": "91e454c1fd004b91a76bf5b5856a79e4",
+              "version": 1,
+              "occurrence_key": "2026-10-30T16:00",
+              "title": "Software demo",
+              "start": "2026-10-30T08:00:00.000000Z",
+              "end": "2026-10-30T08:30:00.000000Z",
+              "busy": true,
+              "completed": false,
+              "timezone": "Asia/Hong_Kong",
+              "start_local": "2026-10-30T16:00",
+              "end_local": "2026-10-30T16:30"
+            }
+          ]
+        }
+      }
+    ],
+    "active_memories": [],
+    "pending_proposals": []
+  },
+  "measurement": "Paced synthetic PCM, network-received audio above RMS100; not DAC playback or human-use latency.",
+  "case": "calendar-en",
+  "run_id": "live-en-03",
+  "reserved_usd": 0.25,
+  "synthetic_input": "Please check tomorrow's meetings. How many are there, and when do they start?"
+}

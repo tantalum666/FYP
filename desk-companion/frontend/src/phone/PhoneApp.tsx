@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 import { DateTime } from "luxon";
 import { errorText, pendingWrite, request, retryPending } from "../api";
 import { useWorkspaceSession } from "../useWorkspaceSession";
@@ -8,7 +9,6 @@ import { LoginView } from "../components/LoginView";
 import {
   EventDetail,
   EventEditor,
-  Modal,
   ReminderDialog,
 } from "../components/Dialogs";
 import { useCalendarEditor } from "../components/useCalendarEditor";
@@ -16,6 +16,7 @@ import { useDraftState } from "../components/DraftGuard";
 import { AssistantPanel } from "../workspace/AssistantPanel";
 import { useWorkspace } from "../workspace/WorkspaceContext";
 import { PhoneHome, UpcomingHint } from "./PhoneHome";
+import { PhoneScreen } from "./PhoneScreen";
 import { PhonePlan } from "./PhonePlan";
 import {
   PhoneMore,
@@ -208,14 +209,19 @@ export function PhoneApp() {
   return (
     <div
       className={`phone-app ${environment.viewport.height < innerHeight - 100 ? "keyboard-open" : ""}`}
-      style={{
-        height: environment.viewport.height,
-        top: environment.viewport.top,
-      }}
+      style={
+        {
+          height: environment.viewport.height,
+          top: environment.viewport.top,
+          "--phone-viewport-height": `${environment.viewport.height}px`,
+        } as CSSProperties
+      }
     >
       <PhoneHome
         t={t}
-        active={environment.visible && !environment.blocked && !conversation}
+        active={
+          environment.visible && !environment.blocked && !conversation && !panel
+        }
         motion={environment.motion}
         voiceState={data?.voice.state ?? "idle"}
         obscured={conversation || !!panel}
@@ -253,11 +259,24 @@ export function PhoneApp() {
         />
       </div>
       {panel && (
-        <Modal
-          title={phoneHeadings(t)[panel]}
-          onClose={() => setPanel(null)}
-          closeLabel={t("Back to Alice", "返回 Alice")}
-          className="phone-sheet"
+        <PhoneScreen
+          key={panel === "plan" ? `plan/${planTab}` : panel}
+          t={t}
+          title={
+            panel === "plan"
+              ? planTab === "calendar"
+                ? t("Calendar", "日历")
+                : t("Tasks", "事务")
+              : phoneHeadings(t)[panel]
+          }
+          onBack={() =>
+            setPanel(panel === "plan" || panel === "more" ? null : "more")
+          }
+          backLabel={
+            panel === "plan" || panel === "more"
+              ? t("Back to Alice", "返回 Alice")
+              : t("Back to workspace", "返回工作空间")
+          }
           footer={
             notice ? (
               <p className="phone-panel-notice" role="status">
@@ -265,7 +284,6 @@ export function PhoneApp() {
               </p>
             ) : undefined
           }
-          wide
         >
           {panel === "plan" ? (
             <PhonePlan
@@ -323,7 +341,7 @@ export function PhoneApp() {
               </button>
             </div>
           )}
-        </Modal>
+        </PhoneScreen>
       )}
       {editor && (
         <EventEditor

@@ -14,75 +14,39 @@ import {
   HelpCircle,
   Box,
 } from "lucide-react";
-import { ApiError, errorText, request, write, writeStream } from "../api";
+import {
+  ApiError,
+  errorText,
+  pendingWrite,
+  request,
+  retryPending,
+  write,
+  writeStream,
+} from "../api";
 import { progressLabel, type ToolProgress } from "../replyStream";
-import type { EventInput, Translate } from "../types";
+import type { Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import { VoiceAudio } from "./audio";
 import { handoverTicket } from "./voice-ticket";
 import type { TurnMeasurement } from "./voice-timing";
 import { useDraftGuard } from "../components/DraftGuard";
-import type { Task, TaskInput } from "./taskTypes";
 import { apiOrigin } from "../native";
-import { DateTime } from "luxon";
+import { ProposalActionCard } from "./ProposalActionCard";
+import type { Proposal, Reply } from "./assistantTypes";
+import { JobActionCard } from "./JobActionCard";
+import { requestJobAction } from "./jobRequests";
+import type { JobAction } from "./jobRequests";
+import {
+  isApplicationAction,
+  isDesktopAction,
+  isFolderAction,
+  jobStateLabel,
+} from "./jobTypes";
+import type { ComputerJob } from "./jobTypes";
+import { PermissionControl } from "./PermissionsPanel";
 import { ComputerJobsPanel } from "./ComputerJobsPanel";
 import "./assistant-minimal.css";
 import { ToolActivity, type ToolCall } from "./ToolActivity";
-
-interface Proposal {
-  id: string;
-  kind:
-    | "create"
-    | "change"
-    | "output"
-    | "task_create"
-    | "task_change"
-    | "memory_save"
-    | "memory_replace"
-    | "memory_delete"
-    | "memory_consolidate";
-  expires_at: string;
-  data: {
-    task?: TaskInput;
-    original_task?: Task;
-    event?: EventInput;
-    additional_dates?: string[];
-    event_id?: string;
-    original?: Pick<
-      EventInput,
-      | "title"
-      | "start_local"
-      | "end_local"
-      | "timezone"
-      | "visibility"
-      | "all_day"
-    >;
-    output?: { kind: string; preset: string };
-    body?: string;
-    previous?: string;
-    keep_body?: string;
-    retire?: Array<{ body: string }>;
-    reason_en?: string;
-    reason_zh?: string;
-    goal?: boolean;
-    change?: {
-      action: string;
-      scope?: string;
-      event?: EventInput;
-      task?: TaskInput;
-      note?: string;
-      minutes?: number;
-    };
-  };
-}
-interface Reply {
-  conversation_id?: string;
-  mode: string;
-  kind: string;
-  message: string;
-  plan?: string;
-  proposal?: Proposal;
-}
 
 export function AssistantPanel({
   t,
@@ -112,6 +76,7 @@ export function AssistantPanel({
       role: "user" | "assistant";
       body: string;
       kind?: string;
+      jobId?: string;
     }>
   >([]);
   const [view, setView] = useState<
@@ -122,7 +87,20 @@ export function AssistantPanel({
   const [voiceTimings, setVoiceTimings] = useState<TurnMeasurement[]>([]);
   const [menu, setMenu] = useState(false);
   const [attachments, setAttachments] = useState(false);
-  const [jobAttention, setJobAttention] = useState(0);
+  const [jobs, setJobs] = useState<ComputerJob[]>([]);
+  const [jobsError, setJobsError] = useState<unknown>(null);
+  const [jobActionError, setJobActionError] = useState<unknown>(null);
+  const [jobActionNotice, setJobActionNotice] = useState("");
+  const [jobsReadAt, setJobsReadAt] = useState(0);
+  const seenJobs = useRef<Set<string> | null>(null);
+  const [attentionJobs, setAttentionJobs] = useState<string[]>([]);
+  const [jobBusy, setJobBusy] = useState<string | null>(null);
+  const [jobCancelling, setJobCancelling] = useState<string | null>(null);
+  const jobScope = useRef(taskId);
+  jobScope.current = taskId;
+  const jobAttention = jobs.filter(
+    (job) => job.state === "review" || job.state === "unknown",
+  ).length;
   const menuButton = useRef<HTMLButtonElement>(null),
     menuPanel = useRef<HTMLDivElement>(null);
   const owner = useRef(false);
@@ -141,11 +119,17 @@ export function AssistantPanel({
     return () => document.removeEventListener("pointerdown", close);
   }, [menu]);
   const conversation = useRef<HTMLDivElement>(null);
+  const followLatest = useRef(true);
+  const jobRevision = jobs.map((job) => `${job.id}:${job.version}`).join(",");
   const composer = useRef<HTMLTextAreaElement>(null);
 
   const [text, setText] = useState(""),
     [busy, setBusy] = useState(false),
     [error, setError] = useState<unknown>(null);
+  const [readError, setReadError] = useState<unknown>(null);
+  const pendingJob = pendingWrite()?.path.startsWith("/computer/")
+    ? pendingWrite()
+    : null;
   const [reply, setReply] = useState<Reply | null>(null),
     [liveMessage, setLiveMessage] = useState(""),
     [progress, setProgress] = useState<ToolProgress[]>([]),
@@ -181,23 +165,105 @@ export function AssistantPanel({
   const activityReading = useRef(false);
   const loadActivity = useCallback(async () => {
     if (!owner.current || activityReading.current) return;
+    const scope = taskId;
     activityReading.current = true;
     try {
-      const activity = await request<{ jobs: Array<{ state: string }> }>(
-        "/computer/jobs",
+      const activity = await request<{ jobs: ComputerJob[] }>(
+        `/computer/jobs${scope ? `?task_id=${encodeURIComponent(scope)}` : ""}`,
       );
-      if (alive.current)
-        setJobAttention(
-          activity.jobs.filter(
-            (j) => j.state === "review" || j.state === "unknown",
-          ).length,
+      if (alive.current && jobScope.current === scope) {
+        const prior = seenJobs.current;
+        const incoming = activity.jobs
+          .filter(
+            (job) =>
+              !["succeeded", "failed", "cancelled", "expired"].includes(
+                job.state,
+              ) ||
+              (prior && !prior.has(job.id)),
+          )
+          .map((job) => job.id);
+        seenJobs.current = new Set(activity.jobs.map((job) => job.id));
+        setAttentionJobs((old) =>
+          [...new Set([...old, ...incoming])].slice(-20),
         );
-    } catch {
-      /* The file view reports its own read failure when opened. */
+        setJobs(activity.jobs);
+        setJobsReadAt(Date.now());
+        setJobsError(null);
+      }
+    } catch (reason) {
+      if (alive.current && jobScope.current === scope) setJobsError(reason);
     } finally {
       activityReading.current = false;
     }
-  }, []);
+  }, [taskId]);
+  useEffect(() => {
+    setJobs([]);
+    seenJobs.current = null;
+    setAttentionJobs([]);
+    setJobsReadAt(0);
+    void loadActivity();
+  }, [loadActivity]);
+  useEffect(() => {
+    window.addEventListener("desk:jobs", loadActivity);
+    return () => window.removeEventListener("desk:jobs", loadActivity);
+  }, [loadActivity]);
+  async function actOnJob(job: ComputerJob, action: JobAction) {
+    if (action === "cancel" ? jobCancelling : jobBusy) return;
+    if (action === "cancel") setJobCancelling(job.id);
+    else setJobBusy(job.id);
+    setJobActionError(null);
+    setJobActionNotice("");
+    try {
+      await requestJobAction(job, action);
+      if (action === "verify" && isApplicationAction(job.action)) {
+        setJobActionNotice(
+          t(
+            "The file was reopened and matches the verified operation.",
+            "文件已重新打开核对，与已核验操作一致。",
+          ),
+        );
+      }
+      await loadActivity();
+      void refresh();
+    } catch (reason) {
+      setJobActionError(reason);
+      void loadActivity();
+    } finally {
+      if (action === "cancel") setJobCancelling(null);
+      else setJobBusy(null);
+    }
+  }
+  const turnText = (turn: { body: string; jobId?: string }) => {
+    if (!immersive || expanded || !turn.jobId) return turn.body;
+    const job = jobs.find((item) => item.id === turn.jobId);
+    return job
+      ? `${jobStateLabel(job.state, t)} · ${job.request.title}`
+      : t(
+          "Open the conversation for this action’s details.",
+          "打开对话查看这项操作的详情。",
+        );
+  };
+  const jobCard = (job: ComputerJob) => (
+    <JobActionCard
+      key={job.id}
+      job={job}
+      t={t}
+      busy={!!jobBusy}
+      cancelling={!!jobCancelling || offline}
+      fresh={!jobsError && !offline && !stale && Date.now() - jobsReadAt < 6000}
+      available={
+        !!(isApplicationAction(job.action)
+          ? data?.computer?.applications?.enabled &&
+            data.computer.applications.configured
+          : isDesktopAction(job.action)
+            ? data?.computer?.desktop?.ready
+            : isFolderAction(job.action)
+              ? data?.computer?.folder?.configured
+              : data?.computer?.enabled)
+      }
+      onAction={(action) => void actOnJob(job, action)}
+    />
+  );
   const language = t("en", "zh");
   const voiceActive = microphone;
   const omni =
@@ -211,11 +277,21 @@ export function AssistantPanel({
     setMenu(false);
   };
   useEffect(() => {
+    if (!followLatest.current) return;
     conversation.current?.scrollTo({
       top: conversation.current.scrollHeight,
       behavior: "instant",
     });
-  }, [turns, proposals, transcript, liveMessage, notice, error, view]);
+  }, [
+    turns,
+    proposals,
+    transcript,
+    liveMessage,
+    notice,
+    error,
+    view,
+    jobRevision,
+  ]);
   function endVoice() {
     const engine = audio.current;
     audio.current = null;
@@ -243,6 +319,9 @@ export function AssistantPanel({
   useEffect(() => {
     if (suspended && audio.current) endVoice();
   }, [suspended]);
+  useEffect(() => {
+    audio.current?.refreshContext();
+  }, [data?.permissions?.version]);
   const previousTask = useRef(taskId);
   useEffect(() => {
     if (previousTask.current === taskId) return;
@@ -266,6 +345,9 @@ export function AssistantPanel({
     if (immersive && (proposals.length > 0 || view !== "chat"))
       onExpandedChange?.(true);
   }, [immersive, proposals.length, view, onExpandedChange]);
+  useEffect(() => {
+    if (immersive && turns.at(-1)?.jobId) onExpandedChange?.(true);
+  }, [turns, immersive, onExpandedChange]);
   useEffect(() => {
     if (immersive && !expanded) setView("chat");
   }, [immersive, expanded]);
@@ -293,14 +375,10 @@ export function AssistantPanel({
         }
         knownProposals.current = next.proposals;
         setProposals(next.proposals);
-        setError((current: unknown) =>
-          current instanceof ApiError && current.code === "AUTH_REQUIRED"
-            ? null
-            : current,
-        );
+        setReadError(null);
       }
     } catch (e) {
-      if (alive.current) setError(e);
+      if (alive.current) setReadError(e);
     }
     if (!ownerView) {
       if (alive.current) setCalls(null);
@@ -316,7 +394,7 @@ export function AssistantPanel({
         if (alive.current) setCalls(null);
         return;
       }
-      if (alive.current) setError(e);
+      if (alive.current) setReadError(e);
     }
   }, [language, ownerView, loadActivity]);
   useEffect(() => {
@@ -346,7 +424,9 @@ export function AssistantPanel({
     conversationId.current = result.conversation_id;
     setLiveMessage("");
     setProgress([]);
-    setError(null);
+    setError(
+      result.permission_error ? new ApiError(result.permission_error) : null,
+    );
     const id = Date.now();
     setTurns((old) =>
       [
@@ -357,6 +437,7 @@ export function AssistantPanel({
           role: "assistant" as const,
           body: result.message,
           kind: result.kind,
+          jobId: result.job?.id,
         },
       ].slice(-40),
     );
@@ -389,7 +470,8 @@ export function AssistantPanel({
   }, [reload, showHttpReply]);
   async function send(e: React.FormEvent) {
     e.preventDefault();
-    if (busy || !text.trim() || unavailable) return;
+    if (busy || !text.trim() || unavailable || pendingJob) return;
+    followLatest.current = true;
     const submitted = text;
     const previousHttp = pendingHttp.current;
     const generation = ++submissionGeneration.current;
@@ -656,8 +738,10 @@ export function AssistantPanel({
         }
         if (event.type === "proposal" || event.type === "proposals_changed")
           void reload();
-        if (event.type === "jobs_changed")
+        if (event.type === "jobs_changed") {
           window.dispatchEvent(new Event("desk:jobs"));
+          if (immersive) onExpandedChange?.(true);
+        }
         if (event.type === "error") {
           modeSwitching.current = false;
           if (pendingSubmission.current) setText(pendingSubmission.current);
@@ -838,8 +922,10 @@ export function AssistantPanel({
     >
       {taskTitle && (
         <p className="assistant-context-label">
-          {t("Discussing: ", "当前讨论：")}
-          <strong>{taskTitle}</strong>
+          <span>
+            {t("Discussing: ", "当前讨论：")}
+            <strong>{taskTitle}</strong>
+          </span>
           {onClearTask && (
             <button className="text-button" onClick={onClearTask}>
               {t("End task discussion", "结束事务讨论")}
@@ -949,11 +1035,21 @@ export function AssistantPanel({
         hidden={view !== "chat"}
         aria-label={t("Conversation", "对话")}
       >
-        <div className="assistant-conversation" ref={conversation}>
+        <div
+          className="assistant-conversation"
+          ref={conversation}
+          onScroll={(event) => {
+            const node = event.currentTarget;
+            if (node.clientHeight > 0)
+              followLatest.current =
+                node.scrollHeight - node.scrollTop - node.clientHeight < 80;
+          }}
+        >
           {!turns.length &&
             !transcript &&
             !proposals.length &&
-            !voiceActive && (
+            !voiceActive &&
+            attentionJobs.length === 0 && (
               <div className="assistant-welcome">
                 <h3>
                   {taskId
@@ -992,18 +1088,24 @@ export function AssistantPanel({
                 )}
               </div>
             )}
+          {(!immersive || expanded) &&
+            jobs
+              .filter(
+                (job) =>
+                  attentionJobs.includes(job.id) &&
+                  !turns.some((turn) => turn.jobId === job.id),
+              )
+              .slice(0, 3)
+              .map(jobCard)}
           {(immersive && !expanded
             ? turns.filter((turn) => turn.role === "assistant").slice(-1)
             : turns
           ).map((turn) => (
             <div className={`assistant-turn ${turn.role}`} key={turn.id}>
-              <p>{turn.body}</p>
-              {turn.kind === "job" && (
-                <button className="text-button" onClick={openJobs}>
-                  {t("Review file action", "核对文件操作")}{" "}
-                  <ArrowLeft className="arrow-forward" size={15} />
-                </button>
-              )}
+              <p>{turnText(turn)}</p>
+              {turn.jobId &&
+                (!immersive || expanded) &&
+                jobs.filter((job) => job.id === turn.jobId).map(jobCard)}
             </div>
           ))}
           {liveMessage && (
@@ -1026,12 +1128,55 @@ export function AssistantPanel({
               {transcript}
             </p>
           )}
-          {jobAttention > 0 && (
-            <button className="assistant-attention" onClick={openJobs}>
+          {pendingJob && (
+            <button
+              className="secondary"
+              disabled={!!jobBusy}
+              onClick={async () => {
+                setJobBusy("recovery");
+                try {
+                  await retryPending();
+                  setJobActionError(null);
+                  await loadActivity();
+                  void refresh();
+                } catch (reason) {
+                  setJobActionError(reason);
+                } finally {
+                  setJobBusy(null);
+                }
+              }}
+            >
+              {t("Recover previous action", "核对上一项操作")}
+            </button>
+          )}
+          {!!jobActionNotice && <p role="status">{jobActionNotice}</p>}
+          {!!jobActionError && (
+            <p className="error-message" role="alert">
+              {errorText(jobActionError, t)}
+            </p>
+          )}
+          {jobs.length > 0 && (!immersive || expanded) && (
+            <button className="text-button" onClick={openJobs}>
+              {t("See all file activity", "查看全部文件活动")}
+            </button>
+          )}
+          {!!jobsError && (
+            <p className="error-message" role="alert">
+              {t(
+                "Unable to refresh file actions. Existing actions remain on your desk.",
+                "暂时无法刷新文件操作，已有操作仍保留在桌面服务中。",
+              )}
+            </p>
+          )}
+          {immersive && !expanded && jobAttention > 0 && (
+            <button
+              className="assistant-attention"
+              onClick={() => onExpandedChange?.(true)}
+            >
               <FolderCheck size={16} />
               {t(
-                `${jobAttention} file action(s) need review`,
-                `${jobAttention} 项文件操作待核对`,
+                `${jobAttention} action(s) need your attention`,
+                `${jobAttention} 项操作需要你处理`,
               )}
             </button>
           )}
@@ -1040,304 +1185,27 @@ export function AssistantPanel({
               {t("Thinking…", "处理中…")}
             </p>
           )}
-          {proposals.map((p) => {
-            const event = p.data.event ?? p.data.change?.event;
-            const task =
-              p.data.task ?? p.data.change?.task ?? p.data.original_task;
-            const taskAction = p.data.change?.action ?? "create";
-            const taskActionLabel =
-              (
-                {
-                  create: t("Create task", "创建事务"),
-                  update: t("Update task details", "更新事务详情"),
-                  note: t("Save progress note", "保存进展记录"),
-                  complete: t(
-                    "Mark complete and stop follow-ups",
-                    "标记完成并停止跟进",
-                  ),
-                  cancel: t(
-                    "Cancel task and stop follow-ups",
-                    "取消事务并停止跟进",
-                  ),
-                  reopen: t("Reopen task", "恢复事务"),
-                  pause: t("Pause follow-ups", "暂停跟进"),
-                  resume: t("Resume follow-ups", "恢复跟进"),
-                  snooze: t("Postpone check-in", "延后检查"),
-                } as Record<string, string>
-              )[taskAction] ?? taskAction;
-            const changedTask = p.data.task ?? p.data.change?.task;
-            const memoryKind =
-              p.kind === "memory_save" ||
-              p.kind === "memory_replace" ||
-              p.kind === "memory_delete" ||
-              p.kind === "memory_consolidate";
-            return (
-              <article className="assistant-proposal" key={p.id}>
-                <span className="workspace-eyebrow">
-                  {t("Review before saving", "保存前检查")}
-                </span>
-                {memoryKind ? (
-                  <>
-                    <h3>
-                      {p.kind === "memory_consolidate"
-                        ? t("Review duplicate facts", "核对重复事实")
-                        : p.kind === "memory_delete"
-                          ? t("Delete a saved fact", "删除一条记忆")
-                          : p.kind === "memory_replace"
-                            ? t("Correct a saved fact", "更正一条记忆")
-                            : t("Save a fact", "保存一条记忆")}
-                    </h3>
-                    {p.kind === "memory_consolidate" && (
-                      <>
-                        <p>
-                          {t(p.data.reason_en ?? "", p.data.reason_zh ?? "")}
-                        </p>
-                        <p>
-                          {t("Keep: ", "保留：")}
-                          {p.data.keep_body}
-                        </p>
-                        {(p.data.retire ?? []).map((row, index) => (
-                          <p key={index}>
-                            {t("Retire: ", "停用：")}
-                            {row.body}
-                          </p>
-                        ))}
-                      </>
-                    )}
-                    {p.data.previous && (
-                      <p>
-                        {t("Current: ", "当前：")}
-                        {p.data.previous}
-                      </p>
-                    )}
-                    {p.data.body && <blockquote>{p.data.body}</blockquote>}
-                    <small>
-                      {t(
-                        "Nothing is stored until you confirm. A deleted fact is left out of later requests.",
-                        "确认前不会写入。删除后，之后的请求不再包含这条事实。",
-                      )}
-                    </small>
-                  </>
-                ) : (
-                  <>
-                    <h3>
-                      {task?.title ??
-                        event?.title ??
-                        (p.kind === "output"
-                          ? t("Device feedback", "设备反馈")
-                          : t("Change calendar event", "修改日历事项"))}
-                    </h3>
-                    {task ? (
-                      <>
-                        <p>
-                          <strong>{taskActionLabel}</strong>
-                          {p.data.goal && (
-                            <span>
-                              {t(
-                                " — Goal stays open until you confirm completion.",
-                                " — 目标在你确认完成前保持开启。",
-                              )}
-                            </span>
-                          )}
-                        </p>
-                        <p>
-                          {t("Deadline: ", "截止：")}
-                          {task.due_local?.replace("T", " ") ??
-                            t("No deadline", "无截止时间")}{" "}
-                          · {task.timezone}
-                        </p>
-                        {task.next_step && (
-                          <p>
-                            {t("Next: ", "下一步：")}
-                            {task.next_step}
-                          </p>
-                        )}
-                        {task.status === "waiting" && task.waiting_for && (
-                          <p>
-                            {t("Waiting: ", "等待：")}
-                            {task.waiting_for}
-                          </p>
-                        )}
-                        {changedTask && (
-                          <>
-                            <p>
-                              {t("Status: ", "状态：")}
-                              {
-                                {
-                                  todo: t("To do", "待处理"),
-                                  in_progress: t("In progress", "进行中"),
-                                  waiting: t("Waiting", "等待中"),
-                                }[changedTask.status]
-                              }
-                            </p>
-                            {!!changedTask.steps.length && (
-                              <ul>
-                                {changedTask.steps.map((step, i) => (
-                                  <li key={i}>
-                                    {step.done ? "✓ " : ""}
-                                    {step.title}
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
-                            <p>
-                              {changedTask.follow_up_enabled
-                                ? changedTask.check_in_local
-                                  ? t("Next check-in: ", "下次检查：") +
-                                    changedTask.check_in_local.replace("T", " ")
-                                  : t(
-                                      `Check in within ${changedTask.interval_minutes} minutes, or at an earlier upcoming deadline.`,
-                                      `在${changedTask.interval_minutes}分钟后，或更早的截止时间检查。`,
-                                    )
-                                : t("Follow-ups off", "跟进未开启")}
-                            </p>
-                            <p>
-                              {changedTask.visibility === "private"
-                                ? t("Private task", "私人事务")
-                                : t(
-                                    "May appear on the desk display",
-                                    "可在常亮屏展示",
-                                  )}
-                            </p>
-                            {p.data.original_task?.paused && (
-                              <p>
-                                {t(
-                                  "Follow-ups remain paused until you resume them.",
-                                  "跟进会保持暂停，直到你手动恢复。",
-                                )}
-                              </p>
-                            )}
-                          </>
-                        )}
-                        {["snooze", "resume"].includes(taskAction) && (
-                          <p>
-                            {t("Next check-in: ", "下次检查：")}
-                            {DateTime.now()
-                              .setZone(task.timezone)
-                              .plus({ minutes: p.data.change?.minutes ?? 60 })
-                              .toFormat("d LLL HH:mm")}{" "}
-                            ({t("from confirmation", "从确认时计算")})
-                          </p>
-                        )}
-                        {p.data.change?.note && (
-                          <blockquote>{p.data.change.note}</blockquote>
-                        )}
-                        {taskAction === "note" && (
-                          <p>
-                            {t(
-                              "This saves your note; it does not change the status or next step.",
-                              "这会保存你提供的进展，不会改变状态和下一步。",
-                            )}
-                          </p>
-                        )}
-                        <small>
-                          {t(
-                            "Review saved details in Tasks. This does not reserve calendar time.",
-                            "保存后可在事务中编辑详情，不会自动占用日历时间。",
-                          )}
-                        </small>
-                      </>
-                    ) : event ? (
-                      <>
-                        <p>
-                          {event.start_local.slice(0, 16).replace("T", " ")} →{" "}
-                          {event.end_local.slice(0, 16).replace("T", " ")}
-                        </p>
-                        <small>
-                          {event.timezone} ·{" "}
-                          {event.visibility === "private"
-                            ? t("Private", "私人")
-                            : t("Displayable", "可展示")}
-                        </small>
-                        {p.data.additional_dates?.length ? (
-                          <p>
-                            {t("Also on: ", "同时添加：")}
-                            {p.data.additional_dates.join(", ")}
-                          </p>
-                        ) : null}
-                        {event.recurrence.frequency !== "none" && (
-                          <p>
-                            {t("Repeats: ", "重复：")}
-                            {event.recurrence.frequency}
-                          </p>
-                        )}
-                      </>
-                    ) : (
-                      <>
-                        {p.data.original && (
-                          <>
-                            <strong>
-                              {p.data.original.title ||
-                                t("Private event", "私人事项")}
-                            </strong>
-                            <p>
-                              {p.data.original.start_local.replace("T", " ")} →{" "}
-                              {p.data.original.end_local.replace("T", " ")} ·{" "}
-                              {p.data.original.timezone}
-                            </p>
-                          </>
-                        )}
-                        {p.data.output && (
-                          <p>
-                            {p.data.output.kind === "arm"
-                              ? t("Arm", "机械臂")
-                              : t("Light", "灯光")}{" "}
-                            · {p.data.output.preset}
-                          </p>
-                        )}
-                        <p>
-                          {p.data.change?.action === "delete"
-                            ? t("Delete", "删除")
-                            : p.data.change?.action === "complete"
-                              ? t("Mark complete", "标记完成")
-                              : p.data.change?.action === "reopen"
-                                ? t("Mark incomplete", "取消完成")
-                                : p.data.change
-                                  ? t("Update", "更新")
-                                  : t("Named preset only", "仅执行预设动作")}
-                          {p.data.change &&
-                            (p.data.change.scope === "series"
-                              ? t(" · Entire series", " · 整个系列")
-                              : t(" · This occurrence", " · 仅本次"))}
-                        </p>
-                      </>
-                    )}
-                  </>
-                )}
-                <small>
-                  {t("Expires at ", "有效至 ")}
-                  {new Date(p.expires_at).toLocaleTimeString(
-                    language === "zh" ? "zh-CN" : "en-GB",
-                    { hour: "2-digit", minute: "2-digit" },
-                  )}
-                </small>
-                <div className="workspace-inline-actions">
-                  <button
-                    className="primary"
-                    disabled={busy}
-                    onClick={() => void decide(p.id, "confirm")}
-                  >
-                    {p.kind === "memory_consolidate"
-                      ? t("Confirm and retire duplicates", "确认并停用重复项")
-                      : p.kind === "memory_delete"
-                        ? t("Confirm deletion", "确认删除")
-                        : t("Confirm & save", "确认并保存")}
-                  </button>
-                  <button
-                    className="secondary"
-                    disabled={busy}
-                    onClick={() => void decide(p.id, "cancel")}
-                  >
-                    {t("Cancel draft", "取消草稿")}
-                  </button>
-                </div>
-              </article>
-            );
-          })}
+          {proposals.map((proposal) => (
+            <ProposalActionCard
+              key={proposal.id}
+              proposal={proposal}
+              t={t}
+              busy={busy || unavailable}
+              onDecision={(action) => void decide(proposal.id, action)}
+            />
+          ))}
 
           {notice && (
             <p className="assistant-notice" role="status">
               {notice}
+            </p>
+          )}
+          {!!readError && (
+            <p className="assistant-notice" role="status">
+              {t(
+                "Unable to refresh current actions. I will retry when the connection returns.",
+                "暂时无法刷新当前操作，连接恢复后会重试。",
+              )}
             </p>
           )}
           {!!error && (
@@ -1472,7 +1340,7 @@ export function AssistantPanel({
                 ) : text.trim() ? (
                   <button
                     className="assistant-mic"
-                    disabled={busy || unavailable}
+                    disabled={busy || unavailable || !!pendingJob}
                     aria-label={t("Send message", "发送消息")}
                   >
                     <Send size={20} />
@@ -1591,6 +1459,7 @@ export function AssistantPanel({
               </button>
             </div>
           )}
+          <PermissionControl t={t} />
           <p className="assistant-caption">
             {voiceActive
               ? voiceState === "connecting"
@@ -1605,7 +1474,12 @@ export function AssistantPanel({
                     "Omni · 共用对话，麦克风关闭",
                   )
                 : data?.text_ai?.configured
-                  ? t("Review changes before saving.", "修改会先交给你确认。")
+                  ? data?.permissions?.mode === "full"
+                    ? t(
+                        "Actions follow your permission setting.",
+                        "操作遵循你的权限设置。",
+                      )
+                    : t("Review changes before saving.", "修改会先交给你确认。")
                   : t(
                       "Local mode · calendar, tasks & notes",
                       "本地模式 · 日历、事务与笔记",

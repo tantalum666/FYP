@@ -1,6 +1,6 @@
 # Desk Companion 操作与安装说明
 
-2026-10-28接续：手机已按职责拆分，网页／手机共用会话恢复和日程编辑。[维护契约](software-maintenance.md)／[本轮QA](../../output/qa/2026-10-28-maintainable-ai/verification.md)。本机免登录会话失效后重新建立会话并保留输入，不自动重试未确认写入。
+2026-10-29接续：网页／App共用对话内操作卡片和Ask first／Full access设置；手机管理改为有返回键的整页导航。[维护契约](software-maintenance.md)／[本轮QA](../../output/qa/2026-10-29-assistant-permissions/verification.md)。本机免登录会话失效后重新建立会话并保留输入，不自动重试未确认写入。
 
 <!-- FYP-CONTEXT-20261027 -->
 > 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
@@ -92,7 +92,7 @@ DESK_RUNTIME_DIR="$PWD/.runtime/demo" DESK_ALLOW_REPLAY=1 .venv/bin/uvicorn desk
 
 浏览器／iPhone在助理里“Start conversation”后申请麦克风并持续交谈，不必按住按钮。浏览器请求AEC／降噪，结果取决于设备。输入PCM16、16kHz、单声道；输出24kHz。每轮5秒仍等待给提示、10秒仍无合格播音结束并围栏迟到结果。More → Response timing显示首包／首音／工具后首音来源；后者不是自动语义正确评分。每次会话最多10分钟，45秒无活动会结束；不会自动重连造成重复费用。打断清空播放，取消未确认草稿；已保存日程不会被打断撤销。
 
-日历和命名动作由后端工具执行。创建／修改／删除／设备预设先在屏幕确认；模型没有确认接口。命名动作排队与驱动回执分开。软件停止可直接请求，不受另一个待保存日程阻挡。
+日历和命名动作由后端工具执行。默认Ask first时创建／修改／删除先在对话卡片确认；已支持软件操作可显式启用Full access，设备预设仍独立确认；模型没有确认接口。命名动作排队与驱动回执分开。软件停止可直接请求，不受另一个待保存日程阻挡。
 
 Omni活动语音会话中，拥有者可主动选择一张图片或浏览器屏幕来源。图像会送至已配置语音提供商，不打开摄像头；最多1280×720 JPEG、1fps，后端检查身份、分享状态、大小与速率。停止屏幕分享或结束对话会释放采集，已发内容仍在当前提供商上下文中。选择图片后直接提问；模型使用随音频提交的图像。配对终端不开放该分享功能；移动端无屏幕接口时按钮禁用。
 
@@ -181,19 +181,19 @@ Tasks中创建并保存事务，记录截止与下一步。需要安排工作时
 
 ## 10. 受限电脑作业
 
-默认`DESK_COMPUTER_ENABLED=0`，只控制专用笔记目录。拥有者还可以在 Computer jobs 指定一个已存在的真实文件夹；该路径的任一层不能是符号链接，也不能是运行目录本身、上级或子目录。按[电脑作业操作说明](computer-jobs.md)试用。助理面板内的 Computer jobs 要求拥有者会话，配对终端不能批准；模型只能准备、查询或请求取消，不能提交路径。每项作业核对全文及目标后再批准，结果未知时先核验，不要重复生成相同任务。
+默认`DESK_COMPUTER_ENABLED=0`，只控制专用笔记目录。拥有者还可以在 File activity 的文件夹设置中指定一个已存在的真实文件夹；该路径的任一层不能是符号链接，也不能是运行目录本身、上级或子目录。按[电脑作业操作说明](computer-jobs.md)试用。对话内文件卡片与File activity要求拥有者会话，配对终端不能批准；模型只能准备、查询或请求取消，不能提交路径。默认核对全文及目标后Allow once；Full access可授权新请求的既有受限工具。结果未知时先Check result，不要重复生成相同任务。
 
 没有安装LCU、启用Mac录屏／Accessibility或操作硬件。已新增Linux专用Mousepad→Chromium流程并在隔离ARM64容器实际跑通，DESK_LINUX_DESKTOP_ENABLED显式启用；它不具备任意桌面操作能力。10月6日[云端核验](../../output/qa/software-completion-2026-10-06/verification.md)保留当时浏览器受限的事实；10月9日[本地整合核验](../../output/qa/2026-10-09-dot-integration/verification.md)补充实际浏览器操作及语音断连回归。普通启动仍默认关闭笔记执行；需要试用时只按作业说明在独立运行目录启用。
 
 ## 2026-10-15 记忆与人格
 
-拥有者可在Memory查看「我了解的关于你的事」、更正、忘掉或设7天到期，并在同一页查看「为什么提醒我」。相同文字不会存成第二条。填充词不同、同一姓名或同一偏好主题会出现核对建议，确认后才停用旧的一条。`记住：`、整句姓名或偏好只生成草稿，确认前不写入。配对终端不能经助理草稿、文字或语音取得事实。人格冲突会保留草稿；“放弃草稿并加载当前人格”才替换为服务端版本。保存回执丢失时使用“Check save status／核对保存状态”，不另建操作；恢复只清理匹配的草稿。重置默认人格仍增加版本。业务备份包含未删除的事实、已保存的人格和电脑作业记录。它仍不是整机镜像：登录、配对和云令牌不在里面。
+拥有者可在Memory查看「我了解的关于你的事」、更正、忘掉或设7天到期，并在同一页查看「为什么提醒我」。相同文字不会存成第二条。填充词不同、同一姓名或同一偏好主题会出现核对建议，确认后才停用旧的一条。`记住：`、整句姓名或偏好先生成草稿，默认单次确认；Full access下受支持的新拥有者请求可自动应用。配对终端不能经助理草稿、文字或语音取得事实。人格冲突会保留草稿；“放弃草稿并加载当前人格”才替换为服务端版本。保存回执丢失时使用“Check save status／核对保存状态”，不另建操作；恢复只清理匹配的草稿。重置默认人格仍增加版本。业务备份包含未删除的事实、已保存的人格和电脑作业记录。它仍不是整机镜像：登录、配对和云令牌不在里面。
 
 安静时段、早晨简报时间和可选晚间检查在同一份偏好里。检查出现时会写明为什么出现；安静时段内不新发。关闭某一条检查不会删除事务。同一页的「我该怎么说、何时打扰」保存语气（平实／温暖）、详略（简短／平常）和主动程度（关闭／较少／平常）。只有按下保存才写入，对话不会擅自修改。关闭会停掉早晨和晚间检查；较少保留早晨简报并跳过晚间检查。事务跟进仍用各自的开关。旧的偏好记录没有这三项时按平实、平常、平常补上。文字和语音提示把人格放在最前，安全规则在风格句子之前。默认平实、平常、平常时，本地回复原文不变；简短只留第一句，温暖只加固定招呼，关闭主动时去掉“要不要／Want to”这类建议句。离线场景在 `evals/persona_style.json`。
 
 ## 当前助理与常驻人物操作（2026-10-22）
 
-Assistant opens directly into one composer. Empty text shows the configured microphone action; entered text shows Send. More opens file activity, help and character review; rejected A1 studies remain historical. Plus provides briefing, or selected-image/screen controls during an eligible owner voice session. File actions still require full-text review; unknown writes are independently reconciled. Local mode states the supported text-rule scope. With Qwen Omni enabled, owner text and voice use the same model and context; typing does not request a microphone.
+Assistant opens directly into one composer. Empty text shows the configured microphone action; entered text shows Send. More opens file activity, help and character review; rejected A1 studies remain historical. Plus provides briefing, or selected-image/screen controls during an eligible owner voice session. File actions show a full-content approval card in Ask first; Full access authorizes eligible new requests through the same bounded executors. Unknown writes are independently reconciled. Local mode states the supported text-rule scope. With Qwen Omni enabled, owner text and voice use the same model and context; typing does not request a microphone.
 
 2026-10-23续轮：新连接最多缓冲5秒早到语音，取消立即丢弃；对话失败或10分钟到期后需本人再次发起，不自动收费重连。记忆确认后重新连接会读取新事实，旧连接释放期间短暂等待。改口产生的新草稿会取代同一事项旧稿，取消及过期不能再确认。若最新日程无法核实，显示失败并停止连接，不把旧数量当成新结果。
 
@@ -213,3 +213,9 @@ Web Push 默认关闭，说明见 [web-push.md](web-push.md)。只有 `DESK_WEB_
 文字流中断时保留原操作编号；核对状态会恢复原回复并清掉对应错误，不把待确认记忆草稿写成已保存。重新登录可恢复已知拥有者操作回执，但不恢复上一次登录的聊天历史。配对身份不能确认目标草稿或应用拥有者备份。
 
 手机仍为全屏Alice＋Plan／More。记忆页把近期活动、别名、档案、目标和检查记录按需展开；别名输入也有离开保护。网页增加拥有者诊断入口。身份降低时旧私人聊天／诊断清除；本地预览续期保留未发送输入。450项后端、89项前端及本轮浏览器范围见[QA](../../output/qa/2026-10-28-grok-review-merge/verification.md)，不等于已更新原生模拟器／Pi或真实模型验收。
+
+## 权限与对话内恢复（2026-10-29）
+
+输入框下方或Settings → Assistant permissions可选择Ask first／Full access，再按Use…保存；两处使用同一工作空间设置。Full access只覆盖界面列出的已有软件工具，不连接账户或开启实体／媒体功能。旧待确认动作仍需单独决定。可随时切回Ask first，尚未开始的自动作业会重核该撤回。
+
+发生丢失回执时在对话中选Recover previous action；它使用同一操作编号，不重复写文件，也不会清除另一段未发送文字。权限设置和Stop／Check result不被未知业务写入队列挡住。Task详情的Continue with Alice保留所选事务；手机Back to Alice返回全屏人物主页。完整范围见[权限契约](assistant-permissions.md)。

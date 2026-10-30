@@ -1,0 +1,265 @@
+{
+  "model": "gpt-realtime-2.1",
+  "backend_model": null,
+  "language_mode": "en",
+  "harness_protocol": "v2-live-completion-language",
+  "ready": true,
+  "end_reason": "quiet_after_reply",
+  "errors": [],
+  "elapsed_s": 15.3015,
+  "input_end_s": 4.9315,
+  "first_non_silent_output_s": 6.251,
+  "first_audio_after_input_s": 1.3195,
+  "interrupt_at_s": 7.0815,
+  "voice_usage_seconds": 0,
+  "provider_usage": {
+    "resp_EeL3TF5UAy8OA21hUnsS5": {
+      "total_tokens": 374,
+      "input_tokens": 193,
+      "output_tokens": 181,
+      "input_token_details": {
+        "text_tokens": 155,
+        "audio_tokens": 38,
+        "image_tokens": 0,
+        "cached_tokens": 0,
+        "cached_tokens_details": {
+          "text_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "output_token_details": {
+        "text_tokens": 79,
+        "audio_tokens": 102,
+        "reasoning_tokens": 44
+      }
+    },
+    "resp_EeL3YPpBLaqZ9aFnEcQPi": {
+      "total_tokens": 352,
+      "input_tokens": 308,
+      "output_tokens": 44,
+      "input_token_details": {
+        "text_tokens": 233,
+        "audio_tokens": 75,
+        "image_tokens": 0,
+        "cached_tokens": 128,
+        "cached_tokens_details": {
+          "text_tokens": 128,
+          "audio_tokens": 0,
+          "image_tokens": 0
+        }
+      },
+      "output_token_details": {
+        "text_tokens": 29,
+        "audio_tokens": 15,
+        "reasoning_tokens": 20
+      }
+    }
+  },
+  "usage_finalized": true,
+  "estimated_uncached_usd": 0.015248000000000001,
+  "transcript": "Okay, let me think about a clear way to structure the next five days for you.ready",
+  "transcript_events": [
+    {
+      "at": 5.9147,
+      "text": "Okay",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 5.9252,
+      "text": ",",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.2514,
+      "text": " let",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.2514,
+      "text": " me",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.2514,
+      "text": " think",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.4484,
+      "text": " about",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.4484,
+      "text": " a",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.4484,
+      "text": " clear",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.5051,
+      "text": " way",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.5051,
+      "text": " to",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.5051,
+      "text": " structure",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.5051,
+      "text": " the",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.5051,
+      "text": " next",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.5051,
+      "text": " five",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.511,
+      "text": " days",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.774,
+      "text": " for",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.774,
+      "text": " you",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 6.774,
+      "text": ".",
+      "response_id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "at": 11.1905,
+      "text": "ready",
+      "response_id": "resp_EeL3YPpBLaqZ9aFnEcQPi",
+      "start_ms": null,
+      "end_ms": null
+    }
+  ],
+  "events": [
+    {
+      "type": "session.updated",
+      "at": 1.5304
+    },
+    {
+      "type": "input_audio_buffer.speech_started",
+      "at": 1.7307
+    },
+    {
+      "type": "fixture.input_end",
+      "at": 4.9315
+    },
+    {
+      "type": "input_audio_buffer.speech_stopped",
+      "at": 5.5508
+    },
+    {
+      "type": "response.created",
+      "at": 5.5572,
+      "id": "resp_EeL3TF5UAy8OA21hUnsS5"
+    },
+    {
+      "type": "fixture.interruption",
+      "at": 7.0815
+    },
+    {
+      "type": "input_audio_buffer.speech_started",
+      "at": 7.2951
+    },
+    {
+      "type": "response.done",
+      "at": 7.3206,
+      "id": "resp_EeL3TF5UAy8OA21hUnsS5",
+      "status": "cancelled",
+      "status_details": {
+        "type": "cancelled",
+        "reason": "turn_detected"
+      }
+    },
+    {
+      "type": "input_audio_buffer.speech_stopped",
+      "at": 10.743
+    },
+    {
+      "type": "response.created",
+      "at": 10.8344,
+      "id": "resp_EeL3YPpBLaqZ9aFnEcQPi"
+    },
+    {
+      "type": "response.done",
+      "at": 11.4923,
+      "id": "resp_EeL3YPpBLaqZ9aFnEcQPi",
+      "status": "completed",
+      "status_details": null
+    }
+  ],
+  "backend_text_events": [],
+  "business_evidence": {
+    "tools": [],
+    "active_memories": [],
+    "pending_proposals": []
+  },
+  "measurement": "Paced synthetic PCM, network-received audio above RMS100; not DAC playback or human-use latency.",
+  "case": "interrupt-en",
+  "run_id": "realtime-interrupt-01",
+  "reserved_usd": 1.5,
+  "synthetic_input": "Explain a detailed study plan for the next five days."
+}

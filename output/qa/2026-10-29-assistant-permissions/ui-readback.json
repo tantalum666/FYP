@@ -1,0 +1,46 @@
+{
+  "permissions": {
+    "mode": "ask",
+    "version": 3,
+    "updated_at": "2026-10-29T03:10:39.758018Z"
+  },
+  "actions": [
+    {
+      "title": "Permission card demo",
+      "id": "f09444e5484a475780803ccc6e7db1db",
+      "state": "succeeded",
+      "authorization": {
+        "mode": "once"
+      },
+      "file_exists": true,
+      "bytes": 75,
+      "sha256": "241b23270e94522e3d4d476a20b1a4b12624c10f279dab8da565a3f28cb208c5"
+    },
+    {
+      "title": "Full access demo",
+      "id": "bb4aa366233a474c9345dac81fffc067",
+      "state": "succeeded",
+      "authorization": {
+        "mode": "full",
+        "version": 2
+      },
+      "file_exists": true,
+      "bytes": 83,
+      "sha256": "f8816fd5e320f3d7e682b606c08c49595e83ab16ac65fa15ad4bc6a4c661ba37"
+    },
+    {
+      "title": "Declined phone demo",
+      "id": "74f8c67d5f2f4a66a1b401b819e15188",
+      "state": "expired",
+      "authorization": null,
+      "file_exists": false
+    },
+    {
+      "title": "Phone approval check",
+      "id": "9416729bfef749ce986b068ff0cef01c",
+      "state": "cancelled",
+      "authorization": null,
+      "file_exists": false
+    }
+  ]
+}

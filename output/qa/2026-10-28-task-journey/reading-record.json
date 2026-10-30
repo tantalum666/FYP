@@ -1,0 +1,13 @@
+{
+  "started_at": "2026-10-28T14:43:23Z",
+  "scope": "One task through bounded note review/approval, independent result verification, phone continuation and lost-acknowledgement/restart recovery.",
+  "base": "b02d92b132a83dccb4674abb25f33d7613fbcd28 (open PR64)",
+  "read": [
+    "AGENTS.md, product.md, handoff.md full",
+    "decision-log.md latest40 lines covering integration, local-only validation and continuation",
+    "computer-jobs.md, task-tracking.md, delivery-readiness.md and software-maintenance.md full",
+    "rg Markdown inventory found only root AGENTS applicable to affected app paths"
+  ],
+  "bounds": "Local only, no CI or paid models. Use a separate disposable QA runtime; enable only its fixed note executor. Preserve previous runtime, phone build and Pi pause.",
+  "state": "completed as the first slice; later UX superseded by ../2026-10-29-assistant-permissions/verification.md"
+}

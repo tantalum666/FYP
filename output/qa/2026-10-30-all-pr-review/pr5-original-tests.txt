@@ -1,0 +1,2088 @@
+........................................................................ [  5%]
+........................................................................ [ 10%]
+........................................................................ [ 15%]
+........................................................................ [ 20%]
+........................................................................ [ 26%]
+........................................................................ [ 31%]
+........................................................................ [ 36%]
+............................................F......FF................FFF [ 41%]
+FFFFFFFF............................FFFF........FF...FF................. [ 46%]
+........................................................................ [ 52%]
+........................................................................ [ 57%]
+........................................................................ [ 62%]
+........................................................................ [ 67%]
+......................................................F................. [ 73%]
+........................................................................ [ 78%]
+................................................FF.........FF........... [ 83%]
+........................................F.....F...FFFFFFFFFFFFFFFFF..... [ 88%]
+........................................................................ [ 93%]
+........................................................................ [ 99%]
+............                                                             [100%]
+=================================== FAILURES ===================================
+_________ test_v2_explicit_preserves_all_prior_rows_and_atomic_version _________
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_v2_explicit_preserves_all0')
+
+    def test_v2_explicit_preserves_all_prior_rows_and_atomic_version(tmp_path):
+        old = version2(tmp_path)
+        before = read_dump(old)
+>       current = Store(tmp_path, allow_public_capture_migration=True)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:92:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_v2_explicit_preserves_all0')
+expected = ((16777234, 166190944, 16832, 501, 3), (16777234, 166190946, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_______________ test_v1_cannot_skip_or_combine_migration[False] ________________
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_v1_cannot_skip_or_combine0')
+watch = False
+
+    @pytest.mark.parametrize("watch", [False, True])
+    def test_v1_cannot_skip_or_combine_migration(tmp_path, watch):
+        old, _ = legacy_runtime(tmp_path)
+        before = read_dump(old)
+        with pytest.raises(DomainError, match="SCHEMA_STAGED_MIGRATION_REQUIRED"):
+            Store(tmp_path, allow_watch_retention_migration=watch, allow_public_capture_migration=True)
+        assert read_dump(old) == before
+>       intermediate = Store(tmp_path, allow_watch_retention_migration=True)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:116:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_v1_cannot_skip_or_combine0')
+expected = ((16777234, 166190968, 16832, 501, 5), (16777234, 166190970, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+________________ test_v1_cannot_skip_or_combine_migration[True] ________________
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_v1_cannot_skip_or_combine1')
+watch = True
+
+    @pytest.mark.parametrize("watch", [False, True])
+    def test_v1_cannot_skip_or_combine_migration(tmp_path, watch):
+        old, _ = legacy_runtime(tmp_path)
+        before = read_dump(old)
+        with pytest.raises(DomainError, match="SCHEMA_STAGED_MIGRATION_REQUIRED"):
+            Store(tmp_path, allow_watch_retention_migration=watch, allow_public_capture_migration=True)
+        assert read_dump(old) == before
+>       intermediate = Store(tmp_path, allow_watch_retention_migration=True)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:116:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_v1_cannot_skip_or_combine1')
+expected = ((16777234, 166191053, 16832, 501, 5), (16777234, 166191055, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_every_capture_migration_stage_rolls_back[CREATE TABLE public_captures] __
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_every_capture_migration_s0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110a2b700>
+marker = 'CREATE TABLE public_captures'
+
+    @pytest.mark.parametrize("marker", MIGRATION_MARKERS)
+    def test_every_capture_migration_stage_rolls_back(tmp_path, monkeypatch, marker):
+        old = version2(tmp_path)
+        before = read_dump(old)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic rollback")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic rollback"):
+>           Store(tmp_path, allow_public_capture_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:241:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_every_capture_migration_s0')
+expected = ((16777234, 166191335, 16832, 501, 3), (16777234, 166191337, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_every_capture_migration_stage_rolls_back[CREATE TABLE public_capture_operations] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_every_capture_migration_s1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110fc8bb0>
+marker = 'CREATE TABLE public_capture_operations'
+
+    @pytest.mark.parametrize("marker", MIGRATION_MARKERS)
+    def test_every_capture_migration_stage_rolls_back(tmp_path, monkeypatch, marker):
+        old = version2(tmp_path)
+        before = read_dump(old)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic rollback")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic rollback"):
+>           Store(tmp_path, allow_public_capture_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:241:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_every_capture_migration_s1')
+expected = ((16777234, 166191347, 16832, 501, 3), (16777234, 166191349, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_every_capture_migration_stage_rolls_back[CREATE INDEX public_captures_created ON public_captures(created_at,id)] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_every_capture_migration_s2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110fca2e0>
+marker = 'CREATE INDEX public_captures_created ON public_captures(created_at,id)'
+
+    @pytest.mark.parametrize("marker", MIGRATION_MARKERS)
+    def test_every_capture_migration_stage_rolls_back(tmp_path, monkeypatch, marker):
+        old = version2(tmp_path)
+        before = read_dump(old)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic rollback")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic rollback"):
+>           Store(tmp_path, allow_public_capture_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:241:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_every_capture_migration_s2')
+expected = ((16777234, 166191359, 16832, 501, 3), (16777234, 166191361, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_every_capture_migration_stage_rolls_back[CREATE INDEX public_capture_operations_capture ON public_capture_operations(capture_id)] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_every_capture_migration_s3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110fcb070>
+marker = 'CREATE INDEX public_capture_operations_capture ON public_capture_operations(capture_id)'
+
+    @pytest.mark.parametrize("marker", MIGRATION_MARKERS)
+    def test_every_capture_migration_stage_rolls_back(tmp_path, monkeypatch, marker):
+        old = version2(tmp_path)
+        before = read_dump(old)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic rollback")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic rollback"):
+>           Store(tmp_path, allow_public_capture_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:241:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_every_capture_migration_s3')
+expected = ((16777234, 166191373, 16832, 501, 3), (16777234, 166191375, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_____ test_every_capture_migration_stage_rolls_back[PRAGMA user_version=3] _____
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_every_capture_migration_s4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110fca970>
+marker = 'PRAGMA user_version=3'
+
+    @pytest.mark.parametrize("marker", MIGRATION_MARKERS)
+    def test_every_capture_migration_stage_rolls_back(tmp_path, monkeypatch, marker):
+        old = version2(tmp_path)
+        before = read_dump(old)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic rollback")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic rollback"):
+>           Store(tmp_path, allow_public_capture_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:241:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_every_capture_migration_s4')
+expected = ((16777234, 166191385, 16832, 501, 3), (16777234, 166191387, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_process_exit_at_each_uncommitted_stage_remains_valid_v2[CREATE TABLE public_captures] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_process_exit_at_each_unco0')
+marker = 'CREATE TABLE public_captures'
+
+    @pytest.mark.parametrize("marker", MIGRATION_MARKERS)
+    def test_process_exit_at_each_uncommitted_stage_remains_valid_v2(tmp_path, marker):
+        old = version2(tmp_path)
+        before = read_dump(old)
+        program = """
+    import os, sys
+    from contextlib import contextmanager
+    from desk.store import Store
+    original = Store.connection
+    class Exit:
+        def __init__(self, conn): self.conn = conn
+        def execute(self, statement, *args):
+            result = self.conn.execute(statement, *args)
+            if statement.startswith(sys.argv[2]): os._exit(73)
+            return result
+        def __getattr__(self, name): return getattr(self.conn, name)
+    @contextmanager
+    def connection(self, write=False):
+        with original(self, write=write) as conn:
+            yield Exit(conn) if write else conn
+    Store.connection = connection
+    Store(sys.argv[1], allow_public_capture_migration=True)
+    """
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import sys; sys.path.insert(0, 'backend');\n" + program,
+                str(tmp_path),
+                marker,
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            timeout=20,
+        )
+>       assert result.returncode == 73, result.stderr
+E       AssertionError: b'Traceback (most recent call last):
+E           File "<string>", line 19, in <module>
+E             Store(sys.argv[1], allow_public_cap...igration_identity
+E             raise DomainError("MIGRATION_STORE_CHANGED")
+E         desk.store.DomainError: MIGRATION_STORE_CHANGED
+E         '
+E       assert 1 == 73
+E        +  where 1 = CompletedProcess(args=['/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/.venv/bin/python', '-c...gration_identity\n    raise DomainError("MIGRATION_STORE_CHANGED")\ndesk.store.DomainError: MIGRATION_STORE_CHANGED\n').returncode
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:282: AssertionError
+_ test_process_exit_at_each_uncommitted_stage_remains_valid_v2[CREATE TABLE public_capture_operations] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_process_exit_at_each_unco1')
+marker = 'CREATE TABLE public_capture_operations'
+
+    @pytest.mark.parametrize("marker", MIGRATION_MARKERS)
+    def test_process_exit_at_each_uncommitted_stage_remains_valid_v2(tmp_path, marker):
+        old = version2(tmp_path)
+        before = read_dump(old)
+        program = """
+    import os, sys
+    from contextlib import contextmanager
+    from desk.store import Store
+    original = Store.connection
+    class Exit:
+        def __init__(self, conn): self.conn = conn
+        def execute(self, statement, *args):
+            result = self.conn.execute(statement, *args)
+            if statement.startswith(sys.argv[2]): os._exit(73)
+            return result
+        def __getattr__(self, name): return getattr(self.conn, name)
+    @contextmanager
+    def connection(self, write=False):
+        with original(self, write=write) as conn:
+            yield Exit(conn) if write else conn
+    Store.connection = connection
+    Store(sys.argv[1], allow_public_capture_migration=True)
+    """
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import sys; sys.path.insert(0, 'backend');\n" + program,
+                str(tmp_path),
+                marker,
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            timeout=20,
+        )
+>       assert result.returncode == 73, result.stderr
+E       AssertionError: b'Traceback (most recent call last):
+E           File "<string>", line 19, in <module>
+E             Store(sys.argv[1], allow_public_cap...igration_identity
+E             raise DomainError("MIGRATION_STORE_CHANGED")
+E         desk.store.DomainError: MIGRATION_STORE_CHANGED
+E         '
+E       assert 1 == 73
+E        +  where 1 = CompletedProcess(args=['/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/.venv/bin/python', '-c...gration_identity\n    raise DomainError("MIGRATION_STORE_CHANGED")\ndesk.store.DomainError: MIGRATION_STORE_CHANGED\n').returncode
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:282: AssertionError
+_ test_process_exit_at_each_uncommitted_stage_remains_valid_v2[CREATE INDEX public_captures_created ON public_captures(created_at,id)] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_process_exit_at_each_unco2')
+marker = 'CREATE INDEX public_captures_created ON public_captures(created_at,id)'
+
+    @pytest.mark.parametrize("marker", MIGRATION_MARKERS)
+    def test_process_exit_at_each_uncommitted_stage_remains_valid_v2(tmp_path, marker):
+        old = version2(tmp_path)
+        before = read_dump(old)
+        program = """
+    import os, sys
+    from contextlib import contextmanager
+    from desk.store import Store
+    original = Store.connection
+    class Exit:
+        def __init__(self, conn): self.conn = conn
+        def execute(self, statement, *args):
+            result = self.conn.execute(statement, *args)
+            if statement.startswith(sys.argv[2]): os._exit(73)
+            return result
+        def __getattr__(self, name): return getattr(self.conn, name)
+    @contextmanager
+    def connection(self, write=False):
+        with original(self, write=write) as conn:
+            yield Exit(conn) if write else conn
+    Store.connection = connection
+    Store(sys.argv[1], allow_public_capture_migration=True)
+    """
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import sys; sys.path.insert(0, 'backend');\n" + program,
+                str(tmp_path),
+                marker,
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            timeout=20,
+        )
+>       assert result.returncode == 73, result.stderr
+E       AssertionError: b'Traceback (most recent call last):
+E           File "<string>", line 19, in <module>
+E             Store(sys.argv[1], allow_public_cap...igration_identity
+E             raise DomainError("MIGRATION_STORE_CHANGED")
+E         desk.store.DomainError: MIGRATION_STORE_CHANGED
+E         '
+E       assert 1 == 73
+E        +  where 1 = CompletedProcess(args=['/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/.venv/bin/python', '-c...gration_identity\n    raise DomainError("MIGRATION_STORE_CHANGED")\ndesk.store.DomainError: MIGRATION_STORE_CHANGED\n').returncode
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:282: AssertionError
+_ test_process_exit_at_each_uncommitted_stage_remains_valid_v2[CREATE INDEX public_capture_operations_capture ON public_capture_operations(capture_id)] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_process_exit_at_each_unco3')
+marker = 'CREATE INDEX public_capture_operations_capture ON public_capture_operations(capture_id)'
+
+    @pytest.mark.parametrize("marker", MIGRATION_MARKERS)
+    def test_process_exit_at_each_uncommitted_stage_remains_valid_v2(tmp_path, marker):
+        old = version2(tmp_path)
+        before = read_dump(old)
+        program = """
+    import os, sys
+    from contextlib import contextmanager
+    from desk.store import Store
+    original = Store.connection
+    class Exit:
+        def __init__(self, conn): self.conn = conn
+        def execute(self, statement, *args):
+            result = self.conn.execute(statement, *args)
+            if statement.startswith(sys.argv[2]): os._exit(73)
+            return result
+        def __getattr__(self, name): return getattr(self.conn, name)
+    @contextmanager
+    def connection(self, write=False):
+        with original(self, write=write) as conn:
+            yield Exit(conn) if write else conn
+    Store.connection = connection
+    Store(sys.argv[1], allow_public_capture_migration=True)
+    """
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import sys; sys.path.insert(0, 'backend');\n" + program,
+                str(tmp_path),
+                marker,
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            timeout=20,
+        )
+>       assert result.returncode == 73, result.stderr
+E       AssertionError: b'Traceback (most recent call last):
+E           File "<string>", line 19, in <module>
+E             Store(sys.argv[1], allow_public_cap...igration_identity
+E             raise DomainError("MIGRATION_STORE_CHANGED")
+E         desk.store.DomainError: MIGRATION_STORE_CHANGED
+E         '
+E       assert 1 == 73
+E        +  where 1 = CompletedProcess(args=['/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/.venv/bin/python', '-c...gration_identity\n    raise DomainError("MIGRATION_STORE_CHANGED")\ndesk.store.DomainError: MIGRATION_STORE_CHANGED\n').returncode
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:282: AssertionError
+_ test_process_exit_at_each_uncommitted_stage_remains_valid_v2[PRAGMA user_version=3] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_process_exit_at_each_unco4')
+marker = 'PRAGMA user_version=3'
+
+    @pytest.mark.parametrize("marker", MIGRATION_MARKERS)
+    def test_process_exit_at_each_uncommitted_stage_remains_valid_v2(tmp_path, marker):
+        old = version2(tmp_path)
+        before = read_dump(old)
+        program = """
+    import os, sys
+    from contextlib import contextmanager
+    from desk.store import Store
+    original = Store.connection
+    class Exit:
+        def __init__(self, conn): self.conn = conn
+        def execute(self, statement, *args):
+            result = self.conn.execute(statement, *args)
+            if statement.startswith(sys.argv[2]): os._exit(73)
+            return result
+        def __getattr__(self, name): return getattr(self.conn, name)
+    @contextmanager
+    def connection(self, write=False):
+        with original(self, write=write) as conn:
+            yield Exit(conn) if write else conn
+    Store.connection = connection
+    Store(sys.argv[1], allow_public_capture_migration=True)
+    """
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import sys; sys.path.insert(0, 'backend');\n" + program,
+                str(tmp_path),
+                marker,
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            timeout=20,
+        )
+>       assert result.returncode == 73, result.stderr
+E       AssertionError: b'Traceback (most recent call last):
+E           File "<string>", line 19, in <module>
+E             Store(sys.argv[1], allow_public_cap...igration_identity
+E             raise DomainError("MIGRATION_STORE_CHANGED")
+E         desk.store.DomainError: MIGRATION_STORE_CHANGED
+E         '
+E       assert 1 == 73
+E        +  where 1 = CompletedProcess(args=['/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/.venv/bin/python', '-c...gration_identity\n    raise DomainError("MIGRATION_STORE_CHANGED")\ndesk.store.DomainError: MIGRATION_STORE_CHANGED\n').returncode
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:282: AssertionError
+_______________ test_cli_v2_upgrade_and_v3_readonly_verification _______________
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_cli_v2_upgrade_and_v3_rea0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110a29ef0>
+capsys = <_pytest.capture.CaptureFixture object at 0x110ffe270>
+
+    def test_cli_v2_upgrade_and_v3_readonly_verification(tmp_path, monkeypatch, capsys):
+        root = tmp_path / "runtime"
+        old = version2(root)
+        cli = cli_module()
+>       assert cli.main(cli_args(root)) == 0
+E       AssertionError: assert 1 == 0
+E        +  where 1 = <function main at 0x10fdb9a60>(['--runtime', '/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_cli_v2_upgrade_and_v3_rea0/runtime', '--allow-public-capture-migration'])
+E        +    where <function main at 0x10fdb9a60> = <module 'public_capture_cli' from '/Users/tantalum/.codex/worktrees/all-pr-review-20261030/FYP/.runtime/pr-review/desk-companion/scripts/migrate_public_capture.py'>.main
+E        +    and   ['--runtime', '/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_cli_v2_upgrade_and_v3_rea0/runtime', '--allow-public-capture-migration'] = cli_args(PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_cli_v2_upgrade_and_v3_rea0/runtime'))
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:306: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Migration not verified. Keep the store stopped and inspect the documented compatibility requirements.
+________ test_process_exit_immediately_after_commit_reopens_complete_v3 ________
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_process_exit_immediately_0')
+
+    def test_process_exit_immediately_after_commit_reopens_complete_v3(tmp_path):
+        old = version2(tmp_path)
+        program = """
+    import os, sys
+    from contextlib import contextmanager
+    from desk.store import Store
+    original = Store.connection
+    @contextmanager
+    def connection(self, write=False):
+        with original(self, write=write) as conn:
+            yield conn
+        if write: os._exit(74)
+    Store.connection = connection
+    Store(sys.argv[1], allow_public_capture_migration=True)
+    """
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "import sys; sys.path.insert(0, 'backend');\n" + program,
+                str(tmp_path),
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            timeout=20,
+        )
+>       assert result.returncode == 74, result.stderr
+E       AssertionError: b'Traceback (most recent call last):
+E           File "<string>", line 13, in <module>
+E             Store(sys.argv[1], allow_public_cap...igration_identity
+E             raise DomainError("MIGRATION_STORE_CHANGED")
+E         desk.store.DomainError: MIGRATION_STORE_CHANGED
+E         '
+E       assert 1 == 74
+E        +  where 1 = CompletedProcess(args=['/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/.venv/bin/python', '-c...gration_identity\n    raise DomainError("MIGRATION_STORE_CHANGED")\ndesk.store.DomainError: MIGRATION_STORE_CHANGED\n').returncode
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:508: AssertionError
+_____ test_migration_rechecks_under_transaction_before_bootstrap[version] ______
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_migration_rechecks_under_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110fc8d70>
+change = 'version'
+
+    @pytest.mark.parametrize("change", ["version", "structure"])
+    def test_migration_rechecks_under_transaction_before_bootstrap(tmp_path, monkeypatch, change):
+        old = version2(tmp_path)
+        original = Store.connection
+
+        @contextmanager
+        def connection(self, write=False):
+            if write:
+                with closing(sqlite3.connect(self.path)) as outside:
+                    if change == "version":
+                        outside.execute("PRAGMA user_version=999")
+                    else:
+                        outside.execute("DROP TABLE owner")
+                    outside.commit()
+            with original(self, write=write) as conn:
+                yield conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+>       with pytest.raises(DomainError, match="SCHEMA_MIGRATION_INVALID|SCHEMA_STRUCTURE_UNSUPPORTED"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'SCHEMA_MIGRATION_INVALID|SCHEMA_STRUCTURE_UNSUPPORTED'
+E         Actual message: 'MIGRATION_STORE_CHANGED'
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:533: AssertionError
+____ test_migration_rechecks_under_transaction_before_bootstrap[structure] _____
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_migration_rechecks_under_1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110a2b540>
+change = 'structure'
+
+    @pytest.mark.parametrize("change", ["version", "structure"])
+    def test_migration_rechecks_under_transaction_before_bootstrap(tmp_path, monkeypatch, change):
+        old = version2(tmp_path)
+        original = Store.connection
+
+        @contextmanager
+        def connection(self, write=False):
+            if write:
+                with closing(sqlite3.connect(self.path)) as outside:
+                    if change == "version":
+                        outside.execute("PRAGMA user_version=999")
+                    else:
+                        outside.execute("DROP TABLE owner")
+                    outside.commit()
+            with original(self, write=write) as conn:
+                yield conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+>       with pytest.raises(DomainError, match="SCHEMA_MIGRATION_INVALID|SCHEMA_STRUCTURE_UNSUPPORTED"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'SCHEMA_MIGRATION_INVALID|SCHEMA_STRUCTURE_UNSUPPORTED'
+E         Actual message: 'MIGRATION_STORE_CHANGED'
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:533: AssertionError
+__________ test_runtime_v2_needs_distinct_explicit_capture_migration ___________
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_runtime_v2_needs_distinct0')
+
+    def test_runtime_v2_needs_distinct_explicit_capture_migration(tmp_path):
+        from desk.app import create_app
+
+        old = version2(tmp_path)
+        before = read_dump(old)
+        with pytest.raises(DomainError, match="SCHEMA_MIGRATION_REQUIRED"):
+            create_app(directory=tmp_path, scheduler=False)
+        assert read_dump(old) == before
+>       app = create_app(directory=tmp_path, scheduler=False, allow_public_capture_migration=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:553:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/app.py:57: in create_app
+    store = Store(
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_runtime_v2_needs_distinct0')
+expected = ((16777234, 166191795, 16832, 501, 3), (16777234, 166191797, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+____ test_cli_current_version_rechecks_full_schema_after_preflight[capture] ____
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_cli_current_version_reche0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110d77850>
+kind = 'capture'
+
+    @pytest.mark.parametrize("kind", ["capture", "watch"])
+    def test_cli_current_version_rechecks_full_schema_after_preflight(tmp_path, monkeypatch, kind):
+        store = Store(tmp_path, password="synthetic-only") if kind == "capture" else version2(tmp_path)
+        cli = operator_cli(kind)
+        original = cli._existing_private_database
+
+        def damaged(directory):
+            result = original(directory)
+            with store.connection(write=True) as conn:
+                conn.execute("DROP TABLE owner")
+            return result
+
+        monkeypatch.setattr(cli, "_existing_private_database", damaged)
+        flag = (
+            "--allow-public-capture-migration"
+            if kind == "capture"
+            else "--allow-watch-retention-migration"
+        )
+        assert cli.main(["--runtime", str(tmp_path), flag]) == 1
+        with store.connection() as conn:
+>           assert not conn.execute("SELECT 1 FROM sqlite_master WHERE name='owner'").fetchone()
+E           assert not <sqlite3.Row object at 0x10ff188e0>
+E            +  where <sqlite3.Row object at 0x10ff188e0> = <built-in method fetchone of sqlite3.Cursor object at 0x110f715c0>()
+E            +    where <built-in method fetchone of sqlite3.Cursor object at 0x110f715c0> = <sqlite3.Cursor object at 0x110f715c0>.fetchone
+E            +      where <sqlite3.Cursor object at 0x110f715c0> = <built-in method execute of sqlite3.Connection object at 0x10f9744f0>("SELECT 1 FROM sqlite_master WHERE name='owner'")
+E            +        where <built-in method execute of sqlite3.Connection object at 0x10f9744f0> = <sqlite3.Connection object at 0x10f9744f0>.execute
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:632: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Migration not verified. Keep the store stopped and inspect the documented compatibility requirements.
+_____ test_cli_current_version_rechecks_full_schema_after_preflight[watch] _____
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_cli_current_version_reche1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110d76120>
+kind = 'watch'
+
+    @pytest.mark.parametrize("kind", ["capture", "watch"])
+    def test_cli_current_version_rechecks_full_schema_after_preflight(tmp_path, monkeypatch, kind):
+        store = Store(tmp_path, password="synthetic-only") if kind == "capture" else version2(tmp_path)
+        cli = operator_cli(kind)
+        original = cli._existing_private_database
+
+        def damaged(directory):
+            result = original(directory)
+            with store.connection(write=True) as conn:
+                conn.execute("DROP TABLE owner")
+            return result
+
+        monkeypatch.setattr(cli, "_existing_private_database", damaged)
+        flag = (
+            "--allow-public-capture-migration"
+            if kind == "capture"
+            else "--allow-watch-retention-migration"
+        )
+        assert cli.main(["--runtime", str(tmp_path), flag]) == 1
+        with store.connection() as conn:
+>           assert not conn.execute("SELECT 1 FROM sqlite_master WHERE name='owner'").fetchone()
+E           assert not <sqlite3.Row object at 0x10ee51e70>
+E            +  where <sqlite3.Row object at 0x10ee51e70> = <built-in method fetchone of sqlite3.Cursor object at 0x110f719c0>()
+E            +    where <built-in method fetchone of sqlite3.Cursor object at 0x110f719c0> = <sqlite3.Cursor object at 0x110f719c0>.fetchone
+E            +      where <sqlite3.Cursor object at 0x110f719c0> = <built-in method execute of sqlite3.Connection object at 0x10f9745e0>("SELECT 1 FROM sqlite_master WHERE name='owner'")
+E            +        where <built-in method execute of sqlite3.Connection object at 0x10f9745e0> = <sqlite3.Connection object at 0x10f9745e0>.execute
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:632: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Migration not verified. Keep the store stopped and inspect the documented compatibility requirements.
+_______ test_migration_preserves_preflighted_private_owner_mode[capture] _______
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_migration_preserves_prefl0')
+kind = 'capture'
+
+    @pytest.mark.parametrize("kind", ["capture", "watch"])
+    def test_migration_preserves_preflighted_private_owner_mode(tmp_path, kind):
+        if kind == "capture":
+            store = version2(tmp_path)
+        else:
+            store, _ = legacy_runtime(tmp_path)
+        store.path.chmod(0o700)
+        cli = operator_cli(kind)
+        flag = (
+            "--allow-public-capture-migration"
+            if kind == "capture"
+            else "--allow-watch-retention-migration"
+        )
+>       assert cli.main(["--runtime", str(tmp_path), flag]) == 0
+E       AssertionError: assert 1 == 0
+E        +  where 1 = <function main at 0x1114161f0>(['--runtime', '/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_migration_preserves_prefl0', '--allow-public-capture-migration'])
+E        +    where <function main at 0x1114161f0> = <module 'migrate_public_capture' from '/Users/tantalum/.codex/worktrees/all-pr-review-20261030/FYP/.runtime/pr-review/desk-companion/scripts/migrate_public_capture.py'>.main
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:686: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Migration not verified. Keep the store stopped and inspect the documented compatibility requirements.
+________ test_migration_preserves_preflighted_private_owner_mode[watch] ________
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_migration_preserves_prefl1')
+kind = 'watch'
+
+    @pytest.mark.parametrize("kind", ["capture", "watch"])
+    def test_migration_preserves_preflighted_private_owner_mode(tmp_path, kind):
+        if kind == "capture":
+            store = version2(tmp_path)
+        else:
+            store, _ = legacy_runtime(tmp_path)
+        store.path.chmod(0o700)
+        cli = operator_cli(kind)
+        flag = (
+            "--allow-public-capture-migration"
+            if kind == "capture"
+            else "--allow-watch-retention-migration"
+        )
+>       assert cli.main(["--runtime", str(tmp_path), flag]) == 0
+E       AssertionError: assert 1 == 0
+E        +  where 1 = <function main at 0x111416090>(['--runtime', '/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_migration_preserves_prefl1', '--allow-watch-retention-migration'])
+E        +    where <function main at 0x111416090> = <module 'migrate_watch_retention' from '/Users/tantalum/.codex/worktrees/all-pr-review-20261030/FYP/.runtime/pr-review/desk-companion/scripts/migrate_watch_retention.py'>.main
+
+.runtime/pr-review/desk-companion/tests/test_public_capture_migration.py:686: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Migration not verified. Keep the store stopped and inspect the documented compatibility requirements.
+________________ test_deeply_nested_bounded_json_is_normalized _________________
+
+    def test_deeply_nested_bounded_json_is_normalized():
+        stream = Chunks([b"[" * 20000 + b"0" + b"]" * 20000])
+>       with client(stream) as c, pytest.raises(ValueError, match="structure"):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+.runtime/pr-review/desk-companion/tests/test_text_response_bounds.py:163: Failed
+____ test_current_store_is_verified_without_credentials_or_history_changes _____
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_current_store_is_verified0')
+capsys = <_pytest.capture.CaptureFixture object at 0x10f44e9e0>
+
+    def test_current_store_is_verified_without_credentials_or_history_changes(tmp_path, capsys):
+        root, store = fixture_store(tmp_path)
+        with store.connection() as conn:
+            before = list(conn.iterdump())
+>       assert cli.main(args(root)) == 0
+E       AssertionError: assert 1 == 0
+E        +  where 1 = <function main at 0x10e3c7ab0>(['--runtime', '/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_current_store_is_verified0/runtime', '--allow-watch-retention-migration'])
+E        +    where <function main at 0x10e3c7ab0> = cli.main
+E        +    and   ['--runtime', '/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_current_store_is_verified0/runtime', '--allow-watch-retention-migration'] = args(PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_current_store_is_verified0/runtime'))
+
+.runtime/pr-review/desk-companion/tests/test_watch_migration_cli.py:51: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Migration not verified. Keep the store stopped and inspect the documented compatibility requirements.
+_________ test_legacy_store_requires_explicit_entry_and_preserves_core _________
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_legacy_store_requires_exp0')
+
+    def test_legacy_store_requires_explicit_entry_and_preserves_core(tmp_path):
+        root, store = fixture_store(tmp_path)
+        with store.connection(write=True) as conn:
+            for table in ("responsibility_operations", "responsibility_reviews", "responsibility_sources", "responsibilities"):
+                conn.execute(f"DROP TABLE {table}")
+            conn.execute("PRAGMA user_version=1")
+            conn.execute("INSERT INTO records(at,action,event_id,details) VALUES('2026-01-01','synthetic',NULL,'{}')")
+        with store.connection() as conn:
+            owner = conn.execute("SELECT password_hash FROM owner").fetchone()[0]
+            records = [tuple(row) for row in conn.execute("SELECT * FROM records")]
+>       assert cli.main(args(root)) == 0
+E       AssertionError: assert 1 == 0
+E        +  where 1 = <function main at 0x10e3c7ab0>(['--runtime', '/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_legacy_store_requires_exp0/runtime', '--allow-watch-retention-migration'])
+E        +    where <function main at 0x10e3c7ab0> = cli.main
+E        +    and   ['--runtime', '/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_legacy_store_requires_exp0/runtime', '--allow-watch-retention-migration'] = args(PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_legacy_store_requires_exp0/runtime'))
+
+.runtime/pr-review/desk-companion/tests/test_watch_migration_cli.py:68: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Migration not verified. Keep the store stopped and inspect the documented compatibility requirements.
+___________________ test_read_handle_is_closed_before_store ____________________
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_read_handle_is_closed_bef0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1107a8c90>
+
+    def test_read_handle_is_closed_before_store(tmp_path, monkeypatch):
+        root, _ = fixture_store(tmp_path)
+        original = sqlite3.connect
+        reads = []
+
+        def connect(*args, **kwargs):
+            result = original(*args, **kwargs)
+            reads.append(result)
+            return result
+
+        monkeypatch.setattr(cli.sqlite3, "connect", connect)
+>       cli._existing_private_database(root)
+
+.runtime/pr-review/desk-companion/tests/test_watch_migration_cli.py:141:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/scripts/migrate_watch_retention.py:27: in _existing_private_database
+    _verify_migration_store(root, expected, {1, 2})
+.runtime/pr-review/desk-companion/backend/desk/store.py:73: in _verify_migration_store
+    _check_migration_identity(directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_read_handle_is_closed_bef0/runtime')
+expected = ((16777234, 166245680, 16832, 501, 3), (16777234, 166245681, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+___________ test_app_factory_does_not_infer_legacy_migration_consent ___________
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_app_factory_does_not_infe0')
+
+    def test_app_factory_does_not_infer_legacy_migration_consent(tmp_path):
+        from desk.app import create_app
+        from desk.store import DomainError
+
+        root, store = fixture_store(tmp_path)
+        with store.connection(write=True) as conn:
+            for table in ("responsibility_operations", "responsibility_reviews", "responsibility_sources", "responsibilities"):
+                conn.execute(f"DROP TABLE {table}")
+            conn.execute("PRAGMA user_version=1")
+        with pytest.raises(DomainError) as error:
+            create_app(directory=root, scheduler=False)
+        assert error.value.code == "SCHEMA_MIGRATION_REQUIRED"
+        with store.connection() as conn:
+            assert conn.execute("PRAGMA user_version").fetchone()[0] == 1
+>       with pytest.raises(DomainError, match="SCHEMA_MIGRATION_REQUIRED"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'SCHEMA_MIGRATION_REQUIRED'
+E         Actual message: 'MIGRATION_STORE_CHANGED'
+
+.runtime/pr-review/desk-companion/tests/test_watch_migration_cli.py:161: AssertionError
+_ test_legacy_default_denied_before_any_write_and_explicit_migration_preserves _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_legacy_default_denied_bef0')
+
+    def test_legacy_default_denied_before_any_write_and_explicit_migration_preserves(tmp_path):
+        old, watch = legacy_runtime(tmp_path)
+        before = read_dump(old)
+        with old.connection() as conn:
+            old_rows = {
+                name: [tuple(row) for row in conn.execute(f"SELECT * FROM {name}")]
+                for name in WATCH_TABLES
+            }
+            protected = {
+                name: [tuple(row) for row in conn.execute(f"SELECT * FROM {name}")]
+                for name in (
+                    "tasks",
+                    "task_evidence",
+                    "events",
+                    "agent_runs",
+                    "private_files",
+                    "settings",
+                    "owner",
+                    "sessions",
+                    "state",
+                )
+            }
+        with pytest.raises(DomainError, match="SCHEMA_MIGRATION_REQUIRED"):
+            Store(tmp_path)
+        assert read_dump(old) == before
+>       migrated = Store(tmp_path, allow_watch_retention_migration=True)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:85:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_legacy_default_denied_bef0')
+expected = ((16777234, 166249688, 16832, 501, 5), (16777234, 166249690, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_______ test_legacy_standalone_without_watch_tables_migrates_explicitly ________
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_legacy_standalone_without0')
+
+    def test_legacy_standalone_without_watch_tables_migrates_explicitly(tmp_path):
+        store = Store(tmp_path, password="fixture-only")
+        with store.connection(write=True) as conn:
+            for name in (
+                "responsibility_operations",
+                "responsibility_reviews",
+                "responsibility_sources",
+                "responsibilities",
+            ):
+                conn.execute(f"DROP TABLE {name}")
+            conn.execute("DROP TABLE public_capture_operations")
+            conn.execute("DROP TABLE public_captures")
+            conn.execute("PRAGMA user_version=1")
+        with pytest.raises(DomainError, match="SCHEMA_MIGRATION_REQUIRED"):
+            Store(tmp_path)
+>       reopened = Store(tmp_path, allow_watch_retention_migration=True)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:129:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:150: in __init__
+    with self.connection(write=True) as conn:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../../.local/share/uv/python/cpython-3.14.5-macos-aarch64-none/lib/python3.14/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+.runtime/pr-review/desk-companion/backend/desk/store.py:219: in connection
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_legacy_standalone_without0')
+expected = ((16777234, 166249798, 16832, 501, 5), (16777234, 166249800, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_______ test_inconsistent_current_schema_refused_before_writes[partial] ________
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_inconsistent_current_sche0')
+kind = 'partial'
+
+    @pytest.mark.parametrize("kind", ["partial", "missing_index", "missing_owner", "wrong_trigger"])
+    def test_inconsistent_current_schema_refused_before_writes(tmp_path, kind):
+        store, _ = legacy_runtime(tmp_path)
+>       store = Store(tmp_path, allow_watch_retention_migration=True)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:150:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_inconsistent_current_sche0')
+expected = ((16777234, 166249874, 16832, 501, 5), (16777234, 166249876, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+____ test_inconsistent_current_schema_refused_before_writes[missing_index] _____
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_inconsistent_current_sche1')
+kind = 'missing_index'
+
+    @pytest.mark.parametrize("kind", ["partial", "missing_index", "missing_owner", "wrong_trigger"])
+    def test_inconsistent_current_schema_refused_before_writes(tmp_path, kind):
+        store, _ = legacy_runtime(tmp_path)
+>       store = Store(tmp_path, allow_watch_retention_migration=True)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:150:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_inconsistent_current_sche1')
+expected = ((16777234, 166249956, 16832, 501, 5), (16777234, 166249958, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+____ test_inconsistent_current_schema_refused_before_writes[missing_owner] _____
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_inconsistent_current_sche2')
+kind = 'missing_owner'
+
+    @pytest.mark.parametrize("kind", ["partial", "missing_index", "missing_owner", "wrong_trigger"])
+    def test_inconsistent_current_schema_refused_before_writes(tmp_path, kind):
+        store, _ = legacy_runtime(tmp_path)
+>       store = Store(tmp_path, allow_watch_retention_migration=True)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:150:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_inconsistent_current_sche2')
+expected = ((16777234, 166250036, 16832, 501, 5), (16777234, 166250038, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+____ test_inconsistent_current_schema_refused_before_writes[wrong_trigger] _____
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_inconsistent_current_sche3')
+kind = 'wrong_trigger'
+
+    @pytest.mark.parametrize("kind", ["partial", "missing_index", "missing_owner", "wrong_trigger"])
+    def test_inconsistent_current_schema_refused_before_writes(tmp_path, kind):
+        store, _ = legacy_runtime(tmp_path)
+>       store = Store(tmp_path, allow_watch_retention_migration=True)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:150:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_inconsistent_current_sche3')
+expected = ((16777234, 166250116, 16832, 501, 5), (16777234, 166250118, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_each_migration_stage_rolls_back_schema_rows_triggers_version[ALTER TABLE responsibilities ADD COLUMN retention_state] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110578130>
+marker = 'ALTER TABLE responsibilities ADD COLUMN retention_state'
+
+    @pytest.mark.parametrize(
+        "marker",
+        [
+            "ALTER TABLE responsibilities ADD COLUMN retention_state",
+            "ALTER TABLE responsibilities ADD COLUMN retention_version",
+            "ALTER TABLE responsibilities ADD COLUMN trashed_at",
+            "ALTER TABLE responsibilities ADD COLUMN restored_at",
+            "ALTER TABLE responsibilities ADD COLUMN purged_at",
+            "CREATE INDEX IF NOT EXISTS responsibilities_charged",
+            "DROP TRIGGER IF EXISTS responsibility_task_update",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_task_update",
+            "DROP TRIGGER IF EXISTS responsibility_note_delete",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_note_delete",
+            "PRAGMA user_version=2",
+        ],
+    )
+    def test_each_migration_stage_rolls_back_schema_rows_triggers_version(
+        tmp_path, monkeypatch, marker
+    ):
+        store, _ = legacy_runtime(tmp_path)
+        before = read_dump(store)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic migration failure")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic migration failure"):
+>           Store(tmp_path, allow_watch_retention_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:213:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll0')
+expected = ((16777234, 166250196, 16832, 501, 5), (16777234, 166250198, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_each_migration_stage_rolls_back_schema_rows_triggers_version[ALTER TABLE responsibilities ADD COLUMN retention_version] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110579400>
+marker = 'ALTER TABLE responsibilities ADD COLUMN retention_version'
+
+    @pytest.mark.parametrize(
+        "marker",
+        [
+            "ALTER TABLE responsibilities ADD COLUMN retention_state",
+            "ALTER TABLE responsibilities ADD COLUMN retention_version",
+            "ALTER TABLE responsibilities ADD COLUMN trashed_at",
+            "ALTER TABLE responsibilities ADD COLUMN restored_at",
+            "ALTER TABLE responsibilities ADD COLUMN purged_at",
+            "CREATE INDEX IF NOT EXISTS responsibilities_charged",
+            "DROP TRIGGER IF EXISTS responsibility_task_update",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_task_update",
+            "DROP TRIGGER IF EXISTS responsibility_note_delete",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_note_delete",
+            "PRAGMA user_version=2",
+        ],
+    )
+    def test_each_migration_stage_rolls_back_schema_rows_triggers_version(
+        tmp_path, monkeypatch, marker
+    ):
+        store, _ = legacy_runtime(tmp_path)
+        before = read_dump(store)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic migration failure")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic migration failure"):
+>           Store(tmp_path, allow_watch_retention_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:213:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll1')
+expected = ((16777234, 166250279, 16832, 501, 5), (16777234, 166250281, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_each_migration_stage_rolls_back_schema_rows_triggers_version[ALTER TABLE responsibilities ADD COLUMN trashed_at] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11057b3f0>
+marker = 'ALTER TABLE responsibilities ADD COLUMN trashed_at'
+
+    @pytest.mark.parametrize(
+        "marker",
+        [
+            "ALTER TABLE responsibilities ADD COLUMN retention_state",
+            "ALTER TABLE responsibilities ADD COLUMN retention_version",
+            "ALTER TABLE responsibilities ADD COLUMN trashed_at",
+            "ALTER TABLE responsibilities ADD COLUMN restored_at",
+            "ALTER TABLE responsibilities ADD COLUMN purged_at",
+            "CREATE INDEX IF NOT EXISTS responsibilities_charged",
+            "DROP TRIGGER IF EXISTS responsibility_task_update",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_task_update",
+            "DROP TRIGGER IF EXISTS responsibility_note_delete",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_note_delete",
+            "PRAGMA user_version=2",
+        ],
+    )
+    def test_each_migration_stage_rolls_back_schema_rows_triggers_version(
+        tmp_path, monkeypatch, marker
+    ):
+        store, _ = legacy_runtime(tmp_path)
+        before = read_dump(store)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic migration failure")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic migration failure"):
+>           Store(tmp_path, allow_watch_retention_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:213:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll2')
+expected = ((16777234, 166250361, 16832, 501, 5), (16777234, 166250363, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_each_migration_stage_rolls_back_schema_rows_triggers_version[ALTER TABLE responsibilities ADD COLUMN restored_at] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10f8b4600>
+marker = 'ALTER TABLE responsibilities ADD COLUMN restored_at'
+
+    @pytest.mark.parametrize(
+        "marker",
+        [
+            "ALTER TABLE responsibilities ADD COLUMN retention_state",
+            "ALTER TABLE responsibilities ADD COLUMN retention_version",
+            "ALTER TABLE responsibilities ADD COLUMN trashed_at",
+            "ALTER TABLE responsibilities ADD COLUMN restored_at",
+            "ALTER TABLE responsibilities ADD COLUMN purged_at",
+            "CREATE INDEX IF NOT EXISTS responsibilities_charged",
+            "DROP TRIGGER IF EXISTS responsibility_task_update",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_task_update",
+            "DROP TRIGGER IF EXISTS responsibility_note_delete",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_note_delete",
+            "PRAGMA user_version=2",
+        ],
+    )
+    def test_each_migration_stage_rolls_back_schema_rows_triggers_version(
+        tmp_path, monkeypatch, marker
+    ):
+        store, _ = legacy_runtime(tmp_path)
+        before = read_dump(store)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic migration failure")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic migration failure"):
+>           Store(tmp_path, allow_watch_retention_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:213:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll3')
+expected = ((16777234, 166250443, 16832, 501, 5), (16777234, 166250445, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_each_migration_stage_rolls_back_schema_rows_triggers_version[ALTER TABLE responsibilities ADD COLUMN purged_at] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11084a890>
+marker = 'ALTER TABLE responsibilities ADD COLUMN purged_at'
+
+    @pytest.mark.parametrize(
+        "marker",
+        [
+            "ALTER TABLE responsibilities ADD COLUMN retention_state",
+            "ALTER TABLE responsibilities ADD COLUMN retention_version",
+            "ALTER TABLE responsibilities ADD COLUMN trashed_at",
+            "ALTER TABLE responsibilities ADD COLUMN restored_at",
+            "ALTER TABLE responsibilities ADD COLUMN purged_at",
+            "CREATE INDEX IF NOT EXISTS responsibilities_charged",
+            "DROP TRIGGER IF EXISTS responsibility_task_update",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_task_update",
+            "DROP TRIGGER IF EXISTS responsibility_note_delete",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_note_delete",
+            "PRAGMA user_version=2",
+        ],
+    )
+    def test_each_migration_stage_rolls_back_schema_rows_triggers_version(
+        tmp_path, monkeypatch, marker
+    ):
+        store, _ = legacy_runtime(tmp_path)
+        before = read_dump(store)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic migration failure")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic migration failure"):
+>           Store(tmp_path, allow_watch_retention_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:213:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll4')
+expected = ((16777234, 166250525, 16832, 501, 5), (16777234, 166250527, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_each_migration_stage_rolls_back_schema_rows_triggers_version[CREATE INDEX IF NOT EXISTS responsibilities_charged] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll5')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10f984a60>
+marker = 'CREATE INDEX IF NOT EXISTS responsibilities_charged'
+
+    @pytest.mark.parametrize(
+        "marker",
+        [
+            "ALTER TABLE responsibilities ADD COLUMN retention_state",
+            "ALTER TABLE responsibilities ADD COLUMN retention_version",
+            "ALTER TABLE responsibilities ADD COLUMN trashed_at",
+            "ALTER TABLE responsibilities ADD COLUMN restored_at",
+            "ALTER TABLE responsibilities ADD COLUMN purged_at",
+            "CREATE INDEX IF NOT EXISTS responsibilities_charged",
+            "DROP TRIGGER IF EXISTS responsibility_task_update",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_task_update",
+            "DROP TRIGGER IF EXISTS responsibility_note_delete",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_note_delete",
+            "PRAGMA user_version=2",
+        ],
+    )
+    def test_each_migration_stage_rolls_back_schema_rows_triggers_version(
+        tmp_path, monkeypatch, marker
+    ):
+        store, _ = legacy_runtime(tmp_path)
+        before = read_dump(store)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic migration failure")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic migration failure"):
+>           Store(tmp_path, allow_watch_retention_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:213:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll5')
+expected = ((16777234, 166250607, 16832, 501, 5), (16777234, 166250609, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_each_migration_stage_rolls_back_schema_rows_triggers_version[DROP TRIGGER IF EXISTS responsibility_task_update] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll6')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10f984130>
+marker = 'DROP TRIGGER IF EXISTS responsibility_task_update'
+
+    @pytest.mark.parametrize(
+        "marker",
+        [
+            "ALTER TABLE responsibilities ADD COLUMN retention_state",
+            "ALTER TABLE responsibilities ADD COLUMN retention_version",
+            "ALTER TABLE responsibilities ADD COLUMN trashed_at",
+            "ALTER TABLE responsibilities ADD COLUMN restored_at",
+            "ALTER TABLE responsibilities ADD COLUMN purged_at",
+            "CREATE INDEX IF NOT EXISTS responsibilities_charged",
+            "DROP TRIGGER IF EXISTS responsibility_task_update",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_task_update",
+            "DROP TRIGGER IF EXISTS responsibility_note_delete",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_note_delete",
+            "PRAGMA user_version=2",
+        ],
+    )
+    def test_each_migration_stage_rolls_back_schema_rows_triggers_version(
+        tmp_path, monkeypatch, marker
+    ):
+        store, _ = legacy_runtime(tmp_path)
+        before = read_dump(store)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic migration failure")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic migration failure"):
+>           Store(tmp_path, allow_watch_retention_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:213:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll6')
+expected = ((16777234, 166250689, 16832, 501, 5), (16777234, 166250691, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_each_migration_stage_rolls_back_schema_rows_triggers_version[CREATE TRIGGER IF NOT EXISTS responsibility_task_update] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll7')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10e79b460>
+marker = 'CREATE TRIGGER IF NOT EXISTS responsibility_task_update'
+
+    @pytest.mark.parametrize(
+        "marker",
+        [
+            "ALTER TABLE responsibilities ADD COLUMN retention_state",
+            "ALTER TABLE responsibilities ADD COLUMN retention_version",
+            "ALTER TABLE responsibilities ADD COLUMN trashed_at",
+            "ALTER TABLE responsibilities ADD COLUMN restored_at",
+            "ALTER TABLE responsibilities ADD COLUMN purged_at",
+            "CREATE INDEX IF NOT EXISTS responsibilities_charged",
+            "DROP TRIGGER IF EXISTS responsibility_task_update",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_task_update",
+            "DROP TRIGGER IF EXISTS responsibility_note_delete",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_note_delete",
+            "PRAGMA user_version=2",
+        ],
+    )
+    def test_each_migration_stage_rolls_back_schema_rows_triggers_version(
+        tmp_path, monkeypatch, marker
+    ):
+        store, _ = legacy_runtime(tmp_path)
+        before = read_dump(store)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic migration failure")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic migration failure"):
+>           Store(tmp_path, allow_watch_retention_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:213:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll7')
+expected = ((16777234, 166250771, 16832, 501, 5), (16777234, 166250773, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_each_migration_stage_rolls_back_schema_rows_triggers_version[DROP TRIGGER IF EXISTS responsibility_note_delete] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll8')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110afe890>
+marker = 'DROP TRIGGER IF EXISTS responsibility_note_delete'
+
+    @pytest.mark.parametrize(
+        "marker",
+        [
+            "ALTER TABLE responsibilities ADD COLUMN retention_state",
+            "ALTER TABLE responsibilities ADD COLUMN retention_version",
+            "ALTER TABLE responsibilities ADD COLUMN trashed_at",
+            "ALTER TABLE responsibilities ADD COLUMN restored_at",
+            "ALTER TABLE responsibilities ADD COLUMN purged_at",
+            "CREATE INDEX IF NOT EXISTS responsibilities_charged",
+            "DROP TRIGGER IF EXISTS responsibility_task_update",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_task_update",
+            "DROP TRIGGER IF EXISTS responsibility_note_delete",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_note_delete",
+            "PRAGMA user_version=2",
+        ],
+    )
+    def test_each_migration_stage_rolls_back_schema_rows_triggers_version(
+        tmp_path, monkeypatch, marker
+    ):
+        store, _ = legacy_runtime(tmp_path)
+        before = read_dump(store)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic migration failure")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic migration failure"):
+>           Store(tmp_path, allow_watch_retention_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:213:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll8')
+expected = ((16777234, 166250857, 16832, 501, 5), (16777234, 166250859, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_each_migration_stage_rolls_back_schema_rows_triggers_version[CREATE TRIGGER IF NOT EXISTS responsibility_note_delete] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll9')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10f9851d0>
+marker = 'CREATE TRIGGER IF NOT EXISTS responsibility_note_delete'
+
+    @pytest.mark.parametrize(
+        "marker",
+        [
+            "ALTER TABLE responsibilities ADD COLUMN retention_state",
+            "ALTER TABLE responsibilities ADD COLUMN retention_version",
+            "ALTER TABLE responsibilities ADD COLUMN trashed_at",
+            "ALTER TABLE responsibilities ADD COLUMN restored_at",
+            "ALTER TABLE responsibilities ADD COLUMN purged_at",
+            "CREATE INDEX IF NOT EXISTS responsibilities_charged",
+            "DROP TRIGGER IF EXISTS responsibility_task_update",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_task_update",
+            "DROP TRIGGER IF EXISTS responsibility_note_delete",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_note_delete",
+            "PRAGMA user_version=2",
+        ],
+    )
+    def test_each_migration_stage_rolls_back_schema_rows_triggers_version(
+        tmp_path, monkeypatch, marker
+    ):
+        store, _ = legacy_runtime(tmp_path)
+        before = read_dump(store)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic migration failure")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic migration failure"):
+>           Store(tmp_path, allow_watch_retention_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:213:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll9')
+expected = ((16777234, 166250939, 16832, 501, 5), (16777234, 166250941, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+_ test_each_migration_stage_rolls_back_schema_rows_triggers_version[PRAGMA user_version=2] _
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll10')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x110848600>
+marker = 'PRAGMA user_version=2'
+
+    @pytest.mark.parametrize(
+        "marker",
+        [
+            "ALTER TABLE responsibilities ADD COLUMN retention_state",
+            "ALTER TABLE responsibilities ADD COLUMN retention_version",
+            "ALTER TABLE responsibilities ADD COLUMN trashed_at",
+            "ALTER TABLE responsibilities ADD COLUMN restored_at",
+            "ALTER TABLE responsibilities ADD COLUMN purged_at",
+            "CREATE INDEX IF NOT EXISTS responsibilities_charged",
+            "DROP TRIGGER IF EXISTS responsibility_task_update",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_task_update",
+            "DROP TRIGGER IF EXISTS responsibility_note_delete",
+            "CREATE TRIGGER IF NOT EXISTS responsibility_note_delete",
+            "PRAGMA user_version=2",
+        ],
+    )
+    def test_each_migration_stage_rolls_back_schema_rows_triggers_version(
+        tmp_path, monkeypatch, marker
+    ):
+        store, _ = legacy_runtime(tmp_path)
+        before = read_dump(store)
+        original = Store.connection
+
+        class Fault:
+            def __init__(self, conn):
+                self.conn = conn
+
+            def execute(self, statement, *args):
+                result = self.conn.execute(statement, *args)
+                if statement.startswith(marker):
+                    raise RuntimeError("Synthetic migration failure")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self.conn, name)
+
+        @contextmanager
+        def connection(self, write=False):
+            with original(self, write=write) as conn:
+                yield Fault(conn) if write else conn
+
+        monkeypatch.setattr(Store, "connection", connection)
+        with pytest.raises(RuntimeError, match="Synthetic migration failure"):
+>           Store(tmp_path, allow_watch_retention_migration=True)
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:213:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_each_migration_stage_roll10')
+expected = ((16777234, 166251021, 16832, 501, 5), (16777234, 166251023, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+___________ test_corrupt_legacy_watch_body_is_preserved_not_repaired ___________
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_corrupt_legacy_watch_body0')
+
+    def test_corrupt_legacy_watch_body_is_preserved_not_repaired(tmp_path):
+        old, watch = legacy_runtime(tmp_path)
+        with old.connection(write=True) as conn:
+            conn.execute(
+                "UPDATE responsibilities SET data='corrupt fixture body' WHERE id=?", (watch["id"],)
+            )
+>       migrated = Store(tmp_path, allow_watch_retention_migration=True)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:227:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_corrupt_legacy_watch_body0')
+expected = ((16777234, 166251104, 16832, 501, 5), (16777234, 166251106, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+______ test_coherent_sqlite_backup_readback_and_isolated_rollback_fixture ______
+
+tmp_path = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_coherent_sqlite_backup_re0')
+
+    def test_coherent_sqlite_backup_readback_and_isolated_rollback_fixture(tmp_path):
+        live_dir = tmp_path / "fixture-live"
+        old, _ = legacy_runtime(live_dir)
+        backup = tmp_path / "fixture-pre-migration.sqlite3"
+        with closing(sqlite3.connect(old.path)) as source, closing(sqlite3.connect(backup)) as target:
+            source.backup(target)
+        with closing(sqlite3.connect(backup)) as check:
+            assert check.execute("PRAGMA integrity_check").fetchone()[0] == "ok"
+            assert check.execute("PRAGMA user_version").fetchone()[0] == 1
+            retained = check.execute("SELECT COUNT(*) FROM responsibilities").fetchone()[0]
+>       current = Store(live_dir, allow_watch_retention_migration=True)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py:245:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.runtime/pr-review/desk-companion/backend/desk/store.py:139: in __init__
+    self._check_migration_path()
+.runtime/pr-review/desk-companion/backend/desk/store.py:215: in _check_migration_path
+    _check_migration_identity(self.directory, expected)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/private/var/folders/w9/57v4cx3137g74nh7t0g2g2qc0000gn/T/pytest-of-tantalum/pytest-1/test_coherent_sqlite_backup_re0/fixture-live')
+expected = ((16777234, 166251188, 16832, 501, 5), (16777234, 166251189, 33152, 501, 1))
+
+    def _check_migration_identity(directory, expected):
+        if _migration_path_identity(directory) != expected:
+>           raise DomainError("MIGRATION_STORE_CHANGED")
+E           desk.store.DomainError: MIGRATION_STORE_CHANGED
+
+.runtime/pr-review/desk-companion/backend/desk/store.py:55: DomainError
+=============================== warnings summary ===============================
+../../grok-reviewed-fixes/FYP/desk-companion/.venv/lib/python3.14/site-packages/fastapi/testclient.py:1
+  /Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/.venv/lib/python3.14/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/test_mcp_connectors.py::test_actual_owner_session_required
+  /Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/.venv/lib/python3.14/site-packages/_pytest/raises.py:613: PytestWarning: matching against an empty string will *always* pass. If you want to check for an empty message you need to pass '^$'. If you don't want to match you should pass `None` or leave out the parameter.
+    super().__init__(match=match, check=check)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_v2_explicit_preserves_all_prior_rows_and_atomic_version
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_v1_cannot_skip_or_combine_migration[False]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_v1_cannot_skip_or_combine_migration[True]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_every_capture_migration_stage_rolls_back[CREATE TABLE public_captures]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_every_capture_migration_stage_rolls_back[CREATE TABLE public_capture_operations]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_every_capture_migration_stage_rolls_back[CREATE INDEX public_captures_created ON public_captures(created_at,id)]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_every_capture_migration_stage_rolls_back[CREATE INDEX public_capture_operations_capture ON public_capture_operations(capture_id)]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_every_capture_migration_stage_rolls_back[PRAGMA user_version=3]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_process_exit_at_each_uncommitted_stage_remains_valid_v2[CREATE TABLE public_captures]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_process_exit_at_each_uncommitted_stage_remains_valid_v2[CREATE TABLE public_capture_operations]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_process_exit_at_each_uncommitted_stage_remains_valid_v2[CREATE INDEX public_captures_created ON public_captures(created_at,id)]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_process_exit_at_each_uncommitted_stage_remains_valid_v2[CREATE INDEX public_capture_operations_capture ON public_capture_operations(capture_id)]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_process_exit_at_each_uncommitted_stage_remains_valid_v2[PRAGMA user_version=3]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_cli_v2_upgrade_and_v3_readonly_verification
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_process_exit_immediately_after_commit_reopens_complete_v3
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_migration_rechecks_under_transaction_before_bootstrap[version]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_migration_rechecks_under_transaction_before_bootstrap[structure]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_runtime_v2_needs_distinct_explicit_capture_migration
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_cli_current_version_rechecks_full_schema_after_preflight[capture]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_cli_current_version_rechecks_full_schema_after_preflight[watch]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_migration_preserves_preflighted_private_owner_mode[capture]
+FAILED .runtime/pr-review/desk-companion/tests/test_public_capture_migration.py::test_migration_preserves_preflighted_private_owner_mode[watch]
+FAILED .runtime/pr-review/desk-companion/tests/test_text_response_bounds.py::test_deeply_nested_bounded_json_is_normalized
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_migration_cli.py::test_current_store_is_verified_without_credentials_or_history_changes
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_migration_cli.py::test_legacy_store_requires_explicit_entry_and_preserves_core
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_migration_cli.py::test_read_handle_is_closed_before_store
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_migration_cli.py::test_app_factory_does_not_infer_legacy_migration_consent
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_legacy_default_denied_before_any_write_and_explicit_migration_preserves
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_legacy_standalone_without_watch_tables_migrates_explicitly
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_inconsistent_current_schema_refused_before_writes[partial]
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_inconsistent_current_schema_refused_before_writes[missing_index]
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_inconsistent_current_schema_refused_before_writes[missing_owner]
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_inconsistent_current_schema_refused_before_writes[wrong_trigger]
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_each_migration_stage_rolls_back_schema_rows_triggers_version[ALTER TABLE responsibilities ADD COLUMN retention_state]
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_each_migration_stage_rolls_back_schema_rows_triggers_version[ALTER TABLE responsibilities ADD COLUMN retention_version]
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_each_migration_stage_rolls_back_schema_rows_triggers_version[ALTER TABLE responsibilities ADD COLUMN trashed_at]
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_each_migration_stage_rolls_back_schema_rows_triggers_version[ALTER TABLE responsibilities ADD COLUMN restored_at]
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_each_migration_stage_rolls_back_schema_rows_triggers_version[ALTER TABLE responsibilities ADD COLUMN purged_at]
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_each_migration_stage_rolls_back_schema_rows_triggers_version[CREATE INDEX IF NOT EXISTS responsibilities_charged]
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_each_migration_stage_rolls_back_schema_rows_triggers_version[DROP TRIGGER IF EXISTS responsibility_task_update]
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_each_migration_stage_rolls_back_schema_rows_triggers_version[CREATE TRIGGER IF NOT EXISTS responsibility_task_update]
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_each_migration_stage_rolls_back_schema_rows_triggers_version[DROP TRIGGER IF EXISTS responsibility_note_delete]
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_each_migration_stage_rolls_back_schema_rows_triggers_version[CREATE TRIGGER IF NOT EXISTS responsibility_note_delete]
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_each_migration_stage_rolls_back_schema_rows_triggers_version[PRAGMA user_version=2]
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_corrupt_legacy_watch_body_is_preserved_not_repaired
+FAILED .runtime/pr-review/desk-companion/tests/test_watch_retention_migration.py::test_coherent_sqlite_backup_readback_and_isolated_rollback_fixture
+46 failed, 1334 passed, 2 warnings in 191.71s (0:03:11)

@@ -1,0 +1,95 @@
+{
+  "fixture": "group2-demo-preparation-v1",
+  "fictional": true,
+  "agent_mounts": [
+    "inputs/ (read-only)",
+    "empty output/ (read-write)"
+  ],
+  "excluded_from_agent": [
+    "controller/",
+    "repository source",
+    "QA/reference results"
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "0536c30090ea5e2057797173e19a55853cf65a6752ab66b3653d2ff607450e07",
+      "role": "controller_only"
+    },
+    {
+      "path": "controller/case.json",
+      "sha256": "60c615b52d81d23edb1a874da6b0cc82c02137f693fb8c660199f47ff6da36de",
+      "role": "controller_only"
+    },
+    {
+      "path": "controller/changes.json",
+      "sha256": "c258677f0353dd325dc9a3688f718bec507834384e125fb692ed39f7629abddf",
+      "role": "controller_only"
+    },
+    {
+      "path": "controller/quotes.json",
+      "sha256": "349f2e8a79669ed887b6e7c48c2abc834ccbc7d4a80d3611967d04b9191a5ee9",
+      "role": "controller_only"
+    },
+    {
+      "path": "inputs/availability.csv",
+      "sha256": "5fac5ecfc49677cb574bd8a4dc7987b2a18d861b14de734cd258f9e63dc8deb5",
+      "role": "agent_input"
+    },
+    {
+      "path": "inputs/brief.md",
+      "sha256": "f6dadbdc35e38ff9f062cacfa8e1035d9e911c30a8d3e70721b425ad26f5ec5b",
+      "role": "agent_input"
+    },
+    {
+      "path": "inputs/existing-events.csv",
+      "sha256": "c31319172a2057fc79548a56d95bc7ab6ceb3cf848f66fe6934faa2bef0ebdeb",
+      "role": "agent_input"
+    },
+    {
+      "path": "inputs/fx-rates.csv",
+      "sha256": "51a89683a97848ea225409bb0abea2ec4636c4389efab78373be9df3ffd5626b",
+      "role": "agent_input"
+    },
+    {
+      "path": "inputs/meeting-notes.md",
+      "sha256": "e3886c1143ccf9f0a4f002a6393111650c2933df12a3c8912f46d854f57d0110",
+      "role": "agent_input"
+    },
+    {
+      "path": "inputs/quotes/A-2.html",
+      "sha256": "a8e13d93e8df60537dd0ea9c81c36b32aed81459548d320d7e9a8310c8069356",
+      "role": "agent_input"
+    },
+    {
+      "path": "inputs/quotes/B-3.html",
+      "sha256": "bf0ba17dd0c4de7bccdc9b0eca7a539d89877a1aac1ea638fbab4e01e5a9da0d",
+      "role": "agent_input"
+    },
+    {
+      "path": "inputs/quotes/C-1.html",
+      "sha256": "bfe146fced645cc4e0b93236276f7e8082221f27d620b9ece5b4a751f6bf6328",
+      "role": "agent_input"
+    },
+    {
+      "path": "inputs/quotes/C-2.html",
+      "sha256": "ca8c970149381ba118dc5d849ecb942b4454cfe9ee8c48ca7b3b7fa845b3d09e",
+      "role": "agent_input"
+    },
+    {
+      "path": "inputs/quotes/D-4.html",
+      "sha256": "3326b2f68bc0cb43271e9d450d7dc4c00ab59bad4f4d7d50ef2123375bd01a22",
+      "role": "agent_input"
+    },
+    {
+      "path": "inputs/quotes/index.html",
+      "sha256": "af5ebed5f2173f01594da367342f031781f0549adab55d6705ae728e53977f21",
+      "role": "agent_input"
+    },
+    {
+      "path": "inputs/tasks.csv",
+      "sha256": "29b25a5ab80fc794a209f5bac75e4a1200d578894b370b838180abe17aea7f51",
+      "role": "agent_input"
+    }
+  ]
+}

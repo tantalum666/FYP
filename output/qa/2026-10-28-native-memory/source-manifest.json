@@ -1,0 +1,30 @@
+[
+  {
+    "path": "desk-companion/backend/desk/assistant.py",
+    "sha256": "70a44fced3d9ad345e5a1a4a0373548c80ee305362ac10b5d37ac9505f6d2d6e"
+  },
+  {
+    "path": "desk-companion/backend/desk/conversation.py",
+    "sha256": "208a7c47afb9699d341918bb8041b9b79960358095695d4d8bf85ff8043ae579"
+  },
+  {
+    "path": "desk-companion/backend/desk/memory.py",
+    "sha256": "525bc543d592207a426a7d81664e2aa6c813331cf47953f5c701c1f1abd13c4b"
+  },
+  {
+    "path": "desk-companion/frontend/src/web-workspace.css",
+    "sha256": "0e8d688feedcdb43dc6db862e21735ab6ab999850f6c097a0a35e0fc4a476e1f"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/MemoryFactList.tsx",
+    "sha256": "95aeb042db867d5d5b2c5dd75e4ff0c55a460567570254fd595ccea352983ba7"
+  },
+  {
+    "path": "desk-companion/frontend/src/workspace/MemoryPanel.tsx",
+    "sha256": "08490e3db8663ded31e7ed81ab942359a58629dcbd372e19fe99bccd1e63eea1"
+  },
+  {
+    "path": "desk-companion/tests/test_memory_continuity.py",
+    "sha256": "d6000f6e2da692c1a8add3b08e8d977854e9aaa5e419f42e74b69c50a1fcc2a6"
+  }
+]

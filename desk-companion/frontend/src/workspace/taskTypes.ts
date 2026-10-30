@@ -1,3 +1,5 @@
+import type { ComputerJobSummary } from "./jobTypes";
+
 export interface TaskStep {
   title: string;
   done: boolean;
@@ -51,4 +53,11 @@ export interface TaskList {
   timezone: string;
   revision: number;
   server_time: string;
+}
+
+export interface TaskDetail {
+  task: Task;
+  evidence: TaskEvidence[];
+  jobs: ComputerJobSummary[];
+  application?: import("./applicationTypes").ApplicationState | null;
 }

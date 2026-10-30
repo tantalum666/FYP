@@ -1,11 +1,16 @@
 # Group 2 · Software maintenance contract
 
-28 October2026. This checkpoint integrates Grok PRs20–59 with the current Alice/Omni/web/phone baseline in PR60. It also fixes selected-task context and interaction recovery. The owner requests focused documentation reading, maintainable implementation and GitHub publication of meaningful milestones.
+30 October2026. The current checkpoint implements bounded application operations and passes a scripted browser/Calc/Writer/PDF task with changed constraints and restart recovery. Earlier task/file/phone, shared permissions and OpenAI evaluation work remains in place; autonomous voice completion is still untested. Selected-task context and interaction recovery remain in place. The owner requests focused documentation reading, maintainable implementation and GitHub publication of meaningful milestones.
 
 ## Frontend responsibilities
 
 | Module | Responsibility |
 |---|---|
+| [MemoryPanel](../frontend/src/workspace/MemoryPanel.tsx) / [MemoryFactList](../frontend/src/workspace/MemoryFactList.tsx) | Panel owns requests, versions and draft protection; list owns fact rendering and transient local search. Searching does not write or fetch. During correction, the search and competing fact actions are disabled so the same draft stays visible |
+| [PermissionsPanel](../frontend/src/workspace/PermissionsPanel.tsx) / [PermissionService](../backend/desk/permissions.py) | UI owns explicit choice and recoverable setting request; server owns versioned standing authority. WorkspaceProvider accepts authoritative receipts and rejects older reads |
+| [JobActionCard](../frontend/src/workspace/JobActionCard.tsx) / [jobRequests](../frontend/src/workspace/jobRequests.ts) | Shared inline/activity rendering and action requests; AssistantPanel owns scoped reads and existing refresh lifecycle, no per-card polling |
+| [ProposalActionCard](../frontend/src/workspace/ProposalActionCard.tsx) / [TaskJobs](../frontend/src/workspace/TaskJobs.tsx) | Reviewable business proposal presentation; compact task evidence and continuation into the same assistant |
+| [PhoneScreen](../frontend/src/phone/PhoneScreen.tsx) | Navigation screen, back/focus behavior and existing draft registry; actual editors retain their own dialogs |
 | [PhoneApp](../frontend/src/phone/PhoneApp.tsx) | Compose the phone surface, selected panel/task, native route intents and user notices; it does not implement each management page or duplicate the calendar polling machinery |
 | [PhoneHome](../frontend/src/phone/PhoneHome.tsx) | Alice scene, renderer fallback, Plan/More entry points and upcoming-event presentation |
 | [PhonePlan](../frontend/src/phone/PhonePlan.tsx) | Day/month calendar and tasks; refuse a section change while its form/progress draft is dirty or busy |
@@ -18,7 +23,7 @@
 
 Calendar results are tied to both range and session. Leaving a range/screen discards future commits from its old reader; it does not claim to cancel an already-sent native HTTP request. Failed reads remain retryable. Polling/assistant activity reads stop while the relevant phone surface is suspended or hidden.
 
-A phone panel owns its form guard. A draft in the underlying assistant does not prevent opening/closing a read-only plan; it does prevent changing the selected discussion. A progress note inside Tasks blocks Calendar/Tasks switching. Close offers Continue or explicit Discard. Notices for a blocked action render inside the modal footer, not behind the top layer.
+A phone panel owns its form guard. A draft in the underlying assistant does not prevent opening/closing a read-only plan; it does prevent changing the selected discussion. A progress note inside Tasks blocks Calendar/Tasks switching. Close offers Continue or explicit Discard. Notices for a blocked action render inside the active navigation/editor surface. Full-screen management no longer nests a page inside a generic root modal.
 
 ## Selected task and AI context
 
@@ -34,11 +39,17 @@ Qwen Omni remains the tested integration baseline, not the only/final model choi
 
 ## Validation and publication
 
-The [current QA](../../output/qa/2026-10-28-grok-review-merge/verification.md) separates current automated/browser contracts from the earlier #60 native visual proof. This integration does not claim a new Simulator installation or native touch/keyboard pass. The current integration has450 backend and89 frontend checks; the earlier303/65 result is historical #60 evidence. Historical real-model results are dated evidence and are not counted as new passes.
+The [29 October QA](../../output/qa/2026-10-29-assistant-permissions/verification.md) records489 backend/89 frontend checks, Ruff/types/build, actual inline approvals, standing permission, response-loss recovery, cross-client task results and a fresh native build/install/launch. Native touch/soft-keyboard acceptance remains open: the current input automation did not deliver a reliable app transition. The earlier450/89 integration and303/65 #60 results are historical. Historical real-model results are not counted as new passes. Product acceptance gates and the next integrated journey are in [delivery readiness](delivery-readiness.md).
 
 The branch retains main's Vite8.3.5 dependency. Validation runs locally: backend lint/tests, frontend tests/build and scoped interaction checks, with models and executors disabled unless separately authorized. The owner does not want GitHub CI; the workflow was removed. Do not recreate it or treat Actions/account limits as unfinished work. Relevant local checks remain mandatory before publication.
 
 Before another substantial change, read the focused contract and relevant implementation, preserve the user's data/dirty work, use the existing service boundaries and validate the affected behavior. Add abstractions only where they clarify a real responsibility or remove duplication; line count alone is not quality. Update this contract when ownership or lifecycle changes.
+
+## Active memory projection
+
+MemoryService owns `active_facts()`, a model-safe current snapshot of all active facts under the existing200-fact cap; deleted, superseded and read-time-expired rows are absent. `for_model()` keeps the recent40 prompt window. Query tools rank the whole active set but return at most8; draft version checks and exact local forgetting also use the whole set. Owner checks remain at the calling boundary and confirmations recheck versions.
+
+Conversation revision hashes that whole snapshot, while the initial prompt stays at40. Older facts can enter replay through search, so removal/expiry outside the prompt window must also invalidate RAM replay and recall focus. This reuses the existing Conversations lifecycle, without a second cache/store or automatic provider call.
 
 ## Integrated review invariants
 
@@ -46,5 +57,29 @@ Before another substantial change, read the focused contract and relevant implem
 - SSE transport owns framing and completion acknowledgement. EOF alone retains the original operation; recovery uses the same endpoint/key and updates only the matching conversation/draft.
 - The existing Conversations pool owns temporary context. HTTP/realtime views and recall focus reuse it; no duplicate global transcript table or second model loop. Durable principal-scoped receipts are separate from login/task-scoped history.
 - Shared tool validation preserves omitted fields. Read tools recheck current state; effects keep durable idempotence. Forgetting redacts/tombstones matching historical copies without deleting execution keys.
-- Backup apply checks owner authority before cached results. Stored job requests are fully validated, all three executor families round-trip, and imported folders pass normal path/fingerprint controls.
+- Backup apply checks owner authority before cached results. Stored job requests are fully validated, note, folder, fixed-desktop and application executor families round-trip, and imported folders pass normal path/fingerprint controls.
 - Current notification/proactivity services reuse existing preferences and scheduler. Advanced memory UI is disclosed on demand instead of expanding mobile primary navigation.
+
+## Standing authority and receipt ownership
+
+[Assistant permissions](assistant-permissions.md) specifies the service boundary. Owner policy applies only to new eligible actions after current session/version/cancellation checks. Physical and background authority stays separate. JobService preserves its one queue and rechecks automatic policy before dispatch; automatic completion/source is never labeled user_confirmed.
+
+TextAssistant serializes request-cache lookup/application/persistence and reuses existing confirmation receipts after interruption. Retention deletes forgotten reply bodies but keeps content-free retired identities in the existing operation ledger, preventing replay from putting forgotten user text into new RAM context. The newest regression reproduces that RAM leak before repair and checks both languages/restart/conflicting keys afterward.
+
+The frontend permission request intentionally bypasses the normal pending business-write queue so a lost file response cannot block revocation. Inline recovery preserves other unsent text. Job detail responses are tied to the selected task/scope; TaskPanel refresh includes workspace revision and refuses a mismatched detail. The latest CSS fix separates a long task title from its End task discussion control on narrow screens.
+
+## OpenAI evaluation boundary (29 October)
+
+The opt-in `scripts/openai_voice_eval.py` runner is separate from production voice selection. `voice_eval/budget.py` owns durable reservations and closing; `fixtures.py` owns paced synthetic speech and isolated existing FYP services; `session.py` owns Realtime/Live wire handling. Tool definitions, authorization and business effects reuse existing code. No second production transcript store, executor queue or frontend model key is introduced.
+
+[QA](../../output/qa/2026-10-29-openai-realtime/verification.md) records16 paid short sessions,11 final controlled checks,USD0.3035168833 conservative usage and a closed ledger.504 full backend/15 focused checks pass; frontend/native source was not changed in this round. The initial Live pause/completion bug, language-following failures and ambiguous memory acknowledgment remain in the evidence. Production integration and human audio acceptance are still separate work.
+
+## Complex application-task fixture boundary (30October)
+
+`evals/app_workflow_v1/inputs` contains only fictional source material. Its controller and `scripts/app_workflow_reference.py` are evaluation infrastructure, never a model tool or production application executor. Six offline checks validate the constraint changes, versions, calendar conflict and cost arithmetic; they do not certify GUI execution. [Acceptance contract](../../planning/2026-10-30/complex-application-acceptance.md) requires independent app evidence and keeps current task/job/permission services as the implementation base. Do not implement the whole fixture as a privileged one-shot solver or silently expand existing note-only actions into arbitrary shell access.
+
+## Real application execution boundary (30 October)
+
+The [application contract](application-execution.md) assigns typed intents to `application_models`, transport/source scope to `application_runtime`, version/staging/reconciliation to `application_executor`, and actual UNO/CDP calls to `application_bridge`. JobService retains its single queue and projects stage state from existing jobs; TaskService completion stays separate. No controller/reference solver is a model tool. `ApplicationPreview` renders the reviewed patch, while shared cards/ExportLink/TaskJobs own existing approval, readback and downloads.
+
+[Actual QA](../../output/qa/2026-10-30-application-execution/verification.md) records 524 backend/89 frontend checks and real Linux apps, application/process restart, same-file recovery, calendar identity, web/phone approval and cancellation. The ordinary HTTP model still stops after one effect-producing tool. Durable evidence enables a future continuation loop but is not that loop; all new model calls remain off.

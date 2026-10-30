@@ -1,0 +1,1 @@
+Widget, App Intents and phone integration targets configured.

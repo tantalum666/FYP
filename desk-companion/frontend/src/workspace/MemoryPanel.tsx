@@ -9,22 +9,10 @@ import { GoalList } from "./GoalList";
 import { DigestPanel } from "./DigestPanel";
 import { AliasList } from "./AliasList";
 import { ProfileSummary } from "./ProfileSummary";
-import { actionsFor, knowledgeCopy, noteCopy, sourceCopy } from "./knowledge";
+import { actionsFor, knowledgeCopy } from "./knowledge";
+import { MemoryFactList } from "./MemoryFactList";
+import type { MemoryFact, MemoryEdit } from "./MemoryFactList";
 import { useWorkspace } from "./WorkspaceContext";
-
-interface MemoryFact {
-  id: string;
-  body: string;
-  source: string;
-  note: string;
-  state: string;
-  version: number;
-  created_at: string;
-  updated_at: string;
-  expires_at: string | null;
-  previous_body: string | null;
-  retired_duplicates: number;
-}
 
 interface MemorySuggestion {
   reason_en: string;
@@ -43,16 +31,6 @@ interface ReviewDraft {
   };
 }
 
-function sourceLabel(source: string, t: Translate) {
-  const [en, zh] = sourceCopy(source);
-  return t(en, zh);
-}
-
-function noteLabel(note: string, t: Translate) {
-  const copy = noteCopy(note);
-  return copy ? t(copy[0], copy[1]) : "";
-}
-
 export function MemoryPanel({ t }: { t: Translate }) {
   const { data, offline, refresh } = useWorkspace();
   const owner = data?.principal.kind === "owner";
@@ -62,11 +40,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
   const [suggestions, setSuggestions] = useState<MemorySuggestion[]>([]);
   const [review, setReview] = useState<ReviewDraft | null>(null);
   const [body, setBody] = useState("");
-  const [editing, setEditing] = useState<{
-    id: string;
-    body: string;
-    version: number;
-  } | null>(null);
+  const [editing, setEditing] = useState<MemoryEdit | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
@@ -296,7 +270,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
             value={body}
             maxLength={500}
             rows={3}
-            disabled={busy}
+            disabled={busy || !!editing}
             onChange={(event) => setBody(event.target.value)}
             placeholder={t(
               "Example: Friday’s report is waiting on the group’s figures.",
@@ -308,7 +282,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
           <button
             className="primary"
             type="submit"
-            disabled={busy || !body.trim()}
+            disabled={busy || !!editing || !body.trim()}
           >
             {t("Save fact", "保存事实")}
           </button>
@@ -319,124 +293,44 @@ export function MemoryPanel({ t }: { t: Translate }) {
           {t("Loading saved memories…", "正在读取已保存记忆…")}
         </p>
       )}
-      <ul className="memory-list">
-        {facts.map((fact) => {
-          const actions = actionsFor("active", fact.expires_at);
-          return (
-            <li key={fact.id}>
-              {editing?.id === fact.id ? (
-                <textarea
-                  aria-label={t("Correct saved memory", "更正已保存记忆")}
-                  value={editing.body}
-                  maxLength={500}
-                  rows={3}
-                  disabled={busy}
-                  onChange={(event) =>
-                    setEditing({ ...editing, body: event.target.value })
-                  }
-                />
-              ) : (
-                <>
-                  <p>{fact.body}</p>
-                  <small>
-                    {sourceLabel(fact.source, t)}
-                    {noteLabel(fact.note, t)
-                      ? ` · ${noteLabel(fact.note, t)}`
-                      : ""}
-                    {fact.expires_at
-                      ? ` · ${t("Expires ", "到期 ")}${new Date(fact.expires_at).toLocaleString()}`
-                      : ""}
-                    {fact.retired_duplicates
-                      ? ` · ${t("Kept after retiring a duplicate", "停用重复后保留")}`
-                      : ""}
-                  </small>
-                  {fact.previous_body && (
-                    <small>
-                      {t("Corrected from: ", "更正前：")}
-                      {fact.previous_body}
-                    </small>
-                  )}
-                </>
-              )}
-              <div className="workspace-inline-actions">
-                {editing?.id === fact.id ? (
-                  <>
-                    <button
-                      className="primary"
-                      type="button"
-                      disabled={busy}
-                      onClick={() => void saveEdit()}
-                    >
-                      {t(
-                        knowledgeCopy.saveCorrection[0],
-                        knowledgeCopy.saveCorrection[1],
-                      )}
-                    </button>
-                    <button
-                      className="secondary"
-                      type="button"
-                      disabled={busy}
-                      onClick={() => setEditing(null)}
-                    >
-                      {t("Cancel", "取消")}
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    {actions.includes("correct") && (
-                      <button
-                        className="secondary"
-                        type="button"
-                        disabled={busy}
-                        onClick={() =>
-                          setEditing({
-                            id: fact.id,
-                            body: fact.body,
-                            version: fact.version,
-                          })
-                        }
-                      >
-                        {t(knowledgeCopy.correct[0], knowledgeCopy.correct[1])}
-                      </button>
-                    )}
-                    {actions.includes("forget") && (
-                      <button
-                        className="secondary"
-                        type="button"
-                        disabled={busy}
-                        onClick={() => setDeleting(fact)}
-                      >
-                        {t(knowledgeCopy.forget[0], knowledgeCopy.forget[1])}
-                      </button>
-                    )}
-                    {(actions.includes("expire_week") ||
-                      actions.includes("clear_expiry")) && (
-                      <button
-                        className="secondary"
-                        type="button"
-                        disabled={busy}
-                        onClick={() =>
-                          void expire(fact, fact.expires_at ? null : 7)
-                        }
-                      >
-                        {fact.expires_at
-                          ? t(
-                              knowledgeCopy.clearExpiry[0],
-                              knowledgeCopy.clearExpiry[1],
-                            )
-                          : t(
-                              knowledgeCopy.expireWeek[0],
-                              knowledgeCopy.expireWeek[1],
-                            )}
-                      </button>
-                    )}
-                  </>
-                )}
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+      {notice && <p role="status">{notice}</p>}
+      {!!error && (
+        <p className="error-message" role="alert">
+          {errorText(error, t)}
+        </p>
+      )}
+      {error instanceof ApiError && error.code === "VERSION_CONFLICT" && (
+        <button
+          type="button"
+          className="secondary"
+          disabled={busy}
+          onClick={async () => {
+            try {
+              await reload();
+              setEditing(null);
+              setError(null);
+            } catch (reason) {
+              setError(reason);
+            }
+          }}
+        >
+          {t(
+            "Discard correction and load current facts",
+            "放弃更正并加载当前事实",
+          )}
+        </button>
+      )}
+      <MemoryFactList
+        t={t}
+        facts={facts}
+        loading={loading}
+        busy={busy}
+        editing={editing}
+        onEdit={setEditing}
+        onSave={saveEdit}
+        onDelete={setDeleting}
+        onExpiry={expire}
+      />
       {!loading && !error && !facts.length && (
         <p>{t(knowledgeCopy.emptyFacts[0], knowledgeCopy.emptyFacts[1])}</p>
       )}
@@ -572,33 +466,6 @@ export function MemoryPanel({ t }: { t: Translate }) {
             </button>
           </div>
         </div>
-      )}
-      {notice && <p role="status">{notice}</p>}
-      {!!error && (
-        <p className="error-message" role="alert">
-          {errorText(error, t)}
-        </p>
-      )}
-      {error instanceof ApiError && error.code === "VERSION_CONFLICT" && (
-        <button
-          type="button"
-          className="secondary"
-          disabled={busy}
-          onClick={async () => {
-            try {
-              await reload();
-              setEditing(null);
-              setError(null);
-            } catch (reason) {
-              setError(reason);
-            }
-          }}
-        >
-          {t(
-            "Discard correction and load current facts",
-            "放弃更正并加载当前事实",
-          )}
-        </button>
       )}
     </section>
   );

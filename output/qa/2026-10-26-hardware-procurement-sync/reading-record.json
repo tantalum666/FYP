@@ -1,0 +1,808 @@
+{
+  "date": "2026-10-26",
+  "repository": "tantalum666/FYP",
+  "base_commit": "46ac1679f57191b8ed4ff51ff15829cb81c83cc4",
+  "mode": "task_scoped_related_documents",
+  "scope_basis": "User previously authorized '允许，只核对本次相关文档' for this hardware-progress upload workflow, and requested continuing synchronization ('依旧把我的工作同步到github上一下') in the same conversation. This uses the existing task-scoped exception, does not permanently modify AGENTS.md, and does not claim a fresh full-repository reading.",
+  "inventory": [
+    {
+      "path": "AGENTS.md",
+      "blob_sha": "6ffb0a17aaed8e95caee66257ea722747512c8be",
+      "bytes": 4008
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "blob_sha": "c78922f954ffb21543190deaee0ed7e83a24e157",
+      "bytes": 6441
+    },
+    {
+      "path": "README.md",
+      "blob_sha": "910149b426854297d89c1d4a295816c810152c0a",
+      "bytes": 3166
+    },
+    {
+      "path": "archive/senplate/README.md",
+      "blob_sha": "3fc211751284cee83a9fd447a4d79878f0eea26b",
+      "bytes": 21702
+    },
+    {
+      "path": "archive/senplate/Senplate_Logo_ImageGen_Brief.md",
+      "blob_sha": "63bd2f62b4ecbbde77aec818977c4500d1ec396d",
+      "bytes": 4848
+    },
+    {
+      "path": "archive/senplate/brand.md",
+      "blob_sha": "7d8d06d392acb0cb09b2f9ffac03b809ff1b0f65",
+      "bytes": 6642
+    },
+    {
+      "path": "archive/senplate/decision-log.md",
+      "blob_sha": "0b2dfe7bb630d351f4bcfc7aa880230c6354f626",
+      "bytes": 69189
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-17-senplate-bowl-golden-v6/README.md",
+      "blob_sha": "558962f09a553fa4c04aa84ae7f4edcd8cd5dc11",
+      "bytes": 2175
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-17-senplate-bowl-redesign-v5/README.md",
+      "blob_sha": "7937d73cc58247fde7d44130802491e56693edb6",
+      "bytes": 1316
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-17-senplate-ellipse-a-v4/README.md",
+      "blob_sha": "96f9a7fbd370f2d01bc77ef74879b1a02c1e8677",
+      "bytes": 2582
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-17-senplate-golden-a-v3/README.md",
+      "blob_sha": "2ae8dcaddf1cdd476cb09d1f714a170a481125e9",
+      "bytes": 2523
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-17-senplate-refined-a-v2/README.md",
+      "blob_sha": "7cb66981f618757593810d98a3da2667b325bde1",
+      "bytes": 2143
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-17-senplate-selected-a/README.md",
+      "blob_sha": "ba876fe7b68f31b8a0df500b596e9f1470fae19b",
+      "bytes": 1853
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-17-senplate-v6-tick-study/README.md",
+      "blob_sha": "9be4644737ab844cea8de3d8bb02ffd5edd13890",
+      "bytes": 1052
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-18-senplate-plain-bowl-v7/README.md",
+      "blob_sha": "1fdf4389efb212881d656562e719003abbac1fc5",
+      "bytes": 952
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-18-senplate-v6-curved-ticks/README.md",
+      "blob_sha": "78846c65420c19e80ae6e30193bfdbda7ff5da2f",
+      "bytes": 764
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-18-senplate-v6-inner-scale/README.md",
+      "blob_sha": "23b65447d022700d8458113706fd8bf0907b3cdb",
+      "bytes": 754
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-18-senplate-v6-rim-tick-study/README.md",
+      "blob_sha": "4e0ee48945faaa3f7acd93a1d44a85e91c9874af",
+      "bytes": 1011
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-18-senplate-v6-visible-ticks/README.md",
+      "blob_sha": "99245e4dfe9ffe1989634b868c2f3c1cbf01fa8a",
+      "bytes": 835
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-18-senplate-vi-v1/05_Fonts_and_Licences/FONT-LICENCE-AUDIT.md",
+      "blob_sha": "fce1d01f1b4dc8d0ea14bd560725cf7b9a82f3ca",
+      "bytes": 2285
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-18-senplate-vi-v1/06_Source/Figma_Source.md",
+      "blob_sha": "c6a66efe9bebd14be25855e63b4faf4258aecb13",
+      "bytes": 929
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-18-senplate-vi-v1/06_Source/VI_Rules.md",
+      "blob_sha": "4d56143777433d51298680ddef66001e479bfd36",
+      "bytes": 1242
+    },
+    {
+      "path": "archive/senplate/output/brand/2026-09-18-senplate-vi-v1/README.md",
+      "blob_sha": "9ccdc125aaae0e04720b83d888d1d0df0f8f23b7",
+      "bytes": 1596
+    },
+    {
+      "path": "archive/senplate/output/qa/development-m1-2-meals-2026-09-19/verification.md",
+      "blob_sha": "5d41eb11402bc4edfdeb68ec61104d758eddcb41",
+      "bytes": 8249
+    },
+    {
+      "path": "archive/senplate/output/qa/development-p0-2026-09-18/verification.md",
+      "blob_sha": "7f777b44b934b8015600513b5ebe4f496c7a091a",
+      "bytes": 9600
+    },
+    {
+      "path": "archive/senplate/output/qa/development-p1-orders-2026-09-19/verification.md",
+      "blob_sha": "04ba212baba20013fc7ae2013bc343d88771d6eb",
+      "bytes": 10763
+    },
+    {
+      "path": "archive/senplate/output/qa/senplate-bowl-golden-v6-2026-09-17/brand-before-v6.md",
+      "blob_sha": "9f200c65028b2ef2f5038ba550bed94a1e731b26",
+      "bytes": 2817
+    },
+    {
+      "path": "archive/senplate/output/qa/senplate-bowl-redesign-v5-2026-09-17/brand-before-redesign.md",
+      "blob_sha": "366e70056a3689acae40efffa6709e3f416bd78c",
+      "bytes": 5612
+    },
+    {
+      "path": "archive/senplate/output/qa/senplate-ellipse-a-v4-2026-09-17/brand-before-v4.md",
+      "blob_sha": "e5f8fd9726bb7057ae8360c99092e82d533b8897",
+      "bytes": 8055
+    },
+    {
+      "path": "archive/senplate/output/qa/senplate-selected-a-2026-09-17/vendor/README.md",
+      "blob_sha": "54f2e3fb8bc1a38ee9c3cebd8e574cc6b6ebf382",
+      "bytes": 9744
+    },
+    {
+      "path": "archive/senplate/output/qa/suggestion-2026-09-14/artifact.md",
+      "blob_sha": "bdfece69b85272a7a0affa3be24ae7eada0f603b",
+      "bytes": 5812
+    },
+    {
+      "path": "archive/senplate/output/qa/suggestion-v2-2026-09-14/artifact.md",
+      "blob_sha": "2dbd335a24dafabb9e2a3a28e612504db61c1f2a",
+      "bytes": 3360
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-14/ai-training-and-pi-deployment.md",
+      "blob_sha": "3fff4c471723d6187e0d7ee2a9fabc718ea7e64b",
+      "bytes": 20790
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-14/continuous-monitoring-architecture.md",
+      "blob_sha": "07d251ec594801b322cb9c8d7f1dc834574773e7",
+      "bytes": 16422
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-14/multi-scenario-suggestion-v2.md",
+      "blob_sha": "65e8dd7dc0b457bc156214f2bfaea4af847dc714",
+      "bytes": 10020
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-14/scope-and-roles-for-review.md",
+      "blob_sha": "3baea76d05e85c2b0431df21bc6cfecb61b089fd",
+      "bytes": 13328
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-14/single-station-recognition-reliability.md",
+      "blob_sha": "c29a5088a74705a5ef2d459199c9a6b8c1a7a504",
+      "bytes": 14008
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-15/archive/hardware-fabrication-enquiry-v1.md",
+      "blob_sha": "fdbce751e106d811bc2500dda09e27863b7829b7",
+      "bytes": 4408
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-15/camera-power-and-scaling.md",
+      "blob_sha": "8d35b97e0a1e0b7a8502281954060cfe9b1bcc53",
+      "bytes": 21737
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-15/hardware-fabrication-enquiry-draft.md",
+      "blob_sha": "c9ef27f333d44afdfdb62a07dca01142ffa3ea49",
+      "bytes": 2461
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-15/hardware-fabrication-enquiry-v2.md",
+      "blob_sha": "8f48048270452b7cce1404994eb981129a03d1bb",
+      "bytes": 22984
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-15/hardware-fabrication-enquiry-v3-1-images.md",
+      "blob_sha": "bc3fc357d7dce5332b9f1c86ac0a75c5477be9de",
+      "bytes": 5279
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-15/hardware-fabrication-enquiry-v3.md",
+      "blob_sha": "ba585b258ef6f24ac9ab27fe0a89d18de7a7f12d",
+      "bytes": 4372
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-15/power-supply-detail.md",
+      "blob_sha": "70c093e8ff8852560081cc6828d49f23b76567fd",
+      "bytes": 14746
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-15/procurement-guide.md",
+      "blob_sha": "d25eec7f216f15f8ebf76a6f2d8c4f8a6d38663d",
+      "bytes": 32540
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-15/yahboom-sourcing-and-customization.md",
+      "blob_sha": "f599745f750e5a43d7074138adb38a9e0c7e1524",
+      "bytes": 12700
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-16/app-pages-and-permissions.md",
+      "blob_sha": "11f030df92559e8ec9badbfbbd959c440588c4c7",
+      "bytes": 17622
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-16/archive/software-scope-web-first-v1.md",
+      "blob_sha": "769cff387eed0dfb4c519ba5e909e0d44fd15142",
+      "bytes": 20003
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-16/brand-visual-directions.md",
+      "blob_sha": "92ccd0685d0b5c93b8fe50e1918901384f4d4795",
+      "bytes": 6727
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-16/business-plan-zh.md",
+      "blob_sha": "0139eb8e6aaa7ff9743486713ce86ff8718f5ad4",
+      "bytes": 38394
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-16/logo-reference-calibration.md",
+      "blob_sha": "fc7a574ece2ffb15a57f78cb313e2ecd935e578b",
+      "bytes": 5284
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-16/naming-shortlist.md",
+      "blob_sha": "c8e99a970eae4d8684f8a850f3027290bca41bbf",
+      "bytes": 4355
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-16/senplate-logo-refinement-r2.md",
+      "blob_sha": "28c3c840d8c1c392b2953f50ef77c5e0846b9820",
+      "bytes": 4629
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-16/senplate-logo-reset-r3.md",
+      "blob_sha": "209cbb869dcc7b203cf48403da525da6fe75e2de",
+      "bytes": 5168
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-16/senplate-logo-vi-directions.md",
+      "blob_sha": "8092f51b2caf7aa5e9c546f8bbf23f6ff1f8dfda",
+      "bytes": 7488
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-16/software-mvp-and-acceptance.md",
+      "blob_sha": "657a22e17458a2b0018073251559ac55cf16544b",
+      "bytes": 11207
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-16/software-scope-and-architecture.md",
+      "blob_sha": "5bbb457fdddf946449369765a2e230035e87c3cf",
+      "bytes": 24813
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-16/software-workflows-and-api.md",
+      "blob_sha": "beb266eea36e0c413584fdada61a7fb5bc195ffc",
+      "bytes": 26654
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-17/senplate-bowl-golden-v6.md",
+      "blob_sha": "d9f5727f915e6b8a48ab444e8f910e0915832d1f",
+      "bytes": 4400
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-17/senplate-bowl-redesign-v5.md",
+      "blob_sha": "411566628fd47a2eed4d10e36610ca9f10e312e3",
+      "bytes": 6122
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-17/senplate-logo-measured-plate-r5.md",
+      "blob_sha": "d32ade1fb22555e4efc4467138de08edf4a2dd72",
+      "bytes": 4021
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-17/senplate-logo-profile-r4.md",
+      "blob_sha": "24c3568adf1fefcfd0a1a02cd5859dbb381f990e",
+      "bytes": 4262
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-17/senplate-v6-tick-study.md",
+      "blob_sha": "aaeb2d22c0da0892e64fbb23dd8283f11d41a96d",
+      "bytes": 2322
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-17/senplate-vector-logo-studies.md",
+      "blob_sha": "45772b034e182492fe6e8a1b0e6ed41ff93aeb47",
+      "bytes": 5094
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-18/development-p0.md",
+      "blob_sha": "7cd89ce240afb6522b87fedb7f72f60277ac2c24",
+      "bytes": 8102
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-18/senplate-plain-bowl-v7.md",
+      "blob_sha": "c84652bea0c1c6b5ee903518f7eb02618718dcfb",
+      "bytes": 2312
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-18/senplate-v6-curved-ticks.md",
+      "blob_sha": "03defe9e95d90aa9899dd8644ceb459a4b7e8aed",
+      "bytes": 2445
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-18/senplate-v6-inner-scale.md",
+      "blob_sha": "59099820c997d9d752217e2c1fcac984439e8ce3",
+      "bytes": 2207
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-18/senplate-v6-rim-tick-study.md",
+      "blob_sha": "8ff66eb35fa16208865effad355996749aa4ef73",
+      "bytes": 2952
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-18/senplate-v6-visible-ticks.md",
+      "blob_sha": "4738713b63869da6938c5b1d5dbf959fc14095fd",
+      "bytes": 2563
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-18/senplate-vi-v1.md",
+      "blob_sha": "73fa204dbb962973d79c998731a214a7d047ce50",
+      "bytes": 3222
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-19/meals-samples-contract.md",
+      "blob_sha": "c182d852b7848e646af8907bc6ea9b85b913c1b3",
+      "bytes": 7820
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-19/menu-orders-contract.md",
+      "blob_sha": "4537fa9b7e54b0f254a28ec33ab1385425062dfc",
+      "bytes": 8363
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-21/marco-camera-and-nutrition-review.md",
+      "blob_sha": "c949b3abd7d4994e9fea4eba286d9006e978b373",
+      "bytes": 21104
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-21/proposal-content.md",
+      "blob_sha": "61fd6731625eb5b2458074450d751b00d4b71ca0",
+      "bytes": 28010
+    },
+    {
+      "path": "archive/senplate/planning/2026-09-21/proposal-spec.md",
+      "blob_sha": "064a3c2040e41e1abd6de283439d1a78a6fb4538",
+      "bytes": 5347
+    },
+    {
+      "path": "archive/senplate/product-senplate-historical.md",
+      "blob_sha": "61ae64743bb7da12e14c5734d08a965fd98603f1",
+      "bytes": 30468
+    },
+    {
+      "path": "archive/senplate/research/2026-09-10-metafoodx-controliza/competitive-review.md",
+      "blob_sha": "a351cf4affa478635318bd0f19e011ac2a81c1d3",
+      "bytes": 17746
+    },
+    {
+      "path": "archive/senplate/research/2026-09-10-metafoodx-controliza/demo-questions.md",
+      "blob_sha": "0ab800a2da56d8c10ca427dc22859a304175c06b",
+      "bytes": 3372
+    },
+    {
+      "path": "archive/senplate/research/2026-09-10-metafoodx-controliza/evidence-register.md",
+      "blob_sha": "7ea7d81d63da49f6b56bc272d30f57b3c46430a8",
+      "bytes": 6438
+    },
+    {
+      "path": "archive/senplate/research/2026-09-14-metafoodx-hardware/evidence-review-log.md",
+      "blob_sha": "43dc766a978f3019d8c6d54280da8d5b34005bb3",
+      "bytes": 4698
+    },
+    {
+      "path": "archive/senplate/research/2026-09-14-metafoodx-hardware/hardware-and-technical-review.md",
+      "blob_sha": "38f7d40d2e22b2445458e4a22051923836f9b52e",
+      "bytes": 33760
+    },
+    {
+      "path": "archive/senplate/research/2026-09-14-suggestion-deep-review/deep-review.md",
+      "blob_sha": "bcfd1fccd87e4619781b8a3c229f008fd6e9317d",
+      "bytes": 18989
+    },
+    {
+      "path": "archive/senplate/research/2026-09-14-suggestion-deep-review/video-review-log.md",
+      "blob_sha": "04020da8ad0e04290256a633ae01ef3db4d87fe6",
+      "bytes": 3220
+    },
+    {
+      "path": "archive/senplate/research/2026-09-16-competitions/competition-shortlist.md",
+      "blob_sha": "f1c6481570622560cfab2cbe8ed3204d527b2bd7",
+      "bytes": 13829
+    },
+    {
+      "path": "archive/senplate/research/2026-09-16-competitions/mainland-national-provincial.md",
+      "blob_sha": "a059daa31ec1cf84ebd1b224855f68c10f380f86",
+      "bytes": 12740
+    },
+    {
+      "path": "archive/senplate/research/2026-09-16-competitions/no-company-options.md",
+      "blob_sha": "00ca85e72cfadfb9ec127e2ba16970ff293d5c77",
+      "bytes": 10019
+    },
+    {
+      "path": "archive/senplate/research/2026-09-16-competitions/plan-to-july-2027.md",
+      "blob_sha": "99bec2bd1224ebfbbee1773463a7c654c267aaae",
+      "bytes": 15419
+    },
+    {
+      "path": "archive/senplate/research/2026-09-16-competitions/world-vocational-registration.md",
+      "blob_sha": "52b9756ece7642c4597783e6f6e2e9c2dcddebbe",
+      "bytes": 7306
+    },
+    {
+      "path": "archive/senplate/research/2026-09-16-metafoodx-app/app-review.md",
+      "blob_sha": "cf15af0f664be6a13758d042f3b4df6777f1985c",
+      "bytes": 7189
+    },
+    {
+      "path": "archive/senplate/research/2026-09-16-senplate-name-check/senplate-trademark-and-domains.md",
+      "blob_sha": "13b3d032432a173248e0c33b23b69dc59ccc4d94",
+      "bytes": 8736
+    },
+    {
+      "path": "archive/senplate/research/2026-09-17-logo-similarity/similarity-review.md",
+      "blob_sha": "fcd043f8877c6a2cefd411b61512e298ecbcc371",
+      "bytes": 10453
+    },
+    {
+      "path": "archive/senplate/research/2026-09-18-font-licences/font-licence-audit.md",
+      "blob_sha": "fce1d01f1b4dc8d0ea14bd560725cf7b9a82f3ca",
+      "bytes": 2285
+    },
+    {
+      "path": "archive/senplate/research/2026-09-18-senplate-trademark/trademark-review.md",
+      "blob_sha": "79a6393a666dc6eea3541216cfae83a1b71439c5",
+      "bytes": 12486
+    },
+    {
+      "path": "archive/senplate/research/2026-09-19-nutrition/reference-audit.md",
+      "blob_sha": "15554358207539237f87cc10ee257b91cbc9acd2",
+      "bytes": 3683
+    },
+    {
+      "path": "archive/senplate/work-log.md",
+      "blob_sha": "e8b1579546f981d925ec9025876eee13c3524857",
+      "bytes": 97179
+    },
+    {
+      "path": "decision-log.md",
+      "blob_sha": "66637e0744f6b582b488d8a0acfc48fdc07e42a9",
+      "bytes": 54201
+    },
+    {
+      "path": "design/desk-companion/b1/design-spec.md",
+      "blob_sha": "5ffb8ed72cf1e93208d80d111851a379e45eada6",
+      "bytes": 4890
+    },
+    {
+      "path": "design/desk-companion/device-ambient-v1/README.md",
+      "blob_sha": "5c424d939fcde9ce3ac1ed0de7e22e77bc70f46b",
+      "bytes": 1038
+    },
+    {
+      "path": "desk-companion/README.md",
+      "blob_sha": "c41f55a7a69f426c768fbff84cc9f65e5cf8c179",
+      "bytes": 9741
+    },
+    {
+      "path": "desk-companion/THIRD_PARTY.md",
+      "blob_sha": "f6e73fb825aae6fddcadea783afd4450f44bc927",
+      "bytes": 3293
+    },
+    {
+      "path": "desk-companion/docs/architecture.md",
+      "blob_sha": "b4fd9dd08387865d4ae7e6c0a45eb0c48028a4da",
+      "bytes": 11103
+    },
+    {
+      "path": "desk-companion/docs/computer-jobs.md",
+      "blob_sha": "96289d93a18ea67e71150d92b99510dfe4d375fe",
+      "bytes": 6328
+    },
+    {
+      "path": "desk-companion/docs/evaluation.md",
+      "blob_sha": "8350cd0212a5ccb945d27e2f26d0acaf2d38fb10",
+      "bytes": 4124
+    },
+    {
+      "path": "desk-companion/docs/memory.md",
+      "blob_sha": "454e3b20946e225f00d900399ab7991192410157",
+      "bytes": 3519
+    },
+    {
+      "path": "desk-companion/docs/operator-guide.md",
+      "blob_sha": "300666e0f82ad0befeb30ae02c36a4f7f7db3560",
+      "bytes": 14461
+    },
+    {
+      "path": "desk-companion/docs/task-tracking.md",
+      "blob_sha": "e77abb9b85b6277601948facfddb88772ee42fbc",
+      "bytes": 8129
+    },
+    {
+      "path": "desk-companion/frontend/ios/App/CapApp-SPM/README.md",
+      "blob_sha": "03964db900841d8d1125314f12ace8394c755b3b",
+      "bytes": 162
+    },
+    {
+      "path": "docs/tooling-and-review/companion-architecture.md",
+      "blob_sha": "58aa23aab248fef4173d2a270d561fcbb6ad0fa3",
+      "bytes": 16591
+    },
+    {
+      "path": "docs/tooling-and-review/companion-product-teardown.md",
+      "blob_sha": "3260cad7ebfb1bf5f30adbbe944368b58171f97f",
+      "bytes": 26980
+    },
+    {
+      "path": "docs/tooling-and-review/fyp-repo-review.md",
+      "blob_sha": "ecd29f6b2c8e7c7120fbf7d08356ec44014849b0",
+      "bytes": 8458
+    },
+    {
+      "path": "handoff.md",
+      "blob_sha": "83569d18fb0c6499f87f4ef29095bd0954396152",
+      "bytes": 2047
+    },
+    {
+      "path": "inputs/README.md",
+      "blob_sha": "b130d104246e610a7582d21ade56bfb76de08298",
+      "bytes": 1494
+    },
+    {
+      "path": "inputs/teammate/形态 A：智能音箱智能屏幕终端（如 小爱触屏音箱、小度在家、FotoCube 等）.md",
+      "blob_sha": "dc0f249ec8c520641de81dd64b3b4009e014d7cf",
+      "bytes": 2811
+    },
+    {
+      "path": "planning/2026-09-25/desk-companion-proposal-zh-review-v2.md",
+      "blob_sha": "57e0d256c8c39f7ff62f1a2e4fbcaa7e83751e7a",
+      "bytes": 18850
+    },
+    {
+      "path": "planning/2026-09-25/desk-companion-proposal-zh-review.md",
+      "blob_sha": "28da20637169badd60b4453c29c4e6d4fcc15baa",
+      "bytes": 16723
+    },
+    {
+      "path": "planning/2026-09-26/ava-cylinder-route-a.md",
+      "blob_sha": "5b509dd2ff131016c2ff1fecad1a9de24a3ccc0a",
+      "bytes": 10445
+    },
+    {
+      "path": "planning/2026-09-28/desk-companion-proposal-en.md",
+      "blob_sha": "6338d714ce5c1b4ece5a7978f46dcbd435f51853",
+      "bytes": 21609
+    },
+    {
+      "path": "planning/2026-09-28/desk-companion-proposal-zh-v3.md",
+      "blob_sha": "e04cbdb6541e825ea5ebf2ac868501f7222c1ad4",
+      "bytes": 18245
+    },
+    {
+      "path": "planning/2026-09-28/desk-software-scope-v1.md",
+      "blob_sha": "6576b3f667cf4fb8751a4e522a2c4315f63f9cd5",
+      "bytes": 29799
+    },
+    {
+      "path": "planning/2026-09-28/logsheet-and-proposal-review.md",
+      "blob_sha": "9800fd7fad28c5d099a72e436b576b00575ca1f1",
+      "bytes": 5966
+    },
+    {
+      "path": "planning/2026-09-29/calendar-part1-functional-scope.md",
+      "blob_sha": "d5145c92e6efd6fffd74a8a16df03ad6cfee365e",
+      "bytes": 15120
+    },
+    {
+      "path": "planning/2026-09-29/calendar-part1-teammate-source.md",
+      "blob_sha": "02ecdb69cf033be44c7daa0dd8615e37ceff89dc",
+      "bytes": 3765
+    },
+    {
+      "path": "planning/2026-09-29/software-development-plan.md",
+      "blob_sha": "618461f601b57cb289fa269be3ffa6dad77ccef8",
+      "bytes": 15831
+    },
+    {
+      "path": "planning/2026-09-30/device-display-spec.md",
+      "blob_sha": "055f2a091e2476358c9a9367af5eb7935b1301ad",
+      "bytes": 8726
+    },
+    {
+      "path": "planning/2026-10-02/software-completion-plan.md",
+      "blob_sha": "39f47f842e9c59dea6fa4cecac72c6378e189b47",
+      "bytes": 6816
+    },
+    {
+      "path": "planning/2026-10-03-task-enhancement.md",
+      "blob_sha": "b80c9f8e82007d5d5a51eb6c93b4a403b819031a",
+      "bytes": 2705
+    },
+    {
+      "path": "planning/2026-10-06/cloud-software-delivery.md",
+      "blob_sha": "747ec005ab8534558e24bf0fcb523fc2fbd50f91",
+      "bytes": 2429
+    },
+    {
+      "path": "planning/2026-10-06/personal-agent-discussion-and-next-steps.md",
+      "blob_sha": "3074a305dba416c8457845933e6b82662dd22749",
+      "bytes": 24079
+    },
+    {
+      "path": "planning/2026-10-06/software-architecture-audit.md",
+      "blob_sha": "cba71a138badd09c845907eee150ac845dae004e",
+      "bytes": 7538
+    },
+    {
+      "path": "planning/2026-10-14/pr-stack-merge-order.md",
+      "blob_sha": "5767e232024e68aca5449b9ab48227aa41e59682",
+      "bytes": 6228
+    },
+    {
+      "path": "product.md",
+      "blob_sha": "a9067b52bb43949e4e9f227116ed2e9306efda85",
+      "bytes": 7372
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/feasibility-review.md",
+      "blob_sha": "a13bd4a09a790fafb263771d929611ef679aee52",
+      "bytes": 22030
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/realtime-voice-model-comparison.md",
+      "blob_sha": "31c4b5b706f032d832f4e6772179ac5557004983",
+      "bytes": 16086
+    },
+    {
+      "path": "research/2026-09-25-desk-companion/voice-model-cost-review.md",
+      "blob_sha": "47704a52430d42ca3c6b9e007e27e979373d0524",
+      "bytes": 11291
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md",
+      "blob_sha": "82e6298ee57869a84818c0471470ef5b5eb69a04",
+      "bytes": 6661
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/hologram-fan-maturity.md",
+      "blob_sha": "746b889841d120ca9124cc764d4e46289028c7bf",
+      "bytes": 6262
+    },
+    {
+      "path": "research/2026-09-26-desk-companion/razer-ava-like-feasibility.md",
+      "blob_sha": "53e8427a67b712d86e47d30c72633b67b7df9808",
+      "bytes": 7455
+    },
+    {
+      "path": "research/2026-09-28-local-voice/server-deployment-comparison.md",
+      "blob_sha": "79ba4a9d5fb009d7457248002c3c22c4c823d8c8",
+      "bytes": 27924
+    },
+    {
+      "path": "research/2026-09-29-voice-ai/naturalness-and-tools-review.md",
+      "blob_sha": "7900dad8916012a04ce66b78a54d16e006364e3b",
+      "bytes": 21642
+    },
+    {
+      "path": "research/2026-09-29-voice-ai/price-and-value-ranking.md",
+      "blob_sha": "08530398e346565e86648d37ed482c04226c79c4",
+      "bytes": 9819
+    },
+    {
+      "path": "research/2026-10-03-dot/proactive-task-tracking.md",
+      "blob_sha": "ae4331d3fc64e3122d0f1c82b07d6cafc14911e1",
+      "bytes": 11534
+    },
+    {
+      "path": "research/2026-10-05-rig-arm/secondary-development-review.md",
+      "blob_sha": "e7a438cbbf89dd51ffbb4113a44016af73b9707b",
+      "bytes": 17704
+    },
+    {
+      "path": "research/2026-10-23-mini-robot-hardware/README.md",
+      "blob_sha": "b25c502010a5ebb7ceda7b2dc0152ae60d5fd577",
+      "bytes": 7077
+    },
+    {
+      "path": "research/2026-10-23-mini-robot-hardware/integration-notes.md",
+      "blob_sha": "f0a53dc1e80aad7b86a07dfaaff391b123460271",
+      "bytes": 3821
+    },
+    {
+      "path": "research/2026-10-23-mini-robot-hardware/verification-plan.md",
+      "blob_sha": "97b96c8f19a493951e77db0e0bbd49e1898b734e",
+      "bytes": 3883
+    },
+    {
+      "path": "work-log.md",
+      "blob_sha": "df6539c7a8b18be0377eb5ad5f6f086f9c488d9a",
+      "bytes": 65376
+    }
+  ],
+  "inventory_count": 147,
+  "read_ranges": [
+    {
+      "path": "AGENTS.md",
+      "read_range": "1-EOF"
+    },
+    {
+      "path": "product.md",
+      "read_range": "1-EOF"
+    },
+    {
+      "path": "handoff.md",
+      "read_range": "1-EOF"
+    },
+    {
+      "path": "README.md",
+      "read_range": "1-EOF"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "read_range": "1-EOF"
+    },
+    {
+      "path": "decision-log.md",
+      "read_range": "251-306 (latest related decisions)"
+    },
+    {
+      "path": "work-log.md",
+      "read_range": "309-349 (recent reviews and hardware work)"
+    },
+    {
+      "path": "research/2026-10-05-rig-arm/secondary-development-review.md",
+      "read_range": "1-EOF"
+    },
+    {
+      "path": "research/2026-10-23-mini-robot-hardware/README.md",
+      "read_range": "1-EOF"
+    },
+    {
+      "path": "research/2026-10-23-mini-robot-hardware/integration-notes.md",
+      "read_range": "1-EOF"
+    },
+    {
+      "path": "research/2026-10-23-mini-robot-hardware/verification-plan.md",
+      "read_range": "1-EOF"
+    },
+    {
+      "path": "output/qa/2026-10-26-repo-cleanup/pr17-review.md",
+      "read_range": "1-EOF"
+    }
+  ],
+  "not_read": "Retired Senplate and unrelated software/research documents, under the task-scoped exception. Automatic QA snapshots were not used as substitutes for reading current instructions.",
+  "remote_state_checks": {
+    "pr17": "merged",
+    "pr17_merge_commit": "4417e3656959bd3deb7e0d42a2e42654723dfba4",
+    "main": "46ac1679f57191b8ed4ff51ff15829cb81c83cc4"
+  },
+  "upload_exclusions": [
+    "personal admissions/coursework",
+    "local credentials/runtime",
+    "third-party mechanical models",
+    "intermediate procurement PDFs",
+    "unrelated source changes"
+  ]
+}

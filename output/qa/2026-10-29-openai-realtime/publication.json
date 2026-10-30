@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-29",
+  "repository": "tantalum666/FYP",
+  "branch": "codex/openai-realtime-evaluation-20261029",
+  "tested_source_commit": "f5b9417cfda62e6f8400c7b5ac85ec3a49be3b2a",
+  "base": "codex/assistant-permissions-20261029",
+  "base_sha": "61db1c2c2fc592887bdf78170ef7fc9e28cba33c",
+  "pr": {
+    "url": "https://github.com/tantalum666/FYP/pull/66",
+    "number": 66,
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "mergeable": true
+  },
+  "remote_source_head_verified": true,
+  "verification": {
+    "backend_tests": 504,
+    "focused_tests": 15,
+    "ruff": "pass",
+    "format": "pass",
+    "links_checked": 333,
+    "missing_links": 0,
+    "staged_gitleaks": "no leaks found",
+    "normal_app_source_changed": false
+  },
+  "experiment": {
+    "sessions": 16,
+    "controlled_trials": 11,
+    "ceiling_usd": 5,
+    "uncached_estimate_usd": 0.3035168833333333,
+    "all_usage_finalized": true,
+    "closed": true,
+    "new_reservation_rejected": "EXPERIMENT_CLOSED",
+    "invoice_verified": false
+  },
+  "exclusions": [
+    "local credential",
+    "runtime databases",
+    "synthetic input files",
+    "private key material"
+  ],
+  "note": "Tested code commit verified against GitHub and git remote. A following documentation-only closeout records this receipt without changing source hashes. No CI, merge or deployment."
+}

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { FileCheck2, FolderPen } from "lucide-react";
-import { DateTime } from "luxon";
+import { FolderPen } from "lucide-react";
 import {
   ApiError,
   errorText,
@@ -10,24 +9,23 @@ import {
   write,
 } from "../api";
 import { useDraftGuard } from "../components/DraftGuard";
-import { locale } from "../dates";
-import type { Language, Translate } from "../types";
+import type { Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import {
   isFolderAction,
   isDesktopAction,
-  jobCancellable,
-  readBackCopy,
-  recoveryCopy,
+  isApplicationAction,
   recoveryMatchesNote,
-  reviewAvailable,
 } from "./jobTypes";
-import type { ComputerJob, JobState } from "./jobTypes";
+import { JobActionCard } from "./JobActionCard";
+import { requestJobAction } from "./jobRequests";
+import type { ComputerJob } from "./jobTypes";
 import type { Task } from "./taskTypes";
 
 interface Snapshot {
   enabled: boolean;
   desktop?: { enabled: boolean; ready: boolean; apps: string[] };
+  applications?: { enabled: boolean; configured: boolean };
   folder?: { configured: boolean; label: string | null };
   jobs: ComputerJob[];
 }
@@ -40,7 +38,6 @@ export function ComputerJobsPanel({
   taskId?: string;
 }) {
   const { data, offline, stale } = useWorkspace();
-  const language: Language = t("en", "zh") === "zh" ? "zh" : "en";
   const owner = data?.principal.kind === "owner";
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
   const [readError, setReadError] = useState<unknown>(null);
@@ -64,11 +61,13 @@ export function ComputerJobsPanel({
       ? "linux_note_preview"
       : noteAction;
   const executorAvailable = (job: ComputerJob) =>
-    isDesktopAction(job.action)
-      ? snapshot?.desktop?.ready
-      : isFolderAction(job.action)
-        ? snapshot?.folder?.configured
-        : snapshot?.enabled;
+    isApplicationAction(job.action)
+      ? snapshot?.applications?.enabled && snapshot.applications.configured
+      : isDesktopAction(job.action)
+        ? snapshot?.desktop?.ready
+        : isFolderAction(job.action)
+          ? snapshot?.folder?.configured
+          : snapshot?.enabled;
   const alive = useRef(false);
   const generation = useRef(0);
   const reading = useRef<number | null>(null);
@@ -238,11 +237,7 @@ export function ComputerJobsPanel({
     setCancelling(true);
     setError(null);
     try {
-      await request(`/computer/jobs/${job.id}/cancel`, {
-        method: "POST",
-        body: "{}",
-        headers: { "X-Operation-Id": `computer-cancel/${job.id}` },
-      });
+      await requestJobAction(job, "cancel");
       setNotice(
         t(
           "Cancellation requested. Check the current result; an existing file is not rolled back.",
@@ -265,39 +260,15 @@ export function ComputerJobsPanel({
     setError(null);
     setNotice("");
     try {
-      if (kind === "approve") {
-        await write(`/computer/jobs/${job.id}/approve`, {
-          expected_version: job.version,
-          intent_hash: job.intent_hash,
-        });
-      } else if (kind === "verify") {
-        const task = taskId
-          ? (await request<{ task: Task }>(`/tasks/${taskId}`)).task
-          : null;
-        await write("/computer/jobs", {
-          action: isDesktopAction(job.action)
-            ? "verify_linux_file"
-            : isFolderAction(job.action)
-              ? "verify_folder_file"
-              : "verify_note",
-          title: isFolderAction(job.action)
-            ? t("Verify saved folder file", "核验已保存的文件夹文件")
-            : t("Verify saved note", "核验已保存笔记"),
-          source_job_id: job.id,
-          task_id: taskId ?? null,
-          task_version: task?.version ?? null,
-        });
-      } else {
-        // Read-only reconciliation does not replay an uncertain write.
-        await request(`/computer/jobs/${job.id}/${kind}`, {
-          method: "POST",
-          body: "{}",
-          headers: { "X-Operation-Id": `computer-reconcile/${job.id}` },
-        });
-      }
+      await requestJobAction(job, kind);
       setNotice(
         kind === "verify"
-          ? t("Verification prepared for review.", "核验作业已准备待核对。")
+          ? isApplicationAction(job.action)
+            ? t(
+                "The current file matches the verified operation.",
+                "当前文件与已核验操作一致。",
+              )
+            : t("Verification prepared for review.", "核验作业已准备待核对。")
           : kind === "approve"
             ? t(
                 "Approval request processed. Check the current status below; the desk keeps the job and its result.",
@@ -316,22 +287,11 @@ export function ComputerJobsPanel({
       setBusy(false);
     }
   }
-  const labels: Record<JobState, string> = {
-    review: t("Needs your approval", "待你批准"),
-    queued: t("Queued", "已排队"),
-    running: t("Saving or checking", "正在保存或检查"),
-    verifying: t("Verifying result", "正在核验结果"),
-    succeeded: t("Verified", "已核验"),
-    failed: t("Could not execute", "未能执行"),
-    cancel_requested: t("Stopping · result pending", "正在停止 · 结果待确认"),
-    cancelled: t("Cancelled before execution", "已在执行前取消"),
-    expired: t("Expired without execution", "已到期，未执行"),
-    unknown: t("Result unknown · check before retrying", "结果未知 · 请先核验"),
-  };
+
   if (!owner)
     return (
       <section className="workspace-section">
-        <h3>{t("Computer jobs", "电脑作业")}</h3>
+        <h3>{t("File activity", "文件活动")}</h3>
         <p>
           {t(
             "Sign in as owner to review and approve computer jobs. Pairing alone does not grant execution permission.",
@@ -343,16 +303,16 @@ export function ComputerJobsPanel({
   return (
     <section
       className="workspace-section computer-jobs"
-      aria-label={t("Computer jobs", "电脑作业")}
+      aria-label={t("File activity", "文件活动")}
     >
       <div className="workspace-state">
         <FolderPen />
         <div>
-          <h3>{t("Computer jobs", "电脑作业")}</h3>
+          <h3>{t("File activity", "文件活动")}</h3>
           <p>
             {t(
-              "Save a note in this desk’s dedicated notes folder, or a file in one folder you name. Each job needs your approval, then an independent read-back.",
-              "可将笔记保存到本桌面的专用笔记目录，或保存到你指定的一个文件夹。每项作业都需要你批准，再独立读回。",
+              "View file actions and their results, manage a connected folder, or prepare a manual draft.",
+              "查看文件操作及结果、管理连接的文件夹，或手动准备一份草稿。",
             )}
           </p>
         </div>
@@ -373,60 +333,62 @@ export function ComputerJobsPanel({
           )}
         </p>
       )}
-      <form onSubmit={nameFolder}>
-        <h4>{t("Named folder", "指定文件夹")}</h4>
-        <p className="workspace-hint">
-          {snapshot?.folder?.configured
-            ? t("Current folder: ", "当前文件夹：") +
-              (snapshot.folder.label ?? "")
-            : t(
-                "No folder is named yet. Folder jobs stay unavailable until you choose one existing directory outside this desk’s runtime data.",
-                "尚未指定文件夹。在你选择本桌面运行数据之外的一个已有目录之前，文件夹作业不可用。",
-              )}
-        </p>
-        <label className="field">
-          {t("Folder label", "文件夹名称")}
-          <input
-            value={folderLabel}
-            onChange={(e) => setFolderLabel(e.target.value)}
-            maxLength={80}
-            required
-            disabled={busy}
-          />
-        </label>
-        <label className="field">
-          {t("Absolute folder path", "文件夹绝对路径")}
-          <input
-            value={folderPath}
-            onChange={(e) => setFolderPath(e.target.value)}
-            maxLength={4096}
-            required
-            disabled={busy}
-            spellCheck={false}
-            autoComplete="off"
-          />
-        </label>
-        <div className="workspace-inline-actions">
-          <button
-            className="primary"
-            disabled={
-              busy || !fresh || !folderLabel.trim() || !folderPath.trim()
-            }
-          >
-            {t("Save this folder", "保存此文件夹")}
-          </button>
-          {snapshot?.folder?.configured && (
+      <details className="job-folder-settings">
+        <summary>{t("Folder settings", "文件夹设置")}</summary>
+        <form onSubmit={nameFolder}>
+          <p className="workspace-hint">
+            {snapshot?.folder?.configured
+              ? t("Current folder: ", "当前文件夹：") +
+                (snapshot.folder.label ?? "")
+              : t(
+                  "No folder is named yet. Folder jobs stay unavailable until you choose one existing directory outside this desk’s runtime data.",
+                  "尚未指定文件夹。在你选择本桌面运行数据之外的一个已有目录之前，文件夹作业不可用。",
+                )}
+          </p>
+          <label className="field">
+            {t("Folder label", "文件夹名称")}
+            <input
+              value={folderLabel}
+              onChange={(e) => setFolderLabel(e.target.value)}
+              maxLength={80}
+              required
+              disabled={busy}
+            />
+          </label>
+          <label className="field">
+            {t("Absolute folder path", "文件夹绝对路径")}
+            <input
+              value={folderPath}
+              onChange={(e) => setFolderPath(e.target.value)}
+              maxLength={4096}
+              required
+              disabled={busy}
+              spellCheck={false}
+              autoComplete="off"
+            />
+          </label>
+          <div className="workspace-inline-actions">
             <button
-              type="button"
-              className="secondary"
-              disabled={busy || !fresh}
-              onClick={() => void clearFolder()}
+              className="primary"
+              disabled={
+                busy || !fresh || !folderLabel.trim() || !folderPath.trim()
+              }
             >
-              {t("Clear folder", "清除文件夹")}
+              {t("Save this folder", "保存此文件夹")}
             </button>
-          )}
-        </div>
-      </form>
+            {snapshot?.folder?.configured && (
+              <button
+                type="button"
+                className="secondary"
+                disabled={busy || !fresh}
+                onClick={() => void clearFolder()}
+              >
+                {t("Clear folder", "清除文件夹")}
+              </button>
+            )}
+          </div>
+        </form>
+      </details>
       {snapshot?.folder?.configured && (
         <>
           <button
@@ -597,162 +559,18 @@ export function ComputerJobsPanel({
         </p>
       )}
       {snapshot?.jobs.map((job) => (
-        <article key={job.id} className="computer-job">
-          <div className="workspace-eyebrow">{labels[job.state]}</div>
-          <h4>{job.request.title}</h4>
-          <p>
-            {job.action === "linux_note_preview"
-              ? t(
-                  "Edit in Mousepad and preview in Chromium",
-                  "在 Mousepad 编辑并在 Chromium 预览",
-                )
-              : job.action === "verify_linux_file"
-                ? t(
-                    "Verify saved Linux workflow file",
-                    "核验跨应用流程的已保存文件",
-                  )
-                : job.action === "save_note"
-                  ? t("Save a new note", "保存新笔记")
-                  : job.action === "verify_note"
-                    ? t("Verify an existing note", "核验已有笔记")
-                    : job.action === "save_folder_file"
-                      ? t("Save a new folder file", "保存新的文件夹文件")
-                      : t(
-                          "Verify an existing folder file",
-                          "核验已有文件夹文件",
-                        )}
-          </p>
-          <p className="job-target">
-            {isDesktopAction(job.action)
-              ? t(
-                  "Destination: Linux workflow notes / ",
-                  "目标：Linux 跨应用笔记 / ",
-                )
-              : isFolderAction(job.action)
-                ? t("Destination: ", "目标：") +
-                  (job.request.folder_label ?? "") +
-                  " / "
-                : t(
-                    "Destination: Desk Companion notes / ",
-                    "目标：Desk Companion 笔记目录 / ",
-                  )}
-            {job.request.artifact_id}.txt
-          </p>
-          {isFolderAction(job.action) && job.request.folder_fingerprint && (
-            <p className="job-target">
-              {t("Folder binding ", "文件夹绑定 ")}
-              <code>{job.request.folder_fingerprint.slice(0, 12)}</code>
-            </p>
-          )}
-          <details open={job.state === "review"}>
-            <summary>{t("Review exact text", "核对全文")}</summary>
-            <pre tabIndex={0}>{job.request.content}</pre>
-          </details>
-          {job.task_id && (
-            <small>
-              {t(
-                "Linked to the same task; this does not mark it complete.",
-                "关联原事务，不会自动将事务标为完成。",
-              )}
-            </small>
-          )}
-          {job.state === "review" && (
-            <p>
-              {t("Approval expires at ", "批准有效至 ")}
-              {DateTime.fromISO(job.expires_at)
-                .setLocale(locale(language))
-                .toLocaleString(DateTime.TIME_SIMPLE)}
-            </p>
-          )}
-          {job.result?.verified && (
-            <p className="job-receipt">
-              <FileCheck2 size={18} />
-              {t("Independent read-back matched", "独立读回一致")} ·{" "}
-              {job.result.bytes} {t("bytes", "字节")}
-              <code>SHA256 {job.result.sha256}</code>
-              {job.result.apps_verified?.length === 2 && (
-                <span>
-                  {t(
-                    "Mousepad save and Chromium content observed",
-                    "已观察到 Mousepad 保存与 Chromium 展示内容",
-                  )}
-                </span>
-              )}
-            </p>
-          )}
-          {job.cancel_requested && job.state === "succeeded" && (
-            <p>
-              {t(
-                "The file was already committed and verified. Cancellation did not remove it.",
-                "文件已写入并核验，取消没有删除已产生的结果。",
-              )}
-            </p>
-          )}
-          {job.state === "unknown" && (
-            <p>
-              {t(
-                "Execution will not be repeated automatically. Check the existing file result first.",
-                "不会自动重复执行。请先核验已有文件结果。",
-              )}
-            </p>
-          )}
-          {job.error && (
-            <p className="workspace-hint">
-              {errorText(new ApiError(job.error), t)}
-            </p>
-          )}
-          {readBackCopy(job.result?.reason) && (
-            <p className="workspace-hint">
-              {t(...readBackCopy(job.result?.reason)!)}
-            </p>
-          )}
-          {recoveryCopy(job) && <p>{t(...recoveryCopy(job)!)}</p>}
-          <div className="workspace-inline-actions">
-            {job.state === "review" && (
-              <button
-                className="primary"
-                disabled={
-                  busy ||
-                  !executorAvailable(job) ||
-                  !reviewAvailable(job, Date.now(), fresh)
-                }
-                onClick={() => void action(job, "approve")}
-              >
-                {t("Approve this job", "批准此作业")}
-              </button>
-            )}
-            {jobCancellable(job) && (
-              <button
-                className="secondary"
-                disabled={cancelling || offline}
-                onClick={() => void cancel(job)}
-              >
-                {t("Cancel job", "取消作业")}
-              </button>
-            )}
-            {job.state === "unknown" && (
-              <button
-                className="secondary"
-                disabled={busy || !fresh || !executorAvailable(job)}
-                onClick={() => void action(job, "reconcile")}
-              >
-                {t("Check existing result", "核验已有结果")}
-              </button>
-            )}
-            {job.state === "succeeded" &&
-              (job.action === "save_note" ||
-                job.action === "save_folder_file" ||
-                job.action === "linux_note_preview") && (
-                <button
-                  className="text-button"
-                  disabled={busy || !fresh || !executorAvailable(job)}
-                  onClick={() => void action(job, "verify")}
-                >
-                  {t("Prepare another verification", "准备再次核验")}
-                </button>
-              )}
-          </div>
-        </article>
+        <JobActionCard
+          key={job.id}
+          job={job}
+          t={t}
+          busy={busy}
+          cancelling={cancelling || offline}
+          fresh={fresh}
+          available={!!executorAvailable(job)}
+          onAction={(kind) =>
+            void (kind === "cancel" ? cancel(job) : action(job, kind))
+          }
+        />
       ))}
     </section>
   );

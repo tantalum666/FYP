@@ -1,0 +1,28 @@
+{
+  "original_pr": 15,
+  "old_head": "8129775b641126ead9e11425ef604f0296ce2bc8",
+  "current_baseline": "e42777a51cc1c524ce322c4c25ba03609f7e9f3c",
+  "files": [
+    {
+      "path": "desk-companion/backend/desk/voice_credentials.py",
+      "byte_identical": true,
+      "sha256": "6e3cca7e9d4e9dbe50a66ee8119bbc08f366c516b1281d07c357d94317186b43"
+    },
+    {
+      "path": "desk-companion/backend/desk/voice_media.py",
+      "byte_identical": true,
+      "sha256": "24e455204aaf8a71ab63a4a19d1ae6c9cb2dd461bdaff2780dd6b79348eab2de"
+    },
+    {
+      "path": "desk-companion/frontend/src/workspace/vision.ts",
+      "byte_identical": true,
+      "sha256": "46054fce4ec412a79a5e5df4b75aa97bc1435f4b65c3cd8cb5f930d4230b6124"
+    },
+    {
+      "path": "desk-companion/scripts/configure_qwen.py",
+      "byte_identical": true,
+      "sha256": "3addfaf9f885d035bb9befc8f5e90f81211ab8bd4d75fe2a156557139361df24"
+    }
+  ],
+  "qualification": "Only these four helpers are byte-identical. Voice service, UI, audio and tests were subsequently extended; current integrated regressions are separate evidence."
+}

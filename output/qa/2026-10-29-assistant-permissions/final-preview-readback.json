@@ -1,0 +1,91 @@
+{
+  "permissions": {
+    "mode": "ask",
+    "version": 5,
+    "updated_at": "2026-10-29T05:28:36.567483Z"
+  },
+  "jobs": [
+    {
+      "id": "e975fab145b7427eb7a8dc4b8fa78f87",
+      "state": "succeeded",
+      "authorization": {
+        "mode": "once"
+      },
+      "file_exists": true,
+      "bytes": 83,
+      "sha256": "f9b47c429765546d3725a307e642176f1bc380feed4651e84cd91318a63f692e"
+    },
+    {
+      "id": "9416729bfef749ce986b068ff0cef01c",
+      "state": "cancelled",
+      "authorization": null,
+      "file_exists": false
+    },
+    {
+      "id": "74f8c67d5f2f4a66a1b401b819e15188",
+      "state": "expired",
+      "authorization": null,
+      "file_exists": false
+    },
+    {
+      "id": "bb4aa366233a474c9345dac81fffc067",
+      "state": "succeeded",
+      "authorization": {
+        "mode": "full",
+        "version": 2
+      },
+      "file_exists": true,
+      "bytes": 83,
+      "sha256": "f8816fd5e320f3d7e682b606c08c49595e83ab16ac65fa15ad4bc6a4c661ba37"
+    },
+    {
+      "id": "f09444e5484a475780803ccc6e7db1db",
+      "state": "succeeded",
+      "authorization": {
+        "mode": "once"
+      },
+      "file_exists": true,
+      "bytes": 75,
+      "sha256": "241b23270e94522e3d4d476a20b1a4b12624c10f279dab8da565a3f28cb208c5"
+    },
+    {
+      "id": "aed87e544c664f579db80e96f4014a90",
+      "state": "cancelled",
+      "authorization": null,
+      "file_exists": false
+    },
+    {
+      "id": "34bf42bfceff4f4cb1f89235110ca47f",
+      "state": "succeeded",
+      "authorization": {
+        "mode": "once"
+      },
+      "file_exists": true,
+      "bytes": 117,
+      "sha256": "443fc3b410524d596f77d0d3ebca69407e12d5ada5edc6e38dbcc45694bc7a98"
+    },
+    {
+      "id": "5bbf370e7a264847a63318d76fd4b3ef",
+      "state": "succeeded",
+      "authorization": {
+        "mode": "once"
+      },
+      "file_exists": true,
+      "bytes": 66,
+      "sha256": "967a984bd62d9a35ab1dd868db52ddc2b0eb79cbdfe462b1b43f2a529cdc1cf9"
+    },
+    {
+      "id": "96559f52d9c949578c8f62e30bb14798",
+      "state": "succeeded",
+      "authorization": {
+        "mode": "once"
+      },
+      "file_exists": true,
+      "bytes": 117,
+      "sha256": "443fc3b410524d596f77d0d3ebca69407e12d5ada5edc6e38dbcc45694bc7a98"
+    }
+  ],
+  "api": "127.0.0.1:8833",
+  "browser": "localhost:5190",
+  "environment": "isolated fictional fixture; no paid provider"
+}

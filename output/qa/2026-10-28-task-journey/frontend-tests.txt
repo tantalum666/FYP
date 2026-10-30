@@ -1,0 +1,550 @@
+
+> desk-companion-ui@0.1.0 test
+> node --experimental-strip-types --test tests/*.test.ts
+
+TAP version 13
+# Subtest: Alice original is the default; rejected-study preferences cannot recolor it
+ok 1 - Alice original is the default; rejected-study preferences cannot recolor it
+  ---
+  duration_ms: 3.209583
+  type: 'test'
+  ...
+# Subtest: mouth ignores expired/future and nonfinite speaker samples
+ok 2 - mouth ignores expired/future and nonfinite speaker samples
+  ---
+  duration_ms: 0.713333
+  type: 'test'
+  ...
+# Subtest: presentation bridge accepts bounded shape only and removes listeners on disposal
+ok 3 - presentation bridge accepts bounded shape only and removes listeners on disposal
+  ---
+  duration_ms: 0.811375
+  type: 'test'
+  ...
+# Subtest: edge depth distinguishes free, half, head and hidden on left, right and bottom
+ok 4 - edge depth distinguishes free, half, head and hidden on left, right and bottom
+  ---
+  duration_ms: 4.145375
+  type: 'test'
+  ...
+# Subtest: invalid or blocked storage data cannot strand the companion
+ok 5 - invalid or blocked storage data cannot strand the companion
+  ---
+  duration_ms: 0.517
+  type: 'test'
+  ...
+# Subtest: resizing keeps free figures and every hidden recall button inside usable screen bounds
+ok 6 - resizing keeps free figures and every hidden recall button inside usable screen bounds
+  ---
+  duration_ms: 0.485417
+  type: 'test'
+  ...
+# Subtest: saved continuous scale survives reload and legacy sizes migrate without losing placement
+ok 7 - saved continuous scale survives reload and legacy sizes migrate without losing placement
+  ---
+  duration_ms: 0.174959
+  type: 'test'
+  ...
+# Subtest: arbitrary scaling keeps a docked head cropped and the complete character fits after recall
+ok 8 - arbitrary scaling keeps a docked head cropped and the complete character fits after recall
+  ---
+  duration_ms: 0.128125
+  type: 'test'
+  ...
+# Subtest: a docked head can be dragged back to a complete in-bounds figure
+ok 9 - a docked head can be dragged back to a complete in-bounds figure
+  ---
+  duration_ms: 0.089875
+  type: 'test'
+  ...
+# Subtest: folder jobs are distinct from the dedicated notes adapter
+ok 10 - folder jobs are distinct from the dedicated notes adapter
+  ---
+  duration_ms: 0.665917
+  type: 'test'
+  ...
+# Subtest: approval requires fresh data and an unexpired review
+ok 11 - approval requires fresh data and an unexpired review
+  ---
+  duration_ms: 0.089792
+  type: 'test'
+  ...
+# Subtest: cancellation remains available for active and unknown jobs only
+ok 12 - cancellation remains available for active and unknown jobs only
+  ---
+  duration_ms: 0.123041
+  type: 'test'
+  ...
+# Subtest: recovering another operation must not clear the current unsaved note
+ok 13 - recovering another operation must not clear the current unsaved note
+  ---
+  duration_ms: 0.077083
+  type: 'test'
+  ...
+# Subtest: pending note recovery is scoped to the same linked task
+ok 14 - pending note recovery is scoped to the same linked task
+  ---
+  duration_ms: 0.060667
+  type: 'test'
+  ...
+# Subtest: read-back and fingerprint failures name a recoverable next step
+ok 15 - read-back and fingerprint failures name a recoverable next step
+  ---
+  duration_ms: 0.43875
+  type: 'test'
+  ...
+# Subtest: occursOn counts a cross-midnight overlap and excludes an end at local midnight
+ok 16 - occursOn counts a cross-midnight overlap and excludes an end at local midnight
+  ---
+  duration_ms: 2.570333
+  type: 'test'
+  ...
+# Subtest: eventTime and title follow the saved language and redaction flag
+ok 17 - eventTime and title follow the saved language and redaction flag
+  ---
+  duration_ms: 0.641792
+  type: 'test'
+  ...
+# Subtest: short lunar labels omit the month and a broken zone stays blank
+ok 18 - short lunar labels omit the month and a broken zone stays blank
+  ---
+  duration_ms: 0.958625
+  type: 'test'
+  ...
+# Subtest: saved timed events return to the display's local date, including a date boundary
+ok 19 - saved timed events return to the display's local date, including a date boundary
+  ---
+  duration_ms: 39.86925
+  type: 'test'
+  ...
+# Subtest: display appearance follows local hour at the two boundaries
+ok 20 - display appearance follows local hour at the two boundaries
+  ---
+  duration_ms: 0.101459
+  type: 'test'
+  ...
+# Subtest: five and six week months have complete, bounded grids
+ok 21 - five and six week months have complete, bounded grids
+  ---
+  duration_ms: 7.58175
+  type: 'test'
+  ...
+# Subtest: end of year display includes next month while obeying API range limit
+ok 22 - end of year display includes next month while obeying API range limit
+  ---
+  duration_ms: 42.336958
+  type: 'test'
+  ...
+# Subtest: upcoming excludes completed and ended items, keeps an ongoing cross-midnight event
+ok 23 - upcoming excludes completed and ended items, keeps an ongoing cross-midnight event
+  ---
+  duration_ms: 11.751667
+  type: 'test'
+  ...
+# Subtest: upcoming ordering compares instants, not written timezone offsets
+ok 24 - upcoming ordering compares instants, not written timezone offsets
+  ---
+  duration_ms: 0.838
+  type: 'test'
+  ...
+# Subtest: automatic return never interrupts editing or an unresolved save
+ok 25 - automatic return never interrupts editing or an unresolved save
+  ---
+  duration_ms: 0.182125
+  type: 'test'
+  ...
+# Subtest: diagnostics lines show cap and backup and drop unknown secret fields
+ok 26 - diagnostics lines show cap and backup and drop unknown secret fields
+  ---
+  duration_ms: 2.054375
+  type: 'test'
+  ...
+# Subtest: a missing backup is named without inventing a file
+ok 27 - a missing backup is named without inventing a file
+  ---
+  duration_ms: 0.117916
+  type: 'test'
+  ...
+# Subtest: the knowledge screen offers correct and forget, and explains a nudge
+ok 28 - the knowledge screen offers correct and forget, and explains a nudge
+  ---
+  duration_ms: 3.203625
+  type: 'test'
+  ...
+# Subtest: the memory page is the knowledge screen and extras no longer repeats nudge history
+ok 29 - the memory page is the knowledge screen and extras no longer repeats nudge history
+  ---
+  duration_ms: 1.895792
+  type: 'test'
+  ...
+# Subtest: local avatar supports both VRM generations with embedded resources
+ok 30 - local avatar supports both VRM generations with embedded resources
+  ---
+  duration_ms: 1.105208
+  type: 'test'
+  ...
+# Subtest: local avatar cannot request a remote buffer or texture
+ok 31 - local avatar cannot request a remote buffer or texture
+  ---
+  duration_ms: 0.229417
+  type: 'test'
+  ...
+# Subtest: renaming an ordinary GLB or truncated file does not make it a VRM
+ok 32 - renaming an ordinary GLB or truncated file does not make it a VRM
+  ---
+  duration_ms: 0.42675
+  type: 'test'
+  ...
+# Subtest: today shows one dismissible suggestion and a reset
+ok 33 - today shows one dismissible suggestion and a reset
+  ---
+  duration_ms: 4.305417
+  type: 'test'
+  ...
+# Subtest: an open page can show one browser notification and skip duplicates
+ok 34 - an open page can show one browser notification and skip duplicates
+  ---
+  duration_ms: 1.427458
+  type: 'test'
+  ...
+# Subtest: a day inside the home week uses one calendar request
+ok 35 - a day inside the home week uses one calendar request
+  ---
+  duration_ms: 1.368459
+  type: 'test'
+  ...
+# Subtest: an outside month loads both ranges concurrently without substituting the home week
+ok 36 - an outside month loads both ranges concurrently without substituting the home week
+  ---
+  duration_ms: 0.113916
+  type: 'test'
+  ...
+# Subtest: save and polling refresh bursts coalesce; an older response cannot overwrite the new state
+ok 37 - save and polling refresh bursts coalesce; an older response cannot overwrite the new state
+  ---
+  duration_ms: 0.122458
+  type: 'test'
+  ...
+# Subtest: leaving a date, session, or hidden screen discards pending responses and queued work
+ok 38 - leaving a date, session, or hidden screen discards pending responses and queued work
+  ---
+  duration_ms: 0.077542
+  type: 'test'
+  ...
+# Subtest: a failed calendar read can recover on the next explicit refresh
+ok 39 - a failed calendar read can recover on the next explicit refresh
+  ---
+  duration_ms: 0.208584
+  type: 'test'
+  ...
+# Subtest: owner and device manifests are installable and do not name the API
+ok 40 - owner and device manifests are installable and do not name the API
+  ---
+  duration_ms: 21.627833
+  type: 'test'
+  ...
+# Subtest: the boot script selects a manifest and registers the shell worker
+ok 41 - the boot script selects a manifest and registers the shell worker
+  ---
+  duration_ms: 1.667792
+  type: 'test'
+  ...
+# Subtest: the service worker does not cache authenticated API responses
+ok 42 - the service worker does not cache authenticated API responses
+  ---
+  duration_ms: 2.548667
+  type: 'test'
+  ...
+# Subtest: partial frames accumulate the reply and then a done event replaces it
+ok 43 - partial frames accumulate the reply and then a done event replaces it
+  ---
+  duration_ms: 1.168208
+  type: 'test'
+  ...
+# Subtest: tool progress moves from working to done without keeping arguments
+ok 44 - tool progress moves from working to done without keeping arguments
+  ---
+  duration_ms: 0.188375
+  type: 'test'
+  ...
+# Subtest: a preview replaces the visible text and a later delta appends
+ok 45 - a preview replaces the visible text and a later delta appends
+  ---
+  duration_ms: 0.1575
+  type: 'test'
+  ...
+# Subtest: an error event ends the turn
+ok 46 - an error event ends the turn
+  ---
+  duration_ms: 0.056709
+  type: 'test'
+  ...
+# Subtest: an EOF after a preview is not a completed operation
+ok 47 - an EOF after a preview is not a completed operation
+  ---
+  duration_ms: 51.873
+  type: 'test'
+  ...
+# Subtest: a buffered native reply and an error frame retain distinct terminal states
+ok 48 - a buffered native reply and an error frame retain distinct terminal states
+  ---
+  duration_ms: 0.985833
+  type: 'test'
+  ...
+# Subtest: a buffered phone body and small chunks reach the same reply
+ok 49 - a buffered phone body and small chunks reach the same reply
+  ---
+  duration_ms: 34.403958
+  type: 'test'
+  ...
+# Subtest: a lost connection, a server error, and an expired session stay distinct
+ok 50 - a lost connection, a server error, and an expired session stay distinct
+  ---
+  duration_ms: 0.838875
+  type: 'test'
+  ...
+# Subtest: loading, offline, error, and session-expiry notices expose their roles
+ok 51 - loading, offline, error, and session-expiry notices expose their roles
+  ---
+  duration_ms: 4.164541
+  type: 'test'
+  ...
+# Subtest: audit panel stays hidden until the owner list loads, then shows empty or rows
+ok 52 - audit panel stays hidden until the owner list loads, then shows empty or rows
+  ---
+  duration_ms: 0.804542
+  type: 'test'
+  ...
+# Subtest: a bounded plan is listed in the audit panel without being marked saved
+ok 53 - a bounded plan is listed in the audit panel without being marked saved
+  ---
+  duration_ms: 2.118292
+  type: 'test'
+  ...
+# Subtest: owner-readable sentences follow the interface language
+ok 54 - owner-readable sentences follow the interface language
+  ---
+  duration_ms: 0.107375
+  type: 'test'
+  ...
+# (node:74957) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: cancel during audio resume does not subsequently request a microphone
+ok 55 - cancel during audio resume does not subsequently request a microphone
+  ---
+  duration_ms: 36.139792
+  type: 'test'
+  ...
+# Subtest: late microphone permission releases tracks without making a ticket
+ok 56 - late microphone permission releases tracks without making a ticket
+  ---
+  duration_ms: 0.787375
+  type: 'test'
+  ...
+# Subtest: cancel while loading worklet prevents ticket and socket creation
+ok 57 - cancel while loading worklet prevents ticket and socket creation
+  ---
+  duration_ms: 1.135917
+  type: 'test'
+  ...
+# Subtest: connection timeout stops tracks and detaches late socket handlers
+ok 58 - connection timeout stops tracks and detaches late socket handlers
+  ---
+  duration_ms: 2.016
+  type: 'test'
+  ...
+# Subtest: ready clears connection timeout and malformed messages close cleanly
+ok 59 - ready clears connection timeout and malformed messages close cleanly
+  ---
+  duration_ms: 0.536542
+  type: 'test'
+  ...
+# Subtest: odd-length PCM is reported as an error, never a silent stuck microphone
+ok 60 - odd-length PCM is reported as an error, never a silent stuck microphone
+  ---
+  duration_ms: 0.85075
+  type: 'test'
+  ...
+# Subtest: provider completion waits for local playback drain; interrupt drops queued completion
+ok 61 - provider completion waits for local playback drain; interrupt drops queued completion
+  ---
+  duration_ms: 0.867917
+  type: 'test'
+  ...
+# Subtest: a fast provider can queue a complete meeting answer; excessive backlog fails explicitly
+ok 62 - a fast provider can queue a complete meeting answer; excessive backlog fails explicitly
+  ---
+  duration_ms: 94.724167
+  type: 'test'
+  ...
+# Subtest: text connects and completes without any audio context, capture, or playback
+ok 63 - text connects and completes without any audio context, capture, or playback
+  ---
+  duration_ms: 0.644667
+  type: 'test'
+  ...
+# Subtest: text to voice and back reuses one socket and ticket, stopping microphone tracks
+ok 64 - text to voice and back reuses one socket and ticket, stopping microphone tracks
+  ---
+  duration_ms: 0.5715
+  type: 'test'
+  ...
+# Subtest: closing a text connection rejects pending submission and cannot send after ready
+ok 65 - closing a text connection rejects pending submission and cannot send after ready
+  ---
+  duration_ms: 0.313917
+  type: 'test'
+  ...
+# Subtest: text output mode never plays unexpected provider audio
+ok 66 - text output mode never plays unexpected provider audio
+  ---
+  duration_ms: 0.249833
+  type: 'test'
+  ...
+# Subtest: speech captured while connecting is sent intact once ready
+ok 67 - speech captured while connecting is sent intact once ready
+  ---
+  duration_ms: 1.437958
+  type: 'test'
+  ...
+# Subtest: pre-ready audio has a five-second bound and never uploads a truncated question
+ok 68 - pre-ready audio has a five-second bound and never uploads a truncated question
+  ---
+  duration_ms: 0.456458
+  type: 'test'
+  ...
+# Subtest: network loss releases capture and old frames cannot pollute an explicit new connection
+ok 69 - network loss releases capture and old frames cannot pollute an explicit new connection
+  ---
+  duration_ms: 0.357667
+  type: 'test'
+  ...
+# Subtest: selected task and conversation identifiers reach the text handshake without microphone access
+ok 70 - selected task and conversation identifiers reach the text handshake without microphone access
+  ---
+  duration_ms: 0.247292
+  type: 'test'
+  ...
+# Subtest: waits for local slot handover without creating duplicate provider sessions
+ok 71 - waits for local slot handover without creating duplicate provider sessions
+  ---
+  duration_ms: 0.780833
+  type: 'test'
+  ...
+# Subtest: does not retry connection or permission failures
+ok 72 - does not retry connection or permission failures
+  ---
+  duration_ms: 1.13975
+  type: 'test'
+  ...
+# Subtest: stopping during handover prevents another ticket request
+ok 73 - stopping during handover prevents another ticket request
+  ---
+  duration_ms: 0.132292
+  type: 'test'
+  ...
+# Subtest: another active conversation cannot cause unbounded polling
+ok 74 - another active conversation cannot cause unbounded polling
+  ---
+  duration_ms: 0.264458
+  type: 'test'
+  ...
+# Subtest: stale native timestamps cannot produce a false zero-latency success
+ok 75 - stale native timestamps cannot produce a false zero-latency success
+  ---
+  duration_ms: 0.81275
+  type: 'test'
+  ...
+# Subtest: an enqueued buffer is not playback; output timestamp must pass its first sample
+ok 76 - an enqueued buffer is not playback; output timestamp must pass its first sample
+  ---
+  duration_ms: 0.775083
+  type: 'test'
+  ...
+# Subtest: suspended audio never counts as a reply and fallback is explicitly an estimate
+ok 77 - suspended audio never counts as a reply and fallback is explicitly an estimate
+  ---
+  duration_ms: 0.082333
+  type: 'test'
+  ...
+# Subtest: capture endpoint excludes following silence and unknown boundaries stay labelled
+ok 78 - capture endpoint excludes following silence and unknown boundaries stay labelled
+  ---
+  duration_ms: 0.698333
+  type: 'test'
+  ...
+# Subtest: frames are bounded to720p without distorting portrait or landscape
+ok 79 - frames are bounded to720p without distorting portrait or landscape
+  ---
+  duration_ms: 1.31875
+  type: 'test'
+  ...
+# Subtest: JPEG encoding reduces quality to fit the provider frame limit
+ok 80 - JPEG encoding reduces quality to fit the provider frame limit
+  ---
+  duration_ms: 0.193083
+  type: 'test'
+  ...
+# Subtest: ending voice while the screen chooser is pending stops late tracks and sends no frame
+ok 81 - ending voice while the screen chooser is pending stops late tracks and sends no frame
+  ---
+  duration_ms: 24.874792
+  type: 'test'
+  ...
+# Subtest: a selected image decoded after disconnect is closed without sending
+ok 82 - a selected image decoded after disconnect is closed without sending
+  ---
+  duration_ms: 0.158959
+  type: 'test'
+  ...
+# Subtest: the default companion stays inside its sidebar space at normal and short heights
+ok 83 - the default companion stays inside its sidebar space at normal and short heights
+  ---
+  duration_ms: 0.733208
+  type: 'test'
+  ...
+# Subtest: hiding the sidebar companion keeps its recall control clear of the chat button
+ok 84 - hiding the sidebar companion keeps its recall control clear of the chat button
+  ---
+  duration_ms: 0.078208
+  type: 'test'
+  ...
+# Subtest: an unavailable sidebar uses the existing floating preference without changing it
+ok 85 - an unavailable sidebar uses the existing floating preference without changing it
+  ---
+  duration_ms: 0.825458
+  type: 'test'
+  ...
+# Subtest: audio worklet retains fractional phase across 128-sample blocks
+ok 86 - audio worklet retains fractional phase across 128-sample blocks
+  ---
+  duration_ms: 39.553917
+  type: 'test'
+  ...
+# Subtest: busy duration merges overlaps, clips to day, and ignores completed events
+ok 87 - busy duration merges overlaps, clips to day, and ignores completed events
+  ---
+  duration_ms: 17.02525
+  type: 'test'
+  ...
+# Subtest: lunar day is computed in the selected calendar timezone
+ok 88 - lunar day is computed in the selected calendar timezone
+  ---
+  duration_ms: 1.35525
+  type: 'test'
+  ...
+# Subtest: a stale posture connection masks private content in a previously loaded display snapshot
+ok 89 - a stale posture connection masks private content in a previously loaded display snapshot
+  ---
+  duration_ms: 0.126333
+  type: 'test'
+  ...
+1..89
+# tests 89
+# suites 0
+# pass 89
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 719.550583

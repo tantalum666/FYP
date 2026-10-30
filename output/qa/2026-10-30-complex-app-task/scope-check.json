@@ -1,0 +1,17 @@
+{
+  "markdown_links_checked": 308,
+  "missing": [],
+  "html_local_links_checked": 10,
+  "external_html_assets": 0,
+  "fixture_hashes_match": true,
+  "csv_rows": {
+    "inputs/existing-events.csv": 3,
+    "inputs/tasks.csv": 11,
+    "inputs/availability.csv": 9,
+    "inputs/fx-rates.csv": 2
+  },
+  "production_source_changed": false,
+  "application_execution": "not_run",
+  "model_calls": 0,
+  "source_and_input_hashes_unchanged_at_closeout": true
+}

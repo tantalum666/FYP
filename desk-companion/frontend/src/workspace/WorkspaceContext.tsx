@@ -9,20 +9,38 @@ import {
 } from "react";
 import type { ReactNode } from "react";
 import { ApiError, request, clearPending } from "../api";
-import type { WorkspaceSnapshot } from "./types";
+import type { WorkspaceSnapshot, PermissionState } from "./types";
 
 const WorkspaceContext = createContext<{
   data: WorkspaceSnapshot | null;
   offline: boolean;
   stale: boolean;
   refresh: () => Promise<void>;
-}>({ data: null, offline: false, stale: true, refresh: async () => {} });
+  acceptPermissions: (permissions: PermissionState) => void;
+}>({
+  data: null,
+  offline: false,
+  stale: true,
+  refresh: async () => {},
+  acceptPermissions: () => {},
+});
 
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<WorkspaceSnapshot | null>(null);
   const [offline, setOffline] = useState(false);
   const [stale, setStale] = useState(true);
   const lastSuccess = useRef(0);
+  const snapshotEpoch = useRef(0);
+  const acceptPermissions = useCallback((permissions: PermissionState) => {
+    snapshotEpoch.current += 1;
+    setData((current) =>
+      current?.principal.kind === "owner" &&
+      (!current.permissions ||
+        permissions.version >= current.permissions.version)
+        ? { ...current, permissions }
+        : current,
+    );
+  }, []);
   const principal = useRef<string | null>(null);
   const [principalKey, setPrincipalKey] = useState("initial");
   const live = useRef(false),
@@ -30,9 +48,10 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const refresh = useCallback(async () => {
     if (busy.current) return;
     busy.current = true;
+    const epoch = snapshotEpoch.current;
     try {
       const next = await request<WorkspaceSnapshot>("/workspace");
-      if (live.current) {
+      if (live.current && epoch === snapshotEpoch.current) {
         const identity = `${next.principal.kind}:${next.principal.id}`;
         if (principal.current !== identity) {
           if (principal.current !== null) {
@@ -47,7 +66,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         setStale(false);
       }
     } catch (e) {
-      if (live.current) {
+      if (live.current && epoch === snapshotEpoch.current) {
         if (e instanceof ApiError && e.status === 401) {
           setData(null);
           setOffline(false);
@@ -77,7 +96,9 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     };
   }, [refresh]);
   return (
-    <WorkspaceContext.Provider value={{ data, offline, stale, refresh }}>
+    <WorkspaceContext.Provider
+      value={{ data, offline, stale, refresh, acceptPermissions }}
+    >
       <Fragment key={principalKey}>{children}</Fragment>
     </WorkspaceContext.Provider>
   );

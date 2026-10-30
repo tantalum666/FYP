@@ -1,0 +1,239 @@
+4b6950733f3e33bc5448c95e73a5434b2b437cd0
+100644 7244e6e16d78fe15565839760e2d4ae2873cdd12 1	README.md
+100644 03d97fee0310be1b9e1832a5f63fe13e03a2f3fd 2	README.md
+100644 164e0d0ece96744c6450ffcc6e5c5794ccea9278 3	README.md
+100644 42f4d9cf49efe12a6b8a11382dbdcf71c5a510c9 1	decision-log.md
+100644 d31374bd22939007175855d0eab4eaaeb0afa088 2	decision-log.md
+100644 680ac42d4c85e742f5657470a6f2193bed31809a 3	decision-log.md
+100644 ab1808d7119878bc9103e2be2e8578ed2068036b 1	desk-companion/README.md
+100644 d8e92963b03b4cda5e84aef32b75af80a51c58e0 2	desk-companion/README.md
+100644 85b4e2af6fef1e2bbd579c96cf5d3450abb81947 3	desk-companion/README.md
+100644 f6e73fb825aae6fddcadea783afd4450f44bc927 1	desk-companion/THIRD_PARTY.md
+100644 1d7b3d1a39ddff4401c8c439dc532ac7986b1adf 2	desk-companion/THIRD_PARTY.md
+100644 ab71335047dfbecbe992140b77f245adb40bd12e 3	desk-companion/THIRD_PARTY.md
+100644 ec1647ce317a32854a184923e31fd181b221188d 1	desk-companion/backend/desk/app.py
+100644 46e610b3751313d9ec6c8f2ba893c30928f64ea3 2	desk-companion/backend/desk/app.py
+100644 ed099dc1bc567bbe79b6947d0097388aaf7edb8f 3	desk-companion/backend/desk/app.py
+100644 76defeee9157b822782126ba8f93c0677cae5ee5 2	desk-companion/backend/desk/application_executor.py
+100644 5013fa5ec445693ca56a91c34972dcbecdb54f60 3	desk-companion/backend/desk/application_executor.py
+100644 75120a118f5d00fa794b2a0a2036cba70d20025a 1	desk-companion/backend/desk/assistant.py
+100644 8596f98d817f6581334e1d43d27e7553c8041707 2	desk-companion/backend/desk/assistant.py
+100644 d006add8310c22c76628754f97eb1550e5a94b8b 3	desk-companion/backend/desk/assistant.py
+100644 586e4d29b93c3584ba6e52ccc3bba748529d0737 1	desk-companion/backend/desk/assistant_routes.py
+100644 b4a549efb125e283fb123d1c242973a3ef26cf8f 2	desk-companion/backend/desk/assistant_routes.py
+100644 a30056acf3a231ed0149193641f4eea5ffcdf3e9 3	desk-companion/backend/desk/assistant_routes.py
+100644 3697055524822ddaff54e95be914cd652da93122 2	desk-companion/backend/desk/context.py
+100644 348d8ec955b53f0fd8c9d14411a8bc5eb98351db 3	desk-companion/backend/desk/context.py
+100644 59bbd13a4b956c8d71c1ef79afdb0c5a4810adcd 1	desk-companion/backend/desk/jobs.py
+100644 40289990e2c280f857846be9f32ec783119b0b69 2	desk-companion/backend/desk/jobs.py
+100644 78fecfbd78749098f77ffa10ec4bfa098cf9c6f8 3	desk-companion/backend/desk/jobs.py
+100644 af935d8602b8eb4f88bcf201664b0d11b628c5e6 2	desk-companion/backend/desk/memory.py
+100644 4bb7d8a3154bfdd0f04af6ca98ac00005b801880 3	desk-companion/backend/desk/memory.py
+100644 0ea8265068ad1b0e4b88dacc3b50b481824970ab 1	desk-companion/backend/desk/runtime.py
+100644 091728d5e7525bdaedb0f079f094bb4c2e84c6d0 2	desk-companion/backend/desk/runtime.py
+100644 98d7a9a509e59d00b05d535fd40a372fc656731a 3	desk-companion/backend/desk/runtime.py
+100644 a6ea8bba2014553478040e1701f5f73282647eff 1	desk-companion/backend/desk/store.py
+100644 a9517903baa62ba8c7d411ee814e9c660d86a262 2	desk-companion/backend/desk/store.py
+100644 bba12be9d22d8d30d527749b1940a89b2be297c6 3	desk-companion/backend/desk/store.py
+100644 59913940944bfc31b6411862f8fec8484d18c226 1	desk-companion/backend/desk/text_ai.py
+100644 6cee66ac74408e22510fedcc2d2b89a3acd2309f 2	desk-companion/backend/desk/text_ai.py
+100644 806b37e048d6e8b563027d924038150d7dfdc0fb 3	desk-companion/backend/desk/text_ai.py
+100644 687a2c4772152aab88decbb2d8d02897e1b4353c 1	desk-companion/backend/desk/tool_dispatch.py
+100644 ecfb15f9da85191c932e08623af40b4ef2a36480 2	desk-companion/backend/desk/tool_dispatch.py
+100644 148c8265c9b809cc95590d14b869e8a721c72bbd 3	desk-companion/backend/desk/tool_dispatch.py
+100644 64aa40cd9e246a2c281f27ed3d3513610ce64392 1	desk-companion/backend/desk/voice.py
+100644 e92021aeb9027a60e6a9e8a4028d6d58e26a818b 2	desk-companion/backend/desk/voice.py
+100644 85c06fda11c317f4b46a664bd5b17f81a21e99b0 3	desk-companion/backend/desk/voice.py
+100644 a8a8c1b5fd5fc4d7034cf400350fc8d6a990aefa 1	desk-companion/docs/architecture.md
+100644 3631cbb3e64e7ef299d62faa7e0857c876c439d4 2	desk-companion/docs/architecture.md
+100644 ba5e72ae1e4ea5eee94179da1bc38eb963ae6490 3	desk-companion/docs/architecture.md
+100644 0a201a616536d9206151883ddd360908a6fb78a7 2	desk-companion/docs/avatar.md
+100644 cc80ea879bc45cb998982aab4e42163c4fff3b61 3	desk-companion/docs/avatar.md
+100644 e8354ca859a8dba312cb9b0dc1f41c1c5bbdfe46 1	desk-companion/docs/computer-jobs.md
+100644 6180fd1d244462dfb8e534a7df67c1b4b2dde6b6 2	desk-companion/docs/computer-jobs.md
+100644 4def18e8d62d3d2ba6820fcdb62ac94a11fb5ed6 3	desk-companion/docs/computer-jobs.md
+100644 e3303060f22183c487b49db11ca9beaecd2c5913 1	desk-companion/docs/operator-guide.md
+100644 a6d53b0a89ab801506aa7d1dfc16c43bff6980be 2	desk-companion/docs/operator-guide.md
+100644 e5da2fb07005ad5b0e8cbf1b860aadb5aa8a0b22 3	desk-companion/docs/operator-guide.md
+100644 b3f514732911ab36f0e4f787651b1341cb234cce 2	desk-companion/docs/page-companion.md
+100644 59999cf17b81707ab8da37433af4cca2bf4b48b0 3	desk-companion/docs/page-companion.md
+100644 8956a8426b5813c9d758cdc3a79c170b1b4658a0 1	desk-companion/frontend/package-lock.json
+100644 7d7a26d1a68e2c1a224bb3d7fe1b43c868ad45fc 2	desk-companion/frontend/package-lock.json
+100644 db8b925812957b62f8b88bcd33a464f2fb944448 3	desk-companion/frontend/package-lock.json
+100644 60e4a4383503e9fb87922cca234ec16d02e6f1fb 1	desk-companion/frontend/package.json
+100644 2f543fc2e0949f1eb0e6ca1315b5b6f39530f85e 2	desk-companion/frontend/package.json
+100644 4d076f4a365908280e62184011f4eca70cbba2d2 3	desk-companion/frontend/package.json
+100644 57b66fcdfe836c8cb942f47215f9683d35344f6f 2	desk-companion/frontend/public/companion/source.json
+100644 7735daecc3d8bd1f8e49c5e5c30e124576360b35 3	desk-companion/frontend/public/companion/source.json
+100644 dd223cc2d59b3d7f6ea5729c88da432f9048ab87 1	desk-companion/frontend/src/App.tsx
+100644 ef461ab0e60cd8040ebb309b807ce7481a44f0aa 2	desk-companion/frontend/src/App.tsx
+100644 7fa0f73f6eab8a5be2af3dc04508f9a23713d52d 3	desk-companion/frontend/src/App.tsx
+100644 d59ea24554d82d23e6df24f55a76a74dcd13c968 1	desk-companion/frontend/src/api.ts
+100644 5b5deecaed978980639e077d7e255dcbbc0adc21 2	desk-companion/frontend/src/api.ts
+100644 1265181aea94c14fb858e5dbdbbe1a07082c332b 3	desk-companion/frontend/src/api.ts
+100644 420fc7f13a9931b890e973192bc7aa2b49f2771d 2	desk-companion/frontend/src/companion/PageCompanion.tsx
+100644 12480ff3a12cc3a6ef5214e4587515f330829335 3	desk-companion/frontend/src/companion/PageCompanion.tsx
+100644 188b8b8627004dc113623485969ba03a167d36ac 2	desk-companion/frontend/src/companion/companion.css
+100644 0a173c50673c0a777b44290bde2f1b94fd753765 3	desk-companion/frontend/src/companion/companion.css
+100644 adedb1ece6e810c85b35851eea699032e979bd9e 2	desk-companion/frontend/src/companion/placement.ts
+100644 9da6f27380e71f45498f4ed9934f0e03623f22ec 3	desk-companion/frontend/src/companion/placement.ts
+100644 21c1657630f712b972bfbba544334b1c1665eb80 1	desk-companion/frontend/src/workspace/AssistantPanel.tsx
+100644 9c3e49a86616693bcff4ce2fe0b07d74542fa331 2	desk-companion/frontend/src/workspace/AssistantPanel.tsx
+100644 28b3937981f9ea820159bd67b0c91016eb39ac1e 3	desk-companion/frontend/src/workspace/AssistantPanel.tsx
+100644 146070da393af75c806b8e774c63bd6fc785109f 1	desk-companion/frontend/src/workspace/Avatar.tsx
+100644 704b88ac94e660769a014b80886adad3da054849 2	desk-companion/frontend/src/workspace/Avatar.tsx
+100644 7c253d12c9beb5282a1c9f299e2b1faa25fb0de8 3	desk-companion/frontend/src/workspace/Avatar.tsx
+100644 8f2423c2484c4837094a122c69411dc7842c1095 1	desk-companion/frontend/src/workspace/ComputerJobsPanel.tsx
+100644 df0a52c435ba2002303344bfe28dd0f90520bc0a 2	desk-companion/frontend/src/workspace/ComputerJobsPanel.tsx
+100644 2766918bc6a058d7500542aa9ec11cac2dc77fe9 3	desk-companion/frontend/src/workspace/ComputerJobsPanel.tsx
+100644 77a9731e7ae157d5a86d1d8bed0193e1cca705cc 1	desk-companion/frontend/src/workspace/audio.ts
+100644 0ac2e22b26b81898924620d9d5c39de09f2b35ac 2	desk-companion/frontend/src/workspace/audio.ts
+100644 bfb3dd48d24a950c114614b48183f90a9dad19ee 3	desk-companion/frontend/src/workspace/audio.ts
+100644 06530e64248fac86827c62d200135a1be0633168 1	desk-companion/frontend/src/workspace/jobTypes.ts
+100644 082342f4c7348aabf5cef04dc4973b23bc08099c 2	desk-companion/frontend/src/workspace/jobTypes.ts
+100644 e5133090744a1470d9d715771ae776c616eb869e 3	desk-companion/frontend/src/workspace/jobTypes.ts
+100644 c7819f20c2f9f548691c5d8f6d5e024f5fd0cbf5 1	desk-companion/frontend/src/workspace/types.ts
+100644 a9abd9fc5435c8c10d3d2fc67022cc61ede57e1c 2	desk-companion/frontend/src/workspace/types.ts
+100644 595e602ea71478d34dfbcd7616d18da9b9fb52a3 3	desk-companion/frontend/src/workspace/types.ts
+100644 d29c4aa7ace1df4c23a087395b6514d4e6ff7cd7 2	desk-companion/frontend/tests/companion-placement.test.ts
+100644 88f58250cc4f6ccf10e70041e0a2761b4fd24721 3	desk-companion/frontend/tests/companion-placement.test.ts
+100644 b0a1742b99200716e8ecfec3c9b311c7cdb492b9 1	desk-companion/frontend/tests/computer-jobs.test.ts
+100644 202d77f16dd5299d2fc6771032b3513f3f876f65 2	desk-companion/frontend/tests/computer-jobs.test.ts
+100644 39b9e9e3fd92756860eb71bf05c0a4773aa51914 3	desk-companion/frontend/tests/computer-jobs.test.ts
+100644 a8ffde2ecf5f6fb2f2814c2ff797983008e7bfa2 2	desk-companion/tests/test_application_jobs.py
+100644 bcfc008727b56df6e51a051b423e98b7e3cb8741 3	desk-companion/tests/test_application_jobs.py
+100644 3cb10e94b7d13c3e8c0cbdbb96d51db56cb0eca5 1	handoff.md
+100644 49740fd11c9ef9aeb751ed20c2e4676e5409b2fe 2	handoff.md
+100644 d3797266c2c8a4ae6f349cb2bddd8064225f3538 3	handoff.md
+100644 8e5be5d02fb1b2abdec51b4ec1282fc9e37624d5 1	inputs/README.md
+100644 b130d104246e610a7582d21ade56bfb76de08298 2	inputs/README.md
+100644 89bc83fe7324873756e61180b8bf7122f82e6ef5 3	inputs/README.md
+100644 79efbca7b95c428dd31f2dcc18bc369bf220b0ae 1	product.md
+100644 5b6d8c46fb9560315bd73e69a5025eb2f140ba70 2	product.md
+100644 d096a5e0a71685d552d6f5f4a6c8680780e3b63f 3	product.md
+100644 814834274a165129b7d3b85bd041817cff2f87a6 1	research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md
+100644 82e6298ee57869a84818c0471470ef5b5eb69a04 2	research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md
+100644 9b591e441c423ad23ac308c87119a0e316aae83a 3	research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md
+100644 f9d307335b92a5987a29886e172157dfbeb7fe6e 2	research/2026-10-12-personal-agents/dot-capability-gap.md
+100644 901a8dfdd66ec5ae55a1b7344310579824d10019 3	research/2026-10-12-personal-agents/dot-capability-gap.md
+100644 7102dc48e8a3c490b2126ac79b782b76b7d03e78 2	research/2026-10-12-personal-agents/dot.md
+100644 422375aacceb6c541f1c647b10e6f823444490c6 3	research/2026-10-12-personal-agents/dot.md
+100644 b2c92b8e42c443281c297fbd1dc1a46e64fb21f3 2	research/2026-10-12-personal-agents/grok-capability-gap.md
+100644 3740a9fb38fba627e5486bf14c4438bf0c414add 3	research/2026-10-12-personal-agents/grok-capability-gap.md
+100644 8abf01bdeac563ee9b4fb2e865bc0935111b5935 2	research/2026-10-12-personal-agents/grok.md
+100644 3169a5d1a206112d11ee01b111073c35656a7d2f 3	research/2026-10-12-personal-agents/grok.md
+100644 9070029ea9d34aac07e6dafb61230ff256f526eb 2	research/2026-10-12-personal-agents/muse-capability-gap.md
+100644 85c3bb24ef8b4509f611051b72a5db4b32577506 3	research/2026-10-12-personal-agents/muse-capability-gap.md
+100644 259f97797bacbaa102e5d66364ca8c250b6d2b22 2	research/2026-10-12-personal-agents/muse.md
+100644 2b31a23253505a614c90fbb2440aa2cfd3cec4da 3	research/2026-10-12-personal-agents/muse.md
+100644 37ce46a24f302afa991d3b954acd92e5738ac817 1	work-log.md
+100644 02cdc1a6d4077cd129aa254e519c09fa34ae0a1b 2	work-log.md
+100644 d3513900d81a2ee42aeb42d72ae46a30b17248cc 3	work-log.md
+
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+Auto-merging decision-log.md
+CONFLICT (content): Merge conflict in decision-log.md
+Auto-merging desk-companion/README.md
+CONFLICT (content): Merge conflict in desk-companion/README.md
+Auto-merging desk-companion/THIRD_PARTY.md
+CONFLICT (content): Merge conflict in desk-companion/THIRD_PARTY.md
+Auto-merging desk-companion/backend/desk/app.py
+CONFLICT (content): Merge conflict in desk-companion/backend/desk/app.py
+Auto-merging desk-companion/backend/desk/application_executor.py
+CONFLICT (add/add): Merge conflict in desk-companion/backend/desk/application_executor.py
+Auto-merging desk-companion/backend/desk/assistant.py
+CONFLICT (content): Merge conflict in desk-companion/backend/desk/assistant.py
+Auto-merging desk-companion/backend/desk/assistant_routes.py
+CONFLICT (content): Merge conflict in desk-companion/backend/desk/assistant_routes.py
+Auto-merging desk-companion/backend/desk/context.py
+CONFLICT (add/add): Merge conflict in desk-companion/backend/desk/context.py
+Auto-merging desk-companion/backend/desk/jobs.py
+CONFLICT (content): Merge conflict in desk-companion/backend/desk/jobs.py
+Auto-merging desk-companion/backend/desk/memory.py
+CONFLICT (add/add): Merge conflict in desk-companion/backend/desk/memory.py
+Auto-merging desk-companion/backend/desk/runtime.py
+CONFLICT (content): Merge conflict in desk-companion/backend/desk/runtime.py
+Auto-merging desk-companion/backend/desk/store.py
+CONFLICT (content): Merge conflict in desk-companion/backend/desk/store.py
+Auto-merging desk-companion/backend/desk/text_ai.py
+CONFLICT (content): Merge conflict in desk-companion/backend/desk/text_ai.py
+Auto-merging desk-companion/backend/desk/tool_dispatch.py
+CONFLICT (content): Merge conflict in desk-companion/backend/desk/tool_dispatch.py
+Auto-merging desk-companion/backend/desk/voice.py
+CONFLICT (content): Merge conflict in desk-companion/backend/desk/voice.py
+Auto-merging desk-companion/config/service.env.example
+Auto-merging desk-companion/docs/architecture.md
+CONFLICT (content): Merge conflict in desk-companion/docs/architecture.md
+Auto-merging desk-companion/docs/avatar.md
+CONFLICT (add/add): Merge conflict in desk-companion/docs/avatar.md
+Auto-merging desk-companion/docs/computer-jobs.md
+CONFLICT (content): Merge conflict in desk-companion/docs/computer-jobs.md
+Auto-merging desk-companion/docs/operator-guide.md
+CONFLICT (content): Merge conflict in desk-companion/docs/operator-guide.md
+Auto-merging desk-companion/docs/page-companion.md
+CONFLICT (add/add): Merge conflict in desk-companion/docs/page-companion.md
+Auto-merging desk-companion/frontend/package-lock.json
+CONFLICT (content): Merge conflict in desk-companion/frontend/package-lock.json
+Auto-merging desk-companion/frontend/package.json
+CONFLICT (content): Merge conflict in desk-companion/frontend/package.json
+Auto-merging desk-companion/frontend/public/companion/source.json
+CONFLICT (add/add): Merge conflict in desk-companion/frontend/public/companion/source.json
+Auto-merging desk-companion/frontend/src/App.tsx
+CONFLICT (content): Merge conflict in desk-companion/frontend/src/App.tsx
+Auto-merging desk-companion/frontend/src/api.ts
+CONFLICT (content): Merge conflict in desk-companion/frontend/src/api.ts
+Auto-merging desk-companion/frontend/src/companion/PageCompanion.tsx
+CONFLICT (add/add): Merge conflict in desk-companion/frontend/src/companion/PageCompanion.tsx
+Auto-merging desk-companion/frontend/src/companion/companion.css
+CONFLICT (add/add): Merge conflict in desk-companion/frontend/src/companion/companion.css
+Auto-merging desk-companion/frontend/src/companion/placement.ts
+CONFLICT (add/add): Merge conflict in desk-companion/frontend/src/companion/placement.ts
+Auto-merging desk-companion/frontend/src/device/DeviceApp.tsx
+Auto-merging desk-companion/frontend/src/styles.css
+Auto-merging desk-companion/frontend/src/workspace/AssistantPanel.tsx
+CONFLICT (content): Merge conflict in desk-companion/frontend/src/workspace/AssistantPanel.tsx
+Auto-merging desk-companion/frontend/src/workspace/Avatar.tsx
+CONFLICT (content): Merge conflict in desk-companion/frontend/src/workspace/Avatar.tsx
+Auto-merging desk-companion/frontend/src/workspace/ComputerJobsPanel.tsx
+CONFLICT (content): Merge conflict in desk-companion/frontend/src/workspace/ComputerJobsPanel.tsx
+Auto-merging desk-companion/frontend/src/workspace/TaskPanel.tsx
+Auto-merging desk-companion/frontend/src/workspace/audio.ts
+CONFLICT (content): Merge conflict in desk-companion/frontend/src/workspace/audio.ts
+Auto-merging desk-companion/frontend/src/workspace/avatar.css
+Auto-merging desk-companion/frontend/src/workspace/jobTypes.ts
+CONFLICT (content): Merge conflict in desk-companion/frontend/src/workspace/jobTypes.ts
+Auto-merging desk-companion/frontend/src/workspace/types.ts
+CONFLICT (content): Merge conflict in desk-companion/frontend/src/workspace/types.ts
+Auto-merging desk-companion/frontend/tests/companion-placement.test.ts
+CONFLICT (add/add): Merge conflict in desk-companion/frontend/tests/companion-placement.test.ts
+Auto-merging desk-companion/frontend/tests/computer-jobs.test.ts
+CONFLICT (content): Merge conflict in desk-companion/frontend/tests/computer-jobs.test.ts
+Auto-merging desk-companion/pyproject.toml
+Auto-merging desk-companion/tests/test_application_jobs.py
+CONFLICT (add/add): Merge conflict in desk-companion/tests/test_application_jobs.py
+Auto-merging desk-companion/tests/test_tasks.py
+Auto-merging desk-companion/tests/test_tool_dispatch.py
+Auto-merging desk-companion/uv.lock
+Auto-merging handoff.md
+CONFLICT (content): Merge conflict in handoff.md
+Auto-merging inputs/README.md
+CONFLICT (content): Merge conflict in inputs/README.md
+Auto-merging product.md
+CONFLICT (content): Merge conflict in product.md
+Auto-merging research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md
+CONFLICT (content): Merge conflict in research/2026-09-26-desk-companion/ava-optics-fan-vs-reflection.md
+Auto-merging research/2026-10-12-personal-agents/dot-capability-gap.md
+CONFLICT (add/add): Merge conflict in research/2026-10-12-personal-agents/dot-capability-gap.md
+Auto-merging research/2026-10-12-personal-agents/dot.md
+CONFLICT (add/add): Merge conflict in research/2026-10-12-personal-agents/dot.md
+Auto-merging research/2026-10-12-personal-agents/grok-capability-gap.md
+CONFLICT (add/add): Merge conflict in research/2026-10-12-personal-agents/grok-capability-gap.md
+Auto-merging research/2026-10-12-personal-agents/grok.md
+CONFLICT (add/add): Merge conflict in research/2026-10-12-personal-agents/grok.md
+Auto-merging research/2026-10-12-personal-agents/muse-capability-gap.md
+CONFLICT (add/add): Merge conflict in research/2026-10-12-personal-agents/muse-capability-gap.md
+Auto-merging research/2026-10-12-personal-agents/muse.md
+CONFLICT (add/add): Merge conflict in research/2026-10-12-personal-agents/muse.md
+Auto-merging work-log.md
+CONFLICT (content): Merge conflict in work-log.md

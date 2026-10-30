@@ -1,3 +1,6 @@
+import type { Translate } from "../types";
+import type { ApplicationStep } from "./applicationTypes";
+
 export type JobState =
   | "review"
   | "queued"
@@ -10,6 +13,8 @@ export type JobState =
   | "expired"
   | "unknown";
 export interface ComputerJob {
+  title?: string;
+  authorization?: { mode: "once" | "full"; version?: number } | null;
   id: string;
   state: JobState;
   version: number;
@@ -24,7 +29,8 @@ export interface ComputerJob {
     | "save_folder_file"
     | "verify_folder_file"
     | "linux_note_preview"
-    | "verify_linux_file";
+    | "verify_linux_file"
+    | "application";
   task_id: string | null;
   request: {
     title: string;
@@ -33,6 +39,8 @@ export interface ComputerJob {
     task_version: number | null;
     folder_label?: string;
     folder_fingerprint?: string;
+    stage?: string;
+    step?: ApplicationStep;
   };
   result: {
     verified: boolean;
@@ -42,6 +50,9 @@ export interface ComputerJob {
     reason?: string;
     apps_verified?: string[];
   } | null;
+}
+export function isApplicationAction(action: ComputerJob["action"]) {
+  return action === "application";
 }
 export function isFolderAction(action: ComputerJob["action"]) {
   return action === "save_folder_file" || action === "verify_folder_file";
@@ -92,6 +103,11 @@ export function recoveryCopy(job: ComputerJob): [string, string] | null {
       "下一步：核验上面的文件名。只有需要另一份文件时才重新准备作业。",
     ];
   }
+  if (job.error === "PERMISSION_CHANGED")
+    return [
+      "Your automatic permission changed before this action started. Ask Alice to prepare it again.",
+      "操作开始前自动权限已改变，请让 Alice 重新准备。",
+    ];
   if (job.error === "COMPUTER_SCOPE_CHANGED") {
     return [
       "Next step: prepare a new job for the current folder. This card stays as the record.",
@@ -99,6 +115,11 @@ export function recoveryCopy(job: ComputerJob): [string, string] | null {
     ];
   }
   if (job.state === "cancelled") {
+    if (isApplicationAction(job.action))
+      return [
+        "Stopped before publishing this file revision.",
+        "已在发布本次文件修订前停止。",
+      ];
     return [
       "No new file was written for this job.",
       "这次作业没有写入新文件。",
@@ -136,4 +157,22 @@ export function recoveryMatchesNote(
     body.content === content &&
     (body.task_id ?? null) === (taskId ?? null)
   );
+}
+
+/** Safe task-detail projection; full text/intent are owner-review only. */
+export type ComputerJobSummary = Omit<ComputerJob, "request" | "intent_hash">;
+
+export function jobStateLabel(state: JobState, t: Translate): string {
+  return {
+    review: t("Needs your approval", "待你批准"),
+    queued: t("Queued", "已排队"),
+    running: t("Saving or checking", "正在保存或检查"),
+    verifying: t("Verifying result", "正在核验结果"),
+    succeeded: t("Verified", "已核验"),
+    failed: t("Could not execute", "未能执行"),
+    cancel_requested: t("Stopping · result pending", "正在停止 · 结果待确认"),
+    cancelled: t("Cancelled", "已取消"),
+    expired: t("Expired without execution", "已到期，未执行"),
+    unknown: t("Result unknown · check before retrying", "结果未知 · 请先核验"),
+  }[state];
 }

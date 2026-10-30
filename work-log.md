@@ -384,3 +384,94 @@ The exact-head Actions run40642113382 returned failure annotations saying both j
 用户再次明确不用CI。移除唯一的当前工作流，更新AGENTS／product／CONTRIBUTING／README／START_HERE／维护规范和精简handoff，取消“CI账户问题”待办。本机Actions管理API无相应权限，因此通过仓库源码删除工作流实现，不扩大令牌权限。
 
 本轮只改工作流配置和文档，核对应用文件哈希、工作流清单、差异空白与内部链接，不重复运行未受影响的450／89项应用测试。450／89是上轮修复后成绩，并非Grok原始交付直接通过。阅读和验证见[本轮QA](output/qa/2026-10-28-local-validation-only/verification.md)。
+
+## 2026-10-28 · Older-memory continuity and current native build
+
+**Goal:** continue AI/software toward real delivery, starting from the open native phone gate and long-term assistant reliability. Startup used focused Markdown reading; exact scope is recorded in[reading record](output/qa/2026-10-28-native-memory/reading-record.json).
+
+**Implemented:** one model-safe active-fact projection, complete active-memory query/draft/exact-forget access, whole-memory revision invalidation while keeping40 prompt/8 query result limits. SharedMemoryFactList handles web/phone local search and rendering; MemoryPanel keeps requests, versions and unsaved guards. Correction cannot be replaced by search/another row; save/error feedback is adjacent and prior wording separates cleanly. No new dependency, queue, model adapter or transcript store.
+
+**Validation:** original source failed8 of9 meaningful regressions; repaired source passes43 related and459 full backend tests,89 frontend tests, Ruff and type/Vite build. Real1365×900 web and393×852/320×740 phone browser checked42-fact English/Chinese search, empty/clear, correction, navigation/return guards and independent API/current recall readback. Phone Plan→New→Save→Back passed in browser. The current source passed pinned native framework checks, Capacitor sync and fresh Simulator build/install/launch. Its actual Alice frame showed the browser-created event through native API reads. Native touch/soft keyboard remains open because mirror/native input automation did not produce a reliable app transition; no native pass is claimed.
+
+**Files and next step:**[QA](output/qa/2026-10-28-native-memory/verification.md), updated memory/Omni/maintenance/phone contracts, product/readmes/entry/handoff/decisions and[delivery gates](desk-companion/docs/delivery-readiness.md). Next is one task → approved bounded job → independently verified result → phone continuation with lost acknowledgement/restart. Older runtimes/worktrees and school originals are preserved.
+
+**Boundaries:** all checks local; no CI, hosted calls, live media, external accounts or Pi/Luwu. Qwen remains a baseline, alternatives stay open. Important progress is published on a separate branch/PR after diff/secret/evidence checks; exact publication readback is recorded separately, not treated as main merge/deployment.
+
+Publication readback: code commit`1c6c589607eb3c61e7ef0b03531d2deb50705488` pushed to`codex/native-memory-reliability-20261028`;[draft PR64](https://github.com/tantalum666/FYP/pull/64) opened and attached. GitHub returned the matching head/base. The PR remains unmerged; this receipt closeout changes documentation only.
+
+## 2026-10-29 · Task continuity and shared assistant permissions
+
+**Goal and steering:** continue the task→file→phone acceptance journey, then incorporate the owner's explicit request for conversational approvals, optional Full access and consistent web/application UX. The task was continued through compaction; earlier completed checks were retained.
+
+**Completed:** task-scoped local file commands; TaskJobs results and current revision refresh; fresh terminal-task read-only verification; shared ProposalActionCard/JobActionCard and requests; full-screen PhoneScreen navigation with draft guards; shared composer/settings permissions backed by owner-only PermissionService. Automatic policy is separate from the model, tied to fresh authenticated requests and checked on application/dispatch. It records truthful provenance and permits revocation independent of unknown business writes. Existing queues/services/context boundaries remain.
+
+**Repairs found by verification:** English/Chinese editor-preview task scope; confirmation crash recovery after a real committed effect; stale-policy/replayed pending action boundaries; forgotten old request text entering new RAM context; narrow-screen long title touching the discussion-end button. A content-free retired-request marker in the existing operations ledger fixes the last memory regression without adding a transcript store.
+
+**Evidence:**489 backend,89 frontend,31 final focused memory/permission/conversation checks, Ruff, frontend format and TypeScript/Vite. Actual web and phone task/file approval, independent SHA/mtime readback, real API restart and lost-response recovery, phone verification/cancel/progress/manual completion; new inline once/full actions and recovery preserve unsent text. Current source synced/prepared/built/installed/launched on the pinned iPhone17Pro/iOS26.5. Live frame shows newAsk first control; fresh mirror tap still did not navigate, so native touch/keyboard remains open. The incorrect configuration-helper path in one build command was corrected before final successful native build.
+
+**Files:**[current QA](output/qa/2026-10-29-assistant-permissions/verification.md), [earlier business journey](output/qa/2026-10-28-task-journey/reading-record.json), [permission contract](desk-companion/docs/assistant-permissions.md), affected software/docs/readmes/design/entry/handoff. School deliverables unchanged. Older8832/5191 processes stopped after checking ownership; their data preserved. Current preview8833/5190 uses fictional data, providersnone, fixed-note executor only and finalAsk mode/version5.
+
+**Publication:** scoped draft [PR65](https://github.com/tantalum666/FYP/pull/65) opened on PR64; implementation commit `4c6b8911ae19862a44b9d68450aaed4f2615ccdb` matches GitHub and git remote. [Receipt](output/qa/2026-10-29-assistant-permissions/publication.json). Both remain unmerged. **Remaining:** next implementation slice is one mixed-action task with partial-success/revocation/restart semantics using offline providers. Local checks only, no CI; no paid models/media/external accounts/Pi/Luwu or school submission.
+
+## 2026-10-29 · Bounded OpenAI Realtime and GPT-Live evaluation
+
+**Goal:** compare both real-time voice products using the newly authorized OpenAI credit cautiously. The owner clarified both are real-time, completed Platform reconnection/project selection and explicitly approved the local ignored key destination. No plaintext key was exposed or committed.
+
+**Implemented:** separate paid-evaluation runner with atomic persistent reservations, closed-round refusal, conservative unknown usage, response/session/output bounds and no retry/reconnect. Share actual existing FYP tools/runtime in isolated fixtures. Two direct wire paths cover Realtime GA and Live+Responses delegation, including nested function items, explicit continuation and terminal usage. Local synthetic English/Mandarin/Cantonese audio is paced, not uploaded as an instantaneous microphone substitute.
+
+**Actual experiments:**16 sessions;11 final controlled trials across Realtime2.1,Live1+Luna and oneMini English reference. Both principal routes returned the three correct calendar starts, prepared one pending fact without saving and changed toReady after interruption. Early automatic-language failures, one premature harness close and a misleading Live acknowledgment were retained and corrected/retested. First non-silent network audio is not first useful speech or DAC playback. Real naturalness/phonetics require human listening.
+
+**Validation and cost:**504 backend,15 focused, lint/format pass; no frontend/native source change or relabeled acceptance. All usage receipts finalized, USD0.3035168833 conservative estimate including iterations; billing account not independently reconciled. Budget ceilingUSD5; actual ledger now closed and rejects further reservation. No active paid service, other-provider call, microphone/camera, CI, hardware/Pi or school-file action.
+
+**Files:**[QA and audio](output/qa/2026-10-29-openai-realtime/verification.md), [plan](planning/2026-10-29/openai-realtime-evaluation.md), [evaluation contract](desk-companion/docs/openai-voice-evaluation.md), runner/package and15 tests; updated current product/entry/handoff/delivery boundaries. Source published as draft[PR66](https://github.com/tantalum666/FYP/pull/66) onPR65, verified commit`f5b9417cfda62e6f8400c7b5ac85ec3a49be3b2a`;[receipt](output/qa/2026-10-29-openai-realtime/publication.json). Scoped secret/link checks pass. No main merge or deployment.
+
+**Next:** bounded App integration and user-controlled A/B listening through existing voice/permission boundaries. No final model choice or general autonomy/real-device claim follows from these small synthetic samples.
+
+## 2026-10-30 · Prepare a harder voice-to-application acceptance task
+
+Started29October and continued across local midnight without restarting completed reading. The owner rejected the simple note-preview proposal and requested a harder task.
+
+Created the fictionalGroup 2demo-preparation challenge:11 task rows, meeting update, three-member availability/current events, frozenFX and four suppliers/five versions in actual localHTML. The main workflow requires browser/Calc/Writer/PDF/calendar/task evidence, then budget/quantity/day corrections, necessary clarification and one lost-save/restart recovery. Separate variants cover revocation, cancellation, source/layout changes and untrusted source instructions.
+
+The independent reference verifies initialAster809.60HKD, no feasible revised colour offer, then approved black-and-whiteDelta669.24HKD including minimum50copies; rate variation changes the winner. It also checks9 distinct/7 open tasks/14.5hours and conflict-free rehearsal updates. Six local checks plusRuff/format pass. These are fixture checks, not a model/GUI execution pass; no production source or paid round changed.
+
+Updated product, delivery/computer-job/maintenance/OpenAI boundaries, entry/handoff and decisions. [Specification](planning/2026-10-30/complex-application-acceptance.md),[fixture](desk-companion/evals/app_workflow_v1/README.md),[QA](output/qa/2026-10-30-complex-app-task/verification.md). Next is bounded application execution/readback/recovery on existing task/job/permission services. Published as draft[PR67](https://github.com/tantalum666/FYP/pull/67), verified fixture/reference commit`6f2e076c6927bc79641caec548e86515e2997b15`;[receipt](output/qa/2026-10-30-complex-app-task/publication.json). Scope/secret/link checks pass. No merge, deployment or complex-task execution.
+
+## 2026-10-30 · Bounded application execution, restart recovery and shared UI
+
+The owner authorized starting implementation of the harder task. Added separate typed application operations, fixed transport/source scope, real UNO/CDP bridge and owned desktop supervisor. Reused existing jobs/tasks/permissions/receipts; no second queue or model transcript store. Added reviewed cell/document previews, immutable downloads and task-stage projection to shared web/phone components.
+
+Actual controlled execution read the fictional browser quotes, built/reopened a four-sheet XLSX in Calc, produced Writer ODT/two-page PDF, action plan and unsent draft, and updated the original second calendar rehearsal. Costs were 809.60 initially, no feasible revised colour offer, then 669.24 after a scripted black-and-white clarification. The main process deliberately exited after the final workbook save; a new process/app environment reconciled the original job without changing file hash or mtime. A separate clean container restart verified all five files; revoked Full authority blocked a queued write.
+
+Real failures revealed unresolved cross-sheet names, canonical XLSX sheet prefixes, installed Writer style naming, wrapped-PDF text order and stale display locks on restart. These were fixed with failure evidence retained. Native Mac UNO failure did not lead to weakening host protections; the dedicated Linux VM mounts only the owned app inputs/support/workspace. Reproducible setup and pinned-profile helper were added.
+
+Local validation: 524 full backend and 89 frontend, final targeted checks, Ruff/format, TypeScript/Vite, actual web creation and phone update/decline/readback/download, independent file checks and all PDF pages inspected. The 393px phone check retained unsent input; Alice home remains. Existing native Simulator source was not rebuilt in this round.
+
+Files: [QA](output/qa/2026-10-30-application-execution/verification.md), [execution contract](desk-companion/docs/application-execution.md), application modules and acceptance driver. Updated root entry/handoff/product/decisions, maintenance/architecture/permissions/jobs/delivery contracts and fixture status. Important progress is published on the independent application-execution branch above PR67; read back the publication receipt, not an assumed merge.
+
+Remaining: resumable model-driven task turns over these tools and offline unseen variants, production OpenAI session integration, then a newly scoped paid voice comparison. This run is explicitly scripted and has zero model calls. No CI, old-budget reopening, hardware/Pi, external message, purchase, school-file change or submission.
+
+Published as draft [PR68](https://github.com/tantalum666/FYP/pull/68) on PR67; verified implementation head `20581f387a99d0ecd19f2c194683ad114275aea8` matches GitHub and git remote. [Publication receipt](output/qa/2026-10-30-application-execution/publication.json). The PR remains open/unmerged; this receipt closeout changes documentation only.
+
+## 2026-10-30 · Recover personal-agent research and reconnect delivery priorities
+
+The owner challenged the generic answers about email, shopping and travel after several prior competitor-research rounds. Recovered the research chain from 3/6/12/14–15/29 October. Live GitHub PR5 metadata and the local remote ref agreed on 11dc2b84cebe6e8250b28ca4442fc91f0dfec676; six detailed product/gap reports existed there but not in the active checkout. The later architecture index omitted Grok links, and the latest handoff omitted the research route. These were context/retrieval and handoff defects, not missing user intent.
+
+Restored the six report bodies with historical banners, original-commit supporting links and source/recovered hashes: 1,304 original lines / 205,227 bytes. Copied no PR5 application kernel, old avatar, workflow or runtime. Focused rereading is logged separately from complete blob recovery. Rechecked 15 official pages: three current product mechanisms, action/payment distinctions, ongoing responsibility, mail events and the managed-harness boundary. Corrected the active Dot identity, stale Grok approval-expiry advice, Muse's previously inaccessible announcement and the narrow Codex-only framing.
+
+Created [one research entry and implementation map](research/personal-agent-research-index.md); rooted it in AGENTS, README, START, product and handoff; marked old product/architecture advice historical and restored all six study links. Current code inspection confirms a calendar-only Google scope, task-based local checks and bounded app execution, with real mailbox monitoring, merchant/payment and flight ticketing still missing. The next proposed code gate is the real email-to-task-to-suggestion journey with resumable model turns, followed by the recorded shopping/travel acceptance gates.
+
+[QA](output/qa/2026-10-30-agent-research-recovery/verification.md) contains provenance, read scope, current sources and documentation checks. Validation is original/recovered hash and narrative checks, internal links, source-tree preservation, whitespace and secret scanning. PR68's 524/89/73 checks remain prior application evidence; no new runtime test or competitor behavioral score is claimed. No CI, personal-mail access, monitoring schedule, outgoing message, purchase, model fees, hardware or deployment.
+
+Published as draft [PR69](https://github.com/tantalum666/FYP/pull/69) on PR68. Research commit `3196d0f855c8d16b5e67d17311b0527cee034bf6` matched the remote branch and GitHub PR head; [publication receipt](output/qa/2026-10-30-agent-research-recovery/publication.json). The PR remains open/unmerged. This receipt closeout changes documentation only.
+
+
+## 2026-10-30 · Review all outstanding PRs and integrate the compatible stack
+
+The owner authorized a fresh review of all open PRs and merging those without unresolved problems. Frozen set: 4, 5, 15, 16, 19, 64–69. Used a new managed `all-pr-review-20261030` worktree because previous attached checkouts retain evidence or active preview work.
+
+Reviewed the latest software stack, original branch provenance and overlapping contracts. Original PR5's 1380 backend cases yield 1334 passes and 46 failures on this Mac. A directory-link-count migration defect was reproduced on synthetic data; a diagnostic-only fix passes 129 focused cases, but the current memory row remains invisible to the old API after upgrade. PR5 also collides with current runtime/application protocols. It is retained for compatible porting rather than given an unsupported green merge. Old 4/16 presentation and 15's original Omni changes are superseded by the current baseline; four voice/media helpers are byte-identical.
+
+PR19's dated hardware package passed all five-page rendering checks, unchanged PDF SHA/size and budget arithmetic, including 13 unpriced required items. Resolved its five root-document conflicts toward current software/AI/Alice decisions, preserving hardware records and paused deployment. The candidate fixes one misleading cancellation reply: edited staging is distinguished from final publication. Latest full backend 524, frontend 89, focused cancellation/permissions 36, type/build and Ruff pass. Actual web/393px phone memory search, exact once-approved file bytes, linked-task continuation, Alice and draft guards pass.
+
+[Review and evidence](output/qa/2026-10-30-all-pr-review/verification.md) distinguish eligible merges (19,64–69), superseded closures (4,15,16) and blocked 5. No CI, live models, real user database migration, media capture, hardware/Pi, external purchase or school submission. Final remote receipts are appended after publication; this entry alone is not a merge claim.

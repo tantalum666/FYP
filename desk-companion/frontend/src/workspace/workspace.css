@@ -1,5 +1,70 @@
+.job-folder-settings {
+  margin: 16px 0;
+}
+.job-folder-settings summary {
+  cursor: pointer;
+  padding: 12px 0;
+}
 .workspace-panel {
   color: var(--device-fg, #242936);
+}
+.assistant-action-card {
+  margin: 16px 0;
+  padding: 16px;
+  border: 1px solid var(--device-line, #e1e3e9);
+  border-radius: 14px;
+  background: var(--device-elevated, #fbfbfc);
+  color: var(--device-fg, #252b37);
+  min-width: 0;
+}
+.assistant-action-card > header {
+  display: flex;
+  gap: 10px;
+  align-items: start;
+}
+.assistant-action-card h4 {
+  margin: 4px 0 8px;
+  overflow-wrap: anywhere;
+  font-size: 15px;
+}
+.assistant-action-card .action-state {
+  font-size: 11px;
+  color: var(--device-muted, #667085);
+}
+.assistant-action-card p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.assistant-action-card summary {
+  padding: 8px 0;
+  cursor: pointer;
+  font-size: 12px;
+}
+.assistant-action-card pre {
+  margin: 4px 0 12px;
+  padding: 12px;
+  max-height: 220px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.6;
+  background: #f0f1f5;
+  border-radius: 8px;
+  color: #303847;
+}
+.assistant-action-card .action-details {
+  margin-top: 10px;
+}
+.assistant-action-card .action-details p,
+.assistant-action-card code {
+  display: block;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+.assistant-action-card .action-outcome {
+  color: #3b7054;
 }
 .computer-jobs form {
   margin: 18px 0;
@@ -399,6 +464,46 @@
   resize: vertical;
   min-height: 92px;
 }
+.application-preview {
+  max-height: 340px;
+  overflow: auto;
+}
+.application-preview h5 {
+  margin: 12px 0 6px;
+  font-size: 14px;
+}
+.application-preview-table {
+  overflow-x: auto;
+}
+.application-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.application-preview th,
+.application-preview td {
+  padding: 7px 9px;
+  border-bottom: 1px solid #dfe3ea;
+  text-align: left;
+  vertical-align: top;
+}
+.application-preview code {
+  overflow-wrap: anywhere;
+}
+.assistant-context-label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+.assistant-context-label > span {
+  flex: 1 1 180px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.assistant-context-label > button {
+  flex: 0 0 auto;
+}
 .workspace-panel .check-field {
   margin: 16px 0;
 }
@@ -638,6 +743,15 @@
   pointer-events: none;
 }
 
-.knowledge-section { border-top: 1px solid var(--border, #e6e8eb); padding: 16px 0; }
-.knowledge-section > summary { cursor: pointer; font-weight: 600; padding: 8px 0; }
-.knowledge-section[open] > summary { margin-bottom: 12px; }
+.knowledge-section {
+  border-top: 1px solid var(--border, #e6e8eb);
+  padding: 16px 0;
+}
+.knowledge-section > summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 8px 0;
+}
+.knowledge-section[open] > summary {
+  margin-bottom: 12px;
+}

@@ -18,8 +18,9 @@ import type { EventInput, Translate } from "../types";
 import { useDraftGuard } from "../components/DraftGuard";
 import { Modal } from "../components/Dialogs";
 import { useWorkspace } from "./WorkspaceContext";
+import { TaskJobs } from "./TaskJobs";
 import { AssistantPanel } from "./AssistantPanel";
-import type { Task, TaskEvidence, TaskInput, TaskList } from "./taskTypes";
+import type { Task, TaskDetail, TaskInput, TaskList } from "./taskTypes";
 import "./tasks.css";
 
 export const taskStatus = (value: string, t: Translate) =>
@@ -451,10 +452,7 @@ export function TaskPanel({
   const [query, setQuery] = useState(""),
     [filter, setFilter] = useState("active"),
     [selected, setSelected] = useState<string | null>(null),
-    [detail, setDetail] = useState<{
-      task: Task;
-      evidence: TaskEvidence[];
-    } | null>(null);
+    [detail, setDetail] = useState<TaskDetail | null>(null);
   const [edit, setEdit] = useState<Task | null | undefined>(undefined),
     [note, setNote] = useState(""),
     [notice, setNotice] = useState(""),
@@ -561,11 +559,15 @@ export function TaskPanel({
       return;
     }
     const key =
-      selected + "/" + task?.version + "/" + (task?.followup?.id ?? "");
+      selected +
+      "/" +
+      task?.version +
+      "/" +
+      (task?.followup?.id ?? "") +
+      "/" +
+      data?.revision;
     if (key === detailVersion.current) return;
-    request<{ task: Task; evidence: TaskEvidence[] }>(
-      `/tasks/${selected}?display=${displayMode}`,
-    )
+    request<TaskDetail>(`/tasks/${selected}?display=${displayMode}`)
       .then((d) => {
         if (live) {
           setDetail(d);
@@ -583,7 +585,9 @@ export function TaskPanel({
     task?.version,
     task?.redacted,
     task?.followup?.id,
+    data?.revision,
     displayMode,
+    offline,
   ]);
   async function action(kind: string, minutes?: number) {
     if (!task) return;
@@ -934,15 +938,20 @@ export function TaskPanel({
               </button>
               <span>
                 {task.status === "completed"
-                  ? task.completion_source === "backup"
+                  ? task.completion_source === "owner_policy"
                     ? t(
-                        "Completion state restored from backup.",
-                        "完成状态从备份恢复。",
+                        "Completed using your full-access permission.",
+                        "已按你的完整权限设置完成。",
                       )
-                    : t(
-                        "Completion was confirmed by you.",
-                        "完成状态由你确认。",
-                      )
+                    : task.completion_source === "backup"
+                      ? t(
+                          "Completion state restored from backup.",
+                          "完成状态从备份恢复。",
+                        )
+                      : t(
+                          "Completion was confirmed by you.",
+                          "完成状态由你确认。",
+                        )
                   : t(
                       "Cancelled tasks are kept in history.",
                       "已取消事务保留在历史中。",
@@ -981,17 +990,45 @@ export function TaskPanel({
               </div>
             </div>
           )}
+          {!displayMode && workspace.data?.principal.kind === "owner" && (
+            <TaskJobs
+              key={task.id}
+              t={t}
+              onDiscuss={() =>
+                onDiscuss
+                  ? onDiscuss(task.id, task.title)
+                  : setAssistant(task.id)
+              }
+              timezone={task.timezone}
+              jobs={detail?.task.id === task.id ? detail.jobs : undefined}
+              application={
+                detail?.task.id === task.id ? detail.application : undefined
+              }
+              blocked={
+                busy ||
+                offline ||
+                workspace.offline ||
+                workspace.stale ||
+                !!note.trim()
+              }
+            />
+          )}
           <section className="workspace-section">
             <h3>{t("Progress history", "进展历史")}</h3>
             {detail?.evidence.map((e) => (
               <article className="task-history" key={e.id}>
                 <small>
                   {dateLabel(e.at, task.timezone, t)} ·{" "}
-                  {e.source === "user_confirmed"
-                    ? t("Confirmed by you", "由你确认")
-                    : e.source === "local_rules"
-                      ? t("Scheduled check-in", "计划检查")
-                      : t("Saved update", "已保存更新")}
+                  {e.source === "owner_policy"
+                    ? t(
+                        "With your full-access permission",
+                        "根据你的完整权限设置",
+                      )
+                    : e.source === "user_confirmed"
+                      ? t("Confirmed by you", "由你确认")
+                      : e.source === "local_rules"
+                        ? t("Scheduled check-in", "计划检查")
+                        : t("Saved update", "已保存更新")}
                 </small>
                 <p>
                   {e.note ||

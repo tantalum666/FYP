@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-30",
+  "scope": "All 11 initially open PRs; merge eligible compatible work, preserve latest Alice/mobile/Omni and current data.",
+  "instructions": "Full current AGENTS/handoff/product and relevant decision/collaboration sections; current user conditional merge authorization supersedes historical per-stack exclusions.",
+  "sources": {
+    "latest_stack": "Critical memory/replay/authority/tool dispatch/task and application contracts, API exposure, shared UI/navigation, evaluation budget/session/fixture code and corresponding regression tests. Fresh full integration suite plus browser journey. Prior full implementation reading retained for unchanged new app modules; not claimed as an independent line-by-line reread of all historical QA.",
+    "pr5": "Inventoried all 832 changed paths; inspected runtime/service composition, schema/migrations, memory API, application executor, planner/context/routine/connector boundaries and related tests. Ran all 1380 original backend tests. Merge blocked by reproduced compatibility failures; not a complete security audit of every old branch line.",
+    "pr4_pr16": "Original source/asset direction, active renderer references, counterpart/source lineage and conflict inventory versus accepted current Alice implementation. Historical assets remain on preserved branches.",
+    "pr15": "Original 8 source changes, four exact helper-byte comparisons and current Omni/media routing/cancel/key-boundary tests. Current baseline extends original functionality.",
+    "pr19": "All 15 changed-path inventory; procurement/assembly/manifest and hardware-contract deltas, totals/hash, all five PDF pages rendered and visually inspected. Root-document conflicts preserve newest product decisions."
+  },
+  "skills": [
+    "Frontend Testing Debugging",
+    "Vercel React Best Practices",
+    "PDF"
+  ],
+  "browser": "CUA IAB; first stale numeric browser ID rejected; acquired iab alias, actual browser ID3. No external-browser/terminal UI fallback.",
+  "check_evidence": [
+    "current-backend-baseline.txt",
+    "current-frontend-baseline.txt",
+    "current-build-baseline.txt",
+    "current-ruff.txt",
+    "final-backend.txt",
+    "cancellation-regression.txt",
+    "pr5-original-tests.txt",
+    "pr5-diagnostic-fixed-migration-tests.txt",
+    "pr5-memory-compatibility.json",
+    "pr19-artifact-check.json",
+    "ui-before-approval.json",
+    "ui-after-approval.json"
+  ],
+  "new_paid_model_calls": 0,
+  "ci_used": false
+}
