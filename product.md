@@ -1,6 +1,6 @@
 # Group 2 Project Contract
 
-更新：2026-10-30。Grok #20–#59及#60已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main（软件合并c2037cd），原41个PR状态均已核对。当前方向为 **Desk Companion个人AI助理**。本分支基于完成归档的main，整合Grok #20–#59和#60的Alice／统一Omni／网页／手机软件，修复权限、上下文、恢复和跨栈兼容问题。分支推送、PR合并、目标设备部署及真实模型验收分别记录；此前跨端权限／事务接续与OpenAI受限真实评测已完成；现已实现受限 Chromium／Calc／Writer 执行，并跑通脚本驱动的复杂任务、改口和重启恢复；语音模型自主完成仍未验收。结果见[交接](handoff.md)、[本轮QA](output/qa/2026-10-30-application-execution/verification.md)与[实际交付门槛](desk-companion/docs/delivery-readiness.md)。合并基线的[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)保留历史范围。
+更新：2026-10-30。[PR70](https://github.com/tantalum666/FYP/pull/70)已将通过审查的 #19／#64–#69 合入 main（`78e9bc2`）；#4／#15／#16 按已被取代关闭，#5 因实测兼容问题仍未合并。[本轮审查及回执](output/qa/2026-10-30-all-pr-review/verification.md)。Grok #20–#59及#60已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main（软件合并c2037cd），原41个PR状态均已核对。当前方向为 **Desk Companion个人AI助理**。本分支基于完成归档的main，整合Grok #20–#59和#60的Alice／统一Omni／网页／手机软件，修复权限、上下文、恢复和跨栈兼容问题。分支推送、PR合并、目标设备部署及真实模型验收分别记录；此前跨端权限／事务接续与OpenAI受限真实评测已完成；现已实现受限 Chromium／Calc／Writer 执行，并跑通脚本驱动的复杂任务、改口和重启恢复；语音模型自主完成仍未验收。结果见[交接](handoff.md)、[本轮QA](output/qa/2026-10-30-application-execution/verification.md)与[实际交付门槛](desk-companion/docs/delivery-readiness.md)。合并基线的[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)保留历史范围。
 
 ## 当前要求
 
@@ -41,7 +41,7 @@
 
 本机开发预览可显式设`DESK_LOCAL_PREVIEW=1`，仅直接回环请求取得正常8小时Cookie；公网、转发和外部来源拒绝。默认运行仍保留密码登录，真实手机仍需可信HTTPS／配对。会话恢复不自动重试写入。
 
-硬件组 10 月 26 日的[教师审核稿与采购表](research/2026-10-26-hardware-procurement-review/README.md)现纳入整合候选：保留原 PDF／有日期的价格与未报价项，不把文档合并当成完整 BOM、采购或硬件测试通过。
+硬件组 10 月 26 日的[教师审核稿与采购表](research/2026-10-26-hardware-procurement-review/README.md)已纳入主分支：保留原 PDF／有日期的价格与未报价项，不把文档合并当成完整 BOM、采购或硬件测试通过。
 
 **Pi继续暂停。**教室SSH／网页／桌面与宿舍Student接入、远程超时是历史实测；Halls冷启动准备未重新开机，最新软件未部署到Pi。Luwu与Mini硬件研究、采购批准、接线、台架及连续运行分开；[硬件成员资料](research/2026-10-23-mini-robot-hardware/README.md)不代表本轮实物成绩。
 

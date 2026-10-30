@@ -1,13 +1,13 @@
 # Group 2 Current Handoff
 
-30 October 2026, Asia/Shanghai. Current checkpoint: **all outstanding PRs reviewed; compatible integration locally validated, remote merge pending**. Managed worktree `/Users/tantalum/.codex/worktrees/all-pr-review-20261030/FYP`, branch `codex/all-pr-integration-20261030`, started at PR69 head `e42777a51cc1c524ce322c4c25ba03609f7e9f3c`. The owner explicitly authorized reviewing all and merging what passes.
+30 October 2026, Asia/Shanghai. Current checkpoint: **all outstanding PRs reviewed and compatible work merged to main**. Managed worktree `/Users/tantalum/.codex/worktrees/all-pr-review-20261030/FYP`, receipt-closeout branch `codex/all-pr-review-closeout-20261030`. [PR70](https://github.com/tantalum666/FYP/pull/70) merged reviewed candidate `4872f7b` as main `78e9bc2c343c629b7e66725a61f34bc46453dbe0`; complete Git trees match. [Publication receipt](output/qa/2026-10-30-all-pr-review/publication.json). The owner explicitly authorized reviewing all and merging what passes.
 
 ## Review result
 
 [Review QA](output/qa/2026-10-30-all-pr-review/verification.md), [frozen heads](output/qa/2026-10-30-all-pr-review/pr-inventory.json) and [dispositions](output/qa/2026-10-30-all-pr-review/dispositions.json) distinguish outcomes.
 
-- Eligible: #19 hardware records plus current #64–#69 memory, permissions, OpenAI evaluation, complex fixture/execution and research recovery. The local candidate includes #19 by an ordinary merge with five root-doc conflicts resolved toward current product state. The original five-page PDF and dated budget limitations are preserved.
-- Superseded: #4 old A1 presentation, #16 old A1 GLB/UI study, and #15 earlier Omni implementation. Current Alice and newer unified voice/UI retain the accepted behavior. Close these as superseded only after main integration; preserve branches. Closure is not merge.
+- Merged and individually read back: #19 hardware records plus current #64–#69 memory, permissions, OpenAI evaluation, complex fixture/execution and research recovery. The local candidate includes #19 by an ordinary merge with five root-doc conflicts resolved toward current product state. The original five-page PDF and dated budget limitations are preserved.
+- Superseded: #4 old A1 presentation, #16 old A1 GLB/UI study, and #15 earlier Omni implementation. Current Alice and newer unified voice/UI retain the accepted behavior. These three are now closed as superseded with branches retained. GitHub merged=false; closure is not merge.
 - Blocked: #5 alternative kernel. Original local backend run: 1,334 passed / 46 failed. A diagnostic-only fix resolves macOS directory-link-count migration failures (129 focused checks pass), but current owner memory is still invisible after the old schema upgrades. Runtime/memory/application contracts also conflict. Do not cut over current user data or replace the core. Research is already recovered; [current research entry](research/personal-agent-research-index.md) remains the route.
 
 ## Validation and narrow repair
@@ -22,4 +22,4 @@ No CI. Old OpenAI/Qwen paid rounds remain closed; no new model call, media captu
 
 ## One next step
 
-Complete publication of this tested integration, verify exact main/source trees and individual PR states, then continue the real email-to-task-to-suggestion journey using the current core. Reuse portable PR5 planning/connector ideas through an explicit compatibility layer and migration plan; do not treat a blind old-kernel merge as that implementation. The review's final publication receipt supersedes the temporary pending status above.
+Continue the real email-to-task-to-suggestion journey using the current core, with resumable model turns. Reuse portable PR5 planning/connector ideas through an explicit compatibility layer and migration plan; do not treat a blind old-kernel merge as that implementation. PR5 must first preserve current memory/version/privacy and runtime contracts before its unique implementation can be integrated; its diagnostic patch alone is not sufficient.

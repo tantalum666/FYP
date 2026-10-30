@@ -129,4 +129,4 @@ flowchart LR
 - 验收按“真实来源 → 计划 → 实际操作 → 独立结果 → 后续跟进”记录；本地测试数量、生成一份文件或模型一句“完成”都不能代替整条旅程。
 - 资料恢复、公开原文核验、实际竞品操作和 FYP 实现测试分别记录。本轮只完成前两类及当前源码差距审查。
 
-本轮[阅读／来源／验证记录](../output/qa/2026-10-30-agent-research-recovery/verification.md)。软件仍以 [PR #68 执行里程碑](https://github.com/tantalum666/FYP/pull/68)为基线；本页没有把邮件、购物、订票或最终 AI 选型写成完成。
+本轮[阅读／来源／验证记录](../output/qa/2026-10-30-agent-research-recovery/verification.md)。软件执行里程碑及研究现已通过 [PR #70](https://github.com/tantalum666/FYP/pull/70) 合入 main。旧 PR5 已重新审查，数据库迁移／记忆映射及运行协议仍有[具体阻塞](../output/qa/2026-10-30-all-pr-review/verification.md)，继续保留而不直接切换；本页没有把邮件、购物、订票或最终 AI 选型写成完成。
