@@ -17,7 +17,7 @@
 | 10 月 29 日：权限与交互 | [权限体验方案](../planning/2026-10-29/assistant-permission-ux.md) | 参考了 Muse／Dot，但当轮明确没有核验 Grok 的具体控制；这不能被当作完整三家复核 |
 | 10 月 30 日：真实应用执行 | [执行 QA](../output/qa/2026-10-30-application-execution/verification.md) | Chromium／Calc／Writer 的受控脚本、版本与恢复已实跑；没有完成自主邮件／购物 Agent |
 
-从 PR #5 的固定提交 `11dc2b84cebe6e8250b28ca4442fc91f0dfec676` 恢复了 **6 份、原始 1,304 行／205,227 字节**的项目研究。每份都有历史标记；指向旧代码的链接固定到原提交。10月30日该轮只恢复文档；10月31日已按当前核心完成[兼容代码整合](../desk-companion/docs/pr5-integration.md)，发布状态见本轮QA。原始 Git blob、SHA-256 和恢复变换见[清单](../output/qa/2026-10-30-agent-research-recovery/historical-inventory.json)。
+从 PR #5 的固定提交 `11dc2b84cebe6e8250b28ca4442fc91f0dfec676` 恢复了 **6 份、原始 1,304 行／205,227 字节**的项目研究。每份都有历史标记；指向旧代码的链接固定到原提交。10月30日该轮只恢复文档；10月31日已按当前核心完成[兼容代码整合](../desk-companion/docs/pr5-integration.md)并合并PR5，见[实际回执](../output/qa/2026-10-31-pr5-repair/publication.json)。原始 Git blob、SHA-256 和恢复变换见[清单](../output/qa/2026-10-30-agent-research-recovery/historical-inventory.json)。
 
 - Muse：[机制与公开接口](2026-10-12-personal-agents/muse.md)／[能力差距](2026-10-12-personal-agents/muse-capability-gap.md)
 - Dot：[机制与可复用原语](2026-10-12-personal-agents/dot.md)／[能力差距](2026-10-12-personal-agents/dot-capability-gap.md)

@@ -392,3 +392,5 @@ Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **兼容选择：**当前Runtime／owner_memories／TaskService／JobService／PermissionService和真实应用执行器为主；整合持久Work、来源产物、变化审阅、定期检查、可选保存会话及公开工具边界。普通Omni与保存会话标识分开，源数据只保留一套。旧A1和假记录应用按被当前实现取代处理，原代码留在Git历史。
 - **修复：**迁移目录身份不再包含易变的目录链接数；旧事实转换需显式执行并在冲突时回滚；原主线事实无需复制即可被Work读取。删除正文后保留摘要重试屏障；被隐私清理的已关联提案仍受Work权限守卫保护。JSON有明确深度限制，真实provider dispatch重核上下文，生命周期清理互不跳过。
 - **实际验证：**未修改的main代码生成schema1虚构库，两个迁移后45张原表逐行保持；网页创建Work、实际报告下载／哈希、一次批准、同一事务变化审阅、已读后安静，以及393px手机进展与Alice均已检查。测试、发布回执和仍未交付的外部旅程见[QA](output/qa/2026-10-31-pr5-repair/verification.md)。没有迁移真实数据库或开启模型／邮箱／支付／硬件服务。
+
+- **实际发布：**PR5已于2026-10-31 02:20:17（Asia/Shanghai）合并，代码合并9b655e1；远端main与已测112f912完整树相同。最终1,686后端／300前端检查通过，文档收尾只记录回执与下一步，不改变已测应用。

@@ -1,6 +1,6 @@
 # PR5 compatibility repair and merge verification
 
-31 October 2026, Asia/Shanghai. Owner request: repair and merge PR5. Baseline main is `18d205607d5c2eb9f3f23143bbf8eacbc29b7077`; original PR5 is `11dc2b84cebe6e8250b28ca4442fc91f0dfec676`. The original heads are retained by an ordinary merge, without force-push or replacement of current Alice/Omni. Remote publication is recorded separately after local acceptance.
+31 October 2026, Asia/Shanghai. Owner request: repair and merge PR5. Baseline main is `18d205607d5c2eb9f3f23143bbf8eacbc29b7077`; original PR5 is `11dc2b84cebe6e8250b28ca4442fc91f0dfec676`. The original heads are retained by an ordinary merge, without force-push or replacement of current Alice/Omni. [PR5](https://github.com/tantalum666/FYP/pull/5) is now merged; [publication receipt](publication.json) records the independent GitHub/main readback.
 
 ## What was repaired and integrated
 
@@ -61,4 +61,6 @@ This integrates the repaired PR5 foundations. It does not prove a live model aut
 
 ## Publication
 
-Local acceptance is complete. The owner has authorized updating and merging original PR5 after these checks. The publication receipt will record the exact repaired head, GitHub merge result and main readback; pushing a branch alone is not counted as merge or deployment.
+PR5 was updated by a normal fast-forward push, retargeted to main, marked ready and merged with the exact expected reviewed head `112f9121b747e7c1188d26818cc58b7cd1c2a3d9`. GitHub independently reports `state=closed`, `merged=true`, merge commit `9b655e1ac74d3d35a876a100e4681ee00ece4066`, at 31 October 2026 02:20:17 Asia/Shanghai.
+
+Fetched remote main is that merge commit. Its **entire Git tree equals the reviewed candidate tree** `12d5506e4b9ffde15e37ad33077f509c71e2bd3b`. [Receipt](publication.json). This closeout updates documentation/status only. No force-push, workflow, paid call, real-data upgrade or deployment was performed.

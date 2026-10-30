@@ -1,6 +1,7 @@
 # Group 2 Current Handoff
 
-31 October 2026, Asia/Shanghai. Current task: **owner-authorized repair and merge of PR5**. Compatibility work is complete and locally verified on branch `codex/pr5-compatible-integration-20261031` in `/Users/tantalum/.codex/worktrees/all-pr-review-20261030/FYP`. Original main18d2056 and PR5 head11dc2b8 are preserved as merge ancestry. Publication status is recorded in [QA](output/qa/2026-10-31-pr5-repair/verification.md).
+31 October 2026, Asia/Shanghai. **PR5 repaired and merged.** [PR5](https://github.com/tantalum666/FYP/pull/5) merged reviewed head112f912 as main `9b655e1ac74d3d35a876a100e4681ee00ece4066`; GitHub reads closed/merged and both complete trees match. [Publication receipt](output/qa/2026-10-31-pr5-repair/publication.json). Current managed worktree is `/Users/tantalum/.codex/worktrees/all-pr-review-20261030/FYP`, documentation-closeout branch `codex/pr5-merge-receipt-20261031`. Original18d2056/11dc2b8 remain in ancestry.
+
 
 ## Current implementation
 
@@ -16,4 +17,4 @@ The isolated localhost:8832 fixture service was stopped and test tabs/viewports 
 
 ## One next step
 
-Finish the authorized PR5 publication and read back its merged main commit. After publication, route the next product implementation to the real authorized email → existing task → sourced advice/draft → meaningful notification journey, reusing these services and explicit account grants.
+Implement the authorized-mailbox journey through the current task/Work core: incrementally ingest messages, map a thread to the same task, produce sourced advice/drafts and notify only on meaningful change. Start with offline duplicate/out-of-order/revoke/restart fixtures; obtain an explicit real-account scope before connecting a mailbox. Reuse the recovered [research](research/personal-agent-research-index.md); do not create another task/job/memory core or restart a paid budget.
