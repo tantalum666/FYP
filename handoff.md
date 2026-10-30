@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-31 October 2026, Asia/Shanghai. The owner has **resumed Pi work** at home and requested home Wi-Fi, classroom Wi-Fi plus wired Ethernet, and dorm Ethernet. Current branch: `codex/pi-home-resume-20261031` in `/Users/tantalum/.codex/worktrees/all-pr-review-20261030/FYP`, based on merged main `dac527b` (PR5/PR72 complete).
+31 October 2026, Asia/Shanghai. The owner has **resumed Pi work** at home and requested home Wi-Fi, classroom Wi-Fi plus wired Ethernet, and dorm Ethernet. [Draft PR73](https://github.com/tantalum666/FYP/pull/73) publishes sourcebdd9c6d and sanitized evidence; it is not merged. Current branch: `codex/pi-home-resume-20261031` in `/Users/tantalum/.codex/worktrees/all-pr-review-20261030/FYP`, based on merged main `dac527b` (PR5/PR72 complete).
 
 ## Prepared and written
 

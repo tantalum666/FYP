@@ -1,0 +1,15 @@
+{
+  "repository": "tantalum666/FYP",
+  "branch": "codex/pi-home-resume-20261031",
+  "source_commit": "bdd9c6d715fa2b1444317f6a6e6264d853ec557f",
+  "pr": 73,
+  "url": "https://github.com/tantalum666/FYP/pull/73",
+  "draft": true,
+  "merged": false,
+  "state": "awaiting_live_pi_boot_acceptance",
+  "credential_published": false,
+  "card_write_verified": true,
+  "live_connection_verified": false,
+  "ci_used": false,
+  "vps_changed": false
+}

@@ -18,3 +18,9 @@ Read the actual [referenced VPS chat](thread://019decde-5067-7000-bdea-e91f5d4d9
 ## Live gate
 
 A bounded nonce-filtered UDP receiver was started on the Mac before requesting that the owner reinsert the card and power the Pi. Home Wi-Fi, pinned-key SSH, actual application/desktop access and any VPS need still require independent live verification. Writing the card is not connection/deployment success. No current-main application upgrade or paid model call has occurred.
+
+## Published checkpoint
+
+Source and sanitized evidence are pushed at bdd9c6d to [draft PR73](https://github.com/tantalum666/FYP/pull/73). [Receipt](publication.json). It remains unmerged pending live Pi acceptance. Secret scan found no leaks; the exact supplied Wi-Fi password was also checked absent from the publish files. The checked helper source matches the privately rendered seed written to the card.
+
+The initial bounded UDP window finished with zero matching packets, and the temporary mDNS query was stopped. This is not a failed-boot diagnosis; power/connection has not been confirmed. Resume discovery after the owner powers the Pi. No background monitor or paid task is scheduled.

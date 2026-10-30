@@ -1,6 +1,6 @@
 # Group 2 · Current entry
 
-31 October 2026. **Pi work has resumed by explicit owner instruction.** The original card now has home Wi-Fi and portable wired/classroom networking prepared; it was verified and safely ejected. Actual home boot/SSH/app acceptance is still pending. Begin with [handoff](handoff.md), [network contract](desk-companion/docs/pi-network-profiles.md) and [current QA](output/qa/2026-10-31-pi-home-resume/verification.md).
+31 October 2026. **Pi work has resumed by explicit owner instruction.** The original card now has home Wi-Fi and portable wired/classroom networking prepared; it was verified and safely ejected. Actual home boot/SSH/app acceptance is still pending. Source/evidence are saved in [draft PR73](https://github.com/tantalum666/FYP/pull/73), not merged. Begin with [handoff](handoff.md), [network contract](desk-companion/docs/pi-network-profiles.md) and [current QA](output/qa/2026-10-31-pi-home-resume/verification.md).
 
 The owner wants home Wi-Fi, classroom Wi-Fi plus Ethernet, dorm Ethernet. Keep credentials/private backups outside Git. Existing pairing/host keys and app data were preserved. A generic LAN launcher was copied to the local Pi download folder. Do not infer success from written configuration or revive the failed dorm Wi-Fi retry loop.
 
