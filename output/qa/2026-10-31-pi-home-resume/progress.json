@@ -24,7 +24,7 @@
     "passed": 25,
     "ruff": "passed"
   },
-  "live_home_connection": "awaiting_boot_and_independent_verification",
+  "live_home_connection": "verified_wifi_pinned_ssh_web_and_desktop",
   "vps": "referenced thread read; not modified",
   "paid_model_calls": 0,
   "secrets": "private local input/boot configuration only, omitted from public records",
@@ -32,5 +32,9 @@
     "finished": true,
     "matching_states": 0
   },
-  "lan_launcher_installed": true
+  "lan_launcher_installed": true,
+  "live_evidence": "live-verification.json",
+  "power_gate": "undervoltage_observed_confirm_psu_and_cable_before_load_retest",
+  "ethernet_live_test": "not_run_no_carrier",
+  "latest_main_app_deployed": false
 }

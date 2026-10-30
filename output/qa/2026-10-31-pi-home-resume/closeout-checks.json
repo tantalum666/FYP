@@ -5,5 +5,32 @@
   "broken_links": [],
   "ci_workflow_added": false,
   "mac_launcher_shell_syntax": "passed",
-  "live_pi_connection_verified": false
+  "live_pi_connection_verified": true,
+  "live_continuation": {
+    "changed_source_code": false,
+    "checked_local_links": 266,
+    "broken_links": [],
+    "known_private_credentials_in_publish_files": false,
+    "gitleaks_exit": 0,
+    "json_files_parse": true,
+    "git_diff_check": "passed",
+    "updated_documents": [
+      "START_HERE_NEXT_CHAT.md",
+      "decision-log.md",
+      "desk-companion/docs/pi-network-profiles.md",
+      "desk-companion/docs/pi5-first-boot.md",
+      "desk-companion/docs/pi5-usb-mac.md",
+      "handoff.md",
+      "output/qa/2026-10-31-pi-home-resume/verification.md",
+      "product.md",
+      "work-log.md"
+    ],
+    "runtime_checks": "Pinned SSH, actual profiles/guard/listeners, owner web rendering, remote desktop, final health; undervoltage and untested Ethernet retained",
+    "unchanged_preparation_tests": "25 checks and Ruff passed previously; not rerun for documentation",
+    "remaining_gates": [
+      "PSU/cable confirmation and bounded stability retest",
+      "Wired onsite acceptance",
+      "Backed-up application/database upgrade"
+    ]
+  }
 }

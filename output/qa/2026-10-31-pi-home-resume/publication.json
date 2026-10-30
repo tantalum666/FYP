@@ -6,10 +6,12 @@
   "url": "https://github.com/tantalum666/FYP/pull/73",
   "draft": true,
   "merged": false,
-  "state": "awaiting_live_pi_boot_acceptance",
+  "state": "home_verified_power_and_wired_gates_open",
   "credential_published": false,
   "card_write_verified": true,
-  "live_connection_verified": false,
+  "live_connection_verified": true,
   "ci_used": false,
-  "vps_changed": false
+  "vps_changed": false,
+  "live_evidence": "live-verification.json",
+  "network_source_unchanged": true
 }

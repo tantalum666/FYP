@@ -36,6 +36,16 @@ The initial update emits nonce-filtered, nonsecret address/status packets to the
 
 Status and real acceptance are tracked in [this session's QA](../../output/qa/2026-10-31-pi-home-resume/verification.md). The current software main and the Pi's older installed app remain distinct until an explicit backed-up software update is completed. No paid-model budget is reopened by restoring networking.
 
+## Live acceptance on 31 October
+
+The owner reinserted the original card and powered the Pi without Ethernet. Its home profile connected; the supplied SSID was compared privately, the original SSH host identity matched, and the actual app and VNC listeners remained on loopback. Mac-side owner login, rendered Alice/device page and Screen Sharing all passed. NetworkManager readback confirms the table above, including disabled Student/Halls autoconnect. No cable was present at the last observation; wired DHCP and school reachability remain untested.
+
+The current home address was192.168.0.105 after profile activation; mDNS initially reported a different lease, so this is not a static-IP setting. The running tunnel uses the existing paired-key connector and local ports8891/5901. The initial diagnostic UDP window had no packet because discovery continued separately; its empty result did not establish a failed boot.
+
+Two OS-level observations remain explicit: cloud-init finished with no fatal errors but a recoverable missing `cc_netplan_nm_patch` warning, matching an [official issue report](https://github.com/raspberrypi/trixie-feedback/issues/45); `raspi-config` country command returned1, while both the global regulatory domain and persisted `cfg80211.ieee80211_regdom=CN` argument were read back. Mac did not modify cmdline.txt; the authorized Pi-side country setter did. The warning was not concealed by changing vendor cloud-init configuration or rerunning provisioning.
+
+Starting Pi-local Chromium produced an undervoltage warning confirmed in the kernel log. Its window was closed; later `0x50000` records historical undervoltage/throttling rather than active flags. Boot-reported supply capability is3000mA, not a measurement of current draw or proof of the physical PSU's rating. Confirm the supply/cable before the next bounded load test or software upgrade. Never force a higher USB-current limit or suppress voltage warnings to pass acceptance. [Official power guidance](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#power-supply), [status-bit meanings](https://www.raspberrypi.com/documentation/computers/os.html#get_throttled).
+
 ## Primary references
 
 - [Raspberry Pi cloud-init boot files](https://www.raspberrypi.com/news/cloud-init-on-raspberry-pi-os/)

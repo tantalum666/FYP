@@ -1,6 +1,6 @@
 # Pi 5 8GB 首次启动 · Group 2
 
-**2026-10-31：用户已恢复Pi工作。家庭Wi-Fi／教室Wi-Fi与网线／宿舍网线配置已写入原卡并安全弹出；实际开机连接以[本轮QA](../../output/qa/2026-10-31-pi-home-resume/verification.md)为准。[网络方案](pi-network-profiles.md)。**
+**2026-10-31：原卡已插回Pi，家庭Wi-Fi／原密钥SSH／网页Alice／Mac远程桌面实测通过。教室Wi-Fi与网线、宿舍网线配置已从Pi读回；有线尚未验收。本机浏览器触发低电压事件，下一步先核对供电。见[本轮QA](../../output/qa/2026-10-31-pi-home-resume/verification.md)与[网络方案](pi-network-profiles.md)。**
 <!-- FYP-CONTEXT-20261027 -->
 > HISTORICAL 2026-10-27 快照：当时Pi暂停，旧API预算关闭。当前恢复状态见文首31日记录。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
 <!-- /FYP-CONTEXT-20261027 -->
@@ -11,7 +11,7 @@
 
 ## 当前联网恢复状态
 
-2026-10-26已保留系统补写NETGEAR02和受限LAN SSH，并实际连通Mac。网页登录／Alice显示／日历导航和Mac屏幕共享均成功；系统时间已同步。USB数据链路仍未接通。当前按[Mac访问指南](pi5-usb-mac.md)的Wi-Fi方法操作；联网与部署修复QA (local historical material: `output/qa/2026-10-26-pi5-classroom/verification.md`; not included in this checkpoint)记录证据，不重新烧卡。
+2026-10-31已保留系统安装家庭／有线网络，并通过家庭Wi-Fi实际连通Mac。网页登录、Alice显示和Mac屏幕共享成功，NTP同步；当前地址192.168.0.105是DHCP观察值。cloud-init结束但有缺少`cc_netplan_nm_patch`的可恢复警告，网络／应用状态已独立核验。USB数据链路仍未接通，网线等待实测。按[Mac访问指南](pi5-usb-mac.md)使用通用LAN连接器，不重新烧卡。26日教室结果保留为历史：联网与部署修复QA (local historical material: `output/qa/2026-10-26-pi5-classroom/verification.md`; not included in this checkpoint)。
 
 ## HISTORICAL：最初准备的Mac与USB路径
 
@@ -45,7 +45,7 @@ sudo tail -n 60 /var/log/cloud-init-output.log
 
 已验证：官方镜像下载SHA；ARM64依赖导入；离线安装、普通用户API、凭据权限与重复运行；cloud-init及网络schema；文件系统检查；镜像内载荷逐字节读回；SD写后校验。首次安装测试在隔离ARM64 Debian容器内执行，raspi-config／真实NetworkManager命令单独留待Pi；不是实际开机验收。
 
-已验证Pi启动／扩容、修正版安装、NETGEAR02联网、网页与真实Linux桌面连接。仍未验证：VTC直连及远程可达、Pi直连Qwen、声卡／AEC／真实麦克风、Wayland双应用、GPU帧率／持续温度、姿态机位和机械硬件。最新统一Omni代码尚未同步，当前Pi是10月22日包加10月26日部署修复。写卡成功不能替代这些目标设备检查。5元仅为已结束的合成短测授权，日常用户主动语音仍按提供商计费，产品没有人民币硬限额。
+已验证Pi启动／扩容、修正版安装、历史NETGEAR02及31日家庭Wi-Fi、网页与真实Linux桌面连接。31日本机Chromium能渲染设备页，但出现过低电压／节流记录，已关闭窗口；需先核对电源和线材，不能宣布持续运行通过。仍未验证：有线／学校现场远程可达、Pi直连模型、声卡／AEC／真实麦克风、Wayland双应用、GPU帧率／持续温度、姿态机位和机械硬件。最新统一Omni／Work代码尚未同步，当前Pi是10月22日包加10月26日部署修复。后续更新需按[迁移契约](pr5-integration.md)保留停止服务后的完整备份。写卡成功不能替代这些目标设备检查。旧付费轮均已关闭，本轮没有模型请求。
 
 学校设置依据：[VTC官方Android连接指南](https://dilwllrchelpdesk.vtc.edu.hk/en/support/solutions/articles/43000496746-how-can-i-login-to-vtc-wifi-by-android-mobile-device-)（页面修改2019，2026-10-22取阅）；系统来源：[Raspberry Pi OS](https://www.raspberrypi.com/software/operating-systems/)及[官方cloud-init说明](https://www.raspberrypi.com/news/cloud-init-on-raspberry-pi-os/)。
 

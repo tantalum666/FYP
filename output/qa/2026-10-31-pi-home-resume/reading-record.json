@@ -20,5 +20,33 @@
     "hostId": "local",
     "threadId": "019decde-5067-7000-bdea-e91f5d4d9ea4"
   },
-  "secrets": "Home Wi-Fi input stored privately outside Git; no secret values in QA."
+  "secrets": "Home Wi-Fi input stored privately outside Git; no secret values in QA.",
+  "continuation": {
+    "owner_reply": "Original card reinserted and Pi powered",
+    "focused_recovery": [
+      "AGENTS.md full",
+      "product.md full",
+      "handoff.md full",
+      "START_HERE_NEXT_CHAT.md full",
+      "decision-log.md current Pi section and preceding PR5 context",
+      "work-log.md last Pi checkpoint and preceding merge context",
+      "desk-companion/docs/pi-network-profiles.md full",
+      "desk-companion/docs/pi5-usb-mac.md full",
+      "desk-companion/docs/pi5-first-boot.md full",
+      "current QA verification/read/progress/publication/closeout files"
+    ],
+    "earlier_in_turn_reads_retained": [
+      "actual installed raspi-config country function",
+      "actual cloud-init status and cloud.cfg netplan module reference",
+      "Pi network profiles without secrets, sshd policy, owned nft guard and listeners",
+      "private power and selected boot diagnostics"
+    ],
+    "primary_sources": [
+      "https://github.com/raspberrypi/trixie-feedback/issues/45",
+      "https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#power-supply",
+      "https://www.raspberrypi.com/documentation/computers/os.html#get_throttled"
+    ],
+    "implementation_scope": "Documentation and selected evidence only; no source changes or app upgrade",
+    "validation_scope": "Actual home network/login/desktop checks; power failure recorded; documentation links and secret publication scope checked separately"
+  }
 }
