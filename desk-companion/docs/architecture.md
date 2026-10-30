@@ -127,3 +127,9 @@ AssistantPanel uses one composer and a focused voice view; file activity/help ar
 ## 2026-10-29 持续授权边界
 
 PermissionService保存拥有者版本化偏好并签发当前请求的内部grant；TextAssistant／ToolDispatcher复用原提案服务，JobService继续负责意图与执行前检查。没有新增模型权限工具、会话存储或作业队列。物理输出、账号连接、路径配置和媒体授权仍独立。模式撤回与业务写入恢复不共享前端阻塞队列。自动任务／记忆／作业结果记录owner_policy及策略版本，详见[当前契约](assistant-permissions.md)。
+
+## 2026-10-30 受限应用操作与阶段证据
+
+新增 `ApplicationJobInput` 和 `ApplicationExecutor`，与原笔记／文件夹／固定桌面动作并列登记到原 JobService。模型仅可准备显式单元格／文档块／PDF／本地文字意图；来源、依赖文件、任务、权限和范围版本在准备／执行／发布时核对。实际 UNO／CDP 在仅挂载输入与产物的隔离 Linux 中运行，无任意路径／URL／脚本入口。
+
+`staging` 中保存并重开核验后，原子发布一个活动文件并保留不可变下载版本。失去回执或进程重启后保持 unknown，只读回原文件恢复回执；文件阶段由既有作业投影，不新增队列或任务表。浏览器报价、Calc 公式、Writer／PDF和日历的受控脚本已实跑，语音自主规划及正常 OpenAI 会话接入仍待。[执行与恢复契约](application-execution.md)／[实际证据](../../output/qa/2026-10-30-application-execution/verification.md)。

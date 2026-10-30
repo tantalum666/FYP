@@ -1,9 +1,11 @@
 import { Check, FileText, LoaderCircle } from "lucide-react";
+import { useState } from "react";
 import { ApiError, errorText } from "../api";
 import type { Translate } from "../types";
 import {
   isDesktopAction,
   isFolderAction,
+  isApplicationAction,
   jobCancellable,
   jobStateLabel,
   readBackCopy,
@@ -12,6 +14,8 @@ import {
 } from "./jobTypes";
 import type { ComputerJob } from "./jobTypes";
 import type { JobAction } from "./jobRequests";
+import { ApplicationPreview } from "./ApplicationPreview";
+import { ExportLink } from "./ExportLink";
 
 export function JobActionCard({
   job,
@@ -30,6 +34,9 @@ export function JobActionCard({
   available: boolean;
   onAction: (action: JobAction) => void;
 }) {
+  const [exportError, setExportError] = useState<unknown>(null);
+  const application = isApplicationAction(job.action);
+  const step = job.request.step;
   const waiting = [
     "queued",
     "running",
@@ -40,6 +47,7 @@ export function JobActionCard({
     "save_note",
     "save_folder_file",
     "linux_note_preview",
+    "application",
   ].includes(job.action);
   const destination = isFolderAction(job.action)
     ? job.request.folder_label
@@ -68,12 +76,22 @@ export function JobActionCard({
           <h4>{job.request.title}</h4>
         </div>
       </header>
-      <p>
-        {writing
-          ? t("Save a new file in ", "在以下位置保存新文件：")
-          : t("Check the saved file in ", "核验以下位置的已有文件：")}
-        {destination}.
-      </p>
+      {!application && (
+        <p>
+          {writing
+            ? t("Save a new file in ", "在以下位置保存新文件：")
+            : t("Check the saved file in ", "核验以下位置的已有文件：")}
+          {destination}.
+        </p>
+      )}
+      {application && (
+        <p>
+          {t(
+            "Use the connected applications in this task's workspace.",
+            "在本事务的工作空间使用已连接的应用。",
+          )}
+        </p>
+      )}
       {isDesktopAction(job.action) && writing && (
         <p>
           {t(
@@ -85,7 +103,11 @@ export function JobActionCard({
       {job.state === "review" && (
         <details className="action-preview" open>
           <summary>{t("Review content", "核对内容")}</summary>
-          <pre tabIndex={0}>{job.request.content}</pre>
+          {application && step ? (
+            <ApplicationPreview step={step} t={t} />
+          ) : (
+            <pre tabIndex={0}>{job.request.content}</pre>
+          )}
         </details>
       )}
       {job.state === "succeeded" && job.result?.verified && (
@@ -134,7 +156,10 @@ export function JobActionCard({
           <button
             className="primary"
             disabled={
-              busy || !available || !reviewAvailable(job, Date.now(), fresh)
+              busy ||
+              !available ||
+              (application && !step) ||
+              !reviewAvailable(job, Date.now(), fresh)
             }
             onClick={() => onAction("approve")}
           >
@@ -162,6 +187,25 @@ export function JobActionCard({
           </button>
         )}
       </div>
+      {application &&
+        step &&
+        job.state === "succeeded" &&
+        job.result?.verified && (
+          <div className="workspace-inline-actions">
+            <ExportLink
+              path={`/computer/jobs/${job.id}/artifact`}
+              filename={step.filename}
+              onError={setExportError}
+            >
+              {t("Download verified file", "下载已核验文件")}
+            </ExportLink>
+          </div>
+        )}
+      {!!exportError && (
+        <p className="error-message" role="alert">
+          {errorText(exportError, t)}
+        </p>
+      )}
       {job.authorization && (
         <small className="action-authority">
           {job.authorization.mode === "full"
@@ -177,7 +221,11 @@ export function JobActionCard({
         {job.state !== "review" && (
           <pre tabIndex={0}>{job.request.content}</pre>
         )}
-        <p>{job.request.artifact_id}.txt</p>
+        <p>
+          {application && step
+            ? step.filename
+            : `${job.request.artifact_id}.txt`}
+        </p>
         {job.result?.verified && (
           <>
             <p>

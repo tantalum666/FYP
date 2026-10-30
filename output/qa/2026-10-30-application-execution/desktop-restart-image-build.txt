@@ -1,0 +1,34 @@
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  4.096kB
+
+Step 1/9 : FROM debian:trixie-slim
+ ---> f6b08b09a057
+Step 2/9 : ARG DESK_UID=501
+ ---> Using cache
+ ---> d7765330f33a
+Step 3/9 : RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends     libreoffice-calc libreoffice-writer python3-uno python3-websockets python3-pil     chromium xvfb openbox dbus-x11 x11vnc novnc websockify x11-utils     poppler-utils fonts-dejavu-core fonts-liberation fonts-noto-cjk procps     && rm -rf /var/lib/apt/lists/*     && useradd --create-home --uid ${DESK_UID} --shell /bin/sh desk
+ ---> Using cache
+ ---> cf197eb86adf
+Step 4/9 : RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends chromium-sandbox     && rm -rf /var/lib/apt/lists/* && mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
+ ---> Using cache
+ ---> b9fefba52026
+Step 5/9 : USER desk
+ ---> Using cache
+ ---> 71dbdd16f3cb
+Step 6/9 : WORKDIR /home/desk
+ ---> Using cache
+ ---> 4668e0dd99ce
+Step 7/9 : ENV DISPLAY=:99 SAL_USE_VCLPLUGIN=gen NO_AT_BRIDGE=0
+ ---> Using cache
+ ---> 78a21501da6e
+Step 8/9 : COPY start.sh /opt/start.sh
+ ---> 6f2bc159db71
+Step 9/9 : CMD ["/bin/sh", "/opt/start.sh"]
+ ---> Running in 7c7006516ef9
+ ---> Removed intermediate container 7c7006516ef9
+ ---> a986f0552ee5
+Successfully built a986f0552ee5
+Successfully tagged fyp/application-desktop:20261030

@@ -1,0 +1,264 @@
+{
+  "document": {
+    "id": "6ee90bb531f8402dadca05600f899db1",
+    "state": "succeeded",
+    "version": 5,
+    "created_at": "2026-10-29T18:22:44.765012Z",
+    "updated_at": "2026-10-29T18:22:46.404373Z",
+    "expires_at": "2026-10-29T18:27:44.765035Z",
+    "deadline": "2026-10-29T18:23:44.771210Z",
+    "error": null,
+    "action": "application",
+    "task_id": "6b9c834aa2d94d53af45891d55b0917c",
+    "cancel_requested": false,
+    "result": {
+      "apps_verified": [
+        "libreoffice_writer"
+      ],
+      "artifact": "6b9c834aa2d94d53af45891d55b0917c/smoke-brief.odt",
+      "bytes": 14561,
+      "executor": "office_applications_v1",
+      "operation_id": "6ee90bb531f8402dadca05600f899db1",
+      "readback": {
+        "application": "libreoffice_writer",
+        "content": [
+          "Group 2 application execution check",
+          "This fictional document is created and saved by a real Writer instance through its supported application API.",
+          "Item",
+          "Quantity",
+          "Total",
+          "Posters",
+          "3",
+          "HKD 285.00",
+          "Readback evidence",
+          "The workbook retains its formula, and changing the quantity recalculates the result. This is a driver check, not a completed autonomous-agent trial."
+        ],
+        "office_pid": 23,
+        "operation_id": "6ee90bb531f8402dadca05600f899db1",
+        "visible": true,
+        "window_title": "smoke-brief.odt (read-only) \u2014 LibreOffice Writer"
+      },
+      "reason": "read_back_matches",
+      "scope": "applications:48c0a764373288396b80f638a99680db4dbdbc73f247eae17c668444ad9bc68b",
+      "sha256": "cab5bd6d0fa089df982981ce5c42df6d5bb63868a38b4c078f0952eaf3e5fa45",
+      "verified": true
+    },
+    "title": "document-smoke",
+    "request": {
+      "action": "application",
+      "artifact_id": "6ee90bb531f8402dadca05600f899db1",
+      "base": null,
+      "base_snapshot": null,
+      "content": "document: smoke-brief.odt",
+      "dependencies": [
+        {
+          "filename": "smoke-budget.xlsx",
+          "job_id": "d0dade75546844ddb8c2bd8d3504e305",
+          "kind": "workbook",
+          "sha256": "7e9d2e172d05e7f5909a174fc06866275ef5045f4f688775077352d55544996c"
+        }
+      ],
+      "depends_on": [
+        "d0dade75546844ddb8c2bd8d3504e305"
+      ],
+      "executor": "office_applications_v1",
+      "previous": null,
+      "scope": "applications:48c0a764373288396b80f638a99680db4dbdbc73f247eae17c668444ad9bc68b",
+      "sources": [],
+      "stage": "document-smoke",
+      "step": {
+        "blocks": [
+          {
+            "kind": "title",
+            "text": "Group 2 application execution check"
+          },
+          {
+            "kind": "paragraph",
+            "text": "This fictional document is created and saved by a real Writer instance through its supported application API."
+          },
+          {
+            "kind": "table",
+            "rows": [
+              [
+                "Item",
+                "Quantity",
+                "Total"
+              ],
+              [
+                "Posters",
+                "3",
+                "HKD 285.00"
+              ]
+            ]
+          },
+          {
+            "kind": "page_break",
+            "text": ""
+          },
+          {
+            "kind": "heading",
+            "text": "Readback evidence"
+          },
+          {
+            "kind": "paragraph",
+            "text": "The workbook retains its formula, and changing the quantity recalculates the result. This is a driver check, not a completed autonomous-agent trial."
+          }
+        ],
+        "filename": "smoke-brief.odt",
+        "kind": "document",
+        "mode": "replace",
+        "source_job_id": null
+      },
+      "task_id": "6b9c834aa2d94d53af45891d55b0917c",
+      "task_version": 1,
+      "title": "document-smoke"
+    },
+    "intent_hash": "65e421a43840db6c1859b9dcbf424d37f416e18fc7f7c0ae80243b4107cc8fed",
+    "authorization": {
+      "mode": "once"
+    },
+    "history": [
+      {
+        "at": "2026-10-29T18:22:44.765070Z",
+        "state": "review",
+        "code": null
+      },
+      {
+        "at": "2026-10-29T18:22:44.771237Z",
+        "state": "queued",
+        "code": null
+      },
+      {
+        "at": "2026-10-29T18:22:44.773795Z",
+        "state": "running",
+        "code": null
+      },
+      {
+        "at": "2026-10-29T18:22:46.022998Z",
+        "state": "verifying",
+        "code": null
+      },
+      {
+        "at": "2026-10-29T18:22:46.404373Z",
+        "state": "succeeded",
+        "code": null
+      }
+    ]
+  },
+  "pdf": {
+    "id": "fcb7143edeaf4c52858e85cb4fe771c5",
+    "state": "succeeded",
+    "version": 5,
+    "created_at": "2026-10-29T18:22:46.411899Z",
+    "updated_at": "2026-10-29T18:22:47.107096Z",
+    "expires_at": "2026-10-29T18:27:46.411934Z",
+    "deadline": "2026-10-29T18:23:46.419954Z",
+    "error": null,
+    "action": "application",
+    "task_id": "6b9c834aa2d94d53af45891d55b0917c",
+    "cancel_requested": false,
+    "result": {
+      "apps_verified": [
+        "libreoffice_writer"
+      ],
+      "artifact": "6b9c834aa2d94d53af45891d55b0917c/smoke-brief.pdf",
+      "bytes": 44522,
+      "executor": "office_applications_v1",
+      "operation_id": "fcb7143edeaf4c52858e85cb4fe771c5",
+      "readback": {
+        "application": "libreoffice_writer",
+        "info": "Subject:         Desk Companion operation fcb7143edeaf4c52858e85cb4fe771c5\nCreator:         Writer\nProducer:        LibreOffice 25.2.3.2 (AARCH64) / LibreOffice Community\nCreationDate:    Thu Oct 29 18:22:46 2026 UTC\nCustom Metadata: no\nMetadata Stream: yes\nTagged:          yes\nUserProperties:  no\nSuspects:        no\nForm:            none\nJavaScript:      no\nPages:           2\nEncrypted:       no\nPage size:       595.304 x 841.89 pts (A4)\nPage rot:        0\nFile size:       44522 bytes\nOptimized:       no\nPDF version:     1.7\n",
+        "text": "           Group 2 application execution check\nThis fictional document is created and saved by a real Writer instance through its supported\napplication API.\n\n              Item                            Quantity                            Total\nPosters                           3                                 HKD 285.00\n\fReadback evidence\nThe workbook retains its formula, and changing the quantity recalculates the result. This is a driver\ncheck, not a completed autonomous-agent trial.\n\f"
+      },
+      "reason": "read_back_matches",
+      "scope": "applications:48c0a764373288396b80f638a99680db4dbdbc73f247eae17c668444ad9bc68b",
+      "sha256": "3d44e15c3c4d099d09de9e5ae736786bddb2b0ce734fad69e25bd8b35e57493b",
+      "verified": true
+    },
+    "title": "Export report PDF",
+    "request": {
+      "action": "application",
+      "artifact_id": "fcb7143edeaf4c52858e85cb4fe771c5",
+      "base": {
+        "filename": "smoke-brief.odt",
+        "job_id": "6ee90bb531f8402dadca05600f899db1",
+        "kind": "document",
+        "sha256": "cab5bd6d0fa089df982981ce5c42df6d5bb63868a38b4c078f0952eaf3e5fa45"
+      },
+      "base_snapshot": {
+        "application": "libreoffice_writer",
+        "content": [
+          "Group 2 application execution check",
+          "This fictional document is created and saved by a real Writer instance through its supported application API.",
+          "Item",
+          "Quantity",
+          "Total",
+          "Posters",
+          "3",
+          "HKD 285.00",
+          "Readback evidence",
+          "The workbook retains its formula, and changing the quantity recalculates the result. This is a driver check, not a completed autonomous-agent trial."
+        ],
+        "office_pid": 23,
+        "operation_id": "6ee90bb531f8402dadca05600f899db1",
+        "visible": true,
+        "window_title": "smoke-brief.odt (read-only) \u2014 LibreOffice Writer"
+      },
+      "content": "pdf: smoke-brief.pdf",
+      "dependencies": [
+        {
+          "filename": "smoke-brief.odt",
+          "job_id": "6ee90bb531f8402dadca05600f899db1",
+          "kind": "document",
+          "sha256": "cab5bd6d0fa089df982981ce5c42df6d5bb63868a38b4c078f0952eaf3e5fa45"
+        }
+      ],
+      "depends_on": [],
+      "executor": "office_applications_v1",
+      "previous": null,
+      "scope": "applications:48c0a764373288396b80f638a99680db4dbdbc73f247eae17c668444ad9bc68b",
+      "sources": [],
+      "stage": "pdf-smoke",
+      "step": {
+        "filename": "smoke-brief.pdf",
+        "kind": "pdf",
+        "replace_job_id": null,
+        "source_job_id": "6ee90bb531f8402dadca05600f899db1"
+      },
+      "task_id": "6b9c834aa2d94d53af45891d55b0917c",
+      "task_version": 1,
+      "title": "Export report PDF"
+    },
+    "intent_hash": "5b4b7315393b1823f9b6bf6338e1568a14e8e4d20534b975bccc5f25be99706d",
+    "authorization": {
+      "mode": "once"
+    },
+    "history": [
+      {
+        "at": "2026-10-29T18:22:46.411994Z",
+        "state": "review",
+        "code": null
+      },
+      {
+        "at": "2026-10-29T18:22:46.419984Z",
+        "state": "queued",
+        "code": null
+      },
+      {
+        "at": "2026-10-29T18:22:46.423194Z",
+        "state": "running",
+        "code": null
+      },
+      {
+        "at": "2026-10-29T18:22:47.007822Z",
+        "state": "verifying",
+        "code": null
+      },
+      {
+        "at": "2026-10-29T18:22:47.107096Z",
+        "state": "succeeded",
+        "code": null
+      }
+    ]
+  }
+}

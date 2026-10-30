@@ -1,0 +1,3888 @@
+{
+  "id": "81ce75b80d3f4ea5b33c86f37351a785",
+  "state": "succeeded",
+  "version": 5,
+  "created_at": "2026-10-30T05:37:41.045138Z",
+  "updated_at": "2026-10-30T05:37:43.910990Z",
+  "expires_at": "2026-10-30T05:42:41.045353Z",
+  "deadline": "2026-10-30T05:38:41.054657Z",
+  "error": null,
+  "action": "application",
+  "task_id": "5909669a950c47c58f7477ea0da8a025",
+  "cancel_requested": false,
+  "result": {
+    "apps_verified": [
+      "libreoffice_calc"
+    ],
+    "artifact": "5909669a950c47c58f7477ea0da8a025/demo-budget.xlsx",
+    "bytes": 12653,
+    "executor": "office_applications_v1",
+    "operation_id": "81ce75b80d3f4ea5b33c86f37351a785",
+    "readback": {
+      "application": "libreoffice_calc",
+      "office_pid": 23,
+      "operation_id": "81ce75b80d3f4ea5b33c86f37351a785",
+      "sheets": [
+        {
+          "cells": [
+            {
+              "cell": "A1",
+              "error": 0,
+              "formula": "Group 2 demo budget",
+              "kind": "TEXT",
+              "text": "Group 2 demo budget",
+              "value": 0.0
+            },
+            {
+              "cell": "B1",
+              "error": 0,
+              "formula": "Fictional execution QA",
+              "kind": "TEXT",
+              "text": "Fictional execution QA",
+              "value": 0.0
+            },
+            {
+              "cell": "A2",
+              "error": 0,
+              "formula": "Setting",
+              "kind": "TEXT",
+              "text": "Setting",
+              "value": 0.0
+            },
+            {
+              "cell": "B2",
+              "error": 0,
+              "formula": "Value",
+              "kind": "TEXT",
+              "text": "Value",
+              "value": 0.0
+            },
+            {
+              "cell": "A3",
+              "error": 0,
+              "formula": "Budget HKD",
+              "kind": "TEXT",
+              "text": "Budget HKD",
+              "value": 0.0
+            },
+            {
+              "cell": "B3",
+              "error": 0,
+              "formula": "1000",
+              "kind": "VALUE",
+              "text": "1000",
+              "value": 1000.0
+            },
+            {
+              "cell": "A4",
+              "error": 0,
+              "formula": "Booklets required",
+              "kind": "TEXT",
+              "text": "Booklets required",
+              "value": 0.0
+            },
+            {
+              "cell": "B4",
+              "error": 0,
+              "formula": "40",
+              "kind": "VALUE",
+              "text": "40",
+              "value": 40.0
+            },
+            {
+              "cell": "A5",
+              "error": 0,
+              "formula": "Print mode",
+              "kind": "TEXT",
+              "text": "Print mode",
+              "value": 0.0
+            },
+            {
+              "cell": "B5",
+              "error": 0,
+              "formula": "colour",
+              "kind": "TEXT",
+              "text": "colour",
+              "value": 0.0
+            },
+            {
+              "cell": "A6",
+              "error": 0,
+              "formula": "Posters",
+              "kind": "TEXT",
+              "text": "Posters",
+              "value": 0.0
+            },
+            {
+              "cell": "B6",
+              "error": 0,
+              "formula": "2",
+              "kind": "VALUE",
+              "text": "2",
+              "value": 2.0
+            },
+            {
+              "cell": "A7",
+              "error": 0,
+              "formula": "Badges",
+              "kind": "TEXT",
+              "text": "Badges",
+              "value": 0.0
+            },
+            {
+              "cell": "B7",
+              "error": 0,
+              "formula": "3",
+              "kind": "VALUE",
+              "text": "3",
+              "value": 3.0
+            },
+            {
+              "cell": "A8",
+              "error": 0,
+              "formula": "Reserve rate",
+              "kind": "TEXT",
+              "text": "Reserve rate",
+              "value": 0.0
+            },
+            {
+              "cell": "B8",
+              "error": 0,
+              "formula": "0.1",
+              "kind": "VALUE",
+              "text": "0.1",
+              "value": 0.1
+            },
+            {
+              "cell": "A9",
+              "error": 0,
+              "formula": "Latest delivery",
+              "kind": "TEXT",
+              "text": "Latest delivery",
+              "value": 0.0
+            },
+            {
+              "cell": "B9",
+              "error": 0,
+              "formula": "'2026-11-05",
+              "kind": "TEXT",
+              "text": "2026-11-05",
+              "value": 0.0
+            },
+            {
+              "cell": "A10",
+              "error": 0,
+              "formula": "Quote date",
+              "kind": "TEXT",
+              "text": "Quote date",
+              "value": 0.0
+            },
+            {
+              "cell": "B10",
+              "error": 0,
+              "formula": "'2026-10-30",
+              "kind": "TEXT",
+              "text": "2026-10-30",
+              "value": 0.0
+            },
+            {
+              "cell": "A11",
+              "error": 0,
+              "formula": "Aster",
+              "kind": "TEXT",
+              "text": "Aster",
+              "value": 0.0
+            },
+            {
+              "cell": "B11",
+              "error": 0,
+              "formula": "=$Quotes.S2",
+              "kind": "FORMULA",
+              "text": "1106.60",
+              "value": 1106.6
+            },
+            {
+              "cell": "C11",
+              "error": 0,
+              "formula": "=$Quotes.T2",
+              "kind": "FORMULA",
+              "text": "excluded",
+              "value": 0.0
+            },
+            {
+              "cell": "D11",
+              "error": 0,
+              "formula": "=IF(C11=\"eligible\";B11;1000000)",
+              "kind": "FORMULA",
+              "text": "1000000.00",
+              "value": 1000000.0
+            },
+            {
+              "cell": "E11",
+              "error": 0,
+              "formula": "=$Quotes.N2-$Summary.B4",
+              "kind": "FORMULA",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "A12",
+              "error": 0,
+              "formula": "Birch",
+              "kind": "TEXT",
+              "text": "Birch",
+              "value": 0.0
+            },
+            {
+              "cell": "B12",
+              "error": 0,
+              "formula": "=$Quotes.S3",
+              "kind": "FORMULA",
+              "text": "1134.98",
+              "value": 1134.98
+            },
+            {
+              "cell": "C12",
+              "error": 0,
+              "formula": "=$Quotes.T3",
+              "kind": "FORMULA",
+              "text": "excluded",
+              "value": 0.0
+            },
+            {
+              "cell": "D12",
+              "error": 0,
+              "formula": "=IF(C12=\"eligible\";B12;1000000)",
+              "kind": "FORMULA",
+              "text": "1000000.00",
+              "value": 1000000.0
+            },
+            {
+              "cell": "E12",
+              "error": 0,
+              "formula": "=$Quotes.N3-$Summary.B4",
+              "kind": "FORMULA",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "A13",
+              "error": 0,
+              "formula": "Cedar",
+              "kind": "TEXT",
+              "text": "Cedar",
+              "value": 0.0
+            },
+            {
+              "cell": "B13",
+              "error": 0,
+              "formula": "=$Quotes.S4",
+              "kind": "FORMULA",
+              "text": "979.00",
+              "value": 979.0
+            },
+            {
+              "cell": "C13",
+              "error": 0,
+              "formula": "=$Quotes.T4",
+              "kind": "FORMULA",
+              "text": "excluded",
+              "value": 0.0
+            },
+            {
+              "cell": "D13",
+              "error": 0,
+              "formula": "=IF(C13=\"eligible\";B13;1000000)",
+              "kind": "FORMULA",
+              "text": "1000000",
+              "value": 1000000.0
+            },
+            {
+              "cell": "E13",
+              "error": 0,
+              "formula": "=$Quotes.N4-$Summary.B4",
+              "kind": "FORMULA",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "A14",
+              "error": 0,
+              "formula": "Delta",
+              "kind": "TEXT",
+              "text": "Delta",
+              "value": 0.0
+            },
+            {
+              "cell": "B14",
+              "error": 0,
+              "formula": "=$Quotes.S5",
+              "kind": "FORMULA",
+              "text": "1055.34",
+              "value": 1055.34
+            },
+            {
+              "cell": "C14",
+              "error": 0,
+              "formula": "=$Quotes.T5",
+              "kind": "FORMULA",
+              "text": "excluded",
+              "value": 0.0
+            },
+            {
+              "cell": "D14",
+              "error": 0,
+              "formula": "=IF(C14=\"eligible\";B14;1000000)",
+              "kind": "FORMULA",
+              "text": "1000000",
+              "value": 1000000.0
+            },
+            {
+              "cell": "E14",
+              "error": 0,
+              "formula": "=$Quotes.N5-$Summary.B4",
+              "kind": "FORMULA",
+              "text": "10",
+              "value": 10.0
+            },
+            {
+              "cell": "A16",
+              "error": 0,
+              "formula": "Lowest feasible total",
+              "kind": "TEXT",
+              "text": "Lowest feasible total",
+              "value": 0.0
+            },
+            {
+              "cell": "B16",
+              "error": 0,
+              "formula": "=MIN(D11:D14)",
+              "kind": "FORMULA",
+              "text": "1000000.00",
+              "value": 1000000.0
+            },
+            {
+              "cell": "A17",
+              "error": 0,
+              "formula": "Plan status",
+              "kind": "TEXT",
+              "text": "Plan status",
+              "value": 0.0
+            },
+            {
+              "cell": "B17",
+              "error": 0,
+              "formula": "=IF(B16=1000000;\"Clarification needed\";\"Feasible\")",
+              "kind": "FORMULA",
+              "text": "Clarification needed",
+              "value": 0.0
+            },
+            {
+              "cell": "A18",
+              "error": 0,
+              "formula": "Selected supplier",
+              "kind": "TEXT",
+              "text": "Selected supplier",
+              "value": 0.0
+            },
+            {
+              "cell": "B18",
+              "error": 0,
+              "formula": "=IF(B16=1000000;\"No valid option\";IF(D11=B16;A11;IF(D12=B16;A12;IF(D13=B16;A13;A14))))",
+              "kind": "FORMULA",
+              "text": "No valid option",
+              "value": 0.0
+            },
+            {
+              "cell": "A19",
+              "error": 0,
+              "formula": "Extra booklets",
+              "kind": "TEXT",
+              "text": "Extra booklets",
+              "value": 0.0
+            },
+            {
+              "cell": "B19",
+              "error": 0,
+              "formula": "=IF(B16=1000000;0;IF(D11=B16;E11;IF(D12=B16;E12;IF(D13=B16;E13;E14))))",
+              "kind": "FORMULA",
+              "text": "0",
+              "value": 0.0
+            }
+          ],
+          "sheet": "Summary"
+        },
+        {
+          "cells": [
+            {
+              "cell": "A1",
+              "error": 0,
+              "formula": "Supplier",
+              "kind": "TEXT",
+              "text": "Supplier",
+              "value": 0.0
+            },
+            {
+              "cell": "B1",
+              "error": 0,
+              "formula": "Currency",
+              "kind": "TEXT",
+              "text": "Currency",
+              "value": 0.0
+            },
+            {
+              "cell": "C1",
+              "error": 0,
+              "formula": "Poster",
+              "kind": "TEXT",
+              "text": "Poster",
+              "value": 0.0
+            },
+            {
+              "cell": "D1",
+              "error": 0,
+              "formula": "Colour",
+              "kind": "TEXT",
+              "text": "Colour",
+              "value": 0.0
+            },
+            {
+              "cell": "E1",
+              "error": 0,
+              "formula": "B/W",
+              "kind": "TEXT",
+              "text": "B/W",
+              "value": 0.0
+            },
+            {
+              "cell": "F1",
+              "error": 0,
+              "formula": "Badge",
+              "kind": "TEXT",
+              "text": "Badge",
+              "value": 0.0
+            },
+            {
+              "cell": "G1",
+              "error": 0,
+              "formula": "Delivery fee",
+              "kind": "TEXT",
+              "text": "Delivery fee",
+              "value": 0.0
+            },
+            {
+              "cell": "H1",
+              "error": 0,
+              "formula": "Discount",
+              "kind": "TEXT",
+              "text": "Discount",
+              "value": 0.0
+            },
+            {
+              "cell": "I1",
+              "error": 0,
+              "formula": "Minimum",
+              "kind": "TEXT",
+              "text": "Minimum",
+              "value": 0.0
+            },
+            {
+              "cell": "J1",
+              "error": 0,
+              "formula": "HKD/unit",
+              "kind": "TEXT",
+              "text": "HKD/unit",
+              "value": 0.0
+            },
+            {
+              "cell": "K1",
+              "error": 0,
+              "formula": "Delivery",
+              "kind": "TEXT",
+              "text": "Delivery",
+              "value": 0.0
+            },
+            {
+              "cell": "L1",
+              "error": 0,
+              "formula": "Valid until",
+              "kind": "TEXT",
+              "text": "Valid until",
+              "value": 0.0
+            },
+            {
+              "cell": "M1",
+              "error": 0,
+              "formula": "Quote",
+              "kind": "TEXT",
+              "text": "Quote",
+              "value": 0.0
+            },
+            {
+              "cell": "N1",
+              "error": 0,
+              "formula": "Bought",
+              "kind": "TEXT",
+              "text": "Bought",
+              "value": 0.0
+            },
+            {
+              "cell": "O1",
+              "error": 0,
+              "formula": "Items",
+              "kind": "TEXT",
+              "text": "Items",
+              "value": 0.0
+            },
+            {
+              "cell": "P1",
+              "error": 0,
+              "formula": "Delivered",
+              "kind": "TEXT",
+              "text": "Delivered",
+              "value": 0.0
+            },
+            {
+              "cell": "Q1",
+              "error": 0,
+              "formula": "HKD",
+              "kind": "TEXT",
+              "text": "HKD",
+              "value": 0.0
+            },
+            {
+              "cell": "R1",
+              "error": 0,
+              "formula": "Reserve",
+              "kind": "TEXT",
+              "text": "Reserve",
+              "value": 0.0
+            },
+            {
+              "cell": "S1",
+              "error": 0,
+              "formula": "Total",
+              "kind": "TEXT",
+              "text": "Total",
+              "value": 0.0
+            },
+            {
+              "cell": "T1",
+              "error": 0,
+              "formula": "Eligible",
+              "kind": "TEXT",
+              "text": "Eligible",
+              "value": 0.0
+            },
+            {
+              "cell": "A2",
+              "error": 0,
+              "formula": "Aster",
+              "kind": "TEXT",
+              "text": "Aster",
+              "value": 0.0
+            },
+            {
+              "cell": "B2",
+              "error": 0,
+              "formula": "HKD",
+              "kind": "TEXT",
+              "text": "HKD",
+              "value": 0.0
+            },
+            {
+              "cell": "C2",
+              "error": 0,
+              "formula": "95",
+              "kind": "VALUE",
+              "text": "95",
+              "value": 95.0
+            },
+            {
+              "cell": "D2",
+              "error": 0,
+              "formula": "18",
+              "kind": "VALUE",
+              "text": "18",
+              "value": 18.0
+            },
+            {
+              "cell": "E2",
+              "error": 0,
+              "formula": "10",
+              "kind": "VALUE",
+              "text": "10",
+              "value": 10.0
+            },
+            {
+              "cell": "F2",
+              "error": 0,
+              "formula": "12",
+              "kind": "VALUE",
+              "text": "12",
+              "value": 12.0
+            },
+            {
+              "cell": "G2",
+              "error": 0,
+              "formula": "60",
+              "kind": "VALUE",
+              "text": "60",
+              "value": 60.0
+            },
+            {
+              "cell": "H2",
+              "error": 0,
+              "formula": "0",
+              "kind": "VALUE",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "I2",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "J2",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "K2",
+              "error": 0,
+              "formula": "'2026-11-05",
+              "kind": "TEXT",
+              "text": "2026-11-05",
+              "value": 0.0
+            },
+            {
+              "cell": "L2",
+              "error": 0,
+              "formula": "'2026-11-04",
+              "kind": "TEXT",
+              "text": "2026-11-04",
+              "value": 0.0
+            },
+            {
+              "cell": "M2",
+              "error": 0,
+              "formula": "A-2",
+              "kind": "TEXT",
+              "text": "A-2",
+              "value": 0.0
+            },
+            {
+              "cell": "N2",
+              "error": 0,
+              "formula": "=MAX($Summary.B4;I2)",
+              "kind": "FORMULA",
+              "text": "40",
+              "value": 40.0
+            },
+            {
+              "cell": "O2",
+              "error": 0,
+              "formula": "=$Summary.B6*C2+N2*IF($Summary.B5=\"colour\";D2;E2)+$Summary.B7*F2",
+              "kind": "FORMULA",
+              "text": "946",
+              "value": 946.0
+            },
+            {
+              "cell": "P2",
+              "error": 0,
+              "formula": "=ROUND(O2*(1-H2)+G2;2)",
+              "kind": "FORMULA",
+              "text": "1006.00",
+              "value": 1006.0
+            },
+            {
+              "cell": "Q2",
+              "error": 0,
+              "formula": "=ROUND(P2*J2;2)",
+              "kind": "FORMULA",
+              "text": "1006.00",
+              "value": 1006.0
+            },
+            {
+              "cell": "R2",
+              "error": 0,
+              "formula": "=ROUND(Q2*$Summary.B8;2)",
+              "kind": "FORMULA",
+              "text": "100.60",
+              "value": 100.6
+            },
+            {
+              "cell": "S2",
+              "error": 0,
+              "formula": "=Q2+R2",
+              "kind": "FORMULA",
+              "text": "1106.60",
+              "value": 1106.6
+            },
+            {
+              "cell": "T2",
+              "error": 0,
+              "formula": "=IF(AND(K2<=$Summary.B9;L2>=$Summary.B10;S2<=$Summary.B3);\"eligible\";\"excluded\")",
+              "kind": "FORMULA",
+              "text": "excluded",
+              "value": 0.0
+            },
+            {
+              "cell": "A3",
+              "error": 0,
+              "formula": "Birch",
+              "kind": "TEXT",
+              "text": "Birch",
+              "value": 0.0
+            },
+            {
+              "cell": "B3",
+              "error": 0,
+              "formula": "HKD",
+              "kind": "TEXT",
+              "text": "HKD",
+              "value": 0.0
+            },
+            {
+              "cell": "C3",
+              "error": 0,
+              "formula": "110",
+              "kind": "VALUE",
+              "text": "110",
+              "value": 110.0
+            },
+            {
+              "cell": "D3",
+              "error": 0,
+              "formula": "20",
+              "kind": "VALUE",
+              "text": "20",
+              "value": 20.0
+            },
+            {
+              "cell": "E3",
+              "error": 0,
+              "formula": "9",
+              "kind": "VALUE",
+              "text": "9",
+              "value": 9.0
+            },
+            {
+              "cell": "F3",
+              "error": 0,
+              "formula": "8",
+              "kind": "VALUE",
+              "text": "8",
+              "value": 8.0
+            },
+            {
+              "cell": "G3",
+              "error": 0,
+              "formula": "40",
+              "kind": "VALUE",
+              "text": "40",
+              "value": 40.0
+            },
+            {
+              "cell": "H3",
+              "error": 0,
+              "formula": "0.05",
+              "kind": "VALUE",
+              "text": "0.05",
+              "value": 0.05
+            },
+            {
+              "cell": "I3",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "J3",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "K3",
+              "error": 0,
+              "formula": "'2026-11-05",
+              "kind": "TEXT",
+              "text": "2026-11-05",
+              "value": 0.0
+            },
+            {
+              "cell": "L3",
+              "error": 0,
+              "formula": "'2026-11-04",
+              "kind": "TEXT",
+              "text": "2026-11-04",
+              "value": 0.0
+            },
+            {
+              "cell": "M3",
+              "error": 0,
+              "formula": "B-3",
+              "kind": "TEXT",
+              "text": "B-3",
+              "value": 0.0
+            },
+            {
+              "cell": "N3",
+              "error": 0,
+              "formula": "=MAX($Summary.B4;I3)",
+              "kind": "FORMULA",
+              "text": "40",
+              "value": 40.0
+            },
+            {
+              "cell": "O3",
+              "error": 0,
+              "formula": "=$Summary.B6*C3+N3*IF($Summary.B5=\"colour\";D3;E3)+$Summary.B7*F3",
+              "kind": "FORMULA",
+              "text": "1044",
+              "value": 1044.0
+            },
+            {
+              "cell": "P3",
+              "error": 0,
+              "formula": "=ROUND(O3*(1-H3)+G3;2)",
+              "kind": "FORMULA",
+              "text": "1031.80",
+              "value": 1031.8
+            },
+            {
+              "cell": "Q3",
+              "error": 0,
+              "formula": "=ROUND(P3*J3;2)",
+              "kind": "FORMULA",
+              "text": "1031.80",
+              "value": 1031.8
+            },
+            {
+              "cell": "R3",
+              "error": 0,
+              "formula": "=ROUND(Q3*$Summary.B8;2)",
+              "kind": "FORMULA",
+              "text": "103.18",
+              "value": 103.18
+            },
+            {
+              "cell": "S3",
+              "error": 0,
+              "formula": "=Q3+R3",
+              "kind": "FORMULA",
+              "text": "1134.98",
+              "value": 1134.98
+            },
+            {
+              "cell": "T3",
+              "error": 0,
+              "formula": "=IF(AND(K3<=$Summary.B9;L3>=$Summary.B10;S3<=$Summary.B3);\"eligible\";\"excluded\")",
+              "kind": "FORMULA",
+              "text": "excluded",
+              "value": 0.0
+            },
+            {
+              "cell": "A4",
+              "error": 0,
+              "formula": "Cedar",
+              "kind": "TEXT",
+              "text": "Cedar",
+              "value": 0.0
+            },
+            {
+              "cell": "B4",
+              "error": 0,
+              "formula": "HKD",
+              "kind": "TEXT",
+              "text": "HKD",
+              "value": 0.0
+            },
+            {
+              "cell": "C4",
+              "error": 0,
+              "formula": "80",
+              "kind": "VALUE",
+              "text": "80",
+              "value": 80.0
+            },
+            {
+              "cell": "D4",
+              "error": 0,
+              "formula": "15",
+              "kind": "VALUE",
+              "text": "15",
+              "value": 15.0
+            },
+            {
+              "cell": "E4",
+              "error": 0,
+              "formula": "6",
+              "kind": "VALUE",
+              "text": "6",
+              "value": 6.0
+            },
+            {
+              "cell": "F4",
+              "error": 0,
+              "formula": "10",
+              "kind": "VALUE",
+              "text": "10",
+              "value": 10.0
+            },
+            {
+              "cell": "G4",
+              "error": 0,
+              "formula": "100",
+              "kind": "VALUE",
+              "text": "100",
+              "value": 100.0
+            },
+            {
+              "cell": "H4",
+              "error": 0,
+              "formula": "0",
+              "kind": "VALUE",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "I4",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "J4",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "K4",
+              "error": 0,
+              "formula": "'2026-11-07",
+              "kind": "TEXT",
+              "text": "2026-11-07",
+              "value": 0.0
+            },
+            {
+              "cell": "L4",
+              "error": 0,
+              "formula": "'2026-11-04",
+              "kind": "TEXT",
+              "text": "2026-11-04",
+              "value": 0.0
+            },
+            {
+              "cell": "M4",
+              "error": 0,
+              "formula": "C-2",
+              "kind": "TEXT",
+              "text": "C-2",
+              "value": 0.0
+            },
+            {
+              "cell": "N4",
+              "error": 0,
+              "formula": "=MAX($Summary.B4;I4)",
+              "kind": "FORMULA",
+              "text": "40",
+              "value": 40.0
+            },
+            {
+              "cell": "O4",
+              "error": 0,
+              "formula": "=$Summary.B6*C4+N4*IF($Summary.B5=\"colour\";D4;E4)+$Summary.B7*F4",
+              "kind": "FORMULA",
+              "text": "790",
+              "value": 790.0
+            },
+            {
+              "cell": "P4",
+              "error": 0,
+              "formula": "=ROUND(O4*(1-H4)+G4;2)",
+              "kind": "FORMULA",
+              "text": "890.00",
+              "value": 890.0
+            },
+            {
+              "cell": "Q4",
+              "error": 0,
+              "formula": "=ROUND(P4*J4;2)",
+              "kind": "FORMULA",
+              "text": "890.00",
+              "value": 890.0
+            },
+            {
+              "cell": "R4",
+              "error": 0,
+              "formula": "=ROUND(Q4*$Summary.B8;2)",
+              "kind": "FORMULA",
+              "text": "89.00",
+              "value": 89.0
+            },
+            {
+              "cell": "S4",
+              "error": 0,
+              "formula": "=Q4+R4",
+              "kind": "FORMULA",
+              "text": "979.00",
+              "value": 979.0
+            },
+            {
+              "cell": "T4",
+              "error": 0,
+              "formula": "=IF(AND(K4<=$Summary.B9;L4>=$Summary.B10;S4<=$Summary.B3);\"eligible\";\"excluded\")",
+              "kind": "FORMULA",
+              "text": "excluded",
+              "value": 0.0
+            },
+            {
+              "cell": "A5",
+              "error": 0,
+              "formula": "Delta",
+              "kind": "TEXT",
+              "text": "Delta",
+              "value": 0.0
+            },
+            {
+              "cell": "B5",
+              "error": 0,
+              "formula": "USD",
+              "kind": "TEXT",
+              "text": "USD",
+              "value": 0.0
+            },
+            {
+              "cell": "C5",
+              "error": 0,
+              "formula": "15",
+              "kind": "VALUE",
+              "text": "15",
+              "value": 15.0
+            },
+            {
+              "cell": "D5",
+              "error": 0,
+              "formula": "1.7",
+              "kind": "VALUE",
+              "text": "1.7",
+              "value": 1.7
+            },
+            {
+              "cell": "E5",
+              "error": 0,
+              "formula": "0.8",
+              "kind": "VALUE",
+              "text": "0.8",
+              "value": 0.8
+            },
+            {
+              "cell": "F5",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "G5",
+              "error": 0,
+              "formula": "5",
+              "kind": "VALUE",
+              "text": "5",
+              "value": 5.0
+            },
+            {
+              "cell": "H5",
+              "error": 0,
+              "formula": "0",
+              "kind": "VALUE",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "I5",
+              "error": 0,
+              "formula": "50",
+              "kind": "VALUE",
+              "text": "50",
+              "value": 50.0
+            },
+            {
+              "cell": "J5",
+              "error": 0,
+              "formula": "7.8",
+              "kind": "VALUE",
+              "text": "7.8",
+              "value": 7.8
+            },
+            {
+              "cell": "K5",
+              "error": 0,
+              "formula": "'2026-11-05",
+              "kind": "TEXT",
+              "text": "2026-11-05",
+              "value": 0.0
+            },
+            {
+              "cell": "L5",
+              "error": 0,
+              "formula": "'2026-11-04",
+              "kind": "TEXT",
+              "text": "2026-11-04",
+              "value": 0.0
+            },
+            {
+              "cell": "M5",
+              "error": 0,
+              "formula": "D-4",
+              "kind": "TEXT",
+              "text": "D-4",
+              "value": 0.0
+            },
+            {
+              "cell": "N5",
+              "error": 0,
+              "formula": "=MAX($Summary.B4;I5)",
+              "kind": "FORMULA",
+              "text": "50",
+              "value": 50.0
+            },
+            {
+              "cell": "O5",
+              "error": 0,
+              "formula": "=$Summary.B6*C5+N5*IF($Summary.B5=\"colour\";D5;E5)+$Summary.B7*F5",
+              "kind": "FORMULA",
+              "text": "118",
+              "value": 118.0
+            },
+            {
+              "cell": "P5",
+              "error": 0,
+              "formula": "=ROUND(O5*(1-H5)+G5;2)",
+              "kind": "FORMULA",
+              "text": "123.00",
+              "value": 123.0
+            },
+            {
+              "cell": "Q5",
+              "error": 0,
+              "formula": "=ROUND(P5*J5;2)",
+              "kind": "FORMULA",
+              "text": "959.40",
+              "value": 959.4
+            },
+            {
+              "cell": "R5",
+              "error": 0,
+              "formula": "=ROUND(Q5*$Summary.B8;2)",
+              "kind": "FORMULA",
+              "text": "95.94",
+              "value": 95.94
+            },
+            {
+              "cell": "S5",
+              "error": 0,
+              "formula": "=Q5+R5",
+              "kind": "FORMULA",
+              "text": "1055.34",
+              "value": 1055.34
+            },
+            {
+              "cell": "T5",
+              "error": 0,
+              "formula": "=IF(AND(K5<=$Summary.B9;L5>=$Summary.B10;S5<=$Summary.B3);\"eligible\";\"excluded\")",
+              "kind": "FORMULA",
+              "text": "excluded",
+              "value": 0.0
+            }
+          ],
+          "sheet": "Quotes"
+        },
+        {
+          "cells": [
+            {
+              "cell": "A1",
+              "error": 0,
+              "formula": "Task",
+              "kind": "TEXT",
+              "text": "Task",
+              "value": 0.0
+            },
+            {
+              "cell": "B1",
+              "error": 0,
+              "formula": "Work",
+              "kind": "TEXT",
+              "text": "Work",
+              "value": 0.0
+            },
+            {
+              "cell": "C1",
+              "error": 0,
+              "formula": "Owner",
+              "kind": "TEXT",
+              "text": "Owner",
+              "value": 0.0
+            },
+            {
+              "cell": "D1",
+              "error": 0,
+              "formula": "Status",
+              "kind": "TEXT",
+              "text": "Status",
+              "value": 0.0
+            },
+            {
+              "cell": "E1",
+              "error": 0,
+              "formula": "Hours",
+              "kind": "TEXT",
+              "text": "Hours",
+              "value": 0.0
+            },
+            {
+              "cell": "F1",
+              "error": 0,
+              "formula": "Dependencies",
+              "kind": "TEXT",
+              "text": "Dependencies",
+              "value": 0.0
+            },
+            {
+              "cell": "G1",
+              "error": 0,
+              "formula": "Updated",
+              "kind": "TEXT",
+              "text": "Updated",
+              "value": 0.0
+            },
+            {
+              "cell": "A2",
+              "error": 0,
+              "formula": "T01",
+              "kind": "TEXT",
+              "text": "T01",
+              "value": 0.0
+            },
+            {
+              "cell": "B2",
+              "error": 0,
+              "formula": "Permission controls",
+              "kind": "TEXT",
+              "text": "Permission controls",
+              "value": 0.0
+            },
+            {
+              "cell": "C2",
+              "error": 0,
+              "formula": "A",
+              "kind": "TEXT",
+              "text": "A",
+              "value": 0.0
+            },
+            {
+              "cell": "D2",
+              "error": 0,
+              "formula": "completed",
+              "kind": "TEXT",
+              "text": "completed",
+              "value": 0.0
+            },
+            {
+              "cell": "E2",
+              "error": 0,
+              "formula": "0",
+              "kind": "VALUE",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "G2",
+              "error": 0,
+              "formula": "2026-10-29T09:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T09:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A3",
+              "error": 0,
+              "formula": "T02",
+              "kind": "TEXT",
+              "text": "T02",
+              "value": 0.0
+            },
+            {
+              "cell": "B3",
+              "error": 0,
+              "formula": "Voice candidate review",
+              "kind": "TEXT",
+              "text": "Voice candidate review",
+              "value": 0.0
+            },
+            {
+              "cell": "C3",
+              "error": 0,
+              "formula": "A",
+              "kind": "TEXT",
+              "text": "A",
+              "value": 0.0
+            },
+            {
+              "cell": "D3",
+              "error": 0,
+              "formula": "in_progress",
+              "kind": "TEXT",
+              "text": "in_progress",
+              "value": 0.0
+            },
+            {
+              "cell": "E3",
+              "error": 0,
+              "formula": "3",
+              "kind": "VALUE",
+              "text": "3",
+              "value": 3.0
+            },
+            {
+              "cell": "F3",
+              "error": 0,
+              "formula": "T01",
+              "kind": "TEXT",
+              "text": "T01",
+              "value": 0.0
+            },
+            {
+              "cell": "G3",
+              "error": 0,
+              "formula": "2026-10-29T10:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T10:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A4",
+              "error": 0,
+              "formula": "T03",
+              "kind": "TEXT",
+              "text": "T03",
+              "value": 0.0
+            },
+            {
+              "cell": "B4",
+              "error": 0,
+              "formula": "Desktop application workflow",
+              "kind": "TEXT",
+              "text": "Desktop application workflow",
+              "value": 0.0
+            },
+            {
+              "cell": "C4",
+              "error": 0,
+              "formula": "B",
+              "kind": "TEXT",
+              "text": "B",
+              "value": 0.0
+            },
+            {
+              "cell": "D4",
+              "error": 0,
+              "formula": "todo",
+              "kind": "TEXT",
+              "text": "todo",
+              "value": 0.0
+            },
+            {
+              "cell": "E4",
+              "error": 0,
+              "formula": "4",
+              "kind": "VALUE",
+              "text": "4",
+              "value": 4.0
+            },
+            {
+              "cell": "F4",
+              "error": 0,
+              "formula": "T01",
+              "kind": "TEXT",
+              "text": "T01",
+              "value": 0.0
+            },
+            {
+              "cell": "G4",
+              "error": 0,
+              "formula": "2026-10-29T09:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T09:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A5",
+              "error": 0,
+              "formula": "T04",
+              "kind": "TEXT",
+              "text": "T04",
+              "value": 0.0
+            },
+            {
+              "cell": "B5",
+              "error": 0,
+              "formula": "Recovery boundary checks",
+              "kind": "TEXT",
+              "text": "Recovery boundary checks",
+              "value": 0.0
+            },
+            {
+              "cell": "C5",
+              "error": 0,
+              "formula": "A",
+              "kind": "TEXT",
+              "text": "A",
+              "value": 0.0
+            },
+            {
+              "cell": "D5",
+              "error": 0,
+              "formula": "completed",
+              "kind": "TEXT",
+              "text": "completed",
+              "value": 0.0
+            },
+            {
+              "cell": "E5",
+              "error": 0,
+              "formula": "0",
+              "kind": "VALUE",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "F5",
+              "error": 0,
+              "formula": "T01",
+              "kind": "TEXT",
+              "text": "T01",
+              "value": 0.0
+            },
+            {
+              "cell": "G5",
+              "error": 0,
+              "formula": "2026-10-29T09:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T09:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A6",
+              "error": 0,
+              "formula": "T05",
+              "kind": "TEXT",
+              "text": "T05",
+              "value": 0.0
+            },
+            {
+              "cell": "B6",
+              "error": 0,
+              "formula": "Mobile usability review",
+              "kind": "TEXT",
+              "text": "Mobile usability review",
+              "value": 0.0
+            },
+            {
+              "cell": "C6",
+              "error": 0,
+              "formula": "C",
+              "kind": "TEXT",
+              "text": "C",
+              "value": 0.0
+            },
+            {
+              "cell": "D6",
+              "error": 0,
+              "formula": "todo",
+              "kind": "TEXT",
+              "text": "todo",
+              "value": 0.0
+            },
+            {
+              "cell": "E6",
+              "error": 0,
+              "formula": "2",
+              "kind": "VALUE",
+              "text": "2",
+              "value": 2.0
+            },
+            {
+              "cell": "F6",
+              "error": 0,
+              "formula": "T01",
+              "kind": "TEXT",
+              "text": "T01",
+              "value": 0.0
+            },
+            {
+              "cell": "G6",
+              "error": 0,
+              "formula": "2026-10-29T09:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T09:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A7",
+              "error": 0,
+              "formula": "T06",
+              "kind": "TEXT",
+              "text": "T06",
+              "value": 0.0
+            },
+            {
+              "cell": "B7",
+              "error": 0,
+              "formula": "Demo presentation draft",
+              "kind": "TEXT",
+              "text": "Demo presentation draft",
+              "value": 0.0
+            },
+            {
+              "cell": "C7",
+              "error": 0,
+              "formula": "C",
+              "kind": "TEXT",
+              "text": "C",
+              "value": 0.0
+            },
+            {
+              "cell": "D7",
+              "error": 0,
+              "formula": "todo",
+              "kind": "TEXT",
+              "text": "todo",
+              "value": 0.0
+            },
+            {
+              "cell": "E7",
+              "error": 0,
+              "formula": "2",
+              "kind": "VALUE",
+              "text": "2",
+              "value": 2.0
+            },
+            {
+              "cell": "F7",
+              "error": 0,
+              "formula": "T02;T03;T05",
+              "kind": "TEXT",
+              "text": "T02;T03;T05",
+              "value": 0.0
+            },
+            {
+              "cell": "G7",
+              "error": 0,
+              "formula": "2026-10-29T09:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T09:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A8",
+              "error": 0,
+              "formula": "T07",
+              "kind": "TEXT",
+              "text": "T07",
+              "value": 0.0
+            },
+            {
+              "cell": "B8",
+              "error": 0,
+              "formula": "Rehearsal preparation",
+              "kind": "TEXT",
+              "text": "Rehearsal preparation",
+              "value": 0.0
+            },
+            {
+              "cell": "C8",
+              "error": 0,
+              "formula": "B",
+              "kind": "TEXT",
+              "text": "B",
+              "value": 0.0
+            },
+            {
+              "cell": "D8",
+              "error": 0,
+              "formula": "todo",
+              "kind": "TEXT",
+              "text": "todo",
+              "value": 0.0
+            },
+            {
+              "cell": "E8",
+              "error": 0,
+              "formula": "1.5",
+              "kind": "VALUE",
+              "text": "1.5",
+              "value": 1.5
+            },
+            {
+              "cell": "F8",
+              "error": 0,
+              "formula": "T06",
+              "kind": "TEXT",
+              "text": "T06",
+              "value": 0.0
+            },
+            {
+              "cell": "G8",
+              "error": 0,
+              "formula": "2026-10-29T11:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T11:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A9",
+              "error": 0,
+              "formula": "T08",
+              "kind": "TEXT",
+              "text": "T08",
+              "value": 0.0
+            },
+            {
+              "cell": "B9",
+              "error": 0,
+              "formula": "Package demo artifacts",
+              "kind": "TEXT",
+              "text": "Package demo artifacts",
+              "value": 0.0
+            },
+            {
+              "cell": "C9",
+              "error": 0,
+              "formula": "A",
+              "kind": "TEXT",
+              "text": "A",
+              "value": 0.0
+            },
+            {
+              "cell": "D9",
+              "error": 0,
+              "formula": "todo",
+              "kind": "TEXT",
+              "text": "todo",
+              "value": 0.0
+            },
+            {
+              "cell": "E9",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "F9",
+              "error": 0,
+              "formula": "T06;T07",
+              "kind": "TEXT",
+              "text": "T06;T07",
+              "value": 0.0
+            },
+            {
+              "cell": "G9",
+              "error": 0,
+              "formula": "2026-10-29T09:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T09:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A10",
+              "error": 0,
+              "formula": "T09",
+              "kind": "TEXT",
+              "text": "T09",
+              "value": 0.0
+            },
+            {
+              "cell": "B10",
+              "error": 0,
+              "formula": "Review print proposal",
+              "kind": "TEXT",
+              "text": "Review print proposal",
+              "value": 0.0
+            },
+            {
+              "cell": "C10",
+              "error": 0,
+              "formula": "C",
+              "kind": "TEXT",
+              "text": "C",
+              "value": 0.0
+            },
+            {
+              "cell": "D10",
+              "error": 0,
+              "formula": "todo",
+              "kind": "TEXT",
+              "text": "todo",
+              "value": 0.0
+            },
+            {
+              "cell": "E10",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "F10",
+              "error": 0,
+              "formula": "T06",
+              "kind": "TEXT",
+              "text": "T06",
+              "value": 0.0
+            },
+            {
+              "cell": "G10",
+              "error": 0,
+              "formula": "2026-10-29T09:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T09:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "D12",
+              "error": 0,
+              "formula": "Remaining hours",
+              "kind": "TEXT",
+              "text": "Remaining hours",
+              "value": 0.0
+            },
+            {
+              "cell": "E12",
+              "error": 0,
+              "formula": "=SUM(E2:E10)",
+              "kind": "FORMULA",
+              "text": "14.5",
+              "value": 14.5
+            }
+          ],
+          "sheet": "TaskPlan"
+        },
+        {
+          "cells": [
+            {
+              "cell": "A1",
+              "error": 0,
+              "formula": "Session",
+              "kind": "TEXT",
+              "text": "Session",
+              "value": 0.0
+            },
+            {
+              "cell": "B1",
+              "error": 0,
+              "formula": "Start",
+              "kind": "TEXT",
+              "text": "Start",
+              "value": 0.0
+            },
+            {
+              "cell": "C1",
+              "error": 0,
+              "formula": "End",
+              "kind": "TEXT",
+              "text": "End",
+              "value": 0.0
+            },
+            {
+              "cell": "A2",
+              "error": 0,
+              "formula": "'1",
+              "kind": "TEXT",
+              "text": "1",
+              "value": 0.0
+            },
+            {
+              "cell": "B2",
+              "error": 0,
+              "formula": "2026-11-03T16:15:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-11-03T16:15:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "C2",
+              "error": 0,
+              "formula": "2026-11-03T17:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-11-03T17:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A3",
+              "error": 0,
+              "formula": "'2",
+              "kind": "TEXT",
+              "text": "2",
+              "value": 0.0
+            },
+            {
+              "cell": "B3",
+              "error": 0,
+              "formula": "2026-11-05T15:15:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-11-05T15:15:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "C3",
+              "error": 0,
+              "formula": "2026-11-05T16:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-11-05T16:00:00+08:00",
+              "value": 0.0
+            }
+          ],
+          "sheet": "Rehearsals"
+        }
+      ],
+      "visible": true,
+      "window_title": "demo-budget.xlsx (read-only) \u2014 LibreOffice Calc"
+    },
+    "reason": "read_back_matches",
+    "scope": "applications:48c0a764373288396b80f638a99680db4dbdbc73f247eae17c668444ad9bc68b",
+    "sha256": "abd2c66859e7926cba7ac1a90c3cdcb083b0ded4581046282031af5ded1706c6",
+    "verified": true
+  },
+  "title": "Recalculate the changed constraints",
+  "request": {
+    "action": "application",
+    "artifact_id": "81ce75b80d3f4ea5b33c86f37351a785",
+    "base": {
+      "filename": "demo-budget.xlsx",
+      "job_id": "5cab4281b136444e9bd413530d0f6255",
+      "kind": "workbook",
+      "sha256": "b94b9d53ab5d2270fb9c1c0dad430d1123bdcfb617eb12d191b4192dfe8505c1"
+    },
+    "base_snapshot": {
+      "application": "libreoffice_calc",
+      "office_pid": 23,
+      "operation_id": "5cab4281b136444e9bd413530d0f6255",
+      "sheets": [
+        {
+          "cells": [
+            {
+              "cell": "A1",
+              "error": 0,
+              "formula": "Group 2 demo budget",
+              "kind": "TEXT",
+              "text": "Group 2 demo budget",
+              "value": 0.0
+            },
+            {
+              "cell": "B1",
+              "error": 0,
+              "formula": "Fictional execution QA",
+              "kind": "TEXT",
+              "text": "Fictional execution QA",
+              "value": 0.0
+            },
+            {
+              "cell": "A2",
+              "error": 0,
+              "formula": "Setting",
+              "kind": "TEXT",
+              "text": "Setting",
+              "value": 0.0
+            },
+            {
+              "cell": "B2",
+              "error": 0,
+              "formula": "Value",
+              "kind": "TEXT",
+              "text": "Value",
+              "value": 0.0
+            },
+            {
+              "cell": "A3",
+              "error": 0,
+              "formula": "Budget HKD",
+              "kind": "TEXT",
+              "text": "Budget HKD",
+              "value": 0.0
+            },
+            {
+              "cell": "B3",
+              "error": 0,
+              "formula": "1300",
+              "kind": "VALUE",
+              "text": "1300",
+              "value": 1300.0
+            },
+            {
+              "cell": "A4",
+              "error": 0,
+              "formula": "Booklets required",
+              "kind": "TEXT",
+              "text": "Booklets required",
+              "value": 0.0
+            },
+            {
+              "cell": "B4",
+              "error": 0,
+              "formula": "25",
+              "kind": "VALUE",
+              "text": "25",
+              "value": 25.0
+            },
+            {
+              "cell": "A5",
+              "error": 0,
+              "formula": "Print mode",
+              "kind": "TEXT",
+              "text": "Print mode",
+              "value": 0.0
+            },
+            {
+              "cell": "B5",
+              "error": 0,
+              "formula": "colour",
+              "kind": "TEXT",
+              "text": "colour",
+              "value": 0.0
+            },
+            {
+              "cell": "A6",
+              "error": 0,
+              "formula": "Posters",
+              "kind": "TEXT",
+              "text": "Posters",
+              "value": 0.0
+            },
+            {
+              "cell": "B6",
+              "error": 0,
+              "formula": "2",
+              "kind": "VALUE",
+              "text": "2",
+              "value": 2.0
+            },
+            {
+              "cell": "A7",
+              "error": 0,
+              "formula": "Badges",
+              "kind": "TEXT",
+              "text": "Badges",
+              "value": 0.0
+            },
+            {
+              "cell": "B7",
+              "error": 0,
+              "formula": "3",
+              "kind": "VALUE",
+              "text": "3",
+              "value": 3.0
+            },
+            {
+              "cell": "A8",
+              "error": 0,
+              "formula": "Reserve rate",
+              "kind": "TEXT",
+              "text": "Reserve rate",
+              "value": 0.0
+            },
+            {
+              "cell": "B8",
+              "error": 0,
+              "formula": "0.1",
+              "kind": "VALUE",
+              "text": "0.1",
+              "value": 0.1
+            },
+            {
+              "cell": "A9",
+              "error": 0,
+              "formula": "Latest delivery",
+              "kind": "TEXT",
+              "text": "Latest delivery",
+              "value": 0.0
+            },
+            {
+              "cell": "B9",
+              "error": 0,
+              "formula": "'2026-11-05",
+              "kind": "TEXT",
+              "text": "2026-11-05",
+              "value": 0.0
+            },
+            {
+              "cell": "A10",
+              "error": 0,
+              "formula": "Quote date",
+              "kind": "TEXT",
+              "text": "Quote date",
+              "value": 0.0
+            },
+            {
+              "cell": "B10",
+              "error": 0,
+              "formula": "'2026-10-30",
+              "kind": "TEXT",
+              "text": "2026-10-30",
+              "value": 0.0
+            },
+            {
+              "cell": "A11",
+              "error": 0,
+              "formula": "Aster",
+              "kind": "TEXT",
+              "text": "Aster",
+              "value": 0.0
+            },
+            {
+              "cell": "B11",
+              "error": 0,
+              "formula": "=$Quotes.S2",
+              "kind": "FORMULA",
+              "text": "809.60",
+              "value": 809.6
+            },
+            {
+              "cell": "C11",
+              "error": 0,
+              "formula": "=$Quotes.T2",
+              "kind": "FORMULA",
+              "text": "eligible",
+              "value": 0.0
+            },
+            {
+              "cell": "D11",
+              "error": 0,
+              "formula": "=IF(C11=\"eligible\";B11;1000000)",
+              "kind": "FORMULA",
+              "text": "809.6",
+              "value": 809.6
+            },
+            {
+              "cell": "E11",
+              "error": 0,
+              "formula": "=$Quotes.N2-$Summary.B4",
+              "kind": "FORMULA",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "A12",
+              "error": 0,
+              "formula": "Birch",
+              "kind": "TEXT",
+              "text": "Birch",
+              "value": 0.0
+            },
+            {
+              "cell": "B12",
+              "error": 0,
+              "formula": "=$Quotes.S3",
+              "kind": "FORMULA",
+              "text": "821.48",
+              "value": 821.48
+            },
+            {
+              "cell": "C12",
+              "error": 0,
+              "formula": "=$Quotes.T3",
+              "kind": "FORMULA",
+              "text": "eligible",
+              "value": 0.0
+            },
+            {
+              "cell": "D12",
+              "error": 0,
+              "formula": "=IF(C12=\"eligible\";B12;1000000)",
+              "kind": "FORMULA",
+              "text": "821.48",
+              "value": 821.48
+            },
+            {
+              "cell": "E12",
+              "error": 0,
+              "formula": "=$Quotes.N3-$Summary.B4",
+              "kind": "FORMULA",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "A13",
+              "error": 0,
+              "formula": "Cedar",
+              "kind": "TEXT",
+              "text": "Cedar",
+              "value": 0.0
+            },
+            {
+              "cell": "B13",
+              "error": 0,
+              "formula": "=$Quotes.S4",
+              "kind": "FORMULA",
+              "text": "731.50",
+              "value": 731.5
+            },
+            {
+              "cell": "C13",
+              "error": 0,
+              "formula": "=$Quotes.T4",
+              "kind": "FORMULA",
+              "text": "excluded",
+              "value": 0.0
+            },
+            {
+              "cell": "D13",
+              "error": 0,
+              "formula": "=IF(C13=\"eligible\";B13;1000000)",
+              "kind": "FORMULA",
+              "text": "1000000",
+              "value": 1000000.0
+            },
+            {
+              "cell": "E13",
+              "error": 0,
+              "formula": "=$Quotes.N4-$Summary.B4",
+              "kind": "FORMULA",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "A14",
+              "error": 0,
+              "formula": "Delta",
+              "kind": "TEXT",
+              "text": "Delta",
+              "value": 0.0
+            },
+            {
+              "cell": "B14",
+              "error": 0,
+              "formula": "=$Quotes.S5",
+              "kind": "FORMULA",
+              "text": "1055.34",
+              "value": 1055.34
+            },
+            {
+              "cell": "C14",
+              "error": 0,
+              "formula": "=$Quotes.T5",
+              "kind": "FORMULA",
+              "text": "eligible",
+              "value": 0.0
+            },
+            {
+              "cell": "D14",
+              "error": 0,
+              "formula": "=IF(C14=\"eligible\";B14;1000000)",
+              "kind": "FORMULA",
+              "text": "1055.34",
+              "value": 1055.34
+            },
+            {
+              "cell": "E14",
+              "error": 0,
+              "formula": "=$Quotes.N5-$Summary.B4",
+              "kind": "FORMULA",
+              "text": "25",
+              "value": 25.0
+            },
+            {
+              "cell": "A16",
+              "error": 0,
+              "formula": "Lowest feasible total",
+              "kind": "TEXT",
+              "text": "Lowest feasible total",
+              "value": 0.0
+            },
+            {
+              "cell": "B16",
+              "error": 0,
+              "formula": "=MIN(D11:D14)",
+              "kind": "FORMULA",
+              "text": "809.60",
+              "value": 809.6
+            },
+            {
+              "cell": "A17",
+              "error": 0,
+              "formula": "Plan status",
+              "kind": "TEXT",
+              "text": "Plan status",
+              "value": 0.0
+            },
+            {
+              "cell": "B17",
+              "error": 0,
+              "formula": "=IF(B16=1000000;\"Clarification needed\";\"Feasible\")",
+              "kind": "FORMULA",
+              "text": "Feasible",
+              "value": 0.0
+            },
+            {
+              "cell": "A18",
+              "error": 0,
+              "formula": "Selected supplier",
+              "kind": "TEXT",
+              "text": "Selected supplier",
+              "value": 0.0
+            },
+            {
+              "cell": "B18",
+              "error": 0,
+              "formula": "=IF(B16=1000000;\"No valid option\";IF(D11=B16;A11;IF(D12=B16;A12;IF(D13=B16;A13;A14))))",
+              "kind": "FORMULA",
+              "text": "Aster",
+              "value": 0.0
+            },
+            {
+              "cell": "A19",
+              "error": 0,
+              "formula": "Extra booklets",
+              "kind": "TEXT",
+              "text": "Extra booklets",
+              "value": 0.0
+            },
+            {
+              "cell": "B19",
+              "error": 0,
+              "formula": "=IF(B16=1000000;0;IF(D11=B16;E11;IF(D12=B16;E12;IF(D13=B16;E13;E14))))",
+              "kind": "FORMULA",
+              "text": "0",
+              "value": 0.0
+            }
+          ],
+          "sheet": "Summary"
+        },
+        {
+          "cells": [
+            {
+              "cell": "A1",
+              "error": 0,
+              "formula": "Supplier",
+              "kind": "TEXT",
+              "text": "Supplier",
+              "value": 0.0
+            },
+            {
+              "cell": "B1",
+              "error": 0,
+              "formula": "Currency",
+              "kind": "TEXT",
+              "text": "Currency",
+              "value": 0.0
+            },
+            {
+              "cell": "C1",
+              "error": 0,
+              "formula": "Poster",
+              "kind": "TEXT",
+              "text": "Poster",
+              "value": 0.0
+            },
+            {
+              "cell": "D1",
+              "error": 0,
+              "formula": "Colour",
+              "kind": "TEXT",
+              "text": "Colour",
+              "value": 0.0
+            },
+            {
+              "cell": "E1",
+              "error": 0,
+              "formula": "B/W",
+              "kind": "TEXT",
+              "text": "B/W",
+              "value": 0.0
+            },
+            {
+              "cell": "F1",
+              "error": 0,
+              "formula": "Badge",
+              "kind": "TEXT",
+              "text": "Badge",
+              "value": 0.0
+            },
+            {
+              "cell": "G1",
+              "error": 0,
+              "formula": "Delivery fee",
+              "kind": "TEXT",
+              "text": "Delivery fee",
+              "value": 0.0
+            },
+            {
+              "cell": "H1",
+              "error": 0,
+              "formula": "Discount",
+              "kind": "TEXT",
+              "text": "Discount",
+              "value": 0.0
+            },
+            {
+              "cell": "I1",
+              "error": 0,
+              "formula": "Minimum",
+              "kind": "TEXT",
+              "text": "Minimum",
+              "value": 0.0
+            },
+            {
+              "cell": "J1",
+              "error": 0,
+              "formula": "HKD/unit",
+              "kind": "TEXT",
+              "text": "HKD/unit",
+              "value": 0.0
+            },
+            {
+              "cell": "K1",
+              "error": 0,
+              "formula": "Delivery",
+              "kind": "TEXT",
+              "text": "Delivery",
+              "value": 0.0
+            },
+            {
+              "cell": "L1",
+              "error": 0,
+              "formula": "Valid until",
+              "kind": "TEXT",
+              "text": "Valid until",
+              "value": 0.0
+            },
+            {
+              "cell": "M1",
+              "error": 0,
+              "formula": "Quote",
+              "kind": "TEXT",
+              "text": "Quote",
+              "value": 0.0
+            },
+            {
+              "cell": "N1",
+              "error": 0,
+              "formula": "Bought",
+              "kind": "TEXT",
+              "text": "Bought",
+              "value": 0.0
+            },
+            {
+              "cell": "O1",
+              "error": 0,
+              "formula": "Items",
+              "kind": "TEXT",
+              "text": "Items",
+              "value": 0.0
+            },
+            {
+              "cell": "P1",
+              "error": 0,
+              "formula": "Delivered",
+              "kind": "TEXT",
+              "text": "Delivered",
+              "value": 0.0
+            },
+            {
+              "cell": "Q1",
+              "error": 0,
+              "formula": "HKD",
+              "kind": "TEXT",
+              "text": "HKD",
+              "value": 0.0
+            },
+            {
+              "cell": "R1",
+              "error": 0,
+              "formula": "Reserve",
+              "kind": "TEXT",
+              "text": "Reserve",
+              "value": 0.0
+            },
+            {
+              "cell": "S1",
+              "error": 0,
+              "formula": "Total",
+              "kind": "TEXT",
+              "text": "Total",
+              "value": 0.0
+            },
+            {
+              "cell": "T1",
+              "error": 0,
+              "formula": "Eligible",
+              "kind": "TEXT",
+              "text": "Eligible",
+              "value": 0.0
+            },
+            {
+              "cell": "A2",
+              "error": 0,
+              "formula": "Aster",
+              "kind": "TEXT",
+              "text": "Aster",
+              "value": 0.0
+            },
+            {
+              "cell": "B2",
+              "error": 0,
+              "formula": "HKD",
+              "kind": "TEXT",
+              "text": "HKD",
+              "value": 0.0
+            },
+            {
+              "cell": "C2",
+              "error": 0,
+              "formula": "95",
+              "kind": "VALUE",
+              "text": "95",
+              "value": 95.0
+            },
+            {
+              "cell": "D2",
+              "error": 0,
+              "formula": "18",
+              "kind": "VALUE",
+              "text": "18",
+              "value": 18.0
+            },
+            {
+              "cell": "E2",
+              "error": 0,
+              "formula": "10",
+              "kind": "VALUE",
+              "text": "10",
+              "value": 10.0
+            },
+            {
+              "cell": "F2",
+              "error": 0,
+              "formula": "12",
+              "kind": "VALUE",
+              "text": "12",
+              "value": 12.0
+            },
+            {
+              "cell": "G2",
+              "error": 0,
+              "formula": "60",
+              "kind": "VALUE",
+              "text": "60",
+              "value": 60.0
+            },
+            {
+              "cell": "H2",
+              "error": 0,
+              "formula": "0",
+              "kind": "VALUE",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "I2",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "J2",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "K2",
+              "error": 0,
+              "formula": "'2026-11-05",
+              "kind": "TEXT",
+              "text": "2026-11-05",
+              "value": 0.0
+            },
+            {
+              "cell": "L2",
+              "error": 0,
+              "formula": "'2026-11-04",
+              "kind": "TEXT",
+              "text": "2026-11-04",
+              "value": 0.0
+            },
+            {
+              "cell": "M2",
+              "error": 0,
+              "formula": "A-2",
+              "kind": "TEXT",
+              "text": "A-2",
+              "value": 0.0
+            },
+            {
+              "cell": "N2",
+              "error": 0,
+              "formula": "=MAX($Summary.B4;I2)",
+              "kind": "FORMULA",
+              "text": "25",
+              "value": 25.0
+            },
+            {
+              "cell": "O2",
+              "error": 0,
+              "formula": "=$Summary.B6*C2+N2*IF($Summary.B5=\"colour\";D2;E2)+$Summary.B7*F2",
+              "kind": "FORMULA",
+              "text": "676",
+              "value": 676.0
+            },
+            {
+              "cell": "P2",
+              "error": 0,
+              "formula": "=ROUND(O2*(1-H2)+G2;2)",
+              "kind": "FORMULA",
+              "text": "736.00",
+              "value": 736.0
+            },
+            {
+              "cell": "Q2",
+              "error": 0,
+              "formula": "=ROUND(P2*J2;2)",
+              "kind": "FORMULA",
+              "text": "736.00",
+              "value": 736.0
+            },
+            {
+              "cell": "R2",
+              "error": 0,
+              "formula": "=ROUND(Q2*$Summary.B8;2)",
+              "kind": "FORMULA",
+              "text": "73.60",
+              "value": 73.6
+            },
+            {
+              "cell": "S2",
+              "error": 0,
+              "formula": "=Q2+R2",
+              "kind": "FORMULA",
+              "text": "809.60",
+              "value": 809.6
+            },
+            {
+              "cell": "T2",
+              "error": 0,
+              "formula": "=IF(AND(K2<=$Summary.B9;L2>=$Summary.B10;S2<=$Summary.B3);\"eligible\";\"excluded\")",
+              "kind": "FORMULA",
+              "text": "eligible",
+              "value": 0.0
+            },
+            {
+              "cell": "A3",
+              "error": 0,
+              "formula": "Birch",
+              "kind": "TEXT",
+              "text": "Birch",
+              "value": 0.0
+            },
+            {
+              "cell": "B3",
+              "error": 0,
+              "formula": "HKD",
+              "kind": "TEXT",
+              "text": "HKD",
+              "value": 0.0
+            },
+            {
+              "cell": "C3",
+              "error": 0,
+              "formula": "110",
+              "kind": "VALUE",
+              "text": "110",
+              "value": 110.0
+            },
+            {
+              "cell": "D3",
+              "error": 0,
+              "formula": "20",
+              "kind": "VALUE",
+              "text": "20",
+              "value": 20.0
+            },
+            {
+              "cell": "E3",
+              "error": 0,
+              "formula": "9",
+              "kind": "VALUE",
+              "text": "9",
+              "value": 9.0
+            },
+            {
+              "cell": "F3",
+              "error": 0,
+              "formula": "8",
+              "kind": "VALUE",
+              "text": "8",
+              "value": 8.0
+            },
+            {
+              "cell": "G3",
+              "error": 0,
+              "formula": "40",
+              "kind": "VALUE",
+              "text": "40",
+              "value": 40.0
+            },
+            {
+              "cell": "H3",
+              "error": 0,
+              "formula": "0.05",
+              "kind": "VALUE",
+              "text": "0.05",
+              "value": 0.05
+            },
+            {
+              "cell": "I3",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "J3",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "K3",
+              "error": 0,
+              "formula": "'2026-11-05",
+              "kind": "TEXT",
+              "text": "2026-11-05",
+              "value": 0.0
+            },
+            {
+              "cell": "L3",
+              "error": 0,
+              "formula": "'2026-11-04",
+              "kind": "TEXT",
+              "text": "2026-11-04",
+              "value": 0.0
+            },
+            {
+              "cell": "M3",
+              "error": 0,
+              "formula": "B-3",
+              "kind": "TEXT",
+              "text": "B-3",
+              "value": 0.0
+            },
+            {
+              "cell": "N3",
+              "error": 0,
+              "formula": "=MAX($Summary.B4;I3)",
+              "kind": "FORMULA",
+              "text": "25",
+              "value": 25.0
+            },
+            {
+              "cell": "O3",
+              "error": 0,
+              "formula": "=$Summary.B6*C3+N3*IF($Summary.B5=\"colour\";D3;E3)+$Summary.B7*F3",
+              "kind": "FORMULA",
+              "text": "744",
+              "value": 744.0
+            },
+            {
+              "cell": "P3",
+              "error": 0,
+              "formula": "=ROUND(O3*(1-H3)+G3;2)",
+              "kind": "FORMULA",
+              "text": "746.80",
+              "value": 746.8
+            },
+            {
+              "cell": "Q3",
+              "error": 0,
+              "formula": "=ROUND(P3*J3;2)",
+              "kind": "FORMULA",
+              "text": "746.80",
+              "value": 746.8
+            },
+            {
+              "cell": "R3",
+              "error": 0,
+              "formula": "=ROUND(Q3*$Summary.B8;2)",
+              "kind": "FORMULA",
+              "text": "74.68",
+              "value": 74.68
+            },
+            {
+              "cell": "S3",
+              "error": 0,
+              "formula": "=Q3+R3",
+              "kind": "FORMULA",
+              "text": "821.48",
+              "value": 821.48
+            },
+            {
+              "cell": "T3",
+              "error": 0,
+              "formula": "=IF(AND(K3<=$Summary.B9;L3>=$Summary.B10;S3<=$Summary.B3);\"eligible\";\"excluded\")",
+              "kind": "FORMULA",
+              "text": "eligible",
+              "value": 0.0
+            },
+            {
+              "cell": "A4",
+              "error": 0,
+              "formula": "Cedar",
+              "kind": "TEXT",
+              "text": "Cedar",
+              "value": 0.0
+            },
+            {
+              "cell": "B4",
+              "error": 0,
+              "formula": "HKD",
+              "kind": "TEXT",
+              "text": "HKD",
+              "value": 0.0
+            },
+            {
+              "cell": "C4",
+              "error": 0,
+              "formula": "80",
+              "kind": "VALUE",
+              "text": "80",
+              "value": 80.0
+            },
+            {
+              "cell": "D4",
+              "error": 0,
+              "formula": "15",
+              "kind": "VALUE",
+              "text": "15",
+              "value": 15.0
+            },
+            {
+              "cell": "E4",
+              "error": 0,
+              "formula": "6",
+              "kind": "VALUE",
+              "text": "6",
+              "value": 6.0
+            },
+            {
+              "cell": "F4",
+              "error": 0,
+              "formula": "10",
+              "kind": "VALUE",
+              "text": "10",
+              "value": 10.0
+            },
+            {
+              "cell": "G4",
+              "error": 0,
+              "formula": "100",
+              "kind": "VALUE",
+              "text": "100",
+              "value": 100.0
+            },
+            {
+              "cell": "H4",
+              "error": 0,
+              "formula": "0",
+              "kind": "VALUE",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "I4",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "J4",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "K4",
+              "error": 0,
+              "formula": "'2026-11-07",
+              "kind": "TEXT",
+              "text": "2026-11-07",
+              "value": 0.0
+            },
+            {
+              "cell": "L4",
+              "error": 0,
+              "formula": "'2026-11-04",
+              "kind": "TEXT",
+              "text": "2026-11-04",
+              "value": 0.0
+            },
+            {
+              "cell": "M4",
+              "error": 0,
+              "formula": "C-2",
+              "kind": "TEXT",
+              "text": "C-2",
+              "value": 0.0
+            },
+            {
+              "cell": "N4",
+              "error": 0,
+              "formula": "=MAX($Summary.B4;I4)",
+              "kind": "FORMULA",
+              "text": "25",
+              "value": 25.0
+            },
+            {
+              "cell": "O4",
+              "error": 0,
+              "formula": "=$Summary.B6*C4+N4*IF($Summary.B5=\"colour\";D4;E4)+$Summary.B7*F4",
+              "kind": "FORMULA",
+              "text": "565",
+              "value": 565.0
+            },
+            {
+              "cell": "P4",
+              "error": 0,
+              "formula": "=ROUND(O4*(1-H4)+G4;2)",
+              "kind": "FORMULA",
+              "text": "665.00",
+              "value": 665.0
+            },
+            {
+              "cell": "Q4",
+              "error": 0,
+              "formula": "=ROUND(P4*J4;2)",
+              "kind": "FORMULA",
+              "text": "665.00",
+              "value": 665.0
+            },
+            {
+              "cell": "R4",
+              "error": 0,
+              "formula": "=ROUND(Q4*$Summary.B8;2)",
+              "kind": "FORMULA",
+              "text": "66.50",
+              "value": 66.5
+            },
+            {
+              "cell": "S4",
+              "error": 0,
+              "formula": "=Q4+R4",
+              "kind": "FORMULA",
+              "text": "731.50",
+              "value": 731.5
+            },
+            {
+              "cell": "T4",
+              "error": 0,
+              "formula": "=IF(AND(K4<=$Summary.B9;L4>=$Summary.B10;S4<=$Summary.B3);\"eligible\";\"excluded\")",
+              "kind": "FORMULA",
+              "text": "excluded",
+              "value": 0.0
+            },
+            {
+              "cell": "A5",
+              "error": 0,
+              "formula": "Delta",
+              "kind": "TEXT",
+              "text": "Delta",
+              "value": 0.0
+            },
+            {
+              "cell": "B5",
+              "error": 0,
+              "formula": "USD",
+              "kind": "TEXT",
+              "text": "USD",
+              "value": 0.0
+            },
+            {
+              "cell": "C5",
+              "error": 0,
+              "formula": "15",
+              "kind": "VALUE",
+              "text": "15",
+              "value": 15.0
+            },
+            {
+              "cell": "D5",
+              "error": 0,
+              "formula": "1.7",
+              "kind": "VALUE",
+              "text": "1.7",
+              "value": 1.7
+            },
+            {
+              "cell": "E5",
+              "error": 0,
+              "formula": "0.8",
+              "kind": "VALUE",
+              "text": "0.8",
+              "value": 0.8
+            },
+            {
+              "cell": "F5",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "G5",
+              "error": 0,
+              "formula": "5",
+              "kind": "VALUE",
+              "text": "5",
+              "value": 5.0
+            },
+            {
+              "cell": "H5",
+              "error": 0,
+              "formula": "0",
+              "kind": "VALUE",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "I5",
+              "error": 0,
+              "formula": "50",
+              "kind": "VALUE",
+              "text": "50",
+              "value": 50.0
+            },
+            {
+              "cell": "J5",
+              "error": 0,
+              "formula": "7.8",
+              "kind": "VALUE",
+              "text": "7.8",
+              "value": 7.8
+            },
+            {
+              "cell": "K5",
+              "error": 0,
+              "formula": "'2026-11-05",
+              "kind": "TEXT",
+              "text": "2026-11-05",
+              "value": 0.0
+            },
+            {
+              "cell": "L5",
+              "error": 0,
+              "formula": "'2026-11-04",
+              "kind": "TEXT",
+              "text": "2026-11-04",
+              "value": 0.0
+            },
+            {
+              "cell": "M5",
+              "error": 0,
+              "formula": "D-4",
+              "kind": "TEXT",
+              "text": "D-4",
+              "value": 0.0
+            },
+            {
+              "cell": "N5",
+              "error": 0,
+              "formula": "=MAX($Summary.B4;I5)",
+              "kind": "FORMULA",
+              "text": "50",
+              "value": 50.0
+            },
+            {
+              "cell": "O5",
+              "error": 0,
+              "formula": "=$Summary.B6*C5+N5*IF($Summary.B5=\"colour\";D5;E5)+$Summary.B7*F5",
+              "kind": "FORMULA",
+              "text": "118",
+              "value": 118.0
+            },
+            {
+              "cell": "P5",
+              "error": 0,
+              "formula": "=ROUND(O5*(1-H5)+G5;2)",
+              "kind": "FORMULA",
+              "text": "123.00",
+              "value": 123.0
+            },
+            {
+              "cell": "Q5",
+              "error": 0,
+              "formula": "=ROUND(P5*J5;2)",
+              "kind": "FORMULA",
+              "text": "959.40",
+              "value": 959.4
+            },
+            {
+              "cell": "R5",
+              "error": 0,
+              "formula": "=ROUND(Q5*$Summary.B8;2)",
+              "kind": "FORMULA",
+              "text": "95.94",
+              "value": 95.94
+            },
+            {
+              "cell": "S5",
+              "error": 0,
+              "formula": "=Q5+R5",
+              "kind": "FORMULA",
+              "text": "1055.34",
+              "value": 1055.34
+            },
+            {
+              "cell": "T5",
+              "error": 0,
+              "formula": "=IF(AND(K5<=$Summary.B9;L5>=$Summary.B10;S5<=$Summary.B3);\"eligible\";\"excluded\")",
+              "kind": "FORMULA",
+              "text": "eligible",
+              "value": 0.0
+            }
+          ],
+          "sheet": "Quotes"
+        },
+        {
+          "cells": [
+            {
+              "cell": "A1",
+              "error": 0,
+              "formula": "Task",
+              "kind": "TEXT",
+              "text": "Task",
+              "value": 0.0
+            },
+            {
+              "cell": "B1",
+              "error": 0,
+              "formula": "Work",
+              "kind": "TEXT",
+              "text": "Work",
+              "value": 0.0
+            },
+            {
+              "cell": "C1",
+              "error": 0,
+              "formula": "Owner",
+              "kind": "TEXT",
+              "text": "Owner",
+              "value": 0.0
+            },
+            {
+              "cell": "D1",
+              "error": 0,
+              "formula": "Status",
+              "kind": "TEXT",
+              "text": "Status",
+              "value": 0.0
+            },
+            {
+              "cell": "E1",
+              "error": 0,
+              "formula": "Hours",
+              "kind": "TEXT",
+              "text": "Hours",
+              "value": 0.0
+            },
+            {
+              "cell": "F1",
+              "error": 0,
+              "formula": "Dependencies",
+              "kind": "TEXT",
+              "text": "Dependencies",
+              "value": 0.0
+            },
+            {
+              "cell": "G1",
+              "error": 0,
+              "formula": "Updated",
+              "kind": "TEXT",
+              "text": "Updated",
+              "value": 0.0
+            },
+            {
+              "cell": "A2",
+              "error": 0,
+              "formula": "T01",
+              "kind": "TEXT",
+              "text": "T01",
+              "value": 0.0
+            },
+            {
+              "cell": "B2",
+              "error": 0,
+              "formula": "Permission controls",
+              "kind": "TEXT",
+              "text": "Permission controls",
+              "value": 0.0
+            },
+            {
+              "cell": "C2",
+              "error": 0,
+              "formula": "A",
+              "kind": "TEXT",
+              "text": "A",
+              "value": 0.0
+            },
+            {
+              "cell": "D2",
+              "error": 0,
+              "formula": "completed",
+              "kind": "TEXT",
+              "text": "completed",
+              "value": 0.0
+            },
+            {
+              "cell": "E2",
+              "error": 0,
+              "formula": "0",
+              "kind": "VALUE",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "G2",
+              "error": 0,
+              "formula": "2026-10-29T09:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T09:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A3",
+              "error": 0,
+              "formula": "T02",
+              "kind": "TEXT",
+              "text": "T02",
+              "value": 0.0
+            },
+            {
+              "cell": "B3",
+              "error": 0,
+              "formula": "Voice candidate review",
+              "kind": "TEXT",
+              "text": "Voice candidate review",
+              "value": 0.0
+            },
+            {
+              "cell": "C3",
+              "error": 0,
+              "formula": "A",
+              "kind": "TEXT",
+              "text": "A",
+              "value": 0.0
+            },
+            {
+              "cell": "D3",
+              "error": 0,
+              "formula": "in_progress",
+              "kind": "TEXT",
+              "text": "in_progress",
+              "value": 0.0
+            },
+            {
+              "cell": "E3",
+              "error": 0,
+              "formula": "3",
+              "kind": "VALUE",
+              "text": "3",
+              "value": 3.0
+            },
+            {
+              "cell": "F3",
+              "error": 0,
+              "formula": "T01",
+              "kind": "TEXT",
+              "text": "T01",
+              "value": 0.0
+            },
+            {
+              "cell": "G3",
+              "error": 0,
+              "formula": "2026-10-29T10:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T10:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A4",
+              "error": 0,
+              "formula": "T03",
+              "kind": "TEXT",
+              "text": "T03",
+              "value": 0.0
+            },
+            {
+              "cell": "B4",
+              "error": 0,
+              "formula": "Desktop application workflow",
+              "kind": "TEXT",
+              "text": "Desktop application workflow",
+              "value": 0.0
+            },
+            {
+              "cell": "C4",
+              "error": 0,
+              "formula": "B",
+              "kind": "TEXT",
+              "text": "B",
+              "value": 0.0
+            },
+            {
+              "cell": "D4",
+              "error": 0,
+              "formula": "todo",
+              "kind": "TEXT",
+              "text": "todo",
+              "value": 0.0
+            },
+            {
+              "cell": "E4",
+              "error": 0,
+              "formula": "4",
+              "kind": "VALUE",
+              "text": "4",
+              "value": 4.0
+            },
+            {
+              "cell": "F4",
+              "error": 0,
+              "formula": "T01",
+              "kind": "TEXT",
+              "text": "T01",
+              "value": 0.0
+            },
+            {
+              "cell": "G4",
+              "error": 0,
+              "formula": "2026-10-29T09:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T09:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A5",
+              "error": 0,
+              "formula": "T04",
+              "kind": "TEXT",
+              "text": "T04",
+              "value": 0.0
+            },
+            {
+              "cell": "B5",
+              "error": 0,
+              "formula": "Recovery boundary checks",
+              "kind": "TEXT",
+              "text": "Recovery boundary checks",
+              "value": 0.0
+            },
+            {
+              "cell": "C5",
+              "error": 0,
+              "formula": "A",
+              "kind": "TEXT",
+              "text": "A",
+              "value": 0.0
+            },
+            {
+              "cell": "D5",
+              "error": 0,
+              "formula": "completed",
+              "kind": "TEXT",
+              "text": "completed",
+              "value": 0.0
+            },
+            {
+              "cell": "E5",
+              "error": 0,
+              "formula": "0",
+              "kind": "VALUE",
+              "text": "0",
+              "value": 0.0
+            },
+            {
+              "cell": "F5",
+              "error": 0,
+              "formula": "T01",
+              "kind": "TEXT",
+              "text": "T01",
+              "value": 0.0
+            },
+            {
+              "cell": "G5",
+              "error": 0,
+              "formula": "2026-10-29T09:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T09:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A6",
+              "error": 0,
+              "formula": "T05",
+              "kind": "TEXT",
+              "text": "T05",
+              "value": 0.0
+            },
+            {
+              "cell": "B6",
+              "error": 0,
+              "formula": "Mobile usability review",
+              "kind": "TEXT",
+              "text": "Mobile usability review",
+              "value": 0.0
+            },
+            {
+              "cell": "C6",
+              "error": 0,
+              "formula": "C",
+              "kind": "TEXT",
+              "text": "C",
+              "value": 0.0
+            },
+            {
+              "cell": "D6",
+              "error": 0,
+              "formula": "todo",
+              "kind": "TEXT",
+              "text": "todo",
+              "value": 0.0
+            },
+            {
+              "cell": "E6",
+              "error": 0,
+              "formula": "2",
+              "kind": "VALUE",
+              "text": "2",
+              "value": 2.0
+            },
+            {
+              "cell": "F6",
+              "error": 0,
+              "formula": "T01",
+              "kind": "TEXT",
+              "text": "T01",
+              "value": 0.0
+            },
+            {
+              "cell": "G6",
+              "error": 0,
+              "formula": "2026-10-29T09:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T09:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A7",
+              "error": 0,
+              "formula": "T06",
+              "kind": "TEXT",
+              "text": "T06",
+              "value": 0.0
+            },
+            {
+              "cell": "B7",
+              "error": 0,
+              "formula": "Demo presentation draft",
+              "kind": "TEXT",
+              "text": "Demo presentation draft",
+              "value": 0.0
+            },
+            {
+              "cell": "C7",
+              "error": 0,
+              "formula": "C",
+              "kind": "TEXT",
+              "text": "C",
+              "value": 0.0
+            },
+            {
+              "cell": "D7",
+              "error": 0,
+              "formula": "todo",
+              "kind": "TEXT",
+              "text": "todo",
+              "value": 0.0
+            },
+            {
+              "cell": "E7",
+              "error": 0,
+              "formula": "2",
+              "kind": "VALUE",
+              "text": "2",
+              "value": 2.0
+            },
+            {
+              "cell": "F7",
+              "error": 0,
+              "formula": "T02;T03;T05",
+              "kind": "TEXT",
+              "text": "T02;T03;T05",
+              "value": 0.0
+            },
+            {
+              "cell": "G7",
+              "error": 0,
+              "formula": "2026-10-29T09:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T09:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A8",
+              "error": 0,
+              "formula": "T07",
+              "kind": "TEXT",
+              "text": "T07",
+              "value": 0.0
+            },
+            {
+              "cell": "B8",
+              "error": 0,
+              "formula": "Rehearsal preparation",
+              "kind": "TEXT",
+              "text": "Rehearsal preparation",
+              "value": 0.0
+            },
+            {
+              "cell": "C8",
+              "error": 0,
+              "formula": "B",
+              "kind": "TEXT",
+              "text": "B",
+              "value": 0.0
+            },
+            {
+              "cell": "D8",
+              "error": 0,
+              "formula": "todo",
+              "kind": "TEXT",
+              "text": "todo",
+              "value": 0.0
+            },
+            {
+              "cell": "E8",
+              "error": 0,
+              "formula": "1.5",
+              "kind": "VALUE",
+              "text": "1.5",
+              "value": 1.5
+            },
+            {
+              "cell": "F8",
+              "error": 0,
+              "formula": "T06",
+              "kind": "TEXT",
+              "text": "T06",
+              "value": 0.0
+            },
+            {
+              "cell": "G8",
+              "error": 0,
+              "formula": "2026-10-29T11:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T11:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A9",
+              "error": 0,
+              "formula": "T08",
+              "kind": "TEXT",
+              "text": "T08",
+              "value": 0.0
+            },
+            {
+              "cell": "B9",
+              "error": 0,
+              "formula": "Package demo artifacts",
+              "kind": "TEXT",
+              "text": "Package demo artifacts",
+              "value": 0.0
+            },
+            {
+              "cell": "C9",
+              "error": 0,
+              "formula": "A",
+              "kind": "TEXT",
+              "text": "A",
+              "value": 0.0
+            },
+            {
+              "cell": "D9",
+              "error": 0,
+              "formula": "todo",
+              "kind": "TEXT",
+              "text": "todo",
+              "value": 0.0
+            },
+            {
+              "cell": "E9",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "F9",
+              "error": 0,
+              "formula": "T06;T07",
+              "kind": "TEXT",
+              "text": "T06;T07",
+              "value": 0.0
+            },
+            {
+              "cell": "G9",
+              "error": 0,
+              "formula": "2026-10-29T09:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T09:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A10",
+              "error": 0,
+              "formula": "T09",
+              "kind": "TEXT",
+              "text": "T09",
+              "value": 0.0
+            },
+            {
+              "cell": "B10",
+              "error": 0,
+              "formula": "Review print proposal",
+              "kind": "TEXT",
+              "text": "Review print proposal",
+              "value": 0.0
+            },
+            {
+              "cell": "C10",
+              "error": 0,
+              "formula": "C",
+              "kind": "TEXT",
+              "text": "C",
+              "value": 0.0
+            },
+            {
+              "cell": "D10",
+              "error": 0,
+              "formula": "todo",
+              "kind": "TEXT",
+              "text": "todo",
+              "value": 0.0
+            },
+            {
+              "cell": "E10",
+              "error": 0,
+              "formula": "1",
+              "kind": "VALUE",
+              "text": "1",
+              "value": 1.0
+            },
+            {
+              "cell": "F10",
+              "error": 0,
+              "formula": "T06",
+              "kind": "TEXT",
+              "text": "T06",
+              "value": 0.0
+            },
+            {
+              "cell": "G10",
+              "error": 0,
+              "formula": "2026-10-29T09:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-10-29T09:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "D12",
+              "error": 0,
+              "formula": "Remaining hours",
+              "kind": "TEXT",
+              "text": "Remaining hours",
+              "value": 0.0
+            },
+            {
+              "cell": "E12",
+              "error": 0,
+              "formula": "=SUM(E2:E10)",
+              "kind": "FORMULA",
+              "text": "14.5",
+              "value": 14.5
+            }
+          ],
+          "sheet": "TaskPlan"
+        },
+        {
+          "cells": [
+            {
+              "cell": "A1",
+              "error": 0,
+              "formula": "Session",
+              "kind": "TEXT",
+              "text": "Session",
+              "value": 0.0
+            },
+            {
+              "cell": "B1",
+              "error": 0,
+              "formula": "Start",
+              "kind": "TEXT",
+              "text": "Start",
+              "value": 0.0
+            },
+            {
+              "cell": "C1",
+              "error": 0,
+              "formula": "End",
+              "kind": "TEXT",
+              "text": "End",
+              "value": 0.0
+            },
+            {
+              "cell": "A2",
+              "error": 0,
+              "formula": "'1",
+              "kind": "TEXT",
+              "text": "1",
+              "value": 0.0
+            },
+            {
+              "cell": "B2",
+              "error": 0,
+              "formula": "2026-11-03T16:15:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-11-03T16:15:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "C2",
+              "error": 0,
+              "formula": "2026-11-03T17:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-11-03T17:00:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "A3",
+              "error": 0,
+              "formula": "'2",
+              "kind": "TEXT",
+              "text": "2",
+              "value": 0.0
+            },
+            {
+              "cell": "B3",
+              "error": 0,
+              "formula": "2026-11-04T15:15:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-11-04T15:15:00+08:00",
+              "value": 0.0
+            },
+            {
+              "cell": "C3",
+              "error": 0,
+              "formula": "2026-11-04T16:00:00+08:00",
+              "kind": "TEXT",
+              "text": "2026-11-04T16:00:00+08:00",
+              "value": 0.0
+            }
+          ],
+          "sheet": "Rehearsals"
+        }
+      ],
+      "visible": true,
+      "window_title": "demo-budget.xlsx (read-only) \u2014 LibreOffice Calc"
+    },
+    "content": "workbook: demo-budget.xlsx",
+    "dependencies": [
+      {
+        "filename": "demo-budget.xlsx",
+        "job_id": "5cab4281b136444e9bd413530d0f6255",
+        "kind": "workbook",
+        "sha256": "b94b9d53ab5d2270fb9c1c0dad430d1123bdcfb617eb12d191b4192dfe8505c1"
+      }
+    ],
+    "depends_on": [],
+    "executor": "office_applications_v1",
+    "previous": {
+      "filename": "demo-budget.xlsx",
+      "job_id": "5cab4281b136444e9bd413530d0f6255",
+      "kind": "workbook",
+      "sha256": "b94b9d53ab5d2270fb9c1c0dad430d1123bdcfb617eb12d191b4192dfe8505c1"
+    },
+    "scope": "applications:48c0a764373288396b80f638a99680db4dbdbc73f247eae17c668444ad9bc68b",
+    "sources": [
+      {
+        "sha256": "5fac5ecfc49677cb574bd8a4dc7987b2a18d861b14de734cd258f9e63dc8deb5",
+        "source_id": "availability.csv"
+      },
+      {
+        "sha256": "f6dadbdc35e38ff9f062cacfa8e1035d9e911c30a8d3e70721b425ad26f5ec5b",
+        "source_id": "brief.md"
+      },
+      {
+        "sha256": "c31319172a2057fc79548a56d95bc7ab6ceb3cf848f66fe6934faa2bef0ebdeb",
+        "source_id": "existing-events.csv"
+      },
+      {
+        "sha256": "51a89683a97848ea225409bb0abea2ec4636c4389efab78373be9df3ffd5626b",
+        "source_id": "fx-rates.csv"
+      },
+      {
+        "sha256": "e3886c1143ccf9f0a4f002a6393111650c2933df12a3c8912f46d854f57d0110",
+        "source_id": "meeting-notes.md"
+      },
+      {
+        "sha256": "a8e13d93e8df60537dd0ea9c81c36b32aed81459548d320d7e9a8310c8069356",
+        "source_id": "quotes/A-2.html"
+      },
+      {
+        "sha256": "bf0ba17dd0c4de7bccdc9b0eca7a539d89877a1aac1ea638fbab4e01e5a9da0d",
+        "source_id": "quotes/B-3.html"
+      },
+      {
+        "sha256": "bfe146fced645cc4e0b93236276f7e8082221f27d620b9ece5b4a751f6bf6328",
+        "source_id": "quotes/C-1.html"
+      },
+      {
+        "sha256": "ca8c970149381ba118dc5d849ecb942b4454cfe9ee8c48ca7b3b7fa845b3d09e",
+        "source_id": "quotes/C-2.html"
+      },
+      {
+        "sha256": "3326b2f68bc0cb43271e9d450d7dc4c00ab59bad4f4d7d50ef2123375bd01a22",
+        "source_id": "quotes/D-4.html"
+      },
+      {
+        "sha256": "af5ebed5f2173f01594da367342f031781f0549adab55d6705ae728e53977f21",
+        "source_id": "quotes/index.html"
+      },
+      {
+        "sha256": "29b25a5ab80fc794a209f5bac75e4a1200d578894b370b838180abe17aea7f51",
+        "source_id": "tasks.csv"
+      }
+    ],
+    "stage": "budget",
+    "step": {
+      "filename": "demo-budget.xlsx",
+      "kind": "workbook",
+      "sheets": [
+        {
+          "cells": [
+            {
+              "cell": "B3",
+              "format": "plain",
+              "kind": "number",
+              "value": 1000.0
+            },
+            {
+              "cell": "B4",
+              "format": "plain",
+              "kind": "number",
+              "value": 40.0
+            }
+          ],
+          "sheet": "Summary"
+        },
+        {
+          "cells": [
+            {
+              "cell": "B3",
+              "format": "plain",
+              "kind": "text",
+              "value": "2026-11-05T15:15:00+08:00"
+            },
+            {
+              "cell": "C3",
+              "format": "plain",
+              "kind": "text",
+              "value": "2026-11-05T16:00:00+08:00"
+            }
+          ],
+          "sheet": "Rehearsals"
+        }
+      ],
+      "source_job_id": "5cab4281b136444e9bd413530d0f6255"
+    },
+    "task_id": "5909669a950c47c58f7477ea0da8a025",
+    "task_version": 3,
+    "title": "Recalculate the changed constraints"
+  },
+  "intent_hash": "63a696afea3ae3a1d663f587bb3ab2fe3a054870889ca91bc03c7ebeb1c4f195",
+  "authorization": {
+    "mode": "full",
+    "version": 2
+  },
+  "history": [
+    {
+      "at": "2026-10-30T05:37:41.045394Z",
+      "state": "review",
+      "code": null
+    },
+    {
+      "at": "2026-10-30T05:37:41.054696Z",
+      "state": "queued",
+      "code": null
+    },
+    {
+      "at": "2026-10-30T05:37:41.060102Z",
+      "state": "running",
+      "code": null
+    },
+    {
+      "at": "2026-10-30T05:37:43.118579Z",
+      "state": "verifying",
+      "code": null
+    },
+    {
+      "at": "2026-10-30T05:37:43.910990Z",
+      "state": "succeeded",
+      "code": null
+    }
+  ]
+}

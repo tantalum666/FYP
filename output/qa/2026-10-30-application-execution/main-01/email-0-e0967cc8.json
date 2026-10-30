@@ -1,0 +1,135 @@
+{
+  "id": "e0967cc885f84225af30abb5ae92e7b3",
+  "state": "succeeded",
+  "version": 5,
+  "created_at": "2026-10-30T05:36:57.535508Z",
+  "updated_at": "2026-10-30T05:36:57.562769Z",
+  "expires_at": "2026-10-30T05:41:57.535531Z",
+  "deadline": "2026-10-30T05:37:57.543982Z",
+  "error": null,
+  "action": "application",
+  "task_id": "5909669a950c47c58f7477ea0da8a025",
+  "cancel_requested": false,
+  "result": {
+    "apps_verified": [
+      "local_text"
+    ],
+    "artifact": "5909669a950c47c58f7477ea0da8a025/email-draft.txt",
+    "bytes": 291,
+    "executor": "office_applications_v1",
+    "operation_id": "e0967cc885f84225af30abb5ae92e7b3",
+    "readback": {
+      "operation_id": "e0967cc885f84225af30abb5ae92e7b3",
+      "text": "To: tutor@example.invalid\nSubject: Group 2 fictional demo preparation\n\nDraft only. The preparation files are ready for review. The current proposal is Aster, HKD 809.60 including reserve. Seven project tasks remain. Please see demo-budget.xlsx and demo-brief.pdf.\n\nNo message has been sent.\n"
+    },
+    "reason": "read_back_matches",
+    "scope": "applications:48c0a764373288396b80f638a99680db4dbdbc73f247eae17c668444ad9bc68b",
+    "sha256": "2b93792573e7632b02e5b027857939c704e73032e83f56a98863d1ad4ec8e780",
+    "verified": true
+  },
+  "title": "Save an unsent email draft",
+  "request": {
+    "action": "application",
+    "artifact_id": "e0967cc885f84225af30abb5ae92e7b3",
+    "base": null,
+    "base_snapshot": null,
+    "content": "text: email-draft.txt",
+    "dependencies": [],
+    "depends_on": [],
+    "executor": "office_applications_v1",
+    "previous": null,
+    "scope": "applications:48c0a764373288396b80f638a99680db4dbdbc73f247eae17c668444ad9bc68b",
+    "sources": [
+      {
+        "sha256": "5fac5ecfc49677cb574bd8a4dc7987b2a18d861b14de734cd258f9e63dc8deb5",
+        "source_id": "availability.csv"
+      },
+      {
+        "sha256": "f6dadbdc35e38ff9f062cacfa8e1035d9e911c30a8d3e70721b425ad26f5ec5b",
+        "source_id": "brief.md"
+      },
+      {
+        "sha256": "c31319172a2057fc79548a56d95bc7ab6ceb3cf848f66fe6934faa2bef0ebdeb",
+        "source_id": "existing-events.csv"
+      },
+      {
+        "sha256": "51a89683a97848ea225409bb0abea2ec4636c4389efab78373be9df3ffd5626b",
+        "source_id": "fx-rates.csv"
+      },
+      {
+        "sha256": "e3886c1143ccf9f0a4f002a6393111650c2933df12a3c8912f46d854f57d0110",
+        "source_id": "meeting-notes.md"
+      },
+      {
+        "sha256": "a8e13d93e8df60537dd0ea9c81c36b32aed81459548d320d7e9a8310c8069356",
+        "source_id": "quotes/A-2.html"
+      },
+      {
+        "sha256": "bf0ba17dd0c4de7bccdc9b0eca7a539d89877a1aac1ea638fbab4e01e5a9da0d",
+        "source_id": "quotes/B-3.html"
+      },
+      {
+        "sha256": "bfe146fced645cc4e0b93236276f7e8082221f27d620b9ece5b4a751f6bf6328",
+        "source_id": "quotes/C-1.html"
+      },
+      {
+        "sha256": "ca8c970149381ba118dc5d849ecb942b4454cfe9ee8c48ca7b3b7fa845b3d09e",
+        "source_id": "quotes/C-2.html"
+      },
+      {
+        "sha256": "3326b2f68bc0cb43271e9d450d7dc4c00ab59bad4f4d7d50ef2123375bd01a22",
+        "source_id": "quotes/D-4.html"
+      },
+      {
+        "sha256": "af5ebed5f2173f01594da367342f031781f0549adab55d6705ae728e53977f21",
+        "source_id": "quotes/index.html"
+      },
+      {
+        "sha256": "29b25a5ab80fc794a209f5bac75e4a1200d578894b370b838180abe17aea7f51",
+        "source_id": "tasks.csv"
+      }
+    ],
+    "stage": "email",
+    "step": {
+      "filename": "email-draft.txt",
+      "kind": "text",
+      "source_job_id": null,
+      "text": "To: tutor@example.invalid\nSubject: Group 2 fictional demo preparation\n\nDraft only. The preparation files are ready for review. The current proposal is Aster, HKD 809.60 including reserve. Seven project tasks remain. Please see demo-budget.xlsx and demo-brief.pdf.\n\nNo message has been sent.\n"
+    },
+    "task_id": "5909669a950c47c58f7477ea0da8a025",
+    "task_version": 1,
+    "title": "Save an unsent email draft"
+  },
+  "intent_hash": "9776384cf89a84159bb3edf62b2fef524c90725dffc88738cff579000b285657",
+  "authorization": {
+    "mode": "full",
+    "version": 2
+  },
+  "history": [
+    {
+      "at": "2026-10-30T05:36:57.535564Z",
+      "state": "review",
+      "code": null
+    },
+    {
+      "at": "2026-10-30T05:36:57.543999Z",
+      "state": "queued",
+      "code": null
+    },
+    {
+      "at": "2026-10-30T05:36:57.547967Z",
+      "state": "running",
+      "code": null
+    },
+    {
+      "at": "2026-10-30T05:36:57.561129Z",
+      "state": "verifying",
+      "code": null
+    },
+    {
+      "at": "2026-10-30T05:36:57.562769Z",
+      "state": "succeeded",
+      "code": null
+    }
+  ]
+}

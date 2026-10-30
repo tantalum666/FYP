@@ -358,3 +358,12 @@ Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **工程选择：**采用虚构Group 2演示准备包：来源／版本核对、四家报价五版、跨币种／最低数量／运费／预留、Calc公式、Writer／PDF、两次日历排练及事务状态。首次改口故意形成不可行约束，须必要澄清后重算；另设回执丢失、重启、撤回和资料夹带指令变体。具体场景与权重是工程方案，并非用户逐条指定。
 - **实际完成：**输入文件、报价HTML、控制器改口脚本、独立参考事实及六项离线一致性检查。没有运行模型或桌面应用，没有宣称完成复杂任务。现有六种笔记动作及单次effect循环不足，需要补受限办公应用适配器和持久阶段证据，沿用已有任务／作业／权限边界。
 - **边界与下一步：**无新费用、CI、外部联系、采购、学校提交或硬件；旧OpenAI／Qwen付费轮保持关闭。下一步先补并离线验证应用执行／读回／恢复，再作同任务语音对照。方案见[规范](planning/2026-10-30/complex-application-acceptance.md)、[材料](desk-companion/evals/app_workflow_v1/README.md)和[QA](output/qa/2026-10-30-complex-app-task/verification.md)。
+
+## 2026-10-30 实现受限应用执行与真实恢复
+
+- **用户授权：**“开始这些工作吧”，承接更复杂的真实应用任务；沿用本地验证、可维护代码、更新交接和重要进度推 GitHub。没有新收费或硬件授权。
+- **工程实现：**独立类型的 application 作业与原六种笔记动作并存，继续使用同一 JobService／PermissionService／TaskService。UNO／CDP 适配器只接收受限单元格、文档块、PDF及文字意图；来源与依赖哈希、任务和权限版本在发布前重核，暂存／不可变历史／活动文件分开。阶段从已有作业投影，不新增队列、聊天存储或一次性全能解题工具。
+- **实际证据：**真实 Chromium 资料读取，Calc 809.60 → 彩印不可行 → 脚本澄清后 669.24，Writer／两页 PDF及其余产物；同日程 ID 改期；主进程保存后退出、应用重启和只读恢复保持文件 SHA／mtime。完整权限撤回阻止排队写入。524 后端／89 前端，网页与手机批准／修改／拒绝／下载通过。
+- **实测修复：**先建齐工作表再解析公式，保留绝对单元格引用的 XLSX 规范化，Writer 样式名、PDF表格内容顺序及容器显示锁修复。失败记录保留，没有把未知写入自动重试。
+- **环境选择与限制：**Mac UNO不可用后采用独立 ARM64 Linux VM，仅挂载虚构输入与产物；保留 Chromium 自身沙盒、内部网络和非 root 进程。无密钥、控制器答案或 core 数据库挂载。此选择不是 Pi／Wayland 或任意GUI验收。
+- **下一步：**模型驱动的持久任务接续与离线变体，然后正常 App OpenAI 接入和另行限定的小额语音对照。受控脚本验收不等于语音 Agent 自主通过；旧预算继续关闭，调用为零。详见[执行契约](desk-companion/docs/application-execution.md)和[实际 QA](output/qa/2026-10-30-application-execution/verification.md)。

@@ -36,7 +36,12 @@ import type { Proposal, Reply } from "./assistantTypes";
 import { JobActionCard } from "./JobActionCard";
 import { requestJobAction } from "./jobRequests";
 import type { JobAction } from "./jobRequests";
-import { isDesktopAction, isFolderAction, jobStateLabel } from "./jobTypes";
+import {
+  isApplicationAction,
+  isDesktopAction,
+  isFolderAction,
+  jobStateLabel,
+} from "./jobTypes";
 import type { ComputerJob } from "./jobTypes";
 import { PermissionControl } from "./PermissionsPanel";
 import { ComputerJobsPanel } from "./ComputerJobsPanel";
@@ -85,6 +90,7 @@ export function AssistantPanel({
   const [jobs, setJobs] = useState<ComputerJob[]>([]);
   const [jobsError, setJobsError] = useState<unknown>(null);
   const [jobActionError, setJobActionError] = useState<unknown>(null);
+  const [jobActionNotice, setJobActionNotice] = useState("");
   const [jobsReadAt, setJobsReadAt] = useState(0);
   const seenJobs = useRef<Set<string> | null>(null);
   const [attentionJobs, setAttentionJobs] = useState<string[]>([]);
@@ -206,8 +212,17 @@ export function AssistantPanel({
     if (action === "cancel") setJobCancelling(job.id);
     else setJobBusy(job.id);
     setJobActionError(null);
+    setJobActionNotice("");
     try {
       await requestJobAction(job, action);
+      if (action === "verify" && isApplicationAction(job.action)) {
+        setJobActionNotice(
+          t(
+            "The file was reopened and matches the verified operation.",
+            "文件已重新打开核对，与已核验操作一致。",
+          ),
+        );
+      }
       await loadActivity();
       void refresh();
     } catch (reason) {
@@ -237,11 +252,14 @@ export function AssistantPanel({
       cancelling={!!jobCancelling || offline}
       fresh={!jobsError && !offline && !stale && Date.now() - jobsReadAt < 6000}
       available={
-        !!(isDesktopAction(job.action)
-          ? data?.computer?.desktop?.ready
-          : isFolderAction(job.action)
-            ? data?.computer?.folder?.configured
-            : data?.computer?.enabled)
+        !!(isApplicationAction(job.action)
+          ? data?.computer?.applications?.enabled &&
+            data.computer.applications.configured
+          : isDesktopAction(job.action)
+            ? data?.computer?.desktop?.ready
+            : isFolderAction(job.action)
+              ? data?.computer?.folder?.configured
+              : data?.computer?.enabled)
       }
       onAction={(action) => void actOnJob(job, action)}
     />
@@ -1131,6 +1149,7 @@ export function AssistantPanel({
               {t("Recover previous action", "核对上一项操作")}
             </button>
           )}
+          {!!jobActionNotice && <p role="status">{jobActionNotice}</p>}
           {!!jobActionError && (
             <p className="error-message" role="alert">
               {errorText(jobActionError, t)}

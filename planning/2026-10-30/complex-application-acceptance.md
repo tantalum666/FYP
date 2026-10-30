@@ -2,7 +2,7 @@
 
 Started29October, finalized30October2026, Asia/Hong_Kong. **The owner rejected the proposed note-save/browser-preview task as too simple and asked for a harder real task.** This document replaces that simple task as the main end-to-end acceptance target. The note workflow remains a smoke check.
 
-The scenario, fixture values, application choices and score weights below are engineering choices implementing that request, not a claim that the owner specified each item. Scope this turn: prepare the task, actual source materials, reference facts, scoring and implementation gaps. No paid model or GUI execution is claimed.
+The scenario, fixture values, application choices and score weights below are engineering choices implementing that request, not a claim that the owner specified each item. The original fixture-only checkpoint is preserved separately. The owner subsequently authorized implementation: [actual execution QA](../../output/qa/2026-10-30-application-execution/verification.md) now covers the scripted real-app path and recovery. Paid-model and autonomous voice scores remain unmeasured.
 
 ## Main task: prepare the Group 2 demo package
 
@@ -22,7 +22,7 @@ The application receives only the [agent-visible inputs](../../desk-companion/ev
 6. Keep the same task record, distinguish package completion from unfinished project work, and prepare a local email draft listing the final artifacts.
 7. Independently read back spreadsheet values/formulas, PDF text and rendered layout, file hashes, calendar records and task state before reporting what succeeded.
 
-Target applications are Chromium, LibreOffice Calc and Writer plus the existing Desk Companion calendar/tasks. Their installation, accessibility and execution adapters must be verified during implementation; this fixture does not assert they are currently available.
+Target applications are Chromium, LibreOffice Calc and Writer plus the existing Desk Companion calendar/tasks. The isolated ARM64 Linux execution environment and bounded UNO/CDP adapters were verified in the subsequent implementation. This does not establish general GUI operation, a native Mac executor or Pi compatibility.
 
 ## Mid-task correction and necessary clarification
 
@@ -87,10 +87,10 @@ Use the same fixture, shared tools, permissions, output contract and voice input
 | Needed capability | Current state | Work needed |
 |---|---|---|
 | Calendar/tasks, versions, permission settings and receipts | Existing services and tested narrower journeys | Reuse for task-level stages and updates; do not add a parallel task store |
-| Real desktop execution | Existing Mousepad→Chromium fixed note workflow; six typed note/verification actions | Add bounded browser/source review and office-app operations with independent readback |
-| Spreadsheet/document edits and PDF export | Not present in the current executor | Implement Calc/Writer adapters, owned output scope and version-aware updates |
-| Long dependent task with partial success | Durable jobs exist; HTTP model loop stops after one effect-producing tool | Add persistent stage orchestration and resumable evidence on the existing task/job services; do not simply enlarge timeouts or duplicate queues |
+| Real desktop execution | Original note workflow plus new bounded Chromium source review and actual Calc/Writer operations, tested in Linux X11 | Held-out input/layout variants, cancellation in actual long exports, target-device acceptance |
+| Spreadsheet/document edits and PDF export | Typed patches, owned staging/history/publication and independent readback implemented; real nominal/corrected/recovery path passes | Broaden model-authored and unseen-content acceptance within the typed bounds |
+| Long dependent task with partial success | Durable stage/artifact projection and dependency versions now exist; scripted recovery passes; HTTP model loop still stops after one effect-producing tool | Add resumable model-driven task turns on those services; stages alone are not an autonomous planner |
 | OpenAI in normal App | Isolated real API evaluation only | Add the required provider/session bridge with explicit Live speech/backend lifecycle |
 | Voice-to-app benchmark | Not executed | First run the app/receipt path offline, then the actual scoped voice-model trials |
 
-This turn prepares source material, the task and reference checks. No real application was operated, no benchmark was passed, and no API money was spent. Previous OpenAI/Qwen paid rounds remain closed; Pi remains paused and validation remains local with noCI. The next concrete implementation slice is the bounded browser/Calc/Writer execution and readback path using the existing task/job/permission services.
+The subsequent execution milestone produced real application artifacts, reconciled a saved-but-unacknowledged workbook after process/application restart and kept calendar identities intact. It is explicitly scripted and receives no agent score. [Execution contract](../../desk-companion/docs/application-execution.md). Previous OpenAI/Qwen paid rounds remain closed; Pi remains paused and validation remains local with no CI. The next implementation slice is resumable model-driven task turns and offline variants over the shared tools, then a separately scoped paid voice comparison.

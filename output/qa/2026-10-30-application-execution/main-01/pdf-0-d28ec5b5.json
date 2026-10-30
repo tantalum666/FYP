@@ -1,0 +1,224 @@
+{
+  "id": "d28ec5b5cb3544d8a355f9f7bde378a7",
+  "state": "succeeded",
+  "version": 5,
+  "created_at": "2026-10-30T05:36:56.616432Z",
+  "updated_at": "2026-10-30T05:36:57.488894Z",
+  "expires_at": "2026-10-30T05:41:56.616492Z",
+  "deadline": "2026-10-30T05:37:56.627441Z",
+  "error": null,
+  "action": "application",
+  "task_id": "5909669a950c47c58f7477ea0da8a025",
+  "cancel_requested": false,
+  "result": {
+    "apps_verified": [
+      "libreoffice_writer"
+    ],
+    "artifact": "5909669a950c47c58f7477ea0da8a025/demo-brief.pdf",
+    "bytes": 82652,
+    "executor": "office_applications_v1",
+    "operation_id": "d28ec5b5cb3544d8a355f9f7bde378a7",
+    "readback": {
+      "application": "libreoffice_writer",
+      "info": "Subject:         Desk Companion operation d28ec5b5cb3544d8a355f9f7bde378a7\nCreator:         Writer\nProducer:        LibreOffice 25.2.3.2 (AARCH64) / LibreOffice Community\nCreationDate:    Fri Oct 30 05:36:56 2026 UTC\nCustom Metadata: no\nMetadata Stream: yes\nTagged:          yes\nUserProperties:  no\nSuspects:        no\nForm:            none\nJavaScript:      no\nPages:           2\nEncrypted:       no\nPage size:       595.304 x 841.89 pts (A4)\nPage rot:        0\nFile size:       82652 bytes\nOptimized:       no\nPDF version:     1.7\n",
+      "text": "Group 2 Demo Preparation Brief\nFictional acceptance dataset - not a school submission or a purchase request. Demo: 6 November\n2026, 16:00, Asia/Hong_Kong.\nCurrent position\nThe dated task export and later meeting note resolve to nine distinct tasks. T01 and T04 are\ncompleted; T02 is reopened. Seven tasks remain, totalling 14.5 hours. Producing this preparation\npackage does not complete that project work.\nBudget proposal\nDecision Verified worksheet value\nSelected supplier Aster\nPrint mode colour\nRequired booklets 25\nAdditional minimum-order copies 0\nTotal including 10% reserve HKD 809.60\nBudget limit HKD 1300.00\nPrices include the actual minimum quantity, item-only discount, delivery and conversion at the frozen\ntest FX rate. Cedar's current C-2 quote arrives on 7 November, so it is excluded despite its lower\nprice. The older C-1 delivery promise is not current.\nThis is the initial colour-print proposal. Recheck constraints and sources before authorizing any later\nchange. No order or payment has been made.\n\fRemaining work and responsibilities\nTask Owner Hours Dependencies\nT02 Voice candidate\nreview\nA 3 T01\nT03 Desktop\napplication workflow\nB 4 T01\nT05 Mobile usability\nreview\nC 2 T01\nT06 Demo presentation\ndraft\nC 2 T02;T03;T05\nT07 Rehearsal\npreparation\nB 1.5 T06\nT08 Package demo\nartifacts\nA 1 T06;T07\nT09 Review print\nproposal\nC 1 T06\nRehearsals\nSession Start (HKT) End (HKT)\n1 2026-11-03 16:15 2026-11-03 17:00\n2 2026-11-04 15:15 2026-11-04 16:00\nBoth 45-minute slots intersect all three members' supplied availability and avoid existing calendar\nevents. A changed second slot updates its original event identity; it does not create another\nrehearsal.\nSources and remaining limits\nSources: tasks.csv, meeting-notes.md (29 October, 14:00), availability.csv, existing-events.csv, frozen\nfx-rates.csv and current quotes A-2, B-3, C-2, D-4. All people, prices and deadlines are fictional.\nThe spreadsheet and document were operated through real application APIs, then reopened and\nchecked. This scripted execution-layer run does not establish autonomous voice-agent success,\nhuman speech quality, or a real-world delivery commitment. The email remains an unsent local draft.\n\f"
+    },
+    "reason": "read_back_matches",
+    "scope": "applications:48c0a764373288396b80f638a99680db4dbdbc73f247eae17c668444ad9bc68b",
+    "sha256": "4b7530b2d89f169e0498bc1677d1c34a294989d606aa8ea7fe6c8bb35d1941eb",
+    "verified": true
+  },
+  "title": "Export the checked brief to PDF",
+  "request": {
+    "action": "application",
+    "artifact_id": "d28ec5b5cb3544d8a355f9f7bde378a7",
+    "base": {
+      "filename": "demo-brief.odt",
+      "job_id": "3988316a65cc482a8e32124564a8d3f4",
+      "kind": "document",
+      "sha256": "f38ae3e85273ea45559c800d716d07ab648583129b29dda3b760454c5a63858c"
+    },
+    "base_snapshot": {
+      "application": "libreoffice_writer",
+      "content": [
+        "Group 2 Demo Preparation Brief",
+        "Fictional acceptance dataset - not a school submission or a purchase request. Demo: 6 November 2026, 16:00, Asia/Hong_Kong.",
+        "Current position",
+        "The dated task export and later meeting note resolve to nine distinct tasks. T01 and T04 are completed; T02 is reopened. Seven tasks remain, totalling 14.5 hours. Producing this preparation package does not complete that project work.",
+        "Budget proposal",
+        "Decision",
+        "Verified worksheet value",
+        "Selected supplier",
+        "Aster",
+        "Print mode",
+        "colour",
+        "Required booklets",
+        "25",
+        "Additional minimum-order copies",
+        "0",
+        "Total including 10% reserve",
+        "HKD 809.60",
+        "Budget limit",
+        "HKD 1300.00",
+        "Prices include the actual minimum quantity, item-only discount, delivery and conversion at the frozen test FX rate. Cedar's current C-2 quote arrives on 7 November, so it is excluded despite its lower price. The older C-1 delivery promise is not current.",
+        "This is the initial colour-print proposal. Recheck constraints and sources before authorizing any later change. No order or payment has been made.",
+        "Remaining work and responsibilities",
+        "Task",
+        "Owner",
+        "Hours",
+        "Dependencies",
+        "T02 Voice candidate review",
+        "A",
+        "3",
+        "T01",
+        "T03 Desktop application workflow",
+        "B",
+        "4",
+        "T01",
+        "T05 Mobile usability review",
+        "C",
+        "2",
+        "T01",
+        "T06 Demo presentation draft",
+        "C",
+        "2",
+        "T02;T03;T05",
+        "T07 Rehearsal preparation",
+        "B",
+        "1.5",
+        "T06",
+        "T08 Package demo artifacts",
+        "A",
+        "1",
+        "T06;T07",
+        "T09 Review print proposal",
+        "C",
+        "1",
+        "T06",
+        "Rehearsals",
+        "Session",
+        "Start (HKT)",
+        "End (HKT)",
+        "1",
+        "2026-11-03 16:15",
+        "2026-11-03 17:00",
+        "2",
+        "2026-11-04 15:15",
+        "2026-11-04 16:00",
+        "Both 45-minute slots intersect all three members' supplied availability and avoid existing calendar events. A changed second slot updates its original event identity; it does not create another rehearsal.",
+        "Sources and remaining limits",
+        "Sources: tasks.csv, meeting-notes.md (29 October, 14:00), availability.csv, existing-events.csv, frozen fx-rates.csv and current quotes A-2, B-3, C-2, D-4. All people, prices and deadlines are fictional.",
+        "The spreadsheet and document were operated through real application APIs, then reopened and checked. This scripted execution-layer run does not establish autonomous voice-agent success, human speech quality, or a real-world delivery commitment. The email remains an unsent local draft."
+      ],
+      "office_pid": 23,
+      "operation_id": "3988316a65cc482a8e32124564a8d3f4",
+      "visible": true,
+      "window_title": "demo-brief.odt (read-only) \u2014 LibreOffice Writer"
+    },
+    "content": "pdf: demo-brief.pdf",
+    "dependencies": [
+      {
+        "filename": "demo-brief.odt",
+        "job_id": "3988316a65cc482a8e32124564a8d3f4",
+        "kind": "document",
+        "sha256": "f38ae3e85273ea45559c800d716d07ab648583129b29dda3b760454c5a63858c"
+      }
+    ],
+    "depends_on": [],
+    "executor": "office_applications_v1",
+    "previous": null,
+    "scope": "applications:48c0a764373288396b80f638a99680db4dbdbc73f247eae17c668444ad9bc68b",
+    "sources": [
+      {
+        "sha256": "5fac5ecfc49677cb574bd8a4dc7987b2a18d861b14de734cd258f9e63dc8deb5",
+        "source_id": "availability.csv"
+      },
+      {
+        "sha256": "f6dadbdc35e38ff9f062cacfa8e1035d9e911c30a8d3e70721b425ad26f5ec5b",
+        "source_id": "brief.md"
+      },
+      {
+        "sha256": "c31319172a2057fc79548a56d95bc7ab6ceb3cf848f66fe6934faa2bef0ebdeb",
+        "source_id": "existing-events.csv"
+      },
+      {
+        "sha256": "51a89683a97848ea225409bb0abea2ec4636c4389efab78373be9df3ffd5626b",
+        "source_id": "fx-rates.csv"
+      },
+      {
+        "sha256": "e3886c1143ccf9f0a4f002a6393111650c2933df12a3c8912f46d854f57d0110",
+        "source_id": "meeting-notes.md"
+      },
+      {
+        "sha256": "a8e13d93e8df60537dd0ea9c81c36b32aed81459548d320d7e9a8310c8069356",
+        "source_id": "quotes/A-2.html"
+      },
+      {
+        "sha256": "bf0ba17dd0c4de7bccdc9b0eca7a539d89877a1aac1ea638fbab4e01e5a9da0d",
+        "source_id": "quotes/B-3.html"
+      },
+      {
+        "sha256": "bfe146fced645cc4e0b93236276f7e8082221f27d620b9ece5b4a751f6bf6328",
+        "source_id": "quotes/C-1.html"
+      },
+      {
+        "sha256": "ca8c970149381ba118dc5d849ecb942b4454cfe9ee8c48ca7b3b7fa845b3d09e",
+        "source_id": "quotes/C-2.html"
+      },
+      {
+        "sha256": "3326b2f68bc0cb43271e9d450d7dc4c00ab59bad4f4d7d50ef2123375bd01a22",
+        "source_id": "quotes/D-4.html"
+      },
+      {
+        "sha256": "af5ebed5f2173f01594da367342f031781f0549adab55d6705ae728e53977f21",
+        "source_id": "quotes/index.html"
+      },
+      {
+        "sha256": "29b25a5ab80fc794a209f5bac75e4a1200d578894b370b838180abe17aea7f51",
+        "source_id": "tasks.csv"
+      }
+    ],
+    "stage": "pdf",
+    "step": {
+      "filename": "demo-brief.pdf",
+      "kind": "pdf",
+      "replace_job_id": null,
+      "source_job_id": "3988316a65cc482a8e32124564a8d3f4"
+    },
+    "task_id": "5909669a950c47c58f7477ea0da8a025",
+    "task_version": 1,
+    "title": "Export the checked brief to PDF"
+  },
+  "intent_hash": "d5f9bb4c0ac4afec25949c4816f18a0f0e2491e3d08ad90ee8c7aca62c7ad53f",
+  "authorization": {
+    "mode": "full",
+    "version": 2
+  },
+  "history": [
+    {
+      "at": "2026-10-30T05:36:56.616570Z",
+      "state": "review",
+      "code": null
+    },
+    {
+      "at": "2026-10-30T05:36:56.627471Z",
+      "state": "queued",
+      "code": null
+    },
+    {
+      "at": "2026-10-30T05:36:56.632778Z",
+      "state": "running",
+      "code": null
+    },
+    {
+      "at": "2026-10-30T05:36:57.388047Z",
+      "state": "verifying",
+      "code": null
+    },
+    {
+      "at": "2026-10-30T05:36:57.488894Z",
+      "state": "succeeded",
+      "code": null
+    }
+  ]
+}

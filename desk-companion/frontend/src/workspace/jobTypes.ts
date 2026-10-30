@@ -1,4 +1,5 @@
 import type { Translate } from "../types";
+import type { ApplicationStep } from "./applicationTypes";
 
 export type JobState =
   | "review"
@@ -28,7 +29,8 @@ export interface ComputerJob {
     | "save_folder_file"
     | "verify_folder_file"
     | "linux_note_preview"
-    | "verify_linux_file";
+    | "verify_linux_file"
+    | "application";
   task_id: string | null;
   request: {
     title: string;
@@ -37,6 +39,8 @@ export interface ComputerJob {
     task_version: number | null;
     folder_label?: string;
     folder_fingerprint?: string;
+    stage?: string;
+    step?: ApplicationStep;
   };
   result: {
     verified: boolean;
@@ -46,6 +50,9 @@ export interface ComputerJob {
     reason?: string;
     apps_verified?: string[];
   } | null;
+}
+export function isApplicationAction(action: ComputerJob["action"]) {
+  return action === "application";
 }
 export function isFolderAction(action: ComputerJob["action"]) {
   return action === "save_folder_file" || action === "verify_folder_file";
@@ -108,6 +115,11 @@ export function recoveryCopy(job: ComputerJob): [string, string] | null {
     ];
   }
   if (job.state === "cancelled") {
+    if (isApplicationAction(job.action))
+      return [
+        "Stopped before publishing this file revision.",
+        "已在发布本次文件修订前停止。",
+      ];
     return [
       "No new file was written for this job.",
       "这次作业没有写入新文件。",
@@ -159,7 +171,7 @@ export function jobStateLabel(state: JobState, t: Translate): string {
     succeeded: t("Verified", "已核验"),
     failed: t("Could not execute", "未能执行"),
     cancel_requested: t("Stopping · result pending", "正在停止 · 结果待确认"),
-    cancelled: t("Cancelled before execution", "已在执行前取消"),
+    cancelled: t("Cancelled", "已取消"),
     expired: t("Expired without execution", "已到期，未执行"),
     unknown: t("Result unknown · check before retrying", "结果未知 · 请先核验"),
   }[state];

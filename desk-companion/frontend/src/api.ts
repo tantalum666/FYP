@@ -245,6 +245,46 @@ export function errorText(
       "Automatic permission changed before this action started. Review a newly prepared action.",
       "操作开始前自动权限已改变，请核对重新准备的操作。",
     ],
+    APPLICATION_UNAVAILABLE: [
+      "The application workspace is not connected.",
+      "应用工作空间尚未连接。",
+    ],
+    APPLICATION_BRIDGE_FAILED: [
+      "The application connection failed. Check the action result before trying another write.",
+      "应用连接失败，请先核对这项操作的结果，再决定是否重新写入。",
+    ],
+    APPLICATION_BRIDGE_TIMEOUT: [
+      "The application did not respond in time. Check the action result before trying another write.",
+      "应用未及时响应，请先核对这项操作的结果，再决定是否重新写入。",
+    ],
+    APPLICATION_CONTENT_MISMATCH: [
+      "The application result did not match the reviewed changes. It was not published.",
+      "应用结果与核对的修改不一致，没有发布。",
+    ],
+    APPLICATION_SOURCE_CHANGED: [
+      "A source changed. Read the current version and prepare the affected step again.",
+      "资料已变化，请读取最新版本后重新准备受影响的步骤。",
+    ],
+    APPLICATION_ARTIFACT_CHANGED: [
+      "This file has changed since the referenced revision. Check the latest task result.",
+      "文件已不同于引用的版本，请核对事务中的最新结果。",
+    ],
+    APPLICATION_ARTIFACT_BUSY: [
+      "An earlier action for this file still needs a decision or result check.",
+      "这个文件的前一项操作仍需决定或核验结果。",
+    ],
+    APPLICATION_ARTIFACT_MISSING: [
+      "This verified file is not available in the connected workspace.",
+      "已连接的工作空间中暂时找不到这份已核验文件。",
+    ],
+    APPLICATION_VERIFICATION_UNAVAILABLE: [
+      "The file could not be reopened for checking. Its saved result is still retained.",
+      "暂时无法重新打开文件核验，已保存的结果仍会保留。",
+    ],
+    APPLICATION_SOURCE_NOT_FOUND: [
+      "That source is not in the connected input folder.",
+      "已连接的资料夹中没有这份资料。",
+    ],
     JOB_TASK_CHANGED: [
       "The linked task changed. Prepare a new job using its current details.",
       "关联事务已变化，请根据最新内容准备新作业。",

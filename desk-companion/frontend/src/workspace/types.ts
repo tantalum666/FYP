@@ -53,6 +53,7 @@ export interface WorkspaceSnapshot {
     enabled: boolean;
     folder?: { configured: boolean; label: string | null };
     desktop?: { ready: boolean };
+    applications?: { enabled: boolean; configured: boolean };
   };
   text_ai: {
     configured: boolean;

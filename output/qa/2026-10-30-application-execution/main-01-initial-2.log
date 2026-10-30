@@ -1,0 +1,21 @@
+{"stage": "budget", "state": "succeeded", "error": null, "id": "5cab4281b136444e9bd413530d0f6255"}
+{"stage": "brief", "state": "succeeded", "error": null, "id": "3988316a65cc482a8e32124564a8d3f4"}
+{"stage": "pdf", "state": "failed", "error": "APPLICATION_CONTENT_MISMATCH", "id": "2fb2272e221b43008ea84a43cdd7ef81"}
+Traceback (most recent call last):
+  File "/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/scripts/application_acceptance.py", line 350, in <module>
+    main()
+    ~~~~^^
+  File "/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/scripts/application_acceptance.py", line 346, in main
+    getattr(controller, args.phase)()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/scripts/application_acceptance.py", line 251, in initial
+    self.publish_documents(budget)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/scripts/application_acceptance.py", line 220, in publish_documents
+    self.step("pdf", {"kind": "pdf", "filename": "demo-brief.pdf", "source_job_id": document["id"],
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "replace_job_id": previous.get("pdf") if revise else None}, "Export the checked brief to PDF")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP/desk-companion/scripts/application_acceptance.py", line 101, in step
+    raise RuntimeError("Application step did not succeed: " + str(job["error"]))
+RuntimeError: Application step did not succeed: APPLICATION_CONTENT_MISMATCH

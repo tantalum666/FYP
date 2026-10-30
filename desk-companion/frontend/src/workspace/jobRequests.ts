@@ -1,6 +1,10 @@
-import { request, write } from "../api";
+import { ApiError, request, write } from "../api";
 import type { ComputerJob } from "./jobTypes";
-import { isDesktopAction, isFolderAction } from "./jobTypes";
+import {
+  isApplicationAction,
+  isDesktopAction,
+  isFolderAction,
+} from "./jobTypes";
 import type { Task } from "./taskTypes";
 
 export type JobAction = "approve" | "cancel" | "reconcile" | "verify";
@@ -14,6 +18,21 @@ export async function requestJobAction(job: ComputerJob, action: JobAction) {
     });
   }
   if (action === "verify") {
+    if (isApplicationAction(job.action)) {
+      const result = await request<{
+        result: { verified: boolean; reason: string };
+      }>(`/computer/jobs/${job.id}/readback`);
+      if (!result.result.verified)
+        throw new ApiError(
+          result.result.reason === "artifact_missing"
+            ? "APPLICATION_ARTIFACT_MISSING"
+            : result.result.reason === "content_mismatch"
+              ? "APPLICATION_ARTIFACT_CHANGED"
+              : "APPLICATION_VERIFICATION_UNAVAILABLE",
+          409,
+        );
+      return result;
+    }
     const task = job.task_id
       ? (await request<{ task: Task }>(`/tasks/${job.task_id}`)).task
       : null;

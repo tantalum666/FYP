@@ -1001,6 +1001,9 @@ export function TaskPanel({
               }
               timezone={task.timezone}
               jobs={detail?.task.id === task.id ? detail.jobs : undefined}
+              application={
+                detail?.task.id === task.id ? detail.application : undefined
+              }
               blocked={
                 busy ||
                 offline ||

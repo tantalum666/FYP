@@ -94,7 +94,19 @@ def kind_for(code: str) -> str:
     return CODE_KIND.get(code, "invalid")
 
 
-OWNER_ONLY_TOOLS = frozenset({"owner_search", "plate_summary", "owner_clock", "propose_plan"})
+OWNER_ONLY_TOOLS = frozenset(
+    {
+        "owner_search",
+        "plate_summary",
+        "owner_clock",
+        "propose_plan",
+        "application_sources",
+        "application_source_read",
+        "application_job_draft",
+        "application_task_state",
+        "application_artifact_read",
+    }
+)
 
 
 def memory_blocked(name: object, allow_memory: bool) -> bool:

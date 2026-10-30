@@ -1,0 +1,96 @@
+{
+  "task_id": "d8f5a1ea81024d08aab42ce7ff2e15f2",
+  "original_job": "42692169b3834d9cb0ba6f2c040f7648",
+  "updated_job": "3f7c74deb0f84010a9b67dcf72915fd3",
+  "cancelled_job": "ae3839fda4fc4d6e9dc007752be47c9f",
+  "decline_state": "cancelled",
+  "same_file_after_decline": true,
+  "original_download_still_matches": true,
+  "updated_readback": {
+    "verified": true,
+    "reason": "read_back_matches",
+    "artifact": "d8f5a1ea81024d08aab42ce7ff2e15f2/review-budget.xlsx",
+    "bytes": 6128,
+    "sha256": "715dcd62da0aa3f4abf92b253f914f633bd320605b98e976c7c7b07e83b753c1",
+    "executor": "office_applications_v1",
+    "scope": "applications:48c0a764373288396b80f638a99680db4dbdbc73f247eae17c668444ad9bc68b",
+    "operation_id": "3f7c74deb0f84010a9b67dcf72915fd3",
+    "apps_verified": [
+      "libreoffice_calc"
+    ],
+    "readback": {
+      "operation_id": "3f7c74deb0f84010a9b67dcf72915fd3",
+      "visible": true,
+      "window_title": "review-budget.xlsx (read-only) \u2014 LibreOffice Calc",
+      "application": "libreoffice_calc",
+      "sheets": [
+        {
+          "sheet": "Budget",
+          "cells": [
+            {
+              "cell": "A1",
+              "kind": "TEXT",
+              "text": "Fictional UI acceptance",
+              "value": 0.0,
+              "formula": "Fictional UI acceptance",
+              "error": 0
+            },
+            {
+              "cell": "A2",
+              "kind": "VALUE",
+              "text": "4",
+              "value": 4.0,
+              "formula": "4",
+              "error": 0
+            },
+            {
+              "cell": "B2",
+              "kind": "VALUE",
+              "text": "95",
+              "value": 95.0,
+              "formula": "95",
+              "error": 0
+            },
+            {
+              "cell": "C2",
+              "kind": "FORMULA",
+              "text": "380.00",
+              "value": 380.0,
+              "formula": "=A2*B2",
+              "error": 0
+            }
+          ]
+        }
+      ],
+      "office_pid": 24
+    }
+  },
+  "task": {
+    "check_in_local": null,
+    "due_local": null,
+    "follow_up_enabled": false,
+    "interval_minutes": 1440,
+    "next_step": "Review and approve a small real Calc change in the web interface.",
+    "status": "in_progress",
+    "steps": [],
+    "timezone": "Asia/Hong_Kong",
+    "title": "Application approval review (fictional)",
+    "visibility": "private",
+    "waiting_for": "",
+    "id": "d8f5a1ea81024d08aab42ce7ff2e15f2",
+    "version": 1,
+    "next_check_at": null,
+    "created_at": "2026-10-30T05:43:06.953692Z",
+    "updated_at": "2026-10-30T05:43:06.953692Z",
+    "paused": false,
+    "due_at": null,
+    "overdue": false,
+    "redacted": false,
+    "followup": null
+  },
+  "permissions": {
+    "mode": "ask",
+    "version": 3,
+    "updated_at": "2026-10-30T05:40:19.119595Z"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "context": "colima-fyp-apps",
+  "image": "fyp/application-desktop:20261030",
+  "image_id": "sha256:a986f0552ee5d82454f06ac96860efb74b094da83d562688ad394ee7ed11ea24",
+  "internal_network": true,
+  "user": "desk",
+  "privileged": false,
+  "added_capabilities": null,
+  "mounts": [
+    {
+      "destination": "/opt/desk",
+      "writable": false,
+      "source_leaf": "support"
+    },
+    {
+      "destination": "/inputs",
+      "writable": false,
+      "source_leaf": "inputs"
+    },
+    {
+      "destination": "/workspace",
+      "writable": true,
+      "source_leaf": "workspace"
+    }
+  ],
+  "packages": [
+    "chromium\t156.0.8078.73-1~deb13u1",
+    "libreoffice-calc\t4:25.2.3-2+deb13u8",
+    "libreoffice-core\t4:25.2.3-2+deb13u8",
+    "libreoffice-writer\t4:25.2.3-2+deb13u8",
+    "poppler-utils\t25.03.0-5+deb13u4",
+    "python3-uno\t4:25.2.3-2+deb13u8"
+  ],
+  "model_calls": 0,
+  "core_database_mounted": false,
+  "credentials_mounted": false,
+  "oracle_mounted": false
+}

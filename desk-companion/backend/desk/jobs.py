@@ -14,7 +14,8 @@ from datetime import timedelta
 from typing import Literal
 from uuid import uuid4
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Path as ApiPath
+from fastapi.responses import Response
 from pydantic import Field, ValidationError, model_validator
 
 from .calendar import iso
@@ -27,6 +28,19 @@ from .computer import (
     accept_owner_folder,
 )
 from .linux_desktop import LinuxDesktopExecutor
+from .application_models import (
+    APP_ACTIONS,
+    ApplicationJobInput,
+    ApplicationReceipt,
+    ApplicationStateQuery,
+    SourceQuery,
+)
+from .application_executor import (
+    ApplicationExecutor,
+    application_request,
+    validate_application_request,
+)
+from .application_runtime import read_regular, rooted
 from .schemas import StrictModel
 from .store import DomainError, encode
 
@@ -75,6 +89,8 @@ class JobInput(StrictModel):
 
 def validate_saved_request(request: dict) -> dict:
     """Backups carry completed intents, including verification's adopted content."""
+    if request.get("action") in APP_ACTIONS:
+        return validate_application_request(request)
     required = set(JobInput.model_fields) | {"artifact_id", "executor", "scope"}
     extras = {"folder_label", "folder_fingerprint"}
     if not required <= request.keys() or set(request) - required - extras:
@@ -147,6 +163,7 @@ class JobService:
         self.executor = executor or LocalNotesExecutor(self.store.directory)
         self.folder = FolderDropExecutor(self.folder_config)
         self.desktop = LinuxDesktopExecutor(self.store.directory)
+        self.applications = ApplicationExecutor(self.store.directory)
         self.enabled = os.environ.get("DESK_COMPUTER_ENABLED") == "1"
         self.run_lock = threading.Lock()
         self.stopping = False
@@ -176,6 +193,7 @@ class JobService:
     def capabilities(self):
         cfg = self.folder_config()
         return {
+            "applications": self.applications.status(),
             "desktop": self.desktop.status(),
             "enabled": self.enabled,
             "executor": self.executor.identity,
@@ -214,7 +232,14 @@ class JobService:
             (NOTE_ACTIONS, self._notes_executor),
             (FOLDER_ACTIONS, self._folder_executor),
             (DESKTOP_ACTIONS, self._desktop_executor),
+            (APP_ACTIONS, self._application_executor),
         )
+
+    def _application_executor(self, preparing):
+        del preparing
+        if not self.applications.enabled or not self.applications.bridge.configured:
+            raise DomainError("APPLICATION_UNAVAILABLE", 409)
+        return self.applications
 
     def _desktop_executor(self, preparing):
         del preparing
@@ -286,14 +311,22 @@ class JobService:
             cancel_requested=bool(row["cancel_requested"]),
             result=json.loads(row["result"]) if row["result"] else None,
         )
+        if not review and view["result"]:
+            view["result"].pop("readback", None)
         if review or describe:
             view["title"] = request["title"]
         if review:
             authority = row["approved_by"] or ""
-            authorization = ({"mode": "full", "version": int(authority.split(":", 1)[1])}
-                             if authority.startswith("owner_policy:") else
-                             {"mode": "once"} if authority == "owner" else None)
-            view.update(request=request, intent_hash=row["intent_hash"], authorization=authorization)
+            authorization = (
+                {"mode": "full", "version": int(authority.split(":", 1)[1])}
+                if authority.startswith("owner_policy:")
+                else {"mode": "once"}
+                if authority == "owner"
+                else None
+            )
+            view.update(
+                request=request, intent_hash=row["intent_hash"], authorization=authorization
+            )
         return view
 
     def detail(self, job_id, review=False):
@@ -340,11 +373,27 @@ class JobService:
         if request["task_id"]:
             task = self.runtime.tasks.get(conn, request["task_id"])
             if task["version"] != request["task_version"] or (
-                request["action"] in WRITE_ACTIONS and task["status"] in {"completed", "cancelled"}
+                request["action"] in WRITE_ACTIONS | APP_ACTIONS
+                and task["status"] in {"completed", "cancelled"}
             ):
                 raise DomainError("JOB_TASK_CHANGED", 409)
+        if request["action"] in APP_ACTIONS:
+            for dependency in request["dependencies"]:
+                row = self._row(conn, dependency["job_id"])
+                parent = json.loads(row["request"])
+                result = json.loads(row["result"]) if row["result"] else {}
+                if (
+                    row["state"] != "succeeded"
+                    or parent.get("action") != "application"
+                    or parent["task_id"] != request["task_id"]
+                    or parent["scope"] != request["scope"]
+                    or parent["step"]["filename"] != dependency["filename"]
+                    or parent["step"]["kind"] != dependency["kind"]
+                    or result.get("sha256") != dependency["sha256"]
+                ):
+                    raise DomainError("JOB_SOURCE_UNVERIFIED", 409)
 
-    def prepare(self, payload: JobInput, key):
+    def prepare(self, payload: JobInput | ApplicationJobInput, key):
         def apply(conn):
             if conn.execute("SELECT COUNT(*) FROM computer_jobs").fetchone()[0] >= 1000:
                 raise DomainError("JOB_LIMIT", 429)
@@ -356,10 +405,16 @@ class JobService:
             ):
                 raise DomainError("TOO_MANY_DRAFTS", 422)
             request = payload.model_dump()
-            self._task_current(conn, request)
+            if payload.action not in APP_ACTIONS:
+                self._task_current(conn, request)
             job_id = uuid4().hex
             request["artifact_id"] = job_id
-            if payload.action in NOTE_ACTIONS:
+            if payload.action in APP_ACTIONS:
+                if not isinstance(payload, ApplicationJobInput):
+                    raise DomainError("COMPUTER_ACTION_DENIED", 403)
+                request = application_request(payload, conn, self, job_id)
+                self._task_current(conn, request)
+            elif payload.action in NOTE_ACTIONS:
                 if not self.enabled:
                     raise DomainError("COMPUTER_DISABLED", 409)
                 request.update(executor=self.executor.identity, scope=self.executor.scope)
@@ -421,18 +476,29 @@ class JobService:
             request = json.loads(row["request"])
             self._task_current(conn, request)
             self._executor(request)
-            if permission_version is not None and not self.runtime.permissions.current(permission_version, conn):
+            if request["action"] in APP_ACTIONS:
+                self.applications.current(request)
+            if permission_version is not None and not self.runtime.permissions.current(
+                permission_version, conn
+            ):
                 raise DomainError("PERMISSION_CHANGED", 409)
-            approved_by = "owner" if permission_version is None else f"owner_policy:{permission_version}"
+            approved_by = (
+                "owner" if permission_version is None else f"owner_policy:{permission_version}"
+            )
             conn.execute(
                 "UPDATE computer_jobs SET approved_by=?,deadline=? WHERE id=?",
                 (approved_by, iso(self.store.clock() + timedelta(seconds=60)), job_id),
             )
             self._state(conn, job_id, "queued")
             if permission_version is not None:
-                self.store.record(conn, "permission_action", details={
-                    "job_id": job_id, "permission_version": permission_version,
-                })
+                self.store.record(
+                    conn,
+                    "permission_action",
+                    details={
+                        "job_id": job_id,
+                        "permission_version": permission_version,
+                    },
+                )
             return {"job_id": job_id}
 
         self.store.operation(
@@ -471,6 +537,32 @@ class JobService:
                 self._state(conn, row["id"], state, "JOB_DEADLINE_EXCEEDED")
 
     def _verify(self, request):
+        if request["action"] in APP_ACTIONS:
+            receipt = ApplicationReceipt.model_validate(
+                self._executor(request).verify(request)
+            ).model_dump(exclude_none=True)
+            if receipt["verified"] and (
+                receipt["artifact"] != request["task_id"] + "/" + request["step"]["filename"]
+                or receipt["operation_id"] != request["artifact_id"]
+                or receipt["executor"] != request["executor"]
+                or receipt["scope"] != request["scope"]
+            ):
+                raise ValueError("Application receipt does not match its authorized intent")
+            expected_app = {
+                "workbook": "libreoffice_calc",
+                "document": "libreoffice_writer",
+                "pdf": "libreoffice_writer",
+                "text": "local_text",
+            }[request["step"]["kind"]]
+            if receipt["verified"] and receipt["apps_verified"] != [expected_app]:
+                raise ValueError("Application identity does not match the requested operation")
+            if receipt["verified"]:
+                body = read_regular(self.applications.target(request))
+                if receipt["sha256"] != hashlib.sha256(body).hexdigest() or receipt["bytes"] != len(
+                    body
+                ):
+                    raise ValueError("Application receipt does not match the published bytes")
+            return receipt
         receipt = VerificationReceipt.model_validate(
             self._executor(request).verify(request)
         ).model_dump(exclude_none=True)
@@ -702,13 +794,16 @@ class JobService:
                 or any(char not in "0123456789abcdef" for char in job_id)
                 or job_id in identifiers
                 or not isinstance(request, dict)
-                or request.get("action") not in NOTE_ACTIONS | FOLDER_ACTIONS | DESKTOP_ACTIONS
+                or request.get("action")
+                not in NOTE_ACTIONS | FOLDER_ACTIONS | DESKTOP_ACTIONS | APP_ACTIONS
                 or row.get("state") not in known
                 or not isinstance(row.get("intent_hash"), str)
                 or len(row["intent_hash"]) != 64
             ):
                 raise ValueError("Invalid job backup")
             request = validate_saved_request(request)
+            if request["action"] in APP_ACTIONS and row.get("state") == "succeeded":
+                ApplicationReceipt.model_validate(row.get("result"))
             if row["intent_hash"] != hashlib.sha256(encode(request).encode()).hexdigest():
                 raise ValueError("Invalid job intent hash")
             identifiers.add(job_id)
@@ -821,10 +916,115 @@ class JobService:
             )
         return {"created": len(created), "kept": kept}
 
+    def application_state(self, task_id):
+        """Stages are projections of existing durable jobs, not another execution queue."""
+        with self.store.connection() as conn:
+            self.runtime.tasks.get(conn, task_id)
+            rows = conn.execute(
+                "SELECT * FROM computer_jobs WHERE json_extract(request,'$.task_id')=? "
+                "AND json_extract(request,'$.action')='application' ORDER BY rowid DESC",
+                (task_id,),
+            ).fetchall()
+        stages, artifacts = {}, {}
+        for row in rows:
+            request = json.loads(row["request"])
+            if request["stage"] not in stages:
+                stages[request["stage"]] = {
+                    "stage": request["stage"],
+                    "title": request["title"],
+                    "job_id": row["id"],
+                    "state": row["state"],
+                    "error": row["error"],
+                    "task_version": request["task_version"],
+                    "depends_on": request["depends_on"],
+                    "filename": request["step"]["filename"],
+                }
+            filename = request["step"]["filename"]
+            if row["state"] == "succeeded" and filename not in artifacts:
+                result = json.loads(row["result"])
+                artifacts[filename] = {
+                    "filename": filename,
+                    "job_id": row["id"],
+                    "sha256": result["sha256"],
+                    "bytes": result["bytes"],
+                    "verified_at": row["updated_at"],
+                }
+        return {
+            "task_id": task_id,
+            "stages": list(stages.values()),
+            "artifacts": list(artifacts.values()),
+            "unresolved_jobs": [s["job_id"] for s in stages.values() if s["state"] not in TERMINAL],
+            "task_completion_is_separate": True,
+        }
+
+    def application_readback(self, job_id):
+        with self.store.connection() as conn:
+            row = self._row(conn, job_id)
+            request = json.loads(row["request"])
+            if request["action"] not in APP_ACTIONS or row["state"] not in {"succeeded", "unknown"}:
+                raise DomainError("JOB_SOURCE_UNVERIFIED", 409)
+        return {"job_id": job_id, "result": self._verify(request)}
+
+    def application_download(self, job_id):
+        with self.store.connection() as conn:
+            row = self._row(conn, job_id)
+            request = json.loads(row["request"])
+            if request.get("action") != "application" or row["state"] != "succeeded":
+                raise DomainError("JOB_SOURCE_UNVERIFIED", 409)
+            result = json.loads(row["result"])
+        filename = request["step"]["filename"]
+        path = rooted(self.applications.root, "history/" + job_id + "/" + filename)
+        try:
+            body = read_regular(path)
+        except (OSError, ValueError, DomainError):
+            raise DomainError("APPLICATION_ARTIFACT_MISSING", 404) from None
+        if hashlib.sha256(body).hexdigest() != result["sha256"]:
+            raise DomainError("APPLICATION_ARTIFACT_CHANGED", 409)
+        return filename, body
+
 
 def job_routes(runtime, owner, operation_id):
     # Pairing and model tool access do not grant computer execution approval.
     router = APIRouter(prefix="/api/computer", dependencies=[Depends(owner)])
+
+    @router.get("/sources")
+    def sources():
+        return runtime.jobs.applications.sources.listing()
+
+    @router.post("/sources/read")
+    def source(payload: SourceQuery):
+        return runtime.jobs.applications.sources.content(payload.source_id)
+
+    @router.post("/application-jobs")
+    def application_prepare(payload: ApplicationJobInput, key=Depends(operation_id)):
+        return runtime.jobs.prepare(payload, key)
+
+    @router.get("/application-state/{task_id}")
+    def application_state(task_id: str = ApiPath(pattern=r"^[a-f0-9]{32}$")):
+        return runtime.jobs.application_state(ApplicationStateQuery(task_id=task_id).task_id)
+
+    @router.get("/jobs/{job_id}/readback")
+    def readback(job_id: str):
+        return runtime.jobs.application_readback(job_id)
+
+    @router.get("/jobs/{job_id}/artifact")
+    def artifact(job_id: str):
+        filename, body = runtime.jobs.application_download(job_id)
+        media = {
+            "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "odt": "application/vnd.oasis.opendocument.text",
+            "pdf": "application/pdf",
+            "txt": "text/plain",
+            "md": "text/markdown",
+        }
+        return Response(
+            body,
+            media_type=media[filename.rsplit(".", 1)[1]],
+            headers={
+                "Content-Disposition": f'attachment; filename="{filename}"',
+                "Cache-Control": "no-store",
+            },
+        )
 
     @router.get("/folder")
     def folder_status():

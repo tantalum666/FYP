@@ -1,0 +1,5 @@
+{"stage": "budget", "reused_verified_job": "5cab4281b136444e9bd413530d0f6255"}
+{"stage": "brief", "reused_verified_job": "3988316a65cc482a8e32124564a8d3f4"}
+{"stage": "pdf", "state": "succeeded", "error": null, "id": "d28ec5b5cb3544d8a355f9f7bde378a7"}
+{"stage": "plan", "state": "succeeded", "error": null, "id": "1b670164c4e945ae8ac2f39ebcaf9bc2"}
+{"stage": "email", "state": "succeeded", "error": null, "id": "e0967cc885f84225af30abb5ae92e7b3"}

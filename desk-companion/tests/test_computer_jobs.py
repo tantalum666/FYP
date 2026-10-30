@@ -20,6 +20,7 @@ from desk.jobs import (
     JobApproval,
     JobInput,
 )
+from desk.application_models import APP_ACTIONS, ApplicationJobInput
 from desk.store import DomainError
 from desk.tasks import TaskAction, TaskInput
 
@@ -41,6 +42,7 @@ def test_note_and_folder_actions_share_one_executor_registry(setup):
         ("save_note", "verify_note"),
         ("save_folder_file", "verify_folder_file"),
         ("linux_note_preview", "verify_linux_file"),
+        ("application",),
     ]
     allowed = set(get_args(JobInput.model_fields["action"].annotation))
     assert allowed == NOTE_ACTIONS | FOLDER_ACTIONS | DESKTOP_ACTIONS
@@ -51,7 +53,10 @@ def test_note_and_folder_actions_share_one_executor_registry(setup):
     for actions, _resolve in jobs._bindings():
         assert covered.isdisjoint(actions)
         covered |= set(actions)
-    assert covered == allowed
+    application_allowed = set(get_args(ApplicationJobInput.model_fields["action"].annotation))
+    assert application_allowed == APP_ACTIONS
+    assert application_allowed.isdisjoint(allowed)
+    assert covered == allowed | application_allowed
 
 
 def test_unknown_action_is_denied_instead_of_using_the_folder(setup):

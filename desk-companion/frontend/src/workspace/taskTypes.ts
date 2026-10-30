@@ -59,4 +59,5 @@ export interface TaskDetail {
   task: Task;
   evidence: TaskEvidence[];
   jobs: ComputerJobSummary[];
+  application?: import("./applicationTypes").ApplicationState | null;
 }

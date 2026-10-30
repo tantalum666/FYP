@@ -10,6 +10,7 @@ from typing import Literal
 from pydantic import Field, ValidationError
 
 from .jobs import JobInput, JobQuery
+from .application_models import ApplicationJobInput, ApplicationStateQuery, SourceQuery
 from .memory import MemoryDeleteDraft, MemoryQuery, MemoryReplaceDraft, MemorySaveDraft
 from .outputs import PRESETS
 from .schemas import CreateEvents, StrictModel
@@ -54,6 +55,11 @@ class Capability:
 
 def _capabilities() -> dict[str, Capability]:
     rows = [
+        Capability("application_sources", "read", EmptyArgs),
+        Capability("application_source_read", "read", SourceQuery, timeout=10),
+        Capability("application_job_draft", "draft", ApplicationJobInput),
+        Capability("application_task_state", "read", ApplicationStateQuery),
+        Capability("application_artifact_read", "read", JobQuery, timeout=15),
         Capability("memory_query", "read", MemoryQuery),
         Capability("memory_save_draft", "draft", MemorySaveDraft),
         Capability("memory_replace_draft", "draft", MemoryReplaceDraft),

@@ -32,3 +32,9 @@ Permission saves use a stable request key independently of a pending business wr
 ## Limits and next work
 
 Full access is bounded software delegation in this single-owner application, not unrestricted OS access. The existing HTTP loop still stops after one effect-producing tool result; this change does not add a second model loop or claim multi-step autonomous completion. Long-running mixed-action/partial-failure orchestration is separate work. All new model-path checks are offline/scripted; native build/visual evidence does not close native tap/soft-keyboard or real-device acceptance.
+
+## Application operations (30 October)
+
+The new bounded workbook/document/PDF/text jobs use the same policy and approval contract. Ask first shows exact cells/formulas or document content in the shared card; Full access applies only to eligible newly prepared jobs under a current owner request. Source/dependency/task versions and authority are rechecked before atomic publication. Revocation blocks a queued automatic revision and leaves already saved artifacts intact. No model permission-setting endpoint, second queue or blanket OS permission was added.
+
+Task pages expose durable stage state and last verified downloads. Application “Check the file again” reopens the current file without preparing a new write or approval. Old immutable downloads remain available even after a later verified revision; rechecking an older operation against a newer active file reports a mismatch. [Actual web/phone and recovery QA](../../output/qa/2026-10-30-application-execution/verification.md).

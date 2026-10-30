@@ -1,6 +1,6 @@
 # Group 2 · Software maintenance contract
 
-30 October2026. The current checkpoint prepares a harder application acceptance fixture and reference checks. Earlier bounded task/file/phone, shared permissions and OpenAI evaluation work remains in place; the new complex workflow has not been implemented or run. Selected-task context and interaction recovery remain in place. The owner requests focused documentation reading, maintainable implementation and GitHub publication of meaningful milestones.
+30 October2026. The current checkpoint implements bounded application operations and passes a scripted browser/Calc/Writer/PDF task with changed constraints and restart recovery. Earlier task/file/phone, shared permissions and OpenAI evaluation work remains in place; autonomous voice completion is still untested. Selected-task context and interaction recovery remain in place. The owner requests focused documentation reading, maintainable implementation and GitHub publication of meaningful milestones.
 
 ## Frontend responsibilities
 
@@ -39,7 +39,7 @@ Qwen Omni remains the tested integration baseline, not the only/final model choi
 
 ## Validation and publication
 
-The [current QA](../../output/qa/2026-10-29-assistant-permissions/verification.md) records489 backend/89 frontend checks, Ruff/types/build, actual inline approvals, standing permission, response-loss recovery, cross-client task results and a fresh native build/install/launch. Native touch/soft-keyboard acceptance remains open: the current input automation did not deliver a reliable app transition. The earlier450/89 integration and303/65 #60 results are historical. Historical real-model results are not counted as new passes. Product acceptance gates and the next integrated journey are in [delivery readiness](delivery-readiness.md).
+The [29 October QA](../../output/qa/2026-10-29-assistant-permissions/verification.md) records489 backend/89 frontend checks, Ruff/types/build, actual inline approvals, standing permission, response-loss recovery, cross-client task results and a fresh native build/install/launch. Native touch/soft-keyboard acceptance remains open: the current input automation did not deliver a reliable app transition. The earlier450/89 integration and303/65 #60 results are historical. Historical real-model results are not counted as new passes. Product acceptance gates and the next integrated journey are in [delivery readiness](delivery-readiness.md).
 
 The branch retains main's Vite8.3.5 dependency. Validation runs locally: backend lint/tests, frontend tests/build and scoped interaction checks, with models and executors disabled unless separately authorized. The owner does not want GitHub CI; the workflow was removed. Do not recreate it or treat Actions/account limits as unfinished work. Relevant local checks remain mandatory before publication.
 
@@ -57,7 +57,7 @@ Conversation revision hashes that whole snapshot, while the initial prompt stays
 - SSE transport owns framing and completion acknowledgement. EOF alone retains the original operation; recovery uses the same endpoint/key and updates only the matching conversation/draft.
 - The existing Conversations pool owns temporary context. HTTP/realtime views and recall focus reuse it; no duplicate global transcript table or second model loop. Durable principal-scoped receipts are separate from login/task-scoped history.
 - Shared tool validation preserves omitted fields. Read tools recheck current state; effects keep durable idempotence. Forgetting redacts/tombstones matching historical copies without deleting execution keys.
-- Backup apply checks owner authority before cached results. Stored job requests are fully validated, all three executor families round-trip, and imported folders pass normal path/fingerprint controls.
+- Backup apply checks owner authority before cached results. Stored job requests are fully validated, note, folder, fixed-desktop and application executor families round-trip, and imported folders pass normal path/fingerprint controls.
 - Current notification/proactivity services reuse existing preferences and scheduler. Advanced memory UI is disclosed on demand instead of expanding mobile primary navigation.
 
 ## Standing authority and receipt ownership
@@ -77,3 +77,9 @@ The opt-in `scripts/openai_voice_eval.py` runner is separate from production voi
 ## Complex application-task fixture boundary (30October)
 
 `evals/app_workflow_v1/inputs` contains only fictional source material. Its controller and `scripts/app_workflow_reference.py` are evaluation infrastructure, never a model tool or production application executor. Six offline checks validate the constraint changes, versions, calendar conflict and cost arithmetic; they do not certify GUI execution. [Acceptance contract](../../planning/2026-10-30/complex-application-acceptance.md) requires independent app evidence and keeps current task/job/permission services as the implementation base. Do not implement the whole fixture as a privileged one-shot solver or silently expand existing note-only actions into arbitrary shell access.
+
+## Real application execution boundary (30 October)
+
+The [application contract](application-execution.md) assigns typed intents to `application_models`, transport/source scope to `application_runtime`, version/staging/reconciliation to `application_executor`, and actual UNO/CDP calls to `application_bridge`. JobService retains its single queue and projects stage state from existing jobs; TaskService completion stays separate. No controller/reference solver is a model tool. `ApplicationPreview` renders the reviewed patch, while shared cards/ExportLink/TaskJobs own existing approval, readback and downloads.
+
+[Actual QA](../../output/qa/2026-10-30-application-execution/verification.md) records 524 backend/89 frontend checks and real Linux apps, application/process restart, same-file recovery, calendar identity, web/phone approval and cancellation. The ordinary HTTP model still stops after one effect-producing tool. Durable evidence enables a future continuation loop but is not that loop; all new model calls remain off.

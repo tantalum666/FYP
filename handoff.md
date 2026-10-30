@@ -1,25 +1,29 @@
 # Group 2 Current Handoff
 
-30 October2026, Asia/Hong_Kong. Current checkpoint: **harder cross-application task, prepared fixtures and reference checks**. Branch`codex/complex-app-acceptance-20261030` in`/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, based on open[PR66](https://github.com/tantalum666/FYP/pull/66) head`4f96fa7f5d56271a758b8a9e9f66930c7f359c41`. Published as draft[PR67](https://github.com/tantalum666/FYP/pull/67), verified fixture/reference commit`6f2e076c6927bc79641caec548e86515e2997b15`;[receipt](output/qa/2026-10-30-complex-app-task/publication.json). The PR remains open/unmerged; no deployment or complex-task execution.
+30 October 2026, Asia/Hong_Kong. Current checkpoint: **bounded real application execution, scripted complex-task recovery and shared web/phone controls**. Workspace `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`, branch `codex/application-execution-20261030`, based on PR67 head `6bc8f19d6476577f5178e0c74374152646591b4a`. Publication readback is recorded with this milestone; no implicit merge or Pi deployment.
 
-## Latest owner steering
+## Completed and verified
 
-The owner rejected the simple “write a note and preview it” proposal as too easy. That flow is now a smoke check. The main gate is the[complex demo-preparation task](planning/2026-10-30/complex-application-acceptance.md): source reconciliation, real browser/Calc/Writer/PDF, calendar/task updates, mid-task budget/quantity/day correction, necessary clarification and recovery after lost acknowledgment/restart.
+- Generic typed workbook/document/PDF/text jobs now use the existing JobService, PermissionService and TaskService. Scoped source reads use actual Chromium; Calc formulas and Writer editing/export use actual UNO. Owned staging, source/dependency/task versions, immutable history, independent reopen and atomic publication are separate modules. [Contract/setup](desk-companion/docs/application-execution.md).
+- The fictional complex case actually ran: initial Aster HKD 809.60 → revised colour constraints infeasible → scripted black-and-white clarification → Delta HKD 669.24, including ten extra copies. Five artifacts, seven unfinished source tasks/14.5 hours, five calendar events and the same second rehearsal ID moved to Thursday. [Artifacts and actual QA](output/qa/2026-10-30-application-execution/verification.md).
+- Saved-but-unacknowledged workbook survived process/application restart and read-only reconciliation with identical SHA/mtime. Another clean container restart verified all five files. Queued Full-access work was blocked after withdrawal. Failed Calc/PDF/startup attempts and fixes remain in the evidence.
+- Shared cards show exact patches, Allow once/Not now, real results and downloads. Task pages project durable stages and last verified files. Actual web creation, phone update, 393px readback/unsent-draft retention and declined change passed. Actual Calc result changed 285 → 380; decline left the latter unchanged. Alice home remains.
+- Local full suite: 524 backend / 89 frontend; final focused checks, Ruff/format, TypeScript/Vite and visual/readback evidence in QA. PDF pages were rendered and inspected. No CI.
 
-## What is actually ready
+## Current local environment
 
-- [Fictional input pack](desk-companion/evals/app_workflow_v1/README.md):11 task rows/9 unique tasks, later meeting update, availability/existing events, frozenFX, four suppliers/five quote revisions in localHTML, controller correction/fault checkpoints and source hashes.
-- Independent offline reference confirms initialAster809.60HKD, no feasible corrected colour offer, then approved black-and-whiteDelta669.24HKD including minimum50copies; a rate variation changes the winner. Remaining work is7tasks/14.5hours; the second rehearsal must update the same event fromWednesday toThursday.
-- [Six fixture checks](output/qa/2026-10-30-complex-app-task/verification.md),Ruff/format pass. **No candidate model or desktop app ran this complex task.** Content correctness, actual application execution and agent-level task success are separate gates. Controller/oracle/QA must not be exposed to the evaluated model.
-- Capability audit: currentJobInput has only six note/verification actions; LinuxExecutor is fixedMousepad→Chromium. Spreadsheet/doc editing,PDF export, general source browsing and persistent multi-step stage recovery need implementation. Do not label the fixture/reference solver as that implementation.
+Owned Colima profile `fyp-apps`, Docker context `colima-fyp-apps`, container `desk-applications`, internal network `desk-apps-internal`. Only `.runtime/app-desktop` is VM-mounted; its `inputs` and generic helper `support` are read-only in the container, `workspace` writable. No key, core database, repository, oracle or Docker socket is mounted. Chromium sandbox is retained. [Prepare helper](desk-companion/scripts/application_desktop/prepare.py) pins/verifies the upstream seccomp content; the run recipe explains DNS and display-lock repairs.
 
-## Preserve prior state
+Core runtime `.runtime/application-main-01` is outside the desktop mount. Preview API `127.0.0.1:8854`, Vite `127.0.0.1:5191`, phone `?surface=phone`, providers `none`, final permission Ask. Main case task `5909669a950c47c58f7477ea0da8a025`; separate UI task `d8f5a1ea81024d08aab42ce7ff2e15f2`. Desktop viewer uses an owned loopback SSH forward at `127.0.0.1:5530`; cancel only that forward, never Colima's shared control master. Recheck listener ownership before reuse. All input/data here is fictional.
 
-- PR64 memory,PR65 permissions/task continuity andPR66OpenAI evaluation remain open/unmerged. Grok20–59/#60 were already merged viaPR61. Existing Alice/full-screen phone and shared application services stay intact.
-- OpenAI evaluation:16 real short sessions/11 controlled checks;504 full backend/15 focused;USD0.3035168833 conservative usage estimate. [QA](output/qa/2026-10-29-openai-realtime/verification.md). **That USD5 round remains closed**, all sessions ended; no model call this turn. Qwen's old budgets also remain closed. Normal App has noOpenAI provider entry yet.
-- Explicitly approved OpenAI credential remains only inGit-ignored0600`desk-companion/.env.local`; never print it. Private evaluation runtimes/inputs/databases and old dirty worktrees/school originals remain preserved.
-- Prior preview waslocalhost:5190/phone`?surface=phone`, API8833/providersnone, Simulator mirror3200. This task did not reconfigure/reaccept those services; recheck ownership/listeners before reuse. Native taps/soft keyboard remain unaccepted from prior checkpoint. Pi/Luwu paused.
+## Boundaries to preserve
+
+The application acceptance driver is scripted test infrastructure, not a model planner or tool. **No autonomous Qwen/Realtime/Live complex-task pass and no new model call occurred.** Normal HTTP still stops after one effect-producing tool; durable stages do not implement continuation. Production OpenAI provider wiring, human speech/AEC and unseen task variants remain open.
+
+The prior OpenAI USD5 round is closed (USD0.3035168833 conservative estimate); old Qwen budgets are closed. The previously authorized key remains only in ignored 0600 `desk-companion/.env.local`; never print or publish it. No new paid round follows automatically from this handoff. Native iOS touch/keyboard remains open and was not rebuilt/retested in this application round. Pi/Luwu paused; school originals unchanged.
+
+PR64 memory, PR65 permissions, PR66 OpenAI evaluation and PR67 fixtures remain the prior unmerged stack. Grok20–59/#60 were already integrated via PR61. Do not repeat that merge or describe a pushed branch as deployed.
 
 ## One next step
 
-Implement and offline-verify bounded browser/Calc/Writer operations and independent readback for the prepared fixture, including one saved-but-unacknowledged recovery. ReuseTaskService/JobService/permissions/versioned receipts; add clear persistent stage evidence instead of another queue or monolithic all-in-one solver. Then connect voice candidates for the same task and human listening under a separately scoped paid round. NoCI, physical hardware, purchase, external message or school submission.
+Implement an offline-tested, resumable model-driven task turn over these shared typed tools/stages, including a held-out source/layout case and interruption. Reuse current job/permission/receipt boundaries rather than adding a planner-specific queue or one-shot fixture solver. Only after that, wire the normal OpenAI conversation paths and scope a small newly authorized paid voice comparison.

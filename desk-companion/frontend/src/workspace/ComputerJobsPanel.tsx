@@ -14,6 +14,7 @@ import { useWorkspace } from "./WorkspaceContext";
 import {
   isFolderAction,
   isDesktopAction,
+  isApplicationAction,
   recoveryMatchesNote,
 } from "./jobTypes";
 import { JobActionCard } from "./JobActionCard";
@@ -24,6 +25,7 @@ import type { Task } from "./taskTypes";
 interface Snapshot {
   enabled: boolean;
   desktop?: { enabled: boolean; ready: boolean; apps: string[] };
+  applications?: { enabled: boolean; configured: boolean };
   folder?: { configured: boolean; label: string | null };
   jobs: ComputerJob[];
 }
@@ -59,11 +61,13 @@ export function ComputerJobsPanel({
       ? "linux_note_preview"
       : noteAction;
   const executorAvailable = (job: ComputerJob) =>
-    isDesktopAction(job.action)
-      ? snapshot?.desktop?.ready
-      : isFolderAction(job.action)
-        ? snapshot?.folder?.configured
-        : snapshot?.enabled;
+    isApplicationAction(job.action)
+      ? snapshot?.applications?.enabled && snapshot.applications.configured
+      : isDesktopAction(job.action)
+        ? snapshot?.desktop?.ready
+        : isFolderAction(job.action)
+          ? snapshot?.folder?.configured
+          : snapshot?.enabled;
   const alive = useRef(false);
   const generation = useRef(0);
   const reading = useRef<number | null>(null);
@@ -259,7 +263,12 @@ export function ComputerJobsPanel({
       await requestJobAction(job, kind);
       setNotice(
         kind === "verify"
-          ? t("Verification prepared for review.", "核验作业已准备待核对。")
+          ? isApplicationAction(job.action)
+            ? t(
+                "The current file matches the verified operation.",
+                "当前文件与已核验操作一致。",
+              )
+            : t("Verification prepared for review.", "核验作业已准备待核对。")
           : kind === "approve"
             ? t(
                 "Approval request processed. Check the current status below; the desk keeps the job and its result.",

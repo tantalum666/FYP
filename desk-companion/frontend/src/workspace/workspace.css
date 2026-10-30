@@ -464,6 +464,32 @@
   resize: vertical;
   min-height: 92px;
 }
+.application-preview {
+  max-height: 340px;
+  overflow: auto;
+}
+.application-preview h5 {
+  margin: 12px 0 6px;
+  font-size: 14px;
+}
+.application-preview-table {
+  overflow-x: auto;
+}
+.application-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.application-preview th,
+.application-preview td {
+  padding: 7px 9px;
+  border-bottom: 1px solid #dfe3ea;
+  text-align: left;
+  vertical-align: top;
+}
+.application-preview code {
+  overflow-wrap: anywhere;
+}
 .assistant-context-label {
   display: flex;
   align-items: center;

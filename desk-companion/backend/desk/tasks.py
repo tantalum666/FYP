@@ -386,6 +386,7 @@ class TaskService:
             "task": projected,
             "evidence": [dict(r) for r in rows],
             "jobs": self.runtime.jobs.listing(task_id, describe=describe_jobs),
+            "application": self.runtime.jobs.application_state(task_id) if describe_jobs else None,
         }
 
     def tick(self):
@@ -467,14 +468,17 @@ class TaskService:
                     made += 1
                     changed = True
                     hidden = (
-                        self.store.settings(conn)["hide_private"] and data["visibility"] == "private"
+                        self.store.settings(conn)["hide_private"]
+                        and data["visibility"] == "private"
                     )
                     body_en = (
                         "A saved check-in is ready. The details stay hidden."
                         if hidden
                         else notice["reason_en"]
                     )
-                    body_zh = "已到保存的检查时间。细节保持隐藏。" if hidden else notice["reason_zh"]
+                    body_zh = (
+                        "已到保存的检查时间。细节保持隐藏。" if hidden else notice["reason_zh"]
+                    )
                     outbound.append(
                         Notice(
                             "followup-" + followup_id,
@@ -601,8 +605,9 @@ def task_routes(runtime, authenticated, operation_id):
 
     @router.get("/{task_id}")
     def detail(task_id: str, display: bool = False, principal=Depends(authenticated)):
-        return runtime.tasks.detail(task_id, display=display,
-                                    describe_jobs=principal["kind"] == "owner" and not display)
+        return runtime.tasks.detail(
+            task_id, display=display, describe_jobs=principal["kind"] == "owner" and not display
+        )
 
     @router.post("/{task_id}/actions")
     def action(task_id: str, payload: TaskAction, key=Depends(operation_id)):

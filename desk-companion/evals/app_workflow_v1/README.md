@@ -1,6 +1,6 @@
 # Group 2 · Complex application task fixture
 
-30 October 2026. **Prepared fixture and reference checks only; no agent or application run has passed this task yet.** The owner asked for a substantially harder real task than saving and previewing a note. The chosen scenario is a fictional demo-preparation package across a browser, spreadsheet, document editor and Desk Companion.
+30 October 2026. **The prepared fixture now has a passing scripted real-application execution run; no autonomous voice-agent pass is claimed.** The owner asked for a substantially harder real task than saving and previewing a note. The chosen scenario is a fictional demo-preparation package across a browser, spreadsheet, document editor and Desk Companion.
 
 Full [acceptance specification](../../../planning/2026-10-30/complex-application-acceptance.md). Local fixture [QA](../../../output/qa/2026-10-30-complex-app-task/verification.md).
 

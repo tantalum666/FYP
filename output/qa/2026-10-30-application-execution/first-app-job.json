@@ -1,0 +1,217 @@
+{
+  "task": {
+    "check_in_local": null,
+    "due_local": null,
+    "follow_up_enabled": false,
+    "interval_minutes": 1440,
+    "next_step": "",
+    "status": "todo",
+    "steps": [],
+    "timezone": "Asia/Hong_Kong",
+    "title": "Application execution smoke",
+    "visibility": "private",
+    "waiting_for": "",
+    "id": "6b9c834aa2d94d53af45891d55b0917c",
+    "version": 1,
+    "next_check_at": null,
+    "created_at": "2026-10-29T18:10:40.931433Z",
+    "updated_at": "2026-10-29T18:10:40.931433Z",
+    "paused": false
+  },
+  "job": {
+    "id": "173d2749672b4745a4c39a96d6f93d1f",
+    "state": "succeeded",
+    "version": 5,
+    "created_at": "2026-10-29T18:10:40.937026Z",
+    "updated_at": "2026-10-29T18:10:42.322292Z",
+    "expires_at": "2026-10-29T18:15:40.937049Z",
+    "deadline": "2026-10-29T18:11:40.942663Z",
+    "error": null,
+    "action": "application",
+    "task_id": "6b9c834aa2d94d53af45891d55b0917c",
+    "cancel_requested": false,
+    "result": {
+      "apps_verified": [
+        "libreoffice_calc"
+      ],
+      "artifact": "6b9c834aa2d94d53af45891d55b0917c/smoke-budget.xlsx",
+      "bytes": 6399,
+      "executor": "office_applications_v1",
+      "operation_id": "173d2749672b4745a4c39a96d6f93d1f",
+      "readback": {
+        "application": "libreoffice_calc",
+        "office_pid": 23,
+        "operation_id": "173d2749672b4745a4c39a96d6f93d1f",
+        "sheets": [
+          {
+            "cells": [
+              {
+                "cell": "A1",
+                "error": 0,
+                "formula": "Qty",
+                "kind": "TEXT",
+                "text": "Qty",
+                "value": 0.0
+              },
+              {
+                "cell": "B1",
+                "error": 0,
+                "formula": "Unit price",
+                "kind": "TEXT",
+                "text": "Unit price",
+                "value": 0.0
+              },
+              {
+                "cell": "A2",
+                "error": 0,
+                "formula": "2",
+                "kind": "VALUE",
+                "text": "2",
+                "value": 2.0
+              },
+              {
+                "cell": "B2",
+                "error": 0,
+                "formula": "95",
+                "kind": "VALUE",
+                "text": "95",
+                "value": 95.0
+              },
+              {
+                "cell": "C2",
+                "error": 0,
+                "formula": "=A2*B2",
+                "kind": "FORMULA",
+                "text": "190.00",
+                "value": 190.0
+              }
+            ],
+            "sheet": "Budget"
+          }
+        ],
+        "visible": true,
+        "window_title": "smoke-budget.xlsx (read-only) \u2014 LibreOffice Calc"
+      },
+      "reason": "read_back_matches",
+      "scope": "applications:48c0a764373288396b80f638a99680db4dbdbc73f247eae17c668444ad9bc68b",
+      "sha256": "c5965d648579a5f8cc3c4e1e17fac1e8654ba84a3ada66101b501baa1e93f5ad",
+      "verified": true
+    },
+    "title": "Create formula workbook",
+    "request": {
+      "action": "application",
+      "artifact_id": "173d2749672b4745a4c39a96d6f93d1f",
+      "base": null,
+      "base_snapshot": null,
+      "content": "workbook: smoke-budget.xlsx",
+      "dependencies": [],
+      "depends_on": [],
+      "executor": "office_applications_v1",
+      "previous": null,
+      "scope": "applications:48c0a764373288396b80f638a99680db4dbdbc73f247eae17c668444ad9bc68b",
+      "sources": [
+        {
+          "sha256": "a8e13d93e8df60537dd0ea9c81c36b32aed81459548d320d7e9a8310c8069356",
+          "source_id": "quotes/A-2.html"
+        }
+      ],
+      "stage": "workbook-smoke",
+      "step": {
+        "filename": "smoke-budget.xlsx",
+        "kind": "workbook",
+        "sheets": [
+          {
+            "cells": [
+              {
+                "cell": "A1",
+                "format": "heading",
+                "kind": "text",
+                "value": "Qty"
+              },
+              {
+                "cell": "B1",
+                "format": "heading",
+                "kind": "text",
+                "value": "Unit price"
+              },
+              {
+                "cell": "A2",
+                "format": "plain",
+                "kind": "number",
+                "value": 2.0
+              },
+              {
+                "cell": "B2",
+                "format": "plain",
+                "kind": "number",
+                "value": 95.0
+              },
+              {
+                "cell": "C2",
+                "format": "money",
+                "kind": "formula",
+                "value": "=A2*B2"
+              }
+            ],
+            "sheet": "Budget"
+          }
+        ],
+        "source_job_id": null
+      },
+      "task_id": "6b9c834aa2d94d53af45891d55b0917c",
+      "task_version": 1,
+      "title": "Create formula workbook"
+    },
+    "intent_hash": "541e0045844453b1c929b6d6e7af7dc8ea8329a7c4988264a2958605a1f33cef",
+    "authorization": {
+      "mode": "once"
+    },
+    "history": [
+      {
+        "at": "2026-10-29T18:10:40.937084Z",
+        "state": "review",
+        "code": null
+      },
+      {
+        "at": "2026-10-29T18:10:40.942678Z",
+        "state": "queued",
+        "code": null
+      },
+      {
+        "at": "2026-10-29T18:10:40.944968Z",
+        "state": "running",
+        "code": null
+      },
+      {
+        "at": "2026-10-29T18:10:41.952204Z",
+        "state": "verifying",
+        "code": null
+      },
+      {
+        "at": "2026-10-29T18:10:42.322292Z",
+        "state": "succeeded",
+        "code": null
+      }
+    ]
+  },
+  "source": {
+    "source_id": "quotes/A-2.html",
+    "bytes": 1279,
+    "sha256": "a8e13d93e8df60537dd0ea9c81c36b32aed81459548d320d7e9a8310c8069356",
+    "kind": "browser",
+    "observation": {
+      "url": "http://127.0.0.1:8765/quotes/A-2.html",
+      "title": "Aster quote A-2",
+      "ready": "complete",
+      "text": "All suppliers\nAster \u2014 A-2\n\nFictional benchmark quote. No real vendor or purchase.\n\nThis is the latest available revision.\n\nsupplier\tAster\nid\tA-2\nrevision\t2\nupdated\t2026-10-29\nvalid_until\t2026-11-04\ndelivery\t2026-11-05\ncurrency\tHKD\nposter\t95\ncolour\t18\nblack_white\t10\nbadge\t12\ndelivery_fee\t60\nitem_discount\t0\nmin_booklets\t1\n\nPrices are in the stated currency. Item discount excludes delivery. Minimum booklet quantity applies to both print modes.",
+      "links": [
+        {
+          "text": "All suppliers",
+          "href": "index.html"
+        }
+      ],
+      "browser_pid": 25
+    },
+    "untrusted_source": true
+  }
+}
