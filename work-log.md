@@ -475,3 +475,8 @@ Reviewed the latest software stack, original branch provenance and overlapping c
 PR19's dated hardware package passed all five-page rendering checks, unchanged PDF SHA/size and budget arithmetic, including 13 unpriced required items. Resolved its five root-document conflicts toward current software/AI/Alice decisions, preserving hardware records and paused deployment. The candidate fixes one misleading cancellation reply: edited staging is distinguished from final publication. Latest full backend 524, frontend 89, focused cancellation/permissions 36, type/build and Ruff pass. Actual web/393px phone memory search, exact once-approved file bytes, linked-task continuation, Alice and draft guards pass.
 
 [Review and evidence](output/qa/2026-10-30-all-pr-review/verification.md) distinguish eligible merges (19,64–69), superseded closures (4,15,16) and blocked 5. No CI, live models, real user database migration, media capture, hardware/Pi, external purchase or school submission. Final remote receipts are appended after publication; this entry alone is not a merge claim.
+
+
+### Verified merge and original PR disposition
+
+PR70 merged reviewed candidate `4872f7bf8fad1f7dce9d58bf62154ea1761e9760` into main as `78e9bc2c343c629b7e66725a61f34bc46453dbe0`; full Git trees match. GitHub individually confirms PR19 and64–69 merged. PR4/15/16 were closed as superseded (merged=false), preserving branches and all original heads. PR5 stays open/draft; its description now includes the reproduced failures and current-data compatibility gate. [Receipt](output/qa/2026-10-30-all-pr-review/publication.json). This final closeout updates documentation only; application source stays at the verified integration.

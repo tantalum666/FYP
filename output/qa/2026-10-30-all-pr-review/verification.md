@@ -30,7 +30,7 @@ The old 20,000-level JSON fixture also passes through the parser on Python 3.14 
 - **PR16:** the former A1 study loads `/companion/a1-v2.glb`; current rendering uses the selected Alice VRM and newer scene/phone behavior. Its earlier UI simplification has evolved into the current shared assistant. It is a superseded candidate, not a reason to restore the rejected character.
 - **PR15:** Qwen Omni and explicit media support were incorporated and extended in the later integration. Four original credential/media/setup helpers are byte-identical to the current baseline; voice, audio, UI and tests have later changes. [Exact helper comparison](pr15-incorporated-helpers.json). Reapplying the entire old branch would replay obsolete lifecycle/UI material.
 
-Close these three PRs as superseded after the current integration is on main, retaining all branches and original commits. Do not label a superseded closure as a merge.
+These three PRs were closed as superseded after PR70 merged, retaining all branches and original commits. GitHub reports merged=false for each; they are not counted as merges.
 
 ## Eligible integration
 
@@ -67,4 +67,4 @@ Isolated fixture at `http://localhost:8832`, current built assets, local preview
 
 ## Publication boundary
 
-At this report's preparation, the integration is locally validated and no remote merge has yet occurred. The final publication receipt records the reviewed candidate, actual main merge and individual original PR states. Safe merges, superseded closures and blocked PR5 are separate outcomes. Remote main/head and a clean local checkout must be read back before the final answer.
+[PR70](https://github.com/tantalum666/FYP/pull/70) merged reviewed head `4872f7bf8fad1f7dce9d58bf62154ea1761e9760` as main commit `78e9bc2c343c629b7e66725a61f34bc46453dbe0`. Their complete Git trees match. Individual GitHub readbacks confirm #19/#64–#69 merged, #4/#15/#16 closed without merge, and #5 still open/draft. No original branch head was replaced or deleted. [Publication receipt](publication.json). The current update records receipts and final routing only; final main HEAD is checked after its merge.
