@@ -59,6 +59,29 @@ def test_note_and_folder_actions_share_one_executor_registry(setup):
     assert covered == allowed | application_allowed
 
 
+def test_changed_persisted_intent_is_rejected_before_any_file_write(setup):
+    app, jobs, _ = setup
+    job = jobs.prepare(JobInput(title="Approved title", content="Approved text"), "prepare-intent")[
+        "job"
+    ]
+    review = jobs.detail(job["id"], review=True)
+    jobs.approve(
+        job["id"],
+        JobApproval(expected_version=review["version"], intent_hash=review["intent_hash"]),
+        "approve-intent",
+    )
+    with app.state.store.connection(write=True) as conn:
+        row = conn.execute("SELECT request FROM computer_jobs WHERE id=?", (job["id"],)).fetchone()
+        request = json.loads(row[0])
+        request["content"] = "Changed after approval"
+        conn.execute(
+            "UPDATE computer_jobs SET request=? WHERE id=?", (json.dumps(request), job["id"])
+        )
+    jobs.run_one()
+    assert jobs.detail(job["id"])["error"] == "JOB_INTENT_CHANGED"
+    assert not list((app.state.store.directory / "computer-notes").glob("*.txt"))
+
+
 def test_unknown_action_is_denied_instead_of_using_the_folder(setup):
     jobs = setup[1]
     payload = JobInput.model_construct(
@@ -531,3 +554,76 @@ def test_invalid_verification_receipt_never_becomes_success(setup, override):
     assert result["error"] == "JOB_VERIFICATION_FAILED"
     jobs.executor = LocalNotesExecutor(app.state.store.directory)
     assert jobs.reconcile(job["id"])["job"]["state"] == "succeeded"
+
+
+def test_hidden_private_jobs_expose_metadata_only_and_preserve_cancel(setup):
+    action = "save_note"
+    app, jobs, _ = setup
+    client = TestClient(app)
+    headers = {"X-Desk-Request": "1", "X-Operation-Id": "login"}
+    assert (
+        client.post(
+            "/api/session",
+            json={"username": "owner", "password": "fictional-fixture"},
+            headers=headers,
+        ).status_code
+        == 200
+    )
+    payload = {
+        "action": action,
+        "title": "private-title-fixture-781",
+        "content": "private-content-fixture-492",
+    }
+    job = client.post(
+        "/api/computer/jobs", json=payload, headers={**headers, "X-Operation-Id": "prepare-private"}
+    ).json()["job"]
+    review = client.get(f"/api/computer/jobs/{job['id']}").json()["job"]
+    assert review["request"]["content"] == payload["content"]
+    from desk.schemas import SettingsInput
+
+    with app.state.store.connection() as conn:
+        settings = app.state.store.settings(conn)
+    app.state.store.update_settings(
+        SettingsInput(
+            expected_version=settings["version"], timezone=settings["timezone"], hide_private=True
+        ),
+        "hide",
+    )
+    for path in ("/api/computer/jobs", f"/api/computer/jobs/{job['id']}"):
+        response = client.get(path)
+        assert response.status_code == 200
+        assert payload["title"] not in response.text and payload["content"] not in response.text
+        current = response.json().get("job") or response.json()["jobs"][0]
+        assert (
+            current["id"] == job["id"] and "request" not in current and "intent_hash" not in current
+        )
+    blocked = client.post(
+        "/api/computer/jobs", json=payload, headers={**headers, "X-Operation-Id": "hidden-prepare"}
+    )
+    assert (
+        blocked.status_code == 403 and blocked.json()["error"]["code"] == "PRIVATE_CONTEXT_HIDDEN"
+    )
+    blocked = client.post(
+        f"/api/computer/jobs/{job['id']}/approve",
+        json={"expected_version": review["version"], "intent_hash": review["intent_hash"]},
+        headers={**headers, "X-Operation-Id": "hidden-approve"},
+    )
+    assert blocked.status_code == 403 and jobs.detail(job["id"])["state"] == "review"
+    cancelled = client.post(
+        f"/api/computer/jobs/{job['id']}/cancel",
+        headers={**headers, "X-Operation-Id": "hidden-cancel"},
+    )
+    assert cancelled.status_code == 200 and cancelled.json()["job"]["state"] == "cancelled"
+    assert payload["title"] not in cancelled.text and payload["content"] not in cancelled.text
+    with app.state.store.connection() as conn:
+        settings = app.state.store.settings(conn)
+    app.state.store.update_settings(
+        SettingsInput(
+            expected_version=settings["version"], timezone=settings["timezone"], hide_private=False
+        ),
+        "reveal",
+    )
+    assert (
+        client.get(f"/api/computer/jobs/{job['id']}").json()["job"]["request"]["content"]
+        == payload["content"]
+    )

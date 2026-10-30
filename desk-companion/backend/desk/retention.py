@@ -35,7 +35,9 @@ def forget_local_copies(conn, *, memory_id: str, phrases: list[str]) -> dict[str
                     "INSERT OR IGNORE INTO operations VALUES(?,?,?)",
                     (
                         retired_reply_key(row["id"]),
-                        encode({"type": "assistant_reply_retired", "request_hash": row["request_hash"]}),
+                        encode(
+                            {"type": "assistant_reply_retired", "request_hash": row["request_hash"]}
+                        ),
                         encode({"retired": True}),
                     ),
                 )
@@ -60,7 +62,29 @@ def forget_local_copies(conn, *, memory_id: str, phrases: list[str]) -> dict[str
             proposals += 1
     # Preserve operation keys: a retry must not recreate a forgotten draft.
     if _table(conn, "operations"):
-        for row in conn.execute("SELECT id,response FROM operations"):
+        for row in conn.execute("SELECT id,request,response FROM operations"):
+            request = _json(row["request"])
+            if (
+                isinstance(request, dict)
+                and (
+                    str(request.get("type", "")).startswith("memory_")
+                    or str(request.get("kind", "")).startswith("memory_")
+                )
+                and _mentions(request, memory_id, kept)
+            ):
+                conn.execute(
+                    "UPDATE operations SET request=? WHERE id=?",
+                    (
+                        encode(
+                            {
+                                "redacted_request_sha256": hashlib.sha256(
+                                    row["request"].encode()
+                                ).hexdigest()
+                            }
+                        ),
+                        row["id"],
+                    ),
+                )
             result = _json(row["response"])
             if _mentions(result, memory_id, kept):
                 conn.execute(

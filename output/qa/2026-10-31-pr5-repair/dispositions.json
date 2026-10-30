@@ -1,0 +1,51 @@
+{
+  "original_pr5": "11dc2b84cebe6e8250b28ca4442fc91f0dfec676",
+  "current_core": "18d205607d5c2eb9f3f23143bbf8eacbc29b7077",
+  "integrated": [
+    "retained Work and decision/recovery guards",
+    "immutable sources and artifacts",
+    "selected-task watches and retention maintenance",
+    "local routines",
+    "scoped retained conversations and context",
+    "voice-to-Work review",
+    "public-only capture/browser/MCP capability boundaries"
+  ],
+  "superseded": [
+    {
+      "paths": [
+        "original PR4/A1 presentation and art additions"
+      ],
+      "replacement": "Current Alice, phone, web, native and Omni implementation; original commits retained."
+    },
+    {
+      "paths": [
+        "backend/desk/application_executor.py in original PR5",
+        "backend/desk/demo_application.py",
+        "backend/desk/executor_registry.py",
+        "scripts/check_application_executor.py",
+        "original tests/test_application_jobs.py"
+      ],
+      "replacement": "Current real application_executor.py and test_application_jobs.py; shared JobService; useful intent/privacy regressions moved into test_computer_jobs.py."
+    },
+    {
+      "paths": [
+        "original tests/test_voice_context.py"
+      ],
+      "replacement": "Current test_voice_context_turns.py, test_omni_conversation.py and permission/tool tests. Old blanket prohibition on voice memory/tools is superseded; synthetic transport helpers retained in voice_fixtures.py."
+    }
+  ],
+  "adapted_tests": [
+    "Saved-chat tests target retained-messages/RetainedChat; normal Omni remains separate.",
+    "Memory tests use canonical table, current confirmation receipts and duplicate-fact behavior.",
+    "Provider fakes retain fake transports and use admitted synthetic endpoints.",
+    "Audio callback tests use current turn IDs and teardown primitives; no obsolete Hear again latch.",
+    "Frontend boundary tests target the new shared Work entry and retained-chat component."
+  ],
+  "not_done": [
+    "live model evaluation",
+    "real mailbox/merchant integration",
+    "real user database migration",
+    "native device or Pi deployment",
+    "GitHub CI"
+  ]
+}

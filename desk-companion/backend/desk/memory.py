@@ -68,7 +68,7 @@ class MemoryQuery(StrictModel):
 
 
 class MemoryText(StrictModel):
-    body: str = Field(min_length=1, max_length=500)
+    body: str = Field(min_length=1, max_length=1000)
 
     @field_validator("body")
     @classmethod
@@ -126,43 +126,48 @@ class MemoryService:
     def __init__(self, runtime):
         self.runtime, self.store = runtime, runtime.store
         with self.store.connection(write=True) as conn:
-            conn.executescript(
-                """
-                CREATE TABLE IF NOT EXISTS owner_memories(
-                    id TEXT PRIMARY KEY,
-                    body TEXT NOT NULL,
-                    source TEXT NOT NULL,
-                    state TEXT NOT NULL,
-                    version INTEGER NOT NULL,
-                    created_at TEXT NOT NULL,
-                    updated_at TEXT NOT NULL,
-                    deleted_at TEXT,
-                    attribution TEXT NOT NULL DEFAULT '',
-                    expires_at TEXT,
-                    supersedes_id TEXT,
-                    superseded_by TEXT
-                );
-                CREATE INDEX IF NOT EXISTS owner_memories_active
-                    ON owner_memories(state, updated_at);
-                CREATE TABLE IF NOT EXISTS memory_revisions(
-                    id TEXT PRIMARY KEY,
-                    memory_id TEXT NOT NULL,
-                    body TEXT NOT NULL,
-                    source TEXT NOT NULL,
-                    created_at TEXT NOT NULL
-                );
-                """
-            )
-            have = {row["name"] for row in conn.execute("PRAGMA table_info(owner_memories)")}
-            for name, ddl in (
-                ("attribution", "TEXT NOT NULL DEFAULT ''"),
-                ("expires_at", "TEXT"),
-                ("supersedes_id", "TEXT"),
-                ("superseded_by", "TEXT"),
-            ):
-                if name not in have:
-                    conn.execute(f"ALTER TABLE owner_memories ADD COLUMN {name} {ddl}")
+            self.initialize_schema(conn)
         ensure_aliases(self.store)
+
+    @staticmethod
+    def initialize_schema(conn):
+        ddl = """
+            CREATE TABLE IF NOT EXISTS owner_memories(
+                id TEXT PRIMARY KEY,
+                body TEXT NOT NULL,
+                source TEXT NOT NULL,
+                state TEXT NOT NULL,
+                version INTEGER NOT NULL,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                deleted_at TEXT,
+                attribution TEXT NOT NULL DEFAULT '',
+                expires_at TEXT,
+                supersedes_id TEXT,
+                superseded_by TEXT
+            );
+            CREATE INDEX IF NOT EXISTS owner_memories_active
+                ON owner_memories(state, updated_at);
+            CREATE TABLE IF NOT EXISTS memory_revisions(
+                id TEXT PRIMARY KEY,
+                memory_id TEXT NOT NULL,
+                body TEXT NOT NULL,
+                source TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            );
+            """
+        for statement in ddl.split(";"):
+            if statement.strip():
+                conn.execute(statement)
+        have = {row["name"] for row in conn.execute("PRAGMA table_info(owner_memories)")}
+        for name, ddl in (
+            ("attribution", "TEXT NOT NULL DEFAULT ''"),
+            ("expires_at", "TEXT"),
+            ("supersedes_id", "TEXT"),
+            ("superseded_by", "TEXT"),
+        ):
+            if name not in have:
+                conn.execute(f"ALTER TABLE owner_memories ADD COLUMN {name} {ddl}")
 
     def _view(self, row, previous="", retired=0):
         return {
@@ -421,6 +426,10 @@ class MemoryService:
                 )
             )
             local = forget_local_copies(conn, memory_id=memory_id, phrases=phrases)
+            conn.execute(
+                "UPDATE owner_memories SET body='',attribution='' WHERE id=?", (memory_id,)
+            )
+            conn.execute("DELETE FROM memory_revisions WHERE memory_id=?", (memory_id,))
             self.store.record(conn, "memory_deleted", details={"memory_id": memory_id})
             return {
                 "memory_id": memory_id,
@@ -522,9 +531,7 @@ class MemoryService:
                 "memory_consolidated",
                 details={"memory_id": keep_id, "retired": len(rows)},
             )
-            updated = conn.execute(
-                "SELECT * FROM owner_memories WHERE id=?", (keep_id,)
-            ).fetchone()
+            updated = conn.execute("SELECT * FROM owner_memories WHERE id=?", (keep_id,)).fetchone()
             return {
                 "memory": self._pack(conn, updated),
                 "retired": [row["id"] for row in rows],
@@ -572,9 +579,7 @@ class MemoryService:
                     "source": row["source"],
                     "created_at": row["created_at"],
                 }
-                for row in conn.execute(
-                    "SELECT * FROM memory_revisions ORDER BY created_at, id"
-                )
+                for row in conn.execute("SELECT * FROM memory_revisions ORDER BY created_at, id")
                 if row["memory_id"] in identifiers
             ]
         return {"memories": memories, "revisions": revisions}
@@ -592,6 +597,7 @@ class MemoryService:
             or len(revisions) > 2000
         ):
             raise ValueError("Invalid memory backup")
+
         def instant(value):
             try:
                 return parse_expiry(value)
@@ -610,13 +616,22 @@ class MemoryService:
                 raise ValueError("Invalid memory id")
             identifiers.add(memory_id)
             body = row["body"]
-            if not isinstance(body, str) or not 1 <= len(body) <= 500 or row["state"] not in {
-                "active",
-                "expired",
-                "superseded",
-            }:
+            if (
+                not isinstance(body, str)
+                or not 1 <= len(body) <= 500
+                or row["state"]
+                not in {
+                    "active",
+                    "expired",
+                    "superseded",
+                }
+            ):
                 raise ValueError("Invalid memory")
-            if row["source"] not in ORIGINS or not isinstance(row["version"], int) or row["version"] < 1:
+            if (
+                row["source"] not in ORIGINS
+                or not isinstance(row["version"], int)
+                or row["version"] < 1
+            ):
                 raise ValueError("Invalid memory")
             note = row.get("attribution") or ""
             if not isinstance(note, str) or len(note) > 160:
@@ -627,9 +642,7 @@ class MemoryService:
                 instant(row["expires_at"])
             for link in ("supersedes_id", "superseded_by"):
                 value = row.get(link)
-                if value is not None and (
-                    not isinstance(value, str) or len(value) != 32
-                ):
+                if value is not None and (not isinstance(value, str) or len(value) != 32):
                     raise ValueError("Invalid memory link")
             memories.append(
                 {
@@ -658,7 +671,11 @@ class MemoryService:
                 raise ValueError("Invalid memory revision")
             seen.add(revision_id)
             body = row["body"]
-            if not isinstance(body, str) or not 1 <= len(body) <= 500 or row["source"] not in ORIGINS:
+            if (
+                not isinstance(body, str)
+                or not 1 <= len(body) <= 500
+                or row["source"] not in ORIGINS
+            ):
                 raise ValueError("Invalid memory revision")
             kept_revisions.append(
                 {

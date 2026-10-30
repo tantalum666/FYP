@@ -1,0 +1,29 @@
+.voice-inputs,
+.voice-input,
+.voice-origin {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.voice-inputs {
+  display: grid;
+  gap: 0.75rem;
+}
+.voice-input {
+  border: 1px solid var(--line, #d8dee7);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+.voice-input p {
+  white-space: pre-wrap;
+  max-height: 12rem;
+  overflow: auto;
+}
+.voice-input small,
+.voice-origin small {
+  display: block;
+}
+.voice-input button {
+  margin-top: 0.5rem;
+  white-space: normal;
+  max-width: 100%;
+}

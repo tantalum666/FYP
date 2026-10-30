@@ -1,0 +1,1 @@
+Alice, fallback image and historical development assets match their provenance hashes.

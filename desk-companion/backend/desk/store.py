@@ -3,7 +3,8 @@ import json
 import os
 import secrets
 import sqlite3
-from contextlib import contextmanager
+import stat
+from contextlib import closing, contextmanager
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from uuid import uuid4
@@ -11,8 +12,8 @@ from uuid import uuid4
 from pwdlib import PasswordHash
 
 from .calendar import expand_all, is_occurrence, iso, redact
-from .private_file import reserve_private, write_private
 from .schemas import EventInput
+from .private_file import reserve_private, write_private
 
 
 class DomainError(Exception):
@@ -24,17 +25,151 @@ def encode(value):
     return json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
 
 
+def _migration_path_identity(directory):
+    """Bounded operator handoff check, not an OS-level no-follow SQLite open.
+
+    Both paths must remain private, same-owner, nonlinked regular objects. A
+    stopped runtime is still required; hostile concurrent path mutation cannot
+    be made impossible by Python sqlite3's pathname-only connection interface.
+    """
+    root = Path(directory)
+    root_info = root.lstat()
+    database_info = (root / "desk.sqlite3").lstat()
+    if (
+        not stat.S_ISDIR(root_info.st_mode)
+        or not stat.S_ISREG(database_info.st_mode)
+        or root_info.st_uid != os.getuid()
+        or database_info.st_uid != os.getuid()
+        or stat.S_IMODE(root_info.st_mode) & 0o077
+        or stat.S_IMODE(database_info.st_mode) & 0o077
+        or database_info.st_nlink != 1
+    ):
+        raise DomainError("MIGRATION_PRIVATE_EXISTING_STORE_REQUIRED")
+    # Directory link counts change when SQLite adds ordinary WAL sidecars.
+    # The database itself must still be a single-link regular file.
+    return (
+        (root_info.st_dev, root_info.st_ino, root_info.st_mode, root_info.st_uid),
+        (
+            database_info.st_dev,
+            database_info.st_ino,
+            database_info.st_mode,
+            database_info.st_uid,
+            database_info.st_nlink,
+        ),
+    )
+
+
+def _check_migration_identity(directory, expected):
+    if _migration_path_identity(directory) != expected:
+        raise DomainError("MIGRATION_STORE_CHANGED")
+
+
+def _verify_migration_store(directory, expected, versions):
+    """Read-only full revalidation, including the final operator receipt."""
+    from .public_capture_schema import validate_public_capture_schema
+    from .responsibility_retention import validate_store_base, validate_watch_schema
+
+    _check_migration_identity(directory, expected)
+    path = (Path(directory) / "desk.sqlite3").absolute()
+    with closing(sqlite3.connect(path.as_uri() + "?mode=ro", uri=True)) as conn:
+        _check_migration_identity(directory, expected)
+        version = conn.execute("PRAGMA user_version").fetchone()[0]
+        if version not in versions:
+            raise DomainError("SCHEMA_VERSION_UNSUPPORTED")
+        validate_store_base(conn)
+        validate_watch_schema(conn, legacy=version == 1, allow_absent=version == 1)
+        validate_public_capture_schema(conn, absent=version < 3)
+        _check_migration_identity(directory, expected)
+    return version
+
+
 class Store:
-    def __init__(self, directory, clock=None, password=None):
+    def __init__(
+        self,
+        directory,
+        clock=None,
+        password=None,
+        *,
+        allow_watch_retention_migration=False,
+        allow_public_capture_migration=False,
+        _expected_migration_identity=None,
+    ):
+        if (
+            type(allow_watch_retention_migration) is not bool
+            or type(allow_public_capture_migration) is not bool
+        ):
+            raise DomainError("SCHEMA_MIGRATION_OPT_IN_REQUIRED", 422)
         self.directory = Path(directory)
+        self.path = (self.directory / "desk.sqlite3").absolute()
+        from .responsibility_retention import (
+            initialize_watch_schema,
+            validate_store_base,
+            validate_watch_schema,
+        )
+
+        from .public_capture_schema import (
+            SCHEMA_VERSION,
+            initialize_public_capture_schema,
+            validate_public_capture_schema,
+        )
+
+        existing = self.path.exists()
+        self._migration_identity = _expected_migration_identity
+        if existing and (allow_watch_retention_migration or allow_public_capture_migration):
+            actual_identity = _migration_path_identity(self.directory)
+            if self._migration_identity is None:
+                self._migration_identity = actual_identity
+        if self._migration_identity is not None:
+            _check_migration_identity(self.directory, self._migration_identity)
+        schema_version = 0
+        if existing:
+            # Check compatibility before journal mode, bootstrap DDL, settings,
+            # credentials or a version write. This cannot guard historical binaries.
+            with closing(sqlite3.connect(self.path.as_uri() + "?mode=ro", uri=True)) as inspection:
+                self._check_migration_path()
+                schema_version = inspection.execute("PRAGMA user_version").fetchone()[0]
+                if schema_version not in (1, 2, SCHEMA_VERSION):
+                    raise DomainError("SCHEMA_VERSION_UNSUPPORTED")
+                validate_store_base(inspection)
+                validate_watch_schema(
+                    inspection, legacy=schema_version == 1, allow_absent=schema_version == 1
+                )
+                validate_public_capture_schema(inspection, absent=schema_version < 3)
+                if schema_version == 1:
+                    if allow_public_capture_migration:
+                        raise DomainError("SCHEMA_STAGED_MIGRATION_REQUIRED")
+                    if not allow_watch_retention_migration:
+                        raise DomainError("SCHEMA_MIGRATION_REQUIRED")
+                if schema_version == 2 and not allow_public_capture_migration:
+                    raise DomainError("SCHEMA_MIGRATION_REQUIRED")
+        # A watch-only v1 migration intentionally stops at v2. Runtime must not
+        # treat this migration handle as a current application Store.
+        target_version = 2 if existing and schema_version == 1 else SCHEMA_VERSION
+        self._check_migration_path()
         self.directory.mkdir(mode=0o700, parents=True, exist_ok=True)
-        self.path = self.directory / "desk.sqlite3"
         reserve_private(self.path)
         self.clock = clock or (lambda: datetime.now(UTC))
         self.password_hasher = PasswordHash.recommended()
-        with self.connection() as conn:
-            conn.executescript("""
-                PRAGMA journal_mode=WAL;
+        # Installed only by the trusted runtime. No HTTP/model callback surface.
+        self.operation_guard = None
+        # Journal mode is selected only after existing-store compatibility checks.
+        self._check_migration_path()
+        with closing(sqlite3.connect(self.path, isolation_level=None)) as journal:
+            self._check_migration_path()
+            journal.execute("PRAGMA journal_mode=WAL")
+        with self.connection(write=True) as conn:
+            if existing:
+                # Recheck under the write lock: another initializer or operator
+                # must not change a preflighted store before migration begins.
+                if conn.execute("PRAGMA user_version").fetchone()[0] != schema_version:
+                    raise DomainError("SCHEMA_MIGRATION_INVALID")
+                validate_store_base(conn)
+                validate_watch_schema(
+                    conn, legacy=schema_version == 1, allow_absent=schema_version == 1
+                )
+                validate_public_capture_schema(conn, absent=schema_version < 3)
+            # Individual statements stay in this BEGIN IMMEDIATE transaction.
+            bootstrap = """
                 CREATE TABLE IF NOT EXISTS settings (id INTEGER PRIMARY KEY CHECK(id=1),
                     data TEXT NOT NULL, version INTEGER NOT NULL);
                 CREATE TABLE IF NOT EXISTS owner (id INTEGER PRIMARY KEY CHECK(id=1),
@@ -53,8 +188,14 @@ class Store:
                     status TEXT NOT NULL, snooze_until TEXT, version INTEGER NOT NULL DEFAULT 1);
                 CREATE TABLE IF NOT EXISTS state (id INTEGER PRIMARY KEY CHECK(id=1), revision INTEGER NOT NULL);
                 INSERT OR IGNORE INTO state VALUES(1, 1);
-                PRAGMA user_version=1;
-            """)
+            """
+            for statement in bootstrap.split(";"):
+                if statement.strip():
+                    conn.execute(statement)
+            initialize_watch_schema(conn, legacy=existing and schema_version == 1)
+            if target_version == SCHEMA_VERSION and schema_version != SCHEMA_VERSION:
+                initialize_public_capture_schema(conn)
+            conn.execute(f"PRAGMA user_version={target_version}")
             if not conn.execute("SELECT 1 FROM owner").fetchone():
                 actual_password = password or secrets.token_urlsafe(12)
                 conn.execute(
@@ -69,16 +210,30 @@ class Store:
                 "INSERT OR IGNORE INTO settings VALUES(1,?,1)",
                 (encode({"timezone": "Asia/Hong_Kong", "hide_private": False}),),
             )
-        os.chmod(self.path, 0o600)
+        self._check_migration_path()
+        self.schema_version = target_version
+        # Explicit migration preserves the preflighted private mode. Changing it
+        # here would invalidate our own pinned identity after a committed upgrade.
+        if self._migration_identity is None:
+            os.chmod(self.path, 0o600)
+        self._migration_identity = None
+
+    def _check_migration_path(self):
+        expected = getattr(self, "_migration_identity", None)
+        if expected is not None:
+            _check_migration_identity(self.directory, expected)
 
     @contextmanager
     def connection(self, write=False):
+        self._check_migration_path()
         conn = sqlite3.connect(self.path, timeout=10, isolation_level=None)
         conn.row_factory = sqlite3.Row
-        conn.execute("PRAGMA foreign_keys=ON")
-        conn.execute("PRAGMA synchronous=FULL")
         try:
+            self._check_migration_path()
+            conn.execute("PRAGMA foreign_keys=ON")
+            conn.execute("PRAGMA synchronous=FULL")
             conn.execute("BEGIN IMMEDIATE" if write else "BEGIN")
+            self._check_migration_path()
             yield conn
             conn.commit()
         except BaseException:
@@ -107,10 +262,16 @@ class Store:
             raise DomainError("OPERATION_ID_REQUIRED", 422)
         request = encode(payload)
         with self.connection(write=True) as conn:
+            if self.operation_guard is not None:
+                self.operation_guard(conn, key, payload)
             old = conn.execute("SELECT * FROM operations WHERE id=?", (key,)).fetchone()
             if old:
                 if old["request"] != request:
-                    raise DomainError("OPERATION_ID_CONFLICT")
+                    retired = json.loads(old["request"])
+                    if not isinstance(retired, dict) or retired != {
+                        "redacted_request_sha256": hashlib.sha256(request.encode()).hexdigest()
+                    }:
+                        raise DomainError("OPERATION_ID_CONFLICT")
                 return json.loads(old["response"])
             response = apply(conn)
             self.reconcile_reminders(conn)

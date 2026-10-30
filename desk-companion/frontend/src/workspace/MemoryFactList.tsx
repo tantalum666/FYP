@@ -113,7 +113,7 @@ export function MemoryFactList({
                 <textarea
                   aria-label={t("Correct saved memory", "更正已保存记忆")}
                   value={editing.body}
-                  maxLength={500}
+                  maxLength={1000}
                   rows={3}
                   disabled={busy}
                   onChange={(event) =>

@@ -48,7 +48,7 @@ def test_voice_context_is_ram_only_and_bound_to_the_owner_login(tmp_path):
     voice = app.state.runtime.voice
     voice.config = VoiceConfig(
         provider="qwen_audio",
-        endpoint="wss://fixture.invalid/realtime",
+        endpoint="wss://fixture.cn-beijing.maas.aliyuncs.com/api-ws/v1/realtime",
         model="fixture",
         api_key="fixture-not-a-key",
     )

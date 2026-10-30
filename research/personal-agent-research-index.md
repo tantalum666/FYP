@@ -1,6 +1,6 @@
 # Group 2｜个人 Agent 研究总入口与实现对照
 
-更新：2026-10-30。对象固定为 **Grok Bot、Meta Muse、OpenAI ChatGPT 的 Your dot**。本页汇总已做研究、30 日重新核对的官方资料，以及 FYP 当前缺口。New Computer 的旧 Dot 只保留为历史背景。
+更新：2026-10-31。对象固定为 **Grok Bot、Meta Muse、OpenAI ChatGPT 的 Your dot**。本页汇总已做研究、30 日重新核对的官方资料，以及 FYP 当前缺口。New Computer 的旧 Dot 只保留为历史背景。
 
 用户要求的体验是：交代一次，助理能跟踪邮件和事务、提出建议，并通过真实应用推进购物／旅行等工作。研究和文档不能代替这些实际结果。本轮恢复资料并纠正路由，没有开启个人邮箱监控、购买或付费模型调用。
 
@@ -17,7 +17,7 @@
 | 10 月 29 日：权限与交互 | [权限体验方案](../planning/2026-10-29/assistant-permission-ux.md) | 参考了 Muse／Dot，但当轮明确没有核验 Grok 的具体控制；这不能被当作完整三家复核 |
 | 10 月 30 日：真实应用执行 | [执行 QA](../output/qa/2026-10-30-application-execution/verification.md) | Chromium／Calc／Writer 的受控脚本、版本与恢复已实跑；没有完成自主邮件／购物 Agent |
 
-从 PR #5 的固定提交 `11dc2b84cebe6e8250b28ca4442fc91f0dfec676` 恢复了 **6 份、原始 1,304 行／205,227 字节**的项目研究。每份都有历史标记；指向旧代码的链接固定到原提交。只恢复文档，不合并该 PR 的旧 Agent kernel。原始 Git blob、SHA-256 和恢复变换见[清单](../output/qa/2026-10-30-agent-research-recovery/historical-inventory.json)。
+从 PR #5 的固定提交 `11dc2b84cebe6e8250b28ca4442fc91f0dfec676` 恢复了 **6 份、原始 1,304 行／205,227 字节**的项目研究。每份都有历史标记；指向旧代码的链接固定到原提交。10月30日该轮只恢复文档；10月31日已按当前核心完成[兼容代码整合](../desk-companion/docs/pr5-integration.md)，发布状态见本轮QA。原始 Git blob、SHA-256 和恢复变换见[清单](../output/qa/2026-10-30-agent-research-recovery/historical-inventory.json)。
 
 - Muse：[机制与公开接口](2026-10-12-personal-agents/muse.md)／[能力差距](2026-10-12-personal-agents/muse-capability-gap.md)
 - Dot：[机制与可复用原语](2026-10-12-personal-agents/dot.md)／[能力差距](2026-10-12-personal-agents/dot-capability-gap.md)
@@ -76,9 +76,9 @@ Grok 审批变更见[当前原文](https://docs.x.ai/grok-bot/approvals-security
 
 | 用户可感受到的能力 | 已有基础／证据 | 当前缺口 |
 |---|---|---|
-| 交代一个目标后独立做多步工作 | `TaskService`、既有作业队列、应用阶段与依赖／结果；复杂文档任务由脚本实跑 | 通用模型驱动的计划、观察、继续、重规划与结束判断还未验收；HTTP loop 仍在产生一项效果后停止 |
+| 交代一个目标后独立做多步工作 | `TaskService`、既有作业队列、应用阶段与依赖／结果；复杂文档任务由脚本实跑 | 新增有界持久 Work 的计划／观察／提问／继续／结果核验，已做离线与UI检查；真实模型自主复杂任务仍未验收，普通 HTTP 聊天 loop 仍在一项效果后停止 |
 | 自动跟踪真实邮件并提出建议 | 事务、进展、规则检查、有限后台建议、记忆、通知入口 | 没有 Gmail／Outlook 邮箱连接与增量游标、邮件线程到事务的关联、真实新邮件触发／补偿同步／撤销连接验收 |
-| 已有关联邮件变化后继续原任务 | 任务版本、去重、权限和旧结果恢复 | 缺少邮件事件持久收件、重复／乱序处理、来源证据关联及通知去重 |
+| 已有关联邮件变化后继续原任务 | 任务版本、去重、权限和旧结果恢复 | 已有明确选定事务字段的变化跟踪、合并提醒与来源产物；仍缺真实邮件持久收件、增量游标和线程映射 |
 | 一句话买常用纸巾 | 语音工具通道、任务状态、单次／持续软件权限、应用结果核验 | 没有商店会话、商品／库存／运费读取、购物篮／订单适配、地址授权、支付服务和订单查询；当前应用浏览器只读固定资料 |
 | 订机票 | 本地日历和任务可用于行程比较 | 没有航班搜索／票价规则／旅客资料授权、报价再核、预订／支付／出票状态和变更跟踪 |
 | 用户离开后持续工作并收到通知 | 服务运行时可持续检查；通知 UI／配置存在 | 可靠的常驻运行、邮箱事件入口及真实离线手机推送尚未交付；关闭页面、电脑休眠和云主机在线须分别说明 |
@@ -129,4 +129,4 @@ flowchart LR
 - 验收按“真实来源 → 计划 → 实际操作 → 独立结果 → 后续跟进”记录；本地测试数量、生成一份文件或模型一句“完成”都不能代替整条旅程。
 - 资料恢复、公开原文核验、实际竞品操作和 FYP 实现测试分别记录。本轮只完成前两类及当前源码差距审查。
 
-本轮[阅读／来源／验证记录](../output/qa/2026-10-30-agent-research-recovery/verification.md)。软件执行里程碑及研究现已通过 [PR #70](https://github.com/tantalum666/FYP/pull/70) 合入 main。旧 PR5 已重新审查，数据库迁移／记忆映射及运行协议仍有[具体阻塞](../output/qa/2026-10-30-all-pr-review/verification.md)，继续保留而不直接切换；本页没有把邮件、购物、订票或最终 AI 选型写成完成。
+本轮[阅读／来源／验证记录](../output/qa/2026-10-30-agent-research-recovery/verification.md)。软件执行里程碑及研究现已通过 [PR #70](https://github.com/tantalum666/FYP/pull/70) 合入 main。旧 PR5 的[原始阻塞](../output/qa/2026-10-30-all-pr-review/verification.md)已在31日通过兼容整合修复，现以[当前契约与证据](../desk-companion/docs/pr5-integration.md)恢复；本页没有把邮件、购物、订票或最终 AI 选型写成完成。

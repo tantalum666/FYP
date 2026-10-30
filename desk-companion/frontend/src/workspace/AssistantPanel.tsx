@@ -46,6 +46,7 @@ import type { ComputerJob } from "./jobTypes";
 import { PermissionControl } from "./PermissionsPanel";
 import { ComputerJobsPanel } from "./ComputerJobsPanel";
 import "./assistant-minimal.css";
+import { useVoiceWorkHandoff } from "./voiceWork/useVoiceWorkHandoff";
 import { ToolActivity, type ToolCall } from "./ToolActivity";
 
 export function AssistantPanel({
@@ -352,6 +353,7 @@ export function AssistantPanel({
     if (immersive && !expanded) setView("chat");
   }, [immersive, expanded]);
   const ownerView = data?.principal.kind === "owner";
+  const voiceWork = useVoiceWorkHandoff(t, taskId, suspended, endVoice);
   useDraftGuard(!!text.trim(), busy);
   const reload = useCallback(async () => {
     void loadActivity();
@@ -678,6 +680,7 @@ export function AssistantPanel({
     try {
       const engine = new VoiceAudio((event) => {
         if (!alive.current || audio.current !== engine) return;
+        voiceWork.observe(event);
         if (event.type === "ready") {
           if (modeSwitching.current) {
             modeSwitching.current = false;
@@ -920,6 +923,7 @@ export function AssistantPanel({
         }
       }}
     >
+      {voiceWork.panel}
       {taskTitle && (
         <p className="assistant-context-label">
           <span>

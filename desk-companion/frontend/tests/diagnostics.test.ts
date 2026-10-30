@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { diagnosticsLines, type DiagnosticsReport } from "../src/diagnostics.ts";
+import {
+  diagnosticsLines,
+  type DiagnosticsReport,
+} from "../src/diagnosticsData.ts";
 
 const report: DiagnosticsReport = {
   versions: { service: "0.1.0", python: "3.12.0" },
@@ -34,7 +37,10 @@ test("diagnostics lines show cap and backup and drop unknown secret fields", () 
   assert.match(text, /desk-20261002T000000Z\.sqlite3/);
   assert.equal(text.includes("super-secret-key"), false);
   assert.equal(text.includes("fixture-secret"), false);
-  assert.equal(diagnosticsLines(report, "zh").some((line) => line.label === "最近备份"), true);
+  assert.equal(
+    diagnosticsLines(report, "zh").some((line) => line.label === "最近备份"),
+    true,
+  );
 });
 
 test("a missing backup is named without inventing a file", () => {

@@ -17,7 +17,7 @@ import secrets
 import threading
 import time
 from dataclasses import dataclass, field as dataclass_field
-from urllib.parse import urlencode, urlsplit
+from urllib.parse import urlencode
 from uuid import uuid4
 from zoneinfo import ZoneInfo
 
@@ -35,6 +35,13 @@ from .voice_turns import VoiceTurns
 
 from .context import voice_context_note
 from .tool_policy import tool_visible
+from .voice_work import VoiceWorkLedger, VoiceDraftFreeze
+from .provider_policy import (
+    ProviderWebSocketConnect,
+    valid_api_key,
+    valid_model,
+    valid_provider_endpoint,
+)
 
 QWEN_OMNI_MODEL = "qwen3.8-omni-flash-realtime"
 QWEN_OMNI_ENDPOINT = "wss://maas.qianwenaiapi.com/api-ws/v1/realtime"
@@ -121,41 +128,24 @@ class VoiceConfig:
         return config
 
     def valid(self):
-        endpoint = self.endpoint or (
-            "wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent"
-            if self.provider == "gemini"
-            else ""
-        )
-        parsed = urlsplit(endpoint)
+        if self.configuration_error or not valid_api_key(self.api_key):
+            return False
         if self.provider == "qwen_omni":
-            try:
-                allowed = (
-                    (
-                        parsed.hostname == "maas.qianwenaiapi.com"
-                        or bool(parsed.hostname and parsed.hostname.endswith(".maas.aliyuncs.com"))
-                    )
-                    and parsed.path == "/api-ws/v1/realtime"
-                    and parsed.port is None
-                )
-            except ValueError:
+            endpoint = self.endpoint
+            if not isinstance(endpoint, str) or self.model != QWEN_OMNI_MODEL:
                 return False
-            if not allowed or self.model != QWEN_OMNI_MODEL:
-                return False
-        return bool(
-            self.provider in {"qwen_audio", "qwen_omni", "gemini"}
-            and self.model
-            and self.api_key
-            and not self.configuration_error
-            and parsed.scheme == "wss"
-            and parsed.hostname
-            and not parsed.username
-            and not parsed.password
-            and not parsed.query
-            and not parsed.fragment
-        )
+            if endpoint == QWEN_OMNI_ENDPOINT:
+                return True
+            return valid_provider_endpoint("qwen_audio", endpoint, kind="voice")
+        return valid_model(
+            self.model, gemini_voice=self.provider == "gemini"
+        ) and valid_provider_endpoint(self.provider, self.endpoint, kind="voice")
 
 
 class QwenAudioProtocol:
+    def __init__(self):
+        self.input_sequence = 0
+
     def setup(self, config, instructions, *, allow_memory=True):
         session = {
             "modalities": ["text", "audio"],
@@ -249,12 +239,27 @@ class QwenAudioProtocol:
                 }
             ]
         if kind == "conversation.item.input_audio_transcription.completed":
+            transcript = data.get("transcript", "")
+            if not isinstance(transcript, str):
+                return []
+            try:
+                transcript.encode("utf-8")
+            except UnicodeEncodeError:
+                return []
+            self.input_sequence += 1
             return [
                 {
                     "type": "transcript",
                     "role": "user",
                     "text": data.get("transcript", ""),
                     "final": True,
+                    "input_operation": "replace",
+                    "boundary": "provider_final",
+                    "input_sequence": self.input_sequence,
+                    "input_key": str(
+                        data.get("item_id")
+                        or hashlib.sha256(str(data.get("transcript", "")).encode()).hexdigest()
+                    ),
                 }
             ]
         if kind == "response.function_call_arguments.done":
@@ -280,6 +285,7 @@ class QwenOmniProtocol(QwenAudioProtocol):
     """Qwen3.8 Omni's nested audio, VAD, images and response/tool lifecycle."""
 
     def __init__(self):
+        super().__init__()
         self.response_idle = asyncio.Event()
         self.response_idle.set()
         self.active_response = None
@@ -558,6 +564,10 @@ class QwenOmniProtocol(QwenAudioProtocol):
 
 
 class GeminiProtocol:
+    def __init__(self):
+        self.input_sequence = 0
+        self.input_group = 0
+
     def setup(self, config, instructions, *, allow_memory=True):
         generation = {"responseModalities": ["AUDIO"]}
         if config.voice:
@@ -618,6 +628,7 @@ class GeminiProtocol:
             out.append({"type": "ready"})
         content = data.get("serverContent", {})
         if content.get("interrupted"):
+            self.input_group += 1
             out.append({"type": "interrupted"})
         for part in content.get("modelTurn", {}).get("parts", []):
             inline = part.get("inlineData", {})
@@ -634,15 +645,29 @@ class GeminiProtocol:
                 )
         for field, role in [("inputTranscription", "user"), ("outputTranscription", "assistant")]:
             if content.get(field, {}).get("text"):
+                if role == "user":
+                    self.input_sequence += 1
                 out.append(
                     {
                         "type": "transcript",
                         "role": role,
                         "text": content[field]["text"],
                         "final": False,
+                        **(
+                            {
+                                "input_operation": "append",
+                                "boundary": "unfinalized",
+                                "input_key": "gemini-" + str(self.input_group),
+                                "input_sequence": self.input_sequence,
+                            }
+                            if role == "user"
+                            else {}
+                        ),
                     }
                 )
         if content.get("turnComplete"):
+            # This closes a local grouping, never proves final user speech.
+            self.input_group += 1
             out.append({"type": "turn_complete"})
         for call in data.get("toolCall", {}).get("functionCalls", []):
             out.append(
@@ -667,6 +692,7 @@ class GeminiProtocol:
 class VoiceService:
     def __init__(self, runtime, config=None):
         self.runtime, self.store = runtime, runtime.store
+        self.work = VoiceWorkLedger(runtime)
         self.config = config or VoiceConfig.environment()
         self.tickets = {}
         self.lock = threading.Lock()
@@ -674,7 +700,7 @@ class VoiceService:
         self.active = False
         self.state = "idle"
         self.started = None
-        self.connector = websockets.connect
+        self.connector = ProviderWebSocketConnect
         self.turn_factory = VoiceTurns
         self.conversations = Conversations()
 
@@ -704,6 +730,7 @@ class VoiceService:
             "supports_images": self.config.provider == "qwen_omni",
             "supports_text": self.config.provider == "qwen_omni",
             "configuration_error": self.config.configuration_error,
+            "config_revision": self.work.config_revision(),
         }
 
     def ticket(self, principal):
@@ -753,6 +780,11 @@ class VoiceService:
         *,
         task_id=None,
     ):
+        if not self.config.valid():
+            await socket.send_json({"type": "error", "code": "VOICE_NOT_CONFIGURED"})
+            self.active, self.state, self.started = False, "idle", None
+            await socket.close()
+            return
         protocol = {
             "gemini": GeminiProtocol,
             "qwen_audio": QwenAudioProtocol,
@@ -792,13 +824,18 @@ class VoiceService:
         instructions += draft_context(self.runtime, principal["kind"] == "owner")
         instructions += self.runtime.permissions.instructions(principal)
         conversation = None
+        work_session_ref = None
         assistant_text = ""
         restored = False
         if isinstance(protocol, QwenOmniProtocol):
             protocol.mode = mode
         dispatcher = ToolDispatcher(
-            self.runtime, session_id, allow_memory=allow_memory, language=language,
-            principal=principal, task_id=task_id,
+            self.runtime,
+            session_id,
+            allow_memory=allow_memory,
+            language=language,
+            principal=principal,
+            task_id=task_id,
         )
         ready = asyncio.Event()
         send_lock = asyncio.Lock()
@@ -823,6 +860,7 @@ class VoiceService:
                 mode == "text" and not isinstance(protocol, QwenOmniProtocol)
             ):
                 raise DomainError("VOICE_MESSAGE_NOT_ALLOWED", 422)
+            work_session_ref = self.work.begin(principal)
             instructions += task_context(self.runtime, principal, task_id)
             conversation = self.conversations.open(
                 principal, revision, conversation_id, task_id=task_id
@@ -839,6 +877,7 @@ class VoiceService:
                 max_size=2_000_000,
                 max_queue=8,
                 ping_interval=20,
+                proxy=None,
             ) as provider:
 
                 async def send_provider(value):
@@ -1158,6 +1197,20 @@ class VoiceService:
                                 self.state = "speaking"
                                 last_activity = time.monotonic()
                             elif kind == "transcript":
+                                normalized = self.work.observe(work_session_ref, event)
+                                if normalized is not None:
+                                    await send_client(normalized)
+                                event = {
+                                    key: value
+                                    for key, value in event.items()
+                                    if key
+                                    not in {
+                                        "input_key",
+                                        "input_operation",
+                                        "input_sequence",
+                                        "boundary",
+                                    }
+                                }
                                 if event.get("role") == "user":
                                     turns.transcript(
                                         event.get("text", ""), visual_context=image_count > 0
@@ -1374,6 +1427,8 @@ class VoiceService:
         except WebSocketDisconnect:
             pass
         finally:
+            with contextlib.suppress(Exception):
+                self.work.end(work_session_ref)
             dispatcher.stop_accepting()
             turns.finish("session_ended")
             try:
@@ -1431,6 +1486,12 @@ def voice_routes(runtime, authenticated, agent, allowed_origins, limit):
             {**principal, "session": request.cookies.get("desk_companion_session")}, conversation_id
         )
         return {"cleared": True}
+
+    @router.post("/voice/work-drafts")
+    def work_draft(payload: VoiceDraftFreeze, request: Request, principal=Depends(authenticated)):
+        return runtime.voice.work.freeze(
+            payload, {**principal, "session": request.cookies.get("desk_companion_session")}
+        )
 
     @router.post("/voice/tickets")
     def ticket(request: Request, principal=Depends(authenticated)):

@@ -1,6 +1,6 @@
 # Group 2 Project Contract
 
-更新：2026-10-30。[PR70](https://github.com/tantalum666/FYP/pull/70)已将通过审查的 #19／#64–#69 合入 main（`78e9bc2`）；#4／#15／#16 按已被取代关闭，#5 因实测兼容问题仍未合并。[本轮审查及回执](output/qa/2026-10-30-all-pr-review/verification.md)。Grok #20–#59及#60已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main（软件合并c2037cd），原41个PR状态均已核对。当前方向为 **Desk Companion个人AI助理**。本分支基于完成归档的main，整合Grok #20–#59和#60的Alice／统一Omni／网页／手机软件，修复权限、上下文、恢复和跨栈兼容问题。分支推送、PR合并、目标设备部署及真实模型验收分别记录；此前跨端权限／事务接续与OpenAI受限真实评测已完成；现已实现受限 Chromium／Calc／Writer 执行，并跑通脚本驱动的复杂任务、改口和重启恢复；语音模型自主完成仍未验收。结果见[交接](handoff.md)、[本轮QA](output/qa/2026-10-30-application-execution/verification.md)与[实际交付门槛](desk-companion/docs/delivery-readiness.md)。合并基线的[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)保留历史范围。
+更新：2026-10-31。用户已明确要求修复并合并 PR5。本轮完成与当前主线的兼容整合：保留 Alice／Omni／权限及真实应用执行器，接入持久 Work、来源与产物、事务变化跟踪、定期检查和显式保存会话；事实统一保留在 owner_memories。迁移及发布状态见[本轮QA](output/qa/2026-10-31-pr5-repair/verification.md)与[兼容契约](desk-companion/docs/pr5-integration.md)。此前 PR70 已合入 #19／#64–#69，#4／#15／#16 的旧界面由当前主线取代。Grok #20–#59及#60已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main（软件合并c2037cd），原41个PR状态均已核对。当前方向为 **Desk Companion个人AI助理**。本分支基于完成归档的main，整合Grok #20–#59和#60的Alice／统一Omni／网页／手机软件，修复权限、上下文、恢复和跨栈兼容问题。分支推送、PR合并、目标设备部署及真实模型验收分别记录；此前跨端权限／事务接续与OpenAI受限真实评测已完成；现已实现受限 Chromium／Calc／Writer 执行，并跑通脚本驱动的复杂任务、改口和重启恢复；语音模型自主完成仍未验收。结果见[交接](handoff.md)、[本轮QA](output/qa/2026-10-30-application-execution/verification.md)与[实际交付门槛](desk-companion/docs/delivery-readiness.md)。合并基线的[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)保留历史范围。
 
 ## 当前要求
 
@@ -23,9 +23,12 @@
 | 软件结构 | 手机拆成首页、计划、管理、环境与日历读取；网页／手机共用登录、会话恢复及日程编辑；读取去重、迟到响应和未保存保护 | 完整跨设备故障矩阵和辅助技术验收 |
 | 网页／手机 | 桌面侧栏Alice、宽屏助理；共用操作卡片／权限设置；手机全屏Alice＋Calendar／Tasks／More页面；模拟器构建／真实画面 | 原生触控／软键盘完整流程、真机、功耗和温度 |
 | 记忆／人格 | 网页／手机可搜索、更正、删除有效事实；模型可检索全部有效事实，旧事实删除／到期也清旧重放；按需查看档案／目标／别名／检查记录；受支持的新事实操作可由完整权限授权 | 不承诺永久聊天档案或供应商删除旧留存 |
+| 持久 Work／跟进 | 选定来源／现有事务、持久决策／提问／恢复、独立文件核验、变化审阅及本地定期检查；普通聊天与显式保存会话的标识分开 | 真实邮件触发、私人账号连接、模型自主完成复杂任务和远程通知 |
 | 电脑作业 | 原有笔记／指定目录／Mousepad流程；新增受限 Chromium 资料读取、Calc 公式、Writer／PDF、版本文件、取消与重启读回；共用批准和队列 | 语音自主复杂任务、任意GUI／LCU、Pi Wayland及远端PC |
 | 坐姿／输出 | 固定关键点与标定逻辑、复测、回放隔离；命名预设、期限、停止与驱动回执 | 真人标注／误报／准确率、Luwu驱动及台架／物理急停 |
 | 交换与平台 | ICS、只读分享、事实／人格／作业备份、拥有者合并恢复、私有SQLite副本、诊断和默认关闭Web Push；Google只读、Linux安装、iPhone Keychain／Widget／App Intents | 公网／真实TLS配对、原生通知交付、学校服务器及App Store |
+
+旧运行目录须先停服务并核对备份，再执行显式 schema 1→2→3 迁移；原 PR5 的 personal_memories 另有兼容转换。真实用户目录本轮未迁移，不能直接把代码合并当作运行数据升级。
 
 实现职责与新增协议见[维护契约](desk-companion/docs/software-maintenance.md)，原业务边界见[架构](desk-companion/docs/architecture.md)。本分支保留main较新的Vite8.3.5，不回退旧工作区的8.3.1。
 

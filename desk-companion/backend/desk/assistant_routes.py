@@ -48,16 +48,24 @@ def assistant_routes(runtime, authenticated, operation_id):
         return {"calls": runtime.assistant.audit.listing(limit)}
 
     @router.get("/proposals")
-    def proposals(principal=Depends(authenticated)):
-        return {"proposals": runtime.assistant.proposals(allow_memory=principal["kind"] == "owner")}
+    def proposals(request: Request, principal=Depends(authenticated)):
+        principal = {**principal, "session": request.cookies.get("desk_companion_session")}
+        return {
+            "proposals": runtime.agent_runs.filter_proposals(
+                runtime.assistant.proposals(allow_memory=principal["kind"] == "owner"), principal
+            )
+        }
 
     @router.post("/proposals/{proposal_id}/decisions")
     def decide(
         proposal_id: str,
         payload: ProposalDecision,
+        request: Request,
         key=Depends(operation_id),
         principal=Depends(authenticated),
     ):
+        principal = {**principal, "session": request.cookies.get("desk_companion_session")}
+        runtime.agent_runs.require_proposal_access(proposal_id, principal, action=payload.action)
         return runtime.assistant.decide(
             proposal_id, payload.action, key, allow_memory=principal["kind"] == "owner"
         )

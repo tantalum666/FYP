@@ -8,16 +8,18 @@ The fake adapter is an offline demonstration. It never opens a network connectio
 import json
 
 from .store import DomainError
+from .bounded_json import bounded_json_post
 
 
 class QwenTextAdapter:
     name = "qwen"
 
     def complete(self, client, config, prompt, content, max_tokens=1600):
-        result = client.post(
+        body = bounded_json_post(
+            client,
             config.endpoint,
             headers={"Authorization": "Bearer " + config.api_key},
-            json={
+            json_body={
                 "model": config.model,
                 "messages": [
                     {"role": "system", "content": prompt},
@@ -29,8 +31,6 @@ class QwenTextAdapter:
                 "enable_thinking": False,
             },
         )
-        result.raise_for_status()
-        body = result.json()
         usage = body.get("usage", {})
         return body["choices"][0]["message"]["content"], usage if isinstance(usage, dict) else {}
 
@@ -74,10 +74,11 @@ class GeminiTextAdapter:
 
     def complete(self, client, config, prompt, content, max_tokens=1600):
         base = config.endpoint or "https://generativelanguage.googleapis.com/v1beta"
-        result = client.post(
+        body = bounded_json_post(
+            client,
             base + "/models/" + config.model + ":generateContent",
             headers={"x-goog-api-key": config.api_key},
-            json={
+            json_body={
                 "systemInstruction": {"parts": [{"text": prompt}]},
                 "contents": [{"role": "user", "parts": [{"text": content}]}],
                 "generationConfig": {
@@ -86,8 +87,6 @@ class GeminiTextAdapter:
                 },
             },
         )
-        result.raise_for_status()
-        body = result.json()
         raw = "".join(
             part.get("text", "")
             for part in body["candidates"][0]["content"]["parts"]

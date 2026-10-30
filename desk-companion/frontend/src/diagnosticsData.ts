@@ -19,7 +19,10 @@ export interface DiagnosticsReport {
   scheduler: { ticks: Record<string, string>; backup: string };
 }
 
-export function diagnosticsLines(report: DiagnosticsReport, language: Language) {
+export function diagnosticsLines(
+  report: DiagnosticsReport,
+  language: Language,
+) {
   const en = language === "en";
   const backup = report.backup.last_at
     ? `${report.backup.file_name} · ${report.backup.bytes} B · ${report.backup.retained}`

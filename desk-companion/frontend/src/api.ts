@@ -16,7 +16,13 @@ export async function request<T>(
   const controller = new AbortController();
   const timer = window.setTimeout(
     () => controller.abort(),
-    path === "/assistant/messages" ? 75000 : 12000,
+    [
+      "/assistant/messages",
+      "/assistant/retained-messages",
+      "/browser/observations",
+    ].includes(path)
+      ? 75000
+      : 12000,
   );
   try {
     const response = await apiFetch(path, {
