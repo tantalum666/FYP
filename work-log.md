@@ -490,3 +490,11 @@ Repaired macOS migration identity, explicit legacy-fact conversion, current-memo
 Evidence: [compatibility contract](desk-companion/docs/pr5-integration.md), [QA](output/qa/2026-10-31-pr5-repair/verification.md), 45-table current-main fixture migration, actual local download hash, same-task approval/watch/mobile readback. Current test totals and remote publication are recorded in QA after completion. Real user DBs and prior runtimes were preserved. Next product gate remains an authorized real-mailbox journey through the existing task/Work core, not consumer-agent parity by model API alone.
 
 Publication verified: PR5 closed/merged, reviewed112f912 → main9b655e1, exact Git trees match. Final1686backend/300frontend passed; staged secrets scan and504local-link checks passed. This closeout updates status/receipts only; next work is the scoped mailbox journey.
+
+## 2026-10-31 · Pi resumed at home, portable Wi-Fi/Ethernet seed
+
+Owner resumed Pi work, supplied home Wi-Fi privately and authorized the existing VPS if needed; then specified home Wi-Fi, classroom Wi-Fi/Ethernet and dorm Ethernet. Read the referenced VPS chat and focused Pi recovery docs; inspected the current Mac LAN, original card identity, old boot status and paired host public key. The earlier Halls/Student boot ended without connectivity; it was not treated as a password diagnosis.
+
+Added a network-only SD preparer and Pi installer with bounded active-private-LAN SSH rules, NetworkManager event refresh, home/wired profiles, preserved classroom Wi-Fi and disabled dorm Wi-Fi autoconnect. Original users/keys/app/data stay in place.25local checks and Ruff pass. Two boot seed files were backed up privately, written, read back and parsed; other boot files unchanged; Linux partition not written by Mac; FAT verify0 and safe ejection. Generic Mac LAN launcher copied to Downloads.
+
+Owner was requested to reinsert/power the Pi. The initial bounded UDP receiver saw no matching packet; actual home connection and app/desktop acceptance remain pending, not failed or completed by inference. No VPS/proxy change, paid call, media/motor activation or application database upgrade. [QA](output/qa/2026-10-31-pi-home-resume/verification.md) / [network contract](desk-companion/docs/pi-network-profiles.md).

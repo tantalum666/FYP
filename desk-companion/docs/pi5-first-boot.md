@@ -1,10 +1,11 @@
 # Pi 5 8GB 首次启动 · Group 2
 
+**2026-10-31：用户已恢复Pi工作。家庭Wi-Fi／教室Wi-Fi与网线／宿舍网线配置已写入原卡并安全弹出；实际开机连接以[本轮QA](../../output/qa/2026-10-31-pi-home-resume/verification.md)为准。[网络方案](pi-network-profiles.md)。**
 <!-- FYP-CONTEXT-20261027 -->
-> 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
+> HISTORICAL 2026-10-27 快照：当时Pi暂停，旧API预算关闭。当前恢复状态见文首31日记录。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
 <!-- /FYP-CONTEXT-20261027 -->
 
-**2026-10-27当前：用户暂不启动Pi，下一轮Halls冷启动卡已准备并安全弹出，尚未实测。恢复前先核对Mac当前IP并启动状态接收；详见暂停快照 (local historical material: `output/qa/2026-10-26-pi5-dorm/pause-state.json`; not included in this checkpoint)。**
+**HISTORICAL 2026-10-27：用户暂不启动Pi，下一轮Halls冷启动卡已准备并安全弹出，尚未实测。恢复前先核对Mac当前IP并启动状态接收；详见暂停快照 (local historical material: `output/qa/2026-10-26-pi5-dorm/pause-state.json`; not included in this checkpoint)。**
 
 2026-10-22。用户指定的128 GB SD卡已由官方Raspberry Pi Imager 2.0.7写入、完整读回校验成功并安全弹出。写入时目标为内置SDXC读卡器中的`/dev/disk14`、127999672320字节；该盘号以后可能变化，不得直接沿用写盘命令。没有写入Mac系统盘。
 

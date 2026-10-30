@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-31",
+  "scope": "Resume physical Pi; home Wi-Fi, classroom Wi-Fi and wired, dorm wired; preserve current image/data, no paid models",
+  "read": [
+    "AGENTS.md",
+    "product.md current requirements",
+    "handoff.md",
+    "START_HERE_NEXT_CHAT.md",
+    "decision-log.md hardware/paused and latest compatibility sections",
+    "desk-companion/docs/pi5-usb-mac.md",
+    "desk-companion/docs/pi5-first-boot.md",
+    "desk-companion/scripts/pi/connect_mac.command",
+    "desk-companion/scripts/pi/setup_classroom_access.py",
+    "desk-companion/scripts/pi/setup_dorm_access.py",
+    "setup_usb_headless.py access-policy section",
+    "prior dorm verification.md current outcome sections",
+    "referenced VPS thread recent 6 turns, selected nonsecret conclusions; VPS migration-status current maintenance sections"
+  ],
+  "referenced_chat": {
+    "hostId": "local",
+    "threadId": "019decde-5067-7000-bdea-e91f5d4d9ea4"
+  },
+  "secrets": "Home Wi-Fi input stored privately outside Git; no secret values in QA."
+}

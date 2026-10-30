@@ -1,10 +1,11 @@
 # 只用 Mac 访问 Pi 5 · Group 2
 
+**2026-10-31：用户已恢复Pi工作。家庭Wi-Fi／教室Wi-Fi与网线／宿舍网线配置已写入原卡并安全弹出；实际开机连接以[本轮QA](../../output/qa/2026-10-31-pi-home-resume/verification.md)为准。[网络方案](pi-network-profiles.md)。**
 <!-- FYP-CONTEXT-20261027 -->
-> 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
+> HISTORICAL 2026-10-27 快照：当时Pi暂停，旧API预算关闭。当前恢复状态见文首31日记录。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
 <!-- /FYP-CONTEXT-20261027 -->
 
-**2026-10-27当前：用户暂不启动Pi，下一轮Halls冷启动卡已准备并安全弹出，尚未实测。恢复前先核对Mac当前IP并启动状态接收；详见暂停快照 (local historical material: `output/qa/2026-10-26-pi5-dorm/pause-state.json`; not included in this checkpoint)。**
+**HISTORICAL 2026-10-27：用户暂不启动Pi，下一轮Halls冷启动卡已准备并安全弹出，尚未实测。恢复前先核对Mac当前IP并启动状态接收；详见暂停快照 (local historical material: `output/qa/2026-10-26-pi5-dorm/pause-state.json`; not included in this checkpoint)。**
 
 更新：2026-10-26。**现在已通过教室NETGEAR02连通SSH、网页和Mac屏幕共享，无需外接显示器。**Pi已开机、扩容、安装；本次保留原卡系统及数据，补写联网配置并修复实际发现的启动／网页／桌面兼容问题。实机QA (local historical material: `output/qa/2026-10-26-pi5-classroom/verification.md`; not included in this checkpoint)保留全部失败与最终读回。
 

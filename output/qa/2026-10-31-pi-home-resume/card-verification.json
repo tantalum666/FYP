@@ -1,0 +1,12 @@
+{
+  "card_written": true,
+  "yaml_parsed": true,
+  "credential_match": true,
+  "existing_identity_preserved": true,
+  "changed_boot_files": [
+    "user-data",
+    "meta-data"
+  ],
+  "other_boot_files_unchanged": true,
+  "linux_partition_written_by_mac": false
+}
