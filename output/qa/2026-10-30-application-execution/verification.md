@@ -58,3 +58,8 @@ No CI workflow was added or run. No API spending, external message, purchase, sc
 ## Next gate
 
 Integrate a resumable model-driven task turn over the existing stages/tools and test it offline, including held-out source/layout variants and interruption. The HTTP assistant still stops after one effect-producing tool; stage persistence alone is not autonomous planning. Production OpenAI provider wiring and a separately authorized small paid voice comparison remain open. Do not report a new Qwen/Realtime/Live application-task score from this execution-layer milestone.
+
+
+## Publication
+
+Draft [PR68](https://github.com/tantalum666/FYP/pull/68) is open and unmerged, stacked on PR67. Implementation `20581f387a99d0ecd19f2c194683ad114275aea8` matched the remote branch and GitHub PR head. [Receipt](publication.json). A documentation-only closeout follows; the final remote HEAD is checked after its push. No CI workflow or credentials/runtime data were published.

@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-30",
+  "repository": "tantalum666/FYP",
+  "url": "https://github.com/tantalum666/FYP/pull/68",
+  "number": 68,
+  "branch": "codex/application-execution-20261030",
+  "base_branch": "codex/complex-app-acceptance-20261030",
+  "base_sha": "6bc8f19d6476577f5178e0c74374152646591b4a",
+  "verified_implementation_head": "20581f387a99d0ecd19f2c194683ad114275aea8",
+  "state": "open",
+  "draft": true,
+  "merged": false,
+  "mergeable_at_readback": true,
+  "remote_head_matched": true,
+  "documentation_closeout_on_top": true,
+  "local_validation": {
+    "backend": 524,
+    "final_focused_backend": 73,
+    "frontend": 89,
+    "model_calls": 0,
+    "ci_used": false
+  },
+  "note": "This records the verified implementation commit. A documentation-only receipt closeout follows on the same branch; final remote HEAD is checked after that push."
+}
