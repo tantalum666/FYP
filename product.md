@@ -46,7 +46,7 @@
 
 硬件组 10 月 26 日的[教师审核稿与采购表](research/2026-10-26-hardware-procurement-review/README.md)已纳入主分支：保留原 PDF／有日期的价格与未报价项，不把文档合并当成完整 BOM、采购或硬件测试通过。
 
-**2026-10-31：用户已恢复Pi工作，家庭Wi-Fi／原密钥SSH／网页Alice／Mac远程桌面已实测通过。** 家里Wi-Fi、教室保留已验证Wi-Fi并支持网线、宿舍使用网线；[网络配置](desk-companion/docs/pi-network-profiles.md)已安装并从实机读回，有线仍待插线与现场验收。启动Pi本机Chromium时出现真实低电压事件，关闭窗口后当前告警位清除、历史位保留；先核对供电再做持续负载测试。详见[QA](output/qa/2026-10-31-pi-home-resume/verification.md)。教室SSH／网页／桌面与宿舍Student接入、远程超时属于此前历史；最新软件未部署到Pi。Luwu与Mini硬件研究、采购批准、接线、台架及连续运行分开；[硬件成员资料](research/2026-10-23-mini-robot-hardware/README.md)不代表本轮实物成绩。
+**2026-10-31：用户已恢复Pi工作，家庭Wi-Fi／原密钥SSH／网页Alice／Mac远程桌面已实测通过。** 家里Wi-Fi、教室保留已验证Wi-Fi并支持网线、宿舍使用网线；[网络配置](desk-companion/docs/pi-network-profiles.md)已安装并从实机读回，有线仍待插线与现场验收。启动Pi本机Chromium时出现真实低电压事件，已关闭窗口，后续读数仅保留历史告警位；先核对供电再做持续负载测试。详见[QA](output/qa/2026-10-31-pi-home-resume/verification.md)。教室SSH／网页／桌面与宿舍Student接入、远程超时属于此前历史；最新软件未部署到Pi。Luwu与Mini硬件研究、采购批准、接线、台架及连续运行分开；[硬件成员资料](research/2026-10-23-mini-robot-hardware/README.md)不代表本轮实物成绩。
 
 ## 保存与协作
 

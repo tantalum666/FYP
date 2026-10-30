@@ -13,5 +13,10 @@
   "ci_used": false,
   "vps_changed": false,
   "live_evidence": "live-verification.json",
-  "network_source_unchanged": true
+  "network_source_unchanged": true,
+  "live_evidence_commit": "d29648b8844cb4da4d6fbd72a46d9ae4ea41f526",
+  "live_evidence_remote_head_verified": true,
+  "pr_metadata_read_back": true,
+  "pr_state": "open",
+  "pr_body_includes_power_and_wired_limits": true
 }
