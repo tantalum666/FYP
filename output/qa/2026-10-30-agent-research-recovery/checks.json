@@ -1,0 +1,50 @@
+{
+  "baseline": "44aa2c7100ac9e072090cf25c10b4315de885670",
+  "recovered_reports": [
+    {
+      "path": "research/2026-10-12-personal-agents/muse.md",
+      "original_hash_matches": true,
+      "documented_transformations_match": true,
+      "recovered_hash_matches": true
+    },
+    {
+      "path": "research/2026-10-12-personal-agents/muse-capability-gap.md",
+      "original_hash_matches": true,
+      "documented_transformations_match": true,
+      "recovered_hash_matches": true
+    },
+    {
+      "path": "research/2026-10-12-personal-agents/dot.md",
+      "original_hash_matches": true,
+      "documented_transformations_match": true,
+      "recovered_hash_matches": true
+    },
+    {
+      "path": "research/2026-10-12-personal-agents/dot-capability-gap.md",
+      "original_hash_matches": true,
+      "documented_transformations_match": true,
+      "recovered_hash_matches": true
+    },
+    {
+      "path": "research/2026-10-12-personal-agents/grok.md",
+      "original_hash_matches": true,
+      "documented_transformations_match": true,
+      "recovered_hash_matches": true
+    },
+    {
+      "path": "research/2026-10-12-personal-agents/grok-capability-gap.md",
+      "original_hash_matches": true,
+      "documented_transformations_match": true,
+      "recovered_hash_matches": true
+    }
+  ],
+  "original_lines": 1304,
+  "markdown_files": 19,
+  "local_links_checked": 339,
+  "missing_links": [],
+  "application_source_unchanged": true,
+  "no_ci_files_changed": true,
+  "model_calls": 0,
+  "new_runtime_tests": 0,
+  "competitor_behavioral_trials": 0
+}

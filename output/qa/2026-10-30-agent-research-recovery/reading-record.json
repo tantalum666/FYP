@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-30",
+  "task": "Recover prior Grok Bot / Meta Muse / OpenAI Your dot research, refresh primary sources and link product gaps to implementation.",
+  "scope": "Documentation and source recovery only; no runtime/model/account/purchase actions.",
+  "read": {
+    "AGENTS.md": "current instructions; prior complete read retained",
+    "product.md": "current requirements and current evidence sections",
+    "handoff.md": "full",
+    "decision-log.md": "2026-10-03/06/14/29/30 relevant sections",
+    "research/2026-10-03-dot/proactive-task-tracking.md": "full",
+    "planning/2026-10-29/assistant-permission-ux.md": "full",
+    "docs/tooling-and-review/companion-product-teardown.md": "full in bounded sections",
+    "docs/tooling-and-review/companion-architecture.md": "full in bounded sections",
+    "planning/2026-10-06/personal-agent-discussion-and-next-steps.md": "sections 1-5 and 7-8; section 6 hardware outside current research scope",
+    "research/2026-10-12-personal-agents/grok.md": "product identity/capability and lifecycle/implementation/cost-boundary chapters; dated API detail retained as historical, not requalified",
+    "research/2026-10-12-personal-agents/grok-capability-gap.md": "conclusion, identity/provenance, capability gap, evidence gates; source table read in bounded excerpts",
+    "research/2026-10-12-personal-agents/muse.md": "sections 1-2 product identity/public architecture and selected later interface excerpts; historical API detail not fully requalified",
+    "research/2026-10-12-personal-agents/muse-capability-gap.md": "conclusion and selected capability/implementation sections; old exhaustive API material is recovery, not current validation",
+    "research/2026-10-12-personal-agents/dot.md": "sections 1-3 identity/product/runtime comparison and managed-session boundary excerpts",
+    "research/2026-10-12-personal-agents/dot-capability-gap.md": "sections 1-2 conclusion and evidence-label contract; remaining historical detail restored, not claimed fully reread",
+    "current implementation": "google_calendar scope; agent_loop contract; tasks.tick; text_ai.enrich_one; permissions proposal kinds; absence search for mail/store/flight integration in backend/frontend"
+  },
+  "historical_research": "All six original blobs recovered and hashed (1304 original lines, 205227 bytes). Full blob recovery is distinct from focused narrative reading and current official-source verification.",
+  "status": "Research recovery, source checks and documentation validation complete; ready for publication.",
+  "updated_documents": [
+    "AGENTS.md",
+    "README.md",
+    "START_HERE_NEXT_CHAT.md",
+    "product.md",
+    "handoff.md",
+    "decision-log.md",
+    "work-log.md",
+    "desk-companion/docs/delivery-readiness.md",
+    "docs/tooling-and-review/companion-product-teardown.md",
+    "docs/tooling-and-review/companion-architecture.md",
+    "research/2026-10-03-dot/proactive-task-tracking.md",
+    "research/personal-agent-research-index.md",
+    "six restored reports listed in historical-inventory.json"
+  ]
+}

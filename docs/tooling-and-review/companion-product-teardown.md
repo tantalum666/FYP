@@ -1,10 +1,12 @@
 # Product teardown: Muse, Dot, and a personal agent
 
+> **HISTORICAL — 14–15 October 2026.** The current [research entry and implementation map](../../research/personal-agent-research-index.md) restores the six PR #5 studies, adds the current Grok mechanisms and corrects the Dot identity. Product/pricing/API statements and the implementation baseline below retain their original dates.
+
 Date: 14 October 2026. Group 2, Desk Companion. Written for teammates and coding agents (including Codex).
 
 **Review update, 15 October 2026.** PRs #7–#14 are merged on the existing job contract. The Desk Companion comparison and roadmap below now reflect owner facts, one folder action, shared persona and quiet scheduling. The public product descriptions remain the dated 14 October research, with their original access limitations. See the [independent review](../../output/qa/2026-10-15-grok-review-merge/verification.md). PRs #4 and #5 remain separate; no hosted provider trial occurred.
 
-**Chinese summary.** 和 Desk Companion 最吻合的 “Muse” 是 Meta 在 2026 年 9 月推出的个人代理，不是旧的视频站或冥想应用。名叫 Dot 的公开产品有两个：本组 10 月 3 日已经指定的是 ChatGPT 里的 Your dot；本轮提示里更可能指的是 New Computer 的 iOS 伴侣，该公司主页已宣布停运。下文只根据公开网页，不反编译、不提取提示词。差距和路线图对着 `main` 上的 Desk Companion，大模型仍走托管 API。
+**Chinese summary.** 和 Desk Companion 最吻合的 “Muse” 是 Meta 在 2026 年 9 月推出的个人代理，不是旧的视频站或冥想应用。名叫 Dot 的公开产品有两个：本组 10 月 3 日已经指定的是 ChatGPT 里的 Your dot；本篇历史拆解另纳入了 New Computer 的旧 iOS 伴侣。30 日核对确认：本项目对标的是此前已明确的 OpenAI Your dot；New Computer 部分仅作历史背景。下文只根据公开网页，不反编译、不提取提示词。差距和路线图对着 `main` 上的 Desk Companion，大模型仍走托管 API。
 
 This note describes what those products **say they do for a person**. It is not an audit, a benchmark, or a copy of their servers. A likely technical shape, and why a client binary cannot reveal it, is already in [companion-architecture.md](companion-architecture.md). The 12 October studies on unmerged [PR #5](https://github.com/tantalum666/FYP/pull/5) remain the earlier interface notes. Do not write a third survey.
 
@@ -13,7 +15,7 @@ This note describes what those products **say they do for a person**. It is not 
 | Name in the request | Product used below | Why | What is still uncertain |
 |---|---|---|---|
 | **Muse** | **Meta Muse**, the personal agent launched with the 8 September 2026 safety article and the September 2026 design article. | Desk Companion is a personal agent that should act in the user’s tools, keep memory, work after the chat closes, and remind the user. That is the product those two Meta pages describe. Older products that also use the name Muse (a former video host, meditation apps) do not match this brief. | Meta’s consumer announcement on `about.fb.com` was not retrieved (an earlier fetch returned HTTP 403). The launch demo video was not watched. No first-party checkout price was opened. “AI glasses, coming soon” and “free for most uses, subscriptions for more” appear in a [WebWire reprint](https://www.webwire.com/ViewPressRel.asp?aId=360321) (10 September 2026), not in the design article fetched here. |
-| **Dot** | **Two products, kept separate.** (1) OpenAI **ChatGPT “your dot”**, which the FYP owner named on 3 October 2026. (2) **New Computer’s Dot**, the iOS companion the latest request says is the likely Dot. | (1) Matches “acts in the user’s apps, keeps memory, works in the background, sends reminders,” and is already the baseline in [proactive-task-tracking.md](../../research/2026-10-03-dot/proactive-task-tracking.md). (2) Is a real 2024 companion, but its own site says the company is winding down. It is not the computer-use reference for this FYP. | New Computer’s [homepage](https://new.computer/) says Dot stays up until **October 5** and does not print the year. [TechCrunch, 5 September 2025](https://techcrunch.com/2025/09/05/personalized-ai-companion-app-dot-is-shutting-down/) dates that deadline as 5 October 2025. The [product page](https://new.computer/dot) was still written in the present tense when fetched on 14 October 2026. The App Store listing was not opened. |
+| **Dot** | **Two products, kept separate.** (1) OpenAI **ChatGPT “your dot”**, which the FYP owner named on 3 October 2026. (2) **New Computer’s Dot**, an additional historical iOS comparison, not the active FYP reference. | (1) Matches “acts in the user’s apps, keeps memory, works in the background, sends reminders,” and is already the baseline in [proactive-task-tracking.md](../../research/2026-10-03-dot/proactive-task-tracking.md). (2) Is a real 2024 companion, but its own site says the company is winding down. It is not the computer-use reference for this FYP. | New Computer’s [homepage](https://new.computer/) says Dot stays up until **October 5** and does not print the year. [TechCrunch, 5 September 2025](https://techcrunch.com/2025/09/05/personalized-ai-companion-app-dot-is-shutting-down/) dates that deadline as 5 October 2025. The [product page](https://new.computer/dot) was still written in the present tense when fetched on 14 October 2026. The App Store listing was not opened. |
 
 No page here was obtained by decompiling an app or extracting a hidden prompt. Meta’s design article voluntarily quotes one line of its system prompt. That line is cited as their published sentence. It is not adopted as Desk Companion’s persona, and the rest of the prompt was not sought.
 
@@ -65,7 +67,7 @@ These are Meta’s claims, not an independent test:
 
 ## New Computer’s Dot
 
-This is the companion the latest request points at. It is not ChatGPT’s dot.
+Historical aside only. The active FYP reference is OpenAI Your dot, as clarified by the owner on 3 October; this section does not redefine that choice.
 
 Sources: [new.computer](https://new.computer/) (winding-down note, Sam and Jason), [new.computer/dot](https://new.computer/dot), [Your data](https://new.computer/your-data), [TechCrunch, 21 June 2024](https://techcrunch.com/2024/06/21/dots-ai-really-really-wants-to-get-to-know-you/), [TechCrunch, 5 September 2025](https://techcrunch.com/2025/09/05/personalized-ai-companion-app-dot-is-shutting-down/), and Daniel Klein’s [design critique, 27 June 2024](https://diklein.com/writing/on-the-design-of-dot).
 
@@ -150,7 +152,7 @@ The pattern below is what Muse and ChatGPT’s dot both publish. New Computer’
 5. **A visible character.** Name, face, and tone help the user tell the agent from a generic chat. They do not grant extra permissions.
 6. **Speech as a front end.** Voice is how some products listen. The durable job is still the task record.
 
-## Gap against Desk Companion on `main`
+## Historical gap against Desk Companion on 15 October `main`
 
 Baseline: Desk Companion after PRs #7–#14 and the 15 October review fixes. Providers default to `none`. Dedicated notes require `DESK_COMPUTER_ENABLED`; a folder action requires the owner to configure one real directory and approve each job. PR #5’s separate kernel, routines and browser fixtures remain unmerged.
 

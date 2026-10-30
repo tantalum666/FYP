@@ -1,0 +1,8 @@
+{
+  "finding_rule": "generic-api-key",
+  "file": "research/2026-10-12-personal-agents/muse-capability-gap.md",
+  "line": 49,
+  "classification": "false positive on descriptive prose",
+  "credential_present": false,
+  "resolution": "Equivalent prose rewrite, recorded in manifest; no scan exclusions or allowlist added."
+}

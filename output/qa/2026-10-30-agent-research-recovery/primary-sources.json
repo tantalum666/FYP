@@ -1,0 +1,118 @@
+{
+  "retrieved_on": "2026-10-30",
+  "source_scope": "Official public documentation, not live product/account benchmarking",
+  "pages": [
+    {
+      "id": "M1",
+      "title": "Meta Muse announcement",
+      "url": "https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/",
+      "read_scope": "How it works; purchases; connected services",
+      "retrieved": true
+    },
+    {
+      "id": "M2",
+      "title": "Muse product design",
+      "url": "https://introducing.muse.ai/",
+      "read_scope": "Ongoing chat; goals; meaningful notifications; action cards",
+      "retrieved": true
+    },
+    {
+      "id": "M3",
+      "title": "Muse published architecture",
+      "url": "https://research.meta.ai/blog/security-and-safety-for-ai-agents-our-approach-with-muse",
+      "read_scope": "VM/cell; independent authority; credential separation; browser; purchases",
+      "retrieved": true
+    },
+    {
+      "id": "G1",
+      "title": "Grok Bot overview",
+      "url": "https://docs.x.ai/grok-bot/overview",
+      "read_scope": "Persistent account computer; parallel work surfaces; continuity",
+      "retrieved": true
+    },
+    {
+      "id": "G2",
+      "title": "Grok computer and apps",
+      "url": "https://docs.x.ai/grok-bot/computer-and-apps",
+      "read_scope": "Connected apps; owned inbox; routine-trigger distinction; result persistence",
+      "retrieved": true
+    },
+    {
+      "id": "G3",
+      "title": "Grok skills and routines",
+      "url": "https://docs.x.ai/grok-bot/skills-routines-and-automations",
+      "read_scope": "Skills; demonstration; schedules; events and separate integrations",
+      "retrieved": true
+    },
+    {
+      "id": "G4",
+      "title": "Grok action review",
+      "url": "https://docs.x.ai/grok-bot/approvals-security-and-privacy",
+      "read_scope": "Auto Review; remembered rules; current expiry; background mail drafts",
+      "retrieved": true
+    },
+    {
+      "id": "G5",
+      "title": "Grok Vault",
+      "url": "https://docs.x.ai/grok-bot/vault",
+      "read_scope": "Saved-card use; secure forms; Link one-time purchase",
+      "retrieved": true
+    },
+    {
+      "id": "G6",
+      "title": "Grok security",
+      "url": "https://docs.x.ai/grok-bot/security",
+      "read_scope": "Hosted computer; model choice; separate local execution",
+      "retrieved": true
+    },
+    {
+      "id": "D1",
+      "title": "OpenAI Your dot overview",
+      "url": "https://learn.chatgpt.com/docs/dots",
+      "read_scope": "Ongoing responsibility; cloud/local computer; voice continuity; delegation",
+      "retrieved": true
+    },
+    {
+      "id": "D2",
+      "title": "Dot tasks and memory",
+      "url": "https://learn.chatgpt.com/docs/dots/tasks-and-memory",
+      "read_scope": "Assigned work; schedules; events; memory layers; read-only research",
+      "retrieved": true
+    },
+    {
+      "id": "D3",
+      "title": "Dot controls",
+      "url": "https://learn.chatgpt.com/docs/dots/controls",
+      "read_scope": "Action review; scoped rules; stop versus cancel schedule",
+      "retrieved": true
+    },
+    {
+      "id": "A1",
+      "title": "OpenAI Agents API overview",
+      "url": "https://developers.openai.com/api/docs/guides/agents-api/overview",
+      "read_scope": "Managed Codex harness; durable sessions; tools; environment ownership",
+      "retrieved": true
+    },
+    {
+      "id": "E1",
+      "title": "Gmail server notifications",
+      "url": "https://developers.google.com/workspace/gmail/api/guides/push",
+      "read_scope": "Watch/history; expiration; delayed or missed notifications",
+      "retrieved": true
+    },
+    {
+      "id": "E2",
+      "title": "Outlook notifications",
+      "url": "https://learn.microsoft.com/en-us/graph/outlook-change-notifications-overview",
+      "read_scope": "Message changes; subscriptions; read scopes",
+      "retrieved": true
+    }
+  ],
+  "failed_lookup": [
+    {
+      "url": "https://learn.chatgpt.com/docs/dots/apps-and-tools",
+      "result": "404; not used as evidence; overview links the correct computers-and-apps route"
+    }
+  ],
+  "not_requalified": "Historical exhaustive API/model/pricing details in restored reports. Their original dates are preserved."
+}
