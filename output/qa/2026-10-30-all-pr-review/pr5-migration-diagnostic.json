@@ -1,0 +1,53 @@
+{
+  "code": "MIGRATION_STORE_CHANGED",
+  "before": [
+    [
+      16777234,
+      166100012,
+      16832,
+      501,
+      5
+    ],
+    [
+      16777234,
+      166100013,
+      33152,
+      501,
+      1
+    ]
+  ],
+  "after": [
+    [
+      16777234,
+      166100012,
+      16832,
+      501,
+      7
+    ],
+    [
+      16777234,
+      166100013,
+      33152,
+      501,
+      1
+    ]
+  ],
+  "frames": [
+    {
+      "function": "<module>",
+      "line": 6
+    },
+    {
+      "function": "__init__",
+      "line": 139
+    },
+    {
+      "function": "_check_migration_path",
+      "line": 215
+    },
+    {
+      "function": "_check_migration_identity",
+      "line": 55
+    }
+  ]
+}

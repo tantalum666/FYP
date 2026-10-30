@@ -464,3 +464,14 @@ Created [one research entry and implementation map](research/personal-agent-rese
 [QA](output/qa/2026-10-30-agent-research-recovery/verification.md) contains provenance, read scope, current sources and documentation checks. Validation is original/recovered hash and narrative checks, internal links, source-tree preservation, whitespace and secret scanning. PR68's 524/89/73 checks remain prior application evidence; no new runtime test or competitor behavioral score is claimed. No CI, personal-mail access, monitoring schedule, outgoing message, purchase, model fees, hardware or deployment.
 
 Published as draft [PR69](https://github.com/tantalum666/FYP/pull/69) on PR68. Research commit `3196d0f855c8d16b5e67d17311b0527cee034bf6` matched the remote branch and GitHub PR head; [publication receipt](output/qa/2026-10-30-agent-research-recovery/publication.json). The PR remains open/unmerged. This receipt closeout changes documentation only.
+
+
+## 2026-10-30 · Review all outstanding PRs and integrate the compatible stack
+
+The owner authorized a fresh review of all open PRs and merging those without unresolved problems. Frozen set: 4, 5, 15, 16, 19, 64–69. Used a new managed `all-pr-review-20261030` worktree because previous attached checkouts retain evidence or active preview work.
+
+Reviewed the latest software stack, original branch provenance and overlapping contracts. Original PR5's 1380 backend cases yield 1334 passes and 46 failures on this Mac. A directory-link-count migration defect was reproduced on synthetic data; a diagnostic-only fix passes 129 focused cases, but the current memory row remains invisible to the old API after upgrade. PR5 also collides with current runtime/application protocols. It is retained for compatible porting rather than given an unsupported green merge. Old 4/16 presentation and 15's original Omni changes are superseded by the current baseline; four voice/media helpers are byte-identical.
+
+PR19's dated hardware package passed all five-page rendering checks, unchanged PDF SHA/size and budget arithmetic, including 13 unpriced required items. Resolved its five root-document conflicts toward current software/AI/Alice decisions, preserving hardware records and paused deployment. The candidate fixes one misleading cancellation reply: edited staging is distinguished from final publication. Latest full backend 524, frontend 89, focused cancellation/permissions 36, type/build and Ruff pass. Actual web/393px phone memory search, exact once-approved file bytes, linked-task continuation, Alice and draft guards pass.
+
+[Review and evidence](output/qa/2026-10-30-all-pr-review/verification.md) distinguish eligible merges (19,64–69), superseded closures (4,15,16) and blocked 5. No CI, live models, real user database migration, media capture, hardware/Pi, external purchase or school submission. Final remote receipts are appended after publication; this entry alone is not a merge claim.

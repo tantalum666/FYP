@@ -1,0 +1,10 @@
+{
+  "local_links_checked": 323,
+  "missing_links": [],
+  "application_changes": [
+    "desk-companion/backend/desk/permissions.py",
+    "desk-companion/tests/test_application_jobs.py"
+  ],
+  "workflows_present": false,
+  "pdf_original_sha256": "6cca77bdef39ba0ac0bf6cda73350f99f627f0a339cb8d041000ac32843fa149"
+}

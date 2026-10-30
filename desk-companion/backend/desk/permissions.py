@@ -164,7 +164,11 @@ class PermissionService:
                 return {**reply, "job": job}
             messages = {
                 "succeeded": ("The file action finished and its result was verified.", "文件操作已完成，结果已核验。"),
-                "cancelled": ("The file action was cancelled before execution.", "文件操作已在执行前取消。"),
+                "cancelled": (
+                    ("The file revision was stopped before publication.", "本次文件修订已在发布前停止。")
+                    if job.get("action") == "application"
+                    else ("The file action was cancelled before execution.", "文件操作已在执行前取消。")
+                ),
                 "expired": ("This file action expired without execution.", "文件操作已到期，未执行。"),
                 "failed": ("The file action could not run. Review its details.", "文件操作未能执行，请查看详情。"),
                 "unknown": ("The result needs checking before another write.", "结果待核验，请先检查已有结果。"),

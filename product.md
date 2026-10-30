@@ -41,6 +41,8 @@
 
 本机开发预览可显式设`DESK_LOCAL_PREVIEW=1`，仅直接回环请求取得正常8小时Cookie；公网、转发和外部来源拒绝。默认运行仍保留密码登录，真实手机仍需可信HTTPS／配对。会话恢复不自动重试写入。
 
+硬件组 10 月 26 日的[教师审核稿与采购表](research/2026-10-26-hardware-procurement-review/README.md)现纳入整合候选：保留原 PDF／有日期的价格与未报价项，不把文档合并当成完整 BOM、采购或硬件测试通过。
+
 **Pi继续暂停。**教室SSH／网页／桌面与宿舍Student接入、远程超时是历史实测；Halls冷启动准备未重新开机，最新软件未部署到Pi。Luwu与Mini硬件研究、采购批准、接线、台架及连续运行分开；[硬件成员资料](research/2026-10-23-mini-robot-hardware/README.md)不代表本轮实物成绩。
 
 ## 保存与协作

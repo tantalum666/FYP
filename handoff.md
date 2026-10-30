@@ -1,27 +1,25 @@
 # Group 2 Current Handoff
 
-30 October 2026, Asia/Shanghai. Current checkpoint: **recover prior personal-agent research and reconnect it to delivery priorities**. Branch `codex/personal-agent-research-20261030`, based on PR68 final head `44aa2c7100ac9e072090cf25c10b4315de885670`. This round changes research and documentation only. Published as draft [PR69](https://github.com/tantalum666/FYP/pull/69) on PR68. Research commit `3196d0f855c8d16b5e67d17311b0527cee034bf6` matched the remote branch and GitHub PR head; [publication receipt](output/qa/2026-10-30-agent-research-recovery/publication.json). The PR remains open/unmerged. This receipt closeout changes documentation only. Workspace `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`.
+30 October 2026, Asia/Shanghai. Current checkpoint: **all outstanding PRs reviewed; compatible integration locally validated, remote merge pending**. Managed worktree `/Users/tantalum/.codex/worktrees/all-pr-review-20261030/FYP`, branch `codex/all-pr-integration-20261030`, started at PR69 head `e42777a51cc1c524ce322c4c25ba03609f7e9f3c`. The owner explicitly authorized reviewing all and merging what passes.
 
-## Read this first
+## Review result
 
-[Personal-agent research entry](research/personal-agent-research-index.md) is the canonical route for Grok Bot, Meta Muse and OpenAI Your dot. The owner explicitly objected to repeating generic advice after several research rounds and clarified email tracking/advice, voice-led everyday purchases and travel assistance as the intended experience. Preserve these end-to-end goals in future implementation updates.
+[Review QA](output/qa/2026-10-30-all-pr-review/verification.md), [frozen heads](output/qa/2026-10-30-all-pr-review/pr-inventory.json) and [dispositions](output/qa/2026-10-30-all-pr-review/dispositions.json) distinguish outcomes.
 
-Six original research/gap reports (1,304 lines / 205,227 original bytes) were stranded on unmerged PR5 at `11dc2b84cebe6e8250b28ca4442fc91f0dfec676`. They are restored under `research/2026-10-12-personal-agents/`, with historical labels and original-commit links. [Provenance](output/qa/2026-10-30-agent-research-recovery/historical-inventory.json). PR5 code was not merged. The New Computer Dot detour is historical, not the active target.
+- Eligible: #19 hardware records plus current #64–#69 memory, permissions, OpenAI evaluation, complex fixture/execution and research recovery. The local candidate includes #19 by an ordinary merge with five root-doc conflicts resolved toward current product state. The original five-page PDF and dated budget limitations are preserved.
+- Superseded: #4 old A1 presentation, #16 old A1 GLB/UI study, and #15 earlier Omni implementation. Current Alice and newer unified voice/UI retain the accepted behavior. Close these as superseded only after main integration; preserve branches. Closure is not merge.
+- Blocked: #5 alternative kernel. Original local backend run: 1,334 passed / 46 failed. A diagnostic-only fix resolves macOS directory-link-count migration failures (129 focused checks pass), but current owner memory is still invisible after the old schema upgrades. Runtime/memory/application contracts also conflict. Do not cut over current user data or replace the core. Research is already recovered; [current research entry](research/personal-agent-research-index.md) remains the route.
 
-Current primary-source checks distinguish persistent host, model/harness, source connections, routines, credentials, action review and result verification. Muse and Grok have different checkout paths. A model API key or local Codex install does not provide the completed consumer product. [Research QA](output/qa/2026-10-30-agent-research-recovery/verification.md). Read original dates before reusing API details or old provider/budget advice.
+## Validation and narrow repair
 
-## Existing software evidence
+Current candidate: 524 full backend, 89 frontend, 36 cancellation/permission checks, Ruff and TypeScript/Vite pass. Real web/393px phone checks cover older-than-40 memory search, same-task inline approval, exactly one independently hashed 48-byte fixture file, phone continuation, Alice and dirty-draft navigation. The new repair reports application cancellation before publication accurately; it no longer claims staging never ran. Native and paid voice acceptance were not rerun.
 
-[PR68](https://github.com/tantalum666/FYP/pull/68) remains the unmerged application-execution milestone. Typed Chromium/Calc/Writer/PDF/text operations share existing jobs/tasks/permissions. Scripted changed constraints, saved-but-unacknowledged workbook recovery, same calendar IDs and web/phone controls passed. [Actual artifacts and QA](output/qa/2026-10-30-application-execution/verification.md). Its 524 backend / 89 frontend / 73 final focused checks are that code milestone's evidence, not new tests in this documentation round.
+The test-only API at localhost:8832 was stopped after QA and test tabs/viewport were cleared. Fixture data and the PR5 diagnostic copy remain ignored under this worktree's `.runtime/`. Earlier owned application preview/runtime in `grok-reviewed-fixes` was preserved: API8854/Vite5191/viewer5530 and Colima fyp-apps were not reconfigured in this review; recheck their status before reuse. No key, private database or runtime is published.
 
-Autonomous multi-step task completion, real Gmail/Outlook intake/monitoring, merchant/checkout/payment connectors, flight booking/ticketing and actual remote notification delivery remain unaccepted. NoticeInbox is app notifications, not an email inbox. Current Google scope is calendar read-only. Ordinary HTTP still stops after one effect-producing tool.
+## Current boundaries
 
-## Local environment to preserve
+No CI. Old OpenAI/Qwen paid rounds remain closed; no new model call, media capture, mailbox action, purchase, hardware/Pi or deployment. The original approved key remains only in the older checkout's ignored 0600 `.env.local`; do not copy or print it. Existing school originals and Alice assets are preserved. Runtime/merge/deployment and original PR states are separate facts.
 
-Owned Colima `fyp-apps`, Docker context `colima-fyp-apps`, container `desk-applications`, internal network. Only `.runtime/app-desktop` mounted; core `.runtime/application-main-01` and keys/oracle stay outside. API8854 / Vite5191 (`?surface=phone`), viewer5530, providers none, final Ask mode were left by PR68; recheck process ownership/status before reuse. [Setup](desk-companion/docs/application-execution.md). This research round did not reconfigure or reaccept those services.
+## One next step
 
-The previous OpenAI USD5 ledger and old Qwen budgets remain closed. Previously authorized key is only in ignored 0600 `desk-companion/.env.local`; never print it. No new model call, email watch, send, purchase, booking, cloud deployment or hardware action occurred. Native touch/keyboard remains open; Pi/Luwu paused; school originals preserved. No CI.
-
-## One next implementation step
-
-Close one **email change → same-task update → sourced suggestion/draft → selective notification** journey on the existing core, including resumable model turns. Offline fixtures support development; final acceptance must include an explicitly connected real mailbox, current evidence, duplicate/late-event handling, restart and revocation. Use the research entry's purchasing/travel gates afterward. Backend choice remains replaceable: Codex SDK, managed Agents API or another tested loop are candidates, not the definition of the product. Do not create a second task queue or treat extra settings/test counts as delivery of the journey.
+Complete publication of this tested integration, verify exact main/source trees and individual PR states, then continue the real email-to-task-to-suggestion journey using the current core. Reuse portable PR5 planning/connector ideas through an explicit compatibility layer and migration plan; do not treat a blind old-kernel merge as that implementation. The review's final publication receipt supersedes the temporary pending status above.

@@ -1,0 +1,321 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-26",
+  "author_workstream": "Xu Ziqian / Group 2 hardware",
+  "status": "teacher_review_document_complete__procurement_and_assembly_unvalidated",
+  "current_pdf": "FYP_hardware_procurement_teacher_review_20261026.pdf",
+  "priced_records": [
+    {
+      "id": "F01",
+      "name": "luwu rig arm 成品 - 手搓整机",
+      "qty": "1台",
+      "size": "本批整机外廓待实测；先不按旧图开孔",
+      "unit_price": "约¥700/台（用户价格线索）",
+      "hk_subtotal": "770.00",
+      "note": "成品机械臂平台；拟复用原舵机、摄像头及音频总成。整机输入电源与可开发接口到货核验。",
+      "source": "https://item.taobao.com/item.htm?id=1062819450564",
+      "purchase_scope": "首批优先",
+      "quantity_for_budget": 1,
+      "subtotal_cny": "700.00",
+      "price_status": "unverified_selected_sku_estimate",
+      "hardware_validated": false
+    },
+    {
+      "id": "F02",
+      "name": "桌面吸尘器 - 皓月白精装充电款+吸嘴【1400mah】",
+      "qty": "1台",
+      "size": "原机约70×70×70mm：用户提供，实物待量",
+      "unit_price": "券后¥45.1；优惠前¥60.2/台",
+      "hk_subtotal": "66.22",
+      "note": "Type-C充电款，作为Mini清洁机器人改造样机；保留原吸尘总成、滤网与垃圾仓。外形、电池和风机接口实物核对。",
+      "source": "https://item.taobao.com/item.htm?id=714217456165&skuId=6311377175789",
+      "purchase_scope": "首批优先",
+      "quantity_for_budget": 1,
+      "subtotal_cny": "60.20",
+      "price_status": "observed_selected_option_2026-10-26",
+      "hardware_validated": false
+    },
+    {
+      "id": "F03",
+      "name": "亚博智能 树莓派5/4B 7寸LCD显示HDMI触摸IPS电容屏幕jetson nano",
+      "qty": "1块",
+      "size": "7寸、1024×600；裸板、安装耳及孔距待实测",
+      "unit_price": "¥219/块（IPS、不带外壳支架）",
+      "hk_subtotal": "240.90",
+      "note": "选IPS触摸屏、不带外壳支架；1024×600。HDMI显示与USB触摸连接Pi 5，安装外廓和孔距按实物测量。",
+      "source": "https://detail.tmall.com/item.htm?id=1009981855655&skuId=4275143776663",
+      "purchase_scope": "首批优先",
+      "quantity_for_budget": 1,
+      "subtotal_cny": "219.00",
+      "price_status": "observed_selected_option_2026-10-26",
+      "hardware_validated": false
+    },
+    {
+      "id": "L01",
+      "name": "杰创森 GA12-N20 带杜邦插头线减速电机",
+      "qty": "2只",
+      "size": "附线200mm；机身/轴外廓待实物核验",
+      "unit_price": "¥18/只；2只¥36",
+      "hk_subtotal": "39.60",
+      "note": "试验参数：6V、30rpm；拟在单节锂电支路下测试起步、带载扭矩与电流。最终电压/减速比依负载测试定型。",
+      "source": "https://item.taobao.com/item.htm?id=1012947868548&skuId=3350722909297",
+      "purchase_scope": "后续测试样件",
+      "quantity_for_budget": 2,
+      "subtotal_cny": "36.00",
+      "price_status": "observed_selected_option_2026-10-26",
+      "hardware_validated": false
+    },
+    {
+      "id": "L02",
+      "name": "杰创森 D3孔塑料橡胶轮 - 34mm黑",
+      "qty": "2只",
+      "size": "轮径34×宽7mm；商品标D3孔",
+      "unit_price": "¥0.95/只；2只¥1.90",
+      "hk_subtotal": "2.09",
+      "note": "用于左右驱动轮；核对电机轴孔配合、抓地和吸口离桌高度。价格按2只计。",
+      "source": "https://item.taobao.com/item.htm?id=626144186722&skuId=4438536277901",
+      "purchase_scope": "后续测试样件",
+      "quantity_for_budget": 2,
+      "subtotal_cny": "1.90",
+      "price_status": "observed_selected_option_2026-10-26",
+      "hardware_validated": false
+    },
+    {
+      "id": "L03",
+      "name": "麦德斯 ESP32-DevKitC / WROOM-32D完整开发板",
+      "qty": "1块",
+      "size": "38Pin；板外廓及插接高度待核",
+      "unit_price": "¥21.50/块",
+      "hk_subtotal": "23.65",
+      "note": "采购完整WROOM-32D成品板，排针已装。可在Linux环境开发/烧录，接收主机指令并执行本地电机与检测控制。",
+      "source": "https://item.taobao.com/item.htm?id=702766282838&skuId=4952355089661",
+      "purchase_scope": "后续测试样件",
+      "quantity_for_budget": 1,
+      "subtotal_cny": "21.50",
+      "price_status": "observed_selected_option_2026-10-26",
+      "hardware_validated": false
+    },
+    {
+      "id": "L04",
+      "name": "RunesKee DRV8833 双路电机驱动 - 焊接好排针",
+      "qty": "1块",
+      "size": "双路直流电机接口；板外廓待核",
+      "unit_price": "¥6.60/块",
+      "hk_subtotal": "7.26",
+      "note": "选“焊接好排针”现成SKU；一块控制左右两轮。芯片VM范围2.7-10.8V；模块连续载流与温升按所购板实测核定。",
+      "source": "https://detail.tmall.com/item.htm?id=821853471283&skuId=5534335285999",
+      "purchase_scope": "后续测试样件",
+      "quantity_for_budget": 1,
+      "subtotal_cny": "6.60",
+      "price_status": "observed_selected_option_2026-10-26",
+      "hardware_validated": false
+    },
+    {
+      "id": "L05",
+      "name": "优信 TCRT5000 红外反射模块 - 向下检测测试件",
+      "qty": "先测1只；全机4只",
+      "size": "4针接口；模块外廓待核",
+      "unit_price": "¥1.98/只；4只¥7.92",
+      "hk_subtotal": "8.71",
+      "note": "先用1只核3.3V供电/输出电平与真实桌面触发，再补齐4个角。本表按全机4只预算；防跌落效果须实测。",
+      "source": "https://item.taobao.com/item.htm?id=522577760881",
+      "purchase_scope": "后续测试样件",
+      "quantity_for_budget": 4,
+      "subtotal_cny": "7.92",
+      "price_status": "observed_selected_option_2026-10-26",
+      "hardware_validated": false
+    }
+  ],
+  "pending_required": [
+    {
+      "id": "P01",
+      "name": "外置成品适配器与Pi 5专用电源转换",
+      "quantity": "各1套",
+      "confirmation": "确认Rig输入额定值及并发功耗；Pi 5支路匹配5V/5A供电协议。",
+      "price": null
+    },
+    {
+      "id": "P02",
+      "name": "主机直流分电、稳压、开关及支路保护",
+      "quantity": "按支路",
+      "confirmation": "一根英标主线、一台外置适配器后做低压分路；核额定电流和散热。",
+      "price": null
+    },
+    {
+      "id": "P03",
+      "name": "Mini单电池充电管理、保护及主控稳压",
+      "quantity": "1条电源链",
+      "confirmation": "核原1400mAh电池放电能力与5V主控供电；采用唯一充电管理路径。",
+      "price": null
+    },
+    {
+      "id": "P04",
+      "name": "原吸尘风机启停驱动及成品转接线",
+      "quantity": "1路",
+      "confirmation": "测风机额定/启动电流与插头后选出厂带接口的适配驱动和线束。",
+      "price": null
+    },
+    {
+      "id": "P05",
+      "name": "手机及底座Qi发射、Mini Qi接收",
+      "quantity": "2发射+1接收",
+      "confirmation": "接收输出进入充电管理；核线圈间距、姿态、净充电、温升和终止。",
+      "price": null
+    },
+    {
+      "id": "P06",
+      "name": "马达固定、第三支撑及停靠导向结构",
+      "quantity": "各必要位置",
+      "confirmation": "按实物排布，满足吸口离桌、风道、垃圾仓拆卸与线束弯折空间。",
+      "price": null
+    }
+  ],
+  "pending_wires": [
+    {
+      "id": "W01",
+      "name": "英标BS1363 Type-G主电源线",
+      "quantity": "1条",
+      "confirmation": "计划1.5m；设备端插头匹配最终适配器入口。",
+      "price": null
+    },
+    {
+      "id": "W02",
+      "name": "Pi 5电源转换板至主板USB-C 5A成品线",
+      "quantity": "1条",
+      "confirmation": "计划0.2-0.5m；与电源板配套，核线材额定电流。",
+      "price": null
+    },
+    {
+      "id": "W03",
+      "name": "micro-HDMI公至标准HDMI公数据线",
+      "quantity": "1条",
+      "confirmation": "计划0.3-0.5m；Pi 5至7寸屏，先核随屏附件。",
+      "price": null
+    },
+    {
+      "id": "W04",
+      "name": "屏幕USB触摸线与Rig通信数据线",
+      "quantity": "各按需1条",
+      "confirmation": "按实际设备端口选择短数据线，随箱已有线材扣除。",
+      "price": null
+    },
+    {
+      "id": "W05",
+      "name": "直流成品分电与电源转接线",
+      "quantity": "按支路",
+      "confirmation": "明确两端接口、极性、线径和额定电流，适配端子夹持范围。",
+      "price": null
+    },
+    {
+      "id": "W06",
+      "name": "2.54mm母母信号线与必要分支线",
+      "quantity": "按GPIO表",
+      "confirmation": "计划100-200mm；含3.3V/GND分支，信号线不承担电池总电流。",
+      "price": null
+    },
+    {
+      "id": "W07",
+      "name": "两路Qi供电线与接收端连接线",
+      "quantity": "按接口",
+      "confirmation": "匹配最终收发/充电板端口与电流；扣除成品附线。",
+      "price": null
+    }
+  ],
+  "borrowed_or_owned": [
+    {
+      "name": "Raspberry Pi 5主板、配套电源、散热器",
+      "source": "school_loan_confirmed_by_Xu",
+      "purchase_cost_hkd": "0.00",
+      "ram": "not_confirmed",
+      "same_device_as_software_8gb_pi": "unknown"
+    },
+    {
+      "name": "microSD",
+      "source": "already_owned",
+      "purchase_cost_hkd": "0.00"
+    },
+    {
+      "name": "ESP32-CAM与下载底板",
+      "source": "already_owned",
+      "purchase_cost_hkd": "0.00",
+      "drop_in_replacement_for_wroom_32d": false
+    }
+  ],
+  "budget": {
+    "priced_subtotal_cny": "1053.12",
+    "priced_subtotal_hkd": "1158.43",
+    "first_batch_hkd": "1077.12",
+    "remaining_to_target_hkd": "841.57",
+    "budget_target_hkd": "2000.00",
+    "fx_assumption": "1CNY=HK$1.10, budget assumption only",
+    "whole_machine_fully_costed": false
+  },
+  "photo_sources": [
+    {
+      "label": "luwu rig arm 成品 - 手搓整机",
+      "pdf_page": 1,
+      "product_url": "https://item.taobao.com/item.htm?id=1062819450564",
+      "photo_source_url": "https://shop.xgorobot.com/products/rig-arm-programmable-robotic-arm-steam-education-rig-series-universal-research-secondary-development-platform?variant=49162969514235",
+      "embedded_in_pdf": true
+    },
+    {
+      "label": "桌面吸尘器 - 皓月白精装充电款+吸嘴【1400mah】",
+      "pdf_page": 1,
+      "product_url": "https://item.taobao.com/item.htm?id=714217456165&skuId=6311377175789",
+      "photo_source_url": "https://item.taobao.com/item.htm?id=714217456165&skuId=6311377175789",
+      "embedded_in_pdf": true
+    },
+    {
+      "label": "亚博智能 树莓派5/4B 7寸LCD显示HDMI触摸IPS电容屏幕jetson nano",
+      "pdf_page": 1,
+      "product_url": "https://detail.tmall.com/item.htm?id=1009981855655&skuId=4275143776663",
+      "photo_source_url": "https://detail.tmall.com/item.htm?id=1009981855655&skuId=4275143776663",
+      "embedded_in_pdf": true
+    },
+    {
+      "label": "L01 电机：附200mm现成线",
+      "pdf_page": 2,
+      "product_url": "https://item.taobao.com/item.htm?id=1012947868548&skuId=3350722909297",
+      "photo_source_url": "https://item.taobao.com/item.htm?id=1012947868548&skuId=3350722909297",
+      "embedded_in_pdf": true
+    },
+    {
+      "label": "L02 驱动轮：34×7mm、D3孔",
+      "pdf_page": 2,
+      "product_url": "https://item.taobao.com/item.htm?id=626144186722&skuId=4438536277901",
+      "photo_source_url": "https://item.taobao.com/item.htm?id=626144186722&skuId=4438536277901",
+      "embedded_in_pdf": true
+    },
+    {
+      "label": "L03 完整WROOM-32D开发板",
+      "pdf_page": 3,
+      "product_url": "https://item.taobao.com/item.htm?id=702766282838&skuId=4952355089661",
+      "photo_source_url": "https://item.taobao.com/item.htm?id=702766282838&skuId=4952355089661",
+      "embedded_in_pdf": true
+    },
+    {
+      "label": "L04 型号系列图；选已焊排针SKU",
+      "pdf_page": 3,
+      "product_url": "https://detail.tmall.com/item.htm?id=821853471283&skuId=5534335285999",
+      "photo_source_url": "https://detail.tmall.com/item.htm?id=821853471283&skuId=5534335285999",
+      "embedded_in_pdf": true
+    },
+    {
+      "label": "L05 向下反射检测测试模块",
+      "pdf_page": 3,
+      "product_url": "https://item.taobao.com/item.htm?id=522577760881",
+      "photo_source_url": "https://item.taobao.com/item.htm?id=522577760881",
+      "embedded_in_pdf": true
+    }
+  ],
+  "assembly_validated": false,
+  "physical_tests_performed": false,
+  "claims_excluded": [
+    "ready_to_assemble_complete_BOM",
+    "complete_HKD_2000_landed_cost",
+    "Rig_continuous_camera_stream_verified",
+    "cliff_detection_qualified",
+    "15_to_20_min_runtime_achieved",
+    "autonomous_wireless_docking_verified"
+  ]
+}

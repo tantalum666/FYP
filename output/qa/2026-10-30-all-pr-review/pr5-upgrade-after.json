@@ -1,0 +1,5 @@
+{
+  "starts_after_migration": false,
+  "error_type": "DomainError",
+  "code": "SCHEMA_MIGRATION_REQUIRED"
+}

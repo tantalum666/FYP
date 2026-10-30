@@ -56,3 +56,6 @@ Qwen为已测基线，其他AI候选仍开放。本轮使用模拟提供商及�
 ## 2026-10-30 复杂应用任务
 
 按用户要求，将主验收提高为浏览器＋电子表格＋文档／PDF＋日历／事务的[演示准备包](planning/2026-10-30/complex-application-acceptance.md)，包含中途改预算／数量／日期、不可行条件澄清、丢回执和重启恢复。[固定材料](desk-companion/evals/app_workflow_v1/README.md)与受限应用适配器已完成，真实 Chromium／Calc／Writer／PDF 的脚本任务、原日程更新及重启恢复通过；[本轮 QA](output/qa/2026-10-30-application-execution/verification.md)记录 524 后端／89 前端与实际网页／手机操作。完整语音自主执行仍待，未产生新模型费用。
+
+
+本轮未合并 PR 的审查与整合见[2026-10-30 QA](output/qa/2026-10-30-all-pr-review/verification.md)。硬件组的[10月26日教师审核稿与采购表](research/2026-10-26-hardware-procurement-review/README.md)作为有日期的资料整合，仍不代表采购、台架或部署批准。

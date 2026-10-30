@@ -1,0 +1,68 @@
+[
+  {
+    "pr": 4,
+    "reviewed_head": "50e174f50a4130b3c666f836f666f6aa4cde4b32",
+    "planned_disposition": "superseded_no_reapply",
+    "reason": "Old A1 overlay/VRM direction is superseded by current Alice; reusable presentation behavior already evolved in the current baseline."
+  },
+  {
+    "pr": 5,
+    "reviewed_head": "11dc2b84cebe6e8250b28ca4442fc91f0dfec676",
+    "planned_disposition": "blocked_pending_compatible_port",
+    "reason": "46 of 1380 original backend tests fail on this Mac; diagnostic migration guard fix exposes missing current-memory migration; conflicting runtime and execution contracts require a compatible port."
+  },
+  {
+    "pr": 15,
+    "reviewed_head": "8129775b641126ead9e11425ef604f0296ce2bc8",
+    "planned_disposition": "superseded_no_reapply",
+    "reason": "Omni/media functionality was incorporated and extended through the later integrated baseline; four helper files are byte-identical. Reapplying original branch would replay old UI/lifecycle changes."
+  },
+  {
+    "pr": 16,
+    "reviewed_head": "faffa698fc27a72e9bea2766bb72732e4494eb65",
+    "planned_disposition": "superseded_no_reapply",
+    "reason": "Old A1 GLB renderer conflicts with accepted Alice VRM/current phone UI; simplification/output behavior is represented in later code."
+  },
+  {
+    "pr": 19,
+    "reviewed_head": "71eceb88dbb449228b5f8cb164cdc8eae2eba924",
+    "planned_disposition": "eligible_for_integration",
+    "reason": "Dated hardware review document is internally consistent and its five pages/hash/totals pass; root status conflicts resolved without restarting hardware."
+  },
+  {
+    "pr": 64,
+    "reviewed_head": "b02d92b132a83dccb4674abb25f33d7613fbcd28",
+    "planned_disposition": "eligible_for_integration",
+    "reason": "Latest sequential software/research checkpoint is included in the current tested integration baseline."
+  },
+  {
+    "pr": 65,
+    "reviewed_head": "61db1c2c2fc592887bdf78170ef7fc9e28cba33c",
+    "planned_disposition": "eligible_for_integration",
+    "reason": "Latest sequential software/research checkpoint is included in the current tested integration baseline."
+  },
+  {
+    "pr": 66,
+    "reviewed_head": "4f96fa7f5d56271a758b8a9e9f66930c7f359c41",
+    "planned_disposition": "eligible_for_integration",
+    "reason": "Latest sequential software/research checkpoint is included in the current tested integration baseline."
+  },
+  {
+    "pr": 67,
+    "reviewed_head": "6bc8f19d6476577f5178e0c74374152646591b4a",
+    "planned_disposition": "eligible_for_integration",
+    "reason": "Latest sequential software/research checkpoint is included in the current tested integration baseline."
+  },
+  {
+    "pr": 68,
+    "reviewed_head": "44aa2c7100ac9e072090cf25c10b4315de885670",
+    "planned_disposition": "eligible_for_integration",
+    "reason": "Latest sequential software/research checkpoint is included in the current tested integration baseline."
+  },
+  {
+    "pr": 69,
+    "reviewed_head": "e42777a51cc1c524ce322c4c25ba03609f7e9f3c",
+    "planned_disposition": "eligible_for_integration",
+    "reason": "Latest sequential software/research checkpoint is included in the current tested integration baseline."
+  }
+]

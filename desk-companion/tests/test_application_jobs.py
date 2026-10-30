@@ -163,6 +163,11 @@ def test_cancel_during_staging_does_not_publish(tmp_path, monkeypatch):
     runtime.jobs.run_one()
     result = runtime.jobs.detail(job["id"], review=True)
     assert result["state"] == "cancelled" and not executor.target(result["request"]).exists()
+    # The application did edit its staging file; only publication was prevented.
+    # A recovered assistant reply must not claim execution never began.
+    reply = runtime.permissions.refresh_reply({"job": {"id": job["id"]}})
+    assert reply["saved"] is False and "before publication" in reply["message"]
+    assert "before execution" not in reply["message"]
 
 
 def test_source_change_and_artifact_change_reject_obsolete_work(tmp_path, monkeypatch):

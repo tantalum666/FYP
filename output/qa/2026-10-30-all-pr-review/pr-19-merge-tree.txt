@@ -1,0 +1,27 @@
+622d38002b4d54aec23d7fc775ef4d659abaa9bb
+100644 910149b426854297d89c1d4a295816c810152c0a 1	README.md
+100644 03d97fee0310be1b9e1832a5f63fe13e03a2f3fd 2	README.md
+100644 2ed2fd14d4656908153b0c21517aebd09501a0e8 3	README.md
+100644 66637e0744f6b582b488d8a0acfc48fdc07e42a9 1	decision-log.md
+100644 d31374bd22939007175855d0eab4eaaeb0afa088 2	decision-log.md
+100644 e3644f32a03a4b4674d89b48823a532d6c5138ea 3	decision-log.md
+100644 83569d18fb0c6499f87f4ef29095bd0954396152 1	handoff.md
+100644 49740fd11c9ef9aeb751ed20c2e4676e5409b2fe 2	handoff.md
+100644 4f8aea04a240cd47f3ea124b3c0744330aefbdb6 3	handoff.md
+100644 a9067b52bb43949e4e9f227116ed2e9306efda85 1	product.md
+100644 5b6d8c46fb9560315bd73e69a5025eb2f140ba70 2	product.md
+100644 09105cf0ccf729afe80aebbc4f15589550df32e5 3	product.md
+100644 df6539c7a8b18be0377eb5ad5f6f086f9c488d9a 1	work-log.md
+100644 02cdc1a6d4077cd129aa254e519c09fa34ae0a1b 2	work-log.md
+100644 09535de0c8c2831e9803ebe46f51a0e7b5142018 3	work-log.md
+
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+Auto-merging decision-log.md
+CONFLICT (content): Merge conflict in decision-log.md
+Auto-merging handoff.md
+CONFLICT (content): Merge conflict in handoff.md
+Auto-merging product.md
+CONFLICT (content): Merge conflict in product.md
+Auto-merging work-log.md
+CONFLICT (content): Merge conflict in work-log.md

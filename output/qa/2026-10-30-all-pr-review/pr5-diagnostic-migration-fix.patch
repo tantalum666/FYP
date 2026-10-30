@@ -1,0 +1,13 @@
+--- a/desk-companion/backend/desk/store.py
++++ b/desk-companion/backend/desk/store.py
+@@ -47,3 +47,7 @@
+-    return tuple(
+-        (info.st_dev, info.st_ino, info.st_mode, info.st_uid, info.st_nlink)
+-        for info in (root_info, database_info)
++    # Directory link counts change when SQLite creates ordinary WAL sidecars on
++    # some filesystems. Pin directory identity/mode/owner, and retain the regular
++    # database's single-link restriction; do not treat entry creation as replacement.
++    return (
++        (root_info.st_dev, root_info.st_ino, root_info.st_mode, root_info.st_uid),
++        (database_info.st_dev, database_info.st_ino, database_info.st_mode,
++         database_info.st_uid, database_info.st_nlink),
