@@ -10,7 +10,7 @@
 
 **2026-10-29 继续开发：**在PR64记忆修复之上完成事务／文件／手机接续，统一网页与App的对话内操作卡片及Ask first／Full access权限；489／89项本地检查、实际恢复／文件读回及当前原生构建见[本轮QA](output/qa/2026-10-29-assistant-permissions/verification.md)。完整产品尚未通过的流程按[交付门槛](desk-companion/docs/delivery-readiness.md)推进，原生触控／软键盘仍待。分支发布状态见交接。
 
-**2026-10-31 PR5兼容整合：**持久 Work、来源／产物、事务变化跟踪、定期检查和显式保存会话接入当前核心；旧事实仍能读取，Alice和既有权限／应用执行保持。[兼容与迁移步骤](desk-companion/docs/pr5-integration.md)／[本轮QA](output/qa/2026-10-31-pr5-repair/verification.md)。旧数据库须按明确步骤升级；本轮没有迁移真实运行数据、开启付费模型或恢复Pi。
+**2026-10-31 PR5已合并：**持久 Work、来源／产物、事务变化跟踪、定期检查和显式保存会话接入当前核心；旧事实仍能读取，Alice和既有权限／应用执行保持。[兼容与迁移步骤](desk-companion/docs/pr5-integration.md)／[本轮QA](output/qa/2026-10-31-pr5-repair/verification.md)。[合并回执](output/qa/2026-10-31-pr5-repair/publication.json)确认代码合并9b655e1与已测候选完全一致。旧数据库须按明确步骤升级；本轮没有迁移真实运行数据、开启付费模型或恢复Pi。
 
 ## 从哪里开始
 

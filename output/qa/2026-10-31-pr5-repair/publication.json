@@ -1,0 +1,22 @@
+{
+  "repository": "tantalum666/FYP",
+  "pr": 5,
+  "url": "https://github.com/tantalum666/FYP/pull/5",
+  "state": "closed",
+  "merged": true,
+  "base": "main",
+  "original_head": "11dc2b84cebe6e8250b28ca4442fc91f0dfec676",
+  "baseline_main": "18d205607d5c2eb9f3f23143bbf8eacbc29b7077",
+  "reviewed_head": "112f9121b747e7c1188d26818cc58b7cd1c2a3d9",
+  "merge_commit": "9b655e1ac74d3d35a876a100e4681ee00ece4066",
+  "merged_at_utc": "2026-10-30T18:20:17Z",
+  "merged_at_asia_shanghai": "2026-10-31T02:20:17+08:00",
+  "remote_main_readback": "9b655e1ac74d3d35a876a100e4681ee00ece4066",
+  "reviewed_and_merged_tree": "12d5506e4b9ffde15e37ad33077f509c71e2bd3b",
+  "complete_trees_equal": true,
+  "ci_used": false,
+  "paid_calls": 0,
+  "real_user_data_migrated": false,
+  "deployment_performed": false,
+  "receipt_closeout": "Documentation-only follow-up records this completed merge; it does not change the verified application."
+}
