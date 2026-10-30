@@ -9,3 +9,5 @@ Current branch `codex/personal-agent-research-20261030` is documentation-only on
 Next implementation gate: email change → update the same task → sourced advice/draft → meaningful notification, with model continuation and actual mailbox acceptance. Shopping/payment and flight booking need their own connected services and independently verified outcomes. Qwen remains a baseline; Codex/Agents API are candidate backends.
 
 Preserve the owned PR68 preview/runtime and Alice. Current source was not redeployed, native input remains unaccepted, Pi/Luwu paused, previous paid ledgers closed. Local checks only; no CI, implicit merge, outgoing message, purchase or school submission.
+
+Published as draft [PR69](https://github.com/tantalum666/FYP/pull/69) on PR68. Research commit `3196d0f855c8d16b5e67d17311b0527cee034bf6` matched the remote branch and GitHub PR head; [publication receipt](output/qa/2026-10-30-agent-research-recovery/publication.json). The PR remains open/unmerged. This receipt closeout changes documentation only.

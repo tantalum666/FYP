@@ -32,3 +32,8 @@ The next gate is email change → same task → sourced advice/draft → meaning
 This is a documentation-only change. Original/recovered SHA-256 and narrative-preservation checks pass for all six reports. All 339 local references in 19 changed Markdown files resolve. Application backend/frontend/scripts/tests are byte-unchanged against PR68. Diff whitespace and staged-secret checks pass; exact results are in [checks.json](checks.json) and the scan log. Preserve earlier 524/89/73 test evidence at its original milestone; do not run or claim another application suite merely for copied research.
 
 No email was read from the user's accounts, no monitoring schedule created, no message sent, no purchase/booking made, no model charge incurred and no hardware or deployment changed. One guessed Dot documentation route returned 404 and is excluded from evidence; the valid official overview/task/control routes were used. No CI was created or run. Publication readback is recorded separately.
+
+
+## Publication
+
+Draft [PR69](https://github.com/tantalum666/FYP/pull/69) is open/unmerged on PR68. Research commit `3196d0f855c8d16b5e67d17311b0527cee034bf6` matched GitHub and git remote; [receipt](publication.json). Final remote HEAD is checked after this documentation-only closeout.

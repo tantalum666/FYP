@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-30",
+  "timezone": "Asia/Shanghai",
+  "repository": "tantalum666/FYP",
+  "url": "https://github.com/tantalum666/FYP/pull/69",
+  "number": 69,
+  "branch": "codex/personal-agent-research-20261030",
+  "base_branch": "codex/application-execution-20261030",
+  "base_sha": "44aa2c7100ac9e072090cf25c10b4315de885670",
+  "verified_research_head": "3196d0f855c8d16b5e67d17311b0527cee034bf6",
+  "remote_head_matched": true,
+  "draft": true,
+  "merged": false,
+  "mergeable_at_readback": true,
+  "historical_source": {
+    "pr": 5,
+    "commit": "11dc2b84cebe6e8250b28ca4442fc91f0dfec676",
+    "reports": 6,
+    "original_lines": 1304,
+    "original_bytes": 205227,
+    "application_code_merged": false
+  },
+  "validation": {
+    "application_source_unchanged": true,
+    "local_links": 339,
+    "secret_scan": "pass",
+    "model_calls": 0,
+    "ci_used": false
+  },
+  "note": "This records the verified research commit. A documentation-only publication receipt follows; final remote HEAD is checked after its push."
+}

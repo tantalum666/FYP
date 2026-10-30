@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-30 October 2026, Asia/Hong_Kong. Current checkpoint: **recover prior personal-agent research and reconnect it to delivery priorities**. Branch `codex/personal-agent-research-20261030`, based on PR68 final head `44aa2c7100ac9e072090cf25c10b4315de885670`. This round changes research and documentation only. Workspace `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`.
+30 October 2026, Asia/Shanghai. Current checkpoint: **recover prior personal-agent research and reconnect it to delivery priorities**. Branch `codex/personal-agent-research-20261030`, based on PR68 final head `44aa2c7100ac9e072090cf25c10b4315de885670`. This round changes research and documentation only. Published as draft [PR69](https://github.com/tantalum666/FYP/pull/69) on PR68. Research commit `3196d0f855c8d16b5e67d17311b0527cee034bf6` matched the remote branch and GitHub PR head; [publication receipt](output/qa/2026-10-30-agent-research-recovery/publication.json). The PR remains open/unmerged. This receipt closeout changes documentation only. Workspace `/Users/tantalum/.codex/worktrees/grok-reviewed-fixes/FYP`.
 
 ## Read this first
 
