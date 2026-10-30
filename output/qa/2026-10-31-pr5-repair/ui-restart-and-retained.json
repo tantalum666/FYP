@@ -1,0 +1,32 @@
+{
+  "restart_preserved_work_files": true,
+  "runs": [
+    {
+      "id": "5bcfcb5dbefd4cdebd12902e1b6fe17f",
+      "state": "succeeded"
+    },
+    {
+      "id": "eeefa9e7008a41e89d94893fed941450",
+      "state": "succeeded"
+    }
+  ],
+  "saved_progress_notes": 1,
+  "watch_review_count": 1,
+  "retained_threads": 1,
+  "retained_messages": 2,
+  "canonical_facts": 2,
+  "parallel_personal_memory_table": false,
+  "provider_usage_rows": 0,
+  "ui_history_regions_after_fix": 1,
+  "ui_console_errors_warnings": 0,
+  "verified_viewports": [
+    [
+      1280,
+      800
+    ],
+    [
+      393,
+      852
+    ]
+  ]
+}

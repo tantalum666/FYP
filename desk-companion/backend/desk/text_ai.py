@@ -12,13 +12,26 @@ import threading
 from queue import Queue
 from dataclasses import dataclass
 from typing import Literal
-from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
 import httpx
 from pydantic import Field, ValidationError
 
 from .agent_loop import AgentLoop
+from .bounded_json import (
+    TEXT_NETWORK_TIMEOUT,
+    TEXT_RESPONSE_BYTES as TEXT_RESPONSE_BYTES,
+    bounded_json_post as bounded_json_post,
+    TextDispatchRefused,
+    _DISPATCH_CHECKPOINT,
+    _request_checkpoint,
+)
+from .provider_policy import (
+    GEMINI_TEXT_ENDPOINT,
+    valid_api_key,
+    valid_model,
+    valid_provider_endpoint,
+)
 from .calendar import iso
 from .context import pack_conversation
 from .conversation import memory_context, task_context
@@ -118,32 +131,10 @@ class TextConfig:
         # Offline demonstration only. The fake adapter never reads the API key.
         if self.provider == "fake":
             return True
-        if self.provider not in {"qwen", "gemini"} or not self.model or not self.api_key:
-            return False
-        if not re.fullmatch(r"[A-Za-z0-9._-]{1,100}", self.model):
-            return False
-        parsed = urlsplit(self.endpoint)
-        if self.provider == "gemini":
-            return (
-                not self.endpoint
-                or self.endpoint == "https://generativelanguage.googleapis.com/v1beta"
-            )
-        return bool(
-            parsed.scheme == "https"
-            and parsed.hostname
-            and (
-                parsed.hostname.endswith(".maas.aliyuncs.com")
-                or parsed.hostname
-                in {
-                    "dashscope.aliyuncs.com",
-                    "dashscope-intl.aliyuncs.com",
-                    "dashscope-us.aliyuncs.com",
-                }
-            )
-            and parsed.path.endswith("/compatible-mode/v1/chat/completions")
-            and not any(
-                [parsed.username, parsed.password, parsed.query, parsed.fragment, parsed.port]
-            )
+        return (
+            valid_model(self.model)
+            and valid_api_key(self.api_key)
+            and valid_provider_endpoint(self.provider, self.endpoint, kind="text")
         )
 
 
@@ -209,6 +200,35 @@ class TextAssistant:
             )
         return usage_id
 
+    def generate_guarded(self, system, context, schema, purpose, *, checkpoint):
+        """Preserve the generate test/provider seam while fencing real HTTP dispatch."""
+        config = self.config
+        expected_url = (
+            config.endpoint
+            if config.provider == "qwen"
+            else (
+                (config.endpoint or GEMINI_TEXT_ENDPOINT)
+                + "/models/"
+                + config.model
+                + ":generateContent"
+            )
+        )
+
+        def guard(request=None):
+            try:
+                checkpoint()
+                if request is not None and str(request.url) != expected_url:
+                    raise DomainError("PROVIDER_CONTEXT_NOT_APPROVED", 403)
+            except DomainError as exc:
+                raise TextDispatchRefused(exc.code, exc.status) from None
+
+        guard()  # Includes schema/context construction done by the run planner.
+        token = _DISPATCH_CHECKPOINT.set(guard)
+        try:
+            return self.generate(system, context, schema, purpose)
+        finally:
+            _DISPATCH_CHECKPOINT.reset(token)
+
     def generate(self, system, context, schema, purpose):
         if not self.config.valid():
             raise DomainError("TEXT_AI_NOT_CONFIGURED", 503)
@@ -221,7 +241,11 @@ class TextAssistant:
         usage_id = self._reserve_usage(purpose)
         try:
             with httpx.Client(
-                timeout=20, transport=self.transport, follow_redirects=False
+                timeout=TEXT_NETWORK_TIMEOUT,
+                transport=self.transport,
+                follow_redirects=False,
+                trust_env=False,
+                event_hooks={"request": [_request_checkpoint]},
             ) as client:
                 raw, usage = text_adapter(self.config.provider).complete(
                     client, self.config, prompt, content
@@ -229,7 +253,16 @@ class TextAssistant:
                 if not isinstance(raw, str) or len(raw) > 20000:
                     raise ValueError()
                 parsed = schema.model_validate_json(raw)
-        except (httpx.HTTPError, ValueError, KeyError, IndexError, TypeError, ValidationError):
+        except (
+            httpx.HTTPError,
+            ValueError,
+            KeyError,
+            IndexError,
+            TypeError,
+            AttributeError,
+            RecursionError,
+            ValidationError,
+        ):
             raise DomainError("TEXT_AI_UNAVAILABLE", 503) from None
         # Store numeric usage only; never log provider responses, prompts, or secrets.
         safe_usage = (
@@ -263,7 +296,11 @@ class TextAssistant:
         streamed = False
         try:
             with httpx.Client(
-                timeout=20, transport=self.transport, follow_redirects=False
+                timeout=TEXT_NETWORK_TIMEOUT,
+                transport=self.transport,
+                follow_redirects=False,
+                trust_env=False,
+                event_hooks={"request": [_request_checkpoint]},
             ) as client:
                 adapter = text_adapter(self.config.provider)
                 try:
@@ -277,7 +314,16 @@ class TextAssistant:
                 if not isinstance(raw, str) or len(raw) > 20000:
                     raise ValueError()
                 parsed = schema.model_validate_json(raw)
-        except (httpx.HTTPError, ValueError, KeyError, IndexError, TypeError, ValidationError):
+        except (
+            httpx.HTTPError,
+            ValueError,
+            KeyError,
+            IndexError,
+            TypeError,
+            AttributeError,
+            RecursionError,
+            ValidationError,
+        ):
             raise DomainError("TEXT_AI_UNAVAILABLE", 503) from None
         safe_usage = (
             {
@@ -307,8 +353,9 @@ class TextAssistant:
         # Serialize receipt lookup, action application and reply persistence together.
         # A duplicate arriving during a permission change must not gain a new grant.
         with self.lock:
-            return self._scoped_message(payload, key, allow_memory=allow_memory,
-                                        on_event=on_event, principal=principal)
+            return self._scoped_message(
+                payload, key, allow_memory=allow_memory, on_event=on_event, principal=principal
+            )
 
     def _scoped_message(self, payload, key, *, allow_memory=True, on_event=None, principal=None):
         if not key or len(key) > 100:
@@ -347,8 +394,11 @@ class TextAssistant:
                 conversation=conversation,
             )
         )
-        reply = (self.runtime.permissions.apply_reply(reply, grant, language=payload.language)
-                 if cached is None else self.runtime.permissions.refresh_reply(reply, language=payload.language))
+        reply = (
+            self.runtime.permissions.apply_reply(reply, grant, language=payload.language)
+            if cached is None
+            else self.runtime.permissions.refresh_reply(reply, language=payload.language)
+        )
         with self.store.connection(write=True) as conn:
             conn.execute("UPDATE assistant_replies SET result=? WHERE id=?", (encode(reply), key))
         if cached is None:
@@ -372,24 +422,31 @@ class TextAssistant:
     def _cached_reply(self, payload, key, allow_memory):
         with self.store.connection() as conn:
             old = conn.execute("SELECT * FROM assistant_replies WHERE id=?", (key,)).fetchone()
-            retired = conn.execute(
-                "SELECT request FROM operations WHERE id=?", (retired_reply_key(key),)
-            ).fetchone() if old is None else None
+            retired = (
+                conn.execute(
+                    "SELECT request FROM operations WHERE id=?", (retired_reply_key(key),)
+                ).fetchone()
+                if old is None
+                else None
+            )
         if old:
             if old["request_hash"] != self._fingerprint(payload, allow_memory):
                 raise DomainError("OPERATION_ID_CONFLICT")
             return json.loads(old["result"])
         if retired:
             marker = json.loads(retired["request"])
-            if (marker.get("type") != "assistant_reply_retired"
-                    or marker.get("request_hash") != self._fingerprint(payload, allow_memory)):
+            if marker.get("type") != "assistant_reply_retired" or marker.get(
+                "request_hash"
+            ) != self._fingerprint(payload, allow_memory):
                 raise DomainError("OPERATION_ID_CONFLICT")
             return {
-                "mode": "local_rules", "kind": "reply", "saved": False,
+                "mode": "local_rules",
+                "kind": "reply",
+                "saved": False,
                 "message": (
                     "遗忘信息后，这条旧回复已清除。没有执行新的操作。"
-                    if payload.language == "zh" else
-                    "This earlier response was cleared after forgetting information. No new action was run."
+                    if payload.language == "zh"
+                    else "This earlier response was cleared after forgetting information. No new action was run."
                 ),
             }
         return None

@@ -188,7 +188,7 @@ class FakeSocket:
 def test_slow_tool_withholds_ungrounded_audio_but_never_blocks_interruption(tmp_path):
     runtime = create_app(tmp_path, password="fixture", scheduler=False).state.runtime
     voice = runtime.voice
-    voice.config = VoiceConfig("qwen_audio", "wss://fixture.invalid", "fixture", "not-a-key")
+    voice.config = VoiceConfig("qwen_audio", "wss://fixture.cn-beijing.maas.aliyuncs.com/api-ws/v1/realtime", "fixture", "not-a-key")
     original, entered, release = runtime.assistant.tool, threading.Event(), threading.Event()
 
     def slow(*args):
@@ -302,7 +302,7 @@ def test_stop_remains_available_after_lifetime_quota_without_growing_history(tmp
 def test_interrupt_during_result_delivery_never_revives_cancelled_draft(tmp_path, gate):
     runtime = create_app(tmp_path, password="fixture", scheduler=False).state.runtime
     voice = runtime.voice
-    voice.config = VoiceConfig("qwen_audio", "wss://fixture.invalid", "fixture", "not-a-key")
+    voice.config = VoiceConfig("qwen_audio", "wss://fixture.cn-beijing.maas.aliyuncs.com/api-ws/v1/realtime", "fixture", "not-a-key")
 
     async def scenario():
         blocked, release, interrupted = asyncio.Event(), asyncio.Event(), asyncio.Event()

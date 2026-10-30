@@ -67,7 +67,7 @@ def test_realtime_transport_creates_only_a_draft_and_interrupt_cancels_it(tmp_pa
     voice = app.state.runtime.voice
     voice.config = VoiceConfig(
         provider="qwen_audio",
-        endpoint="wss://fixture.invalid/realtime",
+        endpoint="wss://fixture.cn-beijing.maas.aliyuncs.com/api-ws/v1/realtime",
         model="fixture",
         api_key="fixture-not-a-key",
     )

@@ -1,0 +1,77 @@
+{
+  "synthetic_only": true,
+  "runs": [
+    {
+      "id": "5bcfcb5dbefd4cdebd12902e1b6fe17f",
+      "state": "succeeded",
+      "model_calls": 0,
+      "artifacts": [
+        "5475c46707b145379aa90ab439d67c8f",
+        "47a4a235159d4d5d9682337a427531bf"
+      ],
+      "effects": []
+    },
+    {
+      "id": "eeefa9e7008a41e89d94893fed941450",
+      "state": "succeeded",
+      "model_calls": 0,
+      "artifacts": [
+        "5164930262da4489aac28390556034ba",
+        "cf5b800ee70941609f1328135bf5d831"
+      ],
+      "effects": [
+        {
+          "proposal_id": "f68bd883377c468598727b3eb6a71144",
+          "record_id": "e309e80332ee4a70aa3e099359debc63",
+          "request_index": 0,
+          "required": true,
+          "sha256": "2910476fdef245b911b955cce980ca1381bfecb96cd9fc468b78e4271893040c",
+          "state": "verified",
+          "tool": "task_change_draft",
+          "version": 2
+        }
+      ]
+    }
+  ],
+  "task_notes": [
+    {
+      "task_id": "e309e80332ee4a70aa3e099359debc63",
+      "note": "Reviewed the Markdown report and CSV register in the local integration test."
+    }
+  ],
+  "artifact_readback": [
+    {
+      "file": "47a4a235159d4d5d9682337a427531bf.csv",
+      "bytes": 279,
+      "sha256": "d7e90725238ed9d587a2ae8ec0e6c34f88179ba1d91ccd3a247757fd060390ae"
+    },
+    {
+      "file": "5164930262da4489aac28390556034ba.md",
+      "bytes": 1515,
+      "sha256": "8e84767611cd35655af829fb2922559221f20d5ca18ddc6137cd0ad25c689346"
+    },
+    {
+      "file": "5475c46707b145379aa90ab439d67c8f.md",
+      "bytes": 1625,
+      "sha256": "0b8a54cc48cbb4e1fc442084f19aa5553bd62e44bf24743918e2861332aab1d8"
+    },
+    {
+      "file": "cf5b800ee70941609f1328135bf5d831.csv",
+      "bytes": 279,
+      "sha256": "94d7e49f0ec4ed72d88b9c823416e25c4bbd392182780fd05a0cccf4dbe9e3c7"
+    }
+  ],
+  "browser_download": {
+    "filename": "artifact-5164930262da4489aac28390556034ba.md",
+    "bytes": 1515,
+    "sha256": "8e84767611cd35655af829fb2922559221f20d5ca18ddc6137cd0ad25c689346",
+    "matches_independent_server_file": true
+  },
+  "watch_records": [
+    {
+      "id": "9121c5786ce24095b6d4aa91398a2130",
+      "data": "{\"fields\":[\"next_step\",\"progress\"],\"kind\":\"selected_task_changes\",\"retain_change_history\":true,\"task_ids\":[\"e309e80332ee4a70aa3e099359debc63\"],\"title\":\"Integration progress watch\"}"
+    }
+  ],
+  "provider_usage_rows": 0
+}

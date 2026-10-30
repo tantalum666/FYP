@@ -1,0 +1,1816 @@
+
+> desk-companion-ui@0.1.0 test
+> node --experimental-strip-types --test tests/*.test.ts
+
+TAP version 13
+# Subtest: connected hidden owners retain status access; paired, stale, offline and concealed views do not
+ok 1 - connected hidden owners retain status access; paired, stale, offline and concealed views do not
+  ---
+  duration_ms: 1.352208
+  type: 'test'
+  ...
+# Subtest: hidden status loads only the list and projects all private fields out before retaining rows
+ok 2 - hidden status loads only the list and projects all private fields out before retaining rows
+  ---
+  duration_ms: 1.809209
+  type: 'test'
+  ...
+# Subtest: unexpected status strings and date text cannot be echoed as private content
+ok 3 - unexpected status strings and date text cannot be echoed as private content
+  ---
+  duration_ms: 0.518209
+  type: 'test'
+  ...
+# Subtest: hidden controls are pause/cancel only and unknown or terminal states gain no authority
+ok 4 - hidden controls are pause/cancel only and unknown or terminal states gain no authority
+  ---
+  duration_ms: 0.443833
+  type: 'test'
+  ...
+# Subtest: invalid list data is rejected rather than enabling controls from stale private objects
+ok 5 - invalid list data is rejected rather than enabling controls from stale private objects
+  ---
+  duration_ms: 0.484083
+  type: 'test'
+  ...
+# Subtest: hide/show and identity transitions fence both private and metadata late responses
+ok 6 - hide/show and identity transitions fence both private and metadata late responses
+  ---
+  duration_ms: 0.104
+  type: 'test'
+  ...
+# Subtest: an uncertain or in-flight pause never occupies the cancellation queue and retries keep their original version
+ok 7 - an uncertain or in-flight pause never occupies the cancellation queue and retries keep their original version
+  ---
+  duration_ms: 0.3125
+  type: 'test'
+  ...
+# Subtest: hidden component keeps uncertain queues through refresh failures and never requests private details
+ok 8 - hidden component keeps uncertain queues through refresh failures and never requests private details
+  ---
+  duration_ms: 5.579458
+  type: 'test'
+  ...
+# Subtest: transient refresh keeps exact snapshot mounted but stale until successful refresh
+ok 9 - transient refresh keeps exact snapshot mounted but stale until successful refresh
+  ---
+  duration_ms: 123.333917
+  type: 'test'
+  ...
+# Subtest: auth, privacy, missing-resource and unexpected failures clear instead of retaining
+ok 10 - auth, privacy, missing-resource and unexpected failures clear instead of retaining
+  ---
+  duration_ms: 274.5775
+  type: 'test'
+  ...
+# Subtest: parallel late privacy denial still clears after first transient failure
+ok 11 - parallel late privacy denial still clears after first transient failure
+  ---
+  duration_ms: 10.774917
+  type: 'test'
+  ...
+# Subtest: selection and privacy epoch changes hide cached content before late reads settle
+ok 12 - selection and privacy epoch changes hide cached content before late reads settle
+  ---
+  duration_ms: 20.722416
+  type: 'test'
+  ...
+# Subtest: retention is allowlisted and stale UI gates include retries, handoffs and delayed uploads
+ok 13 - retention is allowlisted and stale UI gates include retries, handoffs and delayed uploads
+  ---
+  duration_ms: 62.518625
+  type: 'test'
+  ...
+# Subtest: actual metadata card markup has stop controls and no private fields in English or Chinese
+ok 14 - actual metadata card markup has stop controls and no private fields in English or Chinese
+  ---
+  duration_ms: 37.06925
+  type: 'test'
+  ...
+# Subtest: metadata markup disables stale controls and removes all actions for terminal or unknown status
+ok 15 - metadata markup disables stale controls and removes all actions for terminal or unknown status
+  ---
+  duration_ms: 13.553458
+  type: 'test'
+  ...
+# Subtest: browser result markup separates verified bytes from uncertain cleanup and has no inline approval
+ok 16 - browser result markup separates verified bytes from uncertain cleanup and has no inline approval
+  ---
+  duration_ms: 0.792959
+  type: 'test'
+  ...
+# Subtest: actual personal-context and connector selections do not precheck permissions in either language
+ok 17 - actual personal-context and connector selections do not precheck permissions in either language
+  ---
+  duration_ms: 1.776541
+  type: 'test'
+  ...
+# Subtest: actual markup blocks mixing private context and public-only connectors
+ok 18 - actual markup blocks mixing private context and public-only connectors
+  ---
+  duration_ms: 0.491417
+  type: 'test'
+  ...
+# Subtest: connector result markup cannot imply independent verification or follow a remote review URL
+ok 19 - connector result markup cannot imply independent verification or follow a remote review URL
+  ---
+  duration_ms: 0.401041
+  type: 'test'
+  ...
+# Subtest: Work modal owns a separate draft guard from the retained parent chat input
+ok 20 - Work modal owns a separate draft guard from the retained parent chat input
+  ---
+  duration_ms: 11.703083
+  type: 'test'
+  ...
+# Subtest: persistent work requires an explicit retention choice and at least one valid selected source
+ok 21 - persistent work requires an explicit retention choice and at least one valid selected source
+  ---
+  duration_ms: 1.0595
+  type: 'test'
+  ...
+# Subtest: local compilation never inherits provider transmission or mutation grants
+ok 22 - local compilation never inherits provider transmission or mutation grants
+  ---
+  duration_ms: 0.679
+  type: 'test'
+  ...
+# Subtest: unknown source reservations and finished or expired reviews cannot be selected
+ok 23 - unknown source reservations and finished or expired reviews cannot be selected
+  ---
+  duration_ms: 0.112959
+  type: 'test'
+  ...
+# Subtest: adaptive work requires exact text destination plus explicit selected-content sharing
+ok 24 - adaptive work requires exact text destination plus explicit selected-content sharing
+  ---
+  duration_ms: 4.154792
+  type: 'test'
+  ...
+# Subtest: selection count, source bytes and section requirements match server ceilings
+ok 25 - selection count, source bytes and section requirements match server ceilings
+  ---
+  duration_ms: 29.319167
+  type: 'test'
+  ...
+# Subtest: reviewed request arrays are immutable snapshots rather than live checkbox arrays
+ok 26 - reviewed request arrays are immutable snapshots rather than live checkbox arrays
+  ---
+  duration_ms: 1.326042
+  type: 'test'
+  ...
+# Subtest: unknown model outcome has an explicit new-attempt action and no ordinary resume
+ok 27 - unknown model outcome has an explicit new-attempt action and no ordinary resume
+  ---
+  duration_ms: 0.292708
+  type: 'test'
+  ...
+# Subtest: file selection validates UTF-8 bytes, suffix, display name and content before upload
+ok 28 - file selection validates UTF-8 bytes, suffix, display name and content before upload
+  ---
+  duration_ms: 6.506666
+  type: 'test'
+  ...
+# Subtest: source upload preserves raw Unicode and one operation ID across an unknown response without storage
+ok 29 - source upload preserves raw Unicode and one operation ID across an unknown response without storage
+  ---
+  duration_ms: 0.536584
+  type: 'test'
+  ...
+# Subtest: a file hash or model message does not grant structural or semantic verification
+ok 30 - a file hash or model message does not grant structural or semantic verification
+  ---
+  duration_ms: 2.059542
+  type: 'test'
+  ...
+# Subtest: privacy, identity and hide-show transitions permanently fence earlier replies
+ok 31 - privacy, identity and hide-show transitions permanently fence earlier replies
+  ---
+  duration_ms: 0.16025
+  type: 'test'
+  ...
+# Subtest: component contracts preserve modal drafts, selected-run fences and independent cancellation
+ok 32 - component contracts preserve modal drafts, selected-run fences and independent cancellation
+  ---
+  duration_ms: 2.903333
+  type: 'test'
+  ...
+# Subtest: all new run components avoid persistent browser bodies and raw generated HTML
+ok 33 - all new run components avoid persistent browser bodies and raw generated HTML
+  ---
+  duration_ms: 26.598667
+  type: 'test'
+  ...
+# Subtest: chat goal prefill preserves exact user text but inherits no retention, data-sharing or tool permission
+ok 34 - chat goal prefill preserves exact user text but inherits no retention, data-sharing or tool permission
+  ---
+  duration_ms: 1.700083
+  type: 'test'
+  ...
+# Subtest: public-browser-only model work needs explicit source grant and independent provider consent
+ok 35 - public-browser-only model work needs explicit source grant and independent provider consent
+  ---
+  duration_ms: 0.57325
+  type: 'test'
+  ...
+# Subtest: browser selection cannot invent sources, duplicate grants or bypass unavailable admission
+ok 36 - browser selection cannot invent sources, duplicate grants or bypass unavailable admission
+  ---
+  duration_ms: 0.556917
+  type: 'test'
+  ...
+# Subtest: browser selection counts toward model evidence total and snapshots grants at exact review
+ok 37 - browser selection counts toward model evidence total and snapshots grants at exact review
+  ---
+  duration_ms: 0.722458
+  type: 'test'
+  ...
+# Subtest: model and tool attempt budgets enforce exact integral bounds and lower operator ceilings
+ok 38 - model and tool attempt budgets enforce exact integral bounds and lower operator ceilings
+  ---
+  duration_ms: 1.253834
+  type: 'test'
+  ...
+# Subtest: verified export bytes are distinct from browser completion with unresolved cleanup
+ok 39 - verified export bytes are distinct from browser completion with unresolved cleanup
+  ---
+  duration_ms: 0.269833
+  type: 'test'
+  ...
+# Subtest: goal handoffs preserve active drafts and linked browser review delegates without approving inside run detail
+ok 40 - goal handoffs preserve active drafts and linked browser review delegates without approving inside run detail
+  ---
+  duration_ms: 6.31625
+  type: 'test'
+  ...
+# Subtest: selected personal context requires explicit derived-retention acknowledgment and current category permission
+ok 41 - selected personal context requires explicit derived-retention acknowledgment and current category permission
+  ---
+  duration_ms: 0.207917
+  type: 'test'
+  ...
+# Subtest: personal selection rejects unlisted/duplicate facts and conversations with no eligible messages
+ok 42 - personal selection rejects unlisted/duplicate facts and conversations with no eligible messages
+  ---
+  duration_ms: 0.301625
+  type: 'test'
+  ...
+# Subtest: personal context is never counted as evidence or silently added to local work
+ok 43 - personal context is never counted as evidence or silently added to local work
+  ---
+  duration_ms: 0.346625
+  type: 'test'
+  ...
+# Subtest: connector-only work requires two separate exact-provider sharing choices and no automatic call approval
+ok 44 - connector-only work requires two separate exact-provider sharing choices and no automatic call approval
+  ---
+  duration_ms: 0.156833
+  type: 'test'
+  ...
+# Subtest: public-only connector grants cannot combine private evidence or saved context but can include public browser sources
+ok 45 - public-only connector grants cannot combine private evidence or saved context but can include public browser sources
+  ---
+  duration_ms: 0.078583
+  type: 'test'
+  ...
+# Subtest: connector selection fails closed for unknown, duplicate, excessive and unreviewed tool grants
+ok 46 - connector selection fails closed for unknown, duplicate, excessive and unreviewed tool grants
+  ---
+  duration_ms: 0.085
+  type: 'test'
+  ...
+# Subtest: invalidated personal-context bindings cannot be refreshed by resume, steering or provider retry
+ok 47 - invalidated personal-context bindings cannot be refreshed by resume, steering or provider retry
+  ---
+  duration_ms: 4.232791
+  type: 'test'
+  ...
+# Subtest: Alice original is the default; rejected-study preferences cannot recolor it
+ok 48 - Alice original is the default; rejected-study preferences cannot recolor it
+  ---
+  duration_ms: 1.76025
+  type: 'test'
+  ...
+# Subtest: browser readiness is fail-closed for missing, stale or unavailable runtime and altered target
+ok 49 - browser readiness is fail-closed for missing, stale or unavailable runtime and altered target
+  ---
+  duration_ms: 0.883916
+  type: 'test'
+  ...
+# Subtest: approval requires exact visible intent, current deadline, ready runtime and no cancellation
+ok 50 - approval requires exact visible intent, current deadline, ready runtime and no cancellation
+  ---
+  duration_ms: 0.15075
+  type: 'test'
+  ...
+# Subtest: an executor state string or click receipt cannot become verified export success
+ok 51 - an executor state string or click receipt cannot become verified export success
+  ---
+  duration_ms: 0.116833
+  type: 'test'
+  ...
+# Subtest: cancel and navigation controls do not imply rollback or discard uncertain requests
+ok 52 - cancel and navigation controls do not imply rollback or discard uncertain requests
+  ---
+  duration_ms: 0.135084
+  type: 'test'
+  ...
+# Subtest: only an exact catalog source becomes a source hyperlink
+ok 53 - only an exact catalog source becomes a source hyperlink
+  ---
+  duration_ms: 0.086958
+  type: 'test'
+  ...
+# Subtest: same-ID recovery and independent cancellation remain separate requests
+ok 54 - same-ID recovery and independent cancellation remain separate requests
+  ---
+  duration_ms: 0.955042
+  type: 'test'
+  ...
+# Subtest: privacy, newer selection and owner session changes fence browser observations and exports
+ok 55 - privacy, newer selection and owner session changes fence browser observations and exports
+  ---
+  duration_ms: 0.133333
+  type: 'test'
+  ...
+# Subtest: actual UTF-8 export bytes are independently hash checked
+ok 56 - actual UTF-8 export bytes are independently hash checked
+  ---
+  duration_ms: 166.9155
+  type: 'test'
+  ...
+# Subtest: export rejects executable MIME, excessive streamed bytes and hidden response
+ok 57 - export rejects executable MIME, excessive streamed bytes and hidden response
+  ---
+  duration_ms: 2.983375
+  type: 'test'
+  ...
+# Subtest: privacy revocation while a download is awaiting bytes cancels its stream
+ok 58 - privacy revocation while a download is awaiting bytes cancels its stream
+  ---
+  duration_ms: 1.082458
+  type: 'test'
+  ...
+# Subtest: browser UI uses volatile mutations, explicit review and plain-text source previews
+ok 59 - browser UI uses volatile mutations, explicit review and plain-text source previews
+  ---
+  duration_ms: 9.097917
+  type: 'test'
+  ...
+# Subtest: public browser observation gets the bounded read timeout without changing other request timeouts
+ok 60 - public browser observation gets the bounded read timeout without changing other request timeouts
+  ---
+  duration_ms: 5.743084
+  type: 'test'
+  ...
+# Subtest: mouth ignores expired/future and nonfinite speaker samples
+ok 61 - mouth ignores expired/future and nonfinite speaker samples
+  ---
+  duration_ms: 0.75475
+  type: 'test'
+  ...
+# Subtest: presentation bridge accepts bounded shape only and removes listeners on disposal
+ok 62 - presentation bridge accepts bounded shape only and removes listeners on disposal
+  ---
+  duration_ms: 1.740458
+  type: 'test'
+  ...
+# Subtest: edge depth distinguishes free, half, head and hidden on left, right and bottom
+ok 63 - edge depth distinguishes free, half, head and hidden on left, right and bottom
+  ---
+  duration_ms: 1.815625
+  type: 'test'
+  ...
+# Subtest: invalid or blocked storage data cannot strand the companion
+ok 64 - invalid or blocked storage data cannot strand the companion
+  ---
+  duration_ms: 0.17375
+  type: 'test'
+  ...
+# Subtest: resizing keeps free figures and every hidden recall button inside usable screen bounds
+ok 65 - resizing keeps free figures and every hidden recall button inside usable screen bounds
+  ---
+  duration_ms: 0.3695
+  type: 'test'
+  ...
+# Subtest: saved continuous scale survives reload and legacy sizes migrate without losing placement
+ok 66 - saved continuous scale survives reload and legacy sizes migrate without losing placement
+  ---
+  duration_ms: 0.126667
+  type: 'test'
+  ...
+# Subtest: arbitrary scaling keeps a docked head cropped and the complete character fits after recall
+ok 67 - arbitrary scaling keeps a docked head cropped and the complete character fits after recall
+  ---
+  duration_ms: 0.097667
+  type: 'test'
+  ...
+# Subtest: a docked head can be dragged back to a complete in-bounds figure
+ok 68 - a docked head can be dragged back to a complete in-bounds figure
+  ---
+  duration_ms: 0.080041
+  type: 'test'
+  ...
+# Subtest: folder jobs are distinct from the dedicated notes adapter
+ok 69 - folder jobs are distinct from the dedicated notes adapter
+  ---
+  duration_ms: 0.694708
+  type: 'test'
+  ...
+# Subtest: approval requires fresh data and an unexpired review
+ok 70 - approval requires fresh data and an unexpired review
+  ---
+  duration_ms: 0.088042
+  type: 'test'
+  ...
+# Subtest: cancellation remains available for active and unknown jobs only
+ok 71 - cancellation remains available for active and unknown jobs only
+  ---
+  duration_ms: 0.11625
+  type: 'test'
+  ...
+# Subtest: recovering another operation must not clear the current unsaved note
+ok 72 - recovering another operation must not clear the current unsaved note
+  ---
+  duration_ms: 0.073
+  type: 'test'
+  ...
+# Subtest: pending note recovery is scoped to the same linked task
+ok 73 - pending note recovery is scoped to the same linked task
+  ---
+  duration_ms: 0.054584
+  type: 'test'
+  ...
+# Subtest: read-back and fingerprint failures name a recoverable next step
+ok 74 - read-back and fingerprint failures name a recoverable next step
+  ---
+  duration_ms: 0.435833
+  type: 'test'
+  ...
+# Subtest: actual English and Chinese review markup shows exact endpoint, configured server, tool, arguments, effect and binding
+ok 75 - actual English and Chinese review markup shows exact endpoint, configured server, tool, arguments, effect and binding
+  ---
+  duration_ms: 14.130291
+  type: 'test'
+  ...
+# Subtest: hidden detail renders only safe status and Cancel even when accidentally given a full object
+ok 76 - hidden detail renders only safe status and Cancel even when accidentally given a full object
+  ---
+  duration_ms: 0.762417
+  type: 'test'
+  ...
+# Subtest: pending or unknown approval cannot disable independent cancellation
+ok 77 - pending or unknown approval cannot disable independent cancellation
+  ---
+  duration_ms: 3.949583
+  type: 'test'
+  ...
+# Subtest: observed results are escaped plain text with independent-verification caveat, never active links or markup
+ok 78 - observed results are escaped plain text with independent-verification caveat, never active links or markup
+  ---
+  duration_ms: 1.922583
+  type: 'test'
+  ...
+# Subtest: unknown effect is not rendered as success or as an executable retry
+ok 79 - unknown effect is not rendered as success or as an executable retry
+  ---
+  duration_ms: 1.472959
+  type: 'test'
+  ...
+# Subtest: only connected, visible owner surfaces can read status; private details have an additional gate
+ok 80 - only connected, visible owner surfaces can read status; private details have an additional gate
+  ---
+  duration_ms: 1.497083
+  type: 'test'
+  ...
+# Subtest: metadata reads demand server-side redaction and whitelist a content-free projection
+ok 81 - metadata reads demand server-side redaction and whitelist a content-free projection
+  ---
+  duration_ms: 7.1075
+  type: 'test'
+  ...
+# Subtest: hidden load never reads private detail or even capabilities
+ok 82 - hidden load never reads private detail or even capabilities
+  ---
+  duration_ms: 0.760958
+  type: 'test'
+  ...
+# Subtest: malformed or nested listing, private path injection, bad version and unknown status fail closed
+ok 83 - malformed or nested listing, private path injection, bad version and unknown status fail closed
+  ---
+  duration_ms: 0.436875
+  type: 'test'
+  ...
+# Subtest: approval is exact, current, public-only and bound to the operator catalog even for a read
+ok 84 - approval is exact, current, public-only and bound to the operator catalog even for a read
+  ---
+  duration_ms: 0.310292
+  type: 'test'
+  ...
+# Subtest: checkbox binding changes for a new version, hash, destination, provider or arguments
+ok 85 - checkbox binding changes for a new version, hash, destination, provider or arguments
+  ---
+  duration_ms: 0.10125
+  type: 'test'
+  ...
+# Subtest: Cancel is limited to current pre-terminal calls and does not imply rollback
+ok 86 - Cancel is limited to current pre-terminal calls and does not imply rollback
+  ---
+  duration_ms: 0.121333
+  type: 'test'
+  ...
+# Subtest: review switching prompts for checked choices and unknown receipts and blocks active requests
+ok 87 - review switching prompts for checked choices and unknown receipts and blocks active requests
+  ---
+  duration_ms: 0.053708
+  type: 'test'
+  ...
+# Subtest: pending approval and cancellation use independent operation IDs and retries retain exact version/hash
+ok 88 - pending approval and cancellation use independent operation IDs and retries retain exact version/hash
+  ---
+  duration_ms: 0.509875
+  type: 'test'
+  ...
+# Subtest: hide/show, disconnect/reconnect and same-principal session replacement fence late results
+ok 89 - hide/show, disconnect/reconnect and same-principal session replacement fence late results
+  ---
+  duration_ms: 0.364833
+  type: 'test'
+  ...
+# Subtest: unmount clear prevents a late old queue from consuming a replacement component operation
+ok 90 - unmount clear prevents a late old queue from consuming a replacement component operation
+  ---
+  duration_ms: 0.162958
+  type: 'test'
+  ...
+# Subtest: production integration keeps drafts volatile, session fencing synchronous, and hidden cancellation separate
+ok 91 - production integration keeps drafts volatile, session fencing synchronous, and hidden cancellation separate
+  ---
+  duration_ms: 5.413333
+  type: 'test'
+  ...
+# Subtest: hidden linked calls outside the latest list use exact metadata-only detail and strip unexpected content
+ok 92 - hidden linked calls outside the latest list use exact metadata-only detail and strip unexpected content
+  ---
+  duration_ms: 0.322708
+  type: 'test'
+  ...
+# Subtest: occursOn counts a cross-midnight overlap and excludes an end at local midnight
+ok 93 - occursOn counts a cross-midnight overlap and excludes an end at local midnight
+  ---
+  duration_ms: 5.866625
+  type: 'test'
+  ...
+# Subtest: eventTime and title follow the saved language and redaction flag
+ok 94 - eventTime and title follow the saved language and redaction flag
+  ---
+  duration_ms: 0.74675
+  type: 'test'
+  ...
+# Subtest: short lunar labels omit the month and a broken zone stays blank
+ok 95 - short lunar labels omit the month and a broken zone stays blank
+  ---
+  duration_ms: 2.495792
+  type: 'test'
+  ...
+# Subtest: saved timed events return to the display's local date, including a date boundary
+ok 96 - saved timed events return to the display's local date, including a date boundary
+  ---
+  duration_ms: 54.607958
+  type: 'test'
+  ...
+# Subtest: display appearance follows local hour at the two boundaries
+ok 97 - display appearance follows local hour at the two boundaries
+  ---
+  duration_ms: 0.129333
+  type: 'test'
+  ...
+# Subtest: five and six week months have complete, bounded grids
+ok 98 - five and six week months have complete, bounded grids
+  ---
+  duration_ms: 6.992625
+  type: 'test'
+  ...
+# Subtest: end of year display includes next month while obeying API range limit
+ok 99 - end of year display includes next month while obeying API range limit
+  ---
+  duration_ms: 28.569333
+  type: 'test'
+  ...
+# Subtest: upcoming excludes completed and ended items, keeps an ongoing cross-midnight event
+ok 100 - upcoming excludes completed and ended items, keeps an ongoing cross-midnight event
+  ---
+  duration_ms: 0.4115
+  type: 'test'
+  ...
+# Subtest: upcoming ordering compares instants, not written timezone offsets
+ok 101 - upcoming ordering compares instants, not written timezone offsets
+  ---
+  duration_ms: 0.133959
+  type: 'test'
+  ...
+# Subtest: automatic return never interrupts editing or an unresolved save
+ok 102 - automatic return never interrupts editing or an unresolved save
+  ---
+  duration_ms: 0.19825
+  type: 'test'
+  ...
+# Subtest: diagnostics lines show cap and backup and drop unknown secret fields
+ok 103 - diagnostics lines show cap and backup and drop unknown secret fields
+  ---
+  duration_ms: 1.83175
+  type: 'test'
+  ...
+# Subtest: a missing backup is named without inventing a file
+ok 104 - a missing backup is named without inventing a file
+  ---
+  duration_ms: 0.246666
+  type: 'test'
+  ...
+# Subtest: the knowledge screen offers correct and forget, and explains a nudge
+ok 105 - the knowledge screen offers correct and forget, and explains a nudge
+  ---
+  duration_ms: 1.359208
+  type: 'test'
+  ...
+# Subtest: the memory page is the knowledge screen and extras no longer repeats nudge history
+ok 106 - the memory page is the knowledge screen and extras no longer repeats nudge history
+  ---
+  duration_ms: 1.640875
+  type: 'test'
+  ...
+# Subtest: local avatar supports both VRM generations with embedded resources
+ok 107 - local avatar supports both VRM generations with embedded resources
+  ---
+  duration_ms: 0.886166
+  type: 'test'
+  ...
+# Subtest: local avatar cannot request a remote buffer or texture
+ok 108 - local avatar cannot request a remote buffer or texture
+  ---
+  duration_ms: 0.221125
+  type: 'test'
+  ...
+# Subtest: renaming an ordinary GLB or truncated file does not make it a VRM
+ok 109 - renaming an ordinary GLB or truncated file does not make it a VRM
+  ---
+  duration_ms: 0.096708
+  type: 'test'
+  ...
+# Subtest: all frontend source module paths are unambiguous on case-insensitive filesystems
+ok 110 - all frontend source module paths are unambiguous on case-insensitive filesystems
+  ---
+  duration_ms: 5.746917
+  type: 'test'
+  ...
+# Subtest: module guard catches nested mixed-extension and same-extension case collisions
+ok 111 - module guard catches nested mixed-extension and same-extension case collisions
+  ---
+  duration_ms: 0.175542
+  type: 'test'
+  ...
+# Subtest: module guard catches case-only directories even with different child basenames
+ok 112 - module guard catches case-only directories even with different child basenames
+  ---
+  duration_ms: 0.1185
+  type: 'test'
+  ...
+# Subtest: module guard permits distinct directories, declaration companions and non-module assets
+ok 113 - module guard permits distinct directories, declaration companions and non-module assets
+  ---
+  duration_ms: 0.065708
+  type: 'test'
+  ...
+# Subtest: today shows one dismissible suggestion and a reset
+ok 114 - today shows one dismissible suggestion and a reset
+  ---
+  duration_ms: 2.657
+  type: 'test'
+  ...
+# Subtest: an open page can show one browser notification and skip duplicates
+ok 115 - an open page can show one browser notification and skip duplicates
+  ---
+  duration_ms: 2.153834
+  type: 'test'
+  ...
+# Subtest: private text retries preserve one immutable operation ID without browser storage
+ok 116 - private text retries preserve one immutable operation ID without browser storage
+  ---
+  duration_ms: 2.490542
+  type: 'test'
+  ...
+# Subtest: unknown outcomes reject changed requests; definite conflicts allow a new reviewed operation
+ok 117 - unknown outcomes reject changed requests; definite conflicts allow a new reviewed operation
+  ---
+  duration_ms: 0.992917
+  type: 'test'
+  ...
+# Subtest: repeated clicks cannot dispatch simultaneous operations
+ok 118 - repeated clicks cannot dispatch simultaneous operations
+  ---
+  duration_ms: 0.305417
+  type: 'test'
+  ...
+# Subtest: component disposal clears private recovery; a 410 receipt is never retried automatically
+ok 119 - component disposal clears private recovery; a 410 receipt is never retried automatically
+  ---
+  duration_ms: 0.516625
+  type: 'test'
+  ...
+# Subtest: owner-only personal context fails closed for missing policy, offline and stale snapshots
+ok 120 - owner-only personal context fails closed for missing policy, offline and stale snapshots
+  ---
+  duration_ms: 0.320041
+  type: 'test'
+  ...
+# Subtest: saved-thread sends need opt-in; temporary text remains usable without history permission
+ok 121 - saved-thread sends need opt-in; temporary text remains usable without history permission
+  ---
+  duration_ms: 0.159542
+  type: 'test'
+  ...
+# Subtest: retention and provider context are independent; only displayed configured destinations are approved
+ok 122 - retention and provider context are independent; only displayed configured destinations are approved
+  ---
+  duration_ms: 0.443042
+  type: 'test'
+  ...
+# Subtest: thread navigation preserves unsent drafts and cannot race writes or voice
+ok 123 - thread navigation preserves unsent drafts and cannot race writes or voice
+  ---
+  duration_ms: 0.186958
+  type: 'test'
+  ...
+# Subtest: reply labels use recorded mode, never configured-provider availability as proof
+ok 124 - reply labels use recorded mode, never configured-provider availability as proof
+  ---
+  duration_ms: 0.8365
+  type: 'test'
+  ...
+# Subtest: assistant and personal-context writes cannot route through the persistent write helper
+ok 125 - assistant and personal-context writes cannot route through the persistent write helper
+  ---
+  duration_ms: 2.507084
+  type: 'test'
+  ...
+# Subtest: a response fence rejects owner results after downgrade, hide/show or reauthentication
+ok 126 - a response fence rejects owner results after downgrade, hide/show or reauthentication
+  ---
+  duration_ms: 1.527375
+  type: 'test'
+  ...
+# Subtest: a day inside the home week uses one calendar request
+ok 127 - a day inside the home week uses one calendar request
+  ---
+  duration_ms: 2.104125
+  type: 'test'
+  ...
+# Subtest: an outside month loads both ranges concurrently without substituting the home week
+ok 128 - an outside month loads both ranges concurrently without substituting the home week
+  ---
+  duration_ms: 0.12125
+  type: 'test'
+  ...
+# Subtest: save and polling refresh bursts coalesce; an older response cannot overwrite the new state
+ok 129 - save and polling refresh bursts coalesce; an older response cannot overwrite the new state
+  ---
+  duration_ms: 0.128542
+  type: 'test'
+  ...
+# Subtest: leaving a date, session, or hidden screen discards pending responses and queued work
+ok 130 - leaving a date, session, or hidden screen discards pending responses and queued work
+  ---
+  duration_ms: 0.074625
+  type: 'test'
+  ...
+# Subtest: a failed calendar read can recover on the next explicit refresh
+ok 131 - a failed calendar read can recover on the next explicit refresh
+  ---
+  duration_ms: 0.205083
+  type: 'test'
+  ...
+# Subtest: capability defaults off, initial stale mount can recover capability, no automatic list or network mutation
+ok 132 - capability defaults off, initial stale mount can recover capability, no automatic list or network mutation
+  ---
+  duration_ms: 239.722667
+  type: 'test'
+  ...
+# Subtest: disabled capture allows saved history reads but never preparation
+ok 133 - disabled capture allows saved history reads but never preparation
+  ---
+  duration_ms: 76.574292
+  type: 'test'
+  ...
+# Subtest: prepare stores exact review and separate approval uses strict acknowledgments and double click lock
+ok 134 - prepare stores exact review and separate approval uses strict acknowledgments and double click lock
+  ---
+  duration_ms: 43.128208
+  type: 'test'
+  ...
+# Subtest: lost prepare response pins identical body key and only explicit retry recovers original
+ok 135 - lost prepare response pins identical body key and only explicit retry recovers original
+  ---
+  duration_ms: 68.820542
+  type: 'test'
+  ...
+# Subtest: unknown approval can be stopped without generating a replacement capture, preserving original key
+ok 136 - unknown approval can be stopped without generating a replacement capture, preserving original key
+  ---
+  duration_ms: 89.327708
+  type: 'test'
+  ...
+# Subtest: hidden uses scalar list/detail/stop only, rejects leaked private keys and cannot prepare reconcile or approve
+ok 137 - hidden uses scalar list/detail/stop only, rejects leaked private keys and cannot prepare reconcile or approve
+  ---
+  duration_ms: 47.017125
+  type: 'test'
+  ...
+# Subtest: all session privacy offline events revoke old callbacks pending retries and late response
+ok 138 - all session privacy offline events revoke old callbacks pending retries and late response
+  ---
+  duration_ms: 124.73425
+  type: 'test'
+  ...
+# Subtest: stale freshness pauses mutation and retries without discarding original unknown request
+ok 139 - stale freshness pauses mutation and retries without discarding original unknown request
+  ---
+  duration_ms: 59.107
+  type: 'test'
+  ...
+# Subtest: old read access denial revokes newer view
+ok 140 - old read access denial revokes newer view
+  ---
+  duration_ms: 76.878833
+  type: 'test'
+  ...
+# Subtest: unmount and A-B-A privacy epochs never revive old callbacks or replies
+ok 141 - unmount and A-B-A privacy epochs never revive old callbacks or replies
+  ---
+  duration_ms: 13.140625
+  type: 'test'
+  ...
+# Subtest: refresh immediately invalidates approval callback; malformed mutation response preserves original pending
+ok 142 - refresh immediately invalidates approval callback; malformed mutation response preserves original pending
+  ---
+  duration_ms: 42.348792
+  type: 'test'
+  ...
+# Subtest: strict parser rejects malformed scalar policy capacity and hidden projections
+ok 143 - strict parser rejects malformed scalar policy capacity and hidden projections
+  ---
+  duration_ms: 0.321166
+  type: 'test'
+  ...
+# Subtest: production intake callbacks retain volatile draft, require record acknowledgment and register dirty navigation
+ok 144 - production intake callbacks retain volatile draft, require record acknowledgment and register dirty navigation
+  ---
+  duration_ms: 37.405917
+  type: 'test'
+  ...
+# Subtest: production rollback below review observation must prevent approve POST
+ok 145 - production rollback below review observation must prevent approve POST
+  ---
+  duration_ms: 43.259084
+  type: 'test'
+  ...
+# Subtest: production source preview stale access denial revokes a newer visible page
+ok 146 - production source preview stale access denial revokes a newer visible page
+  ---
+  duration_ms: 88.785125
+  type: 'test'
+  ...
+# Subtest: production disabled still reconciles and stops; queued refresh never posts approval
+ok 147 - production disabled still reconciles and stops; queued refresh never posts approval
+  ---
+  duration_ms: 13.521625
+  type: 'test'
+  ...
+# Subtest: production visible stop rejects private extra response and privacy change blocks followup read
+ok 148 - production visible stop rejects private extra response and privacy change blocks followup read
+  ---
+  duration_ms: 71.406334
+  type: 'test'
+  ...
+# Subtest: production monotonic elapsed expires approval with frozen wall clock
+ok 149 - production monotonic elapsed expires approval with frozen wall clock
+  ---
+  duration_ms: 32.63825
+  type: 'test'
+  ...
+# Subtest: review window independently expires on monotonic time and never revives after clock rollback
+ok 150 - review window independently expires on monotonic time and never revives after clock rollback
+  ---
+  duration_ms: 0.10325
+  type: 'test'
+  ...
+# Subtest: same review reread cannot renew a revoked deadline
+ok 151 - same review reread cannot renew a revoked deadline
+  ---
+  duration_ms: 8.418459
+  type: 'test'
+  ...
+# Subtest: actual bilingual intake/review states exact bounded GET disclosure, unchecked separate consents and inert URL/label
+ok 152 - actual bilingual intake/review states exact bounded GET disclosure, unchecked separate consents and inert URL/label
+  ---
+  duration_ms: 249.075458
+  type: 'test'
+  ...
+# Subtest: disabled still renders history/local reconciliation and cancelled source provenance without implying deletion
+ok 153 - disabled still renders history/local reconciliation and cancelled source provenance without implying deletion
+  ---
+  duration_ms: 120.561208
+  type: 'test'
+  ...
+# Subtest: hidden projection renders handles/status/stop without private URL source or reconcile
+ok 154 - hidden projection renders handles/status/stop without private URL source or reconcile
+  ---
+  duration_ms: 38.995291
+  type: 'test'
+  ...
+# Subtest: acquisition preview is safe plaintext and invalid provenance never becomes evidence
+ok 155 - acquisition preview is safe plaintext and invalid provenance never becomes evidence
+  ---
+  duration_ms: 3.2275
+  type: 'test'
+  ...
+# Subtest: owner and device manifests are installable and do not name the API
+ok 156 - owner and device manifests are installable and do not name the API
+  ---
+  duration_ms: 2.906625
+  type: 'test'
+  ...
+# Subtest: the boot script selects a manifest and registers the shell worker
+ok 157 - the boot script selects a manifest and registers the shell worker
+  ---
+  duration_ms: 1.095417
+  type: 'test'
+  ...
+# Subtest: the service worker does not cache authenticated API responses
+ok 158 - the service worker does not cache authenticated API responses
+  ---
+  duration_ms: 2.531708
+  type: 'test'
+  ...
+# Subtest: partial frames accumulate the reply and then a done event replaces it
+ok 159 - partial frames accumulate the reply and then a done event replaces it
+  ---
+  duration_ms: 0.812542
+  type: 'test'
+  ...
+# Subtest: tool progress moves from working to done without keeping arguments
+ok 160 - tool progress moves from working to done without keeping arguments
+  ---
+  duration_ms: 0.087083
+  type: 'test'
+  ...
+# Subtest: a preview replaces the visible text and a later delta appends
+ok 161 - a preview replaces the visible text and a later delta appends
+  ---
+  duration_ms: 0.095084
+  type: 'test'
+  ...
+# Subtest: an error event ends the turn
+ok 162 - an error event ends the turn
+  ---
+  duration_ms: 0.048458
+  type: 'test'
+  ...
+# Subtest: an EOF after a preview is not a completed operation
+ok 163 - an EOF after a preview is not a completed operation
+  ---
+  duration_ms: 52.906584
+  type: 'test'
+  ...
+# Subtest: a buffered native reply and an error frame retain distinct terminal states
+ok 164 - a buffered native reply and an error frame retain distinct terminal states
+  ---
+  duration_ms: 1.193
+  type: 'test'
+  ...
+# Subtest: actual watch callbacks never acknowledge on read, and unknown ack retries exact body/key only after fresh read
+ok 165 - actual watch callbacks never acknowledge on read, and unknown ack retries exact body/key only after fresh read
+  ---
+  duration_ms: 378.126333
+  type: 'test'
+  ...
+# Subtest: actual stale acknowledgment, compile and inspect callbacks are fenced across new snapshot or hidden epoch
+ok 166 - actual stale acknowledgment, compile and inspect callbacks are fenced across new snapshot or hidden epoch
+  ---
+  duration_ms: 143.661667
+  type: 'test'
+  ...
+# Subtest: actual mutation privacy denial clears private view and prevents replay under old identity
+ok 167 - actual mutation privacy denial clears private view and prevents replay under old identity
+  ---
+  duration_ms: 98.885292
+  type: 'test'
+  ...
+# Subtest: production current-task access denial or redacted success invalidates fence and reports parent; current status is bilingual
+ok 168 - production current-task access denial or redacted success invalidates fence and reports parent; current status is bilingual
+  ---
+  duration_ms: 138.353458
+  type: 'test'
+  ...
+# Subtest: committed-but-fenced context change clears private view and tells owner to inspect history instead of new retry
+ok 169 - committed-but-fenced context change clears private view and tells owner to inspect history instead of new retry
+  ---
+  duration_ms: 54.041125
+  type: 'test'
+  ...
+# Subtest: recorded removed disposition clears selected ordinary detail before refresh instead of fetching removed detail
+ok 170 - recorded removed disposition clears selected ordinary detail before refresh instead of fetching removed detail
+  ---
+  duration_ms: 86.542833
+  type: 'test'
+  ...
+# Subtest: unmounted watch callbacks cannot acknowledge or compile under a still-valid shared owner
+ok 171 - unmounted watch callbacks cannot acknowledge or compile under a still-valid shared owner
+  ---
+  duration_ms: 95.397583
+  type: 'test'
+  ...
+# Subtest: production watch hook reads only on mount and preserves unknown-write host during transient refresh
+ok 172 - production watch hook reads only on mount and preserves unknown-write host during transient refresh
+  ---
+  duration_ms: 153.8165
+  type: 'test'
+  ...
+# Subtest: watch hook rejects late detail from a previous selection and never posts acknowledgment
+ok 173 - watch hook rejects late detail from a previous selection and never posts acknowledgment
+  ---
+  duration_ms: 19.781708
+  type: 'test'
+  ...
+# Subtest: parallel late privacy denial clears after transient failure and hidden reads never fetch source scope/detail
+ok 174 - parallel late privacy denial clears after transient failure and hidden reads never fetch source scope/detail
+  ---
+  duration_ms: 123.100041
+  type: 'test'
+  ...
+# Subtest: field/selection query changes and privacy epochs fence delayed results
+ok 175 - field/selection query changes and privacy epochs fence delayed results
+  ---
+  duration_ms: 22.785
+  type: 'test'
+  ...
+# Subtest: actual bilingual review markup separates historical metadata/current titles, ack and Work
+ok 176 - actual bilingual review markup separates historical metadata/current titles, ack and Work
+  ---
+  duration_ms: 29.700125
+  type: 'test'
+  ...
+# Subtest: watch-specific failures explain recovery in both languages without source text
+ok 177 - watch-specific failures explain recovery in both languages without source text
+  ---
+  duration_ms: 0.466375
+  type: 'test'
+  ...
+# Subtest: watch admission binds exact fresh task/field scope and explicit retention
+ok 178 - watch admission binds exact fresh task/field scope and explicit retention
+  ---
+  duration_ms: 3.090167
+  type: 'test'
+  ...
+# Subtest: watch expiry and budgets never imply indefinite or automatically renewed permission
+ok 179 - watch expiry and budgets never imply indefinite or automatically renewed permission
+  ---
+  duration_ms: 0.318875
+  type: 'test'
+  ...
+# Subtest: hidden projection erases unexpected titles, fields and IDs before storage
+ok 180 - hidden projection erases unexpected titles, fields and IDs before storage
+  ---
+  duration_ms: 0.172959
+  type: 'test'
+  ...
+# Subtest: followup preserves every enrolled ID and never quietly shrinks unavailable scope
+ok 181 - followup preserves every enrolled ID and never quietly shrinks unavailable scope
+  ---
+  duration_ms: 0.21375
+  type: 'test'
+  ...
+# Subtest: Work handoff compiles current exact tasks, requires fresh review/retention and grants no provider/context
+ok 182 - Work handoff compiles current exact tasks, requires fresh review/retention and grants no provider/context
+  ---
+  duration_ms: 0.731666
+  type: 'test'
+  ...
+# Subtest: production seams preserve explicit actions and original retry IDs rather than mount acknowledgments
+ok 183 - production seams preserve explicit actions and original retry IDs rather than mount acknowledgments
+  ---
+  duration_ms: 2.294084
+  type: 'test'
+  ...
+# Subtest: only active/paused routines expose lifecycle actions
+ok 184 - only active/paused routines expose lifecycle actions
+  ---
+  duration_ms: 1.344125
+  type: 'test'
+  ...
+# Subtest: delivery reveal fails closed for hidden, stale, locked or empty state
+ok 185 - delivery reveal fails closed for hidden, stale, locked or empty state
+  ---
+  duration_ms: 0.083584
+  type: 'test'
+  ...
+# Subtest: redacted or removed sources never display a cached title
+ok 186 - redacted or removed sources never display a cached title
+  ---
+  duration_ms: 0.06075
+  type: 'test'
+  ...
+# Subtest: notification deduplication uses delivery identity, not latest result identity
+ok 187 - notification deduplication uses delivery identity, not latest result identity
+  ---
+  duration_ms: 0.069542
+  type: 'test'
+  ...
+# Subtest: private requests use component-memory recovery and a navigation guard
+ok 188 - private requests use component-memory recovery and a navigation guard
+  ---
+  duration_ms: 0.242167
+  type: 'test'
+  ...
+# Subtest: mount and refresh read data without claiming a delivery
+ok 189 - mount and refresh read data without claiming a delivery
+  ---
+  duration_ms: 0.094209
+  type: 'test'
+  ...
+# Subtest: panel gates private content and offers bilingual schedule controls
+ok 190 - panel gates private content and offers bilingual schedule controls
+  ---
+  duration_ms: 0.200417
+  type: 'test'
+  ...
+# Subtest: late claim results cannot reappear across concealment or identity changes
+ok 191 - late claim results cannot reappear across concealment or identity changes
+  ---
+  duration_ms: 0.079875
+  type: 'test'
+  ...
+# Subtest: a buffered phone body and small chunks reach the same reply
+ok 192 - a buffered phone body and small chunks reach the same reply
+  ---
+  duration_ms: 76.57025
+  type: 'test'
+  ...
+# Subtest: a lost connection, a server error, and an expired session stay distinct
+ok 193 - a lost connection, a server error, and an expired session stay distinct
+  ---
+  duration_ms: 1.184375
+  type: 'test'
+  ...
+# Subtest: loading, offline, error, and session-expiry notices expose their roles
+ok 194 - loading, offline, error, and session-expiry notices expose their roles
+  ---
+  duration_ms: 5.743375
+  type: 'test'
+  ...
+# Subtest: audit panel stays hidden until the owner list loads, then shows empty or rows
+ok 195 - audit panel stays hidden until the owner list loads, then shows empty or rows
+  ---
+  duration_ms: 0.801125
+  type: 'test'
+  ...
+# Subtest: a bounded plan is listed in the audit panel without being marked saved
+ok 196 - a bounded plan is listed in the audit panel without being marked saved
+  ---
+  duration_ms: 1.552875
+  type: 'test'
+  ...
+# Subtest: owner-readable sentences follow the interface language
+ok 197 - owner-readable sentences follow the interface language
+  ---
+  duration_ms: 0.268041
+  type: 'test'
+  ...
+# Subtest: interrupt drops queued and late audio for the old turn while a new turn can reply
+ok 198 - interrupt drops queued and late audio for the old turn while a new turn can reply
+  ---
+  duration_ms: 347.862625
+  type: 'test'
+  ...
+# Subtest: malformed PCM/base64 closes capture instead of throwing in a socket callback
+ok 199 - malformed PCM/base64 closes capture instead of throwing in a socket callback
+  ---
+  duration_ms: 241.578417
+  type: 'test'
+  ...
+# (node:61997) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: cancel during audio resume does not subsequently request a microphone
+ok 200 - cancel during audio resume does not subsequently request a microphone
+  ---
+  duration_ms: 152.21125
+  type: 'test'
+  ...
+# Subtest: late microphone permission releases tracks without making a ticket
+ok 201 - late microphone permission releases tracks without making a ticket
+  ---
+  duration_ms: 0.775167
+  type: 'test'
+  ...
+# Subtest: cancel while loading worklet prevents ticket and socket creation
+ok 202 - cancel while loading worklet prevents ticket and socket creation
+  ---
+  duration_ms: 4.554833
+  type: 'test'
+  ...
+# Subtest: connection timeout stops tracks and detaches late socket handlers
+ok 203 - connection timeout stops tracks and detaches late socket handlers
+  ---
+  duration_ms: 20.607334
+  type: 'test'
+  ...
+# Subtest: ready clears connection timeout and malformed messages close cleanly
+ok 204 - ready clears connection timeout and malformed messages close cleanly
+  ---
+  duration_ms: 6.270542
+  type: 'test'
+  ...
+# Subtest: odd-length PCM is reported as an error, never a silent stuck microphone
+ok 205 - odd-length PCM is reported as an error, never a silent stuck microphone
+  ---
+  duration_ms: 1.234125
+  type: 'test'
+  ...
+# Subtest: provider completion waits for local playback drain; interrupt drops queued completion
+ok 206 - provider completion waits for local playback drain; interrupt drops queued completion
+  ---
+  duration_ms: 2.388708
+  type: 'test'
+  ...
+# Subtest: a fast provider can queue a complete meeting answer; excessive backlog fails explicitly
+ok 207 - a fast provider can queue a complete meeting answer; excessive backlog fails explicitly
+  ---
+  duration_ms: 292.095375
+  type: 'test'
+  ...
+# Subtest: text connects and completes without any audio context, capture, or playback
+ok 208 - text connects and completes without any audio context, capture, or playback
+  ---
+  duration_ms: 0.631458
+  type: 'test'
+  ...
+# Subtest: text to voice and back reuses one socket and ticket, stopping microphone tracks
+ok 209 - text to voice and back reuses one socket and ticket, stopping microphone tracks
+  ---
+  duration_ms: 0.5875
+  type: 'test'
+  ...
+# Subtest: closing a text connection rejects pending submission and cannot send after ready
+ok 210 - closing a text connection rejects pending submission and cannot send after ready
+  ---
+  duration_ms: 0.319542
+  type: 'test'
+  ...
+# Subtest: text output mode never plays unexpected provider audio
+ok 211 - text output mode never plays unexpected provider audio
+  ---
+  duration_ms: 0.238209
+  type: 'test'
+  ...
+# Subtest: speech captured while connecting is sent intact once ready
+ok 212 - speech captured while connecting is sent intact once ready
+  ---
+  duration_ms: 1.261959
+  type: 'test'
+  ...
+# Subtest: pre-ready audio has a five-second bound and never uploads a truncated question
+ok 213 - pre-ready audio has a five-second bound and never uploads a truncated question
+  ---
+  duration_ms: 0.436625
+  type: 'test'
+  ...
+# Subtest: network loss releases capture and old frames cannot pollute an explicit new connection
+ok 214 - network loss releases capture and old frames cannot pollute an explicit new connection
+  ---
+  duration_ms: 0.3845
+  type: 'test'
+  ...
+# Subtest: selected task and conversation identifiers reach the text handshake without microphone access
+ok 215 - selected task and conversation identifiers reach the text handshake without microphone access
+  ---
+  duration_ms: 0.242458
+  type: 'test'
+  ...
+# Subtest: waits for local slot handover without creating duplicate provider sessions
+ok 216 - waits for local slot handover without creating duplicate provider sessions
+  ---
+  duration_ms: 2.051458
+  type: 'test'
+  ...
+# Subtest: does not retry connection or permission failures
+ok 217 - does not retry connection or permission failures
+  ---
+  duration_ms: 8.329875
+  type: 'test'
+  ...
+# Subtest: stopping during handover prevents another ticket request
+ok 218 - stopping during handover prevents another ticket request
+  ---
+  duration_ms: 0.193334
+  type: 'test'
+  ...
+# Subtest: another active conversation cannot cause unbounded polling
+ok 219 - another active conversation cannot cause unbounded polling
+  ---
+  duration_ms: 0.477667
+  type: 'test'
+  ...
+# Subtest: stale native timestamps cannot produce a false zero-latency success
+ok 220 - stale native timestamps cannot produce a false zero-latency success
+  ---
+  duration_ms: 13.667959
+  type: 'test'
+  ...
+# Subtest: an enqueued buffer is not playback; output timestamp must pass its first sample
+ok 221 - an enqueued buffer is not playback; output timestamp must pass its first sample
+  ---
+  duration_ms: 2.615083
+  type: 'test'
+  ...
+# Subtest: suspended audio never counts as a reply and fallback is explicitly an estimate
+ok 222 - suspended audio never counts as a reply and fallback is explicitly an estimate
+  ---
+  duration_ms: 0.320208
+  type: 'test'
+  ...
+# Subtest: capture endpoint excludes following silence and unknown boundaries stay labelled
+ok 223 - capture endpoint excludes following silence and unknown boundaries stay labelled
+  ---
+  duration_ms: 2.618167
+  type: 'test'
+  ...
+# Subtest: frames are bounded to720p without distorting portrait or landscape
+ok 224 - frames are bounded to720p without distorting portrait or landscape
+  ---
+  duration_ms: 1.360625
+  type: 'test'
+  ...
+# Subtest: JPEG encoding reduces quality to fit the provider frame limit
+ok 225 - JPEG encoding reduces quality to fit the provider frame limit
+  ---
+  duration_ms: 0.190209
+  type: 'test'
+  ...
+# Subtest: ending voice while the screen chooser is pending stops late tracks and sends no frame
+ok 226 - ending voice while the screen chooser is pending stops late tracks and sends no frame
+  ---
+  duration_ms: 158.37075
+  type: 'test'
+  ...
+# Subtest: a selected image decoded after disconnect is closed without sending
+ok 227 - a selected image decoded after disconnect is closed without sending
+  ---
+  duration_ms: 0.172333
+  type: 'test'
+  ...
+# Subtest: freeze is explicit and deduped; editable snapshot survives live revisions and ends voice only at handoff
+ok 228 - freeze is explicit and deduped; editable snapshot survives live revisions and ends voice only at handoff
+  ---
+  duration_ms: 126.190167
+  type: 'test'
+  ...
+# Subtest: failed freeze keeps conversation and retries identical segment/revision; dismissal never starts Work
+ok 229 - failed freeze keeps conversation and retries identical segment/revision; dismissal never starts Work
+  ---
+  duration_ms: 55.26825
+  type: 'test'
+  ...
+# Subtest: paired owner loss, epoch invalidation and unmount reject late freeze responses
+ok 230 - paired owner loss, epoch invalidation and unmount reject late freeze responses
+  ---
+  duration_ms: 175.278708
+  type: 'test'
+  ...
+# Subtest: actual composer initialization defaults only voice to deterministic and retains no scopes
+ok 231 - actual composer initialization defaults only voice to deterministic and retains no scopes
+  ---
+  duration_ms: 216.344625
+  type: 'test'
+  ...
+# Subtest: stale selection callback cannot freeze an old input in a new owner epoch
+ok 232 - stale selection callback cannot freeze an old input in a new owner epoch
+  ---
+  duration_ms: 25.427417
+  type: 'test'
+  ...
+# Subtest: reviewed Start callback cannot dispatch an old goal across an owner epoch change
+ok 233 - reviewed Start callback cannot dispatch an old goal across an owner epoch change
+  ---
+  duration_ms: 41.059166
+  type: 'test'
+  ...
+# Subtest: a consumed voice handoff keeps the Work composer mounted until privacy is invalidated
+ok 234 - a consumed voice handoff keeps the Work composer mounted until privacy is invalidated
+  ---
+  duration_ms: 8.891917
+  type: 'test'
+  ...
+# Subtest: actual voice markup is bilingual, escaped, unselected and honest about incomplete transcription
+ok 235 - actual voice markup is bilingual, escaped, unselected and honest about incomplete transcription
+  ---
+  duration_ms: 6.955041
+  type: 'test'
+  ...
+# Subtest: protocol-fake normalized inputs stay separate and never infer Gemini finality
+ok 236 - protocol-fake normalized inputs stay separate and never infer Gemini finality
+  ---
+  duration_ms: 1.805375
+  type: 'test'
+  ...
+# Subtest: assistant, tools, raw deltas, completion and stale or foreign events never become inputs
+ok 237 - assistant, tools, raw deltas, completion and stale or foreign events never become inputs
+  ---
+  duration_ms: 0.412167
+  type: 'test'
+  ...
+# Subtest: blank and oversize input fail clearly without creating a truncated goal
+ok 238 - blank and oversize input fail clearly without creating a truncated goal
+  ---
+  duration_ms: 0.658375
+  type: 'test'
+  ...
+# Subtest: input storage is bounded by eight records and 32KiB UTF-8, never concatenated
+ok 239 - input storage is bounded by eight records and 32KiB UTF-8, never concatenated
+  ---
+  duration_ms: 2.247916
+  type: 'test'
+  ...
+# Subtest: freeze receipt must match the exact selected snapshot and have a live expiry
+ok 240 - freeze receipt must match the exact selected snapshot and have a live expiry
+  ---
+  duration_ms: 0.222542
+  type: 'test'
+  ...
+# Subtest: voice origin adds no evidence, retention, sharing or provider permission
+ok 241 - voice origin adds no evidence, retention, sharing or provider permission
+  ---
+  duration_ms: 0.286875
+  type: 'test'
+  ...
+# Subtest: Unicode voice goals and Work admission agree; expired origins never become typed work
+ok 242 - Unicode voice goals and Work admission agree; expired origins never become typed work
+  ---
+  duration_ms: 0.232916
+  type: 'test'
+  ...
+# Subtest: bilingual actual permanent confirmation gives exact target/counts/loss/retained receipts without sending
+ok 243 - bilingual actual permanent confirmation gives exact target/counts/loss/retained receipts without sending
+  ---
+  duration_ms: 15.3775
+  type: 'test'
+  ...
+# Subtest: Trash and Restore bilingual confirmation expressly preserve capacity and never restart
+ok 244 - Trash and Restore bilingual confirmation expressly preserve capacity and never restart
+  ---
+  duration_ms: 1.661292
+  type: 'test'
+  ...
+# Subtest: capacity markup uses explicit retained aggregate despite Trash omission, lifetime full and unknown states
+ok 245 - capacity markup uses explicit retained aggregate despite Trash omission, lifetime full and unknown states
+  ---
+  duration_ms: 2.155333
+  type: 'test'
+  ...
+# Subtest: all lifecycle errors explain actionable bounded recovery in English and Chinese
+ok 246 - all lifecycle errors explain actionable bounded recovery in English and Chinese
+  ---
+  duration_ms: 0.876542
+  type: 'test'
+  ...
+# Subtest: maintenance usage is exact and never guesses empty from missing/unknown/over-limit metadata
+ok 247 - maintenance usage is exact and never guesses empty from missing/unknown/over-limit metadata
+  ---
+  duration_ms: 0.9485
+  type: 'test'
+  ...
+# Subtest: exact previews pin action identity versions counts retained effects and strict purge-only consent
+ok 248 - exact previews pin action identity versions counts retained effects and strict purge-only consent
+  ---
+  duration_ms: 2.883667
+  type: 'test'
+  ...
+# Subtest: safe result union rejects labels or fake acknowledgment in opaque removed dispositions
+ok 249 - safe result union rejects labels or fake acknowledgment in opaque removed dispositions
+  ---
+  duration_ms: 0.679917
+  type: 'test'
+  ...
+# Subtest: original mutation queue validates before clearing and never replaces unknown body/key
+ok 250 - original mutation queue validates before clearing and never replaces unknown body/key
+  ---
+  duration_ms: 4.406417
+  type: 'test'
+  ...
+# Subtest: production hook only reads on opening; cancelled confirmation and captured final button write nothing
+ok 251 - production hook only reads on opening; cancelled confirmation and captured final button write nothing
+  ---
+  duration_ms: 214.879583
+  type: 'test'
+  ...
+# Subtest: production final purge requires strict final click and duplicate click produces one exact mutation
+ok 252 - production final purge requires strict final click and duplicate click produces one exact mutation
+  ---
+  duration_ms: 41.701209
+  type: 'test'
+  ...
+# Subtest: production unknown-result recovery preserves exact operation through read refresh and expired preview
+ok 253 - production unknown-result recovery preserves exact operation through read refresh and expired preview
+  ---
+  duration_ms: 46.227916
+  type: 'test'
+  ...
+# Subtest: freshness and snapshot transitions immediately mask confirmation and fence old callbacks
+ok 254 - freshness and snapshot transitions immediately mask confirmation and fence old callbacks
+  ---
+  duration_ms: 41.551875
+  type: 'test'
+  ...
+# Subtest: privacy logout and offline events synchronously fence captured confirmation and clear private state
+ok 255 - privacy logout and offline events synchronously fence captured confirmation and clear private state
+  ---
+  duration_ms: 49.870292
+  type: 'test'
+  ...
+# Subtest: reordered actual authority denial invalidates shared fence even after a newer read succeeds
+ok 256 - reordered actual authority denial invalidates shared fence even after a newer read succeeds
+  ---
+  duration_ms: 11.492917
+  type: 'test'
+  ...
+# Subtest: postcommit authority denial never spawns a replacement operation and unmounted callbacks cannot fetch
+ok 257 - postcommit authority denial never spawns a replacement operation and unmounted callbacks cannot fetch
+  ---
+  duration_ms: 7.663875
+  type: 'test'
+  ...
+# Subtest: production Trash and Restore final clicks omit purge consent and never call resume
+ok 258 - production Trash and Restore final clicks omit purge consent and never call resume
+  ---
+  duration_ms: 13.583917
+  type: 'test'
+  ...
+# Subtest: production rejects changed impact inventory and expired preview without mutation
+ok 259 - production rejects changed impact inventory and expired preview without mutation
+  ---
+  duration_ms: 10.065541
+  type: 'test'
+  ...
+# Subtest: late purge response after session invalidation cannot publish success or private content
+ok 260 - late purge response after session invalidation cannot publish success or private content
+  ---
+  duration_ms: 13.512666
+  type: 'test'
+  ...
+# Subtest: the default companion stays inside its sidebar space at normal and short heights
+ok 261 - the default companion stays inside its sidebar space at normal and short heights
+  ---
+  duration_ms: 1.148041
+  type: 'test'
+  ...
+# Subtest: hiding the sidebar companion keeps its recall control clear of the chat button
+ok 262 - hiding the sidebar companion keeps its recall control clear of the chat button
+  ---
+  duration_ms: 0.135625
+  type: 'test'
+  ...
+# Subtest: an unavailable sidebar uses the existing floating preference without changing it
+ok 263 - an unavailable sidebar uses the existing floating preference without changing it
+  ---
+  duration_ms: 1.4825
+  type: 'test'
+  ...
+# Subtest: one opening reads only capacity; explicit refresh is independent and last request wins
+ok 264 - one opening reads only capacity; explicit refresh is independent and last request wins
+  ---
+  duration_ms: 153.053916
+  type: 'test'
+  ...
+# Subtest: all privacy/session/offline events fence before rerender and old callbacks cannot request
+ok 265 - all privacy/session/offline events fence before rerender and old callbacks cannot request
+  ---
+  duration_ms: 93.431834
+  type: 'test'
+  ...
+# Subtest: hidden mount, stale and A-B-A epochs, plus unmount reject late observations
+ok 266 - hidden mount, stale and A-B-A epochs, plus unmount reject late observations
+  ---
+  duration_ms: 41.027417
+  type: 'test'
+  ...
+# Subtest: malformed dimensions never turn unknown into empty or partial capacity
+ok 267 - malformed dimensions never turn unknown into empty or partial capacity
+  ---
+  duration_ms: 0.297291
+  type: 'test'
+  ...
+# Subtest: production upload callbacks preserve selected draft and consent through capacity full/unavailable
+ok 268 - production upload callbacks preserve selected draft and consent through capacity full/unavailable
+  ---
+  duration_ms: 44.951709
+  type: 'test'
+  ...
+# Subtest: actual access denial fences all shared private views, including reordered denial; ordinary failure does not
+ok 269 - actual access denial fences all shared private views, including reordered denial; ordinary failure does not
+  ---
+  duration_ms: 113.40975
+  type: 'test'
+  ...
+# Subtest: actual bilingual retained-capacity rendering states known full unknown and over-limit honestly
+ok 270 - actual bilingual retained-capacity rendering states known full unknown and over-limit honestly
+  ---
+  duration_ms: 10.910625
+  type: 'test'
+  ...
+# Subtest: storage disclosure starts collapsed with counts and warnings visible; byte labels are readable and exact when rounded
+ok 271 - storage disclosure starts collapsed with counts and warnings visible; byte labels are readable and exact when rounded
+  ---
+  duration_ms: 1.911959
+  type: 'test'
+  ...
+# Subtest: bounded retained Work list scrolls without flex-shrinking its grid cards
+ok 272 - bounded retained Work list scrolls without flex-shrinking its grid cards
+  ---
+  duration_ms: 0.961625
+  type: 'test'
+  ...
+# Subtest: retained Work goal wrapping and two-line clamp remain scoped to its card
+ok 273 - retained Work goal wrapping and two-line clamp remain scoped to its card
+  ---
+  duration_ms: 0.1885
+  type: 'test'
+  ...
+# Subtest: production retained list keeps distinct long goals, status and fallback in EN/ZH
+ok 274 - production retained list keeps distinct long goals, status and fallback in EN/ZH
+  ---
+  duration_ms: 42.837375
+  type: 'test'
+  ...
+# Subtest: production retained card selection opens only a different exact run
+ok 275 - production retained card selection opens only a different exact run
+  ---
+  duration_ms: 4.603625
+  type: 'test'
+  ...
+# Subtest: actual results render separate choices, honest relationships and safe text in both languages
+ok 276 - actual results render separate choices, honest relationships and safe text in both languages
+  ---
+  duration_ms: 19.209667
+  type: 'test'
+  ...
+# Subtest: actual result rendering disables all choices while exact opening is pending
+ok 277 - actual result rendering disables all choices while exact opening is pending
+  ---
+  duration_ms: 0.74425
+  type: 'test'
+  ...
+# Subtest: actual empty private search form states its local scope and has no automatic preview
+ok 278 - actual empty private search form states its local scope and has no automatic preview
+  ---
+  duration_ms: 1.317417
+  type: 'test'
+  ...
+# Subtest: actual stale search disables query, filter and submit in both languages
+ok 279 - actual stale search disables query, filter and submit in both languages
+  ---
+  duration_ms: 0.675333
+  type: 'test'
+  ...
+# Subtest: search errors give explicit refresh/record/privacy limits in English and Chinese
+ok 280 - search errors give explicit refresh/record/privacy limits in English and Chinese
+  ---
+  duration_ms: 0.291416
+  type: 'test'
+  ...
+# Subtest: input is explicit, literal, bounded and never includes grants or operation IDs
+ok 281 - input is explicit, literal, bounded and never includes grants or operation IDs
+  ---
+  duration_ms: 1.543875
+  type: 'test'
+  ...
+# Subtest: compact pages reject malformed, mixed, duplicate, oversized and changed snapshots
+ok 282 - compact pages reject malformed, mixed, duplicate, oversized and changed snapshots
+  ---
+  duration_ms: 0.404833
+  type: 'test'
+  ...
+# Subtest: same names stay distinct exact choices and paths cannot change endpoint scope
+ok 283 - same names stay distinct exact choices and paths cannot change endpoint scope
+  ---
+  duration_ms: 0.080708
+  type: 'test'
+  ...
+# Subtest: only exact detail records become previews; search hits and wrong IDs are rejected
+ok 284 - only exact detail records become previews; search hits and wrong IDs are rejected
+  ---
+  duration_ms: 0.1355
+  type: 'test'
+  ...
+# Subtest: sequence gate rejects reordered requests, hide/show, identity changes and cancellation
+ok 285 - sequence gate rejects reordered requests, hide/show, identity changes and cancellation
+  ---
+  duration_ms: 0.10075
+  type: 'test'
+  ...
+# Subtest: actual search hook never reads on mount, edits or filter change; submit POST has no mutation key
+ok 286 - actual search hook never reads on mount, edits or filter change; submit POST has no mutation key
+  ---
+  duration_ms: 46.333041
+  type: 'test'
+  ...
+# Subtest: actual query B remains visible when query A completes later
+ok 287 - actual query B remains visible when query A completes later
+  ---
+  duration_ms: 17.723583
+  type: 'test'
+  ...
+# Subtest: actual exact detail selection uses a bare record, no start/resume/download/grant calls
+ok 288 - actual exact detail selection uses a bare record, no start/resume/download/grant calls
+  ---
+  duration_ms: 13.839542
+  type: 'test'
+  ...
+# Subtest: a newer selection and close clear older exact-detail promises
+ok 289 - a newer selection and close clear older exact-detail promises
+  ---
+  duration_ms: 13.937417
+  type: 'test'
+  ...
+# Subtest: stale/hide/identity transitions synchronously mask query and results and reject late file details
+ok 290 - stale/hide/identity transitions synchronously mask query and results and reject late file details
+  ---
+  duration_ms: 26.492
+  type: 'test'
+  ...
+# Subtest: session and offline events fence immediately before any rerender
+ok 291 - session and offline events fence immediately before any rerender
+  ---
+  duration_ms: 16.889041
+  type: 'test'
+  ...
+# Subtest: pagination is explicit and bound to submitted filter/query/snapshot; conflicts require new submit
+ok 292 - pagination is explicit and bound to submitted filter/query/snapshot; conflicts require new submit
+  ---
+  duration_ms: 7.688375
+  type: 'test'
+  ...
+# Subtest: late privacy denial clears newer search results rather than reviving older metadata
+ok 293 - late privacy denial clears newer search results rather than reviving older metadata
+  ---
+  duration_ms: 5.347167
+  type: 'test'
+  ...
+# Subtest: search integration retains navigation guards and the private/metadata split
+ok 294 - search integration retains navigation guards and the private/metadata split
+  ---
+  duration_ms: 0.542708
+  type: 'test'
+  ...
+# Subtest: previous page retains the exact snapshot and never restarts implicitly
+ok 295 - previous page retains the exact snapshot and never restarts implicitly
+  ---
+  duration_ms: 5.172333
+  type: 'test'
+  ...
+# Subtest: run and source choices read their exact detail endpoints before handing off
+ok 296 - run and source choices read their exact detail endpoints before handing off
+  ---
+  duration_ms: 10.556666
+  type: 'test'
+  ...
+# Subtest: audio worklet retains fractional phase across 128-sample blocks
+ok 297 - audio worklet retains fractional phase across 128-sample blocks
+  ---
+  duration_ms: 57.582666
+  type: 'test'
+  ...
+# Subtest: busy duration merges overlaps, clips to day, and ignores completed events
+ok 298 - busy duration merges overlaps, clips to day, and ignores completed events
+  ---
+  duration_ms: 102.97125
+  type: 'test'
+  ...
+# Subtest: lunar day is computed in the selected calendar timezone
+ok 299 - lunar day is computed in the selected calendar timezone
+  ---
+  duration_ms: 1.502958
+  type: 'test'
+  ...
+# Subtest: a stale posture connection masks private content in a previously loaded display snapshot
+ok 300 - a stale posture connection masks private content in a previously loaded display snapshot
+  ---
+  duration_ms: 0.129667
+  type: 'test'
+  ...
+1..300
+# tests 300
+# suites 0
+# pass 300
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3880.157459

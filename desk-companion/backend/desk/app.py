@@ -34,6 +34,18 @@ from .google_calendar import google_routes
 from .phone import phone_snapshot
 from .tasks import task_routes
 from .jobs import job_routes
+from .personal_context import personal_routes
+from .routines import routine_routes
+from .sources import sources_routes
+from .artifacts import artifact_routes
+from .agent_runs import agent_run_routes
+from .browser_jobs import browser_routes
+from .connector_routes import connector_routes
+from .work_search import work_search_routes
+from .responsibilities import responsibility_routes
+from .work_capacity import work_capacity_routes
+from .public_captures import public_capture_routes
+from .connectors.contracts import load_connector_configs
 from .backups import CHECK_INTERVAL_SECONDS
 from .diagnostics import diagnostics_html, diagnostics_report
 from .log import configure, log_event, redact_text
@@ -46,28 +58,57 @@ from .store import DomainError, Store
 COOKIE = "desk_companion_session"
 
 
-def create_app(directory=None, clock=None, password=None, scheduler=True, allow_replay=None):
+def create_app(
+    directory=None,
+    clock=None,
+    password=None,
+    scheduler=True,
+    allow_replay=None,
+    connector_configs=None,
+    allow_watch_retention_migration=False,
+    allow_public_capture_migration=False,
+    public_capture_enabled=None,
+):
+    if public_capture_enabled is not None and type(public_capture_enabled) is not bool:
+        raise DomainError("CAPTURE_CAPABILITY_INVALID", 422)
     runtime = (
         directory
         or os.environ.get("DESK_RUNTIME_DIR")
         or Path(__file__).resolve().parents[2] / ".runtime"
     )
     configure()
-    store = Store(runtime, clock=clock, password=password)
+    store = Store(
+        runtime,
+        clock=clock,
+        password=password,
+        allow_watch_retention_migration=allow_watch_retention_migration,
+        allow_public_capture_migration=allow_public_capture_migration,
+    )
+    if connector_configs is None:
+        config_path = os.environ.get("DESK_MCP_CONFIG_PATH")
+        connector_configs = load_connector_configs(config_path) if config_path else ()
     services = Runtime(
         store,
         allow_replay=os.environ.get("DESK_ALLOW_REPLAY") == "1"
         if allow_replay is None
         else allow_replay,
+        connector_configs=connector_configs,
+        public_capture_enabled=os.environ.get("DESK_PUBLIC_CAPTURE_ENABLED") == "1"
+        if public_capture_enabled is None
+        else public_capture_enabled,
     )
     attempts = defaultdict(deque)
 
     schedule = (
-        ("rules", services.tick, 1),
-        ("public_data", services.data.poll_weather, 10),
-        ("task_advice", services.text_ai.enrich_one, 30),
-        ("computer_jobs", services.jobs.run_one, 0.5),
-        ("local_backup", services.backups.tick, CHECK_INTERVAL_SECONDS),
+        ("rules", lambda: services.tick(), 1),
+        ("public_data", lambda: services.data.poll_weather(), 10),
+        ("task_advice", lambda: services.text_ai.enrich_one(), 30),
+        ("computer_jobs", lambda: services.jobs.run_one(), 0.5),
+        ("responsibilities", lambda: services.responsibilities.advance(), 1),
+        ("agent_runs", lambda: services.agent_runs.advance_one(), 0.5),
+        ("browser_jobs", lambda: services.browser_jobs.advance_one(), 0.5),
+        ("connectors", lambda: services.connectors.advance_one(), 0.5),
+        ("local_backup", lambda: services.backups.tick(), CHECK_INTERVAL_SECONDS),
     )
 
     @asynccontextmanager
@@ -83,18 +124,37 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
                     services.worker_health[name] = "retrying_after_error"
                 await asyncio.sleep(interval)
 
+        if scheduler:
+            services.public_captures.start()
         workers = (
-            [asyncio.create_task(worker(name, action, interval)) for name, action, interval in schedule]
+            [
+                asyncio.create_task(worker(name, action, interval))
+                for name, action, interval in schedule
+            ]
             if scheduler
             else []
         )
         try:
             yield
         finally:
-            services.jobs.shutdown()
+            failure = None
+            for stop in (
+                services.public_captures.stop,
+                services.agent_runs.shutdown,
+                services.browser_jobs.shutdown,
+                services.connectors.shutdown,
+                services.jobs.shutdown,
+            ):
+                try:
+                    stop()
+                except BaseException as error:
+                    if failure is None:
+                        failure = error
             for running in workers:
                 running.cancel()
             await asyncio.gather(*workers, return_exceptions=True)
+            if failure is not None:
+                raise failure
 
     app = FastAPI(title="Desk Companion", version="0.1.0", lifespan=lifespan)
     app.state.store = store
@@ -214,6 +274,8 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
         queue.append(now)
 
     def operation_id(x_operation_id: str = Header(default="")):
+        if x_operation_id.startswith("assistant-confirm/"):
+            raise DomainError("RESERVED_OPERATION_ID", 422)
         return x_operation_id
 
     @app.get("/api/health")
@@ -440,6 +502,17 @@ def create_app(directory=None, clock=None, password=None, scheduler=True, allow_
     app.include_router(profile_routes(services, owner, operation_id))
     app.include_router(persona_routes(services, owner, operation_id))
     app.include_router(assistant_routes(services, authenticated, operation_id))
+    app.include_router(personal_routes(services, owner, operation_id))
+    app.include_router(routine_routes(services, owner, operation_id))
+    app.include_router(responsibility_routes(services, owner, operation_id))
+    app.include_router(sources_routes(services, owner, operation_id))
+    app.include_router(artifact_routes(services, owner, operation_id))
+    app.include_router(agent_run_routes(services, owner, operation_id))
+    app.include_router(browser_routes(services, owner, operation_id))
+    app.include_router(connector_routes(services, owner, operation_id))
+    app.include_router(work_search_routes(services, owner))
+    app.include_router(work_capacity_routes(services, owner))
+    app.include_router(public_capture_routes(services, owner, operation_id))
     app.include_router(voice_routes(services, authenticated, agent, allowed_origins, limit))
     app.include_router(exchange_routes(services, authenticated, owner, operation_id))
     app.include_router(google_routes(services, owner, operation_id))

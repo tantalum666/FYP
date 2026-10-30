@@ -1,0 +1,28 @@
+{
+  "baseline_commit": "18d205607d5c2eb9f3f23143bbf8eacbc29b7077",
+  "synthetic_only": true,
+  "before_schema": 1,
+  "after_schema": 3,
+  "original_tables_unchanged": 45,
+  "changed_original_tables": [],
+  "migrations": [
+    {
+      "script": "migrate_watch_retention.py",
+      "exit_code": 0,
+      "stdout": "Watch retention schema verified. No app was started and no watch history was removed.\nThe flag acknowledges your backup/process checks; this command did not perform or verify them.\n"
+    },
+    {
+      "script": "migrate_public_capture.py",
+      "exit_code": 0,
+      "stdout": "Public capture schema verified. No app was started and no capture history was removed.\nThe flag acknowledges your backup/process checks; this command did not perform or verify them.\n"
+    }
+  ],
+  "readback": {
+    "schema_version": 3,
+    "canonical_visible": true,
+    "retained_work_visible": true,
+    "fact_version": 3,
+    "permission_mode": "full",
+    "job_state": "review"
+  }
+}

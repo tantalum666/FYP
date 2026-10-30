@@ -603,6 +603,8 @@ class JobService:
                     return
                 job_id, request, run_id = row["id"], json.loads(row["request"]), uuid4().hex
                 try:
+                    if hashlib.sha256(encode(request).encode()).hexdigest() != row["intent_hash"]:
+                        raise DomainError("JOB_INTENT_CHANGED", 409)
                     self._task_current(conn, request)
                     if not row["approved_by"]:
                         raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
@@ -987,27 +989,31 @@ def job_routes(runtime, owner, operation_id):
     # Pairing and model tool access do not grant computer execution approval.
     router = APIRouter(prefix="/api/computer", dependencies=[Depends(owner)])
 
-    @router.get("/sources")
+    def visible(principal=Depends(owner)):
+        runtime.personal_context.require_visible(principal)
+        return principal
+
+    @router.get("/sources", dependencies=[Depends(visible)])
     def sources():
         return runtime.jobs.applications.sources.listing()
 
-    @router.post("/sources/read")
+    @router.post("/sources/read", dependencies=[Depends(visible)])
     def source(payload: SourceQuery):
         return runtime.jobs.applications.sources.content(payload.source_id)
 
-    @router.post("/application-jobs")
+    @router.post("/application-jobs", dependencies=[Depends(visible)])
     def application_prepare(payload: ApplicationJobInput, key=Depends(operation_id)):
         return runtime.jobs.prepare(payload, key)
 
-    @router.get("/application-state/{task_id}")
+    @router.get("/application-state/{task_id}", dependencies=[Depends(visible)])
     def application_state(task_id: str = ApiPath(pattern=r"^[a-f0-9]{32}$")):
         return runtime.jobs.application_state(ApplicationStateQuery(task_id=task_id).task_id)
 
-    @router.get("/jobs/{job_id}/readback")
+    @router.get("/jobs/{job_id}/readback", dependencies=[Depends(visible)])
     def readback(job_id: str):
         return runtime.jobs.application_readback(job_id)
 
-    @router.get("/jobs/{job_id}/artifact")
+    @router.get("/jobs/{job_id}/artifact", dependencies=[Depends(visible)])
     def artifact(job_id: str):
         filename, body = runtime.jobs.application_download(job_id)
         media = {
@@ -1026,11 +1032,11 @@ def job_routes(runtime, owner, operation_id):
             },
         )
 
-    @router.get("/folder")
+    @router.get("/folder", dependencies=[Depends(visible)])
     def folder_status():
         return runtime.jobs.folder_status()
 
-    @router.post("/folder")
+    @router.post("/folder", dependencies=[Depends(visible)])
     def name_folder(payload: FolderNaming, key=Depends(operation_id)):
         return runtime.jobs.set_folder(payload, key)
 
@@ -1039,18 +1045,25 @@ def job_routes(runtime, owner, operation_id):
         return runtime.jobs.clear_folder(key)
 
     @router.get("/jobs")
-    def listing(task_id: str | None = None):
-        return {**runtime.jobs.capabilities(), "jobs": runtime.jobs.listing(task_id, review=True)}
+    def listing(task_id: str | None = None, principal=Depends(owner)):
+        return {
+            **runtime.jobs.capabilities(),
+            "jobs": runtime.jobs.listing(
+                task_id, review=runtime.personal_context.visible(principal)
+            ),
+        }
 
-    @router.post("/jobs")
+    @router.post("/jobs", dependencies=[Depends(visible)])
     def prepare(payload: JobInput, key=Depends(operation_id)):
         return runtime.jobs.prepare(payload, key)
 
     @router.get("/jobs/{job_id}")
-    def detail(job_id: str):
-        return {"job": runtime.jobs.detail(job_id, review=True)}
+    def detail(job_id: str, principal=Depends(owner)):
+        return {
+            "job": runtime.jobs.detail(job_id, review=runtime.personal_context.visible(principal))
+        }
 
-    @router.post("/jobs/{job_id}/approve")
+    @router.post("/jobs/{job_id}/approve", dependencies=[Depends(visible)])
     def approve(job_id: str, payload: JobApproval, key=Depends(operation_id)):
         return runtime.jobs.approve(job_id, payload, key)
 

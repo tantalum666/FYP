@@ -1,5 +1,6 @@
 # Desk Companion 操作与安装说明
 
+2026-10-31：**已有数据库先按[显式迁移步骤](pr5-integration.md#store-migration)升级，再启动新版。**正常启动拒绝旧 schema 1／2；原 PR5 personal_memories 另有转换。先停所有服务并独立核对备份，命令不会代做这两步。本轮只验证了虚构副本。
 2026-10-29接续：网页／App共用对话内操作卡片和Ask first／Full access设置；手机管理改为有返回键的整页导航。[维护契约](software-maintenance.md)／[本轮QA](../../output/qa/2026-10-29-assistant-permissions/verification.md)。本机免登录会话失效后重新建立会话并保留输入，不自动重试未确认写入。
 
 <!-- FYP-CONTEXT-20261027 -->

@@ -1,5 +1,6 @@
 # Group 2 · Software delivery gates
 
+2026-10-31：当前具备[持久 Work、选定变化跟踪与恢复](pr5-integration.md)，网页／手机共享入口与操作卡片。真实邮箱监控、私人账号连接、购物／出票和真人语音自主复杂任务仍未验收；本地协议／脚本／界面结果分别记录。
 30 October 2026. This is an acceptance map for the current Desk Companion, not a new feature wish list or a completion percentage. The accepted journey remains [task → permission → execution → independent result → later continuation](../../planning/2026-10-06/personal-agent-discussion-and-next-steps.md). This semester prioritizes software and AI; Luwu/Pi integration is best-effort and currently paused.
 
 An implemented module, a passing local test, a real provider trial, native-device acceptance and a completed deployment are different states. The [current OpenAI QA](../../output/qa/2026-10-29-openai-realtime/verification.md) runs locally with explicitly authorized, bounded provider calls; the [current application QA](../../output/qa/2026-10-30-application-execution/verification.md) runs real apps with a scripted controller and no model calls. Qwen is the measured baseline; other candidates remain open.

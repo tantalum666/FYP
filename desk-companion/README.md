@@ -1,5 +1,6 @@
 # Desk Companion · Group 2
 
+2026-10-31：新增[持久 Work 与兼容整合](docs/pr5-integration.md)，使用当前事实／事务／权限／应用执行服务；入口位于 Tasks。旧运行目录需要显式迁移，实际证据及发布状态见[QA](../output/qa/2026-10-31-pr5-repair/verification.md)。
 <!-- FYP-CONTEXT-20261027 -->
 > 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../START_HERE_NEXT_CHAT.md)。
 <!-- /FYP-CONTEXT-20261027 -->

@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { request, errorText } from "./api";
-import { diagnosticsLines, type DiagnosticsReport } from "./diagnostics";
+import { diagnosticsLines, type DiagnosticsReport } from "./diagnosticsData";
 import type { Language, Translate } from "./types";
 
 export function DiagnosticsPanel({

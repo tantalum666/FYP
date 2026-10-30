@@ -268,7 +268,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
           {t("New fact", "新事实")}
           <textarea
             value={body}
-            maxLength={500}
+            maxLength={1000}
             rows={3}
             disabled={busy || !!editing}
             onChange={(event) => setBody(event.target.value)}

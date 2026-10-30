@@ -1,0 +1,70 @@
+.watch-workspace {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+.watch-list {
+  display: grid;
+  gap: 0.75rem;
+}
+.watch-review {
+  border: 1px solid var(--border, #d7dee8);
+  border-radius: 12px;
+  padding: 1rem;
+  overflow-wrap: anywhere;
+}
+.watch-review small,
+.watch-form small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.watch-form,
+.watch-form > fieldset {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+.watch-form fieldset {
+  min-width: 0;
+}
+.watch-form label:not(.agent-check) {
+  display: grid;
+  gap: 0.4rem;
+}
+.watch-form input:not([type="checkbox"]) {
+  max-width: 100%;
+  min-width: 0;
+}
+.watch-form .agent-check {
+  margin: 0.5rem 0;
+}
+.watch-maintenance {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+  border-top: 2px solid var(--border, #d7dee8);
+  padding-top: 1rem;
+}
+.watch-maintenance-row {
+  text-align: start;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.watch-retention-confirm {
+  border: 2px solid var(--border, #d7dee8);
+  padding: 1rem;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+.watch-retention-confirm.irreversible {
+  border-color: #b34d40;
+}
+.watch-retention-confirm .workspace-inline-actions {
+  margin-top: 1rem;
+}
+.watch-retention-confirm button {
+  white-space: normal;
+}
+.watch-usage {
+  overflow-wrap: anywhere;
+}

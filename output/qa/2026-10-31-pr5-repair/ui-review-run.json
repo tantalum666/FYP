@@ -1,0 +1,108 @@
+{
+  "synthetic_fixture": true,
+  "request": {
+    "goal": "Record the reviewed integration result after owner approval.",
+    "mode": "deterministic",
+    "task_ids": [
+      "e309e80332ee4a70aa3e099359debc63"
+    ],
+    "scope_revision": "b8903fbe9be4c5feba72dd16040d2984d53a8a0669f31afcd6205d0b8552c59f",
+    "retain": true,
+    "mutation_requests": [
+      {
+        "tool": "task_change_draft",
+        "arguments": {
+          "task_id": "e309e80332ee4a70aa3e099359debc63",
+          "change": {
+            "action": "note",
+            "expected_version": 1,
+            "note": "Reviewed the Markdown report and CSV register in the local integration test."
+          }
+        },
+        "required": true
+      }
+    ]
+  },
+  "response": {
+    "run": {
+      "goal": "Record the reviewed integration result after owner approval.",
+      "mode": "deterministic",
+      "source_ids": [],
+      "task_ids": [
+        "e309e80332ee4a70aa3e099359debc63"
+      ],
+      "event_ids": [],
+      "retain": true,
+      "scope_revision": "b8903fbe9be4c5feba72dd16040d2984d53a8a0669f31afcd6205d0b8552c59f",
+      "provider_destination_id": null,
+      "share_sources_with_provider": false,
+      "required_sections": [],
+      "allow_mutation_proposals": false,
+      "mutation_requests": [
+        {
+          "tool": "task_change_draft",
+          "arguments": {
+            "task_id": "e309e80332ee4a70aa3e099359debc63",
+            "change": {
+              "action": "note",
+              "expected_version": 1,
+              "task": null,
+              "note": "Reviewed the Markdown report and CSV register in the local integration test.",
+              "minutes": 60
+            }
+          },
+          "required": true
+        }
+      ],
+      "personal_context": null,
+      "share_connector_results_with_provider": false,
+      "connector_tool_ids": [],
+      "browser_source_ids": [],
+      "browser_public_only": false,
+      "model_call_budget": 8,
+      "tool_call_budget": 8,
+      "id": "eeefa9e7008a41e89d94893fed941450",
+      "connector_scope_revision": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "state": "queued",
+      "version": 2,
+      "created_at": "2026-10-30T17:38:40.405413Z",
+      "updated_at": "2026-10-30T17:38:40.411942Z",
+      "deadline": "2026-10-31T17:38:40.405418Z",
+      "plan_revision": 1,
+      "state_reason": null,
+      "question": null,
+      "pending_reads": [],
+      "tool_results": [],
+      "tool_calls": 0,
+      "tool_cancel_errors": [],
+      "browser_job_ids": [],
+      "outcome_requirements": {
+        "formats": [
+          "markdown",
+          "csv"
+        ],
+        "selected_source_coverage": "complete",
+        "required_sections": []
+      },
+      "unmet_requirements": [],
+      "plan": [
+        "Read selected sources and application evidence",
+        "Compose a source-linked work report",
+        "Save and independently read back Markdown and CSV",
+        "Review and verify requested change 1",
+        "Check every required output and requested change"
+      ],
+      "answers": [],
+      "evidence": [],
+      "artifact_ids": [],
+      "current_artifact_ids": [],
+      "proposal_ids": [],
+      "effects": [],
+      "model_calls": 0,
+      "reads": 0,
+      "phase": "collect",
+      "private_hidden": false,
+      "evidence_count": 0
+    }
+  }
+}

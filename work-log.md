@@ -480,3 +480,11 @@ PR19's dated hardware package passed all five-page rendering checks, unchanged P
 ### Verified merge and original PR disposition
 
 PR70 merged reviewed candidate `4872f7bf8fad1f7dce9d58bf62154ea1761e9760` into main as `78e9bc2c343c629b7e66725a61f34bc46453dbe0`; full Git trees match. GitHub individually confirms PR19 and64–69 merged. PR4/15/16 were closed as superseded (merged=false), preserving branches and all original heads. PR5 stays open/draft; its description now includes the reproduced failures and current-data compatibility gate. [Receipt](output/qa/2026-10-30-all-pr-review/publication.json). This final closeout updates documentation only; application source stays at the verified integration.
+
+## 2026-10-31 · PR5 compatibility repair and authorized merge
+
+Owner requested repairing and merging PR5. Started from main18d2056, retained original11dc2b8 as a merge parent, restored current shared modules before explicitly integrating retained Work/source/artifact/watch/routine capabilities. Current Alice/Omni, canonical facts, permissions and real office executor remain authoritative. Superseded art/demo-record code and historical output files stay in Git ancestry instead of entering the active application.
+
+Repaired macOS migration identity, explicit legacy-fact conversion, current-memory projection/forgetting, Work-linked approval after redaction, bounded JSON, provider dispatch, shutdown isolation, hidden job APIs and approved intent hashing. UI shares Tasks/approval cards and current memory editor, fixes Work width, keeps phone Alice and protects a consumed voice handoff from unmounting its composer. Optional browser dependency is locked; no browser binary, CI or live API was run.
+
+Evidence: [compatibility contract](desk-companion/docs/pr5-integration.md), [QA](output/qa/2026-10-31-pr5-repair/verification.md), 45-table current-main fixture migration, actual local download hash, same-task approval/watch/mobile readback. Current test totals and remote publication are recorded in QA after completion. Real user DBs and prior runtimes were preserved. Next product gate remains an authorized real-mailbox journey through the existing task/Work core, not consumer-agent parity by model API alone.

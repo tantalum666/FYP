@@ -23,6 +23,8 @@ import { AssistantPanel } from "./AssistantPanel";
 import type { Task, TaskDetail, TaskInput, TaskList } from "./taskTypes";
 import "./tasks.css";
 
+import { WorkToolsEntry } from "./WorkToolsEntry";
+
 export const taskStatus = (value: string, t: Translate) =>
   ({
     todo: t("To do", "待处理"),
@@ -1074,6 +1076,7 @@ export function TaskPanel({
               {t("New task", "新建事务")}
             </button>
           </div>
+          <WorkToolsEntry t={t} />
           <div className="task-toolbar">
             <div
               className="task-filters"

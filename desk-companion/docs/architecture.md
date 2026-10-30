@@ -1,5 +1,6 @@
 # 软件架构与边界
 
+2026-10-31：[PR5兼容契约](pr5-integration.md)新增持久 Work、选定来源、产物、变化跟踪与显式保存会话。沿用当前任务、作业、权限、事实和真实应用执行器；普通 Omni RAM 会话与 retained-messages 保存会话有独立标识。旧 A1／假记录应用不覆盖当前主线。
 2026-10-29维护更新：新增独立PermissionService，网页／App共用对话内操作卡片和权限入口；[权限契约](assistant-permissions.md)。手机UI与数据／环境生命周期已拆分，网页／手机共用会话恢复和日程编辑；选中事务绑定统一AI会话，跨事务重放被拒。当前职责与验证见[维护契约](software-maintenance.md)及[QA](../../output/qa/2026-10-28-maintainable-ai/verification.md)。
 
 > 2026-10-27范围澄清：本文的统一Omni部分描述当前已测Qwen实现，不能读成项目只采用千问。其他AI选型仍待比较；已有Qwen Audio／Gemini适配与未接入的候选分开，未声称自动多模型路由已完成。

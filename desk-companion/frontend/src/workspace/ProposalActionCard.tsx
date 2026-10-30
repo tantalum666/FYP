@@ -77,8 +77,8 @@ export function ProposalActionCard({
           {p.data.body && <blockquote>{p.data.body}</blockquote>}
           <small>
             {t(
-              "Nothing is stored until you confirm. A deleted fact is left out of later requests.",
-              "确认前不会写入。删除后，之后的请求不再包含这条事实。",
+              "Confirming adds this to saved memories. A deleted fact is left out of later requests.",
+              "确认后会加入已保存记忆。删除后，之后的请求不再包含这条事实。",
             )}
           </small>
         </>

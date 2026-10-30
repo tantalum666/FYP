@@ -48,6 +48,7 @@ export interface PostureSnapshot {
   } | null;
 }
 export interface WorkspaceSnapshot {
+  personal_context_visible: boolean;
   permissions?: PermissionState;
   computer?: {
     enabled: boolean;
@@ -109,6 +110,7 @@ export interface WorkspaceSnapshot {
     model: string;
     active: boolean;
     supports_images?: boolean;
+    config_revision?: string;
     configuration_error?: string;
   };
   calendar_extras: {
