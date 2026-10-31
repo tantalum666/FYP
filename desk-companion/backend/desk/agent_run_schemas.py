@@ -37,6 +37,9 @@ class RunCreate(StrictModel):
     browser_public_only: bool = Field(default=False, strict=True)
     model_call_budget: int = Field(default=8, ge=1, le=24, strict=True)
     tool_call_budget: int = Field(default=8, ge=1, le=16, strict=True)
+    allow_application_jobs: bool = Field(default=False, strict=True)
+    application_source_ids: list[str] = Field(default_factory=list, max_length=10)
+    application_job_budget: int = Field(default=6, ge=1, le=8, strict=True)
 
     @field_validator("retain", mode="before")
     @classmethod
@@ -59,6 +62,13 @@ class RunCreate(StrictModel):
             raise ValueError("Unique bounded IDs required")
         return values
 
+    @field_validator("application_source_ids")
+    @classmethod
+    def application_ids(cls, values):
+        if len(set(values)) != len(values) or any(not v or len(v) > 150 for v in values):
+            raise ValueError("Unique bounded application source IDs required")
+        return values
+
     @field_validator("connector_tool_ids")
     @classmethod
     def connector_ids(cls, values):
@@ -68,6 +78,16 @@ class RunCreate(StrictModel):
 
     @model_validator(mode="after")
     def selected(self):
+        if self.allow_application_jobs and (
+            self.mode != "model" or not self.task_ids or self.connector_tool_ids
+        ):
+            raise ValueError(
+                "Application work requires model mode and selected tasks, without public connector grants"
+            )
+        if self.application_source_ids and (
+            not self.allow_application_jobs or not self.share_sources_with_provider
+        ):
+            raise ValueError("Select application work and approve sharing its selected input files")
         if not (
             self.source_ids
             or self.task_ids
@@ -106,6 +126,7 @@ class RunCreate(StrictModel):
             + len(self.task_ids)
             + len(self.event_ids)
             + len(self.browser_source_ids)
+            + len(self.application_source_ids)
             > 10
         ):
             raise ValueError("Model mode supports at most ten selected evidence items")
@@ -161,7 +182,7 @@ class ToolObservation(StrictModel):
     """Bounded untrusted evidence from a registered adapter, never authority."""
 
     id: str = Field(min_length=1, max_length=160)
-    kind: Literal["browser", "connector"]
+    kind: Literal["browser", "connector", "application"]
     record_id: str = Field(min_length=1, max_length=180)
     observation_id: str | None = Field(default=None, max_length=100)
     label: str = Field(min_length=1, max_length=200)

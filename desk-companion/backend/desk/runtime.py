@@ -39,6 +39,7 @@ from .agent_runs import AgentRunService
 from .browser_jobs import BrowserService
 from .connectors.service import build_connector_service
 from .connectors.agent_adapter import connector_adapters
+from .application_work import adapters as application_adapters
 from .work_search import WorkSearchService
 from .responsibilities import ResponsibilityService
 from .work_capacity import WorkCapacityService
@@ -98,7 +99,7 @@ class Runtime:
         self.artifacts = ArtifactService(self)
         self.browser_jobs = BrowserService(self)
         self.connectors = build_connector_service(self, connector_configs)
-        self.agent_tool_adapters = connector_adapters(self.connectors)
+        self.agent_tool_adapters = {**connector_adapters(self.connectors), **application_adapters()}
         self.agent_runs = AgentRunService(self)
         self.work_search = WorkSearchService(self)
         self.work_capacity = WorkCapacityService(self)

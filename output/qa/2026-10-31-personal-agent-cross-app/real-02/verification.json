@@ -1,0 +1,52 @@
+{
+  "state": "succeeded",
+  "planner": "offline_scripted_receipt_driven",
+  "paid_model_calls": 0,
+  "real_application_jobs": 4,
+  "events": [
+    "synthetic_owner_goal_changed",
+    "saved_then_completion_lost",
+    "synthetic_owner_answered"
+  ],
+  "recovery_hash_and_mtime_unchanged": true,
+  "max_model_context_bytes": 24656,
+  "outputs": [
+    {
+      "job_id": "7ca6ea2c1f014bd791a2754191c2f56c",
+      "filename": "1-comparison.xlsx",
+      "sha256": "f39558675c17f0eade97ab333c98451abdd09c50b428fe2e7c4ef642212ae773",
+      "bytes": 6624,
+      "apps": [
+        "libreoffice_calc"
+      ]
+    },
+    {
+      "job_id": "e04fe1f4860e491a9b59fa0b60dc3544",
+      "filename": "2-comparison.xlsx",
+      "sha256": "93bc961441c7c3ce952c7c74ee9f2f498a331bee665a35dfc523b7561dddb703",
+      "bytes": 6645,
+      "apps": [
+        "libreoffice_calc"
+      ]
+    },
+    {
+      "job_id": "c98679a4bf054777b1fac11e2bfbaa36",
+      "filename": "3-decision.odt",
+      "sha256": "d675a5ad2a522f7160c2227b68c7a12c161f95a1037677fd4a5ccf45caf1f284",
+      "bytes": 20475,
+      "apps": [
+        "libreoffice_writer"
+      ]
+    },
+    {
+      "job_id": "501d0429f2c14579adf5372607040f02",
+      "filename": "4-decision.pdf",
+      "sha256": "fae8a1c89a5ed444b9ec669e7431427b43ba829f04e2abac67830318967b8348",
+      "bytes": 56558,
+      "apps": [
+        "libreoffice_writer"
+      ]
+    }
+  ],
+  "quality": "not_live_model_acceptance"
+}

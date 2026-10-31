@@ -114,10 +114,10 @@ export function ArtifactList({
   }
   return (
     <section
-      aria-label={t("Output files", "输出文件")}
+      aria-label={t("Work report and evidence", "工作报告与证据")}
       className="agent-artifacts"
     >
-      <h4>{t("Output files", "输出文件")}</h4>
+      <h4>{t("Work report and evidence", "工作报告与证据")}</h4>
       <p className="workspace-hint">
         {t(
           "Byte readback verifies saved content, not factual accuracy. Inspect the report and its cited sources. Previews are plain text; no generated HTML or remote images are rendered.",
@@ -125,7 +125,9 @@ export function ArtifactList({
         )}
       </p>
       {!artifacts.length && (
-        <p>{t("No output files yet.", "尚无输出文件。")}</p>
+        <p>
+          {t("No work report has been produced yet.", "尚未生成工作报告。")}
+        </p>
       )}
       {artifacts.map((artifact) => (
         <article key={artifact.id} className="agent-artifact">

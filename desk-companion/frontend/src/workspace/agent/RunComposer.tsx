@@ -1,3 +1,7 @@
+import {
+  RunApplicationSelection,
+  RunApplicationReview,
+} from "./RunApplicationSelection";
 import type { WorkCapacity } from "./workCapacity";
 import { OutputCapacityHint } from "./RetainedCapacity";
 import { VoiceOriginLabel } from "../voiceWork/VoiceWorkPanel";
@@ -105,6 +109,8 @@ export function RunComposer({
       ...old,
       share: false,
       retain: false,
+      allow_application_jobs: false,
+      application_source_ids: [],
       browser_public_only: false,
       share_connector_results_with_provider: false,
       personal_context: {
@@ -283,6 +289,11 @@ export function RunComposer({
                   </li>
                 ))}
             </ul>
+            <RunApplicationReview
+              input={review.input}
+              scope={review.scope}
+              t={t}
+            />
             {review.input.required_sections.length > 0 && (
               <p>
                 {t("Required report sections", "必需报告章节")}:{" "}
@@ -399,8 +410,8 @@ export function RunComposer({
                         "可提出所选事务／日历的修改草稿，之后仍需逐项审阅，不能自动保存。",
                       )
                     : t(
-                        "Application change proposals are not authorized for this run.",
-                        "此次运行未授权提出应用修改草稿。",
+                        "Calendar and task changes are not enabled for this run.",
+                        "此次运行未启用日历与事务修改。",
                       )}
                 </p>
               </div>
@@ -516,6 +527,8 @@ export function RunComposer({
                     share: false,
                     retain: false,
                     allow_mutation_proposals: false,
+                    allow_application_jobs: false,
+                    application_source_ids: [],
                     browser_source_ids: [],
                     browser_public_only: false,
                     connector_tool_ids: [],
@@ -731,10 +744,18 @@ export function RunComposer({
             </fieldset>
             <p className="workspace-hint">
               {t(
-                "Select at least one evidence item or a configured connector tool. Model mode allows up to 10 files, tasks, calendar records and public browser sources combined; personal context is not evidence.",
-                "至少选择一项证据或已配置连接工具。模型模式下文件、事务、日历记录与公开浏览器来源合计最多10项；个人上下文不属于证据。",
+                "Select at least one evidence item or a configured connector tool. Model mode allows up to 10 evidence items combined, including application input files, saved sources, tasks, calendar records and public pages; personal context is not evidence.",
+                "至少选择一项证据或已配置连接工具。模型模式下应用资料、保存的来源、事务、日历记录与公开页面合计最多10项；个人上下文不属于证据。",
               )}
             </p>
+            {draft.mode === "model" && (
+              <RunApplicationSelection
+                draft={draft}
+                scope={scope}
+                t={t}
+                onChange={setDraft}
+              />
+            )}
             {draft.mode === "model" && (
               <RunBrowserSelection
                 draft={draft}
@@ -780,8 +801,8 @@ export function RunComposer({
                 </label>
                 <label>
                   {t(
-                    "Maximum browser / connector tool calls",
-                    "最多浏览器／连接工具调用次数",
+                    "Maximum application / browser / connector tool calls",
+                    "最多应用／浏览器／连接工具调用次数",
                   )}
                   <input
                     type="number"

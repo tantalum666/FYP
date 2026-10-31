@@ -1,3 +1,4 @@
+import { RunApplicationJobs } from "./RunApplicationJobs";
 import { VoiceOriginLabel } from "../voiceWork/VoiceWorkPanel";
 import { useState } from "react";
 import { useDraftGuard } from "../../components/DraftGuard";
@@ -289,6 +290,20 @@ export function RunDetail({
         </div>
       )}
       <RequestFeedback mutation={feedback(cancellation)} t={t} />
+      <RunApplicationJobs
+        jobs={detail.application_jobs ?? []}
+        active={[
+          "queued",
+          "running",
+          "waiting_review",
+          "waiting_effect",
+        ].includes(run.state)}
+        t={t}
+        fence={fence}
+        fresh={fresh && !mutation.busy && !cancellation.busy}
+        onChanged={onChanged}
+      />
+
       <section>
         <h4>{t("Plan and observed progress", "计划与实际进展")}</h4>
         {!!run.plan?.length && (
@@ -310,7 +325,11 @@ export function RunDetail({
             {detail.steps.map((step) => (
               <li key={step.id}>
                 <strong>{step.label}</strong>
-                <span>{stateLabel(step.state, t)}</span>
+                <span>
+                  {step.state === "succeeded"
+                    ? t("Step completed", "步骤已完成")
+                    : stateLabel(step.state, t)}
+                </span>
                 {step.error && <small>{step.error}</small>}
               </li>
             ))}
@@ -376,7 +395,7 @@ export function RunDetail({
         </ul>
       </section>
       <section>
-        <h4>{t("Linked application reviews", "关联应用审阅")}</h4>
+        <h4>{t("Calendar and task changes", "日历与事务修改")}</h4>
         {detail.proposals.length ? (
           detail.proposals.map((proposal) => (
             <div className="agent-review" key={proposal.id}>
@@ -413,17 +432,17 @@ export function RunDetail({
         ) : (
           <p>
             {t(
-              "No linked application draft. Starting work does not approve a change.",
-              "暂无关联应用草稿。开始工作不等于批准修改。",
+              "No calendar or task changes are proposed.",
+              "暂无日历或事务修改提议。",
             )}
           </p>
         )}
       </section>
       {!!run.tool_results?.length && (
-        <section>
-          <h4>
+        <details>
+          <summary>
             {t("Tool activity and result references", "工具活动与结果引用")}
-          </h4>
+          </summary>
           <p className="workspace-hint">
             {t(
               "These are recorded tool results, not a claim that the whole goal is complete. External responses remain untrusted; inspect the linked review and its evidence.",
@@ -447,7 +466,7 @@ export function RunDetail({
               </li>
             ))}
           </ol>
-        </section>
+        </details>
       )}
       <RunBrowserJobs
         jobs={detail.browser_jobs ?? []}

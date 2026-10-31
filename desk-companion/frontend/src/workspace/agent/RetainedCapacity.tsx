@@ -202,8 +202,8 @@ export function OutputCapacityHint({
     <div className="workspace-hint">
       <p>
         {t(
-          "Output limits (not current per-run usage)",
-          "成果上限（并非当前运行用量）",
+          "Report-file limits (application files are separate)",
+          "报告文件上限（应用文件另计）",
         )}
         : {capacityBytes(value.artifacts.file_bytes, t)}{" "}
         {t("per file", "／文件")} · {value.artifacts.per_run_count}{" "}

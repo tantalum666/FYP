@@ -25,6 +25,7 @@ export function JobActionCard({
   fresh,
   available,
   onAction,
+  compact = false,
 }: {
   job: ComputerJob;
   t: Translate;
@@ -33,6 +34,7 @@ export function JobActionCard({
   fresh: boolean;
   available: boolean;
   onAction: (action: JobAction) => void;
+  compact?: boolean;
 }) {
   const [exportError, setExportError] = useState<unknown>(null);
   const application = isApplicationAction(job.action);
@@ -100,8 +102,9 @@ export function JobActionCard({
           )}
         </p>
       )}
+      {application && step && <small>{step.filename}</small>}
       {job.state === "review" && (
-        <details className="action-preview" open>
+        <details className="action-preview" open={!compact}>
           <summary>{t("Review content", "核对内容")}</summary>
           {application && step ? (
             <ApplicationPreview step={step} t={t} />

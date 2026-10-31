@@ -41,6 +41,30 @@ export function modeLabel(mode: string, t: Translate) {
 }
 export function blockLabel(code: string, t: Translate) {
   const labels: Record<string, [string, string]> = {
+    application_running: [
+      "An application is working. No approval is needed right now.",
+      "应用正在处理，目前不需要批准。",
+    ],
+    application_scope_changed: [
+      "The application workspace changed or disconnected. Check the connection before continuing.",
+      "应用工作空间已变化或断开，请先核对连接。",
+    ],
+    application_source_changed: [
+      "A selected input file changed. Review its new version in a new work request.",
+      "所选资料文件已变化，请在新的工作请求中核对新版本。",
+    ],
+    application_result_unknown: [
+      "Check the existing file result before preparing another change.",
+      "请先核验已有文件结果，再准备修改。",
+    ],
+    application_source_not_selected: [
+      "This input file was not selected for the work.",
+      "此次工作没有选择这份资料。",
+    ],
+    application_job_not_selected: [
+      "The referenced file belongs to other work.",
+      "引用的文件属于其他工作。",
+    ],
     provider_outcome_unknown: [
       "A model request may have completed remotely. Review before resuming; no automatic paid retry.",
       "模型请求可能已在远端完成。请核对后再恢复；不会自动重试付费请求。",
