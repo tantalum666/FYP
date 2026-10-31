@@ -11,10 +11,7 @@ export function stateLabel(state: string, t: Translate) {
     blocked: ["Blocked", "已阻塞"],
     paused: ["Paused", "已暂停"],
     verifying: ["Checking results", "正在核验结果"],
-    succeeded: [
-      "Output checks passed · quality unreviewed",
-      "输出检查通过 · 质量未审阅",
-    ],
+    succeeded: ["Results ready", "结果已就绪"],
     partial: ["Partial result", "部分结果"],
     failed: ["Failed", "失败"],
     cancelled: ["Cancelled", "已取消"],
@@ -34,9 +31,9 @@ export function stateLabel(state: string, t: Translate) {
 }
 export function modeLabel(mode: string, t: Translate) {
   return mode === "deterministic"
-    ? t("Local evidence compilation", "本地证据整理")
+    ? t("Local", "本地")
     : mode === "model"
-      ? t("Configured model", "已配置的模型")
+      ? t("AI", "AI")
       : t("Unknown mode", "未知模式");
 }
 export function blockLabel(code: string, t: Translate) {
@@ -410,4 +407,14 @@ export function agentError(error: unknown, t: Translate) {
   return error instanceof ApiError && messages[error.code]
     ? t(...messages[error.code])
     : errorText(error, t);
+}
+
+export function workTime(value: string, t: Translate) {
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime()))
+    return t("Time unavailable", "时间不可用");
+  return new Intl.DateTimeFormat(t("en-GB", "zh-CN"), {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(date);
 }

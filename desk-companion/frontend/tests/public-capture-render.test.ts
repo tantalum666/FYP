@@ -125,7 +125,7 @@ function render(value: any, zh = false, hidden = false) {
 test("actual bilingual intake/review states exact bounded GET disclosure, unchecked separate consents and inert URL/label", () => {
   for (const zh of [false, true]) {
     const html = render(api({ selected: capture, review }), zh);
-    assert.match(html, zh ? /采集一个公开页面/ : /Capture one public page/);
+    assert.match(html, zh ? /添加网页/ : /Add web page/);
     assert.match(html, /200/);
     assert.match(html, /100/);
     assert.match(html, /64 MiB/);

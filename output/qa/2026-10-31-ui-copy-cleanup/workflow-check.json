@@ -1,0 +1,15 @@
+{
+  "run_id": "8ea7c2536c564551a518d30c87c42930",
+  "state": "succeeded",
+  "mode": "deterministic",
+  "model_calls": 0,
+  "artifact_count": 2,
+  "permission_state": {
+    "mode": "ask",
+    "version": 1
+  },
+  "keyboard_disclosure_kept_draft": true,
+  "persona_draft_restored_without_save": true,
+  "review_disabled_without_retention": true,
+  "real_accounts_modified": false
+}

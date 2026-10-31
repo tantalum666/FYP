@@ -32,12 +32,6 @@ export function TaskJobs({
       aria-label={t("Task files and results", "事务文件与结果")}
     >
       <h3>{t("Files and results", "文件与结果")}</h3>
-      <p className="workspace-hint">
-        {t(
-          "File verification does not complete this task. Review the result, then decide your next step.",
-          "文件核验不会自动完成事务。请核对结果，再决定下一步。",
-        )}
-      </p>
       {!!application?.stages.length && (
         <div
           className="application-stages"
@@ -49,7 +43,10 @@ export function TaskJobs({
               <small>
                 {jobStateLabel(stage.state, t)} · {stage.filename}
               </small>
-              {stage.error && <p>{errorText(new ApiError(stage.error), t)}</p>}
+              {stage.error &&
+                !["cancelled", "expired"].includes(stage.state) && (
+                  <p>{errorText(new ApiError(stage.error), t)}</p>
+                )}
             </article>
           ))}
         </div>

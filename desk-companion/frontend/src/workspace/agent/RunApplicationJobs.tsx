@@ -101,18 +101,7 @@ export function RunApplicationJobs(props: Props) {
     latest.set(`${job.task_id}/${job.request.step?.filename}`, job.id);
   return (
     <section>
-      <h4>{props.t("Application progress and files", "应用进度与文件")}</h4>
-      <p>
-        {props.active
-          ? props.t(
-              "Work continues after each result is checked. You can stop a pending action or download a verified file.",
-              "每步结果核验后会继续。你可以停止待执行操作，或下载已核验文件。",
-            )
-          : props.t(
-              "Saved files remain available. Stopped actions will not restart automatically.",
-              "已保存文件仍可下载，停止的操作不会自动重启。",
-            )}
-      </p>
+      <h4>{props.t("Files", "文件")}</h4>
       {[...props.jobs]
         .sort((a, b) => {
           const priority = (job: ComputerJob) =>

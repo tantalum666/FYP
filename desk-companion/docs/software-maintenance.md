@@ -1,5 +1,7 @@
 # Group 2 · Software maintenance contract
 
+1 November 2026: the [interface copy contract](ui-copy.md) makes concise default views a shared UI requirement. Work results/actions precede optional details; native disclosures retain mounted form state, and phone Work uses the existing guarded list/detail selection. No new queue, request lifecycle or backend authority was introduced. [Current UI QA](../../output/qa/2026-10-31-ui-copy-cleanup/verification.md):303 frontend tests and type/build pass; earlier backend/native results below retain their original scope.
+
 2026-10-31：[PR5整合](pr5-integration.md)保留现有业务／权限核心。持久 Work 是对现有记录和子操作的编排，不能另建事实／执行器替代主线；旧 demo-record 与 A1 路线由当前实现取代。
 30 October2026. The current checkpoint implements bounded application operations and passes a scripted browser/Calc/Writer/PDF task with changed constraints and restart recovery. Earlier task/file/phone, shared permissions and OpenAI evaluation work remains in place; autonomous voice completion is still untested. Selected-task context and interaction recovery remain in place. The owner requests focused documentation reading, maintainable implementation and GitHub publication of meaningful milestones.
 

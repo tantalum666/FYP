@@ -1,8 +1,10 @@
 # Group 2 Project Contract
 
-更新：2026-10-31。PR5 已按用户明确授权修复并合并（代码合并 `9b655e1`，与已测候选完整树一致）。本轮兼容整合：保留 Alice／Omni／权限及真实应用执行器，接入持久 Work、来源与产物、事务变化跟踪、定期检查和显式保存会话；事实统一保留在 owner_memories。迁移及发布状态见[本轮QA](output/qa/2026-10-31-pr5-repair/verification.md)与[兼容契约](desk-companion/docs/pr5-integration.md)。此前 PR70 已合入 #19／#64–#69，#4／#15／#16 的旧界面由当前主线取代。Grok #20–#59及#60已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main（软件合并c2037cd），原41个PR状态均已核对。当前方向为 **Desk Companion个人AI助理**。本分支基于完成归档的main，整合Grok #20–#59和#60的Alice／统一Omni／网页／手机软件，修复权限、上下文、恢复和跨栈兼容问题。分支推送、PR合并、目标设备部署及真实模型验收分别记录；此前跨端权限／事务接续与OpenAI受限真实评测已完成；现已实现受限 Chromium／Calc／Writer 执行，并跑通脚本驱动的复杂任务、改口和重启恢复；语音模型自主完成仍未验收。结果见[交接](handoff.md)、[本轮QA](output/qa/2026-10-30-application-execution/verification.md)与[实际交付门槛](desk-companion/docs/delivery-readiness.md)。合并基线的[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)保留历史范围。
+更新：2026-11-01。PR5 已按用户明确授权修复并合并（代码合并 `9b655e1`，与已测候选完整树一致）。本轮兼容整合：保留 Alice／Omni／权限及真实应用执行器，接入持久 Work、来源与产物、事务变化跟踪、定期检查和显式保存会话；事实统一保留在 owner_memories。迁移及发布状态见[本轮QA](output/qa/2026-10-31-pr5-repair/verification.md)与[兼容契约](desk-companion/docs/pr5-integration.md)。此前 PR70 已合入 #19／#64–#69，#4／#15／#16 的旧界面由当前主线取代。Grok #20–#59及#60已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main（软件合并c2037cd），原41个PR状态均已核对。当前方向为 **Desk Companion个人AI助理**。本分支基于完成归档的main，整合Grok #20–#59和#60的Alice／统一Omni／网页／手机软件，修复权限、上下文、恢复和跨栈兼容问题。分支推送、PR合并、目标设备部署及真实模型验收分别记录；此前跨端权限／事务接续与OpenAI受限真实评测已完成；现已实现受限 Chromium／Calc／Writer 执行，并跑通脚本驱动的复杂任务、改口和重启恢复；语音模型自主完成仍未验收。结果见[交接](handoff.md)、[本轮QA](output/qa/2026-10-30-application-execution/verification.md)与[实际交付门槛](desk-companion/docs/delivery-readiness.md)。合并基线的[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)保留历史范围。
 
-## 2026-10-31 当前优先级与进展
+## 2026-11-01 当前优先级与进展
+
+用户最新反馈指出各页面文案过多。本轮已精简Work、事务、设置／权限、记忆、风格和导入分享页：主区呈现状态、结果和操作，技术记录与可选设置按需展开；手机Work改列表／详情切换。英文桌面和中文手机、草稿与本地报告流程已检查，303前端及类型／构建通过；后端未改。本轮规范与证据见[界面契约](desk-companion/docs/ui-copy.md)、[QA](output/qa/2026-10-31-ui-copy-cleanup/verification.md)。
 
 用户已再次暂停Pi，要求继续personal agent，特别是跨应用操作。PR5的持久Work已通过[应用接续契约](desk-companion/docs/application-work.md)接入现有Chromium／Calc／Writer／PDF队列：显式选择事务与资料、逐步读回、提问／改口、一次／完整权限、取消及未知结果恢复。真实应用四步与网页／手机流程通过；规划决策为离线脚本，本轮真实模型调用0。完整证据见[QA](output/qa/2026-10-31-personal-agent-cross-app/verification.md)，三家公开机制的最新核对见[研究补充](research/2026-10-31-cross-application-continuation.md)。分支／PR发布不等于已合并或已部署。
 
@@ -12,6 +14,7 @@ Pi家庭联网与独立设备端核对另存[PR73](https://github.com/tantalum66
 
 三位学生、一台桌面原型；默认英文、支持简体中文。组号统一Group 2，身份与计划分工以[成员资料](planning/2026-09-14/group-2-details.json)为准。**本学期以完成软件和AI为主，硬件尽量完成Luwu机械臂与树莓派集成。**清扫、自动回座、无线充电与光学整机保留研究，不作为本学期软件交付的前置。
 
+- **默认界面保持简洁**：不在各页堆叠工程说明、技术状态和重复限制；详情按需展开。关键批准／隐私／费用后果放在相关动作处，保留用户内容与错误恢复。
 - 手机、电脑及Linux触摸屏共享业务数据；设备常亮页独立构图。手机使用全屏Alice首页与按需Plan／More，保留虚拟形象和简洁操作。
 - 个人 Agent 的目标包括持续跟踪邮件与事务、提出有用建议，以及从语音交代推进购物／旅行等真实生活任务。它们是用户明确的目标体验，当前尚未完成邮箱、商店、支付或机票接口与整条旅程验收；不能用应用文件演示代表已交付。已有研究、三家公开机制与优先顺序见[研究总入口](research/personal-agent-research-index.md)。
 - 同一助理贯通文字、语音、短期上下文、经批准的长期记忆、日历和事务。**Qwen Omni是当前已接入／已测基线，不是唯一或最终AI选择。**Qwen Audio／Gemini已有协议适配；OpenAI Realtime2.1与GPT-Live1＋Luna已完成一轮虚构业务／合成语音实测，Mini有英文参照。OpenAI尚未切换到日常App，真人同条件比较仍待；不能把协议模拟当成真实效果。
@@ -39,6 +42,8 @@ Pi家庭联网与独立设备端核对另存[PR73](https://github.com/tantalum66
 实现职责与新增协议见[维护契约](desk-companion/docs/software-maintenance.md)，原业务边界见[架构](desk-companion/docs/architecture.md)。本分支保留main较新的Vite8.3.5，不回退旧工作区的8.3.1。
 
 ## 当前证据
+
+31日–1日界面精简：303前端、类型与生产构建通过；8类桌面页面前后对照、393px中文手机、折叠草稿保留／离开保护／保留许可必选／真实本地报告完成通过。默认新工作表单可见字符1368→290。该指标只比较相同前景表单，不代表全站统一减少比例。后端、原生包及硬件未改／未重验。
 
 31日跨应用接续：1,701后端／303前端、Ruff、类型／生产构建通过；实际Chromium资料→Calc初稿／修订→Writer→两页PDF；回执丢失后重启恢复保持文件SHA／mtime；网页一次允许／自动接续／取消、393px手机状态与实际下载哈希通过。此为离线脚本决策＋真实应用验收，没有新增真实模型质量、原生软键盘或Pi成绩。
 

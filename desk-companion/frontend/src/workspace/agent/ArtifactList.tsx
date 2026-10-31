@@ -113,17 +113,8 @@ export function ArtifactList({
     }
   }
   return (
-    <section
-      aria-label={t("Work report and evidence", "工作报告与证据")}
-      className="agent-artifacts"
-    >
-      <h4>{t("Work report and evidence", "工作报告与证据")}</h4>
-      <p className="workspace-hint">
-        {t(
-          "Byte readback verifies saved content, not factual accuracy. Inspect the report and its cited sources. Previews are plain text; no generated HTML or remote images are rendered.",
-          "字节读回用于核验保存内容，不代表事实准确。请检查报告及引用来源。预览仅显示纯文本，不渲染生成的HTML或远程图片。",
-        )}
-      </p>
+    <section aria-label={t("Report", "报告")} className="agent-artifacts">
+      <h4>{t("Report", "报告")}</h4>
       {!artifacts.length && (
         <p>
           {t("No work report has been produced yet.", "尚未生成工作报告。")}
@@ -132,25 +123,23 @@ export function ArtifactList({
       {artifacts.map((artifact) => (
         <article key={artifact.id} className="agent-artifact">
           <h5>{artifact.display_name}</h5>
-          <p>
-            {artifact.format.toUpperCase()} ·{" "}
-            {artifact.byte_count.toLocaleString()} {t("bytes", "字节")} ·{" "}
-            {artifact.authorship === "model"
-              ? t("Model-authored", "模型撰写")
-              : artifact.authorship === "owner"
-                ? t("Owner-authored", "本人撰写")
-                : t("Deterministic output", "确定性输出")}
-          </p>
-          <p>
-            {byteVerified(artifact)
-              ? t("Saved bytes independently read back", "已独立读回保存字节")
-              : t("Saved bytes not verified", "保存字节尚未核验")}{" "}
-            · {t("Content quality not reviewed", "内容质量尚未审阅")}
-          </p>
           <details>
-            <summary>
-              {t("Integrity and source references", "完整性与来源引用")}
-            </summary>
+            <summary>{t("Details & sources", "详情与来源")}</summary>
+            <p>
+              {artifact.format.toUpperCase()} ·{" "}
+              {artifact.byte_count.toLocaleString()} {t("bytes", "字节")} ·{" "}
+              {artifact.authorship === "model"
+                ? t("Model-authored", "模型撰写")
+                : artifact.authorship === "owner"
+                  ? t("Owner-authored", "本人撰写")
+                  : t("Deterministic output", "确定性输出")}
+            </p>
+            <p>
+              {byteVerified(artifact)
+                ? t("Saved bytes independently read back", "已独立读回保存字节")
+                : t("Saved bytes not verified", "保存字节尚未核验")}{" "}
+              · {t("Content quality not reviewed", "内容质量尚未审阅")}
+            </p>
             <small>SHA-256: {artifact.sha256}</small>
             <ul>
               {artifact.provenance.map((ref, i) => (
@@ -169,7 +158,7 @@ export function ArtifactList({
               disabled={busy !== null}
               onClick={() => void open(artifact, false)}
             >
-              {t("Preview text", "预览文本")}
+              {t("Preview", "预览")}
             </button>
             <button
               type="button"
@@ -177,7 +166,7 @@ export function ArtifactList({
               disabled={busy !== null || !byteVerified(artifact)}
               onClick={() => void open(artifact, true)}
             >
-              {t("Download file", "下载文件")}
+              {t("Download", "下载")}
             </button>
           </div>
           {busy === artifact.id && (

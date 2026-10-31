@@ -25,7 +25,7 @@ export function JobActionCard({
   fresh,
   available,
   onAction,
-  compact = false,
+  compact = true,
 }: {
   job: ComputerJob;
   t: Translate;
@@ -86,14 +86,6 @@ export function JobActionCard({
           {destination}.
         </p>
       )}
-      {application && (
-        <p>
-          {t(
-            "Use the connected applications in this task's workspace.",
-            "在本事务的工作空间使用已连接的应用。",
-          )}
-        </p>
-      )}
       {isDesktopAction(job.action) && writing && (
         <p>
           {t(
@@ -113,21 +105,11 @@ export function JobActionCard({
           )}
         </details>
       )}
-      {job.state === "succeeded" && job.result?.verified && (
-        <p className="action-outcome">
-          {writing
-            ? t("Saved and independently verified.", "已保存，并通过独立核验。")
-            : t(
-                "The existing file still matches the approved content.",
-                "已有文件仍与批准的内容一致。",
-              )}
-        </p>
-      )}
       {job.state === "unknown" && (
         <p>
           {t(
-            "The result needs checking. I will not repeat the write.",
-            "结果需要核验，不会重复写入。",
+            "Check the existing result before continuing.",
+            "请先核验已有结果。",
           )}
         </p>
       )}
@@ -150,10 +132,10 @@ export function JobActionCard({
       {!!job.error && !["expired", "cancelled"].includes(job.state) && (
         <p className="error-message">{errorText(new ApiError(job.error), t)}</p>
       )}
-      {readBackCopy(job.result?.reason) && (
+      {job.state !== "succeeded" && readBackCopy(job.result?.reason) && (
         <p>{t(...readBackCopy(job.result?.reason)!)}</p>
       )}
-      {recoveryCopy(job) && <p>{t(...recoveryCopy(job)!)}</p>}
+
       <div className="workspace-inline-actions">
         {job.state === "review" && (
           <button
@@ -200,7 +182,7 @@ export function JobActionCard({
               filename={step.filename}
               onError={setExportError}
             >
-              {t("Download verified file", "下载已核验文件")}
+              {t("Download", "下载")}
             </ExportLink>
           </div>
         )}
@@ -209,18 +191,20 @@ export function JobActionCard({
           {errorText(exportError, t)}
         </p>
       )}
-      {job.authorization && (
-        <small className="action-authority">
-          {job.authorization.mode === "full"
-            ? t(
-                "Authorized by your full-access setting",
-                "已根据你的完整权限设置授权",
-              )
-            : t("Allowed once by you", "由你允许这一次")}
-        </small>
-      )}
       <details className="action-details">
         <summary>{t("Details", "详情")}</summary>
+        {recoveryCopy(job) && <p>{t(...recoveryCopy(job)!)}</p>}
+        {job.authorization && (
+          <small className="action-authority">
+            {job.authorization.mode === "full"
+              ? t(
+                  "Authorized by your full-access setting",
+                  "已根据你的完整权限设置授权",
+                )
+              : t("Allowed once by you", "由你允许这一次")}
+          </small>
+        )}
+
         {job.state !== "review" && (
           <pre tabIndex={0}>{job.request.content}</pre>
         )}

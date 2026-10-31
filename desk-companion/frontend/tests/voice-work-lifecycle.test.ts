@@ -412,8 +412,7 @@ test("reviewed Start callback cannot dispatch an old goal across an owner epoch 
       .props.onSubmit({ preventDefault() {} });
     tree = render();
     const start = nodes(tree).find(
-      (node) =>
-        node.type === "button" && text(node) === "Start this persistent work",
+      (node) => node.type === "button" && text(node) === "Start work",
     );
     assert.ok(start);
     fence.update("new-owner", true);
