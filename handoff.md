@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-31 October 2026, Asia/Shanghai. **Owner paused Pi and prioritized personal-agent cross-application work.** Current worktree: `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/personal-agent-cross-app-20261031`, based on verified main `dac527b` after PR5/PR72. [Publication](output/qa/2026-10-31-personal-agent-cross-app/publication.json) records the new branch/PR separately from main merge.
+31 October 2026, Asia/Shanghai. **Owner paused Pi and prioritized personal-agent cross-application work.** Current worktree: `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/personal-agent-cross-app-20261031`, based on verified main `dac527b` after PR5/PR72. [Draft PR74](https://github.com/tantalum666/FYP/pull/74) / [Publication](output/qa/2026-10-31-personal-agent-cross-app/publication.json) records the new branch/PR separately from main merge.
 
 ## Completed in this continuation
 

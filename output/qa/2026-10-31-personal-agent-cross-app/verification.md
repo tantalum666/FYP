@@ -45,3 +45,5 @@ UI fixes made during verification: application cards moved before diagnostic act
 Only source, focused documentation, selected test logs/JSON and fictional artifact files are eligible for this milestone. No credentials, databases, raw private diagnostics, browser profiles or background model budgets are published. No CI was added or run. Git publication is recorded separately from merge or deployment.
 
 Pi is paused, with prior networking/kiosk/power work preserved on PR73. No Pi session was resumed; its old Mac tunnel had already timed out and was left stopped. All live-provider experiment budgets remain closed. The next step is ordinary Alice/Omni-to-Work handoff/recovery with offline variants. This milestone does not deliver unrestricted GUI operation, real-mailbox monitoring, shopping/payment, ticketing, real model autonomy or offline-host cloud availability.
+
+Publication: source commit `b277cef` pushed to [draft PR74](https://github.com/tantalum666/FYP/pull/74); GitHub head readback matches. It remains unmerged. The receipt/handoff-only follow-up does not change the tested application.
