@@ -58,3 +58,7 @@ No paid model request, microphone/camera capture or arm movement occurred. No VP
 ## Published checkpoint
 
 Network source remains `bdd9c6d`; the preparation checkpoint was published in [draft PR73](https://github.com/tantalum666/FYP/pull/73), still unmerged. This continuation adds actual home acceptance, power findings and corrected current docs without changing code or rerunning unchanged application suites. Final publication state is in the [receipt](publication.json). The checked helper source matches the privately rendered seed written to the card; fresh publication checks cover the changed documentation and selected evidence.
+
+## Latest owner direction: Pi paused
+
+The owner subsequently paused Pi and prioritized personal-agent cross-application software. [PR74](https://github.com/tantalum666/FYP/pull/74) is the active independent software continuation. This checkpoint's results and unresolved power/wired/kiosk gates are preserved; no new Pi test or deployment is authorized by this documentation update. Original checkout entrypoints now route to the software worktree.

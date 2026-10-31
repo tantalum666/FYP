@@ -36,5 +36,7 @@
   "live_evidence": "live-verification.json",
   "power_gate": "undervoltage_observed_confirm_psu_and_cable_before_load_retest",
   "ethernet_live_test": "not_run_no_carrier",
-  "latest_main_app_deployed": false
+  "latest_main_app_deployed": false,
+  "owner_paused_pi": true,
+  "active_software_pr": "https://github.com/tantalum666/FYP/pull/74"
 }

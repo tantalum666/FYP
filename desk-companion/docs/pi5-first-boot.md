@@ -1,5 +1,7 @@
 # Pi 5 8GB 首次启动 · Group 2
 
+**31 October latest: Pi work is paused by the owner. The results below are preserved checkpoints; resume hardware only on a new owner instruction. Active personal-agent software is [PR74](https://github.com/tantalum666/FYP/pull/74).**
+
 **2026-10-31：原卡已插回Pi，家庭Wi-Fi／原密钥SSH／网页Alice／Mac远程桌面实测通过。教室Wi-Fi与网线、宿舍网线配置已从Pi读回；有线尚未验收。本机浏览器触发低电压事件，下一步先核对供电。见[本轮QA](../../output/qa/2026-10-31-pi-home-resume/verification.md)与[网络方案](pi-network-profiles.md)。**
 <!-- FYP-CONTEXT-20261027 -->
 > HISTORICAL 2026-10-27 快照：当时Pi暂停，旧API预算关闭。当前恢复状态见文首31日记录。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。

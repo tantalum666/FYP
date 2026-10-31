@@ -1,5 +1,7 @@
 # Pi networking across home, classroom and dorm
 
+**31 October latest: Pi work is paused by the owner. The results below are preserved checkpoints; resume hardware only on a new owner instruction. Active personal-agent software is [PR74](https://github.com/tantalum666/FYP/pull/74).**
+
 31 October 2026. The owner resumed Pi work and specified this arrangement:
 
 | Place | Prepared connection | Priority |

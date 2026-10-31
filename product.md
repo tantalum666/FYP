@@ -2,6 +2,10 @@
 
 更新：2026-10-31。PR5 已按用户明确授权修复并合并（代码合并 `9b655e1`，与已测候选完整树一致）。本轮兼容整合：保留 Alice／Omni／权限及真实应用执行器，接入持久 Work、来源与产物、事务变化跟踪、定期检查和显式保存会话；事实统一保留在 owner_memories。迁移及发布状态见[本轮QA](output/qa/2026-10-31-pr5-repair/verification.md)与[兼容契约](desk-companion/docs/pr5-integration.md)。此前 PR70 已合入 #19／#64–#69，#4／#15／#16 的旧界面由当前主线取代。Grok #20–#59及#60已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main（软件合并c2037cd），原41个PR状态均已核对。当前方向为 **Desk Companion个人AI助理**。本分支基于完成归档的main，整合Grok #20–#59和#60的Alice／统一Omni／网页／手机软件，修复权限、上下文、恢复和跨栈兼容问题。分支推送、PR合并、目标设备部署及真实模型验收分别记录；此前跨端权限／事务接续与OpenAI受限真实评测已完成；现已实现受限 Chromium／Calc／Writer 执行，并跑通脚本驱动的复杂任务、改口和重启恢复；语音模型自主完成仍未验收。结果见[交接](handoff.md)、[本轮QA](output/qa/2026-10-30-application-execution/verification.md)与[实际交付门槛](desk-companion/docs/delivery-readiness.md)。合并基线的[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)保留历史范围。
 
+## 当前任务路由（31日用户最新决定）
+
+用户再次暂停Pi，转回personal agent，优先跨应用。活跃软件实现位于`/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`和[draft PR74](https://github.com/tantalum666/FYP/pull/74)；本分支保留Pi网络工作，不含74的新应用桥接代码。后续软件按那里的handoff继续；本文件下方Pi实测是暂停前记录，不能触发新的实机操作或旧预算。
+
 ## 当前要求
 
 三位学生、一台桌面原型；默认英文、支持简体中文。组号统一Group 2，身份与计划分工以[成员资料](planning/2026-09-14/group-2-details.json)为准。**本学期以完成软件和AI为主，硬件尽量完成Luwu机械臂与树莓派集成。**清扫、自动回座、无线充电与光学整机保留研究，不作为本学期软件交付的前置。

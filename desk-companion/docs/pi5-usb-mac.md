@@ -1,5 +1,7 @@
 # 只用 Mac 访问 Pi 5 · Group 2
 
+**31 October latest: Pi work is paused by the owner. The results below are preserved checkpoints; resume hardware only on a new owner instruction. Active personal-agent software is [PR74](https://github.com/tantalum666/FYP/pull/74).**
+
 **2026-10-31：家庭Wi-Fi、原配对SSH、网页Alice与Mac屏幕共享已实测连通。教室Wi-Fi／有线、宿舍有线配置已从Pi读回，有线尚未插线验收。Pi本机浏览器触发低电压事件，当前先核对电源／线材。详见[本轮QA](../../output/qa/2026-10-31-pi-home-resume/verification.md)与[网络方案](pi-network-profiles.md)。**
 <!-- FYP-CONTEXT-20261027 -->
 > HISTORICAL 2026-10-27 快照：当时Pi暂停，旧API预算关闭。当前恢复状态见文首31日记录。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。

@@ -32,5 +32,27 @@
       "Wired onsite acceptance",
       "Backed-up application/database upgrade"
     ]
+  },
+  "owner_pause_routing": {
+    "active_software_pr": 74,
+    "changed_only_documentation": true,
+    "checked_local_links": 270,
+    "broken_links": [],
+    "gitleaks_exit": 0,
+    "device_actions": 0,
+    "updated_files": [
+      "AGENTS.md",
+      "START_HERE_NEXT_CHAT.md",
+      "decision-log.md",
+      "desk-companion/docs/pi-network-profiles.md",
+      "desk-companion/docs/pi5-first-boot.md",
+      "desk-companion/docs/pi5-usb-mac.md",
+      "handoff.md",
+      "output/qa/2026-10-31-pi-home-resume/progress.json",
+      "output/qa/2026-10-31-pi-home-resume/publication.json",
+      "output/qa/2026-10-31-pi-home-resume/verification.md",
+      "product.md",
+      "work-log.md"
+    ]
   }
 }

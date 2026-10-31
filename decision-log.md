@@ -416,3 +416,7 @@ Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **核对事实：**DeviceApp代码、设备规范、全屏脚本及Pi已安装编译资源都存在；正确入口为`?surface=device`。前一轮回复截图为普通工作区`?page=device`设置页，是展示和说明错误，不能据此推断专用端被删除。
 - **现有实现与缺口：**React独立设备界面＋Pi本地API＋Chromium应用／kiosk窗口；实机autostart仍是session.sh→welcome.py，全屏开机进入尚未完成。通过Mac渲染Pi资源检查了常亮锁定页→登录面板→返回，无控制台warn/error；没有重启Pi本机浏览器、改变认证或启动配置。
 - **后续顺序：**供电核对后，将新版软件部署与专用端全屏自启动、配对／会话恢复、重启／触控验收一起收尾；远程管理页仅作为管理／诊断入口。详见[核对记录](output/qa/2026-10-31-pi-device-entry/verification.md)。
+
+## 2026-10-31 Pi再次暂停与软件工作区路由
+
+用户明确“pi先暂时放一边”，优先personal agent跨应用软件，取代供电／kiosk作为当前下一步。Pi实测与未完成门槛保留，未再连接或更新设备。软件从main dac527b在独立工作树实施并发布[draft PR74](https://github.com/tantalum666/FYP/pull/74)；本分支只同步暂停与恢复入口，不混入另一分支的未合并代码。旧预算关闭、无CI及私有数据边界不变。
