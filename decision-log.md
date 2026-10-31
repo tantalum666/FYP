@@ -420,3 +420,7 @@ Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 ## 2026-10-31 Pi再次暂停与软件工作区路由
 
 用户明确“pi先暂时放一边”，优先personal agent跨应用软件，取代供电／kiosk作为当前下一步。Pi实测与未完成门槛保留，未再连接或更新设备。软件从main dac527b在独立工作树实施并发布[draft PR74](https://github.com/tantalum666/FYP/pull/74)；本分支只同步暂停与恢复入口，不混入另一分支的未合并代码。旧预算关闭、无CI及私有数据边界不变。
+
+## 2026-11-01 界面精简与当前软件路由
+
+用户指出各页面文字过多。软件工作区已按主操作／结果优先、技术与可选信息折叠实现，并发布[draft PR75](https://github.com/tantalum666/FYP/pull/75)，以PR74为基线；保留Alice、具体批准与草稿恢复。303前端／类型构建及实际网页／中文手机检查属于软件分支证据。本Pi分支只同步入口，不新增实机工作或重复声称软件测试。

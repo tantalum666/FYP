@@ -522,3 +522,7 @@ Updated product, current entry/handoff, display contract, Mac access guide and d
 ## 2026-10-31 · Pi paused; route active software continuation
 
 Owner paused Pi and prioritized personal-agent cross-application software. The new implementation is in `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/personal-agent-cross-app-20261031`, [PR74](https://github.com/tantalum666/FYP/pull/74). Updated this original checkout's AGENTS/product/entry/handoff and Pi guide headers so the next chat follows the active software work rather than restarting hardware. Pi evidence/power/wired/kiosk gaps remain preserved; no device action or source-code change. Software evidence and1,701/303 checks belong to74, not this Pi branch.
+
+## 2026-11-01 · Route to concise-UI software continuation
+
+Updated AGENTS/product/entry/handoff and current decision after the owner reported excessive UI text. Active software tree remains personal-agent-20261031, now branch codex/ui-copy-cleanup-20261031 and draftPR75 on PR74. Its code/QA are not copied into this Pi branch. Read current routing documents and latest related sections; confirmed clean starting state and documentation-only diff. No Pi/network/model/runtime action; power/kiosk/wired gaps remain paused. [Routing check](output/qa/2026-10-31-ui-copy-cleanup/routing.md).
