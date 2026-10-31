@@ -12,6 +12,6 @@ Findings: Work IDs/call counters/capacity and repeated caveats bury file results
 
 Implementation direction: remove redundant narration, use concise user-facing status, put technical detail/history/capacity behind explicit disclosure, simplify common Work input and review while retaining explicit retention/provider/action choices. Keep exact approval content, failure recovery, dirty-form guards and all backend gates. Do not use blanket CSS hiding or delete user-authored content.
 
-Status: implementation and local acceptance complete; see verification.md for actual checks and limits. GitHub publication/remote readback follows separately.
+Status: implementation/local acceptance complete and source752ab66 published to draftPR75; exact remote source head verified. Follow-up records publication and updates original-checkout routing only.
 
 Compaction recovery read AGENTS/product/handoff and the latest decision-log sections; reused this round’s completed audit and interactions. Final source review covered RunPanel/RunDetail/RunComposer, application selection/results, shared action cards, permission/data panels and CSS. Rechecked only changed copy/format assertions before final303-test suite and build. Current screenshots/QA are dated across31October–1November; the established QA directory remains unchanged.

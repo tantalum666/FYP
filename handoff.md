@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-1 November 2026, Asia/Shanghai. **Pi remains paused. Latest owner feedback: the UI has too much text.** Active worktree `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/ui-copy-cleanup-20261031`, based on [PR74](https://github.com/tantalum666/FYP/pull/74) head `89f215e`. Publication is recorded separately from merge/deployment in the [UI QA](output/qa/2026-10-31-ui-copy-cleanup/verification.md).
+1 November 2026, Asia/Shanghai. **Pi remains paused. Latest owner feedback: the UI has too much text.** Active worktree `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/ui-copy-cleanup-20261031`, based on [PR74](https://github.com/tantalum666/FYP/pull/74) head `89f215e`. [Draft PR75](https://github.com/tantalum666/FYP/pull/75) contains verified source752ab66; [publication receipt](output/qa/2026-10-31-ui-copy-cleanup/publication.json) and [UI QA](output/qa/2026-10-31-ui-copy-cleanup/verification.md) are separate from merge/deployment.
 
 ## Current result
 

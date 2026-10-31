@@ -54,6 +54,6 @@ No backend change or new dependency. Prior PR74's1,701 backend result belongs to
 
 ## Documentation and publication
 
-Updated AGENTS, product, decision log, current entry/handoff, work log, software maintenance, dated UI/permission guidance and the new [copy contract](../../../desk-companion/docs/ui-copy.md). Local link, scope, formatting, secret-pattern and diff checks are recorded at publication. Selected screenshots contain only synthetic QA data; runtime stores, credentials, full browser inventory and private artifacts are excluded.
+Updated AGENTS, product, decision log, current entry/handoff, work log, software maintenance, dated UI/permission guidance and the new [copy contract](../../../desk-companion/docs/ui-copy.md). 310 local links, changed-file scope, formatter, secret-pattern and staged diff checks passed; see [checks](publication-checks.json). Selected screenshots contain only synthetic QA data; runtime stores, credentials, full browser inventory and private artifacts are excluded.
 
-Publication pending. New UI PR is stacked on the still-unmerged PR74, not an implicit main merge or device deployment. Next software step remains ordinary Alice/Omni long-task admission/recovery through existing Work, respecting the new concise-interface contract.
+Published source `752ab66095cde19e2b11807de17875725ab97a39` to [draft PR75](https://github.com/tantalum666/FYP/pull/75), stacked on still-unmerged PR74. GitHub metadata confirms the exact source head, open/draft/unmerged, with base89f215e. [Receipt](publication.json). This follow-up changes only documentation; no main merge or device deployment. Next software step remains ordinary Alice/Omni long-task admission/recovery through existing Work, respecting the new concise-interface contract.
