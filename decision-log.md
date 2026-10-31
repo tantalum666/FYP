@@ -409,3 +409,10 @@ Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **新发现与工程处置：**Pi本机Chromium启动时真实低电压，内核两秒后记录恢复；窗口已关闭。后续0x50000为历史低电压／节流位，供电能力读数3000mA。先请用户确认电源／线材，再做有界负载复测；不通过屏蔽警告、强制供电覆盖或重刷来消除证据。此为实测问题后的工程顺序，不是用户恢复Pi授权被撤销。
 - **OS记录：**cloud-init已结束，errors=[]，缺少cc_netplan_nm_patch的可恢复警告保留；country命令exit1但global CN和启动参数已验证。没有改系统厂商配置或重跑provisioning来将状态变绿。
 - **未完成：**连续运行、家中及学校有线、最新软件／数据库升级、Pi端语音／声学／机械验收。旧模型预算仍关闭，实际调用0。详见[更新QA](output/qa/2026-10-31-pi-home-resume/verification.md)。
+
+### 2026-10-31 Pi专用端入口与交付口径纠正
+
+- **用户纠正：**指出之前已经专门开发Pi端，质疑为何展示普通网页。沿用9月30日“设备常亮界面与手机／网页分开”的已确认要求，不新造一种平台选择。
+- **核对事实：**DeviceApp代码、设备规范、全屏脚本及Pi已安装编译资源都存在；正确入口为`?surface=device`。前一轮回复截图为普通工作区`?page=device`设置页，是展示和说明错误，不能据此推断专用端被删除。
+- **现有实现与缺口：**React独立设备界面＋Pi本地API＋Chromium应用／kiosk窗口；实机autostart仍是session.sh→welcome.py，全屏开机进入尚未完成。通过Mac渲染Pi资源检查了常亮锁定页→登录面板→返回，无控制台warn/error；没有重启Pi本机浏览器、改变认证或启动配置。
+- **后续顺序：**供电核对后，将新版软件部署与专用端全屏自启动、配对／会话恢复、重启／触控验收一起收尾；远程管理页仅作为管理／诊断入口。详见[核对记录](output/qa/2026-10-31-pi-device-entry/verification.md)。

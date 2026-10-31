@@ -17,6 +17,14 @@ HISTORICAL 2026-10-26：当时通过教室NETGEAR02连通SSH、网页和Mac屏�
 4. 网页用户名`owner`，使用Pi生成的网页密码。屏幕共享使用独立桌面密码。Mac私有副本分别是`~/.config/desk-companion/pi5-classroom/web-login.json`和`desktop-login.json`，权限0600，口令不进入聊天／Git。
 5. 当前桌面会话已登录。Pi系统用户`desk`，其既有口令仍在Downloads/Desk-Companion-Pi5/pi-login.json；不要把系统、网页和桌面密码混用。
 
+### Pi专用显示端与远程管理入口
+
+Pi已有独立常亮／触控界面，见[设备规范](../../planning/2026-09-30/device-display-spec.md)。当前隧道中的[专用显示端](http://127.0.0.1:8891/?surface=device)使用`?surface=device`，路由到DeviceApp；普通工作区中的`?page=device`只是设备设置页，两者不可混称。前一轮回复展示的侧栏／设备设置截图不是Pi常亮界面。
+
+实现为Pi本地API／静态资源，加Chromium应用窗口或kiosk全屏显示，业务与手机／网页共享，设备构图独立。Pi本机访问127.0.0.1:8831，Mac隧道预览访问8891。它不需要Mac负责运行主界面，也不需要联网下载UI；外部AI等在线功能另算。
+
+31日实机读回确认`/opt/desk-companion/scripts/kiosk.sh`默认指向`?surface=device`，带`--kiosk`；欢迎窗口的“打开桌面页面”也指向这个入口。当前autostart仍执行session.sh→welcome.py，尚未配置为自动进入常亮全屏。重新通过Mac渲染Pi提供的设备页，时钟／月历正常，未登录时Calendar locked；触控入口打开登录面板，关闭后返回显示，无应用warn/error。此检查没有启动Pi本机Chromium、修改登录或自动启动，不等于Pi触摸屏／长期配对／连续运行验收。
+
 31日家庭Mac地址192.168.0.107/24，Pi为192.168.0.105/24，直连路由经en0，原SSH主机密钥一致。`eth0`最后为无载波，当前家中及学校网线均未实测。HISTORICAL：26日教室Mac为192.168.49.3/24、Pi Wi-Fi为192.168.49.5/24，Pi以太网曾取得172.18.37.28/24，和Mac不同网段；网口灯亮不等于远程可达。学校Student/Halls的问题保留在下方历史记录。
 
 ## 访问范围

@@ -4,4 +4,6 @@
 
 The owner wants home Wi-Fi, classroom Wi-Fi plus Ethernet, dorm Ethernet. Profiles/metrics and disabled Student/Halls autoconnect were read back from the Pi. Ethernet is configured but no cable/onsite test has passed. Keep credentials/private backups outside Git. Existing pairing/host keys and app data were preserved. The generic LAN launcher is in the local Pi download folder; current web tunnel is127.0.0.1:8891, desktop5901. Do not revive the failed dorm Wi-Fi retry loop.
 
+Pi has its own DeviceApp at`?surface=device`; ordinary`?page=device`is a settings screen and must not be presented as the Pi display. Both installed assets and the correct rendered display were checked. Autostart still opens the welcome helper; automatic kiosk and device recovery are unfinished. [Entry correction](output/qa/2026-10-31-pi-device-entry/verification.md).
+
 Merged software baseline remains `dac527b` after PR5 and its receipt PR72. Its1,686backend/300frontend checks are prior software results, not this Pi's acceptance. The Pi app was not upgraded in this networking step; [explicit migration rules](desk-companion/docs/pr5-integration.md) still apply. No CI, new model budget or automatic VPS/proxy change. Follow focused [AGENTS](AGENTS.md) recovery and the current one-step handoff.

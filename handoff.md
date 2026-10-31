@@ -20,6 +20,8 @@ The Pi's own browser rendered the device page after cancelling an unsolicited ne
 
 The user-referenced VPS chat was read during preparation. No VPS, Mac proxy or VPN configuration was changed. Old paid-model rounds remain closed. No microphone/camera/arm activation or latest-main app/database upgrade was performed. The Pi still runs its Oct22 app plus Oct26 repairs; networking, software merge and device deployment are separate facts. Private diagnostic JSON and actual GUI screenshots are under `~/.config/desk-companion/pi5-home/`; only selected nonsecret evidence is published.
 
+**Device-entry correction:** The owner correctly recalled the separate Pi display. `?surface=device` loads DeviceApp; `?page=device` is ordinary workspace settings and was the wrong screenshot in the previous reply. Pi-installed DeviceApp assets and kiosk.sh were verified over SSH; the correct page renders through the Mac tunnel, with the locked-calendar/login/return flow checked. Actual autostart remains session.sh→welcome.py, not automatic kiosk. [Device-entry QA](output/qa/2026-10-31-pi-device-entry/verification.md), [display contract](planning/2026-09-30/device-display-spec.md). After power is resolved, deployment must finish dedicated full-screen startup and recovery, not just a reachable management page.
+
 ## One next step
 
 Confirm the owner's present PSU/cable, correct the supply if needed, then perform one bounded power/stability retest. An optional home-router Ethernet test was also offered; no reply/cable was observed. Do not record classroom/dorm Ethernet acceptance without onsite evidence. Preserve the original card/data and do not reflash as a shortcut.
