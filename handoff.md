@@ -14,7 +14,7 @@ Final1,701backend/303frontend, Ruff, types/build passed. Real web Allow once→v
 
 Only synthetic core stores were created under this worktree's ignored `.runtime/`. UI QA: API8861 with Vite5191; all provider decisions are replaced in memory by the explicitly offline fixture runner. It is not the owner's normal model configuration. `fyp-apps` Colima and its labelled `desk-applications` container were restarted after mount/isolation checks; only the existing application root is mounted. Preserve older app artifacts and all real user databases/keys. Current local processes may stop between chats: recheck ownership before reuse.
 
-Pi remains paused. Home networking and dedicated-display evidence are preserved in [PR73](https://github.com/tantalum666/FYP/pull/73), branch `codex/pi-home-resume-20261031` atf7d8cfb; its power and direct-kiosk-startup gates remain unresolved. No Pi connection/update was resumed here. All prior model budgets remain closed; no CI, external account connection, sending, payment or physical output.
+Pi remains paused. Home networking and dedicated-display evidence are preserved in [PR73](https://github.com/tantalum666/FYP/pull/73), branch `codex/pi-home-resume-20261031` (verified network/display checkpointf7d8cfb); its power and direct-kiosk-startup gates remain unresolved. No Pi connection/update was resumed here. All prior model budgets remain closed; no CI, external account connection, sending, payment or physical output.
 
 ## One next step
 

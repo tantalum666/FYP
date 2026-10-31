@@ -11,5 +11,11 @@
   "pr": 74,
   "url": "https://github.com/tantalum666/FYP/pull/74",
   "draft": true,
-  "remote_head_verified": true
+  "remote_head_verified": true,
+  "original_worktree_routing": {
+    "branch": "codex/pi-home-resume-20261031",
+    "pause_commit": "1cad1df",
+    "active_software_pr": 74,
+    "hardware_actions": 0
+  }
 }
