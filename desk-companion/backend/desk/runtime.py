@@ -11,6 +11,7 @@ from .posture_service import PostureService
 from .store import DomainError
 from .workspace_data import WorkspaceData
 from .voice import VoiceService
+from .wake_listening import WakeListening
 from .exchange import ExchangeService
 from .google_calendar import GoogleCalendar
 from .tasks import TaskService
@@ -90,6 +91,7 @@ class Runtime:
             else None,
         )
         self.voice = VoiceService(self)
+        self.wake = WakeListening(self)
         self.exchange = ExchangeService(self)
         self.backups = LocalBackups(self)
         self.google = GoogleCalendar(self)

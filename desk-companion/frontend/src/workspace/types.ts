@@ -110,6 +110,8 @@ export interface WorkspaceSnapshot {
     model: string;
     active: boolean;
     supports_images?: boolean;
+    supports_text?: boolean;
+    wake_word?: { available: boolean; word?: string; active?: boolean };
     config_revision?: string;
     configuration_error?: string;
   };

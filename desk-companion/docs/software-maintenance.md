@@ -7,6 +7,8 @@
 
 2 November 2026: ConversationWorkspace owns the persistent desktop panel and scoped draft boundary; AssistantPanel retains conversation/actions/voice. LocalCapture owns device permission races and release; MediaDevicePanel owns local preview/meter UI; VoiceAudio retains one-frame transport. No parallel model client or queue. [Contract](desktop-conversation.md) / [QA](../../output/qa/2026-11-02-conversation-desktop/verification.md).
 
+2 November2026 OpenAI/wake: voice_protocols owns shared wire response/cancellation lifecycle; openai_voice adapts GA format and rate without business authority. VoiceService retains the single model slot, tool dispatcher and current checks. WakeListening owns only local owner-scoped keyword PCM, while WakeAudio/useAliceWake coordinate existing media. No model request comes from the detector itself. [Contract](openai-alice-wake.md) / [QA](../../output/qa/2026-11-02-openai-alice-wake/verification.md).
+
 ## Frontend responsibilities
 
 | Module | Responsibility |

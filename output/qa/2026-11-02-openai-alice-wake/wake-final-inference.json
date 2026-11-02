@@ -1,0 +1,47 @@
+[
+  {
+    "fixture": "alice",
+    "synthetic_voice": true,
+    "expected_wake": true,
+    "hits": [
+      {
+        "word": "ALICE",
+        "at_seconds": 0.68
+      }
+    ],
+    "matched_expectation": true
+  },
+  {
+    "fixture": "alice_zh",
+    "synthetic_voice": true,
+    "expected_wake": true,
+    "hits": [
+      {
+        "word": "ALICE",
+        "at_seconds": 0.84
+      }
+    ],
+    "matched_expectation": true
+  },
+  {
+    "fixture": "alex",
+    "synthetic_voice": true,
+    "expected_wake": false,
+    "hits": [],
+    "matched_expectation": true
+  },
+  {
+    "fixture": "calendar",
+    "synthetic_voice": true,
+    "expected_wake": false,
+    "hits": [],
+    "matched_expectation": true
+  },
+  {
+    "fixture": "desk",
+    "synthetic_voice": true,
+    "expected_wake": false,
+    "hits": [],
+    "matched_expectation": true
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "full_backend_run": 1716,
+  "final_focused_provider_wake_checks": 16,
+  "additional_idle_case_not_in_prior_full_collection": 1,
+  "distinct_backend_checks": 1717,
+  "frontend_full_run": 314,
+  "typecheck_and_build": "passed",
+  "ruff": "passed",
+  "real_provider_trials": 4,
+  "paid_experiment_closed": true,
+  "local_model_final_cases": 5,
+  "browser_wait_stop": "passed",
+  "temporary_browser_ticket_block": "cleared",
+  "viewport_changed": false,
+  "owner_permission_setting_changed": false,
+  "native_human_acoustic_acceptance": false
+}

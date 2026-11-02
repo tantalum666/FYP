@@ -16,13 +16,13 @@ The camera button opens a device panel. Open camera requests video only; Test mi
 
 Share this frame explicitly sends one frame during a compatible active voice call, using VoiceAudio's existing bounded encoding, rate and disconnect checks. This is not continuous camera streaming. Preview alone is not evidence of model understanding.
 
-The main microphone starts the existing provider-backed session. With Qwen Omni configured, explicit typed/voice input uses the same model path. Opening the page/device panel makes no paid request. The owner elected to test manually this round; do not infer a new automatic test budget.
+The main microphone starts the existing provider-backed session. With Qwen Omni configured, explicit typed/voice input uses the same model path. Opening the page/device panel makes no paid request. The earlier manual-preview-only choice was followed by the explicit OpenAI trial request; that new bounded experiment is now closed. Normal owner use still starts explicitly.
 
-## Current local preview
+## Current local preview (updated after OpenAI request)
 
-Vite127.0.0.1:5191 proxies API127.0.0.1:8861, using synthetic `.runtime/work-ui-01`. Current launch uses `DESK_LOCAL_PREVIEW=1`, `DESK_VOICE_PROVIDER=qwen_omni`, and `DESK_QWEN_CREDENTIAL_FILE` pointing to the existing protected local file. No key belongs in frontend config or Git. `DESK_TEXT_PROVIDER=none` and `DESK_TEXT_BACKGROUND=0` do not disable the configured shared Omni path. Scheduler/computer execution are off in this particular UI runtime; it is not unattended cross-application deployment.
+Vite127.0.0.1:5191 proxies API127.0.0.1:8861 using synthetic `.runtime/work-ui-01`. The newer [OpenAI/Alice contract](openai-alice-wake.md) records the current full Realtime2.1 configuration, private credential-file reference and local keyword model. The earlier Qwen manual-preview choice below is historical. Current owner request separately authorized a small OpenAI trial, now closed; ordinary owner use remains explicit.
 
-When reopening this preview, preserve the current explicit voice configuration instead of silently presenting a providers-off QA environment as the normal app. Recheck process ownership and handoff. Configuration readiness is distinct from a successful billable request. OpenAI and other candidates are not excluded by restoring the existing Qwen baseline.
+When reopening this preview, preserve its current configured provider instead of silently presenting a providers-off QA environment. No key belongs in frontend/Git. Scheduler/computer execution is still off in this UI runtime. Preserve the distinction between ready configuration, returned model output and verified user-visible results.
 
 ## Verification
 

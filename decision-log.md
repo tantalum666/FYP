@@ -420,3 +420,11 @@ Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - 309前端、类型／构建及真实浏览器布局／草稿往返／权限／导航检查通过，Mac摄像头和麦克风有真实输入；无新增云端回答成绩。
 - 曾在用户正看的窗口做窄屏测试，用户再次指出比例异常；已恢复正常Web窗口和100%缩放，后续转独立QA标签页，验证用户窗口仍1291×681。不是设备端交付；之后不得在用户正在查看的标签页修改测试尺寸。
 - [契约](desk-companion/docs/desktop-conversation.md)／[QA](output/qa/2026-11-02-conversation-desktop/verification.md)。下一步仍是普通Alice／Omni长任务接入既有Work；Pi暂停，无CI或自动收费。
+
+## 2026-11-02 OpenAI试接、Alice唤醒与费用
+
+- **用户决定：**要求试接OpenAI，询问无感对话费用，并明确选择“叫Alice才唤醒”。这取代前一轮只准备Qwen供本人点击的当前任务安排；不恢复Pi或旧实验。
+- **工程选择：**沿用已确认的FYP专用Key，采用已说明的新USD1操作上限；本地sherpa关键词→既有VoiceService→安静30秒回本地。初次页面需启用，刷新／关闭即停止；不是OS常驻或真人准确率保证。
+- **实际修正：**共享Realtime生命周期从voice.py拆出，OpenAI保留现有工具／权限；16k输入在适配边界转24k。实测暴露日期缺时区、512输出截断和Mini误读09:30为10:30；保留失败。工具描述／owner_clock／输出与读数提示改进后，Full2.1正确读回3场09:30／14:00／16:00，作为当前配置。提示也有变化，不是受控模型排名。
+- **费用事实：**官方Realtime按token、VAD过滤空白且连接不收费；Live按包括安静的在线时间另加后台。待机留在本机避免一直上传／调用。新实验已关闭，回执保守估算USD0.1692086，含未知回执预留的记账USD0.6499936；不是Platform账单，旧USD170余额未重新核对。
+- **范围：**本地模型、真实本机WebSocket、浏览器待机／关闭和四次合成语音实际API分开记录。未做真人唤醒率、真实声学插话、长时间后台／功耗、Pi／原生手机或购物邮箱验收。现有Full设置保留，没有扩大权限。见[契约](desk-companion/docs/openai-alice-wake.md)／[QA](output/qa/2026-11-02-openai-alice-wake/verification.md)。

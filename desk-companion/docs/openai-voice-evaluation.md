@@ -1,5 +1,7 @@
 # OpenAI real-time voice evaluation · Group 2
 
+2 November2026 update: the [production Realtime adapter and Alice wake path](openai-alice-wake.md) now have separate current evidence. The29October evaluation, prices/reservations and results below retain their original scope; they are not new runs.
+
 29 October 2026. The owner requested cost-conscious tests of both real-time voice routes. This is an **isolated evaluation harness**, not a completed production-provider adapter. Existing Qwen integration and normal application provider selection remain separate.
 
 ## Tested routes

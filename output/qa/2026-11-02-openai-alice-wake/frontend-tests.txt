@@ -1,0 +1,12 @@
+Command: npm --prefix frontend test
+Full TAP retained in ignored .runtime/openai-alice-qa.
+
+1..314
+# tests 314
+# suites 0
+# pass 314
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2983.933583

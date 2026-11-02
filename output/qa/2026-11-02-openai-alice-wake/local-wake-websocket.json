@@ -1,0 +1,20 @@
+{
+  "events": [
+    {
+      "type": "ready",
+      "word": "Alice"
+    },
+    {
+      "type": "wake",
+      "word": "Alice"
+    }
+  ],
+  "elapsed_seconds": 1.288,
+  "provider": "openai_realtime",
+  "model": "gpt-realtime-2.1",
+  "cloud_active_before": false,
+  "cloud_active_after": false,
+  "wake_active_after": false,
+  "synthetic_pcm": true,
+  "cloud_request_made_by_check": false
+}

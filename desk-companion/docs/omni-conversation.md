@@ -1,6 +1,8 @@
 # Group 2：同一个 Omni 的文字、语音与记忆
 
-2 November 2026: Web now uses the [primary conversation page](desktop-conversation.md), with current Qwen configuration and local Mac camera/mic controls. Owner chose manual trial; no new paid-test result. [QA](../../output/qa/2026-11-02-conversation-desktop/verification.md).
+Latest2November: [OpenAI Realtime and local Alice wake](openai-alice-wake.md) now share the existing conversation/permission core. Current full-model preview follows the passing bounded fixture; Mini remains a candidate. The older Qwen-focused sections and earlier manual-preview update below are dated evidence, not a restriction to one provider.
+
+Earlier2November: Web now uses the [primary conversation page](desktop-conversation.md), with current Qwen configuration and local Mac camera/mic controls. Owner chose manual trial; no new paid-test result. [QA](../../output/qa/2026-11-02-conversation-desktop/verification.md).
 
 > 2026-10-27范围澄清：本文的统一Omni部分描述当前已测Qwen实现，不能读成项目只采用千问。其他AI选型仍待比较；已有Qwen Audio／Gemini适配与未接入的候选分开，未声称自动多模型路由已完成。
 

@@ -1,0 +1,40 @@
+{
+  "checked": "2026-11-02",
+  "currency": "USD",
+  "sources": [
+    "https://developers.openai.com/api/docs/pricing",
+    "https://developers.openai.com/api/docs/guides/voice-latency-cost"
+  ],
+  "assumptions": {
+    "daily_conversation_minutes": 30,
+    "human_speaking_minutes": 15,
+    "assistant_speaking_minutes": 15,
+    "input_audio_tokens_per_second": 10,
+    "output_audio_tokens_per_second": 20,
+    "days": 30
+  },
+  "incremental_audio_only": {
+    "gpt-realtime-2.1-mini": {
+      "daily": 0.45,
+      "thirty_days": 13.5
+    },
+    "gpt-realtime-2.1": {
+      "daily": 1.44,
+      "thirty_days": 43.2
+    }
+  },
+  "gpt_live_voice_session_only": {
+    "thirty_minutes_daily": 1.5,
+    "eight_hours_daily": 24,
+    "eight_hours_thirty_days": 720
+  },
+  "excluded": [
+    "text and replayed history",
+    "additional model/tool turns",
+    "separate input transcription",
+    "other backend services",
+    "image inputs"
+  ],
+  "local_wake_standby_openai_api_cost": 0,
+  "not_a_total_bill_or_current_balance": true
+}

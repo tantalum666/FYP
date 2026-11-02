@@ -1,0 +1,130 @@
+[
+  {
+    "attempt": "1",
+    "model": "gpt-realtime-2.1-mini",
+    "responses_created": 5,
+    "response_status": [
+      "completed",
+      "completed",
+      "completed",
+      "completed"
+    ],
+    "output_audio_seconds": 0.0,
+    "estimated_usd_upper": 0.019215,
+    "finalized": false,
+    "tools": [
+      {
+        "name": "calendar_query",
+        "id": "call_3zn237OxcHS7Y4SV"
+      },
+      {
+        "name": "calendar_query",
+        "id": "call_imgjw6qjxapmPSi2"
+      },
+      {
+        "name": "calendar_query",
+        "id": "call_UFIbreSdOycA75xs"
+      },
+      {
+        "name": "calendar_query",
+        "id": "call_0pa9lbzOcApGxvnw"
+      }
+    ],
+    "provider_errors": null,
+    "client_status": null,
+    "voice_slot_released": true,
+    "assistant_text": ""
+  },
+  {
+    "attempt": "2",
+    "model": "gpt-realtime-2.1-mini",
+    "responses_created": 3,
+    "response_status": [
+      "completed",
+      "completed",
+      "incomplete"
+    ],
+    "output_audio_seconds": 20.3,
+    "estimated_usd_upper": 0.0228652,
+    "finalized": true,
+    "tools": [
+      {
+        "name": "owner_clock",
+        "id": "call_3xNSDAL5IvJgR9gk",
+        "arguments": "{}"
+      },
+      {
+        "name": "calendar_query",
+        "id": "call_Ol5HVAXH5MgkfBUV",
+        "arguments": "{\"start\":\"2026-10-30T00:00:00+08:00\",\"end\":\"2026-10-31T00:00:00+08:00\"}"
+      }
+    ],
+    "provider_errors": null,
+    "client_status": [
+      {
+        "type": "error",
+        "code": "VOICE_PROVIDER_RESPONSE_FAILED"
+      }
+    ],
+    "voice_slot_released": true,
+    "assistant_text": "好的，我们一起来看看明天的明天一共有 3 场会议。分别是：\n\n第一场：设计评审，早上 9 点 30 开始，结束 10 点整。\n第二场：项目例会，下午 2 点开始，结束 2 点半。\n第三场：软件演示，下午 4 点开始，结束 4 点半。\n\n如果你想，我也可以帮你把它们整理成一个小计划或者提醒"
+  },
+  {
+    "attempt": "3",
+    "model": "gpt-realtime-2.1-mini",
+    "responses_created": 3,
+    "response_status": [
+      "completed",
+      "completed",
+      "completed"
+    ],
+    "output_audio_seconds": 11.75,
+    "estimated_usd_upper": 0.0198524,
+    "finalized": true,
+    "tools": [
+      {
+        "name": "owner_clock",
+        "id": "call_Nhy7PywCjxDPHnze",
+        "arguments": "{}"
+      },
+      {
+        "name": "calendar_query",
+        "id": "call_oTcvcCoRM8WrOBQm",
+        "arguments": "{\"start\":\"2026-10-30T00:00:00+08:00\",\"end\":\"2026-10-31T00:00:00+08:00\"}"
+      }
+    ],
+    "provider_errors": null,
+    "client_status": null,
+    "voice_slot_released": true,
+    "assistant_text": "好的，明天一共有 3 场会议。 第一场是设计评审，10 点半开始。 第二场是项目进度汇报，下午 2 点开始。 第三场是软件演示，下午 4 点开始。"
+  },
+  {
+    "attempt": "4",
+    "model": "gpt-realtime-2.1",
+    "responses_created": 3,
+    "response_status": [
+      "completed",
+      "completed",
+      "completed"
+    ],
+    "output_audio_seconds": 16.65,
+    "estimated_usd_upper": 0.107276,
+    "finalized": true,
+    "tools": [
+      {
+        "name": "owner_clock",
+        "id": "call_ZILZOTuVSMlw53JW",
+        "arguments": "{}"
+      },
+      {
+        "name": "calendar_query",
+        "id": "call_8YGaloQGS1Q7YAN5",
+        "arguments": "{\"start\":\"2026-10-30T00:00:00+08:00\",\"end\":\"2026-10-31T00:00:00+08:00\"}"
+      }
+    ],
+    "provider_errors": null,
+    "client_status": null,
+    "voice_slot_released": true,
+    "assistant_text": "好的，明天（2026年10月30日）一共有 3 场会议。第一场是 9 点 30 分开始，第二场是 14 点开始，第三场是 16 点开始。需要我帮你按时间顺序做个小提醒计划吗？"
+  }
+]

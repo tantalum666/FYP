@@ -51,6 +51,7 @@ import "./assistant-minimal.css";
 import { useVoiceWorkHandoff } from "./voiceWork/useVoiceWorkHandoff";
 import { ToolActivity, type ToolCall } from "./ToolActivity";
 import { MediaDevicePanel } from "./media/MediaDevicePanel";
+import { useAliceWake } from "./wake/useAliceWake";
 
 export function AssistantPanel({
   t,
@@ -160,6 +161,8 @@ export function AssistantPanel({
   const audio = useRef<VoiceAudio | null>(null),
     alive = useRef(true);
   const conversationId = useRef<string | undefined>(undefined);
+  const contextTouched = useRef(0);
+  const voiceRevision = useRef<string | undefined>(undefined);
   const pendingSubmission = useRef<string | null>(null);
   const submissionGeneration = useRef(0);
   const pendingHttp = useRef<{
@@ -283,9 +286,43 @@ export function AssistantPanel({
   const voiceActive = microphone;
   const omni =
     !!data?.voice.configured &&
-    data.voice.provider === "qwen_omni" &&
+    (data.voice.supports_text ?? data.voice.provider === "qwen_omni") &&
     owner.current;
   const unavailable = !data || offline || stale;
+  const voiceName =
+    data?.voice.provider === "openai_realtime"
+      ? data.voice.model.includes("mini")
+        ? "OpenAI Realtime Mini"
+        : "OpenAI Realtime"
+      : "Qwen Omni";
+  const wake = useAliceWake({
+    available:
+      owner.current &&
+      !!data?.voice.configured &&
+      !!data.voice.wake_word?.available,
+    paused: suspended || unavailable || mediaOpen,
+    engaged: voiceState !== "idle" || busy || microphone,
+    onWake: startVoice,
+  });
+  useEffect(() => {
+    const revision = data?.voice.config_revision;
+    if (
+      revision &&
+      voiceRevision.current &&
+      revision !== voiceRevision.current
+    ) {
+      wake.disable();
+      endVoice();
+      conversationId.current = undefined;
+      setNotice(
+        t(
+          "Voice service changed. Your next message starts a new context.",
+          "语音服务已切换，下条消息将使用新的上下文。",
+        ),
+      );
+    }
+    voiceRevision.current = revision;
+  }, [data?.voice.config_revision, wake.disable, t]);
   const openJobs = () => {
     setJobsOpened(true);
     setView("jobs");
@@ -326,6 +363,7 @@ export function AssistantPanel({
   useEffect(() => {
     const renewed = () => {
       conversationId.current = undefined;
+      wake.disable();
       endVoice();
     };
     window.addEventListener("desk:session", renewed);
@@ -438,6 +476,7 @@ export function AssistantPanel({
   const showHttpReply = useCallback((submitted: string, result: Reply) => {
     setReply(result);
     conversationId.current = result.conversation_id;
+    contextTouched.current = Date.now();
     setLiveMessage("");
     setProgress([]);
     setError(
@@ -487,6 +526,7 @@ export function AssistantPanel({
   async function send(e: React.FormEvent) {
     e.preventDefault();
     if (busy || !text.trim() || unavailable || pendingJob) return;
+    wake.disable();
     followLatest.current = true;
     const submitted = text;
     const previousHttp = pendingHttp.current;
@@ -617,6 +657,10 @@ export function AssistantPanel({
     setTranscript("");
   }
   async function switchToText() {
+    if (wake.enabled) {
+      endVoice();
+      return;
+    }
     if (!omni) {
       endVoice();
       return;
@@ -639,6 +683,7 @@ export function AssistantPanel({
     queueMicrotask(() => composer.current?.focus());
   }
   async function newConversation() {
+    wake.disable();
     submissionGeneration.current += 1;
     pendingHttp.current = null;
     const id = conversationId.current;
@@ -666,6 +711,7 @@ export function AssistantPanel({
   }
   async function startVoice() {
     if (unavailable || busy) return;
+    wake.pause();
     modeSwitching.current = true;
     setBusy(true);
     setMicrophone(true);
@@ -683,6 +729,10 @@ export function AssistantPanel({
   async function connectConversation(mode: "text" | "voice") {
     if (audio.current) return audio.current;
     if (unavailable || !data?.voice.configured) return null;
+    // A fresh wake after long local standby must not retry an expired cloud
+    // context. Visible messages remain; no paid reconnection is made here.
+    if (Date.now() - contextTouched.current > 25 * 60_000)
+      conversationId.current = undefined;
     setError(null);
     setVoiceState("connecting");
     setTranscript("");
@@ -695,6 +745,8 @@ export function AssistantPanel({
       const engine = new VoiceAudio((event) => {
         if (!alive.current || audio.current !== engine) return;
         voiceWork.observe(event);
+        if (["ready", "turn_complete", "transcript"].includes(event.type))
+          contextTouched.current = Date.now();
         if (event.type === "ready") {
           if (modeSwitching.current) {
             modeSwitching.current = false;
@@ -760,6 +812,7 @@ export function AssistantPanel({
           if (immersive) onExpandedChange?.(true);
         }
         if (event.type === "error") {
+          wake.failed();
           modeSwitching.current = false;
           if (pendingSubmission.current) setText(pendingSubmission.current);
           pendingSubmission.current = null;
@@ -781,8 +834,8 @@ export function AssistantPanel({
                   )
                 : event.code === "VOICE_MODEL_ACCESS_DENIED"
                   ? t(
-                      "The provider denied access to this model. Check model access in the Qwen console. This connection has stopped.",
-                      "千问拒绝访问这个模型。请在千问平台检查模型权限或开通状态，本次连接已停止。",
+                      "The provider denied model access. Check model access or billing; this connection has stopped.",
+                      "提供商拒绝访问模型，请检查模型权限或额度。本次连接已停止。",
                     )
                   : event.code === "VOICE_CONNECT_TIMEOUT"
                     ? t(
@@ -843,6 +896,11 @@ export function AssistantPanel({
           );
         }
         if (event.type === "closed" || event.type === "ended") {
+          if (!(
+            event.type === "ended" &&
+            ["idle", "session_limit"].includes(event.reason ?? "")
+          ))
+            wake.disable();
           modeSwitching.current = false;
           if (pendingSubmission.current) setText(pendingSubmission.current);
           pendingSubmission.current = null;
@@ -890,6 +948,7 @@ export function AssistantPanel({
       return engine;
     } catch (e) {
       if (!alive.current || audio.current !== starting) return;
+      wake.failed();
       endVoice();
       setError(e);
       setNotice(
@@ -1535,28 +1594,82 @@ export function AssistantPanel({
               </button>
             </div>
           )}
-          <PermissionControl t={t} />
-          <p className="assistant-caption">
-            {voiceActive
-              ? voiceState === "connecting"
-                ? t("Preparing voice…", "正在准备语音…")
-                : t(
-                    "Speak naturally. Your mic is on.",
-                    "直接交谈，麦克风已开启。",
+          <div className="assistant-input-preferences">
+            <PermissionControl t={t} />
+            {ownerView &&
+              data?.voice.configured &&
+              data.voice.wake_word?.available && (
+                <label className="alice-wake-toggle">
+                  <input
+                    type="checkbox"
+                    checked={wake.enabled}
+                    disabled={unavailable}
+                    onChange={(event) => {
+                      if (event.target.checked) {
+                        endVoice();
+                        wake.enable();
+                      } else {
+                        wake.disable();
+                        endVoice();
+                      }
+                    }}
+                  />
+                  {t("Say Alice to wake", "叫 Alice 唤醒")}
+                </label>
+              )}
+          </div>
+          {(wake.enabled || wake.state === "error") && (
+            <p className="alice-wake-status" role="status">
+              {wake.state === "waiting"
+                ? t(
+                    "Waiting for Alice · listening on this desk",
+                    "等待 Alice · 桌面主机本地监听",
                   )
-              : omni
-                ? t("Qwen Omni · microphone off", "Qwen Omni · 麦克风已关闭")
-                : data?.text_ai?.configured
-                  ? data?.permissions?.mode === "full"
+                : wake.state === "starting"
+                  ? t("Preparing local listening…", "正在准备本地监听…")
+                  : wake.state === "error"
                     ? t(
-                        "Actions follow your permission setting.",
-                        "操作遵循你的权限设置。",
+                        "Wake listening stopped. You can use the microphone button.",
+                        "唤醒监听已停止，可用麦克风按钮交谈。",
                       )
-                    : t("Review changes before saving.", "修改会先交给你确认。")
+                    : wake.state === "off"
+                      ? t("Local listening paused", "本地监听已暂停")
+                      : t(
+                          "Conversation active · returns to local listening when idle",
+                          "交谈中 · 安静后回到本地监听",
+                        )}
+            </p>
+          )}
+
+          <p className="assistant-caption">
+            {wake.enabled && !voiceActive
+              ? t("Cloud voice disconnected", "云端语音未连接")
+              : voiceActive
+                ? voiceState === "connecting"
+                  ? t("Preparing voice…", "正在准备语音…")
                   : t(
-                      "Local mode · calendar, tasks & notes",
-                      "本地模式 · 日历、事务与笔记",
-                    )}
+                      "Speak naturally. Your mic is on.",
+                      "直接交谈，麦克风已开启。",
+                    )
+                : omni
+                  ? t(
+                      `${voiceName} · microphone off`,
+                      `${voiceName} · 麦克风已关闭`,
+                    )
+                  : data?.text_ai?.configured
+                    ? data?.permissions?.mode === "full"
+                      ? t(
+                          "Actions follow your permission setting.",
+                          "操作遵循你的权限设置。",
+                        )
+                      : t(
+                          "Review changes before saving.",
+                          "修改会先交给你确认。",
+                        )
+                    : t(
+                        "Local mode · calendar, tasks & notes",
+                        "本地模式 · 日历、事务与笔记",
+                      )}
             {imageCount > 0 && (
               <span>
                 {" "}

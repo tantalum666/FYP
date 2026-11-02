@@ -49,8 +49,12 @@ class ProposalDecision(StrictModel):
 
 
 class CalendarQuery(StrictModel):
-    start: datetime
-    end: datetime
+    start: datetime = Field(
+        description="Inclusive ISO8601 datetime WITH an explicit UTC offset or Z, for example 2026-01-01T00:00:00+08:00. Use owner_clock for relative dates."
+    )
+    end: datetime = Field(
+        description="Exclusive ISO8601 datetime WITH an explicit UTC offset or Z. Must be later than start and within62 days. A full day ends at the next day00:00, not the same midnight."
+    )
 
 
 class ChangeProposal(StrictModel):

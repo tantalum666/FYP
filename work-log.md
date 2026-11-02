@@ -526,3 +526,11 @@ Replaced the width-dependent desktop assistant modal/dock with the default prima
 Updated current contracts/product/entry/handoff/decisions and [QA](output/qa/2026-11-02-conversation-desktop/verification.md). Native/Pi/model quality remain separate. Next: existing Work admission/recovery from Alice, offline first. Publication is stacked on PR75, not a merge.
 
 Publication verified: sourceff0b401 on draftPR76, basePR75 head34de1e7; exact remote source head matches, open/draft/unmerged. Receipt and original-checkout routing updates are documentation-only.
+
+## 2026-11-02 · OpenAI production adapter and Alice local wake
+
+Owner requested OpenAI and chose calling Alice to wake. Reused the confirmed FYP key, read current official costs, and used a fresh announcedUSD1 ceiling. Extracted the existing realtime response/tool/cancel core, added OpenAI GA format/rate/credential policy, and connected owner-only local keyword PCM to the existing browser voice client. Wake model files stay ignored and local; private audio is not recorded. New owner/local-channel lifecycle regressions and real model inference retain the existing service/authority boundaries.
+
+Four synthetic live attempts preserved date-argument, output-truncation and Mini numerical failures. Full2.1 with revised generic guidance correctly read three meeting start times. No model ranking or human quality score is claimed. Test ledger closed: observed upper estimate0.1692086, accounted0.6499936 including unknown reservation. Actual local WS detection and browser waiting/off were checked with no additional paid call; temporary test-tab ticket blocking was cleared. Existing Full policy preserved.
+
+Current API80987/Vite5191 use real OpenAI full2.1 and the local Alice model on synthetic work-ui-01; scheduler/computer/background work remain off. Updated current product, entry/handoff, decisions and voice/operator/maintenance/architecture contracts plus [QA](output/qa/2026-11-02-openai-alice-wake/verification.md). No CI, Pi, VM, real-account connection or transaction. Next: ordinary Alice long-task admission/recovery through existing Work, while human wake/noise/voice acceptance remains separately open.
