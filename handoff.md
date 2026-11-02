@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-2 November 2026, Asia/Hong_Kong. **Web is conversation-first; Pi stays paused.** Active worktree `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/conversation-desktop-20261102`, based on [PR75](https://github.com/tantalum666/FYP/pull/75) head34de1e7. Publication and merge/deployment are separate; see [QA](output/qa/2026-11-02-conversation-desktop/verification.md).
+2 November 2026, Asia/Hong_Kong. **Web is conversation-first; Pi stays paused.** Active worktree `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/conversation-desktop-20261102`, based on [PR75](https://github.com/tantalum666/FYP/pull/75) head34de1e7. Published in [draft PR76](https://github.com/tantalum666/FYP/pull/76), sourceff0b401; [receipt](output/qa/2026-11-02-conversation-desktop/publication.json). Publication and merge/deployment are separate; see [QA](output/qa/2026-11-02-conversation-desktop/verification.md).
 
 ## Current result
 

@@ -524,3 +524,5 @@ Replaced the width-dependent desktop assistant modal/dock with the default prima
 309 frontend tests and type/build pass. Actual Mac1280x720 camera, built-in mic input, draft return, short-window permission menu and narrow keyboard navigation checked. Qwen configuration is restored, but owner chose manual trial; no agent-paid request or uploaded device-check media. Initial QA resized the visible user tab; restored100%/1291x681, moved further emulation to a separate tab, cleared/closed it.
 
 Updated current contracts/product/entry/handoff/decisions and [QA](output/qa/2026-11-02-conversation-desktop/verification.md). Native/Pi/model quality remain separate. Next: existing Work admission/recovery from Alice, offline first. Publication is stacked on PR75, not a merge.
+
+Publication verified: sourceff0b401 on draftPR76, basePR75 head34de1e7; exact remote source head matches, open/draft/unmerged. Receipt and original-checkout routing updates are documentation-only.

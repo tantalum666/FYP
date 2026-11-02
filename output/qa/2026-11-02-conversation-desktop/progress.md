@@ -7,3 +7,5 @@ Read current AGENTS/handoff/entry; product current-priority/current-requirements
 Scope: primary persistent chat page; responsive navigation and height; existing conversation/action services retained; local media preview and explicit frame sharing; existing Qwen baseline configuration with no automatic cloud request. Paid budget remains closed pending a concrete bounded live check. Pi stays paused. No CI, new task/queue core or generated character asset.
 
 Owner chose manual voice trial; no agent-paid test. Actual Mac device checks passed. Restored the user window after an intrusive viewport test; later emulation was isolated and cleared. Final309-test/type/build pass. Current contracts and handoff updated; source/secret/link checks and publication follow.
+
+Complete: sourceff0b401 published to draftPR76; source head read back,317 local links and source/secret scope passed. Final receipt/routing is documentation-only.

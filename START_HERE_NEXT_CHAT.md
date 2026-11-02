@@ -1,6 +1,6 @@
 # Group 2 · Current entry
 
-2 November 2026. **Web is conversation-first; Pi remains paused.** Active worktree `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/conversation-desktop-20261102`, on PR75 head34de1e7.
+2 November 2026. **Web is conversation-first; Pi remains paused.** Active worktree `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/conversation-desktop-20261102`, on PR75 head34de1e7. [Draft PR76](https://github.com/tantalum666/FYP/pull/76) contains sourceff0b401; publication is not merge.
 
 Read [handoff](handoff.md), [desktop conversation](desk-companion/docs/desktop-conversation.md), [copy rules](desk-companion/docs/ui-copy.md) and [QA](output/qa/2026-11-02-conversation-desktop/verification.md). Default route is `?page=assistant`; no width-dependent chat modal. Mac camera/mic and309 frontend/type/build checked. Existing Qwen configuration restored; owner chose to click personally, not authorize automated paid testing.
 
