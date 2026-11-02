@@ -526,3 +526,7 @@ Owner paused Pi and prioritized personal-agent cross-application software. The n
 ## 2026-11-01 · Route to concise-UI software continuation
 
 Updated AGENTS/product/entry/handoff and current decision after the owner reported excessive UI text. Active software tree remains personal-agent-20261031, now branch codex/ui-copy-cleanup-20261031 and draftPR75 on PR74. Its code/QA are not copied into this Pi branch. Read current routing documents and latest related sections; confirmed clean starting state and documentation-only diff. No Pi/network/model/runtime action; power/kiosk/wired gaps remain paused. [Routing check](output/qa/2026-10-31-ui-copy-cleanup/routing.md).
+
+## 2026-11-02 · Route to primary-conversation software
+
+Updated entry/product/handoff/AGENTS and latest decision to software branch codex/conversation-desktop-20261102 / draftPR76. Read current routing and related latest sections; clean starting tree, documentation-only changes. Source,309-test evidence and Mac device checks belong to the software worktree. No Pi/VM/provider request here. [Routing record](output/qa/2026-11-02-conversation-desktop/routing.md).
