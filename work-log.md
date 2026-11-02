@@ -530,3 +530,7 @@ Updated AGENTS/product/entry/handoff and current decision after the owner report
 ## 2026-11-02 · Route to primary-conversation software
 
 Updated entry/product/handoff/AGENTS and latest decision to software branch codex/conversation-desktop-20261102 / draftPR76. Read current routing and related latest sections; clean starting tree, documentation-only changes. Source,309-test evidence and Mac device checks belong to the software worktree. No Pi/VM/provider request here. [Routing record](output/qa/2026-11-02-conversation-desktop/routing.md).
+
+## 2026-11-02 · Route OpenAI/Alice continuation
+
+Clean starting checkout; read current routing/entry and latest related decision/work-log. Updated six root Markdown routes and [QA note](output/qa/2026-11-02-openai-alice-wake/routing.md) to software PR77. Actual source, model tests, costs and local media remain in the personal-agent worktree; no copy of code, credentials, data or model weights. No Pi/provider/CI action from this checkout.

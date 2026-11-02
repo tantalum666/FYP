@@ -4,7 +4,7 @@
 
 ## 当前任务路由（11月2日）
 
-用户再次暂停Pi，当前推进personal agent软件。活跃工作区`/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`已发布[draft PR76](https://github.com/tantalum666/FYP/pull/76)（承接75／74）：Web主对话页、自适应布局与Mac媒体入口；Qwen配置恢复供用户手动试用，本轮不代跑收费评测。本分支保留Pi网络证据，不包含这些未合并的软件代码；后续按软件工作区handoff继续，不恢复实机或旧预算。
+用户暂停Pi，当前软件工作区`/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`已发布[draft PR77](https://github.com/tantalum666/FYP/pull/77)（承接76／75／74）：OpenAI Realtime与Alice本地唤醒接入主对话页，沿用当前工具／权限；保留Mini时间错误和Full正确fixture的证据。新1美元实验已关闭，正常用户使用另计。本分支保留Pi网络证据，不包含这些未合并软件代码；按软件工作区handoff继续，不恢复Pi或旧预算。
 
 ## 当前要求
 
