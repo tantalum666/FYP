@@ -1,6 +1,6 @@
 # Group 2 · Current entry
 
-2 November2026. **OpenAI realtime and local Alice wake are now connected; Pi remains paused.** Worktree `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/openai-alice-wake-20261102`, on PR76 head17df074.
+2 November2026. **OpenAI realtime and local Alice wake are now connected; Pi remains paused.** Worktree `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/openai-alice-wake-20261102`, on PR76 head17df074. [Draft PR77](https://github.com/tantalum666/FYP/pull/77) contains verified source6406503.
 
 Read [handoff](handoff.md), [OpenAI/Alice contract](desk-companion/docs/openai-alice-wake.md) and [QA](output/qa/2026-11-02-openai-alice-wake/verification.md). Primary Web chat and concise UI remain. Local keyword waiting opens OpenAI only after wake, then returns after quiet. The owner chose this mode; first page opt-in is explicit. Current full2.1 configuration follows a correct bounded fixture; Mini's numerical failure is preserved, not hidden or generalized.
 

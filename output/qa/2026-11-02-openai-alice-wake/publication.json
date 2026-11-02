@@ -1,0 +1,14 @@
+{
+  "pull_request": "https://github.com/tantalum666/FYP/pull/77",
+  "state": "open",
+  "draft": true,
+  "merged": false,
+  "base_branch": "codex/conversation-desktop-20261102",
+  "base_sha": "17df07498ae67b4d9d1c50a8d00ca8af9e2dc9d4",
+  "source_commit": "6406503f0375c7b8bdbd449fb28a49550b56a5f8",
+  "verified_remote_source_head": "6406503f0375c7b8bdbd449fb28a49550b56a5f8",
+  "backend_tree": "4aab3df2906529fb653f0c6e30028e8d83b65280",
+  "frontend_tree": "2876bf29e8e60894fce14fa1e1ed688c01029be5",
+  "paid_experiment_closed": true,
+  "receipt_followup": "Documentation-only; application source unchanged."
+}

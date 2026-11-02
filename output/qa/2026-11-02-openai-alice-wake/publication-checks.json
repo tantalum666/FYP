@@ -6,6 +6,6 @@
   "prohibited_artifacts": [],
   "model_weights_published": false,
   "raw_audio_published": false,
-  "new_credentials_written": false,
-  "ci_changes": false
+  "ci_changes": false,
+  "new_provider_credentials_written": false
 }

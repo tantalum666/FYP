@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-2 November2026, Asia/Hong_Kong. **Current software: OpenAI realtime + local Alice wake; Pi paused.** Active worktree `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/openai-alice-wake-20261102`, based on [PR76](https://github.com/tantalum666/FYP/pull/76) head17df074. Current publication is recorded in [QA](output/qa/2026-11-02-openai-alice-wake/verification.md); push/merge/deployment are separate.
+2 November2026, Asia/Hong_Kong. **Current software: OpenAI realtime + local Alice wake; Pi paused.** Active worktree `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/openai-alice-wake-20261102`, based on [PR76](https://github.com/tantalum666/FYP/pull/76) head17df074. [Draft PR77](https://github.com/tantalum666/FYP/pull/77) contains verified source6406503. Current publication is recorded in [QA](output/qa/2026-11-02-openai-alice-wake/verification.md); push/merge/deployment are separate.
 
 ## Implemented and observed
 

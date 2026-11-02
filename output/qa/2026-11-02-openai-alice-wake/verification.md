@@ -1,6 +1,6 @@
 # Group 2 · OpenAI and Alice wake verification
 
-2 November 2026, Asia/Hong_Kong. Branch `codex/openai-alice-wake-20261102`, based on PR76 head17df074. Owner requested OpenAI testing and selected calling Alice to wake. A fresh USD1 short-test ceiling was announced; previous closed budgets were not reopened. Existing confirmed FYP credentials were reused without a new key or secret write.
+2 November 2026, Asia/Hong_Kong. Branch `codex/openai-alice-wake-20261102`, based on PR76 head17df074. Owner requested OpenAI testing and selected calling Alice to wake. A fresh USD1 short-test ceiling was announced; previous closed budgets were not reopened. Existing confirmed FYP credentials were reused without a new provider key or provider-secret write.
 
 ## Implemented scope
 
@@ -44,3 +44,5 @@ Vite5191 -> API8861 uses existing synthetic work-ui-01. API PID80987 at this che
 Updated current product/entry/handoff, decisions/work log, [integration contract](../../../desk-companion/docs/openai-alice-wake.md), desktop/Omni/operator/maintenance/evaluation guidance. [Cost scenarios](cost-scenarios.json) use current official rates and state all exclusions. Publication is not a main merge, deployment or complete personal-agent acceptance.
 
 Final checks: full1716 backend run passed, followed by16 focused checks including one new idle-close case (1717 distinct cases, not one combined command);314 frontend, type/build and Ruff pass. [Summary](validation-summary.json). Real provider experiments are closed. Browser QA used the actual local microphone only for standby, never a live provider call. Selected screenshot has no personal input/media.
+
+Published source6406503 to [draft PR77](https://github.com/tantalum666/FYP/pull/77), stacked on PR76. Exact remote source head confirmed, open/draft/unmerged.386 local links, source/secret/artifact scope, formatter and diff checks passed. [Publication receipt](publication.json), [scope checks](publication-checks.json). The final receipt update changes no application source.
