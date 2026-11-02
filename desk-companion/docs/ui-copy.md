@@ -1,5 +1,7 @@
 # Group 2 · Interface copy and disclosure
 
+2 November 2026: [desktop conversation](desktop-conversation.md) is the primary Web page, superseding the old modal/docked layout. Test zoom and window height in a separate QA tab.
+
 1 November 2026. Owner feedback: pages contain too much explanatory text. This is an ongoing product requirement across web, phone and shared app components, not permission to remove Alice or the controls needed for informed actions.
 
 ## Default view

@@ -1,21 +1,23 @@
 # Group 2 Current Handoff
 
-1 November 2026, Asia/Shanghai. **Pi remains paused. Latest owner feedback: the UI has too much text.** Active worktree `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/ui-copy-cleanup-20261031`, based on [PR74](https://github.com/tantalum666/FYP/pull/74) head `89f215e`. [Draft PR75](https://github.com/tantalum666/FYP/pull/75) contains verified source752ab66; [publication receipt](output/qa/2026-10-31-ui-copy-cleanup/publication.json) and [UI QA](output/qa/2026-10-31-ui-copy-cleanup/verification.md) are separate from merge/deployment.
+2 November 2026, Asia/Hong_Kong. **Web is conversation-first; Pi stays paused.** Active worktree `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/conversation-desktop-20261102`, based on [PR75](https://github.com/tantalum666/FYP/pull/75) head34de1e7. Publication and merge/deployment are separate; see [QA](output/qa/2026-11-02-conversation-desktop/verification.md).
 
 ## Current result
 
-Work now foregrounds goals, short states, files and needed actions. IDs/counters/history/storage and optional configuration are disclosed on demand. Settings/permissions, tasks, memory, style and import/share lose repeated explanations. Phone Work detail replaces the list, with an existing guarded back action. Alice remains. Concrete authorization, sharing/retention/fee consequences, draft protection and failure recovery remain available; backend services are unchanged. Follow the [interface contract](desk-companion/docs/ui-copy.md) on future changes.
+Web defaults to `?page=assistant`: full-page conversation, visible composer, calendar/tasks in navigation. No width-dependent chat modal. ConversationWorkspace retains the existing panel/draft across views while suspension releases media. Responsive navigation and floating-avatar avoidance preserve Alice and her saved preference. [Contract](desk-companion/docs/desktop-conversation.md).
 
-303 frontend tests and type/build pass. Eight desktop surfaces, Chinese393px phone, keyboard disclosure, unsaved draft retention/closing, permission draft cancellation and explicit retention were checked. A UI-created local Work completed with2 artifacts and0 model calls. Default new-work visible text1368→290; this is a matched form comparison, not a whole-product score. [QA](output/qa/2026-10-31-ui-copy-cleanup/verification.md). Native touch/soft-keyboard was not rerun.
+Local camera preview/mic metering have explicit controls and late-permission cleanup. Share this frame reuses the existing voice image path in a compatible call; no continuous-video claim. Actual Mac camera1280x720 and built-in microphone input were checked.309 frontend/type/build pass; actual150%860x454,1280x800,393x852, draft return and permission/navigation checks passed. Native app/keyboard and fresh cloud speech remain unverified.
 
-## Cross-application baseline and runtime
+## Runtime and owner choice
 
-PR74 connects PR5 durable Work to the existing Chromium/Calc/Writer/PDF JobService and PermissionService, with selected scope, exact child recovery and independent readback. Its1,701backend/303frontend and real office path with an explicitly offline scripted planner are **prior** evidence, not this UI round. [Application contract](desk-companion/docs/application-work.md), [prior QA](output/qa/2026-10-31-personal-agent-cross-app/verification.md), [research](research/personal-agent-research-index.md).
+Vite5191 -> API8861, synthetic `.runtime/work-ui-01`. API PID47713 at this checkpoint runs ordinary create_app, scheduler off, `DESK_VOICE_PROVIDER=qwen_omni`, and the existing protected `~/.config/desk-companion/qwen.env` via DESK_QWEN_CREDENTIAL_FILE. Separate text/background and computer execution remain off; explicit typed chat uses this same configured Omni. No credential content changed. Recheck process ownership before reuse.
 
-Preview is Vite5191/API8861 using isolated synthetic `desk-companion/.runtime/work-ui-01`, not the owner's normal model setup. Providers are replaced by the offline fixture runner; the UI round started only deterministic local work. `fyp-apps`/`desk-applications` remain from the previous acceptance. Recheck process ownership before reuse; preserve all real databases, keys and older artifacts.
+Owner chose to try voice personally instead of authorizing the proposed automated RMB1 test. Keep the service ready for that explicit interaction; do not run paid tests or reopen older budgets. Do not silently revert to the providers-off QA launch. OpenAI and other candidates remain separate. Account for an active owner call before restarting services.
 
-Pi stays on [PR73](https://github.com/tantalum666/FYP/pull/73), branch `codex/pi-home-resume-20261031`; power and kiosk startup remain unresolved. No Pi connection/update, paid-model call, CI, external-account operation or transaction was performed. All old model budgets stay closed.
+The user's Chrome tab was restored to normal1291x681 at100% after an intrusive narrow test. Further QA used separate-tab CDP emulation and was cleared/closed. Never resize the owner's live review tab for testing. Web settings `?page=device` and Pi display `?surface=device` are different surfaces.
+
+PR74's durable Work/office queue and1,701 backend result are prior evidence, not this round. [Application contract](desk-companion/docs/application-work.md), [research](research/personal-agent-research-index.md). Pi[PR73](https://github.com/tantalum666/FYP/pull/73) and power/kiosk/wired gaps stay paused. No CI, VM restart, external account or transaction action.
 
 ## One next step
 
-Connect ordinary Alice/Omni long-task entry and recovery to the existing admitted Work flow, reusing goal/voice-prefill components and task identity. Begin with offline changed-goal/reconnect/unknown-result cases. Keep the concise UI contract and explicit source/provider/action scope. Real-model autonomy, general authenticated browsing, email and consumer transactions remain separate gates.
+Connect ordinary Alice/Omni long-task admission/recovery to existing Work through this stable chat surface, reusing goal/voice-prefill and selected-task authority. Start offline with changed-goal/reconnect/unknown-result cases; model autonomy and consumer-agent journeys retain independent gates.

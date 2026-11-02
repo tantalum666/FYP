@@ -5,6 +5,8 @@
 2026-10-31：[PR5整合](pr5-integration.md)保留现有业务／权限核心。持久 Work 是对现有记录和子操作的编排，不能另建事实／执行器替代主线；旧 demo-record 与 A1 路线由当前实现取代。
 30 October2026. The current checkpoint implements bounded application operations and passes a scripted browser/Calc/Writer/PDF task with changed constraints and restart recovery. Earlier task/file/phone, shared permissions and OpenAI evaluation work remains in place; autonomous voice completion is still untested. Selected-task context and interaction recovery remain in place. The owner requests focused documentation reading, maintainable implementation and GitHub publication of meaningful milestones.
 
+2 November 2026: ConversationWorkspace owns the persistent desktop panel and scoped draft boundary; AssistantPanel retains conversation/actions/voice. LocalCapture owns device permission races and release; MediaDevicePanel owns local preview/meter UI; VoiceAudio retains one-frame transport. No parallel model client or queue. [Contract](desktop-conversation.md) / [QA](../../output/qa/2026-11-02-conversation-desktop/verification.md).
+
 ## Frontend responsibilities
 
 | Module | Responsibility |

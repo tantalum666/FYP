@@ -512,3 +512,15 @@ Local frontend303/type/build passed. Actual desktop/Chinese393px phone, keyboard
 [Interface contract](desk-companion/docs/ui-copy.md), [QA](output/qa/2026-10-31-ui-copy-cleanup/verification.md) and selected actual screenshots record scope/limits. Updated AGENTS, product, decision, maintenance, dated UI/permission guidance and current handoff/entry. Native touch/keyboard, real accounts, models, backend tests and Pi were not rerun. No CI or live provider cost. Next: concise ordinary-Alice long-task admission/recovery via existing Work, offline first. Publication is a separate branch stacked on PR74; no merge claim.
 
 Publication verified: UI source752ab66 pushed to draftPR75, targeting PR74 head89f215e. GitHub reports open/draft/unmerged and exact matching head. The final receipt and original Pi-checkout routing updates are documentation-only; no code/test result is added by those commits.
+
+## 2026-11-02 · Reopen webpage for owner
+
+Restarted stopped Vite5191/API8861 against the existing synthetic UI dataset, with scheduler and AI/computer execution off. Opened visible in-app-browser Tasks page and confirmed connected content/Alice controls, then marked it to remain open. Updated runtime handoff and [read/verification record](output/qa/2026-11-02-open-preview/verification.md). No source change, paid call, Pi/VM action or CI; no new implementation/test claim.
+
+## 2026-11-02 · Primary conversation and Mac media
+
+Replaced the width-dependent desktop assistant modal/dock with the default primary chat page. ConversationWorkspace keeps shared conversation/drafts across navigation; media suspends on leaving. Added LocalCapture/MediaDevicePanel for explicit local camera/mic checks and selected-frame sharing through existing VoiceAudio. Responsive navigation/composer and floating-avatar avoidance preserve Alice; removed dead docking CSS. No backend/dependency/new queue or model client.
+
+309 frontend tests and type/build pass. Actual Mac1280x720 camera, built-in mic input, draft return, short-window permission menu and narrow keyboard navigation checked. Qwen configuration is restored, but owner chose manual trial; no agent-paid request or uploaded device-check media. Initial QA resized the visible user tab; restored100%/1291x681, moved further emulation to a separate tab, cleared/closed it.
+
+Updated current contracts/product/entry/handoff/decisions and [QA](output/qa/2026-11-02-conversation-desktop/verification.md). Native/Pi/model quality remain separate. Next: existing Work admission/recovery from Alice, offline first. Publication is stacked on PR75, not a merge.

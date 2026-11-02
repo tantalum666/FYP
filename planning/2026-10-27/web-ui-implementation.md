@@ -1,5 +1,7 @@
 # Group 2 · Web UI/UX implementation
 
+2 November 2026: the old modal/docked desktop assistant is superseded by the [primary conversation page](../../desk-companion/docs/desktop-conversation.md). Earlier results below remain historical.
+
 1 November 2026 continuation: [concise interface copy](../../desk-companion/docs/ui-copy.md) supersedes verbose default explanations. Optional details remain accessible and all approval/draft/recovery behavior is retained. The dated results below are historical; current UI evidence is in the [cleanup QA](../../output/qa/2026-10-31-ui-copy-cleanup/verification.md).
 
 28日接续：网页本机免登录已实现，真实手机端已接入模拟器，见[接续说明](../2026-10-28/phone-simulator-implementation.md)。下文“本轮／尚未包含”专指27日网页改动及其测试，不覆盖28日结果。

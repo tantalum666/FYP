@@ -13,6 +13,8 @@ import {
   FolderCheck,
   HelpCircle,
   Box,
+  Camera,
+  SquarePen,
 } from "lucide-react";
 import {
   ApiError,
@@ -48,12 +50,15 @@ import { ComputerJobsPanel } from "./ComputerJobsPanel";
 import "./assistant-minimal.css";
 import { useVoiceWorkHandoff } from "./voiceWork/useVoiceWorkHandoff";
 import { ToolActivity, type ToolCall } from "./ToolActivity";
+import { MediaDevicePanel } from "./media/MediaDevicePanel";
 
 export function AssistantPanel({
   t,
   taskId,
   taskTitle,
   immersive = false,
+  workspace = false,
+  onStateChange,
   expanded = false,
   onExpandedChange,
   suspended = false,
@@ -64,6 +69,8 @@ export function AssistantPanel({
   taskId?: string;
   taskTitle?: string;
   immersive?: boolean;
+  workspace?: boolean;
+  onStateChange?: (state: { dirty: boolean; busy: boolean }) => void;
   expanded?: boolean;
   onExpandedChange?: (expanded: boolean) => void;
   suspended?: boolean;
@@ -88,6 +95,7 @@ export function AssistantPanel({
   const [voiceTimings, setVoiceTimings] = useState<TurnMeasurement[]>([]);
   const [menu, setMenu] = useState(false);
   const [attachments, setAttachments] = useState(false);
+  const [mediaOpen, setMediaOpen] = useState(false);
   const [jobs, setJobs] = useState<ComputerJob[]>([]);
   const [jobsError, setJobsError] = useState<unknown>(null);
   const [jobActionError, setJobActionError] = useState<unknown>(null);
@@ -161,6 +169,12 @@ export function AssistantPanel({
   } | null>(null);
   const modeSwitching = useRef(false);
   const [microphone, setMicrophone] = useState(false);
+  useEffect(() => {
+    onStateChange?.({ dirty: !!text.trim(), busy });
+  }, [text, busy, onStateChange]);
+  useEffect(() => {
+    if (suspended) setMediaOpen(false);
+  }, [suspended]);
   const speechText = useRef({ user: "", assistant: "" });
   const knownProposals = useRef<Proposal[]>([]);
   const activityReading = useRef(false);
@@ -924,6 +938,24 @@ export function AssistantPanel({
       }}
     >
       {voiceWork.panel}
+      {mediaOpen && !suspended && (
+        <MediaDevicePanel
+          t={t}
+          onClose={() => setMediaOpen(false)}
+          voiceActive={voiceActive}
+          canShare={
+            voiceActive &&
+            !!data?.voice.supports_images &&
+            !unavailable &&
+            voiceState !== "connecting"
+          }
+          provider={data?.voice.provider ?? ""}
+          onShare={(video) => {
+            if (!audio.current) throw new Error("VOICE_VISION_NOT_READY");
+            audio.current.shareCameraFrame(video);
+          }}
+        />
+      )}
       {taskTitle && (
         <p className="assistant-context-label">
           <span>
@@ -939,6 +971,17 @@ export function AssistantPanel({
       )}
       {immersive && !expanded && homeHint}
       <div className="assistant-toolbar">
+        {workspace && view === "chat" && (
+          <button
+            className="text-button assistant-new-chat"
+            disabled={busy}
+            onClick={() => void newConversation()}
+          >
+            <SquarePen size={17} />
+            {t("New chat", "新对话")}
+          </button>
+        )}
+
         {immersive && (
           <button
             className="text-button phone-conversation-toggle"
@@ -995,6 +1038,15 @@ export function AssistantPanel({
             {audio.current && (
               <button onClick={endVoice}>{t("Disconnect", "断开连接")}</button>
             )}
+            <button
+              onClick={() => {
+                setMenu(false);
+                setMediaOpen(true);
+              }}
+            >
+              <Camera size={18} />
+              {t("Camera & microphone", "摄像头与麦克风")}
+            </button>
             <button onClick={openJobs}>
               <FolderCheck size={18} />
               {t("File actions & activity", "文件操作与进度")}
@@ -1159,11 +1211,13 @@ export function AssistantPanel({
               {errorText(jobActionError, t)}
             </p>
           )}
-          {jobs.length > 0 && (!immersive || expanded) && (
-            <button className="text-button" onClick={openJobs}>
-              {t("See all file activity", "查看全部文件活动")}
-            </button>
-          )}
+          {jobs.length > 0 &&
+            (turns.length > 0 || attentionJobs.length > 0) &&
+            (!immersive || expanded) && (
+              <button className="text-button" onClick={openJobs}>
+                {t("See all file activity", "查看全部文件活动")}
+              </button>
+            )}
           {!!jobsError && (
             <p className="error-message" role="alert">
               {t(
@@ -1223,7 +1277,10 @@ export function AssistantPanel({
             </p>
           )}
         </div>
-        <div className="assistant-input-area">
+        <div
+          className="assistant-input-area"
+          id={workspace ? "desktop-chat-composer" : undefined}
+        >
           {voiceActive ? (
             <div
               className="assistant-call"
@@ -1258,6 +1315,13 @@ export function AssistantPanel({
                 </p>
               )}
               <div className="assistant-call-actions">
+                <button
+                  className="icon-button"
+                  aria-label={t("Camera & microphone", "摄像头与麦克风")}
+                  onClick={() => setMediaOpen(true)}
+                >
+                  <Camera size={20} />
+                </button>
                 {data?.voice.supports_images &&
                   data.principal.kind === "owner" && (
                     <button
@@ -1332,6 +1396,14 @@ export function AssistantPanel({
                 >
                   <Plus size={21} />
                 </button>
+                <button
+                  type="button"
+                  className="icon-button assistant-camera"
+                  aria-label={t("Camera & microphone", "摄像头与麦克风")}
+                  onClick={() => setMediaOpen(true)}
+                >
+                  <Camera size={20} />
+                </button>
                 {busy && omni ? (
                   <button
                     type="button"
@@ -1378,8 +1450,8 @@ export function AssistantPanel({
                     {t("Send to ", "发送至 ")}
                     {data.voice.provider}.{" "}
                     {t(
-                      "Sent images remain in this conversation. No camera opens.",
-                      "已发送图片仍保留在本次会话中，不开启摄像头。",
+                      "Only images you choose are shared in this conversation.",
+                      "仅分享你选定的画面。",
                     )}
                   </p>
                   <div className="workspace-inline-actions">
@@ -1473,10 +1545,7 @@ export function AssistantPanel({
                     "直接交谈，麦克风已开启。",
                   )
               : omni
-                ? t(
-                    "Omni · same conversation, microphone off",
-                    "Omni · 共用对话，麦克风关闭",
-                  )
+                ? t("Qwen Omni · microphone off", "Qwen Omni · 麦克风已关闭")
                 : data?.text_ai?.configured
                   ? data?.permissions?.mode === "full"
                     ? t(
