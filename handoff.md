@@ -17,7 +17,7 @@ The isolated localhost:8832 fixture service was stopped and test tabs/viewports 
 
 ## Offline mailbox slice (3 November)
 
-Owner instruction for this slice: offline fixtures only. No real mailbox, no credentials, no paid API. [Contract](desk-companion/docs/mailbox-journey.md), [fixtures](desk-companion/fixtures/mailbox/README.md), [QA](output/qa/2026-11-03-mailbox-offline/verification.md).
+Owner instruction for this slice: offline fixtures only. No real mailbox, no credentials, no paid API. Open [PR79](https://github.com/tantalum666/FYP/pull/79) (not merged). [Contract](desk-companion/docs/mailbox-journey.md), [fixtures](desk-companion/fixtures/mailbox/README.md), [QA](output/qa/2026-11-03-mailbox-offline/verification.md).
 
 Done: one fixture thread maps to one existing task; duplicate, out-of-order, interrupt/restart, revoke, and disconnect leave a consistent cursor; sourced drafts cite mail id and observation time and confirm only through the existing owner proposal path (`send` stays false); notices fire only on a meaningful change, an approaching deadline, or a decision. HTTP tests exercise the same task list, notice inbox, and proposal decision routes the UI uses.
 

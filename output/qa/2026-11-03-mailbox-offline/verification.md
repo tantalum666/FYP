@@ -28,6 +28,10 @@ Dependencies used only to run tests on this VM: fastapi, uvicorn, python-dateuti
 
 `product.md`, `research/personal-agent-research-index.md` (mail gap rows), `desk-companion/docs/pr5-integration.md`, `modules.md`, `software-maintenance.md`, new `docs/mailbox-journey.md`, `handoff.md`, `decision-log.md`, `work-log.md`, this file.
 
+## Publication
+
+Pull request: https://github.com/tantalum666/FYP/pull/79 on `cursor/mailbox-offline-journey-9739`. Open, not merged. The implementation commit is `7c016960b5c773d82db52d96231dd7a39a3fda28`; this note is a later documentation commit on the same branch.
+
 ## Not claimed
 
 Real mailbox acceptance, send, live push, quiet-hour redelivery, portable backup of mailbox cursors, or a fix for the IPv6-mapped unicast case.
