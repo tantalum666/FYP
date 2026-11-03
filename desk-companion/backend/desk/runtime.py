@@ -44,6 +44,7 @@ from .responsibilities import ResponsibilityService
 from .work_capacity import WorkCapacityService
 from .public_capture_schema import SCHEMA_VERSION
 from .public_captures import PublicCaptureService
+from .shopping.service import ShoppingService
 
 
 class Runtime:
@@ -103,6 +104,7 @@ class Runtime:
         self.work_search = WorkSearchService(self)
         self.work_capacity = WorkCapacityService(self)
         self.public_captures = PublicCaptureService(self, enabled=public_capture_enabled)
+        self.shopping = ShoppingService(self)
         self.store.operation_guard = self.agent_runs.guard_operation
         self.posture.on_prompt = self.on_posture_prompt
 

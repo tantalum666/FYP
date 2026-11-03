@@ -18,3 +18,7 @@ The isolated localhost:8832 fixture service was stopped and test tabs/viewports 
 ## One next step
 
 Implement the authorized-mailbox journey through the current task/Work core: incrementally ingest messages, map a thread to the same task, produce sourced advice/drafts and notify only on meaningful change. Start with offline duplicate/out-of-order/revoke/restart fixtures; obtain an explicit real-account scope before connecting a mailbox. Reuse the recovered [research](research/personal-agent-research-index.md); do not create another task/job/memory core or restart a paid budget.
+
+## Offline shopping fixtures (3 November 2026)
+
+A separate slice maps offline cart, price, stock and shipment fixtures onto the existing task, one paused Work run per tracked product or order, owner-confirmed drafts and notices. Duplicate, out-of-order, disconnect, revoke and restart stay on that same task. No store account, payment or checkout. Contract: [shopping-fixtures.md](desk-companion/docs/shopping-fixtures.md). The mailbox journey above is unchanged.

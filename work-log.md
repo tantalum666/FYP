@@ -490,3 +490,10 @@ Repaired macOS migration identity, explicit legacy-fact conversion, current-memo
 Evidence: [compatibility contract](desk-companion/docs/pr5-integration.md), [QA](output/qa/2026-10-31-pr5-repair/verification.md), 45-table current-main fixture migration, actual local download hash, same-task approval/watch/mobile readback. Current test totals and remote publication are recorded in QA after completion. Real user DBs and prior runtimes were preserved. Next product gate remains an authorized real-mailbox journey through the existing task/Work core, not consumer-agent parity by model API alone.
 
 Publication verified: PR5 closed/merged, reviewed112f912 → main9b655e1, exact Git trees match. Final1686backend/300frontend passed; staged secrets scan and504local-link checks passed. This closeout updates status/receipts only; next work is the scoped mailbox journey.
+
+## 2026-11-03 · Offline shopping fixtures
+
+- **目标：**把离线购物夹具接进现有 Task、暂停的 Work、草稿批准和通知。不连接商店或支付，不改邮箱、Pi 或 Codex Work 界面。
+- **完成：**`desk/shopping` 读取夹具，按序号提交游标，同一商品或订单只保留一个事务和一条暂停的 Work。重复、乱序、断线、撤销和重启都走这条映射。有意义的变化才通知；建议草稿必须由拥有者确认，省略的事务字段在确认时保留。
+- **验证：**`uv run --no-sync pytest tests/test_shopping_fixtures.py tests/test_permissions.py -q` 为 28 passed（12.03s）。Ruff 通过。没有付费调用，没有 GitHub Actions。记录见 [QA](output/qa/2026-11-03-shopping-fixtures/verification.md)。
+- **剩余：**真实商店、运费、地址、支付和订单回执仍未做。邮箱旅程仍由另一条工作推进。

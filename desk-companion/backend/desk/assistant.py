@@ -688,7 +688,24 @@ class AssistantService:
                 return self.store.operation(
                     key, {"type": "assistant_cancel", "id": proposal_id}, cancel
                 )
-            if row["kind"] == "task_create":
+            apply_kind = row["kind"]
+            if apply_kind == "shopping_advice":
+                # Confirm-time merge keeps task fields the fixture did not send.
+                # Full software permission does not auto-apply this kind.
+                from .shopping.service import prepare_shopping_confirmation
+
+                payload = prepare_shopping_confirmation(self.runtime, payload)
+                with self.store.connection(write=True) as conn:
+                    fresh = conn.execute(
+                        "SELECT state FROM assistant_proposals WHERE id=?", (proposal_id,)
+                    ).fetchone()
+                    if fresh and fresh["state"] == "pending":
+                        conn.execute(
+                            "UPDATE assistant_proposals SET data=? WHERE id=?",
+                            (encode(payload), proposal_id),
+                        )
+                apply_kind = "task_change"
+            if apply_kind == "task_create":
                 result = self.runtime.tasks.create(
                     TaskInput.model_validate(payload["task"]),
                     internal_key,
@@ -700,7 +717,7 @@ class AssistantService:
                         payload.get("goal_title") or payload["task"]["title"],
                         payload.get("due_at"),
                     )
-            elif row["kind"] == "task_change":
+            elif apply_kind == "task_change":
                 result = self.runtime.tasks.action(
                     payload["task_id"],
                     TaskAction.model_validate(payload["change"]),
@@ -709,15 +726,15 @@ class AssistantService:
                 )
                 if payload.get("change", {}).get("action") == "complete":
                     self.runtime.goals.close_for_task(payload["task_id"])
-            elif row["kind"] == "create":
+            elif apply_kind == "create":
                 result = self.store.create(
                     CreateEvents.model_validate(payload), internal_key, origin="assistant"
                 )
-            elif row["kind"] == "output":
+            elif apply_kind == "output":
                 result = self.runtime.outputs.request(
                     OutputRequest.model_validate(payload["output"]), internal_key
                 )
-            elif row["kind"] == "memory_save":
+            elif apply_kind == "memory_save":
                 origin = (
                     "owner_policy"
                     if permission_version is not None
@@ -729,14 +746,14 @@ class AssistantService:
                 result = self.runtime.memory.create(
                     payload["body"], internal_key, origin=origin, note=note
                 )
-            elif row["kind"] == "memory_consolidate":
+            elif apply_kind == "memory_consolidate":
                 result = self.runtime.memory.supersede(
                     payload["keep_id"],
                     payload["keep_version"],
                     payload["retire"],
                     internal_key,
                 )
-            elif row["kind"] == "memory_replace":
+            elif apply_kind == "memory_replace":
                 result = self.runtime.memory.replace(
                     payload["memory_id"],
                     payload["body"],
@@ -744,7 +761,7 @@ class AssistantService:
                     internal_key,
                     origin=approval_origin,
                 )
-            elif row["kind"] == "memory_delete":
+            elif apply_kind == "memory_delete":
                 result = self.runtime.memory.delete(
                     payload["memory_id"], payload["expected_version"], internal_key
                 )
