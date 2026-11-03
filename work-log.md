@@ -490,3 +490,7 @@ Repaired macOS migration identity, explicit legacy-fact conversion, current-memo
 Evidence: [compatibility contract](desk-companion/docs/pr5-integration.md), [QA](output/qa/2026-10-31-pr5-repair/verification.md), 45-table current-main fixture migration, actual local download hash, same-task approval/watch/mobile readback. Current test totals and remote publication are recorded in QA after completion. Real user DBs and prior runtimes were preserved. Next product gate remains an authorized real-mailbox journey through the existing task/Work core, not consumer-agent parity by model API alone.
 
 Publication verified: PR5 closed/merged, reviewed112f912 → main9b655e1, exact Git trees match. Final1686backend/300frontend passed; staged secrets scan and504local-link checks passed. This closeout updates status/receipts only; next work is the scoped mailbox journey.
+
+## 2026-11-03 · Offline-journey merge guide
+
+Wrote a Codex-facing merge order for the open Grok offline slices: #78 harness, #79 mailbox, #80 shopping. Calendar had no pull request at the check. Drafts #73–#77 are left on Codex's stack. Docs only. Record: [guide](docs/offline-journey-merge-guide.md), [QA](output/qa/2026-11-03-offline-journey-merge-guide/verification.md).

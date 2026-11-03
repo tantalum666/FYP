@@ -18,3 +18,7 @@ The isolated localhost:8832 fixture service was stopped and test tabs/viewports 
 ## One next step
 
 Implement the authorized-mailbox journey through the current task/Work core: incrementally ingest messages, map a thread to the same task, produce sourced advice/drafts and notify only on meaningful change. Start with offline duplicate/out-of-order/revoke/restart fixtures; obtain an explicit real-account scope before connecting a mailbox. Reuse the recovered [research](research/personal-agent-research-index.md); do not create another task/job/memory core or restart a paid budget.
+
+## Merge note (3 November 2026)
+
+Codex-facing order for the open Grok offline-journey stack is [offline-journey-merge-guide](docs/offline-journey-merge-guide.md). At the check, #78, #79, and #80 were open and unmerged. No calendar offline-journey pull request was open. Drafts #73–#77 stay on Codex's own stack. This note does not replace the next step above.
