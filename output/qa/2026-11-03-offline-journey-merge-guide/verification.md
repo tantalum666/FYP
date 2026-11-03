@@ -16,7 +16,7 @@
 - `output/qa/2026-10-28-grok-review-merge/verification.md` reviewed-behaviour table.
 - `desk-companion/docs/software-maintenance.md` "Integrated review invariants".
 - `research/personal-agent-research-index.md` through section 6, plus the #79 and #80 gap-table hunks.
-- Pull request bodies and file lists via `gh pr view` for #78, #79, and #80. File lists for draft #73–#77 via the pulls files API.
+- Pull request bodies and file lists via `gh pr view` for #78, #79, #80, and #82. File lists for draft #73–#77 via the pulls files API. #82's body, contract diff, and shared-file merge-tree were read when the calendar placeholder was replaced. #80's tip moved to `4e5a3a1` in the same check; the shopping backup commands in the guide are from that updated body.
 
 This is the file list, not a claim that every historical markdown was reread.
 
@@ -26,9 +26,10 @@ This is the file list, not a claim that every historical markdown was reread.
 
 - #78 `cursor/integration-acceptance-harness-dcc2` `765b5fef1e7ad63ae4a595a964fa9467c1804c9e`
 - #79 `cursor/mailbox-offline-journey-9739` `5e1e72211ed528af71539285a0c54f255b190686`
-- #80 `cursor/shopping-fixture-journey-0767` `4a04770b0fdfd5589d58cdc41efba55afe175c2a`
+- #80 `cursor/shopping-fixture-journey-0767` `4e5a3a1ceb810b6f7604d6173cabfcb835635d86` (moved from `4a04770` during this check)
+- #82 `cursor/offline-calendar-journey-3bf1` `cfbc00ebd94eb70ec7ee4b158431767357888431`
 
-GitHub reported each `MERGEABLE` / `CLEAN` against main. No calendar offline-journey pull request or remote branch was present. Drafts #73–#77 were still open. Their tips are in the guide.
+GitHub reported each `MERGEABLE` / `CLEAN` against main. Drafts #73–#77 were still open. Their tips are in the guide.
 
 ## Merge-tree
 
@@ -36,7 +37,10 @@ GitHub reported each `MERGEABLE` / `CLEAN` against main. No calendar offline-jou
 
 - #79 onto #78: conflict only in `work-log.md`. `handoff.md` auto-merged.
 - #80 onto #78: conflict only in `work-log.md`. `handoff.md` auto-merged.
-- #80 onto #79, and the reverse: conflicts in `assistant_routes.py`, `decision-log.md`, `handoff.md`, `product.md`, `research/personal-agent-research-index.md`, `work-log.md`. `app.py`, `assistant.py`, `runtime.py`, and `modules.md` auto-merged. The merged tree contains both router includes, both runtime services, the mailbox tick hook, and both decide branches. `assistant_routes.py` still needs the manual keep-both resolution in the guide.
+- #80 tip `4e5a3a1` onto #79: conflicts in `assistant_routes.py`, `exchange.py`, `decision-log.md`, `handoff.md`, `product.md`, `research/personal-agent-research-index.md`, `work-log.md`. `app.py`, `assistant.py`, and `runtime.py` auto-merged.
+- #82 onto #78: conflict only in `work-log.md`. `handoff.md` auto-merged.
+- #82 onto #79: conflicts in `app.py`, `assistant.py`, `assistant_routes.py`, `runtime.py` (import only; both service assignments were already present), `pr5-integration.md`, `software-maintenance.md`, `decision-log.md`, `handoff.md`, `work-log.md`.
+- #82 onto #80 tip `4e5a3a1`: conflicts in `assistant_routes.py`, `decision-log.md`, `handoff.md`, `work-log.md`. `app.py`, `assistant.py`, and `runtime.py` auto-merged with both shopping and calendar wiring.
 
 Journey command suites were not re-run. Verification for this change is the link check below.
 
@@ -46,4 +50,4 @@ Journey command suites were not re-run. Verification for this change is the link
 
 ## Link check
 
-Local relative targets of the new guide were checked after the file was written. The only relative path that failed was `desk-companion/docs/shopping-fixtures.md`, because that file exists on #80 and not on this branch. The guide now points at the #80 blob URL instead. Remaining local targets (`docs/merge-guide.md`, the 28 October QA note, `software-maintenance.md`, `research/personal-agent-research-index.md`, and the handoff link to this guide) exist. `gh pr view` in the same session still read #78, #79, and #80 as open, not merged, at the tips in the guide. No calendar journey was in `gh pr list --state open`. Journey pytest suites were not run.
+Local relative targets of the guide were checked again after the calendar section replaced the placeholder. Shopping and calendar contracts stay as branch blob URLs because those files are not on this branch. Remaining local targets exist. `gh pr view` in the same session read #78, #79, #80, and #82 as open and not merged, at the tips in the guide. Journey pytest suites were not run.

@@ -21,4 +21,4 @@ Implement the authorized-mailbox journey through the current task/Work core: inc
 
 ## Merge note (3 November 2026)
 
-Codex-facing order for the open Grok offline-journey stack is [offline-journey-merge-guide](docs/offline-journey-merge-guide.md). At the check, #78, #79, and #80 were open and unmerged. No calendar offline-journey pull request was open. Drafts #73–#77 stay on Codex's own stack. This note does not replace the next step above.
+Codex-facing order for the open Grok offline-journey stack is [offline-journey-merge-guide](docs/offline-journey-merge-guide.md). At the check, #78, #79, #80, and #82 were open and unmerged. Drafts #73–#77 stay on Codex's own stack. This note does not replace the next step above.

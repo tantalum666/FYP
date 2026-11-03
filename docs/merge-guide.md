@@ -1,6 +1,6 @@
 # Merge guide for open Grok Bot pull requests
 
-> HISTORICAL — Grok 原始合并演练（2026-10-27）。下文的分支顺序、3项失败和旧handoff段落是当时证据，已由2026-10-28整合审查取代；当前状态见[handoff](../handoff.md)和[整合QA](../output/qa/2026-10-28-grok-review-merge/verification.md)。不能再按此文把旧界面覆盖#60。2026-11-03 的离线旅程顺序见 [offline-journey-merge-guide](offline-journey-merge-guide.md)，不要用下文的 #20–#50 顺序合并 #78／#79／#80。
+> HISTORICAL — Grok 原始合并演练（2026-10-27）。下文的分支顺序、3项失败和旧handoff段落是当时证据，已由2026-10-28整合审查取代；当前状态见[handoff](../handoff.md)和[整合QA](../output/qa/2026-10-28-grok-review-merge/verification.md)。不能再按此文把旧界面覆盖#60。2026-11-03 的离线旅程顺序见 [offline-journey-merge-guide](offline-journey-merge-guide.md)，不要用下文的 #20–#50 顺序合并 #78／#79／#80／#82。
 
 Completed by Grok Bot via a Cursor cloud agent on 2026-10-27. This is a merge plan, not a merge. Codex merges. The set is every open Grok Bot pull request from #20 through #50. This guide is #51. Do not merge PR #4, #5, #15, #16, or #19. Those are outside this set (#19 is the hardware procurement review; #4/#5/#15/#16 stay unmerged).
 

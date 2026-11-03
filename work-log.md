@@ -493,4 +493,4 @@ Publication verified: PR5 closed/merged, reviewed112f912 → main9b655e1, exact 
 
 ## 2026-11-03 · Offline-journey merge guide
 
-Wrote a Codex-facing merge order for the open Grok offline slices: #78 harness, #79 mailbox, #80 shopping. Calendar had no pull request at the check. Drafts #73–#77 are left on Codex's stack. Docs only. Record: [guide](docs/offline-journey-merge-guide.md), [QA](output/qa/2026-11-03-offline-journey-merge-guide/verification.md).
+Wrote a Codex-facing merge order for the open Grok offline slices: #78 harness, #79 mailbox, #80 shopping, then #82 offline calendar. Drafts #73–#77 are left on Codex's stack. This guide is #81 and can merge last or anytime. Docs only. Record: [guide](docs/offline-journey-merge-guide.md), [QA](output/qa/2026-11-03-offline-journey-merge-guide/verification.md).
