@@ -1,0 +1,42 @@
+{
+  "format": "desk-mailbox-fixture-v1",
+  "account_id": "restart-owner",
+  "address": "owner@example.test",
+  "batches": [
+    {
+      "id": "partial",
+      "events": [
+        {
+          "op": "message",
+          "message": {
+            "id": "msg-restart-1",
+            "thread_id": "thread-restart",
+            "history_id": 1,
+            "observed_at": "2026-11-03T01:10:00Z",
+            "sender": "planner@example.test",
+            "subject": "Restart the same brief",
+            "snippet": "First page arrived.",
+            "deadline_local": "2026-11-20T18:00",
+            "timezone": "Asia/Hong_Kong",
+            "next_step": "Start from the first page"
+          }
+        },
+        {"op": "interrupt"},
+        {
+          "op": "message",
+          "message": {
+            "id": "msg-restart-2",
+            "thread_id": "thread-restart",
+            "history_id": 2,
+            "observed_at": "2026-11-03T01:11:00Z",
+            "sender": "planner@example.test",
+            "subject": "Restart the same brief",
+            "snippet": "Second page arrived after the break.",
+            "deadline_local": "2026-11-21T18:00",
+            "next_step": "Continue after restart"
+          }
+        }
+      ]
+    }
+  ]
+}

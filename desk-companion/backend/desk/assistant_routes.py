@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.responses import StreamingResponse
 
 from .assistant import AssistantMessage, ProposalDecision
+from .mailbox import proposal_kind, visible_proposals
 from .store import DomainError
 
 
@@ -50,11 +51,10 @@ def assistant_routes(runtime, authenticated, operation_id):
     @router.get("/proposals")
     def proposals(request: Request, principal=Depends(authenticated)):
         principal = {**principal, "session": request.cookies.get("desk_companion_session")}
-        return {
-            "proposals": runtime.agent_runs.filter_proposals(
-                runtime.assistant.proposals(allow_memory=principal["kind"] == "owner"), principal
-            )
-        }
+        proposals = visible_proposals(
+            runtime.assistant.proposals(allow_memory=principal["kind"] == "owner"), principal
+        )
+        return {"proposals": runtime.agent_runs.filter_proposals(proposals, principal)}
 
     @router.post("/proposals/{proposal_id}/decisions")
     def decide(
@@ -65,6 +65,8 @@ def assistant_routes(runtime, authenticated, operation_id):
         principal=Depends(authenticated),
     ):
         principal = {**principal, "session": request.cookies.get("desk_companion_session")}
+        if proposal_kind(runtime, proposal_id) == "mailbox_reply" and principal["kind"] != "owner":
+            raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
         runtime.agent_runs.require_proposal_access(proposal_id, principal, action=payload.action)
         return runtime.assistant.decide(
             proposal_id, payload.action, key, allow_memory=principal["kind"] == "owner"

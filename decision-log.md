@@ -394,3 +394,9 @@ Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **实际验证：**未修改的main代码生成schema1虚构库，两个迁移后45张原表逐行保持；网页创建Work、实际报告下载／哈希、一次批准、同一事务变化审阅、已读后安静，以及393px手机进展与Alice均已检查。测试、发布回执和仍未交付的外部旅程见[QA](output/qa/2026-10-31-pr5-repair/verification.md)。没有迁移真实数据库或开启模型／邮箱／支付／硬件服务。
 
 - **实际发布：**PR5已于2026-10-31 02:20:17（Asia/Shanghai）合并，代码合并9b655e1；远端main与已测112f912完整树相同。最终1,686后端／300前端检查通过，文档收尾只记录回执与下一步，不改变已测应用。
+
+## 2026-11-03 离线邮箱旅程（未接真实账户）
+
+- **用户指令：**实现 handoff 点名的授权邮箱旅程，并且只从离线夹具开始。不连接 Gmail／Outlook，不索取或编造凭据，不花钱、不调用付费 API。复用现有 TaskService／Work／PermissionService／NoticeInbox，不另建任务、作业或记忆核心。发送不得自动发生。
+- **工程选择：**用本地 `desk-mailbox-fixture-v1` 夹具和同一 SQLite 上的邮箱游标表驱动现有任务、提案和通知。Work 项就是现有任务 id，不新写 `agent_runs`，也不改 #73–#77 所属界面。邮箱草稿种类 `mailbox_reply` 不进入可自动执行的软件提案，确认只记任务备注且 `sent` 为 false。不把邮箱行放进便携 JSON 备份，因此本切片没有未校验的导入路径。
+- **明确不做：**真实收件、发信、付费模型、安静时段结束后补发已入库通知、撤销后的重新连接。这些都不是本轮用户授权。详见 [契约](desk-companion/docs/mailbox-journey.md) 与 [QA](output/qa/2026-11-03-mailbox-offline/verification.md)。

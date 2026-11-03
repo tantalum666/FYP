@@ -84,3 +84,7 @@ The opt-in `scripts/openai_voice_eval.py` runner is separate from production voi
 The [application contract](application-execution.md) assigns typed intents to `application_models`, transport/source scope to `application_runtime`, version/staging/reconciliation to `application_executor`, and actual UNO/CDP calls to `application_bridge`. JobService retains its single queue and projects stage state from existing jobs; TaskService completion stays separate. No controller/reference solver is a model tool. `ApplicationPreview` renders the reviewed patch, while shared cards/ExportLink/TaskJobs own existing approval, readback and downloads.
 
 [Actual QA](../../output/qa/2026-10-30-application-execution/verification.md) records 524 backend/89 frontend checks and real Linux apps, application/process restart, same-file recovery, calendar identity, web/phone approval and cancellation. The ordinary HTTP model still stops after one effect-producing tool. Durable evidence enables a future continuation loop but is not that loop; all new model calls remain off.
+
+## Offline mailbox boundary (3 November)
+
+[Mailbox journey](mailbox-journey.md) owns fixture validation, the read offset, the history cursor, and the thread-to-task link. `TaskService` owns the commitment, `AssistantService` owns the review draft, and `Notifier` owns delivery. A mailbox draft is not in the automatic software-permission set, and confirming it cannot send mail. Portable JSON backup does not import or export these rows. No Gmail, Outlook, or paid model client belongs in this path.

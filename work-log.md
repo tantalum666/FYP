@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated: 3 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -490,3 +490,13 @@ Repaired macOS migration identity, explicit legacy-fact conversion, current-memo
 Evidence: [compatibility contract](desk-companion/docs/pr5-integration.md), [QA](output/qa/2026-10-31-pr5-repair/verification.md), 45-table current-main fixture migration, actual local download hash, same-task approval/watch/mobile readback. Current test totals and remote publication are recorded in QA after completion. Real user DBs and prior runtimes were preserved. Next product gate remains an authorized real-mailbox journey through the existing task/Work core, not consumer-agent parity by model API alone.
 
 Publication verified: PR5 closed/merged, reviewed112f912 → main9b655e1, exact Git trees match. Final1686backend/300frontend passed; staged secrets scan and504local-link checks passed. This closeout updates status/receipts only; next work is the scoped mailbox journey.
+
+## 2026-11-03 · Offline mailbox journey
+
+Owner instruction: implement the mailbox journey named in handoff, starting only with offline fixtures. No Gmail/Outlook connection, credentials, spend, or paid API. Reuse TaskService, the existing task as the Work item, PermissionService, and NoticeInbox.
+
+Added `desk-mailbox-fixture-v1` under `desk-companion/fixtures/mailbox/` (duplicate, out-of-order, interrupt/restart, revoke, disconnect). `MailboxService` keeps a durable history cursor and read offset in the same SQLite store (`BEGIN IMMEDIATE`, owner session rechecked). One thread updates one task; omitted fields do not clear notes, waiting reasons, or deadlines. Advice drafts cite the mail id and `observed_at`, require owner confirm, and never send. Notices publish only for a new or changed task, a deadline inside 24 hours, or a decision.
+
+Local evidence: `PYTHONPATH=/tmp/desk-py python3 -m pytest tests/test_mailbox_journey.py -q` → 8 passed. Ruff on the touched Python files passed. Full backend after installing the same packages onto the system site: 1693 passed, 1 failed. The failure is pre-existing `test_public_unicast[::ffff:93.184.216.34]` (`IPv6Address.is_reserved` is true for that mapped address on this interpreter). That file was not modified. No model call and no live mailbox. [QA](output/qa/2026-11-03-mailbox-offline/verification.md), [contract](desk-companion/docs/mailbox-journey.md).
+
+Gaps: quiet-hour notices are not retried after ingest; portable JSON backup does not include mailbox cursors and there is no mailbox import; proposal confirm uses the existing task note action, which clears `check_in_local`. Next step is an explicit real-account scope before any live mailbox. Do not start shopping or a paid round from this slice.

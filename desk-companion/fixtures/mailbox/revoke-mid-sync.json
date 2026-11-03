@@ -1,0 +1,37 @@
+{
+  "format": "desk-mailbox-fixture-v1",
+  "account_id": "revoke-owner",
+  "address": "owner@example.test",
+  "batches": [
+    {
+      "id": "cut",
+      "events": [
+        {
+          "op": "message",
+          "message": {
+            "id": "msg-keep",
+            "thread_id": "thread-keep",
+            "history_id": 1,
+            "observed_at": "2026-11-03T01:20:00Z",
+            "sender": "keep@example.test",
+            "subject": "Kept request",
+            "snippet": "This message was read before authorization ended."
+          }
+        },
+        {"op": "revoke"},
+        {
+          "op": "message",
+          "message": {
+            "id": "msg-secret",
+            "thread_id": "thread-secret",
+            "history_id": 2,
+            "observed_at": "2026-11-03T01:21:00Z",
+            "sender": "secret@example.test",
+            "subject": "Must not be read",
+            "snippet": "This body must not become a task."
+          }
+        }
+      ]
+    }
+  ]
+}
