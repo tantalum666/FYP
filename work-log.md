@@ -490,3 +490,13 @@ Repaired macOS migration identity, explicit legacy-fact conversion, current-memo
 Evidence: [compatibility contract](desk-companion/docs/pr5-integration.md), [QA](output/qa/2026-10-31-pr5-repair/verification.md), 45-table current-main fixture migration, actual local download hash, same-task approval/watch/mobile readback. Current test totals and remote publication are recorded in QA after completion. Real user DBs and prior runtimes were preserved. Next product gate remains an authorized real-mailbox journey through the existing task/Work core, not consumer-agent parity by model API alone.
 
 Publication verified: PR5 closed/merged, reviewed112f912 → main9b655e1, exact Git trees match. Final1686backend/300frontend passed; staged secrets scan and504local-link checks passed. This closeout updates status/receipts only; next work is the scoped mailbox journey.
+
+## 2026-11-03 · Integration acceptance harness
+
+**Goal:** Encode the 28 October Codex integration-review lessons as a regression suite on main `dac527b386c268caa96d9388d0c11d206b4f6856`, so later slices fail if they return. No feature work and no production redesign.
+
+**Done:** `desk-companion/tests/test_integration_acceptance.py` (seven tests) and Node fixtures that load the real `frontend/src/api.ts` recovery path. Checklist mapped in [integration acceptance](desk-companion/docs/integration-acceptance.md). Handoff notes the harness and keeps the mailbox journey as the one next step.
+
+**Verification:** `uv run --no-sync ruff check tests/test_integration_acceptance.py` and `uv run --no-sync pytest tests/test_integration_acceptance.py -q` — 7 passed. No paid calls, GitHub Actions, Pi, Alice wake, desktop chat, or Work UI edits. [QA](output/qa/2026-11-03-integration-acceptance/verification.md).
+
+**Remaining:** The authorized mailbox journey is unchanged. This harness can merge on its own unless a later branch edits the same test or doc lines.
