@@ -495,6 +495,8 @@ Publication verified: PR5 closed/merged, reviewed112f912 → main9b655e1, exact 
 
 Mapped `desk-calendar-fixture-v1` files through the existing task, calendar event, proposal, and notice services. One event or series keeps one task. Omitted location, notes, and reminders stay stored. Conflict and prepare drafts cite the event id and observation time; owner confirm does not accept an invite or send an RSVP. Duplicate, stale, restart, revoke, disconnect, quiet hours, and owner permission are covered by the HTTP journey tests.
 
-No mailbox, shopping, Pi, or Codex Work UI files were changed. No live calendar API and no paid call. Portable JSON backup was left unchanged, so it still does not export the new cursor tables.
+No mailbox, shopping, Pi, or Codex Work UI files were changed. No live calendar API and no paid call.
+
+Quiet-hour calendar notices are held and released by the existing rules tick through Notifier. Portable JSON backup now includes the calendar cursor, revisions, conflict pairs, attempts, and held notices. Owner preview validates the bundle. Restore then sync keeps the same task. Restart does not drop or duplicate a held notice.
 
 Files: [contract](desk-companion/docs/offline-calendar-journey.md), `desk-companion/backend/desk/offline_calendar/`, `desk-companion/fixtures/offline-calendar/`, [QA](output/qa/2026-11-03-offline-calendar/verification.md). Remaining: review this PR without connecting an account; mailbox and shopping stay on their own branches.

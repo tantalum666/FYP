@@ -1,10 +1,13 @@
 """Offline calendar journey through the owner HTTP task, event, draft, and notice paths."""
 
+import json
 from datetime import UTC, datetime
 
 from fastapi.testclient import TestClient
 
+from desk.access import digest
 from desk.app import create_app
+from desk.store import encode
 from desk.workspace_data import WorkspacePreferences
 
 CLOCK = datetime(2026, 11, 3, 1, tzinfo=UTC)
@@ -503,23 +506,209 @@ def test_invalid_fixture_is_rejected_before_import(tmp_path):
     assert traversal.status_code == 422
 
 
-def test_quiet_hours_suppress_the_deadline_notice(tmp_path):
-    _app, http = owner_app(tmp_path)
-    preferences = WorkspacePreferences(quiet_start="00:00", quiet_end="00:00").model_dump()
+def save_quiet(http, version, start, end, key):
+    preferences = WorkspacePreferences(quiet_start=start, quiet_end=end).model_dump()
     saved = http.post(
         "/api/workspace/preferences",
-        json={"expected_version": 1, "preferences": preferences},
-        headers={"X-Operation-Id": "all-quiet"},
+        json={"expected_version": version, "preferences": preferences},
+        headers={"X-Operation-Id": key},
     )
     assert saved.status_code == 200, saved.text
+    return saved.json()["version"]
+
+
+def backup_document(http):
+    response = http.get("/api/exchange/backup.json")
+    assert response.status_code == 200, response.text
+    return response.json()
+
+
+def restore_backup(http, document, preview_key, apply_key):
+    preview = http.post(
+        "/api/exchange/backup/preview",
+        json={"content": json.dumps(document)},
+        headers={"X-Operation-Id": preview_key},
+    )
+    assert preview.status_code == 200, preview.text
+    applied = http.post(
+        f"/api/exchange/{preview.json()['preview_id']}/apply",
+        json={},
+        headers={"X-Operation-Id": apply_key},
+    )
+    assert applied.status_code == 200, applied.text
+    return applied.json()
+
+
+def test_quiet_hours_hold_a_notice_until_the_rules_tick(tmp_path):
+    _app, http = owner_app(tmp_path)
+    version = save_quiet(http, 1, "08:00", "18:00", "quiet-on")
     connection = connect(http, "soon-meeting", key="quiet-connect")
     synced = sync(http, connection["id"], "quiet-sync")
     assert synced["success"] is True
+    task_id = tasks(http)[0]["id"]
     assert [task["title"] for task in tasks(http)] == ["Soon"]
     assert notices(http) == []
     saved_event = event(http, item_for(synced["connection"], "evt-soon")["event_id"])
     assert saved_event["location"] == "Quiet room"
     assert saved_event["notes"] == "Do not page"
+    _app.state.runtime.tick()
+    assert notices(http) == []
+
+    _restarted, again = owner_app(tmp_path)
+    _restarted.state.runtime.tick()
+    assert notices(again) == []
+    document = backup_document(again)
+    holds = document["payload"]["offline_calendar_bundle"]["notice_holds"]
+    assert holds and "evt-soon" in json.dumps(holds)
+    restored_app, restored = owner_app(tmp_path / "restored")
+    applied = restore_backup(restored, document, "quiet-preview", "quiet-restore")
+    assert applied["offline_calendar_created"] == 1
+    assert [task["id"] for task in tasks(restored)] == [task_id]
+    assert notices(restored) == []
+    restored_app.state.runtime.tick()
+    delivered = notices(restored)
+    assert len(delivered) == 1
+    assert "evt-soon" in delivered[0]["body_en"]
+    assert "within 24 hours" in delivered[0]["body_en"]
+    restored_app.state.runtime.tick()
+    assert notices(restored) == delivered
+    replay = sync(restored, connection["id"], "quiet-sync")
+    assert replay["applied_uids"] == synced["applied_uids"]
+    assert [task["id"] for task in tasks(restored)] == [task_id]
+
+    save_quiet(again, version, "22:00", "07:00", "quiet-off")
+    _restarted.state.runtime.tick()
+    source = notices(again)
+    assert len(source) == 1 and "evt-soon" in source[0]["body_en"]
+    _restarted.state.runtime.tick()
+    assert notices(again) == source
+    _after, third = owner_app(tmp_path)
+    _after.state.runtime.tick()
+    assert notices(third) == source
+
+
+def test_backup_restore_keeps_the_cursor_and_one_task(tmp_path):
+    _app, http = owner_app(tmp_path)
+    connection = connect(http, "schedule-journey")
+    first = sync(http, connection["id"], "arrive")
+    review = item_for(first["connection"], "evt-review")
+    series = item_for(first["connection"], "series-standup")
+    noted = http.post(
+        f"/api/tasks/{review['task_id']}/actions",
+        json={
+            "action": "note",
+            "expected_version": task_for(tasks(http), review["task_id"])["version"],
+            "note": "Owner note that must stay",
+        },
+        headers={"X-Operation-Id": "owner-note"},
+    )
+    assert noted.status_code == 200, noted.text
+    document = backup_document(http)
+    bundle = document["payload"]["offline_calendar_bundle"]
+    assert bundle["connections"][0]["history_cursor"] == "3"
+    assert bundle["connections"][0]["next_event"] == first["connection"]["next_event"]
+    assert {item["uid"] for item in bundle["items"]} == {"evt-review", "series-standup"}
+    assert "password_hash" not in json.dumps(document)
+
+    fresh_app, fresh = owner_app(tmp_path / "restored")
+    fresh.post(
+        "/api/devices/enrol-display",
+        json={"name": "Shared display"},
+        headers={"X-Operation-Id": "pair-backup"},
+    )
+    display = TestClient(fresh_app)
+    display.headers.update(
+        {
+            "Authorization": "Bearer " + fresh.cookies.get("desk_companion_device"),
+            "X-Desk-Request": "1",
+        }
+    )
+    assert display.get("/api/exchange/backup.json").status_code == 403
+    assert (
+        display.post(
+            "/api/exchange/backup/preview",
+            json={"content": json.dumps(document)},
+            headers={"X-Operation-Id": "display-preview"},
+        ).status_code
+        == 403
+    )
+    preview = fresh.post(
+        "/api/exchange/backup/preview",
+        json={"content": json.dumps(document)},
+        headers={"X-Operation-Id": "preview-calendar"},
+    )
+    assert preview.status_code == 200, preview.text
+    assert preview.json()["metadata"]["offline_calendar_restore"] == "merge_keep_existing"
+    preview_id = preview.json()["preview_id"]
+    assert (
+        display.post(
+            f"/api/exchange/{preview_id}/apply",
+            json={},
+            headers={"X-Operation-Id": "display-apply"},
+        ).status_code
+        == 403
+    )
+    assert tasks(fresh) == []
+    applied = fresh.post(
+        f"/api/exchange/{preview_id}/apply",
+        json={},
+        headers={"X-Operation-Id": "apply-calendar"},
+    )
+    assert applied.status_code == 200, applied.text
+    assert applied.json()["offline_calendar_created"] == 1
+    restored_ids = {task["id"] for task in tasks(fresh)}
+    assert restored_ids == {review["task_id"], series["task_id"]}
+    assert task_for(tasks(fresh), review["task_id"])["due_local"].startswith("2026-11-20T19:00")
+    assert any(
+        row["note"] == "Owner note that must stay"
+        for row in detail(fresh, review["task_id"])["evidence"]
+    )
+    kept = event(fresh, review["event_id"])
+    assert kept["location"] == "Library"
+    assert kept["notes"] == "Bring the brief"
+    assert kept["reminder_minutes"] == [30, 10]
+    again = fresh.get(f"/api/offline-calendar/connections/{connection['id']}")
+    assert again.status_code == 200, again.text
+    assert again.json()["connection"]["history_cursor"] == "3"
+    assert again.json()["connection"]["next_event"] == first["connection"]["next_event"]
+    assert item_for(again.json()["connection"], "evt-review")["task_id"] == review["task_id"]
+
+    replay = sync(fresh, connection["id"], "arrive")
+    assert replay == first
+    assert {task["id"] for task in tasks(fresh)} == restored_ids
+    second = restore_backup(fresh, document, "preview-again", "apply-again")
+    assert second["offline_calendar_created"] == 0 and second["offline_calendar_kept"] == 1
+    moved = sync(fresh, connection["id"], "series")
+    assert moved["applied_uids"] == ["series-standup"]
+    series_now = item_for(moved["connection"], "series-standup")
+    assert series_now["task_id"] == series["task_id"]
+    assert series_now["event_id"] == series["event_id"]
+    assert {task["id"] for task in tasks(fresh)} == restored_ids
+    assert task_for(tasks(fresh), series["task_id"])["due_local"].startswith("2026-11-20T10:00")
+    assert event(fresh, series["event_id"])["location"] == "Desk"
+    assert event(fresh, series["event_id"])["notes"] == "Weekly"
+    assert event(fresh, review["event_id"])["location"] == "Library"
+
+    tampered = json.loads(json.dumps(document))
+    tampered["payload"]["offline_calendar_bundle"]["connections"][0]["next_event"] = -1
+    tampered["sha256"] = digest(encode(tampered["payload"]))
+    rejected = fresh.post(
+        "/api/exchange/backup/preview",
+        json={"content": json.dumps(tampered)},
+        headers={"X-Operation-Id": "tampered-calendar"},
+    )
+    assert rejected.status_code == 422
+    assert rejected.json()["error"]["code"] == "INVALID_BACKUP"
+    legacy = json.loads(json.dumps(document))
+    legacy["payload"].pop("offline_calendar_bundle")
+    legacy["sha256"] = digest(encode(legacy["payload"]))
+    legacy_preview = fresh.post(
+        "/api/exchange/backup/preview",
+        json={"content": json.dumps(legacy)},
+        headers={"X-Operation-Id": "legacy-calendar"},
+    )
+    assert legacy_preview.status_code == 200, legacy_preview.text
+    assert legacy_preview.json()["metadata"]["offline_calendar_connections"] == 0
 
 
 def test_another_runtime_does_not_see_the_calendar(tmp_path):

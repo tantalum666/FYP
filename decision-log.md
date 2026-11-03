@@ -399,5 +399,6 @@ Updated: 3 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 
 - **用户指令：**第三条真实验收切片是离线日历／日程夹具，映射进现有 Task／Work 与通知。不要连接 Google／Outlook 或任何实时 API，不付费调用，不改邮箱和购物包，也不改 Pi 与 Codex Work UI。
 - **工程选择而非用户批准连接账号：**新增 `desk/offline_calendar/`。一个事件或系列对应一个现有任务和一条本地日历记录；省略的地点、备注和提醒保持原值。冲突、会前准备和 RSVP 只产生带来源的草稿，拥有者确认后只写“未接受邀请、未发送 RSVP”的事务备注。撤销、断开和中断都不是成功同步。
-- **明确未做：**没有修改可移植 JSON 备份，因此新游标表不在该导出里；整库 SQLite 副本会带上这些表。没有把完整权限自动确认扩到 `calendar_advice`。这不代替邮件或旅行验收。
+- **明确未做：**没有把完整权限自动确认扩到 `calendar_advice`。这不代替邮件或旅行验收。
+- **同日补上两处缺口：**安静时段的有意义通知写入 `offline_calendar_notice_holds`，由现有 `Runtime.tick` 在安静结束后经同一个 Notifier 发出；重启不丢、不重复。可移植 JSON 的 `offline_calendar_bundle` 含游标、修订、冲突对、同步尝试和暂缓通知，预览校验后仅拥有者可恢复，再次同步不新建同一事务。
 - **证据：**[契约](desk-companion/docs/offline-calendar-journey.md)与[本轮 QA](output/qa/2026-11-03-offline-calendar/verification.md)。

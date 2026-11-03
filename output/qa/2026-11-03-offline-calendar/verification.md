@@ -30,9 +30,18 @@ Adjacent regression, same interpreter:
 uv run --no-sync pytest tests/test_calendar.py tests/test_tasks.py tests/test_notify.py tests/test_assistant_data.py tests/test_permissions.py tests/test_exchange.py -q --tb=line
 ```
 
-104 passed, same warning, 26.93s.
+104 passed, same warning, 26.93s. That run was before the quiet-hold and backup changes.
 
-The 11 tests: out-of-order duplicate and field preservation, restart, in-fixture revoke, endpoint revoke, disconnect, stale revision, status cancel, owner confirm/read-back, invalid fixture, quiet hours, runtime isolation.
+## Quiet hold and portable backup
+
+Same ruff command, plus:
+
+```text
+uv run --no-sync pytest tests/test_offline_calendar_journey.py tests/test_backup_persona_jobs.py tests/test_exchange.py -q --tb=short
+uv run --no-sync pytest tests/test_integration_boundaries.py tests/test_memory_gaps.py tests/test_risk_gaps.py tests/test_tasks.py tests/test_backup_persona_jobs.py -q --tb=line
+```
+
+Ruff clean. First command 17 passed, 8.84s. Second command 51 passed, 12.47s. The journey file now covers a quiet-hour hold that survives a second process, is restored, and is published once by `Runtime.tick`, plus backup → restore → sync that keeps both task ids. Display export, preview, and apply return 403. A tampered cursor is `INVALID_BACKUP`. A backup without `offline_calendar_bundle` still previews.
 
 No GitHub Actions run. No paid model call. No live calendar request.
 
@@ -42,4 +51,4 @@ No GitHub Actions run. No paid model call. No live calendar request.
 
 ## Gap
 
-Portable JSON export was not extended. Cursor tables exist only in the SQLite file. Full backend/frontend suites were not re-run; the new HTTP journey file is the verification for this slice.
+Full backend and frontend suites were not re-run. This slice still does not connect a live calendar account. The two earlier gaps, dropped quiet-hour notices and missing portable cursor state, are covered by the checks above.

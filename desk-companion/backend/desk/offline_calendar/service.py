@@ -20,7 +20,8 @@ from ..notify import Notice
 from ..schemas import CreateEvents, EventAction, StrictModel
 from ..store import DomainError, encode
 from ..tasks import OPEN, TaskAction
-from ..workspace_data import is_quiet
+from ..workspace_data import quiet_until
+from .backup import export_bundle, restore_bundle, validate_bundle
 from .fixture import (
     NAME,
     FixtureItem,
@@ -121,6 +122,14 @@ class OfflineCalendarService:
                     response TEXT,
                     started_at TEXT NOT NULL,
                     finished_at TEXT
+                );
+                CREATE TABLE IF NOT EXISTS offline_calendar_notice_holds(
+                    notice_id TEXT PRIMARY KEY,
+                    connection_id TEXT NOT NULL,
+                    uid TEXT NOT NULL,
+                    deadline_due TEXT,
+                    payload TEXT NOT NULL,
+                    held_until TEXT NOT NULL
                 );
                 """
             )
@@ -589,8 +598,17 @@ class OfflineCalendarService:
             body_en,
             body_zh,
         )
-        results = self.runtime.notify.publish(notice, quiet=self._quiet())
+        quiet = self._quiet_end() is not None
+        results = self.runtime.notify.publish(notice, quiet=quiet)
         delivered = any(row["status"] in {"delivered", "duplicate"} for row in results)
+        if not delivered and any(row["status"] == "quiet" for row in results):
+            self._defer_notice(
+                connection_id,
+                item.id,
+                notice,
+                due if deadline_news else None,
+            )
+            return already if approaching else None
         if deadline_news and delivered:
             return due
         if not approaching:
@@ -725,10 +743,107 @@ class OfflineCalendarService:
         due = wall_to_utc(_as_local(task["due_local"]), task["timezone"], reject_ambiguous=True)
         return due - self.store.clock() <= APPROACHING
 
-    def _quiet(self) -> bool:
+    def _quiet_end(self):
         with self.store.connection() as conn:
             zone = ZoneInfo(self.store.settings(conn)["timezone"])
-        return is_quiet(self.runtime.data.preferences(), self.store.clock().astimezone(zone))
+        return quiet_until(self.runtime.data.preferences(), self.store.clock().astimezone(zone))
+
+    def _defer_notice(
+        self,
+        connection_id: str,
+        uid: str,
+        notice: Notice,
+        deadline_due: str | None,
+    ) -> None:
+        """Keep one notice until the existing rules tick sees quiet hours end."""
+        until = self._quiet_end()
+        if until is None:
+            return
+        with self.store.connection(write=True) as conn:
+            conn.execute(
+                """
+                INSERT INTO offline_calendar_notice_holds(
+                    notice_id, connection_id, uid, deadline_due, payload, held_until
+                ) VALUES(?,?,?,?,?,?)
+                ON CONFLICT(notice_id) DO NOTHING
+                """,
+                (
+                    notice.id,
+                    connection_id,
+                    uid,
+                    deadline_due,
+                    encode(_notice_document(notice)),
+                    iso(until),
+                ),
+            )
+
+    def release_quiet_notices(self) -> None:
+        """Deliver held calendar notices once quiet hours have ended.
+
+        Called from Runtime.tick, the same rules loop that releases task quiet holds.
+        The hold row stays until Notifier has accepted the notice, so a crash retry
+        publishes the same id and the inbox dedupes it.
+        """
+        until = self._quiet_end()
+        if until is not None:
+            self._refresh_holds(iso(until))
+            return
+        with self.lock:
+            with self.store.connection() as conn:
+                rows = conn.execute(
+                    "SELECT * FROM offline_calendar_notice_holds ORDER BY notice_id"
+                ).fetchall()
+            for row in rows:
+                if self._quiet_end() is not None:
+                    return
+                payload = json.loads(row["payload"])
+                notice = Notice(
+                    payload["id"],
+                    payload["kind"],
+                    payload["title_en"],
+                    payload["title_zh"],
+                    payload["body_en"],
+                    payload["body_zh"],
+                    payload["reason_en"],
+                    payload["reason_zh"],
+                )
+                results = self.runtime.notify.publish(notice, quiet=False)
+                if not any(item["status"] in {"delivered", "duplicate"} for item in results):
+                    continue
+                with self.store.connection(write=True) as conn:
+                    if row["deadline_due"]:
+                        conn.execute(
+                            "UPDATE offline_calendar_items SET deadline_notified_due=? "
+                            "WHERE connection_id=? AND uid=? AND deadline_notified_due IS NULL",
+                            (row["deadline_due"], row["connection_id"], row["uid"]),
+                        )
+                    conn.execute(
+                        "DELETE FROM offline_calendar_notice_holds WHERE notice_id=?",
+                        (row["notice_id"],),
+                    )
+
+    def _refresh_holds(self, until: str) -> None:
+        with self.store.connection() as conn:
+            stale = conn.execute(
+                "SELECT 1 FROM offline_calendar_notice_holds WHERE held_until!=? LIMIT 1",
+                (until,),
+            ).fetchone()
+        if not stale:
+            return
+        with self.store.connection(write=True) as conn:
+            conn.execute(
+                "UPDATE offline_calendar_notice_holds SET held_until=? WHERE held_until!=?",
+                (until, until),
+            )
+
+    def export(self) -> dict:
+        return export_bundle(self.store)
+
+    def validate_backup(self, bundle, *, task_ids: set[str], event_ids: set[str]) -> dict:
+        return validate_bundle(bundle, task_ids=task_ids, event_ids=event_ids)
+
+    def restore(self, conn, bundle) -> dict:
+        return restore_bundle(conn, bundle)
 
     def _deadline_mark(self, connection_id: str, uid: str) -> str | None:
         row = self._item(connection_id, uid)
@@ -876,6 +991,19 @@ class OfflineCalendarService:
                 (cursor, iso(self.store.clock()), connection_id),
             )
             return cursor
+
+
+def _notice_document(notice: Notice) -> dict:
+    return {
+        "id": notice.id,
+        "kind": notice.kind,
+        "title_en": notice.title_en,
+        "title_zh": notice.title_zh,
+        "body_en": notice.body_en,
+        "body_zh": notice.body_zh,
+        "reason_en": notice.reason_en,
+        "reason_zh": notice.reason_zh,
+    }
 
 
 def _notice_text(reasons: list[str]) -> dict:

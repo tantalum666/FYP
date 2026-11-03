@@ -13,6 +13,7 @@ from pydantic import Field, ValidationError, model_validator
 
 from .access import digest
 from .calendar import expand_all, iso, wall_to_utc
+from .offline_calendar.backup import empty_offline_calendar_bundle
 from .schemas import EventInput, StrictModel
 from .store import DomainError, encode
 from .vault import Vault
@@ -317,6 +318,16 @@ class ExchangeService:
                 if row["kind"] == "backup"
                 else {"created": 0, "kept": 0}
             )
+            calendar_result = (
+                self.runtime.offline_calendar.restore(
+                    conn,
+                    preview["metadata"].get(
+                        "offline_calendar_bundle", empty_offline_calendar_bundle()
+                    ),
+                )
+                if row["kind"] == "backup"
+                else {"created": 0, "kept": 0}
+            )
             conn.execute("UPDATE import_previews SET state='applied' WHERE id=?", (preview_id,))
             self.store.record(
                 conn,
@@ -335,6 +346,8 @@ class ExchangeService:
                 "persona_kept": persona_result["kept"],
                 "jobs_created": job_result["created"],
                 "jobs_kept": job_result["kept"],
+                "offline_calendar_created": calendar_result["created"],
+                "offline_calendar_kept": calendar_result["kept"],
                 "applied": True,
             }
 
@@ -415,6 +428,7 @@ class ExchangeService:
                 "memory_bundle": self.runtime.memory.export(),
                 "persona_bundle": self.runtime.persona.export(),
                 "job_bundle": self.runtime.jobs.export(),
+                "offline_calendar_bundle": self.runtime.offline_calendar.export(),
             }
         return {
             "format": "desk-companion-backup",
@@ -476,6 +490,16 @@ class ExchangeService:
                         "exceptions": exceptions,
                     }
                 )
+            raw_calendar = (
+                empty_offline_calendar_bundle()
+                if "offline_calendar_bundle" not in content
+                else content["offline_calendar_bundle"]
+            )
+            calendar_bundle = self.runtime.offline_calendar.validate_backup(
+                raw_calendar,
+                task_ids={item["id"] for item in task_bundle["tasks"]},
+                event_ids=ids,
+            )
         except (ValueError, KeyError, TypeError, AttributeError):
             raise DomainError("INVALID_BACKUP", 422) from None
         return self._preview(
@@ -498,6 +522,9 @@ class ExchangeService:
                 "job_bundle": job_bundle,
                 "jobs_count": len(job_bundle["jobs"]),
                 "job_restore": "merge_keep_existing_running_becomes_review",
+                "offline_calendar_bundle": calendar_bundle,
+                "offline_calendar_connections": len(calendar_bundle["connections"]),
+                "offline_calendar_restore": "merge_keep_existing",
             },
         )
 

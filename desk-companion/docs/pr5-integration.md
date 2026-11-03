@@ -72,4 +72,4 @@ SQLite backup and portable calendar/memory/job exports are different features. W
 
 The next product gate remains a real authorized email → existing task → sourced advice/draft → meaningful notification journey. This merge supplies reusable persistence, review and recovery components; it does not itself deliver mailbox monitoring, autonomous purchases or flight booking. [Research and current gaps](../../research/personal-agent-research-index.md).
 
-A later local slice, recorded on 3 November 2026, maps offline schedule fixtures through that same task, proposal, and notice path. It does not connect a calendar account and does not finish the mailbox gate. [Offline calendar journey](offline-calendar-journey.md).
+A later local slice, recorded on 3 November 2026, maps offline schedule fixtures through that same task, proposal, and notice path. Quiet-hour notices wait for the existing rules tick, and the portable JSON backup includes the calendar cursor. It does not connect a calendar account and does not finish the mailbox gate. [Offline calendar journey](offline-calendar-journey.md).

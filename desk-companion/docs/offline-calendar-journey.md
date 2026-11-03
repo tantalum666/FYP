@@ -35,11 +35,11 @@ Omitted `notes`, `location`, and `reminder_minutes` are left as stored. The task
 
 A conflict, prepare-for-meeting, or requested RSVP becomes a `calendar_advice` draft. The summary cites the fixture event id and `observed_at`. `send` and `accept` stay false. Confirming writes a task note that no invite was accepted and no RSVP was sent. Cancelling the draft does not write that note. Full permission does not auto-confirm this kind. A paired display cannot list, sync, or confirm it.
 
-Notices are published only for a new conflict, a deadline inside 24 hours, a cancelled meeting that already had a task, or a draft that needs a decision. An unchanged or far new event stays silent. Quiet hours suppress inbox delivery and do not retry that change later.
+Notices are published only for a new conflict, a deadline inside 24 hours, a cancelled meeting that already had a task, or a draft that needs a decision. An unchanged or far new event stays silent. During quiet hours the same Notifier records the notice as held. `Runtime.tick` publishes that hold when quiet hours end, using the existing notice id so a restart does not drop it or deliver it twice.
 
-## Backup gap
+## Backup
 
-This slice does not change backup code. A whole-file SQLite copy includes the new cursor tables. The portable JSON export still copies events, tasks, and jobs only, so it does not restore `offline_calendar_*` cursors or conflict pairs. Restart durability is the HTTP test that opens a second process on the same database file.
+Portable JSON export includes `offline_calendar_bundle`: connection cursor, event-to-task rows, revisions, conflict pairs, sync attempts, and quiet-hour holds. Preview validates that bundle before the owner applies it. A paired display cannot export, preview, or apply it. Restore inserts a missing connection and does not rewrite a cursor that is already present, so the next sync updates the same task instead of creating another. A backup from before this field still previews as an empty cursor bundle. A whole-file SQLite copy remains a separate private snapshot.
 
 ## What this does not claim
 

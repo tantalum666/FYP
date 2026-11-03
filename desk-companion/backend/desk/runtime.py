@@ -165,6 +165,7 @@ class Runtime:
         self.store.tick()
         self.posture.tick()
         self.tasks.tick()
+        self.offline_calendar.release_quiet_notices()
         self.memories.expire()
         self.nudges.tick()
         self.goals.tick()

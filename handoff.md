@@ -17,7 +17,7 @@ The isolated localhost:8832 fixture service was stopped and test tabs/viewports 
 
 ## Offline calendar fixture (3 November 2026)
 
-Branch `cursor/offline-calendar-journey-3bf1` maps local schedule fixtures through TaskService, the calendar event store, proposals, and NoticeInbox. One event or series stays one task. Advice cites the event id and observation time and does not accept invites or send RSVPs. Mailbox stays on PR #79; shopping stays on its own branch. No Google, Outlook, or paid call. [Contract](desk-companion/docs/offline-calendar-journey.md).
+Branch `cursor/offline-calendar-journey-3bf1` maps local schedule fixtures through TaskService, the calendar event store, proposals, and NoticeInbox. One event or series stays one task. Quiet-hour notices wait for the existing rules tick. Portable JSON backup restores the cursor so the next sync keeps that task. Advice does not accept invites or send RSVPs. Mailbox stays on PR #79; shopping stays on its own branch. No Google, Outlook, or paid call. [Contract](desk-companion/docs/offline-calendar-journey.md).
 
 ## One next step
 
