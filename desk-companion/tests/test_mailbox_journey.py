@@ -1,10 +1,13 @@
 """Offline mailbox journey through the owner HTTP task, draft, and notice paths."""
 
+import json
 from datetime import UTC, datetime
 
 from fastapi.testclient import TestClient
 
+from desk.access import digest
 from desk.app import create_app
+from desk.store import encode
 from desk.workspace_data import WorkspacePreferences
 
 CLOCK = datetime(2026, 11, 3, 1, tzinfo=UTC)
@@ -337,17 +340,205 @@ def test_invalid_fixture_is_rejected_before_import(tmp_path):
     assert traversal.status_code == 422
 
 
-def test_quiet_hours_suppress_the_mailbox_notice(tmp_path):
-    _app, http = owner_app(tmp_path)
-    preferences = WorkspacePreferences(quiet_start="00:00", quiet_end="00:00").model_dump()
-    saved = http.post(
-        "/api/workspace/preferences",
-        json={"expected_version": 1, "preferences": preferences},
-        headers={"X-Operation-Id": "all-quiet"},
-    )
-    assert saved.status_code == 200, saved.text
+def test_quiet_hours_hold_a_notice_until_the_rules_tick(tmp_path):
+    app, http = owner_app(tmp_path)
+    version = save_quiet(http, 1, "08:00", "18:00", "quiet-on")
     connection = connect(http, "two-batches", key="quiet-connect")
     synced = sync(http, connection["id"], "quiet-sync")
     assert synced["success"] is True
+    task_id = tasks(http)[0]["id"]
     assert [task["title"] for task in tasks(http)] == ["Visible request"]
-    assert notices(http) == []
+    assert mailbox_notices(http) == []
+    app.state.runtime.tick()
+    assert mailbox_notices(http) == []
+
+    document = backup_document(http)
+    assert document["payload"]["mailbox_bundle"]["notice_holds"]
+    assert "msg-visible" in json.dumps(document["payload"]["mailbox_bundle"]["notice_holds"])
+    assert "Later secret" not in json.dumps(document)
+    restored_app, restored = owner_app(tmp_path / "restored")
+    applied = restore_backup(restored, document, "quiet-preview", "quiet-restore")
+    assert applied["mailbox_created"] == 1
+    assert [task["id"] for task in tasks(restored)] == [task_id]
+    assert mailbox_notices(restored) == []
+    restored_app.state.runtime.tick()
+    delivered = mailbox_notices(restored)
+    assert len(delivered) == 1
+    assert "msg-visible" in delivered[0]["body_en"]
+    assert "2026-11-03T02:00:00" in delivered[0]["body_en"]
+    restored_app.state.runtime.tick()
+    assert mailbox_notices(restored) == delivered
+    replay = sync(restored, connection["id"], "quiet-sync")
+    assert replay["applied_message_ids"] == synced["applied_message_ids"]
+    assert [task["title"] for task in tasks(restored)] == ["Visible request"]
+    continued = sync(restored, connection["id"], "after-quiet-restore")
+    assert continued["applied_message_ids"] == ["msg-later"]
+    titles = [task["title"] for task in tasks(restored)]
+    assert titles.count("Visible request") == 1
+    assert titles.count("Later secret") == 1
+
+    save_quiet(http, version, "22:00", "07:00", "quiet-off")
+    app.state.runtime.tick()
+    source = mailbox_notices(http)
+    assert len(source) == 1 and "msg-visible" in source[0]["body_en"]
+    app.state.runtime.tick()
+    assert mailbox_notices(http) == source
+
+
+def test_backup_restore_keeps_the_cursor_and_one_task(tmp_path):
+    _app, http = owner_app(tmp_path)
+    connection = connect(http, "thread-journey")
+    sync(http, connection["id"], "arrive")
+    sync(http, connection["id"], "ping")
+    task = tasks(http)[0]
+    noted = http.post(
+        f"/api/tasks/{task['id']}/actions",
+        json={"action": "note", "expected_version": task["version"], "note": "Owner note that must stay"},
+        headers={"X-Operation-Id": "owner-note"},
+    )
+    assert noted.status_code == 200, noted.text
+    moved = sync(http, connection["id"], "reschedule")
+    assert moved["success"] is True
+    source = http.get(f"/api/mailbox/connections/{connection['id']}")
+    assert source.status_code == 200, source.text
+    saved = source.json()["connection"]
+    document = backup_document(http)
+    bundle = document["payload"]["mailbox_bundle"]
+    assert bundle["connections"][0]["history_cursor"] == saved["history_cursor"]
+    assert bundle["connections"][0]["next_event"] == saved["next_event"]
+    assert "password_hash" not in json.dumps(document)
+
+    fresh_app, fresh = owner_app(tmp_path / "restored")
+    fresh.post(
+        "/api/devices/enrol-display",
+        json={"name": "Shared display"},
+        headers={"X-Operation-Id": "pair-backup"},
+    )
+    display = TestClient(fresh_app)
+    display.headers.update(
+        {
+            "Authorization": "Bearer " + fresh.cookies.get("desk_companion_device"),
+            "X-Desk-Request": "1",
+        }
+    )
+    assert display.get("/api/exchange/backup.json").status_code == 403
+    assert display.post(
+        "/api/exchange/backup/preview",
+        json={"content": json.dumps(document)},
+        headers={"X-Operation-Id": "display-preview"},
+    ).status_code == 403
+    preview = fresh.post(
+        "/api/exchange/backup/preview",
+        json={"content": json.dumps(document)},
+        headers={"X-Operation-Id": "preview-mailbox"},
+    )
+    assert preview.status_code == 200, preview.text
+    preview_id = preview.json()["preview_id"]
+    assert display.post(
+        f"/api/exchange/{preview_id}/apply",
+        json={},
+        headers={"X-Operation-Id": "display-apply"},
+    ).status_code == 403
+    assert tasks(fresh) == []
+    applied = fresh.post(
+        f"/api/exchange/{preview_id}/apply",
+        json={},
+        headers={"X-Operation-Id": "apply-mailbox"},
+    )
+    assert applied.status_code == 200, applied.text
+    assert applied.json()["mailbox_created"] == 1
+    restored_tasks = tasks(fresh)
+    assert len(restored_tasks) == 1
+    assert restored_tasks[0]["id"] == task["id"]
+    assert restored_tasks[0]["due_local"].startswith("2026-11-03T18:00")
+    assert restored_tasks[0]["waiting_for"] == "Vendor confirmation"
+    assert restored_tasks[0]["next_step"] == "Confirm the new time"
+    assert any(
+        row["note"] == "Owner note that must stay" for row in detail(fresh, task["id"])["evidence"]
+    )
+    again = fresh.get(f"/api/mailbox/connections/{connection['id']}")
+    assert again.status_code == 200, again.text
+    assert again.json()["connection"]["history_cursor"] == saved["history_cursor"]
+    assert again.json()["connection"]["next_event"] == saved["next_event"]
+    assert again.json()["connection"]["threads"][0]["task_id"] == task["id"]
+
+    replay = sync(fresh, connection["id"], "reschedule")
+    assert replay["applied_message_ids"] == moved["applied_message_ids"]
+    assert fresh.get(f"/api/mailbox/connections/{connection['id']}").json()["connection"][
+        "next_event"
+    ] == saved["next_event"]
+    second = restore_backup(fresh, document, "preview-again", "apply-again")
+    assert second["mailbox_created"] == 0 and second["mailbox_kept"] == 1
+    assert [item["id"] for item in tasks(fresh)] == [task["id"]]
+
+    unchanged = sync(fresh, connection["id"], "unchanged")
+    assert unchanged["duplicate_message_ids"] == ["msg-quote-4"]
+    assert unchanged["applied_message_ids"] == []
+    assert [item["id"] for item in tasks(fresh)] == [task["id"]]
+    assert tasks(fresh)[0]["version"] == restored_tasks[0]["version"]
+    reply = sync(fresh, connection["id"], "reply")
+    assert reply["success"] is True
+    finished = tasks(fresh)
+    assert len(finished) == 1 and finished[0]["id"] == task["id"]
+    assert finished[0]["next_step"] == "File the accepted quote"
+    assert finished[0]["waiting_for"] == "Vendor confirmation"
+
+    tampered = json.loads(json.dumps(document))
+    tampered["payload"]["mailbox_bundle"]["messages"][0]["snippet"] = "not stored"
+    tampered["sha256"] = digest(encode(tampered["payload"]))
+    rejected = fresh.post(
+        "/api/exchange/backup/preview",
+        json={"content": json.dumps(tampered)},
+        headers={"X-Operation-Id": "tampered-mailbox"},
+    )
+    assert rejected.status_code == 422
+    assert rejected.json()["error"]["code"] == "INVALID_BACKUP"
+    assert [item["id"] for item in tasks(fresh)] == [task["id"]]
+
+    legacy = json.loads(json.dumps(document))
+    legacy["payload"].pop("mailbox_bundle")
+    legacy["sha256"] = digest(encode(legacy["payload"]))
+    legacy_preview = fresh.post(
+        "/api/exchange/backup/preview",
+        json={"content": json.dumps(legacy)},
+        headers={"X-Operation-Id": "legacy-mailbox"},
+    )
+    assert legacy_preview.status_code == 200, legacy_preview.text
+    assert legacy_preview.json()["metadata"]["mailbox_connections"] == 0
+
+
+def save_quiet(http, version, start, end, key):
+    preferences = WorkspacePreferences(quiet_start=start, quiet_end=end).model_dump()
+    saved = http.post(
+        "/api/workspace/preferences",
+        json={"expected_version": version, "preferences": preferences},
+        headers={"X-Operation-Id": key},
+    )
+    assert saved.status_code == 200, saved.text
+    return saved.json()["version"]
+
+
+def mailbox_notices(http):
+    return [item for item in notices(http) if item["kind"].startswith("mailbox_")]
+
+
+def backup_document(http):
+    response = http.get("/api/exchange/backup.json")
+    assert response.status_code == 200, response.text
+    return response.json()
+
+
+def restore_backup(http, document, preview_key, apply_key):
+    preview = http.post(
+        "/api/exchange/backup/preview",
+        json={"content": json.dumps(document)},
+        headers={"X-Operation-Id": preview_key},
+    )
+    assert preview.status_code == 200, preview.text
+    applied = http.post(
+        f"/api/exchange/{preview.json()['preview_id']}/apply",
+        json={},
+        headers={"X-Operation-Id": apply_key},
+    )
+    assert applied.status_code == 200, applied.text
+    return applied.json()

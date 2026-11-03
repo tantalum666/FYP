@@ -399,4 +399,10 @@ Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 
 - **用户指令：**实现 handoff 点名的授权邮箱旅程，并且只从离线夹具开始。不连接 Gmail／Outlook，不索取或编造凭据，不花钱、不调用付费 API。复用现有 TaskService／Work／PermissionService／NoticeInbox，不另建任务、作业或记忆核心。发送不得自动发生。
 - **工程选择：**用本地 `desk-mailbox-fixture-v1` 夹具和同一 SQLite 上的邮箱游标表驱动现有任务、提案和通知。Work 项就是现有任务 id，不新写 `agent_runs`，也不改 #73–#77 所属界面。邮箱草稿种类 `mailbox_reply` 不进入可自动执行的软件提案，确认只记任务备注且 `sent` 为 false。不把邮箱行放进便携 JSON 备份，因此本切片没有未校验的导入路径。
-- **明确不做：**真实收件、发信、付费模型、安静时段结束后补发已入库通知、撤销后的重新连接。这些都不是本轮用户授权。详见 [契约](desk-companion/docs/mailbox-journey.md) 与 [QA](output/qa/2026-11-03-mailbox-offline/verification.md)。
+- **明确不做：**真实收件、发信、付费模型、撤销后的重新连接。这些都不是本轮用户授权。详见 [契约](desk-companion/docs/mailbox-journey.md) 与 [QA](output/qa/2026-11-03-mailbox-offline/verification.md)。
+
+## 2026-11-03 补上离线邮箱的安静时段通知与便携备份
+
+- **用户指令：**在同一分支补上 PR #79 列出的两个缺口。安静时段暂缓的有意义通知要在安静时段结束后送达，复用已有通知调度，不另建通知器。便携 JSON 备份要包含邮箱游标和持久摄取状态，沿用现有拥有者权限和导入前校验；恢复后再次同步不得产生重复事务。仍然只使用离线夹具。
+- **工程选择：**暂缓的通知写入 `mailbox_notice_holds`，由现有 `Runtime.tick` 在安静时段结束后调用 `Notifier.publish`。投递或重复确认之后才删除暂缓行。便携备份增加 `mailbox_bundle`（连接、线程、已见消息指纹、同步尝试、暂缓通知）。缺这个键的旧备份仍可恢复。已存在的连接保持原游标，不覆盖。
+- **明确不做：**不连接真实邮箱，不改 #73–#77，不开始购物或旅行模块。

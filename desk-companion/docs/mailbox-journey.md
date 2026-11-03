@@ -19,8 +19,10 @@ Files live in [fixtures/mailbox](../fixtures/mailbox/README.md). One sync reads 
 - `revoke` and `disconnect` stop before any later message is read. The result is not success. A later sync reads nothing.
 - Advice cites the fixture message id and `observed_at`. `send` is false. Confirm uses the existing proposal decision, records a task note, and does not send. Cancel leaves that acceptance note unwritten.
 
-Notices go through `NoticeInbox`. A duplicate or a message that changes no tracked field does not add a notice. A new or changed thread, a deadline inside 24 hours, or a draft that needs a decision does. Quiet hours suppress delivery and do not retry that notice after the message is already ingested.
+Notices go through `NoticeInbox`. A duplicate or a message that changes no tracked field does not add a notice. A new or changed thread, a deadline inside 24 hours, or a draft that needs a decision does. During quiet hours the same notice id is held and `Runtime.tick` publishes it through `Notifier` after quiet hours end. The hold is deleted only after a delivery or a duplicate, so a restart does not drop it and does not add a second inbox row.
+
+Portable JSON backup includes the connection cursor, read offset, thread link, applied message fingerprints, sync attempts, and any quiet-hour notice hold. Preview checks the records before import. Restore inserts a missing connection and leaves an existing cursor unchanged. The same message therefore does not create a second task on the next sync. Message snippets are not in the bundle. A backup that omits `mailbox_bundle` still restores the older business data.
 
 ## Not in this slice
 
-Portable JSON backup does not export mailbox cursors. There is no mailbox import path. A full runtime SQLite copy would include the tables; this slice does not add one. Real account authorization, live sync, and sending remain unauthorized. A change seen only during quiet hours is not delivered again later.
+Real account authorization, live sync, and sending remain unauthorized. Reconnect after revoke or disconnect is out of scope. Confirming a draft still uses the existing task note action.

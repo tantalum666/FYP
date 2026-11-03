@@ -19,9 +19,9 @@ The isolated localhost:8832 fixture service was stopped and test tabs/viewports 
 
 Owner instruction for this slice: offline fixtures only. No real mailbox, no credentials, no paid API. Open [PR79](https://github.com/tantalum666/FYP/pull/79) (not merged). [Contract](desk-companion/docs/mailbox-journey.md), [fixtures](desk-companion/fixtures/mailbox/README.md), [QA](output/qa/2026-11-03-mailbox-offline/verification.md).
 
-Done: one fixture thread maps to one existing task; duplicate, out-of-order, interrupt/restart, revoke, and disconnect leave a consistent cursor; sourced drafts cite mail id and observation time and confirm only through the existing owner proposal path (`send` stays false); notices fire only on a meaningful change, an approaching deadline, or a decision. HTTP tests exercise the same task list, notice inbox, and proposal decision routes the UI uses.
+Done: one fixture thread maps to one existing task; duplicate, out-of-order, interrupt/restart, revoke, and disconnect leave a consistent cursor; sourced drafts cite mail id and observation time and confirm only through the existing owner proposal path (`send` stays false); notices fire only on a meaningful change, an approaching deadline, or a decision. A notice held for quiet hours is delivered by the existing rules tick when quiet hours end. Portable JSON backup includes the cursor and ingest state, validates it before import, and a restored mailbox does not create a second task on the next sync. HTTP tests exercise the task list, notice inbox, proposal decisions, and backup preview/apply routes.
 
-Not done: live account authorization, sending, quiet-hour notice retry, and portable JSON export of mailbox cursors. No mailbox import was added.
+Not done: live account authorization and sending. Reconnect after revoke or disconnect is out of scope.
 
 ## One next step
 

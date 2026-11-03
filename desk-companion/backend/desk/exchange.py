@@ -13,6 +13,7 @@ from pydantic import Field, ValidationError, model_validator
 
 from .access import digest
 from .calendar import expand_all, iso, wall_to_utc
+from .mailbox import empty_mailbox_bundle
 from .schemas import EventInput, StrictModel
 from .store import DomainError, encode
 from .vault import Vault
@@ -317,6 +318,13 @@ class ExchangeService:
                 if row["kind"] == "backup"
                 else {"created": 0, "kept": 0}
             )
+            mailbox_result = (
+                self.runtime.mailbox.restore(
+                    conn, preview["metadata"].get("mailbox_bundle", empty_mailbox_bundle())
+                )
+                if row["kind"] == "backup"
+                else {"created": 0, "kept": 0}
+            )
             conn.execute("UPDATE import_previews SET state='applied' WHERE id=?", (preview_id,))
             self.store.record(
                 conn,
@@ -335,6 +343,8 @@ class ExchangeService:
                 "persona_kept": persona_result["kept"],
                 "jobs_created": job_result["created"],
                 "jobs_kept": job_result["kept"],
+                "mailbox_created": mailbox_result["created"],
+                "mailbox_kept": mailbox_result["kept"],
                 "applied": True,
             }
 
@@ -415,6 +425,7 @@ class ExchangeService:
                 "memory_bundle": self.runtime.memory.export(),
                 "persona_bundle": self.runtime.persona.export(),
                 "job_bundle": self.runtime.jobs.export(),
+                "mailbox_bundle": self.runtime.mailbox.export(),
             }
         return {
             "format": "desk-companion-backup",
@@ -443,6 +454,14 @@ class ExchangeService:
             )
             job_bundle = self.runtime.jobs.validate_backup(
                 content.get("job_bundle", {"jobs": [], "events": [], "folder": None})
+            )
+            raw_mailbox = (
+                empty_mailbox_bundle()
+                if "mailbox_bundle" not in content
+                else content["mailbox_bundle"]
+            )
+            mailbox_bundle = self.runtime.mailbox.validate_backup(
+                raw_mailbox, task_ids={item["id"] for item in task_bundle["tasks"]}
             )
             rows, ids = [], set()
             from .calendar import is_occurrence
@@ -498,6 +517,9 @@ class ExchangeService:
                 "job_bundle": job_bundle,
                 "jobs_count": len(job_bundle["jobs"]),
                 "job_restore": "merge_keep_existing_running_becomes_review",
+                "mailbox_bundle": mailbox_bundle,
+                "mailbox_connections": len(mailbox_bundle["connections"]),
+                "mailbox_restore": "merge_keep_existing",
             },
         )
 
