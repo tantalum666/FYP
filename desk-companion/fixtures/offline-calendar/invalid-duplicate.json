@@ -1,0 +1,38 @@
+{
+  "format": "desk-calendar-fixture-v1",
+  "account_id": "invalid-cal",
+  "calendar_id": "primary",
+  "batches": [
+    {
+      "id": "bad",
+      "events": [
+        {
+          "op": "upsert",
+          "item": {
+            "id": "evt-dup",
+            "sequence": 1,
+            "observed_at": "2026-11-03T06:00:00Z",
+            "title": "One",
+            "start_local": "2026-11-22T10:00:00",
+            "end_local": "2026-11-22T11:00:00",
+            "timezone": "Asia/Hong_Kong",
+            "location": "First"
+          }
+        },
+        {
+          "op": "upsert",
+          "item": {
+            "id": "evt-dup",
+            "sequence": 1,
+            "observed_at": "2026-11-03T06:00:00Z",
+            "title": "One",
+            "start_local": "2026-11-22T10:00:00",
+            "end_local": "2026-11-22T11:00:00",
+            "timezone": "Asia/Hong_Kong",
+            "location": "Second"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Group 2 Decision Log
 
-Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
+Updated: 3 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
 
 ## 2026-09-25 用户推翻 Senplate，研究智能工作台新方向
 
@@ -394,3 +394,10 @@ Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **实际验证：**未修改的main代码生成schema1虚构库，两个迁移后45张原表逐行保持；网页创建Work、实际报告下载／哈希、一次批准、同一事务变化审阅、已读后安静，以及393px手机进展与Alice均已检查。测试、发布回执和仍未交付的外部旅程见[QA](output/qa/2026-10-31-pr5-repair/verification.md)。没有迁移真实数据库或开启模型／邮箱／支付／硬件服务。
 
 - **实际发布：**PR5已于2026-10-31 02:20:17（Asia/Shanghai）合并，代码合并9b655e1；远端main与已测112f912完整树相同。最终1,686后端／300前端检查通过，文档收尾只记录回执与下一步，不改变已测应用。
+
+## 2026-11-03 离线日程夹具旅程
+
+- **用户指令：**第三条真实验收切片是离线日历／日程夹具，映射进现有 Task／Work 与通知。不要连接 Google／Outlook 或任何实时 API，不付费调用，不改邮箱和购物包，也不改 Pi 与 Codex Work UI。
+- **工程选择而非用户批准连接账号：**新增 `desk/offline_calendar/`。一个事件或系列对应一个现有任务和一条本地日历记录；省略的地点、备注和提醒保持原值。冲突、会前准备和 RSVP 只产生带来源的草稿，拥有者确认后只写“未接受邀请、未发送 RSVP”的事务备注。撤销、断开和中断都不是成功同步。
+- **明确未做：**没有修改可移植 JSON 备份，因此新游标表不在该导出里；整库 SQLite 副本会带上这些表。没有把完整权限自动确认扩到 `calendar_advice`。这不代替邮件或旅行验收。
+- **证据：**[契约](desk-companion/docs/offline-calendar-journey.md)与[本轮 QA](output/qa/2026-11-03-offline-calendar/verification.md)。

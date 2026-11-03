@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated: 3 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -490,3 +490,11 @@ Repaired macOS migration identity, explicit legacy-fact conversion, current-memo
 Evidence: [compatibility contract](desk-companion/docs/pr5-integration.md), [QA](output/qa/2026-10-31-pr5-repair/verification.md), 45-table current-main fixture migration, actual local download hash, same-task approval/watch/mobile readback. Current test totals and remote publication are recorded in QA after completion. Real user DBs and prior runtimes were preserved. Next product gate remains an authorized real-mailbox journey through the existing task/Work core, not consumer-agent parity by model API alone.
 
 Publication verified: PR5 closed/merged, reviewed112f912 → main9b655e1, exact Git trees match. Final1686backend/300frontend passed; staged secrets scan and504local-link checks passed. This closeout updates status/receipts only; next work is the scoped mailbox journey.
+
+## 2026-11-03 · Offline calendar fixture journey
+
+Mapped `desk-calendar-fixture-v1` files through the existing task, calendar event, proposal, and notice services. One event or series keeps one task. Omitted location, notes, and reminders stay stored. Conflict and prepare drafts cite the event id and observation time; owner confirm does not accept an invite or send an RSVP. Duplicate, stale, restart, revoke, disconnect, quiet hours, and owner permission are covered by the HTTP journey tests.
+
+No mailbox, shopping, Pi, or Codex Work UI files were changed. No live calendar API and no paid call. Portable JSON backup was left unchanged, so it still does not export the new cursor tables.
+
+Files: [contract](desk-companion/docs/offline-calendar-journey.md), `desk-companion/backend/desk/offline_calendar/`, `desk-companion/fixtures/offline-calendar/`, [QA](output/qa/2026-11-03-offline-calendar/verification.md). Remaining: review this PR without connecting an account; mailbox and shopping stay on their own branches.

@@ -13,6 +13,7 @@ from .workspace_data import WorkspaceData
 from .voice import VoiceService
 from .exchange import ExchangeService
 from .google_calendar import GoogleCalendar
+from .offline_calendar import OfflineCalendarService
 from .tasks import TaskService
 from .text_ai import TextAssistant
 from .jobs import JobService
@@ -92,6 +93,7 @@ class Runtime:
         self.exchange = ExchangeService(self)
         self.backups = LocalBackups(self)
         self.google = GoogleCalendar(self)
+        self.offline_calendar = OfflineCalendarService(self)
         self.text_ai = TextAssistant(self)
         self.retained_chat = RetainedChat(self)
         self.sources = SourceService(self)

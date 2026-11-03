@@ -15,6 +15,10 @@ Final backend1,686 and frontend300 checks, Ruff, TypeScript/Vite, lock metadata 
 
 The isolated localhost:8832 fixture service was stopped and test tabs/viewports cleared. Prior runtime/API8854/Vite5191/application VM and existing keys/data in older worktrees were not changed; recheck before reuse. All paid rounds remain closed; no CI or Pi work.
 
+## Offline calendar fixture (3 November 2026)
+
+Branch `cursor/offline-calendar-journey-3bf1` maps local schedule fixtures through TaskService, the calendar event store, proposals, and NoticeInbox. One event or series stays one task. Advice cites the event id and observation time and does not accept invites or send RSVPs. Mailbox stays on PR #79; shopping stays on its own branch. No Google, Outlook, or paid call. [Contract](desk-companion/docs/offline-calendar-journey.md).
+
 ## One next step
 
-Implement the authorized-mailbox journey through the current task/Work core: incrementally ingest messages, map a thread to the same task, produce sourced advice/drafts and notify only on meaningful change. Start with offline duplicate/out-of-order/revoke/restart fixtures; obtain an explicit real-account scope before connecting a mailbox. Reuse the recovered [research](research/personal-agent-research-index.md); do not create another task/job/memory core or restart a paid budget.
+Review this offline calendar fixture PR. Do not connect Google or Outlook. Mailbox (PR #79) and shopping remain separate. A live mailbox or calendar account still needs an explicit scope before any real connection.

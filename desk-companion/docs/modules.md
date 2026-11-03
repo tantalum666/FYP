@@ -8,6 +8,7 @@
 | --- | --- |
 | app, access, cookies, private_file, vault | HTTP identity/origin boundaries, private credentials and service composition |
 | calendar, tasks, workspace_data | Shared business data, versions, quiet hours and explicitly saved preferences |
+| offline_calendar | Offline schedule fixtures into the existing task, calendar event, proposal, and notice path; no live account |
 | memory, memory_review, memory_extract, profile, recall, aliases | Approved facts, deterministic review/profile/recall and owner-only management |
 | conversation, turns, context, context_budget | Bounded login/task-scoped RAM context and budgeted model views; no global transcript table |
 | assistant, capabilities, tool_policy, tool_dispatch | Typed tools, owner review, shared bounded execution and cancellation; no model approval capability |

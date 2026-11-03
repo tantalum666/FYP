@@ -1,0 +1,37 @@
+{
+  "format": "desk-calendar-fixture-v1",
+  "account_id": "revoke-cal",
+  "calendar_id": "primary",
+  "batches": [
+    {
+      "id": "cut",
+      "events": [
+        {
+          "op": "upsert",
+          "item": {
+            "id": "evt-kept",
+            "sequence": 1,
+            "observed_at": "2026-11-03T03:00:00Z",
+            "title": "Kept meeting",
+            "start_local": "2026-11-22T10:00:00",
+            "end_local": "2026-11-22T11:00:00",
+            "timezone": "Asia/Hong_Kong"
+          }
+        },
+        {"op": "revoke"},
+        {
+          "op": "upsert",
+          "item": {
+            "id": "evt-secret",
+            "sequence": 2,
+            "observed_at": "2026-11-03T03:01:00Z",
+            "title": "Must not be read",
+            "start_local": "2026-11-22T12:00:00",
+            "end_local": "2026-11-22T13:00:00",
+            "timezone": "Asia/Hong_Kong"
+          }
+        }
+      ]
+    }
+  ]
+}

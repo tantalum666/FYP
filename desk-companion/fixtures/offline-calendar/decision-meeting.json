@@ -1,0 +1,29 @@
+{
+  "format": "desk-calendar-fixture-v1",
+  "account_id": "decision-cal",
+  "calendar_id": "primary",
+  "batches": [
+    {
+      "id": "ask",
+      "events": [
+        {
+          "op": "upsert",
+          "item": {
+            "id": "evt-decide",
+            "sequence": 1,
+            "observed_at": "2026-11-03T09:00:00Z",
+            "title": "Decide me",
+            "start_local": "2026-11-25T10:00:00",
+            "end_local": "2026-11-25T11:00:00",
+            "timezone": "Asia/Hong_Kong",
+            "location": "Hall",
+            "notes": "Slides",
+            "reminder_minutes": [45],
+            "needs_decision": true,
+            "rsvp": "requested"
+          }
+        }
+      ]
+    }
+  ]
+}
