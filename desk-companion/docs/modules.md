@@ -38,4 +38,4 @@ Text conversation attempts default to40 per UTC day (including fallback); option
 
 General GUI/shell automation, job archival UI, true remote notification delivery, real-device acoustics/energy and physical arm validation remain separate work. The current one next step is in the root handoff.
 
-3 November 2026: `desk/shopping` loads offline purchase fixtures into the existing task, paused Work run, draft and notice path. It does not connect a store or take payment. [Contract](shopping-fixtures.md).
+3 November 2026: `desk/shopping` loads offline purchase fixtures into the existing task, paused Work run, draft and notice path, and the portable backup carries the shopping cursor. It does not connect a store or take payment. [Contract](shopping-fixtures.md).

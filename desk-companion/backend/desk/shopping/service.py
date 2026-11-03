@@ -16,6 +16,7 @@ from ..notify import Notice
 from ..store import DomainError, encode
 from ..tasks import TaskAction, TaskInput
 from ..workspace_data import is_quiet
+from .backup import export_bundle, restore_bundle, validate_bundle
 from .fixtures import (
     FixtureCatalog,
     ShoppingEvent,
@@ -677,3 +678,12 @@ class ShoppingService:
             },
             apply,
         )
+
+    def export(self) -> dict:
+        return export_bundle(self.store)
+
+    def validate_backup(self, bundle, *, task_ids: set[str]) -> dict:
+        return validate_bundle(bundle, task_ids=task_ids)
+
+    def restore(self, conn, bundle) -> dict:
+        return restore_bundle(conn, bundle)

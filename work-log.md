@@ -497,3 +497,4 @@ Publication verified: PR5 closed/merged, reviewed112f912 → main9b655e1, exact 
 - **完成：**`desk/shopping` 读取夹具，按序号提交游标，同一商品或订单只保留一个事务和一条暂停的 Work。重复、乱序、断线、撤销和重启都走这条映射。有意义的变化才通知；建议草稿必须由拥有者确认，省略的事务字段在确认时保留。
 - **验证：**`uv run --no-sync pytest tests/test_shopping_fixtures.py tests/test_permissions.py -q` 为 28 passed（12.03s）。Ruff 通过。没有付费调用，没有 GitHub Actions。记录见 [QA](output/qa/2026-11-03-shopping-fixtures/verification.md)。
 - **剩余：**真实商店、运费、地址、支付和订单回执仍未做。邮箱旅程仍由另一条工作推进。
+- **同日补充：**可移植 JSON 备份写入并恢复购物游标。拥有者预览校验后才恢复；已存在的连接不回退游标。备份后再次同步同一夹具仍是原来的一个事务。`disconnect_after` 为 0 时不读文件、不提交，`completed` 保持 false。

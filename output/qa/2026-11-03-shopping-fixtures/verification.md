@@ -22,17 +22,17 @@ Offline fixtures load from disk. Sync commits one sequence number at a time onto
 From `desk-companion/` after `uv sync --frozen --group dev` (CPython 3.12.3):
 
 ```sh
-uv run --no-sync ruff check backend/desk/shopping backend/desk/assistant.py backend/desk/assistant_routes.py backend/desk/app.py backend/desk/runtime.py tests/test_shopping_fixtures.py
-uv run --no-sync pytest tests/test_shopping_fixtures.py tests/test_permissions.py -q
+uv run --no-sync ruff check backend/desk/shopping backend/desk/exchange.py tests/test_shopping_fixtures.py
+uv run --no-sync pytest tests/test_shopping_fixtures.py tests/test_exchange.py tests/test_backup_persona_jobs.py tests/test_integration_boundaries.py tests/test_memory_gaps.py tests/test_risk_gaps.py tests/test_tasks.py -q
 ```
 
 Ruff: all checks passed.
 
-Pytest: **28 passed** (6 shopping, 22 existing permission decisions) in 12.03s, plus the existing Starlette/httpx test-client deprecation. The shopping file alone was 6 passed in 3.90s.
+Pytest: **62 passed** in 17.95s. That is the shopping HTTP file, including backup, restore, and a second sync, plus the exchange, persona/job backup, integration-boundary, memory, risk, and task backup files. The earlier shopping-plus-permissions run remains 28 passed in 12.03s. Starlette/httpx test-client deprecation is unchanged.
 
 ## Gaps
 
 - No real merchant, inventory, shipping quote, address, or payment. A fixture is not an order receipt.
 - Sync interruption is `disconnect_after` on the JSON sync call. It uses the same commit boundary as a dropped client; it is not a cancelled socket in the middle of a byte.
-- Portable JSON backup does not include the shopping cursor tables. Whole-file SQLite copies do. Backup code was not changed.
+- Portable JSON backup now includes the shopping connection, cursor, applied receipts, subject mapping, and out-of-order buffer. It does not include the owner session, drafts, notices, or the paused Work run row. Whole-file SQLite copies still do.
 - Full backend and frontend suites were not re-run.

@@ -17,8 +17,13 @@ Each event has `event_id`, `seq`, timezone-aware `observed_at`, and one kind: `c
 - The same `event_id` and body is skipped.
 - A repeated `event_id` with a different body returns `SHOPPING_EVENT_CONFLICT` and does not move the cursor.
 - A higher `seq` waits in `shopping_buffer` until the missing sequence arrives. Restart reads that buffer and the file.
-- `disconnect_after` stops after that many newly committed events. `0` commits nothing. `completed` stays false. Operation receipts already stored are not deleted.
 - Revocation is checked before the file is read and again before each event. A revoked connection returns `SHOPPING_REVOKED` and does not parse the fixture.
+
+`disconnect_after` is an optional integer on the sync body, from 0 to 100.
+
+- Omitted: commit each contiguous event that is not already applied, until a gap, a revoke, or the end of the fixture.
+- `0`: do not open the fixture file and do not commit. The cursor stays put. The response is `completed: false` and `stopped: "disconnected"`. This is not a successful sync.
+- `N`: commit at most N events that this call newly applies. Events already stored do not count. The call then returns `completed: false` and `stopped: "disconnected"`. The cursor moves only for an event whose task, draft, notice, and receipt have been committed. Stored operation receipts are not deleted. A disconnect is not a completed sync.
 
 One subject (one product or one order) gets one task from `TaskService.create` and one deterministic Work run. The run is paused immediately so the worker does not compose a purchase. Later events reuse that task and that run.
 
@@ -32,15 +37,15 @@ Meaningful changes create a `shopping_advice` draft. The note cites the fixture 
 - Cancelling a draft does not write the sourced note.
 - Notices use `Notifier` for a price drop at or past the threshold, a new shipment, a new delay, or a change that needs a decision. An unchanged cart, a smaller price drop, and a second sync do not add another notice.
 
-There is no checkout route. Portable JSON backup was not extended; shopping cursor rows live in the desk SQLite file, and tasks created here are ordinary tasks.
+There is no checkout route. The owner portable JSON backup includes the shopping connection, cursor, subject-to-task mapping, applied receipts, and out-of-order buffer. Preview checks that bundle before anything is written. Apply is owner-only and keeps a connection that is already present, so a second restore does not rewind the cursor. The backup does not include the owner session or its hash, a draft, a notice, or the paused Work run row. The next sync of the same fixture does not open a second task or a second run. A whole-file SQLite copy still holds the Work run.
 
 ## Checks
 
 From `desk-companion/`:
 
 ```sh
-uv run --no-sync ruff check backend/desk/shopping tests/test_shopping_fixtures.py
-uv run --no-sync pytest tests/test_shopping_fixtures.py tests/test_permissions.py -q
+uv run --no-sync ruff check backend/desk/shopping backend/desk/exchange.py tests/test_shopping_fixtures.py
+uv run --no-sync pytest tests/test_shopping_fixtures.py tests/test_exchange.py tests/test_backup_persona_jobs.py -q
 ```
 
 No paid provider call and no GitHub Actions run.

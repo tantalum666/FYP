@@ -14,6 +14,7 @@ from pydantic import Field, ValidationError, model_validator
 from .access import digest
 from .calendar import expand_all, iso, wall_to_utc
 from .schemas import EventInput, StrictModel
+from .shopping.backup import empty_shopping_bundle
 from .store import DomainError, encode
 from .vault import Vault
 
@@ -317,6 +318,13 @@ class ExchangeService:
                 if row["kind"] == "backup"
                 else {"created": 0, "kept": 0}
             )
+            shopping_result = (
+                self.runtime.shopping.restore(
+                    conn, preview["metadata"].get("shopping_bundle", empty_shopping_bundle())
+                )
+                if row["kind"] == "backup"
+                else {"created": 0, "kept": 0}
+            )
             conn.execute("UPDATE import_previews SET state='applied' WHERE id=?", (preview_id,))
             self.store.record(
                 conn,
@@ -335,6 +343,8 @@ class ExchangeService:
                 "persona_kept": persona_result["kept"],
                 "jobs_created": job_result["created"],
                 "jobs_kept": job_result["kept"],
+                "shopping_created": shopping_result["created"],
+                "shopping_kept": shopping_result["kept"],
                 "applied": True,
             }
 
@@ -415,6 +425,7 @@ class ExchangeService:
                 "memory_bundle": self.runtime.memory.export(),
                 "persona_bundle": self.runtime.persona.export(),
                 "job_bundle": self.runtime.jobs.export(),
+                "shopping_bundle": self.runtime.shopping.export(),
             }
         return {
             "format": "desk-companion-backup",
@@ -443,6 +454,14 @@ class ExchangeService:
             )
             job_bundle = self.runtime.jobs.validate_backup(
                 content.get("job_bundle", {"jobs": [], "events": [], "folder": None})
+            )
+            raw_shopping = (
+                empty_shopping_bundle()
+                if "shopping_bundle" not in content
+                else content["shopping_bundle"]
+            )
+            shopping_bundle = self.runtime.shopping.validate_backup(
+                raw_shopping, task_ids={item["id"] for item in task_bundle["tasks"]}
             )
             rows, ids = [], set()
             from .calendar import is_occurrence
@@ -498,6 +517,9 @@ class ExchangeService:
                 "job_bundle": job_bundle,
                 "jobs_count": len(job_bundle["jobs"]),
                 "job_restore": "merge_keep_existing_running_becomes_review",
+                "shopping_bundle": shopping_bundle,
+                "shopping_connections": len(shopping_bundle["connections"]),
+                "shopping_restore": "merge_keep_existing",
             },
         )
 

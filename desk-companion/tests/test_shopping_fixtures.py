@@ -6,8 +6,10 @@ from uuid import uuid4
 
 from fastapi.testclient import TestClient
 
+from desk.access import digest
 from desk.app import create_app
 from desk.permissions import SOFTWARE_PROPOSALS
+from desk.store import encode
 
 HEADERS = {"X-Desk-Request": "1"}
 TASK_FIELDS = (
@@ -512,3 +514,186 @@ def test_shipped_sample_fixture_maps_one_paused_work_run(tmp_path):
         assert len(shopping_notices(client)) == 2
     finally:
         close(client)
+
+
+def test_backup_restore_keeps_one_task_on_the_next_sync(tmp_path, monkeypatch):
+    app, fixtures, _moment = build(tmp_path, monkeypatch)
+    shipped = event(
+        "ship-1",
+        4,
+        "order_shipped",
+        order_id="ord-9",
+        continues_subject="product:tissue-3ply",
+    )
+    write_fixture(
+        fixtures,
+        "tissue-backup",
+        [cart(), event("price-1", 2, "price_drop", sku="tissue-3ply", unit_price_cents=2900), shipped],
+    )
+    client = login(app)
+    try:
+        connection_id = connect(client, "tissue-backup", "connect-backup")
+        first = sync(client, connection_id)
+        assert first["cursor"] == 2
+        assert first["stopped"] == "gap"
+        task = tasks_of(client)[0]
+        noted = client.post(
+            f"/api/tasks/{task['id']}/actions",
+            json={
+                "action": "update",
+                "expected_version": task["version"],
+                "task": {name: task[name] for name in TASK_FIELDS} | {"next_step": "Keep the 3-ply pack"},
+            },
+            headers=headers("keep-step"),
+        )
+        assert noted.status_code == 200, noted.text
+        saved = snapshot(client, connection_id)
+        document = client.get("/api/exchange/backup.json")
+        assert document.status_code == 200, document.text
+        backup = document.json()
+        bundle = backup["payload"]["shopping_bundle"]
+        assert bundle["connections"][0]["cursor_seq"] == 2
+        assert bundle["connections"][0]["fixture_id"] == "tissue-backup"
+        assert "created_session_hash" not in bundle["connections"][0]
+        assert bundle["buffered"][0]["event_id"] == "ship-1"
+        assert bundle["subjects"][0]["task_id"] == task["id"]
+        assert bundle["subjects"][0]["work_run_id"] == saved["subjects"][0]["work_run_id"]
+        encoded = json.dumps(backup)
+        assert client.cookies.get("desk_companion_session") not in encoded
+        assert saved["connection"]["created_session_hash"] not in encoded
+        assert "password_hash" not in encoded
+    finally:
+        close(client)
+
+    restored = create_app(
+        tmp_path / "restored",
+        password="fixture",
+        scheduler=False,
+        clock=app.state.runtime.store.clock,
+    )
+    owner = login(restored)
+    paired = paired_client(restored, owner)
+    try:
+        assert paired.get("/api/exchange/backup.json").status_code == 403
+        refused = paired.post(
+            "/api/exchange/backup/preview",
+            json={"content": json.dumps(backup)},
+            headers=headers("paired-preview"),
+        )
+        assert refused.status_code == 403, refused.text
+        preview = owner.post(
+            "/api/exchange/backup/preview",
+            json={"content": json.dumps(backup)},
+            headers=headers("owner-preview"),
+        )
+        assert preview.status_code == 200, preview.text
+        assert preview.json()["metadata"]["shopping_connections"] == 1
+        assert preview.json()["metadata"]["shopping_restore"] == "merge_keep_existing"
+        preview_id = preview.json()["preview_id"]
+        blocked = paired.post(
+            f"/api/exchange/{preview_id}/apply",
+            json={},
+            headers=headers("paired-apply"),
+        )
+        assert blocked.status_code == 403, blocked.text
+        assert tasks_of(owner) == []
+        applied = owner.post(
+            f"/api/exchange/{preview_id}/apply",
+            json={},
+            headers=headers("owner-apply"),
+        )
+        assert applied.status_code == 200, applied.text
+        assert applied.json()["shopping_created"] == 1
+        restored_tasks = tasks_of(owner)
+        assert len(restored_tasks) == 1
+        assert restored_tasks[0]["id"] == task["id"]
+        assert restored_tasks[0]["next_step"] == "Keep the 3-ply pack"
+        again = snapshot(owner, connection_id)
+        assert again["connection"]["cursor_seq"] == 2
+        assert again["buffered"] == [{"event_id": "ship-1", "seq": 4}]
+        assert again["subjects"][0]["task_id"] == task["id"]
+        assert again["subjects"][0]["work_run_id"] == saved["subjects"][0]["work_run_id"]
+        assert again["connection"]["created_session_hash"] != saved["connection"]["created_session_hash"]
+        assert work_runs(owner) == []
+
+        replay = sync(owner, connection_id)
+        assert replay["applied"] == []
+        assert replay["cursor"] == 2
+        assert replay["completed"] is False
+        assert replay["stopped"] == "gap"
+        assert [item["id"] for item in tasks_of(owner)] == [task["id"]]
+        assert len(work_runs(owner)) == 0
+        assert shopping_notices(owner) == []
+
+        write_fixture(
+            fixtures,
+            "tissue-backup",
+            [
+                cart(),
+                event("price-1", 2, "price_drop", sku="tissue-3ply", unit_price_cents=2900),
+                event(
+                    "delay-1",
+                    3,
+                    "order_delayed",
+                    order_id="ord-9",
+                    continues_subject="product:tissue-3ply",
+                    eta="2026-11-20",
+                    delay_reason="Weather",
+                ),
+                shipped,
+            ],
+        )
+        continued = sync(owner, connection_id)
+        assert continued["cursor"] == 4
+        assert continued["completed"] is True
+        assert {row["task_id"] for row in continued["applied"]} == {task["id"]}
+        assert [item["id"] for item in tasks_of(owner)] == [task["id"]]
+        assert len(work_runs(owner)) == 0
+        assert snapshot(owner, connection_id)["subjects"][0]["work_run_id"] == saved["subjects"][0]["work_run_id"]
+
+        second = owner.post(
+            "/api/exchange/backup/preview",
+            json={"content": json.dumps(backup)},
+            headers=headers("preview-again"),
+        )
+        assert second.status_code == 200, second.text
+        kept = owner.post(
+            f"/api/exchange/{second.json()['preview_id']}/apply",
+            json={},
+            headers=headers("apply-again"),
+        )
+        assert kept.status_code == 200, kept.text
+        assert kept.json()["shopping_created"] == 0
+        assert kept.json()["shopping_kept"] == 1
+        assert snapshot(owner, connection_id)["connection"]["cursor_seq"] == 4
+        quiet = sync(owner, connection_id)
+        assert quiet["applied"] == []
+        assert quiet["cursor"] == 4
+        assert [item["id"] for item in tasks_of(owner)] == [task["id"]]
+
+        tampered = json.loads(json.dumps(backup))
+        tampered["payload"]["shopping_bundle"]["connections"][0]["cursor_seq"] = 1
+        tampered["sha256"] = digest(encode(tampered["payload"]))
+        rejected = owner.post(
+            "/api/exchange/backup/preview",
+            json={"content": json.dumps(tampered)},
+            headers=headers("tampered-shopping"),
+        )
+        assert rejected.status_code == 422, rejected.text
+        assert rejected.json()["error"]["code"] == "INVALID_BACKUP"
+        assert [item["id"] for item in tasks_of(owner)] == [task["id"]]
+        assert snapshot(owner, connection_id)["connection"]["cursor_seq"] == 4
+
+        legacy = json.loads(json.dumps(backup))
+        legacy["payload"].pop("shopping_bundle")
+        legacy["sha256"] = digest(encode(legacy["payload"]))
+        legacy_preview = owner.post(
+            "/api/exchange/backup/preview",
+            json={"content": json.dumps(legacy)},
+            headers=headers("legacy-shopping"),
+        )
+        assert legacy_preview.status_code == 200, legacy_preview.text
+        assert legacy_preview.json()["metadata"]["shopping_connections"] == 0
+    finally:
+        close(paired)
+        close(owner)
