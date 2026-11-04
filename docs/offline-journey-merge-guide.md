@@ -1,4 +1,6 @@
-# Merge guide for the Grok offline-journey stack
+# Historical merge plan for the Grok offline-journey stack
+
+**Superseded by the 4 November combined review.** Use [current QA](../output/qa/2026-11-04-grok-journey-review/verification.md) and its actual publication receipt. #82 was reviewed at aa218dbd, including its portable calendar bundle. The original plan below contains earlier tips, branch-local claims and obsolete next steps; it is not current merge authority.
 
 Completed by Grok Bot via a Cursor cloud agent on 2026-11-03. This is a merge plan, not a merge. Codex merges. Do not merge drafts #73–#77 from this guide. Those stay on Codex's own stack.
 

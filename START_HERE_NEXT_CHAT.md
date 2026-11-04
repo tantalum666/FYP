@@ -1,7 +1,5 @@
-# Group 2 · Current entry
+# Group 2 current entry
 
-31 October 2026. PR5 is repaired and merged at code merge `9b655e1ac74d3d35a876a100e4681ee00ece4066`. [Publication receipt](output/qa/2026-10-31-pr5-repair/publication.json) confirms the remote state and exact tree match. Read [handoff](handoff.md), [repair QA](output/qa/2026-10-31-pr5-repair/verification.md) and [compatibility/migration rules](desk-companion/docs/pr5-integration.md). The merged application retains current Alice/Omni, facts, permissions and real application execution while integrating retained Work, sources/results, watches, routines and explicit saved chat.
+4 November 2026. Start with [AGENTS](AGENTS.md), [product](product.md), [handoff](handoff.md) and [Grok review QA](output/qa/2026-11-04-grok-journey-review/verification.md). Grok PR78–82 were integrated with repairs and local regression evidence; actual remote state belongs to the QA publication receipt. Pi is paused; experimental budgets are closed; no CI.
 
-Local acceptance:1,686 backend/300 frontend, lint/types/build, original-main45-table fixture upgrade, real web approval/download/watch and393px phone/Alice checks. The documentation closeout records the completed merge; the verified application is unchanged. No CI, real-data upgrade, paid model or Pi deployment.
-
-Ordinary startup refuses old schema1/2; original PR5 facts additionally need the documented explicit conversion. Existing private worktrees/runtimes remain preserved. Research and the real-mailbox next product gate remain at the [personal-agent research entry](research/personal-agent-research-index.md). Follow [AGENTS](AGENTS.md) with focused reading rather than restarting the full historical review.
+The user's primary-chat/OpenAI/Alice preview remains in the separate software worktree and [PR77](https://github.com/tantalum666/FYP/pull/77), stacked on74–76. A temporary combined-code rehearsal is not a merge or deployment of that stack. Preserve its latest interface and configuration when continuing software. Offline fixture acceptance is not a real inbox, shop, payment or calendar-account acceptance.

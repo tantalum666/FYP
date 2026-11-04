@@ -534,3 +534,9 @@ Files: [contract](desk-companion/docs/offline-calendar-journey.md), `desk-compan
 ## 2026-11-03 · Offline-journey merge guide
 
 Wrote a Codex-facing merge order for the open Grok offline slices: #78 harness, #79 mailbox, #80 shopping, then #82 offline calendar. Drafts #73–#77 are left on Codex's stack. This guide is #81 and can merge last or anytime. Docs only. Record: [guide](docs/offline-journey-merge-guide.md), [QA](output/qa/2026-11-03-offline-journey-merge-guide/verification.md).
+
+## 2026-11-04 Grok offline journey independent review
+
+Reviewed PR78/79/80/82/81 against frozen main dac527b in an isolated worktree. Kept each reviewed head in ancestry and combined all router, proposal, backup and notifier wiring. Repaired stale mail updates, deferred/scoped shopping notices, owner stop/logout boundaries, portable Work reattachment/atomic paused admission, calendar conflict/operation/cursor/cancellation bookkeeping, backup reference/receipt validation, and shared source-aware review/success UI. Split mailbox backup logic from ingest.
+
+[QA](output/qa/2026-11-04-grok-journey-review/verification.md) records actual failing regressions, fixed-source full runs, Web/393px phone interactions and independent task readback. A separate combination with PR77 preserves current Alice/OpenAI/application Work code; it is not a merge/deployment of that stack. Original worktrees/data and school files remain unchanged. No CI, paid model, live account, external message/transaction or Pi action. Final publication follows the locally verified source and records remote heads separately.

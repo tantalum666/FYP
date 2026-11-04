@@ -1,0 +1,18 @@
+{
+  "review_source": "63e538b420f5cb0e3fb4cad3622f4dbe4cb800ca",
+  "other_head": "0d73f1cf6bd28f981793b4610425df58db7a6e48",
+  "scope": "Local rehearsal only; PRs74-77 not merged or deployed",
+  "source_conflicts": 0,
+  "documentation_conflicts": "retained review documentation in the temporary rehearsal",
+  "first_checks": {
+    "backend_focused": 123,
+    "frontend": 319,
+    "typecheck_build": "passed"
+  },
+  "final_calendar_patch": "compat-final-calendar.txt",
+  "full_backend_rehearsal": "not run; primary candidate full suite is separate",
+  "final_calendar_checks": {
+    "passed": 29,
+    "new_cases_relative_to_first_rehearsal": 4
+  }
+}

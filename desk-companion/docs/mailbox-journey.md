@@ -4,7 +4,7 @@
 
 ## Responsibility
 
-`mailbox_fixture.py` loads and validates local JSON before any row is written. `mailbox.py` owns the connection, durable read offset, history cursor, and thread-to-task link. It calls `TaskService`, `AssistantService.propose` / the existing proposal decision route, and `Notifier`. It does not create a second task, job, or memory store. The tracked Work item is the existing task id, which the current task list and Work scope already read.
+`mailbox_fixture.py` loads and validates local JSON before any row is written. `mailbox.py` owns the connection, durable read offset, history cursor, and thread-to-task link. `mailbox_backup.py` owns portable validation/restore. It calls `TaskService`, `AssistantService.propose` / the existing proposal decision route, and `Notifier`. It does not create a second task, job, or memory store. The tracked Work item is the existing task id, which the current task list and Work scope already read.
 
 New tables live in the same SQLite store and use its `BEGIN IMMEDIATE` transactions. Every mailbox route and service method rechecks the owner session. A paired display cannot list connections, sync, or confirm a mailbox draft.
 
@@ -26,3 +26,7 @@ Portable JSON backup includes the connection cursor, read offset, thread link, a
 ## Not in this slice
 
 Real account authorization, live sync, and sending remain unauthorized. Reconnect after revoke or disconnect is out of scope. Confirming a draft still uses the existing task note action.
+
+## 4 November review corrections
+
+A delayed older message cannot rewind a newer accepted state in the same thread; skipped IDs are explicit. Revoke can commit during an in-flight batch, and the next item rechecks state/session. Backup message targets must match their thread's task and the completed history cursor must exist in applied history; newer partial-batch effects are allowed. Shared UI shows the actual object/source and saves only a review note. See [combined QA](../../output/qa/2026-11-04-grok-journey-review/verification.md).

@@ -25,7 +25,7 @@ Each event has `event_id`, `seq`, timezone-aware `observed_at`, and one kind: `c
 - `0`: do not open the fixture file and do not commit. The cursor stays put. The response is `completed: false` and `stopped: "disconnected"`. This is not a successful sync.
 - `N`: commit at most N events that this call newly applies. Events already stored do not count. The call then returns `completed: false` and `stopped: "disconnected"`. The cursor moves only for an event whose task, draft, notice, and receipt have been committed. Stored operation receipts are not deleted. A disconnect is not a completed sync.
 
-One subject (one product or one order) gets one task from `TaskService.create` and one deterministic Work run. The run is paused immediately so the worker does not compose a purchase. Later events reuse that task and that run.
+One subject (one product or one order) gets one task from `TaskService.create` and one deterministic Work run. The run is admitted in paused state atomically so the worker cannot dispatch between create and pause. Later events reuse that task and that run.
 
 ## Advice, approval and notices
 
@@ -37,7 +37,7 @@ Meaningful changes create a `shopping_advice` draft. The note cites the fixture 
 - Cancelling a draft does not write the sourced note.
 - Notices use `Notifier` for a price drop at or past the threshold, a new shipment, a new delay, or a change that needs a decision. An unchanged cart, a smaller price drop, and a second sync do not add another notice.
 
-There is no checkout route. The owner portable JSON backup includes the shopping connection, cursor, subject-to-task mapping, applied receipts, and out-of-order buffer. Preview checks that bundle before anything is written. Apply is owner-only and keeps a connection that is already present, so a second restore does not rewind the cursor. The backup does not include the owner session or its hash, a draft, a notice, or the paused Work run row. The next sync of the same fixture does not open a second task or a second run. A whole-file SQLite copy still holds the Work run.
+There is no checkout route. The owner portable JSON backup includes the shopping connection, cursor, subject-to-task mapping, applied receipts, and out-of-order buffer. Preview checks that bundle before anything is written. Apply is owner-only and keeps a connection that is already present, so a second restore does not rewind the cursor. The backup does not include the owner session or its hash, pending drafts, delivered notices, or the old execution run row. Deferred notices are included. On explicit sync, an absent run is replaced by one paused run bound to the existing task; later syncs reuse it. The prior run ID is only a historical pointer until this recovery. A whole-file SQLite copy still holds the Work run.
 
 ## Checks
 
@@ -49,3 +49,7 @@ uv run --no-sync pytest tests/test_shopping_fixtures.py tests/test_exchange.py t
 ```
 
 No paid provider call and no GitHub Actions run.
+
+## 4 November review corrections
+
+Notice IDs include connection and event identity. Undelivered notices survive quiet hours, restart and portable restore and are released by the existing rules tick. The optional `notice_holds` field accepts earlier bundles without it. Login is rechecked between events. Shared cards show a task update/price or shipment source and never label confirmation as a purchase, payment or calendar write. See [combined QA](../../output/qa/2026-11-04-grok-journey-review/verification.md).

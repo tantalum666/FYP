@@ -43,4 +43,10 @@ Portable JSON export includes `offline_calendar_bundle`: connection cursor, even
 
 ## What this does not claim
 
-No live calendar account, no invite acceptance, no RSVP send, no paid model call, and no travel or mailbox journey. Mailbox and shopping stay on their own branches.
+No live calendar account, no invite acceptance, no RSVP send, no paid model call, and no travel or mailbox journey. Mailbox, shopping and calendar are now combined in the reviewed integration.
+
+## 4 November review corrections
+
+Revision identity includes the effective upsert/cancel operation. Stored overlap pairs represent active conflicts so a resolved conflict can notify again when it reappears. Native local-calendar counterparts are valid backup references; deleted external dedup markers are omitted from export. Repeated cancellation revisions update bookkeeping without another notice.
+
+A partial later batch may retain its prior completed cursor while newer effects are already committed. Restore validates this state and continues the same task. Cached sync receipts are fully validated, including connection/item identity and mandatory sent=false/accepted=false, before import can replay them. Revoke is independent of the batch lock; the next item rechecks authority/state. [Combined QA](../../output/qa/2026-11-04-grok-journey-review/verification.md).

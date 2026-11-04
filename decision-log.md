@@ -419,3 +419,11 @@ Updated: 3 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **明确未做：**没有把完整权限自动确认扩到 `calendar_advice`。这不代替邮件或旅行验收。
 - **同日补上两处缺口：**安静时段的有意义通知写入 `offline_calendar_notice_holds`，由现有 `Runtime.tick` 在安静结束后经同一个 Notifier 发出；重启不丢、不重复。可移植 JSON 的 `offline_calendar_bundle` 含游标、修订、冲突对、同步尝试和暂缓通知，预览校验后仅拥有者可恢复，再次同步不新建同一事务。
 - **证据：**[契约](desk-companion/docs/offline-calendar-journey.md)与[本轮 QA](output/qa/2026-11-03-offline-calendar/verification.md)。
+
+## 2026-11-04 Grok PR78–82修复后合并授权
+
+用户明确要求检查Grok新工作，有问题先修、通过再合并。冻结五个新PR并在独立工作树从main dac527b进行组合审查；保留所有原PR祖先，已按具体业务路径解决路由、提案、备份与tick冲突。旧Pi/学校目录的未提交变更保留。
+
+本轮修复离线状态和回执真实性，并补同一运行实例、联合备份、静音恢复、撤销/登出和浏览器卡片检查。购物Work原子暂停入队；可移植恢复后仅在明确同步时重新关联，不恢复旧运行权限。Grok合并指南旧头和“日程无备份”说法标为历史。
+
+PR74–77的主对话/Alice/OpenAI栈只作独立组合兼容检查，不混入本次五个Grok PR的主线合并，也不替换正在使用的服务。Pi暂停、所有实验预算关闭、无CI继续有效。真实账户/发信/购买/支付/出票未获本轮具体授权，也未执行。最终结果以[QA及远端回执](output/qa/2026-11-04-grok-journey-review/verification.md)为准。

@@ -1,0 +1,75 @@
+{
+  "date": "2026-11-04",
+  "mode": "Focused recovery and review, not full historical Markdown rereading",
+  "frozen_refs": "frozen-prs.json",
+  "read": [
+    {
+      "root": "all-pr-review-20261030/FYP",
+      "files": [
+        "AGENTS.md",
+        "START_HERE_NEXT_CHAT.md",
+        "handoff.md"
+      ],
+      "scope": "Entry, user constraints and current routing; preserve existing dirty school-document changes"
+    },
+    {
+      "root": "personal-agent-20261031/FYP",
+      "files": [
+        "AGENTS.md",
+        "START_HERE_NEXT_CHAT.md",
+        "handoff.md",
+        "product.md",
+        "decision-log.md",
+        "desk-companion/docs/software-maintenance.md"
+      ],
+      "scope": "Complete entry/handoff, current product requirements and Nov2 decisions; task-relevant maintenance sections"
+    },
+    {
+      "root": "grok-journey-review-20261104/FYP",
+      "files": [
+        "product.md",
+        "handoff.md",
+        "START_HERE_NEXT_CHAT.md",
+        "desk-companion/docs/modules.md",
+        "desk-companion/docs/mailbox-journey.md",
+        "desk-companion/docs/shopping-fixtures.md",
+        "desk-companion/docs/offline-calendar-journey.md",
+        "desk-companion/docs/integration-acceptance.md",
+        "desk-companion/fixtures/mailbox/README.md"
+      ],
+      "scope": "Complete current files/contracts read; new own prose read back through validation"
+    },
+    {
+      "root": "grok-journey-review-20261104/FYP",
+      "files": [
+        "docs/offline-journey-merge-guide.md",
+        "research/personal-agent-research-index.md",
+        "decision-log.md",
+        "work-log.md"
+      ],
+      "scope": "Guide introduction/order/constraints and PR78-79/conflict guidance; research current implementation and acceptance sections; relevant decision/work-log changes. Untouched historical sections not claimed as fully read."
+    },
+    {
+      "root": "memory",
+      "files": [
+        "MEMORY.md:135-177"
+      ],
+      "scope": "Prior merge-review and maintenance pitfalls; all current repository/PR states refreshed independently."
+    }
+  ],
+  "code_review": "Frozen branch diffs, all shared wiring conflicts, complete fixture loaders/mapping/shopping service+backup, relevant mailbox/calendar ingestion/effects/notification/backup/HTTP sections, existing task/store/Work creation and proposal UI. Several broad tool outputs truncated; unobserved text is not counted as read. Final helper/source edits validated through focused regressions/full suite and case-sensitive path/caller harness.",
+  "skills": [
+    {
+      "name": "agent-email-inbox",
+      "use": "Untrusted incoming content and independent authority; no live-domain/account setup"
+    },
+    {
+      "name": "react-best-practices",
+      "use": "Shared presentation and state ownership"
+    },
+    {
+      "name": "frontend-testing-debugging",
+      "use": "Actual browser journey, independent result and viewport checks; CUA is the available browser API"
+    }
+  ]
+}
