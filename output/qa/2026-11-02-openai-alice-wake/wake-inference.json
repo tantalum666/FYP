@@ -1,0 +1,14 @@
+[
+  {
+    "fixture": "alice",
+    "duration": 1.6350625,
+    "processing_seconds": 0.052,
+    "hits": []
+  },
+  {
+    "fixture": "negative",
+    "duration": 2.60025,
+    "processing_seconds": 0.107,
+    "hits": []
+  }
+]

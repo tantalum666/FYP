@@ -5,7 +5,7 @@ import { useDraftState } from "../../components/DraftGuard";
 import type { Translate } from "../../types";
 import { useWorkspace } from "../WorkspaceContext";
 import { ResponseFence } from "../personal/responseFence";
-import { agentError, modeLabel, stateLabel } from "./labels";
+import { agentError, stateLabel, workTime } from "./labels";
 import { PublicCapture } from "./PublicCapture";
 import { RunComposer } from "./RunComposer";
 import { RunDetail } from "./RunDetail";
@@ -102,27 +102,18 @@ export function RunPanel({
         disabled={!access.available}
         onClick={() => setOpen(true)}
       >
-        {t("Work tasks", "工作任务")}
+        {t("Work", "工作")}
       </button>
-      <small>
-        {visible
-          ? t(
-              "Start scoped work, inspect progress and collect files",
-              "开始限定范围的工作、查看进展并获取文件",
-            )
-          : access.available
-            ? t(
-                "Private details hidden · status and stop controls available",
-                "私人详情已隐藏 · 可查看状态并停止工作",
-              )
-            : t(
-                "Owner sign-in and a current connection required",
-                "需要本人登录且连接有效",
-              )}
-      </small>
+      {!visible && (
+        <small>
+          {access.available
+            ? t("Private details hidden", "私人详情已隐藏")
+            : t("Sign in and reconnect to use Work", "登录并连接后可使用工作")}
+        </small>
+      )}
       {open && access.available && (
         <Modal
-          title={t("Work tasks", "工作任务")}
+          title={t("Work", "工作")}
           className="work-dialog"
           closeLabel={t("Close", "关闭")}
           onClose={() => setOpen(false)}
@@ -361,29 +352,6 @@ function RunWorkspace({
   }
   return (
     <div className="agent-workspace">
-      <PublicCapture
-        t={t}
-        fence={fence}
-        epoch={epoch}
-        fresh={fresh}
-        historyOnly
-        onChanged={() => {
-          void reload(true);
-          void capacity.refresh();
-        }}
-      />
-      <WorkCapacitySummary
-        value={capacity.value}
-        t={t}
-        loading={capacity.loading}
-        refresh={() => void capacity.refresh()}
-      />
-      <p className="workspace-hint">
-        {t(
-          "Work continues while this panel is closed if the server and your authorization remain available. Ordinary chat is separate. Results stay here; this feature sends no outside notifications.",
-          "只要服务端和授权仍有效，关闭此面板后工作仍可继续。普通聊天独立进行，结果保留于此，不发送外部通知。",
-        )}
-      </p>
       <div className="workspace-inline-actions">
         <button
           type="button"
@@ -394,16 +362,14 @@ function RunWorkspace({
             go({ id: selected, compose: false, search: !showSearch })
           }
         >
-          {showSearch
-            ? t("Back to work", "返回工作")
-            : t("Find saved work", "查找已保存工作")}
+          {showSearch ? t("Back to work", "返回工作") : t("Search", "搜索")}
         </button>
         <button
           className="primary"
           disabled={!fresh || !value?.scope || guard.busy}
           onClick={() => go({ id: selected, compose: true })}
         >
-          {t("Start persistent work", "开始持续工作")}
+          {t("New work", "新工作")}
         </button>
         <button
           className="secondary"
@@ -495,19 +461,12 @@ function RunWorkspace({
         />
       )}
       {value && !showSearch && (
-        <div className="agent-layout">
+        <div className={`agent-layout${selected ? " is-selected" : ""}`}>
           <nav
             aria-label={t("Saved work tasks", "保存的工作任务")}
             className="agent-run-list"
           >
-            {!value.runs.length && (
-              <p>
-                {t(
-                  "No work tasks yet. A chat message does not create one automatically.",
-                  "尚无工作任务，聊天消息不会自动创建任务。",
-                )}
-              </p>
-            )}
+            {!value.runs.length && <p>{t("No work yet.", "还没有工作。")}</p>}
             {value.runs.map((run) => (
               <button
                 key={run.id}
@@ -521,13 +480,21 @@ function RunWorkspace({
               >
                 <strong>{run.goal || t("Untitled work", "未命名工作")}</strong>
                 <span>{stateLabel(run.state, t)}</span>
-                <small>
-                  {modeLabel(run.mode, t)} · {run.updated_at}
-                </small>
+                <small>{workTime(run.updated_at, t)}</small>
               </button>
             ))}
           </nav>
           <div>
+            {selected && (
+              <button
+                type="button"
+                className="text-button work-list-back"
+                disabled={!fresh || guard.busy}
+                onClick={() => go({ id: null, compose: false })}
+              >
+                {t("All work", "全部工作")}
+              </button>
+            )}
             {value.detail && selected === value.detail.run.id ? (
               <RunDetail
                 key={`${value.detail.run.id}:${detailGeneration}`}
@@ -558,17 +525,43 @@ function RunWorkspace({
                     : undefined
                 }
               />
-            ) : (
-              <p>
+            ) : value.runs.length ? (
+              <p className="work-selection-hint">
                 {t(
-                  "Choose a work task to inspect its plan, reviews and files.",
-                  "选择工作任务以检查计划、审阅与文件。",
+                  "Select work to see its progress.",
+                  "选择一项工作查看进展。",
                 )}
               </p>
-            )}
+            ) : null}
           </div>
         </div>
       )}
+      <details className="workspace-details work-management">
+        <summary>{t("Sources & storage", "来源与存储")}</summary>
+        <PublicCapture
+          t={t}
+          fence={fence}
+          epoch={epoch}
+          fresh={fresh}
+          historyOnly
+          onChanged={() => {
+            void reload(true);
+            void capacity.refresh();
+          }}
+        />
+        <WorkCapacitySummary
+          value={capacity.value}
+          t={t}
+          loading={capacity.loading}
+          refresh={() => void capacity.refresh()}
+        />
+        <p>
+          {t(
+            "Work continues while this server is online. Results are saved here.",
+            "主机在线时可继续工作，结果保存在这里。",
+          )}
+        </p>
+      </details>
       {compose && !showSearch && value?.scope && (
         <RunComposer
           key={detailGeneration}

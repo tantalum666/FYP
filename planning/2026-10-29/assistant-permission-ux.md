@@ -1,5 +1,7 @@
 # Group 2 · Unified assistant actions and permissions
 
+1 November 2026 continuation: [concise interface copy](../../desk-companion/docs/ui-copy.md) supersedes verbose default explanations. Optional details remain accessible and all approval/draft/recovery behavior is retained. The dated results below are historical; current UI evidence is in the [cleanup QA](../../output/qa/2026-10-31-ui-copy-cleanup/verification.md).
+
 29 October 2026. **Implemented and locally verified; native input acceptance remains open.** Owner direction: correct the approval/navigation experience across web and app clients, learn from Codex/Muse/Dot-style interaction, and offer full access in settings. Existing Alice, API/services, safe file executors and verified task continuity remain the base.
 
 ## Implemented user-visible behavior

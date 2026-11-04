@@ -431,3 +431,42 @@ PR74–77的主对话/Alice/OpenAI栈只作独立组合兼容检查，不混入�
 ### 4 November publication readback
 
 [PR83](https://github.com/tantalum666/FYP/pull/83) merged at89dc92f41d945783af43dcb4f56f0e7e6d0edb1a. Remote main exactly matches the complete tree of reviewed bb6443c. Original PR78–82 were individually read back closed/merged; source63e538b remains the tested application. [Receipt](output/qa/2026-11-04-grok-journey-review/publication.json). This follow-up records publication only, with no CI, deployment, model or hardware action.
+## 2026-10-31 暂停Pi，优先个人Agent跨应用接续
+
+- **用户决定：**“pi先暂时放一边”，继续personal agent，特别是跨应用；恢复PR5后的三家机制理解，不够时自行补充并实现。取代此前供电／kiosk作为当前下一步。旧付费轮不因此重开，不新增CI、外部联系或交易授权。
+- **研究与工程选择：**重新阅读Grok持久电脑／连接器／skill与routine、Muse隔离运行／浏览器broker／独立动作边界、Your dot持久责任／选定上下文／恢复与结果审查。沿用既有非eve栈；把PR5 Work注册表接入现有真实office executor，不另建任务／队列／权限内核。来源与实现映射见[研究补充](research/2026-10-31-cross-application-continuation.md)。
+- **实现：**显式选择事务／应用资料，绑定输入哈希与执行环境；模型只提严格类型工具请求。新Work捕获既有Full版本，后开Full不能追认旧Work；Ask first使用共用操作卡。准备／批准／排队执行／发布均受父Work状态、会话和既有权限约束。回执丢失找回原child；已替换文件读不可变历史，最新文件核对当前发布内容。waiting_effect区分应用运行与真正需要人批准。
+- **实际发现修复：**真实Calc拒绝直接传入的逗号分隔公式；在执行边界复用规范化，保留原批准请求。原型页面里审批卡位置、已生成表格却显示“无输出”、日历权限与应用权限文案混淆一并纠正；技术活动折叠，明确文件／报告区别。
+- **证据：**1,701后端／303前端、Ruff、类型与生产构建通过；真实Chromium→Calc两版→Writer→两页PDF；36份／900元变48份／950元，从Aster776.60变为Birch50份902.00；问答为标明的合成用户事件。丢失保存回执、应用／进程重启后SHA／mtime不变。网页一次批准与取消、393px手机同状态、实际下载哈希和范围审阅通过。
+- **边界：**规划为离线脚本，真实应用为实跑；模型调用0，不冒充真实模型自主完成。真实用户数据库／账户／学校文件未改变，Pi未继续，PR73单独保留。下一步将普通Alice／Omni长任务入口和恢复接入这套已准入Work，先做离线变体。邮件／购物／旅行和通用GUI仍各自验收。[完整QA](output/qa/2026-10-31-personal-agent-cross-app/verification.md)。
+
+## 2026-11-01 减少默认界面文字
+
+- **用户要求：**指出各页面堆了过多文字，要求面向真实使用而非把工程说明摊开。保留此前Alice、手机差异化和跨端共用权限要求。
+- **工程落实：**Work主区先显示目标／状态／文件／需要处理的动作；IDs、计数、历史、存储和可选配置进入详情。设置、记忆、风格、事务及导入分享删去重复叙述。手机选中Work后显示详情，通过原有草稿守卫返回列表；不增加状态机或轮询。
+- **边界：**具体批准对象、AI目的地／费用、永久保存限制、未保存保护和错误恢复保留；不删除用户内容，不把结构核验写成目标完成。后端及权限服务未改。
+- **证据：**303前端、类型／生产构建通过，8类桌面前后截图、中文393px手机、折叠及离开草稿、未选保留时阻止开始、真实本地报告流程通过。默认新工作1368→290可见字符；不是全站统一比例。无新付费模型、CI、Pi或真实账号操作。
+- **接续：**[界面契约](desk-companion/docs/ui-copy.md)成为后续UI修改约束；接着继续Alice／Omni长任务接入已有Work，先做离线验收。发布保持独立分支并以PR74为基线，不把推送当合并。[本轮QA](output/qa/2026-10-31-ui-copy-cleanup/verification.md)。
+
+## 2026-11-02 Web主对话、Mac媒体与预览纠正
+
+- 用户要求恢复Codex／ChatGPT／Grok式主界面、自适应比例和Mac媒体入口；对提出的1元复测选择“先接好服务，我自己点击试用”，没有批准自动付费测试。
+- 旧1200px阈值在实际150%缩放下改成大弹窗；前次启动又关闭了供应商。本轮改默认主对话页，复用原业务／权限和草稿，删除过时docked CSS。
+- 本机摄像头预览／麦克风检测独立于云端；显式单帧分享复用VoiceAudio。恢复现有Qwen配置，不自动连接模型；OpenAI等候选未排除。
+- 309前端、类型／构建及真实浏览器布局／草稿往返／权限／导航检查通过，Mac摄像头和麦克风有真实输入；无新增云端回答成绩。
+- 曾在用户正看的窗口做窄屏测试，用户再次指出比例异常；已恢复正常Web窗口和100%缩放，后续转独立QA标签页，验证用户窗口仍1291×681。不是设备端交付；之后不得在用户正在查看的标签页修改测试尺寸。
+- [契约](desk-companion/docs/desktop-conversation.md)／[QA](output/qa/2026-11-02-conversation-desktop/verification.md)。下一步仍是普通Alice／Omni长任务接入既有Work；Pi暂停，无CI或自动收费。
+
+## 2026-11-02 OpenAI试接、Alice唤醒与费用
+
+- **用户决定：**要求试接OpenAI，询问无感对话费用，并明确选择“叫Alice才唤醒”。这取代前一轮只准备Qwen供本人点击的当前任务安排；不恢复Pi或旧实验。
+- **工程选择：**沿用已确认的FYP专用Key，采用已说明的新USD1操作上限；本地sherpa关键词→既有VoiceService→安静30秒回本地。初次页面需启用，刷新／关闭即停止；不是OS常驻或真人准确率保证。
+- **实际修正：**共享Realtime生命周期从voice.py拆出，OpenAI保留现有工具／权限；16k输入在适配边界转24k。实测暴露日期缺时区、512输出截断和Mini误读09:30为10:30；保留失败。工具描述／owner_clock／输出与读数提示改进后，Full2.1正确读回3场09:30／14:00／16:00，作为当前配置。提示也有变化，不是受控模型排名。
+- **费用事实：**官方Realtime按token、VAD过滤空白且连接不收费；Live按包括安静的在线时间另加后台。待机留在本机避免一直上传／调用。新实验已关闭，回执保守估算USD0.1692086，含未知回执预留的记账USD0.6499936；不是Platform账单，旧USD170余额未重新核对。
+- **范围：**本地模型、真实本机WebSocket、浏览器待机／关闭和四次合成语音实际API分开记录。未做真人唤醒率、真实声学插话、长时间后台／功耗、Pi／原生手机或购物邮箱验收。现有Full设置保留，没有扩大权限。见[契约](desk-companion/docs/openai-alice-wake.md)／[QA](output/qa/2026-11-02-openai-alice-wake/verification.md)。
+
+## 2026-11-04 用户明确要求合并74–77
+
+用户说“把74-77也合并”，取代上一轮保持该栈独立的临时范围。#77包含74–76，采用一个集成候选保留全部祖先，并使原PR75–77指向main，以便实际合入后逐一核对merged。四个原PR在完整本地验证后由draft转ready。
+
+应用代码无冲突，且与上一轮已检查的组合b0375f4完全一致；处理八份Markdown状态/历史冲突，保留Grok修复与主对话/Alice/OpenAI基线。完整1769后端/319前端、类型构建和静态检查通过。此次无新源代码功能、CI、付费模型、真人媒体采集、Pi、真实数据迁移或服务部署；只更新代码主线与交接。

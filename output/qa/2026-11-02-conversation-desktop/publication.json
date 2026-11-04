@@ -1,0 +1,14 @@
+{
+  "pull_request": "https://github.com/tantalum666/FYP/pull/76",
+  "state": "open",
+  "draft": true,
+  "merged": false,
+  "base_branch": "codex/ui-copy-cleanup-20261031",
+  "base_sha": "34de1e790f7f0ba7b529523f6286034868dee0cc",
+  "source_commit": "ff0b4013077654afe4befa5c4885b1e2fbd17735",
+  "verified_remote_source_head": "ff0b4013077654afe4befa5c4885b1e2fbd17735",
+  "frontend_tree": "4d505a79ed5d4dca9142d74d9135b03e4bc50664",
+  "receipt_followup": "Documentation only; tested frontend unchanged.",
+  "agent_paid_test": false,
+  "owner_manual_voice_choice": true
+}

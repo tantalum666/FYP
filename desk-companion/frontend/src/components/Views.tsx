@@ -611,12 +611,6 @@ export function DeviceView({
       <header className="page-heading">
         <div>
           <h1>{t("Settings", "设置")}</h1>
-          <p>
-            {t(
-              "Workspace preferences, connections and controls.",
-              "管理工作空间偏好、连接与设备控制。",
-            )}
-          </p>
         </div>
       </header>
       <PermissionsPanel t={t} />
@@ -625,7 +619,6 @@ export function DeviceView({
         <div className="setting-row">
           <span>
             <strong>{t("Language", "语言")}</strong>
-            <small>{t("Saved on this screen", "保存在当前界面")}</small>
           </span>
           <select
             value={language}
@@ -639,9 +632,6 @@ export function DeviceView({
         <div className="setting-row">
           <label htmlFor="timezone">
             <strong>{t("Calendar timezone", "日历时区")}</strong>
-            <small>
-              {t("Shared across your connected screens", "在已连接界面间共用")}
-            </small>
           </label>
           <select
             id="timezone"
@@ -792,12 +782,7 @@ export function DeviceView({
             <small>{state}</small>
           </div>
         ))}
-        <p className="footnote">
-          {t(
-            "Connected screens share your calendar. Use the connection controls to check each device and its actual action receipts.",
-            "已连接终端共用日历。各设备状态与实际动作回执可在连接控制中查看。",
-          )}
-        </p>
+
         <button className="secondary" onClick={onDeviceLayout}>
           {t("Open device layout", "打开设备布局")}
           <ArrowUpRight size={16} />

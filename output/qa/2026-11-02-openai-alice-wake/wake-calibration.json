@@ -1,0 +1,68 @@
+[
+  {
+    "phones": "AE1 L AH0 S",
+    "score": 1.5,
+    "threshold": 0.25,
+    "hits": [
+      0.92
+    ]
+  },
+  {
+    "phones": "AE1 L AH0 S",
+    "score": 3,
+    "threshold": 0.15,
+    "hits": [
+      0.92
+    ]
+  },
+  {
+    "phones": "AE1 L AH0 S",
+    "score": 5,
+    "threshold": 0.05,
+    "hits": [
+      0.92
+    ]
+  },
+  {
+    "phones": "AE1 L IH0 S",
+    "score": 1.5,
+    "threshold": 0.25,
+    "hits": [
+      0.92
+    ]
+  },
+  {
+    "phones": "AE1 L IH0 S",
+    "score": 3,
+    "threshold": 0.15,
+    "hits": [
+      0.92
+    ]
+  },
+  {
+    "phones": "AE1 L IH0 S",
+    "score": 5,
+    "threshold": 0.05,
+    "hits": [
+      0.92
+    ]
+  },
+  {
+    "phones": "AE1 L IH1 S",
+    "score": 1.5,
+    "threshold": 0.25,
+    "hits": []
+  },
+  {
+    "phones": "AE1 L IH1 S",
+    "score": 3,
+    "threshold": 0.15,
+    "hits": []
+  },
+  {
+    "phones": "AE1 L IH1 S",
+    "score": 5,
+    "threshold": 0.05,
+    "hits": []
+  }
+]

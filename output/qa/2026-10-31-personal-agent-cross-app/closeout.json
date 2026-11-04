@@ -1,0 +1,33 @@
+{
+  "local_links_checked": 311,
+  "broken_links": [],
+  "gitleaks_exit": 0,
+  "artifact_hashes_match": true,
+  "ci_workflows_in_head": [],
+  "private_runtime_screenshots_profiles_databases_excluded": true,
+  "updated_markdown": [
+    "AGENTS.md",
+    "START_HERE_NEXT_CHAT.md",
+    "decision-log.md",
+    "desk-companion/docs/agent-loop-handoff.md",
+    "desk-companion/docs/agent-runs.md",
+    "desk-companion/docs/application-execution.md",
+    "desk-companion/docs/pr5-integration.md",
+    "handoff.md",
+    "product.md",
+    "research/personal-agent-research-index.md",
+    "work-log.md",
+    "desk-companion/docs/application-work.md",
+    "research/2026-10-31-cross-application-continuation.md",
+    "output/qa/2026-10-31-personal-agent-cross-app/verification.md",
+    "output/qa/2026-10-31-personal-agent-cross-app/progress.md"
+  ],
+  "backend_tests": 1701,
+  "frontend_tests": 303,
+  "production_build": "passed",
+  "ruff": "passed",
+  "pdf_pages_rendered_and_inspected": 2,
+  "live_model_calls": 0,
+  "pi_state": "paused",
+  "browser_viewport_reset": true
+}

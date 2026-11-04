@@ -22,7 +22,7 @@ export function WorkToolsEntry({ t }: { t: Translate }) {
           setOpen((value) => !value);
         }}
       >
-        {t("Research and follow-up tools", "资料工作与持续跟进工具")}
+        {t("Work & tools", "工作与工具")}
       </button>
       {blocked && (
         <p role="status">

@@ -29,6 +29,7 @@ from .device_routes import device_routes
 from .runtime import Runtime
 from .workspace_data import PreferencesUpdate
 from .voice import voice_routes
+from .wake_listening import wake_routes
 from .exchange_routes import exchange_routes
 from .google_calendar import google_routes
 from .mailbox import mailbox_routes
@@ -518,6 +519,7 @@ def create_app(
     app.include_router(public_capture_routes(services, owner, operation_id))
     app.include_router(shopping_routes(services, owner, operation_id))
     app.include_router(voice_routes(services, authenticated, agent, allowed_origins, limit))
+    app.include_router(wake_routes(services, owner, allowed_origins))
     app.include_router(exchange_routes(services, authenticated, owner, operation_id))
     app.include_router(google_routes(services, owner, operation_id))
     app.include_router(mailbox_routes(services, owner, operation_id))

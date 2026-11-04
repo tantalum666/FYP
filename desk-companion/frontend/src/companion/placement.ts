@@ -214,3 +214,37 @@ export function movedPreference(
     ),
   };
 }
+
+/** Keep a floating companion above the active composer without saving a new preference. */
+export function avoidRegion(
+  g: Geometry,
+  region: CompanionAnchor | null,
+): Geometry {
+  if (
+    !region ||
+    !g.visibleHeight ||
+    g.x + g.width <= region.x ||
+    g.x >= region.x + region.width ||
+    g.y + g.visibleHeight <= region.y - 8 ||
+    g.y >= region.y + region.height
+  )
+    return g;
+  const available = Math.max(0, region.y - 76);
+  const ratio = Math.min(1, available / g.visibleHeight);
+  const width = g.width * ratio;
+  const height = g.height * ratio;
+  const visibleHeight = g.visibleHeight * ratio;
+  const x = g.x + (g.width - width) / 2;
+  const y = Math.max(4, region.y - visibleHeight - 12);
+  return {
+    ...g,
+    x,
+    y,
+    width,
+    height,
+    visibleHeight,
+    handleX: x + width / 2 - 18,
+    handleY: Math.max(4, y + visibleHeight - 38),
+    bottomInset: Math.max(g.bottomInset, region.height + 12),
+  };
+}

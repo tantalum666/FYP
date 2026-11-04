@@ -81,7 +81,7 @@ export function SourceUpload({
   }
   return (
     <details className="agent-upload">
-      <summary>{t("Add a selected local source", "添加指定本地来源")}</summary>
+      <summary>{t("Add file", "添加文件")}</summary>
       <p className="workspace-hint">
         {t(
           "TXT, Markdown, CSV or JSON in UTF-8. Uploads are retained on this server; there is no delete control in this version. Selecting a file alone does not upload it or authorize sending it to an AI provider.",

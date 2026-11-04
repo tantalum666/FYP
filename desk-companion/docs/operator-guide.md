@@ -1,5 +1,7 @@
 # Desk Companion 操作与安装说明
 
+2026-11-02当前网页：[OpenAI／Alice唤醒契约](openai-alice-wake.md)。页面勾选一次“叫Alice唤醒”后，本机监听名字，再启动云端对话；安静后回待机。不要同时启动下方旧设备CLI工作进程争用麦克风／会话。最新配置与实验关闭状态以handoff为准。
+
 2026-10-31：**已有数据库先按[显式迁移步骤](pr5-integration.md#store-migration)升级，再启动新版。**正常启动拒绝旧 schema 1／2；原 PR5 personal_memories 另有转换。先停所有服务并独立核对备份，命令不会代做这两步。本轮只验证了虚构副本。
 2026-10-29接续：网页／App共用对话内操作卡片和Ask first／Full access设置；手机管理改为有返回键的整页导航。[维护契约](software-maintenance.md)／[本轮QA](../../output/qa/2026-10-29-assistant-permissions/verification.md)。本机免登录会话失效后重新建立会话并保留输入，不自动重试未确认写入。
 
@@ -97,13 +99,13 @@ DESK_RUNTIME_DIR="$PWD/.runtime/demo" DESK_ALLOW_REPLAY=1 .venv/bin/uvicorn desk
 
 Omni活动语音会话中，拥有者可主动选择一张图片或浏览器屏幕来源。图像会送至已配置语音提供商，不打开摄像头；最多1280×720 JPEG、1fps，后端检查身份、分享状态、大小与速率。停止屏幕分享或结束对话会释放采集，已发内容仍在当前提供商上下文中。选择图片后直接提问；模型使用随音频提交的图像。配对终端不开放该分享功能；移动端无屏幕接口时按钮禁用。
 
-设备免按键唤醒使用本地工作进程：
+较早的设备CLI唤醒路径（不同于当前网页Alice入口，Pi仍暂停）：
 
 ```sh
 PYTHONPATH=backend .venv/bin/python -m desk.agents.voice --language zh
 ```
 
-需先在偏好中允许本地唤醒，且已配置服务。当前开发唤醒词为 **Hey desk**／**你好桌伴**，不是最终品牌决定。sherpa-onnx模型在本地识别，检测到词后才申请语音会话。sounddevice路径需使用合适的AEC麦克风／扬声器通道；尚无真实回声或唤醒率结论。浏览器会话与本地工作进程共用单会话限制。
+需先在偏好中允许本地唤醒，且已配置服务。此旧CLI示例仍使用 **Hey desk**／**你好桌伴**；当前网页已按用户决定使用 **Alice／爱丽丝**。sherpa-onnx模型在本地识别，检测到词后才申请语音会话。sounddevice路径需使用合适的AEC麦克风／扬声器通道；尚无真实回声或唤醒率结论。浏览器会话与本地工作进程共用单会话限制。
 
 当前完整Alice角色出口为`?surface=avatar`，支持旋转／缩放及原生表情；纯黑输出加`&clean=1`，反射显示可加`&mirror=1`。嘴部跟随浏览器实际输出音量，尚无逐音素口型或跨设备声音桥；风扇／反射器接口与光学仍需实物确认。
 

@@ -1,7 +1,7 @@
 /** Owner-facing copy and actions for “what I know about you” and nudge history. */
 
 export const knowledgeCopy = {
-  title: ["What I know about you", "我了解的关于你的事"],
+  title: ["Saved memories", "记忆"],
   nudgeTitle: ["Why did you nudge me", "为什么提醒我"],
   goalsTitle: ["Goals you stated", "你说过的目标"],
   goalsEmpty: ["No open goals.", "没有未完成的目标。"],

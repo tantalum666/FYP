@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   anchoredGeometry,
+  avoidRegion,
   defaultPreference,
   geometry,
 } from "../src/companion/placement.ts";
@@ -82,4 +83,27 @@ test("an unavailable sidebar uses the existing floating preference without chang
     geometry(preference, { width: 1440, height: 1000 }, "web", 0.6),
     before,
   );
+});
+
+test("floating Alice leaves the complete composer clear at zoomed and narrow sizes", () => {
+  for (const view of [
+    { width: 860, height: 454 },
+    { width: 393, height: 680 },
+    { width: 1280, height: 800 },
+  ]) {
+    const composer = {
+      x: Math.min(218, view.width / 6),
+      y: view.height - 150,
+      width: view.width - 40,
+      height: 150,
+    };
+    const pref = { ...defaultPreference(), x: 1, y: 1 };
+    const original = geometry(pref, view, "web", 0.6);
+    const safe = avoidRegion(original, composer);
+    assert.ok(safe.y + safe.visibleHeight < composer.y);
+    assert.ok(safe.y >= 58);
+    assert.ok(Math.abs(safe.width / safe.height - 0.6) < 0.001);
+    assert.equal(pref.scale, 1);
+    assert.deepEqual(avoidRegion(original, null), original);
+  }
 });

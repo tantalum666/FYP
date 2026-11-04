@@ -251,8 +251,8 @@ export function MemoryPanel({ t }: { t: Translate }) {
           <h1>{t(knowledgeCopy.title[0], knowledgeCopy.title[1])}</h1>
           <p className="workspace-hint">
             {t(
-              "Keep useful details for future conversations. You choose what to save, correct or remove. Saved facts are included in later assistant requests.",
-              "保留对未来对话有用的细节，由你决定保存、更正或删除。已保存的事实会用于之后的助理请求。",
+              "Details Alice can use in future chats.",
+              "Alice 可以在之后的对话中使用这些记忆。",
             )}
           </p>
         </div>
@@ -265,7 +265,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
         }}
       >
         <label className="field">
-          {t("New fact", "新事实")}
+          {t("New memory", "新记忆")}
           <textarea
             value={body}
             maxLength={1000}
@@ -284,7 +284,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
             type="submit"
             disabled={busy || !!editing || !body.trim()}
           >
-            {t("Save fact", "保存事实")}
+            {t("Save", "保存")}
           </button>
         </div>
       </form>

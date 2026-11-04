@@ -563,6 +563,18 @@ export class VoiceAudio {
     this.socket.send(JSON.stringify({ type: "image", image }));
     this.lastImage = performance.now();
   }
+  shareCameraFrame(video: HTMLVideoElement) {
+    if (!this.visionReady() || video.readyState < 2)
+      throw new Error("VOICE_VISION_NOT_READY");
+    this.stopVision();
+    try {
+      this.sendImage(
+        encodeVoiceImage(video, video.videoWidth, video.videoHeight),
+      );
+    } finally {
+      this.stopVision();
+    }
+  }
   async shareImage(file: File) {
     if (!this.visionReady()) throw new Error("VOICE_VISION_NOT_READY");
     if (

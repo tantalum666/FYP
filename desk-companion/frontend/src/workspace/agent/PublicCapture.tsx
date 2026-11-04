@@ -99,7 +99,7 @@ export function PublicCapture({
           ? t("Public capture status and stop", "公开采集状态与停止")
           : historyOnly
             ? t("Saved public-page captures", "已保存的公开页面采集")
-            : t("Capture one public page", "采集一个公开页面")}
+            : t("Add web page", "添加网页")}
       </summary>
       <p className="workspace-hint">
         {t(

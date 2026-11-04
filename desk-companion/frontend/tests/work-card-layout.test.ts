@@ -37,7 +37,7 @@ function visit(node: ts.Node) {
 visit(source);
 assert.equal(lists.length, 1);
 const compiled = ts.transpileModule(
-  `export function render(value, selected, guard, t, go, stateLabel, modeLabel) {
+  `export function render(value, selected, guard, t, go, stateLabel, workTime) {
     return (${lists[0].getText(source)});
   }`,
   {
@@ -108,7 +108,7 @@ function renderList(zh: boolean, busy = false, selected = "run-0") {
     t,
     (next: unknown) => calls.push(next),
     () => t("Cancelled", "已取消"),
-    () => t("Local evidence compilation", "本地证据整理"),
+    (value: string) => new Date(value).toLocaleString(zh ? "zh-CN" : "en-GB"),
   );
   return { node, calls, markup: renderToStaticMarkup(node) };
 }

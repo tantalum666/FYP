@@ -1,4 +1,4 @@
-"""Explicit, private Qwen credential-file loading; no shell evaluation or output."""
+"""Explicit, private provider credential-file loading; no shell evaluation or output."""
 
 import os
 import re
@@ -6,7 +6,7 @@ import stat
 from pathlib import Path
 
 
-def qwen_key(path: str) -> str:
+def _private_env_key(path: str, name: str, *, private_parent=True) -> str:
     target = Path(path).expanduser()
     if not target.is_absolute() or ".." in target.parts:
         raise ValueError("VOICE_CREDENTIALS_INVALID")
@@ -18,7 +18,7 @@ def qwen_key(path: str) -> str:
             os.close(directory)
             directory = child
         parent = os.fstat(directory)
-        if parent.st_uid != os.getuid() or stat.S_IMODE(parent.st_mode) & 0o077:
+        if parent.st_uid != os.getuid() or stat.S_IMODE(parent.st_mode) & (0o077 if private_parent else 0o022):
             raise ValueError("VOICE_CREDENTIALS_INVALID")
         fd = os.open(target.name, os.O_RDONLY | os.O_NOFOLLOW, dir_fd=directory)
         with os.fdopen(fd, "rb") as file:
@@ -33,10 +33,18 @@ def qwen_key(path: str) -> str:
             values = [
                 line.partition("=")[2]
                 for line in file.read().decode("utf-8").splitlines()
-                if line.startswith("DASHSCOPE_API_KEY=")
+                if line.startswith(name + "=")
             ]
             if len(values) != 1 or not re.fullmatch(r"[A-Za-z0-9_.-]{16,512}", values[0]):
                 raise ValueError("VOICE_CREDENTIALS_INVALID")
             return values[0]
     finally:
         os.close(directory)
+
+
+def qwen_key(path: str) -> str:
+    return _private_env_key(path, "DASHSCOPE_API_KEY")
+
+
+def openai_key(path: str) -> str:
+    return _private_env_key(path, "OPENAI_API_KEY", private_parent=False)

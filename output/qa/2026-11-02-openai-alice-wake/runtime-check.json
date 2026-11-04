@@ -1,0 +1,13 @@
+{
+  "provider": "openai_realtime",
+  "model": "gpt-realtime-2.1",
+  "configured": true,
+  "cloud_active": false,
+  "wake": {
+    "available": true,
+    "word": "Alice",
+    "active": false
+  },
+  "permission_mode_preserved": "full",
+  "unrelated_voice_key_in_shell": false
+}

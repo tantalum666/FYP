@@ -1,7 +1,13 @@
 # Group 2 · Software maintenance contract
 
+1 November 2026: the [interface copy contract](ui-copy.md) makes concise default views a shared UI requirement. Work results/actions precede optional details; native disclosures retain mounted form state, and phone Work uses the existing guarded list/detail selection. No new queue, request lifecycle or backend authority was introduced. [Current UI QA](../../output/qa/2026-10-31-ui-copy-cleanup/verification.md):303 frontend tests and type/build pass; earlier backend/native results below retain their original scope.
+
 2026-10-31：[PR5整合](pr5-integration.md)保留现有业务／权限核心。持久 Work 是对现有记录和子操作的编排，不能另建事实／执行器替代主线；旧 demo-record 与 A1 路线由当前实现取代。
 30 October2026. The current checkpoint implements bounded application operations and passes a scripted browser/Calc/Writer/PDF task with changed constraints and restart recovery. Earlier task/file/phone, shared permissions and OpenAI evaluation work remains in place; autonomous voice completion is still untested. Selected-task context and interaction recovery remain in place. The owner requests focused documentation reading, maintainable implementation and GitHub publication of meaningful milestones.
+
+2 November 2026: ConversationWorkspace owns the persistent desktop panel and scoped draft boundary; AssistantPanel retains conversation/actions/voice. LocalCapture owns device permission races and release; MediaDevicePanel owns local preview/meter UI; VoiceAudio retains one-frame transport. No parallel model client or queue. [Contract](desktop-conversation.md) / [QA](../../output/qa/2026-11-02-conversation-desktop/verification.md).
+
+2 November2026 OpenAI/wake: voice_protocols owns shared wire response/cancellation lifecycle; openai_voice adapts GA format and rate without business authority. VoiceService retains the single model slot, tool dispatcher and current checks. WakeListening owns only local owner-scoped keyword PCM, while WakeAudio/useAliceWake coordinate existing media. No model request comes from the detector itself. [Contract](openai-alice-wake.md) / [QA](../../output/qa/2026-11-02-openai-alice-wake/verification.md).
 
 ## Frontend responsibilities
 
@@ -98,4 +104,4 @@ MailboxService and OfflineCalendarService own incremental source state while Tas
 
 ShoppingService admits tracking Work with the existing AgentRunService's internal `start_paused` option. Explicit sync repairs absent portable Work links on the same task; old execution/session authority is not restored. ShoppingNotices holds pending deliveries and delegates to Notifier/rules tick, including after restore.
 
-JourneyAdvice and proposalDecision share source/effect presentation across Web/phone and use the existing decision endpoint. They introduce no model client, approval queue or polling lifecycle. The current primary-chat/OpenAI stack remains separate PR74–77; [compatibility evidence](../../output/qa/2026-11-04-grok-journey-review/compatibility.json) is not deployment.
+JourneyAdvice and proposalDecision share source/effect presentation across Web/phone and use the existing decision endpoint. They introduce no model client, approval queue or polling lifecycle. The primary-chat/OpenAI stack from PR74–77 is now combined with these journeys; [compatibility evidence](../../output/qa/2026-11-04-grok-journey-review/compatibility.json) is not deployment.

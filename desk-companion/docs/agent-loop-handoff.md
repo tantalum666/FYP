@@ -12,6 +12,10 @@
 - Memory facts, deterministic profile/goals/aliases, contextual search and bounded plans remain distinct from temporary conversation. Goal drafts retain owner gates on list and decision.
 - Audit is owner-only and reachable through the assistant's More menu. Read-result caches do not reintroduce forgotten facts.
 
+## 31 October persistent application continuation
+
+The short HTTP loop remains unchanged. Separately admitted Work now uses the existing office executor through [application adapters](application-work.md), waits without model polling, and continues from independently verified results. Source scope, task versions and the owner's captured software permission are checked outside the model. Real-app tests use offline decisions; ordinary Alice/Omni automatic admission and live-model quality remain unverified.
+
 ## Extension points
 
 Use the existing `assistant.TOOLS`, `CAPABILITIES`, `TextPlan`, provider adapters and JobService. Add a real boundary test for changes to permissions, lifecycle or persisted effects. Use scripted providers or mock transports until a new live-model budget is explicitly authorized. Detailed contracts: [agent loop](agent-loop.md), [stream](assistant-stream.md), [memory](memory.md), [maintenance](software-maintenance.md).

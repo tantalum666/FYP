@@ -1,5 +1,6 @@
 export type Language = "en" | "zh";
 export type Page =
+  | "assistant"
   | "today"
   | "calendar"
   | "tasks"

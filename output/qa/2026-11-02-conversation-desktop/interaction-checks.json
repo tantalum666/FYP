@@ -1,0 +1,64 @@
+{
+  "date": "2026-11-02",
+  "timezone": "Asia/Hong_Kong",
+  "viewports": {
+    "original_150_percent": [
+      860,
+      454
+    ],
+    "desktop_test": [
+      1280,
+      800
+    ],
+    "narrow_test": [
+      393,
+      852
+    ],
+    "restored_user_tab": [
+      1291,
+      681
+    ]
+  },
+  "user_zoom_restored_to_percent": 100,
+  "horizontal_overflow": false,
+  "original_composer_bounds": [
+    311,
+    446
+  ],
+  "original_avatar_bounds": [
+    64,
+    299
+  ],
+  "short_permission_popup_bounds": [
+    104.6,
+    377
+  ],
+  "draft_survives_tasks_return": true,
+  "navigation_escape_and_active_page_close": true,
+  "camera_local_preview": {
+    "device": "FaceTime HD",
+    "size": [
+      1280,
+      720
+    ],
+    "ready_state": 4,
+    "paused": false,
+    "uploaded": false
+  },
+  "microphone_local_test": {
+    "device": "MacBook Pro built-in",
+    "levels": [
+      0.02727391,
+      0.027413415718004295
+    ],
+    "uploaded": false
+  },
+  "local_device_checks_closed": true,
+  "qwen_configuration_valid": true,
+  "voice_button_enabled": true,
+  "agent_paid_provider_tests": 0,
+  "owner_choice": "Connect service; owner will click to try",
+  "native_app_rebuilt": false,
+  "backend_source_changed": false,
+  "ci_used": false
+}

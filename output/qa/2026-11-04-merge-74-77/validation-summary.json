@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "candidate": "151f807b5cd2796d6cf4598431683ff69577a079",
+  "application_tree_matches_prior_compatibility": "b0375f4aad7a2658460704e197ff3700ad56b4ce",
+  "backend_passed": 1769,
+  "frontend_passed": 319,
+  "lint_typecheck_build": "passed",
+  "source_merge_conflicts": 0,
+  "resolved_document_conflicts": 8,
+  "ci_used": false,
+  "paid_model_calls": 0,
+  "runtime_deployment": false,
+  "remaining": [
+    "Human voice/wake/noise acceptance",
+    "Native keyboard/device acceptance",
+    "Live email/store/payment/account journeys",
+    "Paused Pi hardware"
+  ]
+}

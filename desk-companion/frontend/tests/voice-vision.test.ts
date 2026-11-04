@@ -104,3 +104,42 @@ test("a selected image decoded after disconnect is closed without sending", asyn
     globalThis.createImageBitmap = original;
   }
 });
+
+test("camera shares one selected frame only and cannot send after the call ends", () => {
+  const original = globalThis.document;
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      createElement: () => ({
+        width: 0,
+        height: 0,
+        getContext: () => ({ drawImage() {} }),
+        toDataURL: () => "data:image/jpeg;base64,AA==",
+      }),
+    },
+  });
+  try {
+    const { audio, sent } = engine();
+    const video = {
+      readyState: 4,
+      videoWidth: 1280,
+      videoHeight: 720,
+    } as HTMLVideoElement;
+    audio.shareCameraFrame(video);
+    assert.deepEqual(
+      sent.map((x) => x.type),
+      ["vision_start", "image", "vision_stop"],
+    );
+    audio.close();
+    assert.throws(
+      () => audio.shareCameraFrame(video),
+      /VOICE_VISION_NOT_READY/,
+    );
+    assert.equal(sent.filter((x) => x.type === "image").length, 1);
+  } finally {
+    Object.defineProperty(globalThis, "document", {
+      configurable: true,
+      value: original,
+    });
+  }
+});

@@ -9,6 +9,7 @@ import { App } from "./App";
 import { WorkspaceProvider } from "./workspace/WorkspaceContext";
 import "./workspace/workspace.css";
 import "./web-workspace.css";
+import "./conversation-workspace.css";
 import { SharedCalendar } from "./workspace/SharedCalendar";
 import { NativeSetup } from "./workspace/NativeSetup";
 import { PhoneSync } from "./workspace/PhoneFeatures";

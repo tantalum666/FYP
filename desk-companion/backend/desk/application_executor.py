@@ -196,7 +196,25 @@ class ApplicationExecutor:
                 "mode": "edit",
                 "path": str(staged.relative_to(self.root)),
                 "source": str(source.relative_to(self.root)) if source else None,
-                "step": step,
+                "step": (
+                    {
+                        **step,
+                        "sheets": [
+                            {
+                                **sheet,
+                                "cells": [
+                                    {**cell, "value": formula(cell["value"])}
+                                    if cell["kind"] == "formula"
+                                    else cell
+                                    for cell in sheet["cells"]
+                                ],
+                            }
+                            for sheet in step["sheets"]
+                        ],
+                    }
+                    if step["kind"] == "workbook"
+                    else step
+                ),
                 "operation_id": request["artifact_id"],
                 "cancel": str(cancel.relative_to(self.root)),
                 "screenshot": str((stage / "edited.png").relative_to(self.root)),
@@ -267,9 +285,16 @@ class ApplicationExecutor:
             "readback": readback,
         }
 
-    def verify(self, request):
-        # Verify current published bytes and embedded operation marker, without repair.
-        return self._inspect(request, self.target(request))
+    def version_target(self, request):
+        return rooted(
+            self.root, "history/" + request["artifact_id"] + "/" + request["step"]["filename"]
+        )
+
+    def verify(self, request, *, archived=False):
+        # Historical versions are independently reopened too; this is never a write.
+        return self._inspect(
+            request, self.version_target(request) if archived else self.target(request)
+        )
 
 
 def application_request(payload, conn, jobs, artifact_id):

@@ -1,0 +1,42 @@
+.media-device-dialog {
+  width: min(560px, calc(100vw - 24px));
+}
+.media-preview-note {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.media-camera-preview {
+  aspect-ratio: 16 / 9;
+  max-height: min(260px, 32dvh);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f1f2f5;
+  color: #7b8291;
+}
+.media-camera-preview video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.media-camera-preview video[hidden] {
+  display: none;
+}
+.media-device-status {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+.media-mic-test {
+  border-top: 1px solid var(--line);
+  margin-top: 20px;
+  padding-top: 12px;
+}
+.media-mic-test meter {
+  width: 120px;
+  height: 18px;
+}

@@ -828,12 +828,7 @@ export function TaskPanel({
                   {t("Discuss this task", "讨论这件事")}
                 </button>
               </div>
-              <p className="workspace-hint">
-                {t(
-                  "A note records what you report. Use Edit to change the next step or waiting status.",
-                  "记录保留你提供的进展；使用编辑修改下一步或等待状态。",
-                )}
-              </p>
+
               <div className="workspace-inline-actions">
                 <button
                   className="secondary"
@@ -867,14 +862,6 @@ export function TaskPanel({
                   </>
                 )}
               </div>
-              {!task.follow_up_enabled && (
-                <p className="workspace-hint">
-                  {t(
-                    "Use Edit to turn on follow-ups for this task.",
-                    "如需定时跟进，可以在编辑中开启。",
-                  )}
-                </p>
-              )}
               {onPlan && (
                 <button
                   className="text-button"
@@ -1060,12 +1047,6 @@ export function TaskPanel({
                 {t("Stay on top of what matters", "持续跟进重要的事")}
               </span>
               <h1>{t("Tasks", "事务")}</h1>
-              <p>
-                {t(
-                  "Keep the next step in view, even between conversations.",
-                  "在每次交谈之间，继续记住进展与下一步。",
-                )}
-              </p>
             </div>
             <button
               className="primary"
