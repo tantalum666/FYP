@@ -99,12 +99,7 @@ export function PersonaPanel({ t }: { t: Translate }) {
       });
       setPersona(saved.persona);
       setBody(saved.persona.body);
-      setNotice(
-        t(
-          "Saved. Text and voice both use this persona. It does not confirm actions by itself.",
-          "已保存。文字和语音都会使用这段人格。它本身不会确认任何动作。",
-        ),
-      );
+      setNotice(t("Saved for text and voice.", "已保存，文字与语音共用。"));
     } catch (reason) {
       setError(reason);
     } finally {
@@ -138,12 +133,6 @@ export function PersonaPanel({ t }: { t: Translate }) {
         <Sparkles />
         <div>
           <h1>{t("Assistant style", "助理风格")}</h1>
-          <p>
-            {t(
-              "Choose how your assistant responds in text and voice. Actions still need your confirmation.",
-              "设定助理在文字和语音中的回应方式，实际操作仍然由你确认。",
-            )}
-          </p>
         </div>
       </div>
       <div className="persona-summary">

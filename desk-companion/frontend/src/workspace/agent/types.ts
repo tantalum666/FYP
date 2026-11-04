@@ -1,3 +1,4 @@
+import type { ComputerJob } from "../jobTypes";
 import type { VoiceGoalOrigin, VoiceOrigin } from "../voiceWork/types";
 import { browserReady } from "../browser/types.ts";
 import type { BrowserCapabilities, BrowserJob } from "../browser/types.ts";
@@ -78,6 +79,18 @@ export interface RunScope {
   business_context_allowed: boolean;
   browser?: BrowserCapabilities;
   connectors?: { tools: RunConnectorTool[]; scope_revision: string };
+  applications?: {
+    enabled: boolean;
+    configured: boolean;
+    scope: string;
+    permission_mode: "ask" | "full";
+    sources: {
+      source_id: string;
+      bytes: number;
+      sha256: string;
+      kind: "browser" | "text";
+    }[];
+  };
   personal_context?: RunContextCatalog;
 }
 export interface AgentRun {
@@ -177,6 +190,7 @@ export interface RunDetailResponse {
   events: { sequence: number; kind: string; at: string; details?: unknown }[];
   artifacts: ArtifactRecord[];
   browser_jobs?: BrowserJob[];
+  application_jobs?: ComputerJob[];
   proposals: {
     id: string;
     kind: string;
@@ -185,6 +199,9 @@ export interface RunDetailResponse {
   }[];
 }
 export interface RunCreateInput {
+  allow_application_jobs?: boolean;
+  application_source_ids?: string[];
+  application_job_budget?: number;
   voice_origin_ref?: string;
   goal: string;
   mode: RunMode;
@@ -207,6 +224,9 @@ export interface RunCreateInput {
   personal_context: RunPersonalSelection | null;
 }
 export interface RunDraft {
+  allow_application_jobs: boolean;
+  application_source_ids: string[];
+  application_job_budget: number;
   voice_origin_ref?: string;
   goal: string;
   mode: RunMode;
@@ -253,6 +273,9 @@ export function validWorkGoal(request: WorkGoalRequest | null | undefined) {
 }
 export function newRunDraft(initialGoal = ""): RunDraft {
   return {
+    allow_application_jobs: false,
+    application_source_ids: [],
+    application_job_budget: 6,
     goal: initialGoal,
     mode: "deterministic",
     source_ids: [],
@@ -330,7 +353,8 @@ export function prepareRun(
     draft.source_ids.length +
     draft.task_ids.length +
     draft.event_ids.length +
-    draft.browser_source_ids.length;
+    draft.browser_source_ids.length +
+    draft.application_source_ids.length;
   const validSelection = (
     ids: string[],
     choices: { id: string }[],
@@ -365,6 +389,29 @@ export function prepareRun(
         draft.browser_source_ids,
         scope.browser?.sources ?? [],
         2,
+      ))
+  )
+    return null;
+  if (
+    draft.allow_application_jobs &&
+    (draft.mode !== "model" ||
+      !draft.task_ids.length ||
+      draft.connector_tool_ids.length > 0 ||
+      !scope.applications?.enabled ||
+      !scope.applications.configured ||
+      !Number.isInteger(draft.application_job_budget) ||
+      draft.application_job_budget < 1 ||
+      draft.application_job_budget > 8)
+  )
+    return null;
+  if (
+    draft.application_source_ids.length &&
+    (!draft.allow_application_jobs ||
+      !draft.share ||
+      !validSelection(
+        draft.application_source_ids,
+        scope.applications?.sources.map((s) => ({ id: s.source_id })) ?? [],
+        10,
       ))
   )
     return null;
@@ -448,6 +495,13 @@ export function prepareRun(
   return {
     ...(draft.voice_origin_ref
       ? { voice_origin_ref: draft.voice_origin_ref }
+      : {}),
+    ...(draft.allow_application_jobs
+      ? {
+          allow_application_jobs: true,
+          application_source_ids: [...draft.application_source_ids],
+          application_job_budget: draft.application_job_budget,
+        }
       : {}),
     goal,
     mode: draft.mode,
@@ -549,6 +603,8 @@ export function exactTaskHandoffReady(
     !draft.personal_context.conversation_id &&
     !draft.share &&
     !draft.allow_mutation_proposals &&
+    !draft.allow_application_jobs &&
+    !draft.application_source_ids.length &&
     !draft.voice_origin_ref
   );
 }

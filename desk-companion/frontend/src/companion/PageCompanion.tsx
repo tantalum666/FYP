@@ -19,6 +19,7 @@ import { useWorkspace } from "../workspace/WorkspaceContext";
 import {
   clamp,
   anchoredGeometry,
+  avoidRegion,
   defaultPreference,
   edgeIntent,
   geometry,
@@ -100,12 +101,14 @@ export function PageCompanion({
   surface = "web",
   blocked = false,
   homeId,
+  avoidId,
   onOpenAssistant,
 }: {
   t: Translate;
   surface?: Surface;
   blocked?: boolean;
   homeId?: string;
+  avoidId?: string;
   onOpenAssistant: () => void;
 }) {
   const key = `desk.a1.page-companion.v1.${surface}`;
@@ -142,6 +145,34 @@ export function PageCompanion({
       window.removeEventListener("scroll", update);
     };
   }, [homeId, surface]);
+  const [avoid, setAvoid] = useState<CompanionAnchor | null>(null);
+  useLayoutEffect(() => {
+    const node = avoidId ? document.getElementById(avoidId) : null;
+    if (!node) {
+      setAvoid(null);
+      return;
+    }
+    const update = () => {
+      const rect = node.getBoundingClientRect();
+      const next =
+        rect.width && rect.height
+          ? { x: rect.x, y: rect.y, width: rect.width, height: rect.height }
+          : null;
+      setAvoid((old) =>
+        JSON.stringify(old) === JSON.stringify(next) ? old : next,
+      );
+    };
+    const observer = new ResizeObserver(update);
+    observer.observe(node);
+    window.addEventListener("resize", update);
+    window.addEventListener("scroll", update, { passive: true });
+    update();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", update);
+      window.removeEventListener("scroll", update);
+    };
+  }, [avoidId]);
   const { data } = useWorkspace();
   const [modalOpen, setModalOpen] = useState(false);
   const obscured = blocked || modalOpen;
@@ -201,7 +232,9 @@ export function PageCompanion({
       ? anchoredGeometry(preference.mode, anchor, view, ASPECT)
       : null;
   const atHome = !!homeGeometry;
-  const resting = homeGeometry ?? geometry(preference, view, surface, ASPECT);
+  const resting =
+    homeGeometry ??
+    avoidRegion(geometry(preference, view, surface, ASPECT), avoid);
   const moving = preference.motion && !reduced && visible && !obscured;
   const limit = scaleLimit(view, surface, ASPECT);
   const effectiveScale = Math.min(preference.scale, limit);
@@ -240,6 +273,7 @@ export function PageCompanion({
     store(pref.current);
   }
   function paint(g: Geometry) {
+    if (!atHome) g = avoidRegion(g, avoid);
     const node = root.current;
     if (!node) return;
     const values = {
@@ -275,7 +309,7 @@ export function PageCompanion({
   }
   useLayoutEffect(() => {
     paint(drag.current?.visual ?? resting);
-  }, [preference, view, previewMode, menu, anchor, preferHome]);
+  }, [preference, view, previewMode, menu, anchor, preferHome, avoid]);
   useEffect(() => {
     const change = () => {
       cancelDrag();

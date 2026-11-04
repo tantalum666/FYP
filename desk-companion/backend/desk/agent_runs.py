@@ -22,6 +22,7 @@ from .agent_run_schemas import (
     ToolReceipt,
 )
 from .agent_planner import build_plan, compose, decide
+from . import application_work
 from .agent_tools import (
     read_evidence,
     artifact_payloads,
@@ -143,6 +144,7 @@ class AgentRunService:
             "business_context_allowed": settings["share_business_context"],
             "browser": self.runtime.browser_jobs.capabilities(),
             "connectors": self._connector_catalog(),
+            "applications": application_work.catalog(self.runtime),
             "personal_context": self.context_bridge.catalog(session_hash=session),
         }
         result["scope_revision"] = fingerprint([result, self.runtime.personal_context.revision()])
@@ -166,6 +168,11 @@ class AgentRunService:
         if not row:
             raise DomainError("RUN_NOT_FOUND", 404)
         return {
+            "allow_application_jobs": False,
+            "application_source_ids": [],
+            "application_binding": None,
+            "application_job_ids": [],
+            "application_job_budget": 6,
             "browser_source_ids": [],
             "browser_public_only": False,
             "model_call_budget": 8,
@@ -299,6 +306,9 @@ class AgentRunService:
             "events": events,
             "artifacts": artifacts,
             "proposals": proposals,
+            "application_jobs": [
+                self.runtime.jobs.detail(i, review=True) for i in run.get("application_job_ids", [])
+            ],
             "browser_jobs": [
                 self.runtime.browser_jobs.detail(i, review=True)
                 for i in run.get("browser_job_ids", [])
@@ -314,6 +324,14 @@ class AgentRunService:
             request_data["start_paused"] = True
         if payload.voice_origin_ref is None:
             request_data.pop("voice_origin_ref")  # Preserve existing typed-create receipt hashes.
+        # New opt-in defaults do not change old creation receipt hashes.
+        if not payload.allow_application_jobs and not payload.application_source_ids:
+            for field in (
+                "allow_application_jobs",
+                "application_source_ids",
+                "application_job_budget",
+            ):
+                request_data.pop(field)
         request_hash = fingerprint(request_data)
         self._key(key)
         with self.lock:
@@ -362,6 +380,13 @@ class AgentRunService:
             run_id, now = uuid4().hex, iso(self.store.clock())
             run = request_data | {
                 "id": run_id,
+                "allow_application_jobs": payload.allow_application_jobs,
+                "application_source_ids": payload.application_source_ids,
+                "application_job_budget": payload.application_job_budget,
+                "application_binding": application_work.bind(
+                    self.runtime, payload, scope["applications"]
+                ),
+                "application_job_ids": [],
                 "connector_scope_revision": scope["connectors"]["scope_revision"],
                 "personal_context_binding": self.context_bridge.bind(
                     payload.personal_context,
@@ -439,6 +464,15 @@ class AgentRunService:
                 for i in scope["browser"]["sources"]
                 if i["id"] in payload.browser_source_ids
             )
+            run["available_evidence"].extend(
+                {
+                    "id": application_work.selected_id(s["source_id"]),
+                    "kind": "application",
+                    "record_id": s["source_id"],
+                    "label": s["source_id"],
+                }
+                for s in (run.get("application_binding") or {}).get("sources", [])
+            )
             if payload.mode == "deterministic":
                 run["plan"] = [label for _, label in build_plan(mutations)]
             self._authorize(run)
@@ -505,6 +539,7 @@ class AgentRunService:
             if current and current[0] != run["generation"]:
                 raise DomainError("RUN_CONTROL_CHANGED", 409)
         self.authority(run["session_hash"])
+        application_work.authorize(self.runtime, run)
         for source_id in run["source_ids"]:
             source = self.runtime.sources.metadata(source_id, session_hash=run["session_hash"])
             if source["status"] != "verified":
@@ -531,7 +566,9 @@ class AgentRunService:
                 "share_connector_results_with_provider"
             ):
                 raise DomainError("RUN_CONNECTOR_SHARING_NOT_APPROVED", 403)
-            if run["source_ids"] and not run["share_sources_with_provider"]:
+            if (run["source_ids"] or run.get("application_source_ids")) and not run[
+                "share_sources_with_provider"
+            ]:
                 raise DomainError("RUN_SOURCE_SHARING_NOT_APPROVED", 403)
             if (run["task_ids"] or run["event_ids"]) and not settings["share_business_context"]:
                 raise DomainError("PROVIDER_CONTEXT_NOT_APPROVED", 403)
@@ -615,7 +652,9 @@ class AgentRunService:
                 run["report_evidence"] = []
                 run["pending_reads"] = []
                 # Immutable files stay reusable; refresh changing application records.
-                run["evidence"] = [e for e in run["evidence"] if e["kind"] in {"source", "browser"}]
+                run["evidence"] = [
+                    e for e in run["evidence"] if e["kind"] in {"source", "browser", "application"}
+                ]
                 run["phase"] = "collect" if run["mode"] == "deterministic" else "decide"
                 run["plan"] = [] if run["mode"] == "model" else run["plan"]
                 run["state"], run["state_reason"] = "queued", None
@@ -738,6 +777,10 @@ class AgentRunService:
 
     def guard_operation(self, conn, key, request):
         """Installed by Runtime at Store's transaction boundary; legacy work unchanged."""
+        if request.get("type") == "computer_prepare":
+            application_work.guard_prepare(self.runtime, conn, key, request)
+        elif request.get("type") == "computer_approve":
+            application_work.guard_job(self.runtime, conn, request["id"])
         prefix = "assistant-confirm/"
         if not key.startswith(prefix):
             return
@@ -803,7 +846,7 @@ class AgentRunService:
                 rows = [
                     self._get(conn, r[0])
                     for r in conn.execute(
-                        "SELECT id FROM agent_runs WHERE state IN ('queued','running','waiting_review','waiting_input')"
+                        "SELECT id FROM agent_runs WHERE state IN ('queued','running','waiting_review','waiting_effect','waiting_input')"
                     )
                 ]
             for run in rows:
@@ -856,7 +899,7 @@ class AgentRunService:
             with self.lock, self.store.connection(write=True) as conn:
                 now = iso(self.store.clock())
                 row = conn.execute(
-                    "SELECT id FROM agent_runs WHERE state IN ('queued','running','waiting_review') AND (lease_until IS NULL OR lease_until<=?) ORDER BY updated_at,id LIMIT 1",
+                    "SELECT id FROM agent_runs WHERE state IN ('queued','running','waiting_review','waiting_effect') AND (lease_until IS NULL OR lease_until<=?) ORDER BY updated_at,id LIMIT 1",
                     (now,),
                 ).fetchone()
                 if not row:
@@ -895,7 +938,7 @@ class AgentRunService:
                 return self._dispatch_tool(run)
             if run.get("pending_reads"):
                 return self._batch_read(run)
-            if run["state"] == "waiting_review":
+            if run["state"] in {"waiting_review", "waiting_effect"}:
                 return self._review(run)
             if run["phase"] == "publish":
                 return self._publish(run)
@@ -1099,8 +1142,15 @@ class AgentRunService:
             )
         if run["tool_calls"] >= run["tool_call_budget"]:
             raise DomainError("RUN_TOOL_BUDGET_EXCEEDED", 422)
-        if adapter.effect and len(run["effects"]) >= 3:
-            raise DomainError("RUN_EFFECT_BUDGET_EXCEEDED", 422)
+        app_effects = sum(e.get("tool") == application_work.JOB_TOOL for e in run["effects"])
+        if adapter.effect:
+            used, limit = (
+                (app_effects, run.get("application_job_budget", 6))
+                if call.tool == application_work.JOB_TOOL
+                else (len(run["effects"]) - app_effects, 3)
+            )
+            if used >= limit:
+                raise DomainError("RUN_EFFECT_BUDGET_EXCEEDED", 422)
         self._authorize(run)
         with self.lock, self.store.connection(write=True) as conn:
             current = self._get(conn, run["id"])
@@ -1178,6 +1228,9 @@ class AgentRunService:
                     "request_index": None,
                 }
             )
+        application_id = record["result"].get("application_job_id")
+        if application_id and application_id not in run.setdefault("application_job_ids", []):
+            run["application_job_ids"].append(application_id)
         browser_id = record["result"].get("browser_job_id")
         if browser_id and browser_id not in run["browser_job_ids"]:
             run["browser_job_ids"].append(browser_id)
@@ -1208,7 +1261,15 @@ class AgentRunService:
                 )
                 self._link_tool(run, intent, receipt)
                 run["pending_tool"] = None
-                run["state"], run["state_reason"] = "waiting_review", "RUN_REVIEW_REQUIRED"
+                needs_review = (
+                    intent["tool"] != application_work.JOB_TOOL
+                    or receipt["result"].get("child_state") == "review"
+                )
+                run["state"], run["state_reason"] = (
+                    ("waiting_review", "RUN_REVIEW_REQUIRED")
+                    if needs_review
+                    else ("waiting_effect", "RUN_APPLICATION_RUNNING")
+                )
                 return self._checkpoint(
                     run,
                     "tool_prepared",
@@ -1235,6 +1296,8 @@ class AgentRunService:
         selected = (
             run.get("browser_source_ids", [])
             if value["kind"] == "browser"
+            else run.get("application_source_ids", [])
+            if value["kind"] == "application"
             else run.get("connector_tool_ids", [])
         )
         if value["record_id"] not in selected:
@@ -1270,8 +1333,15 @@ class AgentRunService:
             try:
                 adapter = self._tool_adapter(receipt, run)
                 if adapter.effect:
-                    adapter.cancel(self.runtime, run, receipt)
-                    result = self._verify_effect(run, receipt)
+                    result = adapter.cancel(self.runtime, run, receipt)
+                    if result is None:
+                        result = self._verify_effect(run, receipt)
+                    elif (
+                        result.get("state")
+                        not in {"pending", "verified", "observed", "unknown", "rejected"}
+                        or len(encode(result).encode()) > 24000
+                    ):
+                        raise DomainError("RUN_TOOL_RESULT_INVALID", 422)
                     for effect in run["effects"]:
                         if effect.get("operation_key") == receipt["operation_key"]:
                             effect.update(result)
@@ -1316,7 +1386,7 @@ class AgentRunService:
         return self._read(run, entry["selected"], entry["start_line"], entry["max_lines"])
 
     def _propose(self, run, mutation, index):
-        if len(run["effects"]) >= 3:
+        if sum(e.get("tool") != application_work.JOB_TOOL for e in run["effects"]) >= 3:
             raise DomainError("RUN_EFFECT_BUDGET_EXCEEDED", 422)
         self._authorize(run)
         with self.lock, self.store.connection(write=True) as conn:
@@ -1381,6 +1451,20 @@ class AgentRunService:
             if result["state"] == "pending":
                 # Polling is read-only except the lease; no model calls or event flood.
                 with self.store.connection(write=True) as conn:
+                    if effect.get("tool") == application_work.JOB_TOOL:
+                        next_state = (
+                            "waiting_review"
+                            if result.get("child_state") == "review"
+                            else "waiting_effect"
+                        )
+                        if run["state"] != next_state:
+                            run["state"] = next_state
+                            run["state_reason"] = (
+                                "RUN_REVIEW_REQUIRED"
+                                if next_state == "waiting_review"
+                                else "RUN_APPLICATION_RUNNING"
+                            )
+                            self._save(conn, run, "application_wait")
                     conn.execute(
                         "UPDATE agent_runs SET lease_until=? WHERE id=? AND generation=?",
                         (
@@ -1445,7 +1529,7 @@ class AgentRunService:
                 and any(e["coverage"].get("truncated") for e in matches)
             ):
                 unmet.append({"code": "RUN_APP_EVIDENCE_PARTIAL", "evidence_id": selected["id"]})
-            if selected["kind"] == "source":
+            if selected["kind"] in {"source", "application"}:
                 ranges = []
                 for e in matches:
                     coverage = (

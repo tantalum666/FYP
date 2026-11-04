@@ -96,11 +96,11 @@ export function DataPanel({ t }: { t: Translate }) {
   }
   return (
     <div className="workspace-panel data-panel">
-      <h3>{t("Bring your calendars together", "整理你的日历")}</h3>
+      <h3>{t("Calendar files", "日历文件")}</h3>
       <p>
         {t(
-          "Preview a file before making changes. Imported events are private and reminders start off.",
-          "导入前先检查预览。导入事项默认私人且不启用提醒。",
+          "Choose a file to preview before importing.",
+          "选择文件，预览后再导入。",
         )}
       </p>
       <div className="workspace-form-grid">
@@ -123,12 +123,15 @@ export function DataPanel({ t }: { t: Translate }) {
           />
         </label>
       </div>
-      <p className="workspace-hint">
-        {t(
-          "ICS imports expand recurring events into individual entries within this range (up to 62 days). Future occurrences require another import.",
-          "ICS导入会将最多62天内的重复事项展开为单次记录，更远的事项需再次导入。",
-        )}
-      </p>
+      <details className="workspace-details">
+        <summary>{t("Import rules", "导入说明")}</summary>
+        <p className="workspace-hint">
+          {t(
+            "ICS imports expand recurring events into individual entries within this range (up to 62 days). Future occurrences require another import.",
+            "ICS导入会将最多62天内的重复事项展开为单次记录，更远的事项需再次导入。",
+          )}
+        </p>
+      </details>
       <div className="workspace-inline-actions">
         <label className="secondary file-choice">
           <Upload size={17} />
@@ -156,12 +159,12 @@ export function DataPanel({ t }: { t: Translate }) {
         )}
       </div>
       {owner && (
-        <section className="workspace-section">
-          <h3>Google Calendar</h3>
+        <details className="workspace-details">
+          <summary>Google Calendar</summary>
           <p>
             {t(
-              "Read your primary calendar into a local copy. Each refresh is previewed before applying. Changes here do not update Google, and remote deletions do not delete your local copy.",
-              "读取主要日历为本地副本，每次更新先预览再应用。本地修改不会写回Google，远端删除也不会自动删除本地副本。",
+              "Import a copy of your Google calendar. Changes here do not sync back.",
+              "导入 Google 日历副本，本地修改不会同步回去。",
             )}
           </p>
           <div className="workspace-inline-actions">
@@ -239,16 +242,24 @@ export function DataPanel({ t }: { t: Translate }) {
           {!google?.configured && (
             <p className="workspace-hint">
               {t(
-                "Google connection settings have not been configured on this desk. File import works independently.",
-                "本设备尚未配置Google连接信息，文件导入仍可使用。",
+                "Google connection is not configured.",
+                "尚未配置 Google 连接。",
               )}
             </p>
           )}
-        </section>
+        </details>
       )}
       {preview && (
         <section className="workspace-section">
           <h3>{t("Review import", "检查导入")}</h3>
+          {preview.kind !== "backup" && (
+            <p>
+              {t(
+                "New events are private, with reminders off.",
+                "新增事项默认私人，提醒关闭。",
+              )}
+            </p>
+          )}
           <p>
             {preview.rows.length} {t("entries", "项")} ·{" "}
             {preview.rows.filter((r) => r.status === "new").length}{" "}
@@ -354,10 +365,10 @@ export function DataPanel({ t }: { t: Translate }) {
       )}
       {owner ? (
         <>
-          <section className="workspace-section">
-            <h3>
+          <details className="workspace-details">
+            <summary>
               <FileClock size={18} /> {t("Backup & recovery", "备份与恢复")}
-            </h3>
+            </summary>
             <p>
               {t(
                 "Backups contain calendar details, tasks and their latest 20 progress records, saved facts, plus settings. Login and provider secrets are excluded. Store the file privately.",
@@ -388,11 +399,11 @@ export function DataPanel({ t }: { t: Translate }) {
                 />
               </label>
             </div>
-          </section>
-          <section className="workspace-section">
-            <h3>
+          </details>
+          <details className="workspace-details">
+            <summary>
               <Link2 size={18} /> {t("Share a date range", "分享一段日期")}
-            </h3>
+            </summary>
             <p>
               {t(
                 "Uses the dates above, up to 31 days. Anyone with the link can read the chosen view until it expires in seven days. They must be able to reach this desk’s address.",
@@ -482,7 +493,7 @@ export function DataPanel({ t }: { t: Translate }) {
                 </div>
               ))}
             </div>
-          </section>
+          </details>
         </>
       ) : (
         <p className="workspace-hint">

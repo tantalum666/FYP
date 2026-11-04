@@ -1,0 +1,21 @@
+{
+  "repository": "tantalum666/FYP",
+  "branch": "codex/personal-agent-cross-app-20261031",
+  "base_commit": "dac527b386c268caa96d9388d0c11d206b4f6856",
+  "status": "published_local_validation_complete",
+  "merged": false,
+  "ci_used": false,
+  "paid_model_calls": 0,
+  "pi_work": "paused",
+  "source_commit": "b277cefc75adcd5dc341d61b20a4a0c83824e237",
+  "pr": 74,
+  "url": "https://github.com/tantalum666/FYP/pull/74",
+  "draft": true,
+  "remote_head_verified": true,
+  "original_worktree_routing": {
+    "branch": "codex/pi-home-resume-20261031",
+    "pause_commit": "1cad1df",
+    "active_software_pr": 74,
+    "hardware_actions": 0
+  }
+}

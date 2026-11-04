@@ -317,3 +317,20 @@
   flex-wrap: wrap;
   gap: 0.5rem;
 }
+
+/* On phones, detail replaces the list instead of repeating every goal above it. */
+.work-list-back {
+  display: none;
+}
+@media (max-width: 849px) {
+  .agent-layout.is-selected > .agent-run-list {
+    display: none;
+  }
+  .work-list-back {
+    display: inline-flex;
+    margin-bottom: 10px;
+  }
+  .work-selection-hint {
+    display: none;
+  }
+}

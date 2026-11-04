@@ -1,0 +1,10 @@
+{
+  "run_count": 1,
+  "run_state": "cancelled",
+  "job_states": [
+    "succeeded",
+    "cancelled"
+  ],
+  "mobile_download_sha_matches": true,
+  "document_published": false
+}

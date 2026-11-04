@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DateTime } from "luxon";
 import {
   Bell,
+  Menu,
+  MessageSquare,
   CalendarDays,
   FileText,
   Globe,
@@ -45,7 +47,7 @@ import { PersonaPanel } from "./workspace/PersonaPanel";
 import { TaskPanel } from "./workspace/TaskPanel";
 import { DataPanel } from "./workspace/DataPanel";
 import { PageCompanion } from "./companion/PageCompanion";
-import { AssistantPanel } from "./workspace/AssistantPanel";
+import { ConversationWorkspace } from "./workspace/ConversationWorkspace";
 import { ExtrasPanel } from "./workspace/ExtrasPanel";
 import { PosturePanel } from "./workspace/PosturePanel";
 import { ConnectionsPanel } from "./workspace/ConnectionsPanel";
@@ -57,6 +59,7 @@ import { classifyFailure } from "./surfaceStatus";
 import { failureNotice, loadingNotice, offlineNotice } from "./surfaceNotice";
 
 const nav = [
+  { id: "assistant", en: "Chat", zh: "对话", Icon: MessageSquare },
   { id: "today", en: "Today", zh: "今天", Icon: House },
   { id: "calendar", en: "Calendar", zh: "日历", Icon: CalendarDays },
   { id: "tasks", en: "Tasks", zh: "事务", Icon: ListTodo },
@@ -85,7 +88,7 @@ export function App() {
   const [page, setPage] = useState<Page>(() =>
     nav.some((n) => n.id === query.get("page"))
       ? (query.get("page") as Page)
-      : "today",
+      : "assistant",
   );
   const [view, setView] = useState<View>(() =>
     ["day", "week", "month"].includes(query.get("view") ?? "")
@@ -128,44 +131,26 @@ export function App() {
   const [workspacePanel, setWorkspacePanel] = useState<
     "posture" | "connections" | "extras" | "data" | null
   >(null);
-  const [assistantOpen, setAssistantOpen] = useState(false);
+  const [navigationOpen, setNavigationOpen] = useState(false);
+  const [chatState, setChatState] = useState({ dirty: false, busy: false });
   const [assistantTask, setAssistantTask] = useState<{
     id: string;
     title: string;
   }>();
   useEffect(() => {
-    if (session === null) {
-      setAssistantOpen(false);
-      setAssistantTask(undefined);
-    }
+    if (session === null) setAssistantTask(undefined);
   }, [session]);
-  const [wideWorkspace, setWideWorkspace] = useState(
-    () => matchMedia("(min-width: 1200px)").matches,
-  );
-  const assistantDocked = assistantOpen && wideWorkspace;
-  const openAssistant = () => {
-    if (!assistantOpen) setAssistantTask(undefined);
-    setAssistantOpen(true);
-  };
+  const openAssistant = () => goPage("assistant");
   const discussTask = (id: string, title: string) => {
-    if (assistantOpen && assistantTask?.id !== id) {
+    if (chatState.busy) {
       setNotice(
-        t(
-          "Close the current assistant before starting a task discussion.",
-          "请先关闭当前助理，再开始这件事务的讨论。",
-        ),
+        t("Wait for the current reply first.", "请先等待当前回复结束。"),
       );
       return;
     }
     setAssistantTask({ id, title });
-    setAssistantOpen(true);
+    goPage("assistant");
   };
-  useEffect(() => {
-    const media = matchMedia("(min-width: 1200px)");
-    const update = () => setWideWorkspace(media.matches);
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
   const zone =
     snapshot?.settings.timezone ??
     session?.settings.timezone ??
@@ -312,14 +297,24 @@ export function App() {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [page]);
 
+  function closeNavigation() {
+    setNavigationOpen(false);
+    document
+      .querySelector<HTMLButtonElement>(".workspace-menu-toggle")
+      ?.focus();
+  }
   function goPage(p: Page) {
-    if (p === page) return;
+    if (p === page) {
+      closeNavigation();
+      return;
+    }
     if (draftState.busy) return;
     if (draftState.dirty) {
       setLeavePage(p);
       return;
     }
     setPage(p);
+    if (navigationOpen) closeNavigation();
     setError(null);
   }
   function selectDay(d: DateTime) {
@@ -340,11 +335,11 @@ export function App() {
     setPickerDate(dayISO(next));
   }
   async function logout() {
-    if (assistantOpen) {
+    if (chatState.dirty || chatState.busy) {
       setNotice(
         t(
-          "Close the assistant before signing out.",
-          "请先关闭助理，再退出登录。",
+          "Finish the current reply or unsent message before signing out.",
+          "退出前请先处理当前回复或未发送的消息。",
         ),
       );
       return;
@@ -418,21 +413,27 @@ export function App() {
     snapshot?.reminders.filter((r) => r.status === "due").length ?? 0;
   return (
     <div
-      className={`app-shell ${deviceLayout ? "device-layout" : ""} ${assistantDocked ? "assistant-docked" : ""}`}
+      className={`app-shell conversation-shell ${deviceLayout ? "device-layout" : ""} ${navigationOpen ? "navigation-open" : ""}`}
+      onKeyDown={(event) => {
+        if (
+          navigationOpen &&
+          event.key === "Escape" &&
+          !event.defaultPrevented
+        ) {
+          event.preventDefault();
+          closeNavigation();
+        }
+      }}
     >
       <aside className="sidebar">
-        <div className="app-name">
-          Desk
-          <br />
-          Companion
-        </div>
+        <div className="app-name">Desk Companion</div>
         <div className="sidebar-scroll">
           <nav aria-label={t("Main navigation", "主导航")}>
             {pages.map(({ id, en, zh, Icon }, index) => (
               <div className="sidebar-nav-item" key={id}>
-                {(index === 3 || index === 5) && (
+                {(index === 4 || index === 6) && (
                   <p className="sidebar-group-label">
-                    {index === 3
+                    {index === 4
                       ? t("Assistant", "助理")
                       : t("Workspace", "工作空间")}
                   </p>
@@ -531,24 +532,49 @@ export function App() {
       </div>
       <main className={`main-content page-${page}`}>
         <div className="workspace-topbar">
-          <span className={`workspace-connection ${connection}`} role="status">
-            <i aria-hidden="true" />
-            {connection === "online"
-              ? t("Desk connected", "已连接桌面")
-              : connection === "offline"
-                ? t("Desk offline", "桌面已离线")
-                : t("Connecting to desk…", "正在连接桌面…")}
-          </span>
-          <div className="workspace-topbar-actions">
+          <div className="workspace-topbar-title">
             <button
-              className="assistant-open"
-              onClick={openAssistant}
-              aria-label={t("Open assistant", "打开助理")}
-              aria-expanded={assistantOpen}
+              className="icon-button workspace-menu-toggle"
+              aria-label={t("Navigation", "导航")}
+              aria-expanded={navigationOpen}
+              onClick={() => {
+                if (navigationOpen) closeNavigation();
+                else {
+                  setNavigationOpen(true);
+                  requestAnimationFrame(() =>
+                    document
+                      .querySelector<HTMLButtonElement>(".sidebar nav button")
+                      ?.focus(),
+                  );
+                }
+              }}
             >
-              <Sparkles size={18} />
-              <span>{t("Assistant", "助理")}</span>
+              <Menu size={20} />
             </button>
+            {page === "assistant" && <h1>Alice</h1>}
+            <span
+              className={`workspace-connection ${connection}`}
+              role="status"
+            >
+              <i aria-hidden="true" />
+              {connection === "online"
+                ? t("Desk connected", "已连接桌面")
+                : connection === "offline"
+                  ? t("Desk offline", "桌面已离线")
+                  : t("Connecting to desk…", "正在连接桌面…")}
+            </span>
+          </div>
+          <div className="workspace-topbar-actions">
+            {page !== "assistant" && (
+              <button
+                className="assistant-open"
+                onClick={openAssistant}
+                aria-label={t("Open assistant", "打开助理")}
+              >
+                <Sparkles size={18} />
+                <span>{t("Chat", "对话")}</span>
+              </button>
+            )}
             <button
               className={`reminder-button ${dueCount ? "has-due" : ""}`}
               aria-label={t("Open reminders", "打开提醒")}
@@ -582,150 +608,177 @@ export function App() {
           failureNotice(errorText(error, t), t("Dismiss", "关闭"), () =>
             setError(null),
           )}
-        {!visible ? (
-          <div className="app-loading">
-            <LoaderCircle className="spinner" />
-            <span>{t("Loading your workspace…", "正在读取工作空间…")}</span>
-            {connection === "offline" && (
-              <button className="secondary" onClick={refresh}>
-                {t("Retry", "重试")}
-              </button>
-            )}
-          </div>
-        ) : (
-          <>
-            {page === "calendar" && (
-              <>
-                <CalendarToolbar
-                  anchor={anchor}
-                  view={view}
-                  setView={setView}
-                  onNavigate={navigate}
-                  onToday={() => {
-                    setAnchorDate(dayISO(today));
-                    setPickerDate(dayISO(today));
-                  }}
-                  onNew={newEvent}
-                  language={language}
+        <ConversationWorkspace
+          t={t}
+          visible={page === "assistant"}
+          suspended={
+            page !== "assistant" ||
+            !!workspacePanel ||
+            !!editor ||
+            !!detail ||
+            showReminders
+          }
+          taskId={assistantTask?.id}
+          taskTitle={assistantTask?.title}
+          onClearTask={() => setAssistantTask(undefined)}
+          onStateChange={setChatState}
+        />
+        {page !== "assistant" &&
+          (!visible ? (
+            <div className="app-loading">
+              <LoaderCircle className="spinner" />
+              <span>{t("Loading your workspace…", "正在读取工作空间…")}</span>
+              {connection === "offline" && (
+                <button className="secondary" onClick={refresh}>
+                  {t("Retry", "重试")}
+                </button>
+              )}
+            </div>
+          ) : (
+            <>
+              {page === "calendar" && (
+                <>
+                  <CalendarToolbar
+                    anchor={anchor}
+                    view={view}
+                    setView={setView}
+                    onNavigate={navigate}
+                    onToday={() => {
+                      setAnchorDate(dayISO(today));
+                      setPickerDate(dayISO(today));
+                    }}
+                    onNew={newEvent}
+                    language={language}
+                    zone={zone}
+                    t={t}
+                  />
+                  <div className="calendar-surface">
+                    {view === "month" ? (
+                      <MonthGrid
+                        anchor={anchor}
+                        events={visible.occurrences}
+                        zone={zone}
+                        language={language}
+                        onOpen={setDetail}
+                        onDay={selectDay}
+                        t={t}
+                      />
+                    ) : (
+                      <TimeGrid
+                        anchor={anchor}
+                        view={view}
+                        events={visible.occurrences}
+                        zone={zone}
+                        language={language}
+                        initialHour={scrollHour}
+                        onOpen={setDetail}
+                        onDay={selectDay}
+                        t={t}
+                      />
+                    )}
+                  </div>
+                </>
+              )}
+              {page === "today" && (
+                <>
+                  <MomentCard t={t} />
+                  <TodayView
+                    snapshot={visible}
+                    language={language}
+                    now={now.setZone(zone)}
+                    onNew={newEvent}
+                    onOpen={setDetail}
+                    onCalendar={() => {
+                      setAnchorDate(dayISO(today));
+                      goPage("calendar");
+                      setView("day");
+                    }}
+                    onDevice={() => goPage("device")}
+                    onTasks={() => goPage("tasks")}
+                    t={t}
+                  />
+                </>
+              )}
+              {page === "tasks" && (
+                <TaskPanel
+                  t={t}
                   zone={zone}
-                  t={t}
+                  onDiscuss={discussTask}
+                  onPlan={(event) =>
+                    setEditor({ initial: event, scope: "series" })
+                  }
                 />
-                <div className="calendar-surface">
-                  {view === "month" ? (
-                    <MonthGrid
-                      anchor={anchor}
-                      events={visible.occurrences}
-                      zone={zone}
-                      language={language}
-                      onOpen={setDetail}
-                      onDay={selectDay}
-                      t={t}
-                    />
-                  ) : (
-                    <TimeGrid
-                      anchor={anchor}
-                      view={view}
-                      events={visible.occurrences}
-                      zone={zone}
-                      language={language}
-                      initialHour={scrollHour}
-                      onOpen={setDetail}
-                      onDay={selectDay}
-                      t={t}
-                    />
-                  )}
+              )}
+              {page === "memory" && (
+                <div className="standard-page management-view workspace-panel">
+                  <MemoryPanel t={t} />
                 </div>
-              </>
-            )}
-            {page === "today" && (
-              <>
-                <MomentCard t={t} />
-                <TodayView
-                  snapshot={visible}
+              )}
+              {page === "persona" && (
+                <div className="standard-page management-view workspace-panel">
+                  <PersonaPanel t={t} />
+                </div>
+              )}
+              {page === "records" && (
+                <RecordsView
+                  revision={visible.revision}
+                  zone={zone}
                   language={language}
-                  now={now.setZone(zone)}
-                  onNew={newEvent}
-                  onOpen={setDetail}
-                  onCalendar={() => {
-                    setAnchorDate(dayISO(today));
-                    goPage("calendar");
-                    setView("day");
-                  }}
-                  onDevice={() => goPage("device")}
-                  onTasks={() => goPage("tasks")}
                   t={t}
                 />
-              </>
-            )}
-            {page === "tasks" && (
-              <TaskPanel
-                t={t}
-                zone={zone}
-                onDiscuss={discussTask}
-                onPlan={(event) =>
-                  setEditor({ initial: event, scope: "series" })
-                }
-              />
-            )}
-            {page === "memory" && (
-              <div className="standard-page management-view workspace-panel">
-                <MemoryPanel t={t} />
-              </div>
-            )}
-            {page === "persona" && (
-              <div className="standard-page management-view workspace-panel">
-                <PersonaPanel t={t} />
-              </div>
-            )}
-            {page === "records" && (
-              <RecordsView
-                revision={visible.revision}
-                zone={zone}
-                language={language}
-                t={t}
-              />
-            )}
-            {page === "device" && (
-              <DeviceView
-                settings={visible.settings}
-                language={language}
-                setLanguage={setLanguage}
-                onSaved={refresh}
-                onLogout={logout}
-                localPreview={session.local_preview}
-                onDeviceLayout={() =>
-                  window.open(
-                    "/?surface=device&page=today",
-                    "_blank",
-                    "noopener",
-                  )
-                }
-                t={t}
-                onOpenWorkspace={(panel) =>
-                  panel === "assistant"
-                    ? openAssistant()
-                    : setWorkspacePanel(panel)
-                }
-              />
-            )}
-            {page === "diagnostics" && (
-              <DiagnosticsPanel t={t} language={language} />
-            )}
-          </>
-        )}
+              )}
+              {page === "device" && (
+                <DeviceView
+                  settings={visible.settings}
+                  language={language}
+                  setLanguage={setLanguage}
+                  onSaved={refresh}
+                  onLogout={logout}
+                  localPreview={session.local_preview}
+                  onDeviceLayout={() =>
+                    window.open(
+                      "/?surface=device&page=today",
+                      "_blank",
+                      "noopener",
+                    )
+                  }
+                  t={t}
+                  onOpenWorkspace={(panel) =>
+                    panel === "assistant"
+                      ? openAssistant()
+                      : setWorkspacePanel(panel)
+                  }
+                />
+              )}
+              {page === "diagnostics" && (
+                <DiagnosticsPanel t={t} language={language} />
+              )}
+            </>
+          ))}
       </main>
+      {navigationOpen && (
+        <button
+          className="workspace-nav-scrim"
+          aria-label={t("Close navigation", "关闭导航")}
+          onClick={closeNavigation}
+        />
+      )}
       <nav className="bottom-nav" aria-label={t("Main navigation", "主导航")}>
-        {pages.map(({ id, en, zh, Icon }) => (
-          <button
-            key={id}
-            onClick={() => goPage(id)}
-            className={page === id ? "selected" : ""}
-            aria-current={page === id ? "page" : undefined}
-          >
-            <Icon />
-            {t(en, zh)}
-          </button>
-        ))}
+        {pages
+          .filter(({ id }) =>
+            ["assistant", "calendar", "tasks", "device"].includes(id),
+          )
+          .map(({ id, en, zh, Icon }) => (
+            <button
+              key={id}
+              onClick={() => goPage(id)}
+              className={page === id ? "selected" : ""}
+              aria-current={page === id ? "page" : undefined}
+            >
+              <Icon />
+              {t(en, zh)}
+            </button>
+          ))}
       </nav>
       {leavePage && (
         <Modal
@@ -826,37 +879,12 @@ export function App() {
           )}
         </Modal>
       )}
-      {assistantOpen && (
-        <Modal
-          title={t("Assistant", "助理")}
-          closeLabel={t("Close assistant", "关闭助理")}
-          onClose={() => {
-            setAssistantOpen(false);
-            setAssistantTask(undefined);
-          }}
-          wide
-          docked={assistantDocked}
-          className="assistant-dialog"
-        >
-          <AssistantPanel
-            t={t}
-            taskId={assistantTask?.id}
-            taskTitle={assistantTask?.title}
-          />
-        </Modal>
-      )}
       <PageCompanion
         t={t}
         homeId="web-companion-home"
+        avoidId="desktop-chat-composer"
         blocked={
-          !!(
-            workspacePanel ||
-            editor ||
-            detail ||
-            showReminders ||
-            leavePage ||
-            (assistantOpen && !assistantDocked)
-          )
+          !!(workspacePanel || editor || detail || showReminders || leavePage)
         }
         onOpenAssistant={openAssistant}
       />

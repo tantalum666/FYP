@@ -1,0 +1,15 @@
+{
+  "pull_request": "https://github.com/tantalum666/FYP/pull/75",
+  "state": "open",
+  "draft": true,
+  "merged": false,
+  "base_branch": "codex/personal-agent-cross-app-20261031",
+  "base_sha": "89f215ec8af5f841072337cc9a17217d82a85e56",
+  "source_commit": "752ab66095cde19e2b11807de17875725ab97a39",
+  "verified_remote_source_head": "752ab66095cde19e2b11807de17875725ab97a39",
+  "frontend_tree": "8c1e7ce1b22c785bc2f4b257a787584c060e4790",
+  "verification": "303 frontend tests; TypeScript and Vite build; actual scoped web/phone checks",
+  "ci_used": false,
+  "models_called": 0,
+  "receipt_followup": "Documentation-only publication record; application source unchanged."
+}

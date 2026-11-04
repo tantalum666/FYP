@@ -1,0 +1,17 @@
+# Group 2 · Personal agent cross-application continuation
+
+Owner instruction 31 October: pause Pi and resume personal-agent implementation, especially cross-application work, reusing PR5 and expanding Dot/Muse/Grok research as needed. Branch codex/personal-agent-cross-app-20261031 starts from verified origin/main dac527b; Pi PR73 remains separate. No new paid-model budget or CI.
+
+Focused reads: current AGENTS/product/handoff, recent decision-log Pi/PR5/application sections; research/personal-agent-research-index.md full; pr5-integration.md, application-execution.md, agent-loop-handoff.md full; agent-runs.md core persistence/registry sections; source AgentRunService, AgentToolAdapter, planner/schemas/runtime, application models, JobService preparation/approval/run/reconcile/readback, PermissionService; frontend composer/types/detail scope still in progress. build-agents skill applies established-stack exception. Prior dedicated FYP key authorization remains; no new key or API request is needed for offline protocol checks.
+
+Official source refresh: xAI computer-and-apps and skills-routines-and-automations; Meta Muse security article (VM, connector/browser broker, independent action boundary, user takeover); OpenAI Your dot tasks-and-memory (ongoing responsibilities, selected background context, pause/resume, result review). These are public mechanisms, not private internals or reproduced quality.
+
+Selected implementation: connect existing durable Work registry to current application executor. Explicit application scope and selected input hashes; real Calc/Writer/PDF jobs on the existing queue; exact job receipt recovery, current permissions and parent-run fences; bounded model continuation after independent readback. Add owner UI selection and linked current job cards. Keep ordinary chat/voice compatibility and avoid a parallel task or queue system.
+
+Checks planned: offline planner through real services (scope/changed source/foreign job/cancel/pause/privacy/unknown receipt/restart/full-permission revocation), real isolated office flow with scripted planner and changed constraints, web/phone review and recovery. Model decisions in these checks are scripted and must never be reported as live autonomous model acceptance. General web interactions and authenticated external accounts remain later gates.
+
+Status: implementation,1701backend/303frontend checks, real-app flow with offline decisions, PDF rendering and web/393px phone checks completed; preparing publication. Pi not contacted or restarted; the old local tunnel had already timed out and was left stopped.
+
+Additional actual reads: completed relevant AgentRunService lifecycle/decision/effect/review/outcome sections, application executor/bridge and test fixtures; complete edited new adapter/fixture modules; RunComposer/types/RunDetail selection/control/review sections, shared job card/request contract and mutation queue. Read React best-practices and PDF skills; used CUA only for UI, Poppler for both PDF pages. No claim that all historical Markdown was reread.
+
+Verification setup corrections retained: missing fixture privacy flags corrected; unsupported direct API8861 asset origin switched to supported Vite5191 without broadening policy; system Python SQLite inspection failed, so inspected the synthetic DB with the project environment; these are separate from product failures. Actual product failures fixed: returned default/idempotency mismatch and LibreOffice formula syntax.

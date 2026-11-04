@@ -1,0 +1,246 @@
+/* Desktop conversation is a page, never a width-dependent dialog. */
+.conversation-shell {
+  grid-template-columns: 208px minmax(0, 1fr);
+}
+.conversation-shell .app-name {
+  font-size: 18px;
+  letter-spacing: -0.5px;
+  line-height: 1.3;
+}
+.conversation-shell .sidebar {
+  padding: 20px 10px 12px;
+}
+.conversation-shell .sidebar nav button {
+  font-size: 13px;
+  min-height: 38px;
+  padding: 8px 10px;
+}
+.conversation-shell .sidebar nav svg {
+  width: 19px;
+  height: 19px;
+}
+.conversation-shell .sidebar-group-label {
+  padding-top: 14px;
+}
+.conversation-shell .sidebar-companion-home {
+  height: clamp(140px, 24dvh, 210px);
+}
+.conversation-shell > .main-content.page-assistant {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  min-width: 0;
+  overflow: hidden;
+}
+.workspace-topbar-title {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+.conversation-shell .workspace-topbar {
+  min-height: 58px;
+  padding: 8px 24px;
+  flex-shrink: 0;
+}
+.workspace-topbar-title h1 {
+  font-size: 19px;
+  letter-spacing: -0.4px;
+}
+.workspace-menu-toggle {
+  display: none;
+}
+.conversation-workspace {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  padding: 8px clamp(16px, 4vw, 64px) 18px;
+}
+.conversation-workspace[hidden] {
+  display: none;
+}
+.conversation-workspace > .assistant-panel {
+  width: min(100%, 820px);
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.conversation-workspace .assistant-toolbar {
+  flex-shrink: 0;
+  gap: 12px;
+}
+.conversation-workspace .assistant-new-chat {
+  margin-right: auto;
+  font-size: 12px;
+  min-height: 36px;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+.conversation-workspace .assistant-chat {
+  flex: 1;
+  height: auto;
+  min-height: 0;
+}
+.conversation-workspace .assistant-conversation {
+  padding: 12px 4px 24px;
+}
+.conversation-workspace .assistant-welcome {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px 0;
+}
+.conversation-workspace .assistant-welcome h3 {
+  font-size: clamp(22px, 2.4vw, 30px);
+  line-height: 1.35;
+}
+.conversation-workspace .assistant-welcome p {
+  font-size: 13px;
+  margin: 0;
+}
+.conversation-workspace .assistant-starters {
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  gap: 8px;
+  justify-content: center;
+}
+.conversation-workspace .assistant-starters button {
+  font-size: 12px;
+  padding: 8px 13px;
+  min-height: 36px;
+  border-radius: 20px;
+}
+.conversation-shell .assistant-composer {
+  border-radius: 20px;
+  padding: 10px 12px;
+  align-items: flex-end;
+}
+.conversation-shell .assistant-composer .assistant-camera {
+  order: 2;
+}
+.conversation-shell .assistant-composer-actions > button:last-child {
+  order: 3;
+}
+.conversation-workspace .assistant-secondary {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+}
+.conversation-workspace .assistant-turn {
+  max-width: 100%;
+  font-size: 15px;
+}
+.conversation-workspace .assistant-turn.user {
+  max-width: 85%;
+}
+.conversation-shell .main-content > .standard-page h1 {
+  font-size: 28px;
+}
+.conversation-shell .main-content > .standard-page {
+  padding-top: 24px;
+}
+.workspace-nav-scrim {
+  display: none;
+}
+@media (min-width: 761px) and (max-width: 1100px) {
+  .conversation-shell {
+    grid-template-columns: 184px minmax(0, 1fr);
+  }
+  .conversation-shell .sidebar nav button {
+    font-size: 12px;
+    gap: 9px;
+  }
+  .conversation-shell .app-name {
+    font-size: 16px;
+  }
+  .conversation-shell .workspace-topbar {
+    padding-inline: 18px;
+  }
+}
+@media (max-width: 760px) {
+  .conversation-shell {
+    display: block;
+    padding-bottom: 64px;
+  }
+  .conversation-shell > .mobile-top {
+    display: none;
+  }
+  .conversation-shell > .main-content.page-assistant {
+    height: calc(100dvh - 64px);
+  }
+  .conversation-shell .workspace-topbar {
+    min-height: 52px;
+    padding-inline: 12px;
+  }
+  .workspace-topbar-title {
+    gap: 10px;
+  }
+  .workspace-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+  }
+  .page-assistant .workspace-connection {
+    font-size: 0;
+    gap: 0;
+  }
+  .conversation-shell .bottom-nav {
+    height: 64px;
+    justify-content: space-around;
+  }
+  .conversation-shell .bottom-nav button {
+    flex: 1;
+    min-width: 0;
+  }
+  .conversation-shell .sidebar {
+    display: none;
+  }
+  .conversation-shell.navigation-open .sidebar {
+    display: flex;
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 220px;
+    z-index: 61;
+  }
+  .navigation-open .workspace-nav-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    background: #1c223b50;
+  }
+  .conversation-workspace {
+    padding: 0 12px 8px;
+  }
+  .conversation-workspace .assistant-welcome h3 {
+    font-size: 23px;
+  }
+  .conversation-shell .assistant-panel .assistant-composer textarea {
+    font-size: 16px;
+  }
+}
+@media (max-height: 580px) {
+  .conversation-workspace .assistant-welcome {
+    gap: 8px;
+    padding-block: 12px;
+  }
+  .conversation-workspace .assistant-welcome p {
+    display: none;
+  }
+  .conversation-workspace .assistant-starters {
+    margin-top: 0;
+  }
+  .conversation-workspace {
+    padding-bottom: 8px;
+  }
+}

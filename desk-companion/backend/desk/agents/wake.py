@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 class WakeDetector:
-    def __init__(self, directory, manifest=None):
+    def __init__(self, directory, manifest=None, *, phrase="desk"):
         import sherpa_onnx
 
         directory = Path(directory)
@@ -25,9 +25,13 @@ class WakeDetector:
                 raise ValueError(
                     "Wake model missing or checksum mismatch; run scripts/fetch_wake_model.py"
                 )
-        keywords = directory / "desk-keywords.txt"
+        if phrase not in {"desk", "alice"}:
+            raise ValueError("Unknown local wake phrase")
+        keywords = directory / ("alice-keywords.txt" if phrase == "alice" else "desk-keywords.txt")
         keywords.write_text(
-            "HH EY1 D EH1 S K :1.5 #0.3 @HEY_DESK\nn ǐ h ǎo zh uō b àn :1.5 #0.3 @你好桌伴\n"
+            "AE1 L AH0 S :1.5 #0.35 @ALICE\nài l ì s ī :1.5 #0.35 @ALICE\n"
+            if phrase == "alice"
+            else "HH EY1 D EH1 S K :1.5 #0.3 @HEY_DESK\nn ǐ h ǎo zh uō b àn :1.5 #0.3 @你好桌伴\n"
         )
         self.spotter = sherpa_onnx.KeywordSpotter(
             tokens=str(directory / "tokens.txt"),
@@ -39,6 +43,10 @@ class WakeDetector:
             provider="cpu",
         )
         self.stream = self.spotter.create_stream()
+        if phrase == "alice":
+            # Seed feature context before announcing readiness; the first real
+            # keyword should not have to supply its own leading silence.
+            self.accept([0.0] * 6400)
 
     def reset(self):
         self.spotter.reset_stream(self.stream)

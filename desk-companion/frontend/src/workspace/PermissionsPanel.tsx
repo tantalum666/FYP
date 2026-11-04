@@ -93,12 +93,7 @@ export function PermissionsPanel({
       ) : (
         <h2>{t("Assistant permissions", "助理权限")}</h2>
       )}
-      <p>
-        {t(
-          "Choose how Alice handles changes in this workspace.",
-          "选择 Alice 如何处理工作空间中的修改。",
-        )}
-      </p>
+
       {!current ? (
         <p role="status">
           {t(
@@ -122,10 +117,7 @@ export function PermissionsPanel({
             <span>
               <strong>{t("Ask first", "每次询问")}</strong>
               <small>
-                {t(
-                  "Review each proposed change in the conversation before it runs.",
-                  "每次修改会先在对话中交给你核对，再执行。",
-                )}
+                {t("Approve changes before they run.", "修改前由你确认。")}
               </small>
             </span>
           </label>
@@ -141,8 +133,8 @@ export function PermissionsPanel({
               <strong>{t("Full access", "完整权限")}</strong>
               <small>
                 {t(
-                  "Let Alice apply supported software actions automatically and report the result.",
-                  "让 Alice 自动执行已支持的软件操作，并向你报告结果。",
+                  "Run supported actions automatically.",
+                  "自动执行已支持的操作。",
                 )}
               </small>
             </span>
@@ -177,13 +169,21 @@ export function PermissionsPanel({
             "连接、麦克风、摄像头和实体输出仍有独立控制。完整权限不会启用尚不可用的工具。",
           )}
         </p>
+        <p>
+          {t(
+            "Applies to new requests. Earlier pending actions still need approval.",
+            "适用于新请求，旧的待办仍需确认。",
+          )}
+        </p>
       </details>
-      <p className="workspace-hint">
-        {t(
-          "For new requests on your signed-in screens. Earlier pending actions still need your decision.",
-          "适用于已登录界面的新请求，之前的待确认操作仍由你单独决定。",
-        )}
-      </p>
+      {draft?.mode === "full" && (
+        <p className="workspace-hint">
+          {t(
+            "New requests: calendar, tasks, memories and allowed files.",
+            "适用于新请求：日历、事务、记忆和已授权的文件。",
+          )}
+        </p>
+      )}
       {draft && (
         <div className="workspace-inline-actions">
           <button
@@ -211,12 +211,7 @@ export function PermissionsPanel({
         </div>
       )}
       {saved && (
-        <p role="status">
-          {t(
-            "Permissions updated across your connected screens.",
-            "权限已更新，各个连接界面会同步使用。",
-          )}
-        </p>
+        <p role="status">{t("Permissions updated.", "权限已更新。")}</p>
       )}
       {!!error && (
         <p className="error-message" role="alert">

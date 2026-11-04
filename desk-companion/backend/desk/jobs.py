@@ -536,10 +536,14 @@ class JobService:
                 state = "expired" if row["state"] in {"review", "queued"} else "unknown"
                 self._state(conn, row["id"], state, "JOB_DEADLINE_EXCEEDED")
 
-    def _verify(self, request):
+    def _verify(self, request, *, archived=False):
         if request["action"] in APP_ACTIONS:
             receipt = ApplicationReceipt.model_validate(
-                self._executor(request).verify(request)
+                (
+                    self._executor(request).verify(request, archived=True)
+                    if archived
+                    else self._executor(request).verify(request)
+                )
             ).model_dump(exclude_none=True)
             if receipt["verified"] and (
                 receipt["artifact"] != request["task_id"] + "/" + request["step"]["filename"]
@@ -557,7 +561,11 @@ class JobService:
             if receipt["verified"] and receipt["apps_verified"] != [expected_app]:
                 raise ValueError("Application identity does not match the requested operation")
             if receipt["verified"]:
-                body = read_regular(self.applications.target(request))
+                body = read_regular(
+                    self.applications.version_target(request)
+                    if archived
+                    else self.applications.target(request)
+                )
                 if receipt["sha256"] != hashlib.sha256(body).hexdigest() or receipt["bytes"] != len(
                     body
                 ):
@@ -584,6 +592,11 @@ class JobService:
         return receipt
 
     def _approval_current(self, conn, row):
+        runs = getattr(self.runtime, "agent_runs", None)
+        if runs is not None:
+            from .application_work import guard_job
+
+            guard_job(self.runtime, conn, row["id"])
         authority = row["approved_by"] or ""
         if authority.startswith("owner_policy:"):
             version = int(authority.split(":", 1)[1])
@@ -959,13 +972,13 @@ class JobService:
             "task_completion_is_separate": True,
         }
 
-    def application_readback(self, job_id):
+    def application_readback(self, job_id, *, archived=False):
         with self.store.connection() as conn:
             row = self._row(conn, job_id)
             request = json.loads(row["request"])
             if request["action"] not in APP_ACTIONS or row["state"] not in {"succeeded", "unknown"}:
                 raise DomainError("JOB_SOURCE_UNVERIFIED", 409)
-        return {"job_id": job_id, "result": self._verify(request)}
+        return {"job_id": job_id, "result": self._verify(request, archived=archived)}
 
     def application_download(self, job_id):
         with self.store.connection() as conn:

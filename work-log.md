@@ -544,3 +544,48 @@ Reviewed PR78/79/80/82/81 against frozen main dac527b in an isolated worktree. K
 ### 4 November publication readback
 
 [PR83](https://github.com/tantalum666/FYP/pull/83) merged at89dc92f41d945783af43dcb4f56f0e7e6d0edb1a. Remote main exactly matches the complete tree of reviewed bb6443c. Original PR78–82 were individually read back closed/merged; source63e538b remains the tested application. [Receipt](output/qa/2026-11-04-grok-journey-review/publication.json). This follow-up records publication only, with no CI, deployment, model or hardware action.
+## 2026-10-31 · Personal-agent Work connected to real applications
+
+Owner paused Pi and prioritized cross-application personal-agent software after PR5. Created a separate worktree/branch from verified main dac527b, preserving Pi PR73 and all real runtimes. Refreshed four relevant primary vendor pages and mapped persistent task state, connectors/browser execution, independent permission and result verification to the current implementation.
+
+Added application Work adapters with explicit selected task/input scope, source-hash binding, exact child-intent recovery, Ask first/Full capture, parent-run execution fences and independently verified continuation. Reused JobService and existing office executor; no duplicate queue/core or new migration. Added immutable-version readback for revised files, compact model-result projection and formula normalization after a real UNO format failure. UI shares job cards, puts needed actions first, collapses diagnostic tool detail and distinguishes office files from report artifacts and calendar/task proposals.
+
+Local verification:1,701 backend/303 frontend, Ruff, TypeScript/Vite. Real Chromium quote read, initial and revised Calc, owner-test minimum-order question, Writer and two-page PDF passed using offline scripted decisions. Actual lost completion followed by application-container and runner restart preserved SHA/mtime and did not repeat the write. PDF pages rendered/inspected. Web allowed once then continued to document proposal; parent cancellation preserved workbook and stopped unpublished document.393px phone downloaded identical bytes and reviewed/discarded a scoped draft. No native keyboard, live-model quality or consumer transaction was claimed.
+
+[QA](output/qa/2026-10-31-personal-agent-cross-app/verification.md) and [contract](desk-companion/docs/application-work.md) hold exact evidence/limits. Updated product, research index/supplement, current entry/handoff, AGENTS header, Work/executor/module docs and decision log. Old budgets closed, paid calls0, no CI or Pi continuation. Ordinary Alice/Omni long-task admission/recovery is the next offline implementation step. Publication receipt is finalized after branch push and PR readback; local completion is not main merge.
+
+Publication verified: source `b277cef` is the head of draftPR74, based on main dac527b. Remote metadata matches the pushed source; PR is open and unmerged. Final receipt changes only documentation. The original Pi worktree entry now routes to this software continuation; its documentation-only pause commit1cad1df is preserved on PR73.
+
+## 2026-10-31–11-01 · Concise everyday UI
+
+Owner reported excessive text across pages. Audited eight real desktop surfaces before editing, then shortened shared Work, task, settings/permissions, memory, style and data views. Moved technical metadata, storage, history and optional configuration into disclosures; actual questions/errors/actions stay visible. Phone Work selection replaces the list with detail and uses the existing guarded return. Alice and saved user content are preserved; no new dependencies, state machine, queue or backend change.
+
+Local frontend303/type/build passed. Actual desktop/Chinese393px phone, keyboard disclosure, preserved optional/persona draft, close/discard guard, cancelled Full-access draft, explicit retention and UI-created deterministic Work→two reports passed. AI-mode provider/share choices remain explicit; no model run was submitted. Default new-work visible characters1368→290, import/share1184→200; the latter is progressive disclosure, not removed functionality. Initial stale-label/format-sensitive test failures and a transient JSX development error were corrected before final verification. Existing large-chunk build warning remains.
+
+[Interface contract](desk-companion/docs/ui-copy.md), [QA](output/qa/2026-10-31-ui-copy-cleanup/verification.md) and selected actual screenshots record scope/limits. Updated AGENTS, product, decision, maintenance, dated UI/permission guidance and current handoff/entry. Native touch/keyboard, real accounts, models, backend tests and Pi were not rerun. No CI or live provider cost. Next: concise ordinary-Alice long-task admission/recovery via existing Work, offline first. Publication is a separate branch stacked on PR74; no merge claim.
+
+Publication verified: UI source752ab66 pushed to draftPR75, targeting PR74 head89f215e. GitHub reports open/draft/unmerged and exact matching head. The final receipt and original Pi-checkout routing updates are documentation-only; no code/test result is added by those commits.
+
+## 2026-11-02 · Reopen webpage for owner
+
+Restarted stopped Vite5191/API8861 against the existing synthetic UI dataset, with scheduler and AI/computer execution off. Opened visible in-app-browser Tasks page and confirmed connected content/Alice controls, then marked it to remain open. Updated runtime handoff and [read/verification record](output/qa/2026-11-02-open-preview/verification.md). No source change, paid call, Pi/VM action or CI; no new implementation/test claim.
+
+## 2026-11-02 · Primary conversation and Mac media
+
+Replaced the width-dependent desktop assistant modal/dock with the default primary chat page. ConversationWorkspace keeps shared conversation/drafts across navigation; media suspends on leaving. Added LocalCapture/MediaDevicePanel for explicit local camera/mic checks and selected-frame sharing through existing VoiceAudio. Responsive navigation/composer and floating-avatar avoidance preserve Alice; removed dead docking CSS. No backend/dependency/new queue or model client.
+
+309 frontend tests and type/build pass. Actual Mac1280x720 camera, built-in mic input, draft return, short-window permission menu and narrow keyboard navigation checked. Qwen configuration is restored, but owner chose manual trial; no agent-paid request or uploaded device-check media. Initial QA resized the visible user tab; restored100%/1291x681, moved further emulation to a separate tab, cleared/closed it.
+
+Updated current contracts/product/entry/handoff/decisions and [QA](output/qa/2026-11-02-conversation-desktop/verification.md). Native/Pi/model quality remain separate. Next: existing Work admission/recovery from Alice, offline first. Publication is stacked on PR75, not a merge.
+
+Publication verified: sourceff0b401 on draftPR76, basePR75 head34de1e7; exact remote source head matches, open/draft/unmerged. Receipt and original-checkout routing updates are documentation-only.
+
+## 2026-11-02 · OpenAI production adapter and Alice local wake
+
+Owner requested OpenAI and chose calling Alice to wake. Reused the confirmed FYP key, read current official costs, and used a fresh announcedUSD1 ceiling. Extracted the existing realtime response/tool/cancel core, added OpenAI GA format/rate/credential policy, and connected owner-only local keyword PCM to the existing browser voice client. Wake model files stay ignored and local; private audio is not recorded. New owner/local-channel lifecycle regressions and real model inference retain the existing service/authority boundaries.
+
+Four synthetic live attempts preserved date-argument, output-truncation and Mini numerical failures. Full2.1 with revised generic guidance correctly read three meeting start times. No model ranking or human quality score is claimed. Test ledger closed: observed upper estimate0.1692086, accounted0.6499936 including unknown reservation. Actual local WS detection and browser waiting/off were checked with no additional paid call; temporary test-tab ticket blocking was cleared. Existing Full policy preserved.
+
+Current API80987/Vite5191 use real OpenAI full2.1 and the local Alice model on synthetic work-ui-01; scheduler/computer/background work remain off. Updated current product, entry/handoff, decisions and voice/operator/maintenance/architecture contracts plus [QA](output/qa/2026-11-02-openai-alice-wake/verification.md). No CI, Pi, VM, real-account connection or transaction. Next: ordinary Alice long-task admission/recovery through existing Work, while human wake/noise/voice acceptance remains separately open.
+
+Publication verified: source6406503 on draftPR77, basePR76 head17df074, exact remote source head matched. Final receipt/routing is documentation-only. All experimental budgets remain closed; normal explicit owner use is distinct.

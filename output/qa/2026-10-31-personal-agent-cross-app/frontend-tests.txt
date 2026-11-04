@@ -1,0 +1,14 @@
+Command: npm test
+Exit: 0
+Full TAP log retained in ignored .runtime/qa-ui/frontend-test-full.txt.
+
+  ...
+1..303
+# tests 303
+# suites 0
+# pass 303
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2933.188584

@@ -33,6 +33,7 @@ RUN_STATES = {
     "running",
     "waiting_input",
     "waiting_review",
+    "waiting_effect",
     "paused",
     "blocked",
     "succeeded",

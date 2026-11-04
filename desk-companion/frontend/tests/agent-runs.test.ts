@@ -353,14 +353,14 @@ test("component contracts preserve modal drafts, selected-run fences and indepen
     composer,
     /review\.input\.scope_revision !== scope\.scope_revision/,
   );
-  assert.match(composer, /!input \|\| uploadDraft/);
+  assert.match(composer, /!input\s*\|\|\s*uploadDraft/);
   assert.match(detail, /cancellation = usePrivateMutation\(\)/);
   assert.match(
     detail,
     /disabled=\{!fresh \|\| cancelLocked\}\s+onClick=\{\(\) => setCancelVersion\(run\.version\)\}/,
   );
   assert.match(detail, /editor\.version !== run\.version/);
-  assert.match(detail, /NEW model attempt/);
+  assert.match(detail, /new AI request and may be billed again/);
   assert.match(reads, /current\.current !== id/);
   assert.match(reads, /sequence\.current !== seq/);
   assert.match(

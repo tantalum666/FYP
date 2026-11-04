@@ -755,3 +755,61 @@
 .knowledge-section[open] > summary {
   margin-bottom: 12px;
 }
+
+/* Primary screens stay concise; optional guidance is explicitly opened. */
+.workspace-details {
+  border-top: 1px solid var(--device-line, #e1e3e9);
+  margin-block: 12px;
+  padding-block: 10px;
+}
+.workspace-details > summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 4px 0;
+}
+.workspace-details > summary:focus-visible {
+  outline: 2px solid var(--accent, #6266d9);
+  outline-offset: 4px;
+}
+.workspace-details > summary ~ * {
+  margin-top: 12px;
+}
+.workspace-details > summary svg {
+  width: 16px;
+  height: 16px;
+  vertical-align: -2px;
+}
+.work-status-line {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 10px 0 16px;
+}
+.work-status-line time {
+  color: var(--muted, #667085);
+  font-size: 12px;
+}
+.agent-detail > .workspace-inline-actions:empty {
+  display: none;
+}
+.work-management {
+  margin-top: 24px;
+}
+
+.assistant-action-card .workspace-inline-actions:empty {
+  display: none;
+}
+.work-submit {
+  padding-block: 12px;
+  background: var(--surface, #fff);
+  border-top: 1px solid var(--border, #e1e3e9);
+}
+.work-submit .workspace-hint {
+  margin: 0 0 8px;
+  font-size: 12px;
+}
+.work-submit .primary {
+  margin-top: 10px;
+}

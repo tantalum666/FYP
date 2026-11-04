@@ -1,0 +1,12 @@
+{
+  "reviewed_files": 35,
+  "local_links": 317,
+  "missing_links": [],
+  "secret_pattern_findings": [],
+  "excluded_scope_findings": [],
+  "selected_ui_screenshots": 2,
+  "backend_source_changes": false,
+  "paid_test_authorization": "owner chose manual trial; automated tests not authorized",
+  "native_rebuild": false,
+  "ci_used": false
+}

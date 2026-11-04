@@ -9,13 +9,14 @@ import type { Task } from "./taskTypes";
 
 export type JobAction = "approve" | "cancel" | "reconcile" | "verify";
 
+export function jobApprovalPayload(job: ComputerJob) {
+  return { expected_version: job.version, intent_hash: job.intent_hash };
+}
+
 /** One request contract for conversation cards and the secondary activity view. */
 export async function requestJobAction(job: ComputerJob, action: JobAction) {
   if (action === "approve") {
-    return write(`/computer/jobs/${job.id}/approve`, {
-      expected_version: job.version,
-      intent_hash: job.intent_hash,
-    });
+    return write(`/computer/jobs/${job.id}/approve`, jobApprovalPayload(job));
   }
   if (action === "verify") {
     if (isApplicationAction(job.action)) {
