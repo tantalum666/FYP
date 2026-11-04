@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.responses import StreamingResponse
 
 from .assistant import AssistantMessage, ProposalDecision
+from .mailbox import proposal_kind, visible_proposals
+from .offline_calendar import visible_proposals as visible_calendar_proposals
 from .store import DomainError
 
 
@@ -50,11 +52,16 @@ def assistant_routes(runtime, authenticated, operation_id):
     @router.get("/proposals")
     def proposals(request: Request, principal=Depends(authenticated)):
         principal = {**principal, "session": request.cookies.get("desk_companion_session")}
-        return {
-            "proposals": runtime.agent_runs.filter_proposals(
-                runtime.assistant.proposals(allow_memory=principal["kind"] == "owner"), principal
-            )
-        }
+        proposals = visible_proposals(
+            runtime.assistant.proposals(allow_memory=principal["kind"] == "owner"), principal
+        )
+        proposals = visible_calendar_proposals(proposals, principal)
+        proposals = runtime.agent_runs.filter_proposals(proposals, principal)
+        if principal["kind"] != "owner" or not runtime.store.session_valid(
+            principal.get("session")
+        ):
+            proposals = [item for item in proposals if item.get("kind") != "shopping_advice"]
+        return {"proposals": proposals}
 
     @router.post("/proposals/{proposal_id}/decisions")
     def decide(
@@ -65,6 +72,17 @@ def assistant_routes(runtime, authenticated, operation_id):
         principal=Depends(authenticated),
     ):
         principal = {**principal, "session": request.cookies.get("desk_companion_session")}
+        if (
+            proposal_kind(runtime, proposal_id) in {"mailbox_reply", "calendar_advice"}
+            and principal["kind"] != "owner"
+        ):
+            raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
+        if runtime.shopping.is_proposal(proposal_id):
+            signed_in = principal["kind"] == "owner" and runtime.store.session_valid(
+                principal.get("session")
+            )
+            if not signed_in:
+                raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
         runtime.agent_runs.require_proposal_access(proposal_id, principal, action=payload.action)
         return runtime.assistant.decide(
             proposal_id, payload.action, key, allow_memory=principal["kind"] == "owner"

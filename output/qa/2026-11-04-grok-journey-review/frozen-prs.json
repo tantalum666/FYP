@@ -1,0 +1,41 @@
+{
+  "base": "dac527b386c268caa96d9388d0c11d206b4f6856",
+  "prs": [
+    {
+      "number": 82,
+      "title": "Map offline calendar fixtures onto the existing task stack",
+      "head": "cursor/offline-calendar-journey-3bf1",
+      "head_sha": "aa218dbd73358fd0d15ae9afe642409374f9e44a",
+      "base": "main"
+    },
+    {
+      "number": 81,
+      "title": "Add a merge order for the offline journey pull requests",
+      "head": "cursor/offline-journey-merge-guide-aef7",
+      "head_sha": "546bad6196dfded49c2ae65212465f1e7a6ac117",
+      "base": "main"
+    },
+    {
+      "number": 80,
+      "title": "Map offline shopping fixtures onto tasks, Work and notices",
+      "head": "cursor/shopping-fixture-journey-0767",
+      "head_sha": "4e5a3a1ceb810b6f7604d6173cabfcb835635d86",
+      "base": "main"
+    },
+    {
+      "number": 79,
+      "title": "Add an offline mailbox journey on the existing task core",
+      "head": "cursor/mailbox-offline-journey-9739",
+      "head_sha": "5e1e72211ed528af71539285a0c54f255b190686",
+      "base": "main"
+    },
+    {
+      "number": 78,
+      "title": "Lock Codex integration lessons behind a regression harness",
+      "head": "cursor/integration-acceptance-harness-dcc2",
+      "head_sha": "765b5fef1e7ad63ae4a595a964fa9467c1804c9e",
+      "base": "main"
+    }
+  ],
+  "scope": "Review/repair/merge Grok PRs78-82. Compatibility with unmerged current software74-77 is checked separately. No CI, live providers, external accounts or Pi."
+}

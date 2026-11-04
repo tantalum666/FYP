@@ -1,0 +1,27 @@
+{
+  "format": "desk-calendar-fixture-v1",
+  "account_id": "soon-cal",
+  "calendar_id": "primary",
+  "batches": [
+    {
+      "id": "soon",
+      "events": [
+        {
+          "op": "upsert",
+          "item": {
+            "id": "evt-soon",
+            "sequence": 1,
+            "observed_at": "2026-11-03T10:00:00Z",
+            "title": "Soon",
+            "start_local": "2026-11-03T18:00:00",
+            "end_local": "2026-11-03T19:00:00",
+            "timezone": "Asia/Hong_Kong",
+            "location": "Quiet room",
+            "notes": "Do not page",
+            "reminder_minutes": [10]
+          }
+        }
+      ]
+    }
+  ]
+}

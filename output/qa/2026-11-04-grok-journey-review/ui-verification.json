@@ -1,0 +1,33 @@
+{
+  "browser": "Native CUA in-app browser, isolated agent-created tab",
+  "url": "http://127.0.0.1:5190",
+  "api": "http://127.0.0.1:8870",
+  "store": "synthetic fixture only",
+  "providers": "none",
+  "scheduler": false,
+  "computer_execution": false,
+  "web": {
+    "three_advice_types_rendered": true,
+    "source_disclosure": true,
+    "shopping_calendar_mail_confirmed": true,
+    "old_mail_draft_cancelled": true,
+    "unsent_input_retained": true,
+    "independent_task_readback": true,
+    "success_copy": "Review saved to the task."
+  },
+  "phone": {
+    "width": 393,
+    "height": 852,
+    "scroll_width": 393,
+    "source_disclosure": true,
+    "cancelled_mail_draft": true,
+    "unsent_input_retained": true,
+    "console_errors_warnings": []
+  },
+  "limitations": [
+    "No native iOS keyboard/device",
+    "No live inbox/store/calendar or model",
+    "High-level IAB screenshot includes host surface; DOM width independently verified"
+  ],
+  "cleanup": "Owned tab closed; per-tab metrics cleared; owned API8870 and Vite5190 stopped. User preview/runtime untouched."
+}

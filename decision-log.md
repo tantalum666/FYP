@@ -1,6 +1,6 @@
 # Group 2 Decision Log
 
-Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
+Updated: 3 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
 
 ## 2026-09-25 用户推翻 Senplate，研究智能工作台新方向
 
@@ -394,3 +394,36 @@ Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **实际验证：**未修改的main代码生成schema1虚构库，两个迁移后45张原表逐行保持；网页创建Work、实际报告下载／哈希、一次批准、同一事务变化审阅、已读后安静，以及393px手机进展与Alice均已检查。测试、发布回执和仍未交付的外部旅程见[QA](output/qa/2026-10-31-pr5-repair/verification.md)。没有迁移真实数据库或开启模型／邮箱／支付／硬件服务。
 
 - **实际发布：**PR5已于2026-10-31 02:20:17（Asia/Shanghai）合并，代码合并9b655e1；远端main与已测112f912完整树相同。最终1,686后端／300前端检查通过，文档收尾只记录回执与下一步，不改变已测应用。
+
+## 2026-11-03 离线邮箱旅程（未接真实账户）
+
+- **用户指令：**实现 handoff 点名的授权邮箱旅程，并且只从离线夹具开始。不连接 Gmail／Outlook，不索取或编造凭据，不花钱、不调用付费 API。复用现有 TaskService／Work／PermissionService／NoticeInbox，不另建任务、作业或记忆核心。发送不得自动发生。
+- **工程选择：**用本地 `desk-mailbox-fixture-v1` 夹具和同一 SQLite 上的邮箱游标表驱动现有任务、提案和通知。Work 项就是现有任务 id，不新写 `agent_runs`，也不改 #73–#77 所属界面。邮箱草稿种类 `mailbox_reply` 不进入可自动执行的软件提案，确认只记任务备注且 `sent` 为 false。不把邮箱行放进便携 JSON 备份，因此本切片没有未校验的导入路径。
+- **明确不做：**真实收件、发信、付费模型、撤销后的重新连接。这些都不是本轮用户授权。详见 [契约](desk-companion/docs/mailbox-journey.md) 与 [QA](output/qa/2026-11-03-mailbox-offline/verification.md)。
+
+## 2026-11-03 补上离线邮箱的安静时段通知与便携备份
+
+- **用户指令：**在同一分支补上 PR #79 列出的两个缺口。安静时段暂缓的有意义通知要在安静时段结束后送达，复用已有通知调度，不另建通知器。便携 JSON 备份要包含邮箱游标和持久摄取状态，沿用现有拥有者权限和导入前校验；恢复后再次同步不得产生重复事务。仍然只使用离线夹具。
+- **工程选择：**暂缓的通知写入 `mailbox_notice_holds`，由现有 `Runtime.tick` 在安静时段结束后调用 `Notifier.publish`。投递或重复确认之后才删除暂缓行。便携备份增加 `mailbox_bundle`（连接、线程、已见消息指纹、同步尝试、暂缓通知）。缺这个键的旧备份仍可恢复。已存在的连接保持原游标，不覆盖。
+- **明确不做：**不连接真实邮箱，不改 #73–#77，不开始购物或旅行模块。
+## 2026-11-03 离线购物夹具进入现有事务
+
+- **用户要求：**在邮箱旅程之外，用离线夹具做第二条验收：购物／购买意向映射到现有 Task／Work 和通知。不连接真实商店，不调用付费接口，不改邮箱、Pi 或 Codex Work 界面分支。
+- **工程选择：**同一商品或订单对应一个事务和一条暂停的确定性 Work。游标在事件提交后前移。建议是 `shopping_advice` 草稿，只有拥有者确认才写入事务；完整软件权限不会自动批准这种草稿。价格降幅未过阈值、重复和未变化不发通知。
+- **未授权：**没有商店账号、支付、自动结账、真实订单回执或语音下单验收。夹具结果不能写成已经购买。
+- **同日补充：**可移植 JSON 备份纳入购物连接、游标、已应用回执、乱序缓冲和商品到事务的映射。预览先校验，恢复不改写已经存在的连接。备份不含会话、草稿、通知或 Work 运行行。下一次同步同一夹具不会另开事务。
+## 2026-11-03 离线日程夹具旅程
+
+- **用户指令：**第三条真实验收切片是离线日历／日程夹具，映射进现有 Task／Work 与通知。不要连接 Google／Outlook 或任何实时 API，不付费调用，不改邮箱和购物包，也不改 Pi 与 Codex Work UI。
+- **工程选择而非用户批准连接账号：**新增 `desk/offline_calendar/`。一个事件或系列对应一个现有任务和一条本地日历记录；省略的地点、备注和提醒保持原值。冲突、会前准备和 RSVP 只产生带来源的草稿，拥有者确认后只写“未接受邀请、未发送 RSVP”的事务备注。撤销、断开和中断都不是成功同步。
+- **明确未做：**没有把完整权限自动确认扩到 `calendar_advice`。这不代替邮件或旅行验收。
+- **同日补上两处缺口：**安静时段的有意义通知写入 `offline_calendar_notice_holds`，由现有 `Runtime.tick` 在安静结束后经同一个 Notifier 发出；重启不丢、不重复。可移植 JSON 的 `offline_calendar_bundle` 含游标、修订、冲突对、同步尝试和暂缓通知，预览校验后仅拥有者可恢复，再次同步不新建同一事务。
+- **证据：**[契约](desk-companion/docs/offline-calendar-journey.md)与[本轮 QA](output/qa/2026-11-03-offline-calendar/verification.md)。
+
+## 2026-11-04 Grok PR78–82修复后合并授权
+
+用户明确要求检查Grok新工作，有问题先修、通过再合并。冻结五个新PR并在独立工作树从main dac527b进行组合审查；保留所有原PR祖先，已按具体业务路径解决路由、提案、备份与tick冲突。旧Pi/学校目录的未提交变更保留。
+
+本轮修复离线状态和回执真实性，并补同一运行实例、联合备份、静音恢复、撤销/登出和浏览器卡片检查。购物Work原子暂停入队；可移植恢复后仅在明确同步时重新关联，不恢复旧运行权限。Grok合并指南旧头和“日程无备份”说法标为历史。
+
+PR74–77的主对话/Alice/OpenAI栈只作独立组合兼容检查，不混入本次五个Grok PR的主线合并，也不替换正在使用的服务。Pi暂停、所有实验预算关闭、无CI继续有效。真实账户/发信/购买/支付/出票未获本轮具体授权，也未执行。最终结果以[QA及远端回执](output/qa/2026-11-04-grok-journey-review/verification.md)为准。

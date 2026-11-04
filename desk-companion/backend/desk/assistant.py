@@ -250,7 +250,11 @@ class AssistantService:
             "data": json.loads(row["data"])
         }
 
-    def propose(self, kind, payload, key):
+    def propose(self, kind, payload, key, *, ttl: timedelta | None = None):
+        lifetime = timedelta(minutes=5) if ttl is None else ttl
+        if lifetime <= timedelta(0) or lifetime > timedelta(days=7):
+            raise DomainError("DRAFT_TTL_INVALID", 422)
+
         def apply(conn):
             # A corrected proposal for the same existing object replaces its
             # older unapproved draft. Different events/occurrences stay separate.
@@ -280,7 +284,7 @@ class AssistantService:
                     proposal_id,
                     kind,
                     encode(payload),
-                    iso(self.store.clock() + timedelta(minutes=5)),
+                    iso(self.store.clock() + lifetime),
                     iso(self.store.clock()),
                 ),
             )
@@ -688,7 +692,24 @@ class AssistantService:
                 return self.store.operation(
                     key, {"type": "assistant_cancel", "id": proposal_id}, cancel
                 )
-            if row["kind"] == "task_create":
+            apply_kind = row["kind"]
+            if apply_kind == "shopping_advice":
+                # Confirm-time merge keeps task fields the fixture did not send.
+                # Full software permission does not auto-apply this kind.
+                from .shopping.service import prepare_shopping_confirmation
+
+                payload = prepare_shopping_confirmation(self.runtime, payload)
+                with self.store.connection(write=True) as conn:
+                    fresh = conn.execute(
+                        "SELECT state FROM assistant_proposals WHERE id=?", (proposal_id,)
+                    ).fetchone()
+                    if fresh and fresh["state"] == "pending":
+                        conn.execute(
+                            "UPDATE assistant_proposals SET data=? WHERE id=?",
+                            (encode(payload), proposal_id),
+                        )
+                apply_kind = "task_change"
+            if apply_kind == "task_create":
                 result = self.runtime.tasks.create(
                     TaskInput.model_validate(payload["task"]),
                     internal_key,
@@ -700,7 +721,7 @@ class AssistantService:
                         payload.get("goal_title") or payload["task"]["title"],
                         payload.get("due_at"),
                     )
-            elif row["kind"] == "task_change":
+            elif apply_kind == "task_change":
                 result = self.runtime.tasks.action(
                     payload["task_id"],
                     TaskAction.model_validate(payload["change"]),
@@ -709,15 +730,15 @@ class AssistantService:
                 )
                 if payload.get("change", {}).get("action") == "complete":
                     self.runtime.goals.close_for_task(payload["task_id"])
-            elif row["kind"] == "create":
+            elif apply_kind == "create":
                 result = self.store.create(
                     CreateEvents.model_validate(payload), internal_key, origin="assistant"
                 )
-            elif row["kind"] == "output":
+            elif apply_kind == "output":
                 result = self.runtime.outputs.request(
                     OutputRequest.model_validate(payload["output"]), internal_key
                 )
-            elif row["kind"] == "memory_save":
+            elif apply_kind == "memory_save":
                 origin = (
                     "owner_policy"
                     if permission_version is not None
@@ -729,14 +750,14 @@ class AssistantService:
                 result = self.runtime.memory.create(
                     payload["body"], internal_key, origin=origin, note=note
                 )
-            elif row["kind"] == "memory_consolidate":
+            elif apply_kind == "memory_consolidate":
                 result = self.runtime.memory.supersede(
                     payload["keep_id"],
                     payload["keep_version"],
                     payload["retire"],
                     internal_key,
                 )
-            elif row["kind"] == "memory_replace":
+            elif apply_kind == "memory_replace":
                 result = self.runtime.memory.replace(
                     payload["memory_id"],
                     payload["body"],
@@ -744,10 +765,76 @@ class AssistantService:
                     internal_key,
                     origin=approval_origin,
                 )
-            elif row["kind"] == "memory_delete":
+            elif apply_kind == "memory_delete":
                 result = self.runtime.memory.delete(
                     payload["memory_id"], payload["expected_version"], internal_key
                 )
+            elif row["kind"] == "mailbox_reply":
+                if payload.get("send") is not False:
+                    raise DomainError("MAILBOX_SEND_FORBIDDEN", 409)
+                for field in ("task_id", "mail_id", "observed_at"):
+                    if not isinstance(payload.get(field), str) or not payload[field]:
+                        raise DomainError("MAILBOX_DRAFT_INVALID", 422)
+                with self.store.connection() as conn:
+                    current = self.runtime.tasks.get(conn, payload["task_id"])
+                note = (
+                    f"Reviewed mailbox advice for {payload['mail_id']} "
+                    f"observed at {payload['observed_at']}. Nothing was sent."
+                )
+                result = self.runtime.tasks.action(
+                    payload["task_id"],
+                    TaskAction(action="note", expected_version=current["version"], note=note),
+                    internal_key,
+                    origin="assistant_confirmed",
+                )
+                result = {
+                    **result,
+                    "sent": False,
+                    "mail_id": payload["mail_id"],
+                    "observed_at": payload["observed_at"],
+                }
+            elif row["kind"] == "calendar_advice":
+                if payload.get("send") is not False or payload.get("accept") is not False:
+                    raise DomainError("CALENDAR_SEND_FORBIDDEN", 409)
+                for field in ("task_id", "event_uid", "observed_at"):
+                    if not isinstance(payload.get(field), str) or not payload[field]:
+                        raise DomainError("CALENDAR_DRAFT_INVALID", 422)
+                related = payload.get("related_event_uids", [])
+                if (
+                    not isinstance(related, list)
+                    or len(related) > 8
+                    or any(
+                        not isinstance(value, str) or not value or len(value) > 64
+                        for value in related
+                    )
+                ):
+                    raise DomainError("CALENDAR_DRAFT_INVALID", 422)
+                with self.store.connection() as conn:
+                    current = self.runtime.tasks.get(conn, payload["task_id"])
+                note = (
+                    f"Reviewed calendar advice for {payload['event_uid']} "
+                    f"observed at {payload['observed_at']}. "
+                    "No invite was accepted and no RSVP was sent."
+                )
+                if related:
+                    note += " Related events: " + ", ".join(related) + "."
+                result = self.runtime.tasks.action(
+                    payload["task_id"],
+                    TaskAction(
+                        action="note",
+                        expected_version=current["version"],
+                        note=note,
+                    ),
+                    internal_key,
+                    origin="assistant_confirmed",
+                )
+                result = {
+                    **result,
+                    "sent": False,
+                    "accepted": False,
+                    "event_uid": payload["event_uid"],
+                    "observed_at": payload["observed_at"],
+                }
             else:
                 change = ChangeProposal.model_validate(
                     {k: v for k, v in payload.items() if k in ChangeProposal.model_fields}

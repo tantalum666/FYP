@@ -13,6 +13,8 @@ from .workspace_data import WorkspaceData
 from .voice import VoiceService
 from .exchange import ExchangeService
 from .google_calendar import GoogleCalendar
+from .mailbox import MailboxService
+from .offline_calendar import OfflineCalendarService
 from .tasks import TaskService
 from .text_ai import TextAssistant
 from .jobs import JobService
@@ -44,6 +46,7 @@ from .responsibilities import ResponsibilityService
 from .work_capacity import WorkCapacityService
 from .public_capture_schema import SCHEMA_VERSION
 from .public_captures import PublicCaptureService
+from .shopping.service import ShoppingService
 
 
 class Runtime:
@@ -92,6 +95,7 @@ class Runtime:
         self.exchange = ExchangeService(self)
         self.backups = LocalBackups(self)
         self.google = GoogleCalendar(self)
+        self.offline_calendar = OfflineCalendarService(self)
         self.text_ai = TextAssistant(self)
         self.retained_chat = RetainedChat(self)
         self.sources = SourceService(self)
@@ -103,7 +107,9 @@ class Runtime:
         self.work_search = WorkSearchService(self)
         self.work_capacity = WorkCapacityService(self)
         self.public_captures = PublicCaptureService(self, enabled=public_capture_enabled)
+        self.shopping = ShoppingService(self)
         self.store.operation_guard = self.agent_runs.guard_operation
+        self.mailbox = MailboxService(self)
         self.posture.on_prompt = self.on_posture_prompt
 
     def on_posture_prompt(self, event):
@@ -163,6 +169,9 @@ class Runtime:
         self.store.tick()
         self.posture.tick()
         self.tasks.tick()
+        self.mailbox.release_quiet_notices()
+        self.shopping.release_quiet_notices()
+        self.offline_calendar.release_quiet_notices()
         self.memories.expire()
         self.nudges.tick()
         self.goals.tick()

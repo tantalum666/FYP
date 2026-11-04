@@ -1,6 +1,6 @@
 # Group 2 · Modules, data and extension points
 
-28 October 2026. This map describes the integrated branch. The [root handoff](../../handoff.md) records its GitHub state separately from the paused Pi. Archived art/kernel PRs are not part of this integration.
+4 November 2026. This map describes the integrated branch. The [root handoff](../../handoff.md) records its GitHub state separately from the paused Pi. Archived art/kernel PRs are not part of this integration.
 
 ## Responsibility map
 
@@ -8,6 +8,7 @@
 | --- | --- |
 | app, access, cookies, private_file, vault | HTTP identity/origin boundaries, private credentials and service composition |
 | calendar, tasks, workspace_data | Shared business data, versions, quiet hours and explicitly saved preferences |
+| offline_calendar | Offline schedule fixtures into the existing task, calendar event, proposal, and notice path; no live account |
 | memory, memory_review, memory_extract, profile, recall, aliases | Approved facts, deterministic review/profile/recall and owner-only management |
 | conversation, turns, context, context_budget | Bounded login/task-scoped RAM context and budgeted model views; no global transcript table |
 | assistant, capabilities, tool_policy, tool_dispatch | Typed tools, owner review, shared bounded execution and cancellation; no model approval capability |
@@ -16,6 +17,8 @@
 | jobs, computer, linux_desktop, linux_desktop_bridge | One durable intent/approval/verification queue with three bounded executors |
 | goals, nudges, moments, digest, notify, web_push | Confirmed goals, quiet/proactivity-aware local summaries and opt-in notification delivery |
 | exchange, backups, diagnostics, log | Validated business import/export, private SQLite snapshots and owner diagnostics |
+| mailbox, mailbox_fixture, mailbox_backup | Mailbox ingest/cursor and thread links; separate portable validation/restore; effects use existing tasks/proposals/notifier |
+| shopping/service, shopping/backup, shopping/notices | Fixture-to-task tracking, atomic paused Work admission/relink, scoped deferred notices and portable state |
 | frontend phone/components/workspace/device | Separate layouts, shared session/editor/data lifecycle; [frontend contract](software-maintenance.md) |
 
 One API worker owns in-memory voice/outputs/posture state. The five scheduled loops are rules1s, public_data10s, task_advice30s, computer_jobs0.5s and local_backup at its configured check interval. API startup is not authorization to enable providers, executors, media or physical output.
@@ -37,3 +40,5 @@ Add tools to TOOLS/CAPABILITIES/TextPlan together; keep approval outside model s
 Text conversation attempts default to40 per UTC day (including fallback); optional background advice is separately20. These are call counts, not a currency hard limit. The context character budget excludes tool schemas. Realtime voice retains its own10-second turn/600-second session policies, not the HTTP three-step loop.
 
 General GUI/shell automation, job archival UI, true remote notification delivery, real-device acoustics/energy and physical arm validation remain separate work. The current one next step is in the root handoff.
+
+3 November 2026: `desk/shopping` loads offline purchase fixtures into the existing task, paused Work run, draft and notice path, and the portable backup carries the shopping cursor. It does not connect a store or take payment. [Contract](shopping-fixtures.md).

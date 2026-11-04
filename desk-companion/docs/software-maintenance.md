@@ -84,3 +84,18 @@ The opt-in `scripts/openai_voice_eval.py` runner is separate from production voi
 The [application contract](application-execution.md) assigns typed intents to `application_models`, transport/source scope to `application_runtime`, version/staging/reconciliation to `application_executor`, and actual UNO/CDP calls to `application_bridge`. JobService retains its single queue and projects stage state from existing jobs; TaskService completion stays separate. No controller/reference solver is a model tool. `ApplicationPreview` renders the reviewed patch, while shared cards/ExportLink/TaskJobs own existing approval, readback and downloads.
 
 [Actual QA](../../output/qa/2026-10-30-application-execution/verification.md) records 524 backend/89 frontend checks and real Linux apps, application/process restart, same-file recovery, calendar identity, web/phone approval and cancellation. The ordinary HTTP model still stops after one effect-producing tool. Durable evidence enables a future continuation loop but is not that loop; all new model calls remain off.
+
+## Offline mailbox boundary (3 November)
+
+[Mailbox journey](mailbox-journey.md) owns fixture validation, the read offset, the history cursor, and the thread-to-task link. `TaskService` owns the commitment, `AssistantService` owns the review draft, and `Notifier` owns delivery. Quiet-hour mailbox notices wait for the existing rules tick instead of a second notifier. Portable JSON backup exports and validates that ingest state with the same owner preview and apply route as the other business bundles. A mailbox draft is not in the automatic software-permission set, and confirming it cannot send mail. No Gmail, Outlook, or paid model client belongs in this path.
+## Offline calendar fixture boundary (3 November)
+
+`offline_calendar` loads local `desk-calendar-fixture-v1` files and calls TaskService, the calendar event store, assistant proposals, and NoticeInbox. One event or series keeps one task id. Omitted location, notes, and reminders stay stored. Advice cites the fixture event and observation time, and owner confirm only records that no invite was accepted. Revoke, disconnect, and interrupt are not successful syncs. Quiet-hour notices stay in `offline_calendar_notice_holds` until the existing rules tick publishes them through Notifier. Portable JSON backup includes that cursor state; preview validation and owner apply are required, and a second sync keeps the same task. Google and Outlook stay disconnected. Contract: [offline calendar journey](offline-calendar-journey.md).
+
+## Offline journey integration (4 November)
+
+MailboxService and OfflineCalendarService own incremental source state while TaskService/Store retain business data and receipts. Revoke commits without waiting for a whole batch; each next item checks current authority/state. MailboxBackup separates portable validation from ingest. ExchangeService validates each bundle and its references, then restores all three under the existing owner apply transaction.
+
+ShoppingService admits tracking Work with the existing AgentRunService's internal `start_paused` option. Explicit sync repairs absent portable Work links on the same task; old execution/session authority is not restored. ShoppingNotices holds pending deliveries and delegates to Notifier/rules tick, including after restore.
+
+JourneyAdvice and proposalDecision share source/effect presentation across Web/phone and use the existing decision endpoint. They introduce no model client, approval queue or polling lifecycle. The current primary-chat/OpenAI stack remains separate PR74–77; [compatibility evidence](../../output/qa/2026-11-04-grok-journey-review/compatibility.json) is not deployment.

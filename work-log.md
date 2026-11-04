@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated: 3 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -490,3 +490,53 @@ Repaired macOS migration identity, explicit legacy-fact conversion, current-memo
 Evidence: [compatibility contract](desk-companion/docs/pr5-integration.md), [QA](output/qa/2026-10-31-pr5-repair/verification.md), 45-table current-main fixture migration, actual local download hash, same-task approval/watch/mobile readback. Current test totals and remote publication are recorded in QA after completion. Real user DBs and prior runtimes were preserved. Next product gate remains an authorized real-mailbox journey through the existing task/Work core, not consumer-agent parity by model API alone.
 
 Publication verified: PR5 closed/merged, reviewed112f912 → main9b655e1, exact Git trees match. Final1686backend/300frontend passed; staged secrets scan and504local-link checks passed. This closeout updates status/receipts only; next work is the scoped mailbox journey.
+
+## 2026-11-03 · Integration acceptance harness
+
+**Goal:** Encode the 28 October Codex integration-review lessons as a regression suite on main `dac527b386c268caa96d9388d0c11d206b4f6856`, so later slices fail if they return. No feature work and no production redesign.
+
+**Done:** `desk-companion/tests/test_integration_acceptance.py` (seven tests) and Node fixtures that load the real `frontend/src/api.ts` recovery path. Checklist mapped in [integration acceptance](desk-companion/docs/integration-acceptance.md). Handoff notes the harness and keeps the mailbox journey as the one next step.
+
+**Verification:** `uv run --no-sync ruff check tests/test_integration_acceptance.py` and `uv run --no-sync pytest tests/test_integration_acceptance.py -q` — 7 passed. No paid calls, GitHub Actions, Pi, Alice wake, desktop chat, or Work UI edits. [QA](output/qa/2026-11-03-integration-acceptance/verification.md).
+
+**Remaining:** The authorized mailbox journey is unchanged. This harness can merge on its own unless a later branch edits the same test or doc lines.
+## 2026-11-03 · Offline mailbox journey
+
+Owner instruction: implement the mailbox journey named in handoff, starting only with offline fixtures. No Gmail/Outlook connection, credentials, spend, or paid API. Reuse TaskService, the existing task as the Work item, PermissionService, and NoticeInbox.
+
+Added `desk-mailbox-fixture-v1` under `desk-companion/fixtures/mailbox/` (duplicate, out-of-order, interrupt/restart, revoke, disconnect). `MailboxService` keeps a durable history cursor and read offset in the same SQLite store (`BEGIN IMMEDIATE`, owner session rechecked). One thread updates one task; omitted fields do not clear notes, waiting reasons, or deadlines. Advice drafts cite the mail id and `observed_at`, require owner confirm, and never send. Notices publish only for a new or changed task, a deadline inside 24 hours, or a decision.
+
+Local evidence: `PYTHONPATH=/tmp/desk-py python3 -m pytest tests/test_mailbox_journey.py -q` → 8 passed. Ruff on the touched Python files passed. Full backend after installing the same packages onto the system site: 1693 passed, 1 failed. The failure is pre-existing `test_public_unicast[::ffff:93.184.216.34]` (`IPv6Address.is_reserved` is true for that mapped address on this interpreter). That file was not modified. No model call and no live mailbox. [QA](output/qa/2026-11-03-mailbox-offline/verification.md), [contract](desk-companion/docs/mailbox-journey.md).
+
+Published as open [PR79](https://github.com/tantalum666/FYP/pull/79); not merged. Next step is an explicit real-account scope before any live mailbox. Do not start shopping or a paid round from this slice.
+
+### Same day: quiet-hour delivery and portable mailbox backup
+
+Owner asked to close the two gaps on PR #79. A meaningful mailbox notice observed during quiet hours is stored and published by the existing `Runtime.tick` through `Notifier` once quiet hours end. The hold remains until that publish is delivered or recognized as a duplicate. Portable JSON backup now includes the cursor, read offset, thread link, message fingerprints, sync attempts, and quiet holds. Preview validates the records; restore keeps an existing connection and does not create a second task when the same messages are synced again. A display cannot preview or apply the backup.
+
+Checks: `python3 -m pytest tests/test_mailbox_journey.py` → 9 passed. Backup, notice, and nudge files `test_exchange.py`, `test_backup_persona_jobs.py`, `test_memory_gaps.py`, `test_risk_gaps.py`, `test_tasks.py`, `test_integration_boundaries.py`, `test_notify.py`, `test_nudges.py` → 64 passed. Ruff on the touched Python files passed. Still no live mailbox or paid API. Confirming a draft still uses the existing note action, which clears `check_in_local`.
+## 2026-11-03 · Offline shopping fixtures
+
+- **目标：**把离线购物夹具接进现有 Task、暂停的 Work、草稿批准和通知。不连接商店或支付，不改邮箱、Pi 或 Codex Work 界面。
+- **完成：**`desk/shopping` 读取夹具，按序号提交游标，同一商品或订单只保留一个事务和一条暂停的 Work。重复、乱序、断线、撤销和重启都走这条映射。有意义的变化才通知；建议草稿必须由拥有者确认，省略的事务字段在确认时保留。
+- **验证：**`uv run --no-sync pytest tests/test_shopping_fixtures.py tests/test_permissions.py -q` 为 28 passed（12.03s）。Ruff 通过。没有付费调用，没有 GitHub Actions。记录见 [QA](output/qa/2026-11-03-shopping-fixtures/verification.md)。
+- **剩余：**真实商店、运费、地址、支付和订单回执仍未做。邮箱旅程仍由另一条工作推进。
+- **同日补充：**可移植 JSON 备份写入并恢复购物游标。拥有者预览校验后才恢复；已存在的连接不回退游标。备份后再次同步同一夹具仍是原来的一个事务。`disconnect_after` 为 0 时不读文件、不提交，`completed` 保持 false。
+## 2026-11-03 · Offline calendar fixture journey
+
+Mapped `desk-calendar-fixture-v1` files through the existing task, calendar event, proposal, and notice services. One event or series keeps one task. Omitted location, notes, and reminders stay stored. Conflict and prepare drafts cite the event id and observation time; owner confirm does not accept an invite or send an RSVP. Duplicate, stale, restart, revoke, disconnect, quiet hours, and owner permission are covered by the HTTP journey tests.
+
+No mailbox, shopping, Pi, or Codex Work UI files were changed. No live calendar API and no paid call.
+
+Quiet-hour calendar notices are held and released by the existing rules tick through Notifier. Portable JSON backup now includes the calendar cursor, revisions, conflict pairs, attempts, and held notices. Owner preview validates the bundle. Restore then sync keeps the same task. Restart does not drop or duplicate a held notice.
+
+Files: [contract](desk-companion/docs/offline-calendar-journey.md), `desk-companion/backend/desk/offline_calendar/`, `desk-companion/fixtures/offline-calendar/`, [QA](output/qa/2026-11-03-offline-calendar/verification.md). Remaining: review this PR without connecting an account; mailbox and shopping stay on their own branches.
+## 2026-11-03 · Offline-journey merge guide
+
+Wrote a Codex-facing merge order for the open Grok offline slices: #78 harness, #79 mailbox, #80 shopping, then #82 offline calendar. Drafts #73–#77 are left on Codex's stack. This guide is #81 and can merge last or anytime. Docs only. Record: [guide](docs/offline-journey-merge-guide.md), [QA](output/qa/2026-11-03-offline-journey-merge-guide/verification.md).
+
+## 2026-11-04 Grok offline journey independent review
+
+Reviewed PR78/79/80/82/81 against frozen main dac527b in an isolated worktree. Kept each reviewed head in ancestry and combined all router, proposal, backup and notifier wiring. Repaired stale mail updates, deferred/scoped shopping notices, owner stop/logout boundaries, portable Work reattachment/atomic paused admission, calendar conflict/operation/cursor/cancellation bookkeeping, backup reference/receipt validation, and shared source-aware review/success UI. Split mailbox backup logic from ingest.
+
+[QA](output/qa/2026-11-04-grok-journey-review/verification.md) records actual failing regressions, fixed-source full runs, Web/393px phone interactions and independent task readback. A separate combination with PR77 preserves current Alice/OpenAI/application Work code; it is not a merge/deployment of that stack. Original worktrees/data and school files remain unchanged. No CI, paid model, live account, external message/transaction or Pi action. Final publication follows the locally verified source and records remote heads separately.

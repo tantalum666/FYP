@@ -1,0 +1,39 @@
+{
+  "format": "desk-calendar-fixture-v1",
+  "account_id": "restart-cal",
+  "calendar_id": "primary",
+  "batches": [
+    {
+      "id": "partial",
+      "events": [
+        {
+          "op": "upsert",
+          "item": {
+            "id": "evt-restart",
+            "sequence": 1,
+            "observed_at": "2026-11-03T02:00:00Z",
+            "title": "Restart me",
+            "start_local": "2026-11-20T18:00:00",
+            "end_local": "2026-11-20T19:00:00",
+            "timezone": "Asia/Hong_Kong",
+            "location": "Room",
+            "notes": "Stay",
+            "reminder_minutes": [15]
+          }
+        },
+        {"op": "interrupt"},
+        {
+          "op": "upsert",
+          "item": {
+            "id": "evt-restart",
+            "sequence": 2,
+            "observed_at": "2026-11-03T02:01:00Z",
+            "start_local": "2026-11-21T18:00:00",
+            "end_local": "2026-11-21T19:00:00",
+            "timezone": "Asia/Hong_Kong"
+          }
+        }
+      ]
+    }
+  ]
+}

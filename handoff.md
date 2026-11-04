@@ -1,20 +1,17 @@
 # Group 2 Current Handoff
 
-31 October 2026, Asia/Shanghai. **PR5 repaired and merged.** [PR5](https://github.com/tantalum666/FYP/pull/5) merged reviewed head112f912 as main `9b655e1ac74d3d35a876a100e4681ee00ece4066`; GitHub reads closed/merged and both complete trees match. [Publication receipt](output/qa/2026-10-31-pr5-repair/publication.json). Current managed worktree is `/Users/tantalum/.codex/worktrees/all-pr-review-20261030/FYP`, documentation-closeout branch `codex/pr5-merge-receipt-20261031`. Original18d2056/11dc2b8 remain in ancestry.
-
+4 November 2026. **Grok PRs78–82 have been reviewed and repaired together on `codex/grok-journey-review-20261104`.** Reviewed application source:63e538b. Publication/merge state is recorded in [QA](output/qa/2026-11-04-grok-journey-review/verification.md) and its receipt. Pi remains paused and all paid experiment budgets closed.
 
 ## Current implementation
 
-Retained Work/source/artifact/watch/routine services compose with current TaskService, JobService, PermissionService and owner_memories. Alice/mobile/Omni and the real office executor remain authoritative. Old A1 and demo-record application code are superseded and remain in Git history. Normal ephemeral conversations and explicitly saved threads have separate endpoints/IDs. [Compatibility/migration contract](desk-companion/docs/pr5-integration.md), [research/current product gaps](research/personal-agent-research-index.md).
+Offline mailbox, shopping and calendar fixtures share existing Tasks, Work, proposals, Notifier and backup services. All three bundles round-trip together. Repaired stale mail updates, quiet shopping delivery, scoped notification IDs, owner stop/logout between items, restored Work links/paused admission, calendar conflict/revision/cursor handling and forged backup receipts. Source-aware review cards and success copy describe task updates accurately. Mailbox backup logic is a separate module. [Mailbox](desk-companion/docs/mailbox-journey.md), [shopping](desk-companion/docs/shopping-fixtures.md), [calendar](desk-companion/docs/offline-calendar-journey.md).
 
-Mac migration identity, canonical fact visibility/conversion, deletion retry barriers, Work approval after redaction, bounded JSON, transport privacy and lifecycle cleanup are repaired. Old user stores require explicit stopped-store upgrades; no real data was migrated. A schema1 fixture made by unmodified main preserved all45 original tables through schema3, including fact history/expiry/aliases/policy/unapproved jobs.
+## Evidence and limits
 
-## Evidence
+Use the final [validation summary](output/qa/2026-11-04-grok-journey-review/validation-summary.json), not the original PR pass counts. Main and a separate PR77 compatibility rehearsal were checked locally; web/393px phone review/cancel/readback preserved input. No real account, model call, sending, order, payment, native build, Pi or real database upgrade. The source histories/legacy test warnings remain recorded.
 
-Final backend1,686 and frontend300 checks, Ruff, TypeScript/Vite, lock metadata and model/image hashes passed. Actual web Work produced files, waited for a typed task-note approval, then independently verified the same task effect. The watch created one review and stayed quiet after acknowledgment. Actual download SHA and restart readback match; phone393px reads the note and preserves Alice. Explicit saved-chat create/approve/refresh uses the same facts and one history rendering. No provider call, native/keyboard or hardware acceptance was claimed.
-
-The isolated localhost:8832 fixture service was stopped and test tabs/viewports cleared. Prior runtime/API8854/Vite5191/application VM and existing keys/data in older worktrees were not changed; recheck before reuse. All paid rounds remain closed; no CI or Pi work.
+The current user-facing primary chat/OpenAI/Alice code remains on [PR77](https://github.com/tantalum666/FYP/pull/77), stacked on74–76, in `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`. Its real configuration and private key/model paths remain authoritative there. This review does not replace that preview with main's older shell. The local compatibility rehearsal proves code compatibility, not merge/deployment or a new live-model result. PR73 remains a paused hardware checkpoint.
 
 ## One next step
 
-Implement the authorized-mailbox journey through the current task/Work core: incrementally ingest messages, map a thread to the same task, produce sourced advice/drafts and notify only on meaningful change. Start with offline duplicate/out-of-order/revoke/restart fixtures; obtain an explicit real-account scope before connecting a mailbox. Reuse the recovered [research](research/personal-agent-research-index.md); do not create another task/job/memory core or restart a paid budget.
+Integrate the reviewed offline journeys into the current primary-chat/Alice software stack and continue ordinary conversation-to-Work acceptance, using offline recovery cases first. Real mailbox/merchant/calendar accounts and external effects require their own concrete user scope. Keep the [personal-agent research](research/personal-agent-research-index.md), existing permission/core boundaries and no-CI rule.

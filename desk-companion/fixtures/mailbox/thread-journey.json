@@ -1,0 +1,143 @@
+{
+  "format": "desk-mailbox-fixture-v1",
+  "account_id": "lab-owner",
+  "address": "owner@example.test",
+  "batches": [
+    {
+      "id": "arrive",
+      "events": [
+        {
+          "op": "message",
+          "message": {
+            "id": "msg-quote-2",
+            "thread_id": "thread-quote",
+            "history_id": 2,
+            "observed_at": "2026-11-03T01:02:00Z",
+            "sender": "vendor@example.test",
+            "subject": "Friday review quote",
+            "snippet": "Please confirm the Friday draft.",
+            "deadline_local": "2026-11-20T18:00",
+            "timezone": "Asia/Hong_Kong",
+            "await_reply": true,
+            "waiting_for": "Vendor confirmation",
+            "next_step": "Read the quote",
+            "needs_decision": true
+          }
+        },
+        {
+          "op": "message",
+          "message": {
+            "id": "msg-quote-2",
+            "thread_id": "thread-quote",
+            "history_id": 2,
+            "observed_at": "2026-11-03T01:02:00Z",
+            "sender": "vendor@example.test",
+            "subject": "Friday review quote",
+            "snippet": "Please confirm the Friday draft.",
+            "deadline_local": "2026-11-20T18:00",
+            "timezone": "Asia/Hong_Kong",
+            "await_reply": true,
+            "waiting_for": "Vendor confirmation",
+            "next_step": "Read the quote",
+            "needs_decision": true
+          }
+        },
+        {
+          "op": "message",
+          "message": {
+            "id": "msg-quote-1",
+            "thread_id": "thread-quote",
+            "history_id": 1,
+            "observed_at": "2026-11-03T01:01:00Z",
+            "sender": "vendor@example.test",
+            "subject": "Friday review quote",
+            "snippet": "Early copy of the same thread.",
+            "deadline_local": "2026-11-05T18:00",
+            "timezone": "Asia/Hong_Kong",
+            "await_reply": true,
+            "waiting_for": "Early note",
+            "next_step": "Old step",
+            "needs_decision": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "ping",
+      "events": [
+        {
+          "op": "message",
+          "message": {
+            "id": "msg-quote-3",
+            "thread_id": "thread-quote",
+            "history_id": 3,
+            "observed_at": "2026-11-03T01:03:00Z",
+            "sender": "vendor@example.test",
+            "subject": "Friday review quote",
+            "snippet": "No tracked field changes in this copy."
+          }
+        }
+      ]
+    },
+    {
+      "id": "reschedule",
+      "events": [
+        {
+          "op": "message",
+          "message": {
+            "id": "msg-quote-4",
+            "thread_id": "thread-quote",
+            "history_id": 4,
+            "observed_at": "2026-11-03T01:04:00Z",
+            "sender": "vendor@example.test",
+            "subject": "Friday review quote",
+            "snippet": "The review moved to this evening.",
+            "deadline_local": "2026-11-03T18:00",
+            "next_step": "Confirm the new time",
+            "needs_decision": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "unchanged",
+      "events": [
+        {
+          "op": "message",
+          "message": {
+            "id": "msg-quote-4",
+            "thread_id": "thread-quote",
+            "history_id": 4,
+            "observed_at": "2026-11-03T01:04:00Z",
+            "sender": "vendor@example.test",
+            "subject": "Friday review quote",
+            "snippet": "The review moved to this evening.",
+            "deadline_local": "2026-11-03T18:00",
+            "next_step": "Confirm the new time",
+            "needs_decision": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "reply",
+      "events": [
+        {
+          "op": "message",
+          "message": {
+            "id": "msg-quote-5",
+            "thread_id": "thread-quote",
+            "history_id": 5,
+            "observed_at": "2026-11-03T01:05:00Z",
+            "sender": "vendor@example.test",
+            "subject": "Friday review quote",
+            "snippet": "The quote is accepted.",
+            "await_reply": false,
+            "next_step": "File the accepted quote",
+            "needs_decision": true
+          }
+        }
+      ]
+    }
+  ]
+}

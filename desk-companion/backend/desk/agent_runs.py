@@ -305,9 +305,13 @@ class AgentRunService:
             ],
         }
 
-    def create(self, payload, key, principal):
+    def create(self, payload, key, principal, *, start_paused=False):
         session = self.session(principal)
         request_data = payload.model_dump(mode="json")
+        if type(start_paused) is not bool:
+            raise DomainError("INVALID_RUN_STATE", 422)
+        if start_paused:
+            request_data["start_paused"] = True
         if payload.voice_origin_ref is None:
             request_data.pop("voice_origin_ref")  # Preserve existing typed-create receipt hashes.
         request_hash = fingerprint(request_data)
@@ -367,7 +371,7 @@ class AgentRunService:
                 )
                 if payload.personal_context
                 else None,
-                "state": "queued",
+                "state": "paused" if start_paused else "queued",
                 "version": 1,
                 "generation": 1,
                 "lease_until": None,

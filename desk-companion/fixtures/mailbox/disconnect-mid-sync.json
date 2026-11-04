@@ -1,0 +1,37 @@
+{
+  "format": "desk-mailbox-fixture-v1",
+  "account_id": "disconnect-owner",
+  "address": "owner@example.test",
+  "batches": [
+    {
+      "id": "drop",
+      "events": [
+        {
+          "op": "message",
+          "message": {
+            "id": "msg-seen",
+            "thread_id": "thread-seen",
+            "history_id": 1,
+            "observed_at": "2026-11-03T01:30:00Z",
+            "sender": "seen@example.test",
+            "subject": "Seen before disconnect",
+            "snippet": "Read, then the link dropped."
+          }
+        },
+        {"op": "disconnect"},
+        {
+          "op": "message",
+          "message": {
+            "id": "msg-unread",
+            "thread_id": "thread-unread",
+            "history_id": 2,
+            "observed_at": "2026-11-03T01:31:00Z",
+            "sender": "unread@example.test",
+            "subject": "Unread after disconnect",
+            "snippet": "A dropped link is not a successful sync."
+          }
+        }
+      ]
+    }
+  ]
+}

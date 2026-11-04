@@ -1,0 +1,9 @@
+{
+  "source_and_tests_equal_verified_commit": true,
+  "verified_commit": "63e538b420f5cb0e3fb4cad3622f4dbe4cb800ca",
+  "current_links_checked": 20,
+  "missing": [],
+  "protected_path_changes": 0,
+  "all_five_pr_heads_are_ancestors": true,
+  "no_workflow_files_changed": true
+}

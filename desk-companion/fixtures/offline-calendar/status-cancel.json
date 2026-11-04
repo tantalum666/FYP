@@ -1,0 +1,58 @@
+{
+  "format": "desk-calendar-fixture-v1",
+  "account_id": "status-cal",
+  "calendar_id": "primary",
+  "batches": [
+    {
+      "id": "create",
+      "events": [
+        {
+          "op": "upsert",
+          "item": {
+            "id": "evt-drop",
+            "sequence": 1,
+            "observed_at": "2026-11-03T08:00:00Z",
+            "title": "Drop me",
+            "start_local": "2026-11-24T10:00:00",
+            "end_local": "2026-11-24T11:00:00",
+            "timezone": "Asia/Hong_Kong",
+            "location": "Keep until cancel",
+            "notes": "Still here",
+            "reminder_minutes": [10]
+          }
+        }
+      ]
+    },
+    {
+      "id": "drop",
+      "events": [
+        {
+          "op": "upsert",
+          "item": {
+            "id": "evt-drop",
+            "sequence": 2,
+            "observed_at": "2026-11-03T08:01:00Z",
+            "status": "cancelled"
+          }
+        }
+      ]
+    },
+    {
+      "id": "again",
+      "events": [
+        {
+          "op": "upsert",
+          "item": {
+            "id": "evt-drop",
+            "sequence": 3,
+            "observed_at": "2026-11-03T08:02:00Z",
+            "title": "Drop me",
+            "start_local": "2026-11-24T12:00:00",
+            "end_local": "2026-11-24T13:00:00",
+            "timezone": "Asia/Hong_Kong"
+          }
+        }
+      ]
+    }
+  ]
+}

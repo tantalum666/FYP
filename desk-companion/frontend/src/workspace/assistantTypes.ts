@@ -12,9 +12,13 @@ export interface Proposal {
     | "memory_save"
     | "memory_replace"
     | "memory_delete"
-    | "memory_consolidate";
+    | "memory_consolidate"
+    | "mailbox_reply"
+    | "shopping_advice"
+    | "calendar_advice";
   expires_at: string;
   data: {
+    title?: string;
     task?: TaskInput;
     original_task?: Task;
     event?: EventInput;
@@ -37,6 +41,20 @@ export interface Proposal {
     reason_en?: string;
     reason_zh?: string;
     goal?: boolean;
+    summary?: string;
+    reply_draft?: string | null;
+    mail_id?: string;
+    event_uid?: string;
+    observed_at?: string;
+    shopping?: {
+      fixture_id: string;
+      event_id: string;
+      observed_at: string;
+      note: string;
+      provided_fields?: Partial<
+        Pick<TaskInput, "status" | "waiting_for" | "next_step" | "title">
+      >;
+    };
     change?: {
       action: string;
       scope?: string;
