@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-4 November 2026. **Grok PRs78–82 have been reviewed and repaired together on `codex/grok-journey-review-20261104`.** Reviewed application source:63e538b. Publication/merge state is recorded in [QA](output/qa/2026-11-04-grok-journey-review/verification.md) and its receipt. Pi remains paused and all paid experiment budgets closed.
+4 November 2026. **Grok PRs78–82 are merged through [PR83](https://github.com/tantalum666/FYP/pull/83).** Code merge89dc92f exactly matches reviewed headbb6443c; the verified application source is63e538b. All five original PRs were read back closed/merged. [Receipt](output/qa/2026-11-04-grok-journey-review/publication.json), [QA](output/qa/2026-11-04-grok-journey-review/verification.md). Pi remains paused and all paid experiment budgets closed.
 
 ## Current implementation
 

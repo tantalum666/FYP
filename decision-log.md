@@ -427,3 +427,7 @@ Updated: 3 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 本轮修复离线状态和回执真实性，并补同一运行实例、联合备份、静音恢复、撤销/登出和浏览器卡片检查。购物Work原子暂停入队；可移植恢复后仅在明确同步时重新关联，不恢复旧运行权限。Grok合并指南旧头和“日程无备份”说法标为历史。
 
 PR74–77的主对话/Alice/OpenAI栈只作独立组合兼容检查，不混入本次五个Grok PR的主线合并，也不替换正在使用的服务。Pi暂停、所有实验预算关闭、无CI继续有效。真实账户/发信/购买/支付/出票未获本轮具体授权，也未执行。最终结果以[QA及远端回执](output/qa/2026-11-04-grok-journey-review/verification.md)为准。
+
+### 4 November publication readback
+
+[PR83](https://github.com/tantalum666/FYP/pull/83) merged at89dc92f41d945783af43dcb4f56f0e7e6d0edb1a. Remote main exactly matches the complete tree of reviewed bb6443c. Original PR78–82 were individually read back closed/merged; source63e538b remains the tested application. [Receipt](output/qa/2026-11-04-grok-journey-review/publication.json). This follow-up records publication only, with no CI, deployment, model or hardware action.

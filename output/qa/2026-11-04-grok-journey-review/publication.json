@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-04",
+  "timezone": "Asia/Hong_Kong",
+  "integration_pr": 83,
+  "reviewed_head": "bb6443c3ad61d1a347c3429d604e0dd5e96dd133",
+  "verified_source": "63e538b420f5cb0e3fb4cad3622f4dbe4cb800ca",
+  "main_code_merge": "89dc92f41d945783af43dcb4f56f0e7e6d0edb1a",
+  "prs": [
+    {
+      "number": 78,
+      "url": "https://github.com/tantalum666/FYP/pull/78",
+      "state": "closed",
+      "merged": true,
+      "head": "765b5fef1e7ad63ae4a595a964fa9467c1804c9e",
+      "merge_commit": "3aafd5ba0fa4112fa5e3dc695f7fc6bb5b2c64e6",
+      "merged_at": "2026-11-04T02:53:44Z"
+    },
+    {
+      "number": 79,
+      "url": "https://github.com/tantalum666/FYP/pull/79",
+      "state": "closed",
+      "merged": true,
+      "head": "5e1e72211ed528af71539285a0c54f255b190686",
+      "merge_commit": "a8d65606c6782d80c94c9ee59ac6241ab7ca4812",
+      "merged_at": "2026-11-04T02:53:44Z"
+    },
+    {
+      "number": 80,
+      "url": "https://github.com/tantalum666/FYP/pull/80",
+      "state": "closed",
+      "merged": true,
+      "head": "4e5a3a1ceb810b6f7604d6173cabfcb835635d86",
+      "merge_commit": "67882aa39d81acabd263dcc79b57d03e002b9be5",
+      "merged_at": "2026-11-04T02:53:44Z"
+    },
+    {
+      "number": 81,
+      "url": "https://github.com/tantalum666/FYP/pull/81",
+      "state": "closed",
+      "merged": true,
+      "head": "546bad6196dfded49c2ae65212465f1e7a6ac117",
+      "merge_commit": "c4f937c9d1fad5a222b5f2166a61967da9cc91f0",
+      "merged_at": "2026-11-04T02:53:44Z"
+    },
+    {
+      "number": 82,
+      "url": "https://github.com/tantalum666/FYP/pull/82",
+      "state": "closed",
+      "merged": true,
+      "head": "aa218dbd73358fd0d15ae9afe642409374f9e44a",
+      "merge_commit": "8481338c42ecf34c36fcc17f156aa779f962bd64",
+      "merged_at": "2026-11-04T02:53:44Z"
+    },
+    {
+      "number": 83,
+      "url": "https://github.com/tantalum666/FYP/pull/83",
+      "state": "closed",
+      "merged": true,
+      "head": "bb6443c3ad61d1a347c3429d604e0dd5e96dd133",
+      "merge_commit": "89dc92f41d945783af43dcb4f56f0e7e6d0edb1a",
+      "merged_at": "2026-11-04T02:53:42Z"
+    }
+  ],
+  "ci_used": false,
+  "deployed": false
+}
