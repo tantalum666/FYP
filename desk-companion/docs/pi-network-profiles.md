@@ -50,6 +50,10 @@ Two OS-level observations remain explicit: cloud-init finished with no fatal err
 
 Starting Pi-local Chromium produced an undervoltage warning confirmed in the kernel log. Its window was closed; later `0x50000` records historical undervoltage/throttling rather than active flags. Boot-reported supply capability was3000mA, not a measurement of current draw or proof of the physical PSU's rating. On4November the owner confirmed the official27W supply; fresh voltage/throttling readback and a bounded load retest remain pending. Never force a higher USB-current limit or suppress voltage warnings to pass acceptance. [Official power guidance](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#power-supply), [status-bit meanings](https://www.raspberrypi.com/documentation/computers/os.html#get_throttled).
 
+## Owner relay and interrupted setup
+
+The optional [owner-hosted relay and verified bootstrap](pi-owner-relay.md) preserve all three local profile paths. A fresh card readback confirmed wired DHCP and the intended source rule. A later incomplete relay installation exposed the need to verify actual root-file contents and setup receipts, not only FAT seed bytes or process exit0. The new recovery is locally validated; Pi SSH and classroom/mainland field tests are still distinct.
+
 ## Primary references
 
 - [Raspberry Pi cloud-init boot files](https://www.raspberrypi.com/news/cloud-init-on-raspberry-pi-os/)

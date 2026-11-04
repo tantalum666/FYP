@@ -118,6 +118,8 @@ def render(
     country="CN",
     allow_routed_owner=False,
     discovery_seconds=60,
+    relay_bundle=None,
+    host_key_fingerprint=None,
 ):
     private_lan(str(ipaddress.IPv4Address(owner_host)) + "/32")
     home, wired = profiles(ssid, password)
@@ -138,6 +140,16 @@ def render(
         (str(PROFILE_ROOT / "FYP-Home.nmconnection"), home, "0600"),
         (str(PROFILE_ROOT / "FYP-Wired.nmconnection"), wired, "0600"),
     ]
+    if relay_bundle is not None:
+        from setup_owner_relay import seed_files
+
+        files.extend(seed_files(relay_bundle, trial_id))
+    if host_key_fingerprint is not None and not re.fullmatch(
+        r"SHA256:[A-Za-z0-9+/]{43}", host_key_fingerprint
+    ):
+        raise ValueError("Use the recorded Pi host-key fingerprint")
+    bootstrap = Path(__file__).with_name("network_bootstrap.py").read_text()
+    fingerprint = host_key_fingerprint or "-"
     data = {
         "hostname": "desk-companion",
         "preserve_hostname": True,
@@ -152,7 +164,8 @@ def render(
             {"path": p, "owner": "root:root", "permissions": mode, "content": body}
             for p, body, mode in files
         ],
-        "runcmd": [["/usr/bin/python3", SCRIPT]],
+        "bootcmd": [["/usr/bin/python3", "-c", bootstrap, "boot", fingerprint]],
+        "runcmd": [["/usr/bin/python3", "-c", bootstrap, "run", fingerprint]],
     }
     user = "#cloud-config\n" + json.dumps(data, indent=2) + "\n"
     meta = (
@@ -210,6 +223,8 @@ def prepare(
     country="CN",
     allow_routed_owner=False,
     discovery_seconds=60,
+    relay_bundle=None,
+    host_key_fingerprint=None,
 ):
     verified = verify_target(boot, identity)
     ssid, password = secret_file(credentials)
@@ -228,6 +243,8 @@ def prepare(
         country=country,
         allow_routed_owner=allow_routed_owner,
         discovery_seconds=discovery_seconds,
+        relay_bundle=relay_bundle,
+        host_key_fingerprint=host_key_fingerprint,
     )
     for name, text in [("user-data", user), ("meta-data", meta)]:
         atomic_write(directory / name, text)
@@ -267,6 +284,8 @@ def prepare(
         "country": country,
         "allow_routed_owner": allow_routed_owner,
         "discovery_seconds": discovery_seconds,
+        "owner_relay_included": relay_bundle is not None,
+        "host_key_fingerprint": host_key_fingerprint,
         "changed_boot_files": ["user-data", "meta-data"] if apply else [],
         "linux_partition_written_by_mac": False,
         "preserved_boot_hashes": {
@@ -288,6 +307,8 @@ def main():
     parser.add_argument("--country", choices=("CN", "HK"), default="CN")
     parser.add_argument("--allow-routed-owner", action="store_true")
     parser.add_argument("--discovery-seconds", type=int, default=60)
+    parser.add_argument("--relay-bundle", type=Path)
+    parser.add_argument("--host-key-fingerprint")
     parser.add_argument("--apply", action="store_true")
     args = parser.parse_args()
     result = prepare(
@@ -300,6 +321,8 @@ def main():
         country=args.country,
         allow_routed_owner=args.allow_routed_owner,
         discovery_seconds=args.discovery_seconds,
+        relay_bundle=args.relay_bundle,
+        host_key_fingerprint=args.host_key_fingerprint,
     )
     print(
         json.dumps(

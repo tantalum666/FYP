@@ -71,7 +71,9 @@ def test_render_preserves_users_keys_and_keeps_credential_out_of_argv(modules):
     data = json.loads(user.split("\n", 1)[1])
     assert data["users"] == [] and data["ssh_deletekeys"] is False and data["ssh_pwauth"] is False
     assert data["package_update"] is False and data["package_upgrade"] is False
-    assert data["runcmd"] == [["/usr/bin/python3", n.SCRIPT]]
+    assert data["runcmd"][0][:2] == ["/usr/bin/python3", "-c"]
+    assert data["runcmd"][0][-2:] == ["run", "-"]
+    assert data["bootcmd"][0][-2:] == ["boot", "-"]
     entries = {v["path"]: v for v in data["write_files"]}
     wifi = entries[str(n.PROFILE_ROOT / "FYP-Home.nmconnection")]
     wired = entries[str(n.PROFILE_ROOT / "FYP-Wired.nmconnection")]
@@ -341,3 +343,39 @@ def test_hk_recovery_render_keeps_one_owner_and_bounded_window(modules):
     assert policy["country"] == "HK" and policy["allow_routed_owner"] is True
     assert policy["owner_host"] == "10.104.53.2" and policy["discovery_seconds"] == 600
     assert data["users"] == [] and data["ssh_deletekeys"] is False
+
+
+@pytest.mark.parametrize("place", ["home_wifi", "classroom_wired_and_wifi", "dorm_wired"])
+def test_owner_relay_recovery_retains_all_three_local_network_paths(modules, place):
+    n, p = modules
+    scenes = {
+        "home_wifi": (
+            [interface("wlan0", "192.168.0.52")],
+            {"wlan0": n.HOME_UUID},
+            {("wlan0", "192.168.0.0/24")},
+        ),
+        "classroom_wired_and_wifi": (
+            [interface("eth0", "172.18.37.28"), interface("wlan0", "192.168.49.5")],
+            {"wlan0": n.CLASSROOM_UUID, "eth0": n.WIRED_UUID},
+            {("eth0", "172.18.37.0/24"), ("wlan0", "192.168.49.0/24")},
+        ),
+        "dorm_wired": (
+            [interface("eth0", "10.20.16.25", 22)],
+            {"eth0": n.WIRED_UUID},
+            {("eth0", "10.20.16.0/22")},
+        ),
+    }
+    interfaces, active, expected = scenes[place]
+    policy = {"owner_host": "10.10.50.2", "allow_routed_owner": True}
+    admitted = set(
+        n.admitted_networks(interfaces, active) + n.routed_owner_networks(interfaces, policy)
+    )
+    assert expected <= admitted
+    if place == "home_wifi":
+        assert admitted == expected
+    else:
+        assert ("eth0", "10.10.50.2/32") in admitted
+    # The HK recovery must retain home autoconnect and the ordinary wired DHCP profile.
+    home, wired = p.profiles("Fixture", "fixture-only")
+    assert "autoconnect=true" in home and "autoconnect=true" in wired
+    assert "route-metric=50" in home and "route-metric=100" in wired
