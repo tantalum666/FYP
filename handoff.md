@@ -1,6 +1,6 @@
 # Group 2 current handoff
 
-4 November 2026. **Unified software candidate includes PR74–77 and the reviewed Grok journeys already on main.** Candidate151f807; [QA/results](output/qa/2026-11-04-merge-74-77/verification.md). Remote publication is recorded separately. Pi is paused, experimental budgets closed, verification local only.
+4 November 2026. **PR74–77 are merged into main through [PR85](https://github.com/tantalum666/FYP/pull/85), together with the reviewed Grok journeys.** Code mergeb663204 exactly matches reviewed affbad2d; candidate151f807 is the verified application tree. All four original PRs were independently read back merged. [Receipt](output/qa/2026-11-04-merge-74-77/publication.json), [QA/results](output/qa/2026-11-04-merge-74-77/verification.md). Pi is paused, experimental budgets closed, verification local only.
 
 ## Current software
 

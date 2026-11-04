@@ -2,7 +2,7 @@
 
 更新：2026-11-04。Grok PR78–82已通过[PR83](https://github.com/tantalum666/FYP/pull/83)合并，代码合并89dc92f与验收树一致：离线邮箱、购物和日程样本接入既有事务/Work/通知/备份；已修复恢复、去重、撤销、过期消息、冲突与回执校验问题。新增建议卡片显示具体对象、来源和确认效果。最终本地验证及GitHub状态见[审查QA](output/qa/2026-11-04-grok-journey-review/verification.md)。真实邮箱、商店、支付、机票和真实日历账户仍未接通。
 
-用户随后明确要求合并74–77。当前统一软件候选包含主对话、Alice、OpenAI/本地唤醒和跨应用Work，并保留刚完成的Grok修复；[本轮QA](output/qa/2026-11-04-merge-74-77/verification.md)记录完整1769后端/319前端及实际页面检查。正常预览运行服务尚未切换；Pi暂停、实验预算关闭、无CI。
+用户随后明确要求合并74–77。[PR85](https://github.com/tantalum666/FYP/pull/85)已将74–77合入main（b663204，验收树一致）；统一软件包含主对话、Alice、OpenAI/本地唤醒和跨应用Work，并保留刚完成的Grok修复；[本轮QA](output/qa/2026-11-04-merge-74-77/verification.md)记录完整1769后端/319前端及实际页面检查。正常预览运行服务尚未切换；Pi暂停、实验预算关闭、无CI。
 
 历史整合基线：2026-10-31。PR5 已按用户明确授权修复并合并（代码合并 `9b655e1`，与已测候选完整树一致）。本轮兼容整合：保留 Alice／Omni／权限及真实应用执行器，接入持久 Work、来源与产物、事务变化跟踪、定期检查和显式保存会话；事实统一保留在 owner_memories。迁移及发布状态见[本轮QA](output/qa/2026-10-31-pr5-repair/verification.md)与[兼容契约](desk-companion/docs/pr5-integration.md)。此前 PR70 已合入 #19／#64–#69，#4／#15／#16 的旧界面由当前主线取代。Grok #20–#59及#60已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main（软件合并c2037cd），原41个PR状态均已核对。当前方向为 **Desk Companion个人AI助理**。本分支基于完成归档的main，整合Grok #20–#59和#60的Alice／统一Omni／网页／手机软件，修复权限、上下文、恢复和跨栈兼容问题。分支推送、PR合并、目标设备部署及真实模型验收分别记录；此前跨端权限／事务接续与OpenAI受限真实评测已完成；现已实现受限 Chromium／Calc／Writer 执行，并跑通脚本驱动的复杂任务、改口和重启恢复；语音模型自主完成仍未验收。结果见[交接](handoff.md)、[本轮QA](output/qa/2026-10-30-application-execution/verification.md)与[实际交付门槛](desk-companion/docs/delivery-readiness.md)。合并基线的[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)保留历史范围。
 
@@ -12,7 +12,7 @@
 
 - Web以主对话页进入，保持自适应和输入区可见；Mac媒体先本机预览，显式分享后才发画面。界面详情按需展开。手机、电脑及Linux触摸屏共享业务数据；设备常亮页独立构图。手机使用全屏Alice首页与按需Plan／More，保留虚拟形象和简洁操作。
 - 个人 Agent 的目标包括邮件跟踪、建议和语音生活事务代办。离线邮箱/购物/日程样本已实现同一事务接续、拥有者核对、静音延后通知和联合备份；它们不能代替真实账号、订单或出票验收。[研究总入口](research/personal-agent-research-index.md)保留真实旅程目标。
-- 同一助理贯通文字、语音、短期上下文、经批准的长期记忆、日历和事务。**Qwen Omni是当前已接入／已测基线，不是唯一或最终AI选择。**Qwen Audio／Gemini已有协议适配；OpenAI Realtime2.1与GPT-Live1＋Luna已完成一轮虚构业务／合成语音实测，Mini有英文参照。OpenAI日常App接入和Alice本地唤醒已经纳入统一软件候选，真人同条件比较仍待；不能把协议模拟当成真实效果。
+- 同一助理贯通文字、语音、短期上下文、经批准的长期记忆、日历和事务。**Qwen Omni是当前已接入／已测基线，不是唯一或最终AI选择。**Qwen Audio／Gemini已有协议适配；OpenAI Realtime2.1与GPT-Live1＋Luna已完成一轮虚构业务／合成语音实测，Mini有英文参照。OpenAI日常App接入和Alice本地唤醒已经纳入main统一软件，真人同条件比较仍待；不能把协议模拟当成真实效果。
 - 真实、受限的电脑／软件操作是核心；先推进Linux。允许范围、批准、取消、超时、未知结果和独立读回由程序控制。默认每次询问；拥有者可在输入框旁／设置中显式启用完整权限，对新请求中的已支持软件操作授予持续授权。模型不能更改权限或自行确认，实体输出仍独立批准。见[权限契约](desk-companion/docs/assistant-permissions.md)。
 - 日历等简单查询约5秒提供有用回答是体验目标。工具等待、首音、首个有用词与作业完成分别计时。
 - 角色为AliceChan，保留原貌、作者署名与CC BY-SA4.0；不恢复被否决的自行制作脸发路线。旧A1研究与作者源按历史保存。

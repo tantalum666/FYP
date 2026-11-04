@@ -1,6 +1,6 @@
 # PR74–77 stack integration
 
-4 November 2026. Owner explicitly requested merging74–77 after the Grok integration. Base main4855987; candidate151f807. [Frozen refs](frozen-prs.json), [local results](validation-summary.json). GitHub publication/merge receipt is added after actual readback.
+4 November 2026. Owner explicitly requested merging74–77 after the Grok integration. Base main4855987; candidate151f807. [Frozen refs](frozen-prs.json), [local results](validation-summary.json). [Publication receipt](publication.json) confirms PR85 merged atb663204, remote main identical to reviewed affbad2d, and all original PR74–77 closed/merged.
 
 ## Scope and resolution
 
