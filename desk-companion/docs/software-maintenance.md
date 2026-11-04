@@ -104,4 +104,4 @@ MailboxService and OfflineCalendarService own incremental source state while Tas
 
 ShoppingService admits tracking Work with the existing AgentRunService's internal `start_paused` option. Explicit sync repairs absent portable Work links on the same task; old execution/session authority is not restored. ShoppingNotices holds pending deliveries and delegates to Notifier/rules tick, including after restore.
 
-JourneyAdvice and proposalDecision share source/effect presentation across Web/phone and use the existing decision endpoint. They introduce no model client, approval queue or polling lifecycle. The current primary-chat/OpenAI stack remains separate PR74–77; [compatibility evidence](../../output/qa/2026-11-04-grok-journey-review/compatibility.json) is not deployment.
+JourneyAdvice and proposalDecision share source/effect presentation across Web/phone and use the existing decision endpoint. They introduce no model client, approval queue or polling lifecycle. The primary-chat/OpenAI stack from PR74–77 is now combined with these journeys; [compatibility evidence](../../output/qa/2026-11-04-grok-journey-review/compatibility.json) is not deployment.

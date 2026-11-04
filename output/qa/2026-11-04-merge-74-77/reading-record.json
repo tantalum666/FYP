@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-04",
+  "scope": "Follow-up to the just-completed integration; reuse observed code/review and supplement current refs and conflicts. No blanket historical Markdown reread.",
+  "read": [
+    "User-provided current AGENTS and main AGENTS/entry/handoff",
+    "Main product current requirements and latest Nov4 decisions",
+    "Current PR77 handoff and four focused contracts: application-work.md (62 lines), ui-copy.md (25), desktop-conversation.md (29), openai-alice-wake.md (41)",
+    "All eight Markdown conflict locations and incoming decision/work-log sections; current pr5-integration remaining-boundary section",
+    "Frozen GitHub PR74-77 metadata and exact Git ancestor/diff comparison",
+    "Two retained UI screenshots and controlled-test PDF text; unchanged binary assets remain dated evidence",
+    "MEMORY.md lines151-154 for maintenance/merge conventions; current facts independently refreshed"
+  ],
+  "reused": [
+    "Previous frozen-code PR77 compatibility source b0375f4",
+    "Prior individual PR74-77 implementation and QA; no new live-provider/device claim"
+  ],
+  "not_done": [
+    "No repricing or fresh provider research",
+    "No microphone/camera acquisition",
+    "No real office/VM/Pi rerun",
+    "No original school document changes"
+  ]
+}

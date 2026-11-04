@@ -1,0 +1,30 @@
+{
+  "desktop": {
+    "viewport": [
+      1280,
+      800
+    ],
+    "horizontal_scroll_width": 1280,
+    "dialog_overlays": 0,
+    "composer_bottom": 702,
+    "chat_tasks_chat_preserved_input": true,
+    "advice_confirmation": "Review saved to the task.",
+    "independent_task_note_readback": true
+  },
+  "phone": {
+    "viewport": [
+      393,
+      852
+    ],
+    "horizontal_scroll_width": 393,
+    "alice_role_image_scene_with_canvas": true,
+    "alice_visually_present": true,
+    "plan_back_preserved_input": true,
+    "camera_mic_entry_present": true
+  },
+  "console_errors_warnings": [],
+  "paid_calls": 0,
+  "media_acquisition": false,
+  "native_phone_test": false,
+  "cleanup_complete": true
+}

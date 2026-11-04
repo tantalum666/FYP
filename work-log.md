@@ -589,3 +589,7 @@ Four synthetic live attempts preserved date-argument, output-truncation and Mini
 Current API80987/Vite5191 use real OpenAI full2.1 and the local Alice model on synthetic work-ui-01; scheduler/computer/background work remain off. Updated current product, entry/handoff, decisions and voice/operator/maintenance/architecture contracts plus [QA](output/qa/2026-11-02-openai-alice-wake/verification.md). No CI, Pi, VM, real-account connection or transaction. Next: ordinary Alice long-task admission/recovery through existing Work, while human wake/noise/voice acceptance remains separately open.
 
 Publication verified: source6406503 on draftPR77, basePR76 head17df074, exact remote source head matched. Final receipt/routing is documentation-only. All experimental budgets remain closed; normal explicit owner use is distinct.
+
+## 2026-11-04 Merge PR74–77 into the reviewed main baseline
+
+Owner explicitly requested74–77. Based on main4855987, retained every stack head through the77tip and resolved only eight Markdown conflicts; application code matches the prior b0375f4 compatibility tree exactly. Full1769 backend/319 frontend, Ruff/type/build and actual primary-chat/phone draft/advice checks passed. [QA](output/qa/2026-11-04-merge-74-77/verification.md). No CI, paid provider/media/hardware or deployment action. Current docs replace the separate-stack next step with ordinary Alice-to-Work continuation on the unified baseline; publication is recorded after remote readback.

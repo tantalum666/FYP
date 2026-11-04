@@ -39,3 +39,7 @@ For30 conversational minutes/day split evenly between human and assistant, new-a
 This requested test round was limited to USD1 and is closed. Returned usage gives an uncached/ASR upper estimate0.1692086; conservative accounting is0.6499936 including an incomplete first-call receipt reservation. This is not a verified provider bill. [Budget receipt](../../output/qa/2026-11-02-openai-alice-wake/budget-summary.json). No more agent-paid checks follow from the closed round; ordinary owner-initiated use is separate. The earlier reported approximatelyUSD170 credit was not re-audited as a current balance.
 
 The USD1 ceiling applies to this experiment controller, not to normal owner usage or an account-wide daily/monthly hard limit. No provider billing setting was changed.
+
+## 4 November integration
+
+This implementation is part of the unified PR74–77/main candidate. The described normal preview is the preserved Nov2 environment, not a newly deployed merged runtime. Local integration tests use a separate providers-off fixture. No new paid or human-media test is implied. [Merge QA](../../output/qa/2026-11-04-merge-74-77/verification.md).

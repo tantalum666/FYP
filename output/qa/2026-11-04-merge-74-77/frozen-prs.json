@@ -1,0 +1,34 @@
+{
+  "base": "4855987da7a522453e965250323ae50ca113e7fa",
+  "candidate": "151f807b5cd2796d6cf4598431683ff69577a079",
+  "prs": [
+    {
+      "number": 74,
+      "url": "https://github.com/tantalum666/FYP/pull/74",
+      "head": "89f215ec8af5f841072337cc9a17217d82a85e56",
+      "branch": "codex/personal-agent-cross-app-20261031",
+      "original_base": "main"
+    },
+    {
+      "number": 75,
+      "url": "https://github.com/tantalum666/FYP/pull/75",
+      "head": "34de1e790f7f0ba7b529523f6286034868dee0cc",
+      "branch": "codex/ui-copy-cleanup-20261031",
+      "original_base": "codex/personal-agent-cross-app-20261031"
+    },
+    {
+      "number": 76,
+      "url": "https://github.com/tantalum666/FYP/pull/76",
+      "head": "17df07498ae67b4d9d1c50a8d00ca8af9e2dc9d4",
+      "branch": "codex/conversation-desktop-20261102",
+      "original_base": "codex/ui-copy-cleanup-20261031"
+    },
+    {
+      "number": 77,
+      "url": "https://github.com/tantalum666/FYP/pull/77",
+      "head": "0d73f1cf6bd28f981793b4610425df58db7a6e48",
+      "branch": "codex/openai-alice-wake-20261102",
+      "original_base": "codex/conversation-desktop-20261102"
+    }
+  ]
+}

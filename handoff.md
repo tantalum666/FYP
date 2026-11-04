@@ -1,17 +1,17 @@
-# Group 2 Current Handoff
+# Group 2 current handoff
 
-4 November 2026. **Grok PRs78–82 are merged through [PR83](https://github.com/tantalum666/FYP/pull/83).** Code merge89dc92f exactly matches reviewed headbb6443c; the verified application source is63e538b. All five original PRs were read back closed/merged. [Receipt](output/qa/2026-11-04-grok-journey-review/publication.json), [QA](output/qa/2026-11-04-grok-journey-review/verification.md). Pi remains paused and all paid experiment budgets closed.
+4 November 2026. **Unified software candidate includes PR74–77 and the reviewed Grok journeys already on main.** Candidate151f807; [QA/results](output/qa/2026-11-04-merge-74-77/verification.md). Remote publication is recorded separately. Pi is paused, experimental budgets closed, verification local only.
 
-## Current implementation
+## Current software
 
-Offline mailbox, shopping and calendar fixtures share existing Tasks, Work, proposals, Notifier and backup services. All three bundles round-trip together. Repaired stale mail updates, quiet shopping delivery, scoped notification IDs, owner stop/logout between items, restored Work links/paused admission, calendar conflict/revision/cursor handling and forged backup receipts. Source-aware review cards and success copy describe task updates accurately. Mailbox backup logic is a separate module. [Mailbox](desk-companion/docs/mailbox-journey.md), [shopping](desk-companion/docs/shopping-fixtures.md), [calendar](desk-companion/docs/offline-calendar-journey.md).
+Primary Web conversation, concise shared UI, mobile Alice, explicit local media controls, OpenAI realtime/local Alice wake, persistent application Work and the repaired offline mailbox/shopping/calendar flows now share one code baseline. Existing permissions, proposal decisions, task/job queues and validated backup contracts are retained. [Desktop](desk-companion/docs/desktop-conversation.md), [OpenAI/wake](desk-companion/docs/openai-alice-wake.md), [application Work](desk-companion/docs/application-work.md), [Grok review](output/qa/2026-11-04-grok-journey-review/verification.md).
 
-## Evidence and limits
+## Verification and runtime
 
-Use the final [validation summary](output/qa/2026-11-04-grok-journey-review/validation-summary.json), not the original PR pass counts. Main and a separate PR77 compatibility rehearsal were checked locally; web/393px phone review/cancel/readback preserved input. No real account, model call, sending, order, payment, native build, Pi or real database upgrade. The source histories/legacy test warnings remain recorded.
+1769 backend/319 frontend, lint/type/build and actual primary-chat/393px phone checks passed. No new paid-provider, human acoustics, native keyboard, real-account or hardware result. Offline advice remains explicitly different from sending, buying or accepting invitations.
 
-The current user-facing primary chat/OpenAI/Alice code remains on [PR77](https://github.com/tantalum666/FYP/pull/77), stacked on74–76, in `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`. Its real configuration and private key/model paths remain authoritative there. This review does not replace that preview with main's older shell. The local compatibility rehearsal proves code compatibility, not merge/deployment or a new live-model result. PR73 remains a paused hardware checkpoint.
+The existing normal preview/private env/wake-model cache in `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP` was preserved, not upgraded by this merge. Its current provider configuration must be retained when a later rollout is requested; do not substitute the providers-off QA runtime. Check actual processes/in-flight calls before switching source. Keys, raw media, stores and models remain ignored. The test preview is cleaned up at closeout.
 
 ## One next step
 
-Integrate the reviewed offline journeys into the current primary-chat/Alice software stack and continue ordinary conversation-to-Work acceptance, using offline recovery cases first. Real mailbox/merchant/calendar accounts and external effects require their own concrete user scope. Keep the [personal-agent research](research/personal-agent-research-index.md), existing permission/core boundaries and no-CI rule.
+Continue ordinary Alice conversation-to-Work admission and interruption/unknown-result recovery on this unified baseline, starting with offline changed-goal cases. Live source accounts, payment and Pi remain separately scoped. Keep [personal-agent research](research/personal-agent-research-index.md) and the existing authority boundaries.

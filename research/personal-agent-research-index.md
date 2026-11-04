@@ -1,6 +1,6 @@
 # Group 2｜个人 Agent 研究总入口与实现对照
 
-**工程更新2026-11-04：**Grok三条离线旅程已经组合审查，修复并通过本地检查；来源事实仍保留各自原核对日期，本轮未重查竞品网页。[审查QA](../output/qa/2026-11-04-grok-journey-review/verification.md)。真实邮箱/商店/日历账号与付款/出票仍未实现；当前主对话/OpenAI/Alice位于独立PR77栈。
+**工程更新2026-11-04：**Grok三条离线旅程已经组合审查，修复并通过本地检查；来源事实仍保留各自原核对日期，本轮未重查竞品网页。[审查QA](../output/qa/2026-11-04-grok-journey-review/verification.md)。真实邮箱/商店/日历账号与付款/出票仍未实现；用户随后授权74–77合并，主对话/OpenAI/Alice/应用Work现在与这些离线旅程组合验收，见[本轮QA](../output/qa/2026-11-04-merge-74-77/verification.md)。
 
 更新：2026-11-03。对象固定为 **Grok Bot、Meta Muse、OpenAI ChatGPT 的 Your dot**。本页汇总已做研究、30 日重新核对的官方资料，以及 FYP 当前缺口。New Computer 的旧 Dot 只保留为历史背景。11 月 3 日只补充离线购物夹具与真实购买之间的差距。
 
