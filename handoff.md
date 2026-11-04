@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-4 November 2026. **The owner resumed Pi work in the dorm.** Ethernet connects to the wall socket; power is the official Raspberry Pi 27W supply. There is no monitor. The owner chose safe shutdown and attaching the original SD card to the Mac. The original card has now been identified and inspected; a backed-up two-file recovery seed was verified and safely ejected. Earlier seeds were powered; the latest consolidated durable seed is now safely ejected and awaiting a new reinsertion/power confirmation. No authenticated SSH result yet.
+5 November2026. **Pi recovery is active in the dorm**, with wall-socket Ethernet and an official27W supply. The owner confirmed the durable seed boot: setup completion and direct VPS22 failure were reported. The verified443 transport package is prepared locally; the original card has been requested for deployment. No authenticated Pi SSH result yet.
 
 ## Current Pi recovery
 

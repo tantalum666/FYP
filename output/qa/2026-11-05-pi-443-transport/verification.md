@@ -21,3 +21,5 @@ Bootstrap order is network → fixed transport → SSH relay, with current-trial
 Read scope: the existing current handoff/network/relay contracts and related actual logs are continued, not re-read wholesale; complete changed functions/modules in prepare_network_sd, setup_owner_relay, network_bootstrap and setup_relay_transport, and their focused tests. Official tunnel/interface and release references were consulted. No paid-model call, CI, app migration or unrelated UI change.
 
 Current next step: owner returns the original card for the prepared 443 package. No hotspot workaround and no claim of Pi connectivity or classroom wired acceptance.
+
+Publication checkpoint: source7bbeae2a was pushed to draftPR87; the browser saved the79-test/fixed443 description after the connector/CLI write paths failed. The real card still needs this package. Owner input pending is normal shutdown and original-card return, not a hotspot. Source/operational proof and the verified upstream artifact remain separate; no authenticated Pi access or three-place field acceptance is claimed.
