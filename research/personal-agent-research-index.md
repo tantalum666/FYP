@@ -88,6 +88,8 @@ Grok 审批变更见[当前原文](https://docs.x.ai/grok-bot/approvals-security
 
 源码依据：[Google 当前只读日历范围](../desk-companion/backend/desk/google_calendar.py)、[任务检查](../desk-companion/backend/desk/tasks.py)、[后台文字建议](../desk-companion/backend/desk/text_ai.py)、[Agent loop](../desk-companion/backend/desk/agent_loop.py)、[权限种类](../desk-companion/backend/desk/permissions.py)、[应用操作模型](../desk-companion/backend/desk/application_models.py)、[当前执行契约](../desk-companion/docs/application-execution.md)。`NoticeInbox` 是应用通知，不是邮箱接入。
 
+**2026-11-03 工程补充：**离线日程夹具把本地事件映射进现有事务、日历记录、建议草稿和通知。安静时段的通知先保留，再由现有规则 tick 经 Notifier 发出。可移植 JSON 备份包含日程游标，恢复后再次同步仍是同一事务。这不是第三条旅行验收，也没有连接 Google／Outlook 或任何真实日历账号。邮箱与购物仍由各自分支负责。[离线日程契约](../desk-companion/docs/offline-calendar-journey.md)。
+
 ## 5. 从目标体验推导下一批实现，而不是再做一次功能清单
 
 本节是 **FYP 工程建议**。用户已明确想要邮件跟踪、生活事务代办和语音入口；下面的先后顺序、字段与验收方法由工程方案提出，不构成采购／发信／扣款授权。

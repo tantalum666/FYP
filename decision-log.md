@@ -1,6 +1,6 @@
 # Group 2 Decision Log
 
-Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
+Updated: 3 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
 
 ## 2026-09-25 用户推翻 Senplate，研究智能工作台新方向
 
@@ -412,3 +412,10 @@ Updated: 28 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senpla
 - **工程选择：**同一商品或订单对应一个事务和一条暂停的确定性 Work。游标在事件提交后前移。建议是 `shopping_advice` 草稿，只有拥有者确认才写入事务；完整软件权限不会自动批准这种草稿。价格降幅未过阈值、重复和未变化不发通知。
 - **未授权：**没有商店账号、支付、自动结账、真实订单回执或语音下单验收。夹具结果不能写成已经购买。
 - **同日补充：**可移植 JSON 备份纳入购物连接、游标、已应用回执、乱序缓冲和商品到事务的映射。预览先校验，恢复不改写已经存在的连接。备份不含会话、草稿、通知或 Work 运行行。下一次同步同一夹具不会另开事务。
+## 2026-11-03 离线日程夹具旅程
+
+- **用户指令：**第三条真实验收切片是离线日历／日程夹具，映射进现有 Task／Work 与通知。不要连接 Google／Outlook 或任何实时 API，不付费调用，不改邮箱和购物包，也不改 Pi 与 Codex Work UI。
+- **工程选择而非用户批准连接账号：**新增 `desk/offline_calendar/`。一个事件或系列对应一个现有任务和一条本地日历记录；省略的地点、备注和提醒保持原值。冲突、会前准备和 RSVP 只产生带来源的草稿，拥有者确认后只写“未接受邀请、未发送 RSVP”的事务备注。撤销、断开和中断都不是成功同步。
+- **明确未做：**没有把完整权限自动确认扩到 `calendar_advice`。这不代替邮件或旅行验收。
+- **同日补上两处缺口：**安静时段的有意义通知写入 `offline_calendar_notice_holds`，由现有 `Runtime.tick` 在安静结束后经同一个 Notifier 发出；重启不丢、不重复。可移植 JSON 的 `offline_calendar_bundle` 含游标、修订、冲突对、同步尝试和暂缓通知，预览校验后仅拥有者可恢复，再次同步不新建同一事务。
+- **证据：**[契约](desk-companion/docs/offline-calendar-journey.md)与[本轮 QA](output/qa/2026-11-03-offline-calendar/verification.md)。

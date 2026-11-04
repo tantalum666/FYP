@@ -1,0 +1,47 @@
+{
+  "format": "desk-calendar-fixture-v1",
+  "account_id": "stale-cal",
+  "calendar_id": "primary",
+  "batches": [
+    {
+      "id": "newer",
+      "events": [
+        {
+          "op": "upsert",
+          "item": {
+            "id": "evt-hold",
+            "sequence": 2,
+            "observed_at": "2026-11-03T07:00:00Z",
+            "title": "Hold",
+            "start_local": "2026-11-21T15:00:00",
+            "end_local": "2026-11-21T16:00:00",
+            "timezone": "Asia/Hong_Kong",
+            "location": "Keep me",
+            "notes": "Original note",
+            "reminder_minutes": [20]
+          }
+        }
+      ]
+    },
+    {
+      "id": "older",
+      "events": [
+        {
+          "op": "upsert",
+          "item": {
+            "id": "evt-hold",
+            "sequence": 1,
+            "observed_at": "2026-11-03T06:59:00Z",
+            "title": "Hold",
+            "start_local": "2026-11-22T15:00:00",
+            "end_local": "2026-11-22T16:00:00",
+            "timezone": "Asia/Hong_Kong",
+            "location": "Replace me",
+            "notes": "Replaced",
+            "reminder_minutes": [1]
+          }
+        }
+      ]
+    }
+  ]
+}

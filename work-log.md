@@ -522,3 +522,12 @@ Checks: `python3 -m pytest tests/test_mailbox_journey.py` → 9 passed. Backup, 
 - **验证：**`uv run --no-sync pytest tests/test_shopping_fixtures.py tests/test_permissions.py -q` 为 28 passed（12.03s）。Ruff 通过。没有付费调用，没有 GitHub Actions。记录见 [QA](output/qa/2026-11-03-shopping-fixtures/verification.md)。
 - **剩余：**真实商店、运费、地址、支付和订单回执仍未做。邮箱旅程仍由另一条工作推进。
 - **同日补充：**可移植 JSON 备份写入并恢复购物游标。拥有者预览校验后才恢复；已存在的连接不回退游标。备份后再次同步同一夹具仍是原来的一个事务。`disconnect_after` 为 0 时不读文件、不提交，`completed` 保持 false。
+## 2026-11-03 · Offline calendar fixture journey
+
+Mapped `desk-calendar-fixture-v1` files through the existing task, calendar event, proposal, and notice services. One event or series keeps one task. Omitted location, notes, and reminders stay stored. Conflict and prepare drafts cite the event id and observation time; owner confirm does not accept an invite or send an RSVP. Duplicate, stale, restart, revoke, disconnect, quiet hours, and owner permission are covered by the HTTP journey tests.
+
+No mailbox, shopping, Pi, or Codex Work UI files were changed. No live calendar API and no paid call.
+
+Quiet-hour calendar notices are held and released by the existing rules tick through Notifier. Portable JSON backup now includes the calendar cursor, revisions, conflict pairs, attempts, and held notices. Owner preview validates the bundle. Restore then sync keeps the same task. Restart does not drop or duplicate a held notice.
+
+Files: [contract](desk-companion/docs/offline-calendar-journey.md), `desk-companion/backend/desk/offline_calendar/`, `desk-companion/fixtures/offline-calendar/`, [QA](output/qa/2026-11-03-offline-calendar/verification.md). Remaining: review this PR without connecting an account; mailbox and shopping stay on their own branches.

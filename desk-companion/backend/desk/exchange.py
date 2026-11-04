@@ -14,6 +14,7 @@ from pydantic import Field, ValidationError, model_validator
 from .access import digest
 from .calendar import expand_all, iso, wall_to_utc
 from .mailbox import empty_mailbox_bundle
+from .offline_calendar.backup import empty_offline_calendar_bundle
 from .shopping.backup import empty_shopping_bundle
 from .schemas import EventInput, StrictModel
 from .store import DomainError, encode
@@ -326,6 +327,16 @@ class ExchangeService:
                 if row["kind"] == "backup"
                 else {"created": 0, "kept": 0}
             )
+            calendar_result = (
+                self.runtime.offline_calendar.restore(
+                    conn,
+                    preview["metadata"].get(
+                        "offline_calendar_bundle", empty_offline_calendar_bundle()
+                    ),
+                )
+                if row["kind"] == "backup"
+                else {"created": 0, "kept": 0}
+            )
             shopping_result = (
                 self.runtime.shopping.restore(
                     conn, preview["metadata"].get("shopping_bundle", empty_shopping_bundle())
@@ -353,6 +364,8 @@ class ExchangeService:
                 "jobs_kept": job_result["kept"],
                 "mailbox_created": mailbox_result["created"],
                 "mailbox_kept": mailbox_result["kept"],
+                "offline_calendar_created": calendar_result["created"],
+                "offline_calendar_kept": calendar_result["kept"],
                 "shopping_created": shopping_result["created"],
                 "shopping_kept": shopping_result["kept"],
                 "applied": True,
@@ -436,6 +449,7 @@ class ExchangeService:
                 "persona_bundle": self.runtime.persona.export(),
                 "job_bundle": self.runtime.jobs.export(),
                 "mailbox_bundle": self.runtime.mailbox.export(),
+                "offline_calendar_bundle": self.runtime.offline_calendar.export(),
                 "shopping_bundle": self.runtime.shopping.export(),
             }
         return {
@@ -473,6 +487,16 @@ class ExchangeService:
             )
             mailbox_bundle = self.runtime.mailbox.validate_backup(
                 raw_mailbox, task_ids={item["id"] for item in task_bundle["tasks"]}
+            )
+            raw_calendar = (
+                empty_offline_calendar_bundle()
+                if "offline_calendar_bundle" not in content
+                else content["offline_calendar_bundle"]
+            )
+            calendar_bundle = self.runtime.offline_calendar.validate_backup(
+                raw_calendar,
+                task_ids={item["id"] for item in task_bundle["tasks"]},
+                event_ids=ids,
             )
             raw_shopping = (
                 empty_shopping_bundle()
@@ -539,6 +563,9 @@ class ExchangeService:
                 "mailbox_bundle": mailbox_bundle,
                 "mailbox_connections": len(mailbox_bundle["connections"]),
                 "mailbox_restore": "merge_keep_existing",
+                "offline_calendar_bundle": calendar_bundle,
+                "offline_calendar_connections": len(calendar_bundle["connections"]),
+                "offline_calendar_restore": "merge_keep_existing",
                 "shopping_bundle": shopping_bundle,
                 "shopping_connections": len(shopping_bundle["connections"]),
                 "shopping_restore": "merge_keep_existing",

@@ -793,6 +793,48 @@ class AssistantService:
                     "mail_id": payload["mail_id"],
                     "observed_at": payload["observed_at"],
                 }
+            elif row["kind"] == "calendar_advice":
+                if payload.get("send") is not False or payload.get("accept") is not False:
+                    raise DomainError("CALENDAR_SEND_FORBIDDEN", 409)
+                for field in ("task_id", "event_uid", "observed_at"):
+                    if not isinstance(payload.get(field), str) or not payload[field]:
+                        raise DomainError("CALENDAR_DRAFT_INVALID", 422)
+                related = payload.get("related_event_uids", [])
+                if (
+                    not isinstance(related, list)
+                    or len(related) > 8
+                    or any(
+                        not isinstance(value, str) or not value or len(value) > 64
+                        for value in related
+                    )
+                ):
+                    raise DomainError("CALENDAR_DRAFT_INVALID", 422)
+                with self.store.connection() as conn:
+                    current = self.runtime.tasks.get(conn, payload["task_id"])
+                note = (
+                    f"Reviewed calendar advice for {payload['event_uid']} "
+                    f"observed at {payload['observed_at']}. "
+                    "No invite was accepted and no RSVP was sent."
+                )
+                if related:
+                    note += " Related events: " + ", ".join(related) + "."
+                result = self.runtime.tasks.action(
+                    payload["task_id"],
+                    TaskAction(
+                        action="note",
+                        expected_version=current["version"],
+                        note=note,
+                    ),
+                    internal_key,
+                    origin="assistant_confirmed",
+                )
+                result = {
+                    **result,
+                    "sent": False,
+                    "accepted": False,
+                    "event_uid": payload["event_uid"],
+                    "observed_at": payload["observed_at"],
+                }
             else:
                 change = ChangeProposal.model_validate(
                     {k: v for k, v in payload.items() if k in ChangeProposal.model_fields}

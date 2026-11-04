@@ -14,6 +14,7 @@ from .voice import VoiceService
 from .exchange import ExchangeService
 from .google_calendar import GoogleCalendar
 from .mailbox import MailboxService
+from .offline_calendar import OfflineCalendarService
 from .tasks import TaskService
 from .text_ai import TextAssistant
 from .jobs import JobService
@@ -94,6 +95,7 @@ class Runtime:
         self.exchange = ExchangeService(self)
         self.backups = LocalBackups(self)
         self.google = GoogleCalendar(self)
+        self.offline_calendar = OfflineCalendarService(self)
         self.text_ai = TextAssistant(self)
         self.retained_chat = RetainedChat(self)
         self.sources = SourceService(self)
@@ -168,6 +170,7 @@ class Runtime:
         self.posture.tick()
         self.tasks.tick()
         self.mailbox.release_quiet_notices()
+        self.offline_calendar.release_quiet_notices()
         self.memories.expire()
         self.nudges.tick()
         self.goals.tick()

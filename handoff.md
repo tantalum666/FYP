@@ -33,3 +33,10 @@ Implement the authorized-mailbox journey through the current task/Work core: inc
 ## Offline shopping fixtures (3 November 2026)
 
 A separate slice maps offline cart, price, stock and shipment fixtures onto the existing task, one paused Work run per tracked product or order, owner-confirmed drafts and notices. Duplicate, out-of-order, disconnect, revoke and restart stay on that same task. The owner portable backup now includes the shopping cursor and subject mapping; restoring it and syncing the same fixture does not open a second task. No store account, payment or checkout. Contract: [shopping-fixtures.md](desk-companion/docs/shopping-fixtures.md). The mailbox journey above is unchanged.
+## Offline calendar fixture (3 November 2026)
+
+Branch `cursor/offline-calendar-journey-3bf1` maps local schedule fixtures through TaskService, the calendar event store, proposals, and NoticeInbox. One event or series stays one task. Quiet-hour notices wait for the existing rules tick. Portable JSON backup restores the cursor so the next sync keeps that task. Advice does not accept invites or send RSVPs. Mailbox stays on PR #79; shopping stays on its own branch. No Google, Outlook, or paid call. [Contract](desk-companion/docs/offline-calendar-journey.md).
+
+## One next step
+
+Review this offline calendar fixture PR. Do not connect Google or Outlook. Mailbox (PR #79) and shopping remain separate. A live mailbox or calendar account still needs an explicit scope before any real connection.
