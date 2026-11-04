@@ -38,3 +38,5 @@ Add tools to TOOLS/CAPABILITIES/TextPlan together; keep approval outside model s
 Text conversation attempts default to40 per UTC day (including fallback); optional background advice is separately20. These are call counts, not a currency hard limit. The context character budget excludes tool schemas. Realtime voice retains its own10-second turn/600-second session policies, not the HTTP three-step loop.
 
 General GUI/shell automation, job archival UI, true remote notification delivery, real-device acoustics/energy and physical arm validation remain separate work. The current one next step is in the root handoff.
+
+3 November 2026: `desk/shopping` loads offline purchase fixtures into the existing task, paused Work run, draft and notice path, and the portable backup carries the shopping cursor. It does not connect a store or take payment. [Contract](shopping-fixtures.md).

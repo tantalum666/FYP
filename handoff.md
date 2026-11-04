@@ -28,3 +28,8 @@ Not done: live account authorization and sending. Reconnect after revoke or disc
 ## One next step
 
 Obtain an explicit real-account scope before connecting Gmail or Outlook. Do not start shopping, travel booking, or a paid model round from this slice.
+Implement the authorized-mailbox journey through the current task/Work core: incrementally ingest messages, map a thread to the same task, produce sourced advice/drafts and notify only on meaningful change. Start with offline duplicate/out-of-order/revoke/restart fixtures; obtain an explicit real-account scope before connecting a mailbox. Reuse the recovered [research](research/personal-agent-research-index.md); do not create another task/job/memory core or restart a paid budget.
+
+## Offline shopping fixtures (3 November 2026)
+
+A separate slice maps offline cart, price, stock and shipment fixtures onto the existing task, one paused Work run per tracked product or order, owner-confirmed drafts and notices. Duplicate, out-of-order, disconnect, revoke and restart stay on that same task. The owner portable backup now includes the shopping cursor and subject mapping; restoring it and syncing the same fixture does not open a second task. No store account, payment or checkout. Contract: [shopping-fixtures.md](desk-companion/docs/shopping-fixtures.md). The mailbox journey above is unchanged.
