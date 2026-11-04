@@ -195,8 +195,8 @@ class OfflineCalendarService:
     def _stop(self, connection_id: str, key: str, session: str | None, state: str, action: str):
         self._owner(session)
         key = self._require_key(key)
-        with self.lock:
-            return self._stop_locked(connection_id, key, state, action)
+        # The sync rechecks state between revisions, so stopping can commit now.
+        return self._stop_locked(connection_id, key, state, action)
 
     def _stop_locked(self, connection_id: str, key: str, state: str, action: str):
         def apply(conn):
@@ -313,6 +313,11 @@ class OfflineCalendarService:
             duplicates: list[str] = []
             skipped: list[str] = []
             for event in staged:
+                self._owner(session)
+                state = self._connection(connection_id)["state"]
+                if state != "connected":
+                    stop, resume_at = state, offset
+                    break
                 identity = (event.item.id, event.item.sequence)
                 if identity in seen:
                     duplicates.append(event.item.id)
@@ -354,7 +359,7 @@ class OfflineCalendarService:
             return response
 
     def _apply(self, connection_id: str, op: str, item: FixtureItem) -> str:
-        fingerprint = item_fingerprint(item)
+        fingerprint = item_fingerprint(item, op)
         with self.store.connection() as conn:
             existing = conn.execute(
                 "SELECT * FROM offline_calendar_revisions "
@@ -394,9 +399,7 @@ class OfflineCalendarService:
             task_id = row["task_id"]
             local_event_id = row["local_event_id"]
             event, event_changed = self._update_event(connection_id, item, local_event_id)
-            self._update_task(
-                connection_id, item, task_id, event, event_changed=event_changed
-            )
+            self._update_task(connection_id, item, task_id, event, event_changed=event_changed)
         related, pairs = self._new_conflicts(connection_id, local_event_id, item.id)
         drafted = self._draft(connection_id, item, task_id, related)
         mark = self._notify(
@@ -545,12 +548,16 @@ class OfflineCalendarService:
             origin="offline_calendar",
         )
 
-    def _draft(self, connection_id: str, item: FixtureItem, task_id: str, related: list[str]) -> bool:
+    def _draft(
+        self, connection_id: str, item: FixtureItem, task_id: str, related: list[str]
+    ) -> bool:
         if not advice_reasons(item, related):
             return False
+        with self.store.connection() as conn:
+            title = self.runtime.tasks.get(conn, task_id)["title"]
         self.runtime.assistant.propose(
             ADVICE,
-            advice_payload(item, task_id, related),
+            {**advice_payload(item, task_id, related), "title": title},
             _operation_key("oc-dr-", f"{connection_id}/{item.id}/{item.sequence}"),
         )
         return True
@@ -630,6 +637,13 @@ class OfflineCalendarService:
     ) -> None:
         with self.store.connection(write=True) as conn:
             self._insert_revision(conn, connection_id, item, fingerprint, "applied")
+            # Remember active overlaps, not every pair ever seen. A resolved
+            # conflict may legitimately reappear and need a new notification.
+            conn.execute(
+                "DELETE FROM offline_calendar_conflicts WHERE connection_id=? "
+                "AND (left_uid=? OR right_uid=?)",
+                (connection_id, item.id, item.id),
+            )
             if pairs:
                 conn.executemany(
                     "INSERT OR IGNORE INTO offline_calendar_conflicts VALUES(?,?,?)",
@@ -679,7 +693,9 @@ class OfflineCalendarService:
         with self.store.connection(write=True) as conn:
             self._insert_revision(conn, connection_id, item, fingerprint, state)
 
-    def _insert_revision(self, conn, connection_id: str, item: FixtureItem, fingerprint: str, state: str):
+    def _insert_revision(
+        self, conn, connection_id: str, item: FixtureItem, fingerprint: str, state: str
+    ):
         conn.execute(
             "INSERT INTO offline_calendar_revisions("
             "connection_id, uid, sequence, fingerprint, observed_at, state"
@@ -709,17 +725,17 @@ class OfflineCalendarService:
         mapping = self._event_uids(connection_id)
         known = self._known_pairs(connection_id)
         found: list[str] = []
-        fresh: list[tuple[str, str]] = []
+        active: list[tuple[str, str]] = []
         for other_id in sorted(others):
             other_uid = mapping.get(other_id, other_id)
             if other_uid == uid:
                 continue
             pair = tuple(sorted((uid, other_uid)))
+            active.append(pair)
             if pair in known:
                 continue
             found.append(other_uid)
-            fresh.append(pair)
-        return found, fresh
+        return found, active
 
     def _event_uids(self, connection_id: str) -> dict[str, str]:
         with self.store.connection() as conn:
@@ -951,7 +967,9 @@ class OfflineCalendarService:
                 (key, connection["id"], connection["history_cursor"], iso(self.store.clock())),
             )
 
-    def _finish_attempt(self, key: str, state: str, cursor_after: str | None, response: dict) -> None:
+    def _finish_attempt(
+        self, key: str, state: str, cursor_after: str | None, response: dict
+    ) -> None:
         with self.store.connection(write=True) as conn:
             current = conn.execute(
                 "SELECT state FROM offline_calendar_attempts WHERE id=?", (key,)

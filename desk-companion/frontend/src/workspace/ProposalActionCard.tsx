@@ -1,6 +1,8 @@
 import { DateTime } from "luxon";
 import type { Translate } from "../types";
 import type { Proposal } from "./assistantTypes";
+import { JourneyAdvice } from "./JourneyAdvice";
+import { isJourneyAdvice } from "./proposalDecision";
 
 export function ProposalActionCard({
   proposal: p,
@@ -37,12 +39,15 @@ export function ProposalActionCard({
     p.kind === "memory_replace" ||
     p.kind === "memory_delete" ||
     p.kind === "memory_consolidate";
+  const journeyKind = isJourneyAdvice(p.kind);
   return (
     <article className="assistant-action-card assistant-proposal">
       <span className="workspace-eyebrow">
         {t("Permission needed", "需要你的允许")}
       </span>
-      {memoryKind ? (
+      {journeyKind ? (
+        <JourneyAdvice proposal={p} t={t} />
+      ) : memoryKind ? (
         <>
           <h3>
             {p.kind === "memory_consolidate"
@@ -277,7 +282,9 @@ export function ProposalActionCard({
           disabled={busy}
           onClick={() => onDecision("confirm")}
         >
-          {t("Allow once", "允许这一次")}
+          {journeyKind
+            ? t("Save reviewed update", "保存核对结果")
+            : t("Allow once", "允许这一次")}
         </button>
         <button
           className="secondary"

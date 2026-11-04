@@ -170,6 +170,7 @@ class Runtime:
         self.posture.tick()
         self.tasks.tick()
         self.mailbox.release_quiet_notices()
+        self.shopping.release_quiet_notices()
         self.offline_calendar.release_quiet_notices()
         self.memories.expire()
         self.nudges.tick()

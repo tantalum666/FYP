@@ -13,7 +13,7 @@ from pydantic import Field, ValidationError, model_validator
 
 from .access import digest
 from .calendar import expand_all, iso, wall_to_utc
-from .mailbox import empty_mailbox_bundle
+from .mailbox_backup import empty_mailbox_bundle
 from .offline_calendar.backup import empty_offline_calendar_bundle
 from .shopping.backup import empty_shopping_bundle
 from .schemas import EventInput, StrictModel
@@ -488,16 +488,6 @@ class ExchangeService:
             mailbox_bundle = self.runtime.mailbox.validate_backup(
                 raw_mailbox, task_ids={item["id"] for item in task_bundle["tasks"]}
             )
-            raw_calendar = (
-                empty_offline_calendar_bundle()
-                if "offline_calendar_bundle" not in content
-                else content["offline_calendar_bundle"]
-            )
-            calendar_bundle = self.runtime.offline_calendar.validate_backup(
-                raw_calendar,
-                task_ids={item["id"] for item in task_bundle["tasks"]},
-                event_ids=ids,
-            )
             raw_shopping = (
                 empty_shopping_bundle()
                 if "shopping_bundle" not in content
@@ -538,6 +528,16 @@ class ExchangeService:
                         "exceptions": exceptions,
                     }
                 )
+            raw_calendar = (
+                empty_offline_calendar_bundle()
+                if "offline_calendar_bundle" not in content
+                else content["offline_calendar_bundle"]
+            )
+            calendar_bundle = self.runtime.offline_calendar.validate_backup(
+                raw_calendar,
+                task_ids={item["id"] for item in task_bundle["tasks"]},
+                event_ids=ids,
+            )
         except (ValueError, KeyError, TypeError, AttributeError):
             raise DomainError("INVALID_BACKUP", 422) from None
         return self._preview(

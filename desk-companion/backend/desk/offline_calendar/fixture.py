@@ -114,9 +114,12 @@ class FlatEvent:
     item: FixtureItem | None
 
 
-def item_fingerprint(item: FixtureItem) -> str:
+def item_fingerprint(item: FixtureItem, op: str = "upsert") -> str:
     body = item.model_dump(mode="json", exclude_unset=True)
-    return hashlib.sha256(encode(body).encode("utf-8")).hexdigest()
+    operation = "cancel" if op == "cancel" or item.status == "cancelled" else "upsert"
+    return hashlib.sha256(
+        encode({"operation": operation, "item": body}).encode("utf-8")
+    ).hexdigest()
 
 
 def load_fixture(name: str) -> CalendarFixture:
@@ -161,7 +164,7 @@ def _validate_identity(fixture: CalendarFixture) -> None:
             count += 1
             if event.item is None:
                 continue
-            digest = item_fingerprint(event.item)
+            digest = item_fingerprint(event.item, event.op)
             identity = (event.item.id, event.item.sequence)
             previous = seen.get(identity)
             if previous is not None and previous != digest:

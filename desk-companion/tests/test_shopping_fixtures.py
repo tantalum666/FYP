@@ -528,7 +528,11 @@ def test_backup_restore_keeps_one_task_on_the_next_sync(tmp_path, monkeypatch):
     write_fixture(
         fixtures,
         "tissue-backup",
-        [cart(), event("price-1", 2, "price_drop", sku="tissue-3ply", unit_price_cents=2900), shipped],
+        [
+            cart(),
+            event("price-1", 2, "price_drop", sku="tissue-3ply", unit_price_cents=2900),
+            shipped,
+        ],
     )
     client = login(app)
     try:
@@ -542,7 +546,8 @@ def test_backup_restore_keeps_one_task_on_the_next_sync(tmp_path, monkeypatch):
             json={
                 "action": "update",
                 "expected_version": task["version"],
-                "task": {name: task[name] for name in TASK_FIELDS} | {"next_step": "Keep the 3-ply pack"},
+                "task": {name: task[name] for name in TASK_FIELDS}
+                | {"next_step": "Keep the 3-ply pack"},
             },
             headers=headers("keep-step"),
         )
@@ -613,7 +618,10 @@ def test_backup_restore_keeps_one_task_on_the_next_sync(tmp_path, monkeypatch):
         assert again["buffered"] == [{"event_id": "ship-1", "seq": 4}]
         assert again["subjects"][0]["task_id"] == task["id"]
         assert again["subjects"][0]["work_run_id"] == saved["subjects"][0]["work_run_id"]
-        assert again["connection"]["created_session_hash"] != saved["connection"]["created_session_hash"]
+        assert (
+            again["connection"]["created_session_hash"]
+            != saved["connection"]["created_session_hash"]
+        )
         assert work_runs(owner) == []
 
         replay = sync(owner, connection_id)
@@ -622,7 +630,10 @@ def test_backup_restore_keeps_one_task_on_the_next_sync(tmp_path, monkeypatch):
         assert replay["completed"] is False
         assert replay["stopped"] == "gap"
         assert [item["id"] for item in tasks_of(owner)] == [task["id"]]
-        assert len(work_runs(owner)) == 0
+        assert len(work_runs(owner)) == 1
+        restored_run = work_runs(owner)[0]
+        assert restored_run["state"] == "paused"
+        assert restored_run["task_ids"] == [task["id"]]
         assert shopping_notices(owner) == []
 
         write_fixture(
@@ -648,8 +659,8 @@ def test_backup_restore_keeps_one_task_on_the_next_sync(tmp_path, monkeypatch):
         assert continued["completed"] is True
         assert {row["task_id"] for row in continued["applied"]} == {task["id"]}
         assert [item["id"] for item in tasks_of(owner)] == [task["id"]]
-        assert len(work_runs(owner)) == 0
-        assert snapshot(owner, connection_id)["subjects"][0]["work_run_id"] == saved["subjects"][0]["work_run_id"]
+        assert len(work_runs(owner)) == 1
+        assert snapshot(owner, connection_id)["subjects"][0]["work_run_id"] == restored_run["id"]
 
         second = owner.post(
             "/api/exchange/backup/preview",

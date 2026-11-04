@@ -10,13 +10,14 @@ import json
 from uuid import uuid4
 from zoneinfo import ZoneInfo
 
-from ..agent_run_schemas import RunAction, RunCreate
+from ..agent_run_schemas import RunCreate
 from ..calendar import iso
 from ..notify import Notice
 from ..store import DomainError, encode
 from ..tasks import TaskAction, TaskInput
 from ..workspace_data import is_quiet
 from .backup import export_bundle, restore_bundle, validate_bundle
+from .notices import ShoppingNotices, notice_id
 from .fixtures import (
     FixtureCatalog,
     ShoppingEvent,
@@ -123,6 +124,7 @@ class ShoppingService:
                 );
                 """
             )
+        self.notices = ShoppingNotices(runtime)
 
     def _owner(self, principal) -> str:
         if (
@@ -204,9 +206,7 @@ class ShoppingService:
                     now,
                 ),
             )
-            self.store.record(
-                conn, "shopping_connected", details={"connection_id": connection_id}
-            )
+            self.store.record(conn, "shopping_connected", details={"connection_id": connection_id})
             return {
                 "connection": dict(
                     conn.execute(
@@ -235,9 +235,7 @@ class ShoppingService:
                     "UPDATE shopping_connections SET state='revoked', updated_at=? WHERE id=?",
                     (iso(self.store.clock()), connection_id),
                 )
-            self.store.record(
-                conn, "shopping_revoked", details={"connection_id": connection_id}
-            )
+            self.store.record(conn, "shopping_revoked", details={"connection_id": connection_id})
             return {"connection_id": connection_id, "state": "revoked", "checkout": "not_performed"}
 
         return self.store.operation(
@@ -256,14 +254,14 @@ class ShoppingService:
         if connection["state"] != "connected":
             raise DomainError("SHOPPING_REVOKED", 409)
         if disconnect_after == 0:
-            return self._report(
-                connection_id, completed=False, stopped="disconnected", applied=[]
-            )
+            return self._report(connection_id, completed=False, stopped="disconnected", applied=[])
         fixture = self.catalog.load(connection["fixture_id"])
+        self._repair_work_links(connection, fixture, principal)
         pending = self._pending(connection_id, fixture)
         cursor = connection["cursor_seq"]
         applied = []
         while True:
+            self._owner(principal)
             if disconnect_after is not None and len(applied) >= disconnect_after:
                 self._flush_buffer(connection_id, pending, cursor)
                 return self._report(
@@ -445,30 +443,60 @@ class ShoppingService:
             _op("st", connection["id"], key_name),
             origin="shopping_fixture",
         )["task"]
+        run = self._tracking_run(connection, fixture, task["id"], key_name, principal)
+        return task, run
+
+    def _tracking_run(self, connection, fixture, task_id, key_name, principal, *, previous=None):
         scope = self.runtime.agent_runs.scope(principal)
         run = self.runtime.agent_runs.create(
             RunCreate(
                 goal=(
-                    f"Track {key_name} from fixture {fixture.fixture_id}. "
-                    "Do not buy or check out."
+                    f"Track {key_name} from fixture {fixture.fixture_id}. Do not buy or check out."
                 ),
                 mode="deterministic",
-                task_ids=[task["id"]],
+                task_ids=[task_id],
                 retain=True,
                 scope_revision=scope["scope_revision"],
                 allow_mutation_proposals=False,
             ),
-            _op("sw", connection["id"], key_name),
+            _op("sw", connection["id"], key_name, *([previous] if previous else [])),
             principal,
+            start_paused=True,
         )["run"]
-        if run["state"] not in {"paused", "cancelled", "succeeded", "failed"}:
-            run = self.runtime.agent_runs.action(
-                run["id"],
-                RunAction(action="pause", expected_version=run["version"]),
-                _op("sp", connection["id"], key_name),
+        return run
+
+    def _repair_work_links(self, connection, fixture, principal):
+        # Portable backup preserves tasks, not the execution/session history.
+        # An explicit sync reattaches one paused run rather than advertising a
+        # dangling run ID or briefly queueing autonomous work during restoration.
+        for subject in self._subjects(connection["id"]):
+            try:
+                run = self.runtime.agent_runs.detail(subject["work_run_id"], principal)["run"]
+            except DomainError as error:
+                if error.code != "RUN_NOT_FOUND":
+                    raise
+                run = None
+            if run is not None and run.get("task_ids") == [subject["task_id"]]:
+                continue
+            replacement = self._tracking_run(
+                connection,
+                fixture,
+                subject["task_id"],
+                subject["subject_key"],
                 principal,
-            )["run"]
-        return task, run
+                previous=subject["work_run_id"],
+            )
+            with self.store.connection(write=True) as conn:
+                conn.execute(
+                    "UPDATE shopping_subjects SET work_run_id=?, draft_id=NULL "
+                    "WHERE connection_id=? AND subject_key=? AND work_run_id=?",
+                    (
+                        replacement["id"],
+                        connection["id"],
+                        subject["subject_key"],
+                        subject["work_run_id"],
+                    ),
+                )
 
     def _reason(self, event, subject, threshold: int):
         previous_price = subject.get("last_price_cents")
@@ -485,10 +513,7 @@ class ShoppingService:
             changed = False
             if event.quantity is not None and event.quantity != subject.get("last_quantity"):
                 changed = True
-            if (
-                event.unit_price_cents is not None
-                and event.unit_price_cents != previous_price
-            ):
+            if event.unit_price_cents is not None and event.unit_price_cents != previous_price:
                 changed = True
             return "needs_decision" if changed else None
         if event.kind == "out_of_stock":
@@ -522,9 +547,11 @@ class ShoppingService:
         note = advice_note(fixture.fixture_id, event, reason)
         provided = self._provided_fields(event)
         with self.store.connection() as conn:
-            task_version = self.runtime.tasks.get(conn, subject["task_id"])["version"]
+            task = self.runtime.tasks.get(conn, subject["task_id"])
+            task_version = task["version"]
         payload = {
             "task_id": subject["task_id"],
+            "title": task["title"],
             "change": {
                 "action": "note",
                 "expected_version": task_version,
@@ -573,9 +600,7 @@ class ShoppingService:
                 "SELECT state FROM assistant_proposals WHERE id=?", (draft_id,)
             ).fetchone()
         if row and row["state"] == "pending":
-            self.runtime.assistant.decide(
-                draft_id, "cancel", _op("sx", connection_id, draft_id)
-            )
+            self.runtime.assistant.decide(draft_id, "cancel", _op("sx", connection_id, draft_id))
 
     def _notify(self, connection, fixture, event, reason: str) -> None:
         title = {
@@ -586,19 +611,21 @@ class ShoppingService:
         }[reason]
         stamp = observed_stamp(event)
         notice = Notice(
-            id="shop-" + event.event_id,
+            id=notice_id(connection["id"], event.event_id),
             kind="shopping",
             title_en=title[0],
             title_zh=title[1],
             body_en=(
-                f"Fixture {fixture.fixture_id} at {stamp}. "
-                "No purchase or checkout was performed."
+                f"Fixture {fixture.fixture_id} at {stamp}. No purchase or checkout was performed."
             ),
             body_zh=f"夹具 {fixture.fixture_id}，观察时间 {stamp}。没有下单或结账。",
             reason_en=f"Shopping {reason} from fixture {fixture.fixture_id}.",
             reason_zh=f"购物{reason}，来源夹具 {fixture.fixture_id}。",
         )
-        self.runtime.notify.publish(notice, quiet=self._quiet())
+        self.notices.publish(connection["id"], event.event_id, notice, quiet=self._quiet())
+
+    def release_quiet_notices(self) -> None:
+        self.notices.release(quiet=self._quiet())
 
     def _quiet(self) -> bool:
         with self.store.connection() as conn:

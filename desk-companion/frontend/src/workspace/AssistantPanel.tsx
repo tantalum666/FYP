@@ -1,3 +1,4 @@
+import { proposalDecisionNotice } from "./proposalDecision";
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -539,8 +540,7 @@ export function AssistantPanel({
     }
   }
   async function decide(id: string, action: "confirm" | "cancel") {
-    const memoryKind =
-      proposals.find((p) => p.id === id)?.kind.startsWith("memory_") ?? false;
+    const proposal = proposals.find((p) => p.id === id);
     setBusy(true);
     setError(null);
     try {
@@ -549,23 +549,7 @@ export function AssistantPanel({
         { action },
       );
       if (omni) audio.current?.refreshContext();
-      setNotice(
-        result.queued
-          ? t(
-              "Action queued. Check the device receipt for its result.",
-              "动作已排队，请在设备回执中查看结果。",
-            )
-          : action === "confirm"
-            ? result.kind?.startsWith("task_")
-              ? t(
-                  "Task saved. Its progress is kept between conversations.",
-                  "事务已保存，进展会在交谈之间保留。",
-                )
-              : memoryKind
-                ? t("Memory updated.", "记忆已更新。")
-                : t("Saved to your calendar.", "已保存到日历。")
-            : t("Draft cancelled.", "草稿已取消。"),
-      );
+      setNotice(proposalDecisionNotice(result, action, proposal?.kind, t));
       await reload();
       await refresh();
       window.dispatchEvent(new Event("desk:calendar"));

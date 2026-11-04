@@ -15,6 +15,7 @@ from pydantic import ValidationError
 from ..calendar import iso
 from ..store import DomainError, encode
 from .fixtures import FIXTURE_ID, SUBJECT, TOKEN, ShoppingEvent, fingerprint
+from .notices import validate_holds
 
 CONNECTION_LIMIT = 20
 SUBJECT_LIMIT = 500
@@ -27,7 +28,7 @@ _STATUSES = {"", "cart_change", "priced", "out_of_stock", "order_shipped", "orde
 
 
 def empty_shopping_bundle() -> dict:
-    return {"connections": [], "subjects": [], "applied": [], "buffered": []}
+    return {"connections": [], "subjects": [], "applied": [], "buffered": [], "notice_holds": []}
 
 
 _BUNDLE_FIELDS = set(empty_shopping_bundle())
@@ -97,9 +98,7 @@ def export_bundle(store) -> dict:
                 "fingerprint": row["fingerprint"],
                 "applied_at": row["applied_at"],
             }
-            for row in conn.execute(
-                "SELECT * FROM shopping_applied ORDER BY connection_id, seq"
-            )
+            for row in conn.execute("SELECT * FROM shopping_applied ORDER BY connection_id, seq")
         ]
         buffered = []
         for row in conn.execute("SELECT * FROM shopping_buffer ORDER BY connection_id, seq"):
@@ -112,16 +111,28 @@ def export_bundle(store) -> dict:
                     "body": json.loads(row["body"]),
                 }
             )
+        holds = [
+            {
+                "connection_id": row["connection_id"],
+                "event_id": row["event_id"],
+                "notice": json.loads(row["payload"]),
+            }
+            for row in conn.execute("SELECT * FROM shopping_notice_holds ORDER BY notice_id")
+        ]
     return {
         "connections": connections,
         "subjects": subjects,
         "applied": applied,
         "buffered": buffered,
+        "notice_holds": holds,
     }
 
 
 def validate_bundle(bundle, *, task_ids: set[str]) -> dict:
-    if not isinstance(bundle, dict) or set(bundle) != _BUNDLE_FIELDS:
+    if not isinstance(bundle, dict) or set(bundle) not in (
+        _BUNDLE_FIELDS,
+        _BUNDLE_FIELDS - {"notice_holds"},
+    ):
         raise ValueError("Invalid shopping backup")
     if (
         len(bundle["connections"]) > CONNECTION_LIMIT
@@ -134,6 +145,7 @@ def validate_bundle(bundle, *, task_ids: set[str]) -> dict:
     by_id = {row["id"]: row for row in connections}
     if len(by_id) != len(connections):
         raise ValueError("Invalid shopping backup")
+    holds = validate_holds(bundle.get("notice_holds", []), by_id)
     subjects = []
     subject_keys = set()
     for row in bundle["subjects"]:
@@ -181,6 +193,7 @@ def validate_bundle(bundle, *, task_ids: set[str]) -> dict:
         "subjects": subjects,
         "applied": applied,
         "buffered": buffered,
+        "notice_holds": holds,
     }
 
 
@@ -194,7 +207,10 @@ def restore_bundle(conn, bundle) -> dict:
         ).fetchone():
             kept += 1
             continue
-        if conn.execute("SELECT COUNT(*) FROM shopping_connections").fetchone()[0] >= CONNECTION_LIMIT:
+        if (
+            conn.execute("SELECT COUNT(*) FROM shopping_connections").fetchone()[0]
+            >= CONNECTION_LIMIT
+        ):
             raise DomainError("INVALID_BACKUP", 422)
         owned = [row for row in bundle["subjects"] if row["connection_id"] == connection["id"]]
         for subject in owned:
@@ -256,6 +272,17 @@ def restore_bundle(conn, bundle) -> dict:
                     encode(event["body"]),
                 ),
             )
+        for hold in bundle.get("notice_holds", []):
+            if hold["connection_id"] == connection["id"]:
+                conn.execute(
+                    "INSERT OR IGNORE INTO shopping_notice_holds VALUES(?,?,?,?)",
+                    (
+                        hold["notice"]["id"],
+                        connection["id"],
+                        hold["event_id"],
+                        encode(hold["notice"]),
+                    ),
+                )
         created += 1
     return {"created": created, "kept": kept}
 
@@ -278,7 +305,12 @@ def _connection(row) -> dict:
     ):
         raise ValueError("Invalid shopping backup")
     currency = row["currency"]
-    if not isinstance(currency, str) or len(currency) != 3 or not currency.isalpha() or not currency.isupper():
+    if (
+        not isinstance(currency, str)
+        or len(currency) != 3
+        or not currency.isalpha()
+        or not currency.isupper()
+    ):
         raise ValueError("Invalid shopping backup")
     return {
         "id": row["id"],
@@ -312,7 +344,10 @@ def _subject(row, connections: dict, task_ids: set[str]) -> dict:
         raise ValueError("Invalid shopping backup")
     eta = row["last_eta"]
     if eta is not None and (
-        not isinstance(eta, str) or not eta.strip() or len(eta) > 80 or any(ord(char) < 32 for char in eta)
+        not isinstance(eta, str)
+        or not eta.strip()
+        or len(eta) > 80
+        or any(ord(char) < 32 for char in eta)
     ):
         raise ValueError("Invalid shopping backup")
     return {

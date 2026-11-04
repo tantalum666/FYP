@@ -154,8 +154,7 @@ def export_bundle(store) -> dict:
                 "state": row["state"],
             }
             for row in conn.execute(
-                "SELECT * FROM offline_calendar_revisions "
-                "ORDER BY connection_id, uid, sequence"
+                "SELECT * FROM offline_calendar_revisions ORDER BY connection_id, uid, sequence"
             )
         ]
         conflicts = [
@@ -169,10 +168,20 @@ def export_bundle(store) -> dict:
                 "ORDER BY connection_id, left_uid, right_uid"
             )
         ]
+        tracked = {(item["connection_id"], item["uid"]) for item in items}
+        live_events = {row[0] for row in conn.execute("SELECT id FROM events WHERE deleted=0")}
+        # External local appointments can be deleted independently. Their old
+        # notification dedup markers are not authoritative calendar data.
+        conflicts = [
+            pair
+            for pair in conflicts
+            if all(
+                (pair["connection_id"], pair[end]) in tracked or pair[end] in live_events
+                for end in ("left_uid", "right_uid")
+            )
+        ]
         attempts = []
-        for row in conn.execute(
-            "SELECT * FROM offline_calendar_attempts ORDER BY started_at, id"
-        ):
+        for row in conn.execute("SELECT * FROM offline_calendar_attempts ORDER BY started_at, id"):
             response = None if row["response"] is None else json.loads(row["response"])
             attempts.append(
                 {
@@ -187,9 +196,7 @@ def export_bundle(store) -> dict:
                 }
             )
         holds = []
-        for row in conn.execute(
-            "SELECT * FROM offline_calendar_notice_holds ORDER BY notice_id"
-        ):
+        for row in conn.execute("SELECT * FROM offline_calendar_notice_holds ORDER BY notice_id"):
             holds.append(
                 {
                     "notice_id": row["notice_id"],
@@ -251,7 +258,7 @@ def validate_bundle(bundle, *, task_ids: set[str], event_ids: set[str]) -> dict:
     conflicts = []
     conflict_keys = set()
     for row in bundle["conflicts"]:
-        conflict = _conflict(row, item_keys)
+        conflict = _conflict(row, item_keys, event_ids)
         key = (conflict["connection_id"], conflict["left_uid"], conflict["right_uid"])
         if key in conflict_keys:
             raise ValueError("Invalid calendar backup")
@@ -282,7 +289,9 @@ def validate_bundle(bundle, *, task_ids: set[str], event_ids: set[str]) -> dict:
             for row in revisions
             if row["connection_id"] == connection["id"] and row["state"] == "applied"
         ]
-        if not applied or str(max(applied)) != cursor:
+        # A partial later batch keeps its last completed cursor while retaining
+        # the already applied revisions needed for an idempotent restart.
+        if int(cursor) not in applied:
             raise ValueError("Invalid calendar backup")
     return {
         "connections": connections,
@@ -318,9 +327,12 @@ def restore_bundle(conn, bundle) -> dict:
         for item in owned:
             if not conn.execute("SELECT 1 FROM tasks WHERE id=?", (item["task_id"],)).fetchone():
                 raise DomainError("INVALID_BACKUP", 422)
-            if not item["cancelled"] and not conn.execute(
-                "SELECT 1 FROM events WHERE id=? AND deleted=0", (item["local_event_id"],)
-            ).fetchone():
+            if (
+                not item["cancelled"]
+                and not conn.execute(
+                    "SELECT 1 FROM events WHERE id=? AND deleted=0", (item["local_event_id"],)
+                ).fetchone()
+            ):
                 raise DomainError("INVALID_BACKUP", 422)
         conn.execute(
             """
@@ -525,14 +537,18 @@ def _revision(row, connections: dict) -> dict:
     }
 
 
-def _conflict(row, items: set[tuple[str, str]]) -> dict:
+def _conflict(row, items: set[tuple[str, str]], event_ids: set[str]) -> dict:
     item = _only(row, _CONFLICT_FIELDS)
     connection_id = item["connection_id"]
     left = _token(item["left_uid"])
     right = _token(item["right_uid"])
     if not isinstance(connection_id, str) or left >= right:
         raise ValueError("Invalid calendar backup")
-    if (connection_id, left) not in items or (connection_id, right) not in items:
+    left_imported = (connection_id, left) in items
+    right_imported = (connection_id, right) in items
+    if not (left_imported or right_imported):
+        raise ValueError("Invalid calendar backup")
+    if not (left_imported or left in event_ids) or not (right_imported or right in event_ids):
         raise ValueError("Invalid calendar backup")
     return {"connection_id": connection_id, "left_uid": left, "right_uid": right}
 

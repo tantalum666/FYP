@@ -57,7 +57,9 @@ def assistant_routes(runtime, authenticated, operation_id):
         )
         proposals = visible_calendar_proposals(proposals, principal)
         proposals = runtime.agent_runs.filter_proposals(proposals, principal)
-        if principal["kind"] != "owner" or not runtime.store.session_valid(principal.get("session")):
+        if principal["kind"] != "owner" or not runtime.store.session_valid(
+            principal.get("session")
+        ):
             proposals = [item for item in proposals if item.get("kind") != "shopping_advice"]
         return {"proposals": proposals}
 
@@ -70,10 +72,15 @@ def assistant_routes(runtime, authenticated, operation_id):
         principal=Depends(authenticated),
     ):
         principal = {**principal, "session": request.cookies.get("desk_companion_session")}
-        if proposal_kind(runtime, proposal_id) in {"mailbox_reply", "calendar_advice"} and principal["kind"] != "owner":
+        if (
+            proposal_kind(runtime, proposal_id) in {"mailbox_reply", "calendar_advice"}
+            and principal["kind"] != "owner"
+        ):
             raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
         if runtime.shopping.is_proposal(proposal_id):
-            signed_in = principal["kind"] == "owner" and runtime.store.session_valid(principal.get("session"))
+            signed_in = principal["kind"] == "owner" and runtime.store.session_valid(
+                principal.get("session")
+            )
             if not signed_in:
                 raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
         runtime.agent_runs.require_proposal_access(proposal_id, principal, action=payload.action)
