@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-4 November 2026. **The owner resumed Pi work in the dorm.** Ethernet connects to the wall socket; power is the official Raspberry Pi 27W supply. There is no monitor. The owner chose safe shutdown and attaching the original SD card to the Mac. The original card has now been identified and inspected; a backed-up two-file recovery seed was verified and safely ejected. Owner confirmed reinsertion and power. No authenticated SSH result yet.
+4 November 2026. **The owner resumed Pi work in the dorm.** Ethernet connects to the wall socket; power is the official Raspberry Pi 27W supply. There is no monitor. The owner chose safe shutdown and attaching the original SD card to the Mac. The original card has now been identified and inspected; a backed-up two-file recovery seed was verified and safely ejected. Earlier seeds were powered; the latest consolidated durable seed is now safely ejected and awaiting a new reinsertion/power confirmation. No authenticated SSH result yet.
 
 ## Current Pi recovery
 
@@ -8,7 +8,7 @@
 
 The optional owner VPS account/transport is validated from a Mac fixture, not yet from Pi. A later card capture showed empty relay files and cloud-init's write step already marked run, with no relay status/unit. Read-only ext4 inspection skipped pending journal recovery; do not diagnose physical SD failure from this alone. New verified bootcmd/runcmd recovery restores and reads back the complete managed payload before actual setup, resumes only this instance's command steps after interruption, and requires current result receipts before completion.62 local tests/Ruff pass.
 
-The durable seed is currently prepared on the original card; all secret material/backups remain under `~/.config/desk-companion/pi5-dorm-ethernet-20261104/`. VPS changes are a dedicated restricted relay account/key and diagnostic-only HTTP logging; existing proxy/SSH/firewall/subscription routes are preserved. Unauthenticated nonce/stage hints supplement, not replace, pinned Pi SSH. Home Wi-Fi and classroom Wi-Fi/wired profiles remain; overseas relay availability is not a home-LAN requirement.
+The durable seed is prepared, independently verified and safely ejected; the latest power-on confirmation is still pending. Its temporary observer ended with no stages/banner, which must not be labeled a failed new boot without that physical confirmation; all secret material/backups remain under `~/.config/desk-companion/pi5-dorm-ethernet-20261104/`. VPS changes are a dedicated restricted relay account/key and diagnostic-only HTTP logging; existing proxy/SSH/firewall/subscription routes are preserved. Unauthenticated nonce/stage hints supplement, not replace, pinned Pi SSH. Home Wi-Fi and classroom Wi-Fi/wired profiles remain; overseas relay availability is not a home-LAN requirement.
 
 **Owner constraint:** no hotspot workaround or repeated blind SD/configuration trials. Finish the consolidated preparation/verification before the next physical boot. **Next:** boot the verified durable seed, observe actual stages, then authenticate the original Pi host identity before power/filesystem/app checks. Classroom wired, mainland return, full display and latest-app deployment remain unaccepted.
 
