@@ -40,3 +40,6 @@ Branch `cursor/offline-calendar-journey-3bf1` maps local schedule fixtures throu
 ## One next step
 
 Review this offline calendar fixture PR. Do not connect Google or Outlook. Mailbox (PR #79) and shopping remain separate. A live mailbox or calendar account still needs an explicit scope before any real connection.
+## Merge note (3 November 2026)
+
+Codex-facing order for the open Grok offline-journey stack is [offline-journey-merge-guide](docs/offline-journey-merge-guide.md). At the check, #78, #79, #80, and #82 were open and unmerged. Drafts #73–#77 stay on Codex's own stack. This note does not replace the next step above.

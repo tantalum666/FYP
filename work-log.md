@@ -531,3 +531,6 @@ No mailbox, shopping, Pi, or Codex Work UI files were changed. No live calendar 
 Quiet-hour calendar notices are held and released by the existing rules tick through Notifier. Portable JSON backup now includes the calendar cursor, revisions, conflict pairs, attempts, and held notices. Owner preview validates the bundle. Restore then sync keeps the same task. Restart does not drop or duplicate a held notice.
 
 Files: [contract](desk-companion/docs/offline-calendar-journey.md), `desk-companion/backend/desk/offline_calendar/`, `desk-companion/fixtures/offline-calendar/`, [QA](output/qa/2026-11-03-offline-calendar/verification.md). Remaining: review this PR without connecting an account; mailbox and shopping stay on their own branches.
+## 2026-11-03 · Offline-journey merge guide
+
+Wrote a Codex-facing merge order for the open Grok offline slices: #78 harness, #79 mailbox, #80 shopping, then #82 offline calendar. Drafts #73–#77 are left on Codex's stack. This guide is #81 and can merge last or anytime. Docs only. Record: [guide](docs/offline-journey-merge-guide.md), [QA](output/qa/2026-11-03-offline-journey-merge-guide/verification.md).
