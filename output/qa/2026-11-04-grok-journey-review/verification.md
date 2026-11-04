@@ -1,6 +1,6 @@
 # Grok offline journey review and integration
 
-4 November 2026. Owner request: review Grok's new GitHub work, repair issues and merge when verified. Local source is frozen at `63e538b420f5cb0e3fb4cad3622f4dbe4cb800ca`; final full-run passed1738 backend/305 frontend; publication is recorded separately below. No GitHub Actions, live providers, accounts, payment, Pi or real-data migration.
+4 November 2026. Owner request: review Grok's new GitHub work, repair issues and merge when verified. Local source is frozen at `63e538b420f5cb0e3fb4cad3622f4dbe4cb800ca`; final full-run passed1738 backend/305 frontend; PR83 is merged at89dc92f with an exact reviewed-tree match. No GitHub Actions, live providers, accounts, payment, Pi or real-data migration.
 
 ## Scope
 
@@ -37,6 +37,6 @@ Initial rehearsal notes are not product failures: an unpublished conflict-resolu
 
 ## Delivery boundary
 
-[Secret scan](gitleaks.json) reports no findings; source scope excludes credentials, runtime data, school files, restricted art and workflows. Local source and compatibility results do not deploy code into the current OpenAI preview. The next software integration must retain PR74–77's primary chat/Alice baseline. Final GitHub PR/head/merge receipts are in `publication.json` after actual readback.
+[Secret scan](gitleaks.json) reports no findings; source scope excludes credentials, runtime data, school files, restricted art and workflows. Local source and compatibility results do not deploy code into the current OpenAI preview. The next software integration must retain PR74–77's primary chat/Alice baseline. [Final GitHub receipt](publication.json) records PR83 merged at89dc92f and each original PR78–82 closed/merged. Remote main has the exact full tree of reviewed bb6443c. This documentation receipt changes no application source.
 
 Published build logs normalize only trailing terminal whitespace; outcomes and warnings are retained.

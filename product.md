@@ -1,6 +1,6 @@
 # Group 2 Project Contract
 
-更新：2026-11-04。当前审查整合Grok PR78–82：离线邮箱、购物和日程样本接入既有事务/Work/通知/备份；已修复恢复、去重、撤销、过期消息、冲突与回执校验问题。新增建议卡片显示具体对象、来源和确认效果。最终本地验证及GitHub状态见[审查QA](output/qa/2026-11-04-grok-journey-review/verification.md)。真实邮箱、商店、支付、机票和真实日历账户仍未接通。
+更新：2026-11-04。Grok PR78–82已通过[PR83](https://github.com/tantalum666/FYP/pull/83)合并，代码合并89dc92f与验收树一致：离线邮箱、购物和日程样本接入既有事务/Work/通知/备份；已修复恢复、去重、撤销、过期消息、冲突与回执校验问题。新增建议卡片显示具体对象、来源和确认效果。最终本地验证及GitHub状态见[审查QA](output/qa/2026-11-04-grok-journey-review/verification.md)。真实邮箱、商店、支付、机票和真实日历账户仍未接通。
 
 当前用户预览的主对话/OpenAI/Alice属于独立[PR77](https://github.com/tantalum666/FYP/pull/77)及74–76栈；本轮只做组合兼容检查，未替换其运行服务。Pi暂停，所有收费实验预算关闭，不使用CI。
 
