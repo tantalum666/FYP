@@ -470,3 +470,7 @@ PR74–77的主对话/Alice/OpenAI栈只作独立组合兼容检查，不混入�
 用户说“把74-77也合并”，取代上一轮保持该栈独立的临时范围。#77包含74–76，采用一个集成候选保留全部祖先，并使原PR75–77指向main，以便实际合入后逐一核对merged。四个原PR在完整本地验证后由draft转ready。
 
 应用代码无冲突，且与上一轮已检查的组合b0375f4完全一致；处理八份Markdown状态/历史冲突，保留Grok修复与主对话/Alice/OpenAI基线。完整1769后端/319前端、类型构建和静态检查通过。此次无新源代码功能、CI、付费模型、真人媒体采集、Pi、真实数据迁移或服务部署；只更新代码主线与交接。
+
+### PR74–77 publication readback
+
+[PR85](https://github.com/tantalum666/FYP/pull/85) merged atb663204938fa11cb5c3631f2995800466840b55e. Main's full tree equals reviewed affbad2d. Original74/75/76/77 were each read back closed/merged after retargeting the stack to main. [Receipt](output/qa/2026-11-04-merge-74-77/publication.json). This closeout changes documentation only; verified application151f807 and1769/319 local results are unchanged. No deployment, CI, paid model or Pi work.

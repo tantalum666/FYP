@@ -1,0 +1,58 @@
+{
+  "date": "2026-11-04",
+  "timezone": "Asia/Hong_Kong",
+  "base": "4855987da7a522453e965250323ae50ca113e7fa",
+  "candidate": "151f807b5cd2796d6cf4598431683ff69577a079",
+  "reviewed_head": "affbad2d646aa37e0b6474c7e76439dae3502416",
+  "main_code_merge": "b663204938fa11cb5c3631f2995800466840b55e",
+  "remote_tree_equals_reviewed": true,
+  "prs": [
+    {
+      "number": 74,
+      "url": "https://github.com/tantalum666/FYP/pull/74",
+      "state": "closed",
+      "merged": true,
+      "head": "89f215ec8af5f841072337cc9a17217d82a85e56",
+      "merge_commit": "89f215ec8af5f841072337cc9a17217d82a85e56",
+      "merged_at": "2026-11-04T09:27:27Z"
+    },
+    {
+      "number": 75,
+      "url": "https://github.com/tantalum666/FYP/pull/75",
+      "state": "closed",
+      "merged": true,
+      "head": "34de1e790f7f0ba7b529523f6286034868dee0cc",
+      "merge_commit": "34de1e790f7f0ba7b529523f6286034868dee0cc",
+      "merged_at": "2026-11-04T09:27:27Z"
+    },
+    {
+      "number": 76,
+      "url": "https://github.com/tantalum666/FYP/pull/76",
+      "state": "closed",
+      "merged": true,
+      "head": "17df07498ae67b4d9d1c50a8d00ca8af9e2dc9d4",
+      "merge_commit": "17df07498ae67b4d9d1c50a8d00ca8af9e2dc9d4",
+      "merged_at": "2026-11-04T09:27:26Z"
+    },
+    {
+      "number": 77,
+      "url": "https://github.com/tantalum666/FYP/pull/77",
+      "state": "closed",
+      "merged": true,
+      "head": "0d73f1cf6bd28f981793b4610425df58db7a6e48",
+      "merge_commit": "151f807b5cd2796d6cf4598431683ff69577a079",
+      "merged_at": "2026-11-04T09:27:26Z"
+    },
+    {
+      "number": 85,
+      "url": "https://github.com/tantalum666/FYP/pull/85",
+      "state": "closed",
+      "merged": true,
+      "head": "affbad2d646aa37e0b6474c7e76439dae3502416",
+      "merge_commit": "b663204938fa11cb5c3631f2995800466840b55e",
+      "merged_at": "2026-11-04T09:27:25Z"
+    }
+  ],
+  "ci_used": false,
+  "deployed": false
+}

@@ -593,3 +593,7 @@ Publication verified: source6406503 on draftPR77, basePR76 head17df074, exact re
 ## 2026-11-04 Merge PR74–77 into the reviewed main baseline
 
 Owner explicitly requested74–77. Based on main4855987, retained every stack head through the77tip and resolved only eight Markdown conflicts; application code matches the prior b0375f4 compatibility tree exactly. Full1769 backend/319 frontend, Ruff/type/build and actual primary-chat/phone draft/advice checks passed. [QA](output/qa/2026-11-04-merge-74-77/verification.md). No CI, paid provider/media/hardware or deployment action. Current docs replace the separate-stack next step with ordinary Alice-to-Work continuation on the unified baseline; publication is recorded after remote readback.
+
+### PR74–77 publication readback
+
+[PR85](https://github.com/tantalum666/FYP/pull/85) merged atb663204938fa11cb5c3631f2995800466840b55e. Main's full tree equals reviewed affbad2d. Original74/75/76/77 were each read back closed/merged after retargeting the stack to main. [Receipt](output/qa/2026-11-04-merge-74-77/publication.json). This closeout changes documentation only; verified application151f807 and1769/319 local results are unchanged. No deployment, CI, paid model or Pi work.
