@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated: 26 October 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated: 3 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -500,3 +500,18 @@ Publication verified: PR5 closed/merged, reviewed112f912 → main9b655e1, exact 
 **Verification:** `uv run --no-sync ruff check tests/test_integration_acceptance.py` and `uv run --no-sync pytest tests/test_integration_acceptance.py -q` — 7 passed. No paid calls, GitHub Actions, Pi, Alice wake, desktop chat, or Work UI edits. [QA](output/qa/2026-11-03-integration-acceptance/verification.md).
 
 **Remaining:** The authorized mailbox journey is unchanged. This harness can merge on its own unless a later branch edits the same test or doc lines.
+## 2026-11-03 · Offline mailbox journey
+
+Owner instruction: implement the mailbox journey named in handoff, starting only with offline fixtures. No Gmail/Outlook connection, credentials, spend, or paid API. Reuse TaskService, the existing task as the Work item, PermissionService, and NoticeInbox.
+
+Added `desk-mailbox-fixture-v1` under `desk-companion/fixtures/mailbox/` (duplicate, out-of-order, interrupt/restart, revoke, disconnect). `MailboxService` keeps a durable history cursor and read offset in the same SQLite store (`BEGIN IMMEDIATE`, owner session rechecked). One thread updates one task; omitted fields do not clear notes, waiting reasons, or deadlines. Advice drafts cite the mail id and `observed_at`, require owner confirm, and never send. Notices publish only for a new or changed task, a deadline inside 24 hours, or a decision.
+
+Local evidence: `PYTHONPATH=/tmp/desk-py python3 -m pytest tests/test_mailbox_journey.py -q` → 8 passed. Ruff on the touched Python files passed. Full backend after installing the same packages onto the system site: 1693 passed, 1 failed. The failure is pre-existing `test_public_unicast[::ffff:93.184.216.34]` (`IPv6Address.is_reserved` is true for that mapped address on this interpreter). That file was not modified. No model call and no live mailbox. [QA](output/qa/2026-11-03-mailbox-offline/verification.md), [contract](desk-companion/docs/mailbox-journey.md).
+
+Published as open [PR79](https://github.com/tantalum666/FYP/pull/79); not merged. Next step is an explicit real-account scope before any live mailbox. Do not start shopping or a paid round from this slice.
+
+### Same day: quiet-hour delivery and portable mailbox backup
+
+Owner asked to close the two gaps on PR #79. A meaningful mailbox notice observed during quiet hours is stored and published by the existing `Runtime.tick` through `Notifier` once quiet hours end. The hold remains until that publish is delivered or recognized as a duplicate. Portable JSON backup now includes the cursor, read offset, thread link, message fingerprints, sync attempts, and quiet holds. Preview validates the records; restore keeps an existing connection and does not create a second task when the same messages are synced again. A display cannot preview or apply the backup.
+
+Checks: `python3 -m pytest tests/test_mailbox_journey.py` → 9 passed. Backup, notice, and nudge files `test_exchange.py`, `test_backup_persona_jobs.py`, `test_memory_gaps.py`, `test_risk_gaps.py`, `test_tasks.py`, `test_integration_boundaries.py`, `test_notify.py`, `test_nudges.py` → 64 passed. Ruff on the touched Python files passed. Still no live mailbox or paid API. Confirming a draft still uses the existing note action, which clears `check_in_local`.

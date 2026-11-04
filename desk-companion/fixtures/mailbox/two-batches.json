@@ -1,0 +1,44 @@
+{
+  "format": "desk-mailbox-fixture-v1",
+  "account_id": "later-owner",
+  "address": "owner@example.test",
+  "batches": [
+    {
+      "id": "visible",
+      "events": [
+        {
+          "op": "message",
+          "message": {
+            "id": "msg-visible",
+            "thread_id": "thread-visible",
+            "history_id": 1,
+            "observed_at": "2026-11-03T02:00:00Z",
+            "sender": "visible@example.test",
+            "subject": "Visible request",
+            "snippet": "Please review this reply draft.",
+            "await_reply": true,
+            "waiting_for": "Owner reply",
+            "needs_decision": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "later",
+      "events": [
+        {
+          "op": "message",
+          "message": {
+            "id": "msg-later",
+            "thread_id": "thread-later",
+            "history_id": 2,
+            "observed_at": "2026-11-03T02:05:00Z",
+            "sender": "later@example.test",
+            "subject": "Later secret",
+            "snippet": "Do not read this after revocation."
+          }
+        }
+      ]
+    }
+  ]
+}

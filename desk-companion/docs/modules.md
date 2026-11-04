@@ -16,6 +16,7 @@
 | jobs, computer, linux_desktop, linux_desktop_bridge | One durable intent/approval/verification queue with three bounded executors |
 | goals, nudges, moments, digest, notify, web_push | Confirmed goals, quiet/proactivity-aware local summaries and opt-in notification delivery |
 | exchange, backups, diagnostics, log | Validated business import/export, private SQLite snapshots and owner diagnostics |
+| mailbox, mailbox_fixture | Offline mailbox batches, durable cursor and thread link; task, draft and notice effects stay in the existing services |
 | frontend phone/components/workspace/device | Separate layouts, shared session/editor/data lifecycle; [frontend contract](software-maintenance.md) |
 
 One API worker owns in-memory voice/outputs/posture state. The five scheduled loops are rules1s, public_data10s, task_advice30s, computer_jobs0.5s and local_backup at its configured check interval. API startup is not authorization to enable providers, executors, media or physical output.

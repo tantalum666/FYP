@@ -31,6 +31,7 @@ from .workspace_data import PreferencesUpdate
 from .voice import voice_routes
 from .exchange_routes import exchange_routes
 from .google_calendar import google_routes
+from .mailbox import mailbox_routes
 from .phone import phone_snapshot
 from .tasks import task_routes
 from .jobs import job_routes
@@ -516,6 +517,7 @@ def create_app(
     app.include_router(voice_routes(services, authenticated, agent, allowed_origins, limit))
     app.include_router(exchange_routes(services, authenticated, owner, operation_id))
     app.include_router(google_routes(services, owner, operation_id))
+    app.include_router(mailbox_routes(services, owner, operation_id))
     static_root = Path(__file__).resolve().parents[2] / "frontend" / "dist"
 
     @app.get("/{path:path}", include_in_schema=False)

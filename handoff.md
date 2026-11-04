@@ -1,6 +1,6 @@
 # Group 2 Current Handoff
 
-31 October 2026, Asia/Shanghai. **PR5 repaired and merged.** [PR5](https://github.com/tantalum666/FYP/pull/5) merged reviewed head112f912 as main `9b655e1ac74d3d35a876a100e4681ee00ece4066`; GitHub reads closed/merged and both complete trees match. [Publication receipt](output/qa/2026-10-31-pr5-repair/publication.json). Current managed worktree is `/Users/tantalum/.codex/worktrees/all-pr-review-20261030/FYP`, documentation-closeout branch `codex/pr5-merge-receipt-20261031`. Original18d2056/11dc2b8 remain in ancestry.
+3 November 2026. **Offline mailbox journey is implemented and locally tested.** It is not a real Gmail or Outlook acceptance. PR5 remains merged (reviewed head `112f912` as main `9b655e1`); [publication receipt](output/qa/2026-10-31-pr5-repair/publication.json). This slice branches from main `dac527b386c268caa96d9388d0c11d206b4f6856`.
 
 
 ## Current implementation
@@ -17,6 +17,14 @@ Final backend1,686 and frontend300 checks, Ruff, TypeScript/Vite, lock metadata 
 
 The isolated localhost:8832 fixture service was stopped and test tabs/viewports cleared. Prior runtime/API8854/Vite5191/application VM and existing keys/data in older worktrees were not changed; recheck before reuse. All paid rounds remain closed; no CI or Pi work.
 
+## Offline mailbox slice (3 November)
+
+Owner instruction for this slice: offline fixtures only. No real mailbox, no credentials, no paid API. Open [PR79](https://github.com/tantalum666/FYP/pull/79) (not merged). [Contract](desk-companion/docs/mailbox-journey.md), [fixtures](desk-companion/fixtures/mailbox/README.md), [QA](output/qa/2026-11-03-mailbox-offline/verification.md).
+
+Done: one fixture thread maps to one existing task; duplicate, out-of-order, interrupt/restart, revoke, and disconnect leave a consistent cursor; sourced drafts cite mail id and observation time and confirm only through the existing owner proposal path (`send` stays false); notices fire only on a meaningful change, an approaching deadline, or a decision. A notice held for quiet hours is delivered by the existing rules tick when quiet hours end. Portable JSON backup includes the cursor and ingest state, validates it before import, and a restored mailbox does not create a second task on the next sync. HTTP tests exercise the task list, notice inbox, proposal decisions, and backup preview/apply routes.
+
+Not done: live account authorization and sending. Reconnect after revoke or disconnect is out of scope.
+
 ## One next step
 
-Implement the authorized-mailbox journey through the current task/Work core: incrementally ingest messages, map a thread to the same task, produce sourced advice/drafts and notify only on meaningful change. Start with offline duplicate/out-of-order/revoke/restart fixtures; obtain an explicit real-account scope before connecting a mailbox. Reuse the recovered [research](research/personal-agent-research-index.md); do not create another task/job/memory core or restart a paid budget.
+Obtain an explicit real-account scope before connecting Gmail or Outlook. Do not start shopping, travel booking, or a paid model round from this slice.

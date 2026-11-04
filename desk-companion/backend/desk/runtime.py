@@ -13,6 +13,7 @@ from .workspace_data import WorkspaceData
 from .voice import VoiceService
 from .exchange import ExchangeService
 from .google_calendar import GoogleCalendar
+from .mailbox import MailboxService
 from .tasks import TaskService
 from .text_ai import TextAssistant
 from .jobs import JobService
@@ -104,6 +105,7 @@ class Runtime:
         self.work_capacity = WorkCapacityService(self)
         self.public_captures = PublicCaptureService(self, enabled=public_capture_enabled)
         self.store.operation_guard = self.agent_runs.guard_operation
+        self.mailbox = MailboxService(self)
         self.posture.on_prompt = self.on_posture_prompt
 
     def on_posture_prompt(self, event):
@@ -163,6 +165,7 @@ class Runtime:
         self.store.tick()
         self.posture.tick()
         self.tasks.tick()
+        self.mailbox.release_quiet_notices()
         self.memories.expire()
         self.nudges.tick()
         self.goals.tick()

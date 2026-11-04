@@ -250,7 +250,11 @@ class AssistantService:
             "data": json.loads(row["data"])
         }
 
-    def propose(self, kind, payload, key):
+    def propose(self, kind, payload, key, *, ttl: timedelta | None = None):
+        lifetime = timedelta(minutes=5) if ttl is None else ttl
+        if lifetime <= timedelta(0) or lifetime > timedelta(days=7):
+            raise DomainError("DRAFT_TTL_INVALID", 422)
+
         def apply(conn):
             # A corrected proposal for the same existing object replaces its
             # older unapproved draft. Different events/occurrences stay separate.
@@ -280,7 +284,7 @@ class AssistantService:
                     proposal_id,
                     kind,
                     encode(payload),
-                    iso(self.store.clock() + timedelta(minutes=5)),
+                    iso(self.store.clock() + lifetime),
                     iso(self.store.clock()),
                 ),
             )
@@ -748,6 +752,30 @@ class AssistantService:
                 result = self.runtime.memory.delete(
                     payload["memory_id"], payload["expected_version"], internal_key
                 )
+            elif row["kind"] == "mailbox_reply":
+                if payload.get("send") is not False:
+                    raise DomainError("MAILBOX_SEND_FORBIDDEN", 409)
+                for field in ("task_id", "mail_id", "observed_at"):
+                    if not isinstance(payload.get(field), str) or not payload[field]:
+                        raise DomainError("MAILBOX_DRAFT_INVALID", 422)
+                with self.store.connection() as conn:
+                    current = self.runtime.tasks.get(conn, payload["task_id"])
+                note = (
+                    f"Reviewed mailbox advice for {payload['mail_id']} "
+                    f"observed at {payload['observed_at']}. Nothing was sent."
+                )
+                result = self.runtime.tasks.action(
+                    payload["task_id"],
+                    TaskAction(action="note", expected_version=current["version"], note=note),
+                    internal_key,
+                    origin="assistant_confirmed",
+                )
+                result = {
+                    **result,
+                    "sent": False,
+                    "mail_id": payload["mail_id"],
+                    "observed_at": payload["observed_at"],
+                }
             else:
                 change = ChangeProposal.model_validate(
                     {k: v for k, v in payload.items() if k in ChangeProposal.model_fields}
