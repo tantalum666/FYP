@@ -266,8 +266,9 @@ def validate_bundle(bundle, *, task_ids: set[str], event_ids: set[str]) -> dict:
         conflicts.append(conflict)
     attempts = []
     attempt_ids = set()
+    item_map = {(i["connection_id"], i["uid"]): i for i in items}
     for row in bundle["attempts"]:
-        attempt = _attempt(row, by_id)
+        attempt = _attempt(row, by_id, item_map)
         if attempt["id"] in attempt_ids:
             raise ValueError("Invalid calendar backup")
         attempt_ids.add(attempt["id"])
@@ -553,23 +554,26 @@ def _conflict(row, items: set[tuple[str, str]], event_ids: set[str]) -> dict:
     return {"connection_id": connection_id, "left_uid": left, "right_uid": right}
 
 
-def _attempt(row, connections: dict) -> dict:
+def _attempt(row, connections: dict, items: dict) -> dict:
     item = _only(row, _ATTEMPT_FIELDS)
     attempt_id = item["id"]
     if not isinstance(attempt_id, str) or not attempt_id or len(attempt_id) > 100:
         raise ValueError("Invalid calendar backup")
+    if attempt_id.startswith("assistant-confirm/"):
+        raise ValueError("Invalid calendar backup")
+    connection_id = _known(item["connection_id"], connections)
     if item["state"] not in _ATTEMPT_STATES:
         raise ValueError("Invalid calendar backup")
     response = item["response"]
     if item["state"] == "open":
         if response is not None:
             raise ValueError("Invalid calendar backup")
-    elif not isinstance(response, dict) or len(encode(response)) > 20000:
-        raise ValueError("Invalid calendar backup")
+    else:
+        response = _attempt_response(response, connections[connection_id], items)
     finished = item["finished_at"]
     return {
         "id": attempt_id,
-        "connection_id": _known(item["connection_id"], connections),
+        "connection_id": connection_id,
         "state": item["state"],
         "cursor_before": _cursor(item["cursor_before"]),
         "cursor_after": _cursor(item["cursor_after"]),
@@ -577,6 +581,84 @@ def _attempt(row, connections: dict) -> dict:
         "started_at": _stamp(item["started_at"]),
         "finished_at": None if finished is None else _stamp(finished),
     }
+
+
+def _attempt_response(response, connection: dict, items: dict) -> dict:
+    """A restored receipt is replayed verbatim, so validate its actual claims."""
+    expected = {
+        "success",
+        "status",
+        "events_read",
+        "applied_uids",
+        "duplicate_uids",
+        "skipped_uids",
+        "connection",
+        "sent",
+        "accepted",
+    }
+    _only(response, expected)
+    if (
+        len(encode(response)) > 20000
+        or response["sent"] is not False
+        or response["accepted"] is not False
+    ):
+        raise ValueError("Invalid calendar receipt")
+    if type(response["success"]) is not bool or response["status"] not in {
+        "idle",
+        "applied",
+        "interrupted",
+        "revoked",
+        "disconnected",
+    }:
+        raise ValueError("Invalid calendar receipt")
+    if response["success"] != (response["status"] in {"idle", "applied"}):
+        raise ValueError("Invalid calendar receipt")
+    _integer(response["events_read"], 0, 10000)
+    for key in ("applied_uids", "duplicate_uids", "skipped_uids"):
+        values = response[key]
+        if not isinstance(values, list) or len(values) > 1000:
+            raise ValueError("Invalid calendar receipt")
+        for uid in values:
+            _token(uid)
+    view = _only(
+        response["connection"],
+        {
+            "id",
+            "provider",
+            "account_id",
+            "calendar_id",
+            "fixture",
+            "state",
+            "history_cursor",
+            "next_event",
+            "items",
+        },
+    )
+    if (
+        any(view[key] != connection[key] for key in ("id", "provider", "account_id", "calendar_id"))
+        or view["fixture"] != connection["fixture_name"]
+        or view["state"] not in _STATES
+    ):
+        raise ValueError("Invalid calendar receipt")
+    _cursor(view["history_cursor"])
+    _integer(view["next_event"], 0, connection["next_event"])
+    if not isinstance(view["items"], list) or len(view["items"]) > ITEM_LIMIT:
+        raise ValueError("Invalid calendar receipt")
+    for row in view["items"]:
+        _only(row, {"uid", "kind", "task_id", "event_id", "sequence", "work_item"})
+        uid = _token(row["uid"])
+        original = items.get((connection["id"], uid))
+        if (
+            original is None
+            or row["task_id"] != original["task_id"]
+            or row["event_id"] != original["local_event_id"]
+            or row["kind"] not in _KINDS
+        ):
+            raise ValueError("Invalid calendar receipt")
+        _integer(row["sequence"], 1, original["sequence"])
+        if row["work_item"] != {"kind": "task", "id": row["task_id"]}:
+            raise ValueError("Invalid calendar receipt")
+    return response
 
 
 def _hold(row, items: set[tuple[str, str]]) -> dict:

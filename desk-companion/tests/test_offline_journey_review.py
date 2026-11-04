@@ -169,6 +169,45 @@ def test_calendar_rejects_conflicting_operation_for_same_revision(tmp_path, monk
     http.close()
 
 
+def test_repeated_calendar_cancel_revision_keeps_backup_consistent(tmp_path, monkeypatch):
+    _, http = local_calendar_fixture(
+        tmp_path,
+        monkeypatch,
+        [
+            {
+                "id": "batch",
+                "events": [
+                    calendar_item("meeting", 1),
+                    calendar_item("meeting", 2, op="cancel"),
+                    calendar_item("meeting", 3, op="cancel"),
+                ],
+            }
+        ],
+    )
+    cid = calendar_connect(http, "review")["id"]
+    result = calendar_sync(http, cid, "sync")
+    assert result["success"] is True
+    assert result["connection"]["items"][0]["sequence"] == 3
+    assert (
+        len(
+            [
+                n
+                for n in http.get("/api/notices").json()["notices"]
+                if n["kind"] == "calendar_cancelled"
+            ]
+        )
+        == 1
+    )
+    backup = http.get("/api/exchange/backup.json").json()
+    preview = http.post(
+        "/api/exchange/backup/preview",
+        json={"content": json.dumps(backup)},
+        headers={"X-Operation-Id": "preview"},
+    )
+    assert preview.status_code == 200, preview.text
+    http.close()
+
+
 def test_calendar_conflict_can_resolve_and_reappear(tmp_path, monkeypatch):
     _, http = local_calendar_fixture(
         tmp_path,
@@ -234,6 +273,27 @@ def test_calendar_conflict_with_local_event_survives_backup(tmp_path, monkeypatc
         ).status_code
         == 200
     )
+    http.close()
+
+
+@pytest.mark.parametrize("field", ["sent", "accepted", "connection"])
+def test_calendar_backup_cannot_forge_a_sync_receipt(tmp_path, field):
+    _, http = owner_app(tmp_path / "runtime")
+    cid = calendar_connect(http, "soon-meeting")["id"]
+    calendar_sync(http, cid, "sync")
+    backup = http.get("/api/exchange/backup.json").json()
+    receipt = backup["payload"]["offline_calendar_bundle"]["attempts"][0]["response"]
+    if field == "connection":
+        receipt[field]["id"] = "f" * 32
+    else:
+        receipt[field] = True
+    backup["sha256"] = digest(encode(backup["payload"]))
+    response = http.post(
+        "/api/exchange/backup/preview",
+        json={"content": json.dumps(backup)},
+        headers={"X-Operation-Id": "tampered"},
+    )
+    assert response.status_code == 422, response.text
     http.close()
 
 

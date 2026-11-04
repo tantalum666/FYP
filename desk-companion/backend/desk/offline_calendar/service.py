@@ -426,7 +426,17 @@ class OfflineCalendarService:
         if row is None:
             raise DomainError("CALENDAR_NOT_TRACKED", 404)
         if row["cancelled"]:
-            self._record_revision(connection_id, item, fingerprint, "applied")
+            self._finish_item(
+                connection_id,
+                item,
+                fingerprint,
+                row["local_event_id"],
+                row["task_id"],
+                row["kind"],
+                cancelled=True,
+                deadline=row["deadline_notified_due"],
+                pairs=[],
+            )
             return
         self._delete_event(connection_id, item, row["local_event_id"])
         self._cancel_task(connection_id, item, row["task_id"])
