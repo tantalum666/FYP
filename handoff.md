@@ -13,6 +13,8 @@ Mac migration identity, canonical fact visibility/conversion, deletion retry bar
 
 Final backend1,686 and frontend300 checks, Ruff, TypeScript/Vite, lock metadata and model/image hashes passed. Actual web Work produced files, waited for a typed task-note approval, then independently verified the same task effect. The watch created one review and stayed quiet after acknowledgment. Actual download SHA and restart readback match; phone393px reads the note and preserves Alice. Explicit saved-chat create/approve/refresh uses the same facts and one history rendering. No provider call, native/keyboard or hardware acceptance was claimed.
 
+3 November 2026: the 28 October Codex integration lessons now have a standing pytest harness, [integration acceptance](desk-companion/docs/integration-acceptance.md). Seven checks pass on main `dac527b386c268caa96d9388d0c11d206b4f6856`. This does not change the mailbox gate below.
+
 The isolated localhost:8832 fixture service was stopped and test tabs/viewports cleared. Prior runtime/API8854/Vite5191/application VM and existing keys/data in older worktrees were not changed; recheck before reuse. All paid rounds remain closed; no CI or Pi work.
 
 ## One next step
