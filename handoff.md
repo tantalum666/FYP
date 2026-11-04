@@ -1,17 +1,25 @@
 # Group 2 Current Handoff
 
-2 November 2026. **The owner has paused Pi again and prioritized personal-agent cross-application software.** This checkout is the preserved Pi branch, not the active new software tree.
+4 November 2026. **The owner resumed Pi work in the dorm.** Ethernet connects to the wall socket; power is the official Raspberry Pi 27W supply. There is no monitor. The owner chose safe shutdown and attaching the original SD card to the Mac. The original card has now been identified and inspected; a backed-up two-file recovery seed was verified and safely ejected. Owner confirmed reinsertion and power. No authenticated SSH result yet.
 
-## Active software continuation
+## Current Pi recovery
 
-Go to `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/openai-alice-wake-20261102`. [Draft PR77](https://github.com/tantalum666/FYP/pull/77) adds OpenAI realtime and local Alice/Chinese-name wake to the existing primary Web conversation and authority core. Current preview uses full2.1 after a correct bounded Mandarin fixture; Mini's numerical failure is preserved. Local inference/WebSocket/browser waiting and local regressions are documented there; no human accuracy/native/Pi claim.
+[Recovery QA and read scope](output/qa/2026-11-04-pi-dorm-ethernet/verification.md), [network contract](desk-companion/docs/pi-network-profiles.md), [Mac access](desk-companion/docs/pi5-usb-mac.md). Exact mDNS lookup and passive matching against known Pi MACs found no Pi. The old classroom Ethernet address routes through the Mac's VPN and was not probed. Do not infer DHCP failure or campus isolation from discovery failure.
 
-Read that tree's handoff, `desk-companion/docs/openai-alice-wake.md` and current QA. FreshUSD1 experiment is CLOSED (observed upper estimate0.1692086, conservative accounted0.6499936); normal owner-triggered usage is separate. Preserve actual OpenAI/local-model configuration, keys/data and normal viewport. PR77 builds on76/75/74; this Pi branch contains no new software code. Next software work is ordinary Alice requests/recovery through existing Work, offline first.
+The read-only Linux capture recovered a wired DHCP lease outside the Mac’s directly attached network. It is saved evidence, not a current IP guarantee. The old guard denied that routed source; new tested source admits only the explicitly selected Mac IPv4/32 on eth0 and retains paired-key SSH. Guard events now save fresh boot ID/address; countryHK and bounded600-second setup discovery are prepared.29 local network tests and Ruff passed; two seed files read back exactly; three unrelated boot files unchanged; FAT readonly check0 and safe eject passed.
 
-## Preserved Pi checkpoint — paused
+Linux readonly e2fsck returned4 while explicitly skipping journal recovery; needs_recovery and allocation/checksum differences remain. No original-Linux writes or offline repair. Fresh post-boot health must be checked. Private capture/seed/backups/observer are under `~/.config/desk-companion/pi5-dorm-ethernet-20261104/`; credentials never enter Git.
 
-[PR73](https://github.com/tantalum666/FYP/pull/73), [network contract](desk-companion/docs/pi-network-profiles.md), [home QA](output/qa/2026-10-31-pi-home-resume/verification.md), [device-entry QA](output/qa/2026-10-31-pi-device-entry/verification.md). Original card/system/data/keys preserved. Home Wi-Fi, pinned-key SSH, old app and Mac desktop were live-verified; last observed home address192.168.0.105 was DHCP, not fixed. Classroom Wi-Fi retained, wired DHCP configured, Student/Halls autoconnect disabled. Wired acceptance remains untested.
+**Next:** authenticate the new boot through the original SSH host key, then read current interfaces, journal/OS errors and power before any load or software upgrade. If the exact saved address is probed, use a socket bound to the real Mac interface, not the VPN; it remains a candidate until host-key verification. Existing generic LAN launcher only accepts a direct subnet.
 
-Pi-local Chromium caused undervoltage; actual PSU/cable remains unconfirmed. The separate DeviceApp at`?surface=device` exists;`?page=device`is management settings. Autostart still opens the welcome helper, not automatic kiosk. Latest-main app/database upgrade, sustained power/touch/voice/arm acceptance remain unfinished. Do not reconnect, test load, upgrade or reflash while paused. The previous local tunnel had timed out; no background Pi monitor is scheduled.
+## Preserved hardware evidence
 
-Private pairing is under `~/.config/desk-companion/pi5-usb/`; home seed/backups and diagnostics under `~/.config/desk-companion/pi5-home/`. Do not print/publish their contents. Old API budgets remain closed; no CI. Main software PR5/PR72, new PR74/75/76/77, and this Pi deployment are separate states.
+[PR73](https://github.com/tantalum666/FYP/pull/73), [31 October home QA](output/qa/2026-10-31-pi-home-resume/verification.md), [dedicated-device entry QA](output/qa/2026-10-31-pi-device-entry/verification.md). Home Wi-Fi, paired-key SSH, old app and Mac desktop passed then; those addresses/tunnels are not current observations. Classroom Wi-Fi is retained; Student/Halls autoconnect is disabled. Dorm wired acceptance remains open.
+
+Pi-local Chromium previously caused undervoltage. The owner has now identified the official27W supply; fresh firmware/power/throttling readback and a bounded load test still remain. DeviceApp uses `?surface=device`; `?page=device` is management settings. Actual autostart last opened the welcome helper. Latest-main app/database migration, automatic kiosk and sustained touch/voice/arm acceptance remain unfinished.
+
+## Unified software and preserved preview
+
+PR74–77 and the Grok fixes are merged in main through PR83/85; [merge QA and receipt route](https://github.com/tantalum666/FYP/pull/85), [Grok review route](https://github.com/tantalum666/FYP/pull/83). Latest unified source is `/Users/tantalum/.codex/worktrees/grok-journey-compat-20261104/FYP` (main receipt abf6387). This recovery checkout is now on `codex/pi-dorm-network-recovery-20261104`, based on `codex/pi-home-resume-20261031`, and does not contain that latest app source.
+
+The old preview/data/keys remain preserved in `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`; neither it nor Pi was upgraded by the merge. Normal OpenAI/Alice configuration and prior model evidence belong to that software handoff. All experiment budgets remain closed. No CI, model call, global Mac network change or VPS change occurred in this recovery.

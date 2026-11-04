@@ -1,0 +1,18 @@
+{
+  "phase": "prepared_card_waiting_live_acceptance",
+  "network_tests_passed": 29,
+  "ruff_passed": true,
+  "code_reviewed": true,
+  "seed_exact_readback": true,
+  "boot_fat_readonly_check_exit": 0,
+  "linux_original_readonly_check_exit": 4,
+  "journal_recovery_pending_verification": true,
+  "linux_partition_written_by_mac": false,
+  "card_seed_written": true,
+  "safely_ejected": true,
+  "owner_confirmed_new_boot": true,
+  "authenticated_ssh": false,
+  "live_application_deployment": false,
+  "paid_model_calls": 0,
+  "ci_workflows_present": false
+}

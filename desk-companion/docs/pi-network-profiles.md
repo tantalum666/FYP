@@ -1,6 +1,6 @@
 # Pi networking across home, classroom and dorm
 
-**31 October latest: Pi work is paused by the owner. The results below are preserved checkpoints; resume hardware only on a new owner instruction. Active personal-agent software is [PR74](https://github.com/tantalum666/FYP/pull/74).**
+**4 November: owner resumed dorm wired work with an official27W supply. The original card was identity-verified and inspected; a backed-up recovery seed was written, verified and safely ejected. Owner has reinserted and powered it. Current live SSH/power acceptance is pending. [Recovery QA](../../output/qa/2026-11-04-pi-dorm-ethernet/verification.md).**
 
 31 October 2026. The owner resumed Pi work and specified this arrangement:
 
@@ -18,9 +18,9 @@ The old Student/Halls credentials remain on the Pi for manual diagnosis, but the
 
 SSH remains public-key-only. Its allowed sources are the directly attached private IPv4 networks on wired `eth0` and explicitly known Wi-Fi profiles on `wlan0`. Networks broader than /20, public networks, link-local addresses, down interfaces, unrelated tunnels and unselected Wi-Fi are refused. USB and loopback access remain. Other firewall tables are not flushed; app/VNC continue listening on Pi loopback and are reached through SSH forwarding.
 
-This avoids carrying the old classroom-only subnet rule into every location. It does not bridge separate campus VLANs or make a sleeping/disconnected computer reachable. Mac and Pi must have a permitted route between them; the existing connector checks the direct LAN rather than trying through a VPN by accident. A VPS relay is a separate option if actual campus isolation makes it necessary.
+This avoids carrying the old classroom-only subnet rule into every location. It does not bridge separate campus VLANs or make a sleeping/disconnected computer reachable. Mac and Pi must have a permitted route between them; the existing connector checks the direct LAN rather than trying through a VPN by accident. An explicit `allow_routed_owner` policy can add the selected private owner IPv4/32 on a live private eth0 link; it does not admit that owner’s whole VLAN. It defaults off and retains the existing key-only authentication. The generic Mac connector still checks a direct subnet; routed diagnosis must bind its SSH transport to the real network interface and require the recorded host identity. A VPS relay is a separate option if actual campus isolation makes it necessary.
 
-Current wireless country input is `CN` for the home session. When physically back in Hong Kong, check/set the WLAN country to `HK` before Wi-Fi acceptance. Wired DHCP is independent of that setting. No MAC cloning, account guessing, router admin changes or campus-security bypass is included.
+The home session used `CN`; the current dorm recovery seed explicitly selects `HK`. `--country` accepts only CN/HK. In HK, setup preserves the home profile without forcing a40-second home activation attempt. Read back the applied country after connection. Wired DHCP is independent of that setting. No MAC cloning, account guessing, router admin changes or campus-security bypass is included.
 
 ## Card update and rollback
 
@@ -36,6 +36,8 @@ Use the existing paired-key launcher, with `DESK_PI_LINK=lan` and the Pi's obser
 
 The initial update emits nonce-filtered, nonsecret address/status packets to the Mac for one bounded startup window. A packet is only a discovery hint, not authenticated completion. Confirm the pinned SSH host, actual active profile/IP, service listeners and app health independently. If no packet arrives, inspect the actual LAN/mDNS or the card's `desk-network-status.json`; do not infer Wi-Fi success from the prepared files.
 
+**Status freshness fix, 4 November:** the previously installed helper only wrote boot status during setup. New source writes it on guard/NetworkManager events and includes the boot ID; UDP delivery failure does not prevent local recording. The recovery seed contains this tested source, but installation/readback on the new boot is still pending. Setup discovery defaults to60seconds, accepts an explicit maximum600seconds, and stops on its monotonic deadline. Later events send a single diagnostic packet. Packets remain unauthenticated hints; saved timestamps may precede clock synchronization.
+
 Status and real acceptance are tracked in [this session's QA](../../output/qa/2026-10-31-pi-home-resume/verification.md). The current software main and the Pi's older installed app remain distinct until an explicit backed-up software update is completed. No paid-model budget is reopened by restoring networking.
 
 ## Live acceptance on 31 October
@@ -46,7 +48,7 @@ The current home address was192.168.0.105 after profile activation; mDNS initial
 
 Two OS-level observations remain explicit: cloud-init finished with no fatal errors but a recoverable missing `cc_netplan_nm_patch` warning, matching an [official issue report](https://github.com/raspberrypi/trixie-feedback/issues/45); `raspi-config` country command returned1, while both the global regulatory domain and persisted `cfg80211.ieee80211_regdom=CN` argument were read back. Mac did not modify cmdline.txt; the authorized Pi-side country setter did. The warning was not concealed by changing vendor cloud-init configuration or rerunning provisioning.
 
-Starting Pi-local Chromium produced an undervoltage warning confirmed in the kernel log. Its window was closed; later `0x50000` records historical undervoltage/throttling rather than active flags. Boot-reported supply capability is3000mA, not a measurement of current draw or proof of the physical PSU's rating. Confirm the supply/cable before the next bounded load test or software upgrade. Never force a higher USB-current limit or suppress voltage warnings to pass acceptance. [Official power guidance](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#power-supply), [status-bit meanings](https://www.raspberrypi.com/documentation/computers/os.html#get_throttled).
+Starting Pi-local Chromium produced an undervoltage warning confirmed in the kernel log. Its window was closed; later `0x50000` records historical undervoltage/throttling rather than active flags. Boot-reported supply capability was3000mA, not a measurement of current draw or proof of the physical PSU's rating. On4November the owner confirmed the official27W supply; fresh voltage/throttling readback and a bounded load retest remain pending. Never force a higher USB-current limit or suppress voltage warnings to pass acceptance. [Official power guidance](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#power-supply), [status-bit meanings](https://www.raspberrypi.com/documentation/computers/os.html#get_throttled).
 
 ## Primary references
 

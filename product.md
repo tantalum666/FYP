@@ -1,10 +1,12 @@
 # Group 2 Project Contract
 
-更新：2026-11-02。PR5 已按用户明确授权修复并合并（代码合并 `9b655e1`，与已测候选完整树一致）。本轮兼容整合：保留 Alice／Omni／权限及真实应用执行器，接入持久 Work、来源与产物、事务变化跟踪、定期检查和显式保存会话；事实统一保留在 owner_memories。迁移及发布状态见[本轮QA](output/qa/2026-10-31-pr5-repair/verification.md)与[兼容契约](desk-companion/docs/pr5-integration.md)。此前 PR70 已合入 #19／#64–#69，#4／#15／#16 的旧界面由当前主线取代。Grok #20–#59及#60已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main（软件合并c2037cd），原41个PR状态均已核对。当前方向为 **Desk Companion个人AI助理**。本分支基于完成归档的main，整合Grok #20–#59和#60的Alice／统一Omni／网页／手机软件，修复权限、上下文、恢复和跨栈兼容问题。分支推送、PR合并、目标设备部署及真实模型验收分别记录；此前跨端权限／事务接续与OpenAI受限真实评测已完成；现已实现受限 Chromium／Calc／Writer 执行，并跑通脚本驱动的复杂任务、改口和重启恢复；语音模型自主完成仍未验收。结果见[交接](handoff.md)、[本轮QA](output/qa/2026-10-30-application-execution/verification.md)与[实际交付门槛](desk-companion/docs/delivery-readiness.md)。合并基线的[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)保留历史范围。
+分支软件快照：2026-11-02；当前任务路由更新：2026-11-04。PR5 已按用户明确授权修复并合并（代码合并 `9b655e1`，与已测候选完整树一致）。本轮兼容整合：保留 Alice／Omni／权限及真实应用执行器，接入持久 Work、来源与产物、事务变化跟踪、定期检查和显式保存会话；事实统一保留在 owner_memories。迁移及发布状态见[本轮QA](output/qa/2026-10-31-pr5-repair/verification.md)与[兼容契约](desk-companion/docs/pr5-integration.md)。此前 PR70 已合入 #19／#64–#69，#4／#15／#16 的旧界面由当前主线取代。Grok #20–#59及#60已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main（软件合并c2037cd），原41个PR状态均已核对。当前方向为 **Desk Companion个人AI助理**。本分支基于完成归档的main，整合Grok #20–#59和#60的Alice／统一Omni／网页／手机软件，修复权限、上下文、恢复和跨栈兼容问题。分支推送、PR合并、目标设备部署及真实模型验收分别记录；此前跨端权限／事务接续与OpenAI受限真实评测已完成；现已实现受限 Chromium／Calc／Writer 执行，并跑通脚本驱动的复杂任务、改口和重启恢复；语音模型自主完成仍未验收。结果见[交接](handoff.md)、[本轮QA](output/qa/2026-10-30-application-execution/verification.md)与[实际交付门槛](desk-companion/docs/delivery-readiness.md)。合并基线的[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)保留历史范围。
 
-## 当前任务路由（11月2日）
+## 当前任务路由（11月4日）
 
-用户暂停Pi，当前软件工作区`/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`已发布[draft PR77](https://github.com/tantalum666/FYP/pull/77)（承接76／75／74）：OpenAI Realtime与Alice本地唤醒接入主对话页，沿用当前工具／权限；保留Mini时间错误和Full正确fixture的证据。新1美元实验已关闭，正常用户使用另计。本分支保留Pi网络证据，不包含这些未合并软件代码；按软件工作区handoff继续，不恢复Pi或旧预算。
+用户已恢复宿舍Pi工作：网线接宿舍墙口，电源确认是官方27W；无外接显示器，选择正常关机后将原SD卡接到Mac检查。原卡身份已核对，读取了保存的有线租约并完成两份启动配置的备份、更新、读回与安全弹出；用户已回插通电。新增单一Mac地址的有线管理来源、香港区域及新启动状态记录，本地29项检查通过；SSH、正常日志回放、供电负载仍待实测，不把保存的租约当当前地址。此前Pi暂停已被本次指令取代，付费模型预算仍关闭。
+
+软件PR74–77已与Grok修复整合到main，见[合并记录](https://github.com/tantalum666/FYP/pull/85)。当前统一源码在`/Users/tantalum/.codex/worktrees/grok-journey-compat-20261104/FYP`；旧预览与Pi运行环境均未随合并升级。本Pi分支保留网络实现与历史软件快照，不能将下方旧版本证据当作最新统一源码状态。
 
 ## 当前要求
 
@@ -50,7 +52,7 @@
 
 硬件组 10 月 26 日的[教师审核稿与采购表](research/2026-10-26-hardware-procurement-review/README.md)已纳入主分支：保留原 PDF／有日期的价格与未报价项，不把文档合并当成完整 BOM、采购或硬件测试通过。
 
-**2026-10-31：用户已恢复Pi工作，家庭Wi-Fi／原密钥SSH／网页Alice／Mac远程桌面已实测通过。** 家里Wi-Fi、教室保留已验证Wi-Fi并支持网线、宿舍使用网线；[网络配置](desk-companion/docs/pi-network-profiles.md)已安装并从实机读回，有线仍待插线与现场验收。启动Pi本机Chromium时出现真实低电压事件，已关闭窗口，后续读数仅保留历史告警位；先核对供电再做持续负载测试。详见[QA](output/qa/2026-10-31-pi-home-resume/verification.md)。教室SSH／网页／桌面与宿舍Student接入、远程超时属于此前历史；最新软件未部署到Pi。Luwu与Mini硬件研究、采购批准、接线、台架及连续运行分开；[硬件成员资料](research/2026-10-23-mini-robot-hardware/README.md)不代表本轮实物成绩。
+**历史实测（2026-10-31）：家庭Wi-Fi／原密钥SSH／网页Alice／Mac远程桌面通过。** 家里Wi-Fi、教室Wi-Fi＋网线、宿舍网线的[配置](desk-companion/docs/pi-network-profiles.md)已安装读回；11月4日用户确认宿舍已插线，但当前地址和可达性仍未验收。31日Pi本机Chromium曾触发真实低电压，关闭后只保留历史位；4日用户已确认官方27W电源，仍须在重新连接后读回供电／节流状态再做有界负载复测。见[历史QA](output/qa/2026-10-31-pi-home-resume/verification.md)与[当前恢复记录](output/qa/2026-11-04-pi-dorm-ethernet/verification.md)。最新软件尚未部署到Pi；Luwu与Mini研究、采购、接线、台架及连续运行分开，[硬件成员资料](research/2026-10-23-mini-robot-hardware/README.md)不代表实物验收。
 
 ## 保存与协作
 

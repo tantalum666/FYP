@@ -1,10 +1,10 @@
 # 只用 Mac 访问 Pi 5 · Group 2
 
-**31 October latest: Pi work is paused by the owner. The results below are preserved checkpoints; resume hardware only on a new owner instruction. Active personal-agent software is [PR74](https://github.com/tantalum666/FYP/pull/74).**
+**2026-11-04：用户已恢复宿舍Pi工作，网线接墙口，确认官方27W供电。原卡已只读核对并写入备份过的两份恢复配置，安全弹出后用户已回插通电；单一Mac来源／香港区域／新启动状态记录仍需实机读回，先按[当前记录](../../output/qa/2026-11-04-pi-dorm-ethernet/verification.md)恢复管理连接。下方31日地址、隧道和供电读数均为历史检查。**
 
 **2026-10-31：家庭Wi-Fi、原配对SSH、网页Alice与Mac屏幕共享已实测连通。教室Wi-Fi／有线、宿舍有线配置已从Pi读回，有线尚未插线验收。Pi本机浏览器触发低电压事件，当前先核对电源／线材。详见[本轮QA](../../output/qa/2026-10-31-pi-home-resume/verification.md)与[网络方案](pi-network-profiles.md)。**
 <!-- FYP-CONTEXT-20261027 -->
-> HISTORICAL 2026-10-27 快照：当时Pi暂停，旧API预算关闭。当前恢复状态见文首31日记录。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
+> HISTORICAL 2026-10-27 快照：当时Pi暂停，旧API预算关闭。当前恢复状态见文首11月4日记录。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
 <!-- /FYP-CONTEXT-20261027 -->
 
 **HISTORICAL 2026-10-27：用户暂不启动Pi，下一轮Halls冷启动卡已准备并安全弹出，尚未实测。恢复前先核对Mac当前IP并启动状态接收；详见暂停快照 (local historical material: `output/qa/2026-10-26-pi5-dorm/pause-state.json`; not included in this checkpoint)。**
@@ -53,7 +53,7 @@ systemctl --user status desk-companion desk-vnc
 wayvncctl client-list
 ```
 
-安装标记为`/var/lib/desk-companion-provisioned`，课堂联网标记为`/var/lib/desk-companion-classroom-20261026-ready`。当前网络状态为`/boot/firmware/desk-network-status.json`，只读回选定非秘密字段；完整私有日志／配置不要上传。31日NTP已同步。cloud-init虽结束但有缺少`cc_netplan_nm_patch`的可恢复警告；不能把exit2隐去或写成全绿。
+安装标记为`/var/lib/desk-companion-provisioned`，课堂联网标记为`/var/lib/desk-companion-classroom-20261026-ready`。网络设置时的状态保存在`/boot/firmware/desk-network-status.json`，只读回选定非秘密字段；旧版本普通启动／租约事件不刷新此状态；11月4日恢复源码已修正并加入boot ID，原卡种子已更新，实际安装仍待新启动读回。必须核对时间与boot ID，不能将旧租约当作当前地址。完整私有日志／配置不要上传。31日NTP已同步。cloud-init虽结束但有缺少`cc_netplan_nm_patch`的可恢复警告；不能把exit2隐去或写成全绿。
 
 Pi运行10月22日离线包加10月26日三处部署修复，最新统一Omni／Work代码尚未同步到Pi。当前已验证家庭联网、登录、Alice网页与Linux桌面连接。Pi本机Chromium可渲染，但启动时出现低电压；已关闭窗口，先核对供电再做有界稳定性复测。之后才按[迁移契约](pr5-integration.md)停服务、备份并更新软件。Pi语音、声卡／AEC、Wayland双应用、GPU帧率／持续温度、姿态和机械仍未验收。
 

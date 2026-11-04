@@ -1,0 +1,22 @@
+{
+  "identity_verified_again": true,
+  "seed_exact_readback": true,
+  "helper_matches_tested_source": true,
+  "country": "HK",
+  "routed_owner_single_ipv4": true,
+  "discovery_seconds": 600,
+  "users_and_host_keys_preserved": true,
+  "untouched_three_boot_files_verified": true,
+  "linux_partition_written_by_mac": false,
+  "network_regression_tests_passed": 29,
+  "ruff_passed": true,
+  "boot_fat_readonly_check_exit": 0,
+  "safely_ejected": true,
+  "owner_reinserted_and_powered_on": true,
+  "live_ssh_verified": false,
+  "linux_readonly_check_exit": 4,
+  "linux_needs_journal_recovery": true,
+  "linux_offline_repair_performed": false,
+  "wire_dhcp_saved_lease_found": true,
+  "saved_lease_is_not_live_acceptance": true
+}

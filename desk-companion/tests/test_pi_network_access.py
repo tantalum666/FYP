@@ -177,8 +177,9 @@ def test_bad_or_world_readable_credentials_are_rejected(modules, tmp_path):
 
 
 @pytest.mark.parametrize("wired_carrier", [False, True])
+@pytest.mark.parametrize("country", ["CN", "HK"])
 def test_boot_keeps_classroom_wifi_disables_dorm_retries_and_attempts_home(
-    modules, tmp_path, monkeypatch, wired_carrier
+    modules, tmp_path, monkeypatch, wired_carrier, country
 ):
     from types import SimpleNamespace
     import subprocess
@@ -221,13 +222,14 @@ def test_boot_keeps_classroom_wifi_disables_dorm_retries_and_attempts_home(
     monkeypatch.setattr(n, "Path", rooted)
     monkeypatch.setattr(n, "PROFILE_ROOT", profile_root)
     monkeypatch.setattr(n, "run", command)
-    monkeypatch.setattr(n, "apply_guard", lambda access: [("wlan0", "192.168.0.0/24")])
+    monkeypatch.setattr(n, "apply_guard", lambda access, policy: [("wlan0", "192.168.0.0/24")])
     monkeypatch.setattr(n, "public_status", lambda policy, phase, **kw: {"phase": phase, **kw})
     monkeypatch.setattr(n, "save_status", lambda *args: None)
     monkeypatch.setattr(n, "notify_owner", lambda policy, state: notifications.append(state))
     monkeypatch.setattr(n.time, "sleep", lambda value: None)
-    n.install({"trial_id": "fixture", "country": "CN"}, access)
-    assert ("nmcli", "--wait", "40", "connection", "up", "uuid", n.HOME_UUID) in commands
+    n.install({"trial_id": "fixture", "country": country, "owner_host": "192.168.0.7"}, access)
+    home = ("nmcli", "--wait", "40", "connection", "up", "uuid", n.HOME_UUID)
+    assert (home in commands) == (country == "CN")
     wired = ("nmcli", "--wait", "30", "connection", "up", "uuid", n.WIRED_UUID)
     assert (wired in commands) == wired_carrier
     for identifier in (n.STUDENT_UUID, n.HALLS_UUID):
@@ -246,3 +248,96 @@ def test_boot_keeps_classroom_wifi_disables_dorm_retries_and_attempts_home(
     )
     assert real_path(str(guard) + ".before-portable-network").read_text() == "old guard"
     assert len(notifications) == 30 and all(x["phase"] == "network_ready" for x in notifications)
+
+
+def test_routed_owner_is_explicit_one_host_on_live_private_wired_link(modules):
+    n, _ = modules
+    wired = [interface("eth0", "10.200.16.241")]
+    policy = {"owner_host": "10.104.53.2"}
+    assert n.routed_owner_networks(wired, policy) == []
+    policy["allow_routed_owner"] = True
+    assert n.routed_owner_networks(wired, policy) == [("eth0", "10.104.53.2/32")]
+    rules = n.rules_for(n.routed_owner_networks(wired, policy))
+    assert 'iifname "eth0" ip saddr 10.104.53.2/32' in rules
+    assert "10.104.48.0/21" not in rules
+    assert "tcp dport 22 counter drop" in rules
+    for invalid in [
+        interface("eth0", "10.200.16.241", up=False),
+        interface("wlan0", "10.200.16.241"),
+        interface("eth0", "8.8.8.8"),
+    ]:
+        assert n.routed_owner_networks([invalid], policy) == []
+
+
+@pytest.mark.parametrize(
+    "changes",
+    [
+        {"owner_host": "8.8.8.8"},
+        {"owner_host": "10.1.2.3/24"},
+        {"owner_host": "127.0.0.1"},
+        {"owner_host": "10.1.2.3; unsafe"},
+        {"country": "unknown"},
+        {"allow_routed_owner": "yes"},
+        {"discovery_seconds": 601},
+        {"discovery_seconds": 0},
+        {"discovery_seconds": True},
+    ],
+)
+def test_recovery_policy_rejects_public_ranges_and_unbounded_settings(modules, changes):
+    n, _ = modules
+    with pytest.raises(ValueError):
+        n.validate_policy({"owner_host": "10.104.53.2", **changes})
+
+
+def test_guard_events_persist_current_boot_and_lease_even_when_udp_unreachable(
+    modules, tmp_path, monkeypatch
+):
+    n, p = modules
+    from types import SimpleNamespace
+
+    boot = tmp_path / "boot-id"
+    boot.write_text("fixture-new-boot")
+    monkeypatch.setattr(n, "Path", lambda value: boot)
+    monkeypatch.setattr(n, "STATE", tmp_path / "state.json")
+    monkeypatch.setattr(n, "BOOT_STATE", tmp_path / "boot.json")
+    networks = [("eth0", "10.200.16.0/24"), ("eth0", "10.104.53.2/32")]
+    monkeypatch.setattr(n, "apply_guard", lambda access, policy: networks)
+    monkeypatch.setattr(
+        n, "network_state", lambda: ([interface("eth0", "10.200.16.241")], {"eth0": n.WIRED_UUID})
+    )
+
+    def no_udp(*args):
+        raise OSError("fixture unreachable route")
+
+    monkeypatch.setattr(n, "notify_owner", no_udp)
+    policy = {"owner_host": "10.104.53.2", "trial_id": "fixture", "country": "HK"}
+    assert n.refresh_guard(SimpleNamespace(atomic_write=p.atomic_write), policy) == networks
+    state = json.loads(n.BOOT_STATE.read_text())
+    assert state == json.loads(n.STATE.read_text())
+    assert state["boot_id"] == "fixture-new-boot"
+    assert state["interfaces"] == [{"name": "eth0", "ipv4": ["10.200.16.241"]}]
+    # A later lease event must replace the earlier address, not retain setup-time state.
+    monkeypatch.setattr(
+        n, "network_state", lambda: ([interface("eth0", "10.200.16.242")], {"eth0": n.WIRED_UUID})
+    )
+    n.refresh_guard(SimpleNamespace(atomic_write=p.atomic_write), policy)
+    assert json.loads(n.BOOT_STATE.read_text())["interfaces"][0]["ipv4"] == ["10.200.16.242"]
+
+
+def test_hk_recovery_render_keeps_one_owner_and_bounded_window(modules):
+    n, p = modules
+    user, _ = p.render(
+        "Fixture",
+        "fixture-only",
+        "10.104.53.2",
+        "fixture",
+        country="HK",
+        allow_routed_owner=True,
+        discovery_seconds=600,
+    )
+    data = json.loads(user.split("\n", 1)[1])
+    files = {row["path"]: row for row in data["write_files"]}
+    policy = json.loads(files[str(n.CONFIG)]["content"])
+    assert policy["country"] == "HK" and policy["allow_routed_owner"] is True
+    assert policy["owner_host"] == "10.104.53.2" and policy["discovery_seconds"] == 600
+    assert data["users"] == [] and data["ssh_deletekeys"] is False

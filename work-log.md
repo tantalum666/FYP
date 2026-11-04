@@ -534,3 +534,15 @@ Updated entry/product/handoff/AGENTS and latest decision to software branch code
 ## 2026-11-02 · Route OpenAI/Alice continuation
 
 Clean starting checkout; read current routing/entry and latest related decision/work-log. Updated six root Markdown routes and [QA note](output/qa/2026-11-02-openai-alice-wake/routing.md) to software PR77. Actual source, model tests, costs and local media remain in the personal-agent worktree; no copy of code, credentials, data or model weights. No Pi/provider/CI action from this checkout.
+
+## 2026-11-04 · Dorm Pi recovery waiting for the original card
+
+Owner resumed hardware, confirmed wall-socket Ethernet and official27W supply, and selected normal shutdown followed by attaching the original SD card to the Mac. No monitor is available; explained that ordinary MacBook HDMI is an output. Bounded exact-host discovery and passive known-device matching yielded no current Pi IP. The historical Ethernet address routes through VPN and was not probed. Card checks found no bootfs; no SSH, card write, device change, deployment or power/load result.
+
+Reviewed the preserved network/SD implementation. Wired DHCP already exists, but ordinary guard events do not refresh the boot status file; its timestamp must be checked before relying on an address. Updated AGENTS, product current route, current entry/handoff, network/Mac-access notes, decisions and this log. [Read scope and checks](output/qa/2026-11-04-pi-dorm-ethernet/verification.md). Existing school/merge records are preserved. This is a local recovery checkpoint, not a new code milestone or GitHub publication. No app tests, CI, paid model, global network setting or VPS change. Next: identity-verified, read-only card inspection after owner attachment.
+
+### Original card inspected and recovery seed prepared
+
+Owner attached the card and ran the private read-only administrator helper. Initial captures failed; retained exact inode-bitmap checksum error, then recovered11 selected files through read-only debugfs -c. Saved wired lease gives a candidate outside Mac subnet. Read-only e2fsck4 explicitly skipped journal replay; no physical-failure or repaired-filesystem claim.
+
+Added opt-in one-owner wired /32, fresh guard-event status/boot ID, explicitHK and bounded discovery.29 network tests and Ruff passed. Changed only boot user-data/meta-data with private backups and exact independent readback, checked unrelated hashes and FAT readonly0, safely ejected. Owner confirmed new boot; observer is active, pinned SSH/power/post-replay checks pending. Source branch codex/pi-dorm-network-recovery-20261104 is based on the preserved PR73 line; no latest-main application deployment or paid call.

@@ -79,6 +79,36 @@ def admitted_networks(interfaces, active):
     return sorted(result)
 
 
+def validate_policy(policy):
+    private_lan(str(ipaddress.IPv4Address(policy["owner_host"])) + "/32")
+    if policy.get("country", "CN") not in ("CN", "HK"):
+        raise ValueError("Select an explicit supported location")
+    if type(policy.get("allow_routed_owner", False)) is not bool:
+        raise ValueError("Routed owner access must be an explicit boolean")
+    seconds = policy.get("discovery_seconds", 60)
+    if type(seconds) is not int or not 60 <= seconds <= 600:
+        raise ValueError("Discovery must be bounded to 60–600 seconds")
+
+
+def routed_owner_networks(interfaces, policy):
+    """Opt-in /32 on the wired link only; never admit the owner's whole VLAN."""
+    if policy.get("allow_routed_owner") is not True:
+        return []
+    owner = private_lan(str(ipaddress.IPv4Address(policy["owner_host"])) + "/32")
+    for interface in interfaces:
+        if interface.get("ifname") != "eth0" or "LOWER_UP" not in interface.get("flags", []):
+            continue
+        for address in interface.get("addr_info", []):
+            if address.get("family") != "inet" or address.get("scope") != "global":
+                continue
+            try:
+                private_lan(str(ipaddress.IPv4Address(address["local"])) + "/32")
+            except (KeyError, ValueError, TypeError):
+                continue
+            return [("eth0", owner)]
+    return []
+
+
 def rules_for(networks):
     admitted = []
     for name, subnet in networks:
@@ -111,14 +141,16 @@ def network_state():
     return interfaces, active
 
 
-def apply_guard(access):
+def apply_guard(access, policy):
     # Dispatcher and boot invocations serialize only local guard work, never Wi-Fi activation.
     with LOCK.open("w") as lock:
         os.chmod(LOCK, 0o600)
         fcntl.flock(lock, fcntl.LOCK_EX)
         access.check_owner_auth()
         interfaces, active = network_state()
-        networks = admitted_networks(interfaces, active)
+        networks = sorted(
+            set(admitted_networks(interfaces, active) + routed_owner_networks(interfaces, policy))
+        )
         rules = rules_for(networks)
         previous = run("nft", "list", "table", "inet", "desk_usb_ssh", check=False)
         if previous.returncode and "No such file or directory" not in previous.stderr:
@@ -140,10 +172,15 @@ def public_status(policy, phase, **extra):
         for i in interfaces
         if i.get("ifname") in ("eth0", "wlan0", "usb0")
     ]
+    try:
+        boot_id = Path("/proc/sys/kernel/random/boot_id").read_text().strip()
+    except OSError:
+        boot_id = None
     return {
         "trial_id": policy["trial_id"],
         "phase": phase,
         "utc_unix": time.time(),
+        "boot_id": boot_id,
         "interfaces": addresses,
         "active_profiles": active,
         "key_only_ssh": True,
@@ -167,7 +204,23 @@ def notify_owner(policy, state):
         sock.sendto(payload, (str(host), policy.get("owner_port", 8892)))
 
 
+def refresh_guard(access, policy):
+    """Persist this boot/lease event even after the initial setup window ends."""
+    validate_policy(policy)
+    networks = apply_guard(access, policy)
+    state = public_status(
+        policy, "network_ready" if networks else "waiting_for_network", allowed_lans=networks
+    )
+    save_status(access, state)
+    try:
+        notify_owner(policy, state)
+    except OSError:
+        pass  # Discovery delivery cannot decide whether a local rule update succeeded.
+    return networks
+
+
 def install(policy, access):
+    validate_policy(policy)
     if not Path("/var/lib/desk-companion-provisioned").is_file():
         raise RuntimeError("An existing Desk Companion installation is required")
     access.check_owner_auth()
@@ -200,7 +253,7 @@ exit 0
         0o700,
     )
     run("systemctl", "daemon-reload")
-    apply_guard(access)
+    apply_guard(access, policy)
     run("systemctl", "enable", "--now", "ssh.service")
     for name in ("FYP-Home", "FYP-Wired"):
         path = PROFILE_ROOT / (name + ".nmconnection")
@@ -244,15 +297,22 @@ exit 0
         run(
             "nmcli", "--wait", "30", "connection", "up", "uuid", WIRED_UUID, timeout=35, check=False
         )
-    home = run(
-        "nmcli", "--wait", "40", "connection", "up", "uuid", HOME_UUID, timeout=45, check=False
-    )
-    for _ in range(30):
-        admitted = apply_guard(access)
+    home_exit = None
+    if country == "CN":
+        home = run(
+            "nmcli", "--wait", "40", "connection", "up", "uuid", HOME_UUID, timeout=45, check=False
+        )
+        home_exit = home.returncode
+    seconds = policy.get("discovery_seconds", 60)
+    deadline = time.monotonic() + seconds
+    for _ in range(seconds // 2):
+        if time.monotonic() >= deadline:
+            break
+        admitted = apply_guard(access, policy)
         state = public_status(
             policy,
             "network_ready" if admitted else "waiting_for_network",
-            home_activation_exit=home.returncode,
+            home_activation_exit=home_exit,
             country_exit=country_result.returncode,
             allowed_lans=admitted,
             classroom_wifi_retained=CLASSROOM_UUID in known,
@@ -272,10 +332,10 @@ def main():
     if os.geteuid() != 0:
         raise SystemExit("Run only as root on the paired Pi")
     access = helper()
-    if args.guard:
-        apply_guard(access)
-        return
     policy = json.loads(CONFIG.read_text())
+    if args.guard:
+        refresh_guard(access, policy)
+        return
     try:
         install(policy, access)
     except Exception as error:

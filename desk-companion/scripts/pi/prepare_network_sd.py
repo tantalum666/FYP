@@ -18,7 +18,15 @@ import subprocess
 from uuid import uuid4
 
 from setup_classroom_access import atomic_write
-from setup_network_access import CONFIG, HOME_UUID, PROFILE_ROOT, SCRIPT, WIRED_UUID, private_lan
+from setup_network_access import (
+    CONFIG,
+    HOME_UUID,
+    PROFILE_ROOT,
+    SCRIPT,
+    WIRED_UUID,
+    private_lan,
+    validate_policy,
+)
 
 
 def secret_file(path):
@@ -101,17 +109,29 @@ route-metric=100
     return home, wired
 
 
-def render(ssid, password, owner_host, trial_id):
+def render(
+    ssid,
+    password,
+    owner_host,
+    trial_id,
+    *,
+    country="CN",
+    allow_routed_owner=False,
+    discovery_seconds=60,
+):
     private_lan(str(ipaddress.IPv4Address(owner_host)) + "/32")
     home, wired = profiles(ssid, password)
     source = Path(__file__).with_name("setup_network_access.py").read_text()
     policy = {
         "version": 1,
         "trial_id": trial_id,
-        "country": "CN",
+        "country": country,
         "owner_host": owner_host,
         "owner_port": 8892,
+        "allow_routed_owner": allow_routed_owner,
+        "discovery_seconds": discovery_seconds,
     }
+    validate_policy(policy)
     files = [
         (SCRIPT, source, "0700"),
         (str(CONFIG), json.dumps(policy) + "\n", "0600"),
@@ -179,7 +199,18 @@ def verify_target(boot, identity, inspect=disk_info):
     }
 
 
-def prepare(boot, private, identity, credentials, owner_host, *, apply=False):
+def prepare(
+    boot,
+    private,
+    identity,
+    credentials,
+    owner_host,
+    *,
+    apply=False,
+    country="CN",
+    allow_routed_owner=False,
+    discovery_seconds=60,
+):
     verified = verify_target(boot, identity)
     ssid, password = secret_file(credentials)
     if private.is_symlink():
@@ -189,7 +220,15 @@ def prepare(boot, private, identity, credentials, owner_host, *, apply=False):
     trial = uuid4().hex
     directory = private / (datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + trial[:8])
     directory.mkdir(mode=0o700)
-    user, meta = render(ssid, password, owner_host, trial)
+    user, meta = render(
+        ssid,
+        password,
+        owner_host,
+        trial,
+        country=country,
+        allow_routed_owner=allow_routed_owner,
+        discovery_seconds=discovery_seconds,
+    )
     for name, text in [("user-data", user), ("meta-data", meta)]:
         atomic_write(directory / name, text)
     original = {}
@@ -225,6 +264,9 @@ def prepare(boot, private, identity, credentials, owner_host, *, apply=False):
         "backup_directory": str(directory),
         "owner_host": owner_host,
         "owner_port": 8892,
+        "country": country,
+        "allow_routed_owner": allow_routed_owner,
+        "discovery_seconds": discovery_seconds,
         "changed_boot_files": ["user-data", "meta-data"] if apply else [],
         "linux_partition_written_by_mac": False,
         "preserved_boot_hashes": {
@@ -243,6 +285,9 @@ def main():
     parser.add_argument("--identity-file", type=Path, required=True)
     parser.add_argument("--credentials-file", type=Path, required=True)
     parser.add_argument("--owner-host", required=True)
+    parser.add_argument("--country", choices=("CN", "HK"), default="CN")
+    parser.add_argument("--allow-routed-owner", action="store_true")
+    parser.add_argument("--discovery-seconds", type=int, default=60)
     parser.add_argument("--apply", action="store_true")
     args = parser.parse_args()
     result = prepare(
@@ -252,6 +297,9 @@ def main():
         args.credentials_file,
         args.owner_host,
         apply=args.apply,
+        country=args.country,
+        allow_routed_owner=args.allow_routed_owner,
+        discovery_seconds=args.discovery_seconds,
     )
     print(
         json.dumps(
