@@ -47,3 +47,11 @@ Implemented explicit one-owner IPv4/32 access on a live private eth0 link, prese
 Local regression29 passed and Ruff passed. Read scope additionally covers complete network/SD scripts and network tests, and the relevant existing classroom-access helper. Original card was reverified; only user-data/meta-data changed, both exactly read back. Embedded helper matches tested source; the other three boot files retain their prior hashes. Private backups exist. FAT `fsck_msdos -n` via diskutil returned0. Card was safely ejected, owner confirmed reinsertion and power with wired cable. A temporary nonce-filtered observer is active; packets are discovery hints until pinned SSH authenticates.
 
 [Prepared-card facts](card-preparation.json). Live IP, SSH, journal recovery, power, application and desktop remain pending at this checkpoint.
+
+## Publication and current reachability
+
+Published code commit7c6790da292b4d442fa13847ccc466e8e3a52633 in [draftPR87](https://github.com/tantalum666/FYP/pull/87), stacked on the unchanged PR73 branch3150f391. PR metadata confirmed the published code head. This is not a merge or application deployment. Staged contents and private-secret scan passed; staged document links resolve. Unrelated local school/merge notes remain outside this commit.
+
+After owner-confirmed power-on, no matching fresh diagnostic packet was recorded. A single pinned SSH attempt to the saved lease candidate, bound to physical en0, failed; a bounded TCP-only check also timed out. No hostname identity was accepted or replaced. The owner was asked to report power/activity and Ethernet LEDs.
+
+Read the referenced VPS chat through read_thread. Current VPS management authenticated using its existing pinned identity through the Mac's existing route. Direct campus-interface SSH timed out; HTTPS TCP connected but TLS timed out. These are Mac-path observations, not proof of Pi outbound capability or campus isolation. No VPS, proxy, global route or firewall change was made. Next: owner LED/boot-state confirmation, then obtain fresh boot status if the device remains unreachable.

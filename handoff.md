@@ -10,7 +10,7 @@ The read-only Linux capture recovered a wired DHCP lease outside the Mac’s dir
 
 Linux readonly e2fsck returned4 while explicitly skipping journal recovery; needs_recovery and allocation/checksum differences remain. No original-Linux writes or offline repair. Fresh post-boot health must be checked. Private capture/seed/backups/observer are under `~/.config/desk-companion/pi5-dorm-ethernet-20261104/`; credentials never enter Git.
 
-**Next:** authenticate the new boot through the original SSH host key, then read current interfaces, journal/OS errors and power before any load or software upgrade. If the exact saved address is probed, use a socket bound to the real Mac interface, not the VPN; it remains a candidate until host-key verification. Existing generic LAN launcher only accepts a direct subnet.
+**Next:** obtain the owner’s power/activity and Ethernet LED observation. The current boot sent no observed packet; a physical-interface-bound attempt to the saved lease candidate timed out without authentication. If it remains unreachable, inspect the new boot status before another configuration change. [DraftPR87](https://github.com/tantalum666/FYP/pull/87) preserves the tested recovery source; it is not merged or deployed as the latest app. VPS management is reachable through the existing Mac route, but a Pi outbound relay is not prepared or verified.
 
 ## Preserved hardware evidence
 
