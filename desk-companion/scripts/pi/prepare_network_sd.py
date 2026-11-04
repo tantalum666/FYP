@@ -248,6 +248,25 @@ def prepare(
     )
     for name, text in [("user-data", user), ("meta-data", meta)]:
         atomic_write(directory / name, text)
+    asset_name = None
+    asset_content = None
+    old_asset = None
+    if relay_bundle is not None:
+        from setup_owner_relay import private_file
+
+        bundle = json.loads(private_file(relay_bundle))
+        if "transport_manifest_file" in bundle:
+            from setup_relay_transport import ARCHIVE_NAME, archive_input
+            from network_bootstrap import atomic_write as binary_write
+
+            asset_name = ARCHIVE_NAME
+            asset_content = archive_input(bundle)
+            if (boot / asset_name).is_symlink():
+                raise ValueError("Transport archive must not be a symlink")
+            old_asset = (boot / asset_name).read_bytes() if (boot / asset_name).exists() else None
+            binary_write(directory / asset_name, asset_content)
+            if old_asset is not None:
+                binary_write(directory / ("before-" + asset_name), old_asset)
     original = {}
     for name in ("user-data", "meta-data", "network-config", "config.txt", "cmdline.txt"):
         if (boot / name).is_symlink():
@@ -263,6 +282,8 @@ def prepare(
     if apply:
         verify_target(boot, identity)
         try:
+            if asset_name is not None:
+                binary_write(boot / asset_name, asset_content)
             for name, content in [("user-data", user), ("meta-data", meta)]:
                 atomic_write(boot / name, content)
                 if (boot / name).read_bytes() != content.encode():
@@ -273,6 +294,11 @@ def prepare(
         except BaseException:
             for name in ("user-data", "meta-data"):
                 atomic_write(boot / name, original[name].decode())
+            if asset_name is not None:
+                if old_asset is None:
+                    (boot / asset_name).unlink(missing_ok=True)
+                else:
+                    binary_write(boot / asset_name, old_asset)
             raise
     result = {
         **verified,
@@ -286,7 +312,12 @@ def prepare(
         "discovery_seconds": discovery_seconds,
         "owner_relay_included": relay_bundle is not None,
         "host_key_fingerprint": host_key_fingerprint,
-        "changed_boot_files": ["user-data", "meta-data"] if apply else [],
+        "changed_boot_files": (["user-data", "meta-data"] + ([asset_name] if asset_name else []))
+        if apply
+        else [],
+        "transport_archive_sha256": hashlib.sha256(asset_content).hexdigest()
+        if asset_content is not None
+        else None,
         "linux_partition_written_by_mac": False,
         "preserved_boot_hashes": {
             name: hashlib.sha256(original[name]).hexdigest()

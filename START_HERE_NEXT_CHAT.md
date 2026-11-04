@@ -1,9 +1,9 @@
 # Group 2 · Current entry
 
-4 November: Pi recovery is active, with official27W power and dorm wall Ethernet. The owner requires homeWi-Fi, classroomWi-Fi+wired, dormwired, and explicitly rejects a hotspot workaround and further blind trials.
+5 November2026: Pi recovery remains active. The durable boot reported successful setup but direct VPS22 connectivity failed. The owner requires mainland homeWi-Fi, classroomWi-Fi+wired, dormwired, and rejects hotspot workarounds/repeated blind trials.
 
-Read [handoff](handoff.md), [current QA](output/qa/2026-11-04-pi-dorm-ethernet/verification.md), [network contract](desk-companion/docs/pi-network-profiles.md) and [relay/recovery contract](desk-companion/docs/pi-owner-relay.md). Card readback proved the first new wired lease/source policy. Later readback showed an incomplete relay installation; verified bootcmd/runcmd recovery and an optional pinned VPS transport are now prepared.62 local checks pass; real Pi SSH does not yet.
+Read [handoff](handoff.md), [current443 QA](output/qa/2026-11-05-pi-443-transport/verification.md) and [contract](desk-companion/docs/pi-owner-relay.md). An isolated client forced to Mac en0 authenticated the pinned VPS through443 without changing existing proxies. The matching official ARM64 artifact and full offline package are verified;79 focused tests pass. The real card does not yet contain this443 package.
 
-The consolidated card is verified and safely ejected; the latest reinsertion/power confirmation has not arrived. The bounded observer ended without a new stage, so do not infer that the new seed failed. Next is that physical boot, stage observation and original Pi host-key authentication. Do not ask for a hotspot, reflash, remove pairing identities, or equate a receipt/port/banner with full acceptance. Current VPS changes are only the dedicated restricted relay account/key and conditional stage logging.
+Next: after owner returns the original card, verify identity, write/read back the prepared package, safely eject, then verify actual boot stages and original Pi SSH. Do not restart the prior investigation or claim the Mac test is Pi acceptance. No hotspot, CI, paid-model request, key regeneration, system reflash or latest-main app migration.
 
-Unified software PR74–77 plus Grok fixes are merged in [PR85](https://github.com/tantalum666/FYP/pull/85). This recovery branch is separate; Pi and the preserved preview were not upgraded to latest main. All experimental model budgets are closed; no CI. Preserve original data and unrelated local school/merge notes.
+Software PR74–77 and Grok fixes are merged in [PR85](https://github.com/tantalum666/FYP/pull/85); this Pi recovery branch remains separate. Preserve existing school/merge notes and all private material.

@@ -1,6 +1,6 @@
 # Pi owner relay and recoverable network setup
 
-4 November 2026. Local access stays available; the owner's existing VPS is an optional management path when campus networks cannot reach each other. This is not an application deployment or a paid-model feature.
+5 November 2026. Local access stays available; the owner's existing VPS is an optional management path when campus networks cannot reach each other. This is not an application deployment or a paid-model feature.
 
 ## Three-place contract and evidence
 
@@ -19,6 +19,16 @@ Student/Halls credentials remain saved with autoconnect disabled. Region CN/HK i
 The VPS has a dedicated locked-password account, no login shell, a forced failing command and a restricted public key. Only the selected loopback remote-listen port is admitted; arbitrary forwarding destinations, extra listeners, agent/PTY/X11 access and shell execution are not granted. The key is independent of the owner's Mac/Pi management key. [OpenSSH key restrictions](https://man.openbsd.org/sshd#AUTHORIZED_KEYS_FILE_FORMAT).
 
 The optional `--relay-bundle` is an owner-private JSON file naming the server IP/port, dedicated username, loopback relay port, pinned Ed25519 host public key and private local key-file path. Source contains no live credentials. The generated card seed is private, just like the existing Wi-Fi seed; never commit it or its backups. The service reconnects after network loss; that behavior is not proof that a particular campus or mainland path permits the connection.
+
+## Fixed 443 transport when direct SSH is unavailable
+
+The later durable boot reported installation completion but no direct VPS22 connectivity. An isolated Mac client forced to en0 successfully authenticated the pinned VPS through the existing port443 transport. That is the tested alternative, not a claim that Pi's direct22 path works.
+
+`setup_relay_transport.py` optionally installs a pinned, unmodified Linux ARM64 mihomo binary. Its sole listener is loopback22422 and its sole target is the owner's VPS SSH endpoint through the already selected encrypted node. Generic proxy ports, control APIs, TUN, DNS changes and arbitrary destinations are rejected. Pi uses its normal default route, preserving home Wi-Fi and school Ethernet/Wi-Fi selection; no Mac interface name is carried over.
+
+The runtime service runs as desk with a private writable state directory. The existing SSH service keeps strict host-key verification and its dedicated key, and connects through this loopback transport. An SSH banner is recorded only as transport evidence; authenticated Pi SSH still requires the original Pi key check.
+
+The optional protected bundle also supplies a transport configuration and pinned binary manifest. Preparation now writes one checksum-verified offline archive alongside the two seed files, with backup/readback/rollback. The Mac still does not write the Linux partition. Source/credentials/binary distribution are kept separate: source and hashes are publishable, live node credentials and prepared seeds remain private. [Official dependency release](https://github.com/MetaCubeX/mihomo/releases/tag/v1.19.32), [fixed-target transport contract](https://wiki.metacubex.one/en/config/tunnels/).
 
 ## Interrupted setup recovery
 
@@ -40,6 +50,6 @@ To roll back the relay, first establish another management path, then disable de
 
 ## Validation boundary
 
-62 focused local checks and Ruff passed, including three-site source rules, interrupted writes, empty-file restoration, scoped cloud-init retry, false-success receipts, symlink rejection, credential handling and nonfatal diagnostics. A real Mac-to-VPS fixture verified the permitted loopback forward and rejection of other listeners, destinations and commands. Conditional log privacy was tested with positive, ordinary-path and query-string requests. These do not stand in for a real Pi boot or classroom/mainland field acceptance.
+79 focused local checks and Ruff passed, including three-site source rules, interrupted writes, empty-file restoration, scoped cloud-init retry, false-success receipts, symlink rejection, credential handling and nonfatal diagnostics. A real Mac-to-VPS fixture verified the permitted loopback forward and rejection of other listeners, destinations and commands. Conditional log privacy was tested with positive, ordinary-path and query-string requests. These do not stand in for a real Pi boot or classroom/mainland field acceptance.
 
-[Current QA](../../output/qa/2026-11-04-pi-dorm-ethernet/verification.md).
+[Current transport QA](../../output/qa/2026-11-05-pi-443-transport/verification.md), [earlier recovery QA](../../output/qa/2026-11-04-pi-dorm-ethernet/verification.md).

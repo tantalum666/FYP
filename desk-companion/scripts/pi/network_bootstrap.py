@@ -26,6 +26,7 @@ STATE = Path("/var/lib/desk-companion/network-recovery-completed.json")
 STATUS = BOOT / "desk-network-bootstrap-status.json"
 NETWORK = "/usr/local/lib/desk-network-access.py"
 RELAY = "/usr/local/lib/desk-owner-relay-setup.py"
+TRANSPORT = "/usr/local/lib/desk-relay-transport-setup.py"
 POLICY = "/etc/desk-network-policy.json"
 CORE = {
     NETWORK: "0700",
@@ -39,6 +40,7 @@ RELAY_FILES = {
     "/home/desk/.config/desk-companion/owner-relay/id_ed25519": "0600",
     "/home/desk/.config/desk-companion/owner-relay/known_hosts": "0600",
 }
+TRANSPORT_FILES = {TRANSPORT: "0700", "/etc/desk-relay-transport.json": "0600"}
 
 
 def atomic_write(path, content, mode=0o600):
@@ -77,7 +79,13 @@ def read_plan(boot=BOOT):
     paths = [row["path"] for row in entries]
     if len(paths) != len(set(paths)):
         raise ValueError("Duplicate recovery path")
-    expected = {**CORE, **(RELAY_FILES if RELAY in paths else {})}
+    if TRANSPORT in paths and RELAY not in paths:
+        raise ValueError("Fixed transport requires the owner relay")
+    expected = {
+        **CORE,
+        **(RELAY_FILES if RELAY in paths else {}),
+        **(TRANSPORT_FILES if TRANSPORT in paths else {}),
+    }
     if set(paths) != set(expected):
         raise ValueError("Recovery seed contains an unexpected path")
     for row in entries:
@@ -113,6 +121,7 @@ def read_plan(boot=BOOT):
         "entries": entries,
         "relay_host": relay_host,
         "commands": [[sys.executable, NETWORK]]
+        + ([[sys.executable, TRANSPORT]] if TRANSPORT in paths else [])
         + ([[sys.executable, RELAY]] if RELAY in paths else []),
     }
 
@@ -170,6 +179,8 @@ def status(plan, phase, **extra):
         suffix = phase
         if extra.get("component") == Path(RELAY).name:
             suffix += "-relay"
+        elif extra.get("component") == Path(TRANSPORT).name:
+            suffix += "-transport"
         elif extra.get("component") == Path(NETWORK).name:
             suffix += "-network"
         connection = http.client.HTTPConnection(plan["relay_host"], 80, timeout=2)
@@ -207,20 +218,34 @@ def recover(
         def runner(command):
             subprocess.run(command, check=True, timeout=900)
             relay = command[1] == RELAY
+            transport = command[1] == TRANSPORT
             receipt_path = (
-                "/boot/firmware/desk-owner-relay-status.json"
+                "/boot/firmware/desk-relay-transport-status.json"
+                if transport
+                else "/boot/firmware/desk-owner-relay-status.json"
                 if relay
                 else "/var/lib/desk-companion/network-status.json"
             )
             receipt = json.loads((root / receipt_path.lstrip("/")).read_text())
             accepted = (
-                {"relay_service_started"} if relay else {"network_ready", "waiting_for_network"}
+                {"transport_configured"}
+                if transport
+                else {"relay_service_started"}
+                if relay
+                else {"network_ready", "waiting_for_network"}
             )
             if receipt.get("trial_id") != plan["trial_id"] or receipt.get("phase") not in accepted:
                 raise RuntimeError("Setup command did not produce a current valid receipt")
             if relay:
-                reachable = receipt.get("vps_tcp") == "reachable"
+                reachable = receipt.get("dial_tcp", receipt.get("vps_tcp")) == "reachable"
                 report(plan, "relay_tcp_reachable" if reachable else "relay_tcp_unreachable")
+            if transport:
+                report(
+                    plan,
+                    "transport_ssh_banner"
+                    if receipt.get("ssh_banner_observed")
+                    else "transport_path_waiting",
+                )
 
     for command in plan["commands"]:
         report(plan, "running_setup", component=Path(command[1]).name)

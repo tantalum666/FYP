@@ -35,6 +35,8 @@ def validate(config):
         value = config[key]
         if type(value) is not int or not minimum <= value <= 65535:
             raise ValueError("Invalid relay port")
+    if "transport_port" in config and config["transport_port"] != 22422:
+        raise ValueError("Only the fixed loopback transport port is allowed")
     parts = config["server_host_key"].split()
     if len(parts) != 2 or parts[0] != "ssh-ed25519" or "\n" in config["server_host_key"]:
         raise ValueError("One pinned Ed25519 server host key is required")
@@ -61,6 +63,11 @@ def seed_files(bundle_path, trial_id):
     config = {
         key: bundle[key] for key in ("host", "port", "user", "remote_port", "server_host_key")
     }
+    transport = "transport_manifest_file" in bundle or "transport_config_file" in bundle
+    if transport:
+        if not all(key in bundle for key in ["transport_manifest_file", "transport_config_file"]):
+            raise ValueError("Both protected transport inputs are required")
+        config["transport_port"] = 22422
     validate(config)
     config["trial_id"] = trial_id
     private_key = private_file(bundle["private_key_file"])
@@ -74,16 +81,28 @@ def seed_files(bundle_path, trial_id):
     )
     if parsed.returncode or not parsed.stdout.startswith("ssh-ed25519 "):
         raise ValueError("A usable dedicated Ed25519 relay key is required")
-    return [
+    files = [
         (str(CONFIG), json.dumps(config) + "\n", "0600"),
         (str(KEY), private_key, "0600"),
         (str(KNOWN), HOST_ALIAS + " " + config["server_host_key"] + "\n", "0600"),
         (SCRIPT, Path(__file__).read_text(), "0700"),
     ]
+    if transport:
+        from setup_relay_transport import seed_files as transport_files
+
+        files.extend(transport_files(bundle, trial_id, config["host"]))
+    return files
+
+
+def dial_target(config):
+    if "transport_port" in config:
+        return "127.0.0.1", config["transport_port"]
+    return config["host"], config["port"]
 
 
 def service_text(config):
     validate(config)
+    dial_host, dial_port = dial_target(config)
     command = [
         "/usr/bin/ssh",
         "-N",
@@ -94,7 +113,7 @@ def service_text(config):
         "-i",
         str(KEY),
         "-p",
-        str(config["port"]),
+        str(dial_port),
         "-o",
         "BatchMode=yes",
         "-o",
@@ -103,6 +122,8 @@ def service_text(config):
         "IdentityAgent=none",
         "-o",
         "StrictHostKeyChecking=yes",
+        "-o",
+        "CheckHostIP=no",
         "-o",
         "UserKnownHostsFile=" + str(KNOWN),
         "-o",
@@ -121,12 +142,12 @@ def service_text(config):
         "ServerAliveCountMax=3",
         "-R",
         f"127.0.0.1:{config['remote_port']}:127.0.0.1:22",
-        config["user"] + "@" + config["host"],
+        config["user"] + "@" + dial_host,
     ]
     return f"""[Unit]
 Description=Desk Companion owner-hosted SSH relay
-Wants=network-online.target
-After=network-online.target ssh.service
+Wants=network-online.target{" desk-relay-transport.service" if "transport_port" in config else ""}
+After=network-online.target ssh.service{" desk-relay-transport.service" if "transport_port" in config else ""}
 StartLimitIntervalSec=0
 [Service]
 Type=simple
@@ -169,12 +190,15 @@ def install(config, access):
         "utc_unix": time.time(),
         "phase": "relay_service_started",
         "authenticated_pi_access_verified": False,
+        "transport_kind": "encrypted_443" if "transport_port" in config else "direct_ssh",
     }
     try:
-        with socket.create_connection((config["host"], config["port"]), timeout=4):
-            state["vps_tcp"] = "reachable"
+        with socket.create_connection(dial_target(config), timeout=4):
+            state["dial_tcp"] = "reachable"
     except OSError as error:
-        state["vps_tcp"] = type(error).__name__
+        state["dial_tcp"] = type(error).__name__
+    if "transport_port" not in config:
+        state["vps_tcp"] = state["dial_tcp"]
     time.sleep(12)
     state["unit_state"] = run(
         "systemctl",

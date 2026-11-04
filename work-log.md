@@ -560,3 +560,9 @@ Added one bootstrap source embedded in bootcmd/runcmd, atomic/readback-verified 
 Reviewed sourcefe9725720b24f7cfbe03fb2cc2a6b7f26b03719d was pushed and read back on PR87. The connector temporarily failed and the CLI token could not edit PR metadata; the owner's authenticated browser updated title/body, then the CLI read back the62-test description. PR remains open/draft. Browser proof is private and was shown to the owner; no private capture/credential was published.
 
 The durable seed passed exact readback and FAT readonly0 and was safely ejected. A900-second observer finished without a stage or SSH banner while the latest reinsertion/power confirmation remained pending. One final pinned relay probe did not authenticate. This is not evidence of a failed boot of the new durable seed: the owner has not confirmed that physical step. No observer remains running. Resume by observing this prepared seed after the owner's new power-on confirmation; do not rewrite the card or ask for a hotspot by default.
+
+## 2026-11-05 · Fixed443 management transport prepared
+
+The owner confirmed the durable boot; matching stages reached setup_completed but direct VPS TCP remained unavailable. The earlier Mac fixture used the existing encrypted path, not Pi's plain22 path. A fresh isolated client forced to en0 authenticated the pinned VPS and dedicated key over443 without changing Mac proxy settings. Verified the official matching ARM64 archive/digest/static ELF and rehearsed the entire protected package privately.
+
+Added strict fixed-target transport installation, loopback SSH dialing, bootstrap receipt/order integration and offline-archive backup/readback/rollback.79 focused checks and Ruff passed; [QA/read scope](output/qa/2026-11-05-pi-443-transport/verification.md). Real card is not yet updated; owner was asked to return it. No hotspot, CI, model call, global proxy/DNS/TUN change or application migration.

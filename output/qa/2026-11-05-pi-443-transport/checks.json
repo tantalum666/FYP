@@ -1,0 +1,18 @@
+{
+  "date_hk": "2026-11-05",
+  "package_rehearsal_passed": true,
+  "real_card_written": false,
+  "source_matches_current": true,
+  "python_3_13_compatible": true,
+  "managed_files": 10,
+  "setup_steps": 3,
+  "changed_boot_files": [
+    "user-data",
+    "meta-data",
+    "desk-relay-mihomo.gz"
+  ],
+  "archive_sha256": "9dd862e28b46ff7d775f169cceebc28deccaa0a9e804237d421cd2571e0caba0",
+  "local_tests_passed": 79,
+  "mac_en0_pinned_vps_auth_passed": true,
+  "global_proxy_tun_dns_changed": false
+}
