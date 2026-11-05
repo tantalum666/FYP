@@ -100,11 +100,7 @@ export function VoiceInputList({
           )}
         </article>
       ))}
-      {!owner && (
-        <p>
-          {t("Open Work with an owner sign-in", "请以拥有者身份登录后打开工作")}
-        </p>
-      )}
+      {!owner && <p>{t("Reconnect to open Work", "重新连接后打开工作")}</p>}
     </section>
   );
 }

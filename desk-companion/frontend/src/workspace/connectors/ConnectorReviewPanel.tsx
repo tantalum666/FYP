@@ -528,8 +528,8 @@ export function ConnectorReviewPanel({
           {!owner ? (
             <p>
               {t(
-                "Sign in as the owner to review connector calls. Paired screens cannot inspect or approve them.",
-                "请以拥有者身份登录以审阅连接器调用。配对终端不能查看或批准。",
+                "Review connector calls from your main desk.",
+                "请在主桌面审阅连接器调用。",
               )}
             </p>
           ) : !access.available ? (

@@ -3,6 +3,7 @@
 import hashlib
 import json
 from pathlib import Path
+import tempfile
 
 
 class WakeDetector:
@@ -27,21 +28,25 @@ class WakeDetector:
                 )
         if phrase not in {"desk", "alice"}:
             raise ValueError("Unknown local wake phrase")
-        keywords = directory / ("alice-keywords.txt" if phrase == "alice" else "desk-keywords.txt")
-        keywords.write_text(
+        keyword_text = (
             "AE1 L AH0 S :1.5 #0.35 @ALICE\nài l ì s ī :1.5 #0.35 @ALICE\n"
             if phrase == "alice"
             else "HH EY1 D EH1 S K :1.5 #0.3 @HEY_DESK\nn ǐ h ǎo zh uō b àn :1.5 #0.3 @你好桌伴\n"
         )
-        self.spotter = sherpa_onnx.KeywordSpotter(
-            tokens=str(directory / "tokens.txt"),
-            encoder=str(directory / "encoder-epoch-13-avg-2-chunk-8-left-64.int8.onnx"),
-            decoder=str(directory / "decoder-epoch-13-avg-2-chunk-8-left-64.onnx"),
-            joiner=str(directory / "joiner-epoch-13-avg-2-chunk-8-left-64.int8.onnx"),
-            keywords_file=str(keywords),
-            num_threads=2,
-            provider="cpu",
-        )
+        # Shipped weights can be root-owned/read-only. The pinned recognizer
+        # loads its keyword file during construction; no runtime model mutation.
+        with tempfile.TemporaryDirectory(prefix="desk-keywords-") as temporary:
+            keywords = Path(temporary) / "keywords.txt"
+            keywords.write_text(keyword_text)
+            self.spotter = sherpa_onnx.KeywordSpotter(
+                tokens=str(directory / "tokens.txt"),
+                encoder=str(directory / "encoder-epoch-13-avg-2-chunk-8-left-64.int8.onnx"),
+                decoder=str(directory / "decoder-epoch-13-avg-2-chunk-8-left-64.onnx"),
+                joiner=str(directory / "joiner-epoch-13-avg-2-chunk-8-left-64.int8.onnx"),
+                keywords_file=str(keywords),
+                num_threads=2,
+                provider="cpu",
+            )
         self.stream = self.spotter.create_stream()
         if phrase == "alice":
             # Seed feature context before announcing readiness; the first real

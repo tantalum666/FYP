@@ -249,8 +249,8 @@ export function WatchWorkspace({
     return (
       <p role="status">
         {t(
-          "Owner access changed. Reopen after signing in and restoring visibility. A sent action may already have saved; inspect current history before repeating it.",
-          "本人访问权限已变化，请登录并恢复可见性后重新打开。已发送操作可能已保存；重复操作前请查看当前历史。",
+          "Owner access changed. Reconnect and restore visibility before reopening. A sent action may already have saved; inspect current history before repeating it.",
+          "本人访问权限已变化，请重新连接并恢复可见性后重新打开。已发送操作可能已保存；重复操作前请查看当前历史。",
         )}
       </p>
     );

@@ -1908,3 +1908,39 @@ a {
 .diagnostics dt {
   color: var(--muted);
 }
+
+/* A connection error is recoverable without an account/password screen. */
+.connection-page {
+  min-height: 100dvh;
+  padding: 28px;
+  background: var(--background, #f8f8fb);
+}
+.connection-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.connection-top select {
+  max-width: 160px;
+}
+.connection-card {
+  width: min(100%, 420px);
+  margin: 15dvh auto 0;
+  display: grid;
+  gap: 18px;
+}
+.connection-card h1 {
+  font-size: 28px;
+  line-height: 1.25;
+}
+.connection-card > p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+.connection-card .primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}

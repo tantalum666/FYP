@@ -20,7 +20,8 @@ interface Props {
   now: DateTime;
   data: Snapshot | null;
   language: Language;
-  state: "loading" | "ready" | "offline" | "error" | "locked" | "session-expired";
+  state:
+    "loading" | "ready" | "offline" | "error" | "locked" | "session-expired";
   pending: boolean;
   blocked?: boolean;
   onManage: () => void;
@@ -256,9 +257,9 @@ export function DisplayFace({
               <button onClick={signedOut ? onManage : onRetry}>
                 {signedOut ? <LockKeyhole /> : <RefreshCw />}
                 {state === "session-expired"
-                  ? t("Sign in again", "重新登录")
+                  ? t("Reconnect", "重新连接")
                   : state === "locked"
-                    ? t("Sign in", "登录")
+                    ? t("Reconnect", "重新连接")
                     : state === "error"
                       ? t("Retry", "重试")
                       : t("Reconnect", "重新连接")}
@@ -336,12 +337,17 @@ export function DisplayFace({
             {data?.has_samples && (
               <small>{t("Example calendar", "含示例日程")}</small>
             )}
-            {(state === "offline" || state === "error" || state === "session-expired") && (
+            {(state === "offline" ||
+              state === "error" ||
+              state === "session-expired") && (
               <button
                 onClick={state === "session-expired" ? onManage : onRetry}
                 aria-label={
                   state === "session-expired"
-                    ? t("Session expired. Sign in again.", "会话已过期。请重新登录。")
+                    ? t(
+                        "Session expired. Reconnect.",
+                        "会话已过期。请重新连接工作空间。",
+                      )
                     : state === "error"
                       ? t("Desk error. Retry.", "桌面返回错误。重试。")
                       : t("Offline. Reconnect.", "已离线。重新连接。")

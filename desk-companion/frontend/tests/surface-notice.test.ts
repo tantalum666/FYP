@@ -30,7 +30,9 @@ test("a lost connection, a server error, and an expired session stay distinct", 
 });
 
 test("loading, offline, error, and session-expiry notices expose their roles", () => {
-  const loading = renderToStaticMarkup(loadingNotice("Opening your workspace…"));
+  const loading = renderToStaticMarkup(
+    loadingNotice("Opening your workspace…"),
+  );
   assert.match(loading, /role="status"/);
   assert.match(loading, /aria-live="polite"/);
   assert.match(loading, /Opening your workspace…/);
@@ -47,15 +49,19 @@ test("loading, offline, error, and session-expiry notices expose their roles", (
   assert.doesNotMatch(offline, /role="alert"/);
 
   const failure = renderToStaticMarkup(
-    failureNotice("The desk could not load this calendar.", "Dismiss", () => undefined),
+    failureNotice(
+      "The desk could not load this calendar.",
+      "Dismiss",
+      () => undefined,
+    ),
   );
   assert.match(failure, /role="alert"/);
   assert.match(failure, /Dismiss/);
 
   const expired = renderToStaticMarkup(
-    sessionExpiredNotice("Your owner session expired. Sign in again."),
+    sessionExpiredNotice("Your connection expired. Reconnect."),
   );
   assert.match(expired, /role="alert"/);
-  assert.match(expired, /Sign in again/);
+  assert.match(expired, /Reconnect/);
   assert.doesNotMatch(expired, /Offline/);
 });

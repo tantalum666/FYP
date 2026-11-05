@@ -54,7 +54,7 @@ test("actual voice markup is bilingual, escaped, unselected and honest about inc
       }),
     );
     assert.doesNotMatch(paired, /<button|synthetic goal/);
-    assert.match(paired, zh ? /拥有者身份登录/ : /owner sign-in/);
+    assert.match(paired, zh ? /重新连接后打开工作/ : /Reconnect to open Work/);
     const provenance = renderToStaticMarkup(
       createElement(VoiceOriginLabel, { origin: state.inputs[0], t }),
     );

@@ -66,8 +66,8 @@ export function NativeSetup({ children }: { children: ReactNode }) {
   if (loading)
     return <div className="app-loading">Opening Desk Companion…</div>;
   return (
-    <main className="login-page">
-      <div className="login-top">
+    <main className="connection-page">
+      <div className="connection-top">
         <strong>Desk Companion</strong>
         <select
           aria-label="Language"
@@ -78,14 +78,11 @@ export function NativeSetup({ children }: { children: ReactNode }) {
           <option value="zh">简体中文</option>
         </select>
       </div>
-      <form className="login-form" onSubmit={submit}>
+      <form className="connection-card" onSubmit={submit}>
         <CalendarDays size={34} />
         <h1>{t("Connect to your desk.", "连接你的桌面。")}</h1>
         <p>
-          {t(
-            "Your phone is a control screen. Your calendar and devices stay connected to your desk.",
-            "手机用于远程控制，日历与硬件运行在桌面主机。",
-          )}
+          {t("Choose the desk you want to connect to.", "选择要连接的桌面。")}
         </p>
         <label className="field">
           {t("Desk address", "桌面设备地址")}

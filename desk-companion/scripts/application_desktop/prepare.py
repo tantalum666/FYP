@@ -9,6 +9,7 @@ change Docker's active context. See docs/application-execution.md for startup.
 import argparse
 import hashlib
 import json
+import os
 import shutil
 from pathlib import Path
 from urllib.request import urlopen
@@ -25,8 +26,13 @@ def main():
     parser.add_argument("--copy-fictional-inputs", action="store_true")
     args = parser.parse_args()
     root = args.runtime.absolute()
-    if root.resolve() != root or not root.is_relative_to(PROJECT / ".runtime"):
-        parser.error("Use a real directory below this checkout's .runtime")
+    user_runtime = Path.home() / ".local/share/desk-companion-apps"
+    if root.resolve() != root or not (
+        root.is_relative_to(PROJECT / ".runtime") or root == user_runtime
+    ):
+        parser.error("Use this checkout's .runtime or ~/.local/share/desk-companion-apps")
+    if root.exists() and root.stat().st_uid != os.getuid():
+        parser.error("Application runtime must belong to the current user")
     for name in ("support", "inputs", "workspace"):
         directory = root / name
         if directory.is_symlink() or directory.resolve() != directory.absolute():
@@ -49,7 +55,7 @@ def main():
         {
             "names": ["clone", "unshare", "setns"],
             "action": "SCMP_ACT_ALLOW",
-            "comment": "Chromium sandbox namespaces inside the isolated FYP VM; no added capabilities.",
+            "comment": "Chromium sandbox namespaces inside the isolated FYP desktop; no added capabilities.",
         }
     )
     (root / "chromium-seccomp.json").write_text(json.dumps(profile, indent=2) + "\n")

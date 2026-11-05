@@ -286,47 +286,63 @@ def create_app(
     def health():
         return {"service": "desk-companion", "status": "ok"}
 
+    from .owner_session import local_owner_available
+
+    def automatic_owner(request: Request):
+        return local_owner_available(
+            request,
+            public_origin=public_origin,
+            enabled=os.environ.get("DESK_AUTO_OWNER", "1") == "1",
+        )
+
     def local_preview(request: Request):
-        # Explicit development mode only. Forwarded/public requests never opt in.
-        return (
-            os.environ.get("DESK_LOCAL_PREVIEW") == "1"
-            and not public_origin
-            and request.client is not None
-            and request.client.host in {"127.0.0.1", "::1"}
-            and request.url.hostname in {"localhost", "127.0.0.1"}
-            and not any(
-                h in request.headers for h in ("forwarded", "x-forwarded-for", "x-forwarded-host")
-            )
-            and (
-                not request.headers.get("origin")
-                or (
-                    urlsplit(request.headers["origin"]).scheme == "http"
-                    and urlsplit(request.headers["origin"]).hostname in {"localhost", "127.0.0.1"}
-                )
-            )
+        # Compatibility for already installed clients using the old preview API.
+        return local_owner_available(
+            request,
+            public_origin=public_origin,
+            enabled=os.environ.get("DESK_LOCAL_PREVIEW") == "1",
+        )
+
+    def session_payload(request, principal):
+        with store.connection() as conn:
+            return {
+                "username": "owner",
+                "settings": store.settings(conn),
+                "principal": principal,
+                "local_preview": local_preview(request),
+                "automatic_owner": automatic_owner(request),
+            }
+
+    def connect_owner(request, response):
+        token = request.cookies.get(COOKIE)
+        if not store.session_valid(token):
+            token = store.create_owner_session()
+        response.set_cookie(
+            COOKIE, token, httponly=True, samesite="strict",
+            secure=cookie_secure(request), max_age=8 * 3600, path="/api",
         )
 
     @app.get("/api/session-mode")
     def session_mode(request: Request):
-        return {"local_preview": local_preview(request)}
+        return {
+            "local_preview": local_preview(request),
+            "automatic_owner": automatic_owner(request),
+        }
+
+    @app.post("/api/session/connect")
+    def connect_session(request: Request, response: Response):
+        if not automatic_owner(request):
+            raise DomainError("LOCAL_OWNER_UNAVAILABLE", 403)
+        limit("connect", request, 20, 60)
+        connect_owner(request, response)
+        return session_payload(request, {"kind": "owner", "id": "owner", "name": "Owner"})
 
     @app.post("/api/session/preview")
     def preview_session(request: Request, response: Response):
         if not local_preview(request):
             raise DomainError("LOCAL_PREVIEW_DISABLED", 403)
         limit("preview", request, 20, 60)
-        token = request.cookies.get(COOKIE)
-        if not store.session_valid(token):
-            token = store.create_owner_session()
-        response.set_cookie(
-            COOKIE,
-            token,
-            httponly=True,
-            samesite="strict",
-            secure=request.url.scheme == "https",
-            max_age=8 * 3600,
-            path="/api",
-        )
+        connect_owner(request, response)
         return {"local_preview": True}
 
     @app.post("/api/session")
@@ -365,13 +381,7 @@ def create_app(
                     max_age=365 * 86400,
                     path="/api",
                 )
-        with store.connection() as conn:
-            return {
-                "username": "owner",
-                "settings": store.settings(conn),
-                "principal": principal,
-                "local_preview": local_preview(request),
-            }
+        return session_payload(request, principal)
 
     @app.delete("/api/session", dependencies=[Depends(authenticated)])
     def logout(request: Request, response: Response, principal=Depends(authenticated)):

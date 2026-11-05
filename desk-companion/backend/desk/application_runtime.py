@@ -43,20 +43,35 @@ class ApplicationBridge:
     """Fixed helper invocation; model data never becomes a command or environment."""
 
     def __init__(self):
-        self.context = os.environ.get("DESK_APP_DOCKER_CONTEXT", "")
+        self.engine = os.environ.get("DESK_APP_ENGINE", "docker")
+        self.context = (
+            os.environ.get("DESK_APP_DOCKER_CONTEXT", "") if self.engine == "docker" else ""
+        )
         self.container = os.environ.get("DESK_APP_CONTAINER", "")
         self.configured = bool(
-            re.fullmatch(r"[A-Za-z0-9_-]{1,80}", self.context)
-            and re.fullmatch(r"[A-Za-z0-9_-]{1,80}", self.container)
+            self.engine in {"docker", "podman"}
+            and (self.engine == "podman" or re.fullmatch(r"[A-Za-z0-9_-]{1,80}", self.context))
+            and re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,79}", self.container)
         )
+
+    @property
+    def scope(self):
+        # Preserve existing Docker receipts; selecting another engine must fence
+        # admitted work even when its paths and container name are unchanged.
+        result = {"context": self.context, "container": self.container}
+        if self.engine != "docker":
+            result["engine"] = self.engine
+        return result
 
     def run(self, payload, checkpoint=lambda: None, cancel_file=None):
         if not self.configured:
             raise ExecutionRejected("APPLICATION_UNAVAILABLE", 409)
-        command = [
-            "docker",
-            "--context",
-            self.context,
+        prefix = (
+            ["docker", "--context", self.context]
+            if self.engine == "docker"
+            else ["podman", "--remote=false"]
+        )
+        command = prefix + [
             "exec",
             "-i",
             "--user",
@@ -72,7 +87,17 @@ class ApplicationBridge:
         environment = {
             k: v
             for k, v in os.environ.items()
-            if k in {"PATH", "HOME", "USER", "LANG", "LC_ALL", "TMPDIR", "DOCKER_CONFIG"}
+            if k
+            in {
+                "PATH",
+                "HOME",
+                "USER",
+                "LANG",
+                "LC_ALL",
+                "TMPDIR",
+                "DOCKER_CONFIG",
+                "XDG_RUNTIME_DIR",
+            }
         }
         process = subprocess.Popen(
             command,

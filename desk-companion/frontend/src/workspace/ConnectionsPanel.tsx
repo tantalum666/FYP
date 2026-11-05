@@ -198,8 +198,8 @@ export function ConnectionsPanel({
         <>
           <p className="workspace-hint">
             {t(
-              "This is a paired screen. Sign in as the owner to approve or revoke other screens.",
-              "当前是配对终端。管理其他终端需要拥有者登录。",
+              "Manage connected screens from your main desk.",
+              "请在主桌面管理已连接的终端。",
             )}
           </p>
           <OwnerAccess t={t} />

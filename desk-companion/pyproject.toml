@@ -23,6 +23,7 @@ vision = [
     "mediapipe==1.0.1; sys_platform == 'linux'",
 ]
 audio = [
+    "numpy>=2.2,<3",
     "sentencepiece>=0.2,<1",
     "sherpa-onnx==1.13.8",
     "sherpa-onnx-core==1.13.8",

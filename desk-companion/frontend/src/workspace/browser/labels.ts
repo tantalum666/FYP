@@ -53,10 +53,10 @@ export function browserError(error: unknown, t: Translate) {
       "私人详情已隐藏，无法批准。",
     ],
     OWNER_SIGN_IN_REQUIRED: [
-      "Sign in as the owner to use this workflow.",
-      "请以拥有者身份登录后使用。",
+      "Use this workflow from your main desk.",
+      "请在主桌面使用此流程。",
     ],
-    AUTH_REQUIRED: ["Sign in again before continuing.", "请重新登录后继续。"],
+    AUTH_REQUIRED: ["Reconnect before continuing.", "重新连接后继续。"],
     VERSION_CONFLICT: [
       "The job changed. Refresh and review the new version.",
       "作业已变化，请刷新并核对新版本。",
