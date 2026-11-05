@@ -234,7 +234,9 @@ def create_app(
         )
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["Referrer-Policy"] = "no-referrer"
-        response.headers["Permissions-Policy"] = "camera=(), microphone=(self), geolocation=()"
+        # The app's explicit local preview needs both devices in production too.
+        # Browser permission and the UI's separate share action still apply.
+        response.headers["Permissions-Policy"] = "camera=(self), microphone=(self), geolocation=()"
         return response
 
     @app.exception_handler(DomainError)

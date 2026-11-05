@@ -81,3 +81,11 @@ def test_public_deployment_and_explicit_disable_never_mint_owner_cookie(tmp_path
 def test_native_loopback_bridge_can_connect_without_web_origin(tmp_path):
     client = local_client(tmp_path)
     assert client.post("/api/session/connect", headers={"X-Desk-Request": "1"}).status_code == 200
+
+
+def test_production_media_policy_allows_only_same_origin_devices(tmp_path):
+    # Vite previews do not exercise the production HTML response middleware.
+    response = local_client(tmp_path).get("/api/health")
+    policy = response.headers["permissions-policy"]
+    assert "camera=(self)" in policy and "microphone=(self)" in policy
+    assert "geolocation=()" in policy and "*" not in policy
