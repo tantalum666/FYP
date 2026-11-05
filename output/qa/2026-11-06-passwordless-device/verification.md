@@ -21,9 +21,9 @@ The running Pi's capture-device list is empty; playback lists HDMI devices only.
 - Actual Mac microphone input meter reached0.0516009563 after the owner allowed permission; test stopped and media panel closed. No raw audio saved. The initial network trace was truncated, so no full-trace proof is claimed.
 - WakeDetector construction succeeds against read-only Mac weights without modifying them. The standalone synthetic Alice sample did not trigger; no positive human/keyword accuracy claim.
 
-## Pi work in progress
+## Pi deployment and execution
 
-Owner explicitly deferred red-LED investigation and prioritized Pi software/cross-app work. Monitor ended. Confirmed normal app still runs while installing ordinary-user Podman5.4.2/uidmap/fuse-overlayfs from Debian. Rootless engine works; exact ARM64 image transfer is resumable. New release's261source/frontend files match the staged manifest;35frozen core/audio wheels were transferred. Activation and real-app acceptance are not yet complete.
+Owner explicitly deferred red-LED investigation and prioritized Pi software/cross-app work. Monitor ended. Confirmed normal app still runs while installing ordinary-user Podman5.4.2/uidmap/fuse-overlayfs from Debian. Rootless engine works; exact ARM64 image transfer is resumable. New release's261source/frontend files match the staged manifest;35frozen core/audio wheels were transferred. Activation and real-app acceptance subsequently completed as recorded below.
 
 Pi had no enumerated capture device, only HDMI playback. Qwen service configuration is preserved for manual owner use; no API budget was reopened. Previous physical reboot wording is corrected: red LED happened first, then the user unplugged/reconnected power. No confirmed cause or hardware-stability result is asserted.
 
@@ -44,4 +44,21 @@ The verified620,205,835-byte ARM64 image archive was resumed rather than retrans
 
 Host root controllers:cpuset/cpu/io/pids; delegated owner controllers:cpu/pids. Launcher now refuses missing RAM control unless an operator explicitly sets DESK_APP_ALLOW_UNBOUNDED_MEMORY=1. This host uses that recorded exception; it has no container RAM cap. Actual runtime has2CPU/256PID limits, network none, Privileged false, scoped mounts and Chromium sandbox. No boot change/reboot was made. Launcher/transport checks10passed. Bridge status from a NoNewPrivileges user unit reports UNO connected with real office/browser processes; API's existing NoNewPrivileges protection remains.
 
-Pi API source26c347a is activated with automatic owner connection and Qwen idle/configured; Alice wake is available but inactive. Native simulator was relaunched against the Pi relay and shows Alice, Desk connected and Qwen controls. Real Work acceptance is running separately; it will be recorded only after its independent assertions complete.
+Pi API source26c347a is activated with automatic owner connection and Qwen idle/configured; Alice wake is available but inactive. Native simulator was relaunched against the Pi relay and shows Alice, Desk connected and Qwen controls. The real Work acceptance subsequently passed, as recorded below.
+
+
+## Completed target acceptance and service activation
+
+Pi runs the new release at `/opt/desk-companion-releases/20261106-passwordless-apps`, with the original schema3data and provider credentials preserved. The normal API returns applications enabled/configured with workbook/document/PDF/text actions. Qwen is configured/idle; wake is available/inactive. Permission mode remains Ask first. Standalone text/background AI remains none/off; there was no paid-model request. This is not live-model autonomous Work acceptance.
+
+The isolated acceptance ran on the Pi, not on the Mac Docker reference. Chromium read the selected fictional quotation HTML. Real Calc first handled36copies/HKD900, then the scripted steering changed to48copies/HKD950. The returned totals were1020.80/902.00/1003.20; only Birch was feasible at50copies after the explicit synthetic minimum-order answer. Four real app jobs produced initial/revised XLSX, Writer ODT and PDF. Run phase exited73after12.14s at the intentional saved-before-ack checkpoint; after app restart, resume succeeded in14.59s. These timings are scripted harness durations, not model/voice latency.
+
+The revised workbook's SHA/mtime stayed identical across recovery. All four downloaded output hashes match receipts. Both A4 PDF pages were rendered and visually checked; table/text are legible with no clipping. [Acceptance](pi-application-acceptance.json), [normal service](pi-normal-service.json), [deployment](pi-deployment.json). Private binary artifacts/screenshots remain outside Git.
+
+Initial container termination required SIGKILL after10seconds. Added Podman's init/catatonit and disabled inherited proxy environment. Actual normal stop now takes0.38seconds with no forced stop; a new office/browser instance starts. After that recreation, all four immutable versions and three current outputs were reopened through the real applications; every file SHA/mtime remained unchanged. The new user service is enabled, and the API Wants/After it while retaining NoNewPrivileges. Kiosk is active and the next graphical autostart points at the active release. This does not establish a new physical cold-boot or touch/microphone result.
+
+## Final scope and retained gaps
+
+Power/red-LED investigation remains deferred at the owner's request. No hotspot, SD rewrite, power stress test or reboot was added. No CI, paid models, external messages, purchases or school submission. Source/target app configuration are separate from GitHub merge; this branch is proposed independently.
+
+The next step is ordinary Alice/voice → admitted persistent Work using the existing queue, including partial failure and owner cancellation. Normal standalone Work planning still needs provider setup/manual use; live-model quality remains open. General host GUI, real authenticated email/shopping/travel accounts, human Pi audio/AEC, physical touch and container RAM control remain unverified/unavailable as stated above. Synthetic acceptance is not a purchase or a professor-facing deliverable.

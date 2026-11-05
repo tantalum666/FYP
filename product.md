@@ -1,6 +1,6 @@
 # Group 2 Project Contract
 
-更新：2026-11-06。用户要求所有端撤下Sign in，Pi显示Alice并提供语音；随后明确暂缓自动红灯调查，继续Pi软件，重点跨应用。当前分支已实现共用自动本地会话、Pi Alice主界面和rootless Podman执行适配；Pi实际部署与真实应用验收以[本轮QA](output/qa/2026-11-06-passwordless-device/verification.md)为准，不能把源码完成当作已上线。模型预算关闭、仅本地验证。
+更新：2026-11-06。用户要求所有端撤下Sign in，Pi显示Alice并提供语音；随后明确暂缓自动红灯调查，继续Pi软件，重点跨应用。当前分支已部署共用自动本地会话、Pi Alice主界面和rootless Podman执行适配；Pi真实Chromium／Calc／Writer／PDF及丢失回执恢复通过，实际证据以[本轮QA](output/qa/2026-11-06-passwordless-device/verification.md)为准，不能把源码完成当作已上线。模型预算关闭、仅本地验证。
 
 11月4日历史合并：Grok PR78–82已通过[PR83](https://github.com/tantalum666/FYP/pull/83)合并，代码合并89dc92f与验收树一致：离线邮箱、购物和日程样本接入既有事务/Work/通知/备份；已修复恢复、去重、撤销、过期消息、冲突与回执校验问题。新增建议卡片显示具体对象、来源和确认效果。最终本地验证及GitHub状态见[审查QA](output/qa/2026-11-04-grok-journey-review/verification.md)。真实邮箱、商店、支付、机票和真实日历账户仍未接通。
 
@@ -54,7 +54,7 @@
 
 硬件组 10 月 26 日的[教师审核稿与采购表](research/2026-10-26-hardware-procurement-review/README.md)已纳入主分支：保留原 PDF／有日期的价格与未报价项，不把文档合并当成完整 BOM、采购或硬件测试通过。
 
-**Pi软件已恢复推进；只暂停自动红灯调查。**宿舍网线通过443管理中转恢复访问，main abf6387/schema3已经部署；新免登录／Alice／应用运行环境正在本轮验收。教室与大陆网络保留配置，但不能将宿舍本轮结果当作在其他地点重测。用户澄清红灯先出现、之后才拔插电源，旧“正常按键重启”表述无效；保留已核对的开机后软件／主机身份结果。Luwu与Mini硬件研究、采购批准、接线、台架及连续运行分开；[硬件成员资料](research/2026-10-23-mini-robot-hardware/README.md)不代表本轮实物成绩。
+**Pi软件已恢复推进；只暂停自动红灯调查。**宿舍网线通过443管理中转恢复访问，main abf6387/schema3已经部署；新免登录／Alice／应用运行环境已经部署，四项真实应用作业与恢复通过。教室与大陆网络保留配置，但不能将宿舍本轮结果当作在其他地点重测。用户澄清红灯先出现、之后才拔插电源，旧“正常按键重启”表述无效；保留已核对的开机后软件／主机身份结果。Luwu与Mini硬件研究、采购批准、接线、台架及连续运行分开；[硬件成员资料](research/2026-10-23-mini-robot-hardware/README.md)不代表本轮实物成绩。
 
 ## 保存与协作
 

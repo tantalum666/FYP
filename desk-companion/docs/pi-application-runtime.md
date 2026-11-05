@@ -6,7 +6,7 @@ changes. [Current results](../../output/qa/2026-11-06-passwordless-device/verifi
 
 ## Local runtime
 
-Install Debian's `podman`, `uidmap` and `fuse-overlayfs`, then run the desktop as
+Install Debian's `podman`, `uidmap`, `fuse-overlayfs` and `catatonit`, then run the desktop as
 the ordinary `desk` user. No root Docker group or rootful API is needed. The
 verified ARM64 image is prepared from the existing Dockerfile and can be exported
 with `docker save`, transferred through the authenticated management connection,
@@ -72,3 +72,16 @@ CPU/process limits, non-root execution, Chromium sandbox and offline mounts.
 There is no enforced container RAM cap on this host. No boot-argument change or
 reboot was made to work around it. Future installation must not silently treat
 an unsupported resource limit as active.
+
+
+## Service lifecycle
+
+The launcher uses Podman's init to forward termination signals and reap child
+processes; inherited proxy variables are disabled. Install the supplied
+`scripts/pi/desk-applications.service` in the owner's systemd user directory.
+After the initial shell-started instance has no active jobs, stop that instance,
+run `systemctl --user daemon-reload`, then enable/start `desk-applications`.
+The API can Wants/After this optional unit while retaining NoNewPrivileges.
+Restart the service when changing the application supervisor; saved artifacts
+remain in the owner-mounted workspace. Ordinary job failure is not a reason to
+recreate the container or erase its output directory.

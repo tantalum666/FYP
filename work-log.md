@@ -597,3 +597,14 @@ Owner explicitly requested74–77. Based on main4855987, retained every stack he
 ### PR74–77 publication readback
 
 [PR85](https://github.com/tantalum666/FYP/pull/85) merged atb663204938fa11cb5c3631f2995800466840b55e. Main's full tree equals reviewed affbad2d. Original74/75/76/77 were each read back closed/merged after retargeting the stack to main. [Receipt](output/qa/2026-11-04-merge-74-77/publication.json). This closeout changes documentation only; verified application151f807 and1769/319 local results are unchanged. No deployment, CI, paid model or Pi work.
+
+
+## 2026-11-06 Pi免登录、Alice与本机跨应用
+
+用户要求所有端撤下Sign in、Pi保留Alice和语音；随后暂缓自动红灯调查，继续Pi软件，重点跨应用。实现共用可信回环会话恢复、DeviceHome与既有对话／媒体复用，修复自身媒体面板被遮挡监听关闭、只读模型目录写入和生产页面camera策略。新版本已备份后部署Pi，Qwen配置与原用户数据保留；手机模拟器连接实际Pi。Pi未枚举麦克风，本轮未真人／付费语音验收。
+
+在Pi安装普通用户Podman运行环境，复用原ApplicationExecutor／JobService／Work与批准边界。保留Docker范围哈希，跨engine使旧准入失效；固定本地命令且不传供应商／远程容器环境。修复镜像manifest/config身份核对、首次映射等待、Pi缺失memory controller与PID1信号转发；显式记录无RAM硬上限，CPU/PID／网络／文件隔离保留。用户应用服务开启，API原NoNewPrivileges保留。
+
+Pi真实四作业：选定HTML→36份900元表格→改48份950元／同意50份起订→Writer／两页PDF；唯一可行902元方案经Calc重算。人为丢失保存回执后重启恢复，SHA／mtime不变。最终容器重建后再次打开四历史版本和三当前文件，无改写；正常停止0.38s。离线规划脚本，不是模型自主成绩。完整后端1789／前端324，后续媒体19／voice-wake33／launcher-transport10和最终launcher3通过；类型／构建／Ruff通过，PDF逐页查看。源码、范围和证据见[QA](output/qa/2026-11-06-passwordless-device/verification.md)。
+
+同步AGENTS、当前入口、product、decision、handoff及受影响设备／应用／维护规范；新增连接与Pi运行契约。私有备份、依赖镜像、凭据、截图和二进制测试产物不入Git。重要源码推独立分支／draftPR，具体HEAD见发布回执；没有合并、CI、付费模型、真实账户交易或学校提交。用户澄清先红灯再拔插，旧正常按键重启说法无效；供电调查未继续。唯一下一步：把普通Alice／语音请求接进同一持久Work，先离线验收，再另行限定付费比较。

@@ -55,3 +55,4 @@ else: sys.exit(99)
         assert args[args.index("--network") + 1] == "none"
         assert "--pull=never" in args and "--userns=keep-id:uid=501,gid=1000" in args
         assert args[args.index("--pids-limit") + 1] == "256"
+        assert "--init" in args and "--http-proxy=false" in args

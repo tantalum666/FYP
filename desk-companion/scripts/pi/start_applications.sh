@@ -43,7 +43,7 @@ if podman --remote=false container exists desk-applications; then
   exit 2
 fi
 exec podman --remote=false run -d --pull=never --name desk-applications \
-  --label fyp.executor=applications --network none \
+  --label fyp.executor=applications --network none --http-proxy=false --init \
   --user desk --userns="keep-id:uid=$image_uid,gid=$image_gid" \
   "$@" \
   --security-opt "seccomp=$runtime/chromium-seccomp.json" \

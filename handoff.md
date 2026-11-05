@@ -1,25 +1,25 @@
-# Group 2 · Passwordless Alice device work
+# Group 2 · Pi software handoff
 
-6 November2026. Owner requests removing Sign in across web/phone/native/Pi and asks for Alice and voice on Pi. Active branch codex/passwordless-alice-device-20261105 is a separate checkout based on mainabf6387.
+6 November2026. Active checkout/branch: codex/passwordless-alice-device-20261105, based on mainabf6387. User deferred only spontaneous red-LED investigation and requested Pi software/cross-application progress. Model budgets closed; local verification only, no CI.
 
-## Current implementation
+## Current target
 
-Shared session.ts coalesces automatic owner-session bootstrap/recovery. Backend /api/session/connect grants ordinary expiring owner cookies only on the directly connected local workspace. Public/forwarded requests and paired-device privileges retain their boundaries. App/Phone/Device password forms and Sign out controls are removed. DeviceHome renders the existing Alice beside persistent ConversationWorkspace; calendar/tasks/settings reuse existing panels. No second voice/model/approval implementation.
+Pi API is active at `/opt/desk-companion-releases/20261106-passwordless-apps`, schema3, retaining original keys/provider config. Mac relay8891/5901 and original host pin remain. [Pi interface](http://127.0.0.1:8891/?surface=device). Default device home is Alice plus the shared conversation. Web/phone/native/Pi application password forms are removed; directly connected local sessions reconnect automatically. Public/forwarded/paired authority and action approvals remain separate. Native simulator now points at the actual Pi relay and shows Qwen/Alice controls.
 
-Pi currently has no enumerated capture hardware, only HDMI playback. Existing model files are root-owned/read-only. WakeDetector now uses a temporary keyword file instead of modifying installed weights. The deployed core environment still needs audio extras and wake configuration. Mac browser media is a separate input/output path. Session launcher source now opens the active release kiosk instead of the credentials helper.
+Qwen is configured for manual use, wake detector loads from read-only weights, but no Pi capture device was enumerated. No human wake/voice result; the standalone Mac synthetic Alice clip did not trigger. Standalone Work text provider remains none/background off. Do not present readiness or the scripted planner as live AI autonomy.
 
-## Validation in progress
+## Cross-application result
 
-Full backend1789/frontend324, typecheck/build/Ruff passed. Web/device/phone browser checks passed, including drafts, local mic and own-media-dialog lifecycle. Fresh iPhone17Pro simulator build/first-screen succeeded; native touch/keyboard remains open. [Current QA](output/qa/2026-11-06-passwordless-device/verification.md). QA API8831/Vite5190 use separate providers-off state, not the owner's Pi service. Pi rollout and real cross-app acceptance are in progress. No paid model call.
+Rootless Podman runs real Chromium/Calc/Writer, network none, scoped inputs/output mounts and Chromium sandbox. Normal API reports application actions enabled/configured; Ask first retained. CPU2/PID256 limits; this Pi has no memory controller, so launcher uses an explicitly recorded no-RAM-cap exception. Init/catatonit now stops cleanly in0.38s; user service enabled and ordered before API. Existing API NoNewPrivileges remains.
 
-## Existing Pi and backups
+Four real-app jobs passed on Pi: source reading,36→48copy/budget steering, two workbook versions, ODT/PDF, lost-save acknowledgement and restart recovery. Reopened immutable/current outputs retain SHA/mtime; two PDF pages visually checked. Local backend1789/frontend324, typecheck/build/Ruff, subsequent owner/media19, voice/wake33 and launcher/transport10 checks passed. [Full QA](output/qa/2026-11-06-passwordless-device/verification.md), [Pi acceptance](output/qa/2026-11-06-passwordless-device/pi-application-acceptance.json).
 
-Last deployed Pi source is mainabf6387/schema3. Mac forwarding8891/5901 and original host pin are retained. Owner-private pi5-dorm-ethernet-20261104 contains pi_remote.py, importing the pinned relay helper from the preserved recovery checkout. Valid old schema1/current schema3 archives are on Mac. The second Pi-only pre-activation copy is invalid: do not use it. Low-voltage records remain; owner prioritizes software over repeated cabling questions. Network source is in [draftPR87](https://github.com/tantalum666/FYP/pull/87), unmerged; do not merge it as a side effect.
+## Recovery and boundaries
 
-## Deferred — spontaneous red LED
+New coherent schema3backup was stopped/synced and copied to Mac; archive/all13data/config files verified. Unchanged model weights excluded. Private operational receipts/scripts are under `~/.config/desk-companion/pi5-passwordless-alice-20261106`; network helper remains `pi5-dorm-ethernet-20261104/pi_remote.py`. Valid earlier schema1/schema3archives remain. The old second Pi-only pre-activation backup is invalid and must not be used.
 
-Owner reports two spontaneous red-LED events before any unplugging. Their recovery method was removing/reconnecting power, not orderly button shutdown; previous normal-reboot claims must be corrected. Owner confirmed the label says5V/3A, then explicitly paused this investigation and prioritized Pi software, especially cross-application operations. The bounded power monitor has ended. Do not resume power diagnostics or ask further cabling questions. The Mac synthetic Alice clip created a detector but did not detect the keyword; do not claim wake accuracy or detection acceptance.
+User clarified both red LEDs occurred before unplugging/reconnecting power. Prior “normal button reboot” wording is withdrawn; later verified host/app identity remains valid. Power monitor ended; do not resume power questions/testing without user steering. No new physical reboot/cold-boot result claimed. Network code remains separate draftPR87; no incidental merge.
 
-## Next
+## One next step
 
-Complete Pi's rootless application runtime and a real Chromium/Calc/Writer/PDF continuation/recovery case, together with the backed-up passwordless/Alice rollout. Previous local suites1789/324 and native build/first-screen checks passed; no paid-model call. Record actual target results and update contracts/publication at closeout.
+Connect ordinary Alice/voice requests to the admitted persistent Work flow, with existing provider/privacy/permission controls and cancellation/recovery. Keep any live paid comparison separately bounded. Source publication and exact PR/HEAD receipt live in the QA directory; pushing is not merging.

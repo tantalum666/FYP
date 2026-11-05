@@ -1,0 +1,27 @@
+{
+  "after_init_recreation": true,
+  "all_four_versions_reopened": [
+    {
+      "id": "5c375a4416d343caa150d0cab455f287",
+      "sha256": "87b7e45829756f41735c2febd1e885f6e8ba22adb1205410bc3b1da6cec38d68",
+      "verified": true
+    },
+    {
+      "id": "30c36161ed4842ed9e5d7c1e1f38c59b",
+      "sha256": "af32186bf4ba38eab8b09ffc7c1ddf5fda9f0557f0c43fbe89961f26a35d585f",
+      "verified": true
+    },
+    {
+      "id": "36d6f2ae5f9541b18fcc2734c6f5b96e",
+      "sha256": "2393790cafe0d834847557e5ee920f554ddf0fdbe80fc43ef248fa655be37003",
+      "verified": true
+    },
+    {
+      "id": "00127ef99e4c46adbc811d8248f87777",
+      "sha256": "942b671696e53a949e625547e0d4a19e0edee1958c369fff6138bbe4b3937468",
+      "verified": true
+    }
+  ],
+  "latest_active_files_reopened": 3,
+  "all_file_hashes_and_mtimes_unchanged": true
+}

@@ -13,7 +13,7 @@
   "network_trace": "recent provider/wake sockets absent; initial trace truncated",
   "pi_capture_devices": 0,
   "pi_model_directory_readonly": true,
-  "pi_update_deployed": false,
+  "pi_update_deployed": true,
   "paid_model_tests": 0,
   "power_investigation": "paused_at_owner_request",
   "pi_cross_app_packages_installed": [
@@ -27,5 +27,16 @@
   "phone_draft_preserved_after_plan": true,
   "phone_media_dialog_remains_open": true,
   "qa_viewport_cleared": true,
-  "pi_release_staged_files_verified": 261
+  "pi_release_staged_files_verified": 261,
+  "pi_actual_application_jobs": 4,
+  "pi_application_work_state": "succeeded",
+  "pi_recovery_hash_and_mtime_unchanged": true,
+  "pi_qwen_configured_manual_use": true,
+  "pi_wake_detector_construction": true,
+  "pi_positive_wake_detection": false,
+  "pi_user_application_service_enabled": true,
+  "pi_memory_cap_available": false,
+  "native_backend": "Pi through loopback8891",
+  "pi_pdf_pages_visually_checked": 2,
+  "pi_graceful_container_stop_seconds": 0.38
 }
