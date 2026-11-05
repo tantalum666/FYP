@@ -25,6 +25,18 @@ for path in [root, *(root / p for p in ('support', 'inputs', 'workspace', 'chrom
 PY
 test "$(podman --remote=false info --format '{{.Host.Security.Rootless}}')" = true
 test "$(podman --remote=false image inspect "$image" --format '{{.Architecture}}')" = arm64
+controllers=$(podman --remote=false info --format '{{json .Host.CgroupControllers}}')
+set -- --shm-size 256m --cpus 2 --pids-limit 256
+case "$controllers" in
+  *memory*) set -- "$@" --memory 2g ;;
+  *)
+    if [ "${DESK_APP_ALLOW_UNBOUNDED_MEMORY:-0}" != 1 ]; then
+      echo 'Memory controller unavailable. Inspect the host; explicit DESK_APP_ALLOW_UNBOUNDED_MEMORY=1 is required to run without a RAM cap.' >&2
+      exit 2
+    fi
+    echo 'No container RAM cap: this host has no memory controller. CPU/process limits remain.' >&2
+    ;;
+esac
 # A prior instance may hold unfinished files; never replace it implicitly.
 if podman --remote=false container exists desk-applications; then
   echo 'desk-applications already exists; inspect it and start/restart that exact container.' >&2
@@ -33,7 +45,7 @@ fi
 exec podman --remote=false run -d --pull=never --name desk-applications \
   --label fyp.executor=applications --network none \
   --user desk --userns="keep-id:uid=$image_uid,gid=$image_gid" \
-  --shm-size 256m --memory 2g --cpus 2 --pids-limit 256 \
+  "$@" \
   --security-opt "seccomp=$runtime/chromium-seccomp.json" \
   --mount "type=bind,src=$runtime/support,dst=/opt/desk,readonly" \
   --mount "type=bind,src=$runtime/inputs,dst=/inputs,readonly" \

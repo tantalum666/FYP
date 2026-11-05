@@ -36,3 +36,12 @@ Updated current entry, product, decision log, handoff; added passwordless-device
 ## Production media response correction
 
 Production middleware still sent `camera=()`, although Vite local media worked. Changed it to same-origin camera/microphone permission eligibility; browser consent and explicit share controls remain. Local owner/origin/media-policy checks19passed after this correction. The first activation probe omitted mandatory X-Desk-Request and received403; the transactional rollout restored the old unit/autostart. Corrected the probe before retrying. Off-device backup archive and all13included files are hash-verified; schema3quick_check passed. Pi recognizer construction with read-only weights succeeds, independently of keyword accuracy.
+
+
+## Pi runtime startup diagnosis
+
+The verified620,205,835-byte ARM64 image archive was resumed rather than retransmitted. Archive SHA2562e81e1448591e1ed2dc4a031aa20a37a405cb365897c9b6b39f4693d4681d4ed. Docker's OCI manifest ID differed from Podman's config ID; architecture/user and every RootFS diff ID were verified before using local imagef8787344ea77ea05dabac5d66f93cbf22c0a7e8ff4a35c68c70ed396634e6222. The initial45-second launch cutoff interrupted first-use mapped-layer preparation. A longer bounded attempt exposed the actual missing memory controller. Only the identified never-started container was removed; image, mounts, prior app and user data were preserved.
+
+Host root controllers:cpuset/cpu/io/pids; delegated owner controllers:cpu/pids. Launcher now refuses missing RAM control unless an operator explicitly sets DESK_APP_ALLOW_UNBOUNDED_MEMORY=1. This host uses that recorded exception; it has no container RAM cap. Actual runtime has2CPU/256PID limits, network none, Privileged false, scoped mounts and Chromium sandbox. No boot change/reboot was made. Launcher/transport checks10passed. Bridge status from a NoNewPrivileges user unit reports UNO connected with real office/browser processes; API's existing NoNewPrivileges protection remains.
+
+Pi API source26c347a is activated with automatic owner connection and Qwen idle/configured; Alice wake is available but inactive. Native simulator was relaunched against the Pi relay and shows Alice, Desk connected and Qwen controls. Real Work acceptance is running separately; it will be recorded only after its independent assertions complete.

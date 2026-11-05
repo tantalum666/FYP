@@ -10,7 +10,7 @@ Install Debian's `podman`, `uidmap` and `fuse-overlayfs`, then run the desktop a
 the ordinary `desk` user. No root Docker group or rootful API is needed. The
 verified ARM64 image is prepared from the existing Dockerfile and can be exported
 with `docker save`, transferred through the authenticated management connection,
-hash-checked and loaded using `podman load`. Never copy a container with user
+hash-checked and loaded using `podman load`. Docker/containerd may report an OCI manifest ID while Podman reports the image configuration ID; compare ARM64 architecture, configured user and all RootFS diff IDs with the verified source image, then use the inspected local Podman ID. Never copy a container with user
 secrets or mount the whole project/home directory.
 
 The current image's `desk` identity is501:1000; Pi's host identity is1000:1000.
@@ -32,10 +32,9 @@ sh scripts/pi/start_applications.sh sha256:YOUR_INSPECTED_IMAGE_ID 501 1000
 ```
 
 The launcher refuses root, unknown image tags, non-owner/symlink paths and an
-existing container. It uses `--pull=never`, `--network none`,2CPU/2GiB/256-process
-limits and only the three prepared mounts. Existing containers must be inspected
+existing container. It uses `--pull=never`, `--network none`,2CPU/256-process limits and a2GiB cap when the host exposes the memory controller and only the three prepared mounts. Existing containers must be inspected
 and explicitly started/restarted; no automatic delete/recreate destroys their
-application state. It does not install dependencies or change the API service.
+application state. Initial keep-id storage mapping can take several minutes; use a bounded background installer and inspect completion instead of killing it at the normal per-job35-second limit. It does not install dependencies or change the API service.
 
 ## Connect the existing executor
 
@@ -64,3 +63,12 @@ Use the existing offline Work acceptance on Pi, including a changed quantity and
 budget, a lost save acknowledgement, application restart, reconciliation and
 independent file readback. Scripted planning is not evidence of live model quality.
 Keep QA state separate from the owner's actual database and preserve failed runs.
+
+
+The inspected Pi kernel currently exposes cpu/pids but no memory controller.
+The launcher refuses this by default; this deployment explicitly uses
+`DESK_APP_ALLOW_UNBOUNDED_MEMORY=1` after recording that limitation. It retains
+CPU/process limits, non-root execution, Chromium sandbox and offline mounts.
+There is no enforced container RAM cap on this host. No boot-argument change or
+reboot was made to work around it. Future installation must not silently treat
+an unsupported resource limit as active.
