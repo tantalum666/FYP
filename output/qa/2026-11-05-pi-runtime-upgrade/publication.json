@@ -1,0 +1,20 @@
+{
+  "date_hk": "2026-11-05",
+  "pr": "https://github.com/tantalum666/FYP/pull/87",
+  "draft": true,
+  "merged": false,
+  "base_branch": "codex/pi-home-resume-20261031",
+  "reviewed_source_commit": "eeb96fcbd87b0a1e71c9fd3bada86eaf03e0ab84",
+  "remote_head_verified": true,
+  "pr_description_saved_and_readback_verified": true,
+  "deployed_application_commit": "abf6387f3cdf953154599aa608b3178d004c0e95",
+  "local_focused_tests": 92,
+  "original_pi_post_reboot_authentication": true,
+  "actual_schema3_deployment_verified": true,
+  "valid_old_and_new_mac_backups_verified": true,
+  "invalid_second_pi_only_copy_excluded": true,
+  "local_link_and_secret_scans_passed": true,
+  "ci_used": false,
+  "paid_model_tests": 0,
+  "next": "offline Pi conversation-to-supported-application acceptance"
+}

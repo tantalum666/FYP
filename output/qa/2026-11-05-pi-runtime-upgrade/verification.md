@@ -35,3 +35,5 @@ Next: exercise the deployed Pi's ordinary conversation-to-supported-application 
 Continued focused reads from the network task; additionally read the unified worktree AGENTS/handoff, complete PR5 migration contract, Linux installer, first-boot installation paths, relevant Store/middleware/access/private-file and migration code. The frontend-testing-debugging skill was applied through the enforced CUA browser path. Final rendered/HTTP checks above completed after transport recovery. Updated current root routes, Pi network/Mac/relay guides, decision/work log and both QA routes. No paid AI, CI, school-file edit or third-party communication.
 
 [Machine-readable results](checks.json), [network recovery](../2026-11-05-pi-443-transport/verification.md). Private commands, captures and rollback material are under the owner's existing protected Pi recovery directory.
+
+Publication: source eeb96fcbd87b0a1e71c9fd3bada86eaf03e0ab84 is pushed to draft [PR87](https://github.com/tantalum666/FYP/pull/87); remote HEAD and saved title/body were independently read back. No merge or CI. [Receipt](publication.json).
