@@ -22,4 +22,4 @@ User clarified both red LEDs occurred before unplugging/reconnecting power. Prio
 
 ## One next step
 
-Connect ordinary Alice/voice requests to the admitted persistent Work flow, with existing provider/privacy/permission controls and cancellation/recovery. Keep any live paid comparison separately bounded. Source publication and exact PR/HEAD receipt live in the QA directory; pushing is not merging.
+Connect ordinary Alice/voice requests to the admitted persistent Work flow, with existing provider/privacy/permission controls and cancellation/recovery. Keep any live paid comparison separately bounded. Source is pushed to [draftPR88](https://github.com/tantalum666/FYP/pull/88), open/unmerged; exact source/HEAD receipt is in the QA directory.

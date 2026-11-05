@@ -62,3 +62,10 @@ Initial container termination required SIGKILL after10seconds. Added Podman's in
 Power/red-LED investigation remains deferred at the owner's request. No hotspot, SD rewrite, power stress test or reboot was added. No CI, paid models, external messages, purchases or school submission. Source/target app configuration are separate from GitHub merge; this branch is proposed independently.
 
 The next step is ordinary Alice/voice → admitted persistent Work using the existing queue, including partial failure and owner cancellation. Normal standalone Work planning still needs provider setup/manual use; live-model quality remains open. General host GUI, real authenticated email/shopping/travel accounts, human Pi audio/AEC, physical touch and container RAM control remain unverified/unavailable as stated above. Synthetic acceptance is not a purchase or a professor-facing deliverable.
+
+
+## Publication and closeout
+
+[Draft PR88](https://github.com/tantalum666/FYP/pull/88) targets mainabf6387. GitHub source checkpoint10708abeb6f9d7a14b4b97d8565beb04340cccd6 matches the locally tested/deployed source; all262target source/frontend files were independently hash-checked. The PR is open/draft/unmerged; no CI was used. [Receipt](publication.json). Later receipt-only commits do not change deployed code.
+
+Updated AGENTS/current entry/product/decision/work-log/handoff and affected connection, display, media, application, architecture and first-boot contracts. All local Markdown links in changed documents resolve. Existing original-recovery checkout notes were preserved, with a local routing/correction notice to this new branch. The isolated providers-off QA API/Vite and temporary browser viewport/tab were cleaned up; raw test logs and screenshots remain in the owner-private task directory. Pi relay/API/kiosk/application service and the Pi-connected native simulator remain available.
