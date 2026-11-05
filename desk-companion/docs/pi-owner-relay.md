@@ -1,6 +1,6 @@
 # Pi owner relay and recoverable network setup
 
-5 November 2026. Local access stays available; the owner's existing VPS is an optional management path when campus networks cannot reach each other. This is not an application deployment or a paid-model feature.
+5 November 2026. Local access stays available; the owner's existing VPS provides an optional management path when direct routes are unavailable. Dorm authenticated access and reboot recovery now pass. Application deployment is separately recorded in the [runtime update QA](../../output/qa/2026-11-05-pi-runtime-upgrade/verification.md); no paid-model feature is activated by this transport.
 
 ## Three-place contract and evidence
 
@@ -8,7 +8,7 @@
 |---|---|---|
 | Mainland home | FYP-Home Wi-Fi, metric50; original credentials and autoconnect retained | Home SSH/app/desktop passed31October. New recovery must retain local access without requiring an overseas VPS. |
 | Classroom | FYP-Wired DHCP metric100 plus saved NETGEAR02 Wi-Fi metric600 | Earlier Wi-Fi access passed. Wired end-to-end access and unplug/replug recovery still need a classroom test. |
-| Dorm | FYP-Wired DHCP; exact selected Mac /32 may be admitted on eth0 |4November card readback confirms the new boot, wired lease and intended source rules. Authenticated remote access still pending. |
+| Dorm | FYP-Wired DHCP; exact selected Mac /32 may be admitted on eth0; optional fixed443 owner relay |5November original-key SSH, current wired/default route, Mac HTTP/VNC and owner-confirmed restart recovery passed. Sustained power/network stability remains separate. |
 
 Student/Halls credentials remain saved with autoconnect disabled. Region CN/HK is explicit in preparation; current physical location and read-back boot argument are HK. Moving location requires country verification as well as a connection test. The owner has rejected a hotspot workaround for this recovery.
 
@@ -28,7 +28,15 @@ The later durable boot reported installation completion but no direct VPS22 conn
 
 The runtime service runs as desk with a private writable state directory. The existing SSH service keeps strict host-key verification and its dedicated key, and connects through this loopback transport. An SSH banner is recorded only as transport evidence; authenticated Pi SSH still requires the original Pi key check.
 
-The optional protected bundle also supplies a transport configuration and pinned binary manifest. Preparation now writes one checksum-verified offline archive alongside the two seed files, with backup/readback/rollback. The Mac still does not write the Linux partition. Source/credentials/binary distribution are kept separate: source and hashes are publishable, live node credentials and prepared seeds remain private. [Official dependency release](https://github.com/MetaCubeX/mihomo/releases/tag/v1.19.32), [fixed-target transport contract](https://wiki.metacubex.one/en/config/tunnels/).
+The optional protected bundle also supplies a transport configuration and pinned binary manifest. Preparation writes one checksum-verified offline archive alongside the two seed files, with backup/readback/rollback. On5November it was applied to the original card, independently read back, FAT-checked and safely ejected; actual Pi original-key authentication and a later reboot passed. The Mac does not write the Linux partition. Source/credentials/binary distribution are separate: source and hashes are publishable, live node credentials and prepared seeds remain private. [Official dependency release](https://github.com/MetaCubeX/mihomo/releases/tag/v1.19.32), [fixed-target transport contract](https://wiki.metacubex.one/en/config/tunnels/).
+
+## Owner-side access and stale connections
+
+[`owner_relay_client.py`](../scripts/pi/owner_relay_client.py) reads an owner-private JSON configuration with version1, public VPS host/port, existing administrator user, pinned host alias/known-hosts path and loopback remote port. It rejects nonpublic targets, malformed ports/users, symlinks, permissive files and OpenSSH token expansion in paths. Shell quoting is tested with literal command-substitution characters. The inner Pi session independently uses the original private key and strict Pi host pin.
+
+[`connect_mac_relay.command`](../scripts/pi/connect_mac_relay.command) reuses the common Mac connector. Generic proxy/system networking remains untouched. The common connector checks actual forwarded app/VNC readiness, retries relay loss every10seconds, opens interfaces only once, and cleans up its own child on termination. LAN/USB modes retain their direct-route checks. Actual retry after the Pi restart and SIGTERM release of both local listeners passed.
+
+A later unresponsive VPS session retained the remote listener. Its previous server liveness was300seconds/count2. Added an EOF `Match User fyp-pi-relay` block with `ClientAliveInterval 20` and `ClientAliveCountMax 3`, after backing up sshd_config, validating syntax and comparing root's full effective configuration unchanged. Only the verified stale dedicated session was terminated. An isolated forced-en0 authentication test still passed. The owner then restarted Pi normally and original-key access returned. This bounds stale-session cleanup; it does not diagnose the cause of the original interruption or prove an uninterrupted campus connection. [OpenSSH client liveness](https://man.openbsd.org/sshd_config#ClientAliveInterval).
 
 ## Interrupted setup recovery
 
@@ -44,12 +52,12 @@ Setup completion, an active service, a TCP connection, a relay banner, authentic
 
 The boot partition receives network, owner-relay and bootstrap JSON status. A bounded HTTP request may also leave a random trial ID and predefined stage in the owner's existing HTTP access log. This is an unauthenticated diagnostic hint, carries no credentials, device addresses or response commands, and never replaces SSH verification. The request does not follow redirects and cannot block local status recording when the endpoint fails. VPS logging is conditional on this exact diagnostic path; ordinary paths, query strings and subscription traffic remain unlogged.
 
-Private operational evidence, card backups and keys are under the owner's `~/.config/desk-companion/pi5-dorm-ethernet-20261104/`. The VPS retains a private backup of its original HTTP server configuration. Existing proxy, normal SSH, firewall and subscription routes were not changed; the added account/key and narrowly scoped diagnostic logging are recorded separately.
+Private operational evidence, card backups and keys are under the owner's `~/.config/desk-companion/pi5-dorm-ethernet-20261104/`. The VPS retains private backups of the original HTTP and pre-liveness SSH configurations. Proxy/firewall/subscription routes and other users' effective SSH settings remain unchanged; the dedicated account/key, its liveness block and scoped diagnostic logging are recorded separately.
 
 To roll back the relay, first establish another management path, then disable desk-owner-relay.service and revoke only its dedicated VPS key/account. Restoring the original HTTP configuration and removing the diagnostic-only logging include requires nginx -t before reload. Local network profiles and the original Pi management key remain intact. Do not remove a live sole transport without an alternate path.
 
 ## Validation boundary
 
-79 focused local checks and Ruff passed, including three-site source rules, interrupted writes, empty-file restoration, scoped cloud-init retry, false-success receipts, symlink rejection, credential handling and nonfatal diagnostics. A real Mac-to-VPS fixture verified the permitted loopback forward and rejection of other listeners, destinations and commands. Conditional log privacy was tested with positive, ordinary-path and query-string requests. These do not stand in for a real Pi boot or classroom/mainland field acceptance.
+92 focused local checks, Ruff and shell syntax passed, including three-site rules, interrupted writes, empty-file restoration, scoped cloud-init retry, false-success receipts, symlink/credential boundaries and owner-client argument safety. A real Mac-to-VPS fixture verified allowed/rejected forwarding and commands. Conditional log privacy passed positive/ordinary/query-string probes. Actual dorm Pi original-key authentication, current routes, transport restart, owner reboot and Mac app/VNC checks are now separately recorded. Classroom/mainland field acceptance and sustained power remain open.
 
 [Current transport QA](../../output/qa/2026-11-05-pi-443-transport/verification.md), [earlier recovery QA](../../output/qa/2026-11-04-pi-dorm-ethernet/verification.md).

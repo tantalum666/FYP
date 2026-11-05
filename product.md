@@ -1,16 +1,18 @@
 # Group 2 Project Contract
 
-分支软件快照：2026-11-02；当前任务路由更新：2026-11-04。PR5 已按用户明确授权修复并合并（代码合并 `9b655e1`，与已测候选完整树一致）。本轮兼容整合：保留 Alice／Omni／权限及真实应用执行器，接入持久 Work、来源与产物、事务变化跟踪、定期检查和显式保存会话；事实统一保留在 owner_memories。迁移及发布状态见[本轮QA](output/qa/2026-10-31-pr5-repair/verification.md)与[兼容契约](desk-companion/docs/pr5-integration.md)。此前 PR70 已合入 #19／#64–#69，#4／#15／#16 的旧界面由当前主线取代。Grok #20–#59及#60已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main（软件合并c2037cd），原41个PR状态均已核对。当前方向为 **Desk Companion个人AI助理**。本分支基于完成归档的main，整合Grok #20–#59和#60的Alice／统一Omni／网页／手机软件，修复权限、上下文、恢复和跨栈兼容问题。分支推送、PR合并、目标设备部署及真实模型验收分别记录；此前跨端权限／事务接续与OpenAI受限真实评测已完成；现已实现受限 Chromium／Calc／Writer 执行，并跑通脚本驱动的复杂任务、改口和重启恢复；语音模型自主完成仍未验收。结果见[交接](handoff.md)、[本轮QA](output/qa/2026-10-30-application-execution/verification.md)与[实际交付门槛](desk-companion/docs/delivery-readiness.md)。合并基线的[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)保留历史范围。
+分支软件快照：2026-11-02；当前任务路由更新：2026-11-05。PR5 已按用户明确授权修复并合并（代码合并 `9b655e1`，与已测候选完整树一致）。本轮兼容整合：保留 Alice／Omni／权限及真实应用执行器，接入持久 Work、来源与产物、事务变化跟踪、定期检查和显式保存会话；事实统一保留在 owner_memories。迁移及发布状态见[本轮QA](output/qa/2026-10-31-pr5-repair/verification.md)与[兼容契约](desk-companion/docs/pr5-integration.md)。此前 PR70 已合入 #19／#64–#69，#4／#15／#16 的旧界面由当前主线取代。Grok #20–#59及#60已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main（软件合并c2037cd），原41个PR状态均已核对。当前方向为 **Desk Companion个人AI助理**。本分支基于完成归档的main，整合Grok #20–#59和#60的Alice／统一Omni／网页／手机软件，修复权限、上下文、恢复和跨栈兼容问题。分支推送、PR合并、目标设备部署及真实模型验收分别记录；此前跨端权限／事务接续与OpenAI受限真实评测已完成；现已实现受限 Chromium／Calc／Writer 执行，并跑通脚本驱动的复杂任务、改口和重启恢复；语音模型自主完成仍未验收。结果见[交接](handoff.md)、[本轮QA](output/qa/2026-10-30-application-execution/verification.md)与[实际交付门槛](desk-companion/docs/delivery-readiness.md)。合并基线的[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)保留历史范围。
 
-## 当前任务路由（11月4日）
+## 恢复背景（11月4日，当前结果见下方11月5日）
 
-用户已恢复宿舍Pi工作：网线接宿舍墙口，电源确认是官方27W；无外接显示器，选择正常关机后将原SD卡接到Mac检查。原卡身份已核对，读取了保存的有线租约并完成两份启动配置的备份、更新、读回与安全弹出；用户已回插通电。新增单一Mac地址的有线管理来源、香港区域及新启动状态记录，本地29项检查通过；SSH、正常日志回放、供电负载仍待实测，不把保存的租约当当前地址。此前Pi暂停已被本次指令取代，付费模型预算仍关闭。 用户进一步明确大陆用家庭Wi-Fi、教室保留Wi-Fi并支持网线、宿舍用网线；教室有线仍需现场验收。后续发现中转安装文件为空而cloud-init标记已执行，已补[完整性恢复及可选VPS通道](desk-companion/docs/pi-owner-relay.md)，62项本地检查通过；当前仍待实机SSH，不使用热点绕过诊断。
+用户已恢复宿舍Pi工作：网线接宿舍墙口，电源确认是官方27W；无外接显示器，选择正常关机后将原SD卡接到Mac检查。原卡身份已核对，读取了保存的有线租约并完成两份启动配置的备份、更新、读回与安全弹出；用户已回插通电。新增单一Mac地址的有线管理来源、香港区域及新启动状态记录，本地29项检查通过；SSH、正常日志回放、供电负载仍待实测，不把保存的租约当当前地址。此前Pi暂停已被本次指令取代，付费模型预算仍关闭。 用户进一步明确大陆用家庭Wi-Fi、教室保留Wi-Fi并支持网线、宿舍用网线；教室有线仍需现场验收。后续发现中转安装文件为空而cloud-init标记已执行，已补[完整性恢复及可选VPS通道](desk-companion/docs/pi-owner-relay.md)，62项本地检查通过；当时仍待实机SSH；现已完成，下方记录后续结果。
 
 软件PR74–77已与Grok修复整合到main，见[合并记录](https://github.com/tantalum666/FYP/pull/85)。当前统一源码在`/Users/tantalum/.codex/worktrees/grok-journey-compat-20261104/FYP`；旧预览与Pi运行环境均未随合并升级。本Pi分支保留网络实现与历史软件快照，不能将下方旧版本证据当作最新统一源码状态。
 
 ### 11月5日网络接入补充
 
-耐久恢复的启动回报已到达安装完成阶段，剩余实测问题是Pi直连VPS22不可达。新增可选的443固定目标管理传输：独立Mac客户端强制en0后完成真实主机密钥和公钥认证；匹配的官方ARM64程序、离线包与79项本地检查通过。它只服务SSH管理，不开启通用代理、TUN或DNS接管，也不取消三地本地连接。当前尚未写入真实卡、尚未取得Pi认证连接，教室有线仍需现场验收。见[当前QA](output/qa/2026-11-05-pi-443-transport/verification.md)。
+原卡确认耐久安装完成而直连VPS22超时；443固定目标通道现已完成实机原密钥认证、宿舍有线接入和重启恢复。服务器仅对专用中转账号加快失活检测，Mac入口自动重连；92项本地检查通过。它只服务SSH管理，不开启通用代理、TUN或DNS接管，三地本地配置保留，教室有线仍需现场验收。见[网络QA](output/qa/2026-11-05-pi-443-transport/verification.md)。
+
+Pi现已另行升级到统一main abf6387，部署在独立目录；真实数据库1→2→3迁移与32张原表逐项比对通过。原程序、账号／密钥及可回退备份保留，重启后的新服务／前端／登录与核心接口通过；Mac正常开发预览未随之变更。实际范围见[部署QA](output/qa/2026-11-05-pi-runtime-upgrade/verification.md)。本次重启仍记录低压，当前读数无活动节流；用户要求优先软件，未启动Pi本机Chromium或物理输出负载，未调用付费模型。
 
 ## 当前要求
 
@@ -18,7 +20,7 @@
 
 - 手机、电脑及Linux触摸屏共享业务数据；设备常亮页独立构图，已实现的[DeviceApp](planning/2026-09-30/device-display-spec.md)由`?surface=device`进入，不能与普通工作区的`?page=device`设置页混淆。Pi本地API＋Chromium全屏是现有实现，目标为开机直入专用端；当前实机仍启动欢迎窗口，全屏自启动／触控／长期运行待验收。手机使用全屏Alice首页与按需Plan／More，保留虚拟形象和简洁操作。
 - 个人 Agent 的目标包括持续跟踪邮件与事务、提出有用建议，以及从语音交代推进购物／旅行等真实生活任务。它们是用户明确的目标体验，当前尚未完成邮箱、商店、支付或机票接口与整条旅程验收；不能用应用文件演示代表已交付。已有研究、三家公开机制与优先顺序见[研究总入口](research/personal-agent-research-index.md)。
-- 同一助理贯通文字、语音、短期上下文、经批准的长期记忆、日历和事务。**Qwen Omni是当前已接入／已测基线，不是唯一或最终AI选择。**Qwen Audio／Gemini已有协议适配；OpenAI Realtime2.1与GPT-Live1＋Luna已完成一轮虚构业务／合成语音实测，Mini有英文参照。OpenAI尚未切换到日常App，真人同条件比较仍待；不能把协议模拟当成真实效果。
+- 同一助理贯通文字、语音、短期上下文、经批准的长期记忆、日历和事务。**Qwen Omni是当前已接入／已测基线，不是唯一或最终AI选择。**Qwen Audio／Gemini已有协议适配；OpenAI Realtime2.1与GPT-Live1＋Luna已完成一轮虚构业务／合成语音实测，Mini有英文参照。统一软件基线已有OpenAI Realtime与本地Alice唤醒；Mac日常配置以软件分支交接为准，本轮Pi保留既有Qwen凭据。真人同条件比较仍待，协议模拟不是实际效果。
 - 真实、受限的电脑／软件操作是核心；先推进Linux。允许范围、批准、取消、超时、未知结果和独立读回由程序控制。默认每次询问；拥有者可在输入框旁／设置中显式启用完整权限，对新请求中的已支持软件操作授予持续授权。模型不能更改权限或自行确认，实体输出仍独立批准。见[权限契约](desk-companion/docs/assistant-permissions.md)。
 - 日历等简单查询约5秒提供有用回答是体验目标。工具等待、首音、首个有用词与作业完成分别计时。
 - 角色为AliceChan，保留原貌、作者署名与CC BY-SA4.0；不恢复被否决的自行制作脸发路线。旧A1研究与作者源按历史保存。
@@ -56,7 +58,7 @@
 
 硬件组 10 月 26 日的[教师审核稿与采购表](research/2026-10-26-hardware-procurement-review/README.md)已纳入主分支：保留原 PDF／有日期的价格与未报价项，不把文档合并当成完整 BOM、采购或硬件测试通过。
 
-**历史实测（2026-10-31）：家庭Wi-Fi／原密钥SSH／网页Alice／Mac远程桌面通过。** 家里Wi-Fi、教室Wi-Fi＋网线、宿舍网线的[配置](desk-companion/docs/pi-network-profiles.md)已安装读回；11月4日用户确认宿舍已插线，但当前地址和可达性仍未验收。31日Pi本机Chromium曾触发真实低电压，关闭后只保留历史位；4日用户已确认官方27W电源，仍须在重新连接后读回供电／节流状态再做有界负载复测。见[历史QA](output/qa/2026-10-31-pi-home-resume/verification.md)与[当前恢复记录](output/qa/2026-11-04-pi-dorm-ethernet/verification.md)。最新软件尚未部署到Pi；Luwu与Mini研究、采购、接线、台架及连续运行分开，[硬件成员资料](research/2026-10-23-mini-robot-hardware/README.md)不代表实物验收。
+**历史实测（2026-10-31）：家庭Wi-Fi／原密钥SSH／网页Alice／Mac远程桌面通过。** 三地[配置](desk-companion/docs/pi-network-profiles.md)保留；11月5日宿舍有线经443认证接入、新版软件实际部署及重启后访问通过。教室有线、长期稳定性与真实媒体／机械动作仍待独立验收。官方27W电源为用户确认，最新开机仍有实际低压记录，不能把当前无活动标志当成供电问题已解决。Luwu与Mini研究、采购、接线、台架及连续运行分开，[硬件成员资料](research/2026-10-23-mini-robot-hardware/README.md)不代表实物验收。
 
 ## 保存与协作
 

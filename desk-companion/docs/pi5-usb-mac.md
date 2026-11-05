@@ -1,10 +1,10 @@
 # 只用 Mac 访问 Pi 5 · Group 2
 
-**2026-11-04：原卡已读回宿舍有线DHCP及来源规则。后续中转安装不完整，正在使用[完整性恢复与可选VPS通道](pi-owner-relay.md)统一修复；62项本地检查通过，实机SSH仍未验收。用户明确不用热点。家里Wi-Fi、教室Wi-Fi＋网线、宿舍网线均保留，下方旧地址与隧道不能当作当前连接。**
+**2026-11-05：宿舍有线经[443管理通道](pi-owner-relay.md)已完成原Pi密钥认证、重启后接入及Mac网页／VNC协议验收；Mac入口有自动重连，92项本地检查通过。Pi已另行升级到main abf6387，真实数据库迁移通过。家里Wi-Fi、教室Wi-Fi＋网线配置保留，教室有线仍需现场验证；低压与长期负载仍未验收。下方10月地址和截图属于历史。**
 
 **2026-10-31：家庭Wi-Fi、原配对SSH、网页Alice与Mac屏幕共享已实测连通。教室Wi-Fi／有线、宿舍有线配置已从Pi读回，有线尚未插线验收。Pi本机浏览器触发低电压事件，当前先核对电源／线材。详见[本轮QA](../../output/qa/2026-10-31-pi-home-resume/verification.md)与[网络方案](pi-network-profiles.md)。**
 <!-- FYP-CONTEXT-20261027 -->
-> HISTORICAL 2026-10-27 快照：当时Pi暂停，旧API预算关闭。当前恢复状态见文首11月4日记录。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
+> HISTORICAL 2026-10-27 快照：当时Pi暂停，旧API预算关闭。当前恢复状态见文首11月5日记录。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
 <!-- /FYP-CONTEXT-20261027 -->
 
 **HISTORICAL 2026-10-27：用户暂不启动Pi，下一轮Halls冷启动卡已准备并安全弹出，尚未实测。恢复前先核对Mac当前IP并启动状态接收；详见暂停快照 (local historical material: `output/qa/2026-10-26-pi5-dorm/pause-state.json`; not included in this checkpoint)。**
@@ -12,6 +12,10 @@
 HISTORICAL 2026-10-26：当时通过教室NETGEAR02连通SSH、网页和Mac屏幕共享，无需外接显示器。Pi已开机、扩容、安装；保留原卡系统及数据，补写联网配置并修复实际发现的启动／网页／桌面兼容问题。实机QA (local historical material: `output/qa/2026-10-26-pi5-classroom/verification.md`; not included in this checkpoint)保留全部失败与最终读回。
 
 ## 当前连接方法
+
+宿舍已验证的入口是Mac上的`~/Downloads/Desk-Companion-Pi5/Connect-Pi-over-Relay.command`。它读取拥有者私有中转配置，严格验证VPS及原Pi主机身份，只在Mac回环提供8891／5901；断开后每10秒重试，关闭窗口或Ctrl-C停止。启动前会拒绝占用中的端口，已有连接可直接使用，不要重复启动。代码为[relay入口](../scripts/pi/connect_mac_relay.command)及[共用连接器](../scripts/pi/connect_mac.command)。现有LAN／USB入口保留。
+
+以下是家庭／教室可互通LAN时的直接连接方法；不要求本地访问必须经过海外VPS：
 
 1. Pi插卡并启动，Mac与Pi连接同一个可互通LAN。家里使用已保存的家庭Wi-Fi，教室保留NETGEAR02并支持网线，宿舍使用网线；实际优先级见[网络方案](pi-network-profiles.md)。USB数据链路仍未独立验证。不要带电拔卡。
 2. Mac双击`~/Downloads/Desk-Companion-Pi5/Connect-Pi-over-LAN.command`。主机名为`desk-companion.local`，31日家庭实测地址为`192.168.0.105`；DHCP地址可能变化，应重新发现，不能沿用旧教室地址。
@@ -42,7 +46,7 @@ Pi已有独立常亮／触控界面，见[设备规范](../../planning/2026-09-3
 
 原USB脚本为`Connect-Pi-from-Mac.command`，默认地址10.12.194.1。只有Mac实际识别USB网络接口后才可用；该地址走VPN时脚本拒绝连接。Pi使用已装官方rpi-usb-gadget；此前两根线和端口试验没有枚举数据设备，不能断言线材或板子损坏。官方Pi5供电建议及实际供电余量仍需独立核验；短测throttled=0x0不等于连续运行验收。
 
-历史私有工厂镜像`desk-companion-pi5-usb-fixed-20261023.img`的SHA256为`f2e1cf933a5191637a821794fd9f6a2baca9036ba58e6c8bb5791f2608951e99`。它含凭据且早于10月26日修复，不能公开或称为当前卡完整备份。此次卡只改user-data/meta-data；五份旧启动文件保存在Mac私有pi5-classroom目录，原系统和应用数据不重刷。
+历史私有工厂镜像`desk-companion-pi5-usb-fixed-20261023.img`的SHA256为`f2e1cf933a5191637a821794fd9f6a2baca9036ba58e6c8bb5791f2608951e99`。它含凭据且早于10月26日修复，不能公开或称为当前卡完整备份。10月的卡修改只涉及user-data/meta-data；11月5日另增加已校验的管理通道离线包，仍未重刷系统。随后通过认证SSH完成了单独的新应用／数据库更新，见[部署记录](../../output/qa/2026-11-05-pi-runtime-upgrade/verification.md)。
 
 ## 诊断与当前版本
 
@@ -53,9 +57,9 @@ systemctl --user status desk-companion desk-vnc
 wayvncctl client-list
 ```
 
-安装标记为`/var/lib/desk-companion-provisioned`，课堂联网标记为`/var/lib/desk-companion-classroom-20261026-ready`。网络设置时的状态保存在`/boot/firmware/desk-network-status.json`，只读回选定非秘密字段；旧版本普通启动／租约事件不刷新此状态；11月4日恢复源码已修正并加入boot ID，原卡种子已更新，实际安装仍待新启动读回。必须核对时间与boot ID，不能将旧租约当作当前地址。完整私有日志／配置不要上传。31日NTP已同步。cloud-init虽结束但有缺少`cc_netplan_nm_patch`的可恢复警告；不能把exit2隐去或写成全绿。
+原始安装标记为`/var/lib/desk-companion-provisioned`，课堂联网标记为`/var/lib/desk-companion-classroom-20261026-ready`。网络状态保存在`/boot/firmware/desk-network-status.json`；11月5日重启后已认证读回新boot ID、有线配置和更新后的服务。安装回执仍是一次性记录，必须区分当前boot ID和历史时间，不能将旧租约当作当前地址。完整私有日志／配置不要上传。最新NTP已读回同步。cloud-init的旧`cc_netplan_nm_patch`可恢复警告保留，不隐去exit2。
 
-Pi运行10月22日离线包加10月26日三处部署修复，最新统一Omni／Work代码尚未同步到Pi。当前已验证家庭联网、登录、Alice网页与Linux桌面连接。Pi本机Chromium可渲染，但启动时出现低电压；已关闭窗口，先核对供电再做有界稳定性复测。之后才按[迁移契约](pr5-integration.md)停服务、备份并更新软件。Pi语音、声卡／AEC、Wayland双应用、GPU帧率／持续温度、姿态和机械仍未验收。
+Pi API现运行main abf6387的独立发布目录，旧10月程序保留。按[迁移契约](pr5-integration.md)完成停服务、备份、Mac／ARM64副本演练、实际1→2→3迁移和原表比对；重启后新服务、账号登录、核心接口、前端内容及Mac设备页通过。仍有实际低压记录，未启动Pi本机浏览器做负载验收。Pi语音、声卡／AEC、Wayland双应用、GPU帧率／持续温度、姿态和机械仍未验收。回退应使用[部署QA](../../output/qa/2026-11-05-pi-runtime-upgrade/verification.md)指定的经验证备份，不能只换旧代码而保留新数据库。
 
 ## 2026-10-26 VTC-Student试连结果
 

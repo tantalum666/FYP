@@ -14,5 +14,6 @@
   "archive_sha256": "9dd862e28b46ff7d775f169cceebc28deccaa0a9e804237d421cd2571e0caba0",
   "local_tests_passed": 79,
   "mac_en0_pinned_vps_auth_passed": true,
-  "global_proxy_tun_dns_changed": false
+  "global_proxy_tun_dns_changed": false,
+  "evidence_stage": "historical package rehearsal before real-card deployment"
 }

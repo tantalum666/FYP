@@ -1,0 +1,37 @@
+# Pi unified runtime update — 5 November 2026
+
+After original-key SSH access was restored, the owner asked to prioritize software progress rather than further cabling questions. Continued within the existing Pi/software authorization. This is an actual device update, separate from Git merge and from paid-model or physical-output acceptance.
+
+## Source, backup and target environment
+
+Live remote main is abf6387f3cdf953154599aa608b3178d004c0e95. The unified worktree's tracked application tree exactly matches that commit; its local documentation receipt has a different HEAD. Frontend type checking and production build passed, retaining the existing large-chunk advisory. Exported the locked core dependencies and downloaded30 Linux ARM64/Python3.13 wheels with required hashes. The305-file source/build/dependency package was hash-verified again on Pi before extraction. The old program and550MiB existing environment were retained; a new isolated core environment was installed under `/opt/desk-companion-releases/20261105-abf6387`. Offline dependency consistency and actual ARM64 imports passed.
+
+Stopped the old API, copied its complete private runtime and service unit, verified SQLite quick_check/schema, then restarted the old service. The coherent backup was copied to Mac with matching SHA256. No key, credential, source-user database or private backup is published. An additional fresh stopped backup was taken immediately before activation.
+
+## Migration and application verification
+
+On a private Mac copy and then a separate Pi ARM64 copy, the explicit existing migrations advanced schema1→2→3. Independently compared every original row projected over the original columns in32 business tables; no missing/changed originals, and quick_checkok. On the ARM64 copy, checked unauthenticated refusal, original-owner login, workspace/phone/permissions/Work capacity/calendar/device resources, event creation and exactly-once retry, and logout. Scheduler/providers were disabled for this isolated probe. Initial harness attempts omitted the application request header and queried a non-existent title column; these were harness errors, corrected using the actual middleware/storage contract before the final complete pass. No application guard was weakened to pass them.
+
+Only after these results, stopped the real old API, made a fresh backup, ran the two explicit migrations as desk, and repeated the32-table comparison/integrity check. Switched only the API user-service paths to the new release. Immediate health returned200, the running process used the new release, and its served index exactly matched the new frontend. Original owner credentials, vault key, runtime/service configuration and old app files remain. Optional camera/voice/outputs workers were inactive and stayed inactive. No provider test, Pi-local Chromium, firmware update or global network change occurred.
+
+## Link recovery and final rendered checks
+
+A later relay stopped responding while final Mac rendering was being checked. Its VPS listener remained. Removed only that verified stale dedicated-account session; changed only its ClientAliveInterval/CountMax to20/3 after syntax validation and proving root's effective configuration unchanged. Initial bounded observation did not restore access. Owner then confirmed normal button restart without card removal; authenticated a new Pi boot, the persisted new service/schema and successful health. The actual Mac retry loop recovered without relaunch. A separate SIGTERM check released both local forwarding ports; the final launcher was restarted for owner use.
+
+Through the live Mac tunnel, original-owner login, session/workspace/phone/permissions/Work-capacity APIs and logout returned200; the served frontend exactly matched the new build and VNC returnedRFB003.008. Browser checks used CUA in a separate IAB tab at1280×720: correct device route/title, meaningful clock/month/locked-calendar content, no framework overlay, no console errors/warnings, and management-panel open→close returned to the display. The primary route resolves to the new assistant entry and its expected sign-in page. Browser-authenticated Alice/media interaction was not performed; server authentication was separately verified. A stale browser error tab was replaced with a fresh tab after transport returned. The screenshot is private and shown to the owner, not published in Git.
+
+## Backup persistence finding and recovery evidence
+
+Post-reboot inspection found zero-byte identity/config files in the **second Pi-only pre-activation copy**. Reject `20261105-before-activate-main-abf6387` as a rollback source. This was a real persistence finding, not evidence that the live identity files were lost: the live vault/agent/owner-credential/environment bytes all match the original Mac snapshot. The first `20261105-before-main-abf6387` Pi backup still matches its verified Mac archive. The old release was actually started against a separate copy of that valid schema1 backup; health, original-owner login, phone snapshot and logout passed, while the live schema3 service stayed untouched.
+
+Made a fresh stopped-runtime schema3 archive with file/directory synchronization, restarted the new service, copied the archive to Mac and independently verified its SHA, complete SQLite parts, quick_check/schema and nonempty identity files. Restore the complete archive, including SQLite sidecars. New and old verified snapshots now exist off-device; the invalid second copy is retained only as diagnostic evidence. After this finding, rechecked every274 deployed source/frontend file against the independently held manifest, plus2,159 installed files across30 distributions: zero mismatches. This extra integrity pass was justified by the observed persistence failure.
+
+The post-restart inspected kernel interval logged11 undervoltage episodes followed by normalization; the latest sampled flags0x50000 had no active bits. The owner confirmed direct official27W power plus other connected devices and explicitly prioritized software progress. Root fs wasrw and database quick_checkok. The cause of the failed copy/interruption is not established, and sustained operation is not accepted. No forced current override or suppressed warning was used. [Raspberry Pi power diagnostics](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#power-supply-warnings).
+
+Next: exercise the deployed Pi's ordinary conversation-to-supported-application flow/recovery using offline inputs. Paid voice, actual microphone/camera/arm, heavy kiosk load and classroom/mainland field visits remain separate gates.
+
+## Read scope and evidence
+
+Continued focused reads from the network task; additionally read the unified worktree AGENTS/handoff, complete PR5 migration contract, Linux installer, first-boot installation paths, relevant Store/middleware/access/private-file and migration code. The frontend-testing-debugging skill was applied through the enforced CUA browser path. Final rendered/HTTP checks above completed after transport recovery. Updated current root routes, Pi network/Mac/relay guides, decision/work log and both QA routes. No paid AI, CI, school-file edit or third-party communication.
+
+[Machine-readable results](checks.json), [network recovery](../2026-11-05-pi-443-transport/verification.md). Private commands, captures and rollback material are under the owner's existing protected Pi recovery directory.
