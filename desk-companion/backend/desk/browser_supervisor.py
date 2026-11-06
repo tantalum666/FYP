@@ -79,11 +79,19 @@ class BrowserSupervisor:
         if reason:
             return WorkerOutcome(None, reason, False, True)
         command = [sys.executable, "-m", self.worker_module]
-        with tempfile.TemporaryDirectory(prefix="browser-session-", dir=directory) as home:
+        # Chromium creates a Unix socket beneath TMPDIR. Linux's sockaddr_un
+        # limit is shorter than an ordinary nested job path, so keep its private
+        # scratch directory short while retaining HOME/evidence under the job.
+        with (
+            tempfile.TemporaryDirectory(prefix="browser-session-", dir=directory) as home,
+            tempfile.TemporaryDirectory(
+                prefix="desk-browser-", dir="/tmp" if sys.platform == "linux" else None
+            ) as scratch,
+        ):
             env = {
                 "PATH": os.defpath,
                 "HOME": home,
-                "TMPDIR": home,
+                "TMPDIR": scratch,
                 "LANG": "C.UTF-8",
                 "PYTHONPATH": str(Path(__file__).resolve().parent.parent),
                 "PYTHONDONTWRITEBYTECODE": "1",

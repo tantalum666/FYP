@@ -580,8 +580,42 @@ def test_supervisor_fixed_worker_environment_and_clean_protocol(tmp_path, monkey
     assert observed["command"] == [sys.executable, "-m", "desk.browser_worker"]
     assert observed["start_new_session"] is True
     assert "HTTP_PROXY" not in observed["env"] and "TEST_PRIVATE_API_KEY" not in observed["env"]
-    assert observed["env"]["HOME"] == observed["env"]["TMPDIR"] == observed["cwd"]
+    assert observed["env"]["HOME"] == observed["cwd"]
     assert "read_source" in stages
+
+
+def test_nested_linux_job_can_bind_chromium_socket_and_removes_private_scratch(
+    tmp_path, monkeypatch
+):
+    from pathlib import Path
+
+    directory = tmp_path / ("nested-runtime-" * 10) / "job"
+    directory.mkdir(parents=True)
+    real_popen = subprocess.Popen
+    observed = {}
+    script = (
+        "import json,sys,os,socket,stat\n"
+        "json.loads(sys.stdin.readline())\n"
+        "assert stat.S_IMODE(os.stat(os.environ['TMPDIR']).st_mode)==0o700\n"
+        "with socket.socket(socket.AF_UNIX) as s:\n"
+        " s.bind(os.environ['TMPDIR']+'/org.chromium.Chromium.abcdef/SingletonSocket')\n"
+        "print(json.dumps({'type':'cleanup','closed':True}),flush=True)\n"
+        "print(json.dumps({'type':'result','value':{'socket_bound':True}}),flush=True)\n"
+    )
+
+    def popen(command, **kwargs):
+        scratch = Path(kwargs["env"]["TMPDIR"])
+        (scratch / "org.chromium.Chromium.abcdef").mkdir()
+        observed["scratch"] = scratch
+        return real_popen([sys.executable, "-c", script], **kwargs)
+
+    monkeypatch.setattr("desk.browser_supervisor.sys.platform", "linux")
+    monkeypatch.setattr("desk.browser_supervisor.subprocess.Popen", popen)
+    supervisor = BrowserSupervisor(sys.executable)
+    monkeypatch.setattr(supervisor, "readiness", lambda: None)
+    result = supervisor.run({"operation": "observe"}, directory, lambda _: None, timeout=2)
+    assert result.value == {"socket_bound": True} and result.cleanup_confirmed
+    assert not observed["scratch"].exists()
 
 
 def test_supervisor_cancel_is_bounded_and_never_claims_cleanup_without_ack(tmp_path, monkeypatch):
