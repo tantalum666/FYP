@@ -1,21 +1,25 @@
-# Desk Companion · Group 2
+# Desk Companion - Group 2
 
-2026-10-31：新增[持久 Work 与兼容整合](docs/pr5-integration.md)，使用当前事实／事务／权限／应用执行服务；入口位于 Tasks。旧运行目录需要显式迁移，实际证据及发布状态见[QA](../output/qa/2026-10-31-pr5-repair/verification.md)。
-<!-- FYP-CONTEXT-20261027 -->
-> 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../START_HERE_NEXT_CHAT.md)。
-<!-- /FYP-CONTEXT-20261027 -->
+6 November 2026. The shared Alice app now includes persistent Work, passwordless
+local entry, existing office executors and general public-browser preparation.
+The owner selected general browser capability first, without fixed merchants.
+[Current handoff](../handoff.md), [product](../product.md),
+[browser contract](docs/computer-use.md), [current QA](../output/qa/2026-11-06-openai-agent-merge/verification.md).
 
-更新：2026-10-29。Grok软件栈及#60的Alice／Omni／网页／手机代码已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main；事务上下文、共享会话恢复和组件职责拆分均保留。[维护契约](docs/software-maintenance.md)／[本轮QA](../output/qa/2026-10-29-assistant-permissions/verification.md)记录当前489项后端、89项前端、对话内操作／持续权限、忘掉后恢复边界和实际跨端旅程；459／89与450／89分别是此前记忆／整合结果。产品尚余门槛见[交付状态](docs/delivery-readiness.md)。Pi继续暂停，旧收费预算关闭。
+OpenAI is the default: Realtime2.1 for realtime conversation, GPT6.1Sol Responses
+for independent text/Work and computer calls. Mac configuration is ready. Pi runs
+the new release but its current OpenAI access returns an unsupported-region error;
+the UI states that limitation rather than silently using Qwen. The local Alice
+wake model loads on Pi; this is not proof of successful human wake/voice use.
 
-网页侧栏角色、宽屏助理、记忆／风格／设置、日程和记录已改；[全屏手机](../planning/2026-10-28/phone-simulator-implementation.md)已真实接入并装到模拟器。手机以Alice为首页，Plan集中日历／事务，More展开管理。原生触控／键盘和真机验收仍待。Qwen只是已测基线，其他AI候选继续保留。
+PR93 merged the seven previously open PRs. The browser milestone is in independent
+[PR94](https://github.com/tantalum666/FYP/pull/94). Local checks and actual browser
+rehearsals are separate from paid-model planning or real purchase/ticket results.
+No CI and no new paid inference. Pi software continues; only the red-LED
+investigation is deferred. Keep private runtime data and original school files.
 
-当前常驻角色是 AliceChan；一个输入框和语音按钮连接同一个 Qwen Omni，共享短期上下文与已批准的长期记忆。完整角色原件、A1 历史、九套服装和所有研究已保存。[角色来源](../design/desk-companion/characters/2026-10-22-alice/README.md)／[统一对话](docs/omni-conversation.md)。
-
-2026-10-23–24历史试验已通过虚构资料下日历／记忆操作链、变化画面、600秒生命周期和合成停顿／插话；40条有效实际开声计时p50=3.0741秒、p95=3.8889秒。当时应用基线为279／56项，不能当作本轮真实模型重测。此前整合软件450／89项及事务上下文／恢复结果仍按原日期保存；最新489／89项与权限／接续检查见文首QA；真人声学与Pi仍待。历史AI记录 (local historical material: `output/qa/2026-10-23-ai-acceptance/resumed/verification.md`; not included in this checkpoint)。
-
-Linux Mousepad→Chromium 固定流程已在 ARM64 容器实际保存、显示及 SHA 读回。Pi5 已启动并在教室完成 SSH／网页／Mac 桌面验证；宿舍 Student 能接入但远程超时，Halls 未完成。Pi 当前运行 10 月 22 日包加部署修复，最新统一 Omni 尚未同步；USB 数据、Pi 声学、Wayland 双应用和持续负载另验。[当前交接](../handoff.md)／[Mac 无屏幕访问](docs/pi5-usb-mac.md)。
-
-产品为单拥有者桌面个人AI Agent，固定相机坐姿反馈／复测仍是必做主线。英文默认，可切简体中文；本分支基于归档后的main整合软件，旧Senplate与学校原件保持。推送本分支不等于合并或部署。所有此前API测试预算已关闭。
+AliceChan remains the attributed CC BY-SA4.0 character.
+[Character source](../design/desk-companion/characters/2026-10-22-alice/README.md).
 
 ## 当前功能
 
@@ -31,7 +35,7 @@ Linux Mousepad→Chromium 固定流程已在 ARM64 容器实际保存、显示�
 | 配对 | 单次短码、拥有者核对批准、可撤销终端身份、常驻屏长期会话；iPhone令牌留在Keychain |
 | 助理权限 | 默认Ask first；输入框旁／Settings可选Full access，独立服务验证新拥有者请求、撤回与版本；不扩大实体／媒体／账号／执行器范围。见[权限契约](docs/assistant-permissions.md) |
 | 助理 | Omni 配置下文字／语音同一模型、上下文和记忆；未配置时明确本地规则。事务／日历／记忆草稿、确认／取消／过期、版本冲突与独立读回；模型不能确认，软件停止可直接请求 |
-| 语音 | Qwen Audio、Gemini Live、独立Qwen Omni适配；流式PCM、函数关联／取消、时限、用量；Omni拥有者主动图片／所选屏幕分享；本地中英唤醒；普通配置默认none；本分支含统一会话与事务上下文，PR #15只是早期版本 |
+| Voice | OpenAI Realtime2.1 by default; Qwen Audio/Omni and Gemini adapters retained. Shared tool/permission state, explicit media sharing and local Alice wake. Human acoustics and live browser autonomy remain separate acceptance steps. |
 | 反馈 | AliceChan（CC BY-SA4.0）的原生VRM／MToon／表情与发骨、注意／短回应、常驻拖动／缩放／贴边收起、完整2D回退和黑底／镜像；新成品本地VRM预览／缓存恢复已实现；原生v1已否决，AliceChan已作为当前常驻。灯光／机械臂命名预设及回执与模拟／实物分开 |
 | 日历辅助 | 选择地区后读取香港天气、缓存和过期状态、农历显示、香港2025–2027公众假期、日期占用摘要、安静时段与本地简报 |
 | 数据交换 | ICS预览／去重／导入／导出；只读忙闲或可展示标题分享／撤销；业务备份与保留现有数据的合并恢复 |
@@ -43,7 +47,7 @@ Linux Mousepad→Chromium 固定流程已在 ARM64 容器实际保存、显示�
 
 ## 先运行软件
 
-Qwen3.8 Omni Flash Realtime是当前已测基线，见[Omni契约](docs/qwen-omni.md)和[本机启用](docs/qwen-local-setup.md)；其他候选仍待同条件比较。普通启动不调用模型，显式配置后由本人发起。旧短测预算均关闭，真实采集和新收费试验须有新的对应授权。
+OpenAI is selected by default; without a valid key it remains unavailable. Explicit owner requests start model use. Historical Qwen results remain comparison evidence, not the runtime default. All agent-paid trial budgets remain closed.
 
 需要Node 22.12+、Python 3.12+、uv。首次安装：
 
@@ -59,7 +63,7 @@ cd ..
 
 开发脚本运行8831后端与5190前端，Ctrl+C只停止该脚本启动的进程；端口占用时不会结束其他程序。端口检查使用已经装好的 `.venv/bin/python`，所以依赖安装完成后，即使新的 shell 没有把 `uv` 放进 PATH，也可以运行这个脚本。
 
-仅本机预览可显式使用`DESK_LOCAL_PREVIEW=1 ./scripts/dev.sh`免输入账号密码；默认认证仍保留，真实手机仍需可信HTTPS。预览会话到期会恢复并保留未发送输入，不自动重试写入。
+Trusted direct loopback sessions connect automatically with `DESK_AUTO_OWNER=1` (default). The app no longer shows Sign in forms. Remote/paired authority still needs its existing trusted transport; restoring a session does not retry writes.
 
 - [电脑／手机管理界面](http://127.0.0.1:5190/)
 - [独立常亮屏](http://127.0.0.1:5190/?surface=device)
@@ -75,7 +79,18 @@ cd ..
 
 此时在`http://127.0.0.1:8831/`打开同样的界面。**必须保持单个API工作进程**：姿态、输出停机和语音会话在该进程中协调。
 
-账号是`owner`。首次运行随机生成密码，保存在本机的`.runtime/credentials.json`，权限0600；该文件在实际启动对应运行目录后才存在。数据库、配对令牌、配置密钥与模型在`.runtime/`，不进入版本控制。不要删除整个目录来重置页面。真实手机访问需要可到达的HTTPS地址；手机自身的`127.0.0.1`不是桌面主机。
+Private data, pairing tokens and credentials stay in `.runtime/` and out of Git. Preserve this directory. The old password API is retained only for compatibility/recovery; it is not the normal app entry. A physical phone needs reachable trusted HTTPS; its own `127.0.0.1` is not the desk.
+
+## OpenAI and browser configuration
+
+Install the locked audio/browser extras with `uv sync --frozen --extra audio --extra browser`.
+Use an existing private FYP key file; do not put credentials in frontend variables.
+`scripts/configure_openai.py` can update the selected Linux runtime's `service.env`
+without calling a model or starting a service. The generated systemd unit reads
+that file. A manual `dev.sh` session instead needs the selected settings in its
+environment, including `DESK_OPENAI_CREDENTIAL_FILE`, `DESK_COMPUTER_USE_ENABLED=1`
+and the installed `DESK_BROWSER_EXECUTABLE`. It does not automatically load
+`service.env`. See [browser setup and scope](docs/computer-use.md).
 
 ## 操作入口
 

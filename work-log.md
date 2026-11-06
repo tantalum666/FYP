@@ -741,3 +741,16 @@ Publication receipt: sourceeeb96fc was pushed to draftPR87 and its remote HEAD/t
 ## 2026-11-06 待合并PR组合审查
 
 冻结73／87／88／89–92，独立codex/openai-personal-agent-20261106组合，保留所有祖先。根状态文档保留最新软件状态，网络历史保留并服从后续物理重启澄清。修复邮件／日历源内容指令误判、旧assistant回执兼容、报告核验语义及Goal前缀误匹配；新增4回归。1949后端／328前端、类型／生产构建／Ruff通过；浏览器实际先拒绝来源指令，再改已有Work目标并显示文件核验，控制台无错误。新费用调用0、无CI、未更改Pi现场网络。完整证据及即将记录的合并回执见[本轮QA](output/qa/2026-11-06-openai-agent-merge/verification.md)。后续继续默认OpenAI和真实浏览器／computer use接入。
+
+
+## 2026-11-06 OpenAI default and general browser milestone
+
+User asked to review/fix/merge pending GitHub work, broaden toward Dot/Grok Bot/Muse and shopping/travel/computer use, default to OpenAI, then selected general browser first without fixed websites. PR93merged73/87/88/89-92after source-instruction, old-receipt and misleading-result fixes; reviewed tree matches main.
+
+Implemented native Responses computer protocol, fresh browser executor, typed actions, owner-selected public sites/screen sharing, actual screenshots, explicit state continuation and normal stop recovery on existing jobs/permissions. Added OpenAI Responses text/default configuration and protected existing-key references; no silent Qwen fallback. Refreshed primary-source research and documented authenticated-account/payment/interactive-takeover gaps.
+
+Full feature backend1991/frontend330, subsequent33configuration/OpenAI/computer and95browser/job checks, typecheck/build/Ruff passed. Real Mac Chrome shopping/flight/public catalogue/stop cases and shared desktop/phone UI passed; planning remained scripted. Pi initially hit Chromium Unix-socket path length; private short scratch fixed it without disabling sandbox. A later connection loss produced no success receipt; owner unplugged/reconnected. Host/data/source were verified,20-file stopped backup copied and verified on Mac, source3ffb857activated with old release retained. Pi then passed actual shopping/flights/stop cases under bounded NoNewPrivileges units. No real orders/bookings or paid inference.
+
+Mac normal8831/5190is configured and Pi8891relay/device UI was verified with Alice. Pi OpenAI model catalog403unsupported-region is shown explicitly and cloud requests disabled; MacGET200is not live inference acceptance. Red-LED diagnosis stayed paused. Existing account/data, applications, network configuration and wake weights preserved; no native package rebuild or human voice claim.
+
+Source pushed, draftPR94created through authenticated browser after connector transport failure/local PAT write limitation. Final docs/QA/handoff, local links and publish scope were checked; final remote HEAD readback is retained in the publication receipt. Evidence: output/qa/2026-11-06-openai-agent-merge; private receipts/screens/backups under ~/.config/desk-companion/openai-computer-use-20261106. Next: one owner-started live public-browser task with actual usage and output verification; old paid budgets remain closed.

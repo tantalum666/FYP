@@ -1,7 +1,7 @@
-# Group 2 · OpenAI personal-agent continuation
+# Group 2 - Current continuation
 
-6 November2026. User explicitly requests fixing and merging all pending GitHub work, broader shopping/travel/computer use, and OpenAI defaults. Active checkout/branch: codex/openai-personal-agent-20261106. [Handoff](handoff.md), [review QA](output/qa/2026-11-06-openai-agent-merge/verification.md), [research index](research/personal-agent-research-index.md).
+6 November 2026. Work from `/Users/tantalum/.codex/worktrees/openai-personal-agent-20261106/FYP`, branch `codex/openai-computer-use-20261106` / [PR94](https://github.com/tantalum666/FYP/pull/94). Prior pendingPRs73/87/88/89-92are merged viaPR93.
 
-The73/87/88/89–92 integration candidate preserves all heads, current Alice UI and networking. Source-command parsing, legacy receipt compatibility and file-versus-outcome wording were corrected.1949backend/328frontend and actual browser flow passed. Exact merge receipt follows GitHub readback.
+Read [AGENTS](AGENTS.md), [product](product.md), [handoff](handoff.md), latest relevant [decisions](decision-log.md), then [browser contract](desk-companion/docs/computer-use.md) and [research index](research/personal-agent-research-index.md). Exact validation/deployment evidence is in [current QA](output/qa/2026-11-06-openai-agent-merge/verification.md).
 
-Pi still runs the previous verified passwordless/application checkpoint until explicitly updated during this work. Only red-LED investigation is paused. Existing approved FYP OpenAI key is available; new key creation is unnecessary. Paid tests remain closed, no CI. Next: implement OpenAI text/default configuration and a scoped real browser/computer-use journey with meaningful shopping/booking state checks.
+Mac and Pi source3ffb857are activated with OpenAI selected. Mac is configured; Pi's provider-region refusal is explicit. Real browser tests used scripted planning, paid generation0. Next is one owner-started live browser task on Mac with measured outcome/usage. Only red-LED work is paused; no CI and no reopening old budgets.

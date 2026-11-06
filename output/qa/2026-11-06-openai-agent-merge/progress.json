@@ -1,0 +1,25 @@
+{
+  "phase": "source implemented, Mac and Pi deployed, documentation closeout",
+  "branch": "codex/openai-computer-use-20261106",
+  "source_commit": "3ffb8578fc460a0d5a37ce87896800fa3cc5e8ae",
+  "merged_prs": [
+    73,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93
+  ],
+  "feature_pr": 94,
+  "feature_pr_state": "draft",
+  "user_site_preference": "general browser first, no fixed merchant",
+  "paid_model_requests": 0,
+  "remaining_acceptance": [
+    "live model planning from an owner-started request",
+    "provider-supported access before Pi cloud use",
+    "private accounts, interactive takeover and independent transaction outcomes",
+    "autonomous voice-to-browser journey"
+  ]
+}
