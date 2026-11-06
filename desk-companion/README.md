@@ -1,16 +1,16 @@
 # Desk Companion - Group 2
 
-6 November 2026. The shared Alice app now includes persistent Work, passwordless
+7 November 2026. The shared Alice app now includes persistent Work, passwordless
 local entry, existing office executors and general public-browser preparation.
 The owner selected general browser capability first, without fixed merchants.
 [Current handoff](../handoff.md), [product](../product.md),
 [browser contract](docs/computer-use.md), [current QA](../output/qa/2026-11-06-openai-agent-merge/verification.md).
 
 OpenAI is the default: Realtime2.1 for realtime conversation, GPT6.1Sol Responses
-for independent text/Work and computer calls. Mac configuration is ready. Pi runs
-the new release but its current OpenAI access returns an unsupported-region error;
-the UI states that limitation rather than silently using Qwen. The local Alice
-wake model loads on Pi; this is not proof of successful human wake/voice use.
+for independent text/Work and computer calls. Mac uses its existing direct setup.
+Pi now uses the explicitly requested fixed route through the owned VPS: actual
+model authentication and Realtime session creation passed. No paid generation or
+human microphone trial is implied. [Pi OpenAI route](docs/openai-vps.md).
 
 PR93 merged the seven previously open PRs. The browser milestone is in independent
 [PR94](https://github.com/tantalum666/FYP/pull/94). Local checks and actual browser

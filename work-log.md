@@ -754,3 +754,14 @@ Full feature backend1991/frontend330, subsequent33configuration/OpenAI/computer 
 Mac normal8831/5190is configured and Pi8891relay/device UI was verified with Alice. Pi OpenAI model catalog403unsupported-region is shown explicitly and cloud requests disabled; MacGET200is not live inference acceptance. Red-LED diagnosis stayed paused. Existing account/data, applications, network configuration and wake weights preserved; no native package rebuild or human voice claim.
 
 Source pushed, draftPR94created through authenticated browser after connector transport failure/local PAT write limitation. Final docs/QA/handoff, local links and publish scope were checked; final remote HEAD readback is retained in the publication receipt. Evidence: output/qa/2026-11-06-openai-agent-merge; private receipts/screens/backups under ~/.config/desk-companion/openai-computer-use-20261106. Next: one owner-started live public-browser task with actual usage and output verification; old paid budgets remain closed.
+
+
+## 2026-11-07 Pi -> owned VPS -> OpenAI
+
+Owner first asked for VPS-backed real merchant/payment/ticket/takeover work, selected JD/Taobao, then explicitly prioritized Pi OpenAI connectivity. Read focused entry/contracts/current source and official documentation; real-account findings were recorded without claiming implementation.
+
+VPS TLS/unauthenticated401passed. Pi's initial forward was rejected by the existing per-key discard-port restriction. Replaced only that outbound target with api.openai.com:443, preserving key identity, restrict/forced command and management reverse grant. Added two bounded loopback Pi services and explicit OpenAI-only transport selection to text/computer/Realtime; no key copied to VPS, no TLS bypass or general proxy changes. Fixed the real websockets Host-without-default-port compatibility issue.
+
+Actual Pi model-list200with96models and configured IDs; actual Realtime session.created for gpt-realtime-2.1and normal close. No audio/response.create/paid inference.357cross-provider regressions,14final bridge checks and Ruff passed.21-file stopped backup copied/rehash-verified on Mac; source9625f137and284runtime files activated with previous environment/source retained. Normal text/voice/computer configured, owner identity retained, background generation off. Actual Pi UI shows Alice, enabled voice and unchecked wake; old region notice removed. Mac viewer relay was restarted, independent of Pi's permanent OpenAI services. No physical reboot or power investigation.
+
+Evidence: output/qa/2026-11-07-openai-vps; private SSH/probe/backup/readback files under ~/.config/desk-companion/openai-vps-20261107. Source publication extends the existing independent OpenAI/browser review, with remote head verification. Next is real JD owner takeover/login and deliberate return to Alice; transactions and paid inference still require their concrete inputs/authority.

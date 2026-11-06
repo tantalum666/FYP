@@ -57,7 +57,7 @@ sample on Mac did not trigger and remains a recorded gap. See the [actual Pi QA]
 
 ## 6 November OpenAI default and browser release
 
-Mac and Pi now explicitly select OpenAI Realtime2.1; independent text/Work and
+At the 6 November checkpoint, Mac and Pi explicitly selected OpenAI Realtime2.1; independent text/Work and
 browser computer calls use OpenAI Responses with GPT6.1Sol. Existing supplier
 adapters remain available, but there is no silent fallback to Qwen. Keys are read
 from approved owner-private files, and background model generation stays off.
@@ -69,3 +69,12 @@ being available does not overcome that provider refusal. No model-generation,
 human wake or microphone trial was performed in this release. The new public
 browser's real execution checks use scripted planning, including on Pi.
 [Current source, deployment and QA](../../output/qa/2026-11-06-openai-agent-merge/verification.md).
+
+
+## 7 November Pi VPS route
+
+The owner subsequently directed Pi to use the existing owned VPS. That explicit
+route now returns authenticated model-list200and Realtime session.created;
+normal voice/text/computer configuration is ready and the old direct-path region
+flag is cleared. See [transport and actual limits](openai-vps.md). No microphone,
+audio input, response.create, generated answer or paid voice trial occurred.

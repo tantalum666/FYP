@@ -103,3 +103,12 @@ No success here establishes live model planning quality. Paid inference,
 authenticated account workflows and real order/ticket receipts are separate
 acceptance gates. See the QA for failures retained during development, current
 platform access results and exact local/deployed source versions.
+
+
+## 7 November provider transport
+
+The owner requested a fixed Pi OpenAI route through the existing VPS. The model
+client now supports an explicit OpenAI-only loopback CONNECT URL; browser web
+traffic still uses its own separate policy. [Transport contract](openai-vps.md).
+Actual model authentication/Realtime handshake passed; real computer planning is
+still distinct from the earlier scripted browser acceptance.

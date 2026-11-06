@@ -614,3 +614,12 @@ Linux只读检查返回4，并明确跳过journal recovery；needs_recovery及�
 **范围与证据：**公开页面和演练任务；账户登录、敏感资料、最终付款／预订、交互式人工接管及真实订单核验未实现。浏览器HTTP过滤／DNS预检不宣称是操作系统网络隔离。复杂购物、航班、外部测试目录和停止恢复使用真实Chromium＋脚本规划通过，付费模型请求0。Mac模型目录GET成功，Pi同接口403地区不支持；明确显示错误，不改路由绕过，不静默换Qwen。普通配置不自动触发付费请求，后台模型关闭，浏览器默认8轮／最多12轮和180秒时限；调用数限额不等于美元封顶。
 
 **合并：**PR93已合并七项原始PR，树与本地验收一致。新浏览器源提交与实际运行版本分别写入交接／QA；实际模型规划与账号交易不能由本地测试数量代替。
+
+
+## 2026-11-07 Owner-requested Pi VPS route takes priority
+
+The owner explicitly requested use of their existing VPS, real merchant/payment/ticket/takeover flows, selected JD or Taobao, then directed that Pi-to-VPS OpenAI connectivity be completed first. This supersedes the previous direct-only runtime choice; it does not authorize an unspecified purchase, booking or new paid-model experiment.
+
+The fixed route reuses existing pinned transport and changes only the dedicated Pi key's exact outbound permitopen destination. An OpenAI-only loopback CONNECT bridge preserves end-to-end TLS; no API key is stored on VPS. Normal text/computer/Realtime clients select it explicitly, with no general environment proxy or fallback. Other providers, proxy services and management relay retain their configuration.
+
+Real Pi HTTP200model listing and Realtime session.created/normal closure passed. No audio or response.create was sent. The old direct-region flag was cleared only after these results. Source9625f137was activated after a21-file stopped backup, off-device hash verification and284source/assets checks.357provider regressions and14final bridge checks passed. JD account work remains unimplemented and follows this connectivity milestone.

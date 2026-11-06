@@ -1,5 +1,7 @@
 # Group 2｜个人 Agent 研究总入口与实现对照
 
+7 November runtime update: the owner selected JD/Taobao, then prioritized the explicit Pi/VPS/OpenAI route. Authentication and Realtime session creation now pass; account takeover/payment/ticket work remains next. [Evidence](../output/qa/2026-11-07-openai-vps/verification.md).
+
 **工程更新2026-11-06：**用户选择先做通用浏览器，不固定商家。新增OpenAI原生computer调用、实际浏览器操作／截图、同一任务的显式状态接续和停止恢复；购物／订票复杂条件通过脚本规划＋真实浏览器验收，真实账户／支付／出票尚未接入。[本轮研究](2026-11-06-general-browser-and-openai.md)、[实现契约](../desk-companion/docs/computer-use.md)、[实际QA](../output/qa/2026-11-06-openai-agent-merge/verification.md)。普通文字／复核语音的Work改口保留；其报告文件核验不等于目标语义完成，PR93已修正误导文案和来源指令混淆。
 
 总入口更新：2026-11-06。对象固定为 **Grok Bot、Meta Muse、OpenAI ChatGPT 的 Your dot**。下方历史研究保留各自日期，最新官方资料与实现差距见上方本轮研究。New Computer 的旧 Dot 只保留为历史背景。

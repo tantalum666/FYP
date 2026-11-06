@@ -1,6 +1,6 @@
 # Group 2 Project Contract
 
-更新：2026-11-06。用户要求审查修复并合并全部待处理PR、默认使用OpenAI，并优先通用浏览器能力，不固定购物／订票网站。PR93已将73／87／88／89–92合入main，验收树一致；新通用浏览器在独立分支codex/openai-computer-use-20261106。当前配置、部署与限制以[交接](handoff.md)及[本轮QA](output/qa/2026-11-06-openai-agent-merge/verification.md)为准。Pi软件继续；仅红灯调查暂缓，付费实验预算关闭、无CI。
+7 November 2026 update: the owner prioritized Pi -> owned VPS -> OpenAI. This route now passes authenticated model-list and Realtime session-creation checks; normal Pi text/voice/computer configuration is ready. Previous direct-path region refusal is historical. No paid inference or audio trial. JD/Taobao account takeover and transaction workflows remain next. [Current handoff](handoff.md) / [route QA](output/qa/2026-11-07-openai-vps/verification.md).
 
 11月4日历史合并：Grok PR78–82已通过[PR83](https://github.com/tantalum666/FYP/pull/83)合并，代码合并89dc92f与验收树一致：离线邮箱、购物和日程样本接入既有事务/Work/通知/备份；已修复恢复、去重、撤销、过期消息、冲突与回执校验问题。新增建议卡片显示具体对象、来源和确认效果。最终本地验证及GitHub状态见[审查QA](output/qa/2026-11-04-grok-journey-review/verification.md)。真实邮箱、商店、支付、机票和真实日历账户仍未接通。
 
