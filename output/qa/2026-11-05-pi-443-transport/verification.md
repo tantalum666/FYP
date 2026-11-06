@@ -1,6 +1,6 @@
 # Fixed 443 management transport — 5 November 2026
 
-Continues the [4November recovery](../2026-11-04-pi-dorm-ethernet/verification.md). **Current result:** real dorm Pi authentication, wired/default-route readback, transport restart recovery and owner-confirmed reboot recovery passed through443. Mac app/VNC access and retry/cancellation passed;92 local checks pass. Earlier diagnosis/preparation below is chronological evidence. The first durable seed reported setup_completed but direct VPS22 failure; it preceded the actual443 acceptance.
+Continues the [4November recovery](../2026-11-04-pi-dorm-ethernet/verification.md). **Current result:** real dorm Pi authentication, wired/default-route readback, transport restart recovery and owner-confirmed power-cycle recovery passed through443. Mac app/VNC access and retry/cancellation passed;92 local checks pass. Earlier diagnosis/preparation below is chronological evidence. The first durable seed reported setup_completed but direct VPS22 failure; it preceded the actual443 acceptance.
 
 ## Diagnosis and actual independent test
 

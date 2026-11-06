@@ -1,6 +1,6 @@
 # Group 2 · Pi software handoff
 
-6 November2026. Active checkout/branch: codex/passwordless-alice-device-20261105, based on mainabf6387. User deferred only spontaneous red-LED investigation and requested Pi software/cross-application progress. Model budgets closed; local verification only, no CI.
+6 November2026. Active review checkout/branch: codex/openai-personal-agent-20261106. User now explicitly authorizes fixing and merging all pending PRs, expanding computer/commerce work, and defaulting to OpenAI. The existing FYP key is reused; paid test budgets remain closed. User deferred only spontaneous red-LED investigation and requested Pi software/cross-application progress. Model budgets closed; local verification only, no CI.
 
 ## Current target
 
@@ -22,4 +22,4 @@ User clarified both red LEDs occurred before unplugging/reconnecting power. Prio
 
 ## One next step
 
-Connect ordinary Alice/voice requests to the admitted persistent Work flow, with existing provider/privacy/permission controls and cancellation/recovery. Keep any live paid comparison separately bounded. Source is pushed to [draftPR88](https://github.com/tantalum666/FYP/pull/88), open/unmerged; exact source/HEAD receipt is in the QA directory.
+Connect ordinary Alice/voice requests to the admitted persistent Work flow, with existing provider/privacy/permission controls and cancellation/recovery. Keep any live paid comparison separately bounded. The combined73/87/88/89–92 candidate passed1949backend/328frontend plus actual browser checks. [Current review and merge receipt](output/qa/2026-11-06-openai-agent-merge/verification.md). Configure OpenAI defaults and expand beyond fixed office workflows next; the existing Pi runtime is still the prior deployed checkpoint until separately updated.

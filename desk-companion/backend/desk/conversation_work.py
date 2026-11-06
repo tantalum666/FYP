@@ -55,9 +55,7 @@ _QUOTE_WRAPS = (('"', '"'), ("'", "'"), ("“", "”"), ("「", "」"), ("『", 
 
 _TEXT = {
     "en": {
-        "admitted": (
-            "The goal of this work is now “{goal}”. {result}Nothing was sent or bought."
-        ),
+        "admitted": ("The goal of this work is now “{goal}”. {result}Nothing was sent or bought."),
         "recovered": "This work already has that goal. {result}The earlier change was kept.",
         "unchanged": "That is already the goal of this work.",
         "none": "No current work is linked to this task.",
@@ -69,6 +67,7 @@ _TEXT = {
         "empty": "Say the new goal after the colon.",
         "too_long": "That goal is too long to save.",
         "not_a_change": "That does not change this work.",
+        "source_text": "This looks like copied source text. State the work change separately.",
     },
     "zh": {
         "admitted": "这项工作的目标已改为「{goal}」。{result}没有发送或购买。",
@@ -83,6 +82,7 @@ _TEXT = {
         "empty": "请在冒号后写上新目标。",
         "too_long": "这个目标太长，没有保存。",
         "not_a_change": "这没有改这项工作。",
+        "source_text": "这段内容像是复制的资料。请单独说明要怎样修改工作。",
     },
 }
 
@@ -104,8 +104,12 @@ def owner_instruction(message: str) -> str | None:
     normalized = message.replace("\r\n", "\n").replace("\r", "\n")
     for line in normalized.strip().split("\n"):
         line = line.strip()
-        if not line or _quoted_line(line) or _source_header(line):
+        if not line or _quoted_line(line):
             continue
+        # Removing mail headers would promote its unquoted body to an owner
+        # command. Mixed source/instruction text needs explicit clarification.
+        if _source_header(line):
+            return None
         own.append(line)
     if len(own) != 1 or own[0].endswith(("?", "？")):
         return None
@@ -162,6 +166,11 @@ class ConversationWork:
             return self._steer_snapshot(payload, action_key, principal, language)
         parsed = parse_changed_goal(payload.message)
         if parsed is None:
+            lines = [line.strip() for line in payload.message.splitlines()]
+            if any(_source_header(line) for line in lines) and any(
+                _match_command(line) for line in lines
+            ):
+                return _reply(language, "source_text", admitted=False)
             if getattr(payload, "voice_origin_ref", None):
                 return _reply(language, "not_a_change", admitted=False)
             return None
@@ -271,7 +280,7 @@ class ConversationWork:
             verified = (
                 artifact.get("status") == "verified"
                 and artifact.get("verification") == "byte_readback"
-                and goal_line in content
+                and goal_line in content.splitlines()
             )
             excerpt = goal_line if len(goal_line) <= 240 else goal_line[:240]
             return {
@@ -405,10 +414,10 @@ def _result_sentence(language, result):
     if language == "zh":
         if not excerpt.endswith("。"):
             excerpt += "。"
-        return f"已核验结果：{excerpt}"
+        return f"报告文件已核验：{excerpt}"
     if not excerpt.endswith("."):
         excerpt += "."
-    return f"Verified result: {excerpt} "
+    return f"Report file verified: {excerpt} "
 
 
 def _reply(language, code, *, admitted, recovered=False, run=None, result=None):
@@ -433,6 +442,7 @@ def _reply(language, code, *, admitted, recovered=False, run=None, result=None):
             "verified": True,
             "state": "verified",
             "verification": "byte_readback",
+            "quality": "not_semantically_checked",
             "goal": result["goal"],
             "artifact_id": result["artifact_id"],
             "format": "markdown",

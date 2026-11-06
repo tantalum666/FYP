@@ -427,6 +427,8 @@ class TextAssistant:
     def _fingerprint(payload, allow_memory):
         # Absent review-screen fields stay out of the hash so older receipts still match.
         body = payload.model_dump()
+        if not body.get("voice_origin_ref"):
+            body.pop("voice_origin_ref", None)
         if body.get("voice_steer") is not True:
             body.pop("voice_steer", None)
         if not body.get("steer_run_id"):

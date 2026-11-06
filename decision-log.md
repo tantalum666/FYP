@@ -597,3 +597,10 @@ Linux只读检查返回4，并明确跳过journal recovery；needs_recovery及�
 - **合并说明：**Codex 按 #89 → #90 → #91 → 本 PR 合并。本 PR 的基线是 #91 的分支 `cursor/voice-review-steer-current-work-e7d6`。
 - **证据：**对话测试 60 项通过。整合验收 7 项通过。全量后端 pytest 为 1828 passed、1 failed；失败项是既有的 `test_public_unicast[::ffff:93.184.216.34]`，本轮没有改那段传输检查。前端测试 323 项通过，`tsc --noEmit` 通过。付费调用 0。见[契约](desk-companion/docs/conversation-work.md)与[QA](output/qa/2026-11-06-conversation-work-verified-result/verification.md)。
 - **未做：**后一轮提问还不能再次读出这一条已核验结果。真实账号、支付、Pi 和付费模型比较仍分开。
+
+
+## 2026-11-06 合并全部待处理PR，默认转OpenAI
+
+用户明确授权先审查GitHub全部待合并工作，有问题修复后合并；认为固定办公案例过于有限，要求推进Dot／Grok Bot／Muse式购物、订票和computer use。默认供应商改为OpenAI，取代此前Pi保留Qwen默认的决定；既有FYP专用Key继续使用，测试费用授权未重开。红灯调查仍暂缓。
+
+组合73／87／88／89–92，保留原提交祖先和最新Alice／免登录基线。修复复制来源误当指令、旧回执指纹兼容及报告文件核验被写成目标结果的问题。完整1949后端／328前端、类型构建及实际对话检查通过。合并与后续OpenAI配置分开记录，购物／订票仍须真实来源、明确提交状态和独立回执；不把脚本或模型一句完成当购买／出票。

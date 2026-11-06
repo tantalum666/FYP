@@ -15,7 +15,7 @@ The first phrases and interruption cases live in [changed-goal.json](../fixtures
 
 The colon may be `:` or `：`. English leads ignore case. The run id is 32 hex characters. The goal is the exact text after the colon on that one owner line, up to 4,000 characters. The ordinary assistant message still caps the whole turn at 3,000 characters.
 
-A mail or calendar layout steers when its labels are the only other lines and the remaining line is one phrase above. Those labels are From, Subject, Date, To, Cc, Sender, Location, Notes, Title, and Snippet, plus 发件人, 主题, 日期, 收件人, 抄送, 地点, 备注, and 标题. A CSV row, a Notes or 备注 value that itself contains the phrase, a second owner line, or chatter before the phrase stays on the short chat path.
+Mail/calendar-style headers do not authorize their unquoted body. A copied block containing a goal-change phrase asks the owner to state the instruction separately and is not forwarded to the planner. Quoted source lines may accompany one separate direct command; a bare source header cannot simply be stripped to manufacture that command.
 
 The short chat path also keeps:
 
@@ -51,9 +51,9 @@ A named run must be on the message's task when a task is present. `voice_steer` 
 
 The operation id, interruption, lost receipt, and stream close rules below apply unchanged. A paired device receives 403. Full access creates no job and no proposal. Freezing a snapshot still does not steer, and new-run admission is unchanged.
 
-## One verified result
+## Verified report file
 
-After the steer commits, the same conversation shows one verified result from the existing offline Work executor. Deterministic mode reuses `AgentRunService.advance_one` for that run only, then reads the published Markdown back. The reply includes the file's `Goal:` line, so the owner sees the changed goal. The structured `result` uses the existing artifact contract: `verified`, `state: verified`, and `verification: byte_readback`. No computer job or proposal is created. Model mode is not stepped, because that step would call a provider.
+After the steer commits, the same conversation shows the report file produced and byte-checked by the existing offline Work executor. Deterministic mode reuses `AgentRunService.advance_one` for that run only, then reads the published Markdown back. The reply includes the file's `Goal:` line, so the owner sees the changed goal. The structured `result` uses the existing artifact contract: `verified`, `state: verified`, and `verification: byte_readback` and `quality: not_semantically_checked`. File integrity is not evidence that a shopping, booking or other real-world goal was achieved. No computer job or proposal is created. Model mode is not stepped, because that step would call a provider.
 
 An unverified readback is `CONVERSATION_WORK_RESULT_UNVERIFIED`. A failed run is `CONVERSATION_WORK_RESULT_FAILED`. Neither is a success reply. `before_result` raises `CONVERSATION_WORK_RESULT_INTERRUPTED` before the executor runs; the goal is already changed, and the same operation id can then show the result once. `after_result` raises `CONVERSATION_WORK_RESULT_UNKNOWN` after the file is verified and before the conversation receipt is stored. That response is not success. The same operation id returns the existing file and does not publish a second one. A different goal still conflicts.
 
@@ -86,3 +86,5 @@ node --experimental-strip-types --test tests/voice-work.test.ts tests/voice-work
 ```
 
 No paid provider call and no GitHub Actions run. The full backend suite and frontend totals for the verified-result slice are in [QA](../../output/qa/2026-11-06-conversation-work-verified-result/verification.md).
+
+Absent voice fields are excluded from ordinary chat receipt fingerprints, preserving pre-upgrade operation recovery. The new report check matches an entire Goal line, not a prefix embedded in different content.

@@ -121,7 +121,7 @@ def verified_turns(runtime, conversation_id):
     return [
         item
         for item in entry.items
-        if "Verified result:" in item["text"] or "已核验结果：" in item["text"]
+        if "Report file verified:" in item["text"] or "报告文件已核验：" in item["text"]
     ]
 
 
@@ -271,7 +271,7 @@ def test_mid_flow_change_admits_into_the_same_work_and_keeps_going(box):
     assert body["result"]["verified"] is True
     assert body["result"]["verification"] == "byte_readback"
     assert body["result"]["goal"] == body["goal"]
-    assert f"Verified result: Goal: {body['goal']}" in body["message"]
+    assert f"Report file verified: Goal: {body['goal']}" in body["message"]
     assert ORIGINAL not in body["message"]
     shown = verified_turns(runtime, body["conversation_id"])
     assert len(shown) == 1
@@ -1259,7 +1259,7 @@ def test_voice_steer_shows_one_verified_result_for_the_new_goal(box):
     body = admitted.json()
     assert body["result"]["verified"] is True
     assert body["result"]["goal"] == text
-    assert f"Verified result: Goal: {text}" in body["message"]
+    assert f"Report file verified: Goal: {text}" in body["message"]
     assert ORIGINAL not in body["message"]
     assert calls == [] and box["executed"] == []
     assert goal_of(runtime, principal, run_id)["model_calls"] == 0
@@ -1335,7 +1335,7 @@ def test_unknown_executor_result_is_recovered_once(box):
     assert body["admitted"] is True and body["recovered"] is True
     assert body["result"]["verified"] is True
     assert body["result"]["artifact_id"] == published[0]
-    assert f"Verified result: Goal: {body['goal']}" in body["message"]
+    assert f"Report file verified: Goal: {body['goal']}" in body["message"]
     assert reports(runtime, principal, run_id) == published
     cached = send(client, message, key="result-unknown", task_id=task_id)
     assert cached.status_code == 200, cached.text

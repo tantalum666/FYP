@@ -1,6 +1,6 @@
 # Pi networking across home, classroom and dorm
 
-**5 November: dorm wired DHCP, fixed443 relay and original Pi SSH authentication passed, including recovery after the owner's normal restart. Mac HTTP login/core API and VNC protocol passed. Home/classroom profiles remain; classroom wired still requires a field test. Power stability remains open. [Current QA](../../output/qa/2026-11-05-pi-443-transport/verification.md).**
+**5 November: dorm wired DHCP, fixed443 relay and original Pi SSH authentication passed, including recovery after the owner's power-cycle recovery (later clarified; not an orderly button restart). Mac HTTP login/core API and VNC protocol passed. Home/classroom profiles remain; classroom wired still requires a field test. Power stability remains open. [Current QA](../../output/qa/2026-11-05-pi-443-transport/verification.md).**
 
 31 October 2026. The owner resumed Pi work and specified this arrangement:
 

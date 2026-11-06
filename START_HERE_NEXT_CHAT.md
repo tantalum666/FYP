@@ -1,7 +1,7 @@
-# Group 2 · Continue Pi personal-agent software
+# Group 2 · OpenAI personal-agent continuation
 
-6 November2026. [Handoff](handoff.md) is current. Pi is running the passwordless Alice release; restricted Chromium/Calc/Writer/PDF Work passed on the Pi, including changed constraints and lost-ack recovery. [Actual evidence](output/qa/2026-11-06-passwordless-device/verification.md). Active branch codex/passwordless-alice-device-20261105; publication receipt is in that QA directory. No incidental merge.
+6 November2026. User explicitly requests fixing and merging all pending GitHub work, broader shopping/travel/computer use, and OpenAI defaults. Active checkout/branch: codex/openai-personal-agent-20261106. [Handoff](handoff.md), [review QA](output/qa/2026-11-06-openai-agent-merge/verification.md), [research index](research/personal-agent-research-index.md).
 
-Only automatic red-LED investigation is deferred. Do not restart power/SD/hotspot recovery. Keep the restored443management relay and valid private backups. Qwen remains manual; local wake configured is not human audio acceptance. Standalone Work text provider is still none, background off; paid budgets stay closed.
+The73/87/88/89–92 integration candidate preserves all heads, current Alice UI and networking. Source-command parsing, legacy receipt compatibility and file-versus-outcome wording were corrected.1949backend/328frontend and actual browser flow passed. Exact merge receipt follows GitHub readback.
 
-Next: ordinary Alice/voice → admitted persistent Work, reusing current tools/permissions and recovery. Read the [application contract](desk-companion/docs/application-work.md), [Pi runtime](desk-companion/docs/pi-application-runtime.md) and focused current files before changing code.
+Pi still runs the previous verified passwordless/application checkpoint until explicitly updated during this work. Only red-LED investigation is paused. Existing approved FYP OpenAI key is available; new key creation is unnecessary. Paid tests remain closed, no CI. Next: implement OpenAI text/default configuration and a scoped real browser/computer-use journey with meaningful shopping/booking state checks.
