@@ -51,6 +51,14 @@ A named run must be on the message's task when a task is present. `voice_steer` 
 
 The operation id, interruption, lost receipt, and stream close rules below apply unchanged. A paired device receives 403. Full access creates no job and no proposal. Freezing a snapshot still does not steer, and new-run admission is unchanged.
 
+## One verified result
+
+After the steer commits, the same conversation shows one verified result from the existing offline Work executor. Deterministic mode reuses `AgentRunService.advance_one` for that run only, then reads the published Markdown back. The reply includes the file's `Goal:` line, so the owner sees the changed goal. The structured `result` uses the existing artifact contract: `verified`, `state: verified`, and `verification: byte_readback`. No computer job or proposal is created. Model mode is not stepped, because that step would call a provider.
+
+An unverified readback is `CONVERSATION_WORK_RESULT_UNVERIFIED`. A failed run is `CONVERSATION_WORK_RESULT_FAILED`. Neither is a success reply. `before_result` raises `CONVERSATION_WORK_RESULT_INTERRUPTED` before the executor runs; the goal is already changed, and the same operation id can then show the result once. `after_result` raises `CONVERSATION_WORK_RESULT_UNKNOWN` after the file is verified and before the conversation receipt is stored. That response is not success. The same operation id returns the existing file and does not publish a second one. A different goal still conflicts.
+
+A second login cannot open that conversation. Its own turn does not contain the verified line. A paired device still receives 403.
+
 ## Interruption and unknown result
 
 `ConversationWork.offline_interrupt` is an in-process fixture control. It is not an HTTP field. Text and voice use it on the same turn.
@@ -58,7 +66,7 @@ The operation id, interruption, lost receipt, and stream close rules below apply
 - `before_commit` raises `CONVERSATION_WORK_INTERRUPTED` before steer. The goal is unchanged. The same operation id can then admit once.
 - `after_commit` raises `CONVERSATION_WORK_RESULT_UNKNOWN` after steer and before the conversation receipt is stored. That response is not success. The same operation id and the same goal recover the existing steer. A different goal conflicts, and a second steer does not run. While a voice snapshot is still live, a different message is `VOICE_INPUT_CHANGED`. After that snapshot is gone, the same operation id still recovers; a different goal is `OPERATION_ID_CONFLICT`.
 
-Closing the assistant stream before it finishes is not the success receipt. Recovery uses the same operation id through SSE and does not steer again. This keeps the 28 October rule that a stream interrupt is not success.
+Closing the assistant stream before it finishes is not the success receipt. Recovery uses the same operation id through SSE and does not steer again. This keeps the 28 October rule that a stream interrupt is not success. The verified-result rules above use the same operation id.
 
 [Voice goals](voice-work.md) still govern freeze and new-run admission. The review screen uses the steer above when the owner updates current work, and keeps new-run admission when there is nothing current to update.
 
@@ -77,4 +85,4 @@ From `frontend/`:
 node --experimental-strip-types --test tests/voice-work.test.ts tests/voice-work-lifecycle.test.ts tests/voice-work-render.test.ts
 ```
 
-No paid provider call and no GitHub Actions run.
+No paid provider call and no GitHub Actions run. The full backend suite and frontend totals for the verified-result slice are in [QA](../../output/qa/2026-11-06-conversation-work-verified-result/verification.md).

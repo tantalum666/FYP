@@ -498,3 +498,12 @@ PR74–77的主对话/Alice/OpenAI栈只作独立组合兼容检查，不混入�
 - **恢复：**提交前中断不是成功。steer 已写入但对话回执丢失时，同一操作号恢复且不第二次改口。流式关闭不是成功回执。配对设备仍是 403。Full access 不产生作业或建议。
 - **证据：**对话测试 54 项通过。整合验收 7 项通过。文字、目标、权限、购物、邮箱、离线日程、Work 运行和语音 Work 的一条回归命令 148 项通过。语音前端测试 19 项通过，`tsc --noEmit` 通过。付费调用 0。见[契约](desk-companion/docs/conversation-work.md)与[QA](output/qa/2026-11-06-voice-review-steer/verification.md)。
 - **未做：**改口之后，同一条对话还不会显示既有执行器的下一次核验结果。真实账号、支付、Pi 和付费模型比较仍分开。
+
+## 2026-11-06 改口后在同一条对话显示一项已核验结果
+
+- **任务范围：**上一轮交接的下一步是，文字或语音改口之后，在同一条对话里显示既有离线 Work 执行器的一项已核验结果。结果必须体现改后的目标。不调用付费模型，不接真实账号、支付或 Pi，不动 Codex 草稿 #73、#87、#88。
+- **工程选择：**steer 提交后，只对这一次运行调用既有 `AgentRunService.advance_one`。确定性模式读回已发布的 Markdown，对话里带上文件中的 `Goal:` 行。不新建任务库、队列、schema 迁移或自批工具，也不创建电脑作业或建议。模型模式不往下执行，避免变成一次提供商调用。
+- **恢复：**未核验是 `CONVERSATION_WORK_RESULT_UNVERIFIED`，失败是 `CONVERSATION_WORK_RESULT_FAILED`，都不是成功。执行前中断不是成功，目标已经改了，同一操作号可以随后显示一次结果。文件已核验但对话回执丢失时，同一操作号读回原文件，不第二次发布。另一个登录打不开这条对话。配对设备仍是 403。Full access 不产生作业或建议。
+- **合并说明：**Codex 按 #89 → #90 → #91 → 本 PR 合并。本 PR 的基线是 #91 的分支 `cursor/voice-review-steer-current-work-e7d6`。
+- **证据：**对话测试 60 项通过。整合验收 7 项通过。全量后端 pytest 为 1828 passed、1 failed；失败项是既有的 `test_public_unicast[::ffff:93.184.216.34]`，本轮没有改那段传输检查。前端测试 323 项通过，`tsc --noEmit` 通过。付费调用 0。见[契约](desk-companion/docs/conversation-work.md)与[QA](output/qa/2026-11-06-conversation-work-verified-result/verification.md)。
+- **未做：**后一轮提问还不能再次读出这一条已核验结果。真实账号、支付、Pi 和付费模型比较仍分开。

@@ -273,6 +273,18 @@ export function agentError(error: unknown, t: Translate) {
       "The update result was not confirmed. Retry the same update before trying a different goal.",
       "更新结果尚未确认。请先重试同一次更新，再改用其他目标。",
     ],
+    CONVERSATION_WORK_RESULT_INTERRUPTED: [
+      "The verified result was not shown. Retry the same update.",
+      "已核验结果尚未显示。请重试同一次更新。",
+    ],
+    CONVERSATION_WORK_RESULT_UNVERIFIED: [
+      "That result is not verified, so it is not shown as done.",
+      "该结果尚未核验，不会显示为已完成。",
+    ],
+    CONVERSATION_WORK_RESULT_FAILED: [
+      "That result failed, so it is not shown as done.",
+      "该结果失败了，不会显示为已完成。",
+    ],
     OPERATION_ID_CONFLICT: [
       "This update already used a different goal. Review the current work before trying again.",
       "这次更新已经用过另一个目标。请先查看当前工作，再重新尝试。",

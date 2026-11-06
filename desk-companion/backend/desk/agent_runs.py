@@ -891,17 +891,29 @@ class AgentRunService:
             )
             return True
 
-    def advance_one(self):
+    def advance_one(self, run_id=None):
+        """Advance one eligible run.
+
+        The worker omits ``run_id`` and takes the oldest eligible run. A caller
+        that already authorized one run may pass its id so a sibling queued run
+        is left untouched. This is the same step, not a second executor.
+        """
         if self.stopped or not self.worker_lock.acquire(blocking=False):
             return False
         run = None
         try:
             with self.lock, self.store.connection(write=True) as conn:
                 now = iso(self.store.clock())
-                row = conn.execute(
-                    "SELECT id FROM agent_runs WHERE state IN ('queued','running','waiting_review','waiting_effect') AND (lease_until IS NULL OR lease_until<=?) ORDER BY updated_at,id LIMIT 1",
-                    (now,),
-                ).fetchone()
+                if run_id is None:
+                    row = conn.execute(
+                        "SELECT id FROM agent_runs WHERE state IN ('queued','running','waiting_review','waiting_effect') AND (lease_until IS NULL OR lease_until<=?) ORDER BY updated_at,id LIMIT 1",
+                        (now,),
+                    ).fetchone()
+                else:
+                    row = conn.execute(
+                        "SELECT id FROM agent_runs WHERE id=? AND state IN ('queued','running','waiting_review','waiting_effect') AND (lease_until IS NULL OR lease_until<=?)",
+                        (run_id, now),
+                    ).fetchone()
                 if not row:
                     return False
                 run = self._get(conn, row[0])

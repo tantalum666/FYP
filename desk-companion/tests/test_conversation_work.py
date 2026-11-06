@@ -13,6 +13,7 @@ from fastapi.testclient import TestClient
 from desk.agent_run_schemas import RunAction, RunCreate
 from desk.assistant import TOOLS
 from desk.app import create_app
+from desk.store import DomainError
 from desk.permissions import PermissionChange
 from desk.sources import SourceInput
 from desk.stream_contract import parse_sse
@@ -107,6 +108,21 @@ def steers(runtime, run_id):
 
 def goal_of(runtime, principal, run_id):
     return runtime.agent_runs.detail(run_id, principal)["run"]
+
+
+def reports(runtime, principal, run_id):
+    session = hashlib.sha256(principal["session"].encode()).hexdigest()
+    rows = runtime.artifacts.listing(session_hash=session, run_id=run_id)["artifacts"]
+    return [row["id"] for row in rows if row.get("format") == "markdown"]
+
+
+def verified_turns(runtime, conversation_id):
+    entry = runtime.voice.conversations.entries[conversation_id]
+    return [
+        item
+        for item in entry.items
+        if "Verified result:" in item["text"] or "已核验结果：" in item["text"]
+    ]
 
 
 def advance(runtime, run_id, principal, *, limit=20):
@@ -252,6 +268,13 @@ def test_mid_flow_change_admits_into_the_same_work_and_keeps_going(box):
     assert body["goal"] == "quantity 48, budget 950 HKD."
     assert body["plan_revision"] == 2
     assert "Nothing was sent or bought." in body["message"]
+    assert body["result"]["verified"] is True
+    assert body["result"]["verification"] == "byte_readback"
+    assert body["result"]["goal"] == body["goal"]
+    assert f"Verified result: Goal: {body['goal']}" in body["message"]
+    assert ORIGINAL not in body["message"]
+    shown = verified_turns(runtime, body["conversation_id"])
+    assert len(shown) == 1
     assert calls == [] and box["executed"] == []
     after = counts(runtime)
     assert after["runs"] == before["runs"]
@@ -269,6 +292,7 @@ def test_mid_flow_change_admits_into_the_same_work_and_keeps_going(box):
     assert finished["state"] == "succeeded"
     assert finished["goal"] == body["goal"]
     assert finished["model_calls"] == 0 and finished["reads"] == 2
+    published = reports(runtime, principal, run_id)
     again = send(
         client,
         change,
@@ -278,7 +302,10 @@ def test_mid_flow_change_admits_into_the_same_work_and_keeps_going(box):
     )
     assert again.status_code == 200, again.text
     assert again.json()["work_run_id"] == run_id
+    assert again.json()["result"]["artifact_id"] == body["result"]["artifact_id"]
     assert steers(runtime, run_id) == 1
+    assert reports(runtime, principal, run_id) == published
+    assert len(verified_turns(runtime, body["conversation_id"])) == 1
     names = {tool["name"] for tool in TOOLS}
     assert {"steer", "approve", "work_goal"}.isdisjoint(names)
 
@@ -299,8 +326,11 @@ def test_ambiguous_explicit_unchanged_and_draft_phrases(tmp_path):
     chosen = send(client, explicit, key="explicit", task_id=task_id)
     assert chosen.status_code == 200, chosen.text
     assert chosen.json()["work_run_id"] == second["id"]
+    assert chosen.json()["result"]["goal"] == "Keep only the Birch quote."
     assert goal_of(runtime, principal, second["id"])["goal"] == "Keep only the Birch quote."
+    assert goal_of(runtime, principal, second["id"])["reads"] > 0
     assert goal_of(runtime, principal, first["id"])["goal"] == ORIGINAL
+    assert goal_of(runtime, principal, first["id"])["reads"] == 0
     assert steers(runtime, second["id"]) == 1
     bare, _ = phrase("bare-prefix")
     assert send(client, bare, key="bare", task_id=task_id).json().get("admitted") is not True
@@ -466,12 +496,15 @@ def test_full_access_does_not_turn_the_goal_change_into_a_job(box):
     admitted = send(client, message, key="full", task_id=box["task"]["id"])
     assert admitted.status_code == 200, admitted.text
     assert admitted.json()["admitted"] is True
+    assert admitted.json()["result"]["verified"] is True
+    assert admitted.json()["result"]["goal"] == "quantity 48, budget 950 HKD."
     assert admitted.json().get("proposal") is None
     assert admitted.json().get("job") is None
     after = counts(runtime)
     assert after["jobs"] == before["jobs"] and after["proposals"] == before["proposals"]
     assert runtime.tasks.detail(box["task"]["id"])["task"]["next_step"] == "Keep the supplier note"
     assert goal_of(runtime, principal, box["other"]["id"])["goal"] == "Leave this work alone"
+    assert goal_of(runtime, principal, box["run"]["id"])["model_calls"] == 0
 
 
 def unseen_cases():
@@ -1205,3 +1238,196 @@ def test_no_work_message_does_not_create_a_run(box):
     assert missing.status_code == 200, missing.text
     assert missing.json()["admitted"] is False
     assert counts(runtime) == before
+
+
+def test_voice_steer_shows_one_verified_result_for_the_new_goal(box):
+    text = "Keep only Birch."
+    draft = review_snapshots(box, [text])[0]
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    calls = []
+    runtime.text_ai.generate = lambda *args, **kwargs: calls.append(args)
+    admitted = send(
+        client,
+        text,
+        key="voice-result",
+        task_id=task_id,
+        voice_origin_ref=draft["voice_origin_ref"],
+        voice_steer=True,
+    )
+    assert admitted.status_code == 200, admitted.text
+    body = admitted.json()
+    assert body["result"]["verified"] is True
+    assert body["result"]["goal"] == text
+    assert f"Verified result: Goal: {text}" in body["message"]
+    assert ORIGINAL not in body["message"]
+    assert calls == [] and box["executed"] == []
+    assert goal_of(runtime, principal, run_id)["model_calls"] == 0
+    assert goal_of(runtime, principal, box["other"]["id"])["reads"] == 0
+    published = reports(runtime, principal, run_id)
+    assert len(published) == 1
+    session = hashlib.sha256(principal["session"].encode()).hexdigest()
+    content = runtime.artifacts.read(published[0], session_hash=session)["content"]
+    assert f"Goal: {text}" in content
+    assert f"Goal: {ORIGINAL}" not in content
+    again = send(
+        client,
+        text,
+        key="voice-result",
+        task_id=task_id,
+        voice_origin_ref=draft["voice_origin_ref"],
+        voice_steer=True,
+    )
+    assert again.status_code == 200, again.text
+    assert again.json()["result"]["artifact_id"] == body["result"]["artifact_id"]
+    assert reports(runtime, principal, run_id) == published
+    assert len(verified_turns(runtime, body["conversation_id"])) == 1
+
+
+def test_interrupted_executor_result_is_not_success_and_retries_once(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    message, _ = phrase("mid-flow-change")
+    runtime.conversation_work.offline_interrupt = "before_result"
+    refused = send(client, message, key="result-interrupt", task_id=task_id)
+    assert refused.status_code == 409, refused.text
+    assert refused.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_INTERRUPTED"
+    assert "Verified result" not in refused.text
+    assert "admitted" not in refused.json()
+    assert goal_of(runtime, principal, run_id)["goal"] == "quantity 48, budget 950 HKD."
+    assert steers(runtime, run_id) == 1
+    assert reports(runtime, principal, run_id) == []
+    runtime.conversation_work.offline_interrupt = None
+    admitted = send(client, message, key="result-interrupt", task_id=task_id)
+    assert admitted.status_code == 200, admitted.text
+    body = admitted.json()
+    assert body["admitted"] is True and body["result"]["verified"] is True
+    assert f"Goal: {body['goal']}" in body["message"]
+    published = reports(runtime, principal, run_id)
+    assert len(published) == 1
+    cached = send(client, message, key="result-interrupt", task_id=task_id)
+    assert cached.status_code == 200, cached.text
+    assert reports(runtime, principal, run_id) == published
+    assert steers(runtime, run_id) == 1
+
+
+def test_unknown_executor_result_is_recovered_once(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    message, _ = phrase("stream-change")
+    runtime.conversation_work.offline_interrupt = "after_result"
+    unknown = send(client, message, key="result-unknown", task_id=task_id)
+    assert unknown.status_code == 409, unknown.text
+    assert unknown.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_UNKNOWN"
+    assert "Verified result" not in unknown.text
+    assert "admitted" not in unknown.json()
+    assert steers(runtime, run_id) == 1
+    published = reports(runtime, principal, run_id)
+    assert len(published) == 1
+    recovered = send(
+        client,
+        message,
+        key="result-unknown",
+        task_id=task_id,
+    )
+    assert recovered.status_code == 200, recovered.text
+    body = recovered.json()
+    assert body["admitted"] is True and body["recovered"] is True
+    assert body["result"]["verified"] is True
+    assert body["result"]["artifact_id"] == published[0]
+    assert f"Verified result: Goal: {body['goal']}" in body["message"]
+    assert reports(runtime, principal, run_id) == published
+    cached = send(client, message, key="result-unknown", task_id=task_id)
+    assert cached.status_code == 200, cached.text
+    assert reports(runtime, principal, run_id) == published
+    assert len(verified_turns(runtime, body["conversation_id"])) == 1
+    assert steers(runtime, run_id) == 1
+
+
+def test_unverified_and_failed_results_are_not_shown_as_success(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    message, _ = phrase("mid-flow-change")
+    original = runtime.artifacts.read
+
+    def unverified(artifact_id, *, session_hash):
+        reading = original(artifact_id, session_hash=session_hash)
+        artifact = dict(reading["artifact"])
+        artifact["status"] = "unknown"
+        artifact["verification"] = "unverified"
+        return {**reading, "artifact": artifact}
+
+    runtime.artifacts.read = unverified
+    refused = send(client, message, key="unverified-result", task_id=task_id)
+    assert refused.status_code == 409, refused.text
+    assert refused.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_UNVERIFIED"
+    assert "Verified result" not in refused.text
+    assert "admitted" not in refused.json()
+    runtime.artifacts.read = original
+    admitted = send(client, message, key="unverified-result", task_id=task_id)
+    assert admitted.status_code == 200, admitted.text
+    assert admitted.json()["result"]["verified"] is True
+    published = reports(runtime, principal, run_id)
+    assert len(published) == 1
+    again = send(client, message, key="unverified-result", task_id=task_id)
+    assert again.status_code == 200, again.text
+    assert reports(runtime, principal, run_id) == published
+
+
+def test_failed_executor_result_is_not_shown_as_success(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+
+    def fail(run):
+        raise DomainError("RUN_SELECTED_EVIDENCE_UNREAD", 422)
+
+    runtime.agent_runs._deterministic = fail
+    failed = send(client, "Change the goal: quantity 70.", key="failed-result", task_id=task_id)
+    assert failed.status_code == 409, failed.text
+    assert failed.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_FAILED"
+    assert "Verified result" not in failed.text
+    assert "admitted" not in failed.json()
+    repeated = send(client, "Change the goal: quantity 70.", key="failed-result", task_id=task_id)
+    assert repeated.status_code == 409, repeated.text
+    assert repeated.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_FAILED"
+    assert goal_of(runtime, principal, run_id)["goal"] == "quantity 70."
+    assert reports(runtime, principal, run_id) == []
+    assert steers(runtime, run_id) == 1
+
+
+def test_another_login_cannot_see_the_verified_result(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    message, _ = phrase("mid-flow-change")
+    admitted = send(client, message, key="owner-result", task_id=box["task"]["id"])
+    assert admitted.status_code == 200, admitted.text
+    body = admitted.json()
+    excerpt = f"Goal: {body['goal']}"
+    other = owner_client(box["app"])
+    hidden = other.post(
+        "/api/assistant/messages",
+        json={
+            "message": "Hello from another login",
+            "conversation_id": body["conversation_id"],
+            "task_id": box["task"]["id"],
+        },
+        headers={**HEADERS, "X-Operation-Id": "other-login"},
+    )
+    assert hidden.status_code == 404, hidden.text
+    assert excerpt not in hidden.text
+    assert "Verified result" not in hidden.text
+    fresh = other.post(
+        "/api/assistant/messages",
+        json={"message": "Hello from another login", "task_id": box["task"]["id"]},
+        headers={**HEADERS, "X-Operation-Id": "other-login-fresh"},
+    )
+    assert fresh.status_code == 200, fresh.text
+    assert excerpt not in fresh.text
+    assert "Verified result" not in fresh.text
+    other_owner = hashlib.sha256(other.cookies.get("desk_companion_session").encode()).hexdigest()
+    for entry in runtime.voice.conversations.entries.values():
+        if entry.owner != other_owner:
+            continue
+        blob = "\n".join(item["text"] for item in entry.items)
+        assert excerpt not in blob
+        assert "Verified result" not in blob
+    assert goal_of(runtime, principal, box["run"]["id"])["model_calls"] == 0

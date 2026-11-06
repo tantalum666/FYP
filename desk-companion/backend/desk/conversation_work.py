@@ -3,17 +3,21 @@
 The owner names the change in the conversation, or in one reviewed voice
 snapshot of that same wording. The voice review screen can also apply that
 snapshot to one current run. This module calls the existing ``AgentRunService``
-steer action. It does not create a task, a run, a queue, or a model approval
-tool, and it does not call a provider.
+steer action, then one verified result from the existing offline deterministic
+executor. It does not create a task, a run, a queue, or a model approval tool,
+and it does not call a provider.
 
 An interruption before the steer commits leaves the goal unchanged and is not a
 successful reply. A commit whose conversation receipt is lost is recovered by
-the same operation id; the goal is not applied a second time.
+the same operation id; the goal is not applied a second time. An unverified,
+failed, or interrupted executor result is not shown as success. A verified
+result is shown once for that operation id.
 """
 
 import hashlib
 
 from .agent_run_schemas import RunAction
+from .agent_runs import TERMINAL
 from .store import DomainError
 
 # One matcher. Source labels and quote marks are closed lists, not extra patterns.
@@ -52,9 +56,9 @@ _QUOTE_WRAPS = (('"', '"'), ("'", "'"), ("“", "”"), ("「", "」"), ("『", 
 _TEXT = {
     "en": {
         "admitted": (
-            "The goal of this work is now “{goal}”. Earlier results stay. Nothing was sent or bought."
+            "The goal of this work is now “{goal}”. {result}Nothing was sent or bought."
         ),
-        "recovered": "This work already has that goal. The earlier change was kept.",
+        "recovered": "This work already has that goal. {result}The earlier change was kept.",
         "unchanged": "That is already the goal of this work.",
         "none": "No current work is linked to this task.",
         "name_work": "Name the work to change.",
@@ -67,8 +71,8 @@ _TEXT = {
         "not_a_change": "That does not change this work.",
     },
     "zh": {
-        "admitted": "这项工作的目标已改为「{goal}」。已有结果还在。没有发送或购买。",
-        "recovered": "这项工作已经是这个目标。先前的更改仍在。",
+        "admitted": "这项工作的目标已改为「{goal}」。{result}没有发送或购买。",
+        "recovered": "这项工作已经是这个目标。{result}先前的更改仍在。",
         "unchanged": "这已经是这项工作的目标。",
         "none": "这个事务没有关联的当前工作。",
         "name_work": "请写明要改的工作。",
@@ -200,7 +204,10 @@ class ConversationWork:
         current = self.runtime.agent_runs.detail(existing, principal)["run"]
         if current["goal"] != goal:
             raise DomainError("OPERATION_ID_CONFLICT")
-        return _reply(language, "recovered", admitted=True, recovered=True, run=current)
+        result = self._one_verified_result(current, principal, goal)
+        return _reply(
+            language, "recovered", admitted=True, recovered=True, run=current, result=result
+        )
 
     def _commit(self, run, goal, action_key, principal, language):
         if run["goal"] == goal:
@@ -218,7 +225,65 @@ class ConversationWork:
                 return _reply(language, "unavailable", admitted=False)
             raise
         self._fence("after_commit")
-        return _reply(language, "admitted", admitted=True, run=updated)
+        result = self._one_verified_result(updated, principal, goal)
+        return _reply(language, "admitted", admitted=True, run=updated, result=result)
+
+    def _one_verified_result(self, run, principal, goal):
+        """One offline executor result for this goal. A provider is never called.
+
+        Deterministic mode reuses ``AgentRunService.advance_one`` for this run
+        only, then reads the published Markdown back. Model mode is not stepped,
+        because that step would call a provider. An existing verified readback
+        is returned without a second publish.
+        """
+        if run.get("mode") != "deterministic":
+            return None
+        session_hash = hashlib.sha256(principal["session"].encode()).hexdigest()
+        existing = self._read_verified(run, goal, session_hash)
+        if existing is not None:
+            return _require_verified(existing)
+        self._fence("before_result")
+        for _ in range(_OFFLINE_STEPS):
+            stepped = self.runtime.agent_runs.advance_one(run["id"])
+            current = self.runtime.agent_runs.detail(run["id"], principal)["run"]
+            reading = self._read_verified(current, goal, session_hash)
+            if reading is not None:
+                verified = _require_verified(reading)
+                self._fence("after_result")
+                return verified
+            if not stepped or current["state"] in _HALT:
+                raise DomainError(_result_error(current), 409)
+        raise DomainError("CONVERSATION_WORK_RESULT_UNKNOWN", 409)
+
+    def _read_verified(self, run, goal, session_hash):
+        goal_line = "Goal: " + goal
+        for artifact_id in run.get("current_artifact_ids") or []:
+            try:
+                reading = self.runtime.artifacts.read(artifact_id, session_hash=session_hash)
+            except DomainError as error:
+                if error.code == "FILE_NOT_FOUND":
+                    continue
+                raise DomainError("CONVERSATION_WORK_RESULT_UNKNOWN", 409) from None
+            artifact = reading["artifact"]
+            if artifact.get("format") != "markdown":
+                continue
+            content = reading.get("content") or ""
+            verified = (
+                artifact.get("status") == "verified"
+                and artifact.get("verification") == "byte_readback"
+                and goal_line in content
+            )
+            excerpt = goal_line if len(goal_line) <= 240 else goal_line[:240]
+            return {
+                "verified": verified,
+                "state": "verified" if verified else artifact.get("status") or "unverified",
+                "verification": artifact.get("verification") or "unverified",
+                "goal": goal if verified else "",
+                "artifact_id": artifact_id,
+                "format": "markdown",
+                "excerpt": excerpt if verified else "",
+            }
+        return None
 
     def _snapshot_run(self, principal, run_id, task_id, language):
         if run_id:
@@ -253,11 +318,12 @@ class ConversationWork:
     def _fence(self, phase: str) -> None:
         if self.offline_interrupt != phase:
             return
-        code = (
-            "CONVERSATION_WORK_INTERRUPTED"
-            if phase == "before_commit"
-            else "CONVERSATION_WORK_RESULT_UNKNOWN"
-        )
+        code = {
+            "before_commit": "CONVERSATION_WORK_INTERRUPTED",
+            "before_result": "CONVERSATION_WORK_RESULT_INTERRUPTED",
+            "after_commit": "CONVERSATION_WORK_RESULT_UNKNOWN",
+            "after_result": "CONVERSATION_WORK_RESULT_UNKNOWN",
+        }[phase]
         raise DomainError(code, 409)
 
     def _operation_run(self, action_key):
@@ -298,6 +364,11 @@ class ConversationWork:
         return _reply(language, "none", admitted=False)
 
 
+_HALT = TERMINAL | {"blocked", "paused", "waiting_review", "waiting_input", "waiting_effect"}
+# Existing read budget is 32. Compose and the verified publish sit after those reads.
+_OFFLINE_STEPS = 40
+
+
 def _action_key(key: str) -> str:
     return "wg/" + hashlib.sha256(key.encode()).hexdigest()
 
@@ -306,17 +377,64 @@ def _steerable(run) -> bool:
     return run.get("state") != "cancelled" and run.get("plan_revision", 2) < 2
 
 
-def _reply(language, code, *, admitted, recovered=False, run=None):
+def _result_error(run):
+    """A busy or uncertain step stays recoverable. A failed run does not."""
+    reason = run.get("state_reason") or ""
+    if "UNKNOWN" in reason:
+        return "CONVERSATION_WORK_RESULT_UNKNOWN"
+    if run.get("state") in {"failed", "partial", "cancelled", "blocked"}:
+        return "CONVERSATION_WORK_RESULT_FAILED"
+    return "CONVERSATION_WORK_RESULT_UNKNOWN"
+
+
+def _require_verified(reading):
+    if reading.get("verified") is True and reading.get("verification") == "byte_readback":
+        return reading
+    code = (
+        "CONVERSATION_WORK_RESULT_UNVERIFIED"
+        if reading.get("verification") != "byte_readback" or reading.get("state") != "verified"
+        else "CONVERSATION_WORK_RESULT_FAILED"
+    )
+    raise DomainError(code, 409)
+
+
+def _result_sentence(language, result):
+    if not result or result.get("verified") is not True:
+        return ""
+    excerpt = result.get("excerpt") or ""
+    if language == "zh":
+        if not excerpt.endswith("。"):
+            excerpt += "。"
+        return f"已核验结果：{excerpt}"
+    if not excerpt.endswith("."):
+        excerpt += "."
+    return f"Verified result: {excerpt} "
+
+
+def _reply(language, code, *, admitted, recovered=False, run=None, result=None):
+    message = _TEXT[language][code].format(
+        goal=(run or {}).get("goal", ""),
+        result=_result_sentence(language, result),
+    )
     body = {
         "mode": "local_rules",
         "kind": "work_goal" if admitted else "clarify",
         "saved": False,
         "admitted": admitted,
         "recovered": recovered,
-        "message": _TEXT[language][code].format(goal=(run or {}).get("goal", "")),
+        "message": message,
     }
     if run is not None and admitted:
         body["work_run_id"] = run["id"]
         body["goal"] = run["goal"]
         body["plan_revision"] = run["plan_revision"]
+    if result and result.get("verified") is True and admitted:
+        body["result"] = {
+            "verified": True,
+            "state": "verified",
+            "verification": "byte_readback",
+            "goal": result["goal"],
+            "artifact_id": result["artifact_id"],
+            "format": "markdown",
+        }
     return body

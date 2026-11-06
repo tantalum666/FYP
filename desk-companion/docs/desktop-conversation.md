@@ -30,7 +30,7 @@ When reopening this preview, preserve its current configured provider instead of
 
 ## 6 November goal change
 
-An explicit text goal change, including a held-out source layout, can update an existing Work run without leaving the conversation. A reviewed voice snapshot uses that same turn when the message carries its `voice_origin_ref`. The voice review screen can send that snapshot with `voice_steer` when one current run is clear, or when the owner picks among several. The phrases, the one-run rule, and interruption recovery are in [conversation goal changes](conversation-work.md). The composer and Alice surface are unchanged.
+An explicit text goal change, including a held-out source layout, can update an existing Work run without leaving the conversation. A reviewed voice snapshot uses that same turn when the message carries its `voice_origin_ref`. The voice review screen can send that snapshot with `voice_steer` when one current run is clear, or when the owner picks among several. The same turn then shows one verified result for the new goal. The phrases, the one-run rule, and interruption recovery are in [conversation goal changes](conversation-work.md). The composer and Alice surface are unchanged.
 
 ## 4 November integration
 

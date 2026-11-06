@@ -619,3 +619,10 @@ Owner explicitly requested74–77. Based on main4855987, retained every stack he
 - **验证：**`uv run --no-sync ruff check` 通过。`pytest tests/test_conversation_work.py -q` 为 54 passed。`pytest tests/test_integration_acceptance.py -q` 为 7 passed。文字会话、目标、权限、购物、邮箱、离线日程、`test_agent_runs.py` 与 `test_voice_work.py` 加上整合验收的一条命令为 148 passed。前端 `tests/voice-work*.test.ts` 为 19 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-06-voice-review-steer/verification.md)。
 - **剩余：**改口后的下一次离线核验结果还没有回到同一条对话。真实账号、支付、Pi 和付费比较仍分开。
 
+## 2026-11-06 · Verified offline result in the same conversation
+
+- **目标：**文字或语音改口提交后，在同一条对话显示既有离线 Work 执行器的一项已核验结果。结果要体现改后的目标。不调用付费模型，不接真实账号、支付或 Pi。
+- **完成：**`ConversationWork` 在 steer 之后只推进这一次运行的既有确定性执行器，并读回已发布 Markdown 的 `Goal:` 行。未核验、失败和中断都不是成功回复。未知结果用同一操作号恢复，且不第二次发布。另一个登录看不到这条对话里的结果。配对设备是 403。Full access 不产生作业或建议。
+- **验证：**`uv run --no-sync ruff check` 通过。`python -m pytest tests/test_conversation_work.py tests/test_integration_acceptance.py -q` 为 67 passed（对话 60、整合验收 7）。全量 `python -m pytest -q` 为 1828 passed、1 failed；失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`。前端 `npm test` 为 323 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-06-conversation-work-verified-result/verification.md)。
+- **剩余：**后一轮提问还不能再次读出这一条已核验结果。真实账号、支付、Pi 和付费比较仍分开。Codex 合并顺序是 #89 → #90 → #91 → 本 PR。
+
