@@ -488,3 +488,78 @@ PR74–77的主对话/Alice/OpenAI栈只作独立组合兼容检查，不混入�
 ### 6 November target evidence and runtime limitation
 
 The new release is active on Pi and the four-job real Chromium/Calc/Writer/PDF case passed, including changed constraints and restart recovery with unchanged bytes/mtime. Text planning remains offline-scripted for this acceptance; normal standalone text provider stays none. Pi kernel lacks the memory controller; explicit operator opt-in skips that unavailable RAM cap while retaining2CPU/256PID, rootless/scoped/offline isolation. Added container init for graceful0.38sstop and enabled the user service without weakening API NoNewPrivileges. No hardware reboot or new power test. Exact deployment/publication evidence is in the current QA.
+
+
+<!-- Preserved network-recovery history from PR73/87. Later Pi software/physical-restart corrections take precedence. -->
+## 2026-10-31 恢复Pi与三地网络配置
+
+- **用户决定：**回到大陆家中，明确恢复树莓派工作，提供家庭Wi-Fi并允许必要时使用其现有Bandwagon VPS；随后要求家里Wi-Fi、教室Wi-Fi＋网线、宿舍网线。这取代此前Pi暂停，未重新授权付费模型或机械臂动作。
+- **实现范围：**保留原卡系统／用户／密钥／应用，新增家庭与有线DHCP配置；教室沿用已成功的NETGEAR02，Student/Halls保留凭据但关闭自动连接。连接事件更新独立SSH来源规则，只接受原拥有者密钥；不清空系统防火墙或公开应用／桌面端口。
+- **证据：**原卡容量／卷与root标识／已配对主机公钥一致；25项本地检查、两份启动文件独立读回、其余文件不变、FAT只读检查0与安全弹出。等待实际开机／SSH／网页验收，不能把准备写成连通。
+- **边界：**VPS聊天已读，当前未修改VPS／Mac代理。凭据仅在私有本机及设备配置，不进Git；新软件主线、Pi旧安装版本和真实部署分开。见[本轮QA](output/qa/2026-10-31-pi-home-resume/verification.md)。
+
+### 2026-10-31 实机联网通过与供电门槛
+
+- **用户操作：**确认原卡已插回Pi并通电。已用mDNS定位、原固定主机密钥认证；家庭SSID私下比对通过，网络状态network_ready，实际优先级及禁用旧宿舍自动连接均已读回。
+- **实际验收：**家庭Wi-Fi、SSH、loopback应用／桌面服务、Mac网页登录／Alice和屏幕共享通过；有线最后仍无载波，不能据配置声称学校网线已通。现有隧道保留便于用户查看，临时发现观察器已结束。
+- **新发现与工程处置：**Pi本机Chromium启动时真实低电压，内核两秒后记录恢复；窗口已关闭。后续0x50000为历史低电压／节流位，供电能力读数3000mA。先请用户确认电源／线材，再做有界负载复测；不通过屏蔽警告、强制供电覆盖或重刷来消除证据。此为实测问题后的工程顺序，不是用户恢复Pi授权被撤销。
+- **OS记录：**cloud-init已结束，errors=[]，缺少cc_netplan_nm_patch的可恢复警告保留；country命令exit1但global CN和启动参数已验证。没有改系统厂商配置或重跑provisioning来将状态变绿。
+- **未完成：**连续运行、家中及学校有线、最新软件／数据库升级、Pi端语音／声学／机械验收。旧模型预算仍关闭，实际调用0。详见[更新QA](output/qa/2026-10-31-pi-home-resume/verification.md)。
+
+### 2026-10-31 Pi专用端入口与交付口径纠正
+
+- **用户纠正：**指出之前已经专门开发Pi端，质疑为何展示普通网页。沿用9月30日“设备常亮界面与手机／网页分开”的已确认要求，不新造一种平台选择。
+- **核对事实：**DeviceApp代码、设备规范、全屏脚本及Pi已安装编译资源都存在；正确入口为`?surface=device`。前一轮回复截图为普通工作区`?page=device`设置页，是展示和说明错误，不能据此推断专用端被删除。
+- **现有实现与缺口：**React独立设备界面＋Pi本地API＋Chromium应用／kiosk窗口；实机autostart仍是session.sh→welcome.py，全屏开机进入尚未完成。通过Mac渲染Pi资源检查了常亮锁定页→登录面板→返回，无控制台warn/error；没有重启Pi本机浏览器、改变认证或启动配置。
+- **后续顺序：**供电核对后，将新版软件部署与专用端全屏自启动、配对／会话恢复、重启／触控验收一起收尾；远程管理页仅作为管理／诊断入口。详见[核对记录](output/qa/2026-10-31-pi-device-entry/verification.md)。
+
+## 2026-10-31 Pi再次暂停与软件工作区路由
+
+用户明确“pi先暂时放一边”，优先personal agent跨应用软件，取代供电／kiosk作为当前下一步。Pi实测与未完成门槛保留，未再连接或更新设备。软件从main dac527b在独立工作树实施并发布[draft PR74](https://github.com/tantalum666/FYP/pull/74)；本分支只同步暂停与恢复入口，不混入另一分支的未合并代码。旧预算关闭、无CI及私有数据边界不变。
+
+## 2026-11-01 界面精简与当前软件路由
+
+用户指出各页面文字过多。软件工作区已按主操作／结果优先、技术与可选信息折叠实现，并发布[draft PR75](https://github.com/tantalum666/FYP/pull/75)，以PR74为基线；保留Alice、具体批准与草稿恢复。303前端／类型构建及实际网页／中文手机检查属于软件分支证据。本Pi分支只同步入口，不新增实机工作或重复声称软件测试。
+
+## 2026-11-02 Web主对话与媒体路由
+
+用户要求正常Web主聊天界面、自适应比例和Mac媒体，并选择自行点击已配置Qwen而不授权自动收费测试。软件分支PR76承接75／74；本Pi分支只同步入口。不得将窄屏测试当设备端，也不得在用户当前预览窗口更改测试尺寸。Pi暂停、无CI及私有数据边界不变。
+
+## 2026-11-02 OpenAI与Alice唤醒软件路由
+
+用户请求OpenAI试接并选择叫Alice唤醒。实际实现和分开记录的本地／真实API证据在软件PR77，当前Full2.1配置不等于排除其他模型。工程采用的新USD1测试轮已关闭；此Pi分支仅同步入口，不运行模型或硬件。
+
+## 2026-11-04 宿舍恢复Pi与原卡诊断
+
+- **用户决定：**重新开始Pi工作，网线接宿舍墙口，供电确认官方27W；没有显示器，选择先正常关机并把原SD卡接到Mac。这取代此前Pi暂停，不恢复付费模型预算。
+- **实际观察：**本机定向mDNS与已知Pi邻居比对未发现当前地址；旧教室IP走VPN，未探测。最新磁盘检查没有bootfs。未登录Pi，未写卡／改网络／部署。
+- **工程发现：**现有有线DHCP已启用；网络事件的`--guard`只更新来源规则，启动分区状态可能仍是旧设置记录，必须核对时间。尚不能认定墙口DHCP失败或校园隔离。
+- **下一步：**原卡出现后按容量／boot UUID／root PARTUUID核对，再只读检查有日期的状态，按实际结果准备最小恢复。官方电源身份已确认，供电负载仍待读回与复测。见[恢复QA](output/qa/2026-11-04-pi-dorm-ethernet/verification.md)。
+
+### 2026-11-04 原卡结果与有线跨网段恢复
+
+只读确认原卡身份，读到有线DHCP保存租约，与当前Mac网段不同；不是本轮即时地址证明。旧Pi来源规则只允许本地网段，新增显式开启的Mac单一私有IPv4/32有线管理入口，默认关闭，原密钥与loopback服务不变。修复网络事件不刷新状态，加入boot ID；本轮countryHK、发现窗口600秒。29项本地回归及Ruff通过，两份启动文件备份／独立读回、其余三份未变、FAT只读检查0与安全弹出通过。用户确认已回插通电，管理连接仍在验收。
+
+Linux只读检查返回4，并明确跳过journal recovery；needs_recovery及摘要／校验差异仍待正常启动后复核，不能直接宣布SD物理损坏。Mac未写Linux分区，未做离线修复、重刷或新软件部署。私有提取日志不进Git。
+
+### 2026-11-04 三地保留、拒绝热点与完整性恢复
+
+用户再次要求大陆Wi-Fi、教室Wi-Fi＋网线、宿舍网线，并明确不用热点、要求集中诊断修复。新启动原卡已读回有线DHCP、来源规则与HK区域，但不等于远程连接验收。可选VPS专用账号/密钥和Mac转发正反例通过；Pi尝试未建立通道，额外只读记录显示中转文件为空、write_files已标记执行。原始ext4视图仍有待回放日志，不据此宣称物理损坏。新增具备文件完整性、耐久写入、当前实例重试与实际回执检查的启动恢复，62项本地测试通过；原配对身份、应用数据和三地网络保留。VPS新增仅专用受限账号及无凭据阶段记录，未改原代理/SSH/防火墙路由。下一步是经过完整准备的一次实机启动验证，不再盲试地址。
+
+## 2026-11-05 以已验证443接入取代未通的直连22假设
+
+用户确认耐久恢复包已开机，阶段回报显示安装完成但VPS TCP不可达；尚未取得Pi认证连接。进一步核对发现Mac的成功VPS访问经过现有加密通道，不能当作Pi直连22的证据。独立客户端强制en0、关闭TUN/DNS/通用代理后，经同一443节点完成真实主机密钥与公钥认证。
+
+据此打包同版本官方ARM64客户端，仅监听回环固定转发到自有VPS SSH，保留原SSH密钥与三地网络。79本地检查和实际离线包预演通过，软件/凭据/二进制分别保存。仅请求为已验证方案接卡部署；不用热点，不更改现有Mac代理或VPS主代理，实机与教室有线仍待验收。详见[QA](output/qa/2026-11-05-pi-443-transport/verification.md)。
+
+### 2026-11-05 原卡应用443包
+
+用户接回原卡，随后确认回插通电。原卡身份及上一轮当前实例回执已核对，确认安装完成和直连VPS超时；据既有授权应用已验证443包。写入三份启动材料并独立读回、FAT只读检查0及安全弹出通过，家庭／有线配置逐字节保留，教室配置不覆盖。重新读取变化的Mac租约后更新唯一管理/32；不改Mac网络设置。仅更新VPS本轮随机标识过滤与监控阶段，保留原代理／SSH／防火墙。实机认证结果单独记录，不把本次写卡等同于三地验收。
+
+### 2026-11-05 实机接入、优先软件与真实部署
+
+**用户决定：**确认原卡开机，说明官方电源直插且另接设备；随后要求不要继续纠缠外设细节，优先推进工作，并完成一次正常按键重启。工程上继续可远程完成的软件工作，保持无热点、无CI、预算关闭。
+
+**实际结果：**443通道完成原Pi身份认证、宿舍有线、Mac网页／VNC及重启后访问。补充专用中转账号20/3失活检测和Mac自动重连；其他用户的有效SSH配置未变。统一main abf6387通过锁定ARM64环境、备份与迁移演练后实际部署，真实1→2→3及32张原表比对通过。原账号／密钥配置保留；没有将旧应用删除或把迁移成功写成语音／机械验收。
+
+**持久化边界：**重启后第二份Pi本地副本出现空文件，明确排除该回退来源。最初Pi／Mac备份一致，旧程序已在其副本上登录／读取通过；新schema3档案经同步后复制到Mac并校验。运行身份文件与最初Mac副本一致，274程序／前端和2159依赖文件完整。低压及长期稳定性仍未解决，原因不强行归因。下一步先做新版Pi离线会话到应用作业验收。详见[部署QA](output/qa/2026-11-05-pi-runtime-upgrade/verification.md)。

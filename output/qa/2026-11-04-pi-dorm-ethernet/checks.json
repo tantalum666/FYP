@@ -1,0 +1,17 @@
+{
+  "phase": "consolidated_durable_seed_prepared",
+  "local_regressions_passed": 62,
+  "ruff_passed": true,
+  "python_3_13_syntax_checked": true,
+  "first_pi_boot_dhcp_and_owner_rule_read_back": true,
+  "empty_file_false_success_reproduced_and_guarded": true,
+  "vps_loopback_transport_positive_and_negative_checks": true,
+  "diagnostic_log_privacy_checks": true,
+  "card_exact_readback": true,
+  "boot_fat_readonly_check_exit": 0,
+  "original_linux_partition_written_by_mac": false,
+  "live_pi_ssh_verified": false,
+  "ci_used": false,
+  "paid_model_calls": 0,
+  "hotspot_workaround_rejected": true
+}

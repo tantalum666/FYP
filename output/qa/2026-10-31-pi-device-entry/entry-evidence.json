@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-31",
+  "scope": "dedicated-device-entry-and-autostart-readback",
+  "installed_files": {
+    "/opt/desk-companion/scripts/kiosk.sh": {
+      "exists": true,
+      "sha256": "688331544b1817dbb87e0ef81cf537f46ba41640f9327d1c9b7b3b8be8caf1e0"
+    },
+    "/opt/desk-companion/scripts/pi/welcome.py": {
+      "exists": true,
+      "sha256": "339ad11f98fc2e07e7fc7e880ae9da0cb8868823001d0422fa35996d07e45315"
+    },
+    "/opt/desk-companion/scripts/pi/session.sh": {
+      "exists": true,
+      "sha256": "145bf5f4cd013838739a70f873112d9b1ca9c68c5d1d4ca3bf67db66b4d68c0f"
+    },
+    "/home/desk/.config/autostart/desk-companion.desktop": {
+      "exists": true,
+      "sha256": "b38f7013c61b380d719205fa9420bb06297e81ba8a97097fa552936956a909be"
+    }
+  },
+  "device_bundle_files": [
+    "DeviceApp-DuPoV7ot.js",
+    "DeviceApp-BU9g_Eb8.css"
+  ],
+  "display_route": "?surface=device",
+  "workspace_settings_route": "?page=device",
+  "autostart": "session.sh -> welcome.py",
+  "automatic_kiosk_configured": false,
+  "browser": {
+    "renderer": "Mac in-app browser via pinned SSH forwarding",
+    "server": "Pi local app",
+    "viewport": [
+      1280,
+      720
+    ],
+    "title": "Desk Companion",
+    "nonblank": true,
+    "framework_overlay": false,
+    "warn_error_entries": 0,
+    "interaction": "locked display -> Touch to manage -> login panel -> Close panel -> display",
+    "logged_in_this_check": false
+  },
+  "screenshot": {
+    "private_filename": "device-display-correct-entry.jpg",
+    "sha256": "b4fee38f7d8cb94f247afbd942b20ab6dc2f25e694a88d124b0bd521549d58d3",
+    "published": false
+  },
+  "changed_application_source": false,
+  "pi_local_browser_started": false,
+  "pi_boot_configuration_changed": false,
+  "paid_model_calls": 0,
+  "ci_used": false
+}

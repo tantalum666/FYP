@@ -608,3 +608,101 @@ Owner explicitly requested74–77. Based on main4855987, retained every stack he
 Pi真实四作业：选定HTML→36份900元表格→改48份950元／同意50份起订→Writer／两页PDF；唯一可行902元方案经Calc重算。人为丢失保存回执后重启恢复，SHA／mtime不变。最终容器重建后再次打开四历史版本和三当前文件，无改写；正常停止0.38s。离线规划脚本，不是模型自主成绩。完整后端1789／前端324，后续媒体19／voice-wake33／launcher-transport10和最终launcher3通过；类型／构建／Ruff通过，PDF逐页查看。源码、范围和证据见[QA](output/qa/2026-11-06-passwordless-device/verification.md)。
 
 同步AGENTS、当前入口、product、decision、handoff及受影响设备／应用／维护规范；新增连接与Pi运行契约。私有备份、依赖镜像、凭据、截图和二进制测试产物不入Git。重要源码推独立分支／draftPR，具体HEAD见发布回执；没有合并、CI、付费模型、真实账户交易或学校提交。用户澄清先红灯再拔插，旧正常按键重启说法无效；供电调查未继续。唯一下一步：把普通Alice／语音请求接进同一持久Work，先离线验收，再另行限定付费比较。
+
+
+<!-- Preserved network-recovery history from PR73/87. Later Pi software/physical-restart corrections take precedence. -->
+## 2026-10-31 · Pi resumed at home, portable Wi-Fi/Ethernet seed
+
+Owner resumed Pi work, supplied home Wi-Fi privately and authorized the existing VPS if needed; then specified home Wi-Fi, classroom Wi-Fi/Ethernet and dorm Ethernet. Read the referenced VPS chat and focused Pi recovery docs; inspected the current Mac LAN, original card identity, old boot status and paired host public key. The earlier Halls/Student boot ended without connectivity; it was not treated as a password diagnosis.
+
+Added a network-only SD preparer and Pi installer with bounded active-private-LAN SSH rules, NetworkManager event refresh, home/wired profiles, preserved classroom Wi-Fi and disabled dorm Wi-Fi autoconnect. Original users/keys/app/data stay in place.25local checks and Ruff pass. Two boot seed files were backed up privately, written, read back and parsed; other boot files unchanged; Linux partition not written by Mac; FAT verify0 and safe ejection. Generic Mac LAN launcher copied to Downloads.
+
+Owner was requested to reinsert/power the Pi. The initial bounded UDP receiver saw no matching packet; actual home connection and app/desktop acceptance remain pending, not failed or completed by inference. No VPS/proxy change, paid call, media/motor activation or application database upgrade. [QA](output/qa/2026-10-31-pi-home-resume/verification.md) / [network contract](desk-companion/docs/pi-network-profiles.md).
+
+Published sourcebdd9c6d and sanitized evidence to draftPR73; remote head verified. Card seed matches checked source, no credential published, no CI. Initial observer ended without a matching packet; temporary mDNS query stopped. Live boot acceptance remains pending.
+
+### 2026-10-31 · Actual home boot, web/desktop acceptance and power finding
+
+The owner confirmed reinsertion/power. mDNS followed the changed DHCP lease; direct-LAN routing and the original pinned SSH key were independently checked. Home profile/SSID, network-ready status, active app/VNC services, loopback listeners, actual SSH/firewall policy and all three network priorities passed live readback. Existing owner web login, Alice/device rendering and Mac Screen Sharing passed. Pi-local Chromium rendered after cancellation of an unsolicited new-keyring prompt; no credential was created. Final low-load check at04:46:40+08:00 still returned home connected, both services active and health ok.
+
+Recorded the real browser-start undervoltage event rather than declaring full stability: kernel detected04:29:57, normalized04:29:59; browser window closed; subsequent0x50000 records historical undervoltage/throttling, with no active flags. Supply capability reports3000mA, actual PSU/cable awaits the owner. A later rail sample5.04242V is not a load-time guarantee. Ethernet remains unavailable/no cable; the optional home-router test is unanswered. The missing cloud-init module warning and country-command exit1 are retained alongside independently verified networking and global/persisted CN.
+
+Updated current product/entry/handoff, both Pi guides, network contract, decisions, reading record and selected QA evidence. Full selected diagnostics and genuine UI screenshots stay owner-private; no secrets/raw profiles/images published. Network source is unchanged, so prior25local checks/Ruff remain dated preparation evidence; no redundant full app tests or CI. This is networking and old-app acceptance, not a latest-main upgrade, real user database migration, model call or mechanical test. Next gate: confirm supply/cable, then one bounded stability retest before software deployment. [Evidence](output/qa/2026-10-31-pi-home-resume/verification.md).
+
+Live evidence commit `d29648b` was pushed and matched both remote branch HEAD and GitHub PR73 metadata. PR73 remains open/draft and unmerged; its description now distinguishes passed home access, actual undervoltage, untested wired access and the older installed app. This receipt update changes no runtime code.
+
+## 2026-10-31 · Correct Pi device-display entry and deployment explanation
+
+Owner questioned why the Pi was shown as a generic website despite the earlier dedicated device work. Recovered the September30 device contract and current route/launcher code; read the installed kiosk, welcome, session and autostart files over pinned SSH. The dedicated DeviceApp exists in both source and the Pi bundle. The previous reply used ordinary workspace settings (`?page=device`) instead of the dedicated display (`?surface=device`). This is a presentation/handoff error, not deletion of the device implementation.
+
+Restored the expired Mac SSH tunnel and rendered the Pi's existing display at1280×720 on the Mac: clock/month/locked calendar; Touch to manage opens login; close returns to display; no app warn/error. Genuine screenshot remains private. Pi-local Chromium was not restarted, credentials/settings/data unchanged. Actual autostart still opens the first-start helper; kiosk full-screen startup and recovery remain unfinished, alongside the existing power gate and new-version deployment.
+
+Updated product, current entry/handoff, display contract, Mac access guide and decisions. [QA/read scope](output/qa/2026-10-31-pi-device-entry/verification.md) distinguishes installed code, rendered preview and physical delivery. No application source edit, redundant app suite, CI, model request, device reboot or automatic-start mutation. Next physical gate remains supply/cable confirmation, followed by a bounded load retest and dedicated-device deployment work.
+
+## 2026-10-31 · Pi paused; route active software continuation
+
+Owner paused Pi and prioritized personal-agent cross-application software. The new implementation is in `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`, branch `codex/personal-agent-cross-app-20261031`, [PR74](https://github.com/tantalum666/FYP/pull/74). Updated this original checkout's AGENTS/product/entry/handoff and Pi guide headers so the next chat follows the active software work rather than restarting hardware. Pi evidence/power/wired/kiosk gaps remain preserved; no device action or source-code change. Software evidence and1,701/303 checks belong to74, not this Pi branch.
+
+## 2026-11-01 · Route to concise-UI software continuation
+
+Updated AGENTS/product/entry/handoff and current decision after the owner reported excessive UI text. Active software tree remains personal-agent-20261031, now branch codex/ui-copy-cleanup-20261031 and draftPR75 on PR74. Its code/QA are not copied into this Pi branch. Read current routing documents and latest related sections; confirmed clean starting state and documentation-only diff. No Pi/network/model/runtime action; power/kiosk/wired gaps remain paused. [Routing check](output/qa/2026-10-31-ui-copy-cleanup/routing.md).
+
+## 2026-11-02 · Route to primary-conversation software
+
+Updated entry/product/handoff/AGENTS and latest decision to software branch codex/conversation-desktop-20261102 / draftPR76. Read current routing and related latest sections; clean starting tree, documentation-only changes. Source,309-test evidence and Mac device checks belong to the software worktree. No Pi/VM/provider request here. [Routing record](output/qa/2026-11-02-conversation-desktop/routing.md).
+
+## 2026-11-02 · Route OpenAI/Alice continuation
+
+Clean starting checkout; read current routing/entry and latest related decision/work-log. Updated six root Markdown routes and [QA note](output/qa/2026-11-02-openai-alice-wake/routing.md) to software PR77. Actual source, model tests, costs and local media remain in the personal-agent worktree; no copy of code, credentials, data or model weights. No Pi/provider/CI action from this checkout.
+
+## 2026-11-04 · Dorm Pi recovery waiting for the original card
+
+Owner resumed hardware, confirmed wall-socket Ethernet and official27W supply, and selected normal shutdown followed by attaching the original SD card to the Mac. No monitor is available; explained that ordinary MacBook HDMI is an output. Bounded exact-host discovery and passive known-device matching yielded no current Pi IP. The historical Ethernet address routes through VPN and was not probed. Card checks found no bootfs; no SSH, card write, device change, deployment or power/load result.
+
+Reviewed the preserved network/SD implementation. Wired DHCP already exists, but ordinary guard events do not refresh the boot status file; its timestamp must be checked before relying on an address. Updated AGENTS, product current route, current entry/handoff, network/Mac-access notes, decisions and this log. [Read scope and checks](output/qa/2026-11-04-pi-dorm-ethernet/verification.md). Existing school/merge records are preserved. This is a local recovery checkpoint, not a new code milestone or GitHub publication. No app tests, CI, paid model, global network setting or VPS change. Next: identity-verified, read-only card inspection after owner attachment.
+
+### Original card inspected and recovery seed prepared
+
+Owner attached the card and ran the private read-only administrator helper. Initial captures failed; retained exact inode-bitmap checksum error, then recovered11 selected files through read-only debugfs -c. Saved wired lease gives a candidate outside Mac subnet. Read-only e2fsck4 explicitly skipped journal replay; no physical-failure or repaired-filesystem claim.
+
+Added opt-in one-owner wired /32, fresh guard-event status/boot ID, explicitHK and bounded discovery.29 network tests and Ruff passed. Changed only boot user-data/meta-data with private backups and exact independent readback, checked unrelated hashes and FAT readonly0, safely ejected. Owner confirmed new boot; observer is active, pinned SSH/power/post-replay checks pending. Source branch codex/pi-dorm-network-recovery-20261104 is based on the preserved PR73 line; no latest-main application deployment or paid call.
+
+Publication receipt: recovery source7c6790d is pushed in draftPR87 over PR73; not merged. Fresh diagnostic packet and authenticated SSH remain absent after owner-confirmed boot. Interface-bound candidate SSH/TCP timed out. Existing VPS authentication succeeded over the Mac’s current route; direct campus SSH and HTTPS/TLS checks did not establish a usable relay. No VPS or global Mac changes. Await owner LED observation, then inspect fresh boot state if still unreachable.
+
+### Consolidated verified bootstrap after incomplete relay installation
+
+Owner confirmed three-place requirements and rejected a hotspot. Fresh card records proved wired DHCP/source configuration, but no authenticated access. Prepared and tested a dedicated restricted VPS relay; its first Pi attempt had no banner. Collected cloud-init/permission evidence read-only after owner admin action. Empty relay files with already-run write markers and missing receipts exposed a false-success gap; readonly journal caveat preserved.
+
+Added one bootstrap source embedded in bootcmd/runcmd, atomic/readback-verified managed-file restoration, only-current-instance command retry, expected Pi fingerprint, actual command receipts and completion after successful setup.62 local checks/Ruff passed, plus real VPS positive/negative transport and conditional diagnostic-log privacy probes. Durable seed prepared with private backups, exact readback and preserved unrelated files. New [contract](desk-companion/docs/pi-owner-relay.md) separates home/classroom/dorm configuration, actual acceptance and optional relay. Live Pi identity remains pending; no CI/AI call/app migration.
+
+### Consolidated package publication and physical handoff
+
+Reviewed sourcefe9725720b24f7cfbe03fb2cc2a6b7f26b03719d was pushed and read back on PR87. The connector temporarily failed and the CLI token could not edit PR metadata; the owner's authenticated browser updated title/body, then the CLI read back the62-test description. PR remains open/draft. Browser proof is private and was shown to the owner; no private capture/credential was published.
+
+The durable seed passed exact readback and FAT readonly0 and was safely ejected. A900-second observer finished without a stage or SSH banner while the latest reinsertion/power confirmation remained pending. One final pinned relay probe did not authenticate. This is not evidence of a failed boot of the new durable seed: the owner has not confirmed that physical step. No observer remains running. Resume by observing this prepared seed after the owner's new power-on confirmation; do not rewrite the card or ask for a hotspot by default.
+
+## 2026-11-05 · Fixed443 management transport prepared
+
+The owner confirmed the durable boot; matching stages reached setup_completed but direct VPS TCP remained unavailable. The earlier Mac fixture used the existing encrypted path, not Pi's plain22 path. A fresh isolated client forced to en0 authenticated the pinned VPS and dedicated key over443 without changing Mac proxy settings. Verified the official matching ARM64 archive/digest/static ELF and rehearsed the entire protected package privately.
+
+Added strict fixed-target transport installation, loopback SSH dialing, bootstrap receipt/order integration and offline-archive backup/readback/rollback.79 focused checks and Ruff passed; [QA/read scope](output/qa/2026-11-05-pi-443-transport/verification.md). Real card is not yet updated; owner was asked to return it. No hotspot, CI, model call, global proxy/DNS/TUN change or application migration.
+
+Publication checkpoint: source7bbeae2a was pushed to draftPR87; the browser saved the79-test/fixed443 description after the connector/CLI write paths failed. The real card still needs this package. Owner input pending is normal shutdown and original-card return, not a hotspot. Source/operational proof and the verified upstream artifact remain separate; no authenticated Pi access or three-place field acceptance is claimed.
+
+### Original-card443 package deployed; owner confirmed boot
+
+Verified original media identity and previous durable-trial receipts, then applied the existing tested443 package with private backups. Exact readback checked all three changed boot files, ten payloads, three setup steps, original host fingerprint and unchanged home/wired/other boot configuration. Classroom profile was not targeted. Refreshed the selected Mac /32 after detecting a new DHCP lease. FAT read-only check returned0; post-remount readback and safe whole-card eject passed. Updated only the exact-trial VPS log filter, verified nginx configuration/reload, and prepared the new-stage observer. Owner confirmed boot; file-restoration and network-setup progress observed, original Pi SSH pending.
+
+Updated current entry, AGENTS, product, handoff, network/Mac/relay guides, decision and [QA with card checks](output/qa/2026-11-05-pi-443-transport/verification.md). Existing79 local tests are reused because implementation did not change. No Linux-partition write by Mac, CI, model call, global networking change, new app deployment or school-file modification. Private seeds/keys/binary stay outside Git.
+
+### Authenticated access, actual unified runtime rollout and recovery
+
+Original Pi SSH identity, wired/default route, pinned transport, enabled services and Mac HTTP/VNC passed. Transport restart recovered without reboot. Added private-config Mac relay support to the shared connector, strict host checks and argument validation;13 boundary tests join79 existing checks (92passed), plus Ruff/shell syntax. A later stale VPS session was removed and only that relay account received20/3 liveness after syntax/effective-root comparison. Owner confirmed normal restart; new boot ID, original identity and Mac automatic retry passed. SIGTERM freed both owned local listeners; final owner tunnel restarted.
+
+Owner asked to prioritize software. Verified source tree matches remote mainabf6387, rebuilt frontend, obtained30 hash-locked ARM64 core wheels and verified the305-file package on Pi. Preserved the old app, created an independent release, rehearsed actual schema1 data migration on Mac/Pi, and ran ARM64 auth/read/create/idempotent-retry checks on a copy. Activated the real migration and API service with32 original tables preserved. Post-reboot original-owner HTTP login/core endpoints, new frontend hash and VNC passed. CUA1280×720 device display and management open/close passed with no console errors/warnings; primary sign-in route renders. No browser-authenticated Alice/voice or Pi-local Chromium test.
+
+Final backup inspection rejected the second Pi-only pre-activation copy after finding empty files. The original Pi/Mac snapshot remains valid; old-app login/read on a separate copy passed. Current identity/env bytes match the original snapshot. A synced current schema3 archive was copied to Mac and verified with SQLite sidecars and quick_check. Additional post-reboot checks found no mismatch in274 source/frontend or2159 installed dependency files. Low voltage remains in real kernel logs; no causal certainty or sustained-stability claim. [Network evidence](output/qa/2026-11-05-pi-443-transport/verification.md), [rollout/backup evidence](output/qa/2026-11-05-pi-runtime-upgrade/verification.md).
+
+Updated all current routes, affected Pi guides, decision, handoff and selected QA. Private media/keys/archives, prior school/merge edits and the normal Mac preview are preserved outside this publication. No CI, paid model, firmware update or physical-output operation. Next is offline conversation-to-supported-application acceptance on the deployed Pi.
+
+Publication receipt: sourceeeb96fc was pushed to draftPR87 and its remote HEAD/title/body read back; no merge.11 changed Markdown link sets and the staged secret scan passed. [Rollout publication](output/qa/2026-11-05-pi-runtime-upgrade/publication.json).

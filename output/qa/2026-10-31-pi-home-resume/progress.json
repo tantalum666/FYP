@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-31",
+  "owner_resumed_pi": true,
+  "requested_networks": {
+    "home": "wifi",
+    "classroom": [
+      "known_wifi",
+      "wired_dhcp"
+    ],
+    "dorm": "wired_dhcp"
+  },
+  "original_card_identity_verified": true,
+  "public_ssh_host_key_matches_pairing": true,
+  "card_capacity_bytes": 127999672320,
+  "card_written": true,
+  "changed_boot_files": [
+    "user-data",
+    "meta-data"
+  ],
+  "fat_read_only_check_exit": 0,
+  "safely_ejected": true,
+  "linux_partition_written_by_mac": false,
+  "local_checks": {
+    "passed": 25,
+    "ruff": "passed"
+  },
+  "live_home_connection": "verified_wifi_pinned_ssh_web_and_desktop",
+  "vps": "referenced thread read; not modified",
+  "paid_model_calls": 0,
+  "secrets": "private local input/boot configuration only, omitted from public records",
+  "initial_observer": {
+    "finished": true,
+    "matching_states": 0
+  },
+  "lan_launcher_installed": true,
+  "live_evidence": "live-verification.json",
+  "power_gate": "undervoltage_observed_confirm_psu_and_cable_before_load_retest",
+  "ethernet_live_test": "not_run_no_carrier",
+  "latest_main_app_deployed": false,
+  "owner_paused_pi": true,
+  "active_software_pr": "https://github.com/tantalum666/FYP/pull/74"
+}
