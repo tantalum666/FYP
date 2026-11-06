@@ -28,6 +28,10 @@ When reopening this preview, preserve its current configured provider instead of
 
 [QA](../../output/qa/2026-11-02-conversation-desktop/verification.md) records 309 frontend checks, actual browser/draft/permission behavior, and Mac camera/microphone acquisition. Cloud speech/image understanding, native touch/keyboard and sustained operation remain separate. Use a separate QA tab for viewport emulation; clear it afterwards and do not resize the owner's active review tab.
 
+## 6 November goal change
+
+An explicit text goal change can update an existing Work run without leaving the conversation. The phrases, the one-run rule, and interruption recovery are in [conversation goal changes](conversation-work.md). The composer and Alice surface are unchanged.
+
 ## 4 November integration
 
 This implementation is part of the unified PR74–77/main candidate. The described normal preview is the preserved Nov2 environment, not a newly deployed merged runtime. Local integration tests use a separate providers-off fixture. No new paid or human-media test is implied. [Merge QA](../../output/qa/2026-11-04-merge-74-77/verification.md).

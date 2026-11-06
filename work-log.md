@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated: 3 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated: 6 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -597,3 +597,11 @@ Owner explicitly requested74–77. Based on main4855987, retained every stack he
 ### PR74–77 publication readback
 
 [PR85](https://github.com/tantalum666/FYP/pull/85) merged atb663204938fa11cb5c3631f2995800466840b55e. Main's full tree equals reviewed affbad2d. Original74/75/76/77 were each read back closed/merged after retargeting the stack to main. [Receipt](output/qa/2026-11-04-merge-74-77/publication.json). This closeout changes documentation only; verified application151f807 and1769/319 local results are unchanged. No deployment, CI, paid model or Pi work.
+
+## 2026-11-06 · Ordinary text goal change into existing Work
+
+- **目标：**在统一 main 上实现普通 Alice 文字把中途改口送进已有 Work，并覆盖这条路径的中断和未知结果恢复。只做离线夹具。不接真实账号、支付或 Pi，不动 Codex 草稿 #73、#87、#88。
+- **完成：**`ConversationWork` 在模型循环之前识别明确改口，调用既有 `AgentRunService.action(steer)`。同一事务只有一项当前 Work 时直接改它；多项、已取消、已改过一次或不属于该事务时不改。提交前中断保持原目标。steer 已写入但对话回执丢失时，同一操作号恢复且不第二次改口。流式关闭不是成功回执。Full access 不会因此产生作业或建议草稿。`Goal:` 仍只建新事务草稿。
+- **验证：**`uv run --no-sync ruff check` 针对新模块和接入点通过。`pytest tests/test_conversation_work.py -q` 为 9 passed。`pytest tests/test_integration_acceptance.py -q` 为 7 passed。文字会话、目标、权限、购物、邮箱、离线日程和 `test_agent_runs.py` 共 97 passed。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-06-conversation-work-changed-goal/verification.md)。
+- **剩余：**夹具外的说法和来源版式，以及语音快照改已有 Work。真实账号、支付和 Pi 仍分开。
+

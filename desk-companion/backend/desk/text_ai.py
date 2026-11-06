@@ -383,17 +383,27 @@ class TextAssistant:
                 conversation = self.runtime.voice.conversations.open(
                     principal, revision, task_id=payload.task_id
                 )
-        reply = (
-            cached
-            if cached is not None
-            else self._message(
+        admitted = None
+        if cached is None and principal is not None:
+            # An explicit goal change is owner authority. It never reaches the model.
+            admitted = self.runtime.conversation_work.turn(payload, key, principal)
+        if cached is not None:
+            reply = cached
+        elif admitted is not None:
+            reply = present(admitted, self.runtime.data.preferences(), payload.language)
+            with self.store.connection(write=True) as conn:
+                conn.execute(
+                    "INSERT INTO assistant_replies VALUES(?,?,?)",
+                    (key, self._fingerprint(payload, allow_memory), encode(reply)),
+                )
+        else:
+            reply = self._message(
                 payload,
                 key,
                 allow_memory=allow_memory,
                 on_event=on_event,
                 conversation=conversation,
             )
-        )
         reply = (
             self.runtime.permissions.apply_reply(reply, grant, language=payload.language)
             if cached is None

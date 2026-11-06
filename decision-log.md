@@ -1,6 +1,6 @@
 # Group 2 Decision Log
 
-Updated: 3 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
+Updated: 6 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
 
 ## 2026-09-25 用户推翻 Senplate，研究智能工作台新方向
 
@@ -474,3 +474,11 @@ PR74–77的主对话/Alice/OpenAI栈只作独立组合兼容检查，不混入�
 ### PR74–77 publication readback
 
 [PR85](https://github.com/tantalum666/FYP/pull/85) merged atb663204938fa11cb5c3631f2995800466840b55e. Main's full tree equals reviewed affbad2d. Original74/75/76/77 were each read back closed/merged after retargeting the stack to main. [Receipt](output/qa/2026-11-04-merge-74-77/publication.json). This closeout changes documentation only; verified application151f807 and1769/319 local results are unchanged. No deployment, CI, paid model or Pi work.
+
+## 2026-11-06 普通文字改口进入已有 Work
+
+- **任务范围：**当前交接的下一步是离线改口用例，加上这条路径上的中断和未知结果恢复。这是既有下一步的实现，不是新的付费、真实账号或 Pi 授权。Codex 仍负责审查合并；#73、#87、#88 保持不动。
+- **工程选择：**明确说法才调用既有 `AgentRunService` steer。同一事务上只有一项当前 Work 时可以不写运行编号；多项、已取消或已经改过一次则不猜测。不新建任务库、队列、schema 迁移或模型自批工具。`Goal:` 仍只准备新事务草稿。
+- **恢复：**提交前中断不改目标，也不是成功回复。steer 已提交但对话回执丢失时，同一操作号恢复原更改；换一个目标则冲突，不会第二次 steer。流中断本身不是成功回执。
+- **证据：**离线夹具 9 项、整合验收 7 项，以及文字会话、目标、权限、购物、邮箱、离线日程和 Work 运行共 97 项通过。付费调用 0。见[契约](desk-companion/docs/conversation-work.md)与[QA](output/qa/2026-11-06-conversation-work-changed-goal/verification.md)。
+- **未做：**夹具以外的说法和来源版式、语音快照改已有 Work、真实账号、支付和 Pi。
