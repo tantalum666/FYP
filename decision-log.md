@@ -482,3 +482,11 @@ PR74–77的主对话/Alice/OpenAI栈只作独立组合兼容检查，不混入�
 - **恢复：**提交前中断不改目标，也不是成功回复。steer 已提交但对话回执丢失时，同一操作号恢复原更改；换一个目标则冲突，不会第二次 steer。流中断本身不是成功回执。
 - **证据：**离线夹具 9 项、整合验收 7 项，以及文字会话、目标、权限、购物、邮箱、离线日程和 Work 运行共 97 项通过。付费调用 0。见[契约](desk-companion/docs/conversation-work.md)与[QA](output/qa/2026-11-06-conversation-work-changed-goal/verification.md)。
 - **未做：**夹具以外的说法和来源版式、语音快照改已有 Work、真实账号、支付和 Pi。
+
+## 2026-11-06 未见说法与语音快照改已有 Work
+
+- **任务范围：**上一轮交接的下一步是夹具以外的说法和来源版式，然后用语音快照走同一条改口。仍是离线实现。不接真实账号、支付或 Pi，不动 Codex 草稿 #73、#87、#88。
+- **工程选择：**匹配仍只在 `owner_instruction` 和 `parse_changed_goal`。引用行和来源标题不是指令。问句、`Goal:`／`目标：`草稿、多项当前工作且没有运行编号时不改。已复核的语音快照把原文放进同一 `ConversationWork.turn`，用 `voice_origin_ref` 核对，不另写 steer。
+- **恢复：**文字和语音共用提交前中断、丢失回执后的同一操作号，以及流式关闭不是成功回执。快照还在时换一句是 `VOICE_INPUT_CHANGED`。快照消失后换一个目标是 `OPERATION_ID_CONFLICT`。都不会第二次 steer。
+- **证据：**对话测试 47 项通过，其中未见夹具 31 项。整合验收 7 项、先前回归 97 项、语音 Work 44 项通过。付费调用 0。见[契约](desk-companion/docs/conversation-work.md)与[QA](output/qa/2026-11-06-conversation-work-unseen-voice/verification.md)。
+- **未做：**语音复核页仍只开始新的 Work。真实账号、支付、Pi 和付费模型比较仍分开。

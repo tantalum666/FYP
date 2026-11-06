@@ -42,6 +42,7 @@ class AssistantMessage(StrictModel):
     language: Literal["en", "zh"] = "en"
     task_id: str | None = Field(default=None, max_length=64)
     conversation_id: str | None = Field(default=None, max_length=128)
+    voice_origin_ref: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
 
 
 class ProposalDecision(StrictModel):

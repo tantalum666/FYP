@@ -1,6 +1,7 @@
 """Admit an ordinary Alice turn into an existing Work run when the goal changes.
 
-The owner names the change in the conversation. This module calls the existing
+The owner names the change in the conversation, or in one reviewed voice
+snapshot of that same wording. This module calls the existing
 ``AgentRunService`` steer action. It does not create a task, a run, a queue, or
 a model approval tool, and it does not call a provider.
 
@@ -10,19 +11,42 @@ the same operation id; the goal is not applied a second time.
 """
 
 import hashlib
-import re
 
 from .agent_run_schemas import RunAction
 from .store import DomainError
 
-_EXPLICIT = re.compile(
-    r"^(?:change work|调整工作)\s+([0-9a-f]{32})\s*[:：]\s*(.*)$",
-    re.I | re.S,
+# One matcher. Source labels and quote marks are closed lists, not extra patterns.
+_IMPLICIT_LEADS = ("change the goal", "调整目标")
+_EXPLICIT_LEADS = ("change work", "调整工作")
+_SOURCE_LABELS = (
+    "from:",
+    "subject:",
+    "date:",
+    "to:",
+    "cc:",
+    "sender:",
+    "location:",
+    "notes:",
+    "title:",
+    "snippet:",
+    "发件人：",
+    "发件人:",
+    "主题：",
+    "主题:",
+    "日期：",
+    "日期:",
+    "收件人：",
+    "收件人:",
+    "抄送：",
+    "抄送:",
+    "地点：",
+    "地点:",
+    "备注：",
+    "备注:",
+    "标题：",
+    "标题:",
 )
-_IMPLICIT = re.compile(
-    r"^(?:change the goal|调整目标)\s*[:：]\s*(.*)$",
-    re.I | re.S,
-)
+_QUOTE_WRAPS = (('"', '"'), ("'", "'"), ("“", "”"), ("「", "」"), ("『", "』"))
 
 _TEXT = {
     "en": {
@@ -39,6 +63,7 @@ _TEXT = {
         "wrong_task": "That work is not on this task.",
         "empty": "Say the new goal after the colon.",
         "too_long": "That goal is too long to save.",
+        "not_a_change": "That does not change this work.",
     },
     "zh": {
         "admitted": "这项工作的目标已改为「{goal}」。已有结果还在。没有发送或购买。",
@@ -52,19 +77,69 @@ _TEXT = {
         "wrong_task": "这项工作不属于当前事务。",
         "empty": "请在冒号后写上新目标。",
         "too_long": "这个目标太长，没有保存。",
+        "not_a_change": "这没有改这项工作。",
     },
 }
 
 
-def parse_changed_goal(message: str) -> dict | None:
-    text = message.strip()
-    explicit = _EXPLICIT.match(text)
-    if explicit:
-        return {"run_id": explicit.group(1).lower(), "goal": explicit.group(2).strip()}
-    implicit = _IMPLICIT.match(text)
-    if implicit:
-        return {"run_id": None, "goal": implicit.group(1).strip()}
+def _quoted_line(line: str) -> bool:
+    if line.startswith((">", "＞")):
+        return True
+    return any(line.startswith(open_) and line.endswith(close) for open_, close in _QUOTE_WRAPS)
+
+
+def _source_header(line: str) -> bool:
+    folded = line.casefold()
+    return any(folded.startswith(label.casefold()) for label in _SOURCE_LABELS)
+
+
+def owner_instruction(message: str) -> str | None:
+    """The one owner line. Quoted lines and source headers are not instructions."""
+    own = []
+    normalized = message.replace("\r\n", "\n").replace("\r", "\n")
+    for line in normalized.strip().split("\n"):
+        line = line.strip()
+        if not line or _quoted_line(line) or _source_header(line):
+            continue
+        own.append(line)
+    if len(own) != 1 or own[0].endswith(("?", "？")):
+        return None
+    return own[0]
+
+
+def _after_lead(line: str, lead: str) -> str | None:
+    if not line.casefold().startswith(lead.casefold()):
+        return None
+    return line[len(lead) :]
+
+
+def _match_command(line: str) -> dict | None:
+    for lead in _EXPLICIT_LEADS:
+        rest = _after_lead(line, lead)
+        if rest is None or not rest[:1].isspace():
+            continue
+        rest = rest.lstrip()
+        token, tail = rest[:32], rest[32:]
+        if len(token) != 32 or any(c not in "0123456789abcdef" for c in token.casefold()):
+            continue
+        tail = tail.lstrip()
+        if tail.startswith((":", "：")):
+            return {"run_id": token.casefold(), "goal": tail[1:].strip()}
+    for lead in _IMPLICIT_LEADS:
+        rest = _after_lead(line, lead)
+        if rest is None:
+            continue
+        rest = rest.lstrip(" \t")
+        if rest.startswith((":", "：")):
+            return {"run_id": None, "goal": rest[1:].strip()}
     return None
+
+
+def parse_changed_goal(message: str) -> dict | None:
+    line = owner_instruction(message)
+    if line is None:
+        return None
+    return _match_command(line)
 
 
 class ConversationWork:
@@ -75,8 +150,13 @@ class ConversationWork:
         self.offline_interrupt = None
 
     def turn(self, payload, key, principal):
+        action_key = _action_key(key)
+        self._require_snapshot(payload, action_key, principal)
         parsed = parse_changed_goal(payload.message)
         if parsed is None:
+            if getattr(payload, "voice_origin_ref", None):
+                language = payload.language if payload.language in _TEXT else "en"
+                return _reply(language, "not_a_change", admitted=False)
             return None
         self.runtime.agent_runs.session(principal)
         language = payload.language if payload.language in _TEXT else "en"
@@ -85,7 +165,6 @@ class ConversationWork:
             return _reply(language, "empty", admitted=False)
         if len(goal) > 4000:
             return _reply(language, "too_long", admitted=False)
-        action_key = "wg/" + hashlib.sha256(key.encode()).hexdigest()
         existing = self._operation_run(action_key)
         if existing:
             current = self.runtime.agent_runs.detail(existing, principal)["run"]
@@ -117,6 +196,19 @@ class ConversationWork:
             raise
         self._fence("after_commit")
         return _reply(language, "admitted", admitted=True, run=updated)
+
+    def _require_snapshot(self, payload, action_key, principal) -> None:
+        """A reviewed voice snapshot must match its text. Steer stays in ``turn``."""
+        ref = getattr(payload, "voice_origin_ref", None)
+        if not ref:
+            return
+        text = self.runtime.voice.work.reviewed_text(ref, principal)
+        if text is None:
+            if self._operation_run(action_key):
+                return
+            raise DomainError("VOICE_DRAFT_EXPIRED", 410)
+        if payload.message.strip() != text.strip():
+            raise DomainError("VOICE_INPUT_CHANGED", 409)
 
     def _fence(self, phase: str) -> None:
         if self.offline_interrupt != phase:
@@ -164,6 +256,10 @@ class ConversationWork:
         if rows:
             return _reply(language, "unavailable", admitted=False)
         return _reply(language, "none", admitted=False)
+
+
+def _action_key(key: str) -> str:
+    return "wg/" + hashlib.sha256(key.encode()).hexdigest()
 
 
 def _steerable(run) -> bool:

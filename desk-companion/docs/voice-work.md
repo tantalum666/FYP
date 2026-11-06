@@ -65,7 +65,7 @@ The public/durable run never contains the raw draft reference, original transcri
 
 ## Controls remain separate
 
-Speech interruption and voice disconnect keep the existing voice proposal cleanup and physical-output stop priorities. They do not pause/cancel an independently retained Work run. A reviewed voice snapshot still does not steer an existing run. An explicit ordinary text goal change can; see [conversation goal changes](conversation-work.md). Work pause/cancel still use the selected run's authenticated versioned controls and their original unknown-effect/no-rollback semantics. Speech playback suppression belongs to the client audio lifecycle; a local mute is not proof of remote model cancellation. No provider-callable work start/approve/pause/cancel or owner-answer tool has been added.
+Speech interruption and voice disconnect keep the existing voice proposal cleanup and physical-output stop priorities. They do not pause/cancel an independently retained Work run. Freezing a snapshot still does not steer. Once the owner sends that reviewed text on the ordinary assistant message with `voice_origin_ref`, the same conversation turn can steer an existing run, including interruption and unknown-result recovery. See [conversation goal changes](conversation-work.md). The review screen itself still starts a new run only. Work pause/cancel still use the selected run's authenticated versioned controls and their original unknown-effect/no-rollback semantics. Speech playback suppression belongs to the client audio lifecycle; a local mute is not proof of remote model cancellation. No provider-callable work start/approve/pause/cancel or owner-answer tool has been added.
 
 ## Verification
 

@@ -1,0 +1,197 @@
+{
+  "schema": "desk-conversation-work-unseen-v1",
+  "cases": [
+    {
+      "id": "plain-en",
+      "expect": "steer",
+      "message": "Change the goal: keep only the Birch quote.",
+      "goal": "keep only the Birch quote."
+    },
+    {
+      "id": "plain-zh",
+      "expect": "steer",
+      "language": "zh",
+      "message": "调整目标：只保留白桦报价。",
+      "goal": "只保留白桦报价。"
+    },
+    {
+      "id": "explicit-zh",
+      "expect": "steer",
+      "language": "zh",
+      "message": "调整工作 {run_id}：只保留白桦报价。",
+      "goal": "只保留白桦报价。"
+    },
+    {
+      "id": "explicit-case",
+      "expect": "steer",
+      "message": "CHANGE WORK {run_id}: Keep Birch only.",
+      "goal": "Keep Birch only."
+    },
+    {
+      "id": "fullwidth-en",
+      "expect": "steer",
+      "message": "Change the goal：keep Birch.",
+      "goal": "keep Birch."
+    },
+    {
+      "id": "ascii-zh",
+      "expect": "steer",
+      "language": "zh",
+      "message": "调整目标:只比较白桦",
+      "goal": "只比较白桦"
+    },
+    {
+      "id": "spaced-explicit",
+      "expect": "steer",
+      "message": "Change work  {run_id}  :  Keep Birch only.",
+      "goal": "Keep Birch only."
+    },
+    {
+      "id": "mail-en",
+      "expect": "steer",
+      "message": "From: Birch Supplies\nSubject: revised quote\n\nChange the goal: keep only Birch.",
+      "goal": "keep only Birch."
+    },
+    {
+      "id": "mail-zh",
+      "expect": "steer",
+      "language": "zh",
+      "message": "发件人：白桦\n主题：修订报价\n\n调整目标：只保留白桦报价。",
+      "goal": "只保留白桦报价。"
+    },
+    {
+      "id": "calendar-en",
+      "expect": "steer",
+      "message": "Title: Design review\nLocation: Library\nDate: 2026-11-20\n\nChange the goal: move the review to Friday.",
+      "goal": "move the review to Friday."
+    },
+    {
+      "id": "calendar-zh",
+      "expect": "steer",
+      "language": "zh",
+      "message": "标题：设计复核\n地点：图书馆\n日期：2026-11-20\n\n调整目标：改到周五。",
+      "goal": "改到周五。"
+    },
+    {
+      "id": "command-with-quote",
+      "expect": "steer",
+      "message": "Change the goal: keep only Birch.\n\n> Goal: finish the old draft",
+      "goal": "keep only Birch.",
+      "absent": "finish the old draft"
+    },
+    {
+      "id": "named-among-two",
+      "expect": "steer",
+      "runs": 2,
+      "target": "other",
+      "message": "Change work {run_id}: Keep only the Cedar quote.",
+      "goal": "Keep only the Cedar quote."
+    },
+    {
+      "id": "goal-draft-en",
+      "expect": "no_steer",
+      "draft": true,
+      "says": "Confirm to track",
+      "message": "Goal: write the unseen variant note"
+    },
+    {
+      "id": "goal-draft-zh",
+      "expect": "no_steer",
+      "draft": true,
+      "language": "zh",
+      "says": "请确认后才会跟踪",
+      "message": "目标：完成未见过的说明"
+    },
+    {
+      "id": "question-en",
+      "expect": "no_steer",
+      "message": "What is the goal of this work?"
+    },
+    {
+      "id": "question-zh",
+      "expect": "no_steer",
+      "language": "zh",
+      "message": "这个工作的目标是什么？"
+    },
+    {
+      "id": "question-can-en",
+      "expect": "no_steer",
+      "message": "Can you change the goal: quantity 48?"
+    },
+    {
+      "id": "question-can-zh",
+      "expect": "no_steer",
+      "language": "zh",
+      "message": "可以调整目标：数量改为48吗？"
+    },
+    {
+      "id": "question-mark-command",
+      "expect": "no_steer",
+      "message": "Change the goal: keep Birch?"
+    },
+    {
+      "id": "quoted-en",
+      "expect": "no_steer",
+      "message": "> Change the goal: keep only Birch."
+    },
+    {
+      "id": "quoted-zh",
+      "expect": "no_steer",
+      "language": "zh",
+      "message": "「调整目标：只保留白桦报价。」"
+    },
+    {
+      "id": "quoted-mail",
+      "expect": "no_steer",
+      "message": "From: Birch Supplies\nSubject: revised quote\n\n> Change the goal: keep only Birch."
+    },
+    {
+      "id": "csv-cell",
+      "expect": "no_steer",
+      "message": "item,note\npaper,Change the goal: keep only Birch."
+    },
+    {
+      "id": "notes-field",
+      "expect": "no_steer",
+      "message": "Notes: Change the goal: move the review"
+    },
+    {
+      "id": "notes-field-zh",
+      "expect": "no_steer",
+      "language": "zh",
+      "message": "备注：调整目标：只保留白桦"
+    },
+    {
+      "id": "chatter-before",
+      "expect": "no_steer",
+      "message": "Please keep the quote.\nChange the goal: keep only Birch."
+    },
+    {
+      "id": "two-commands",
+      "expect": "no_steer",
+      "message": "Change the goal: keep only Birch.\nChange the goal: keep the Cedar quote."
+    },
+    {
+      "id": "ambiguous-en",
+      "expect": "no_steer",
+      "runs": 2,
+      "says": "Name the work",
+      "message": "Change the goal: keep only Birch."
+    },
+    {
+      "id": "ambiguous-zh",
+      "expect": "no_steer",
+      "runs": 2,
+      "language": "zh",
+      "says": "请写明要改的工作",
+      "message": "调整目标：只保留白桦报价。"
+    },
+    {
+      "id": "ambiguous-mail",
+      "expect": "no_steer",
+      "runs": 2,
+      "says": "Name the work",
+      "message": "From: Birch Supplies\nSubject: revised quote\n\nChange the goal: keep only Birch."
+    }
+  ]
+}

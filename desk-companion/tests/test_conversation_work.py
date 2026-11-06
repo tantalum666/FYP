@@ -17,9 +17,12 @@ from desk.permissions import PermissionChange
 from desk.sources import SourceInput
 from desk.stream_contract import parse_sse
 from desk.tasks import TaskInput
+from desk.voice import VoiceConfig
+from desk.voice_work import VoiceDraftFreeze
 
 HEADERS = {"X-Desk-Request": "1"}
 FIXTURE = Path(__file__).resolve().parents[1] / "fixtures" / "conversation-work" / "changed-goal.json"
+UNSEEN = Path(__file__).resolve().parents[1] / "fixtures" / "conversation-work" / "unseen-variants.json"
 ORIGINAL = "Compare fictional suppliers; quantity 36, budget 900 HKD."
 
 
@@ -53,12 +56,23 @@ def principal_of(client):
     return {"kind": "owner", "id": "owner", "name": "Owner", "session": token}
 
 
-def send(client, message, *, key, task_id=None, conversation_id=None, language="en"):
+def send(
+    client,
+    message,
+    *,
+    key,
+    task_id=None,
+    conversation_id=None,
+    language="en",
+    voice_origin_ref=None,
+):
     body = {"message": message, "language": language}
     if task_id:
         body["task_id"] = task_id
     if conversation_id:
         body["conversation_id"] = conversation_id
+    if voice_origin_ref:
+        body["voice_origin_ref"] = voice_origin_ref
     return client.post(
         "/api/assistant/messages",
         json=body,
@@ -452,6 +466,363 @@ def test_full_access_does_not_turn_the_goal_change_into_a_job(box):
     assert after["jobs"] == before["jobs"] and after["proposals"] == before["proposals"]
     assert runtime.tasks.detail(box["task"]["id"])["task"]["next_step"] == "Keep the supplier note"
     assert goal_of(runtime, principal, box["other"]["id"])["goal"] == "Leave this work alone"
+
+
+def unseen_cases():
+    data = json.loads(UNSEEN.read_text())
+    assert data["schema"] == "desk-conversation-work-unseen-v1"
+    return data["cases"]
+
+
+def test_unseen_fixture_is_outside_the_changed_goal_fixture():
+    original = {item["message"] for item in json.loads(FIXTURE.read_text())["cases"]}
+    cases = unseen_cases()
+    assert {item["message"] for item in cases}.isdisjoint(original)
+    assert {item["expect"] for item in cases} == {"steer", "no_steer"}
+    assert any(item["language"] == "zh" for item in cases if "language" in item)
+    assert any(item["expect"] == "no_steer" and item.get("draft") for item in cases)
+    assert any(item["expect"] == "no_steer" and item.get("runs") == 2 for item in cases)
+
+
+@pytest.mark.parametrize("item", unseen_cases(), ids=lambda item: item["id"])
+def test_unseen_variant_steers_only_an_explicit_owner_line(item, tmp_path):
+    shared = item.get("runs") == 2
+    box = workspace(tmp_path, companion="shared" if shared else "separate")
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    current, other = box["run"], box["other"]
+    target = other if item.get("target") == "other" else current
+    message = item["message"].format(run_id=target["id"])
+    language = item.get("language", "en")
+    before = counts(runtime)
+    response = send(
+        client, message, key=item["id"], task_id=box["task"]["id"], language=language
+    )
+    assert response.status_code == 200, response.text
+    body = response.json()
+    if item.get("says"):
+        assert item["says"] in body["message"]
+    if item["expect"] == "steer":
+        assert body["admitted"] is True and body["recovered"] is False
+        assert body["goal"] == item["goal"]
+        assert body["work_run_id"] == target["id"]
+        saved = goal_of(runtime, principal, target["id"])
+        assert saved["goal"] == item["goal"] and saved["plan_revision"] == 2
+        assert steers(runtime, target["id"]) == 1
+        if item.get("absent"):
+            assert item["absent"] not in saved["goal"]
+        untouched = current if target["id"] == other["id"] else other
+        assert goal_of(runtime, principal, untouched["id"])["goal"] == untouched["goal"]
+        assert steers(runtime, untouched["id"]) == 0
+    else:
+        assert body.get("admitted") is not True
+        assert goal_of(runtime, principal, current["id"])["goal"] == current["goal"]
+        assert goal_of(runtime, principal, other["id"])["goal"] == other["goal"]
+        assert steers(runtime, current["id"]) == 0
+        assert steers(runtime, other["id"]) == 0
+        if item.get("draft"):
+            assert body["kind"] == "draft"
+    after = counts(runtime)
+    assert after["runs"] == before["runs"]
+    assert after["jobs"] == before["jobs"]
+    assert after["tasks"] == before["tasks"]
+    assert after["usage"] == 0
+    assert runtime.tasks.detail(box["task"]["id"])["task"]["next_step"] == "Keep the supplier note"
+
+
+def review_snapshots(box, texts):
+    runtime = box["runtime"]
+    runtime.voice.config = VoiceConfig(
+        provider="gemini", endpoint="", model="protocol-fixture", api_key="fake-only"
+    )
+    ledger = runtime.voice.work
+    session = ledger.begin(box["principal"])
+    assert session
+    drafts = []
+    for index, text in enumerate(texts, start=1):
+        event = ledger.observe(
+            session,
+            {
+                "type": "transcript",
+                "role": "user",
+                "text": text,
+                "input_key": f"snap-{index}",
+                "input_sequence": index,
+                "boundary": "provider_final",
+                "input_operation": "replace",
+            },
+        )
+        assert event and event["eligible"] and event["text"] == text
+        draft = ledger.freeze(
+            VoiceDraftFreeze(
+                voice_session_ref=session,
+                input_segment_id=event["input_segment_id"],
+                expected_revision=event["revision"],
+            ),
+            box["principal"],
+        )
+        assert draft["snapshot_kind"] == "owner_snapshot" and draft["text"] == text
+        drafts.append(draft)
+    return drafts
+
+
+def test_voice_snapshot_interrupt_retries_once(box):
+    text = "Change the goal: keep only Birch."
+    draft = review_snapshots(box, [text])[0]
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    ref = draft["voice_origin_ref"]
+    forged = send(
+        client,
+        text,
+        key="forged",
+        task_id=task_id,
+        voice_origin_ref="ab" * 16,
+    )
+    assert forged.status_code == 410, forged.text
+    assert forged.json()["error"]["code"] == "VOICE_DRAFT_EXPIRED"
+    mismatch = send(
+        client,
+        "Change the goal: quantity 70 only.",
+        key="mismatch",
+        task_id=task_id,
+        voice_origin_ref=ref,
+    )
+    assert mismatch.status_code == 409, mismatch.text
+    assert mismatch.json()["error"]["code"] == "VOICE_INPUT_CHANGED"
+    assert goal_of(runtime, principal, run_id)["goal"] == ORIGINAL
+    assert steers(runtime, run_id) == 0
+    runtime.conversation_work.offline_interrupt = "before_commit"
+    refused = send(client, text, key="voice-interrupt", task_id=task_id, voice_origin_ref=ref)
+    assert refused.status_code == 409, refused.text
+    assert refused.json()["error"]["code"] == "CONVERSATION_WORK_INTERRUPTED"
+    assert goal_of(runtime, principal, run_id)["goal"] == ORIGINAL
+    assert steers(runtime, run_id) == 0
+    runtime.conversation_work.offline_interrupt = None
+    before = counts(runtime)
+    calls = []
+
+    def generate(*args, **kwargs):
+        calls.append(args)
+        raise AssertionError("provider called")
+
+    runtime.text_ai.generate = generate
+    admitted = send(client, text, key="voice-interrupt", task_id=task_id, voice_origin_ref=ref)
+    assert admitted.status_code == 200, admitted.text
+    body = admitted.json()
+    assert body["admitted"] is True and body["recovered"] is False
+    assert body["work_run_id"] == run_id and body["goal"] == "keep only Birch."
+    assert calls == [] and box["executed"] == []
+    after = counts(runtime)
+    assert after["runs"] == before["runs"] and after["jobs"] == before["jobs"]
+    assert after["tasks"] == before["tasks"] and after["usage"] == 0
+    assert after["proposals"] == before["proposals"]
+    assert steers(runtime, run_id) == 1
+    again = send(client, text, key="voice-interrupt", task_id=task_id, voice_origin_ref=ref)
+    assert again.status_code == 200, again.text
+    assert again.json()["work_run_id"] == run_id
+    assert steers(runtime, run_id) == 1
+    assert goal_of(runtime, principal, box["other"]["id"])["goal"] == "Leave this work alone"
+
+
+def test_voice_snapshot_unknown_result_recovers_without_a_second_steer(box):
+    text = "Change the goal: quantity 60 only."
+    draft = review_snapshots(box, [text])[0]
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    ref = draft["voice_origin_ref"]
+    runtime.conversation_work.offline_interrupt = "after_commit"
+    unknown = send(client, text, key="voice-unknown", task_id=task_id, voice_origin_ref=ref)
+    assert unknown.status_code == 409, unknown.text
+    assert unknown.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_UNKNOWN"
+    assert goal_of(runtime, principal, run_id)["goal"] == "quantity 60 only."
+    assert steers(runtime, run_id) == 1
+    runtime.conversation_work.offline_interrupt = None
+    changed = send(
+        client,
+        "Change the goal: quantity 70 only.",
+        key="voice-unknown",
+        task_id=task_id,
+        voice_origin_ref=ref,
+    )
+    assert changed.status_code == 409, changed.text
+    assert changed.json()["error"]["code"] == "VOICE_INPUT_CHANGED"
+    assert steers(runtime, run_id) == 1
+    runtime.voice.work.drafts.pop(ref)
+    conflict = send(
+        client,
+        "Change the goal: quantity 70 only.",
+        key="voice-unknown",
+        task_id=task_id,
+        voice_origin_ref=ref,
+    )
+    assert conflict.status_code == 409, conflict.text
+    assert conflict.json()["error"]["code"] == "OPERATION_ID_CONFLICT"
+    assert steers(runtime, run_id) == 1
+    recovered = send(client, text, key="voice-unknown", task_id=task_id, voice_origin_ref=ref)
+    assert recovered.status_code == 200, recovered.text
+    assert recovered.json()["admitted"] is True and recovered.json()["recovered"] is True
+    assert steers(runtime, run_id) == 1
+    cached = send(client, text, key="voice-unknown", task_id=task_id, voice_origin_ref=ref)
+    assert cached.status_code == 200, cached.text
+    assert cached.json()["recovered"] is True
+    assert steers(runtime, run_id) == 1
+    blocked = send(
+        client,
+        "Change the goal: quantity 80 only.",
+        key="voice-later",
+        task_id=task_id,
+    )
+    assert blocked.status_code == 200, blocked.text
+    assert blocked.json()["admitted"] is False
+    assert goal_of(runtime, principal, run_id)["goal"] == "quantity 60 only."
+    assert steers(runtime, run_id) == 1
+
+
+def test_voice_snapshot_stream_close_is_not_the_success_receipt(box):
+    text = "Change the goal: keep the Cedar note."
+    draft = review_snapshots(box, [text])[0]
+    client, runtime, principal = box["client"], box["runtime"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    headers = {**HEADERS, "X-Operation-Id": "voice-stream"}
+    body = {"message": text, "task_id": task_id, "voice_origin_ref": draft["voice_origin_ref"]}
+    with client.stream("POST", "/api/assistant/messages/stream", json=body, headers=headers) as first:
+        assert first.status_code == 200
+        chunk = next(first.iter_bytes())
+        assert chunk
+        with pytest.raises(json.JSONDecodeError):
+            json.loads(chunk)
+    recovered = client.post("/api/assistant/messages/stream", json=body, headers=headers)
+    assert recovered.status_code == 200, recovered.text
+    assert recovered.headers["content-type"].startswith("text/event-stream")
+    with pytest.raises(json.JSONDecodeError):
+        json.loads(recovered.text)
+    events = parse_sse(recovered.text)
+    assert events[-1]["type"] == "done"
+    assert events[-1]["reply"]["admitted"] is True
+    assert events[-1]["reply"]["work_run_id"] == run_id
+    assert events[-1]["reply"]["goal"] == "keep the Cedar note."
+    assert steers(runtime, run_id) == 1
+    repeated = client.post("/api/assistant/messages/stream", json=body, headers=headers)
+    assert repeated.status_code == 200, repeated.text
+    assert steers(runtime, run_id) == 1
+    assert goal_of(runtime, principal, run_id)["plan_revision"] == 2
+
+
+def test_voice_snapshot_near_miss_does_not_steer_and_chinese_uses_the_same_turn(box):
+    quote = "> Change the goal: keep only Birch."
+    draft_goal = "Goal: write the unseen voice note"
+    question = "What is the goal of this work?"
+    chinese = "调整目标：只保留白桦报价。"
+    drafts = review_snapshots(box, [quote, draft_goal, question, chinese])
+    runtime, client = box["runtime"], box["client"]
+    task_id = box["task"]["id"]
+    before = counts(runtime)
+
+    def snap(text, draft, key, language="en"):
+        return send(
+            client,
+            text,
+            key=key,
+            task_id=task_id,
+            language=language,
+            voice_origin_ref=draft["voice_origin_ref"],
+        )
+
+    quoted = snap(quote, drafts[0], "voice-quote")
+    assert quoted.status_code == 200, quoted.text
+    assert quoted.json()["admitted"] is False
+    assert quoted.json()["kind"] == "clarify"
+    assert "does not change this work" in quoted.json()["message"]
+    drafted = snap(draft_goal, drafts[1], "voice-draft")
+    assert drafted.status_code == 200, drafted.text
+    assert drafted.json()["kind"] == "clarify"
+    assert drafted.json().get("admitted") is not True
+    asked = snap(question, drafts[2], "voice-question")
+    assert asked.status_code == 200, asked.text
+    assert asked.json().get("admitted") is not True
+    assert counts(runtime) == before
+    assert steers(runtime, box["run"]["id"]) == 0
+    admitted = snap(chinese, drafts[3], "voice-zh", "zh")
+    assert admitted.status_code == 200, admitted.text
+    assert admitted.json()["admitted"] is True
+    assert admitted.json()["goal"] == "只保留白桦报价。"
+    assert "没有发送或购买" in admitted.json()["message"]
+    assert steers(runtime, box["run"]["id"]) == 1
+    assert counts(runtime)["runs"] == before["runs"]
+    assert counts(runtime)["jobs"] == before["jobs"]
+    assert counts(runtime)["proposals"] == before["proposals"]
+
+
+def test_voice_snapshot_ambiguous_without_a_run_id_does_not_steer(tmp_path):
+    box = workspace(tmp_path, companion="shared")
+    text = "Change the goal: keep only Birch."
+    draft = review_snapshots(box, [text])[0]
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    response = send(
+        client,
+        text,
+        key="voice-ambiguous",
+        task_id=box["task"]["id"],
+        voice_origin_ref=draft["voice_origin_ref"],
+    )
+    assert response.status_code == 200, response.text
+    assert response.json()["admitted"] is False
+    assert "Name the work" in response.json()["message"]
+    assert goal_of(runtime, principal, box["run"]["id"])["goal"] == ORIGINAL
+    assert goal_of(runtime, principal, box["other"]["id"])["goal"] == "Leave this work alone"
+    assert steers(runtime, box["run"]["id"]) == 0
+    assert steers(runtime, box["other"]["id"]) == 0
+
+
+def test_voice_snapshot_paired_device_is_refused_and_full_access_creates_no_job(box):
+    text = "Change the goal: keep only Birch."
+    draft = review_snapshots(box, [text])[0]
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id = box["run"]["id"]
+    assert (
+        client.post(
+            "/api/devices/enrol-display",
+            json={"name": "Fixture screen"},
+            headers={**HEADERS, "X-Operation-Id": "enrol-voice"},
+        ).status_code
+        == 200
+    )
+    paired = TestClient(box["app"])
+    paired.headers.update(
+        {**HEADERS, "Authorization": "Bearer " + client.cookies.get("desk_companion_device")}
+    )
+    denied = paired.post(
+        "/api/assistant/messages",
+        json={
+            "message": text,
+            "voice_origin_ref": draft["voice_origin_ref"],
+            "task_id": box["task"]["id"],
+        },
+        headers={**HEADERS, "X-Operation-Id": "paired-voice"},
+    )
+    assert denied.status_code == 403, denied.text
+    assert goal_of(runtime, principal, run_id)["goal"] == ORIGINAL
+    policy = runtime.permissions.snapshot()
+    runtime.permissions.change(
+        PermissionChange(mode="full", expected_version=policy["version"]),
+        "full-voice",
+    )
+    before = counts(runtime)
+    admitted = send(
+        client,
+        text,
+        key="full-voice",
+        task_id=box["task"]["id"],
+        voice_origin_ref=draft["voice_origin_ref"],
+    )
+    assert admitted.status_code == 200, admitted.text
+    assert admitted.json()["admitted"] is True
+    assert admitted.json().get("proposal") is None
+    assert admitted.json().get("job") is None
+    after = counts(runtime)
+    assert after["jobs"] == before["jobs"] and after["proposals"] == before["proposals"]
+    assert runtime.tasks.detail(box["task"]["id"])["task"]["next_step"] == "Keep the supplier note"
+    assert steers(runtime, run_id) == 1
 
 
 def test_no_work_message_does_not_create_a_run(box):

@@ -14,7 +14,7 @@
 
 ## 31 October persistent application continuation
 
-The short HTTP loop remains unchanged. Separately admitted Work now uses the existing office executor through [application adapters](application-work.md), waits without model polling, and continues from independently verified results. Source scope, task versions and the owner's captured software permission are checked outside the model. Real-app tests use offline decisions. An explicit ordinary-text goal change can steer an existing run without a provider call; see [conversation goal changes](conversation-work.md). Unseen phrases, voice-snapshot steering, and live-model quality remain unverified.
+The short HTTP loop remains unchanged. Separately admitted Work now uses the existing office executor through [application adapters](application-work.md), waits without model polling, and continues from independently verified results. Source scope, task versions and the owner's captured software permission are checked outside the model. Real-app tests use offline decisions. An explicit goal change from ordinary text, a held-out source layout, or a reviewed voice snapshot can steer an existing run without a provider call; see [conversation goal changes](conversation-work.md). Live-model quality remains unverified. The voice review screen still starts a new run only.
 
 ## Extension points
 

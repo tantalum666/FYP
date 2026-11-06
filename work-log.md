@@ -605,3 +605,10 @@ Owner explicitly requested74–77. Based on main4855987, retained every stack he
 - **验证：**`uv run --no-sync ruff check` 针对新模块和接入点通过。`pytest tests/test_conversation_work.py -q` 为 9 passed。`pytest tests/test_integration_acceptance.py -q` 为 7 passed。文字会话、目标、权限、购物、邮箱、离线日程和 `test_agent_runs.py` 共 97 passed。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-06-conversation-work-changed-goal/verification.md)。
 - **剩余：**夹具外的说法和来源版式，以及语音快照改已有 Work。真实账号、支付和 Pi 仍分开。
 
+## 2026-11-06 · Held-out phrases and voice-snapshot steering
+
+- **目标：**在 #89 的文字改口上补夹具外的中英文说法和来源版式，并让已复核的语音快照走同一条 steer。离线。不接真实账号、支付或 Pi。
+- **完成：**`owner_instruction` 只留一行所有者指令。引用、来源标题、问句、`Goal:`／`目标：`、以及没有运行编号的多项当前工作都不会改已有 Work。语音快照经 `voice_origin_ref` 核对后进入同一个 `ConversationWork.turn`。提交前中断、丢失回执和流式关闭与文字相同。Full access 不产生作业或建议。配对设备仍是 403。
+- **验证：**`uv run --no-sync ruff check` 通过。`pytest tests/test_conversation_work.py -q` 为 47 passed。`pytest tests/test_integration_acceptance.py -q` 为 7 passed。文字会话、目标、权限、购物、邮箱、离线日程和 `test_agent_runs.py` 为 97 passed。`test_voice_work.py` 为 44 passed。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-06-conversation-work-unseen-voice/verification.md)。
+- **剩余：**语音复核页仍只开始新的 Work。下一步是让该页把已复核快照送进这一条改口。真实账号、支付、Pi 和付费比较仍分开。
+
