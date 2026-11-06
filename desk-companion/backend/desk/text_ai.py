@@ -15,6 +15,7 @@ from typing import Literal
 from zoneinfo import ZoneInfo
 
 import httpx
+from .openai_transport import model_proxy, validate_openai_proxy
 from pydantic import Field, ValidationError
 
 from .agent_loop import AgentLoop
@@ -113,6 +114,7 @@ class TextConfig:
     background: bool = False
     extract_cap: int = 0
     configuration_error: str = ""
+    proxy_url: str = ""
 
     @classmethod
     def environment(cls):
@@ -130,6 +132,11 @@ class TextConfig:
             extract_cap=configured_extract_cap(),
         )
         if config.provider == "openai":
+            config.proxy_url = os.environ.get("DESK_OPENAI_PROXY_URL", "")
+            try:
+                validate_openai_proxy(config.proxy_url)
+            except ValueError:
+                config.configuration_error = "OPENAI_PROXY_INVALID"
             config.model = config.model or "gpt-6.1-sol"
             config.endpoint = config.endpoint or OPENAI_TEXT_ENDPOINT
             path = os.environ.get("DESK_OPENAI_CREDENTIAL_FILE")
@@ -149,6 +156,10 @@ class TextConfig:
         # Offline demonstration only. The fake adapter never reads the API key.
         if self.provider == "fake":
             return True
+        try:
+            model_proxy(self)
+        except ValueError:
+            return False
         return (
             not self.configuration_error
             and valid_model(self.model)
@@ -265,6 +276,7 @@ class TextAssistant:
                 transport=self.transport,
                 follow_redirects=False,
                 trust_env=False,
+                proxy=model_proxy(self.config, self.transport),
                 event_hooks={"request": [_request_checkpoint]},
             ) as client:
                 raw, usage = text_adapter(self.config.provider).complete(
@@ -320,6 +332,7 @@ class TextAssistant:
                 transport=self.transport,
                 follow_redirects=False,
                 trust_env=False,
+                proxy=model_proxy(self.config, self.transport),
                 event_hooks={"request": [_request_checkpoint]},
             ) as client:
                 adapter = text_adapter(self.config.provider)

@@ -22,6 +22,7 @@ from uuid import uuid4
 from zoneinfo import ZoneInfo
 
 import websockets
+from .openai_transport import model_proxy, validate_openai_proxy
 from fastapi import APIRouter, Depends, WebSocket, Request
 from starlette.websockets import WebSocketDisconnect
 
@@ -73,6 +74,7 @@ class VoiceConfig:
     api_key: str = dataclass_field(default="", repr=False)
     voice: str = ""
     configuration_error: str = ""
+    proxy_url: str = ""
 
     @classmethod
     def environment(cls):
@@ -98,6 +100,11 @@ class VoiceConfig:
                 except (ValueError, OSError, UnicodeError):
                     config.configuration_error = "VOICE_CREDENTIALS_INVALID"
         if config.provider == "openai_realtime":
+            config.proxy_url = os.environ.get("DESK_OPENAI_PROXY_URL", "")
+            try:
+                validate_openai_proxy(config.proxy_url)
+            except ValueError:
+                config.configuration_error = "OPENAI_PROXY_INVALID"
             config.model = config.model or "gpt-realtime-2.1"
             config.endpoint = config.endpoint or OPENAI_REALTIME_ENDPOINT
             path = os.environ.get("DESK_OPENAI_CREDENTIAL_FILE")
@@ -114,6 +121,10 @@ class VoiceConfig:
         return config
 
     def valid(self):
+        try:
+            model_proxy(self)
+        except ValueError:
+            return False
         if self.configuration_error or not valid_api_key(self.api_key):
             return False
         if self.provider == "openai_realtime":
@@ -325,7 +336,7 @@ class VoiceService:
                 max_size=2_000_000,
                 max_queue=8,
                 ping_interval=20,
-                proxy=None,
+                proxy=model_proxy(self.config),
             ) as provider:
 
                 async def send_provider(value):

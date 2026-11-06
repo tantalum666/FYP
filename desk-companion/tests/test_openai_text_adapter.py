@@ -70,6 +70,7 @@ def test_openai_credential_target_is_exact(url):
 def test_work_uses_responses_and_never_accepts_an_incomplete_answer(tmp_path, status):
     runtime = create_app(tmp_path, password="fixture", scheduler=False).state.runtime
     runtime.text_ai.config = TextConfig("openai", "gpt-6.1-sol", OPENAI_TEXT_ENDPOINT, "fake-only")
+    runtime.text_ai.config.proxy_url = "http://127.0.0.1:17891"
     calls, checks = [], []
 
     def transport(request):

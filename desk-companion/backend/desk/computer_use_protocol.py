@@ -4,6 +4,7 @@ import base64
 import math
 
 import httpx
+from .openai_transport import model_proxy
 
 from .bounded_json import bounded_json_post, _request_checkpoint, _DISPATCH_CHECKPOINT
 from .provider_policy import OPENAI_TEXT_ENDPOINT
@@ -180,6 +181,7 @@ class OpenAIComputerProtocol:
             transport=self.transport,
             follow_redirects=False,
             trust_env=False,
+            proxy=model_proxy(self.config, self.transport),
             event_hooks={"request": [_request_checkpoint]},
         ) as client:
             return bounded_json_post(

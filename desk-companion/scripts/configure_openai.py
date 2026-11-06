@@ -16,9 +16,12 @@ import tempfile
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "backend"))
 from desk.computer_use_network import local_browser_proxy
 from desk.voice_credentials import openai_key
+from desk.openai_transport import validate_openai_proxy
 
 
-def configure(runtime, credentials, *, browser=None, browser_proxy="", region_unavailable=False):
+def configure(
+    runtime, credentials, *, browser=None, browser_proxy="", proxy="", region_unavailable=False
+):
     runtime, credentials = Path(runtime).absolute(), Path(credentials).absolute()
     # Loading checks ownership, size, permissions and every path component.
     openai_key(str(credentials))
@@ -53,6 +56,7 @@ def configure(runtime, credentials, *, browser=None, browser_proxy="", region_un
         "DESK_TEXT_BACKGROUND": "0",
         "DESK_MEMORY_EXTRACT": "0",
         "DESK_OPENAI_REGION_UNSUPPORTED": "1" if region_unavailable else "0",
+        "DESK_OPENAI_PROXY_URL": validate_openai_proxy(proxy) or "",
     }
     if browser:
         binary = Path(browser).absolute()
@@ -98,6 +102,7 @@ def main():
     parser.add_argument("--credentials", type=Path, required=True)
     parser.add_argument("--browser", type=Path)
     parser.add_argument("--browser-proxy", default="")
+    parser.add_argument("--proxy", default="", help="Explicit OpenAI-only loopback CONNECT URL")
     parser.add_argument("--region-unavailable", action="store_true")
     args = parser.parse_args()
     try:
@@ -106,6 +111,7 @@ def main():
             args.credentials,
             browser=args.browser,
             browser_proxy=args.browser_proxy,
+            proxy=args.proxy,
             region_unavailable=args.region_unavailable,
         )
     except (ValueError, OSError):

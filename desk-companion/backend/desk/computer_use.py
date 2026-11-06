@@ -67,7 +67,10 @@ class ComputerUseExecutor:
 
     def provider_revision(self):
         cfg = self.runtime.text_ai.config
-        return digest([cfg.provider, cfg.model, cfg.endpoint])
+        parts = [cfg.provider, cfg.model, cfg.endpoint]
+        if cfg.proxy_url:
+            parts.append(cfg.proxy_url)
+        return digest(parts)
 
     def prepare_request(self, payload: ComputerUseInput, job_id, principal):
         if not principal or principal.get("kind") != "owner" or not principal.get("session"):
