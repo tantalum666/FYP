@@ -1,9 +1,10 @@
 """Admit an ordinary Alice turn into an existing Work run when the goal changes.
 
 The owner names the change in the conversation, or in one reviewed voice
-snapshot of that same wording. This module calls the existing
-``AgentRunService`` steer action. It does not create a task, a run, a queue, or
-a model approval tool, and it does not call a provider.
+snapshot of that same wording. The voice review screen can also apply that
+snapshot to one current run. This module calls the existing ``AgentRunService``
+steer action. It does not create a task, a run, a queue, or a model approval
+tool, and it does not call a provider.
 
 An interruption before the steer commits leaves the goal unchanged and is not a
 successful reply. A commit whose conversation receipt is lost is recovered by
@@ -152,41 +153,63 @@ class ConversationWork:
     def turn(self, payload, key, principal):
         action_key = _action_key(key)
         self._require_snapshot(payload, action_key, principal)
+        language = payload.language if payload.language in _TEXT else "en"
+        if getattr(payload, "voice_steer", False) is True:
+            return self._steer_snapshot(payload, action_key, principal, language)
         parsed = parse_changed_goal(payload.message)
         if parsed is None:
             if getattr(payload, "voice_origin_ref", None):
-                language = payload.language if payload.language in _TEXT else "en"
                 return _reply(language, "not_a_change", admitted=False)
             return None
         self.runtime.agent_runs.session(principal)
-        language = payload.language if payload.language in _TEXT else "en"
         goal = parsed["goal"]
         if not goal:
             return _reply(language, "empty", admitted=False)
         if len(goal) > 4000:
             return _reply(language, "too_long", admitted=False)
-        existing = self._operation_run(action_key)
-        if existing:
-            current = self.runtime.agent_runs.detail(existing, principal)["run"]
-            if current["goal"] != goal:
-                raise DomainError("OPERATION_ID_CONFLICT")
-            return _reply(
-                language,
-                "recovered",
-                admitted=True,
-                recovered=True,
-                run=current,
-            )
+        recovered = self._recovered(action_key, goal, principal, language)
+        if recovered is not None:
+            return recovered
         resolved = self._resolve(principal, parsed, payload.task_id, language)
         if resolved.get("kind") == "clarify":
             return resolved
-        if resolved["goal"] == goal:
-            return _reply(language, "unchanged", admitted=False, run=resolved)
+        return self._commit(resolved, goal, action_key, principal, language)
+
+    def _steer_snapshot(self, payload, action_key, principal, language):
+        """Apply the reviewed wording to one current run. The same steer commits it."""
+        self.runtime.agent_runs.session(principal)
+        goal = payload.message.strip()
+        if not goal:
+            return _reply(language, "empty", admitted=False)
+        if len(goal) > 4000:
+            return _reply(language, "too_long", admitted=False)
+        recovered = self._recovered(action_key, goal, principal, language)
+        if recovered is not None:
+            return recovered
+        resolved = self._snapshot_run(
+            principal, getattr(payload, "steer_run_id", None), payload.task_id, language
+        )
+        if resolved.get("kind") == "clarify":
+            return resolved
+        return self._commit(resolved, goal, action_key, principal, language)
+
+    def _recovered(self, action_key, goal, principal, language):
+        existing = self._operation_run(action_key)
+        if not existing:
+            return None
+        current = self.runtime.agent_runs.detail(existing, principal)["run"]
+        if current["goal"] != goal:
+            raise DomainError("OPERATION_ID_CONFLICT")
+        return _reply(language, "recovered", admitted=True, recovered=True, run=current)
+
+    def _commit(self, run, goal, action_key, principal, language):
+        if run["goal"] == goal:
+            return _reply(language, "unchanged", admitted=False, run=run)
         self._fence("before_commit")
         try:
             updated = self.runtime.agent_runs.action(
-                resolved["id"],
-                RunAction(action="steer", expected_version=resolved["version"], goal=goal),
+                run["id"],
+                RunAction(action="steer", expected_version=run["version"], goal=goal),
                 action_key,
                 principal,
             )["run"]
@@ -197,9 +220,26 @@ class ConversationWork:
         self._fence("after_commit")
         return _reply(language, "admitted", admitted=True, run=updated)
 
+    def _snapshot_run(self, principal, run_id, task_id, language):
+        if run_id:
+            return self._resolve(principal, {"run_id": run_id, "goal": ""}, task_id, language)
+        rows = self.runtime.agent_runs.listing(principal)["runs"]
+        if task_id:
+            rows = [row for row in rows if task_id in (row.get("task_ids") or [])]
+        eligible = [row for row in rows if _steerable(row)]
+        if len(eligible) == 1:
+            return self.runtime.agent_runs.detail(eligible[0]["id"], principal)["run"]
+        if len(eligible) > 1:
+            return _reply(language, "ambiguous", admitted=False)
+        if rows:
+            return _reply(language, "unavailable", admitted=False)
+        return _reply(language, "none", admitted=False)
+
     def _require_snapshot(self, payload, action_key, principal) -> None:
         """A reviewed voice snapshot must match its text. Steer stays in ``turn``."""
         ref = getattr(payload, "voice_origin_ref", None)
+        if getattr(payload, "voice_steer", False) is True and not ref:
+            raise DomainError("VOICE_STEER_REQUIRES_SNAPSHOT", 422)
         if not ref:
             return
         text = self.runtime.voice.work.reviewed_text(ref, principal)

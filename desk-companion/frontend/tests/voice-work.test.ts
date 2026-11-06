@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  currentVoiceRuns,
   emptyVoiceInputs,
   reduceVoiceInputs,
   validVoiceDraft,
@@ -231,4 +232,39 @@ test("Unicode voice goals and Work admission agree; expired origins never become
     }),
     false,
   );
+});
+
+test("current work for a voice review is the one steerable run, or an explicit choice", () => {
+  const id = (char: string) => char.repeat(32);
+  const run = (char: string, extra: Record<string, unknown> = {}) => ({
+    id: id(char),
+    goal: `Goal ${char}`,
+    state: "queued",
+    plan_revision: 1,
+    task_ids: ["task-a"],
+    ...extra,
+  });
+  const open = run("a");
+  assert.deepEqual(
+    currentVoiceRuns([open, run("b", { task_ids: ["task-b"] })], "task-a").map(
+      (item) => item.id,
+    ),
+    [id("a")],
+  );
+  assert.deepEqual(
+    currentVoiceRuns([
+      open,
+      run("b"),
+      run("c", { state: "cancelled" }),
+      run("d", { plan_revision: 2 }),
+      run("e", { private_hidden: true }),
+      { id: "short", state: "queued", plan_revision: 1, task_ids: ["task-a"] },
+    ]).map((item) => item.id),
+    [id("a"), id("b")],
+  );
+  assert.deepEqual(currentVoiceRuns([open], undefined).map((item) => item.id), [
+    id("a"),
+  ]);
+  assert.deepEqual(currentVoiceRuns(null), []);
+  assert.deepEqual(currentVoiceRuns([run("a", { task_ids: ["other"] })], "task-a"), []);
 });

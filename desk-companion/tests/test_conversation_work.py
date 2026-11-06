@@ -65,6 +65,8 @@ def send(
     conversation_id=None,
     language="en",
     voice_origin_ref=None,
+    voice_steer=False,
+    steer_run_id=None,
 ):
     body = {"message": message, "language": language}
     if task_id:
@@ -73,6 +75,10 @@ def send(
         body["conversation_id"] = conversation_id
     if voice_origin_ref:
         body["voice_origin_ref"] = voice_origin_ref
+    if voice_steer:
+        body["voice_steer"] = True
+    if steer_run_id:
+        body["steer_run_id"] = steer_run_id
     return client.post(
         "/api/assistant/messages",
         json=body,
@@ -814,6 +820,372 @@ def test_voice_snapshot_paired_device_is_refused_and_full_access_creates_no_job(
         key="full-voice",
         task_id=box["task"]["id"],
         voice_origin_ref=draft["voice_origin_ref"],
+    )
+    assert admitted.status_code == 200, admitted.text
+    assert admitted.json()["admitted"] is True
+    assert admitted.json().get("proposal") is None
+    assert admitted.json().get("job") is None
+    after = counts(runtime)
+    assert after["jobs"] == before["jobs"] and after["proposals"] == before["proposals"]
+    assert runtime.tasks.detail(box["task"]["id"])["task"]["next_step"] == "Keep the supplier note"
+    assert steers(runtime, run_id) == 1
+
+
+def test_review_screen_one_current_run_is_the_steer_target(box):
+    text = "Keep only Birch."
+    draft = review_snapshots(box, [text])[0]
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    ref = draft["voice_origin_ref"]
+    calls = []
+
+    def generate(*args, **kwargs):
+        calls.append(args)
+        raise AssertionError("provider called")
+
+    runtime.text_ai.generate = generate
+    plain = send(client, text, key="plain-snapshot", task_id=task_id, voice_origin_ref=ref)
+    assert plain.status_code == 200, plain.text
+    assert plain.json()["admitted"] is False
+    assert goal_of(runtime, principal, run_id)["goal"] == ORIGINAL
+    assert steers(runtime, run_id) == 0
+    missing = client.post(
+        "/api/assistant/messages",
+        json={"message": text, "voice_steer": True, "task_id": task_id},
+        headers={**HEADERS, "X-Operation-Id": "steer-without-snapshot"},
+    )
+    assert missing.status_code == 422, missing.text
+    assert missing.json()["error"]["code"] == "VOICE_STEER_REQUIRES_SNAPSHOT"
+    numeric = client.post(
+        "/api/assistant/messages",
+        json={"message": text, "voice_steer": 1, "voice_origin_ref": ref, "task_id": task_id},
+        headers={**HEADERS, "X-Operation-Id": "steer-numeric"},
+    )
+    assert numeric.status_code == 422, numeric.text
+    assert numeric.json()["error"]["code"] == "VALIDATION_FAILED"
+    before = counts(runtime)
+    admitted = send(
+        client,
+        text,
+        key="review-one",
+        task_id=task_id,
+        voice_origin_ref=ref,
+        voice_steer=True,
+    )
+    assert admitted.status_code == 200, admitted.text
+    body = admitted.json()
+    assert body["admitted"] is True and body["recovered"] is False
+    assert body["work_run_id"] == run_id and body["goal"] == text
+    assert "Nothing was sent or bought" in body["message"]
+    assert calls == [] and box["executed"] == []
+    after = counts(runtime)
+    assert after["runs"] == before["runs"] and after["jobs"] == before["jobs"]
+    assert after["tasks"] == before["tasks"] and after["proposals"] == before["proposals"]
+    assert after["usage"] == 0
+    assert steers(runtime, run_id) == 1
+    assert goal_of(runtime, principal, box["other"]["id"])["goal"] == "Leave this work alone"
+    wrong = send(
+        client,
+        text,
+        key="review-other-task",
+        task_id=task_id,
+        voice_origin_ref=ref,
+        voice_steer=True,
+        steer_run_id=box["other"]["id"],
+    )
+    assert wrong.status_code == 200, wrong.text
+    assert wrong.json()["admitted"] is False
+    assert "not on this task" in wrong.json()["message"]
+    assert steers(runtime, box["other"]["id"]) == 0
+    again = send(
+        client,
+        text,
+        key="review-one",
+        task_id=task_id,
+        voice_origin_ref=ref,
+        voice_steer=True,
+    )
+    assert again.status_code == 200, again.text
+    assert again.json()["admitted"] is True
+    assert again.json()["work_run_id"] == run_id
+    assert steers(runtime, run_id) == 1
+    assert counts(runtime)["runs"] == before["runs"]
+
+
+def test_review_screen_one_run_without_a_task_is_clear(box):
+    text = "Keep the only open note."
+    draft = review_snapshots(box, [text])[0]
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    other = goal_of(runtime, principal, box["other"]["id"])
+    runtime.agent_runs.action(
+        other["id"],
+        RunAction(action="cancel", expected_version=other["version"]),
+        "cancel-companion",
+        principal,
+    )
+    admitted = send(
+        client,
+        text,
+        key="review-sole",
+        voice_origin_ref=draft["voice_origin_ref"],
+        voice_steer=True,
+    )
+    assert admitted.status_code == 200, admitted.text
+    assert admitted.json()["admitted"] is True
+    assert admitted.json()["work_run_id"] == box["run"]["id"]
+    assert admitted.json()["goal"] == text
+    assert steers(runtime, box["run"]["id"]) == 1
+    assert steers(runtime, box["other"]["id"]) == 0
+
+
+def test_review_screen_several_current_runs_require_an_explicit_choice(tmp_path):
+    box = workspace(tmp_path, companion="shared")
+    text = "Keep the shared Birch note."
+    draft = review_snapshots(box, [text])[0]
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    ref = draft["voice_origin_ref"]
+    before = counts(runtime)
+    ambiguous = send(
+        client,
+        text,
+        key="review-several",
+        task_id=box["task"]["id"],
+        voice_origin_ref=ref,
+        voice_steer=True,
+    )
+    assert ambiguous.status_code == 200, ambiguous.text
+    assert ambiguous.json()["admitted"] is False
+    assert "Name the work" in ambiguous.json()["message"]
+    assert steers(runtime, box["run"]["id"]) == 0
+    assert steers(runtime, box["other"]["id"]) == 0
+    assert counts(runtime)["runs"] == before["runs"]
+    chosen = send(
+        client,
+        text,
+        key="review-chosen",
+        task_id=box["task"]["id"],
+        voice_origin_ref=ref,
+        voice_steer=True,
+        steer_run_id=box["other"]["id"],
+    )
+    assert chosen.status_code == 200, chosen.text
+    assert chosen.json()["admitted"] is True
+    assert chosen.json()["work_run_id"] == box["other"]["id"]
+    assert chosen.json()["goal"] == text
+    assert goal_of(runtime, principal, box["run"]["id"])["goal"] == ORIGINAL
+    assert goal_of(runtime, principal, box["other"]["id"])["goal"] == text
+    assert steers(runtime, box["run"]["id"]) == 0
+    assert steers(runtime, box["other"]["id"]) == 1
+    assert counts(runtime)["runs"] == before["runs"]
+    assert counts(runtime)["jobs"] == before["jobs"]
+    assert counts(runtime)["proposals"] == before["proposals"]
+
+
+def test_review_screen_without_current_work_does_not_create_a_run(box):
+    text = "Keep a note that has no current work."
+    draft = review_snapshots(box, [text])[0]
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    empty = runtime.tasks.create(
+        TaskInput(title="No work yet", follow_up_enabled=False),
+        "empty-task",
+    )["task"]
+    before = counts(runtime)
+    missing = send(
+        client,
+        text,
+        key="review-empty-task",
+        task_id=empty["id"],
+        voice_origin_ref=draft["voice_origin_ref"],
+        voice_steer=True,
+    )
+    assert missing.status_code == 200, missing.text
+    assert missing.json()["admitted"] is False
+    assert "No current work" in missing.json()["message"]
+    assert counts(runtime) == before
+    for run, key in ((box["run"], "cancel-main"), (box["other"], "cancel-companion")):
+        current = goal_of(runtime, principal, run["id"])
+        runtime.agent_runs.action(
+            run["id"],
+            RunAction(action="cancel", expected_version=current["version"]),
+            key,
+            principal,
+        )
+    response = send(
+        client,
+        text,
+        key="review-none",
+        task_id=box["task"]["id"],
+        voice_origin_ref=draft["voice_origin_ref"],
+        voice_steer=True,
+    )
+    assert response.status_code == 200, response.text
+    assert response.json()["admitted"] is False
+    assert "cannot take another goal change" in response.json()["message"]
+    assert counts(runtime) == before
+    assert steers(runtime, box["run"]["id"]) == 0
+
+
+def test_review_screen_steer_keeps_interruption_and_receipt_recovery(box):
+    text = "Keep only the Cedar note."
+    later = "Keep the later Cedar note."
+    draft, second = review_snapshots(box, [text, later])
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    ref = draft["voice_origin_ref"]
+    runtime.conversation_work.offline_interrupt = "before_commit"
+    refused = send(
+        client, text, key="review-interrupt", task_id=task_id, voice_origin_ref=ref, voice_steer=True
+    )
+    assert refused.status_code == 409, refused.text
+    assert refused.json()["error"]["code"] == "CONVERSATION_WORK_INTERRUPTED"
+    assert goal_of(runtime, principal, run_id)["goal"] == ORIGINAL
+    assert steers(runtime, run_id) == 0
+    runtime.conversation_work.offline_interrupt = None
+    admitted = send(
+        client, text, key="review-interrupt", task_id=task_id, voice_origin_ref=ref, voice_steer=True
+    )
+    assert admitted.status_code == 200, admitted.text
+    assert admitted.json()["admitted"] is True and admitted.json()["recovered"] is False
+    assert steers(runtime, run_id) == 1
+    runtime.conversation_work.offline_interrupt = "after_commit"
+    mismatched = send(
+        client,
+        later,
+        key="review-unknown",
+        voice_origin_ref=ref,
+        voice_steer=True,
+        steer_run_id=box["other"]["id"],
+    )
+    assert mismatched.status_code == 409, mismatched.text
+    assert mismatched.json()["error"]["code"] == "VOICE_INPUT_CHANGED"
+    assert steers(runtime, box["other"]["id"]) == 0
+    unknown = send(
+        client,
+        later,
+        key="review-unknown",
+        voice_origin_ref=second["voice_origin_ref"],
+        voice_steer=True,
+        steer_run_id=box["other"]["id"],
+    )
+    assert unknown.status_code == 409, unknown.text
+    assert unknown.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_UNKNOWN"
+    assert goal_of(runtime, principal, box["other"]["id"])["goal"] == later
+    assert steers(runtime, box["other"]["id"]) == 1
+    runtime.conversation_work.offline_interrupt = None
+    changed = send(
+        client,
+        "Keep a different Cedar note.",
+        key="review-unknown",
+        voice_origin_ref=second["voice_origin_ref"],
+        voice_steer=True,
+        steer_run_id=box["other"]["id"],
+    )
+    assert changed.status_code == 409, changed.text
+    assert changed.json()["error"]["code"] == "VOICE_INPUT_CHANGED"
+    runtime.voice.work.drafts.pop(second["voice_origin_ref"])
+    conflict = send(
+        client,
+        "Keep a different Cedar note.",
+        key="review-unknown",
+        voice_origin_ref=second["voice_origin_ref"],
+        voice_steer=True,
+        steer_run_id=box["other"]["id"],
+    )
+    assert conflict.status_code == 409, conflict.text
+    assert conflict.json()["error"]["code"] == "OPERATION_ID_CONFLICT"
+    assert steers(runtime, box["other"]["id"]) == 1
+    recovered = send(
+        client,
+        later,
+        key="review-unknown",
+        voice_origin_ref=second["voice_origin_ref"],
+        voice_steer=True,
+        steer_run_id=box["other"]["id"],
+    )
+    assert recovered.status_code == 200, recovered.text
+    assert recovered.json()["admitted"] is True and recovered.json()["recovered"] is True
+    assert recovered.json()["work_run_id"] == box["other"]["id"]
+    assert steers(runtime, box["other"]["id"]) == 1
+    assert steers(runtime, run_id) == 1
+
+
+def test_review_screen_stream_close_is_not_the_success_receipt(box):
+    text = "Keep the streamed Cedar note."
+    draft = review_snapshots(box, [text])[0]
+    client, runtime, principal = box["client"], box["runtime"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    headers = {**HEADERS, "X-Operation-Id": "review-stream"}
+    body = {
+        "message": text,
+        "task_id": task_id,
+        "voice_origin_ref": draft["voice_origin_ref"],
+        "voice_steer": True,
+    }
+    with client.stream("POST", "/api/assistant/messages/stream", json=body, headers=headers) as first:
+        assert first.status_code == 200
+        chunk = next(first.iter_bytes())
+        assert chunk
+        with pytest.raises(json.JSONDecodeError):
+            json.loads(chunk)
+    recovered = client.post("/api/assistant/messages/stream", json=body, headers=headers)
+    assert recovered.status_code == 200, recovered.text
+    assert recovered.headers["content-type"].startswith("text/event-stream")
+    with pytest.raises(json.JSONDecodeError):
+        json.loads(recovered.text)
+    events = parse_sse(recovered.text)
+    assert events[-1]["type"] == "done"
+    assert events[-1]["reply"]["admitted"] is True
+    assert events[-1]["reply"]["work_run_id"] == run_id
+    assert events[-1]["reply"]["goal"] == text
+    assert steers(runtime, run_id) == 1
+    repeated = client.post("/api/assistant/messages/stream", json=body, headers=headers)
+    assert repeated.status_code == 200, repeated.text
+    assert steers(runtime, run_id) == 1
+    assert goal_of(runtime, principal, run_id)["plan_revision"] == 2
+
+
+def test_review_screen_paired_device_is_refused_and_full_access_creates_no_job(box):
+    text = "Keep only Birch from the review screen."
+    draft = review_snapshots(box, [text])[0]
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id = box["run"]["id"]
+    assert (
+        client.post(
+            "/api/devices/enrol-display",
+            json={"name": "Fixture screen"},
+            headers={**HEADERS, "X-Operation-Id": "enrol-review"},
+        ).status_code
+        == 200
+    )
+    paired = TestClient(box["app"])
+    paired.headers.update(
+        {**HEADERS, "Authorization": "Bearer " + client.cookies.get("desk_companion_device")}
+    )
+    denied = paired.post(
+        "/api/assistant/messages",
+        json={
+            "message": text,
+            "voice_origin_ref": draft["voice_origin_ref"],
+            "voice_steer": True,
+            "task_id": box["task"]["id"],
+        },
+        headers={**HEADERS, "X-Operation-Id": "paired-review"},
+    )
+    assert denied.status_code == 403, denied.text
+    assert goal_of(runtime, principal, run_id)["goal"] == ORIGINAL
+    policy = runtime.permissions.snapshot()
+    runtime.permissions.change(
+        PermissionChange(mode="full", expected_version=policy["version"]),
+        "full-review",
+    )
+    before = counts(runtime)
+    admitted = send(
+        client,
+        text,
+        key="full-review",
+        task_id=box["task"]["id"],
+        voice_origin_ref=draft["voice_origin_ref"],
+        voice_steer=True,
     )
     assert admitted.status_code == 200, admitted.text
     assert admitted.json()["admitted"] is True

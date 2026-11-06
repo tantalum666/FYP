@@ -490,3 +490,11 @@ PR74–77的主对话/Alice/OpenAI栈只作独立组合兼容检查，不混入�
 - **恢复：**文字和语音共用提交前中断、丢失回执后的同一操作号，以及流式关闭不是成功回执。快照还在时换一句是 `VOICE_INPUT_CHANGED`。快照消失后换一个目标是 `OPERATION_ID_CONFLICT`。都不会第二次 steer。
 - **证据：**对话测试 47 项通过，其中未见夹具 31 项。整合验收 7 项、先前回归 97 项、语音 Work 44 项通过。付费调用 0。见[契约](desk-companion/docs/conversation-work.md)与[QA](output/qa/2026-11-06-conversation-work-unseen-voice/verification.md)。
 - **未做：**语音复核页仍只开始新的 Work。真实账号、支付、Pi 和付费模型比较仍分开。
+
+## 2026-11-06 语音复核页更新一项当前 Work
+
+- **任务范围：**上一轮交接的下一步是让语音复核页把已复核快照送进已有改口。仍是离线实现。不接真实账号、支付或 Pi，不动 Codex 草稿 #73、#87、#88。
+- **工程选择：**复核页在普通助手消息上带 `voice_origin_ref` 和 `voice_steer: true`。仍由 `ConversationWork.turn` 调用既有 `AgentRunService` steer。快照原文就是新目标，不必再说「Change the goal」。一项当前工作可以不写运行编号；多项必须带 `steer_run_id`；没有当前工作时不新建运行。改过的措辞只用于开始新的 Work。
+- **恢复：**提交前中断不是成功。steer 已写入但对话回执丢失时，同一操作号恢复且不第二次改口。流式关闭不是成功回执。配对设备仍是 403。Full access 不产生作业或建议。
+- **证据：**对话测试 54 项通过。整合验收 7 项通过。文字、目标、权限、购物、邮箱、离线日程、Work 运行和语音 Work 的一条回归命令 148 项通过。语音前端测试 19 项通过，`tsc --noEmit` 通过。付费调用 0。见[契约](desk-companion/docs/conversation-work.md)与[QA](output/qa/2026-11-06-voice-review-steer/verification.md)。
+- **未做：**改口之后，同一条对话还不会显示既有执行器的下一次核验结果。真实账号、支付、Pi 和付费模型比较仍分开。

@@ -501,3 +501,142 @@ test("a consumed voice handoff keeps the Work composer mounted until privacy is 
     else Reflect.deleteProperty(globalThis, "window");
   }
 });
+
+function runId(char: string) {
+  return char.repeat(32);
+}
+function workRun(char: string, goal = `Goal ${char}`) {
+  return {
+    id: runId(char),
+    goal,
+    state: "queued",
+    plan_revision: 1,
+    task_ids: ["task"],
+  };
+}
+async function reviewed(h: ReturnType<typeof setup>, runs: unknown) {
+  const steered: any[] = [];
+  h.patch({ taskId: "task", onSteered: (reply: any) => steered.push(reply) });
+  h.select();
+  h.pending[0].resolve(h.receipt());
+  await h.flush();
+  h.render();
+  const listed = h.pending.find((item) => item.path === "/agent/runs");
+  assert.ok(listed);
+  listed.resolve({ runs });
+  await h.flush();
+  return { steered, tree: h.render() };
+}
+function button(tree: any, label: string) {
+  return nodes(tree).find(
+    (node) => node.type === "button" && text(node) === label,
+  );
+}
+test("one current run is the steer target; an interruption is not success and retries the same operation", async () => {
+  const again = setup();
+  try {
+    const { steered, tree } = await reviewed(again, [workRun("a", "Compare suppliers")]);
+    assert.equal(button(tree, "Update this work")?.props.disabled, false);
+    assert.match(text(tree), /Compare suppliers/);
+    assert.equal(
+      nodes(tree).some((node) => node.type === "input" && node.props.type === "radio"),
+      false,
+    );
+    button(tree, "Update this work").props.onClick();
+    const first = again.pending.find((item) => item.path === "/assistant/messages");
+    assert.deepEqual(JSON.parse(first.options.body), {
+      message: "Original synthetic speech",
+      language: "en",
+      task_id: "task",
+      voice_origin_ref: "draft-ref",
+      voice_steer: true,
+      steer_run_id: runId("a"),
+    });
+    const operation = first.options.headers["X-Operation-Id"];
+    first.reject(
+      Object.assign(new Error("CONVERSATION_WORK_INTERRUPTED"), {
+        code: "CONVERSATION_WORK_INTERRUPTED",
+        status: 409,
+      }),
+    );
+    await again.flush();
+    let next = again.render();
+    assert.equal(steered.length, 0);
+    assert.equal(again.handoffs.length, 0);
+    assert.match(text(next), /CONVERSATION_WORK_INTERRUPTED/);
+    button(next, "Retry the same update").props.onClick();
+    const second = again.pending.filter((item) => item.path === "/assistant/messages")[1];
+    assert.equal(second.options.headers["X-Operation-Id"], operation);
+    assert.equal(second.options.body, first.options.body);
+    second.resolve({
+      admitted: true,
+      message: "The goal of this work is now “Original synthetic speech”.",
+    });
+    await again.flush();
+    next = again.render();
+    assert.equal(steered.length, 1);
+    assert.equal(steered[0].text, "Original synthetic speech");
+    assert.equal(again.handoffs.length, 0);
+    assert.equal(nodes(next).some((node) => node.type === "textarea"), false);
+  } finally {
+    again.close();
+  }
+});
+test("several current runs stay unselected until the owner picks one", async () => {
+  const h = setup();
+  try {
+    const { tree } = await reviewed(h, [
+      workRun("a", "First goal"),
+      workRun("b", "Second goal"),
+    ]);
+    const update = button(tree, "Update the selected work");
+    assert.equal(update.props.disabled, true);
+    const radios = nodes(tree).filter(
+      (node) => node.type === "input" && node.props.type === "radio",
+    );
+    assert.equal(radios.length, 2);
+    assert.equal(
+      radios.every((node) => node.props.checked === false),
+      true,
+    );
+    update.props.onClick();
+    assert.equal(
+      h.pending.some((item) => item.path === "/assistant/messages"),
+      false,
+    );
+    radios[1].props.onChange();
+    const chosen = h.render();
+    button(chosen, "Update the selected work").props.onClick();
+    const posted = h.pending.find((item) => item.path === "/assistant/messages");
+    assert.equal(JSON.parse(posted.options.body).steer_run_id, runId("b"));
+  } finally {
+    h.close();
+  }
+});
+test("no current run keeps the new-work handoff and an edit does not steer", async () => {
+  const h = setup();
+  try {
+    const { steered, tree } = await reviewed(h, []);
+    assert.equal(button(tree, "Update this work"), undefined);
+    assert.equal(button(tree, "Update the selected work"), undefined);
+    button(tree, "End voice and review work").props.onClick();
+    assert.equal(h.handoffs.length, 1);
+    assert.equal(steered.length, 0);
+  } finally {
+    h.close();
+  }
+  const edited = setup();
+  try {
+    const { tree } = await reviewed(edited, [workRun("a")]);
+    nodes(tree)
+      .find((node) => node.type === "textarea")
+      .props.onChange({ target: { value: "Owner edited goal" } });
+    const next = edited.render();
+    assert.equal(button(next, "Update this work"), undefined);
+    assert.match(text(next), /Edited wording starts new work/);
+    button(next, "End voice and review work").props.onClick();
+    assert.equal(edited.handoffs[0].text, "Owner edited goal");
+  } finally {
+    edited.close();
+  }
+});

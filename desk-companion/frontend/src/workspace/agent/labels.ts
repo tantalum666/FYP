@@ -261,6 +261,22 @@ export function agentError(error: unknown, t: Translate) {
       "This voice snapshot already created work. Inspect the saved run instead of starting it again.",
       "此语音快照已创建工作，请检查保存运行，不要再次开始。",
     ],
+    VOICE_STEER_REQUIRES_SNAPSHOT: [
+      "Updating current work needs the reviewed voice snapshot.",
+      "更新当前工作需要已复核的语音快照。",
+    ],
+    CONVERSATION_WORK_INTERRUPTED: [
+      "The update did not finish. Current work is unchanged. Retry the same update.",
+      "更新没有完成。当前工作未改变。请重试同一次更新。",
+    ],
+    CONVERSATION_WORK_RESULT_UNKNOWN: [
+      "The update result was not confirmed. Retry the same update before trying a different goal.",
+      "更新结果尚未确认。请先重试同一次更新，再改用其他目标。",
+    ],
+    OPERATION_ID_CONFLICT: [
+      "This update already used a different goal. Review the current work before trying again.",
+      "这次更新已经用过另一个目标。请先查看当前工作，再重新尝试。",
+    ],
 
     WORK_SEARCH_CHANGED: [
       "Saved records changed while paging. Submit the search again to refresh from the first page.",

@@ -425,9 +425,13 @@ class TextAssistant:
 
     @staticmethod
     def _fingerprint(payload, allow_memory):
-        return hashlib.sha256(
-            encode({**payload.model_dump(), "allow_memory": allow_memory}).encode()
-        ).hexdigest()
+        # Absent review-screen fields stay out of the hash so older receipts still match.
+        body = payload.model_dump()
+        if body.get("voice_steer") is not True:
+            body.pop("voice_steer", None)
+        if not body.get("steer_run_id"):
+            body.pop("steer_run_id", None)
+        return hashlib.sha256(encode({**body, "allow_memory": allow_memory}).encode()).hexdigest()
 
     def _cached_reply(self, payload, key, allow_memory):
         with self.store.connection() as conn:

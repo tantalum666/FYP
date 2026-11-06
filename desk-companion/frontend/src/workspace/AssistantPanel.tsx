@@ -406,7 +406,28 @@ export function AssistantPanel({
     if (immersive && !expanded) setView("chat");
   }, [immersive, expanded]);
   const ownerView = data?.principal.kind === "owner";
-  const voiceWork = useVoiceWorkHandoff(t, taskId, suspended, endVoice);
+  const voiceWork = useVoiceWorkHandoff(
+    t,
+    taskId,
+    suspended,
+    endVoice,
+    (reply) => {
+      const id = Date.now();
+      setTurns((old) =>
+        [
+          ...old,
+          { id, role: "user" as const, body: reply.text },
+          {
+            id: id + 1,
+            role: "assistant" as const,
+            body: reply.message,
+            kind: "work_goal",
+          },
+        ].slice(-40),
+      );
+      window.dispatchEvent(new Event("desk:jobs"));
+    },
+  );
   useDraftGuard(!!text.trim(), busy);
   const reload = useCallback(async () => {
     void loadActivity();

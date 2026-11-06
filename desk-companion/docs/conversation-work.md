@@ -31,7 +31,25 @@ A goal that already matches is left as it is. The task's other fields, including
 
 Freezing a snapshot still does not steer and does not start work. The owner sends that reviewed text on the ordinary assistant message together with `voice_origin_ref`. The server accepts the turn only when the text is the live snapshot. `ConversationWork.turn` then steers. There is no second steer implementation.
 
-A snapshot that is a question, a quote, or a `Goal:` draft gets a normal reply. It does not steer, and it does not continue into a task draft or a model call. Two current runs and no run id stay unresolved. Steering leaves the snapshot in place until its existing expiry.
+A snapshot that is a question, a quote, or a `Goal:` draft gets a normal reply when the message is not an explicit review-screen update. It does not steer, and it does not continue into a task draft or a model call. Two current runs and no run id stay unresolved. Steering leaves the snapshot in place until its existing expiry.
+
+## Review screen
+
+The voice review screen can apply that same snapshot to current work. It posts the ordinary assistant message with the live snapshot text, `voice_origin_ref`, and `voice_steer: true`. `ConversationWork.turn` steers. There is no second steer.
+
+The snapshot text is the goal. It does not need the phrases above. Without `voice_steer`, those phrases are still the only way a message steers.
+
+Current work is not cancelled and has not already changed its goal.
+
+| Current runs | What the turn does |
+|---|---|
+| One on the message's task, or one in total when the message names no task | That run. `steer_run_id` may be omitted |
+| More than one | The owner must send `steer_run_id`. Omitting it does not choose |
+| None on that task | No run is created. The screen keeps “End voice and review work” |
+
+A named run must be on the message's task when a task is present. `voice_steer` without `voice_origin_ref` is `VOICE_STEER_REQUIRES_SNAPSHOT`. A numeric `1` is not `voice_steer: true`. An edited wording is `VOICE_INPUT_CHANGED`; the screen uses an edit only to start new work.
+
+The operation id, interruption, lost receipt, and stream close rules below apply unchanged. A paired device receives 403. Full access creates no job and no proposal. Freezing a snapshot still does not steer, and new-run admission is unchanged.
 
 ## Interruption and unknown result
 
@@ -42,7 +60,7 @@ A snapshot that is a question, a quote, or a `Goal:` draft gets a normal reply. 
 
 Closing the assistant stream before it finishes is not the success receipt. Recovery uses the same operation id through SSE and does not steer again. This keeps the 28 October rule that a stream interrupt is not success.
 
-[Voice goals](voice-work.md) still govern freeze and new-run admission. The review screen itself still starts a new run only.
+[Voice goals](voice-work.md) still govern freeze and new-run admission. The review screen uses the steer above when the owner updates current work, and keeps new-run admission when there is nothing current to update.
 
 ## Checks
 
@@ -51,6 +69,12 @@ From `desk-companion/`:
 ```sh
 uv run --no-sync ruff check backend/desk/conversation_work.py backend/desk/assistant.py backend/desk/voice_work.py backend/desk/text_ai.py backend/desk/runtime.py tests/test_conversation_work.py
 uv run --no-sync pytest tests/test_conversation_work.py tests/test_integration_acceptance.py -q
+```
+
+From `frontend/`:
+
+```sh
+node --experimental-strip-types --test tests/voice-work.test.ts tests/voice-work-lifecycle.test.ts tests/voice-work-render.test.ts
 ```
 
 No paid provider call and no GitHub Actions run.
