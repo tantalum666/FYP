@@ -5,8 +5,14 @@ import type { Translate } from "../../types";
 import type { ResponseFence } from "../personal/responseFence";
 import type { WorkGoalRequest } from "../agent/types";
 import { agentError } from "../agent/labels";
-import { validVoiceDraft, validVoiceGoal, voiceGoalOrigin } from "./types";
+import {
+  currentVoiceRuns,
+  validVoiceDraft,
+  validVoiceGoal,
+  voiceGoalOrigin,
+} from "./types";
 import type {
+  CurrentWorkRun,
   VoiceBoundary,
   VoiceDraft,
   VoiceInput,
@@ -109,14 +115,18 @@ export function VoiceWorkPanel({
   t,
   fence,
   owner,
+  taskId,
   onHandoff,
+  onSteered,
   onInvalidated,
 }: {
   state: VoiceInputs;
   t: Translate;
   fence: ResponseFence;
   owner: boolean;
+  taskId?: string;
   onHandoff: (goal: WorkGoalRequest) => void;
+  onSteered?: (reply: { text: string; message: string }) => void;
   onInvalidated?: () => void;
 }) {
   const [review, setReview] = useState<{
@@ -127,6 +137,12 @@ export function VoiceWorkPanel({
   const [error, setError] = useState<unknown>(null);
   const [busy, setBusy] = useState(false);
   const [expired, setExpired] = useState(false);
+  const [runs, setRuns] = useState<CurrentWorkRun[] | null>(null);
+  const [runsError, setRunsError] = useState(false);
+  const [chosen, setChosen] = useState<string | null>(null);
+  const [steerError, setSteerError] = useState<unknown>(null);
+  const [steerNote, setSteerNote] = useState<string | null>(null);
+  const steerKey = useRef<{ id: string; body: string } | null>(null);
   const mountEpoch = useRef(fence.capture());
   const current = useRef({ owner, epoch: mountEpoch.current });
   current.current = { owner, epoch: mountEpoch.current };
@@ -151,6 +167,42 @@ export function VoiceWorkPanel({
     );
     return () => clearTimeout(timer);
   }, [review?.draft]);
+  useEffect(() => {
+    if (!review) return;
+    const epoch = current.current.epoch;
+    let cancel = false;
+    setRuns(null);
+    setRunsError(false);
+    setChosen(null);
+    request<{ runs?: unknown }>("/agent/runs")
+      .then((body) => {
+        if (
+          cancel ||
+          !live.current ||
+          !current.current.owner ||
+          !fence.accepts(epoch) ||
+          current.current.epoch !== epoch
+        )
+          return;
+        if (!body || !Array.isArray(body.runs)) {
+          setRunsError(true);
+          return;
+        }
+        setRuns(currentVoiceRuns(body.runs, taskId));
+      })
+      .catch(() => {
+        if (
+          !cancel &&
+          live.current &&
+          current.current.owner &&
+          fence.accepts(epoch)
+        )
+          setRunsError(true);
+      });
+    return () => {
+      cancel = true;
+    };
+  }, [review?.draft.voice_origin_ref, taskId]);
   async function freeze(input: VoiceInput) {
     const epoch = fence.capture();
     if (
@@ -212,6 +264,79 @@ export function VoiceWorkPanel({
       if (live.current) setBusy(false);
     }
   }
+  async function steer(target: CurrentWorkRun) {
+    if (
+      !review ||
+      handedOff.current ||
+      inFlight.current ||
+      !current.current.owner ||
+      !fence.accepts(current.current.epoch) ||
+      !validVoiceGoal(review.draft.text) ||
+      review.text.trim() !== review.draft.text.trim() ||
+      review.draft.text.length > 3000
+    )
+      return;
+    if (Date.parse(review.draft.expires_at) <= Date.now()) {
+      setReview(null);
+      setExpired(true);
+      return;
+    }
+    const body = {
+      message: review.draft.text,
+      language: t("en", "zh") === "zh" ? "zh" : "en",
+      task_id: taskId ?? null,
+      voice_origin_ref: review.draft.voice_origin_ref,
+      voice_steer: true,
+      steer_run_id: target.id,
+    };
+    const encoded = JSON.stringify(body);
+    if (!steerKey.current || steerKey.current.body !== encoded)
+      steerKey.current = { id: crypto.randomUUID(), body: encoded };
+    const epoch = current.current.epoch;
+    const snapshot = review.draft.text;
+    inFlight.current = true;
+    setBusy(true);
+    setSteerError(null);
+    setSteerNote(null);
+    try {
+      const reply = await request<{ admitted?: unknown; message?: unknown }>(
+        "/assistant/messages",
+        {
+          method: "POST",
+          body: encoded,
+          headers: { "X-Operation-Id": steerKey.current.id },
+        },
+      );
+      if (
+        !live.current ||
+        !current.current.owner ||
+        !fence.accepts(epoch) ||
+        current.current.epoch !== epoch
+      )
+        return;
+      if (typeof reply?.message !== "string" || typeof reply.admitted !== "boolean")
+        throw new ApiError("CONNECTION_LOST");
+      if (!reply.admitted) {
+        setSteerNote(reply.message);
+        return;
+      }
+      onSteered?.({ text: snapshot, message: reply.message });
+      setReview(null);
+    } catch (error) {
+      if (live.current && current.current.owner && fence.accepts(epoch))
+        setSteerError(error);
+    } finally {
+      inFlight.current = false;
+      if (live.current) setBusy(false);
+    }
+  }
+  const steerTarget =
+    runs?.length === 1
+      ? runs[0]
+      : (runs?.find((run) => run.id === chosen) ?? null);
+  const wordingMatches =
+    !!review && review.text.trim() === review.draft.text.trim();
+  const wordingFits = !!review && review.draft.text.length <= 3000;
   return (
     <>
       <VoiceInputList
@@ -223,7 +348,12 @@ export function VoiceWorkPanel({
       />
       {busy && (
         <p role="status">
-          {t("Freezing the selected input snapshot…", "正在固定所选输入快照…")}
+          {review
+            ? t("Updating the current work…", "正在更新当前工作…")
+            : t(
+                "Freezing the selected input snapshot…",
+                "正在固定所选输入快照…",
+              )}
         </p>
       )}
       {!!error && (
@@ -276,16 +406,87 @@ export function VoiceWorkPanel({
           </label>
           <p>
             {t(
-              "This ends the microphone and speech connection. Existing work continues. You will select evidence and review retention before starting anything.",
-              "这会结束麦克风与语音连接，已有工作继续运行。开始前仍需选择证据并审阅保留范围。",
+              "Ending voice starts new work. You still choose evidence before anything starts. The full conversation and raw audio are not saved.",
+              "结束语音会开始新的工作。开始前仍需选择证据。不会保存完整交谈或原始录音。",
             )}
           </p>
-          <p>
-            {t(
-              "Only this edited goal can be retained after Start work. The full conversation and raw audio are not saved.",
-              "仅在开始工作后保留此编辑后的目标，不保存完整交谈或原始录音。",
-            )}
-          </p>
+          {!!runs?.length && (
+            <p>
+              {t(
+                "Updating current work uses this reviewed wording. Nothing is sent or bought.",
+                "更新当前工作会使用这段已复核的措辞。不会发送或购买。",
+              )}
+            </p>
+          )}
+          {runs === null && !runsError && (
+            <p role="status">
+              {t("Checking current work…", "正在查看当前工作…")}
+            </p>
+          )}
+          {runsError && (
+            <p role="status">
+              {t(
+                "Current work could not be read. You can still start new work.",
+                "未能读到当前工作。仍可开始新的工作。",
+              )}
+            </p>
+          )}
+          {!!runs?.length && !wordingMatches && (
+            <p role="status">
+              {t(
+                "Edited wording starts new work.",
+                "改过的措辞会开始新的工作。",
+              )}
+            </p>
+          )}
+          {!!runs?.length && wordingMatches && !wordingFits && (
+            <p role="status">
+              {t(
+                "This wording is too long to update current work.",
+                "这段措辞太长，不能更新当前工作。",
+              )}
+            </p>
+          )}
+          {wordingMatches && wordingFits && runs?.length === 1 && (
+            <p>
+              {t("Update this work:", "更新这项工作：")}{" "}
+              {runs[0].goal?.trim() || t("Current work", "当前工作")}
+            </p>
+          )}
+          {wordingMatches && wordingFits && !!runs && runs.length > 1 && (
+            <fieldset className="voice-steer">
+              <legend>
+                {t("Choose the work to update", "选择要更新的工作")}
+              </legend>
+              {runs.map((run) => (
+                <label key={run.id}>
+                  <input
+                    type="radio"
+                    name="voice-steer-run"
+                    checked={chosen === run.id}
+                    onChange={() => setChosen(run.id)}
+                  />
+                  <span>
+                    {run.goal?.trim() || t("Current work", "当前工作")}
+                  </span>
+                </label>
+              ))}
+            </fieldset>
+          )}
+          {steerNote && <p role="status">{steerNote}</p>}
+          {!!steerError && (
+            <div role="alert">
+              <p>{agentError(steerError, t)}</p>
+              <button
+                type="button"
+                className="secondary"
+                disabled={busy || !steerTarget}
+                onClick={() => steerTarget && void steer(steerTarget)}
+              >
+                {t("Retry the same update", "重试同一次更新")}
+              </button>
+            </div>
+          )}
           <div className="workspace-inline-actions">
             <button
               type="button"
@@ -294,6 +495,20 @@ export function VoiceWorkPanel({
             >
               {t("Dismiss and keep talking", "关闭并继续交谈")}
             </button>
+            {wordingMatches && wordingFits && runs && runs.length > 0 && (
+              <button
+                type="button"
+                className="secondary"
+                disabled={
+                  busy || !steerTarget || !validVoiceGoal(review.draft.text)
+                }
+                onClick={() => steerTarget && void steer(steerTarget)}
+              >
+                {runs.length === 1
+                  ? t("Update this work", "更新这项工作")
+                  : t("Update the selected work", "更新所选工作")}
+              </button>
+            )}
             <button
               type="button"
               className="primary"

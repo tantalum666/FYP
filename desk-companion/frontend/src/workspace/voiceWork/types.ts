@@ -148,3 +148,40 @@ export function voiceGoalOrigin(draft: VoiceDraft): VoiceGoalOrigin {
   const { text: _text, ...origin } = draft;
   return origin;
 }
+export interface CurrentWorkRun {
+  id: string;
+  goal?: string;
+  state: string;
+  plan_revision: number;
+  task_ids: string[];
+}
+const RUN_ID = /^[a-f0-9]{32}$/;
+/** Current means the same steer rule as ConversationWork: not cancelled, and still on its first goal. */
+export function currentVoiceRuns(
+  runs: unknown,
+  taskId?: string,
+): CurrentWorkRun[] {
+  if (!Array.isArray(runs)) return [];
+  const current: CurrentWorkRun[] = [];
+  for (const item of runs) {
+    if (!item || typeof item !== "object") continue;
+    const run = item as CurrentWorkRun & { private_hidden?: boolean };
+    if (run.private_hidden) continue;
+    if (typeof run.id !== "string" || !RUN_ID.test(run.id)) continue;
+    if (run.state === "cancelled") continue;
+    if (typeof run.plan_revision !== "number" || run.plan_revision >= 2)
+      continue;
+    const tasks = Array.isArray(run.task_ids)
+      ? run.task_ids.filter((id) => typeof id === "string")
+      : [];
+    if (taskId && !tasks.includes(taskId)) continue;
+    current.push({
+      id: run.id,
+      goal: typeof run.goal === "string" ? run.goal : undefined,
+      state: typeof run.state === "string" ? run.state : "",
+      plan_revision: run.plan_revision,
+      task_ids: tasks,
+    });
+  }
+  return current;
+}

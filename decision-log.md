@@ -1,6 +1,6 @@
 # Group 2 Decision Log
 
-Updated: 3 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
+Updated: 6 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
 
 ## 2026-09-25 用户推翻 Senplate，研究智能工作台新方向
 
@@ -563,3 +563,37 @@ Linux只读检查返回4，并明确跳过journal recovery；needs_recovery及�
 **实际结果：**443通道完成原Pi身份认证、宿舍有线、Mac网页／VNC及重启后访问。补充专用中转账号20/3失活检测和Mac自动重连；其他用户的有效SSH配置未变。统一main abf6387通过锁定ARM64环境、备份与迁移演练后实际部署，真实1→2→3及32张原表比对通过。原账号／密钥配置保留；没有将旧应用删除或把迁移成功写成语音／机械验收。
 
 **持久化边界：**重启后第二份Pi本地副本出现空文件，明确排除该回退来源。最初Pi／Mac备份一致，旧程序已在其副本上登录／读取通过；新schema3档案经同步后复制到Mac并校验。运行身份文件与最初Mac副本一致，274程序／前端和2159依赖文件完整。低压及长期稳定性仍未解决，原因不强行归因。下一步先做新版Pi离线会话到应用作业验收。详见[部署QA](output/qa/2026-11-05-pi-runtime-upgrade/verification.md)。
+
+
+## 2026-11-06 普通文字改口进入已有 Work
+
+- **任务范围：**当前交接的下一步是离线改口用例，加上这条路径上的中断和未知结果恢复。这是既有下一步的实现，不是新的付费、真实账号或 Pi 授权。Codex 仍负责审查合并；#73、#87、#88 保持不动。
+- **工程选择：**明确说法才调用既有 `AgentRunService` steer。同一事务上只有一项当前 Work 时可以不写运行编号；多项、已取消或已经改过一次则不猜测。不新建任务库、队列、schema 迁移或模型自批工具。`Goal:` 仍只准备新事务草稿。
+- **恢复：**提交前中断不改目标，也不是成功回复。steer 已提交但对话回执丢失时，同一操作号恢复原更改；换一个目标则冲突，不会第二次 steer。流中断本身不是成功回执。
+- **证据：**离线夹具 9 项、整合验收 7 项，以及文字会话、目标、权限、购物、邮箱、离线日程和 Work 运行共 97 项通过。付费调用 0。见[契约](desk-companion/docs/conversation-work.md)与[QA](output/qa/2026-11-06-conversation-work-changed-goal/verification.md)。
+- **未做：**夹具以外的说法和来源版式、语音快照改已有 Work、真实账号、支付和 Pi。
+
+## 2026-11-06 未见说法与语音快照改已有 Work
+
+- **任务范围：**上一轮交接的下一步是夹具以外的说法和来源版式，然后用语音快照走同一条改口。仍是离线实现。不接真实账号、支付或 Pi，不动 Codex 草稿 #73、#87、#88。
+- **工程选择：**匹配仍只在 `owner_instruction` 和 `parse_changed_goal`。引用行和来源标题不是指令。问句、`Goal:`／`目标：`草稿、多项当前工作且没有运行编号时不改。已复核的语音快照把原文放进同一 `ConversationWork.turn`，用 `voice_origin_ref` 核对，不另写 steer。
+- **恢复：**文字和语音共用提交前中断、丢失回执后的同一操作号，以及流式关闭不是成功回执。快照还在时换一句是 `VOICE_INPUT_CHANGED`。快照消失后换一个目标是 `OPERATION_ID_CONFLICT`。都不会第二次 steer。
+- **证据：**对话测试 47 项通过，其中未见夹具 31 项。整合验收 7 项、先前回归 97 项、语音 Work 44 项通过。付费调用 0。见[契约](desk-companion/docs/conversation-work.md)与[QA](output/qa/2026-11-06-conversation-work-unseen-voice/verification.md)。
+- **未做：**语音复核页仍只开始新的 Work。真实账号、支付、Pi 和付费模型比较仍分开。
+
+## 2026-11-06 语音复核页更新一项当前 Work
+
+- **任务范围：**上一轮交接的下一步是让语音复核页把已复核快照送进已有改口。仍是离线实现。不接真实账号、支付或 Pi，不动 Codex 草稿 #73、#87、#88。
+- **工程选择：**复核页在普通助手消息上带 `voice_origin_ref` 和 `voice_steer: true`。仍由 `ConversationWork.turn` 调用既有 `AgentRunService` steer。快照原文就是新目标，不必再说「Change the goal」。一项当前工作可以不写运行编号；多项必须带 `steer_run_id`；没有当前工作时不新建运行。改过的措辞只用于开始新的 Work。
+- **恢复：**提交前中断不是成功。steer 已写入但对话回执丢失时，同一操作号恢复且不第二次改口。流式关闭不是成功回执。配对设备仍是 403。Full access 不产生作业或建议。
+- **证据：**对话测试 54 项通过。整合验收 7 项通过。文字、目标、权限、购物、邮箱、离线日程、Work 运行和语音 Work 的一条回归命令 148 项通过。语音前端测试 19 项通过，`tsc --noEmit` 通过。付费调用 0。见[契约](desk-companion/docs/conversation-work.md)与[QA](output/qa/2026-11-06-voice-review-steer/verification.md)。
+- **未做：**改口之后，同一条对话还不会显示既有执行器的下一次核验结果。真实账号、支付、Pi 和付费模型比较仍分开。
+
+## 2026-11-06 改口后在同一条对话显示一项已核验结果
+
+- **任务范围：**上一轮交接的下一步是，文字或语音改口之后，在同一条对话里显示既有离线 Work 执行器的一项已核验结果。结果必须体现改后的目标。不调用付费模型，不接真实账号、支付或 Pi，不动 Codex 草稿 #73、#87、#88。
+- **工程选择：**steer 提交后，只对这一次运行调用既有 `AgentRunService.advance_one`。确定性模式读回已发布的 Markdown，对话里带上文件中的 `Goal:` 行。不新建任务库、队列、schema 迁移或自批工具，也不创建电脑作业或建议。模型模式不往下执行，避免变成一次提供商调用。
+- **恢复：**未核验是 `CONVERSATION_WORK_RESULT_UNVERIFIED`，失败是 `CONVERSATION_WORK_RESULT_FAILED`，都不是成功。执行前中断不是成功，目标已经改了，同一操作号可以随后显示一次结果。文件已核验但对话回执丢失时，同一操作号读回原文件，不第二次发布。另一个登录打不开这条对话。配对设备仍是 403。Full access 不产生作业或建议。
+- **合并说明：**Codex 按 #89 → #90 → #91 → 本 PR 合并。本 PR 的基线是 #91 的分支 `cursor/voice-review-steer-current-work-e7d6`。
+- **证据：**对话测试 60 项通过。整合验收 7 项通过。全量后端 pytest 为 1828 passed、1 failed；失败项是既有的 `test_public_unicast[::ffff:93.184.216.34]`，本轮没有改那段传输检查。前端测试 323 项通过，`tsc --noEmit` 通过。付费调用 0。见[契约](desk-companion/docs/conversation-work.md)与[QA](output/qa/2026-11-06-conversation-work-verified-result/verification.md)。
+- **未做：**后一轮提问还不能再次读出这一条已核验结果。真实账号、支付、Pi 和付费模型比较仍分开。

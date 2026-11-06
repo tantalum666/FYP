@@ -27,3 +27,15 @@
   white-space: normal;
   max-width: 100%;
 }
+.voice-steer {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.voice-steer label {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}

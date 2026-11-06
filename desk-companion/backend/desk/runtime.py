@@ -39,6 +39,7 @@ from .routines import RoutineService
 from .sources import SourceService
 from .artifacts import ArtifactService
 from .agent_runs import AgentRunService
+from .conversation_work import ConversationWork
 from .browser_jobs import BrowserService
 from .connectors.service import build_connector_service
 from .connectors.agent_adapter import connector_adapters
@@ -107,6 +108,7 @@ class Runtime:
         self.connectors = build_connector_service(self, connector_configs)
         self.agent_tool_adapters = {**connector_adapters(self.connectors), **application_adapters()}
         self.agent_runs = AgentRunService(self)
+        self.conversation_work = ConversationWork(self)
         self.work_search = WorkSearchService(self)
         self.work_capacity = WorkCapacityService(self)
         self.public_captures = PublicCaptureService(self, enabled=public_capture_enabled)

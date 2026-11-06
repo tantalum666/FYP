@@ -486,6 +486,18 @@ export function errorText(
       "Check the title, dates, timezone and repeat settings. The end must be after the start; clock-change gaps or duplicated times need a different time or UTC.",
       "请检查标题、日期、时区和重复设置。结束须晚于开始；夏令时不存在或重复的时间请改选其他时间或 UTC。",
     ],
+    CONVERSATION_WORK_RESULT_INTERRUPTED: [
+      "The verified result was not shown. Retry the same update.",
+      "已核验结果尚未显示。请重试同一次更新。",
+    ],
+    CONVERSATION_WORK_RESULT_UNVERIFIED: [
+      "That result is not verified, so it is not shown as done.",
+      "该结果尚未核验，不会显示为已完成。",
+    ],
+    CONVERSATION_WORK_RESULT_FAILED: [
+      "That result failed, so it is not shown as done.",
+      "该结果失败了，不会显示为已完成。",
+    ],
     CONNECTION_LOST: [
       "Connection lost. A save may still have completed. Retry the same operation safely.",
       "连接中断，保存可能已完成。可以安全重试同一操作。",

@@ -383,17 +383,27 @@ class TextAssistant:
                 conversation = self.runtime.voice.conversations.open(
                     principal, revision, task_id=payload.task_id
                 )
-        reply = (
-            cached
-            if cached is not None
-            else self._message(
+        admitted = None
+        if cached is None and principal is not None:
+            # An explicit goal change is owner authority. It never reaches the model.
+            admitted = self.runtime.conversation_work.turn(payload, key, principal)
+        if cached is not None:
+            reply = cached
+        elif admitted is not None:
+            reply = present(admitted, self.runtime.data.preferences(), payload.language)
+            with self.store.connection(write=True) as conn:
+                conn.execute(
+                    "INSERT INTO assistant_replies VALUES(?,?,?)",
+                    (key, self._fingerprint(payload, allow_memory), encode(reply)),
+                )
+        else:
+            reply = self._message(
                 payload,
                 key,
                 allow_memory=allow_memory,
                 on_event=on_event,
                 conversation=conversation,
             )
-        )
         reply = (
             self.runtime.permissions.apply_reply(reply, grant, language=payload.language)
             if cached is None
@@ -415,9 +425,13 @@ class TextAssistant:
 
     @staticmethod
     def _fingerprint(payload, allow_memory):
-        return hashlib.sha256(
-            encode({**payload.model_dump(), "allow_memory": allow_memory}).encode()
-        ).hexdigest()
+        # Absent review-screen fields stay out of the hash so older receipts still match.
+        body = payload.model_dump()
+        if body.get("voice_steer") is not True:
+            body.pop("voice_steer", None)
+        if not body.get("steer_run_id"):
+            body.pop("steer_run_id", None)
+        return hashlib.sha256(encode({**body, "allow_memory": allow_memory}).encode()).hexdigest()
 
     def _cached_reply(self, payload, key, allow_memory):
         with self.store.connection() as conn:
