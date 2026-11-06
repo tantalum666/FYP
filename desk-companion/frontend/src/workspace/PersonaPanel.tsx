@@ -79,8 +79,8 @@ export function PersonaPanel({ t }: { t: Translate }) {
         <h1>{t("Assistant style", "助理风格")}</h1>
         <p>
           {t(
-            "Sign in as owner to edit how the assistant speaks. Pairing alone does not change it.",
-            "请以拥有者身份登录后再编辑助理的说话方式。配对身份不能修改。",
+            "Edit the assistant style from your main desk.",
+            "请在主桌面编辑助理的说话方式。",
           )}
         </p>
       </section>

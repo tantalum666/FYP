@@ -9,6 +9,7 @@ import {
 } from "react";
 import type { ReactNode } from "react";
 import { ApiError, request, clearPending } from "../api";
+import { openSession } from "../session";
 import type { WorkspaceSnapshot, PermissionState } from "./types";
 
 const WorkspaceContext = createContext<{
@@ -50,7 +51,16 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     busy.current = true;
     const epoch = snapshotEpoch.current;
     try {
-      const next = await request<WorkspaceSnapshot>("/workspace");
+      let next: WorkspaceSnapshot;
+      try {
+        next = await request<WorkspaceSnapshot>("/workspace");
+      } catch (error) {
+        if (!(error instanceof ApiError) || error.status !== 401) throw error;
+        // Resolve an expired local session before removing the current identity;
+        // this preserves mounted drafts without retrying a business write.
+        await openSession();
+        next = await request<WorkspaceSnapshot>("/workspace");
+      }
       if (live.current && epoch === snapshotEpoch.current) {
         const identity = `${next.principal.kind}:${next.principal.id}`;
         if (principal.current !== identity) {
@@ -67,7 +77,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       }
     } catch (e) {
       if (live.current && epoch === snapshotEpoch.current) {
-        if (e instanceof ApiError && e.status === 401) {
+        if (e instanceof ApiError && [401, 403].includes(e.status)) {
           setData(null);
           setOffline(false);
         } else setOffline(true);

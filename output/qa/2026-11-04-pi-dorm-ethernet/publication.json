@@ -1,0 +1,19 @@
+{
+  "pr": 87,
+  "url": "https://github.com/tantalum666/FYP/pull/87",
+  "draft": true,
+  "merged": false,
+  "branch": "codex/pi-dorm-network-recovery-20261104",
+  "base": "codex/pi-home-resume-20261031",
+  "reviewed_source_commit": "fe9725720b24f7cfbe03fb2cc2a6b7f26b03719d",
+  "source_head_verified": true,
+  "title_and_description_updated_via_owner_browser": true,
+  "description_current_tests": 62,
+  "durable_card_prepared_verified_ejected": true,
+  "latest_durable_boot_owner_confirmation_received": false,
+  "latest_durable_boot_progress_received": false,
+  "live_pi_ssh_verified": false,
+  "temporary_observer_finished": true,
+  "app_deployed": false,
+  "ci_used": false
+}

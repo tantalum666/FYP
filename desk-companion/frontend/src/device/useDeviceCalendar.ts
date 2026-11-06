@@ -1,81 +1,50 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ApiError, request } from "../api";
+import { request } from "../api";
 import { classifyFailure } from "../surfaceStatus";
-import type { Session, Snapshot } from "../types";
+import type { Snapshot } from "../types";
+import { useWorkspaceSession } from "../useWorkspaceSession";
 import { useWorkspace } from "../workspace/WorkspaceContext";
 import { displayPrivacy } from "./privacy";
 
 export function useDeviceCalendar(start: string, end: string) {
   const status = useWorkspace();
-  const [session, setSession] = useState<Session | null | undefined>(undefined);
   const [authError, setAuthError] = useState<unknown>(null);
+  const { session, recoverSession } = useWorkspaceSession(setAuthError);
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
   const [loadedKey, setLoadedKey] = useState("");
   const [connection, setConnection] = useState<
     "loading" | "ready" | "offline" | "error"
   >("loading");
   const [loadError, setLoadError] = useState<unknown>(null);
-  const [notice, setNotice] = useState<null | "session-expired">(null);
   const hadSession = useRef(false);
   const [nonce, setNonce] = useState(0);
   const revision = useRef(0);
   const shouldReload = useRef(false);
   const reload = useCallback(() => setNonce((n) => n + 1), []);
   const key = start + "/" + end;
-  const clearSession = useCallback((reason: "signed-out" | "expired") => {
-    setSession(null);
-    setSnapshot(null);
-    setLoadedKey("");
-    setAuthError(null);
-    setLoadError(null);
-    setNotice(reason === "expired" ? "session-expired" : null);
-  }, []);
-  const lock = useCallback(() => clearSession("signed-out"), [clearSession]);
   const fail = useCallback(
     (error: unknown) => {
       const kind = classifyFailure(error, hadSession.current);
-      if (kind === "session-expired") {
-        clearSession("expired");
-        return;
-      }
-      if (kind === "signed-out") {
-        clearSession("signed-out");
+      if (kind === "session-expired" || kind === "signed-out") {
+        setSnapshot(null);
+        setLoadedKey("");
+        void recoverSession();
         return;
       }
       setLoadError(error);
       setConnection(kind === "error" ? "error" : "offline");
     },
-    [clearSession],
+    [recoverSession],
   );
-  const adoptSession = useCallback((value: Session | null) => {
-    if (value) {
-      hadSession.current = true;
-      setNotice(null);
-      setAuthError(null);
-    }
-    setSession(value);
-  }, []);
   useEffect(() => {
-    let live = true;
-    request<Session>("/session")
-      .then((s) => {
-        if (live) {
-          hadSession.current = true;
-          setSession(s);
-          setAuthError(null);
-          setNotice(null);
-        }
-      })
-      .catch((e) => {
-        if (live) {
-          setSession(null);
-          setAuthError(e instanceof ApiError && e.status === 401 ? null : e);
-        }
-      });
-    return () => {
-      live = false;
-    };
-  }, []);
+    if (session) {
+      hadSession.current = true;
+      setAuthError(null);
+    } else if (session === null) {
+      setSnapshot(null);
+      setLoadedKey("");
+    }
+  }, [session]);
   useEffect(() => {
     if (!session) return;
     let live = true;
@@ -140,20 +109,10 @@ export function useDeviceCalendar(start: string, end: string) {
     };
   }, [session, reload, fail]);
   const reconnect = useCallback(async () => {
-    if (session) {
-      reload();
-      return;
-    }
-    try {
-      const s = await request<Session>("/session");
-      hadSession.current = true;
-      setSession(s);
-      setAuthError(null);
-      setNotice(null);
-    } catch (e) {
-      setAuthError(e instanceof ApiError && e.status === 401 ? null : e);
-    }
-  }, [session, reload]);
+    setAuthError(null);
+    await recoverSession();
+    reload();
+  }, [recoverSession, reload]);
   const safeSnapshot = displayPrivacy(
     snapshot,
     status.data?.posture,
@@ -161,8 +120,7 @@ export function useDeviceCalendar(start: string, end: string) {
   );
   return {
     session,
-    setSession: adoptSession,
-    lock,
+    authError,
     snapshot: safeSnapshot,
     reload,
     reconnect,
@@ -172,11 +130,7 @@ export function useDeviceCalendar(start: string, end: string) {
       session === undefined
         ? ("loading" as const)
         : !session
-          ? notice === "session-expired"
-            ? ("session-expired" as const)
-            : authError
-              ? ("offline" as const)
-              : ("locked" as const)
+          ? ("offline" as const)
           : connection,
   };
 }

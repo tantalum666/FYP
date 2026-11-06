@@ -1,0 +1,18 @@
+{
+  "local_links_checked": 265,
+  "broken_links": [],
+  "gitleaks_exit": 0,
+  "changed_files": [
+    "START_HERE_NEXT_CHAT.md",
+    "decision-log.md",
+    "desk-companion/docs/pi5-usb-mac.md",
+    "handoff.md",
+    "planning/2026-09-30/device-display-spec.md",
+    "product.md",
+    "work-log.md",
+    "output/qa/2026-10-31-pi-device-entry/entry-evidence.json",
+    "output/qa/2026-10-31-pi-device-entry/verification.md"
+  ],
+  "no_source_change": true,
+  "screenshots_and_private_installed_readback_not_published": true
+}

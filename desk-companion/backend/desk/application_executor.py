@@ -118,8 +118,7 @@ class ApplicationExecutor:
                     {
                         "root": str(self.root),
                         "inputs": self.sources.fingerprint,
-                        "context": self.bridge.context,
-                        "container": self.bridge.container,
+                        **self.bridge.scope,
                     }
                 ).encode()
             ).hexdigest()

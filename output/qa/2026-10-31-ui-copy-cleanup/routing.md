@@ -1,0 +1,3 @@
+# Group 2 · Original checkout routing update
+
+1 November2026. Read AGENTS, current product routing/requirements, handoff, START_HERE and latest decision/work-log sections. Original checkout was clean. Updated only those six Markdown files and this record to route to software branch `codex/ui-copy-cleanup-20261031` / draftPR75, based on PR74. Actual code, UI evidence and303 frontend checks live in `/Users/tantalum/.codex/worktrees/personal-agent-20261031/FYP`; they were not rerun or copied here. No Pi connection, software deployment, paid model or CI. Preserved Pi checkpoint and pause gates. Diff and secret-scope checks passed;249 local Markdown links resolved. Only seven documentation files changed.

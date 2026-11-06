@@ -1,0 +1,191 @@
+{
+  "date": "2026-10-31",
+  "timezone": "Asia/Shanghai",
+  "kind": "actual_pi_home_network_acceptance_with_open_power_gate",
+  "identity": {
+    "model": "Raspberry Pi 5 Model B Rev 1.0",
+    "original_pinned_ssh_host_key_matched": true,
+    "connection_uses_owner_private_key": true,
+    "mac_route_direct_lan": true
+  },
+  "home": {
+    "ssid_matches_owner_input": true,
+    "phase": "network_ready",
+    "activation_exit": 0,
+    "active_profile": "FYP-Home"
+  },
+  "profiles": [
+    {
+      "name": "FYP-Home",
+      "autoconnect": true,
+      "ipv4_method": "auto",
+      "ipv4_route_metric": 50,
+      "ipv6_route_metric": 50
+    },
+    {
+      "name": "FYP-Wired",
+      "autoconnect": true,
+      "ipv4_method": "auto",
+      "ipv4_route_metric": 100,
+      "ipv6_route_metric": 100
+    },
+    {
+      "name": "FYP-NETGEAR02",
+      "autoconnect": true,
+      "ipv4_method": "auto",
+      "ipv4_route_metric": 600,
+      "ipv6_route_metric": 600
+    },
+    {
+      "name": "FYP-VTC-Student",
+      "autoconnect": false,
+      "ipv4_method": "auto",
+      "ipv4_route_metric": -1,
+      "ipv6_route_metric": -1
+    },
+    {
+      "name": "FYP-VTC-Halls",
+      "autoconnect": false,
+      "ipv4_method": "auto",
+      "ipv4_route_metric": -1,
+      "ipv6_route_metric": -1
+    }
+  ],
+  "ssh_policy": [
+    "permitrootlogin no",
+    "passwordauthentication no",
+    "kbdinteractiveauthentication no",
+    "gatewayports no",
+    "allowtcpforwarding local",
+    "allowusers desk",
+    "authenticationmethods publickey",
+    "permitopen 127.0.0.1:5900 127.0.0.1:8831"
+  ],
+  "listeners": [
+    "127.0.0.1:8831",
+    "0.0.0.0:22",
+    "127.0.0.1:5900",
+    "[::]:22"
+  ],
+  "ethernet": {
+    "profile_installed": true,
+    "last_state": "unavailable_no_carrier",
+    "dhcp_live_test_passed": false,
+    "classroom_live_test_passed": false,
+    "dorm_live_test_passed": false
+  },
+  "ui": {
+    "mac_owner_login": "passed",
+    "mac_pi_served_device_page_and_alice": "passed",
+    "browser_errors_or_warnings_observed": false,
+    "mac_screen_sharing": "passed",
+    "pi_local_chromium_device_shell": "rendered_calendar_locked",
+    "new_keyring_prompt": "cancelled_no_credential_created",
+    "browser_window": "closed_after_voltage_warning",
+    "screenshots": [
+      {
+        "private_filename": "device-page.jpg",
+        "sha256": "94c83358f8e21f18a2ec1b8f1a6f2494993c039cd44f06db240263cb0621dfff",
+        "published": false
+      },
+      {
+        "private_filename": "desktop-connected.jpg",
+        "sha256": "017b660dda6622e687b2bb8bc0393b458944035ad40f341dbb14bae50f053f59",
+        "published": false
+      },
+      {
+        "private_filename": "low-voltage-browser.jpg",
+        "sha256": "5c2ca269e5e58ec310c2b0546bbdba8a263c1f7f26b5be762429f80bfebf9a11",
+        "published": false
+      }
+    ]
+  },
+  "power": {
+    "pre_browser_throttled": "0x0",
+    "pre_browser_temperature_c": 47.7,
+    "event_detected_local": "2026-10-31T04:29:57+08:00",
+    "event_normalised_local": "2026-10-31T04:29:59+08:00",
+    "after_browser_close": {
+      "power_capabilities": {
+        "max_current": 3000,
+        "usb_max_current_enable": 0
+      },
+      "throttled": {
+        "code": 0,
+        "output": "throttled=0x50000"
+      },
+      "temperature": {
+        "code": 0,
+        "output": "temp=63.1'C"
+      },
+      "chromium": {
+        "code": 0,
+        "output": "1"
+      },
+      "network": {
+        "code": 0,
+        "output": "usb0:connected:USB Gadget (shared)\nwlan0:connected:FYP-Home\nlo:connected (externally):lo\np2p-dev-wlan0:disconnected:\neth0:unavailable:"
+      },
+      "rail": {
+        "code": 0,
+        "output": "     EXT5V_V volt(24)=5.04242000V"
+      }
+    },
+    "historical_flags": [
+      "undervoltage",
+      "throttling"
+    ],
+    "active_flags_at_last_check": [],
+    "physical_supply_and_cable": "awaiting_owner_information",
+    "bounded_load_retest": "not_run",
+    "sustained_load_acceptance": false
+  },
+  "cloud_init": {
+    "exit": 2,
+    "status": "done",
+    "extended_status": "degraded done",
+    "errors": [],
+    "recoverable_errors": {
+      "WARNING": [
+        "Could not find module named cc_netplan_nm_patch (searched ['cc_netplan_nm_patch', 'cloudinit.config.cc_netplan_nm_patch'])"
+      ]
+    },
+    "vendor_config_changed": false,
+    "corroborating_issue": "https://github.com/raspberrypi/trixie-feedback/issues/45"
+  },
+  "wireless_country": {
+    "setter_exit": 1,
+    "global_regulatory_domain": "CN",
+    "persisted_cmdline_argument": "cfg80211.ieee80211_regdom=CN",
+    "exit_cause_proven": false
+  },
+  "last_low_load_check": {
+    "services": {
+      "code": 0,
+      "output": "active\nactive"
+    },
+    "throttled": {
+      "code": 0,
+      "output": "throttled=0x50000"
+    },
+    "network": {
+      "code": 0,
+      "output": "usb0:connected:USB Gadget (shared)\nwlan0:connected:FYP-Home\nlo:connected (externally):lo\np2p-dev-wlan0:disconnected:\neth0:unavailable:"
+    },
+    "health": {
+      "service": "desk-companion",
+      "status": "ok"
+    },
+    "observed_at": "2026-10-31T04:46:40.023666+08:00"
+  },
+  "scope": {
+    "app_version": "Oct22 offline payload plus Oct26 runtime repairs",
+    "latest_main_deployed": false,
+    "database_migrated": false,
+    "paid_model_calls": 0,
+    "vps_changed": false,
+    "mac_proxy_changed": false,
+    "ci_used": false,
+    "scheduled_background_monitor": false
+  }
+}

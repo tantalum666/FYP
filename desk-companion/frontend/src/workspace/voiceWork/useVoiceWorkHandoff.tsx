@@ -15,6 +15,7 @@ export function useVoiceWorkHandoff(
   taskId: string | undefined,
   suspended: boolean,
   endVoice: () => void,
+  onSteered?: (reply: { text: string; message: string }) => void,
 ) {
   const { data, offline, stale } = useWorkspace();
   const [inputs, setInputs] = useState(emptyVoiceInputs);
@@ -70,11 +71,18 @@ export function useVoiceWorkHandoff(
             state={inputs}
             fence={fence.current}
             owner={visible}
+            taskId={taskId}
             onHandoff={(next) => {
               endVoice();
               setInputs(emptyVoiceInputs());
               setGoal(next);
               setWorkVisible(true);
+            }}
+            onSteered={(reply) => {
+              endVoice();
+              setInputs(emptyVoiceInputs());
+              window.dispatchEvent(new Event("desk:agent-runs"));
+              onSteered?.(reply);
             }}
             onInvalidated={() => {
               setInputs(emptyVoiceInputs());

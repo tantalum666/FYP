@@ -1,0 +1,53 @@
+{
+  "schema": "desk-conversation-work-fixture-v1",
+  "cases": [
+    {
+      "id": "ordinary-turn",
+      "message": "How is this work going?"
+    },
+    {
+      "id": "mid-flow-change",
+      "message": "Change the goal: quantity 48, budget 950 HKD."
+    },
+    {
+      "id": "explicit-change",
+      "message": "Change work {run_id}: Keep only the Birch quote."
+    },
+    {
+      "id": "chinese-change",
+      "language": "zh",
+      "message": "调整目标：数量改为48，预算950港元。"
+    },
+    {
+      "id": "unchanged",
+      "message": "Change the goal: {goal}"
+    },
+    {
+      "id": "bare-prefix",
+      "message": "Change the goal"
+    },
+    {
+      "id": "new-goal-draft",
+      "message": "Goal: finish the fixture report"
+    },
+    {
+      "id": "interrupt-before-commit",
+      "message": "Change the goal: quantity 60.",
+      "interrupt": "before_commit"
+    },
+    {
+      "id": "unknown-after-commit",
+      "message": "Change the goal: quantity 48, budget 950 HKD.",
+      "interrupt": "after_commit"
+    },
+    {
+      "id": "unknown-conflict",
+      "message": "Change the goal: quantity 70.",
+      "interrupt": "after_commit"
+    },
+    {
+      "id": "stream-change",
+      "message": "Change the goal: quantity 48, budget 950 HKD."
+    }
+  ]
+}

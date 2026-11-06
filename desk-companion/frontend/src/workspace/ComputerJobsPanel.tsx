@@ -294,8 +294,8 @@ export function ComputerJobsPanel({
         <h3>{t("File activity", "文件活动")}</h3>
         <p>
           {t(
-            "Sign in as owner to review and approve computer jobs. Pairing alone does not grant execution permission.",
-            "请以拥有者身份登录，核对并批准电脑作业。配对身份不会自动获得执行权限。",
+            "Review and approve computer jobs from your main desk.",
+            "请在主桌面核对并批准电脑作业。",
           )}
         </p>
       </section>

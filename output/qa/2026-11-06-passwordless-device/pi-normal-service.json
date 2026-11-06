@@ -1,0 +1,61 @@
+{
+  "computer": {
+    "applications": {
+      "enabled": true,
+      "configured": true,
+      "apps": [
+        "LibreOffice Calc",
+        "LibreOffice Writer",
+        "Chromium"
+      ],
+      "actions": [
+        "workbook",
+        "document",
+        "pdf",
+        "text"
+      ]
+    },
+    "desktop": {
+      "enabled": true,
+      "ready": true,
+      "apps": [
+        "Mousepad",
+        "Chromium"
+      ],
+      "scope": "owned_mousepad_chromium_notes_only"
+    },
+    "enabled": true,
+    "executor": "local_notes_v1",
+    "scope": "application_notes_only",
+    "actions": [
+      "save_note",
+      "verify_note"
+    ],
+    "folder": {
+      "configured": false,
+      "label": null,
+      "actions": []
+    }
+  },
+  "voice": {
+    "configured": true,
+    "provider": "qwen_omni",
+    "active": false,
+    "wake_word": {
+      "available": true,
+      "word": "Alice",
+      "active": false
+    }
+  },
+  "text_ai": {
+    "configured": false,
+    "provider": "none",
+    "model": "",
+    "background": false
+  },
+  "permission_mode": "ask",
+  "user_services": [
+    "active",
+    "active"
+  ]
+}

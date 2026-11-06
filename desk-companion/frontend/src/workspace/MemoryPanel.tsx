@@ -233,8 +233,8 @@ export function MemoryPanel({ t }: { t: Translate }) {
         <h1>{t("Memory", "记忆")}</h1>
         <p>
           {t(
-            "Sign in as owner to read or change saved facts. A paired display cannot.",
-            "请以拥有者身份登录后查看或修改记忆。已配对的显示屏不能访问。",
+            "Open your main desk to view or edit saved memories.",
+            "请在主桌面查看或编辑已保存记忆。",
           )}
         </p>
       </section>

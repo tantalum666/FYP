@@ -3,7 +3,7 @@ import { ApiError } from "./api";
 import { openSession } from "./session";
 import type { Session } from "./types";
 
-/** Recover the explicitly enabled local preview without unmounting unsent work. */
+/** Restore the local owner connection without unmounting unsent work. */
 export function useWorkspaceSession(onError: (error: unknown) => void) {
   const [session, updateSession] = useState<Session | null>();
   const [expired, setExpired] = useState(false);
@@ -25,12 +25,12 @@ export function useWorkspaceSession(onError: (error: unknown) => void) {
       if (live.current) setSession(next);
     } catch (error) {
       if (!live.current) return;
-      if (error instanceof ApiError && error.status === 401) {
+      if (error instanceof ApiError && [401, 403].includes(error.status)) {
         const hadSession = !!current.current;
         setSession(null);
         setExpired(hadSession);
-      }
-      else {
+        if (error.status === 403) latestError.current(error);
+      } else {
         latestError.current(error);
         if (current.current === undefined) setSession(null);
       }

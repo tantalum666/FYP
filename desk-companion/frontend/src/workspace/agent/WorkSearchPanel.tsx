@@ -243,8 +243,8 @@ export function WorkSearchPanel({
       {!search.active && (
         <p role="status">
           {t(
-            "Search is unavailable until this private view has a current connection. Reopen search after signing in or changing privacy.",
-            "此私人界面连接恢复有效后才能搜索。重新登录或更改隐私后，请重新打开搜索。",
+            "Reopen search after reconnecting or restoring visibility.",
+            "重新连接或恢复可见性后，请重新打开搜索。",
           )}
         </p>
       )}

@@ -18,7 +18,7 @@ Typing a submitted message pauses wake mode and uses the existing realtime text 
 - `WakeAudio` owns browser capture/local transport; `useAliceWake` coordinates local waiting and the existing cloud conversation. Local microphone state is not labelled microphone-off while the listener is armed.
 - The pinned existing sherpa-onnx bilingual model uses fixed Alice phone sequences and a short silence prefill. Model files remain ignored runtime assets; raw audio is neither logged nor saved by this channel. Keyword-only activation can still misfire on similar words or background speech containing the name; human/noise/AEC validation remains open.
 
-## Current runtime
+## 2 November Mac preview configuration (historical)
 
 Vite5191 proxies API8861 with synthetic `work-ui-01` data. API uses this worktree's frozen `.venv` with the existing audio extra. Explicit settings are `DESK_VOICE_PROVIDER=openai_realtime`, `DESK_VOICE_MODEL=gpt-realtime-2.1`, voice `marin`, `DESK_WAKE_ENABLED=1`, and an absolute DESK_WAKE_MODEL_DIR pointing to the verified ignored model cache. DESK_OPENAI_CREDENTIAL_FILE points to the previously confirmed private FYP env file. Explicit project-file selection takes precedence over a generic OPENAI_API_KEY; secrets stay backend-only and are not copied to this branch.
 
@@ -43,3 +43,14 @@ The USD1 ceiling applies to this experiment controller, not to normal owner usag
 ## 4 November integration
 
 This implementation is part of the unified PR74–77/main candidate. The described normal preview is the preserved Nov2 environment, not a newly deployed merged runtime. Local integration tests use a separate providers-off fixture. No new paid or human-media test is implied. [Merge QA](../../output/qa/2026-11-04-merge-74-77/verification.md).
+
+
+## 6 November Pi integration
+
+Pi now runs the shared Alice/conversation UI with automatic local entry. Its
+preserved provider is Qwen Omni, idle until the owner starts a conversation; this
+is separate from the historical OpenAI Mac preview above. Read-only wake weights
+load successfully using a temporary keyword file, and the frozen audio extra
+includes numpy. Pi currently exposes no capture device. No new OpenAI/Qwen paid
+trial or human wake accuracy result was produced. A standalone synthetic Alice
+sample on Mac did not trigger and remains a recorded gap. See the [actual Pi QA](../../output/qa/2026-11-06-passwordless-device/verification.md).

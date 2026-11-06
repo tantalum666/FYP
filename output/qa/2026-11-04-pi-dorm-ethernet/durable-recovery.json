@@ -1,0 +1,14 @@
+{
+  "durable_seed_applied": true,
+  "exact_boot_files_readback": true,
+  "inline_boot_and_run_source_verified": true,
+  "paired_host_fingerprint_required": true,
+  "all_eight_payloads_nonempty_validated": true,
+  "actual_setup_commands": 2,
+  "three_unrelated_boot_files_unchanged": true,
+  "linux_partition_written_by_mac": false,
+  "local_regressions_passed": 62,
+  "pi_live_result_pending": true,
+  "vps_transport_fixture_passed": true,
+  "conditional_diagnostic_log_test_passed": true
+}

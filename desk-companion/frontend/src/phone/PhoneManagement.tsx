@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import type {
   Language,
-  Session,
   Settings as WorkspaceSettings,
   Translate,
 } from "../types";
@@ -134,11 +133,9 @@ export function PhoneManagement({
   setLanguage,
   settings,
   revision,
-  session,
   onNavigate,
   onConversation,
   onRefresh,
-  onLogout,
   onNotice,
 }: {
   panel: Exclude<PhonePanel, "plan" | "more">;
@@ -147,11 +144,9 @@ export function PhoneManagement({
   setLanguage: (value: Language) => void;
   settings: WorkspaceSettings;
   revision: number;
-  session: Session;
   onNavigate: (panel: PhonePanel) => void;
   onConversation: () => void;
   onRefresh: () => void;
-  onLogout: () => void;
   onNotice: (message: string) => void;
 }) {
   const guard = useDraftState();
@@ -173,8 +168,6 @@ export function PhoneManagement({
           language={language}
           setLanguage={setLanguage}
           onSaved={onRefresh}
-          localPreview={session.local_preview}
-          onLogout={onLogout}
           onDeviceLayout={() =>
             onNotice(
               t(

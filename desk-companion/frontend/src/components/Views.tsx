@@ -8,7 +8,6 @@ import {
   Check,
   ChevronRight,
   Circle,
-  LogOut,
   Monitor,
   Plus,
   Camera,
@@ -553,8 +552,6 @@ export function DeviceView({
   language,
   setLanguage,
   onSaved,
-  onLogout,
-  localPreview = false,
   onDeviceLayout,
   onOpenWorkspace,
   t,
@@ -563,8 +560,6 @@ export function DeviceView({
   language: Language;
   setLanguage: (l: Language) => void;
   onSaved: () => void;
-  onLogout: () => void;
-  localPreview?: boolean;
   onDeviceLayout: () => void;
   onOpenWorkspace: (
     panel: "posture" | "connections" | "assistant" | "extras" | "data",
@@ -789,7 +784,7 @@ export function DeviceView({
         </button>
       </section>
       <section className="settings-section">
-        <h2>{t("Account", "账号")}</h2>
+        <h2>{t("Connection", "连接")}</h2>
         {isNative && (
           <button
             className="text-button"
@@ -804,25 +799,8 @@ export function DeviceView({
         <div className="setting-row">
           <span>
             <strong>{workspace.data?.principal.name ?? "Owner"}</strong>
-            <small>
-              {localPreview
-                ? t(
-                    "Local preview · no sign-in required",
-                    "本机预览 · 无需登录",
-                  )
-                : t("Local workspace", "本地工作空间")}
-            </small>
+            <small>{t("Connected workspace", "已连接工作空间")}</small>
           </span>
-          {!localPreview && (
-            <button
-              className="secondary"
-              onClick={onLogout}
-              disabled={!!pendingWrite() || dirty || busy}
-            >
-              <LogOut size={16} />
-              {t("Sign out", "退出")}
-            </button>
-          )}
         </div>
       </section>
       <PhoneFeatures t={t} />

@@ -40,8 +40,8 @@ export function connectorError(error: unknown, t: Translate) {
     ].includes(code)
   )
     return t(
-      "The owner session changed or expired. Sign in and reopen the current review.",
-      "拥有者会话已变化或到期，请登录并重新打开当前审阅。",
+      "The connection changed. Reconnect and reopen this review.",
+      "连接已变化，请重新连接并打开当前审阅。",
     );
   if (["PRIVATE_CONTEXT_HIDDEN", "CONNECTOR_PRIVACY_CHANGED"].includes(code))
     return t(

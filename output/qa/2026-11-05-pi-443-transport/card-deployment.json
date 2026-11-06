@@ -1,0 +1,31 @@
+{
+  "date_hk": "2026-11-05",
+  "original_card_identity_verified": true,
+  "previous_receipts_matched_trial": true,
+  "previous_setup_completed": true,
+  "previous_direct_vps_timeout": true,
+  "real_card_443_package_written": true,
+  "changed_boot_files": [
+    "user-data",
+    "meta-data",
+    "desk-relay-mihomo.gz"
+  ],
+  "exact_boot_files_readback": true,
+  "inline_source_verified": true,
+  "python_3_13_parse_passed": true,
+  "managed_files": 10,
+  "setup_steps": 3,
+  "home_and_wired_profiles_identical": true,
+  "classroom_profile_not_targeted": true,
+  "three_unrelated_boot_files_unchanged": true,
+  "linux_partition_written_by_mac": false,
+  "original_pi_key_retained": true,
+  "official_archive_hash_matched": true,
+  "current_mac_owner_address_refreshed": true,
+  "pi_443_boot_pending": true,
+  "fat_readonly_check_exit": 0,
+  "post_remount_readback_passed": true,
+  "safely_ejected": true,
+  "owner_confirmed_443_boot": true,
+  "evidence_stage": "historical preparation snapshot before authenticated Pi acceptance"
+}

@@ -1,0 +1,16 @@
+{
+  "source_commit": "10708abeb6f9d7a14b4b97d8565beb04340cccd6",
+  "files_checked": 262,
+  "mismatches": [],
+  "publication_pr": "https://github.com/tantalum666/FYP/pull/88",
+  "pr_state": "draft_open",
+  "merged": false,
+  "ci_used": false,
+  "paid_model_requests": 0,
+  "raw_logs_preserved_outside_git": true,
+  "head_verified_at_source_checkpoint": "10708abeb6f9d7a14b4b97d8565beb04340cccd6",
+  "base_commit": "abf6387f3cdf953154599aa608b3178d004c0e95",
+  "draft": true,
+  "github_readback": "connector get_pr_info; open/draft/unmerged; source HEAD matches local",
+  "target_source_files": 262
+}

@@ -1,0 +1,51 @@
+[
+  {
+    "number": 73,
+    "head": "codex/pi-home-resume-20261031",
+    "sha": "3150f3912b1719036cc5a043c8e98f8cee5931ce",
+    "base": "main",
+    "title": "Restore Pi home and portable LAN access; record live acceptance"
+  },
+  {
+    "number": 87,
+    "head": "codex/pi-dorm-network-recovery-20261104",
+    "sha": "c1cd5dde72168947b1edc13621f51b9317c22245",
+    "base": "codex/pi-home-resume-20261031",
+    "title": "Restore Pi 443 management and reconnecting Mac access"
+  },
+  {
+    "number": 88,
+    "head": "codex/passwordless-alice-device-20261105",
+    "sha": "61fe83caaffa682f61eba6f631405c921e5a5798",
+    "base": "main",
+    "title": "Enable passwordless Alice on Pi and verify local cross-application work"
+  },
+  {
+    "number": 89,
+    "head": "cursor/conversation-work-changed-goal-4bf4",
+    "sha": "88a8d022a6ebf399807de4f10c81a91dc0929a9c",
+    "base": "main",
+    "title": "Admit explicit Alice goal changes into existing Work"
+  },
+  {
+    "number": 90,
+    "head": "cursor/conversation-work-unseen-voice-4185",
+    "sha": "f3a25a4f26eda1bab6eb5f05301eb2e2790c65fa",
+    "base": "cursor/conversation-work-changed-goal-4bf4",
+    "title": "Steer existing Work from held-out phrases and voice snapshots"
+  },
+  {
+    "number": 91,
+    "head": "cursor/voice-review-steer-current-work-e7d6",
+    "sha": "78bf420ddf51b0ec8aaaf4c319d05adb2e71d626",
+    "base": "cursor/conversation-work-unseen-voice-4185",
+    "title": "Let the voice review screen update one current Work run"
+  },
+  {
+    "number": 92,
+    "head": "cursor/conversation-work-verified-result-0291",
+    "sha": "3acf6c5d7730741042bcc5d80d68f292786246ce",
+    "base": "cursor/voice-review-steer-current-work-e7d6",
+    "title": "Show one verified offline Work result after a goal change"
+  }
+]

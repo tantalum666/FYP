@@ -1,0 +1,16 @@
+[Unit]
+Description=Desk Companion isolated application desktop
+StartLimitIntervalSec=120
+StartLimitBurst=3
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/podman --remote=false start --attach desk-applications
+ExecStop=/usr/bin/podman --remote=false stop --ignore --time 10 desk-applications
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+UMask=0077
+
+[Install]
+WantedBy=default.target

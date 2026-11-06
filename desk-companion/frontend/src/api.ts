@@ -45,7 +45,10 @@ export async function request<T>(
         window.dispatchEvent(new Event("desk:auth-required"));
       throw new ApiError(body.error?.code ?? "REQUEST_FAILED", response.status);
     }
-    if ((path === "/session" || path === "/session/preview") && options.method)
+    if (
+      ["/session", "/session/preview", "/session/connect"].includes(path) &&
+      options.method
+    )
       window.dispatchEvent(new Event("desk:session"));
     return body as T;
   } catch (error) {
@@ -231,6 +234,10 @@ export function errorText(
 ) {
   const code = error instanceof ApiError ? error.code : "REQUEST_FAILED";
   const messages: Record<string, [string, string]> = {
+    LOCAL_OWNER_UNAVAILABLE: [
+      "Open this workspace on your desk, or connect this device first.",
+      "请在桌面打开此工作空间，或先连接本设备。",
+    ],
     LINUX_DESKTOP_UNAVAILABLE: [
       "The Linux desktop, editor, browser or accessibility bridge is not ready. Open a desktop session and check the setup.",
       "Linux 桌面、编辑器、浏览器或辅助功能连接尚未就绪。请打开桌面会话并检查配置。",
@@ -438,8 +445,8 @@ export function errorText(
       "请先撤销不再使用的分享链接。",
     ],
     OWNER_SIGN_IN_REQUIRED: [
-      "Sign in as the owner to manage access or sensitive settings.",
-      "管理访问或重要设置需要拥有者登录。",
+      "Manage access from your main desk.",
+      "请在主桌面管理访问权限与重要设置。",
     ],
     PAIRING_EXPIRED: [
       "This pairing request expired or was revoked. Create a new code.",
@@ -466,7 +473,7 @@ export function errorText(
       "The username or password is incorrect.",
       "账号或密码不正确。",
     ],
-    AUTH_REQUIRED: ["Please sign in again.", "请重新登录。"],
+    AUTH_REQUIRED: ["Reconnect to your workspace.", "请重新连接工作空间。"],
     VERSION_CONFLICT: [
       "This item changed in another window. Close and reopen it to review the latest version.",
       "另一界面已修改此事项。请关闭后重新打开，核对最新版本。",
@@ -478,6 +485,18 @@ export function errorText(
     VALIDATION_FAILED: [
       "Check the title, dates, timezone and repeat settings. The end must be after the start; clock-change gaps or duplicated times need a different time or UTC.",
       "请检查标题、日期、时区和重复设置。结束须晚于开始；夏令时不存在或重复的时间请改选其他时间或 UTC。",
+    ],
+    CONVERSATION_WORK_RESULT_INTERRUPTED: [
+      "The verified result was not shown. Retry the same update.",
+      "已核验结果尚未显示。请重试同一次更新。",
+    ],
+    CONVERSATION_WORK_RESULT_UNVERIFIED: [
+      "That result is not verified, so it is not shown as done.",
+      "该结果尚未核验，不会显示为已完成。",
+    ],
+    CONVERSATION_WORK_RESULT_FAILED: [
+      "That result failed, so it is not shown as done.",
+      "该结果失败了，不会显示为已完成。",
     ],
     CONNECTION_LOST: [
       "Connection lost. A save may still have completed. Retry the same operation safely.",

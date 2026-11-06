@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-31",
+  "scope": "Resume physical Pi; home Wi-Fi, classroom Wi-Fi and wired, dorm wired; preserve current image/data, no paid models",
+  "read": [
+    "AGENTS.md",
+    "product.md current requirements",
+    "handoff.md",
+    "START_HERE_NEXT_CHAT.md",
+    "decision-log.md hardware/paused and latest compatibility sections",
+    "desk-companion/docs/pi5-usb-mac.md",
+    "desk-companion/docs/pi5-first-boot.md",
+    "desk-companion/scripts/pi/connect_mac.command",
+    "desk-companion/scripts/pi/setup_classroom_access.py",
+    "desk-companion/scripts/pi/setup_dorm_access.py",
+    "setup_usb_headless.py access-policy section",
+    "prior dorm verification.md current outcome sections",
+    "referenced VPS thread recent 6 turns, selected nonsecret conclusions; VPS migration-status current maintenance sections"
+  ],
+  "referenced_chat": {
+    "hostId": "local",
+    "threadId": "019decde-5067-7000-bdea-e91f5d4d9ea4"
+  },
+  "secrets": "Home Wi-Fi input stored privately outside Git; no secret values in QA.",
+  "continuation": {
+    "owner_reply": "Original card reinserted and Pi powered",
+    "focused_recovery": [
+      "AGENTS.md full",
+      "product.md full",
+      "handoff.md full",
+      "START_HERE_NEXT_CHAT.md full",
+      "decision-log.md current Pi section and preceding PR5 context",
+      "work-log.md last Pi checkpoint and preceding merge context",
+      "desk-companion/docs/pi-network-profiles.md full",
+      "desk-companion/docs/pi5-usb-mac.md full",
+      "desk-companion/docs/pi5-first-boot.md full",
+      "current QA verification/read/progress/publication/closeout files"
+    ],
+    "earlier_in_turn_reads_retained": [
+      "actual installed raspi-config country function",
+      "actual cloud-init status and cloud.cfg netplan module reference",
+      "Pi network profiles without secrets, sshd policy, owned nft guard and listeners",
+      "private power and selected boot diagnostics"
+    ],
+    "primary_sources": [
+      "https://github.com/raspberrypi/trixie-feedback/issues/45",
+      "https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#power-supply",
+      "https://www.raspberrypi.com/documentation/computers/os.html#get_throttled"
+    ],
+    "implementation_scope": "Documentation and selected evidence only; no source changes or app upgrade",
+    "validation_scope": "Actual home network/login/desktop checks; power failure recorded; documentation links and secret publication scope checked separately"
+  }
+}

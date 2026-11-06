@@ -1,10 +1,10 @@
 # Pi 5 8GB 首次启动 · Group 2
 
 <!-- FYP-CONTEXT-20261027 -->
-> 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
+> 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi软件已恢复、红灯调查暂缓、旧 API 预算关闭。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
 <!-- /FYP-CONTEXT-20261027 -->
 
-**2026-10-27当前：用户暂不启动Pi，下一轮Halls冷启动卡已准备并安全弹出，尚未实测。恢复前先核对Mac当前IP并启动状态接收；详见暂停快照 (local historical material: `output/qa/2026-10-26-pi5-dorm/pause-state.json`; not included in this checkpoint)。**
+**2026-11-06当前：Pi通过443管理中转可访问，main abf6387/schema3已部署；免登录、Alice与本机应用运行环境已部署，真实办公任务及恢复通过。当前无需重新拔卡。自动红灯调查按用户要求暂缓。见[当前交接](../../handoff.md)。下文10月首次启动记录保留历史范围。**
 
 2026-10-22。用户指定的128 GB SD卡已由官方Raspberry Pi Imager 2.0.7写入、完整读回校验成功并安全弹出。写入时目标为内置SDXC读卡器中的`/dev/disk14`、127999672320字节；该盘号以后可能变化，不得直接沿用写盘命令。没有写入Mac系统盘。
 
@@ -18,7 +18,7 @@
 
 如果以后有显示器，仍可以直接使用本地桌面。网页的owner账户密码在Pi首次安装时生成，通过首次使用窗口查看。
 
-系统登录用户为`desk`，与网页的`owner`不同。系统随机口令只在Mac的`~/Downloads/Desk-Companion-Pi5/pi-login.json`中保存，未写进聊天或Git。首次页面口令在Pi上生成，Mac系统口令文件不能用于网页登录。
+系统登录用户为`desk`，与网页的`owner`不同。系统随机口令只在Mac的`~/Downloads/Desk-Companion-Pi5/pi-login.json`中保存，未写进聊天或Git。应用端已改为可信本机自动连接；系统SSH身份与应用会话仍分开。旧页面口令仅用于兼容恢复，不显示登录表单。
 
 ## 已装内容与路径
 

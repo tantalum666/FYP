@@ -1,0 +1,16 @@
+{
+  "pr": 87,
+  "draft": true,
+  "merged": false,
+  "reviewed_source_commit": "7bbeae2a",
+  "local_tests_passed": 79,
+  "isolated_mac_en0_vps_auth_passed": true,
+  "official_arm64_artifact_verified": true,
+  "private_package_rehearsal_passed": true,
+  "real_card_contains_443_package": false,
+  "authenticated_pi_access": false,
+  "pending_owner_step": "normal shutdown and original card return",
+  "hotspot_rejected": true,
+  "ci_used": false,
+  "model_calls": 0
+}

@@ -283,6 +283,20 @@ class VoiceWorkLedger:
             )
         }
 
+    def reviewed_text(self, ref, principal) -> str | None:
+        """Live owner snapshot text. Missing or expired is None. Does not steer or start work."""
+        with self.runtime.personal_context.lock, self.lock, self.store.connection() as conn:
+            session = self._owner(conn, principal)
+            self._purge(conn)
+            draft = self.drafts.get(ref)
+            if not draft:
+                return None
+            state = self.sessions.get(draft["session_ref"])
+            if state is None:
+                return None
+            self._check(conn, state, session)
+            return draft["text"]
+
     def resolve(self, ref, *, session_hash, goal, conn):
         """Caller holds personal lock + ledger lock + its atomic create transaction."""
         self._purge(conn)

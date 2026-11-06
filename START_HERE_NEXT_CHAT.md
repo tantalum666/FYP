@@ -1,5 +1,7 @@
-# Group 2 current entry
+# Group 2 · OpenAI personal-agent continuation
 
-4 November 2026. Read [AGENTS](AGENTS.md), [product](product.md), [handoff](handoff.md) and [PR74–77 integration QA](output/qa/2026-11-04-merge-74-77/verification.md). [PR85](https://github.com/tantalum666/FYP/pull/85) merged74–77 atb663204 with an exact reviewed-tree match. Main now contains primary chat/Alice/OpenAI/application Work plus the reviewed Grok journeys. [Receipt](output/qa/2026-11-04-merge-74-77/publication.json) confirms all four original merged states.
+6 November2026. User explicitly requests fixing and merging all pending GitHub work, broader shopping/travel/computer use, and OpenAI defaults. Active checkout/branch: codex/openai-personal-agent-20261106. [Handoff](handoff.md), [review QA](output/qa/2026-11-06-openai-agent-merge/verification.md), [research index](research/personal-agent-research-index.md).
 
-The user explicitly authorized74–77 integration, superseding the earlier separate-stack arrangement. Existing running previews/private keys/models/data are preserved; merging code does not deploy them. Pi remains paused, paid experiment budgets closed, and GitHub CI disabled by policy. The next implementation is ordinary Alice-to-Work continuation/recovery.
+The73/87/88/89–92 integration candidate preserves all heads, current Alice UI and networking. Source-command parsing, legacy receipt compatibility and file-versus-outcome wording were corrected.1949backend/328frontend and actual browser flow passed. Exact merge receipt follows GitHub readback.
+
+Pi still runs the previous verified passwordless/application checkpoint until explicitly updated during this work. Only red-LED investigation is paused. Existing approved FYP OpenAI key is available; new key creation is unnecessary. Paid tests remain closed, no CI. Next: implement OpenAI text/default configuration and a scoped real browser/computer-use journey with meaningful shopping/booking state checks.
