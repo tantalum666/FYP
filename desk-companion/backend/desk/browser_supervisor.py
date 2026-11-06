@@ -44,6 +44,11 @@ class WorkerOutcome:
 
 
 class BrowserSupervisor:
+    worker_module = "desk.browser_worker"
+    stage_names = STAGES
+    stage_limit = 20
+    protocol_limit = 128 * 1024
+
     def __init__(self, executable=None):
         self.executable = executable or os.environ.get("DESK_BROWSER_EXECUTABLE", "")
 
@@ -60,12 +65,20 @@ class BrowserSupervisor:
         return None
 
     def run(
-        self, payload, directory, checkpoint, on_start=lambda _pid: None, *, timeout=180, grace=5
+        self,
+        payload,
+        directory,
+        checkpoint,
+        on_start=lambda _pid: None,
+        *,
+        timeout=180,
+        grace=5,
+        on_observation=None,
     ):
         reason = self.readiness()
         if reason:
             return WorkerOutcome(None, reason, False, True)
-        command = [sys.executable, "-m", "desk.browser_worker"]
+        command = [sys.executable, "-m", self.worker_module]
         with tempfile.TemporaryDirectory(prefix="browser-session-", dir=directory) as home:
             env = {
                 "PATH": os.defpath,
@@ -128,7 +141,7 @@ class BrowserSupervisor:
                             selector.unregister(key.fileobj)
                             continue
                         total += len(part)
-                        if total > 128 * 1024:
+                        if total > self.protocol_limit:
                             raise DomainError("BROWSER_PROTOCOL_LIMIT", 409)
                         name = key.data
                         if name == "stderr":
@@ -143,11 +156,35 @@ class BrowserSupervisor:
                             if kind == "checkpoint":
                                 stage = message.get("stage")
                                 stages += 1
-                                if stage not in STAGES or stages > 20 or stop_at is not None:
+                                if (
+                                    stage not in self.stage_names
+                                    or stages > self.stage_limit
+                                    or stop_at is not None
+                                ):
                                     raise DomainError("BROWSER_PROTOCOL_REJECTED", 409)
                                 checkpoint(stage)  # Parent journals dispatch before allowing input.
                                 dispatched = dispatched or payload["operation"] == "execute"
                                 process.stdin.write(b'{"allow":true}\n')
+                                process.stdin.flush()
+                            elif kind == "observation" and on_observation is not None:
+                                try:
+                                    checkpoint(None)
+                                    answer = on_observation(message["value"])
+                                    checkpoint(None)
+                                except DomainError as exc:
+                                    error, stop_at = exc.code, time.monotonic()
+                                    # The interactive worker is waiting for an
+                                    # instruction. Finish without another input,
+                                    # then drain its close acknowledgement.
+                                    answer = {
+                                        "finish": True,
+                                        "outcome": "needs_owner",
+                                        "reason": "stopped_by_owner",
+                                    }
+                                encoded = (json.dumps(answer, ensure_ascii=True) + "\n").encode()
+                                if len(encoded) > 32000:
+                                    raise DomainError("BROWSER_PROTOCOL_LIMIT", 409)
+                                process.stdin.write(encoded)
                                 process.stdin.flush()
                             elif kind == "result" and value is None:
                                 value = message["value"]

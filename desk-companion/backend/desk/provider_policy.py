@@ -12,6 +12,7 @@ import websockets
 
 
 GEMINI_TEXT_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta"
+OPENAI_TEXT_ENDPOINT = "https://api.openai.com/v1/responses"
 GEMINI_VOICE_ENDPOINT = (
     "wss://generativelanguage.googleapis.com/ws/"
     "google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent"
@@ -95,6 +96,8 @@ def valid_provider_endpoint(provider, endpoint, *, kind):
         return False
     if provider == "openai_realtime":
         return kind == "voice" and host == "api.openai.com" and parsed.path == "/v1/realtime"
+    if provider == "openai":
+        return kind == "text" and host == "api.openai.com" and parsed.path == "/v1/responses"
     if provider == "gemini":
         expected = urlsplit(GEMINI_TEXT_ENDPOINT if kind == "text" else GEMINI_VOICE_ENDPOINT)
         return host == expected.hostname and parsed.path == expected.path

@@ -93,6 +93,10 @@ export function AssistantPanel({
     "chat" | "jobs" | "help" | "timing" | "activity"
   >("chat");
   const [jobsOpened, setJobsOpened] = useState(false);
+  const [computerGoal, setComputerGoal] = useState<{
+    text: string;
+    key: number;
+  }>();
   const [voiceSlow, setVoiceSlow] = useState(false);
   const [voiceTimings, setVoiceTimings] = useState<TurnMeasurement[]>([]);
   const [menu, setMenu] = useState(false);
@@ -116,6 +120,14 @@ export function AssistantPanel({
     menuPanel = useRef<HTMLDivElement>(null);
   const owner = useRef(false);
   owner.current = data?.principal.kind === "owner";
+  const activityView = useRef({
+    view,
+    privateVisible: !!data?.personal_context_visible,
+  });
+  activityView.current = {
+    view,
+    privateVisible: !!data?.personal_context_visible,
+  };
   useEffect(() => {
     if (!menu) return;
     menuPanel.current?.querySelector<HTMLElement>("button,a")?.focus();
@@ -183,7 +195,13 @@ export function AssistantPanel({
   const knownProposals = useRef<Proposal[]>([]);
   const activityReading = useRef(false);
   const loadActivity = useCallback(async () => {
-    if (!owner.current || activityReading.current) return;
+    if (
+      !owner.current ||
+      !activityView.current.privateVisible ||
+      activityView.current.view === "jobs" ||
+      activityReading.current
+    )
+      return;
     const scope = taskId;
     activityReading.current = true;
     try {
@@ -262,27 +280,35 @@ export function AssistantPanel({
           "打开对话查看这项操作的详情。",
         );
   };
-  const jobCard = (job: ComputerJob) => (
-    <JobActionCard
-      key={job.id}
-      job={job}
-      t={t}
-      busy={!!jobBusy}
-      cancelling={!!jobCancelling || offline}
-      fresh={!jobsError && !offline && !stale && Date.now() - jobsReadAt < 6000}
-      available={
-        !!(isApplicationAction(job.action)
-          ? data?.computer?.applications?.enabled &&
-            data.computer.applications.configured
-          : isDesktopAction(job.action)
-            ? data?.computer?.desktop?.ready
-            : isFolderAction(job.action)
-              ? data?.computer?.folder?.configured
-              : data?.computer?.enabled)
-      }
-      onAction={(action) => void actOnJob(job, action)}
-    />
-  );
+  const jobCard = (job: ComputerJob) =>
+    data?.personal_context_visible ? (
+      <JobActionCard
+        key={job.id}
+        job={job}
+        t={t}
+        busy={!!jobBusy}
+        cancelling={!!jobCancelling || offline}
+        fresh={
+          !jobsError && !offline && !stale && Date.now() - jobsReadAt < 6000
+        }
+        available={
+          !!(job.action === "computer_use"
+            ? ["unknown", "succeeded"].includes(job.state) ||
+              (data?.computer?.computer_use?.enabled &&
+                data.computer.computer_use.configured)
+            : isApplicationAction(job.action)
+              ? data?.computer?.applications?.enabled &&
+                data.computer.applications.configured
+              : isDesktopAction(job.action)
+                ? data?.computer?.desktop?.ready
+                : isFolderAction(job.action)
+                  ? data?.computer?.folder?.configured
+                  : data?.computer?.enabled)
+        }
+        refreshToken={jobsReadAt}
+        onAction={(action) => void actOnJob(job, action)}
+      />
+    ) : null;
   const language = t("en", "zh");
   const voiceActive = microphone;
   const omni =
@@ -1113,7 +1139,7 @@ export function AssistantPanel({
             </button>
             <button onClick={openJobs}>
               <FolderCheck size={18} />
-              {t("File actions & activity", "文件操作与进度")}
+              {t("Computer actions & activity", "电脑操作与进度")}
             </button>
             {ownerView && (
               <button
@@ -1345,6 +1371,14 @@ export function AssistantPanel({
           className="assistant-input-area"
           id={workspace ? "desktop-chat-composer" : undefined}
         >
+          {data?.voice.configuration_error === "OPENAI_REGION_UNSUPPORTED" && (
+            <p role="status" className="workspace-hint">
+              {t(
+                "OpenAI is selected, but this desk's current region is not supported.",
+                "已选择 OpenAI，但当前桌面所在地区的连接暂不受支持。",
+              )}
+            </p>
+          )}
           {voiceActive ? (
             <div
               className="assistant-call"
@@ -1506,6 +1540,17 @@ export function AssistantPanel({
           )}
           {attachments && (
             <div className="assistant-attachments">
+              <button
+                type="button"
+                className="secondary"
+                onClick={() => {
+                  setComputerGoal({ text, key: Date.now() });
+                  setAttachments(false);
+                  openJobs();
+                }}
+              >
+                {t("Use a browser", "操作浏览器")}
+              </button>
               {voiceActive &&
               data?.voice.supports_images &&
               data.principal.kind === "owner" ? (
@@ -1741,7 +1786,18 @@ export function AssistantPanel({
       </section>
       {jobsOpened && (
         <section hidden={view !== "jobs"} className="assistant-secondary">
-          <ComputerJobsPanel t={t} taskId={taskId} />
+          <ComputerJobsPanel
+            t={t}
+            taskId={taskId}
+            computerGoal={computerGoal}
+            active={view === "jobs" && !suspended}
+            onComputerPrepared={() => {
+              setText((current) =>
+                current === computerGoal?.text ? "" : current,
+              );
+              setComputerGoal(undefined);
+            }}
+          />
         </section>
       )}
       <section

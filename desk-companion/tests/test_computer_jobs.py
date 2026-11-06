@@ -11,6 +11,7 @@ from pydantic import ValidationError
 
 from desk.app import create_app
 from desk.computer import ExecutionRejected, LocalNotesExecutor, artifact_filename
+from desk.computer_use_models import ComputerUseInput, COMPUTER_USE_ACTIONS
 from desk.jobs import (
     CHECK_ACTIONS,
     DESKTOP_ACTIONS,
@@ -43,6 +44,7 @@ def test_note_and_folder_actions_share_one_executor_registry(setup):
         ("save_folder_file", "verify_folder_file"),
         ("linux_note_preview", "verify_linux_file"),
         ("application",),
+        ("computer_use",),
     ]
     allowed = set(get_args(JobInput.model_fields["action"].annotation))
     assert allowed == NOTE_ACTIONS | FOLDER_ACTIONS | DESKTOP_ACTIONS
@@ -56,7 +58,10 @@ def test_note_and_folder_actions_share_one_executor_registry(setup):
     application_allowed = set(get_args(ApplicationJobInput.model_fields["action"].annotation))
     assert application_allowed == APP_ACTIONS
     assert application_allowed.isdisjoint(allowed)
-    assert covered == allowed | application_allowed
+    computer_allowed = set(get_args(ComputerUseInput.model_fields["action"].annotation))
+    assert computer_allowed == COMPUTER_USE_ACTIONS
+    assert computer_allowed.isdisjoint(allowed | application_allowed)
+    assert covered == allowed | application_allowed | computer_allowed
 
 
 def test_changed_persisted_intent_is_rejected_before_any_file_write(setup):

@@ -21,11 +21,13 @@ import { JobActionCard } from "./JobActionCard";
 import { requestJobAction } from "./jobRequests";
 import type { ComputerJob } from "./jobTypes";
 import type { Task } from "./taskTypes";
+import { ComputerUseComposer } from "./ComputerUseComposer";
 
 interface Snapshot {
   enabled: boolean;
   desktop?: { enabled: boolean; ready: boolean; apps: string[] };
   applications?: { enabled: boolean; configured: boolean };
+  computer_use?: { enabled: boolean; configured: boolean };
   folder?: { configured: boolean; label: string | null };
   jobs: ComputerJob[];
 }
@@ -33,12 +35,19 @@ interface Snapshot {
 export function ComputerJobsPanel({
   t,
   taskId,
+  computerGoal,
+  onComputerPrepared,
+  active = true,
 }: {
   t: Translate;
   taskId?: string;
+  computerGoal?: { text: string; key: number };
+  onComputerPrepared?: () => void;
+  active?: boolean;
 }) {
   const { data, offline, stale } = useWorkspace();
-  const owner = data?.principal.kind === "owner";
+  const owner =
+    data?.principal.kind === "owner" && data.personal_context_visible;
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
   const [readError, setReadError] = useState<unknown>(null);
   const [error, setError] = useState<unknown>(null);
@@ -53,6 +62,7 @@ export function ComputerJobsPanel({
   const [notice, setNotice] = useState("");
   const [lastRead, setLastRead] = useState(0);
   const [expanded, setExpanded] = useState(false);
+  const [resumeBrowser, setResumeBrowser] = useState<ComputerJob>();
   const [noteAction, setNoteAction] = useState<
     "save_note" | "linux_note_preview"
   >("save_note");
@@ -61,13 +71,16 @@ export function ComputerJobsPanel({
       ? "linux_note_preview"
       : noteAction;
   const executorAvailable = (job: ComputerJob) =>
-    isApplicationAction(job.action)
-      ? snapshot?.applications?.enabled && snapshot.applications.configured
-      : isDesktopAction(job.action)
-        ? snapshot?.desktop?.ready
-        : isFolderAction(job.action)
-          ? snapshot?.folder?.configured
-          : snapshot?.enabled;
+    job.action === "computer_use"
+      ? ["unknown", "succeeded"].includes(job.state) ||
+        (snapshot?.computer_use?.enabled && snapshot.computer_use.configured)
+      : isApplicationAction(job.action)
+        ? snapshot?.applications?.enabled && snapshot.applications.configured
+        : isDesktopAction(job.action)
+          ? snapshot?.desktop?.ready
+          : isFolderAction(job.action)
+            ? snapshot?.folder?.configured
+            : snapshot?.enabled;
   const alive = useRef(false);
   const generation = useRef(0);
   const reading = useRef<number | null>(null);
@@ -88,7 +101,7 @@ export function ComputerJobsPanel({
   );
   const reload = useCallback(async () => {
     const started = generation.current;
-    if (!owner || reading.current === started) return;
+    if (!active || !owner || reading.current === started) return;
     reading.current = started;
     try {
       const next = await request<Snapshot>(
@@ -104,7 +117,7 @@ export function ComputerJobsPanel({
     } finally {
       if (reading.current === started) reading.current = null;
     }
-  }, [owner, taskId]);
+  }, [active, owner, taskId]);
   useEffect(() => {
     generation.current += 1;
     alive.current = true;
@@ -239,10 +252,15 @@ export function ComputerJobsPanel({
     try {
       await requestJobAction(job, "cancel");
       setNotice(
-        t(
-          "Cancellation requested. Check the current result; an existing file is not rolled back.",
-          "已请求取消。请核对当前结果，已写入的文件不会回滚。",
-        ),
+        job.action === "computer_use"
+          ? t(
+              "Stop requested; earlier browser steps may remain.",
+              "已请求停止，先前的浏览器操作可能已生效。",
+            )
+          : t(
+              "Cancellation requested. Check the current result; an existing file is not rolled back.",
+              "已请求取消。请核对当前结果，已写入的文件不会回滚。",
+            ),
       );
       await reload();
     } catch (e) {
@@ -262,22 +280,24 @@ export function ComputerJobsPanel({
     try {
       await requestJobAction(job, kind);
       setNotice(
-        kind === "verify"
-          ? isApplicationAction(job.action)
-            ? t(
-                "The current file matches the verified operation.",
-                "当前文件与已核验操作一致。",
-              )
-            : t("Verification prepared for review.", "核验作业已准备待核对。")
-          : kind === "approve"
-            ? t(
-                "Approval request processed. Check the current status below; the desk keeps the job and its result.",
-                "批准请求已处理，请核对下方当前状态。桌面服务会保留作业和结果。",
-              )
-            : t(
-                "Read-back check finished. Review the result below.",
-                "读回检查已结束，请查看下方结果。",
-              ),
+        job.action === "computer_use"
+          ? ""
+          : kind === "verify"
+            ? isApplicationAction(job.action)
+              ? t(
+                  "The current file matches the verified operation.",
+                  "当前文件与已核验操作一致。",
+                )
+              : t("Verification prepared for review.", "核验作业已准备待核对。")
+            : kind === "approve"
+              ? t(
+                  "Approval request processed. Check the current status below; the desk keeps the job and its result.",
+                  "批准请求已处理，请核对下方当前状态。桌面服务会保留作业和结果。",
+                )
+              : t(
+                  "Read-back check finished. Review the result below.",
+                  "读回检查已结束，请查看下方结果。",
+                ),
       );
       await reload();
     } catch (e) {
@@ -293,10 +313,15 @@ export function ComputerJobsPanel({
       <section className="workspace-section">
         <h3>{t("File activity", "文件活动")}</h3>
         <p>
-          {t(
-            "Review and approve computer jobs from your main desk.",
-            "请在主桌面核对并批准电脑作业。",
-          )}
+          {data?.principal.kind === "owner"
+            ? t(
+                "Private view is hidden. Reveal it to review computer tasks.",
+                "当前已隐藏私人内容，显示后可查看电脑任务。",
+              )
+            : t(
+                "Review and approve computer jobs from your main desk.",
+                "请在主桌面核对并批准电脑作业。",
+              )}
         </p>
       </section>
     );
@@ -308,23 +333,41 @@ export function ComputerJobsPanel({
       <div className="workspace-state">
         <FolderPen />
         <div>
-          <h3>{t("File activity", "文件活动")}</h3>
+          <h3>{t("Computer activity", "电脑操作")}</h3>
           <p>
-            {t(
-              "View file actions and their results, manage a connected folder, or prepare a manual draft.",
-              "查看文件操作及结果、管理连接的文件夹，或手动准备一份草稿。",
-            )}
+            {t("Review browser and file actions.", "核对浏览器和文件操作。")}
           </p>
         </div>
       </div>
-      {snapshot && !snapshot.enabled && (
-        <p role="status">
-          {t(
-            "Local note execution is disabled on this desk. The operator can enable the bounded notes adapter using the setup guide.",
-            "本桌面尚未启用本地笔记执行，操作人员可按安装说明启用受限笔记适配器。",
-          )}
-        </p>
-      )}
+      <ComputerUseComposer
+        key={resumeBrowser?.id ?? computerGoal?.key ?? 0}
+        initialGoal={computerGoal?.text}
+        t={t}
+        taskId={taskId}
+        resumeJob={resumeBrowser}
+        onNew={() => setResumeBrowser(undefined)}
+        available={
+          !!snapshot?.computer_use?.enabled &&
+          snapshot.computer_use.configured &&
+          fresh
+        }
+        onPrepared={() => {
+          setResumeBrowser(undefined);
+          onComputerPrepared?.();
+          void reload();
+        }}
+      />
+      {snapshot &&
+        !snapshot.enabled &&
+        !snapshot.computer_use?.enabled &&
+        !snapshot.applications?.enabled && (
+          <p role="status">
+            {t(
+              "Local note execution is disabled on this desk. The operator can enable the bounded notes adapter using the setup guide.",
+              "本桌面尚未启用本地笔记执行，操作人员可按安装说明启用受限笔记适配器。",
+            )}
+          </p>
+        )}
       {!!readError && (
         <p role="alert" className="error-message">
           {t(
@@ -567,6 +610,12 @@ export function ComputerJobsPanel({
           cancelling={cancelling || offline}
           fresh={fresh}
           available={!!executorAvailable(job)}
+          refreshToken={lastRead}
+          onContinue={
+            job.action === "computer_use"
+              ? () => setResumeBrowser(job)
+              : undefined
+          }
           onAction={(kind) =>
             void (kind === "cancel" ? cancel(job) : action(job, kind))
           }

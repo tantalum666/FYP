@@ -80,7 +80,7 @@ class VoiceConfig:
             **{
                 name.lower(): os.environ.get("DESK_VOICE_" + name, default)
                 for name, default in [
-                    ("PROVIDER", "none"),
+                    ("PROVIDER", "openai_realtime"),
                     ("ENDPOINT", ""),
                     ("MODEL", ""),
                     ("API_KEY", ""),
@@ -98,16 +98,19 @@ class VoiceConfig:
                 except (ValueError, OSError, UnicodeError):
                     config.configuration_error = "VOICE_CREDENTIALS_INVALID"
         if config.provider == "openai_realtime":
-            config.model = config.model or "gpt-realtime-2.1-mini"
+            config.model = config.model or "gpt-realtime-2.1"
             config.endpoint = config.endpoint or OPENAI_REALTIME_ENDPOINT
             path = os.environ.get("DESK_OPENAI_CREDENTIAL_FILE")
-            if not config.api_key and path:
+            if path:
                 try:
                     config.api_key = openai_key(path)
                 except (ValueError, OSError, UnicodeError):
+                    config.api_key = ""
                     config.configuration_error = "VOICE_CREDENTIALS_INVALID"
-            elif not config.api_key:
+            elif not config.api_key or "DESK_VOICE_PROVIDER" not in os.environ:
                 config.api_key = os.environ.get("OPENAI_API_KEY", "")
+            if os.environ.get("DESK_OPENAI_REGION_UNSUPPORTED") == "1":
+                config.configuration_error = "OPENAI_REGION_UNSUPPORTED"
         return config
 
     def valid(self):
