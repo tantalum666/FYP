@@ -17,7 +17,7 @@ def client(tmp_path, **kwargs):
 def test_preview_is_explicit_and_password_login_still_works(tmp_path, monkeypatch):
     monkeypatch.delenv("DESK_LOCAL_PREVIEW", raising=False)
     c = client(tmp_path)
-    assert c.get("/api/session-mode").json() == {"local_preview": False}
+    assert c.get("/api/session-mode").json() == {"local_preview": False, "automatic_owner": True}
     assert c.post("/api/session/preview", headers=HEADERS).status_code == 403
     assert c.get("/api/workspace").status_code == 401
     assert (

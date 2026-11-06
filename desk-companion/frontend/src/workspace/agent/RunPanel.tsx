@@ -108,7 +108,7 @@ export function RunPanel({
         <small>
           {access.available
             ? t("Private details hidden", "私人详情已隐藏")
-            : t("Sign in and reconnect to use Work", "登录并连接后可使用工作")}
+            : t("Reconnect to use Work", "重新连接后可使用工作")}
         </small>
       )}
       {open && access.available && (

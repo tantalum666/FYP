@@ -1,5 +1,7 @@
-# Group 2 current entry
+# Group 2 · Continue Pi personal-agent software
 
-4 November 2026. Read [AGENTS](AGENTS.md), [product](product.md), [handoff](handoff.md) and [PR74–77 integration QA](output/qa/2026-11-04-merge-74-77/verification.md). [PR85](https://github.com/tantalum666/FYP/pull/85) merged74–77 atb663204 with an exact reviewed-tree match. Main now contains primary chat/Alice/OpenAI/application Work plus the reviewed Grok journeys. [Receipt](output/qa/2026-11-04-merge-74-77/publication.json) confirms all four original merged states.
+6 November2026. [Handoff](handoff.md) is current. Pi is running the passwordless Alice release; restricted Chromium/Calc/Writer/PDF Work passed on the Pi, including changed constraints and lost-ack recovery. [Actual evidence](output/qa/2026-11-06-passwordless-device/verification.md). Active branch codex/passwordless-alice-device-20261105; publication receipt is in that QA directory. No incidental merge.
 
-The user explicitly authorized74–77 integration, superseding the earlier separate-stack arrangement. Existing running previews/private keys/models/data are preserved; merging code does not deploy them. Pi remains paused, paid experiment budgets closed, and GitHub CI disabled by policy. The next implementation is ordinary Alice-to-Work continuation/recovery.
+Only automatic red-LED investigation is deferred. Do not restart power/SD/hotspot recovery. Keep the restored443management relay and valid private backups. Qwen remains manual; local wake configured is not human audio acceptance. Standalone Work text provider is still none, background off; paid budgets stay closed.
+
+Next: ordinary Alice/voice → admitted persistent Work, reusing current tools/permissions and recovery. Read the [application contract](desk-companion/docs/application-work.md), [Pi runtime](desk-companion/docs/pi-application-runtime.md) and focused current files before changing code.

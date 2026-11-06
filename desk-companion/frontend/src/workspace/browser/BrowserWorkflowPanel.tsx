@@ -378,8 +378,8 @@ function BrowserWorkspace({
       {(!available || !privateVisible) && (
         <p role="status">
           {t(
-            "Private details are hidden while this view is offline, stale, signed out or privacy-hidden. Only current owner-visible stop controls can remain available.",
-            "离线、状态过时、退出登录或隐私隐藏时，私人详情不显示。仅当前拥有者可用的停止控制会保留。",
+            "Private details stay hidden while the connection or visibility is unavailable. Available stop controls remain.",
+            "连接或可见性失效时，私人详情保持隐藏，可用的停止控制保留。",
           )}
         </p>
       )}
@@ -781,8 +781,8 @@ export function BrowserWorkflowPanel({
           {!owner ? (
             <p>
               {t(
-                "Sign in as the owner to inspect browser work. A paired screen cannot approve this workflow.",
-                "请以拥有者身份登录后查看浏览器工作；配对终端不能批准此流程。",
+                "Review browser work from your main desk.",
+                "请在主桌面审阅浏览器工作。",
               )}
             </p>
           ) : (

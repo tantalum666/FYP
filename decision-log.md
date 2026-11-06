@@ -474,3 +474,17 @@ PR74–77的主对话/Alice/OpenAI栈只作独立组合兼容检查，不混入�
 ### PR74–77 publication readback
 
 [PR85](https://github.com/tantalum666/FYP/pull/85) merged atb663204938fa11cb5c3631f2995800466840b55e. Main's full tree equals reviewed affbad2d. Original74/75/76/77 were each read back closed/merged after retargeting the stack to main. [Receipt](output/qa/2026-11-04-merge-74-77/publication.json). This closeout changes documentation only; verified application151f807 and1769/319 local results are unchanged. No deployment, CI, paid model or Pi work.
+
+
+## 2026-11-06 Pi软件、免登录与跨应用
+
+- **用户决定：**全部应用端撤掉Sign in，Pi应有Alice与语音。随后明确自动待机／红灯调查暂缓，继续Pi软件，特别是跨应用；这不等于暂停Pi，也不重开付费模型预算。
+- **事实纠正：**用户明确红灯先自行出现，随后才拔插电源，未按电源键关开机；旧“正常按键重启”不成立。其电源铭牌5V/3A与本轮系统读数一致，但尚未证明自动红灯的具体原因。供电监测已结束，不再作为本轮软件前置。
+- **工程选择：**可信回环工作区默认自动建立普通有限期拥有者会话，所有端移除密码表单。公网、转发和配对权限边界不变。Pi复用现有Alice／ConversationWorkspace／语音与批准机制；修复媒体面板被自身遮挡监听立即关闭，以及唤醒词配置写入只读模型目录的问题。
+- **跨应用：**Pi补rootless Podman，通过固定传输复用既有ApplicationExecutor／JobService／Work；浏览器、Calc、Writer隔离运行，仅挂载选定资料和产物目录。保留Mac Docker实现与旧回执范围，不给模型任意shell或用户主目录。
+- **验证边界：**本地完整与实际Pi结果、发布状态见[本轮QA](output/qa/2026-11-06-passwordless-device/verification.md)。没有新模型请求，脚本规划不标成AI自主完成；Pi输入硬件尚未枚举到麦克风，Mac浏览器输入与Pi本机拾音分开记录。
+
+
+### 6 November target evidence and runtime limitation
+
+The new release is active on Pi and the four-job real Chromium/Calc/Writer/PDF case passed, including changed constraints and restart recovery with unchanged bytes/mtime. Text planning remains offline-scripted for this acceptance; normal standalone text provider stays none. Pi kernel lacks the memory controller; explicit operator opt-in skips that unavailable RAM cap while retaining2CPU/256PID, rootless/scoped/offline isolation. Added container init for graceful0.38sstop and enabled the user service without weakening API NoNewPrivileges. No hardware reboot or new power test. Exact deployment/publication evidence is in the current QA.

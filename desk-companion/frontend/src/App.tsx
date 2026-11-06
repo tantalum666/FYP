@@ -18,7 +18,6 @@ import {
 } from "lucide-react";
 import {
   ApiError,
-  clearPending,
   errorText,
   pendingWrite,
   request,
@@ -53,7 +52,7 @@ import { PosturePanel } from "./workspace/PosturePanel";
 import { ConnectionsPanel } from "./workspace/ConnectionsPanel";
 import { useCalendarEditor } from "./components/useCalendarEditor";
 import { DeviceView, RecordsView, TodayView } from "./components/Views";
-import { LoginView } from "./components/LoginView";
+import { ConnectionView } from "./components/ConnectionView";
 import { useWorkspaceSession } from "./useWorkspaceSession";
 import { classifyFailure } from "./surfaceStatus";
 import { failureNotice, loadingNotice, offlineNotice } from "./surfaceNotice";
@@ -118,12 +117,7 @@ export function App() {
   const [filters, setFilters] = useState({ personal: true, study: true });
   const [error, setError] = useState<unknown>(null),
     [recovering, setRecovering] = useState(false);
-  const {
-    session,
-    setSession,
-    recoverSession,
-    expired: sessionExpired,
-  } = useWorkspaceSession(setError);
+  const { session, recoverSession } = useWorkspaceSession(setError);
   const currentRevision = useRef(0);
   const needsRefresh = useRef(false);
   const [loadedRange, setLoadedRange] = useState("");
@@ -334,29 +328,6 @@ export function App() {
     setAnchorDate(dayISO(next));
     setPickerDate(dayISO(next));
   }
-  async function logout() {
-    if (chatState.dirty || chatState.busy) {
-      setNotice(
-        t(
-          "Finish the current reply or unsent message before signing out.",
-          "退出前请先处理当前回复或未发送的消息。",
-        ),
-      );
-      return;
-    }
-    if (pendingWrite()) {
-      setError(new ApiError("PENDING_WRITE"));
-      return;
-    }
-    try {
-      await request("/session", { method: "DELETE" });
-      clearPending();
-      setSnapshot(null);
-      setSession(null);
-    } catch (e) {
-      setError(e);
-    }
-  }
   async function recover() {
     setRecovering(true);
     setError(null);
@@ -389,16 +360,14 @@ export function App() {
     );
   if (session === null)
     return (
-      <LoginView
+      <ConnectionView
         t={t}
         language={language}
         setLanguage={setLanguage}
-        expired={sessionExpired}
-        startupError={error}
-        onLogin={(s) => {
-          setSession(s);
+        error={error}
+        onReconnect={async () => {
           setError(null);
-          refresh();
+          await recoverSession();
         }}
       />
     );
@@ -733,8 +702,6 @@ export function App() {
                   language={language}
                   setLanguage={setLanguage}
                   onSaved={refresh}
-                  onLogout={logout}
-                  localPreview={session.local_preview}
                   onDeviceLayout={() =>
                     window.open(
                       "/?surface=device&page=today",

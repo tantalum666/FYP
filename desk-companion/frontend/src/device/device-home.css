@@ -1,0 +1,239 @@
+.device-home {
+  height: 100dvh;
+  min-height: 420px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  padding: 20px 28px 24px;
+  gap: 18px;
+}
+.device-home-header,
+.device-home-header nav,
+.device-home-header button,
+.device-home-connection {
+  display: flex;
+  align-items: center;
+}
+.device-home-header {
+  gap: 24px;
+  min-width: 0;
+}
+.device-home-identity {
+  margin-right: auto;
+}
+.device-home-identity > strong {
+  font-size: 23px;
+  letter-spacing: -0.5px;
+}
+.device-home-connection {
+  gap: 6px;
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--device-muted);
+}
+.device-home-connection i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7dab92;
+}
+.device-home-connection.offline i {
+  background: #c48f6e;
+}
+.device-home-clock {
+  display: grid;
+  text-align: right;
+  gap: 3px;
+}
+.device-home-clock strong {
+  font-size: 21px;
+  font-weight: 450;
+  font-variant-numeric: tabular-nums;
+}
+.device-home-clock span {
+  color: var(--device-muted);
+  font-size: 12px;
+}
+.device-home-header nav {
+  gap: 8px;
+}
+.device-home-header button {
+  gap: 8px;
+  min-height: 46px;
+  border: 1px solid var(--device-line);
+  background: transparent;
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+.device-home-content {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.72fr) minmax(0, 1.28fr);
+  min-height: 0;
+  gap: 24px;
+}
+.device-alice-stage {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 28px;
+  background: radial-gradient(ellipse at 50% 40%, #a1adb21c, transparent 72%);
+}
+.device-alice-visual {
+  height: 100%;
+}
+.device-alice-visual > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
+}
+.device-alice-credit {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: var(--device-muted);
+  font-size: 10px;
+  text-decoration: none;
+  padding: 8px;
+}
+.device-home-chat {
+  --device-fg: #242936;
+  --device-bg: #f8f9fc;
+  --device-panel: #fff;
+  --device-muted: #6f778b;
+  --device-line: #e1e4ef;
+  --device-accent: #6860d7;
+  --device-accent-ink: #fff;
+  --device-chip: #f1f0fa;
+  --device-danger: #a33d43;
+  --ink: #242936;
+  --muted: #6f778b;
+  --line: #e1e4ef;
+  --accent: #6860d7;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  background: #fff;
+  color: #242936;
+  color-scheme: light;
+  border: 1px solid #e8e9ef;
+  border-radius: 24px;
+  box-shadow: 0 12px 45px #0000000b;
+}
+.device-home-chat .conversation-workspace {
+  padding: 18px 24px;
+}
+.device-home-chat .workspace-panel {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #242936;
+}
+.device-home-chat .assistant-toolbar button,
+.device-home-chat .assistant-starters button,
+.device-home-chat .permission-control button {
+  color: #555d71;
+}
+.device-home-chat .workspace-panel p {
+  font-size: 14px;
+}
+.device-home-chat .workspace-panel .assistant-caption {
+  font-size: 11px;
+}
+.device-home-chat .assistant-mic {
+  color: #fff;
+}
+.device-home-chat .assistant-mic:disabled {
+  color: #8b8eaf;
+}
+.device-home-chat .assistant-panel .assistant-composer textarea {
+  min-height: 44px;
+}
+.device-home-chat .assistant-welcome h3 {
+  font-size: clamp(23px, 2.5vw, 31px);
+}
+.device-home-chat .assistant-chat {
+  min-height: 0;
+}
+.device-home-chat .assistant-composer {
+  flex-shrink: 0;
+}
+.device-home-reconnect {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px 0;
+  font-size: 13px;
+}
+.device-home-reconnect button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  color: #6359cb;
+}
+@media (max-width: 840px) {
+  .device-home {
+    padding: 16px;
+    gap: 12px;
+  }
+  .device-home-content {
+    grid-template-columns: minmax(180px, 0.65fr) minmax(0, 1.35fr);
+    gap: 12px;
+  }
+  .device-home-header {
+    gap: 12px;
+  }
+  .device-home-header button {
+    padding: 10px;
+  }
+  .device-home-chat .conversation-workspace {
+    padding: 12px 16px;
+  }
+}
+@media (max-width: 600px) {
+  .device-home {
+    min-height: 600px;
+    padding: 12px;
+  }
+  .device-home-content {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(140px, 0.45fr) minmax(0, 1fr);
+    gap: 8px;
+  }
+  .device-home-clock span,
+  .device-home-header nav button span {
+    display: none;
+  }
+  .device-alice-stage {
+    border-radius: 18px;
+  }
+  .device-alice-visual > img {
+    object-position: 50% 24%;
+  }
+  .device-home-chat {
+    border-radius: 18px;
+  }
+  .device-alice-credit {
+    bottom: 0;
+    padding: 3px;
+    font-size: 9px;
+  }
+}
+@media (max-height: 560px) and (min-width: 601px) {
+  .device-home {
+    padding: 10px 16px 12px;
+    gap: 8px;
+  }
+  .device-home-header {
+    min-height: 44px;
+  }
+  .device-home-chat .conversation-workspace {
+    padding: 8px 16px;
+  }
+}

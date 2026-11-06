@@ -1,0 +1,55 @@
+{
+  "state": "succeeded",
+  "planner": "offline_scripted_receipt_driven",
+  "paid_model_calls": 0,
+  "real_application_jobs": 4,
+  "events": [
+    "synthetic_owner_goal_changed",
+    "saved_then_completion_lost",
+    "synthetic_owner_answered"
+  ],
+  "recovery_hash_and_mtime_unchanged": true,
+  "max_model_context_bytes": 24734,
+  "outputs": [
+    {
+      "job_id": "5c375a4416d343caa150d0cab455f287",
+      "filename": "1-comparison.xlsx",
+      "sha256": "87b7e45829756f41735c2febd1e885f6e8ba22adb1205410bc3b1da6cec38d68",
+      "bytes": 6625,
+      "apps": [
+        "libreoffice_calc"
+      ]
+    },
+    {
+      "job_id": "30c36161ed4842ed9e5d7c1e1f38c59b",
+      "filename": "2-comparison.xlsx",
+      "sha256": "af32186bf4ba38eab8b09ffc7c1ddf5fda9f0557f0c43fbe89961f26a35d585f",
+      "bytes": 6644,
+      "apps": [
+        "libreoffice_calc"
+      ]
+    },
+    {
+      "job_id": "36d6f2ae5f9541b18fcc2734c6f5b96e",
+      "filename": "3-decision.odt",
+      "sha256": "2393790cafe0d834847557e5ee920f554ddf0fdbe80fc43ef248fa655be37003",
+      "bytes": 20477,
+      "apps": [
+        "libreoffice_writer"
+      ]
+    },
+    {
+      "job_id": "00127ef99e4c46adbc811d8248f87777",
+      "filename": "4-decision.pdf",
+      "sha256": "942b671696e53a949e625547e0d4a19e0edee1958c369fff6138bbe4b3937468",
+      "bytes": 56558,
+      "apps": [
+        "libreoffice_writer"
+      ]
+    }
+  ],
+  "quality": "not_live_model_acceptance",
+  "pdf_pages_rendered_and_reviewed": 2,
+  "all_downloaded_output_sha256_match": true,
+  "target": "Raspberry Pi 5 ARM64; rootless Podman; isolated scripted Work"
+}

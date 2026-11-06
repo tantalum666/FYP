@@ -5,7 +5,7 @@ import { errorText, pendingWrite, request, retryPending } from "../api";
 import { useWorkspaceSession } from "../useWorkspaceSession";
 import { savedEventPosition } from "../dates";
 import type { Language, Translate } from "../types";
-import { LoginView } from "../components/LoginView";
+import { ConnectionView } from "../components/ConnectionView";
 import {
   EventDetail,
   EventEditor,
@@ -43,11 +43,7 @@ export function PhoneApp() {
     setLang(value);
   };
   const [error, setError] = useState<unknown>(null);
-  const {
-    session,
-    setSession,
-    expired: sessionExpired,
-  } = useWorkspaceSession(setError);
+  const { session, recoverSession } = useWorkspaceSession(setError);
   const [panel, setPanel] = useState<PhonePanel | null>(null);
   const [planTab, setPlanTab] = useState<"calendar" | "tasks">("calendar");
   const [reminders, setReminders] = useState(false);
@@ -148,20 +144,6 @@ export function PhoneApp() {
     setTask(next);
     if (next) showConversation();
   };
-  const logout = async () => {
-    if (assistantGuard.dirty || assistantGuard.busy || pendingWrite()) {
-      setNotice(t("Finish your current edit first.", "请先完成当前编辑。"));
-      return;
-    }
-    try {
-      await request("/session", { method: "DELETE" });
-      setSession(null);
-      setTask(undefined);
-      setPanel(null);
-    } catch (e) {
-      setError(e);
-    }
-  };
   const recover = async () => {
     setRecovering(true);
     try {
@@ -193,15 +175,14 @@ export function PhoneApp() {
   if (!session)
     return (
       <>
-        <LoginView
+        <ConnectionView
           t={t}
           language={language}
           setLanguage={setLanguage}
-          expired={sessionExpired}
-          startupError={error}
-          onLogin={(value) => {
-            setSession(value);
+          error={error}
+          onReconnect={async () => {
             setError(null);
+            await recoverSession();
           }}
         />
       </>
@@ -231,13 +212,18 @@ export function PhoneApp() {
         onPlan={() => choosePanel("plan")}
         onMore={() => choosePanel("more")}
       />
-      <div className="phone-chat-layer" inert={!!panel || environment.blocked}>
+      <div
+        className="phone-chat-layer"
+        inert={!!panel || !!editor || !!detail || reminders}
+      >
         <AssistantPanel
           t={t}
           immersive
           expanded={conversation}
           onExpandedChange={setConversation}
-          suspended={!!panel || environment.blocked || !environment.visible}
+          suspended={
+            !!panel || !!editor || !!detail || reminders || !environment.visible
+          }
           homeHint={
             <UpcomingHint
               next={calendar.next}
@@ -315,11 +301,9 @@ export function PhoneApp() {
               setLanguage={setLanguage}
               settings={snapshot?.settings ?? session.settings}
               revision={snapshot?.revision ?? 0}
-              session={session}
               onNavigate={setPanel}
               onConversation={showConversation}
               onRefresh={refresh}
-              onLogout={() => void logout()}
               onNotice={setNotice}
             />
           )}

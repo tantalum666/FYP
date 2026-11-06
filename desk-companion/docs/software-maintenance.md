@@ -25,7 +25,7 @@
 | [usePhoneCalendar](../frontend/src/phone/usePhoneCalendar.ts) / [calendar-reader](../frontend/src/phone/calendar-reader.ts) | One scoped refresh lifecycle for home and selected dates; reuse the home query when it already covers the selected day, read independent ranges concurrently, coalesce bursts and discard superseded/closed-scope results |
 | [usePhoneEnvironment](../frontend/src/phone/usePhoneEnvironment.ts) | Viewport, foreground, modal and reduced-motion state; listeners and timer have one cleanup owner |
 | [useCalendarEditor](../frontend/src/components/useCalendarEditor.ts) | Shared web/phone new/edit state and defaults. A late event read cannot reopen an editor after its detail was closed. `newEvent()` is a no-argument UI callback; explicit-date intents use `newEventOnDate(date)` |
-| [LoginView](../frontend/src/components/LoginView.tsx) | Shared sign-in/pairing UI; phone does not import the desktop App to obtain it |
+| [ConnectionView](../frontend/src/components/ConnectionView.tsx) | Shared connection recovery/pairing UI; no application password form |
 | [useWorkspaceSession](../frontend/src/useWorkspaceSession.ts) / [session](../frontend/src/session.ts) | Shared initial and expired-session handling. Only server-enabled local preview bootstraps an owner cookie; recovery keeps mounted unsent work and never retries a write automatically |
 
 Calendar results are tied to both range and session. Leaving a range/screen discards future commits from its old reader; it does not claim to cancel an already-sent native HTTP request. Failed reads remain retryable. Polling/assistant activity reads stop while the relevant phone surface is suspended or hidden.

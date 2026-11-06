@@ -143,8 +143,8 @@ export function blockLabel(code: string, t: Translate) {
       "隐私或来源共享许可已变化，请核对当前范围后再继续。",
     ],
     session_expired: [
-      "The original owner session expired. Sign in and explicitly review continuation.",
-      "原本人会话已过期，请登录并明确审阅后再继续。",
+      "The connection expired. Reconnect and review continuation.",
+      "连接已过期，请重新连接并审阅后再继续。",
     ],
     paused: [
       "No new work is dispatched while paused.",
@@ -347,8 +347,8 @@ export function agentError(error: unknown, t: Translate) {
       "问题已不是当前版本，或已达到回答次数上限，请刷新后再回答。",
     ],
     RUN_SESSION_EXPIRED: [
-      "The owner session expired. Sign in again and inspect current work.",
-      "本人会话已过期，请重新登录并检查当前工作。",
+      "Reconnect and inspect the current work before continuing.",
+      "请重新连接并检查当前工作。",
     ],
     SOURCE_SIZE_LIMIT: [
       "A source must be nonempty and at most 1 MiB.",

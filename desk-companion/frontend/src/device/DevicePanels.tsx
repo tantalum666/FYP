@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Moon, Sun, Sunset } from "lucide-react";
 import type { ReactNode } from "react";
-import { errorText, request, write } from "../api";
-import type { Language, Session, Settings, Translate } from "../types";
+import { errorText, write } from "../api";
+import type { Language, Settings, Translate } from "../types";
 import { useDraftGuard } from "../components/DraftGuard";
 import { Modal } from "../components/Dialogs";
 import type { Appearance } from "./model";
@@ -35,68 +35,6 @@ export function DevicePanel({
         {children}
       </Modal>
     </div>
-  );
-}
-
-export function DeviceLogin({
-  t,
-  onLogin,
-}: {
-  t: Translate;
-  onLogin: (session: Session) => void;
-}) {
-  const [password, setPassword] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<unknown>(null);
-  async function login(e: React.FormEvent) {
-    e.preventDefault();
-    setBusy(true);
-    setError(null);
-    try {
-      await request("/session", {
-        method: "POST",
-        body: JSON.stringify({ username: "owner", password }),
-      });
-      onLogin(await request<Session>("/session"));
-    } catch (e) {
-      setError(e);
-    } finally {
-      setBusy(false);
-    }
-  }
-  return (
-    <form className="device-login" onSubmit={login}>
-      <p>
-        {t(
-          "Sign in to show your calendar on this screen.",
-          "登录后在这块屏幕展示你的日历。",
-        )}
-      </p>
-      <label className="field">
-        {t("Username", "账号")}
-        <input value="owner" readOnly autoComplete="username" />
-      </label>
-      <label className="field">
-        {t("Password", "密码")}
-        <input
-          type="password"
-          autoComplete="current-password"
-          required
-          aria-invalid={!!error}
-          aria-describedby={error ? "device-login-error" : undefined}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </label>
-      {!!error && (
-        <p id="device-login-error" className="error-message" role="alert">
-          {errorText(error, t)}
-        </p>
-      )}
-      <button className="primary" disabled={busy} aria-busy={busy}>
-        {busy ? t("Signing in…", "登录中…") : t("Sign in", "登录")}
-      </button>
-    </form>
   );
 }
 
@@ -141,7 +79,6 @@ export function DevicePreferences({
   setLanguage,
   onSaved,
   onDirty,
-  onLogout,
   t,
 }: {
   settings: Settings;
@@ -149,7 +86,6 @@ export function DevicePreferences({
   setLanguage: (value: Language) => void;
   onSaved: () => void;
   onDirty: (value: boolean) => void;
-  onLogout: () => void;
   t: Translate;
 }) {
   const workspace = useWorkspace();
@@ -239,14 +175,6 @@ export function DevicePreferences({
         </p>
       )}
       <div className="device-preferences-actions">
-        <button
-          className="secondary"
-          type="button"
-          disabled={busy || dirty}
-          onClick={onLogout}
-        >
-          {t("Sign out", "退出登录")}
-        </button>
         <button className="primary" disabled={busy}>
           {busy ? t("Saving…", "保存中…") : t("Save preferences", "保存偏好")}
         </button>

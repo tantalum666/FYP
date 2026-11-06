@@ -1,0 +1,38 @@
+{
+  "activated": true,
+  "release": "/opt/desk-companion-releases/20261106-passwordless-apps",
+  "source_commit": "26c347a422d49765a9e8a73626a471939d85db00",
+  "automatic_owner": true,
+  "frontend_exact": true,
+  "model_calls": 0,
+  "owner_keys_and_provider_config_unchanged": true,
+  "voice": {
+    "configured": true,
+    "provider": "qwen_omni",
+    "model": "qwen3.8-omni-flash-realtime",
+    "state": "idle",
+    "active": false,
+    "max_session_seconds": 600,
+    "wake_word": {
+      "available": true,
+      "word": "Alice",
+      "active": false
+    }
+  },
+  "backup": {
+    "archive_sha256": "efd74b3f68df828c3076d20ab49ec7636baf7922da5643b8aed2dc860dfc4075",
+    "off_device_files_verified": 13,
+    "schema": 3,
+    "quick_check": "ok",
+    "unchanged_model_weights_excluded": true
+  },
+  "deployment_ui": {
+    "source": "Mac browser via authenticated forwarding to Pi",
+    "alice_present": true,
+    "voice_control_enabled": true,
+    "wake_toggle_present": true,
+    "calendar_panel_opens": true,
+    "console_errors": 0,
+    "physical_pi_touch_or_microphone_test": false
+  }
+}

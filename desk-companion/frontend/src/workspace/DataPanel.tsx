@@ -498,8 +498,8 @@ export function DataPanel({ t }: { t: Translate }) {
       ) : (
         <p className="workspace-hint">
           {t(
-            "Owner sign-in is needed for exports, backup and sharing.",
-            "导出、备份与分享需要拥有者登录。",
+            "Open your main desk for exports, backup and sharing.",
+            "请在主桌面导出、备份和分享。",
           )}
         </p>
       )}

@@ -19,7 +19,6 @@ import {
   request,
   retryPending,
 } from "../api";
-import { sessionExpiredNotice } from "../surfaceNotice";
 import { dayISO, savedEventPosition, viewRange } from "../dates";
 import { editable } from "../types";
 import type {
@@ -40,10 +39,9 @@ import { appearanceAt, displayRange, readAppearance } from "./model";
 import type { Appearance } from "./model";
 import { useDisplayClock, useIdleDisplay, useScreenAwake } from "./useDisplay";
 import { useDeviceCalendar } from "./useDeviceCalendar";
-import { DisplayFace } from "./DisplayFace";
+import { DeviceHome } from "./DeviceHome";
 import {
   AppearanceChoices,
-  DeviceLogin,
   DevicePanel,
   DevicePreferences,
 } from "./DevicePanels";
@@ -51,8 +49,6 @@ import "./device.css";
 import { TaskPanel } from "../workspace/TaskPanel";
 import { DataPanel } from "../workspace/DataPanel";
 import { useWorkspace } from "../workspace/WorkspaceContext";
-import { PageCompanion } from "../companion/PageCompanion";
-import { AssistantPanel } from "../workspace/AssistantPanel";
 import { ExtrasPanel } from "../workspace/ExtrasPanel";
 import { useDeskSound } from "./DeskSound";
 import { PosturePanel } from "../workspace/PosturePanel";
@@ -62,10 +58,8 @@ type Panel =
   | "controls"
   | "calendar"
   | "settings"
-  | "login"
   | "posture"
   | "connections"
-  | "assistant"
   | "extras"
   | "tasks"
   | "data"
@@ -108,6 +102,11 @@ export function DeviceApp() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const [notice, setNotice] = useState("");
+  const [chatState, setChatState] = useState({ dirty: false, busy: false });
+  const [assistantTask, setAssistantTask] = useState<{
+    id: string;
+    title: string;
+  }>();
   const anchor = DateTime.fromISO(date, { zone }).startOf("day");
   const range =
     panel === "calendar" ? viewRange(anchor, view) : displayRange(now);
@@ -129,11 +128,11 @@ export function DeviceApp() {
     !!editor ||
       reminders ||
       settingsDirty ||
+      chatState.dirty ||
+      chatState.busy ||
       busy ||
-      panel === "login" ||
       panel === "posture" ||
       panel === "connections" ||
-      panel === "assistant" ||
       panel === "extras" ||
       panel === "data" ||
       panel === "tasks",
@@ -165,7 +164,8 @@ export function DeviceApp() {
   }, [notice]);
 
   function manage() {
-    setPanel(session ? "controls" : "login");
+    if (session) setPanel("controls");
+    else void workspace.reconnect();
     setError(null);
   }
   function openDay(day: DateTime) {
@@ -259,20 +259,13 @@ export function DeviceApp() {
       setBusy(false);
     }
   }
-  async function logout() {
-    if (pendingWrite()) {
-      setError(new ApiError("PENDING_WRITE"));
+  function changeDiscussion(next?: { id: string; title: string }) {
+    if (chatState.dirty || chatState.busy) {
+      setNotice(t("Finish your message first.", "请先处理当前消息。"));
       return;
     }
-    setBusy(true);
-    try {
-      await request("/session", { method: "DELETE" });
-      workspace.lock();
-    } catch (e) {
-      setError(e);
-    } finally {
-      setBusy(false);
-    }
+    setAssistantTask(next);
+    setPanel(null);
   }
   const mutationError = !!error && (
     <p role="alert" className="error-message">
@@ -281,47 +274,26 @@ export function DeviceApp() {
   );
   return (
     <div className={`device-shell ${theme}`}>
-      <DisplayFace
-        blocked={!!(panel || editor || detail)}
-        now={now}
-        data={data}
-        language={language}
-        state={workspace.state}
-        pending={!!pendingWrite()}
-        onManage={manage}
-        onEvent={openEvent}
-        onDay={openDay}
-        onReminders={() => {
-          setReminders(true);
-        }}
-        onRetry={() => void workspace.reconnect()}
-        onPosture={() => setPanel("posture")}
-        onTasks={() => setPanel("tasks")}
+      <DeviceHome
         t={t}
+        language={language}
+        now={now}
+        connection={
+          session === undefined
+            ? "connecting"
+            : !session || presentation.offline || presentation.stale
+              ? "offline"
+              : "online"
+        }
+        voiceState={presentation.data?.voice.state ?? "idle"}
+        obscured={!!(panel || editor || detail || reminders)}
+        onCalendar={() => openDay(now.startOf("day"))}
+        onMore={manage}
+        onReconnect={() => void workspace.reconnect()}
+        onConversationState={setChatState}
+        task={assistantTask}
+        onClearTask={() => changeDiscussion()}
       />
-      {panel === "login" && (
-        <DevicePanel
-          title={t("Connect your calendar", "连接你的日历")}
-          onClose={returnDisplay}
-          t={t}
-        >
-          {workspace.state === "session-expired" &&
-            sessionExpiredNotice(
-              t(
-                "Your owner session expired. Sign in again.",
-                "拥有者会话已过期，请重新登录。",
-              ),
-            )}
-          <DeviceLogin
-            t={t}
-            onLogin={(s) => {
-              workspace.setSession(s);
-              setPanel(null);
-              setError(null);
-            }}
-          />
-        </DevicePanel>
-      )}
       {panel === "controls" && session && (
         <DevicePanel
           title={t("Your desk", "桌面控制")}
@@ -337,9 +309,9 @@ export function DeviceApp() {
               <Link2 />
               <span>{t("Import & share", "导入与分享")}</span>
             </button>
-            <button onClick={() => setPanel("assistant")}>
+            <button onClick={returnDisplay}>
               <Sparkles />
-              <span>{t("Assistant", "助理")}</span>
+              <span>{t("Back to Alice", "返回 Alice")}</span>
             </button>
             <button onClick={() => setPanel("extras")}>
               <SlidersHorizontal />
@@ -471,7 +443,6 @@ export function DeviceApp() {
                 setNotice(t("Preferences saved", "偏好已保存"));
               }}
               onDirty={setSettingsDirty}
-              onLogout={logout}
               t={t}
             />
           ) : (
@@ -542,17 +513,12 @@ export function DeviceApp() {
                       "The desk could not load this date.",
                       "桌面未能读取此日期。",
                     )
-                  : workspace.state === "session-expired"
+                  : workspace.state === "offline"
                     ? t(
-                        "Your session expired. Sign in again.",
-                        "会话已过期，请重新登录。",
+                        "Calendar unavailable. Reconnect to load this date.",
+                        "日历暂不可用，重新连接后读取此日期。",
                       )
-                    : workspace.state === "offline"
-                      ? t(
-                          "Calendar unavailable. Reconnect to load this date.",
-                          "日历暂不可用，重新连接后读取此日期。",
-                        )
-                      : t("Loading your calendar…", "正在读取日历…")}
+                    : t("Loading your calendar…", "正在读取日历…")}
               </p>
               <button
                 className="secondary"
@@ -560,9 +526,7 @@ export function DeviceApp() {
               >
                 {workspace.state === "error"
                   ? t("Retry", "重试")
-                  : workspace.state === "session-expired"
-                    ? t("Sign in again", "重新登录")
-                    : t("Reconnect", "重新连接")}
+                  : t("Reconnect", "重新连接")}
               </button>
             </div>
           )}
@@ -594,7 +558,6 @@ export function DeviceApp() {
       {session &&
         (panel === "posture" ||
           panel === "connections" ||
-          panel === "assistant" ||
           panel === "extras" ||
           panel === "data" ||
           panel === "tasks") && (
@@ -604,13 +567,11 @@ export function DeviceApp() {
                 ? t("Tasks", "事务")
                 : panel === "posture"
                   ? t("Posture & feedback", "坐姿与反馈")
-                  : panel === "assistant"
-                    ? t("Assistant", "助理")
-                    : panel === "extras"
-                      ? t("Calendar & companion", "日历与助理")
-                      : panel === "data"
-                        ? t("Import & share", "导入与分享")
-                        : t("Connections", "连接")
+                  : panel === "extras"
+                    ? t("Calendar & companion", "日历与助理")
+                    : panel === "data"
+                      ? t("Import & share", "导入与分享")
+                      : t("Connections", "连接")
             }
             t={t}
             onClose={returnDisplay}
@@ -623,11 +584,10 @@ export function DeviceApp() {
                 onPlan={(event) =>
                   setEditor({ initial: event, scope: "series" })
                 }
+                onDiscuss={(id, title) => changeDiscussion({ id, title })}
               />
             ) : panel === "posture" ? (
               <PosturePanel t={t} />
-            ) : panel === "assistant" ? (
-              <AssistantPanel t={t} />
             ) : panel === "extras" ? (
               <ExtrasPanel t={t} />
             ) : panel === "data" ? (
@@ -670,14 +630,6 @@ export function DeviceApp() {
         <div className="toast" role="status">
           {sound.notice}
         </div>
-      )}
-      {session && presentation.data && presentation.data.calendar_extras.preferences.avatar_display !== "companion" && (
-        <PageCompanion
-          t={t}
-          surface="device"
-          blocked={!!(panel || editor || detail)}
-          onOpenAssistant={() => setPanel("assistant")}
-        />
       )}
     </div>
   );
