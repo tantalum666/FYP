@@ -778,3 +778,6 @@ Fixed actual API JSON-mode and pointer-modifier mismatches; navigation/capture/i
 Source d40457fe activated on Pi after a stopped/checkpointed21-file backup copied/verified on Mac and288source/asset checks. Two interrupted management transfers were reconciled before switching the active release. Owner data/keys, schema, Alice, wake assets, office executors and provider environment preserved; normal readiness and exact frontend read back, no model call during deployment. Mac normal service/native builds were not changed.
 
 Updated product, research status, browser/VPS/application/maintenance/delivery contracts, decisions, entry and handoff. Public evidence: output/qa/2026-11-07-live-agent-eval (sanitized results, fictional screenshots, runtime receipt). Private raw reports, closed-ledger receipt, exact email delivery and backup: ~/.config/desk-companion/live-agent-eval-20261107. Publication is a separate receipt. Next: implement owner takeover/return for the existing generic browser job; real mailbox/account/transaction and autonomous voice acceptance stay open.
+
+
+PR94 closeout: published reviewed head7043510a, marked ready and merged asa9fb6da; fetched remote main and verified exact whole-tree equality. Final administrative documentation records this result; deployed code remainsd40457fe. No CI. See the dated publication receipt.

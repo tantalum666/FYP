@@ -76,3 +76,8 @@ Source d40457feef457588daf65c7382eb4268cee0b40f is activated at /opt/desk-compan
 After activation, the API was healthy, automatically connected the existing owner, served the exact new frontend, and reported OpenAI text/Realtime/browser plus office executors configured. Voice was idle, Alice wake assets available, no model request sent during activation. The frozen environment still points to the retained preceding release; do not delete it. Mac source/test results are current, but this round did not activate a normal Mac server or rebuild native iOS. No power/reboot investigation was resumed.
 
 Final local checks: 2,036 backend tests,330frontend tests, TypeScript, production build, scoped Ruff and diff-whitespace checks passed. New links, publication scope and credential patterns were checked; historical references retain their dates. Source publication is tracked separately from this activation.
+
+
+## GitHub closeout
+
+[PR94](https://github.com/tantalum666/FYP/pull/94) was updated with actual live evidence, marked ready and merged at a9fb6da54a6ef8fabd7c8739ce97b34b663708b9. The remote merge tree equals the reviewed7043510a62d6e40ba0185d0b40c570d27b8a7011tree. [Publication receipt](publication-receipt.json). Code deployment remains d40457fe; later commits contain documentation/evidence only. No CI was used. A final documentation-only commit records this completed merge without changing tested runtime source.
