@@ -599,6 +599,15 @@ Linux只读检查返回4，并明确跳过journal recovery；needs_recovery及�
 - **未做：**后一轮提问还不能再次读出这一条已核验结果。真实账号、支付、Pi 和付费模型比较仍分开。
 
 
+## 2026-11-07 同一条对话再次读出已核验结果
+
+- **任务范围：**#92 留下的下一步。改口已经在同一条对话产生一项已核验离线结果之后，拥有者稍后在同一条对话里问起这项工作，再次看到同一份已核验 Markdown。不第二次调用离线执行器，不调用提供商。不接真实账号、支付或 Pi。#89–#92 已在 main，不重开。Codex 草稿 #94、#73、#87、#88 保持不动。
+- **工程选择：**`parse_work_followup` 只认一组封闭问法。同一条 `conversation_id` 里已有 `status: verified` 且 `verification: byte_readback` 的回复时，再次读取那一个文件。`result.verified` 只在这次读回仍满足这两项时为真。没有新的任务库、队列、schema 迁移或自批工具。其它问法、新对话、引用和来源标题都不读出这份结果。
+- **不成功的先前结果：**未核验读回是 `CONVERSATION_WORK_RESULT_UNVERIFIED`。失败或执行前中断没有已核验回复，后一轮提问不是成功，也不补跑执行器。`before_result` 之后，原来的操作号仍可以显示一次结果。
+- **边界：**另一个登录打不开这条对话。配对设备仍是 403。Full access 不产生作业或建议。同一操作号恢复已保存的回复；换一句话是冲突。流式关闭不是成功回执。
+- **未做：**后一轮提问不会继续这项工作。真实账号、支付、Pi 和付费模型比较仍分开。
+
+
 ## 2026-11-06 合并全部待处理PR，默认转OpenAI
 
 用户明确授权先审查GitHub全部待合并工作，有问题修复后合并；认为固定办公案例过于有限，要求推进Dot／Grok Bot／Muse式购物、订票和computer use。默认供应商改为OpenAI，取代此前Pi保留Qwen默认的决定；既有FYP专用Key继续使用，测试费用授权未重开。红灯调查仍暂缓。
@@ -634,3 +643,10 @@ Real Pi HTTP200model listing and Realtime session.created/normal closure passed.
 **Evidence-driven changes:** real pointer keys:null normalization; JSON-mode input marker; document-generation/origin capture and input checks; filtered resume state; bounded navigation error classification; background writes still rejected without aborting unrelated readable pages; accurate local-time/reminder model schemas; usage retained on cancelled/invalid responses. Production business validation, default reminders, paid-request behavior and transaction scope are not relaxed.
 
 Controlled shopping/flight cases, calendar followup and cancellation passed. JD stopped at verification, Cathay failed initial load, and ordinary FYP correctly reported no sender. Exact FYP-generated test mail was sent once/read back through the existing Codex Gmail connector; no Gmail credential/connection was installed in FYP. Next product slice remains deliberate owner takeover and return in the same generic browser job, now grounded in the actual JD verification boundary. [Evidence](output/qa/2026-11-07-live-agent-eval/verification.md).
+
+
+## 2026-11-07 把已合并的 #94 同步进对话 Work 栈
+
+- **工程处理，不是新功能，也不是用户新决定：**#95 在 #94 合并进 main 之后变为 dirty。用普通合并把 `origin/main` 带进 `cursor/conversation-work-reshow-verified-b9a2`，再把该结果合并进 #96。不改写已推送历史，不强制推送，不由本轮合并这两个 PR。
+- **保留：**后一轮提问再次读出已核验离线结果的行为不变，包括把当前对话传给 `ConversationWork.turn`。#94 的 OpenAI 默认、浏览器／VPS 代码和实跑记录一并保留。#94 已合并，不重开。草稿 #73、#87、#88 不动。合并顺序仍是 #95 然后 #96。
+- **未做：**这次同步不实现京东账号接管，也不新开 Work 切片。京东接管仍是 main 上分开的下一步。

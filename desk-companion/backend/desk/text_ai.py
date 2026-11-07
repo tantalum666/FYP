@@ -419,7 +419,9 @@ class TextAssistant:
         admitted = None
         if cached is None and principal is not None:
             # An explicit goal change is owner authority. It never reaches the model.
-            admitted = self.runtime.conversation_work.turn(payload, key, principal)
+            admitted = self.runtime.conversation_work.turn(
+                payload, key, principal, conversation=conversation
+            )
         if cached is not None:
             reply = cached
         elif admitted is not None:
