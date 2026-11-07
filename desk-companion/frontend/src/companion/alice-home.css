@@ -100,7 +100,7 @@
   position: absolute;
   left: 5%;
   right: 5%;
-  top: 27%;
+  top: max(230px, 29%);
   z-index: 2;
   display: flex;
   justify-content: space-between;
@@ -503,7 +503,7 @@
   .alice-agenda {
     left: 28px;
     right: 28px;
-    top: 25%;
+    top: max(230px, 29%);
   }
   .alice-agenda section {
     width: 190px;
@@ -548,7 +548,7 @@
     font-size: 24px;
   }
   .alice-scene {
-    inset: 65px 23% 118px;
+    inset: 65px 23% 150px;
   }
   .alice-agenda {
     top: 25%;
@@ -746,6 +746,12 @@
   max-height: 76px;
   overflow: auto;
   contain: paint;
+}
+.alice-home-phone:has(
+    .phone-assistant.compact .assistant-conversation:not(:empty)
+  )
+  .alice-agenda {
+  bottom: 288px;
 }
 .alice-home .assistant-input-area {
   position: relative;
