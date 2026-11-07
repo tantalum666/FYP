@@ -4,11 +4,15 @@ import { OutputMeter } from "../companion/output.ts";
 import {
   CaptureTimeline,
   renderedAt,
+  hasCaptureSpeech,
   type PendingPlaybackMark,
   type TurnMeasurement,
 } from "./voice-timing.ts";
 
 export interface VoiceEvent extends Partial<TurnMeasurement> {
+  caption_group?: number;
+  start_ms?: number;
+  end_ms?: number;
   continuous?: boolean;
   input_markers?: boolean;
   mode?: "text" | "voice";
@@ -66,6 +70,7 @@ export class VoiceAudio {
   private captureGeneration = 0;
   private pendingCapture: Array<{ pcm: ArrayBuffer; endAt: number }> = [];
   private pendingCaptureBytes = 0;
+  private pendingSpeech = false;
   private readyWaiters: Array<{
     resolve: () => void;
     reject: (e: Error) => void;
@@ -219,12 +224,24 @@ export class VoiceAudio {
           ? 0
           : (event.data.end_context_time - context.currentTime) * 1000);
       if (!this.ready || this.socket?.readyState !== WebSocket.OPEN) {
+        this.pendingSpeech ||= hasCaptureSpeech(pcm);
+        this.pendingCapture.push({ pcm, endAt });
         this.pendingCaptureBytes += pcm.byteLength;
+        // Keep a short silent preroll while the provider warms up. Silence
+        // alone must not exhaust the five-second speech buffer before the
+        // separate ten-second connection deadline has elapsed.
+        if (!this.pendingSpeech) {
+          while (
+            this.pendingCaptureBytes > 16000 &&
+            this.pendingCapture.length > 1
+          )
+            this.pendingCaptureBytes -=
+              this.pendingCapture.shift()!.pcm.byteLength;
+        }
         if (this.pendingCaptureBytes > 160000) {
           this.fail("VOICE_CONNECT_TIMEOUT");
           return;
         }
-        this.pendingCapture.push({ pcm, endAt });
         return;
       }
       this.sendCapture(pcm, endAt);
@@ -277,6 +294,7 @@ export class VoiceAudio {
       const pending = this.pendingCapture;
       this.pendingCapture = [];
       this.pendingCaptureBytes = 0;
+      this.pendingSpeech = false;
       for (const frame of pending)
         this.sendCapture(frame.pcm, frame.endAt, true);
       if (this.stopped) return;
@@ -412,6 +430,7 @@ export class VoiceAudio {
     this.captureGeneration++;
     this.pendingCapture = [];
     this.pendingCaptureBytes = 0;
+    this.pendingSpeech = false;
     this.inputNode?.disconnect();
     this.muteNode?.disconnect();
     this.inputNode = null;

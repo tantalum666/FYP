@@ -15,10 +15,12 @@ import time
 from uuid import uuid4
 
 from .assistant import TOOLS
+from .live_captions import LiveCaptionGroups, transcript_interval
 from .openai_voice import PCM16To24
 from .persona import ASSISTANT_IDENTITY
 from .tool_policy import tool_visible
 from .voice_protocols import RealtimeProtocol, flatten_schema
+from .voice_settings import selected_voice_payload
 
 OPENAI_LIVE_ENDPOINT = "wss://api.openai.com/v1/live/sessions"
 
@@ -48,6 +50,7 @@ class OpenAILiveProtocol(RealtimeProtocol):
         self.caption_group_open = False
         self.input_sequence = 0
         self.input_group = 0
+        self.captions = LiveCaptionGroups()
         self.failure = None
 
     def greeting(self):
@@ -84,7 +87,7 @@ class OpenAILiveProtocol(RealtimeProtocol):
                 "input": initial,
                 "audio": {
                     "format": {"type": "audio/pcm", "rate": 24000},
-                    "output": {"voice": config.voice or "marin"},
+                    "output": {"voice": selected_voice_payload(config.voice or "marin")},
                 },
                 "delegation": {
                     "type": "responses",
@@ -162,7 +165,6 @@ class OpenAILiveProtocol(RealtimeProtocol):
             and (self.last_output or 0) > self.backend_finished_at
         ):
             self.caption_group_open = False
-            self.input_group += 1
             return {"type": "turn_complete", "boundary": "local_caption_group"}
         return None
 
@@ -199,7 +201,7 @@ class OpenAILiveProtocol(RealtimeProtocol):
             if kind == "session.closed":
                 self.finalized.set()
             return [{"type": "usage", "usage": self.usage_snapshot()}]
-        if self.closing:
+        if self.closing and kind != "response.event":
             return []
         if kind == "session.output_audio.delta":
             raw = base64.b64decode(data.get("delta", ""), validate=True)
@@ -217,16 +219,28 @@ class OpenAILiveProtocol(RealtimeProtocol):
             if not isinstance(text, str) or not text or len(text) > 8000:
                 return []
             role = "user" if kind == "session.input_transcript.delta" else "assistant"
+            interval = transcript_interval(data)
+            group = self.captions.observe(role, interval, self.clock())
+            if group is None:
+                return []
             self.caption_group_open = True
             if role == "user":
                 self.last_input = self.clock()
                 self.input_sequence += 1
             else:
                 self.last_output = self.clock()
-            event = {"type": "transcript", "role": role, "text": text, "final": False}
+            event = {
+                "type": "transcript",
+                "role": role,
+                "text": text,
+                "final": False,
+                "caption_group": group,
+            }
+            if interval:
+                event.update(start_ms=interval[0], end_ms=interval[1])
             if role == "user":
                 event.update(
-                    input_key=f"live-{self.input_group}",
+                    input_key=f"live-{group}",
                     input_operation="append",
                     input_sequence=self.input_sequence,
                     boundary="unfinalized",
@@ -236,6 +250,14 @@ class OpenAILiveProtocol(RealtimeProtocol):
             return []
         event = data.get("event", {})
         kind = event.get("type")
+        if self.closing and kind not in {
+            "response.created",
+            "response.completed",
+            "response.failed",
+            "response.incomplete",
+            "response.cancelled",
+        }:
+            return []
         delegation = data.get("delegation_id")
         if kind == "response.created":
             self.started_responses.add(event["response"]["id"])
@@ -266,6 +288,8 @@ class OpenAILiveProtocol(RealtimeProtocol):
             event.setdefault("response", {}).setdefault("status", kind.removeprefix("response."))
         result = []
         for value in super().events(event):
+            if self.closing and value["type"] != "usage":
+                continue
             if value["type"] == "turn_complete":
                 continue  # The backend has finished; Live may not have spoken yet.
             if value["type"] == "usage":

@@ -1,5 +1,13 @@
 # Group 2 · Software maintenance contract
 
+## 8 November transcript and voice settings ownership
+
+`LiveCaptionGroups` owns bounded presentation grouping; `Conversation.append_voice_fragment` updates the existing login/task-scoped RAM buffer. `conversationTranscript.ts` owns client speaker-message updates and latest-reply selection. Audio timing/acknowledgement remains in VoiceTurns/VoiceAudio, not a second chat store. Accepted assistant fragments reach history only after grounding checks.
+
+`VoiceSettings` owns additive owner-only private preferences and registered original voice metadata. VoiceService snapshots these at startup; existing operation/version checks govern writes, with no provider request during save. VoiceSettingsPanel owns its draft, recovery and cached-player cleanup. Voice input review components remain as legacy code/API coverage but are no longer mounted in ordinary Conversation, per the owner's explicit request. Business approval/card services remain intact.
+
+`finalize_live` owns bounded final-receipt draining after client loss and never creates competing socket readers. Silent pre-ready capture is bounded separately from spoken pre-ready capture. Full private stopped/checkpointed backups are required before activating the new tables; portable personal exports are not provider-project configuration backups. [QA](../../output/qa/2026-11-08-dialogue-voice/verification.md).
+
 1 November 2026: the [interface copy contract](ui-copy.md) makes concise default views a shared UI requirement. Work results/actions precede optional details; native disclosures retain mounted form state, and phone Work uses the existing guarded list/detail selection. No new queue, request lifecycle or backend authority was introduced. [Current UI QA](../../output/qa/2026-10-31-ui-copy-cleanup/verification.md):303 frontend tests and type/build pass; earlier backend/native results below retain their original scope.
 
 2026-10-31：[PR5整合](pr5-integration.md)保留现有业务／权限核心。持久 Work 是对现有记录和子操作的编排，不能另建事实／执行器替代主线；旧 demo-record 与 A1 路线由当前实现取代。

@@ -63,8 +63,11 @@ export class CaptureTimeline {
     if (this.segments.length > 1500) this.segments.shift();
     const boundary =
       this.active && !this.ended && endAt - this.lastVoice >= 400;
-    if (boundary) { this.ended = true; this.active = false; this.voicedMs = 0; }
-    else if (!this.active && endAt-this.lastVoice >= 400) this.voicedMs=0;
+    if (boundary) {
+      this.ended = true;
+      this.active = false;
+      this.voicedMs = 0;
+    } else if (!this.active && endAt - this.lastVoice >= 400) this.voicedMs = 0;
     return boundary;
   }
   endpoint(providerEndMs: number | undefined, fallback: number) {
@@ -82,6 +85,17 @@ export class CaptureTimeline {
       return { at: voiceAt, source: "capture_energy" as const };
     return { at: fallback, source: "provider_event" as const };
   }
+}
+
+export function hasCaptureSpeech(pcm: ArrayBuffer): boolean {
+  if (pcm.byteLength < 2 || pcm.byteLength % 2) return false;
+  const values = new DataView(pcm);
+  let energy = 0;
+  for (let i = 0; i < pcm.byteLength; i += 2) {
+    const value = values.getInt16(i, true);
+    energy += value * value;
+  }
+  return Math.sqrt(energy / (pcm.byteLength / 2)) >= 328;
 }
 
 export interface PendingPlaybackMark {

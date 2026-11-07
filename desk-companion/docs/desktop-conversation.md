@@ -1,5 +1,11 @@
 # Group 2 · Desktop conversation and local media
 
+## 8 November conversation repair
+
+Compact Alice captions show the latest reply; expanded Conversation retains separate exchanges. The user removed Voice input/Work conversion cards from this view. The former voice-review-screen description below is historical; its backend snapshot/authority contract remains, but the normal chat no longer mounts that screen. Required action approvals stay with the relevant action. Dark transcript text/menu contrast and input/history scrolling are checked on Web and phone.
+
+More → Assistant style now includes Alice's voice and a collapsed Speaking style editor. Owner-only settings are versioned and apply at the next GPT Live session. Saving a choice does not connect to a provider. Cached sample playback appears only when an actual preview file is available. Built-in options remain; original prompt-voice registration is private operator setup, not an unrestricted client upload/clone feature. [Verification and remaining audition gap](../../output/qa/2026-11-08-dialogue-voice/verification.md).
+
 Historical 2 November 2026 direction: a responsive Codex/ChatGPT/Grok-style primary conversation page with usable Mac camera/microphone. This supersedes the older desktop modal/docked assistant arrangement. The 7 November owner decision now unifies the visual treatment through the shared [Alice home](alice-home.md), while preserving each surface's navigation.
 
 ## Page and lifecycle

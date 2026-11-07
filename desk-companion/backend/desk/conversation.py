@@ -30,6 +30,35 @@ class Conversation:
         if not isinstance(text, str) or not text.strip():
             return
         self.items.append({"role": role, "text": text[:8000], **metadata})
+        self._trim()
+
+    def append_voice_fragment(self, role, text, stream, group):
+        """Update one displayed speaker turn, including delayed older fragments."""
+        if not isinstance(text, str) or not text:
+            return
+        peers = [item for item in self.items if item.get("voice_stream") == stream]
+        if peers and group < min(item["voice_group"] for item in peers):
+            return
+        for item in peers:
+            if item["voice_group"] == group and item["role"] == role:
+                item["text"] = (item["text"] + text)[:8000]
+                self._trim()
+                return
+        entry = {"role": role, "text": text[:8000], "voice_stream": stream, "voice_group": group}
+        order = (group, role == "assistant")
+        index = next(
+            (
+                i
+                for i, item in enumerate(self.items)
+                if item.get("voice_stream") == stream
+                and (item["voice_group"], item["role"] == "assistant") > order
+            ),
+            len(self.items),
+        )
+        self.items.insert(index, entry)
+        self._trim()
+
+    def _trim(self):
         while len(self.items) > 40 or sum(len(i["text"]) for i in self.items) > 32000:
             self.items.pop(0)
 
@@ -49,6 +78,7 @@ class Conversation:
                 },
             }
             for item in self.items
+            if item["text"].strip()
         ]
 
 
@@ -146,12 +176,15 @@ def draft_context(runtime, allowed):
         ):
             # Positive historical memory receipts can outlive correction/deletion.
             # Only memory_context's active snapshot is evidence of saved facts.
-            if row["kind"].startswith("memory_") and (row["state"] == "confirmed" or row["applied"]):
+            if row["kind"].startswith("memory_") and (
+                row["state"] == "confirmed" or row["applied"]
+            ):
                 continue
             data = json.loads(row["data"])
             state = (
-                "confirmed" if row["applied"] else
-                "expired"
+                "confirmed"
+                if row["applied"]
+                else "expired"
                 if row["state"] == "pending" and row["expires_at"] <= now
                 else row["state"]
             )

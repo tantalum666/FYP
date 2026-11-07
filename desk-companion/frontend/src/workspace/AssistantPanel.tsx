@@ -56,7 +56,11 @@ import type { ComputerJob } from "./jobTypes";
 import { PermissionControl } from "./PermissionsPanel";
 import { ComputerJobsPanel } from "./ComputerJobsPanel";
 import "./assistant-minimal.css";
-import { useVoiceWorkHandoff } from "./voiceWork/useVoiceWorkHandoff";
+import {
+  appendLiveTranscript,
+  latestAssistantReply,
+  type ConversationTurn,
+} from "./conversationTranscript";
 import { ToolActivity, type ToolCall } from "./ToolActivity";
 import { MediaDevicePanel } from "./media/MediaDevicePanel";
 import { useAliceWake } from "./wake/useAliceWake";
@@ -87,15 +91,7 @@ export function AssistantPanel({
   onClearTask?: () => void;
 }) {
   const { data, refresh, offline, stale } = useWorkspace();
-  const [turns, setTurns] = useState<
-    Array<{
-      id: number;
-      role: "user" | "assistant";
-      body: string;
-      kind?: string;
-      jobId?: string;
-    }>
-  >([]);
+  const [turns, setTurns] = useState<ConversationTurn[]>([]);
   const [view, setView] = useState<
     "chat" | "jobs" | "help" | "timing" | "activity"
   >("chat");
@@ -454,28 +450,6 @@ export function AssistantPanel({
     if (immersive && !expanded) setView("chat");
   }, [immersive, expanded]);
   const ownerView = data?.principal.kind === "owner";
-  const voiceWork = useVoiceWorkHandoff(
-    t,
-    taskId,
-    suspended,
-    endVoice,
-    (reply) => {
-      const id = Date.now();
-      setTurns((old) =>
-        [
-          ...old,
-          { id, role: "user" as const, body: reply.text },
-          {
-            id: id + 1,
-            role: "assistant" as const,
-            body: reply.message,
-            kind: "work_goal",
-          },
-        ].slice(-40),
-      );
-      window.dispatchEvent(new Event("desk:jobs"));
-    },
-  );
   useDraftGuard(!!text.trim(), busy);
   const reload = useCallback(async () => {
     if (reading.current) return;
@@ -803,10 +777,10 @@ export function AssistantPanel({
     setVisionBusy(false);
     speechText.current = { user: "", assistant: "" };
     let starting: VoiceAudio | null = null;
+    const transcriptSession = crypto.randomUUID();
     try {
       const engine = new VoiceAudio((event) => {
         if (!alive.current || audio.current !== engine) return;
-        voiceWork.observe(event);
         if (["ready", "turn_complete", "transcript"].includes(event.type))
           contextTouched.current = Date.now();
         if (event.type === "ready") {
@@ -850,6 +824,12 @@ export function AssistantPanel({
           if (!modeSwitching.current) setBusy(false);
         }
         if (event.type === "transcript") {
+          if (Number.isSafeInteger(event.caption_group)) {
+            setTurns((old) =>
+              appendLiveTranscript(old, transcriptSession, event),
+            );
+            return;
+          }
           const role = event.role === "user" ? "user" : "assistant";
           if (role === "user" && event.text === pendingSubmission.current)
             pendingSubmission.current = null;
@@ -1064,7 +1044,6 @@ export function AssistantPanel({
         }
       }}
     >
-      <div hidden={immersive && !expanded}>{voiceWork.panel}</div>
       {mediaOpen && !suspended && (
         <MediaDevicePanel
           t={t}
@@ -1237,23 +1216,28 @@ export function AssistantPanel({
               )
               .slice(0, 3)
               .map(jobCard)}
-          {(immersive && !expanded
-            ? turns.filter((turn) => turn.role === "assistant").slice(-1)
-            : turns
-          ).map((turn) => (
-            <div className={`assistant-turn ${turn.role}`} key={turn.id}>
-              <p>{turnText(turn)}</p>
-              {turn.jobId &&
-                (!immersive || expanded) &&
-                jobs.filter((job) => job.id === turn.jobId).map(jobCard)}
-            </div>
-          ))}
-          {liveMessage && (
+          {(!immersive || expanded) &&
+            turns.map((turn) => (
+              <div className={`assistant-turn ${turn.role}`} key={turn.id}>
+                <p>{turnText(turn)}</p>
+                {turn.jobId &&
+                  (!immersive || expanded) &&
+                  jobs.filter((job) => job.id === turn.jobId).map(jobCard)}
+              </div>
+            ))}
+          {immersive && !expanded && (
+            <p className="assistant-latest" aria-live="polite">
+              {liveMessage ||
+                speechText.current.assistant ||
+                (!speechText.current.user ? latestAssistantReply(turns) : "")}
+            </p>
+          )}
+          {(!immersive || expanded) && liveMessage && (
             <p className="assistant-turn assistant" aria-live="polite">
               {liveMessage}
             </p>
           )}
-          {busy && progress.length > 0 && (
+          {!immersive && busy && progress.length > 0 && (
             <ol className="tool-progress" aria-live="polite">
               {progress.map((item, index) => (
                 <li key={`${index}-${item.tool}`}>
@@ -1263,7 +1247,7 @@ export function AssistantPanel({
               ))}
             </ol>
           )}
-          {transcript && (
+          {(!immersive || expanded) && transcript && (
             <p className="assistant-turn voice-transcript" aria-live="polite">
               {transcript}
             </p>
@@ -1297,7 +1281,7 @@ export function AssistantPanel({
           )}
           {jobs.length > 0 &&
             (turns.length > 0 || attentionJobs.length > 0) &&
-            (!immersive || expanded) && (
+            !immersive && (
               <button className="text-button" onClick={openJobs}>
                 {t("See all file activity", "查看全部文件活动")}
               </button>

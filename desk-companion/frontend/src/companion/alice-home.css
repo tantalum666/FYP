@@ -252,6 +252,10 @@
   color: #aebbc7;
   opacity: 1;
 }
+.alice-home .assistant-composer textarea:placeholder-shown {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .alice-home .assistant-composer-actions {
   margin: 0;
 }
@@ -300,6 +304,17 @@
 }
 .alice-home .assistant-toolbar button {
   color: #b3c1cd;
+  background: transparent;
+}
+.alice-home .assistant-latest {
+  color: #edf3f6;
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 4px 0 8px;
+  overflow-wrap: anywhere;
+}
+.alice-home .assistant-latest:empty {
+  display: none;
 }
 .alice-home .phone-assistant.compact .assistant-conversation {
   max-height: 110px;
@@ -307,7 +322,7 @@
 .alice-home .phone-assistant.expanded {
   height: min(620px, calc(100dvh - 130px));
   max-height: calc(100dvh - 130px);
-  background: #172431ed;
+  background: #172431fa;
   color: #eef2f2;
   border: 1px solid #ffffff14;
   border-radius: 24px;
@@ -318,14 +333,44 @@
   color: #e5ebef;
 }
 .alice-home .phone-assistant.expanded .assistant-turn.user {
-  background: #ffffff0a;
+  background: #304653;
+  color: #f2f6f8;
+  border: 1px solid #d5e6ef1c;
+}
+.alice-home .phone-assistant.expanded .assistant-turn {
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.alice-home .phone-assistant.expanded .assistant-chat {
+  overflow: hidden;
+}
+.alice-home .phone-assistant.expanded .assistant-input-area {
+  flex-shrink: 0;
+  padding-top: 10px;
+  background: #172431;
+}
+.alice-home .assistant-call,
+.alice-home .assistant-call p {
+  color: #e1eaf0;
 }
 .alice-home .phone-assistant.expanded .assistant-conversation {
   min-height: 0;
 }
 .alice-home .assistant-panel .assistant-menu,
 .alice-home .assistant-panel .assistant-attachments {
-  color: #26313c;
+  color: #e5edf2;
+  background: #20313f;
+  border-color: #d5e6ef25;
+}
+.alice-home .assistant-menu button,
+.alice-home .assistant-menu a,
+.alice-home .assistant-attachments button {
+  color: inherit;
+}
+.alice-home .assistant-menu button:hover,
+.alice-home .assistant-menu a:hover {
+  background: #ffffff0d;
 }
 .alice-home button:focus-visible,
 .alice-home a:focus-visible {
@@ -748,7 +793,7 @@
   contain: paint;
 }
 .alice-home-phone:has(
-    .phone-assistant.compact .assistant-conversation:not(:empty)
+    .phone-assistant.compact .assistant-conversation > :not(:empty)
   )
   .alice-agenda {
   bottom: 288px;

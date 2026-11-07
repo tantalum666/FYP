@@ -1,5 +1,11 @@
 # Group 2 · Shared Alice home
 
+## 8 November: latest reply and readable conversation
+
+The home shows only the newest assistant reply, clearing the previous reply while a new user turn is waiting. Conversation expands into distinct user/assistant messages. Live transcript display uses session-timeline groups, independently of playback completion; late fragments update the original message. History remains bounded RAM with the existing identity/task lifecycle, not a new permanent archive.
+
+The owner explicitly removed recognized-input/“use as Work goal” cards from Conversation. This supersedes the earlier 8 November hide-while-compact workaround below. Actual requested business proposals and their required approval controls remain. Expanded chat uses a dark, nearly opaque surface, contrasting text/bubbles, independently scrolling history and a nonshrinking composer. Optional file activity is reached from the existing menu rather than an always-visible chat link. Short-screen calendar space is reserved only when the compact transcript contains content. [Current QA](../../output/qa/2026-11-08-dialogue-voice/verification.md).
+
 7 November 2026. The owner selected the dark phone visual for Web, phone and Pi, with Alice occupying the main space. The later decisions remove framed calendar/task cards, the white composer and the welcome question. Phone keeps a full month overview, time/date and weather beside a large Alice; it does not replace the month with one line or shrink Alice to make a dashboard.
 
 ## Composition and ownership
@@ -29,4 +35,4 @@ Successful coordinates are rounded to 0.1 degree before being sent in a POST bod
 
 7 November wake repair: the Camera & microphone panel now has one explicit input selector shared by its local meter, local Alice detector and voice client. Re-enabling wake clears the stale voice failure notice. Full-catalog startup and browser playback/idle recovery are verified in the [repair QA](../../output/qa/2026-11-07-alice-wake-repair/verification.md); a waiting label alone is not end-to-end acceptance.
 
-8 November: optional recognized-input/voice-to-Work details stay mounted but hidden on the compact home and appear when Conversation expands. This preserves in-progress review state without covering Alice/calendar during ordinary speech. Offline browser show/hide/content-retention checks passed; no extra model call.
+Historical 8 November workaround, superseded by the owner decision above: optional recognized-input/voice-to-Work details stay mounted but hidden on the compact home and appear when Conversation expands. This preserves in-progress review state without covering Alice/calendar during ordinary speech. Offline browser show/hide/content-retention checks passed; no extra model call.

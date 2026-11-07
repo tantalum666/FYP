@@ -1,5 +1,15 @@
 # Group 2 · OpenAI voice and Alice wake listening
 
+## 8 November: transcript groups, voice preferences and slow startup
+
+`live_captions.py` groups display fragments from validated `start_ms`/`end_ms` on the provider session timeline; it does not call a gap “provider-final” or use playback completion as conversation history. `conversationTranscript.ts` updates stable speaker messages and selects only the newest reply on the compact home. Accepted Live text enters the existing bounded conversation buffer after the current grounding gate. Late older fragments cannot replace the latest reply. The provider supplies no completed-turn marker; the 700 ms input-gap/assistant-response display rule remains a presentation heuristic, not identity or action authority.
+
+`voice_settings.py` stores owner-selected Live voice and delivery wording in two additive private SQLite tables. The owner/version/idempotence boundary uses the existing operation service. Changes during an active session are refused; choices apply on the next explicit/wake-triggered session. Custom voice IDs are allowlisted from owner registration, transmitted as `{id: ...}`, and never used as file paths. Cached previews use a hashed local filename, owner authentication and size/symlink checks. No preview is generated automatically. Full runtime backups include these tables; portable personal-history exports deliberately exclude project-bound provider resources.
+
+Official [custom voice documentation](https://developers.openai.com/api/docs/guides/custom-voices) supports free prompt-to-voice creation for GPT Live. One original light/warm adult feminine voice was created for Alice with natural Mandarin, English and colloquial Hong Kong Cantonese as the design goal. Its metadata was accepted by `session.started`, but the first USD0.25-capped audition produced no speech and no final usage receipt. USD0.249 remains conservatively reserved in the now-closed ledger; it is not confirmed spend. A saved voice resource is not a successful naturalness audition. Realtime and Qwen are unchanged and do not receive this Live-only prompt voice.
+
+That trial exposed silent warmup filling the old five-second pre-ready speech buffer, and a client disconnect ending receipt collection. Silent startup now retains only half a second of preroll while the separate ten-second connection deadline applies; voiced pre-ready audio retains the original five-second safety bound. `voice_shutdown.py` drains final Live/backend receipts with one socket reader even after the browser disconnects. Missing receipts still remain unknown. A 6.5-second delayed-start offline browser replay and disconnect/finalization tests pass. No additional paid generation followed the closed audition ledger. [Actual scope and results](../../output/qa/2026-11-08-dialogue-voice/verification.md).
+
 Historical baseline: 2 November 2026, Asia/Hong_Kong. Owner requested OpenAI integration and selected calling Alice to wake. This replaces the earlier Qwen-only manual-preview choice for the current software session; Qwen, Gemini and other candidates remain available for comparison.
 
 ## Current interaction · updated 7 November

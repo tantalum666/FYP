@@ -659,3 +659,11 @@ Complete browser testing reused production capture, keyword, Live/Responses, too
 ## 2026-11-08 Optional voice Work details remain on demand
 
 Actual acceptance screenshots showed optional voice-to-Work details covering the compact Alice home. Engineering follow-up applies the existing concise-default requirement: keep the panel mounted, hide it while compact, reveal it on Conversation expansion. An offline browser replay verified retained content and the show/hide transition;343frontend tests/build pass, no paid calls. Final source3079390is active on Mac/Pi, with the voice core unchanged from the full paid acceptance.
+
+## 2026-11-08 Separate conversation turns and original Alice voice
+
+**Owner decisions:** only the newest spoken answer belongs on the compact home; keep separate multi-round conversation history. Remove Voice input cards and Work conversion prompts from Conversation, improve dark contrast, and match Alice with a cute/light natural voice across Mandarin, English and Cantonese. This supersedes the earlier hide-only workaround.
+
+**Engineering choices:** use session timeline grouping independent of playback; update the existing bounded RAM conversation rather than add permanent transcripts. Keep tool grounding/authority ahead of stored or displayed assistant content. Add owner-versioned voice/delivery settings and cached audio playback; original prompt voice uses an adult feminine description, with no performer/character imitation. Live-only voice resources are private desk/provider configuration, not portable personal facts.
+
+**Actual evidence:** 2064 backend and 348 frontend checks, type/build and scoped lint pass. Offline real-browser replay covers two exchanges, a late first-answer fragment, actual calendar_query, 6.5-second slow startup, latest-only home and readable expanded history. The created custom voice reached real session.started, but the paid audition failed before speech and without final receipt. Retain USD0.249 against the closed USD0.25 ledger. The revealed silent-warmup and disconnect-drain bugs are repaired and regression-tested; no new paid success is claimed. [QA](output/qa/2026-11-08-dialogue-voice/verification.md).

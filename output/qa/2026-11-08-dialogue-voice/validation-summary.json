@@ -1,0 +1,53 @@
+{
+  "backend": {
+    "passed": 2064,
+    "warnings": 2,
+    "seconds": 328.51
+  },
+  "frontend": {
+    "passed": 348,
+    "failed": 0
+  },
+  "typecheck": "passed",
+  "build": "passed",
+  "lint": "passed",
+  "ci_runs": 0,
+  "browser": {
+    "engine": "Chrome through CUA",
+    "desktop": [
+      1312,
+      737
+    ],
+    "phone": [
+      393,
+      852
+    ],
+    "small_phone": [
+      320,
+      568
+    ],
+    "fixture": "offline protocol replay using production client, VoiceService and calendar tool",
+    "latest_reply_only": true,
+    "separate_messages": 4,
+    "voice_input_cards": 0,
+    "late_old_fragment_keeps_latest": true,
+    "slow_start_seconds": 6.5,
+    "settings_saved_and_reloaded": true,
+    "app_console_errors": 0,
+    "other_console_warnings": "existing MetaMask extension warnings"
+  },
+  "paid_trial": {
+    "ceiling_usd": 0.25,
+    "accounted_usd": 0.249,
+    "closed": true,
+    "receipt_finalized": false,
+    "speech_received": false,
+    "note": "Conservative reservation retained; not confirmed actual spend."
+  },
+  "voice_creation": {
+    "created": true,
+    "creation_fee": 0,
+    "actual_speech_audition": "not_completed"
+  },
+  "activation": "pending Pi source publication"
+}

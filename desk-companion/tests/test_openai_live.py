@@ -8,6 +8,7 @@ from desk.openai_live import OpenAILiveProtocol, OPENAI_LIVE_ENDPOINT
 from desk.persona import voice_instructions
 from desk.voice import VoiceConfig
 from desk.app import create_app
+from desk.voice_settings import VoiceRegistration, VoiceSelection
 
 
 def config():
@@ -95,6 +96,75 @@ def test_live_duration_snapshots_replace_and_finalization_is_explicit():
     assert protocol.usage_snapshot()["finalization_confirmed"] == 1
 
 
+def test_client_lost_before_ready_still_finalizes_the_provider(tmp_path):
+    async def run():
+        from starlette import websockets as starlette_websockets
+
+        runtime = create_app(tmp_path, password="fixture", scheduler=False).state.runtime
+        service = runtime.voice
+        service.config = config()
+
+        class Client:
+            async def send_json(self, _):
+                raise getattr(starlette_websockets, "WebSocketDisconnected", RuntimeError)(
+                    "client closed"
+                )
+
+            async def iter_text(self):
+                await asyncio.Event().wait()
+                yield ""
+
+            async def close(self):
+                pass
+
+        class Provider:
+            def __init__(self):
+                self.queue = asyncio.Queue()
+                self.sent = []
+
+            async def __aenter__(self):
+                return self
+
+            async def __aexit__(self, *_):
+                pass
+
+            def __aiter__(self):
+                async def receive():
+                    while True:
+                        value = await self.queue.get()
+                        yield json.dumps(value)
+                        if value["type"] == "session.closed":
+                            return
+
+                return receive()
+
+            async def send(self, raw):
+                value = json.loads(raw)
+                self.sent.append(value)
+                if value["type"] == "session.start":
+                    await self.queue.put({"type": "session.started"})
+                elif value["type"] == "session.close":
+                    await self.queue.put({"type": "session.closed", "usage": {"seconds": 2}})
+
+        provider = Provider()
+        service.connector = lambda *a, **k: provider
+        owner = {"kind": "owner", "id": "owner", "session": runtime.store.create_owner_session()}
+        principal = service.consume(service.ticket(owner)["ticket"])
+        await asyncio.wait_for(
+            service.run(Client(), principal, "en", wake_triggered=True), timeout=4
+        )
+        assert not service.active
+        assert [value["type"] for value in provider.sent] == ["session.start", "session.close"]
+        with runtime.store.connection() as db:
+            receipt = json.loads(
+                db.execute("select details from records where action='voice_session'").fetchone()[0]
+            )
+        assert receipt["usage"]["finalization_confirmed"] == 1
+        assert receipt["failure"] == {"code": "VOICE_CLIENT_DISCONNECTED", "phase": "startup"}
+
+    asyncio.run(run())
+
+
 def test_live_configuration_error_keeps_only_safe_diagnostic_identifiers():
     protocol = OpenAILiveProtocol()
     events = protocol.events(
@@ -129,13 +199,32 @@ def test_live_silence_and_fragments_do_not_invent_a_provider_final():
     assert protocol.events({"type": "session.input_transcript.delta", "delta": "late"}) == []
 
 
-@pytest.mark.parametrize("finish", ["stop", "idle"])
+@pytest.mark.parametrize("finish", ["stop", "idle", "ungrounded"])
 def test_live_service_drains_final_usage_before_releasing_slot(tmp_path, monkeypatch, finish):
     async def run():
         runtime = create_app(tmp_path, password="fictional", scheduler=False).state.runtime
         service = runtime.voice
         service.config = config()
+        if finish == "stop":
+            service.settings.register(
+                VoiceRegistration(
+                    expected_version=1,
+                    id="voice_fixture",
+                    name="Original Alice",
+                    description="A clear original adult voice.",
+                ),
+                "voice-register",
+            )
+            service.settings.select(
+                VoiceSelection(
+                    expected_version=2,
+                    voice="voice_fixture",
+                    delivery="Natural connected Mandarin and Cantonese.",
+                ),
+                "voice-select",
+            )
         client_ready = asyncio.Event()
+        transcript_processed = asyncio.Event()
         clock = [0.0]
         if finish == "idle":
             import desk.voice as voice_module
@@ -157,6 +246,8 @@ def test_live_service_drains_final_usage_before_releasing_slot(tmp_path, monkeyp
                     clock[0] = 31.0
                     await asyncio.Event().wait()
                 else:
+                    if finish == "ungrounded":
+                        await transcript_processed.wait()
                     yield json.dumps({"type": "stop"})
 
             async def close(self):
@@ -177,6 +268,8 @@ def test_live_service_drains_final_usage_before_releasing_slot(tmp_path, monkeyp
                     while True:
                         event = await self.queue.get()
                         yield json.dumps(event)
+                        if event["type"] == "session.output_transcript.delta":
+                            transcript_processed.set()
                         if event["type"] == "session.closed":
                             return
 
@@ -188,6 +281,23 @@ def test_live_service_drains_final_usage_before_releasing_slot(tmp_path, monkeyp
                 if value["type"] == "session.start":
                     await self.queue.put({"type": "session.started"})
                     await self.queue.put({"type": "session.usage.updated", "usage": {"seconds": 1}})
+                    if finish == "ungrounded":
+                        await self.queue.put(
+                            {
+                                "type": "session.input_transcript.delta",
+                                "delta": "How many meetings are scheduled tomorrow?",
+                                "start_ms": 100,
+                                "end_ms": 900,
+                            }
+                        )
+                        await self.queue.put(
+                            {
+                                "type": "session.output_transcript.delta",
+                                "delta": "Your calendar is empty.",
+                                "start_ms": 1000,
+                                "end_ms": 1500,
+                            }
+                        )
                 elif value["type"] == "session.close":
                     await self.queue.put({"type": "session.closed", "usage": {"seconds": 2}})
 
@@ -197,6 +307,19 @@ def test_live_service_drains_final_usage_before_releasing_slot(tmp_path, monkeyp
         principal = service.consume(service.ticket(owner)["ticket"])
         await asyncio.wait_for(service.run(Client(), principal, "en"), timeout=5)
         assert not service.active and provider.sent[-1]["type"] == "session.close"
+        setup = provider.sent[0]["session"]
+        assert setup["audio"]["output"]["voice"] == (
+            {"id": "voice_fixture"} if finish == "stop" else "marin"
+        )
+        assert len(setup["delegation"]["responses"]["tools"]) == 27
+        if finish == "stop":
+            assert "A clear original adult voice." in setup["instructions"]
+            assert "Natural connected Mandarin and Cantonese." in setup["instructions"]
+        assert service.config.voice == "marin"  # The default provider configuration stays intact.
+        if finish == "ungrounded":
+            history = next(iter(service.conversations.entries.values())).items
+            assert [item["role"] for item in history] == ["user"]
+            assert not any(event.get("text") == "Your calendar is empty." for event in Client.sent)
         assert not any(x["type"] == "error" for x in Client.sent)
         if finish == "idle":
             assert any(x.get("reason") == "idle" for x in Client.sent)
