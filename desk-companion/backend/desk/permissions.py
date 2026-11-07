@@ -162,6 +162,26 @@ class PermissionService:
             state = job["state"]
             if state == "review":
                 return {**reply, "job": job}
+            if job.get("action") == "computer_use":
+                message = (
+                    ("Browser observation is ready for review.", "浏览器观察结果已准备好，请核对。")
+                    if state == "succeeded"
+                    else (
+                        "Browser preparation is queued or running.",
+                        "浏览器准备工作已排队或正在进行。",
+                    )
+                    if state in {"queued", "running", "verifying"}
+                    else (
+                        "Review the browser state before continuing; earlier steps may remain.",
+                        "继续前请核对浏览器状态，之前的步骤可能已经生效。",
+                    )
+                )
+                return {
+                    **reply,
+                    "job": job,
+                    "queued": state in {"queued", "running", "verifying"},
+                    "message": message[1 if zh else 0],
+                }
             messages = {
                 "succeeded": ("The file action finished and its result was verified.", "文件操作已完成，结果已核验。"),
                 "cancelled": (

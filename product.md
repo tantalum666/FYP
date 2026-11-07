@@ -1,10 +1,10 @@
 # Group 2 Project Contract
 
-更新：2026-11-06。用户要求所有端撤下Sign in，Pi显示Alice并提供语音；随后明确暂缓自动红灯调查，继续Pi软件，重点跨应用。当前分支已部署共用自动本地会话、Pi Alice主界面和rootless Podman执行适配；Pi真实Chromium／Calc／Writer／PDF及丢失回执恢复通过，实际证据以[本轮QA](output/qa/2026-11-06-passwordless-device/verification.md)为准，不能把源码完成当作已上线。模型预算关闭、仅本地验证。
+7 November 2026 update: real OpenAI browser and text/tool tests now ran on Pi through the owned VPS. Shopping constraints/continuation, flight comparison, browser-result-to-calendar drafting and in-flight cancellation passed on explicitly fictional inputs. Real JD stopped at verification; Cathay did not load. One owner test email was drafted by FYP and delivered/read back through the connected Codex Gmail tool; FYP itself still has no sender connection.31generation requests, USD0.37970163 conservative accounting, fresh USD1 ledger closed. No real order, booking, ticket or human voice acceptance. [Actual results](output/qa/2026-11-07-live-agent-eval/verification.md) / [current handoff](handoff.md).
 
 11月4日历史合并：Grok PR78–82已通过[PR83](https://github.com/tantalum666/FYP/pull/83)合并，代码合并89dc92f与验收树一致：离线邮箱、购物和日程样本接入既有事务/Work/通知/备份；已修复恢复、去重、撤销、过期消息、冲突与回执校验问题。新增建议卡片显示具体对象、来源和确认效果。最终本地验证及GitHub状态见[审查QA](output/qa/2026-11-04-grok-journey-review/verification.md)。真实邮箱、商店、支付、机票和真实日历账户仍未接通。
 
-用户随后明确要求合并74–77。[PR85](https://github.com/tantalum666/FYP/pull/85)已将74–77合入main（b663204，验收树一致）；统一软件包含主对话、Alice、OpenAI/本地唤醒和跨应用Work，并保留刚完成的Grok修复；[本轮QA](output/qa/2026-11-04-merge-74-77/verification.md)记录完整1769后端/319前端及实际页面检查。正常预览运行服务尚未切换；Pi暂停、实验预算关闭、无CI。
+用户随后明确要求合并74–77。[PR85](https://github.com/tantalum666/FYP/pull/85)已将74–77合入main（b663204，验收树一致）；统一软件包含主对话、Alice、OpenAI/本地唤醒和跨应用Work，并保留刚完成的Grok修复；[本轮QA](output/qa/2026-11-04-merge-74-77/verification.md)记录完整1769后端/319前端及实际页面检查。上述是11月4日历史节点；11月6日已恢复Pi软件并实际部署新版。实验预算仍关闭、无CI。
 
 历史整合基线：2026-10-31。PR5 已按用户明确授权修复并合并（代码合并 `9b655e1`，与已测候选完整树一致）。本轮兼容整合：保留 Alice／Omni／权限及真实应用执行器，接入持久 Work、来源与产物、事务变化跟踪、定期检查和显式保存会话；事实统一保留在 owner_memories。迁移及发布状态见[本轮QA](output/qa/2026-10-31-pr5-repair/verification.md)与[兼容契约](desk-companion/docs/pr5-integration.md)。此前 PR70 已合入 #19／#64–#69，#4／#15／#16 的旧界面由当前主线取代。Grok #20–#59及#60已通过[PR61](https://github.com/tantalum666/FYP/pull/61)合入main（软件合并c2037cd），原41个PR状态均已核对。当前方向为 **Desk Companion个人AI助理**。本分支基于完成归档的main，整合Grok #20–#59和#60的Alice／统一Omni／网页／手机软件，修复权限、上下文、恢复和跨栈兼容问题。分支推送、PR合并、目标设备部署及真实模型验收分别记录；此前跨端权限／事务接续与OpenAI受限真实评测已完成；现已实现受限 Chromium／Calc／Writer 执行，并跑通脚本驱动的复杂任务、改口和重启恢复；语音模型自主完成仍未验收。结果见[交接](handoff.md)、[本轮QA](output/qa/2026-10-30-application-execution/verification.md)与[实际交付门槛](desk-companion/docs/delivery-readiness.md)。合并基线的[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)保留历史范围。
 
@@ -14,7 +14,7 @@
 
 - Web以主对话页进入，保持自适应和输入区可见；Mac媒体先本机预览，显式分享后才发画面。界面详情按需展开。手机、电脑及Linux触摸屏共享业务数据；设备常亮页独立构图。手机使用全屏Alice首页与按需Plan／More，保留虚拟形象和简洁操作。
 - 个人 Agent 的目标包括邮件跟踪、建议和语音生活事务代办。离线邮箱/购物/日程样本已实现同一事务接续、拥有者核对、静音延后通知和联合备份；它们不能代替真实账号、订单或出票验收。[研究总入口](research/personal-agent-research-index.md)保留真实旅程目标。
-- 同一助理贯通文字、语音、短期上下文、经批准的长期记忆、日历和事务。**Qwen Omni是当前已接入／已测基线，不是唯一或最终AI选择。**Qwen Audio／Gemini已有协议适配；OpenAI Realtime2.1与GPT-Live1＋Luna已完成一轮虚构业务／合成语音实测，Mini有英文参照。OpenAI日常App接入和Alice本地唤醒已经纳入main统一软件，真人同条件比较仍待；不能把协议模拟当成真实效果。
+- 同一助理贯通文字、语音、短期上下文、经批准的长期记忆、日历和事务。**默认OpenAI：独立文字／浏览器GPT6.1Sol，实时语音GPTRealtime2.1；Qwen保留历史已测候选，不作静默回退。**Qwen Audio／Gemini已有协议适配；OpenAI Realtime2.1与GPT-Live1＋Luna已完成一轮虚构业务／合成语音实测，Mini有英文参照。真人同条件比较仍待；不能把协议模拟当成真实效果。
 - 真实、受限的电脑／软件操作是核心；先推进Linux。允许范围、批准、取消、超时、未知结果和独立读回由程序控制。默认每次询问；拥有者可在输入框旁／设置中显式启用完整权限，对新请求中的已支持软件操作授予持续授权。模型不能更改权限或自行确认，实体输出仍独立批准。见[权限契约](desk-companion/docs/assistant-permissions.md)。
 - 日历等简单查询约5秒提供有用回答是体验目标。工具等待、首音、首个有用词与作业完成分别计时。
 - 角色为AliceChan，保留原貌、作者署名与CC BY-SA4.0；不恢复被否决的自行制作脸发路线。旧A1研究与作者源按历史保存。
@@ -30,21 +30,25 @@
 | 网页／手机 | 桌面主对话页与Alice；共用操作卡片／权限设置；手机全屏Alice＋Calendar／Tasks／More页面；模拟器构建／真实画面 | 原生触控／软键盘完整流程、真机、功耗和温度 |
 | 记忆／人格 | 网页／手机可搜索、更正、删除有效事实；模型可检索全部有效事实，旧事实删除／到期也清旧重放；按需查看档案／目标／别名／检查记录；受支持的新事实操作可由完整权限授权 | 不承诺永久聊天档案或供应商删除旧留存 |
 | 持久 Work／跟进 | 选定来源／现有事务、持久决策／提问／恢复、独立文件核验、变化审阅及本地定期检查；普通聊天与显式保存会话的标识分开 | 真实邮件触发、私人账号连接、模型自主完成复杂任务和远程通知 |
-| 电脑作业 | 原有笔记／指定目录／Mousepad流程；受限 Chromium/Calc/Writer/PDF、版本文件、取消与重启读回；持久Work通过注册适配器接续同一队列 | 语音自主复杂任务、任意GUI／LCU、Pi Wayland及远端PC |
+| 电脑作业 | 原有笔记／指定目录／Mousepad及受限Chromium/Calc/Writer/PDF；新增原生computer调用的公开浏览器、实际输入／截图、显式状态接续和停止恢复，仍用同一队列 | 真实模型已通过受控购物／航班和取消检查；真实商家账户／交互接管、语音自主浏览器任务、任意桌面GUI及远端PC仍待 |
 | 坐姿／输出 | 固定关键点与标定逻辑、复测、回放隔离；命名预设、期限、停止与驱动回执 | 真人标注／误报／准确率、Luwu驱动及台架／物理急停 |
 | 交换与平台 | ICS、只读分享、事实／人格／作业备份、拥有者合并恢复、私有SQLite副本、诊断和默认关闭Web Push；Google只读、Linux安装、iPhone Keychain／Widget／App Intents | 公网／真实TLS配对、原生通知交付、学校服务器及App Store |
 
-旧运行目录须先停服务并核对备份，再执行显式 schema 1→2→3 迁移；原 PR5 的 personal_memories 另有兼容转换。真实用户目录本轮未迁移，不能直接把代码合并当作运行数据升级。
+旧运行目录须先停服务并核对备份，再执行显式 schema 1→2→3 迁移；原 PR5 的 personal_memories 另有兼容转换。Pi此前已实际完成schema3迁移；本轮浏览器功能不增加数据库迁移。
 
 实现职责与新增协议见[维护契约](desk-companion/docs/software-maintenance.md)，原业务边界见[架构](desk-companion/docs/architecture.md)。本分支保留main较新的Vite8.3.5，不回退旧工作区的8.3.1。
 
 ## 当前证据
 
+11月7日：Pi上的真实OpenAI已操作Chromium完成受控购物改价／数量／折扣／运费与显式状态接续、航班比较及跨日时区检查；同一FYP工具服务生成日历草稿，经测试拥有者确认后独立读回且重复确认不重复创建。真实京东遇验证即停，国泰页面加载失败；原生邮箱仍未连接。测试邮件由Codex Gmail连接器协助送达并读回，与Pi独立发信明确区分。[本轮详细QA](output/qa/2026-11-07-live-agent-eval/verification.md)。
+
+11月6日：合并候选1949后端／328前端；浏览器功能1991全后端、后续33项配置／OpenAI／浏览器检查、330前端及类型／构建通过。真实Chromium操作覆盖购物改价／数量／折扣／运费、航班日期／人数／行李／跨日到达、公开测试网站导航及停止后接续。规划由离线协议脚本驱动，不是实时模型自主通过，真实订单／出票0。[浏览器契约](desk-companion/docs/computer-use.md)与[研究更新](research/2026-11-06-general-browser-and-openai.md)。
+
 11月4日整合证据见[本地验证](output/qa/2026-11-04-grok-journey-review/validation-summary.json)及[兼容检查](output/qa/2026-11-04-grok-journey-review/compatibility.json)。下文数字保留其原日期，不视为本次重跑或真实账号验收。
 
 10月30日应用执行轮全后端524项、前端89项及类型／Vite构建通过，另有真实 Linux Chromium／Calc／Writer／PDF、进程与应用重启、文件 SHA／mtime、同日程 ID 更新和网页／手机浏览器批准／取消证据。核心服务沿用原任务／作业／权限边界；没有新增模型成绩或原生构建结论。10月29日OpenAI的504／15及此前权限489／89保留各自日期与范围。实际网页／手机检查覆盖对话内一次允许、完整权限自动执行、取消／到期、丢失响应后的恢复、未发文字保留、权限撤回与事务结果接续；文件由独立API／SHA读回验证。28–29日版本曾重建、安装、启动到iPhone17Pro／iOS26.5并看到新版权限入口；本轮应用执行代码没有重新做原生构建。镜像点击仍未可靠触发页面转换，因此原生触控／软键盘不算通过。之前459／89记忆和450／89整合结果保留原日期与范围。
 
-既有2026-10-23–24真实Qwen／合成输入结果保留其原日期：40条有效实际开声计时p50=3.0741s、p95=3.8889s；不是本轮重测，也不是真人有用词或Pi成绩。10月29日OpenAI评测包含16次真实短会话，其中11次为最终控制条件下的检查；不能与旧Qwen实际播音计时直接混合排名。用户新授权节省使用OpenAI额度，本轮采用5美元小上限，返回usage保守估算0.3035168833美元，账单未核；测试已结束，预算账本已关闭。旧Qwen预算仍关闭，正常预览提供商仍为none。
+既有2026-10-23–24真实Qwen／合成输入结果保留其原日期：40条有效实际开声计时p50=3.0741s、p95=3.8889s；不是本轮重测，也不是真人有用词或Pi成绩。10月29日OpenAI评测包含16次真实短会话，其中11次为最终控制条件下的检查；不能与旧Qwen实际播音计时直接混合排名。用户新授权节省使用OpenAI额度，本轮采用5美元小上限，返回usage保守估算0.3035168833美元，账单未核；测试已结束，预算账本已关闭。旧Qwen预算仍关闭；11月6日的明确OpenAI配置已取代当时的none预览，配置就绪不等于付费推理验收。
 
 ## 身份、数据与硬件
 

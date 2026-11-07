@@ -1,0 +1,61 @@
+{
+  "activated": true,
+  "source_commit": "d40457feef457588daf65c7382eb4268cee0b40f",
+  "release": "/opt/desk-companion-releases/20261107-live-agent",
+  "automatic_owner": true,
+  "frontend_exact": true,
+  "preserved_owner_keys": true,
+  "verified_files": 288,
+  "environment_unchanged": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "paid_model_calls_during_activation": 0,
+  "backup": {
+    "files": 21,
+    "bytes": 60122,
+    "sha256": "c5caf244f064b6b480a3c4d8f2ba7de04657d317a96f822c38a05d55023d5b8e",
+    "off_device_verified": true,
+    "quick_check": "ok"
+  },
+  "text": {
+    "configured": true,
+    "provider": "openai",
+    "model": "gpt-6.1-sol",
+    "background": false,
+    "configuration_error": ""
+  },
+  "voice": {
+    "provider": "openai_realtime",
+    "model": "gpt-realtime-2.1",
+    "configured": true,
+    "active": false,
+    "wake_available": true
+  },
+  "computer": {
+    "enabled": true,
+    "configured": true,
+    "reason": null,
+    "busy": false,
+    "model": "gpt-6.1-sol",
+    "scope": "public_browsing_and_preparation",
+    "real_transactions": false,
+    "max_steps": 12
+  },
+  "office": {
+    "enabled": true,
+    "configured": true,
+    "apps": [
+      "LibreOffice Calc",
+      "LibreOffice Writer",
+      "Chromium"
+    ],
+    "actions": [
+      "workbook",
+      "document",
+      "pdf",
+      "text"
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-import { Check, FileText, LoaderCircle } from "lucide-react";
+import { Check, FileText, LoaderCircle, Hand, Monitor } from "lucide-react";
 import { useState } from "react";
 import { ApiError, errorText } from "../api";
 import type { Translate } from "../types";
@@ -16,6 +16,7 @@ import type { ComputerJob } from "./jobTypes";
 import type { JobAction } from "./jobRequests";
 import { ApplicationPreview } from "./ApplicationPreview";
 import { ExportLink } from "./ExportLink";
+import { ComputerScreen } from "./ComputerScreen";
 
 export function JobActionCard({
   job,
@@ -26,6 +27,8 @@ export function JobActionCard({
   available,
   onAction,
   compact = true,
+  refreshToken,
+  onContinue,
 }: {
   job: ComputerJob;
   t: Translate;
@@ -35,9 +38,12 @@ export function JobActionCard({
   available: boolean;
   onAction: (action: JobAction) => void;
   compact?: boolean;
+  refreshToken?: number;
+  onContinue?: () => void;
 }) {
   const [exportError, setExportError] = useState<unknown>(null);
   const application = isApplicationAction(job.action);
+  const computer = job.action === "computer_use";
   const step = job.request.step;
   const waiting = [
     "queued",
@@ -62,10 +68,14 @@ export function JobActionCard({
       aria-label={job.request.title}
     >
       <header>
-        {job.state === "succeeded" ? (
+        {computer && job.result?.outcome === "needs_owner" ? (
+          <Hand size={18} />
+        ) : job.state === "succeeded" ? (
           <Check size={18} />
         ) : waiting ? (
           <LoaderCircle size={18} />
+        ) : computer ? (
+          <Monitor size={18} />
         ) : (
           <FileText size={18} />
         )}
@@ -73,17 +83,57 @@ export function JobActionCard({
           <span className="action-state">
             {job.state === "review"
               ? t("Permission needed", "需要你的允许")
-              : jobStateLabel(job.state, t)}
+              : computer && job.state === "succeeded"
+                ? job.result?.outcome === "needs_owner"
+                  ? t("Needs you", "需要你接手")
+                  : t("Ready for review", "可以核对了")
+                : computer && job.state === "running"
+                  ? t("Using the browser", "正在操作浏览器")
+                  : jobStateLabel(job.state, t)}
           </span>
           <h4>{job.request.title}</h4>
         </div>
       </header>
-      {!application && (
+      {!application && !computer && (
         <p>
           {writing
             ? t("Save a new file in ", "在以下位置保存新文件：")
             : t("Check the saved file in ", "核验以下位置的已有文件：")}
           {destination}.
+        </p>
+      )}
+      {computer && (
+        <p className="computer-use-destination">
+          {job.request.start_url?.startsWith("demo:")
+            ? t("Local rehearsal", "本地演练")
+            : job.request.start_url}{" "}
+          · {t("Public browsing and preparation", "公开浏览与准备")}
+        </p>
+      )}
+      {computer && job.state === "review" && (
+        <small>
+          {t(
+            "Screenshots go to OpenAI. Final submissions need you.",
+            "截图会发给 OpenAI，最终提交由你处理。",
+          )}
+        </small>
+      )}
+      {computer && job.result?.outcome === "needs_owner" && (
+        <p>
+          {job.result.readback?.reason === "provider_step_unavailable"
+            ? t(
+                "OpenAI could not complete this step. Check the connection before continuing.",
+                "OpenAI 未能完成这一步，请检查连接后再继续。",
+              )
+            : job.request.start_url?.startsWith("demo:")
+              ? t(
+                  "Stopped before submission; no order or booking was made.",
+                  "已停在提交前，没有下单或预订。",
+                )
+              : t(
+                  "Complete account or submission steps on the website in your own browser.",
+                  "账号或提交步骤需要在你自己的浏览器中完成。",
+                )}
         </p>
       )}
       {isDesktopAction(job.action) && writing && (
@@ -103,6 +153,12 @@ export function JobActionCard({
           ) : (
             <pre tabIndex={0}>{job.request.content}</pre>
           )}
+          {computer && job.request.allowed_origins?.length ? (
+            <small>
+              {t("Allowed sites: ", "允许访问：")}
+              {job.request.allowed_origins.join(", ")}
+            </small>
+          ) : null}
         </details>
       )}
       {job.state === "unknown" && (
@@ -115,10 +171,15 @@ export function JobActionCard({
       )}
       {job.cancel_requested && job.state === "succeeded" && (
         <p>
-          {t(
-            "The file had already been saved. Cancelling did not remove it.",
-            "文件已经保存，取消没有删除它。",
-          )}
+          {computer
+            ? t(
+                "Earlier browser steps remain; cancellation does not undo them.",
+                "先前的浏览器操作仍保留，取消不会撤销它们。",
+              )
+            : t(
+                "The file had already been saved. Cancelling did not remove it.",
+                "文件已经保存，取消没有删除它。",
+              )}
         </p>
       )}
       {job.state === "expired" && (
@@ -137,6 +198,16 @@ export function JobActionCard({
       )}
 
       <div className="workspace-inline-actions">
+        {computer && job.result?.verified && onContinue && (
+          <button
+            type="button"
+            className="secondary"
+            disabled={!fresh || busy}
+            onClick={onContinue}
+          >
+            {t("Continue from this page", "从这个页面继续")}
+          </button>
+        )}
         {job.state === "review" && (
           <button
             className="primary"
@@ -172,6 +243,18 @@ export function JobActionCard({
           </button>
         )}
       </div>
+      {computer &&
+        (job.result?.verified ||
+          ["running", "verifying", "succeeded", "unknown"].includes(
+            job.state,
+          )) && (
+          <ComputerScreen
+            key={job.id}
+            jobId={job.id}
+            refresh={refreshToken ?? Date.parse(job.updated_at)}
+            t={t}
+          />
+        )}
       {application &&
         step &&
         job.state === "succeeded" &&
@@ -211,7 +294,7 @@ export function JobActionCard({
         <p>
           {application && step
             ? step.filename
-            : `${job.request.artifact_id}.txt`}
+            : `${job.request.artifact_id}.${computer ? "json" : "txt"}`}
         </p>
         {job.result?.verified && (
           <>

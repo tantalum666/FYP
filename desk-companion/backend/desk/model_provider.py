@@ -1,7 +1,7 @@
 """Provider-agnostic text steps. Hosted adapters stay behind TextAssistant.generate.
 
 A scripted provider returns fixed steps for tests and the offline eval. It does
-not open a socket. Qwen and Gemini remain the only hosted adapters.
+not open a socket. OpenAI, Qwen and Gemini use the same business-tool boundary.
 """
 
 import copy

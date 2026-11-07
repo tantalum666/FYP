@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+from datetime import UTC, datetime
 
 import pytest
 from fastapi.testclient import TestClient
@@ -19,7 +20,14 @@ def desk(tmp_path, monkeypatch):
     runtime = tmp_path / "runtime"
     drop = tmp_path / "drop"
     drop.mkdir()
-    app = create_app(runtime, password="fictional-fixture", scheduler=False)
+    # Folder scope tests do not test expiry. A host sleep/clock adjustment must
+    # not expire the five-minute review while an HTTP login is in progress.
+    app = create_app(
+        runtime,
+        password="fictional-fixture",
+        scheduler=False,
+        clock=lambda: datetime(2026, 11, 7, tzinfo=UTC),
+    )
     jobs = app.state.runtime.jobs
     jobs.set_folder(FolderNaming(label="Sandbox", path=str(drop)), "name-folder")
     return app, jobs, drop, runtime

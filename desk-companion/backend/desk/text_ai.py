@@ -1,4 +1,4 @@
-"""Optional Qwen/Gemini text reasoning. No provider call without explicit configuration.
+"""OpenAI-default text reasoning with optional Qwen/Gemini adapters.
 
 Persistent memory is owner-reviewed facts plus confirmed tasks. Deleted facts are omitted.
 The model can only prepare proposals; background advice cannot mutate task or memory state.
@@ -10,11 +10,12 @@ import os
 import re
 import threading
 from queue import Queue
-from dataclasses import dataclass
+from dataclasses import dataclass, field as dataclass_field
 from typing import Literal
 from zoneinfo import ZoneInfo
 
 import httpx
+from .openai_transport import model_proxy, validate_openai_proxy
 from pydantic import Field, ValidationError
 
 from .agent_loop import AgentLoop
@@ -28,6 +29,7 @@ from .bounded_json import (
 )
 from .provider_policy import (
     GEMINI_TEXT_ENDPOINT,
+    OPENAI_TEXT_ENDPOINT,
     valid_api_key,
     valid_model,
     valid_provider_endpoint,
@@ -43,6 +45,7 @@ from .retention import retired_reply_key
 from .token_stream import extract_message
 from .style import present, render_prompt
 from .text_providers import text_adapter
+from .voice_credentials import openai_key
 from .workspace_data import is_quiet
 from .schemas import StrictModel
 from .store import DomainError, encode
@@ -107,17 +110,19 @@ class TextConfig:
     provider: str = "none"
     model: str = ""
     endpoint: str = ""
-    api_key: str = ""
+    api_key: str = dataclass_field(default="", repr=False)
     background: bool = False
     extract_cap: int = 0
+    configuration_error: str = ""
+    proxy_url: str = ""
 
     @classmethod
     def environment(cls):
-        return cls(
+        config = cls(
             *(
                 os.environ.get("DESK_TEXT_" + key, default)
                 for key, default in [
-                    ("PROVIDER", "none"),
+                    ("PROVIDER", "openai"),
                     ("MODEL", ""),
                     ("ENDPOINT", ""),
                     ("API_KEY", ""),
@@ -126,13 +131,38 @@ class TextConfig:
             background=os.environ.get("DESK_TEXT_BACKGROUND") == "1",
             extract_cap=configured_extract_cap(),
         )
+        if config.provider == "openai":
+            config.proxy_url = os.environ.get("DESK_OPENAI_PROXY_URL", "")
+            try:
+                validate_openai_proxy(config.proxy_url)
+            except ValueError:
+                config.configuration_error = "OPENAI_PROXY_INVALID"
+            config.model = config.model or "gpt-6.1-sol"
+            config.endpoint = config.endpoint or OPENAI_TEXT_ENDPOINT
+            path = os.environ.get("DESK_OPENAI_CREDENTIAL_FILE")
+            if path:
+                try:
+                    config.api_key = openai_key(path)
+                except (ValueError, OSError, UnicodeError):
+                    config.api_key = ""
+                    config.configuration_error = "TEXT_CREDENTIALS_INVALID"
+            elif not config.api_key or "DESK_TEXT_PROVIDER" not in os.environ:
+                config.api_key = os.environ.get("OPENAI_API_KEY", "")
+            if os.environ.get("DESK_OPENAI_REGION_UNSUPPORTED") == "1":
+                config.configuration_error = "OPENAI_REGION_UNSUPPORTED"
+        return config
 
     def valid(self):
         # Offline demonstration only. The fake adapter never reads the API key.
         if self.provider == "fake":
             return True
+        try:
+            model_proxy(self)
+        except ValueError:
+            return False
         return (
-            valid_model(self.model)
+            not self.configuration_error
+            and valid_model(self.model)
             and valid_api_key(self.api_key)
             and valid_provider_endpoint(self.provider, self.endpoint, kind="text")
         )
@@ -159,6 +189,7 @@ class TextAssistant:
             "provider": self.config.provider,
             "model": self.config.model,
             "background": self.config.valid() and self.config.background,
+            "configuration_error": self.config.configuration_error,
         }
 
     def daily_cap(self) -> int:
@@ -186,9 +217,9 @@ class TextAssistant:
         now = iso(self.store.clock())
         with self.store.connection(write=True) as conn:
             if (
-                purpose == "conversation"
+                purpose in {"conversation", "computer_use"}
                 and conn.execute(
-                    "SELECT COUNT(*) FROM text_ai_usage WHERE purpose='conversation' AND at>=?",
+                    "SELECT COUNT(*) FROM text_ai_usage WHERE purpose IN ('conversation','computer_use') AND at>=?",
                     (now[:10],),
                 ).fetchone()[0]
                 >= self.daily_cap()
@@ -205,7 +236,7 @@ class TextAssistant:
         config = self.config
         expected_url = (
             config.endpoint
-            if config.provider == "qwen"
+            if config.provider in {"qwen", "openai"}
             else (
                 (config.endpoint or GEMINI_TEXT_ENDPOINT)
                 + "/models/"
@@ -245,6 +276,7 @@ class TextAssistant:
                 transport=self.transport,
                 follow_redirects=False,
                 trust_env=False,
+                proxy=model_proxy(self.config, self.transport),
                 event_hooks={"request": [_request_checkpoint]},
             ) as client:
                 raw, usage = text_adapter(self.config.provider).complete(
@@ -300,6 +332,7 @@ class TextAssistant:
                 transport=self.transport,
                 follow_redirects=False,
                 trust_env=False,
+                proxy=model_proxy(self.config, self.transport),
                 event_hooks={"request": [_request_checkpoint]},
             ) as client:
                 adapter = text_adapter(self.config.provider)

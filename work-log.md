@@ -741,3 +741,40 @@ Publication receipt: sourceeeb96fc was pushed to draftPR87 and its remote HEAD/t
 ## 2026-11-06 待合并PR组合审查
 
 冻结73／87／88／89–92，独立codex/openai-personal-agent-20261106组合，保留所有祖先。根状态文档保留最新软件状态，网络历史保留并服从后续物理重启澄清。修复邮件／日历源内容指令误判、旧assistant回执兼容、报告核验语义及Goal前缀误匹配；新增4回归。1949后端／328前端、类型／生产构建／Ruff通过；浏览器实际先拒绝来源指令，再改已有Work目标并显示文件核验，控制台无错误。新费用调用0、无CI、未更改Pi现场网络。完整证据及即将记录的合并回执见[本轮QA](output/qa/2026-11-06-openai-agent-merge/verification.md)。后续继续默认OpenAI和真实浏览器／computer use接入。
+
+
+## 2026-11-06 OpenAI default and general browser milestone
+
+User asked to review/fix/merge pending GitHub work, broaden toward Dot/Grok Bot/Muse and shopping/travel/computer use, default to OpenAI, then selected general browser first without fixed websites. PR93merged73/87/88/89-92after source-instruction, old-receipt and misleading-result fixes; reviewed tree matches main.
+
+Implemented native Responses computer protocol, fresh browser executor, typed actions, owner-selected public sites/screen sharing, actual screenshots, explicit state continuation and normal stop recovery on existing jobs/permissions. Added OpenAI Responses text/default configuration and protected existing-key references; no silent Qwen fallback. Refreshed primary-source research and documented authenticated-account/payment/interactive-takeover gaps.
+
+Full feature backend1991/frontend330, subsequent33configuration/OpenAI/computer and95browser/job checks, typecheck/build/Ruff passed. Real Mac Chrome shopping/flight/public catalogue/stop cases and shared desktop/phone UI passed; planning remained scripted. Pi initially hit Chromium Unix-socket path length; private short scratch fixed it without disabling sandbox. A later connection loss produced no success receipt; owner unplugged/reconnected. Host/data/source were verified,20-file stopped backup copied and verified on Mac, source3ffb857activated with old release retained. Pi then passed actual shopping/flights/stop cases under bounded NoNewPrivileges units. No real orders/bookings or paid inference.
+
+Mac normal8831/5190is configured and Pi8891relay/device UI was verified with Alice. Pi OpenAI model catalog403unsupported-region is shown explicitly and cloud requests disabled; MacGET200is not live inference acceptance. Red-LED diagnosis stayed paused. Existing account/data, applications, network configuration and wake weights preserved; no native package rebuild or human voice claim.
+
+Source pushed, draftPR94created through authenticated browser after connector transport failure/local PAT write limitation. Final docs/QA/handoff, local links and publish scope were checked; final remote HEAD readback is retained in the publication receipt. Evidence: output/qa/2026-11-06-openai-agent-merge; private receipts/screens/backups under ~/.config/desk-companion/openai-computer-use-20261106. Next: one owner-started live public-browser task with actual usage and output verification; old paid budgets remain closed.
+
+
+## 2026-11-07 Pi -> owned VPS -> OpenAI
+
+Owner first asked for VPS-backed real merchant/payment/ticket/takeover work, selected JD/Taobao, then explicitly prioritized Pi OpenAI connectivity. Read focused entry/contracts/current source and official documentation; real-account findings were recorded without claiming implementation.
+
+VPS TLS/unauthenticated401passed. Pi's initial forward was rejected by the existing per-key discard-port restriction. Replaced only that outbound target with api.openai.com:443, preserving key identity, restrict/forced command and management reverse grant. Added two bounded loopback Pi services and explicit OpenAI-only transport selection to text/computer/Realtime; no key copied to VPS, no TLS bypass or general proxy changes. Fixed the real websockets Host-without-default-port compatibility issue.
+
+Actual Pi model-list200with96models and configured IDs; actual Realtime session.created for gpt-realtime-2.1and normal close. No audio/response.create/paid inference.357cross-provider regressions,14final bridge checks and Ruff passed.21-file stopped backup copied/rehash-verified on Mac; source9625f137and284runtime files activated with previous environment/source retained. Normal text/voice/computer configured, owner identity retained, background generation off. Actual Pi UI shows Alice, enabled voice and unchecked wake; old region notice removed. Mac viewer relay was restarted, independent of Pi's permanent OpenAI services. No physical reboot or power investigation.
+
+Evidence: output/qa/2026-11-07-openai-vps; private SSH/probe/backup/readback files under ~/.config/desk-companion/openai-vps-20261107. Source publication extends the existing independent OpenAI/browser review, with remote head verification. Next is real JD owner takeover/login and deliberate return to Alice; transactions and paid inference still require their concrete inputs/authority.
+
+
+## 2026-11-07 Live OpenAI commerce/travel/mail tests and Pi fixes
+
+Owner requested real tests beyond office apps, approved a fresh USD1 ceiling and one harmless message to their own test mailbox. Ran31actual GPT6.1Sol generations on Pi through its owned VPS; conservative accounting USD0.37970163, every receipt reconciled and the durable ledger closed. No old budget reopened, CI or hardware/power investigation.
+
+Real-model controlled browser work passed cart preparation and changed price/quantity/coupon/shipping with explicit stored-state continuation, flight comparison including baggage/fees/next-day arrival, separately initiated calendar-tool followup with timezone conversion/approval/idempotence, and cancellation during a provider response. Real JD reached verification; Cathay failed initial load. FYP's adversarial email draft stayed bound to owner fields. Exact draft sent once using Codex Gmail and independently read back in the owner's inbox; this is connector-assisted delivery, while native FYP mail remains unconnected. No order, booking, payment or ticket occurred.
+
+Fixed actual API JSON-mode and pointer-modifier mismatches; navigation/capture/input races and stored-state filtering; bounded initial-load diagnostics; misleading calendar local-time/reminder schema; lost/stale usage receipts after cancellation. Background writes remain blocked. The test-only folder fixture uses a stable clock after retained DB timestamps exposed a host wall-clock jump during the full suite. Final2036backend/330frontend, types/build/Ruff and actual Pi browser-scope/free-shopping regressions passed. Failed intermediate live cases remain in private evidence.
+
+Source d40457fe activated on Pi after a stopped/checkpointed21-file backup copied/verified on Mac and288source/asset checks. Two interrupted management transfers were reconciled before switching the active release. Owner data/keys, schema, Alice, wake assets, office executors and provider environment preserved; normal readiness and exact frontend read back, no model call during deployment. Mac normal service/native builds were not changed.
+
+Updated product, research status, browser/VPS/application/maintenance/delivery contracts, decisions, entry and handoff. Public evidence: output/qa/2026-11-07-live-agent-eval (sanitized results, fictional screenshots, runtime receipt). Private raw reports, closed-ledger receipt, exact email delivery and backup: ~/.config/desk-companion/live-agent-eval-20261107. Publication is a separate receipt. Next: implement owner takeover/return for the existing generic browser job; real mailbox/account/transaction and autonomous voice acceptance stay open.

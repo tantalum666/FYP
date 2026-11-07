@@ -1,0 +1,70 @@
+{
+  "merged_via": 93,
+  "merge_sha": "f2dbb795f988b762242ef3eebcdba7ecf8a37bb2",
+  "tested_source": "6f1c130753f3c28dd225c683a7baca88ec45bf6a",
+  "tree_matches_tested_candidate": true,
+  "pull_requests": [
+    {
+      "number": 73,
+      "state": "closed",
+      "merged": true,
+      "head": "3150f3912b1719036cc5a043c8e98f8cee5931ce",
+      "merged_at": "2026-11-06T11:33:36Z"
+    },
+    {
+      "number": 87,
+      "state": "closed",
+      "merged": true,
+      "head": "c1cd5dde72168947b1edc13621f51b9317c22245",
+      "merged_at": "2026-11-06T11:33:36Z"
+    },
+    {
+      "number": 88,
+      "state": "closed",
+      "merged": true,
+      "head": "61fe83caaffa682f61eba6f631405c921e5a5798",
+      "merged_at": "2026-11-06T11:33:36Z"
+    },
+    {
+      "number": 89,
+      "state": "closed",
+      "merged": true,
+      "head": "88a8d022a6ebf399807de4f10c81a91dc0929a9c",
+      "merged_at": "2026-11-06T11:33:36Z"
+    },
+    {
+      "number": 90,
+      "state": "closed",
+      "merged": true,
+      "head": "f3a25a4f26eda1bab6eb5f05301eb2e2790c65fa",
+      "merged_at": "2026-11-06T11:33:36Z"
+    },
+    {
+      "number": 91,
+      "state": "closed",
+      "merged": true,
+      "head": "78bf420ddf51b0ec8aaaf4c319d05adb2e71d626",
+      "merged_at": "2026-11-06T11:33:36Z"
+    },
+    {
+      "number": 92,
+      "state": "closed",
+      "merged": true,
+      "head": "3acf6c5d7730741042bcc5d80d68f292786246ce",
+      "merged_at": "2026-11-06T11:33:36Z"
+    },
+    {
+      "number": 93,
+      "state": "closed",
+      "merged": true,
+      "head": "6f1c130753f3c28dd225c683a7baca88ec45bf6a",
+      "merged_at": "2026-11-06T11:33:34Z"
+    }
+  ],
+  "tests": {
+    "backend": 1949,
+    "frontend": 328,
+    "ci": false,
+    "paid_model_calls": 0
+  }
+}

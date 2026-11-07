@@ -604,3 +604,33 @@ Linux只读检查返回4，并明确跳过journal recovery；needs_recovery及�
 用户明确授权先审查GitHub全部待合并工作，有问题修复后合并；认为固定办公案例过于有限，要求推进Dot／Grok Bot／Muse式购物、订票和computer use。默认供应商改为OpenAI，取代此前Pi保留Qwen默认的决定；既有FYP专用Key继续使用，测试费用授权未重开。红灯调查仍暂缓。
 
 组合73／87／88／89–92，保留原提交祖先和最新Alice／免登录基线。修复复制来源误当指令、旧回执指纹兼容及报告文件核验被写成目标结果的问题。完整1949后端／328前端、类型构建及实际对话检查通过。合并与后续OpenAI配置分开记录，购物／订票仍须真实来源、明确提交状态和独立回执；不把脚本或模型一句完成当购买／出票。
+
+## 2026-11-06 通用浏览器先行
+
+**用户决定：**先做通用浏览器能力，暂不固定商家；默认OpenAI，取代旧Qwen默认。只暂缓红灯调查，继续Pi软件。既有FYP Key沿用，付费测试预算仍关闭，不做CI。
+
+**工程实现：**在既有JobService／PermissionService上注册原生Responses computer动作；UI提供目标、入口网站和显式画面分享，单次／完整权限控制新请求。保留实际浏览器观察与有限状态，用新指令／新批准继续；正常停止可续接，未确认清理则拦住后续执行。没有第二套事务库，不执行模型生成的任意脚本。
+
+**范围与证据：**公开页面和演练任务；账户登录、敏感资料、最终付款／预订、交互式人工接管及真实订单核验未实现。浏览器HTTP过滤／DNS预检不宣称是操作系统网络隔离。复杂购物、航班、外部测试目录和停止恢复使用真实Chromium＋脚本规划通过，付费模型请求0。Mac模型目录GET成功，Pi同接口403地区不支持；明确显示错误，不改路由绕过，不静默换Qwen。普通配置不自动触发付费请求，后台模型关闭，浏览器默认8轮／最多12轮和180秒时限；调用数限额不等于美元封顶。
+
+**合并：**PR93已合并七项原始PR，树与本地验收一致。新浏览器源提交与实际运行版本分别写入交接／QA；实际模型规划与账号交易不能由本地测试数量代替。
+
+
+## 2026-11-07 Owner-requested Pi VPS route takes priority
+
+The owner explicitly requested use of their existing VPS, real merchant/payment/ticket/takeover flows, selected JD or Taobao, then directed that Pi-to-VPS OpenAI connectivity be completed first. This supersedes the previous direct-only runtime choice; it does not authorize an unspecified purchase, booking or new paid-model experiment.
+
+The fixed route reuses existing pinned transport and changes only the dedicated Pi key's exact outbound permitopen destination. An OpenAI-only loopback CONNECT bridge preserves end-to-end TLS; no API key is stored on VPS. Normal text/computer/Realtime clients select it explicitly, with no general environment proxy or fallback. Other providers, proxy services and management relay retain their configuration.
+
+Real Pi HTTP200model listing and Realtime session.created/normal closure passed. No audio or response.create was sent. The old direct-region flag was cleared only after these results. Source9625f137was activated after a21-file stopped backup, off-device hash verification and284source/assets checks.357provider regressions and14final bridge checks passed. JD account work remains unimplemented and follows this connectivity milestone.
+
+
+## 2026-11-07 Real OpenAI commerce, travel and mail evaluation
+
+**Owner authority:** continued testing after Pi/VPS connectivity, explicitly including shopping, tickets and writing/sending email; fresh total OpenAI ceiling USD1 and one owner-provided test recipient. This does not authorize unspecified purchase/payment/booking. Old budgets stay closed, no CI and only red-LED diagnosis is deferred.
+
+**Engineering decisions:** use actual Pi providers and Chromium with a single durable count/reserve/receipt ledger, isolated stores and independently checked page/calendar state. No scripted planner is substituted for live calls. Keep real-site attempts and connector-assisted mail separate from native product claims. The31generation receipts conservatively account USD0.37970163; the round is closed with zero unknown receipts.
+
+**Evidence-driven changes:** real pointer keys:null normalization; JSON-mode input marker; document-generation/origin capture and input checks; filtered resume state; bounded navigation error classification; background writes still rejected without aborting unrelated readable pages; accurate local-time/reminder model schemas; usage retained on cancelled/invalid responses. Production business validation, default reminders, paid-request behavior and transaction scope are not relaxed.
+
+Controlled shopping/flight cases, calendar followup and cancellation passed. JD stopped at verification, Cathay failed initial load, and ordinary FYP correctly reported no sender. Exact FYP-generated test mail was sent once/read back through the existing Codex Gmail connector; no Gmail credential/connection was installed in FYP. Next product slice remains deliberate owner takeover and return in the same generic browser job, now grounded in the actual JD verification boundary. [Evidence](output/qa/2026-11-07-live-agent-eval/verification.md).
