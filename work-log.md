@@ -740,16 +740,69 @@ Publication receipt: sourceeeb96fc was pushed to draftPR87 and its remote HEAD/t
 
 冻结73／87／88／89–92，独立codex/openai-personal-agent-20261106组合，保留所有祖先。根状态文档保留最新软件状态，网络历史保留并服从后续物理重启澄清。修复邮件／日历源内容指令误判、旧assistant回执兼容、报告核验语义及Goal前缀误匹配；新增4回归。1949后端／328前端、类型／生产构建／Ruff通过；浏览器实际先拒绝来源指令，再改已有Work目标并显示文件核验，控制台无错误。新费用调用0、无CI、未更改Pi现场网络。完整证据及即将记录的合并回执见[本轮QA](output/qa/2026-11-06-openai-agent-merge/verification.md)。后续继续默认OpenAI和真实浏览器／computer use接入。
 
+## 2026-11-06 OpenAI default and general browser milestone
+
+User asked to review/fix/merge pending GitHub work, broaden toward Dot/Grok Bot/Muse and shopping/travel/computer use, default to OpenAI, then selected general browser first without fixed websites. PR93merged73/87/88/89-92after source-instruction, old-receipt and misleading-result fixes; reviewed tree matches main.
+
+Implemented native Responses computer protocol, fresh browser executor, typed actions, owner-selected public sites/screen sharing, actual screenshots, explicit state continuation and normal stop recovery on existing jobs/permissions. Added OpenAI Responses text/default configuration and protected existing-key references; no silent Qwen fallback. Refreshed primary-source research and documented authenticated-account/payment/interactive-takeover gaps.
+
+Full feature backend1991/frontend330, subsequent33configuration/OpenAI/computer and95browser/job checks, typecheck/build/Ruff passed. Real Mac Chrome shopping/flight/public catalogue/stop cases and shared desktop/phone UI passed; planning remained scripted. Pi initially hit Chromium Unix-socket path length; private short scratch fixed it without disabling sandbox. A later connection loss produced no success receipt; owner unplugged/reconnected. Host/data/source were verified,20-file stopped backup copied and verified on Mac, source3ffb857activated with old release retained. Pi then passed actual shopping/flights/stop cases under bounded NoNewPrivileges units. No real orders/bookings or paid inference.
+
+Mac normal8831/5190is configured and Pi8891relay/device UI was verified with Alice. Pi OpenAI model catalog403unsupported-region is shown explicitly and cloud requests disabled; MacGET200is not live inference acceptance. Red-LED diagnosis stayed paused. Existing account/data, applications, network configuration and wake weights preserved; no native package rebuild or human voice claim.
+
+Source pushed, draftPR94created through authenticated browser after connector transport failure/local PAT write limitation. Final docs/QA/handoff, local links and publish scope were checked; final remote HEAD readback is retained in the publication receipt. Evidence: output/qa/2026-11-06-openai-agent-merge; private receipts/screens/backups under ~/.config/desk-companion/openai-computer-use-20261106. Next: one owner-started live public-browser task with actual usage and output verification; old paid budgets remain closed.
+
+
+## 2026-11-07 Pi -> owned VPS -> OpenAI
+
+Owner first asked for VPS-backed real merchant/payment/ticket/takeover work, selected JD/Taobao, then explicitly prioritized Pi OpenAI connectivity. Read focused entry/contracts/current source and official documentation; real-account findings were recorded without claiming implementation.
+
+VPS TLS/unauthenticated401passed. Pi's initial forward was rejected by the existing per-key discard-port restriction. Replaced only that outbound target with api.openai.com:443, preserving key identity, restrict/forced command and management reverse grant. Added two bounded loopback Pi services and explicit OpenAI-only transport selection to text/computer/Realtime; no key copied to VPS, no TLS bypass or general proxy changes. Fixed the real websockets Host-without-default-port compatibility issue.
+
+Actual Pi model-list200with96models and configured IDs; actual Realtime session.created for gpt-realtime-2.1and normal close. No audio/response.create/paid inference.357cross-provider regressions,14final bridge checks and Ruff passed.21-file stopped backup copied/rehash-verified on Mac; source9625f137and284runtime files activated with previous environment/source retained. Normal text/voice/computer configured, owner identity retained, background generation off. Actual Pi UI shows Alice, enabled voice and unchecked wake; old region notice removed. Mac viewer relay was restarted, independent of Pi's permanent OpenAI services. No physical reboot or power investigation.
+
+Evidence: output/qa/2026-11-07-openai-vps; private SSH/probe/backup/readback files under ~/.config/desk-companion/openai-vps-20261107. Source publication extends the existing independent OpenAI/browser review, with remote head verification. Next is real JD owner takeover/login and deliberate return to Alice; transactions and paid inference still require their concrete inputs/authority.
+
+
+## 2026-11-07 Live OpenAI commerce/travel/mail tests and Pi fixes
+
+Owner requested real tests beyond office apps, approved a fresh USD1 ceiling and one harmless message to their own test mailbox. Ran31actual GPT6.1Sol generations on Pi through its owned VPS; conservative accounting USD0.37970163, every receipt reconciled and the durable ledger closed. No old budget reopened, CI or hardware/power investigation.
+
+Real-model controlled browser work passed cart preparation and changed price/quantity/coupon/shipping with explicit stored-state continuation, flight comparison including baggage/fees/next-day arrival, separately initiated calendar-tool followup with timezone conversion/approval/idempotence, and cancellation during a provider response. Real JD reached verification; Cathay failed initial load. FYP's adversarial email draft stayed bound to owner fields. Exact draft sent once using Codex Gmail and independently read back in the owner's inbox; this is connector-assisted delivery, while native FYP mail remains unconnected. No order, booking, payment or ticket occurred.
+
+Fixed actual API JSON-mode and pointer-modifier mismatches; navigation/capture/input races and stored-state filtering; bounded initial-load diagnostics; misleading calendar local-time/reminder schema; lost/stale usage receipts after cancellation. Background writes remain blocked. The test-only folder fixture uses a stable clock after retained DB timestamps exposed a host wall-clock jump during the full suite. Final2036backend/330frontend, types/build/Ruff and actual Pi browser-scope/free-shopping regressions passed. Failed intermediate live cases remain in private evidence.
+
+Source d40457fe activated on Pi after a stopped/checkpointed21-file backup copied/verified on Mac and288source/asset checks. Two interrupted management transfers were reconciled before switching the active release. Owner data/keys, schema, Alice, wake assets, office executors and provider environment preserved; normal readiness and exact frontend read back, no model call during deployment. Mac normal service/native builds were not changed.
+
+Updated product, research status, browser/VPS/application/maintenance/delivery contracts, decisions, entry and handoff. Public evidence: output/qa/2026-11-07-live-agent-eval (sanitized results, fictional screenshots, runtime receipt). Private raw reports, closed-ledger receipt, exact email delivery and backup: ~/.config/desk-companion/live-agent-eval-20261107. Publication is a separate receipt. Next: implement owner takeover/return for the existing generic browser job; real mailbox/account/transaction and autonomous voice acceptance stay open.
+
+
+PR94 closeout: published reviewed head7043510a, marked ready and merged asa9fb6da; fetched remote main and verified exact whole-tree equality. Final administrative documentation records this result; deployed code remainsd40457fe. No CI. See the dated publication receipt.
+
 ## 2026-11-07 · Later ask re-shows the verified Work result
 
-- **目标：**改口已经在同一条对话显示一项已核验离线结果之后，拥有者稍后在同一条对话问起这项工作，再次看到同一份 Markdown。不第二次调用离线执行器，不调用提供商。#89–#92 已在 main，不重开。不动 Codex 草稿 #94、#73、#87、#88。
+- **目标：**改口已经在同一条对话显示一项已核验离线结果之后，拥有者稍后在同一条对话问起这项工作，再次看到同一份 Markdown。不第二次调用离线执行器，不调用提供商。#89–#92 已在 main，不重开。草稿 #73、#87、#88 不动。#94 已由 main 合并，本切片不重开它。
 - **完成：**`parse_work_followup` 只认封闭问法。同一条对话里已有 `verified` + `byte_readback` 的回复时，再次读取那一个文件。未核验、失败和中断都不是成功重显。另一个登录打不开这条对话。配对设备是 403。Full access 不产生作业或建议。同一操作号和流式关闭沿用既有回执。
-- **验证：**`uv run --no-sync ruff check` 通过。对话测试 68 项通过。整合验收 7 项通过。全量 `python -m pytest -q` 为 1956 passed、1 failed；失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`。前端 `npm test` 为 328 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-reshow/verification.md)。
-- **剩余：**后一轮提问不会继续这项工作。真实账号、支付、Pi 和付费比较仍分开。下一步是让拥有者明确要求继续同一项 Work，仍离线且不调用提供商。
+- **验证：**合并 main 之前：`uv run --no-sync ruff check` 通过。对话测试 68 项通过。整合验收 7 项通过。全量 `python -m pytest -q` 为 1956 passed、1 failed；失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`。前端 `npm test` 为 328 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-reshow/verification.md)。
+- **剩余：**后一轮提问不会继续这项工作。真实账号、支付和付费比较仍分开。下一步是 #96：拥有者明确要求继续同一项 Work，仍离线且不调用提供商。
 
 ## 2026-11-07 · Explicit continue advances one verified Work run
 
-- **目标：**已核验报告出现在同一条对话之后，拥有者明确要求继续这项工作。既有离线执行器只推进这一次，不调用提供商。#89–#92 已在 main。本分支叠在 #95 上。不动 Codex 草稿 #94、#73、#87、#88。
+- **目标：**已核验报告出现在同一条对话之后，拥有者明确要求继续这项工作。既有离线执行器只推进这一次，不调用提供商。#89–#92 已在 main。本分支叠在 #95 上。草稿 #73、#87、#88 不动。#94 已由 main 合并，本切片不重开它。
 - **完成：**`parse_work_continue` 只认封闭说法。一项当前工作时推进这条对话已经显示过的运行；多项必须写出运行编号。同一操作号最多推进一次。提交前中断可以重试一次。结果未知时用同一操作号恢复且不第二次推进。已结束或已取消的运行有明确回复，不会重开。另一个登录打不开这条对话。配对设备是 403。Full access 不产生作业或建议。
-- **验证：**`uv run --no-sync ruff check` 通过。对话测试 79 项通过。整合验收 7 项通过。全量 `python -m pytest -q` 为 1967 passed、1 failed；失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`。前端 `npm test` 为 328 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-continue/verification.md)。
-- **剩余：**一步之后如果运行仍未结束，下一次明确要求还不能再推进一步。真实账号、支付、Pi 和付费比较仍分开。下一步是让仍未结束的运行接受下一次明确的离线单步。
+- **验证：**合并 main 之前：`uv run --no-sync ruff check` 通过。对话测试 79 项通过。整合验收 7 项通过。全量 `python -m pytest -q` 为 1967 passed、1 failed；失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`。前端 `npm test` 为 328 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-continue/verification.md)。
+- **剩余：**一步之后如果运行仍未结束，下一次明确要求还不能再推进一步。真实账号、支付和付费比较仍分开。
+
+## 2026-11-07 · Sync main after #94 into the re-show branch
+
+- **目标：**#95 在 #94 合并进 main 之后不能合并。用普通合并把当前 `origin/main` 带进 `cursor/conversation-work-reshow-verified-b9a2`，保留后一轮重显，并保留 #94 的浏览器／VPS 变更。不强制推送，不重写已推送历史，不合并 PR。
+- **完成：**冲突只在 `AGENTS.md`、`START_HERE_NEXT_CHAT.md`、`handoff.md`、`research/personal-agent-research-index.md`、`work-log.md`。`text_ai.py` 和 `decision-log.md` 自动合并。重显仍把当前对话传给 `ConversationWork.turn`。OpenAI 默认与 #94 记录保留。草稿 #73、#87、#88 未动，#94 不重开。
+- **验证：**`ruff check` 通过。对话与整合验收 75 passed。全量后端 2042 passed、2 failed。失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`，以及 `test_restart_runs_only_the_approved_folder_job`。后一项在当前 `origin/main` 上同样失败，测试文件与 main 无差异。前端 `npm test` 330 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-stack-sync/verification.md)。
+- **剩余：**#96 还要用同样的普通合并接上更新后的 #95。Codex 的合并顺序仍是 #95 然后 #96。
+
+## 2026-11-07 · Sync the updated #95 branch into the continue branch
+
+- **目标：**#96 叠在 #95 上。把已经同步 main 的 #95 用普通合并带进 `cursor/conversation-work-continue-once-51ee`。保留明确继续这一步，保留 #94 记录。不强制推送，不改 PR 基线，不合并 PR。
+- **完成：**冲突仍只在 `AGENTS.md`、`START_HERE_NEXT_CHAT.md`、`handoff.md`、`research/personal-agent-research-index.md`、`work-log.md`。继续请求仍走 `parse_work_continue` 和一次 `advance_one`。状态提问仍只重读。OpenAI 默认与 #94 记录保留。草稿 #73、#87、#88 未动，#94 不重开。
+- **验证：**`ruff check` 通过。对话与整合验收 86 passed。全量后端 2053 passed、2 failed。失败项与 #95 同步后相同，且文件夹重启失败在 `origin/main` 上同样出现。前端 `npm test` 330 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-stack-sync/verification.md)。
+- **剩余：**Codex 先合并 #95，再合并 #96。一步之后仍未结束的运行还不能接受下一次明确离线单步。京东账号接管不在这个栈里。

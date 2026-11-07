@@ -30,7 +30,8 @@ export interface ComputerJob {
     | "verify_folder_file"
     | "linux_note_preview"
     | "verify_linux_file"
-    | "application";
+    | "application"
+    | "computer_use";
   task_id: string | null;
   request: {
     title: string;
@@ -41,6 +42,9 @@ export interface ComputerJob {
     folder_fingerprint?: string;
     stage?: string;
     step?: ApplicationStep;
+    start_url?: string;
+    max_steps?: number;
+    allowed_origins?: string[];
   };
   result: {
     verified: boolean;
@@ -49,6 +53,9 @@ export interface ComputerJob {
     sha256?: string;
     reason?: string;
     apps_verified?: string[];
+    outcome?: "review_ready" | "needs_owner" | "step_limit";
+    quality?: string;
+    readback?: { reason?: string };
   } | null;
 }
 export function isApplicationAction(action: ComputerJob["action"]) {
@@ -115,6 +122,11 @@ export function recoveryCopy(job: ComputerJob): [string, string] | null {
     ];
   }
   if (job.state === "cancelled") {
+    if (job.action === "computer_use")
+      return [
+        "Browser stopped; earlier steps may remain.",
+        "浏览器已停止，之前的步骤可能已经生效。",
+      ];
     if (isApplicationAction(job.action))
       return [
         "Stopped before publishing this file revision.",

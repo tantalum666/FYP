@@ -9,6 +9,7 @@ import json
 
 from .store import DomainError
 from .bounded_json import bounded_json_post
+from .openai_text import OpenAITextAdapter
 
 
 class QwenTextAdapter:
@@ -244,6 +245,7 @@ def fake_reply(prompt, content):
 
 
 ADAPTERS = {
+    OpenAITextAdapter.name: OpenAITextAdapter(),
     QwenTextAdapter.name: QwenTextAdapter(),
     GeminiTextAdapter.name: GeminiTextAdapter(),
     FakeTextAdapter.name: FakeTextAdapter(),

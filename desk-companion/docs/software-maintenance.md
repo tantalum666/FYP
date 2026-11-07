@@ -105,3 +105,12 @@ MailboxService and OfflineCalendarService own incremental source state while Tas
 ShoppingService admits tracking Work with the existing AgentRunService's internal `start_paused` option. Explicit sync repairs absent portable Work links on the same task; old execution/session authority is not restored. ShoppingNotices holds pending deliveries and delegates to Notifier/rules tick, including after restore.
 
 JourneyAdvice and proposalDecision share source/effect presentation across Web/phone and use the existing decision endpoint. They introduce no model client, approval queue or polling lifecycle. The primary-chat/OpenAI stack from PR74–77 is now combined with these journeys; [compatibility evidence](../../output/qa/2026-11-04-grok-journey-review/compatibility.json) is not deployment.
+
+
+## Live browser observation and evaluation (7 November)
+
+`computer_use_observation` owns capture identity and admitted storage; the existing worker keeps input and browser lifecycle. `computer_use_protocol` canonicalizes only empty optional pointer modifiers from the real API and leaves nonempty/unknown fields rejected. JobService and PermissionService retain authority; usage receipts are attached even when a completed response is discarded by cancellation.
+
+EventInput's model schema describes offset-free local times plus its existing timezone field and exposes its unchanged default10-minute reminder. The runtime validator is not relaxed. OpenAITextAdapter includes the JSON format instruction in the input message for actual provider preflight compatibility.
+
+The opt-in `live_agent_eval` runner reuses production providers/jobs/tools in isolated test stores. `live_eval_budget` is an evaluation-only durable monetary ledger, separate from normal call-count limits. It never installs a second production task store/agent loop. Actual model decisions, scripted free regressions, connector-assisted email delivery and native FYP capability are labelled separately in the [QA](../../output/qa/2026-11-07-live-agent-eval/verification.md).

@@ -14,7 +14,7 @@ from datetime import timedelta
 from typing import Literal
 from uuid import uuid4
 
-from fastapi import APIRouter, Depends, Path as ApiPath
+from fastapi import APIRouter, Depends, Path as ApiPath, Request
 from fastapi.responses import Response
 from pydantic import Field, ValidationError, model_validator
 
@@ -41,6 +41,12 @@ from .application_executor import (
     validate_application_request,
 )
 from .application_runtime import read_regular, rooted
+from .computer_use_models import (
+    COMPUTER_USE_ACTIONS,
+    ComputerUseInput,
+    ComputerUseReceipt,
+    validate_computer_request,
+)
 from .schemas import StrictModel
 from .store import DomainError, encode
 
@@ -91,6 +97,8 @@ def validate_saved_request(request: dict) -> dict:
     """Backups carry completed intents, including verification's adopted content."""
     if request.get("action") in APP_ACTIONS:
         return validate_application_request(request)
+    if request.get("action") in COMPUTER_USE_ACTIONS:
+        return validate_computer_request(request)
     required = set(JobInput.model_fields) | {"artifact_id", "executor", "scope"}
     extras = {"folder_label", "folder_fingerprint"}
     if not required <= request.keys() or set(request) - required - extras:
@@ -164,6 +172,9 @@ class JobService:
         self.folder = FolderDropExecutor(self.folder_config)
         self.desktop = LinuxDesktopExecutor(self.store.directory)
         self.applications = ApplicationExecutor(self.store.directory)
+        from .computer_use import ComputerUseExecutor
+
+        self.computer_use = ComputerUseExecutor(runtime)
         self.enabled = os.environ.get("DESK_COMPUTER_ENABLED") == "1"
         self.run_lock = threading.Lock()
         self.stopping = False
@@ -193,6 +204,7 @@ class JobService:
     def capabilities(self):
         cfg = self.folder_config()
         return {
+            "computer_use": self.computer_use.status(),
             "applications": self.applications.status(),
             "desktop": self.desktop.status(),
             "enabled": self.enabled,
@@ -233,7 +245,13 @@ class JobService:
             (FOLDER_ACTIONS, self._folder_executor),
             (DESKTOP_ACTIONS, self._desktop_executor),
             (APP_ACTIONS, self._application_executor),
+            (COMPUTER_USE_ACTIONS, self._computer_use_executor),
         )
+
+    def _computer_use_executor(self, preparing):
+        del preparing
+        self.computer_use.require_ready()
+        return self.computer_use
 
     def _application_executor(self, preparing):
         del preparing
@@ -393,7 +411,9 @@ class JobService:
                 ):
                     raise DomainError("JOB_SOURCE_UNVERIFIED", 409)
 
-    def prepare(self, payload: JobInput | ApplicationJobInput, key):
+    def prepare(
+        self, payload: JobInput | ApplicationJobInput | ComputerUseInput, key, *, principal=None
+    ):
         def apply(conn):
             if conn.execute("SELECT COUNT(*) FROM computer_jobs").fetchone()[0] >= 1000:
                 raise DomainError("JOB_LIMIT", 429)
@@ -409,7 +429,11 @@ class JobService:
                 self._task_current(conn, request)
             job_id = uuid4().hex
             request["artifact_id"] = job_id
-            if payload.action in APP_ACTIONS:
+            if payload.action in COMPUTER_USE_ACTIONS:
+                if not isinstance(payload, ComputerUseInput):
+                    raise DomainError("COMPUTER_ACTION_DENIED", 403)
+                request = self.computer_use.prepare_request(payload, job_id, principal)
+            elif payload.action in APP_ACTIONS:
                 if not isinstance(payload, ApplicationJobInput):
                     raise DomainError("COMPUTER_ACTION_DENIED", 403)
                 request = application_request(payload, conn, self, job_id)
@@ -478,6 +502,8 @@ class JobService:
             self._executor(request)
             if request["action"] in APP_ACTIONS:
                 self.applications.current(request)
+            if request["action"] in COMPUTER_USE_ACTIONS:
+                self.computer_use.current(request, conn)
             if permission_version is not None and not self.runtime.permissions.current(
                 permission_version, conn
             ):
@@ -487,7 +513,16 @@ class JobService:
             )
             conn.execute(
                 "UPDATE computer_jobs SET approved_by=?,deadline=? WHERE id=?",
-                (approved_by, iso(self.store.clock() + timedelta(seconds=60)), job_id),
+                (
+                    approved_by,
+                    iso(
+                        self.store.clock()
+                        + timedelta(
+                            seconds=180 if request["action"] in COMPUTER_USE_ACTIONS else 60
+                        )
+                    ),
+                    job_id,
+                ),
             )
             self._state(conn, job_id, "queued")
             if permission_version is not None:
@@ -537,6 +572,17 @@ class JobService:
                 self._state(conn, row["id"], state, "JOB_DEADLINE_EXCEEDED")
 
     def _verify(self, request, *, archived=False):
+        if request["action"] in COMPUTER_USE_ACTIONS:
+            receipt = ComputerUseReceipt.model_validate(
+                self.computer_use.verify(request)
+            ).model_dump()
+            if (
+                receipt["executor"] != request["executor"]
+                or receipt["scope"] != request["scope"]
+                or receipt["artifact"] != request["artifact_id"] + ".json"
+            ):
+                raise ValueError("Computer observation does not match the approved job")
+            return receipt
         if request["action"] in APP_ACTIONS:
             receipt = ApplicationReceipt.model_validate(
                 (
@@ -592,6 +638,9 @@ class JobService:
         return receipt
 
     def _approval_current(self, conn, row):
+        request = json.loads(row["request"])
+        if request["action"] in COMPUTER_USE_ACTIONS:
+            self.computer_use.current(request, conn)
         runs = getattr(self.runtime, "agent_runs", None)
         if runs is not None:
             from .application_work import guard_job
@@ -648,6 +697,13 @@ class JobService:
             except ExecutionRejected as error:
                 state = "cancelled" if error.code == "JOB_CANCELLED_BEFORE_DISPATCH" else "failed"
                 code, receipt = error.code, None
+                if request["action"] in COMPUTER_USE_ACTIONS:
+                    try:
+                        observed = self._verify(request)
+                        if observed["verified"]:
+                            receipt = observed
+                    except Exception:
+                        pass  # No observed/closed page is invented after stopping.
             except Exception:
                 # The adapter may already have written. Never repeat this intent.
                 state, code, receipt = "unknown", "EXECUTOR_RESULT_UNKNOWN", None
@@ -810,7 +866,11 @@ class JobService:
                 or job_id in identifiers
                 or not isinstance(request, dict)
                 or request.get("action")
-                not in NOTE_ACTIONS | FOLDER_ACTIONS | DESKTOP_ACTIONS | APP_ACTIONS
+                not in NOTE_ACTIONS
+                | FOLDER_ACTIONS
+                | DESKTOP_ACTIONS
+                | APP_ACTIONS
+                | COMPUTER_USE_ACTIONS
                 or row.get("state") not in known
                 or not isinstance(row.get("intent_hash"), str)
                 or len(row["intent_hash"]) != 64
@@ -819,6 +879,8 @@ class JobService:
             request = validate_saved_request(request)
             if request["action"] in APP_ACTIONS and row.get("state") == "succeeded":
                 ApplicationReceipt.model_validate(row.get("result"))
+            if request["action"] in COMPUTER_USE_ACTIONS and row.get("state") == "succeeded":
+                ComputerUseReceipt.model_validate(row.get("result"))
             if row["intent_hash"] != hashlib.sha256(encode(request).encode()).hexdigest():
                 raise ValueError("Invalid job intent hash")
             identifiers.add(job_id)
@@ -887,6 +949,11 @@ class JobService:
             raise DomainError("JOB_LIMIT", 429)
         for row in incoming:
             state = row["state"] if row["state"] in TERMINAL else "review"
+            if row["request"]["action"] in COMPUTER_USE_ACTIONS:
+                # Browser state/screenshots are not in a portable JSON backup.
+                # A restored row can only be reconciled, never input replayed.
+                state = "unknown"
+                row = {**row, "result": None, "error": "COMPUTER_ENVIRONMENT_REVIEW_REQUIRED"}
             conn.execute(
                 "INSERT INTO computer_jobs("
                 "id, request, intent_hash, state, version, created_at, updated_at, expires_at, "
@@ -1069,6 +1136,51 @@ def job_routes(runtime, owner, operation_id):
     @router.post("/jobs", dependencies=[Depends(visible)])
     def prepare(payload: JobInput, key=Depends(operation_id)):
         return runtime.jobs.prepare(payload, key)
+
+    @router.post("/computer-use/jobs", dependencies=[Depends(visible)])
+    def computer_use_prepare(
+        payload: ComputerUseInput,
+        request: Request,
+        key=Depends(operation_id),
+        principal=Depends(owner),
+    ):
+        actor = {**principal, "session": request.cookies.get("desk_companion_session")}
+        grant = runtime.permissions.capture(actor, payload.task_id)
+        result = runtime.jobs.prepare(
+            payload,
+            key,
+            principal=actor,
+        )
+        return runtime.permissions.apply_reply(result, grant)
+
+    @router.get("/computer-use/jobs/{job_id}/screen", dependencies=[Depends(visible)])
+    def computer_use_screen(request: Request, job_id: str = ApiPath(pattern=r"^[a-f0-9]{32}$")):
+        job = runtime.jobs.detail(job_id, review=True)
+        if job["action"] != "computer_use":
+            raise DomainError("FILE_NOT_FOUND", 404)
+        directory = runtime.jobs.computer_use.root / job_id
+        try:
+            if (job.get("result") or {}).get("verified"):
+                checked = runtime.jobs.computer_use.verify(job["request"])
+                if not checked["verified"]:
+                    raise ValueError("Changed computer receipt")
+                observation = checked["readback"]["observation"]
+            else:
+                observation = json.loads(read_regular(directory / "latest.json", 32000))
+            name = observation["screen"]
+            if not re.fullmatch(r"screen-[0-9]{1,2}\.png", name):
+                raise ValueError("Invalid screenshot reference")
+            body = read_regular(directory / name, 2_000_000)
+            if hashlib.sha256(body).hexdigest() != observation["sha256"]:
+                raise ValueError("Changed screenshot")
+        except (OSError, ValueError, KeyError):
+            raise DomainError("FILE_NOT_FOUND", 404) from None
+        etag = '"' + observation["sha256"] + '"'
+        if request.headers.get("if-none-match") == etag:
+            return Response(status_code=304, headers={"ETag": etag, "Cache-Control": "no-store"})
+        return Response(
+            body, media_type="image/png", headers={"Cache-Control": "no-store", "ETag": etag}
+        )
 
     @router.get("/jobs/{job_id}")
     def detail(job_id: str, principal=Depends(owner)):

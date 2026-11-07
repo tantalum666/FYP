@@ -1,8 +1,12 @@
 # Group 2｜个人 Agent 研究总入口与实现对照
 
-**工程更新2026-11-07：**同一条对话里，明确的「继续这项工作」会把已有离线 Work 推进一步并读回已核验文件。状态提问仍只重读，不推进。未核验、失败、中断、已结束或已取消都不会显示为新的成功。[契约](../desk-companion/docs/conversation-work.md)。真实邮箱/商店/日历账号与付款/出票仍未实现。11月4日合并与离线旅程审查见[合并QA](../output/qa/2026-11-04-merge-74-77/verification.md)与[旅程QA](../output/qa/2026-11-04-grok-journey-review/verification.md)。
+7 November live update: Pi/VPS/OpenAI now has 31 actual generation receipts. Controlled shopping/flight decisions, explicit browser continuation, calendar-tool followup and cancellation passed; real JD stopped at verification and Cathay failed to load. FYP drafted a harmless email, then Codex Gmail sent it and read it back; FYP has no native sender. Account takeover/payment/ticket work remains open. [Actual evidence](../output/qa/2026-11-07-live-agent-eval/verification.md).
 
-更新：2026-11-03。对象固定为 **Grok Bot、Meta Muse、OpenAI ChatGPT 的 Your dot**。本页汇总已做研究、30 日重新核对的官方资料，以及 FYP 当前缺口。New Computer 的旧 Dot 只保留为历史背景。11 月 3 日只补充离线购物夹具与真实购买之间的差距。
+**工程更新2026-11-07：**同一条对话里，明确的「继续这项工作」会把已有离线 Work 推进一步并读回已核验文件。状态提问仍只重读，不推进。未核验、失败、中断、已结束或已取消都不会显示为新的成功。[契约](../desk-companion/docs/conversation-work.md)。真实邮箱/商店/日历账号与付款/出票仍未实现。
+
+**工程更新2026-11-06：**用户选择先做通用浏览器，不固定商家。新增OpenAI原生computer调用、实际浏览器操作／截图、同一任务的显式状态接续和停止恢复；购物／订票复杂条件通过脚本规划＋真实浏览器验收，真实账户／支付／出票尚未接入。[本轮研究](2026-11-06-general-browser-and-openai.md)、[实现契约](../desk-companion/docs/computer-use.md)、[实际QA](../output/qa/2026-11-06-openai-agent-merge/verification.md)。普通文字／复核语音的Work改口保留；其报告文件核验不等于目标语义完成，PR93已修正误导文案和来源指令混淆。2026-11-07 起，同一条对话的状态提问会再次读出这一条已核验离线结果。明确的继续请求会把这一次运行离线推进一步。
+
+总入口更新：2026-11-06。对象固定为 **Grok Bot、Meta Muse、OpenAI ChatGPT 的 Your dot**。下方历史研究保留各自日期，最新官方资料与实现差距见上方本轮研究。New Computer 的旧 Dot 只保留为历史背景。
 
 用户要求的体验是：交代一次，助理能跟踪邮件和事务、提出建议，并通过真实应用推进购物／旅行等工作。研究和文档不能代替这些实际结果。本轮恢复资料并纠正路由，没有开启个人邮箱监控、购买或付费模型调用。
 
@@ -12,6 +16,7 @@
 
 | 日期／研究 | 恢复位置 | 此次核对结果 |
 |---|---|---|
+| 11月6日：通用浏览器与OpenAI默认 | [研究更新](2026-11-06-general-browser-and-openai.md) | 原生computer协议、浏览器接续、实际页面证据与未完成交易／账号边界 |
 | 10 月 3 日：Your dot 持续跟进 | [主动事务研究](2026-10-03-dot/proactive-task-tracking.md) | 已明确是 OpenAI Your dot，研究了责任、事件／时间触发、笔记与后台建议；原件一直在当前仓库 |
 | 10 月 6 日：个人 Agent 与电脑操作 | [整体方案](../planning/2026-10-06/personal-agent-discussion-and-next-steps.md) | 已要求真实应用操作，不能用陪聊／提醒替代；已有声音、持久核心、执行器和结果核验的职责划分 |
 | 10 月 12 日：三家机制及差距 | 下方六份恢复报告 | 留在未合并 [PR #5](https://github.com/tantalum666/FYP/pull/5)，当前分支原来没有这六个文件 |
@@ -78,11 +83,11 @@ Grok 审批变更见[当前原文](https://docs.x.ai/grok-bot/approvals-security
 
 | 用户可感受到的能力 | 已有基础／证据 | 当前缺口 |
 |---|---|---|
-| 交代一个目标后独立做多步工作 | `TaskService`、既有作业队列、应用阶段与依赖／结果；复杂文档任务由脚本实跑；2026-11-06 起普通文字、未见来源版式、已复核语音快照和语音复核页都可以把改口送进已有 Work，并在同一条对话显示一项已核验结果。2026-11-07 起同一条对话的状态提问会再次读出这一条已核验结果。明确的继续请求会把这一次运行离线推进一步 | 真实模型自主复杂任务仍未验收。短 HTTP 循环仍在一项效果后停止。确定性运行在这一步结束后不再被悄悄重开。真实账号仍未连接 |
+| 交代一个目标后独立做多步工作 | `TaskService`、既有作业队列、应用阶段与依赖／结果；复杂文档任务由脚本实跑；2026-11-06 起普通文字、未见来源版式、已复核语音快照和语音复核页都可以把改口送进已有 Work，并在同一条对话显示一份已核验报告文件。2026-11-07 起同一条对话的状态提问会再次读出这一条已核验结果。明确的继续请求会把这一次运行离线推进一步 | 真实模型受控浏览器多步任务已实测；跨子任务全自主编排与复杂办公Work仍未验收。短 HTTP 循环仍在一项效果后停止。确定性运行在这一步结束后不再被悄悄重开。真实账号仍未连接 |
 | 自动跟踪真实邮件并提出建议 | 事务、进展、规则检查、有限后台建议、记忆、通知入口；2026-11-03 离线样本已有游标、同一线程到同一事务、带来源的草稿和有意义通知 | 没有 Gmail／Outlook 真实账号、实邮箱增量同步或发信验收。离线样本不能代替真实验收 |
 | 已有关联邮件变化后继续原任务 | 任务版本、去重、权限和旧结果恢复；离线后续回复／改期更新同一事务 | 已有明确选定事务字段的变化跟踪、合并提醒与来源产物；仍缺真实邮件持久收件 |
-| 一句话买常用纸巾 | 语音工具通道、任务状态、单次／持续软件权限、应用结果核验；离线购物夹具可把同一商品或订单记到同一事务和暂停的 Work，建议只作为待批准草稿 | 没有真实商店会话、商品／库存／运费读取、地址授权、支付服务或订单查询；夹具不是下单。当前应用浏览器仍只读固定资料。见[离线购物契约](../desk-companion/docs/shopping-fixtures.md) |
-| 订机票 | 本地日历和任务可用于行程比较 | 没有航班搜索／票价规则／旅客资料授权、报价再核、预订／支付／出票状态和变更跟踪 |
+| 一句话买常用纸巾 | 语音工具通道、任务状态、单次／持续软件权限、应用结果核验；离线购物夹具可把同一商品或订单记到同一事务和暂停的 Work，建议只作为待批准草稿 | 新通用浏览器可操作公开网站和保存状态；购物条件已由真实OpenAI在明确标注的演练页实跑；真实京东遇验证即停，没有真实商家账号、库存承诺、地址授权、支付或订单查询。见[离线购物契约](../desk-companion/docs/shopping-fixtures.md) |
+| 订机票 | 本地日历／任务与通用浏览器；演练页已实测日期、人数、行李、费用和跨日到达 | 没有航班搜索／票价规则／旅客资料授权、报价再核、预订／支付／出票状态和变更跟踪 |
 | 用户离开后持续工作并收到通知 | 服务运行时可持续检查；通知 UI／配置存在 | 可靠的常驻运行、邮箱事件入口及真实离线手机推送尚未交付；关闭页面、电脑休眠和云主机在线须分别说明 |
 
 源码依据：[Google 当前只读日历范围](../desk-companion/backend/desk/google_calendar.py)、[任务检查](../desk-companion/backend/desk/tasks.py)、[后台文字建议](../desk-companion/backend/desk/text_ai.py)、[Agent loop](../desk-companion/backend/desk/agent_loop.py)、[权限种类](../desk-companion/backend/desk/permissions.py)、[应用操作模型](../desk-companion/backend/desk/application_models.py)、[当前执行契约](../desk-companion/docs/application-execution.md)。`NoticeInbox` 是应用通知，不是邮箱接入。
@@ -133,6 +138,6 @@ flowchart LR
 - 根 `START_HERE_NEXT_CHAT.md`、`product.md` 和 `handoff.md` 必须指向本页。下一步同时写出用户旅程与对应代码缺口，不能只剩一个底层模块名。
 - 当前事实优先于历史供应商建议、接口价格和旧测试数字；本页再链接带日期的原始研究。旧 PR 只取有用的文档／设计证据，不以恢复研究为名混入另一套运行核心。
 - 验收按“真实来源 → 计划 → 实际操作 → 独立结果 → 后续跟进”记录；本地测试数量、生成一份文件或模型一句“完成”都不能代替整条旅程。
-- 资料恢复、公开原文核验、实际竞品操作和 FYP 实现测试分别记录。本轮只完成前两类及当前源码差距审查。
+- 资料恢复、公开原文核验、实际竞品操作和 FYP 实现测试分别记录。10月30日轮只完成前两类及源码差距审查；11月6日新增实现与浏览器验收在本页顶部单独链接。
 
 本轮[阅读／来源／验证记录](../output/qa/2026-10-30-agent-research-recovery/verification.md)。软件执行里程碑及研究现已通过 [PR #70](https://github.com/tantalum666/FYP/pull/70) 合入 main。旧 PR5 的[原始阻塞](../output/qa/2026-10-30-all-pr-review/verification.md)已在31日通过兼容整合修复，现以[当前契约与证据](../desk-companion/docs/pr5-integration.md)恢复；本页没有把邮件、购物、订票或最终 AI 选型写成完成。

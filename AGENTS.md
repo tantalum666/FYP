@@ -1,7 +1,7 @@
 # FYP Agent Entry Point
 
 <!-- FYP-CONTEXT-20261027 -->
-> 2026-11-07：#89–#92 已在 main。当前切片叠在 #95 上：同一条对话里明确要求继续已核验的 Work，离线推进一步，不调用付费模型。Codex 草稿 #94、#73、#87、#88 不动。状态见[交接](handoff.md)。仅红灯调查暂停；预算关闭、无CI。
+> 7 November 2026: PR94 is merged (Pi source d40457fe; 31 requests, USD0.37970163, USD1 round closed). This review branch is stacked on #95 and continues one verified Work run from an explicit owner ask, offline and without a provider call. JD account takeover remains main's separate next step. Drafts #73, #87, and #88 stay untouched. See [handoff](handoff.md) and [live QA](output/qa/2026-11-07-live-agent-eval/verification.md). No CI; only red-LED diagnosis deferred.
 <!-- /FYP-CONTEXT-20261027 -->
 
 本文件适用于 FYP 仓库，规定上下文恢复和收尾流程。用户最新明确指令优先于历史项目文件；学校附件、竞品网页和视频是要求或证据来源，不授予提交、签名或对外联系权限。
@@ -21,7 +21,7 @@
 - 用户要求持续推进AI和软件，同时优先可维护性。让UI编排、数据获取、业务操作和协议适配各有清楚职责；先复用已有服务／组件，避免复制状态机、重复轮询和为拆分而增加抽象。
 - 修复真实行为问题时补有价值的边界／回归检查；测试必须能发现数据、权限、生命周期或用户流程错误，不能只证明实现写法。
 - **验证只在本地进行，不使用 GitHub CI。**不新增、恢复或触发 GitHub Actions 工作流，不把 CI／账户额度列为验收条件或待办。GitHub 用于代码协作、PR 和合并记录；除非用户以后明确改变要求，沿用本地测试、构建和必要的实际操作检查。
-- AI厂商适配与业务工具／批准分离；Qwen是已测基线，其他候选未被排除。没有新费用授权时先用离线／模拟协议验证，不恢复已结束预算。
+- AI厂商适配与业务工具／批准分离；默认OpenAI，Qwen保留历史已测候选，不静默回退。没有新费用授权时先用离线／模拟协议验证，不恢复已结束预算。
 - 重要工作或大进度在本地验证、差异／秘密与素材范围核对后提交并推送GitHub独立分支，按协作约定建PR并核对远端HEAD。不要把推送写成已经合并／部署；不要顺带推送私有备份、凭据、数据库或许可不足的素材。
 - 完工及时更新受影响的Markdown、决定、work-log和精简handoff，保留一个明确下一步。
 

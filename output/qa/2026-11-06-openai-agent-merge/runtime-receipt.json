@@ -1,0 +1,47 @@
+{
+  "source_commit": "3ffb8578fc460a0d5a37ce87896800fa3cc5e8ae",
+  "pi": {
+    "activated": true,
+    "release": "/opt/desk-companion-releases/20261106-openai-computer",
+    "services": [
+      "active",
+      "active"
+    ],
+    "automatic_owner": true,
+    "frontend_exact": true,
+    "owner_keys_preserved": true,
+    "text_provider": "openai",
+    "voice_provider": "openai_realtime",
+    "provider_ready": false,
+    "provider_error": "OPENAI_REGION_UNSUPPORTED",
+    "existing_applications_ready": true,
+    "browser_rehearsals": [
+      "shopping",
+      "flights",
+      "stop"
+    ],
+    "backup_files": 20,
+    "off_device_backup_verified": true,
+    "backup_sha256": "681c0ebe8bf1905eecd8e4a79320a5b5bb7adec198254a1ffb32cfc17ef82617",
+    "host_restarted_by": "owner unplugged and reconnected power; not normal shutdown",
+    "power_investigation": "deferred"
+  },
+  "mac": {
+    "configured": true,
+    "normal_api": 8831,
+    "web_preview": 5190,
+    "pi_relay": 8891,
+    "voice_provider": "openai_realtime",
+    "text_provider": "openai",
+    "browser_ready": true,
+    "background_generation": false,
+    "backup_verified": true
+  },
+  "model_catalog_get": {
+    "mac_status": 200,
+    "pi_status": 403,
+    "pi_error": "unsupported_country_region_territory"
+  },
+  "paid_model_requests": 0,
+  "native_app_rebuild": false
+}

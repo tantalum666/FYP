@@ -48,7 +48,11 @@ class VoiceWorkLedger:
         return {"provider": cfg.provider, "model": cfg.model, "destination_id": destination["id"]}
 
     def config_revision(self):
-        return fingerprint(self.transport())
+        transport = self.transport()
+        proxy = self.runtime.voice.config.proxy_url
+        if transport and proxy:
+            transport = {**transport, "proxy": proxy}
+        return fingerprint(transport)
 
     def _revision(self, conn):
         return fingerprint(

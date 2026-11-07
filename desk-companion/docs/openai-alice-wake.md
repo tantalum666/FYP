@@ -45,12 +45,36 @@ The USD1 ceiling applies to this experiment controller, not to normal owner usag
 This implementation is part of the unified PR74–77/main candidate. The described normal preview is the preserved Nov2 environment, not a newly deployed merged runtime. Local integration tests use a separate providers-off fixture. No new paid or human-media test is implied. [Merge QA](../../output/qa/2026-11-04-merge-74-77/verification.md).
 
 
-## 6 November Pi integration
+## 6 November Pi integration (superseded default)
 
-Pi now runs the shared Alice/conversation UI with automatic local entry. Its
-preserved provider is Qwen Omni, idle until the owner starts a conversation; this
-is separate from the historical OpenAI Mac preview above. Read-only wake weights
+The earlier Pi checkpoint added shared Alice/conversation with automatic local entry
+and retained Qwen Omni. The owner's later OpenAI-default instruction supersedes
+that provider choice; the runtime status below is current. Read-only wake weights
 load successfully using a temporary keyword file, and the frozen audio extra
 includes numpy. Pi currently exposes no capture device. No new OpenAI/Qwen paid
 trial or human wake accuracy result was produced. A standalone synthetic Alice
 sample on Mac did not trigger and remains a recorded gap. See the [actual Pi QA](../../output/qa/2026-11-06-passwordless-device/verification.md).
+
+## 6 November OpenAI default and browser release
+
+At the 6 November checkpoint, Mac and Pi explicitly selected OpenAI Realtime2.1; independent text/Work and
+browser computer calls use OpenAI Responses with GPT6.1Sol. Existing supplier
+adapters remain available, but there is no silent fallback to Qwen. Keys are read
+from approved owner-private files, and background model generation stays off.
+
+Mac's free model catalog check succeeded and normal service configuration is
+ready. Pi's provider returned `unsupported_country_region_territory`; this is
+shown explicitly and generation is disabled there. A local Alice wake detector
+being available does not overcome that provider refusal. No model-generation,
+human wake or microphone trial was performed in this release. The new public
+browser's real execution checks use scripted planning, including on Pi.
+[Current source, deployment and QA](../../output/qa/2026-11-06-openai-agent-merge/verification.md).
+
+
+## 7 November Pi VPS route
+
+The owner subsequently directed Pi to use the existing owned VPS. That explicit
+route now returns authenticated model-list200and Realtime session.created;
+normal voice/text/computer configuration is ready and the old direct-path region
+flag is cleared. See [transport and actual limits](openai-vps.md). No microphone,
+audio input, response.create, generated answer or paid voice trial occurred.
