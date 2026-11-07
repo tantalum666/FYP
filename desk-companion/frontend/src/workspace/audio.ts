@@ -8,6 +8,8 @@ import {
 } from "./voice-timing.ts";
 
 export interface VoiceEvent extends Partial<TurnMeasurement> {
+  continuous?: boolean;
+  input_markers?: boolean;
   mode?: "text" | "voice";
   conversation_id?: string;
   input_kind?: "text";
@@ -49,6 +51,8 @@ export class VoiceAudio {
   private turnTimer: ReturnType<typeof setTimeout> | null = null;
   private completedTurnId: number | undefined;
   private ready = false;
+  private continuous = false;
+  private inputMarkers = false;
   private started = false;
   private capture: AudioWorkletNode | null = null;
   private inputNode: MediaStreamAudioSourceNode | null = null;
@@ -83,13 +87,15 @@ export class VoiceAudio {
       mode?: "text" | "voice";
       conversationId?: string;
       taskId?: string;
+      wakeTriggered?: boolean;
     } = {},
   ) {
     if (this.started || this.stopped) return;
     this.started = true;
     this.mode = options.mode ?? "voice";
     try {
-      if (this.mode === "voice") await this.prepareCapture();
+      if (this.mode === "voice")
+        await this.prepareCapture(options.wakeTriggered === true);
       if (this.stopped) return;
       // Permission may take as long as the user needs. Bound network/setup work
       // only after it is granted; cancellation is checked after every await.
@@ -115,6 +121,9 @@ export class VoiceAudio {
               conversation_id: options.conversationId,
               task_id: options.taskId,
               prebuffer_ms: 5000,
+              ...(options.wakeTriggered === true && this.mode === "voice"
+                ? { wake_triggered: true }
+                : {}),
             }),
           );
       };
@@ -155,11 +164,11 @@ export class VoiceAudio {
       throw error;
     }
   }
-  private async prepareCapture() {
+  private async prepareCapture(afterWake = false) {
     const generation = ++this.captureGeneration;
     const context = this.context ?? new AudioContext();
     this.context = context;
-    await context.resume();
+    if (!afterWake) await context.resume();
     if (this.stopped || generation !== this.captureGeneration) return;
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: {
@@ -180,6 +189,10 @@ export class VoiceAudio {
       () => this.fail("VOICE_CONNECT_TIMEOUT"),
       10000,
     );
+    // A wake event is not a click. Restore the previously authorized capture
+    // before resuming Web Audio, so autoplay policy does not strand the handover.
+    if (afterWake) await context.resume();
+    if (this.stopped || generation !== this.captureGeneration) return;
     await context.audioWorklet.addModule("/audio-capture.js");
     if (this.stopped || generation !== this.captureGeneration) return;
     const capture = new AudioWorkletNode(context, "desk-capture");
@@ -229,7 +242,10 @@ export class VoiceAudio {
       this.fail("AUDIO_CONNECTION_SLOW");
       return;
     }
+    const wasVoiced = this.captureTimeline.voiced;
     const boundary = this.captureTimeline.observe(pcm, endAt);
+    if (this.inputMarkers && !wasVoiced && this.captureTimeline.voiced)
+      socket.send(JSON.stringify({ type: "input_started" }));
     if (!this.turn && this.captureTimeline.voiced && this.turnTimer !== null) {
       clearTimeout(this.turnTimer);
       this.turnTimer = null;
@@ -257,6 +273,8 @@ export class VoiceAudio {
   }
   private receive(event: VoiceEvent) {
     if (event.type === "ready") {
+      this.continuous = event.continuous === true;
+      this.inputMarkers = event.input_markers === true;
       if (event.mode) this.mode = event.mode;
       this.ready = true;
       this.clearConnectTimer();
@@ -274,7 +292,7 @@ export class VoiceAudio {
     }
     if (event.type === "turn_waiting" && Number.isSafeInteger(event.turn_id)) {
       if (this.turn?.id !== event.turn_id) {
-        this.clearPlayback();
+        if (!this.continuous) this.clearPlayback();
         this.clearTurn();
         const end =
           event.input_kind === "text"

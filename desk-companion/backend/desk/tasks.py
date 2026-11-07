@@ -509,6 +509,7 @@ class TaskService:
             "active_count": len(active),
             "due_count": sum(bool(t["followup"]) for t in active),
             "attention": [t for t in active if t["followup"]][:3],
+            "preview": active[:3],
         }
 
     def export(self):

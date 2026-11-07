@@ -278,6 +278,10 @@ export function DeviceApp() {
         t={t}
         language={language}
         now={now}
+        zone={zone}
+        events={data?.occurrences ?? null}
+        onTasks={() => setPanel("tasks")}
+        onEvent={setDetail}
         connection={
           session === undefined
             ? "connecting"
@@ -285,7 +289,6 @@ export function DeviceApp() {
               ? "offline"
               : "online"
         }
-        voiceState={presentation.data?.voice.state ?? "idle"}
         obscured={!!(panel || editor || detail || reminders)}
         onCalendar={() => openDay(now.startOf("day"))}
         onMore={manage}

@@ -6,9 +6,15 @@ import { AssistantPanel } from "./AssistantPanel";
 // separately from the page editor; suspension releases media, not conversation.
 export function ConversationWorkspace({
   visible,
+  immersive = false,
+  expanded,
+  onExpandedChange,
   ...props
 }: {
   visible: boolean;
+  immersive?: boolean;
+  expanded?: boolean;
+  onExpandedChange?: (value: boolean) => void;
   suspended: boolean;
   t: Translate;
   taskId?: string;
@@ -23,7 +29,13 @@ export function ConversationWorkspace({
       aria-label={props.t("Alice conversation", "Alice 对话")}
     >
       <DraftGuardProvider>
-        <AssistantPanel {...props} workspace />
+        <AssistantPanel
+          {...props}
+          workspace={!immersive}
+          immersive={immersive}
+          expanded={expanded}
+          onExpandedChange={onExpandedChange}
+        />
       </DraftGuardProvider>
     </section>
   );

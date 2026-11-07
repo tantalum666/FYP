@@ -49,7 +49,13 @@ export async function request<T>(
       ["/session", "/session/preview", "/session/connect"].includes(path) &&
       options.method
     )
-      window.dispatchEvent(new Event("desk:session"));
+      window.dispatchEvent(
+        new CustomEvent("desk:session", {
+          detail: {
+            reason: options.method === "DELETE" ? "signed_out" : "connected",
+          },
+        }),
+      );
     return body as T;
   } catch (error) {
     if (error instanceof ApiError) throw error;

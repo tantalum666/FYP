@@ -30,7 +30,10 @@ export function ExtrasPanel({ t }: { t: Translate }) {
   const change = <K extends keyof WorkspacePreferences>(
     key: K,
     value: WorkspacePreferences[K],
-  ) => { setForm({ ...form, [key]: value }); setNotice(""); };
+  ) => {
+    setForm({ ...form, [key]: value });
+    setNotice("");
+  };
   async function save(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
@@ -60,10 +63,16 @@ export function ExtrasPanel({ t }: { t: Translate }) {
           <select
             value={form.weather_location}
             onChange={(e) =>
-              change("weather_location", e.target.value as "none" | "hong_kong")
+              change(
+                "weather_location",
+                e.target.value as "none" | "hong_kong" | "automatic",
+              )
             }
           >
             <option value="none">{t("Not selected", "未选择")}</option>
+            <option value="automatic">
+              {t("Device location · Hong Kong fallback", "设备定位 · 香港备用")}
+            </option>
             <option value="hong_kong">
               {t("Hong Kong Observatory", "香港天文台")}
             </option>

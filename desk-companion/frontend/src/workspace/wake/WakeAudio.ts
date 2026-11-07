@@ -23,11 +23,6 @@ export class WakeAudio {
     try {
       const context = new AudioContext();
       this.context = context;
-      this.timer = setTimeout(() => this.fail(), 5000);
-      await context.resume();
-      if (this.stopped) return;
-      if (this.timer) clearTimeout(this.timer);
-      this.timer = null;
       const stream = await this.capture.start({
         audio: {
           channelCount: 1,
@@ -38,6 +33,13 @@ export class WakeAudio {
         video: false,
       });
       if (!stream || this.stopped) return;
+      // An already-authorized capture also permits Web Audio to resume on
+      // browsers that suspend a fresh AudioContext after page reload.
+      this.timer = setTimeout(() => this.fail(), 5000);
+      await context.resume();
+      if (this.stopped) return;
+      if (this.timer) clearTimeout(this.timer);
+      this.timer = null;
       await context.audioWorklet.addModule("/audio-capture.js");
       if (this.stopped) return;
       this.node = new AudioWorkletNode(context, "desk-capture");

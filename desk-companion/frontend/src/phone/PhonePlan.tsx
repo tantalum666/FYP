@@ -94,11 +94,7 @@ export function PhonePlan({
             >
               {t("Today", "今天")}
             </button>
-            <button
-              className="text-button"
-              aria-pressed={month}
-              onClick={() => setMonth(!month)}
-            >
+            <button className="text-button" onClick={() => setMonth(!month)}>
               {month ? t("Day list", "当天列表") : t("Month", "月历")}
             </button>
             <button className="primary" onClick={() => onNew()}>

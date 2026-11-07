@@ -15,7 +15,9 @@ import { useCalendarEditor } from "../components/useCalendarEditor";
 import { useDraftState } from "../components/DraftGuard";
 import { AssistantPanel } from "../workspace/AssistantPanel";
 import { useWorkspace } from "../workspace/WorkspaceContext";
-import { PhoneHome, UpcomingHint } from "./PhoneHome";
+import { PhoneHome } from "./PhoneHome";
+import { HomeConditions } from "../companion/HomeConditions";
+import { AliceAgenda } from "../companion/AliceAgenda";
 import { PhoneScreen } from "./PhoneScreen";
 import { PhonePlan } from "./PhonePlan";
 import {
@@ -189,7 +191,7 @@ export function PhoneApp() {
     );
   return (
     <div
-      className={`phone-app ${environment.viewport.height < innerHeight - 100 ? "keyboard-open" : ""}`}
+      className={`phone-app alice-home alice-home-phone ${environment.viewport.height < innerHeight - 100 ? "keyboard-open" : ""}`}
       style={
         {
           height: environment.viewport.height,
@@ -205,12 +207,40 @@ export function PhoneApp() {
         }
         motion={environment.motion}
         voiceState={data?.voice.state ?? "idle"}
+        listening={!!data?.voice.wake_word?.active}
         obscured={conversation || !!panel}
         connection={
           offline || stale ? "offline" : data ? "online" : "connecting"
         }
         onPlan={() => choosePanel("plan")}
         onMore={() => choosePanel("more")}
+        onReconnect={() => void recoverSession()}
+      />
+      <HomeConditions
+        now={environment.now}
+        zone={zone}
+        language={language}
+        t={t}
+        visible={!panel && !conversation && environment.visible}
+      />
+      <AliceAgenda
+        monthPreview
+        t={t}
+        language={language}
+        now={environment.now}
+        zone={zone}
+        events={homeSnapshot?.occurrences ?? null}
+        obscured={conversation || !!panel || !!editor || !!detail || reminders}
+        onCalendar={() => {
+          setPlanTab("calendar");
+          calendar.setMonth(true);
+          choosePanel("plan");
+        }}
+        onEvent={setDetail}
+        onTasks={() => {
+          setPlanTab("tasks");
+          choosePanel("plan");
+        }}
       />
       <div
         className="phone-chat-layer"
@@ -223,21 +253,6 @@ export function PhoneApp() {
           onExpandedChange={setConversation}
           suspended={
             !!panel || !!editor || !!detail || reminders || !environment.visible
-          }
-          homeHint={
-            <UpcomingHint
-              next={calendar.next}
-              today={calendar.today}
-              zone={zone}
-              language={language}
-              t={t}
-              onOpen={(event) => {
-                calendar.setDate(
-                  DateTime.fromISO(event.start).setZone(zone).toISODate()!,
-                );
-                setDetail(event);
-              }}
-            />
           }
           taskId={task?.id}
           taskTitle={task?.title}
