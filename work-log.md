@@ -781,3 +781,19 @@ Updated product, research status, browser/VPS/application/maintenance/delivery c
 
 
 PR94 closeout: published reviewed head7043510a, marked ready and merged asa9fb6da; fetched remote main and verified exact whole-tree equality. Final administrative documentation records this result; deployed code remainsd40457fe. No CI. See the dated publication receipt.
+
+
+## 2026-11-07 Open Web and phone previews
+
+Owner requested both interfaces for inspection. Started current source855e60ee using the existing Mac owner runtime on8831and Vite5190; opened desktop Chrome and a393x852in-app phone preview. Cleared unsuccessful temporary CDP metric overrides and used the supported in-app viewport setting. Both pages visibly show connected status, Alice/composer and OpenAI Realtime with microphone off, and are retained for the owner. No app-code/configuration edit, native rebuild, model request or Pi change. Read/display evidence: output/qa/2026-11-07-web-phone-preview/verification.md; private process logs under ~/.config/desk-companion/web-phone-preview-20261107. Current product next step is unchanged.
+
+
+## 2026-11-07 · Shared Alice home, permission recovery and GPT Live
+
+- Goal: carry the accepted phone visual to Web/Pi, keep Alice dominant with full phone calendar/time/weather, restore hands-free local Alice wake and integrate the owner's selected GPT Live route. Later corrections covered flickering input, overlapping read errors and repeated location prompts.
+- Completed: shared scene/agenda/conditions, existing-reader reuse, dark composer and optional navigation; bounded short-screen agenda; pre-paint input sizing and one read recovery row; loopback cookie names per port; permission-aware/coarsened location with single pending read, five-second watch deadline, durable failure flag and explicit retry. Existing owner data, licensing, drafts and permissions retained.
+- Voice: native Live/Responses adapter within current VoiceService/ToolDispatcher, invariant Alice identity, persistent local opt-in, single wake/voice capture slot, bounded history/session and reconciled receipts. Main Mac wake configuration fixed. Realtime retained explicitly; Live voice-only, typed Responses unchanged.
+- Validation:2051backend/341frontend, Ruff/Prettier/types/build; actual Web/phone navigation/draft/responsive/read-fault checks, stable8-sample input geometry, final1000Mac HTTP responses all200; local synthetic positive/negative wake clips. Fresh authorized real Live trial20providerseconds/two backend requests, correct Alice and calendar read, no writes, received audio and slot release. ConservativeUSD0.0518613333; ledger closed. No human/acoustic quality ranking.
+- Runtime: source1660ffc active on Mac/Pi;292release hashes; safe21-file stopped backup/off-device verification; original keys/data and existing VPS route preserved. Configuration/UI readiness is separate from physical Pi microphone/speaker acceptance. No new paid activation calls, CI or power investigation.
+- Files: [contract](desk-companion/docs/alice-home.md), [QA](output/qa/2026-11-07-alice-home-wake/verification.md), [activation](output/qa/2026-11-07-alice-home-wake/activation-summary.json), private media/backup under owner config. Updated product/decisions/voice/connection/maintenance/handoff/entry. Original preview-only records preserved.
+- Remaining: human wake/interrupt/AEC, native background and physical Pi audio; browser owner takeover/login/real transaction receipts and native sender remain separate work. Next product slice is explicit owner takeover and return in the same generic browser job.
