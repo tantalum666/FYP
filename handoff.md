@@ -1,25 +1,27 @@
 # Group 2 · Pi software handoff
 
-6 November2026. Active review checkout/branch: codex/openai-personal-agent-20261106. User now explicitly authorizes fixing and merging all pending PRs, expanding computer/commerce work, and defaulting to OpenAI. The existing FYP key is reused; paid test budgets remain closed. User deferred only spontaneous red-LED investigation and requested Pi software/cross-application progress. Model budgets closed; local verification only, no CI.
+7 November 2026. #89–#92 are already on main (`f2dbb79`). This review branch is `cursor/conversation-work-reshow-verified-b9a2`. Codex reviews and merges. Draft #94 (`codex/openai-computer-use-20261106`) and drafts #73, #87, and #88 stay untouched. Paid tests stay closed. Local verification only. No CI.
 
-## Current target
+## Current state
 
-Pi API is active at `/opt/desk-companion-releases/20261106-passwordless-apps`, schema3, retaining original keys/provider config. Mac relay8891/5901 and original host pin remain. [Pi interface](http://127.0.0.1:8891/?surface=device). Default device home is Alice plus the shared conversation. Web/phone/native/Pi application password forms are removed; directly connected local sessions reconnect automatically. Public/forwarded/paired authority and action approvals remain separate. Native simulator now points at the actual Pi relay and shows Qwen/Alice controls.
+A goal change that already showed one verified offline Work result can be asked about again in that same conversation. The later turn shows the same Markdown `Goal:` line. `result.verified` is true only when the file status is `verified` and `verification` is `byte_readback`. The offline executor does not run again. No provider is called.
 
-Qwen is configured for manual use, wake detector loads from read-only weights, but no Pi capture device was enumerated. No human wake/voice result; the standalone Mac synthetic Alice clip did not trigger. Standalone Work text provider remains none/background off. Do not present readiness or the scripted planner as live AI autonomy.
+Pi still runs the previous passwordless/application checkpoint. Only red-LED investigation is paused. No live mailbox, calendar, or merchant account is connected.
 
-## Cross-application result
+## Done
 
-Rootless Podman runs real Chromium/Calc/Writer, network none, scoped inputs/output mounts and Chromium sandbox. Normal API reports application actions enabled/configured; Ask first retained. CPU2/PID256 limits; this Pi has no memory controller, so launcher uses an explicitly recorded no-RAM-cap exception. Init/catatonit now stops cleanly in0.38s; user service enabled and ordered before API. Existing API NoNewPrivileges remains.
+- Closed asks in [follow-up.json](desk-companion/fixtures/conversation-work/follow-up.json) re-read the verified file through `ConversationWork` and `AgentRunService`. No new store, queue, migration, or approval tool.
+- Unverified, failed, and interrupted results are not shown as success. The original operation id can still show a `before_result` outcome once.
+- Another login cannot open the conversation. A paired device receives 403. Full access creates no job and no proposal. The same operation id is idempotent. A stream close is not the success receipt.
 
-Four real-app jobs passed on Pi: source reading,36→48copy/budget steering, two workbook versions, ODT/PDF, lost-save acknowledgement and restart recovery. Reopened immutable/current outputs retain SHA/mtime; two PDF pages visually checked. Local backend1789/frontend324, typecheck/build/Ruff, subsequent owner/media19, voice/wake33 and launcher/transport10 checks passed. [Full QA](output/qa/2026-11-06-passwordless-device/verification.md), [Pi acceptance](output/qa/2026-11-06-passwordless-device/pi-application-acceptance.json).
+## Evidence
 
-## Recovery and boundaries
+[QA](output/qa/2026-11-07-conversation-work-reshow/verification.md). [Contract](desk-companion/docs/conversation-work.md). Ruff passed. Conversation-work 68 passed. Integration acceptance 7 passed. Full backend pytest: 1956 passed, 1 failed. The failure is the existing `test_public_unicast[::ffff:93.184.216.34]`. Frontend tests 328 passed. `tsc --noEmit` passed. Paid provider calls: 0.
 
-New coherent schema3backup was stopped/synced and copied to Mac; archive/all13data/config files verified. Unchanged model weights excluded. Private operational receipts/scripts are under `~/.config/desk-companion/pi5-passwordless-alice-20261106`; network helper remains `pi5-dorm-ethernet-20261104/pi_remote.py`. Valid earlier schema1/schema3archives remain. The old second Pi-only pre-activation backup is invalid and must not be used.
+## Not done
 
-User clarified both red LEDs occurred before unplugging/reconnecting power. Prior “normal button reboot” wording is withdrawn; later verified host/app identity remains valid. Power monitor ended; do not resume power questions/testing without user steering. No new physical reboot/cold-boot result claimed. Network code remains separate draftPR87; no incidental merge.
+The later ask does not continue the run. Real accounts, payment, Pi update, and paid model comparison stay separate.
 
 ## One next step
 
-Connect ordinary Alice/voice requests to the admitted persistent Work flow, with existing provider/privacy/permission controls and cancellation/recovery. Keep any live paid comparison separately bounded. The combined73/87/88/89–92 candidate passed1949backend/328frontend plus actual browser checks. [Current review and merge receipt](output/qa/2026-11-06-openai-agent-merge/verification.md). Configure OpenAI defaults and expand beyond fixed office workflows next; the existing Pi runtime is still the prior deployed checkpoint until separately updated.
+Add an explicit owner request that continues the same Work run after the verified report, still offline and without a provider call. Leave Codex draft #94 on its own OpenAI browser track.

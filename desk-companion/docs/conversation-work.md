@@ -1,6 +1,6 @@
 # Group 2 · Conversation goal changes into existing Work
 
-6 November 2026. An ordinary Alice turn can change the goal of a Work run that already exists. Typed text and a reviewed voice snapshot both use `ConversationWork.turn`, which calls `AgentRunService` steer. It does not create a task, a run, a queue, or a model approval tool, and it does not call a provider.
+7 November 2026. An ordinary Alice turn can change the goal of a Work run that already exists. Typed text and a reviewed voice snapshot both use `ConversationWork.turn`, which calls `AgentRunService` steer. After that turn has shown one verified file, a later ask in the same conversation reads that file again and does not run the executor. It does not create a task, a run, a queue, or a model approval tool, and it does not call a provider.
 
 The first phrases and interruption cases live in [changed-goal.json](../fixtures/conversation-work/changed-goal.json). Held-out phrases and source layouts live in [unseen-variants.json](../fixtures/conversation-work/unseen-variants.json). [QA](../../output/qa/2026-11-06-conversation-work-unseen-voice/verification.md).
 
@@ -59,6 +59,28 @@ An unverified readback is `CONVERSATION_WORK_RESULT_UNVERIFIED`. A failed run is
 
 A second login cannot open that conversation. Its own turn does not contain the verified line. A paired device still receives 403.
 
+## Later ask in the same conversation
+
+After that verified report is already in the conversation, a later owner turn in the same conversation can ask to see it again. `parse_work_followup` is the only matcher for that ask. It keeps one owner line. Quoted lines and source headers are not that line. The phrases are in [follow-up.json](../fixtures/conversation-work/follow-up.json).
+
+| Phrase | What the later turn does |
+|---|---|
+| `How is this work going?` | Re-reads the verified Markdown this conversation already showed |
+| `What was the verified result?` | The same read |
+| `Show the verified result.` | The same read |
+| `这项工作进行得怎么样？` | The same read |
+| `核验结果是什么？` | The same read |
+
+The reply includes the file's `Goal:` line. `result.verified` is true only when that file's status is `verified` and `verification` is `byte_readback`. The offline executor is not called, and a provider is not called. No second file is published. The ask does not steer.
+
+The turn must send the same `conversation_id`. A new conversation does not receive the line. Another login cannot open the conversation. A paired device still receives 403. Full access creates no job and no proposal.
+
+A question that is not one of those asks stays on the short chat path, including `What is the goal of this work?`. `Goal:` still prepares a task draft. A goal-change phrase still tries to steer and does not re-show the file.
+
+If this conversation has no verified report, the ask stays on the short chat path. It does not run the executor and it is not a success. An unverified readback of the stored file is `CONVERSATION_WORK_RESULT_UNVERIFIED`. A failed or interrupted result is not published as success. After `before_result`, the original operation id can still show the result once. The later ask does not take that run.
+
+Repeating the ask's operation id returns the stored reply. A different message with that operation id conflicts. Closing the stream before it finishes is not the success receipt. Recovery uses the same operation id and does not call the executor. File integrity is still not evidence that a shopping, booking, or other real-world goal was achieved.
+
 ## Interruption and unknown result
 
 `ConversationWork.offline_interrupt` is an in-process fixture control. It is not an HTTP field. Text and voice use it on the same turn.
@@ -85,6 +107,6 @@ From `frontend/`:
 node --experimental-strip-types --test tests/voice-work.test.ts tests/voice-work-lifecycle.test.ts tests/voice-work-render.test.ts
 ```
 
-No paid provider call and no GitHub Actions run. The full backend suite and frontend totals for the verified-result slice are in [QA](../../output/qa/2026-11-06-conversation-work-verified-result/verification.md).
+No paid provider call and no GitHub Actions run. The full backend suite and frontend totals for the later-ask slice are in [QA](../../output/qa/2026-11-07-conversation-work-reshow/verification.md). The verified-result slice remains in [its QA](../../output/qa/2026-11-06-conversation-work-verified-result/verification.md).
 
 Absent voice fields are excluded from ordinary chat receipt fingerprints, preserving pre-upgrade operation recovery. The new report check matches an entire Goal line, not a prefix embedded in different content.

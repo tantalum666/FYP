@@ -736,8 +736,13 @@ Publication receipt: sourceeeb96fc was pushed to draftPR87 and its remote HEAD/t
 - **验证：**`uv run --no-sync ruff check` 通过。`python -m pytest tests/test_conversation_work.py tests/test_integration_acceptance.py -q` 为 67 passed（对话 60、整合验收 7）。全量 `python -m pytest -q` 为 1828 passed、1 failed；失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`。前端 `npm test` 为 323 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-06-conversation-work-verified-result/verification.md)。
 - **剩余：**后一轮提问还不能再次读出这一条已核验结果。真实账号、支付、Pi 和付费比较仍分开。Codex 合并顺序是 #89 → #90 → #91 → 本 PR。
 
-
-
 ## 2026-11-06 待合并PR组合审查
 
 冻结73／87／88／89–92，独立codex/openai-personal-agent-20261106组合，保留所有祖先。根状态文档保留最新软件状态，网络历史保留并服从后续物理重启澄清。修复邮件／日历源内容指令误判、旧assistant回执兼容、报告核验语义及Goal前缀误匹配；新增4回归。1949后端／328前端、类型／生产构建／Ruff通过；浏览器实际先拒绝来源指令，再改已有Work目标并显示文件核验，控制台无错误。新费用调用0、无CI、未更改Pi现场网络。完整证据及即将记录的合并回执见[本轮QA](output/qa/2026-11-06-openai-agent-merge/verification.md)。后续继续默认OpenAI和真实浏览器／computer use接入。
+
+## 2026-11-07 · Later ask re-shows the verified Work result
+
+- **目标：**改口已经在同一条对话显示一项已核验离线结果之后，拥有者稍后在同一条对话问起这项工作，再次看到同一份 Markdown。不第二次调用离线执行器，不调用提供商。#89–#92 已在 main，不重开。不动 Codex 草稿 #94、#73、#87、#88。
+- **完成：**`parse_work_followup` 只认封闭问法。同一条对话里已有 `verified` + `byte_readback` 的回复时，再次读取那一个文件。未核验、失败和中断都不是成功重显。另一个登录打不开这条对话。配对设备是 403。Full access 不产生作业或建议。同一操作号和流式关闭沿用既有回执。
+- **验证：**`uv run --no-sync ruff check` 通过。对话测试 68 项通过。整合验收 7 项通过。全量 `python -m pytest -q` 为 1956 passed、1 failed；失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`。前端 `npm test` 为 328 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-reshow/verification.md)。
+- **剩余：**后一轮提问不会继续这项工作。真实账号、支付、Pi 和付费比较仍分开。下一步是让拥有者明确要求继续同一项 Work，仍离线且不调用提供商。

@@ -1,5 +1,7 @@
 # Group 2 · OpenAI personal-agent continuation
 
+7 November 2026. #89–#92 are already on main. The current review slice re-shows one verified offline Work result when a later turn in that same conversation asks about the work. It does not run the executor again and does not call a provider. Codex draft #94 (`codex/openai-computer-use-20261106`) stays untouched. [Handoff](handoff.md).
+
 6 November2026. User explicitly requests fixing and merging all pending GitHub work, broader shopping/travel/computer use, and OpenAI defaults. Active checkout/branch: codex/openai-personal-agent-20261106. [Handoff](handoff.md), [review QA](output/qa/2026-11-06-openai-agent-merge/verification.md), [research index](research/personal-agent-research-index.md).
 
 The73/87/88/89–92 integration candidate preserves all heads, current Alice UI and networking. Source-command parsing, legacy receipt compatibility and file-versus-outcome wording were corrected.1949backend/328frontend and actual browser flow passed. Exact merge receipt follows GitHub readback.

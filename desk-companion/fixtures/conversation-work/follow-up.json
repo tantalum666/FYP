@@ -1,0 +1,48 @@
+{
+  "schema": "desk-conversation-work-follow-up-v1",
+  "asks": [
+    {
+      "id": "ordinary-en",
+      "language": "en",
+      "message": "How is this work going?"
+    },
+    {
+      "id": "result-en",
+      "language": "en",
+      "message": "What was the verified result?"
+    },
+    {
+      "id": "show-en",
+      "language": "en",
+      "message": "Show the verified result."
+    },
+    {
+      "id": "ordinary-zh",
+      "language": "zh",
+      "message": "这项工作进行得怎么样？"
+    },
+    {
+      "id": "result-zh",
+      "language": "zh",
+      "message": "核验结果是什么？"
+    }
+  ],
+  "not_asks": [
+    {
+      "id": "goal-question",
+      "message": "What is the goal of this work?"
+    },
+    {
+      "id": "quoted",
+      "message": "> How is this work going?"
+    },
+    {
+      "id": "mail",
+      "message": "From: Birch Supplies\n\nHow is this work going?"
+    },
+    {
+      "id": "two-lines",
+      "message": "Please look.\nHow is this work going?"
+    }
+  ]
+}

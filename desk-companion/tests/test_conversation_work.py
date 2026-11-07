@@ -11,6 +11,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from desk.agent_run_schemas import RunAction, RunCreate
+from desk.conversation_work import parse_changed_goal, parse_work_followup
 from desk.assistant import TOOLS
 from desk.app import create_app
 from desk.store import DomainError
@@ -24,6 +25,7 @@ from desk.voice_work import VoiceDraftFreeze
 HEADERS = {"X-Desk-Request": "1"}
 FIXTURE = Path(__file__).resolve().parents[1] / "fixtures" / "conversation-work" / "changed-goal.json"
 UNSEEN = Path(__file__).resolve().parents[1] / "fixtures" / "conversation-work" / "unseen-variants.json"
+FOLLOWUP = Path(__file__).resolve().parents[1] / "fixtures" / "conversation-work" / "follow-up.json"
 ORIGINAL = "Compare fictional suppliers; quantity 36, budget 900 HKD."
 
 
@@ -104,6 +106,42 @@ def steers(runtime, run_id):
             "SELECT COUNT(*) FROM agent_events WHERE run_id=? AND kind='steer'",
             (run_id,),
         ).fetchone()[0]
+
+
+def step_count(runtime, run_id):
+    with runtime.store.connection() as conn:
+        return conn.execute(
+            "SELECT COUNT(*) FROM agent_steps WHERE run_id=?",
+            (run_id,),
+        ).fetchone()[0]
+
+
+def follow_up_cases():
+    data = json.loads(FOLLOWUP.read_text())
+    assert data["schema"] == "desk-conversation-work-follow-up-v1"
+    return data
+
+
+def owner_conversation(runtime, principal):
+    owner = hashlib.sha256(principal["session"].encode()).hexdigest()
+    found = [
+        entry for entry in runtime.voice.conversations.entries.values() if entry.owner == owner
+    ]
+    assert len(found) == 1
+    return found[0]
+
+
+def watch_advance(runtime):
+    seen = []
+    original = runtime.agent_runs.advance_one
+
+    def wrapped(*args, **kwargs):
+        seen.append(args)
+        return original(*args, **kwargs)
+
+    wrapped.original = original
+    runtime.agent_runs.advance_one = wrapped
+    return seen
 
 
 def goal_of(runtime, principal, run_id):
@@ -1431,3 +1469,389 @@ def test_another_login_cannot_see_the_verified_result(box):
         assert excerpt not in blob
         assert "Verified result" not in blob
     assert goal_of(runtime, principal, box["run"]["id"])["model_calls"] == 0
+
+
+def test_follow_up_phrases_are_a_closed_list():
+    data = follow_up_cases()
+    assert data["asks"] and data["not_asks"]
+    assert {item["language"] for item in data["asks"]} == {"en", "zh"}
+    for item in data["asks"]:
+        assert parse_work_followup(item["message"]) is True
+        assert parse_changed_goal(item["message"]) is None
+    for item in data["not_asks"]:
+        assert parse_work_followup(item["message"]) is False
+
+
+def _assert_reshown(body, *, goal, artifact_id):
+    assert body["kind"] == "work_result"
+    assert body["admitted"] is False and body["recovered"] is False and body["saved"] is False
+    assert body.get("proposal") is None and body.get("job") is None
+    assert body["goal"] == goal
+    assert body["result"] == {
+        "verified": True,
+        "state": "verified",
+        "verification": "byte_readback",
+        "quality": "not_semantically_checked",
+        "goal": goal,
+        "artifact_id": artifact_id,
+        "format": "markdown",
+    }
+    assert f"Goal: {goal}" in body["message"]
+    assert ORIGINAL not in body["message"]
+    assert "Nothing was sent or bought." in body["message"] or "没有发送或购买" in body["message"]
+
+
+def test_later_turn_reshows_the_verified_result_without_another_executor(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    message, _ = phrase("mid-flow-change")
+    calls = []
+
+    def generate(*args, **kwargs):
+        calls.append(args)
+        raise AssertionError("provider called")
+
+    provider = runtime.text_ai.config.provider
+    runtime.text_ai.config.provider = "fake"
+    runtime.text_ai.generate = generate
+    admitted = send(client, message, key="change-once", task_id=task_id)
+    assert admitted.status_code == 200, admitted.text
+    first = admitted.json()
+    goal, artifact_id = first["goal"], first["result"]["artifact_id"]
+    published = reports(runtime, principal, run_id)
+    steps = step_count(runtime, run_id)
+    advances = watch_advance(runtime)
+    before = counts(runtime)
+    conversation_id = first["conversation_id"]
+    for item in follow_up_cases()["asks"]:
+        shown = send(
+            client,
+            item["message"],
+            key=f"ask-{item['id']}",
+            task_id=task_id,
+            conversation_id=conversation_id,
+            language=item["language"],
+        )
+        assert shown.status_code == 200, shown.text
+        body = shown.json()
+        _assert_reshown(body, goal=goal, artifact_id=artifact_id)
+        assert body["work_run_id"] == run_id
+        assert body["conversation_id"] == conversation_id
+        cached = send(
+            client,
+            item["message"],
+            key=f"ask-{item['id']}",
+            task_id=task_id,
+            conversation_id=conversation_id,
+            language=item["language"],
+        )
+        assert cached.status_code == 200, cached.text
+        assert cached.json()["result"]["artifact_id"] == artifact_id
+    conflict = send(
+        client,
+        "What was the verified result?",
+        key="ask-ordinary-en",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert conflict.status_code == 409, conflict.text
+    assert conflict.json()["error"]["code"] == "OPERATION_ID_CONFLICT"
+    assert calls == []
+    runtime.text_ai.config.provider = provider
+    for item in follow_up_cases()["not_asks"]:
+        other = send(
+            client,
+            item["message"],
+            key=f"not-{item['id']}",
+            task_id=task_id,
+            conversation_id=conversation_id,
+        )
+        assert other.status_code == 200, other.text
+        assert other.json().get("kind") != "work_result"
+        assert other.json().get("result", {}).get("verification") != "byte_readback"
+        assert "Report file verified" not in other.text
+        assert f"Goal: {goal}" not in other.text
+    fresh = send(client, "How is this work going?", key="other-conversation", task_id=task_id)
+    assert fresh.status_code == 200, fresh.text
+    assert fresh.json()["conversation_id"] != conversation_id
+    assert fresh.json().get("kind") != "work_result"
+    assert f"Goal: {goal}" not in fresh.text
+    assert advances == [] and calls == [] and box["executed"] == []
+    assert reports(runtime, principal, run_id) == published
+    assert step_count(runtime, run_id) == steps
+    assert steers(runtime, run_id) == 1
+    assert goal_of(runtime, principal, run_id)["goal"] == goal
+    assert goal_of(runtime, principal, run_id)["model_calls"] == 0
+    assert goal_of(runtime, principal, box["other"]["id"])["reads"] == 0
+    after = counts(runtime)
+    assert after["runs"] == before["runs"] and after["jobs"] == before["jobs"]
+    assert after["usage"] == 0 and after["tasks"] == before["tasks"]
+
+
+def test_follow_up_stream_recovers_without_a_second_executor(box):
+    client, runtime, principal = box["client"], box["runtime"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    message, _ = phrase("stream-change")
+    admitted = send(client, message, key="stream-change", task_id=task_id)
+    assert admitted.status_code == 200, admitted.text
+    first = admitted.json()
+    published = reports(runtime, principal, run_id)
+    steps = step_count(runtime, run_id)
+    advances = watch_advance(runtime)
+    headers = {**HEADERS, "X-Operation-Id": "stream-ask"}
+    body = {
+        "message": "How is this work going?",
+        "task_id": task_id,
+        "conversation_id": first["conversation_id"],
+    }
+    with client.stream(
+        "POST", "/api/assistant/messages/stream", json=body, headers=headers
+    ) as opened:
+        assert opened.status_code == 200
+        chunk = next(opened.iter_bytes())
+        assert chunk
+        with pytest.raises(json.JSONDecodeError):
+            json.loads(chunk)
+    recovered = client.post("/api/assistant/messages/stream", json=body, headers=headers)
+    assert recovered.status_code == 200, recovered.text
+    events = parse_sse(recovered.text)
+    reply = events[-1]["reply"]
+    assert events[-1]["type"] == "done"
+    _assert_reshown(reply, goal=first["goal"], artifact_id=first["result"]["artifact_id"])
+    repeated = client.post("/api/assistant/messages/stream", json=body, headers=headers)
+    assert repeated.status_code == 200, repeated.text
+    assert advances == []
+    assert reports(runtime, principal, run_id) == published
+    assert step_count(runtime, run_id) == steps
+    assert steers(runtime, run_id) == 1
+
+
+def test_voice_result_is_reshown_on_a_later_turn(box):
+    text = "Keep only Birch."
+    draft = review_snapshots(box, [text])[0]
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    admitted = send(
+        client,
+        text,
+        key="voice-then-ask",
+        task_id=task_id,
+        voice_origin_ref=draft["voice_origin_ref"],
+        voice_steer=True,
+    )
+    assert admitted.status_code == 200, admitted.text
+    first = admitted.json()
+    advances = watch_advance(runtime)
+    shown = send(
+        client,
+        "核验结果是什么？",
+        key="voice-ask",
+        task_id=task_id,
+        conversation_id=first["conversation_id"],
+        language="zh",
+    )
+    assert shown.status_code == 200, shown.text
+    _assert_reshown(shown.json(), goal=text, artifact_id=first["result"]["artifact_id"])
+    assert advances == []
+    assert steers(runtime, run_id) == 1
+    assert goal_of(runtime, principal, run_id)["model_calls"] == 0
+    assert box["executed"] == []
+
+
+def test_follow_up_keeps_auth_boundaries(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    message, _ = phrase("mid-flow-change")
+    admitted = send(client, message, key="auth-change", task_id=box["task"]["id"])
+    assert admitted.status_code == 200, admitted.text
+    first = admitted.json()
+    goal, conversation_id = first["goal"], first["conversation_id"]
+    other = owner_client(box["app"])
+    hidden = other.post(
+        "/api/assistant/messages",
+        json={
+            "message": "How is this work going?",
+            "conversation_id": conversation_id,
+            "task_id": box["task"]["id"],
+        },
+        headers={**HEADERS, "X-Operation-Id": "other-ask"},
+    )
+    assert hidden.status_code == 404, hidden.text
+    assert f"Goal: {goal}" not in hidden.text
+    fresh = other.post(
+        "/api/assistant/messages",
+        json={"message": "How is this work going?", "task_id": box["task"]["id"]},
+        headers={**HEADERS, "X-Operation-Id": "other-ask-fresh"},
+    )
+    assert fresh.status_code == 200, fresh.text
+    assert f"Goal: {goal}" not in fresh.text
+    assert fresh.json().get("kind") != "work_result"
+    assert (
+        client.post(
+            "/api/devices/enrol-display",
+            json={"name": "Fixture screen"},
+            headers={**HEADERS, "X-Operation-Id": "enrol-ask"},
+        ).status_code
+        == 200
+    )
+    paired = TestClient(box["app"])
+    paired.headers.update(
+        {**HEADERS, "Authorization": "Bearer " + client.cookies.get("desk_companion_device")}
+    )
+    denied = paired.post(
+        "/api/assistant/messages",
+        json={
+            "message": "How is this work going?",
+            "conversation_id": conversation_id,
+            "task_id": box["task"]["id"],
+        },
+        headers={**HEADERS, "X-Operation-Id": "paired-ask"},
+    )
+    assert denied.status_code == 403, denied.text
+    assert f"Goal: {goal}" not in denied.text
+    policy = runtime.permissions.snapshot()
+    runtime.permissions.change(
+        PermissionChange(mode="full", expected_version=policy["version"]),
+        "full-ask",
+    )
+    before = counts(runtime)
+    advances = watch_advance(runtime)
+    shown = send(
+        client,
+        "How is this work going?",
+        key="full-ask-turn",
+        task_id=box["task"]["id"],
+        conversation_id=conversation_id,
+    )
+    assert shown.status_code == 200, shown.text
+    _assert_reshown(shown.json(), goal=goal, artifact_id=first["result"]["artifact_id"])
+    after = counts(runtime)
+    assert after["jobs"] == before["jobs"] and after["proposals"] == before["proposals"]
+    assert advances == []
+    assert runtime.tasks.detail(box["task"]["id"])["task"]["next_step"] == "Keep the supplier note"
+    assert goal_of(runtime, principal, box["run"]["id"])["model_calls"] == 0
+
+
+def test_interrupted_result_is_not_reshown_and_can_still_finish_once(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    message, _ = phrase("mid-flow-change")
+    runtime.conversation_work.offline_interrupt = "before_result"
+    interrupted = send(client, message, key="interrupt-then-ask", task_id=task_id)
+    assert interrupted.status_code == 409, interrupted.text
+    assert interrupted.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_INTERRUPTED"
+    runtime.conversation_work.offline_interrupt = None
+    conversation_id = owner_conversation(runtime, principal).id
+    advances = watch_advance(runtime)
+    asked = send(
+        client,
+        "How is this work going?",
+        key="ask-after-interrupt",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert asked.status_code == 200, asked.text
+    assert asked.json().get("kind") != "work_result"
+    assert asked.json().get("result", {}).get("verified") is not True
+    assert "Report file verified" not in asked.text
+    assert advances == []
+    assert reports(runtime, principal, run_id) == []
+    runtime.agent_runs.advance_one = runtime.agent_runs.advance_one.original
+    finished = send(client, message, key="interrupt-then-ask", task_id=task_id)
+    assert finished.status_code == 200, finished.text
+    assert finished.json()["result"]["verified"] is True
+    assert len(reports(runtime, principal, run_id)) == 1
+    assert steers(runtime, run_id) == 1
+
+
+def test_failed_result_is_not_reshown(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    original = runtime.agent_runs._deterministic
+
+    def fail(run):
+        raise DomainError("RUN_SELECTED_EVIDENCE_UNREAD", 422)
+
+    runtime.agent_runs._deterministic = fail
+    failed = send(client, "Change the goal: quantity 70.", key="fail-then-ask", task_id=task_id)
+    assert failed.status_code == 409, failed.text
+    assert failed.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_FAILED"
+    assert "Report file verified" not in failed.text
+    conversation_id = owner_conversation(runtime, principal).id
+    advances = watch_advance(runtime)
+    asked = send(
+        client,
+        "Show the verified result.",
+        key="ask-after-fail",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert asked.status_code == 200, asked.text
+    assert asked.json().get("kind") != "work_result"
+    assert "Report file verified" not in asked.text
+    assert advances == []
+    assert reports(runtime, principal, run_id) == []
+    assert steers(runtime, run_id) == 1
+    repeated = send(
+        client, "Change the goal: quantity 70.", key="fail-then-ask", task_id=task_id
+    )
+    assert repeated.status_code == 409, repeated.text
+    assert repeated.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_FAILED"
+    assert reports(runtime, principal, run_id) == []
+    runtime.agent_runs._deterministic = original
+
+
+def test_tampered_verified_file_is_not_reshown_as_success(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    message, _ = phrase("explicit-change", run_id=box["run"]["id"])
+    admitted = send(client, message, key="tamper-change", task_id=task_id)
+    assert admitted.status_code == 200, admitted.text
+    first = admitted.json()
+    published = reports(runtime, principal, run_id)
+    original = runtime.artifacts.read
+
+    def unverified(artifact_id, *, session_hash):
+        reading = original(artifact_id, session_hash=session_hash)
+        artifact = dict(reading["artifact"])
+        artifact["status"] = "unknown"
+        artifact["verification"] = "unverified"
+        return {**reading, "artifact": artifact}
+
+    runtime.artifacts.read = unverified
+    advances = watch_advance(runtime)
+    refused = send(
+        client,
+        "What was the verified result?",
+        key="tampered-ask",
+        task_id=task_id,
+        conversation_id=first["conversation_id"],
+    )
+    assert refused.status_code == 409, refused.text
+    assert refused.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_UNVERIFIED"
+    assert "admitted" not in refused.json()
+    assert "Report file verified" not in refused.text
+    assert f"Goal: {first['goal']}" not in refused.text
+    repeated = send(
+        client,
+        "What was the verified result?",
+        key="tampered-ask",
+        task_id=task_id,
+        conversation_id=first["conversation_id"],
+    )
+    assert repeated.status_code == 409, repeated.text
+    assert repeated.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_UNVERIFIED"
+    assert advances == []
+    assert reports(runtime, principal, run_id) == published
+    runtime.artifacts.read = original
+    shown = send(
+        client,
+        "What was the verified result?",
+        key="tampered-ask-restored",
+        task_id=task_id,
+        conversation_id=first["conversation_id"],
+    )
+    assert shown.status_code == 200, shown.text
+    _assert_reshown(shown.json(), goal=first["goal"], artifact_id=first["result"]["artifact_id"])
+    assert advances == []
+    assert reports(runtime, principal, run_id) == published
+    assert steers(runtime, run_id) == 1
