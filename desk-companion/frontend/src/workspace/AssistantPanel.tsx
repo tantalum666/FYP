@@ -1064,7 +1064,7 @@ export function AssistantPanel({
         }
       }}
     >
-      {voiceWork.panel}
+      <div hidden={immersive && !expanded}>{voiceWork.panel}</div>
       {mediaOpen && !suspended && (
         <MediaDevicePanel
           t={t}
