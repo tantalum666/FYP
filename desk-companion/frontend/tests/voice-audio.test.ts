@@ -3,6 +3,7 @@ import test from "node:test";
 import { readFileSync } from "node:fs";
 import ts from "typescript";
 import * as timing from "../src/workspace/voice-timing.ts";
+import { microphoneConstraints } from "../src/workspace/media/microphone.ts";
 function setup() {
   let played = 0,
     stopped = 0,
@@ -99,6 +100,7 @@ function setup() {
   new Function("require", "exports", compiled)(
     () => ({
       ...timing,
+      microphoneConstraints,
       OutputMeter: class {
         input = {};
         start() {}

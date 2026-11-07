@@ -1,4 +1,5 @@
 import { encodeVoiceImage } from "./vision.ts";
+import { microphoneConstraints } from "./media/microphone.ts";
 import { OutputMeter } from "../companion/output.ts";
 import {
   CaptureTimeline,
@@ -171,12 +172,7 @@ export class VoiceAudio {
     if (!afterWake) await context.resume();
     if (this.stopped || generation !== this.captureGeneration) return;
     const stream = await navigator.mediaDevices.getUserMedia({
-      audio: {
-        channelCount: 1,
-        echoCancellation: true,
-        noiseSuppression: true,
-        autoGainControl: true,
-      },
+      audio: microphoneConstraints(),
       video: false,
     });
     if (this.stopped || generation !== this.captureGeneration) {

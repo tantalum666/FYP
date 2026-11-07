@@ -95,6 +95,26 @@ def test_live_duration_snapshots_replace_and_finalization_is_explicit():
     assert protocol.usage_snapshot()["finalization_confirmed"] == 1
 
 
+def test_live_configuration_error_keeps_only_safe_diagnostic_identifiers():
+    protocol = OpenAILiveProtocol()
+    events = protocol.events(
+        {
+            "type": "error",
+            "error": {
+                "type": "invalid_request_error",
+                "code": "invalid_function_parameters",
+                "param": "session.delegation.responses.tools[2].parameters",
+                "message": "PRIVATE_OWNER_INPUT must not be recorded",
+            },
+        }
+    )
+    assert events == [{"type": "error", "code": "VOICE_CONFIGURATION_REJECTED"}]
+    assert protocol.failure["code"] == "invalid_function_parameters"
+    assert "message" not in protocol.failure
+    protocol.events({"type": "error", "error": {"param": "private content with spaces"}})
+    assert protocol.failure == {}
+
+
 def test_live_silence_and_fragments_do_not_invent_a_provider_final():
     protocol = OpenAILiveProtocol()
     assert (

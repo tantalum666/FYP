@@ -10,6 +10,7 @@ from array import array
 import copy
 import json
 import math
+import re
 import time
 from uuid import uuid4
 
@@ -47,6 +48,7 @@ class OpenAILiveProtocol(RealtimeProtocol):
         self.caption_group_open = False
         self.input_sequence = 0
         self.input_group = 0
+        self.failure = None
 
     def greeting(self):
         words = "我在。" if self.language == "zh" else "I'm here."
@@ -168,7 +170,21 @@ class OpenAILiveProtocol(RealtimeProtocol):
         data = copy.deepcopy(incoming)
         kind = data.get("type")
         if kind == "error":
-            return [{"type": "error", "code": "VOICE_PROVIDER_ERROR"}]
+            error = data.get("error")
+            error = error if isinstance(error, dict) else {}
+            # Record identifiers only. Provider messages may echo private input.
+            self.failure = {
+                key: value
+                for key in ("type", "code", "param")
+                if isinstance(value := error.get(key), str)
+                and re.fullmatch(r"[A-Za-z0-9_.\[\]-]{1,160}", value)
+            }
+            code = (
+                "VOICE_CONFIGURATION_REJECTED"
+                if error.get("type") == "invalid_request_error"
+                else "VOICE_PROVIDER_ERROR"
+            )
+            return [{"type": "error", "code": code}]
         if kind == "session.started":
             fmt = data.get("session", {}).get("audio", {}).get("format", {})
             if fmt and (fmt.get("type") != "audio/pcm" or fmt.get("rate") != 24000):

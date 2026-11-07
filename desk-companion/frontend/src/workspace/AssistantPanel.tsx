@@ -769,6 +769,7 @@ export function AssistantPanel({
   }
   async function startVoice(wakeTriggered = false) {
     if (unavailable || busy) return;
+    setNotice("");
     wake.pause();
     modeSwitching.current = true;
     setBusy(true);
@@ -898,15 +899,20 @@ export function AssistantPanel({
                       "The provider denied model access. Check model access or billing; this connection has stopped.",
                       "提供商拒绝访问模型，请检查模型权限或额度。本次连接已停止。",
                     )
-                  : event.code === "VOICE_CONNECT_TIMEOUT"
+                  : event.code === "VOICE_CONFIGURATION_REJECTED"
                     ? t(
-                        "Voice connection timed out. The microphone is off; try again or type your request.",
-                        "语音连接超时，麦克风已关闭。可以重试或改用文字输入。",
+                        "The voice service rejected its configuration. This is a service setup issue; your microphone permission does not need to be reset.",
+                        "语音服务拒绝了当前配置。这是服务配置问题，无需重置麦克风授权。",
                       )
-                    : t(
-                        "Voice could not continue. The microphone is off. Check the connection or provider configuration.",
-                        "语音未能继续，麦克风已关闭。请检查连接或服务配置。",
-                      ),
+                    : event.code === "VOICE_CONNECT_TIMEOUT"
+                      ? t(
+                          "Voice connection timed out. The microphone is off; try again or type your request.",
+                          "语音连接超时，麦克风已关闭。可以重试或改用文字输入。",
+                        )
+                      : t(
+                          "Voice could not continue. The microphone is off. Check the connection or provider configuration.",
+                          "语音未能继续，麦克风已关闭。请检查连接或服务配置。",
+                        ),
           );
           setVoiceState("idle");
           setMicrophone(false);
@@ -1656,6 +1662,7 @@ export function AssistantPanel({
                   }
                   onChange={(event) => {
                     if (event.target.checked) {
+                      setNotice("");
                       endVoice();
                       wake.enable();
                     } else {

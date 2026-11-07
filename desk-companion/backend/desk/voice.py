@@ -299,6 +299,7 @@ class VoiceService:
         )
         session_id = uuid4().hex
         drafts, usage = {}, {}
+        failure = None
         tool_failures = {}
         grounding_retries = set()
         turns = self.turn_factory()
@@ -653,7 +654,14 @@ class VoiceService:
                             raise DomainError("VOICE_MESSAGE_NOT_ALLOWED", 422)
 
                 async def receive_provider():
-                    nonlocal last_activity, usage, restored, assistant_text, greeted, live_user_text
+                    nonlocal \
+                        last_activity, \
+                        usage, \
+                        restored, \
+                        assistant_text, \
+                        greeted, \
+                        live_user_text, \
+                        failure
                     async for raw in provider:
                         data = json.loads(raw)
                         if not isinstance(data, dict):
@@ -828,6 +836,12 @@ class VoiceService:
                                     turns.finish("text_complete")
                                 self.state = "confirm" if drafts else "listening"
                             elif kind == "error":
+                                failure = {
+                                    "code": event.get("code"),
+                                    "phase": "active" if ready.is_set() else "startup",
+                                }
+                                if getattr(protocol, "failure", None):
+                                    failure["provider"] = protocol.failure
                                 await send_client(event)
                                 return
                             await send_client(event)
@@ -980,6 +994,13 @@ class VoiceService:
             TimeoutError,
             websockets.WebSocketException,
         ) as error:
+            failure = {
+                "code": error.code if isinstance(error, DomainError) else "VOICE_CONNECTION_FAILED",
+                "phase": "active" if ready.is_set() else "startup",
+                "exception": type(error).__name__,
+            }
+            if getattr(protocol, "failure", None):
+                failure["provider"] = protocol.failure
             with contextlib.suppress(Exception):
                 await send_client(
                     {
@@ -1019,6 +1040,7 @@ class VoiceService:
                             "prebuffer_allowance_ms": prebuffer_ms,
                             "image_frames": image_count,
                             "usage": safe_usage,
+                            "failure": failure,
                             "turns": turns.history,
                         },
                     )

@@ -1,4 +1,5 @@
 import { LocalCapture } from "../media/localCapture.ts";
+import { microphoneConstraints } from "../media/microphone.ts";
 
 type WakeEvent = { type: "ready" | "wake" | "error" };
 /** Microphone PCM goes only to the connected desk's local keyword detector. */
@@ -24,12 +25,7 @@ export class WakeAudio {
       const context = new AudioContext();
       this.context = context;
       const stream = await this.capture.start({
-        audio: {
-          channelCount: 1,
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true,
-        },
+        audio: microphoneConstraints(),
         video: false,
       });
       if (!stream || this.stopped) return;
