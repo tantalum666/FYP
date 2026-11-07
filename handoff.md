@@ -1,6 +1,7 @@
 # Group 2 · Current handoff
 
 7 November 2026. Active checkout: `/Users/tantalum/.codex/worktrees/live-agent-eval-20261107/FYP`; branch `codex/alice-home-wake-20261107`. Current UI/voice source `1660ffc` is active on Mac and Pi. No CI; agent test budgets closed; only red-LED investigation remains deferred.
+Published as [PR97](https://github.com/tantalum666/FYP/pull/97), open and unmerged. [Publication receipt](output/qa/2026-11-07-alice-home-wake/publication-receipt.json).
 
 ## Current result
 

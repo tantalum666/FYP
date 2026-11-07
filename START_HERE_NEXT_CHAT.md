@@ -1,6 +1,7 @@
 # Group 2 · Current continuation
 
 7 November 2026. Continue in `/Users/tantalum/.codex/worktrees/live-agent-eval-20261107/FYP`, branch `codex/alice-home-wake-20261107`. Read [handoff](handoff.md), [product](product.md), latest [decisions](decision-log.md), [Alice home](desk-companion/docs/alice-home.md), [wake/Live](desk-companion/docs/openai-alice-wake.md) and [current QA](output/qa/2026-11-07-alice-home-wake/verification.md).
+Published as [PR97](https://github.com/tantalum666/FYP/pull/97), open and unmerged. [Publication receipt](output/qa/2026-11-07-alice-home-wake/publication-receipt.json).
 
 Source1660ffc is active on Mac/Pi. Shared dark Alice home, full phone month/time/weather, permission-aware geolocation, stable composer/error display and loopback-cookie recovery are verified. GPT Live is primary; Realtime retained. Local wake and a real synthetic identity/calendar trial passed; conservative USD0.0518613333, fresh USD1ledger closed.2051backend/341frontend and build pass. Physical Pi audio/human acoustics remain distinct.
 

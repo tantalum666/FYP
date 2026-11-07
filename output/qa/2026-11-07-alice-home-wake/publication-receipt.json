@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-07",
+  "repository": "tantalum666/FYP",
+  "branch": "codex/alice-home-wake-20261107",
+  "pr": 97,
+  "url": "https://github.com/tantalum666/FYP/pull/97",
+  "state": "open",
+  "draft": false,
+  "merged": false,
+  "base_sha": "855e60ee9f413de84474e3e0b9975b9b9a3d5fbc",
+  "verified_published_head_before_receipt": "85f91f92933fc76bf81816eef7ae0ee669197527",
+  "activated_source_commit": "1660ffcfffa6242d4618d7996469b926ac30b61b",
+  "ci_used": false,
+  "note": "This receipt and routing update are a documentation-only follow-up. Source activation is separate from PR merge."
+}

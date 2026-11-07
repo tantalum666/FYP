@@ -40,3 +40,5 @@ A21-file stopped/checkpointed backup was transferred off Pi and every member has
 Updated alice-home, openai-alice-wake, desktop-conversation, passwordless-device, software-maintenance, product, decision-log, work-log, handoff and entry routing. Added-line credential-signature scan and asset/workflow scope review passed; raw owner screenshots, audio, credentials, database and private deployment scripts are excluded from publication.
 
 Local Markdown link check:398targets,0missing. Recovery-only AGENTS routing banners in the retained all-pr-review and openai-personal-agent checkouts now point to this active entry; their other local changes were left intact.
+
+Published as [PR97](https://github.com/tantalum666/FYP/pull/97), open/ready for review and unmerged. Remote head85f91f9 matched the reviewed source/docs before this receipt-only follow-up. [Publication receipt](publication-receipt.json).
