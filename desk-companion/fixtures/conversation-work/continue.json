@@ -1,0 +1,65 @@
+{
+  "schema": "desk-conversation-work-continue-v1",
+  "asks": [
+    {
+      "id": "bare-en",
+      "language": "en",
+      "message": "Continue this work."
+    },
+    {
+      "id": "bare-zh",
+      "language": "zh",
+      "message": "继续这项工作。"
+    }
+  ],
+  "named": [
+    {
+      "id": "named-en",
+      "language": "en",
+      "message": "Continue work {run_id}."
+    },
+    {
+      "id": "named-zh",
+      "language": "zh",
+      "message": "继续工作 {run_id}。"
+    }
+  ],
+  "not_asks": [
+    {
+      "id": "goal-question",
+      "message": "What is the goal of this work?"
+    },
+    {
+      "id": "quoted",
+      "message": "> Continue this work."
+    },
+    {
+      "id": "wrapped",
+      "message": "「Continue this work.」"
+    },
+    {
+      "id": "mail",
+      "message": "From: Birch Supplies\n\nContinue this work."
+    },
+    {
+      "id": "two-lines",
+      "message": "Please look.\nContinue this work."
+    },
+    {
+      "id": "question",
+      "message": "Continue this work?"
+    },
+    {
+      "id": "question-zh",
+      "message": "继续这项工作吗？"
+    },
+    {
+      "id": "draft",
+      "message": "Goal: Continue this work."
+    },
+    {
+      "id": "near",
+      "message": "Continue the work."
+    }
+  ]
+}

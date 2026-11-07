@@ -746,3 +746,10 @@ Publication receipt: sourceeeb96fc was pushed to draftPR87 and its remote HEAD/t
 - **完成：**`parse_work_followup` 只认封闭问法。同一条对话里已有 `verified` + `byte_readback` 的回复时，再次读取那一个文件。未核验、失败和中断都不是成功重显。另一个登录打不开这条对话。配对设备是 403。Full access 不产生作业或建议。同一操作号和流式关闭沿用既有回执。
 - **验证：**`uv run --no-sync ruff check` 通过。对话测试 68 项通过。整合验收 7 项通过。全量 `python -m pytest -q` 为 1956 passed、1 failed；失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`。前端 `npm test` 为 328 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-reshow/verification.md)。
 - **剩余：**后一轮提问不会继续这项工作。真实账号、支付、Pi 和付费比较仍分开。下一步是让拥有者明确要求继续同一项 Work，仍离线且不调用提供商。
+
+## 2026-11-07 · Explicit continue advances one verified Work run
+
+- **目标：**已核验报告出现在同一条对话之后，拥有者明确要求继续这项工作。既有离线执行器只推进这一次，不调用提供商。#89–#92 已在 main。本分支叠在 #95 上。不动 Codex 草稿 #94、#73、#87、#88。
+- **完成：**`parse_work_continue` 只认封闭说法。一项当前工作时推进这条对话已经显示过的运行；多项必须写出运行编号。同一操作号最多推进一次。提交前中断可以重试一次。结果未知时用同一操作号恢复且不第二次推进。已结束或已取消的运行有明确回复，不会重开。另一个登录打不开这条对话。配对设备是 403。Full access 不产生作业或建议。
+- **验证：**`uv run --no-sync ruff check` 通过。对话测试 79 项通过。整合验收 7 项通过。全量 `python -m pytest -q` 为 1967 passed、1 failed；失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`。前端 `npm test` 为 328 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-continue/verification.md)。
+- **剩余：**一步之后如果运行仍未结束，下一次明确要求还不能再推进一步。真实账号、支付、Pi 和付费比较仍分开。下一步是让仍未结束的运行接受下一次明确的离线单步。

@@ -1,6 +1,6 @@
 # Group 2 · OpenAI personal-agent continuation
 
-7 November 2026. #89–#92 are already on main. The current review slice re-shows one verified offline Work result when a later turn in that same conversation asks about the work. It does not run the executor again and does not call a provider. Codex draft #94 (`codex/openai-computer-use-20261106`) stays untouched. [Handoff](handoff.md).
+7 November 2026. #89–#92 are already on main. This slice is stacked on #95. An explicit continue ask in the same conversation advances that verified Work run once through the offline executor and shows the verified file. A status question only re-reads the file. Codex drafts #94, #73, #87, and #88 stay untouched. [Handoff](handoff.md).
 
 6 November2026. User explicitly requests fixing and merging all pending GitHub work, broader shopping/travel/computer use, and OpenAI defaults. Active checkout/branch: codex/openai-personal-agent-20261106. [Handoff](handoff.md), [review QA](output/qa/2026-11-06-openai-agent-merge/verification.md), [research index](research/personal-agent-research-index.md).
 

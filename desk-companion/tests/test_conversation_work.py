@@ -11,7 +11,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from desk.agent_run_schemas import RunAction, RunCreate
-from desk.conversation_work import parse_changed_goal, parse_work_followup
+from desk.conversation_work import parse_changed_goal, parse_work_continue, parse_work_followup
 from desk.assistant import TOOLS
 from desk.app import create_app
 from desk.store import DomainError
@@ -26,6 +26,7 @@ HEADERS = {"X-Desk-Request": "1"}
 FIXTURE = Path(__file__).resolve().parents[1] / "fixtures" / "conversation-work" / "changed-goal.json"
 UNSEEN = Path(__file__).resolve().parents[1] / "fixtures" / "conversation-work" / "unseen-variants.json"
 FOLLOWUP = Path(__file__).resolve().parents[1] / "fixtures" / "conversation-work" / "follow-up.json"
+CONTINUE = Path(__file__).resolve().parents[1] / "fixtures" / "conversation-work" / "continue.json"
 ORIGINAL = "Compare fictional suppliers; quantity 36, budget 900 HKD."
 
 
@@ -119,6 +120,12 @@ def step_count(runtime, run_id):
 def follow_up_cases():
     data = json.loads(FOLLOWUP.read_text())
     assert data["schema"] == "desk-conversation-work-follow-up-v1"
+    return data
+
+
+def continue_cases():
+    data = json.loads(CONTINUE.read_text())
+    assert data["schema"] == "desk-conversation-work-continue-v1"
     return data
 
 
@@ -1855,3 +1862,603 @@ def test_tampered_verified_file_is_not_reshown_as_success(box):
     assert advances == []
     assert reports(runtime, principal, run_id) == published
     assert steers(runtime, run_id) == 1
+
+
+def _assert_continued(body, *, goal, artifact_id, recovered=False):
+    assert body["kind"] == "work_result"
+    assert body["admitted"] is False and body["saved"] is False
+    assert body["recovered"] is recovered
+    assert body.get("proposal") is None and body.get("job") is None
+    assert body["goal"] == goal
+    assert body["work_run_id"]
+    assert body["result"] == {
+        "verified": True,
+        "state": "verified",
+        "verification": "byte_readback",
+        "quality": "not_semantically_checked",
+        "goal": goal,
+        "artifact_id": artifact_id,
+        "format": "markdown",
+    }
+    assert f"Goal: {goal}" in body["message"]
+    assert "This work continued." in body["message"] or "这项工作已继续。" in body["message"]
+    assert "Nothing was sent or bought." in body["message"] or "没有发送或购买" in body["message"]
+
+
+def _verified_goal(box, *, key):
+    message, _ = phrase("mid-flow-change")
+    admitted = send(box["client"], message, key=key, task_id=box["task"]["id"])
+    assert admitted.status_code == 200, admitted.text
+    body = admitted.json()
+    assert body["result"]["verified"] is True
+    return body
+
+
+def test_continue_phrases_are_a_closed_list():
+    data = continue_cases()
+    sample = "ab" * 16
+    assert {item["language"] for item in data["asks"]} == {"en", "zh"}
+    for item in data["asks"]:
+        assert parse_work_continue(item["message"]) == {"run_id": None}
+        assert parse_work_followup(item["message"]) is False
+        assert parse_changed_goal(item["message"]) is None
+    for item in data["named"]:
+        parsed = parse_work_continue(item["message"].format(run_id=sample))
+        assert parsed == {"run_id": sample}
+        assert parse_changed_goal(item["message"].format(run_id=sample)) is None
+    for item in data["not_asks"]:
+        assert parse_work_continue(item["message"]) is None
+    for item in follow_up_cases()["asks"]:
+        assert parse_work_continue(item["message"]) is None
+
+
+def test_explicit_continue_advances_the_same_run_once(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    calls = []
+
+    def generate(*args, **kwargs):
+        calls.append(args)
+        raise AssertionError("provider called")
+
+    runtime.text_ai.generate = generate
+    first = _verified_goal(box, key="continue-change")
+    goal, conversation_id = first["goal"], first["conversation_id"]
+    artifact_id = first["result"]["artifact_id"]
+    assert goal_of(runtime, principal, run_id)["state"] not in {"succeeded", "cancelled"}
+    steps = step_count(runtime, run_id)
+    published = reports(runtime, principal, run_id)
+    advances = watch_advance(runtime)
+    for item in continue_cases()["not_asks"]:
+        other = send(
+            client,
+            item["message"],
+            key=f"near-{item['id']}",
+            task_id=task_id,
+            conversation_id=conversation_id,
+        )
+        assert other.status_code == 200, other.text
+        assert "This work continued." not in other.text
+        assert (other.json().get("result") or {}).get("verification") != "byte_readback"
+    status = send(
+        client,
+        "How is this work going?",
+        key="status-before-continue",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert status.status_code == 200, status.text
+    _assert_reshown(status.json(), goal=goal, artifact_id=artifact_id)
+    fresh = send(client, "Continue this work.", key="other-conversation", task_id=task_id)
+    assert fresh.status_code == 200, fresh.text
+    assert fresh.json()["conversation_id"] != conversation_id
+    assert fresh.json().get("kind") != "work_result"
+    assert "This work continued." not in fresh.text
+    assert advances == [] and calls == []
+    assert step_count(runtime, run_id) == steps
+    assert goal_of(runtime, principal, run_id)["state"] not in {"succeeded", "cancelled"}
+    runtime.text_ai.config.provider = "fake"
+    before = counts(runtime)
+    continued = send(
+        client,
+        "Continue this work.",
+        key="continue-once",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert continued.status_code == 200, continued.text
+    body = continued.json()
+    _assert_continued(body, goal=goal, artifact_id=artifact_id)
+    assert body["work_run_id"] == run_id
+    assert body["conversation_id"] == conversation_id
+    assert len(advances) == 1 and advances[0][0] == run_id
+    assert step_count(runtime, run_id) == steps + 1
+    assert goal_of(runtime, principal, run_id)["state"] == "succeeded"
+    assert reports(runtime, principal, run_id) == published
+    repeated = send(
+        client,
+        "Continue this work.",
+        key="continue-once",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert repeated.status_code == 200, repeated.text
+    assert repeated.json()["result"]["artifact_id"] == artifact_id
+    conflict = send(
+        client,
+        "继续这项工作。",
+        key="continue-once",
+        task_id=task_id,
+        conversation_id=conversation_id,
+        language="zh",
+    )
+    assert conflict.status_code == 409, conflict.text
+    assert conflict.json()["error"]["code"] == "OPERATION_ID_CONFLICT"
+    assert len(advances) == 1
+    assert step_count(runtime, run_id) == steps + 1
+    finished = send(
+        client,
+        "继续这项工作。",
+        key="continue-again",
+        task_id=task_id,
+        conversation_id=conversation_id,
+        language="zh",
+    )
+    assert finished.status_code == 200, finished.text
+    assert finished.json().get("result") is None
+    assert "没有重新开始" in finished.json()["message"]
+    assert "报告文件已核验" not in finished.text
+    assert len(advances) == 1
+    assert goal_of(runtime, principal, run_id)["state"] == "succeeded"
+    asked = send(
+        client,
+        "How is this work going?",
+        key="status-after-continue",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert asked.status_code == 200, asked.text
+    _assert_reshown(asked.json(), goal=goal, artifact_id=artifact_id)
+    after = counts(runtime)
+    assert after["jobs"] == before["jobs"] and after["proposals"] == before["proposals"]
+    assert after["runs"] == before["runs"] and after["usage"] == 0
+    assert steers(runtime, run_id) == 1
+    assert goal_of(runtime, principal, run_id)["model_calls"] == 0
+    assert goal_of(runtime, principal, box["other"]["id"])["reads"] == 0
+    assert runtime.tasks.detail(task_id)["task"]["next_step"] == "Keep the supplier note"
+    assert calls == [] and box["executed"] == []
+
+
+def test_chinese_continue_advances_once(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    first = _verified_goal(box, key="zh-continue-change")
+    steps = step_count(runtime, run_id)
+    advances = watch_advance(runtime)
+    continued = send(
+        client,
+        "继续这项工作。",
+        key="zh-continue",
+        task_id=task_id,
+        conversation_id=first["conversation_id"],
+        language="zh",
+    )
+    assert continued.status_code == 200, continued.text
+    _assert_continued(
+        continued.json(), goal=first["goal"], artifact_id=first["result"]["artifact_id"]
+    )
+    assert "这项工作已继续。" in continued.json()["message"]
+    assert len(advances) == 1
+    assert step_count(runtime, run_id) == steps + 1
+    assert goal_of(runtime, principal, run_id)["state"] == "succeeded"
+    assert goal_of(runtime, principal, run_id)["model_calls"] == 0
+    assert box["executed"] == []
+
+
+def test_named_continue_is_required_when_several_runs_are_current(tmp_path):
+    box = workspace(tmp_path, companion="shared")
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    task_id = box["task"]["id"]
+    first, second = box["run"], box["other"]
+    original = runtime.jobs.applications.execute
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("application executor ran")
+
+    runtime.jobs.applications.execute = forbidden
+    message, _ = phrase("explicit-change", run_id=second["id"])
+    admitted = send(client, message, key="name-change", task_id=task_id)
+    assert admitted.status_code == 200, admitted.text
+    body = admitted.json()
+    assert body["work_run_id"] == second["id"]
+    steps = step_count(runtime, second["id"])
+    first_steps = step_count(runtime, first["id"])
+    advances = watch_advance(runtime)
+    bare = send(
+        client,
+        "Continue this work.",
+        key="bare-several",
+        task_id=task_id,
+        conversation_id=body["conversation_id"],
+    )
+    assert bare.status_code == 200, bare.text
+    assert bare.json()["kind"] == "clarify"
+    assert "Name the work" in bare.json()["message"]
+    assert bare.json().get("result") is None
+    assert advances == []
+    missing = send(
+        client,
+        "Continue work " + "cd" * 16 + ".",
+        key="missing-run",
+        task_id=task_id,
+        conversation_id=body["conversation_id"],
+    )
+    assert missing.status_code == 200, missing.text
+    assert missing.json().get("result") is None
+    assert "not found" in missing.json()["message"].casefold()
+    other = send(
+        client,
+        f"Continue work {first['id']}.",
+        key="other-run",
+        task_id=task_id,
+        conversation_id=body["conversation_id"],
+    )
+    assert other.status_code == 200, other.text
+    assert other.json().get("result") is None
+    assert step_count(runtime, first["id"]) == first_steps
+    named = send(
+        client,
+        f"继续工作 {second['id']}。",
+        key="named-continue",
+        task_id=task_id,
+        conversation_id=body["conversation_id"],
+        language="zh",
+    )
+    assert named.status_code == 200, named.text
+    _assert_continued(named.json(), goal=body["goal"], artifact_id=body["result"]["artifact_id"])
+    assert named.json()["work_run_id"] == second["id"]
+    assert len(advances) == 1 and advances[0][0] == second["id"]
+    assert step_count(runtime, second["id"]) == steps + 1
+    assert step_count(runtime, first["id"]) == first_steps
+    assert goal_of(runtime, principal, first["id"])["goal"] == ORIGINAL
+    assert goal_of(runtime, principal, second["id"])["state"] == "succeeded"
+    assert goal_of(runtime, principal, second["id"])["model_calls"] == 0
+    runtime.jobs.applications.execute = original
+
+
+def test_continue_before_commit_is_not_success_and_retries_once(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    first = _verified_goal(box, key="interrupt-continue-change")
+    conversation_id = first["conversation_id"]
+    steps = step_count(runtime, run_id)
+    advances = watch_advance(runtime)
+    runtime.conversation_work.offline_interrupt = "before_continue"
+    refused = send(
+        client,
+        "Continue this work.",
+        key="continue-interrupt",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert refused.status_code == 409, refused.text
+    assert refused.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_INTERRUPTED"
+    assert "admitted" not in refused.json()
+    assert "Report file verified" not in refused.text
+    assert advances == []
+    assert step_count(runtime, run_id) == steps
+    assert goal_of(runtime, principal, run_id)["state"] != "succeeded"
+    runtime.conversation_work.offline_interrupt = None
+    runtime.agent_runs.advance_one = runtime.agent_runs.advance_one.original
+    continued = send(
+        client,
+        "Continue this work.",
+        key="continue-interrupt",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert continued.status_code == 200, continued.text
+    _assert_continued(
+        continued.json(), goal=first["goal"], artifact_id=first["result"]["artifact_id"]
+    )
+    assert continued.json()["recovered"] is False
+    assert step_count(runtime, run_id) == steps + 1
+    assert goal_of(runtime, principal, run_id)["state"] == "succeeded"
+    repeated = send(
+        client,
+        "Continue this work.",
+        key="continue-interrupt",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert repeated.status_code == 200, repeated.text
+    assert step_count(runtime, run_id) == steps + 1
+
+
+def test_unknown_continue_recovers_without_a_second_advance(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    first = _verified_goal(box, key="unknown-continue-change")
+    conversation_id = first["conversation_id"]
+    steps = step_count(runtime, run_id)
+    runtime.conversation_work.offline_interrupt = "after_continue"
+    unknown = send(
+        client,
+        "Continue this work.",
+        key="continue-unknown",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert unknown.status_code == 409, unknown.text
+    assert unknown.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_UNKNOWN"
+    assert "Report file verified" not in unknown.text
+    assert "admitted" not in unknown.json()
+    assert step_count(runtime, run_id) == steps + 1
+    assert goal_of(runtime, principal, run_id)["state"] == "succeeded"
+    runtime.conversation_work.offline_interrupt = None
+    conflict = send(
+        client,
+        "继续这项工作。",
+        key="continue-unknown",
+        task_id=task_id,
+        conversation_id=conversation_id,
+        language="zh",
+    )
+    assert conflict.status_code == 409, conflict.text
+    assert conflict.json()["error"]["code"] == "OPERATION_ID_CONFLICT"
+    assert step_count(runtime, run_id) == steps + 1
+    recovered = send(
+        client,
+        "Continue this work.",
+        key="continue-unknown",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert recovered.status_code == 200, recovered.text
+    _assert_continued(
+        recovered.json(),
+        goal=first["goal"],
+        artifact_id=first["result"]["artifact_id"],
+        recovered=True,
+    )
+    assert step_count(runtime, run_id) == steps + 1
+    cached = send(
+        client,
+        "Continue this work.",
+        key="continue-unknown",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert cached.status_code == 200, cached.text
+    assert cached.json()["recovered"] is True
+    assert step_count(runtime, run_id) == steps + 1
+    assert goal_of(runtime, principal, run_id)["model_calls"] == 0
+
+
+def test_continue_stream_close_is_not_a_second_advance(box):
+    client, runtime, principal = box["client"], box["runtime"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    first = _verified_goal(box, key="stream-continue-change")
+    steps = step_count(runtime, run_id)
+    headers = {**HEADERS, "X-Operation-Id": "stream-continue"}
+    body = {
+        "message": "Continue this work.",
+        "task_id": task_id,
+        "conversation_id": first["conversation_id"],
+    }
+    with client.stream(
+        "POST", "/api/assistant/messages/stream", json=body, headers=headers
+    ) as opened:
+        assert opened.status_code == 200
+        chunk = next(opened.iter_bytes())
+        assert chunk
+        with pytest.raises(json.JSONDecodeError):
+            json.loads(chunk)
+    recovered = client.post("/api/assistant/messages/stream", json=body, headers=headers)
+    assert recovered.status_code == 200, recovered.text
+    events = parse_sse(recovered.text)
+    reply = events[-1]["reply"]
+    assert events[-1]["type"] == "done"
+    _assert_continued(reply, goal=first["goal"], artifact_id=first["result"]["artifact_id"])
+    repeated = client.post("/api/assistant/messages/stream", json=body, headers=headers)
+    assert repeated.status_code == 200, repeated.text
+    assert step_count(runtime, run_id) == steps + 1
+    assert goal_of(runtime, principal, run_id)["state"] == "succeeded"
+    assert steers(runtime, run_id) == 1
+
+
+def test_cancelled_run_is_not_reopened_by_continue(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    first = _verified_goal(box, key="cancel-continue-change")
+    current = goal_of(runtime, principal, run_id)
+    runtime.agent_runs.action(
+        run_id,
+        RunAction(action="cancel", expected_version=current["version"]),
+        "cancel-before-continue",
+        principal,
+    )
+    assert goal_of(runtime, principal, run_id)["state"] == "cancelled"
+    steps = step_count(runtime, run_id)
+    advances = watch_advance(runtime)
+    refused = send(
+        client,
+        "Continue this work.",
+        key="continue-cancelled",
+        task_id=task_id,
+        conversation_id=first["conversation_id"],
+    )
+    assert refused.status_code == 200, refused.text
+    assert refused.json().get("result") is None
+    assert "was cancelled" in refused.json()["message"]
+    assert "Report file verified" not in refused.text
+    assert f"Goal: {first['goal']}" not in refused.text
+    assert advances == []
+    assert step_count(runtime, run_id) == steps
+    assert goal_of(runtime, principal, run_id)["state"] == "cancelled"
+    named = send(
+        client,
+        f"Continue work {run_id}.",
+        key="continue-cancelled-named",
+        task_id=task_id,
+        conversation_id=first["conversation_id"],
+    )
+    assert named.status_code == 200, named.text
+    assert "was cancelled" in named.json()["message"]
+    assert advances == []
+    assert step_count(runtime, run_id) == steps
+
+
+def test_failed_continue_is_not_shown_as_success(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    first = _verified_goal(box, key="fail-continue-change")
+    steps = step_count(runtime, run_id)
+    original = runtime.agent_runs._deterministic
+
+    def fail(run):
+        raise DomainError("RUN_SELECTED_EVIDENCE_UNREAD", 422)
+
+    runtime.agent_runs._deterministic = fail
+    advances = watch_advance(runtime)
+    failed = send(
+        client,
+        "Continue this work.",
+        key="continue-failed",
+        task_id=task_id,
+        conversation_id=first["conversation_id"],
+    )
+    assert failed.status_code == 409, failed.text
+    assert failed.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_FAILED"
+    assert "Report file verified" not in failed.text
+    assert "This work continued." not in failed.text
+    assert len(advances) == 1
+    assert goal_of(runtime, principal, run_id)["state"] == "blocked"
+    runtime.agent_runs._deterministic = original
+    repeated = send(
+        client,
+        "Continue this work.",
+        key="continue-failed",
+        task_id=task_id,
+        conversation_id=first["conversation_id"],
+    )
+    assert repeated.status_code == 409, repeated.text
+    assert repeated.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_FAILED"
+    assert len(advances) == 1
+    assert step_count(runtime, run_id) == steps
+    assert goal_of(runtime, principal, run_id)["state"] == "blocked"
+    assert goal_of(runtime, principal, run_id)["model_calls"] == 0
+
+
+def test_unverified_continue_is_not_shown_as_success(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    first = _verified_goal(box, key="unverified-continue-change")
+    published = reports(runtime, principal, run_id)
+    steps = step_count(runtime, run_id)
+    original = runtime.artifacts.read
+
+    def unverified(artifact_id, *, session_hash):
+        reading = original(artifact_id, session_hash=session_hash)
+        artifact = dict(reading["artifact"])
+        artifact["status"] = "unknown"
+        artifact["verification"] = "unverified"
+        return {**reading, "artifact": artifact}
+
+    runtime.artifacts.read = unverified
+    refused = send(
+        client,
+        "Continue this work.",
+        key="continue-unverified",
+        task_id=task_id,
+        conversation_id=first["conversation_id"],
+    )
+    assert refused.status_code == 409, refused.text
+    assert refused.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_UNVERIFIED"
+    assert "Report file verified" not in refused.text
+    assert "This work continued." not in refused.text
+    repeated = send(
+        client,
+        "Continue this work.",
+        key="continue-unverified",
+        task_id=task_id,
+        conversation_id=first["conversation_id"],
+    )
+    assert repeated.status_code == 409, repeated.text
+    assert repeated.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_UNVERIFIED"
+    assert step_count(runtime, run_id) == steps + 1
+    assert reports(runtime, principal, run_id) == published
+    runtime.artifacts.read = original
+
+
+def test_continue_keeps_auth_boundaries(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    first = _verified_goal(box, key="auth-continue-change")
+    goal, conversation_id = first["goal"], first["conversation_id"]
+    other = owner_client(box["app"])
+    hidden = other.post(
+        "/api/assistant/messages",
+        json={
+            "message": "Continue this work.",
+            "conversation_id": conversation_id,
+            "task_id": task_id,
+        },
+        headers={**HEADERS, "X-Operation-Id": "other-continue"},
+    )
+    assert hidden.status_code == 404, hidden.text
+    assert f"Goal: {goal}" not in hidden.text
+    assert "This work continued." not in hidden.text
+    fresh = other.post(
+        "/api/assistant/messages",
+        json={"message": "Continue this work.", "task_id": task_id},
+        headers={**HEADERS, "X-Operation-Id": "other-continue-fresh"},
+    )
+    assert fresh.status_code == 200, fresh.text
+    assert f"Goal: {goal}" not in fresh.text
+    assert fresh.json().get("kind") != "work_result"
+    assert (
+        client.post(
+            "/api/devices/enrol-display",
+            json={"name": "Fixture screen"},
+            headers={**HEADERS, "X-Operation-Id": "enrol-continue"},
+        ).status_code
+        == 200
+    )
+    paired = TestClient(box["app"])
+    paired.headers.update(
+        {**HEADERS, "Authorization": "Bearer " + client.cookies.get("desk_companion_device")}
+    )
+    denied = paired.post(
+        "/api/assistant/messages",
+        json={
+            "message": "Continue this work.",
+            "conversation_id": conversation_id,
+            "task_id": task_id,
+        },
+        headers={**HEADERS, "X-Operation-Id": "paired-continue"},
+    )
+    assert denied.status_code == 403, denied.text
+    assert f"Goal: {goal}" not in denied.text
+    policy = runtime.permissions.snapshot()
+    runtime.permissions.change(
+        PermissionChange(mode="full", expected_version=policy["version"]),
+        "full-continue",
+    )
+    before = counts(runtime)
+    steps = step_count(runtime, run_id)
+    shown = send(
+        client,
+        "Continue this work.",
+        key="full-continue-turn",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert shown.status_code == 200, shown.text
+    _assert_continued(shown.json(), goal=goal, artifact_id=first["result"]["artifact_id"])
+    after = counts(runtime)
+    assert after["jobs"] == before["jobs"] and after["proposals"] == before["proposals"]
+    assert step_count(runtime, run_id) == steps + 1
+    assert runtime.tasks.detail(task_id)["task"]["next_step"] == "Keep the supplier note"
+    assert goal_of(runtime, principal, run_id)["model_calls"] == 0
+    assert box["executed"] == []
