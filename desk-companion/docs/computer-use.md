@@ -1,6 +1,6 @@
 # Group 2 · Public browser computer use
 
-6 November2026. General browser work uses OpenAI Responses native computer calls
+7 November2026. General browser work uses OpenAI Responses native computer calls
 and the existing job/permission lifecycle. It does not replace typed office
 operations or claim general host-desktop, account or transaction autonomy.
 [Research and actual evidence](../../research/2026-11-06-general-browser-and-openai.md).
@@ -13,6 +13,7 @@ operations or claim general host-desktop, account or transaction autonomy.
   It accepts ordered typed mouse/keyboard actions, rejects duplicate call IDs,
   does not auto-acknowledge pending safety checks, and never retries uncertain
   provider responses. Screens use original dimensions; no arbitrary code tool.
+- `computer_use_observation.py` owns document-generation/origin-bound captures and stored-state filtering. Captures raced by a navigation are discarded before persistence/upload; a same-URL reload is a new document.
 - `computer_use_worker.py` owns the fresh browser context, page observations,
   input handling, request filtering and normal closure. It receives no API key.
   Platform-specific key context and focused date/select handling were checked
@@ -27,7 +28,7 @@ operations or claim general host-desktop, account or transaction autonomy.
 The entry page is a public HTTPS URL or an explicitly labelled local rehearsal.
 Additional main-frame sites are exact HTTPS origins, at most8total. Browser
 requests are GET/HEAD only, public DNS is checked, service workers/WebSockets are
-blocked and extra windows require review. Known personal/login fields, file
+blocked and extra windows require review. Rejected background POSTs/iframes remain blocked without alone stopping an otherwise readable top-level page. Each input rechecks the observed document after target inspection; navigation discards remaining stale inputs. Known personal/login fields, file
 access and final purchase/booking controls stop. This can also stop sites whose
 read-only searches use POST; it is not a universal merchant adapter.
 
@@ -84,7 +85,9 @@ It is not an OpenAI provider proxy or a workaround for provider region policy.
 Normal text/computer requests share the existing daily call count, and each
 computer job has a180-second limit and at most12model turns. These are request
 bounds, not an account-wide monetary cap. Background suggestions remain off.
-Provider usage counters retain numeric values only. Keys stay in the host.
+Provider usage counters retain numeric values only, including a received response discarded after cancellation/invalid actions. Unknown later attempts cannot reuse an earlier receipt. Keys stay in the host.
+
+Optional operator setting `DESK_BROWSER_HTTP1_ONLY=1` disables Chromium HTTP2 only; it changes the scope binding and defaults off. It does not disable TLS or sandboxing. Confirmed-cleanup initial DNS/load failures produce `COMPUTER_SITE_UNAVAILABLE` and a bounded private navigation diagnostic; uncertain cleanup still blocks later work.
 
 ## Reproduce without model spending
 
@@ -112,3 +115,14 @@ client now supports an explicit OpenAI-only loopback CONNECT URL; browser web
 traffic still uses its own separate policy. [Transport contract](openai-vps.md).
 Actual model authentication/Realtime handshake passed; real computer planning is
 still distinct from the earlier scripted browser acceptance.
+
+
+## 7 November live-model acceptance
+
+The fresh USD1 round ran31real GPT6.1Sol requests on Pi: conservative usage USD0.37970163, all receipts reconciled and ledger closed. Shopping quantity/price/coupon/shipping changes and stored-state continuation, flight comparison/timezones, ordinary calendar-tool followup, and cancellation during a model response passed. Inputs/merchant/flight inventory were fictional; the controller handed the observed flight into a separate calendar subtask. This is not autonomous end-to-end voice orchestration.
+
+Actual JD navigation/search stopped at verification; Cathay initial navigation failed. No real products/fares, private account or transaction was verified. [Full results and retained failures](../../output/qa/2026-11-07-live-agent-eval/verification.md).
+
+`scripts/live_agent_eval.py` is explicit test infrastructure. `scripts/live_eval_budget.py` counts input before generation, durably reserves a conservative amount in one shared USD1 ledger, fixes Standard tier/output limits, retains unknown holds and blocks later calls until resolved. `--initialize-budget` is for a newly authorized round only; subsequent cases require that same existing ledger. Closed budgets must not be reopened. This ledger is not a production account-wide billing limit.
+
+`scripts/computer_scope_acceptance.py` exercises document changes with real Chromium and two owned local fixtures, without a model. It verifies stale-input blocking, positive control, no saved outside-origin screenshot, same-URL reload detection and filtered storage.

@@ -114,8 +114,13 @@ The main path checks Aster HKD 809.60 initially; no feasible 40-copy colour prop
 
 ## Remaining gates
 
-The ordinary HTTP assistant still stops after one effect-producing tool. The separate admitted Work flow now supplies bounded model coordination over the real executor; its live-model quality has not been tested in this milestone. The normal App has not switched to OpenAI. Run offline provider/tool-loop integration and held-out source/layout/cancellation variants before a newly scoped paid voice comparison. Real microphone quality, voice-driven planning, general GUI browsing/clicking, native iOS touch/keyboard and Pi/Wayland acceptance remain open. No CI, physical output, purchase, message or school submission is part of this milestone.
+The ordinary HTTP assistant still stops after one effect-producing tool. The separate admitted Work flow now supplies bounded model coordination over the real executor; its live-model quality has not been tested in this milestone. At that October milestone the normal App had not switched to OpenAI; the November6–7 updates below supersede that provider state. Run offline provider/tool-loop integration and held-out source/layout/cancellation variants before a newly scoped paid voice comparison. Real microphone quality, voice-driven planning, general GUI browsing/clicking, native iOS touch/keyboard and Pi/Wayland acceptance remain open. No CI, physical output, purchase, message or school submission is part of this milestone.
 
 ## 6 November: Pi transport
 
 The bridge also accepts operator-selected `DESK_APP_ENGINE=podman`, using only the local rootless engine with fixed helper arguments. Docker remains the default and its existing scope hashes are unchanged. Switching engine changes admitted-work scope, preventing old approvals from crossing execution environments. Remote-container/provider environment variables are not passed to the helper. See [Pi runtime](pi-application-runtime.md) for offline image preparation, owner mapping and restart handling. This adds no second queue or approval system.
+
+
+## 7 November browser/text integration evidence
+
+OpenAI is now the normal text/Work/browser provider and Pi uses its owned-VPS route. Real-model controlled shopping/flight browser work and a browser-result-to-calendar tool subtask passed, including approval/readback/idempotence. The harness still initiates each subtask; this does not certify the complete multi-app office Work case or autonomous voice planning. A harmless FYP-drafted message was delivered using Codex's Gmail connector, while FYP itself remains without a native mail sender. [Dated results](../../output/qa/2026-11-07-live-agent-eval/verification.md).

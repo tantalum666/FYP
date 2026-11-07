@@ -1,7 +1,7 @@
 # Group 2 - Current continuation
 
-7 November 2026. Continue in `/Users/tantalum/.codex/worktrees/account-handoff-20261107/FYP`, branch `codex/openai-vps-20261107`. [Handoff](handoff.md), [product](product.md), latest [decisions](decision-log.md), [OpenAI VPS contract](desk-companion/docs/openai-vps.md) and [actual QA](output/qa/2026-11-07-openai-vps/verification.md).
+7 November 2026. Continue in `/Users/tantalum/.codex/worktrees/live-agent-eval-20261107/FYP`, branch `codex/live-agent-eval-20261107`. Read [handoff](handoff.md), [product](product.md), latest [decisions](decision-log.md), [browser contract](desk-companion/docs/computer-use.md) and [live QA](output/qa/2026-11-07-live-agent-eval/verification.md).
 
-Pi source9625f137is activated. Explicit Pi -> owned VPS -> OpenAI authentication and Realtime session creation passed; normal text/voice/computer configuration is ready. No paid generation or audio was sent. The old Pi direct-region failure is historical for this selected route.
+Pi source d40457fe is activated. Real OpenAI controlled shopping/flights, calendar followup and cancellation passed;31generations, USD0.37970163 conservative accounting, USD1ledger closed. JD stopped at verification; Cathay did not load. One FYP-drafted test email was sent/read back through Codex Gmail, not a native Pi sender.
 
-User selected JD/Taobao for real accounts and then prioritized Pi/OpenAI connectivity. That first priority is complete; next is real account/browser owner takeover, not another fixture-only commerce claim. Preserve existing data and red-LED deferral. No CI or reopening old budgets.
+Next: same-browser owner takeover and deliberate return, grounded in the real JD verification barrier. Preserve original data, the existing job/permission system and the retained frozen environment. No CI; only red-LED diagnosis is deferred. Publication/merge and runtime activation have separate receipts in QA.

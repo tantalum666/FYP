@@ -623,3 +623,14 @@ The owner explicitly requested use of their existing VPS, real merchant/payment/
 The fixed route reuses existing pinned transport and changes only the dedicated Pi key's exact outbound permitopen destination. An OpenAI-only loopback CONNECT bridge preserves end-to-end TLS; no API key is stored on VPS. Normal text/computer/Realtime clients select it explicitly, with no general environment proxy or fallback. Other providers, proxy services and management relay retain their configuration.
 
 Real Pi HTTP200model listing and Realtime session.created/normal closure passed. No audio or response.create was sent. The old direct-region flag was cleared only after these results. Source9625f137was activated after a21-file stopped backup, off-device hash verification and284source/assets checks.357provider regressions and14final bridge checks passed. JD account work remains unimplemented and follows this connectivity milestone.
+
+
+## 2026-11-07 Real OpenAI commerce, travel and mail evaluation
+
+**Owner authority:** continued testing after Pi/VPS connectivity, explicitly including shopping, tickets and writing/sending email; fresh total OpenAI ceiling USD1 and one owner-provided test recipient. This does not authorize unspecified purchase/payment/booking. Old budgets stay closed, no CI and only red-LED diagnosis is deferred.
+
+**Engineering decisions:** use actual Pi providers and Chromium with a single durable count/reserve/receipt ledger, isolated stores and independently checked page/calendar state. No scripted planner is substituted for live calls. Keep real-site attempts and connector-assisted mail separate from native product claims. The31generation receipts conservatively account USD0.37970163; the round is closed with zero unknown receipts.
+
+**Evidence-driven changes:** real pointer keys:null normalization; JSON-mode input marker; document-generation/origin capture and input checks; filtered resume state; bounded navigation error classification; background writes still rejected without aborting unrelated readable pages; accurate local-time/reminder model schemas; usage retained on cancelled/invalid responses. Production business validation, default reminders, paid-request behavior and transaction scope are not relaxed.
+
+Controlled shopping/flight cases, calendar followup and cancellation passed. JD stopped at verification, Cathay failed initial load, and ordinary FYP correctly reported no sender. Exact FYP-generated test mail was sent once/read back through the existing Codex Gmail connector; no Gmail credential/connection was installed in FYP. Next product slice remains deliberate owner takeover and return in the same generic browser job, now grounded in the actual JD verification boundary. [Evidence](output/qa/2026-11-07-live-agent-eval/verification.md).

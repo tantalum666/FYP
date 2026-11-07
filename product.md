@@ -1,6 +1,6 @@
 # Group 2 Project Contract
 
-7 November 2026 update: the owner prioritized Pi -> owned VPS -> OpenAI. This route now passes authenticated model-list and Realtime session-creation checks; normal Pi text/voice/computer configuration is ready. Previous direct-path region refusal is historical. No paid inference or audio trial. JD/Taobao account takeover and transaction workflows remain next. [Current handoff](handoff.md) / [route QA](output/qa/2026-11-07-openai-vps/verification.md).
+7 November 2026 update: real OpenAI browser and text/tool tests now ran on Pi through the owned VPS. Shopping constraints/continuation, flight comparison, browser-result-to-calendar drafting and in-flight cancellation passed on explicitly fictional inputs. Real JD stopped at verification; Cathay did not load. One owner test email was drafted by FYP and delivered/read back through the connected Codex Gmail tool; FYP itself still has no sender connection.31generation requests, USD0.37970163 conservative accounting, fresh USD1 ledger closed. No real order, booking, ticket or human voice acceptance. [Actual results](output/qa/2026-11-07-live-agent-eval/verification.md) / [current handoff](handoff.md).
 
 11月4日历史合并：Grok PR78–82已通过[PR83](https://github.com/tantalum666/FYP/pull/83)合并，代码合并89dc92f与验收树一致：离线邮箱、购物和日程样本接入既有事务/Work/通知/备份；已修复恢复、去重、撤销、过期消息、冲突与回执校验问题。新增建议卡片显示具体对象、来源和确认效果。最终本地验证及GitHub状态见[审查QA](output/qa/2026-11-04-grok-journey-review/verification.md)。真实邮箱、商店、支付、机票和真实日历账户仍未接通。
 
@@ -30,7 +30,7 @@
 | 网页／手机 | 桌面主对话页与Alice；共用操作卡片／权限设置；手机全屏Alice＋Calendar／Tasks／More页面；模拟器构建／真实画面 | 原生触控／软键盘完整流程、真机、功耗和温度 |
 | 记忆／人格 | 网页／手机可搜索、更正、删除有效事实；模型可检索全部有效事实，旧事实删除／到期也清旧重放；按需查看档案／目标／别名／检查记录；受支持的新事实操作可由完整权限授权 | 不承诺永久聊天档案或供应商删除旧留存 |
 | 持久 Work／跟进 | 选定来源／现有事务、持久决策／提问／恢复、独立文件核验、变化审阅及本地定期检查；普通聊天与显式保存会话的标识分开 | 真实邮件触发、私人账号连接、模型自主完成复杂任务和远程通知 |
-| 电脑作业 | 原有笔记／指定目录／Mousepad及受限Chromium/Calc/Writer/PDF；新增原生computer调用的公开浏览器、实际输入／截图、显式状态接续和停止恢复，仍用同一队列 | 实际模型规划质量、语音自主浏览器任务、私人账号／交互接管、任意桌面GUI及远端PC |
+| 电脑作业 | 原有笔记／指定目录／Mousepad及受限Chromium/Calc/Writer/PDF；新增原生computer调用的公开浏览器、实际输入／截图、显式状态接续和停止恢复，仍用同一队列 | 真实模型已通过受控购物／航班和取消检查；真实商家账户／交互接管、语音自主浏览器任务、任意桌面GUI及远端PC仍待 |
 | 坐姿／输出 | 固定关键点与标定逻辑、复测、回放隔离；命名预设、期限、停止与驱动回执 | 真人标注／误报／准确率、Luwu驱动及台架／物理急停 |
 | 交换与平台 | ICS、只读分享、事实／人格／作业备份、拥有者合并恢复、私有SQLite副本、诊断和默认关闭Web Push；Google只读、Linux安装、iPhone Keychain／Widget／App Intents | 公网／真实TLS配对、原生通知交付、学校服务器及App Store |
 
@@ -39,6 +39,8 @@
 实现职责与新增协议见[维护契约](desk-companion/docs/software-maintenance.md)，原业务边界见[架构](desk-companion/docs/architecture.md)。本分支保留main较新的Vite8.3.5，不回退旧工作区的8.3.1。
 
 ## 当前证据
+
+11月7日：Pi上的真实OpenAI已操作Chromium完成受控购物改价／数量／折扣／运费与显式状态接续、航班比较及跨日时区检查；同一FYP工具服务生成日历草稿，经测试拥有者确认后独立读回且重复确认不重复创建。真实京东遇验证即停，国泰页面加载失败；原生邮箱仍未连接。测试邮件由Codex Gmail连接器协助送达并读回，与Pi独立发信明确区分。[本轮详细QA](output/qa/2026-11-07-live-agent-eval/verification.md)。
 
 11月6日：合并候选1949后端／328前端；浏览器功能1991全后端、后续33项配置／OpenAI／浏览器检查、330前端及类型／构建通过。真实Chromium操作覆盖购物改价／数量／折扣／运费、航班日期／人数／行李／跨日到达、公开测试网站导航及停止后接续。规划由离线协议脚本驱动，不是实时模型自主通过，真实订单／出票0。[浏览器契约](desk-companion/docs/computer-use.md)与[研究更新](research/2026-11-06-general-browser-and-openai.md)。
 
