@@ -799,3 +799,12 @@ Owner requested both interfaces for inspection. Started current source855e60ee u
 - Remaining: human wake/interrupt/AEC, native background and physical Pi audio; browser owner takeover/login/real transaction receipts and native sender remain separate work. Next product slice is explicit owner takeover and return in the same generic browser job.
 
 Publication: [PR97](https://github.com/tantalum666/FYP/pull/97) open/unmerged; independent branch pushed, reviewed source/docs head85f91f9 verified remotely before receipt-only follow-up. Runtime source1660ffc remains separate from publication.
+
+
+## 2026-11-07 · Owner-reported wake failure and complete self-acceptance
+
+- Owner asked why calling Alice failed despite Mac microphone access, then explicitly requested autonomous complete acceptance. Found full-catalog schema conversion deleting business title fields; actual27-tool preflight400before/200after confirms the defect. Earlier paid fixture advertised a restricted query list; corrected its documented scope.
+- Added exact shared input selection for local meter/wake/voice, with session fallback if storage is blocked; normal Web saved to built-in Mac microphone and real local levels read back. Safe failure identifiers and phase now survive in existing receipts; retry clears the old notice. No authority, system-wide audio setting, dependency or CI change.
+- Actual complete-app browser fixture used native permission/capture lifecycle and synthetic transmitted MediaStream, full27tools, real Live/Sol/calendar and playback. Two greeting/idle cycles plus one complete identity/calendar cycle finalized, resumed local waiting and made no calendar writes. First useful playback6.393seconds; human/noise/AEC statistics remain unmeasured. Private fixture streams/tab/server cleaned up.
+- Fresh engineering capUSD0.50; final conservativeUSD0.1864995with all receipts finalized, ledger closed. No older budget reopened.2054backend/343frontend, lint/types/build pass. Details: [repair QA](output/qa/2026-11-07-alice-wake-repair/verification.md).
+- Sourcef2a33e9active on Mac/Pi after292file hashes and a22-file stopped/checkpointed backup verified off-device. Pi keys/environment/VPS route unchanged; physical audio still separate. [Activation](output/qa/2026-11-07-alice-wake-repair/activation-summary.json). Updated current contracts, product/decisions/handoff/entry and earlier smoke-test scope note. Next: offline useful-answer latency profiling before the later merchant takeover slice.

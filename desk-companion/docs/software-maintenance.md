@@ -121,3 +121,10 @@ The opt-in `live_agent_eval` runner reuses production providers/jobs/tools in is
 [Alice home](alice-home.md) assigns shared rendering to AliceScene/AliceAgenda/HomeConditions, surface composition to existing app shells, and business reads to existing calendar/WorkspaceContext paths. weatherLocation owns a shared permission-aware position attempt and failure flag; weather.py owns bounded provider caching. Neither creates a second calendar/task poller. AssistantRefreshStatus consolidates read failures; existing write recovery remains explicit.
 
 OpenAILiveProtocol owns Live wire adaptation, nested backend events, resampling and receipt accounting. VoiceService/ToolDispatcher retain authority, context and lifecycle. Local wake and cloud voice share one lock; persisted intent stores no microphone permission or credential. LoopbackCookieScope selects a port-specific name and preserves all existing security checks. The opt-in live_voice_acceptance runner alone owns the fresh capped synthetic experiment; it does not start during normal application boot. [Validation](../../output/qa/2026-11-07-alice-home-wake/verification.md).
+
+
+## Complete voice catalog and selected input (7 November repair)
+
+`flatten_schema` distinguishes schema annotation keys from business names inside properties/patternProperties and preserves literal enum/const values. The complete-catalog regression checks every required business field, and actual API preflight plus browser acceptance cover the normal27-tool setup. Narrow read-only model fixtures must be labelled as such.
+
+`media/microphone.ts` owns one per-browser input selection and capture constraints, reused by MediaDevicePanel, WakeAudio and VoiceAudio. Enumeration belongs to the mounted device panel; no extra poller or capture manager was added. Explicit input survives blocked storage in page memory. VoiceService retains safe failure code/phase, and the Live adapter retains only bounded provider identifiers. [Repair evidence](../../output/qa/2026-11-07-alice-wake-repair/verification.md).

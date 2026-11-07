@@ -42,3 +42,6 @@ Updated alice-home, openai-alice-wake, desktop-conversation, passwordless-device
 Local Markdown link check:398targets,0missing. Recovery-only AGENTS routing banners in the retained all-pr-review and openai-personal-agent checkouts now point to this active entry; their other local changes were left intact.
 
 Published as [PR97](https://github.com/tantalum666/FYP/pull/97), open/ready for review and unmerged. Remote head85f91f9 matched the reviewed source/docs before this receipt-only follow-up. [Publication receipt](publication-receipt.json).
+
+
+Scope correction after owner-reported normal startup failure: the real Live trial above used a restricted read-only advertised tool list. It did not validate all27production tools. The complete-catalog schema defect and subsequent full-browser repair/acceptance are recorded in [the later repair QA](../2026-11-07-alice-wake-repair/verification.md). Preserve both dated scopes rather than treating the earlier trial as full startup acceptance.

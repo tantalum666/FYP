@@ -25,3 +25,6 @@ Successful coordinates are rounded to 0.1 degree before being sent in a POST bod
 ## Evidence and remaining limits
 
 [This round's QA](../../output/qa/2026-11-07-alice-home-wake/verification.md) separates local regression checks, browser rendering and recovery, the capped synthetic real-provider trial and Pi deployment. Native-phone background listening, human acoustic interruption/AEC and physical Pi microphone/speaker acceptance are not established by a rendered page. Camera preview remains local; GPT Live in this release supports voice, while typed chat uses the normal Responses path and Realtime remains the explicit image-capable comparison option.
+
+
+7 November wake repair: the Camera & microphone panel now has one explicit input selector shared by its local meter, local Alice detector and voice client. Re-enabling wake clears the stale voice failure notice. Full-catalog startup and browser playback/idle recovery are verified in the [repair QA](../../output/qa/2026-11-07-alice-wake-repair/verification.md); a waiting label alone is not end-to-end acceptance.

@@ -12,7 +12,7 @@ Alice retains its licensed appearance. The shared home has explicit responsive s
 
 ## Local devices and provider
 
-The camera button opens a device panel. Open camera requests video only; Test microphone meters audio locally, without recording, speaker loopback or upload. LocalCapture owns stream lifetime, including late/cancelled/superseded permission requests. Stop, close and background release the streams.
+The camera button opens a device panel. Open camera requests video only; Test microphone meters audio locally, without recording, speaker loopback or upload. The Microphone selector stores an explicit per-browser input; local testing, Alice wake and cloud capture all use that same exact device. It does not alter system-wide audio settings. Changing it stops the local test and applies to the next capture; selection is disabled during a voice call. LocalCapture owns stream lifetime, including late/cancelled/superseded permission requests. Stop, close and background release the streams.
 
 Share this frame explicitly sends one frame during a compatible active voice call, using VoiceAudio's existing bounded encoding, rate and disconnect checks. This is not continuous camera streaming. Preview alone is not evidence of model understanding.
 

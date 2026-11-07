@@ -11,6 +11,14 @@ The call accepts successive spoken turns without another button. After30 seconds
 Typing a submitted message pauses local waiting without deleting the standing wake choice. With Live selected, typed input uses the existing Responses text path; Live is voice-only in this implementation. Long-idle client context is cleared before reuse so a new wake does not depend on an expired30-minute server context. Provider changes end the old connection and clear its resume handle without rewriting visible messages or unsent input.
 
 
+## 7 November complete-catalog startup repair
+
+The owner's normal wake attempts exposed a defect the restricted query smoke trial did not cover: schema flattening removed business title properties. The complete27-tool startup now preserves property names and passes an actual OpenAI preflight (old payload400, repaired payload200). The current shared Microphone selector applies the same exact input to preview, wake and voice; the normal Mac Web origin now selects its built-in microphone rather than an implicit system default.
+
+A separate complete-app browser evaluation used real native capture permission/lifecycle and synthetic transmitted speech, the full production tool catalog, actual Live/Responses, calendar lookup and browser playback acknowledgement. Three sessions finalized and returned to local waiting; the final answered Alice identity and two fictional meeting times correctly. USD0.1864995conservative accounting, USD0.50repair ledger closed. Useful post-input playback6.393seconds remains above the approximate5second target. The prior USD1trial below used a restricted tool list; its scope does not substitute for this full-catalog check. [Repair QA](../../output/qa/2026-11-07-alice-wake-repair/verification.md).
+
+Provider rejection records bounded error identifiers and phase, without raw error messages or private input. The UI distinguishes configuration rejection from microphone permission and clears a previous failure when a new deliberate attempt starts. Errors still stop paid retries.
+
 ## 7 November current Live implementation
 
 The owner selected GPT Live as the primary voice route and retained Realtime as a comparison option. `openai_live.py` adapts native Live sessions and Responses delegation to the existing VoiceService/ToolDispatcher. Speech uses gpt-live-1; delegated business reasoning and independent text/browser requests use gpt-6.1-sol. `configure_openai.py --voice-provider openai_realtime` explicitly selects the retained comparison route. There is no silent provider fallback, new business queue or frontend credential.
