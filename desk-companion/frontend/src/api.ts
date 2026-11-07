@@ -254,6 +254,10 @@ export function errorText(
       "OpenAI browser operation is not connected on this desk.",
       "当前桌面尚未接好 OpenAI 浏览器操作。",
     ],
+    COMPUTER_SITE_UNAVAILABLE: [
+      "This website could not be opened. Check the connection or the site's access requirements.",
+      "无法打开这个网站，请检查网络或网站的访问要求。",
+    ],
     COMPUTER_CLEANUP_REQUIRED: [
       "The previous browser did not confirm closing. Check it before starting again.",
       "上一个浏览器尚未确认关闭，请先检查再开始。",

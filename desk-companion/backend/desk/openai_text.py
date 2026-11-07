@@ -14,7 +14,11 @@ class OpenAITextAdapter:
             json_body={
                 "model": config.model,
                 "instructions": prompt,
-                "input": [{"role": "user", "content": content}],
+                # The provider's JSON-mode preflight checks input messages, not
+                # only the separate instructions field, for the format request.
+                "input": [
+                    {"role": "user", "content": "Return the requested JSON object.\n" + content}
+                ],
                 "text": {"format": {"type": "json_object"}},
                 "reasoning": {"effort": "low"},
                 "max_output_tokens": max_tokens,

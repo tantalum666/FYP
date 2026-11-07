@@ -39,9 +39,16 @@ class ComputerUseExecutor:
         self.root = (self.store.directory / "computer-use").absolute()
         self.supervisor = ComputerSupervisor()
         self.browser_proxy = local_browser_proxy(os.environ.get("DESK_BROWSER_PROXY_URL", ""))
-        self.scope = "public_browser:" + digest(
-            [self.identity, self.supervisor.executable, str(self.root), self.browser_proxy]
-        )
+        self.http1_only = os.environ.get("DESK_BROWSER_HTTP1_ONLY") == "1"
+        scope_parts = [
+            self.identity,
+            self.supervisor.executable,
+            str(self.root),
+            self.browser_proxy,
+        ]
+        if self.http1_only:
+            scope_parts.append("http1_only")
+        self.scope = "public_browser:" + digest(scope_parts)
         self.protocol_factory = OpenAIComputerProtocol
         self.blocker = self.root / "cleanup-required"
         self.active_job = None
@@ -196,6 +203,7 @@ class ComputerUseExecutor:
             # Reuse the existing provider-attempt ledger; a failed attempt still
             # occupies its call slot and is never automatically re-sent.
             usage_id = self.runtime.text_ai._reserve_usage("computer_use")
+            usage_before = len(usages)
             try:
                 response = protocol.step(value, image, fence)
             except DomainError:
@@ -208,20 +216,27 @@ class ComputerUseExecutor:
                     "outcome": "needs_owner",
                     "reason": "provider_step_unavailable",
                 }
-            usage = usages[-1] if usages else {}
-            numeric = {k: v for k, v in usage.items() if type(v) in (int, float)}
-            with self.store.connection(write=True) as conn:
-                conn.execute(
-                    "UPDATE text_ai_usage SET usage=? WHERE id=?", (encode(numeric), usage_id)
-                )
+            finally:
+                # A received response still incurred usage when cancellation or
+                # action validation stops execution. Never reuse an older receipt.
+                usage = usages[-1] if len(usages) > usage_before else {}
+                usage = usage if isinstance(usage, dict) else {}
+                numeric = {k: v for k, v in usage.items() if type(v) in (int, float)}
+                with self.store.connection(write=True) as conn:
+                    conn.execute(
+                        "UPDATE text_ai_usage SET usage=? WHERE id=?", (encode(numeric), usage_id)
+                    )
             return response
 
         outcome = self.supervisor.run(
             {
                 "operation": "execute",
-                "intent": {key: request[key] for key in ("start_url", "allowed_origins", "max_steps")},
+                "intent": {
+                    key: request[key] for key in ("start_url", "allowed_origins", "max_steps")
+                },
                 "resume_state": bool(request["source_job_id"]),
                 "browser_proxy": self.browser_proxy,
+                "http1_only": self.http1_only,
             },
             directory,
             fence,
@@ -230,6 +245,15 @@ class ComputerUseExecutor:
         )
         if outcome.cleanup_confirmed:
             self.blocker.unlink(missing_ok=True)
+            if not outcome.value:
+                try:
+                    navigation = json.loads(read_regular(directory / "navigation.json", 2000))
+                except (OSError, ValueError):
+                    navigation = None
+                if isinstance(navigation, dict) and navigation.get("stage") == "initial_page":
+                    # The owned worker writes this before any model observation
+                    # or browser action. A closed failed load is a known failure.
+                    raise ExecutionRejected("COMPUTER_SITE_UNAVAILABLE", 409)
         if not outcome.cleanup_confirmed or not outcome.value:
             raise RuntimeError("Computer execution/cleanup is uncertain; inspect before retry")
         if not outcome.error:

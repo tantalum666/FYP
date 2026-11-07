@@ -19,6 +19,7 @@ from desk.jobs import JobApproval, JobService
 from desk.store import DomainError, encode
 from desk.text_ai import TextConfig
 from desk.permissions import PermissionChange
+from desk.computer_use_worker import Boundary
 
 
 def png(width=SCREEN_WIDTH, height=SCREEN_HEIGHT):
@@ -310,3 +311,122 @@ def test_native_protocol_cannot_replay_duplicate_call_ids():
         x.get("type") == "computer_call_output" and x["call_id"] == "same-call"
         for x in bodies[1]["input"]
     )
+
+
+@pytest.mark.parametrize("closed", [True, False])
+def test_initial_site_failure_is_known_only_after_browser_close(world, closed):
+    runtime, _, _ = world
+
+    class FailedNavigation(FakeSupervisor):
+        def run(self, payload, directory, checkpoint, **kwargs):
+            checkpoint("computer_open")
+            write_file(directory, "navigation.json", b'{"stage":"initial_page","http_status":403}')
+            return WorkerOutcome(None, "BROWSER_TARGET_CHANGED", True, closed)
+
+    runtime.jobs.computer_use.supervisor = FailedNavigation()
+    job = prepare(world)
+    approve(runtime, job)
+    runtime.jobs.run_one()
+    current = runtime.jobs.detail(job["id"], review=True)
+    assert current["state"] == ("failed" if closed else "unknown")
+    if closed:
+        assert current["error"] == "COMPUTER_SITE_UNAVAILABLE"
+    assert runtime.jobs.computer_use.blocker.exists() is not closed
+
+
+@pytest.mark.parametrize("keys", [None, []])
+@pytest.mark.parametrize(
+    "base",
+    [
+        {"type": "click", "button": "left", "x": 100, "y": 150},
+        {"type": "double_click", "x": 100, "y": 150},
+        {"type": "move", "x": 100, "y": 150},
+        {"type": "scroll", "x": 100, "y": 150, "scroll_x": 0, "scroll_y": 200},
+        {"type": "drag", "path": [{"x": 100, "y": 150}, {"x": 120, "y": 160}]},
+    ],
+)
+def test_live_pointer_optional_empty_modifiers_do_not_expand_authority(keys, base):
+    raw = {**base, "keys": keys}
+    assert validate_actions([raw]) == [base]
+    assert "keys" in raw
+    with pytest.raises(ValueError):
+        validate_actions([{**raw, "keys": ["CTRL"]}])
+    with pytest.raises(ValueError):
+        validate_actions([{**raw, "command": "anything"}])
+
+
+@pytest.mark.parametrize("navigation", [True, False])
+def test_non_read_requests_stay_blocked_without_stopping_for_background_posts(navigation):
+    import asyncio
+    from types import SimpleNamespace
+
+    boundary = Boundary(["https://shop.example"])
+    calls = []
+
+    async def abort():
+        calls.append("abort")
+
+    async def proceed():
+        calls.append("continue")
+
+    request = SimpleNamespace(
+        method="POST",
+        url="https://shop.example/event",
+        resource_type="xhr",
+        is_navigation_request=lambda: navigation,
+        frame=SimpleNamespace(parent_frame=None),
+    )
+    route = SimpleNamespace(request=request, abort=abort, continue_=proceed)
+    asyncio.run(boundary.route(route))
+    assert calls == ["abort"]
+    assert boundary.reason == ("site_action_needs_owner" if navigation else None)
+    assert boundary.blocked[0]["method"] == "POST"
+
+
+@pytest.mark.parametrize("second_without_receipt", [False, True])
+def test_usage_survives_rejected_actions_and_is_not_copied_to_unknown_calls(
+    world, second_without_receipt
+):
+    runtime, _, _ = world
+
+    class Protocol:
+        def __init__(self, *args, on_usage, **kwargs):
+            self.on_usage = on_usage
+            self.calls = 0
+
+        def step(self, observation, image, checkpoint):
+            self.calls += 1
+            if self.calls == 1:
+                self.on_usage({"input_tokens": 17, "output_tokens": 3})
+                if second_without_receipt:
+                    return {"actions": [{"type": "screenshot"}], "observation": 1}
+            raise ValueError("Rejected action or missing response")
+
+    class Supervisor(FakeSupervisor):
+        def run(self, payload, directory, checkpoint, *, on_observation, **kwargs):
+            checkpoint("computer_open")
+            for sequence in range(1, 3 if second_without_receipt else 2):
+                screen = png()
+                name = f"screen-{sequence}.png"
+                write_file(directory, name, screen)
+                on_observation(
+                    {
+                        "sequence": sequence,
+                        "screen": name,
+                        "sha256": hashlib.sha256(screen).hexdigest(),
+                    }
+                )
+            return WorkerOutcome(None, "BROWSER_WORKER_FAILED", True, True)
+
+    runtime.jobs.computer_use.protocol_factory = Protocol
+    runtime.jobs.computer_use.supervisor = Supervisor()
+    job = prepare(world)
+    approve(runtime, job)
+    runtime.jobs.run_one()
+    with runtime.store.connection() as db:
+        rows = [
+            json.loads(row[0]) for row in db.execute("SELECT usage FROM text_ai_usage ORDER BY at")
+        ]
+    assert rows[0] == {"input_tokens": 17, "output_tokens": 3}
+    if second_without_receipt:
+        assert rows[1] == {}

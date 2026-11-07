@@ -2,7 +2,6 @@
 
 import asyncio
 from contextlib import ExitStack
-import hashlib
 import json
 import re
 import signal
@@ -18,10 +17,10 @@ from .computer_use_models import (
     COMPUTER_DEMOS,
     SCREEN_WIDTH,
     SCREEN_HEIGHT,
-    MAX_SCREEN_BYTES,
     origin_of,
 )
 from .computer_use_protocol import validate_actions, keyboard_keys
+from .computer_use_observation import snapshot, same_document, scoped_storage
 from .computer_use_network import local_browser_proxy, public_host
 from .store import DomainError, encode
 
@@ -43,6 +42,18 @@ class Boundary:
         self.requests = 0
         self.proxy = proxy
         self.resolving = {}
+        self.blocked = []
+        self.document_generation = 0
+        self.action_note = ""
+
+    def track(self, page):
+        def navigated(frame):
+            if frame == page.main_frame:
+                self.document_generation += 1
+                if origin_of(frame.url) not in self.origins:
+                    self.reason = "site_action_needs_owner"
+
+        page.on("framenavigated", navigated)
 
     async def route(self, route):
         request = route.request
@@ -68,42 +79,22 @@ class Boundary:
         if request.is_navigation_request():
             allowed = allowed and origin in self.origins and request.frame.parent_frame is None
         if not allowed:
-            if request.method not in {"GET", "HEAD"} or request.is_navigation_request():
+            if len(self.blocked) < 5:
+                self.blocked.append(
+                    {
+                        "method": request.method,
+                        "origin": origin[:180],
+                        "resource": request.resource_type,
+                        "navigation": request.is_navigation_request(),
+                    }
+                )
+            # Block background writes too, but do not abort an otherwise readable
+            # page merely because its analytics/bootstrap POST was rejected.
+            if request.is_navigation_request() and request.frame.parent_frame is None:
                 self.reason = "site_action_needs_owner"
             await route.abort()
         else:
             await route.continue_()
-
-
-async def snapshot(page, directory, sequence, boundary):
-    await checkpoint("computer_observe")
-    if origin_of(page.url) not in boundary.origins:
-        raise DomainError("BROWSER_TARGET_CHANGED", 409)
-    screen = await page.screenshot(type="png", full_page=False)
-    if len(screen) > MAX_SCREEN_BYTES:
-        raise ValueError("Screen exceeds the bounded image size")
-    name = f"screen-{sequence}.png"
-    exclusive_write(directory, name, screen)
-    # Fixed observation code, never caller/model JavaScript. Values of form
-    # fields are deliberately omitted; sensitive entry is a handoff boundary.
-    controls = await page.locator("button,input,select,a").evaluate_all("""elements => elements.slice(0,80).map(el => {
-      const r=el.getBoundingClientRect(); return {tag:el.tagName.toLowerCase(),
-      label:(el.getAttribute('aria-label')||el.labels?.[0]?.innerText||el.innerText||el.getAttribute('placeholder')||'').slice(0,120),
-      x:r.x+r.width/2,y:r.y+r.height/2,visible:r.width>0&&r.height>0&&r.y>=0&&r.bottom<=innerHeight};
-    }).filter(x=>x.visible).slice(0,40)""")
-    return {
-        "sequence": sequence,
-        "screen": name,
-        "sha256": hashlib.sha256(screen).hexdigest(),
-        "width": SCREEN_WIDTH,
-        "height": SCREEN_HEIGHT,
-        "platform": sys.platform,
-        "url": page.url[:2000],
-        "title": (await page.title())[:300],
-        "text": (await page.locator("body").inner_text())[:6000],
-        "controls": controls,
-        "blocked_reason": boundary.reason,
-    }
 
 
 async def input_target(page, action):
@@ -119,9 +110,10 @@ async def input_target(page, action):
     )
 
 
-async def act(page, action):
+async def act(page, action, check_document=lambda: None):
     kind = action["type"]
     target = await input_target(page, action)
+    check_document()
     if target["type"] == "file":
         return "file_access_needs_owner"
     if kind in {"click", "double_click", "type", "keypress"}:
@@ -209,8 +201,21 @@ async def run(request):
                 await asyncio.to_thread(public_host, urlsplit(url).hostname, proxy)
             except Exception:
                 # No browser launch has been attempted at this point.
+                exclusive_write(
+                    directory,
+                    "navigation.json",
+                    encode(
+                        {
+                            "stage": "initial_page",
+                            "http_status": None,
+                            "network_error": "PUBLIC_DNS_UNAVAILABLE",
+                            "origin": origin_of(url),
+                            "blocked": [],
+                        }
+                    ).encode(),
+                )
                 emit("cleanup", closed=True)
-                raise
+                raise DomainError("BROWSER_PUBLIC_DNS_REQUIRED", 409) from None
         boundary = Boundary(origins, url if demo else None, proxy)
         storage = None
         if request.get("resume_state"):
@@ -218,6 +223,7 @@ async def run(request):
             if demo:
                 for entry in storage.get("origins", []):
                     entry["origin"] = url  # Same fictional app, new owned listener.
+            storage = scoped_storage(storage, boundary.origins)
         try:
             async with async_playwright() as playwright:
                 browser = await playwright.chromium.launch(
@@ -228,7 +234,8 @@ async def run(request):
                     args=[
                         "--disable-quic",
                         "--force-webrtc-ip-handling-policy=disable_non_proxied_udp",
-                    ],
+                    ]
+                    + (["--disable-http2"] if request.get("http1_only") is True else []),
                     timeout=30000,
                 )
                 context = await browser.new_context(
@@ -250,15 +257,86 @@ async def run(request):
 
                 context.on("page", extra_page)
                 page = await context.new_page()
+
+                boundary.track(page)
                 page.on("dialog", lambda dialog: dialog.dismiss())
                 page.on("download", lambda _: setattr(boundary, "reason", "download_needs_owner"))
                 await checkpoint("computer_open")
-                response = await page.goto(url, wait_until="domcontentloaded", timeout=30000)
+                try:
+                    response = await page.goto(url, wait_until="domcontentloaded", timeout=30000)
+                except Exception as error:
+                    network = re.search(r"net::ERR_[A-Z0-9_]+", str(error))
+                    exclusive_write(
+                        directory,
+                        "navigation.json",
+                        encode(
+                            {
+                                "stage": "initial_page",
+                                "http_status": None,
+                                "network_error": network.group()
+                                if network
+                                else "NAVIGATION_FAILED",
+                                "origin": origin_of(url),
+                                "blocked": boundary.blocked,
+                            }
+                        ).encode(),
+                    )
+                    raise DomainError("BROWSER_TARGET_CHANGED", 409) from None
                 if not response or response.status >= 400:
+                    exclusive_write(
+                        directory,
+                        "navigation.json",
+                        encode(
+                            {
+                                "stage": "initial_page",
+                                "http_status": response.status if response else None,
+                                "network_error": None,
+                                "origin": origin_of(url),
+                                "blocked": boundary.blocked,
+                            }
+                        ).encode(),
+                    )
+                    raise DomainError("BROWSER_TARGET_CHANGED", 409)
+                if boundary.reason:
+                    exclusive_write(
+                        directory,
+                        "navigation.json",
+                        encode(
+                            {
+                                "stage": "initial_page",
+                                "http_status": response.status,
+                                "network_error": "NAVIGATION_REQUIRES_REVIEW",
+                                "origin": origin_of(url),
+                                "blocked": boundary.blocked,
+                            }
+                        ).encode(),
+                    )
                     raise DomainError("BROWSER_TARGET_CHANGED", 409)
                 outcome, reason, observation = "step_limit", "step_limit", None
                 for sequence in range(1, job["max_steps"] + 1):
-                    observation = await snapshot(page, directory, sequence, boundary)
+                    try:
+                        current_observation = await snapshot(page, directory, sequence, boundary)
+                    except DomainError:
+                        if observation is None:
+                            exclusive_write(
+                                directory,
+                                "navigation.json",
+                                encode(
+                                    {
+                                        "stage": "initial_page",
+                                        "http_status": None,
+                                        "network_error": "DOCUMENT_CHANGED_DURING_OBSERVATION",
+                                        "origin": origin_of(url),
+                                    }
+                                ).encode(),
+                            )
+                            raise
+                        outcome, reason = (
+                            "needs_owner",
+                            boundary.reason or "page_changed_before_observation",
+                        )
+                        break
+                    observation = current_observation
                     if boundary.reason:
                         outcome, reason = "needs_owner", boundary.reason
                         break
@@ -272,24 +350,63 @@ async def run(request):
                         if outcome not in {"review_ready", "needs_owner"}:
                             raise ValueError("Unexpected finish state")
                         reason = command.get("reason", "review_prepared_page")
+                        if outcome == "review_ready" and not same_document(
+                            page, boundary, observation
+                        ):
+                            outcome, reason = "needs_owner", "page_changed_before_input"
                         break
+                    if not same_document(page, boundary, observation):
+                        if origin_of(page.url) not in boundary.origins:
+                            outcome, reason = "needs_owner", "page_changed_before_input"
+                            break
+                        boundary.action_note = "The previous input batch was not executed because the document navigated. Inspect the new page."
+                        continue
                     if command.get("observation") != sequence:
                         raise ValueError("Stale computer observation")
+                    applied = 0
+                    boundary.action_note = ""
                     for action in validate_actions(command.get("actions")):
                         await checkpoint("computer_action")
-                        if origin_of(page.url) not in boundary.origins:
-                            boundary.reason = "site_action_needs_owner"
+                        if not same_document(page, boundary, observation):
+                            boundary.action_note = f"Applied {applied} inputs before navigation; remaining inputs were not executed."
+                            if origin_of(page.url) not in boundary.origins:
+                                boundary.reason = "site_action_needs_owner"
                             break
-                        boundary.reason = await act(page, action) or boundary.reason
+
+                        def document_guard():
+                            if not same_document(page, boundary, observation):
+                                raise DomainError("BROWSER_TARGET_CHANGED", 409)
+
+                        try:
+                            boundary.reason = (
+                                await act(page, action, document_guard) or boundary.reason
+                            )
+                        except DomainError:
+                            boundary.action_note = f"Applied {applied} inputs before navigation; remaining inputs were not executed."
+                            if origin_of(page.url) not in boundary.origins:
+                                boundary.reason = "site_action_needs_owner"
+                            break
                         if boundary.reason:
                             break
+                        applied += 1
                     if boundary.reason:
-                        observation = await snapshot(page, directory, sequence + 1, boundary)
+                        if origin_of(page.url) in boundary.origins:
+                            try:
+                                observation = await snapshot(
+                                    page, directory, sequence + 1, boundary
+                                )
+                            except DomainError:
+                                pass  # Keep only the last admitted observation.
                         outcome, reason = "needs_owner", boundary.reason
                         break
                 else:
-                    observation = await snapshot(page, directory, job["max_steps"] + 1, boundary)
-                state = await context.storage_state()
+                    try:
+                        observation = await snapshot(
+                            page, directory, job["max_steps"] + 1, boundary
+                        )
+                    except DomainError:
+                        outcome, reason = "needs_owner", "page_changed_before_observation"
+                state = scoped_storage(await context.storage_state(), boundary.origins)
                 exclusive_write(directory, "browser-state.json", encode(state).encode())
                 value = {
                     "observation": observation,

@@ -80,6 +80,7 @@ def test_work_uses_responses_and_never_accepts_an_incomplete_answer(tmp_path, st
         assert request.headers["authorization"] == "Bearer fake-only"
         assert body["store"] is False and body["reasoning"]["effort"] == "low"
         assert body["max_output_tokens"] == 1600
+        assert "json" in body["input"][0]["content"].lower()
         return httpx.Response(
             200,
             json={
@@ -149,7 +150,13 @@ def test_known_region_refusal_keeps_openai_selected_but_disables_dispatch(monkey
 
 
 def test_new_defaults_do_not_relabel_legacy_vendor_keys_as_openai(monkeypatch):
-    for name in ["DESK_TEXT_PROVIDER", "DESK_VOICE_PROVIDER", "OPENAI_API_KEY", "DESK_OPENAI_CREDENTIAL_FILE", "DESK_OPENAI_REGION_UNSUPPORTED"]:
+    for name in [
+        "DESK_TEXT_PROVIDER",
+        "DESK_VOICE_PROVIDER",
+        "OPENAI_API_KEY",
+        "DESK_OPENAI_CREDENTIAL_FILE",
+        "DESK_OPENAI_REGION_UNSUPPORTED",
+    ]:
         monkeypatch.delenv(name, raising=False)
     monkeypatch.setenv("DESK_TEXT_API_KEY", "legacy-non-openai-key")
     monkeypatch.setenv("DESK_VOICE_API_KEY", "legacy-non-openai-key")

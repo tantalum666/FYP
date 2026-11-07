@@ -2,6 +2,7 @@
 
 import base64
 import math
+import json
 
 import httpx
 from .openai_transport import model_proxy
@@ -25,6 +26,17 @@ developer tools, shell, browser settings or keyboard shortcuts outside page inpu
 def validate_actions(actions):
     if not isinstance(actions, list) or not 1 <= len(actions) <= 12:
         raise ValueError("Invalid computer action batch")
+    # The live API serializes optional pointer modifiers as keys:null (or an
+    # empty list). Canonicalize only that no-op; nonempty modifiers stay denied.
+    actions = [
+        {key: value for key, value in action.items() if key != "keys"}
+        if isinstance(action, dict)
+        and action.get("type") in {"click", "double_click", "move", "drag", "scroll"}
+        and "keys" in action
+        and action["keys"] in (None, [])
+        else action
+        for action in actions
+    ]
     allowed = {
         "click": {"type", "x", "y", "button"},
         "double_click": {"type", "x", "y"},
@@ -129,13 +141,23 @@ class OpenAIComputerProtocol:
         ):
             raise ValueError("Use the configured, validated OpenAI destination")
         self.config, self.transport, self.on_usage = config, transport, on_usage
-        self.history = [{"role": "user", "content": f"Task: {goal}\nAdmitted sites: {origins}"}]
+        admitted = origins or "Only the task-owned local rehearsal page shown in the screenshots"
+        self.history = [{"role": "user", "content": f"Task: {goal}\nAdmitted sites: {admitted}"}]
         self.pending_call = None
         self.seen_calls = set()
 
     def step(self, observation, screenshot, checkpoint):
         image = "data:image/png;base64," + base64.b64encode(screenshot).decode()
-        info = f"Browser platform: {observation.get('platform', 'unknown')}\nCurrent page: {observation['url']}\nTitle: {observation['title']}\n{observation.get('text', '')[:4000]}"
+        info = json.dumps(
+            {
+                "browser_platform": observation.get("platform", "unknown"),
+                "current_page": observation["url"],
+                "page_title": observation["title"],
+                "previous_input_status": observation.get("previous_input_status", ""),
+                "untrusted_page_text": observation.get("text", "")[:4000],
+            },
+            ensure_ascii=False,
+        )
         if self.pending_call:
             self.history.append(
                 {
