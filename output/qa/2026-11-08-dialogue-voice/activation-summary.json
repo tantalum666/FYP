@@ -1,0 +1,66 @@
+{
+  "source_commit": "00387d62c539525841340c039fedfe3b308c973f",
+  "mac": {
+    "api_port": 8831,
+    "web_port": 5190,
+    "healthy": true,
+    "provider": "openai_live",
+    "voice": {
+      "selected": "Alice · Clear & Warm",
+      "version": 3,
+      "saved": true,
+      "preview_available": false,
+      "cloud_calls": 0
+    }
+  },
+  "pi": {
+    "activated": true,
+    "release": "/opt/desk-companion-releases/20261108-dialogue-voice",
+    "verified_files": 293,
+    "frontend_exact": true,
+    "preserved_owner_keys": true,
+    "environment_unchanged": true,
+    "services": [
+      "active",
+      "active"
+    ],
+    "paid_model_calls_during_activation": 0
+  },
+  "pi_voice": {
+    "selected": "Alice · Clear & Warm",
+    "version": 3,
+    "saved": true,
+    "preview_available": false,
+    "cloud_calls": 0
+  },
+  "pi_resource_readback": {
+    "status": 200,
+    "selected_voice_available": true,
+    "generation_calls": 0
+  },
+  "backups": {
+    "mac": {
+      "files": 11,
+      "sha256": "49376acbeb0e46bd1e59bcef140ecdbe22bc6d865eca5bb6c61e7d67e341efe3",
+      "quick_check": "ok",
+      "checkpointed": true
+    },
+    "pi": {
+      "files": 22,
+      "bytes": 227351,
+      "sha256": "94e767e0e67323dd01be3fecc48e276791827b1b050e275194b846052d5a49db",
+      "quick_check": "ok",
+      "active_work": false,
+      "off_device_verified": true,
+      "member_hashes_verified": 22
+    }
+  },
+  "new_voice_audition": "not_completed",
+  "physical_pi_audio": "not_tested",
+  "normal_browser_readback": {
+    "web": "Desk connected; selected original voice visible",
+    "phone": "Desk connected",
+    "pi": "Desk connected; new release assets loaded",
+    "temporary_fixture_closed": true
+  }
+}
