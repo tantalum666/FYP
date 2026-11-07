@@ -86,3 +86,19 @@ def test_modality_rates_and_conservative_missing_details():
         )
         == 0.00025
     )
+
+
+def test_smaller_budget_is_durable_and_cannot_be_increased(tmp_path):
+    from scripts.voice_eval.budget import Budget
+
+    path = tmp_path / "small.sqlite3"
+    first = Budget(path, ceiling=1)
+    first.reserve("one", "gpt-live-1", 0.95)
+    reopened = Budget(path)
+    assert reopened.snapshot()["ceiling_usd"] == 1
+    with pytest.raises(ValueError, match="BUDGET_POLICY_CHANGED"):
+        Budget(path, ceiling=2)
+    with pytest.raises(ValueError, match="BUDGET_EXHAUSTED"):
+        reopened.reserve("two", "gpt-live-1", 0.1)
+    first.close()
+    assert Budget(path).snapshot()["closed"]

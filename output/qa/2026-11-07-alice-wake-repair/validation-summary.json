@@ -1,0 +1,124 @@
+{
+  "date": "2026-11-07",
+  "source_commit": "f2a33e9d3f9ff82cdc200e09d2a6cf5f07a943c6",
+  "schema_preflight": [
+    {
+      "version": "before",
+      "status": 400,
+      "tool_count": 27,
+      "input_tokens": null,
+      "error_code": "invalid_function_parameters",
+      "error_param": "tools[2].parameters",
+      "generation_requests": 0,
+      "schema_error": "Invalid schema for function 'application_job_draft': schema must have type 'object' and not have 'oneOf'/'anyOf'/'allOf'/'enum'/'const'/'not' at the top level."
+    },
+    {
+      "version": "fixed",
+      "status": 200,
+      "tool_count": 27,
+      "input_tokens": 3866,
+      "error_code": null,
+      "error_param": null,
+      "generation_requests": 0
+    }
+  ],
+  "tests": {
+    "backend": 2054,
+    "frontend": 343,
+    "typecheck": "passed",
+    "build": "passed",
+    "lint": "passed",
+    "ci": false
+  },
+  "browser": {
+    "complete_production_tool_catalog": 27,
+    "synthetic_input": true,
+    "native_input": "MacBook Pro built-in microphone",
+    "native_audio_sent_to_provider": false,
+    "local_meter_values": [
+      0.05503516644239426,
+      0.014615849167085708
+    ],
+    "flow": {
+      "text": "I'm here.My name is Alice. Today, you have 2 meetings, starting at 10:30 a.m. and 2 p.m",
+      "errors": [],
+      "ready": 1,
+      "wakes": 1
+    },
+    "calendar_tool": {
+      "tool": "calendar_query",
+      "outcome": "ok",
+      "saved": false,
+      "arguments": {
+        "end": "2026-11-08T00:00:00+08:00",
+        "start": "2026-11-07T00:00:00+08:00"
+      }
+    },
+    "session_failures": [
+      null,
+      null,
+      null
+    ],
+    "final_playback": {
+      "endpoint_source": "capture_energy",
+      "first_played_ms": 6392.6,
+      "first_received_ms": 5591.7,
+      "first_text_ms": null,
+      "outcome": "played",
+      "post_tool_played_ms": 6392.6,
+      "response_started": true,
+      "semantic_verified": false,
+      "server_wait_ms": 12593.0,
+      "timing_source": "output_timestamp",
+      "turn_id": 2
+    },
+    "idle_rearm_observed": true,
+    "qa_tabs_closed": true,
+    "qa_server_stopped": true
+  },
+  "budget": {
+    "ceiling_usd": 0.5,
+    "closed": true,
+    "accounted_usd": 0.18649950000000004,
+    "sessions": [
+      {
+        "id": "full-browser-1",
+        "estimate": 0.03300000000000001,
+        "finalized": 1,
+        "usage": {
+          "seconds": 36.0
+        },
+        "backend_requests": 0
+      },
+      {
+        "id": "full-browser-2",
+        "estimate": 0.031166666666666672,
+        "finalized": 1,
+        "usage": {
+          "seconds": 34.0
+        },
+        "backend_requests": 0
+      },
+      {
+        "id": "full-browser-3",
+        "estimate": 0.12233283333333335,
+        "finalized": 1,
+        "usage": {
+          "input_tokens": 13171,
+          "output_tokens": 119,
+          "seconds": 53.0
+        },
+        "backend_requests": 2
+      }
+    ],
+    "note": "Engineering cap for owner-requested complete self-acceptance; uncached conservative estimate with 10 percent margin, not a provider invoice. Earlier budgets were not reopened."
+  },
+  "final_source_commit": "30793907e0850121b002d4e1a12e3ff64c93ff30",
+  "ui_followup": {
+    "date": "2026-11-08",
+    "paid_calls": 0,
+    "offline_replay": "optional voice Work card hidden on compact home, visible when expanded, same text retained after return",
+    "frontend_tests": 343,
+    "build": "passed"
+  }
+}

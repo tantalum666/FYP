@@ -30,7 +30,7 @@ class WakeListening:
             os.environ.get("DESK_WAKE_MODEL_DIR", runtime.store.directory / "models/wake")
         )
         self.enabled = os.environ.get("DESK_WAKE_ENABLED") == "1"
-        self.lock = threading.Lock()
+        self.lock = getattr(runtime.voice, "lock", None) or threading.Lock()
         self.tickets = {}
         self.active = None
         self.detector_factory = lambda: WakeDetector(self.directory, phrase="alice")
@@ -44,7 +44,13 @@ class WakeListening:
         )
 
     def snapshot(self):
-        return {"available": self.available(), "word": "Alice", "active": self.active is not None}
+        available = self.available()
+        return {
+            "available": available,
+            "word": "Alice",
+            "active": self.active is not None,
+            "reason": None if available else "not_configured",
+        }
 
     def ticket(self, principal):
         if principal.get("kind") != "owner":

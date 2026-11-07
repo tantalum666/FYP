@@ -1,14 +1,37 @@
-# Group 2 · OpenAI realtime and Alice wake listening
+# Group 2 · OpenAI voice and Alice wake listening
 
-2 November 2026, Asia/Hong_Kong. Owner requested OpenAI integration and selected calling Alice to wake. This replaces the earlier Qwen-only manual-preview choice for the current software session; Qwen, Gemini and other candidates remain available for comparison.
+Historical baseline: 2 November 2026, Asia/Hong_Kong. Owner requested OpenAI integration and selected calling Alice to wake. This replaces the earlier Qwen-only manual-preview choice for the current software session; Qwen, Gemini and other candidates remain available for comparison.
 
-## Current interaction
+## Current interaction · updated 7 November
 
 The primary Web chat retains Alice, shared tasks, memories, permissions and action cards. Enable **Say Alice to wake** once and allow the microphone. While waiting, PCM goes only to the connected desk's local keyword detector. On this Mac preview both browser and detector are on the same machine. Calling Alice or its Mandarin pronunciation wakes the normal voice client; only then does it request an OpenAI session.
 
-The call accepts successive spoken turns without another button. After30 seconds without conversation activity, OpenAI closes and local listening resumes. Existing600-second overall session bound remains. Errors stop automatic listening instead of looping paid retries. Turning off the switch, changing identity, leaving the relevant view or closing the page releases the appropriate capture/socket resources. Returning from a temporarily suspended view can resume an enabled local listener; page reload starts with listening off. This is not an OS-login/background daemon or a claim of native-phone background operation.
+The call accepts successive spoken turns without another button. After30 seconds without conversation activity, OpenAI closes and local listening resumes. Existing600-second overall session bound remains. Errors stop automatic listening instead of looping paid retries. Turning off the switch, changing identity, leaving the relevant view or closing the page releases the appropriate capture/socket resources. Returning from a temporarily suspended view can resume an enabled local listener; page reload restores a saved owner/origin-scoped opt-in only when the browser reports microphone permission already granted. Unsupported or ungranted permission leaves it off without prompting. This is not an OS-login/background daemon or a claim of native-phone background operation.
 
-Typing a submitted message pauses wake mode and uses the existing realtime text path. Long-idle client context is cleared before reuse so a new wake does not depend on an expired30-minute server context. Provider changes end the old connection and clear its resume handle without rewriting visible messages or unsent input.
+Typing a submitted message pauses local waiting without deleting the standing wake choice. With Live selected, typed input uses the existing Responses text path; Live is voice-only in this implementation. Long-idle client context is cleared before reuse so a new wake does not depend on an expired30-minute server context. Provider changes end the old connection and clear its resume handle without rewriting visible messages or unsent input.
+
+
+## 7 November complete-catalog startup repair
+
+The owner's normal wake attempts exposed a defect the restricted query smoke trial did not cover: schema flattening removed business title properties. The complete27-tool startup now preserves property names and passes an actual OpenAI preflight (old payload400, repaired payload200). The current shared Microphone selector applies the same exact input to preview, wake and voice; the normal Mac Web origin now selects its built-in microphone rather than an implicit system default.
+
+A separate complete-app browser evaluation used real native capture permission/lifecycle and synthetic transmitted speech, the full production tool catalog, actual Live/Responses, calendar lookup and browser playback acknowledgement. Three sessions finalized and returned to local waiting; the final answered Alice identity and two fictional meeting times correctly. USD0.1864995conservative accounting, USD0.50repair ledger closed. Useful post-input playback6.393seconds remains above the approximate5second target. The prior USD1trial below used a restricted tool list; its scope does not substitute for this full-catalog check. [Repair QA](../../output/qa/2026-11-07-alice-wake-repair/verification.md).
+
+Provider rejection records bounded error identifiers and phase, without raw error messages or private input. The UI distinguishes configuration rejection from microphone permission and clears a previous failure when a new deliberate attempt starts. Errors still stop paid retries.
+
+## 7 November current Live implementation
+
+The owner selected GPT Live as the primary voice route and retained Realtime as a comparison option. `openai_live.py` adapts native Live sessions and Responses delegation to the existing VoiceService/ToolDispatcher. Speech uses gpt-live-1; delegated business reasoning and independent text/browser requests use gpt-6.1-sol. `configure_openai.py --voice-provider openai_realtime` explicitly selects the retained comparison route. There is no silent provider fallback, new business queue or frontend credential.
+
+Alice identity is included both in the speech instructions and in the invariant shared persona rules, including previously saved custom personas. Calling Alice starts a short greeting and accepts successive spoken turns. Local keyword listening and cloud voice share one locked slot. Same-owner session renewal rearms local listening; it does not automatically reopen paid voice after a failure.
+
+Live backend completion is not spoken-output completion. Quiet caption grouping is explicitly a local display boundary; user transcript fragments remain unfinalized in the voice ledger. Shutdown requests session.close and drains the final usage receipt. Cumulative duration replaces earlier snapshots, backend receipts are deduplicated, and incomplete receipts stay marked unconfirmed. Thirty-second inactivity and the existing 600-second overall limit apply; a maximum of twelve delegated backend responses bounds a session. These limits are not an account-wide dollar cap.
+
+No image or typed command is sent through this Live adapter. The shared camera panel still supports local preview; explicit cloud frame sharing remains available with a compatible selected provider such as Realtime. Existing owner authority, tool versions, confirmation, cancellation and result checks remain in the business services.
+
+The fresh owner-approved USD1 /45-second synthetic trial is closed: local Hey Alice detection, correct Alice identity, a real calendar_query over two fictional meetings at10:30/14:00, returned audio, no calendar writes and released session slot. Provider duration20seconds; two delegated requests with5830input/133output tokens. Conservative accounting USD0.0518613333, not an invoice. The trial was manually stopped after the complete answer; idle closure was checked separately with offline protocol tests. Human microphone/speaker/AEC quality and a controlled Live-versus-Realtime comparison remain open. [Full QA](../../output/qa/2026-11-07-alice-home-wake/verification.md).
+
+Current Mac uses Web5190/API8831, the approved private key reference, verified pinned wake models and the shared [Alice home](alice-home.md). Pi readiness/activation is recorded separately in that QA. Earlier runtime/default statements below are dated historical evidence, not instructions to restore those settings.
 
 ## Responsibilities
 

@@ -313,7 +313,10 @@ def test_restart_runs_only_the_approved_folder_job(desk):
     job = prepare(jobs)
     approve(jobs, job)
     resumed = create_app(
-        app.state.store.directory, password="fictional-fixture", scheduler=False
+        app.state.store.directory,
+        password="fictional-fixture",
+        scheduler=False,
+        clock=app.state.store.clock,
     ).state.runtime.jobs
     resumed.run_one()
     assert resumed.detail(job["id"])["state"] == "succeeded"

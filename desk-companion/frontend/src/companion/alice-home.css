@@ -1,0 +1,804 @@
+/* One restrained scene across Web, phone and the desk display. */
+.alice-home {
+  --alice-ink: #eef2f2;
+  --alice-muted: #acb9c6;
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  height: 100dvh;
+  overflow: hidden;
+  color: var(--alice-ink);
+  background: radial-gradient(
+    ellipse at 50% 38%,
+    #263845 0%,
+    #172532 45%,
+    #101a25 85%
+  );
+}
+.alice-home[hidden] {
+  display: none;
+}
+.alice-scene {
+  position: absolute;
+  inset: 76px 20% 145px;
+  pointer-events: none;
+}
+.alice-scene canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.alice-scene > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+.alice-scene-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 62%, #101a25bb 87%, #101a25);
+}
+.alice-home-header {
+  position: absolute;
+  inset: 0 0 auto;
+  padding: 26px 36px;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+}
+.alice-home-identity {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.alice-home-identity > strong {
+  font-size: 30px;
+  font-weight: 550;
+  letter-spacing: -0.05em;
+}
+.alice-home-identity > span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--alice-muted);
+  font-size: 12px;
+}
+.alice-home-identity i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #94bda6;
+}
+.alice-home-identity i.offline {
+  background: #daa777;
+}
+.alice-home-header nav {
+  display: flex;
+  gap: 10px;
+}
+.alice-home-header nav button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 54px;
+  min-height: 55px;
+  padding: 10px 4px;
+  border-radius: 16px;
+  background: #ffffff05;
+  border: 1px solid #ffffff18;
+  color: #e0e7eb;
+}
+.alice-home-header nav span {
+  font-size: 11px;
+}
+.alice-agenda {
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  top: max(230px, 29%);
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.alice-agenda[aria-hidden="true"] {
+  visibility: hidden;
+}
+.alice-agenda section {
+  width: clamp(210px, 25vw, 300px);
+  pointer-events: auto;
+}
+.alice-home .alice-agenda button {
+  color: #d5dfe7;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  text-align: left;
+  box-shadow: none;
+}
+.alice-home .alice-agenda button:hover {
+  color: #fff;
+}
+.alice-agenda-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 38px;
+  padding: 0;
+  font-size: 14px;
+}
+.alice-agenda-heading small {
+  color: #97a7b5;
+  margin-left: auto;
+  font-size: 11px;
+}
+.alice-agenda-heading > svg:last-child {
+  margin-left: auto;
+  opacity: 0.55;
+}
+.alice-week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  margin: 9px 0 12px;
+}
+.alice-week > span {
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  padding: 7px 2px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+.alice-week small {
+  font-size: 10px;
+  color: #a3b2bf;
+}
+.alice-week b {
+  font-weight: 450;
+}
+.alice-week .current {
+  background: #7fa58f29;
+  color: #d6eddd;
+}
+.alice-agenda-rows > button {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 0;
+  border-top: 1px solid #dbe6eb14 !important;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.alice-agenda-rows time {
+  color: #9bafbd;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.alice-agenda-rows span {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.alice-agenda-rows i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #93b59f;
+  align-self: center;
+  flex-shrink: 0;
+}
+.alice-home-conversation {
+  position: absolute;
+  inset: auto 0 14px;
+  z-index: 3;
+  pointer-events: none;
+}
+.alice-home .conversation-workspace {
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+}
+.alice-home .phone-assistant {
+  position: relative;
+  inset: auto;
+  width: min(720px, calc(100% - 48px));
+  margin: 0 auto;
+  color: var(--alice-ink);
+  pointer-events: auto;
+}
+.alice-home .assistant-panel {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.alice-home .assistant-panel .assistant-composer {
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+  padding: 8px;
+  gap: 4px;
+  border: 1px solid #cbdbe527;
+  border-radius: 22px;
+  background: #1c2c3abf;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+.alice-home .assistant-panel .assistant-composer:focus-within {
+  border-color: #aacfb16b;
+}
+.alice-home .assistant-panel .assistant-composer textarea {
+  min-height: 42px;
+  height: 42px;
+  padding: 10px 8px;
+  background: transparent;
+  border: 0;
+  color: #f0f4f4;
+  font-size: 15px;
+  line-height: 22px;
+  resize: none;
+}
+.alice-home .assistant-composer textarea::placeholder {
+  color: #aebbc7;
+  opacity: 1;
+}
+.alice-home .assistant-composer-actions {
+  margin: 0;
+}
+.alice-home .assistant-composer-actions button {
+  color: #b8c6d2;
+  background: transparent;
+}
+.alice-home .assistant-panel .assistant-mic {
+  background: #598773;
+  color: #f3f8f5;
+  width: 42px;
+  height: 42px;
+}
+.alice-home .assistant-panel .assistant-mic:disabled {
+  background: #40554a;
+  color: #a9b4ae;
+}
+.alice-home .assistant-welcome {
+  display: none !important;
+}
+.alice-home .assistant-input-preferences {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 8px 4px 0;
+}
+.alice-home .permission-control > button,
+.alice-home .alice-wake-toggle {
+  color: #b8c6ce;
+  font-size: 12px;
+}
+.alice-home .alice-wake-status {
+  text-align: center;
+  color: #a7bfac;
+  margin: 4px 0;
+  font-size: 11px;
+}
+.alice-home .assistant-panel .assistant-caption {
+  color: #8fa1b2;
+  font-size: 10px;
+  margin: 4px 0;
+  text-align: center;
+}
+.alice-home .assistant-toolbar {
+  margin-bottom: 0;
+}
+.alice-home .assistant-toolbar button {
+  color: #b3c1cd;
+}
+.alice-home .phone-assistant.compact .assistant-conversation {
+  max-height: 110px;
+}
+.alice-home .phone-assistant.expanded {
+  height: min(620px, calc(100dvh - 130px));
+  max-height: calc(100dvh - 130px);
+  background: #172431ed;
+  color: #eef2f2;
+  border: 1px solid #ffffff14;
+  border-radius: 24px;
+  padding: 16px 20px 10px;
+  backdrop-filter: none;
+}
+.alice-home .phone-assistant.expanded .assistant-turn p {
+  color: #e5ebef;
+}
+.alice-home .phone-assistant.expanded .assistant-turn.user {
+  background: #ffffff0a;
+}
+.alice-home .phone-assistant.expanded .assistant-conversation {
+  min-height: 0;
+}
+.alice-home .assistant-panel .assistant-menu,
+.alice-home .assistant-panel .assistant-attachments {
+  color: #26313c;
+}
+.alice-home button:focus-visible,
+.alice-home a:focus-visible {
+  outline: 2px solid #b5d4bd;
+  outline-offset: 4px;
+}
+.home-open.app-shell {
+  display: block;
+  height: 100dvh;
+  overflow: hidden;
+  background: #101a25;
+}
+.home-open.app-shell > .main-content {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  height: 100dvh;
+}
+.home-open .workspace-topbar,
+.home-open .bottom-nav,
+.home-open .mobile-top {
+  display: none !important;
+}
+.conversation-shell.app-shell .sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 268px;
+  max-width: 85vw;
+  transform: translateX(-100%);
+  visibility: hidden;
+  z-index: 30;
+}
+.conversation-shell.navigation-open.app-shell .sidebar {
+  transform: none;
+  visibility: visible;
+}
+.conversation-shell .workspace-nav-scrim {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: #0007;
+  border: 0;
+}
+.home-open .sidebar-companion-home {
+  display: none;
+}
+.alice-home-phone.phone-app {
+  position: fixed;
+  display: block;
+  padding: 0;
+}
+.alice-home-phone .alice-home-header {
+  position: absolute;
+  inset: 0 0 auto;
+  padding: max(18px, env(safe-area-inset-top)) 22px 10px;
+}
+.alice-home-phone .alice-home-identity {
+  display: grid;
+  gap: 5px;
+}
+.alice-home-phone .alice-home-identity > strong {
+  font-size: 27px;
+}
+.alice-home-phone .alice-home-identity > span {
+  font-size: 10px;
+}
+.alice-home-phone .alice-scene {
+  position: absolute;
+  inset: 100px -100px 180px 40px;
+  width: auto;
+  height: auto;
+}
+.alice-home-phone .alice-agenda {
+  position: absolute;
+  inset: max(220px, 29%) auto 212px 22px;
+  display: block;
+  width: clamp(112px, 35vw, 148px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  pointer-events: auto;
+  scrollbar-width: none;
+}
+.alice-home-phone .alice-agenda section {
+  width: 100%;
+}
+.alice-home-phone .alice-agenda-heading {
+  min-height: 30px;
+  font-size: 12px;
+  gap: 6px;
+}
+.alice-home-phone .alice-agenda-heading small {
+  display: none;
+}
+.alice-home-phone .alice-agenda-heading svg {
+  width: 14px;
+}
+.alice-home-phone .alice-agenda-rows > button {
+  min-height: 36px;
+  padding: 8px 0;
+  font-size: 12px;
+  display: grid;
+  gap: 3px;
+}
+.alice-home-phone .alice-agenda-rows > button:nth-child(n + 2) {
+  display: none;
+}
+.alice-home-phone .alice-agenda-rows span {
+  -webkit-line-clamp: 3;
+}
+.alice-home-phone .alice-agenda-tasks {
+  margin-top: 14px;
+}
+.alice-home-phone .alice-agenda-tasks .alice-agenda-heading {
+  display: flex;
+}
+.alice-home .alice-month-preview {
+  display: block;
+  width: 100%;
+  padding: 3px 0 8px;
+  min-height: 44px;
+}
+.alice-month-weekdays,
+.alice-month-dates {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+  text-align: center;
+}
+.alice-month-weekdays small {
+  font-size: 8px;
+  color: #9cacb8;
+  padding: 4px 0;
+}
+.alice-month-dates > span {
+  font-size: 11px;
+  line-height: 23px;
+  border-radius: 5px;
+}
+.alice-month-dates .outside {
+  opacity: 0.32;
+}
+.alice-month-dates .current {
+  color: #e0f4e5;
+  background: #81b49338;
+}
+.alice-home-phone .phone-chat-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.alice-home.alice-home-phone .phone-assistant {
+  position: absolute;
+  inset: auto 18px max(12px, env(safe-area-inset-bottom));
+  width: auto;
+  margin: 0;
+  pointer-events: auto;
+}
+.alice-home.alice-home-phone .phone-assistant.expanded {
+  width: auto;
+}
+.alice-home-phone .assistant-panel .assistant-composer textarea {
+  font-size: 16px;
+  padding-left: 3px;
+}
+.alice-home-phone.keyboard-open .alice-agenda,
+.alice-home-phone.keyboard-open .alice-conditions {
+  visibility: hidden;
+}
+@media (max-width: 900px) and (min-width: 601px) {
+  .alice-scene {
+    inset: 80px 15% 155px;
+  }
+  .alice-agenda {
+    left: 28px;
+    right: 28px;
+    top: max(230px, 29%);
+  }
+  .alice-agenda section {
+    width: 190px;
+  }
+}
+@media (max-width: 600px) {
+  .alice-home-web .alice-home-header,
+  .alice-home-device .alice-home-header {
+    padding: 18px 22px;
+  }
+  .alice-home-web .alice-home-identity,
+  .alice-home-device .alice-home-identity {
+    display: grid;
+    gap: 5px;
+  }
+  .alice-home-web .alice-home-identity > span,
+  .alice-home-device .alice-home-identity > span {
+    font-size: 10px;
+  }
+  .alice-home-web .alice-scene,
+  .alice-home-device .alice-scene {
+    inset: 100px -7% 270px;
+  }
+  .alice-home-web .alice-agenda,
+  .alice-home-device .alice-agenda {
+    inset: auto 24px 190px;
+    display: block;
+  }
+  .alice-home-web .alice-agenda section,
+  .alice-home-device .alice-agenda section {
+    width: 100%;
+  }
+  .alice-home .phone-assistant {
+    width: calc(100% - 36px);
+  }
+}
+@media (max-height: 620px) and (min-width: 601px) {
+  .alice-home-header {
+    padding: 16px 24px;
+  }
+  .alice-home-identity > strong {
+    font-size: 24px;
+  }
+  .alice-scene {
+    inset: 65px 23% 150px;
+  }
+  .alice-agenda {
+    top: 25%;
+    left: 25px;
+    right: 25px;
+  }
+  .alice-agenda section {
+    width: 185px;
+  }
+  .alice-agenda-rows > button {
+    min-height: 34px;
+    padding: 6px 0;
+    font-size: 12px;
+  }
+  .alice-week {
+    margin: 2px 0 7px;
+    gap: 1px;
+  }
+  .alice-home .phone-assistant {
+    width: min(640px, calc(100% - 48px));
+  }
+}
+
+.alice-conditions {
+  position: absolute;
+  top: 114px;
+  left: 5%;
+  z-index: 2;
+  color: #dce6ed;
+}
+.alice-conditions time {
+  display: grid;
+  gap: 3px;
+}
+.alice-conditions time strong {
+  font-size: 38px;
+  line-height: 1.1;
+  font-weight: 350;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.alice-conditions time span {
+  font-size: 12px;
+  color: #a5b4c1;
+}
+.alice-weather {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 9px;
+  font-size: 13px;
+}
+.alice-weather small {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  color: #8fa2b2;
+}
+.alice-home-phone .alice-conditions {
+  top: 104px;
+  left: 24px;
+}
+.alice-home-phone .alice-conditions time strong {
+  font-size: 30px;
+}
+.alice-home-phone .alice-conditions time span {
+  font-size: 10px;
+}
+.alice-home-phone .alice-weather {
+  gap: 4px;
+  flex-wrap: wrap;
+  max-width: 135px;
+  font-size: 11px;
+}
+.alice-home-phone .alice-weather small {
+  flex-basis: 100%;
+}
+@media (max-height: 620px) and (min-width: 601px) {
+  .alice-conditions {
+    top: 90px;
+  }
+  .alice-conditions time strong {
+    font-size: 25px;
+  }
+  .alice-conditions time span {
+    display: none;
+  }
+  .alice-weather {
+    margin-top: 3px;
+  }
+  .alice-agenda {
+    top: 40%;
+  }
+  .alice-week {
+    display: none;
+  }
+}
+
+.alice-home .alice-wake-toggle input {
+  appearance: none;
+  width: 30px;
+  min-width: 30px;
+  height: 18px;
+  min-height: 18px;
+  padding: 0;
+  border: 1px solid #d4e0e633;
+  border-radius: 20px;
+  background: #ffffff13;
+  position: relative;
+  cursor: pointer;
+}
+.alice-home .alice-wake-toggle input::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #c8d5dc;
+  transition: transform 0.15s;
+}
+.alice-home .alice-wake-toggle input:checked {
+  background: #527d65;
+  border-color: #81ae90;
+}
+.alice-home .alice-wake-toggle input:checked::before {
+  transform: translateX(12px);
+  background: #e8f1eb;
+}
+.alice-home .alice-wake-toggle input:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.alice-home-phone .alice-agenda-rows > button {
+  font-size: 13px;
+  min-height: 36px;
+}
+.alice-home-phone
+  .alice-agenda-calendar
+  .alice-agenda-rows
+  > button:nth-child(2) {
+  display: flex;
+}
+.alice-home-phone .alice-agenda-heading {
+  font-size: 13px;
+}
+
+.alice-home .assistant-panel .assistant-composer textarea {
+  max-height: 120px;
+}
+
+@media (max-height: 720px) and (max-width: 600px) {
+  .alice-home-phone .alice-scene {
+    top: 82px;
+    bottom: 160px;
+  }
+  .alice-home-phone .alice-agenda-tasks {
+    margin-top: 6px;
+  }
+}
+
+.alice-weather small a {
+  color: inherit;
+  font-size: 9px;
+  margin-left: 4px;
+  text-decoration: none;
+  opacity: 0.8;
+}
+.alice-weather small a:hover {
+  text-decoration: underline;
+}
+
+.alice-weather[hidden] {
+  display: none;
+}
+
+.conversation-shell.app-shell {
+  display: block;
+}
+.conversation-shell.app-shell > .main-content {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+.conversation-shell:not(.home-open) > .main-content {
+  max-width: 1440px;
+}
+.conversation-shell .workspace-menu-toggle {
+  display: inline-flex;
+}
+
+.alice-home .phone-assistant.compact .assistant-conversation {
+  max-height: 76px;
+  overflow: auto;
+  contain: paint;
+}
+.alice-home-phone:has(
+    .phone-assistant.compact .assistant-conversation:not(:empty)
+  )
+  .alice-agenda {
+  bottom: 288px;
+}
+.alice-home .assistant-input-area {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+.assistant-refresh-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 30px;
+  margin: 4px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #e4cba1;
+}
+.assistant-refresh-status span {
+  min-width: 0;
+}
+.assistant-refresh-status button {
+  min-height: 30px;
+  flex-shrink: 0;
+  color: inherit;
+  font-size: 12px;
+}
+
+.alice-home-header .alice-reconnect {
+  font-size: 12px;
+  color: #e5ba82;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+}
+
+.alice-weather .weather-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 2px 0;
+  min-height: 24px;
+}
+.alice-weather .weather-location:disabled {
+  opacity: 1;
+  cursor: default;
+}

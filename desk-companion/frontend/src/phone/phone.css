@@ -681,3 +681,18 @@
     calc(var(--phone-viewport-height, 100dvh) - 132px)
   );
 }
+
+/* A month is an overview; empty days need no repeated status sentence. */
+.phone-screen .month-cell {
+  min-height: 64px;
+  height: auto;
+  padding: 5px;
+}
+.phone-screen .month-cell .event-block {
+  padding: 2px 3px;
+  font-size: 10px;
+}
+.phone-screen .month-availability {
+  font-size: 9px;
+  margin: 2px 0;
+}

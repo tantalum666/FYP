@@ -18,7 +18,7 @@ def validate_openai_proxy(value):
 
 def model_proxy(config, transport=None):
     """Injected test transports remain offline even when the operator has a proxy."""
-    if config.provider not in {"openai", "openai_realtime"}:
+    if config.provider not in {"openai", "openai_realtime", "openai_live"}:
         return None
     proxy = validate_openai_proxy(getattr(config, "proxy_url", ""))
     return proxy if transport is None else None

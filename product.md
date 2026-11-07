@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+7 November 2026 later repair: complete27-tool Live startup, explicit built-in Mac microphone selection and full browser wake/query/playback/idle recovery now pass. Old schema conversion lost business title fields; the earlier restricted-query smoke test did not cover that full catalog. Fresh repair ledger closed at conservative USD0.1864995 under USD0.50. Post-input useful playback6.393seconds remains above the approximate5second target. [Repair evidence](output/qa/2026-11-07-alice-wake-repair/verification.md).
+
+7 November 2026 current UI/voice update: Web, phone and Pi share the dark Alice home. Phone retains a large Alice with full month, clock/date and location-aware weather (Hong Kong fallback); prompts never repeat automatically after location failure. GPT Live is the primary voice route, Realtime retained explicitly. A fresh synthetic identity/calendar voice trial passed at conservative USD0.0518613333, budget closed. Local wake and cloud sessions are separate. [Current contract](desk-companion/docs/alice-home.md) / [QA](output/qa/2026-11-07-alice-home-wake/verification.md).
+
 7 November 2026 update: real OpenAI browser and text/tool tests now ran on Pi through the owned VPS. Shopping constraints/continuation, flight comparison, browser-result-to-calendar drafting and in-flight cancellation passed on explicitly fictional inputs. Real JD stopped at verification; Cathay did not load. One owner test email was drafted by FYP and delivered/read back through the connected Codex Gmail tool; FYP itself still has no sender connection.31generation requests, USD0.37970163 conservative accounting, fresh USD1 ledger closed. No real order, booking, ticket or human voice acceptance. [Actual results](output/qa/2026-11-07-live-agent-eval/verification.md) / [current handoff](handoff.md).
 
 11月4日历史合并：Grok PR78–82已通过[PR83](https://github.com/tantalum666/FYP/pull/83)合并，代码合并89dc92f与验收树一致：离线邮箱、购物和日程样本接入既有事务/Work/通知/备份；已修复恢复、去重、撤销、过期消息、冲突与回执校验问题。新增建议卡片显示具体对象、来源和确认效果。最终本地验证及GitHub状态见[审查QA](output/qa/2026-11-04-grok-journey-review/verification.md)。真实邮箱、商店、支付、机票和真实日历账户仍未接通。
@@ -12,9 +16,9 @@
 
 三位学生、一台桌面原型；默认英文、支持简体中文。组号统一Group 2，身份与计划分工以[成员资料](planning/2026-09-14/group-2-details.json)为准。**本学期以完成软件和AI为主，硬件尽量完成Luwu机械臂与树莓派集成。**清扫、自动回座、无线充电与光学整机保留研究，不作为本学期软件交付的前置。
 
-- Web以主对话页进入，保持自适应和输入区可见；Mac媒体先本机预览，显式分享后才发画面。界面详情按需展开。手机、电脑及Linux触摸屏共享业务数据；设备常亮页独立构图。手机使用全屏Alice首页与按需Plan／More，保留虚拟形象和简洁操作。
+- 三端以深色Alice主场景进入，保持自适应、大尺寸虚拟形象和可见的半透明输入区；手机左侧保留完整月历、时间、天气和待办，较矮屏幕允许信息区独立滚动；Mac媒体先本机预览，显式分享后才发画面。界面详情按需展开。手机、电脑及Linux触摸屏共享业务数据；设备常亮页独立构图。手机使用全屏Alice首页与按需Plan／More，保留虚拟形象和简洁操作。
 - 个人 Agent 的目标包括邮件跟踪、建议和语音生活事务代办。离线邮箱/购物/日程样本已实现同一事务接续、拥有者核对、静音延后通知和联合备份；它们不能代替真实账号、订单或出票验收。[研究总入口](research/personal-agent-research-index.md)保留真实旅程目标。
-- 同一助理贯通文字、语音、短期上下文、经批准的长期记忆、日历和事务。**默认OpenAI：独立文字／浏览器GPT6.1Sol，实时语音GPTRealtime2.1；Qwen保留历史已测候选，不作静默回退。**Qwen Audio／Gemini已有协议适配；OpenAI Realtime2.1与GPT-Live1＋Luna已完成一轮虚构业务／合成语音实测，Mini有英文参照。真人同条件比较仍待；不能把协议模拟当成真实效果。
+- 同一助理贯通文字、语音、短期上下文、经批准的长期记忆、日历和事务。**默认OpenAI：独立文字／浏览器和Live委托推理GPT6.1Sol，语音GPTLive1，Realtime2.1保留显式对照；Qwen保留历史已测候选，不作静默回退。**Qwen Audio／Gemini已有协议适配；OpenAI Realtime2.1与GPT-Live1＋Luna已完成一轮虚构业务／合成语音实测，Mini有英文参照。真人同条件比较仍待；不能把协议模拟当成真实效果。
 - 真实、受限的电脑／软件操作是核心；先推进Linux。允许范围、批准、取消、超时、未知结果和独立读回由程序控制。默认每次询问；拥有者可在输入框旁／设置中显式启用完整权限，对新请求中的已支持软件操作授予持续授权。模型不能更改权限或自行确认，实体输出仍独立批准。见[权限契约](desk-companion/docs/assistant-permissions.md)。
 - 日历等简单查询约5秒提供有用回答是体验目标。工具等待、首音、首个有用词与作业完成分别计时。
 - 角色为AliceChan，保留原貌、作者署名与CC BY-SA4.0；不恢复被否决的自行制作脸发路线。旧A1研究与作者源按历史保存。
@@ -25,9 +29,9 @@
 | 模块 | 已实现 | 仍须独立验证 |
 |---|---|---|
 | 日历／事务 | 持久CRUD、重复／例外、冲突、提醒、进展／跟进、版本与操作ID、草稿确认；2026-11-03 起离线日程夹具可增量写入同一事务，并只在冲突、临近期限、取消或待决定时通知 | 真实外部账号仍未连接，复杂生产数据和远程通知另验 |
-| AI会话 | 同一Omni文字／语音、短期重放、记忆失效、逐轮时限；选中事务经服务端读取并绑定会话，切换对象不能恢复旧事务上下文 | 新选型同条件比较、真人声学／泛化、成本与长期资源运行 |
+| AI会话 | GPT Live语音与Responses文字复用业务工具／批准及有限上下文；Realtime保留对照；短期重放、记忆失效、逐轮时限；选中事务经服务端读取并绑定会话 | 新选型同条件比较、真人声学／泛化、成本与长期资源运行 |
 | 软件结构 | 手机拆成首页、计划、管理、环境与日历读取；网页／手机／Pi共用自动本地连接、会话恢复及日程编辑；读取去重、迟到响应和未保存保护 | 完整跨设备故障矩阵和辅助技术验收 |
-| 网页／手机 | 桌面主对话页与Alice；共用操作卡片／权限设置；手机全屏Alice＋Calendar／Tasks／More页面；模拟器构建／真实画面 | 原生触控／软键盘完整流程、真机、功耗和温度 |
+| 网页／手机 | 三端深色Alice首页、可见输入区与按需Plan／More；手机完整月历／时间／天气，保留共享操作卡片／权限和草稿；较矮屏幕信息区独立滚动 | 原生触控／软键盘完整流程、真机、功耗和温度 |
 | 记忆／人格 | 网页／手机可搜索、更正、删除有效事实；模型可检索全部有效事实，旧事实删除／到期也清旧重放；按需查看档案／目标／别名／检查记录；受支持的新事实操作可由完整权限授权 | 不承诺永久聊天档案或供应商删除旧留存 |
 | 持久 Work／跟进 | 选定来源／现有事务、持久决策／提问／恢复、独立文件核验、变化审阅及本地定期检查；普通聊天与显式保存会话的标识分开 | 真实邮件触发、私人账号连接、模型自主完成复杂任务和远程通知 |
 | 电脑作业 | 原有笔记／指定目录／Mousepad及受限Chromium/Calc/Writer/PDF；新增原生computer调用的公开浏览器、实际输入／截图、显式状态接续和停止恢复，仍用同一队列 | 真实模型已通过受控购物／航班和取消检查；真实商家账户／交互接管、语音自主浏览器任务、任意桌面GUI及远端PC仍待 |

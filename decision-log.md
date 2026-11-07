@@ -634,3 +634,28 @@ Real Pi HTTP200model listing and Realtime session.created/normal closure passed.
 **Evidence-driven changes:** real pointer keys:null normalization; JSON-mode input marker; document-generation/origin capture and input checks; filtered resume state; bounded navigation error classification; background writes still rejected without aborting unrelated readable pages; accurate local-time/reminder model schemas; usage retained on cancelled/invalid responses. Production business validation, default reminders, paid-request behavior and transaction scope are not relaxed.
 
 Controlled shopping/flight cases, calendar followup and cancellation passed. JD stopped at verification, Cathay failed initial load, and ordinary FYP correctly reported no sender. Exact FYP-generated test mail was sent once/read back through the existing Codex Gmail connector; no Gmail credential/connection was installed in FYP. Next product slice remains deliberate owner takeover and return in the same generic browser job, now grounded in the actual JD verification boundary. [Evidence](output/qa/2026-11-07-live-agent-eval/verification.md).
+
+
+## 2026-11-07 Shared Alice home, local wake and GPT Live
+
+**Owner decisions:** carry the accepted simple dark mobile appearance across Web/phone/Pi; keep Alice dominant, remove the welcome question and conspicuous cards/white composer; retain a full phone month view and add clock/weather using location with Hong Kong fallback. Calling Alice should replace repeated manual voice clicks after initial opt-in. Select GPT Live, retain Realtime. Fresh synthetic voice test ceiling USD1/45seconds was expressly approved and is now closed.
+
+**Engineering choices:** reuse the licensed model, shared conversation, calendar/workspace reads and current permission/job services. Separate local keyword waiting from short paid sessions. Add explicit Alice identity to speech and invariant persona rules. Adapt native Live and delegated Responses events without treating backend completion as speech completion. Configure approved existing keys and pinned wake models; no new key or continuous cloud listener.
+
+**Feedback repairs:** consolidate background read errors, size the textarea before paint, constrain compact transcript and short-screen agenda, fix canvas CSS pixel ratio, isolate loopback cookies by port and suppress automatic geolocation permission requests. Failure uses Hong Kong until an explicit location retry; exact coordinates are not persisted. These are lifecycle fixes, not a broader browser permission grant.
+
+**Evidence:**2051backend and341frontend tests, type/build and scoped lint; actual browser draft/navigation, read-failure recovery and geometry checks; local positive/negative synthetic wake clips; one real Live identity/calendar trial (20providerseconds, two backend requests, no writes), conservative USD0.0518613333. Human acoustics, native background behavior, Pi physical audio and real commerce transactions remain distinct. [Detailed QA](output/qa/2026-11-07-alice-home-wake/verification.md).
+
+
+## 2026-11-07 Complete wake acceptance after owner-reported failure
+
+**Owner direction:** investigate the failed Alice call and complete acceptance autonomously, instead of relying on the owner to discover defects. **Engineering cap:** a new, separate USD0.50repair ledger, with earlier budgets sealed; final conservative accounting USD0.1864995and all receipts finalized.
+
+Confirmed old full-catalog rejection with a non-generation OpenAI preflight. Fix schema annotation traversal so business title/default fields survive; do not weaken validation or remove production tools to make startup pass. The earlier restricted query trial is explicitly reclassified by its actual advertised-tool scope. Native Mac input was separately verified and explicitly selected in the app, preserving system audio settings.
+
+Complete browser testing reused production capture, keyword, Live/Responses, tool and playback code with synthetic transmitted input and an isolated fictional calendar. Three successful startup/idle cycles included one full identity/calendar answer and actual playback acknowledgement;6.393second first useful playback still misses the approximate5second goal. Keep errors stopping paid retries; retain safe diagnostic identifiers and clear stale notices on deliberate retry. [QA](output/qa/2026-11-07-alice-wake-repair/verification.md).
+
+
+## 2026-11-08 Optional voice Work details remain on demand
+
+Actual acceptance screenshots showed optional voice-to-Work details covering the compact Alice home. Engineering follow-up applies the existing concise-default requirement: keep the panel mounted, hide it while compact, reveal it on Conversation expansion. An offline browser replay verified retained content and the show/hide transition;343frontend tests/build pass, no paid calls. Final source3079390is active on Mac/Pi, with the voice core unchanged from the full paid acceptance.

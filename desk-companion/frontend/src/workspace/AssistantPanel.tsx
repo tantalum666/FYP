@@ -1,6 +1,13 @@
+import { AssistantRefreshStatus } from "./AssistantRefreshStatus";
 import { proposalDecisionNotice } from "./proposalDecision";
 import type { ReactNode } from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   ImagePlus,
   MonitorUp,
@@ -161,11 +168,11 @@ export function AssistantPanel({
     [notice, setNotice] = useState("");
   const [voiceState, setVoiceState] = useState("idle"),
     [transcript, setTranscript] = useState("");
-  useEffect(() => {
+  useLayoutEffect(() => {
     const field = composer.current;
     if (!field) return;
     field.style.height = "44px";
-    field.style.height = `${Math.min(132, field.scrollHeight)}px`;
+    field.style.height = `${Math.max(44, Math.min(120, field.scrollHeight))}px`;
   }, [text, view, voiceState]);
   const [sharing, setSharing] = useState(false),
     [visionBusy, setVisionBusy] = useState(false),
@@ -194,6 +201,7 @@ export function AssistantPanel({
   const speechText = useRef({ user: "", assistant: "" });
   const knownProposals = useRef<Proposal[]>([]);
   const activityReading = useRef(false);
+  const reading = useRef(false);
   const loadActivity = useCallback(async () => {
     if (
       !owner.current ||
@@ -317,11 +325,13 @@ export function AssistantPanel({
     owner.current;
   const unavailable = !data || offline || stale;
   const voiceName =
-    data?.voice.provider === "openai_realtime"
-      ? data.voice.model.includes("mini")
-        ? "OpenAI Realtime Mini"
-        : "OpenAI Realtime"
-      : "Qwen Omni";
+    data?.voice.provider === "openai_live"
+      ? "GPT Live"
+      : data?.voice.provider === "openai_realtime"
+        ? data.voice.model.includes("mini")
+          ? "OpenAI Realtime Mini"
+          : "OpenAI Realtime"
+        : "Qwen Omni";
   const wake = useAliceWake({
     available:
       owner.current &&
@@ -329,8 +339,14 @@ export function AssistantPanel({
       !!data.voice.wake_word?.available,
     paused: suspended || unavailable || mediaOpen,
     engaged: voiceState !== "idle" || busy || microphone,
-    onWake: startVoice,
+    onWake: () => startVoice(true),
+    ownerKey: owner.current ? data?.principal.id : undefined,
+    occupied: !!(data?.voice.active || data?.voice.wake_word?.active),
   });
+  const voiceElsewhere =
+    !!(data?.voice.active || data?.voice.wake_word?.active) &&
+    !wake.enabled &&
+    !voiceActive;
   useEffect(() => {
     const revision = data?.voice.config_revision;
     if (
@@ -388,14 +404,20 @@ export function AssistantPanel({
     if (unavailable) endVoice();
   }, [unavailable]);
   useEffect(() => {
-    const renewed = () => {
+    const renewed = (event: Event) => {
       conversationId.current = undefined;
-      wake.disable();
       endVoice();
+      if (
+        (event as CustomEvent<{ reason?: string }>).detail?.reason ===
+          "connected" &&
+        owner.current
+      )
+        wake.rearm();
+      else wake.disable();
     };
     window.addEventListener("desk:session", renewed);
     return () => window.removeEventListener("desk:session", renewed);
-  }, []);
+  }, [wake.rearm, wake.disable]);
   useEffect(() => {
     if (suspended && audio.current) endVoice();
   }, [suspended]);
@@ -456,47 +478,53 @@ export function AssistantPanel({
   );
   useDraftGuard(!!text.trim(), busy);
   const reload = useCallback(async () => {
-    void loadActivity();
+    if (reading.current) return;
+    reading.current = true;
     try {
-      const next = await request<{ proposals: Proposal[] }>(
-        "/assistant/proposals",
-      );
-      if (alive.current) {
-        if (
-          knownProposals.current.some(
-            (p) =>
-              Date.parse(p.expires_at) <= Date.now() &&
-              !next.proposals.some((n) => n.id === p.id),
-          )
-        ) {
-          setNotice(
-            language === "zh"
-              ? "草稿已到期，没有执行任何修改。请重新提出请求。"
-              : "The draft expired without making changes. Ask again to prepare a new one.",
-          );
+      void loadActivity();
+      try {
+        const next = await request<{ proposals: Proposal[] }>(
+          "/assistant/proposals",
+        );
+        if (alive.current) {
+          if (
+            knownProposals.current.some(
+              (p) =>
+                Date.parse(p.expires_at) <= Date.now() &&
+                !next.proposals.some((n) => n.id === p.id),
+            )
+          ) {
+            setNotice(
+              language === "zh"
+                ? "草稿已到期，没有执行任何修改。请重新提出请求。"
+                : "The draft expired without making changes. Ask again to prepare a new one.",
+            );
+          }
+          knownProposals.current = next.proposals;
+          setProposals(next.proposals);
+          setReadError(null);
         }
-        knownProposals.current = next.proposals;
-        setProposals(next.proposals);
-        setReadError(null);
+      } catch (e) {
+        if (alive.current) setReadError(e);
       }
-    } catch (e) {
-      if (alive.current) setReadError(e);
-    }
-    if (!ownerView) {
-      if (alive.current) setCalls(null);
-      return;
-    }
-    try {
-      const audit = await request<{ calls: ToolCall[] }>(
-        "/assistant/tool-calls",
-      );
-      if (alive.current) setCalls(audit.calls);
-    } catch (e) {
-      if (e instanceof ApiError && e.status === 403) {
+      if (!ownerView) {
         if (alive.current) setCalls(null);
         return;
       }
-      if (alive.current) setReadError(e);
+      try {
+        const audit = await request<{ calls: ToolCall[] }>(
+          "/assistant/tool-calls",
+        );
+        if (alive.current) setCalls(audit.calls);
+      } catch (e) {
+        if (e instanceof ApiError && e.status === 403) {
+          if (alive.current) setCalls(null);
+          return;
+        }
+        if (alive.current) setReadError(e);
+      }
+    } finally {
+      reading.current = false;
     }
   }, [language, ownerView, loadActivity]);
   useEffect(() => {
@@ -574,7 +602,7 @@ export function AssistantPanel({
   async function send(e: React.FormEvent) {
     e.preventDefault();
     if (busy || !text.trim() || unavailable || pendingJob) return;
-    wake.disable();
+    wake.pause();
     followLatest.current = true;
     const submitted = text;
     const previousHttp = pendingHttp.current;
@@ -714,7 +742,6 @@ export function AssistantPanel({
     queueMicrotask(() => composer.current?.focus());
   }
   async function newConversation() {
-    wake.disable();
     submissionGeneration.current += 1;
     pendingHttp.current = null;
     const id = conversationId.current;
@@ -740,8 +767,9 @@ export function AssistantPanel({
     }
     setMenu(false);
   }
-  async function startVoice() {
+  async function startVoice(wakeTriggered = false) {
     if (unavailable || busy) return;
+    setNotice("");
     wake.pause();
     modeSwitching.current = true;
     setBusy(true);
@@ -749,7 +777,7 @@ export function AssistantPanel({
     setVoiceState("connecting");
     try {
       if (audio.current) await audio.current.setMode("voice");
-      else await connectConversation("voice");
+      else await connectConversation("voice", wakeTriggered);
     } catch (e) {
       modeSwitching.current = false;
       setBusy(false);
@@ -757,7 +785,10 @@ export function AssistantPanel({
       setError(e);
     }
   }
-  async function connectConversation(mode: "text" | "voice") {
+  async function connectConversation(
+    mode: "text" | "voice",
+    wakeTriggered = false,
+  ) {
     if (audio.current) return audio.current;
     if (unavailable || !data?.voice.configured) return null;
     // A fresh wake after long local standby must not retry an expired cloud
@@ -868,15 +899,20 @@ export function AssistantPanel({
                       "The provider denied model access. Check model access or billing; this connection has stopped.",
                       "提供商拒绝访问模型，请检查模型权限或额度。本次连接已停止。",
                     )
-                  : event.code === "VOICE_CONNECT_TIMEOUT"
+                  : event.code === "VOICE_CONFIGURATION_REJECTED"
                     ? t(
-                        "Voice connection timed out. The microphone is off; try again or type your request.",
-                        "语音连接超时，麦克风已关闭。可以重试或改用文字输入。",
+                        "The voice service rejected its configuration. This is a service setup issue; your microphone permission does not need to be reset.",
+                        "语音服务拒绝了当前配置。这是服务配置问题，无需重置麦克风授权。",
                       )
-                    : t(
-                        "Voice could not continue. The microphone is off. Check the connection or provider configuration.",
-                        "语音未能继续，麦克风已关闭。请检查连接或服务配置。",
-                      ),
+                    : event.code === "VOICE_CONNECT_TIMEOUT"
+                      ? t(
+                          "Voice connection timed out. The microphone is off; try again or type your request.",
+                          "语音连接超时，麦克风已关闭。可以重试或改用文字输入。",
+                        )
+                      : t(
+                          "Voice could not continue. The microphone is off. Check the connection or provider configuration.",
+                          "语音未能继续，麦克风已关闭。请检查连接或服务配置。",
+                        ),
           );
           setVoiceState("idle");
           setMicrophone(false);
@@ -972,7 +1008,8 @@ export function AssistantPanel({
         url.href,
         {
           mode,
-          conversationId: omni ? conversationId.current : undefined,
+          wakeTriggered,
+          conversationId: conversationId.current,
           taskId,
         },
       );
@@ -1027,7 +1064,7 @@ export function AssistantPanel({
         }
       }}
     >
-      {voiceWork.panel}
+      <div hidden={immersive && !expanded}>{voiceWork.panel}</div>
       {mediaOpen && !suspended && (
         <MediaDevicePanel
           t={t}
@@ -1191,49 +1228,6 @@ export function AssistantPanel({
                 node.scrollHeight - node.scrollTop - node.clientHeight < 80;
           }}
         >
-          {!turns.length &&
-            !transcript &&
-            !proposals.length &&
-            !voiceActive &&
-            attentionJobs.length === 0 && (
-              <div className="assistant-welcome">
-                <h3>
-                  {taskId
-                    ? t("Let’s work through this task.", "一起看看这件事。")
-                    : t("What can I help you with?", "今天想做些什么？")}
-                </h3>
-                <p>
-                  {taskId
-                    ? t(
-                        "Share an update or discuss the next step.",
-                        "说说当前进展，或讨论下一步。",
-                      )
-                    : t(
-                        "Start with your calendar, or tell me what you want to work on.",
-                        "可以先看看日历，或说说你想推进的事情。",
-                      )}
-                </p>
-                {!taskId && (
-                  <div className="assistant-starters">
-                    {[
-                      ["What is on today?", "今天的行程"],
-                      ["What is on next week?", "下周的日程"],
-                    ].map(([en, zh]) => (
-                      <button
-                        key={en}
-                        type="button"
-                        onClick={() => {
-                          setText(t(en, zh));
-                          composer.current?.focus();
-                        }}
-                      >
-                        {t(en, zh)}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
           {(!immersive || expanded) &&
             jobs
               .filter(
@@ -1308,14 +1302,14 @@ export function AssistantPanel({
                 {t("See all file activity", "查看全部文件活动")}
               </button>
             )}
-          {!!jobsError && (
-            <p className="error-message" role="alert">
-              {t(
-                "Unable to refresh file actions. Existing actions remain on your desk.",
-                "暂时无法刷新文件操作，已有操作仍保留在桌面服务中。",
-              )}
-            </p>
-          )}
+          {(!immersive || expanded) &&
+            (!!jobsError || !!readError || unavailable) && (
+              <AssistantRefreshStatus
+                reconnecting={unavailable}
+                t={t}
+                onRetry={() => void reload()}
+              />
+            )}
           {immersive && !expanded && jobAttention > 0 && (
             <button
               className="assistant-attention"
@@ -1348,22 +1342,9 @@ export function AssistantPanel({
               {notice}
             </p>
           )}
-          {!!readError && (
-            <p className="assistant-notice" role="status">
-              {t(
-                "Unable to refresh current actions. I will retry when the connection returns.",
-                "暂时无法刷新当前操作，连接恢复后会重试。",
-              )}
-            </p>
-          )}
           {!!error && (
             <p className="error-message" role="alert">
               {errorText(error, t)}
-            </p>
-          )}
-          {unavailable && (
-            <p className="assistant-notice" role="status">
-              {t("Reconnecting to your desk…", "正在重新连接桌面主机…")}
             </p>
           )}
         </div>
@@ -1471,7 +1452,7 @@ export function AssistantPanel({
                         "What changed since your last update?",
                         "上次记录后，有什么新进展？",
                       )
-                    : t("Ask anything about your day…", "输入你的想法…")
+                    : t("Message Alice…", "输入你的想法…")
                 }
                 onKeyDown={(e) => {
                   if (
@@ -1523,12 +1504,22 @@ export function AssistantPanel({
                   <button
                     type="button"
                     className="assistant-mic"
-                    disabled={!data?.voice.configured || unavailable || busy}
+                    disabled={
+                      !data?.voice.configured ||
+                      unavailable ||
+                      busy ||
+                      voiceElsewhere
+                    }
                     aria-label={t("Start conversation", "开始交谈")}
                     title={
-                      !data?.voice.configured
-                        ? t("Voice service not configured", "语音服务未配置")
-                        : t("Start conversation", "开始交谈")
+                      voiceElsewhere
+                        ? t(
+                            "Voice is active in another window",
+                            "另一个窗口正在监听或交谈",
+                          )
+                        : !data?.voice.configured
+                          ? t("Voice service not configured", "语音服务未配置")
+                          : t("Start conversation", "开始交谈")
                     }
                     onClick={() => void startVoice()}
                   >
@@ -1646,27 +1637,43 @@ export function AssistantPanel({
           )}
           <div className="assistant-input-preferences">
             <PermissionControl t={t} />
-            {ownerView &&
-              data?.voice.configured &&
-              data.voice.wake_word?.available && (
-                <label className="alice-wake-toggle">
-                  <input
-                    type="checkbox"
-                    checked={wake.enabled}
-                    disabled={unavailable}
-                    onChange={(event) => {
-                      if (event.target.checked) {
-                        endVoice();
-                        wake.enable();
-                      } else {
-                        wake.disable();
-                        endVoice();
-                      }
-                    }}
-                  />
-                  {t("Say Alice to wake", "叫 Alice 唤醒")}
-                </label>
-              )}
+            {ownerView && data?.voice.configured && (
+              <label className="alice-wake-toggle">
+                <input
+                  type="checkbox"
+                  checked={wake.enabled}
+                  disabled={
+                    unavailable ||
+                    !data.voice.wake_word?.available ||
+                    voiceElsewhere
+                  }
+                  title={
+                    voiceElsewhere
+                      ? t(
+                          "Voice is active in another window",
+                          "另一个窗口正在监听或交谈",
+                        )
+                      : !data.voice.wake_word?.available
+                        ? t("Local wake is not ready", "本地唤醒暂未就绪")
+                        : t(
+                            "Listen locally for Alice; start cloud voice only when called",
+                            "本地等待 Alice，叫到名字才连接云端语音",
+                          )
+                  }
+                  onChange={(event) => {
+                    if (event.target.checked) {
+                      setNotice("");
+                      endVoice();
+                      wake.enable();
+                    } else {
+                      wake.disable();
+                      endVoice();
+                    }
+                  }}
+                />
+                {t("Say Alice", "叫 Alice 唤醒")}
+              </label>
+            )}
           </div>
           {(wake.enabled || wake.state === "error") && (
             <p className="alice-wake-status" role="status">
@@ -1691,46 +1698,61 @@ export function AssistantPanel({
             </p>
           )}
 
-          <p className="assistant-caption">
-            {wake.enabled && !voiceActive
-              ? t("Cloud voice disconnected", "云端语音未连接")
-              : voiceActive
-                ? voiceState === "connecting"
-                  ? t("Preparing voice…", "正在准备语音…")
-                  : t(
-                      "Speak naturally. Your mic is on.",
-                      "直接交谈，麦克风已开启。",
-                    )
-                : omni
-                  ? t(
-                      `${voiceName} · microphone off`,
-                      `${voiceName} · 麦克风已关闭`,
-                    )
-                  : data?.text_ai?.configured
-                    ? data?.permissions?.mode === "full"
-                      ? t(
-                          "Actions follow your permission setting.",
-                          "操作遵循你的权限设置。",
-                        )
+          {immersive &&
+          !expanded &&
+          (!!jobsError || !!readError || unavailable) ? (
+            <AssistantRefreshStatus
+              reconnecting={unavailable}
+              t={t}
+              onRetry={() => void reload()}
+            />
+          ) : (
+            <p className="assistant-caption">
+              {voiceElsewhere
+                ? t(
+                    "Voice is active in another window",
+                    "另一个窗口正在监听或交谈",
+                  )
+                : wake.enabled && !voiceActive
+                  ? t("Cloud voice disconnected", "云端语音未连接")
+                  : voiceActive
+                    ? voiceState === "connecting"
+                      ? t("Preparing voice…", "正在准备语音…")
                       : t(
-                          "Review changes before saving.",
-                          "修改会先交给你确认。",
+                          "Speak naturally. Your mic is on.",
+                          "直接交谈，麦克风已开启。",
                         )
-                    : t(
-                        "Local mode · calendar, tasks & notes",
-                        "本地模式 · 日历、事务与笔记",
-                      )}
-            {imageCount > 0 && (
-              <span>
-                {" "}
-                ·{" "}
-                {t(
-                  `${imageCount} image frames sent`,
-                  `已发送 ${imageCount} 帧图片`,
-                )}
-              </span>
-            )}
-          </p>
+                    : data?.voice.configured
+                      ? t(
+                          `${voiceName} · microphone off`,
+                          `${voiceName} · 麦克风已关闭`,
+                        )
+                      : data?.text_ai?.configured
+                        ? data?.permissions?.mode === "full"
+                          ? t(
+                              "Actions follow your permission setting.",
+                              "操作遵循你的权限设置。",
+                            )
+                          : t(
+                              "Review changes before saving.",
+                              "修改会先交给你确认。",
+                            )
+                        : t(
+                            "Local mode · calendar, tasks & notes",
+                            "本地模式 · 日历、事务与笔记",
+                          )}
+              {imageCount > 0 && (
+                <span>
+                  {" "}
+                  ·{" "}
+                  {t(
+                    `${imageCount} image frames sent`,
+                    `已发送 ${imageCount} 帧图片`,
+                  )}
+                </span>
+              )}
+            </p>
+          )}
         </div>
       </section>
       <section

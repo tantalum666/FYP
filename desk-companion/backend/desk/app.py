@@ -55,6 +55,7 @@ from .diagnostics import diagnostics_html, diagnostics_report
 from .log import configure, log_event, redact_text
 
 from .cookies import cookie_secure
+from .session_cookie_scope import LoopbackCookieScope
 from .schemas import CreateEvents, EventAction, Login, ReminderAction, SettingsInput
 from .store import DomainError, Store
 
@@ -161,6 +162,7 @@ def create_app(
                 raise failure
 
     app = FastAPI(title="Desk Companion", version="0.1.0", lifespan=lifespan)
+    app.add_middleware(LoopbackCookieScope)
     app.state.store = store
     app.state.runtime = services
     app.state.scheduled = tuple((name, interval) for name, _action, interval in schedule)
@@ -236,7 +238,9 @@ def create_app(
         response.headers["Referrer-Policy"] = "no-referrer"
         # The app's explicit local preview needs both devices in production too.
         # Browser permission and the UI's separate share action still apply.
-        response.headers["Permissions-Policy"] = "camera=(self), microphone=(self), geolocation=()"
+        response.headers["Permissions-Policy"] = (
+            "camera=(self), microphone=(self), geolocation=(self)"
+        )
         return response
 
     @app.exception_handler(DomainError)
@@ -320,8 +324,13 @@ def create_app(
         if not store.session_valid(token):
             token = store.create_owner_session()
         response.set_cookie(
-            COOKIE, token, httponly=True, samesite="strict",
-            secure=cookie_secure(request), max_age=8 * 3600, path="/api",
+            COOKIE,
+            token,
+            httponly=True,
+            samesite="strict",
+            secure=cookie_secure(request),
+            max_age=8 * 3600,
+            path="/api",
         )
 
     @app.get("/api/session-mode")
@@ -476,7 +485,15 @@ def create_app(
         )
 
     @app.post("/api/workspace/preferences", dependencies=[Depends(authenticated)])
-    def workspace_preferences(payload: PreferencesUpdate, key=Depends(operation_id)):
+    def workspace_preferences(
+        payload: PreferencesUpdate, key=Depends(operation_id), principal=Depends(authenticated)
+    ):
+        if (
+            payload.preferences.weather_location == "automatic"
+            and principal["kind"] != "owner"
+            and services.data.preferences()["weather_location"] != "automatic"
+        ):
+            raise DomainError("OWNER_REQUIRED", 403)
         return services.data.update(payload, key)
 
     @app.post("/api/announcements/claim", dependencies=[Depends(authenticated)])
@@ -505,6 +522,9 @@ def create_app(
         )
 
     app.include_router(device_routes(services, authenticated, owner, agent, operation_id, limit))
+    from .weather import weather_routes
+
+    app.include_router(weather_routes(services.data, authenticated))
     app.include_router(task_routes(services, authenticated, operation_id))
     app.include_router(job_routes(services, owner, operation_id))
     app.include_router(permission_routes(services, owner, operation_id))

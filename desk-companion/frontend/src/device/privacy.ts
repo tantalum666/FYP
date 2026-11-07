@@ -7,13 +7,7 @@ export function displayPrivacy(
   stale: boolean,
 ) {
   if (!snapshot) return null;
-  const hide =
-    !posture ||
-    (posture.preferences.enabled &&
-      posture.preferences.privacy_when_away &&
-      (stale ||
-        !posture.connected ||
-        ["absent", "unknown", "paused"].includes(posture.status)));
+  const hide = privateDisplayHidden(posture, stale);
   if (!hide) return snapshot;
   return {
     ...snapshot,
@@ -28,4 +22,18 @@ export function displayPrivacy(
         : { ...reminder, title: "", redacted: true },
     ),
   };
+}
+
+export function privateDisplayHidden(
+  posture: PostureSnapshot | undefined,
+  stale: boolean,
+) {
+  return (
+    !posture ||
+    (posture.preferences.enabled &&
+      posture.preferences.privacy_when_away &&
+      (stale ||
+        !posture.connected ||
+        ["absent", "unknown", "paused"].includes(posture.status)))
+  );
 }

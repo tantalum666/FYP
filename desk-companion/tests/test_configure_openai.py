@@ -23,7 +23,7 @@ def test_configure_references_key_and_preserves_unrelated_settings(tmp_path):
     env.chmod(0o600)
     result = configure(runtime, key, region_unavailable=True)
     body = env.read_text()
-    assert "DESK_NATIVE_CLIENTS=1" in body and 'DESK_VOICE_PROVIDER="openai_realtime"' in body
+    assert "DESK_NATIVE_CLIENTS=1" in body and 'DESK_VOICE_PROVIDER="openai_live"' in body
     assert 'DESK_OPENAI_REGION_UNSUPPORTED="1"' in body
     assert "old-vendor" not in body and "sk-fixture-private-project-key" not in body
     assert stat.S_IMODE(env.stat().st_mode) == 0o600 and result["model_requests"] == 0
@@ -43,3 +43,10 @@ def test_configure_refuses_unsafe_destination_and_key(tmp_path):
     with pytest.raises(ValueError):
         configure(runtime, key)
     assert not (runtime / "service.env").exists()
+
+
+def test_realtime_remains_an_explicit_choice(tmp_path):
+    runtime, key = inputs(tmp_path)
+    result = configure(runtime, key, voice_provider="openai_realtime")
+    assert result["voice_model"] == "gpt-realtime-2.1"
+    assert 'DESK_VOICE_PROVIDER="openai_realtime"' in (runtime / "service.env").read_text()

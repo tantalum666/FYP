@@ -9,16 +9,16 @@ from pathlib import Path
 from typing import Literal
 from zoneinfo import ZoneInfo
 
-import httpx
 from pydantic import Field, field_validator
 
 from .calendar import iso
 from .schemas import StrictModel
 from .store import DomainError, encode
+from .weather import WeatherService, read_weather_json
 
 
 class WorkspacePreferences(StrictModel):
-    weather_location: Literal["none", "hong_kong"] = "none"
+    weather_location: Literal["none", "hong_kong", "automatic"] = "none"
     holiday_region: Literal["none", "hong_kong"] = "none"
     show_lunar: bool = False
     reminder_strength: Literal["silent", "chime"] = "silent"
@@ -91,6 +91,11 @@ class WorkspaceData:
     def __init__(self, store, transport=None):
         self.store, self.transport = store, transport
         self.lock = threading.Lock()
+        self.weather_provider = WeatherService(
+            fetch=lambda url, params: read_weather_json(url, params, transport=self.transport),
+            clock=lambda: self.store.clock().timestamp(),
+            now=self.store.clock,
+        )
         self.weather = None
         self.next_fetch = 0.0
         self.weather_error = None
@@ -158,49 +163,40 @@ class WorkspaceData:
             return
         try:
             self.next_fetch = now + 600
-            with httpx.Client(
-                timeout=8, transport=self.transport, follow_redirects=False
-            ) as client:
-                response = client.get(
-                    "https://data.weather.gov.hk/weatherAPI/opendata/weather.php",
-                    params={"dataType": "rhrread", "lang": "en"},
-                )
-                response.raise_for_status()
-                if len(response.content) > 1_000_000:
-                    raise ValueError("Oversized weather data")
-                data = response.json()
-            temperature = next(
-                r["value"]
-                for r in data["temperature"]["data"]
-                if r["place"] == "Hong Kong Observatory"
-            )
-            observed = datetime.fromisoformat(data["temperature"]["recordTime"])
-            if (
-                observed.tzinfo is None
-                or abs(now - observed.timestamp()) > 86400
-                or not -30 <= temperature <= 60
-            ):
-                raise ValueError("Invalid weather reading")
-            self.weather = {
-                "temperature_c": temperature,
-                "observed_at": iso(observed),
-                "fetched_at": iso(self.store.clock()),
-                "source": "Hong Kong Observatory",
-                "source_url": "https://www.hko.gov.hk/en/index.html",
-                "location": "hong_kong",
-                "icon_code": data.get("icon", [None])[0],
-            }
-            self.weather_error = None
-        except (httpx.HTTPError, ValueError, KeyError, TypeError, StopIteration, IndexError):
-            self.weather_error = "weather_unavailable"
-            self.next_fetch = now + 60
+            self.read_weather()
+            if self.weather_error:
+                self.next_fetch = now + 60
         finally:
             self.lock.release()
+
+    def read_weather(self, location=None):
+        mode = self.preferences()["weather_location"]
+        if mode == "none":
+            return {"available": False, "area": "hong_kong"}
+        result = self.weather_provider.current(location if mode == "automatic" else None)
+        if self.preferences()["weather_location"] == "none":
+            return {"available": False, "area": "hong_kong"}
+        if result["available"]:
+            self.weather = {
+                "temperature_c": result["temperature"],
+                "observed_at": result["observed_at"],
+                "fetched_at": iso(self.store.clock()),
+                "source": result["source"],
+                "source_url": "https://www.hko.gov.hk/en/index.html"
+                if result["area"] == "hong_kong"
+                else "https://open-meteo.com/",
+                "location": result["area"],
+                "icon_code": None,
+            }
+            self.weather_error = None
+        else:
+            self.weather_error = "weather_unavailable"
+        return result
 
     def snapshot(self):
         prefs = self.preferences()
         weather = {"status": "not_configured"}
-        if prefs["weather_location"] == "hong_kong":
+        if prefs["weather_location"] != "none":
             weather = {"status": "unavailable" if self.weather_error else "loading"}
             if self.weather:
                 stale = (

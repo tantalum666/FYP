@@ -1,0 +1,92 @@
+{
+  "date": "2026-11-07",
+  "source_commit": "1660ffcfffa6242d4618d7996469b926ac30b61b",
+  "local": {
+    "backend_tests_passed": 2051,
+    "frontend_tests_passed": 341,
+    "geolocation_regressions_passed": 6,
+    "typecheck": "passed",
+    "production_build": "passed",
+    "changed_source_lint": "passed",
+    "ci_used": false
+  },
+  "browser": {
+    "phone_393x852": "passed",
+    "short_phone_393x640": "bounded_scroll_no_conditions_or_composer_overlap",
+    "web_1312x681": "passed",
+    "short_web_800x480": "passed",
+    "draft_survived_plan_navigation": true,
+    "menus_accessible": true,
+    "read_faults": "four injected503 responses, one nonoverlapping notice, recovered",
+    "composer_stability": "eight samples over3627ms; identical y695/height62 and unchanged draft",
+    "last1000_mac_http_status": {
+      "200": 1000
+    },
+    "location": "Chrome permitted location yielded nearby weather; IAB fallback Hong Kong without an automatic permission request; no native popup automation",
+    "screenshots": "owner-private; excluded from Git"
+  },
+  "live_trial": {
+    "synthetic": true,
+    "local_wake_detected": true,
+    "provider_seconds": 20.0,
+    "elapsed_seconds": 25.251,
+    "backend_requests": 2,
+    "usage": {
+      "backend_total_tokens": 5963,
+      "backend_input_tokens": 5830,
+      "backend_output_tokens": 133,
+      "backend_input_cached_tokens": 2561,
+      "voice_seconds": 20.0,
+      "finalization_confirmed": 1
+    },
+    "checks": {
+      "alice_identity": true,
+      "two_meetings_spoken": true,
+      "calendar_read": true,
+      "received_audio": true,
+      "no_calendar_write": true,
+      "finalized": true,
+      "slot_released": true
+    },
+    "budget_closed": true,
+    "ceiling_usd": 1,
+    "accounted_usd": 0.051861333333333336,
+    "termination": "manual after completed answer;30s inactivity independently checked offline",
+    "physical_speaker_or_human_claim": false
+  },
+  "pi": {
+    "activated": true,
+    "source_commit": "1660ffcfffa6242d4618d7996469b926ac30b61b",
+    "release": "/opt/desk-companion-releases/20261107-alice-live-final",
+    "automatic_owner": true,
+    "frontend_exact": true,
+    "preserved_owner_keys": true,
+    "paid_model_calls_during_activation": 0,
+    "verified_files": 292,
+    "weather_preference": "automatic",
+    "services": [
+      "active",
+      "active"
+    ],
+    "voice": {
+      "configured": true,
+      "provider": "openai_live",
+      "model": "gpt-live-1",
+      "configuration_error": "",
+      "wake_word": {
+        "available": true,
+        "word": "Alice",
+        "active": false,
+        "reason": null
+      }
+    },
+    "text_ai": {
+      "configured": true,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "background": false,
+      "configuration_error": ""
+    },
+    "computer_configured": true
+  }
+}

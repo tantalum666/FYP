@@ -19,7 +19,7 @@
 | [ProposalActionCard](../frontend/src/workspace/ProposalActionCard.tsx) / [TaskJobs](../frontend/src/workspace/TaskJobs.tsx) | Reviewable business proposal presentation; compact task evidence and continuation into the same assistant |
 | [PhoneScreen](../frontend/src/phone/PhoneScreen.tsx) | Navigation screen, back/focus behavior and existing draft registry; actual editors retain their own dialogs |
 | [PhoneApp](../frontend/src/phone/PhoneApp.tsx) | Compose the phone surface, selected panel/task, native route intents and user notices; it does not implement each management page or duplicate the calendar polling machinery |
-| [PhoneHome](../frontend/src/phone/PhoneHome.tsx) | Alice scene, renderer fallback, Plan/More entry points and upcoming-event presentation |
+| [PhoneHome](../frontend/src/phone/PhoneHome.tsx) / [AliceScene](../frontend/src/companion/AliceScene.tsx) | PhoneHome reuses the shared licensed scene, renderer fallback and Plan/More controls; AliceAgenda separately presents existing calendar/task reads |
 | [PhonePlan](../frontend/src/phone/PhonePlan.tsx) | Day/month calendar and tasks; refuse a section change while its form/progress draft is dirty or busy |
 | [PhoneManagement](../frontend/src/phone/PhoneManagement.tsx) | More navigation and existing memory/style/settings/activity/connections panels, inside their draft-guard scope |
 | [usePhoneCalendar](../frontend/src/phone/usePhoneCalendar.ts) / [calendar-reader](../frontend/src/phone/calendar-reader.ts) | One scoped refresh lifecycle for home and selected dates; reuse the home query when it already covers the selected day, read independent ranges concurrently, coalesce bursts and discard superseded/closed-scope results |
@@ -114,3 +114,17 @@ JourneyAdvice and proposalDecision share source/effect presentation across Web/p
 EventInput's model schema describes offset-free local times plus its existing timezone field and exposes its unchanged default10-minute reminder. The runtime validator is not relaxed. OpenAITextAdapter includes the JSON format instruction in the input message for actual provider preflight compatibility.
 
 The opt-in `live_agent_eval` runner reuses production providers/jobs/tools in isolated test stores. `live_eval_budget` is an evaluation-only durable monetary ledger, separate from normal call-count limits. It never installs a second production task store/agent loop. Actual model decisions, scripted free regressions, connector-assisted email delivery and native FYP capability are labelled separately in the [QA](../../output/qa/2026-11-07-live-agent-eval/verification.md).
+
+
+## Shared home, weather and Live boundary (7 November)
+
+[Alice home](alice-home.md) assigns shared rendering to AliceScene/AliceAgenda/HomeConditions, surface composition to existing app shells, and business reads to existing calendar/WorkspaceContext paths. weatherLocation owns a shared permission-aware position attempt and failure flag; weather.py owns bounded provider caching. Neither creates a second calendar/task poller. AssistantRefreshStatus consolidates read failures; existing write recovery remains explicit.
+
+OpenAILiveProtocol owns Live wire adaptation, nested backend events, resampling and receipt accounting. VoiceService/ToolDispatcher retain authority, context and lifecycle. Local wake and cloud voice share one lock; persisted intent stores no microphone permission or credential. LoopbackCookieScope selects a port-specific name and preserves all existing security checks. The opt-in live_voice_acceptance runner alone owns the fresh capped synthetic experiment; it does not start during normal application boot. [Validation](../../output/qa/2026-11-07-alice-home-wake/verification.md).
+
+
+## Complete voice catalog and selected input (7 November repair)
+
+`flatten_schema` distinguishes schema annotation keys from business names inside properties/patternProperties and preserves literal enum/const values. The complete-catalog regression checks every required business field, and actual API preflight plus browser acceptance cover the normal27-tool setup. Narrow read-only model fixtures must be labelled as such.
+
+`media/microphone.ts` owns one per-browser input selection and capture constraints, reused by MediaDevicePanel, WakeAudio and VoiceAudio. Enumeration belongs to the mounted device panel; no extra poller or capture manager was added. Explicit input survives blocked storage in page memory. VoiceService retains safe failure code/phase, and the Live adapter retains only bounded provider identifiers. [Repair evidence](../../output/qa/2026-11-07-alice-wake-repair/verification.md).
