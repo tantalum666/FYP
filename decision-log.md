@@ -654,3 +654,8 @@ Controlled shopping/flight cases, calendar followup and cancellation passed. JD 
 Confirmed old full-catalog rejection with a non-generation OpenAI preflight. Fix schema annotation traversal so business title/default fields survive; do not weaken validation or remove production tools to make startup pass. The earlier restricted query trial is explicitly reclassified by its actual advertised-tool scope. Native Mac input was separately verified and explicitly selected in the app, preserving system audio settings.
 
 Complete browser testing reused production capture, keyword, Live/Responses, tool and playback code with synthetic transmitted input and an isolated fictional calendar. Three successful startup/idle cycles included one full identity/calendar answer and actual playback acknowledgement;6.393second first useful playback still misses the approximate5second goal. Keep errors stopping paid retries; retain safe diagnostic identifiers and clear stale notices on deliberate retry. [QA](output/qa/2026-11-07-alice-wake-repair/verification.md).
+
+
+## 2026-11-08 Optional voice Work details remain on demand
+
+Actual acceptance screenshots showed optional voice-to-Work details covering the compact Alice home. Engineering follow-up applies the existing concise-default requirement: keep the panel mounted, hide it while compact, reveal it on Conversation expansion. An offline browser replay verified retained content and the show/hide transition;343frontend tests/build pass, no paid calls. Final source3079390is active on Mac/Pi, with the voice core unchanged from the full paid acceptance.

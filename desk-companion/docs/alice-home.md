@@ -28,3 +28,5 @@ Successful coordinates are rounded to 0.1 degree before being sent in a POST bod
 
 
 7 November wake repair: the Camera & microphone panel now has one explicit input selector shared by its local meter, local Alice detector and voice client. Re-enabling wake clears the stale voice failure notice. Full-catalog startup and browser playback/idle recovery are verified in the [repair QA](../../output/qa/2026-11-07-alice-wake-repair/verification.md); a waiting label alone is not end-to-end acceptance.
+
+8 November: optional recognized-input/voice-to-Work details stay mounted but hidden on the compact home and appear when Conversation expands. This preserves in-progress review state without covering Alice/calendar during ordinary speech. Offline browser show/hide/content-retention checks passed; no extra model call.

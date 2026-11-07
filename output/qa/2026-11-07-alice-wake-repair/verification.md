@@ -1,6 +1,6 @@
 # Group 2 · Complete Alice wake-to-Live repair
 
-7 November 2026. Source `f2a33e9d3f9ff82cdc200e09d2a6cf5f07a943c6`. The owner reported calling Alice without a response and explicitly directed the agent to complete acceptance itself. The engineer set a fresh USD0.50 cap; earlier ledgers stayed closed. [Structured results](validation-summary.json). No CI.
+7–8 November 2026. Core repair `f2a33e9d3f9ff82cdc200e09d2a6cf5f07a943c6`; final layout source `30793907e0850121b002d4e1a12e3ff64c93ff30`. The owner reported calling Alice without a response and explicitly directed the agent to complete acceptance itself. The engineer set a fresh USD0.50 cap; earlier ledgers stayed closed. [Structured results](validation-summary.json). No CI.
 
 ## Recovery and confirmed cause
 
@@ -34,6 +34,9 @@ Full backend via `.venv/bin/python -m pytest -q`:2054passed. Full frontend:343pa
 
 Provider errors now retain bounded code/type/parameter identifiers and startup/active phase in the existing voice receipt, never raw provider messages or owner prompts. Configuration rejection has a specific UI message; a deliberate new wake attempt clears the stale failure notice. Closed ledgers, explicit permission/identity checks, slot ownership and no automatic paid-error retry remain.
 
-Mac normal API8831/Web5190 runs the repaired source and the selected built-in input. Pi sourcef2a33e9is active at `/opt/desk-companion-releases/20261107-wake-repair`:292files verified,22-file stopped/checkpointed backup verified off-device, original environment/keys preserved and app/application services active. [Activation receipt](activation-summary.json). This does not establish physical Pi microphone/speaker acceptance. Updated voice/media/maintenance contracts, product, decisions, handoff, work-log and entry routing. Private fixtures, audio, device IDs, backups and credentials are excluded from Git.
+Mac normal API8831/Web5190 runs the repaired source and the selected built-in input. Pi final source3079390is active at `/opt/desk-companion-releases/20261108-wake-layout`:292files verified,22-file stopped/checkpointed backup verified off-device, original environment/keys preserved and app/application services active. [Activation receipt](activation-summary.json). This does not establish physical Pi microphone/speaker acceptance. Updated voice/media/maintenance contracts, product, decisions, handoff, work-log and entry routing. Private fixtures, audio, device IDs, backups and credentials are excluded from Git.
 
 Normal Mac Web was reloaded after service restart, the saved MacBook Pro input was read back, and the final page visibly showed Waiting for Alice with cloud voice disconnected and no stale failure notice.
+
+
+8 November closeout: the real answer screenshot exposed an optional voice-to-Work card overlaying the compact home. It now stays mounted inside a hidden wrapper until Conversation is expanded. An offline browser replay verified hidden/visible/hidden transitions with the same recognized text retained; frontend343tests/type/build passed again. This UI-only follow-up made zero provider calls, and its tab/server were closed. Full-catalog paid voice evidence above remains the core-source result. Final source3079390is active on both surfaces;292Pi files were rechecked, environment/keys unchanged. Published through PR97; open/unmerged.

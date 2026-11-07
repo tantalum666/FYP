@@ -112,5 +112,13 @@
       }
     ],
     "note": "Engineering cap for owner-requested complete self-acceptance; uncached conservative estimate with 10 percent margin, not a provider invoice. Earlier budgets were not reopened."
+  },
+  "final_source_commit": "30793907e0850121b002d4e1a12e3ff64c93ff30",
+  "ui_followup": {
+    "date": "2026-11-08",
+    "paid_calls": 0,
+    "offline_replay": "optional voice Work card hidden on compact home, visible when expanded, same text retained after return",
+    "frontend_tests": 343,
+    "build": "passed"
   }
 }

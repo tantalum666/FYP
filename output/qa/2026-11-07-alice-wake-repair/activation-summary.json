@@ -1,7 +1,7 @@
 {
   "activated": true,
-  "source_commit": "f2a33e9d3f9ff82cdc200e09d2a6cf5f07a943c6",
-  "release": "/opt/desk-companion-releases/20261107-wake-repair",
+  "source_commit": "30793907e0850121b002d4e1a12e3ff64c93ff30",
+  "release": "/opt/desk-companion-releases/20261108-wake-layout",
   "automatic_owner": true,
   "frontend_exact": true,
   "preserved_owner_keys": true,
@@ -34,5 +34,6 @@
     "active_work": false,
     "off_device_verified": true,
     "files_verified": 22
-  }
+  },
+  "core_voice_acceptance_source": "f2a33e9d3f9ff82cdc200e09d2a6cf5f07a943c6"
 }

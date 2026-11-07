@@ -1,6 +1,6 @@
 # Group 2 · Current handoff
 
-7 November 2026. Active checkout `/Users/tantalum/.codex/worktrees/live-agent-eval-20261107/FYP`, branch `codex/alice-home-wake-20261107`, [PR97](https://github.com/tantalum666/FYP/pull/97) open/unmerged. Current source **f2a33e9** is active on Mac/Pi. No CI. All agent test ledgers closed; red-LED investigation remains deferred.
+8 November 2026. Active checkout `/Users/tantalum/.codex/worktrees/live-agent-eval-20261107/FYP`, branch `codex/alice-home-wake-20261107`, [PR97](https://github.com/tantalum666/FYP/pull/97) open/unmerged. Current source **3079390** is active on Mac/Pi. No CI. All agent test ledgers closed; red-LED investigation remains deferred.
 
 ## Current result
 
@@ -14,10 +14,12 @@ The app now has one explicit Microphone selector shared by local test, keyword c
 
 2054backend/343frontend, lint/types/build pass. Fresh engineering-capped USD0.50repair ledger is closed at conservative **USD0.1864995**; all three receipts finalized. Useful post-input audio6.393seconds remains above the approximate5second target. This is not a human-accent/noise/AEC accuracy result. Prior USD1UI trial (USD0.0518613333) and browser/text round (USD0.37970163) remain independently closed.
 
-Mac Web5190/API8831 runs the active checkout. Pi release `/opt/desk-companion-releases/20261107-wake-repair` has292verified files, original keys/environment and active app/application services. [Activation](output/qa/2026-11-07-alice-wake-repair/activation-summary.json). Physical Pi audio acceptance remains separate.
+Mac Web5190/API8831 runs the active checkout. Pi release `/opt/desk-companion-releases/20261108-wake-layout` has292verified files, original keys/environment and active app/application services. [Activation](output/qa/2026-11-07-alice-wake-repair/activation-summary.json). Physical Pi audio acceptance remains separate.
 
 Private repair evidence and22-file stopped/checkpointed/off-device-verified backup: `~/.config/desk-companion/alice-wake-failure-20261107/`, archive `20261107-before-wake-repair.tar.gz`. The closed browser fixture ledger and scripts must not be reused for new paid testing. Its temporary tab/server are stopped; no microphone interception was installed on the owner's normal page. Keep the20261106release backing the frozen environment symlink and the retained recovery checkout used by `~/.config/desk-companion/pi5-dorm-ethernet-20261104/pi_remote.py`. VPS route unchanged.
 
 ## One next step
 
 Reduce the measured first useful voice answer delay toward5seconds without stripping the normal tool catalog or weakening authority. Start with offline profiling; any new paid acceptance needs fresh scope. Native background/human acoustics/physical Pi audio remain open. The subsequent personal-agent slice is explicit same-browser owner takeover at the observed JD verification boundary; real transactions and native sending are still not implemented.
+
+Compact-home optional voice-to-Work details now stay mounted but hidden until Conversation expands; an offline browser replay verified retained content. This8NovemberUI follow-up added no paid calls.
