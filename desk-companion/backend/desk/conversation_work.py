@@ -5,15 +5,18 @@ snapshot of that same wording. The voice review screen can also apply that
 snapshot to one current run. This module calls the existing ``AgentRunService``
 steer action, then one verified result from the existing offline deterministic
 executor. A later turn in that same conversation can ask about the work and is
-shown that same verified file again. It does not create a task, a run, a queue,
-or a model approval tool, and it does not call a provider.
+shown that same verified file again. An explicit continue ask advances that
+same run once through ``AgentRunService.advance_one`` and shows the verified
+file. It does not create a task, a run, a queue, or a model approval tool, and
+it does not call a provider.
 
 An interruption before the steer commits leaves the goal unchanged and is not a
 successful reply. A commit whose conversation receipt is lost is recovered by
 the same operation id; the goal is not applied a second time. An unverified,
 failed, or interrupted executor result is not shown as success. A verified
-result is shown once for that operation id, and a later ask reads it back
-without running the executor again.
+result is shown once for that operation id, and a later status ask reads it
+back without running the executor again. The same continue operation advances
+at most once.
 """
 
 import hashlib
@@ -21,7 +24,7 @@ import json
 
 from .agent_run_schemas import RunAction
 from .agent_runs import TERMINAL
-from .store import DomainError
+from .store import DomainError, encode
 
 # One matcher. Source labels and quote marks are closed lists, not extra patterns.
 _IMPLICIT_LEADS = ("change the goal", "调整目标")
@@ -65,6 +68,10 @@ _FOLLOWUP_ASKS = frozenset(
         "核验结果是什么",
     }
 )
+# Closed continue asks. Status questions stay on the follow-up read above.
+_CONTINUE_BARE = frozenset({"continue this work", "继续这项工作"})
+_CONTINUE_LEADS = ("continue work", "继续工作")
+_CLOSED = TERMINAL | {"paused", "blocked"}
 _RESULT_KINDS = frozenset({"work_goal", "work_result"})
 
 _TEXT = {
@@ -72,9 +79,15 @@ _TEXT = {
         "admitted": ("The goal of this work is now “{goal}”. {result}Nothing was sent or bought."),
         "recovered": "This work already has that goal. {result}The earlier change was kept.",
         "shown": "This work still has that verified report. {result}Nothing was sent or bought.",
+        "continued": "This work continued. {result}Nothing was sent or bought.",
+        "finished": "This work is already finished. It was not started again.",
+        "cancelled": "This work was cancelled. It was not started again.",
+        "cannot_continue": "This work cannot continue from here.",
         "unchanged": "That is already the goal of this work.",
         "none": "No current work is linked to this task.",
+        "no_report": "This conversation has no verified work to continue.",
         "name_work": "Name the work to change.",
+        "name_continue": "Name the work to continue.",
         "ambiguous": "This task has more than one current work. Name the work to change.",
         "unavailable": "This work cannot take another goal change.",
         "not_found": "That work was not found.",
@@ -88,9 +101,15 @@ _TEXT = {
         "admitted": "这项工作的目标已改为「{goal}」。{result}没有发送或购买。",
         "recovered": "这项工作已经是这个目标。{result}先前的更改仍在。",
         "shown": "这项工作仍有这份已核验报告。{result}没有发送或购买。",
+        "continued": "这项工作已继续。{result}没有发送或购买。",
+        "finished": "这项工作已经结束，没有重新开始。",
+        "cancelled": "这项工作已取消，没有重新开始。",
+        "cannot_continue": "这项工作不能从这里继续。",
         "unchanged": "这已经是这项工作的目标。",
         "none": "这个事务没有关联的当前工作。",
+        "no_report": "这条对话里没有可以继续的已核验工作。",
         "name_work": "请写明要改的工作。",
+        "name_continue": "请写明要继续的工作。",
         "ambiguous": "这个事务有多项当前工作。请写明要改的工作。",
         "unavailable": "这项工作不能再改目标。",
         "not_found": "没有找到这项工作。",
@@ -152,6 +171,39 @@ def parse_work_followup(message: str) -> bool:
     return _followup_key(own[0]) in _FOLLOWUP_ASKS
 
 
+def parse_work_continue(message: str) -> dict | None:
+    """The one owner line that continues work, or None.
+
+    A bare ask continues only when one current run is clear. Naming the run id
+    selects that run. Questions, quotes, and source headers are not this line.
+    """
+    own = _owner_lines(message)
+    if own is None or len(own) != 1 or own[0].endswith(("?", "？")):
+        return None
+    line = own[0]
+    if _followup_key(line) in _CONTINUE_BARE:
+        return {"run_id": None}
+    for lead in _CONTINUE_LEADS:
+        rest = _after_lead(line, lead)
+        if rest is None or not rest[:1].isspace():
+            continue
+        token = rest.lstrip().rstrip(" .。")
+        if len(token) == 32 and all(c in "0123456789abcdef" for c in token.casefold()):
+            return {"run_id": token.casefold()}
+    return None
+
+
+def _continue_request(message: str, language: str) -> str:
+    body = encode(
+        {
+            "type": "continue",
+            "message": message.strip(),
+            "language": language if language in _TEXT else "en",
+        }
+    )
+    return "continue:" + hashlib.sha256(body.encode()).hexdigest()
+
+
 def _after_lead(line: str, lead: str) -> str | None:
     if not line.casefold().startswith(lead.casefold()):
         return None
@@ -198,10 +250,14 @@ class ConversationWork:
         action_key = _action_key(key)
         self._require_snapshot(payload, action_key, principal)
         language = payload.language if payload.language in _TEXT else "en"
+        self._reject_other_continue(action_key, payload.message, language)
         if getattr(payload, "voice_steer", False) is True:
             return self._steer_snapshot(payload, action_key, principal, language)
         parsed = parse_changed_goal(payload.message)
         if parsed is None:
+            continued = self._continue(payload, action_key, principal, language, conversation)
+            if continued is not None:
+                return continued
             if parse_work_followup(payload.message):
                 shown = self._reshow(payload, principal, language, conversation)
                 if shown is not None:
@@ -333,6 +389,159 @@ class ConversationWork:
             return None
         return reply if isinstance(reply, dict) else None
 
+    def _continue(self, payload, action_key, principal, language, conversation):
+        """Advance one shown run once. A provider is not called.
+
+        The ask has to be an explicit continue phrase. Status questions stay on
+        the read-only follow-up. A finished or cancelled run is not reopened.
+        The same operation id calls ``advance_one`` at most once.
+        """
+        parsed = parse_work_continue(payload.message)
+        if parsed is None:
+            return None
+        self.runtime.agent_runs.session(principal)
+        request = _continue_request(payload.message, language)
+        recovered = self._recovered_continue(action_key, request, principal, language)
+        if recovered is not None:
+            return recovered
+        shown = self._shown_runs(conversation, principal, payload.task_id)
+        if not shown:
+            return _reply(language, "no_report", admitted=False)
+        selected = self._select_continue(shown, parsed, principal, payload.task_id, language)
+        if selected.get("kind") == "clarify":
+            return selected
+        closed = _closed_reply(language, selected)
+        if closed is not None:
+            return closed
+        self._fence("before_continue")
+        bound = self.runtime.agent_runs.refresh_owner(selected["id"], principal)
+        closed = _closed_reply(language, bound)
+        if closed is not None:
+            return closed
+        try:
+            stepped = self.runtime.agent_runs.advance_one(selected["id"])
+        except Exception:
+            self._record_continue(action_key, request, selected["id"])
+            raise DomainError("CONVERSATION_WORK_RESULT_UNKNOWN", 409) from None
+        if not stepped:
+            raise DomainError("CONVERSATION_WORK_RESULT_INTERRUPTED", 409)
+        self._record_continue(action_key, request, selected["id"])
+        self._fence("after_continue")
+        return self._continued_result(selected["id"], principal, language, recovered=False)
+
+    def _recovered_continue(self, action_key, request, principal, language):
+        row = self._operation_row(action_key)
+        if row is None or not str(row["request_hash"]).startswith("continue:"):
+            return None
+        if row["request_hash"] != request:
+            raise DomainError("OPERATION_ID_CONFLICT")
+        return self._continued_result(row["run_id"], principal, language, recovered=True)
+
+    def _continued_result(self, run_id, principal, language, *, recovered):
+        try:
+            current = self.runtime.agent_runs.detail(run_id, principal)["run"]
+        except DomainError as error:
+            if error.code == "RUN_NOT_FOUND":
+                raise DomainError("CONVERSATION_WORK_RESULT_UNKNOWN", 409) from None
+            raise
+        if current["state"] in {"failed", "blocked"}:
+            raise DomainError(_result_error(current), 409)
+        if current["state"] in {"cancelled", "partial"}:
+            return _closed_reply(language, current)
+        session_hash = hashlib.sha256(principal["session"].encode()).hexdigest()
+        reading = self._read_verified(current, current["goal"], session_hash)
+        if reading is None:
+            raise DomainError("CONVERSATION_WORK_RESULT_UNKNOWN", 409)
+        verified = _require_verified(reading)
+        return _reply(
+            language,
+            "continued",
+            admitted=False,
+            recovered=recovered,
+            run=current,
+            result=verified,
+            publish_result=True,
+        )
+
+    def _select_continue(self, shown, parsed, principal, task_id, language):
+        if parsed["run_id"]:
+            match = next((run for run in shown if run["id"] == parsed["run_id"]), None)
+            if match is None:
+                return _reply(language, "not_found", admitted=False)
+            return match
+        current = self._current_runs(principal, task_id)
+        open_shown = [run for run in shown if run["state"] not in _CLOSED]
+        if len(current) > 1 or len(open_shown) > 1:
+            return _reply(language, "name_continue", admitted=False)
+        if len(open_shown) == 1:
+            return open_shown[0]
+        if len(shown) == 1:
+            return shown[0]
+        return _reply(language, "name_continue", admitted=False)
+
+    def _shown_runs(self, conversation, principal, task_id):
+        if conversation is None:
+            return []
+        found, seen = [], set()
+        for item in conversation.items:
+            if item.get("role") != "assistant" or not item.get("operation_id"):
+                continue
+            reply = _verified_work_reply(self._stored_reply(item["operation_id"]))
+            run_id = None if reply is None else reply.get("work_run_id")
+            if not isinstance(run_id, str) or run_id in seen:
+                continue
+            try:
+                run = self.runtime.agent_runs.detail(run_id, principal)["run"]
+            except DomainError as error:
+                if error.code == "RUN_NOT_FOUND":
+                    continue
+                raise
+            if task_id and task_id not in (run.get("task_ids") or []):
+                continue
+            seen.add(run_id)
+            found.append(run)
+        return found
+
+    def _current_runs(self, principal, task_id):
+        rows = self.runtime.agent_runs.listing(principal)["runs"]
+        current = []
+        for row in rows:
+            if row.get("private_hidden") or row.get("state") in _CLOSED:
+                continue
+            if task_id and task_id not in (row.get("task_ids") or []):
+                continue
+            current.append(row)
+        return current
+
+    def _reject_other_continue(self, action_key, message, language):
+        row = self._operation_row(action_key)
+        if row is None or not str(row["request_hash"]).startswith("continue:"):
+            return
+        if row["request_hash"] != _continue_request(message, language):
+            raise DomainError("OPERATION_ID_CONFLICT")
+
+    def _record_continue(self, action_key, request, run_id):
+        with self.store.connection(write=True) as conn:
+            old = conn.execute(
+                "SELECT request_hash, run_id FROM agent_run_operations WHERE id=?",
+                (action_key,),
+            ).fetchone()
+            if old:
+                if old["request_hash"] != request or old["run_id"] != run_id:
+                    raise DomainError("OPERATION_ID_CONFLICT")
+                return
+            conn.execute(
+                "INSERT INTO agent_run_operations VALUES(?,?,?)",
+                (action_key, request, run_id),
+            )
+
+    def _operation_row(self, action_key):
+        with self.store.connection() as conn:
+            return conn.execute(
+                "SELECT request_hash, run_id FROM agent_run_operations WHERE id=?",
+                (action_key,),
+            ).fetchone()
+
     def _one_verified_result(self, run, principal, goal):
         """One offline executor result for this goal. A provider is never called.
 
@@ -432,8 +641,10 @@ class ConversationWork:
         code = {
             "before_commit": "CONVERSATION_WORK_INTERRUPTED",
             "before_result": "CONVERSATION_WORK_RESULT_INTERRUPTED",
+            "before_continue": "CONVERSATION_WORK_RESULT_INTERRUPTED",
             "after_commit": "CONVERSATION_WORK_RESULT_UNKNOWN",
             "after_result": "CONVERSATION_WORK_RESULT_UNKNOWN",
+            "after_continue": "CONVERSATION_WORK_RESULT_UNKNOWN",
         }[phase]
         raise DomainError(code, 409)
 
@@ -486,6 +697,20 @@ def _action_key(key: str) -> str:
 
 def _steerable(run) -> bool:
     return run.get("state") != "cancelled" and run.get("plan_revision", 2) < 2
+
+
+def _closed_reply(language, run):
+    """A clear refusal. Finished and cancelled runs are not started again."""
+    state = run.get("state")
+    if state == "cancelled":
+        return _reply(language, "cancelled", admitted=False)
+    if state == "failed":
+        return _reply(language, "cannot_continue", admitted=False)
+    if state in TERMINAL:
+        return _reply(language, "finished", admitted=False)
+    if state in {"paused", "blocked"}:
+        return _reply(language, "cannot_continue", admitted=False)
+    return None
 
 
 def _result_error(run):
