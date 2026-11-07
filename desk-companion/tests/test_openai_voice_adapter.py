@@ -144,12 +144,18 @@ def test_openai_quiet_session_closes_without_another_paid_response(tmp_path, mon
     runtime = create_app(tmp_path, scheduler=False).state.runtime
     service = runtime.voice
     service.config = config()
+    service.config.proxy_url = "http://127.0.0.1:17891"
     owner = {"kind": "owner", "session": runtime.store.create_owner_session()}
 
     async def scenario():
         provider = FakeProvider()
         socket = FakeSocket()
-        service.connector = lambda *a, **k: provider
+        def connector(*args, **kwargs):
+            assert args[0].startswith(OPENAI_REALTIME_ENDPOINT)
+            assert kwargs["proxy"] == "http://127.0.0.1:17891"
+            return provider
+
+        service.connector = connector
         principal = service.consume(service.ticket(owner)["ticket"])
         task = asyncio.create_task(service.run(socket, principal, "en"))
         event = await asyncio.wait_for(socket.outgoing.get(), 1)

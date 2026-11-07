@@ -246,6 +246,38 @@ export function errorText(
       "Local note execution is disabled on this desk.",
       "本桌面未启用本地笔记执行。",
     ],
+    OPENAI_REGION_UNSUPPORTED: [
+      "OpenAI is unavailable from this desk's current region.",
+      "OpenAI 暂不支持当前桌面所在地区的连接。",
+    ],
+    COMPUTER_USE_UNAVAILABLE: [
+      "OpenAI browser operation is not connected on this desk.",
+      "当前桌面尚未接好 OpenAI 浏览器操作。",
+    ],
+    COMPUTER_SITE_UNAVAILABLE: [
+      "This website could not be opened. Check the connection or the site's access requirements.",
+      "无法打开这个网站，请检查网络或网站的访问要求。",
+    ],
+    COMPUTER_CLEANUP_REQUIRED: [
+      "The previous browser did not confirm closing. Check it before starting again.",
+      "上一个浏览器尚未确认关闭，请先检查再开始。",
+    ],
+    COMPUTER_SOURCE_CHANGED: [
+      "The saved browser state changed or is unavailable. Start a new browser task.",
+      "保存的浏览器状态已变化或不可用，请重新开始浏览器任务。",
+    ],
+    COMPUTER_ENVIRONMENT_REVIEW_REQUIRED: [
+      "This restored record has no browser session attached. Inspect the saved result first.",
+      "恢复的记录未附带浏览器会话，请先检查已有结果。",
+    ],
+    BROWSER_EXTRA_REQUIRED: [
+      "The browser component needs setup on this desk.",
+      "当前桌面还需要安装浏览器组件。",
+    ],
+    BROWSER_EXECUTABLE_REQUIRED: [
+      "Choose the browser installed on this desk.",
+      "需要指定当前桌面已安装的浏览器。",
+    ],
     FOLDER_NOT_CONFIGURED: [
       "Name one real folder before preparing a folder file.",
       "请先指定一个真实文件夹，再准备文件夹文件。",

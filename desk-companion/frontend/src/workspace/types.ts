@@ -55,12 +55,19 @@ export interface WorkspaceSnapshot {
     folder?: { configured: boolean; label: string | null };
     desktop?: { ready: boolean };
     applications?: { enabled: boolean; configured: boolean };
+    computer_use?: {
+      enabled: boolean;
+      configured: boolean;
+      reason?: string | null;
+      model: string;
+    };
   };
   text_ai: {
     configured: boolean;
     provider: string;
     model: string;
     background: boolean;
+    configuration_error?: string;
   };
   tasks: {
     active_count: number;

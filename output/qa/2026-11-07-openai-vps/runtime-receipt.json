@@ -1,0 +1,64 @@
+{
+  "source_commit": "9625f137ac685547648b4ffd9f1a7d2efa29c037",
+  "release": "/opt/desk-companion-releases/20261107-openai-vps",
+  "model_catalog": {
+    "http_status": 200,
+    "model_count": 96,
+    "models_present": {
+      "gpt-6.1-sol": true,
+      "gpt-realtime-2.1": true
+    },
+    "error_code": null,
+    "tls_verification": true,
+    "route": "explicit Pi loopback -> pinned VPS SSH -> api.openai.com:443",
+    "paid_model_calls": 0
+  },
+  "realtime_handshake": {
+    "connected": true,
+    "event": "session.created",
+    "model": "gpt-realtime-2.1",
+    "input_audio_sent": false,
+    "response_create_sent": false,
+    "paid_model_calls": 0,
+    "closed_normally": true
+  },
+  "runtime": {
+    "text_ready": true,
+    "voice_ready": true,
+    "computer_use_ready": true,
+    "configuration_error": "",
+    "background_generation": false,
+    "automatic_owner": true,
+    "owner_keys_preserved": true
+  },
+  "backup": {
+    "verified_files": 21,
+    "archive_sha256": "f7b76a0889cc480d6bfab908a2f889dc4c8347a830992350a5e1dad0784d8645",
+    "verified_on_mac": true
+  },
+  "local_checks": {
+    "provider_regressions": 357,
+    "final_bridge_tests": 14,
+    "ruff": "passed"
+  },
+  "paid_inference_requests": 0,
+  "ci": false,
+  "route_services_active": [
+    "active",
+    "active",
+    "active"
+  ],
+  "route_services_enabled": [
+    "enabled",
+    "enabled"
+  ],
+  "loopback_only": true,
+  "unrelated_destinations_rejected": true,
+  "rendered_pi_ui": {
+    "alice_visible": true,
+    "voice_button_enabled": true,
+    "wake_checked": false,
+    "old_region_notice": false,
+    "console_errors": 0
+  }
+}

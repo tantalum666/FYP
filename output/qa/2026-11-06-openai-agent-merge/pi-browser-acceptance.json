@@ -1,0 +1,86 @@
+[
+  {
+    "case": "shopping",
+    "planner": "scripted_mock_responses_native_computer_calls",
+    "real_browser": true,
+    "paid_model_requests": 0,
+    "real_orders_or_bookings": 0,
+    "cleanup_confirmed": true,
+    "outputs": [
+      {
+        "id": "5ce2ee54b0d54cdaa560d246044f91ce",
+        "outcome": "review_ready",
+        "reason": "review_prepared_page",
+        "state_sha256": "5113cd67842993be30d6346a5215270ffbfc3f4cc300d5c09dbb0754e1e288a2",
+        "screen": "1-screen.png",
+        "screen_sha256": "a849da71125d99f76536c69da298d58d79432b2f5579160e7500d4bb80deba73",
+        "browser_version": "154.0.8037.92"
+      },
+      {
+        "id": "83f2d5b4bfea4b81aba3db6b444d2212",
+        "outcome": "needs_owner",
+        "reason": "final_submission_needs_owner",
+        "state_sha256": "2089f4e727137cb268392583d7bf3f2c31c8975d00efd0d132c37ca8f27a77d3",
+        "screen": "2-screen.png",
+        "screen_sha256": "d27f6227a7ab5248bf06a29df953288b414396e2a63151a572e1e3cbaf1627b5",
+        "browser_version": "154.0.8037.92"
+      }
+    ],
+    "platform": "Raspberry Pi 5 Linux ARM64",
+    "no_new_privileges": true,
+    "cpu_quota": "100%"
+  },
+  {
+    "case": "flights",
+    "planner": "scripted_mock_responses_native_computer_calls",
+    "real_browser": true,
+    "paid_model_requests": 0,
+    "real_orders_or_bookings": 0,
+    "cleanup_confirmed": true,
+    "outputs": [
+      {
+        "id": "cf2f0e02cc2d40b899073bd94145e83f",
+        "outcome": "needs_owner",
+        "reason": "final_submission_needs_owner",
+        "state_sha256": "b92629ef358ca9ee064d7024d65ffc9e944e980ad5bfdb00e9f66bfb513b36d4",
+        "screen": "1-screen.png",
+        "screen_sha256": "c284985dc13d7f14d8ad47dfc10df0f4ac825722609c7c6dcd80fa71510a2b46",
+        "browser_version": "154.0.8037.92"
+      }
+    ],
+    "platform": "Raspberry Pi 5 Linux ARM64",
+    "no_new_privileges": true,
+    "cpu_quota": "100%"
+  },
+  {
+    "case": "stop",
+    "planner": "scripted_mock_responses_native_computer_calls",
+    "real_browser": true,
+    "paid_model_requests": 0,
+    "real_orders_or_bookings": 0,
+    "cleanup_confirmed": true,
+    "outputs": [
+      {
+        "id": "3f4d4cf2d9934a7abaff858d99db99e1",
+        "outcome": "needs_owner",
+        "reason": "stopped_by_owner",
+        "state_sha256": "6aa138703b046843a7176f9006604cc4a9d2e27dcc106c2603a405ebb5e2bce4",
+        "screen": "1-screen.png",
+        "screen_sha256": "a849da71125d99f76536c69da298d58d79432b2f5579160e7500d4bb80deba73",
+        "browser_version": "154.0.8037.92"
+      },
+      {
+        "id": "40fc61dcadf84508969173dcd9283ac3",
+        "outcome": "needs_owner",
+        "reason": "final_submission_needs_owner",
+        "state_sha256": "78560b6e509aa8d3d8fb9760069b861dd0765427c6b6e9770b8a5d74e8b946af",
+        "screen": "2-screen.png",
+        "screen_sha256": "d27f6227a7ab5248bf06a29df953288b414396e2a63151a572e1e3cbaf1627b5",
+        "browser_version": "154.0.8037.92"
+      }
+    ],
+    "platform": "Raspberry Pi 5 Linux ARM64",
+    "no_new_privileges": true,
+    "cpu_quota": "100%"
+  }
+]

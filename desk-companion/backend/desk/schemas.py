@@ -15,10 +15,23 @@ class Recurrence(StrictModel):
     until: date | None = None
 
 
+def local_datetime_schema(schema):
+    # RFC3339 date-time implies an offset, but these fields intentionally use
+    # wall-clock time plus the separate IANA timezone field.
+    schema.pop("format", None)
+    schema["pattern"] = r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::00)?$"
+
+
 class EventInput(StrictModel):
     title: str = Field(min_length=1, max_length=160)
-    start_local: datetime
-    end_local: datetime
+    start_local: datetime = Field(
+        description="Local wall-clock time YYYY-MM-DDTHH:MM, without Z or a UTC offset. Use the separate timezone field.",
+        json_schema_extra=local_datetime_schema,
+    )
+    end_local: datetime = Field(
+        description="Local wall-clock time YYYY-MM-DDTHH:MM, without Z or a UTC offset, in the same timezone as start_local. Convert other source timezones first.",
+        json_schema_extra=local_datetime_schema,
+    )
     timezone: str = "Asia/Hong_Kong"
     all_day: bool = False
     calendar: Literal["personal", "study"] = "personal"
@@ -28,7 +41,12 @@ class EventInput(StrictModel):
     location: str = Field(default="", max_length=300)
     notes: str = Field(default="", max_length=2000)
     recurrence: Recurrence = Field(default_factory=Recurrence)
-    reminder_minutes: list[int] = Field(default_factory=lambda: [10], max_length=4)
+    reminder_minutes: list[int] = Field(
+        default_factory=lambda: [10],
+        max_length=4,
+        description="Reminder minutes before the start. Omission adds a 10-minute reminder. Pass [] explicitly when the owner requests no reminders.",
+        json_schema_extra={"default": [10]},
+    )
 
     @field_validator("title")
     @classmethod
