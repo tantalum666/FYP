@@ -46,3 +46,5 @@ Updated contracts: product, decision-log, shared home, desktop conversation, voi
 
 
 Final UI/cleanup: the updated Pi preview8891 visibly showed Desk connected, Alice, calendar/time/weather, composer and local wake switch with no provider/microphone footer. Owner Web/phone/Pi previews and the actual Gmail connection result were retained. Offline QA tab/server8832 closed and all temporary device-metric overrides cleared. Final frontend351checks passed again after the measured-layout addition. Source and boundary-aware secret scan passed; a broad initial pattern only matched a historical desk-companion path. All current entry/handoff/work-log files were updated and local links checked before publication.
+
+Publication: independent branch pushed through1afb556; remote HEAD matched and PR97 metadata was updated. PR is open, ready and unmerged. See [publication receipt](publication.json). Runtime source232b065 is separate from these documentation commits.

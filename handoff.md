@@ -21,3 +21,5 @@ Pi has the private client configuration and voice cache; Pi Gmail/Calendar remai
 ## One next step
 
 Continue the requested personal-agent work with **same-browser owner takeover and deliberate return** for merchant login/verification, preserving the existing job and authority flow. Calendar and Microsoft consent can be completed when the owner chooses; their explicit deferral must not block independent software work. This handoff does not authorize an unspecified purchase, booking, extra email or new paid-model test.
+
+Publication: [PR97](https://github.com/tantalum666/FYP/pull/97) remains open/unmerged. Reviewed code/activation head1afb556 was pushed and matched the remote branch; [publication receipt](output/qa/2026-11-08-caption-mail-voice/publication.json) records the check. Runtime source remains232b065.
