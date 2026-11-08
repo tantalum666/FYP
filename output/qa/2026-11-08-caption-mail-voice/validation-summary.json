@@ -63,5 +63,6 @@
   },
   "microsoft_live_authorization": "deferred_by_owner",
   "google_calendar_consent": "pending",
-  "pi_activation": "pending"
+  "pi_activation": "passed_after_packaging_fix",
+  "pi_verified_files": 305
 }
