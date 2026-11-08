@@ -1,5 +1,9 @@
 # Group 2 · OpenAI voice and Alice wake listening
 
+## 9 November acceptance update
+
+The owner still rejects the voice quality and selected reference-based customization. Bright remains the running comparison voice, not an accepted final sound. The [current review](../../research/2026-11-09-custom-alice-voice.md) distinguishes TTS candidates, language/hardware/license limits and an ASR→existing agent/tools→TTS route. Fourteen audition lines are prepared, no reference supplied or new audio generated. Do not present earlier provider-echo success as owner listening acceptance. All paid test ledgers stay closed.
+
 ## 8 November evening: verified voice selection and review delivery
 
 A fresh owner-approved USD1 round is closed at conservativeUSD0.346456, with all five sessions finalized. Original, Gleam and the new Alice · Bright samples each returned actual Mandarin/English/Cantonese text and audio; provider echoes matched the requested voice. Bright is selected for the normal Mac runtime and its real sample is cached. This supersedes the earlier lack of a successful audition for the original voice; the earlier failed ledger remains closed and separate.

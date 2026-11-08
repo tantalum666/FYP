@@ -678,3 +678,12 @@ Actual acceptance screenshots showed optional voice-to-Work details covering the
 **Evidence:** 2103backend/351frontend local checks and build passed; OAuth origin/cancel/refresh/privacy/account boundaries tested. Real Mac Gmail consent -> FYP review -> one send -> exact provider-ID readback in SENT/INBOX passed. Google's delivered MIME Message-ID differs from the submitted ID; provider ID/content are the independent correlation. Microsoft live calls, GoogleCalendar consent and Pi account consent are not claimed.
 
 **Voice/UI:** actual original/Gleam/Bright samples and a successful29-tool synthetic browser run verified provider echo and returned speech. Bright selected and cached. The first browser run exposed a pending-review response timeout, now fixed through explicit review delivery; it stays recorded as failed. Later30-tool OAuth catalog has local coverage, not an additional paid trial. Long captions have a dark bounded surface, technical footer removed, and phone agenda uses measured conversation height. Human naturalness/AEC remains separate.
+
+
+## 2026-11-09 Reference-based Alice voice research and new Outlook account
+
+**Owner decision:** the existing voice remains unsatisfactory; customize from a reference voice the owner likes and has rights to use. This replaces prompt-only voice iteration as the next focus, not the default OpenAI reasoning provider. Reference audio/transcript is still missing.
+
+**Verified state:** the connected Outlook plugin profile matches the new personal account; FYP Microsoft365/Teams/SharePoint remain unconfigured/unconnected. Codex authorization is not transferable application configuration. No Azure resource/registration, mailbox read/send, provider generation or deployment occurred.
+
+**Engineering proposal, not final selection:** GPT-SoVITS is the first three-language reference candidate; compare versions using a fixed corpus and actual resource measurements. FishS2-Pro is a heavier expressive comparison, Drama3's officialNVIDIAmemory requirement excludes the current first deployment, and VibeRealtime's English/voice-prompt restrictions make it unsuitable as the main trilingual customization route. Verified MacM2Pro/16GB, Pi7.87GiB and VPS2cores/1GiB; do not call the VPS a GPU host. Separate synthesis from the existing agent/tools and retain authority/cancellation/history ownership. [Sources and proposal](research/2026-11-09-custom-alice-voice.md).

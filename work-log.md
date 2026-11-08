@@ -838,3 +838,10 @@ The owner rejected SMTP/app-password setup. Replaced it with bundled Google/Micr
 Updated product, decisions, research, app/home/voice/maintenance/conversation contracts, entries, handoff and [current QA](output/qa/2026-11-08-caption-mail-voice/verification.md). The Pi preview visibly shows Alice and the new home; temporary QA server/tab and overrides were cleared. Publication and remote HEAD are recorded separately. No CI, closed-budget reopening, power investigation or human/native-audio acceptance. Next: owner takeover/return in the existing browser job.
 
 Publication: [PR97](https://github.com/tantalum666/FYP/pull/97) remains open/unmerged. Reviewed code/activation head1afb556 was pushed and matched the remote branch; [publication receipt](output/qa/2026-11-08-caption-mail-voice/publication.json) records the check. Runtime source remains232b065.
+
+
+## 2026-11-09 · Reference voice feasibility and Outlook identity
+
+Confirmed the owner's newly connected personal Outlook account through the plugin profile only; FYP Microsoft configuration remains absent. Reviewed/pinned VibeVoice, GPT-SoVITS and Fish Speech primary sources, including current V5/Drama3 distinctions, language/reference/platform capabilities and code/weight licensing. Verified Mac/Pi/VPS resources read-only. Owner selected a reference voice they approve and have rights to use; no clip yet supplied.
+
+Delivered [research and integration proposal](research/2026-11-09-custom-alice-voice.md), a14-line fictional trilingual/mixed-language audition corpus and [QA](output/qa/2026-11-09-custom-voice-research/verification.md). Marked current Bright as technically selected but not owner-accepted; GPT-SoVITS first remains an engineering proposal. Updated current product, decision, voice contract, research index, handoff and continuation entry. JSON/link/diff/secret checks only; no app code, runtime/default, model installation, paid inference or deployment changed. Next: obtain approved reference/transcript and run the bounded local audition.
