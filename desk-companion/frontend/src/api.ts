@@ -240,6 +240,84 @@ export function errorText(
 ) {
   const code = error instanceof ApiError ? error.code : "REQUEST_FAILED";
   const messages: Record<string, [string, string]> = {
+    APP_SCOPE_REQUIRED: [
+      "The app did not receive the required permissions. Reconnect and review the access requested.",
+      "此应用未获得必要权限，请重新连接并核对访问范围。",
+    ],
+    APP_ACCOUNT_UNVERIFIED: [
+      "The provider could not verify this account's email address.",
+      "服务提供方未能验证此账号的邮箱地址。",
+    ],
+    APP_RESPONSE_TOO_LARGE: [
+      "The result is too large. Select an item or request fewer results.",
+      "结果过大，请指定一项内容或减少读取数量。",
+    ],
+
+    APP_NOT_CONFIGURED: [
+      "This app's connection setup is not finished.",
+      "此应用的连接设置尚未完成。",
+    ],
+    APP_NOT_CONNECTED: [
+      "Connect this app in Connections first.",
+      "请先在连接页面授权此应用。",
+    ],
+    APP_RECONNECT_REQUIRED: [
+      "Reconnect this app to renew its permission.",
+      "请重新连接此应用以更新授权。",
+    ],
+    APP_PERMISSION_REQUIRED: [
+      "This account has not granted the required access. A work or school administrator may need to approve it.",
+      "此账号尚未获准访问，工作或学校管理员可能需要批准。",
+    ],
+    APP_ITEM_UNAVAILABLE: [
+      "This item or service is unavailable for the connected account.",
+      "此账号无法访问这项内容或服务。",
+    ],
+    APP_RATE_LIMIT: [
+      "The connected app is temporarily limiting requests. Try again later.",
+      "此应用暂时限制了请求，请稍后重试。",
+    ],
+    APP_CONNECTION_FAILED: [
+      "The connected app could not be reached.",
+      "暂时无法连接此应用。",
+    ],
+    APP_CONNECTION_CHANGED: [
+      "The connected account changed. Read the current account before continuing.",
+      "连接的账号已变化，请刷新后继续。",
+    ],
+
+    APP_CALLBACK_UNAVAILABLE: [
+      "Open Apps from the configured local address to connect this account.",
+      "请通过已配置的本机地址打开应用连接页面。",
+    ],
+    EMAIL_CONNECTION_FAILED: [
+      "Could not reach the mail provider. Check the connection and try again.",
+      "暂时无法连接邮箱服务，请检查网络后重试。",
+    ],
+    EMAIL_NOT_CONNECTED: [
+      "Connect Gmail or Microsoft 365 in Connections first.",
+      "请先在连接页面授权 Gmail 或 Microsoft 365。",
+    ],
+    EMAIL_CONNECTION_CHANGED: [
+      "The sending account changed. Prepare a new email for review.",
+      "发件账号已变化，请重新准备邮件。",
+    ],
+    EMAIL_RECIPIENT_REJECTED: [
+      "The mail provider rejected the recipient. Check the address.",
+      "邮箱服务拒绝了这个收件地址，请核对。",
+    ],
+    EMAIL_SEND_REJECTED: [
+      "The mail provider rejected this message. It was not accepted for sending.",
+      "邮箱服务拒绝了这封邮件，尚未提交发送。",
+    ],
+    EMAIL_SEND_UNKNOWN: [
+      "The mail provider's final receipt was lost. Check Sent mail before sending again; Alice will not resend automatically.",
+      "邮件服务的最终回执丢失。请先检查已发送邮件；Alice 不会自动重发。",
+    ],
+    VOICE_SELECTION_MISMATCH: [
+      "The voice service returned a different voice. The call was stopped.",
+      "语音服务返回了不同音色，会话已停止。",
+    ],
     LOCAL_OWNER_UNAVAILABLE: [
       "Open this workspace on your desk, or connect this device first.",
       "请在桌面打开此工作空间，或先连接本设备。",

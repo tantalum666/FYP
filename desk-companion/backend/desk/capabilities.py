@@ -12,6 +12,8 @@ from pydantic import Field, ValidationError
 from .jobs import JobInput, JobQuery
 from .application_models import ApplicationJobInput, ApplicationStateQuery, SourceQuery
 from .memory import MemoryDeleteDraft, MemoryQuery, MemoryReplaceDraft, MemorySaveDraft
+from .outbound_mail_models import MailDraft
+from .app_connection_models import ConnectedAppQuery
 from .outputs import PRESETS
 from .schemas import CreateEvents, StrictModel
 from .store import DomainError
@@ -55,6 +57,9 @@ class Capability:
 
 def _capabilities() -> dict[str, Capability]:
     rows = [
+        Capability("connected_app_query", "read", ConnectedAppQuery, timeout=12),
+        Capability("email_status", "read", EmptyArgs),
+        Capability("email_send_draft", "draft", MailDraft),
         Capability("application_sources", "read", EmptyArgs),
         Capability("application_source_read", "read", SourceQuery, timeout=10),
         Capability("application_job_draft", "draft", ApplicationJobInput),

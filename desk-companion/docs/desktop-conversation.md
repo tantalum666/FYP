@@ -1,5 +1,9 @@
 # Group 2 · Desktop conversation and local media
 
+## 8 November evening follow-up
+
+Latest captions have a bounded dark surface and the immersive provider/microphone footer is removed. Expanded Conversation still retains separate exchanges. Apps & devices opens the shared [Google/Microsoft connections](connected-apps.md), with official browser consent and existing in-conversation email review. Actual Mac Gmail authorization and one self-email/readback passed; Microsoft account authorization is deferred. [QA](../../output/qa/2026-11-08-caption-mail-voice/verification.md).
+
 ## 8 November conversation repair
 
 Compact Alice captions show the latest reply; expanded Conversation retains separate exchanges. The user removed Voice input/Work conversion cards from this view. The former voice-review-screen description below is historical; its backend snapshot/authority contract remains, but the normal chat no longer mounts that screen. Required action approvals stay with the relevant action. Dark transcript text/menu contrast and input/history scrolling are checked on Web and phone.

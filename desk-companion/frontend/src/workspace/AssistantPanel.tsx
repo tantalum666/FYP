@@ -1,4 +1,5 @@
 import { AssistantRefreshStatus } from "./AssistantRefreshStatus";
+import { useAssistantFootprint } from "../companion/useAssistantFootprint";
 import { proposalDecisionNotice } from "./proposalDecision";
 import type { ReactNode } from "react";
 import {
@@ -145,6 +146,7 @@ export function AssistantPanel({
     return () => document.removeEventListener("pointerdown", close);
   }, [menu]);
   const conversation = useRef<HTMLDivElement>(null);
+  const panelFootprint = useAssistantFootprint(immersive);
   const followLatest = useRef(true);
   const jobRevision = jobs.map((job) => `${job.id}:${job.version}`).join(",");
   const composer = useRef<HTMLTextAreaElement>(null);
@@ -1033,6 +1035,7 @@ export function AssistantPanel({
   }
   return (
     <div
+      ref={panelFootprint}
       className={`workspace-panel assistant-panel ${immersive ? `phone-assistant ${expanded ? "expanded" : "compact"}` : ""}`}
       onKeyDown={(event) => {
         if (event.key === "Escape" && (menu || attachments)) {
@@ -1690,7 +1693,7 @@ export function AssistantPanel({
               t={t}
               onRetry={() => void reload()}
             />
-          ) : (
+          ) : !immersive ? (
             <p className="assistant-caption">
               {voiceElsewhere
                 ? t(
@@ -1736,7 +1739,7 @@ export function AssistantPanel({
                 </span>
               )}
             </p>
-          )}
+          ) : null}
         </div>
       </section>
       <section

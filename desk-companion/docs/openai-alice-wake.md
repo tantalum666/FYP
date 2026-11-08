@@ -1,5 +1,13 @@
 # Group 2 · OpenAI voice and Alice wake listening
 
+## 8 November evening: verified voice selection and review delivery
+
+A fresh owner-approved USD1 round is closed at conservativeUSD0.346456, with all five sessions finalized. Original, Gleam and the new Alice · Bright samples each returned actual Mandarin/English/Cantonese text and audio; provider echoes matched the requested voice. Bright is selected for the normal Mac runtime and its real sample is cached. This supersedes the earlier lack of a successful audition for the original voice; the earlier failed ledger remains closed and separate.
+
+The successful full-browser run used the then-current29-tool catalog, three delegated responses and49providerseconds. First audible output after three inputs was about1.488s/1.633s/1.254s; this includes acknowledgments, not first useful task-answer latency. The later OAuth/read integration extends the catalog to30tools and has local protocol coverage, not another paid full-browser run. Naturalness and accent quality remain subjective; no human acoustic acceptance is claimed.
+
+Sustained120ms input onset avoids treating every energy flicker as a new utterance. Playback retains80ms initial/120ms recovery lead and a bounded30second queue, with rebuffer diagnostics. A delivered proposal emits `turn_review` and clears the response deadline without pretending that speech played; the first browser run exposed that timeout and remains recorded as failed. Requested/provider-confirmed voice and settings version are retained as private diagnostics. A returned mismatching voice fails closed. [Current QA](../../output/qa/2026-11-08-caption-mail-voice/verification.md).
+
 ## 8 November: transcript groups, voice preferences and slow startup
 
 `live_captions.py` groups display fragments from validated `start_ms`/`end_ms` on the provider session timeline; it does not call a gap “provider-final” or use playback completion as conversation history. `conversationTranscript.ts` updates stable speaker messages and selects only the newest reply on the compact home. Accepted Live text enters the existing bounded conversation buffer after the current grounding gate. Late older fragments cannot replace the latest reply. The provider supplies no completed-turn marker; the 700 ms input-gap/assistant-response display rule remains a presentation heuristic, not identity or action authority.

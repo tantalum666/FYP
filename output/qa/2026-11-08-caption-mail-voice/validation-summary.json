@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-08",
+  "backend": {
+    "passed": 2103,
+    "warnings": 2,
+    "seconds": 415.48
+  },
+  "frontend": {
+    "passed": 351,
+    "typecheck": true,
+    "build": true,
+    "existing_chunk_warning": true
+  },
+  "focused_app_checks": 42,
+  "ci_used": false,
+  "budget": {
+    "closed": true,
+    "ceiling_usd": 1.0,
+    "conservative_usd": 0.34645600000000004,
+    "finalized_sessions": 5
+  },
+  "native_gmail": {
+    "provider": "gmail",
+    "observed_at": "2026-11-08T15:12:15.576023+00:00",
+    "native_fyp_send": true,
+    "submitted_message_id_preserved": false,
+    "provider_id_matches": true,
+    "subject_matches": true,
+    "recipient_matches": true,
+    "sender_matches": true,
+    "body_matches": true,
+    "in_sent": true,
+    "in_inbox": true,
+    "attempts": 1
+  },
+  "browser": {
+    "desktop_caption": {
+      "width_px": 548.84375,
+      "height_px": 88.25,
+      "dark_background": true,
+      "provider_footer": false
+    },
+    "phone": {
+      "viewport": [
+        393,
+        852
+      ],
+      "agenda_bottom": 542,
+      "conversation_top": 554,
+      "horizontal_overflow": false
+    },
+    "small_phone": {
+      "viewport": [
+        320,
+        568
+      ],
+      "agenda_bottom": 264,
+      "conversation_top": 276.40625,
+      "history_bottom_expanded": 413,
+      "composer_top_expanded": 413,
+      "horizontal_overflow": false
+    }
+  },
+  "microsoft_live_authorization": "deferred_by_owner",
+  "google_calendar_consent": "pending",
+  "pi_activation": "pending"
+}

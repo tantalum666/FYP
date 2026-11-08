@@ -1,5 +1,7 @@
 # Group 2｜个人 Agent 研究总入口与实现对照
 
+8 November evening update: FYP now has its own browser-authorized Gmail connection. One reviewed self-email was sent by FYP's Gmail API sender and independently read back in SENT/INBOX with exact content, one attempt. Google Calendar is configured but not consented; Microsoft365/Teams/SharePoint adapters are implemented with local protocol tests while actual authorization is expressly deferred. The [app contract](../desk-companion/docs/connected-apps.md) distinguishes APIs from MCP previews and directory access from Office editing. No unattended mailbox monitor or merchant transaction was added. [QA](../output/qa/2026-11-08-caption-mail-voice/verification.md).
+
 7 November live update: Pi/VPS/OpenAI now has31actual generation receipts. Controlled shopping/flight decisions, explicit browser continuation, calendar-tool followup and cancellation passed; real JD stopped at verification and Cathay failed to load. FYP drafted a harmless email, then Codex Gmail sent it and read it back; FYP has no native sender. Account takeover/payment/ticket work remains open. [Actual evidence](../output/qa/2026-11-07-live-agent-eval/verification.md).
 
 **工程更新2026-11-06：**用户选择先做通用浏览器，不固定商家。新增OpenAI原生computer调用、实际浏览器操作／截图、同一任务的显式状态接续和停止恢复；购物／订票复杂条件通过脚本规划＋真实浏览器验收，真实账户／支付／出票尚未接入。[本轮研究](2026-11-06-general-browser-and-openai.md)、[实现契约](../desk-companion/docs/computer-use.md)、[实际QA](../output/qa/2026-11-06-openai-agent-merge/verification.md)。普通文字／复核语音的Work改口保留；其报告文件核验不等于目标语义完成，PR93已修正误导文案和来源指令混淆。

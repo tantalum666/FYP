@@ -1,5 +1,7 @@
 # Operator-reviewed MCP application connectors
 
+8 November2026 update: private Google/Microsoft account connections now have a separate bundled [OAuth application contract](connected-apps.md). The generic MCP adapter below retains its public/synthetic restrictions; it does not inherit these account tokens or gain private-data access. The owner-facing app catalog is shared, but provider availability and actual operations are reported separately.
+
 31 October 2026 integration: read [current compatibility and migration rules](pr5-integration.md) first. Dated October 12–13 acceptance statements below remain historical; this integration preserves Alice/current Omni and the current task/job/permission core.
 Updated 13 October 2026, Group 2. This is an extensible tools adapter, not an authenticated app marketplace or a claim of consumer-agent parity. It supplements the existing [run service](agent-runs.md), [computer jobs](computer-jobs.md), and separately scoped [browser workflow](browser-workflow.md). Default configuration contains no external endpoints or grants.
 

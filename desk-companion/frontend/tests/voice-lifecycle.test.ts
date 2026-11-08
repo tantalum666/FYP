@@ -448,9 +448,33 @@ test("Live capture announces a new acoustic input only when the server advertise
   f.captures[0].port.onmessage?.({ data: frame });
   assert.equal(
     f.sockets[0].sent.filter((x) => x.type === "input_started").length,
+    0,
+  );
+  f.captures[0].port.onmessage?.({ data: frame });
+  assert.equal(
+    f.sockets[0].sent.filter((x) => x.type === "input_started").length,
     1,
   );
-  assert.equal(f.sockets[0].sent.filter((x) => x.type === "audio").length, 2);
+  assert.equal(f.sockets[0].sent.filter((x) => x.type === "audio").length, 3);
+});
+
+test("an owner review card stops the response deadline without claiming audio playback", async (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  const f = setup(t);
+  await f.start();
+  f.sockets[0].onopen?.();
+  f.sockets[0].emit({ type: "ready", continuous: true });
+  f.sockets[0].emit({ type: "turn_waiting", turn_id: 1 });
+  f.sockets[0].emit({ type: "turn_review", turn_id: 1 });
+  t.mock.timers.tick(12000);
+  assert.equal(
+    f.events.some((e) => e.type === "error"),
+    false,
+  );
+  assert.equal(
+    f.sockets[0].sent.some((e) => e.type === "playback_started"),
+    false,
+  );
 });
 
 test("older voice servers receive PCM without unsupported acoustic control events", async (t) => {

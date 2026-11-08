@@ -36,6 +36,25 @@ def test_live_setup_separates_speech_and_backend_authority():
     assert config().valid()
 
 
+def test_live_voice_receipt_confirms_custom_voice_and_refuses_silent_substitution():
+    custom = config()
+    custom.voice = "voice_original"
+    protocol = OpenAILiveProtocol()
+    protocol.setup(custom, "Fixture")
+
+    def started(voice):
+        return {"type": "session.started", "session": {"audio": {"output": {"voice": voice}}}}
+
+    assert protocol.events(started({"id": "voice_original"}))[0]["type"] == "ready"
+    assert protocol.voice_confirmed is True
+    assert protocol.events(started("marin"))[0]["code"] == "VOICE_SELECTION_MISMATCH"
+    assert protocol.voice_confirmed is False
+    unconfirmed = OpenAILiveProtocol()
+    unconfirmed.setup(custom, "Fixture")
+    assert unconfirmed.events({"type": "session.started"})[0]["type"] == "ready"
+    assert unconfirmed.voice_confirmed is None
+
+
 def test_live_backend_completion_never_claims_speech_completion_and_dedupes():
     now = [10.0]
     protocol = OpenAILiveProtocol(clock=lambda: now[0])
@@ -311,7 +330,7 @@ def test_live_service_drains_final_usage_before_releasing_slot(tmp_path, monkeyp
         assert setup["audio"]["output"]["voice"] == (
             {"id": "voice_fixture"} if finish == "stop" else "marin"
         )
-        assert len(setup["delegation"]["responses"]["tools"]) == 27
+        assert len(setup["delegation"]["responses"]["tools"]) == 30
         if finish == "stop":
             assert "A clear original adult voice." in setup["instructions"]
             assert "Natural connected Mandarin and Cantonese." in setup["instructions"]

@@ -15,6 +15,8 @@ from .wake_listening import WakeListening
 from .exchange import ExchangeService
 from .google_calendar import GoogleCalendar
 from .mailbox import MailboxService
+from .outbound_mail import OutboundMail
+from .microsoft_apps import MicrosoftApps
 from .offline_calendar import OfflineCalendarService
 from .tasks import TaskService
 from .text_ai import TextAssistant
@@ -99,6 +101,8 @@ class Runtime:
         self.exchange = ExchangeService(self)
         self.backups = LocalBackups(self)
         self.google = GoogleCalendar(self)
+        self.microsoft = MicrosoftApps(self)
+        self.outbound_mail = OutboundMail(self)
         self.offline_calendar = OfflineCalendarService(self)
         self.text_ai = TextAssistant(self)
         self.retained_chat = RetainedChat(self)

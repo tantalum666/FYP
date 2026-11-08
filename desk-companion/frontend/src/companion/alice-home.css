@@ -310,7 +310,13 @@
   color: #edf3f6;
   font-size: 15px;
   line-height: 1.65;
-  margin: 4px 0 8px;
+  width: fit-content;
+  max-width: min(100%, 58ch);
+  margin: 4px auto 8px;
+  padding: 7px 12px;
+  border-radius: 12px;
+  background: #101b26ed;
+  text-shadow: 0 1px 2px #0008;
   overflow-wrap: anywhere;
 }
 .alice-home .assistant-latest:empty {
@@ -447,7 +453,7 @@
 }
 .alice-home-phone .alice-agenda {
   position: absolute;
-  inset: max(220px, 29%) auto 212px 22px;
+  inset: max(220px, 29%) auto var(--alice-conversation-space, 212px) 22px;
   display: block;
   width: clamp(112px, 35vw, 148px);
   overflow-y: auto;
@@ -788,15 +794,24 @@
 }
 
 .alice-home .phone-assistant.compact .assistant-conversation {
-  max-height: 76px;
+  max-height: min(120px, 20dvh);
   overflow: auto;
   contain: paint;
 }
-.alice-home-phone:has(
-    .phone-assistant.compact .assistant-conversation > :not(:empty)
-  )
-  .alice-agenda {
-  bottom: 288px;
+.alice-home .assistant-action-card {
+  color: #eef2f2;
+  background: #1b2d3bf5;
+  border-color: #cbdbe527;
+}
+.alice-home .assistant-action-card p,
+.alice-home .assistant-action-card small,
+.alice-home .assistant-action-card blockquote {
+  color: inherit;
+}
+.alice-home .assistant-action-card button.secondary {
+  color: #e5edf2;
+  background: #2a3e4b;
+  border-color: #cbdbe527;
 }
 .alice-home .assistant-input-area {
   position: relative;

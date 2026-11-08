@@ -45,7 +45,26 @@ export function ProposalActionCard({
       <span className="workspace-eyebrow">
         {t("Permission needed", "需要你的允许")}
       </span>
-      {journeyKind ? (
+      {p.kind === "email_send" ? (
+        <>
+          <h3>{t("Send email", "发送邮件")}</h3>
+          <p>
+            {t("From: ", "发件人：")}
+            {p.data.from}
+          </p>
+          <p>
+            {t("To: ", "收件人：")}
+            {p.data.to}
+          </p>
+          <p>
+            {t("Subject: ", "主题：")}
+            {p.data.subject}
+          </p>
+          <blockquote style={{ whiteSpace: "pre-wrap" }}>
+            {p.data.body}
+          </blockquote>
+        </>
+      ) : journeyKind ? (
         <JourneyAdvice proposal={p} t={t} />
       ) : memoryKind ? (
         <>
@@ -282,9 +301,11 @@ export function ProposalActionCard({
           disabled={busy}
           onClick={() => onDecision("confirm")}
         >
-          {journeyKind
-            ? t("Save reviewed update", "保存核对结果")
-            : t("Allow once", "允许这一次")}
+          {p.kind === "email_send"
+            ? t("Send email", "发送邮件")
+            : journeyKind
+              ? t("Save reviewed update", "保存核对结果")
+              : t("Allow once", "允许这一次")}
         </button>
         <button
           className="secondary"

@@ -1,5 +1,9 @@
 # Group 2 · Shared Alice home
 
+## 8 November evening: caption contrast and measured phone space
+
+Long latest replies wrap within58characters with a dark translucent caption background, so pale avatar legs no longer reduce text contrast. The compact transcript scrolls within120px/20dvh. The immersive footer no longer displays the provider/microphone technical line. Actual errors and required reviews remain visible. `useAssistantFootprint` measures the existing panel with one ResizeObserver; the phone agenda scrolls above its actual height rather than relying on a fixed288px reserve. Alice's scene size is unchanged. [Current QA](../../output/qa/2026-11-08-caption-mail-voice/verification.md).
+
 ## 8 November: latest reply and readable conversation
 
 The home shows only the newest assistant reply, clearing the previous reply while a new user turn is waiting. Conversation expands into distinct user/assistant messages. Live transcript display uses session-timeline groups, independently of playback completion; late fragments update the original message. History remains bounded RAM with the existing identity/task lifecycle, not a new permanent archive.

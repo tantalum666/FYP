@@ -73,7 +73,7 @@ def assistant_routes(runtime, authenticated, operation_id):
     ):
         principal = {**principal, "session": request.cookies.get("desk_companion_session")}
         if (
-            proposal_kind(runtime, proposal_id) in {"mailbox_reply", "calendar_advice"}
+            proposal_kind(runtime, proposal_id) in {"mailbox_reply", "calendar_advice", "email_send"}
             and principal["kind"] != "owner"
         ):
             raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)

@@ -33,6 +33,7 @@ export function renderedAt(clock: OutputClock, scheduled: number, now: number) {
 export class CaptureTimeline {
   private sentMs = 0;
   voiced = false;
+  speechStarted = false;
   lastVoiceStreamMs = 0;
   private lastVoice = -Infinity;
   private active = false;
@@ -40,6 +41,7 @@ export class CaptureTimeline {
   private ended = false;
   private segments: Array<{ end: number; voiceAt: number }> = [];
   observe(pcm: ArrayBuffer, endAt: number) {
+    this.speechStarted = false;
     const samples = new DataView(pcm);
     const duration = pcm.byteLength / 32;
     let voiceIndex = -1;
@@ -56,7 +58,10 @@ export class CaptureTimeline {
       this.lastVoiceStreamMs = this.sentMs - duration + (voiceIndex + 1) / 16;
       this.lastVoice = endAt - duration + (voiceIndex + 1) / 16;
       this.voicedMs += duration;
-      this.active = this.voicedMs >= 120;
+      if (!this.active && this.voicedMs >= 120) {
+        this.active = true;
+        this.speechStarted = true;
+      }
       this.ended = false;
     }
     this.segments.push({ end: this.sentMs, voiceAt: this.lastVoice });
@@ -84,6 +89,41 @@ export class CaptureTimeline {
     )
       return { at: voiceAt, source: "capture_energy" as const };
     return { at: fallback, source: "provider_event" as const };
+  }
+}
+
+/** A small lead absorbs packet jitter without changing PCM or speaking rate. */
+export class PlaybackSchedule {
+  nextTime = 0;
+  packets = 0;
+  rebuffers = 0;
+  largestGapMs = 0;
+  reserve(now: number, duration: number): number {
+    const remaining = this.nextTime - now;
+    if (!this.nextTime) this.nextTime = now + 0.08;
+    else if (remaining < 0.008) {
+      this.rebuffers++;
+      this.largestGapMs = Math.max(
+        this.largestGapMs,
+        Math.max(0, -remaining) * 1000,
+      );
+      this.nextTime = now + 0.12;
+    }
+    const start = this.nextTime;
+    if (start + duration - now > 30) throw new Error("AUDIO_CONNECTION_SLOW");
+    this.nextTime += duration;
+    this.packets++;
+    return start;
+  }
+  reset() {
+    this.nextTime = 0;
+  }
+  report() {
+    return {
+      packets: this.packets,
+      rebuffers: this.rebuffers,
+      largest_gap_ms: Math.min(120000, Math.round(this.largestGapMs)),
+    };
   }
 }
 

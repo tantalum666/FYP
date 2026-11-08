@@ -50,15 +50,20 @@ class VoiceSettings:
             ]
         state["voice"] = state["voice"] or default or "marin"
         state["choices"] = [
-            {"id": name, "name": name.title(), "description": "", "custom": False, "preview": False}
+            {
+                "id": name,
+                "name": name.title(),
+                "description": "",
+                "custom": False,
+                "preview": self.has_sample(name),
+            }
             for name in BUILTIN_VOICES
         ]
         state["choices"] += [
             {
                 **profile,
                 "custom": True,
-                "preview": self.sample_path(profile["id"]).is_file()
-                and not self.sample_path(profile["id"]).is_symlink(),
+                "preview": self.has_sample(profile["id"]),
             }
             for profile in profiles
         ]
@@ -126,6 +131,10 @@ class VoiceSettings:
             / "voice-samples"
             / (hashlib.sha256(voice.encode()).hexdigest() + ".wav")
         )
+
+    def has_sample(self, voice):
+        path = self.sample_path(voice)
+        return path.is_file() and not path.is_symlink() and path.stat().st_size <= 8_000_000
 
 
 def selected_voice_payload(voice):

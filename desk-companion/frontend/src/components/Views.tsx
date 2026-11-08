@@ -735,7 +735,7 @@ export function DeviceView({
           </button>
           <button onClick={() => onOpenWorkspace("connections")}>
             <Link2 />
-            {t("Pairing & outputs", "配对与实体反馈")}
+            {t("Apps & devices", "应用与设备")}
           </button>
         </div>
         {[

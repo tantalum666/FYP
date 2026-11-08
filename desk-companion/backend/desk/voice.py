@@ -326,6 +326,7 @@ class VoiceService:
         work_session_ref = None
         assistant_text = ""
         last_audio_turn = None
+        playback_report = None
         restored = False
         greeted = False
         if isinstance(protocol, RealtimeProtocol):
@@ -512,7 +513,8 @@ class VoiceService:
                         last_image_at, \
                         image_count, \
                         mode, \
-                        assistant_text
+                        assistant_text, \
+                        playback_report
                     await asyncio.wait_for(ready.wait(), timeout=15)
                     async for raw in socket.iter_text():
                         if len(raw) > MAX_IMAGE_BASE64 + 2000:
@@ -615,6 +617,14 @@ class VoiceService:
                             await send_provider({"type": "input_audio_buffer.clear"})
                             await send_client({"type": "interrupted"})
                             await send_provider(protocol.mode_update(mode))
+                        elif message.get("type") == "playback_report":
+                            fields = ("packets", "rebuffers", "largest_gap_ms")
+                            if any(
+                                type(message.get(k)) is not int or not 0 <= message[k] <= 120000
+                                for k in fields
+                            ):
+                                raise DomainError("VOICE_MESSAGE_NOT_ALLOWED", 422)
+                            playback_report = {k: message[k] for k in fields}
                         elif message.get("type") in {"stop", "mute"}:
                             return
                         elif message.get("type") == "interrupt":
@@ -932,6 +942,9 @@ class VoiceService:
                             await send_client({"type": "jobs_changed", "job": result["job"]})
                         if await send_tool_result(event, result):
                             dispatcher.delivered(event["id"], result)
+                            review = turns.review_waiting(event.get("_turn_id"))
+                            if review:
+                                await send_client(review)
                             if conversation and not event.get("name", "").startswith("memory_"):
                                 conversation.append(
                                     "user",
@@ -944,7 +957,7 @@ class VoiceService:
                         last_activity = time.monotonic()
 
                 async def deadline():
-                    nonlocal assistant_text
+                    nonlocal assistant_text, failure
                     last_check = 0.0
                     while True:
                         await asyncio.sleep(0.05)
@@ -971,6 +984,7 @@ class VoiceService:
                         turn_event = turns.poll()
                         if turn_event:
                             if turn_event["type"] == "error":
+                                failure = {"code": turn_event["code"], "phase": "active"}
                                 # Fence queued/late tools before notifying the client.
                                 dispatcher.stop_accepting(cancel_delivered=True)
                                 turns.finish("timeout")
@@ -1100,6 +1114,16 @@ class VoiceService:
                             "usage": safe_usage,
                             "failure": failure,
                             "turns": turns.history,
+                            "playback": playback_report,
+                            "voice_selection": {
+                                "type": "custom"
+                                if session_config.voice.startswith("voice_")
+                                else "builtin",
+                                "settings_version": voice_preferences["version"]
+                                if voice_preferences
+                                else None,
+                                "provider_confirmed": getattr(protocol, "voice_confirmed", None),
+                            },
                         },
                     )
             finally:
@@ -1151,7 +1175,7 @@ def voice_routes(runtime, authenticated, agent, allowed_origins, limit):
         from fastapi.responses import FileResponse
 
         settings = runtime.voice.settings.current(runtime.voice.config.voice)
-        if voice_id not in {choice["id"] for choice in settings["choices"] if choice["custom"]}:
+        if voice_id not in {choice["id"] for choice in settings["choices"]}:
             raise DomainError("VOICE_CHOICE_UNAVAILABLE", 404)
         path = runtime.voice.settings.sample_path(voice_id)
         if not path.is_file() or path.is_symlink() or path.stat().st_size > 8_000_000:

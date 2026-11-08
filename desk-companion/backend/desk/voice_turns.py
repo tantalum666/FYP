@@ -29,6 +29,7 @@ class Turn:
     endpoint_source: str | None = None
     progress_at: float | None = None
     slow_sent: bool = False
+    review_ready: bool = False
 
 
 class VoiceTurns:
@@ -90,6 +91,7 @@ class VoiceTurns:
         turn = self.current or self.start()
         turn.needs_tool = True
         turn.progress_at = None
+        turn.review_ready = False
         turn.pending.add(call_id)
         return turn.id
 
@@ -100,6 +102,15 @@ class VoiceTurns:
         turn.pending.discard(call_id)
         if not result.get("error"):
             turn.tool_delivered = True
+            proposal = result.get("proposal")
+            if isinstance(proposal, dict) and isinstance(proposal.get("id"), str):
+                turn.review_ready = True
+
+    def review_waiting(self, turn_id):
+        turn = self.current
+        if turn and turn.id == turn_id and turn.review_ready and not turn.pending:
+            return {"type": "turn_review", "turn_id": turn.id}
+        return None
 
     def audio(self):
         turn = self.current or self.start()
@@ -160,7 +171,12 @@ class VoiceTurns:
 
     def poll(self):
         turn = self.current
-        if not turn or turn.ended is None or turn.progress_at is not None:
+        if (
+            not turn
+            or turn.ended is None
+            or turn.progress_at is not None
+            or (turn.review_ready and not turn.pending)
+        ):
             return None
         elapsed = self.clock() - turn.ended
         if elapsed >= self.cutoff:
@@ -186,6 +202,7 @@ class VoiceTurns:
             "endpoint_source": t.endpoint_source,
             "semantic_verified": False,
             "response_started": t.progress_at is not None,
+            "review_ready": t.review_ready,
         }
 
     def finish(self, outcome):

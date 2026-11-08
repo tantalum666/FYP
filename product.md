@@ -1,6 +1,6 @@
 # Group 2 Project Contract
 
-8 November 2026 conversation follow-up: compact Alice captions show only the latest reply; expanded Conversation keeps distinct exchanges and removes Voice input/Work conversion cards. Dark text/menu contrast and independent history/composer layout are repaired. Owner-only GPT Live voice selection and speaking-style preferences are implemented; an original light/warm voice is created, but its first audition failed before speech, so natural Mandarin/English/Cantonese quality is not yet established. The USD0.25 trial is closed with USD0.249 unconfirmed reservation. [Current QA](output/qa/2026-11-08-dialogue-voice/verification.md) distinguishes these results from the previous successful full-catalog wake test.
+8 November2026 evening: latest captions wrap on a dark background; the immersive technical footer is removed, and phone agenda space follows the real conversation height without shrinking Alice. Actual voice selection is verified; Alice · Bright and cached trilingual samples are available. The fresh USD1round is closed at conservativeUSD0.346456, all receipts finalized. FYP now has its own browser-authorized Gmail sender; one self-email and independent readback passed. Microsoft365/Teams/SharePoint software is prepared with actual authorization deferred by the owner. [Current QA](output/qa/2026-11-08-caption-mail-voice/verification.md) / [app contract](desk-companion/docs/connected-apps.md).
 
 7 November 2026 later repair: complete27-tool Live startup, explicit built-in Mac microphone selection and full browser wake/query/playback/idle recovery now pass. Old schema conversion lost business title fields; the earlier restricted-query smoke test did not cover that full catalog. Fresh repair ledger closed at conservative USD0.1864995 under USD0.50. Post-input useful playback6.393seconds remains above the approximate5second target. [Repair evidence](output/qa/2026-11-07-alice-wake-repair/verification.md).
 
@@ -30,6 +30,7 @@
 
 | 模块 | 已实现 | 仍须独立验证 |
 |---|---|---|
+| 应用连接 | Google/Microsoft共享OAuth、Gmail/Outlook邮件核对发送、外部只读查询；Mac Gmail本人测试实际送达 | Google日历及微软实际账号授权、持续邮箱跟踪、Office云端内容编辑和真实商务操作仍待 |
 | 日历／事务 | 持久CRUD、重复／例外、冲突、提醒、进展／跟进、版本与操作ID、草稿确认；2026-11-03 起离线日程夹具可增量写入同一事务，并只在冲突、临近期限、取消或待决定时通知 | 真实外部账号仍未连接，复杂生产数据和远程通知另验 |
 | AI会话 | GPT Live语音与Responses文字复用业务工具／批准及有限上下文；Realtime保留对照；短期重放、记忆失效、逐轮时限；选中事务经服务端读取并绑定会话 | 新选型同条件比较、真人声学／泛化、成本与长期资源运行 |
 | 软件结构 | 手机拆成首页、计划、管理、环境与日历读取；网页／手机／Pi共用自动本地连接、会话恢复及日程编辑；读取去重、迟到响应和未保存保护 | 完整跨设备故障矩阵和辅助技术验收 |

@@ -1,5 +1,11 @@
 # Group 2 · Software maintenance contract
 
+## 8 November evening: connected apps and playback ownership
+
+[Connected apps](connected-apps.md) separates static manifests, shared OAuth lifecycle, provider reads/senders and existing AssistantService reviews. AppConnectionsPanel owns one temporary authorization poll; provider content cannot install new tools or grants. Gmail/Graph writes reserve a durable attempt before dispatch and recover accepted receipts without resending uncertainty. Auth tokens and app secrets stay in private host configuration/runtime.
+
+CaptureTimeline owns sustained speech onset; PlaybackSchedule owns bounded audio scheduling/measurements. VoiceTurns explicitly recognizes a delivered review without inventing playback completion. useAssistantFootprint observes layout only and updates the agenda reserve without changing Alice's renderer or introducing polling/chat state. [QA](../../output/qa/2026-11-08-caption-mail-voice/verification.md).
+
 ## 8 November transcript and voice settings ownership
 
 `LiveCaptionGroups` owns bounded presentation grouping; `Conversation.append_voice_fragment` updates the existing login/task-scoped RAM buffer. `conversationTranscript.ts` owns client speaker-message updates and latest-reply selection. Audio timing/acknowledgement remains in VoiceTurns/VoiceAudio, not a second chat store. Accepted assistant fragments reach history only after grounding checks.

@@ -96,6 +96,9 @@ def kind_for(code: str) -> str:
 
 OWNER_ONLY_TOOLS = frozenset(
     {
+        "email_status",
+        "connected_app_query",
+        "email_send_draft",
         "owner_search",
         "plate_summary",
         "owner_clock",

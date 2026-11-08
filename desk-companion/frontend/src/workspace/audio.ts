@@ -3,6 +3,7 @@ import { microphoneConstraints } from "./media/microphone.ts";
 import { OutputMeter } from "../companion/output.ts";
 import {
   CaptureTimeline,
+  PlaybackSchedule,
   renderedAt,
   hasCaptureSpeech,
   type PendingPlaybackMark,
@@ -41,7 +42,7 @@ export class VoiceAudio {
   private stream: MediaStream | null = null;
   private socket: WebSocket | null = null;
   private sources = new Set<AudioBufferSourceNode>();
-  private nextTime = 0;
+  private playbackSchedule = new PlaybackSchedule();
   private captureTimeline = new CaptureTimeline();
   private turn: {
     id: number;
@@ -255,9 +256,8 @@ export class VoiceAudio {
       this.fail("AUDIO_CONNECTION_SLOW");
       return;
     }
-    const wasVoiced = this.captureTimeline.voiced;
     const boundary = this.captureTimeline.observe(pcm, endAt);
-    if (this.inputMarkers && !wasVoiced && this.captureTimeline.voiced)
+    if (this.inputMarkers && this.captureTimeline.speechStarted)
       socket.send(JSON.stringify({ type: "input_started" }));
     if (!this.turn && this.captureTimeline.voiced && this.turnTimer !== null) {
       clearTimeout(this.turnTimer);
@@ -337,6 +337,12 @@ export class VoiceAudio {
       if (event.turn_id !== undefined && event.turn_id !== this.turn?.id)
         return;
       this.play(event.audio, event.sample_rate ?? 24000, event);
+    }
+    if (event.type === "turn_review" && event.turn_id === this.turn?.id) {
+      // An actual review card is a response requiring the owner's next action.
+      // It is not evidence that the email was sent or that speech has played.
+      if (this.turnTimer !== null) clearTimeout(this.turnTimer);
+      this.turnTimer = null;
     }
     // Provider completion can arrive seconds before the queued audio ends.
     if (event.type === "turn_complete") {
@@ -456,6 +462,7 @@ export class VoiceAudio {
   private finishPlayback() {
     if (this.stopped || !this.completedTurn || this.sources.size) return;
     this.completedTurn = false;
+    this.playbackSchedule.reset();
     if (this.socket?.readyState === WebSocket.OPEN)
       this.socket.send(
         JSON.stringify({
@@ -483,13 +490,13 @@ export class VoiceAudio {
       values[i] = pcm.getInt16(i * 2, true) / 32768;
       if (firstSound < 0 && Math.abs(values[i]) >= 0.001) firstSound = i;
     }
-    this.nextTime = Math.max(context.currentTime + 0.02, this.nextTime);
     // Realtime providers can generate an ordinary calendar answer much faster
     // than it plays. Bound queued PCM to 30 seconds (about 2.9 MB float32),
     // including the incoming chunk, without cutting off an eight-second reply.
-    if (this.nextTime + buffer.duration - context.currentTime > 30) {
-      throw new Error("AUDIO_CONNECTION_SLOW");
-    }
+    const scheduled = this.playbackSchedule.reserve(
+      context.currentTime,
+      buffer.duration,
+    );
     const source = context.createBufferSource();
     source.buffer = buffer;
     this.meter ??= new OutputMeter(context);
@@ -501,7 +508,7 @@ export class VoiceAudio {
       if (!this.sources.size) this.meter?.reset();
       this.finishPlayback();
     };
-    source.start(this.nextTime);
+    source.start(scheduled);
     if (
       firstSound >= 0 &&
       event.turn_id !== undefined &&
@@ -510,12 +517,11 @@ export class VoiceAudio {
       this.marks.push({
         turn: event.turn_id,
         audio: event.audio_id,
-        at: this.nextTime + firstSound / rate,
+        at: scheduled + firstSound / rate,
         afterTool: !!event.after_tool,
       });
       this.markTimer ??= setInterval(() => this.measurePlayback(), 20);
     }
-    this.nextTime += buffer.duration;
   }
   private measurePlayback() {
     const context = this.context,
@@ -719,7 +725,7 @@ export class VoiceAudio {
       }
     }
     this.sources.clear();
-    this.nextTime = 0;
+    this.playbackSchedule.reset();
   }
   close() {
     this.stopped = true;
@@ -734,6 +740,17 @@ export class VoiceAudio {
     this.clearPlayback();
     if (this.socket) {
       const socket = this.socket;
+      if (
+        socket.readyState === WebSocket.OPEN &&
+        this.continuous &&
+        this.playbackSchedule.packets > 0
+      )
+        socket.send(
+          JSON.stringify({
+            type: "playback_report",
+            ...this.playbackSchedule.report(),
+          }),
+        );
       this.socket = null;
       socket.onopen = null;
       socket.onmessage = null;

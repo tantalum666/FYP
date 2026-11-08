@@ -555,6 +555,12 @@ def create_app(
     app.include_router(exchange_routes(services, authenticated, owner, operation_id))
     app.include_router(google_routes(services, owner, operation_id))
     app.include_router(mailbox_routes(services, owner, operation_id))
+    from .outbound_mail import outbound_mail_routes
+
+    app.include_router(outbound_mail_routes(services, owner, operation_id))
+    from .app_connections import app_connections_routes
+
+    app.include_router(app_connections_routes(services, owner))
     app.include_router(offline_calendar_routes(services, owner, operation_id))
     static_root = Path(__file__).resolve().parents[2] / "frontend" / "dist"
 
