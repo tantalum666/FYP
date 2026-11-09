@@ -712,3 +712,14 @@ Same-day owner follow-up: A is promising but sounds too mature; retain it and re
 
 
 Further owner feedback: A1 sounds older than original A, so A1 is rejected and A is retained. Changing only delivery did not meet the desired age impression. Created a new adult18–20Taiwan Campus base voice for A2, then received explicit USD0.05 /maximum3attempts /45seconds total authorization for sequential refinement. First connection reset before session.started/audio; USD0.0145 and15seconds remain conservatively allocated. Retry returned the requested new voice and complete text, finalized9seconds at USD0.00825. A2 clip presented; feedback pending. Current scope has one attempt left, max15seconds, conservative accounted USD0.02275; close on selection/cancellation/exhaustion. No automatic further generation or production-default switch; earlier ledgers remain closed.
+
+
+## 2026-11-09 Original A selected on three surfaces; final A3 audition
+
+**Owner direction:** apply original A to Web, phone and Pi, open Web for personal testing, and refine A2 younger. Original A is the selected working default, not a declaration that the eventual ideal voice or trilingual sound is fully accepted.
+
+**Applied and verified:** existing owner/versioned APIs selected exact original A on Mac and Pi, version7; prior settings privately saved and the exact cached preview served/hash-verified on both. Actual Web5190 proxy readback passed. Phone browser shares Mac; the installed/running native Simulator process uses Pi8891, whose A settings were read back. Web Alice home visibly opened and retained. No microphone start, source/release rebuild, credential/authority change, service restart or paid production call.
+
+**A3:** used the remaining previously approved USD0.05scope attempt for a new original adult18Taiwan Light voice. Complete fixed text, matching requested voice and8providerseconds finalized; valid24kHz mono output. The scope is exhausted/CLOSED at conservative USD0.0300833, including the earlier USD0.0145 unknown reservation. No attempts remain. A3was presented but not applied; A1 remains rejected and A2 remains unaccepted.
+
+**Evidence and next:** [activation QA](output/qa/2026-11-09-original-a-three-surfaces/verification.md) records actual reads, private backups, same-sample hashes and current scope. Updated current product/entry/handoff, voice brief/contracts/research, earlier audition status and this log. JSON/link/diff/material checks only; no CI or production test rerun. Next: actual A conversation and A3 listening feedback, retaining A until explicit replacement.

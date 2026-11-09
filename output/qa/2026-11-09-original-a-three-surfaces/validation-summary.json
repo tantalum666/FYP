@@ -1,0 +1,100 @@
+{
+  "date": "2026-11-09",
+  "owner_request": "Apply original A to all three surfaces, open Web for owner testing, and refine A2 younger.",
+  "selected_voice_name": "Alice · Taiwan Sweet",
+  "original_A_identity_verified": true,
+  "mac": {
+    "surface": [
+      "web",
+      "phone"
+    ],
+    "selected": "Alice · Taiwan Sweet",
+    "exact_original_A": true,
+    "settings_version": 7,
+    "cached_preview_hash_matches": true,
+    "preview_bytes": 295242,
+    "active_before": false,
+    "cloud_calls": 0
+  },
+  "pi": {
+    "selected": "Alice · Taiwan Sweet",
+    "exact_original_A": true,
+    "settings_version": 7,
+    "cached_preview_hash_matches": true,
+    "active_before": false,
+    "cloud_calls": 0,
+    "via_original_pinned_vps_relay": true
+  },
+  "surface_readback": [
+    {
+      "surface": "web_and_phone_preview",
+      "http": 200,
+      "selected": "Alice · Taiwan Sweet",
+      "original_voice_matches": true,
+      "version": 7,
+      "sample_hash_matches": true
+    },
+    {
+      "surface": "native_phone_connected_to_pi",
+      "http": 200,
+      "selected": "Alice · Taiwan Sweet",
+      "original_voice_matches": true,
+      "version": 7,
+      "sample_hash_matches": true
+    }
+  ],
+  "native_phone": {
+    "installed_simulator_app": true,
+    "active_process_origin": "http://127.0.0.1:8891",
+    "origin_argument_verified": true,
+    "uses_pi_selected_voice": true,
+    "native_audio_tested": false
+  },
+  "web": {
+    "opened": "http://127.0.0.1:5190/?page=assistant",
+    "visible_Alice_home": true,
+    "desk_connected": true,
+    "retained_deliverable_tab": true,
+    "agent_started_microphone": false
+  },
+  "configuration": {
+    "existing_owner_versioned_APIs": true,
+    "previous_settings_saved_privately": true,
+    "original_A_sample_hash_verified_on_both_servers": true,
+    "new_code_or_release_deployment": false,
+    "credential_or_permission_change": false,
+    "cloud_calls_during_settings_application": 0
+  },
+  "A3": {
+    "sample": "light",
+    "started": true,
+    "finalized": true,
+    "seconds": 8.0,
+    "voice_echo_matches": true,
+    "errors": [],
+    "ready_ms": 2596,
+    "first_audio_ms": 3601,
+    "spoken_text": "欸,我在呀。今天辛苦了,先休息一下嘛。你慢慢說,我有在聽喔。",
+    "pcm_seconds": 7.6,
+    "budget_closed": true,
+    "round_accounted_usd": 0.030083333333333337,
+    "attempt_count": 3,
+    "remaining_attempts": 0,
+    "unknown_reservation_usd": 0.0145,
+    "provider_text_matches": true,
+    "wav_seconds": 5.776583333333333,
+    "format": {
+      "rate": 24000,
+      "channels": 1,
+      "width": 2
+    },
+    "clipped_samples": 0,
+    "sha256": "06df2205ff001083f0c25be1669dba8be8d46bdb8a40f531959d9a670875877d",
+    "distinct_from_A2": true,
+    "audio_valid": true
+  },
+  "new_default_for_A3": false,
+  "human_acoustics_or_trilingual_acceptance": false,
+  "production_source": "232b065f910af18151846b73dd48fe92fb1d9e16",
+  "ci_used": false
+}

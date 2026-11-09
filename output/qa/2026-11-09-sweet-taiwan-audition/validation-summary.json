@@ -73,19 +73,20 @@
     "billing_note": "Duration-based estimate with 10 percent margin, not an invoice"
   },
   "acceptance": {
-    "owner_accepted": false,
-    "status": "original_A_retained_A1_rejected_A2_pending_feedback",
+    "owner_accepted": true,
+    "status": "original_A_selected_as_current_default_A3_pending_feedback",
     "subjective_listening_by_agent": false,
     "taiwan_accent_quality_verified": false,
     "english_tested_this_round": false,
     "cantonese_tested_this_round": false,
     "end_to_end_playback_tested_this_round": false,
-    "owner_feedback": "A is promising but sounds too mature; retain A and refine younger."
+    "owner_feedback": "Use original A on all three surfaces for now. A2 changes are audible but not young enough; continue younger."
   },
   "production": {
     "changed": false,
     "selected_at_preflight": "Alice · Bright",
-    "source": "232b065f910af18151846b73dd48fe92fb1d9e16"
+    "source": "232b065f910af18151846b73dd48fe92fb1d9e16",
+    "scope": "Initial auditions only; later original-A activation is recorded separately."
   },
   "ci_used": false,
   "old_ledgers_reopened": false,
@@ -111,12 +112,11 @@
     "owner_feedback": "Rejected: A1 sounds older than original A."
   },
   "combined_rounds": {
-    "attempts": 5,
-    "successful_finalized_sessions": 4,
-    "known_provider_duration_seconds": 38,
-    "accounted_usd": 0.04933333333333334,
-    "older_two_ledgers_closed": true,
-    "current_refinement_ledger": "open_awaiting_owner_feedback_one_attempt_remaining"
+    "attempts": 6,
+    "successful_finalized_sessions": 5,
+    "known_provider_duration_seconds": 46,
+    "accounted_usd": 0.05666666666666668,
+    "all_ledgers_closed": true
   },
   "base_voice_redesign": {
     "candidate": "A2 / Alice · Taiwan Campus",
@@ -144,13 +144,31 @@
       "sha256": "6944d80799d3458afe78b1f4762c1485cf234f2f6b8462b8cf1f769edf2b691b",
       "clipped_samples": 0
     },
-    "accounted_usd": 0.022750000000000003,
-    "budget_closed": false,
-    "remaining_attempts": 1,
-    "remaining_seconds_by_total": 21,
-    "remaining_single_attempt_cap_seconds": 15,
-    "remaining_usd": 0.02725,
+    "accounted_usd": 0.030083333333333337,
+    "budget_closed": true,
+    "remaining_attempts": 0,
+    "remaining_seconds_by_total": 0,
+    "remaining_single_attempt_cap_seconds": 0,
+    "remaining_usd": 0,
     "owner_accepted": false,
-    "production_default_changed": false
+    "production_default_changed": false,
+    "A2_owner_feedback": "Audible change but still does not meet desired age impression.",
+    "final_A3_attempt": {
+      "candidate": "Alice · Taiwan Light",
+      "provider_duration_seconds": 8,
+      "voice_echo_matches": true,
+      "provider_text_matches": true,
+      "wav_seconds": 5.776583333333333,
+      "sha256": "06df2205ff001083f0c25be1669dba8be8d46bdb8a40f531959d9a670875877d",
+      "first_received_nonsilent_pcm_ms": 3601,
+      "distinct_from_A2": true,
+      "owner_accepted": false
+    },
+    "closed_reason": "Three authorized attempts consumed."
+  },
+  "later_activation": {
+    "selected": "Original A / Alice · Taiwan Sweet",
+    "three_surface_settings_verified": true,
+    "qa": "../2026-11-09-original-a-three-surfaces/verification.md"
   }
 }

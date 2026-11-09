@@ -2,7 +2,15 @@
 
 9 November 2026. The owner rejected the public-reference GPT-SoVITS samples as more artificial than OpenAI and clarified the desired sound: sweet, soft, cute/youthful feminine Taiwan Mandarin, with warm and natural conversational delivery. This is a sound-selection task. A functioning engine, matched transcript or improved timing alone does not meet it.
 
-## Current audition
+## Current default and final A3 candidate
+
+The owner explicitly selected original A / Alice · Taiwan Sweet as the current default on all three surfaces. Mac and Pi settings/cache readback passed; phone browser shares Mac and the running native Simulator app uses Pi8891. Web was opened for personal testing. [Activation evidence](../../output/qa/2026-11-09-original-a-three-surfaces/verification.md).
+
+A2 was heard as adjusted but still not young enough. A3 / Taiwan Light uses a new original adult voice with perceived age18, light delicate vocal weight, a naturally high comfortable register and clear forward resonance. It used the last authorized attempt, returned full same-text output and finalized8seconds. Trimmed WAV5.776583seconds; no pitch or speed post-processing. A3 remains a candidate and does not replace A.
+
+The USD0.05 refinement scope is now exhausted/CLOSED at conservative USD0.0300833, including the earlier USD0.0145 unknown reservation. No paid attempts remain; previous USD0.10/USD0.03 ledgers are also closed. A3 private clip: `~/.config/desk-companion/sweet-taiwan-campus-20261109/sample-light.wav`.
+
+## Initial A/B audition
 
 The owner explicitly approved up to USD0.10, at most two GPT Live sessions and40seconds combined, using synthetic input and no microphone recording. The approved comparison does not change the production voice before listening. Both samples are now complete; the ledger is closed at conservative USD0.0183333 for20providerseconds. Original voices were created from text descriptions, without a reference recording or named-person/character imitation. Creation is free under the current [OpenAI custom-voice documentation](https://developers.openai.com/api/docs/guides/custom-voices); speech is billed at the current [GPT Live rate](https://developers.openai.com/api/docs/pricing).
 
@@ -27,18 +35,18 @@ The owner separately approved one session, maximum20seconds and USD0.03. A1 retu
 
 Created Alice · Taiwan Campus as a new original adult18–20voice resource, retaining the Taiwan-Mandarin direction but specifying light vocal weight, clear forward resonance, a naturally medium-high register and bright transparent timbre. Creation guidance uses ordinary campus conversation. The original A resource/audio remains intact. A2 is a new base voice, not an edit of A's immutable resource; quality/similarity is for listening, not inferred from creation metadata.
 
-The owner authorized a new USD0.05 total, maximum3audition attempts /45seconds, to allow sequential feedback without a new question for every small sample. Each attempt is bounded to15seconds. First connection reset before session.started/audio, retaining USD0.0145 and15seconds conservatively. The retry returned complete text and the new requested voice, finalized9seconds at conservative USD0.00825, with6.302542seconds of valid24kHz mono audio. Total current accounting USD0.02275; **one attempt remains, maximum15seconds within the original USD0.05 ceiling**. The new scope stays open pending feedback and closes on selection, cancellation or exhaustion; no automatic/background generation is authorized. The older USD0.10 and USD0.03 ledgers remain closed.
+The owner authorized a new USD0.05 total, maximum3audition attempts /45seconds, to allow sequential feedback without a new question for every small sample. Each attempt is bounded to15seconds. First connection reset before session.started/audio, retaining USD0.0145 and15seconds conservatively. The retry returned complete text and the new requested voice, finalized9seconds at conservative USD0.00825, with6.302542seconds of valid24kHz mono audio. Accounting at the A2 checkpoint was USD0.02275 with one attempt remaining. The later A3 request consumed that final attempt; the scope is now CLOSED as recorded above. The older USD0.10 and USD0.03 ledgers remain closed.
 
-A2 was presented. Audio/voice/current ledger: `~/.config/desk-companion/sweet-taiwan-campus-20261109/`, clip `sample-campus-retry.wav`. No default change, microphone, backend model, pitch shifting or speed effect occurred.
+A2 was presented and judged insufficiently young. Audio/voice/closed ledger: `~/.config/desk-companion/sweet-taiwan-campus-20261109/`, clip `sample-campus-retry.wav`. No default change, microphone, backend model, pitch shifting or speed effect occurred.
 
 ## Acceptance order
 
-1. The owner retained A as a promising direction but rejected A1 as older. Keep original A unchanged; use feedback on A2 before a default decision. Do not call the result natural or emotionally suitable because the API returned audio. The agent cannot directly listen through the current audio tool.
-2. If the owner explicitly selects a default, register/select it through the existing owner-versioned voice settings, retaining its original prompt and cached audition. Read back actual Mac/Pi settings; do not conflate a sample with deployment. Selection alone does not authorize another paid session.
-3. Natural English, colloquial Hong Kong Cantonese, consistent timbre, dates/numbers and mixed-language speech remain required. These short Taiwan-Mandarin-only rounds do not test them. Only one bounded adjustment remains under the current authorization; broader paid comparisons need their own explicit bound.
+1. Original A is selected as the working default; A1 is rejected and A2 remains insufficiently young. Keep A selected while collecting feedback on A3. Do not call the result natural or emotionally suitable because the API returned audio. The agent cannot directly listen through the current audio tool.
+2. Original A has been registered/selected through the existing owner-versioned settings with its original description and cached audition, and both servers were read back. A future replacement still requires explicit selection; it does not authorize another paid session.
+3. Natural English, colloquial Hong Kong Cantonese, consistent timbre, dates/numbers and mixed-language speech remain required. These short Taiwan-Mandarin-only rounds do not test them. The current bounded scope is exhausted; further paid comparisons need a new explicit bound.
 4. Measure real conversational first useful audio, interruption, captions and tool responses after a sound is accepted. Reuse the existing agent, approvals, microphone ownership and playback. Do not add a second task system or synthesize a paid Live reply a second time.
 
-Production Alice · Bright remains selected pending an explicit default decision. All older budgets remain closed; the active A2 scope has only the one bounded attempt stated above. The rejected LJSpeech-based SoVITS reference is retained only as [technical evidence](../../desk-companion/docs/sovits-evaluation.md); do not re-present it as an Alice candidate.
+Production original A / Alice · Taiwan Sweet is selected on Mac/Pi and inherited by the phone clients. All audition budgets are closed. The rejected LJSpeech-based SoVITS reference is retained only as [technical evidence](../../desk-companion/docs/sovits-evaluation.md); do not re-present it as an Alice candidate.
 
 ## Targeted catalog research, not a listening result
 
