@@ -31,3 +31,16 @@ Closeout must update current product/UI/architecture/decision/work log and conci
 
 
 Native follow-up: actual Simulator install/launch showed the old safe-area-independent clock overlapping the connection label. Header, clock and agenda now share one safe-area inset; a fresh native screenshot confirms clear separation while Alice's scene size remains unchanged. Final web types/build and353frontend checks passed. Native SDK build/install/launch succeeded on the existing iPhone17Pro/iOS26.5; the app still connects to Pi8891. Device Hub's generic CUA screenshot was blank, so the purpose-built Simulator screenshot API provided actual framebuffer evidence. Native file-picker/touch/soft-keyboard interaction is not claimed.
+
+
+## Actual activation and final availability
+
+Mac backend520ab563and the final frontend2ed9ef41are running with the original owner runtime. A stopped/checkpointed SQLite backup was checked with the backup API and archive hashes;16private files preserved. A3settings and owner keys/config remained byte-identical. The actual normal Web selection created no attachment/message request before Send; test chips were removed and a fresh normal5190tab was left open.
+
+Pi main release520ab563was prepared as an independent release, all306files verified, activated, and checked through the existing pinned VPS route. Both app/application services were active, served frontend exactly matched, A3/config/owner keys were preserved, and a local synthetic upload probe was released without a model call. A69-file stopped SQLite/config backup was verified both on Pi and after its5.36MBcopy to Mac. [Sanitized activation receipt](activation-summary.json).
+
+After that successful activation, the existing VPS-to-Pi forwarding path stopped accepting connections. Normal SSH and8891checks failed; the existing reconnecting Mac launcher was still running but had no listener. No network/profile/firewall/power setting was altered. The final safe-area-only follow-up is complete on Mac and the installed native app; its v2package is prepared privately but activation on Pi is NOT confirmed. Read current Pi release/directory state before resuming; do not blindly repeat a write. Original/red-LED diagnosis remains deferred.
+
+Native app was rebuilt, installed and launched with its original Pi8891origin. All68bundled web assets match the final build. Actual Simulator framebuffer inspection found and then verified the native safe-area repair; generic Device Hub CUA screenshots were blank, so native file-picker/touch/keyboard coverage is not claimed. Ordinary browser chooser/paste/send/recovery and English/Chinese393px plus320px checks are independent evidence.
+
+Cleanup: fictional8832QA server stopped, temporary tabs closed, network-block and viewport overrides cleared, clipboard restored, test selections removed. Final screenshots remain private under the QA directory (web-menu-after.png, web-files-after.png, file-activity-after.png, phone-files-zh-final.png, phone-recovery-final.png, native-home-final.jpg). Source, docs and sanitized results are reviewed for Git publication; no credential, user file, raw audio, database or private backup is included.

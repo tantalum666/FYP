@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-09",
+  "mac": {
+    "backend_source": "520ab563bdbc829714f04b8ca397d74880c851c5",
+    "frontend_source": "2ed9ef4147aa649a60b46568ec3956bab40f41a8",
+    "healthy": true,
+    "backup_files": 16,
+    "sqlite_backup_checked": true,
+    "A3_preserved": true,
+    "attachments_available": true,
+    "local_upload_probe_released": true
+  },
+  "pi": {
+    "last_verified_source": "520ab563bdbc829714f04b8ca397d74880c851c5",
+    "release": "/opt/desk-companion-releases/20261109-composer-attachments",
+    "verified_files": 306,
+    "services_at_verification": [
+      "active",
+      "active"
+    ],
+    "frontend_exact_at_verification": true,
+    "A3_preserved": true,
+    "upload_probe_released": true,
+    "backup_files": 69,
+    "offdevice_backup_verified": true,
+    "current_reachability": "unavailable_existing_vps_forward",
+    "safe_area_followup": "prepared_on_Mac_not_confirmed_on_Pi",
+    "no_network_or_power_configuration_change": true
+  },
+  "native": {
+    "installed_and_launched": true,
+    "web_assets_match": 68,
+    "origin_preserved": "http://127.0.0.1:8891",
+    "safe_area_render_verified": true,
+    "native_picker_and_keyboard_acceptance": false
+  },
+  "paid_model_calls": 0,
+  "ci_used": false
+}

@@ -28,15 +28,29 @@
     "stale_error_after_remove_fixed": true,
     "visible_mobile_recovery_above_input": true,
     "viewport_override_reset": true,
-    "injected_network_block_removed": true
+    "injected_network_block_removed": true,
+    "chinese_phone": true,
+    "production_selection_network_requests": 0
   },
   "native": {
     "compile": true,
-    "install": "pending",
+    "install": true,
+    "launch": true,
+    "web_assets_match": 68,
+    "safe_area_visual": true,
+    "picker_and_keyboard_tested": false,
     "sdk": "8.5.2 verified cached archives"
   },
-  "activation": "pending",
+  "activation": "Mac complete; Pi main feature release verified then relay unavailable; final safe-area CSS remains pending on Pi",
   "paid_model_calls": 0,
   "ci_used": false,
-  "A3_voice_to_preserve": true
+  "A3_voice_to_preserve": true,
+  "cleanup": {
+    "qa_server_stopped": true,
+    "qa_tabs_closed": true,
+    "viewport_reset": true,
+    "network_block_removed": true,
+    "clipboard_restored": true,
+    "normal_web_opened": true
+  }
 }
