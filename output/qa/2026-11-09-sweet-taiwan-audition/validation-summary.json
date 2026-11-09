@@ -74,13 +74,14 @@
   },
   "acceptance": {
     "owner_accepted": true,
-    "status": "original_A_selected_as_current_default_A3_pending_feedback",
+    "status": "A3_selected_as_current_default_original_A_retained",
     "subjective_listening_by_agent": false,
     "taiwan_accent_quality_verified": false,
     "english_tested_this_round": false,
     "cantonese_tested_this_round": false,
     "end_to_end_playback_tested_this_round": false,
-    "owner_feedback": "Use original A on all three surfaces for now. A2 changes are audible but not young enough; continue younger."
+    "owner_feedback": "Use original A on all three surfaces for now. A2 changes are audible but not young enough; continue younger.",
+    "latest_owner_instruction": "Apply A3."
   },
   "production": {
     "changed": false,
@@ -162,7 +163,8 @@
       "sha256": "06df2205ff001083f0c25be1669dba8be8d46bdb8a40f531959d9a670875877d",
       "first_received_nonsilent_pcm_ms": 3601,
       "distinct_from_A2": true,
-      "owner_accepted": false
+      "owner_accepted": true,
+      "acceptance_scope": "Selected for application; not a complete trilingual or physical playback evaluation."
     },
     "closed_reason": "Three authorized attempts consumed."
   },
@@ -170,5 +172,12 @@
     "selected": "Original A / Alice · Taiwan Sweet",
     "three_surface_settings_verified": true,
     "qa": "../2026-11-09-original-a-three-surfaces/verification.md"
+  },
+  "latest_activation": {
+    "selected": "A3 / Alice · Taiwan Light",
+    "settings_version": 9,
+    "three_surface_settings_verified": true,
+    "paid_calls": 0,
+    "qa": "../2026-11-09-a3-default/verification.md"
   }
 }

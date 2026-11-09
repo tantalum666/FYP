@@ -1,5 +1,11 @@
 # Group 2 · OpenAI voice and Alice wake listening
 
+## 9 November latest default · A3
+
+The owner explicitly selected A3 / Alice · Taiwan Light. Existing owner/versioned APIs now read version9on Mac/Pi with the exact saved A3 ID/original description and preserved language-following delivery. Both serve the cached A3 sample byte-for-byte; Web/phone browser share Mac and the running native phone Simulator still points to Pi8891. Original A and its sample remain available. No new cloud generation, source rebuild, restart or forced interruption. [Current activation QA](../../output/qa/2026-11-09-a3-default/verification.md).
+
+All audition budgets remain closed. This verifies configuration/cache; native/Pi acoustics and English/Cantonese quality remain separate listening checks. The earlier original-A selection below is superseded by this explicit choice.
+
 ## 9 November original A applied to all surfaces
 
 The owner explicitly selected original A / Alice · Taiwan Sweet. Mac and Pi owner/versioned settings read version7 with the exact original voice ID/description and the same language-following delivery; each serves the original cached WAV byte-for-byte. Web/phone browser share Mac; the installed/running native Simulator process points at Pi8891. This is actual default configuration readback, not a claim of native/Pi microphone playback quality. Web was visibly opened for owner testing. [Activation QA](../../output/qa/2026-11-09-original-a-three-surfaces/verification.md).
@@ -10,7 +16,7 @@ A1 was rejected as older, A2 remained insufficiently young, and A3/Light used th
 
 The owner rejected the GPT-SoVITS public-reference sound and requested a sweet, soft, cute/youthful feminine Taiwan-Mandarin delivery. A fresh explicit USD0.10 / two-session /40-second authorization produced two original young-adult voices: Alice · Taiwan Sweet and Alice · Taiwan Soft. Both rendered the same short text, confirmed the requested distinct voice IDs and returned final usage:9seconds and11seconds. Conservative accounting USD0.0183333; this ledger is closed and all older ledgers remain closed. No microphone, delegated model, business tool or production-setting change was involved. Creation metadata/audio/voice IDs stay private.
 
-The owner retained A as promising but too mature, then explicitly approved a single USD0.03 /20-second younger-delivery audition using the same saved A voice. A1 returned the same requested voice and complete text,9providerseconds, conservative USD0.00825; its separate ledger is closed. The refinement uses a clear, light young-adult college-freshman delivery. Original A is preserved, A1 was rejected as older; the current new-base A2 comparison and remaining bounded authorization are in the voice brief, and the subsequent original-A activation is recorded above. These are Taiwan-Mandarin direction samples, not a naturalness, English/Cantonese or physical-playback pass. Follow the [current voice brief](../../planning/2026-11-09/alice-sweet-taiwan-voice.md) and [actual QA](../../output/qa/2026-11-09-sweet-taiwan-audition/verification.md); do not continue paid iteration from the closed authorization.
+The owner retained A as promising but too mature, then explicitly approved a single USD0.03 /20-second younger-delivery audition using the same saved A voice. A1 returned the same requested voice and complete text,9providerseconds, conservative USD0.00825; its separate ledger is closed. The refinement uses a clear, light young-adult college-freshman delivery. Original A is preserved, A1 was rejected as older; the dated A2/A3 comparison and closed authorization are in the voice brief, and the subsequent original-A activation is recorded above. These are Taiwan-Mandarin direction samples, not a naturalness, English/Cantonese or physical-playback pass. Follow the [current voice brief](../../planning/2026-11-09/alice-sweet-taiwan-voice.md) and [actual QA](../../output/qa/2026-11-09-sweet-taiwan-audition/verification.md); do not continue paid iteration from the closed authorization.
 
 ## 9 November earlier GPT-SoVITS technical trial
 

@@ -723,3 +723,10 @@ Further owner feedback: A1 sounds older than original A, so A1 is rejected and A
 **A3:** used the remaining previously approved USD0.05scope attempt for a new original adult18Taiwan Light voice. Complete fixed text, matching requested voice and8providerseconds finalized; valid24kHz mono output. The scope is exhausted/CLOSED at conservative USD0.0300833, including the earlier USD0.0145 unknown reservation. No attempts remain. A3was presented but not applied; A1 remains rejected and A2 remains unaccepted.
 
 **Evidence and next:** [activation QA](output/qa/2026-11-09-original-a-three-surfaces/verification.md) records actual reads, private backups, same-sample hashes and current scope. Updated current product/entry/handoff, voice brief/contracts/research, earlier audition status and this log. JSON/link/diff/material checks only; no CI or production test rerun. Next: actual A conversation and A3 listening feedback, retaining A until explicit replacement.
+
+
+## 2026-11-09 A3 selected as the shared default
+
+Owner explicitly asked to apply A3. Reused its saved original voice resource/description and cached audition, preserving language-following delivery. Mac and Pi were inactive before selection; existing owner/versioned APIs now read version9with exact A3 identity and served sample hashes. Web5190proxy/Pi8891readback and the native phone process's Pi8891origin passed. Original A/profile/cache and prior settings remain available. No paid call, source/release rebuild, restart, microphone, credentials, permission/network change or CI.
+
+Updated current product/entry/handoff, voice brief/contracts/research and selection status, with [A3 activation QA](output/qa/2026-11-09-a3-default/verification.md). Local validation covers API/profile/cache/backup/origin plus documentation JSON/link/diff/private-material checks; no production test rerun. All prior budgets remain closed. Next: normal A3 conversation feedback, retaining A3 until explicit replacement; original A is the available fallback.

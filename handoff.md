@@ -4,15 +4,15 @@
 
 ## Current voice and owner test
 
-The owner explicitly selected **original A / Alice · Taiwan Sweet** for Web, phone and Pi. Mac and Pi owner-versioned settings now read version7 with the exact original voice ID/description. Both serve the byte-identical cached A sample. Web/phone browser share Mac5190/8831. The installed/running native iPhone Simulator app currently has the launch origin `http://127.0.0.1:8891`, so it inherits Pi's selected A. No rebuild, restart or forced voice interruption was needed. Prior Bright/profile settings are preserved; language-following delivery retains A's ordinary voice instead of A1's rejected instructions. [Activation QA](output/qa/2026-11-09-original-a-three-surfaces/verification.md).
+The owner now explicitly selected **A3 / Alice · Taiwan Light**, superseding original A. Mac and Pi owner/versioned settings read version9with exact A3 ID/original description and unchanged language-following delivery. Both serve the byte-identical cached A3 sample. Web/phone browser share Mac5190/8831; the running native iPhone Simulator app still points to Pi8891and inherits its A3 choice. Original A and its cache remain available. No rebuild, restart, forced interruption or paid generation. [Current activation QA](output/qa/2026-11-09-a3-default/verification.md).
 
 Web5190was visibly opened at the Alice home and left as a deliverable for personal testing. Say Alice was off at observation; the agent did not enable the microphone or start a paid production call. Native/physical microphone quality and English/Cantonese remain separate listening gates.
 
-Original A audio/profile: `~/.config/desk-companion/sweet-taiwan-voice-20261109/`. Current Mac results/previous settings: `~/.config/desk-companion/apply-original-a-20261109/`. Pi previous settings: `~/.config/desk-companion/original-a-20261109/`. IDs/audio remain private.
+Original A audio/profile: `~/.config/desk-companion/sweet-taiwan-voice-20261109/`. Current A3 activation/prior-A settings: `~/.config/desk-companion/apply-a3-20261109/`; Pi backup: `~/.config/desk-companion/a3-20261109/`. Earlier original-A activation records remain in their own dated directories. IDs/audio remain private.
 
 ## Younger candidates and closed budget
 
-The SoVITS LJSpeech reference is rejected for sound fit. Its environment/models remain installed privately with API9880stopped; do not re-present the technical fixture as an Alice candidate. A1 (same A voice with younger delivery) was rejected as older. A2/new campus base shows audible changes but is still insufficiently young. A3/Taiwan Light targets an18-year-old adult, using a lighter clearer base voice. A3 is an audition only; original A remains selected.
+The SoVITS LJSpeech reference is rejected for sound fit. Its environment/models remain installed privately with API9880stopped; do not re-present the technical fixture as an Alice candidate. A1 (same A voice with younger delivery) was rejected as older. A2/new campus base shows audible changes but is still insufficiently young. A3/Taiwan Light targets an18-year-old adult, using a lighter clearer base voice. A3 is now selected by the owner; original A is retained as an available fallback.
 
 A3used the last authorized attempt, finalized8seconds with full text and matching distinct voice. Clip: `~/.config/desk-companion/sweet-taiwan-campus-20261109/sample-light.wav`. The USD0.05 /3-attempt /45-second scope is exhausted/CLOSED at conservative USD0.0300833, including an earlier USD0.0145 unknown startup reservation. Earlier USD0.10 and USD0.03 scopes are also closed. No paid attempts remain; do not reopen them. [Voice brief](planning/2026-11-09/alice-sweet-taiwan-voice.md) / [audition record](output/qa/2026-11-09-sweet-taiwan-audition/verification.md).
 
@@ -30,4 +30,4 @@ Classroom Ethernet DHCP/preferred eth0/VPS route and app/OpenAI metadata checks 
 
 ## One next step
 
-Use the owner's actual A conversation and A3 listening feedback. Keep A selected unless the owner explicitly chooses a replacement. Voice-quality selection is separate from further paid testing, physical Pi/native audio, merchant takeover and Microsoft OAuth work. Current publication state is recorded in [the activation QA](output/qa/2026-11-09-original-a-three-surfaces/verification.md); PR97 remains unmerged.
+Use A3 for normal owner conversation and collect any language/delivery issues. Keep A3 selected unless the owner requests a replacement; original A remains available. Voice-quality selection is separate from further paid testing, physical Pi/native audio, merchant takeover and Microsoft OAuth work. Current publication state is recorded in [the current activation QA](output/qa/2026-11-09-a3-default/verification.md); PR97 remains unmerged.

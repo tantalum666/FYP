@@ -885,3 +885,10 @@ Publication: A2 evidence head4753ed4 matched GitHub PR97, open/unmerged; current
 **Evidence and next:** [activation QA](output/qa/2026-11-09-original-a-three-surfaces/verification.md) records actual reads, private backups, same-sample hashes and current scope. Updated current product/entry/handoff, voice brief/contracts/research, earlier audition status and this log. JSON/link/diff/material checks only; no CI or production test rerun. Next: actual A conversation and A3 listening feedback, retaining A until explicit replacement.
 
 Publication: original-A activation/A3 evidence headed27b22matched GitHub PR97, open/unmerged. [Receipt](output/qa/2026-11-09-original-a-three-surfaces/publication.json). Private voice/audio/backups stay excluded; no CI.
+
+
+## 2026-11-09 A3 selected as the shared default
+
+Owner explicitly asked to apply A3. Reused its saved original voice resource/description and cached audition, preserving language-following delivery. Mac and Pi were inactive before selection; existing owner/versioned APIs now read version9with exact A3 identity and served sample hashes. Web5190proxy/Pi8891readback and the native phone process's Pi8891origin passed. Original A/profile/cache and prior settings remain available. No paid call, source/release rebuild, restart, microphone, credentials, permission/network change or CI.
+
+Updated current product/entry/handoff, voice brief/contracts/research and selection status, with [A3 activation QA](output/qa/2026-11-09-a3-default/verification.md). Local validation covers API/profile/cache/backup/origin plus documentation JSON/link/diff/private-material checks; no production test rerun. All prior budgets remain closed. Next: normal A3 conversation feedback, retaining A3 until explicit replacement; original A is the available fallback.

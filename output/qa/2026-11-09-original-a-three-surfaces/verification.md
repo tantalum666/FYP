@@ -2,6 +2,8 @@
 
 9 November 2026, Asia/Hong_Kong. The owner explicitly requested applying original A to all three surfaces, opening Web for personal testing and continuing the younger voice direction. This authorizes the default selection; the remaining A3 audition uses the already approved final attempt, not a reopened budget.
 
+Later same-day owner instruction selected A3. The original-A measurements below remain historical; [current A3 activation](../2026-11-09-a3-default/verification.md) supersedes this default choice.
+
 ## Focused reading and scope
 
 Read current AGENTS workflow, handoff/START, product current requirements, latest voice decisions, full current voice brief, OpenAI voice-contract sections, passwordless-device contract and previous Web/phone preview evidence. Checked the historical native-phone implementation sections for the connection mechanism, then verified the actual running Simulator process rather than treating the old documented origin as current. Markdown inventory found only root AGENTS. Read VoiceSettings registration/selection/sample behavior, VoiceService preference injection and active-session guards, the existing private settings helper and pinned Pi relay helper. Memory restored voice preferences only; current settings/runtime were checked live. Existing official OpenAI prompt-to-voice rules were reused; A3 is an original adult voice.

@@ -49,6 +49,6 @@ Both cached clips were presented to the owner. The owner retained A as promising
 
 Updated product, decisions, current voice brief, OpenAI/SoVITS contracts, reference-voice research/index, work log, handoff and START/AGENTS routing. Validation is scoped to JSON structure, relative links, artifact format/hashes, transcript comparison, private-file permissions, budget closure, diff and secret/material exclusions. No production tests were rerun for documentation-only changes; prior test totals retain their own scope. Publication and remote branch verification are recorded separately. PR97 remains unmerged.
 
-One next step: use actual conversation feedback on selected original A and listening feedback on A3. All audition budgets are now closed; no paid attempt remains.
+Latest owner selection: A3 is now applied through existing settings; [activation QA](../2026-11-09-a3-default/verification.md) records the readback. Next: actual conversation feedback on A3, retaining original A for switching back. All audition budgets remain closed; no paid attempt remains.
 
 Publication: reviewed A2 evidence head4753ed4 matched the GitHub branch, PR97 open/unmerged; PR description includes A1 rejection and the bounded remaining A2 scope. [Receipt](publication.json). No audio/private IDs/source deployment/CI. A later receipt-only commit does not change the audition or runtime.

@@ -1,6 +1,6 @@
 # Group 2 Project Contract
 
-9 November 2026 current voice update: the owner selected **original A / Alice · Taiwan Sweet** as the current default on Web, phone and Pi. Mac and Pi versioned settings now match the original voice ID/description; both serve the exact cached A sample. Phone browser shares Mac; the running native Simulator app connects to Pi8891 and inherits Pi's choice. Web was opened for owner testing. A2 remains below the desired age fit; a final A3/Light audition returned complete text and8providerseconds. The USD0.05 refinement scope is now exhausted and CLOSED at conservative USD0.0300833, including the earlier unknown startup reservation. A3 is only a candidate, not the default. [Activation QA](output/qa/2026-11-09-original-a-three-surfaces/verification.md) / [voice brief](planning/2026-11-09/alice-sweet-taiwan-voice.md).
+9 November 2026 current voice update: the owner selected **A3 / Alice · Taiwan Light** as the default on Web, phone and Pi, superseding the earlier original-A selection. Mac and Pi version9settings match A3's exact existing voice ID/original description; both serve the same cached A3 WAV. Phone browser shares Mac; the running native Simulator app connects to Pi8891 and inherits Pi's choice. Original A remains available. No paid generation, source rebuild or service restart was needed. All audition budgets remain closed. [Current activation QA](output/qa/2026-11-09-a3-default/verification.md) / [voice brief](planning/2026-11-09/alice-sweet-taiwan-voice.md).
 
 Earlier9 November technical result: isolated Mac V2ProPlus CPU generated six cases, but that reference is now rejected for Alice's sound. Cantonese numeric accuracy and interruption/latency stability remain open. Classroom Ethernet/VPS/app/OpenAI metadata connectivity passed, with preview recovery through the existing reconnecting launcher. [Trial QA](output/qa/2026-11-09-sovits-classroom/verification.md). The new Outlook plugin identity is confirmed; FYP Microsoft registration/consent are separate and pending.
 
@@ -27,7 +27,7 @@ Earlier9 November technical result: isolated Mac V2ProPlus CPU generated six cas
 - 同一助理贯通文字、语音、短期上下文、经批准的长期记忆、日历和事务。**默认OpenAI：独立文字／浏览器和Live委托推理GPT6.1Sol，语音GPTLive1，Realtime2.1保留显式对照；Qwen保留历史已测候选，不作静默回退。**Qwen Audio／Gemini已有协议适配；OpenAI Realtime2.1与GPT-Live1＋Luna已完成一轮虚构业务／合成语音实测，Mini有英文参照。真人同条件比较仍待；不能把协议模拟当成真实效果。
 - 真实、受限的电脑／软件操作是核心；先推进Linux。允许范围、批准、取消、超时、未知结果和独立读回由程序控制。默认每次询问；拥有者可在输入框旁／设置中显式启用完整权限，对新请求中的已支持软件操作授予持续授权。模型不能更改权限或自行确认，实体输出仍独立批准。见[权限契约](desk-companion/docs/assistant-permissions.md)。
 - 日历等简单查询约5秒提供有用回答是体验目标。工具等待、首音、首个有用词与作业完成分别计时。
-- Alice声音先验收音色和自然感，再推进集成：甜、轻软、可爱而自然的台湾国语女声；英语和粤语仍需自然、保持同一角色。原创音色按年轻成年女性设计，不靠变调或夸张奶音代替自然度。已被用户否决的LJSpeech参考样本只保留技术记录。当前按用户明确要求将原版A作为三端默认；A1已否决、A2尚不满意、A3仅供试听，三语与真人声学效果仍分别验收。
+- Alice声音先验收音色和自然感，再推进集成：甜、轻软、可爱而自然的台湾国语女声；英语和粤语仍需自然、保持同一角色。原创音色按年轻成年女性设计，不靠变调或夸张奶音代替自然度。已被用户否决的LJSpeech参考样本只保留技术记录。当前按用户最新明确要求将A3作为三端默认，保留原版A便于切回；A1已否决、A2尚不满意，三语与真人声学效果仍分别验收。
 - 角色为AliceChan，保留原貌、作者署名与CC BY-SA4.0；不恢复被否决的自行制作脸发路线。旧A1研究与作者源按历史保存。
 - 固定相机→个人标定→可见性／持续条件→具体反馈→新观察复测仍是必做主线。遮挡／缺帧为无法判断，不宣称医学诊断、情绪／专注评分或长期健康改善。
 
