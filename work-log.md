@@ -870,3 +870,5 @@ Same-day owner follow-up: A is promising but sounds too mature; retain it and re
 
 
 Further owner feedback: A1 sounds older than original A, so A1 is rejected and A is retained. Changing only delivery did not meet the desired age impression. Created a new adult18–20Taiwan Campus base voice for A2, then received explicit USD0.05 /maximum3attempts /45seconds total authorization for sequential refinement. First connection reset before session.started/audio; USD0.0145 and15seconds remain conservatively allocated. Retry returned the requested new voice and complete text, finalized9seconds at USD0.00825. A2 clip presented; feedback pending. Current scope has one attempt left, max15seconds, conservative accounted USD0.02275; close on selection/cancellation/exhaustion. No automatic further generation or production-default switch; earlier ledgers remain closed.
+
+Publication: A2 evidence head4753ed4 matched GitHub PR97, open/unmerged; current description and [receipt](output/qa/2026-11-09-sweet-taiwan-audition/publication.json) preserve A1 rejection, A2 result and one remaining bounded attempt. Production unchanged.
