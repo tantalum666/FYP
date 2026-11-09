@@ -2,6 +2,8 @@
 
 ## 9 November shared dark controls
 
+Native phone header, conditions and agenda use the same safe-area inset. The actual Simulator revealed a clock/connection-label overlap missed by a zero-inset browser viewport; shared positioning fixes it without resizing Alice.
+
 Composer, file activity and browser forms now switch dark foreground/background together. + is a compact menu; ordinary file addition stays in the composer. Phone multiple files form a horizontal strip. Unconfirmed message delivery expands Conversation and presents an accessible recovery row above the input instead of overlapping the clock/scene. Calendar, Alice size and avatar assets are unchanged. [Attachment contract](chat-attachments.md).
 
 ## 8 November evening: caption contrast and measured phone space

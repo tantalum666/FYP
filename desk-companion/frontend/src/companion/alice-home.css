@@ -426,6 +426,7 @@
   display: none;
 }
 .alice-home-phone.phone-app {
+  --alice-header-inset: max(18px, env(safe-area-inset-top, 0px));
   position: fixed;
   display: block;
   padding: 0;
@@ -433,7 +434,7 @@
 .alice-home-phone .alice-home-header {
   position: absolute;
   inset: 0 0 auto;
-  padding: max(18px, env(safe-area-inset-top)) 22px 10px;
+  padding: var(--alice-header-inset) 22px 10px;
 }
 .alice-home-phone .alice-home-identity {
   display: grid;
@@ -453,7 +454,8 @@
 }
 .alice-home-phone .alice-agenda {
   position: absolute;
-  inset: max(220px, 29%) auto var(--alice-conversation-space, 212px) 22px;
+  inset: max(calc(202px + var(--alice-header-inset)), 29%) auto
+    var(--alice-conversation-space, 212px) 22px;
   display: block;
   width: clamp(112px, 35vw, 148px);
   overflow-y: auto;
@@ -660,7 +662,7 @@
   color: #8fa2b2;
 }
 .alice-home-phone .alice-conditions {
-  top: 104px;
+  top: calc(86px + var(--alice-header-inset));
   left: 24px;
 }
 .alice-home-phone .alice-conditions time strong {

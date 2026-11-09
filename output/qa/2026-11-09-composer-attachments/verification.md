@@ -28,3 +28,6 @@ Private QA directory: `~/.config/desk-companion/composer-ui-20261109/`. It holds
 Native web assets were copied with the existing Capacitor8.5.2CLI. Official SDK archives were reused from the prior local cache after exact checksum checks; no new dependency/version/download. Compile succeeded. Final install/launch and runtime activation are recorded below when observed; compile alone is not native interaction acceptance.
 
 Closeout must update current product/UI/architecture/decision/work log and concise handoff, verify links/diff/private-material exclusions, preserve a recovery path, and push the reviewed candidate without CI or merge. No unfinished action is reported as complete.
+
+
+Native follow-up: actual Simulator install/launch showed the old safe-area-independent clock overlapping the connection label. Header, clock and agenda now share one safe-area inset; a fresh native screenshot confirms clear separation while Alice's scene size remains unchanged. Final web types/build and353frontend checks passed. Native SDK build/install/launch succeeded on the existing iPhone17Pro/iOS26.5; the app still connects to Pi8891. Device Hub's generic CUA screenshot was blank, so the purpose-built Simulator screenshot API provided actual framebuffer evidence. Native file-picker/touch/soft-keyboard interaction is not claimed.
