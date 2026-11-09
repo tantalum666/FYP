@@ -45,3 +45,5 @@ Added scripts/sovits_smoke.py: explicit loopback destination, no redirects, boun
 The14-line corpus is now marked partially exercised with a public reference, while owner audition remains pending. Updated network field status, dedicatedevaluationcontract, researchsnapshot routing, product, decisions, worklog, handoff andentry. Public [summary](validation-summary.json) excludes credentials, hostIP, privateIDs and audio. Local generated samples and rawerrors stay in the experiment directory. [Evaluation contract](../../../desk-companion/docs/sovits-evaluation.md).
 
 Next: obtain the approved reference/transcript, prepare a clean3–10second input segment, and assess the actual desired sound. Resolve Cantonese accuracy and interruption/latency variability before an integrated ASR→existing OpenAI/tools→TTSroute or default switch. No new paid budget, model training, automatic sending or deployment was authorized by this trial.
+
+Publication: reviewed trial head4156a31 matched the remote branch; PR97 remains open/unmerged. Diff/link/JSON/credential/artifact checks passed. Model weights, private addresses, raw logs and audio are excluded. [Receipt](publication.json).
