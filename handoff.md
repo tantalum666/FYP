@@ -2,11 +2,15 @@
 
 8 November 2026, evening. Active checkout: `/Users/tantalum/.codex/worktrees/live-agent-eval-20261107/FYP`. Branch: `codex/alice-home-wake-20261107`. [PR97](https://github.com/tantalum666/FYP/pull/97) is open and unmerged. **Software source 232b065 is active on Mac and Pi.** No CI; all test ledgers are closed; red-LED diagnosis remains deferred.
 
-## 9 November follow-up · current priority
+## 9 November current priority · actual GPT-SoVITS trial
 
-The owner still dislikes Alice's voice and selected customization from a reference voice they approve and have rights to use. No reference audio/transcript has been supplied yet. [reference-voice review](research/2026-11-09-custom-alice-voice.md) compares current VibeVoice, GPT-SoVITS and Fish versions, pins upstream commits, records actual Mac/Pi/VPS resources and prepares14audition lines. GPT-SoVITS first is an engineering recommendation, not a chosen/accepted voice. Existing Bright is technically selected but not owner-accepted. No new model/paid call or runtime change.
+The owner selected GPT-SoVITS testing and reported Pi on classroom Ethernet. **Classroom wired connectivity passed:** DHCP/preferred eth0 route, original-key relay SSH, app/owner/workspace/device-page and non-generation OpenAI models200. Wi-Fi was active as a secondary route; direct LAN SSH closed. A one-shot Mac preview later dropped with no Pi reboot; the existing reconnecting launcher restored8891/5901. Private process record: `~/.config/desk-companion/sovits-classroom-20261109/pi-reconnecting-preview.json`. No network/security/power configuration changes. [Current QA](output/qa/2026-11-09-sovits-classroom/verification.md).
 
-The Outlook plugin profile now confirms the owner's new personal account. FYP's own Microsoft catalog still reports unconfigured/unconnected; client registration and delegated consent remain separate. No mailbox message was read/sent in this round, and no Azure subscription or app was created.
+An isolated Mac **V2ProPlus CPU/float32** environment is installed at `~/.local/share/desk-companion/experiments/gpt-sovits-20261109/`, upstream04a44eb, Python3.12, torch/torchaudio2.7.1. It retains weights, source, start_server.py, CPU profile, environment lock and samples. Missing resampy, upstream NLTK-directory override and language-model cache were resolved; no download guard was disabled. The API9880 is stopped to free memory. Production defaults/release232b065 were not changed.
+
+Six public-reference cases generated32000Hz mono WAVs. Streaming first non-silent PCM receipt was1.641–2.679seconds in one short batch; this excludes ASR/agent/physical playback. A later non-streaming recheck was slower. First post-disconnect request timed out30seconds; repeat completed4.05seconds, without an inference-code change, so stability remains unverified. Local WhisperSmall content matched English/Mandarin; Cantonese time10was read as3, so pronunciation/numeric accuracy is unresolved. Generated audio is not accepted voice quality. [Evaluation contract](desk-companion/docs/sovits-evaluation.md), [summary](output/qa/2026-11-09-sovits-classroom/validation-summary.json).
+
+The owner-selected reference recording/transcript is still absent. The LJSpeech public-domain fixture is only a technical test, not Alice's chosen voice or training data. No paid generation, model training, production deployment or CI. New loopback-only scripts/sovits_smoke.py has six boundary tests; no second agent/tool stack was added. Outlook plugin identity is confirmed; FYP Microsoft remains unconfigured and no mailbox action was performed in this round.
 
 ## Current result
 
@@ -26,6 +30,6 @@ Pi has the private client configuration and voice cache; Pi Gmail/Calendar remai
 
 ## One next step
 
-Obtain the selected reference recording and transcript, then run a small isolated GPT-SoVITS Mandarin/English/Cantonese audition using the prepared fixed corpus. Select on actual listening before integrating a new ASR/TTS route into the existing agent/tool/approval flow. No new paid API test is authorized. Merchant takeover and Microsoft OAuth registration remain subsequent work; do not confuse the newly connected Codex Outlook plugin with FYP authorization.
+Obtain the owner's approved reference/transcript, prepare a clean3–10second segment, and run a small desired-voice audition in the installed environment. Resolve Cantonese accuracy and interruption/latency variability before an integrated ASR→existing OpenAI/tools→TTS route or default switch. Do not repeat the large downloads or treat the existing public-reference samples as owner-approved. All previous paid budgets remain closed; merchant takeover and Microsoft OAuth registration remain subsequent work.
 
 Publication: [PR97](https://github.com/tantalum666/FYP/pull/97) remains open/unmerged. Reviewed code/activation head1afb556 was pushed and matched the remote branch; [publication receipt](output/qa/2026-11-08-caption-mail-voice/publication.json) records the check. Runtime source remains232b065.

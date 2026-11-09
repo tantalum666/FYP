@@ -1,6 +1,6 @@
 {
   "schema": "alice-reference-voice-eval-v1",
-  "status": "prepared_not_run",
+  "status": "technical_subset_run_owner_audition_pending",
   "date": "2026-11-09",
   "purpose": "Offline reference-voice listening comparison; all task details are fictional and confer no action authority.",
   "owner_reference": "not_supplied",
@@ -117,5 +117,20 @@
     "owner_review_before_send",
     "no_automatic_paid_fallback"
   ],
-  "language_tags": "Evaluation labels; adapters must map them to their supported request arguments."
+  "language_tags": "Evaluation labels; adapters must map them to their supported request arguments.",
+  "technical_trial": {
+    "date": "2026-11-09",
+    "profile": "GPT-SoVITS v2ProPlus CPU",
+    "reference": "public-domain LJSpeech technical fixture",
+    "case_ids": [
+      "en-greeting",
+      "zh-greeting",
+      "yue-greeting",
+      "en-time",
+      "zh-time",
+      "yue-time"
+    ],
+    "quality_accepted": false,
+    "qa": "../../output/qa/2026-11-09-sovits-classroom/verification.md"
+  }
 }

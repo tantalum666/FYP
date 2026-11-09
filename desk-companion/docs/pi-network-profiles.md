@@ -1,6 +1,8 @@
 # Pi networking across home, classroom and dorm
 
-**5 November: dorm wired DHCP, fixed443 relay and original Pi SSH authentication passed, including recovery after the owner's power-cycle recovery (later clarified; not an orderly button restart). Mac HTTP login/core API and VNC protocol passed. Home/classroom profiles remain; classroom wired still requires a field test. Power stability remains open. [Current QA](../../output/qa/2026-11-05-pi-443-transport/verification.md).**
+**9 November classroom field check:** Ethernet DHCP and carrier were observed, with the preferred default route on eth0; the actual VPS route also used eth0. Original-key SSH through the existing relay, app/workspace/device-page access and a non-generation OpenAI models read all passed. Classroom Wi-Fi was active as a secondary route; cable-removal/failover was not tested. Direct classroom-IP SSH closed. A later Mac preview drop was recovered using the existing reconnecting launcher; the Pi boot ID did not change. Existing network/security settings were retained. [Actual QA](../../output/qa/2026-11-09-sovits-classroom/verification.md).
+
+**Historical 5 November:** Dorm wired DHCP, fixed443 relay and original Pi SSH authentication passed. Home/classroom profiles were retained; classroom wired was still pending at that time. Power stability remains outside this round. [Dated QA](../../output/qa/2026-11-05-pi-443-transport/verification.md).
 
 31 October 2026. The owner resumed Pi work and specified this arrangement:
 

@@ -687,3 +687,14 @@ Actual acceptance screenshots showed optional voice-to-Work details covering the
 **Verified state:** the connected Outlook plugin profile matches the new personal account; FYP Microsoft365/Teams/SharePoint remain unconfigured/unconnected. Codex authorization is not transferable application configuration. No Azure resource/registration, mailbox read/send, provider generation or deployment occurred.
 
 **Engineering proposal, not final selection:** GPT-SoVITS is the first three-language reference candidate; compare versions using a fixed corpus and actual resource measurements. FishS2-Pro is a heavier expressive comparison, Drama3's officialNVIDIAmemory requirement excludes the current first deployment, and VibeRealtime's English/voice-prompt restrictions make it unsuitable as the main trilingual customization route. Verified MacM2Pro/16GB, Pi7.87GiB and VPS2cores/1GiB; do not call the VPS a GPU host. Separate synthesis from the existing agent/tools and retain authority/cancellation/history ownership. [Sources and proposal](research/2026-11-09-custom-alice-voice.md).
+
+
+## 2026-11-09 GPT-SoVITS trial and classroom wired acceptance
+
+**Owner direction:** test GPT-SoVITS first and check Pi on classroom Ethernet. Existing reference-voice preference remains; no owner reference was supplied.
+
+**Actual result:** isolated V2ProPlus CPU environment and six technical audio cases, with first streaming PCM1.641–2.679seconds in one batch. Independent local ASR matched English/Mandarin content; Cantonese numeric accuracy remains unresolved. A first post-disconnect request timed out30seconds and a repeat completed4.05seconds without source repair; do not call stable interruption fixed. Public-domain LJSpeech is a test fixture, not a chosen/trained Alice voice. Production default and all closed cloud budgets stay unchanged.
+
+**Network:** original-pin SSH and actual outbound route confirmed classroom Ethernet. App/owner/workspace/device-page and non-generation OpenAI metadata returned200. Direct classroom-IP SSH closed; the existing VPS is the verified management path. An expired one-shot Mac tunnel was replaced by the existing reconnecting launcher, with unchanged Pi boot ID and no firewall/DNS/profile/power edits. This closes classroom Ethernet field connectivity, not long-term reliability or physical audio.
+
+**Implementation boundary:** one loopback-only evaluation probe, six local boundary tests and private source/model cache; no new agent stack. Actual installation failures were repaired using isolated resampy, already-downloaded NLTK corpus mapping and the proper language cache. A network safety rejection was not bypassed. Next: approved-reference audition, then quality/interrupt gates before integration. [QA](output/qa/2026-11-09-sovits-classroom/verification.md).

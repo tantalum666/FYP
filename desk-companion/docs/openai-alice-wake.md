@@ -1,8 +1,8 @@
 # Group 2 · OpenAI voice and Alice wake listening
 
-## 9 November acceptance update
+## 9 November GPT-SoVITS technical trial
 
-The owner still rejects the voice quality and selected reference-based customization. Bright remains the running comparison voice, not an accepted final sound. The [current review](../../research/2026-11-09-custom-alice-voice.md) distinguishes TTS candidates, language/hardware/license limits and an ASR→existing agent/tools→TTS route. Fourteen audition lines are prepared, no reference supplied or new audio generated. Do not present earlier provider-echo success as owner listening acceptance. All paid test ledgers stay closed.
+The owner selected reference-based customization and then GPT-SoVITS testing. Bright remains the production baseline, not an accepted final sound. The [isolated CPU trial](sovits-evaluation.md) generated six technical samples and measured streaming PCM receipt, but did not replace the Live voice route. Cantonese pronunciation/numeric accuracy and interruption/latency stability remain unresolved; no human/physical playback acceptance is claimed. The owner's actual reference is still needed. Local synthesis/ASR used no hosted-model generation; previous paid ledgers remain closed.
 
 ## 8 November evening: verified voice selection and review delivery
 

@@ -1,6 +1,6 @@
 # Group 2 · Alice reference-voice options
 
-Checked 9 November 2026, Asia/Hong_Kong. This is a source-backed feasibility review and implementation proposal, not a listening benchmark or a deployed replacement. No model weights were downloaded, no reference recording was uploaded, and no paid inference or new cloud resource was used.
+Research snapshot from early 9 November 2026, Asia/Hong_Kong, before the owner selected GPT-SoVITS testing. The research itself made no model download or inference. Later that day, an isolated V2ProPlus CPU technical trial generated English/Mandarin/Cantonese samples using public-domain reference audio; owner-selected voice quality remains open. See [actual results](../output/qa/2026-11-09-sovits-classroom/verification.md) for installation, latency, interruption and transcription limitations.
 
 ## Owner decision and current acceptance
 
@@ -83,7 +83,7 @@ Keep the UI in Assistant style: selected profile, cached audition and speaking-s
 3. Let the owner choose on voice fit and naturalness. Record language-specific pronunciation, timbre consistency, missing/repeated words, cold/warm first-audio time, synthesis throughput and peak memory. Publisher RTF numbers are not end-to-end latency evidence.
 4. Only after the sound is acceptable, integrate a bounded streaming route and test playback interruption, late-chunk rejection, caption alignment and calendar/mail/browser draft workflows through the existing services. Any new paid OpenAI experiment needs a fresh cap; all previous budgets remain closed.
 
-No audible candidate from these three projects has been produced in FYP yet. A reference recording is the concrete missing input for the selected route. Voice acceptance remains open even though the current Bright resource is correctly selected.
+At this research snapshot no candidate had been synthesized. The subsequent technical trial is linked above; it does not replace the still-missing owner reference or establish voice acceptance. Bright remains the production baseline, not an accepted final sound.
 
 ## Microsoft account follow-up
 

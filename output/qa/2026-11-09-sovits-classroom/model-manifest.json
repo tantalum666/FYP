@@ -1,0 +1,113 @@
+{
+  "upstream_commit": "04a44eb977586645f33594b72af13a035a2056c6",
+  "selected_profile": "v2ProPlus CPU float32",
+  "files": [
+    {
+      "repo": "lj1995/GPT-SoVITS",
+      "revision": "8f8857563c040d542de108a2c18b0425abd6c9c5",
+      "path": "s1v3.ckpt",
+      "size": 155284856,
+      "sha256": "87133414860ea14ff6620c483a3db5ed07b44be42e2c3fcdad65523a729a745a",
+      "observed_sha256": "87133414860ea14ff6620c483a3db5ed07b44be42e2c3fcdad65523a729a745a"
+    },
+    {
+      "repo": "lj1995/GPT-SoVITS",
+      "revision": "8f8857563c040d542de108a2c18b0425abd6c9c5",
+      "path": "v2Pro/s2Gv2ProPlus.pth",
+      "size": 200125741,
+      "sha256": "d42a22bbbf65fb2bbdd45ad6a66841156977db45c7aabe0a6992ff378d9c7d3b",
+      "observed_sha256": "d42a22bbbf65fb2bbdd45ad6a66841156977db45c7aabe0a6992ff378d9c7d3b"
+    },
+    {
+      "repo": "lj1995/GPT-SoVITS",
+      "revision": "8f8857563c040d542de108a2c18b0425abd6c9c5",
+      "path": "sv/pretrained_eres2netv2w24s4ep4.ckpt",
+      "size": 107528697,
+      "sha256": "4f5a0bf73c61eb41b174e1bb54e7ee3c83233892be8e0af1f187024e8e581a35",
+      "observed_sha256": "4f5a0bf73c61eb41b174e1bb54e7ee3c83233892be8e0af1f187024e8e581a35"
+    },
+    {
+      "repo": "lj1995/GPT-SoVITS",
+      "revision": "8f8857563c040d542de108a2c18b0425abd6c9c5",
+      "path": "chinese-hubert-base/config.json",
+      "size": 1449,
+      "sha256": null,
+      "observed_sha256": "c3e5060a1277e0f078cc6be9da4528a605dba6ece93018981fe2c820e5c7b103"
+    },
+    {
+      "repo": "lj1995/GPT-SoVITS",
+      "revision": "8f8857563c040d542de108a2c18b0425abd6c9c5",
+      "path": "chinese-hubert-base/preprocessor_config.json",
+      "size": 212,
+      "sha256": null,
+      "observed_sha256": "dcd684124d06722947939d41ea6ae58dbf10968c60a11a29f23ddc602c64a29b"
+    },
+    {
+      "repo": "lj1995/GPT-SoVITS",
+      "revision": "8f8857563c040d542de108a2c18b0425abd6c9c5",
+      "path": "chinese-hubert-base/pytorch_model.bin",
+      "size": 188811417,
+      "sha256": "24164f129c66499d1346e2aa55f183250c223161ec2770c0da3d3b08cf432d3c",
+      "observed_sha256": "24164f129c66499d1346e2aa55f183250c223161ec2770c0da3d3b08cf432d3c"
+    },
+    {
+      "repo": "lj1995/GPT-SoVITS",
+      "revision": "8f8857563c040d542de108a2c18b0425abd6c9c5",
+      "path": "chinese-roberta-wwm-ext-large/config.json",
+      "size": 963,
+      "sha256": null,
+      "observed_sha256": "3d57de2fd7e80d0e5c8ff194f0bbb6baa10df7e43fc262a0cc71298a78b0a3e5"
+    },
+    {
+      "repo": "lj1995/GPT-SoVITS",
+      "revision": "8f8857563c040d542de108a2c18b0425abd6c9c5",
+      "path": "chinese-roberta-wwm-ext-large/pytorch_model.bin",
+      "size": 651225145,
+      "sha256": "e53a693acc59ace251d143d068096ae0d7b79e4b1b503fa84c9dcf576448c1d8",
+      "observed_sha256": "e53a693acc59ace251d143d068096ae0d7b79e4b1b503fa84c9dcf576448c1d8"
+    },
+    {
+      "repo": "lj1995/GPT-SoVITS",
+      "revision": "8f8857563c040d542de108a2c18b0425abd6c9c5",
+      "path": "chinese-roberta-wwm-ext-large/tokenizer.json",
+      "size": 268962,
+      "sha256": null,
+      "observed_sha256": "173796956820ea27bd14f76bf28162607ff4254807e2948253eb5b46f5bb643b"
+    },
+    {
+      "repo": "XXXXRT/GPT-SoVITS-Pretrained",
+      "revision": "0c47645e02a7bc3688d7b263b0042c81e3cd82cd",
+      "path": "G2PWModel.zip",
+      "size": 588856634,
+      "sha256": "46292be0374a49308069233cd5c147ae4c41806558e4781a2467a31a4d8099da",
+      "observed_sha256": "46292be0374a49308069233cd5c147ae4c41806558e4781a2467a31a4d8099da"
+    },
+    {
+      "repo": "XXXXRT/GPT-SoVITS-Pretrained",
+      "revision": "0c47645e02a7bc3688d7b263b0042c81e3cd82cd",
+      "path": "nltk_data.zip",
+      "size": 9924448,
+      "sha256": "eb3ec26ace3f9ccbb08a6d333e26f0941c47e230ece0717dc992bdb7e99808dd",
+      "observed_sha256": "eb3ec26ace3f9ccbb08a6d333e26f0941c47e230ece0717dc992bdb7e99808dd"
+    }
+  ],
+  "language_detector": {
+    "source": "https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin",
+    "rights_source": "https://fasttext.cc/docs/en/language-identification.html",
+    "license": "CC-BY-SA-3.0",
+    "bytes": 131266198,
+    "publisher_md5_verified": true,
+    "sha256": "7e69ec5451bc261cc7844e49e4792a85d7f09c06789ec800fc4a44aec362764e"
+  },
+  "reference": {
+    "purpose": "public-domain technical smoke reference; not selected Alice voice",
+    "url": "https://keithito.com/LJ-Speech-Dataset/LJ025-0076.wav",
+    "rights_source": "https://keithito.com/LJ-Speech-Dataset/",
+    "license_statement": "Author identifies text/audio/annotations as public domain in the US.",
+    "text": "Many animals of even complex structure which live parasitically within others are wholly devoid of an alimentary cavity.",
+    "sha256": "b31133c05e9667a27db5be539ca089aa99e95ca7bef52040c902ff781680873a",
+    "rate": 22050,
+    "seconds": 8.396643990929705,
+    "channels": 1
+  }
+}
