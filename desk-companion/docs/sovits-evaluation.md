@@ -1,6 +1,8 @@
 # Group 2 · Local GPT-SoVITS evaluation
 
-9 November 2026. The owner selected GPT-SoVITS testing. This checkpoint is an isolated Mac synthesis experiment, not a replacement for production Alice voice, a trained custom speaker or a complete ASR/agent/TTS conversation route. The owner-selected reference recording is still missing.
+9 November 2026. The owner selected GPT-SoVITS testing, then explicitly rejected these samples as more artificial than OpenAI and unsuitable for the desired sweet/cute Taiwan-Mandarin voice. This remains a technical record, not an accepted Alice candidate. Do not repeat the same public-reference audition as a proposed solution. The later owner-approved OpenAI comparison is recorded in the [current voice brief](../../planning/2026-11-09/alice-sweet-taiwan-voice.md).
+
+This checkpoint is an isolated Mac synthesis experiment, not a replacement for production Alice voice, a trained custom speaker or a complete ASR/agent/TTS conversation route. No owner-selected reference recording was supplied for this trial; that does not invalidate the owner's rejection of its actual sound.
 
 ## Tested setup
 
@@ -64,6 +66,6 @@ python scripts/sovits_smoke.py \
 
 Use the actual language of the reference, and a new output directory for each run. Six local regression checks cover remote/credential destinations, redirect refusal and truncated/silent audio rejection. They are separate from actual model requests. All prior hosted-model budgets remain closed.
 
-## Next gate
+## Gate if this route is revisited
 
-Use the owner's approved reference and transcript for a small sound-quality audition. Resolve pronunciation and interruption/latency variability before introducing an ASR→existing OpenAI/tools→TTS route. Reuse current microphone ownership, conversation, approvals and playback; do not install a second agent or task system. Public reference speech, requested-language audio generation, transcription agreement, owner-approved sound and deployed end-to-end conversation are different results.
+Only revisit with a reference the owner likes and has rights to use, or a materially different agreed candidate. Sound fit comes before further integration. Resolve pronunciation and interruption/latency variability before introducing an ASR→existing OpenAI/tools→TTS route. Reuse current microphone ownership, conversation, approvals and playback; do not install a second agent or task system. Public reference speech, requested-language audio generation, transcription agreement, owner-approved sound and deployed end-to-end conversation are different results. The current next step is the owner's selection or rejection of the two newly authorized OpenAI auditions, not another LJSpeech run.

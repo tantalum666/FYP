@@ -106,7 +106,14 @@
     "first_disconnect_followup": "timeout_after30seconds",
     "repeat_disconnect_followup_seconds": 4.05,
     "interruption_stability_passed": false,
-    "api_stopped_after_tests": true
+    "api_stopped_after_tests": true,
+    "owner_feedback": {
+      "date": "2026-11-09",
+      "decision": "rejected_for_Alice_voice_fit",
+      "reason": "Owner reports more artificial than OpenAI; requests sweet soft cute Taiwan-Mandarin feminine delivery.",
+      "technical_observations_preserved": true,
+      "same_reference_recommended_for_more_auditions": false
+    }
   },
   "independent_asr": {
     "model": "Systran/faster-whisper-small",

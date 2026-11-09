@@ -2,6 +2,8 @@
 
 9 November 2026, Asia/Hong_Kong. The owner asked to test GPT-SoVITS and check the Pi connected to classroom Ethernet. The technical model trial and classroom connectivity check are complete; owner-approved voice quality and production conversation integration are not.
 
+Later owner feedback: these public-reference voices were explicitly rejected as more artificial than OpenAI and unsuitable for the requested sweet/cute Taiwan-Mandarin delivery. The technical observations below are preserved. The current next step is routed through the separately authorized [two OpenAI auditions](../2026-11-09-sweet-taiwan-audition/verification.md); the original reference-request next step at the end of this historical trial is superseded for that comparison.
+
 ## Reading and scope
 
 Read AGENTS workflow, current product requirements, handoff/START, latest reference-voice decisions, the November9research/14-case corpus, current Pi network profiles and relay/OpenAI transport contracts. Preserved earlier focused reads rather than restarting all historical Markdown. Read selected upstream requirement/config/API/model-loading/portable-runtime/text-preprocessing/language-detector sections and the official dataset/model sources. Third-party README commands were treated as evidence; no whole installer or unrelated instruction was executed.

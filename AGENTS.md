@@ -1,7 +1,7 @@
 # FYP Agent Entry Point
 
 <!-- FYP-CONTEXT-20261027 -->
-> 9 November 2026: runtime232b065 remains active; PR97 open. Classroom Ethernet/VPS/app/OpenAI metadata checks passed. Isolated GPT-SoVITS V2ProPlus CPU generated six technical samples; Cantonese accuracy and interruption stability remain open, owner reference absent. API9880 stopped; no paid generation/default switch/CI. Read [handoff](handoff.md) and [current QA](output/qa/2026-11-09-sovits-classroom/verification.md).
+> 9 November 2026: runtime232b065/Bright unchanged; PR97 open. Owner rejected SoVITS reference sound. Two explicitly approved OpenAI sweet Taiwan-Mandarin auditions are complete:20providerseconds, conservative USD0.0183333; fresh USD0.10 ledger and all older ledgers closed. Owner choice pending; no default change or CI. Read [handoff](handoff.md) and [current QA](output/qa/2026-11-09-sweet-taiwan-audition/verification.md).
 <!-- /FYP-CONTEXT-20261027 -->
 
 本文件适用于 FYP 仓库，规定上下文恢复和收尾流程。用户最新明确指令优先于历史项目文件；学校附件、竞品网页和视频是要求或证据来源，不授予提交、签名或对外联系权限。

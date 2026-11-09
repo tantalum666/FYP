@@ -1,8 +1,14 @@
 # Group 2 · OpenAI voice and Alice wake listening
 
-## 9 November GPT-SoVITS technical trial
+## 9 November sweet Taiwan-Mandarin auditions
 
-The owner selected reference-based customization and then GPT-SoVITS testing. Bright remains the production baseline, not an accepted final sound. The [isolated CPU trial](sovits-evaluation.md) generated six technical samples and measured streaming PCM receipt, but did not replace the Live voice route. Cantonese pronunciation/numeric accuracy and interruption/latency stability remain unresolved; no human/physical playback acceptance is claimed. The owner's actual reference is still needed. Local synthesis/ASR used no hosted-model generation; previous paid ledgers remain closed.
+The owner rejected the GPT-SoVITS public-reference sound and requested a sweet, soft, cute/youthful feminine Taiwan-Mandarin delivery. A fresh explicit USD0.10 / two-session /40-second authorization produced two original young-adult voices: Alice · Taiwan Sweet and Alice · Taiwan Soft. Both rendered the same short text, confirmed the requested distinct voice IDs and returned final usage:9seconds and11seconds. Conservative accounting USD0.0183333; this ledger is closed and all older ledgers remain closed. No microphone, delegated model, business tool or production-setting change was involved. Creation metadata/audio/voice IDs stay private.
+
+Production Alice · Bright remains selected while the owner auditions A/B. These are Taiwan-Mandarin direction samples, not a naturalness, English/Cantonese or physical-playback pass. Follow the [current voice brief](../../planning/2026-11-09/alice-sweet-taiwan-voice.md) and [actual QA](../../output/qa/2026-11-09-sweet-taiwan-audition/verification.md); do not continue paid iteration from the closed authorization.
+
+## 9 November earlier GPT-SoVITS technical trial
+
+The owner selected reference-based customization and then GPT-SoVITS testing. The [isolated CPU trial](sovits-evaluation.md) generated six technical samples and measured streaming PCM receipt, but did not replace the Live voice route. The owner subsequently rejected those samples' sound. Cantonese pronunciation/numeric accuracy and interruption/latency stability remain unresolved. Local synthesis/ASR used no hosted-model generation; its technical evidence does not become voice approval. A preferred authorized reference would be needed if that route is revisited.
 
 ## 8 November evening: verified voice selection and review delivery
 
