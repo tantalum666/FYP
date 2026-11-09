@@ -906,3 +906,5 @@ Native verification also exposed a notch-inset clock/connection overlap. Shared 
 
 
 Composer activation closeout: Mac is healthy with the new backend/frontend and preserved A3/config/keys;16-file SQLite/archive backup verified. Pi main release520ab563passed306source hashes, exact frontend, both services, A3readback and local upload/release smoke;69-file backup also copied and rehashed off-device. Native final build/install/launch and68asset hashes passed, and a real framebuffer exposed/fixed native safe-area clock overlap. The Pi forwarding path subsequently became unavailable; the safe-area-only v2sync is prepared but unconfirmed, with no network/power change. Normal Web is open; QA server/tabs/overrides/clipboard are cleaned up. [Final QA](output/qa/2026-11-09-composer-attachments/verification.md). Next: read original pinned Pi state on reconnection before resuming that cosmetic follow-up; all model budgets stay closed.
+
+Composer publication: reviewed heade587e489matched remote PR97; metadata updated around the final UI/file/app scope and Pi limitation. [Receipt](output/qa/2026-11-09-composer-attachments/publication.json). The PR remains unmerged.
