@@ -21,16 +21,24 @@ The prompts avoid announcer cadence, Western-accented Mandarin, exaggerated baby
 
 The owner said A is promising but sounds older, asked to retain it and make the next version closer to a college or high-school impression. The original A resource/audio remains unchanged. The new performance targets an18–20-year-old adult college-freshman character: clearer/lighter vocal placement, gently brighter resonance, less heavy chest resonance and less slow mature reassurance, with natural small inflections. It reuses the exact A voice ID and original description; only the delivery instructions change. This tests an adjustment to the same voice, not a claim that an immutable voice can be precisely age-edited.
 
-The owner separately approved one session, maximum20seconds and USD0.03. A1 returned the same A voice and complete fixed text, finalized9providerseconds and6.455875seconds of trimmed WAV. Conservative accounting USD0.00825; separate ledger closed. Clip/receipt: `~/.config/desk-companion/sweet-taiwan-younger-20261109/`. A1 was presented; perceived age/naturalness remain for owner feedback. There was no new voice creation, pitch/speed post-processing or production default change.
+The owner separately approved one session, maximum20seconds and USD0.03. A1 returned the same A voice and complete fixed text, finalized9providerseconds and6.455875seconds of trimmed WAV. Conservative accounting USD0.00825; separate ledger closed. Clip/receipt: `~/.config/desk-companion/sweet-taiwan-younger-20261109/`. **The owner rejected A1 as sounding older than original A.** This delivery-only adjustment failed the desired age impression. There was no new voice creation, pitch/speed post-processing or production default change.
+
+## A2 · new younger base voice
+
+Created Alice · Taiwan Campus as a new original adult18–20voice resource, retaining the Taiwan-Mandarin direction but specifying light vocal weight, clear forward resonance, a naturally medium-high register and bright transparent timbre. Creation guidance uses ordinary campus conversation. The original A resource/audio remains intact. A2 is a new base voice, not an edit of A's immutable resource; quality/similarity is for listening, not inferred from creation metadata.
+
+The owner authorized a new USD0.05 total, maximum3audition attempts /45seconds, to allow sequential feedback without a new question for every small sample. Each attempt is bounded to15seconds. First connection reset before session.started/audio, retaining USD0.0145 and15seconds conservatively. The retry returned complete text and the new requested voice, finalized9seconds at conservative USD0.00825, with6.302542seconds of valid24kHz mono audio. Total current accounting USD0.02275; **one attempt remains, maximum15seconds within the original USD0.05 ceiling**. The new scope stays open pending feedback and closes on selection, cancellation or exhaustion; no automatic/background generation is authorized. The older USD0.10 and USD0.03 ledgers remain closed.
+
+A2 was presented. Audio/voice/current ledger: `~/.config/desk-companion/sweet-taiwan-campus-20261109/`, clip `sample-campus-retry.wav`. No default change, microphone, backend model, pitch shifting or speed effect occurred.
 
 ## Acceptance order
 
-1. The owner retained A as a promising direction but asked for a younger impression. Keep original A unchanged; use feedback on A1 before a default decision. Do not call the result natural or emotionally suitable because the API returned audio. The agent cannot directly listen through the current audio tool.
+1. The owner retained A as a promising direction but rejected A1 as older. Keep original A unchanged; use feedback on A2 before a default decision. Do not call the result natural or emotionally suitable because the API returned audio. The agent cannot directly listen through the current audio tool.
 2. If the owner explicitly selects a default, register/select it through the existing owner-versioned voice settings, retaining its original prompt and cached audition. Read back actual Mac/Pi settings; do not conflate a sample with deployment. Selection alone does not authorize another paid session.
-3. Natural English, colloquial Hong Kong Cantonese, consistent timbre, dates/numbers and mixed-language speech remain required. This short Taiwan-Mandarin-only round does not test them. Any further paid comparison needs its own explicit bound.
+3. Natural English, colloquial Hong Kong Cantonese, consistent timbre, dates/numbers and mixed-language speech remain required. These short Taiwan-Mandarin-only rounds do not test them. Only one bounded adjustment remains under the current authorization; broader paid comparisons need their own explicit bound.
 4. Measure real conversational first useful audio, interruption, captions and tool responses after a sound is accepted. Reuse the existing agent, approvals, microphone ownership and playback. Do not add a second task system or synthesize a paid Live reply a second time.
 
-Production Alice · Bright remains selected pending an explicit default decision. All older budgets remain closed. The rejected LJSpeech-based SoVITS reference is retained only as [technical evidence](../../desk-companion/docs/sovits-evaluation.md); do not re-present it as an Alice candidate.
+Production Alice · Bright remains selected pending an explicit default decision. All older budgets remain closed; the active A2 scope has only the one bounded attempt stated above. The rejected LJSpeech-based SoVITS reference is retained only as [technical evidence](../../desk-companion/docs/sovits-evaluation.md); do not re-present it as an Alice candidate.
 
 ## Targeted catalog research, not a listening result
 

@@ -74,7 +74,7 @@
   },
   "acceptance": {
     "owner_accepted": false,
-    "status": "A_retained_pending_A1_listening",
+    "status": "original_A_retained_A1_rejected_A2_pending_feedback",
     "subjective_listening_by_agent": false,
     "taiwan_accent_quality_verified": false,
     "english_tested_this_round": false,
@@ -107,12 +107,50 @@
     "accounted_usd": 0.008250000000000002,
     "session_count": 1,
     "owner_accepted": false,
-    "production_default_changed": false
+    "production_default_changed": false,
+    "owner_feedback": "Rejected: A1 sounds older than original A."
   },
   "combined_rounds": {
-    "paid_sessions": 3,
-    "provider_duration_seconds": 29,
-    "accounted_usd": 0.02658333333333334,
-    "both_fresh_ledgers_closed": true
+    "attempts": 5,
+    "successful_finalized_sessions": 4,
+    "known_provider_duration_seconds": 38,
+    "accounted_usd": 0.04933333333333334,
+    "older_two_ledgers_closed": true,
+    "current_refinement_ledger": "open_awaiting_owner_feedback_one_attempt_remaining"
+  },
+  "base_voice_redesign": {
+    "candidate": "A2 / Alice · Taiwan Campus",
+    "authorization": {
+      "ceiling_usd": 0.05,
+      "maximum_attempts": 3,
+      "maximum_seconds_total": 45,
+      "maximum_seconds_each": 15
+    },
+    "new_voice_distinct_from_A": true,
+    "initial_attempt": {
+      "started": false,
+      "audio_generated": false,
+      "failure": "ConnectionResetError",
+      "receipt_finalized": false,
+      "conservative_reserved_usd": 0.0145,
+      "seconds_charged_to_scope": 15
+    },
+    "retry": {
+      "voice_echo_matches": true,
+      "provider_duration_seconds": 9.0,
+      "provider_text_matches": true,
+      "first_received_nonsilent_pcm_ms": 2740,
+      "wav_seconds": 6.3025416666666665,
+      "sha256": "6944d80799d3458afe78b1f4762c1485cf234f2f6b8462b8cf1f769edf2b691b",
+      "clipped_samples": 0
+    },
+    "accounted_usd": 0.022750000000000003,
+    "budget_closed": false,
+    "remaining_attempts": 1,
+    "remaining_seconds_by_total": 21,
+    "remaining_single_attempt_cap_seconds": 15,
+    "remaining_usd": 0.02725,
+    "owner_accepted": false,
+    "production_default_changed": false
   }
 }

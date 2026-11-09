@@ -33,7 +33,15 @@ Private mode700 directory: `~/.config/desk-companion/sweet-taiwan-voice-20261109
 
 After listening, the owner retained A as promising but too mature and requested a younger impression. Prepared a same-voice performance using A's unchanged saved resource/original prompt plus a clear, light young-adult college-freshman delivery. The owner then explicitly approved one additional session, at most20seconds /USD0.03. A new independent ledger was used; neither previous ledger was reopened.
 
-A1 finalized9providerseconds at conservative USD0.00825, with no protocol error, a matching A voice echo and complete same-text transcript. First received non-silent PCM2.913seconds; trimmed WAV6.455875seconds,24kHz mono PCM16, no clipped samples. The new ledger is closed with exactly one finalized session. No microphone, delegated backend, new voice resource or production change. Original A is preserved; no pitch/speed effect was applied. The new clip was presented, but a younger/natural sound is not inferred from metadata. Private evidence: `~/.config/desk-companion/sweet-taiwan-younger-20261109/`.
+A1 finalized9providerseconds at conservative USD0.00825, with no protocol error, a matching A voice echo and complete same-text transcript. First received non-silent PCM2.913seconds; trimmed WAV6.455875seconds,24kHz mono PCM16, no clipped samples. The new ledger is closed with exactly one finalized session. No microphone, delegated backend, new voice resource or production change. Original A is preserved; no pitch/speed effect was applied. The owner then rejected A1 as sounding older than A. Private evidence: `~/.config/desk-companion/sweet-taiwan-younger-20261109/`.
+
+## Separately authorized new-base A2
+
+The owner rejected delivery-only A1. A new original adult18–20Taiwan Campus voice was created for free, with light vocal weight, forward clarity and a brighter youthful timbre as design goals. The owner approved a new refinement scope: total USD0.05, maximum3attempts /45seconds, close when selected/cancelled/exhausted. Each attempt is bounded to15seconds and prior unknown attempts consume their full time/reservation conservatively.
+
+First attempt reset before session.started, with no transcript/audio or final receipt. It remains unknown, charged USD0.0145 and15seconds against the scope. The first validation correctly found no WAV; no sample success was reported. A separate retry reused A2 and finalized9seconds with correct voice echo and complete text. Valid6.302542-second24kHz mono PCM16 WAV, zero clipped samples; first non-silent PCM receipt2.740seconds. Conservative retry estimate USD0.00825; current total accounted USD0.02275 including the unknown reservation. This is not an invoice and does not assert the failed connection was actually billed.
+
+A2 was presented; listening feedback is pending. Original A is preserved and A1 is rejected. No microphone, delegated model/tool, production setting or pitch/speed manipulation. **One attempt remains: at most15seconds and within USD0.05 total.** No automatic/background generation; close the scope when the owner chooses/cancels or the limit is consumed. Older USD0.10/USD0.03 ledgers are closed. Private A2 resources/authorization/ledger: `~/.config/desk-companion/sweet-taiwan-campus-20261109/`.
 
 ## Acceptance and closeout
 
@@ -41,4 +49,4 @@ Both cached clips were presented to the owner. The owner retained A as promising
 
 Updated product, decisions, current voice brief, OpenAI/SoVITS contracts, reference-voice research/index, work log, handoff and START/AGENTS routing. Validation is scoped to JSON structure, relative links, artifact format/hashes, transcript comparison, private-file permissions, budget closure, diff and secret/material exclusions. No production tests were rerun for documentation-only changes; prior test totals retain their own scope. Publication and remote branch verification are recorded separately. PR97 remains unmerged.
 
-One next step: obtain feedback on the same-voice younger A1 clip while retaining original A. Apply only an explicitly selected default through existing settings. Both fresh ledgers are closed; do not spend again from either.
+One next step: obtain feedback on new-base A2 while retaining original A. Apply only an explicitly selected default, or use the one remaining bounded adjustment if requested. Earlier ledgers remain closed. Record current-scope closure on selection/cancellation/exhaustion.
