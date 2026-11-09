@@ -49,17 +49,28 @@ class ScriptedProvider:
 class HostedTextProvider:
     """One completion through the existing text adapter and its configured cap."""
 
-    def __init__(self, generate, generate_live=None):
+    def __init__(
+        self, generate, generate_live=None, *, attachment_parts=None, attachment_guard=None
+    ):
         self._generate = generate
         self._generate_live = generate_live
+        self._attachment_kwargs = (
+            {"attachment_parts": attachment_parts, "attachment_guard": attachment_guard}
+            if attachment_parts
+            else {}
+        )
 
     def complete(self, system: str, context: dict, on_delta=None) -> ModelStep:
         from .text_ai import TextPlan
 
         if on_delta is None or self._generate_live is None:
-            plan = self._generate(system, context, TextPlan, "conversation")
+            plan = self._generate(
+                system, context, TextPlan, "conversation", **self._attachment_kwargs
+            )
             return ModelStep(message=plan.message, tool=plan.tool, arguments=dict(plan.arguments))
-        plan, streamed = self._generate_live(system, context, TextPlan, "conversation", on_delta)
+        plan, streamed = self._generate_live(
+            system, context, TextPlan, "conversation", on_delta, **self._attachment_kwargs
+        )
         return ModelStep(
             message=plan.message,
             tool=plan.tool,

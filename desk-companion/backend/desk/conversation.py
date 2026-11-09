@@ -25,6 +25,14 @@ class Conversation:
     task_id: str | None = None
     items: list = field(default_factory=list)
     recall_id: str | None = None
+    attachments: dict = field(default_factory=dict)
+    attachment_ids: list[str] = field(default_factory=list)
+
+    def clear_context(self):
+        self.items.clear()
+        self.recall_id = None
+        self.attachments.clear()
+        self.attachment_ids.clear()
 
     def append(self, role, text, **metadata):
         if not isinstance(text, str) or not text.strip():
@@ -118,8 +126,7 @@ class Conversations:
             if entry.task_id != task_id:
                 raise DomainError("CONVERSATION_SCOPE_CHANGED", 409)
             if entry.revision != revision:
-                entry.items.clear()
-                entry.recall_id = None
+                entry.clear_context()
                 entry.revision = revision
         else:
             if len(self.entries) >= 16:

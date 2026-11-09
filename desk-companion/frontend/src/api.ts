@@ -290,6 +290,38 @@ export function errorText(
       "Open Apps from the configured local address to connect this account.",
       "请通过已配置的本机地址打开应用连接页面。",
     ],
+    CHAT_DELIVERY_UNCONFIRMED: [
+      "Connection lost. Your message and files are kept. Check delivery before sending again.",
+      "连接中断，消息和附件已保留。请先核对发送结果。",
+    ],
+    CHAT_FILE_FORMAT: [
+      "Choose a PDF, Office document, UTF-8 text file or PNG/JPEG/WebP image.",
+      "请选择 PDF、Office文档、UTF-8文本或 PNG/JPEG/WebP 图片。",
+    ],
+    CHAT_FILE_SIZE: [
+      "Choose a non-empty file up to 2 MB.",
+      "请选择非空且不超过2MB的文件。",
+    ],
+    CHAT_FILE_COUNT: [
+      "Up to four files per conversation. Start a new chat to add more.",
+      "每段对话最多四个文件，添加更多文件请开始新对话。",
+    ],
+    CHAT_FILE_CAPACITY: [
+      "File space is busy. Start a new chat or try again shortly.",
+      "附件空间暂时已满，请开始新对话或稍后重试。",
+    ],
+    CHAT_FILE_EXPIRED: [
+      "This file is no longer available. Choose it again before sending.",
+      "这个附件已失效，请重新选择后发送。",
+    ],
+    CHAT_FILES_CHANGED: [
+      "The conversation changed before sending. Your message was not submitted.",
+      "发送前对话已变化，这条消息尚未提交。",
+    ],
+    CHAT_FILES_UNAVAILABLE: [
+      "File reading is unavailable on this connection. Your selection is kept.",
+      "当前连接暂不支持读取附件，已保留你的选择。",
+    ],
     EMAIL_CONNECTION_FAILED: [
       "Could not reach the mail provider. Check the connection and try again.",
       "暂时无法连接邮箱服务，请检查网络后重试。",
@@ -331,12 +363,12 @@ export function errorText(
       "本桌面未启用本地笔记执行。",
     ],
     OPENAI_REGION_UNSUPPORTED: [
-      "OpenAI is unavailable from this desk's current region.",
-      "OpenAI 暂不支持当前桌面所在地区的连接。",
+      "The assistant service is unavailable from this connection.",
+      "当前连接暂时无法使用云端助理。",
     ],
     COMPUTER_USE_UNAVAILABLE: [
-      "OpenAI browser operation is not connected on this desk.",
-      "当前桌面尚未接好 OpenAI 浏览器操作。",
+      "Browser operation is not connected on this desk.",
+      "当前桌面尚未接好浏览器操作。",
     ],
     COMPUTER_SITE_UNAVAILABLE: [
       "This website could not be opened. Check the connection or the site's access requirements.",

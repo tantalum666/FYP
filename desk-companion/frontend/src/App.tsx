@@ -563,14 +563,16 @@ export function App() {
             <RefreshCw size={14} aria-hidden="true" />,
           )}
         <NoticeInbox t={t} language={language === "zh" ? "zh" : "en"} />
-        {pendingWrite() && !editor && (
-          <div className="connection-banner pending" role="status">
-            {t("A save is awaiting confirmation.", "有一项保存等待确认。")}
-            <button onClick={recover} disabled={recovering}>
-              {t("Check save status", "核对保存状态")}
-            </button>
-          </div>
-        )}
+        {pendingWrite() &&
+          pendingWrite()?.path !== "/assistant/messages/stream" &&
+          !editor && (
+            <div className="connection-banner pending" role="status">
+              {t("A save is awaiting confirmation.", "有一项保存等待确认。")}
+              <button onClick={recover} disabled={recovering}>
+                {t("Check save status", "核对保存状态")}
+              </button>
+            </div>
+          )}
         {!!error &&
           failureNotice(errorText(error, t), t("Dismiss", "关闭"), () =>
             setError(null),

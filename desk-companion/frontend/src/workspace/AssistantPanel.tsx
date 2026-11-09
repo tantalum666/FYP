@@ -1,3 +1,8 @@
+import { ComposerFiles } from "./ComposerFiles";
+import { ComposerMenu } from "./ComposerMenu";
+import { useChatFiles } from "./useChatFiles";
+import { CHAT_FILE_ACCEPT, type ChatFileReference } from "./chatFiles";
+import "./composer-files.css";
 import { AssistantRefreshStatus } from "./AssistantRefreshStatus";
 import { useAssistantFootprint } from "../companion/useAssistantFootprint";
 import { proposalDecisionNotice } from "./proposalDecision";
@@ -105,6 +110,16 @@ export function AssistantPanel({
   const [voiceTimings, setVoiceTimings] = useState<TurnMeasurement[]>([]);
   const [menu, setMenu] = useState(false);
   const [attachments, setAttachments] = useState(false);
+  const closeAttachments = useCallback(() => setAttachments(false), []);
+  const attachmentButton = useRef<HTMLButtonElement>(null);
+  const fileInput = useRef<HTMLInputElement>(null);
+  const chatFiles = useChatFiles();
+  const fileContext = useRef(false);
+  const filesEnabled =
+    !!data?.text_ai.attachments?.enabled &&
+    data?.principal.kind === "owner" &&
+    !!data.personal_context_visible;
+  const [fileDrag, setFileDrag] = useState(false);
   const [mediaOpen, setMediaOpen] = useState(false);
   const [jobs, setJobs] = useState<ComputerJob[]>([]);
   const [jobsError, setJobsError] = useState<unknown>(null);
@@ -158,6 +173,7 @@ export function AssistantPanel({
   const pendingJob = pendingWrite()?.path.startsWith("/computer/")
     ? pendingWrite()
     : null;
+  const pendingMessage = pendingWrite()?.path === "/assistant/messages/stream";
   const [reply, setReply] = useState<Reply | null>(null),
     [liveMessage, setLiveMessage] = useState(""),
     [progress, setProgress] = useState<ToolProgress[]>([]),
@@ -187,12 +203,17 @@ export function AssistantPanel({
     body: object;
     generation: number;
     message: string;
+    fileKeys: string[];
+    files: ChatFileReference[];
   } | null>(null);
   const modeSwitching = useRef(false);
   const [microphone, setMicrophone] = useState(false);
   useEffect(() => {
-    onStateChange?.({ dirty: !!text.trim(), busy });
-  }, [text, busy, onStateChange]);
+    onStateChange?.({
+      dirty: !!text.trim() || chatFiles.files.length > 0,
+      busy,
+    });
+  }, [text, busy, chatFiles.files.length, onStateChange]);
   useEffect(() => {
     if (suspended) setMediaOpen(false);
   }, [suspended]);
@@ -322,14 +343,6 @@ export function AssistantPanel({
     (data.voice.supports_text ?? data.voice.provider === "qwen_omni") &&
     owner.current;
   const unavailable = !data || offline || stale;
-  const voiceName =
-    data?.voice.provider === "openai_live"
-      ? "GPT Live"
-      : data?.voice.provider === "openai_realtime"
-        ? data.voice.model.includes("mini")
-          ? "OpenAI Realtime Mini"
-          : "OpenAI Realtime"
-        : "Qwen Omni";
   const wake = useAliceWake({
     available:
       owner.current &&
@@ -404,6 +417,13 @@ export function AssistantPanel({
   useEffect(() => {
     const renewed = (event: Event) => {
       conversationId.current = undefined;
+      fileContext.current = false;
+      if (
+        (event as CustomEvent<{ reason?: string }>).detail?.reason !==
+          "connected" ||
+        !owner.current
+      )
+        chatFiles.clear();
       endVoice();
       if (
         (event as CustomEvent<{ reason?: string }>).detail?.reason ===
@@ -415,7 +435,17 @@ export function AssistantPanel({
     };
     window.addEventListener("desk:session", renewed);
     return () => window.removeEventListener("desk:session", renewed);
-  }, [wake.rearm, wake.disable]);
+  }, [wake.rearm, wake.disable, chatFiles.clear]);
+  useEffect(() => {
+    if (
+      data?.personal_context_visible === false ||
+      (data?.principal.kind && data.principal.kind !== "owner")
+    ) {
+      chatFiles.clear();
+      fileContext.current = false;
+      submissionGeneration.current += 1;
+    }
+  }, [data?.personal_context_visible, data?.principal.kind, chatFiles.clear]);
   useEffect(() => {
     if (suspended && audio.current) endVoice();
   }, [suspended]);
@@ -434,6 +464,7 @@ export function AssistantPanel({
     // Keep visible messages and unsent text, but never replay a different task's
     // model context. Reconnecting still requires the next explicit user input.
     conversationId.current = undefined;
+    fileContext.current = false;
     setNotice(
       t(
         "Discussion changed. Your next message starts a fresh context; earlier messages stay visible.",
@@ -442,9 +473,19 @@ export function AssistantPanel({
     );
   }, [taskId]);
   useEffect(() => {
-    if (immersive && (proposals.length > 0 || view !== "chat"))
+    if (
+      immersive &&
+      (proposals.length > 0 || view !== "chat" || (!busy && pendingMessage))
+    )
       onExpandedChange?.(true);
-  }, [immersive, proposals.length, view, onExpandedChange]);
+  }, [
+    immersive,
+    proposals.length,
+    view,
+    busy,
+    pendingMessage,
+    onExpandedChange,
+  ]);
   useEffect(() => {
     if (immersive && turns.at(-1)?.jobId) onExpandedChange?.(true);
   }, [turns, immersive, onExpandedChange]);
@@ -452,7 +493,7 @@ export function AssistantPanel({
     if (immersive && !expanded) setView("chat");
   }, [immersive, expanded]);
   const ownerView = data?.principal.kind === "owner";
-  useDraftGuard(!!text.trim(), busy);
+  useDraftGuard(!!text.trim() || chatFiles.files.length > 0, busy);
   const reload = useCallback(async () => {
     if (reading.current) return;
     reading.current = true;
@@ -525,32 +566,37 @@ export function AssistantPanel({
       document.removeEventListener("visibilitychange", tick);
     };
   }, [reload, suspended]);
-  const showHttpReply = useCallback((submitted: string, result: Reply) => {
-    setReply(result);
-    conversationId.current = result.conversation_id;
-    contextTouched.current = Date.now();
-    setLiveMessage("");
-    setProgress([]);
-    setError(
-      result.permission_error ? new ApiError(result.permission_error) : null,
-    );
-    const id = Date.now();
-    setTurns((old) =>
-      [
-        ...old,
-        { id, role: "user" as const, body: submitted },
-        {
-          id: id + 1,
-          role: "assistant" as const,
-          body: result.message,
-          kind: result.kind,
-          jobId: result.job?.id,
-        },
-      ].slice(-40),
-    );
-    setText((current) => (current === submitted ? "" : current));
-    pendingHttp.current = null;
-  }, []);
+  const showHttpReply = useCallback(
+    (submitted: string, result: Reply) => {
+      const submittedFiles = pendingHttp.current?.files ?? [];
+      chatFiles.sent(pendingHttp.current?.fileKeys ?? []);
+      setReply(result);
+      conversationId.current = result.conversation_id;
+      contextTouched.current = Date.now();
+      setLiveMessage("");
+      setProgress([]);
+      setError(
+        result.permission_error ? new ApiError(result.permission_error) : null,
+      );
+      const id = Date.now();
+      setTurns((old) =>
+        [
+          ...old,
+          { id, role: "user" as const, body: submitted, files: submittedFiles },
+          {
+            id: id + 1,
+            role: "assistant" as const,
+            body: result.message,
+            kind: result.kind,
+            jobId: result.job?.id,
+          },
+        ].slice(-40),
+      );
+      setText((current) => (current === submitted ? "" : current));
+      pendingHttp.current = null;
+    },
+    [chatFiles.sent],
+  );
   useEffect(() => {
     const recovered = (event: Event) => {
       const { operation, result } = (
@@ -577,10 +623,19 @@ export function AssistantPanel({
   }, [reload, showHttpReply]);
   async function send(e: React.FormEvent) {
     e.preventDefault();
-    if (busy || !text.trim() || unavailable || pendingJob) return;
+    if (
+      busy ||
+      (!text.trim() && !chatFiles.files.length) ||
+      unavailable ||
+      pendingJob
+    )
+      return;
     wake.pause();
     followLatest.current = true;
-    const submitted = text;
+    const submitted = text.trim()
+      ? text
+      : t("Please review these files.", "请帮我看看这些文件。");
+    const useOmni = omni && !chatFiles.files.length && !fileContext.current;
     const previousHttp = pendingHttp.current;
     const generation = ++submissionGeneration.current;
     setBusy(true);
@@ -590,7 +645,7 @@ export function AssistantPanel({
     setLiveMessage("");
     setProgress([]);
     try {
-      if (omni) {
+      if (useOmni) {
         pendingSubmission.current = submitted;
         const engine = await connectConversation("text");
         if (!engine) throw new Error("VOICE_CONNECTION_FAILED");
@@ -598,13 +653,33 @@ export function AssistantPanel({
         setText("");
         return;
       }
+      const uploaded = await chatFiles.upload(
+        conversationId.current,
+        taskId,
+        () => alive.current && generation === submissionGeneration.current,
+        (id) => {
+          conversationId.current = id;
+        },
+      );
+      if (!alive.current || generation !== submissionGeneration.current) return;
+      conversationId.current = uploaded.conversationId;
+      if (uploaded.references.length) fileContext.current = true;
       const body = {
         message: submitted,
         language,
         task_id: taskId ?? null,
         conversation_id: conversationId.current ?? null,
+        ...(uploaded.references.length
+          ? { attachment_ids: uploaded.references.map((file) => file.id) }
+          : {}),
       };
-      pendingHttp.current = { body, generation, message: submitted };
+      pendingHttp.current = {
+        body,
+        generation,
+        message: submitted,
+        fileKeys: uploaded.keys,
+        files: uploaded.references,
+      };
       const result = (await writeStream(
         "/assistant/messages/stream",
         body,
@@ -621,11 +696,27 @@ export function AssistantPanel({
       window.dispatchEvent(new Event("desk:jobs"));
     } catch (e) {
       if (!alive.current || generation !== submissionGeneration.current) return;
+      if (
+        e instanceof ApiError &&
+        ["CHAT_FILE_EXPIRED", "CONVERSATION_NOT_FOUND"].includes(e.code)
+      ) {
+        conversationId.current = undefined;
+        fileContext.current = false;
+      }
       if (e instanceof ApiError && e.code === "PENDING_WRITE") {
         pendingHttp.current = previousHttp;
         if (previousHttp) previousHttp.generation = generation;
       }
-      if (!omni) setError(e);
+      if (!useOmni)
+        setError(
+          e instanceof ApiError && e.code === "CONNECTION_LOST"
+            ? new ApiError("CHAT_DELIVERY_UNCONFIRMED")
+            : e instanceof ApiError
+              ? e
+              : new ApiError(
+                  e instanceof Error ? e.message : "CHAT_FILE_FORMAT",
+                ),
+        );
       else {
         // No text was admitted yet. Keep the specific connection notice instead
         // of the generic HTTP-write "unknown result" warning.
@@ -641,7 +732,43 @@ export function AssistantPanel({
       pendingSubmission.current = null;
       setBusy(false);
     } finally {
-      if (!omni && generation === submissionGeneration.current) setBusy(false);
+      if (!useOmni && generation === submissionGeneration.current)
+        setBusy(false);
+    }
+  }
+  async function recoverMessage() {
+    const operation = pendingWrite();
+    if (busy || operation?.path !== "/assistant/messages/stream") return;
+    const generation = submissionGeneration.current;
+    const body = operation.body as {
+      message?: string;
+      task_id?: string | null;
+    };
+    if (
+      !pendingHttp.current &&
+      typeof body.message === "string" &&
+      (body.task_id ?? null) === (taskId ?? null)
+    )
+      pendingHttp.current = {
+        body: operation.body as object,
+        generation,
+        message: body.message,
+        fileKeys: [],
+        files: [],
+      };
+    setBusy(true);
+    setError(null);
+    try {
+      await retryPending();
+      if (alive.current && generation === submissionGeneration.current) {
+        setNotice(t("Message checked.", "已核对消息结果。"));
+        void reload();
+      }
+    } catch (failure) {
+      if (alive.current && generation === submissionGeneration.current)
+        setError(failure);
+    } finally {
+      if (generation === submissionGeneration.current) setBusy(false);
     }
   }
   async function decide(id: string, action: "confirm" | "cancel") {
@@ -730,6 +857,8 @@ export function AssistantPanel({
       conversationId.current = undefined;
       pendingSubmission.current = null;
       setTurns([]);
+      chatFiles.clear();
+      fileContext.current = false;
       speechText.current = { user: "", assistant: "" };
       setTranscript("");
       setNotice(
@@ -1058,7 +1187,6 @@ export function AssistantPanel({
             !unavailable &&
             voiceState !== "connecting"
           }
-          provider={data?.voice.provider ?? ""}
           onShare={(video) => {
             if (!audio.current) throw new Error("VOICE_VISION_NOT_READY");
             audio.current.shareCameraFrame(video);
@@ -1091,7 +1219,7 @@ export function AssistantPanel({
           </button>
         )}
 
-        {immersive && (
+        {immersive && view === "chat" && (
           <button
             className="text-button phone-conversation-toggle"
             onClick={() => onExpandedChange?.(!expanded)}
@@ -1222,6 +1350,13 @@ export function AssistantPanel({
           {(!immersive || expanded) &&
             turns.map((turn) => (
               <div className={`assistant-turn ${turn.role}`} key={turn.id}>
+                {turn.files?.length ? (
+                  <div className="message-files">
+                    {turn.files.map((file) => (
+                      <span key={file.id}>{file.name}</span>
+                    ))}
+                  </div>
+                ) : null}
                 <p>{turnText(turn)}</p>
                 {turn.jobId &&
                   (!immersive || expanded) &&
@@ -1329,7 +1464,7 @@ export function AssistantPanel({
               {notice}
             </p>
           )}
-          {!!error && (
+          {!!error && !pendingMessage && (
             <p className="error-message" role="alert">
               {errorText(error, t)}
             </p>
@@ -1339,11 +1474,26 @@ export function AssistantPanel({
           className="assistant-input-area"
           id={workspace ? "desktop-chat-composer" : undefined}
         >
+          {pendingMessage && !busy && (
+            <div className="assistant-delivery-recovery" role="status">
+              <span>
+                {t("Message delivery needs checking.", "消息发送结果待核对。")}
+              </span>
+              <button
+                className="secondary"
+                disabled={unavailable}
+                aria-label={t("Check message delivery", "核对消息发送结果")}
+                onClick={() => void recoverMessage()}
+              >
+                {t("Check", "核对")}
+              </button>
+            </div>
+          )}
           {data?.voice.configuration_error === "OPENAI_REGION_UNSUPPORTED" && (
             <p role="status" className="workspace-hint">
               {t(
-                "OpenAI is selected, but this desk's current region is not supported.",
-                "已选择 OpenAI，但当前桌面所在地区的连接暂不受支持。",
+                "The assistant service is unavailable from this connection.",
+                "当前连接暂时无法使用助理服务。",
               )}
             </p>
           )}
@@ -1424,7 +1574,48 @@ export function AssistantPanel({
               </div>
             </div>
           ) : (
-            <form className="assistant-composer" onSubmit={send}>
+            <form
+              className={`assistant-composer ${fileDrag ? "file-drag" : ""}`}
+              onSubmit={send}
+              onDragOver={(event) => {
+                if (
+                  filesEnabled &&
+                  !busy &&
+                  event.dataTransfer.types.includes("Files")
+                ) {
+                  event.preventDefault();
+                  setFileDrag(true);
+                }
+              }}
+              onDragLeave={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget as Node))
+                  setFileDrag(false);
+              }}
+              onDrop={(event) => {
+                if (!event.dataTransfer.files.length) return;
+                event.preventDefault();
+                setFileDrag(false);
+                if (filesEnabled && !busy)
+                  chatFiles.add(Array.from(event.dataTransfer.files));
+              }}
+              onPaste={(event) => {
+                if (!filesEnabled || busy || !event.clipboardData.files.length)
+                  return;
+                event.preventDefault();
+                chatFiles.add(Array.from(event.clipboardData.files));
+              }}
+            >
+              <ComposerFiles
+                files={chatFiles.files}
+                locked={busy}
+                onRemove={chatFiles.remove}
+                t={t}
+              />
+              {!!chatFiles.error && (
+                <p className="error-message" role="alert">
+                  {errorText(chatFiles.error, t)}
+                </p>
+              )}
               <textarea
                 ref={composer}
                 aria-label={t("Message the assistant", "向助理发送消息")}
@@ -1456,9 +1647,15 @@ export function AssistantPanel({
                 <button
                   type="button"
                   className="icon-button"
-                  aria-label={t("More actions", "更多操作")}
+                  ref={attachmentButton}
+                  aria-label={t("Add to message", "添加到消息")}
+                  aria-haspopup="menu"
                   aria-expanded={attachments}
-                  onClick={() => setAttachments(!attachments)}
+                  disabled={busy}
+                  onClick={() => {
+                    setAttachments(!attachments);
+                    setMenu(false);
+                  }}
                 >
                   <Plus size={21} />
                 </button>
@@ -1479,7 +1676,7 @@ export function AssistantPanel({
                   >
                     <Square size={17} />
                   </button>
-                ) : text.trim() ? (
+                ) : text.trim() || chatFiles.files.length ? (
                   <button
                     className="assistant-mic"
                     disabled={busy || unavailable || !!pendingJob}
@@ -1516,90 +1713,83 @@ export function AssistantPanel({
               </div>
             </form>
           )}
-          {attachments && (
-            <div className="assistant-attachments">
-              <button
-                type="button"
-                className="secondary"
-                onClick={() => {
-                  setComputerGoal({ text, key: Date.now() });
-                  setAttachments(false);
-                  openJobs();
-                }}
-              >
-                {t("Use a browser", "操作浏览器")}
-              </button>
-              {voiceActive &&
-              data?.voice.supports_images &&
-              data.principal.kind === "owner" ? (
-                <>
-                  <p>
-                    {t("Send to ", "发送至 ")}
-                    {data.voice.provider}.{" "}
-                    {t(
-                      "Only images you choose are shared in this conversation.",
-                      "仅分享你选定的画面。",
-                    )}
-                  </p>
-                  <div className="workspace-inline-actions">
-                    <button
-                      className="secondary"
-                      disabled={
-                        visionBusy || sharing || voiceState === "connecting"
-                      }
-                      onClick={() => imageInput.current?.click()}
-                    >
-                      <ImagePlus size={17} />
-                      {t("Share an image", "分享一张图片")}
-                    </button>
-                    {sharing ? (
-                      <button
-                        className="secondary"
-                        onClick={() => audio.current?.stopVision()}
-                      >
-                        {t("Stop screen sharing", "停止屏幕分享")}
-                      </button>
-                    ) : (
-                      <button
-                        className="secondary"
-                        disabled={
-                          visionBusy ||
-                          voiceState === "connecting" ||
-                          !navigator.mediaDevices?.getDisplayMedia
-                        }
-                        onClick={() => void shareVisual("screen")}
-                      >
-                        <MonitorUp size={17} />
-                        {t("Share selected screen", "分享所选屏幕")}
-                      </button>
-                    )}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <button
-                    className="text-button"
-                    onClick={() => {
-                      setText(t("What is on today?", "今天的行程"));
-                      setAttachments(false);
-                      composer.current?.focus();
-                    }}
-                  >
-                    {t("Today’s briefing", "今日简报")}
-                  </button>
-                  <button
-                    className="text-button"
-                    onClick={() => {
-                      setAttachments(false);
-                      openJobs();
-                    }}
-                  >
-                    {t("File actions & activity", "文件操作与进度")}
-                  </button>
-                </>
-              )}
-            </div>
+          {attachments && !voiceActive && (
+            <ComposerMenu
+              t={t}
+              trigger={attachmentButton}
+              onClose={closeAttachments}
+              filesEnabled={filesEnabled && !busy}
+              onFiles={() => {
+                closeAttachments();
+                fileInput.current?.click();
+              }}
+              onBrowser={() => {
+                setComputerGoal({ text, key: Date.now() });
+                closeAttachments();
+                openJobs();
+              }}
+              onBriefing={() => {
+                setText(t("What is on today?", "今天的行程"));
+                closeAttachments();
+                composer.current?.focus();
+              }}
+            />
           )}
+          {attachments &&
+            voiceActive &&
+            data?.voice.supports_images &&
+            ownerView && (
+              <div className="assistant-attachments">
+                <button
+                  type="button"
+                  className="text-button"
+                  disabled={
+                    visionBusy || sharing || voiceState === "connecting"
+                  }
+                  onClick={() => imageInput.current?.click()}
+                >
+                  <ImagePlus size={17} />
+                  {t("Share an image", "分享图片")}
+                </button>
+                <button
+                  type="button"
+                  className="text-button"
+                  disabled={
+                    visionBusy ||
+                    voiceState === "connecting" ||
+                    !navigator.mediaDevices?.getDisplayMedia
+                  }
+                  onClick={() =>
+                    sharing
+                      ? audio.current?.stopVision()
+                      : void shareVisual("screen")
+                  }
+                >
+                  <MonitorUp size={17} />
+                  {sharing
+                    ? t("Stop screen sharing", "停止屏幕分享")
+                    : t("Share selected screen", "分享所选屏幕")}
+                </button>
+                <small>
+                  {t(
+                    "Selected images are sent to the cloud assistant.",
+                    "选定的画面会发送给云端助手。",
+                  )}
+                </small>
+              </div>
+            )}
+          <input
+            ref={fileInput}
+            type="file"
+            accept={CHAT_FILE_ACCEPT}
+            multiple
+            hidden
+            onChange={(event) => {
+              if (filesEnabled && !busy)
+                chatFiles.add(Array.from(event.target.files ?? []));
+              event.target.value = "";
+            }}
+          />
           <input
             ref={imageInput}
             type="file"
@@ -1710,10 +1900,7 @@ export function AssistantPanel({
                           "直接交谈，麦克风已开启。",
                         )
                     : data?.voice.configured
-                      ? t(
-                          `${voiceName} · microphone off`,
-                          `${voiceName} · 麦克风已关闭`,
-                        )
+                      ? t("Voice ready", "语音已就绪")
                       : data?.text_ai?.configured
                         ? data?.permissions?.mode === "full"
                           ? t(

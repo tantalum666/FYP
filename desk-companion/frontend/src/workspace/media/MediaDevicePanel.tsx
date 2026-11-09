@@ -38,14 +38,12 @@ export function MediaDevicePanel({
   onClose,
   voiceActive,
   canShare,
-  provider,
   onShare,
 }: {
   t: Translate;
   onClose: () => void;
   voiceActive: boolean;
   canShare: boolean;
-  provider: string;
   onShare: (video: HTMLVideoElement) => void;
 }) {
   const cameraCapture = useRef(new LocalCapture());
@@ -285,7 +283,7 @@ export function MediaDevicePanel({
         {cameraPending
           ? t("Waiting for camera access…", "等待摄像头许可…")
           : sent
-            ? t("Frame sent to ", "画面已发送至 ") + provider
+            ? t("Frame shared with Alice", "画面已分享给 Alice")
             : camera
               ? camera.getVideoTracks()[0]?.label
               : t("Camera off", "摄像头已关闭")}

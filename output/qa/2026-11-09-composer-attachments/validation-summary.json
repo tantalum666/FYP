@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-09",
+  "scope": "Composer, shared dark controls and temporary chat attachments",
+  "backend_full": {
+    "passed": 2117,
+    "command": "python -m pytest -q"
+  },
+  "backend_final_focused": {
+    "passed": 36,
+    "includes_attachment_cases": 10,
+    "lint": true
+  },
+  "frontend": {
+    "passed": 353,
+    "types": true,
+    "build": true
+  },
+  "browser": {
+    "desktop": true,
+    "phone_393x852": true,
+    "phone_320x568": true,
+    "native_file_chooser": true,
+    "paste_image": true,
+    "drag_injection": "unsupported_by_browser_tool_not_claimed",
+    "selection_alone_uploads": false,
+    "send_and_followup": true,
+    "same_operation_recovery": true,
+    "stale_error_after_remove_fixed": true,
+    "visible_mobile_recovery_above_input": true,
+    "viewport_override_reset": true,
+    "injected_network_block_removed": true
+  },
+  "native": {
+    "compile": true,
+    "install": "pending",
+    "sdk": "8.5.2 verified cached archives"
+  },
+  "activation": "pending",
+  "paid_model_calls": 0,
+  "ci_used": false,
+  "A3_voice_to_preserve": true
+}

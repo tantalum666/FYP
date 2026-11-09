@@ -1,5 +1,9 @@
 # Group 2 · Desktop conversation and local media
 
+## 9 November + menu and attachments
+
+The shared composer now has a compact Add files or photos / Browse the web / Today’s briefing menu. File chips and image thumbnails stay local until Send, survive failed delivery, and can be removed. Message recovery stays above the input; history remains separate. [Attachment lifecycle](chat-attachments.md) reuses the existing conversation/permission/receipt services.
+
 ## 8 November evening follow-up
 
 Latest captions have a bounded dark surface and the immersive provider/microphone footer is removed. Expanded Conversation still retains separate exchanges. Apps & devices opens the shared [Google/Microsoft connections](connected-apps.md), with official browser consent and existing in-conversation email review. Actual Mac Gmail authorization and one self-email/readback passed; Microsoft account authorization is deferred. [QA](../../output/qa/2026-11-08-caption-mail-voice/verification.md).

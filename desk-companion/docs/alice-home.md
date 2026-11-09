@@ -1,5 +1,9 @@
 # Group 2 · Shared Alice home
 
+## 9 November shared dark controls
+
+Composer, file activity and browser forms now switch dark foreground/background together. + is a compact menu; ordinary file addition stays in the composer. Phone multiple files form a horizontal strip. Unconfirmed message delivery expands Conversation and presents an accessible recovery row above the input instead of overlapping the clock/scene. Calendar, Alice size and avatar assets are unchanged. [Attachment contract](chat-attachments.md).
+
 ## 8 November evening: caption contrast and measured phone space
 
 Long latest replies wrap within58characters with a dark translucent caption background, so pale avatar legs no longer reduce text contrast. The compact transcript scrolls within120px/20dvh. The immersive footer no longer displays the provider/microphone technical line. Actual errors and required reviews remain visible. `useAssistantFootprint` measures the existing panel with one ResizeObserver; the phone agenda scrolls above its actual height rather than relying on a fixed288px reserve. Alice's scene size is unchanged. [Current QA](../../output/qa/2026-11-08-caption-mail-voice/verification.md).

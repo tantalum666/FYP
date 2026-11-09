@@ -1,5 +1,9 @@
 # Group 2 · Interface copy and disclosure
 
+## 9 November composer and file flows
+
+The owner explicitly removed model/vendor branding and API-turn counts from ordinary composer/browser/file controls. Use Alice and concise cloud-processing descriptions while keeping the selected data, explicit consent, action approval and recovery clear. + adds local chat files; operation history is under More. A shared dark-control surface pairs foreground/background for buttons, fields, downloads and errors. See [chat attachments](chat-attachments.md).
+
 2 November 2026: [desktop conversation](desktop-conversation.md) is the primary Web page, superseding the old modal/docked layout. Test zoom and window height in a separate QA tab.
 
 1 November 2026. Owner feedback: pages contain too much explanatory text. This is an ongoing product requirement across web, phone and shared app components, not permission to remove Alice or the controls needed for informed actions.

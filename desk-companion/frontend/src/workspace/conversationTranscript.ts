@@ -6,6 +6,7 @@ export type ConversationTurn = {
   jobId?: string;
   voiceSession?: string;
   voiceGroup?: number;
+  files?: Array<{ id: string; name: string }>;
 };
 
 /** Streaming Live text updates a speaker turn; playback never owns its history. */

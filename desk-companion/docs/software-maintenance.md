@@ -1,5 +1,9 @@
 # Group 2 · Software maintenance contract
 
+## 9 November attachment ownership
+
+ComposerMenu, ComposerFiles and useChatFiles own menu/render/selected-file preparation respectively. ChatAttachments reuses existing Conversations RAM, owner/task/session scope and invalidation; TextAssistant/AgentLoop/Responses still own generation and tools. No second transcript store, request queue or background poll is added. Raw file bytes are bounded and not placed in durable sources or browser pending writes. [Contract](chat-attachments.md).
+
 ## 8 November evening: connected apps and playback ownership
 
 [Connected apps](connected-apps.md) separates static manifests, shared OAuth lifecycle, provider reads/senders and existing AssistantService reviews. AppConnectionsPanel owns one temporary authorization poll; provider content cannot install new tools or grants. Gmail/Graph writes reserve a durable attempt before dispatch and recover accepted receipts without resending uncertainty. Auth tokens and app secrets stay in private host configuration/runtime.

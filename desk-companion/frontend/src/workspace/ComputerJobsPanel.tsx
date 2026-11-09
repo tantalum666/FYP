@@ -342,6 +342,7 @@ export function ComputerJobsPanel({
       <ComputerUseComposer
         key={resumeBrowser?.id ?? computerGoal?.key ?? 0}
         initialGoal={computerGoal?.text}
+        initiallyOpen={!!computerGoal}
         t={t}
         taskId={taskId}
         resumeJob={resumeBrowser}

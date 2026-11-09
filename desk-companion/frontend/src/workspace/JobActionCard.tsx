@@ -113,8 +113,8 @@ export function JobActionCard({
       {computer && job.state === "review" && (
         <small>
           {t(
-            "Screenshots go to OpenAI. Final submissions need you.",
-            "截图会发给 OpenAI，最终提交由你处理。",
+            "Page screenshots are processed in the cloud. Final submissions need you.",
+            "网页截图会交给云端助手处理，最终提交由你操作。",
           )}
         </small>
       )}
@@ -122,8 +122,8 @@ export function JobActionCard({
         <p>
           {job.result.readback?.reason === "provider_step_unavailable"
             ? t(
-                "OpenAI could not complete this step. Check the connection before continuing.",
-                "OpenAI 未能完成这一步，请检查连接后再继续。",
+                "Alice could not complete this step. Check the connection before continuing.",
+                "Alice 未能完成这一步，请检查连接后再继续。",
               )
             : job.request.start_url?.startsWith("demo:")
               ? t(

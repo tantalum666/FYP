@@ -8,7 +8,7 @@ import json
 import re
 import threading
 from datetime import datetime, timedelta
-from typing import Literal
+from typing import Annotated, Literal
 from uuid import uuid4
 from zoneinfo import ZoneInfo
 
@@ -47,6 +47,9 @@ class AssistantMessage(StrictModel):
     voice_origin_ref: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
     voice_steer: bool = Field(default=False, strict=True)
     steer_run_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
+    attachment_ids: list[Annotated[str, Field(pattern=r"^[a-f0-9]{32}$")]] = Field(
+        default_factory=list, max_length=4
+    )
 
 
 class ProposalDecision(StrictModel):

@@ -330,16 +330,21 @@ export function PhoneApp() {
               </button>
             </p>
           )}
-          {pendingWrite() && !editor && (
-            <div className="connection-banner">
-              <span>
-                {t("A save is awaiting confirmation.", "有一项保存等待确认。")}
-              </span>
-              <button disabled={recovering} onClick={() => void recover()}>
-                {t("Check save status", "核对保存状态")}
-              </button>
-            </div>
-          )}
+          {pendingWrite() &&
+            pendingWrite()?.path !== "/assistant/messages/stream" &&
+            !editor && (
+              <div className="connection-banner">
+                <span>
+                  {t(
+                    "A save is awaiting confirmation.",
+                    "有一项保存等待确认。",
+                  )}
+                </span>
+                <button disabled={recovering} onClick={() => void recover()}>
+                  {t("Check save status", "核对保存状态")}
+                </button>
+              </div>
+            )}
         </PhoneScreen>
       )}
       {editor && (

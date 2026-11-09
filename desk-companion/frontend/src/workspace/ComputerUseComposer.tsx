@@ -17,6 +17,7 @@ export function ComputerUseComposer({
   onPrepared,
   resumeJob,
   onNew,
+  initiallyOpen = false,
 }: {
   t: Translate;
   available: boolean;
@@ -25,6 +26,7 @@ export function ComputerUseComposer({
   onPrepared: () => void;
   resumeJob?: ComputerJob;
   onNew?: () => void;
+  initiallyOpen?: boolean;
 }) {
   const [goal, setGoal] = useState(initialGoal);
   const { data } = useWorkspace();
@@ -88,9 +90,9 @@ export function ComputerUseComposer({
     <details
       ref={section}
       className="computer-use-composer"
-      open={initialGoal || resumeJob ? true : undefined}
+      open={initialGoal || resumeJob || initiallyOpen ? true : undefined}
     >
-      <summary>{t("Use a browser", "让 Alice 操作浏览器")}</summary>
+      <summary>{t("Browse the web", "浏览网页")}</summary>
       {resumeJob && (
         <p>
           {t(
@@ -104,7 +106,7 @@ export function ComputerUseComposer({
       )}
       <form onSubmit={(event) => void prepare(event)}>
         <label>
-          {t("What should Alice prepare?", "想让 Alice 准备什么？")}
+          {t("What would you like to do?", "想让 Alice 做什么？")}
           <textarea
             ref={input}
             disabled={locked}
@@ -114,22 +116,25 @@ export function ComputerUseComposer({
             onChange={(event) => setGoal(event.target.value)}
           />
         </label>
-        <label>
-          {t("Where", "在哪里操作")}
-          <select
-            value={kind}
-            disabled={locked || !!resumeJob}
-            onChange={(event) => setKind(event.target.value)}
-          >
-            <option value="website">{t("Public website", "公开网站")}</option>
-            <option value="demo:shopping">
-              {t("Shopping rehearsal", "购物演练")}
-            </option>
-            <option value="demo:flights">
-              {t("Flight rehearsal", "机票演练")}
-            </option>
-          </select>
-        </label>
+        <details className="computer-use-options">
+          <summary>{t("More options", "更多选项")}</summary>
+          <label>
+            {t("Where", "在哪里操作")}
+            <select
+              value={kind}
+              disabled={locked || !!resumeJob}
+              onChange={(event) => setKind(event.target.value)}
+            >
+              <option value="website">{t("Public website", "公开网站")}</option>
+              <option value="demo:shopping">
+                {t("Shopping rehearsal", "购物演练")}
+              </option>
+              <option value="demo:flights">
+                {t("Flight rehearsal", "机票演练")}
+              </option>
+            </select>
+          </label>
+        </details>
         {kind === "website" && (
           <label>
             {t("Website", "网站地址")}
@@ -157,14 +162,14 @@ export function ComputerUseComposer({
             onChange={(event) => setShared(event.target.checked)}
           />
           {t(
-            "Share this public task and page screenshots with OpenAI",
-            "将本次公开任务和网页截图发送给 OpenAI",
+            "Allow Alice to use this task and page screenshots in the cloud",
+            "允许 Alice 在云端处理本次任务和网页截图",
           )}
         </label>
         <small>
           {t(
-            "Uses API credit · up to 8 model turns",
-            "会使用 API 额度 · 最多 8 轮",
+            "Uses your assistant allowance. You can stop at any time.",
+            "会使用助理额度，你可以随时停止。",
           )}
         </small>
         {kind === "website" && (

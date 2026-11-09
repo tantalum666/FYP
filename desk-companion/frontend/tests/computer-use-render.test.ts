@@ -17,8 +17,9 @@ test("screen sharing is explicit and preparation does not promise a booking", ()
       onPrepared() {},
     }),
   );
-  assert.match(html, /page screenshots with OpenAI/);
-  assert.match(html, /Uses API credit/);
+  assert.match(html, /page screenshots in the cloud/);
+  assert.match(html, /Uses your assistant allowance/);
+  assert.doesNotMatch(html, /OpenAI|model turns|API credit/);
   assert.doesNotMatch(html, /checked=""/);
   assert.match(html, /disabled=""/);
 });

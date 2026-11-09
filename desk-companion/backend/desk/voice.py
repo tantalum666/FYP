@@ -481,7 +481,7 @@ class VoiceService:
                     current_revision, current_facts = memory_context(self.runtime, allow_memory)
                     if current_revision != revision:
                         if conversation:
-                            conversation.items.clear()
+                            conversation.clear_context()
                             conversation.revision = current_revision
                         await send_client({"type": "ended", "reason": "memory_changed"})
                         return False
@@ -1004,7 +1004,7 @@ class VoiceService:
                         if conversation:
                             current_revision, _ = memory_context(self.runtime, allow_memory)
                             if current_revision != revision:
-                                conversation.items.clear()
+                                conversation.clear_context()
                                 conversation.revision = current_revision
                                 await send_client({"type": "ended", "reason": "memory_changed"})
                                 return
@@ -1130,7 +1130,7 @@ class VoiceService:
                 if conversation:
                     current_revision, _ = memory_context(self.runtime, allow_memory)
                     if current_revision != revision:
-                        conversation.items.clear()
+                        conversation.clear_context()
                         conversation.revision = current_revision
                     conversation.touched = time.monotonic()
                 # Do this before any await: disconnect cancellation must always

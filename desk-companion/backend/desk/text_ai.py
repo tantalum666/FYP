@@ -50,6 +50,7 @@ from .workspace_data import is_quiet
 from .schemas import StrictModel
 from .store import DomainError, encode
 from .tool_policy import tool_visible
+from .chat_attachments import ChatAttachments, FILE_POLICY, capability as attachment_capability
 
 DEFAULT_DAILY_CAP = 40
 MAX_DAILY_CAP = 500
@@ -175,6 +176,7 @@ class TextAssistant:
         self.transport = transport
         self.lock = threading.RLock()
         self.background_lock = threading.Lock()
+        self.attachments = ChatAttachments(runtime)
         with self.store.connection(write=True) as conn:
             conn.execute(
                 "CREATE TABLE IF NOT EXISTS assistant_replies(id TEXT PRIMARY KEY,request_hash TEXT NOT NULL,result TEXT NOT NULL)"
@@ -190,6 +192,7 @@ class TextAssistant:
             "model": self.config.model,
             "background": self.config.valid() and self.config.background,
             "configuration_error": self.config.configuration_error,
+            "attachments": attachment_capability(self.config),
         }
 
     def daily_cap(self) -> int:
@@ -260,9 +263,15 @@ class TextAssistant:
         finally:
             _DISPATCH_CHECKPOINT.reset(token)
 
-    def generate(self, system, context, schema, purpose):
+    def generate(
+        self, system, context, schema, purpose, *, attachment_parts=None, attachment_guard=None
+    ):
         if not self.config.valid():
             raise DomainError("TEXT_AI_NOT_CONFIGURED", 503)
+        if attachment_parts and self.config.provider != "openai":
+            raise DomainError("CHAT_FILES_UNAVAILABLE", 409)
+        if attachment_guard:
+            attachment_guard()
         prompt = (
             system
             + "\nReturn only JSON matching this schema: "
@@ -277,10 +286,19 @@ class TextAssistant:
                 follow_redirects=False,
                 trust_env=False,
                 proxy=model_proxy(self.config, self.transport),
-                event_hooks={"request": [_request_checkpoint]},
+                event_hooks={
+                    "request": [
+                        _request_checkpoint,
+                        *([attachment_guard] if attachment_guard else []),
+                    ]
+                },
             ) as client:
                 raw, usage = text_adapter(self.config.provider).complete(
-                    client, self.config, prompt, content
+                    client,
+                    self.config,
+                    prompt,
+                    content,
+                    **({"attachment_parts": attachment_parts} if attachment_parts else {}),
                 )
                 if not isinstance(raw, str) or len(raw) > 20000:
                     raise ValueError()
@@ -312,10 +330,32 @@ class TextAssistant:
             )
         return parsed
 
-    def generate_live(self, system, context, schema, purpose, on_delta):
+    def generate_live(
+        self,
+        system,
+        context,
+        schema,
+        purpose,
+        on_delta,
+        *,
+        attachment_parts=None,
+        attachment_guard=None,
+    ):
         """Stream provider deltas. Each actual fallback consumes its own call slot."""
         if self.config.valid() and not hasattr(text_adapter(self.config.provider), "deltas"):
-            return self.generate(system, context, schema, purpose), False
+            return self.generate(
+                system,
+                context,
+                schema,
+                purpose,
+                **(
+                    {"attachment_parts": attachment_parts, "attachment_guard": attachment_guard}
+                    if attachment_parts
+                    else {}
+                ),
+            ), False
+        if attachment_parts:
+            raise DomainError("CHAT_FILES_UNAVAILABLE", 409)
         if not self.config.valid():
             raise DomainError("TEXT_AI_NOT_CONFIGURED", 503)
         prompt = (
@@ -417,6 +457,8 @@ class TextAssistant:
                     principal, revision, task_id=payload.task_id
                 )
         admitted = None
+        if cached is None:
+            self.attachments.select(conversation, payload.attachment_ids, principal)
         if cached is None and principal is not None:
             # An explicit goal change is owner authority. It never reaches the model.
             admitted = self.runtime.conversation_work.turn(payload, key, principal)
@@ -466,6 +508,8 @@ class TextAssistant:
             body.pop("voice_steer", None)
         if not body.get("steer_run_id"):
             body.pop("steer_run_id", None)
+        if not body.get("attachment_ids"):
+            body.pop("attachment_ids", None)
         return hashlib.sha256(encode({**body, "allow_memory": allow_memory}).encode()).hexdigest()
 
     def _cached_reply(self, payload, key, allow_memory):
@@ -532,14 +576,19 @@ class TextAssistant:
             if cached is not None:
                 return cached
             before = {row["id"] for row in self.runtime.assistant.audit.listing(100)}
-            turn = self.runtime.assistant.memory_turn(payload, key, allow_memory=allow_memory)
-            if turn is None:
+            has_files = bool(conversation and conversation.attachment_ids)
+            turn = (
+                None
+                if has_files
+                else self.runtime.assistant.memory_turn(payload, key, allow_memory=allow_memory)
+            )
+            if turn is None and not has_files:
                 turn = self.runtime.goals.turn(payload, key, allow=allow_memory)
-            if turn is None:
+            if turn is None and not has_files:
                 turn = self.runtime.assistant.recall_turn(
                     payload, key, allow_memory=allow_memory, conversation=conversation
                 )
-            if turn is None:
+            if turn is None and not has_files:
                 turn = self.maybe_extract(payload, key, allow_memory=allow_memory)
             if turn is not None:
                 if on_event is not None:
@@ -579,8 +628,20 @@ class TextAssistant:
                 self.runtime.data.preferences(),
                 payload.language,
             )
+            files, attachment_parts, attachment_guard = self.attachments.context(
+                conversation, required_ids=payload.attachment_ids
+            )
+            if files:
+                context["attachments"] = files
+                system += "\n" + FILE_POLICY
             reply = AgentLoop(
-                self.runtime, HostedTextProvider(self.generate, self.generate_live)
+                self.runtime,
+                HostedTextProvider(
+                    self.generate,
+                    self.generate_live,
+                    attachment_parts=attachment_parts,
+                    attachment_guard=attachment_guard,
+                ),
             ).run(
                 system=system,
                 context=context,
