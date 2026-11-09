@@ -1,6 +1,6 @@
 # Group 2 · Sweet Taiwan-Mandarin audition
 
-9 November 2026, Asia/Hong_Kong. The owner rejected the GPT-SoVITS public-reference sound and then explicitly approved two original OpenAI auditions, total USD0.10, at most two sessions /40seconds, no microphone, no production change before listening. The two sessions are complete and their new ledger is closed. Owner sound preference is pending.
+9 November 2026, Asia/Hong_Kong. The owner rejected the GPT-SoVITS public-reference sound and then explicitly approved two original OpenAI auditions, total USD0.10, at most two sessions /40seconds, no microphone, no production change before listening. The two sessions are complete and their new ledger is closed. The owner subsequently retained A as promising but too mature; the separately approved younger-delivery A1 result is recorded below.
 
 ## Reading and scope
 
@@ -29,10 +29,16 @@ Returned final duration totals20seconds against40authorized. At USD0.05/minute, 
 
 Private mode700 directory: `~/.config/desk-companion/sweet-taiwan-voice-20261109/`; files mode600. It contains authorization, original requests/prompts, voice resources, scripts, retained creation failure, PCM/WAV, usage and the closed budget. Public [validation summary](validation-summary.json) contains only safe result fields and output hashes. No credential, private voice ID, raw audio, database or personal recording is copied into Git.
 
+## Separately authorized A1 refinement
+
+After listening, the owner retained A as promising but too mature and requested a younger impression. Prepared a same-voice performance using A's unchanged saved resource/original prompt plus a clear, light young-adult college-freshman delivery. The owner then explicitly approved one additional session, at most20seconds /USD0.03. A new independent ledger was used; neither previous ledger was reopened.
+
+A1 finalized9providerseconds at conservative USD0.00825, with no protocol error, a matching A voice echo and complete same-text transcript. First received non-silent PCM2.913seconds; trimmed WAV6.455875seconds,24kHz mono PCM16, no clipped samples. The new ledger is closed with exactly one finalized session. No microphone, delegated backend, new voice resource or production change. Original A is preserved; no pitch/speed effect was applied. The new clip was presented, but a younger/natural sound is not inferred from metadata. Private evidence: `~/.config/desk-companion/sweet-taiwan-younger-20261109/`.
+
 ## Acceptance and closeout
 
-Both cached clips were presented to the owner with a choice to select A, select B, or reject both. Production remains Alice · Bright; Taiwan accent, naturalness, emotional fit, English/Cantonese and integrated playback are not yet accepted. The previous SoVITS summary now has a dated owner rejection annotation; its original technical observations are preserved.
+Both cached clips were presented to the owner. The owner retained A as promising but too mature, requesting a younger college/school-age impression; this is a candidate preference, not a final default selection. Production remains Alice · Bright; Taiwan accent, naturalness, emotional fit, English/Cantonese and integrated playback are not yet accepted. The previous SoVITS summary now has a dated owner rejection annotation; its original technical observations are preserved.
 
 Updated product, decisions, current voice brief, OpenAI/SoVITS contracts, reference-voice research/index, work log, handoff and START/AGENTS routing. Validation is scoped to JSON structure, relative links, artifact format/hashes, transcript comparison, private-file permissions, budget closure, diff and secret/material exclusions. No production tests were rerun for documentation-only changes; prior test totals retain their own scope. Publication and remote branch verification are recorded separately. PR97 remains unmerged.
 
-One next step: apply only a voice the owner explicitly accepts, through existing voice settings; if both are rejected, retain that feedback and keep the default unchanged. Do not spend again from this closed round.
+One next step: obtain feedback on the same-voice younger A1 clip while retaining original A. Apply only an explicitly selected default through existing settings. Both fresh ledgers are closed; do not spend again from either.

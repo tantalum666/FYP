@@ -74,12 +74,13 @@
   },
   "acceptance": {
     "owner_accepted": false,
-    "status": "awaiting_owner_selection_or_rejection",
+    "status": "A_retained_pending_A1_listening",
     "subjective_listening_by_agent": false,
     "taiwan_accent_quality_verified": false,
     "english_tested_this_round": false,
     "cantonese_tested_this_round": false,
-    "end_to_end_playback_tested_this_round": false
+    "end_to_end_playback_tested_this_round": false,
+    "owner_feedback": "A is promising but sounds too mature; retain A and refine younger."
   },
   "production": {
     "changed": false,
@@ -87,5 +88,31 @@
     "source": "232b065f910af18151846b73dd48fe92fb1d9e16"
   },
   "ci_used": false,
-  "old_ledgers_reopened": false
+  "old_ledgers_reopened": false,
+  "refinement": {
+    "authorization": {
+      "ceiling_usd": 0.03,
+      "maximum_sessions": 1,
+      "maximum_session_seconds": 20
+    },
+    "same_saved_voice_as_A": true,
+    "new_voice_created": false,
+    "provider_duration_seconds": 9.0,
+    "first_received_nonsilent_pcm_ms": 2913,
+    "provider_text_matches": true,
+    "audition_wav_seconds": 6.455875,
+    "clipped_samples": 0,
+    "sha256": "e2ac0115b51761971d9fb30a3fd6508e503cda98c52a29b7ad99e2e491116c23",
+    "budget_closed": true,
+    "accounted_usd": 0.008250000000000002,
+    "session_count": 1,
+    "owner_accepted": false,
+    "production_default_changed": false
+  },
+  "combined_rounds": {
+    "paid_sessions": 3,
+    "provider_duration_seconds": 29,
+    "accounted_usd": 0.02658333333333334,
+    "both_fresh_ledgers_closed": true
+  }
 }

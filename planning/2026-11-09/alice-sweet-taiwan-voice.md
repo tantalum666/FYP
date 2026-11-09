@@ -8,8 +8,8 @@ The owner explicitly approved up to USD0.10, at most two GPT Live sessions and40
 
 | Candidate | Design intention | Current result |
 |---|---|---|
-| A · Alice · Taiwan Sweet | Light, naturally sweet young-adult feminine voice; relaxed Taiwan-Mandarin conversation, warm rounded vowels, gentle melodic endings | Requested voice confirmed; complete fixed text; owner preference pending |
-| B · Alice · Taiwan Soft | Slightly higher, smaller, softer young-adult feminine timbre; clear delicate resonance and lightly playful phrasing | Different requested voice confirmed; complete fixed text; owner preference pending |
+| A · Alice · Taiwan Sweet | Light, naturally sweet young-adult feminine voice; relaxed Taiwan-Mandarin conversation, warm rounded vowels, gentle melodic endings | Requested voice confirmed; complete fixed text; owner retains A but finds it too mature |
+| B · Alice · Taiwan Soft | Slightly higher, smaller, softer young-adult feminine timbre; clear delicate resonance and lightly playful phrasing | Different requested voice confirmed; complete fixed text; not selected as the refinement base |
 
 Same text for both:
 
@@ -17,14 +17,20 @@ Same text for both:
 
 The prompts avoid announcer cadence, Western-accented Mandarin, exaggerated baby talk, squeaky falsetto, artificial pitch shifting, pinched/nasal tension and excessive breath. These instructions express the intended direction; their acoustic success has not been independently established. Only silence at the waveform edges was trimmed. Voice IDs, request payloads, audio and usage receipts remain in the private owner directory `~/.config/desk-companion/sweet-taiwan-voice-20261109/`. No audio or private profile identifier is published in Git.
 
+## A1 · younger delivery using retained A
+
+The owner said A is promising but sounds older, asked to retain it and make the next version closer to a college or high-school impression. The original A resource/audio remains unchanged. The new performance targets an18–20-year-old adult college-freshman character: clearer/lighter vocal placement, gently brighter resonance, less heavy chest resonance and less slow mature reassurance, with natural small inflections. It reuses the exact A voice ID and original description; only the delivery instructions change. This tests an adjustment to the same voice, not a claim that an immutable voice can be precisely age-edited.
+
+The owner separately approved one session, maximum20seconds and USD0.03. A1 returned the same A voice and complete fixed text, finalized9providerseconds and6.455875seconds of trimmed WAV. Conservative accounting USD0.00825; separate ledger closed. Clip/receipt: `~/.config/desk-companion/sweet-taiwan-younger-20261109/`. A1 was presented; perceived age/naturalness remain for owner feedback. There was no new voice creation, pitch/speed post-processing or production default change.
+
 ## Acceptance order
 
-1. Owner listens to the two cached clips and accepts a direction or rejects both. Do not call the result natural or emotionally suitable because the API returned audio. The agent cannot directly listen through the current audio tool.
+1. The owner retained A as a promising direction but asked for a younger impression. Keep original A unchanged; use feedback on A1 before a default decision. Do not call the result natural or emotionally suitable because the API returned audio. The agent cannot directly listen through the current audio tool.
 2. If the owner explicitly selects a default, register/select it through the existing owner-versioned voice settings, retaining its original prompt and cached audition. Read back actual Mac/Pi settings; do not conflate a sample with deployment. Selection alone does not authorize another paid session.
 3. Natural English, colloquial Hong Kong Cantonese, consistent timbre, dates/numbers and mixed-language speech remain required. This short Taiwan-Mandarin-only round does not test them. Any further paid comparison needs its own explicit bound.
 4. Measure real conversational first useful audio, interruption, captions and tool responses after a sound is accepted. Reuse the existing agent, approvals, microphone ownership and playback. Do not add a second task system or synthesize a paid Live reply a second time.
 
-Production Alice · Bright remains selected pending the owner's answer. All older budgets remain closed. The rejected LJSpeech-based SoVITS reference is retained only as [technical evidence](../../desk-companion/docs/sovits-evaluation.md); do not re-present it as an Alice candidate.
+Production Alice · Bright remains selected pending an explicit default decision. All older budgets remain closed. The rejected LJSpeech-based SoVITS reference is retained only as [technical evidence](../../desk-companion/docs/sovits-evaluation.md); do not re-present it as an Alice candidate.
 
 ## Targeted catalog research, not a listening result
 
