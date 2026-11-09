@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-09",
+  "verified_at": "2026-11-09T06:09:50.994897+00:00",
+  "branch": "codex/alice-home-wake-20261107",
+  "pull_request": "https://github.com/tantalum666/FYP/pull/97",
+  "state": "open_unmerged",
+  "reviewed_evidence_head": "ed27b22bd26d619db7ad5ce3871cb8bfc90421e9",
+  "remote_head_matched": true,
+  "pr_body_updated": true,
+  "production_source": "232b065f910af18151846b73dd48fe92fb1d9e16",
+  "runtime_settings_applied": "Original A / Alice \u00b7 Taiwan Sweet on Mac and Pi; phone clients inherit their connected service",
+  "source_release_changed": false,
+  "all_audition_budgets_closed": true,
+  "ci_used": false,
+  "private_material_published": false,
+  "note": "Later receipt-only commits do not alter runtime selection or the measured audition."
+}

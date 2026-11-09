@@ -42,3 +42,5 @@ The scope is now exhausted and CLOSED. Conservative accounting USD0.0300833 incl
 Validated API readback, active-slot guard, original identity/description, cached WAV bytes/hashes, native process origin, budget closure/attempt count, transcript/PCM format and private JSON backups. Documentation-only checks cover JSON, links, diff and secret/material exclusions. No production suite rerun or CI is implied. Updated current product/entry/handoff, voice brief/contracts/research, old audition status, decisions and work log. Publication is separate from the already applied runtime settings.
 
 One next step: use owner feedback from the actual A conversation and A3 sample; keep A selected unless a replacement is explicitly requested. Natural English/Cantonese, physical Pi audio and native microphone behavior remain separate acceptance work.
+
+Publication: reviewed evidence headed27b22matched the remote branch, PR97open/unmerged, current description updated. [Receipt](publication.json). Runtime settings were independently applied/read back; source release remains232b065.
