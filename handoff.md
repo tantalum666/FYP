@@ -1,6 +1,6 @@
 # Group 2 - Live OpenAI browser evaluation and Pi continuation
 
-10 November 2026. This branch adds an owner-approved memory follow-up: Alice raises one saved fact at a local time the owner approves, and quiet hours hold that same follow-up. No model call, live account, or Pi change. Contract: [memory follow-ups](desk-companion/docs/memory-followups.md). QA: [verification](output/qa/2026-11-10-memory-followup/verification.md). Open PRs for browser takeover, conversation Work, the folder-job clock, and the Alice home stay untouched.
+10 November 2026. This branch adds one owner-approved morning check-in. It gathers several due memory follow-ups into a single notice and cites each fact that is still active. The existing memory-follow-up tick does the waiting; there is no second scheduler. Quiet hours and proactive-reminders-off hold that same check-in. Forgotten or expired wording is left out. No model call, live account, or Pi change. Contract: [memory follow-ups](desk-companion/docs/memory-followups.md). QA: [verification](output/qa/2026-11-10-memory-morning-checkin/verification.md). It sits on the single-memory follow-up branch. Open PRs for browser takeover, conversation Work, the folder-job clock, and the Alice home stay untouched.
 
 7 November 2026. Active checkout: `/Users/tantalum/.codex/worktrees/live-agent-eval-20261107/FYP`, branch `codex/live-agent-eval-20261107`. Source `d40457feef457588daf65c7382eb4268cee0b40f` is activated on Pi. [PR94](https://github.com/tantalum666/FYP/pull/94) is merged as `a9fb6da54a6ef8fabd7c8739ce97b34b663708b9`; its full tree equals the locally reviewed `7043510a` head. [Publication receipt](output/qa/2026-11-07-live-agent-eval/publication-receipt.json). Earlier pending PRs were merged via PR93. No CI. Only the red-LED investigation is deferred.
 
@@ -24,4 +24,4 @@ Private reports and email receipt: `~/.config/desk-companion/live-agent-eval-202
 
 ## One next step
 
-Owner takeover of a browser job at a verification wall is already proposed separately. The next independent memory slice is one approved morning check-in that cites several due memories, still without a model call, a second scheduler, or a mailbox. A real transaction still needs concrete item, itinerary, and amount authority, and further paid tests need a newly scoped budget.
+Merge the single-memory follow-up first, then this morning check-in. Browser takeover at a verification wall stays in its own open PR. A real transaction still needs concrete item, itinerary, and amount authority, and further paid tests need a newly scoped budget. This check-in does not add a mailbox.

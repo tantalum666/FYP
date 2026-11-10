@@ -1,6 +1,6 @@
 # Group 2 Decision Log
 
-Updated: 6 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
+Updated: 10 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
 
 ## 2026-09-25 用户推翻 Senplate，研究智能工作台新方向
 
@@ -642,3 +642,11 @@ Controlled shopping/flight cases, calendar followup and cancellation passed. JD 
 **Engineering choice:** a saved memory can be raised once at a local time the owner approves. Task follow-ups, morning and evening check-ins, and routines already exist, but a fact in `owner_memories` never came back at a chosen time. Dot and Muse both return to a remembered commitment; this slice does that without a model, a mailbox, or a second task system. Quiet hours and proactive-reminders-off hold the same row. Forgetting the fact cancels it and keeps the wording out of the notice.
 
 **Not a user purchase or send authorization.** No paid call, live account, or Pi change. Browser takeover remains the separate open proposal. [Contract](desk-companion/docs/memory-followups.md).
+
+## 2026-11-10 One morning check-in for several memory follow-ups
+
+**User instruction:** the next slice named by the memory-follow-up handoff. One owner-approved morning check-in gathers several due memory follow-ups into a single notice, citing each underlying fact. Nothing is scheduled before approval. Quiet hours and proactive-reminders-off hold it. Forgotten or expired wording never appears. Each cited fact is raised at most once.
+
+**Engineering choice:** keep the morning and evening task check-ins on their preference clock. Do not add a scheduler. The memory follow-up tick, which already runs from the rules loop, holds covered follow-ups and publishes one notice when the approved minute arrives. The notice cites current wording. The always-on display only says to open Memory. A follow-up that is already raised, or due later than the check-in, is not included. Delivery that fails is retried once on a later tick, after quiet hours, and is rebuilt without facts that are no longer active.
+
+**Not a user purchase or send authorization.** No model call, mailbox, or Pi change. Merge the single-memory follow-up first. [Contract](desk-companion/docs/memory-followups.md).

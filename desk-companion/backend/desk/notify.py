@@ -96,6 +96,25 @@ class DeviceChannel:
         # A follow-up is already spoken by the task announcement claim.
         if notice.kind == "followup":
             return False
+        # The owner notice cites the facts. The always-on display only says to open Memory.
+        if notice.kind == "memory_morning":
+            content = {
+                "kind": "notice",
+                "notice_kind": notice.kind,
+                "reason_en": "Open Memory to read the morning check-in.",
+                "reason_zh": "请打开记忆页查看早晨核对。",
+                "body_en": "Open Memory to read the morning check-in.",
+                "body_zh": "请打开记忆页查看早晨核对。",
+            }
+        else:
+            content = {
+                "kind": "notice",
+                "notice_kind": notice.kind,
+                "reason_en": notice.reason_en,
+                "reason_zh": notice.reason_zh,
+                "body_en": notice.body_en,
+                "body_zh": notice.body_zh,
+            }
         conn.execute(
             "INSERT INTO device_notices(id, canonical_id, created_at, expires_at, content) "
             "VALUES(?,?,?,?,?)",
@@ -104,16 +123,7 @@ class DeviceChannel:
                 device_key(notice),
                 iso(at),
                 iso(at + timedelta(minutes=15)),
-                encode(
-                    {
-                        "kind": "notice",
-                        "notice_kind": notice.kind,
-                        "reason_en": notice.reason_en,
-                        "reason_zh": notice.reason_zh,
-                        "body_en": notice.body_en,
-                        "body_zh": notice.body_zh,
-                    }
-                ),
+                encode(content),
             ),
         )
         return True

@@ -28,3 +28,15 @@ An owner session lasts eight hours of workspace time. The follow-up stays in the
 ## What this does not do
 
 It does not read email, continue a Work run, or take over a browser. Those are separate open changes. It does not put the fact on the always-on display. A model has no tool that arms this follow-up.
+
+## Morning check-in
+
+10 November 2026. The same rules tick can also raise one morning check-in. There is no second scheduler. The owner approves one future local minute. Preparation does not write a row. Until that approval, nothing is scheduled.
+
+At that minute the check-in gathers every still-open follow-up that is due by then into one notice. The notice cites each fact that is still active, using the current wording. The always-on display only says to open Memory. It does not speak the facts. Each cited fact is marked raised with that notice, so it does not also raise on its own. A follow-up that is already raised, or that is due later than the check-in, stays out of the notice.
+
+Quiet hours and “proactive reminders off” hold that same check-in. They do not create another one, and they do not let a covered follow-up raise early. Forgetting or expiring a fact drops it. Its wording is not cited, including when a notice has to be sent again because delivery did not succeed. If every cited fact is gone before delivery, no notice is sent.
+
+Approval, a time change, and dismiss each use an operation id. The same id and the same body return the original check-in. A rejected confirm does not store a success. A time change that omits a field leaves the stored value. An explicit empty time does not clear it. Dismiss before the notice is sent releases the covered follow-ups; they can then raise on their own, still without putting the fact on the bell. One check-in can be open. A paired display cannot prepare, approve, change, or dismiss it.
+
+A model has no tool that arms this check-in. The wording of the notice is fixed. There is no model call.

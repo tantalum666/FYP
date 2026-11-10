@@ -3,6 +3,7 @@ import { ApiError, errorText, request, write } from "../api";
 import { useDraftGuard } from "../components/DraftGuard";
 import type { Translate } from "../types";
 import type { MemoryFact } from "./MemoryFactList";
+import { MorningCheckIn } from "./MorningCheckIn";
 import {
   draftIsUnarmed,
   followUpActions,
@@ -155,6 +156,9 @@ export function MemoryFollowUps({
   const choices = memoriesWithoutOpenFollowUp(facts, followups);
   const open = followups.filter((item) => item.armed);
   const closed = followups.filter((item) => !item.armed);
+  const waiting = followups.filter(
+    (item) => item.state === "pending" || item.state === "held",
+  ).length;
 
   async function prepare() {
     setBusy(true);
@@ -223,6 +227,7 @@ export function MemoryFollowUps({
   }
 
   return (
+    <>
     <section aria-label={t("Memory follow-ups", "记忆跟进")}>
       <h2>{t("Follow up on a memory", "跟进一条记忆")}</h2>
       <p className="workspace-hint">
@@ -316,5 +321,7 @@ export function MemoryFollowUps({
         </details>
       )}
     </section>
+    <MorningCheckIn t={t} waiting={waiting} onChange={() => void load().catch(setError)} />
+    </>
   );
 }
