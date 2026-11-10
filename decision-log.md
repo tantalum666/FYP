@@ -1,6 +1,6 @@
 # Group 2 Decision Log
 
-Updated: 6 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
+Updated: 10 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
 
 ## 2026-09-25 用户推翻 Senplate，研究智能工作台新方向
 
@@ -634,3 +634,11 @@ Real Pi HTTP200model listing and Realtime session.created/normal closure passed.
 **Evidence-driven changes:** real pointer keys:null normalization; JSON-mode input marker; document-generation/origin capture and input checks; filtered resume state; bounded navigation error classification; background writes still rejected without aborting unrelated readable pages; accurate local-time/reminder model schemas; usage retained on cancelled/invalid responses. Production business validation, default reminders, paid-request behavior and transaction scope are not relaxed.
 
 Controlled shopping/flight cases, calendar followup and cancellation passed. JD stopped at verification, Cathay failed initial load, and ordinary FYP correctly reported no sender. Exact FYP-generated test mail was sent once/read back through the existing Codex Gmail connector; no Gmail credential/connection was installed in FYP. Next product slice remains deliberate owner takeover and return in the same generic browser job, now grounded in the actual JD verification boundary. [Evidence](output/qa/2026-11-07-live-agent-eval/verification.md).
+
+## 2026-11-10 Folder-job restart keeps the injected clock
+
+**Engineering fix, not a user decision.** `test_restart_runs_only_the_approved_folder_job` expected `succeeded` and received `expired` once the wall clock passed 2026-11-07 00:01 UTC. The folder fixture freezes `Store.clock` at 2026-11-07 00:00 UTC so a host clock jump cannot expire the five-minute review. Approval stores an absolute deadline of that instant plus 60 seconds. The restart built a new app without `clock`, so `Store` fell back to `datetime.now` and `JobService.expire` marked the queued job expired.
+
+Production approval, expiry and execution already share `store.clock`. The folder executor does not read the wall clock. The restarted test process was the second clock. It now receives `app.state.store.clock`. Other tests that reopen a store already pass the original clock, or they open an empty store. No user-facing expiry window changed.
+
+`test_public_unicast[::ffff:93.184.216.34]` still fails on this Python because `IPv6Address.is_reserved` is true for the `::ffff:0:0/96` prefix before the embedded public IPv4 is judged. That check was left unchanged. [Evidence](output/qa/2026-11-10-folder-job-clock/verification.md).

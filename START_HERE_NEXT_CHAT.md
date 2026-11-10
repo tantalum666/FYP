@@ -1,5 +1,7 @@
 # Group 2 - Current continuation
 
+10 November 2026. The folder-job restart test on main was failing because the restarted app dropped the fixture clock. That restart now passes `store.clock`. Do not reopen Codex PRs #97/#94/#73/#87/#88 for this. `test_public_unicast[::ffff:93.184.216.34]` is still a separate failure. [Clock QA](output/qa/2026-11-10-folder-job-clock/verification.md).
+
 7 November 2026. Continue in `/Users/tantalum/.codex/worktrees/live-agent-eval-20261107/FYP`, branch `codex/live-agent-eval-20261107`. Read [handoff](handoff.md), [product](product.md), latest [decisions](decision-log.md), [browser contract](desk-companion/docs/computer-use.md) and [live QA](output/qa/2026-11-07-live-agent-eval/verification.md).
 
 Pi source d40457fe is activated. Real OpenAI controlled shopping/flights, calendar followup and cancellation passed;31generations, USD0.37970163 conservative accounting, USD1ledger closed. JD stopped at verification; Cathay did not load. One FYP-drafted test email was sent/read back through Codex Gmail, not a native Pi sender.

@@ -1,5 +1,7 @@
 # Group 2 - Live OpenAI browser evaluation and Pi continuation
 
+10 November 2026. Grok Bot fixed `test_restart_runs_only_the_approved_folder_job` on a branch from main. The folder fixture clock stays 2026-11-07 00:00 UTC, and the simulated restart now reuses that `store.clock` instead of the wall clock, so the approved job is not expired after that instant. Production approval, expiry and execution already shared one clock. `test_public_unicast[::ffff:93.184.216.34]` was left. [Clock QA](output/qa/2026-11-10-folder-job-clock/verification.md). No CI.
+
 7 November 2026. Active checkout: `/Users/tantalum/.codex/worktrees/live-agent-eval-20261107/FYP`, branch `codex/live-agent-eval-20261107`. Source `d40457feef457588daf65c7382eb4268cee0b40f` is activated on Pi. [PR94](https://github.com/tantalum666/FYP/pull/94) is merged as `a9fb6da54a6ef8fabd7c8739ce97b34b663708b9`; its full tree equals the locally reviewed `7043510a` head. [Publication receipt](output/qa/2026-11-07-live-agent-eval/publication-receipt.json). Earlier pending PRs were merged via PR93. No CI. Only the red-LED investigation is deferred.
 
 ## Actual results

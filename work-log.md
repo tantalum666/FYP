@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated: 6 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated: 10 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -781,3 +781,11 @@ Updated product, research status, browser/VPS/application/maintenance/delivery c
 
 
 PR94 closeout: published reviewed head7043510a, marked ready and merged asa9fb6da; fetched remote main and verified exact whole-tree equality. Final administrative documentation records this result; deployed code remainsd40457fe. No CI. See the dated publication receipt.
+
+## 2026-11-10 Folder-job restart clock
+
+- **目标：**修复 main 上 `test_restart_runs_only_the_approved_folder_job` 在当前日期返回 `expired` 的问题，并确认测试不随真实日期失效。不改真实用户的期限，不调用付费模型。
+- **阅读：**AGENTS、handoff、product 当前要求、decision-log 2026-11-06/07 决定、`test_folder_jobs.py` 全文、`jobs.py` 批准/过期/执行、`create_app` 与 `Store.clock` 默认值、文件夹执行器、电脑作业重启测试和期限说明。未重读全部历史 Markdown。
+- **完成：**重启后的应用改为使用原 `store.clock`。生产作业期限本来就只用这一时钟；失败来自测试里的第二次 `create_app` 省略了它。检索了其它“注入固定时钟后再打开同一存储却不传时钟”的测试，没有第二处。`::ffff:93.184.216.34` 的公网单播失败未改。
+- **验证：**文件夹作业 11 项通过；libfaketime 把系统时间固定在 2035-06-01 UTC 后，文件夹与电脑作业 50 项通过。省略时钟的对照脚本在真实当前时间得到 `expired`。安装前端依赖后的后端全套为 2035 通过、1 失败（预先存在的 `::ffff:93.184.216.34` 公网单播检查）。详见 [QA](output/qa/2026-11-10-folder-job-clock/verification.md)。无 CI。
+- **剩余：**产品下一步仍是现有浏览器作业中的拥有者接管与交还。公网单播的 IPv4 映射地址检查仍失败。
