@@ -7,7 +7,13 @@ import {
 } from "./jobTypes";
 import type { Task } from "./taskTypes";
 
-export type JobAction = "approve" | "cancel" | "reconcile" | "verify";
+export type JobAction =
+  | "approve"
+  | "cancel"
+  | "reconcile"
+  | "verify"
+  | "takeover"
+  | "hand_back";
 
 export function jobApprovalPayload(job: ComputerJob) {
   return { expected_version: job.version, intent_hash: job.intent_hash };
@@ -17,6 +23,12 @@ export function jobApprovalPayload(job: ComputerJob) {
 export async function requestJobAction(job: ComputerJob, action: JobAction) {
   if (action === "approve") {
     return write(`/computer/jobs/${job.id}/approve`, jobApprovalPayload(job));
+  }
+  if (action === "takeover" || action === "hand_back") {
+    return write(
+      `/computer/jobs/${job.id}/${action === "takeover" ? "takeover" : "return"}`,
+      { expected_version: job.version },
+    );
   }
   if (action === "verify") {
     if (isApplicationAction(job.action)) {

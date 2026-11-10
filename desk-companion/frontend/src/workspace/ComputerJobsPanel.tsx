@@ -19,6 +19,7 @@ import {
 } from "./jobTypes";
 import { JobActionCard } from "./JobActionCard";
 import { requestJobAction } from "./jobRequests";
+import type { JobAction } from "./jobRequests";
 import type { ComputerJob } from "./jobTypes";
 import type { Task } from "./taskTypes";
 import { ComputerUseComposer } from "./ComputerUseComposer";
@@ -270,10 +271,7 @@ export function ComputerJobsPanel({
       setCancelling(false);
     }
   }
-  async function action(
-    job: ComputerJob,
-    kind: "approve" | "reconcile" | "verify",
-  ) {
+  async function action(job: ComputerJob, kind: Exclude<JobAction, "cancel">) {
     setBusy(true);
     setError(null);
     setNotice("");

@@ -1,5 +1,7 @@
 # Group 2 Project Contract
 
+10 November 2026: the same browser job can pause at a login, SMS/OTP, captcha, or payment wall so the owner can take over and hand that job back. Offline fixtures only; no live JD login, payment, or new paid model call. [QA](output/qa/2026-11-10-owner-takeover/verification.md).
+
 7 November 2026 update: real OpenAI browser and text/tool tests now ran on Pi through the owned VPS. Shopping constraints/continuation, flight comparison, browser-result-to-calendar drafting and in-flight cancellation passed on explicitly fictional inputs. Real JD stopped at verification; Cathay did not load. One owner test email was drafted by FYP and delivered/read back through the connected Codex Gmail tool; FYP itself still has no sender connection.31generation requests, USD0.37970163 conservative accounting, fresh USD1 ledger closed. No real order, booking, ticket or human voice acceptance. [Actual results](output/qa/2026-11-07-live-agent-eval/verification.md) / [current handoff](handoff.md).
 
 11月4日历史合并：Grok PR78–82已通过[PR83](https://github.com/tantalum666/FYP/pull/83)合并，代码合并89dc92f与验收树一致：离线邮箱、购物和日程样本接入既有事务/Work/通知/备份；已修复恢复、去重、撤销、过期消息、冲突与回执校验问题。新增建议卡片显示具体对象、来源和确认效果。最终本地验证及GitHub状态见[审查QA](output/qa/2026-11-04-grok-journey-review/verification.md)。真实邮箱、商店、支付、机票和真实日历账户仍未接通。

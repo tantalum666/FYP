@@ -40,7 +40,19 @@ Real account/credential support needs a separately enforced integration.
 A successful job means its browser observation/state was saved, read back and
 closed normally. `outcome` is `review_ready`, `needs_owner` or `step_limit`, and
 `quality` is always `not_goal_completion`. The UI shows the observed screen and
-review/handoff status. Screens are observation previews; interactive human takeover of the same browser and authenticated account continuation are not implemented here. It must never turn this into “bought”, “booked” or “ticketed”.
+review/handoff status. It must never turn this into “bought”, “booked” or “ticketed”.
+
+A login, SMS/OTP, captcha, or payment-confirmation wall pauses that same job in
+`owner_takeover`. Alice stops model observation and input, tells the owner what
+is needed, and does not type or store a password, code, or card, or submit
+payment. Only the owner session that admitted the job can `POST
+/api/computer/jobs/{id}/takeover` and `.../return`. Both calls are idempotent
+operation ids. Paired devices and other logins receive 403. Handing the job
+back queues the same id again and restores its saved browser state; it does not
+create another job. The resumed run is successful only when the page is read
+back and, after a wall, the driver recorded that the wall is actually gone. A
+lost response is not success and retries the same operation id. A job left in
+takeover past its deadline expires. Cancelling it stays cancelled.
 
 An explicit continuation copies only a verified same-task/site browser state
 into a new job with new authority. It does not replay the old action sequence.

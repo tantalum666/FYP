@@ -1,25 +1,21 @@
-# Group 2 - Live OpenAI browser evaluation and Pi continuation
+# Group 2 - Owner takeover on the same browser job
 
-7 November 2026. Active checkout: `/Users/tantalum/.codex/worktrees/live-agent-eval-20261107/FYP`, branch `codex/live-agent-eval-20261107`. Source `d40457feef457588daf65c7382eb4268cee0b40f` is activated on Pi. [PR94](https://github.com/tantalum666/FYP/pull/94) is merged as `a9fb6da54a6ef8fabd7c8739ce97b34b663708b9`; its full tree equals the locally reviewed `7043510a` head. [Publication receipt](output/qa/2026-11-07-live-agent-eval/publication-receipt.json). Earlier pending PRs were merged via PR93. No CI. Only the red-LED investigation is deferred.
+10 November 2026. Branch `cursor/owner-browser-takeover-c60c`, based on main. Offline only. No live JD or merchant login, no paid model call, no Pi or VPS change, and no CI. PR94 stays the merged browser baseline. Codex PRs #97, #94, #73, #87, #88 and the open Grok stack #95/#96/#99/#98 were not used as the base and were not modified.
 
-## Actual results
+## Done
 
-The owner approved a fresh USD1 round and one harmless email to their own mailbox.31real GPT6.1Sol generation requests ran through Pi -> owned VPS -> OpenAI. Conservative receipt accounting is USD0.37970163; zero unknown receipts, ledger closed. Older budgets remain closed. [Detailed QA](output/qa/2026-11-07-live-agent-eval/verification.md), [sanitized results](output/qa/2026-11-07-live-agent-eval/results.json).
+An existing computer-use job that reaches a login, SMS/OTP, captcha, or payment-confirmation wall pauses in `owner_takeover`. Alice does not type or store a password, code, or card and does not submit payment. Only the owner session that admitted the job can take over and hand that same job back; paired devices and other logins get 403. Takeover and return use operation ids. A lost response is not success and retries the same id. Handing the job back restores its saved browser state and continues the same id. Success after a wall requires read-back plus evidence that the wall is gone. A job left in takeover past its deadline expires. Cancelling it stays cancelled.
 
-Real-model controlled Chromium cases passed: initial cart HKD43.50; changed price/quantity/coupon/free shipping and explicit continuation HKD55.80;2-adult20kg HKG–TYO flight comparison HKD2080 with next-day Tokyo arrival; model-proposed calendar followup with Hong Kong timezone conversion, no write before approval and one event after repeated confirmation. Cancellation during the second model response discarded its input batch, left cart quantity0 and retained usage. These are labelled fictional merchant/flight cases; the harness passes the flight result into the separate calendar subtask, not autonomous end-to-end orchestration.
+Local fixture pages and a fake browser driver cover the wall. The job card has Take over and Hand back.
 
-Actual JD search reached verification and stopped. Actual Cathay browser navigation failed before a model call. No real merchant login, purchase, payment, reservation or ticket. FYP drafted a safe marker/nonce email despite a hostile quoted instruction; Codex's connected Gmail tool then sent that exact draft once and read it back with SENT/INBOX. That is connector-assisted delivery: FYP/Pi still has no native mail sender or portable Gmail credential.
+## Evidence
 
-Live failures led to repairs: JSON-mode input marker, optional pointer keys:null handling, local-time/reminder model schema, document-generation/origin capture/input checks, filtered browser state, bounded load-error reporting, and usage retention after cancellation/validation rejection. Background POSTs/iframes stay blocked; blocked background requests alone no longer abort readable top-level content. The optional HTTP1 diagnostic flag stays off by default.2036backend/330frontend tests, types/build/Ruff and actual Pi navigation-scope/free-shopping regressions passed.
+[QA](output/qa/2026-11-10-owner-takeover/verification.md). Contract: [computer use](desk-companion/docs/computer-use.md).
 
-## Runtime and recovery
+## Not done
 
-Pi release: `/opt/desk-companion-releases/20261107-live-agent`;288source/assets verified. Original schema3data, owner keys, Alice/wake assets, office executors and provider environment preserved; automatic owner connection, exact frontend and configured text/Realtime/browser read back after activation. Voice idle; no paid call during deployment. [Receipt](output/qa/2026-11-07-live-agent-eval/runtime-receipt.json). Mac normal service/native packages were not activated/rebuilt this round.
-
-Pi's OpenAI-only CONNECT bridge and pinned VPS transport remain unchanged; no key on VPS and no fallback. Browser web traffic has its separate public-only scope. Runtime environment reuses the retained20261106release's frozen `.venv`; keep that release. Current private backup: `~/.config/desk-companion/live-agent-eval-20261107/20261107-before-live-agent-fixes.tar.gz`,21stopped/checkpointed files, off-device archive/member hashes verified. `activate_pi_live.py` restores prior service/autostart/environment on failure. Never use the historical zero-byte backup.
-
-Private reports and email receipt: `~/.config/desk-companion/live-agent-eval-20261107`. The authoritative closed budget is on Pi under `~/.local/share/desk-companion-evals/live-agent-20261107/budget.sqlite3`; do not initialize another ledger or reopen it. Test stores are separate from normal data. Pinned management helper remains `~/.config/desk-companion/pi5-dorm-ethernet-20261104/pi_remote.py`, dependent on the retained recovery checkout. Management interruptions during staging were reconciled; no physical reboot or power diagnosis was requested.
+This does not log into JD, pass a real captcha, pay, book, or send mail. The browser process is closed at the pause and restored from the saved state on return; it is not a live window left open on the Pi. Native Gmail and real merchant receipts remain separate.
 
 ## One next step
 
-Implement deliberate owner takeover and return for the existing generic browser job, using the actual JD verification boundary: pause model observation and input, let the owner complete verification/login, then explicitly return control and re-observe. Keep the existing queue/permission/result system. Native Gmail authorization/sync/sending, real merchant order/payment/ticket receipts and voice-to-browser orchestration remain separate gaps; this round's successes do not close them. A real transaction still needs concrete item/itinerary/amount authority, and further paid tests need a newly scoped budget.
+A live owner pass on the real JD verification page needs its own scoped session. Do not treat the offline fixture as that login.

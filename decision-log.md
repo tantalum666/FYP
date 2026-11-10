@@ -1,6 +1,6 @@
 # Group 2 Decision Log
 
-Updated: 6 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
+Updated: 10 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
 
 ## 2026-09-25 用户推翻 Senplate，研究智能工作台新方向
 
@@ -634,3 +634,11 @@ Real Pi HTTP200model listing and Realtime session.created/normal closure passed.
 **Evidence-driven changes:** real pointer keys:null normalization; JSON-mode input marker; document-generation/origin capture and input checks; filtered resume state; bounded navigation error classification; background writes still rejected without aborting unrelated readable pages; accurate local-time/reminder model schemas; usage retained on cancelled/invalid responses. Production business validation, default reminders, paid-request behavior and transaction scope are not relaxed.
 
 Controlled shopping/flight cases, calendar followup and cancellation passed. JD stopped at verification, Cathay failed initial load, and ordinary FYP correctly reported no sender. Exact FYP-generated test mail was sent once/read back through the existing Codex Gmail connector; no Gmail credential/connection was installed in FYP. Next product slice remains deliberate owner takeover and return in the same generic browser job, now grounded in the actual JD verification boundary. [Evidence](output/qa/2026-11-07-live-agent-eval/verification.md).
+
+## 2026-11-10 Same-job owner takeover at a verification wall
+
+**Owner task:** when a browser job reaches a point only the owner can pass, pause that job, let the owner take over, and resume the same job. Offline only. No live JD login, paid model call, or Pi/VPS change.
+
+**Engineering choice:** reuse JobService. A login, SMS/OTP, captcha, or payment wall stores the browser state and moves the same row to `owner_takeover`. Takeover and return are owner-session operations with operation ids. Return queues that same row and restores its state. It does not create a continuation job. Alice does not receive or store the secret, and a resumed success requires evidence that the wall is gone. A paused job past its deadline expires. Cancel during takeover stays cancelled.
+
+**Not a user approval of a live login:** the fixture driver is not JD. A real owner pass on the merchant page is still a separate scoped session.

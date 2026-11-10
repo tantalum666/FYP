@@ -781,3 +781,10 @@ Updated product, research status, browser/VPS/application/maintenance/delivery c
 
 
 PR94 closeout: published reviewed head7043510a, marked ready and merged asa9fb6da; fetched remote main and verified exact whole-tree equality. Final administrative documentation records this result; deployed code remainsd40457fe. No CI. See the dated publication receipt.
+
+## 2026-11-10 Owner takeover and return on the same browser job
+
+Paused the existing computer-use job at a login, SMS/OTP, captcha, or payment wall instead of opening a second job. Only the admitting owner can take over and hand it back; both calls are operation ids. A lost response is not success. Return restores that job's browser state. Success after a wall needs read-back and evidence the wall is gone. Expiry and cancel during takeover stay terminal. Alice does not type or store a password, code, or card.
+
+Offline fixture pages and a fake browser driver. No live JD, paid model, Pi, or VPS change. Local test counts are in [QA](output/qa/2026-11-10-owner-takeover/verification.md). Next: a live JD owner pass only under a newly scoped session.
+

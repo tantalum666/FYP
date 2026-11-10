@@ -14,6 +14,68 @@ COMPUTER_DEMOS = {"demo:shopping", "demo:flights"}
 SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 800
 MAX_SCREEN_BYTES = 2_000_000
 
+LOGIN_NEEDED = "Sign in on this page. Alice will not type or store your password."
+OTP_NEEDED = "Enter the SMS or one-time code on this page. Alice will not type or store it."
+CAPTCHA_NEEDED = "Complete the site check on this page. Alice will not solve it."
+PAYMENT_NEEDED = "Confirm payment on this page. Alice will not enter a card or submit payment."
+
+# Page text that means only the owner can continue. A cart that merely offers
+# "Place order" is not itself a wall; the worker still refuses that click.
+_OWNER_WALLS = (
+    (
+        "captcha",
+        "captcha_needs_owner",
+        re.compile(r"captcha|slide to verify|verify you are human|安全验证|人机验证", re.I),
+        CAPTCHA_NEEDED,
+    ),
+    (
+        "otp",
+        "otp_needs_owner",
+        re.compile(r"\b(?:otp|one-time code|sms code|verification code)\b|验证码", re.I),
+        OTP_NEEDED,
+    ),
+    (
+        "payment",
+        "payment_confirmation_needs_owner",
+        re.compile(r"confirm payment|card number|pay now|付款确认|支付确认", re.I),
+        PAYMENT_NEEDED,
+    ),
+    (
+        "login",
+        "login_needs_owner",
+        re.compile(r"\b(?:password|sign in|log in|login)\b|登录|密码", re.I),
+        LOGIN_NEEDED,
+    ),
+)
+
+
+def classify_owner_wall(text="", controls=()):
+    """Return the owner wall described by a page, without copying field values."""
+    parts = [text or ""]
+    for control in controls or ():
+        if isinstance(control, dict):
+            parts.append(str(control.get("label") or ""))
+            parts.append(str(control.get("type") or ""))
+    blob = "\n".join(parts)
+    for kind, reason, pattern, needed in _OWNER_WALLS:
+        if pattern.search(blob):
+            return {"wall": kind, "reason": reason, "needed": needed}
+    return None
+
+
+def wall_from_reason(reason):
+    """Map a worker stop reason to an owner wall. Other stops stay terminal."""
+    if reason == "final_submission_needs_owner":
+        return {"wall": "payment", "reason": reason, "needed": PAYMENT_NEEDED}
+    if reason == "personal_or_login_input_needs_owner":
+        return {"wall": "login", "reason": reason, "needed": LOGIN_NEEDED}
+    if not isinstance(reason, str):
+        return None
+    for kind, code, _pattern, needed in _OWNER_WALLS:
+        if reason == code:
+            return {"wall": kind, "reason": reason, "needed": needed}
+    return None
+
 
 class ComputerUseInput(PublicOnlyInput):
     action: Literal["computer_use"] = "computer_use"

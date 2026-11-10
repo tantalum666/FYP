@@ -11,7 +11,8 @@ export type JobState =
   | "cancel_requested"
   | "cancelled"
   | "expired"
-  | "unknown";
+  | "unknown"
+  | "owner_takeover";
 export interface ComputerJob {
   title?: string;
   authorization?: { mode: "once" | "full"; version?: number } | null;
@@ -56,7 +57,37 @@ export interface ComputerJob {
     outcome?: "review_ready" | "needs_owner" | "step_limit";
     quality?: string;
     readback?: { reason?: string };
+    paused?: boolean;
+    phase?: "paused" | "held" | "returning";
+    wall?: "login" | "otp" | "captcha" | "payment";
+    needed?: string;
   } | null;
+}
+
+const OWNER_WALL: Record<string, [string, string]> = {
+  login: [
+    "Sign in on this page. Alice will not type your password.",
+    "请在这一页登录。Alice 不会输入密码。",
+  ],
+  otp: [
+    "Enter the SMS code on this page. Alice will not type or store it.",
+    "请在这一页输入短信验证码。Alice 不会输入或保存验证码。",
+  ],
+  captcha: [
+    "Complete the site check on this page. Alice will not solve it.",
+    "请在这一页完成网站验证。Alice 不会代为通过。",
+  ],
+  payment: [
+    "Confirm payment on this page. Alice will not submit it or enter a card.",
+    "请在这一页确认付款。Alice 不会提交，也不会输入银行卡。",
+  ],
+};
+
+export function ownerWallCopy(
+  wall: string | undefined,
+): [string, string] | null {
+  if (!wall) return null;
+  return OWNER_WALL[wall] ?? null;
 }
 export function isApplicationAction(action: ComputerJob["action"]) {
   return action === "application";
@@ -142,7 +173,7 @@ export function recoveryCopy(job: ComputerJob): [string, string] | null {
 
 export function jobCancellable(job: ComputerJob) {
   return (
-    ["review", "queued", "running", "verifying", "unknown"].includes(
+    ["review", "queued", "running", "verifying", "unknown", "owner_takeover"].includes(
       job.state,
     ) && !job.cancel_requested
   );
@@ -186,5 +217,6 @@ export function jobStateLabel(state: JobState, t: Translate): string {
     cancelled: t("Cancelled", "已取消"),
     expired: t("Expired without execution", "已到期，未执行"),
     unknown: t("Result unknown · check before retrying", "结果未知 · 请先核验"),
+    owner_takeover: t("Waiting for you", "等待你接手"),
   }[state];
 }
