@@ -1,5 +1,7 @@
 # Group 2 - Live OpenAI browser evaluation and Pi continuation
 
+10 November 2026. This branch adds an owner-approved memory follow-up: Alice raises one saved fact at a local time the owner approves, and quiet hours hold that same follow-up. No model call, live account, or Pi change. Contract: [memory follow-ups](desk-companion/docs/memory-followups.md). QA: [verification](output/qa/2026-11-10-memory-followup/verification.md). Open PRs for browser takeover, conversation Work, the folder-job clock, and the Alice home stay untouched.
+
 7 November 2026. Active checkout: `/Users/tantalum/.codex/worktrees/live-agent-eval-20261107/FYP`, branch `codex/live-agent-eval-20261107`. Source `d40457feef457588daf65c7382eb4268cee0b40f` is activated on Pi. [PR94](https://github.com/tantalum666/FYP/pull/94) is merged as `a9fb6da54a6ef8fabd7c8739ce97b34b663708b9`; its full tree equals the locally reviewed `7043510a` head. [Publication receipt](output/qa/2026-11-07-live-agent-eval/publication-receipt.json). Earlier pending PRs were merged via PR93. No CI. Only the red-LED investigation is deferred.
 
 ## Actual results
@@ -22,4 +24,4 @@ Private reports and email receipt: `~/.config/desk-companion/live-agent-eval-202
 
 ## One next step
 
-Implement deliberate owner takeover and return for the existing generic browser job, using the actual JD verification boundary: pause model observation and input, let the owner complete verification/login, then explicitly return control and re-observe. Keep the existing queue/permission/result system. Native Gmail authorization/sync/sending, real merchant order/payment/ticket receipts and voice-to-browser orchestration remain separate gaps; this round's successes do not close them. A real transaction still needs concrete item/itinerary/amount authority, and further paid tests need a newly scoped budget.
+Owner takeover of a browser job at a verification wall is already proposed separately. The next independent memory slice is one approved morning check-in that cites several due memories, still without a model call, a second scheduler, or a mailbox. A real transaction still needs concrete item, itinerary, and amount authority, and further paid tests need a newly scoped budget.

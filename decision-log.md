@@ -634,3 +634,11 @@ Real Pi HTTP200model listing and Realtime session.created/normal closure passed.
 **Evidence-driven changes:** real pointer keys:null normalization; JSON-mode input marker; document-generation/origin capture and input checks; filtered resume state; bounded navigation error classification; background writes still rejected without aborting unrelated readable pages; accurate local-time/reminder model schemas; usage retained on cancelled/invalid responses. Production business validation, default reminders, paid-request behavior and transaction scope are not relaxed.
 
 Controlled shopping/flight cases, calendar followup and cancellation passed. JD stopped at verification, Cathay failed initial load, and ordinary FYP correctly reported no sender. Exact FYP-generated test mail was sent once/read back through the existing Codex Gmail connector; no Gmail credential/connection was installed in FYP. Next product slice remains deliberate owner takeover and return in the same generic browser job, now grounded in the actual JD verification boundary. [Evidence](output/qa/2026-11-07-live-agent-eval/verification.md).
+
+## 2026-11-10 Owner-approved memory follow-up
+
+**User instruction:** choose the next personal-agent slice that does not overlap the open browser-takeover, conversation-Work, folder-clock, or Alice-home PRs, and implement it offline.
+
+**Engineering choice:** a saved memory can be raised once at a local time the owner approves. Task follow-ups, morning and evening check-ins, and routines already exist, but a fact in `owner_memories` never came back at a chosen time. Dot and Muse both return to a remembered commitment; this slice does that without a model, a mailbox, or a second task system. Quiet hours and proactive-reminders-off hold the same row. Forgetting the fact cancels it and keeps the wording out of the notice.
+
+**Not a user purchase or send authorization.** No paid call, live account, or Pi change. Browser takeover remains the separate open proposal. [Contract](desk-companion/docs/memory-followups.md).

@@ -5,3 +5,5 @@
 Pi source d40457fe is activated. Real OpenAI controlled shopping/flights, calendar followup and cancellation passed;31generations, USD0.37970163 conservative accounting, USD1ledger closed. JD stopped at verification; Cathay did not load. One FYP-drafted test email was sent/read back through Codex Gmail, not a native Pi sender.
 
 Next: same-browser owner takeover and deliberate return, grounded in the real JD verification barrier. Preserve original data, the existing job/permission system and the retained frozen environment. No CI; only red-LED diagnosis is deferred. PR94 is merged; its full tree matches the reviewed head. [Publication receipt](output/qa/2026-11-07-live-agent-eval/publication-receipt.json) and runtime activation are separate.
+
+10 November 2026. A separate branch adds an owner-approved memory follow-up. It does not replace the browser takeover above, and it does not edit the open conversation-Work or Alice-home changes. See [handoff](handoff.md) and [memory follow-ups](desk-companion/docs/memory-followups.md).

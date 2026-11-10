@@ -16,6 +16,7 @@ from starlette.middleware.cors import CORSMiddleware
 from .access import DEVICE_COOKIE
 from .assistant_routes import assistant_routes
 from .memory import memory_routes
+from .memory_followups import memory_followup_routes
 from .moments import moment_routes
 from .nudges import nudge_routes
 from .digest import digest_routes
@@ -509,6 +510,7 @@ def create_app(
     app.include_router(job_routes(services, owner, operation_id))
     app.include_router(permission_routes(services, owner, operation_id))
     app.include_router(memory_routes(services, owner, operation_id))
+    app.include_router(memory_followup_routes(services, owner, operation_id))
     app.include_router(moment_routes(services, owner, operation_id))
     app.include_router(nudge_routes(services, owner, operation_id))
     app.include_router(notice_routes(services, owner, operation_id))

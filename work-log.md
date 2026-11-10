@@ -781,3 +781,11 @@ Updated product, research status, browser/VPS/application/maintenance/delivery c
 
 
 PR94 closeout: published reviewed head7043510a, marked ready and merged asa9fb6da; fetched remote main and verified exact whole-tree equality. Final administrative documentation records this result; deployed code remainsd40457fe. No CI. See the dated publication receipt.
+
+## 2026-11-10 Owner-approved memory follow-up
+
+- **Goal:** Choose one personal-agent slice that does not overlap the open browser-takeover, conversation-Work, folder-clock, or Alice-home PRs, and implement it offline.
+- **Choice:** A saved memory can be raised once at a local time the owner approves. Quiet hours and proactive-reminders-off hold that same follow-up. Forgetting the fact cancels it and keeps the wording out of the notice. Task follow-ups already exist; this does not add a second task system.
+- **Done:** `desk/memory_followups.py`, Memory page prepare/approve/dismiss, behavior tests, contract, decision, and handoff. `runtime.py` and `app.py` only register the service.
+- **Verification:** Memory follow-up pytest 9 passed. Frontend `npm test` 331 passed, 0 failed. `tsc` and Vite build passed. Ruff on backend, scripts, and tests passed. Full backend pytest 2043 passed, 2 failed: the known `test_public_unicast[::ffff:93.184.216.34]` and `test_restart_runs_only_the_approved_folder_job`. Chrome saved a fact, prepared a follow-up, approved it, and dismissed it. No paid call.
+- **Remaining:** One approved check-in that cites several due memories, still without a model, a second scheduler, or a mailbox. Browser takeover stays in its open PR. Evidence: [QA](output/qa/2026-11-10-memory-followup/verification.md).

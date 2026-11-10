@@ -21,6 +21,7 @@ from .text_ai import TextAssistant
 from .jobs import JobService
 from .backups import LocalBackups
 from .memory import MemoryService
+from .memory_followups import MemoryFollowUpService
 from .digest import DigestService
 from .moments import MomentService
 from .goals import GoalService
@@ -94,6 +95,7 @@ class Runtime:
             if push_enabled()
             else None,
         )
+        self.memory_followups = MemoryFollowUpService(self)
         self.voice = VoiceService(self)
         self.wake = WakeListening(self)
         self.exchange = ExchangeService(self)
@@ -178,6 +180,7 @@ class Runtime:
         self.shopping.release_quiet_notices()
         self.offline_calendar.release_quiet_notices()
         self.memories.expire()
+        self.memory_followups.tick()
         self.nudges.tick()
         self.goals.tick()
         self.jobs.expire()

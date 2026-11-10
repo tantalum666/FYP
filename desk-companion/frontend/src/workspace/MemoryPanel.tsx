@@ -11,6 +11,7 @@ import { AliasList } from "./AliasList";
 import { ProfileSummary } from "./ProfileSummary";
 import { actionsFor, knowledgeCopy } from "./knowledge";
 import { MemoryFactList } from "./MemoryFactList";
+import { MemoryFollowUps } from "./MemoryFollowUps";
 import type { MemoryFact, MemoryEdit } from "./MemoryFactList";
 import { useWorkspace } from "./WorkspaceContext";
 
@@ -331,6 +332,7 @@ export function MemoryPanel({ t }: { t: Translate }) {
         onDelete={setDeleting}
         onExpiry={expire}
       />
+      <MemoryFollowUps t={t} facts={facts} onMemoryChange={() => void reload()} />
       {!loading && !error && !facts.length && (
         <p>{t(knowledgeCopy.emptyFacts[0], knowledgeCopy.emptyFacts[1])}</p>
       )}
