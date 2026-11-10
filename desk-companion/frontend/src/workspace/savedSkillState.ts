@@ -57,14 +57,69 @@ export function fillReady(names: string[], inputs: Record<string, string>) {
   return names.every((name) => (inputs[name] ?? "").trim().length > 0);
 }
 
-export function skillOutcomeNotice(status: string, t: Translate) {
+export interface SkillScheduleDraft {
+  frequency: "once" | "daily" | "weekly";
+  startLocal: string;
+  timezone: string;
+}
+
+/** A blank note is omitted. The stored fill is the one each occurrence prepares. */
+export function scheduleBody(
+  inputs: Record<string, string>,
+  note: string,
+  draft: SkillScheduleDraft,
+) {
+  const body: {
+    frequency: SkillScheduleDraft["frequency"];
+    start_local: string;
+    timezone: string;
+    inputs: Record<string, string>;
+    note?: string;
+  } = {
+    frequency: draft.frequency,
+    start_local: draft.startLocal,
+    timezone: draft.timezone.trim(),
+    inputs,
+  };
+  const text = note.trim();
+  if (text) body.note = text;
+  return body;
+}
+
+export function skillOutcomeNotice(status: string, t: Translate, origin?: string) {
   if (status === "succeeded")
     return t(
       "Saved on this desk after your approval.",
       "已按你的批准保存在这台桌上。",
     );
   if (status === "rejected") return t("You stopped this one.", "你停掉了这一次。");
+  if (origin === "schedule")
+    return t(
+      "Prepared at the scheduled time. Waiting for your approval.",
+      "已按定时准备。等待你的批准。",
+    );
   return t("Waiting for your approval.", "等待你的批准。");
+}
+
+export function scheduleSkipNotice(outcome: string | null, t: Translate) {
+  if (outcome === "skipped_quiet")
+    return t(
+      "Quiet hours were on, so that time was not prepared.",
+      "当时在安静时段，所以没有准备。",
+    );
+  if (outcome === "skipped_off")
+    return t(
+      "Proactive suggestions are off, so that time was not prepared.",
+      "主动建议已关闭，所以没有准备。",
+    );
+  if (outcome === "skipped_missed")
+    return t(
+      "That time had already passed, so it was not prepared.",
+      "那个时间已经过了，所以没有准备。",
+    );
+  if (outcome === "skipped_limit" || outcome === "skipped_changed" || outcome === "skipped_invalid")
+    return t("That time was not prepared.", "那个时间没有准备。");
+  return null;
 }
 
 export function skillError(code: string, t: Translate) {
@@ -116,6 +171,34 @@ export function skillError(code: string, t: Translate) {
     RUN_LIMIT: [
       "This desk already has its limit of prepared runs.",
       "已准备的运行已到上限。",
+    ],
+    SCHEDULE_START_IN_PAST: [
+      "Choose a future time in the selected timezone.",
+      "请按所选时区选择一个将来的时间。",
+    ],
+    SCHEDULE_LIMIT: [
+      "This desk already has its limit of schedules.",
+      "这台桌面的定时已到上限。",
+    ],
+    SCHEDULE_CLOSED: [
+      "This schedule is already finished. Create another to start again.",
+      "这个定时已经结束。要再开始，请新建一个。",
+    ],
+    SCHEDULE_ALREADY_PAUSED: [
+      "This schedule is already paused.",
+      "这个定时已经暂停。",
+    ],
+    SCHEDULE_ALREADY_ACTIVE: [
+      "This schedule is already active.",
+      "这个定时已经在运行。",
+    ],
+    SCHEDULE_NOT_FOUND: [
+      "This schedule is no longer available. Refresh the list.",
+      "这个定时已经不在了。请刷新列表。",
+    ],
+    choose_time: [
+      "Choose the time for the first run.",
+      "请选择第一次运行的时间。",
     ],
   };
   const pair = messages[code];

@@ -9,6 +9,7 @@ export interface SavedSkillRunData {
   inputs: Record<string, string>;
   note: string | null;
   note_provided: boolean;
+  origin?: string;
   result: { system_verified?: boolean } | null;
 }
 
@@ -26,7 +27,7 @@ export function SavedSkillRun({
   const pending = run.status === "pending";
   return (
     <article className="saved-skill-run" aria-label={t("Prepared skill", "已准备的做法")}>
-      <p>{skillOutcomeNotice(run.status, t)}</p>
+      <p>{skillOutcomeNotice(run.status, t, run.origin)}</p>
       <ul>
         {Object.entries(run.inputs).map(([name, value]) => (
           <li key={name}>

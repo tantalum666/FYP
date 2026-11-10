@@ -8,7 +8,9 @@
 
 .saved-skill-form,
 .saved-skill-card,
-.saved-skill-run {
+.saved-skill-run,
+.saved-skill-schedule,
+.saved-skill-schedule-form {
   display: grid;
   gap: 0.5rem;
   margin-top: 0.75rem;

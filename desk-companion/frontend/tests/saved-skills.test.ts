@@ -8,6 +8,8 @@ import {
   checkBody,
   decisionBody,
   runBody,
+  scheduleBody,
+  scheduleSkipNotice,
   skillOutcomeNotice,
 } from "../src/workspace/savedSkillState.ts";
 
@@ -48,6 +50,22 @@ test("an unchecked checklist is not sent, and a blank note is omitted", () => {
     decisionBody({ version: 1, input_hash: "abc" }, "approve"),
     { action: "approve", expected_version: 1, input_hash: "abc" },
   );
+  const scheduled = scheduleBody({ quantity: "2" }, "  ", {
+    frequency: "daily",
+    startLocal: "2026-11-11T09:00",
+    timezone: " Asia/Hong_Kong ",
+  });
+  assert.equal(Object.hasOwn(scheduled, "note"), false);
+  assert.equal(scheduled.timezone, "Asia/Hong_Kong");
+  assert.equal(Object.hasOwn(scheduled, "tool"), false);
+  const scheduledNote = scheduleBody({ quantity: "2" }, " shelf ", {
+    frequency: "once",
+    startLocal: "2026-11-11T09:00",
+    timezone: "Asia/Hong_Kong",
+  });
+  assert.equal(scheduledNote.note, "shelf");
+  assert.match(scheduleSkipNotice("skipped_missed", en) ?? "", /already passed/);
+  assert.equal(scheduleSkipNotice("prepared", en), null);
 });
 
 test("a saved result is an approval on this desk, and a pending run can still be approved", () => {
@@ -56,6 +74,11 @@ test("a saved result is an approval on this desk, and a pending run can still be
   assert.doesNotMatch(succeeded, /sent|booked|purchased|submitted|verified/i);
   assert.match(skillOutcomeNotice("succeeded", zh), /已按你的批准保存在这台桌上/);
   assert.match(skillOutcomeNotice("pending", en), /Waiting for your approval/);
+  assert.match(
+    skillOutcomeNotice("pending", en, "schedule"),
+    /Prepared at the scheduled time/,
+  );
+  assert.doesNotMatch(skillOutcomeNotice("pending", en, "schedule"), /sent|booked|purchased/i);
   const run = {
     id: "run-1",
     status: "pending",
@@ -92,4 +115,10 @@ test("a saved result is an approval on this desk, and a pending run can still be
     "utf8",
   );
   assert.match(tasks, /<SavedSkillsPanel/);
+  const panel = fs.readFileSync(
+    new URL("../src/workspace/SavedSkillsPanel.tsx", import.meta.url),
+    "utf8",
+  );
+  assert.match(panel, /id="saved-skill-schedule"/);
+  assert.match(panel, /Quiet hours, proactive off, and a missed time skip it/);
 });

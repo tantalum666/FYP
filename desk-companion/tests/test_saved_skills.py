@@ -1,9 +1,19 @@
-"""Saved skills stay local: a passed checklist, a pending fill, then one owner decision."""
+"""Saved skills stay local: a passed checklist, a pending fill, then one owner decision.
+
+A schedule reuses the routine clock. The occurrence prepares a run that still
+waits for approval. Quiet hours, proactive off, and a missed time do not
+prepare that run later.
+"""
+
+import inspect
+from datetime import UTC, datetime
 
 from fastapi.testclient import TestClient
 
 from desk.app import create_app
+from desk.runtime import Runtime
 from desk.schemas import SettingsInput
+from desk.workspace_data import WorkspacePreferences
 
 
 def owner_app(directory):
@@ -344,6 +354,460 @@ def test_only_the_visible_owner_can_read_or_decide(tmp_path):
     blocked = post(http, "/api/saved-skills/checks", checklist(title="Hidden"), "hidden-save")
     assert blocked.status_code == 403
     assert counts(app)["skills"] == 1
+
+
+def timed_app(directory, when):
+    clock = [when]
+    app = create_app(directory, password="fixture-only", scheduler=False, clock=lambda: clock[0])
+    http = TestClient(app)
+    http.headers.update({"X-Desk-Request": "1"})
+    sign_in(http)
+    return app, http, clock
+
+
+def sign_in(http):
+    response = http.post("/api/session", json={"username": "owner", "password": "fixture-only"})
+    assert response.status_code == 200, response.text
+    return http
+
+
+def set_prefs(http, version, key, **fields):
+    saved = post(
+        http,
+        "/api/workspace/preferences",
+        {
+            "expected_version": version,
+            "preferences": WorkspacePreferences(**fields).model_dump(),
+        },
+        key,
+    )
+    assert saved.status_code == 200, saved.text
+    return saved.json()["version"]
+
+
+def schedule(http, skill_id, key="schedule-skill", when="2026-11-10T09:00", **overrides):
+    body = {
+        "frequency": "daily",
+        "start_local": when,
+        "timezone": "Asia/Hong_Kong",
+        "inputs": {"quantity": "2", "数量": "两包"},
+    }
+    body.update(overrides)
+    response = post(http, f"/api/saved-skills/{skill_id}/schedules", body, key)
+    return response
+
+
+def skill_detail(http, skill_id):
+    response = http.get(f"/api/saved-skills/{skill_id}")
+    assert response.status_code == 200, response.text
+    return response.json()
+
+
+def test_schedule_prepares_one_pending_run_and_a_retry_does_not_prepare_another(tmp_path):
+    app, http, clock = timed_app(tmp_path, datetime(2026, 11, 10, 0, 50, tzinfo=UTC))
+    before = counts(app)
+    skill = save_skill(http)["skill"]
+    omitted = schedule(http, skill["id"], key="daily-fill")
+    assert omitted.status_code == 200, omitted.text
+    saved = omitted.json()
+    assert saved["replayed"] is False
+    assert saved["schedule"]["note_provided"] is False
+    assert saved["schedule"]["note"] is None
+    assert saved["schedule"]["inputs"] == {"quantity": "2", "数量": "两包"}
+    assert saved["schedule"]["status"] == "active"
+    again = schedule(http, skill["id"], key="daily-fill")
+    assert again.status_code == 200, again.text
+    assert again.json()["replayed"] is True
+    assert again.json()["schedule"]["id"] == saved["schedule"]["id"]
+    conflict = schedule(http, skill["id"], key="daily-fill", when="2026-11-10T10:00")
+    assert conflict.status_code == 409
+    assert conflict.json()["error"]["code"] == "OPERATION_ID_CONFLICT"
+    blank = schedule(http, skill["id"], key="blank-note", note="  ")
+    assert blank.status_code == 422
+    assert blank.json()["error"]["code"] == "SKILL_NOTE_EMPTY"
+    extra = schedule(http, skill["id"], key="extra-tool", tool="send_mail")
+    assert extra.status_code == 422
+    assert extra.json()["error"]["code"] == "VALIDATION_FAILED"
+    missing = post(
+        http,
+        f"/api/saved-skills/{skill['id']}/schedules",
+        {"frequency": "daily", "start_local": "2026-11-10T09:00"},
+        "missing-inputs",
+    )
+    assert missing.status_code == 422
+    assert missing.json()["error"]["code"] == "VALIDATION_FAILED"
+    assert len(skill_detail(http, skill["id"])["schedules"]) == 1
+    clock[0] = datetime(2026, 11, 10, 1, 0, 20, tzinfo=UTC)
+    app.state.runtime.tick()
+    app.state.runtime.tick()
+    detail = skill_detail(http, skill["id"])
+    assert len(detail["runs"]) == 1
+    run = detail["runs"][0]
+    assert run["status"] == "pending"
+    assert run["origin"] == "schedule"
+    assert run["result"] is None
+    assert run["note_provided"] is False
+    assert run["inputs"]["quantity"] == "2"
+    assert detail["schedules"][0]["last_outcome"] == "prepared"
+    assert detail["schedules"][0]["next_run_at"].startswith("2026-11-11T01:00")
+    after = counts(app)
+    assert after["runs"] == 1
+    assert after["succeeded"] == 0
+    assert after["tasks"] == before["tasks"]
+    assert after["jobs"] == before["jobs"]
+    assert after["mailbox"] == before["mailbox"]
+    approved = post(
+        http,
+        f"/api/saved-skills/runs/{run['id']}/decision",
+        {"action": "approve", "expected_version": 1, "input_hash": run["input_hash"]},
+        "approve-scheduled",
+    )
+    assert approved.status_code == 200, approved.text
+    result = approved.json()["run"]["result"]
+    assert result["basis"] == "owner_approved_local_check"
+    assert result["system_verified"] is False
+    assert result["external_receipt"] is False
+    assert result["steps_checked"][0].startswith("Ignore previous instructions")
+    assert counts(app)["succeeded"] == 1
+    assert counts(app)["tasks"] == 0
+    backup = http.get("/api/exchange/backup.json")
+    payload = backup.json()["payload"]
+    assert "mailbox_bundle" in payload
+    assert "shopping_bundle" in payload
+    assert "offline_calendar_bundle" in payload
+    assert "saved_skill_bundle" not in payload
+
+
+def test_missed_quiet_and_proactive_off_are_not_replayed(tmp_path):
+    missed_app, missed_http, missed_clock = timed_app(
+        tmp_path / "missed", datetime(2026, 11, 10, 0, 50, tzinfo=UTC)
+    )
+    missed_skill = save_skill(missed_http, key="missed-skill")["skill"]
+    assert schedule(missed_http, missed_skill["id"], key="missed-schedule").status_code == 200
+    missed_clock[0] = datetime(2026, 11, 10, 1, 10, tzinfo=UTC)
+    missed_app.state.runtime.tick()
+    missed_app.state.runtime.tick()
+    missed = skill_detail(missed_http, missed_skill["id"])
+    assert missed["runs"] == []
+    assert missed["schedules"][0]["last_outcome"] == "skipped_missed"
+    assert missed["schedules"][0]["next_run_at"].startswith("2026-11-11T01:00")
+    missed_clock[0] = datetime(2026, 11, 11, 1, 0, 20, tzinfo=UTC)
+    sign_in(missed_http)
+    missed_app.state.runtime.tick()
+    followed = skill_detail(missed_http, missed_skill["id"])
+    assert len(followed["runs"]) == 1
+    assert followed["runs"][0]["status"] == "pending"
+    assert followed["schedules"][0]["last_outcome"] == "prepared"
+
+    quiet_app, quiet_http, quiet_clock = timed_app(
+        tmp_path / "quiet", datetime(2026, 11, 10, 14, 30, tzinfo=UTC)
+    )
+    quiet_skill = save_skill(quiet_http, key="quiet-skill")["skill"]
+    created = schedule(quiet_http, quiet_skill["id"], key="quiet-schedule", when="2026-11-10T23:00")
+    assert created.status_code == 200, created.text
+    quiet_clock[0] = datetime(2026, 11, 10, 15, 0, 20, tzinfo=UTC)
+    quiet_app.state.runtime.tick()
+    during = skill_detail(quiet_http, quiet_skill["id"])
+    assert during["runs"] == []
+    assert during["schedules"][0]["last_outcome"] == "skipped_quiet"
+    quiet_clock[0] = datetime(2026, 11, 11, 0, 30, tzinfo=UTC)
+    sign_in(quiet_http)
+    quiet_app.state.runtime.tick()
+    after_quiet = skill_detail(quiet_http, quiet_skill["id"])
+    assert after_quiet["runs"] == []
+    assert after_quiet["schedules"][0]["last_outcome"] == "skipped_quiet"
+
+    off_app, off_http, off_clock = timed_app(
+        tmp_path / "off", datetime(2026, 11, 10, 0, 50, tzinfo=UTC)
+    )
+    off_skill = save_skill(off_http, key="off-skill")["skill"]
+    assert schedule(off_http, off_skill["id"], key="off-schedule").status_code == 200
+    set_prefs(off_http, 1, "proactive-off", proactivity="off")
+    off_clock[0] = datetime(2026, 11, 10, 1, 0, 20, tzinfo=UTC)
+    off_app.state.runtime.tick()
+    blocked = skill_detail(off_http, off_skill["id"])
+    assert blocked["runs"] == []
+    assert blocked["schedules"][0]["last_outcome"] == "skipped_off"
+    set_prefs(off_http, 2, "proactive-on", proactivity="normal")
+    off_clock[0] = datetime(2026, 11, 10, 1, 10, tzinfo=UTC)
+    off_app.state.runtime.tick()
+    restored = skill_detail(off_http, off_skill["id"])
+    assert restored["runs"] == []
+    assert restored["schedules"][0]["last_outcome"] == "skipped_off"
+
+
+def test_pause_skips_the_backlog_and_cancel_stops_the_schedule(tmp_path):
+    app, http, clock = timed_app(tmp_path, datetime(2026, 11, 10, 0, 50, tzinfo=UTC))
+    skill = save_skill(http)["skill"]
+    saved = schedule(http, skill["id"]).json()["schedule"]
+    paused = post(
+        http,
+        f"/api/saved-skills/schedules/{saved['id']}/actions",
+        {"action": "pause", "expected_version": saved["version"]},
+        "pause-schedule",
+    )
+    assert paused.status_code == 200, paused.text
+    assert paused.json()["schedule"]["status"] == "paused"
+    assert paused.json()["schedule"]["inputs"] == saved["inputs"]
+    assert paused.json()["schedule"]["note_provided"] is False
+    replay = post(
+        http,
+        f"/api/saved-skills/schedules/{saved['id']}/actions",
+        {"action": "pause", "expected_version": saved["version"]},
+        "pause-schedule",
+    )
+    assert replay.status_code == 200
+    assert replay.json()["replayed"] is True
+    clock[0] = datetime(2026, 11, 10, 1, 0, 20, tzinfo=UTC)
+    app.state.runtime.tick()
+    assert skill_detail(http, skill["id"])["runs"] == []
+    sign_in(http)
+    resumed = post(
+        http,
+        f"/api/saved-skills/schedules/{saved['id']}/actions",
+        {"action": "resume", "expected_version": paused.json()["schedule"]["version"]},
+        "resume-schedule",
+    )
+    assert resumed.status_code == 200, resumed.text
+    assert resumed.json()["schedule"]["status"] == "active"
+    assert resumed.json()["schedule"]["next_run_at"].startswith("2026-11-11T01:00")
+    app.state.runtime.tick()
+    assert skill_detail(http, skill["id"])["runs"] == []
+    cancelled = post(
+        http,
+        f"/api/saved-skills/schedules/{saved['id']}/actions",
+        {"action": "cancel", "expected_version": resumed.json()["schedule"]["version"]},
+        "cancel-schedule",
+    )
+    assert cancelled.status_code == 200, cancelled.text
+    assert cancelled.json()["schedule"]["status"] == "cancelled"
+    clock[0] = datetime(2026, 11, 11, 1, 0, 20, tzinfo=UTC)
+    sign_in(http)
+    app.state.runtime.tick()
+    assert skill_detail(http, skill["id"])["runs"] == []
+    closed = post(
+        http,
+        f"/api/saved-skills/schedules/{saved['id']}/actions",
+        {"action": "resume", "expected_version": cancelled.json()["schedule"]["version"]},
+        "resume-closed",
+    )
+    assert closed.status_code == 409
+    assert closed.json()["error"]["code"] == "SCHEDULE_CLOSED"
+
+
+def test_schedule_interruption_rolls_back_and_the_same_id_commits_once(tmp_path):
+    app, http, clock = timed_app(tmp_path, datetime(2026, 11, 10, 0, 50, tzinfo=UTC))
+    skill = save_skill(http)["skill"]
+    body = {
+        "frequency": "once",
+        "start_local": "2026-11-10T09:00",
+        "timezone": "Asia/Hong_Kong",
+        "inputs": {"quantity": "2", "数量": "两包"},
+        "note": "shelf was short",
+    }
+
+    def interrupt(_conn):
+        raise RuntimeError("interrupted before commit")
+
+    app.state.runtime.saved_skills._before_commit = interrupt
+    try:
+        post(http, f"/api/saved-skills/{skill['id']}/schedules", body, "schedule-once")
+    except RuntimeError as error:
+        assert "interrupted before commit" in str(error)
+    else:
+        raise AssertionError("the interrupted schedule was reported as a normal response")
+    assert skill_detail(http, skill["id"])["schedules"] == []
+    app.state.runtime.saved_skills._before_commit = None
+    committed = post(http, f"/api/saved-skills/{skill['id']}/schedules", body, "schedule-once")
+    assert committed.status_code == 200, committed.text
+    assert committed.json()["replayed"] is False
+    assert committed.json()["schedule"]["note"] == "shelf was short"
+    assert committed.json()["schedule"]["frequency"] == "once"
+    again = post(http, f"/api/saved-skills/{skill['id']}/schedules", body, "schedule-once")
+    assert again.json()["replayed"] is True
+    assert again.json()["schedule"]["id"] == committed.json()["schedule"]["id"]
+    clock[0] = datetime(2026, 11, 10, 1, 0, 20, tzinfo=UTC)
+    app.state.runtime.tick()
+    detail = skill_detail(http, skill["id"])
+    assert len(detail["runs"]) == 1
+    assert detail["runs"][0]["note"] == "shelf was short"
+    assert detail["runs"][0]["status"] == "pending"
+    assert detail["schedules"][0]["status"] == "completed"
+    app.state.runtime.tick()
+    assert len(skill_detail(http, skill["id"])["runs"]) == 1
+
+
+def test_schedule_is_owner_only_and_a_briefing_still_runs(tmp_path):
+    app, http, clock = timed_app(tmp_path, datetime(2026, 11, 10, 0, 50, tzinfo=UTC))
+    skill = save_skill(http)["skill"]
+    briefing = post(
+        http,
+        "/api/routines",
+        {
+            "title": "Morning review",
+            "skill": "day_briefing",
+            "frequency": "daily",
+            "start_local": "2026-11-10T09:00",
+            "timezone": "Asia/Hong_Kong",
+        },
+        "briefing",
+    )
+    assert briefing.status_code == 200, briefing.text
+    assert schedule(http, skill["id"], key="with-briefing").status_code == 200
+    http.post(
+        "/api/devices/enrol-display",
+        json={"name": "Shared display"},
+        headers={"X-Operation-Id": "pair-display"},
+    )
+    display = TestClient(app)
+    display.headers.update(
+        {
+            "Authorization": "Bearer " + http.cookies.get("desk_companion_device"),
+            "X-Desk-Request": "1",
+        }
+    )
+    hidden = display.post(
+        f"/api/saved-skills/{skill['id']}/schedules",
+        json={
+            "frequency": "daily",
+            "start_local": "2026-11-10T11:00",
+            "inputs": {"quantity": "secret-shelf", "数量": "隐藏"},
+        },
+        headers={"X-Operation-Id": "display-schedule"},
+    )
+    assert hidden.status_code == 403
+    assert "secret-shelf" not in hidden.text
+    assert skill["title"] not in hidden.text
+    anonymous = TestClient(app)
+    anonymous.headers.update({"X-Desk-Request": "1"})
+    assert anonymous.get(f"/api/saved-skills/{skill['id']}").status_code == 403
+    other = TestClient(app)
+    other.headers.update({"X-Desk-Request": "1"})
+    denied = other.post("/api/session", json={"username": "guest", "password": "fixture-only"})
+    assert denied.status_code == 401
+    assert (
+        other.post(
+            f"/api/saved-skills/{skill['id']}/schedules",
+            json={"frequency": "once", "start_local": "2026-11-10T11:00", "inputs": {}},
+            headers={"X-Operation-Id": "guest-schedule"},
+        ).status_code
+        == 403
+    )
+    clock[0] = datetime(2026, 11, 10, 1, 0, 20, tzinfo=UTC)
+    app.state.runtime.tick()
+    runs = app.state.runtime.routines.detail(briefing.json()["routine"]["id"])["runs"]
+    assert len(runs) == 1
+    assert runs[0]["result"]["skill"] == "day_briefing"
+    detail = skill_detail(http, skill["id"])
+    assert len(detail["runs"]) == 1
+    assert detail["runs"][0]["status"] == "pending"
+    source = inspect.getsource(Runtime.tick)
+    mailbox = source.index("mailbox.release_quiet_notices")
+    shopping = source.index("shopping.release_quiet_notices")
+    calendar = source.index("offline_calendar.release_quiet_notices")
+    routines = source.index("routines.tick")
+    assert mailbox < shopping < calendar < routines
+    assert "saved_skills" not in source
+
+
+def test_dst_gap_is_skipped_and_the_schedule_limit_holds(tmp_path):
+    app, http, clock = timed_app(tmp_path / "dst", datetime(2026, 3, 7, tzinfo=UTC))
+    skill = save_skill(http, key="dst-skill")["skill"]
+    created = schedule(
+        http,
+        skill["id"],
+        key="dst-schedule",
+        when="2026-03-07T02:30",
+        timezone="America/New_York",
+    )
+    assert created.status_code == 200, created.text
+    clock[0] = datetime(2026, 3, 7, 7, 30, 20, tzinfo=UTC)
+    app.state.runtime.tick()
+    detail = skill_detail(http, skill["id"])
+    assert len(detail["runs"]) == 1
+    assert detail["schedules"][0]["next_run_at"].startswith("2026-03-09T06:30")
+    ambiguous = schedule(
+        http,
+        skill["id"],
+        key="ambiguous",
+        when="2026-11-01T01:30",
+        timezone="America/New_York",
+    )
+    assert ambiguous.status_code == 422
+    past = schedule(http, skill["id"], key="past", when="2026-03-06T02:30", timezone="America/New_York")
+    assert past.status_code == 422
+    assert past.json()["error"]["code"] == "SCHEDULE_START_IN_PAST"
+
+    limited, limited_http, _limited_clock = timed_app(
+        tmp_path / "limit", datetime(2026, 11, 10, 0, 50, tzinfo=UTC)
+    )
+    limited_skill = save_skill(limited_http, key="limit-skill")["skill"]
+    for index in range(20):
+        saved = schedule(
+            limited_http,
+            limited_skill["id"],
+            key=f"schedule-{index}",
+            when=f"2026-11-{10 + (index // 20):02d}T{9 + index // 2:02d}:{(index % 2) * 30:02d}",
+        )
+        assert saved.status_code == 200, saved.text
+    overflow = schedule(limited_http, limited_skill["id"], key="schedule-20", when="2026-11-12T09:00")
+    assert overflow.status_code == 422
+    assert overflow.json()["error"]["code"] == "SCHEDULE_LIMIT"
+    with limited.state.store.connection() as conn:
+        assert conn.execute("SELECT COUNT(*) FROM saved_skill_schedules").fetchone()[0] == 20
+
+
+def test_paused_one_off_keeps_a_future_time_and_drops_a_missed_time(tmp_path):
+    app, http, clock = timed_app(tmp_path / "future", datetime(2026, 11, 10, 0, 50, tzinfo=UTC))
+    skill = save_skill(http, key="once-skill")["skill"]
+    saved = schedule(http, skill["id"], key="once", frequency="once").json()["schedule"]
+    paused = post(
+        http,
+        f"/api/saved-skills/schedules/{saved['id']}/actions",
+        {"action": "pause", "expected_version": 1},
+        "pause-once",
+    ).json()["schedule"]
+    resumed = post(
+        http,
+        f"/api/saved-skills/schedules/{saved['id']}/actions",
+        {"action": "resume", "expected_version": paused["version"]},
+        "resume-once",
+    )
+    assert resumed.status_code == 200, resumed.text
+    assert resumed.json()["schedule"]["next_run_at"].startswith("2026-11-10T01:00")
+    clock[0] = datetime(2026, 11, 10, 1, 0, 20, tzinfo=UTC)
+    app.state.runtime.tick()
+    app.state.runtime.tick()
+    detail = skill_detail(http, skill["id"])
+    assert len(detail["runs"]) == 1
+    assert detail["runs"][0]["status"] == "pending"
+    assert detail["schedules"][0]["status"] == "completed"
+
+    late_app, late_http, late_clock = timed_app(
+        tmp_path / "late", datetime(2026, 11, 10, 0, 50, tzinfo=UTC)
+    )
+    late_skill = save_skill(late_http, key="late-skill")["skill"]
+    late = schedule(late_http, late_skill["id"], key="late-schedule", frequency="once").json()[
+        "schedule"
+    ]
+    post(
+        late_http,
+        f"/api/saved-skills/schedules/{late['id']}/actions",
+        {"action": "pause", "expected_version": 1},
+        "pause-late",
+    )
+    late_clock[0] = datetime(2026, 11, 10, 2, tzinfo=UTC)
+    resumed_late = post(
+        late_http,
+        f"/api/saved-skills/schedules/{late['id']}/actions",
+        {"action": "resume", "expected_version": 2},
+        "resume-late",
+    )
+    assert resumed_late.status_code == 200, resumed_late.text
+    assert resumed_late.json()["schedule"]["status"] == "completed"
+    assert resumed_late.json()["schedule"]["next_run_at"] is None
+    late_app.state.runtime.tick()
+    assert skill_detail(late_http, late_skill["id"])["runs"] == []
 
 
 def test_skill_limit_stops_another_check(tmp_path):
