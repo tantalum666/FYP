@@ -1,6 +1,6 @@
 # Group 2 · Second continue while a verified Work run is still open
 
-10 November 2026. This review branch is `cursor/conversation-work-second-continue-3b11`, stacked on #96 (`cursor/conversation-work-continue-once-51ee`), which is stacked on #95 (`cursor/conversation-work-reshow-verified-b9a2`). Codex merges #95, then #96, then this pull request. Drafts #73, #87, and #88 stay untouched. #94 is already merged and is not reopened. Paid tests stay closed. Local verification only. No CI.
+10 November 2026. This review branch is `cursor/conversation-work-second-continue-3b11` ([#99](https://github.com/tantalum666/FYP/pull/99)), stacked on #96 (`cursor/conversation-work-continue-once-51ee`), which is stacked on #95 (`cursor/conversation-work-reshow-verified-b9a2`). Codex merges #95, then #96, then #99. Drafts #73, #87, and #88 stay untouched. #94 is already merged and is not reopened. Paid tests stay closed. Local verification only. No CI.
 
 ## Current state
 
@@ -28,4 +28,4 @@ Real accounts, payment, native mail, and a new paid round stay separate. This pu
 
 ## One next step
 
-Codex merges #95, then #96, then this pull request.
+Codex merges #95, then #96, then #99.

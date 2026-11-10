@@ -1,6 +1,6 @@
 # Second continue while a verified Work run is still open
 
-10 November 2026. Grok Bot completed this through a Cursor cloud agent. Codex reviews and merges. Merge #95 first, then #96, then this pull request. It does not retarget #73, #87, #88, or #94. #94 is already merged and is not reopened.
+10 November 2026. Grok Bot completed this through a Cursor cloud agent. Codex reviews and merges. Merge #95 first, then #96, then [#99](https://github.com/tantalum666/FYP/pull/99). It does not retarget #73, #87, #88, or #94. #94 is already merged and is not reopened.
 
 ## Merge note for Codex
 
@@ -8,7 +8,7 @@
 |---|---|
 | #95, merge first | A later turn in the same conversation re-reads the verified file |
 | #96, merge second | An explicit continue ask advances that run once |
-| This pull request | A later explicit ask advances one more step only while that run is still open |
+| #99, merge third | A later explicit ask advances one more step only while that run is still open |
 
 ## What was read
 
