@@ -24,6 +24,7 @@ from .memory import MemoryService
 from .digest import DigestService
 from .moments import MomentService
 from .goals import GoalService
+from .saved_skills import SavedSkillService
 from .nudges import NudgeService
 from .notify import Notifier
 from .web_push import HttpPushSender, PushService, push_enabled
@@ -72,6 +73,7 @@ class Runtime:
         self.goals = GoalService(self)
         self.memory = MemoryService(self)
         self.personal_context = PersonalContext(self)
+        self.saved_skills = SavedSkillService(self)
         self.memories = PersonalMemoryAdapter(self)
         self.conversations = ConversationService(self)
         self.responsibilities = ResponsibilityService(self)
