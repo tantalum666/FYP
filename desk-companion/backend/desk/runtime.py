@@ -50,6 +50,7 @@ from .work_capacity import WorkCapacityService
 from .public_capture_schema import SCHEMA_VERSION
 from .public_captures import PublicCaptureService
 from .shopping.service import ShoppingService
+from .travel_quotes.service import TravelQuoteService
 
 
 class Runtime:
@@ -113,6 +114,7 @@ class Runtime:
         self.work_capacity = WorkCapacityService(self)
         self.public_captures = PublicCaptureService(self, enabled=public_capture_enabled)
         self.shopping = ShoppingService(self)
+        self.trips = TravelQuoteService(self)
         self.store.operation_guard = self.agent_runs.guard_operation
         self.mailbox = MailboxService(self)
         self.posture.on_prompt = self.on_posture_prompt
@@ -176,6 +178,7 @@ class Runtime:
         self.tasks.tick()
         self.mailbox.release_quiet_notices()
         self.shopping.release_quiet_notices()
+        self.trips.release_quiet_notices()
         self.offline_calendar.release_quiet_notices()
         self.memories.expire()
         self.nudges.tick()

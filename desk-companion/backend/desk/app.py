@@ -49,6 +49,7 @@ from .responsibilities import responsibility_routes
 from .work_capacity import work_capacity_routes
 from .public_captures import public_capture_routes
 from .shopping.routes import shopping_routes
+from .travel_quotes.routes import trip_routes
 from .connectors.contracts import load_connector_configs
 from .backups import CHECK_INTERVAL_SECONDS
 from .diagnostics import diagnostics_html, diagnostics_report
@@ -536,6 +537,7 @@ def create_app(
     app.include_router(google_routes(services, owner, operation_id))
     app.include_router(mailbox_routes(services, owner, operation_id))
     app.include_router(offline_calendar_routes(services, owner, operation_id))
+    app.include_router(trip_routes(services, owner, operation_id))
     static_root = Path(__file__).resolve().parents[2] / "frontend" / "dist"
 
     @app.get("/{path:path}", include_in_schema=False)
