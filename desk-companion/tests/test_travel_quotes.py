@@ -140,12 +140,31 @@ def trip_notices(client):
     return [item for item in response.json()["notices"] if item["kind"] == "trip"]
 
 
-def hold(client, connection_id, quote_id, version, operation_id, extra=None):
-    body = {"quote_id": quote_id, "expected_task_version": version}
+def hold(client, connection_id, quote_id, version, operation_id, extra=None, quote_version=1):
+    body = {
+        "quote_id": quote_id,
+        "quote_version": quote_version,
+        "expected_task_version": version,
+    }
     if extra:
         body.update(extra)
     return client.post(
         f"/api/trips/connections/{connection_id}/holds",
+        json=body,
+        headers=headers(operation_id),
+    )
+
+
+def release(client, connection_id, quote_id, version, operation_id, quote_version=1, extra=None):
+    body = {
+        "quote_id": quote_id,
+        "quote_version": quote_version,
+        "expected_task_version": version,
+    }
+    if extra:
+        body.update(extra)
+    return client.post(
+        f"/api/trips/connections/{connection_id}/releases",
         json=body,
         headers=headers(operation_id),
     )
@@ -468,7 +487,7 @@ def test_revoke_hides_from_other_principals_and_a_bad_itinerary_does_not_advance
     assert paired.get("/api/trips/connections").status_code == 403
     assert paired.post(
         f"/api/trips/connections/{connection_id}/holds",
-        json={"quote_id": "c" * 64, "expected_task_version": 1},
+        json={"quote_id": "c" * 64, "quote_version": 1, "expected_task_version": 1},
         headers=headers("paired-hold"),
     ).status_code == 403
     with app.state.runtime.store.connection() as conn:
@@ -560,3 +579,502 @@ def test_quiet_hours_deliver_one_notice_after_they_end(tmp_path, monkeypatch):
     runtime.tick()
     assert len(trip_notices(client)) == 1
     assert "No card was charged" in trip_notices(client)[0]["body_en"]
+
+
+def _field(change, name):
+    return next(item for item in change["fields"] if item["name"] == name)
+
+
+def test_price_change_keeps_one_task_and_rejects_the_old_version(tmp_path, monkeypatch):
+    app, fixtures, _moment = build(tmp_path, monkeypatch)
+    write_fixture(fixtures, "hkg-tyo", [quote()])
+    client = login(app)
+    connection_id = connect(client, "hkg-tyo")["connection"]["id"]
+    assert sync(client, connection_id).status_code == 200
+    view = snapshot(client, connection_id)
+    task_id = view["connection"]["task_id"]
+    old_quote = view["itinerary"]["quote_id"]
+    assert view["itinerary"]["quote_version"] == 1
+    assert view["itinerary"]["change"] is None
+    approved = hold(
+        client,
+        connection_id,
+        old_quote,
+        view["task_version"],
+        "hold-price",
+        extra={"next_step": "Pack bags"},
+    )
+    assert approved.status_code == 200, approved.text
+    assert approved.json()["itinerary"]["held_covers"] is True
+    assert approved.json()["purchase"] == "not_performed"
+    assert task_detail(client, task_id)["task"]["next_step"] == "Pack bags"
+    write_fixture(
+        fixtures,
+        "hkg-tyo",
+        [quote(), event("price-1", 2, "reprice", total_cents=226000)],
+    )
+    read = sync(client, connection_id)
+    assert read.status_code == 200, read.text
+    assert read.json()["applied"][0]["booking_state"] == "quoted"
+    view = snapshot(client, connection_id)
+    assert view["connection"]["task_id"] == task_id
+    assert len(tasks_of(client)) == 1
+    itinerary = view["itinerary"]
+    assert itinerary["quote_id"] != old_quote
+    assert itinerary["quote_version"] == 2
+    assert itinerary["held_covers"] is False
+    assert itinerary["approval_stale"] is True
+    assert itinerary["available"] is True
+    assert itinerary["ticketed"] is False
+    assert itinerary["terms"]["total_cents"] == 226000
+    price = _field(itinerary["change"], "total_cents")
+    assert price["before"] == 208000
+    assert price["after"] == 226000
+    assert itinerary["change"]["reason"] == "reprice"
+    assert itinerary["change"]["previous_quote_id"] == old_quote
+    assert itinerary["change"]["quote_id"] == itinerary["quote_id"]
+    assert task_detail(client, task_id)["task"]["next_step"] == "Pack bags"
+    assert task_detail(client, task_id)["task"]["waiting_for"] == ""
+    stale_release = release(
+        client, connection_id, old_quote, view["task_version"], "release-stale", quote_version=1
+    )
+    assert stale_release.status_code == 409
+    assert stale_release.json()["error"]["code"] == "TRIP_QUOTE_CHANGED"
+    assert operation_row(app, "release-stale") is None
+    stale = hold(client, connection_id, old_quote, view["task_version"], "hold-new", quote_version=1)
+    assert stale.status_code == 409
+    assert stale.json()["error"]["code"] == "TRIP_QUOTE_CHANGED"
+    assert "saved" not in stale.json()
+    assert operation_row(app, "hold-new") is None
+    mixed = hold(
+        client,
+        connection_id,
+        itinerary["quote_id"],
+        view["task_version"],
+        "hold-new",
+        quote_version=1,
+    )
+    assert mixed.status_code == 409
+    assert mixed.json()["error"]["code"] == "TRIP_QUOTE_CHANGED"
+    assert operation_row(app, "hold-new") is None
+    assert snapshot(client, connection_id)["itinerary"]["held_covers"] is False
+    renewed = hold(
+        client,
+        connection_id,
+        itinerary["quote_id"],
+        view["task_version"],
+        "hold-new",
+        quote_version=2,
+    )
+    assert renewed.status_code == 200, renewed.text
+    body = renewed.json()
+    assert body["saved"] is True
+    assert body["recovered"] is False
+    assert body["itinerary"]["held_covers"] is True
+    assert body["itinerary"]["approval_stale"] is False
+    assert body["itinerary"]["quote_version"] == 2
+    assert body["purchase"] == "not_performed"
+    assert body["itinerary"]["ticketed"] is False
+    assert snapshot(client, connection_id)["connection"]["task_id"] == task_id
+    assert task_detail(client, task_id)["task"]["next_step"] == "Pack bags"
+    notes = [
+        row["note"]
+        for row in task_detail(client, task_id)["evidence"]
+        if "Owner approved" in (row["note"] or "")
+    ]
+    assert len(notes) == 2
+
+
+def test_time_change_shows_old_and_new_and_needs_the_new_version(tmp_path, monkeypatch):
+    app, fixtures, _moment = build(tmp_path, monkeypatch)
+    write_fixture(fixtures, "hkg-tyo", [quote()])
+    client = login(app)
+    connection_id = connect(client, "hkg-tyo")["connection"]["id"]
+    assert sync(client, connection_id).status_code == 200
+    view = snapshot(client, connection_id)
+    task_id = view["connection"]["task_id"]
+    approved = hold(
+        client, connection_id, view["itinerary"]["quote_id"], view["task_version"], "hold-time"
+    )
+    assert approved.status_code == 200, approved.text
+    write_fixture(
+        fixtures,
+        "hkg-tyo",
+        [
+            quote(),
+            event(
+                "shift-1",
+                2,
+                "schedule_change",
+                depart_local="2026-12-01T11:00",
+                arrive_local="2026-12-02T18:00",
+            ),
+        ],
+    )
+    read = sync(client, connection_id)
+    assert read.status_code == 200, read.text
+    view = snapshot(client, connection_id)
+    itinerary = view["itinerary"]
+    assert view["connection"]["task_id"] == task_id
+    assert len(tasks_of(client)) == 1
+    assert itinerary["held_covers"] is False
+    assert itinerary["approval_stale"] is True
+    assert itinerary["quote_version"] == 2
+    assert itinerary["change"]["reason"] == "schedule_change"
+    assert _field(itinerary["change"], "depart_local") == {
+        "name": "depart_local",
+        "before": "2026-12-01T09:00",
+        "after": "2026-12-01T11:00",
+    }
+    assert _field(itinerary["change"], "arrive_local") == {
+        "name": "arrive_local",
+        "before": "2026-12-02T14:30",
+        "after": "2026-12-02T18:00",
+    }
+    assert itinerary["terms"]["origin"] == "HKG"
+    assert itinerary["terms"]["destination"] == "TYO"
+    stale = hold(
+        client,
+        connection_id,
+        itinerary["quote_id"],
+        view["task_version"],
+        "hold-shift",
+        quote_version=1,
+    )
+    assert stale.status_code == 409
+    assert stale.json()["error"]["code"] == "TRIP_QUOTE_CHANGED"
+    assert operation_row(app, "hold-shift") is None
+    renewed = hold(
+        client,
+        connection_id,
+        itinerary["quote_id"],
+        view["task_version"],
+        "hold-shift",
+        quote_version=itinerary["quote_version"],
+    )
+    assert renewed.status_code == 200, renewed.text
+    assert renewed.json()["itinerary"]["held_covers"] is True
+    assert renewed.json()["purchase"] == "not_performed"
+    assert snapshot(client, connection_id)["connection"]["task_id"] == task_id
+
+
+def test_unavailable_quote_ends_on_the_same_task_without_a_substitute(tmp_path, monkeypatch):
+    app, fixtures, _moment = build(tmp_path, monkeypatch)
+    write_fixture(fixtures, "hkg-tyo", [quote()])
+    client = login(app)
+    connection_id = connect(client, "hkg-tyo")["connection"]["id"]
+    assert sync(client, connection_id).status_code == 200
+    view = snapshot(client, connection_id)
+    task_id = view["connection"]["task_id"]
+    quote_id = view["itinerary"]["quote_id"]
+    approved = hold(client, connection_id, quote_id, view["task_version"], "hold-end")
+    assert approved.status_code == 200, approved.text
+    write_fixture(
+        fixtures,
+        "hkg-tyo",
+        [quote(), event("gone-1", 2, "unavailable", reason="The flight was withdrawn.")],
+    )
+    read = sync(client, connection_id)
+    assert read.status_code == 200, read.text
+    assert read.json()["applied"][0]["booking_state"] == "unavailable"
+    view = snapshot(client, connection_id)
+    itinerary = view["itinerary"]
+    assert view["connection"]["task_id"] == task_id
+    assert len(tasks_of(client)) == 1
+    assert itinerary["quote_id"] == quote_id
+    assert itinerary["quote_version"] == 2
+    assert itinerary["booking_state"] == "unavailable"
+    assert itinerary["available"] is False
+    assert itinerary["held_covers"] is False
+    assert itinerary["approval_stale"] is True
+    assert itinerary["ticketed"] is False
+    assert itinerary["terms"]["origin"] == "HKG"
+    assert itinerary["terms"]["destination"] == "TYO"
+    assert itinerary["terms"]["total_cents"] == 208000
+    assert itinerary["change"]["reason"] == "unavailable"
+    assert itinerary["change"]["quote_id"] is None
+    assert itinerary["change"]["fields"] == []
+    assert itinerary["change"]["detail"] == "The flight was withdrawn."
+    stale = hold(client, connection_id, quote_id, view["task_version"], "hold-gone", quote_version=1)
+    assert stale.status_code == 409
+    assert stale.json()["error"]["code"] == "TRIP_QUOTE_CHANGED"
+    assert operation_row(app, "hold-gone") is None
+    current = hold(client, connection_id, quote_id, view["task_version"], "hold-gone", quote_version=2)
+    assert current.status_code == 409
+    assert current.json()["error"]["code"] == "TRIP_QUOTE_UNAVAILABLE"
+    assert operation_row(app, "hold-gone") is None
+    old_release = release(
+        client, connection_id, quote_id, view["task_version"], "release-gone", quote_version=1
+    )
+    assert old_release.status_code == 409
+    assert old_release.json()["error"]["code"] == "TRIP_QUOTE_CHANGED"
+    assert operation_row(app, "release-gone") is None
+    ended_release = release(
+        client, connection_id, quote_id, view["task_version"], "release-gone", quote_version=2
+    )
+    assert ended_release.status_code == 409
+    assert ended_release.json()["error"]["code"] == "TRIP_NOT_HELD"
+    assert operation_row(app, "release-gone") is None
+    assert snapshot(client, connection_id)["itinerary"]["booking_state"] == "unavailable"
+    write_fixture(
+        fixtures,
+        "hkg-tyo",
+        [
+            quote(),
+            event("gone-1", 2, "unavailable", reason="The flight was withdrawn."),
+            event("price-2", 3, "reprice", total_cents=99000, destination="OSA"),
+        ],
+    )
+    blocked = sync(client, connection_id)
+    assert blocked.status_code == 200, blocked.text
+    assert blocked.json()["applied"][0]["outcome"] == "blocked"
+    after = snapshot(client, connection_id)["itinerary"]
+    assert after["terms"]["destination"] == "TYO"
+    assert after["terms"]["total_cents"] == 208000
+    assert after["quote_id"] == quote_id
+    assert after["quote_version"] == 2
+    assert after["booking_state"] == "unavailable"
+    texts = " ".join(item["body_en"] for item in trip_notices(client))
+    assert "No other fare was offered" in texts
+    assert "No card was charged" in texts
+
+    write_fixture(fixtures, "hkg-osa", [quote(destination="OSA")])
+    other = connect(client, "hkg-osa", "connect-osa")["connection"]["id"]
+    assert sync(client, other).status_code == 200
+    write_fixture(
+        fixtures,
+        "hkg-osa",
+        [
+            quote(destination="OSA"),
+            event("gone-osa", 2, "unavailable", reason="Withdrawn.", destination="KIX"),
+        ],
+    )
+    invalid = sync(client, other)
+    assert invalid.status_code == 422
+    assert invalid.json()["error"]["code"] == "TRIP_FIXTURE_INVALID"
+    kept = snapshot(client, other)
+    assert kept["connection"]["cursor_seq"] == 1
+    assert kept["itinerary"]["terms"]["destination"] == "OSA"
+    assert kept["itinerary"]["booking_state"] == "quoted"
+    assert len(tasks_of(client)) == 2
+
+
+def test_release_is_idempotent_owner_only_and_keeps_omitted_fields(tmp_path, monkeypatch):
+    app, fixtures, _moment = build(tmp_path, monkeypatch)
+    write_fixture(fixtures, "hkg-tyo", [quote()])
+    client = login(app)
+    connection_id = connect(client, "hkg-tyo")["connection"]["id"]
+    assert sync(client, connection_id).status_code == 200
+    view = snapshot(client, connection_id)
+    task_id = view["connection"]["task_id"]
+    approved = hold(
+        client,
+        connection_id,
+        view["itinerary"]["quote_id"],
+        view["task_version"],
+        "hold-release",
+        extra={"next_step": "Pack bags"},
+    )
+    assert approved.status_code == 200, approved.text
+    held = approved.json()
+    assert held["itinerary"]["held_covers"] is True
+    blank = release(
+        client,
+        connection_id,
+        held["itinerary"]["quote_id"],
+        held["task_version"],
+        "release-1",
+        quote_version=held["itinerary"]["quote_version"],
+        extra={"waiting_for": None},
+    )
+    assert blank.status_code == 422
+    assert task_detail(client, task_id)["task"]["next_step"] == "Pack bags"
+    assert task_detail(client, task_id)["task"]["waiting_for"] == ""
+    released = release(
+        client,
+        connection_id,
+        held["itinerary"]["quote_id"],
+        held["task_version"],
+        "release-1",
+        quote_version=held["itinerary"]["quote_version"],
+    )
+    assert released.status_code == 200, released.text
+    body = released.json()
+    assert body["saved"] is True
+    assert body["recovered"] is False
+    assert body["purchase"] == "not_performed"
+    assert body["itinerary"]["held_covers"] is False
+    assert body["itinerary"]["booking_state"] == "quoted"
+    assert body["itinerary"]["approval_stale"] is False
+    assert body["itinerary"]["ticketed"] is False
+    assert body["connection"]["task_id"] == task_id
+    assert task_detail(client, task_id)["task"]["next_step"] == "Pack bags"
+    replay = release(
+        client,
+        connection_id,
+        held["itinerary"]["quote_id"],
+        held["task_version"],
+        "release-1",
+        quote_version=held["itinerary"]["quote_version"],
+    )
+    assert replay.status_code == 200, replay.text
+    assert replay.json()["recovered"] is True
+    assert replay.json()["operation_id"] == "release-1"
+    notes = [
+        row["note"]
+        for row in task_detail(client, task_id)["evidence"]
+        if "Owner released" in (row["note"] or "")
+    ]
+    assert len(notes) == 1
+    again = release(
+        client,
+        connection_id,
+        held["itinerary"]["quote_id"],
+        body["task_version"],
+        "release-2",
+        quote_version=held["itinerary"]["quote_version"],
+    )
+    assert again.status_code == 409
+    assert again.json()["error"]["code"] == "TRIP_NOT_HELD"
+    assert operation_row(app, "release-2") is None
+    conflict = release(
+        client,
+        connection_id,
+        held["itinerary"]["quote_id"],
+        held["task_version"],
+        "release-1",
+        quote_version=held["itinerary"]["quote_version"],
+        extra={"next_step": "Call someone"},
+    )
+    assert conflict.status_code == 409
+    assert conflict.json()["error"]["code"] == "OPERATION_ID_CONFLICT"
+    assert task_detail(client, task_id)["task"]["next_step"] == "Pack bags"
+    stranger = TestClient(app)
+    assert stranger.post(
+        f"/api/trips/connections/{connection_id}/releases",
+        json={
+            "quote_id": held["itinerary"]["quote_id"],
+            "quote_version": 1,
+            "expected_task_version": 1,
+        },
+        headers=headers("stranger-release"),
+    ).status_code == 403
+    other = TestClient(app)
+    other.cookies.set("desk_companion_session", "not-the-owner")
+    assert other.post(
+        f"/api/trips/connections/{connection_id}/releases",
+        json={
+            "quote_id": held["itinerary"]["quote_id"],
+            "quote_version": 1,
+            "expected_task_version": 1,
+        },
+        headers=headers("other-release"),
+    ).status_code == 403
+    enrolled = client.post(
+        "/api/devices/enrol-display",
+        json={"name": "Fixture screen"},
+        headers=headers("enrol-release"),
+    )
+    assert enrolled.status_code == 200, enrolled.text
+    paired = TestClient(app)
+    paired.headers["Authorization"] = "Bearer " + client.cookies.get("desk_companion_device")
+    assert paired.post(
+        f"/api/trips/connections/{connection_id}/releases",
+        json={
+            "quote_id": held["itinerary"]["quote_id"],
+            "quote_version": 1,
+            "expected_task_version": 1,
+        },
+        headers=headers("paired-release"),
+    ).status_code == 403
+    assert client.delete("/api/session", headers=HEADERS).status_code == 200
+    assert client.post(
+        f"/api/trips/connections/{connection_id}/releases",
+        json={
+            "quote_id": held["itinerary"]["quote_id"],
+            "quote_version": 1,
+            "expected_task_version": 1,
+        },
+        headers=headers("logged-out-release"),
+    ).status_code == 403
+
+
+def test_interrupted_hold_and_release_recover_with_the_same_id(tmp_path, monkeypatch):
+    app, fixtures, _moment = build(tmp_path, monkeypatch)
+    write_fixture(fixtures, "hkg-tyo", [quote()])
+    client = login(app)
+    connection_id = connect(client, "hkg-tyo")["connection"]["id"]
+    assert sync(client, connection_id).status_code == 200
+    view = snapshot(client, connection_id)
+    task_id = view["connection"]["task_id"]
+    quote_id = view["itinerary"]["quote_id"]
+    version = view["task_version"]
+    trips = app.state.runtime.trips
+    trips.offline_interrupt = "before_commit"
+    refused = hold(client, connection_id, quote_id, version, "hold-once")
+    assert refused.status_code == 409
+    assert refused.json()["error"]["code"] == "TRIP_INTERRUPTED"
+    assert "saved" not in refused.json()
+    assert operation_row(app, "hold-once") is None
+    assert snapshot(client, connection_id)["itinerary"]["booking_state"] == "quoted"
+    trips.offline_interrupt = None
+    approved = hold(client, connection_id, quote_id, version, "hold-once")
+    assert approved.status_code == 200, approved.text
+    assert approved.json()["recovered"] is False
+    assert approved.json()["itinerary"]["held_covers"] is True
+    held_version = approved.json()["task_version"]
+    trips.offline_interrupt = "before_commit"
+    stopped = release(client, connection_id, quote_id, held_version, "release-once")
+    assert stopped.status_code == 409
+    assert stopped.json()["error"]["code"] == "TRIP_INTERRUPTED"
+    assert operation_row(app, "release-once") is None
+    assert snapshot(client, connection_id)["itinerary"]["held_covers"] is True
+    trips.offline_interrupt = "after_commit"
+    unknown = release(client, connection_id, quote_id, held_version, "release-once")
+    assert unknown.status_code == 409
+    assert unknown.json()["error"]["code"] == "TRIP_RESULT_UNKNOWN"
+    assert "saved" not in unknown.json()
+    assert snapshot(client, connection_id)["itinerary"]["held_covers"] is False
+    assert operation_row(app, "release-once") is not None
+    trips.offline_interrupt = None
+    recovered = release(client, connection_id, quote_id, held_version, "release-once")
+    assert recovered.status_code == 200, recovered.text
+    assert recovered.json()["recovered"] is True
+    assert recovered.json()["saved"] is True
+    assert recovered.json()["itinerary"]["held_covers"] is False
+    released_notes = [
+        row["note"]
+        for row in task_detail(client, task_id)["evidence"]
+        if "Owner released" in (row["note"] or "")
+    ]
+    assert len(released_notes) == 1
+    trips.offline_interrupt = "after_commit"
+    lost = hold(client, connection_id, quote_id, recovered.json()["task_version"], "hold-again")
+    assert lost.status_code == 409
+    assert lost.json()["error"]["code"] == "TRIP_RESULT_UNKNOWN"
+    assert snapshot(client, connection_id)["itinerary"]["held_covers"] is True
+    trips.offline_interrupt = None
+    again = hold(client, connection_id, quote_id, recovered.json()["task_version"], "hold-again")
+    assert again.status_code == 200, again.text
+    assert again.json()["recovered"] is True
+    assert again.json()["itinerary"]["held_covers"] is True
+    approved_notes = [
+        row["note"]
+        for row in task_detail(client, task_id)["evidence"]
+        if "Owner approved" in (row["note"] or "")
+    ]
+    assert len(approved_notes) == 2
+    original = trips._require_owner
+
+    def revoke_inside_transaction(conn, principal):
+        conn.execute("DELETE FROM sessions")
+        return original(conn, principal)
+
+    trips._require_owner = revoke_inside_transaction
+    denied = release(client, connection_id, quote_id, again.json()["task_version"], "release-denied")
+    trips._require_owner = original
+    assert denied.status_code == 403
+    assert denied.json()["error"]["code"] == "OWNER_SIGN_IN_REQUIRED"
+    assert operation_row(app, "release-denied") is None
+    assert snapshot(client, connection_id)["itinerary"]["held_covers"] is True
+    assert client.get("/api/session").status_code == 200

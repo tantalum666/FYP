@@ -1,8 +1,9 @@
 """Offline quotes for one trip, on the existing task service.
 
-A quote is not a hold. A hold is not a payment. A payment failure is not a
-ticket. A fixture receipt is not a live airline ticket. Nothing here calls a
-provider, a merchant, or a card.
+A quote is not a hold. A hold is not a payment. A changed or unavailable fare
+needs a new owner decision and does not invent a substitute. A payment failure
+is not a ticket. A fixture receipt is not a live airline ticket. Nothing here
+calls a provider, a merchant, or a card.
 """
 
 import hashlib
@@ -28,6 +29,18 @@ from ..notify import Notice
 
 CONNECTION_LIMIT = 20
 PURCHASE = "not_performed"
+CHANGE_FIELDS = (
+    "origin",
+    "destination",
+    "depart_local",
+    "arrive_local",
+    "timezone",
+    "arrive_timezone",
+    "passengers",
+    "baggage_kg",
+    "total_cents",
+    "fare_rules",
+)
 
 
 def _op(prefix: str, *parts: str) -> str:
@@ -44,6 +57,14 @@ def _task_fields(event) -> dict:
     for name in ("next_step", "waiting_for"):
         if name in event.model_fields_set:
             provided[name] = getattr(event, name)
+    return provided
+
+
+def _provided_task_fields(payload) -> dict:
+    provided = {}
+    for name in ("next_step", "waiting_for"):
+        if name in payload.model_fields_set:
+            provided[name] = getattr(payload, name)
     return provided
 
 
@@ -66,6 +87,8 @@ def _notice_copy(reason: str, route: str, fixture_id: str, stamp: str) -> Notice
         "payment_failed": ("Payment failed", "付款失败"),
         "ticketed": ("Fixture receipt recorded", "已记下夹具回执"),
         "ticket_blocked": ("Ticket event not applied", "出票事件未生效"),
+        "unavailable": ("Fare unavailable", "票价已结束"),
+        "substitute_blocked": ("No substitute fare", "没有替代票价"),
     }
     details = {
         "quote": ("It is not held or ticketed.", "尚未保留，也未出票。"),
@@ -83,6 +106,14 @@ def _notice_copy(reason: str, route: str, fixture_id: str, stamp: str) -> Notice
             "The approved quote did not match, so nothing was ticketed.",
             "已同意的报价对不上，因此没有出票。",
         ),
+        "unavailable": (
+            "This fare is no longer available. No other fare was offered.",
+            "这份票价已经结束。没有另找替代。",
+        ),
+        "substitute_blocked": (
+            "The fare already ended. This event was not applied.",
+            "票价已经结束。这个事件没有生效。",
+        ),
     }
     title = titles[reason]
     detail = details[reason]
@@ -99,8 +130,12 @@ def _notice_copy(reason: str, route: str, fixture_id: str, stamp: str) -> Notice
 
 
 def _event_note(fixture_id: str, event, outcome: str, booking_state: str) -> str:
-    if outcome == "blocked":
+    if outcome == "blocked" and booking_state == "unavailable":
+        detail = "The fare already ended. No substitute was offered."
+    elif outcome == "blocked":
         detail = "It was not ticketed."
+    elif booking_state == "unavailable":
+        detail = "This fare is no longer available. No substitute was offered."
     elif booking_state == "payment_failed":
         detail = "Payment failed. It was not ticketed."
     elif booking_state == "ticketed":
@@ -117,6 +152,30 @@ def _event_note(fixture_id: str, event, outcome: str, booking_state: str) -> str
         f"{detail} No card was charged."
     )
     return note[:2000]
+
+
+def _change(event, old_terms, new_terms, old_quote, new_quote) -> dict:
+    """The difference the owner has to see. An ended fare has no replacement."""
+    if event.kind == "unavailable":
+        return {
+            "reason": "unavailable",
+            "previous_quote_id": old_quote,
+            "quote_id": None,
+            "fields": [],
+            "detail": event.reason,
+        }
+    fields = []
+    for name in CHANGE_FIELDS:
+        before, after = old_terms.get(name), new_terms.get(name)
+        if before != after:
+            fields.append({"name": name, "before": before, "after": after})
+    reason = event.kind if event.kind in {"reprice", "schedule_change"} else "quote"
+    return {
+        "reason": reason,
+        "previous_quote_id": old_quote,
+        "quote_id": new_quote,
+        "fields": fields,
+    }
 
 
 class TravelQuoteService:
@@ -146,7 +205,9 @@ class TravelQuoteService:
                     hold_quote_id TEXT,
                     ticket_receipt TEXT,
                     ticket_quote_id TEXT,
-                    payment_failure TEXT
+                    payment_failure TEXT,
+                    quote_version INTEGER NOT NULL DEFAULT 1,
+                    change_record TEXT
                 );
                 CREATE TABLE IF NOT EXISTS trip_applied (
                     connection_id TEXT NOT NULL,
@@ -167,7 +228,17 @@ class TravelQuoteService:
                 );
                 """
             )
+            columns = {row["name"] for row in conn.execute("PRAGMA table_info(trip_itinerary)")}
+            if "quote_version" not in columns:
+                conn.execute(
+                    "ALTER TABLE trip_itinerary "
+                    "ADD COLUMN quote_version INTEGER NOT NULL DEFAULT 1"
+                )
+            if "change_record" not in columns:
+                conn.execute("ALTER TABLE trip_itinerary ADD COLUMN change_record TEXT")
         self.notices = TripNotices(runtime)
+        # Tests set this to drop a response. It is not an HTTP control.
+        self.offline_interrupt = None
 
     def _guard(self, principal) -> None:
         self.runtime.personal_context.require_visible(principal)
@@ -196,18 +267,25 @@ class TravelQuoteService:
             return None
         terms = json.loads(row["terms"])
         receipt = row["ticket_receipt"]
+        state = row["booking_state"]
+        ended = state == "unavailable"
+        change = json.loads(row["change_record"]) if row["change_record"] else None
         return {
             "terms": terms,
             "quote_id": row["quote_id"],
-            "booking_state": row["booking_state"],
-            "held_covers": row["hold_quote_id"] == row["quote_id"]
-            and row["booking_state"] == "held",
+            "quote_version": row["quote_version"],
+            "booking_state": state,
+            "available": not ended,
+            "held_covers": row["hold_quote_id"] == row["quote_id"] and state == "held",
             "approval_stale": bool(row["hold_quote_id"])
-            and row["hold_quote_id"] != row["quote_id"],
-            "ticketed": row["booking_state"] == "ticketed",
+            and (row["hold_quote_id"] != row["quote_id"] or ended),
+            "ticketed": state == "ticketed",
             "ticket_receipt": receipt,
-            "receipt_covers_quote": bool(receipt) and row["ticket_quote_id"] == row["quote_id"],
+            "receipt_covers_quote": bool(receipt)
+            and row["ticket_quote_id"] == row["quote_id"]
+            and not ended,
             "payment_failure": row["payment_failure"],
+            "change": change,
             "live_ticket": False,
         }
 
@@ -367,41 +445,37 @@ class TravelQuoteService:
             cursor += 1
 
     def hold(self, connection_id: str, payload, key: str, principal) -> dict:
-        """Approve the quote the owner is looking at. This does not pay or ticket."""
+        """Approve one quote version. This does not pay or ticket."""
         self._guard(principal)
-        connection = self._connection(connection_id)
-        if connection["state"] != "connected":
+        if self._connection(connection_id)["state"] != "connected":
             raise DomainError("TRIP_REVOKED", 409)
-        provided = {}
-        if "next_step" in payload.model_fields_set:
-            provided["next_step"] = payload.next_step
-        if "waiting_for" in payload.model_fields_set:
-            provided["waiting_for"] = payload.waiting_for
+        provided = _provided_task_fields(payload)
+        request = {
+            "type": "trip_hold",
+            "connection_id": connection_id,
+            "quote_id": payload.quote_id,
+            "quote_version": payload.quote_version,
+            "expected_task_version": payload.expected_task_version,
+            "provided": provided,
+        }
 
         def apply(conn):
-            row = self._connection_row(conn, connection_id)
-            if row["state"] != "connected":
-                raise DomainError("TRIP_REVOKED", 409)
-            current = self._itinerary_row(conn, connection_id)
-            if current is None or current["quote_id"] != payload.quote_id:
-                raise DomainError("TRIP_QUOTE_CHANGED", 409)
+            self._require_owner(conn, principal)
+            row, current = self._open_quote(conn, connection_id, payload)
+            if current["booking_state"] == "unavailable":
+                raise DomainError("TRIP_QUOTE_UNAVAILABLE", 409)
             if current["booking_state"] == "ticketed":
                 raise DomainError("TRIP_ALREADY_TICKETED", 409)
-            if (
-                current["booking_state"] == "held"
-                and current["hold_quote_id"] == payload.quote_id
-                and not provided
-            ):
-                task = self.runtime.tasks.get(conn, row["task_id"])
-                if task["version"] != payload.expected_task_version:
-                    raise DomainError("VERSION_CONFLICT")
+            if current["booking_state"] == "held" and not provided:
+                self._expect_task_version(conn, row["task_id"], payload.expected_task_version)
                 body = self._snapshot_body(conn, connection_id)
                 body["saved"] = False
                 return body
             if not row["task_id"]:
                 raise DomainError("TRIP_QUOTE_REQUIRED", 422)
             note = (
-                f"Owner approved quote {payload.quote_id} from fixture {row['fixture_id']}. "
+                f"Owner approved quote {payload.quote_id} version {payload.quote_version} "
+                f"from fixture {row['fixture_id']}. "
                 "No card was charged and no ticket was bought."
             )
             self._merge_task(
@@ -420,23 +494,141 @@ class TravelQuoteService:
             self.store.record(
                 conn,
                 "trip_held",
-                details={"connection_id": connection_id, "quote_id": payload.quote_id},
+                details={
+                    "connection_id": connection_id,
+                    "quote_id": payload.quote_id,
+                    "quote_version": payload.quote_version,
+                },
             )
             body = self._snapshot_body(conn, connection_id)
             body["saved"] = True
             return body
 
-        return self.store.operation(
-            key,
-            {
-                "type": "trip_hold",
-                "connection_id": connection_id,
-                "quote_id": payload.quote_id,
-                "expected_task_version": payload.expected_task_version,
-                "provided": provided,
-            },
-            apply,
-        )
+        return self._commit(key, request, apply)
+
+    def release(self, connection_id: str, payload, key: str, principal) -> dict:
+        """Drop the hold on the quote version the owner is looking at."""
+        self._guard(principal)
+        if self._connection(connection_id)["state"] != "connected":
+            raise DomainError("TRIP_REVOKED", 409)
+        provided = _provided_task_fields(payload)
+        request = {
+            "type": "trip_release",
+            "connection_id": connection_id,
+            "quote_id": payload.quote_id,
+            "quote_version": payload.quote_version,
+            "expected_task_version": payload.expected_task_version,
+            "provided": provided,
+        }
+
+        def apply(conn):
+            self._require_owner(conn, principal)
+            row, current = self._open_quote(conn, connection_id, payload)
+            held = (
+                current["booking_state"] == "held"
+                and current["hold_quote_id"] == payload.quote_id
+            )
+            if not held:
+                raise DomainError("TRIP_NOT_HELD", 409)
+            if not row["task_id"]:
+                raise DomainError("TRIP_QUOTE_REQUIRED", 422)
+            note = (
+                f"Owner released the hold on quote {payload.quote_id} "
+                f"version {payload.quote_version} from fixture {row['fixture_id']}. "
+                "No card was charged and no ticket was bought."
+            )
+            self._merge_task(
+                conn,
+                row["task_id"],
+                payload.expected_task_version,
+                provided,
+                note,
+                "travel_release",
+            )
+            conn.execute(
+                "UPDATE trip_itinerary SET booking_state='quoted', hold_quote_id=NULL "
+                "WHERE connection_id=?",
+                (connection_id,),
+            )
+            self.store.record(
+                conn,
+                "trip_released",
+                details={
+                    "connection_id": connection_id,
+                    "quote_id": payload.quote_id,
+                    "quote_version": payload.quote_version,
+                },
+            )
+            body = self._snapshot_body(conn, connection_id)
+            body["saved"] = True
+            return body
+
+        return self._commit(key, request, apply)
+
+    def _commit(self, key: str, request: dict, apply):
+        """Same operation id returns the stored result. A lost response is not success."""
+        stored = self._stored(key, request)
+        if stored is not None:
+            stored = dict(stored)
+            stored["recovered"] = True
+            return stored
+        self._fence("before_commit")
+        result = self.store.operation(key, request, apply)
+        self._fence("after_commit")
+        result = dict(result)
+        result["recovered"] = False
+        return result
+
+    def _stored(self, key: str, request: dict):
+        if not key or len(key) > 100:
+            raise DomainError("OPERATION_ID_REQUIRED", 422)
+        encoded = encode(request)
+        with self.store.connection() as conn:
+            old = conn.execute("SELECT * FROM operations WHERE id=?", (key,)).fetchone()
+        if old is None:
+            return None
+        if old["request"] != encoded:
+            raise DomainError("OPERATION_ID_CONFLICT")
+        return json.loads(old["response"])
+
+    def _fence(self, phase: str) -> None:
+        if self.offline_interrupt != phase:
+            return
+        code = "TRIP_INTERRUPTED" if phase == "before_commit" else "TRIP_RESULT_UNKNOWN"
+        raise DomainError(code, 409)
+
+    def _require_owner(self, conn, principal) -> None:
+        """Authorization is read in the same transaction as the hold or release."""
+        if not principal or principal.get("kind") != "owner":
+            raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
+        token = principal.get("session") or ""
+        digest = hashlib.sha256(token.encode()).hexdigest()
+        row = conn.execute(
+            "SELECT 1 FROM sessions WHERE token_hash=? AND expires>?",
+            (digest, iso(self.store.clock())),
+        ).fetchone()
+        if not row:
+            raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
+        if self.store.settings(conn)["hide_private"]:
+            raise DomainError("PRIVATE_CONTEXT_HIDDEN", 403)
+
+    def _open_quote(self, conn, connection_id: str, payload):
+        row = self._connection_row(conn, connection_id)
+        if row["state"] != "connected":
+            raise DomainError("TRIP_REVOKED", 409)
+        current = self._itinerary_row(conn, connection_id)
+        if (
+            current is None
+            or current["quote_id"] != payload.quote_id
+            or current["quote_version"] != payload.quote_version
+        ):
+            raise DomainError("TRIP_QUOTE_CHANGED", 409)
+        return row, current
+
+    def _expect_task_version(self, conn, task_id: str, expected: int) -> None:
+        task = self.runtime.tasks.get(conn, task_id)
+        if task["version"] != expected:
+            raise DomainError("VERSION_CONFLICT")
 
     def release_quiet_notices(self) -> None:
         self.notices.release(quiet=self._quiet())
@@ -530,18 +722,33 @@ class TravelQuoteService:
 
     def _apply_event(self, connection, fixture, event) -> dict:
         with self.store.connection() as conn:
-            current = self._itinerary_row(conn, connection["id"])
+            row = self._itinerary_row(conn, connection["id"])
+            current = dict(row) if row else None
             old_terms = json.loads(current["terms"]) if current else None
-        terms = _merge_terms(old_terms, event, fixture.currency)
-        if any(terms[key] in (None, "") for key in TERMS):
-            raise DomainError("TRIP_QUOTE_INCOMPLETE", 422)
-        depart = _instant(terms["depart_local"], terms["timezone"])
-        arrive = _instant(terms["arrive_local"], terms["arrive_timezone"])
-        if arrive <= depart:
-            raise DomainError("TRIP_ITINERARY_INVALID", 422)
-        new_quote = quote_id(terms)
+        ended = current is not None and current["booking_state"] == "unavailable"
+        if event.kind == "unavailable" or ended:
+            if current is None or old_terms is None:
+                raise DomainError("TRIP_QUOTE_REQUIRED", 422)
+            terms = old_terms
+            new_quote = current["quote_id"]
+        else:
+            terms = _merge_terms(old_terms, event, fixture.currency)
+            if any(terms[key] in (None, "") for key in TERMS):
+                raise DomainError("TRIP_QUOTE_INCOMPLETE", 422)
+            depart = _instant(terms["depart_local"], terms["timezone"])
+            arrive = _instant(terms["arrive_local"], terms["arrive_timezone"])
+            if arrive <= depart:
+                raise DomainError("TRIP_ITINERARY_INVALID", 422)
+            new_quote = quote_id(terms)
         old_quote = current["quote_id"] if current else None
         transition = _transition(current, event, old_quote, new_quote)
+        change = None
+        if not (ended and event.kind != "unavailable"):
+            if event.kind == "unavailable" or (old_quote and old_quote != new_quote):
+                change = _change(event, old_terms, terms, old_quote, new_quote)
+        quote_version = current["quote_version"] if current else 0
+        if current is None or change is not None:
+            quote_version += 1
         route = f"{terms['origin']} to {terms['destination']}"
         note = _event_note(fixture.fixture_id, event, transition["outcome"], transition["state"])
         provided = _task_fields(event)
@@ -570,8 +777,12 @@ class TravelQuoteService:
                 self._merge_task(conn, task_id, task["version"], provided, note, "travel_fixture")
             now = iso(self.store.clock())
             if current is None:
+                stored_change = encode(change) if change else None
                 conn.execute(
-                    "INSERT INTO trip_itinerary VALUES(?,?,?,?,?,?,?,?)",
+                    "INSERT INTO trip_itinerary("
+                    "connection_id, terms, quote_id, booking_state, hold_quote_id, "
+                    "ticket_receipt, ticket_quote_id, payment_failure, quote_version, "
+                    "change_record) VALUES(?,?,?,?,?,?,?,?,?,?)",
                     (
                         connection["id"],
                         encode(terms),
@@ -581,12 +792,16 @@ class TravelQuoteService:
                         transition["receipt"],
                         transition["ticket_quote"],
                         transition["failure"],
+                        quote_version,
+                        stored_change,
                     ),
                 )
             else:
+                stored_change = encode(change) if change else current["change_record"]
                 conn.execute(
                     "UPDATE trip_itinerary SET terms=?, quote_id=?, booking_state=?, "
-                    "hold_quote_id=?, ticket_receipt=?, ticket_quote_id=?, payment_failure=? "
+                    "hold_quote_id=?, ticket_receipt=?, ticket_quote_id=?, "
+                    "payment_failure=?, quote_version=?, change_record=? "
                     "WHERE connection_id=?",
                     (
                         encode(terms),
@@ -596,6 +811,8 @@ class TravelQuoteService:
                         transition["receipt"],
                         transition["ticket_quote"],
                         transition["failure"],
+                        quote_version,
+                        stored_change,
                         connection["id"],
                     ),
                 )
@@ -626,6 +843,7 @@ class TravelQuoteService:
                 "outcome": transition["outcome"],
                 "booking_state": transition["state"],
                 "quote_id": new_quote,
+                "quote_version": quote_version,
                 "duplicate": False,
             }
 
@@ -660,6 +878,7 @@ class TravelQuoteService:
             "outcome": result.get("outcome", transition["outcome"]),
             "booking_state": result.get("booking_state", transition["state"]),
             "quote_id": result.get("quote_id", new_quote),
+            "quote_version": result.get("quote_version", quote_version),
         }
 
     def _insert_task(self, conn, title: str, timezone: str, provided: dict, note: str):
@@ -732,6 +951,26 @@ def _transition(current, event, old_quote, new_quote) -> dict:
     receipt = current["ticket_receipt"]
     ticket_quote = current["ticket_quote_id"]
     failure = current["payment_failure"]
+    if state == "unavailable" and event.kind != "unavailable":
+        return {
+            "state": state,
+            "hold": hold,
+            "receipt": receipt,
+            "ticket_quote": ticket_quote,
+            "failure": failure,
+            "outcome": "blocked",
+            "notice": "substitute_blocked",
+        }
+    if event.kind == "unavailable":
+        return {
+            "state": "unavailable",
+            "hold": hold,
+            "receipt": receipt,
+            "ticket_quote": ticket_quote,
+            "failure": failure,
+            "outcome": "recorded",
+            "notice": "unavailable",
+        }
     base = {
         "state": state,
         "hold": hold,

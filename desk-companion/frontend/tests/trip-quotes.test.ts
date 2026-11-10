@@ -3,6 +3,8 @@ import test from "node:test";
 import { readFileSync } from "node:fs";
 import {
   canApproveQuote,
+  canReleaseHold,
+  changeLines,
   formatFare,
   tripStatus,
   type TripItinerary,
@@ -30,13 +32,16 @@ function itinerary(overrides: Partial<TripItinerary> = {}): TripItinerary {
       fare_rules: "Changeable before departure.",
     },
     quote_id: "a".repeat(64),
+    quote_version: 1,
     booking_state: "quoted",
+    available: true,
     held_covers: false,
     approval_stale: false,
     ticketed: false,
     ticket_receipt: null,
     receipt_covers_quote: false,
     payment_failure: null,
+    change: null,
     live_ticket: false,
     ...overrides,
   };
@@ -75,14 +80,72 @@ test("payment failure and a fixture receipt are not described as a purchased tic
   );
 });
 
-test("the panel approves with the private mutation and does not store the quote", () => {
+test("the panel approves and releases the exact version and does not store the quote", () => {
   assert.match(panel, /usePrivateMutation\(\)/);
   assert.match(panel, /useDraftGuard\(/);
   assert.match(panel, /quote_id: itinerary\.quote_id/);
+  assert.match(panel, /quote_version: itinerary\.quote_version/);
   assert.match(panel, /expected_task_version: snapshot\.task_version/);
+  assert.match(panel, /\/releases/);
+  assert.match(panel, /Release hold/);
   assert.doesNotMatch(panel, /next_step:/);
   assert.doesNotMatch(panel, /(?:sessionStorage|localStorage|indexedDB)\b/);
   assert.match(panel, /No card is charged/);
   assert.match(panel, /desk:tasks/);
   assert.doesNotMatch(panel, /Ticket purchased|Payment complete|Booked successfully/);
+});
+
+test("a changed fare shows old and new values and an ended fare cannot be approved", () => {
+  const changed = itinerary({
+    quote_version: 2,
+    approval_stale: true,
+    held_covers: false,
+    change: {
+      reason: "reprice",
+      previous_quote_id: "b".repeat(64),
+      quote_id: "a".repeat(64),
+      fields: [{ name: "total_cents", before: 208000, after: 226000 }],
+    },
+  });
+  assert.deepEqual(changeLines(changed, t), ["Fare: HKD 2080.00 → HKD 2260.00"]);
+  assert.match(tripStatus(changed, t), /earlier approval does not cover/);
+  assert.equal(canApproveQuote(changed), true);
+  assert.equal(canReleaseHold(changed), false);
+  const shifted = itinerary({
+    quote_version: 2,
+    approval_stale: true,
+    change: {
+      reason: "schedule_change",
+      previous_quote_id: "b".repeat(64),
+      quote_id: "a".repeat(64),
+      fields: [
+        { name: "depart_local", before: "2026-12-01T09:00", after: "2026-12-01T11:00" },
+        { name: "arrive_local", before: "2026-12-02T14:30", after: "2026-12-02T18:00" },
+      ],
+    },
+  });
+  assert.deepEqual(changeLines(shifted, t), [
+    "Departs: 2026-12-01T09:00 → 2026-12-01T11:00",
+    "Arrives: 2026-12-02T14:30 → 2026-12-02T18:00",
+  ]);
+  assert.match(tripStatus(shifted, t), /times changed/i);
+  const ended = itinerary({
+    booking_state: "unavailable",
+    available: false,
+    approval_stale: true,
+    quote_version: 2,
+    change: {
+      reason: "unavailable",
+      previous_quote_id: "a".repeat(64),
+      quote_id: null,
+      fields: [],
+      detail: "The flight was withdrawn.",
+    },
+  });
+  assert.deepEqual(changeLines(ended, t), []);
+  assert.match(tripStatus(ended, t), /no longer available/i);
+  assert.match(tripStatus(ended, t), /No other fare was offered/);
+  assert.equal(canApproveQuote(ended), false);
+  assert.equal(canReleaseHold(ended), false);
+  assert.equal(canReleaseHold(itinerary({ held_covers: true, booking_state: "held" })), true);
 });

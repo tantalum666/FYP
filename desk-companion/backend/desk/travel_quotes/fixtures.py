@@ -56,7 +56,9 @@ class TripEvent(StrictModel):
     event_id: str = Field(min_length=1, max_length=40)
     seq: int = Field(ge=1, le=100000)
     observed_at: datetime
-    kind: Literal["quote", "reprice", "schedule_change", "payment_failed", "ticketed"]
+    kind: Literal[
+        "quote", "reprice", "schedule_change", "payment_failed", "ticketed", "unavailable"
+    ]
     origin: str | None = None
     destination: str | None = None
     depart_local: str | None = None
@@ -161,6 +163,12 @@ class TripEvent(StrictModel):
             raise ValueError("A payment failure needs a reason")
         if self.kind == "ticketed" and not (self.covers_quote and self.receipt_id):
             raise ValueError("A ticket event needs covers_quote and receipt_id")
+        if self.kind == "unavailable":
+            offered = [name for name in QUOTE_REQUIRED if name in self.model_fields_set]
+            if offered:
+                raise ValueError("An unavailable fare cannot include a replacement")
+            if not self.reason:
+                raise ValueError("An unavailable fare needs a reason")
         return self
 
 

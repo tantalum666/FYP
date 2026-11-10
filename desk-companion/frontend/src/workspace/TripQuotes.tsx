@@ -7,6 +7,8 @@ import { usePrivateMutation } from "./personal/usePrivateMutation";
 import { useWorkspace } from "./WorkspaceContext";
 import {
   canApproveQuote,
+  canReleaseHold,
+  changeLines,
   formatFare,
   tripStatus,
   type TripItinerary,
@@ -34,6 +36,22 @@ function tripError(error: unknown, t: Translate) {
     TRIP_QUOTE_CHANGED: [
       "This fare changed. Read the fixture again before approving.",
       "票价已变化。请重新读取夹具后再同意。",
+    ],
+    TRIP_QUOTE_UNAVAILABLE: [
+      "This fare is no longer available. Nothing was held.",
+      "这份票价已经结束。没有保留。",
+    ],
+    TRIP_NOT_HELD: [
+      "There is no hold on this fare.",
+      "这份票价没有保留。",
+    ],
+    TRIP_INTERRUPTED: [
+      "That request did not finish. Nothing was saved.",
+      "该请求没有完成。没有保存。",
+    ],
+    TRIP_RESULT_UNKNOWN: [
+      "The result is unknown. Read the trip again before repeating it.",
+      "结果尚不确定。请先重新读取行程，再重复该操作。",
     ],
     TRIP_ALREADY_TICKETED: [
       "A fixture receipt already covers this fare.",
@@ -107,6 +125,8 @@ export function TripQuotes({ t }: { t: Translate }) {
   const itinerary = snapshot?.itinerary;
   const connection = snapshot?.connection;
   const approve = itinerary ? canApproveQuote(itinerary) : false;
+  const release = itinerary ? canReleaseHold(itinerary) : false;
+  const differences = itinerary ? changeLines(itinerary, t) : [];
   return (
     <form className="workspace-panel" onSubmit={(event) => void readFixture(event).catch(setError)}>
       <label className="field">
@@ -124,6 +144,7 @@ export function TripQuotes({ t }: { t: Translate }) {
       {connection?.state === "revoked" && <p>{t("Reading stopped.", "已停止读取。")}</p>}
       {itinerary && snapshot?.purchase === "not_performed" && (
         <section>
+          <p>{tripStatus(itinerary, t)}</p>
           <p>
             {itinerary.terms.origin} to {itinerary.terms.destination}
           </p>
@@ -139,7 +160,16 @@ export function TripQuotes({ t }: { t: Translate }) {
             )}
           </p>
           <p>{formatFare(itinerary.terms.total_cents, itinerary.terms.currency)}</p>
-          <p>{tripStatus(itinerary, t)}</p>
+          {itinerary.booking_state === "unavailable" && itinerary.change?.detail && (
+            <p>{itinerary.change.detail}</p>
+          )}
+          {differences.length > 0 && (
+            <ul>
+              {differences.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
+          )}
           <details>
             <summary>{t("Fare rules", "票价规则")}</summary>
             <p>{itinerary.terms.fare_rules}</p>
@@ -156,6 +186,7 @@ export function TripQuotes({ t }: { t: Translate }) {
                     `/trips/connections/${connection.id}/holds`,
                     {
                       quote_id: itinerary.quote_id,
+                      quote_version: itinerary.quote_version,
                       expected_task_version: snapshot.task_version,
                     },
                     async () => {
@@ -169,6 +200,39 @@ export function TripQuotes({ t }: { t: Translate }) {
             </button>
           )}
           {approve && <p>{t("No card is charged.", "不会扣款。")}</p>}
+          {release && connection && (
+            <button
+              className="secondary"
+              type="button"
+              disabled={mutation.busy}
+              onClick={() => {
+                setError(null);
+                void mutation
+                  .run(
+                    `/trips/connections/${connection.id}/releases`,
+                    {
+                      quote_id: itinerary.quote_id,
+                      quote_version: itinerary.quote_version,
+                      expected_task_version: snapshot.task_version,
+                    },
+                    async () => {
+                      await load(connection.id);
+                    },
+                  )
+                  .catch(setError);
+              }}
+            >
+              {t("Release hold", "取消保留")}
+            </button>
+          )}
+          {release && (
+            <p>
+              {t(
+                "Releasing the hold does not buy or cancel a ticket.",
+                "取消保留不会购票，也不会取消机票。",
+              )}
+            </p>
+          )}
         </section>
       )}
       {connection?.state === "connected" && (

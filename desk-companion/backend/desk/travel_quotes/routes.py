@@ -15,8 +15,9 @@ class TripSync(StrictModel):
     disconnect_after: int | None = Field(default=None, ge=0, le=100)
 
 
-class TripHold(StrictModel):
+class TripQuoteAction(StrictModel):
     quote_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    quote_version: int = Field(ge=1)
     expected_task_version: int = Field(ge=1)
     next_step: str | None = Field(default=None, max_length=500)
     waiting_for: str | None = Field(default=None, max_length=500)
@@ -64,7 +65,13 @@ def trip_routes(runtime, owner, operation_id):
         return runtime.trips.revoke(connection_id, key, principal(request))
 
     @router.post("/connections/{connection_id}/holds")
-    def hold(connection_id: str, payload: TripHold, request: Request, key=Depends(operation_id)):
+    def hold(connection_id: str, payload: TripQuoteAction, request: Request, key=Depends(operation_id)):
         return runtime.trips.hold(connection_id, payload, key, principal(request))
+
+    @router.post("/connections/{connection_id}/releases")
+    def release(
+        connection_id: str, payload: TripQuoteAction, request: Request, key=Depends(operation_id)
+    ):
+        return runtime.trips.release(connection_id, payload, key, principal(request))
 
     return router
