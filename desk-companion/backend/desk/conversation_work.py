@@ -7,16 +7,19 @@ steer action, then one verified result from the existing offline deterministic
 executor. A later turn in that same conversation can ask about the work and is
 shown that same verified file again. An explicit continue ask advances that
 same run once through ``AgentRunService.advance_one`` and shows the verified
-file. It does not create a task, a run, a queue, or a model approval tool, and
-it does not call a provider.
+file. A later explicit ask, with its own operation id, advances that same run
+one more step only while it is still open. A finished, cancelled, failed, or
+expired run stays closed. It does not create a task, a run, a queue, or a
+model approval tool, and it does not call a provider.
 
 An interruption before the steer commits leaves the goal unchanged and is not a
 successful reply. A commit whose conversation receipt is lost is recovered by
 the same operation id; the goal is not applied a second time. An unverified,
 failed, or interrupted executor result is not shown as success. A verified
 result is shown once for that operation id, and a later status ask reads it
-back without running the executor again. The same continue operation advances
-at most once.
+back without running the executor again. Each continue operation advances at
+most once. A different operation can take the next step only while the run
+remains open.
 """
 
 import hashlib
@@ -24,6 +27,7 @@ import json
 
 from .agent_run_schemas import RunAction
 from .agent_runs import TERMINAL
+from .calendar import iso
 from .store import DomainError, encode
 
 # One matcher. Source labels and quote marks are closed lists, not extra patterns.
@@ -82,6 +86,8 @@ _TEXT = {
         "continued": "This work continued. {result}Nothing was sent or bought.",
         "finished": "This work is already finished. It was not started again.",
         "cancelled": "This work was cancelled. It was not started again.",
+        "failed": "This work failed. It was not started again.",
+        "expired": "This work has expired. It was not started again.",
         "cannot_continue": "This work cannot continue from here.",
         "unchanged": "That is already the goal of this work.",
         "none": "No current work is linked to this task.",
@@ -104,6 +110,8 @@ _TEXT = {
         "continued": "这项工作已继续。{result}没有发送或购买。",
         "finished": "这项工作已经结束，没有重新开始。",
         "cancelled": "这项工作已取消，没有重新开始。",
+        "failed": "这项工作已失败，没有重新开始。",
+        "expired": "这项工作已过期，没有重新开始。",
         "cannot_continue": "这项工作不能从这里继续。",
         "unchanged": "这已经是这项工作的目标。",
         "none": "这个事务没有关联的当前工作。",
@@ -393,8 +401,10 @@ class ConversationWork:
         """Advance one shown run once. A provider is not called.
 
         The ask has to be an explicit continue phrase. Status questions stay on
-        the read-only follow-up. A finished or cancelled run is not reopened.
-        The same operation id calls ``advance_one`` at most once.
+        the read-only follow-up. Each operation id calls ``advance_one`` at most
+        once. A later operation takes one more step only while that run is still
+        open. A finished, cancelled, failed, paused, blocked, or expired run is
+        not reopened and does not create a job or proposal.
         """
         parsed = parse_work_continue(payload.message)
         if parsed is None:
@@ -410,12 +420,13 @@ class ConversationWork:
         selected = self._select_continue(shown, parsed, principal, payload.task_id, language)
         if selected.get("kind") == "clarify":
             return selected
-        closed = _closed_reply(language, selected)
+        now = iso(self.store.clock())
+        closed = _closed_reply(language, selected, now=now)
         if closed is not None:
             return closed
         self._fence("before_continue")
         bound = self.runtime.agent_runs.refresh_owner(selected["id"], principal)
-        closed = _closed_reply(language, bound)
+        closed = _closed_reply(language, bound, now=now)
         if closed is not None:
             return closed
         try:
@@ -699,17 +710,20 @@ def _steerable(run) -> bool:
     return run.get("state") != "cancelled" and run.get("plan_revision", 2) < 2
 
 
-def _closed_reply(language, run):
-    """A clear refusal. Finished and cancelled runs are not started again."""
+def _closed_reply(language, run, *, now=None):
+    """A clear refusal. Closed runs are not started again and create no work."""
     state = run.get("state")
     if state == "cancelled":
         return _reply(language, "cancelled", admitted=False)
     if state == "failed":
-        return _reply(language, "cannot_continue", admitted=False)
+        return _reply(language, "failed", admitted=False)
     if state in TERMINAL:
         return _reply(language, "finished", admitted=False)
     if state in {"paused", "blocked"}:
         return _reply(language, "cannot_continue", admitted=False)
+    deadline = run.get("deadline")
+    if now is not None and isinstance(deadline, str) and deadline and deadline <= now:
+        return _reply(language, "expired", admitted=False)
     return None
 
 

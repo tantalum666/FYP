@@ -14,7 +14,7 @@ from desk.agent_run_schemas import RunAction, RunCreate
 from desk.conversation_work import parse_changed_goal, parse_work_continue, parse_work_followup
 from desk.assistant import TOOLS
 from desk.app import create_app
-from desk.store import DomainError
+from desk.store import DomainError, encode
 from desk.permissions import PermissionChange
 from desk.sources import SourceInput
 from desk.stream_contract import parse_sse
@@ -2461,4 +2461,629 @@ def test_continue_keeps_auth_boundaries(box):
     assert step_count(runtime, run_id) == steps + 1
     assert runtime.tasks.detail(task_id)["task"]["next_step"] == "Keep the supplier note"
     assert goal_of(runtime, principal, run_id)["model_calls"] == 0
+    assert box["executed"] == []
+
+
+def _act(runtime, principal, run_id, action, key):
+    current = goal_of(runtime, principal, run_id)
+    return runtime.agent_runs.action(
+        run_id,
+        RunAction(action=action, expected_version=current["version"]),
+        key,
+        principal,
+    )["run"]
+
+
+def _rewrite_run(runtime, run_id, **changes):
+    with runtime.store.connection(write=True) as conn:
+        row = conn.execute("SELECT data, state FROM agent_runs WHERE id=?", (run_id,)).fetchone()
+        data = json.loads(row["data"])
+        state = changes.pop("state", row["state"])
+        data.update(changes)
+        conn.execute(
+            "UPDATE agent_runs SET state=?, data=? WHERE id=?",
+            (state, encode(data), run_id),
+        )
+
+
+def _confirm_proposal(client, proposal_id, key):
+    response = client.post(
+        f"/api/assistant/proposals/{proposal_id}/decisions",
+        json={"action": "confirm"},
+        headers={**HEADERS, "X-Operation-Id": key},
+    )
+    assert response.status_code == 200, response.text
+    assert response.json()["saved"] is True
+    return response
+
+
+def _pause_current(runtime, principal, task_id, key):
+    """Leave no current run on this task. Paused work stays out of a bare continue."""
+    resting = {"paused", "cancelled", "succeeded", "failed", "partial", "blocked"}
+    rows = runtime.agent_runs.listing(principal)["runs"]
+    for index, row in enumerate(rows):
+        if row.get("private_hidden") or row.get("state") in resting:
+            continue
+        if task_id not in (row.get("task_ids") or []):
+            continue
+        _act(runtime, principal, row["id"], "pause", f"{key}-hold-{index}")
+
+
+def _open_continued(box, *, key, phrase_text="Continue this work.", language="en"):
+    """A requested change leaves the shown run open after one continue.
+
+    Other runs on the task are paused so the bare phrase has one current run.
+    The new run already asked for one task draft. The first continue proposes
+    that draft and stops at review. It does not create a computer job.
+    """
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    task_id = box["task"]["id"]
+    original = box["run"]["id"]
+    _pause_current(runtime, principal, task_id, key)
+    source_ids = goal_of(runtime, principal, original)["source_ids"]
+
+    def generate(*args, **kwargs):
+        raise AssertionError("provider called")
+
+    runtime.text_ai.generate = generate
+    created = runtime.agent_runs.create(
+        RunCreate(
+            goal="Hold the selected supplier note.",
+            retain=True,
+            task_ids=[task_id],
+            source_ids=source_ids,
+            scope_revision=runtime.agent_runs.scope(principal)["scope_revision"],
+            mutation_requests=[
+                {
+                    "tool": "task_create_draft",
+                    "arguments": {"title": "Hold the supplier note"},
+                    "required": True,
+                }
+            ],
+        ),
+        key + "-run",
+        principal,
+    )["run"]
+    message, _ = phrase("explicit-change", run_id=created["id"])
+    admitted = send(client, message, key=key + "-goal", task_id=task_id)
+    assert admitted.status_code == 200, admitted.text
+    body = admitted.json()
+    assert body["work_run_id"] == created["id"]
+    assert body["result"]["verification"] == "byte_readback"
+    run_id = created["id"]
+    assert goal_of(runtime, principal, run_id)["state"] == "running"
+    steps = step_count(runtime, run_id)
+    published = reports(runtime, principal, run_id)
+    before = counts(runtime)
+    advances = watch_advance(runtime)
+    continued = send(
+        client,
+        phrase_text,
+        key=key + "-first",
+        task_id=task_id,
+        conversation_id=body["conversation_id"],
+        language=language,
+    )
+    assert continued.status_code == 200, continued.text
+    _assert_continued(
+        continued.json(), goal=body["goal"], artifact_id=body["result"]["artifact_id"]
+    )
+    current = goal_of(runtime, principal, run_id)
+    assert current["state"] == "waiting_review"
+    assert current["goal"] == body["goal"]
+    assert len(advances) == 1 and advances[0][0] == run_id
+    assert step_count(runtime, run_id) == steps + 1
+    after = counts(runtime)
+    assert after["jobs"] == before["jobs"]
+    assert after["proposals"] == before["proposals"] + 1
+    assert after["runs"] == before["runs"]
+    assert current["proposal_ids"]
+    assert goal_of(runtime, principal, original)["state"] == "paused"
+    assert box["executed"] == []
+    return {
+        "run_id": run_id,
+        "original_id": original,
+        "task_id": task_id,
+        "goal": body["goal"],
+        "artifact_id": body["result"]["artifact_id"],
+        "conversation_id": body["conversation_id"],
+        "proposal_id": current["proposal_ids"][0],
+        "steps": step_count(runtime, run_id),
+        "published": published,
+        "advances": advances,
+        "message": continued.json()["message"],
+    }
+
+
+def test_second_continue_steps_once_while_the_run_is_open(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    opened = _open_continued(box, key="second-open")
+    assert "This work continued." in opened["message"]
+    task_id = opened["task_id"]
+    conversation_id = opened["conversation_id"]
+    run_id = opened["run_id"]
+    asked = send(
+        client,
+        "How is this work going?",
+        key="status-while-open",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert asked.status_code == 200, asked.text
+    _assert_reshown(asked.json(), goal=opened["goal"], artifact_id=opened["artifact_id"])
+    assert asked.json()["result"]["verification"] == "byte_readback"
+    near = send(
+        client,
+        "Continue the work.",
+        key="near-while-open",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert near.status_code == 200, near.text
+    assert "This work continued." not in near.text
+    assert len(opened["advances"]) == 1
+    early = send(
+        client,
+        "继续这项工作。",
+        key="second-step",
+        task_id=task_id,
+        conversation_id=conversation_id,
+        language="zh",
+    )
+    assert early.status_code == 409, early.text
+    assert early.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_INTERRUPTED"
+    assert "这项工作已继续" not in early.text
+    assert goal_of(runtime, principal, run_id)["state"] == "waiting_review"
+    assert len(opened["advances"]) == 2 and opened["advances"][1][0] == run_id
+    assert step_count(runtime, run_id) == opened["steps"]
+    _confirm_proposal(client, opened["proposal_id"], "second-step-decision")
+    decided = counts(runtime)
+    stepped = send(
+        client,
+        "继续这项工作。",
+        key="second-step",
+        task_id=task_id,
+        conversation_id=conversation_id,
+        language="zh",
+    )
+    assert stepped.status_code == 200, stepped.text
+    _assert_continued(
+        stepped.json(), goal=opened["goal"], artifact_id=opened["artifact_id"]
+    )
+    assert "这项工作已继续。" in stepped.json()["message"]
+    assert stepped.json()["recovered"] is False
+    assert stepped.json()["conversation_id"] == conversation_id
+    current = goal_of(runtime, principal, run_id)
+    assert current["state"] == "running"
+    assert current["goal"] == opened["goal"]
+    assert current["model_calls"] == 0
+    assert len(opened["advances"]) == 3
+    assert step_count(runtime, run_id) == opened["steps"] + 1
+    assert reports(runtime, principal, run_id) == opened["published"]
+    after = counts(runtime)
+    assert after["jobs"] == decided["jobs"]
+    assert after["proposals"] == decided["proposals"]
+    assert after["tasks"] == decided["tasks"]
+    assert after["usage"] == 0
+    repeated = send(
+        client,
+        "继续这项工作。",
+        key="second-step",
+        task_id=task_id,
+        conversation_id=conversation_id,
+        language="zh",
+    )
+    assert repeated.status_code == 200, repeated.text
+    assert repeated.json()["result"]["artifact_id"] == opened["artifact_id"]
+    assert repeated.json()["result"]["verification"] == "byte_readback"
+    conflict = send(
+        client,
+        "Continue this work.",
+        key="second-step",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert conflict.status_code == 409, conflict.text
+    assert conflict.json()["error"]["code"] == "OPERATION_ID_CONFLICT"
+    assert len(opened["advances"]) == 3
+    assert step_count(runtime, run_id) == opened["steps"] + 1
+    finished = send(
+        client,
+        "Continue this work.",
+        key="third-step",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert finished.status_code == 200, finished.text
+    _assert_continued(finished.json(), goal=opened["goal"], artifact_id=opened["artifact_id"])
+    assert "This work continued." in finished.json()["message"]
+    assert goal_of(runtime, principal, run_id)["state"] == "succeeded"
+    assert len(opened["advances"]) == 4
+    assert reports(runtime, principal, run_id) == opened["published"]
+    closed = send(
+        client,
+        "继续这项工作。",
+        key="fourth-closed",
+        task_id=task_id,
+        conversation_id=conversation_id,
+        language="zh",
+    )
+    assert closed.status_code == 200, closed.text
+    assert closed.json().get("result") is None
+    assert "没有重新开始" in closed.json()["message"]
+    assert "报告文件已核验" not in closed.text
+    assert len(opened["advances"]) == 4
+    assert goal_of(runtime, principal, run_id)["state"] == "succeeded"
+    assert counts(runtime)["jobs"] == decided["jobs"]
+    assert steers(runtime, run_id) == 1
+    assert runtime.tasks.detail(task_id)["task"]["next_step"] == "Keep the supplier note"
+    assert box["executed"] == []
+
+
+def test_second_continue_on_a_finished_run_stays_closed(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    run_id, task_id = box["run"]["id"], box["task"]["id"]
+    first = _verified_goal(box, key="finished-second-change")
+    conversation_id = first["conversation_id"]
+    advances = watch_advance(runtime)
+    before = counts(runtime)
+    continued = send(
+        client,
+        "Continue this work.",
+        key="finished-first",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert continued.status_code == 200, continued.text
+    assert goal_of(runtime, principal, run_id)["state"] == "succeeded"
+    english = send(
+        client,
+        "Continue this work.",
+        key="finished-second",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert english.status_code == 200, english.text
+    assert english.json().get("result") is None
+    assert "already finished" in english.json()["message"]
+    assert "Report file verified" not in english.text
+    assert f"Goal: {first['goal']}" not in english.text
+    chinese = send(
+        client,
+        "继续这项工作。",
+        key="finished-second-zh",
+        task_id=task_id,
+        conversation_id=conversation_id,
+        language="zh",
+    )
+    assert chinese.status_code == 200, chinese.text
+    assert "没有重新开始" in chinese.json()["message"]
+    assert chinese.json().get("result") is None
+    assert len(advances) == 1
+    assert goal_of(runtime, principal, run_id)["state"] == "succeeded"
+    policy = runtime.permissions.snapshot()
+    runtime.permissions.change(
+        PermissionChange(mode="full", expected_version=policy["version"]),
+        "full-finished-continue",
+    )
+    full = send(
+        client,
+        "Continue this work.",
+        key="finished-full",
+        task_id=task_id,
+        conversation_id=conversation_id,
+    )
+    assert full.status_code == 200, full.text
+    assert "already finished" in full.json()["message"]
+    assert full.json().get("proposal") is None and full.json().get("job") is None
+    after = counts(runtime)
+    assert after["jobs"] == before["jobs"] and after["proposals"] == before["proposals"]
+    assert after["runs"] == before["runs"] and after["usage"] == 0
+    assert len(advances) == 1
+    assert box["executed"] == []
+
+
+def test_second_continue_on_cancelled_failed_or_expired_run_stays_closed(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    opened = _open_continued(
+        box, key="closed-second", phrase_text="继续这项工作。", language="zh"
+    )
+    assert "这项工作已继续。" in opened["message"]
+    _act(runtime, principal, opened["run_id"], "cancel", "closed-second-cancel")
+    assert goal_of(runtime, principal, opened["run_id"])["state"] == "cancelled"
+    held = counts(runtime)
+    refused = send(
+        client,
+        "Continue this work.",
+        key="closed-second-ask",
+        task_id=opened["task_id"],
+        conversation_id=opened["conversation_id"],
+    )
+    assert refused.status_code == 200, refused.text
+    assert refused.json().get("result") is None
+    assert "was cancelled" in refused.json()["message"]
+    assert "Report file verified" not in refused.text
+    assert len(opened["advances"]) == 1
+    assert step_count(runtime, opened["run_id"]) == opened["steps"]
+    assert counts(runtime)["jobs"] == held["jobs"]
+    assert counts(runtime)["proposals"] == held["proposals"]
+    assert goal_of(runtime, principal, opened["run_id"])["state"] == "cancelled"
+
+    expired = _open_continued(box, key="expired-second")
+    _rewrite_run(runtime, expired["run_id"], deadline="2000-01-01T00:00:00.000000Z")
+    held = counts(runtime)
+    late = send(
+        client,
+        "继续这项工作。",
+        key="expired-second-ask",
+        task_id=expired["task_id"],
+        conversation_id=expired["conversation_id"],
+        language="zh",
+    )
+    assert late.status_code == 200, late.text
+    assert late.json().get("result") is None
+    assert "已过期" in late.json()["message"]
+    assert "没有重新开始" in late.json()["message"]
+    assert "报告文件已核验" not in late.text
+    assert "RUN_DEADLINE_EXCEEDED" not in late.text
+    assert len(expired["advances"]) == 1
+    assert step_count(runtime, expired["run_id"]) == expired["steps"]
+    assert goal_of(runtime, principal, expired["run_id"])["state"] == "waiting_review"
+    assert counts(runtime)["jobs"] == held["jobs"]
+    assert counts(runtime)["proposals"] == held["proposals"]
+
+    failed = _open_continued(box, key="failed-second")
+    _rewrite_run(runtime, failed["run_id"], state="failed")
+    held = counts(runtime)
+    stopped = send(
+        client,
+        "Continue this work.",
+        key="failed-second-ask",
+        task_id=failed["task_id"],
+        conversation_id=failed["conversation_id"],
+    )
+    assert stopped.status_code == 200, stopped.text
+    assert stopped.json().get("result") is None
+    assert "failed" in stopped.json()["message"]
+    assert "was not started again" in stopped.json()["message"]
+    assert "Report file verified" not in stopped.text
+    assert len(failed["advances"]) == 1
+    assert step_count(runtime, failed["run_id"]) == failed["steps"]
+    assert goal_of(runtime, principal, failed["run_id"])["state"] == "failed"
+    assert counts(runtime)["jobs"] == held["jobs"]
+    assert counts(runtime)["proposals"] == held["proposals"]
+    assert box["executed"] == []
+
+
+def test_second_continue_interruption_and_unknown_result_recover_once(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    opened = _open_continued(box, key="recover-second")
+    _confirm_proposal(client, opened["proposal_id"], "recover-second-decision")
+    runtime.conversation_work.offline_interrupt = "before_continue"
+    refused = send(
+        client,
+        "Continue this work.",
+        key="recover-second-step",
+        task_id=opened["task_id"],
+        conversation_id=opened["conversation_id"],
+    )
+    assert refused.status_code == 409, refused.text
+    assert refused.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_INTERRUPTED"
+    assert "Report file verified" not in refused.text
+    assert len(opened["advances"]) == 1
+    assert step_count(runtime, opened["run_id"]) == opened["steps"]
+    assert goal_of(runtime, principal, opened["run_id"])["state"] == "waiting_review"
+    runtime.conversation_work.offline_interrupt = None
+    retried = send(
+        client,
+        "Continue this work.",
+        key="recover-second-step",
+        task_id=opened["task_id"],
+        conversation_id=opened["conversation_id"],
+    )
+    assert retried.status_code == 200, retried.text
+    _assert_continued(retried.json(), goal=opened["goal"], artifact_id=opened["artifact_id"])
+    assert retried.json()["recovered"] is False
+    assert step_count(runtime, opened["run_id"]) == opened["steps"] + 1
+    assert len(opened["advances"]) == 2
+    assert goal_of(runtime, principal, opened["run_id"])["state"] == "running"
+    repeated = send(
+        client,
+        "Continue this work.",
+        key="recover-second-step",
+        task_id=opened["task_id"],
+        conversation_id=opened["conversation_id"],
+    )
+    assert repeated.status_code == 200, repeated.text
+    assert step_count(runtime, opened["run_id"]) == opened["steps"] + 1
+
+    unknown_run = _open_continued(box, key="unknown-second")
+    _confirm_proposal(client, unknown_run["proposal_id"], "unknown-second-decision")
+    runtime.conversation_work.offline_interrupt = "after_continue"
+    unknown = send(
+        client,
+        "Continue this work.",
+        key="unknown-second-step",
+        task_id=unknown_run["task_id"],
+        conversation_id=unknown_run["conversation_id"],
+    )
+    assert unknown.status_code == 409, unknown.text
+    assert unknown.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_UNKNOWN"
+    assert "admitted" not in unknown.json()
+    assert "Report file verified" not in unknown.text
+    assert step_count(runtime, unknown_run["run_id"]) == unknown_run["steps"] + 1
+    assert goal_of(runtime, principal, unknown_run["run_id"])["state"] == "running"
+    assert len(unknown_run["advances"]) == 2
+    runtime.conversation_work.offline_interrupt = None
+    conflict = send(
+        client,
+        "继续这项工作。",
+        key="unknown-second-step",
+        task_id=unknown_run["task_id"],
+        conversation_id=unknown_run["conversation_id"],
+        language="zh",
+    )
+    assert conflict.status_code == 409, conflict.text
+    assert conflict.json()["error"]["code"] == "OPERATION_ID_CONFLICT"
+    recovered = send(
+        client,
+        "Continue this work.",
+        key="unknown-second-step",
+        task_id=unknown_run["task_id"],
+        conversation_id=unknown_run["conversation_id"],
+    )
+    assert recovered.status_code == 200, recovered.text
+    _assert_continued(
+        recovered.json(),
+        goal=unknown_run["goal"],
+        artifact_id=unknown_run["artifact_id"],
+        recovered=True,
+    )
+    assert step_count(runtime, unknown_run["run_id"]) == unknown_run["steps"] + 1
+    assert len(unknown_run["advances"]) == 2
+    assert goal_of(runtime, principal, unknown_run["run_id"])["model_calls"] == 0
+    assert box["executed"] == []
+
+
+def test_second_continue_stream_close_is_not_a_second_step(box):
+    client, runtime, principal = box["client"], box["runtime"], box["principal"]
+    opened = _open_continued(box, key="stream-second")
+    _confirm_proposal(client, opened["proposal_id"], "stream-second-decision")
+    headers = {**HEADERS, "X-Operation-Id": "stream-second-step"}
+    body = {
+        "message": "Continue this work.",
+        "task_id": opened["task_id"],
+        "conversation_id": opened["conversation_id"],
+    }
+    with client.stream(
+        "POST", "/api/assistant/messages/stream", json=body, headers=headers
+    ) as opened_stream:
+        assert opened_stream.status_code == 200
+        chunk = next(opened_stream.iter_bytes())
+        assert chunk
+        with pytest.raises(json.JSONDecodeError):
+            json.loads(chunk)
+    recovered = client.post("/api/assistant/messages/stream", json=body, headers=headers)
+    assert recovered.status_code == 200, recovered.text
+    events = parse_sse(recovered.text)
+    reply = events[-1]["reply"]
+    assert events[-1]["type"] == "done"
+    _assert_continued(reply, goal=opened["goal"], artifact_id=opened["artifact_id"])
+    repeated = client.post("/api/assistant/messages/stream", json=body, headers=headers)
+    assert repeated.status_code == 200, repeated.text
+    assert step_count(runtime, opened["run_id"]) == opened["steps"] + 1
+    assert len(opened["advances"]) == 2
+    assert goal_of(runtime, principal, opened["run_id"])["state"] == "running"
+    assert steers(runtime, opened["run_id"]) == 1
+
+
+def test_second_continue_denies_non_owner_and_paired_device(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    opened = _open_continued(box, key="auth-second")
+    other = owner_client(box["app"])
+    hidden = other.post(
+        "/api/assistant/messages",
+        json={
+            "message": "Continue this work.",
+            "conversation_id": opened["conversation_id"],
+            "task_id": opened["task_id"],
+        },
+        headers={**HEADERS, "X-Operation-Id": "other-second"},
+    )
+    assert hidden.status_code == 404, hidden.text
+    assert f"Goal: {opened['goal']}" not in hidden.text
+    assert "This work continued." not in hidden.text
+    assert (
+        client.post(
+            "/api/devices/enrol-display",
+            json={"name": "Fixture screen"},
+            headers={**HEADERS, "X-Operation-Id": "enrol-second"},
+        ).status_code
+        == 200
+    )
+    paired = TestClient(box["app"])
+    paired.headers.update(
+        {**HEADERS, "Authorization": "Bearer " + client.cookies.get("desk_companion_device")}
+    )
+    denied = paired.post(
+        "/api/assistant/messages",
+        json={
+            "message": "继续这项工作。",
+            "conversation_id": opened["conversation_id"],
+            "task_id": opened["task_id"],
+            "language": "zh",
+        },
+        headers={**HEADERS, "X-Operation-Id": "paired-second"},
+    )
+    assert denied.status_code == 403, denied.text
+    assert opened["goal"] not in denied.text
+    assert len(opened["advances"]) == 1
+    assert step_count(runtime, opened["run_id"]) == opened["steps"]
+    assert goal_of(runtime, principal, opened["run_id"])["state"] == "waiting_review"
+    _confirm_proposal(client, opened["proposal_id"], "auth-second-decision")
+    stepped = send(
+        client,
+        "Continue this work.",
+        key="auth-second-owner",
+        task_id=opened["task_id"],
+        conversation_id=opened["conversation_id"],
+    )
+    assert stepped.status_code == 200, stepped.text
+    _assert_continued(stepped.json(), goal=opened["goal"], artifact_id=opened["artifact_id"])
+    assert len(opened["advances"]) == 2
+    assert step_count(runtime, opened["run_id"]) == opened["steps"] + 1
+    assert goal_of(runtime, principal, opened["run_id"])["state"] == "running"
+    assert box["executed"] == []
+
+
+def test_second_continue_asks_for_a_run_when_several_are_open(box):
+    runtime, client, principal = box["runtime"], box["client"], box["principal"]
+    opened = _open_continued(box, key="several-second")
+    _act(runtime, principal, opened["original_id"], "resume", "several-second-resume")
+    assert goal_of(runtime, principal, opened["original_id"])["state"] == "queued"
+    original_steps = step_count(runtime, opened["original_id"])
+    bare = send(
+        client,
+        "Continue this work.",
+        key="several-second-bare",
+        task_id=opened["task_id"],
+        conversation_id=opened["conversation_id"],
+    )
+    assert bare.status_code == 200, bare.text
+    assert bare.json()["kind"] == "clarify"
+    assert "Name the work" in bare.json()["message"]
+    assert bare.json().get("result") is None
+    chinese = send(
+        client,
+        "继续这项工作。",
+        key="several-second-zh",
+        task_id=opened["task_id"],
+        conversation_id=opened["conversation_id"],
+        language="zh",
+    )
+    assert chinese.status_code == 200, chinese.text
+    assert "请写明要继续的工作" in chinese.json()["message"]
+    missing = send(
+        client,
+        "Continue work " + "cd" * 16 + ".",
+        key="several-second-missing",
+        task_id=opened["task_id"],
+        conversation_id=opened["conversation_id"],
+    )
+    assert missing.status_code == 200, missing.text
+    assert "not found" in missing.json()["message"].casefold()
+    other = send(
+        client,
+        f"Continue work {opened['original_id']}.",
+        key="several-second-other",
+        task_id=opened["task_id"],
+        conversation_id=opened["conversation_id"],
+    )
+    assert other.status_code == 200, other.text
+    assert other.json().get("result") is None
+    assert "not found" in other.json()["message"].casefold()
+    assert len(opened["advances"]) == 1
+    assert step_count(runtime, opened["run_id"]) == opened["steps"]
+    assert step_count(runtime, opened["original_id"]) == original_steps
+    assert goal_of(runtime, principal, opened["run_id"])["state"] == "waiting_review"
     assert box["executed"] == []

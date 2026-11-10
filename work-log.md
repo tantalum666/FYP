@@ -806,3 +806,10 @@ PR94 closeout: published reviewed head7043510a, marked ready and merged asa9fb6d
 - **完成：**冲突仍只在 `AGENTS.md`、`START_HERE_NEXT_CHAT.md`、`handoff.md`、`research/personal-agent-research-index.md`、`work-log.md`。继续请求仍走 `parse_work_continue` 和一次 `advance_one`。状态提问仍只重读。OpenAI 默认与 #94 记录保留。草稿 #73、#87、#88 未动，#94 不重开。
 - **验证：**`ruff check` 通过。对话与整合验收 86 passed。全量后端 2053 passed、2 failed。失败项与 #95 同步后相同，且文件夹重启失败在 `origin/main` 上同样出现。前端 `npm test` 330 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-stack-sync/verification.md)。
 - **剩余：**Codex 先合并 #95，再合并 #96。一步之后仍未结束的运行还不能接受下一次明确离线单步。京东账号接管不在这个栈里。
+
+## 2026-11-10 · Second continue while the Work run is still open
+
+- **目标：**#96 之后，同一条对话里的下一次明确继续只在该运行仍开着时再离线推进一步。已结束、已取消、已失败或已过期保持关闭，不新建作业或建议。
+- **完成：**仍由 `ConversationWork` 对既有 `AgentRunService.advance_one` 每次调用一次。没有请求变更时，第一次继续仍结束运行。已请求的变更让第一次继续停在复核，决定之后下一次再推进一步。同一操作号不推进两次。中断、未知结果和流式关闭沿用原恢复。多项当前工作仍要运行编号。配对设备 403。另一个登录打不开这条对话。
+- **验证：**`ruff check` 通过。对话与整合验收 93 passed。全量后端 2060 passed、2 failed。失败项是既有 `test_public_unicast[::ffff:93.184.216.34]` 和 `test_restart_runs_only_the_approved_folder_job`。前端 `npm test` 330 passed，`tsc --noEmit` 通过。付费调用 0。无 GitHub Actions。记录见 [QA](output/qa/2026-11-10-conversation-work-second-continue/verification.md)。
+- **剩余：**Codex 按 #95 → #96 → 本 PR 合并。京东账号接管不在这个栈里。
