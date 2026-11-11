@@ -18,7 +18,7 @@ Changing the card bumps its version. An approval for the previous version cannot
 
 `interrupt: "write"` commits nothing about the offer and is not success. `interrupt: "open"` keeps one task in `opened` and does not approve or notify. The same operation id then finishes that one task. Holding an approval or a receipt writes nothing further until the same operation is retried. A second receipt id conflicts and the first receipt stays.
 
-The task is never marked completed. The receipt note says it is not a live purchase. Every response sets `purchased` and `live_purchase` to false.
+The task is never marked completed. The receipt note says it is not a live purchase. A later offer can still be checked on that same card; an over-budget offer is refused and the recorded receipt stays. Every response sets `purchased` and `live_purchase` to false.
 
 Quiet hours hold the decision notice. `Runtime.tick` releases it once, after the existing tick work. The portable backup still has `mailbox_bundle`, `shopping_bundle`, and `offline_calendar_bundle`. This slice does not add a purchase bundle.
 

@@ -229,6 +229,29 @@ def test_matching_offer_needs_approval_and_a_receipt_is_not_a_purchase(tmp_path)
     assert detail["task"]["status"] == "waiting"
     assert any("not a live purchase" in note.lower() for note in notes(detail))
     assert not any(row["kind"] == "complete" for row in detail["evidence"])
+    later = submit(
+        http,
+        card["id"],
+        "offer-after-receipt",
+        offer_id="offer-2",
+        unit_price_minor=4000,
+        shipping_minor=500,
+    )
+    assert later.status_code == 200, later.text
+    assert later.json()["state"] == "refused"
+    assert later.json()["reason"] == "over_budget"
+    assert later.json()["purchased"] is False
+    detail = task_detail(http, body["task_id"])
+    assert detail["task"]["status"] == "waiting"
+    assert not any(row["kind"] == "complete" for row in detail["evidence"])
+    kept = next(
+        item
+        for item in http.get("/api/purchase-cards", headers=HEADERS).json()["cards"]
+        if item["label"] == "Tissues"
+    )
+    recorded_offer = next(item for item in kept["offers"] if item["offer_id"] == "offer-1")
+    assert recorded_offer["state"] == "receipt_recorded"
+    assert recorded_offer["receipt_id"] == "rcpt-1"
     http.close()
 
 

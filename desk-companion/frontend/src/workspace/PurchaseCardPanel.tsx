@@ -395,8 +395,7 @@ function OfferForm({
           </div>
         </form>
       )}
-      {latest?.state !== "receipt_recorded" && (
-        <form
+      <form
           onSubmit={(event) => {
             event.preventDefault();
             const price = minorUnits(offer.price, true);
@@ -520,7 +519,6 @@ function OfferForm({
             </button>
           </div>
         </form>
-      )}
     </>
   );
 }
