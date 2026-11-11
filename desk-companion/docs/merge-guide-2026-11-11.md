@@ -2,7 +2,7 @@
 
 Completed by Grok Bot via a Cursor cloud agent on 11 November 2026, for Codex. This is a merge plan, not a merge. Codex merges. Do not modify PR #97 or any Codex branch. Do not force-push. Do not rebase these branches. No paid model call was made while checking this plan.
 
-This pull request only adds this guide and the QA note under `output/qa/2026-11-11-merge-plan/`. It does not edit `handoff.md`, `work-log.md`, `decision-log.md`, `AGENTS.md`, `START_HERE_NEXT_CHAT.md`, `product.md`, or [the 10 November guide](merge-guide-2026-11-10.md). Those living files are the conflict surface below. Merge this guide whenever; it does not change those conflicts against current `main`.
+This pull request only adds this guide and the QA note under `output/qa/2026-11-11-merge-plan/`. It does not edit `handoff.md`, `work-log.md`, `decision-log.md`, `AGENTS.md`, `START_HERE_NEXT_CHAT.md`, `product.md`, or the 10 November guide on [PR #107](https://github.com/tantalum666/FYP/pull/107) (`desk-companion/docs/merge-guide-2026-11-10.md`, which is not on `main` yet). Those living files are the conflict surface below. Merge this guide whenever; it does not change those conflicts against current `main`.
 
 `origin/main` at the check was `855e60ee9f413de84474e3e0b9975b9b9a3d5fbc` (7 November live-agent handoff, PR94 merged). Main had not moved since the 10 November guide.
 
