@@ -557,6 +557,27 @@ class TextAssistant:
                         (key, fingerprint, encode(reply)),
                     )
                 return reply
+            from .waiting_on import answer_waiting
+
+            waiting = answer_waiting(
+                self.runtime, payload, key, owner=allow_memory, conversation=conversation
+            )
+            if waiting is not None:
+                if on_event is not None:
+                    fresh = [
+                        row
+                        for row in self.runtime.assistant.audit.listing(100)
+                        if row["id"] not in before and row["call_key"] == key
+                    ]
+                    for event in audit_events(sorted(fresh, key=lambda row: row["id"])):
+                        on_event(event)
+                reply = present(waiting, self.runtime.data.preferences(), payload.language)
+                with self.store.connection(write=True) as conn:
+                    conn.execute(
+                        "INSERT INTO assistant_replies VALUES(?,?,?)",
+                        (key, fingerprint, encode(reply)),
+                    )
+                return reply
             from .assistant import TOOLS
 
             context = {
@@ -652,6 +673,10 @@ class TextAssistant:
             or not self.config.valid()
             or self._purpose_count("memory_extract") >= self.config.extract_cap
         ):
+            return None
+        from .waiting_on import is_waiting_message
+
+        if is_waiting_message(payload.message):
             return None
         try:
             result = self.generate(

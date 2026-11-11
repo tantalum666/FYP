@@ -1,4 +1,5 @@
 import { proposalDecisionNotice } from "./proposalDecision";
+import { WaitingAskButton } from "./waitingAsk";
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -1456,7 +1457,17 @@ export function AssistantPanel({
               </div>
             </div>
           ) : (
-            <form className="assistant-composer" onSubmit={send}>
+            <>
+              {!taskId && (
+                <WaitingAskButton
+                  t={t}
+                  onAsk={(phrase) => {
+                    setText(phrase);
+                    composer.current?.focus();
+                  }}
+                />
+              )}
+              <form className="assistant-composer" onSubmit={send}>
               <textarea
                 ref={composer}
                 aria-label={t("Message the assistant", "向助理发送消息")}
@@ -1537,6 +1548,7 @@ export function AssistantPanel({
                 )}
               </div>
             </form>
+            </>
           )}
           {attachments && (
             <div className="assistant-attachments">
@@ -1819,6 +1831,7 @@ export function AssistantPanel({
             {t("Remember: I prefer morning meetings", "记住：我喜欢上午开会")}
           </li>
           <li>{t("Save note: project ideas", "保存笔记：项目想法")}</li>
+          <li>{t("What am I waiting on?", "我在等什么")}</li>
         </ul>
         <p>
           {t(
