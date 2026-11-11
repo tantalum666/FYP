@@ -123,6 +123,12 @@
   transform: rotate(180deg);
   vertical-align: middle;
 }
+.assistant-meeting-prep-label {
+  margin: 4px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: #5c6578;
+}
 .assistant-panel .assistant-pending,
 .assistant-panel .assistant-notice {
   font-size: 14px;

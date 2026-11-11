@@ -1230,6 +1230,20 @@ export function AssistantPanel({
                         {t(en, zh)}
                       </button>
                     ))}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setText(
+                          t(
+                            "Prep me for my next meeting",
+                            "下一场会要准备什么",
+                          ),
+                        );
+                        composer.current?.focus();
+                      }}
+                    >
+                      {t("Prep me for my next meeting", "下一场会要准备什么")}
+                    </button>
                   </div>
                 )}
               </div>
@@ -1252,6 +1266,11 @@ export function AssistantPanel({
               {turn.jobId &&
                 (!immersive || expanded) &&
                 jobs.filter((job) => job.id === turn.jobId).map(jobCard)}
+              {turn.role === "assistant" && turn.kind === "meeting_prep" && (
+                <p className="assistant-meeting-prep-label">
+                  {t("Next meeting", "下一场会议")}
+                </p>
+              )}
             </div>
           ))}
           {liveMessage && (
@@ -1815,6 +1834,7 @@ export function AssistantPanel({
           <li>{t("What is on today?", "今天的行程")}</li>
           <li>{t("What is on next week?", "下周有什么日程？")}</li>
           <li>{t("Track: finish the project report", "跟进：完成项目报告")}</li>
+          <li>{t("Prep me for my next meeting", "下一场会要准备什么")}</li>
           <li>
             {t("Remember: I prefer morning meetings", "记住：我喜欢上午开会")}
           </li>

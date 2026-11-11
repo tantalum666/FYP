@@ -541,6 +541,13 @@ class TextAssistant:
                 )
             if turn is None:
                 turn = self.maybe_extract(payload, key, allow_memory=allow_memory)
+            if turn is None:
+                # After memory, goals, recall, and extraction. Before any model call.
+                from . import meeting_prep
+
+                turn = meeting_prep.answer_meeting_prep(
+                    self.runtime, payload, owner=allow_memory
+                )
             if turn is not None:
                 if on_event is not None:
                     fresh = [
@@ -646,6 +653,10 @@ class TextAssistant:
 
     def maybe_extract(self, payload, key, *, allow_memory=True):
         """One capped model suggestion. A rejected or failed call does not save a fact."""
+        from .meeting_prep import asks_meeting_prep
+
+        if asks_meeting_prep(payload.message):
+            return None
         if (
             not allow_memory
             or self.config.extract_cap <= 0
