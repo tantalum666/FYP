@@ -2016,6 +2016,7 @@ export function AssistantPanel({
             {t("Remember: I prefer morning meetings", "记住：我喜欢上午开会")}
           </li>
           <li>{t("Save note: project ideas", "保存笔记：项目想法")}</li>
+          <li>{t("When am I free tomorrow?", "我明天什么时候有空？")}</li>
         </ul>
         <p>
           {t(

@@ -78,4 +78,8 @@ export interface Reply {
   plan?: string;
   proposal?: Proposal | null;
   job?: { id: string };
+  open_time?: {
+    openings: Array<{ start: string; end: string }>;
+    booked: false;
+  };
 }

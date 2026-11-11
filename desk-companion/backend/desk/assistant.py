@@ -26,6 +26,7 @@ from .outbound_mail_models import MailDraft
 from .app_connection_models import ConnectedAppQuery
 from .rank import rank_rows
 from .tool_audit import ToolAudit, channel_for
+from .open_time import answer_open_time
 from .owner_lookup import (
     OwnerClockArgs,
     OwnerSearch,
@@ -1174,6 +1175,11 @@ class AssistantService:
         with self.store.connection() as conn:
             zone = self.store.settings(conn)["timezone"]
         now = self.store.clock().astimezone(ZoneInfo(zone))
+        # After memory, goals and recall. Before a selected task treats the
+        # sentence as a progress note, and before the calendar list.
+        opened = self.open_time_turn(request, owner=allow_memory)
+        if opened is not None:
+            return opened
         task_reply = self.task_message(request, key, zone)
         if task_reply is not None:
             return task_reply
@@ -1330,6 +1336,10 @@ class AssistantService:
                 **result,
             }
         return None
+
+    def open_time_turn(self, request, *, owner=True):
+        """One availability answer, or None so the existing parsers still run."""
+        return answer_open_time(self.runtime, request, owner=owner)
 
 
 def query_period(text, now):
