@@ -44,6 +44,7 @@ import { MomentCard } from "./workspace/MomentCard";
 import { NoticeInbox } from "./workspace/NoticeInbox";
 import { PersonaPanel } from "./workspace/PersonaPanel";
 import { TaskPanel } from "./workspace/TaskPanel";
+import { HeldChoicePanel } from "./workspace/HeldChoicePanel";
 import { DataPanel } from "./workspace/DataPanel";
 import { AliceHome } from "./companion/AliceHome";
 import { ExtrasPanel } from "./workspace/ExtrasPanel";
@@ -694,14 +695,17 @@ export function App() {
                 </>
               )}
               {page === "tasks" && (
-                <TaskPanel
-                  t={t}
-                  zone={zone}
-                  onDiscuss={discussTask}
-                  onPlan={(event) =>
-                    setEditor({ initial: event, scope: "series" })
-                  }
-                />
+                <>
+                  <TaskPanel
+                    t={t}
+                    zone={zone}
+                    onDiscuss={discussTask}
+                    onPlan={(event) =>
+                      setEditor({ initial: event, scope: "series" })
+                    }
+                  />
+                  <HeldChoicePanel t={t} />
+                </>
               )}
               {page === "memory" && (
                 <div className="standard-page management-view workspace-panel">

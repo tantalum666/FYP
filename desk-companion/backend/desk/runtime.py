@@ -29,6 +29,7 @@ from .digest import DigestService
 from .moments import MomentService
 from .goals import GoalService
 from .saved_skills import SavedSkillService
+from .held_choices import HeldChoiceService
 from .nudges import NudgeService
 from .notify import Notifier
 from .web_push import HttpPushSender, PushService, push_enabled
@@ -77,6 +78,7 @@ class Runtime:
         self.outputs = OutputService(store)
         self.tasks = TaskService(self)
         self.goals = GoalService(self)
+        self.held_choices = HeldChoiceService(self)
         self.memory = MemoryService(self)
         self.personal_context = PersonalContext(self)
         self.saved_skills = SavedSkillService(self)

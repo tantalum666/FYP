@@ -22,6 +22,7 @@ from .nudges import nudge_routes
 from .digest import digest_routes
 from .saved_skills import saved_skill_routes
 from .goals import goal_routes
+from .held_choices import held_choice_routes
 from .profile import profile_routes
 from .notify import notice_routes
 from .web_push import push_routes
@@ -540,6 +541,7 @@ def create_app(
     app.include_router(notice_routes(services, owner, operation_id))
     app.include_router(push_routes(services, owner, operation_id))
     app.include_router(goal_routes(services, owner, operation_id))
+    app.include_router(held_choice_routes(services, owner, operation_id))
     app.include_router(digest_routes(services, owner, operation_id))
     app.include_router(saved_skill_routes(services, owner, operation_id))
     app.include_router(profile_routes(services, owner, operation_id))

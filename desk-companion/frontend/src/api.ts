@@ -691,6 +691,30 @@ export function errorText(
       "This view contains too many events. Choose a single day in the date picker or open Today.",
       "当前视图日程过多，请在日期选择器选择一天，或打开今天。",
     ],
+    CHOICE_TEXT_MISMATCH: [
+      "That wording is not the draft waiting for approval.",
+      "这句不是正在等待批准的草稿。",
+    ],
+    CHOICE_REVISION_OPEN: [
+      "Approve or drop the open draft before changing this choice again.",
+      "请先批准或放下未完成的草稿，再改这个选择。",
+    ],
+    CHOICE_UNCHANGED: [
+      "Change the assumption, the choice, or the reason.",
+      "请修改依据、选择或原因。",
+    ],
+    CHOICE_LIMIT: [
+      "There is no room for another saved choice.",
+      "没有空位再保存一个选择。",
+    ],
+    CHOICE_NOT_FOUND: [
+      "That choice is no longer waiting for approval.",
+      "这个选择已经不在等待批准。",
+    ],
+    INTERRUPTED: [
+      "That did not become the current choice. Approve the same wording again.",
+      "这还没有成为当前选择。请再批准一次同样的文字。",
+    ],
   };
   const message = messages[code] ?? [
     "The result could not be confirmed. Please review and retry the same operation.",

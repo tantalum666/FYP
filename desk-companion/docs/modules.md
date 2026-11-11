@@ -16,6 +16,7 @@
 | voice, voice_turns, voice_media, voice_credentials | Realtime protocols, turn deadlines, explicit media and backend-only credentials |
 | jobs, computer, linux_desktop, linux_desktop_bridge | One durable intent/approval/verification queue with three bounded executors |
 | goals, nudges, moments, digest, notify, web_push | Confirmed goals, quiet/proactivity-aware local summaries and opt-in notification delivery |
+| held_choices | Owner-approved choice and the assumption it rests on; a new assumption stays pending and keeps the previous wording |
 | exchange, backups, diagnostics, log | Validated business import/export, private SQLite snapshots and owner diagnostics |
 | mailbox, mailbox_fixture, mailbox_backup | Mailbox ingest/cursor and thread links; separate portable validation/restore; effects use existing tasks/proposals/notifier |
 | shopping/service, shopping/backup, shopping/notices | Fixture-to-task tracking, atomic paused Work admission/relink, scoped deferred notices and portable state |
