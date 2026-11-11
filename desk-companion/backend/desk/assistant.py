@@ -1102,6 +1102,13 @@ class AssistantService:
         )
         if recalled:
             return recalled
+        from .waiting_on import answer_waiting
+
+        waiting = answer_waiting(
+            self.runtime, request, key, owner=allow_memory, conversation=conversation
+        )
+        if waiting:
+            return waiting
         text, zh = request.message.strip(), request.language == "zh"
         if match := re.match(
             r"^(?:save to folder|保存到文件夹)\s*[:：]\s*(.+)$", text, re.I | re.S
