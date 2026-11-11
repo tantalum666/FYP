@@ -371,6 +371,29 @@
 .work-tools > details > summary {
   margin-bottom: 0.6rem;
 }
+.held-choice {
+  max-width: 980px;
+  margin: 8px auto 48px;
+  padding: 8px 20px 0;
+}
+.held-choice h2 {
+  margin-bottom: 4px;
+}
+.held-choice label {
+  display: block;
+  margin-top: 12px;
+}
+.held-choice input {
+  display: block;
+  width: min(100%, 36rem);
+  margin-top: 4px;
+}
+.held-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
 .work-tools .workspace-inline-actions {
   flex-wrap: wrap;
 }
