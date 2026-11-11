@@ -23,11 +23,12 @@ Offline source comparison. Handoff: `desk-companion/docs/source-briefs.md`.
 
 ## Verification
 
-Focused checks, before the full suites:
+Local only. GitHub Actions was not used.
 
 - `uv run --no-sync ruff check backend/desk/source_briefs.py tests/test_source_briefs.py` passed.
 - `uv run --no-sync pytest -q tests/test_source_briefs.py`: 6 passed.
-- `node --experimental-strip-types --test tests/source-briefs.test.ts`: 3 passed.
 - `npx tsc --noEmit` passed.
+- Frontend `npm test`: **333 passed, 0 failed**.
+- Backend, from `desk-companion/` with `PYTHONPATH=.:backend`: **2040 passed, 2 failed**, 413.13s. The failures are the ones already known on this `main`: `test_restart_runs_only_the_approved_folder_job` and `test_public_unicast[::ffff:93.184.216.34]`.
 
-Full backend and frontend suites, and the browser pass, are recorded when they finish. GitHub Actions was not used.
+Chrome on `http://127.0.0.1:5190/?page=memory` opened a comparison, refused a quote that was not in the note, then saved both cited points, the unknown point, and the missing source. The same saved card was visible at 390×844 on `/?surface=phone` under More → Saved memories, and in 简体中文 after the language control. The question and the note text stayed as typed. Draft controls were gone after save. No model call was made.
