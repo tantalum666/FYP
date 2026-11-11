@@ -40,7 +40,22 @@ Real account/credential support needs a separately enforced integration.
 A successful job means its browser observation/state was saved, read back and
 closed normally. `outcome` is `review_ready`, `needs_owner` or `step_limit`, and
 `quality` is always `not_goal_completion`. The UI shows the observed screen and
-review/handoff status. Screens are observation previews; interactive human takeover of the same browser and authenticated account continuation are not implemented here. It must never turn this into “bought”, “booked” or “ticketed”.
+review/handoff status. It must never turn this into “bought”, “booked” or “ticketed”.
+
+A login, SMS/OTP, captcha, or payment-confirmation wall pauses the same job in
+`owner_takeover`. The owner receives a reason; it is not a verified result.
+A normal public navigation link labelled Sign in does not itself establish a wall.
+
+**11 November reviewed capability:** the shipped headless worker closes the browser
+and has no owner-input transport. Its takeover/return APIs reject
+`COMPUTER_TAKEOVER_UNAVAILABLE`, and the UI shows the limitation instead of offering
+an unusable button. Only a driver explicitly implementing `supports_owner_takeover`
+can expose those actions. The current positive tests use a synthetic driver; they
+are not real login/OTP/payment acceptance. A future interactive driver must preserve
+admitting-session ownership, versioned operations, no model observation/input during
+owner control, explicit return and independent cleared-wall evidence. Paired clients
+and other sessions cannot take over. Cancellation and deadlines remain effective.
+
 
 An explicit continuation copies only a verified same-task/site browser state
 into a new job with new authority. It does not replay the old action sequence.

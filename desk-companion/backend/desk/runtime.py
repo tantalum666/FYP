@@ -15,15 +15,21 @@ from .wake_listening import WakeListening
 from .exchange import ExchangeService
 from .google_calendar import GoogleCalendar
 from .mailbox import MailboxService
+from .outbound_mail import OutboundMail
+from .microsoft_apps import MicrosoftApps
 from .offline_calendar import OfflineCalendarService
+from .purchase_cards import PurchaseCardService
 from .tasks import TaskService
 from .text_ai import TextAssistant
 from .jobs import JobService
 from .backups import LocalBackups
 from .memory import MemoryService
+from .memory_followups import MemoryFollowUpService
 from .digest import DigestService
 from .moments import MomentService
 from .goals import GoalService
+from .saved_skills import SavedSkillService
+from .held_choices import HeldChoiceService
 from .nudges import NudgeService
 from .notify import Notifier
 from .web_push import HttpPushSender, PushService, push_enabled
@@ -37,6 +43,7 @@ from .personal_memory import PersonalMemoryAdapter
 from .conversations import ConversationService
 from .routines import RoutineService
 from .sources import SourceService
+from .source_briefs import SourceBriefService
 from .artifacts import ArtifactService
 from .agent_runs import AgentRunService
 from .conversation_work import ConversationWork
@@ -50,6 +57,7 @@ from .work_capacity import WorkCapacityService
 from .public_capture_schema import SCHEMA_VERSION
 from .public_captures import PublicCaptureService
 from .shopping.service import ShoppingService
+from .travel_quotes.service import TravelQuoteService
 
 
 class Runtime:
@@ -70,8 +78,10 @@ class Runtime:
         self.outputs = OutputService(store)
         self.tasks = TaskService(self)
         self.goals = GoalService(self)
+        self.held_choices = HeldChoiceService(self)
         self.memory = MemoryService(self)
         self.personal_context = PersonalContext(self)
+        self.saved_skills = SavedSkillService(self)
         self.memories = PersonalMemoryAdapter(self)
         self.conversations = ConversationService(self)
         self.responsibilities = ResponsibilityService(self)
@@ -94,15 +104,20 @@ class Runtime:
             if push_enabled()
             else None,
         )
+        self.memory_followups = MemoryFollowUpService(self)
+        self.notify.owner_projection = self.memory_followups.project_notice
         self.voice = VoiceService(self)
         self.wake = WakeListening(self)
         self.exchange = ExchangeService(self)
         self.backups = LocalBackups(self)
         self.google = GoogleCalendar(self)
+        self.microsoft = MicrosoftApps(self)
+        self.outbound_mail = OutboundMail(self)
         self.offline_calendar = OfflineCalendarService(self)
         self.text_ai = TextAssistant(self)
         self.retained_chat = RetainedChat(self)
         self.sources = SourceService(self)
+        self.source_briefs = SourceBriefService(self)
         self.artifacts = ArtifactService(self)
         self.browser_jobs = BrowserService(self)
         self.connectors = build_connector_service(self, connector_configs)
@@ -113,8 +128,10 @@ class Runtime:
         self.work_capacity = WorkCapacityService(self)
         self.public_captures = PublicCaptureService(self, enabled=public_capture_enabled)
         self.shopping = ShoppingService(self)
+        self.trips = TravelQuoteService(self)
         self.store.operation_guard = self.agent_runs.guard_operation
         self.mailbox = MailboxService(self)
+        self.purchase_cards = PurchaseCardService(self)
         self.posture.on_prompt = self.on_posture_prompt
 
     def on_posture_prompt(self, event):
@@ -176,10 +193,13 @@ class Runtime:
         self.tasks.tick()
         self.mailbox.release_quiet_notices()
         self.shopping.release_quiet_notices()
+        self.trips.release_quiet_notices()
         self.offline_calendar.release_quiet_notices()
         self.memories.expire()
+        self.memory_followups.tick()
         self.nudges.tick()
         self.goals.tick()
         self.jobs.expire()
         self.routines.tick()
         self.voice.work.cleanup()
+        self.purchase_cards.release_quiet_notices()

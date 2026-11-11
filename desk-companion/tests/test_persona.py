@@ -41,7 +41,7 @@ def test_owner_edit_is_versioned_and_display_cannot_change_it(tmp_path):
         )
     restored = runtime.persona.reset(2, "reset")
     assert restored["persona"]["source"] == "default"
-    assert restored["persona"]["body"].startswith("You are Desk Companion")
+    assert restored["persona"]["body"].startswith("You are Alice")
 
     client = TestClient(app)
     headers = {"X-Desk-Request": "1"}

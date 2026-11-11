@@ -1,6 +1,6 @@
 # Group 2 · Modules, data and extension points
 
-4 November 2026. This map describes the integrated branch. The [root handoff](../../handoff.md) records its GitHub state separately from the paused Pi. Archived art/kernel PRs are not part of this integration.
+11 November 2026. This map describes the reviewed integrated source. The [root handoff](../../handoff.md) records its GitHub state separately from the paused Pi. Archived art/kernel PRs are not part of this integration.
 
 ## Responsibility map
 
@@ -16,12 +16,18 @@
 | voice, voice_turns, voice_media, voice_credentials | Realtime protocols, turn deadlines, explicit media and backend-only credentials |
 | jobs, computer, linux_desktop, linux_desktop_bridge | One durable intent/approval/verification queue with three bounded executors |
 | goals, nudges, moments, digest, notify, web_push | Confirmed goals, quiet/proactivity-aware local summaries and opt-in notification delivery |
+| next_step, open_time, meeting_prep, waiting_on, reply_owed | Local conversation answers and task drafts; private/session/file boundaries remain shared |
+| memory_followups | Owner-approved one-shot memory reminders and morning group; current citations projected on read |
+| saved_skills | Owner-reviewed checklist records and occurrences on the existing routine clock; no arbitrary execution |
+| purchase_cards, travel_quotes | Versioned offline preferences/offers and itinerary fixtures; no live transaction |
+| source_briefs | Bounded owner-entered sources, exact quotations and missing-source records |
+| held_choices | Owner-approved choice and the assumption it rests on; a new assumption stays pending and keeps the previous wording |
 | exchange, backups, diagnostics, log | Validated business import/export, private SQLite snapshots and owner diagnostics |
 | mailbox, mailbox_fixture, mailbox_backup | Mailbox ingest/cursor and thread links; separate portable validation/restore; effects use existing tasks/proposals/notifier |
 | shopping/service, shopping/backup, shopping/notices | Fixture-to-task tracking, atomic paused Work admission/relink, scoped deferred notices and portable state |
 | frontend phone/components/workspace/device | Separate layouts, shared session/editor/data lifecycle; [frontend contract](software-maintenance.md) |
 
-One API worker owns in-memory voice/outputs/posture state. The five scheduled loops are rules1s, public_data10s, task_advice30s, computer_jobs0.5s and local_backup at its configured check interval. API startup is not authorization to enable providers, executors, media or physical output.
+One API worker owns in-memory voice/outputs/posture state. The existing scheduled loops are rules1s, public_data10s, task_advice30s, computer_jobs0.5s, responsibilities1s, agent_runs0.5s, browser_jobs0.5s, connectors0.5s and local_backup at its configured interval. Memory follow-ups run within rules; saved-skill occurrences reuse RoutineService.tick. API startup is not authorization to enable providers, executors, media or physical output.
 
 ## Execution and state
 
@@ -35,7 +41,7 @@ Business JSON includes approved fact/persona data and job history. Import valida
 
 ## Extension rules and limits
 
-Add tools to TOOLS/CAPABILITIES/TextPlan together; keep approval outside model schemas. Add provider protocol adapters separately from business operations. Qwen Omni stays the measured baseline, while other candidates remain open. No paid calls without a new budget. `fake` never contacts a provider.
+Add tools to TOOLS/CAPABILITIES/TextPlan together; keep approval outside model schemas. Add provider protocol adapters separately from business operations. OpenAI remains the default provider; Qwen is retained as an explicit historical candidate, without silent fallback. No paid calls without a new budget. `fake` never contacts a provider.
 
 Text conversation attempts default to40 per UTC day (including fallback); optional background advice is separately20. These are call counts, not a currency hard limit. The context character budget excludes tool schemas. Realtime voice retains its own10-second turn/600-second session policies, not the HTTP three-step loop.
 

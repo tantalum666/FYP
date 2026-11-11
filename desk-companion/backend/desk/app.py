@@ -16,10 +16,13 @@ from starlette.middleware.cors import CORSMiddleware
 from .access import DEVICE_COOKIE
 from .assistant_routes import assistant_routes
 from .memory import memory_routes
+from .memory_followups import memory_followup_routes
 from .moments import moment_routes
 from .nudges import nudge_routes
 from .digest import digest_routes
+from .saved_skills import saved_skill_routes
 from .goals import goal_routes
+from .held_choices import held_choice_routes
 from .profile import profile_routes
 from .notify import notice_routes
 from .web_push import push_routes
@@ -34,12 +37,14 @@ from .exchange_routes import exchange_routes
 from .google_calendar import google_routes
 from .mailbox import mailbox_routes
 from .offline_calendar import offline_calendar_routes
+from .purchase_cards import purchase_card_routes
 from .phone import phone_snapshot
 from .tasks import task_routes
 from .jobs import job_routes
 from .personal_context import personal_routes
 from .routines import routine_routes
 from .sources import sources_routes
+from .source_briefs import source_brief_routes
 from .artifacts import artifact_routes
 from .agent_runs import agent_run_routes
 from .browser_jobs import browser_routes
@@ -49,12 +54,14 @@ from .responsibilities import responsibility_routes
 from .work_capacity import work_capacity_routes
 from .public_captures import public_capture_routes
 from .shopping.routes import shopping_routes
+from .travel_quotes.routes import trip_routes
 from .connectors.contracts import load_connector_configs
 from .backups import CHECK_INTERVAL_SECONDS
 from .diagnostics import diagnostics_html, diagnostics_report
 from .log import configure, log_event, redact_text
 
 from .cookies import cookie_secure
+from .session_cookie_scope import LoopbackCookieScope
 from .schemas import CreateEvents, EventAction, Login, ReminderAction, SettingsInput
 from .store import DomainError, Store
 
@@ -161,6 +168,7 @@ def create_app(
                 raise failure
 
     app = FastAPI(title="Desk Companion", version="0.1.0", lifespan=lifespan)
+    app.add_middleware(LoopbackCookieScope)
     app.state.store = store
     app.state.runtime = services
     app.state.scheduled = tuple((name, interval) for name, _action, interval in schedule)
@@ -236,7 +244,9 @@ def create_app(
         response.headers["Referrer-Policy"] = "no-referrer"
         # The app's explicit local preview needs both devices in production too.
         # Browser permission and the UI's separate share action still apply.
-        response.headers["Permissions-Policy"] = "camera=(self), microphone=(self), geolocation=()"
+        response.headers["Permissions-Policy"] = (
+            "camera=(self), microphone=(self), geolocation=(self)"
+        )
         return response
 
     @app.exception_handler(DomainError)
@@ -320,8 +330,13 @@ def create_app(
         if not store.session_valid(token):
             token = store.create_owner_session()
         response.set_cookie(
-            COOKIE, token, httponly=True, samesite="strict",
-            secure=cookie_secure(request), max_age=8 * 3600, path="/api",
+            COOKIE,
+            token,
+            httponly=True,
+            samesite="strict",
+            secure=cookie_secure(request),
+            max_age=8 * 3600,
+            path="/api",
         )
 
     @app.get("/api/session-mode")
@@ -476,7 +491,15 @@ def create_app(
         )
 
     @app.post("/api/workspace/preferences", dependencies=[Depends(authenticated)])
-    def workspace_preferences(payload: PreferencesUpdate, key=Depends(operation_id)):
+    def workspace_preferences(
+        payload: PreferencesUpdate, key=Depends(operation_id), principal=Depends(authenticated)
+    ):
+        if (
+            payload.preferences.weather_location == "automatic"
+            and principal["kind"] != "owner"
+            and services.data.preferences()["weather_location"] != "automatic"
+        ):
+            raise DomainError("OWNER_REQUIRED", 403)
         return services.data.update(payload, key)
 
     @app.post("/api/announcements/claim", dependencies=[Depends(authenticated)])
@@ -505,16 +528,22 @@ def create_app(
         )
 
     app.include_router(device_routes(services, authenticated, owner, agent, operation_id, limit))
+    from .weather import weather_routes
+
+    app.include_router(weather_routes(services.data, authenticated))
     app.include_router(task_routes(services, authenticated, operation_id))
     app.include_router(job_routes(services, owner, operation_id))
     app.include_router(permission_routes(services, owner, operation_id))
     app.include_router(memory_routes(services, owner, operation_id))
+    app.include_router(memory_followup_routes(services, owner, operation_id))
     app.include_router(moment_routes(services, owner, operation_id))
     app.include_router(nudge_routes(services, owner, operation_id))
     app.include_router(notice_routes(services, owner, operation_id))
     app.include_router(push_routes(services, owner, operation_id))
     app.include_router(goal_routes(services, owner, operation_id))
+    app.include_router(held_choice_routes(services, owner, operation_id))
     app.include_router(digest_routes(services, owner, operation_id))
+    app.include_router(saved_skill_routes(services, owner, operation_id))
     app.include_router(profile_routes(services, owner, operation_id))
     app.include_router(persona_routes(services, owner, operation_id))
     app.include_router(assistant_routes(services, authenticated, operation_id))
@@ -522,6 +551,7 @@ def create_app(
     app.include_router(routine_routes(services, owner, operation_id))
     app.include_router(responsibility_routes(services, owner, operation_id))
     app.include_router(sources_routes(services, owner, operation_id))
+    app.include_router(source_brief_routes(services, owner, operation_id))
     app.include_router(artifact_routes(services, owner, operation_id))
     app.include_router(agent_run_routes(services, owner, operation_id))
     app.include_router(browser_routes(services, owner, operation_id))
@@ -534,8 +564,16 @@ def create_app(
     app.include_router(wake_routes(services, owner, allowed_origins))
     app.include_router(exchange_routes(services, authenticated, owner, operation_id))
     app.include_router(google_routes(services, owner, operation_id))
+    app.include_router(purchase_card_routes(services, owner, operation_id))
     app.include_router(mailbox_routes(services, owner, operation_id))
+    from .outbound_mail import outbound_mail_routes
+
+    app.include_router(outbound_mail_routes(services, owner, operation_id))
+    from .app_connections import app_connections_routes
+
+    app.include_router(app_connections_routes(services, owner))
     app.include_router(offline_calendar_routes(services, owner, operation_id))
+    app.include_router(trip_routes(services, owner, operation_id))
     static_root = Path(__file__).resolve().parents[2] / "frontend" / "dist"
 
     @app.get("/{path:path}", include_in_schema=False)

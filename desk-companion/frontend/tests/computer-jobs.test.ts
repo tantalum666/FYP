@@ -47,6 +47,7 @@ test("cancellation remains available for active and unknown jobs only", () => {
     "running",
     "verifying",
     "unknown",
+    "owner_takeover",
   ] as JobState[])
     assert.equal(jobCancellable(job(state)), true);
   for (const state of [

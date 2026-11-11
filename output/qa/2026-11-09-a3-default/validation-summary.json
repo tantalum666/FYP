@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-09",
+  "selected": "A3 / Alice · Taiwan Light",
+  "surfaces": [
+    {
+      "surface": "web_and_phone_browser",
+      "settings_version": 9,
+      "selected": "Alice · Taiwan Light",
+      "exact_A3_voice": true,
+      "sample_hash_matches": true,
+      "original_A_available": true
+    },
+    {
+      "surface": "pi_and_native_phone_service",
+      "settings_version": 9,
+      "selected": "Alice · Taiwan Light",
+      "exact_A3_voice": true,
+      "sample_hash_matches": true,
+      "original_A_available": true
+    }
+  ],
+  "native_phone_process_origin": "http://127.0.0.1:8891",
+  "native_phone_service_matches": true,
+  "production_source_unchanged": true,
+  "paid_calls": 0,
+  "previous_settings_backed_up": true,
+  "all_audition_ledgers_still_closed": true,
+  "scope": "Runtime voice settings and cached preview only; no physical/trilingual playback test",
+  "source": "232b065f910af18151846b73dd48fe92fb1d9e16",
+  "ci_used": false
+}

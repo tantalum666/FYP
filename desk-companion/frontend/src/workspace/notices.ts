@@ -2,6 +2,7 @@
 
 export interface DeskNotice {
   id: string;
+  kind?: string;
   state: string;
   title_en: string;
   title_zh: string;
@@ -14,7 +15,14 @@ export interface DeskNotice {
 
 export function browserPayload(notice: DeskNotice, language: "en" | "zh") {
   const title = language === "zh" ? notice.title_zh : notice.title_en;
-  const body = language === "zh" ? notice.body_zh : notice.body_en;
+  const body =
+    notice.kind === "memory_morning"
+      ? language === "zh"
+        ? "请打开记忆页查看早晨核对。"
+        : "Open Memory to read the morning check-in."
+      : language === "zh"
+        ? notice.body_zh
+        : notice.body_en;
   return { title, options: { body, tag: notice.push.tag } };
 }
 
@@ -28,7 +36,11 @@ export function showBrowserNotice(
       }
     | undefined,
 ): boolean {
-  if (!notifier || notifier.permission !== "granted" || notice.state === "dismissed")
+  if (
+    !notifier ||
+    notifier.permission !== "granted" ||
+    notice.state === "dismissed"
+  )
     return false;
   const payload = browserPayload(notice, language);
   notifier.show(payload.title, payload.options);

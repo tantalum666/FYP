@@ -1,5 +1,7 @@
 # Pi owner relay and recoverable network setup
 
+9 November classroom update: the Pi authenticated with its original pin through the existing VPS while its preferred route was classroom Ethernet. Mac preview8891 was restored, then a one-shot SSH session dropped. The existing reconnecting launcher now owns the web/VNC loopback forwards; owner/workspace/device-page checks passed after recovery. Pi boot ID was unchanged. No relay/firewall/DNS/power configuration was modified. [Field QA](../../output/qa/2026-11-09-sovits-classroom/verification.md).
+
 5 November 2026. Local access stays available; the owner's existing VPS provides an optional management path when direct routes are unavailable. Dorm authenticated access and reboot recovery now pass. Application deployment is separately recorded in the [runtime update QA](../../output/qa/2026-11-05-pi-runtime-upgrade/verification.md); no paid-model feature is activated by this transport.
 
 ## Three-place contract and evidence

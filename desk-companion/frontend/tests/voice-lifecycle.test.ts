@@ -164,6 +164,22 @@ test("cancel during audio resume does not subsequently request a microphone", as
   assert.equal(f.calls.tickets, 0);
   assert.equal(f.sockets.length, 0);
 });
+
+test("silent provider warmup keeps a short preroll instead of exhausting speech capacity", async (t) => {
+  const f = setup(t);
+  await f.start();
+  const capture = f.captures[0];
+  for (let i = 0; i < 200; i++)
+    capture.port.onmessage?.({ data: new ArrayBuffer(1280) });
+  assert.equal(
+    f.events.some((event) => event.type === "error"),
+    false,
+  );
+  f.sockets[0].emit({ type: "ready", continuous: true, mode: "voice" });
+  const audio = f.sockets[0].sent.filter((event) => event.type === "audio");
+  assert.ok(audio.length > 0 && audio.length <= 13);
+  assert.equal(f.calls.tracksStopped, 0);
+});
 test("late microphone permission releases tracks without making a ticket", async (t) => {
   const media = deferred<MediaStream>();
   const f = setup(t, { media: media.promise });
@@ -356,7 +372,9 @@ test("pre-ready audio has a five-second bound and never uploads a truncated ques
   await f.start();
   const s = f.sockets[0];
   for (let i = 0; i < 126; i++)
-    f.captures[0].port.onmessage?.({ data: new ArrayBuffer(1280) });
+    f.captures[0].port.onmessage?.({
+      data: new Int16Array(640).fill(2500).buffer,
+    });
   assert.ok(f.events.some((e) => e.code === "VOICE_CONNECT_TIMEOUT"));
   assert.equal(s.sent.filter((m) => m.type === "audio").length, 0);
   assert.equal(f.calls.tracksStopped, 1);
@@ -418,4 +436,111 @@ test("selected task and conversation identifiers reach the text handshake withou
     prebuffer_ms: 5000,
   });
   assert.equal(f.calls.media, 0);
+});
+
+test("Live capture announces a new acoustic input only when the server advertises support", async (t) => {
+  const f = setup(t);
+  await f.start();
+  f.sockets[0].onopen?.();
+  f.sockets[0].emit({ type: "ready", continuous: true, input_markers: true });
+  const frame = new Int16Array(800).fill(2500).buffer;
+  f.captures[0].port.onmessage?.({ data: frame });
+  f.captures[0].port.onmessage?.({ data: frame });
+  assert.equal(
+    f.sockets[0].sent.filter((x) => x.type === "input_started").length,
+    0,
+  );
+  f.captures[0].port.onmessage?.({ data: frame });
+  assert.equal(
+    f.sockets[0].sent.filter((x) => x.type === "input_started").length,
+    1,
+  );
+  assert.equal(f.sockets[0].sent.filter((x) => x.type === "audio").length, 3);
+});
+
+test("an owner review card stops the response deadline without claiming audio playback", async (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  const f = setup(t);
+  await f.start();
+  f.sockets[0].onopen?.();
+  f.sockets[0].emit({ type: "ready", continuous: true });
+  f.sockets[0].emit({ type: "turn_waiting", turn_id: 1 });
+  f.sockets[0].emit({ type: "turn_review", turn_id: 1 });
+  t.mock.timers.tick(12000);
+  assert.equal(
+    f.events.some((e) => e.type === "error"),
+    false,
+  );
+  assert.equal(
+    f.sockets[0].sent.some((e) => e.type === "playback_started"),
+    false,
+  );
+});
+
+test("older voice servers receive PCM without unsupported acoustic control events", async (t) => {
+  const f = setup(t);
+  await f.start();
+  f.sockets[0].emit({ type: "ready", continuous: true });
+  f.captures[0].port.onmessage?.({
+    data: new Int16Array(800).fill(2500).buffer,
+  });
+  assert.ok(f.sockets[0].sent.every((x) => x.type !== "input_started"));
+});
+
+test("Live overlapping input does not discard speech already queued for playback", async (t) => {
+  const f = setup(t);
+  await f.start();
+  f.sockets[0].emit({ type: "ready", continuous: true });
+  f.sockets[0].emit({ type: "turn_waiting", turn_id: 1 });
+  f.sockets[0].emit({
+    type: "audio",
+    turn_id: 1,
+    audio: Buffer.from(new Int16Array(1200).fill(500).buffer).toString(
+      "base64",
+    ),
+    sample_rate: 24000,
+  });
+  let stopped = 0;
+  f.sources[0].stop = () => {
+    stopped++;
+  };
+  f.sockets[0].emit({ type: "turn_waiting", turn_id: 2 });
+  assert.equal(stopped, 0);
+});
+
+test("a detected wake is explicit in the voice handshake and never inferred for typed input", async (t) => {
+  const f = setup(t);
+  await f.audio.start(
+    async () => "synthetic-ticket",
+    "en",
+    "ws://fixture.invalid",
+    { mode: "voice", wakeTriggered: true },
+  );
+  f.sockets[0].onopen?.();
+  assert.equal(
+    (f.sockets[0].sent[0] as { wake_triggered?: boolean }).wake_triggered,
+    true,
+  );
+});
+
+test("wake handover reacquires authorized capture before audio resume and cancels without a model ticket", async (t) => {
+  const resume = deferred<void>();
+  const f = setup(t, { resume: resume.promise });
+  const starting = f.audio.start(
+    async () => {
+      f.calls.tickets++;
+      return "synthetic";
+    },
+    "en",
+    "ws://fixture.invalid",
+    { mode: "voice", wakeTriggered: true },
+  );
+  await Promise.resolve();
+  assert.equal(f.calls.media, 1);
+  assert.equal(f.calls.tickets, 0);
+  f.audio.close();
+  resume.resolve();
+  await starting;
+  assert.equal(f.calls.tracksStopped, 1);
+  assert.equal(f.calls.tickets, 0);
 });

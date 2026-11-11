@@ -16,7 +16,7 @@ import os
 import secrets
 import threading
 import time
-from dataclasses import dataclass, field as dataclass_field
+from dataclasses import dataclass, field as dataclass_field, replace
 from urllib.parse import urlencode
 from uuid import uuid4
 from zoneinfo import ZoneInfo
@@ -25,6 +25,7 @@ import websockets
 from .openai_transport import model_proxy, validate_openai_proxy
 from fastapi import APIRouter, Depends, WebSocket, Request
 from starlette.websockets import WebSocketDisconnect
+from starlette import websockets as starlette_websockets
 
 from .conversation import Conversations, draft_context, memory_context, task_context
 from .store import DomainError
@@ -37,9 +38,12 @@ from .voice_protocols import (
     GeminiProtocol,
     RealtimeProtocol,
 )
+from .openai_live import OpenAILiveProtocol, OPENAI_LIVE_ENDPOINT
 from .openai_voice import OpenAIRealtimeProtocol, OPENAI_REALTIME_ENDPOINT, OPENAI_REALTIME_MODELS
 from .voice_media import MAX_IMAGE_BASE64, jpeg_image
 from .voice_turns import VoiceTurns
+from .voice_settings import VoiceSettings, VoiceSelection, VoiceRegistration
+from .voice_shutdown import finalize_live
 
 from .context import voice_context_note
 from .voice_work import VoiceWorkLedger, VoiceDraftFreeze
@@ -48,6 +52,11 @@ from .provider_policy import (
     valid_api_key,
     valid_model,
     valid_provider_endpoint,
+)
+
+CLIENT_CLOSED = (
+    WebSocketDisconnect,
+    getattr(starlette_websockets, "WebSocketDisconnected", WebSocketDisconnect),
 )
 
 QWEN_OMNI_MODEL = "qwen3.8-omni-flash-realtime"
@@ -75,6 +84,7 @@ class VoiceConfig:
     voice: str = ""
     configuration_error: str = ""
     proxy_url: str = ""
+    backend_model: str = "gpt-6.1-sol"
 
     @classmethod
     def environment(cls):
@@ -82,7 +92,7 @@ class VoiceConfig:
             **{
                 name.lower(): os.environ.get("DESK_VOICE_" + name, default)
                 for name, default in [
-                    ("PROVIDER", "openai_realtime"),
+                    ("PROVIDER", "openai_live"),
                     ("ENDPOINT", ""),
                     ("MODEL", ""),
                     ("API_KEY", ""),
@@ -99,14 +109,21 @@ class VoiceConfig:
                     config.api_key = qwen_key(path)
                 except (ValueError, OSError, UnicodeError):
                     config.configuration_error = "VOICE_CREDENTIALS_INVALID"
-        if config.provider == "openai_realtime":
+        if config.provider in {"openai_realtime", "openai_live"}:
             config.proxy_url = os.environ.get("DESK_OPENAI_PROXY_URL", "")
             try:
                 validate_openai_proxy(config.proxy_url)
             except ValueError:
                 config.configuration_error = "OPENAI_PROXY_INVALID"
-            config.model = config.model or "gpt-realtime-2.1"
-            config.endpoint = config.endpoint or OPENAI_REALTIME_ENDPOINT
+            config.model = config.model or (
+                "gpt-live-1" if config.provider == "openai_live" else "gpt-realtime-2.1"
+            )
+            config.backend_model = os.environ.get("DESK_LIVE_BACKEND_MODEL", "gpt-6.1-sol")
+            config.endpoint = config.endpoint or (
+                OPENAI_LIVE_ENDPOINT
+                if config.provider == "openai_live"
+                else OPENAI_REALTIME_ENDPOINT
+            )
             path = os.environ.get("DESK_OPENAI_CREDENTIAL_FILE")
             if path:
                 try:
@@ -127,6 +144,12 @@ class VoiceConfig:
             return False
         if self.configuration_error or not valid_api_key(self.api_key):
             return False
+        if self.provider == "openai_live":
+            return (
+                self.model == "gpt-live-1"
+                and valid_model(self.backend_model)
+                and valid_provider_endpoint(self.provider, self.endpoint, kind="voice")
+            )
         if self.provider == "openai_realtime":
             return self.model in OPENAI_REALTIME_MODELS and valid_provider_endpoint(
                 self.provider, self.endpoint, kind="voice"
@@ -148,6 +171,7 @@ class VoiceService:
         self.runtime, self.store = runtime, runtime.store
         self.work = VoiceWorkLedger(runtime)
         self.config = config or VoiceConfig.environment()
+        self.settings = VoiceSettings(self.store)
         self.tickets = {}
         self.lock = threading.Lock()
         self.forget_session = threading.Event()
@@ -195,7 +219,11 @@ class VoiceService:
             raise DomainError("VOICE_NOT_CONFIGURED", 409)
         with self.lock:
             self.tickets = {k: v for k, v in self.tickets.items() if v[0] > time.monotonic()}
-            if self.active or len(self.tickets) >= 10:
+            if (
+                self.active
+                or getattr(getattr(self.runtime, "wake", None), "active", None) is not None
+                or len(self.tickets) >= 10
+            ):
                 raise DomainError("VOICE_BUSY", 409)
             value = secrets.token_urlsafe(32)
             self.tickets[hashlib.sha256(value.encode()).hexdigest()] = (
@@ -207,7 +235,12 @@ class VoiceService:
     def consume(self, value):
         with self.lock:
             item = self.tickets.pop(hashlib.sha256(str(value).encode()).hexdigest(), None)
-            if not item or item[0] <= time.monotonic() or self.active:
+            if (
+                not item
+                or item[0] <= time.monotonic()
+                or self.active
+                or getattr(getattr(self.runtime, "wake", None), "active", None) is not None
+            ):
                 raise DomainError("VOICE_TICKET_EXPIRED", 403)
             if not self.principal_valid(item[1]):
                 raise DomainError("VOICE_TICKET_EXPIRED", 403)
@@ -236,6 +269,7 @@ class VoiceService:
         prebuffer_ms=0,
         *,
         task_id=None,
+        wake_triggered=False,
     ):
         if not self.config.valid():
             await socket.send_json({"type": "error", "code": "VOICE_NOT_CONFIGURED"})
@@ -247,7 +281,13 @@ class VoiceService:
             "qwen_audio": QwenAudioProtocol,
             "qwen_omni": QwenOmniProtocol,
             "openai_realtime": OpenAIRealtimeProtocol,
+            "openai_live": OpenAILiveProtocol,
         }[self.config.provider]()
+        session_config = self.config
+        voice_preferences = None
+        if isinstance(protocol, OpenAILiveProtocol):
+            voice_preferences = self.settings.current(self.config.voice)
+            session_config = replace(self.config, voice=voice_preferences["voice"])
         endpoint = (
             self.config.endpoint
             or "wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent"
@@ -273,6 +313,7 @@ class VoiceService:
         )
         session_id = uuid4().hex
         drafts, usage = {}, {}
+        failure = None
         tool_failures = {}
         grounding_retries = set()
         turns = self.turn_factory()
@@ -284,7 +325,10 @@ class VoiceService:
         conversation = None
         work_session_ref = None
         assistant_text = ""
+        last_audio_turn = None
+        playback_report = None
         restored = False
+        greeted = False
         if isinstance(protocol, RealtimeProtocol):
             protocol.mode = mode
             protocol.language = language
@@ -297,6 +341,8 @@ class VoiceService:
             task_id=task_id,
         )
         ready = asyncio.Event()
+        client_gone = asyncio.Event()
+        client_ready_sent = False
         send_lock = asyncio.Lock()
         provider_send_lock = asyncio.Lock()
         last_activity = time.monotonic()
@@ -315,6 +361,8 @@ class VoiceService:
             await send_client({"type": "proposals_changed"})
 
         try:
+            if isinstance(protocol, OpenAILiveProtocol) and mode != "voice":
+                raise DomainError("VOICE_MESSAGE_NOT_ALLOWED", 422)
             if mode not in {"text", "voice"} or (
                 mode == "text" and not isinstance(protocol, RealtimeProtocol)
             ):
@@ -328,6 +376,22 @@ class VoiceService:
                 instructions += "\n" + voice_context_note(
                     self.runtime, allow_memory=allow_memory, conversation=conversation
                 )
+            if isinstance(protocol, OpenAILiveProtocol):
+                protocol.wake_triggered = wake_triggered
+                protocol.voice_style = self.runtime.persona.current()["body"]
+                protocol.voice_style += (
+                    "\n" + voice_preferences["description"] + "\n" + voice_preferences["delivery"]
+                )
+                remaining = 6000
+                for item in reversed(conversation.replay() if conversation else []):
+                    message = item.get("item", {})
+                    content = message.get("content", [])
+                    text = content[0].get("text", "") if content else ""
+                    size = len(text.encode())
+                    if not text or size > remaining:
+                        continue
+                    remaining -= size
+                    protocol.initial_items.insert(0, message)
             async with self.connector(
                 endpoint,
                 additional_headers=headers,
@@ -408,7 +472,7 @@ class VoiceService:
                     return True
 
                 await send_provider(
-                    protocol.setup(self.config, instructions, allow_memory=allow_memory)
+                    protocol.setup(session_config, instructions, allow_memory=allow_memory)
                 )
 
                 async def refresh_context():
@@ -417,7 +481,7 @@ class VoiceService:
                     current_revision, current_facts = memory_context(self.runtime, allow_memory)
                     if current_revision != revision:
                         if conversation:
-                            conversation.items.clear()
+                            conversation.clear_context()
                             conversation.revision = current_revision
                         await send_client({"type": "ended", "reason": "memory_changed"})
                         return False
@@ -449,7 +513,8 @@ class VoiceService:
                         last_image_at, \
                         image_count, \
                         mode, \
-                        assistant_text
+                        assistant_text, \
+                        playback_report
                     await asyncio.wait_for(ready.wait(), timeout=15)
                     async for raw in socket.iter_text():
                         if len(raw) > MAX_IMAGE_BASE64 + 2000:
@@ -472,6 +537,8 @@ class VoiceService:
                                 raise DomainError("AUDIO_RATE_LIMIT", 429)
                             await send_provider(protocol.audio(message["audio"]))
                         elif message.get("type") in {"vision_start", "vision_stop", "image"}:
+                            if isinstance(protocol, OpenAILiveProtocol):
+                                raise DomainError("VOICE_VISION_NOT_ALLOWED", 403)
                             if (
                                 not isinstance(protocol, RealtimeProtocol)
                                 or principal["kind"] != "owner"
@@ -496,6 +563,8 @@ class VoiceService:
                                 image_count += 1
                                 await send_client({"type": "image_sent", "count": image_count})
                         elif message.get("type") == "text":
+                            if isinstance(protocol, OpenAILiveProtocol):
+                                raise DomainError("VOICE_MESSAGE_NOT_ALLOWED", 422)
                             value = message.get("text", "")
                             if not isinstance(value, str) or not 1 <= len(value.strip()) <= 3000:
                                 raise DomainError("INVALID_TEXT", 422)
@@ -529,6 +598,8 @@ class VoiceService:
                         elif message.get("type") == "mode" and isinstance(
                             protocol, RealtimeProtocol
                         ):
+                            if isinstance(protocol, OpenAILiveProtocol):
+                                raise DomainError("VOICE_MESSAGE_NOT_ALLOWED", 422)
                             next_mode = message.get("mode")
                             if next_mode not in {"text", "voice"}:
                                 raise DomainError("VOICE_MESSAGE_NOT_ALLOWED", 422)
@@ -546,9 +617,21 @@ class VoiceService:
                             await send_provider({"type": "input_audio_buffer.clear"})
                             await send_client({"type": "interrupted"})
                             await send_provider(protocol.mode_update(mode))
+                        elif message.get("type") == "playback_report":
+                            fields = ("packets", "rebuffers", "largest_gap_ms")
+                            if any(
+                                type(message.get(k)) is not int or not 0 <= message[k] <= 120000
+                                for k in fields
+                            ):
+                                raise DomainError("VOICE_MESSAGE_NOT_ALLOWED", 422)
+                            playback_report = {k: message[k] for k in fields}
                         elif message.get("type") in {"stop", "mute"}:
                             return
                         elif message.get("type") == "interrupt":
+                            if isinstance(protocol, OpenAILiveProtocol):
+                                await cancel_drafts()
+                                await send_client({"type": "ended", "reason": "stopped"})
+                                return
                             assistant_text = ""
                             turns.finish("interrupted")
                             await cancel_drafts()
@@ -568,6 +651,11 @@ class VoiceService:
                             timing = turns.playback(message)
                             if timing:
                                 await send_client(timing)
+                        elif message.get("type") == "input_started" and isinstance(
+                            protocol, OpenAILiveProtocol
+                        ):
+                            turns.start()
+                            last_activity = time.monotonic()
                         elif message.get("type") == "input_ended":
                             end_ms = message.get("input_end_ms")
                             if end_ms is not None and (
@@ -594,8 +682,35 @@ class VoiceService:
                         else:
                             raise DomainError("VOICE_MESSAGE_NOT_ALLOWED", 422)
 
+                async def deliver_provider(event):
+                    nonlocal client_ready_sent, failure
+                    if client_gone.is_set():
+                        return False
+                    try:
+                        await send_client(event)
+                        if event["type"] == "ready":
+                            client_ready_sent = True
+                        return True
+                    except CLIENT_CLOSED:
+                        failure = failure or {
+                            "code": "VOICE_CLIENT_DISCONNECTED",
+                            "phase": "active" if client_ready_sent else "startup",
+                        }
+                        client_gone.set()
+                        dispatcher.stop_accepting()
+                        if isinstance(protocol, OpenAILiveProtocol):
+                            protocol.closing = True
+                        return False
+
                 async def receive_provider():
-                    nonlocal last_activity, usage, restored, assistant_text
+                    nonlocal \
+                        last_activity, \
+                        usage, \
+                        restored, \
+                        assistant_text, \
+                        greeted, \
+                        last_audio_turn, \
+                        failure
                     async for raw in provider:
                         data = json.loads(raw)
                         if not isinstance(data, dict):
@@ -607,15 +722,29 @@ class VoiceService:
                                     conversation
                                     and not restored
                                     and isinstance(protocol, RealtimeProtocol)
+                                    and not isinstance(protocol, OpenAILiveProtocol)
                                 ):
                                     for item in conversation.replay():
                                         await send_provider(item)
                                     restored = True
+                                if (
+                                    wake_triggered
+                                    and not greeted
+                                    and not isinstance(protocol, OpenAILiveProtocol)
+                                ):
+                                    greeted = True
+                                    for greeting in (
+                                        protocol.greeting_events()
+                                        if isinstance(protocol, OpenAILiveProtocol)
+                                        else protocol.text("Alice")
+                                    ):
+                                        await send_provider(greeting)
                                 ready.set()
                                 self.state = "listening"
                                 event = {
                                     **event,
                                     "mode": mode,
+                                    "input_markers": isinstance(protocol, OpenAILiveProtocol),
                                     "conversation_id": conversation.id if conversation else None,
                                 }
                             elif kind == "cancel_response":
@@ -623,7 +752,7 @@ class VoiceService:
                                 continue
                             elif kind == "state":
                                 if event.get("speech_ended"):
-                                    await send_client(turns.end(event.get("input_end_ms")))
+                                    await deliver_provider(turns.end(event.get("input_end_ms")))
                                 self.state = event["state"]
                                 last_activity = time.monotonic()
                             elif kind in {"interrupted", "cancel_tools"}:
@@ -649,14 +778,15 @@ class VoiceService:
                                 ):
                                     continue  # Never play a schedule answer backed only by old chat.
                                 if not turns.current or turns.current.ended is None:
-                                    await send_client(turns.end())
+                                    await deliver_provider(turns.end())
                                 event = {**event, **turns.audio()}
+                                last_audio_turn = event.get("turn_id")
                                 self.state = "speaking"
                                 last_activity = time.monotonic()
                             elif kind == "transcript":
                                 normalized = self.work.observe(work_session_ref, event)
                                 if normalized is not None:
-                                    await send_client(normalized)
+                                    await deliver_provider(normalized)
                                 event = {
                                     key: value
                                     for key, value in event.items()
@@ -689,18 +819,27 @@ class VoiceService:
                                     if mode == "text":
                                         timing = turns.text(event.get("text", ""))
                                         if timing:
-                                            await send_client(timing)
+                                            await deliver_provider(timing)
+                                if isinstance(protocol, OpenAILiveProtocol) and conversation:
+                                    conversation.append_voice_fragment(
+                                        event["role"],
+                                        event["text"],
+                                        session_id,
+                                        event["caption_group"],
+                                    )
                                 last_activity = time.monotonic()
                             elif kind == "tool":
                                 self.state = "thinking"
                                 last_activity = time.monotonic()
                                 if not turns.current or turns.current.ended is None:
-                                    await send_client(turns.end())
+                                    await deliver_provider(turns.end())
                                 event = {**event, "_turn_id": turns.tool(event["id"])}
                                 dispatcher.submit(event)
                                 continue
                             elif kind == "usage":
-                                if isinstance(protocol, RealtimeProtocol):
+                                if isinstance(protocol, RealtimeProtocol) and not isinstance(
+                                    protocol, OpenAILiveProtocol
+                                ):
                                     for key, value in event["usage"].items():
                                         usage[key] = usage.get(key, 0) + value
                                 else:
@@ -718,7 +857,7 @@ class VoiceService:
                                     if turn_id in grounding_retries or not isinstance(
                                         protocol, RealtimeProtocol
                                     ):
-                                        await send_client(
+                                        await deliver_provider(
                                             {
                                                 "type": "error",
                                                 "code": "VOICE_UNGROUNDED_RESPONSE",
@@ -737,7 +876,7 @@ class VoiceService:
                                         await send_provider(message)
                                     continue
                                 if mode == "text" and not assistant_text.strip():
-                                    await send_client(
+                                    await deliver_provider(
                                         {"type": "error", "code": "VOICE_EMPTY_RESPONSE"}
                                     )
                                     return
@@ -754,9 +893,25 @@ class VoiceService:
                                     turns.finish("text_complete")
                                 self.state = "confirm" if drafts else "listening"
                             elif kind == "error":
-                                await send_client(event)
+                                failure = {
+                                    "code": event.get("code"),
+                                    "phase": "active" if ready.is_set() else "startup",
+                                }
+                                if getattr(protocol, "failure", None):
+                                    failure["provider"] = protocol.failure
+                                await deliver_provider(event)
                                 return
-                            await send_client(event)
+                            delivered = await deliver_provider(event)
+                            if (
+                                kind == "ready"
+                                and delivered
+                                and wake_triggered
+                                and not greeted
+                                and isinstance(protocol, OpenAILiveProtocol)
+                            ):
+                                greeted = True
+                                for greeting in protocol.greeting_events():
+                                    await send_provider(greeting)
 
                 async def receive_tools():
                     nonlocal last_activity
@@ -787,6 +942,9 @@ class VoiceService:
                             await send_client({"type": "jobs_changed", "job": result["job"]})
                         if await send_tool_result(event, result):
                             dispatcher.delivered(event["id"], result)
+                            review = turns.review_waiting(event.get("_turn_id"))
+                            if review:
+                                await send_client(review)
                             if conversation and not event.get("name", "").startswith("memory_"):
                                 conversation.append(
                                     "user",
@@ -799,12 +957,34 @@ class VoiceService:
                         last_activity = time.monotonic()
 
                 async def deadline():
+                    nonlocal assistant_text, failure
                     last_check = 0.0
                     while True:
                         await asyncio.sleep(0.05)
+                        if isinstance(protocol, OpenAILiveProtocol):
+                            blocked_group = turns.current and (
+                                turns.current.pending
+                                or (turns.current.needs_tool and not turns.current.tool_delivered)
+                            )
+                            group = None if blocked_group else protocol.poll()
+                            if group:
+                                assistant_text = ""
+                                await send_client(
+                                    {
+                                        **group,
+                                        **(
+                                            {"turn_id": last_audio_turn}
+                                            if last_audio_turn is not None
+                                            else {}
+                                        ),
+                                        "mode": mode,
+                                    }
+                                )
+                                self.state = "listening"
                         turn_event = turns.poll()
                         if turn_event:
                             if turn_event["type"] == "error":
+                                failure = {"code": turn_event["code"], "phase": "active"}
                                 # Fence queued/late tools before notifying the client.
                                 dispatcher.stop_accepting(cancel_delivered=True)
                                 turns.finish("timeout")
@@ -824,14 +1004,18 @@ class VoiceService:
                         if conversation:
                             current_revision, _ = memory_context(self.runtime, allow_memory)
                             if current_revision != revision:
-                                conversation.items.clear()
+                                conversation.clear_context()
                                 conversation.revision = current_revision
                                 await send_client({"type": "ended", "reason": "memory_changed"})
                                 return
                         if (
                             time.monotonic() - self.started > 600
                             or time.monotonic() - last_activity
-                            > (30 if self.config.provider == "openai_realtime" else 45)
+                            > (
+                                30
+                                if self.config.provider in {"openai_realtime", "openai_live"}
+                                else 45
+                            )
                         ):
                             await send_client(
                                 {
@@ -855,11 +1039,16 @@ class VoiceService:
                     asyncio.create_task(fn())
                     for fn in (receive_client, receive_provider, receive_tools, deadline)
                 ]
+                tasks.append(asyncio.create_task(client_gone.wait()))
                 try:
                     done, _ = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
                     for task in done:
                         task.result()
                 finally:
+                    if isinstance(protocol, OpenAILiveProtocol):
+                        dispatcher.stop_accepting()
+                        protocol.closing = True
+                        usage = await finalize_live(provider, protocol, tasks[1], send_provider)
                     for task in tasks:
                         task.cancel()
                     await asyncio.gather(*tasks, return_exceptions=True)
@@ -869,10 +1058,18 @@ class VoiceService:
             TypeError,
             KeyError,
             ImportError,
+            RuntimeError,
             OSError,
             TimeoutError,
             websockets.WebSocketException,
         ) as error:
+            failure = {
+                "code": error.code if isinstance(error, DomainError) else "VOICE_CONNECTION_FAILED",
+                "phase": "active" if ready.is_set() else "startup",
+                "exception": type(error).__name__,
+            }
+            if getattr(protocol, "failure", None):
+                failure["provider"] = protocol.failure
             with contextlib.suppress(Exception):
                 await send_client(
                     {
@@ -882,8 +1079,11 @@ class VoiceService:
                         else "VOICE_CONNECTION_FAILED",
                     }
                 )
-        except WebSocketDisconnect:
-            pass
+        except CLIENT_CLOSED:
+            failure = {
+                "code": "VOICE_CLIENT_DISCONNECTED",
+                "phase": "active" if client_ready_sent else "startup",
+            }
         finally:
             with contextlib.suppress(Exception):
                 self.work.end(work_session_ref)
@@ -912,14 +1112,25 @@ class VoiceService:
                             "prebuffer_allowance_ms": prebuffer_ms,
                             "image_frames": image_count,
                             "usage": safe_usage,
+                            "failure": failure,
                             "turns": turns.history,
+                            "playback": playback_report,
+                            "voice_selection": {
+                                "type": "custom"
+                                if session_config.voice.startswith("voice_")
+                                else "builtin",
+                                "settings_version": voice_preferences["version"]
+                                if voice_preferences
+                                else None,
+                                "provider_confirmed": getattr(protocol, "voice_confirmed", None),
+                            },
                         },
                     )
             finally:
                 if conversation:
                     current_revision, _ = memory_context(self.runtime, allow_memory)
                     if current_revision != revision:
-                        conversation.items.clear()
+                        conversation.clear_context()
                         conversation.revision = current_revision
                     conversation.touched = time.monotonic()
                 # Do this before any await: disconnect cancellation must always
@@ -935,6 +1146,41 @@ class VoiceService:
 
 def voice_routes(runtime, authenticated, agent, allowed_origins, limit):
     router = APIRouter(prefix="/api")
+
+    def voice_owner(principal=Depends(authenticated)):
+        if principal.get("kind") != "owner":
+            raise DomainError("OWNER_REQUIRED", 403)
+        return principal
+
+    @router.get("/voice/settings", dependencies=[Depends(voice_owner)])
+    def voice_settings():
+        return {
+            **runtime.voice.settings.current(runtime.voice.config.voice),
+            "supported": runtime.voice.config.provider == "openai_live",
+        }
+
+    @router.post("/voice/settings", dependencies=[Depends(voice_owner)])
+    def save_voice_settings(payload: VoiceSelection, request: Request):
+        with runtime.voice.lock:
+            if runtime.voice.active:
+                raise DomainError("VOICE_BUSY", 409)
+            return runtime.voice.settings.select(payload, request.headers.get("x-operation-id", ""))
+
+    @router.post("/voice/settings/voices", dependencies=[Depends(voice_owner)])
+    def register_voice(payload: VoiceRegistration, request: Request):
+        return runtime.voice.settings.register(payload, request.headers.get("x-operation-id", ""))
+
+    @router.get("/voice/settings/sample/{voice_id}", dependencies=[Depends(voice_owner)])
+    def voice_sample(voice_id: str):
+        from fastapi.responses import FileResponse
+
+        settings = runtime.voice.settings.current(runtime.voice.config.voice)
+        if voice_id not in {choice["id"] for choice in settings["choices"]}:
+            raise DomainError("VOICE_CHOICE_UNAVAILABLE", 404)
+        path = runtime.voice.settings.sample_path(voice_id)
+        if not path.is_file() or path.is_symlink() or path.stat().st_size > 8_000_000:
+            raise DomainError("VOICE_SAMPLE_UNAVAILABLE", 404)
+        return FileResponse(path, media_type="audio/wav")
 
     @router.delete("/voice/conversations/{conversation_id}")
     def forget(conversation_id: str, request: Request, principal=Depends(authenticated)):
@@ -987,6 +1233,8 @@ def voice_routes(runtime, authenticated, agent, allowed_origins, limit):
             prebuffer_ms = first.get("prebuffer_ms", 0)
             if type(prebuffer_ms) is not int or not 0 <= prebuffer_ms <= 5000:
                 raise DomainError("VOICE_MESSAGE_NOT_ALLOWED", 422)
+            if type(first.get("wake_triggered", False)) is not bool:
+                raise DomainError("VOICE_MESSAGE_NOT_ALLOWED", 422)
             principal = runtime.voice.consume(first.get("ticket", ""))
         except (DomainError, ValueError, TimeoutError, WebSocketDisconnect):
             with contextlib.suppress(Exception):
@@ -1000,6 +1248,7 @@ def voice_routes(runtime, authenticated, agent, allowed_origins, limit):
             first.get("conversation_id"),
             prebuffer_ms,
             task_id=first.get("task_id"),
+            wake_triggered=first.get("wake_triggered", False),
         )
 
     return router

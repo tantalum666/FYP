@@ -7,7 +7,7 @@ import struct
 
 from .application_runtime import read_regular
 from .browser_policy import digest
-from .computer_use_files import write_file as exclusive_write
+from .computer_use_files import refresh_file, write_file as exclusive_write
 from .browser_supervisor import BrowserSupervisor
 from .calendar import iso
 from .computer import ExecutionRejected
@@ -17,10 +17,18 @@ from .computer_use_models import (
     MAX_SCREEN_BYTES,
     SCREEN_WIDTH,
     SCREEN_HEIGHT,
+    wall_from_reason,
 )
 from .computer_use_protocol import OpenAIComputerProtocol
 from .computer_use_network import local_browser_proxy
 from .store import DomainError, encode
+
+
+class OwnerWallPause(Exception):
+    """The same job stopped at a wall only the owner can pass. Not a result."""
+
+    def __init__(self, record):
+        self.record = record
 
 
 class ComputerSupervisor(BrowserSupervisor):
@@ -153,10 +161,17 @@ class ComputerUseExecutor:
 
     def _execute(self, request, checkpoint):
         directory = self.root / request["artifact_id"]
-        directory.mkdir(parents=True, mode=0o700)
+        same_job = (directory / "owner-wall.json").is_file() and not request["source_job_id"]
+        directory.mkdir(parents=True, mode=0o700, exist_ok=same_job)
         # An interrupted parent may not know whether browser children exited.
         # New admission stays blocked until cleanup is actually confirmed.
         exclusive_write(self.root, "cleanup-required", request["artifact_id"].encode())
+        if same_job:
+            recorded = json.loads(read_regular(directory / "owner-wall.json", 8000))
+            saved = read_regular(directory / "browser-state.json", 2_000_000)
+            if hashlib.sha256(saved).hexdigest() != recorded.get("state_sha256"):
+                self.blocker.unlink(missing_ok=True)
+                raise ExecutionRejected("COMPUTER_SOURCE_CHANGED", 409)
         if request["source_job_id"]:
             state = read_regular(
                 self.root / request["source_job_id"] / "browser-state.json", 2_000_000
@@ -166,6 +181,7 @@ class ComputerUseExecutor:
                 raise ExecutionRejected("COMPUTER_SOURCE_CHANGED", 409)
             exclusive_write(directory, "source-state.json", state)
         usages, calls = [], 0
+        next_sequence = None
         protocol = self.protocol_factory(
             self.runtime.text_ai.config,
             request["goal"],
@@ -179,14 +195,18 @@ class ComputerUseExecutor:
             self.current(request)
 
         def observe(value):
-            nonlocal calls
+            nonlocal calls, next_sequence
             calls += 1
+            sequence = value["sequence"]
             if (
                 calls > request["max_steps"]
-                or value["sequence"] != calls
-                or value["screen"] != f"screen-{calls}.png"
+                or not isinstance(sequence, int)
+                or value["screen"] != f"screen-{sequence}.png"
+                or (next_sequence is None and sequence != 1 and not same_job)
+                or (next_sequence is not None and sequence != next_sequence)
             ):
                 raise ValueError("Unexpected computer observation")
+            next_sequence = sequence + 1
             image = read_regular(directory / value["screen"], MAX_SCREEN_BYTES)
             if (
                 image[:8] != b"\x89PNG\r\n\x1a\n"
@@ -235,6 +255,7 @@ class ComputerUseExecutor:
                     key: request[key] for key in ("start_url", "allowed_origins", "max_steps")
                 },
                 "resume_state": bool(request["source_job_id"]),
+                "resume_same_job": same_job,
                 "browser_proxy": self.browser_proxy,
                 "http1_only": self.http1_only,
             },
@@ -256,20 +277,25 @@ class ComputerUseExecutor:
                     raise ExecutionRejected("COMPUTER_SITE_UNAVAILABLE", 409)
         if not outcome.cleanup_confirmed or not outcome.value:
             raise RuntimeError("Computer execution/cleanup is uncertain; inspect before retry")
+        value = outcome.value
+        wall = wall_from_reason(value.get("reason"))
+        if value.get("outcome") == "needs_owner" and wall and not outcome.error:
+            raise OwnerWallPause(self._owner_wall(directory, value, wall))
         if not outcome.error:
             fence()
-        value = outcome.value
         image = read_regular(directory / value["observation"]["screen"], MAX_SCREEN_BYTES)
         if hashlib.sha256(image).hexdigest() != value["observation"]["sha256"]:
             raise ValueError("Final screenshot changed")
         state = read_regular(directory / "browser-state.json", 2_000_000)
+        state_sha256 = hashlib.sha256(state).hexdigest()
+        evidence_sha256 = self._wall_evidence(directory, state_sha256)
         result = {
             "job_id": request["artifact_id"],
             "scope": self.scope,
             "outcome": value["outcome"],
             "reason": value["reason"],
             "observation": value["observation"],
-            "state_sha256": hashlib.sha256(state).hexdigest(),
+            "state_sha256": state_sha256,
             "calls": calls,
             "browser_close_confirmed": True,
             "quality": "not_goal_completion",
@@ -278,9 +304,75 @@ class ComputerUseExecutor:
             "browser_version": value["browser_version"],
             "network_boundary": value["network_boundary"],
         }
+        if evidence_sha256:
+            result["evidence_sha256"] = evidence_sha256
         exclusive_write(directory, "receipt.json", encode(result).encode())
         if outcome.error:
             raise ExecutionRejected(outcome.error, 409)
+
+    def _owner_wall(self, directory, value, wall):
+        observation = value.get("observation") or {}
+        screen = observation.get("screen")
+        if (
+            not isinstance(screen, str)
+            or not screen.startswith("screen-")
+            or not screen.endswith(".png")
+            or "/" in screen
+        ):
+            raise ValueError("Invalid screen reference")
+        image = read_regular(directory / screen, MAX_SCREEN_BYTES)
+        if hashlib.sha256(image).hexdigest() != observation.get("sha256"):
+            raise ValueError("Final screenshot changed")
+        state = read_regular(directory / "browser-state.json", 2_000_000)
+        state_sha256 = hashlib.sha256(state).hexdigest()
+        safe = {
+            key: observation[key]
+            for key in ("sequence", "screen", "sha256", "url", "title", "text")
+            if key in observation
+        }
+        record = {
+            "paused": True,
+            "takeover_available": bool(getattr(self.supervisor, "supports_owner_takeover", False)),
+            "verified": False,
+            "wall": wall["wall"],
+            "reason": wall["reason"],
+            "needed": wall["needed"],
+            "phase": "paused",
+            "state_sha256": state_sha256,
+            "observation": safe,
+            "quality": "not_goal_completion",
+            "demo_submissions": value.get("demo_submissions"),
+        }
+        refresh_file(directory, "latest.json", encode(safe).encode())
+        refresh_file(
+            directory,
+            "owner-wall.json",
+            encode(
+                {"wall": wall["wall"], "reason": wall["reason"], "state_sha256": state_sha256}
+            ).encode(),
+        )
+        return record
+
+    def _wall_evidence(self, directory, state_sha256):
+        """A resumed job is not successful until the driver recorded a cleared wall."""
+        if not (directory / "owner-wall.json").is_file():
+            return None
+        try:
+            raw = read_regular(directory / "wall-evidence.json", 8000)
+            evidence = json.loads(raw)
+        except (OSError, ValueError):
+            raise RuntimeError(
+                "Computer execution/cleanup is uncertain; inspect before retry"
+            ) from None
+        observed = evidence.get("observed_text")
+        if (
+            evidence.get("cleared") is not True
+            or evidence.get("state_sha256") != state_sha256
+            or not isinstance(observed, str)
+            or not observed.strip()
+        ):
+            raise RuntimeError("Computer execution/cleanup is uncertain; inspect before retry")
+        return hashlib.sha256(raw).hexdigest()
 
     def verify(self, request):
         directory = self.root / request["artifact_id"]
@@ -303,6 +395,22 @@ class ComputerUseExecutor:
             and hashlib.sha256(image).hexdigest() == observation["sha256"]
             and hashlib.sha256(state).hexdigest() == result["state_sha256"]
         )
+        if valid and (directory / "owner-wall.json").is_file():
+            try:
+                evidence_raw = read_regular(directory / "wall-evidence.json", 8000)
+                evidence = json.loads(evidence_raw)
+            except (OSError, ValueError):
+                valid = False
+                evidence = {}
+                evidence_raw = b""
+            observed = evidence.get("observed_text")
+            valid = valid and (
+                evidence.get("cleared") is True
+                and evidence.get("state_sha256") == result["state_sha256"]
+                and isinstance(observed, str)
+                and bool(observed.strip())
+                and hashlib.sha256(evidence_raw).hexdigest() == result.get("evidence_sha256")
+            )
         return ComputerUseReceipt(
             verified=valid,
             reason="observed_page_readback" if valid else "content_mismatch",

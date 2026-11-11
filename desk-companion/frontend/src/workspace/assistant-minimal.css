@@ -119,9 +119,21 @@
 .assistant-turn.assistant {
   padding: 0 6px;
 }
+.assistant-next-step-label {
+  margin: 0 0 2px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: #5c6578;
+}
 .arrow-forward {
   transform: rotate(180deg);
   vertical-align: middle;
+}
+.assistant-meeting-prep-label {
+  margin: 4px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: #5c6578;
 }
 .assistant-panel .assistant-pending,
 .assistant-panel .assistant-notice {
@@ -131,6 +143,12 @@
 .assistant-input-area {
   flex-shrink: 0;
   position: relative;
+}
+.assistant-waiting-ask {
+  display: block;
+  margin: 0 2px 8px;
+  min-height: 36px;
+  text-align: left;
 }
 .assistant-composer {
   border: 1px solid #e8eaf0;
@@ -360,4 +378,17 @@
   font-size: 12px;
   color: var(--accent);
   margin: 4px 0;
+}
+.assistant-open-time {
+  margin: 4px 0 0;
+}
+.assistant-open-time-label {
+  margin: 0 0 2px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: #5c6578;
+}
+.assistant-open-time ul {
+  margin: 0;
+  padding-left: 18px;
 }

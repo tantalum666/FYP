@@ -49,7 +49,13 @@ export async function request<T>(
       ["/session", "/session/preview", "/session/connect"].includes(path) &&
       options.method
     )
-      window.dispatchEvent(new Event("desk:session"));
+      window.dispatchEvent(
+        new CustomEvent("desk:session", {
+          detail: {
+            reason: options.method === "DELETE" ? "signed_out" : "connected",
+          },
+        }),
+      );
     return body as T;
   } catch (error) {
     if (error instanceof ApiError) throw error;
@@ -234,6 +240,116 @@ export function errorText(
 ) {
   const code = error instanceof ApiError ? error.code : "REQUEST_FAILED";
   const messages: Record<string, [string, string]> = {
+    APP_SCOPE_REQUIRED: [
+      "The app did not receive the required permissions. Reconnect and review the access requested.",
+      "此应用未获得必要权限，请重新连接并核对访问范围。",
+    ],
+    APP_ACCOUNT_UNVERIFIED: [
+      "The provider could not verify this account's email address.",
+      "服务提供方未能验证此账号的邮箱地址。",
+    ],
+    APP_RESPONSE_TOO_LARGE: [
+      "The result is too large. Select an item or request fewer results.",
+      "结果过大，请指定一项内容或减少读取数量。",
+    ],
+
+    APP_NOT_CONFIGURED: [
+      "This app's connection setup is not finished.",
+      "此应用的连接设置尚未完成。",
+    ],
+    APP_NOT_CONNECTED: [
+      "Connect this app in Connections first.",
+      "请先在连接页面授权此应用。",
+    ],
+    APP_RECONNECT_REQUIRED: [
+      "Reconnect this app to renew its permission.",
+      "请重新连接此应用以更新授权。",
+    ],
+    APP_PERMISSION_REQUIRED: [
+      "This account has not granted the required access. A work or school administrator may need to approve it.",
+      "此账号尚未获准访问，工作或学校管理员可能需要批准。",
+    ],
+    APP_ITEM_UNAVAILABLE: [
+      "This item or service is unavailable for the connected account.",
+      "此账号无法访问这项内容或服务。",
+    ],
+    APP_RATE_LIMIT: [
+      "The connected app is temporarily limiting requests. Try again later.",
+      "此应用暂时限制了请求，请稍后重试。",
+    ],
+    APP_CONNECTION_FAILED: [
+      "The connected app could not be reached.",
+      "暂时无法连接此应用。",
+    ],
+    APP_CONNECTION_CHANGED: [
+      "The connected account changed. Read the current account before continuing.",
+      "连接的账号已变化，请刷新后继续。",
+    ],
+
+    APP_CALLBACK_UNAVAILABLE: [
+      "Open Apps from the configured local address to connect this account.",
+      "请通过已配置的本机地址打开应用连接页面。",
+    ],
+    CHAT_DELIVERY_UNCONFIRMED: [
+      "Connection lost. Your message and files are kept. Check delivery before sending again.",
+      "连接中断，消息和附件已保留。请先核对发送结果。",
+    ],
+    CHAT_FILE_FORMAT: [
+      "Choose a PDF, Office document, UTF-8 text file or PNG/JPEG/WebP image.",
+      "请选择 PDF、Office文档、UTF-8文本或 PNG/JPEG/WebP 图片。",
+    ],
+    CHAT_FILE_SIZE: [
+      "Choose a non-empty file up to 2 MB.",
+      "请选择非空且不超过2MB的文件。",
+    ],
+    CHAT_FILE_COUNT: [
+      "Up to four files per conversation. Start a new chat to add more.",
+      "每段对话最多四个文件，添加更多文件请开始新对话。",
+    ],
+    CHAT_FILE_CAPACITY: [
+      "File space is busy. Start a new chat or try again shortly.",
+      "附件空间暂时已满，请开始新对话或稍后重试。",
+    ],
+    CHAT_FILE_EXPIRED: [
+      "This file is no longer available. Choose it again before sending.",
+      "这个附件已失效，请重新选择后发送。",
+    ],
+    CHAT_FILES_CHANGED: [
+      "The conversation changed before sending. Your message was not submitted.",
+      "发送前对话已变化，这条消息尚未提交。",
+    ],
+    CHAT_FILES_UNAVAILABLE: [
+      "File reading is unavailable on this connection. Your selection is kept.",
+      "当前连接暂不支持读取附件，已保留你的选择。",
+    ],
+    EMAIL_CONNECTION_FAILED: [
+      "Could not reach the mail provider. Check the connection and try again.",
+      "暂时无法连接邮箱服务，请检查网络后重试。",
+    ],
+    EMAIL_NOT_CONNECTED: [
+      "Connect Gmail or Microsoft 365 in Connections first.",
+      "请先在连接页面授权 Gmail 或 Microsoft 365。",
+    ],
+    EMAIL_CONNECTION_CHANGED: [
+      "The sending account changed. Prepare a new email for review.",
+      "发件账号已变化，请重新准备邮件。",
+    ],
+    EMAIL_RECIPIENT_REJECTED: [
+      "The mail provider rejected the recipient. Check the address.",
+      "邮箱服务拒绝了这个收件地址，请核对。",
+    ],
+    EMAIL_SEND_REJECTED: [
+      "The mail provider rejected this message. It was not accepted for sending.",
+      "邮箱服务拒绝了这封邮件，尚未提交发送。",
+    ],
+    EMAIL_SEND_UNKNOWN: [
+      "The mail provider's final receipt was lost. Check Sent mail before sending again; Alice will not resend automatically.",
+      "邮件服务的最终回执丢失。请先检查已发送邮件；Alice 不会自动重发。",
+    ],
+    VOICE_SELECTION_MISMATCH: [
+      "The voice service returned a different voice. The call was stopped.",
+      "语音服务返回了不同音色，会话已停止。",
+    ],
     LOCAL_OWNER_UNAVAILABLE: [
       "Open this workspace on your desk, or connect this device first.",
       "请在桌面打开此工作空间，或先连接本设备。",
@@ -247,12 +363,12 @@ export function errorText(
       "本桌面未启用本地笔记执行。",
     ],
     OPENAI_REGION_UNSUPPORTED: [
-      "OpenAI is unavailable from this desk's current region.",
-      "OpenAI 暂不支持当前桌面所在地区的连接。",
+      "The assistant service is unavailable from this connection.",
+      "当前连接暂时无法使用云端助理。",
     ],
     COMPUTER_USE_UNAVAILABLE: [
-      "OpenAI browser operation is not connected on this desk.",
-      "当前桌面尚未接好 OpenAI 浏览器操作。",
+      "Browser operation is not connected on this desk.",
+      "当前桌面尚未接好浏览器操作。",
     ],
     COMPUTER_SITE_UNAVAILABLE: [
       "This website could not be opened. Check the connection or the site's access requirements.",
@@ -337,6 +453,14 @@ export function errorText(
     JOB_NOT_REVIEWABLE: [
       "This job has expired or was already handled. Refresh its status.",
       "作业已到期或已处理，请刷新状态。",
+    ],
+    JOB_NOT_IN_TAKEOVER: [
+      "This browser job is not waiting for you to take over.",
+      "这个浏览器作业现在不在等待你接手。",
+    ],
+    COMPUTER_TAKEOVER_UNAVAILABLE: [
+      "An interactive browser is not connected. This job remains paused.",
+      "尚未连接可接管的浏览器，作业保持暂停。",
     ],
     COMPUTER_TARGET_EXISTS: [
       "A file already exists at this destination. It was left unchanged.",
@@ -570,6 +694,30 @@ export function errorText(
     NARROW_DATE_RANGE: [
       "This view contains too many events. Choose a single day in the date picker or open Today.",
       "当前视图日程过多，请在日期选择器选择一天，或打开今天。",
+    ],
+    CHOICE_TEXT_MISMATCH: [
+      "That wording is not the draft waiting for approval.",
+      "这句不是正在等待批准的草稿。",
+    ],
+    CHOICE_REVISION_OPEN: [
+      "Approve or drop the open draft before changing this choice again.",
+      "请先批准或放下未完成的草稿，再改这个选择。",
+    ],
+    CHOICE_UNCHANGED: [
+      "Change the assumption, the choice, or the reason.",
+      "请修改依据、选择或原因。",
+    ],
+    CHOICE_LIMIT: [
+      "There is no room for another saved choice.",
+      "没有空位再保存一个选择。",
+    ],
+    CHOICE_NOT_FOUND: [
+      "That choice is no longer waiting for approval.",
+      "这个选择已经不在等待批准。",
+    ],
+    INTERRUPTED: [
+      "That did not become the current choice. Approve the same wording again.",
+      "这还没有成为当前选择。请再批准一次同样的文字。",
     ],
   };
   const message = messages[code] ?? [

@@ -3,6 +3,11 @@ import { Camera, Mic, Square } from "lucide-react";
 import { Modal } from "../../components/Dialogs";
 import type { Translate } from "../../types";
 import { LocalCapture } from "./localCapture";
+import {
+  microphoneConstraints,
+  selectedMicrophone,
+  selectMicrophone,
+} from "./microphone";
 import "./media-devices.css";
 
 function deviceError(error: unknown, t: Translate) {
@@ -33,14 +38,12 @@ export function MediaDevicePanel({
   onClose,
   voiceActive,
   canShare,
-  provider,
   onShare,
 }: {
   t: Translate;
   onClose: () => void;
   voiceActive: boolean;
   canShare: boolean;
-  provider: string;
   onShare: (video: HTMLVideoElement) => void;
 }) {
   const cameraCapture = useRef(new LocalCapture());
@@ -52,9 +55,36 @@ export function MediaDevicePanel({
   const [cameraReady, setCameraReady] = useState(false);
   const [error, setError] = useState("");
   const [sent, setSent] = useState(false);
+  const [microphone, setMicrophone] = useState(selectedMicrophone);
+  const [inputs, setInputs] = useState<MediaDeviceInfo[]>([]);
   const video = useRef<HTMLVideoElement>(null);
   const meter = useRef<HTMLMeterElement>(null);
   const live = useRef(true);
+  useEffect(() => {
+    let active = true;
+    const refresh = () => {
+      void navigator.mediaDevices
+        ?.enumerateDevices()
+        .then((devices) => {
+          if (active)
+            setInputs(
+              devices.filter(
+                (device) =>
+                  device.kind === "audioinput" &&
+                  device.deviceId !== "default" &&
+                  device.deviceId !== "communications",
+              ),
+            );
+        })
+        .catch(() => {});
+    };
+    refresh();
+    navigator.mediaDevices?.addEventListener("devicechange", refresh);
+    return () => {
+      active = false;
+      navigator.mediaDevices?.removeEventListener("devicechange", refresh);
+    };
+  }, [mic]);
   useEffect(() => {
     live.current = true;
     const stopHidden = () => {
@@ -168,7 +198,7 @@ export function MediaDevicePanel({
     setMicPending(true);
     try {
       const stream = await micCapture.current.start({
-        audio: { echoCancellation: true, noiseSuppression: true },
+        audio: microphoneConstraints(),
         video: false,
       });
       if (!stream || !live.current) return;
@@ -253,7 +283,7 @@ export function MediaDevicePanel({
         {cameraPending
           ? t("Waiting for camera access…", "等待摄像头许可…")
           : sent
-            ? t("Frame sent to ", "画面已发送至 ") + provider
+            ? t("Frame shared with Alice", "画面已分享给 Alice")
             : camera
               ? camera.getVideoTracks()[0]?.label
               : t("Camera off", "摄像头已关闭")}
@@ -267,6 +297,34 @@ export function MediaDevicePanel({
         </p>
       )}
       <section className="media-mic-test">
+        <label>
+          {t("Microphone", "麦克风")}
+          <select
+            aria-label={t("Microphone", "麦克风")}
+            value={microphone}
+            disabled={voiceActive || micPending}
+            onChange={(event) => {
+              stopMic();
+              selectMicrophone(event.target.value);
+              setMicrophone(event.target.value);
+              setError("");
+            }}
+          >
+            <option value="">{t("System default", "系统默认")}</option>
+            {microphone &&
+              !inputs.some((input) => input.deviceId === microphone) && (
+                <option value={microphone}>
+                  {t("Selected microphone unavailable", "所选麦克风暂不可用")}
+                </option>
+              )}
+            {inputs.map((input, index) => (
+              <option key={input.deviceId} value={input.deviceId}>
+                {input.label ||
+                  t(`Microphone ${index + 1}`, `麦克风 ${index + 1}`)}
+              </option>
+            ))}
+          </select>
+        </label>
         <div className="workspace-inline-actions">
           {mic || micPending ? (
             <button className="secondary" onClick={stopMic}>

@@ -1,14 +1,77 @@
-# Group 2 · OpenAI realtime and Alice wake listening
+# Group 2 · OpenAI voice and Alice wake listening
 
-2 November 2026, Asia/Hong_Kong. Owner requested OpenAI integration and selected calling Alice to wake. This replaces the earlier Qwen-only manual-preview choice for the current software session; Qwen, Gemini and other candidates remain available for comparison.
+## 9 November latest default · A3
 
-## Current interaction
+The owner explicitly selected A3 / Alice · Taiwan Light. Existing owner/versioned APIs now read version9on Mac/Pi with the exact saved A3 ID/original description and preserved language-following delivery. Both serve the cached A3 sample byte-for-byte; Web/phone browser share Mac and the running native phone Simulator still points to Pi8891. Original A and its sample remain available. No new cloud generation, source rebuild, restart or forced interruption. [Current activation QA](../../output/qa/2026-11-09-a3-default/verification.md).
+
+All audition budgets remain closed. This verifies configuration/cache; native/Pi acoustics and English/Cantonese quality remain separate listening checks. The earlier original-A selection below is superseded by this explicit choice.
+
+## 9 November original A applied to all surfaces
+
+The owner explicitly selected original A / Alice · Taiwan Sweet. Mac and Pi owner/versioned settings read version7 with the exact original voice ID/description and the same language-following delivery; each serves the original cached WAV byte-for-byte. Web/phone browser share Mac; the installed/running native Simulator process points at Pi8891. This is actual default configuration readback, not a claim of native/Pi microphone playback quality. Web was visibly opened for owner testing. [Activation QA](../../output/qa/2026-11-09-original-a-three-surfaces/verification.md).
+
+A1 was rejected as older, A2 remained insufficiently young, and A3/Light used the last authorized attempt for a new adult18voice. A3 finalized8seconds and full fixed text but is only an audition. The USD0.05 refinement scope is exhausted/CLOSED at conservative USD0.0300833, including the earlier unknown reservation. No paid attempts remain. Source232b065 and existing voice/tool authority are unchanged; prior defaults/settings are privately saved.
+
+## 9 November sweet Taiwan-Mandarin auditions
+
+The owner rejected the GPT-SoVITS public-reference sound and requested a sweet, soft, cute/youthful feminine Taiwan-Mandarin delivery. A fresh explicit USD0.10 / two-session /40-second authorization produced two original young-adult voices: Alice · Taiwan Sweet and Alice · Taiwan Soft. Both rendered the same short text, confirmed the requested distinct voice IDs and returned final usage:9seconds and11seconds. Conservative accounting USD0.0183333; this ledger is closed and all older ledgers remain closed. No microphone, delegated model, business tool or production-setting change was involved. Creation metadata/audio/voice IDs stay private.
+
+The owner retained A as promising but too mature, then explicitly approved a single USD0.03 /20-second younger-delivery audition using the same saved A voice. A1 returned the same requested voice and complete text,9providerseconds, conservative USD0.00825; its separate ledger is closed. The refinement uses a clear, light young-adult college-freshman delivery. Original A is preserved, A1 was rejected as older; the dated A2/A3 comparison and closed authorization are in the voice brief, and the subsequent original-A activation is recorded above. These are Taiwan-Mandarin direction samples, not a naturalness, English/Cantonese or physical-playback pass. Follow the [current voice brief](../../planning/2026-11-09/alice-sweet-taiwan-voice.md) and [actual QA](../../output/qa/2026-11-09-sweet-taiwan-audition/verification.md); do not continue paid iteration from the closed authorization.
+
+## 9 November earlier GPT-SoVITS technical trial
+
+The owner selected reference-based customization and then GPT-SoVITS testing. The [isolated CPU trial](sovits-evaluation.md) generated six technical samples and measured streaming PCM receipt, but did not replace the Live voice route. The owner subsequently rejected those samples' sound. Cantonese pronunciation/numeric accuracy and interruption/latency stability remain unresolved. Local synthesis/ASR used no hosted-model generation; its technical evidence does not become voice approval. A preferred authorized reference would be needed if that route is revisited.
+
+## 8 November evening: verified voice selection and review delivery
+
+A fresh owner-approved USD1 round is closed at conservativeUSD0.346456, with all five sessions finalized. Original, Gleam and the new Alice · Bright samples each returned actual Mandarin/English/Cantonese text and audio; provider echoes matched the requested voice. Bright is selected for the normal Mac runtime and its real sample is cached. This supersedes the earlier lack of a successful audition for the original voice; the earlier failed ledger remains closed and separate.
+
+The successful full-browser run used the then-current29-tool catalog, three delegated responses and49providerseconds. First audible output after three inputs was about1.488s/1.633s/1.254s; this includes acknowledgments, not first useful task-answer latency. The later OAuth/read integration extends the catalog to30tools and has local protocol coverage, not another paid full-browser run. Naturalness and accent quality remain subjective; no human acoustic acceptance is claimed.
+
+Sustained120ms input onset avoids treating every energy flicker as a new utterance. Playback retains80ms initial/120ms recovery lead and a bounded30second queue, with rebuffer diagnostics. A delivered proposal emits `turn_review` and clears the response deadline without pretending that speech played; the first browser run exposed that timeout and remains recorded as failed. Requested/provider-confirmed voice and settings version are retained as private diagnostics. A returned mismatching voice fails closed. [Current QA](../../output/qa/2026-11-08-caption-mail-voice/verification.md).
+
+## 8 November: transcript groups, voice preferences and slow startup
+
+`live_captions.py` groups display fragments from validated `start_ms`/`end_ms` on the provider session timeline; it does not call a gap “provider-final” or use playback completion as conversation history. `conversationTranscript.ts` updates stable speaker messages and selects only the newest reply on the compact home. Accepted Live text enters the existing bounded conversation buffer after the current grounding gate. Late older fragments cannot replace the latest reply. The provider supplies no completed-turn marker; the 700 ms input-gap/assistant-response display rule remains a presentation heuristic, not identity or action authority.
+
+`voice_settings.py` stores owner-selected Live voice and delivery wording in two additive private SQLite tables. The owner/version/idempotence boundary uses the existing operation service. Changes during an active session are refused; choices apply on the next explicit/wake-triggered session. Custom voice IDs are allowlisted from owner registration, transmitted as `{id: ...}`, and never used as file paths. Cached previews use a hashed local filename, owner authentication and size/symlink checks. No preview is generated automatically. Full runtime backups include these tables; portable personal-history exports deliberately exclude project-bound provider resources.
+
+Official [custom voice documentation](https://developers.openai.com/api/docs/guides/custom-voices) supports free prompt-to-voice creation for GPT Live. One original light/warm adult feminine voice was created for Alice with natural Mandarin, English and colloquial Hong Kong Cantonese as the design goal. Its metadata was accepted by `session.started`, but the first USD0.25-capped audition produced no speech and no final usage receipt. USD0.249 remains conservatively reserved in the now-closed ledger; it is not confirmed spend. A saved voice resource is not a successful naturalness audition. Realtime and Qwen are unchanged and do not receive this Live-only prompt voice.
+
+That trial exposed silent warmup filling the old five-second pre-ready speech buffer, and a client disconnect ending receipt collection. Silent startup now retains only half a second of preroll while the separate ten-second connection deadline applies; voiced pre-ready audio retains the original five-second safety bound. `voice_shutdown.py` drains final Live/backend receipts with one socket reader even after the browser disconnects. Missing receipts still remain unknown. A 6.5-second delayed-start offline browser replay and disconnect/finalization tests pass. No additional paid generation followed the closed audition ledger. [Actual scope and results](../../output/qa/2026-11-08-dialogue-voice/verification.md).
+
+Historical baseline: 2 November 2026, Asia/Hong_Kong. Owner requested OpenAI integration and selected calling Alice to wake. This replaces the earlier Qwen-only manual-preview choice for the current software session; Qwen, Gemini and other candidates remain available for comparison.
+
+## Current interaction · updated 7 November
 
 The primary Web chat retains Alice, shared tasks, memories, permissions and action cards. Enable **Say Alice to wake** once and allow the microphone. While waiting, PCM goes only to the connected desk's local keyword detector. On this Mac preview both browser and detector are on the same machine. Calling Alice or its Mandarin pronunciation wakes the normal voice client; only then does it request an OpenAI session.
 
-The call accepts successive spoken turns without another button. After30 seconds without conversation activity, OpenAI closes and local listening resumes. Existing600-second overall session bound remains. Errors stop automatic listening instead of looping paid retries. Turning off the switch, changing identity, leaving the relevant view or closing the page releases the appropriate capture/socket resources. Returning from a temporarily suspended view can resume an enabled local listener; page reload starts with listening off. This is not an OS-login/background daemon or a claim of native-phone background operation.
+The call accepts successive spoken turns without another button. After30 seconds without conversation activity, OpenAI closes and local listening resumes. Existing600-second overall session bound remains. Errors stop automatic listening instead of looping paid retries. Turning off the switch, changing identity, leaving the relevant view or closing the page releases the appropriate capture/socket resources. Returning from a temporarily suspended view can resume an enabled local listener; page reload restores a saved owner/origin-scoped opt-in only when the browser reports microphone permission already granted. Unsupported or ungranted permission leaves it off without prompting. This is not an OS-login/background daemon or a claim of native-phone background operation.
 
-Typing a submitted message pauses wake mode and uses the existing realtime text path. Long-idle client context is cleared before reuse so a new wake does not depend on an expired30-minute server context. Provider changes end the old connection and clear its resume handle without rewriting visible messages or unsent input.
+Typing a submitted message pauses local waiting without deleting the standing wake choice. With Live selected, typed input uses the existing Responses text path; Live is voice-only in this implementation. Long-idle client context is cleared before reuse so a new wake does not depend on an expired30-minute server context. Provider changes end the old connection and clear its resume handle without rewriting visible messages or unsent input.
+
+
+## 7 November complete-catalog startup repair
+
+The owner's normal wake attempts exposed a defect the restricted query smoke trial did not cover: schema flattening removed business title properties. The complete27-tool startup now preserves property names and passes an actual OpenAI preflight (old payload400, repaired payload200). The current shared Microphone selector applies the same exact input to preview, wake and voice; the normal Mac Web origin now selects its built-in microphone rather than an implicit system default.
+
+A separate complete-app browser evaluation used real native capture permission/lifecycle and synthetic transmitted speech, the full production tool catalog, actual Live/Responses, calendar lookup and browser playback acknowledgement. Three sessions finalized and returned to local waiting; the final answered Alice identity and two fictional meeting times correctly. USD0.1864995conservative accounting, USD0.50repair ledger closed. Useful post-input playback6.393seconds remains above the approximate5second target. The prior USD1trial below used a restricted tool list; its scope does not substitute for this full-catalog check. [Repair QA](../../output/qa/2026-11-07-alice-wake-repair/verification.md).
+
+Provider rejection records bounded error identifiers and phase, without raw error messages or private input. The UI distinguishes configuration rejection from microphone permission and clears a previous failure when a new deliberate attempt starts. Errors still stop paid retries.
+
+## 7 November current Live implementation
+
+The owner selected GPT Live as the primary voice route and retained Realtime as a comparison option. `openai_live.py` adapts native Live sessions and Responses delegation to the existing VoiceService/ToolDispatcher. Speech uses gpt-live-1; delegated business reasoning and independent text/browser requests use gpt-6.1-sol. `configure_openai.py --voice-provider openai_realtime` explicitly selects the retained comparison route. There is no silent provider fallback, new business queue or frontend credential.
+
+Alice identity is included both in the speech instructions and in the invariant shared persona rules, including previously saved custom personas. Calling Alice starts a short greeting and accepts successive spoken turns. Local keyword listening and cloud voice share one locked slot. Same-owner session renewal rearms local listening; it does not automatically reopen paid voice after a failure.
+
+Live backend completion is not spoken-output completion. Quiet caption grouping is explicitly a local display boundary; user transcript fragments remain unfinalized in the voice ledger. Shutdown requests session.close and drains the final usage receipt. Cumulative duration replaces earlier snapshots, backend receipts are deduplicated, and incomplete receipts stay marked unconfirmed. Thirty-second inactivity and the existing 600-second overall limit apply; a maximum of twelve delegated backend responses bounds a session. These limits are not an account-wide dollar cap.
+
+No image or typed command is sent through this Live adapter. The shared camera panel still supports local preview; explicit cloud frame sharing remains available with a compatible selected provider such as Realtime. Existing owner authority, tool versions, confirmation, cancellation and result checks remain in the business services.
+
+The fresh owner-approved USD1 /45-second synthetic trial is closed: local Hey Alice detection, correct Alice identity, a real calendar_query over two fictional meetings at10:30/14:00, returned audio, no calendar writes and released session slot. Provider duration20seconds; two delegated requests with5830input/133output tokens. Conservative accounting USD0.0518613333, not an invoice. The trial was manually stopped after the complete answer; idle closure was checked separately with offline protocol tests. Human microphone/speaker/AEC quality and a controlled Live-versus-Realtime comparison remain open. [Full QA](../../output/qa/2026-11-07-alice-home-wake/verification.md).
+
+Current Mac uses Web5190/API8831, the approved private key reference, verified pinned wake models and the shared [Alice home](alice-home.md). Pi readiness/activation is recorded separately in that QA. Earlier runtime/default statements below are dated historical evidence, not instructions to restore those settings.
 
 ## Responsibilities
 

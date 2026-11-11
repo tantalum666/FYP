@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated: 6 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated: 10 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -736,12 +736,9 @@ Publication receipt: sourceeeb96fc was pushed to draftPR87 and its remote HEAD/t
 - **验证：**`uv run --no-sync ruff check` 通过。`python -m pytest tests/test_conversation_work.py tests/test_integration_acceptance.py -q` 为 67 passed（对话 60、整合验收 7）。全量 `python -m pytest -q` 为 1828 passed、1 failed；失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`。前端 `npm test` 为 323 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-06-conversation-work-verified-result/verification.md)。
 - **剩余：**后一轮提问还不能再次读出这一条已核验结果。真实账号、支付、Pi 和付费比较仍分开。Codex 合并顺序是 #89 → #90 → #91 → 本 PR。
 
-
-
 ## 2026-11-06 待合并PR组合审查
 
 冻结73／87／88／89–92，独立codex/openai-personal-agent-20261106组合，保留所有祖先。根状态文档保留最新软件状态，网络历史保留并服从后续物理重启澄清。修复邮件／日历源内容指令误判、旧assistant回执兼容、报告核验语义及Goal前缀误匹配；新增4回归。1949后端／328前端、类型／生产构建／Ruff通过；浏览器实际先拒绝来源指令，再改已有Work目标并显示文件核验，控制台无错误。新费用调用0、无CI、未更改Pi现场网络。完整证据及即将记录的合并回执见[本轮QA](output/qa/2026-11-06-openai-agent-merge/verification.md)。后续继续默认OpenAI和真实浏览器／computer use接入。
-
 
 ## 2026-11-06 OpenAI default and general browser milestone
 
@@ -781,3 +778,80 @@ Updated product, research status, browser/VPS/application/maintenance/delivery c
 
 
 PR94 closeout: published reviewed head7043510a, marked ready and merged asa9fb6da; fetched remote main and verified exact whole-tree equality. Final administrative documentation records this result; deployed code remainsd40457fe. No CI. See the dated publication receipt.
+
+
+## 2026-11-10 Folder-job restart clock
+
+- **目标：**修复 main 上 `test_restart_runs_only_the_approved_folder_job` 在当前日期返回 `expired` 的问题，并确认测试不随真实日期失效。不改真实用户的期限，不调用付费模型。
+- **阅读：**AGENTS、handoff、product 当前要求、decision-log 2026-11-06/07 决定、`test_folder_jobs.py` 全文、`jobs.py` 批准/过期/执行、`create_app` 与 `Store.clock` 默认值、文件夹执行器、电脑作业重启测试和期限说明。未重读全部历史 Markdown。
+- **完成：**重启后的应用改为使用原 `store.clock`。生产作业期限本来就只用这一时钟；失败来自测试里的第二次 `create_app` 省略了它。检索了其它“注入固定时钟后再打开同一存储却不传时钟”的测试，没有第二处。`::ffff:93.184.216.34` 的公网单播失败未改。
+- **验证：**文件夹作业 11 项通过；libfaketime 把系统时间固定在 2035-06-01 UTC 后，文件夹与电脑作业 50 项通过。省略时钟的对照脚本在真实当前时间得到 `expired`。安装前端依赖后的后端全套为 2035 通过、1 失败（预先存在的 `::ffff:93.184.216.34` 公网单播检查）。详见 [QA](output/qa/2026-11-10-folder-job-clock/verification.md)。无 CI。
+- **剩余：**产品下一步仍是现有浏览器作业中的拥有者接管与交还。公网单播的 IPv4 映射地址检查仍失败。
+
+## 2026-11-07 · Later ask re-shows the verified Work result
+
+- **目标：**改口已经在同一条对话显示一项已核验离线结果之后，拥有者稍后在同一条对话问起这项工作，再次看到同一份 Markdown。不第二次调用离线执行器，不调用提供商。#89–#92 已在 main，不重开。草稿 #73、#87、#88 不动。#94 已由 main 合并，本切片不重开它。
+- **完成：**`parse_work_followup` 只认封闭问法。同一条对话里已有 `verified` + `byte_readback` 的回复时，再次读取那一个文件。未核验、失败和中断都不是成功重显。另一个登录打不开这条对话。配对设备是 403。Full access 不产生作业或建议。同一操作号和流式关闭沿用既有回执。
+- **验证：**合并 main 之前：`uv run --no-sync ruff check` 通过。对话测试 68 项通过。整合验收 7 项通过。全量 `python -m pytest -q` 为 1956 passed、1 failed；失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`。前端 `npm test` 为 328 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-reshow/verification.md)。
+- **剩余：**后一轮提问不会继续这项工作。真实账号、支付和付费比较仍分开。下一步是 #96：拥有者明确要求继续同一项 Work，仍离线且不调用提供商。
+
+## 2026-11-07 · Explicit continue advances one verified Work run
+
+- **目标：**已核验报告出现在同一条对话之后，拥有者明确要求继续这项工作。既有离线执行器只推进这一次，不调用提供商。#89–#92 已在 main。本分支叠在 #95 上。草稿 #73、#87、#88 不动。#94 已由 main 合并，本切片不重开它。
+- **完成：**`parse_work_continue` 只认封闭说法。一项当前工作时推进这条对话已经显示过的运行；多项必须写出运行编号。同一操作号最多推进一次。提交前中断可以重试一次。结果未知时用同一操作号恢复且不第二次推进。已结束或已取消的运行有明确回复，不会重开。另一个登录打不开这条对话。配对设备是 403。Full access 不产生作业或建议。
+- **验证：**合并 main 之前：`uv run --no-sync ruff check` 通过。对话测试 79 项通过。整合验收 7 项通过。全量 `python -m pytest -q` 为 1967 passed、1 failed；失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`。前端 `npm test` 为 328 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-continue/verification.md)。
+- **剩余：**一步之后如果运行仍未结束，下一次明确要求还不能再推进一步。真实账号、支付和付费比较仍分开。
+
+## 2026-11-07 · Sync main after #94 into the re-show branch
+
+- **目标：**#95 在 #94 合并进 main 之后不能合并。用普通合并把当前 `origin/main` 带进 `cursor/conversation-work-reshow-verified-b9a2`，保留后一轮重显，并保留 #94 的浏览器／VPS 变更。不强制推送，不重写已推送历史，不合并 PR。
+- **完成：**冲突只在 `AGENTS.md`、`START_HERE_NEXT_CHAT.md`、`handoff.md`、`research/personal-agent-research-index.md`、`work-log.md`。`text_ai.py` 和 `decision-log.md` 自动合并。重显仍把当前对话传给 `ConversationWork.turn`。OpenAI 默认与 #94 记录保留。草稿 #73、#87、#88 未动，#94 不重开。
+- **验证：**`ruff check` 通过。对话与整合验收 75 passed。全量后端 2042 passed、2 failed。失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`，以及 `test_restart_runs_only_the_approved_folder_job`。后一项在当前 `origin/main` 上同样失败，测试文件与 main 无差异。前端 `npm test` 330 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-stack-sync/verification.md)。
+- **剩余：**#96 还要用同样的普通合并接上更新后的 #95。Codex 的合并顺序仍是 #95 然后 #96。
+
+## 2026-11-07 · Sync the updated #95 branch into the continue branch
+
+- **目标：**#96 叠在 #95 上。把已经同步 main 的 #95 用普通合并带进 `cursor/conversation-work-continue-once-51ee`。保留明确继续这一步，保留 #94 记录。不强制推送，不改 PR 基线，不合并 PR。
+- **完成：**冲突仍只在 `AGENTS.md`、`START_HERE_NEXT_CHAT.md`、`handoff.md`、`research/personal-agent-research-index.md`、`work-log.md`。继续请求仍走 `parse_work_continue` 和一次 `advance_one`。状态提问仍只重读。OpenAI 默认与 #94 记录保留。草稿 #73、#87、#88 未动，#94 不重开。
+- **验证：**`ruff check` 通过。对话与整合验收 86 passed。全量后端 2053 passed、2 failed。失败项与 #95 同步后相同，且文件夹重启失败在 `origin/main` 上同样出现。前端 `npm test` 330 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-stack-sync/verification.md)。
+- **剩余：**Codex 先合并 #95，再合并 #96。一步之后仍未结束的运行还不能接受下一次明确离线单步。京东账号接管不在这个栈里。
+
+## 2026-11-10 · Second continue while the Work run is still open
+
+- **目标：**#96 之后，同一条对话里的下一次明确继续只在该运行仍开着时再离线推进一步。已结束、已取消、已失败或已过期保持关闭，不新建作业或建议。
+- **完成：**仍由 `ConversationWork` 对既有 `AgentRunService.advance_one` 每次调用一次。没有请求变更时，第一次继续仍结束运行。已请求的变更让第一次继续停在复核，决定之后下一次再推进一步。同一操作号不推进两次。中断、未知结果和流式关闭沿用原恢复。多项当前工作仍要运行编号。配对设备 403。另一个登录打不开这条对话。
+- **验证：**`ruff check` 通过。对话与整合验收 93 passed。全量后端 2060 passed、2 failed。失败项是既有 `test_public_unicast[::ffff:93.184.216.34]` 和 `test_restart_runs_only_the_approved_folder_job`。前端 `npm test` 330 passed，`tsc --noEmit` 通过。付费调用 0。无 GitHub Actions。记录见 [QA](output/qa/2026-11-10-conversation-work-second-continue/verification.md)。
+- **剩余：**Codex 按 #95 → #96 → 本 PR 合并。京东账号接管不在这个栈里。
+
+## 2026-11-10 Owner takeover and return on the same browser job
+
+Paused the existing computer-use job at a login, SMS/OTP, captcha, or payment wall instead of opening a second job. Only the admitting owner can take over and hand it back; both calls are operation ids. A lost response is not success. Return restores that job's browser state. Success after a wall needs read-back and evidence the wall is gone. Expiry and cancel during takeover stay terminal. Alice does not type or store a password, code, or card.
+
+Offline fixture pages and a fake browser driver. No live JD, paid model, Pi, or VPS change. Local test counts are in [QA](output/qa/2026-11-10-owner-takeover/verification.md). Next: a live JD owner pass only under a newly scoped session.
+
+
+## 2026-11-10 Owner-approved memory follow-up
+
+- **Goal:** Choose one personal-agent slice that does not overlap the open browser-takeover, conversation-Work, folder-clock, or Alice-home PRs, and implement it offline.
+- **Choice:** A saved memory can be raised once at a local time the owner approves. Quiet hours and proactive-reminders-off hold that same follow-up. Forgetting the fact cancels it and keeps the wording out of the notice. Task follow-ups already exist; this does not add a second task system.
+- **Done:** `desk/memory_followups.py`, Memory page prepare/approve/dismiss, behavior tests, contract, decision, and handoff. `runtime.py` and `app.py` only register the service.
+- **Verification:** Memory follow-up pytest 9 passed. Frontend `npm test` 331 passed, 0 failed. `tsc` and Vite build passed. Ruff on backend, scripts, and tests passed. Full backend pytest 2043 passed, 2 failed: the known `test_public_unicast[::ffff:93.184.216.34]` and `test_restart_runs_only_the_approved_folder_job`. Chrome saved a fact, prepared a follow-up, approved it, and dismissed it. No paid call.
+- **Remaining:** One approved check-in that cites several due memories, still without a model, a second scheduler, or a mailbox. Browser takeover stays in its open PR. Evidence: [QA](output/qa/2026-11-10-memory-followup/verification.md).
+
+## 2026-11-10 Morning check-in for several memory follow-ups
+
+- **Goal:** One owner-approved morning check-in gathers several due memory follow-ups into a single notice, citing each still-active fact. Reuse the follow-up tick. No model, mailbox, or second scheduler.
+- **Done:** The memory follow-up service now holds covered follow-ups and publishes one notice at the approved minute. Forgotten and expired facts are omitted, including on a delivery retry. Approval, revision, and dismiss use operation ids. The Memory page prepares, approves, and dismisses the check-in. The always-on display does not speak the facts.
+- **Verification:** Morning check-in pytest 12 passed, and the existing 9 follow-up tests still passed. Frontend `npm test` 333 passed, 0 failed. `tsc` and Vite build passed. Ruff on backend, scripts, and tests passed. Full backend pytest 2055 passed, 2 failed: the known `test_public_unicast[::ffff:93.184.216.34]` and `test_restart_runs_only_the_approved_folder_job`. Chrome saved two facts, prepared one check-in that cited both, approved it, and dismissed it. The dentist follow-up minute landed on 09:09 rather than 09:00; both times were still before the 09:30 check-in. No paid call.
+- **Remaining:** Merge the single-memory follow-up first. Browser takeover stays in its open PR. Evidence: [QA](output/qa/2026-11-10-memory-morning-checkin/verification.md).
+
+
+## 2026-11-11 Grok integration review and repairs
+
+Owner asked to review, fix and merge all new Grok work. Pinned24open PRs (23Grok plus Alice97) and main855e60ee; built an isolated integration from97, retaining all stack heads with ordinary merges. Existing active/recovery worktrees, Mac/Pi runtimes, A3resources and paid ledgers were preserved.
+
+Repairs cover attachment routing, private-goal visibility, completed/scoped reply obligations, private endpoint/transaction/replay checks, dynamic memory notices, purchase target/version/original-price comparison, durable pre-dispatch Work reservations, truthful takeover capability and login-link classification, stale trip synchronization and DST validation. New forms moved into existing optional tools; no home/composer clutter restored. Four source-string tests for obsolete labels were removed, with actual route/render/state tests retained or added.
+
+Initial backend2319passed/2staleassertions; final full backend2342passed/0failed. Final narrow mapped-IP change then passed81transport tests; installed Python3.12.13 seven-case function check passed (the older3.12.3 contributor failure was not reproduced on the patched interpreter). Frontend374passed; typecheck/build, Ruff and diff checks passed. Browser actual chooser/upload/mocked-response, held-choice approval and changed assumption,1440×1000desktop and393×852/320×740phone passed without app exceptions, final HTTP failures or horizontal overflow. The first test harness used an unallowed8834origin and was corrected to the existing allowed8832port; no product origin restriction was weakened. Installed Chrome used because Playwright's bundled headless-shell executable was absent; no browser dependency was installed.
+
+Read scopes, exact heads, findings, screenshots and remaining gaps are in [review QA](output/qa/2026-11-11-grok-review/verification.md). No CI, live provider spend, external communication or runtime deployment. The next implementation is actual owner-controlled browser takeover on the existing job; offline state transitions do not constitute real merchant login, payment or ticketing. Remote merge receipts are added after actual GitHub confirmation.

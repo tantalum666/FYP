@@ -14,10 +14,14 @@ export interface Proposal {
     | "memory_delete"
     | "memory_consolidate"
     | "mailbox_reply"
+    | "email_send"
     | "shopping_advice"
     | "calendar_advice";
   expires_at: string;
   data: {
+    from?: string;
+    to?: string;
+    subject?: string;
     title?: string;
     task?: TaskInput;
     original_task?: Task;
@@ -74,4 +78,8 @@ export interface Reply {
   plan?: string;
   proposal?: Proposal | null;
   job?: { id: string };
+  open_time?: {
+    openings: Array<{ start: string; end: string }>;
+    booked: false;
+  };
 }

@@ -1,0 +1,258 @@
+.assistant-panel {
+  --assistant-surface: #fff;
+  --assistant-raised: #f2f5f7;
+  --assistant-ink: #253340;
+  --assistant-muted: #647383;
+  --assistant-border: #dbe3e9;
+}
+.alice-home .assistant-panel {
+  --assistant-surface: #20313f;
+  --assistant-raised: #2a3d4b;
+  --assistant-ink: #eef4f7;
+  --assistant-muted: #b4c3cf;
+  --assistant-border: #a7c4d32d;
+  --device-muted: var(--assistant-muted);
+  --device-line: var(--assistant-border);
+  --device-panel: #1c2d3a;
+  --device-text: var(--assistant-ink);
+  --device-accent: #a5cfb6;
+  --accent: #a5cfb6;
+  --line: var(--assistant-border);
+  color-scheme: dark;
+}
+.composer-menu {
+  position: absolute;
+  z-index: 8;
+  bottom: calc(100% + 8px);
+  left: 0;
+  width: min(266px, 100%);
+  padding: 6px;
+  border-radius: 16px;
+  border: 1px solid var(--assistant-border);
+  background: var(--assistant-surface);
+  box-shadow: 0 12px 32px #0003;
+}
+.assistant-panel .composer-menu button {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--assistant-ink);
+  text-align: left;
+  font-size: 14px;
+}
+.assistant-panel
+  .composer-menu
+  button:is(:hover, :focus-visible):not(:disabled) {
+  background: var(--assistant-raised);
+  outline-offset: -2px;
+}
+.assistant-panel .assistant-composer {
+  flex-wrap: wrap;
+}
+.assistant-panel .assistant-composer textarea {
+  flex: 1 1 100px;
+  min-width: 0;
+}
+.assistant-panel .assistant-composer-actions {
+  flex: 0 0 auto;
+}
+.assistant-panel .assistant-composer.file-drag {
+  border-color: #a1d4b5;
+  box-shadow: 0 0 0 2px #83be9a40;
+}
+.composer-files,
+.assistant-composer > .error-message {
+  flex: 0 0 100%;
+  order: -1;
+  min-width: 0;
+}
+.composer-files {
+  padding: 4px 4px 8px;
+}
+.composer-files-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.composer-file {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: min(245px, 100%);
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--assistant-border);
+  border-radius: 12px;
+  background: var(--assistant-raised);
+  color: var(--assistant-ink);
+}
+.composer-file > img {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.composer-file > span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.composer-file strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 550;
+}
+.composer-file small {
+  font-size: 11px;
+  color: var(--assistant-muted);
+}
+.assistant-panel .composer-file button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  min-height: 28px;
+  padding: 4px;
+  background: transparent;
+  color: var(--assistant-muted);
+  border-radius: 7px;
+}
+.assistant-panel .composer-file button:hover {
+  color: var(--assistant-ink);
+  background: #ffffff10;
+}
+.composer-files-note {
+  display: block;
+  margin-top: 6px;
+  flex-basis: 100%;
+  color: var(--assistant-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.message-files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.message-files span {
+  padding: 5px 9px;
+  border: 1px solid var(--assistant-border);
+  border-radius: 8px;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+/* Shared dark controls: text and background must switch together. */
+.alice-home .assistant-panel :is(.secondary, .button-link) {
+  color: var(--assistant-ink);
+  background: var(--assistant-raised);
+  border-color: var(--assistant-border);
+}
+.alice-home
+  .assistant-panel
+  :where(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  color: var(--assistant-ink);
+  background: #12232f;
+  border-color: var(--assistant-border);
+}
+.alice-home .assistant-panel :is(input, textarea)::placeholder {
+  color: #94a8b8;
+  opacity: 1;
+}
+.alice-home .assistant-panel .assistant-composer textarea {
+  background: transparent;
+}
+.alice-home .assistant-panel select option {
+  color: var(--assistant-ink);
+  background: #172b38;
+}
+.alice-home
+  .assistant-panel
+  :is(.workspace-hint, .job-state, .computer-use-screen figcaption) {
+  color: var(--assistant-muted);
+}
+.alice-home .assistant-panel .primary {
+  background: #98c4ac;
+  color: #122a20;
+  border-color: #98c4ac;
+}
+.alice-home .assistant-panel .error-message {
+  color: #ffd8cc;
+  background: #422e31;
+  border: 1px solid #d798863b;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.alice-home .assistant-panel fieldset {
+  min-inline-size: 0;
+  border-color: var(--assistant-border);
+  border-radius: 12px;
+}
+.alice-home .assistant-secondary {
+  padding-top: 10px;
+}
+.alice-home .assistant-secondary > .workspace-section {
+  margin-top: 0;
+  padding-top: 12px;
+  border-top: 0;
+}
+.alice-home .assistant-panel .assistant-attachments {
+  width: min(300px, 100%);
+  right: auto;
+}
+.alice-home .assistant-attachments .text-button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+@media (max-width: 480px) {
+  .composer-files-list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    padding-bottom: 3px;
+  }
+  .composer-file {
+    flex: 0 0 188px;
+    width: 188px;
+  }
+  .composer-file:only-child {
+    flex-basis: 100%;
+    width: 100%;
+  }
+}
+
+.assistant-delivery-recovery {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  border: 1px solid var(--assistant-border);
+  border-radius: 12px;
+  background: var(--assistant-raised);
+  color: var(--assistant-ink);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.assistant-delivery-recovery > span {
+  flex: 1;
+  min-width: 0;
+}
+.assistant-panel .assistant-delivery-recovery button {
+  flex-shrink: 0;
+  min-height: 36px;
+  padding: 6px 10px;
+  font-size: 12px;
+}

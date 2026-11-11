@@ -25,17 +25,17 @@ def test_direct_workspace_opens_without_password_and_reuses_expiring_cookie(tmp_
     assert response.json()["automatic_owner"] is True
     cookie = response.headers["set-cookie"]
     assert "HttpOnly" in cookie and "SameSite=strict" in cookie and "Max-Age=28800" in cookie
-    token = client.cookies.get("desk_companion_session")
+    token = client.cookies.get("desk_companion_session_p8891")
     assert client.get("/api/workspace").status_code == 200
     assert client.get("/api/permissions").json()["mode"] == "ask"
     assert client.post("/api/session/connect", headers=HEADERS).status_code == 200
-    assert client.cookies.get("desk_companion_session") == token
+    assert client.cookies.get("desk_companion_session_p8891") == token
 
 
 def test_expiry_recovers_owner_identity_without_authorizing_an_operation(tmp_path):
     client = local_client(tmp_path)
     client.post("/api/session/connect", headers=HEADERS)
-    old = client.cookies.get("desk_companion_session")
+    old = client.cookies.get("desk_companion_session_p8891")
     store = client.app.state.runtime.store
     with store.connection(write=True) as connection:
         connection.execute("UPDATE sessions SET expires='2000-01-01T00:00:00+00:00'")
@@ -43,20 +43,23 @@ def test_expiry_recovers_owner_identity_without_authorizing_an_operation(tmp_pat
     assert client.get("/api/session").status_code == 401
     response = client.post("/api/session/connect", headers=HEADERS)
     assert response.status_code == 200
-    assert client.cookies.get("desk_companion_session") != old
+    assert client.cookies.get("desk_companion_session_p8891") != old
     assert response.json()["principal"]["id"] == "owner"
     with store.connection() as connection:
         assert connection.execute("SELECT COUNT(*) FROM operations").fetchone()[0] == before
 
 
-@pytest.mark.parametrize("headers", [
-    {"Origin": "https://foreign.example"},
-    {"Origin": "capacitor://localhost"},
-    {"X-Forwarded-For": "127.0.0.1"},
-    {"X-Forwarded-Host": "localhost"},
-    {"Forwarded": "for=127.0.0.1"},
-    {"Host": "foreign.example"},
-])
+@pytest.mark.parametrize(
+    "headers",
+    [
+        {"Origin": "https://foreign.example"},
+        {"Origin": "capacitor://localhost"},
+        {"X-Forwarded-For": "127.0.0.1"},
+        {"X-Forwarded-Host": "localhost"},
+        {"Forwarded": "for=127.0.0.1"},
+        {"Host": "foreign.example"},
+    ],
+)
 def test_remote_or_forwarded_request_cannot_bootstrap_owner(tmp_path, headers):
     client = local_client(tmp_path)
     response = client.post("/api/session/connect", headers={**HEADERS, **headers})
@@ -88,4 +91,4 @@ def test_production_media_policy_allows_only_same_origin_devices(tmp_path):
     response = local_client(tmp_path).get("/api/health")
     policy = response.headers["permissions-policy"]
     assert "camera=(self)" in policy and "microphone=(self)" in policy
-    assert "geolocation=()" in policy and "*" not in policy
+    assert "geolocation=(self)" in policy and "*" not in policy

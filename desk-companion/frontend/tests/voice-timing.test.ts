@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { CaptureTimeline, renderedAt } from "../src/workspace/voice-timing.ts";
+import {
+  CaptureTimeline,
+  PlaybackSchedule,
+  renderedAt,
+} from "../src/workspace/voice-timing.ts";
 
 test("stale native timestamps cannot produce a false zero-latency success", () => {
   const result = renderedAt(
@@ -72,4 +76,40 @@ test("capture endpoint excludes following silence and unknown boundaries stay la
     at: 1600,
     source: "provider_event",
   });
+});
+
+test("short energy dips inside an utterance do not restart the voice turn", () => {
+  const timeline = new CaptureTimeline();
+  const voice = new Int16Array(640).fill(1000).buffer;
+  const silence = new ArrayBuffer(1280);
+  let starts = 0;
+  for (let i = 0; i < 20; i++) {
+    timeline.observe(i % 4 === 3 ? silence : voice, (i + 1) * 40);
+    starts += Number(timeline.speechStarted);
+  }
+  assert.equal(starts, 1);
+  for (let i = 0; i < 11; i++) timeline.observe(silence, 840 + i * 40);
+  for (let i = 0; i < 3; i++) {
+    timeline.observe(voice, 1280 + i * 40);
+    starts += Number(timeline.speechStarted);
+  }
+  assert.equal(starts, 2);
+});
+
+test("packet jitter is absorbed in contiguous audio instead of repeated tiny gaps", () => {
+  const schedule = new PlaybackSchedule();
+  let previousEnd = 0;
+  for (const arrival of [0, 0.06, 0.075, 0.14, 0.15, 0.21]) {
+    const start = schedule.reserve(arrival, 0.04);
+    if (previousEnd) assert.ok(Math.abs(start - previousEnd) < 1e-9);
+    previousEnd = start + 0.04;
+  }
+  assert.equal(schedule.rebuffers, 0);
+  const recovered = schedule.reserve(0.5, 0.04);
+  assert.ok(recovered > 0.5);
+  assert.equal(schedule.rebuffers, 1);
+  schedule.reset();
+  schedule.reserve(20, 0.04);
+  assert.equal(schedule.rebuffers, 1); // A new reply is not a network underrun.
+  assert.throws(() => schedule.reserve(20, 31), /AUDIO_CONNECTION_SLOW/);
 });

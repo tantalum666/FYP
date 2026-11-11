@@ -94,6 +94,8 @@ def valid_provider_endpoint(provider, endpoint, *, kind):
         return False
     if parsed.scheme != ("https" if kind == "text" else "wss"):
         return False
+    if provider == "openai_live":
+        return kind == "voice" and host == "api.openai.com" and parsed.path == "/v1/live/sessions"
     if provider == "openai_realtime":
         return kind == "voice" and host == "api.openai.com" and parsed.path == "/v1/realtime"
     if provider == "openai":

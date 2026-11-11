@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-09",
+  "verified_at": "2026-11-09T05:51:18.590755+00:00",
+  "branch": "codex/alice-home-wake-20261107",
+  "pull_request": "https://github.com/tantalum666/FYP/pull/97",
+  "state": "published_open_unmerged",
+  "reviewed_evidence_head": "4753ed4c6fba7edf5cbd8201c9526e3759f65dd0",
+  "remote_head_matched": true,
+  "pr_body_updated": true,
+  "previous_checkpoints": {
+    "initial_A_B": "bd7e38bba3ae8567f745c1037590cc7311d9e8f3",
+    "A1": "931afd824223d374cac8915b78ece2298a966bee"
+  },
+  "production_source": "232b065f910af18151846b73dd48fe92fb1d9e16",
+  "production_default_changed": false,
+  "ci_used": false,
+  "audio_or_private_voice_ids_published": false,
+  "note": "This receipt is a later documentation-only commit; the reviewed evidence head above was verified through GitHub."
+}

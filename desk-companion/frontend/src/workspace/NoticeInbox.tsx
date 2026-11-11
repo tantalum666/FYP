@@ -46,6 +46,8 @@ export function NoticeInbox({
         <p key={notice.id}>
           {t(notice.title_en, notice.title_zh)}
           {". "}
+          {t(notice.body_en, notice.body_zh)}
+          {" "}
           {t(notice.reason_en, notice.reason_zh)}
           <button
             type="button"

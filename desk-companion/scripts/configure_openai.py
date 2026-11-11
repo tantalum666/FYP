@@ -20,7 +20,15 @@ from desk.openai_transport import validate_openai_proxy
 
 
 def configure(
-    runtime, credentials, *, browser=None, browser_proxy="", proxy="", region_unavailable=False
+    runtime,
+    credentials,
+    *,
+    browser=None,
+    browser_proxy="",
+    proxy="",
+    region_unavailable=False,
+    voice_provider="openai_live",
+    wake_models=None,
 ):
     runtime, credentials = Path(runtime).absolute(), Path(credentials).absolute()
     # Loading checks ownership, size, permissions and every path component.
@@ -42,11 +50,16 @@ def configure(
         )
     ):
         raise ValueError("Use an owner-private service environment")
+    if voice_provider not in {"openai_live", "openai_realtime"}:
+        raise ValueError("Select a supported OpenAI voice provider")
     settings = {
         "DESK_OPENAI_CREDENTIAL_FILE": str(credentials),
-        "DESK_VOICE_PROVIDER": "openai_realtime",
-        "DESK_VOICE_MODEL": "gpt-realtime-2.1",
-        "DESK_VOICE_ENDPOINT": "wss://api.openai.com/v1/realtime",
+        "DESK_VOICE_PROVIDER": voice_provider,
+        "DESK_VOICE_MODEL": "gpt-live-1" if voice_provider == "openai_live" else "gpt-realtime-2.1",
+        "DESK_VOICE_ENDPOINT": "wss://api.openai.com/v1/live/sessions"
+        if voice_provider == "openai_live"
+        else "wss://api.openai.com/v1/realtime",
+        "DESK_LIVE_BACKEND_MODEL": "gpt-6.1-sol",
         "DESK_VOICE_API_KEY": "",
         "DESK_VOICE_VOICE": "marin",
         "DESK_TEXT_PROVIDER": "openai",
@@ -58,6 +71,17 @@ def configure(
         "DESK_OPENAI_REGION_UNSUPPORTED": "1" if region_unavailable else "0",
         "DESK_OPENAI_PROXY_URL": validate_openai_proxy(proxy) or "",
     }
+    if wake_models is not None:
+        import hashlib
+
+        directory = Path(wake_models).resolve(strict=True)
+        manifest = json.loads(
+            (Path(__file__).resolve().parents[1] / "config/wake-model.json").read_text()
+        )
+        for name, entry in manifest["files"].items():
+            if hashlib.sha256((directory / name).read_bytes()).hexdigest() != entry["sha256"]:
+                raise ValueError("Wake models do not match the pinned manifest")
+        settings.update(DESK_WAKE_ENABLED="1", DESK_WAKE_MODEL_DIR=str(directory))
     if browser:
         binary = Path(browser).absolute()
         if not binary.is_file() or not os.access(binary, os.X_OK):
@@ -104,6 +128,10 @@ def main():
     parser.add_argument("--browser-proxy", default="")
     parser.add_argument("--proxy", default="", help="Explicit OpenAI-only loopback CONNECT URL")
     parser.add_argument("--region-unavailable", action="store_true")
+    parser.add_argument(
+        "--voice-provider", choices=["openai_live", "openai_realtime"], default="openai_live"
+    )
+    parser.add_argument("--wake-models", type=Path)
     args = parser.parse_args()
     try:
         result = configure(
@@ -113,6 +141,8 @@ def main():
             browser_proxy=args.browser_proxy,
             proxy=args.proxy,
             region_unavailable=args.region_unavailable,
+            voice_provider=args.voice_provider,
+            wake_models=args.wake_models,
         )
     except (ValueError, OSError):
         raise SystemExit(

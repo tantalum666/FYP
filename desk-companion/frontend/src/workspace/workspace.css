@@ -8,6 +8,36 @@
 .workspace-panel {
   color: var(--device-fg, #242936);
 }
+.app-connections {
+  max-width: 760px;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--device-line, #e1e3e9);
+}
+.app-connection-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 0;
+}
+.app-connection-row h4 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+.app-connection-row p {
+  margin: 0;
+  font-size: 13px;
+}
+.app-connection-row > small,
+.app-connection-row > details {
+  flex-basis: 100%;
+}
+.app-connection-row summary {
+  font-size: 12px;
+  cursor: pointer;
+}
 .assistant-action-card {
   margin: 16px 0;
   padding: 16px;

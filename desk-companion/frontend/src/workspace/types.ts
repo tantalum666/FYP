@@ -68,11 +68,18 @@ export interface WorkspaceSnapshot {
     model: string;
     background: boolean;
     configuration_error?: string;
+    attachments?: {
+      enabled: boolean;
+      file_bytes: number;
+      files_per_chat: number;
+      extensions: string[];
+    };
   };
   tasks: {
     active_count: number;
     due_count: number;
     attention: import("./taskTypes").Task[];
+    preview?: import("./taskTypes").Task[];
   };
   output_history: Array<{
     id: string;
@@ -142,7 +149,7 @@ export interface WorkspaceSnapshot {
 
 export interface WorkspacePreferences {
   version: number;
-  weather_location: "none" | "hong_kong";
+  weather_location: "none" | "hong_kong" | "automatic";
   holiday_region: "none" | "hong_kong";
   show_lunar: boolean;
   reminder_strength: "silent" | "chime";

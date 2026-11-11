@@ -4,6 +4,7 @@ import { errorText, request, write } from "../api";
 import type { Session, Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import { OwnerAccess } from "./OwnerAccess";
+import { AppConnectionsPanel } from "./AppConnectionsPanel";
 
 export function PairDeviceForm({
   t,
@@ -182,6 +183,7 @@ export function ConnectionsPanel({
   if (!data) return <p>{t("Connecting…", "正在连接…")}</p>;
   return (
     <div className="workspace-panel">
+      {data.principal.kind === "owner" && <AppConnectionsPanel t={t} />}
       <div className="workspace-state">
         <Link2 />
         <div>

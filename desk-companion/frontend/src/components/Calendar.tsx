@@ -286,11 +286,11 @@ export function MonthGrid({
                   {extras.holidays[language][dayISO(day)]}
                 </span>
               )}
-              <span className="month-availability">
-                {busyMinutes(found, day) > 0
-                  ? `${Math.round(busyMinutes(found, day) / 6) / 10}h ${t("busy", "占用")}`
-                  : t("No recorded busy time", "无已记录占用")}
-              </span>
+              {busyMinutes(found, day) > 0 && (
+                <span className="month-availability">
+                  {`${Math.round(busyMinutes(found, day) / 6) / 10}h ${t("busy", "占用")}`}
+                </span>
+              )}
               <div className="month-events">
                 {found.slice(0, 3).map((e) => (
                   <EventBlock

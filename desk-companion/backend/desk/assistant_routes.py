@@ -5,10 +5,27 @@ from .assistant import AssistantMessage, ProposalDecision
 from .mailbox import proposal_kind, visible_proposals
 from .offline_calendar import visible_proposals as visible_calendar_proposals
 from .store import DomainError
+from .chat_attachments import ChatFileUpload, UPLOAD_BYTES
+from pydantic import ValidationError
 
 
 def assistant_routes(runtime, authenticated, operation_id):
     router = APIRouter(prefix="/api/assistant", dependencies=[Depends(authenticated)])
+
+    @router.post("/attachments")
+    async def upload_attachment(request: Request, principal=Depends(authenticated)):
+        scoped = {**principal, "session": request.cookies.get("desk_companion_session")}
+        runtime.text_ai.attachments.require_available(scoped)
+        body = bytearray()
+        async for chunk in request.stream():
+            if len(body) + len(chunk) > UPLOAD_BYTES:
+                raise DomainError("CHAT_FILE_SIZE", 413)
+            body.extend(chunk)
+        try:
+            payload = ChatFileUpload.model_validate_json(bytes(body))
+        except ValidationError:
+            raise DomainError("CHAT_FILE_FORMAT", 422) from None
+        return runtime.text_ai.attachments.upload(payload, scoped)
 
     @router.post("/messages")
     def message(
@@ -73,7 +90,8 @@ def assistant_routes(runtime, authenticated, operation_id):
     ):
         principal = {**principal, "session": request.cookies.get("desk_companion_session")}
         if (
-            proposal_kind(runtime, proposal_id) in {"mailbox_reply", "calendar_advice"}
+            proposal_kind(runtime, proposal_id)
+            in {"mailbox_reply", "calendar_advice", "email_send"}
             and principal["kind"] != "owner"
         ):
             raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)

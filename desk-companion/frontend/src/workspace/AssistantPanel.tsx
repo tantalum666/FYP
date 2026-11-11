@@ -1,6 +1,19 @@
+import { ComposerFiles } from "./ComposerFiles";
+import { ComposerMenu } from "./ComposerMenu";
+import { useChatFiles } from "./useChatFiles";
+import { CHAT_FILE_ACCEPT, type ChatFileReference } from "./chatFiles";
+import "./composer-files.css";
+import { AssistantRefreshStatus } from "./AssistantRefreshStatus";
+import { useAssistantFootprint } from "../companion/useAssistantFootprint";
 import { proposalDecisionNotice } from "./proposalDecision";
 import type { ReactNode } from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   ImagePlus,
   MonitorUp,
@@ -48,8 +61,13 @@ import {
 import type { ComputerJob } from "./jobTypes";
 import { PermissionControl } from "./PermissionsPanel";
 import { ComputerJobsPanel } from "./ComputerJobsPanel";
+import { ReplyOwedAsk } from "./replyOwedAsk";
 import "./assistant-minimal.css";
-import { useVoiceWorkHandoff } from "./voiceWork/useVoiceWorkHandoff";
+import {
+  appendLiveTranscript,
+  latestAssistantReply,
+  type ConversationTurn,
+} from "./conversationTranscript";
 import { ToolActivity, type ToolCall } from "./ToolActivity";
 import { MediaDevicePanel } from "./media/MediaDevicePanel";
 import { useAliceWake } from "./wake/useAliceWake";
@@ -80,15 +98,7 @@ export function AssistantPanel({
   onClearTask?: () => void;
 }) {
   const { data, refresh, offline, stale } = useWorkspace();
-  const [turns, setTurns] = useState<
-    Array<{
-      id: number;
-      role: "user" | "assistant";
-      body: string;
-      kind?: string;
-      jobId?: string;
-    }>
-  >([]);
+  const [turns, setTurns] = useState<ConversationTurn[]>([]);
   const [view, setView] = useState<
     "chat" | "jobs" | "help" | "timing" | "activity"
   >("chat");
@@ -101,6 +111,16 @@ export function AssistantPanel({
   const [voiceTimings, setVoiceTimings] = useState<TurnMeasurement[]>([]);
   const [menu, setMenu] = useState(false);
   const [attachments, setAttachments] = useState(false);
+  const closeAttachments = useCallback(() => setAttachments(false), []);
+  const attachmentButton = useRef<HTMLButtonElement>(null);
+  const fileInput = useRef<HTMLInputElement>(null);
+  const chatFiles = useChatFiles();
+  const fileContext = useRef(false);
+  const filesEnabled =
+    !!data?.text_ai.attachments?.enabled &&
+    data?.principal.kind === "owner" &&
+    !!data.personal_context_visible;
+  const [fileDrag, setFileDrag] = useState(false);
   const [mediaOpen, setMediaOpen] = useState(false);
   const [jobs, setJobs] = useState<ComputerJob[]>([]);
   const [jobsError, setJobsError] = useState<unknown>(null);
@@ -142,6 +162,7 @@ export function AssistantPanel({
     return () => document.removeEventListener("pointerdown", close);
   }, [menu]);
   const conversation = useRef<HTMLDivElement>(null);
+  const panelFootprint = useAssistantFootprint(immersive);
   const followLatest = useRef(true);
   const jobRevision = jobs.map((job) => `${job.id}:${job.version}`).join(",");
   const composer = useRef<HTMLTextAreaElement>(null);
@@ -153,6 +174,7 @@ export function AssistantPanel({
   const pendingJob = pendingWrite()?.path.startsWith("/computer/")
     ? pendingWrite()
     : null;
+  const pendingMessage = pendingWrite()?.path === "/assistant/messages/stream";
   const [reply, setReply] = useState<Reply | null>(null),
     [liveMessage, setLiveMessage] = useState(""),
     [progress, setProgress] = useState<ToolProgress[]>([]),
@@ -161,11 +183,11 @@ export function AssistantPanel({
     [notice, setNotice] = useState("");
   const [voiceState, setVoiceState] = useState("idle"),
     [transcript, setTranscript] = useState("");
-  useEffect(() => {
+  useLayoutEffect(() => {
     const field = composer.current;
     if (!field) return;
     field.style.height = "44px";
-    field.style.height = `${Math.min(132, field.scrollHeight)}px`;
+    field.style.height = `${Math.max(44, Math.min(120, field.scrollHeight))}px`;
   }, [text, view, voiceState]);
   const [sharing, setSharing] = useState(false),
     [visionBusy, setVisionBusy] = useState(false),
@@ -182,18 +204,24 @@ export function AssistantPanel({
     body: object;
     generation: number;
     message: string;
+    fileKeys: string[];
+    files: ChatFileReference[];
   } | null>(null);
   const modeSwitching = useRef(false);
   const [microphone, setMicrophone] = useState(false);
   useEffect(() => {
-    onStateChange?.({ dirty: !!text.trim(), busy });
-  }, [text, busy, onStateChange]);
+    onStateChange?.({
+      dirty: !!text.trim() || chatFiles.files.length > 0,
+      busy,
+    });
+  }, [text, busy, chatFiles.files.length, onStateChange]);
   useEffect(() => {
     if (suspended) setMediaOpen(false);
   }, [suspended]);
   const speechText = useRef({ user: "", assistant: "" });
   const knownProposals = useRef<Proposal[]>([]);
   const activityReading = useRef(false);
+  const reading = useRef(false);
   const loadActivity = useCallback(async () => {
     if (
       !owner.current ||
@@ -316,12 +344,6 @@ export function AssistantPanel({
     (data.voice.supports_text ?? data.voice.provider === "qwen_omni") &&
     owner.current;
   const unavailable = !data || offline || stale;
-  const voiceName =
-    data?.voice.provider === "openai_realtime"
-      ? data.voice.model.includes("mini")
-        ? "OpenAI Realtime Mini"
-        : "OpenAI Realtime"
-      : "Qwen Omni";
   const wake = useAliceWake({
     available:
       owner.current &&
@@ -329,8 +351,14 @@ export function AssistantPanel({
       !!data.voice.wake_word?.available,
     paused: suspended || unavailable || mediaOpen,
     engaged: voiceState !== "idle" || busy || microphone,
-    onWake: startVoice,
+    onWake: () => startVoice(true),
+    ownerKey: owner.current ? data?.principal.id : undefined,
+    occupied: !!(data?.voice.active || data?.voice.wake_word?.active),
   });
+  const voiceElsewhere =
+    !!(data?.voice.active || data?.voice.wake_word?.active) &&
+    !wake.enabled &&
+    !voiceActive;
   useEffect(() => {
     const revision = data?.voice.config_revision;
     if (
@@ -388,14 +416,37 @@ export function AssistantPanel({
     if (unavailable) endVoice();
   }, [unavailable]);
   useEffect(() => {
-    const renewed = () => {
+    const renewed = (event: Event) => {
       conversationId.current = undefined;
-      wake.disable();
+      fileContext.current = false;
+      if (
+        (event as CustomEvent<{ reason?: string }>).detail?.reason !==
+          "connected" ||
+        !owner.current
+      )
+        chatFiles.clear();
       endVoice();
+      if (
+        (event as CustomEvent<{ reason?: string }>).detail?.reason ===
+          "connected" &&
+        owner.current
+      )
+        wake.rearm();
+      else wake.disable();
     };
     window.addEventListener("desk:session", renewed);
     return () => window.removeEventListener("desk:session", renewed);
-  }, []);
+  }, [wake.rearm, wake.disable, chatFiles.clear]);
+  useEffect(() => {
+    if (
+      data?.personal_context_visible === false ||
+      (data?.principal.kind && data.principal.kind !== "owner")
+    ) {
+      chatFiles.clear();
+      fileContext.current = false;
+      submissionGeneration.current += 1;
+    }
+  }, [data?.personal_context_visible, data?.principal.kind, chatFiles.clear]);
   useEffect(() => {
     if (suspended && audio.current) endVoice();
   }, [suspended]);
@@ -414,6 +465,7 @@ export function AssistantPanel({
     // Keep visible messages and unsent text, but never replay a different task's
     // model context. Reconnecting still requires the next explicit user input.
     conversationId.current = undefined;
+    fileContext.current = false;
     setNotice(
       t(
         "Discussion changed. Your next message starts a fresh context; earlier messages stay visible.",
@@ -422,9 +474,19 @@ export function AssistantPanel({
     );
   }, [taskId]);
   useEffect(() => {
-    if (immersive && (proposals.length > 0 || view !== "chat"))
+    if (
+      immersive &&
+      (proposals.length > 0 || view !== "chat" || (!busy && pendingMessage))
+    )
       onExpandedChange?.(true);
-  }, [immersive, proposals.length, view, onExpandedChange]);
+  }, [
+    immersive,
+    proposals.length,
+    view,
+    busy,
+    pendingMessage,
+    onExpandedChange,
+  ]);
   useEffect(() => {
     if (immersive && turns.at(-1)?.jobId) onExpandedChange?.(true);
   }, [turns, immersive, onExpandedChange]);
@@ -432,71 +494,55 @@ export function AssistantPanel({
     if (immersive && !expanded) setView("chat");
   }, [immersive, expanded]);
   const ownerView = data?.principal.kind === "owner";
-  const voiceWork = useVoiceWorkHandoff(
-    t,
-    taskId,
-    suspended,
-    endVoice,
-    (reply) => {
-      const id = Date.now();
-      setTurns((old) =>
-        [
-          ...old,
-          { id, role: "user" as const, body: reply.text },
-          {
-            id: id + 1,
-            role: "assistant" as const,
-            body: reply.message,
-            kind: "work_goal",
-          },
-        ].slice(-40),
-      );
-      window.dispatchEvent(new Event("desk:jobs"));
-    },
-  );
-  useDraftGuard(!!text.trim(), busy);
+  useDraftGuard(!!text.trim() || chatFiles.files.length > 0, busy);
   const reload = useCallback(async () => {
-    void loadActivity();
+    if (reading.current) return;
+    reading.current = true;
     try {
-      const next = await request<{ proposals: Proposal[] }>(
-        "/assistant/proposals",
-      );
-      if (alive.current) {
-        if (
-          knownProposals.current.some(
-            (p) =>
-              Date.parse(p.expires_at) <= Date.now() &&
-              !next.proposals.some((n) => n.id === p.id),
-          )
-        ) {
-          setNotice(
-            language === "zh"
-              ? "草稿已到期，没有执行任何修改。请重新提出请求。"
-              : "The draft expired without making changes. Ask again to prepare a new one.",
-          );
+      void loadActivity();
+      try {
+        const next = await request<{ proposals: Proposal[] }>(
+          "/assistant/proposals",
+        );
+        if (alive.current) {
+          if (
+            knownProposals.current.some(
+              (p) =>
+                Date.parse(p.expires_at) <= Date.now() &&
+                !next.proposals.some((n) => n.id === p.id),
+            )
+          ) {
+            setNotice(
+              language === "zh"
+                ? "草稿已到期，没有执行任何修改。请重新提出请求。"
+                : "The draft expired without making changes. Ask again to prepare a new one.",
+            );
+          }
+          knownProposals.current = next.proposals;
+          setProposals(next.proposals);
+          setReadError(null);
         }
-        knownProposals.current = next.proposals;
-        setProposals(next.proposals);
-        setReadError(null);
+      } catch (e) {
+        if (alive.current) setReadError(e);
       }
-    } catch (e) {
-      if (alive.current) setReadError(e);
-    }
-    if (!ownerView) {
-      if (alive.current) setCalls(null);
-      return;
-    }
-    try {
-      const audit = await request<{ calls: ToolCall[] }>(
-        "/assistant/tool-calls",
-      );
-      if (alive.current) setCalls(audit.calls);
-    } catch (e) {
-      if (e instanceof ApiError && e.status === 403) {
+      if (!ownerView) {
         if (alive.current) setCalls(null);
         return;
       }
-      if (alive.current) setReadError(e);
+      try {
+        const audit = await request<{ calls: ToolCall[] }>(
+          "/assistant/tool-calls",
+        );
+        if (alive.current) setCalls(audit.calls);
+      } catch (e) {
+        if (e instanceof ApiError && e.status === 403) {
+          if (alive.current) setCalls(null);
+          return;
+        }
+        if (alive.current) setReadError(e);
+      }
+    } finally {
+      reading.current = false;
     }
   }, [language, ownerView, loadActivity]);
   useEffect(() => {
@@ -521,32 +567,37 @@ export function AssistantPanel({
       document.removeEventListener("visibilitychange", tick);
     };
   }, [reload, suspended]);
-  const showHttpReply = useCallback((submitted: string, result: Reply) => {
-    setReply(result);
-    conversationId.current = result.conversation_id;
-    contextTouched.current = Date.now();
-    setLiveMessage("");
-    setProgress([]);
-    setError(
-      result.permission_error ? new ApiError(result.permission_error) : null,
-    );
-    const id = Date.now();
-    setTurns((old) =>
-      [
-        ...old,
-        { id, role: "user" as const, body: submitted },
-        {
-          id: id + 1,
-          role: "assistant" as const,
-          body: result.message,
-          kind: result.kind,
-          jobId: result.job?.id,
-        },
-      ].slice(-40),
-    );
-    setText((current) => (current === submitted ? "" : current));
-    pendingHttp.current = null;
-  }, []);
+  const showHttpReply = useCallback(
+    (submitted: string, result: Reply) => {
+      const submittedFiles = pendingHttp.current?.files ?? [];
+      chatFiles.sent(pendingHttp.current?.fileKeys ?? []);
+      setReply(result);
+      conversationId.current = result.conversation_id;
+      contextTouched.current = Date.now();
+      setLiveMessage("");
+      setProgress([]);
+      setError(
+        result.permission_error ? new ApiError(result.permission_error) : null,
+      );
+      const id = Date.now();
+      setTurns((old) =>
+        [
+          ...old,
+          { id, role: "user" as const, body: submitted, files: submittedFiles },
+          {
+            id: id + 1,
+            role: "assistant" as const,
+            body: result.message,
+            kind: result.kind,
+            jobId: result.job?.id,
+          },
+        ].slice(-40),
+      );
+      setText((current) => (current === submitted ? "" : current));
+      pendingHttp.current = null;
+    },
+    [chatFiles.sent],
+  );
   useEffect(() => {
     const recovered = (event: Event) => {
       const { operation, result } = (
@@ -573,10 +624,19 @@ export function AssistantPanel({
   }, [reload, showHttpReply]);
   async function send(e: React.FormEvent) {
     e.preventDefault();
-    if (busy || !text.trim() || unavailable || pendingJob) return;
-    wake.disable();
+    if (
+      busy ||
+      (!text.trim() && !chatFiles.files.length) ||
+      unavailable ||
+      pendingJob
+    )
+      return;
+    wake.pause();
     followLatest.current = true;
-    const submitted = text;
+    const submitted = text.trim()
+      ? text
+      : t("Please review these files.", "请帮我看看这些文件。");
+    const useOmni = omni && !chatFiles.files.length && !fileContext.current;
     const previousHttp = pendingHttp.current;
     const generation = ++submissionGeneration.current;
     setBusy(true);
@@ -586,7 +646,7 @@ export function AssistantPanel({
     setLiveMessage("");
     setProgress([]);
     try {
-      if (omni) {
+      if (useOmni) {
         pendingSubmission.current = submitted;
         const engine = await connectConversation("text");
         if (!engine) throw new Error("VOICE_CONNECTION_FAILED");
@@ -594,13 +654,33 @@ export function AssistantPanel({
         setText("");
         return;
       }
+      const uploaded = await chatFiles.upload(
+        conversationId.current,
+        taskId,
+        () => alive.current && generation === submissionGeneration.current,
+        (id) => {
+          conversationId.current = id;
+        },
+      );
+      if (!alive.current || generation !== submissionGeneration.current) return;
+      conversationId.current = uploaded.conversationId;
+      if (uploaded.references.length) fileContext.current = true;
       const body = {
         message: submitted,
         language,
         task_id: taskId ?? null,
         conversation_id: conversationId.current ?? null,
+        ...(uploaded.references.length
+          ? { attachment_ids: uploaded.references.map((file) => file.id) }
+          : {}),
       };
-      pendingHttp.current = { body, generation, message: submitted };
+      pendingHttp.current = {
+        body,
+        generation,
+        message: submitted,
+        fileKeys: uploaded.keys,
+        files: uploaded.references,
+      };
       const result = (await writeStream(
         "/assistant/messages/stream",
         body,
@@ -617,11 +697,27 @@ export function AssistantPanel({
       window.dispatchEvent(new Event("desk:jobs"));
     } catch (e) {
       if (!alive.current || generation !== submissionGeneration.current) return;
+      if (
+        e instanceof ApiError &&
+        ["CHAT_FILE_EXPIRED", "CONVERSATION_NOT_FOUND"].includes(e.code)
+      ) {
+        conversationId.current = undefined;
+        fileContext.current = false;
+      }
       if (e instanceof ApiError && e.code === "PENDING_WRITE") {
         pendingHttp.current = previousHttp;
         if (previousHttp) previousHttp.generation = generation;
       }
-      if (!omni) setError(e);
+      if (!useOmni)
+        setError(
+          e instanceof ApiError && e.code === "CONNECTION_LOST"
+            ? new ApiError("CHAT_DELIVERY_UNCONFIRMED")
+            : e instanceof ApiError
+              ? e
+              : new ApiError(
+                  e instanceof Error ? e.message : "CHAT_FILE_FORMAT",
+                ),
+        );
       else {
         // No text was admitted yet. Keep the specific connection notice instead
         // of the generic HTTP-write "unknown result" warning.
@@ -637,7 +733,43 @@ export function AssistantPanel({
       pendingSubmission.current = null;
       setBusy(false);
     } finally {
-      if (!omni && generation === submissionGeneration.current) setBusy(false);
+      if (!useOmni && generation === submissionGeneration.current)
+        setBusy(false);
+    }
+  }
+  async function recoverMessage() {
+    const operation = pendingWrite();
+    if (busy || operation?.path !== "/assistant/messages/stream") return;
+    const generation = submissionGeneration.current;
+    const body = operation.body as {
+      message?: string;
+      task_id?: string | null;
+    };
+    if (
+      !pendingHttp.current &&
+      typeof body.message === "string" &&
+      (body.task_id ?? null) === (taskId ?? null)
+    )
+      pendingHttp.current = {
+        body: operation.body as object,
+        generation,
+        message: body.message,
+        fileKeys: [],
+        files: [],
+      };
+    setBusy(true);
+    setError(null);
+    try {
+      await retryPending();
+      if (alive.current && generation === submissionGeneration.current) {
+        setNotice(t("Message checked.", "已核对消息结果。"));
+        void reload();
+      }
+    } catch (failure) {
+      if (alive.current && generation === submissionGeneration.current)
+        setError(failure);
+    } finally {
+      if (generation === submissionGeneration.current) setBusy(false);
     }
   }
   async function decide(id: string, action: "confirm" | "cancel") {
@@ -714,7 +846,6 @@ export function AssistantPanel({
     queueMicrotask(() => composer.current?.focus());
   }
   async function newConversation() {
-    wake.disable();
     submissionGeneration.current += 1;
     pendingHttp.current = null;
     const id = conversationId.current;
@@ -727,6 +858,8 @@ export function AssistantPanel({
       conversationId.current = undefined;
       pendingSubmission.current = null;
       setTurns([]);
+      chatFiles.clear();
+      fileContext.current = false;
       speechText.current = { user: "", assistant: "" };
       setTranscript("");
       setNotice(
@@ -740,8 +873,9 @@ export function AssistantPanel({
     }
     setMenu(false);
   }
-  async function startVoice() {
+  async function startVoice(wakeTriggered = false) {
     if (unavailable || busy) return;
+    setNotice("");
     wake.pause();
     modeSwitching.current = true;
     setBusy(true);
@@ -749,7 +883,7 @@ export function AssistantPanel({
     setVoiceState("connecting");
     try {
       if (audio.current) await audio.current.setMode("voice");
-      else await connectConversation("voice");
+      else await connectConversation("voice", wakeTriggered);
     } catch (e) {
       modeSwitching.current = false;
       setBusy(false);
@@ -757,7 +891,10 @@ export function AssistantPanel({
       setError(e);
     }
   }
-  async function connectConversation(mode: "text" | "voice") {
+  async function connectConversation(
+    mode: "text" | "voice",
+    wakeTriggered = false,
+  ) {
     if (audio.current) return audio.current;
     if (unavailable || !data?.voice.configured) return null;
     // A fresh wake after long local standby must not retry an expired cloud
@@ -772,10 +909,10 @@ export function AssistantPanel({
     setVisionBusy(false);
     speechText.current = { user: "", assistant: "" };
     let starting: VoiceAudio | null = null;
+    const transcriptSession = crypto.randomUUID();
     try {
       const engine = new VoiceAudio((event) => {
         if (!alive.current || audio.current !== engine) return;
-        voiceWork.observe(event);
         if (["ready", "turn_complete", "transcript"].includes(event.type))
           contextTouched.current = Date.now();
         if (event.type === "ready") {
@@ -819,6 +956,12 @@ export function AssistantPanel({
           if (!modeSwitching.current) setBusy(false);
         }
         if (event.type === "transcript") {
+          if (Number.isSafeInteger(event.caption_group)) {
+            setTurns((old) =>
+              appendLiveTranscript(old, transcriptSession, event),
+            );
+            return;
+          }
           const role = event.role === "user" ? "user" : "assistant";
           if (role === "user" && event.text === pendingSubmission.current)
             pendingSubmission.current = null;
@@ -868,15 +1011,20 @@ export function AssistantPanel({
                       "The provider denied model access. Check model access or billing; this connection has stopped.",
                       "提供商拒绝访问模型，请检查模型权限或额度。本次连接已停止。",
                     )
-                  : event.code === "VOICE_CONNECT_TIMEOUT"
+                  : event.code === "VOICE_CONFIGURATION_REJECTED"
                     ? t(
-                        "Voice connection timed out. The microphone is off; try again or type your request.",
-                        "语音连接超时，麦克风已关闭。可以重试或改用文字输入。",
+                        "The voice service rejected its configuration. This is a service setup issue; your microphone permission does not need to be reset.",
+                        "语音服务拒绝了当前配置。这是服务配置问题，无需重置麦克风授权。",
                       )
-                    : t(
-                        "Voice could not continue. The microphone is off. Check the connection or provider configuration.",
-                        "语音未能继续，麦克风已关闭。请检查连接或服务配置。",
-                      ),
+                    : event.code === "VOICE_CONNECT_TIMEOUT"
+                      ? t(
+                          "Voice connection timed out. The microphone is off; try again or type your request.",
+                          "语音连接超时，麦克风已关闭。可以重试或改用文字输入。",
+                        )
+                      : t(
+                          "Voice could not continue. The microphone is off. Check the connection or provider configuration.",
+                          "语音未能继续，麦克风已关闭。请检查连接或服务配置。",
+                        ),
           );
           setVoiceState("idle");
           setMicrophone(false);
@@ -972,7 +1120,8 @@ export function AssistantPanel({
         url.href,
         {
           mode,
-          conversationId: omni ? conversationId.current : undefined,
+          wakeTriggered,
+          conversationId: conversationId.current,
           taskId,
         },
       );
@@ -1016,6 +1165,7 @@ export function AssistantPanel({
   }
   return (
     <div
+      ref={panelFootprint}
       className={`workspace-panel assistant-panel ${immersive ? `phone-assistant ${expanded ? "expanded" : "compact"}` : ""}`}
       onKeyDown={(event) => {
         if (event.key === "Escape" && (menu || attachments)) {
@@ -1027,7 +1177,6 @@ export function AssistantPanel({
         }
       }}
     >
-      {voiceWork.panel}
       {mediaOpen && !suspended && (
         <MediaDevicePanel
           t={t}
@@ -1039,7 +1188,6 @@ export function AssistantPanel({
             !unavailable &&
             voiceState !== "connecting"
           }
-          provider={data?.voice.provider ?? ""}
           onShare={(video) => {
             if (!audio.current) throw new Error("VOICE_VISION_NOT_READY");
             audio.current.shareCameraFrame(video);
@@ -1072,7 +1220,7 @@ export function AssistantPanel({
           </button>
         )}
 
-        {immersive && (
+        {immersive && view === "chat" && (
           <button
             className="text-button phone-conversation-toggle"
             onClick={() => onExpandedChange?.(!expanded)}
@@ -1191,49 +1339,6 @@ export function AssistantPanel({
                 node.scrollHeight - node.scrollTop - node.clientHeight < 80;
           }}
         >
-          {!turns.length &&
-            !transcript &&
-            !proposals.length &&
-            !voiceActive &&
-            attentionJobs.length === 0 && (
-              <div className="assistant-welcome">
-                <h3>
-                  {taskId
-                    ? t("Let’s work through this task.", "一起看看这件事。")
-                    : t("What can I help you with?", "今天想做些什么？")}
-                </h3>
-                <p>
-                  {taskId
-                    ? t(
-                        "Share an update or discuss the next step.",
-                        "说说当前进展，或讨论下一步。",
-                      )
-                    : t(
-                        "Start with your calendar, or tell me what you want to work on.",
-                        "可以先看看日历，或说说你想推进的事情。",
-                      )}
-                </p>
-                {!taskId && (
-                  <div className="assistant-starters">
-                    {[
-                      ["What is on today?", "今天的行程"],
-                      ["What is on next week?", "下周的日程"],
-                    ].map(([en, zh]) => (
-                      <button
-                        key={en}
-                        type="button"
-                        onClick={() => {
-                          setText(t(en, zh));
-                          composer.current?.focus();
-                        }}
-                      >
-                        {t(en, zh)}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
           {(!immersive || expanded) &&
             jobs
               .filter(
@@ -1243,23 +1348,35 @@ export function AssistantPanel({
               )
               .slice(0, 3)
               .map(jobCard)}
-          {(immersive && !expanded
-            ? turns.filter((turn) => turn.role === "assistant").slice(-1)
-            : turns
-          ).map((turn) => (
-            <div className={`assistant-turn ${turn.role}`} key={turn.id}>
-              <p>{turnText(turn)}</p>
-              {turn.jobId &&
-                (!immersive || expanded) &&
-                jobs.filter((job) => job.id === turn.jobId).map(jobCard)}
-            </div>
-          ))}
-          {liveMessage && (
+          {(!immersive || expanded) &&
+            turns.map((turn) => (
+              <div className={`assistant-turn ${turn.role}`} key={turn.id}>
+                {turn.files?.length ? (
+                  <div className="message-files">
+                    {turn.files.map((file) => (
+                      <span key={file.id}>{file.name}</span>
+                    ))}
+                  </div>
+                ) : null}
+                <p>{turnText(turn)}</p>
+                {turn.jobId &&
+                  (!immersive || expanded) &&
+                  jobs.filter((job) => job.id === turn.jobId).map(jobCard)}
+              </div>
+            ))}
+          {immersive && !expanded && (
+            <p className="assistant-latest" aria-live="polite">
+              {liveMessage ||
+                speechText.current.assistant ||
+                (!speechText.current.user ? latestAssistantReply(turns) : "")}
+            </p>
+          )}
+          {(!immersive || expanded) && liveMessage && (
             <p className="assistant-turn assistant" aria-live="polite">
               {liveMessage}
             </p>
           )}
-          {busy && progress.length > 0 && (
+          {!immersive && busy && progress.length > 0 && (
             <ol className="tool-progress" aria-live="polite">
               {progress.map((item, index) => (
                 <li key={`${index}-${item.tool}`}>
@@ -1269,7 +1386,7 @@ export function AssistantPanel({
               ))}
             </ol>
           )}
-          {transcript && (
+          {(!immersive || expanded) && transcript && (
             <p className="assistant-turn voice-transcript" aria-live="polite">
               {transcript}
             </p>
@@ -1303,19 +1420,19 @@ export function AssistantPanel({
           )}
           {jobs.length > 0 &&
             (turns.length > 0 || attentionJobs.length > 0) &&
-            (!immersive || expanded) && (
+            !immersive && (
               <button className="text-button" onClick={openJobs}>
                 {t("See all file activity", "查看全部文件活动")}
               </button>
             )}
-          {!!jobsError && (
-            <p className="error-message" role="alert">
-              {t(
-                "Unable to refresh file actions. Existing actions remain on your desk.",
-                "暂时无法刷新文件操作，已有操作仍保留在桌面服务中。",
-              )}
-            </p>
-          )}
+          {(!immersive || expanded) &&
+            (!!jobsError || !!readError || unavailable) && (
+              <AssistantRefreshStatus
+                reconnecting={unavailable}
+                t={t}
+                onRetry={() => void reload()}
+              />
+            )}
           {immersive && !expanded && jobAttention > 0 && (
             <button
               className="assistant-attention"
@@ -1348,22 +1465,9 @@ export function AssistantPanel({
               {notice}
             </p>
           )}
-          {!!readError && (
-            <p className="assistant-notice" role="status">
-              {t(
-                "Unable to refresh current actions. I will retry when the connection returns.",
-                "暂时无法刷新当前操作，连接恢复后会重试。",
-              )}
-            </p>
-          )}
-          {!!error && (
+          {!!error && !pendingMessage && (
             <p className="error-message" role="alert">
               {errorText(error, t)}
-            </p>
-          )}
-          {unavailable && (
-            <p className="assistant-notice" role="status">
-              {t("Reconnecting to your desk…", "正在重新连接桌面主机…")}
             </p>
           )}
         </div>
@@ -1371,11 +1475,26 @@ export function AssistantPanel({
           className="assistant-input-area"
           id={workspace ? "desktop-chat-composer" : undefined}
         >
+          {pendingMessage && !busy && (
+            <div className="assistant-delivery-recovery" role="status">
+              <span>
+                {t("Message delivery needs checking.", "消息发送结果待核对。")}
+              </span>
+              <button
+                className="secondary"
+                disabled={unavailable}
+                aria-label={t("Check message delivery", "核对消息发送结果")}
+                onClick={() => void recoverMessage()}
+              >
+                {t("Check", "核对")}
+              </button>
+            </div>
+          )}
           {data?.voice.configuration_error === "OPENAI_REGION_UNSUPPORTED" && (
             <p role="status" className="workspace-hint">
               {t(
-                "OpenAI is selected, but this desk's current region is not supported.",
-                "已选择 OpenAI，但当前桌面所在地区的连接暂不受支持。",
+                "The assistant service is unavailable from this connection.",
+                "当前连接暂时无法使用助理服务。",
               )}
             </p>
           )}
@@ -1456,7 +1575,48 @@ export function AssistantPanel({
               </div>
             </div>
           ) : (
-            <form className="assistant-composer" onSubmit={send}>
+            <form
+              className={`assistant-composer ${fileDrag ? "file-drag" : ""}`}
+              onSubmit={send}
+              onDragOver={(event) => {
+                if (
+                  filesEnabled &&
+                  !busy &&
+                  event.dataTransfer.types.includes("Files")
+                ) {
+                  event.preventDefault();
+                  setFileDrag(true);
+                }
+              }}
+              onDragLeave={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget as Node))
+                  setFileDrag(false);
+              }}
+              onDrop={(event) => {
+                if (!event.dataTransfer.files.length) return;
+                event.preventDefault();
+                setFileDrag(false);
+                if (filesEnabled && !busy)
+                  chatFiles.add(Array.from(event.dataTransfer.files));
+              }}
+              onPaste={(event) => {
+                if (!filesEnabled || busy || !event.clipboardData.files.length)
+                  return;
+                event.preventDefault();
+                chatFiles.add(Array.from(event.clipboardData.files));
+              }}
+            >
+              <ComposerFiles
+                files={chatFiles.files}
+                locked={busy}
+                onRemove={chatFiles.remove}
+                t={t}
+              />
+              {!!chatFiles.error && (
+                <p className="error-message" role="alert">
+                  {errorText(chatFiles.error, t)}
+                </p>
+              )}
               <textarea
                 ref={composer}
                 aria-label={t("Message the assistant", "向助理发送消息")}
@@ -1471,7 +1631,7 @@ export function AssistantPanel({
                         "What changed since your last update?",
                         "上次记录后，有什么新进展？",
                       )
-                    : t("Ask anything about your day…", "输入你的想法…")
+                    : t("Message Alice…", "输入你的想法…")
                 }
                 onKeyDown={(e) => {
                   if (
@@ -1488,9 +1648,15 @@ export function AssistantPanel({
                 <button
                   type="button"
                   className="icon-button"
-                  aria-label={t("More actions", "更多操作")}
+                  ref={attachmentButton}
+                  aria-label={t("Add to message", "添加到消息")}
+                  aria-haspopup="menu"
                   aria-expanded={attachments}
-                  onClick={() => setAttachments(!attachments)}
+                  disabled={busy}
+                  onClick={() => {
+                    setAttachments(!attachments);
+                    setMenu(false);
+                  }}
                 >
                   <Plus size={21} />
                 </button>
@@ -1511,7 +1677,7 @@ export function AssistantPanel({
                   >
                     <Square size={17} />
                   </button>
-                ) : text.trim() ? (
+                ) : text.trim() || chatFiles.files.length ? (
                   <button
                     className="assistant-mic"
                     disabled={busy || unavailable || !!pendingJob}
@@ -1523,12 +1689,22 @@ export function AssistantPanel({
                   <button
                     type="button"
                     className="assistant-mic"
-                    disabled={!data?.voice.configured || unavailable || busy}
+                    disabled={
+                      !data?.voice.configured ||
+                      unavailable ||
+                      busy ||
+                      voiceElsewhere
+                    }
                     aria-label={t("Start conversation", "开始交谈")}
                     title={
-                      !data?.voice.configured
-                        ? t("Voice service not configured", "语音服务未配置")
-                        : t("Start conversation", "开始交谈")
+                      voiceElsewhere
+                        ? t(
+                            "Voice is active in another window",
+                            "另一个窗口正在监听或交谈",
+                          )
+                        : !data?.voice.configured
+                          ? t("Voice service not configured", "语音服务未配置")
+                          : t("Start conversation", "开始交谈")
                     }
                     onClick={() => void startVoice()}
                   >
@@ -1538,90 +1714,83 @@ export function AssistantPanel({
               </div>
             </form>
           )}
-          {attachments && (
-            <div className="assistant-attachments">
-              <button
-                type="button"
-                className="secondary"
-                onClick={() => {
-                  setComputerGoal({ text, key: Date.now() });
-                  setAttachments(false);
-                  openJobs();
-                }}
-              >
-                {t("Use a browser", "操作浏览器")}
-              </button>
-              {voiceActive &&
-              data?.voice.supports_images &&
-              data.principal.kind === "owner" ? (
-                <>
-                  <p>
-                    {t("Send to ", "发送至 ")}
-                    {data.voice.provider}.{" "}
-                    {t(
-                      "Only images you choose are shared in this conversation.",
-                      "仅分享你选定的画面。",
-                    )}
-                  </p>
-                  <div className="workspace-inline-actions">
-                    <button
-                      className="secondary"
-                      disabled={
-                        visionBusy || sharing || voiceState === "connecting"
-                      }
-                      onClick={() => imageInput.current?.click()}
-                    >
-                      <ImagePlus size={17} />
-                      {t("Share an image", "分享一张图片")}
-                    </button>
-                    {sharing ? (
-                      <button
-                        className="secondary"
-                        onClick={() => audio.current?.stopVision()}
-                      >
-                        {t("Stop screen sharing", "停止屏幕分享")}
-                      </button>
-                    ) : (
-                      <button
-                        className="secondary"
-                        disabled={
-                          visionBusy ||
-                          voiceState === "connecting" ||
-                          !navigator.mediaDevices?.getDisplayMedia
-                        }
-                        onClick={() => void shareVisual("screen")}
-                      >
-                        <MonitorUp size={17} />
-                        {t("Share selected screen", "分享所选屏幕")}
-                      </button>
-                    )}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <button
-                    className="text-button"
-                    onClick={() => {
-                      setText(t("What is on today?", "今天的行程"));
-                      setAttachments(false);
-                      composer.current?.focus();
-                    }}
-                  >
-                    {t("Today’s briefing", "今日简报")}
-                  </button>
-                  <button
-                    className="text-button"
-                    onClick={() => {
-                      setAttachments(false);
-                      openJobs();
-                    }}
-                  >
-                    {t("File actions & activity", "文件操作与进度")}
-                  </button>
-                </>
-              )}
-            </div>
+          {attachments && !voiceActive && (
+            <ComposerMenu
+              t={t}
+              trigger={attachmentButton}
+              onClose={closeAttachments}
+              filesEnabled={filesEnabled && !busy}
+              onFiles={() => {
+                closeAttachments();
+                fileInput.current?.click();
+              }}
+              onBrowser={() => {
+                setComputerGoal({ text, key: Date.now() });
+                closeAttachments();
+                openJobs();
+              }}
+              onBriefing={() => {
+                setText(t("What is on today?", "今天的行程"));
+                closeAttachments();
+                composer.current?.focus();
+              }}
+            />
           )}
+          {attachments &&
+            voiceActive &&
+            data?.voice.supports_images &&
+            ownerView && (
+              <div className="assistant-attachments">
+                <button
+                  type="button"
+                  className="text-button"
+                  disabled={
+                    visionBusy || sharing || voiceState === "connecting"
+                  }
+                  onClick={() => imageInput.current?.click()}
+                >
+                  <ImagePlus size={17} />
+                  {t("Share an image", "分享图片")}
+                </button>
+                <button
+                  type="button"
+                  className="text-button"
+                  disabled={
+                    visionBusy ||
+                    voiceState === "connecting" ||
+                    !navigator.mediaDevices?.getDisplayMedia
+                  }
+                  onClick={() =>
+                    sharing
+                      ? audio.current?.stopVision()
+                      : void shareVisual("screen")
+                  }
+                >
+                  <MonitorUp size={17} />
+                  {sharing
+                    ? t("Stop screen sharing", "停止屏幕分享")
+                    : t("Share selected screen", "分享所选屏幕")}
+                </button>
+                <small>
+                  {t(
+                    "Selected images are sent to the cloud assistant.",
+                    "选定的画面会发送给云端助手。",
+                  )}
+                </small>
+              </div>
+            )}
+          <input
+            ref={fileInput}
+            type="file"
+            accept={CHAT_FILE_ACCEPT}
+            multiple
+            hidden
+            onChange={(event) => {
+              if (filesEnabled && !busy)
+                chatFiles.add(Array.from(event.target.files ?? []));
+              event.target.value = "";
+            }}
+          />
           <input
             ref={imageInput}
             type="file"
@@ -1646,27 +1815,43 @@ export function AssistantPanel({
           )}
           <div className="assistant-input-preferences">
             <PermissionControl t={t} />
-            {ownerView &&
-              data?.voice.configured &&
-              data.voice.wake_word?.available && (
-                <label className="alice-wake-toggle">
-                  <input
-                    type="checkbox"
-                    checked={wake.enabled}
-                    disabled={unavailable}
-                    onChange={(event) => {
-                      if (event.target.checked) {
-                        endVoice();
-                        wake.enable();
-                      } else {
-                        wake.disable();
-                        endVoice();
-                      }
-                    }}
-                  />
-                  {t("Say Alice to wake", "叫 Alice 唤醒")}
-                </label>
-              )}
+            {ownerView && data?.voice.configured && (
+              <label className="alice-wake-toggle">
+                <input
+                  type="checkbox"
+                  checked={wake.enabled}
+                  disabled={
+                    unavailable ||
+                    !data.voice.wake_word?.available ||
+                    voiceElsewhere
+                  }
+                  title={
+                    voiceElsewhere
+                      ? t(
+                          "Voice is active in another window",
+                          "另一个窗口正在监听或交谈",
+                        )
+                      : !data.voice.wake_word?.available
+                        ? t("Local wake is not ready", "本地唤醒暂未就绪")
+                        : t(
+                            "Listen locally for Alice; start cloud voice only when called",
+                            "本地等待 Alice，叫到名字才连接云端语音",
+                          )
+                  }
+                  onChange={(event) => {
+                    if (event.target.checked) {
+                      setNotice("");
+                      endVoice();
+                      wake.enable();
+                    } else {
+                      wake.disable();
+                      endVoice();
+                    }
+                  }}
+                />
+                {t("Say Alice", "叫 Alice 唤醒")}
+              </label>
+            )}
           </div>
           {(wake.enabled || wake.state === "error") && (
             <p className="alice-wake-status" role="status">
@@ -1691,46 +1876,58 @@ export function AssistantPanel({
             </p>
           )}
 
-          <p className="assistant-caption">
-            {wake.enabled && !voiceActive
-              ? t("Cloud voice disconnected", "云端语音未连接")
-              : voiceActive
-                ? voiceState === "connecting"
-                  ? t("Preparing voice…", "正在准备语音…")
-                  : t(
-                      "Speak naturally. Your mic is on.",
-                      "直接交谈，麦克风已开启。",
-                    )
-                : omni
-                  ? t(
-                      `${voiceName} · microphone off`,
-                      `${voiceName} · 麦克风已关闭`,
-                    )
-                  : data?.text_ai?.configured
-                    ? data?.permissions?.mode === "full"
-                      ? t(
-                          "Actions follow your permission setting.",
-                          "操作遵循你的权限设置。",
-                        )
+          {immersive &&
+          !expanded &&
+          (!!jobsError || !!readError || unavailable) ? (
+            <AssistantRefreshStatus
+              reconnecting={unavailable}
+              t={t}
+              onRetry={() => void reload()}
+            />
+          ) : !immersive ? (
+            <p className="assistant-caption">
+              {voiceElsewhere
+                ? t(
+                    "Voice is active in another window",
+                    "另一个窗口正在监听或交谈",
+                  )
+                : wake.enabled && !voiceActive
+                  ? t("Cloud voice disconnected", "云端语音未连接")
+                  : voiceActive
+                    ? voiceState === "connecting"
+                      ? t("Preparing voice…", "正在准备语音…")
                       : t(
-                          "Review changes before saving.",
-                          "修改会先交给你确认。",
+                          "Speak naturally. Your mic is on.",
+                          "直接交谈，麦克风已开启。",
                         )
-                    : t(
-                        "Local mode · calendar, tasks & notes",
-                        "本地模式 · 日历、事务与笔记",
-                      )}
-            {imageCount > 0 && (
-              <span>
-                {" "}
-                ·{" "}
-                {t(
-                  `${imageCount} image frames sent`,
-                  `已发送 ${imageCount} 帧图片`,
-                )}
-              </span>
-            )}
-          </p>
+                    : data?.voice.configured
+                      ? t("Voice ready", "语音已就绪")
+                      : data?.text_ai?.configured
+                        ? data?.permissions?.mode === "full"
+                          ? t(
+                              "Actions follow your permission setting.",
+                              "操作遵循你的权限设置。",
+                            )
+                          : t(
+                              "Review changes before saving.",
+                              "修改会先交给你确认。",
+                            )
+                        : t(
+                            "Local mode · calendar, tasks & notes",
+                            "本地模式 · 日历、事务与笔记",
+                          )}
+              {imageCount > 0 && (
+                <span>
+                  {" "}
+                  ·{" "}
+                  {t(
+                    `${imageCount} image frames sent`,
+                    `已发送 ${imageCount} 帧图片`,
+                  )}
+                </span>
+              )}
+            </p>
+          ) : null}
         </div>
       </section>
       <section
@@ -1805,6 +2002,14 @@ export function AssistantPanel({
         className="assistant-secondary assistant-help"
       >
         <h3>{t("A little help with your day", "帮你理清一天")}</h3>
+        <ReplyOwedAsk
+          t={t}
+          onAsk={(phrase) => {
+            setText(phrase);
+            setView("chat");
+            queueMicrotask(() => composer.current?.focus());
+          }}
+        />
         <p>
           {t(
             "Ask about today or next week, keep track of a task, or prepare a note. Changes wait for your review.",
@@ -1813,12 +2018,17 @@ export function AssistantPanel({
         </p>
         <ul>
           <li>{t("What is on today?", "今天的行程")}</li>
+          <li>{t("What should I do next?", "接下来做什么？")}</li>
           <li>{t("What is on next week?", "下周有什么日程？")}</li>
+          <li>{t("Who do I need to reply to?", "我该回复谁？")}</li>
           <li>{t("Track: finish the project report", "跟进：完成项目报告")}</li>
+          <li>{t("Prep me for my next meeting", "下一场会要准备什么")}</li>
           <li>
             {t("Remember: I prefer morning meetings", "记住：我喜欢上午开会")}
           </li>
           <li>{t("Save note: project ideas", "保存笔记：项目想法")}</li>
+          <li>{t("When am I free tomorrow?", "我明天什么时候有空？")}</li>
+          <li>{t("What am I waiting on?", "我在等什么")}</li>
         </ul>
         <p>
           {t(

@@ -41,6 +41,7 @@ from .application_executor import (
     validate_application_request,
 )
 from .application_runtime import read_regular, rooted
+from .computer_use import OwnerWallPause
 from .computer_use_models import (
     COMPUTER_USE_ACTIONS,
     ComputerUseInput,
@@ -159,6 +160,12 @@ class FolderNaming(StrictModel):
 class JobApproval(StrictModel):
     expected_version: int = Field(ge=1, strict=True)
     intent_hash: str = Field(pattern=r"^[a-f0-9]{64}$")
+
+
+class JobHandoff(StrictModel):
+    """Owner takeover or return. No password, code or card field exists here."""
+
+    expected_version: int = Field(ge=1, strict=True)
 
 
 class JobQuery(StrictModel):
@@ -331,6 +338,9 @@ class JobService:
         )
         if not review and view["result"]:
             view["result"].pop("readback", None)
+            if view["result"].get("paused"):
+                view["result"].pop("observation", None)
+                view["result"].pop("state_sha256", None)
         if review or describe:
             view["title"] = request["title"]
         if review:
@@ -550,7 +560,7 @@ class JobService:
                 conn.execute("UPDATE computer_jobs SET cancel_requested=1 WHERE id=?", (job_id,))
                 state = (
                     "cancelled"
-                    if row["state"] in {"review", "queued"}
+                    if row["state"] in {"review", "queued", "owner_takeover"}
                     else ("unknown" if row["state"] == "unknown" else "cancel_requested")
                 )
                 self._state(conn, job_id, state, "USER_CANCELLED")
@@ -561,14 +571,129 @@ class JobService:
         )
         return {"job": self.detail(job_id)}
 
+    def _computer_owner(self, conn, row, principal):
+        if not principal or principal.get("kind") != "owner" or not principal.get("session"):
+            raise DomainError("OWNER_REQUIRED", 403)
+        request = json.loads(row["request"])
+        if request.get("action") not in COMPUTER_USE_ACTIONS:
+            raise DomainError("JOB_NOT_IN_TAKEOVER", 409)
+        session_hash = hashlib.sha256(principal["session"].encode()).hexdigest()
+        if request.get("session_hash") != session_hash:
+            raise DomainError("OWNER_REQUIRED", 403)
+        if not conn.execute(
+            "SELECT 1 FROM sessions WHERE token_hash=? AND expires>?",
+            (session_hash, iso(self.store.clock())),
+        ).fetchone():
+            raise DomainError("OWNER_REQUIRED", 403)
+        if not getattr(self.computer_use.supervisor, "supports_owner_takeover", False):
+            raise DomainError("COMPUTER_TAKEOVER_UNAVAILABLE", 409)
+        return request
+
+    @staticmethod
+    def _paused_handoff(row):
+        if row["state"] != "owner_takeover" or not row["result"]:
+            return None
+        record = json.loads(row["result"])
+        if not isinstance(record, dict) or record.get("paused") is not True:
+            return None
+        return record
+
+    def _handoff_reply(self, job_id, stored, *, held=False, resumed=False):
+        job = self.detail(job_id, review=True)
+        result = job.get("result") or {}
+        return {
+            "job": job,
+            "held": held and job["state"] == "owner_takeover" and result.get("phase") == "held",
+            "resumed": resumed and job["state"] == "queued" and result.get("phase") == "returning",
+            "operation_id": stored["operation_id"],
+        }
+
+    def takeover(self, job_id, payload: JobHandoff, key, *, principal):
+        self.runtime.personal_context.require_visible(principal)
+        with self.store.connection() as conn:
+            self._computer_owner(conn, self._row(conn, job_id), principal)
+
+        def apply(conn):
+            row = self._row(conn, job_id)
+            self._computer_owner(conn, row, principal)
+            record = self._paused_handoff(row)
+            if record is None:
+                raise DomainError("JOB_NOT_IN_TAKEOVER", 409)
+            if record.get("phase") == "held":
+                return {"job_id": job_id, "held": True}
+            if row["version"] != payload.expected_version:
+                raise DomainError("VERSION_CONFLICT", 409)
+            if record.get("phase") != "paused":
+                raise DomainError("JOB_NOT_IN_TAKEOVER", 409)
+            if row["deadline"] and row["deadline"] <= iso(self.store.clock()):
+                self._state(conn, job_id, "expired", "JOB_DEADLINE_EXCEEDED")
+                raise DomainError("JOB_DEADLINE_EXCEEDED", 409)
+            # Only the phase changes. Omitted fields keep their saved values.
+            self._state(
+                conn, job_id, "owner_takeover", record.get("reason"), {**record, "phase": "held"}
+            )
+            return {"job_id": job_id, "held": True}
+
+        stored = self.store.operation(
+            key,
+            {
+                "type": "computer_takeover",
+                "id": job_id,
+                "expected_version": payload.expected_version,
+            },
+            apply,
+        )
+        return self._handoff_reply(job_id, stored, held=True)
+
+    def hand_back(self, job_id, payload: JobHandoff, key, *, principal):
+        self.runtime.personal_context.require_visible(principal)
+        with self.store.connection() as conn:
+            self._computer_owner(conn, self._row(conn, job_id), principal)
+
+        def apply(conn):
+            row = self._row(conn, job_id)
+            self._computer_owner(conn, row, principal)
+            if row["state"] == "cancelled" or (
+                row["cancel_requested"] and row["state"] != "owner_takeover"
+            ):
+                raise DomainError("JOB_NOT_IN_TAKEOVER", 409)
+            if row["state"] == "queued" and row["result"]:
+                record = json.loads(row["result"])
+                if isinstance(record, dict) and record.get("phase") == "returning":
+                    return {"job_id": job_id, "resumed": True}
+            record = self._paused_handoff(row)
+            if record is None or record.get("phase") != "held":
+                raise DomainError("JOB_NOT_IN_TAKEOVER", 409)
+            if row["version"] != payload.expected_version:
+                raise DomainError("VERSION_CONFLICT", 409)
+            if row["deadline"] and row["deadline"] <= iso(self.store.clock()):
+                self._state(conn, job_id, "expired", "JOB_DEADLINE_EXCEEDED")
+                raise DomainError("JOB_DEADLINE_EXCEEDED", 409)
+            self._state(conn, job_id, "queued", None, {**record, "phase": "returning"})
+            return {"job_id": job_id, "resumed": True}
+
+        stored = self.store.operation(
+            key,
+            {"type": "computer_return", "id": job_id, "expected_version": payload.expected_version},
+            apply,
+        )
+        return self._handoff_reply(job_id, stored, resumed=True)
+
     def expire(self):
         now = iso(self.store.clock())
         with self.store.connection(write=True) as conn:
             for row in conn.execute(
-                "SELECT * FROM computer_jobs WHERE (state='review' AND expires_at<=?) OR (state='queued' AND deadline<=?) OR (state IN ('running','verifying','cancel_requested') AND deadline<=?)",
-                (now, now, now),
+                "SELECT * FROM computer_jobs WHERE (state='review' AND expires_at<=?) "
+                "OR (state='queued' AND deadline<=?) "
+                "OR (state='owner_takeover' AND deadline<=?) "
+                "OR (state IN ('running','verifying','cancel_requested') AND deadline<=?)",
+                (now, now, now, now),
             ).fetchall():
-                state = "expired" if row["state"] in {"review", "queued"} else "unknown"
+                state = (
+                    "expired"
+                    if row["state"] in {"review", "queued", "owner_takeover"}
+                    else "unknown"
+                )
                 self._state(conn, row["id"], state, "JOB_DEADLINE_EXCEEDED")
 
     def _verify(self, request, *, archived=False):
@@ -694,6 +819,8 @@ class JobService:
 
             try:
                 executor.execute(request, checkpoint)
+            except OwnerWallPause as pause:
+                state, code, receipt = "owner_takeover", pause.record.get("reason"), pause.record
             except ExecutionRejected as error:
                 state = "cancelled" if error.code == "JOB_CANCELLED_BEFORE_DISPATCH" else "failed"
                 code, receipt = error.code, None
@@ -724,8 +851,17 @@ class JobService:
                     # the preceding write. Preserve read-only reconciliation.
                     state, code, receipt = "unknown", "JOB_VERIFICATION_FAILED", None
             with self.store.connection(write=True) as conn:
-                if self._row(conn, job_id)["run_id"] == run_id:
-                    self._state(conn, job_id, state, code, receipt)
+                current = self._row(conn, job_id)
+                if current["run_id"] != run_id:
+                    return
+                if state == "owner_takeover":
+                    if current["cancel_requested"]:
+                        state, code, receipt = "cancelled", "USER_CANCELLED", None
+                    elif current["deadline"] and current["deadline"] <= iso(self.store.clock()):
+                        state, code, receipt = "expired", "JOB_DEADLINE_EXCEEDED", None
+                    else:
+                        conn.execute("UPDATE computer_jobs SET run_id=NULL WHERE id=?", (job_id,))
+                self._state(conn, job_id, state, code, receipt)
         finally:
             self.run_lock.release()
 
@@ -852,6 +988,7 @@ class JobService:
             "verifying",
             "unknown",
             "cancel_requested",
+            "owner_takeover",
         }
         jobs, identifiers = [], set()
         for row in rows:
@@ -1195,6 +1332,27 @@ def job_routes(runtime, owner, operation_id):
     @router.post("/jobs/{job_id}/cancel")
     def cancel(job_id: str, key=Depends(operation_id)):
         return runtime.jobs.cancel(job_id, key)
+
+    def owner_actor(request: Request, principal=Depends(owner)):
+        return {**principal, "session": request.cookies.get("desk_companion_session")}
+
+    @router.post("/jobs/{job_id}/takeover", dependencies=[Depends(visible)])
+    def takeover(
+        job_id: str,
+        payload: JobHandoff,
+        key=Depends(operation_id),
+        principal=Depends(owner_actor),
+    ):
+        return runtime.jobs.takeover(job_id, payload, key, principal=principal)
+
+    @router.post("/jobs/{job_id}/return", dependencies=[Depends(visible)])
+    def hand_back(
+        job_id: str,
+        payload: JobHandoff,
+        key=Depends(operation_id),
+        principal=Depends(owner_actor),
+    ):
+        return runtime.jobs.hand_back(job_id, payload, key, principal=principal)
 
     @router.post("/jobs/{job_id}/reconcile")
     def reconcile(job_id: str):

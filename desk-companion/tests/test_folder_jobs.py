@@ -22,6 +22,9 @@ def desk(tmp_path, monkeypatch):
     drop.mkdir()
     # Folder scope tests do not test expiry. A host sleep/clock adjustment must
     # not expire the five-minute review while an HTTP login is in progress.
+    # Deadlines are absolute timestamps from this clock. A later process on
+    # the same store has to receive it; Store's wall-clock default would
+    # expire an approved job once the real date passes this instant.
     app = create_app(
         runtime,
         password="fictional-fixture",
@@ -313,7 +316,10 @@ def test_restart_runs_only_the_approved_folder_job(desk):
     job = prepare(jobs)
     approve(jobs, job)
     resumed = create_app(
-        app.state.store.directory, password="fictional-fixture", scheduler=False
+        app.state.store.directory,
+        password="fictional-fixture",
+        scheduler=False,
+        clock=app.state.store.clock,
     ).state.runtime.jobs
     resumed.run_one()
     assert resumed.detail(job["id"])["state"] == "succeeded"

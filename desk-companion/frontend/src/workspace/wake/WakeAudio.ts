@@ -1,4 +1,5 @@
 import { LocalCapture } from "../media/localCapture.ts";
+import { microphoneConstraints } from "../media/microphone.ts";
 
 type WakeEvent = { type: "ready" | "wake" | "error" };
 /** Microphone PCM goes only to the connected desk's local keyword detector. */
@@ -23,21 +24,18 @@ export class WakeAudio {
     try {
       const context = new AudioContext();
       this.context = context;
+      const stream = await this.capture.start({
+        audio: microphoneConstraints(),
+        video: false,
+      });
+      if (!stream || this.stopped) return;
+      // An already-authorized capture also permits Web Audio to resume on
+      // browsers that suspend a fresh AudioContext after page reload.
       this.timer = setTimeout(() => this.fail(), 5000);
       await context.resume();
       if (this.stopped) return;
       if (this.timer) clearTimeout(this.timer);
       this.timer = null;
-      const stream = await this.capture.start({
-        audio: {
-          channelCount: 1,
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true,
-        },
-        video: false,
-      });
-      if (!stream || this.stopped) return;
       await context.audioWorklet.addModule("/audio-capture.js");
       if (this.stopped) return;
       this.node = new AudioWorkletNode(context, "desk-capture");

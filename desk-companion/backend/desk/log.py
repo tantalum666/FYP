@@ -14,6 +14,10 @@ SECRET_KEYS = {
     "secret",
     "cookie",
     "credential",
+    "client_secret",
+    "access_token",
+    "refresh_token",
+    "app_password",
     "code",
     "state",
 }

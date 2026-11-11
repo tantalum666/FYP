@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-07",
+  "task": "later ask re-shows one verified offline Work result",
+  "read_in_full": [
+    "AGENTS.md",
+    "handoff.md",
+    "desk-companion/docs/conversation-work.md",
+    "desk-companion/backend/desk/conversation_work.py",
+    "output/qa/2026-11-06-conversation-work-verified-result/verification.md",
+    "desk-companion/backend/desk/conversation.py",
+    "desk-companion/backend/desk/turns.py",
+    "START_HERE_NEXT_CHAT.md"
+  ],
+  "read_in_part": [
+    "product.md through the 30 October application section",
+    "decision-log.md from the 6 November goal-change entries",
+    "work-log.md from the 6 November goal-change entries",
+    "research/personal-agent-research-index.md section 4",
+    "desk-companion/docs/desktop-conversation.md goal-change section",
+    "desk-companion/docs/application-work.md remaining boundary",
+    "desk-companion/docs/agent-loop-handoff.md persistent-application section",
+    "desk-companion/docs/pr5-integration.md November gate",
+    "desk-companion/docs/voice-work.md controls section",
+    "TextAssistant._scoped_message, Conversations, ArtifactService.read, AgentRunService.advance_one/detail/session"
+  ],
+  "not_reread": "Earlier research history, Pi transport logs, and the merged #89–#92 diffs were not re-read in full."
+}

@@ -124,3 +124,25 @@ def test_signout_invalidates_a_previously_issued_wake_ticket(tmp_path):
             socket.send_json({"ticket": ticket})
             socket.receive_json()
     assert r.wake.active is None and not r.voice.active
+
+
+def test_wake_and_cloud_voice_share_one_capture_slot(tmp_path):
+    from desk.app import create_app
+    from desk.voice import VoiceConfig
+    from desk.store import DomainError
+    import pytest
+
+    runtime = create_app(tmp_path, password="fixture", scheduler=False).state.runtime
+    runtime.voice.config = VoiceConfig(
+        "openai_realtime", "wss://api.openai.com/v1/realtime", "gpt-realtime-2.1", "fixture-key"
+    )
+    owner = {"kind": "owner", "id": "owner", "session": runtime.store.create_owner_session()}
+    assert runtime.wake.lock is runtime.voice.lock
+    ticket = runtime.voice.ticket(owner)["ticket"]
+    runtime.wake.active = "other-window-local-listener"
+    with pytest.raises(DomainError, match="VOICE_BUSY"):
+        runtime.voice.ticket(owner)
+    with pytest.raises(DomainError, match="VOICE_TICKET_EXPIRED"):
+        runtime.voice.consume(ticket)
+    runtime.wake.active = None
+    assert runtime.voice.consume(runtime.voice.ticket(owner)["ticket"])["id"] == "owner"

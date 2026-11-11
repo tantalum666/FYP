@@ -1,0 +1,17 @@
+{
+  "repository": "tantalum666/FYP",
+  "pr": 97,
+  "url": "https://github.com/tantalum666/FYP/pull/97",
+  "state": "open",
+  "merged": false,
+  "draft": false,
+  "branch": "codex/alice-home-wake-20261107",
+  "source_commit": "232b065f910af18151846b73dd48fe92fb1d9e16",
+  "reviewed_published_head": "1afb5569992186d7a49202f3611e581210d9934d",
+  "remote_head_verified": true,
+  "local_checks_only": true,
+  "ci_used": false,
+  "private_credentials_and_media_excluded": true,
+  "verified_at": "2026-11-08T15:33:48.883309+00:00",
+  "note": "Receipt-only follow-up may have a later HEAD; runtime source and reviewed code are identified separately."
+}

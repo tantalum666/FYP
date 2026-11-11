@@ -1,0 +1,21 @@
+html {
+  color-scheme: dark;
+  background: #14222e;
+  color: #eef2f2;
+  font:
+    16px system-ui,
+    sans-serif;
+}
+main {
+  max-width: 32rem;
+  margin: 15vh auto;
+  padding: 2rem;
+}
+h1 {
+  font-size: 1.4rem;
+  line-height: 1.5;
+  font-weight: 550;
+}
+a {
+  color: #aacfb1;
+}

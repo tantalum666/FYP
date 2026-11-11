@@ -1,0 +1,64 @@
+{
+  "activated": true,
+  "source_commit": "232b065f910af18151846b73dd48fe92fb1d9e16",
+  "release": "/opt/desk-companion-releases/20261108-caption-apps",
+  "automatic_owner": true,
+  "frontend_exact": true,
+  "preserved_owner_keys": true,
+  "paid_model_calls_during_activation": 0,
+  "verified_files": 305,
+  "google_client_configured": true,
+  "voice_selected": "Alice \u00b7 Bright",
+  "cached_samples": 3,
+  "apps": [
+    {
+      "id": "gmail",
+      "configured": true,
+      "connected": false
+    },
+    {
+      "id": "calendar",
+      "configured": true,
+      "connected": false
+    },
+    {
+      "id": "microsoft365",
+      "configured": false,
+      "connected": false
+    },
+    {
+      "id": "teams",
+      "configured": false,
+      "connected": false
+    },
+    {
+      "id": "sharepoint",
+      "configured": false,
+      "connected": false
+    }
+  ],
+  "services": [
+    "active",
+    "active"
+  ],
+  "mac": {
+    "source_commit": "232b065f910af18151846b73dd48fe92fb1d9e16",
+    "web_port": 5190,
+    "api_port": 8831,
+    "backup_files": 14,
+    "backup_sha256": "b5df640531122872b7d622d5e8325fa799ca2596196d89bc08a61df5b668c855",
+    "gmail_connected": true,
+    "native_self_email_readback": true,
+    "voice_selected": "Alice \u00b7 Bright"
+  },
+  "pi_backup": {
+    "files": 22,
+    "sha256": "23d2ade2a9a71dcc6d7b71a44c763cb7cc9807c3bc5ec98a6da5918f6326049b",
+    "off_device_verified": true
+  },
+  "initial_activation": {
+    "result": "rolled_back",
+    "cause": "operator package omitted config/wake-model.json",
+    "repair": "All five tracked config files included; 305-file manifest verified; isolated Pi workspace returned HTTP200 before reactivation"
+  }
+}

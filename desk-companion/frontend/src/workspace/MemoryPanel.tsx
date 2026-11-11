@@ -7,10 +7,12 @@ import type { Translate } from "../types";
 import { CheckIns } from "./CheckIns";
 import { GoalList } from "./GoalList";
 import { DigestPanel } from "./DigestPanel";
+import { SourceBriefPanel } from "./SourceBriefPanel";
 import { AliasList } from "./AliasList";
 import { ProfileSummary } from "./ProfileSummary";
 import { actionsFor, knowledgeCopy } from "./knowledge";
 import { MemoryFactList } from "./MemoryFactList";
+import { MemoryFollowUps } from "./MemoryFollowUps";
 import type { MemoryFact, MemoryEdit } from "./MemoryFactList";
 import { useWorkspace } from "./WorkspaceContext";
 
@@ -331,6 +333,22 @@ export function MemoryPanel({ t }: { t: Translate }) {
         onDelete={setDeleting}
         onExpiry={expire}
       />
+      {data?.personal_context_visible && (
+        <details>
+          <summary>{t("Compare saved notes", "比较已有笔记")}</summary>
+          <SourceBriefPanel t={t} />
+        </details>
+      )}
+      {data?.personal_context_visible && (
+        <details>
+          <summary>{t("Memory reminders", "记忆提醒")}</summary>
+          <MemoryFollowUps
+            t={t}
+            facts={facts}
+            onMemoryChange={() => void reload()}
+          />
+        </details>
+      )}
       {!loading && !error && !facts.length && (
         <p>{t(knowledgeCopy.emptyFacts[0], knowledgeCopy.emptyFacts[1])}</p>
       )}

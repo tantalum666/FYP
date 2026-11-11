@@ -45,8 +45,7 @@ import { NoticeInbox } from "./workspace/NoticeInbox";
 import { PersonaPanel } from "./workspace/PersonaPanel";
 import { TaskPanel } from "./workspace/TaskPanel";
 import { DataPanel } from "./workspace/DataPanel";
-import { PageCompanion } from "./companion/PageCompanion";
-import { ConversationWorkspace } from "./workspace/ConversationWorkspace";
+import { AliceHome } from "./companion/AliceHome";
 import { ExtrasPanel } from "./workspace/ExtrasPanel";
 import { PosturePanel } from "./workspace/PosturePanel";
 import { ConnectionsPanel } from "./workspace/ConnectionsPanel";
@@ -151,10 +150,13 @@ export function App() {
     "Asia/Hong_Kong";
   const today = now.setZone(zone).startOf("day");
   const anchor = DateTime.fromISO(
-    page === "today" ? dayISO(today) : anchorDate,
+    page === "today" || page === "assistant" ? dayISO(today) : anchorDate,
     { zone },
   ).startOf("day");
-  const range = viewRange(anchor, page === "today" ? "day" : view);
+  const range = viewRange(
+    anchor,
+    page === "today" || page === "assistant" ? "day" : view,
+  );
   const startISO = range.start.toUTC().toISO()!,
     endISO = range.end.toUTC().toISO()!;
   const refresh = useCallback(() => setNonce((n) => n + 1), []);
@@ -294,7 +296,9 @@ export function App() {
   function closeNavigation() {
     setNavigationOpen(false);
     document
-      .querySelector<HTMLButtonElement>(".workspace-menu-toggle")
+      .querySelector<HTMLButtonElement>(
+        ".alice-home:not([hidden]) .alice-more-button, .workspace-menu-toggle",
+      )
       ?.focus();
   }
   function goPage(p: Page) {
@@ -382,7 +386,7 @@ export function App() {
     snapshot?.reminders.filter((r) => r.status === "due").length ?? 0;
   return (
     <div
-      className={`app-shell conversation-shell ${deviceLayout ? "device-layout" : ""} ${navigationOpen ? "navigation-open" : ""}`}
+      className={`app-shell conversation-shell ${page === "assistant" ? "home-open" : ""} ${deviceLayout ? "device-layout" : ""} ${navigationOpen ? "navigation-open" : ""}`}
       onKeyDown={(event) => {
         if (
           navigationOpen &&
@@ -394,7 +398,7 @@ export function App() {
         }
       }}
     >
-      <aside className="sidebar">
+      <aside className="sidebar" inert={!navigationOpen}>
         <div className="app-name">Desk Companion</div>
         <div className="sidebar-scroll">
           <nav aria-label={t("Main navigation", "主导航")}>
@@ -467,12 +471,6 @@ export function App() {
               </div>
             </details>
           )}
-        </div>
-        <div id="web-companion-home" className="sidebar-companion-home">
-          <button className="text-button" onClick={openAssistant}>
-            <Sparkles size={16} />
-            {t("Chat with assistant", "和助理聊聊")}
-          </button>
         </div>
         <footer className="sidebar-footer">
           <label>
@@ -565,32 +563,59 @@ export function App() {
             <RefreshCw size={14} aria-hidden="true" />,
           )}
         <NoticeInbox t={t} language={language === "zh" ? "zh" : "en"} />
-        {pendingWrite() && !editor && (
-          <div className="connection-banner pending" role="status">
-            {t("A save is awaiting confirmation.", "有一项保存等待确认。")}
-            <button onClick={recover} disabled={recovering}>
-              {t("Check save status", "核对保存状态")}
-            </button>
-          </div>
-        )}
+        {pendingWrite() &&
+          pendingWrite()?.path !== "/assistant/messages/stream" &&
+          !editor && (
+            <div className="connection-banner pending" role="status">
+              {t("A save is awaiting confirmation.", "有一项保存等待确认。")}
+              <button onClick={recover} disabled={recovering}>
+                {t("Check save status", "核对保存状态")}
+              </button>
+            </div>
+          )}
         {!!error &&
           failureNotice(errorText(error, t), t("Dismiss", "关闭"), () =>
             setError(null),
           )}
-        <ConversationWorkspace
+        <AliceHome
+          surface="web"
           t={t}
+          language={language}
+          now={now}
+          zone={zone}
+          events={visible?.occurrences ?? null}
+          connection={connection}
           visible={page === "assistant"}
-          suspended={
-            page !== "assistant" ||
-            !!workspacePanel ||
-            !!editor ||
-            !!detail ||
-            showReminders
+          obscured={
+            !!(
+              workspacePanel ||
+              editor ||
+              detail ||
+              showReminders ||
+              leavePage ||
+              navigationOpen
+            )
           }
-          taskId={assistantTask?.id}
-          taskTitle={assistantTask?.title}
+          onPlan={() => {
+            selectDay(today);
+          }}
+          onMore={() => {
+            setNavigationOpen(true);
+            requestAnimationFrame(() =>
+              document
+                .querySelector<HTMLButtonElement>(".sidebar nav button")
+                ?.focus(),
+            );
+          }}
+          onReconnect={() => {
+            refresh();
+            void recoverSession();
+          }}
+          onTasks={() => goPage("tasks")}
+          onEvent={setDetail}
+          task={assistantTask}
           onClearTask={() => setAssistantTask(undefined)}
-          onStateChange={setChatState}
+          onConversationState={setChatState}
         />
         {page !== "assistant" &&
           (!visible ? (
@@ -669,14 +694,16 @@ export function App() {
                 </>
               )}
               {page === "tasks" && (
-                <TaskPanel
-                  t={t}
-                  zone={zone}
-                  onDiscuss={discussTask}
-                  onPlan={(event) =>
-                    setEditor({ initial: event, scope: "series" })
-                  }
-                />
+                <>
+                  <TaskPanel
+                    t={t}
+                    zone={zone}
+                    onDiscuss={discussTask}
+                    onPlan={(event) =>
+                      setEditor({ initial: event, scope: "series" })
+                    }
+                  />
+                </>
               )}
               {page === "memory" && (
                 <div className="standard-page management-view workspace-panel">
@@ -846,15 +873,6 @@ export function App() {
           )}
         </Modal>
       )}
-      <PageCompanion
-        t={t}
-        homeId="web-companion-home"
-        avoidId="desktop-chat-composer"
-        blocked={
-          !!(workspacePanel || editor || detail || showReminders || leavePage)
-        }
-        onOpenAssistant={openAssistant}
-      />
     </div>
   );
 }

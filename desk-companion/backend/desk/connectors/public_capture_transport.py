@@ -41,6 +41,11 @@ def is_public_unicast(address):
         ip = ipaddress.ip_address(address)
     except ValueError:
         return False
+    # Python versions classify the IPv6 mapped envelope differently. The
+    # actual endpoint is its embedded IPv4 address; apply every restriction to it.
+    mapped = getattr(ip, "ipv4_mapped", None)
+    if mapped is not None:
+        return is_public_unicast(str(mapped))
     if (
         not ip.is_global
         or ip.is_multicast
@@ -51,8 +56,7 @@ def is_public_unicast(address):
         or ip.is_reserved
     ):
         return False
-    mapped = getattr(ip, "ipv4_mapped", None)
-    return mapped is None or is_public_unicast(str(mapped))
+    return True
 
 
 class _CaptureHTTPSConnection(_PinnedHTTPSConnection):

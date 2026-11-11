@@ -6,7 +6,10 @@ from .bounded_json import bounded_json_post
 class OpenAITextAdapter:
     name = "openai"
 
-    def complete(self, client, config, prompt, content, max_tokens=1600):
+    def complete(self, client, config, prompt, content, max_tokens=1600, *, attachment_parts=None):
+        user_content = "Return the requested JSON object.\n" + content
+        if attachment_parts:
+            user_content = [{"type": "input_text", "text": user_content}, *attachment_parts]
         response = bounded_json_post(
             client,
             config.endpoint,
@@ -16,9 +19,7 @@ class OpenAITextAdapter:
                 "instructions": prompt,
                 # The provider's JSON-mode preflight checks input messages, not
                 # only the separate instructions field, for the format request.
-                "input": [
-                    {"role": "user", "content": "Return the requested JSON object.\n" + content}
-                ],
+                "input": [{"role": "user", "content": user_content}],
                 "text": {"format": {"type": "json_object"}},
                 "reasoning": {"effort": "low"},
                 "max_output_tokens": max_tokens,

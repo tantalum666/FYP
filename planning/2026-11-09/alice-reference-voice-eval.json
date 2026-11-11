@@ -1,0 +1,136 @@
+{
+  "schema": "alice-reference-voice-eval-v1",
+  "status": "technical_subset_run_owner_audition_pending",
+  "date": "2026-11-09",
+  "purpose": "Offline reference-voice listening comparison; all task details are fictional and confer no action authority.",
+  "owner_reference": "not_supplied",
+  "candidate_order": [
+    "gpt_sovits",
+    "fish_s2_pro_if_compute_available"
+  ],
+  "baseline": "existing_cached_alice_bright",
+  "do_not_train_from_baseline_audio": true,
+  "samples": [
+    {
+      "id": "zh-greeting",
+      "language": "zh",
+      "text": "我在呀。你慢慢说，我听着。",
+      "check": "Natural friendly delivery without exaggerated cuteness"
+    },
+    {
+      "id": "zh-time",
+      "language": "zh",
+      "text": "明天上午十点有项目讨论，下午两点要交报告。",
+      "check": "Ten in the morning and two in the afternoon remain distinct"
+    },
+    {
+      "id": "zh-review",
+      "language": "zh",
+      "text": "邮件已经准备好了。你看一下内容，确认后再发送。",
+      "check": "A prepared draft is not pronounced as already sent"
+    },
+    {
+      "id": "zh-correction",
+      "language": "zh",
+      "text": "好，改成三点半。我再核对一下有没有时间冲突。",
+      "check": "Half past three; connected phrasing"
+    },
+    {
+      "id": "en-greeting",
+      "language": "en",
+      "text": "Hi, I'm Alice. I'm here. Take your time.",
+      "check": "Name, contractions and natural pauses"
+    },
+    {
+      "id": "en-time",
+      "language": "en",
+      "text": "The meeting is at ten tomorrow morning, and the report is due at two in the afternoon.",
+      "check": "Natural English with the same recognizable speaker"
+    },
+    {
+      "id": "en-review",
+      "language": "en",
+      "text": "Your email is ready. Have a look before we send it.",
+      "check": "Conversational tone; no false completion"
+    },
+    {
+      "id": "en-correction",
+      "language": "en",
+      "text": "Sure, three thirty. Let me check whether anything else overlaps.",
+      "check": "Time pronunciation and smooth sentence transition"
+    },
+    {
+      "id": "yue-greeting",
+      "language": "yue",
+      "text": "我喺度呀，你慢慢講，我聽緊。",
+      "check": "Colloquial Cantonese, not Mandarin reading of the same characters"
+    },
+    {
+      "id": "yue-time",
+      "language": "yue",
+      "text": "聽日朝早十點有個會，下晝兩點要交份報告。",
+      "check": "Natural Hong Kong Cantonese time expressions"
+    },
+    {
+      "id": "yue-review",
+      "language": "yue",
+      "text": "封電郵準備好喇。你睇吓內容，確認咗先發。",
+      "check": "Natural final particles and correct draft status"
+    },
+    {
+      "id": "yue-correction",
+      "language": "yue",
+      "text": "好呀，改做三點半。我再睇吓嗰個時間有冇撞期。",
+      "check": "Tone consistency, date/time accuracy and fluid phrasing"
+    },
+    {
+      "id": "mixed-yue-en",
+      "language": "yue-en",
+      "text": "聽日個 project meeting 改咗做三點半，記得帶埋 laptop。",
+      "check": "Natural code switching without changing speaker identity"
+    },
+    {
+      "id": "mixed-zh-en",
+      "language": "zh-en",
+      "text": "我把邮件主题设成 FYP email test，你先看一下。",
+      "check": "English title remains intelligible inside Mandarin"
+    }
+  ],
+  "metrics": [
+    "owner_voice_fit_1_to_5",
+    "naturalness_by_language_1_to_5",
+    "pronunciation_errors",
+    "omitted_or_repeated_words",
+    "cross_language_voice_consistency",
+    "cold_first_audio_ms",
+    "warm_first_audio_ms",
+    "generation_seconds_per_audio_second",
+    "peak_memory_mib"
+  ],
+  "later_integration_checks": [
+    "local_wake",
+    "input_language_selection",
+    "stop_playback_on_interruption",
+    "discard_late_audio",
+    "caption_turn_alignment",
+    "same_calendar_mail_browser_tools",
+    "owner_review_before_send",
+    "no_automatic_paid_fallback"
+  ],
+  "language_tags": "Evaluation labels; adapters must map them to their supported request arguments.",
+  "technical_trial": {
+    "date": "2026-11-09",
+    "profile": "GPT-SoVITS v2ProPlus CPU",
+    "reference": "public-domain LJSpeech technical fixture",
+    "case_ids": [
+      "en-greeting",
+      "zh-greeting",
+      "yue-greeting",
+      "en-time",
+      "zh-time",
+      "yue-time"
+    ],
+    "quality_accepted": false,
+    "qa": "../../output/qa/2026-11-09-sovits-classroom/verification.md"
+  }
+}

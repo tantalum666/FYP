@@ -9,6 +9,28 @@ from desk.voice_turns import VoiceTurns
 from test_voice_omni import QuietOmni, begin
 
 
+def test_delivered_review_card_waits_for_owner_without_claiming_spoken_success():
+    now = [0.0]
+    turns = VoiceTurns(clock=lambda: now[0])
+    turns.start()
+    turns.end()
+    turns.tool("status")
+    turns.delivered(1, "status", {"connected": True})
+    assert turns.review_waiting(1) is None
+    turns.tool("draft")
+    now[0] = 7
+    turns.delivered(1, "draft", {"proposal": {"id": "actual-pending-draft"}, "sent": False})
+    assert turns.review_waiting(1) == {"type": "turn_review", "turn_id": 1}
+    now[0] = 12
+    assert turns.poll() is None
+    assert turns.summary("waiting")["first_played_ms"] is None
+    assert not turns.summary("waiting")["response_started"]
+    turns.start()
+    turns.end()
+    now[0] = 23
+    assert turns.poll()["code"] == "VOICE_TURN_TIMEOUT"
+
+
 @pytest.mark.parametrize(
     "has_image,question,requires_tool",
     [
@@ -168,6 +190,13 @@ def test_silent_provider_times_out_without_waiting_for_session_idle(tmp_path, bo
         assert any(e["type"] == "turn_slow" for e in events)
         await asyncio.wait_for(running, 2)
         assert not voice.active
+        with runtime.store.connection() as db:
+            recorded = json.loads(
+                db.execute(
+                    "SELECT details FROM records WHERE action='voice_session' ORDER BY sequence DESC LIMIT 1"
+                ).fetchone()[0]
+            )
+        assert recorded["failure"] == {"code": "VOICE_TURN_TIMEOUT", "phase": "active"}
         await provider.queue.put({"type": "response.audio.delta", "delta": "AAA="})
         assert socket.outgoing.empty()
 

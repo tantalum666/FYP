@@ -1,0 +1,39 @@
+{
+  "activated": true,
+  "source_commit": "30793907e0850121b002d4e1a12e3ff64c93ff30",
+  "release": "/opt/desk-companion-releases/20261108-wake-layout",
+  "automatic_owner": true,
+  "frontend_exact": true,
+  "preserved_owner_keys": true,
+  "paid_model_calls_during_activation": 0,
+  "verified_files": 292,
+  "environment_unchanged": true,
+  "services": [
+    "active",
+    "active"
+  ],
+  "voice": {
+    "configured": true,
+    "provider": "openai_live",
+    "model": "gpt-live-1",
+    "configuration_error": "",
+    "wake_word": {
+      "available": true,
+      "word": "Alice",
+      "active": false,
+      "reason": null
+    }
+  },
+  "computer_configured": true,
+  "backup": {
+    "backup": "/home/desk/.local/share/desk-companion-backups/20261107-before-wake-repair.tar.gz",
+    "files": 22,
+    "bytes": 226911,
+    "sha256": "857f97ab37c5dd14aef2a82a1a3509434a55e16b19d6bea7ccd490336f4286bb",
+    "quick_check": "ok",
+    "active_work": false,
+    "off_device_verified": true,
+    "files_verified": 22
+  },
+  "core_voice_acceptance_source": "f2a33e9d3f9ff82cdc200e09d2a6cf5f07a943c6"
+}

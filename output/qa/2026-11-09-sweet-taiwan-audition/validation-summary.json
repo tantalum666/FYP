@@ -1,0 +1,183 @@
+{
+  "date": "2026-11-09",
+  "authorization": {
+    "ceiling_usd": 0.1,
+    "maximum_sessions": 2,
+    "maximum_session_seconds_total": 40,
+    "production_change_before_listening": false
+  },
+  "model": "gpt-live-1",
+  "voice_creation": {
+    "successful": 2,
+    "initial_rejected_request": {
+      "http_status": 400,
+      "parameter": "script_hint",
+      "resolution": "Longer conversational script hint; audition text unchanged"
+    },
+    "creation_free_per_official_documentation": true
+  },
+  "paid_sessions": 2,
+  "provider_duration_seconds_total": 20.0,
+  "delegated_model_calls": 0,
+  "microphone_recorded": false,
+  "business_tools_executed": 0,
+  "voices_distinct": true,
+  "samples": [
+    {
+      "label": "A",
+      "name": "Alice · Taiwan Sweet",
+      "provider_duration_seconds": 9.0,
+      "voice_echo_matches": true,
+      "finalized": true,
+      "provider_transcript_matches_script_ignoring_punctuation": true,
+      "provider_transcript": "欸,我在呀。今天辛苦了,先休息一下嘛。你慢慢說,我有在聽喔。",
+      "first_received_nonsilent_pcm_ms": 3441,
+      "ready_ms": 2605,
+      "original_pcm_seconds": 8.0,
+      "audition_wav_seconds": 6.149958,
+      "format": {
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16
+      },
+      "clipped_samples": 0,
+      "sha256": "5f153cfacf03c481c709ea8be455dcabb6d52926d133af3e23bb88f580ec9842"
+    },
+    {
+      "label": "B",
+      "name": "Alice · Taiwan Soft",
+      "provider_duration_seconds": 11.0,
+      "voice_echo_matches": true,
+      "finalized": true,
+      "provider_transcript_matches_script_ignoring_punctuation": true,
+      "provider_transcript": "欸，我在呀。今天辛苦了,先休息一下嘛。你慢慢說,我有在聽喔。",
+      "first_received_nonsilent_pcm_ms": 2596,
+      "ready_ms": 1709,
+      "original_pcm_seconds": 10.5,
+      "audition_wav_seconds": 8.441458,
+      "format": {
+        "sample_rate": 24000,
+        "channels": 1,
+        "bits": 16
+      },
+      "clipped_samples": 0,
+      "sha256": "1d2924ef0acef307c109a18453bd1794521f54eeac386c6795b5c108cb549219"
+    }
+  ],
+  "budget": {
+    "closed": true,
+    "ceiling_usd": 0.1,
+    "estimate_before_margin_usd": 0.016666666666666666,
+    "accounted_usd": 0.018333333333333337,
+    "all_sessions_finalized": true,
+    "billing_note": "Duration-based estimate with 10 percent margin, not an invoice"
+  },
+  "acceptance": {
+    "owner_accepted": true,
+    "status": "A3_selected_as_current_default_original_A_retained",
+    "subjective_listening_by_agent": false,
+    "taiwan_accent_quality_verified": false,
+    "english_tested_this_round": false,
+    "cantonese_tested_this_round": false,
+    "end_to_end_playback_tested_this_round": false,
+    "owner_feedback": "Use original A on all three surfaces for now. A2 changes are audible but not young enough; continue younger.",
+    "latest_owner_instruction": "Apply A3."
+  },
+  "production": {
+    "changed": false,
+    "selected_at_preflight": "Alice · Bright",
+    "source": "232b065f910af18151846b73dd48fe92fb1d9e16",
+    "scope": "Initial auditions only; later original-A activation is recorded separately."
+  },
+  "ci_used": false,
+  "old_ledgers_reopened": false,
+  "refinement": {
+    "authorization": {
+      "ceiling_usd": 0.03,
+      "maximum_sessions": 1,
+      "maximum_session_seconds": 20
+    },
+    "same_saved_voice_as_A": true,
+    "new_voice_created": false,
+    "provider_duration_seconds": 9.0,
+    "first_received_nonsilent_pcm_ms": 2913,
+    "provider_text_matches": true,
+    "audition_wav_seconds": 6.455875,
+    "clipped_samples": 0,
+    "sha256": "e2ac0115b51761971d9fb30a3fd6508e503cda98c52a29b7ad99e2e491116c23",
+    "budget_closed": true,
+    "accounted_usd": 0.008250000000000002,
+    "session_count": 1,
+    "owner_accepted": false,
+    "production_default_changed": false,
+    "owner_feedback": "Rejected: A1 sounds older than original A."
+  },
+  "combined_rounds": {
+    "attempts": 6,
+    "successful_finalized_sessions": 5,
+    "known_provider_duration_seconds": 46,
+    "accounted_usd": 0.05666666666666668,
+    "all_ledgers_closed": true
+  },
+  "base_voice_redesign": {
+    "candidate": "A2 / Alice · Taiwan Campus",
+    "authorization": {
+      "ceiling_usd": 0.05,
+      "maximum_attempts": 3,
+      "maximum_seconds_total": 45,
+      "maximum_seconds_each": 15
+    },
+    "new_voice_distinct_from_A": true,
+    "initial_attempt": {
+      "started": false,
+      "audio_generated": false,
+      "failure": "ConnectionResetError",
+      "receipt_finalized": false,
+      "conservative_reserved_usd": 0.0145,
+      "seconds_charged_to_scope": 15
+    },
+    "retry": {
+      "voice_echo_matches": true,
+      "provider_duration_seconds": 9.0,
+      "provider_text_matches": true,
+      "first_received_nonsilent_pcm_ms": 2740,
+      "wav_seconds": 6.3025416666666665,
+      "sha256": "6944d80799d3458afe78b1f4762c1485cf234f2f6b8462b8cf1f769edf2b691b",
+      "clipped_samples": 0
+    },
+    "accounted_usd": 0.030083333333333337,
+    "budget_closed": true,
+    "remaining_attempts": 0,
+    "remaining_seconds_by_total": 0,
+    "remaining_single_attempt_cap_seconds": 0,
+    "remaining_usd": 0,
+    "owner_accepted": false,
+    "production_default_changed": false,
+    "A2_owner_feedback": "Audible change but still does not meet desired age impression.",
+    "final_A3_attempt": {
+      "candidate": "Alice · Taiwan Light",
+      "provider_duration_seconds": 8,
+      "voice_echo_matches": true,
+      "provider_text_matches": true,
+      "wav_seconds": 5.776583333333333,
+      "sha256": "06df2205ff001083f0c25be1669dba8be8d46bdb8a40f531959d9a670875877d",
+      "first_received_nonsilent_pcm_ms": 3601,
+      "distinct_from_A2": true,
+      "owner_accepted": true,
+      "acceptance_scope": "Selected for application; not a complete trilingual or physical playback evaluation."
+    },
+    "closed_reason": "Three authorized attempts consumed."
+  },
+  "later_activation": {
+    "selected": "Original A / Alice · Taiwan Sweet",
+    "three_surface_settings_verified": true,
+    "qa": "../2026-11-09-original-a-three-surfaces/verification.md"
+  },
+  "latest_activation": {
+    "selected": "A3 / Alice · Taiwan Light",
+    "settings_version": 9,
+    "three_surface_settings_verified": true,
+    "paid_calls": 0,
+    "qa": "../2026-11-09-a3-default/verification.md"
+  }
+}

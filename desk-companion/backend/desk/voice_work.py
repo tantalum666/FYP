@@ -49,6 +49,8 @@ class VoiceWorkLedger:
 
     def config_revision(self):
         transport = self.transport()
+        if transport and self.runtime.voice.config.provider == "openai_live":
+            transport = {**transport, "backend_model": self.runtime.voice.config.backend_model}
         proxy = self.runtime.voice.config.proxy_url
         if transport and proxy:
             transport = {**transport, "proxy": proxy}

@@ -1,0 +1,35 @@
+{
+  "activated": true,
+  "source_commit": "1660ffcfffa6242d4618d7996469b926ac30b61b",
+  "release": "/opt/desk-companion-releases/20261107-alice-live-final",
+  "automatic_owner": true,
+  "frontend_exact": true,
+  "preserved_owner_keys": true,
+  "paid_model_calls_during_activation": 0,
+  "verified_files": 292,
+  "weather_preference": "automatic",
+  "services": [
+    "active",
+    "active"
+  ],
+  "voice": {
+    "configured": true,
+    "provider": "openai_live",
+    "model": "gpt-live-1",
+    "configuration_error": "",
+    "wake_word": {
+      "available": true,
+      "word": "Alice",
+      "active": false,
+      "reason": null
+    }
+  },
+  "text_ai": {
+    "configured": true,
+    "provider": "openai",
+    "model": "gpt-6.1-sol",
+    "background": false,
+    "configuration_error": ""
+  },
+  "computer_configured": true
+}

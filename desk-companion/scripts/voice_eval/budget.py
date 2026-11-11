@@ -38,7 +38,7 @@ def token_cost(model, usage):
 
 
 class Budget:
-    def __init__(self, path):
+    def __init__(self, path, *, ceiling=None):
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.connection() as conn:
@@ -49,7 +49,20 @@ class Budget:
             conn.execute(
                 "CREATE TABLE IF NOT EXISTS policy (id INTEGER PRIMARY KEY CHECK(id=1), closed INTEGER)"
             )
-            conn.execute("INSERT OR IGNORE INTO policy VALUES(1,0)")
+            columns = {row[1] for row in conn.execute("PRAGMA table_info(policy)")}
+            if "ceiling" not in columns:
+                conn.execute("ALTER TABLE policy ADD COLUMN ceiling REAL")
+            limit = CEILING_USD if ceiling is None else ceiling
+            if not math.isfinite(limit) or not 0 < limit <= CEILING_USD:
+                raise ValueError("INVALID_CEILING")
+            conn.execute("INSERT OR IGNORE INTO policy(id,closed,ceiling) VALUES(1,0,?)", (limit,))
+            saved = conn.execute("SELECT ceiling FROM policy WHERE id=1").fetchone()[0]
+            if saved is None:
+                conn.execute("UPDATE policy SET ceiling=? WHERE id=1", (limit,))
+                saved = limit
+            if ceiling is not None and saved != ceiling:
+                raise ValueError("BUDGET_POLICY_CHANGED")
+            self.ceiling = saved
 
     @contextmanager
     def connection(self):
@@ -63,7 +76,7 @@ class Budget:
             conn.close()
 
     def reserve(self, run_id, model, amount):
-        if not math.isfinite(amount) or amount <= 0 or amount > CEILING_USD:
+        if not math.isfinite(amount) or amount <= 0 or amount > self.ceiling:
             raise ValueError("INVALID_RESERVATION")
         with self.connection() as conn:
             if conn.execute("SELECT closed FROM policy WHERE id=1").fetchone()[0]:
@@ -72,7 +85,7 @@ class Budget:
                 "SELECT COALESCE(SUM(CASE WHEN finalized=1 THEN estimate ELSE MAX(estimate,reserve) END),0) "
                 "FROM runs"
             ).fetchone()[0]
-            if charged + amount > CEILING_USD:
+            if charged + amount > self.ceiling:
                 raise ValueError("BUDGET_EXHAUSTED")
             conn.execute(
                 "INSERT INTO runs VALUES(?,?,?,0,0,'{}',?)",
@@ -117,7 +130,7 @@ class Budget:
             closed = bool(conn.execute("SELECT closed FROM policy WHERE id=1").fetchone()[0])
         return {
             "closed": closed,
-            "ceiling_usd": CEILING_USD,
+            "ceiling_usd": self.ceiling,
             "observed_uncached_estimate_usd": sum(r["estimate"] for r in rows),
             "accounted_usd": sum(
                 r["estimate"] if r["finalized"] else max(r["estimate"], r["reserve"]) for r in rows

@@ -8,6 +8,7 @@ import {
   isApplicationAction,
   jobCancellable,
   jobStateLabel,
+  ownerWallCopy,
   readBackCopy,
   recoveryCopy,
   reviewAvailable,
@@ -87,9 +88,11 @@ export function JobActionCard({
                 ? job.result?.outcome === "needs_owner"
                   ? t("Needs you", "需要你接手")
                   : t("Ready for review", "可以核对了")
-                : computer && job.state === "running"
-                  ? t("Using the browser", "正在操作浏览器")
-                  : jobStateLabel(job.state, t)}
+                : computer && job.state === "owner_takeover"
+                  ? t("Waiting for you", "等待你接手")
+                  : computer && job.state === "running"
+                    ? t("Using the browser", "正在操作浏览器")
+                    : jobStateLabel(job.state, t)}
           </span>
           <h4>{job.request.title}</h4>
         </div>
@@ -113,17 +116,33 @@ export function JobActionCard({
       {computer && job.state === "review" && (
         <small>
           {t(
-            "Screenshots go to OpenAI. Final submissions need you.",
-            "截图会发给 OpenAI，最终提交由你处理。",
+            "Page screenshots are processed in the cloud. Final submissions need you.",
+            "网页截图会交给云端助手处理，最终提交由你操作。",
           )}
         </small>
+      )}
+      {computer && job.state === "owner_takeover" && (
+        <p>
+          {job.result?.takeover_available
+            ? t(
+                ...(ownerWallCopy(job.result?.wall) ?? [
+                  job.result?.needed ||
+                    "This page needs you before Alice can continue.",
+                  "这一页需要你处理，Alice 才能继续。",
+                ]),
+              )
+            : t(
+                "This page needs your attention. An interactive browser is not connected yet.",
+                "这个网页需要你处理，目前尚未连接可接管的浏览器。",
+              )}
+        </p>
       )}
       {computer && job.result?.outcome === "needs_owner" && (
         <p>
           {job.result.readback?.reason === "provider_step_unavailable"
             ? t(
-                "OpenAI could not complete this step. Check the connection before continuing.",
-                "OpenAI 未能完成这一步，请检查连接后再继续。",
+                "Alice could not complete this step. Check the connection before continuing.",
+                "Alice 未能完成这一步，请检查连接后再继续。",
               )
             : job.request.start_url?.startsWith("demo:")
               ? t(
@@ -190,9 +209,12 @@ export function JobActionCard({
           )}
         </p>
       )}
-      {!!job.error && !["expired", "cancelled"].includes(job.state) && (
-        <p className="error-message">{errorText(new ApiError(job.error), t)}</p>
-      )}
+      {!!job.error &&
+        !["expired", "cancelled", "owner_takeover"].includes(job.state) && (
+          <p className="error-message">
+            {errorText(new ApiError(job.error), t)}
+          </p>
+        )}
       {job.state !== "succeeded" && readBackCopy(job.result?.reason) && (
         <p>{t(...readBackCopy(job.result?.reason)!)}</p>
       )}
@@ -208,6 +230,24 @@ export function JobActionCard({
             {t("Continue from this page", "从这个页面继续")}
           </button>
         )}
+        {computer &&
+          job.state === "owner_takeover" &&
+          job.result?.takeover_available && (
+            <button
+              type="button"
+              className="primary"
+              disabled={busy || !fresh}
+              onClick={() =>
+                onAction(
+                  job.result?.phase === "held" ? "hand_back" : "takeover",
+                )
+              }
+            >
+              {job.result?.phase === "held"
+                ? t("Hand back", "交还给 Alice")
+                : t("Take over", "我来接手")}
+            </button>
+          )}
         {job.state === "review" && (
           <button
             className="primary"
@@ -245,9 +285,13 @@ export function JobActionCard({
       </div>
       {computer &&
         (job.result?.verified ||
-          ["running", "verifying", "succeeded", "unknown"].includes(
-            job.state,
-          )) && (
+          [
+            "running",
+            "verifying",
+            "succeeded",
+            "unknown",
+            "owner_takeover",
+          ].includes(job.state)) && (
           <ComputerScreen
             key={job.id}
             jobId={job.id}

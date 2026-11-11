@@ -1,6 +1,7 @@
 """Provider wire formats and shared realtime response lifecycle; no transport or authority."""
 
 import asyncio
+import copy
 import hashlib
 import json
 
@@ -18,7 +19,17 @@ def flatten_schema(schema):
             return value
         if "$ref" in value:
             return resolve(definitions[value["$ref"].split("/")[-1]])
-        result = {k: resolve(v) for k, v in value.items() if k not in {"$defs", "title", "default"}}
+        # Property names belong to the business payload. In particular, a
+        # required field named "title" is not JSON Schema's title annotation.
+        result = {
+            k: {name: resolve(child) for name, child in v.items()}
+            if k in {"properties", "patternProperties"}
+            else copy.deepcopy(v)
+            if k in {"enum", "const", "examples"}
+            else resolve(v)
+            for k, v in value.items()
+            if k not in {"$defs", "title", "default"}
+        }
         properties = result.get("properties", {})
         for name, item in properties.items():
             if name.endswith("_local"):

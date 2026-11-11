@@ -21,6 +21,8 @@ export function proposalDecisionNotice(
     );
   if (action === "cancel") return t("Draft cancelled.", "草稿已取消。");
   const kind = result.kind ?? requestedKind;
+  if (kind === "email_send")
+    return t("Email accepted for sending.", "邮件已提交发送。");
   if (isJourneyAdvice(kind))
     return t("Review saved to the task.", "核对记录已保存到事务。");
   if (kind?.startsWith("task_"))

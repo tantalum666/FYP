@@ -10,6 +10,8 @@ import { WorkspaceProvider } from "./workspace/WorkspaceContext";
 import "./workspace/workspace.css";
 import "./web-workspace.css";
 import "./conversation-workspace.css";
+import "./phone/phone.css";
+import "./companion/alice-home.css";
 import { SharedCalendar } from "./workspace/SharedCalendar";
 import { NativeSetup } from "./workspace/NativeSetup";
 import { PhoneSync } from "./workspace/PhoneFeatures";

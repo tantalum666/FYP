@@ -5,6 +5,7 @@ import type { PendingWrite } from "../api";
 import { useDraftGuard } from "../components/DraftGuard";
 import type { Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
+import { VoiceSettingsPanel } from "./VoiceSettingsPanel";
 
 interface Persona {
   body: string;
@@ -135,6 +136,7 @@ export function PersonaPanel({ t }: { t: Translate }) {
           <h1>{t("Assistant style", "助理风格")}</h1>
         </div>
       </div>
+      <VoiceSettingsPanel t={t} />
       <div className="persona-summary">
         <h2>
           {persona?.source === "owner"

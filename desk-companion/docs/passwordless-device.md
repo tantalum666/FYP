@@ -23,6 +23,12 @@ This policy deliberately trusts the directly connected local workspace. It is
 not anonymous ownership on a public service, and it does not approve computer
 jobs, change Full access or grant paired devices owner-management privileges.
 
+## Loopback preview coexistence · 7 November
+
+Browser cookies are shared across ports. Mac5190 and the forwarded Pi8891 previously replaced the same cookie despite using independent owner stores, causing repeated401/403 reconnects and eventually the existing rate limit. LoopbackCookieScope now maps only the requested loopback port's cookie name into the existing internal session contract for HTTP and WebSocket. Non-loopback deployments retain their cookie names. Cookie flags, eight-hour lifetime, trusted-local entry and role/origin checks are unchanged.
+
+Legacy unscoped cookies are ignored on these loopback ports; existing automatic connection performs a one-time local renewal. This is application cookie selection, not browser port isolation or a relaxation of authority. The new regression uses two independent stores and one shared cookie jar, including independent logout. [Current QA](../../output/qa/2026-11-07-alice-home-wake/verification.md).
+
 ## Device and media lifecycle
 
 DeviceHome shows the existing licensed Alice and persistent ConversationWorkspace.

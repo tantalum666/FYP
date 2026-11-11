@@ -237,9 +237,10 @@ def main():
             "revise cart after explicit stop",
             "demo:shopping",
             source=stopped["id"],
+            expected_state="owner_takeover",
         )
         jobs.append(final)
-        assert "Total: HKD 55.80" in final["result"]["readback"]["observation"]["text"]
+        assert "Total: HKD 55.80" in final["result"]["observation"]["text"]
     elif args.case == "shopping":
         initial = execute(
             runtime, principal, "cart-first", "initial cart: 3 packs within HKD60", "demo:shopping"
@@ -253,9 +254,10 @@ def main():
             "revise cart: new price, 4 packs, SAVE10; review final total",
             "demo:shopping",
             source=initial["id"],
+            expected_state="owner_takeover",
         )
         jobs.append(final)
-        text = final["result"]["readback"]["observation"]["text"]
+        text = final["result"]["observation"]["text"]
         assert "Total: HKD 55.80" in text and "Quantity: 4 packs" in text
     elif args.case == "flights":
         final = execute(
@@ -264,9 +266,10 @@ def main():
             "flight",
             "flight: HKG to TYO, 22 Nov, 2 adults, 20 kg, all fees within HKD2200",
             "demo:flights",
+            expected_state="owner_takeover",
         )
         jobs.append(final)
-        text = final["result"]["readback"]["observation"]["text"]
+        text = final["result"]["observation"]["text"]
         assert all(
             item in text
             for item in [
@@ -287,12 +290,14 @@ def main():
         jobs.append(final)
         assert "/travel_2/" in final["result"]["readback"]["observation"]["url"]
     if args.case != "public":
-        assert final["result"]["outcome"] == "needs_owner"
-        assert final["result"]["readback"]["reason"] == "final_submission_needs_owner"
-        assert final["result"]["readback"]["demo_submissions"] == 0
+        assert final["state"] == "owner_takeover"
+        assert final["result"]["wall"] == "payment"
+        assert final["result"]["verified"] is False
+        assert final["result"]["reason"] == "final_submission_needs_owner"
+        assert final["result"]["demo_submissions"] == 0
     outputs = []
     for index, job in enumerate(jobs):
-        receipt = job["result"]["readback"]
+        receipt = job["result"].get("readback") or job["result"]
         folder = runtime.jobs.computer_use.root / job["id"]
         screen = folder / receipt["observation"]["screen"]
         target = args.report / f"{index + 1}-screen.png"

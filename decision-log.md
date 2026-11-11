@@ -1,6 +1,6 @@
 # Group 2 Decision Log
 
-Updated: 6 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
+Updated: 10 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/decision-log.md).
 
 ## 2026-09-25 用户推翻 Senplate，研究智能工作台新方向
 
@@ -599,6 +599,24 @@ Linux只读检查返回4，并明确跳过journal recovery；needs_recovery及�
 - **未做：**后一轮提问还不能再次读出这一条已核验结果。真实账号、支付、Pi 和付费模型比较仍分开。
 
 
+## 2026-11-07 同一条对话再次读出已核验结果
+
+- **任务范围：**#92 留下的下一步。改口已经在同一条对话产生一项已核验离线结果之后，拥有者稍后在同一条对话里问起这项工作，再次看到同一份已核验 Markdown。不第二次调用离线执行器，不调用提供商。不接真实账号、支付或 Pi。#89–#92 已在 main，不重开。Codex 草稿 #94、#73、#87、#88 保持不动。
+- **工程选择：**`parse_work_followup` 只认一组封闭问法。同一条 `conversation_id` 里已有 `status: verified` 且 `verification: byte_readback` 的回复时，再次读取那一个文件。`result.verified` 只在这次读回仍满足这两项时为真。没有新的任务库、队列、schema 迁移或自批工具。其它问法、新对话、引用和来源标题都不读出这份结果。
+- **不成功的先前结果：**未核验读回是 `CONVERSATION_WORK_RESULT_UNVERIFIED`。失败或执行前中断没有已核验回复，后一轮提问不是成功，也不补跑执行器。`before_result` 之后，原来的操作号仍可以显示一次结果。
+- **边界：**另一个登录打不开这条对话。配对设备仍是 403。Full access 不产生作业或建议。同一操作号恢复已保存的回复；换一句话是冲突。流式关闭不是成功回执。
+- **未做：**后一轮提问不会继续这项工作。真实账号、支付、Pi 和付费模型比较仍分开。
+
+## 2026-11-07 明确要求后把同一项 Work 离线推进一步
+
+- **任务范围：**#95 留下的下一步。已核验报告出现在同一条对话之后，拥有者可以明确说继续这项工作。这一步调用既有离线执行器一次，不调用提供商。不接真实账号、支付或 Pi。#89–#92 已在 main。本 PR 叠在 #95 上，Codex 先合 #95 再合本 PR。Codex 草稿 #94、#73、#87、#88 保持不动。
+- **工程选择：**`parse_work_continue` 只认封闭说法。一项当前工作时，`Continue this work.` 或 `继续这项工作。` 对这条对话已经显示过的运行调用一次 `AgentRunService.advance_one`。多项当前工作必须写出运行编号。推进前用既有会话和隐私修订刷新，与 steer 相同，不改目标。确定性运行的下一步是结果检查，运行变为 `succeeded`，回复仍读回原来的已核验 Markdown。
+- **不成功：**提交前中断不是成功，同一操作号可以再推进一步。结果未知时用同一操作号恢复，不第二次推进。流式关闭不是成功回执。未核验、失败和中断都不显示为成功。已结束或已取消的运行不会被悄悄重开，回复写明这一点。
+- **边界：**状态提问、引用、来源标题、新对话，以及多项工作却没有运行编号，都不推进。另一个登录打不开这条对话。配对设备仍是 403。Full access 不产生作业或建议。省略的 `next_step` 保持原值。
+- **证据：**对话测试 79 项通过。整合验收 7 项通过。全量后端 pytest 为 1967 passed、1 failed；失败项是既有的 `test_public_unicast[::ffff:93.184.216.34]`。前端测试 328 项通过，`tsc --noEmit` 通过。付费调用 0。见[契约](desk-companion/docs/conversation-work.md)与[QA](output/qa/2026-11-07-conversation-work-continue/verification.md)。
+- **未做：**一步之后如果运行仍未结束，下一次明确要求还不能再推进一步。真实账号、支付、Pi 和付费模型比较仍分开。
+
+
 ## 2026-11-06 合并全部待处理PR，默认转OpenAI
 
 用户明确授权先审查GitHub全部待合并工作，有问题修复后合并；认为固定办公案例过于有限，要求推进Dot／Grok Bot／Muse式购物、订票和computer use。默认供应商改为OpenAI，取代此前Pi保留Qwen默认的决定；既有FYP专用Key继续使用，测试费用授权未重开。红灯调查仍暂缓。
@@ -634,3 +652,65 @@ Real Pi HTTP200model listing and Realtime session.created/normal closure passed.
 **Evidence-driven changes:** real pointer keys:null normalization; JSON-mode input marker; document-generation/origin capture and input checks; filtered resume state; bounded navigation error classification; background writes still rejected without aborting unrelated readable pages; accurate local-time/reminder model schemas; usage retained on cancelled/invalid responses. Production business validation, default reminders, paid-request behavior and transaction scope are not relaxed.
 
 Controlled shopping/flight cases, calendar followup and cancellation passed. JD stopped at verification, Cathay failed initial load, and ordinary FYP correctly reported no sender. Exact FYP-generated test mail was sent once/read back through the existing Codex Gmail connector; no Gmail credential/connection was installed in FYP. Next product slice remains deliberate owner takeover and return in the same generic browser job, now grounded in the actual JD verification boundary. [Evidence](output/qa/2026-11-07-live-agent-eval/verification.md).
+
+
+## 2026-11-10 Folder-job restart keeps the injected clock
+
+**Engineering fix, not a user decision.** `test_restart_runs_only_the_approved_folder_job` expected `succeeded` and received `expired` once the wall clock passed 2026-11-07 00:01 UTC. The folder fixture freezes `Store.clock` at 2026-11-07 00:00 UTC so a host clock jump cannot expire the five-minute review. Approval stores an absolute deadline of that instant plus 60 seconds. The restart built a new app without `clock`, so `Store` fell back to `datetime.now` and `JobService.expire` marked the queued job expired.
+
+Production approval, expiry and execution already share `store.clock`. The folder executor does not read the wall clock. The restarted test process was the second clock. It now receives `app.state.store.clock`. Other tests that reopen a store already pass the original clock, or they open an empty store. No user-facing expiry window changed.
+
+`test_public_unicast[::ffff:93.184.216.34]` still fails on this Python because `IPv6Address.is_reserved` is true for the `::ffff:0:0/96` prefix before the embedded public IPv4 is judged. That check was left unchanged. [Evidence](output/qa/2026-11-10-folder-job-clock/verification.md).
+
+## 2026-11-07 把已合并的 #94 同步进对话 Work 栈
+
+- **工程处理，不是新功能，也不是用户新决定：**#95 在 #94 合并进 main 之后变为 dirty。用普通合并把 `origin/main` 带进 `cursor/conversation-work-reshow-verified-b9a2`，再把该结果合并进 #96。不改写已推送历史，不强制推送，不由本轮合并这两个 PR。
+- **保留：**后一轮提问再次读出已核验离线结果的行为不变，包括把当前对话传给 `ConversationWork.turn`。#94 的 OpenAI 默认、浏览器／VPS 代码和实跑记录一并保留。#94 已合并，不重开。草稿 #73、#87、#88 不动。合并顺序仍是 #95 然后 #96。
+- **未做：**这次同步不实现京东账号接管，也不新开 Work 切片。京东接管仍是 main 上分开的下一步。#96 的明确继续行为保留；一步之后若运行仍未结束，下一次明确要求仍不在本轮。
+
+## 2026-11-10 运行仍开着时，下一次明确要求再推进一步
+
+- **任务范围：**#96 留下的下一步。第一次明确继续之后，如果这次运行还没结束，同一条对话里的下一次明确要求再离线推进一步。已结束、已取消、已失败或已过期则保持关闭。不调用付费模型，不接真实账号、支付或 Pi。本 PR 叠在 #96 上，#96 叠在 #95 上。Codex 先合 #95，再合 #96，再合本 PR。草稿 #73、#87、#88 不动。#94 已合并，不重开。
+- **工程选择：**不新写第二条继续路径。每一次明确说法仍是自己的操作号，并调用一次既有 `AgentRunService.advance_one`。没有请求变更的确定性运行，第一次继续仍是结果检查，运行变为 `succeeded`，下一次只说明已经结束。运行里已经请求过的变更，第一次继续走既有提议，运行停在 `waiting_review`。拥有者决定之后，同一个操作号再走一步既有复核，不会走两次。过期指运行期限已过，回复写明这一点，不调用执行器，也不新建作业或建议。
+- **不成功：**提交前中断不是成功，同一操作号可以再推进一步。结果未知或流式关闭用同一操作号恢复，不第二次推进。多项当前工作且没有运行编号时什么都不做。
+- **边界：**另一个登录打不开这条对话。配对设备仍是 403。Full access 在已关闭的运行上不产生作业或建议。状态提问仍只重读。`result.verified` 仍只在 `status: verified` 且 `verification: byte_readback` 时为真。邮箱、购物和离线日程的决定分支不改。
+- **未做：**京东账号接管、真实账号、支付和付费比较仍分开。等待拥有者决定时，这一步不会自己往下走。
+
+## 2026-11-10 Same-job owner takeover at a verification wall
+
+**Owner task:** when a browser job reaches a point only the owner can pass, pause that job, let the owner take over, and resume the same job. Offline only. No live JD login, paid model call, or Pi/VPS change.
+
+**Engineering choice:** reuse JobService. A login, SMS/OTP, captcha, or payment wall stores the browser state and moves the same row to `owner_takeover`. Takeover and return are owner-session operations with operation ids. Return queues that same row and restores its state. It does not create a continuation job. Alice does not receive or store the secret, and a resumed success requires evidence that the wall is gone. A paused job past its deadline expires. Cancel during takeover stays cancelled.
+
+**Not a user approval of a live login:** the fixture driver is not JD. A real owner pass on the merchant page is still a separate scoped session.
+
+## 2026-11-10 Owner-approved memory follow-up
+
+**User instruction:** choose the next personal-agent slice that does not overlap the open browser-takeover, conversation-Work, folder-clock, or Alice-home PRs, and implement it offline.
+
+**Engineering choice:** a saved memory can be raised once at a local time the owner approves. Task follow-ups, morning and evening check-ins, and routines already exist, but a fact in `owner_memories` never came back at a chosen time. Dot and Muse both return to a remembered commitment; this slice does that without a model, a mailbox, or a second task system. Quiet hours and proactive-reminders-off hold the same row. Forgetting the fact cancels it and keeps the wording out of the notice.
+
+**Not a user purchase or send authorization.** No paid call, live account, or Pi change. Browser takeover remains the separate open proposal. [Contract](desk-companion/docs/memory-followups.md).
+
+## 2026-11-10 One morning check-in for several memory follow-ups
+
+**User instruction:** the next slice named by the memory-follow-up handoff. One owner-approved morning check-in gathers several due memory follow-ups into a single notice, citing each underlying fact. Nothing is scheduled before approval. Quiet hours and proactive-reminders-off hold it. Forgotten or expired wording never appears. Each cited fact is raised at most once.
+
+**Engineering choice:** keep the morning and evening task check-ins on their preference clock. Do not add a scheduler. The memory follow-up tick, which already runs from the rules loop, holds covered follow-ups and publishes one notice when the approved minute arrives. The notice cites current wording. The always-on display only says to open Memory. A follow-up that is already raised, or due later than the check-in, is not included. Delivery that fails is retried once on a later tick, after quiet hours, and is rebuilt without facts that are no longer active.
+
+**Not a user purchase or send authorization.** No model call, mailbox, or Pi change. Merge the single-memory follow-up first. [Contract](desk-companion/docs/memory-followups.md).
+
+
+## 2026-11-11 Review, repair and integrate Grok through PR120
+
+**Owner direction:** inspect Grok's new GitHub work, repair defects, then merge. Integrate against current Alice #97; continue local-only validation with no CI or new paid budget. The old runtime and private data remain unchanged.
+
+**Engineering decisions:** use one isolated integration branch preserving every pinned parent/head. Contributor merge-guide instructions are historical evidence, not authority to discard #97 or waive known failures. Preserve latest-only conversation, A3/attachments and compact UI; optional new forms move into existing Work tools or Memory disclosures. Plain answers use the existing transcript without duplicated classification labels or a restored welcome question.
+
+Bind purchase confirmation/update/approval to displayed versions, operation identity to its target card, and substitutes to an original total including shipping. Recheck private writes in their actual transaction. Do not replay private held-choice receipts after session revocation. Resolve morning citations on owner read, keeping stored/browser/push notices generic and forgetting effective immediately. Exclude completed reply steps and respect selected-task scope. A retained attachment keeps its model context across locally recognized follow-up phrases.
+
+Reserve Work continuation before dispatch; an unreceipted dispatched step stays unknown and is not automatically replayed. Refuse continuation while an executor owns the worker lock. Model runs cannot use this offline shortcut. Trip event commit rechecks connection and quote state; DST gaps/folds are invalid. Classify IPv4-mapped network targets by the embedded IPv4 endpoint across Python versions.
+
+The browser takeover PR supplies a fixture-tested pause/return state machine, not a real interactive transport. Gate takeover and return on an explicitly capable driver; the shipped headless driver remains unavailable. A sign-in navigation link alone is not an account wall. Real account control must be implemented and accepted before promoting that capability.
+
+**Evidence:** full backend2342, final transport81, frontend374/type/build, Ruff and real Chrome desktop/phone flows. Provider transport mocked; zero paid calls. [Review](output/qa/2026-11-11-grok-review/verification.md). Remote publication/merge and runtime activation are separate receipts.
