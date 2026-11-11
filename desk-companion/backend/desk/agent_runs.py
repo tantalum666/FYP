@@ -696,6 +696,26 @@ class AgentRunService:
                 conn.execute("INSERT INTO agent_run_operations VALUES(?,?,?)", (key, req, run_id))
             return {"run": self._view(run, hidden)}
 
+    def refresh_owner(self, run_id, principal):
+        """Bind this run to the current owner session before one offline step.
+
+        Explicit continuation is an owner action. It uses the same session and
+        privacy revision refresh as steer, and it does not change the goal.
+        """
+        session = self.session(principal)
+        with self.lock:
+            with self.store.connection() as conn:
+                run = self._get(conn, run_id)
+            if run["state"] in TERMINAL | {"paused", "blocked"}:
+                return run
+            run["session_hash"], run["privacy_revision"] = session, self._revision()
+            self._authorize(run)
+            run["generation"] += 1
+            run["lease_until"] = None
+            with self.store.connection(write=True) as conn:
+                self._save(conn, run, "owner_continue")
+            return run
+
     @staticmethod
     def _intent_hash(mutation):
         return fingerprint({"tool": mutation["tool"], "arguments": mutation["arguments"]})

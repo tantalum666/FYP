@@ -736,12 +736,9 @@ Publication receipt: sourceeeb96fc was pushed to draftPR87 and its remote HEAD/t
 - **验证：**`uv run --no-sync ruff check` 通过。`python -m pytest tests/test_conversation_work.py tests/test_integration_acceptance.py -q` 为 67 passed（对话 60、整合验收 7）。全量 `python -m pytest -q` 为 1828 passed、1 failed；失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`。前端 `npm test` 为 323 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-06-conversation-work-verified-result/verification.md)。
 - **剩余：**后一轮提问还不能再次读出这一条已核验结果。真实账号、支付、Pi 和付费比较仍分开。Codex 合并顺序是 #89 → #90 → #91 → 本 PR。
 
-
-
 ## 2026-11-06 待合并PR组合审查
 
 冻结73／87／88／89–92，独立codex/openai-personal-agent-20261106组合，保留所有祖先。根状态文档保留最新软件状态，网络历史保留并服从后续物理重启澄清。修复邮件／日历源内容指令误判、旧assistant回执兼容、报告核验语义及Goal前缀误匹配；新增4回归。1949后端／328前端、类型／生产构建／Ruff通过；浏览器实际先拒绝来源指令，再改已有Work目标并显示文件核验，控制台无错误。新费用调用0、无CI、未更改Pi现场网络。完整证据及即将记录的合并回执见[本轮QA](output/qa/2026-11-06-openai-agent-merge/verification.md)。后续继续默认OpenAI和真实浏览器／computer use接入。
-
 
 ## 2026-11-06 OpenAI default and general browser milestone
 
@@ -790,3 +787,38 @@ PR94 closeout: published reviewed head7043510a, marked ready and merged asa9fb6d
 - **完成：**重启后的应用改为使用原 `store.clock`。生产作业期限本来就只用这一时钟；失败来自测试里的第二次 `create_app` 省略了它。检索了其它“注入固定时钟后再打开同一存储却不传时钟”的测试，没有第二处。`::ffff:93.184.216.34` 的公网单播失败未改。
 - **验证：**文件夹作业 11 项通过；libfaketime 把系统时间固定在 2035-06-01 UTC 后，文件夹与电脑作业 50 项通过。省略时钟的对照脚本在真实当前时间得到 `expired`。安装前端依赖后的后端全套为 2035 通过、1 失败（预先存在的 `::ffff:93.184.216.34` 公网单播检查）。详见 [QA](output/qa/2026-11-10-folder-job-clock/verification.md)。无 CI。
 - **剩余：**产品下一步仍是现有浏览器作业中的拥有者接管与交还。公网单播的 IPv4 映射地址检查仍失败。
+
+## 2026-11-07 · Later ask re-shows the verified Work result
+
+- **目标：**改口已经在同一条对话显示一项已核验离线结果之后，拥有者稍后在同一条对话问起这项工作，再次看到同一份 Markdown。不第二次调用离线执行器，不调用提供商。#89–#92 已在 main，不重开。草稿 #73、#87、#88 不动。#94 已由 main 合并，本切片不重开它。
+- **完成：**`parse_work_followup` 只认封闭问法。同一条对话里已有 `verified` + `byte_readback` 的回复时，再次读取那一个文件。未核验、失败和中断都不是成功重显。另一个登录打不开这条对话。配对设备是 403。Full access 不产生作业或建议。同一操作号和流式关闭沿用既有回执。
+- **验证：**合并 main 之前：`uv run --no-sync ruff check` 通过。对话测试 68 项通过。整合验收 7 项通过。全量 `python -m pytest -q` 为 1956 passed、1 failed；失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`。前端 `npm test` 为 328 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-reshow/verification.md)。
+- **剩余：**后一轮提问不会继续这项工作。真实账号、支付和付费比较仍分开。下一步是 #96：拥有者明确要求继续同一项 Work，仍离线且不调用提供商。
+
+## 2026-11-07 · Explicit continue advances one verified Work run
+
+- **目标：**已核验报告出现在同一条对话之后，拥有者明确要求继续这项工作。既有离线执行器只推进这一次，不调用提供商。#89–#92 已在 main。本分支叠在 #95 上。草稿 #73、#87、#88 不动。#94 已由 main 合并，本切片不重开它。
+- **完成：**`parse_work_continue` 只认封闭说法。一项当前工作时推进这条对话已经显示过的运行；多项必须写出运行编号。同一操作号最多推进一次。提交前中断可以重试一次。结果未知时用同一操作号恢复且不第二次推进。已结束或已取消的运行有明确回复，不会重开。另一个登录打不开这条对话。配对设备是 403。Full access 不产生作业或建议。
+- **验证：**合并 main 之前：`uv run --no-sync ruff check` 通过。对话测试 79 项通过。整合验收 7 项通过。全量 `python -m pytest -q` 为 1967 passed、1 failed；失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`。前端 `npm test` 为 328 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-continue/verification.md)。
+- **剩余：**一步之后如果运行仍未结束，下一次明确要求还不能再推进一步。真实账号、支付和付费比较仍分开。
+
+## 2026-11-07 · Sync main after #94 into the re-show branch
+
+- **目标：**#95 在 #94 合并进 main 之后不能合并。用普通合并把当前 `origin/main` 带进 `cursor/conversation-work-reshow-verified-b9a2`，保留后一轮重显，并保留 #94 的浏览器／VPS 变更。不强制推送，不重写已推送历史，不合并 PR。
+- **完成：**冲突只在 `AGENTS.md`、`START_HERE_NEXT_CHAT.md`、`handoff.md`、`research/personal-agent-research-index.md`、`work-log.md`。`text_ai.py` 和 `decision-log.md` 自动合并。重显仍把当前对话传给 `ConversationWork.turn`。OpenAI 默认与 #94 记录保留。草稿 #73、#87、#88 未动，#94 不重开。
+- **验证：**`ruff check` 通过。对话与整合验收 75 passed。全量后端 2042 passed、2 failed。失败项是既有 `test_public_unicast[::ffff:93.184.216.34]`，以及 `test_restart_runs_only_the_approved_folder_job`。后一项在当前 `origin/main` 上同样失败，测试文件与 main 无差异。前端 `npm test` 330 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-stack-sync/verification.md)。
+- **剩余：**#96 还要用同样的普通合并接上更新后的 #95。Codex 的合并顺序仍是 #95 然后 #96。
+
+## 2026-11-07 · Sync the updated #95 branch into the continue branch
+
+- **目标：**#96 叠在 #95 上。把已经同步 main 的 #95 用普通合并带进 `cursor/conversation-work-continue-once-51ee`。保留明确继续这一步，保留 #94 记录。不强制推送，不改 PR 基线，不合并 PR。
+- **完成：**冲突仍只在 `AGENTS.md`、`START_HERE_NEXT_CHAT.md`、`handoff.md`、`research/personal-agent-research-index.md`、`work-log.md`。继续请求仍走 `parse_work_continue` 和一次 `advance_one`。状态提问仍只重读。OpenAI 默认与 #94 记录保留。草稿 #73、#87、#88 未动，#94 不重开。
+- **验证：**`ruff check` 通过。对话与整合验收 86 passed。全量后端 2053 passed、2 failed。失败项与 #95 同步后相同，且文件夹重启失败在 `origin/main` 上同样出现。前端 `npm test` 330 passed，`tsc --noEmit` 通过。付费调用 0，无 GitHub Actions。记录见 [QA](output/qa/2026-11-07-conversation-work-stack-sync/verification.md)。
+- **剩余：**Codex 先合并 #95，再合并 #96。一步之后仍未结束的运行还不能接受下一次明确离线单步。京东账号接管不在这个栈里。
+
+## 2026-11-10 · Second continue while the Work run is still open
+
+- **目标：**#96 之后，同一条对话里的下一次明确继续只在该运行仍开着时再离线推进一步。已结束、已取消、已失败或已过期保持关闭，不新建作业或建议。
+- **完成：**仍由 `ConversationWork` 对既有 `AgentRunService.advance_one` 每次调用一次。没有请求变更时，第一次继续仍结束运行。已请求的变更让第一次继续停在复核，决定之后下一次再推进一步。同一操作号不推进两次。中断、未知结果和流式关闭沿用原恢复。多项当前工作仍要运行编号。配对设备 403。另一个登录打不开这条对话。
+- **验证：**`ruff check` 通过。对话与整合验收 93 passed。全量后端 2060 passed、2 failed。失败项是既有 `test_public_unicast[::ffff:93.184.216.34]` 和 `test_restart_runs_only_the_approved_folder_job`。前端 `npm test` 330 passed，`tsc --noEmit` 通过。付费调用 0。无 GitHub Actions。记录见 [QA](output/qa/2026-11-10-conversation-work-second-continue/verification.md)。
+- **剩余：**Codex 按 #95 → #96 → 本 PR 合并。京东账号接管不在这个栈里。
