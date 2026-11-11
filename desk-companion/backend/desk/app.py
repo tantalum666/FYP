@@ -40,6 +40,7 @@ from .jobs import job_routes
 from .personal_context import personal_routes
 from .routines import routine_routes
 from .sources import sources_routes
+from .source_briefs import source_brief_routes
 from .artifacts import artifact_routes
 from .agent_runs import agent_run_routes
 from .browser_jobs import browser_routes
@@ -522,6 +523,7 @@ def create_app(
     app.include_router(routine_routes(services, owner, operation_id))
     app.include_router(responsibility_routes(services, owner, operation_id))
     app.include_router(sources_routes(services, owner, operation_id))
+    app.include_router(source_brief_routes(services, owner, operation_id))
     app.include_router(artifact_routes(services, owner, operation_id))
     app.include_router(agent_run_routes(services, owner, operation_id))
     app.include_router(browser_routes(services, owner, operation_id))

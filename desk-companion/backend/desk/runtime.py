@@ -37,6 +37,7 @@ from .personal_memory import PersonalMemoryAdapter
 from .conversations import ConversationService
 from .routines import RoutineService
 from .sources import SourceService
+from .source_briefs import SourceBriefService
 from .artifacts import ArtifactService
 from .agent_runs import AgentRunService
 from .conversation_work import ConversationWork
@@ -103,6 +104,7 @@ class Runtime:
         self.text_ai = TextAssistant(self)
         self.retained_chat = RetainedChat(self)
         self.sources = SourceService(self)
+        self.source_briefs = SourceBriefService(self)
         self.artifacts = ArtifactService(self)
         self.browser_jobs = BrowserService(self)
         self.connectors = build_connector_service(self, connector_configs)
