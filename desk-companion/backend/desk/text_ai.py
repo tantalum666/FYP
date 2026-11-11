@@ -592,11 +592,13 @@ class TextAssistant:
                 return cached
             before = {row["id"] for row in self.runtime.assistant.audit.listing(100)}
             has_files = bool(conversation and conversation.attachment_ids)
-            turn = (
-                None
-                if has_files
-                else self.runtime.assistant.memory_turn(payload, key, allow_memory=allow_memory)
+            from .reply_owed import answer_reply_owed
+
+            turn = answer_reply_owed(
+                self.runtime, payload, key, owner=allow_memory, conversation=conversation
             )
+            if turn is None and not has_files:
+                turn = self.runtime.assistant.memory_turn(payload, key, allow_memory=allow_memory)
             if turn is None and not has_files:
                 turn = self.runtime.goals.turn(payload, key, allow=allow_memory)
             if turn is None and not has_files:

@@ -1161,6 +1161,13 @@ class AssistantService:
                 if zh
                 else "Review the text, then approve Mousepad save and Chromium preview.",
             }
+        from .reply_owed import answer_reply_owed
+
+        owed = answer_reply_owed(
+            self.runtime, request, key, owner=allow_memory, conversation=conversation
+        )
+        if owed:
+            return owed
         if match := re.match(r"^(?:save note|保存笔记)\s*[:：]\s*(.+)$", text, re.I | re.S):
             result = self.tool(
                 "computer_job_draft",

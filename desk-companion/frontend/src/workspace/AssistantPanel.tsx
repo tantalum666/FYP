@@ -61,6 +61,7 @@ import {
 import type { ComputerJob } from "./jobTypes";
 import { PermissionControl } from "./PermissionsPanel";
 import { ComputerJobsPanel } from "./ComputerJobsPanel";
+import { ReplyOwedAsk } from "./replyOwedAsk";
 import "./assistant-minimal.css";
 import {
   appendLiveTranscript,
@@ -2001,6 +2002,14 @@ export function AssistantPanel({
         className="assistant-secondary assistant-help"
       >
         <h3>{t("A little help with your day", "帮你理清一天")}</h3>
+        <ReplyOwedAsk
+          t={t}
+          onAsk={(phrase) => {
+            setText(phrase);
+            setView("chat");
+            queueMicrotask(() => composer.current?.focus());
+          }}
+        />
         <p>
           {t(
             "Ask about today or next week, keep track of a task, or prepare a note. Changes wait for your review.",
@@ -2011,6 +2020,7 @@ export function AssistantPanel({
           <li>{t("What is on today?", "今天的行程")}</li>
           <li>{t("What should I do next?", "接下来做什么？")}</li>
           <li>{t("What is on next week?", "下周有什么日程？")}</li>
+          <li>{t("Who do I need to reply to?", "我该回复谁？")}</li>
           <li>{t("Track: finish the project report", "跟进：完成项目报告")}</li>
           <li>{t("Prep me for my next meeting", "下一场会要准备什么")}</li>
           <li>
