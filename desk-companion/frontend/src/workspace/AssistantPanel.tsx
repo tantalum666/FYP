@@ -2012,6 +2012,7 @@ export function AssistantPanel({
           <li>{t("What should I do next?", "接下来做什么？")}</li>
           <li>{t("What is on next week?", "下周有什么日程？")}</li>
           <li>{t("Track: finish the project report", "跟进：完成项目报告")}</li>
+          <li>{t("Prep me for my next meeting", "下一场会要准备什么")}</li>
           <li>
             {t("Remember: I prefer morning meetings", "记住：我喜欢上午开会")}
           </li>

@@ -1172,6 +1172,15 @@ class AssistantService:
                 if zh
                 else "Review the file action below and choose Allow once when you are ready. Nothing has been written.",
             }
+        # After memory, goals, recall, and file commands. Before a selected task
+        # becomes a progress note, and before the word "meeting" is a calendar list.
+        from . import meeting_prep
+
+        prepared = meeting_prep.answer_meeting_prep(
+            self.runtime, request, owner=allow_memory
+        )
+        if prepared is not None:
+            return prepared
         with self.store.connection() as conn:
             zone = self.store.settings(conn)["timezone"]
         now = self.store.clock().astimezone(ZoneInfo(zone))
