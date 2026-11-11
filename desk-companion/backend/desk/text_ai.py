@@ -464,10 +464,23 @@ class TextAssistant:
             admitted = self.runtime.conversation_work.turn(
                 payload, key, principal, conversation=conversation
             )
+        stepped = None
+        if cached is None and admitted is None:
+            # A direct question is answered from local records and never reaches a provider.
+            stepped = self.runtime.assistant.next_step_turn(
+                payload, owner=principal is None or principal.get("kind") == "owner"
+            )
         if cached is not None:
             reply = cached
         elif admitted is not None:
             reply = present(admitted, self.runtime.data.preferences(), payload.language)
+            with self.store.connection(write=True) as conn:
+                conn.execute(
+                    "INSERT INTO assistant_replies VALUES(?,?,?)",
+                    (key, self._fingerprint(payload, allow_memory), encode(reply)),
+                )
+        elif stepped is not None:
+            reply = present(stepped, self.runtime.data.preferences(), payload.language)
             with self.store.connection(write=True) as conn:
                 conn.execute(
                     "INSERT INTO assistant_replies VALUES(?,?,?)",
