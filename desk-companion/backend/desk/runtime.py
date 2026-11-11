@@ -18,6 +18,7 @@ from .mailbox import MailboxService
 from .outbound_mail import OutboundMail
 from .microsoft_apps import MicrosoftApps
 from .offline_calendar import OfflineCalendarService
+from .purchase_cards import PurchaseCardService
 from .tasks import TaskService
 from .text_ai import TextAssistant
 from .jobs import JobService
@@ -125,6 +126,7 @@ class Runtime:
         self.trips = TravelQuoteService(self)
         self.store.operation_guard = self.agent_runs.guard_operation
         self.mailbox = MailboxService(self)
+        self.purchase_cards = PurchaseCardService(self)
         self.posture.on_prompt = self.on_posture_prompt
 
     def on_posture_prompt(self, event):
@@ -195,3 +197,4 @@ class Runtime:
         self.jobs.expire()
         self.routines.tick()
         self.voice.work.cleanup()
+        self.purchase_cards.release_quiet_notices()

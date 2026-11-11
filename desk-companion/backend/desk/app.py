@@ -36,6 +36,7 @@ from .exchange_routes import exchange_routes
 from .google_calendar import google_routes
 from .mailbox import mailbox_routes
 from .offline_calendar import offline_calendar_routes
+from .purchase_cards import purchase_card_routes
 from .phone import phone_snapshot
 from .tasks import task_routes
 from .jobs import job_routes
@@ -559,6 +560,7 @@ def create_app(
     app.include_router(wake_routes(services, owner, allowed_origins))
     app.include_router(exchange_routes(services, authenticated, owner, operation_id))
     app.include_router(google_routes(services, owner, operation_id))
+    app.include_router(purchase_card_routes(services, owner, operation_id))
     app.include_router(mailbox_routes(services, owner, operation_id))
     from .outbound_mail import outbound_mail_routes
 

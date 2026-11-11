@@ -1,0 +1,41 @@
+.purchase-card {
+  margin: 28px 0 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--device-line, #e8eaf0);
+}
+
+.purchase-card h2 {
+  font-size: 22px;
+  margin: 0 0 8px;
+}
+
+.purchase-card h3 {
+  margin: 16px 0 4px;
+}
+
+.purchase-card form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px 16px;
+  margin: 12px 0;
+}
+
+.purchase-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.purchase-card .purchase-check {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.purchase-card .purchase-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  grid-column: 1 / -1;
+}

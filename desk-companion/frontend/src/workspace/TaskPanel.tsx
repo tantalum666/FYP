@@ -25,6 +25,7 @@ import "./tasks.css";
 
 import { SavedSkillsPanel } from "./SavedSkillsPanel";
 import { WorkToolsEntry } from "./WorkToolsEntry";
+import { PurchaseCardPanel } from "./PurchaseCardPanel";
 
 export const taskStatus = (value: string, t: Translate) =>
   ({
@@ -1170,6 +1171,7 @@ export function TaskPanel({
               ))}
             </div>
           )}
+          {!displayMode && <PurchaseCardPanel t={t} />}
         </>
       )}
       {offline && (
