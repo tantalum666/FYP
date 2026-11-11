@@ -1217,6 +1217,7 @@ export function AssistantPanel({
                   <div className="assistant-starters">
                     {[
                       ["What is on today?", "今天的行程"],
+                      ["What should I do next?", "接下来做什么？"],
                       ["What is on next week?", "下周的日程"],
                     ].map(([en, zh]) => (
                       <button
@@ -1248,6 +1249,11 @@ export function AssistantPanel({
             : turns
           ).map((turn) => (
             <div className={`assistant-turn ${turn.role}`} key={turn.id}>
+              {turn.role === "assistant" && turn.kind === "next_step" && (
+                <p className="assistant-next-step-label">
+                  {t("Next step", "下一步")}
+                </p>
+              )}
               <p>{turnText(turn)}</p>
               {turn.jobId &&
                 (!immersive || expanded) &&
@@ -1813,6 +1819,7 @@ export function AssistantPanel({
         </p>
         <ul>
           <li>{t("What is on today?", "今天的行程")}</li>
+          <li>{t("What should I do next?", "接下来做什么？")}</li>
           <li>{t("What is on next week?", "下周有什么日程？")}</li>
           <li>{t("Track: finish the project report", "跟进：完成项目报告")}</li>
           <li>

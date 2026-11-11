@@ -34,6 +34,7 @@ from .owner_lookup import (
 )
 from .owner_plan import ProposePlan, propose_plan
 from .tool_policy import audit_suppressed, memory_blocked, outcome_message
+from .next_step import answer_next_step
 from .recall import cited_id, classify, matching, render, set_focus, zone_of
 
 
@@ -1016,12 +1017,16 @@ class AssistantService:
             "message": "确认后才会删除这条记忆。" if zh else "Confirm before this fact is deleted.",
         }
 
-    def local_message(self, request, key, *, allow_memory=True, conversation=None):
+    def next_step_turn(self, request, *, owner=True):
+        """Answer one explicit next-step question. None means another parser should run."""
+        return answer_next_step(self.runtime, request, owner=owner)
+
+    def local_message(self, request, key, *, allow_memory=True, conversation=None, owner=True):
         """A deliberately bounded offline parser, never presented as an AI model."""
         from .style import present
 
         reply = self._local_message(
-            request, key, allow_memory=allow_memory, conversation=conversation
+            request, key, allow_memory=allow_memory, conversation=conversation, owner=owner
         )
         return present(reply, self.runtime.data.preferences(), request.language)
 
@@ -1030,7 +1035,11 @@ class AssistantService:
         task = self.runtime.tasks.detail(request.task_id)["task"] if request.task_id else None
         return {"task_id": request.task_id, "task_version": task["version"] if task else None}
 
-    def _local_message(self, request, key, *, allow_memory=True, conversation=None):
+    def _local_message(self, request, key, *, allow_memory=True, conversation=None, owner=True):
+        # Before a selected task treats every other sentence as a progress note.
+        stepped = self.next_step_turn(request, owner=owner)
+        if stepped:
+            return stepped
         reviewed = self.memory_turn(request, key, allow_memory=allow_memory)
         if reviewed:
             return reviewed

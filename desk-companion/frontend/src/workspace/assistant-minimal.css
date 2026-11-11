@@ -119,6 +119,12 @@
 .assistant-turn.assistant {
   padding: 0 6px;
 }
+.assistant-next-step-label {
+  margin: 0 0 2px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: #5c6578;
+}
 .arrow-forward {
   transform: rotate(180deg);
   vertical-align: middle;
