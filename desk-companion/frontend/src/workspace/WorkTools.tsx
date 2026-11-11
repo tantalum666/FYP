@@ -8,6 +8,7 @@ import { RunPanel } from "./agent/RunPanel";
 import type { WorkGoalRequest } from "./agent/types";
 import { ResponsibilitiesPanel } from "./responsibilities/ResponsibilitiesPanel";
 import { RoutinesPanel } from "./RoutinesPanel";
+import { TripQuotes } from "./TripQuotes";
 import { BrowserWorkflowPanel } from "./browser/BrowserWorkflowPanel";
 import { ConnectorReviewPanel } from "./connectors/ConnectorReviewPanel";
 import { ProposalActionCard } from "./ProposalActionCard";
@@ -136,6 +137,10 @@ export default function WorkTools({
       <details>
         <summary>{t("Scheduled check-ins", "定期检查")}</summary>
         <RoutinesPanel t={t} />
+      </details>
+      <details>
+        <summary>{t("Trip quote", "行程报价")}</summary>
+        <TripQuotes t={t} />
       </details>
       <details>
         <summary>
