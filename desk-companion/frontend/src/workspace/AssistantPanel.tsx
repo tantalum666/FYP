@@ -48,6 +48,7 @@ import {
 import type { ComputerJob } from "./jobTypes";
 import { PermissionControl } from "./PermissionsPanel";
 import { ComputerJobsPanel } from "./ComputerJobsPanel";
+import { ReplyOwedAsk } from "./replyOwedAsk";
 import "./assistant-minimal.css";
 import { useVoiceWorkHandoff } from "./voiceWork/useVoiceWorkHandoff";
 import { ToolActivity, type ToolCall } from "./ToolActivity";
@@ -1254,6 +1255,13 @@ export function AssistantPanel({
                 jobs.filter((job) => job.id === turn.jobId).map(jobCard)}
             </div>
           ))}
+          {turns.length > 0 &&
+            turns[turns.length - 1].role === "assistant" &&
+            turns[turns.length - 1].kind === "reply_owed" && (
+              <p className="assistant-reply-owed-label">
+                {t("Reply owed", "待回复")}
+              </p>
+            )}
           {liveMessage && (
             <p className="assistant-turn assistant" aria-live="polite">
               {liveMessage}
@@ -1805,6 +1813,14 @@ export function AssistantPanel({
         className="assistant-secondary assistant-help"
       >
         <h3>{t("A little help with your day", "帮你理清一天")}</h3>
+        <ReplyOwedAsk
+          t={t}
+          onAsk={(phrase) => {
+            setText(phrase);
+            setView("chat");
+            queueMicrotask(() => composer.current?.focus());
+          }}
+        />
         <p>
           {t(
             "Ask about today or next week, keep track of a task, or prepare a note. Changes wait for your review.",
@@ -1814,6 +1830,7 @@ export function AssistantPanel({
         <ul>
           <li>{t("What is on today?", "今天的行程")}</li>
           <li>{t("What is on next week?", "下周有什么日程？")}</li>
+          <li>{t("Who do I need to reply to?", "我该回复谁？")}</li>
           <li>{t("Track: finish the project report", "跟进：完成项目报告")}</li>
           <li>
             {t("Remember: I prefer morning meetings", "记住：我喜欢上午开会")}

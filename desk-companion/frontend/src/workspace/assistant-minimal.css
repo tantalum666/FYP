@@ -361,3 +361,12 @@
   color: var(--accent);
   margin: 4px 0;
 }
+.assistant-reply-owed-label {
+  margin: 4px 6px 0;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: #5c6578;
+}
+.assistant-reply-owed-ask {
+  margin: 0 0 12px;
+}

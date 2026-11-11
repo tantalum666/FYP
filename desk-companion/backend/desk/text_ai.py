@@ -532,7 +532,13 @@ class TextAssistant:
             if cached is not None:
                 return cached
             before = {row["id"] for row in self.runtime.assistant.audit.listing(100)}
-            turn = self.runtime.assistant.memory_turn(payload, key, allow_memory=allow_memory)
+            from .reply_owed import answer_reply_owed
+
+            turn = answer_reply_owed(
+                self.runtime, payload, key, owner=allow_memory, conversation=conversation
+            )
+            if turn is None:
+                turn = self.runtime.assistant.memory_turn(payload, key, allow_memory=allow_memory)
             if turn is None:
                 turn = self.runtime.goals.turn(payload, key, allow=allow_memory)
             if turn is None:
