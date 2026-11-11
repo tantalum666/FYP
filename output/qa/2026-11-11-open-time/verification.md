@@ -25,6 +25,6 @@ Alice answers “When am I free tomorrow?” and “Does Thursday at 15:00 work?
 - Frontend `npm test`: 331 passed, 0 failed. That run includes `tests/open-time.test.ts`.
 - `npx tsc --noEmit`: exit 0.
 - Browser at `http://127.0.0.1:5190/?page=assistant`, `DESK_TEXT_PROVIDER=none`. Clicked the new starter and Send. The reply named Tomorrow 12 Nov 2026, the openings 08:00–10:00 and 11:30–21:00, the label “Open on the saved calendar”, and the sentence that an open stretch is not a claim of being free and nothing was booked. The turn had no confirm control. A following “What is on tomorrow?” named Project discussion and was not labelled as an opening.
-- Full backend suite: recorded below when the local run finishes.
+- Full backend suite, from `desk-companion/` with `PYTHONPATH="$PWD:$PWD/backend"`: **2044 passed, 2 failed**, 490.56s. The failures are the known main cases `test_public_unicast[::ffff:93.184.216.34]` and `test_restart_runs_only_the_approved_folder_job`. No other failure.
 
 `Runtime.tick` is unchanged. The three portable bundles are unchanged. Schema version stays 3.
