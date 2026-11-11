@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated: 6 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated: 10 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -783,128 +783,10 @@ Updated product, research status, browser/VPS/application/maintenance/delivery c
 PR94 closeout: published reviewed head7043510a, marked ready and merged asa9fb6da; fetched remote main and verified exact whole-tree equality. Final administrative documentation records this result; deployed code remainsd40457fe. No CI. See the dated publication receipt.
 
 
-## 2026-11-07 Open Web and phone previews
+## 2026-11-10 Folder-job restart clock
 
-Owner requested both interfaces for inspection. Started current source855e60ee using the existing Mac owner runtime on8831and Vite5190; opened desktop Chrome and a393x852in-app phone preview. Cleared unsuccessful temporary CDP metric overrides and used the supported in-app viewport setting. Both pages visibly show connected status, Alice/composer and OpenAI Realtime with microphone off, and are retained for the owner. No app-code/configuration edit, native rebuild, model request or Pi change. Read/display evidence: output/qa/2026-11-07-web-phone-preview/verification.md; private process logs under ~/.config/desk-companion/web-phone-preview-20261107. Current product next step is unchanged.
-
-
-## 2026-11-07 · Shared Alice home, permission recovery and GPT Live
-
-- Goal: carry the accepted phone visual to Web/Pi, keep Alice dominant with full phone calendar/time/weather, restore hands-free local Alice wake and integrate the owner's selected GPT Live route. Later corrections covered flickering input, overlapping read errors and repeated location prompts.
-- Completed: shared scene/agenda/conditions, existing-reader reuse, dark composer and optional navigation; bounded short-screen agenda; pre-paint input sizing and one read recovery row; loopback cookie names per port; permission-aware/coarsened location with single pending read, five-second watch deadline, durable failure flag and explicit retry. Existing owner data, licensing, drafts and permissions retained.
-- Voice: native Live/Responses adapter within current VoiceService/ToolDispatcher, invariant Alice identity, persistent local opt-in, single wake/voice capture slot, bounded history/session and reconciled receipts. Main Mac wake configuration fixed. Realtime retained explicitly; Live voice-only, typed Responses unchanged.
-- Validation:2051backend/341frontend, Ruff/Prettier/types/build; actual Web/phone navigation/draft/responsive/read-fault checks, stable8-sample input geometry, final1000Mac HTTP responses all200; local synthetic positive/negative wake clips. Fresh authorized real Live trial20providerseconds/two backend requests, correct Alice and calendar read, no writes, received audio and slot release. ConservativeUSD0.0518613333; ledger closed. No human/acoustic quality ranking.
-- Runtime: source1660ffc active on Mac/Pi;292release hashes; safe21-file stopped backup/off-device verification; original keys/data and existing VPS route preserved. Configuration/UI readiness is separate from physical Pi microphone/speaker acceptance. No new paid activation calls, CI or power investigation.
-- Files: [contract](desk-companion/docs/alice-home.md), [QA](output/qa/2026-11-07-alice-home-wake/verification.md), [activation](output/qa/2026-11-07-alice-home-wake/activation-summary.json), private media/backup under owner config. Updated product/decisions/voice/connection/maintenance/handoff/entry. Original preview-only records preserved.
-- Remaining: human wake/interrupt/AEC, native background and physical Pi audio; browser owner takeover/login/real transaction receipts and native sender remain separate work. Next product slice is explicit owner takeover and return in the same generic browser job.
-
-Publication: [PR97](https://github.com/tantalum666/FYP/pull/97) open/unmerged; independent branch pushed, reviewed source/docs head85f91f9 verified remotely before receipt-only follow-up. Runtime source1660ffc remains separate from publication.
-
-
-## 2026-11-07 · Owner-reported wake failure and complete self-acceptance
-
-- Owner asked why calling Alice failed despite Mac microphone access, then explicitly requested autonomous complete acceptance. Found full-catalog schema conversion deleting business title fields; actual27-tool preflight400before/200after confirms the defect. Earlier paid fixture advertised a restricted query list; corrected its documented scope.
-- Added exact shared input selection for local meter/wake/voice, with session fallback if storage is blocked; normal Web saved to built-in Mac microphone and real local levels read back. Safe failure identifiers and phase now survive in existing receipts; retry clears the old notice. No authority, system-wide audio setting, dependency or CI change.
-- Actual complete-app browser fixture used native permission/capture lifecycle and synthetic transmitted MediaStream, full27tools, real Live/Sol/calendar and playback. Two greeting/idle cycles plus one complete identity/calendar cycle finalized, resumed local waiting and made no calendar writes. First useful playback6.393seconds; human/noise/AEC statistics remain unmeasured. Private fixture streams/tab/server cleaned up.
-- Fresh engineering capUSD0.50; final conservativeUSD0.1864995with all receipts finalized, ledger closed. No older budget reopened.2054backend/343frontend, lint/types/build pass. Details: [repair QA](output/qa/2026-11-07-alice-wake-repair/verification.md).
-- Sourcef2a33e9active on Mac/Pi after292file hashes and a22-file stopped/checkpointed backup verified off-device. Pi keys/environment/VPS route unchanged; physical audio still separate. [Activation](output/qa/2026-11-07-alice-wake-repair/activation-summary.json). Updated current contracts, product/decisions/handoff/entry and earlier smoke-test scope note. Next: offline useful-answer latency profiling before the later merchant takeover slice.
-
-
-## 2026-11-08 · Voice UI closeout
-
-The actual model-answer screenshot exposed an optional Work-conversion card covering the home. Kept its state mounted but moved visibility behind expanded Conversation; offline browser replay verified hidden/visible/hidden with the same content retained.343frontend tests/types/build passed again, zero paid calls. Final source3079390active on Mac/Pi;292Pi files verified and environment/keys unchanged. Core voice2054backend and full-browser acceptance remain tied to unchanged f2a33e9logic. Updated current routing, contracts and [repair QA](output/qa/2026-11-07-alice-wake-repair/verification.md). PR97 stays open/unmerged; all test ledgers closed.
-
-## 2026-11-08 Latest-turn conversation and Alice voice preferences
-
-Owner requested latest-only home speech, distinct multi-turn history, removal of Voice input cards, readable dark styling and a light/natural Mandarin/English/Cantonese voice. Implemented independent timeline grouping and existing RAM updates after grounding, clean history layout and owner-versioned Live voice/delivery preferences. A free original prompt voice was created; the real USD0.25 audition failed before output with no final receipt, so USD0.249remains conservatively reserved in its closed ledger. Silent startup buffer and disconnect-drain failures were repaired; no additional paid call without the pending fresh approval.
-
-Local2064backend/348frontend tests, lint/types/build pass. Actual separate desktop/phone browser replay verified two exchanges, late fragments,6.5-second startup, a real local calendar_query, no Voice input cards, contrast/scroll/composer boundaries and settings save/reload. This is offline protocol evidence, not naturalness acceptance. Source00387d6activated on Mac/Pi after stopped/checkpointed private backups (11/22files; Pi checked off-device),293Pi file hashes and preserved environment/credentials. Voice profile selected for next call; preview unavailable. No CI, new package, power investigation or native/human audio claim.
-
-Updated product, decisions, Alice/voice/desktop/maintenance and legacy voice-work boundaries, handoff and START. Evidence: [QA](output/qa/2026-11-08-dialogue-voice/verification.md), [activation](output/qa/2026-11-08-dialogue-voice/activation-summary.json). Next: approved capped voice-only trilingual sample with final receipt, then cache output for repeat audition. Original voice IDs, private files, audio and backups excluded from Git.
-
-## 2026-11-08 19:29 HKT · Open owner test pages
-
-Opened normal Web and phone preview; restored the existing loopback-onlyPi8891forward and confirmed all three services reachable. Owner will test personally. No source/deployment/CI/paid-model change or microphone activation. Updated [handoff](handoff.md) and [port evidence](output/qa/2026-11-08-owner-preview/verification.md); original voice quality remains unverified until actual results.
-
-
-## 2026-11-08 Evening · Native email connections, captions and effective voice
-
-The owner reported overlapping captions, an unwanted technical footer, missing native email and unnatural voice. Added wrapped dark captions, a measured phone conversation reserve, sustained speech onset, playback buffering/diagnostics and effective-voice echo checks. Bright is selected with actual cached samples. The fresh USD1 round closed at conservative USD0.346456 with five finalized sessions. The first full-browser attempt failed on review timeout; after repair the second 29-tool run passed. The later 30-tool catalog has local coverage and no additional paid run.
-
-The owner rejected SMTP/app-password setup. Replaced it with bundled Google/Microsoft browser OAuth, shared PKCE/encrypted tokens, bounded reads and existing owner review. Actual owner Google consent, native FYP self-send and independent Gmail provider-ID/content readback in SENT/INBOX passed once. Google Calendar is configured; Microsoft365/Teams/SharePoint software is prepared, with actual authorization explicitly deferred. Office file-directory access is not cloud editing; no automatic mail monitoring or real purchase was added.
-
-2103 backend/351 frontend checks, types/build/lint passed. Desktop/393×852/320×568 checks found and fixed long-caption/agenda overlap without shrinking Alice. Source232b065 is active on Mac/Pi;305Pi source/asset hashes and both services verified; original owner keys retained. Initial Pi activation rolled back after the operator package omitted configuration files. All five tracked config files were restored and an isolated workspace returned200 before the successful retry. Mac stopped backup and the22-file Pi/off-device backup were verified. Client/voice cache installed privately; Mac account grant not copied to Pi.
-
-Updated product, decisions, research, app/home/voice/maintenance/conversation contracts, entries, handoff and [current QA](output/qa/2026-11-08-caption-mail-voice/verification.md). The Pi preview visibly shows Alice and the new home; temporary QA server/tab and overrides were cleared. Publication and remote HEAD are recorded separately. No CI, closed-budget reopening, power investigation or human/native-audio acceptance. Next: owner takeover/return in the existing browser job.
-
-Publication: [PR97](https://github.com/tantalum666/FYP/pull/97) remains open/unmerged. Reviewed code/activation head1afb556 was pushed and matched the remote branch; [publication receipt](output/qa/2026-11-08-caption-mail-voice/publication.json) records the check. Runtime source remains232b065.
-
-
-## 2026-11-09 · Reference voice feasibility and Outlook identity
-
-Confirmed the owner's newly connected personal Outlook account through the plugin profile only; FYP Microsoft configuration remains absent. Reviewed/pinned VibeVoice, GPT-SoVITS and Fish Speech primary sources, including current V5/Drama3 distinctions, language/reference/platform capabilities and code/weight licensing. Verified Mac/Pi/VPS resources read-only. Owner selected a reference voice they approve and have rights to use; no clip yet supplied.
-
-Delivered [research and integration proposal](research/2026-11-09-custom-alice-voice.md), a14-line fictional trilingual/mixed-language audition corpus and [QA](output/qa/2026-11-09-custom-voice-research/verification.md). Marked current Bright as technically selected but not owner-accepted; GPT-SoVITS first remains an engineering proposal. Updated current product, decision, voice contract, research index, handoff and continuation entry. JSON/link/diff/secret checks only; no app code, runtime/default, model installation, paid inference or deployment changed. Next: obtain approved reference/transcript and run the bounded local audition.
-
-
-## 2026-11-09 · GPT-SoVITS technical testing and classroom Ethernet
-
-User selected GPT-SoVITS testing and requested classroom Pi access. Verified wired DHCP/preferred route and original-pin SSH through the existing VPS; app, automatic-owner workspace/device page and OpenAI models metadata read passed. Direct LAN SSH was closed. One-shot Mac preview dropped; unchanged Pi boot ID was confirmed and the existing reconnecting launcher restored web/VNC loopback access. No network/security/power configuration changed.
-
-Installed official04a44eb V2ProPlus CPU source/models in a separate Mac Python3.12 environment. Fixed missing resampy, upstream NLTK path and language-cache setup; retained the rejected auto-download record and used already verified offline corpus data. Generated six public-domain-reference test cases. Streaming first non-silent PCM1.641–2.679seconds in a short batch; variable slower repeat/initialization results preserved. First interruption followup timed out30seconds; repeat4.05seconds, so stability remains open. Local WhisperSmall content matched English/Mandarin; Cantonese numeric readback mismatch is unresolved. This is not a human naturalness/owner-voice pass.
-
-Added the loopback-only evaluation probe and six passing boundary checks. Scoped lint/compile and JSON/link/artifact/diff checks complete; no full production test rerun, deployment/default change, training, hosted generation or CI. Test API9880 stopped, source/model cache/samples retained, Pi preview kept available. Updated evaluation/network/product/research status, decisions, work log, handoff and entries. [Current QA](output/qa/2026-11-09-sovits-classroom/verification.md). Next: the owner's reference/transcript for the actual desired-voice audition.
-
-## 2026-11-09 · Sweet Taiwan-Mandarin voice auditions
-
-Owner rejected the SoVITS public-reference sound, clarified a sweet/soft/cute Taiwan-Mandarin direction, and explicitly approved USD0.10 for two original OpenAI samples, at most40seconds combined. Verified the normal Mac still selects Bright and has no active session. Checked current official custom-voice/pricing docs and relevant Doubao/Qwen catalog labels; catalog inspection was not a listening evaluation or provider switch.
-
-Created two original young-adult feminine profiles, then generated the same short sentence through voice-only GPT Live. First free creation attempt failed on a short script_hint; longer guidance resolved it without changing audition text. Both distinct provider voice echoes, complete transcripts, valid non-clipped24kHz mono PCM16 WAVs and final usage were checked. Total provider duration20seconds; conservative USD0.0183333, fresh ledger CLOSED. No microphone, delegated model, business action or old-budget reopening. Presented both cached audio clips and requested subjective preference; no sound-quality claim is inferred from metadata.
-
-Added [voice brief](planning/2026-11-09/alice-sweet-taiwan-voice.md) and [QA](output/qa/2026-11-09-sweet-taiwan-audition/verification.md); updated product/voice/evaluation/research/index/decisions and continuation routing. Prior SoVITS measurements remain with dated owner rejection. Audio, raw IDs, requests and ledger stay in the owner-private directory; public evidence is sanitized. JSON/link/artifact/budget/diff/material checks are scoped to this documentation/experiment change; production suites were not rerun. Runtime232b065/Bright remains unchanged, no CI or Pi/network/power change. Next: apply only a voice the owner explicitly accepts; English/Cantonese and actual dialogue quality remain separate later checks.
-
-Publication: trial code/evidence4156a31 pushed to PR97 and remote HEAD verified. The PR remains open/unmerged; local experiment/default/runtime boundaries are unchanged. [Receipt](output/qa/2026-11-09-sovits-classroom/publication.json).
-
-
-Same-day owner follow-up: A is promising but sounds too mature; retain it and refine toward a younger college/school-age impression. Kept original A and prepared an18–20-year-old adult college-freshman delivery using the exact same saved voice. The owner explicitly approved one additional20-second /USD0.03 session. A1 returned the same voice and full text, finalized9seconds at conservative USD0.00825; its separate ledger is CLOSED. Clip presented, listening feedback pending, production Bright unchanged. No new voice creation, microphone, delegated model, pitch/speed post-processing or old-budget reopening. Current next step is feedback on A1, not another blind sample batch.
-
-
-Further owner feedback: A1 sounds older than original A, so A1 is rejected and A is retained. Changing only delivery did not meet the desired age impression. Created a new adult18–20Taiwan Campus base voice for A2, then received explicit USD0.05 /maximum3attempts /45seconds total authorization for sequential refinement. First connection reset before session.started/audio; USD0.0145 and15seconds remain conservatively allocated. Retry returned the requested new voice and complete text, finalized9seconds at USD0.00825. A2 clip presented; feedback pending. Current scope has one attempt left, max15seconds, conservative accounted USD0.02275; close on selection/cancellation/exhaustion. No automatic further generation or production-default switch; earlier ledgers remain closed.
-
-Publication: A2 evidence head4753ed4 matched GitHub PR97, open/unmerged; current description and [receipt](output/qa/2026-11-09-sweet-taiwan-audition/publication.json) preserve A1 rejection, A2 result and one remaining bounded attempt. Production unchanged.
-
-
-## 2026-11-09 Original A selected on three surfaces; final A3 audition
-
-**Owner direction:** apply original A to Web, phone and Pi, open Web for personal testing, and refine A2 younger. Original A is the selected working default, not a declaration that the eventual ideal voice or trilingual sound is fully accepted.
-
-**Applied and verified:** existing owner/versioned APIs selected exact original A on Mac and Pi, version7; prior settings privately saved and the exact cached preview served/hash-verified on both. Actual Web5190 proxy readback passed. Phone browser shares Mac; the installed/running native Simulator process uses Pi8891, whose A settings were read back. Web Alice home visibly opened and retained. No microphone start, source/release rebuild, credential/authority change, service restart or paid production call.
-
-**A3:** used the remaining previously approved USD0.05scope attempt for a new original adult18Taiwan Light voice. Complete fixed text, matching requested voice and8providerseconds finalized; valid24kHz mono output. The scope is exhausted/CLOSED at conservative USD0.0300833, including the earlier USD0.0145 unknown reservation. No attempts remain. A3was presented but not applied; A1 remains rejected and A2 remains unaccepted.
-
-**Evidence and next:** [activation QA](output/qa/2026-11-09-original-a-three-surfaces/verification.md) records actual reads, private backups, same-sample hashes and current scope. Updated current product/entry/handoff, voice brief/contracts/research, earlier audition status and this log. JSON/link/diff/material checks only; no CI or production test rerun. Next: actual A conversation and A3 listening feedback, retaining A until explicit replacement.
-
-Publication: original-A activation/A3 evidence headed27b22matched GitHub PR97, open/unmerged. [Receipt](output/qa/2026-11-09-original-a-three-surfaces/publication.json). Private voice/audio/backups stay excluded; no CI.
-
-
-## 2026-11-09 A3 selected as the shared default
-
-Owner explicitly asked to apply A3. Reused its saved original voice resource/description and cached audition, preserving language-following delivery. Mac and Pi were inactive before selection; existing owner/versioned APIs now read version9with exact A3 identity and served sample hashes. Web5190proxy/Pi8891readback and the native phone process's Pi8891origin passed. Original A/profile/cache and prior settings remain available. No paid call, source/release rebuild, restart, microphone, credentials, permission/network change or CI.
-
-Updated current product/entry/handoff, voice brief/contracts/research and selection status, with [A3 activation QA](output/qa/2026-11-09-a3-default/verification.md). Local validation covers API/profile/cache/backup/origin plus documentation JSON/link/diff/private-material checks; no production test rerun. All prior budgets remain closed. Next: normal A3 conversation feedback, retaining A3 until explicit replacement; original A is the available fallback.
-
-
-## 2026-11-09 Compact composer, real attachments and dark controls
-
-Owner reports pale-on-white +/file controls, exposed model branding and confusing file entry; requests a Codex-like attachment flow. Separate Add files/photos from Computer activity. Implemented compact accessible menu, local previews/remove/paste/drop, Send-only temporary upload, readable shared dark controls, one subview back action and generic cloud consent while retaining action/data safeguards.
-
-ChatAttachments reuses existing Conversations RAM/login/task/invalidation, TextAssistant/AgentLoop/provider adapter and durable request recovery. No new persistent source library, model loop, dependency, microphone or paid call. Existing A3selection remains. Files are bounded to2MiB each/four per chat,32MiB pooled raw bytes. Native Responses file/image parts are verified offline; no live-provider understanding claim.
-
-Local full backend2117passed, later attachment policy/boundary checks followed; frontend353passed with types/build. Real browser checks found/fixed stale selection errors, message/save wording, mobile recovery access and error clipping/contrast. File chooser, paste, multi-file small-screen layout, send/followup and same-operation recovery passed against the isolated mock transport. Raw-CDP drag injection is unsupported, so end-to-end drag is not claimed. Native compile succeeded using verified cached SDK archives. Activation/publication remain separate receipts in [QA](output/qa/2026-11-09-composer-attachments/verification.md).
-
-Native verification also exposed a notch-inset clock/connection overlap. Shared safe-area positioning fixed it; a rebuilt/reinstalled native framebuffer confirms clear spacing and retained Alice size. The final353frontend checks/types/build pass. Backend source is unchanged by this CSS follow-up.
-
-
-Composer activation closeout: Mac is healthy with the new backend/frontend and preserved A3/config/keys;16-file SQLite/archive backup verified. Pi main release520ab563passed306source hashes, exact frontend, both services, A3readback and local upload/release smoke;69-file backup also copied and rehashed off-device. Native final build/install/launch and68asset hashes passed, and a real framebuffer exposed/fixed native safe-area clock overlap. The Pi forwarding path subsequently became unavailable; the safe-area-only v2sync is prepared but unconfirmed, with no network/power change. Normal Web is open; QA server/tabs/overrides/clipboard are cleaned up. [Final QA](output/qa/2026-11-09-composer-attachments/verification.md). Next: read original pinned Pi state on reconnection before resuming that cosmetic follow-up; all model budgets stay closed.
-
-Composer publication: reviewed heade587e489matched remote PR97; metadata updated around the final UI/file/app scope and Pi limitation. [Receipt](output/qa/2026-11-09-composer-attachments/publication.json). The PR remains unmerged.
+- **目标：**修复 main 上 `test_restart_runs_only_the_approved_folder_job` 在当前日期返回 `expired` 的问题，并确认测试不随真实日期失效。不改真实用户的期限，不调用付费模型。
+- **阅读：**AGENTS、handoff、product 当前要求、decision-log 2026-11-06/07 决定、`test_folder_jobs.py` 全文、`jobs.py` 批准/过期/执行、`create_app` 与 `Store.clock` 默认值、文件夹执行器、电脑作业重启测试和期限说明。未重读全部历史 Markdown。
+- **完成：**重启后的应用改为使用原 `store.clock`。生产作业期限本来就只用这一时钟；失败来自测试里的第二次 `create_app` 省略了它。检索了其它“注入固定时钟后再打开同一存储却不传时钟”的测试，没有第二处。`::ffff:93.184.216.34` 的公网单播失败未改。
+- **验证：**文件夹作业 11 项通过；libfaketime 把系统时间固定在 2035-06-01 UTC 后，文件夹与电脑作业 50 项通过。省略时钟的对照脚本在真实当前时间得到 `expired`。安装前端依赖后的后端全套为 2035 通过、1 失败（预先存在的 `::ffff:93.184.216.34` 公网单播检查）。详见 [QA](output/qa/2026-11-10-folder-job-clock/verification.md)。无 CI。
+- **剩余：**产品下一步仍是现有浏览器作业中的拥有者接管与交还。公网单播的 IPv4 映射地址检查仍失败。
