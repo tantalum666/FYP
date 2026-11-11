@@ -375,6 +375,11 @@ class RoutineService:
                     (routine["id"], routine["id"], HISTORY_PER_ROUTINE),
                 )
                 changed = True
+            # Saved-skill schedules share this clock. A due occurrence prepares
+            # one pending run, or the occurrence is skipped and not replayed.
+            skills = getattr(self.runtime, "saved_skills", None)
+            if skills is not None and skills.release_due(conn):
+                changed = True
             if changed:
                 self.store.bump(conn)
 

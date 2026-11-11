@@ -1,0 +1,48 @@
+.saved-skills {
+  margin: 0.75rem 0 1rem;
+}
+
+.saved-skills summary {
+  cursor: pointer;
+}
+
+.saved-skill-form,
+.saved-skill-card,
+.saved-skill-run,
+.saved-skill-schedule,
+.saved-skill-schedule-form {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.saved-skills label {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.saved-skills label.saved-skill-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.saved-skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+
+.saved-skill-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.saved-skill-steps {
+  margin: 0;
+  padding-left: 1.25rem;
+}
