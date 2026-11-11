@@ -21,8 +21,10 @@ Held choices. A choice and the assumption it rests on become current only when t
 
 - `ruff check` on `backend/desk/held_choices.py` and `tests/test_held_choices.py`.
 - `pytest tests/test_held_choices.py`: 10 passed.
-- Frontend `tsc --noEmit` passed. `npm test`: 332 passed, 0 failed (330 already on this main, plus 2 in `tests/held-choices.test.ts`).
-- Full backend suite and the browser pass are recorded in the pull request after they finish. GitHub Actions was not run.
+- Frontend `tsc --noEmit` passed. `npm test`: **332 passed, 0 failed** (330 already on this main, plus 2 in `tests/held-choices.test.ts`).
+- Full backend, from `desk-companion/` with `PYTHONPATH=.:backend`: **2044 passed, 2 failed**, 503.59s. The failures are the ones already on this main (`855e60ee`): `test_restart_runs_only_the_approved_folder_job` (`expired` vs `succeeded`; #98 fixes that and is not in this branch) and `test_public_unicast[::ffff:93.184.216.34]`. No new failure.
+- Browser on `http://127.0.0.1:5190/?page=tasks`: saved a draft, approved it, changed the assumption, confirmed the old wording stayed current, approved the new wording, and saw the old assumption under previous wording. The desk stayed connected. No mail, purchase, or booking control was used.
+- GitHub Actions was not run.
 
 ## Docs updated
 

@@ -66,7 +66,8 @@ export function HeldChoicePanel({ t }: { t: Translate }) {
             <h3>{(line.current ?? line.pending)?.title}</h3>
             {line.current && (
               <p>
-                <strong>{t("Current choice.", "当前选择。")}</strong> {line.current.choice}{" "}
+                <strong>{t("Current choice.", "当前选择。")}</strong> {line.current.choice}
+                <br />
                 {t("Assumption:", "依据：")} {view.held}
               </p>
             )}
@@ -76,13 +77,16 @@ export function HeldChoicePanel({ t }: { t: Translate }) {
                   "Not the current choice until you approve this wording.",
                   "在你批准这句之前，这还不是当前选择。",
                 )}{" "}
-                {line.pending.choice} {t("Assumption:", "依据：")} {view.waiting}
+                {line.pending.choice}
+                <br />
+                {t("Assumption:", "依据：")} {view.waiting}
               </p>
             )}
             {line.previous.map((item) => (
               <p key={item.id}>
-                {t("Previous wording.", "先前的写法。")} {item.choice} {t("Assumption:", "依据：")}{" "}
-                {item.assumption}
+                {t("Previous wording.", "先前的写法。")} {item.choice}
+                <br />
+                {t("Assumption:", "依据：")} {item.assumption}
               </p>
             ))}
             <div className="held-actions">
