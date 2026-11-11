@@ -56,3 +56,19 @@ Ruff passed. Conversation-work and integration acceptance: 75 passed in 38.37s. 
 `tests/test_public_capture_transport.py::test_public_unicast[::ffff:93.184.216.34]` failed. `is_public_unicast` rejects the address. This sync does not change that transport check.
 
 `tests/test_folder_jobs.py::test_restart_runs_only_the_approved_folder_job` failed with `expired` instead of `succeeded`. The file is identical to `origin/main`. The same command on `origin/main` (`855e60e`) failed with the same assertion. The fixture freezes the first app at 2026-11-07 00:00 UTC, and the restarted app uses the wall clock. At 2026-11-07 07:33 UTC that approved job is already outside its execution window. This sync does not change the test or the folder job code.
+
+## #96 merge
+
+The same five documentation files conflicted when the updated #95 branch was merged into `cursor/conversation-work-continue-once-51ee`. `parse_work_continue` and the one `advance_one` step stayed. A status ask still only re-reads the file. #94 records stayed. The pull request base remains the #95 branch.
+
+From `desk-companion/`, with no `OPENAI_API_KEY`:
+
+```sh
+uv run --no-sync ruff check backend/desk/conversation_work.py backend/desk/agent_runs.py backend/desk/text_ai.py tests/test_conversation_work.py
+uv run --no-sync python -m pytest tests/test_conversation_work.py tests/test_integration_acceptance.py -q
+uv run --no-sync python -m pytest -q --tb=line
+```
+
+From `frontend/`: `npm test` and `npx tsc --noEmit`.
+
+Ruff passed. Conversation-work and integration acceptance: 86 passed in 46.30s. Full backend: 2053 passed, 2 failed, in 403.83s. The two failures are the same two named above. Frontend tests: 330 passed. `tsc --noEmit` passed. Paid provider calls: 0. GitHub Actions: not run.
