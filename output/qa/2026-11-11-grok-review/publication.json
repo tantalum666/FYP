@@ -1,0 +1,252 @@
+{
+  "checked_at": "2026-11-11 15:46:55 UTC",
+  "integration_pr": 121,
+  "integration_url": "https://github.com/tantalum666/FYP/pull/121",
+  "reviewed_head": "6ffda6ab1a69c6de98d61f90c24f90fbb2b08f8a",
+  "verified_main": "44185f7a5ad42ca6679644056a9bb97b91d80f5c",
+  "main_tree_matches_reviewed_head": true,
+  "original_prs": [
+    {
+      "number": 95,
+      "url": "https://github.com/tantalum666/FYP/pull/95",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "19745987f62d2a044ec6c0be690e11268532524a",
+      "merge_commit": "195ccc7c0d2fd088fce117f8275b921f516444cc",
+      "base": "main"
+    },
+    {
+      "number": 96,
+      "url": "https://github.com/tantalum666/FYP/pull/96",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "195ccc7c0d2fd088fce117f8275b921f516444cc",
+      "merge_commit": "9022cea86cd860d28afe73b2f68e0c545d02f787",
+      "base": "cursor/conversation-work-reshow-verified-b9a2"
+    },
+    {
+      "number": 97,
+      "url": "https://github.com/tantalum666/FYP/pull/97",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "ebf6d91751ff69f6acec0813f7eb69a1ed53dc5d",
+      "merge_commit": "cc23c3a5dac5fb4647307aec15f19546fc81a743",
+      "base": "main"
+    },
+    {
+      "number": 98,
+      "url": "https://github.com/tantalum666/FYP/pull/98",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "c37d194b97f8cf7974730dba2f73dafc58398479",
+      "merge_commit": "cc23c3a5dac5fb4647307aec15f19546fc81a743",
+      "base": "main"
+    },
+    {
+      "number": 99,
+      "url": "https://github.com/tantalum666/FYP/pull/99",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "53f22fffc964ee11291d5675f12c16adc3d0646c",
+      "merge_commit": "9022cea86cd860d28afe73b2f68e0c545d02f787",
+      "base": "cursor/conversation-work-continue-once-51ee"
+    },
+    {
+      "number": 101,
+      "url": "https://github.com/tantalum666/FYP/pull/101",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "259a30469dd57dc880ebd668d9c9cda3f854afe6",
+      "merge_commit": "6190cbef15885534a537f888c8671a9e44ade0b3",
+      "base": "main"
+    },
+    {
+      "number": 102,
+      "url": "https://github.com/tantalum666/FYP/pull/102",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "fa66d4b003326149804a365aefaaebede29c0534",
+      "merge_commit": "fa66d4b003326149804a365aefaaebede29c0534",
+      "base": "main"
+    },
+    {
+      "number": 103,
+      "url": "https://github.com/tantalum666/FYP/pull/103",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "a23c09d135b66e44e250596249288d657cc58c38",
+      "merge_commit": "729728be7d91e10da64f56dc0a20487b575ad02a",
+      "base": "main"
+    },
+    {
+      "number": 104,
+      "url": "https://github.com/tantalum666/FYP/pull/104",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "eb7f6c05a00586cac3d99ad5c8f7ef3326a29c08",
+      "merge_commit": "eb7f6c05a00586cac3d99ad5c8f7ef3326a29c08",
+      "base": "main"
+    },
+    {
+      "number": 105,
+      "url": "https://github.com/tantalum666/FYP/pull/105",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "baf3032d85b6c224eddd7db5af8065910525a6a2",
+      "merge_commit": "baf3032d85b6c224eddd7db5af8065910525a6a2",
+      "base": "cursor/offline-trip-quotes-1593"
+    },
+    {
+      "number": 107,
+      "url": "https://github.com/tantalum666/FYP/pull/107",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "8672515a202aec6f9c1f3edb13a9d1c4078429ee",
+      "merge_commit": "11487ecc9a33fa0db5cd2619e8e7523e8f7c9078",
+      "base": "main"
+    },
+    {
+      "number": 108,
+      "url": "https://github.com/tantalum666/FYP/pull/108",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "02779034f81f44575ee3d55728ba62fd84b7673b",
+      "merge_commit": "02779034f81f44575ee3d55728ba62fd84b7673b",
+      "base": "main"
+    },
+    {
+      "number": 109,
+      "url": "https://github.com/tantalum666/FYP/pull/109",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "531426bb13868d85db211ef8df2fe1a25498a538",
+      "merge_commit": "412f42e580e1e0aec1eee3246faca74bdd834c36",
+      "base": "main"
+    },
+    {
+      "number": 110,
+      "url": "https://github.com/tantalum666/FYP/pull/110",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "3313dc2d2c3ac8e9c6668326dee4c63678d65f54",
+      "merge_commit": "6f79131466f529e1c9f3721fd1c71df6f6d69fde",
+      "base": "main"
+    },
+    {
+      "number": 111,
+      "url": "https://github.com/tantalum666/FYP/pull/111",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "9dec212fb5fc004aa6ff2b2336786cce36f644a2",
+      "merge_commit": "b9c865baa4be1bcb4342b44c5caa26a593bb2255",
+      "base": "main"
+    },
+    {
+      "number": 112,
+      "url": "https://github.com/tantalum666/FYP/pull/112",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "1e32628e706e5a6a901f4c11fc4714646f42de8a",
+      "merge_commit": "52607d25f9f684229bf755fdf0227cb3b87e4074",
+      "base": "main"
+    },
+    {
+      "number": 113,
+      "url": "https://github.com/tantalum666/FYP/pull/113",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "d686cc5015ef8cfafce85f2606a84e6abca408c9",
+      "merge_commit": "b2b084e8787209b2856baaced851ab62f673675e",
+      "base": "main"
+    },
+    {
+      "number": 114,
+      "url": "https://github.com/tantalum666/FYP/pull/114",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "7622ed7e0c50a15d64e8fdb096cf7d24063e8fe8",
+      "merge_commit": "cb7578a132d68c71f658bd5a3630e03b52d624c5",
+      "base": "main"
+    },
+    {
+      "number": 115,
+      "url": "https://github.com/tantalum666/FYP/pull/115",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "022082c4931ffda842fb368d9d573667a0e60158",
+      "merge_commit": "d50f8f3f542bf4b2a502e3a0c3baf6e5a1b1fd10",
+      "base": "main"
+    },
+    {
+      "number": 116,
+      "url": "https://github.com/tantalum666/FYP/pull/116",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "0a8d4975bb2ace699bdb1ce9061bb4e129673054",
+      "merge_commit": "563dc911fefa6b78376ab7c3054a8c8422fc0858",
+      "base": "main"
+    },
+    {
+      "number": 117,
+      "url": "https://github.com/tantalum666/FYP/pull/117",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "365c30ce3c355e4ad20953af1f1c180f39d7e569",
+      "merge_commit": "d1b2fdda3c6db2107ba75a726f271c5fcbc33d5c",
+      "base": "main"
+    },
+    {
+      "number": 118,
+      "url": "https://github.com/tantalum666/FYP/pull/118",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "11ed2f5e3ee7e15ce7e96050abbe7b32c768ed6b",
+      "merge_commit": "209790d12ba48a209bd1ffee8b045255000d94b5",
+      "base": "main"
+    },
+    {
+      "number": 119,
+      "url": "https://github.com/tantalum666/FYP/pull/119",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "40fcb6a0debf51fe222e4f173e9d9a718ea2afc1",
+      "merge_commit": "3f4ca784165dae3433ebe0d1610b5d5450a80d86",
+      "base": "main"
+    },
+    {
+      "number": 120,
+      "url": "https://github.com/tantalum666/FYP/pull/120",
+      "state": "closed",
+      "merged": true,
+      "observed_head": "1910579a62d17f26a80e74e8ea27b639bf8cd6ab",
+      "merge_commit": "e6df7a1a72bdb7d9d33d9cff9f026c93f544e351",
+      "base": "main"
+    }
+  ],
+  "open_pull_requests_after_integration": [],
+  "stacked_prs": {
+    "retargeted_to_main": [
+      103,
+      109
+    ],
+    "base_change_rejected_by_stack": [
+      96,
+      99,
+      105
+    ],
+    "async99": {
+      "status": "merged",
+      "sha": "9022cea86cd860d28afe73b2f68e0c545d02f787",
+      "included": [
+        96,
+        99
+      ]
+    },
+    "async105": "Two requests reported failed: Could not create merge commit. No pending outcome remained.",
+    "git105": "Verified eb7f6c05 is ancestor of baf3032d and baf3032d is in main, then fast-forwarded its original base branch without force. GitHub confirmed PR105 merged."
+  },
+  "authorization": "Owner explicitly requested review, repairs and merge",
+  "ci_used": false,
+  "paid_model_calls": 0,
+  "runtime_deployed": false
+}

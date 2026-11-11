@@ -2,7 +2,7 @@
 
 ## 2026-11-11 Current integration review
 
-Reviewed source now combines the current Alice/A3/attachments baseline with Grok's conversation Work continuation, local next-step/availability/meeting/waiting/reply answers, memory follow-ups, saved checklists/schedules, purchase preferences, offline trip quotes, cited notes and held choices. [Review evidence](output/qa/2026-11-11-grok-review/verification.md) and [exact PR inventory](output/qa/2026-11-11-grok-review/pr-inventory.json) distinguish local verification and publication from deployment.
+Merged source in PR121 (main44185f7a, all24original PRs confirmed merged) now combines the current Alice/A3/attachments baseline with Grok's conversation Work continuation, local next-step/availability/meeting/waiting/reply answers, memory follow-ups, saved checklists/schedules, purchase preferences, offline trip quotes, cited notes and held choices. [Review evidence](output/qa/2026-11-11-grok-review/verification.md) and [exact PR inventory](output/qa/2026-11-11-grok-review/pr-inventory.json) distinguish local verification and publication from deployment.
 
 The compact Alice home remains primary. Optional forms belong in Work & tools or expandable Memory controls. Attachments keep their provider path even when a follow-up matches a local shortcut. Private goals/facts cannot leak through paired display, hidden context, stale receipts or system notifications. Shopping confirmation/update/approval uses the version the owner actually saw, and a cheaper substitute needs an original total for comparison.
 
