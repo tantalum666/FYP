@@ -540,6 +540,9 @@ class TextAssistant:
                     payload, key, allow_memory=allow_memory, conversation=conversation
                 )
             if turn is None:
+                # Asked availability stays local, after memory, goals and recall.
+                turn = self.runtime.assistant.open_time_turn(payload, owner=allow_memory)
+            if turn is None:
                 turn = self.maybe_extract(payload, key, allow_memory=allow_memory)
             if turn is not None:
                 if on_event is not None:

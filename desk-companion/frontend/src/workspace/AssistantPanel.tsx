@@ -87,6 +87,7 @@ export function AssistantPanel({
       body: string;
       kind?: string;
       jobId?: string;
+      openTime?: Reply["open_time"];
     }>
   >([]);
   const [view, setView] = useState<
@@ -541,6 +542,7 @@ export function AssistantPanel({
           body: result.message,
           kind: result.kind,
           jobId: result.job?.id,
+          openTime: result.open_time,
         },
       ].slice(-40),
     );
@@ -1218,6 +1220,7 @@ export function AssistantPanel({
                     {[
                       ["What is on today?", "今天的行程"],
                       ["What is on next week?", "下周的日程"],
+                      ["When am I free tomorrow?", "我明天什么时候有空？"],
                     ].map(([en, zh]) => (
                       <button
                         key={en}
@@ -1249,6 +1252,22 @@ export function AssistantPanel({
           ).map((turn) => (
             <div className={`assistant-turn ${turn.role}`} key={turn.id}>
               <p>{turnText(turn)}</p>
+              {turn.role === "assistant" && turn.kind === "open_time" && (
+                <div className="assistant-open-time">
+                  <p className="assistant-open-time-label">
+                    {t("Open on the saved calendar", "日历上的空档")}
+                  </p>
+                  {turn.openTime && turn.openTime.openings.length > 0 && (
+                    <ul>
+                      {turn.openTime.openings.map((slot) => (
+                        <li key={`${slot.start}-${slot.end}`}>
+                          {slot.start}–{slot.end}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
               {turn.jobId &&
                 (!immersive || expanded) &&
                 jobs.filter((job) => job.id === turn.jobId).map(jobCard)}
@@ -1819,6 +1838,7 @@ export function AssistantPanel({
             {t("Remember: I prefer morning meetings", "记住：我喜欢上午开会")}
           </li>
           <li>{t("Save note: project ideas", "保存笔记：项目想法")}</li>
+          <li>{t("When am I free tomorrow?", "我明天什么时候有空？")}</li>
         </ul>
         <p>
           {t(
