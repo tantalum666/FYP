@@ -829,3 +829,18 @@ Paused the existing computer-use job at a login, SMS/OTP, captcha, or payment wa
 
 Offline fixture pages and a fake browser driver. No live JD, paid model, Pi, or VPS change. Local test counts are in [QA](output/qa/2026-11-10-owner-takeover/verification.md). Next: a live JD owner pass only under a newly scoped session.
 
+
+## 2026-11-10 Owner-approved memory follow-up
+
+- **Goal:** Choose one personal-agent slice that does not overlap the open browser-takeover, conversation-Work, folder-clock, or Alice-home PRs, and implement it offline.
+- **Choice:** A saved memory can be raised once at a local time the owner approves. Quiet hours and proactive-reminders-off hold that same follow-up. Forgetting the fact cancels it and keeps the wording out of the notice. Task follow-ups already exist; this does not add a second task system.
+- **Done:** `desk/memory_followups.py`, Memory page prepare/approve/dismiss, behavior tests, contract, decision, and handoff. `runtime.py` and `app.py` only register the service.
+- **Verification:** Memory follow-up pytest 9 passed. Frontend `npm test` 331 passed, 0 failed. `tsc` and Vite build passed. Ruff on backend, scripts, and tests passed. Full backend pytest 2043 passed, 2 failed: the known `test_public_unicast[::ffff:93.184.216.34]` and `test_restart_runs_only_the_approved_folder_job`. Chrome saved a fact, prepared a follow-up, approved it, and dismissed it. No paid call.
+- **Remaining:** One approved check-in that cites several due memories, still without a model, a second scheduler, or a mailbox. Browser takeover stays in its open PR. Evidence: [QA](output/qa/2026-11-10-memory-followup/verification.md).
+
+## 2026-11-10 Morning check-in for several memory follow-ups
+
+- **Goal:** One owner-approved morning check-in gathers several due memory follow-ups into a single notice, citing each still-active fact. Reuse the follow-up tick. No model, mailbox, or second scheduler.
+- **Done:** The memory follow-up service now holds covered follow-ups and publishes one notice at the approved minute. Forgotten and expired facts are omitted, including on a delivery retry. Approval, revision, and dismiss use operation ids. The Memory page prepares, approves, and dismisses the check-in. The always-on display does not speak the facts.
+- **Verification:** Morning check-in pytest 12 passed, and the existing 9 follow-up tests still passed. Frontend `npm test` 333 passed, 0 failed. `tsc` and Vite build passed. Ruff on backend, scripts, and tests passed. Full backend pytest 2055 passed, 2 failed: the known `test_public_unicast[::ffff:93.184.216.34]` and `test_restart_runs_only_the_approved_folder_job`. Chrome saved two facts, prepared one check-in that cited both, approved it, and dismissed it. The dentist follow-up minute landed on 09:09 rather than 09:00; both times were still before the 09:30 check-in. No paid call.
+- **Remaining:** Merge the single-memory follow-up first. Browser takeover stays in its open PR. Evidence: [QA](output/qa/2026-11-10-memory-morning-checkin/verification.md).
