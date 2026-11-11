@@ -1,6 +1,7 @@
 """Observe one admitted document; discard captures that race a navigation."""
 
 import hashlib
+import re
 import sys
 from urllib.parse import urlsplit
 
@@ -18,21 +19,53 @@ def same_document(page, boundary, observation):
     )
 
 
+SECRET_STORAGE_NAME = re.compile(
+    r"password|passwd|otp|one[-_ ]?time|cvv|cvc|card[-_ ]?(?:number|no)|验证码|密码|信用卡",
+    re.I,
+)
+
+
+def _keep_storage_item(item):
+    if not isinstance(item, dict):
+        return False
+    name = item.get("name")
+    return not (isinstance(name, str) and SECRET_STORAGE_NAME.search(name))
+
+
+def redact_secret_storage(state):
+    """Drop password, OTP and card entries. Ordinary session cookies stay."""
+    origins = []
+    for origin in state.get("origins", []):
+        if not isinstance(origin, dict):
+            continue
+        kept = dict(origin)
+        kept["localStorage"] = [
+            item for item in origin.get("localStorage", []) if _keep_storage_item(item)
+        ]
+        origins.append(kept)
+    return {
+        "origins": origins,
+        "cookies": [item for item in state.get("cookies", []) if _keep_storage_item(item)],
+    }
+
+
 def scoped_storage(state, origins):
     hosts = {urlsplit(origin).hostname for origin in origins}
-    return {
-        "origins": [item for item in state.get("origins", []) if item["origin"] in origins],
-        "cookies": [
-            item
-            for item in state.get("cookies", [])
-            if any(
-                host == item["domain"].lstrip(".")
-                or host.endswith("." + item["domain"].lstrip("."))
-                for host in hosts
-                if host
-            )
-        ],
-    }
+    return redact_secret_storage(
+        {
+            "origins": [item for item in state.get("origins", []) if item["origin"] in origins],
+            "cookies": [
+                item
+                for item in state.get("cookies", [])
+                if any(
+                    host == item["domain"].lstrip(".")
+                    or host.endswith("." + item["domain"].lstrip("."))
+                    for host in hosts
+                    if host
+                )
+            ],
+        }
+    )
 
 
 async def snapshot(page, directory, sequence, boundary):

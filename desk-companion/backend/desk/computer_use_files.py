@@ -6,6 +6,26 @@ import re
 from .computer import exclusive_write, open_owner_directory
 
 
+REFRESHABLE = {"browser-state.json", "owner-wall.json", "wall-evidence.json", "latest.json"}
+
+
+def refresh_file(directory, name, body):
+    """Replace one evidence file on the same job. Screens stay unique."""
+    if name not in REFRESHABLE or len(body) > 2_000_000:
+        raise ValueError("Unknown computer-use file slot")
+    temporary = directory / f".{name}.new"
+    with temporary.open("wb") as file:
+        file.write(body)
+        file.flush()
+        os.fsync(file.fileno())
+    temporary.replace(directory / name)
+    directory_fd = os.open(directory, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(directory_fd)
+    finally:
+        os.close(directory_fd)
+
+
 def write_file(directory, name, body):
     if not (
         name
@@ -15,6 +35,9 @@ def write_file(directory, name, body):
             "source-state.json",
             "cleanup-required",
             "navigation.json",
+            "owner-wall.json",
+            "wall-evidence.json",
+            "latest.json",
         }
         or re.fullmatch(r"screen-[0-9]{1,2}\.png", name)
     ):

@@ -822,3 +822,10 @@ PR94 closeout: published reviewed head7043510a, marked ready and merged asa9fb6d
 - **完成：**仍由 `ConversationWork` 对既有 `AgentRunService.advance_one` 每次调用一次。没有请求变更时，第一次继续仍结束运行。已请求的变更让第一次继续停在复核，决定之后下一次再推进一步。同一操作号不推进两次。中断、未知结果和流式关闭沿用原恢复。多项当前工作仍要运行编号。配对设备 403。另一个登录打不开这条对话。
 - **验证：**`ruff check` 通过。对话与整合验收 93 passed。全量后端 2060 passed、2 failed。失败项是既有 `test_public_unicast[::ffff:93.184.216.34]` 和 `test_restart_runs_only_the_approved_folder_job`。前端 `npm test` 330 passed，`tsc --noEmit` 通过。付费调用 0。无 GitHub Actions。记录见 [QA](output/qa/2026-11-10-conversation-work-second-continue/verification.md)。
 - **剩余：**Codex 按 #95 → #96 → 本 PR 合并。京东账号接管不在这个栈里。
+
+## 2026-11-10 Owner takeover and return on the same browser job
+
+Paused the existing computer-use job at a login, SMS/OTP, captcha, or payment wall instead of opening a second job. Only the admitting owner can take over and hand it back; both calls are operation ids. A lost response is not success. Return restores that job's browser state. Success after a wall needs read-back and evidence the wall is gone. Expiry and cancel during takeover stay terminal. Alice does not type or store a password, code, or card.
+
+Offline fixture pages and a fake browser driver. No live JD, paid model, Pi, or VPS change. Local test counts are in [QA](output/qa/2026-11-10-owner-takeover/verification.md). Next: a live JD owner pass only under a newly scoped session.
+

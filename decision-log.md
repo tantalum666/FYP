@@ -675,3 +675,11 @@ Production approval, expiry and execution already share `store.clock`. The folde
 - **不成功：**提交前中断不是成功，同一操作号可以再推进一步。结果未知或流式关闭用同一操作号恢复，不第二次推进。多项当前工作且没有运行编号时什么都不做。
 - **边界：**另一个登录打不开这条对话。配对设备仍是 403。Full access 在已关闭的运行上不产生作业或建议。状态提问仍只重读。`result.verified` 仍只在 `status: verified` 且 `verification: byte_readback` 时为真。邮箱、购物和离线日程的决定分支不改。
 - **未做：**京东账号接管、真实账号、支付和付费比较仍分开。等待拥有者决定时，这一步不会自己往下走。
+
+## 2026-11-10 Same-job owner takeover at a verification wall
+
+**Owner task:** when a browser job reaches a point only the owner can pass, pause that job, let the owner take over, and resume the same job. Offline only. No live JD login, paid model call, or Pi/VPS change.
+
+**Engineering choice:** reuse JobService. A login, SMS/OTP, captcha, or payment wall stores the browser state and moves the same row to `owner_takeover`. Takeover and return are owner-session operations with operation ids. Return queues that same row and restores its state. It does not create a continuation job. Alice does not receive or store the secret, and a resumed success requires evidence that the wall is gone. A paused job past its deadline expires. Cancel during takeover stays cancelled.
+
+**Not a user approval of a live login:** the fixture driver is not JD. A real owner pass on the merchant page is still a separate scoped session.

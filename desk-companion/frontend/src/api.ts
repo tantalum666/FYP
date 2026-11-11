@@ -454,6 +454,10 @@ export function errorText(
       "This job has expired or was already handled. Refresh its status.",
       "作业已到期或已处理，请刷新状态。",
     ],
+    JOB_NOT_IN_TAKEOVER: [
+      "This browser job is not waiting for you to take over.",
+      "这个浏览器作业现在不在等待你接手。",
+    ],
     COMPUTER_TARGET_EXISTS: [
       "A file already exists at this destination. It was left unchanged.",
       "目标已有文件，原文件保持不变。",

@@ -164,7 +164,12 @@ class PermissionService:
                 return {**reply, "job": job}
             if job.get("action") == "computer_use":
                 message = (
-                    ("Browser observation is ready for review.", "浏览器观察结果已准备好，请核对。")
+                    ("This browser job is waiting for you.", "这个浏览器作业在等你接手。")
+                    if state == "owner_takeover"
+                    else (
+                        "Browser observation is ready for review.",
+                        "浏览器观察结果已准备好，请核对。",
+                    )
                     if state == "succeeded"
                     else (
                         "Browser preparation is queued or running.",

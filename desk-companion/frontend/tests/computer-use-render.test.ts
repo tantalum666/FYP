@@ -61,3 +61,64 @@ test("verified browser bytes are presented as owner review, not a completed purc
     /Check the saved file|Save a new file|purchase completed/i,
   );
 });
+
+test("a paused browser job offers takeover and hand back without calling it done", () => {
+  const paused = renderToStaticMarkup(
+    createElement(JobActionCard, {
+      job: {
+        id: "wall",
+        action: "computer_use",
+        state: "owner_takeover",
+        updated_at: new Date().toISOString(),
+        cancel_requested: false,
+        request: {
+          title: "Check a public page",
+          content: "Check a public page",
+          artifact_id: "wall",
+          start_url: "https://example.test",
+        },
+        result: {
+          verified: false,
+          paused: true,
+          phase: "paused",
+          wall: "captcha",
+        },
+      },
+      t: (en: string) => en,
+      busy: false,
+      cancelling: false,
+      fresh: true,
+      available: true,
+      onAction() {},
+    }),
+  );
+  assert.match(paused, /Waiting for you/);
+  assert.match(paused, /Take over/);
+  assert.match(paused, /Complete the site check/);
+  assert.doesNotMatch(paused, /Verified|purchased|booked/i);
+  const held = renderToStaticMarkup(
+    createElement(JobActionCard, {
+      job: {
+        id: "wall",
+        action: "computer_use",
+        state: "owner_takeover",
+        updated_at: new Date().toISOString(),
+        cancel_requested: false,
+        request: {
+          title: "Check a public page",
+          content: "Check a public page",
+          artifact_id: "wall",
+          start_url: "https://example.test",
+        },
+        result: { verified: false, paused: true, phase: "held", wall: "captcha" },
+      },
+      t: (en: string) => en,
+      busy: false,
+      cancelling: false,
+      fresh: true,
+      available: true,
+      onAction() {},
+    }),
+  );
+  assert.match(held, /Hand back/);
+});

@@ -10,13 +10,14 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 from .browser_policy import canonical_https
-from .computer_use_files import write_file as exclusive_write
+from .computer_use_files import refresh_file, write_file as exclusive_write
 from .browser_worker import emit, checkpoint
 from .computer_use_demo import demo_server
 from .computer_use_models import (
     COMPUTER_DEMOS,
     SCREEN_WIDTH,
     SCREEN_HEIGHT,
+    classify_owner_wall,
     origin_of,
 )
 from .computer_use_protocol import validate_actions, keyboard_keys
@@ -122,6 +123,10 @@ async def act(page, action, check_document=lambda: None):
         if kind in {"type", "keypress"} and (
             target["type"] in {"password", "email", "tel"} or SENSITIVE.search(target["label"])
         ):
+            # Refuse the keystrokes. The value is never written into the result.
+            wall = classify_owner_wall("", [target])
+            if wall and wall["wall"] == "otp":
+                return wall["reason"]
             return "personal_or_login_input_needs_owner"
     if kind == "click":
         await page.mouse.click(action["x"], action["y"], button=action["button"])
@@ -218,8 +223,13 @@ async def run(request):
                 raise DomainError("BROWSER_PUBLIC_DNS_REQUIRED", 409) from None
         boundary = Boundary(origins, url if demo else None, proxy)
         storage = None
-        if request.get("resume_state"):
+        # Same-job handoff restores this job's browser file. A different job
+        # still uses the copied source-state.json continuation.
+        if request.get("resume_same_job"):
+            storage = json.loads((directory / "browser-state.json").read_text())
+        elif request.get("resume_state"):
             storage = json.loads((directory / "source-state.json").read_text())
+        if storage is not None:
             if demo:
                 for entry in storage.get("origins", []):
                     entry["origin"] = url  # Same fictional app, new owned listener.
@@ -313,7 +323,18 @@ async def run(request):
                     )
                     raise DomainError("BROWSER_TARGET_CHANGED", 409)
                 outcome, reason, observation = "step_limit", "step_limit", None
-                for sequence in range(1, job["max_steps"] + 1):
+                start = 1
+                if request.get("resume_same_job"):
+                    numbers = [
+                        int(match.group(1))
+                        for path in directory.glob("screen-*.png")
+                        if (match := re.fullmatch(r"screen-([0-9]{1,2})\.png", path.name))
+                    ]
+                    start = max(numbers, default=0) + 1
+                final_sequence = start + job["max_steps"]
+                if final_sequence > 99:
+                    raise ValueError("Too many computer observations")
+                for sequence in range(start, final_sequence):
                     try:
                         current_observation = await snapshot(page, directory, sequence, boundary)
                     except DomainError:
@@ -337,6 +358,11 @@ async def run(request):
                         )
                         break
                     observation = current_observation
+                    wall = classify_owner_wall(
+                        observation.get("text", ""), observation.get("controls") or []
+                    )
+                    if wall and not boundary.reason:
+                        boundary.reason = wall["reason"]
                     if boundary.reason:
                         outcome, reason = "needs_owner", boundary.reason
                         break
@@ -401,13 +427,15 @@ async def run(request):
                         break
                 else:
                     try:
-                        observation = await snapshot(
-                            page, directory, job["max_steps"] + 1, boundary
-                        )
+                        observation = await snapshot(page, directory, final_sequence, boundary)
                     except DomainError:
                         outcome, reason = "needs_owner", "page_changed_before_observation"
                 state = scoped_storage(await context.storage_state(), boundary.origins)
-                exclusive_write(directory, "browser-state.json", encode(state).encode())
+                state_body = encode(state).encode()
+                if request.get("resume_same_job"):
+                    refresh_file(directory, "browser-state.json", state_body)
+                else:
+                    exclusive_write(directory, "browser-state.json", state_body)
                 value = {
                     "observation": observation,
                     "outcome": outcome,
