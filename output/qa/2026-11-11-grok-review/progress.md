@@ -36,4 +36,4 @@ Review checkout: `/Users/tantalum/.codex/worktrees/grok-reviewed-integration-202
 - Frontend: 374 passed after preserving the compact conversation and relocating optional panels. Build validation and browser review in progress.
 - Actual costs: zero paid model calls. No CI. All prior ledgers remain closed.
 
-Local validation and rendered checks are complete; see verification.md and validation-summary.json. Final full backend2342, final focused100and69, frontend374/types/build/Ruff passed. Next: publish and merge the exact pinned source, record remote receipts, and leave runtime rollout separate.
+Local validation and rendered checks are complete; see verification.md and validation-summary.json. Final full backend2342, final focused100and69, frontend374/types/build/Ruff passed. PR121 is now merged; all24original PRs read back as merged, no open PRs remained, and main44185f7a matches reviewed6ffda6ab exactly. Publication receipt is saved. Runtime rollout remains separate; the product next step is real owner-controlled browser transport.

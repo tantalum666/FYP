@@ -714,3 +714,6 @@ Reserve Work continuation before dispatch; an unreceipted dispatched step stays 
 The browser takeover PR supplies a fixture-tested pause/return state machine, not a real interactive transport. Gate takeover and return on an explicitly capable driver; the shipped headless driver remains unavailable. A sign-in navigation link alone is not an account wall. Real account control must be implemented and accepted before promoting that capability.
 
 **Evidence:** full backend2342, final transport81, frontend374/type/build, Ruff and real Chrome desktop/phone flows. Provider transport mocked; zero paid calls. [Review](output/qa/2026-11-11-grok-review/verification.md). Remote publication/merge and runtime activation are separate receipts.
+
+
+Publication closeout,11November: [PR121](https://github.com/tantalum666/FYP/pull/121) merged reviewed6ffda6abinto main44185f7a; exact tree comparison passed. All24original PRs confirmed merged and the open-PR list was empty. Native stacked PRs96/99used the official asynchronous API;105used a verified non-force fast-forward after its two async attempts explicitly failed. [Receipt](output/qa/2026-11-11-grok-review/publication.json). Current runtime remains unchanged; no CI or model spending. This follow-up records actual publication and updates continuation pointers only.

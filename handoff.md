@@ -1,6 +1,6 @@
 # Group 2 · Current handoff
 
-11 November 2026. Canonical review checkout `/Users/tantalum/.codex/worktrees/grok-reviewed-integration-20261111/FYP`, branch `codex/grok-reviewed-integration-20261111`. This tree integrates the 23 Grok PRs listed in [the pinned inventory](output/qa/2026-11-11-grok-review/pr-inventory.json) with Alice baseline #97. [Review and local evidence](output/qa/2026-11-11-grok-review/verification.md); remote merge status is recorded separately in the publication receipt. No CI; no paid generation; all older budgets remain closed.
+11 November 2026. Canonical review checkout `/Users/tantalum/.codex/worktrees/grok-reviewed-integration-20261111/FYP`, branch `codex/grok-reviewed-integration-20261111`. This tree integrates the 23 Grok PRs listed in [the pinned inventory](output/qa/2026-11-11-grok-review/pr-inventory.json) with Alice baseline #97. [Review and local evidence](output/qa/2026-11-11-grok-review/verification.md); **PR121 is merged** at `44185f7a5ad42ca6679644056a9bb97b91d80f5c`; all24original PRs are confirmed merged and main matches reviewed source6ffda6ab. [Publication receipt](output/qa/2026-11-11-grok-review/publication.json). No CI; no paid generation; all older budgets remain closed.
 
 ## Completed source work
 

@@ -1,6 +1,6 @@
 # Group 2 — Grok PR integration review
 
-11 November 2026. Owner authorized review, repair and merge. Source integrates **23 Grok PRs plus Alice #97**; exact heads, bases and file lists are in [pr-inventory.json](pr-inventory.json). Remote publication and merge are receipted after actual GitHub confirmation. This is not a runtime deployment.
+11 November 2026. Owner authorized review, repair and merge. Source integrates **23 Grok PRs plus Alice #97**; exact heads, bases and file lists are in [pr-inventory.json](pr-inventory.json). **Published and merged:** [PR121](https://github.com/tantalum666/FYP/pull/121), main44185f7a; all24original PRs confirmed merged, with no open PRs immediately afterward. The full main tree matches reviewed6ffda6ab. [Actual receipt](publication.json). This is not a runtime deployment.
 
 ## Scope and baseline
 
@@ -66,3 +66,10 @@ Durable private evidence: `~/.config/desk-companion/grok-review-20261111/` (logs
 Updated AGENTS current pointer, START_HERE_NEXT_CHAT, product, concise handoff, decision log, work log, research index, module map and affected feature contracts. Contributor merge guides are explicitly historical. The [reading/progress record](progress.md) distinguishes complete reading from focused/truncated ranges. Group remains Group2.
 
 After verified remote merge, the next product gap is a real interactive owner browser transport and a scoped account journey using the existing job/permission system. Payment, ticketing, continuous real-mail monitoring, physical audio and runtime rollout remain separate from this merge. All old paid ledgers and the deferred Pi power investigation stay closed.
+
+
+## Publication closeout
+
+GitHub's ordinary merge/base-change endpoints do not support some native stacked PRs. The connector has no async-merge tool, so official [async merge API](https://docs.github.com/en/rest/pulls/pulls?apiVersion=2026-03-10#merge-a-pull-request-asynchronously) was used through the existing authenticated gh CLI, with exact head SHA, merge method, direct_merge and no rule bypass. PR99's async result merged PR96/99. PR105's two requests returned a terminal “Could not create merge commit”; after verifying ancestry and the already-integrated main tree, an ordinary non-force Git fast-forward of its original base branch closed it as merged. No failed/queued request is presented as completion.
+
+All24original PRs plus integration121 were individually read back as merged. main44185f7a is tree-identical to reviewed6ffda6ab. The subsequent receipt change updates documentation/JSON only. No deployment, new test budget or CI was introduced by publication.
