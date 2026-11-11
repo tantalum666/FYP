@@ -23,8 +23,12 @@ from desk.voice import VoiceConfig
 from desk.voice_work import VoiceDraftFreeze
 
 HEADERS = {"X-Desk-Request": "1"}
-FIXTURE = Path(__file__).resolve().parents[1] / "fixtures" / "conversation-work" / "changed-goal.json"
-UNSEEN = Path(__file__).resolve().parents[1] / "fixtures" / "conversation-work" / "unseen-variants.json"
+FIXTURE = (
+    Path(__file__).resolve().parents[1] / "fixtures" / "conversation-work" / "changed-goal.json"
+)
+UNSEEN = (
+    Path(__file__).resolve().parents[1] / "fixtures" / "conversation-work" / "unseen-variants.json"
+)
 FOLLOWUP = Path(__file__).resolve().parents[1] / "fixtures" / "conversation-work" / "follow-up.json"
 CONTINUE = Path(__file__).resolve().parents[1] / "fixtures" / "conversation-work" / "continue.json"
 ORIGINAL = "Compare fictional suppliers; quantity 36, budget 900 HKD."
@@ -470,7 +474,9 @@ def test_stream_close_is_not_the_success_receipt(box):
     message, _ = phrase("stream-change")
     headers = {**HEADERS, "X-Operation-Id": "stream-goal"}
     body = {"message": message, "task_id": task_id}
-    with client.stream("POST", "/api/assistant/messages/stream", json=body, headers=headers) as first:
+    with client.stream(
+        "POST", "/api/assistant/messages/stream", json=body, headers=headers
+    ) as first:
         assert first.status_code == 200
         chunk = next(first.iter_bytes())
         assert chunk
@@ -578,9 +584,7 @@ def test_unseen_variant_steers_only_an_explicit_owner_line(item, tmp_path):
     message = item["message"].format(run_id=target["id"])
     language = item.get("language", "en")
     before = counts(runtime)
-    response = send(
-        client, message, key=item["id"], task_id=box["task"]["id"], language=language
-    )
+    response = send(client, message, key=item["id"], task_id=box["task"]["id"], language=language)
     assert response.status_code == 200, response.text
     body = response.json()
     if item.get("says"):
@@ -769,7 +773,9 @@ def test_voice_snapshot_stream_close_is_not_the_success_receipt(box):
     run_id, task_id = box["run"]["id"], box["task"]["id"]
     headers = {**HEADERS, "X-Operation-Id": "voice-stream"}
     body = {"message": text, "task_id": task_id, "voice_origin_ref": draft["voice_origin_ref"]}
-    with client.stream("POST", "/api/assistant/messages/stream", json=body, headers=headers) as first:
+    with client.stream(
+        "POST", "/api/assistant/messages/stream", json=body, headers=headers
+    ) as first:
         assert first.status_code == 200
         chunk = next(first.iter_bytes())
         assert chunk
@@ -1112,7 +1118,12 @@ def test_review_screen_steer_keeps_interruption_and_receipt_recovery(box):
     ref = draft["voice_origin_ref"]
     runtime.conversation_work.offline_interrupt = "before_commit"
     refused = send(
-        client, text, key="review-interrupt", task_id=task_id, voice_origin_ref=ref, voice_steer=True
+        client,
+        text,
+        key="review-interrupt",
+        task_id=task_id,
+        voice_origin_ref=ref,
+        voice_steer=True,
     )
     assert refused.status_code == 409, refused.text
     assert refused.json()["error"]["code"] == "CONVERSATION_WORK_INTERRUPTED"
@@ -1120,7 +1131,12 @@ def test_review_screen_steer_keeps_interruption_and_receipt_recovery(box):
     assert steers(runtime, run_id) == 0
     runtime.conversation_work.offline_interrupt = None
     admitted = send(
-        client, text, key="review-interrupt", task_id=task_id, voice_origin_ref=ref, voice_steer=True
+        client,
+        text,
+        key="review-interrupt",
+        task_id=task_id,
+        voice_origin_ref=ref,
+        voice_steer=True,
     )
     assert admitted.status_code == 200, admitted.text
     assert admitted.json()["admitted"] is True and admitted.json()["recovered"] is False
@@ -1199,7 +1215,9 @@ def test_review_screen_stream_close_is_not_the_success_receipt(box):
         "voice_origin_ref": draft["voice_origin_ref"],
         "voice_steer": True,
     }
-    with client.stream("POST", "/api/assistant/messages/stream", json=body, headers=headers) as first:
+    with client.stream(
+        "POST", "/api/assistant/messages/stream", json=body, headers=headers
+    ) as first:
         assert first.status_code == 200
         chunk = next(first.iter_bytes())
         assert chunk
@@ -1798,9 +1816,7 @@ def test_failed_result_is_not_reshown(box):
     assert advances == []
     assert reports(runtime, principal, run_id) == []
     assert steers(runtime, run_id) == 1
-    repeated = send(
-        client, "Change the goal: quantity 70.", key="fail-then-ask", task_id=task_id
-    )
+    repeated = send(client, "Change the goal: quantity 70.", key="fail-then-ask", task_id=task_id)
     assert repeated.status_code == 409, repeated.text
     assert repeated.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_FAILED"
     assert reports(runtime, principal, run_id) == []
@@ -2647,9 +2663,7 @@ def test_second_continue_steps_once_while_the_run_is_open(box):
         language="zh",
     )
     assert stepped.status_code == 200, stepped.text
-    _assert_continued(
-        stepped.json(), goal=opened["goal"], artifact_id=opened["artifact_id"]
-    )
+    _assert_continued(stepped.json(), goal=opened["goal"], artifact_id=opened["artifact_id"])
     assert "这项工作已继续。" in stepped.json()["message"]
     assert stepped.json()["recovered"] is False
     assert stepped.json()["conversation_id"] == conversation_id
@@ -2785,9 +2799,7 @@ def test_second_continue_on_a_finished_run_stays_closed(box):
 
 def test_second_continue_on_cancelled_failed_or_expired_run_stays_closed(box):
     runtime, client, principal = box["runtime"], box["client"], box["principal"]
-    opened = _open_continued(
-        box, key="closed-second", phrase_text="继续这项工作。", language="zh"
-    )
+    opened = _open_continued(box, key="closed-second", phrase_text="继续这项工作。", language="zh")
     assert "这项工作已继续。" in opened["message"]
     _act(runtime, principal, opened["run_id"], "cancel", "closed-second-cancel")
     assert goal_of(runtime, principal, opened["run_id"])["state"] == "cancelled"
@@ -3087,3 +3099,31 @@ def test_second_continue_asks_for_a_run_when_several_are_open(box):
     assert step_count(runtime, opened["original_id"]) == original_steps
     assert goal_of(runtime, principal, opened["run_id"])["state"] == "waiting_review"
     assert box["executed"] == []
+
+
+def test_crash_between_continue_step_and_receipt_never_repeats_dispatch(box, monkeypatch):
+    runtime, client = box["runtime"], box["client"]
+    opened = _open_continued(box, key="crash-reservation")
+    _confirm_proposal(client, opened["proposal_id"], "confirm-crash-draft")
+    record = runtime.conversation_work._record_continue
+
+    def lose_commit(*args, **kwargs):
+        if kwargs.get("pending"):
+            return record(*args, **kwargs)
+        raise DomainError("CONVERSATION_WORK_RESULT_UNKNOWN", 409)
+
+    monkeypatch.setattr(runtime.conversation_work, "_record_continue", lose_commit)
+    request = dict(
+        key="crash-reserved-step",
+        task_id=opened["task_id"],
+        conversation_id=opened["conversation_id"],
+    )
+    before = len(opened["advances"])
+    lost = send(client, "Continue this work.", **request)
+    assert lost.status_code == 409
+    assert len(opened["advances"]) == before + 1
+    monkeypatch.setattr(runtime.conversation_work, "_record_continue", record)
+    recovered = send(client, "Continue this work.", **request)
+    assert recovered.status_code == 409
+    assert recovered.json()["error"]["code"] == "CONVERSATION_WORK_RESULT_UNKNOWN"
+    assert len(opened["advances"]) == before + 1

@@ -12,7 +12,7 @@ from datetime import datetime
 from uuid import uuid4
 from zoneinfo import ZoneInfo
 
-from ..calendar import iso
+from ..calendar import iso, wall_to_utc
 from ..store import DomainError, encode
 from ..tasks import TaskInput
 from ..workspace_data import is_quiet
@@ -49,7 +49,10 @@ def _op(prefix: str, *parts: str) -> str:
 
 
 def _instant(local: str, zone: str) -> datetime:
-    return datetime.fromisoformat(local).replace(tzinfo=ZoneInfo(zone))
+    try:
+        return wall_to_utc(datetime.fromisoformat(local), zone, reject_ambiguous=True)
+    except (ValueError, OverflowError):
+        raise DomainError("TRIP_ITINERARY_INVALID", 422) from None
 
 
 def _task_fields(event) -> dict:
@@ -231,8 +234,7 @@ class TravelQuoteService:
             columns = {row["name"] for row in conn.execute("PRAGMA table_info(trip_itinerary)")}
             if "quote_version" not in columns:
                 conn.execute(
-                    "ALTER TABLE trip_itinerary "
-                    "ADD COLUMN quote_version INTEGER NOT NULL DEFAULT 1"
+                    "ALTER TABLE trip_itinerary ADD COLUMN quote_version INTEGER NOT NULL DEFAULT 1"
                 )
             if "change_record" not in columns:
                 conn.execute("ALTER TABLE trip_itinerary ADD COLUMN change_record TEXT")
@@ -246,9 +248,7 @@ class TravelQuoteService:
             raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
 
     def _connection_row(self, conn, connection_id: str):
-        row = conn.execute(
-            "SELECT * FROM trip_connections WHERE id=?", (connection_id,)
-        ).fetchone()
+        row = conn.execute("SELECT * FROM trip_connections WHERE id=?", (connection_id,)).fetchone()
         if row is None:
             raise DomainError("TRIP_CONNECTION_NOT_FOUND", 404)
         return row
@@ -408,9 +408,7 @@ class TravelQuoteService:
         if connection["state"] != "connected":
             return self._report(connection_id, completed=False, stopped="revoked", applied=[])
         if disconnect_after == 0:
-            return self._report(
-                connection_id, completed=False, stopped="disconnected", applied=[]
-            )
+            return self._report(connection_id, completed=False, stopped="disconnected", applied=[])
         fixture = self.catalog.load(connection["fixture_id"])
         if (
             fixture.itinerary_id != connection["itinerary_id"]
@@ -424,7 +422,9 @@ class TravelQuoteService:
             self._guard(principal)
             if self._connection(connection_id)["state"] != "connected":
                 self._flush_buffer(connection_id, pending, cursor)
-                return self._report(connection_id, completed=False, stopped="revoked", applied=applied)
+                return self._report(
+                    connection_id, completed=False, stopped="revoked", applied=applied
+                )
             if disconnect_after is not None and len(applied) >= disconnect_after:
                 self._flush_buffer(connection_id, pending, cursor)
                 return self._report(
@@ -440,7 +440,7 @@ class TravelQuoteService:
                     stopped="gap" if held else None,
                     applied=applied,
                 )
-            applied.append(self._apply_event(connection, fixture, event))
+            applied.append(self._apply_event(connection, fixture, event, principal))
             pending.pop(cursor + 1, None)
             cursor += 1
 
@@ -525,8 +525,7 @@ class TravelQuoteService:
             self._require_owner(conn, principal)
             row, current = self._open_quote(conn, connection_id, payload)
             held = (
-                current["booking_state"] == "held"
-                and current["hold_quote_id"] == payload.quote_id
+                current["booking_state"] == "held" and current["hold_quote_id"] == payload.quote_id
             )
             if not held:
                 raise DomainError("TRIP_NOT_HELD", 409)
@@ -720,7 +719,7 @@ class TravelQuoteService:
             apply,
         )
 
-    def _apply_event(self, connection, fixture, event) -> dict:
+    def _apply_event(self, connection, fixture, event, principal) -> dict:
         with self.store.connection() as conn:
             row = self._itinerary_row(conn, connection["id"])
             current = dict(row) if row else None
@@ -757,6 +756,7 @@ class TravelQuoteService:
         stamp = iso(event.observed_at)
 
         def apply(conn):
+            self._require_owner(conn, principal)
             existing = conn.execute(
                 "SELECT fingerprint FROM trip_applied WHERE connection_id=? AND event_id=?",
                 (connection["id"], event.event_id),
@@ -766,6 +766,11 @@ class TravelQuoteService:
                     raise DomainError("TRIP_EVENT_CONFLICT", 409)
                 return {"event_id": event.event_id, "duplicate": True}
             row = self._connection_row(conn, connection["id"])
+            if row["state"] != "connected":
+                raise DomainError("TRIP_REVOKED", 409)
+            latest = self._itinerary_row(conn, connection["id"])
+            if (dict(latest) if latest else None) != current:
+                raise DomainError("TRIP_QUOTE_CHANGED", 409)
             if row["cursor_seq"] + 1 != event.seq:
                 raise DomainError("TRIP_CURSOR_CONFLICT", 409)
             task_id = row["task_id"]
@@ -869,9 +874,7 @@ class TravelQuoteService:
                 reason_en=notice.reason_en,
                 reason_zh=notice.reason_zh,
             )
-            self.notices.publish(
-                connection["id"], event.event_id, notice, quiet=self._quiet()
-            )
+            self.notices.publish(connection["id"], event.event_id, notice, quiet=self._quiet())
         return {
             "event_id": event.event_id,
             "seq": event.seq,

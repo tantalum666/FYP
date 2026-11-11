@@ -188,9 +188,7 @@ class SavedSkillService:
                     created_at TEXT NOT NULL
                 )"""
             )
-            columns = {
-                row["name"] for row in conn.execute("PRAGMA table_info(saved_skill_runs)")
-            }
+            columns = {row["name"] for row in conn.execute("PRAGMA table_info(saved_skill_runs)")}
             if "origin" not in columns:
                 conn.execute(
                     "ALTER TABLE saved_skill_runs ADD COLUMN origin TEXT NOT NULL DEFAULT 'owner'"
@@ -240,7 +238,7 @@ class SavedSkillService:
             raise DomainError("CHECK_NOT_PASSED", 422)
         body = _hash(payload.model_dump(mode="json"))
         with self.store.connection(write=True) as conn:
-            self._assert_open(conn)
+            self._assert_open(conn, session)
             replay = self._replay(conn, key, body)
             if replay:
                 check_id = replay
@@ -277,7 +275,7 @@ class SavedSkillService:
             raise DomainError("CHECK_NOT_FOUND", 404)
         body = _hash({"check_id": check_id})
         with self.store.connection(write=True) as conn:
-            self._assert_open(conn)
+            self._assert_open(conn, session)
             replay = self._replay(conn, key, body)
             if replay:
                 skill_id = replay
@@ -296,13 +294,15 @@ class SavedSkillService:
                 self._barrier(conn)
         return self._skill_response(skill_id, key, replayed=replay is not None)
 
-    def prepare_run(self, skill_id: str, payload: RunPrepare, key: str, session: str | None) -> dict:
+    def prepare_run(
+        self, skill_id: str, payload: RunPrepare, key: str, session: str | None
+    ) -> dict:
         self._gate(session)
         key = self._require_key(key)
         if not _ID.fullmatch(skill_id):
             raise DomainError("SKILL_NOT_FOUND", 404)
         with self.store.connection(write=True) as conn:
-            self._assert_open(conn)
+            self._assert_open(conn, session)
             skill = self._skill(conn, skill_id)
             provided, note = self._note(payload)
             inputs = self._inputs(skill["input_names"], payload.inputs)
@@ -350,7 +350,7 @@ class SavedSkillService:
             raise DomainError("RUN_NOT_FOUND", 404)
         body = _hash(payload.model_dump(mode="json"))
         with self.store.connection(write=True) as conn:
-            self._assert_open(conn)
+            self._assert_open(conn, session)
             replay = self._replay(conn, key, body)
             if replay:
                 if replay != run_id:
@@ -398,13 +398,15 @@ class SavedSkillService:
                 self._barrier(conn)
         return self._run_response(run_id, key, replayed=replay is not None)
 
-    def schedule(self, skill_id: str, payload: ScheduleInput, key: str, session: str | None) -> dict:
+    def schedule(
+        self, skill_id: str, payload: ScheduleInput, key: str, session: str | None
+    ) -> dict:
         self._gate(session)
         key = self._require_key(key)
         if not _ID.fullmatch(skill_id):
             raise DomainError("SKILL_NOT_FOUND", 404)
         with self.store.connection(write=True) as conn:
-            self._assert_open(conn)
+            self._assert_open(conn, session)
             skill = self._skill(conn, skill_id)
             provided, note = self._note(payload)
             inputs = self._inputs(skill["input_names"], payload.inputs)
@@ -472,7 +474,7 @@ class SavedSkillService:
             raise DomainError("SCHEDULE_NOT_FOUND", 404)
         body = _hash({"schedule_id": schedule_id, **payload.model_dump(mode="json")})
         with self.store.connection(write=True) as conn:
-            self._assert_open(conn)
+            self._assert_open(conn, session)
             replay = self._replay(conn, key, body)
             if replay:
                 if replay != schedule_id:
@@ -545,7 +547,7 @@ class SavedSkillService:
     def listing(self, session: str | None) -> dict:
         self._gate(session)
         with self.store.connection() as conn:
-            self._assert_open(conn)
+            self._assert_open(conn, session)
             rows = conn.execute(
                 "SELECT id FROM saved_skills ORDER BY created_at DESC, id DESC"
             ).fetchall()
@@ -558,7 +560,7 @@ class SavedSkillService:
         if not _ID.fullmatch(skill_id):
             raise DomainError("SKILL_NOT_FOUND", 404)
         with self.store.connection() as conn:
-            self._assert_open(conn)
+            self._assert_open(conn, session)
             skill = self._skill(conn, skill_id)
             rows = conn.execute(
                 "SELECT id FROM saved_skill_runs WHERE skill_id=? "
@@ -581,9 +583,10 @@ class SavedSkillService:
             raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
         self.runtime.personal_context.require_visible({**_OWNER, "session": session})
 
-    def _assert_open(self, conn) -> None:
-        if self.store.settings(conn)["hide_private"]:
-            raise DomainError("PRIVATE_CONTEXT_HIDDEN", 403)
+    def _assert_open(self, conn, session) -> None:
+        self.runtime.personal_context.require_owner_transaction(
+            conn, {**_OWNER, "session": session}
+        )
 
     def _require_key(self, key: str) -> str:
         if not isinstance(key, str) or not key or len(key) > 100:
@@ -998,7 +1001,9 @@ def saved_skill_routes(runtime, owner, operation_id):
         return service.decide(run_id, payload, key, session_of(request))
 
     @router.post("/{skill_id}/schedules")
-    def schedule(skill_id: str, payload: ScheduleInput, request: Request, key=Depends(operation_id)):
+    def schedule(
+        skill_id: str, payload: ScheduleInput, request: Request, key=Depends(operation_id)
+    ):
         return service.schedule(skill_id, payload, key, session_of(request))
 
     @router.post("/schedules/{schedule_id}/actions")

@@ -28,12 +28,12 @@ test("the tasks page shows the purchase card and does not call a purchase succes
     "utf8",
   );
   const tasks = fs.readFileSync(
-    new URL("../src/workspace/TaskPanel.tsx", import.meta.url),
+    new URL("../src/workspace/WorkTools.tsx", import.meta.url),
     "utf8",
   );
   assert.match(panel, /Nothing has been bought/);
   assert.match(panel, /This is not a live purchase/);
   assert.match(panel, /Nothing was approved/);
   assert.match(tasks, /PurchaseCardPanel/);
-  assert.match(tasks, /!displayMode && <PurchaseCardPanel/);
+  assert.match(tasks, /privateVisible/);
 });

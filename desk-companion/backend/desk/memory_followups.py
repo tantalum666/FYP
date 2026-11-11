@@ -68,8 +68,7 @@ def morning_reason(
     omitted_zh = ""
     if left_out and state == "raised":
         omitted = (
-            " Memories that are no longer active were left out, "
-            "and their wording is not repeated."
+            " Memories that are no longer active were left out, and their wording is not repeated."
         )
         omitted_zh = "不再有效的记忆已略去，这里不再重复那些文字。"
     if state == "pending":
@@ -348,16 +347,25 @@ class MemoryFollowUpService:
                     );
                 """
             )
-            columns = {
-                row["name"] for row in conn.execute("PRAGMA table_info(memory_followups)")
-            }
+            columns = {row["name"] for row in conn.execute("PRAGMA table_info(memory_followups)")}
             if "bundle_id" not in columns:
                 conn.execute("ALTER TABLE memory_followups ADD COLUMN bundle_id TEXT")
 
+    def _operation(self, key, request, apply):
+        receipt = self.store.operation(key, request, apply)
+        # Recover the effect, but project current facts rather than an expired
+        # or superseded copy from the durable receipt.
+        with self.store.connection() as conn:
+            if isinstance(receipt.get("followup"), dict):
+                row = self._followup(conn, receipt["followup"]["id"])
+                return {**receipt, "followup": self._view(conn, row)}
+            if isinstance(receipt.get("checkin"), dict):
+                row = self._checkin(conn, receipt["checkin"]["id"])
+                return {**receipt, "checkin": self._morning_view(conn, row)}
+        return receipt
+
     def _memory_row(self, conn, memory_id):
-        return conn.execute(
-            "SELECT * FROM owner_memories WHERE id=?", (memory_id,)
-        ).fetchone()
+        return conn.execute("SELECT * FROM owner_memories WHERE id=?", (memory_id,)).fetchone()
 
     def _usable(self, row, now: str) -> bool:
         if not row or row["state"] != "active":
@@ -373,9 +381,7 @@ class MemoryFollowUpService:
     def _followup(self, conn, followup_id):
         if not _ID.fullmatch(followup_id or ""):
             raise DomainError("FOLLOWUP_NOT_FOUND", 404)
-        row = conn.execute(
-            "SELECT * FROM memory_followups WHERE id=?", (followup_id,)
-        ).fetchone()
+        row = conn.execute("SELECT * FROM memory_followups WHERE id=?", (followup_id,)).fetchone()
         if not row:
             raise DomainError("FOLLOWUP_NOT_FOUND", 404)
         return row
@@ -430,9 +436,7 @@ class MemoryFollowUpService:
 
     def listing(self) -> dict:
         with self.store.connection() as conn:
-            rows = conn.execute(
-                "SELECT * FROM memory_followups ORDER BY due_at, id"
-            ).fetchall()
+            rows = conn.execute("SELECT * FROM memory_followups ORDER BY due_at, id").fetchall()
             opened = [row for row in rows if row["state"] in OPEN_STATES]
             closed = [row for row in rows if row["state"] not in OPEN_STATES][:20]
             return {"followups": [self._view(conn, row) for row in opened + closed]}
@@ -495,7 +499,7 @@ class MemoryFollowUpService:
             row = self._followup(conn, followup_id)
             return {"followup": self._view(conn, row), "saved": True}
 
-        return self.store.operation(
+        return self._operation(
             key,
             {
                 "type": "memory_followup_approve",
@@ -523,8 +527,10 @@ class MemoryFollowUpService:
                 raise DomainError("FOLLOWUP_CLOSED", 409)
             if "due_local" not in provided and "timezone" not in provided:
                 return {"followup": self._view(conn, row), "saved": True}
-            due_local = payload.due_local if "due_local" in provided else datetime.fromisoformat(
-                row["due_local"]
+            due_local = (
+                payload.due_local
+                if "due_local" in provided
+                else datetime.fromisoformat(row["due_local"])
             )
             timezone = payload.timezone if "timezone" in provided else row["timezone"]
             due, zone = self._resolve_time(conn, due_local, timezone)
@@ -535,12 +541,10 @@ class MemoryFollowUpService:
                 "version=version+1, updated_at=? WHERE id=?",
                 (iso(due), zone, _stamp(due_local), now, followup_id),
             )
-            self.store.record(
-                conn, "memory_followup_revised", details={"id": followup_id}
-            )
+            self.store.record(conn, "memory_followup_revised", details={"id": followup_id})
             return {"followup": self._view(conn, self._followup(conn, followup_id)), "saved": True}
 
-        return self.store.operation(
+        return self._operation(
             key,
             {
                 "type": "memory_followup_revise",
@@ -570,9 +574,7 @@ class MemoryFollowUpService:
                     "bundle_id=NULL, version=version+1, updated_at=? WHERE id=?",
                     (iso(due), local.strftime("%Y-%m-%dT%H:%M"), now, followup_id),
                 )
-                self.store.record(
-                    conn, "memory_followup_snoozed", details={"id": followup_id}
-                )
+                self.store.record(conn, "memory_followup_snoozed", details={"id": followup_id})
             elif row["state"] == payload.action:
                 return {"followup": self._view(conn, row), "saved": True}
             elif row["state"] not in OPEN_STATES:
@@ -591,7 +593,7 @@ class MemoryFollowUpService:
                 )
             return {"followup": self._view(conn, self._followup(conn, followup_id)), "saved": True}
 
-        return self.store.operation(
+        return self._operation(
             key,
             {
                 "type": "memory_followup_resolve",
@@ -647,9 +649,7 @@ class MemoryFollowUpService:
             "quiet_delayed=?, not_before=NULL, version=version+1, updated_at=? WHERE id=?",
             (reason, until_iso, delayed, now, row["id"]),
         )
-        self.store.record(
-            conn, "memory_followup_held", details={"id": row["id"], "reason": reason}
-        )
+        self.store.record(conn, "memory_followup_held", details={"id": row["id"], "reason": reason})
         return True
 
     def _defer(self, conn, row, now: datetime) -> bool:
@@ -884,9 +884,12 @@ class MemoryFollowUpService:
             except sqlite3.IntegrityError:
                 raise DomainError("MORNING_CHECKIN_OPEN", 409) from None
             self.store.record(conn, "memory_morning_approved", details={"id": checkin_id})
-            return {"checkin": self._morning_view(conn, self._checkin(conn, checkin_id)), "saved": True}
+            return {
+                "checkin": self._morning_view(conn, self._checkin(conn, checkin_id)),
+                "saved": True,
+            }
 
-        return self.store.operation(
+        return self._operation(
             key,
             {
                 "type": "memory_morning_approve",
@@ -927,15 +930,12 @@ class MemoryFollowUpService:
                 (iso(due), zone, _stamp(due_local), now, checkin_id),
             )
             self.store.record(conn, "memory_morning_revised", details={"id": checkin_id})
-            keep = {
-                item["id"]
-                for item, _memory in self._preview_pairs(conn, iso(due), now)
-            }
+            keep = {item["id"] for item, _memory in self._preview_pairs(conn, iso(due), now)}
             self._release_morning(conn, now, keep)
             updated = self._checkin(conn, checkin_id)
             return {"checkin": self._morning_view(conn, updated), "saved": True}
 
-        return self.store.operation(
+        return self._operation(
             key,
             {
                 "type": "memory_morning_revise",
@@ -968,7 +968,7 @@ class MemoryFollowUpService:
             updated = self._checkin(conn, checkin_id)
             return {"checkin": self._morning_view(conn, updated), "saved": True}
 
-        return self.store.operation(
+        return self._operation(
             key,
             {
                 "type": "memory_morning_dismiss",
@@ -1034,9 +1034,7 @@ class MemoryFollowUpService:
             "quiet_delayed=?, version=version+1, updated_at=? WHERE id=?",
             (reason, until_iso, delayed, now, row["id"]),
         )
-        self.store.record(
-            conn, "memory_morning_held", details={"id": row["id"], "reason": reason}
-        )
+        self.store.record(conn, "memory_morning_held", details={"id": row["id"], "reason": reason})
         return True
 
     def _morning_notice(self, conn, checkin) -> Notice | None:
@@ -1053,11 +1051,39 @@ class MemoryFollowUpService:
             "memory_morning",
             "Morning check-in",
             "早晨核对",
-            _cite_line(bodies, "en"),
-            _cite_line(bodies, "zh"),
+            "Open Memory to read the morning check-in.",
+            "请打开记忆页查看早晨核对。",
             view["reason_en"],
             view["reason_zh"],
         )
+
+    def project_notice(self, notice: dict) -> dict:
+        """Resolve facts on an owner read; never persist or push their wording."""
+        if notice.get("kind") != "memory_morning":
+            return notice
+        safe = {
+            **notice,
+            "body_en": "Open Memory to read the morning check-in.",
+            "body_zh": "请打开记忆页查看早晨核对。",
+        }
+        safe["push"] = {**notice.get("push", {}), "body": safe["body_en"]}
+        with self.store.connection() as conn:
+            if self.store.settings(conn)["hide_private"]:
+                return safe
+            checkin = conn.execute(
+                "SELECT * FROM memory_morning_checkins WHERE notice_id=?", (notice["id"],)
+            ).fetchone()
+            if not checkin or checkin["state"] != "raised":
+                return safe
+            citations, _ = self._stored_citations(conn, checkin, iso(self.store.clock()))
+            bodies = [_flat(item["body"]) for item in citations if _flat(item["body"])]
+            if not bodies:
+                return safe
+            return {
+                **safe,
+                "body_en": _cite_line(bodies, "en"),
+                "body_zh": _cite_line(bodies, "zh"),
+            }
 
     def _cite(self, conn, checkin, pairs, now: str) -> Notice | None:
         if not pairs:
@@ -1188,7 +1214,10 @@ class MemoryFollowUpService:
 
 
 def memory_followup_routes(runtime, owner, operation_id):
-    router = APIRouter(prefix="/api/memory-followups", dependencies=[Depends(owner)])
+    def visible_owner(principal=Depends(owner)):
+        runtime.personal_context.require_visible(principal)
+
+    router = APIRouter(prefix="/api/memory-followups", dependencies=[Depends(visible_owner)])
 
     @router.get("")
     def listing():

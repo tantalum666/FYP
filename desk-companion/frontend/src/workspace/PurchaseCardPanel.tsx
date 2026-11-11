@@ -32,6 +32,7 @@ const emptyOffer = {
   price: "",
   shipping: "0",
   sameSpec: false,
+  referenceTotal: "",
   address: "home",
 };
 
@@ -49,7 +50,9 @@ export function PurchaseCardPanel({ t }: { t: Translate }) {
     substitution: "none" | "same_spec_cheaper";
     address: string;
   }>(emptyCard);
-  const [offerForms, setOfferForms] = useState<Record<string, typeof emptyOffer>>({});
+  const [offerForms, setOfferForms] = useState<
+    Record<string, typeof emptyOffer>
+  >({});
   const [receipts, setReceipts] = useState<Record<string, string>>({});
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -92,10 +95,19 @@ export function PurchaseCardPanel({ t }: { t: Translate }) {
           card={card}
           t={t}
           busy={busy}
-          offer={offerForms[card.id] ?? { ...emptyOffer, merchant: card.merchants[0] ?? "" }}
+          offer={
+            offerForms[card.id] ?? {
+              ...emptyOffer,
+              merchant: card.merchants[0] ?? "",
+            }
+          }
           receiptId={receipts[card.id] ?? ""}
-          onOffer={(next) => setOfferForms((old) => ({ ...old, [card.id]: next }))}
-          onReceipt={(value) => setReceipts((old) => ({ ...old, [card.id]: value }))}
+          onOffer={(next) =>
+            setOfferForms((old) => ({ ...old, [card.id]: next }))
+          }
+          onReceipt={(value) =>
+            setReceipts((old) => ({ ...old, [card.id]: value }))
+          }
           onRun={run}
           onInvalid={setError}
         />
@@ -106,8 +118,14 @@ export function PurchaseCardPanel({ t }: { t: Translate }) {
             event.preventDefault();
             const budget = minorUnits(cardForm.budget);
             const quantity = Number(cardForm.quantity);
-            if (budget === null || !Number.isInteger(quantity) || quantity < 1) {
-              setError(t("Check the quantity and budget.", "请检查数量和预算。"));
+            if (
+              budget === null ||
+              !Number.isInteger(quantity) ||
+              quantity < 1
+            ) {
+              setError(
+                t("Check the quantity and budget.", "请检查数量和预算。"),
+              );
               return;
             }
             void run(async () => {
@@ -131,7 +149,9 @@ export function PurchaseCardPanel({ t }: { t: Translate }) {
             <input
               aria-label={t("Item", "物品")}
               value={cardForm.label}
-              onChange={(event) => setCardForm({ ...cardForm, label: event.target.value })}
+              onChange={(event) =>
+                setCardForm({ ...cardForm, label: event.target.value })
+              }
               required
             />
           </label>
@@ -140,7 +160,9 @@ export function PurchaseCardPanel({ t }: { t: Translate }) {
             <input
               aria-label={t("SKU", "商品编号")}
               value={cardForm.sku}
-              onChange={(event) => setCardForm({ ...cardForm, sku: event.target.value })}
+              onChange={(event) =>
+                setCardForm({ ...cardForm, sku: event.target.value })
+              }
               required
             />
           </label>
@@ -150,7 +172,9 @@ export function PurchaseCardPanel({ t }: { t: Translate }) {
               aria-label={t("Quantity", "数量")}
               inputMode="numeric"
               value={cardForm.quantity}
-              onChange={(event) => setCardForm({ ...cardForm, quantity: event.target.value })}
+              onChange={(event) =>
+                setCardForm({ ...cardForm, quantity: event.target.value })
+              }
               required
             />
           </label>
@@ -159,7 +183,9 @@ export function PurchaseCardPanel({ t }: { t: Translate }) {
             <input
               aria-label={t("Unit", "单位")}
               value={cardForm.unit}
-              onChange={(event) => setCardForm({ ...cardForm, unit: event.target.value })}
+              onChange={(event) =>
+                setCardForm({ ...cardForm, unit: event.target.value })
+              }
               required
             />
           </label>
@@ -168,7 +194,9 @@ export function PurchaseCardPanel({ t }: { t: Translate }) {
             <input
               aria-label={t("Merchants", "商家")}
               value={cardForm.merchants}
-              onChange={(event) => setCardForm({ ...cardForm, merchants: event.target.value })}
+              onChange={(event) =>
+                setCardForm({ ...cardForm, merchants: event.target.value })
+              }
               required
             />
           </label>
@@ -178,7 +206,9 @@ export function PurchaseCardPanel({ t }: { t: Translate }) {
               aria-label={t("Budget including shipping", "含运费预算")}
               inputMode="decimal"
               value={cardForm.budget}
-              onChange={(event) => setCardForm({ ...cardForm, budget: event.target.value })}
+              onChange={(event) =>
+                setCardForm({ ...cardForm, budget: event.target.value })
+              }
               required
             />
           </label>
@@ -187,7 +217,9 @@ export function PurchaseCardPanel({ t }: { t: Translate }) {
             <input
               aria-label={t("Currency", "货币")}
               value={cardForm.currency}
-              onChange={(event) => setCardForm({ ...cardForm, currency: event.target.value })}
+              onChange={(event) =>
+                setCardForm({ ...cardForm, currency: event.target.value })
+              }
               required
             />
           </label>
@@ -199,11 +231,14 @@ export function PurchaseCardPanel({ t }: { t: Translate }) {
               onChange={(event) =>
                 setCardForm({
                   ...cardForm,
-                  substitution: event.target.value as "none" | "same_spec_cheaper",
+                  substitution: event.target.value as
+                    "none" | "same_spec_cheaper",
                 })
               }
             >
-              <option value="none">{t("Exact item only", "只要完全相同的商品")}</option>
+              <option value="none">
+                {t("Exact item only", "只要完全相同的商品")}
+              </option>
               <option value="same_spec_cheaper">
                 {t("Same spec if cheaper", "同规格且更便宜可以")}
               </option>
@@ -214,7 +249,9 @@ export function PurchaseCardPanel({ t }: { t: Translate }) {
             <input
               aria-label={t("Address label", "地址标签")}
               value={cardForm.address}
-              onChange={(event) => setCardForm({ ...cardForm, address: event.target.value })}
+              onChange={(event) =>
+                setCardForm({ ...cardForm, address: event.target.value })
+              }
               required
             />
           </label>
@@ -225,7 +262,11 @@ export function PurchaseCardPanel({ t }: { t: Translate }) {
           </div>
         </form>
       ) : (
-        <button className="text-button" type="button" onClick={() => setAdding(true)}>
+        <button
+          className="text-button"
+          type="button"
+          onClick={() => setAdding(true)}
+        >
           {t("Add another item", "再加一件")}
         </button>
       )}
@@ -269,7 +310,10 @@ function CardBlock({
       </p>
       <p role="status">
         {card.state === "draft"
-          ? t("Not confirmed. No offer is checked yet.", "尚未确认。还不会核对报价。")
+          ? t(
+              "Not confirmed. No offer is checked yet.",
+              "尚未确认。还不会核对报价。",
+            )
           : card.state === "revoked"
             ? t("Revoked.", "已撤销。")
             : t("Confirmed. Nothing has been bought.", "已确认。没有购买。")}
@@ -279,7 +323,13 @@ function CardBlock({
           className="primary"
           type="button"
           disabled={busy}
-          onClick={() => void onRun(() => write(`/purchase-cards/${card.id}/confirmation`, {}))}
+          onClick={() =>
+            void onRun(() =>
+              write(`/purchase-cards/${card.id}/confirmation`, {
+                expected_version: card.version,
+              }),
+            )
+          }
         >
           {t("Confirm purchase card", "确认购买卡片")}
         </button>
@@ -330,7 +380,10 @@ function OfferForm({
       {latest && (
         <p role="status">
           {latest.state === "needs_approval"
-            ? t("Needs your approval. Nothing has been bought.", "需要你批准。没有购买。")
+            ? t(
+                "Needs your approval. Nothing has been bought.",
+                "需要你批准。没有购买。",
+              )
             : latest.state === "approved"
               ? t(
                   "Approved. Waiting for a fixture receipt. This is not a purchase.",
@@ -361,7 +414,10 @@ function OfferForm({
           disabled={busy}
           onClick={() =>
             void onRun(() =>
-              write(`/purchase-cards/${card.id}/offers/${latest.offer_id}/approval`, {}),
+              write(
+                `/purchase-cards/${card.id}/offers/${latest.offer_id}/approval`,
+                { expected_version: latest.card_version },
+              ),
             )
           }
         >
@@ -373,9 +429,12 @@ function OfferForm({
           onSubmit={(event) => {
             event.preventDefault();
             void onRun(() =>
-              write(`/purchase-cards/${card.id}/offers/${latest.offer_id}/receipt`, {
-                receipt_id: receiptId.trim().toLowerCase(),
-              }),
+              write(
+                `/purchase-cards/${card.id}/offers/${latest.offer_id}/receipt`,
+                {
+                  receipt_id: receiptId.trim().toLowerCase(),
+                },
+              ),
             );
           }}
         >
@@ -396,129 +455,166 @@ function OfferForm({
         </form>
       )}
       <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            const price = minorUnits(offer.price, true);
-            const shipping = minorUnits(offer.shipping, true);
-            const quantity = Number(offer.quantity);
-            if (
-              price === null ||
-              shipping === null ||
-              !Number.isInteger(quantity) ||
-              quantity < 1
-            ) {
-              onInvalid(t("Check the price, shipping, and quantity.", "请检查单价、运费和数量。"));
-              return;
-            }
-            void onRun(() =>
-              write(`/purchase-cards/${card.id}/offers`, {
-                offer_id: offer.offerId.trim().toLowerCase(),
-                merchant: offer.merchant.trim().toLowerCase(),
-                sku: offer.sku.trim().toLowerCase(),
-                quantity,
-                unit: offer.unit.trim().toLowerCase(),
-                unit_price_minor: price,
-                shipping_minor: shipping,
-                currency: card.currency,
-                address_scope: offer.address.trim().toLowerCase(),
-                observed_at: new Date().toISOString(),
-                same_spec: offer.sameSpec,
-              }),
+        onSubmit={(event) => {
+          event.preventDefault();
+          const price = minorUnits(offer.price, true);
+          const shipping = minorUnits(offer.shipping, true);
+          const quantity = Number(offer.quantity);
+          if (
+            price === null ||
+            shipping === null ||
+            !Number.isInteger(quantity) ||
+            quantity < 1
+          ) {
+            onInvalid(
+              t(
+                "Check the price, shipping, and quantity.",
+                "请检查单价、运费和数量。",
+              ),
             );
-          }}
-        >
+            return;
+          }
+          void onRun(() =>
+            write(`/purchase-cards/${card.id}/offers`, {
+              offer_id: offer.offerId.trim().toLowerCase(),
+              merchant: offer.merchant.trim().toLowerCase(),
+              sku: offer.sku.trim().toLowerCase(),
+              quantity,
+              unit: offer.unit.trim().toLowerCase(),
+              unit_price_minor: price,
+              shipping_minor: shipping,
+              currency: card.currency,
+              address_scope: offer.address.trim().toLowerCase(),
+              observed_at: new Date().toISOString(),
+              same_spec: offer.sameSpec,
+              ...(offer.referenceTotal.trim()
+                ? { reference_total_minor: minorUnits(offer.referenceTotal) }
+                : {}),
+            }),
+          );
+        }}
+      >
+        <label>
+          {t("Offer id", "报价编号")}
+          <input
+            aria-label={t("Offer id", "报价编号")}
+            value={offer.offerId}
+            onChange={(event) =>
+              onOffer({ ...offer, offerId: event.target.value })
+            }
+            required
+          />
+        </label>
+        <label>
+          {t("Offer merchant", "报价商家")}
+          <input
+            aria-label={t("Offer merchant", "报价商家")}
+            value={offer.merchant}
+            onChange={(event) =>
+              onOffer({ ...offer, merchant: event.target.value })
+            }
+            required
+          />
+        </label>
+        <label>
+          {t("Offer SKU", "报价商品编号")}
+          <input
+            aria-label={t("Offer SKU", "报价商品编号")}
+            value={offer.sku}
+            onChange={(event) => onOffer({ ...offer, sku: event.target.value })}
+            required
+          />
+        </label>
+        <label>
+          {t("Offer quantity", "报价数量")}
+          <input
+            aria-label={t("Offer quantity", "报价数量")}
+            inputMode="numeric"
+            value={offer.quantity}
+            onChange={(event) =>
+              onOffer({ ...offer, quantity: event.target.value })
+            }
+            required
+          />
+        </label>
+        <label>
+          {t("Offer unit", "报价单位")}
+          <input
+            aria-label={t("Offer unit", "报价单位")}
+            value={offer.unit}
+            onChange={(event) =>
+              onOffer({ ...offer, unit: event.target.value })
+            }
+            required
+          />
+        </label>
+        <label>
+          {t("Unit price", "单价")}
+          <input
+            aria-label={t("Unit price", "单价")}
+            inputMode="decimal"
+            value={offer.price}
+            onChange={(event) =>
+              onOffer({ ...offer, price: event.target.value })
+            }
+            required
+          />
+        </label>
+        <label>
+          {t("Shipping", "运费")}
+          <input
+            aria-label={t("Shipping", "运费")}
+            inputMode="decimal"
+            value={offer.shipping}
+            onChange={(event) =>
+              onOffer({ ...offer, shipping: event.target.value })
+            }
+            required
+          />
+        </label>
+        <label>
+          {t("Offer address label", "报价地址标签")}
+          <input
+            aria-label={t("Offer address label", "报价地址标签")}
+            value={offer.address}
+            onChange={(event) =>
+              onOffer({ ...offer, address: event.target.value })
+            }
+            required
+          />
+        </label>
+        <label className="purchase-check">
+          <input
+            type="checkbox"
+            aria-label={t("Same spec substitute", "同规格替代")}
+            checked={offer.sameSpec}
+            onChange={(event) =>
+              onOffer({ ...offer, sameSpec: event.target.checked })
+            }
+          />
+          {t("Same spec substitute", "同规格替代")}
+        </label>
+        {offer.sameSpec && (
           <label>
-            {t("Offer id", "报价编号")}
+            {t("Original item total including shipping", "原商品含运费总额")}
             <input
-              aria-label={t("Offer id", "报价编号")}
-              value={offer.offerId}
-              onChange={(event) => onOffer({ ...offer, offerId: event.target.value })}
-              required
-            />
-          </label>
-          <label>
-            {t("Offer merchant", "报价商家")}
-            <input
-              aria-label={t("Offer merchant", "报价商家")}
-              value={offer.merchant}
-              onChange={(event) => onOffer({ ...offer, merchant: event.target.value })}
-              required
-            />
-          </label>
-          <label>
-            {t("Offer SKU", "报价商品编号")}
-            <input
-              aria-label={t("Offer SKU", "报价商品编号")}
-              value={offer.sku}
-              onChange={(event) => onOffer({ ...offer, sku: event.target.value })}
-              required
-            />
-          </label>
-          <label>
-            {t("Offer quantity", "报价数量")}
-            <input
-              aria-label={t("Offer quantity", "报价数量")}
-              inputMode="numeric"
-              value={offer.quantity}
-              onChange={(event) => onOffer({ ...offer, quantity: event.target.value })}
-              required
-            />
-          </label>
-          <label>
-            {t("Offer unit", "报价单位")}
-            <input
-              aria-label={t("Offer unit", "报价单位")}
-              value={offer.unit}
-              onChange={(event) => onOffer({ ...offer, unit: event.target.value })}
-              required
-            />
-          </label>
-          <label>
-            {t("Unit price", "单价")}
-            <input
-              aria-label={t("Unit price", "单价")}
               inputMode="decimal"
-              value={offer.price}
-              onChange={(event) => onOffer({ ...offer, price: event.target.value })}
               required
+              value={offer.referenceTotal}
+              onChange={(event) =>
+                onOffer({ ...offer, referenceTotal: event.target.value })
+              }
             />
           </label>
-          <label>
-            {t("Shipping", "运费")}
-            <input
-              aria-label={t("Shipping", "运费")}
-              inputMode="decimal"
-              value={offer.shipping}
-              onChange={(event) => onOffer({ ...offer, shipping: event.target.value })}
-              required
-            />
-          </label>
-          <label>
-            {t("Offer address label", "报价地址标签")}
-            <input
-              aria-label={t("Offer address label", "报价地址标签")}
-              value={offer.address}
-              onChange={(event) => onOffer({ ...offer, address: event.target.value })}
-              required
-            />
-          </label>
-          <label className="purchase-check">
-            <input
-              type="checkbox"
-              aria-label={t("Same spec substitute", "同规格替代")}
-              checked={offer.sameSpec}
-              onChange={(event) => onOffer({ ...offer, sameSpec: event.target.checked })}
-            />
-            {t("Same spec substitute", "同规格替代")}
-          </label>
-          <div className="purchase-actions">
-            <button className="secondary" type="submit" disabled={busy}>
-              {latest?.state === "opened"
-                ? t("Finish checking this offer", "完成这次核对")
-                : t("Check this offer", "核对这次报价")}
-            </button>
-          </div>
-        </form>
+        )}
+        <div className="purchase-actions">
+          <button className="secondary" type="submit" disabled={busy}>
+            {latest?.state === "opened"
+              ? t("Finish checking this offer", "完成这次核对")
+              : t("Check this offer", "核对这次报价")}
+          </button>
+        </div>
+      </form>
     </>
   );
 }

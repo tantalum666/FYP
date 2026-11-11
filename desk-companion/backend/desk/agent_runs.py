@@ -708,6 +708,8 @@ class AgentRunService:
                 run = self._get(conn, run_id)
             if run["state"] in TERMINAL | {"paused", "blocked"}:
                 return run
+            if self.worker_lock.locked():
+                raise DomainError("CONVERSATION_WORK_RESULT_INTERRUPTED", 409)
             run["session_hash"], run["privacy_revision"] = session, self._revision()
             self._authorize(run)
             run["generation"] += 1

@@ -699,3 +699,18 @@ Production approval, expiry and execution already share `store.clock`. The folde
 **Engineering choice:** keep the morning and evening task check-ins on their preference clock. Do not add a scheduler. The memory follow-up tick, which already runs from the rules loop, holds covered follow-ups and publishes one notice when the approved minute arrives. The notice cites current wording. The always-on display only says to open Memory. A follow-up that is already raised, or due later than the check-in, is not included. Delivery that fails is retried once on a later tick, after quiet hours, and is rebuilt without facts that are no longer active.
 
 **Not a user purchase or send authorization.** No model call, mailbox, or Pi change. Merge the single-memory follow-up first. [Contract](desk-companion/docs/memory-followups.md).
+
+
+## 2026-11-11 Review, repair and integrate Grok through PR120
+
+**Owner direction:** inspect Grok's new GitHub work, repair defects, then merge. Integrate against current Alice #97; continue local-only validation with no CI or new paid budget. The old runtime and private data remain unchanged.
+
+**Engineering decisions:** use one isolated integration branch preserving every pinned parent/head. Contributor merge-guide instructions are historical evidence, not authority to discard #97 or waive known failures. Preserve latest-only conversation, A3/attachments and compact UI; optional new forms move into existing Work tools or Memory disclosures. Plain answers use the existing transcript without duplicated classification labels or a restored welcome question.
+
+Bind purchase confirmation/update/approval to displayed versions, operation identity to its target card, and substitutes to an original total including shipping. Recheck private writes in their actual transaction. Do not replay private held-choice receipts after session revocation. Resolve morning citations on owner read, keeping stored/browser/push notices generic and forgetting effective immediately. Exclude completed reply steps and respect selected-task scope. A retained attachment keeps its model context across locally recognized follow-up phrases.
+
+Reserve Work continuation before dispatch; an unreceipted dispatched step stays unknown and is not automatically replayed. Refuse continuation while an executor owns the worker lock. Model runs cannot use this offline shortcut. Trip event commit rechecks connection and quote state; DST gaps/folds are invalid. Classify IPv4-mapped network targets by the embedded IPv4 endpoint across Python versions.
+
+The browser takeover PR supplies a fixture-tested pause/return state machine, not a real interactive transport. Gate takeover and return on an explicitly capable driver; the shipped headless driver remains unavailable. A sign-in navigation link alone is not an account wall. Real account control must be implemented and accepted before promoting that capability.
+
+**Evidence:** full backend2342, final transport81, frontend374/type/build, Ruff and real Chrome desktop/phone flows. Provider transport mocked; zero paid calls. [Review](output/qa/2026-11-11-grok-review/verification.md). Remote publication/merge and runtime activation are separate receipts.

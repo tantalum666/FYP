@@ -465,7 +465,11 @@ class TextAssistant:
                 payload, key, principal, conversation=conversation
             )
         stepped = None
-        if cached is None and admitted is None:
+        if (
+            cached is None
+            and admitted is None
+            and not (conversation and conversation.attachment_ids)
+        ):
             # A direct question is answered from local records and never reaches a provider.
             stepped = self.runtime.assistant.next_step_turn(
                 payload, owner=principal is None or principal.get("kind") == "owner"
@@ -610,13 +614,11 @@ class TextAssistant:
                 turn = self.runtime.assistant.open_time_turn(payload, owner=allow_memory)
             if turn is None and not has_files:
                 turn = self.maybe_extract(payload, key, allow_memory=allow_memory)
-            if turn is None:
+            if turn is None and not has_files:
                 # After memory, goals, recall, and extraction. Before any model call.
                 from . import meeting_prep
 
-                turn = meeting_prep.answer_meeting_prep(
-                    self.runtime, payload, owner=allow_memory
-                )
+                turn = meeting_prep.answer_meeting_prep(self.runtime, payload, owner=allow_memory)
             if turn is not None:
                 if on_event is not None:
                     fresh = [

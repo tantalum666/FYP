@@ -19,9 +19,7 @@ LATER = "The Saturday archive code is private"
 
 def _app(tmp_path, when):
     clock = [when]
-    app = create_app(
-        tmp_path, password="fixture-only", scheduler=False, clock=lambda: clock[0]
-    )
+    app = create_app(tmp_path, password="fixture-only", scheduler=False, clock=lambda: clock[0])
     client = TestClient(app)
     assert (
         client.post(
@@ -144,11 +142,14 @@ def test_draft_does_not_arm_and_only_the_owner_can_approve(tmp_path):
     assert enrol.status_code == 200, enrol.text
     display = TestClient(app)
     display.headers["Authorization"] = "Bearer " + client.cookies.get("desk_companion_device")
-    assert display.post(
-        "/api/memory-followups/morning",
-        json={"due_local": "2026-11-10T09:00", "timezone": "Asia/Hong_Kong"},
-        headers=_headers("display-morning"),
-    ).status_code == 403
+    assert (
+        display.post(
+            "/api/memory-followups/morning",
+            json={"due_local": "2026-11-10T09:00", "timezone": "Asia/Hong_Kong"},
+            headers=_headers("display-morning"),
+        ).status_code
+        == 403
+    )
 
     dentist = _memory(client, DENTIST, "remember-dentist")
     _followup(client, dentist, "2026-11-10T08:00", "follow-dentist")
@@ -219,8 +220,12 @@ def test_lost_response_retries_and_a_rejected_confirm_is_not_success(tmp_path):
     assert _operation(runtime, "approve-once") is None
     assert _checkins(runtime) == []
 
-    first = client.post("/api/memory-followups/morning", json=payload, headers=_headers("approve-once"))
-    second = client.post("/api/memory-followups/morning", json=payload, headers=_headers("approve-once"))
+    first = client.post(
+        "/api/memory-followups/morning", json=payload, headers=_headers("approve-once")
+    )
+    second = client.post(
+        "/api/memory-followups/morning", json=payload, headers=_headers("approve-once")
+    )
     assert first.status_code == second.status_code == 200
     assert first.json()["checkin"]["id"] == second.json()["checkin"]["id"]
     assert len(_checkins(runtime)) == 1
@@ -363,7 +368,7 @@ def test_one_notice_cites_several_due_followups_and_not_the_display(tmp_path):
     assert "quiet hours are not in effect" in morning[0]["reason_en"]
     inbox = _table_text(runtime, "notice_inbox")
     device = _table_text(runtime, "device_notices")
-    assert "moved to Friday" in inbox and LAB in inbox
+    assert "moved to Friday" not in inbox and LAB not in inbox
     assert "moved to Friday" not in device and LAB not in device and PASSPORT not in device
     assert "Open Memory to read the morning check-in." in device
     _login(client)
@@ -407,9 +412,7 @@ def test_early_followups_wait_and_an_already_raised_fact_is_not_cited_again(tmp_
     assert [item["body"] for item in approved.json()["checkin"]["citations"]] == [LAB, PASSPORT]
     runtime.tick()
     held = [
-        row
-        for row in runtime.memory_followups.listing()["followups"]
-        if row["state"] == "held"
+        row for row in runtime.memory_followups.listing()["followups"] if row["state"] == "held"
     ]
     assert len(held) == 2
     assert all(row["hold_reason"] == "morning" for row in held)
@@ -466,9 +469,7 @@ def test_quiet_hours_and_proactivity_hold_the_same_checkin_across_restart(tmp_pa
     restarted.tick()
     assert len(restarted.notify.listing()["notices"]) == 1
 
-    off, off_client, off_clock = _app(
-        tmp_path / "off", datetime(2026, 11, 9, 16, tzinfo=UTC)
-    )
+    off, off_client, off_clock = _app(tmp_path / "off", datetime(2026, 11, 9, 16, tzinfo=UTC))
     off_runtime = off.state.runtime
     first = _memory(off_client, DENTIST, "remember-dentist")
     second = _memory(off_client, LAB, "remember-lab")
@@ -594,6 +595,7 @@ def test_forgetting_before_the_retry_drops_the_wording(tmp_path):
         headers=_headers("approve"),
     )
     clock[0] = datetime(2026, 11, 10, 0, 30, tzinfo=UTC)
+
     def dropped(notice, *, quiet=False):
         raise RuntimeError("delivery dropped")
 
@@ -639,8 +641,7 @@ def test_dismiss_uses_an_operation_id_and_then_each_followup_can_raise_alone(tmp
     runtime.tick()
     assert runtime.notify.listing()["notices"] == []
     assert all(
-        row["hold_reason"] == "morning"
-        for row in runtime.memory_followups.listing()["followups"]
+        row["hold_reason"] == "morning" for row in runtime.memory_followups.listing()["followups"]
     )
     _login(client)
     stale = client.post(

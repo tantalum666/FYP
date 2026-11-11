@@ -105,6 +105,7 @@ class Runtime:
             else None,
         )
         self.memory_followups = MemoryFollowUpService(self)
+        self.notify.owner_projection = self.memory_followups.project_notice
         self.voice = VoiceService(self)
         self.wake = WakeListening(self)
         self.exchange = ExchangeService(self)

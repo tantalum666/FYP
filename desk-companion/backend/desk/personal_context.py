@@ -9,6 +9,7 @@ from fastapi import APIRouter, Depends, Request
 from pydantic import Field
 
 from .schemas import StrictModel
+from .calendar import iso
 from .store import DomainError, encode
 
 
@@ -87,6 +88,20 @@ class PersonalContext:
         if not principal or principal.get("kind") != "owner":
             raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
         if not self.visible(principal):
+            raise DomainError("PRIVATE_CONTEXT_HIDDEN", 403)
+
+    def require_owner_transaction(self, conn, principal):
+        """Recheck authority in the transaction that reads or changes private records."""
+        token = principal.get("session") if isinstance(principal, dict) else None
+        if not token or principal.get("kind") != "owner":
+            raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
+        digest = hashlib.sha256(token.encode()).hexdigest()
+        if not conn.execute(
+            "SELECT 1 FROM sessions WHERE token_hash=? AND expires>?",
+            (digest, iso(self.store.clock())),
+        ).fetchone():
+            raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
+        if self.store.settings(conn)["hide_private"]:
             raise DomainError("PRIVATE_CONTEXT_HIDDEN", 403)
 
     def destinations(self):

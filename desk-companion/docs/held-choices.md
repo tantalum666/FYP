@@ -1,5 +1,9 @@
 # Held choices
 
+## Reviewed integration — 11 November 2026
+
+Saved decisions are under Work & tools, not an always-open Tasks form. Cached operation receipts require the same current owner-session/private-context check as fresh operations. The previous approved wording remains current until a new exact approval; no external action is performed. [Review evidence](../../output/qa/2026-11-11-grok-review/verification.md). Runtime rollout is separate.
+
 11 November 2026. An owner records one choice and the assumption it rests on. The choice becomes current only when that owner approves the exact wording. A later assumption keeps the previous wording readable, and the previous wording stays current until a fresh approval. Nothing is mailed, bought, booked, or marked complete. No model is called.
 
 This is the gap left after the open slices. Mail, the staple purchase card, trip quotes, saved and scheduled skills, cited note comparisons, memory follow-ups, morning check-in, browser takeover, and conversation Work each cover their own journey. None of them keeps a choice whose basis changed: the old wording stays on record, and it is no longer safe to treat a new basis as already approved. Grok's approval rule is that a changed target does not reuse an earlier approval. Dot treats a changed constraint as something that does not redo a confirmed result. Muse authorizes the purchase or booking in front of the owner again when the basis changes. This slice is that rule for one local choice. It is not a fourth copy of the mailbox, shopping, or calendar journey.

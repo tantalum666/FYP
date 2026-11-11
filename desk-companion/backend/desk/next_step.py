@@ -73,7 +73,7 @@ def _choose(runtime, task_id: str | None, *, owner: bool) -> dict:
     task = _open_task(runtime, owner=owner)
     if task is not None:
         return task
-    goal = _goal(runtime, zone)
+    goal = _goal(runtime, zone) if owner else None
     if goal is not None:
         return goal
     return _none()
@@ -122,9 +122,7 @@ def _event(runtime, now: datetime, zone: ZoneInfo, *, owner: bool):
             "detail": clock,
             "redacted": True,
             "target_id": "",
-            "reason_en": (
-                "It is the soonest timed event in the next day. The title stays hidden."
-            ),
+            "reason_en": ("It is the soonest timed event in the next day. The title stays hidden."),
             "reason_zh": "这是接下来一天里最近的定时日程。标题保持隐藏。",
             "sentence_en": (
                 f"A private event is next at {clock}, because it is the soonest timed event "
@@ -147,9 +145,7 @@ def _event(runtime, now: datetime, zone: ZoneInfo, *, owner: bool):
             f"The next timed event is {title} at {clock}, because it is the soonest "
             "event in the next day, and I have not changed the calendar."
         ),
-        "sentence_zh": (
-            f"接下来一天里最近的定时日程是 {clock} 的{title}，我还没有改动日历。"
-        ),
+        "sentence_zh": (f"接下来一天里最近的定时日程是 {clock} 的{title}，我还没有改动日历。"),
     }
 
 
@@ -190,9 +186,7 @@ def _goal(runtime, zone: ZoneInfo):
             f"The open goal “{title}” is due on {due}, because that date is saved, "
             "and I have not closed it."
         ),
-        "sentence_zh": (
-            f"未完成的目标「{title}」的到期日是 {due}，我还没有把它标成完成。"
-        ),
+        "sentence_zh": (f"未完成的目标「{title}」的到期日是 {due}，我还没有把它标成完成。"),
     }
 
 
@@ -210,9 +204,7 @@ def _task_step(task: dict) -> dict:
             f"The saved next step on “{title}” is {step}, because that task is still open, "
             "and I have not done it."
         ),
-        "sentence_zh": (
-            f"「{title}」上保存的下一步是{step}，因为这件事仍未完成，我还没有去做。"
-        ),
+        "sentence_zh": (f"「{title}」上保存的下一步是{step}，因为这件事仍未完成，我还没有去做。"),
     }
 
 
@@ -230,9 +222,7 @@ def _waiting(task: dict) -> dict:
             f"“{title}” is waiting on {who}, because that reason is saved, "
             "and I have not changed it."
         ),
-        "sentence_zh": (
-            f"「{title}」仍在等待{who}，因为这是已保存的等待原因，我还没有改动。"
-        ),
+        "sentence_zh": (f"「{title}」仍在等待{who}，因为这是已保存的等待原因，我还没有改动。"),
     }
 
 

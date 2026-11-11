@@ -424,17 +424,24 @@ class ConversationWork:
         closed = _closed_reply(language, selected, now=now)
         if closed is not None:
             return closed
+        if selected.get("mode") != "deterministic":
+            return _reply(language, "cannot_continue", admitted=False)
         self._fence("before_continue")
         bound = self.runtime.agent_runs.refresh_owner(selected["id"], principal)
         closed = _closed_reply(language, bound, now=now)
         if closed is not None:
             return closed
+        self._record_continue(action_key, request, selected["id"], pending=True)
         try:
             stepped = self.runtime.agent_runs.advance_one(selected["id"])
         except Exception:
-            self._record_continue(action_key, request, selected["id"])
             raise DomainError("CONVERSATION_WORK_RESULT_UNKNOWN", 409) from None
         if not stepped:
+            with self.store.connection(write=True) as conn:
+                conn.execute(
+                    "DELETE FROM agent_run_operations WHERE id=? AND request_hash=?",
+                    (action_key, "pending/" + request),
+                )
             raise DomainError("CONVERSATION_WORK_RESULT_INTERRUPTED", 409)
         self._record_continue(action_key, request, selected["id"])
         self._fence("after_continue")
@@ -442,10 +449,14 @@ class ConversationWork:
 
     def _recovered_continue(self, action_key, request, principal, language):
         row = self._operation_row(action_key)
-        if row is None or not str(row["request_hash"]).startswith("continue:"):
+        if row is None or not str(row["request_hash"]).removeprefix("pending/").startswith(
+            "continue:"
+        ):
             return None
-        if row["request_hash"] != request:
+        if row["request_hash"].removeprefix("pending/") != request:
             raise DomainError("OPERATION_ID_CONFLICT")
+        if row["request_hash"].startswith("pending/"):
+            raise DomainError("CONVERSATION_WORK_RESULT_UNKNOWN", 409)
         return self._continued_result(row["run_id"], principal, language, recovered=True)
 
     def _continued_result(self, run_id, principal, language, *, recovered):
@@ -526,24 +537,36 @@ class ConversationWork:
 
     def _reject_other_continue(self, action_key, message, language):
         row = self._operation_row(action_key)
-        if row is None or not str(row["request_hash"]).startswith("continue:"):
+        if row is None or not str(row["request_hash"]).removeprefix("pending/").startswith(
+            "continue:"
+        ):
             return
-        if row["request_hash"] != _continue_request(message, language):
+        if row["request_hash"].removeprefix("pending/") != _continue_request(message, language):
             raise DomainError("OPERATION_ID_CONFLICT")
 
-    def _record_continue(self, action_key, request, run_id):
+    def _record_continue(self, action_key, request, run_id, *, pending=False):
+        """Reserve before dispatch so a crash cannot repeat the next Work step."""
         with self.store.connection(write=True) as conn:
             old = conn.execute(
                 "SELECT request_hash, run_id FROM agent_run_operations WHERE id=?",
                 (action_key,),
             ).fetchone()
             if old:
-                if old["request_hash"] != request or old["run_id"] != run_id:
+                if (
+                    old["request_hash"].removeprefix("pending/") != request
+                    or old["run_id"] != run_id
+                ):
                     raise DomainError("OPERATION_ID_CONFLICT")
+                if pending:
+                    raise DomainError("CONVERSATION_WORK_RESULT_UNKNOWN", 409)
+                conn.execute(
+                    "UPDATE agent_run_operations SET request_hash=? WHERE id=?",
+                    (request, action_key),
+                )
                 return
             conn.execute(
                 "INSERT INTO agent_run_operations VALUES(?,?,?)",
-                (action_key, request, run_id),
+                (action_key, "pending/" + request if pending else request, run_id),
             )
 
     def _operation_row(self, action_key):
@@ -784,7 +807,9 @@ def _verified_work_reply(reply):
     return None
 
 
-def _reply(language, code, *, admitted, recovered=False, run=None, result=None, publish_result=None):
+def _reply(
+    language, code, *, admitted, recovered=False, run=None, result=None, publish_result=None
+):
     message = _TEXT[language][code].format(
         goal=(run or {}).get("goal", ""),
         result=_result_sentence(language, result),

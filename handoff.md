@@ -1,31 +1,25 @@
 # Group 2 · Current handoff
 
-9 November2026. Active checkout `/Users/tantalum/.codex/worktrees/live-agent-eval-20261107/FYP`, branch `codex/alice-home-wake-20261107`, PR97open/unmerged. No CI; all paid audition budgets closed. A3/Taiwan Light remains the selected voice. Red-LED/power diagnosis stays deferred.
+11 November 2026. Canonical review checkout `/Users/tantalum/.codex/worktrees/grok-reviewed-integration-20261111/FYP`, branch `codex/grok-reviewed-integration-20261111`. This tree integrates the 23 Grok PRs listed in [the pinned inventory](output/qa/2026-11-11-grok-review/pr-inventory.json) with Alice baseline #97. [Review and local evidence](output/qa/2026-11-11-grok-review/verification.md); remote merge status is recorded separately in the publication receipt. No CI; no paid generation; all older budgets remain closed.
 
-## Current software
+## Completed source work
 
-The + menu is compact and has real Add files or photos, Browse the web and Today’s briefing. Files/operation records are separate, with one back action. Dark buttons, inputs, download and error states now use paired colors. Ordinary browser/file controls use Alice/cloud wording, not model/vendor/API-turn labels. [Attachment contract](desk-companion/docs/chat-attachments.md).
+Grok adds explicit Work re-show/continue, verification-wall pause state, approved memory follow-ups and morning check-ins, offline trip quote/reapproval, saved checklists/schedules, purchase preferences/offer checks, cited note comparisons, held decisions, and five local conversation intents. These use existing task/proposal/job/routine services. They do not establish live merchant orders, payment or ticketing.
 
-File chooser and image paste prepare local chips; Send uploads into existing owner/session/task-scoped Conversations RAM and forwards native file/image parts through the existing TextAssistant/AgentLoop. Four2MiB files per conversation and32MiB pooled raw bytes. No persistent raw-file table or browser-storage bytes. Same-operation recovery preserves draft/files; phone recovery is visible above the composer in the expanded conversation. Native safe-area spacing was checked and fixed without shrinking Alice.
+Review repairs bind shopping decisions to the displayed version and target card, compare substitutes against the original total, honor private-hide and current sessions, suppress completed replies and preserve the selected task, retain attachment context, and reserve Work continuation before dispatch. Morning facts are resolved from current memory on owner reads; notification storage/push remains generic. A revoked/changed trip cannot be overwritten by a stale sync; DST gaps/folds are rejected. The shipped headless driver has no human-control transport, so it cannot present an actionable takeover/return button. A public sign-in link alone no longer stops the browser.
 
-Full backend2117passed; final related36checks passed (10attachment cases). Frontend353/types/build pass. Real browser chooser/paste/send/followup/recovery and English desktop/Chinese393phone/320phone checks are recorded in [QA](output/qa/2026-11-09-composer-attachments/verification.md). Provider interpretation was mocked; no new paid call. Raw-CDP drag injection unsupported, native picker/touch/keyboard not claimed.
+The shared Alice home, A3 selection mechanism, latest-only captions, conversation history, dark + menu/real temporary attachments and native safe-area layout remain. Optional Grok forms live under Work & tools or expandable Memory controls. No welcome question or permanent extra composer button was restored.
 
-## Actual runtime and availability
+## Verification
 
-Mac Web5190/API8831is healthy. Backend source520ab563is active; frontend/native source2ed9ef41adds the safe-area-only CSS correction. A16-file stopped SQLite/archive backup and unchanged A3/settings/owner keys were verified. The normal Web tab was reopened clean for owner testing. QA8832server and temporary tabs are stopped/closed, network/viewport/clipboard restored.
+Backend full suite: 2342 passed on Python 3.14. The subsequent narrow mapped-IP portability adjustment passed all 81 transport tests and a seven-case function check on installed Python 3.12.13. Frontend: 374 passed, typecheck/build and Ruff pass. Initial integration's two stale intent assertions are corrected. Chrome/Playwright exercised actual chooser -> upload -> mocked provider response, held choice -> approval -> changed assumption, desktop 1440×1000 and phone 393×852 / 320×740. No app exceptions, failed HTTP responses or horizontal overflow in the final browser run. [Evidence](output/qa/2026-11-11-grok-review/verification.md).
 
-Native iPhone17Pro/iOS26.5was rebuilt, installed and launched. All68bundled web assets match the final build, and a real framebuffer verifies the safe-area correction. Its launch origin remains `http://127.0.0.1:8891`; do not silently change its data source to Mac.
+## Runtime boundaries
 
-Pi main feature release `/opt/desk-companion-releases/20261109-composer-attachments`, source520ab563, was actually activated and verified:306file hashes, exact frontend, app/application services active, unchanged A3/config/keys and local upload/release probe. A69-file backup was checked on Pi and copied/rehash-verified on Mac. **Later the existing VPS-to-Pi forwarding path became unavailable. Current Pi online state cannot be confirmed.** The existing reconnecting Mac launcher remained running with no8891listener; normal pinned SSH also failed. No network/firewall/profile/power setting was changed.
+This review does not deploy or restart Mac, Pi or the native app. Last deployment evidence remains 9 November: Mac backend520ab563/frontend2ed9ef41; Pi feature release520ab563 verified before the relay failed; final Pi safe-area follow-up unconfirmed. Those are historical receipts, not a new online check. A3/Taiwan Light was selected on Mac/Pi then; no voice resource/configuration was changed here. Power/red-LED investigation remains deferred.
 
-The last safe-area-only v2package is prepared on Mac for `/opt/desk-companion-releases/20261109-composer-attachments-v2`, source2ed9ef41. The first v2SSHpreparation failed; its directory/state must be read before any retry. No v2activation receipt exists. Primary UI/attachment fixes were already verified in the v1release; only the final safe-area CSS remains unconfirmed on Pi. [Activation evidence](output/qa/2026-11-09-composer-attachments/activation-summary.json).
-
-## Private operation records
-
-`~/.config/desk-companion/composer-ui-20261109/` contains Mac/Pi activation/backup receipts, off-device Pi archive, native DerivedData/screenshots, and prepared v2delta/manifest. Existing activate_pi.py describes v1; a v2resume must use the correct current/target/private/backup paths and read actual state first. Keep old releases and the frozen environment; the all-pr-review checkout remains a pi_remote dependency.
-
-Mac runtime remains `.../personal-agent-20261031/FYP/desk-companion/.runtime/work-ui-01`; Pi runtime `/home/desk/.local/share/desk-companion`. A3private metadata/sample and previous original A remain outside Git. Google Mac Gmail consent/self-send was verified previously; Pi/Calendar consent and FYP Microsoft registration remain pending. Real merchant takeover and physical audio remain separate work.
+Google Mac Gmail consent/self-send was verified on 8 November. FYP Microsoft registration, Google Calendar/Pi account consent, real interactive merchant takeover and physical audio remain distinct outstanding work. Codex plugin authorization cannot be transferred to FYP. The existing active runtime checkout and its private config/backups are preserved.
 
 ## One next step
 
-When the original pinned Pi relay is reachable, read its unit/release and v2directory/manifest state, then resume only the prepared safe-area follow-up and verify it. Do not blindly repeat a completed mutation, reopen paid budgets or resume power diagnosis. The completed Web/native UI can be used now; Pi-backed online features require the existing connection to return.
+Implement a real owner-controlled browser view on the existing job lifecycle, then verify pause -> owner interaction -> explicit return -> independent result on one authorized account journey. The current fixture-driven state machine must not be advertised as completed live takeover. Any runtime rollout and any paid/live transaction test require their own concrete scope; do not resume closed budgets.

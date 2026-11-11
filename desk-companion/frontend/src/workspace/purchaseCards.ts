@@ -95,19 +95,38 @@ export function purchaseError(error: unknown, t: Translate): string {
 
 export function offerReason(reason: string | null, t: Translate): string {
   const known: Record<string, [string, string]> = {
-    currency_mismatch: ["Currency does not match the card.", "货币与卡片不一致。"],
-    merchant_not_allowed: ["That merchant is not on the card.", "商家不在卡片上。"],
-    address_scope_mismatch: ["Address label does not match.", "地址标签不一致。"],
-    spec_mismatch: ["Quantity, unit, or item does not match.", "数量、单位或商品不一致。"],
+    currency_mismatch: [
+      "Currency does not match the card.",
+      "货币与卡片不一致。",
+    ],
+    merchant_not_allowed: [
+      "That merchant is not on the card.",
+      "商家不在卡片上。",
+    ],
+    address_scope_mismatch: [
+      "Address label does not match.",
+      "地址标签不一致。",
+    ],
+    spec_mismatch: [
+      "Quantity, unit, or item does not match.",
+      "数量、单位或商品不一致。",
+    ],
     over_budget: [
       "Total including shipping is over the budget.",
       "含运费的总额超出预算。",
     ],
     not_cheaper: [
-      "A substitute has to cost less than the budget.",
-      "替代品必须低于预算。",
+      "The substitute must cost less than the original item, including shipping.",
+      "替代品的含运费总额必须低于原商品。",
     ],
-    card_changed: ["The card changed and needs a new check.", "卡片已改，需要重新核对。"],
+    reference_price_required: [
+      "Enter the original item's total to compare prices.",
+      "请提供原商品的总额以比较价格。",
+    ],
+    card_changed: [
+      "The card changed and needs a new check.",
+      "卡片已改，需要重新核对。",
+    ],
     card_revoked: ["The card was revoked.", "卡片已撤销。"],
   };
   if (reason && known[reason]) return t(...known[reason]);

@@ -1,5 +1,9 @@
 # Meeting prep in the conversation
 
+## Reviewed integration — 11 November 2026
+
+The current conversation renders the answer without a restored welcome or extra classification label. Selected/retained file context bypasses the local shortcut. The source remains the local calendar, open tasks and visible active memory, with no claimed external action. [Review evidence](../../output/qa/2026-11-11-grok-review/verification.md). Runtime rollout is separate.
+
 11 November 2026. Grok Bot, offline. Alice answers one asked question from the saved calendar: what the next meeting is, where it is, one related open task, and one memory the owner already saved. She does not create, move, book, or send anything.
 
 ## Why this, and not another card

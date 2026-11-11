@@ -39,3 +39,14 @@ test("an open page can show one browser notification and skip duplicates", () =>
   assert.equal(showBrowserNotice(notice("dismissed"), "en", notifier), false);
   assert.equal(openNotices([notice("open"), notice("open"), notice("dismissed")]).length, 1);
 });
+
+test("morning facts never reach an operating-system notification", () => {
+  const notice = {
+    id: "morning", kind: "memory_morning", state: "open",
+    title_en: "Morning check-in", title_zh: "早晨核对",
+    body_en: "Private dentist marker", body_zh: "私人记忆",
+    reason_en: "", reason_zh: "", push: { title: "Morning", body: "Open Memory", tag: "morning" },
+  };
+  assert.doesNotMatch(browserPayload(notice, "en").options.body, /Private dentist/);
+  assert.equal(browserPayload(notice, "zh").options.body, "请打开记忆页查看早晨核对。");
+});

@@ -1,3 +1,5 @@
+> HISTORICAL contributor integration rehearsal. The reviewed combined implementation, repairs and actual validation are recorded in [11 November QA](../../output/qa/2026-11-11-grok-review/verification.md). Historical instructions to keep failures or avoid #97 do not govern the current owner-authorized integration.
+
 # Merge guide for open Grok Bot pull requests — 11 November 2026
 
 Completed by Grok Bot via a Cursor cloud agent on 11 November 2026, for Codex. This is a merge plan, not a merge. Codex merges. Do not modify PR #97 or any Codex branch. Do not force-push. Do not rebase these branches. No paid model call was made while checking this plan.

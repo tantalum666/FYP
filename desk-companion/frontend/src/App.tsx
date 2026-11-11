@@ -44,7 +44,6 @@ import { MomentCard } from "./workspace/MomentCard";
 import { NoticeInbox } from "./workspace/NoticeInbox";
 import { PersonaPanel } from "./workspace/PersonaPanel";
 import { TaskPanel } from "./workspace/TaskPanel";
-import { HeldChoicePanel } from "./workspace/HeldChoicePanel";
 import { DataPanel } from "./workspace/DataPanel";
 import { AliceHome } from "./companion/AliceHome";
 import { ExtrasPanel } from "./workspace/ExtrasPanel";
@@ -704,7 +703,6 @@ export function App() {
                       setEditor({ initial: event, scope: "series" })
                     }
                   />
-                  <HeldChoicePanel t={t} />
                 </>
               )}
               {page === "memory" && (

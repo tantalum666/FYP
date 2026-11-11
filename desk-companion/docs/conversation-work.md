@@ -1,5 +1,9 @@
 # Group 2 · Conversation goal changes into existing Work
 
+## Reviewed integration — 11 November 2026
+
+Continue reserves its existing operation row before dispatch. If the process loses the final receipt after dispatch, the same operation stays unknown and never takes a second step; inspect Work before a new deliberate action. A false/no-dispatch result releases the reservation. Explicit continues cannot reset an active worker or invoke a model-mode run. [Review evidence](../../output/qa/2026-11-11-grok-review/verification.md). Runtime rollout is separate.
+
 ## Current interface boundary — 8 November 2026
 
 The owner explicitly removed the Voice input / Work conversion cards from ordinary Conversation. AssistantPanel no longer mounts that optional review screen. The screen descriptions below are historical implementation records, not a current navigation instruction. Server-observed snapshots, freeze/admission/steer APIs and their authority/recovery checks remain; typed Work and action approvals are unchanged. Removing the display does not authorize transcript text to create work or confirm actions automatically. A future explicit voice-to-Work entry needs its own deliberate user flow. [Current conversation QA](../../output/qa/2026-11-08-dialogue-voice/verification.md).

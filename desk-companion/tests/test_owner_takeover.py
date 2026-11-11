@@ -32,6 +32,7 @@ class VerificationDriver:
     """Fake browser. The owner flag is set by the test, never by Alice."""
 
     executable = "/fixture/chromium"
+    supports_owner_takeover = True
 
     def __init__(self):
         self.calls = 0
@@ -115,19 +116,21 @@ def world(tmp_path):
     runtime.jobs.computer_use.supervisor = driver
     seen = []
     runtime.text_ai.transport = httpx.MockTransport(
-        lambda request: seen.append(request.url)
-        or httpx.Response(
-            200,
-            json={
-                "status": "completed",
-                "output": [
-                    {
-                        "type": "message",
-                        "content": [{"type": "output_text", "text": "The page is open."}],
-                    }
-                ],
-                "usage": {"input_tokens": 1, "output_tokens": 1},
-            },
+        lambda request: (
+            seen.append(request.url)
+            or httpx.Response(
+                200,
+                json={
+                    "status": "completed",
+                    "output": [
+                        {
+                            "type": "message",
+                            "content": [{"type": "output_text", "text": "The page is open."}],
+                        }
+                    ],
+                    "usage": {"input_tokens": 1, "output_tokens": 1},
+                },
+            )
         )
     )
     client = TestClient(app)
@@ -217,6 +220,34 @@ def test_password_keystrokes_never_reach_the_page():
     assert SECRET not in reason
 
 
+def test_navigation_login_link_does_not_block_public_browsing():
+    assert (
+        classify_owner_wall(
+            "Shop tissues\nSign in\nAll products\nAdd to cart",
+            [{"type": "link", "label": "Sign in"}],
+        )
+        is None
+    )
+    assert (
+        classify_owner_wall("Account", [{"type": "password", "label": "Password"}])["wall"]
+        == "login"
+    )
+
+
+def test_headless_browser_does_not_offer_a_nonexistent_owner_handoff(world):
+    runtime, client, _, driver, _, _ = world
+    job = pause(world)
+    driver.supports_owner_takeover = False
+    response = client.post(
+        f"/api/computer/jobs/{job['id']}/takeover",
+        json={"expected_version": job["version"]},
+        headers={**HEADERS, "X-Operation-Id": "no-owner-window"},
+    )
+    assert response.status_code == 409
+    assert response.json()["error"]["code"] == "COMPUTER_TAKEOVER_UNAVAILABLE"
+    assert runtime.jobs.detail(job["id"], review=True)["result"]["phase"] == "paused"
+
+
 def test_wall_pauses_the_same_job_and_the_owner_resumes_it(world):
     runtime, client, _, driver, seen, _ = world
     job = pause(world)
@@ -226,9 +257,7 @@ def test_wall_pauses_the_same_job_and_the_owner_resumes_it(world):
             conn.execute("SELECT result FROM computer_jobs WHERE id=?", (job["id"],)).fetchone()[0]
         )
         record["kept_note"] = "still here"
-        conn.execute(
-            "UPDATE computer_jobs SET result=? WHERE id=?", (encode(record), job["id"])
-        )
+        conn.execute("UPDATE computer_jobs SET result=? WHERE id=?", (encode(record), job["id"]))
     denied = post(client, job["id"], "takeover", job["version"], "takeover-secret", password=SECRET)
     assert denied.status_code == 422
     assert SECRET.encode() not in Path(runtime.store.path).read_bytes()
@@ -435,3 +464,15 @@ def test_provider_failure_is_not_an_owner_wall(world):
             principal=principal,
         )
     assert raised.value.code == "JOB_NOT_IN_TAKEOVER"
+
+
+def test_handoff_receipt_cannot_be_replayed_by_another_owner_login(world):
+    _, client, _, _, _, _ = world
+    job = pause(world)
+    first = post(client, job['id'], 'takeover', job['version'], 'scoped-receipt')
+    assert first.status_code == 200
+    other = TestClient(client.app)
+    assert other.post('/api/session', json={'username':'owner','password':'fixture'}, headers=HEADERS).status_code == 200
+    replay = post(other, job['id'], 'takeover', job['version'], 'scoped-receipt')
+    assert replay.status_code == 403
+    assert replay.json()['error']['code'] == 'OWNER_REQUIRED'

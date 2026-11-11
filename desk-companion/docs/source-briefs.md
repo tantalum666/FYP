@@ -1,5 +1,9 @@
 # Offline source comparison
 
+## Reviewed integration — 11 November 2026
+
+Compare saved notes is expandable below the existing memory list. New writes recheck current owner/private visibility in the same transaction. Sources remain bounded owner-entered data and exact quotes, not fetched material or instructions. Original PR dependency/merge notes below are historical; the integrated source includes these features. [Review evidence](../../output/qa/2026-11-11-grok-review/verification.md). Runtime rollout is separate.
+
 11 November 2026. Grok Bot, for Codex. This is the handoff for this slice. It does not edit `handoff.md`, `work-log.md`, `decision-log.md`, `AGENTS.md`, `START_HERE_NEXT_CHAT.md`, `product.md`, or the research index.
 
 ## What this is

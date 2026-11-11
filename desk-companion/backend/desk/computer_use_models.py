@@ -43,7 +43,10 @@ _OWNER_WALLS = (
     (
         "login",
         "login_needs_owner",
-        re.compile(r"\b(?:password|sign in|log in|login)\b|登录|密码", re.I),
+        re.compile(
+            r"^(?:sign in|log in|login|登录)[.!。]*$|(?:sign in|log in|login)\s+to\s+continue|(?:please|enter|请输入).{0,20}(?:password|密码)|请先登录",
+            re.I,
+        ),
         LOGIN_NEEDED,
     ),
 )
@@ -54,6 +57,8 @@ def classify_owner_wall(text="", controls=()):
     parts = [text or ""]
     for control in controls or ():
         if isinstance(control, dict):
+            if control.get("type") == "password":
+                return wall_from_reason("login_needs_owner")
             parts.append(str(control.get("label") or ""))
             parts.append(str(control.get("type") or ""))
     blob = "\n".join(parts)

@@ -80,6 +80,7 @@ test("a paused browser job offers takeover and hand back without calling it done
         result: {
           verified: false,
           paused: true,
+          takeover_available: true,
           phase: "paused",
           wall: "captcha",
         },
@@ -110,7 +111,7 @@ test("a paused browser job offers takeover and hand back without calling it done
           artifact_id: "wall",
           start_url: "https://example.test",
         },
-        result: { verified: false, paused: true, phase: "held", wall: "captcha" },
+        result: { verified: false, paused: true, takeover_available: true, phase: "held", wall: "captcha" },
       },
       t: (en: string) => en,
       busy: false,

@@ -132,12 +132,17 @@ class DeviceChannel:
 class Notifier:
     def __init__(self, store, channels=None, push=None):
         self.store = store
+        self.owner_projection = lambda notice: notice
         self.push = push
-        self.channels = channels if channels is not None else [
-            InAppChannel(),
-            BrowserChannel(),
-            DeviceChannel(),
-        ]
+        self.channels = (
+            channels
+            if channels is not None
+            else [
+                InAppChannel(),
+                BrowserChannel(),
+                DeviceChannel(),
+            ]
+        )
         with self.store.connection(write=True) as conn:
             conn.executescript(
                 """
@@ -212,7 +217,12 @@ class Notifier:
             ).fetchall()
         import json
 
-        return {"notices": [{**json.loads(row["content"]), "state": row["state"]} for row in rows]}
+        return {
+            "notices": [
+                self.owner_projection({**json.loads(row["content"]), "state": row["state"]})
+                for row in rows
+            ]
+        }
 
     def dismiss(self, notice_id: str, key: str) -> dict:
         def apply(conn):
@@ -220,14 +230,14 @@ class Notifier:
             if not row:
                 raise DomainError("NOTICE_NOT_FOUND", 404)
             if row["state"] != "dismissed":
-                conn.execute(
-                    "UPDATE notice_inbox SET state='dismissed' WHERE id=?", (notice_id,)
-                )
+                conn.execute("UPDATE notice_inbox SET state='dismissed' WHERE id=?", (notice_id,))
             import json
 
             return {"notice": {**json.loads(row["content"]), "state": "dismissed"}, "saved": True}
 
-        return self.store.operation(key, {"type": "notice_dismiss", "id": notice_id}, apply)
+        result = self.store.operation(key, {"type": "notice_dismiss", "id": notice_id}, apply)
+        return {**result, "notice": self.owner_projection(result["notice"])}
+
 
 def claim_device_notice(store, conn, client_id: str, zone: str):
     """Hand the oldest unclaimed device notice to one display, if the table exists."""

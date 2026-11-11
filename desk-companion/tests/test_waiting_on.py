@@ -153,9 +153,7 @@ def test_cancel_and_a_closed_task_save_nothing(tmp_path):
 
 def test_selected_task_keeps_fields_the_sentence_did_not_mention(tmp_path):
     clock = [datetime(2026, 10, 3, 1, tzinfo=UTC)]
-    app = create_app(
-        tmp_path, password="fixture", scheduler=False, clock=lambda: clock[0]
-    )
+    app = create_app(tmp_path, password="fixture", scheduler=False, clock=lambda: clock[0])
     app.state.runtime.text_ai.config = TextConfig(provider="none")
     runtime = app.state.runtime
     kept = runtime.tasks.create(
@@ -276,11 +274,11 @@ def test_older_phrases_still_reach_their_own_parsers(tmp_path):
     goal = _say(runtime, "Goal: finish the report by Friday", "goal")
     assert goal["proposal"]["data"].get("goal") is True
     free = _say(runtime, "When am I free tomorrow?", "free")
-    assert free["kind"] == "brief"
+    assert free["kind"] == "open_time"
     meeting = _say(runtime, "Prep me for my next meeting", "meeting")
-    assert meeting["kind"] == "clarify"
+    assert meeting["kind"] == "meeting_prep"
     nxt = _say(runtime, "What should I do next?", "next")
-    assert nxt["kind"] == "clarify"
+    assert nxt["kind"] == "next_step"
     remembered = _say(runtime, "Remember: I prefer morning meetings", "remember")
     assert remembered["proposal"]["kind"] == "memory_save"
     assert runtime.tasks.listing()["tasks"] == []

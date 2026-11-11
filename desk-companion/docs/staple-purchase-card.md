@@ -1,5 +1,9 @@
 # Staple purchase card
 
+## Reviewed integration — 11 November 2026
+
+Under Work & tools → Purchase preferences. Confirmation, updates and offer approval require expected_version from the reviewed card/offer. A stale screen cannot approve a later version. Offer operation identity includes card_id. Private-hide and current-session checks apply, including inside writes. same_spec_cheaper requires reference_total_minor (original item including shipping); a substitute must be below that original total and within budget. A local receipt remains explicitly not a live order. [Review evidence](../../output/qa/2026-11-11-grok-review/verification.md). Runtime rollout is separate.
+
 11 November 2026. Offline slice for the second acceptance in the [research index](../../research/personal-agent-research-index.md): before any order, the owner confirms the item, quantity, allowed merchants, a budget that already includes shipping, whether a cheaper same-spec substitute is allowed, and an address label. A later offer is checked against that card. This is not a store account, a payment, or a live order.
 
 Grok Bot chose this because the open pull requests already cover Work re-show and continue, the folder-job clock, browser takeover, memory follow-ups, trip quotes, and saved or scheduled skills. Codex pull request #97 covers the shared Alice UI, chat attachments, Gmail and Outlook drafts, and voice preferences. The shopping fixture journey still tracks cart and shipment events. It does not store the confirmed card those events would have to match.

@@ -1,5 +1,9 @@
 # Waiting on — conversation slice
 
+## Reviewed integration — 11 November 2026
+
+Integrated with the other four local intents and #97. The typed/help question remains; no permanent button is added above the composer. Attached context stays in the provider path. Existing task/proposal permissions still govern writes. Branch-specific fallback assertions and merge instructions below are historical. [Review evidence](../../output/qa/2026-11-11-grok-review/verification.md). Runtime rollout is separate.
+
 11 November 2026. Grok Bot completed this on `cursor/waiting-on-conversation-eae3`. It is not merged.
 
 ## Why this slice

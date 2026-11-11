@@ -58,6 +58,7 @@ export interface ComputerJob {
     quality?: string;
     readback?: { reason?: string };
     paused?: boolean;
+    takeover_available?: boolean;
     phase?: "paused" | "held" | "returning";
     wall?: "login" | "otp" | "captcha" | "payment";
     needed?: string;
@@ -173,9 +174,14 @@ export function recoveryCopy(job: ComputerJob): [string, string] | null {
 
 export function jobCancellable(job: ComputerJob) {
   return (
-    ["review", "queued", "running", "verifying", "unknown", "owner_takeover"].includes(
-      job.state,
-    ) && !job.cancel_requested
+    [
+      "review",
+      "queued",
+      "running",
+      "verifying",
+      "unknown",
+      "owner_takeover",
+    ].includes(job.state) && !job.cancel_requested
   );
 }
 

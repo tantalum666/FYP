@@ -138,7 +138,9 @@ class HeldChoiceService:
                     "lineage_id": open_row["lineage_id"],
                     "version_id": open_row["id"],
                 }
-            count = conn.execute("SELECT COUNT(DISTINCT lineage_id) FROM held_choices").fetchone()[0]
+            count = conn.execute("SELECT COUNT(DISTINCT lineage_id) FROM held_choices").fetchone()[
+                0
+            ]
             if count >= _MAX_LINEAGES:
                 raise DomainError("CHOICE_LIMIT", 422)
             return {
@@ -181,7 +183,9 @@ class HeldChoiceService:
                 "norm": _norm(merged),
             }
 
-        return self._run(key, {"kind": "replace", "id": lineage_id, **provided}, token, "replace", plan)
+        return self._run(
+            key, {"kind": "replace", "id": lineage_id, **provided}, token, "replace", plan
+        )
 
     def approve(self, lineage_id, approval: ChoiceApproval, key, token):
         parts = {name: approval.model_dump()[name] for name in _FIELDS}
@@ -199,7 +203,12 @@ class HeldChoiceService:
                 "version_id": pending["id"],
             }
 
-        stored = {"kind": "approve", "id": lineage_id, "expected_version": approval.expected_version, **parts}
+        stored = {
+            "kind": "approve",
+            "id": lineage_id,
+            "expected_version": approval.expected_version,
+            **parts,
+        }
         return self._run(key, stored, token, "approve", plan)
 
     def withdraw(self, lineage_id, payload: ChoiceWithdraw, key, token):
@@ -231,12 +240,14 @@ class HeldChoiceService:
         request = encode(stored)
         created = False
         with self.store.connection() as conn:
+            self._visible(conn, token)
             finished = self._finished(conn, key, request)
             if finished is not None:
                 return finished
             effect = self._effect(conn, key, request)
         if effect is None:
             with self.store.connection(write=True) as conn:
+                self._visible(conn, token)
                 finished = self._finished(conn, key, request)
                 if finished is not None:
                     return finished
@@ -361,7 +372,8 @@ class HeldChoiceService:
         current = self._public(self._one(versions, "current", required=False))
         pending = self._public(self._one(versions, "pending", required=False))
         previous = [
-            self._public(row) for row in sorted(versions, key=lambda row: row["version"], reverse=True)
+            self._public(row)
+            for row in sorted(versions, key=lambda row: row["version"], reverse=True)
             if row["state"] == "previous"
         ]
         updated = max(row["updated_at"] for row in versions)
@@ -472,15 +484,21 @@ def held_choice_routes(runtime, owner, operation_id):
         return runtime.held_choices.prepare(payload, key, session)
 
     @router.post("/{lineage_id}/replacements")
-    def replace(lineage_id: str, payload: ChoiceReplace, session=Depends(token), key=Depends(operation_id)):
+    def replace(
+        lineage_id: str, payload: ChoiceReplace, session=Depends(token), key=Depends(operation_id)
+    ):
         return runtime.held_choices.replace(lineage_id, payload, key, session)
 
     @router.post("/{lineage_id}/approval")
-    def approve(lineage_id: str, payload: ChoiceApproval, session=Depends(token), key=Depends(operation_id)):
+    def approve(
+        lineage_id: str, payload: ChoiceApproval, session=Depends(token), key=Depends(operation_id)
+    ):
         return runtime.held_choices.approve(lineage_id, payload, key, session)
 
     @router.post("/{lineage_id}/withdrawal")
-    def withdraw(lineage_id: str, payload: ChoiceWithdraw, session=Depends(token), key=Depends(operation_id)):
+    def withdraw(
+        lineage_id: str, payload: ChoiceWithdraw, session=Depends(token), key=Depends(operation_id)
+    ):
         return runtime.held_choices.withdraw(lineage_id, payload, key, session)
 
     return router

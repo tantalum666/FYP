@@ -1,5 +1,14 @@
 # Group 2 Project Contract
 
+## 2026-11-11 Current integration review
+
+Reviewed source now combines the current Alice/A3/attachments baseline with Grok's conversation Work continuation, local next-step/availability/meeting/waiting/reply answers, memory follow-ups, saved checklists/schedules, purchase preferences, offline trip quotes, cited notes and held choices. [Review evidence](output/qa/2026-11-11-grok-review/verification.md) and [exact PR inventory](output/qa/2026-11-11-grok-review/pr-inventory.json) distinguish local verification and publication from deployment.
+
+The compact Alice home remains primary. Optional forms belong in Work & tools or expandable Memory controls. Attachments keep their provider path even when a follow-up matches a local shortcut. Private goals/facts cannot leak through paired display, hidden context, stale receipts or system notifications. Shopping confirmation/update/approval uses the version the owner actually saw, and a cheaper substitute needs an original total for comparison.
+
+Offline quotes, checklists and purchase receipts are explicitly local rehearsal/records, not live purchases or tickets. The shipped browser has no interactive owner-control transport: a wall pauses the job, but takeover/return controls are unavailable until a capable driver exists. Existing controlled-browser and Gmail self-send evidence is preserved; no fresh paid call, runtime deployment or physical-device claim is made by this review. The dated entries below retain their original scope.
+
+
 9 November2026 composer update: compact + menu, real chat attachments, consistent dark controls, one file-subview back control and generic cloud-sharing wording are active on Mac and the rebuilt native app. Pi main feature release was independently activated/verified, then its forwarding connection became unavailable; only the last safe-area CSS follow-up remains unconfirmed there. File selection stays local until Send; same-operation recovery preserves drafts. A3 remains selected, all budgets closed, no CI. [Current UI QA](output/qa/2026-11-09-composer-attachments/verification.md) separates live transport/render checks, mocked provider results and device availability.
 
 9 November 2026 current voice update: the owner selected **A3 / Alice · Taiwan Light** as the default on Web, phone and Pi, superseding the earlier original-A selection. Mac and Pi version9settings match A3's exact existing voice ID/original description; both serve the same cached A3 WAV. Phone browser shares Mac; the running native Simulator app connects to Pi8891 and inherits Pi's choice. Original A remains available. No paid generation, source rebuild or service restart was needed. All audition budgets remain closed. [Current activation QA](output/qa/2026-11-09-a3-default/verification.md) / [voice brief](planning/2026-11-09/alice-sweet-taiwan-voice.md).

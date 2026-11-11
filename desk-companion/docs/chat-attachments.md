@@ -1,5 +1,9 @@
 # Group 2 · Chat attachments and composer
 
+## Reviewed integration — 11 November 2026
+
+The integrated local-intent additions cannot intercept a follow-up while selected file context remains on the conversation. Existing owner/session/task guards, Send-only upload, recovery and bounded RAM storage remain. Actual browser chooser/upload/response was verified with mocked provider transport; no new paid interpretation test. [Review evidence](../../output/qa/2026-11-11-grok-review/verification.md). Runtime rollout is separate.
+
 9 November 2026. The owner asked for a compact Codex-like + menu, readable dark controls and ordinary wording without model/vendor branding. Chat attachments are distinct from retained Work sources and file-operation history.
 
 ## User flow

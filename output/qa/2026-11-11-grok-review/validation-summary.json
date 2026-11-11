@@ -1,0 +1,98 @@
+{
+  "date": "2026-11-11",
+  "source_base": "855e60ee9f413de84474e3e0b9975b9b9a3d5fbc",
+  "alice_baseline": "ebf6d91751ff69f6acec0813f7eb69a1ed53dc5d",
+  "open_prs_pinned": 24,
+  "grok_prs": 23,
+  "backend_full": {
+    "passed": 2342,
+    "failed": 0,
+    "seconds": 467.28,
+    "python": "3.14.5",
+    "warnings": [
+      "existing Starlette httpx deprecation",
+      "existing empty raises match"
+    ]
+  },
+  "final_focused": {
+    "transport_passed": 81,
+    "memory_and_regressions_passed": 40,
+    "regression_and_transport_passed": 100,
+    "handoff_jobs_regressions_passed": 69
+  },
+  "frontend": {
+    "passed": 374,
+    "failed": 0,
+    "typecheck": "passed",
+    "build": "passed",
+    "warnings": [
+      "existing 3D/runtime chunk sizes"
+    ]
+  },
+  "lint": "ruff passed",
+  "ci_used": false,
+  "paid_model_calls": 0,
+  "runtime_deployed": false,
+  "browser": {
+    "browser": "installed Chrome via Playwright 1.62",
+    "origin": "http://127.0.0.1:8832",
+    "viewports": [
+      [
+        1440,
+        1000
+      ],
+      [
+        393,
+        852
+      ],
+      [
+        320,
+        740
+      ]
+    ],
+    "provider": "httpx.MockTransport only",
+    "page_errors": 0,
+    "failed_responses": 0,
+    "horizontal_overflow": false,
+    "flows": [
+      "real chooser/upload/response",
+      "held choice save/approve/revise keeps previous current",
+      "phone local availability question",
+      "compact menu and latest answer"
+    ]
+  },
+  "portability": {
+    "python": "3.12.13",
+    "checks": 7,
+    "passed": true,
+    "historical_3_12_3_failure_reproduced": false,
+    "note": "Mapped address classification now explicitly delegates to embedded IPv4; installed 3.12.13 had already backported the classification fix."
+  },
+  "private_evidence": "/Users/tantalum/.config/desk-companion/grok-review-20261111",
+  "screenshots": [
+    {
+      "file": "/Users/tantalum/.config/desk-companion/grok-review-20261111/screenshots/desktop-choice-review.png",
+      "sha256": "7c40c434f5a123687ddeebdd145fc0f230ecc4b88b09dbc7573f4ac84eae1877"
+    },
+    {
+      "file": "/Users/tantalum/.config/desk-companion/grok-review-20261111/screenshots/desktop-file-turn.png",
+      "sha256": "22478433f2d39a141954e742ae35fb78d02b95ad8d502633f94030a54d6de8e1"
+    },
+    {
+      "file": "/Users/tantalum/.config/desk-companion/grok-review-20261111/screenshots/desktop-initial.png",
+      "sha256": "35002c4f356369e60ad411d31a02322562a651c393ae40be755b44979fd7db43"
+    },
+    {
+      "file": "/Users/tantalum/.config/desk-companion/grok-review-20261111/screenshots/desktop-menu.png",
+      "sha256": "1c851a338eeb95a3c3abf1f88b492233c08f6d9f44a63b6fdf54a45301139248"
+    },
+    {
+      "file": "/Users/tantalum/.config/desk-companion/grok-review-20261111/screenshots/phone-answer.png",
+      "sha256": "be81225227b015a51d5ad1e852d0ece8ec884d81e2130f396a0bf69458ed58cf"
+    },
+    {
+      "file": "/Users/tantalum/.config/desk-companion/grok-review-20261111/screenshots/phone-small-answer.png",
+      "sha256": "33bf1ac3f086d70ae6abf45380195826716ece2ada9fc86cdcaa5f4f4571e22a"
+    }
+  ]
+}

@@ -21,7 +21,7 @@ test("the tasks page shows held choices and does not describe a sent or paid res
     new URL("../src/workspace/HeldChoicePanel.tsx", import.meta.url),
     "utf8",
   );
-  const app = fs.readFileSync(new URL("../src/App.tsx", import.meta.url), "utf8");
+  const app = fs.readFileSync(new URL("../src/workspace/WorkTools.tsx", import.meta.url), "utf8");
   assert.match(panel, /Not the current choice until you approve this wording/);
   assert.match(panel, /does not send mail, buy, or book anything/);
   assert.match(panel, /Approve this wording/);

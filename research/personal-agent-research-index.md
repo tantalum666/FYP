@@ -1,5 +1,7 @@
 # Group 2｜个人 Agent 研究总入口与实现对照
 
+11 November reviewed integration: the Work follow-ups, saved checklists/schedules, local conversation intents, memory reminders, purchase preferences, offline trip quotes, cited notes and held decisions are now combined with Alice #97. [Current review](../output/qa/2026-11-11-grok-review/verification.md). These extend the local foundations; real interactive merchant takeover, payment and ticketing remain unverified. The shipped headless browser cannot be handed to an owner. Current Gmail evidence is the 8 November FYP-native self-send below, superseding earlier “no native sender” statements. No new paid call or runtime rollout occurred in this review.
+
 9 November current voice follow-up: A3 / Taiwan Light is now explicitly selected on Web, phone and Pi, with actual version9settings and cached sample readback. Original A remains available; A1 is rejected and A2 remained insufficiently young. This selection used no paid call; all audition scopes remain closed. [Current activation QA](../output/qa/2026-11-09-a3-default/verification.md) / [voice brief](../planning/2026-11-09/alice-sweet-taiwan-voice.md) / [reference-engine research](2026-11-09-custom-alice-voice.md). FYP Microsoft remains unconfigured.
 
 8 November evening update: FYP now has its own browser-authorized Gmail connection. One reviewed self-email was sent by FYP's Gmail API sender and independently read back in SENT/INBOX with exact content, one attempt. Google Calendar is configured but not consented; Microsoft365/Teams/SharePoint adapters are implemented with local protocol tests while actual authorization is expressly deferred. The [app contract](../desk-companion/docs/connected-apps.md) distinguishes APIs from MCP previews and directory access from Office editing. No unattended mailbox monitor or merchant transaction was added. [QA](../output/qa/2026-11-08-caption-mail-voice/verification.md).
@@ -89,7 +91,7 @@ Grok 审批变更见[当前原文](https://docs.x.ai/grok-bot/approvals-security
 
 | 用户可感受到的能力 | 已有基础／证据 | 当前缺口 |
 |---|---|---|
-| 交代一个目标后独立做多步工作 | `TaskService`、既有作业队列、应用阶段与依赖／结果；复杂文档任务由脚本实跑；2026-11-06 起普通文字、未见来源版式、已复核语音快照和语音复核页都可以把改口送进已有 Work，并在同一条对话显示一份已核验报告文件。2026-11-07 起同一条对话的状态提问会再次读出这一条已核验结果。明确的继续请求会把这一次运行离线推进一步；运行仍开着时，下一次明确请求再推进一步。已结束、已取消、已失败或已过期则不再开始 | 真实模型受控浏览器多步任务已实测；跨子任务全自主编排与复杂办公Work仍未验收。短 HTTP 循环仍不会在无人要求时连续做完。确定性运行结束后不会被悄悄重开。真实账号仍未连接 |
+| 交代一个目标后独立做多步工作 | `TaskService`、既有作业队列、应用阶段与依赖／结果；复杂文档任务由脚本实跑；2026-11-06 起普通文字、未见来源版式、已复核语音快照和语音复核页都可以把改口送进已有 Work，并在同一条对话显示一份已核验报告文件。2026-11-07 起同一条对话的状态提问会再次读出这一条已核验结果。明确的继续请求会把这一次运行离线推进一步；运行仍开着时，下一次明确请求再推进一步。已结束、已取消、已失败或已过期则不再开始 | 真实模型受控浏览器多步任务已实测；跨子任务全自主编排与复杂办公Work仍未验收。短 HTTP 循环仍不会在无人要求时连续做完。确定性运行结束后不会被悄悄重开。真实商家账号仍未验收，Gmail自测见顶部更新 |
 | 自动跟踪真实邮件并提出建议 | 事务、进展、规则检查、有限后台建议、记忆、通知入口；2026-11-03 离线样本已有游标、同一线程到同一事务、带来源的草稿和有意义通知 | 没有 Gmail／Outlook 真实账号、实邮箱增量同步或发信验收。离线样本不能代替真实验收 |
 | 已有关联邮件变化后继续原任务 | 任务版本、去重、权限和旧结果恢复；离线后续回复／改期更新同一事务 | 已有明确选定事务字段的变化跟踪、合并提醒与来源产物；仍缺真实邮件持久收件 |
 | 一句话买常用纸巾 | 语音工具通道、任务状态、单次／持续软件权限、应用结果核验；离线购物夹具可把同一商品或订单记到同一事务和暂停的 Work，建议只作为待批准草稿 | 新通用浏览器可操作公开网站和保存状态；购物条件已由真实OpenAI在明确标注的演练页实跑；真实京东遇验证即停，没有真实商家账号、库存承诺、地址授权、支付或订单查询。见[离线购物契约](../desk-companion/docs/shopping-fixtures.md) |

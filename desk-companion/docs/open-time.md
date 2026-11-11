@@ -1,5 +1,9 @@
 # Open time in the conversation
 
+## Reviewed integration — 11 November 2026
+
+The answer already includes its time ranges, date and calendar basis; it is rendered once through the current conversation, without a duplicate slot card or restored welcome. Retained file context bypasses the local shortcut. This is a read of the saved calendar, not a booking. [Review evidence](../../output/qa/2026-11-11-grok-review/verification.md). Runtime rollout is separate.
+
 11 November 2026. Grok Bot, offline. Alice answers one asked question from the saved calendar: when the owner is open, or whether one clock time works. This is a gap on the saved calendar. It is not a claim the owner is actually free, and it does not create, move, or book anything.
 
 ## Why this, and not another card

@@ -123,13 +123,18 @@ export function JobActionCard({
       )}
       {computer && job.state === "owner_takeover" && (
         <p>
-          {t(
-            ...(ownerWallCopy(job.result?.wall) ?? [
-              job.result?.needed ||
-                "This page needs you before Alice can continue.",
-              "这一页需要你处理，Alice 才能继续。",
-            ]),
-          )}
+          {job.result?.takeover_available
+            ? t(
+                ...(ownerWallCopy(job.result?.wall) ?? [
+                  job.result?.needed ||
+                    "This page needs you before Alice can continue.",
+                  "这一页需要你处理，Alice 才能继续。",
+                ]),
+              )
+            : t(
+                "This page needs your attention. An interactive browser is not connected yet.",
+                "这个网页需要你处理，目前尚未连接可接管的浏览器。",
+              )}
         </p>
       )}
       {computer && job.result?.outcome === "needs_owner" && (
@@ -206,8 +211,10 @@ export function JobActionCard({
       )}
       {!!job.error &&
         !["expired", "cancelled", "owner_takeover"].includes(job.state) && (
-        <p className="error-message">{errorText(new ApiError(job.error), t)}</p>
-      )}
+          <p className="error-message">
+            {errorText(new ApiError(job.error), t)}
+          </p>
+        )}
       {job.state !== "succeeded" && readBackCopy(job.result?.reason) && (
         <p>{t(...readBackCopy(job.result?.reason)!)}</p>
       )}
@@ -223,20 +230,24 @@ export function JobActionCard({
             {t("Continue from this page", "从这个页面继续")}
           </button>
         )}
-        {computer && job.state === "owner_takeover" && (
-          <button
-            type="button"
-            className="primary"
-            disabled={busy || !fresh}
-            onClick={() =>
-              onAction(job.result?.phase === "held" ? "hand_back" : "takeover")
-            }
-          >
-            {job.result?.phase === "held"
-              ? t("Hand back", "交还给 Alice")
-              : t("Take over", "我来接手")}
-          </button>
-        )}
+        {computer &&
+          job.state === "owner_takeover" &&
+          job.result?.takeover_available && (
+            <button
+              type="button"
+              className="primary"
+              disabled={busy || !fresh}
+              onClick={() =>
+                onAction(
+                  job.result?.phase === "held" ? "hand_back" : "takeover",
+                )
+              }
+            >
+              {job.result?.phase === "held"
+                ? t("Hand back", "交还给 Alice")
+                : t("Take over", "我来接手")}
+            </button>
+          )}
         {job.state === "review" && (
           <button
             className="primary"
@@ -274,9 +285,13 @@ export function JobActionCard({
       </div>
       {computer &&
         (job.result?.verified ||
-          ["running", "verifying", "succeeded", "unknown", "owner_takeover"].includes(
-            job.state,
-          )) && (
+          [
+            "running",
+            "verifying",
+            "succeeded",
+            "unknown",
+            "owner_takeover",
+          ].includes(job.state)) && (
           <ComputerScreen
             key={job.id}
             jobId={job.id}

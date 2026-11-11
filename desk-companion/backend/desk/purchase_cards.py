@@ -80,15 +80,17 @@ def classify(card: dict, offer: dict) -> tuple[str, str | None]:
     if offer["quantity"] != card["quantity"] or offer["unit"] != card["unit"]:
         return "refused", "spec_mismatch"
     same_item = offer["sku"] == card["sku"]
-    if not same_item and (
-        card["substitution"] != "same_spec_cheaper" or not offer["same_spec"]
-    ):
+    if not same_item and (card["substitution"] != "same_spec_cheaper" or not offer["same_spec"]):
         return "refused", "spec_mismatch"
     total = offer_total(offer["quantity"], offer["unit_price_minor"], offer["shipping_minor"])
     if total > card["budget_minor"]:
         return "refused", "over_budget"
-    if not same_item and total >= card["budget_minor"]:
-        return "refused", "not_cheaper"
+    if not same_item:
+        reference = offer.get("reference_total_minor")
+        if reference is None:
+            return "refused", "reference_price_required"
+        if total >= reference:
+            return "refused", "not_cheaper"
     return "needs_approval", None
 
 
@@ -132,7 +134,11 @@ class CardCreate(StrictModel):
         return items
 
 
-class CardPatch(StrictModel):
+class CardVersion(StrictModel):
+    expected_version: int = Field(ge=1, strict=True)
+
+
+class CardPatch(CardVersion):
     label: str | None = None
     sku: str | None = None
     quantity: int | None = Field(default=None, ge=1, le=99, strict=True)
@@ -181,6 +187,7 @@ class OfferInput(StrictModel):
     address_scope: str
     observed_at: datetime
     same_spec: bool = False
+    reference_total_minor: int | None = Field(default=None, ge=1, le=10_000_000, strict=True)
     interrupt: Literal["write", "open"] | None = None
 
     @field_validator("offer_id", "merchant", "sku", "unit", "address_scope")
@@ -199,7 +206,7 @@ class OfferInput(StrictModel):
         return _aware(value)
 
 
-class ApprovalInput(StrictModel):
+class ApprovalInput(CardVersion):
     interrupt: Literal["hold"] | None = None
 
 
@@ -230,6 +237,7 @@ def _commercial(offer: OfferInput) -> dict:
         "offer_id": offer.offer_id,
         "quantity": offer.quantity,
         "same_spec": offer.same_spec,
+        "reference_total_minor": offer.reference_total_minor,
         "shipping_minor": offer.shipping_minor,
         "sku": offer.sku,
         "unit": offer.unit,
@@ -261,10 +269,10 @@ class PurchaseNotices:
         delivered = any(row["status"] in {"delivered", "duplicate"} for row in results)
         if delivered:
             with self.store.connection(write=True) as conn:
-                conn.execute(
-                    "DELETE FROM purchase_notice_holds WHERE notice_id=?", (notice.id,)
-                )
-            return "delivered" if any(row["status"] == "delivered" for row in results) else "duplicate"
+                conn.execute("DELETE FROM purchase_notice_holds WHERE notice_id=?", (notice.id,))
+            return (
+                "delivered" if any(row["status"] == "delivered" for row in results) else "duplicate"
+            )
         return "held"
 
     def release(self, *, quiet: bool) -> None:
@@ -377,14 +385,16 @@ class PurchaseCardService:
             )
             return {"card": self._card_view(conn, self._card_row(conn, card_id)), "saved": True}
 
-        return self._commit(key, fingerprint, produce)
+        return self._commit(key, fingerprint, produce, principal)
 
-    def confirm(self, card_id: str, key: str, principal) -> dict:
+    def confirm(self, card_id: str, payload: CardVersion, key: str, principal) -> dict:
         self._owner(principal)
         key = _operation_key(key)
 
         def produce(conn):
             card = self._card(self._card_row(conn, card_id))
+            if card["version"] != payload.expected_version:
+                raise DomainError("VERSION_CONFLICT", 409)
             if card["state"] == "revoked":
                 raise DomainError("PURCHASE_CARD_REVOKED", 409)
             if card["state"] == "draft":
@@ -395,20 +405,43 @@ class PurchaseCardService:
                 )
             return {"card": self._card_view(conn, self._card_row(conn, card_id)), "saved": True}
 
-        return self._commit(key, encode({"card_id": card_id, "action": "confirm"}), produce)
+        return self._commit(
+            key,
+            encode(
+                {
+                    "card_id": card_id,
+                    "action": "confirm",
+                    "expected_version": payload.expected_version,
+                }
+            ),
+            produce,
+            principal,
+        )
 
     def update(self, card_id: str, payload: CardPatch, key: str, principal) -> dict:
         self._owner(principal)
         key = _operation_key(key)
         provided = self._provided(payload)
-        fingerprint = encode({"card_id": card_id, "action": "update", "fields": provided})
+        fingerprint = encode(
+            {
+                "card_id": card_id,
+                "action": "update",
+                "fields": provided,
+                "expected_version": payload.expected_version,
+            }
+        )
 
         def produce(conn):
             card = self._card(self._card_row(conn, card_id))
+            if card["version"] != payload.expected_version:
+                raise DomainError("VERSION_CONFLICT", 409)
             if card["state"] == "revoked":
                 raise DomainError("PURCHASE_CARD_REVOKED", 409)
             if not provided:
-                return {"card": self._card_view(conn, self._card_row(conn, card_id)), "saved": False}
+                return {
+                    "card": self._card_view(conn, self._card_row(conn, card_id)),
+                    "saved": False,
+                }
             assignments = []
             values = []
             for name, value in provided.items():
@@ -430,7 +463,7 @@ class PurchaseCardService:
             )
             return {"card": self._card_view(conn, self._card_row(conn, card_id)), "saved": True}
 
-        return self._commit(key, fingerprint, produce)
+        return self._commit(key, fingerprint, produce, principal)
 
     def revoke(self, card_id: str, key: str, principal) -> dict:
         self._owner(principal)
@@ -456,21 +489,24 @@ class PurchaseCardService:
                 "saved": True,
             }
 
-        return self._commit(key, encode({"card_id": card_id, "action": "revoke"}), produce)
+        return self._commit(
+            key, encode({"card_id": card_id, "action": "revoke"}), produce, principal
+        )
 
     def submit_offer(self, card_id: str, payload: OfferInput, key: str, principal) -> dict:
         self._owner(principal)
         key = _operation_key(key)
         commercial = _commercial(payload)
-        fingerprint = encode(commercial)
+        fingerprint = encode({"card_id": card_id, "action": "offer", **commercial})
         notice = None
         with self.store.connection(write=True) as conn:
+            self.runtime.personal_context.require_owner_transaction(conn, principal)
             replay = self._claim(conn, key, fingerprint)
             if replay is not None:
                 body = replay
             else:
                 body, notice = self._offer_work(
-                    conn, card_id, commercial, fingerprint, payload.interrupt
+                    conn, card_id, commercial, encode(commercial), payload.interrupt
                 )
                 if body["completed"]:
                     self._store_claim(conn, key, body)
@@ -481,12 +517,23 @@ class PurchaseCardService:
     def approve(self, card_id: str, offer_id: str, payload: ApprovalInput, key: str, principal):
         self._owner(principal)
         key = _operation_key(key)
-        fingerprint = encode({"card_id": card_id, "offer_id": offer_id, "action": "approve"})
+        fingerprint = encode(
+            {
+                "card_id": card_id,
+                "offer_id": offer_id,
+                "action": "approve",
+                "expected_version": payload.expected_version,
+            }
+        )
         with self.store.connection(write=True) as conn:
+            self.runtime.personal_context.require_owner_transaction(conn, principal)
             replay = self._claim(conn, key, fingerprint)
             if replay is not None:
                 body = replay
             else:
+                card = self._card(self._card_row(conn, card_id))
+                if card["version"] != payload.expected_version:
+                    raise DomainError("VERSION_CONFLICT", 409)
                 body = self._approve_work(conn, card_id, offer_id, payload.interrupt)
                 if body["completed"] or body.get("code") == "STALE_CARD":
                     self._store_claim(conn, key, body)
@@ -506,6 +553,7 @@ class PurchaseCardService:
             }
         )
         with self.store.connection(write=True) as conn:
+            self.runtime.personal_context.require_owner_transaction(conn, principal)
             replay = self._claim(conn, key, fingerprint)
             if replay is not None:
                 body = replay
@@ -642,9 +690,7 @@ class PurchaseCardService:
             ),
             "purchase_card",
         )
-        conn.execute(
-            "UPDATE purchase_cards SET task_id=? WHERE id=?", (task["id"], card["id"])
-        )
+        conn.execute("UPDATE purchase_cards SET task_id=? WHERE id=?", (task["id"], card["id"]))
         return task["id"]
 
     def _insert_offer(self, conn, card, commercial, fingerprint, task_id) -> None:
@@ -715,8 +761,9 @@ class PurchaseCardService:
             reason_zh="已按保存的购买卡片核对这次报价。",
         )
 
-    def _commit(self, key, fingerprint, produce) -> dict:
+    def _commit(self, key, fingerprint, produce, principal) -> dict:
         with self.store.connection(write=True) as conn:
+            self.runtime.personal_context.require_owner_transaction(conn, principal)
             replay = self._claim(conn, key, fingerprint)
             if replay is not None:
                 body = replay
@@ -740,9 +787,7 @@ class PurchaseCardService:
         return json.loads(row["response"])
 
     def _store_claim(self, conn, key, body) -> None:
-        conn.execute(
-            "UPDATE purchase_claims SET response=? WHERE id=?", (encode(body), key)
-        )
+        conn.execute("UPDATE purchase_claims SET response=? WHERE id=?", (encode(body), key))
 
     def _owner(self, principal) -> None:
         token = principal.get("session") if isinstance(principal, dict) else None
@@ -750,6 +795,7 @@ class PurchaseCardService:
             raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
         if not self.store.session_valid(token):
             raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
+        self.runtime.personal_context.require_visible(principal)
 
     def _quiet(self) -> bool:
         with self.store.connection() as conn:
@@ -889,6 +935,8 @@ class PurchaseCardService:
     def _provided(payload: CardPatch) -> dict:
         provided = {}
         for name in payload.model_fields_set:
+            if name == "expected_version":
+                continue
             value = getattr(payload, name)
             if value is None:
                 raise DomainError("FIELD_NOT_CLEARABLE", 422)
@@ -921,8 +969,8 @@ def purchase_card_routes(runtime, owner, operation_id):
         return runtime.purchase_cards.create(payload, key, principal(request))
 
     @router.post("/{card_id}/confirmation")
-    def confirm(card_id: str, request: Request, key=Depends(operation_id)):
-        return runtime.purchase_cards.confirm(card_id, key, principal(request))
+    def confirm(card_id: str, payload: CardVersion, request: Request, key=Depends(operation_id)):
+        return runtime.purchase_cards.confirm(card_id, payload, key, principal(request))
 
     @router.post("/{card_id}/updates")
     def update(card_id: str, payload: CardPatch, request: Request, key=Depends(operation_id)):
@@ -941,12 +989,10 @@ def purchase_card_routes(runtime, owner, operation_id):
         card_id: str,
         offer_id: str,
         request: Request,
-        payload: ApprovalInput | None = None,
+        payload: ApprovalInput,
         key=Depends(operation_id),
     ):
-        return runtime.purchase_cards.approve(
-            card_id, offer_id, payload or ApprovalInput(), key, principal(request)
-        )
+        return runtime.purchase_cards.approve(card_id, offer_id, payload, key, principal(request))
 
     @router.post("/{card_id}/offers/{offer_id}/receipt")
     def receipt(

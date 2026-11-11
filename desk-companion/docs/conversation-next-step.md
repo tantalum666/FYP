@@ -1,5 +1,9 @@
 # Conversation next step — 11 November 2026
 
+## Reviewed integration — 11 November 2026
+
+The existing transcript shows the answer once; no welcome block or redundant classification label is restored. Paired requests cannot fall through to private goals. A conversation with selected file context keeps that provider path instead of this local shortcut. The typed/help question remains available. [Review evidence](../../output/qa/2026-11-11-grok-review/verification.md). Runtime rollout is separate.
+
 Grok Bot completed this slice. Alice answers one ordinary question in the existing conversation: “What should I do next?” / “接下来做什么？”. The answer is read from local records. She does not do the step, open a draft, or call a model.
 
 This is the gap a demo user hits on the main conversation page. The offline parser already answers “What is on today?” and can draft a calendar event, but the same page answers “What should I do next?” with the calendar-format prompt. Moments and morning briefs stay on their own cards and stay silent during quiet hours or when proactivity is off. Those are unsolicited. This question is asked, so Alice answers anyway. It is not another approval ledger: there is no confirm button and `acted` stays false.

@@ -332,6 +332,7 @@ class ComputerUseExecutor:
         }
         record = {
             "paused": True,
+            "takeover_available": bool(getattr(self.supervisor, "supports_owner_takeover", False)),
             "verified": False,
             "wall": wall["wall"],
             "reason": wall["reason"],
@@ -360,7 +361,9 @@ class ComputerUseExecutor:
             raw = read_regular(directory / "wall-evidence.json", 8000)
             evidence = json.loads(raw)
         except (OSError, ValueError):
-            raise RuntimeError("Computer execution/cleanup is uncertain; inspect before retry") from None
+            raise RuntimeError(
+                "Computer execution/cleanup is uncertain; inspect before retry"
+            ) from None
         observed = evidence.get("observed_text")
         if (
             evidence.get("cleared") is not True

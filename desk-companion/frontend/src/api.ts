@@ -458,6 +458,10 @@ export function errorText(
       "This browser job is not waiting for you to take over.",
       "这个浏览器作业现在不在等待你接手。",
     ],
+    COMPUTER_TAKEOVER_UNAVAILABLE: [
+      "An interactive browser is not connected. This job remains paused.",
+      "尚未连接可接管的浏览器，作业保持暂停。",
+    ],
     COMPUTER_TARGET_EXISTS: [
       "A file already exists at this destination. It was left unchanged.",
       "目标已有文件，原文件保持不变。",

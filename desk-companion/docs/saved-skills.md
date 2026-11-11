@@ -1,5 +1,9 @@
 # Saved skills — 10 November 2026
 
+## Reviewed integration — 11 November 2026
+
+Saved checklists and schedules are under the existing Work & tools disclosure, available only with visible owner context. Reads/writes validate the session in the same transaction. They save owner-reviewed local check results; they do not execute arbitrary steps, send mail or buy anything. Original contributor merge notes below are historical; this source includes both PR108 and PR109. [Review evidence](../../output/qa/2026-11-11-grok-review/verification.md). Runtime rollout is separate.
+
 Grok Bot completed this slice. It adds a local schedule to the owner-checked skill from PR #108. It is one offline capability, not a merge of the other open pull requests.
 
 ## Why this one

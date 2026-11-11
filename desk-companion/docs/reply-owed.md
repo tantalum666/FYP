@@ -1,5 +1,9 @@
 # Reply owed — conversation slice
 
+## Reviewed integration — 11 November 2026
+
+Only unfinished reply steps count as outstanding. A selected task scopes deduplication/filling, so another task for the same person cannot absorb the update. The answer uses the current transcript, without a second classification label. Attached context keeps its provider path. Branch-specific fallback assertions and merge notes below are historical. [Review evidence](../../output/qa/2026-11-11-grok-review/verification.md). Runtime rollout is separate.
+
 11 November 2026. Grok Bot completed this on `cursor/reply-owed-conversation-6a62`. It is not merged.
 
 ## Why this slice

@@ -9,6 +9,9 @@ import type { WorkGoalRequest } from "./agent/types";
 import { ResponsibilitiesPanel } from "./responsibilities/ResponsibilitiesPanel";
 import { RoutinesPanel } from "./RoutinesPanel";
 import { TripQuotes } from "./TripQuotes";
+import { SavedSkillsPanel } from "./SavedSkillsPanel";
+import { PurchaseCardPanel } from "./PurchaseCardPanel";
+import { HeldChoicePanel } from "./HeldChoicePanel";
 import { BrowserWorkflowPanel } from "./browser/BrowserWorkflowPanel";
 import { ConnectorReviewPanel } from "./connectors/ConnectorReviewPanel";
 import { ProposalActionCard } from "./ProposalActionCard";
@@ -138,10 +141,26 @@ export default function WorkTools({
         <summary>{t("Scheduled check-ins", "定期检查")}</summary>
         <RoutinesPanel t={t} />
       </details>
-      <details>
-        <summary>{t("Trip quote", "行程报价")}</summary>
-        <TripQuotes t={t} />
-      </details>
+      {privateVisible && (
+        <>
+          <details>
+            <summary>{t("Saved checklists", "保存的清单")}</summary>
+            <SavedSkillsPanel t={t} />
+          </details>
+          <details>
+            <summary>{t("Purchase preferences", "购物偏好")}</summary>
+            <PurchaseCardPanel t={t} />
+          </details>
+          <details>
+            <summary>{t("Saved decisions", "保存的决定")}</summary>
+            <HeldChoicePanel t={t} />
+          </details>
+          <details>
+            <summary>{t("Trip quote rehearsal", "行程报价演练")}</summary>
+            <TripQuotes t={t} />
+          </details>
+        </>
+      )}
       <details>
         <summary>
           {t("Saved conversations and context", "保存的会话与上下文")}

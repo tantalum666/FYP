@@ -111,7 +111,7 @@ test("a saved result is an approval on this desk, and a pending run can still be
   assert.match(done, /Saved on this desk after your approval/);
   assert.doesNotMatch(done, /Approve/);
   const tasks = fs.readFileSync(
-    new URL("../src/workspace/TaskPanel.tsx", import.meta.url),
+    new URL("../src/workspace/WorkTools.tsx", import.meta.url),
     "utf8",
   );
   assert.match(tasks, /<SavedSkillsPanel/);

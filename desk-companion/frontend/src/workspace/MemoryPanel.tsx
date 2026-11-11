@@ -259,7 +259,6 @@ export function MemoryPanel({ t }: { t: Translate }) {
           </p>
         </div>
       </div>
-      <SourceBriefPanel t={t} />
       <form
         className="memory-compose"
         onSubmit={(event) => {
@@ -334,7 +333,22 @@ export function MemoryPanel({ t }: { t: Translate }) {
         onDelete={setDeleting}
         onExpiry={expire}
       />
-      <MemoryFollowUps t={t} facts={facts} onMemoryChange={() => void reload()} />
+      {data?.personal_context_visible && (
+        <details>
+          <summary>{t("Compare saved notes", "比较已有笔记")}</summary>
+          <SourceBriefPanel t={t} />
+        </details>
+      )}
+      {data?.personal_context_visible && (
+        <details>
+          <summary>{t("Memory reminders", "记忆提醒")}</summary>
+          <MemoryFollowUps
+            t={t}
+            facts={facts}
+            onMemoryChange={() => void reload()}
+          />
+        </details>
+      )}
       {!loading && !error && !facts.length && (
         <p>{t(knowledgeCopy.emptyFacts[0], knowledgeCopy.emptyFacts[1])}</p>
       )}

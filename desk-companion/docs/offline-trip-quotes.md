@@ -1,5 +1,9 @@
 # Offline trip quotes
 
+## Reviewed integration — 11 November 2026
+
+Trip event commits recheck the current connection and itinerary snapshot, so concurrent revoke/hold/release cannot be overwritten by a stale sync. Nonexistent or ambiguous DST civil times are rejected. Work & tools labels this as a trip-quote rehearsal. This remains fixture-only, with no live ticket or payment. [Review evidence](../../output/qa/2026-11-11-grok-review/verification.md). Runtime rollout is separate.
+
 10 November 2026. This is the offline slice of the third journey in the [research index](../../research/personal-agent-research-index.md): a fare can be reviewed, held, released, failed, or matched to a fixture receipt. A later price, time, or unavailable report stays on the same task and retires the earlier approval. Mailbox, shopping, and the offline calendar already do that for their own sources. The 7 November browser flight comparison did not record those states.
 
 It does not call a model, an airline, a payment service, or a calendar account. A fixture receipt is not a live ticket. `purchase` is always `not_performed`.

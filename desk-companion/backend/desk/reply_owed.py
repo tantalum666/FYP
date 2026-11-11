@@ -57,9 +57,7 @@ _REPLY_ZH = re.compile(
     r"^(?:请)?(?:我(?:该|得|需要|应当))?回复(?!谁)\s*"
     r"(.+?)\s*(?:[，,]\s*)?关于\s*(.+?)\s*[。！？]*$"
 )
-_REPLY_ZH_BARE = re.compile(
-    r"^(?:请)?(?:我(?:该|得|需要|应当))?回复(?!谁)\s*(.+?)\s*[。！？]*$"
-)
+_REPLY_ZH_BARE = re.compile(r"^(?:请)?(?:我(?:该|得|需要|应当))?回复(?!谁)\s*(.+?)\s*[。！？]*$")
 _STORED = re.compile(r"^Reply to (.+?)(?: about (.+))?$")
 _TASK_FIELDS = (
     "title",
@@ -159,11 +157,11 @@ def _obligations(task: dict) -> list[dict]:
     if title:
         found.append({"where": "title", "who": title[0], "topic": title[1]})
     for index, step in enumerate(task.get("steps") or []):
+        if step.get("done"):
+            continue
         parts = _parts(str(step.get("title") or ""))
         if parts:
-            found.append(
-                {"where": "step", "index": index, "who": parts[0], "topic": parts[1]}
-            )
+            found.append({"where": "step", "index": index, "who": parts[0], "topic": parts[1]})
     return found
 
 
@@ -274,8 +272,10 @@ def _body(runtime, task: dict, *, title: str | None = None, steps: list | None =
 
 def _already(who: str, topic: str, *, zh: bool, hidden: bool) -> dict:
     if hidden:
-        message = "已经记下要回复的人。没有新增保存。" if zh else (
-            "That reply is already saved. Nothing new was saved."
+        message = (
+            "已经记下要回复的人。没有新增保存。"
+            if zh
+            else ("That reply is already saved. Nothing new was saved.")
         )
     elif zh:
         message = _line(who, topic, zh=True) + "没有新增保存。"
@@ -289,7 +289,7 @@ def _person(task: dict, who: str) -> list[dict]:
     return [item for item in _obligations(task) if _same(item["who"], who)]
 
 
-def _find(runtime, who: str, topic: str) -> tuple[dict, dict, str] | None:
+def _find(runtime, who: str, topic: str, task_id=None) -> tuple[dict, dict, str] | None:
     """The saved obligation this sentence already covers, oldest task first.
 
     An omitted topic matches any saved topic for that person and must not clear it.
@@ -298,6 +298,8 @@ def _find(runtime, who: str, topic: str) -> tuple[dict, dict, str] | None:
     blank = None
     tasks = sorted(_raw_open(runtime), key=lambda task: task.get("created_at") or "")
     for task in tasks:
+        if task_id and task["id"] != task_id:
+            continue
         for item in _person(task, who):
             if not topic or _same(item["topic"], topic):
                 return task, item, "exact"
@@ -374,7 +376,7 @@ def _create(runtime, key, who: str, topic: str, *, zh: bool) -> dict:
 
 def _record(runtime, request, key, who: str, topic: str, *, zh: bool) -> dict:
     hidden = _private_hidden(runtime)
-    found = _find(runtime, who, topic)
+    found = _find(runtime, who, topic, request.task_id)
     if found is not None and found[2] == "exact":
         _task, item, _kind = found
         return _already(item["who"], item["topic"], zh=zh, hidden=hidden)
@@ -420,7 +422,9 @@ def answer_reply_owed(runtime, request, key, *, owner: bool, conversation=None):
     if parsed["kind"] == "need":
         return _reply(
             "clarify",
-            "请说明要回复谁。尚未保存。" if zh else "Say who you need to reply to. Nothing was saved.",
+            "请说明要回复谁。尚未保存。"
+            if zh
+            else "Say who you need to reply to. Nothing was saved.",
         )
     if parsed["kind"] == "long":
         return _reply(

@@ -1,5 +1,9 @@
 # Owner-approved memory follow-ups
 
+## Reviewed integration — 11 November 2026
+
+Owner routes honor private-hide. Morning facts are resolved from current active memories on each owner inbox read; persisted, browser and push notifications only say to open Memory. Forgotten/expired wording is not replayed by follow-up/check-in operation receipts. One existing rules clock is retained; no real mailbox monitoring is implied. The controls are expandable on Memory. [Review evidence](../../output/qa/2026-11-11-grok-review/verification.md). Runtime rollout is separate.
+
 10 November 2026. Group 2. This is an offline slice. It does not call a model, read a mailbox, or write a calendar event or task.
 
 Alice can raise one saved memory at a local time the owner approves. Quiet hours and “proactive reminders off” hold that same follow-up. They do not create a second one. Forgetting or expiring the memory cancels it and does not repeat the wording.

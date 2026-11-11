@@ -35,9 +35,7 @@ def _say(runtime, message, key, **fields):
 def _events(body: str):
     events = []
     for block in body.split("\n\n"):
-        data = "".join(
-            line[5:].lstrip() for line in block.splitlines() if line.startswith("data:")
-        )
+        data = "".join(line[5:].lstrip() for line in block.splitlines() if line.startswith("data:"))
         if data:
             events.append(json.loads(data))
     return events
@@ -389,13 +387,13 @@ def test_older_phrases_still_reach_their_own_parsers(tmp_path):
     goal = _say(runtime, "Goal: finish the report by Friday", "goal")
     assert goal["proposal"]["data"].get("goal") is True
     free = _say(runtime, "When am I free tomorrow?", "free")
-    assert free["kind"] == "brief"
+    assert free["kind"] == "open_time"
     meeting = _say(runtime, "Prep me for my next meeting", "meeting")
-    assert meeting["kind"] == "clarify"
+    assert meeting["kind"] == "meeting_prep"
     nxt = _say(runtime, "What should I do next?", "next")
-    assert nxt["kind"] == "clarify"
+    assert nxt["kind"] == "next_step"
     waiting = _say(runtime, "What am I waiting on?", "waiting")
-    assert waiting["kind"] == "clarify"
+    assert waiting["kind"] == "waiting"
     stated = _say(runtime, "我要回复 Sam，关于场地", "goal-reply")
     assert stated["proposal"]["data"].get("goal") is True
     assert stated["proposal"]["data"]["task"]["title"] == "回复 Sam，关于场地"

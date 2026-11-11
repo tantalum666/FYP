@@ -75,12 +75,23 @@ def offer_body(**overrides):
         "address_scope": "home",
         "observed_at": "2026-11-11T02:00:00Z",
         "same_spec": False,
+        "reference_total_minor": 4500,
     }
     body.update(overrides)
     return body
 
 
 def post(client, path, body, operation_id):
+    if path.endswith(("/confirmation", "/updates", "/approval")) and "expected_version" not in body:
+        cache = getattr(client, "_purchase_versions", {})
+        lookup = (path, operation_id)
+        if lookup not in cache:
+            response = client.get("/api/purchase-cards")
+            cards = response.json().get("cards", []) if response.status_code == 200 else []
+            card_id = path.split("/")[3]
+            cache[lookup] = next((c["version"] for c in cards if c["id"] == card_id), 1)
+        client._purchase_versions = cache
+        body = {"expected_version": cache[lookup], **body}
     response = client.post(path, json=body, headers=headers(operation_id))
     return response
 
@@ -366,9 +377,12 @@ def test_interruption_is_not_success_and_retry_applies_once(tmp_path):
     )
     assert approved.status_code == 200, approved.text
     assert approved.json()["state"] == "approved"
-    assert notes(task_detail(http, finished.json()["task_id"])).count(
-        "Approved to prepare this offer. No order was placed."
-    ) == 1
+    assert (
+        notes(task_detail(http, finished.json()["task_id"])).count(
+            "Approved to prepare this offer. No order was placed."
+        )
+        == 1
+    )
 
     paused = post(
         http,
@@ -521,7 +535,9 @@ def test_substitute_casefold_quiet_notice_permission_and_backup(tmp_path):
     )
     assert held.json()["state"] == "needs_approval"
     assert [item["id"] for item in purchase_notices(http)].count(
-        next(item["id"] for item in purchase_notices(http) if "Nothing was bought" in item["body_en"])
+        next(
+            item["id"] for item in purchase_notices(http) if "Nothing was bought" in item["body_en"]
+        )
     ) >= 1
     before = len(purchase_notices(http))
     moment[0] = datetime(2026, 11, 11, 5, tzinfo=UTC)

@@ -585,6 +585,8 @@ class JobService:
             (session_hash, iso(self.store.clock())),
         ).fetchone():
             raise DomainError("OWNER_REQUIRED", 403)
+        if not getattr(self.computer_use.supervisor, "supports_owner_takeover", False):
+            raise DomainError("COMPUTER_TAKEOVER_UNAVAILABLE", 409)
         return request
 
     @staticmethod
@@ -608,6 +610,8 @@ class JobService:
 
     def takeover(self, job_id, payload: JobHandoff, key, *, principal):
         self.runtime.personal_context.require_visible(principal)
+        with self.store.connection() as conn:
+            self._computer_owner(conn, self._row(conn, job_id), principal)
 
         def apply(conn):
             row = self._row(conn, job_id)
@@ -625,7 +629,9 @@ class JobService:
                 self._state(conn, job_id, "expired", "JOB_DEADLINE_EXCEEDED")
                 raise DomainError("JOB_DEADLINE_EXCEEDED", 409)
             # Only the phase changes. Omitted fields keep their saved values.
-            self._state(conn, job_id, "owner_takeover", record.get("reason"), {**record, "phase": "held"})
+            self._state(
+                conn, job_id, "owner_takeover", record.get("reason"), {**record, "phase": "held"}
+            )
             return {"job_id": job_id, "held": True}
 
         stored = self.store.operation(
@@ -641,6 +647,8 @@ class JobService:
 
     def hand_back(self, job_id, payload: JobHandoff, key, *, principal):
         self.runtime.personal_context.require_visible(principal)
+        with self.store.connection() as conn:
+            self._computer_owner(conn, self._row(conn, job_id), principal)
 
         def apply(conn):
             row = self._row(conn, job_id)
@@ -661,9 +669,7 @@ class JobService:
             if row["deadline"] and row["deadline"] <= iso(self.store.clock()):
                 self._state(conn, job_id, "expired", "JOB_DEADLINE_EXCEEDED")
                 raise DomainError("JOB_DEADLINE_EXCEEDED", 409)
-            self._state(
-                conn, job_id, "queued", None, {**record, "phase": "returning"}
-            )
+            self._state(conn, job_id, "queued", None, {**record, "phase": "returning"})
             return {"job_id": job_id, "resumed": True}
 
         stored = self.store.operation(
@@ -854,9 +860,7 @@ class JobService:
                     elif current["deadline"] and current["deadline"] <= iso(self.store.clock()):
                         state, code, receipt = "expired", "JOB_DEADLINE_EXCEEDED", None
                     else:
-                        conn.execute(
-                            "UPDATE computer_jobs SET run_id=NULL WHERE id=?", (job_id,)
-                        )
+                        conn.execute("UPDATE computer_jobs SET run_id=NULL WHERE id=?", (job_id,))
                 self._state(conn, job_id, state, code, receipt)
         finally:
             self.run_lock.release()

@@ -277,6 +277,7 @@ class SourceBriefService:
         request = {"type": "source_brief_open", **payload.model_dump(exclude_unset=True)}
 
         def apply(conn):
+            self.runtime.personal_context.require_owner_transaction(conn, principal)
             count = conn.execute("SELECT COUNT(*) FROM source_briefs").fetchone()[0]
             if count >= BRIEF_LIMIT:
                 raise DomainError("BRIEF_LIMIT", 422)
@@ -317,6 +318,7 @@ class SourceBriefService:
         }
 
         def apply(conn):
+            self.runtime.personal_context.require_owner_transaction(conn, principal)
             row = self._require(conn, brief_id)
             if row["status"] != "draft":
                 raise DomainError("BRIEF_SAVED", 409)
@@ -363,6 +365,7 @@ class SourceBriefService:
         }
 
         def apply(conn):
+            self.runtime.personal_context.require_owner_transaction(conn, principal)
             row = self._require(conn, brief_id)
             if row["status"] != "draft":
                 raise DomainError("BRIEF_SAVED", 409)
@@ -425,6 +428,7 @@ class SourceBriefService:
         }
 
         def apply(conn):
+            self.runtime.personal_context.require_owner_transaction(conn, principal)
             row = self._require(conn, brief_id)
             if row["status"] != "draft":
                 raise DomainError("BRIEF_SAVED", 409)
@@ -470,6 +474,7 @@ class SourceBriefService:
         }
 
         def apply(conn):
+            self.runtime.personal_context.require_owner_transaction(conn, principal)
             row = self._require(conn, brief_id)
             if row["status"] != "draft":
                 raise DomainError("BRIEF_SAVED", 409)
