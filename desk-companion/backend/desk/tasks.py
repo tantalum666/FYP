@@ -207,82 +207,98 @@ class TaskService:
 
         return self.store.operation(key, {"type": "task_create", "data": data}, apply)
 
+    def insert_task(self, conn, payload, origin="manual"):
+        """Insert one task inside the caller's transaction. Does not open its own."""
+        data = payload.model_dump(mode="json")
+        if conn.execute("SELECT COUNT(*) FROM tasks").fetchone()[0] >= 500:
+            raise DomainError("TASK_LIMIT", 422)
+        task_id, now = uuid4().hex, iso(self.store.clock())
+        conn.execute(
+            "INSERT INTO tasks VALUES(?,?,1,?,0,?,?,?)",
+            (task_id, encode(data), data["status"], self.schedule(data), now, now),
+        )
+        self.evidence(conn, task_id, 1, "created", "", origin)
+        return self.get(conn, task_id)
+
     def action(self, task_id, payload, key, origin="manual"):
         def apply(conn):
-            old = self.get(conn, task_id)
-            if old["version"] != payload.expected_version:
-                raise DomainError("VERSION_CONFLICT")
-            action = payload.action
-            if old["status"] not in OPEN and action != "reopen":
-                raise DomainError("TASK_CLOSED", 409)
-            if action == "reopen" and old["status"] in OPEN:
-                raise DomainError("TASK_ALREADY_OPEN", 409)
-            data = {k: old[k] for k in TaskInput.model_fields}
-            status, paused, next_at = old["status"], old["paused"], old["next_check_at"]
-            if action == "update":
-                if not payload.task:
-                    raise DomainError("TASK_INPUT_REQUIRED", 422)
-                data = payload.task.model_dump(mode="json")
-                status = data["status"]
-                next_at = self.schedule(data) if not paused else None
-            elif action == "note":
-                if not payload.note.strip():
-                    raise DomainError("TASK_NOTE_REQUIRED", 422)
-                next_at = self.schedule(data, explicit=False) if not paused else None
-                data["check_in_local"] = None
-            elif action in {"complete", "cancel"}:
-                status, next_at = ("completed" if action == "complete" else "cancelled"), None
-            elif action == "reopen":
-                status, paused = "todo", False
-                data["status"] = "todo"
-                data["check_in_local"] = None
-                next_at = self.schedule(data, explicit=False)
-            elif action == "pause":
-                paused, next_at = True, None
-            elif action in {"resume", "snooze"}:
-                paused = False
-                data["follow_up_enabled"] = True
-                data["check_in_local"] = None
-                next_at = iso(self.store.clock() + timedelta(minutes=payload.minutes))
-            completion_origin = "owner_policy" if origin == "owner_policy" else "user_confirmed"
-            data["completion_source"] = (
-                completion_origin
-                if action == "complete"
-                else None
-                if action == "reopen"
-                else old.get("completion_source")
-            )
-            version = old["version"] + 1
-            conn.execute(
-                "UPDATE tasks SET data=?,version=?,status=?,paused=?,next_check_at=?,updated_at=? WHERE id=?",
-                (
-                    encode(data),
-                    version,
-                    status,
-                    int(paused),
-                    next_at,
-                    iso(self.store.clock()),
-                    task_id,
-                ),
-            )
-            conn.execute(
-                "UPDATE task_followups SET state='resolved' WHERE task_id=? AND state='pending'",
-                (task_id,),
-            )
-            conn.execute("DELETE FROM task_quiet_holds WHERE task_id=?", (task_id,))
-            self.evidence(
-                conn,
-                task_id,
-                version,
-                action,
-                payload.note.strip(),
-                completion_origin if action == "complete" else origin,
-            )
-            return {"task": self.get(conn, task_id), "saved": True}
+            return self.apply_action(conn, task_id, payload, origin)
 
         return self.store.operation(
             key, {"type": "task_action", "id": task_id, **payload.model_dump(mode="json")}, apply
         )
+
+    def apply_action(self, conn, task_id, payload, origin="manual"):
+        old = self.get(conn, task_id)
+        if old["version"] != payload.expected_version:
+            raise DomainError("VERSION_CONFLICT")
+        action = payload.action
+        if old["status"] not in OPEN and action != "reopen":
+            raise DomainError("TASK_CLOSED", 409)
+        if action == "reopen" and old["status"] in OPEN:
+            raise DomainError("TASK_ALREADY_OPEN", 409)
+        data = {k: old[k] for k in TaskInput.model_fields}
+        status, paused, next_at = old["status"], old["paused"], old["next_check_at"]
+        if action == "update":
+            if not payload.task:
+                raise DomainError("TASK_INPUT_REQUIRED", 422)
+            data = payload.task.model_dump(mode="json")
+            status = data["status"]
+            next_at = self.schedule(data) if not paused else None
+        elif action == "note":
+            if not payload.note.strip():
+                raise DomainError("TASK_NOTE_REQUIRED", 422)
+            next_at = self.schedule(data, explicit=False) if not paused else None
+            data["check_in_local"] = None
+        elif action in {"complete", "cancel"}:
+            status, next_at = ("completed" if action == "complete" else "cancelled"), None
+        elif action == "reopen":
+            status, paused = "todo", False
+            data["status"] = "todo"
+            data["check_in_local"] = None
+            next_at = self.schedule(data, explicit=False)
+        elif action == "pause":
+            paused, next_at = True, None
+        elif action in {"resume", "snooze"}:
+            paused = False
+            data["follow_up_enabled"] = True
+            data["check_in_local"] = None
+            next_at = iso(self.store.clock() + timedelta(minutes=payload.minutes))
+        completion_origin = "owner_policy" if origin == "owner_policy" else "user_confirmed"
+        data["completion_source"] = (
+            completion_origin
+            if action == "complete"
+            else None
+            if action == "reopen"
+            else old.get("completion_source")
+        )
+        version = old["version"] + 1
+        conn.execute(
+            "UPDATE tasks SET data=?,version=?,status=?,paused=?,next_check_at=?,updated_at=? WHERE id=?",
+            (
+                encode(data),
+                version,
+                status,
+                int(paused),
+                next_at,
+                iso(self.store.clock()),
+                task_id,
+            ),
+        )
+        conn.execute(
+            "UPDATE task_followups SET state='resolved' WHERE task_id=? AND state='pending'",
+            (task_id,),
+        )
+        conn.execute("DELETE FROM task_quiet_holds WHERE task_id=?", (task_id,))
+        self.evidence(
+            conn,
+            task_id,
+            version,
+            action,
+            payload.note.strip(),
+            completion_origin if action == "complete" else origin,
+        )
+        return {"task": self.get(conn, task_id), "saved": True}
 
     def listing(self, query="", include_closed=False, display=False):
         with self.store.connection() as conn:
