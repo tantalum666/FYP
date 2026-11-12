@@ -28,6 +28,26 @@
   width: 100%;
   height: 100%;
 }
+.alice-scene .alice-hello {
+  position: absolute;
+  inset: 8% 34% 16%;
+  z-index: 1;
+  pointer-events: auto;
+  background: transparent;
+  color: inherit;
+  border: 0;
+  border-radius: 45%;
+  padding: 0;
+  box-shadow: none;
+  cursor: pointer;
+}
+.alice-scene .alice-hello:hover,
+.alice-scene .alice-hello:active {
+  background: transparent;
+}
+.alice-scene .alice-hello:disabled {
+  pointer-events: none;
+}
 .alice-scene > img {
   width: 100%;
   height: 100%;

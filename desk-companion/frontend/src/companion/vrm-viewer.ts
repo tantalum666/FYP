@@ -10,6 +10,18 @@ import {
 import { mouthLevel, subscribePlayback, type PlaybackSample } from "./output";
 import type { Presentation } from "./renderer";
 import { MODELS, readAppearance } from "./appearance";
+import { HandPose, relaxArms } from "./hand-pose";
+import {
+  aliceMotion,
+  blinkWeight,
+  MOTION_BONES,
+  type MotionBone,
+} from "./alice-motion";
+import {
+  companionState,
+  subscribeInteraction,
+  type CompanionState,
+} from "./interaction";
 
 export type VrmExpression = "neutral" | "smile" | "blink" | "speak";
 
@@ -44,6 +56,19 @@ export class VrmViewer {
   private presentation: Presentation | null = null;
   private pointer = { x: 0, y: 0 };
   private responseAt = -10;
+  private gesture: "wave" | "nod" = "nod";
+  private waveSide: "left" | "right" = "left";
+  private bones = new Map<
+    MotionBone,
+    { node: THREE.Object3D; rest: THREE.Quaternion }
+  >();
+  private rotation = new THREE.Euler();
+  private offset = new THREE.Quaternion();
+  private goal = new THREE.Quaternion();
+  private interaction: CompanionState | null = null;
+  private unsubscribeInteraction: (() => void) | null = null;
+  private frames = 0;
+  private hands: HandPose | null = null;
   private sample: PlaybackSample = { level: 0, at: 0 };
   private unsubscribe: (() => void) | null = null;
   private intersection: IntersectionObserver;
@@ -91,6 +116,10 @@ export class VrmViewer {
       window.addEventListener("pointermove", this.follow, { passive: true });
       this.unsubscribe = subscribePlayback((sample) => {
         this.sample = sample;
+        if (!this.paused) this.schedule();
+      });
+      this.unsubscribeInteraction = subscribeInteraction((state) => {
+        this.interaction = state;
         if (!this.paused) this.schedule();
       });
     }
@@ -163,9 +192,31 @@ export class VrmViewer {
       if (head) this.headScale.copy(head.scale);
       this.scene.add(vrm.scene);
       vrm.scene.updateMatrixWorld(true);
-      this.lowerArms(vrm);
+      relaxArms(vrm);
       vrm.humanoid.update();
       vrm.scene.updateMatrixWorld(true);
+      for (const name of MOTION_BONES) {
+        const node = vrm.humanoid.getNormalizedBoneNode(name);
+        if (node) this.bones.set(name, { node, rest: node.quaternion.clone() });
+      }
+      this.hands = new HandPose(vrm);
+      const left = vrm.humanoid.getRawBoneNode("leftUpperArm");
+      const right = vrm.humanoid.getRawBoneNode("rightUpperArm");
+      // Greet on the free side of the phone scene, away from its left calendar.
+      if (left && right)
+        this.waveSide =
+          left.getWorldPosition(new THREE.Vector3()).x >
+          right.getWorldPosition(new THREE.Vector3()).x
+            ? "left"
+            : "right";
+      if (
+        this.floating &&
+        !this.interaction &&
+        companionState(this.presentation?.state ?? "idle") === "idle"
+      ) {
+        this.gesture = "wave";
+        this.responseAt = this.elapsed + 0.35;
+      }
       // VRM0 was rotated after import. Initialize spring state in its final
       // world transform so the first frame does not throw the hair upward.
       vrm.springBoneManager?.setInitState();
@@ -192,30 +243,6 @@ export class VrmViewer {
         this.dispose();
         this.failed();
       }
-    }
-  }
-
-  private lowerArms(vrm: VRM) {
-    for (const side of ["left", "right"] as const) {
-      const upper = vrm.humanoid.getNormalizedBoneNode(`${side}UpperArm`);
-      const lower = vrm.humanoid.getNormalizedBoneNode(`${side}LowerArm`);
-      if (!upper || !lower || !upper.parent) continue;
-      const shoulder = upper.getWorldPosition(new THREE.Vector3());
-      const elbow = lower.getWorldPosition(new THREE.Vector3());
-      const parentRotation = upper.parent
-        .getWorldQuaternion(new THREE.Quaternion())
-        .invert();
-      const rest = elbow
-        .sub(shoulder)
-        .normalize()
-        .applyQuaternion(parentRotation);
-      const outward = Math.sign(shoulder.x) || (side === "left" ? 1 : -1);
-      const down = new THREE.Vector3(outward * 0.2, -1, 0.03)
-        .normalize()
-        .applyQuaternion(parentRotation);
-      upper.quaternion.premultiply(
-        new THREE.Quaternion().setFromUnitVectors(rest, down),
-      );
     }
   }
 
@@ -269,8 +296,10 @@ export class VrmViewer {
     if (
       value.action !== "Idle" &&
       (value.nonce !== previous?.nonce || value.action !== previous?.action)
-    )
+    ) {
+      this.gesture = value.action === "Wave" ? "wave" : "nod";
       this.responseAt = this.elapsed;
+    }
     if (
       value.review !== previous?.review ||
       value.framing !== previous?.framing
@@ -352,21 +381,32 @@ export class VrmViewer {
       : 0;
     this.previous = at;
     if (!this.paused) this.elapsed += delta;
-    const responseTime = this.elapsed - this.responseAt;
-    const nod =
-      responseTime >= 0 && responseTime < 0.85
-        ? Math.sin((responseTime / 0.85) * Math.PI) * 0.1
-        : 0;
-    if (this.floating && this.vrm) {
-      const head = this.vrm.humanoid.getNormalizedBoneNode("head");
-      if (head)
-        head.rotation.set(
-          this.pointer.y * 0.045 + nod,
-          this.pointer.x * 0.12,
-          0,
-        );
-      const chest = this.vrm.humanoid.getNormalizedBoneNode("chest");
-      if (chest) chest.rotation.x = Math.sin(this.elapsed * 1.3) * 0.005;
+    const playback =
+      this.floating && !this.paused ? mouthLevel(this.sample, Date.now()) : 0;
+    const motion = aliceMotion(this.elapsed, {
+      state:
+        playback > 0.02
+          ? "speaking"
+          : (this.interaction ?? this.presentation?.state),
+      lookX: this.pointer.x,
+      lookY: this.pointer.y,
+      gesture: this.gesture,
+      gestureAt: this.responseAt,
+      waveSide: this.waveSide,
+    });
+    if (this.floating && this.vrm && !this.paused) {
+      const blend = 1 - Math.exp(-9 * delta);
+      for (const [name, { node, rest }] of this.bones) {
+        const [x, y, z] = motion.pose[name];
+        this.offset.setFromEuler(this.rotation.set(x, y, z));
+        this.goal.copy(rest).multiply(this.offset);
+        node.quaternion.slerp(this.goal, blend);
+      }
+      this.hands?.update(
+        delta,
+        motion.gesture === "wave" ? this.waveSide : null,
+        motion.openness,
+      );
     }
     const manager = this.vrm?.expressionManager;
     if (manager) {
@@ -380,16 +420,12 @@ export class VrmViewer {
               )
           : this.paused
             ? 0
-            : Math.exp(
-                -Math.pow((((this.elapsed + 1.5) % 5.2) - 4.8) / 0.08, 2),
-              );
+            : blinkWeight(this.elapsed);
       manager.setValue("blink", blink);
       manager.setValue(
         "happy",
-        this.expression === "smile" ? 0.25 : nod > 0 ? 0.08 : 0,
+        this.expression === "smile" ? 0.25 : this.floating ? motion.smile : 0,
       );
-      const playback =
-        this.floating && !this.paused ? mouthLevel(this.sample, Date.now()) : 0;
       manager.setValue(
         "aa",
         this.expression === "speak"
@@ -415,6 +451,8 @@ export class VrmViewer {
       head.updateMatrixWorld(true);
     }
     this.renderer.render(this.scene, this.camera);
+    this.host.dataset.motion = motion.gesture ?? motion.state;
+    this.host.dataset.frames = String(++this.frames);
     if (!this.paused && this.vrm) this.schedule();
   };
 
@@ -430,6 +468,9 @@ export class VrmViewer {
     document.removeEventListener("visibilitychange", this.schedule);
     window.removeEventListener("pointermove", this.follow);
     this.unsubscribe?.();
+    this.unsubscribeInteraction?.();
+    this.bones.clear();
+    this.hands = null;
     this.renderer.domElement.removeEventListener("webglcontextlost", this.lost);
     if (this.vrm) VRMUtils.deepDispose(this.vrm.scene);
     this.originalColors.clear();

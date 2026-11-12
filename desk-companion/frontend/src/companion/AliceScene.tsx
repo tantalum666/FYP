@@ -28,21 +28,29 @@ export function AliceScene({
   onReconnect?: () => void;
 }) {
   const [failed, setFailed] = useState(false);
+  const [hello, setHello] = useState(0);
   return (
     <>
-      <div
-        className="alice-scene"
-        role="img"
-        aria-hidden={obscured}
-        aria-label={t("Alice, your desk companion", "Alice，你的桌面伙伴")}
-      >
+      <div className="alice-scene" aria-hidden={obscured}>
         {failed || !motion ? (
           <img src="/avatars/alice/phone-fallback.jpg" alt="" />
         ) : (
           <A1Canvas
             active={active}
-            state={voiceState}
+            action={hello ? "Wave" : "Idle"}
+            nonce={hello}
+            state={connection === "online" ? voiceState : "idle"}
             onError={() => setFailed(true)}
+          />
+        )}
+        {!failed && motion && (
+          <button
+            className="alice-hello"
+            type="button"
+            aria-label={t("Say hello to Alice", "和 Alice 打个招呼")}
+            title={t("Say hello to Alice", "和 Alice 打个招呼")}
+            disabled={!active || obscured}
+            onClick={() => setHello((value) => value + 1)}
           />
         )}
       </div>

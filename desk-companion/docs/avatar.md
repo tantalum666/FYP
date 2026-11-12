@@ -1,5 +1,17 @@
 # A1 3D presentation study
 
+## Current Alice motion — 13 November 2026
+
+Alice now uses client-authored, bounded upper-body motion on the existing normalized VRM rig. One brief wave follows initial loading; clicking/tapping her home silhouette repeats it. Idle includes breathing, relaxed arm variation and occasional glances. Listening adds a gentle head tilt/nod, thinking a small upward turn, and speaking restrained hand/head gestures. Motions return smoothly to the model's relaxed pose. No walking/root/leg translation or camera reframing is introduced.
+
+`alice-motion.ts` owns deterministic pose curves and blink timing. `interaction.ts` carries only local presentation state from the existing AssistantPanel, with per-source cleanup and no transcript/audio/business data. VrmViewer applies quaternion interpolation from saved rest poses inside its existing capped render loop. Speaker amplitude still comes from OutputMeter; animation does not acquire a microphone or start a provider session. User hello is a native accessible button over the silhouette, below calendar/header/chat controls.
+
+The initial wave was rejected for a reversed hand and rigidity. The correction explicitly checks both palms against the shipped VRM's real bone hierarchy: palm faces the camera and thumb points toward the face. Both normalized wrists need the same forward X roll; mirroring this value reverses the right hand. `hand-pose.ts` shares the relaxed-arm calibration with the renderer/test and derives each finger's flexion plane from its actual joints. Missing/degenerate joints are skipped. Small finger curls soften the hand without introducing another animation loop.
+
+The4.8second greeting staggers elbow lift, wrist opening and slow side-to-side motion, then settles with quintic easing. The forearm lifts forward before presenting the palm beside the face, avoiding the phone-edge sweep. Speaking arms move outward rather than through the torso. Reduced motion retains the existing static fallback, navigation/modal suspension stops rendering, and offscreen/hidden/disposed renderers retain their lifecycle. The original Alice asset/hash and licence are unchanged. [Correction QA](../../output/qa/2026-11-13-alice-motion-repair/verification.md) supersedes the rejected first-wave visual acceptance. The old six-action asset library stays historical.
+
+Mac's normal web and native Simulator show the correction. Pi received the same compatible frontend with its backend/A3 preserved, but went unreachable during local character loading; Pi physical animation and sustained performance remain unverified. Do not treat a Mac-rendered device page as Pi GPU evidence.
+
 <!-- FYP-CONTEXT-20261027 -->
 > 2026-10-27 核对：**现行规范／入口**。已按本轮保存状态核对；最新软件、GitHub main 和 Pi 部署分开，Pi 暂停、旧 API 预算关闭。 [新聊天入口](../../START_HERE_NEXT_CHAT.md)。
 <!-- /FYP-CONTEXT-20261027 -->

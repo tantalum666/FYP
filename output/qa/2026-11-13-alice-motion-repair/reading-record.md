@@ -1,0 +1,11 @@
+# Alice motion correction: reading and scope
+
+The owner rejected the first wave's reversed hand and rigidity, and requested the other two surfaces. The first motion PR123 remains open; its old clip is historical and is not acceptance of this correction.
+
+Read AGENTS and handoff fully, product current motion/requirements/implementation/evidence sections, the latest motion decision and relevant deployment decisions. Reused the previous focused reading record and located Markdown/nested AGENTS (root only). Re-read avatar.md and alice-home.md completely, the modified motion/renderer/hand/scene files, actual-model tests, DeviceHome/DeviceApp composition, installed three-vrm humanoid normalization and VRM0 mapping, Pi owner-relay/connection/kiosk/session scripts, and the retained private transport/activation helpers. After compaction only these relevant sections and changed files were recovered; historical combined/truncated output is not described as full reading.
+
+Applied the already-read frontend-testing-debugging/React skills and the iOS Debugger Agent skill for the actual native build. Consulted official three-vrm examples/migration information and the official VRoid motion-pack redistribution terms; no external animation asset was downloaded or included. The existing Alice model and licence stay unchanged.
+
+Implementation: correct both normalized wrist rolls, use slower staggered elbow/wrist easing and small rig-calibrated finger relaxation, preserve Alice's size and feet, and test the shipped bone hierarchy. Scope includes the existing phone simulator and a frontend-only Pi/Web update compatible with Pi's current520ab563 backend, with original data/A3/keys retained. No new paid-model call, CI, account action, network-policy change or power diagnosis.
+
+Source validation already passed379frontend tests plus type/build. The runtime-compatible candidate passed358tests plus type/build. Actual native app was built/installed/launched against its original Pi8891origin; recording captures palm-forward greeting and return to rest. Pi frontend staging verified68files/11changed assets with original frontend intact. Activation and final UI evidence are recorded separately at closeout.

@@ -22,3 +22,10 @@ Khronos检查原件有3处SKIN_SKELETON_INVALID，均为可选skin.skeleton字�
 `?surface=models&lang=zh`可看各角度／全身／脸部和署名。内置选择应用到已打开的同源Web／Device页；旧本机VRM缓存保留，可主动打开。原v1外观偏好保留在旧key，新v2默认Alice，不把旧银灰／96%头比例套到新角色。
 
 本轮QA与截图 (local historical material: `output/qa/2026-10-22-alice-software/verification.md`; not included in this checkpoint)实际覆盖全身／脸、换模取景、跨页同步、常驻拖到边缘、缩放／隐藏／召回、设备页与390宽布局。浏览器结果来自Mac，不代表树莓派GPU／内存／热负载验收。研究候选和作者许可比较保留在[上轮目录](../2026-10-21-ready-models/README.md)。
+
+
+## 2026-11-13 原模型动作补充
+
+用户认为Alice仅站立过于单调，现基于同一运行资产增加自然待机、挥手和会话状态动作。动作曲线由前端程序控制原有标准化骨骼与表情，不修改模型脸发衣服、二进制或许可，不恢复历史六动作素材。运行资产SHA256仍为370b2312e9f97834db868751e43e9dd33b9112e5d151d592757c3f47315e195e。实现及实际画面证据见[动作契约](../../../../desk-companion/docs/avatar.md)和[当前修正 QA](../../../../output/qa/2026-11-13-alice-motion-repair/verification.md)。原10月验证中的“当前仅短点头”描述由此更新取代。
+
+用户随后否决首版反手及僵硬挥手；当前改为双手掌心朝前、拇指向内，并以原模型真实骨架回归检查。Mac网页和原生模拟器已更新；Pi素材与前端读回通过，但本机加载时中转断开，尚未完成实机动作验收。

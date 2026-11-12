@@ -1,5 +1,11 @@
 # Group 2 Project Contract
 
+## 2026-11-13 Alice presentation motion
+
+Owner asks for a livelier Alice and subsequently rejected the reversed palm and stiff first wave. Both hands now use the corrected normalized wrist roll, slower staggered elbow/wrist motion and light finger relaxation, checked against Alice's actual rig. Preserve dominant mobile size, framing, calendar/composer access, A3 and business/approval boundaries; motion stops with navigation/visibility and respects reduced motion. [Motion contract](desk-companion/docs/avatar.md) / [correction QA](output/qa/2026-11-13-alice-motion-repair/verification.md).
+
+The compatible motion frontend is active on the original Mac web runtime and the rebuilt native iOS Simulator, and its files were atomically activated/read back on Pi. Pi's device page was checked from Mac; its physical kiosk opened, but the relay disconnected before the character finished loading. Pi local motion/performance is therefore **not accepted**. Source publication, native installation, Pi asset activation and Pi physical rendering remain separate states. A3 is preserved; no paid call or CI.
+
 ## 2026-11-11 Current integration review
 
 Merged source in PR121 (main44185f7a, all24original PRs confirmed merged) now combines the current Alice/A3/attachments baseline with Grok's conversation Work continuation, local next-step/availability/meeting/waiting/reply answers, memory follow-ups, saved checklists/schedules, purchase preferences, offline trip quotes, cited notes and held choices. [Review evidence](output/qa/2026-11-11-grok-review/verification.md) and [exact PR inventory](output/qa/2026-11-11-grok-review/pr-inventory.json) distinguish local verification and publication from deployment.

@@ -1,0 +1,11 @@
+# Group 2 — Alice motion reading and scope
+
+13 November2026. Owner asks to make Alice less static by adding actions. Started from freshly fetched main6153b41d; isolated branch codex/alice-natural-motion-20261113 in /Users/tantalum/.codex/worktrees/alice-motion-20261113/FYP. No other PR work, paid generation or hardware work is resumed.
+
+Read root AGENTS, entry and current handoff (including runtime limits/next step), product current integration and requirements, and latest relevant decisions. Located Markdown/nested AGENTS with rg; only root AGENTS applies. Read avatar.md, Alice home composition/wake/layout contract, page-companion current rendering/lifecycle sections and Alice creator/provenance README. Inspected the licence heading and previously displayed attribution/ShareAlike sections; did not claim a fresh full legal-text review. Initial combined outputs truncated some historical text; those are not recorded as full-file reads.
+
+Read VrmViewer and A1Canvas fully, the legacy renderer types/loop, AliceScene, AliceHome, useSceneActivity, playback bridge, appearance options, relevant PhoneApp scene composition and shared CSS. Inspected AssistantPanel busy/voice/suspension paths and lifecycle tests. Used the already-read frontend testing/debugging and React skills. Current issue: normalized head/chest breathing/nod only; passed voice state was unused and arms stayed at the relaxed pose.
+
+Scope: client-only procedural normalized-bone poses, bounded greeting/tap response, idle variation, local conversation-state presentation and current speaker-level mouth movement. Reuse one renderer and existing model/physics. Keep root/legs/feet, camera framing, Alice size, calendar/composer, voice configuration and business actions unchanged. No new dependency or downloaded motion asset. Preserve model attribution/licence and binary hash.
+
+Validation covers greeting completion, bounded pose values, overlapping activity-source cleanup, production browser render/real text-message lifecycle with mock transport, synthetic voice states/output levels, pause/reduced motion and phone geometry. Real microphone/provider, native build, Pi GPU/thermals and physical-device deployment are outside this visual change.
