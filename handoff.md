@@ -1,5 +1,7 @@
 # Group 2 · Current handoff
 
+Published as [PR123](https://github.com/tantalum666/FYP/pull/123), open/unmerged; source659403c2matched remote HEAD. [Receipt](output/qa/2026-11-13-alice-motion/publication.json).
+
 13 November2026. Current source checkout `/Users/tantalum/.codex/worktrees/alice-motion-20261113/FYP`, branch `codex/alice-natural-motion-20261113`, based on merged main6153b41d. This turn implements the owner's Alice-action request. Source publication is separate from merge and deployment. No CI; all paid budgets remain closed.
 
 ## Current change

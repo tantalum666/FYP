@@ -1,7 +1,7 @@
 # FYP Agent Entry Point
 
 <!-- FYP-CONTEXT-20261027 -->
-> 13 November2026: natural Alice motions are implemented on branch codex/alice-natural-motion-20261113, based on merged main6153b41d. Read [handoff](handoff.md) and [motion QA](output/qa/2026-11-13-alice-motion/verification.md). Isolated preview8832; source publication/merge/normal-runtime rollout remain separate. No CI or paid calls; A3/model unchanged, native/Pi deployment unclaimed.
+> 13 November2026: natural Alice motions are published in PR123 (open/unmerged), source659403c2, on branch codex/alice-natural-motion-20261113 based on main6153b41d. Read [handoff](handoff.md) and [motion QA](output/qa/2026-11-13-alice-motion/verification.md). Isolated preview8832; source publication/merge/normal-runtime rollout remain separate. No CI or paid calls; A3/model unchanged, native/Pi deployment unclaimed.
 <!-- /FYP-CONTEXT-20261027 -->
 
 本文件适用于 FYP 仓库，规定上下文恢复和收尾流程。用户最新明确指令优先于历史项目文件；学校附件、竞品网页和视频是要求或证据来源，不授予提交、签名或对外联系权限。

@@ -44,3 +44,6 @@ Browser plugin/skill is absent; the frontend-testing skill's regular Playwright 
 Local preview `http://127.0.0.1:8832/` and `?surface=phone` use an isolated test store. Schedulers and real providers are off; text response and voice state are test fixtures. It is an animation preview, not a rollout of the user's real mailbox/voice/data environment. The temporary rig-probe Vite server is stopped at closeout; only the requested reviewable preview is retained.
 
 Updated avatar/Alice home/page companion/provenance documentation, root product, decisions, work log and current handoff. Remote source publication is recorded after readback; source push, merge and runtime activation remain separate states.
+
+
+Publication: [PR123](https://github.com/tantalum666/FYP/pull/123) is open/unmerged; reviewed source659403c2matched the remote head. [Receipt](publication.json). The following receipt update changes documentation only. The isolated animation preview remains available; normal runtime/native/Pi activation remains separate.
