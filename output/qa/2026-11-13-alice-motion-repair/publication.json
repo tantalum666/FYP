@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-13",
+  "pull_request": 123,
+  "url": "https://github.com/tantalum666/FYP/pull/123",
+  "source_head": "c65ac229629bee2a777986f7613461056277e57c",
+  "base_main": "6153b41d6db9eac3c256d786fd69fe27ae20368e",
+  "remote_source_readback": "matched",
+  "state": "open",
+  "merged": false,
+  "local_web_activated": true,
+  "native_simulator_installed": true,
+  "pi_frontend_activated_and_read_back": true,
+  "pi_physical_animation_verified": false,
+  "pi_current_connection": "unreachable after local kiosk started; existing relay launcher reconnecting",
+  "paid_calls": 0,
+  "ci": false,
+  "following_commit": "Documentation and this receipt only"
+}

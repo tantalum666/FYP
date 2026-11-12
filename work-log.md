@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated: 10 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated: 13 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -870,3 +870,13 @@ No CI, model spending, microphone/camera access, new dependency, production data
 
 
 Motion publication: source659403c2matched [PR123](https://github.com/tantalum666/FYP/pull/123), open/unmerged. [Receipt](output/qa/2026-11-13-alice-motion/publication.json). Isolated animation preview and actual phone recording available; no runtime/native/Pi activation, CI or paid generation.
+
+
+## 2026-11-13 Alice reversed-hand correction and three-end rollout
+
+- **Goal:** fix the owner's reversed-palm and stiffness findings and deliver beyond the phone preview. Focused reading and actual scope are in the [reading record](output/qa/2026-11-13-alice-motion-repair/reading-record.md).
+- **Implemented:** both-hand anatomy correction,4.8second staggered greeting, quieter wrist/shoulder timing and rig-derived finger relaxation. Shared calibration avoids duplicating a fake test rig. Original Alice/model/size/feet and A3 preserved. Source c65ac229, continuing PR123.
+- **Verified:**379main frontend and358compatible frontend tests; types/build; two real-model anatomy regressions; browser palm-facing click/return with no console errors; actual native Simulator build/install and recorded initial greeting/return. No paid voice, physical iPhone, CI or backend changes.
+- **Activated:** compatible frontend on original Mac web/data and native app; Pi68-file readback and atomic frontend swap passed with original PID1328/A3/version9/configuration intact. Original frontends retained for rollback. Mac helper's read-only SQLite failure caused a safe rollback; using the application's SQLite runtime/API completed the check, without repairing/replacing the database.
+- **Not accepted:** physical Pi kiosk opened but relay/VNC disconnected during character loading. Mac-rendered device greeting does not prove Pi-local animation or performance. Existing forwarding reconnects normally; power investigation remains deferred.
+- **Files/evidence:** [QA](output/qa/2026-11-13-alice-motion-repair/verification.md); private native video/screenshots/manifests at `~/.config/desk-companion/alice-motion-20261113/`. Product, avatar/home contracts, old-QA supersession, decision log and concise handoff/entry updated. One next step: when Pi reconnects, inspect its kiosk renderer and verify physical greeting/idle.

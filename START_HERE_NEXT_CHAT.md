@@ -1,9 +1,7 @@
 # Group 2 · Current continuation
 
-Published as [PR123](https://github.com/tantalum666/FYP/pull/123), open/unmerged; source659403c2matched remote HEAD. [Receipt](output/qa/2026-11-13-alice-motion/publication.json).
+13 November 2026. Continue in `/Users/tantalum/.codex/worktrees/alice-motion-20261113/FYP`, branch `codex/alice-natural-motion-20261113`. Read [AGENTS](AGENTS.md), [product](product.md), [handoff](handoff.md), latest [decisions](decision-log.md) and [motion repair QA](output/qa/2026-11-13-alice-motion-repair/verification.md).
 
-13 November2026. Continue at `/Users/tantalum/.codex/worktrees/alice-motion-20261113/FYP`, branch `codex/alice-natural-motion-20261113`, based on main6153b41d. Read [AGENTS](AGENTS.md), current [product](product.md), [handoff](handoff.md), latest [decisions](decision-log.md) and [Alice motion QA](output/qa/2026-11-13-alice-motion/verification.md).
+The owner's reversed-hand/stiffness correction is implemented at c65ac229 and belongs to existing [PR123](https://github.com/tantalum666/FYP/pull/123), still unmerged. 379 main/358 compatible frontend tests and both builds pass. Normal Mac web8831 and rebuilt native Simulator show the corrected greeting. A3 is retained. Pi received and served the same compatible frontend, then became unreachable while its local kiosk loaded Alice; physical Pi animation remains unverified. Full main/Grok integration was not deployed as part of this frontend update. No CI or paid calls.
 
-Natural idle/greeting/listening/thinking/speaking motion is implemented on the unchanged Alice model; tap/Enter response, pause and reduced motion verified.377frontend/type/build pass; actual browser/phone flow used isolated mocked providers. Preview8832is an animation test environment, not the normal runtime. No paid call, CI, native build or Pi rollout. A3/configuration and production data untouched.
-
-Next: explicitly scoped normal-runtime frontend activation with source/data verification. Preserve previous merged Grok integration and its open real-browser/account gaps. Physical Pi power investigation stays deferred.
+Next: recover the existing Pi connection and check its local renderer, without treating Mac's device view as Pi performance evidence. Preserve all original runtime/data/backups; power diagnosis stays deferred. The previous659403c2 motion clip is historical and was rejected by the owner.

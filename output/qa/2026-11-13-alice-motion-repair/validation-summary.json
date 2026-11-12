@@ -1,0 +1,66 @@
+{
+  "source_commit": "c65ac229629bee2a777986f7613461056277e57c",
+  "date": "2026-11-13",
+  "tests": {
+    "main_frontend": 379,
+    "compatible_frontend": 358,
+    "typecheck": true,
+    "build": true
+  },
+  "actual_model_palms": {
+    "left_z": 0.998,
+    "right_z": 0.997,
+    "inward_thumbs": true,
+    "feet_unchanged": true
+  },
+  "mac": {
+    "activated": true,
+    "pid": 28112,
+    "backend_changed": false,
+    "data_directory_changed": false,
+    "A3_unchanged": true,
+    "voice_version": 9,
+    "protected_files_unchanged": true,
+    "files_verified": 68,
+    "index_sha256": "33570313468827d3ffc8b2a2e326f7982633cb799a37e9e36bc51b6b7f7e0950",
+    "health": {
+      "service": "desk-companion",
+      "status": "ok"
+    },
+    "paid_calls": 0
+  },
+  "pi_activation": {
+    "activated": true,
+    "pid_unchanged": true,
+    "pid": "1328",
+    "protected_unchanged": true,
+    "voice_unchanged": true,
+    "voice_version": 9,
+    "health": {
+      "service": "desk-companion",
+      "status": "ok"
+    },
+    "files_verified": 68,
+    "index_sha256": "33570313468827d3ffc8b2a2e326f7982633cb799a37e9e36bc51b6b7f7e0950"
+  },
+  "native": {
+    "built_installed_launched": true,
+    "simulator": "iPhone 17 Pro / iOS 26.5",
+    "bundle_id": "dev.group2.deskcompanion",
+    "original_pi_origin_retained": true,
+    "initial_greeting_video_verified": true,
+    "native_tap_verified": false,
+    "physical_iphone_verified": false
+  },
+  "pi_physical_motion_verified": false,
+  "pi_final_connection": {
+    "returncode": 255,
+    "elapsed": 15.02,
+    "connected": false,
+    "timeout_message": true,
+    "refused": false,
+    "closed": false
+  },
+  "paid_calls": 0,
+  "ci": false
+}

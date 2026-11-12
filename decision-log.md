@@ -724,3 +724,12 @@ Publication closeout,11November: [PR121](https://github.com/tantalum666/FYP/pull
 **Owner direction:** Alice is too static; add actions. **Engineering implementation:** retain her original VRM/appearance and shared renderer, with bounded upper-body procedural motions: greeting/tap wave, idle variation/glance/blink and state-based listening/thinking/speaking. A local state-only bridge reuses AssistantPanel; real output amplitude retains mouth ownership. Motions do not approve actions or imply completed work. Feet/root and camera framing stay fixed; no shrinking for mobile.
 
 Real browser inspection caught/fixed inward arm bending, floating-point gesture completion and a wide hand sweep at the phone edge. Final377frontend/type/build checks and actual desktop/phone/touch/keyboard/pause/reduced-motion flows pass. Voice states/audio levels were synthetic, text transport mocked, zero paid calls. Shared code is prepared for all surfaces; native/Pi deployment and physical performance are not claimed. [QA](output/qa/2026-11-13-alice-motion/verification.md).
+
+
+## 2026-11-13 Correct Alice anatomy and deliver each endpoint separately
+
+**Owner correction:** the hand was reversed, the movement was stiff, and showing only phone was insufficient. This supersedes the first wave's visual acceptance. Shared source is not a substitute for an installed native app or a Pi-local render.
+
+**Engineering choices:** calibrate both palms/thumbs on the shipped VRM, keep the same forward roll on both normalized wrists, soften elbow/wrist timing and derive small finger curls from the model's joints. Tests assert real rig anatomy and planted feet. Preserve the large mobile Alice, original asset and A3.
+
+Runtime delivery overlays only compatible presentation changes on the existing520ab563 backend; do not roll out unrelated main/Grok features. Retain verified old frontend backups, use atomic Pi frontend exchange and preserve backend/data/credentials. Mac web and native initial greeting passed. Pi asset activation passed, but physical kiosk rendering is unaccepted after relay loss during character loading. Do not infer power causation or resume the deferred red-LED investigation. [Evidence](output/qa/2026-11-13-alice-motion-repair/verification.md). No CI or paid calls.

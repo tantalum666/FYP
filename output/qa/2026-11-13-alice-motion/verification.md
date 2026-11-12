@@ -1,5 +1,7 @@
 # Group 2 — Alice natural motion
 
+**Historical first implementation.** The owner subsequently rejected its reversed palm and stiffness. Its test results do not establish acceptable hand anatomy. Current correction, native build and runtime activation are recorded in [the repair QA](../2026-11-13-alice-motion-repair/verification.md). Retain the old clip as rejected evidence, not a current preview.
+
 13 November2026. Owner requested actions because Alice stood still. Source base6153b41d; isolated branch `codex/alice-natural-motion-20261113`. This change is frontend presentation only. No paid generation, microphone/camera capture, new dependency, CI, production data migration, native build or Pi deployment.
 
 ## What changed
