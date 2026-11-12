@@ -15,17 +15,17 @@ export const MOTION_BONES = [
 export type MotionBone = (typeof MOTION_BONES)[number];
 type Rotation = [number, number, number];
 export type MotionPose = Record<MotionBone, Rotation>;
-export const GREETING_SECONDS = 3.6;
+export const GREETING_SECONDS = 4.8;
 
 function smooth(value: number) {
   const x = Math.max(0, Math.min(1, value));
-  return x * x * (3 - 2 * x);
+  return x * x * x * (x * (x * 6 - 15) + 10);
 }
 
 /** A bounded gesture returns to rest, with zero velocity at both ends. */
 export function gestureWeight(age: number, duration = GREETING_SECONDS) {
   if (!Number.isFinite(age) || age < 0 || age >= duration) return 0;
-  const weight = smooth(age / 0.75) * smooth((duration - age) / 0.85);
+  const weight = smooth(age / 1.15) * smooth((duration - age) / 1.35);
   return weight < 1e-6 ? 0 : weight;
 }
 
@@ -63,6 +63,7 @@ export function aliceMotion(
   smile: number;
   state: CompanionState;
   gesture: "wave" | "nod" | null;
+  openness: number;
 } {
   const t = Math.max(0, Number.isFinite(time) ? time : 0);
   const state = companionState(options.state ?? "idle");
@@ -125,27 +126,53 @@ export function aliceMotion(
   if (gesture === "wave") {
     const side = options.waveSide ?? "left";
     const sign = side === "left" ? -1 : 1;
-    const blend = (bone: MotionBone, target: Rotation) => {
+    const blend = (bone: MotionBone, target: Rotation, amount = weight) => {
       pose[bone] = target.map(
-        (value, axis) => pose[bone][axis] * (1 - weight) + value * weight,
+        (value, axis) => pose[bone][axis] * (1 - amount) + value * amount,
       ) as Rotation;
     };
-    blend(`${side}UpperArm`, [-0.12, 0, sign * 0.65]);
-    blend(`${side}LowerArm`, [-0.08, 0, sign * 2.3]);
+    const elbow = smooth(age / 0.95) * smooth((GREETING_SECONDS - age) / 1.1);
+    const wrist =
+      smooth((age - 0.25) / 1.1) * smooth((GREETING_SECONDS - age - 0.1) / 1.0);
+    const wave = smooth((age - 1.2) / 0.45) * smooth((3.45 - age) / 0.55);
+    const phase = (age - 1.2) * Math.PI * 2 * 0.85;
+    blend(`${side}UpperArm`, [
+      -0.12,
+      0,
+      sign * (0.56 + 0.018 * Math.sin(phase - 0.7) * wave),
+    ]);
+    blend(
+      `${side}LowerArm`,
+      [-0.08, 0, sign * (2.24 + 0.035 * Math.sin(phase - 0.35) * wave)],
+      elbow,
+    );
     // Bring the forearm forward during the lift, then show the palm beside
     // the face. A flat sideways sweep would clip the phone's right edge.
-    pose[`${side}UpperArm`][0] -= Math.sin(Math.PI * weight) * 1.25;
-    blend(`${side}Hand`, [
-      -1.15,
-      Math.sin(age * 10) * 0.16,
-      sign * (0.06 + Math.sin(age * 10) * 0.12),
-    ]);
-    pose.head[2] += -sign * 0.055 * weight;
-    smile = Math.max(smile, 0.22 * weight);
+    pose[`${side}UpperArm`][0] -= Math.sin(Math.PI * weight) * 1.0;
+    blend(
+      `${side}Hand`,
+      [
+        // Both normalized wrists use the same forward roll. Mirroring this
+        // sign turns the right palm away on Alice's actual VRM0 skeleton.
+        1.35,
+        Math.sin(phase - 0.25) * 0.035 * wave,
+        sign * (0.025 + Math.sin(phase) * 0.09 * wave),
+      ],
+      wrist,
+    );
+    pose.chest[1] += -sign * 0.018 * weight;
+    pose.head[2] += -sign * 0.035 * weight;
+    smile = Math.max(smile, 0.17 * weight);
   } else if (gesture === "nod") {
     pose.head[0] +=
       Math.sin((Math.max(0, age) * Math.PI) / 1.2) * 0.12 * weight;
     smile = Math.max(smile, 0.13 * weight);
   }
-  return { pose, smile, state, gesture };
+  return {
+    pose,
+    smile,
+    state,
+    gesture,
+    openness: gesture === "wave" ? weight : 0,
+  };
 }

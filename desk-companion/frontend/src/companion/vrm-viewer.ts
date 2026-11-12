@@ -10,6 +10,7 @@ import {
 import { mouthLevel, subscribePlayback, type PlaybackSample } from "./output";
 import type { Presentation } from "./renderer";
 import { MODELS, readAppearance } from "./appearance";
+import { HandPose, relaxArms } from "./hand-pose";
 import {
   aliceMotion,
   blinkWeight,
@@ -67,6 +68,7 @@ export class VrmViewer {
   private interaction: CompanionState | null = null;
   private unsubscribeInteraction: (() => void) | null = null;
   private frames = 0;
+  private hands: HandPose | null = null;
   private sample: PlaybackSample = { level: 0, at: 0 };
   private unsubscribe: (() => void) | null = null;
   private intersection: IntersectionObserver;
@@ -190,13 +192,14 @@ export class VrmViewer {
       if (head) this.headScale.copy(head.scale);
       this.scene.add(vrm.scene);
       vrm.scene.updateMatrixWorld(true);
-      this.lowerArms(vrm);
+      relaxArms(vrm);
       vrm.humanoid.update();
       vrm.scene.updateMatrixWorld(true);
       for (const name of MOTION_BONES) {
         const node = vrm.humanoid.getNormalizedBoneNode(name);
         if (node) this.bones.set(name, { node, rest: node.quaternion.clone() });
       }
+      this.hands = new HandPose(vrm);
       const left = vrm.humanoid.getRawBoneNode("leftUpperArm");
       const right = vrm.humanoid.getRawBoneNode("rightUpperArm");
       // Greet on the free side of the phone scene, away from its left calendar.
@@ -240,30 +243,6 @@ export class VrmViewer {
         this.dispose();
         this.failed();
       }
-    }
-  }
-
-  private lowerArms(vrm: VRM) {
-    for (const side of ["left", "right"] as const) {
-      const upper = vrm.humanoid.getNormalizedBoneNode(`${side}UpperArm`);
-      const lower = vrm.humanoid.getNormalizedBoneNode(`${side}LowerArm`);
-      if (!upper || !lower || !upper.parent) continue;
-      const shoulder = upper.getWorldPosition(new THREE.Vector3());
-      const elbow = lower.getWorldPosition(new THREE.Vector3());
-      const parentRotation = upper.parent
-        .getWorldQuaternion(new THREE.Quaternion())
-        .invert();
-      const rest = elbow
-        .sub(shoulder)
-        .normalize()
-        .applyQuaternion(parentRotation);
-      const outward = Math.sign(shoulder.x) || (side === "left" ? 1 : -1);
-      const down = new THREE.Vector3(outward * 0.2, -1, 0.03)
-        .normalize()
-        .applyQuaternion(parentRotation);
-      upper.quaternion.premultiply(
-        new THREE.Quaternion().setFromUnitVectors(rest, down),
-      );
     }
   }
 
@@ -423,6 +402,11 @@ export class VrmViewer {
         this.goal.copy(rest).multiply(this.offset);
         node.quaternion.slerp(this.goal, blend);
       }
+      this.hands?.update(
+        delta,
+        motion.gesture === "wave" ? this.waveSide : null,
+        motion.openness,
+      );
     }
     const manager = this.vrm?.expressionManager;
     if (manager) {
@@ -486,6 +470,7 @@ export class VrmViewer {
     this.unsubscribe?.();
     this.unsubscribeInteraction?.();
     this.bones.clear();
+    this.hands = null;
     this.renderer.domElement.removeEventListener("webglcontextlost", this.lost);
     if (this.vrm) VRMUtils.deepDispose(this.vrm.scene);
     this.originalColors.clear();
