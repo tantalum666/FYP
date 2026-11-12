@@ -1,5 +1,7 @@
 # Resident page companion
 
+> Current13November2026: immersive Web/phone/device composition is described in [Alice home](alice-home.md). The renderer now includes [natural Alice motion](avatar.md), superseding the historical nod-only note. Existing pause, offscreen/visibility and disposal ownership remain; the old authored Walk/Stretch asset library is not restored. The dated placement/mobile-planning paragraphs below are historical.
+
 ## 2026-10-27 desktop web placement
 
 The desktop web layout now reserves sidebar space for the current character. `desk.companion.layout.v1.web` selects `sidebar` (default) or `floating`; the existing position/scale/motion preference is retained, not overwritten by the fitted position. Companion controls offer Float over workspace and Return to sidebar. Floating mode keeps the existing drag/scale/edge behaviors below. Compact web still falls back to the existing floating behavior; the mobile immersive plan is a separate next step.

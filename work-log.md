@@ -858,3 +858,12 @@ Read scopes, exact heads, findings, screenshots and remaining gaps are in [revie
 
 
 Publication closeout,11November: [PR121](https://github.com/tantalum666/FYP/pull/121) merged reviewed6ffda6abinto main44185f7a; exact tree comparison passed. All24original PRs confirmed merged and the open-PR list was empty. Native stacked PRs96/99used the official asynchronous API;105used a verified non-force fast-forward after its two async attempts explicitly failed. [Receipt](output/qa/2026-11-11-grok-review/publication.json). Current runtime remains unchanged; no CI or model spending. This follow-up records actual publication and updates continuation pointers only.
+
+
+## 2026-11-13 Alice natural motion
+
+Goal: make Alice visibly respond and move without changing her model or the established mobile-first composition. Added a small pure pose module and state-only activity bridge, integrated into the existing renderer/AssistantPanel, plus accessible silhouette hello. Preserved current output-meter mouth, frame/DPR caps, spring bones and suspension/disposal. Existing licensed model SHA256 unchanged.
+
+Actual verification:377frontend tests, types/build; desktop1080×900 and phone393×852/320×740; greeting/tap, text thinking, synthetic voice/mouth, navigation pause, live reduced-motion switching, touch and Enter. Zero app exceptions/failed responses in final acceptance; no horizontal overflow. Actual rig/browser inspection fixed torso intersection and clipped waving fingers. Private real screenshots/recording and scripts are in ~/.config/desk-companion/alice-motion-20261113; public [QA](output/qa/2026-11-13-alice-motion/verification.md) and reading record distinguish mock voice/provider from actual rendered behavior.
+
+No CI, model spending, microphone/camera access, new dependency, production database/configuration change or Pi/native rollout. Avatar/home/resident/provenance contracts and root current pointers updated. Next: carry the verified presentation into an explicitly scoped normal runtime rollout; larger personal-agent account takeover work remains the previously recorded next software capability.

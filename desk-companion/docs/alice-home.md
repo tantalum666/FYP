@@ -1,5 +1,11 @@
 # Group 2 · Shared Alice home
 
+## 13 November natural character motion
+
+The shared AliceScene/A1Canvas now adds an initial brief wave and a click/tap greeting. The transparent silhouette target has a keyboard-accessible label, is disabled while obscured/inactive, and disappears with reduced motion or the static fallback. It does not add a permanent toolbar or change Alice's size. Calendar, header and conversation controls remain above it.
+
+Idle/attention/listening/thinking/speaking gestures reuse the existing renderer, playback level and local AssistantPanel state. A suspended/unmounted conversation releases its presentation cue; one source cannot erase another's cue. An offline desk does not replay a stale server speaking state. Gestures and expressions never imply tool approval or successful work. [Implementation and verification](avatar.md).
+
 ## 9 November shared dark controls
 
 Native phone header, conditions and agenda use the same safe-area inset. The actual Simulator revealed a clock/connection-label overlap missed by a zero-inset browser viewport; shared positioning fixes it without resizing Alice.

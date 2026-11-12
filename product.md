@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-13 Alice presentation motion
+
+Owner asks for a livelier Alice. Added client-side natural idle variation, first-load/tap greeting and listening/thinking/speaking reactions on the existing licensed VRM. Preserve dominant mobile size, framing, calendar/composer access, A3 and all business/approval boundaries. Motion stops with navigation/visibility and respects reduced motion. [Motion contract](desk-companion/docs/avatar.md) / [QA](output/qa/2026-11-13-alice-motion/verification.md). Local preview and source publication are separate from native/Pi rollout; no paid call is needed for these motions.
+
 ## 2026-11-11 Current integration review
 
 Merged source in PR121 (main44185f7a, all24original PRs confirmed merged) now combines the current Alice/A3/attachments baseline with Grok's conversation Work continuation, local next-step/availability/meeting/waiting/reply answers, memory follow-ups, saved checklists/schedules, purchase preferences, offline trip quotes, cited notes and held choices. [Review evidence](output/qa/2026-11-11-grok-review/verification.md) and [exact PR inventory](output/qa/2026-11-11-grok-review/pr-inventory.json) distinguish local verification and publication from deployment.

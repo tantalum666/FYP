@@ -1,0 +1,39 @@
+{
+  "url": "http://127.0.0.1:8832",
+  "page_title": "Desk Companion",
+  "viewports": [
+    [
+      1080,
+      900
+    ],
+    [
+      393,
+      852
+    ],
+    [
+      320,
+      740
+    ]
+  ],
+  "page_errors": [],
+  "failed_responses": [],
+  "frames_in_1050ms": 23,
+  "tap": "passed",
+  "typed_thinking": "passed",
+  "voice_states": "synthetic workspace and speaker meter",
+  "pause_on_navigation": "passed",
+  "reduced_motion_disposal_and_restore": "passed",
+  "video": "/Users/tantalum/.config/desk-companion/alice-motion-20261113/video/page@e03f60200e488f2da7705ee6146221a1.webm",
+  "paid_calls": 0,
+  "physical_device_test": false,
+  "frontend_tests": 377,
+  "typecheck": "passed",
+  "build": "passed",
+  "model_sha256": "370b2312e9f97834db868751e43e9dd33b9112e5d151d592757c3f47315e195e",
+  "source_base": "6153b41d6db9eac3c256d786fd69fe27ae20368e",
+  "real_microphone_used": false,
+  "new_dependencies": false,
+  "production_runtime_changed": false,
+  "native_pi_deployed": false,
+  "touch_and_keyboard": "passed"
+}

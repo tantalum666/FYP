@@ -717,3 +717,10 @@ The browser takeover PR supplies a fixture-tested pause/return state machine, no
 
 
 Publication closeout,11November: [PR121](https://github.com/tantalum666/FYP/pull/121) merged reviewed6ffda6abinto main44185f7a; exact tree comparison passed. All24original PRs confirmed merged and the open-PR list was empty. Native stacked PRs96/99used the official asynchronous API;105used a verified non-force fast-forward after its two async attempts explicitly failed. [Receipt](output/qa/2026-11-11-grok-review/publication.json). Current runtime remains unchanged; no CI or model spending. This follow-up records actual publication and updates continuation pointers only.
+
+
+## 2026-11-13 Natural Alice actions
+
+**Owner direction:** Alice is too static; add actions. **Engineering implementation:** retain her original VRM/appearance and shared renderer, with bounded upper-body procedural motions: greeting/tap wave, idle variation/glance/blink and state-based listening/thinking/speaking. A local state-only bridge reuses AssistantPanel; real output amplitude retains mouth ownership. Motions do not approve actions or imply completed work. Feet/root and camera framing stay fixed; no shrinking for mobile.
+
+Real browser inspection caught/fixed inward arm bending, floating-point gesture completion and a wide hand sweep at the phone edge. Final377frontend/type/build checks and actual desktop/phone/touch/keyboard/pause/reduced-motion flows pass. Voice states/audio levels were synthetic, text transport mocked, zero paid calls. Shared code is prepared for all surfaces; native/Pi deployment and physical performance are not claimed. [QA](output/qa/2026-11-13-alice-motion/verification.md).
