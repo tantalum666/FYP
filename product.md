@@ -1,5 +1,13 @@
 # Group 2 Project Contract
 
+## 2026-11-16 Daily speech, proactive help and continuous local observation
+
+Owner reports spoken slash/dot formatting, stutter, missing HK7-day weather and weak proactive follow-up. New software adds a real HKO forecast tool to text/voice, speech-only title hints, bounded in-speech silence preservation and adaptive playback buffering while retaining A3. Existing task/nudge state now drives one concise Alice-home cue with explicit complete/progress/hour-later responses and saved next-step suggestions. Late daily opening can catch up; privacy/quiet/proactivity rules and owner-reported completion remain explicit.
+
+The browser camera now feeds the existing personal-calibration engine through local CPU inference and a short owner-bound landmark lease. First opt-in/calibration is followed by automatic app/navigation recovery; no repeated chat-camera button. One producer, source/lease fencing, pause/stop, local assets and visible camera status are retained. No video recording or cloud vision. Mobile background execution and real accuracy are not presumed. [Behavior/setup](desk-companion/docs/daily-presence.md), [QA](output/qa/2026-11-16-alice-daily-presence/verification.md).
+
+Actual physical Mac input returned15valid uncalibrated observations and stopped; synthetic local-model lifecycle and desktop/phone task actions passed. The complete backend suite2370passed before the final small Live silence/effort update, which then passed30focused lifecycle checks;389frontend checks/types/build passed. A fresh authorized USD0.20voice round used58.493seconds and estimatedUSD0.11280236 with complete receipts. It verified task/forecast tool reads and A3, but final full speech was truncated by the cap. Delivery hashes are recorded separately; this is not a claim of complete voice quality, posture accuracy or autonomous commerce.
+
 ## 2026-11-16 Unified release and official execution layer
 
 Owner requested the complete current software on all three endpoints, renewed Google/Microsoft authorization and further cross-app/shopping/travel work. PR123 merged as7d7ab9fa; the full baseline, including reviewed Grok features, was activated on Mac and Pi with native Simulator frontend parity. Original stores/keys/A3 were retained. Mac Gmail reconnection and Calendar consent passed actual provider read checks. Pi received its own Google consent and both provider reads passed; Microsoft app registration/consent remains blocked at the personal-account human-verification step. [Current QA](output/qa/2026-11-16-agent-runtime/verification.md).

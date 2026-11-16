@@ -58,7 +58,7 @@
       "kinds": []
     },
     {
-      "name": "the window closes at two minutes",
+      "name": "late opening catches up with one morning brief",
       "now": "2026-10-02T00:02:00+00:00",
       "zone": "Asia/Hong_Kong",
       "preferences": {
@@ -66,7 +66,7 @@
         "daily_brief_time": "08:00",
         "quiet_enabled": false
       },
-      "kinds": []
+      "kinds": ["morning_brief"]
     },
     {
       "name": "enabled evening check inside the window",

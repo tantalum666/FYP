@@ -2,6 +2,7 @@ from datetime import UTC, datetime, timedelta
 import pytest
 from pydantic import ValidationError
 from desk.weather import WeatherLocation, WeatherService
+from desk.weather import WeatherQuery
 
 
 def test_coarse_location_only_and_cached_observation():
@@ -76,3 +77,62 @@ def test_home_and_existing_weather_settings_share_cache_and_respect_opt_out(tmp_
     )
     assert not runtime.data.read_weather()["available"] and len(seen) == 1
     assert runtime.data.snapshot()["weather"]["status"] == "not_configured"
+
+
+def forecast_fixture(now):
+    return {
+        "updateTime": now.isoformat(),
+        "generalSituation": "Cooler later in the week.",
+        "weatherForecast": [
+            {
+                "forecastDate": (now + timedelta(days=i)).strftime("%Y%m%d"),
+                "forecastMintemp": {"value": 18, "unit": "C"},
+                "forecastMaxtemp": {"value": 24, "unit": "C"},
+                "forecastWeather": "Cloudy",
+                "forecastWind": "Easterly winds",
+                "PSR": "Low",
+            }
+            for i in range(1, 10)
+        ],
+    }
+
+
+def test_forecast_tool_reads_dated_hko_data_without_enabling_location(tmp_path):
+    from desk.app import create_app
+    from desk.tool_policy import execute_tool
+
+    r = create_app(tmp_path, password="fixture", scheduler=False).state.runtime
+    calls = []
+
+    def fetch(url, params):
+        calls.append((url, params))
+        return forecast_fixture(r.store.clock())
+
+    r.data.weather_provider.fetch = fetch
+    result = execute_tool(
+        r, "weather_query", {"days": 7, "language": "zh"}, "forecast", scope="test", channel="voice"
+    )
+    assert result["available"] and len(result["days"]) == 7
+    assert result["source"] == "Hong Kong Observatory"
+    assert result["days"][0]["significant_rain_category"] == "Low"
+    assert calls[0][1] == {"dataType": "fnd", "lang": "sc"}
+    assert r.data.preferences()["weather_location"] == "none"
+    assert (
+        r.data.weather_provider.query(WeatherQuery(days=3, language="zh"))["days"]
+        == result["days"][:3]
+    )
+    assert len(calls) == 1
+
+
+@pytest.mark.parametrize("fault", ["stale", "bad_temperature", "duplicate"])
+def test_forecast_does_not_label_stale_or_invalid_data_as_a_current_result(fault):
+    now = datetime.now(UTC)
+    data = forecast_fixture(now)
+    if fault == "stale":
+        data["updateTime"] = (now - timedelta(days=2)).isoformat()
+    elif fault == "bad_temperature":
+        data["weatherForecast"][0]["forecastMintemp"]["value"] = float("nan")
+    else:
+        data["weatherForecast"][1]["forecastDate"] = data["weatherForecast"][0]["forecastDate"]
+    result = WeatherService(fetch=lambda *_: data, now=lambda: now).query(WeatherQuery())
+    assert result["available"] is False and result["days"] == []

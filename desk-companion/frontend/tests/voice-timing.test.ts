@@ -113,3 +113,21 @@ test("packet jitter is absorbed in contiguous audio instead of repeated tiny gap
   assert.equal(schedule.rebuffers, 1); // A new reply is not a network underrun.
   assert.throws(() => schedule.reserve(20, 31), /AUDIO_CONNECTION_SLOW/);
 });
+
+test("playback absorbs clustered packets and keeps adaptive buffering bounded", () => {
+  const schedule = new PlaybackSchedule();
+  let end = 0;
+  for (const arrival of [0, 0.04, 0.16, 0.165, 0.2, 0.3, 0.31, 0.32]) {
+    const start = schedule.reserve(arrival, 0.04);
+    if (end) assert.ok(Math.abs(start - end) < 1e-9);
+    end = start + 0.04;
+  }
+  assert.equal(schedule.rebuffers, 0);
+  for (const arrival of [1, 3, 8, 12]) {
+    const start = schedule.reserve(arrival, 0.04);
+    assert.ok(start > arrival && start - arrival <= 0.351);
+  }
+  schedule.reset();
+  const start = schedule.reserve(30, 0.04);
+  assert.ok(start - 30 <= 0.351);
+});

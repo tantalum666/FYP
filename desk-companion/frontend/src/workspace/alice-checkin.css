@@ -1,0 +1,74 @@
+.alice-checkin {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 10px;
+  padding: 12px 14px;
+  color: #e6eff1;
+  background: rgb(26 47 58 / 94%);
+  border: 1px solid rgb(155 192 174 / 20%);
+  border-radius: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.alice-checkin > svg {
+  flex: 0 0 auto;
+  color: #adcbbb;
+  margin-top: 3px;
+}
+.alice-checkin > div {
+  flex: 1;
+  min-width: 0;
+}
+.alice-checkin p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.alice-checkin:not(.is-expanded) p,
+.alice-checkin:not(.is-expanded) small {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.alice-checkin.is-expanded { max-height: 30dvh; overflow-y: auto; }
+.alice-checkin small {
+  display: block;
+  margin-top: 5px;
+  color: #b7c8d0;
+}
+.alice-checkin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 8px;
+}
+.alice-checkin-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: inherit;
+  background: #29433f;
+  border: 1px solid #486259;
+  border-radius: 8px;
+  padding: 5px 9px;
+  font: inherit;
+}
+.alice-checkin .text-button {
+  color: #b7c8d0;
+  padding: 2px;
+  min-width: 24px;
+}
+.alice-home .alice-posture-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 24px;
+  padding: 0;
+  margin-left: 5px;
+  color: #b8dbca;
+  background: rgb(90 140 120 / 14%);
+  border: 1px solid rgb(157 197 177 / 24%);
+  border-radius: 7px;
+}

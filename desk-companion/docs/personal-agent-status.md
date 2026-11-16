@@ -4,6 +4,8 @@ Checked16November2026 (Hong Kong). A capability/acceptance map, not a completion
 
 ## Current source and runtime
 
+Latest16November slice: shared weather_query, voice presentation/buffering, proactive task cues and browser-local posture capture are implemented with actual HKO, local-model, physical Mac input and UI evidence. [Daily-presence contract](daily-presence.md) / [QA](../../output/qa/2026-11-16-alice-daily-presence/verification.md). Complete A3 weather speech and long-running posture accuracy remain unaccepted; activation receipts must be checked before attributing these changes to an endpoint.
+
 PR123 merged as7d7ab9fa. The full baseline, including reviewed Grok Work/memory/checklist/shopping/travel additions and Alice motions, is activated on normal Mac and Pi backends; native Simulator embeds the same frontend. This supersedes the earlier16November claim that ordinary runtime was still behind main. Stores were rehearsed/backed up first and A3 retained. New managed-executor publication/activation receipts are recorded separately in QA.
 
 Mac Gmail and Calendar authorization were renewed by the owner; Pi subsequently received separate consent. All four grants passed real provider GETs. Microsoft personal-account login stopped at human verification, so no FYP app registration or Graph grant is claimed. Codex plugin access is a separate grant.

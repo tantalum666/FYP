@@ -4,6 +4,7 @@ import { errorText, write } from "../api";
 import type { Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import type { PostureSnapshot } from "./types";
+import { usePostureCapture } from "./posture/PostureCaptureContext";
 
 export function postureLabel(
   posture: PostureSnapshot | undefined,
@@ -42,6 +43,7 @@ export function feedbackText(kind: string, t: Translate) {
 export function PosturePanel({ t }: { t: Translate }) {
   const workspace = useWorkspace();
   const p = workspace.data?.posture;
+  const camera = usePostureCapture();
   const [busy, setBusy] = useState(false),
     [error, setError] = useState<unknown>(null);
   async function act(body: unknown) {
@@ -50,11 +52,29 @@ export function PosturePanel({ t }: { t: Translate }) {
     try {
       await write("/posture/actions", body);
       await workspace.refresh();
+      return true;
     } catch (e) {
       setError(e);
+      return false;
     } finally {
       setBusy(false);
     }
+  }
+  async function startLocalCamera() {
+    if (!p) return;
+    if (
+      !(await act({
+        action: "configure",
+        preferences: {
+          ...p.preferences,
+          enabled: true,
+          camera_source: "browser",
+        },
+      }))
+    )
+      return;
+    if (p.paused && !(await act({ action: "resume" }))) return;
+    camera.enable();
   }
   if (!p) return <p>{t("Connecting to your desk…", "正在连接桌面设备…")}</p>;
   const phases = [
@@ -121,6 +141,81 @@ export function PosturePanel({ t }: { t: Translate }) {
   };
   return (
     <div className="workspace-panel posture-panel">
+      <section className="workspace-section">
+        <h3>{t("Posture camera", "坐姿摄像头")}</h3>
+        <p>
+          {t(
+            "Once enabled, local observation resumes when this app is open. Video stays on this device.",
+            "开启后，打开应用会自动恢复本地观察，视频留在当前设备。",
+          )}
+        </p>
+        <div className="workspace-inline-actions">
+          <button
+            className="primary"
+            disabled={busy || workspace.offline}
+            onClick={() => void startLocalCamera()}
+          >
+            {camera.state.phase === "error"
+              ? t("Reconnect camera", "重新连接摄像头")
+              : t("Use this device's camera", "使用当前设备摄像头")}
+          </button>
+          {camera.allowed && (
+            <button
+              className="secondary"
+              onClick={() => {
+                camera.disable();
+                void act({
+                  action: "configure",
+                  preferences: { ...p.preferences, enabled: false },
+                });
+              }}
+            >
+              {t("Stop this camera", "停止当前摄像头")}
+            </button>
+          )}
+        </div>
+        {camera.state.phase === "starting" && (
+          <p role="status">
+            {t("Starting local observation…", "正在启动本地观察…")}
+          </p>
+        )}
+        {camera.state.phase === "active" && (
+          <video
+            className="posture-camera-preview"
+            aria-label={t("Local camera preview", "本地摄像头预览")}
+            muted
+            autoPlay
+            playsInline
+            ref={(node) => {
+              if (node && node.srcObject !== camera.state.stream)
+                node.srcObject = camera.state.stream ?? null;
+            }}
+          />
+        )}
+        {camera.state.phase === "error" && (
+          <p role="status">
+            {camera.state.code === "POSTURE_DEVICE_UNSUPPORTED"
+              ? t(
+                  "This device cannot run local posture observation.",
+                  "当前设备暂不支持本地坐姿观察。",
+                )
+              : camera.state.code === "POSTURE_MODEL_UNAVAILABLE"
+                ? t(
+                    "The local posture component is unavailable. Update this app before trying again.",
+                    "本地坐姿检测组件尚不可用，请先更新应用。",
+                  )
+                : camera.state.code === "POSTURE_CAMERA_BUSY"
+                  ? t(
+                      "Another window is observing posture. Keep using that window, or stop its camera first.",
+                      "另一个窗口正在观察坐姿。可以继续使用它，或先停止那里的摄像头。",
+                    )
+                  : t(
+                      "Camera observation is paused. Check the camera permission and reconnect.",
+                      "摄像头观察已暂停，请检查相机权限后重新连接。",
+                    )}
+          </p>
+        )}
+      </section>
       <div className="workspace-state">
         <Camera />
         <div>

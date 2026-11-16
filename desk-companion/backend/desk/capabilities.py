@@ -21,6 +21,7 @@ from .tasks import TaskChange, TaskInput, TaskQuery
 from .assistant import CalendarQuery, ChangeProposal
 from .owner_lookup import OwnerClockArgs, OwnerSearch, PlateQuery
 from .owner_plan import ProposePlan
+from .weather import WeatherQuery
 
 
 Risk = Literal["read", "draft", "cancel", "stop"]
@@ -57,6 +58,7 @@ class Capability:
 
 def _capabilities() -> dict[str, Capability]:
     rows = [
+        Capability("weather_query", "read", WeatherQuery, timeout=8),
         Capability("connected_app_query", "read", ConnectedAppQuery, timeout=12),
         Capability("email_status", "read", EmptyArgs),
         Capability("email_send_draft", "draft", MailDraft),

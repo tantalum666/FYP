@@ -1,4 +1,5 @@
 import { ComposerFiles } from "./ComposerFiles";
+import { AliceCheckIn } from "./AliceCheckIn";
 import { companionState, reportInteraction } from "../companion/interaction";
 import { ComposerMenu } from "./ComposerMenu";
 import { useChatFiles } from "./useChatFiles";
@@ -1222,6 +1223,12 @@ export function AssistantPanel({
         </p>
       )}
       {immersive && !expanded && homeHint}
+      {immersive && (
+        <AliceCheckIn
+          t={t}
+          visible={!expanded && !suspended && !busy && !voiceActive}
+        />
+      )}
       <div className="assistant-toolbar">
         {workspace && view === "chat" && (
           <button

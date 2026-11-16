@@ -1,7 +1,7 @@
-# Group 2 · Current continuation
+# Group 2 · Continue here
 
-16November2026. Continue in `/Users/tantalum/.codex/worktrees/agent-runtime-20261116/FYP`, branch `codex/agent-runtime-20261116`. Read [AGENTS](AGENTS.md), [product](product.md), [handoff](handoff.md), latest [decisions](decision-log.md), [current QA](output/qa/2026-11-16-agent-runtime/verification.md) and [personal-agent status](desk-companion/docs/personal-agent-status.md).
+16November2026. Active checkout `/Users/tantalum/.codex/worktrees/agent-runtime-20261116/FYP`, branch `codex/agent-runtime-20261116`. Read [AGENTS](AGENTS.md), [product](product.md), [handoff](handoff.md), latest [decisions](decision-log.md) and [current QA](output/qa/2026-11-16-alice-daily-presence/verification.md).
 
-PR123 merged; complete shared baseline deployed to Mac/native Simulator/Pi with original stores and A3 retained. Mac and Pi Google Gmail/Calendar grants passed actual read checks. Microsoft CAPTCHA remains unresolved. The Pi relay recovered during work; no power/network/SD-card changes.
+PR123 is merged and its complete baseline was delivered to Mac/native/Pi. Mac and Pi Gmail/Calendar grants passed actual reads; Microsoft CAPTCHA remains. PR124 is draft for managed execution plus the current daily voice/weather/proactive/local-camera work. A3 is retained. Both paid rounds are closed; the USD0.20voice round finished with tool/A3 evidence but incomplete final weather speech, not full listening acceptance. No CI.
 
-Official managed browser trial succeeded and was deleted. USD1 round is closed, usage unknown, full reservation held. An opt-in managed research adapter now shares existing jobs and has local protocol/UI evidence; it is disabled on normal runtimes pending integrated acceptance. No CI or extra paid calls. Next: trusted conversation/voice-to-browser admission, followed by actual owner takeover/return; do not claim purchases, tickets or unattended mailbox completion.
+Finish candidate release/hash readback before claiming these new changes are on an endpoint. Preserve original stores/keys/backups; local camera requires first consent and personal calibration. Pi relay/display stability is separate; power diagnosis remains deferred.

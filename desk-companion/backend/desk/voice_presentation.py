@@ -1,0 +1,28 @@
+"""Speech hints without changing saved titles, IDs or business tool results."""
+
+import re
+
+SPEECH_GUIDANCE = (
+    "Speak in natural sentences in the user's current language. When summarizing a task, "
+    "prefer its speech_title and briefly explain technical wording in that language. "
+    "Do not read formatting separators as 'slash', 'dot', 'asterisk' or their translations. "
+    "Never spell a path, URL or identifier unless the user asks; preserve exact names and numbers "
+    "when they matter. Do not insert English fillers into Mandarin or Cantonese. "
+    "For Hong Kong current weather or a seven-day forecast, call weather_query; "
+    "summarize the dated results and useful changes, not a refusal based on your training data. "
+)
+
+
+def speech_result(value):
+    """Only the model-facing voice copy gains a punctuation-free title hint."""
+    if isinstance(value, list):
+        return [speech_result(item) for item in value]
+    if not isinstance(value, dict):
+        return value
+    result = {key: speech_result(item) for key, item in value.items()}
+    title = value.get("title")
+    if isinstance(title, str):
+        # Spaced separators are presentation punctuation; dates, fractions,
+        # URLs and compact file paths must keep their original meaning.
+        result["speech_title"] = re.sub(r"\s+[·•/]\s+", ", ", title)
+    return result

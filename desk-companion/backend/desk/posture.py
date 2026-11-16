@@ -34,6 +34,7 @@ class Observation(StrictModel):
 
 class PosturePreferences(StrictModel):
     enabled: bool = False
+    camera_source: Literal["device", "browser"] = "device"
     persistence_seconds: int = Field(default=15, ge=5, le=120)
     reassess_seconds: int = Field(default=10, ge=5, le=60)
     cooldown_seconds: int = Field(default=180, ge=30, le=3600)

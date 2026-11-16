@@ -68,6 +68,8 @@
 	<true/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Start a voice conversation with your configured desk companion.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Use your camera for local posture feedback and visual context you choose to share.</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Connect to the desk companion you pair with on your local network.</string>
 	<key>NSAppTransportSecurity</key>

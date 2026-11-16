@@ -1,25 +1,29 @@
 # Group 2 · Current handoff
 
-16 November2026. Continue in `/Users/tantalum/.codex/worktrees/agent-runtime-20261116/FYP`, branch `codex/agent-runtime-20261116`. Preserve all recovery checkouts, original data and private backups. [QA](output/qa/2026-11-16-agent-runtime/verification.md), [capability map](desk-companion/docs/personal-agent-status.md), [managed-browser contract](desk-companion/docs/managed-browser.md).
+16November2026. Continue in `/Users/tantalum/.codex/worktrees/agent-runtime-20261116/FYP`, branch `codex/agent-runtime-20261116`. Keep recovery checkouts, original data and private backups. Read [current QA](output/qa/2026-11-16-alice-daily-presence/verification.md), [daily behavior](desk-companion/docs/daily-presence.md), [managed browser](desk-companion/docs/managed-browser.md) and [capability map](desk-companion/docs/personal-agent-status.md).
 
-## Delivered baseline
+## Verified running baseline and accounts
 
-PR123 merged as `7d7ab9fad96e2717f572f8dd5d997d0b03da1e33`. Complete Mac/Pi backends and native Simulator frontend now share this baseline, including reviewed Grok features and Alice motions. Original-store migration rehearsals left all old tables unchanged (Mac102→124, Pi101→123, schema3). Verified stopped-service backups preceded activation; protected data, app accounts and A3/version9 were retained. Normal URLs: Mac `http://127.0.0.1:8831/`, phone browser `?surface=phone`, Pi relay `http://127.0.0.1:8891/`. Native uses a Mac8831 launch argument, not a saved origin change or a physical-iPhone claim.
+PR123 merged as7d7ab9fa. The complete baseline was activated on Mac8831/Pi8891 and embedded in the iPhone17Pro/iOS26.5 Simulator. Original-store rehearsals/backups preserved old tables (Mac102→124, Pi101→123, schema3), keys, account grants and A3/version9. Native uses a Mac8831launch argument; no physical-iPhone claim.
 
-The Pi returned through the existing VPS during this task. The old listener had been absent; VPS and exact relay credentials were independently healthy. No SD-card/network replacement, hotspot request or power investigation. Full release files/API/index were activated/read back. Device rendering and final feature-release receipts are tracked in QA; do not infer physical animation/performance from asset delivery.
+Owner completed separate Mac and Pi Gmail/Calendar grants. All four connections passed actual bounded provider reads; tokens were not copied. Microsoft personal-account login remains blocked at human verification, with no FYP app registration/Graph grant. Do not reuse the old device code or bypass CAPTCHA.
 
-## Accounts
+Pi's existing VPS relay recovered, then intermittently disconnected during display checks. Full baseline files/API/hash were read back. A blank kiosk was blocked by the OS keyring prompt; the observed Cancel button was activated through the authenticated desktop accessibility interface without entering/changing passwords. Physical rendering/stability remains unaccepted. Power diagnosis stays deferred.
 
-Owner completed Mac Gmail Reconnect and Calendar Connect. FYP connection versions and actual Gmail profile/bounded Calendar GET both passed; no mail bodies/calendar titles or send operations were used. Owner subsequently completed Pi's separate Gmail/Calendar consent; both actual provider GETs also passed from Pi. Microsoft personal-account login was blocked by CAPTCHA difficulty; no FYP client registration/Graph grant exists. Do not repeat/bypass CAPTCHA, reuse the expired device code, or transfer Codex connector grants.
+## Current software candidate
 
-## Official execution work
+PR124 is open/draft. Published2f931d1d adds opt-in official managed-browser research on existing JobService, preserving approval/cancel/unknown-cleanup/evidence and legacy retries. It remains disabled on ordinary runtimes. New daily work adds HKO weather_query, speech-only label hints, low reasoning, brief PCM-pause preservation and adaptive buffering; one compact task/posture cue; locally processed browser camera with per-origin consent, one owner-bound lease and reload recovery. First camera consent/personal calibration still applies. No new planner/queue or camera-frame upload. Native camera usage description was missing and has been added.
 
-An actual one-session managed Agents browser trial read two public book prices and chose the cheaper one; independent HTML readback matched. Four browser activities,51.731seconds, DELETE then GET404. Usage was null: **USD1 round closed, entire reservation retained, no further paid calls**. Live cancellation did not fit the cap and remains untested.
+Complete daily backend2370passed; final Live changes passed30focused checks. Frontend389passed, types/build/Ruff and actual desktop/phone flows passed within QA scope. Actual local model ran with a synthetic camera and recovered across navigation/reload; pause released it. A physical Mac camera produced15valid uncalibrated observations and stopped with no saved frames/cloud vision. Fixture completion/progress actions were independently read back.
 
-New opt-in FYP managed research adapter reuses JobService and owner/privacy/provider/permission checks; no new planner/queue or dependencies. It has local lifecycle, cancellation, uncertain-resource, legacy backup and desktop/phone UI checks. Ordinary runtimes keep `DESK_MANAGED_BROWSER_ENABLED` off. This FYP integration has not received another paid end-to-end trial; it is not voice-to-shopping autonomy, actual owner takeover, payment or ticketing. See QA for exact publication/activation status.
+## Paid rounds: both CLOSED
+
+Managed browser: one actual public catalogue session,4activities/51.731s, independent price match, DELETE/GET404. Usage null; entire USD1reservation remains held. No further spending in it.
+
+New voice round: owner authorized USD0.20/60s. Three attempts totaled58.493s; all receipts finalized. Two evaluator failures retained; final attempt read bound task/HKO7days and confirmed A3, with separator-free task wording. Cache-aware conservative totalUSD0.11280236 includes10percent margin. Final full weather speech was cut short, so complete spoken weather/naturalness/latency is NOT accepted. No old child ledger reopened and no more paid calls authorized.
 
 ## Evidence and next step
 
-Baseline2348backend/387frontend tests; new execution slice154focused backend/388frontend tests, Ruff/types/build and actual desktop/phone UI passed. No CI. Private evidence/scripts/bundles/backups: `~/.config/desk-companion/agent-runtime-20261116/`; Pi backup: `~/.local/state/desk-companion/release-20261116/`. Never commit those private contents.
+Private logs/media/scripts/bundles: `~/.config/desk-companion/agent-runtime-20261116/`; Pi backups: `~/.local/state/desk-companion/release-20261116/`. No private bytes/model binaries in Git; no CI. Final candidate publication/activation receipts belong in the current QA.
 
-Next product slice: connect a trusted conversation/voice admission to the existing browser-job review flow, then implement actual owner browser control/return before authenticated merchant acceptance. Keep managed execution opt-in until an integrated provider/cancellation trial has a fresh budget. Continuous inbox follow-up, real purchase/payment/ticket receipts and Microsoft registration/consent remains an explicit gap.
+**Next immediate step:** finish the current candidate's immutable release/endpoint activation and exact hash readback, preserving all four Google grants and A3; retain any unreachable/rendering exception explicitly. Later product gaps remain full spoken-response acceptance, personalized posture accuracy, autonomous inbox follow-up, actual browser owner takeover and merchant payment/ticketing.

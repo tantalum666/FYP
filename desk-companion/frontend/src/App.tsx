@@ -562,7 +562,9 @@ export function App() {
             refresh,
             <RefreshCw size={14} aria-hidden="true" />,
           )}
-        <NoticeInbox t={t} language={language === "zh" ? "zh" : "en"} />
+        {page !== "assistant" && (
+          <NoticeInbox t={t} language={language === "zh" ? "zh" : "en"} />
+        )}
         {pendingWrite() &&
           pendingWrite()?.path !== "/assistant/messages/stream" &&
           !editor && (

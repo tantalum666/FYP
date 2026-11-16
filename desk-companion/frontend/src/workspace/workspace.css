@@ -843,3 +843,14 @@
 .work-submit .primary {
   margin-top: 10px;
 }
+
+.posture-camera-preview {
+  display: block;
+  width: min(100%, 480px);
+  max-height: 270px;
+  object-fit: contain;
+  border-radius: 12px;
+  margin-top: 12px;
+  transform: scaleX(-1);
+  background: #14242d;
+}

@@ -98,16 +98,20 @@ export class PlaybackSchedule {
   packets = 0;
   rebuffers = 0;
   largestGapMs = 0;
+  private lead = 0.16;
   reserve(now: number, duration: number): number {
     const remaining = this.nextTime - now;
-    if (!this.nextTime) this.nextTime = now + 0.08;
+    if (!this.nextTime) this.nextTime = now + this.lead;
     else if (remaining < 0.008) {
       this.rebuffers++;
       this.largestGapMs = Math.max(
         this.largestGapMs,
         Math.max(0, -remaining) * 1000,
       );
-      this.nextTime = now + 0.12;
+      // Learn from short arrival/main-thread stalls. Do not change PCM/pitch,
+      // or accumulate seconds of latency to hide an actual network outage.
+      this.lead = Math.min(0.35, Math.max(this.lead + 0.04, -remaining + 0.08));
+      this.nextTime = now + this.lead;
     }
     const start = this.nextTime;
     if (start + duration - now > 30) throw new Error("AUDIO_CONNECTION_SLOW");

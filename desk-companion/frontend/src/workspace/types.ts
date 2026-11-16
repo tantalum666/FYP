@@ -6,6 +6,7 @@ export interface PermissionState {
 
 export interface PosturePreferences {
   enabled: boolean;
+  camera_source?: "device" | "browser";
   persistence_seconds: number;
   reassess_seconds: number;
   cooldown_seconds: number;
@@ -48,6 +49,7 @@ export interface PostureSnapshot {
   } | null;
 }
 export interface WorkspaceSnapshot {
+  check_in?: import("./AliceCheckIn").AliceCue | null;
   personal_context_visible: boolean;
   permissions?: PermissionState;
   computer?: {
