@@ -27,3 +27,7 @@ Real-model controlled shopping/flight/browser tests exist. Actual merchant owner
 ## One next product step
 
 Implement a real same-browser owner-control and explicit-return flow on the existing JobService, then verify it before claiming authenticated merchant work. Reuse durable jobs, session/version checks, cancellation and independent result readback. Do not open a paid budget or perform unspecified mail/purchase actions. Pi rendering remains a separate pending verification when connectivity returns.
+
+## Parallel hardware progress · 17 November
+
+The [hardware update](research/2026-11-17-hardware-progress/README.md) includes the four-category procurement workbook (HK$1,944.43 before Hong Kong delivery), both 320 × 200 × 200 mm enclosure V2 Blender files, Qi fit notes and the tabletop ArUco test sheet. Next, confirm the first three SKUs and landed costs, then measure the screen and Mini before locking the enclosure and dock. Physical fitting and charging tests are pending.

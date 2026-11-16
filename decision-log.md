@@ -742,3 +742,8 @@ Runtime delivery overlays only compatible presentation changes on the existing52
 Deliver a narrow compatible presentation overlay to the retained Mac backend and rebuild the existing native Simulator. Pi remained unreachable, so no new Pi activation is claimed. Native UI testing uses a Mac8831process launch override; the saved origin preference was read back as absent, so earlier wording that the Pi URL was saved in Settings was inaccurate. Do not change the saved preference or transfer credentials to establish an animation test.
 
 **Status / engineering priority, not new transaction authorization:** fresh GitHub/local-catalog evidence separates merged Grok source from ordinary runtime. Gmail self-send has dated real evidence; continuous inbox monitoring and real merchant login/payment/ticketing do not. Implement actual owner browser control/return on the existing job before promoting account autonomy. [Current status](desk-companion/docs/personal-agent-status.md) / [QA](output/qa/2026-11-16-alice-variety/verification.md). No CI or paid requests.
+
+## 2026-11-17 硬件采购归类与样件边界
+
+- 按老师建议分为机械臂、吸尘机、显示器和行走改装部件。用户补充屏幕附送 HDMI 线和 micro-HDMI 转接头，该项计 HK$0。新表整机商品预算 HK$1,944.43，运费和实物验证仍待核。
+- 外壳 V2 保持 320 × 200 × 200 mm，提供分件和一体模型。车尾 RX 对泊位 TX 为几何方案，模型间隙和零件外廓须实测。采用四个桌角码和一个车顶码，五个码学校免费打印。[硬件进度](research/2026-11-17-hardware-progress/README.md)。

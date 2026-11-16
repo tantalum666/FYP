@@ -890,3 +890,9 @@ Motion publication: source659403c2matched [PR123](https://github.com/tantalum666
 - **Delivered:** original Mac backend PID/data retained;68-file frontend readback, A3/version9/configuration unchanged, previous frontend/hashed assets preserved. Native uses process-only Mac8831for current UI checking; saved origin is absent. Pi relay failed, so no new Pi deployment. Power diagnosis remains deferred.
 - **Agent audit:** fresh main/PR and local catalog checks; [status map](desk-companion/docs/personal-agent-status.md) separates real Gmail8November proof, controlled computer-use tests and uncompleted inbox/account/transaction flows. No new private mailbox read, model call, mail send or merchant transaction.
 - **Records:** product/avatar/home/delivery/research contracts, decisions and concise handoff/entry updated; private artifacts in `~/.config/desk-companion/alice-motions-20261116/`. Publication follows validation and scope/link checks. One next product step: actual same-browser owner takeover and explicit return.
+
+## 2026-11-17 硬件采购、外壳 V2 和定位进度
+
+- 同步老师审核版采购 Excel，首批 HK$1,077.12，合计 HK$1,944.43。随屏视频线和转接头计 HK$0，已替换亚博 IPS 无支架款链接。
+- 提供 V2 分件与一体 Blender、尺寸与 Qi 留位说明、模型渲染副本和 ArUco A4 测试页。[交付入口](research/2026-11-17-hardware-progress/README.md)。
+- 核对 Excel 数据、预算公式、上传副本几何指纹及资料链接。[本地验证](output/qa/2026-11-17-hardware-progress/verification.md)。实物试装、桌面路线和无线回座待验。
