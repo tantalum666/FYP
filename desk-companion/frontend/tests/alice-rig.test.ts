@@ -70,6 +70,26 @@ function aliceRig() {
   return { scene, humanoid, hands, rest, position, feet };
 }
 
+function applyPose(
+  rig: ReturnType<typeof aliceRig>,
+  motion: ReturnType<typeof aliceMotion>,
+  side: "left" | "right",
+) {
+  for (const name of MOTION_BONES) {
+    const node = rig.humanoid.getNormalizedBoneNode(name)!;
+    node.quaternion
+      .copy(rig.rest.get(name)!)
+      .multiply(
+        new THREE.Quaternion().setFromEuler(
+          new THREE.Euler(...motion.pose[name]),
+        ),
+      );
+  }
+  rig.hands.update(1, side, motion.openness);
+  rig.humanoid.update();
+  rig.scene.updateMatrixWorld(true);
+}
+
 for (const side of ["left", "right"] as const)
   test(`${side} greeting shows its palm, thumb toward the face, on Alice's actual rig`, () => {
     const rig = aliceRig();
@@ -79,19 +99,7 @@ for (const side of ["left", "right"] as const)
         gestureAt: 0,
         waveSide: side,
       });
-      for (const name of MOTION_BONES) {
-        const node = rig.humanoid.getNormalizedBoneNode(name)!;
-        node.quaternion
-          .copy(rig.rest.get(name)!)
-          .multiply(
-            new THREE.Quaternion().setFromEuler(
-              new THREE.Euler(...motion.pose[name]),
-            ),
-          );
-      }
-      rig.hands.update(1, side, motion.openness);
-      rig.humanoid.update();
-      rig.scene.updateMatrixWorld(true);
+      applyPose(rig, motion, side);
       const wrist = rig.position(side + "Hand");
       const normal = palmNormal(
         side,
@@ -109,6 +117,42 @@ for (const side of ["left", "right"] as const)
           0,
         "thumb points away from face",
       );
+      for (const [index, name] of ["leftFoot", "rightFoot"].entries())
+        assert.ok(rig.position(name).distanceTo(rig.feet[index]) < 1e-8);
+    }
+  });
+
+for (const side of ["left", "right"] as const)
+  test(`${side} explanation stays in front of the body and inside the phone hand envelope`, () => {
+    const rig = aliceRig();
+    for (const age of [1.9, 2.4, 3.0]) {
+      const motion = aliceMotion(age, {
+        gesture: "explain",
+        gestureAt: 0,
+        waveSide: side,
+      });
+      applyPose(rig, motion, side);
+      const wrist = rig.position(side + "Hand");
+      const palm = palmNormal(
+        side,
+        wrist,
+        rig.position(side + "IndexProximal"),
+        rig.position(side + "MiddleProximal"),
+        rig.position(side + "LittleProximal"),
+      );
+      assert.ok(
+        palm.z > 0.6,
+        `explanation shows back of hand: ${palm.toArray()}`,
+      );
+      assert.ok(
+        wrist.z > 0.08 && Math.abs(wrist.x) > 0.17,
+        "hand falls into torso",
+      );
+      for (const finger of ["Index", "Middle", "Ring", "Little"])
+        assert.ok(
+          Math.abs(rig.position(side + finger + "Distal").x) < 0.38,
+          "fingers exceed compact phone pose",
+        );
       for (const [index, name] of ["leftFoot", "rightFoot"].entries())
         assert.ok(rig.position(name).distanceTo(rig.feet[index]) < 1e-8);
     }

@@ -1,5 +1,9 @@
 # Group 2 · Shared Alice home
 
+## 16 November contextual movement
+
+Alice retains her position/scale while greeting responses vary across wave, smile/nod, curious tilt and compact open-hand explanation. Idle adds occasional glances/shoulder relaxation; listening/thinking/speaking use short contextual cues with quiet gaps. No permanent motion toolbar or new polling was added. A person can interrupt idle movement, and a finished action accepts the next click immediately. [Current motion contract](avatar.md) / [QA](../../output/qa/2026-11-16-alice-variety/verification.md).
+
 ## 13 November natural character motion
 
 The shared AliceScene/A1Canvas now adds an initial brief wave and a click/tap greeting. The transparent silhouette target has a keyboard-accessible label, is disabled while obscured/inactive, and disappears with reduced motion or the static fallback. It does not add a permanent toolbar or change Alice's size. Calendar, header and conversation controls remain above it.

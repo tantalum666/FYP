@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated: 13 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated: 16 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -880,3 +880,13 @@ Motion publication: source659403c2matched [PR123](https://github.com/tantalum666
 - **Activated:** compatible frontend on original Mac web/data and native app; Pi68-file readback and atomic frontend swap passed with original PID1328/A3/version9/configuration intact. Original frontends retained for rollback. Mac helper's read-only SQLite failure caused a safe rollback; using the application's SQLite runtime/API completed the check, without repairing/replacing the database.
 - **Not accepted:** physical Pi kiosk opened but relay/VNC disconnected during character loading. Mac-rendered device greeting does not prove Pi-local animation or performance. Existing forwarding reconnects normally; power investigation remains deferred.
 - **Files/evidence:** [QA](output/qa/2026-11-13-alice-motion-repair/verification.md); private native video/screenshots/manifests at `~/.config/desk-companion/alice-motion-20261113/`. Product, avatar/home contracts, old-QA supersession, decision log and concise handoff/entry updated. One next step: when Pi reconnects, inspect its kiosk renderer and verify physical greeting/idle.
+
+
+## 2026-11-16 More natural Alice motion and personal-agent status
+
+- **Goal/read:** address stiffness/add actions and audit personal-agent progress; [focused reading](output/qa/2026-11-16-alice-variety/reading-record.md) records selected files and current checks.
+- **Changed:** contextual short clips/quiet intervals, four touch responses, shoulder/head/hand coordination, actual-rig explanation-hand bounds, shared visual/input completion and separate animation/physics time. Fixed the phone sequence's dropped click at the quiet tail. No model/size/A3 or core permission change.
+- **Validated:**387main/366compatible frontend tests, types/build; desktop1440×900/phone393×852, completed four-response phone loop, actual palms/finger extent/feet, pause, reduced-motion restoration and no relevant console errors. A bounded desktop capture hit a deadline before direct later idle readback; it is retained in QA, not counted as a successful timing sample. Native Simulator rebuilt/installed and actual Mac-backed rendering/idle glance recorded; no new native-touch/physical-iPhone/voice acceptance.
+- **Delivered:** original Mac backend PID/data retained;68-file frontend readback, A3/version9/configuration unchanged, previous frontend/hashed assets preserved. Native uses process-only Mac8831for current UI checking; saved origin is absent. Pi relay failed, so no new Pi deployment. Power diagnosis remains deferred.
+- **Agent audit:** fresh main/PR and local catalog checks; [status map](desk-companion/docs/personal-agent-status.md) separates real Gmail8November proof, controlled computer-use tests and uncompleted inbox/account/transaction flows. No new private mailbox read, model call, mail send or merchant transaction.
+- **Records:** product/avatar/home/delivery/research contracts, decisions and concise handoff/entry updated; private artifacts in `~/.config/desk-companion/alice-motions-20261116/`. Publication follows validation and scope/link checks. One next product step: actual same-browser owner takeover and explicit return.

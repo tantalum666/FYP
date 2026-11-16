@@ -11,6 +11,7 @@ import { mouthLevel, subscribePlayback, type PlaybackSample } from "./output";
 import type { Presentation } from "./renderer";
 import { MODELS, readAppearance } from "./appearance";
 import { HandPose, relaxArms } from "./hand-pose";
+import { MotionCues } from "./motion-cues";
 import {
   aliceMotion,
   blinkWeight,
@@ -55,8 +56,8 @@ export class VrmViewer {
   private headScale = new THREE.Vector3(1, 1, 1);
   private presentation: Presentation | null = null;
   private pointer = { x: 0, y: 0 };
-  private responseAt = -10;
-  private gesture: "wave" | "nod" = "nod";
+  private cues = new MotionCues();
+  private speakingUntil = 0;
   private waveSide: "left" | "right" = "left";
   private bones = new Map<
     MotionBone,
@@ -214,8 +215,7 @@ export class VrmViewer {
         !this.interaction &&
         companionState(this.presentation?.state ?? "idle") === "idle"
       ) {
-        this.gesture = "wave";
-        this.responseAt = this.elapsed + 0.35;
+        this.cues.greeting(this.elapsed);
       }
       // VRM0 was rotated after import. Initialize spring state in its final
       // world transform so the first frame does not throw the hair upward.
@@ -284,6 +284,7 @@ export class VrmViewer {
   }
 
   setPaused(paused: boolean) {
+    if (this.paused !== paused) this.previous = 0;
     this.paused = paused;
     this.schedule();
   }
@@ -297,8 +298,7 @@ export class VrmViewer {
       value.action !== "Idle" &&
       (value.nonce !== previous?.nonce || value.action !== previous?.action)
     ) {
-      this.gesture = value.action === "Wave" ? "wave" : "nod";
-      this.responseAt = this.elapsed;
+      this.cues.hello(this.elapsed);
     }
     if (
       value.review !== previous?.review ||
@@ -365,6 +365,7 @@ export class VrmViewer {
     this.failed();
   };
   private schedule = () => {
+    if (!this.inView || document.hidden) this.previous = 0;
     if (!this.disposed && this.inView && !document.hidden && !this.frame)
       this.frame = requestAnimationFrame(this.draw);
   };
@@ -376,26 +377,31 @@ export class VrmViewer {
       this.schedule();
       return;
     }
-    const delta = this.previous
-      ? Math.min((at - this.previous) / 1000, 0.05)
+    const elapsed = this.previous
+      ? Math.min((at - this.previous) / 1000, 0.25)
       : 0;
+    const delta = Math.min(elapsed, 0.05); // Spring physics keeps its stable step.
     this.previous = at;
-    if (!this.paused) this.elapsed += delta;
+    if (!this.paused) this.elapsed += elapsed;
     const playback =
       this.floating && !this.paused ? mouthLevel(this.sample, Date.now()) : 0;
+    if (playback > 0.02) this.speakingUntil = this.elapsed + 0.35;
+    const state =
+      this.elapsed < this.speakingUntil
+        ? "speaking"
+        : companionState(
+            this.interaction ?? this.presentation?.state ?? "idle",
+          );
+    const cue = this.cues.sample(this.elapsed, state);
     const motion = aliceMotion(this.elapsed, {
-      state:
-        playback > 0.02
-          ? "speaking"
-          : (this.interaction ?? this.presentation?.state),
+      state,
       lookX: this.pointer.x,
       lookY: this.pointer.y,
-      gesture: this.gesture,
-      gestureAt: this.responseAt,
+      ...cue,
       waveSide: this.waveSide,
     });
     if (this.floating && this.vrm && !this.paused) {
-      const blend = 1 - Math.exp(-9 * delta);
+      const blend = 1 - Math.exp(-7 * elapsed);
       for (const [name, { node, rest }] of this.bones) {
         const [x, y, z] = motion.pose[name];
         this.offset.setFromEuler(this.rotation.set(x, y, z));
@@ -403,8 +409,8 @@ export class VrmViewer {
         node.quaternion.slerp(this.goal, blend);
       }
       this.hands?.update(
-        delta,
-        motion.gesture === "wave" ? this.waveSide : null,
+        elapsed,
+        motion.openness > 0 ? this.waveSide : null,
         motion.openness,
       );
     }
@@ -453,6 +459,7 @@ export class VrmViewer {
     this.renderer.render(this.scene, this.camera);
     this.host.dataset.motion = motion.gesture ?? motion.state;
     this.host.dataset.frames = String(++this.frames);
+    this.host.dataset.motionTime = this.elapsed.toFixed(2);
     if (!this.paused && this.vrm) this.schedule();
   };
 

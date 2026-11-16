@@ -1,6 +1,14 @@
 # A1 3D presentation study
 
-## Current Alice motion — 13 November 2026
+## Current Alice motion — 16 November 2026
+
+The owner still found repetitive movement stiff. `motion-cues.ts` now chooses brief contextual actions separated by quiet intervals: smile/nod, curious listening tilt, compact open-hand explanation, glance, shoulder relaxation and pondering, in addition to the anatomically corrected wave. A tap cycles through wave/nod/tilt/explanation. Automatic idle motion yields to a person or conversation; rapid taps do not restart a moving arm. The shared envelope ends both visual motion and input coalescing at the same point.
+
+`alice-motion.ts` supplies bounded shoulder/chest/head/arm poses. No continuous fixed-rate listening nod or speaking-arm loop remains. VrmViewer uses elapsed time for gestures and a capped step for spring physics; hidden/menu/reduced-motion ownership is preserved. The explanation hand is brought forward and kept compact, with actual-rig tests for both palms/fingertips/torso clearance. Root/feet, model, size and A3 remain. [Current QA](../../output/qa/2026-11-16-alice-variety/verification.md).
+
+Mac's normal frontend and native Simulator were updated. Native UI validation used a process-only Mac8831origin override while Pi was unreachable; no saved desk Configure operation was used. Pi's last verified frontend remains13November, with no accepted physical-animation result. The sections below retain the first motion implementation and correction history.
+
+## 13 November motion implementation and correction
 
 Alice now uses client-authored, bounded upper-body motion on the existing normalized VRM rig. One brief wave follows initial loading; clicking/tapping her home silhouette repeats it. Idle includes breathing, relaxed arm variation and occasional glances. Listening adds a gentle head tilt/nod, thinking a small upward turn, and speaking restrained hand/head gestures. Motions return smoothly to the model's relaxed pose. No walking/root/leg translation or camera reframing is introduced.
 

@@ -1,0 +1,59 @@
+{
+  "date": "2026-11-16",
+  "frontend_tests": 387,
+  "compatible_tests": 366,
+  "types_build": "passed",
+  "native_build_install": "passed",
+  "native_validation_origin": "http://127.0.0.1:8831",
+  "native_saved_origin": null,
+  "native_input_new_acceptance": false,
+  "web_activation": {
+    "activated": true,
+    "api_pid": "28112",
+    "api_not_restarted": true,
+    "voice_version": 9,
+    "voice_unchanged": true,
+    "protected_files_unchanged": true,
+    "old_assets_preserved": true,
+    "candidate_files": 68,
+    "index_sha256": "6895c5cd85fc6383218b88df2b2e295d5b75771e064fd29743e23dd32f5bcfc3",
+    "previous_frontend": "dist-motion-20261113-v2",
+    "active_frontend": "dist-motions-20261116",
+    "paid_calls": 0
+  },
+  "phone_loop": [
+    {
+      "gesture": "wave",
+      "returnedTo": "idle"
+    },
+    {
+      "gesture": "nod",
+      "returnedTo": "idle"
+    },
+    {
+      "gesture": "curious",
+      "returnedTo": "idle"
+    },
+    {
+      "gesture": "explain",
+      "returnedTo": "idle"
+    }
+  ],
+  "pause_frames": [
+    985,
+    985
+  ],
+  "reduced_motion_canvas_counts": [
+    0,
+    1
+  ],
+  "app_console_errors": [],
+  "pi": {
+    "reachable": false,
+    "returncode": 255
+  },
+  "paid_calls": 0,
+  "ci": false,
+  "native_physical_phone_test": false,
+  "personal_agent_capability_changed": false
+}

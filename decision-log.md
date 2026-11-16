@@ -733,3 +733,12 @@ Real browser inspection caught/fixed inward arm bending, floating-point gesture 
 **Engineering choices:** calibrate both palms/thumbs on the shipped VRM, keep the same forward roll on both normalized wrists, soften elbow/wrist timing and derive small finger curls from the model's joints. Tests assert real rig anatomy and planted feet. Preserve the large mobile Alice, original asset and A3.
 
 Runtime delivery overlays only compatible presentation changes on the existing520ab563 backend; do not roll out unrelated main/Grok features. Retain verified old frontend backups, use atomic Pi frontend exchange and preserve backend/data/credentials. Mac web and native initial greeting passed. Pi asset activation passed, but physical kiosk rendering is unaccepted after relay loss during character loading. Do not infer power causation or resume the deferred red-LED investigation. [Evidence](output/qa/2026-11-13-alice-motion-repair/verification.md). No CI or paid calls.
+
+
+## 2026-11-16 Contextual Alice motion and capability accounting
+
+**Owner direction:** Alice still feels rigid; add other actions and explain personal-agent progress. **Engineering implementation:** short contextual gestures with quiet periods, varied direct greetings, shoulder/head/hand coordination, shared eased input/pose completion and elapsed gesture time separate from physics. Keep model/size/A3 and existing permissions/data. Actual phone testing found the quiet-tail dropped-tap defect and drove the shared-envelope correction.
+
+Deliver a narrow compatible presentation overlay to the retained Mac backend and rebuild the existing native Simulator. Pi remained unreachable, so no new Pi activation is claimed. Native UI testing uses a Mac8831process launch override; the saved origin preference was read back as absent, so earlier wording that the Pi URL was saved in Settings was inaccurate. Do not change the saved preference or transfer credentials to establish an animation test.
+
+**Status / engineering priority, not new transaction authorization:** fresh GitHub/local-catalog evidence separates merged Grok source from ordinary runtime. Gmail self-send has dated real evidence; continuous inbox monitoring and real merchant login/payment/ticketing do not. Implement actual owner browser control/return on the existing job before promoting account autonomy. [Current status](desk-companion/docs/personal-agent-status.md) / [QA](output/qa/2026-11-16-alice-variety/verification.md). No CI or paid requests.

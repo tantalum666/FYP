@@ -1,10 +1,19 @@
 import { companionState, type CompanionState } from "./interaction.ts";
+import {
+  GESTURE_SECONDS,
+  gestureWeight,
+  easeMotion as smooth,
+  type AliceGesture,
+} from "./motion-cues.ts";
+export { gestureWeight } from "./motion-cues.ts";
 
 export const MOTION_BONES = [
   "spine",
   "chest",
   "neck",
   "head",
+  "leftShoulder",
+  "rightShoulder",
   "leftUpperArm",
   "rightUpperArm",
   "leftLowerArm",
@@ -15,19 +24,7 @@ export const MOTION_BONES = [
 export type MotionBone = (typeof MOTION_BONES)[number];
 type Rotation = [number, number, number];
 export type MotionPose = Record<MotionBone, Rotation>;
-export const GREETING_SECONDS = 4.8;
-
-function smooth(value: number) {
-  const x = Math.max(0, Math.min(1, value));
-  return x * x * x * (x * (x * 6 - 15) + 10);
-}
-
-/** A bounded gesture returns to rest, with zero velocity at both ends. */
-export function gestureWeight(age: number, duration = GREETING_SECONDS) {
-  if (!Number.isFinite(age) || age < 0 || age >= duration) return 0;
-  const weight = smooth(age / 1.15) * smooth((duration - age) / 1.35);
-  return weight < 1e-6 ? 0 : weight;
-}
+export const GREETING_SECONDS = GESTURE_SECONDS.wave;
 
 export function blinkWeight(time: number) {
   // Unequal intervals and an occasional double blink, without a random timer.
@@ -54,7 +51,7 @@ export function aliceMotion(
     state?: string;
     lookX?: number;
     lookY?: number;
-    gesture?: "wave" | "nod";
+    gesture?: AliceGesture;
     gestureAt?: number;
     waveSide?: "left" | "right";
   } = {},
@@ -62,7 +59,7 @@ export function aliceMotion(
   pose: MotionPose;
   smile: number;
   state: CompanionState;
-  gesture: "wave" | "nod" | null;
+  gesture: AliceGesture | null;
   openness: number;
 } {
   const t = Math.max(0, Number.isFinite(time) ? time : 0);
@@ -72,21 +69,14 @@ export function aliceMotion(
   ) as MotionPose;
   const breath = Math.sin(t * 1.35);
   const settle = Math.sin(t * 0.62);
-  const glanceAge = t % 24;
-  const glance =
-    glanceAge > 8 && glanceAge < 12
-      ? Math.sin(((glanceAge - 8) / 4) * Math.PI) * 0.13
-      : glanceAge > 18 && glanceAge < 22
-        ? -Math.sin(((glanceAge - 18) / 4) * Math.PI) * 0.1
-        : 0;
   const finiteLook = (value = 0) =>
     Number.isFinite(value) ? Math.max(-1, Math.min(1, value)) : 0;
-  pose.spine = [0.004 * breath, 0.009 * settle, 0.012 * settle];
-  pose.chest = [0.012 * breath, 0.008 * Math.sin(t * 0.43), -0.006 * settle];
-  pose.neck = [0.006 * breath, 0, 0.012 * Math.sin(t * 0.73)];
+  pose.spine = [0.004 * breath, 0.006 * settle, 0.008 * settle];
+  pose.chest = [0.012 * breath, 0.006 * Math.sin(t * 0.43), -0.004 * settle];
+  pose.neck = [0.006 * breath, 0, 0.008 * Math.sin(t * 0.73)];
   pose.head = [
     finiteLook(options.lookY) * 0.045 + Math.sin(t * 0.57) * 0.025,
-    finiteLook(options.lookX) * 0.12 + (state === "idle" ? glance : 0),
+    finiteLook(options.lookX) * 0.12,
     0.017 * settle,
   ];
   pose.leftUpperArm = [0.018 * breath, 0, 0.018 * settle];
@@ -97,40 +87,31 @@ export function aliceMotion(
   let smile = 0.025;
   if (state === "listening") {
     pose.chest[0] += 0.025;
-    pose.head[0] += 0.035 + Math.max(0, Math.sin(t * 1.55)) * 0.035;
-    pose.head[2] += 0.065;
+    pose.head[0] += 0.025;
     smile = 0.06;
   } else if (state === "thinking") {
-    pose.head[0] -= 0.055;
-    pose.head[1] += 0.075;
-    pose.head[2] -= 0.045;
-    pose.leftLowerArm[2] -= 0.1;
+    pose.head[0] -= 0.025;
+    pose.head[1] += 0.025;
   } else if (state === "speaking") {
-    // Deliberate small phrases, rather than shaking in sync with every audio sample.
-    const phrase = Math.pow(0.5 + 0.5 * Math.sin(t * 1.7), 2);
-    pose.head[0] += 0.025 * Math.sin(t * 3.4);
-    pose.chest[1] += 0.025 * Math.sin(t * 1.15);
-    pose.leftUpperArm[2] -= 0.09 * phrase;
-    pose.leftLowerArm[2] -= 0.26 * phrase;
-    pose.leftHand[1] += 0.12 * phrase;
-    pose.rightLowerArm[2] += 0.16 * (1 - phrase);
+    // Longer phrase gestures are sequenced separately, with actual quiet gaps.
+    pose.chest[0] += 0.015;
     smile = 0.07;
   }
 
   const age = t - (options.gestureAt ?? -100);
   const weight = gestureWeight(
     age,
-    options.gesture === "nod" ? 1.2 : GREETING_SECONDS,
+    options.gesture ? GESTURE_SECONDS[options.gesture] : GREETING_SECONDS,
   );
   const gesture = weight > 0 ? (options.gesture ?? null) : null;
+  const blend = (bone: MotionBone, target: Rotation, amount = weight) => {
+    pose[bone] = target.map(
+      (value, axis) => pose[bone][axis] * (1 - amount) + value * amount,
+    ) as Rotation;
+  };
   if (gesture === "wave") {
     const side = options.waveSide ?? "left";
     const sign = side === "left" ? -1 : 1;
-    const blend = (bone: MotionBone, target: Rotation, amount = weight) => {
-      pose[bone] = target.map(
-        (value, axis) => pose[bone][axis] * (1 - amount) + value * amount,
-      ) as Rotation;
-    };
     const elbow = smooth(age / 0.95) * smooth((GREETING_SECONDS - age) / 1.1);
     const wrist =
       smooth((age - 0.25) / 1.1) * smooth((GREETING_SECONDS - age - 0.1) / 1.0);
@@ -164,8 +145,53 @@ export function aliceMotion(
     pose.head[2] += -sign * 0.035 * weight;
     smile = Math.max(smile, 0.17 * weight);
   } else if (gesture === "nod") {
-    pose.head[0] +=
-      Math.sin((Math.max(0, age) * Math.PI) / 1.2) * 0.12 * weight;
+    const dip = smooth(age / 0.65) * (1 - smooth((age - 0.9) / 0.85));
+    pose.head[0] += 0.18 * dip;
+    pose.chest[0] += 0.025 * weight;
+    pose.head[2] += 0.035 * weight;
+    smile = Math.max(smile, 0.21 * weight);
+  } else if (gesture === "curious") {
+    pose.head[2] += 0.15 * weight;
+    pose.head[1] -= 0.055 * weight;
+    pose.neck[2] += 0.025 * weight;
+    pose.chest[2] -= 0.035 * weight;
+    pose.rightShoulder[2] += 0.035 * weight;
+    smile = Math.max(smile, 0.14 * weight);
+  } else if (gesture === "glance") {
+    const direction = Math.floor((options.gestureAt ?? 0) / 7) % 2 ? -1 : 1;
+    pose.head[1] += direction * 0.23 * weight;
+    pose.chest[1] += direction * 0.065 * weight;
+    pose.head[0] -= 0.025 * weight;
+  } else if (gesture === "relax") {
+    pose.leftShoulder[2] -= 0.055 * weight;
+    pose.rightShoulder[2] += 0.055 * weight;
+    pose.chest[0] -= 0.04 * weight;
+    pose.head[0] -= 0.045 * weight;
+    pose.leftLowerArm[2] -= 0.18 * weight;
+    pose.rightLowerArm[2] += 0.16 * weight;
+    pose.leftHand[0] += 0.12 * weight;
+    pose.rightHand[0] += 0.12 * weight;
+  } else if (gesture === "ponder") {
+    pose.head[0] -= 0.065 * weight;
+    pose.head[1] += 0.13 * weight;
+    pose.head[2] -= 0.085 * weight;
+    pose.chest[1] += 0.04 * weight;
+    pose.leftLowerArm[2] -= 0.24 * weight;
+    pose.leftShoulder[0] -= 0.025 * weight;
+  } else if (gesture === "explain") {
+    const side = options.waveSide ?? "left";
+    const sign = side === "left" ? -1 : 1;
+    const hand =
+      smooth((age - 0.3) / 1.1) *
+      smooth((GESTURE_SECONDS.explain - age) / 1.25);
+    pose[`${side}Shoulder`][0] -= 0.04 * weight;
+    // Keep the forearm forward and inside the narrow phone silhouette.
+    blend(`${side}UpperArm`, [-0.4, 0, sign * 0.05]);
+    blend(`${side}LowerArm`, [-0.5, 0, sign * 1.8]);
+    blend(`${side}Hand`, [1.35, 0, 0], hand);
+    pose.chest[1] -= sign * 0.045 * weight;
+    pose.head[2] += sign * 0.04 * weight;
+    pose.head[0] += 0.035 * weight;
     smile = Math.max(smile, 0.13 * weight);
   }
   return {
@@ -173,6 +199,6 @@ export function aliceMotion(
     smile,
     state,
     gesture,
-    openness: gesture === "wave" ? weight : 0,
+    openness: gesture === "wave" || gesture === "explain" ? weight : 0,
   };
 }
