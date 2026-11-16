@@ -1,5 +1,7 @@
 # Group 2 · Continue here
 
+[PR #126](https://github.com/tantalum666/FYP/pull/126) is open/draft, stacked on PR #124. Tested code source d7d2e04b was pushed and its remote head matched at PR creation; no normal-runtime deployment or merge is implied.
+
 17 November 2026. Active checkout `/Users/tantalum/.codex/worktrees/personal-agent-browser-20261117/FYP`, branch `codex/personal-agent-browser-20261117`, based on 50ce8066 / PR #124. Read [AGENTS](AGENTS.md), [product](product.md), [handoff](handoff.md), latest [decisions](decision-log.md) and [browser conversation QA](output/qa/2026-11-17-personal-agent-browser/verification.md).
 
 Latest owner request is to continue personal-agent software. Browser requests now reach an owner scope/consent card, the existing job queue and independently reopened results. Ten omitted software tools are restored to primary text chat from one registry. Full local backend 2,410/frontend 391, build/types/Ruff and actual desktop/phone/Chinese-phone checks passed with scripted model responses. No live model charge, real send/order/ticket, runtime promotion or CI.

@@ -1,5 +1,7 @@
 # Group 2 · Current handoff
 
+[PR #126](https://github.com/tantalum666/FYP/pull/126) is open/draft, stacked on PR #124. Tested code source d7d2e04b was pushed and its remote head matched at PR creation; no normal-runtime deployment or merge is implied.
+
 17 November 2026. Latest owner instruction: continue toward a personal agent. Active checkout `/Users/tantalum/.codex/worktrees/personal-agent-browser-20261117/FYP`, branch `codex/personal-agent-browser-20261117`, based on 50ce8066 in the still-open PR #124 branch. Keep prior recovery checkouts and private runtime data.
 
 ## Current software result

@@ -52,3 +52,5 @@ Next integrated product step: real same-browser owner control and explicit retur
 Fresh ordinary Mac readback: health OK and build-info source 2c31f430; this confirms that the isolated QA did not replace the daily application. Chinese phone review/cancel and unchecked sharing were separately checked on the final production build.
 
 Closeout scope check: 37 selected source/test/document/result files; 30 added local links resolved; no credential-pattern matches; git diff whitespace check passed. Current requirements, maintenance/copy/browser contracts, capability/research map, decisions, work log and compact handoff/entry were updated. No workflow file is added.
+
+Publication: [PR #126](https://github.com/tantalum666/FYP/pull/126), open/draft against PR #124's branch. Source commit d7d2e04bdf837c9142502c3c39a1be978bcbed51 was pushed and matched the remote head at creation. [Receipt](publication.json). This does not mean merged or deployed.

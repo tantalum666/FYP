@@ -1,0 +1,15 @@
+{
+  "pr": "https://github.com/tantalum666/FYP/pull/126",
+  "number": 126,
+  "state": "open",
+  "draft": true,
+  "merged": false,
+  "head_branch": "codex/personal-agent-browser-20261117",
+  "base_branch": "codex/agent-runtime-20261116",
+  "base_sha": "50ce80663a06c7411766ceaf44d7f36164253aa4",
+  "source_commit": "d7d2e04bdf837c9142502c3c39a1be978bcbed51",
+  "source_head_verified_at_creation": true,
+  "daily_runtime_promoted": false,
+  "ci_used": false,
+  "private_artifacts_uploaded": false
+}
