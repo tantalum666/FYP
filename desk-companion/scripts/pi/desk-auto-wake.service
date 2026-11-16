@@ -1,0 +1,14 @@
+[Unit]
+Description=Renew Desk Companion's opted-in RTC wake alarm
+ConditionPathExists=/var/lib/desk-auto-wake/enabled
+ConditionPathExists=/sys/class/rtc/rtc0/wakealarm
+Before=user@1000.service display-manager.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /usr/local/lib/desk-companion/auto_wake.py arm --delay 180
+UMask=0077
+TimeoutStartSec=10
+
+[Install]
+WantedBy=multi-user.target

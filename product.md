@@ -1,8 +1,14 @@
 # Group 2 Project Contract
 
+## 2026-11-17 Preserve performance and recover from powered shutdown
+
+Owner rejects keeping Alice slowed/disabled as the workaround. Normal CPU maximum 2.4 GHz, container and display/autostart settings were restored; temporary recovery limit/hold disabled. Persistent diagnostic logging and private backups remain. Fix the executable-bit defect in the Pi session launcher so restored autostart can actually invoke it. This supersedes the reduced-performance operating plan below, not its historical evidence.
+
+An existing-firmware RTC one-off alarm was followed by an intermediate boot near the alarm time, then undervoltage at 5.9 seconds before networking. This supports wake capability but not complete recovery. Do not call a later manual power-cycle an automatic success. A same-version EEPROM configuration proposal was prepared but withdrawn; no flash is authorized by a stale reply to that superseded question. The optional owned RTC renewer is prepared, with persistent activation still awaiting Pi access. Preserve performance and explain that software cannot guarantee startup through an actual supply collapse. [Current wake evidence](output/qa/2026-11-17-pi-auto-wake/verification.md).
+
 ## 2026-11-16 Current priority: Pi automatic shutdown
 
-Owner now explicitly requests investigating the increasingly frequent Pi power-offs first; this revokes the earlier deferral. Current location is the dormitory with Ethernet. Fresh access after the owner's power-cycle confirmed 13 kernel undervoltage episodes, including during reduced application load; the previous boot was not retained because journald was volatile. Database/config backup to Mac and bounded persistent logs are verified. The Pi's 3D display/application container are temporarily held; a reversible 1.5 GHz CPU ceiling with API restored passed 8 minutes/97 samples without new kernel undervoltage. This reduces demand without changing voltage/current limits or hiding warnings; it does not repair the supply. Saved boot mitigation has not been reboot-tested. Owner has no spare 5.1 V/5 A supply. Exact causation of previous red-LED incidents and full-load stability remain unverified. Do not equate relay loss with power-off, flash firmware or stress-test the unstable supply. [Recovery evidence](output/qa/2026-11-16-pi-power-recovery/verification.md) and [restoration notes](desk-companion/docs/pi-power-recovery.md).
+Historical 16 November phase: owner resumed frequent Pi power-off diagnosis on dormitory Ethernet. Fresh access confirmed 13 kernel undervoltage episodes; older logs had been volatile. A private backup and persistent logs were verified. A temporary display/container hold and 1.5 GHz ceiling passed 8 minutes/97 samples without new undervoltage. The owner subsequently rejected retaining this reduced-performance mode; it was removed as recorded above. Original diagnostic evidence remains, but it is not the current operating configuration or proof of a permanent repair. [Recovery evidence](output/qa/2026-11-16-pi-power-recovery/verification.md).
 
 ## 2026-11-16 Daily speech, proactive help and continuous local observation
 

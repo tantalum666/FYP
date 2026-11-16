@@ -1,0 +1,19 @@
+{
+  "one_shot_alarm_epoch": 1794845083,
+  "one_shot_alarm_utc": "2026-11-16T16:04:43Z",
+  "subsequent_boot_evidence": "cloud-init at 2026-11-16T16:05:16Z, uptime 5.12s",
+  "kernel_undervoltage_uptime": 5.888017,
+  "ssh_automatic_return_observed": false,
+  "owner_manual_powercycle_requested_after_utc": "2026-11-16T16:09:52Z",
+  "interpretation": "Intermediate boot timing is consistent with the RTC alarm firing; startup failed before network access. Do not describe this as successful end-to-end recovery.",
+  "eeprom_write_proposal": "withdrawn: no EEPROM change is justified by the newly found intermediate boot",
+  "firmware_written": false,
+  "persistent_timer_enabled": false,
+  "normal_cpu_max_khz_verified": 2400000,
+  "recovery_limit_disabled": true,
+  "session_launcher_executable_repaired": true,
+  "local_tests_passed": 11,
+  "recurring_activation_attempts": 18,
+  "recurring_activation_verified": false,
+  "paid_calls": 0
+}

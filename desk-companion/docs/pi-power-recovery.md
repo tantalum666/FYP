@@ -1,8 +1,16 @@
 # Pi temporary power recovery
 
-16 November 2026. Owner resumed automatic shutdown diagnosis on dormitory Ethernet. [Fresh evidence and limits](../../output/qa/2026-11-16-pi-power-recovery/verification.md) supersede older instructions deferring this work. Do not restore high load simply because SSH returns.
+17 November 2026. Owner explicitly rejects continued reduced performance and asks for powered-off automatic wake. Normal CPU maximum and app settings have been restored; the temporary hold below is historical. [Wake evidence](../../output/qa/2026-11-17-pi-auto-wake/verification.md) supersedes the prior reduced-load plan. [Earlier power evidence](../../output/qa/2026-11-16-pi-power-recovery/verification.md) remains valid within its recorded interval.
 
-## Active device state
+## Current restore and wake state
+
+The recovery CPU unit is disabled, its marker removed and the supported maximum is 2400000 kHz. The container hold/drop-in is removed and original autostart restored. The launcher is now executable. API/container/kiosk restart receipts were obtained, but the Pi subsequently lost remote access again; do not claim present physical rendering or sustained normal-load stability.
+
+A one-off RTC test has evidence of an intermediate startup followed by undervoltage before the network came up. No EEPROM change was made. The prepared optional `desk-auto-wake.service`/timer renew an owned alarm every 30 seconds with a 180-second lead; early arming is ordered before user/display services. Persistent activation is not yet confirmed. An active RTC alarm can outlive Linux, whereas a timer cannot execute while the board is off.
+
+After successful installation, intentionally staying off requires disabling both units and disarming the owned alarm with `sudo python3 /usr/local/lib/desk-companion/auto_wake.py disarm`, then removing `/var/lib/desk-auto-wake/enabled`. A foreign future RTC alarm is preserved. No voltage/current protection is disabled. If the board fails before a new alarm is armed, or loses RTC power, this feature cannot guarantee a restart. The EEPROM proposal is withdrawn; a delayed acceptance must not trigger it.
+
+## Historical reduced-load state — removed at owner request
 
 | Item | Read-back state |
 |---|---|
@@ -15,9 +23,9 @@
 | Logs | Persistent, capped at 64 MiB, retention 7 days, sync 5 seconds |
 | Data | Private off-device backup verified; current SQLite quick_check OK, schema 3, protected files unchanged |
 
-The restored API passed an eight-minute reduced-clock observation without new kernel undervoltage. This does not establish full-load, long-running or next-boot reliability. Owner has only the current supply; negotiated 3000 mA and repeated undervoltage make a reliable supply/cable/minimal-accessory comparison the next physical step. A 3 A supply can support a Pi 5 with lower-power peripherals; the amperage label alone is not a diagnosis.
+The historical reduced-clock API trial passed eight minutes without new kernel undervoltage. It did not establish full-load, long-running or next-boot reliability. Owner has only the current supply. A 3 A supply can support a Pi 5 with lower-power peripherals; the amperage label alone is not a diagnosis.
 
-## Configuration ownership
+## Historical mitigation configuration ownership
 
 These are scoped maintenance changes on this owner's Pi, not defaults silently applied to every installation:
 
@@ -28,10 +36,10 @@ These are scoped maintenance changes on this owner's Pi, not defaults silently a
 
 Network profiles, original SSH identity, VPS transport, API data, provider settings and A3 were not replaced. Do not expose private logs, vault/config backup or the SD image in Git.
 
-## Restoration after stable-power verification
+## Restoration record and future comparison
 
-First read current boot/kernel evidence and preserve the existing backup. A future operator should confirm the intended original maximum against the saved snapshot and actual supported CPU range. Remove the CPU marker, disable the recovery unit, then restore the recorded maximum through cpufreq; do not invent a voltage/current override. Keep persistent logging for the subsequent acceptance check.
+The owner-directed restoration has been applied: CPU marker removed, recovery unit disabled, original maximum restored through cpufreq. Persistent logs remain. Confirm the actual live state after each new boot; do not reapply a performance limit merely because the historical unit file remains on disk.
 
-Remove only the recovery container hold/drop-in and reload the desk user's systemd manager. Restore the saved FYP autostart only if its current release still matches the intended deployment. Start the API, then the container, then the Pi-local display individually, checking for new kernel undervoltage after each. Do not restart camera/output units merely because they exist. If any new undervoltage appears, return to the recorded reduced-load configuration and stop increasing load.
+The scoped container hold/drop-in was removed and the desk user manager reloaded; the saved autostart matched the current release. API/container/display restart receipts were recorded. Do not restart camera/output units merely because they exist, and do not silently restore the rejected performance limit after another voltage warning. Capture the new evidence and honor the current owner preference.
 
 The previous power-off cause remains unresolved because the old logs were volatile. A future red LED must be distinguished from a dark screen or lost relay using persistent journal, boot ID and owner observation. A normal power-off/restart should be performed through the operating system when it is reachable; avoid using repeated abrupt unplugging as a diagnostic loop.
