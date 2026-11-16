@@ -20,7 +20,7 @@ Initial full-test failures were obsolete fixed tool-count assertions, subsequent
 
 This branch is tested source and isolated QA, not a new ordinary runtime deployment. Mac 8831 was freshly read back as healthy release **2c31f430**; the previous native/Pi delivery has that same dated source. Native/Pi were not rebuilt or reactivated this turn. Promote backend/shared frontend together; an older client cannot supply the new explicit browser-sharing field.
 
-Private evidence and temporary scripts/runtime: `~/.config/desk-companion/personal-agent-browser-20261117/`. Source, sanitized QA and documentation are publishable; private logs, images, databases and sessions are not included. No dependency/package installation or lockfile changes. No CI.
+Private evidence and temporary scripts/runtime: `~/.config/desk-companion/personal-agent-browser-20261117/`. Source, sanitized QA and documentation are publishable; private logs, images, databases and sessions are not included. No dependency/package installation or lockfile changes. JavaScript packages are now an independent APFS clone; the development font check passed after isolation. QA servers were stopped after all jobs were terminal. Python packages remain shared/reused; do not install into that shared environment implicitly. No CI.
 
 ## Preserved account, voice and Pi boundaries
 

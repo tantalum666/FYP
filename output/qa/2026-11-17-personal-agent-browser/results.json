@@ -72,5 +72,8 @@
     "en",
     "zh"
   ],
-  "ordinary_mac_release_readback": "2c31f430ab57b858cd32316830c34d8c4386b8a7"
+  "ordinary_mac_release_readback": "2c31f430ab57b858cd32316830c34d8c4386b8a7",
+  "qa_servers_stopped": true,
+  "javascript_dependencies_isolated": true,
+  "development_font_final_http_status": 200
 }
