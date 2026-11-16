@@ -1,25 +1,29 @@
 # Group 2 · Current handoff
 
-11 November 2026. Canonical review checkout `/Users/tantalum/.codex/worktrees/grok-reviewed-integration-20261111/FYP`, branch `codex/grok-reviewed-integration-20261111`. This tree integrates the 23 Grok PRs listed in [the pinned inventory](output/qa/2026-11-11-grok-review/pr-inventory.json) with Alice baseline #97. [Review and local evidence](output/qa/2026-11-11-grok-review/verification.md); **PR121 is merged** at `44185f7a5ad42ca6679644056a9bb97b91d80f5c`; all24original PRs are confirmed merged and main matches reviewed source6ffda6ab. [Publication receipt](output/qa/2026-11-11-grok-review/publication.json). No CI; no paid generation; all older budgets remain closed.
+16 November 2026. Continue in `/Users/tantalum/.codex/worktrees/alice-motion-20261113/FYP`, branch `codex/alice-natural-motion-20261113`, based on main6153b41d. [PR123](https://github.com/tantalum666/FYP/pull/123) remains open/unmerged. No CI or new paid calls; A3 and original Alice retained.
 
-## Completed source work
+Source0d53f4e2matched the remote PR head. [Publication receipt](output/qa/2026-11-16-alice-variety/publication.json).
 
-Grok adds explicit Work re-show/continue, verification-wall pause state, approved memory follow-ups and morning check-ins, offline trip quote/reapproval, saved checklists/schedules, purchase preferences/offer checks, cited note comparisons, held decisions, and five local conversation intents. These use existing task/proposal/job/routine services. They do not establish live merchant orders, payment or ticketing.
+## Latest completed work
 
-Review repairs bind shopping decisions to the displayed version and target card, compare substitutes against the original total, honor private-hide and current sessions, suppress completed replies and preserve the selected task, retain attachment context, and reserve Work continuation before dispatch. Morning facts are resolved from current memory on owner reads; notification storage/push remains generic. A revoked/changed trip cannot be overwritten by a stale sync; DST gaps/folds are rejected. The shipped headless driver has no human-control transport, so it cannot present an actionable takeover/return button. A public sign-in link alone no longer stops the browser.
+Added short contextual motions with quiet intervals: smile/nod, curious tilt, compact open-hand explanation, glance, shoulder relaxation and pondering, alongside the corrected wave. Clicks vary across four responses; idle motion yields to interaction. The real phone check caught/fixed a visibly finished gesture still rejecting the next tap. Shared timing now governs both pose sampling and input coalescing. Gesture elapsed time is separate from capped spring-physics time; existing pause/reduced-motion behavior remains.
 
-The shared Alice home, A3 selection mechanism, latest-only captions, conversation history, dark + menu/real temporary attachments and native safe-area layout remain. Optional Grok forms live under Work & tools or expandable Memory controls. No welcome question or permanent extra composer button was restored.
+387 main frontend tests and366 runtime-compatible tests, types/build pass. Actual desktop/phone gestures and final four-response phone cycle were observed; real rig checks cover palms, torso clearance, fingertip extent and fixed feet. More froze rendering; reduced motion disposed/restored one canvas. [Current QA](output/qa/2026-11-16-alice-variety/verification.md).
 
-## Verification
+## Actual delivery
 
-Backend full suite: 2342 passed on Python 3.14. The subsequent narrow mapped-IP portability adjustment passed all 81 transport tests and a seven-case function check on installed Python 3.12.13. Frontend: 374 passed, typecheck/build and Ruff pass. Initial integration's two stale intent assertions are corrected. Chrome/Playwright exercised actual chooser -> upload -> mocked provider response, held choice -> approval -> changed assumption, desktop 1440×1000 and phone 393×852 / 320×740. No app exceptions, failed HTTP responses or horizontal overflow in the final browser run. [Evidence](output/qa/2026-11-11-grok-review/verification.md).
+- **Mac web:** compatible frontend activated at `http://127.0.0.1:8831/?page=assistant`; `?surface=phone` is the phone browser view. Original API PID28112/backend520ab563/data retained; A3/version9 and protected files unchanged. New frontend `dist-motions-20261116`; previous `dist-motion-20261113-v2` and old hashed assets retained.
+- **Native Simulator:** rebuilt/installed on original iPhone17Pro/iOS26.5. Pi8891was unreachable; actual UI/idle glance was checked using a process-only Mac8831launch override. The saved `desk.server.origin.v1` preference is absent, confirmed by read-only plist inspection: the previous Pi address was also a launch argument, not a saved setting. Current native checking is Mac-backed, not Pi acceptance. No new physical-iPhone, native-tap/keyboard or paid-voice acceptance.
+- **Pi:** existing pinned relay check failed. No16November deployment/restart/network change. Last verified frontend activation is13November; physical animation/performance remains unverified. Power/red-LED diagnosis stays deferred.
 
-## Runtime boundaries
+Private artifacts and rollback receipts: `~/.config/desk-companion/alice-motions-20261116/`. Keep original live-agent-eval source/runtime/vendor dependencies and prior backups. Temporary Vite servers are stopped; normal Mac8831remains available. CUA/Xcode capability availability changed during closeout; do not infer further UI actions occurred after those tools were removed.
 
-This review does not deploy or restart Mac, Pi or the native app. Last deployment evidence remains 9 November: Mac backend520ab563/frontend2ed9ef41; Pi feature release520ab563 verified before the relay failed; final Pi safe-area follow-up unconfirmed. Those are historical receipts, not a new online check. A3/Taiwan Light was selected on Mac/Pi then; no voice resource/configuration was changed here. Power/red-LED investigation remains deferred.
+## Personal-agent status
 
-Google Mac Gmail consent/self-send was verified on 8 November. FYP Microsoft registration, Google Calendar/Pi account consent, real interactive merchant takeover and physical audio remain distinct outstanding work. Codex plugin authorization cannot be transferred to FYP. The existing active runtime checkout and its private config/backups are preserved.
+Read the [current capability/runtime map](desk-companion/docs/personal-agent-status.md) and [research index](research/personal-agent-research-index.md). GitHub main still contains the reviewed11November Grok integration, but not all later features are in the retained ordinary backend. FYP Gmail self-send has8November real evidence;16November local catalog shows saved Gmail connection, Google Calendar configured/unconnected and Microsoft apps unconfigured/unconnected. No fresh token/mailbox/transaction trial was made.
 
-## One next step
+Real-model controlled shopping/flight/browser tests exist. Actual merchant owner takeover, continuous real inbox-to-task tracking, payment/order/ticket receipts and reliable unattended completion remain open. The shipped browser lacks owner-input transport; fixture pause/return is not a usable account journey.
 
-Implement a real owner-controlled browser view on the existing job lifecycle, then verify pause -> owner interaction -> explicit return -> independent result on one authorized account journey. The current fixture-driven state machine must not be advertised as completed live takeover. Any runtime rollout and any paid/live transaction test require their own concrete scope; do not resume closed budgets.
+## One next product step
+
+Implement a real same-browser owner-control and explicit-return flow on the existing JobService, then verify it before claiming authenticated merchant work. Reuse durable jobs, session/version checks, cancellation and independent result readback. Do not open a paid budget or perform unspecified mail/purchase actions. Pi rendering remains a separate pending verification when connectivity returns.

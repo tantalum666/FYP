@@ -1,5 +1,17 @@
 # Group 2 Project Contract
 
+## 2026-11-16 Motion variety and personal-agent status
+
+Alice now uses short contextual motions with quiet pauses: nod/smile, curious tilt, compact open-hand explanation, glances, shoulder relaxation and pondering, alongside the corrected wave. Tap responses vary and finish cleanly; shared timing prevents a visually finished gesture from swallowing the next tap. Mac web and native Simulator updated with A3/model/size preserved; Pi remained unreachable and received no new rollout. [Current motion QA](output/qa/2026-11-16-alice-variety/verification.md).
+
+The [personal-agent status map](desk-companion/docs/personal-agent-status.md) distinguishes merged source, ordinary runtime and real acceptance. Gmail native self-send has dated evidence; continuous mailbox follow-up, real browser owner takeover and merchant payment/ticketing remain incomplete. Local checks show saved Gmail connection, unconsented Google Calendar and unconfigured Microsoft apps. Main's Grok additions are not all active in the retained runtime. Next recommended product slice: real same-browser owner control and explicit return on the existing job lifecycle.
+
+## 2026-11-13 Alice presentation motion
+
+Owner asks for a livelier Alice and subsequently rejected the reversed palm and stiff first wave. Both hands now use the corrected normalized wrist roll, slower staggered elbow/wrist motion and light finger relaxation, checked against Alice's actual rig. Preserve dominant mobile size, framing, calendar/composer access, A3 and business/approval boundaries; motion stops with navigation/visibility and respects reduced motion. [Motion contract](desk-companion/docs/avatar.md) / [correction QA](output/qa/2026-11-13-alice-motion-repair/verification.md).
+
+The compatible motion frontend is active on the original Mac web runtime and the rebuilt native iOS Simulator, and its files were atomically activated/read back on Pi. Pi's device page was checked from Mac; its physical kiosk opened, but the relay disconnected before the character finished loading. Pi local motion/performance is therefore **not accepted**. Source publication, native installation, Pi asset activation and Pi physical rendering remain separate states. A3 is preserved; no paid call or CI.
+
 ## 2026-11-11 Current integration review
 
 Merged source in PR121 (main44185f7a, all24original PRs confirmed merged) now combines the current Alice/A3/attachments baseline with Grok's conversation Work continuation, local next-step/availability/meeting/waiting/reply answers, memory follow-ups, saved checklists/schedules, purchase preferences, offline trip quotes, cited notes and held choices. [Review evidence](output/qa/2026-11-11-grok-review/verification.md) and [exact PR inventory](output/qa/2026-11-11-grok-review/pr-inventory.json) distinguish local verification and publication from deployment.

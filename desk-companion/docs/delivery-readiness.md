@@ -1,5 +1,9 @@
 # Group 2 · Software delivery gates
 
+**16 November2026 current gate:** [fresh personal-agent status](personal-agent-status.md) supersedes the old connection/deployment statements below. Main includes the reviewed Grok features, but the normal backend remains520ab563with later frontend overlays. FYP Gmail self-send was verified8November; continuous real inbox tracking is not accepted. Real owner browser control/return is the next recommended slice before an authenticated merchant journey. Google Calendar/Microsoft authorization and payment/ticket receipts remain separate. Pi remains unreachable in this check; no new hardware/provider acceptance.
+
+## Historical dated evidence
+
 7 November2026 current checkpoint: OpenAI is the configured default and Pi software is active; only red-LED diagnosis is deferred. Real-model controlled browser shopping/flights, a separately initiated calendar followup and cancellation passed. JD verification, Cathay loading, private accounts, owner takeover and native mail remain open. One FYP-drafted email was sent/read back through the Codex Gmail connector, not Pi-native sending. [Current evidence](../../output/qa/2026-11-07-live-agent-eval/verification.md). The older dated gates below retain their original scope.
 
 2026-10-31：当前具备[持久 Work、选定变化跟踪与恢复](pr5-integration.md)，网页／手机共享入口与操作卡片。真实邮箱监控、私人账号连接、购物／出票和真人语音自主复杂任务仍未验收；本地协议／脚本／界面结果分别记录。
@@ -16,7 +20,7 @@ An implemented module, a passing local test, a real provider trial, native-devic
 | Helpful follow-up without repeated interruption | Tasks, quiet hours, delayed checks, deterministic recap/suggestions, preferences and notification configuration exist | Multi-day use with reopen/restart/timezone changes and observed notification delivery; confirm follow-ups are useful and can be silenced. Do not infer usefulness from feature counts |
 | Required posture and physical terminal | Fixed-camera calibration/visibility/duration/feedback/re-observation logic and replay fixtures exist; bounded output presets are separate | Labelled human posture trials, measured false alarms and feedback/retest behavior; later Pi/Luwu driver, stop and bench validation. No medical benefit or physical-motion claim without measurement |
 
-## Next software slice
+## Historical 30 October slice selection
 
 **Close the email-to-task-to-suggestion journey, using resumable model-driven turns over the existing core.** The owner reconfirmed ongoing email assistance, everyday shopping and travel as target experiences; the [recovered research and staged acceptance map](../../research/personal-agent-research-index.md) now routes this work. A real authorized mailbox, current source evidence, same-task updates, selective notification and restart/revocation behavior are the first complete acceptance gate. Shopping and travel need separately connected sources, execution and real order/booking receipts.
 

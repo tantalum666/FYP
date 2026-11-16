@@ -1,0 +1,11 @@
+# Group 2 · Reading and scope
+
+16 November2026. Owner requests less rigid Alice motion, additional actions and an accurate personal-agent progress update. Continue the existing PR123 branch; do not resume merges, paid budgets or power diagnostics.
+
+Read current root AGENTS/entry/handoff, product current requirements and implementation/evidence sections, latest motion/integration decisions; located focused Markdown and nested AGENTS with rg (root only). Read avatar/home contracts, the personal-agent research index across its current updates, comparison/gap and next-journey sections, computer-use/connected-apps/delivery-readiness contracts, and the relevant current runtime/source evidence. Combined commands truncated some historical output; no full historical-MD read is claimed.
+
+Read complete motion, interaction, renderer, HandPose, AliceScene/A1Canvas and current motion/real-rig tests; checked native configuration/launch-argument handling, current app catalog routes/auth snapshot, provider manifests, AgentLoop bounds and the actual takeover capability gate. Rechecked availability and read the frontend-testing-debugging, React and iOS Debugger Agent skills. The Browser skill is absent, but the supported CUA browser is available and used; no shell browser automation was substituted.
+
+Live read-only checks: fetched GitHub heads, fetched PR123, listed open PRs through gh after connector issue search omitted it, read local app-connection status, and tried the existing pinned Pi relay once. No private mailbox content was fetched and no message/model request was sent. Memory was used only to retain Alice prominence, clear conversation UI and independent verification preferences; current implementation/status was checked directly.
+
+Scope: short contextual gesture sequences with quiet gaps, safe touch variants, shared timing/input end conditions, upper-body/hand pose changes and renderer timing; preserve model/size/A3, permission/core/backend data. Deliver a compatible frontend to Mac and the existing Simulator. Pi remained unreachable, so no16November Pi deployment is claimed. Progress work is a source/runtime/acceptance audit, not a new agent capability or transaction acceptance.

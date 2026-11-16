@@ -1,4 +1,5 @@
 import { ComposerFiles } from "./ComposerFiles";
+import { companionState, reportInteraction } from "../companion/interaction";
 import { ComposerMenu } from "./ComposerMenu";
 import { useChatFiles } from "./useChatFiles";
 import { CHAT_FILE_ACCEPT, type ChatFileReference } from "./chatFiles";
@@ -183,6 +184,19 @@ export function AssistantPanel({
     [notice, setNotice] = useState("");
   const [voiceState, setVoiceState] = useState("idle"),
     [transcript, setTranscript] = useState("");
+  const interactionSource = useRef(Symbol("conversation"));
+  useEffect(() => {
+    const source = interactionSource.current;
+    reportInteraction(
+      source,
+      suspended
+        ? null
+        : companionState(
+            voiceState === "idle" && busy ? "thinking" : voiceState,
+          ),
+    );
+    return () => reportInteraction(source, null);
+  }, [voiceState, busy, suspended]);
   useLayoutEffect(() => {
     const field = composer.current;
     if (!field) return;

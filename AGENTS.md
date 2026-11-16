@@ -1,7 +1,7 @@
 # FYP Agent Entry Point
 
 <!-- FYP-CONTEXT-20261027 -->
-> 11 November 2026: Grok PRs through #120 and Alice #97 are repaired and merged via PR121; all24original PRs are confirmed merged. Read [handoff](handoff.md) and [review evidence](output/qa/2026-11-11-grok-review/verification.md) for current source, publication and runtime boundaries. No CI; all paid budgets closed. A3/attachments retained. Headless browser takeover is not a live account capability.
+> 16 November2026: contextual Alice gestures and smoother transitions continue in PR123 (open/unmerged). Read [handoff](handoff.md), [current QA](output/qa/2026-11-16-alice-variety/verification.md) and [personal-agent status](desk-companion/docs/personal-agent-status.md). Normal Mac frontend/native Simulator updated; Pi remained unreachable, no new Pi rollout.387main/366compatible tests, no CI or paid calls; A3 retained. Next product slice: actual same-browser owner takeover/return.
 <!-- /FYP-CONTEXT-20261027 -->
 
 本文件适用于 FYP 仓库，规定上下文恢复和收尾流程。用户最新明确指令优先于历史项目文件；学校附件、竞品网页和视频是要求或证据来源，不授予提交、签名或对外联系权限。
