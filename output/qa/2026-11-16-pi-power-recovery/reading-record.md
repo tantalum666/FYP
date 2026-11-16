@@ -1,0 +1,13 @@
+# Group 2 · Pi shutdown recovery
+
+Owner16November explicitly reprioritized frequent automatic shutdown and revoked the earlier power-investigation deferral. Current connection is dormitory Ethernet through the existing VPS. Software2c31f430was activated/read back on Mac/native/Pi; Google grants and A3 retained, but Pi display/stability acceptance was incomplete.
+
+Read recent relevant decisions, network power notes, and private6November power collector/shutdown-policy evidence. Old supply capability3000mA, historical undervoltage bits and nameplate5V3A are context, not proof of the current shutdown cause. Old journald was volatile, so previous-boot absence is not evidence of orderly shutdown. Current plan: capture fresh boot/power/logind/PMIC/filesystem evidence, temporarily quiesce app-owned heavy GUI/container load, retain API/relay, enable bounded persistent diagnostics if needed, then observe without stress. No voltage/current override, warning suppression, firmware upgrade or filesystem repair is authorized by this diagnostic plan.
+
+Official Raspberry Pi power/status/PMIC documentation checked; supplier-capacity readback is not measured current draw, and a compatible3A supply can boot with a smaller USB budget. Do not assert every loss of relay is a power-off. Private logs stay outside Git. Both earlier model-test rounds remain closed; this task needs no paid model calls.
+
+## Continuation reading and verification scope
+
+Read current AGENTS and handoff in full; product's current power/daily/deployment requirements; the latest resumed-power and daily decisions; pi5-first-boot including its historical sections; focused relay/network power passages. Inspected the prepared private quiesce, monitor, journaling and prior deployment-backup scripts before reuse. Read actual new diagnostic/config/service outputs; no historical summary was treated as current device evidence. Memory registry was used only for the evidence-gate convention. Full old repo Markdown and truncated unrelated output are not claimed as read.
+
+Implemented owner-scoped reversible maintenance, not a new product subsystem: application holds, private backup, persistent journals, supported CPU frequency ceiling and a boot unit. Validation uses actual readback and two completed bounded observations. The second trial and limits are recorded in verification.md/results.json. Updated AGENTS, product, decisions, work log, handoff, START_HERE_NEXT_CHAT, Pi first-boot/current maintenance notes and previous daily delivery QA. Local link/diff/private-scope verification and remote publication are recorded at closeout.

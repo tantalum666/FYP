@@ -35,7 +35,7 @@ The final spoken summary was cut short at the time cap. **Full weather speech co
 
 ## Delivery and remaining limits
 
-Normal endpoints still use the verified7d7ab9fa baseline while this slice is prepared. Final source/hash/activation receipts will be appended after local publication. Mac and Pi Google grants already passed independent provider reads; Microsoft remains at human verification. Pi's API/assets were deployed, but kiosk startup was blocked by the OS keyring prompt and later became unreachable. Its physical rendering remains a separate unresolved check.
+Application source 2c31f430 has been delivered to all endpoints with the final hashes/readback below. Mac and Pi Google grants passed independent provider reads; Microsoft remains at human verification. Pi's physical rendering remains a separate unresolved check, and the owner subsequently prioritized frequent shutdown investigation. Its display/container are temporarily held for power diagnosis; deployed files are preserved. See [power QA](../2026-11-16-pi-power-recovery/verification.md).
 
 Camera first-use consent/three-position personal setup remain necessary. Real accuracy, long-running Pi/mobile operation and background iOS camera use are not established by the short checks. Proactive cues currently appear on screen; they do not open paid A3 speech sessions automatically. Continuous mailbox tracking, authenticated browser takeover/payment/ticketing are not completed by this slice.
 
@@ -44,3 +44,11 @@ Private evidence: `~/.config/desk-companion/agent-runtime-20261116/` (physical-c
 ### Final data-scope repair
 
 Release review found a historical acceptance task appearing in general work summaries despite individual follow-up being disabled. Its exact `qa-task` operation and title were matched to `scripts/application_work_acceptance.py`; that one owned fixture was paused through the normal versioned API, preserving its evidence. Real user work was not bulk-edited. Proactive briefings now use followed/non-paused counts and previews; an empty followed list does not manufacture a daily cue. Today's manual summary excludes paused work and includes saved status/next-step fields, with private text redacted. Focused task/nudge/owner-lookup checks cover these changes. Initial daily source1d16329a was delivered to Mac/native and staged on Pi; final source/readback is recorded below after the small scope correction.
+
+### Delivered version and owner reprioritization
+
+Application source **2c31f430ab57b858cd32316830c34d8c4386b8a7**, release20261116-2c31f430. Mac/Pi350-file manifests and API/index readback passed; schema/table counts unchanged during final activation (Mac124, Pi123). A3/version9, protected files and account-connection versions matched before/after. The iPhone17Pro/iOS26.5 Simulator was rebuilt/installed/launched; embedded build-info/index matches, camera usage description and local pose assets present, actual connected Alice home observed. This is not physical-iPhone acceptance. Shared frontend indexSHA256:1818b3c7cf867d09a377df4bfe48d58dfad42e57b1b47031f8b3b5258a3be976.
+
+Mac's existing08:00/21:00daily check-in times were enabled with quiet22:00–07:00preserved. The owned historic QA fixture was subsequently closed as a cancelled test record (not falsely completed), retaining documents/receipts. Final follow-up/owner-lookup scope checks:35passed; kiosk profile tests:2passed. Current native and web screenshots show no QA item in pending work and no page errors.
+
+Pi's final autostart pointer, six real newlines, dedicated private profile and user kiosk-service start returned success after dorm reconnection. The owner then reported more frequent automatic shutdown and made that the priority. Relay loss/rendering instability prevents final physical-Pi acceptance. See the new power-recovery record. Both model-test budgets remain closed; no new paid call accompanied activation.

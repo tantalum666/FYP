@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-16 Current priority: Pi automatic shutdown
+
+Owner now explicitly requests investigating the increasingly frequent Pi power-offs first; this revokes the earlier deferral. Current location is the dormitory with Ethernet. Fresh access after the owner's power-cycle confirmed 13 kernel undervoltage episodes, including during reduced application load; the previous boot was not retained because journald was volatile. Database/config backup to Mac and bounded persistent logs are verified. The Pi's 3D display/application container are temporarily held; a reversible 1.5 GHz CPU ceiling with API restored passed 8 minutes/97 samples without new kernel undervoltage. This reduces demand without changing voltage/current limits or hiding warnings; it does not repair the supply. Saved boot mitigation has not been reboot-tested. Owner has no spare 5.1 V/5 A supply. Exact causation of previous red-LED incidents and full-load stability remain unverified. Do not equate relay loss with power-off, flash firmware or stress-test the unstable supply. [Recovery evidence](output/qa/2026-11-16-pi-power-recovery/verification.md) and [restoration notes](desk-companion/docs/pi-power-recovery.md).
+
 ## 2026-11-16 Daily speech, proactive help and continuous local observation
 
 Owner reports spoken slash/dot formatting, stutter, missing HK7-day weather and weak proactive follow-up. New software adds a real HKO forecast tool to text/voice, speech-only title hints, bounded in-speech silence preservation and adaptive playback buffering while retaining A3. Existing task/nudge state now drives one concise Alice-home cue with explicit complete/progress/hour-later responses and saved next-step suggestions. Late daily opening can catch up; privacy/quiet/proactivity rules and owner-reported completion remain explicit.

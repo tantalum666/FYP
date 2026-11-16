@@ -1,0 +1,19 @@
+{
+  "source_revision": "2c31f430ab57b858cd32316830c34d8c4386b8a7",
+  "initial_undervoltage_count": 13,
+  "last_undervoltage_uptime_s": 667.392029,
+  "capped_api_trial_seconds": 480.0,
+  "samples": 97,
+  "sampled_input_volts_min": 4.92584,
+  "sampled_input_volts_max": 4.96738,
+  "new_kernel_undervoltage_during_capped_trial": 0,
+  "same_boot": true,
+  "protected_files_unchanged": true,
+  "database_quick_check": "ok",
+  "schema": 3,
+  "cpu_max_khz": 1500000,
+  "persistent_cpu_unit_active": true,
+  "restart_acceptance": false,
+  "full_application_load_acceptance": false,
+  "paid_calls": 0
+}
