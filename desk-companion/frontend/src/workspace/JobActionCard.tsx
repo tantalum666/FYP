@@ -220,16 +220,19 @@ export function JobActionCard({
       )}
 
       <div className="workspace-inline-actions">
-        {computer && job.result?.verified && onContinue && (
-          <button
-            type="button"
-            className="secondary"
-            disabled={!fresh || busy}
-            onClick={onContinue}
-          >
-            {t("Continue from this page", "从这个页面继续")}
-          </button>
-        )}
+        {computer &&
+          job.request.engine !== "managed" &&
+          job.result?.verified &&
+          onContinue && (
+            <button
+              type="button"
+              className="secondary"
+              disabled={!fresh || busy}
+              onClick={onContinue}
+            >
+              {t("Continue from this page", "从这个页面继续")}
+            </button>
+          )}
         {computer &&
           job.state === "owner_takeover" &&
           job.result?.takeover_available && (
@@ -284,6 +287,7 @@ export function JobActionCard({
         )}
       </div>
       {computer &&
+        job.request.engine !== "managed" &&
         (job.result?.verified ||
           [
             "running",
@@ -299,6 +303,14 @@ export function JobActionCard({
             t={t}
           />
         )}
+      {computer && job.result?.verified && job.result.readback?.report && (
+        <section
+          className="computer-use-report"
+          aria-label={t("Research result", "查找结果")}
+        >
+          <p>{job.result.readback.report}</p>
+        </section>
+      )}
       {application &&
         step &&
         job.state === "succeeded" &&

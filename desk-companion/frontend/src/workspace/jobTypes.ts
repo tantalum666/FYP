@@ -44,6 +44,7 @@ export interface ComputerJob {
     stage?: string;
     step?: ApplicationStep;
     start_url?: string;
+    engine?: "local" | "managed";
     max_steps?: number;
     allowed_origins?: string[];
   };
@@ -56,7 +57,7 @@ export interface ComputerJob {
     apps_verified?: string[];
     outcome?: "review_ready" | "needs_owner" | "step_limit";
     quality?: string;
-    readback?: { reason?: string };
+    readback?: { reason?: string; report?: string; resumable?: boolean };
     paused?: boolean;
     takeover_available?: boolean;
     phase?: "paused" | "held" | "returning";

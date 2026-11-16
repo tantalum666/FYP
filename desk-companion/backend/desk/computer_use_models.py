@@ -84,6 +84,7 @@ def wall_from_reason(reason):
 
 class ComputerUseInput(PublicOnlyInput):
     action: Literal["computer_use"] = "computer_use"
+    engine: Literal["local", "managed"] = "local"
     title: str = Field(min_length=1, max_length=120)
     goal: str = Field(min_length=1, max_length=2000)
     start_url: str = Field(min_length=1, max_length=2000)
@@ -108,6 +109,8 @@ class ComputerUseInput(PublicOnlyInput):
         if not self.title.strip() or not self.goal.strip():
             raise ValueError("A task goal is required")
         if self.start_url in COMPUTER_DEMOS:
+            if self.engine == "managed":
+                raise ValueError("Managed browsing requires a public HTTPS site")
             if self.allowed_origins:
                 raise ValueError("Demo pages cannot add external sites")
             return self
@@ -123,11 +126,16 @@ class ComputerUseInput(PublicOnlyInput):
         if len(origins) > 8:
             raise ValueError("At most eight exact sites may be admitted")
         self.allowed_origins = sorted(origins)
+        if self.engine == "managed" and self.source_job_id:
+            raise ValueError("Managed sessions do not retain a resumable browser")
         return self
 
 
 def validate_computer_request(request):
-    public = {k: request[k] for k in ComputerUseInput.model_fields}
+    # Preserve old intent bytes/hashes: legacy jobs predate the optional engine.
+    public = {k: request[k] for k in ComputerUseInput.model_fields if k in request}
+    if not (set(ComputerUseInput.model_fields) - {"engine"}) <= public.keys():
+        raise ValueError("Incomplete computer-use intent")
     ComputerUseInput.model_validate(public)
     extra = {
         "artifact_id",
@@ -144,7 +152,12 @@ def validate_computer_request(request):
     for name in ("session_hash", "privacy_revision", "provider_revision"):
         if not isinstance(request[name], str) or not re.fullmatch(r"[a-f0-9]{64}", request[name]):
             raise ValueError("Invalid admission binding")
-    if request["executor"] != "public_browser_computer_v1" or not re.fullmatch(
+    expected_executor = (
+        "managed_public_browser_v1"
+        if request.get("engine") == "managed"
+        else "public_browser_computer_v1"
+    )
+    if request["executor"] != expected_executor or not re.fullmatch(
         r"public_browser:[a-f0-9]{64}", request["scope"]
     ):
         raise ValueError("Invalid computer environment")
@@ -167,7 +180,7 @@ class ComputerUseReceipt(StrictModel):
     artifact: str
     bytes: int = Field(ge=1, le=128000)
     sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
-    executor: Literal["public_browser_computer_v1"]
+    executor: Literal["public_browser_computer_v1", "managed_public_browser_v1"]
     scope: str
     outcome: Literal["review_ready", "needs_owner", "step_limit"]
     quality: Literal["not_goal_completion"] = "not_goal_completion"

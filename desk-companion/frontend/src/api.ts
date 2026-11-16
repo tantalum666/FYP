@@ -370,6 +370,22 @@ export function errorText(
       "Browser operation is not connected on this desk.",
       "当前桌面尚未接好浏览器操作。",
     ],
+    COMPUTER_PROVIDER_UNAVAILABLE: [
+      "The browser task could not finish. Its session was closed; start a new task when the service is available.",
+      "浏览任务未能完成，会话已关闭。服务恢复后可以重新准备任务。",
+    ],
+    COMPUTER_PROVIDER_STOPPED: [
+      "The browser task stopped without a complete report.",
+      "浏览任务已停止，尚未获得完整报告。",
+    ],
+    COMPUTER_ACTIVITY_LIMIT: [
+      "The browser reached this task's activity limit and stopped.",
+      "已达到本次浏览任务的操作上限，浏览器已停止。",
+    ],
+    COMPUTER_MANAGED_OWNER_REQUIRED: [
+      "This task needs a sign-in or another website. The research session was closed; it cannot take over your account.",
+      "这一步需要登录或访问其他网站。查找会话已关闭，尚不支持接管你的账号。",
+    ],
     COMPUTER_SITE_UNAVAILABLE: [
       "This website could not be opened. Check the connection or the site's access requirements.",
       "无法打开这个网站，请检查网络或网站的访问要求。",

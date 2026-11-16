@@ -39,6 +39,12 @@
   overflow-wrap: anywhere;
   font-size: 0.9rem;
 }
+.computer-use-report {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 24rem;
+  overflow: auto;
+}
 .computer-use-zoom {
   overflow: auto;
   max-width: 100%;

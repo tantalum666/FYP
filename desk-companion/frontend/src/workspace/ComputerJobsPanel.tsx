@@ -29,6 +29,7 @@ interface Snapshot {
   desktop?: { enabled: boolean; ready: boolean; apps: string[] };
   applications?: { enabled: boolean; configured: boolean };
   computer_use?: { enabled: boolean; configured: boolean };
+  managed_browser?: { enabled: boolean; configured: boolean };
   folder?: { configured: boolean; label: string | null };
   jobs: ComputerJob[];
 }
@@ -74,7 +75,10 @@ export function ComputerJobsPanel({
   const executorAvailable = (job: ComputerJob) =>
     job.action === "computer_use"
       ? ["unknown", "succeeded"].includes(job.state) ||
-        (snapshot?.computer_use?.enabled && snapshot.computer_use.configured)
+        (job.request.engine === "managed"
+          ? snapshot?.managed_browser?.enabled &&
+            snapshot.managed_browser.configured
+          : snapshot?.computer_use?.enabled && snapshot.computer_use.configured)
       : isApplicationAction(job.action)
         ? snapshot?.applications?.enabled && snapshot.applications.configured
         : isDesktopAction(job.action)
@@ -350,6 +354,11 @@ export function ComputerJobsPanel({
           snapshot.computer_use.configured &&
           fresh
         }
+        managedAvailable={
+          !!snapshot?.managed_browser?.enabled &&
+          snapshot.managed_browser.configured &&
+          fresh
+        }
         onPrepared={() => {
           setResumeBrowser(undefined);
           onComputerPrepared?.();
@@ -359,6 +368,7 @@ export function ComputerJobsPanel({
       {snapshot &&
         !snapshot.enabled &&
         !snapshot.computer_use?.enabled &&
+        !snapshot.managed_browser?.enabled &&
         !snapshot.applications?.enabled && (
           <p role="status">
             {t(
@@ -611,7 +621,7 @@ export function ComputerJobsPanel({
           available={!!executorAvailable(job)}
           refreshToken={lastRead}
           onContinue={
-            job.action === "computer_use"
+            job.action === "computer_use" && job.request.engine !== "managed"
               ? () => setResumeBrowser(job)
               : undefined
           }

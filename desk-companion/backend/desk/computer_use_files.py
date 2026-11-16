@@ -38,6 +38,8 @@ def write_file(directory, name, body):
             "owner-wall.json",
             "wall-evidence.json",
             "latest.json",
+            "managed-session.json",
+            "managed-result.json",
         }
         or re.fullmatch(r"screen-[0-9]{1,2}\.png", name)
     ):

@@ -1,14 +1,14 @@
 # Group 2 · Connected Google and Microsoft apps
 
-8 November 2026. The owner chose an app catalog with browser sign-in/consent and rejected application-password entry. The built-in catalog uses official OAuth and provider APIs. It is not an unrestricted plugin installer, and does not inherit Codex's account tokens. Existing public/synthetic MCP connectors retain their separate contract.
+Updated16November2026. The owner chose an app catalog with browser sign-in/consent and rejected application-password entry. The built-in catalog uses official OAuth and provider APIs. It is not an unrestricted plugin installer, and does not inherit Codex's account tokens. Existing public/synthetic MCP connectors retain their separate contract.
 
 ## Available operations
 
 | Connection | Implemented operations | Actual account status this round |
 |---|---|---|
-| Gmail | Read bounded message headers/snippets; prepare a plain-text email; owner reviews recipient, subject and body before sending | Mac owner authorization, one native FYP self-email and independent Gmail readback passed |
-| Google Calendar | Read primary-calendar events; existing preview and explicit local import | Dedicated client/API configured; calendar consent not completed |
-| Microsoft 365 | Outlook mail previews and reviewed sending; primary-calendar events; OneDrive file directory; To Do lists/tasks; OneNote notebooks/sections | Software/protocol tests passed; client registration and real authorization deferred by owner |
+| Gmail | Read bounded message headers/snippets; prepare a plain-text email; owner reviews recipient, subject and body before sending | 8November FYP self-send/readback;16November Mac/Pi consent and actual profile reads passed |
+| Google Calendar | Read primary-calendar events; existing preview and explicit local import | 16November Mac/Pi consent and bounded primary-calendar reads passed |
+| Microsoft 365 | Outlook mail previews and reviewed sending; primary-calendar events; OneDrive file directory; To Do lists/tasks; OneNote notebooks/sections | Software/protocol tests passed; renewed personal-account setup blocked at human verification. No FYP client or grant created |
 | Microsoft Teams | Work/school chat list and bounded messages | Organization authorization deferred |
 | SharePoint | Followed sites and document-library lists | Organization authorization deferred |
 
@@ -32,7 +32,7 @@ Private config uses `DESK_GOOGLE_CLIENT_FILE` / `DESK_MICROSOFT_CLIENT_FILE`, a 
 
 The approved FYP-only Google project is External/Testing with the owner as its sole test user. Gmail API and Calendar API are enabled. Current local callbacks are loopback ports5190,8831and8891 with `/api/apps/gmail/callback` and `/api/google/callback`. Public mobile/native callbacks need a separate supported origin setup; the local desktop URL is not a phone-reachable service. Native account tokens belong to each host's encrypted runtime, and are not copied into portable personal exports.
 
-Testing-mode Google refresh grants can expire and require Reconnect. Google disconnect revokes its token; because both Google connections use the same client, provider grant revocation can affect the other Google connection. Microsoft disconnect removes local tokens without claiming a global Microsoft sign-out. Work/school tenant policy and administrator approval still apply. The VTC tenant denied developer access; the owner expressly deferred Microsoft authorization, so no bypass or app registration there was attempted.
+Testing-mode Google refresh grants can expire and require Reconnect. Google disconnect revokes its token; because both Google connections use the same client, provider grant revocation can affect the other Google connection. Microsoft disconnect removes local tokens without claiming a global Microsoft sign-out. Work/school tenant policy and administrator approval still apply. The VTC tenant previously denied developer access. On16November the owner requested authorization again, but personal-account device login stopped at CAPTCHA difficulty. Do not bypass/repeatedly trigger it or reuse the expired device code. Mac and Pi have separate encrypted account stores. The owner completed both Pi grants later on16November; Pi provider reads passed independently, without copying Mac tokens. [Current QA](../../output/qa/2026-11-16-agent-runtime/verification.md).
 
 ## Sources and evidence
 

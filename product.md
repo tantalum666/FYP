@@ -1,10 +1,18 @@
 # Group 2 Project Contract
 
+## 2026-11-16 Unified release and official execution layer
+
+Owner requested the complete current software on all three endpoints, renewed Google/Microsoft authorization and further cross-app/shopping/travel work. PR123 merged as7d7ab9fa; the full baseline, including reviewed Grok features, was activated on Mac and Pi with native Simulator frontend parity. Original stores/keys/A3 were retained. Mac Gmail reconnection and Calendar consent passed actual provider read checks. Pi received its own Google consent and both provider reads passed; Microsoft app registration/consent remains blocked at the personal-account human-verification step. [Current QA](output/qa/2026-11-16-agent-runtime/verification.md).
+
+Reuse official execution infrastructure where it fits. Live supports Responses tool delegation; the managed Agents API supplies the browser/agent harness. This branch adds an **opt-in** public-research executor to the existing JobService, with owner admission, exact origins, bounded session lifetime, cancellation, deletion readback and report integrity. It does not add another planner or queue. Old local/browser jobs remain compatible. No voice-to-managed-browser, authenticated account takeover, real payment or ticket acceptance is implied. [Execution contract](desk-companion/docs/managed-browser.md) and [official source review](research/2026-11-16-official-agent-runtime.md).
+
+The one newly authorized paid trial independently verified two public book prices, then deleted its session. Usage was absent: the entire US$1 remains reserved and this round is closed. No further paid request is authorized by the implementation or deployment.
+
 ## 2026-11-16 Motion variety and personal-agent status
 
 Alice now uses short contextual motions with quiet pauses: nod/smile, curious tilt, compact open-hand explanation, glances, shoulder relaxation and pondering, alongside the corrected wave. Tap responses vary and finish cleanly; shared timing prevents a visually finished gesture from swallowing the next tap. Mac web and native Simulator updated with A3/model/size preserved; Pi remained unreachable and received no new rollout. [Current motion QA](output/qa/2026-11-16-alice-variety/verification.md).
 
-The [personal-agent status map](desk-companion/docs/personal-agent-status.md) distinguishes merged source, ordinary runtime and real acceptance. Gmail native self-send has dated evidence; continuous mailbox follow-up, real browser owner takeover and merchant payment/ticketing remain incomplete. Local checks show saved Gmail connection, unconsented Google Calendar and unconfigured Microsoft apps. Main's Grok additions are not all active in the retained runtime. Next recommended product slice: real same-browser owner control and explicit return on the existing job lifecycle.
+The [personal-agent status map](desk-companion/docs/personal-agent-status.md) distinguishes source, delivered runtime and real acceptance. The earlier motion-only overlay/status audit below is historical: full runtime deployment and Mac Google consent were completed later on16November as recorded above. Continuous mailbox follow-up, real browser owner takeover and merchant payment/ticketing remain incomplete.
 
 ## 2026-11-13 Alice presentation motion
 
@@ -60,8 +68,8 @@ Earlier9 November technical result: isolated Mac V2ProPlus CPU generated six cas
 
 | 模块 | 已实现 | 仍须独立验证 |
 |---|---|---|
-| 应用连接 | Google/Microsoft共享OAuth、Gmail/Outlook邮件核对发送、外部只读查询；Mac Gmail本人测试实际送达 | Google日历及微软实际账号授权、持续邮箱跟踪、Office云端内容编辑和真实商务操作仍待 |
-| 日历／事务 | 持久CRUD、重复／例外、冲突、提醒、进展／跟进、版本与操作ID、草稿确认；2026-11-03 起离线日程夹具可增量写入同一事务，并只在冲突、临近期限、取消或待决定时通知 | 真实外部账号仍未连接，复杂生产数据和远程通知另验 |
+| 应用连接 | Google/Microsoft共享OAuth、Gmail/Outlook邮件核对发送、外部只读查询；Mac Gmail本人测试实际送达；16November Mac/Pi Gmail/Calendar新授权及真实读请求通过 | 微软注册/授权、持续邮箱跟踪、Office云端编辑和真实商务操作仍待 |
+| 日历／事务 | 持久CRUD、重复／例外、冲突、提醒、进展／跟进、版本与操作ID、草稿确认；离线夹具可增量更新同一事务；Mac Google Calendar真实读取通过 | 复杂生产数据、持续外部同步和远程通知另验 |
 | AI会话 | GPT Live语音与Responses文字复用业务工具／批准及有限上下文；Realtime保留对照；短期重放、记忆失效、逐轮时限；选中事务经服务端读取并绑定会话 | 新选型同条件比较、真人声学／泛化、成本与长期资源运行 |
 | 软件结构 | 手机拆成首页、计划、管理、环境与日历读取；网页／手机／Pi共用自动本地连接、会话恢复及日程编辑；读取去重、迟到响应和未保存保护 | 完整跨设备故障矩阵和辅助技术验收 |
 | 网页／手机 | 三端深色Alice首页、可见输入区与按需Plan／More；手机完整月历／时间／天气，保留共享操作卡片／权限和草稿；较矮屏幕信息区独立滚动 | 原生触控／软键盘完整流程、真机、功耗和温度 |

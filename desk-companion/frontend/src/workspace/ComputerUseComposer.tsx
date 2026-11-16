@@ -12,6 +12,7 @@ import "./computer-use.css";
 export function ComputerUseComposer({
   t,
   available,
+  managedAvailable = false,
   taskId,
   initialGoal = "",
   onPrepared,
@@ -21,6 +22,7 @@ export function ComputerUseComposer({
 }: {
   t: Translate;
   available: boolean;
+  managedAvailable?: boolean;
   taskId?: string;
   initialGoal?: string;
   onPrepared: () => void;
@@ -29,6 +31,8 @@ export function ComputerUseComposer({
   initiallyOpen?: boolean;
 }) {
   const [goal, setGoal] = useState(initialGoal);
+  const [engine, setEngine] = useState<"local" | "managed">("local");
+  const ready = engine === "managed" ? managedAvailable : available;
   const { data } = useWorkspace();
   const full = data?.permissions?.mode === "full";
   const [site, setSite] = useState(resumeJob?.request.start_url ?? "");
@@ -53,7 +57,7 @@ export function ComputerUseComposer({
   }, [initialGoal, resumeJob?.id]);
   async function prepare(event: React.FormEvent) {
     event.preventDefault();
-    if (!available || !shared || mutation.busy || mutation.pending) return;
+    if (!ready || !shared || mutation.busy || mutation.pending) return;
     setError(null);
     try {
       const selectedTask = resumeJob?.task_id ?? taskId;
@@ -64,6 +68,7 @@ export function ComputerUseComposer({
         "/computer/computer-use/jobs",
         {
           action: "computer_use",
+          engine,
           title: Array.from(goal.trim()).slice(0, 120).join(""),
           goal: goal.trim(),
           start_url: kind === "website" ? site.trim() : kind,
@@ -118,11 +123,32 @@ export function ComputerUseComposer({
         </label>
         <details className="computer-use-options">
           <summary>{t("More options", "更多选项")}</summary>
+          {(managedAvailable || engine === "managed") && !resumeJob && (
+            <label>
+              {t("Browser", "浏览方式")}
+              <select
+                aria-label={t("Browser", "浏览方式")}
+                value={engine}
+                disabled={locked}
+                onChange={(event) => {
+                  const next =
+                    event.target.value === "managed" ? "managed" : "local";
+                  setEngine(next);
+                  if (next === "managed") setKind("website");
+                }}
+              >
+                <option value="local">{t("On this desk", "在当前桌面")}</option>
+                <option value="managed">
+                  {t("Cloud research", "云端查找与比较")}
+                </option>
+              </select>
+            </label>
+          )}
           <label>
             {t("Where", "在哪里操作")}
             <select
               value={kind}
-              disabled={locked || !!resumeJob}
+              disabled={locked || !!resumeJob || engine === "managed"}
               onChange={(event) => setKind(event.target.value)}
             >
               <option value="website">{t("Public website", "公开网站")}</option>
@@ -184,18 +210,23 @@ export function ComputerUseComposer({
             />
           </details>
         )}
-        {!available && (
+        {!ready && (
           <p role="status">
-            {t(
-              "Browser operation is unavailable on this desk.",
-              "当前桌面的浏览器操作暂不可用。",
-            )}
+            {managedAvailable
+              ? t(
+                  "Choose Cloud research in More options.",
+                  "请在更多选项中选择云端查找与比较。",
+                )
+              : t(
+                  "Browser operation is unavailable on this desk.",
+                  "当前桌面的浏览器操作暂不可用。",
+                )}
           </p>
         )}
         <button
           className="primary"
           disabled={
-            !available ||
+            !ready ||
             !shared ||
             !goal.trim() ||
             mutation.busy ||

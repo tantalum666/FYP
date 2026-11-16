@@ -1,5 +1,7 @@
 # Group 2 · Public browser computer use
 
+16November addition: the optional [managed research executor](managed-browser.md) uses the official Agents harness on the same JobService. The detailed GET/HEAD local-worker policy below still applies to the local executor only; it must not be attributed to the hosted browser. Local execution remains default, managed execution is disabled unless explicitly configured.
+
 7 November2026. General browser work uses OpenAI Responses native computer calls
 and the existing job/permission lifecycle. It does not replace typed office
 operations or claim general host-desktop, account or transaction autonomy.

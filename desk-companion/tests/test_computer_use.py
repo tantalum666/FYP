@@ -212,6 +212,19 @@ def test_portable_browser_job_is_read_only_after_restore(world, tmp_path):
         approve(other, restored)
 
 
+def test_old_client_pending_prepare_keeps_its_idempotency_payload(world):
+    r, _, _ = world
+    first = prepare(world, "old-pending-request")
+    with r.store.connection() as conn:
+        stored = json.loads(
+            conn.execute(
+                "SELECT request FROM operations WHERE id='old-pending-request'"
+            ).fetchone()[0]
+        )
+    assert "engine" not in stored
+    assert prepare(world, "old-pending-request")["id"] == first["id"]
+
+
 def test_uncertain_cleanup_blocks_new_admission_and_is_not_reexecuted(world):
     r, _, _ = world
     r.jobs.computer_use.supervisor.cleanup = False
