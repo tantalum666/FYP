@@ -671,12 +671,12 @@ export function errorText(
       "该结果失败了，不会显示为已完成。",
     ],
     CONNECTION_LOST: [
-      "Connection lost. A save may still have completed. Retry the same operation safely.",
-      "连接中断，保存可能已完成。可以安全重试同一操作。",
+      "Connection lost. The last action may have taken effect. Check it before retrying.",
+      "连接中断，上一项操作可能已生效。请先核对再重试。",
     ],
     PENDING_WRITE: [
-      "Resolve the pending save before making another change.",
-      "请先处理待确认的保存，再进行其他修改。",
+      "Check the pending action before making another change.",
+      "请先核对待处理的操作，再进行其他修改。",
     ],
     REMINDER_NOT_ACTIVE: [
       "This reminder has already been handled or changed.",

@@ -413,8 +413,8 @@ export function DeviceApp() {
             <div className="device-recovery">
               <p>
                 {t(
-                  "A save is waiting for confirmation.",
-                  "有一项保存等待确认。",
+                  "The previous action needs checking.",
+                  "上一项操作需要核对。",
                 )}
               </p>
               <button className="primary" disabled={busy} onClick={recover}>

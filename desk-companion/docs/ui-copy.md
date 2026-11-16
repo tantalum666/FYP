@@ -1,5 +1,9 @@
 # Group 2 · Interface copy and disclosure
 
+## 17 November browser work in conversation
+
+Use a compact task/site card with unchecked cloud screenshot consent; exact task details stay available in a disclosure. Use progress in the same conversation and current result evidence, without claiming an order or ticket. Generic pending-request copy says “action”, not “save”, because approval may have started a browser job. A recovery button appears after interrupted submission, not while that submission is still busy. The shared desktop/phone/device labels retain the same meaning. [Contract](conversation-browser.md).
+
 ## 9 November composer and file flows
 
 The owner explicitly removed model/vendor branding and API-turn counts from ordinary composer/browser/file controls. Use Alice and concise cloud-processing descriptions while keeping the selected data, explicit consent, action approval and recovery clear. + adds local chat files; operation history is under More. A shared dark-control surface pairs foreground/background for buttons, fields, downloads and errors. See [chat attachments](chat-attachments.md).

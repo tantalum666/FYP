@@ -336,12 +336,12 @@ export function PhoneApp() {
               <div className="connection-banner">
                 <span>
                   {t(
-                    "A save is awaiting confirmation.",
-                    "有一项保存等待确认。",
+                    "The previous action needs checking.",
+                    "上一项操作需要核对。",
                   )}
                 </span>
                 <button disabled={recovering} onClick={() => void recover()}>
-                  {t("Check save status", "核对保存状态")}
+                  {t("Check action status", "核对操作状态")}
                 </button>
               </div>
             )}

@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 import type { Translate } from "../types";
-import type { Proposal } from "./assistantTypes";
+import type { Proposal, ProposalDecisionOptions } from "./assistantTypes";
+import { BrowserResearchReview } from "./BrowserResearchReview";
 import { JourneyAdvice } from "./JourneyAdvice";
 import { isJourneyAdvice } from "./proposalDecision";
 
@@ -13,8 +14,21 @@ export function ProposalActionCard({
   proposal: Proposal;
   t: Translate;
   busy: boolean;
-  onDecision: (action: "confirm" | "cancel") => void;
+  onDecision: (
+    action: "confirm" | "cancel",
+    options?: ProposalDecisionOptions,
+  ) => void;
 }) {
+  if (p.kind === "browser_research")
+    return (
+      <BrowserResearchReview
+        key={p.id}
+        proposal={p}
+        t={t}
+        busy={busy}
+        onDecision={onDecision}
+      />
+    );
   const language = t("en", "zh");
   const event = p.data.event ?? p.data.change?.event;
   const task = p.data.task ?? p.data.change?.task ?? p.data.original_task;

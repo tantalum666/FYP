@@ -14,12 +14,19 @@ export function proposalDecisionNotice(
   requestedKind: string | undefined,
   t: Translate,
 ): string {
+  if (action === "cancel") return t("Draft cancelled.", "草稿已取消。");
+  if ((result.kind ?? requestedKind) === "browser_research")
+    return result.queued
+      ? t(
+          "Browser task started. Its progress stays in this conversation.",
+          "浏览器任务已开始，进度会留在这段对话里。",
+        )
+      : t("Browser task status refreshed.", "已更新浏览器任务的状态。");
   if (result.queued)
     return t(
       "Action queued. Check the device receipt for its result.",
       "动作已排队，请在设备回执中查看结果。",
     );
-  if (action === "cancel") return t("Draft cancelled.", "草稿已取消。");
   const kind = result.kind ?? requestedKind;
   if (kind === "email_send")
     return t("Email accepted for sending.", "邮件已提交发送。");

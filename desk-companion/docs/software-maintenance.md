@@ -1,5 +1,11 @@
 # Group 2 · Software maintenance contract
 
+## 17 November conversation-to-browser ownership
+
+`browser_research.py` translates reviewable tool drafts into existing JobService work and projects independently reopened results. AssistantService owns the same proposal lock/expiry/decision receipt; JobService retains all queue, hash/version, owner/session/provider and cancellation checks. BrowserResearchReview is a small shared component; AssistantPanel reuses existing activity reads and pending-write recovery. No second planner, queue, transcript database or polling loop.
+
+TextPlan tool names derive from the registry's `text` flag, preventing registered software connectors from silently disappearing from text chat. Owner-only filters and intentional non-text physical/posture channels remain. A browser proposal cannot supply cloud consent or be auto-approved by Full access. Cached chat/decision responses recover live job state; source text never authorizes a follow-up action. [Contract](conversation-browser.md).
+
 ## 9 November attachment ownership
 
 ComposerMenu, ComposerFiles and useChatFiles own menu/render/selected-file preparation respectively. ChatAttachments reuses existing Conversations RAM, owner/task/session scope and invalidation; TextAssistant/AgentLoop/Responses still own generation and tools. No second transcript store, request queue or background poll is added. Raw file bytes are bounded and not placed in durable sources or browser pending writes. [Contract](chat-attachments.md).

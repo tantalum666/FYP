@@ -1,5 +1,11 @@
 # Group 2 Project Contract
 
+## 2026-11-17 Current priority: personal-agent software
+
+Owner asks to continue personal-agent work. This slice connects text/voice public-browser requests to compact owner scope/consent review, existing job execution and independently reopened results. Same-key retry/cancel/privacy handling and same-conversation progress are retained. Ten existing software/read tools omitted from the primary text catalog are restored from the canonical registry. No new planner, queue, account grant or transaction authority.
+
+Full backend 2,410/frontend 391, types/build/Ruff and real Chromium desktop/phone journeys passed with scripted models. Fictional shopping quantity/price/discount continuation, browser-result-to-task, flight baggage/timezone comparison and lost-approval-response recovery were independently read back. No paid model, actual send/order/ticket or ordinary runtime promotion. A3 and the last delivered 2c31f430 application remain unchanged. [Contract](desk-companion/docs/conversation-browser.md), [QA](output/qa/2026-11-17-personal-agent-browser/verification.md). Real owner takeover/return is the next browser gap; Pi retains the original-performance preference and the separately recorded pending RTC state.
+
 ## 2026-11-17 Preserve performance and recover from powered shutdown
 
 Owner rejects keeping Alice slowed/disabled as the workaround. Normal CPU maximum 2.4 GHz, container and display/autostart settings were restored; temporary recovery limit/hold disabled. Persistent diagnostic logging and private backups remain. Fix the executable-bit defect in the Pi session launcher so restored autostart can actually invoke it. This supersedes the reduced-performance operating plan below, not its historical evidence.

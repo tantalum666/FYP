@@ -15,10 +15,21 @@ export interface Proposal {
     | "memory_consolidate"
     | "mailbox_reply"
     | "email_send"
+    | "browser_research"
     | "shopping_advice"
     | "calendar_advice";
   expires_at: string;
   data: {
+    browser?: {
+      engine: "local" | "managed";
+      title: string;
+      goal: string;
+      start_url: string;
+      allowed_origins: string[];
+      task_id: string | null;
+      task_version: number | null;
+      source_job_id: string | null;
+    };
     from?: string;
     to?: string;
     subject?: string;
@@ -68,6 +79,14 @@ export interface Proposal {
       minutes?: number;
     };
   };
+}
+export interface ProposalDecisionOptions {
+  share_screen?: boolean;
+}
+export interface ProposalDecisionReply {
+  queued?: boolean;
+  kind?: string;
+  job?: { id: string };
 }
 export interface Reply {
   permission_error?: string;

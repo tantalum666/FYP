@@ -8,6 +8,7 @@ from desk.openai_live import OpenAILiveProtocol, OPENAI_LIVE_ENDPOINT
 from desk.persona import voice_instructions
 from desk.voice import VoiceConfig
 from desk.app import create_app
+from desk.capabilities import CAPABILITIES
 from desk.voice_settings import VoiceRegistration, VoiceSelection
 
 
@@ -346,10 +347,12 @@ def test_live_service_drains_final_usage_before_releasing_slot(tmp_path, monkeyp
         assert setup["audio"]["output"]["voice"] == (
             {"id": "voice_fixture"} if finish == "stop" else "marin"
         )
-        assert len(setup["delegation"]["responses"]["tools"]) == 31
-        assert any(
-            tool["name"] == "weather_query" for tool in setup["delegation"]["responses"]["tools"]
-        )
+        tools = setup["delegation"]["responses"]["tools"]
+        assert len(tools) == len(CAPABILITIES)
+        assert {tool["name"] for tool in tools} == set(CAPABILITIES)
+        assert {"weather_query", "browser_research_draft", "browser_research_status"} <= {
+            tool["name"] for tool in tools
+        }
         if finish == "stop":
             assert "A clear original adult voice." in setup["instructions"]
             assert "Natural connected Mandarin and Cantonese." in setup["instructions"]

@@ -19,6 +19,7 @@ from .openai_transport import model_proxy, validate_openai_proxy
 from pydantic import Field, ValidationError
 
 from .agent_loop import AgentLoop
+from .capabilities import TEXT_TOOL_NAMES
 from .bounded_json import (
     TEXT_NETWORK_TIMEOUT,
     TEXT_RESPONSE_BYTES as TEXT_RESPONSE_BYTES,
@@ -58,27 +59,7 @@ MAX_DAILY_CAP = 500
 
 class TextPlan(StrictModel):
     message: str = Field(min_length=1, max_length=2000)
-    tool: Literal[
-        "none",
-        "task_query",
-        "task_details",
-        "task_create_draft",
-        "task_change_draft",
-        "calendar_query",
-        "calendar_create_draft",
-        "calendar_change_draft",
-        "computer_job_draft",
-        "computer_job_status",
-        "computer_job_cancel",
-        "memory_query",
-        "memory_save_draft",
-        "memory_replace_draft",
-        "memory_delete_draft",
-        "owner_search",
-        "plate_summary",
-        "owner_clock",
-        "propose_plan",
-    ] = "none"
+    tool: Literal["none", *TEXT_TOOL_NAMES] = "none"
     arguments: dict = Field(default_factory=dict)
 
 

@@ -1,5 +1,7 @@
 # Group 2 · Managed public-browser research
 
+17 November conversation update: the shared `browser_research_draft` tool can propose the explicitly configured managed engine. The owner must approve the shown scope and screenshot sharing before it reaches this executor. `browser_research_status` reopens the saved report/evidence and does not claim a resumable session. Local protocol tests cover this path; new paid FYP/voice acceptance remains pending. [Conversation contract](conversation-browser.md).
+
 16 November2026. An optional official Agents API executor shares FYP's existing `computer_jobs`, review/Full-access permission policy, cancellation and task/version/session checks. The local Chromium executor remains the default. This is public research/comparison, not authenticated checkout or general access to the owner's desktop.
 
 ## Responsibilities
@@ -25,4 +27,4 @@ Closing SSE is insufficient: interruption sends cancellation, then DELETE and GE
 
 The separate owner-approved live trial used one session on Books to Scrape, read two titles/prices and chose the cheaper book; an independent HTML read matched. Four browser activities,51.731seconds, DELETE then GET404. Usage was null; the USD1 round is closed with the entire amount reserved. No further paid call was made. Live cancellation did not fit the one-session time cap and was not claimed.
 
-The FYP adapter was subsequently tested locally with the captured API shapes: approval, refusal, cancellation, idle-without-terminal-event, missing usage, uncertain creation/deletion, no replay, evidence tampering, legacy intent/backup compatibility and actual desktop/phone UI flow. **This integrated FYP path has not had another paid end-to-end trial.** Voice-to-managed-browser routing, authenticated takeover/return and live merchant payment/ticketing remain separate work. [QA](../../output/qa/2026-11-16-agent-runtime/verification.md), [official-source review](../../research/2026-11-16-official-agent-runtime.md).
+The FYP adapter was subsequently tested locally with the captured API shapes: approval, refusal, cancellation, idle-without-terminal-event, missing usage, uncertain creation/deletion, no replay, evidence tampering, legacy intent/backup compatibility and actual desktop/phone UI flow. **This integrated FYP path has not had another paid end-to-end trial.** Conversation/voice tool admission is now wired as described above, while live spoken admission, authenticated takeover/return and merchant payment/ticketing remain unaccepted. [Original QA](../../output/qa/2026-11-16-agent-runtime/verification.md), [official-source review](../../research/2026-11-16-official-agent-runtime.md).

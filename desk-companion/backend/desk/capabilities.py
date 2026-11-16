@@ -22,6 +22,7 @@ from .assistant import CalendarQuery, ChangeProposal
 from .owner_lookup import OwnerClockArgs, OwnerSearch, PlateQuery
 from .owner_plan import ProposePlan
 from .weather import WeatherQuery
+from .browser_research import BrowserResearchDraft, BrowserResearchQuery
 
 
 Risk = Literal["read", "draft", "cancel", "stop"]
@@ -51,13 +52,18 @@ class Capability:
         risk: Risk,
         model: type[StrictModel],
         timeout: float | None = None,
+        *,
+        text: bool = True,
     ):
         self.name, self.risk, self.model = name, risk, model
         self.timeout = TIMEOUTS[risk] if timeout is None else timeout
+        self.text = text
 
 
 def _capabilities() -> dict[str, Capability]:
     rows = [
+        Capability("browser_research_draft", "draft", BrowserResearchDraft),
+        Capability("browser_research_status", "read", BrowserResearchQuery, timeout=15),
         Capability("weather_query", "read", WeatherQuery, timeout=8),
         Capability("connected_app_query", "read", ConnectedAppQuery, timeout=12),
         Capability("email_status", "read", EmptyArgs),
@@ -79,12 +85,12 @@ def _capabilities() -> dict[str, Capability]:
         Capability("task_create_draft", "draft", TaskInput),
         Capability("task_change_draft", "draft", TaskChange),
         Capability("device_status", "read", EmptyArgs),
-        Capability("stop_physical_outputs", "stop", EmptyArgs),
-        Capability("device_feedback_draft", "draft", FeedbackDraft),
+        Capability("stop_physical_outputs", "stop", EmptyArgs, text=False),
+        Capability("device_feedback_draft", "draft", FeedbackDraft, text=False),
         Capability("calendar_query", "read", CalendarQuery),
         Capability("calendar_create_draft", "draft", CreateEvents),
         Capability("calendar_change_draft", "draft", ChangeProposal),
-        Capability("posture_status", "read", EmptyArgs),
+        Capability("posture_status", "read", EmptyArgs, text=False),
         Capability("owner_search", "read", OwnerSearch),
         Capability("plate_summary", "read", PlateQuery),
         Capability("owner_clock", "read", OwnerClockArgs),
@@ -94,6 +100,7 @@ def _capabilities() -> dict[str, Capability]:
 
 
 CAPABILITIES = _capabilities()
+TEXT_TOOL_NAMES = tuple(name for name, capability in CAPABILITIES.items() if capability.text)
 
 
 def parse_call(name: object, arguments: object) -> tuple[Capability, dict]:

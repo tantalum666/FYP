@@ -205,6 +205,21 @@ class PermissionService:
             with self.store.connection() as conn:
                 row = conn.execute("SELECT * FROM assistant_proposals WHERE id=?", (proposal_id,)).fetchone()
                 applied = conn.execute("SELECT response FROM operations WHERE id=?", ("assistant-confirm/" + proposal_id,)).fetchone()
+            if row and row["kind"] == "browser_research":
+                if row["state"] == "confirmed" or applied:
+                    from .browser_research import confirmation
+
+                    result = confirmation(self.runtime, json.loads(applied[0] if applied else row["result"]))
+                    return self.refresh_reply({
+                        **reply, "proposal": None, "kind": "job", "saved": False,
+                        "job": result["job"], "goal_completed": False,
+                    }, language=language)
+                if row["state"] == "cancelled" or row["expires_at"] <= iso(self.store.clock()):
+                    return {
+                        **reply, "proposal": None, "kind": "reply", "saved": False,
+                        "message": "这次浏览器请求已取消或到期。" if zh
+                        else "This browser request was cancelled or expired.",
+                    }
             if row and (row["state"] == "confirmed" or applied) and row["kind"] in SOFTWARE_PROPOSALS:
                 result = json.loads(applied[0] if applied else row["result"])
                 return {**reply, "proposal": None, "kind": "action", "saved": True,
