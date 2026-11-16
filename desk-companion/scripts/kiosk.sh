@@ -6,8 +6,10 @@ if [[ "$(uname -s)" != Linux ]]; then
 fi
 desk_url="${DESK_KIOSK_URL:-http://127.0.0.1:8831/?surface=device}"
 desk_state="${XDG_STATE_HOME:-$HOME/.local/state}/desk-companion"
-mkdir -p "$desk_state/chromium"
-chmod 700 "$desk_state" "$desk_state/chromium"
+desk_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+mkdir -p "$desk_state"
+chmod 700 "$desk_state"
+python3 "$desk_root/scripts/pi/kiosk_profile.py" "$desk_state/kiosk"
 if command -v chromium >/dev/null; then
   desk_browser="$(command -v chromium)"
 elif command -v chromium-browser >/dev/null; then
@@ -21,4 +23,6 @@ if [[ "${XDG_SESSION_TYPE:-}" == x11 ]] && command -v xset >/dev/null; then
   xset s off || true
   xset -dpms || true
 fi
-exec "$desk_browser" --kiosk --no-first-run --disable-session-crashed-bubble --user-data-dir="$desk_state/chromium" "$desk_url"
+# This profile contains only the local display; do not save browser passwords or
+# attach a personal profile. FYP's own OAuth tokens stay in its encrypted vault.
+exec "$desk_browser" --kiosk --no-first-run --disable-session-crashed-bubble --disable-sync --password-store=basic --user-data-dir="$desk_state/kiosk" "$desk_url"
