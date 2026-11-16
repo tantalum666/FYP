@@ -78,13 +78,15 @@ def current_checkin(runtime, principal, tasks, posture):
             continue
         if nudge["kind"] == "evening_check" and not prefs["evening_check_enabled"]:
             continue
+        if not tasks.get("followed_count"):
+            continue
         return {
             "id": nudge["id"],
             "kind": nudge["kind"],
-            "open_count": tasks["active_count"],
+            "open_count": tasks["followed_count"],
             "tasks": [
                 {"title": t["title"], "due_at": t.get("due_at")}
-                for t in tasks.get("preview", [])
+                for t in tasks.get("followed_preview", [])
                 if not t.get("redacted")
             ][:2],
         }

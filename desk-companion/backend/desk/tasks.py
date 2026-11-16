@@ -529,8 +529,11 @@ class TaskService:
     def snapshot(self):
         result = self.listing(display=True)
         active = result["tasks"]
+        followed = [t for t in active if t["follow_up_enabled"] and not t["paused"]]
         return {
             "active_count": len(active),
+            "followed_count": len(followed),
+            "followed_preview": followed[:3],
             "due_count": sum(bool(t["followup"]) for t in active),
             "attention": [t for t in active if t["followup"]][:3],
             "preview": active[:3],
