@@ -33,3 +33,5 @@ Private evidence: `~/.config/desk-companion/alice-motions-20261116/` contains te
 Updated product, avatar/home contracts, status/delivery/research indexes, decision/work logs and concise handoff/entry. Local links, staged scope and secrets/artifacts are checked before pushing to existing PR123. Source publication is separate from merge; no new merge is included. One next product step is the real same-browser owner-control/return flow on existing JobService.
 
 Closeout: a deliberate interruption removed CUA before its completion-summary call and stopped the temporary Vite servers. Existing screenshots/recordings and observed outcomes were retained; no unavailable tool was called. Normal Mac8831was rechecked healthy. Persistent native-origin readback corrected the earlier saved-Pi-address assumption.
+
+Publication: source0d53f4e2matched the remote head of [PR123](https://github.com/tantalum666/FYP/pull/123), still open/unmerged. [Receipt](publication.json). The subsequent commit records this result only.

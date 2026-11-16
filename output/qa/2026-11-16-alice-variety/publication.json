@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-16",
+  "pull_request": 123,
+  "url": "https://github.com/tantalum666/FYP/pull/123",
+  "source_head": "0d53f4e2eb9693f8f2478cfff0776bfd6009a8ee",
+  "base_main": "6153b41d6db9eac3c256d786fd69fe27ae20368e",
+  "remote_source_readback": "matched",
+  "state": "open",
+  "merged": false,
+  "mac_frontend_activated": true,
+  "native_simulator_rebuilt": true,
+  "native_validation_backend": "Mac local service via process-only launch argument",
+  "pi_deployed_this_round": false,
+  "pi_reachable": false,
+  "paid_calls": 0,
+  "ci": false,
+  "following_commit": "Documentation receipt only"
+}

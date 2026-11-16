@@ -2,6 +2,8 @@
 
 16 November 2026. Continue in `/Users/tantalum/.codex/worktrees/alice-motion-20261113/FYP`, branch `codex/alice-natural-motion-20261113`, based on main6153b41d. [PR123](https://github.com/tantalum666/FYP/pull/123) remains open/unmerged. No CI or new paid calls; A3 and original Alice retained.
 
+Source0d53f4e2matched the remote PR head. [Publication receipt](output/qa/2026-11-16-alice-variety/publication.json).
+
 ## Latest completed work
 
 Added short contextual motions with quiet intervals: smile/nod, curious tilt, compact open-hand explanation, glance, shoulder relaxation and pondering, alongside the corrected wave. Clicks vary across four responses; idle motion yields to interaction. The real phone check caught/fixed a visibly finished gesture still rejecting the next tap. Shared timing now governs both pose sampling and input coalescing. Gesture elapsed time is separate from capped spring-physics time; existing pause/reduced-motion behavior remains.
