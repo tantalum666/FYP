@@ -117,16 +117,24 @@ class OutlookSender:
         message["Subject"], message["Message-ID"] = draft["subject"], message_id
         message.set_content(draft["body"], charset="utf-8")
         request_id = uuid4().hex
+        reply = draft.get("reply")
         try:
             with httpx.Client(
                 timeout=10, transport=self.transport, trust_env=False, follow_redirects=False
             ) as client:
                 response = client.post(
-                    "https://graph.microsoft.com/v1.0/me/sendMail",
-                    content=base64.b64encode(message.as_bytes()),
+                    "https://graph.microsoft.com/v1.0/me" + (
+                        "/messages/" + quote(reply["message_id"], safe="") + "/reply" if reply else "/sendMail"
+                    ),
+                    **({"json": {"message": {
+                        "toRecipients": [{"emailAddress": {"address": draft["to"]}}],
+                        "subject": draft["subject"],
+                        "body": {"contentType": "Text", "content": draft["body"]},
+                    }}} if reply else {"content": base64.b64encode(message.as_bytes())}),
                     headers={
                         "Authorization": "Bearer " + access_token,
-                        "Content-Type": "text/plain",
+                        "Content-Type": "application/json" if reply else "text/plain",
+                        **({"Prefer": 'IdType="ImmutableId"'} if reply else {}),
                         "client-request-id": request_id,
                         "return-client-request-id": "true",
                     },
@@ -144,6 +152,8 @@ class OutlookSender:
                 "receipt_kind": "request_id" if receipt else "http202",
                 "http_status": 202,
                 "provider": "outlook",
+                **({"reply_target_id": reply["message_id"], "thread_binding_confirmed": False}
+                   if reply else {}),
             }
         except (httpx.ConnectError, httpx.ConnectTimeout, httpx.PoolTimeout):
             raise MailTransportError("EMAIL_CONNECTION_FAILED") from None

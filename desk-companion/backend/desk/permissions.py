@@ -205,6 +205,16 @@ class PermissionService:
             with self.store.connection() as conn:
                 row = conn.execute("SELECT * FROM assistant_proposals WHERE id=?", (proposal_id,)).fetchone()
                 applied = conn.execute("SELECT response FROM operations WHERE id=?", ("assistant-confirm/" + proposal_id,)).fetchone()
+            if row and row["kind"] == "mail_followup":
+                if row["state"] == "confirmed" or applied:
+                    state = self.runtime.mail_followups.confirmation(json.loads(applied[0] if applied else row["result"]))["result"]
+                    return {**reply, "proposal": None, "kind": "reply", "saved": True,
+                            "mail_followup": state,
+                            "message": (("邮件跟进已启用，新回复会记入同一事务。" if zh else "Email follow-up is active; new replies stay with the same task.")
+                                        if state["state"] == "active" else ("邮件跟进已停止或需要处理，请查看事务。" if zh else "Email follow-up stopped or needs attention; check the task."))}
+                if row["state"] == "cancelled" or row["expires_at"] <= iso(self.store.clock()):
+                    return {**reply, "proposal": None, "kind": "reply", "saved": False,
+                            "message": "这次邮件跟进请求已取消或到期。" if zh else "This email follow-up request was cancelled or expired."}
             if row and row["kind"] == "browser_research":
                 if row["state"] == "confirmed" or applied:
                     from .browser_research import confirmation

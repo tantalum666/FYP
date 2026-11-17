@@ -1,14 +1,14 @@
 # Group 2 · Connected Google and Microsoft apps
 
-Updated16November2026. The owner chose an app catalog with browser sign-in/consent and rejected application-password entry. The built-in catalog uses official OAuth and provider APIs. It is not an unrestricted plugin installer, and does not inherit Codex's account tokens. Existing public/synthetic MCP connectors retain their separate contract.
+Updated 17 November 2026. The owner chose an app catalog with browser sign-in/consent and rejected application-password entry. The built-in catalog uses official OAuth and provider APIs. It is not an unrestricted plugin installer, and does not inherit Codex's account tokens. Existing public/synthetic MCP connectors retain their separate contract. The new [selected-thread follow-up and reply](mail-thread-followup.md) uses those same grants and business services; its live grant/real-provider acceptance remains separate.
 
 ## Available operations
 
 | Connection | Implemented operations | Actual account status this round |
 |---|---|---|
-| Gmail | Read bounded message headers/snippets; prepare a plain-text email; owner reviews recipient, subject and body before sending | 8November FYP self-send/readback;16November Mac/Pi consent and actual profile reads passed |
+| Gmail | Bounded previews; selected-thread metadata follow-up; reviewed new email or same-thread reply | 8November FYP self-send/readback;16November Mac/Pi consent and actual profile reads passed. New follow-up/reply has local synthetic-provider evidence only |
 | Google Calendar | Read primary-calendar events; existing preview and explicit local import | 16November Mac/Pi consent and bounded primary-calendar reads passed |
-| Microsoft 365 | Outlook mail previews and reviewed sending; primary-calendar events; OneDrive file directory; To Do lists/tasks; OneNote notebooks/sections | Software/protocol tests passed; renewed personal-account setup blocked at human verification. No FYP client or grant created |
+| Microsoft 365 | Outlook previews, selected-thread metadata and reviewed sending/reply; calendar events; OneDrive directory; To Do; OneNote | Software/protocol tests; personal-account setup remains blocked at human verification. No live FYP Graph grant claimed |
 | Microsoft Teams | Work/school chat list and bounded messages | Organization authorization deferred |
 | SharePoint | Followed sites and document-library lists | Organization authorization deferred |
 
@@ -22,7 +22,7 @@ Word, Excel and PowerPoint are represented by OneDrive file metadata. This relea
 
 `connected_app_data.py` and `microsoft_apps.py` own fixed Google/Graph destinations and bounded GET operations. URLs are not model arguments. Returned emails, events and chat messages are untrusted evidence, never instructions or authority. Account and privacy revisions are checked around reads. No remote pagination URL is followed. Gmail returns at most ten metadata previews; other reads return at most twenty items and a 48 KB result. Large mailbox latency and live Microsoft behavior remain unverified.
 
-`outbound_mail.py` reuses AssistantService proposals and owner decisions. `email_status`, `email_send_draft` and `connected_app_query` join the existing catalog (30 tools). Sending is not exposed as a model tool and is not silently covered by Full access. With multiple senders the assistant asks which account; `me` resolves to the selected authorized account. Drafts bind the sender account/version. Recipient and single-line subject validation prevent header injection.
+`outbound_mail.py` reuses AssistantService proposals and owner decisions. Mail functions share the canonical catalog used by text and Live; no separate mail agent or OAuth store is added. Sending and background-follow-up confirmation are not model tools and are not silently covered by Full access. With multiple senders the assistant asks which account; `me` resolves to the selected authorized account. Drafts bind the sender account/version. Recipient and single-line subject validation prevent header injection. Proper replies additionally bind the original message, exact subject, recipient and provider thread; source changes and unknown writes are not replayed.
 
 The durable `outgoing_mail_attempts` record reserves a possible send before network dispatch. Known connection/rejection failures remain distinct from unknown writes. Repeated confirmation recovers an accepted receipt; uncertain writes are not resent, cancelled as if unsent, or reset after restart. Gmail's message ID and Graph's HTTP202/request ID mean provider acceptance, not delivery. Gmail may rewrite the submitted MIME Message-ID; independently read back the provider message ID, recipient and content. This round's self-email was found in both SENT and INBOX with exact Test content, one attempt. No third-party recipient was contacted.
 

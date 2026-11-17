@@ -1,5 +1,13 @@
 # Group 2 Project Contract
 
+## 2026-11-17 Current priority: personal-agent mail follow-up
+
+Owner explicitly pauses Pi power work and requests continued personal-agent software. Preserve the installed application/A3/accounts/RTC settings; perform no further hardware/supply tests in this slice. Implement selected Gmail/Outlook thread follow-up through existing OAuth, TaskService/evidence, proposal approval and Notifier, with bounded background metadata checks. Email content remains untrusted data and cannot authorize actions. Background following must be explicitly started for a displayed thread; connecting an account alone does not enable it. No paid test or external send is inferred.
+
+Implemented on codex/mail-thread-followup-20261117, based on a88e1a1c/PR127: bounded selected-thread metadata, explicit seven-day grant, same-task evidence/coalesced notices, proper reviewed Gmail/Outlook replies and shared text/Live tools. Local backend 2,471 passed / 2 platform skips, frontend 393 passed, build/types/Ruff and desktop/Chinese-phone synthetic-provider journeys passed. No real subscription, send, paid call or runtime promotion. [Contract](desk-companion/docs/mail-thread-followup.md), [QA](output/qa/2026-11-17-mail-thread-followup/verification.md).
+
+Additional owner requirement: check official OpenAI architecture before adding generic infrastructure. Live/Responses and managed browser are current paths; official Agents Automations is preferred for future scheduled reasoning. Primary text still uses the older three-step AgentLoop and remains a migration gap. The new mail worker only synchronizes source metadata; it creates no competing planner, scheduler framework or model memory. [Fresh official capability audit](research/2026-11-17-official-capability-audit.md).
+
 ## 2026-11-17 Replacement-adapter stability check
 
 Owner replaced the adapter/charger and requested stability testing at original performance. Pi reported3000mA capability;8c67ddbe/Alice kiosk/API/application services active andCPU maximum2.4GHz. A planned10-minute observation ended on SSH timeout after485seconds/98samples:18samples showed current undervoltage/throttling, board ADC4.647–4.939V, temperatures47.7–77.9°C, all98local API health checks OK. Kernel events include fresh undervoltage during the observed interval. This power path has **not passed stability**, regardless of unchanged application settings; loss of SSH alone is not proof of a reboot. No deliberate power cycle, performance cap, model call or CI. [Evidence](output/qa/2026-11-17-pi-supply-check/verification.md).
@@ -104,13 +112,13 @@ Earlier9 November technical result: isolated Mac V2ProPlus CPU generated six cas
 
 | 模块 | 已实现 | 仍须独立验证 |
 |---|---|---|
-| 应用连接 | Google/Microsoft共享OAuth、Gmail/Outlook邮件核对发送、外部只读查询；Mac Gmail本人测试实际送达；16November Mac/Pi Gmail/Calendar新授权及真实读请求通过 | 微软注册/授权、持续邮箱跟踪、Office云端编辑和真实商务操作仍待 |
+| 应用连接 | Google/Microsoft共享OAuth、Gmail/Outlook邮件核对发送、外部只读查询；Mac Gmail本人测试实际送达；16November Mac/Pi Gmail/Calendar新授权及真实读请求通过 | 微软注册/授权、选定邮件跟进的真实授权验收、全邮箱增量同步、Office云端编辑和真实商务操作仍待 |
 | 日历／事务 | 持久CRUD、重复／例外、冲突、提醒、进展／跟进、版本与操作ID、草稿确认；离线夹具可增量更新同一事务；Mac Google Calendar真实读取通过 | 复杂生产数据、持续外部同步和远程通知另验 |
 | AI会话 | GPT Live语音与Responses文字复用业务工具／批准及有限上下文；Realtime保留对照；短期重放、记忆失效、逐轮时限；选中事务经服务端读取并绑定会话 | 新选型同条件比较、真人声学／泛化、成本与长期资源运行 |
 | 软件结构 | 手机拆成首页、计划、管理、环境与日历读取；网页／手机／Pi共用自动本地连接、会话恢复及日程编辑；读取去重、迟到响应和未保存保护 | 完整跨设备故障矩阵和辅助技术验收 |
 | 网页／手机 | 三端深色Alice首页、可见输入区与按需Plan／More；手机完整月历／时间／天气，保留共享操作卡片／权限和草稿；较矮屏幕信息区独立滚动 | 原生触控／软键盘完整流程、真机、功耗和温度 |
 | 记忆／人格 | 网页／手机可搜索、更正、删除有效事实；模型可检索全部有效事实，旧事实删除／到期也清旧重放；按需查看档案／目标／别名／检查记录；受支持的新事实操作可由完整权限授权。2026-11-10 起，拥有者批准后可在指定本地时间提起一条记忆跟进，安静时段和关闭主动提醒会推迟同一条。同日可再批准一次早晨核对，把多条已到期的跟进合成一条并引用仍有效的事实 | 不承诺永久聊天档案或供应商删除旧留存。这些跟进仍是离线行为，不是真实推送或邮箱验收 |
-| 持久 Work／跟进 | 选定来源／现有事务、持久决策／提问／恢复、独立文件核验、变化审阅及本地定期检查；普通聊天与显式保存会话的标识分开 | 真实邮件触发、私人账号连接、模型自主完成复杂任务和远程通知 |
+| 持久 Work／跟进 | 选定来源／现有事务、持久决策／提问／恢复、独立文件核验、变化审阅及本地定期检查；普通聊天与显式保存会话的标识分开 | 选定邮件元数据跟进/原线程回复已有本地协议与UI证据；真实持续验收、全邮箱事件、模型自主完成复杂任务和远程通知仍待 |
 | 电脑作业 | 原有笔记／指定目录／Mousepad及受限Chromium/Calc/Writer/PDF；新增原生computer调用的公开浏览器、实际输入／截图、显式状态接续和停止恢复，仍用同一队列 | 真实模型已通过受控购物／航班和取消检查；真实商家账户／交互接管、语音自主浏览器任务、任意桌面GUI及远端PC仍待 |
 | 坐姿／输出 | 固定关键点与标定逻辑、复测、回放隔离；命名预设、期限、停止与驱动回执 | 真人标注／误报／准确率、Luwu驱动及台架／物理急停 |
 | 交换与平台 | ICS、只读分享、事实／人格／作业备份、拥有者合并恢复、私有SQLite副本、诊断和默认关闭Web Push；Google只读、Linux安装、iPhone Keychain／Widget／App Intents | 公网／真实TLS配对、原生通知交付、学校服务器及App Store |

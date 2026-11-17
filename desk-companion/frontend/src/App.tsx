@@ -1,3 +1,4 @@
+import { usePendingWrite } from "./usePendingWrite";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DateTime } from "luxon";
 import {
@@ -69,6 +70,7 @@ const nav = [
 ] as const;
 
 export function App() {
+  const pendingOperation = usePendingWrite();
   const draftState = useDraftState();
   const [leavePage, setLeavePage] = useState<Page | null>(null);
   const [language, setLanguageState] = useState<Language>(() =>
@@ -565,8 +567,8 @@ export function App() {
         {page !== "assistant" && (
           <NoticeInbox t={t} language={language === "zh" ? "zh" : "en"} />
         )}
-        {pendingWrite() &&
-          pendingWrite()?.path !== "/assistant/messages/stream" &&
+        {pendingOperation &&
+          pendingOperation.path !== "/assistant/messages/stream" &&
           !editor && (
             <div className="connection-banner pending" role="status">
               {t("The previous action needs checking.", "上一项操作需要核对。")}

@@ -968,3 +968,14 @@ Final Pi wake evidence: corrected pair installed at18:22:13 and persisted across
 ## 2026-11-17 · Replacement power-adapter check
 
 Owner changed the charging head, confirmed button-on, and asked for stability testing. Ran existing telemetry at original2.4GHz limit with Alice kiosk/API/application services active. Planned600s; obtained485s/98samples before SSH exit255.18samples had live undervoltage/throttling; board ADC4.64712–4.93924V,47.7–77.9°C;98API health probes OK. Kernel uptime132.864s warning is newer than monitoring start56.17s. No manual reboot/CPU cap/model call/CI performed. No complete10-minute pass claimed and SSH loss alone not called a reboot. [QA](output/qa/2026-11-17-pi-supply-check/verification.md), private raw measurements `~/.config/desk-companion/pi-supply-check-20261117/`. Monitoring ended; current power chain still needs correction before stability acceptance.
+
+
+## 2026-11-17 · Selected mail follow-up on shared official agent tools
+
+Owner paused Pi power work, resumed personal-agent software and required a fresh OpenAI architecture audit. New checkout codex/mail-thread-followup-20261117 is based on a88e1a1c/PR127. Audited Live/Responses, hosted Agents, Automations, modern MCP, Gmail MCP preview and Work IQ prerequisites; corrected historical managed-off statements and declared primary text AgentLoop migration debt. No generic planner or schedule framework added.
+
+Implemented selected-thread metadata reads, explicit bounded grant, existing/new TaskService association, revision-safe acknowledgment, stop/expiry/account/privacy fences and coalesced generic notices. Proper same-thread reply uses fresh exact source identity and the reviewed outgoing-mail ledger. Text/Live tools and compact shared review/task UI reuse existing services and refresh. Portable evidence is bounded; portable exports carry no live source grant.
+
+Full backend2,471passed/2Linux-onlyskips in537.56s; frontend393, types/build/Ruff, actual Chrome1440×1000 and Chinese393×852. Synthetic journey verifies one task, new mail evidence, source-bound reply, one provider send after lost acknowledgement, same-key stop recovery and no reads after stop. Final focused checks are in QA. Browser testing caught/fixed duplicate mail panels, false expiration/unsent messaging and stale surrounding recovery banners.
+
+[Contract](desk-companion/docs/mail-thread-followup.md), [audit](research/2026-11-17-official-capability-audit.md), [verification](output/qa/2026-11-17-mail-thread-followup/verification.md). Private fixture databases/scripts/screenshots/logs stay under ~/.config/desk-companion/mail-thread-followup-20261117/. No paid call, real mailbox grant/send, transaction, normal-runtime replacement, native/Pi work or CI. A3/data/grants unaffected. Next: migrate primary text onto official Sessions/functions rather than extending the legacy local loop.

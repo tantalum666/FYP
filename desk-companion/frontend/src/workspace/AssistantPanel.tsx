@@ -243,7 +243,6 @@ export function AssistantPanel({
     if (suspended) setMediaOpen(false);
   }, [suspended]);
   const speechText = useRef({ user: "", assistant: "" });
-  const knownProposals = useRef<Proposal[]>([]);
   const activityReading = useRef(false);
   const reading = useRef(false);
   const loadActivity = useCallback(async () => {
@@ -532,20 +531,8 @@ export function AssistantPanel({
           "/assistant/proposals",
         );
         if (alive.current) {
-          if (
-            knownProposals.current.some(
-              (p) =>
-                Date.parse(p.expires_at) <= Date.now() &&
-                !next.proposals.some((n) => n.id === p.id),
-            )
-          ) {
-            setNotice(
-              language === "zh"
-                ? "草稿已到期，没有执行任何修改。请重新提出请求。"
-                : "The draft expired without making changes. Ask again to prepare a new one.",
-            );
-          }
-          knownProposals.current = next.proposals;
+          // Leaving the pending list can mean accepted, cancelled or expired.
+          // Only the decision receipt can establish whether an action happened.
           setProposals(next.proposals);
           setReadError(null);
         }
@@ -1461,8 +1448,15 @@ export function AssistantPanel({
                     ProposalDecisionReply | undefined;
                   setError(null);
                   setJobActionError(null);
-                  if (recovered?.kind === "browser_research")
-                    showDecision(recovered, "confirm");
+                  if (
+                    recovered &&
+                    pendingAction.path.startsWith("/assistant/proposals/")
+                  ) {
+                    const action = (pendingAction.body as { action?: string })
+                      .action;
+                    if (action === "confirm" || action === "cancel")
+                      showDecision(recovered, action);
+                  }
                   await reload();
                   await loadActivity();
                   void refresh();

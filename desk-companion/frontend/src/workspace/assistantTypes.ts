@@ -16,10 +16,20 @@ export interface Proposal {
     | "mailbox_reply"
     | "email_send"
     | "browser_research"
+    | "mail_followup"
     | "shopping_advice"
     | "calendar_advice";
   expires_at: string;
   data: {
+    mail_followup?: {
+      provider: "gmail" | "outlook";
+      account_email: string;
+      selected: { subject: string; sender: string; at: string };
+      task_title: string;
+      interval_minutes: number;
+      duration_days: number;
+      request: { task_id: string | null };
+    };
     browser?: {
       engine: "local" | "managed";
       title: string;
@@ -31,6 +41,7 @@ export interface Proposal {
       source_job_id: string | null;
     };
     from?: string;
+    reply?: { message_id: string; thread_id: string; subject: string; to: string };
     to?: string;
     subject?: string;
     title?: string;
@@ -82,6 +93,7 @@ export interface Proposal {
 }
 export interface ProposalDecisionOptions {
   share_screen?: boolean;
+  follow_mail_thread?: boolean;
 }
 export interface ProposalDecisionReply {
   queued?: boolean;

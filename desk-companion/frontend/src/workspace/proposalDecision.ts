@@ -15,6 +15,11 @@ export function proposalDecisionNotice(
   t: Translate,
 ): string {
   if (action === "cancel") return t("Draft cancelled.", "草稿已取消。");
+  if ((result.kind ?? requestedKind) === "mail_followup")
+    return t(
+      "Email follow-up saved. New replies will appear in the linked task.",
+      "邮件跟进已保存，新回复会显示在关联事务中。",
+    );
   if ((result.kind ?? requestedKind) === "browser_research")
     return result.queued
       ? t(

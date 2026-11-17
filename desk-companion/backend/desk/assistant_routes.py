@@ -107,6 +107,7 @@ def assistant_routes(runtime, authenticated, operation_id):
         return runtime.assistant.decide(
             proposal_id, payload.action, key, allow_memory=principal["kind"] == "owner",
             principal=principal, share_screen=payload.share_screen,
+            follow_mail_thread=payload.follow_mail_thread,
         )
 
     return router

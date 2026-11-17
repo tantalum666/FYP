@@ -40,6 +40,9 @@ class RetainedPlan(StrictModel):
         "computer_job_draft",
         "browser_research_draft",
         "browser_research_status",
+        "mail_followup_draft",
+        "mail_followup_status",
+        "mail_followup_stop",
         "computer_job_status",
         "computer_job_cancel",
     ] = "none"
@@ -58,7 +61,7 @@ class RetainedChat:
     def tool(
         self, name, arguments, key, *, personal_context=False, provider_kind=None, principal=None
     ):
-        if provider_kind and name.startswith(("task_", "calendar_", "computer_job_", "browser_research_")):
+        if provider_kind and name.startswith(("task_", "calendar_", "computer_job_", "browser_research_", "mail_followup_")):
             if not self.runtime.personal_context.business_allowed(
                 kind=provider_kind, principal=principal
             ):
@@ -159,7 +162,7 @@ class RetainedChat:
                         self.runtime.personal_context.business_allowed(
                             kind="text", principal=principal
                         )
-                        or not t["name"].startswith(("task_", "calendar_", "computer_job_", "browser_research_"))
+                        or not t["name"].startswith(("task_", "calendar_", "computer_job_", "browser_research_", "mail_followup_"))
                     )
                 ],
             }
@@ -195,7 +198,7 @@ class RetainedChat:
                 try:
                     guard = (
                         self.runtime.personal_context.lock
-                        if not plan.tool.startswith(("computer_job_", "browser_research_"))
+                        if not plan.tool.startswith(("computer_job_", "browser_research_", "mail_followup_"))
                         else nullcontext()
                     )
                     with guard:

@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import { DateTime } from "luxon";
 import { errorText, pendingWrite, request, retryPending } from "../api";
 import { useWorkspaceSession } from "../useWorkspaceSession";
+import { usePendingWrite } from "../usePendingWrite";
 import { savedEventPosition } from "../dates";
 import type { Language, Translate } from "../types";
 import { ConnectionView } from "../components/ConnectionView";
@@ -31,6 +32,7 @@ import { usePhoneEnvironment } from "./usePhoneEnvironment";
 import "./phone.css";
 
 export function PhoneApp() {
+  const pendingOperation = usePendingWrite();
   const { data, offline, stale, refresh: refreshWorkspace } = useWorkspace();
   const assistantGuard = useDraftState();
   const [language, setLang] = useState<Language>(() =>
@@ -330,8 +332,8 @@ export function PhoneApp() {
               </button>
             </p>
           )}
-          {pendingWrite() &&
-            pendingWrite()?.path !== "/assistant/messages/stream" &&
+          {pendingOperation &&
+            pendingOperation.path !== "/assistant/messages/stream" &&
             !editor && (
               <div className="connection-banner">
                 <span>

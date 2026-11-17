@@ -1,5 +1,9 @@
 # 软件架构与边界
 
+## 17November2026 current official-first boundary
+
+Current voice uses GPT Live with official Responses delegation; new browser tasks use official Agents hosted execution. FYP owns task identity, account/permission binding, UI, local device functions and actual outcome receipts. The older text AgentLoop remains a migration gap and is not extended as a general agent framework. Future time-triggered agent reasoning should use official Agents Automations; the new mail_sources worker is only bounded metadata synchronization, with no model or planner. [Current audit](../../research/2026-11-17-official-capability-audit.md) records retain/replace decisions and modern MCP prerequisites. Older dated diagrams below are historical, not the current default-provider map.
+
 2026-11-02：[OpenAI与Alice本地唤醒](openai-alice-wake.md)已在当前软件分支实现。浏览器PCM先到本机WakeListening，检测到Alice后才启动原VoiceService；OpenAI和Qwen共用规范化响应／工具生命周期，厂商格式独立。下文较早的Qwen与设备工作进程描述保留原范围，不能当成唯一AI选型。生产日／月费用硬限额和真人声学仍未验收。
 
 2026-10-31：[PR5兼容契约](pr5-integration.md)新增持久 Work、选定来源、产物、变化跟踪与显式保存会话。沿用当前任务、作业、权限、事实和真实应用执行器；普通 Omni RAM 会话与 retained-messages 保存会话有独立标识。旧 A1／假记录应用不覆盖当前主线。

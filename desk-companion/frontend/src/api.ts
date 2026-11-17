@@ -240,6 +240,15 @@ export function errorText(
 ) {
   const code = error instanceof ApiError ? error.code : "REQUEST_FAILED";
   const messages: Record<string, [string, string]> = {
+    EMAIL_REPLY_UNAVAILABLE: ["The original message does not provide a clear reply target. Select another message or prepare a new email.", "原邮件无法确定回复对象，请重新选择邮件，或另行准备新邮件。"],
+    EMAIL_REPLY_CHANGED: ["The reply target changed. Prepare the reply again so you can review its current recipient and subject.", "回复对象已变化，请重新准备草稿并核对收件人与主题。"],
+    MAIL_THREAD_INVALID: ["This email thread could not be read. Select the message again.", "无法读取这段邮件对话，请重新选择邮件。"],
+    MAIL_THREAD_TOO_LARGE: ["This thread is too large to follow here. Choose a shorter conversation.", "这段邮件对话超出了当前跟进范围，请选择较短的对话。"],
+    MAIL_FOLLOWUP_NOT_FOUND: ["This email follow-up is no longer available.", "这项邮件跟进已不可用。"],
+    MAIL_FOLLOWUP_CONSENT_REQUIRED: ["Allow background follow-up before starting this thread.", "请先允许后台跟进这段邮件对话。"],
+    MAIL_FOLLOWUP_CHANGED: ["A newer email update is available. Refresh before marking it reviewed.", "有更新的邮件进展，请刷新后再标记已查看。"],
+    MAIL_THREAD_ALREADY_FOLLOWED: ["This thread is already linked to another task.", "这段邮件对话已经关联到另一件事务。"],
+    MAIL_FOLLOWUP_LIMIT: ["The email follow-up limit has been reached.", "已达到当前邮件跟进上限。"],
     APP_SCOPE_REQUIRED: [
       "The app did not receive the required permissions. Reconnect and review the access requested.",
       "此应用未获得必要权限，请重新连接并核对访问范围。",

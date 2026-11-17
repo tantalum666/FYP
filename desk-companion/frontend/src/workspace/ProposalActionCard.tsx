@@ -2,6 +2,7 @@ import { DateTime } from "luxon";
 import type { Translate } from "../types";
 import type { Proposal, ProposalDecisionOptions } from "./assistantTypes";
 import { BrowserResearchReview } from "./BrowserResearchReview";
+import { MailFollowupReview } from "./MailFollowupReview";
 import { JourneyAdvice } from "./JourneyAdvice";
 import { isJourneyAdvice } from "./proposalDecision";
 
@@ -19,6 +20,16 @@ export function ProposalActionCard({
     options?: ProposalDecisionOptions,
   ) => void;
 }) {
+  if (p.kind === "mail_followup")
+    return (
+      <MailFollowupReview
+        key={p.id}
+        proposal={p}
+        t={t}
+        busy={busy}
+        onDecision={onDecision}
+      />
+    );
   if (p.kind === "browser_research")
     return (
       <BrowserResearchReview
@@ -61,7 +72,11 @@ export function ProposalActionCard({
       </span>
       {p.kind === "email_send" ? (
         <>
-          <h3>{t("Send email", "发送邮件")}</h3>
+          <h3>
+            {p.data.reply
+              ? t("Reply to this email", "回复这封邮件")
+              : t("Send email", "发送邮件")}
+          </h3>
           <p>
             {t("From: ", "发件人：")}
             {p.data.from}
@@ -316,7 +331,9 @@ export function ProposalActionCard({
           onClick={() => onDecision("confirm")}
         >
           {p.kind === "email_send"
-            ? t("Send email", "发送邮件")
+            ? p.data.reply
+              ? t("Send reply", "发送回复")
+              : t("Send email", "发送邮件")
             : journeyKind
               ? t("Save reviewed update", "保存核对结果")
               : t("Allow once", "允许这一次")}

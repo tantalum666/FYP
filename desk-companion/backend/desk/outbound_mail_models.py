@@ -48,3 +48,14 @@ class MailDraft(StrictModel):
             raise ValueError("Use a nonempty plain-text message")
         value.encode("utf-8")
         return value
+
+
+class MailReplyDraft(StrictModel):
+    provider: Literal["gmail", "outlook"]
+    message_id: str = Field(min_length=1, max_length=512)
+    body: str = Field(min_length=1, max_length=12000)
+
+    @field_validator("body")
+    @classmethod
+    def reply_body(cls, value):
+        return MailDraft.text_body(value)

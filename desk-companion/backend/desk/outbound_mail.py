@@ -8,7 +8,7 @@ from .calendar import iso
 from .gmail_api import GmailAPI, MailTransportError
 from .google_oauth import GoogleOAuth
 from .microsoft_apps import OutlookSender
-from .outbound_mail_models import MailDraft
+from .outbound_mail_models import MailDraft, MailReplyDraft
 from .store import DomainError
 
 
@@ -63,7 +63,7 @@ class OutboundMail:
                 self.store.bump(conn)
             return {**self.snapshot(provider), **result}
 
-    def draft(self, request, key):
+    def draft(self, request, key, *, reply=None):
         state = self.snapshot(request.provider)
         if not state["connected"]:
             return {
@@ -79,6 +79,8 @@ class OutboundMail:
                 "next_step": "Ask which connected email account to send from.",
             }
         provider = state.get("provider", "gmail")
+        if reply and reply["account_version"] != state["version"]:
+            raise DomainError("EMAIL_CONNECTION_CHANGED", 409)
         mail = request.model_dump()
         mail["provider"] = provider
         if mail["to"] == "me":
@@ -86,7 +88,8 @@ class OutboundMail:
         return {
             **self.runtime.assistant.propose(
                 "email_send",
-                {**mail, "from": state["email"], "account_version": state["version"]},
+                {**mail, "from": state["email"], "account_version": state["version"],
+                 **({"reply": reply} if reply else {})},
                 key,
             ),
             "sent": False,
@@ -120,6 +123,10 @@ class OutboundMail:
             ).model_dump()
             if draft["to"] == "me":
                 raise DomainError("EMAIL_DRAFT_INVALID", 422)
+            if payload.get("reply"):
+                from .email_replies import verify_reply
+
+                draft["reply"] = verify_reply(self.runtime, provider, payload["reply"], account, draft)
             # Refresh before reserving a possible send; auth failure cannot have sent mail.
             access_token = auth.access_token()
             message_id = (
@@ -185,6 +192,9 @@ class OutboundMail:
                 "message_id": message_id,
                 "provider_receipt_id": receipt.get("provider_id"),
                 "delivery_confirmed": False,
+                **({"reply_target_id": receipt["reply_target_id"],
+                    "thread_binding_confirmed": receipt.get("thread_binding_confirmed", False)}
+                   if receipt.get("reply_target_id") else {}),
             },
         )
 
@@ -215,5 +225,11 @@ def outbound_mail_routes(runtime, owner, operation_id):
     @router.post("/drafts")
     def draft(request: MailDraft, key=Depends(operation_id)):
         return runtime.outbound_mail.draft(request, key)
+
+    @router.post("/reply-drafts")
+    def reply_draft(request: MailReplyDraft, key=Depends(operation_id)):
+        from .email_replies import prepare_reply
+
+        return prepare_reply(runtime, request, key)
 
     return router

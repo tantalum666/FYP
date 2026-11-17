@@ -1,5 +1,7 @@
 # Group 2｜个人 Agent 研究总入口与实现对照
 
+**17 November selected-thread update:** [official reuse audit](2026-11-17-official-capability-audit.md) checks current Live/Responses, Agents, Automations and MCP against code. Keep the official harness; migrate the legacy text loop next. [Selected mail follow-up](../desk-companion/docs/mail-thread-followup.md) adds a deterministic metadata adapter, same-task updates and reviewed original-thread replies. Local provider/UI checks passed; no live mailbox subscription, new send, paid call or rollout occurred. Full-inbox ingestion and autonomous ongoing suggestions remain separate gaps.
+
 **17 November official-mainline update:** new browser drafts/current admission now default to official execution, with same-task registered owner sign-in and bounded stream recovery. The existing job ledger remains authoritative; no generic local takeover framework was added. Free protocol and desktop/phone journeys passed; live merchant/account/transaction acceptance remains distinct. [Contract](../desk-companion/docs/managed-browser.md), [QA](../output/qa/2026-11-17-official-mainline/verification.md).
 
 
@@ -100,8 +102,8 @@ Grok 审批变更见[当前原文](https://docs.x.ai/grok-bot/approvals-security
 | 用户可感受到的能力 | 已有基础／证据 | 当前缺口 |
 |---|---|---|
 | 交代一个目标后独立做多步工作 | `TaskService`、既有作业队列、应用阶段与依赖／结果；复杂文档任务由脚本实跑；2026-11-06 起普通文字、未见来源版式、已复核语音快照和语音复核页都可以把改口送进已有 Work，并在同一条对话显示一份已核验报告文件。2026-11-07 起同一条对话的状态提问会再次读出这一条已核验结果。明确的继续请求会把这一次运行离线推进一步；运行仍开着时，下一次明确请求再推进一步。已结束、已取消、已失败或已过期则不再开始 | 真实模型受控浏览器多步任务已实测；跨子任务全自主编排与复杂办公Work仍未验收。短 HTTP 循环仍不会在无人要求时连续做完。确定性运行结束后不会被悄悄重开。真实商家账号仍未验收，Gmail自测见顶部更新 |
-| 自动跟踪真实邮件并提出建议 | 事务、进展、规则检查、有限后台建议、记忆、通知入口；2026-11-03 离线样本已有游标、同一线程到同一事务、带来源的草稿和有意义通知 | Mac Gmail已于11月8日完成FYP原生自测发信与独立读回；16日核对到本机仍保存连接，未重新验证令牌有效性。真实邮箱增量同步、持续线程跟进和Outlook授权仍未完成。离线样本不能代替持续真实验收 |
-| 已有关联邮件变化后继续原任务 | 任务版本、去重、权限和旧结果恢复；离线后续回复／改期更新同一事务 | 已有明确选定事务字段的变化跟踪、合并提醒与来源产物；仍缺真实邮件持久收件 |
+| 自动跟踪真实邮件并提出建议 | 事务、进展、规则检查、有限后台建议、记忆、通知入口；2026-11-03 离线样本已有游标、同一线程到同一事务、带来源的草稿和有意义通知 | Mac Gmail已于11月8日完成FYP原生自测发信与独立读回；16日Mac/Pi新授权和真实GET通过。17日新增选定线程的有界元数据跟进、同一事务记录和原线程回复，本地协议/UI通过；真实持续验收、全邮箱增量同步和Outlook授权仍未完成 |
+| 已有关联邮件变化后继续原任务 | 任务版本、去重、权限和旧结果恢复；离线后续回复／改期更新同一事务 | 选定Gmail/Outlook线程可写入同一事务的来源记录并合并通知，不擅自修改进度/截止；本地协议/UI通过，真实账户的持续验收仍待 |
 | 一句话买常用纸巾 | 语音工具通道、任务状态、单次／持续软件权限、应用结果核验；离线购物夹具可把同一商品或订单记到同一事务和暂停的 Work，建议只作为待批准草稿 | 新通用浏览器可操作公开网站和保存状态；购物条件已由真实OpenAI在明确标注的演练页实跑；真实京东遇验证即停，没有真实商家账号、库存承诺、地址授权、支付或订单查询。见[离线购物契约](../desk-companion/docs/shopping-fixtures.md) |
 | 订机票 | 本地日历／任务与通用浏览器；演练页已实测日期、人数、行李、费用和跨日到达 | 没有航班搜索／票价规则／旅客资料授权、报价再核、预订／支付／出票状态和变更跟踪 |
 | 用户离开后持续工作并收到通知 | 服务运行时可持续检查；通知 UI／配置存在 | 可靠的常驻运行、邮箱事件入口及真实离线手机推送尚未交付；关闭页面、电脑休眠和云主机在线须分别说明 |

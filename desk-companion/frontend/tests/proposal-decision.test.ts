@@ -61,3 +61,24 @@ test("unknown future proposal kinds do not claim a calendar write", () => {
     /calendar/i,
   );
 });
+
+test("mail follow-up confirmation does not imply an email was sent", () => {
+  const notice = proposalDecisionNotice(
+    { kind: "mail_followup" },
+    "confirm",
+    undefined,
+    en,
+  );
+  assert.match(notice, /follow-up.*linked task/);
+  assert.doesNotMatch(notice, /sent|sending|delivered|completed/);
+});
+test("an accepted email receipt reports sending acceptance, never delivery", () => {
+  const notice = proposalDecisionNotice(
+    { kind: "email_send" },
+    "confirm",
+    undefined,
+    en,
+  );
+  assert.equal(notice, "Email accepted for sending.");
+  assert.doesNotMatch(notice, /delivered|expired|without making changes/);
+});

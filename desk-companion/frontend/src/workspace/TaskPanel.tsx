@@ -19,6 +19,7 @@ import { useDraftGuard } from "../components/DraftGuard";
 import { Modal } from "../components/Dialogs";
 import { useWorkspace } from "./WorkspaceContext";
 import { TaskJobs } from "./TaskJobs";
+import { MailFollowupsPanel } from "./MailFollowupsPanel";
 import { AssistantPanel } from "./AssistantPanel";
 import type { Task, TaskDetail, TaskInput, TaskList } from "./taskTypes";
 import "./tasks.css";
@@ -780,7 +781,7 @@ export function TaskPanel({
             {!openTask(task)
               ? t("Follow-ups ended", "跟进已结束")
               : !task.follow_up_enabled
-                ? t("Follow-ups off", "跟进未开启")
+                ? t("Task check-ins off", "事务定时检查未开启")
                 : task.paused
                   ? t("Follow-ups paused", "跟进已暂停")
                   : task.followup
@@ -980,6 +981,22 @@ export function TaskPanel({
             </div>
           )}
           {!displayMode && workspace.data?.principal.kind === "owner" && (
+            <MailFollowupsPanel
+              key={`mail-${task.id}`}
+              t={t}
+              taskId={task.id}
+              refreshToken={data?.revision}
+              visible={!!workspace.data.personal_context_visible}
+              fresh={!offline && !workspace.offline && !workspace.stale}
+              blocked={busy || !!note.trim()}
+              onDiscuss={() =>
+                onDiscuss
+                  ? onDiscuss(task.id, task.title)
+                  : setAssistant(task.id)
+              }
+            />
+          )}
+          {!displayMode && workspace.data?.principal.kind === "owner" && (
             <TaskJobs
               key={task.id}
               t={t}
@@ -1020,21 +1037,29 @@ export function TaskPanel({
                         : t("Saved update", "已保存更新")}
                 </small>
                 <p>
-                  {e.note ||
-                    ({
-                      created: t("Task created", "事务已创建"),
-                      complete: t("Marked complete", "标记为完成"),
-                      cancel: t("Task cancelled", "事务已取消"),
-                      reopen: t("Task reopened", "事务已恢复"),
-                      pause: t("Follow-ups paused", "跟进已暂停"),
-                      resume: t("Follow-ups resumed", "跟进已恢复"),
-                      restored: t("Restored from backup", "从备份恢复"),
-                      snooze: t("Check-in postponed", "检查已延后"),
-                      update: t("Task details updated", "事务详情已更新"),
-                      followup: t("Progress check ready", "已准备进展检查"),
-                    }[e.kind] ??
-                      taskStatus(e.kind, t))}
+                  {e.kind === "mail_update"
+                    ? t("New email update received", "收到新的邮件更新")
+                    : e.note ||
+                      ({
+                        created: t("Task created", "事务已创建"),
+                        complete: t("Marked complete", "标记为完成"),
+                        cancel: t("Task cancelled", "事务已取消"),
+                        reopen: t("Task reopened", "事务已恢复"),
+                        pause: t("Follow-ups paused", "跟进已暂停"),
+                        resume: t("Follow-ups resumed", "跟进已恢复"),
+                        restored: t("Restored from backup", "从备份恢复"),
+                        snooze: t("Check-in postponed", "检查已延后"),
+                        update: t("Task details updated", "事务详情已更新"),
+                        followup: t("Progress check ready", "已准备进展检查"),
+                      }[e.kind] ??
+                        taskStatus(e.kind, t))}
                 </p>
+                {e.kind === "mail_update" && (
+                  <details>
+                    <summary>{t("Source details", "来源详情")}</summary>
+                    <pre className="mail-followup-source">{e.note}</pre>
+                  </details>
+                )}
               </article>
             ))}
           </section>
@@ -1058,6 +1083,17 @@ export function TaskPanel({
             </button>
           </div>
           <WorkToolsEntry t={t} />
+          <MailFollowupsPanel
+            t={t}
+            refreshToken={data?.revision}
+            visible={
+              !displayMode &&
+              workspace.data?.principal.kind === "owner" &&
+              !!workspace.data.personal_context_visible
+            }
+            fresh={!offline && !workspace.offline && !workspace.stale}
+            onOpenTask={(id) => setSelected(id)}
+          />
           <div className="task-toolbar">
             <div
               className="task-filters"

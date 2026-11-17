@@ -12,7 +12,7 @@ from pydantic import Field, ValidationError
 from .jobs import JobInput, JobQuery
 from .application_models import ApplicationJobInput, ApplicationStateQuery, SourceQuery
 from .memory import MemoryDeleteDraft, MemoryQuery, MemoryReplaceDraft, MemorySaveDraft
-from .outbound_mail_models import MailDraft
+from .outbound_mail_models import MailDraft, MailReplyDraft
 from .app_connection_models import ConnectedAppQuery
 from .outputs import PRESETS
 from .schemas import CreateEvents, StrictModel
@@ -23,6 +23,7 @@ from .owner_lookup import OwnerClockArgs, OwnerSearch, PlateQuery
 from .owner_plan import ProposePlan
 from .weather import WeatherQuery
 from .browser_research import BrowserResearchDraft, BrowserResearchQuery
+from .mail_followup_models import MailFollowupDraft, MailFollowupQuery, MailFollowupStop
 
 
 Risk = Literal["read", "draft", "cancel", "stop"]
@@ -62,6 +63,10 @@ class Capability:
 
 def _capabilities() -> dict[str, Capability]:
     rows = [
+        Capability("email_reply_draft", "draft", MailReplyDraft, timeout=20),
+        Capability("mail_followup_draft", "draft", MailFollowupDraft, timeout=20),
+        Capability("mail_followup_status", "read", MailFollowupQuery),
+        Capability("mail_followup_stop", "stop", MailFollowupStop),
         Capability("browser_research_draft", "draft", BrowserResearchDraft),
         Capability("browser_research_status", "read", BrowserResearchQuery, timeout=15),
         Capability("weather_query", "read", WeatherQuery, timeout=8),

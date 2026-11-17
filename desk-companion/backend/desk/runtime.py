@@ -17,6 +17,7 @@ from .wake_listening import WakeListening
 from .exchange import ExchangeService
 from .google_calendar import GoogleCalendar
 from .mailbox import MailboxService
+from .mail_followups import MailFollowups
 from .outbound_mail import OutboundMail
 from .microsoft_apps import MicrosoftApps
 from .offline_calendar import OfflineCalendarService
@@ -134,6 +135,7 @@ class Runtime:
         self.trips = TravelQuoteService(self)
         self.store.operation_guard = self.agent_runs.guard_operation
         self.mailbox = MailboxService(self)
+        self.mail_followups = MailFollowups(self)
         self.purchase_cards = PurchaseCardService(self)
         self.posture.on_prompt = self.on_posture_prompt
 

@@ -1,6 +1,8 @@
 # Group 2 · Reuse the official execution layer
 
-## 17 November clarification: Live is active, managed execution is not the default
+**17November current correction:**8c67ddbe now defaults browser work to official Agents and is deployed across endpoints. The [fresh capability reuse audit](2026-11-17-official-capability-audit.md) identifies official Automations/modern MCP and the remaining legacy text-loop gap. Dated observations below are preserved as historical evidence.
+
+## Historical17November pre-mainline clarification: managed execution was not yet default
 
 Fresh normal Mac status is openai_live/gpt-live-1, local browser enabled, managed-browser flag off. Current Live uses Responses delegation with custom FYP functions; the local browser loop uses the official computer model tool. The hosted Agents adapter exists separately. PR #126's conversation review/result bridge does not itself switch the default execution path. [Current evidence](../output/qa/2026-11-17-live-architecture/verification.md).
 
@@ -28,4 +30,4 @@ FYP's own API key could list the Agents endpoint (HTTP200). The owner then autho
 
 Elapsed51.731seconds. The session was deleted and GET returned404. No second cancellation experiment fit the cap. Usage snapshots were null; no precise spend or zero-cost claim is justified. The complete USD1 reservation stays held and the round is closed. Container and model charges are separate dimensions in the official pricing; wall time alone is not a billing receipt. [Pricing](https://developers.openai.com/api/docs/pricing).
 
-The subsequent FYP integration reuses this actual wire shape but has offline lifecycle/UI acceptance only. It remains opt-in and disabled on ordinary runtimes. This does not establish voice-to-shopping autonomy, owner account takeover, paid order execution, ticket issuance or long-running inbox tracking. [Implementation](../desk-companion/docs/managed-browser.md), [QA](../output/qa/2026-11-16-agent-runtime/verification.md).
+At that16November checkpoint, the subsequent FYP integration reused this wire shape with offline lifecycle/UI acceptance and remained opt-in/off. The later17November8c67ddbe rollout supersedes that default/off status. This does not establish voice-to-shopping autonomy, owner account takeover, paid order execution, ticket issuance or long-running inbox tracking. [Implementation](../desk-companion/docs/managed-browser.md), [QA](../output/qa/2026-11-16-agent-runtime/verification.md).
