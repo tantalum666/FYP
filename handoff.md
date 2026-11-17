@@ -1,6 +1,6 @@
 # Group 2 · Current handoff
 
-18 November 2026, Hong Kong. Resume in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`. The deployment record is on `codex/three-end-rollout-20261118`. Follow [AGENTS](AGENTS.md) and the current [product contract](product.md).
+18 November 2026, Hong Kong. Resume in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`. [PR 131](https://github.com/tantalum666/FYP/pull/131) records this deployment on `codex/three-end-rollout-20261118`. Follow [AGENTS](AGENTS.md) and the current [product contract](product.md).
 
 ## Running release
 

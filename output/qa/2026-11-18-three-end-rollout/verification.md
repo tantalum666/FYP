@@ -1,6 +1,6 @@
 # Group 2 · Web, iOS Simulator and Raspberry Pi release
 
-On 18 November 2026 (Hong Kong), the normal Mac Web service, the installed iPhone 17 Pro Simulator app and the Raspberry Pi kiosk all served `c607759e420fce8a0701474f9ceecf782ce85b35`. The owner selected the Simulator for mobile acceptance and deferred the physical iPhone. [Release readback](release-readback.json) · [GitHub readback](github.json).
+On 18 November 2026 (Hong Kong), the normal Mac Web service, the installed iPhone 17 Pro Simulator app and the Raspberry Pi kiosk all served `c607759e420fce8a0701474f9ceecf782ce85b35`. The owner selected the Simulator for mobile acceptance and deferred the physical iPhone. [Deployment record on GitHub](https://github.com/tantalum666/FYP/pull/131). [Release readback](release-readback.json) · [GitHub readback](github.json).
 
 ## Release and endpoints
 
