@@ -1,6 +1,6 @@
 # Group 2 · Personal agent delivery status
 
-Checked 18 November 2026 (Hong Kong). This separates source capability, actual acceptance and installed release. [Research](../../research/personal-agent-research-index.md), [current QA](../../output/qa/2026-11-17-proactive-agent-merge/verification.md).
+Checked 18 November 2026 (Hong Kong). [Research](../../research/personal-agent-research-index.md) · [integration QA](../../output/qa/2026-11-17-proactive-agent-merge/verification.md) · [three-endpoint deployment](../../output/qa/2026-11-18-three-end-rollout/verification.md).
 
 ## Current source and runtime
 
@@ -12,9 +12,9 @@ The 17 November official-mainline branch now defaults conversational/current-bro
 
 Latest16November slice: shared weather_query, voice presentation/buffering, proactive task cues and browser-local posture capture are implemented with actual HKO, local-model, physical Mac input and UI evidence. [Daily-presence contract](daily-presence.md) / [QA](../../output/qa/2026-11-16-alice-daily-presence/verification.md). Complete A3 weather speech and long-running posture accuracy remain unaccepted; activation receipts must be checked before attributing these changes to an endpoint.
 
-PR123 merged as 7d7ab9fa. Mac and native Simulator now run8c67ddbe with verified bundle/index/backend parity, original data/grants/A3 retained. Pi was subsequently activated/read back at8c67ddbe, including a later boot, with data/A3/grants retained. All three have the same application source; Pi availability remains intermittent under the separately tracked wake/power issue.
+The 18 November rollout replaced `8c67ddbe` with `c607759e` on Mac Web, the iPhone 17 Pro Simulator and the Raspberry Pi. The installed native bundle matches the Web frontend and uses its saved Mac backend. The Pi autostart entry selects this release, and a capture from its own compositor shows Alice connected. A3 version 9 is preserved. The physical iPhone was deferred and the Pi power investigation remains paused. [Release readback](../../output/qa/2026-11-18-three-end-rollout/verification.md).
 
-Mac Gmail and Calendar authorization were renewed by the owner; Pi subsequently received separate consent. All four grants passed real provider GETs. Microsoft personal-account login stopped at human verification, so no FYP app registration or Graph grant is claimed. Codex plugin access is a separate grant.
+On 18 November the existing Mac and Pi grants independently returned HTTP 200 for the Gmail profile and primary Calendar. Each Gmail identity matched its own stored account. Microsoft 365, Teams and SharePoint remain unconfigured and disconnected on both servers. The previous Microsoft registration stopped at human verification.
 
 ## Delivery map
 
@@ -38,4 +38,4 @@ Live already supports Responses delegation. Official Agents supplies a managed C
 
 The current browser-job form is owner-admitted. The ordinary `computer_job_draft` text/voice tool still prepares bounded note operations; it does not automatically admit the new managed browser. The text loop's three-step/45-second limit and explicit Work continuation remain. The new browser_research_draft/status pair supplies that missing review/result bridge, with explicit owner cloud consent and same-job retry recovery. Live speech/model behavior still needs separately authorized acceptance.
 
-Next release step: promote the reviewed main tree to the normal Mac/native/Pi endpoints and verify version/data/A3/account parity, without reopening Pi power diagnosis. Next orchestration slice: migrate the OpenAI primary text entry to the official session/function execution path, preserving the current business tools and owner decisions. Use official Automations for future scheduled agent work. Public hosted-browser live acceptance is recorded above; merchant/account transactions remain separate gates. The current bounded test batch is closed; the roadmap alone grants no new send, purchase or unattended paid operation.
+The next software task is to migrate ordinary OpenAI text requests to official sessions/functions while preserving the current tools, owner decisions and conversation recovery. Future scheduled agent reasoning belongs on official Automations. The normal services retain their existing background model setting (off). The previous live-test budget is closed.
