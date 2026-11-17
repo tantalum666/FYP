@@ -1,0 +1,152 @@
+{
+  "deployment": {
+    "activated": true,
+    "build_info": {
+      "source_revision": "8c67ddbe1559eea975aa355bef970a8e98a9edcc",
+      "frontend_index_sha256": "430d996ab8ec3a0fd629248cff3580a596c4263e8ca812a18a8fb635a8521cb8",
+      "release": "20261117-8c67ddbe"
+    },
+    "tables_before": 123,
+    "tables_after": 123,
+    "backup_verified": true,
+    "A3_unchanged": true,
+    "voice_version": 9,
+    "protected_files_unchanged": true,
+    "app_accounts_unchanged": true,
+    "managed_default": true,
+    "paid_calls": 0,
+    "pid": "2715"
+  },
+  "wake_before": {
+    "timer": "disabled",
+    "service": "static",
+    "alarm_empty": true,
+    "enable_marker": false
+  },
+  "wake_after": {
+    "boot_id": "877e6b09-8abb-4128-a208-09861d688ad7",
+    "rtc_now": 1794908683,
+    "alarm": 1794908863,
+    "lead_seconds": 180,
+    "cpu_max_khz": "2400000",
+    "timer_enabled": "enabled",
+    "timer_active": "active",
+    "service_enabled": "enabled"
+  },
+  "renewal": {
+    "same_boot": true,
+    "alarm_advanced_seconds": 91,
+    "lead_seconds": 167
+  },
+  "controlled_poweroff_trial": "remote return observed, autonomous attribution unaccepted",
+  "firmware_changed": false,
+  "paid_calls": 0,
+  "ci": false,
+  "wake_observation": {
+    "original_boot": "877e6b09-8abb-4128-a208-09861d688ad7",
+    "last": {
+      "elapsed_seconds": 289.1,
+      "at": "2026-11-17T09:55:02.218465+00:00",
+      "boot_id": "544b6c1b-af9f-4b10-880e-6bdba4a9d66b",
+      "uptime": 58.94,
+      "rtc_now": 1794909307,
+      "alarm": "1794909464",
+      "cpu_max": "2400000",
+      "timer_active": "active",
+      "timer_enabled": "enabled",
+      "build": {
+        "source_revision": "8c67ddbe1559eea975aa355bef970a8e98a9edcc",
+        "frontend_index_sha256": "430d996ab8ec3a0fd629248cff3580a596c4263e8ca812a18a8fb635a8521cb8",
+        "release": "20261117-8c67ddbe"
+      },
+      "ssh": true
+    },
+    "samples": 31,
+    "elapsed_seconds": 294.0,
+    "remote_return_observed_after_trial": true,
+    "owner_intervention": "owner unsure whether button/power was used during 17:49-17:55",
+    "autonomous_recovery_accepted": false
+  },
+  "early_units": {
+    "prepared": true,
+    "installed": true,
+    "linux_paired_graph_valid": true,
+    "old_timer_cycle_reproduced": true,
+    "local_tests": {
+      "passed": 11,
+      "linux_only_skipped_on_mac": 2
+    },
+    "retry_policy": "retry transport only; stop semantic/validation failures",
+    "receipt": {
+      "installed": true,
+      "hashes": {
+        "desk-auto-wake.service": "b0f2e75434496c75d117d87b2655e0cbc1a54bf4146eda7ce399a56cb8a701bc",
+        "desk-auto-wake.timer": "b28b19df326fe70c564af520cede44d59cd36a6246e0ca309a841e83f17d2b7a"
+      },
+      "boot_id": "37b6246c-494d-4195-be4f-d2dc2c12bce5",
+      "uptime": "193.88",
+      "rtc_now": 1794910933,
+      "alarm": 1794911113,
+      "lead_seconds": 180,
+      "unit_state": "Id=desk-auto-wake.service\nBefore=sysinit.target lightdm.service shutdown.target user@1000.service\nAfter=desk-auto-wake.timer systemd-remount-fs.service systemd-journald.socket local-fs.target system.slice\nActiveState=inactive\nUnitFileState=enabled\nDefaultDependencies=no\n\nId=desk-auto-wake.timer\nBefore=sysinit.target shutdown.target desk-auto-wake.service timers.target\nAfter=systemd-remount-fs.service local-fs.target\nActiveState=active\nUnitFileState=enabled\nDefaultDependencies=no\n",
+      "cpu_max_khz": "2400000",
+      "verify_stderr": "",
+      "next_boot_timing_verified": false
+    },
+    "next_boot_timing_verified": true
+  },
+  "second_trial": {
+    "owner_committed_no_intervention": true,
+    "scheduled": true,
+    "start": {
+      "boot_id": "f8897c63-3f19-4e6d-9c6e-45aa07076f62",
+      "before_utc": "2026-11-17T10:27:39.145043+00:00",
+      "uptime": "179.72",
+      "alarm": {
+        "enabled": true,
+        "rtc_now": 1794911259,
+        "wake_at": 1794911349
+      },
+      "timer_enabled_after_boot": true,
+      "source_revision": "8c67ddbe1559eea975aa355bef970a8e98a9edcc",
+      "cpu_max_khz": "2400000",
+      "active_jobs": 0,
+      "voice_active": false,
+      "trial": "normal poweroff, RTC wake, no firmware changes"
+    },
+    "result": "delayed autonomous recovery observed after initial window",
+    "bounded_observer": {
+      "automatic_return_observed": false,
+      "original_boot": "f8897c63-3f19-4e6d-9c6e-45aa07076f62",
+      "last": {
+        "elapsed_seconds": 215.0,
+        "at": "2026-11-17T10:31:14.491227+00:00",
+        "ssh": false,
+        "error": "stdio forwarding failed\nConnection closed by UNKNOWN port 65535"
+      },
+      "samples": 23,
+      "elapsed_seconds": 224.6,
+      "manual_intervention_reported": false
+    }
+  },
+  "late_recovery": {
+    "source_revision": "8c67ddbe1559eea975aa355bef970a8e98a9edcc",
+    "last_verified_utc": "2026-11-17T10:40:15.508009+00:00",
+    "boot_id": "738c3f6a-0820-4768-a2d0-5ea3cf54d4b9",
+    "cpu_max_khz": "2400000",
+    "timer_active": true,
+    "timer_enabled": true,
+    "paired_unit_hashes_match": true,
+    "early_alarm_finished_uptime_seconds": 4.680354,
+    "sysinit_reached_uptime_seconds": 6.453865,
+    "early_order_verified": true,
+    "current_boot_start_utc_from_uptime": "2026-11-17T10:36:28.268009+00:00",
+    "alarm_lead_seconds": 172,
+    "owner_report": "device later started by itself",
+    "delayed_autonomous_return_observed": true,
+    "within_220_second_test_window": false,
+    "stable_recovery_accepted": false,
+    "clock_caution": "journal boot wall-clock labels can shift before network time synchronization; use boot IDs and monotonic order"
+  },
+  "active_observers_at_closeout": 0
+}

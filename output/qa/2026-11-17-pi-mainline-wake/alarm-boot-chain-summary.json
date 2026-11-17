@@ -1,0 +1,78 @@
+{
+  "f8897c633f194e6d9c6e45aa07076f62": {
+    "first": {
+      "enabled": true,
+      "rtc_now": 1794911237,
+      "wake_at": 1794911417,
+      "boot_id": "f8897c633f194e6d9c6e45aa07076f62",
+      "uptime_seconds": 158.511526,
+      "wake_at_utc": "2026-11-17T10:30:17+00:00"
+    },
+    "last": {
+      "enabled": true,
+      "rtc_now": 1794911237,
+      "wake_at": 1794911417,
+      "boot_id": "f8897c633f194e6d9c6e45aa07076f62",
+      "uptime_seconds": 158.511526,
+      "wake_at_utc": "2026-11-17T10:30:17+00:00"
+    },
+    "renewals": 1
+  },
+  "39139381cefd4a2a8ca38005e801c345": {
+    "first": {
+      "enabled": true,
+      "rtc_now": 1794911281,
+      "wake_at": 1794911461,
+      "boot_id": "39139381cefd4a2a8ca38005e801c345",
+      "uptime_seconds": 4.179403,
+      "wake_at_utc": "2026-11-17T10:31:01+00:00"
+    },
+    "last": {
+      "enabled": true,
+      "rtc_now": 1794911281,
+      "wake_at": 1794911461,
+      "boot_id": "39139381cefd4a2a8ca38005e801c345",
+      "uptime_seconds": 4.179403,
+      "wake_at_utc": "2026-11-17T10:31:01+00:00"
+    },
+    "renewals": 1
+  },
+  "2520e1ee63ed4b98b9b5ac0ec07f74c4": {
+    "first": {
+      "enabled": true,
+      "rtc_now": 1794911475,
+      "wake_at": 1794911655,
+      "boot_id": "2520e1ee63ed4b98b9b5ac0ec07f74c4",
+      "uptime_seconds": 4.251775,
+      "wake_at_utc": "2026-11-17T10:34:15+00:00"
+    },
+    "last": {
+      "enabled": true,
+      "rtc_now": 1794911598,
+      "wake_at": 1794911778,
+      "boot_id": "2520e1ee63ed4b98b9b5ac0ec07f74c4",
+      "uptime_seconds": 126.728928,
+      "wake_at_utc": "2026-11-17T10:36:18+00:00"
+    },
+    "renewals": 5
+  },
+  "738c3f6a08204768a2d05ea3cf54d4b9": {
+    "first": {
+      "enabled": true,
+      "rtc_now": 1794911793,
+      "wake_at": 1794911973,
+      "boot_id": "738c3f6a08204768a2d05ea3cf54d4b9",
+      "uptime_seconds": 4.657689,
+      "wake_at_utc": "2026-11-17T10:39:33+00:00"
+    },
+    "last": {
+      "enabled": true,
+      "rtc_now": 1794912007,
+      "wake_at": 1794912187,
+      "boot_id": "738c3f6a08204768a2d05ea3cf54d4b9",
+      "uptime_seconds": 219.478277,
+      "wake_at_utc": "2026-11-17T10:43:07+00:00"
+    },
+    "renewals": 8
+  }
+}
