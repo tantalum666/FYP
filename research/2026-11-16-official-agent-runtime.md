@@ -1,5 +1,11 @@
 # Group 2 · Reuse the official execution layer
 
+## 17 November clarification: Live is active, managed execution is not the default
+
+Fresh normal Mac status is openai_live/gpt-live-1, local browser enabled, managed-browser flag off. Current Live uses Responses delegation with custom FYP functions; the local browser loop uses the official computer model tool. The hosted Agents adapter exists separately. PR #126's conversation review/result bridge does not itself switch the default execution path. [Current evidence](../output/qa/2026-11-17-live-architecture/verification.md).
+
+Preserve the previously agreed official-first direction: reuse Live's supported Responses/hosted tools and the official Agents session/browser/authentication/continuation mechanisms before expanding generic local orchestration. FYP retains product UX, local hardware, business state, account/permission binding and outcome verification. Existing local executors remain useful for actual local/Pi operations. Official browser-authentication UI protocols currently exclude passkeys and QR sign-in, so merchant coverage must be tested rather than assumed. This is a next-step clarification, not a paid-run or deployment approval.
+
 16 November2026. Owner asked whether GPT Live makes it unnecessary to construct computer-use infrastructure ourselves, and whether the app can use Codex-like execution directly.
 
 ## Verified distinction
