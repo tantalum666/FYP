@@ -36,6 +36,8 @@ class OwnerGrant:
     task_id: str | None
     proposal_sequence: int
     job_sequence: int
+    full: bool = True
+    proactivity_version: int | None = None
 
 
 class PermissionService:
@@ -84,11 +86,14 @@ class PermissionService:
             return None
         with self.store.connection() as conn:
             current = self.snapshot(conn)
-            if current["mode"] != "full":
+            prefs = self.runtime.data.preferences()
+            if current["mode"] != "full" and prefs["proactivity"] == "off":
                 return None
             proposal_sequence = conn.execute("SELECT COALESCE(MAX(rowid),0) FROM assistant_proposals").fetchone()[0]
             job_sequence = conn.execute("SELECT COALESCE(MAX(rowid),0) FROM computer_jobs").fetchone()[0]
-        return OwnerGrant(current["version"], session, task_id, proposal_sequence, job_sequence)
+        return OwnerGrant(current["version"], session, task_id, proposal_sequence, job_sequence,
+                          current["mode"] == "full",
+                          prefs["version"] if prefs["proactivity"] != "off" else None)
 
     def current(self, version, conn=None):
         policy = self.snapshot(conn)
@@ -109,13 +114,29 @@ class PermissionService:
         if grant is None:
             return reply
         with self.lock:
-            if cancelled() or not self.current(grant.version) or not self.store.session_valid(grant.session):
+            if cancelled() or self.snapshot()["version"] != grant.version or not self.store.session_valid(grant.session):
                 return reply
             proposal_id = (reply.get("proposal") or {}).get("id")
             job_id = (reply.get("job") or {}).get("id")
             if not proposal_id and not job_id:
                 return reply
             try:
+                if proposal_id and grant.proactivity_version is not None:
+                    with self.store.connection() as conn:
+                        p = conn.execute("SELECT rowid AS sequence,kind,data FROM assistant_proposals WHERE id=?", (proposal_id,)).fetchone()
+                    if p and p["kind"] == "mail_followup":
+                        if p["sequence"] <= grant.proposal_sequence:
+                            return self.refresh_reply(reply, language=language)
+                        if grant.task_id and json.loads(p["data"])["mail_followup"]["request"]["task_id"] != grant.task_id:
+                            return reply
+                        if cancelled():
+                            return reply
+                        self.runtime.assistant.decide(proposal_id, "confirm", "proactivity/" + proposal_id,
+                            principal={"kind": "owner", "session": grant.session},
+                            automatic_follow_version=grant.proactivity_version)
+                        return self.refresh_reply({**reply, "authorization": {"mode": "proactive", "version": grant.proactivity_version}}, language=language)
+                if not grant.full or not self.current(grant.version):
+                    return reply
                 if proposal_id:
                     with self.store.connection() as conn:
                         proposal = conn.execute(

@@ -1,0 +1,14 @@
+# Group 2 · Proactive assistance and PR integration
+
+17 November 2026. Owner requests automatic contextual observation/reminders without repeated per-item approvals, requires official OpenAI capability checks as routine, and authorizes review/fix/merge of open FYP PRs. Pi power work remains paused. Screenshot illustrates desired proactive behavior; it is not authorization to inspect or modify the unrelated accounts/projects shown.
+
+Read current AGENTS/handoff/product priority and relevant latest decisions; refreshed research-index mechanism/current-gap sections against the prior full read. Read official-reuse audit, mail contract, current Runtime/permissions/tool dispatch, task/check-in/notification, data preferences, guarded Responses and current provider readers. Long responsibility/routine docs were inspected for applicable current event/authority sections; no claim that truncated tool output was a full read.
+
+Fresh primary sources: Dot tasks-and-memory/controls/getting-started full prose; official Agents functions/Automations prose (duplicated language examples omitted); Muse design/safety and Grok initiative/routines current public descriptions. Applied OpenAI Developers agents and OpenAI product documentation guidance; existing explicitly authorized FYP key choice persists. No key values printed or new key created.
+
+Adoption gate before implementation: contextual read-only research uses the existing official OpenAI Responses structured-output call, without AgentLoop or tool execution. One bounded analysis of changed evidence does not need a second agent harness. Multi-step execution stays in official Agents, and intentional scheduled agent work uses official Automations. Source freshness/dirty signals, scoped consent, relevance/deduplication, citations and delivery are product glue. Reuse existing worker, provider readers, store, task and notification services; no new queue, cron parser, SDK installation or account store. The old normal-text AgentLoop migration remains distinct.
+
+Current open PRs:124,125,126,127,128. Pin/review source before mutation.125 is documents/geometry/print assets: static validation only, no hardware experiment. All validation local, no CI, no real send/order or paid call. Important progress must be published, verified and merged per the new explicit request.
+
+
+Latest owner steering explicitly authorizes broader API tests before24November2026 with168.42USD credit shown. Engineering cap for this batch5USD; reuse dedicated authorized FYP key/proxy without reasking or exposing values. Old closed ledgers stay closed. New Responses ledgers and one planned hosted-browser pool are private and bounded. Actual native strict-schema tests revealed the legacy5s read timeout; HTTP/token-count access succeeded, generation ReadTimeout left two conservative holds. Applied API-troubleshooting guidance and corrected purpose-specific OpenAI read windows. Fresh live results and total usage are pending.

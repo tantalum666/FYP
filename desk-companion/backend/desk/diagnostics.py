@@ -7,7 +7,7 @@ from .calendar import iso
 
 # Same ceiling as TextAssistant.enrich_one: follow-up rows from this UTC date.
 FOLLOWUP_DAILY_CAP = 20
-_PROVIDERS = {"none", "qwen", "gemini"}
+_PROVIDERS = {"none", "qwen", "gemini", "openai"}
 _HEALTH = {"idle", "ready", "retrying_after_error"}
 
 

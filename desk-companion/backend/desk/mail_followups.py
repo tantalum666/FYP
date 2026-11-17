@@ -139,10 +139,11 @@ class MailFollowups:
             raise DomainError("MAIL_FOLLOWUP_NOT_FOUND", 404)
         return row
 
-    def start(self, payload, key, principal, allowed):
-        if allowed is not True:
+    def start(self, payload, key, principal, allowed, *, automatic_version=None):
+        automatic = automatic_version is not None
+        if allowed is not True and not automatic:
             raise DomainError("MAIL_FOLLOWUP_CONSENT_REQUIRED", 422)
-        definition = payload["mail_followup"]
+        definition = {**payload["mail_followup"], "automatic": automatic}
         self.runtime.personal_context.require_visible(principal)
         self._account(definition)
         request = MailFollowupDraft.model_validate(definition["request"])
@@ -152,6 +153,10 @@ class MailFollowups:
 
         def apply(conn):
             self.runtime.personal_context.require_owner_transaction(conn, principal)
+            if automatic:
+                prefs = self.runtime.data.preferences()
+                if prefs["proactivity"] == "off" or prefs["version"] != automatic_version:
+                    raise DomainError("PERMISSION_CHANGED", 409)
             self._account(definition)
             old = conn.execute(
                 "SELECT * FROM mail_followups WHERE scope_hash=? AND state IN ('active','blocked')",
@@ -241,6 +246,8 @@ class MailFollowups:
         if not hidden:
             definition = json.loads(row["definition"])
             result.update(
+                automatic=bool(definition.get("automatic")),
+                expires_at=None if definition.get("automatic") else row["expires_at"],
                 provider=definition["provider"],
                 account_email=definition["account_email"],
                 subject=definition["selected"]["subject"],
@@ -286,10 +293,7 @@ class MailFollowups:
         }
 
     def _dismiss(self, conn, notice_id):
-        if notice_id:
-            conn.execute("UPDATE notice_inbox SET state='dismissed' WHERE id=?", (notice_id,))
-            conn.execute("DELETE FROM browser_notices WHERE id=?", (notice_id,))
-            conn.execute("DELETE FROM device_notices WHERE id=?", (notice_id,))
+        self.runtime.notify.dismiss_pending(conn, notice_id)
 
     def _end(self, conn, row, state, error=None):
         self._dismiss(conn, row["notice_id"])
@@ -404,8 +408,14 @@ class MailFollowups:
             return
         try:
             self._visible()
+            if self.runtime.data.preferences()["proactivity"] == "off":
+                return
             now = self.store.clock()
             with self.store.connection(write=True) as conn:
+                # Standing read-only assistance follows the open task's lifetime.
+                # Legacy explicitly scoped grants retain their original expiry.
+                conn.execute("UPDATE mail_followups SET expires_at=? WHERE state='active' AND json_extract(definition,'$.automatic')=1 AND expires_at<?",
+                    (iso(now + LIFETIME), iso(now + timedelta(days=1))))
                 for row in conn.execute(
                     "SELECT m.* FROM mail_followups m LEFT JOIN tasks t ON t.id=m.task_id WHERE m.state IN ('active','blocked') AND (m.expires_at<=? OR t.id IS NULL OR t.status NOT IN ('todo','in_progress','waiting'))",
                     (iso(now),),

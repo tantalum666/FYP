@@ -42,6 +42,7 @@ from .phone import phone_snapshot
 from .tasks import task_routes
 from .jobs import job_routes
 from .mail_followup_routes import mail_followup_routes
+from .initiative import initiative_routes
 from .personal_context import personal_routes
 from .routines import routine_routes
 from .sources import sources_routes
@@ -115,7 +116,7 @@ def create_app(
         ("rules", lambda: services.tick(), 1),
         ("public_data", lambda: services.data.poll_weather(), 10),
         ("mail_sources", lambda: services.mail_followups.poll_source_once(), 15),
-        ("task_advice", lambda: services.text_ai.enrich_one(), 30),
+        ("initiative", lambda: services.initiative.advance(), 15),
         ("computer_jobs", lambda: services.jobs.run_one(), 0.5),
         ("responsibilities", lambda: services.responsibilities.advance(), 1),
         ("agent_runs", lambda: services.agent_runs.advance_one(), 0.5),
@@ -158,6 +159,7 @@ def create_app(
                 services.connectors.shutdown,
                 services.jobs.shutdown,
                 services.mail_followups.shutdown,
+                services.initiative.shutdown,
             ):
                 try:
                     stop()
@@ -537,6 +539,7 @@ def create_app(
     app.include_router(task_routes(services, authenticated, operation_id))
     app.include_router(job_routes(services, owner, operation_id))
     app.include_router(mail_followup_routes(services, owner, operation_id))
+    app.include_router(initiative_routes(services, owner, operation_id))
     app.include_router(permission_routes(services, owner, operation_id))
     app.include_router(memory_routes(services, owner, operation_id))
     app.include_router(memory_followup_routes(services, owner, operation_id))

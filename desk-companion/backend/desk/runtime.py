@@ -10,6 +10,7 @@ from .outputs import OutputRequest, OutputService
 from .posture_service import PostureService
 from .posture_browser import BrowserPosture
 from .daily_checkin import current_checkin
+from .initiative import Initiative
 from .store import DomainError
 from .workspace_data import WorkspaceData
 from .voice import VoiceService
@@ -136,6 +137,7 @@ class Runtime:
         self.store.operation_guard = self.agent_runs.guard_operation
         self.mailbox = MailboxService(self)
         self.mail_followups = MailFollowups(self)
+        self.initiative = Initiative(self)
         self.purchase_cards = PurchaseCardService(self)
         self.posture.on_prompt = self.on_posture_prompt
 
@@ -173,7 +175,8 @@ class Runtime:
         if principal["kind"] == "owner":
             result["pairing"] = self.access.listing()
             result["permissions"] = self.permissions.snapshot()
-        result["check_in"] = current_checkin(self, principal, result["tasks"], result["posture"])
+            result["initiative"] = self.initiative.snapshot()
+        result["check_in"] = current_checkin(self, principal, result["tasks"], result["posture"], result.get("initiative"))
         return result
 
     def device_status(self):

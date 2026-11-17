@@ -237,8 +237,8 @@ export function ExtrasPanel({ t }: { t: Translate }) {
         </label>
         <p className="workspace-hint">
           {t(
-            "Saved only when you press Save. Chat does not change these. Off stops morning and evening check-ins. Low keeps the morning briefing and skips the evening check-in. Task follow-ups keep their own switch.",
-            "只有按下保存才会写入。对话不会擅自修改。关闭会停掉早晨和晚间检查。较少保留早晨简报并跳过晚间检查。事务跟进仍用各自的开关。",
+            "Alice can connect new information to your tasks and suggest what needs attention. Low shows only important findings; Off pauses proactive research and email follow-up. Sending and purchases keep their separate controls.",
+            "Alice 会联系新信息与手头的事，主动提醒值得关注的变化。较少只提示重要发现；关闭会暂停主动分析和邮件跟进。发信与购买仍单独控制。",
           )}
         </p>
       </section>

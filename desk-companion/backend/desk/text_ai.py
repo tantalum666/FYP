@@ -22,6 +22,7 @@ from .agent_loop import AgentLoop
 from .capabilities import TEXT_TOOL_NAMES
 from .bounded_json import (
     TEXT_NETWORK_TIMEOUT,
+    TEXT_RESPONSE_DEADLINE,
     TEXT_RESPONSE_BYTES as TEXT_RESPONSE_BYTES,
     bounded_json_post as bounded_json_post,
     TextDispatchRefused,
@@ -200,6 +201,10 @@ class TextAssistant:
         usage_id = uuid4().hex
         now = iso(self.store.clock())
         with self.store.connection(write=True) as conn:
+            if purpose == "initiative" and conn.execute(
+                "SELECT COUNT(*) FROM text_ai_usage WHERE purpose='initiative' AND at>=?", (now[:10],)
+            ).fetchone()[0] >= 8:
+                raise DomainError("TEXT_AI_CAP", 429)
             if (
                 purpose in {"conversation", "computer_use"}
                 and conn.execute(
@@ -262,7 +267,11 @@ class TextAssistant:
         usage_id = self._reserve_usage(purpose)
         try:
             with httpx.Client(
-                timeout=TEXT_NETWORK_TIMEOUT,
+                # A complete reasoning response may be silent for more than
+                # five seconds before headers. Keep connection/write limits
+                # short, but let OpenAI finish within the existing body deadline.
+                timeout=httpx.Timeout(TEXT_NETWORK_TIMEOUT, read=TEXT_RESPONSE_DEADLINE if purpose == "initiative" else 15.0)
+                if self.config.provider == "openai" else TEXT_NETWORK_TIMEOUT,
                 transport=self.transport,
                 follow_redirects=False,
                 trust_env=False,
@@ -280,6 +289,7 @@ class TextAssistant:
                     prompt,
                     content,
                     **({"attachment_parts": attachment_parts} if attachment_parts else {}),
+                    **({"response_schema": schema.model_json_schema()} if purpose == "initiative" and self.config.provider == "openai" else {}),
                 )
                 if not isinstance(raw, str) or len(raw) > 20000:
                     raise ValueError()

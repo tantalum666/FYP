@@ -523,8 +523,13 @@ def test_disconnected_owner_cannot_list_or_stop_followups(world):
 
 def test_full_access_still_needs_selected_thread_background_consent(world):
     from test_permissions import mode
+    from desk.workspace_data import PreferencesUpdate, WorkspacePreferences
 
     r, client, actor, _, _, _ = world
+    r.data.update(
+        PreferencesUpdate(expected_version=1, preferences=WorkspacePreferences(proactivity="off")),
+        "proactivity-off",
+    )
     mode(client, "full", "full-access")
     grant = r.permissions.capture(actor)
     draft = r.mail_followups.draft({"provider": "gmail", "message_id": "m1"}, "review")
@@ -553,3 +558,70 @@ def test_paused_task_never_reads_provider_until_owner_resumes(world):
     )
     r.mail_followups.poll_source_once()
     assert row(world, watch["followup_id"])["unread_count"] == 1
+
+
+def test_standing_proactivity_starts_only_a_fresh_owner_request_without_extra_card(world):
+    r, _, actor, _, _, now = world
+    grant = r.permissions.capture(actor)
+    draft = r.mail_followups.draft({"provider": "gmail", "message_id": "m1"}, "automatic")
+    result = r.permissions.apply_reply(draft, grant)
+    assert result["saved"] and result["proposal"] is None
+    ident = result["mail_followup"]["followup_id"]
+    assert row(world, ident)["automatic"] and row(world, ident)["expires_at"] is None
+    now[0] += timedelta(days=8)
+    r.mail_followups.poll_source_once()
+    assert row(world, ident)["state"] == "active"
+    r.mail_followups.stop(ident, "stop-auto")
+    r.mail_followups.poll_source_once()
+    assert row(world, ident)["state"] == "stopped"
+
+
+def test_revoking_proactivity_before_draft_finishes_prevents_automatic_follow(world):
+    from desk.workspace_data import PreferencesUpdate, WorkspacePreferences
+
+    r, _, actor, *_ = world
+    grant = r.permissions.capture(actor)
+    draft = r.mail_followups.draft({"provider": "gmail", "message_id": "m1"}, "late-auto")
+    r.data.update(
+        PreferencesUpdate(expected_version=1, preferences=WorkspacePreferences(proactivity="off")),
+        "off",
+    )
+    result = r.permissions.apply_reply(draft, grant)
+    assert not result.get("saved") and result["permission_error"] == "PERMISSION_CHANGED"
+    with r.store.connection() as conn:
+        assert conn.execute("SELECT count(*) FROM mail_followups").fetchone()[0] == 0
+
+
+def test_automatic_read_grant_cannot_send_email_or_run_software(world):
+    r, _, actor, *_ = world
+    grant = r.permissions.capture(actor)
+    mail = r.assistant.propose(
+        "email_send",
+        {
+            "provider": "gmail",
+            "from": "owner@example.com",
+            "to": "friend@example.com",
+            "subject": "Test",
+            "body": "Fictional",
+        },
+        "send",
+    )
+    result = r.permissions.apply_reply(mail, grant)
+    assert result["proposal"]["state"] == "pending" and not result["saved"]
+    note = r.assistant.propose(
+        "task_create", {"task": TaskInput(title="Unrequested task").model_dump(mode="json")}, "task"
+    )
+    assert not r.permissions.apply_reply(note, grant)["saved"]
+    with r.store.connection() as conn:
+        assert conn.execute("SELECT count(*) FROM tasks").fetchone()[0] == 0
+        assert conn.execute("SELECT count(*) FROM outgoing_mail_attempts").fetchone()[0] == 0
+
+
+def test_old_pending_thread_is_not_activated_by_later_standing_setting(world):
+    r, _, actor, *_ = world
+    draft = r.mail_followups.draft({"provider": "gmail", "message_id": "m1"}, "old-pending")
+    grant = r.permissions.capture(actor)
+    result = r.permissions.apply_reply(draft, grant)
+    assert result["proposal"]["state"] == "pending"
+    with r.store.connection() as conn:
+        assert conn.execute("SELECT count(*) FROM mail_followups").fetchone()[0] == 0

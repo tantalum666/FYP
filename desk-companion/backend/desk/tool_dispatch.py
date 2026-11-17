@@ -138,7 +138,7 @@ class ToolDispatcher:
 
     @staticmethod
     def _cancelled_result(result=None):
-        if result and result.get("authorization", {}).get("mode") == "full" and (result.get("saved") or result.get("queued")):
+        if result and result.get("authorization", {}).get("mode") in {"full", "proactive"} and (result.get("saved") or result.get("queued")):
             # Interruption cannot erase an already committed effect or its receipt.
             return {**result, "error": "TOOL_CANCELLED", "interrupted": True}
         return {"error": "TOOL_CANCELLED", "saved": False}

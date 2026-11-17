@@ -1,5 +1,6 @@
 import { ComposerFiles } from "./ComposerFiles";
 import { AliceCheckIn } from "./AliceCheckIn";
+import { InitiativeMessages } from "./InitiativeMessages";
 import { companionState, reportInteraction } from "../companion/interaction";
 import { ComposerMenu } from "./ComposerMenu";
 import { useChatFiles } from "./useChatFiles";
@@ -1385,6 +1386,7 @@ export function AssistantPanel({
                 node.scrollHeight - node.scrollTop - node.clientHeight < 80;
           }}
         >
+          {(!immersive || expanded) && <InitiativeMessages t={t} />}
           {(!immersive || expanded) &&
             jobs
               .filter(

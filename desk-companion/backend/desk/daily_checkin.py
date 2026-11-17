@@ -6,7 +6,7 @@ from zoneinfo import ZoneInfo
 from .workspace_data import is_quiet
 
 
-def current_checkin(runtime, principal, tasks, posture):
+def current_checkin(runtime, principal, tasks, posture, initiative=None):
     if principal.get("kind") != "owner" or not runtime.personal_context.visible(principal):
         return None
     prefs = runtime.data.preferences()
@@ -51,6 +51,8 @@ def current_checkin(runtime, principal, tasks, posture):
             "position": "movement",
             "outcome": "notice",
         }
+    if findings := (initiative or {}).get("findings"):
+        return {**findings[0], "finding_kind": findings[0]["kind"], "kind": "initiative"}
     for task in tasks.get("attention", []):
         if not task.get("redacted") and task.get("followup") and not task["paused"]:
             return {

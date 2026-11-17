@@ -49,6 +49,11 @@ export interface PostureSnapshot {
   } | null;
 }
 export interface WorkspaceSnapshot {
+  initiative?: {
+    enabled: boolean;
+    research_ready: boolean;
+    findings: import("./InitiativeMessages").InitiativeFinding[];
+  };
   check_in?: import("./AliceCheckIn").AliceCue | null;
   personal_context_visible: boolean;
   permissions?: PermissionState;

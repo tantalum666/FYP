@@ -174,6 +174,13 @@ class Notifier:
                 """
             )
 
+    @staticmethod
+    def dismiss_pending(conn, notice_id):
+        if notice_id:
+            conn.execute("UPDATE notice_inbox SET state='dismissed' WHERE id=?", (notice_id,))
+            conn.execute("DELETE FROM browser_notices WHERE id=?", (notice_id,))
+            conn.execute("DELETE FROM device_notices WHERE id=?", (notice_id,))
+
     def publish(self, notice: Notice, *, quiet: bool, guard=None) -> list[dict]:
         """Deliver once per channel, or to none of them during quiet hours."""
         if quiet:

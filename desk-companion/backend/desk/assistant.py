@@ -85,7 +85,7 @@ TOOLS = [
     },
     {
         "name": "mail_followup_draft",
-        "description": "Prepare owner review to follow one selected Gmail or Outlook email thread for seven days. First get the exact message ID with connected_app_query; never invent IDs or select unrelated mail. Link an existing open task with its current version, or leave task fields empty for one new task. The owner must explicitly start background metadata checks on screen, including Full access mode. New incoming messages can add evidence and a generic notice to that same task. Does not send mail, read attachments, change task status/deadlines or grant a model access to the mailbox in the background.",
+        "description": "Follow a selected Gmail/Outlook thread when the owner asks you to keep track of it. First get its exact message ID with connected_app_query. Link the current open task/version when discussing a task; never invent IDs. With proactive assistance enabled, the application starts following under the owner's standing setting; report the saved result without asking again. If that setting is off, return the prepared review. New replies stay with the same task. This cannot send mail, change deadlines/status, read attachments or expand account access.",
         "parameters": MailFollowupDraft.model_json_schema(),
     },
     {
@@ -740,7 +740,7 @@ class AssistantService:
             raise failure from None
 
     def decide(self, proposal_id, action, key, *, allow_memory=True, permission_version=None,
-               principal=None, share_screen=False, follow_mail_thread=False):
+               principal=None, share_screen=False, follow_mail_thread=False, automatic_follow_version=None):
         # A single runtime owns this SQLite database. Store.operation provides durable
         # repeat safety across crashes; the lock also prevents in-process cancel races.
         with self.lock:
@@ -838,7 +838,8 @@ class AssistantService:
                         )
                 apply_kind = "task_change"
             if apply_kind == "mail_followup":
-                result = self.runtime.mail_followups.start(payload, internal_key, principal, follow_mail_thread)
+                result = self.runtime.mail_followups.start(payload, internal_key, principal, follow_mail_thread,
+                    automatic_version=automatic_follow_version)
             elif apply_kind == "browser_research":
                 from .browser_research import start
 
