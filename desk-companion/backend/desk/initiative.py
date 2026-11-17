@@ -68,6 +68,15 @@ class Initiative:
                     created_at TEXT NOT NULL, notified INTEGER NOT NULL DEFAULT 0);
                 CREATE TABLE IF NOT EXISTS initiative_seen(id TEXT PRIMARY KEY, at TEXT NOT NULL);
             """)
+            if "notice_id" not in {
+                row["name"] for row in conn.execute("PRAGMA table_info(initiative_findings)")
+            }:
+                conn.execute("ALTER TABLE initiative_findings ADD COLUMN notice_id TEXT")
+                # Older releases committed delivery before setting notified. Reconcile that
+                # receipt before a new batch can include an already delivered finding.
+                conn.execute("""UPDATE initiative_findings SET notified=1,notice_id='insight-'||id
+                    WHERE notified=1 OR EXISTS(SELECT 1 FROM notice_deliveries d
+                        WHERE d.channel='in_app' AND d.notice_id='insight-'||initiative_findings.id)""")
             columns = {row["name"] for row in conn.execute("PRAGMA table_info(initiative_state)")}
             if "attempts" not in columns:
                 conn.execute(
@@ -86,7 +95,7 @@ class Initiative:
             self.runtime.data.preferences(), self.store.clock().astimezone(ZoneInfo(zone))
         )
 
-    def current(self):
+    def current(self, *, undelivered=False):
         try:
             _, sources = self.sources.collect()
         except DomainError:
@@ -97,10 +106,12 @@ class Initiative:
             ).fetchall()
         result = []
         for row in rows:
+            if undelivered and row["notified"]:
+                continue
             data = json.loads(row["data"])
             if self.sources.matches(data["sources"], sources):
                 result.append({"id": row["id"], "created_at": row["created_at"], **data})
-        return result
+        return sorted(result, key=lambda item: item["importance"] != "high")
 
     def snapshot(self):
         return {
@@ -254,7 +265,7 @@ class Initiative:
                             "UPDATE initiative_findings SET state='obsolete' WHERE id=?",
                             (old["id"],),
                         )
-                        self.runtime.notify.dismiss_pending(conn, "insight-" + old["id"])
+                        self._dismiss_notice(conn, old["id"])
                 for ident, data in accepted:
                     if not self.sources.matches(data["sources"], fresh):
                         raise DomainError("PROVIDER_CONTEXT_CHANGED", 409)
@@ -305,61 +316,93 @@ class Initiative:
     def _deliver(self):
         if not self.enabled() or self._quiet():
             return
-        pending = self.current()
-        if not pending:
+        prefs = self.runtime.data.preferences()
+        batch = [
+            row
+            for row in self.current(undelivered=True)
+            if prefs["proactivity"] != "low" or row["importance"] == "high"
+        ][:3]
+        if not batch:
             return
-        with self.store.connection() as conn:
-            day = iso(self.store.clock())[:10]
-            count = conn.execute(
-                "SELECT count(*) FROM notice_deliveries WHERE channel='in_app' AND notice_id LIKE 'insight-%' AND delivered_at>=?",
-                (day,),
-            ).fetchone()[0]
-            row = next(
-                (
-                    item
-                    for item in pending
-                    if not conn.execute(
-                        "SELECT notified FROM initiative_findings WHERE id=?", (item["id"],)
-                    ).fetchone()[0]
-                ),
-                None,
-            )
-        if not row or count >= (
-            2 if self.runtime.data.preferences()["proactivity"] == "low" else 6
-        ):
-            return
+        ids = [row["id"] for row in batch]
+        notice_id = "insight-" + (ids[0] if len(ids) == 1 else fingerprint(sorted(ids)))
 
         def current(conn):
-            if self.stopping or not self.enabled() or self._quiet():
+            now = self.store.clock()
+            if (
+                self.stopping
+                or self.runtime.data.preferences()["version"] != prefs["version"]
+                or self._quiet()
+            ):
                 return False
             try:
                 _, sources = self.sources.collect()
             except DomainError:
                 return False
-            state = conn.execute(
-                "SELECT state FROM initiative_findings WHERE id=?", (row["id"],)
+            count = conn.execute(
+                """SELECT count(*) FROM notice_deliveries
+                WHERE channel='in_app' AND notice_id LIKE 'insight-%' AND delivered_at>=?""",
+                (iso(now)[:10],),
+            ).fetchone()[0]
+            # Across midnight the spacing still applies. Existing notices, including pre-upgrade
+            # ones, participate in the same budget. A partial legacy receipt may be reconciled.
+            last = conn.execute("""SELECT max(delivered_at) FROM notice_deliveries
+                WHERE channel='in_app' AND notice_id LIKE 'insight-%'""").fetchone()[0]
+            already = conn.execute(
+                "SELECT 1 FROM notice_deliveries WHERE channel='in_app' AND notice_id=?",
+                (notice_id,),
             ).fetchone()
-            return bool(
-                state and state[0] == "pending" and self.sources.matches(row["sources"], sources)
+            low = prefs["proactivity"] == "low"
+            if not already and (
+                count >= (2 if low else 6)
+                or (last and last > iso(now - timedelta(minutes=120 if low else 30)))
+            ):
+                return False
+            for item in batch:
+                state = conn.execute(
+                    "SELECT state,notified FROM initiative_findings WHERE id=?", (item["id"],)
+                ).fetchone()
+                if (
+                    not state
+                    or state["state"] != "pending"
+                    or state["notified"]
+                    or not self.sources.matches(item["sources"], sources)
+                ):
+                    return False
+            return True
+
+        def mark(conn):
+            conn.executemany(
+                "UPDATE initiative_findings SET notified=1,notice_id=? WHERE id=?",
+                [(notice_id, ident) for ident in ids],
             )
 
-        result = self.runtime.notify.publish(
+        n = len(batch)
+        self.runtime.notify.publish(
             Notice(
-                "insight-" + row["id"],
+                notice_id,
                 "initiative",
-                "Alice noticed something",
-                "Alice 有个发现",
-                "Open Alice to review it.",
-                "打开 Alice 看看。",
-                "A meaningful finding from your available context.",
-                "根据已有信息发现值得留意的事情。",
+                "Alice noticed something" if n == 1 else f"Alice has {n} updates",
+                "Alice 有个发现" if n == 1 else f"Alice 有 {n} 条新发现",
+                "Open Alice to review.",
+                "打开 Alice 查看。",
+                "Updates from your available context.",
+                "来自当前可用信息的发现。",
             ),
             quiet=False,
             guard=current,
+            on_inbox=mark,
         )
-        if any(item["status"] in {"delivered", "duplicate"} for item in result):
-            with self.store.connection(write=True) as conn:
-                conn.execute("UPDATE initiative_findings SET notified=1 WHERE id=?", (row["id"],))
+
+    def _dismiss_notice(self, conn, ident):
+        row = conn.execute(
+            "SELECT notice_id FROM initiative_findings WHERE id=?", (ident,)
+        ).fetchone()
+        notice_id = (row and row["notice_id"]) or "insight-" + ident
+        if not conn.execute(
+            "SELECT 1 FROM initiative_findings WHERE state='pending' AND notice_id=?", (notice_id,)
+        ).fetchone():
+            self.runtime.notify.dismiss_pending(conn, notice_id)
 
     def dismiss(self, ident, key, principal):
         def apply(conn):
@@ -369,7 +412,7 @@ class Initiative:
             ).fetchone():
                 raise DomainError("INITIATIVE_NOT_FOUND", 404)
             conn.execute("UPDATE initiative_findings SET state='dismissed' WHERE id=?", (ident,))
-            self.runtime.notify.dismiss_pending(conn, "insight-" + ident)
+            self._dismiss_notice(conn, ident)
             return {"saved": True, "id": ident}
 
         return self.store.operation(key, {"type": "initiative_dismiss", "id": ident}, apply)

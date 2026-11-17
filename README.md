@@ -2,6 +2,8 @@
 
 **2026 年 11 月 18 日部署状态**　常用 Mac Web、iPhone 17 Pro 原生模拟器和 Pi 设备屏均已运行 `c607759e`。Mac 与 Pi 保留各自的数据、A3 第 9 版和 Google 授权，后台模型研究沿用关闭设置。PR 124–128 已通过 PR 129 合入，PR 130 保存了对应交接。继续工作先读[新聊天入口](START_HERE_NEXT_CHAT.md)、[交接](handoff.md)和[三端部署验收](output/qa/2026-11-18-three-end-rollout/verification.md)。
 
+**11 月 18 日软件进度**　开发分支已将普通 OpenAI 文字接入官方 Sessions 和 Functions，并将静音期积累的主动发现合并提醒。[迁移契约](desk-companion/docs/official-text-sessions.md) · [Claude 文章与 FYP 对照](research/2026-11-18-always-on-personal-agent.md) · [本地验收](output/qa/2026-11-18-official-text-sessions/verification.md)。
+
 个人 Agent 方向与旧研究统一从[研究总入口](research/personal-agent-research-index.md)恢复：含六份原 PR #5 报告、Grok／Muse／Your dot 当前公开机制，以及邮件／购物／旅行目标与已实现范围的对应。
 
 面向家庭／办公室桌面的个人 AI 助理：日历与事务、可更正的记忆、受限电脑作业，以及固定摄像头的坐姿判断、反馈和复测。当前开发名称为 **Desk Companion**；仓库用于三人协作。

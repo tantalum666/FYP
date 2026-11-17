@@ -870,3 +870,10 @@ Publication18November: PR129 merged atc51ece41f033bcc74364a0046f5cade9386ea53f. 
 The owner requested deployment of `c607759e` to Web, native mobile and Pi, then specified the iPhone Simulator as the current mobile target. Use the existing architecture and acceptance evidence. Keep the completed test budgets closed.
 
 The rollout retained the original stores and grants on each backend, the A3 voice selection and the normal background inference setting. The Pi received the application and kiosk/autostart update with its RTC units and configured CPU ceiling preserved. The remaining ordinary-text migration stays a separate software task. [Deployment evidence](output/qa/2026-11-18-three-end-rollout/verification.md).
+
+
+## 2026-11-18 Official ordinary text and grouped findings
+
+The owner requested the ordinary text migration to official OpenAI Sessions and Functions, continued personal-agent progress and a close reading of Anthropic's always-on agent article. The existing project credential choice and closed test budgets remain in effect.
+
+Engineering decisions were to reuse the project's pinned transport and local tool receipts, isolate ordinary text from hosted computers, retain selected-file compatibility, and recover uncertain submissions through the original session. For proactive assistance, use the existing transactional notification outbox to coalesce findings and preserve individual acknowledgments. Normal and Less often spacing are engineering defaults of 30 and 120 minutes. The implementation requests a US$0.25 ceiling per text session. This is a software guard. No live spending or production promotion was part of this slice. [Contract](desk-companion/docs/official-text-sessions.md) · [evidence](output/qa/2026-11-18-official-text-sessions/verification.md).

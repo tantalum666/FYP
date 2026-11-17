@@ -1,19 +1,17 @@
 # Group 2 · Current handoff
 
-18 November 2026, Hong Kong. Resume in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`. [PR 131](https://github.com/tantalum666/FYP/pull/131) records this deployment on `codex/three-end-rollout-20261118`. Follow [AGENTS](AGENTS.md) and the current [product contract](product.md).
+18 November 2026, Hong Kong. Continue from `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/official-text-sessions-20261118`. [Product](product.md) · [decisions](decision-log.md).
 
-## Running release
+## Source and acceptance
 
-Mac Web on port 8831, the native iPhone 17 Pro Simulator on iOS 26.5 and the Raspberry Pi kiosk run `c607759e`. GitHub confirms PRs 124–128, the integration and the saved handoff are merged. The deployed runtime paths match tested candidate `42bc01ec`. [Integration PR](https://github.com/tantalum666/FYP/pull/129) · [handoff PR](https://github.com/tantalum666/FYP/pull/130) · [GitHub receipt](output/qa/2026-11-18-three-end-rollout/github.json).
+Ordinary OpenAI chat uses official Sessions and Functions. The normal composer, local tools, owner review cards and receipts remain the user-facing path. Compatible follow-ups reuse the same session. File attachments keep the existing Responses path. An uncertain request can recover a verified result or a local review, with no automatic repeat of a business action. [Contract](desk-companion/docs/official-text-sessions.md) · [protocol and browser QA](output/qa/2026-11-18-official-text-sessions/verification.md).
 
-Both original databases passed upgrade rehearsal, private backup verification and live integrity checks. Mac has 128 application tables and Pi has 127. Each retained its own original records, keys, A3 settings and cached sample at version 9. The native app cold-starts against the normal Mac service and its own bridge confirmed the A3 selection, owner session and grant versions. The Pi launches the new release and its actual display shows Alice connected. [Deployment report](output/qa/2026-11-18-three-end-rollout/verification.md) · [machine-readable readback](output/qa/2026-11-18-three-end-rollout/release-readback.json).
+Quiet-time findings now share one notice for up to three current items. One acknowledgment leaves the other findings available. This reuses the existing findings, notifier, preferences and delivery records. [Claude article and implementation choices](research/2026-11-18-always-on-personal-agent.md).
 
-Mac and Pi independently verified Gmail and Google Calendar with provider reads. Microsoft registration/consent remains outstanding. The owner deferred the physical iPhone. The Pi retains its original CPU ceiling and RTC setup. Pi power diagnosis remains paused.
+## Installed baseline
 
-## AI and budget
+Normal Mac Web, the native iPhone 17 Pro Simulator and Pi last deployed `c607759e`. A3 version 9, the original stores and independent Mac/Pi Google grants were verified there. Background inference was off. The new source was tested on isolated local stores. The previous live test budgets remain closed. The owner deferred the physical iPhone, and Pi power work remains paused. [Deployment PR](https://github.com/tantalum666/FYP/pull/131) · [readback](output/qa/2026-11-18-three-end-rollout/verification.md).
 
-Official Responses handles changed-source research, and multi-step browser jobs use the official managed executor. Background model research is disabled on both installed servers. The prior US$5 test batch and all four hosted sessions are closed. Existing full-suite and live results are in [integration QA](output/qa/2026-11-17-proactive-agent-merge/verification.md).
+## Next acceptance
 
-## Next software task
-
-Move the ordinary text entry point from the existing compatibility loop onto official OpenAI sessions/functions. Reuse the current business tools, authority checks and conversation recovery, starting with the [capability map](desk-companion/docs/personal-agent-status.md).
+With a new explicit test allowance, run one read-only function and one follow-up against the real OpenAI Sessions service, then verify the turn IDs, output, usage and cleanup before promoting a release.

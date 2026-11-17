@@ -38,4 +38,4 @@ After fixes, six real-model research cases passed, including a saved preference 
 
 ## Scope still open
 
-The subsequent 18 November rollout put `c607759e` on normal Mac Web, the native iOS Simulator and the Pi kiosk. The two servers retained their background inference setting (off). Sustained real-mail follow-up, full-inbox incremental events, Microsoft consent, production spending controls, closed-phone notifications, merchant transactions and the primary-text migration remain open. [Deployment evidence](../output/qa/2026-11-18-three-end-rollout/verification.md).
+The subsequent 18 November rollout put `c607759e` on normal Mac Web, the native iOS Simulator and the Pi kiosk. The two servers retained their background inference setting (off). Sustained real-mail follow-up, full-inbox incremental events, Microsoft consent, production spending controls, closed-phone notifications, and merchant transactions remain open. The subsequent [ordinary-text migration](../desk-companion/docs/official-text-sessions.md) has local protocol and browser acceptance. [Deployment evidence](../output/qa/2026-11-18-three-end-rollout/verification.md).

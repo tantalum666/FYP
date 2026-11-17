@@ -21,9 +21,15 @@ def setup(tmp_path):
     app = create_app(tmp_path, password="fixture", scheduler=False)
     runtime = app.state.runtime
     runtime.text_ai.config = TextConfig("openai", "gpt-6.1-sol", OPENAI_TEXT_ENDPOINT, "fake-only")
+    from session_protocol_fixture import SessionProtocol
+    sessions = SessionProtocol()
     calls = []
 
     def transport(request):
+        if request.url.path.startswith("/v1/agents/sessions"):
+            if request.method=="POST" and request.url.path=="/v1/agents/sessions":
+                calls.append(json.loads(request.content))
+            return sessions(request)
         calls.append(json.loads(request.content))
         return httpx.Response(
             200,
@@ -90,7 +96,10 @@ def test_selected_files_reach_responses_without_persistent_bytes_and_followup_re
     assert not calls
     assert upload(client, data=raw, conversation_id=chat_id).json()["attachment"] == file
     assert send(client, conversation_id=chat_id).status_code == 200
-    assert isinstance(calls[-1]["input"][0]["content"], str)  # Upload alone isn't sharing.
+    # Upload alone starts ordinary text with no file content or metadata.
+    pending = calls[-1]["input"][0]["content"]
+    assert [part["type"] for part in pending] == ["input_text"]
+    assert "8eb1c" not in pending[0]["text"] and file["name"] not in pending[0]["text"]
     result = send(client, conversation_id=chat_id, attachment_ids=[file["id"]], key="file-message")
     assert result.status_code == 200
     parts = calls[-1]["input"][0]["content"]

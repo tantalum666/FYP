@@ -142,7 +142,7 @@ def test_deleted_facts_do_not_return_from_tool_cache_or_another_login(tmp_path, 
 
     runtime = alpha
     captured = []
-    monkeypatch.setattr(runtime.text_ai.config, "valid", lambda: True)
+    monkeypatch.setattr(runtime.text_ai.config, "provider", "fake")
 
     def generate(system, context, schema, purpose):
         captured.append(context)

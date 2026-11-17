@@ -427,7 +427,7 @@ def test_a_configured_provider_is_not_called(tmp_path, monkeypatch):
     runtime = app.state.runtime
     client = _client(app)
     _event(client, "meeting-provider", location="", notes="")
-    monkeypatch.setattr(runtime.text_ai.config, "valid", lambda: True)
+    monkeypatch.setattr(runtime.text_ai.config, "provider", "fake")
     runtime.text_ai.config.extract_cap = 5
 
     def generate(*_args, **_kwargs):

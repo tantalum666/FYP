@@ -130,7 +130,7 @@ def test_paired_text_context_and_cached_replies_cannot_reveal_owner_memory(tmp_p
         captured.append(context)
         return TextPlan(message="Public reply", tool="none")
 
-    monkeypatch.setattr(runtime.text_ai.config, "valid", lambda: True)
+    monkeypatch.setattr(runtime.text_ai.config, "provider", "fake")
     monkeypatch.setattr(runtime.text_ai, "generate", generate)
     payload = AssistantMessage(message="Hello")
     runtime.text_ai.message(payload, "owner-reply")

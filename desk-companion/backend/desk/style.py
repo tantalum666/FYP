@@ -62,7 +62,7 @@ def render_prompt(
     elif channel == "followup":
         base = followup_system(body)
     else:
-        base = text_system(body)
+        base = text_system(body, functions=channel == "functions")
     extra = directive(prefs, language)
     if extra in base:
         return base

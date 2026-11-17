@@ -1,0 +1,31 @@
+{
+  "verification": "isolated local and scripted provider; unique successful case IDs across affected runs (not one full-suite execution)",
+  "unique_passing_tests": 328,
+  "test_files": 25,
+  "unique_session_protocol_tests": 20,
+  "official_sdk_schema_version": "3.53.0",
+  "owner_function_definitions_in_validated_request": 34,
+  "browser": {
+    "ordinary_composer": true,
+    "official_session_creates": 1,
+    "followup_inputs": 1,
+    "function_receipts": 1,
+    "page_errors": [],
+    "real_provider_calls": 0
+  },
+  "phone_layout": {
+    "findings": 2,
+    "alerts_during_quiet": 0,
+    "alerts_after_restart": 1,
+    "independent_acknowledgments": 2,
+    "scripted_model_calls": 1,
+    "paid_calls": 0
+  },
+  "private_screenshot_sha256": {
+    "ordinary-session-web.png": "11256d6d30183e9e04ca7d54c017de567eafc19d6d3e06b0245855bbb4922a66",
+    "batch-conversation.png": "be338f2ebe0acaed303d8fa9a445162cf785f601a6d97fcacb1540063441b73b"
+  },
+  "full_repository_suite_rerun": false,
+  "production_promotion": false,
+  "live_inference_tests": 0
+}

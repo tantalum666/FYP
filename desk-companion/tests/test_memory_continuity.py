@@ -114,7 +114,7 @@ def test_older_fact_lifecycle_invalidates_http_replay_even_when_recent_window_is
     assert memory_context(runtime, True)[0] != revision
 
     seen = []
-    monkeypatch.setattr(runtime.text_ai.config, "valid", lambda: True)
+    monkeypatch.setattr(runtime.text_ai.config, "provider", "fake")
 
     def generate(system, context, schema, purpose):
         seen.append(context)

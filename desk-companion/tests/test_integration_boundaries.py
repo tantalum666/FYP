@@ -193,7 +193,7 @@ def test_new_login_does_not_receive_other_login_transcript(tmp_path, monkeypatch
     app = app_at(tmp_path)
     runtime = app.state.runtime
     captured = []
-    monkeypatch.setattr(runtime.text_ai.config, "valid", lambda: True)
+    monkeypatch.setattr(runtime.text_ai.config, "provider", "fake")
 
     def generate(system, context, schema, purpose):
         captured.append(context)

@@ -438,7 +438,9 @@ def test_research_uses_current_calendar_occurrences_and_drops_deleted_events(wor
     )
     r.store.event_action(
         ident,
-        EventAction(action="update", expected_version=1, occurrence_key=occurrence_key, event=changed),
+        EventAction(
+            action="update", expected_version=1, occurrence_key=occurrence_key, event=changed
+        ),
         "calendar-change",
     )
     second = projection.collect()[1]
@@ -465,3 +467,82 @@ def test_research_uses_current_calendar_occurrences_and_drops_deleted_events(wor
         "calendar-delete",
     )
     assert not any(s["kind"] == "calendar" for s in projection.collect()[1].values())
+
+
+def test_quiet_backlog_becomes_one_paced_notice_with_independent_acknowledgments(world):
+    r, client, actor, _, _, now, _ = world
+    preferences(world, quiet_enabled=True, quiet_start="00:00", quiet_end="23:59")
+    calls = []
+
+    def research(_system, context, *_args, **_kwargs):
+        calls.append(1)
+        ref = next(s["ref"] for s in context["sources"] if s["kind"] == "task")
+        return Findings(
+            findings=[
+                {
+                    "kind": kind,
+                    "importance": importance,
+                    "message_en": "Private detail " + kind,
+                    "message_zh": "待查看的发现",
+                    "source_refs": [ref],
+                }
+                for kind, importance in [
+                    ("change", "normal"),
+                    ("deadline", "high"),
+                    ("opportunity", "normal"),
+                ]
+            ]
+        )
+
+    r.text_ai.generate = research
+    r.initiative.advance()
+    assert not r.notify.listing()["notices"]
+    preferences(world, quiet_enabled=False)
+    r.initiative = Initiative(r)
+    r.initiative._deliver()
+    shown = r.initiative.snapshot()["findings"]
+    assert len(shown) == 3 and shown[0]["kind"] == "deadline"
+    notices = r.notify.listing()["notices"]
+    assert len(notices) == 1 and "3" in str(notices[0]) and "Private detail" not in str(notices)
+    for i, finding in enumerate(shown):
+        result = client.post(
+            f"/api/initiative/{finding['id']}/dismissals",
+            json={},
+            headers={"X-Desk-Request": "1", "X-Operation-Id": "ack-" + str(i)},
+        )
+        assert result.is_success
+        assert r.notify.listing()["notices"][0]["state"] == ("dismissed" if i == 2 else "open")
+    assert len(calls) == 1
+
+
+def test_outbox_spacing_survives_restart_and_midnight(world):
+    r, _, _, _, _, now, _ = world
+    now[0] = now[0].replace(hour=23, minute=50)
+    r.initiative.advance()
+    first = r.initiative.current()[0]
+    with r.store.connection(write=True) as db:
+        data = {k: v for k, v in first.items() if k not in {"id", "created_at"}}
+        db.execute(
+            "INSERT INTO initiative_findings(id,data,state,created_at) VALUES(?,?,'pending',?)",
+            ("second", json.dumps(data), first["created_at"]),
+        )
+    now[0] += timedelta(minutes=15)
+    r.initiative = Initiative(r)
+    r.initiative._deliver()
+    assert len(r.notify.listing()["notices"]) == 1
+    now[0] += timedelta(minutes=16)
+    r.initiative._deliver()
+    assert len(r.notify.listing()["notices"]) == 2
+
+
+def test_preupgrade_single_notice_remains_dismissible(world):
+    r, _, actor, *_ = world
+    r.initiative.advance()
+    ident = r.initiative.current()[0]["id"]
+    with r.store.connection(write=True) as db:
+        db.execute("ALTER TABLE initiative_findings DROP COLUMN notice_id")
+        db.execute("UPDATE initiative_findings SET notified=0")  # previous process stopped after delivery
+    r.initiative = Initiative(r)
+    assert not r.initiative.current(undelivered=True)
+    r.initiative.dismiss(ident, "legacy-dismiss", actor)
+    assert r.notify.listing()["notices"][0]["state"] == "dismissed"

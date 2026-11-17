@@ -11,7 +11,6 @@ from desk.app import create_app
 from desk.assistant import AssistantMessage
 from desk.jobs import JobApproval
 from desk.store import DomainError
-from desk.text_ai import TextPlan
 from desk.tool_dispatch import ToolDispatcher
 
 from test_task_job_journey import write
@@ -111,14 +110,16 @@ def test_permission_change_during_generation_leaves_action_for_review(tmp_path, 
     mode(client, "full", "enable")
     started, release = Event(), Event()
     runtime = app.state.runtime
-    monkeypatch.setattr(runtime.text_ai.config, "valid", lambda: True)
+    from session_protocol_fixture import install_session_protocol
+    provider=install_session_protocol(runtime)
+    provider.next_calls=[("memory_save_draft",{"body":"Fixture during change"})]
 
-    def generate(*args, **kwargs):
+    def wait_for_revocation():
+        provider.on_check=None
         started.set()
         assert release.wait(5)
-        return TextPlan(message="Prepare a fact", tool="memory_save_draft", arguments={"body": "Fixture during change"})
 
-    monkeypatch.setattr(runtime.text_ai, "generate", generate)
+    provider.on_check=wait_for_revocation
     with ThreadPoolExecutor() as pool:
         future = pool.submit(send, client, "Please prepare the requested action", key="in-flight")
         assert started.wait(5)

@@ -389,6 +389,41 @@ def outcome_message(outcome: str, result, language: str = "en") -> str:
     return owner_message(kind_for(outcome), language)
 
 
+def ends_text_turn(name: str, result: dict) -> bool:
+    from .capabilities import CAPABILITIES
+
+    if name == "propose_plan" and result.get("error"):
+        return True
+    if result.get("error") == "TOOL_TIMEOUT":
+        return True
+    risk = CAPABILITIES[name].risk if name in CAPABILITIES else "refused"
+    if risk != "read":
+        return True
+    return result.get("error") in {"OWNER_SIGN_IN_REQUIRED", "TOOL_NOT_ALLOWED"}
+
+
+def text_effect_reply(message: str, result: dict, language: str):
+    error = result.get("error")
+    if error:
+        return text_notice(language, kind_for(error), error)
+    kind = "draft" if "proposal" in result else "job" if "job" in result else "reply"
+    reply = {"mode": "ai", "kind": kind, "message": message, **result}
+    reply.setdefault("saved", False)
+    return reply
+
+
+def text_notice(language: str, kind: str, error: str | None = None):
+    reply = {
+        "mode": "ai",
+        "kind": "refused" if kind == "refused" else "clarify",
+        "message": owner_message(kind, language),
+        "saved": False,
+    }
+    if error:
+        reply["error"] = error
+    return reply
+
+
 def _pending_side_effect(result: dict) -> bool:
     if not isinstance(result, dict) or result.get("error"):
         return False
