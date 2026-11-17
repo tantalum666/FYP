@@ -61,5 +61,14 @@
   },
   "markdown_links_checked": 518,
   "missing_internal_links": 0,
-  "new_content_credentials_scan": "passed"
+  "new_content_credentials_scan": "passed",
+  "publication": {
+    "pr": 128,
+    "url": "https://github.com/tantalum666/FYP/pull/128",
+    "state": "draft/open",
+    "base_pr": 127,
+    "source_commit": "924e19870fad865ff0b1d12c13c5621bf2254f66",
+    "merged": false
+  },
+  "qa_services_stopped": true
 }

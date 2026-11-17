@@ -10,7 +10,7 @@ Read [AGENTS](AGENTS.md), current [product](product.md), latest [decisions](deci
 - Original-thread reply drafts bind fresh source/recipient/subject. Existing owner review, outbox reservation and unknown-write rules are reused; no automatic send.
 - Shared normal-text/Live functions. The mail_sources worker only synchronizes metadata; no new model loop, generic scheduler or OAuth implementation.
 - Actual desktop/Chinese-phone journeys used synthetic providers. Lost send/stop replies recovered the same operation without a second provider write. Fixed duplicated mail panels, false expiration/unsent messaging and stale surrounding recovery banners.
-- Full backend 2,471 passed / 2 Linux-only skips; frontend 393 passed, types/build/Ruff and final focused consent/pause/reply checks passed. QA records exact scope/counts. Private logs/scripts/screenshots: ~/.config/desk-companion/mail-thread-followup-20261117/.
+- Full backend 2,471 passed / 2 Linux-only skips; frontend 393 passed, types/build/Ruff and final44focused consent/pause/reply checks passed. QA records exact scope/counts. Private logs/scripts/screenshots: ~/.config/desk-companion/mail-thread-followup-20261117/.
 
 ## Architecture and unfinished acceptance
 
@@ -20,6 +20,6 @@ No live selected-thread subscription, real email send, paid call, CI or native/P
 
 Pi power/RTC reliability is paused, not repaired. No hardware observer is active. Do not resume power tests, change firmware or reduce performance from this handoff.
 
-Publication: separate branch/PR stacked on127; final URL/head are recorded in QA/work-log at closeout. A push is not merge, deployment, live mailbox permission or delivery.
+Publication: [PR128](https://github.com/tantalum666/FYP/pull/128) is draft/open, stacked on127. Source commit924e1987 is published; the following documentation-only closeout records this state. No merge/deployment/live grant/delivery implied. QA services have stopped; normal app ports were not replaced.
 
 **One next step:** migrate the OpenAI primary text entry to official Sessions/function execution, reusing business handlers, owner decisions and receipts; start with offline protocol acceptance under the current closed-budget boundary.
