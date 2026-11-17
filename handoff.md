@@ -1,6 +1,6 @@
 # Group 2 · Current handoff
 
-18 November 2026, Hong Kong. Continue from `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/official-text-sessions-20261118`. [Product](product.md) · [decisions](decision-log.md).
+18 November 2026, Hong Kong. Continue from `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/official-text-sessions-20261118`. [PR 132](https://github.com/tantalum666/FYP/pull/132) is based on the deployment handoff in PR 131. [Product](product.md) · [decisions](decision-log.md).
 
 ## Source and acceptance
 

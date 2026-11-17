@@ -1,6 +1,6 @@
 # Group 2 · Official text Sessions and batched proactive delivery
 
-18 November 2026, Hong Kong. The ordinary OpenAI path behind both application message routes has moved from the local model loop to official Sessions and Functions on this branch. The other change applies Anthropic’s outbox guidance to Alice’s existing notification delivery. [Design and reading record](design.md) · [article and implementation decisions](../../../research/2026-11-18-always-on-personal-agent.md) · [acceptance receipt](acceptance.json).
+18 November 2026, Hong Kong. The ordinary OpenAI path behind both application message routes has moved from the local model loop to official Sessions and Functions in [PR 132](https://github.com/tantalum666/FYP/pull/132), based on the PR 131 deployment handoff. The other change applies Anthropic’s outbox guidance to Alice’s existing notification delivery. [Design and reading record](design.md) · [article and implementation decisions](../../../research/2026-11-18-always-on-personal-agent.md) · [acceptance receipt](acceptance.json).
 
 ## Ordinary conversations
 

@@ -1018,3 +1018,5 @@ The native iPhone 17 Pro Simulator was installed over the previous app and cold-
 Migrated ordinary text to the hosted Functions handshake on official OpenAI Sessions. Kept the application's existing permission decisions and receipts for software drafts, outgoing mail and browser admission. Added temporary-session cleanup, unknown-create reconciliation, turn-specific text streaming and bounded function result delivery. Used an isolated HTTP provider and the real Web composer for two related turns with one session and one function receipt.
 
 Applied the always-on article's notification guidance to existing initiative findings. Two fictional quiet-time findings became one notification after restart and could be acknowledged independently in the phone layout. Credentials, production devices and closed test budgets were untouched. [Research](research/2026-11-18-always-on-personal-agent.md) · [local tests and remaining live acceptance](output/qa/2026-11-18-official-text-sessions/verification.md).
+
+[PR 132](https://github.com/tantalum666/FYP/pull/132) publishes the migration and its local acceptance record on top of the deployment handoff in PR 131.
