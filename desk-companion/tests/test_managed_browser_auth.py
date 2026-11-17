@@ -260,6 +260,32 @@ def test_abandoned_auth_form_expires_and_deletes_remote_session(world):
         pool.shutdown(wait=True)
 
 
+def test_lost_provider_auth_reply_keeps_account_scope_and_never_retries(world):
+    r, p, client, _ = world
+
+    async def transport(request):
+        response = await p(request)
+        if request.method == "POST" and request.url.path.endswith("/events"):
+            event = json.loads(request.content)["events"][0]
+            if event.get("response", {}).get("action") == "submit":
+                raise httpx.ReadTimeout("Fixture lost auth response", request=request)
+        return response
+
+    r.text_ai.transport = httpx.MockTransport(transport)
+    job, path, payload, worker, pool = pending(world)
+    try:
+        assert client.post(path, json=payload, headers={"X-Desk-Request": "1"}).status_code == 200
+        worker.result(timeout=3)
+        assert result(world, job)["state"] == "failed"
+        saved = json.loads((r.jobs.managed_browser.root / job["id"] / "managed-result.json").read_text())
+        assert saved["account_access_authorized"] is True
+        assert saved["turn_completed"] is False
+        assert p.deleted and sum(d.get("action") == "submit" for d in p.decisions) == 1
+    finally:
+        r.jobs.cancel(job["id"], "cleanup")
+        pool.shutdown(wait=True)
+
+
 @pytest.mark.parametrize(
     "change",
     [

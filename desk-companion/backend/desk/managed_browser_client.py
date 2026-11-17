@@ -190,6 +190,10 @@ class ManagedBrowserClient:
                     else:
                         raise ValueError("Unsupported managed approval")
                     handled.add(ident)
+                    if answer.get("action") == "submit":
+                        # This is the owner's data-scope grant, not evidence that
+                        # login succeeded. Keep it even if the HTTP reply is lost.
+                        result["account_access_authorized"] = True
                     await event(
                         {
                             "type": "agent.session.input.computer_use_approval_request_result",
@@ -200,8 +204,6 @@ class ManagedBrowserClient:
                     )
                     if not approved:
                         raise ExecutionRejected("COMPUTER_MANAGED_OWNER_REQUIRED", 409)
-                    if answer.get("action") == "submit":
-                        result["account_access_authorized"] = True
                 if (
                     not any(
                         a.get("request", {}).get("type") == "browser_authentication"
