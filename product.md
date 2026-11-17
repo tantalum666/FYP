@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-17 Replacement-adapter stability check
+
+Owner replaced the adapter/charger and requested stability testing at original performance. Pi reported3000mA capability;8c67ddbe/Alice kiosk/API/application services active andCPU maximum2.4GHz. A planned10-minute observation ended on SSH timeout after485seconds/98samples:18samples showed current undervoltage/throttling, board ADC4.647–4.939V, temperatures47.7–77.9°C, all98local API health checks OK. Kernel events include fresh undervoltage during the observed interval. This power path has **not passed stability**, regardless of unchanged application settings; loss of SSH alone is not proof of a reboot. No deliberate power cycle, performance cap, model call or CI. [Evidence](output/qa/2026-11-17-pi-supply-check/verification.md).
+
 ## 2026-11-17 Current priority: Pi deployment and automatic wake
 
 Owner requests latest Pi deployment and reports automatic restart still failing. Pinned VPS access returned; application8c67ddbe was staged/hashed/activated and read back on Pi, with its original A3version9, Google grants, database/schema and2.4GHz CPU maximum preserved. The next observed boot also served the same release. Three endpoints now have the same application source; current Pi availability remains intermittent.
