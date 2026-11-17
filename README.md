@@ -18,7 +18,7 @@
 | --- | --- |
 | 当前要求、完成边界和下一步 | [product.md](product.md) · [handoff.md](handoff.md) |
 | 软件代码与运行说明 | [desk-companion](desk-companion/README.md) · [操作指南](desk-companion/docs/operator-guide.md) |
-| 硬件成员最新进度 | [Mini图册、元件与采购前待办](research/2026-10-23-mini-robot-hardware/README.md) |
+| 硬件成员最新进度 | [采购评审、V3 外壳与 H2D 打印包](research/2026-11-17-hardware-progress/README.md) |
 | 机械臂技术依据 | [RIG-Arm二次开发研究](research/2026-10-05-rig-arm/secondary-development-review.md) |
 | 当前学校提案与团队日志 | [2026-09-28交付目录](output/submission/2026-09-28/) · [制作与审阅记录](planning/2026-09-28/logsheet-and-proposal-review.md) |
 | 学校原件、成员与协作 | [inputs](inputs/README.md) · [Group 2资料](planning/2026-09-14/group-2-details.json) · [CONTRIBUTING](CONTRIBUTING.md) |
@@ -60,4 +60,4 @@ Qwen为已测基线，其他AI候选仍开放。本轮使用模拟提供商及�
 按用户要求，将主验收提高为浏览器＋电子表格＋文档／PDF＋日历／事务的[演示准备包](planning/2026-10-30/complex-application-acceptance.md)，包含中途改预算／数量／日期、不可行条件澄清、丢回执和重启恢复。[固定材料](desk-companion/evals/app_workflow_v1/README.md)与受限应用适配器已完成，真实 Chromium／Calc／Writer／PDF 的脚本任务、原日程更新及重启恢复通过；[本轮 QA](output/qa/2026-10-30-application-execution/verification.md)记录 524 后端／89 前端与实际网页／手机操作。完整语音自主执行仍待，未产生新模型费用。
 
 
-本轮未合并 PR 的审查与整合见[2026-10-30 QA](output/qa/2026-10-30-all-pr-review/verification.md)。硬件组最新[采购 Excel、外壳 V2 和定位资料](research/2026-11-17-hardware-progress/README.md)见 11 月 17 日进度。[10 月 26 日教师审核稿](research/2026-10-26-hardware-procurement-review/README.md)保留历史。硬件实物采购和台架验收另行确认。
+本轮未合并 PR 的审查与整合见[2026-10-30 QA](output/qa/2026-10-30-all-pr-review/verification.md)。硬件组最新[采购 Excel、外壳 V3 和定位资料](research/2026-11-17-hardware-progress/README.md)见 11 月 17 日进度。[10 月 26 日教师审核稿](research/2026-10-26-hardware-procurement-review/README.md)保留历史。硬件实物采购和台架验收另行确认。

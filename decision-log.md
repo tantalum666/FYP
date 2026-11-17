@@ -747,3 +747,8 @@ Deliver a narrow compatible presentation overlay to the retained Mac backend and
 
 - 按老师建议分为机械臂、吸尘机、显示器和行走改装部件。用户补充屏幕附送 HDMI 线和 micro-HDMI 转接头，该项计 HK$0。新表整机商品预算 HK$1,944.43，运费和实物验证仍待核。
 - 外壳 V2 保持 320 × 200 × 200 mm，提供分件和一体模型。车尾 RX 对泊位 TX 为几何方案，模型间隙和零件外廓须实测。采用四个桌角码和一个车顶码，五个码学校免费打印。[硬件进度](research/2026-11-17-hardware-progress/README.md)。
+
+## 2026-11-17 外壳六面版与学校打印
+
+- 用户要求尽量每面一块，确认学校机型为 Bambu Lab H2D，并要求五块定位码做薄、打印包只保留本次所需文件。
+- V3 采用六个单面板，一体式螺接凸耳取代独立角件和拼片。Qi 发射支架单列。五块定位牌沿用 A4 原码，采用 1.0 mm 白底与 0.4 mm 黑图案。学校配置切片和试印待验。[硬件资料](research/2026-11-17-hardware-progress/README.md)。

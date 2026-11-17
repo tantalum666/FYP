@@ -93,7 +93,7 @@ Earlier9 November technical result: isolated Mac V2ProPlus CPU generated six cas
 
 应用默认以`DESK_AUTO_OWNER=1`自动连接可信的本机工作区，移除所有应用端密码表单和Sign out入口；仅直接回环、无转发、可信本地来源可取得普通8小时Cookie。公网与配对设备仍保留原权限边界，真实远程手机使用可信HTTPS／配对。会话恢复不自动重试业务写入。旧口令API只保留兼容／恢复用途。[连接契约](desk-companion/docs/passwordless-device.md)。
 
-硬件组的[11 月 17 日采购评审、外壳 V2 和 ArUco 方案](research/2026-11-17-hardware-progress/README.md)记录硬件研究的最新进度。商品预算 HK$1,944.43，待核运费、部件尺寸、实际装配和回充。[10 月 26 日原审核稿](research/2026-10-26-hardware-procurement-review/README.md)保留历史。
+硬件组的[11 月 17 日采购评审、外壳 V3 和 ArUco 打印资料](research/2026-11-17-hardware-progress/README.md)记录硬件研究的最新进度。商品预算 HK$1,944.43，待核运费。V3 保持 320 × 200 × 200 mm，由六块面板和一件可拆 Qi 发射支架组成。H2D 打印包另含五块 ArUco 薄片，学校配置切片、部件尺寸、实际装配和回充待核。[10 月 26 日原审核稿](research/2026-10-26-hardware-procurement-review/README.md)保留历史。
 
 **Pi软件已恢复推进；只暂停自动红灯调查。**宿舍网线通过443管理中转恢复访问，main abf6387/schema3已经部署；新免登录／Alice／应用运行环境已经部署，四项真实应用作业与恢复通过。教室与大陆网络保留配置，但不能将宿舍本轮结果当作在其他地点重测。用户澄清红灯先出现、之后才拔插电源，旧“正常按键重启”表述无效；保留已核对的开机后软件／主机身份结果。Luwu与Mini硬件研究、采购批准、接线、台架及连续运行分开；[硬件成员资料](research/2026-10-23-mini-robot-hardware/README.md)不代表本轮实物成绩。
 

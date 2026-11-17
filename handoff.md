@@ -30,4 +30,4 @@ Implement a real same-browser owner-control and explicit-return flow on the exis
 
 ## Parallel hardware progress · 17 November
 
-The [hardware update](research/2026-11-17-hardware-progress/README.md) includes the four-category procurement workbook (HK$1,944.43 before Hong Kong delivery), both 320 × 200 × 200 mm enclosure V2 Blender files, Qi fit notes and the tabletop ArUco test sheet. Next, confirm the first three SKUs and landed costs, then measure the screen and Mini before locking the enclosure and dock. Physical fitting and charging tests are pending.
+The [hardware update](research/2026-11-17-hardware-progress/README.md) includes the four-category procurement workbook (HK$1,944.43 before Hong Kong delivery), the current 320 × 200 × 200 mm V3 six-panel Blender model, and the H2D handoff ZIP for 12 pieces (six panels, a Qi transmitter bracket, and five ArUco tags). Next, confirm the first three SKUs and landed costs and run the first H2D slice using the school profile. Screen and arm fit, tag recognition, and charging remain pending physical checks.
