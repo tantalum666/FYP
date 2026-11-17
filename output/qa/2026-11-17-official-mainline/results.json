@@ -73,11 +73,39 @@
   "browser": "installed Chrome / Playwright",
   "backend": {
     "passed": 2428,
-    "seconds": 516.86
+    "seconds": 516.86,
+    "source_revision": "dae841441dcda86559a9149387587c8fef2857a2"
   },
   "frontend": {
     "passed": 391,
     "typecheck": true,
     "build": true
+  },
+  "final_patch": {
+    "source_revision": "8c67ddbe1559eea975aa355bef970a8e98a9edcc",
+    "focused_backend_passed": 54,
+    "ruff": true
+  },
+  "delivery": {
+    "web": {
+      "source_revision": "8c67ddbe1559eea975aa355bef970a8e98a9edcc",
+      "default_browser_engine": "managed",
+      "managed_enabled": true,
+      "managed_configured": true,
+      "web_phone_rendered": true,
+      "native_bundle_matches": true,
+      "page_errors": [],
+      "live_model_calls": 0
+    },
+    "native_installed_launched": true,
+    "native_visual_checked": true,
+    "pi_reachable": false,
+    "pi_bundle_prepared": true,
+    "pi_activated": false
+  },
+  "paid_trial": {
+    "authorization_pending": true,
+    "calls": 0,
+    "old_budgets": "closed"
   }
 }

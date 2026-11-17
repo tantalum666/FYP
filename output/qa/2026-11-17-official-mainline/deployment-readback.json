@@ -1,0 +1,10 @@
+{
+  "source_revision": "8c67ddbe1559eea975aa355bef970a8e98a9edcc",
+  "default_browser_engine": "managed",
+  "managed_enabled": true,
+  "managed_configured": true,
+  "web_phone_rendered": true,
+  "native_bundle_matches": true,
+  "page_errors": [],
+  "live_model_calls": 0
+}

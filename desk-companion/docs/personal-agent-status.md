@@ -8,7 +8,7 @@ The 17 November official-mainline branch now defaults conversational/current-bro
 
 Latest16November slice: shared weather_query, voice presentation/buffering, proactive task cues and browser-local posture capture are implemented with actual HKO, local-model, physical Mac input and UI evidence. [Daily-presence contract](daily-presence.md) / [QA](../../output/qa/2026-11-16-alice-daily-presence/verification.md). Complete A3 weather speech and long-running posture accuracy remain unaccepted; activation receipts must be checked before attributing these changes to an endpoint.
 
-PR123 merged as 7d7ab9fa. The last verified ordinary application release is 2c31f430, delivered to Mac, native Simulator and Pi on 16 November with stores, keys, account grants and A3 retained. Pi subsequently had power/access interruptions; installed source is not proof of current availability. The latest17November activation is tracked separately in the current QA; check its source/hash readback before claiming endpoint parity.
+PR123 merged as 7d7ab9fa. Mac and native Simulator now run8c67ddbe with verified bundle/index/backend parity, original data/grants/A3 retained. Pi's last verified installation remains2c31f430; two current pinned-relay attempts failed, so its prepared final delta is not activated. Endpoint parity is incomplete until Pi readback succeeds.
 
 Mac Gmail and Calendar authorization were renewed by the owner; Pi subsequently received separate consent. All four grants passed real provider GETs. Microsoft personal-account login stopped at human verification, so no FYP app registration or Graph grant is claimed. Codex plugin access is a separate grant.
 
