@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-18",
+  "integration_pr": 129,
+  "source_candidate": "42bc01eca01223cac757b7aab75c283ef7c65a3e",
+  "merged_main": "c51ece41f033bcc74364a0046f5cade9386ea53f",
+  "tested_tree": "75550fed12c54c5112f3fbb1e358e8a9d7affced",
+  "main_tree_equals_tested_candidate": true,
+  "pull_requests": [
+    {
+      "pr": 124,
+      "head": "50ce80663a06c7411766ceaf44d7f36164253aa4",
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-11-17T18:19:19Z",
+      "merge_sha": "50ce80663a06c7411766ceaf44d7f36164253aa4"
+    },
+    {
+      "pr": 125,
+      "head": "2d999c5b4a93afa1465aade8127b165e388ffdb6",
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-11-17T18:19:18Z",
+      "merge_sha": "489992dc054385acd86c39ce6278aa0f3a4c8534"
+    },
+    {
+      "pr": 126,
+      "head": "beeace553468b26a75ec1aabc46b33d10e7ccf04",
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-11-17T18:19:18Z",
+      "merge_sha": "beeace553468b26a75ec1aabc46b33d10e7ccf04"
+    },
+    {
+      "pr": 127,
+      "head": "a88e1a1c12dda1e6a2ce7a255c24c475d314867b",
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-11-17T18:19:18Z",
+      "merge_sha": "a88e1a1c12dda1e6a2ce7a255c24c475d314867b"
+    },
+    {
+      "pr": 128,
+      "head": "838af96650991b3e912419931403468cf5db2bf3",
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-11-17T18:19:18Z",
+      "merge_sha": "838af96650991b3e912419931403468cf5db2bf3"
+    },
+    {
+      "pr": 129,
+      "head": "42bc01eca01223cac757b7aab75c283ef7c65a3e",
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-11-17T18:19:17Z",
+      "merge_sha": "c51ece41f033bcc74364a0046f5cade9386ea53f"
+    }
+  ],
+  "local_checks_only": true,
+  "normal_runtime_deployed": false
+}

@@ -53,7 +53,7 @@ All four hosted resources have confirmed deletion readback. The isolated scripte
 
 Changed-file scope verification checked61Markdown files with no broken internal links, no credential-pattern hits, no workflow files and a clean `git diff --check`. [Scope receipt](scope-check.json).
 
-Publication is recorded separately after GitHub operations; a pushed branch or prepared merge is not called merged. The final code tree must match the tested candidate. [Handoff](../../../handoff.md) records current publication and the single next step.
+[Publication](publication.json): PR129 merged atc51ece41; each original124–128 reads merged=true. Main tree75550fed equals tested candidate42bc01ec. The later closeout commit changes only documentation/receipts; application source remains identical. [Handoff](../../../handoff.md) records current publication and the single next step.
 
 ## Remaining acceptance
 

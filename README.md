@@ -1,6 +1,6 @@
 # Desk Companion · FYP Group 2
 
-**18 November 2026 当前入口：**先读 [START_HERE_NEXT_CHAT.md](START_HERE_NEXT_CHAT.md) 与 [handoff.md](handoff.md)。本次审查整合 PR124–128，新增按上下文变化主动发现、无需逐条批准的只读邮件跟进，并修复真实 OpenAI / 官方托管浏览器测试暴露的问题。[当前能力](desk-companion/docs/personal-agent-status.md)、[验证记录](output/qa/2026-11-17-proactive-agent-merge/verification.md)。GitHub 合并与设备部署分开：本轮尚未替换原 Mac／原生应用／Pi 运行版本。以下带日期段落保留历史，不作为当前默认 AI 或部署状态。
+**18 November 2026 当前入口：**先读 [START_HERE_NEXT_CHAT.md](START_HERE_NEXT_CHAT.md) 与 [handoff.md](handoff.md)。[PR129](https://github.com/tantalum666/FYP/pull/129) 已合并，原 PR124–128 均已读回为 merged；新增按上下文变化主动发现、无需逐条批准的只读邮件跟进，并修复真实 OpenAI / 官方托管浏览器测试暴露的问题。[当前能力](desk-companion/docs/personal-agent-status.md)、[验证记录](output/qa/2026-11-17-proactive-agent-merge/verification.md)。GitHub 合并与设备部署分开：本轮尚未替换原 Mac／原生应用／Pi 运行版本。以下带日期段落保留历史，不作为当前默认 AI 或部署状态。
 
 个人 Agent 方向与旧研究统一从[研究总入口](research/personal-agent-research-index.md)恢复：含六份原 PR #5 报告、Grok／Muse／Your dot 当前公开机制，以及邮件／购物／旅行目标与已实现范围的对应。
 
