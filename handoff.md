@@ -1,17 +1,17 @@
 # Group 2 · Continue personal-agent work here
 
-18 November2026, Hong Kong. Active checkout: `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/proactive-agent-merge-20261117`. Read [AGENTS](AGENTS.md), current [product](product.md), [new research](research/2026-11-18-proactive-assistance-and-official-reuse.md) and [QA](output/qa/2026-11-17-proactive-agent-merge/verification.md). This handoff supersedes the older official-agent-mainline/mail-thread worktrees.
+18 November2026, Hong Kong. Active checkout: `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/proactive-agent-closeout-20261118`. Read [AGENTS](AGENTS.md), current [product](product.md), [new research](research/2026-11-18-proactive-assistance-and-official-reuse.md) and [QA](output/qa/2026-11-17-proactive-agent-merge/verification.md). This handoff supersedes the older official-agent-mainline/mail-thread worktrees.
 
 ## Source and delivery
 
-Candidate includes all pinned124–128 heads, proactive feature commit21d87f13 and local hardware merge489992dc plus final repairs. GitHub publication/merge is being completed; do not yet infer remote status from this candidate. Normal Mac8831/native Simulator/Pi were last verified at8c67ddbe1559eea975aa355bef970a8e98a9edcc. This slice has not deployed or enabled normal background billing. A3version9, account grants, databases and original performance remain intact.
+[PR129](https://github.com/tantalum666/FYP/pull/129) is merged at `c51ece41f033bcc74364a0046f5cade9386ea53f`; GitHub independently reports PR124–128 all merged. This main tree exactly matches tested candidate42bc01ec, tree75550fed. [Publication receipt](output/qa/2026-11-17-proactive-agent-merge/publication.json). This closeout branch only updates documentation/receipts; fetch current main when resuming. Normal Mac8831/native Simulator/Pi were last verified at8c67ddbe1559eea975aa355bef970a8e98a9edcc. This slice has not deployed or enabled normal background billing. A3version9, account grants, databases and original performance remain intact.
 
 ## Completed and evidenced
 
 - Contextual unsolicited findings from changed facts/tasks/calendar/connected previews; strict official Responses without action tools/AgentLoop. Meaningful findings have current citations; unchanged/irrelevant evidence stays quiet. Shared home/Conversation UI and Normal/Less often/Off controls.
 - Fresh conversational mail follow uses standing read-only permission, including Ask mode; no extra card. Stop/Off/private/account/task revisions and cached pause/stop receipts work. Legacy manual grants retain their expiry. Sends/purchases/general writes remain separate.
 - Real-provider timeout, browser setup/readiness, pending-origin cancellation and DELETE409 recovery fixed. Canonical local-calendar occurrences prevent stale/deleted/changed-date findings. No competing generic agent framework; old task_advice inference retired.
-- Six real research cases, real-model follow/stop over synthetic mail and fourth actual public hosted-browser comparison passed. All four hosted sessions have deletion readback; failed attempts preserved. Full/focused/frontend/UI/hardware static evidence in QA.
+- Six real research cases, real-model follow/stop over synthetic mail and fourth actual public hosted-browser comparison passed. All four hosted sessions have deletion readback; failed attempts preserved. Final backend2,501passed/2Linux-only skips; focused66, frontend393/types/build/Ruff and actual browser UI passed. Hardware static evidence is in QA.
 - Official capability/API/SDK checks are now an AGENTS pre-code requirement. PR125hardware ZIP/mesh/3MF/budget checked; no physical-print claim.
 
 ## Saved state and limits
@@ -22,4 +22,4 @@ Pi power diagnosis is paused; preserve2.4GHz/Alice/RTC settings. Supply instabil
 
 ## One next step
 
-After remote merge receipts are confirmed, promote the reviewed main tree to normal Mac/native/Pi, with backup and source/build/data/A3/grant readback. Do not turn the deployment into another power experiment. Continue from the saved source/evidence instead of repeating completed research or restarting closed test budgets.
+Promote the reviewed main tree to normal Mac/native/Pi, with backup and source/build/data/A3/grant readback. Do not turn the deployment into another power experiment. Continue from the saved source/evidence instead of repeating completed research or restarting closed test budgets.
