@@ -26,7 +26,15 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
         self.runtime, self.store = runtime, runtime.store
         self.enabled = os.environ.get("DESK_MANAGED_BROWSER_ENABLED", "1") == "1"
         self.root = (self.store.directory / "managed-browser").absolute()
-        self.scope = "public_browser:" + digest([self.identity, str(self.root), "small", 45])
+        self.scope = "public_browser:" + digest(
+            [
+                self.identity,
+                str(self.root),
+                "small",
+                ManagedBrowserClient.setup_seconds,
+                ManagedBrowserClient.active_seconds,
+            ]
+        )
         self.blocker = self.root / "cleanup-required"
         self.active_job = None
         self.client_factory = ManagedBrowserClient
@@ -46,7 +54,8 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
             "scope": "public_research_only",
             "real_transactions": False,
             "resumable": False,
-            "max_active_seconds": 45,
+            "max_active_seconds": ManagedBrowserClient.active_seconds,
+            "max_setup_seconds": ManagedBrowserClient.setup_seconds,
             "owner_authentication": True,
             "max_auth_seconds": 90,
         }

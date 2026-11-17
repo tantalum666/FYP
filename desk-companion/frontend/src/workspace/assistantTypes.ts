@@ -96,6 +96,7 @@ export interface ProposalDecisionOptions {
   follow_mail_thread?: boolean;
 }
 export interface ProposalDecisionReply {
+  paused?: boolean;
   queued?: boolean;
   kind?: string;
   job?: { id: string };

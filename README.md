@@ -1,8 +1,10 @@
 # Desk Companion · FYP Group 2
 
+**18 November 2026 当前入口：**先读 [START_HERE_NEXT_CHAT.md](START_HERE_NEXT_CHAT.md) 与 [handoff.md](handoff.md)。本次审查整合 PR124–128，新增按上下文变化主动发现、无需逐条批准的只读邮件跟进，并修复真实 OpenAI / 官方托管浏览器测试暴露的问题。[当前能力](desk-companion/docs/personal-agent-status.md)、[验证记录](output/qa/2026-11-17-proactive-agent-merge/verification.md)。GitHub 合并与设备部署分开：本轮尚未替换原 Mac／原生应用／Pi 运行版本。以下带日期段落保留历史，不作为当前默认 AI 或部署状态。
+
 个人 Agent 方向与旧研究统一从[研究总入口](research/personal-agent-research-index.md)恢复：含六份原 PR #5 报告、Grok／Muse／Your dot 当前公开机制，以及邮件／购物／旅行目标与已实现范围的对应。
 
-面向家庭／办公室桌面的个人 AI 助理：日历与事务、可更正的记忆、受限电脑作业，以及固定摄像头的坐姿判断、反馈和复测。当前开发名称为 **Desk Companion**；仓库为三人私人协作空间。
+面向家庭／办公室桌面的个人 AI 助理：日历与事务、可更正的记忆、受限电脑作业，以及固定摄像头的坐姿判断、反馈和复测。当前开发名称为 **Desk Companion**；仓库用于三人协作。
 
 **2026-10-26 仓库整理：**组员的 [硬件 PR #17](https://github.com/tantalum666/FYP/pull/17) 已完成审查、修订并合入 `main`。退役食品项目的代码、设计、采购、学校版本和验证资料统一放在 [archive/senplate](archive/senplate/README.md)。
 
@@ -39,15 +41,15 @@ cd ..
 ./scripts/dev.sh
 ```
 
-网页为 `http://127.0.0.1:5190/`，设备布局为 `http://127.0.0.1:5190/?surface=device`。账号 `owner` 的密码在各成员本机首次生成的 `desk-companion/.runtime/credentials.json`，不随仓库分发。真实相机、麦克风、模型服务和机械输出按操作指南另行配置。
+网页为 `http://127.0.0.1:5190/`，设备布局为 `http://127.0.0.1:5190/?surface=device`。可信回环默认使用自动本机身份，界面无登录密码表单；恢复凭据仅在各自本机，不随仓库分发。真实相机、麦克风、模型服务和机械输出按操作指南另行配置。
 
-## 当前软件检查点
+## 历史软件检查点（2026 年 10 月）
 
 本分支基于归档后的main，整合**AliceChan、统一Omni文字／语音、有界上下文、逐轮时限、Linux固定双应用、网页与全屏手机**；同时整合Grok #20–#59：有界工具循环、流式回复、记忆／目标／通知、备份与诊断；保留手机职责拆分，并修复权限、恢复、数据保留和跨栈兼容问题。实现见[维护契约](desk-companion/docs/software-maintenance.md)，整合历史验证见[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)，最新权限／跨端接续验证见[本轮QA](output/qa/2026-10-29-assistant-permissions/verification.md)。
 
 Qwen为已测基线，其他AI候选仍开放。本轮使用模拟提供商及虚构本地数据，没有新收费调用。Pi暂停；原生触控／键盘、真机和硬件另验。旧PR与作者工程留作历史，不把独立软件分支推送称为合并或部署。
 
-仅本机开发预览可用`DESK_LOCAL_PREVIEW=1 ./scripts/dev.sh`免输入账号密码；正式默认认证和外部访问保护保留。手机浏览器调试入口为`?surface=phone`，原生iPhone使用同一独立PhoneApp。本地运行后端Lint／测试和前端测试／构建，不连接模型或硬件；不使用GitHub CI。
+现行版本默认以`DESK_AUTO_OWNER=1`连接可信回环工作区；外部访问仍受原身份／配对边界约束，见[本机连接](desk-companion/docs/passwordless-device.md)。手机浏览器调试入口为`?surface=phone`，原生iPhone使用同一独立PhoneApp。本地运行后端Lint／测试和前端测试／构建，不连接模型或硬件；不使用GitHub CI。
 
 硬件目录是采购前研究，仍缺完整免焊转接、电源／Qi／风机及实物验证；学校文件完成不等于已签署或提交。进入本仓库的代理先遵守 [AGENTS.md](AGENTS.md)。本次整理和验证见 [QA](output/qa/2026-10-26-repo-cleanup/verification.md)。
 

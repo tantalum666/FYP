@@ -849,3 +849,15 @@ Verification removed the misleading inference that a disappeared pending draft e
 
 - 用户要求尽量每面一块，确认学校机型为 Bambu Lab H2D，并要求五块定位码做薄、打印包只保留本次所需文件。
 - V3 采用六个单面板，一体式螺接凸耳取代独立角件和拼片。Qi 发射支架单列。五块定位牌沿用 A4 原码，采用 1.0 mm 白底与 0.4 mm 黑图案。学校配置切片和试印待验。[硬件资料](research/2026-11-17-hardware-progress/README.md)。
+
+## 2026-11-18 Contextual initiative, standing read permission and official reuse
+
+**Owner decision:** Alice should notice useful developments without requiring a separate timed task or repetitive read approval; inspect/fix/merge PR124–128 and complete/save a coherent handoff. User also permits broader API testing against existing credits before24November. This supersedes the earlier per-thread-only approval experience and no-new-paid-call restriction for this authorized batch. It does not grant a real send, purchase, account consent or resumed Pi power diagnosis.
+
+**Engineering choices:** existing official Responses strict-schema call for changed-evidence research, no action tools/AgentLoop; reuse current worker/store/readers/Notifier and retire duplicate task_advice inference. Fresh owner-selected mail follow can use standing proactivity in Ask mode; legacy manual scopes retain expiry. Off/stop/privacy/account/task revisions remain effective. Changed calendar instances use the canonical snapshot instead of raw event rows. Keep original sources, A3 and grants intact.
+
+**Official reuse gate:** current API/reference/SDK capabilities must be checked before new orchestration code, with adopt/retain/replace documented. Official Agents remains multi-step browser execution; official Automations is the future scheduled-reasoning path. The old normal-text loop remains a stated migration gap. Public competitor descriptions do not prove vendors never use timers; the user experience is meaningful unsolicited discovery under existing authority.
+
+**Actual failures and fixes:** initial Responses five-second read timeouts; hosted setup counted against45seconds; inferred readiness enum; pending origin request surviving cancellation and DELETE409. Updated bounded timing/reference handling and cancellation/deletion readback, with no replay of task inputs/credentials. Six real-model research cases and natural follow/stop over synthetic mail passed. Fourth actual public-browser task passed independent title/price/stock/fictional-total checks; all four resources have deletion readback.
+
+**Cost:** new engineering capUS$5; Responses12requests/10receipts/2unknown holds totalUS$0.267201 conservative, plus4hostedUS$1unknown-usage reserves=US$4.267201. Not an invoice. All batch ledgers closed and temporary QA services stopped. This is not an ongoing budget. Normal Mac/native/Pi release remains last verified8c67ddbe; source merge and later deployment are separate. [Contract](desk-companion/docs/proactive-research.md), [evidence](output/qa/2026-11-17-proactive-agent-merge/verification.md).

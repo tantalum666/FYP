@@ -625,3 +625,24 @@ def test_old_pending_thread_is_not_activated_by_later_standing_setting(world):
     assert result["proposal"]["state"] == "pending"
     with r.store.connection() as conn:
         assert conn.execute("SELECT count(*) FROM mail_followups").fetchone()[0] == 0
+
+
+def test_automatic_followup_receipt_recovery_reports_current_pause_or_stop(world):
+    from desk.workspace_data import PreferencesUpdate, WorkspacePreferences
+
+    r, _, actor, *_ = world
+    grant = r.permissions.capture(actor)
+    draft = r.mail_followups.draft({"provider": "gmail", "message_id": "m1"}, "recovery")
+    reply = r.permissions.apply_reply(draft, grant)
+    ident = reply["mail_followup"]["followup_id"]
+    r.data.update(
+        PreferencesUpdate(expected_version=1, preferences=WorkspacePreferences(proactivity="off")),
+        "off",
+    )
+    recovered = r.permissions.refresh_reply(reply)
+    assert recovered["paused"] and "paused" in recovered["message"]
+    r.mail_followups.stop(ident, "stop")
+    recovered = r.permissions.refresh_reply(reply)
+    assert (
+        recovered["mail_followup"]["state"] == "stopped" and "active;" not in recovered["message"]
+    )

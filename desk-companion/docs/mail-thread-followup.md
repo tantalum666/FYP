@@ -1,16 +1,16 @@
 # Group 2 · Selected mail-thread follow-up
 
-17 November 2026. A selected Gmail/Outlook conversation can be linked to one existing or new task, checked for incoming updates, and replied to through the existing reviewed sender. This is a bounded source subscription. It is not whole-inbox ingestion or an autonomous agent scheduler. [Official capability audit](../../research/2026-11-17-official-capability-audit.md), [verification](../../output/qa/2026-11-17-mail-thread-followup/verification.md).
+18 November 2026. A selected Gmail/Outlook conversation can be linked to one existing or new task, checked for incoming updates, and replied to through the existing reviewed sender. This is a bounded source subscription. It is not whole-inbox ingestion or an autonomous agent scheduler. [Official capability audit](../../research/2026-11-17-official-capability-audit.md), [verification](../../output/qa/2026-11-17-mail-thread-followup/verification.md).
 
 ## Owner journey
 
 1. Ask Alice to find a particular email using the connected-account read tools.
-2. Ask to follow that email. The review shows the subject, sender, time, account and linked task. A separate unchecked choice enables background follow-up for seven days, approximately every fifteen minutes while the service is online.
+2. Ask to follow that email. A fresh owner request uses the existing Normal/Less often proactive preference and starts the newly prepared read-only subscription without a second approval card, including in Ask mode. It follows the open task while the service is online, approximately every fifteen minutes. Manual preview/forms and legacy requests retain their explicit seven-day checkbox; changing a preference does not authorize an old pending draft.
 3. New incoming message IDs add evidence to that same task and one coalesced notification. Open **Tasks → Followed emails → Open task** to see the latest five message headers. **Mark reviewed** acknowledges only the observed revision; a newer arrival is not cleared by a stale screen.
 4. **Ask Alice about this update** opens the same task discussion. Alice can read current follow-up state and prepare a reply to a specific message. The owner reviews recipient, exact subject and body before **Send reply**.
-5. **Stop following** prevents subsequent source reads and notifications; the existing task/history remain. Closing a task or reaching the seven-day expiry also ends the subscription. Reopening a closed task does not reauthorize an ended subscription.
+5. **Stop following** prevents subsequent source reads and notifications and excludes that thread from ambient research; the existing task/history remain. Closing a task ends following. Legacy manual scopes also end after seven days; automatic scopes renew an internal lease while the task remains open. Reopening a closed task does not reauthorize an ended subscription. A later explicit new follow request can start it again.
 
-Connecting an account or selecting Full access alone does not activate background following or sending. Browser session expiry does not cancel an explicitly started seven-day background grant. Hide private or pausing the linked task suspends reads and delivery; the service resumes only while the original account version and grant remain valid. Proactivity off/quiet hours defer notifications, rather than silently discarding observations. Service/device downtime is not covered by a cloud monitor; closed-phone push delivery is not claimed.
+The standing proactive setting permits bounded contextual research from connected previews; selected-thread tracking still requires a fresh request identifying the thread. Full access does not authorize sending. Browser session expiry does not cancel an already started read-only subscription. Hide private, Proactivity Off or pausing the linked task suspends reads and delivery; the service resumes only while the original account version and grant remain valid. Quiet hours defer notifications without silently discarding observations. Service/device downtime is not covered by a cloud monitor; closed-phone push delivery is not claimed.
 
 ## Responsibilities
 
@@ -40,13 +40,13 @@ Gmail uses the existing message's exact decoded Subject, threadId and RFC Messag
 
 The owner-visible draft binds account version, recipient and source fingerprint. A source change before confirmation rejects the send before reserving an attempt. A lost HTTP acknowledgement can recover the same durable receipt without resending. A provider timeout after dispatch remains unknown and blocks a second draft for the same reply target. The generic sender retains its existing behavior.
 
-Gmail response threadId matching establishes provider-reported thread binding; Graph HTTP 202 means accepted, with thread binding/delivery unconfirmed. Neither is proof that a recipient received/read the message. This slice uses synthetic provider responses and sends no real email.
+Gmail response threadId matching establishes provider-reported thread binding; Graph HTTP 202 means accepted, with thread binding/delivery unconfirmed. Neither is proof that a recipient received/read the message. Current acceptance includes real-model follow/stop choices over synthetic provider data; no real email was sent in this integration. Historical native self-send acceptance remains separately dated.
 
 ## Function/API surface
 
 Shared functions: mail_followup_draft, mail_followup_status, mail_followup_stop, email_reply_draft. They are owner-only. The model has no confirm function. Retained-chat compatibility exposes draft/status/stop within its existing narrower catalog; normal text and Live support reply drafting.
 
-Owner routes: POST /api/mail-followups/preview, GET /api/mail-followups, POST /api/mail-followups/{id}/acknowledge or /stop, and POST /api/email/reply-drafts. Confirmation uses the existing proposal decision route with an explicit boolean follow_mail_thread. Stop remains possible while private context is hidden. Unknown frontend mutations keep their original operation ID only in the current component; after closing, query state before repeating an action.
+Owner routes: POST /api/mail-followups/preview, GET /api/mail-followups, POST /api/mail-followups/{id}/acknowledge or /stop, and POST /api/email/reply-drafts. Manual confirmation uses the existing proposal decision route with an explicit boolean follow_mail_thread. Fresh conversational follow-up can instead use PermissionService's captured read-only proactivity grant. The cached receipt refreshes actual active/paused/stopped state without executing a new subscription. Stop remains possible while private context is hidden. Unknown frontend mutations keep their original operation ID only in the current component; after closing, query state before repeating an action.
 
 ## Primary sources
 

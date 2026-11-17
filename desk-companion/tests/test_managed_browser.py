@@ -29,7 +29,7 @@ class Events(httpx.AsyncByteStream):
         )
         if p.drop_stream and p.stream_count == 1:
             return
-        while not p.approved or p.never_complete or (p.auth_form and not p.auth_accepted):
+        while not p.approved or p.never_complete or (p.auth_form and not p.auth_resolved):
             await asyncio.sleep(0.001)
         yield self.line(
             "agent.session.turn.item.done", item={"type": "computer_use_call", "id": "browser-1"}
@@ -55,6 +55,8 @@ class Provider:
         self.on_read = None
         self.completed = self.empty_ack = self.drop_stream = self.auth_accepted = False
         self.auth_form = None
+        self.auth_resolved = False
+        self.resolved_requests = set()
         self.stream_count = 0
         self.miss_terminal_event = False
 
@@ -73,7 +75,11 @@ class Provider:
             assert body["agent"]["tools"] == [{"type": "computer_use"}]
             if self.create_uncertain:
                 raise httpx.ReadTimeout("No creation response", request=request)
-            return httpx.Response(201, json={"id": "sess_fixture"})
+            return httpx.Response(
+                201, json={"id": "sess_fixture", "environment": {"id": "env_fixture"}}
+            )
+        if request.method == "GET" and "/environments/" in path:
+            return httpx.Response(200, json={"id": "env_fixture", "status": "connected"})
         if request.method == "GET" and path.endswith("/events"):
             self.stream_count += 1
             return httpx.Response(200, stream=Events(self))
@@ -83,8 +89,10 @@ class Provider:
                 self.input = True
             elif event["type"].endswith("approval_request_result"):
                 self.decisions.append(event["response"])
+                self.resolved_requests.add(event["request_id"])
                 if event["response"]["type"] == "browser_authentication":
-                    self.auth_accepted = True
+                    self.auth_resolved = True
+                    self.auth_accepted = event["response"].get("action") == "submit"
                 else:
                     self.approved = event["response"].get("decision") == "approve"
             return (
@@ -174,7 +182,14 @@ class Provider:
                 }
             ]
         return httpx.Response(
-            200, json={"status": "idle", "usage": None, "required_actions": required}
+            200,
+            json={
+                "status": "idle",
+                "usage": None,
+                "required_actions": [
+                    a for a in required if a["request_id"] not in self.resolved_requests
+                ],
+            },
         )
 
 
@@ -372,3 +387,95 @@ def test_operator_opt_out_never_silently_uses_local_browser(world):
     with pytest.raises(DomainError, match="COMPUTER_USE_UNAVAILABLE"):
         prepare(world)
     assert not provider.calls
+
+
+def test_cleanup_retries_conflict_after_cancellation_without_replaying_work(world):
+    r, provider, _, _ = world
+    calls = []
+
+    async def delayed(request):
+        if request.method == "DELETE":
+            calls.append(1)
+            if len(calls) == 1:
+                return httpx.Response(409, json={"error": {"code": "session_busy"}})
+        return await provider(request)
+
+    r.text_ai.transport = httpx.MockTransport(delayed)
+    provider.never_complete = True
+    job = prepare(world)
+    approve(r, job)
+    r.jobs.run_one()
+    assert result(world, job)["state"] == "failed" and provider.deleted
+    assert len(calls) == 2 and not r.jobs.managed_browser.blocker.exists()
+    assert sum(c[0] == "POST" and c[1].endswith("/sessions") for c in provider.calls) == 1
+    assert (
+        sum(
+            c[2].get("events", [{}])[0].get("type") == "agent.session.input.message"
+            for c in provider.calls
+        )
+        == 1
+    )
+
+
+def test_input_is_sent_once_before_waiting_for_lazy_environment_connection(world):
+    r, provider, _, _ = world
+    statuses = ["pending", "pending", "ready"]
+    reads = []
+
+    async def provisioning(request):
+        if "/environments/" in request.url.path:
+            reads.append(1)
+            assert provider.input
+            return httpx.Response(200, json={"id": "env_fixture", "status": statuses.pop(0)})
+        return await provider(request)
+
+    r.text_ai.transport = httpx.MockTransport(provisioning)
+    job = prepare(world)
+    approve(r, job)
+    r.jobs.run_one()
+    assert result(world, job)["state"] == "succeeded" and len(reads) == 3
+
+
+def test_lost_origin_ack_reconciles_same_request_without_replaying_input(world):
+    r, provider, _, _ = world
+    attempts = []
+
+    async def transport(request):
+        if request.method == "POST" and request.url.path.endswith("/events"):
+            body = json.loads(request.content)
+            event = body["events"][0]
+            if event.get("response", {}).get("decision") == "approve":
+                attempts.append((request.headers["idempotency-key"], body))
+                if len(attempts) == 1:
+                    raise httpx.ReadTimeout("Lost before origin acceptance", request=request)
+        return await provider(request)
+
+    r.text_ai.transport = httpx.MockTransport(transport)
+    job = prepare(world)
+    approve(r, job)
+    r.jobs.run_one()
+    assert result(world, job)["state"] == "succeeded"
+    assert len(attempts) == 2 and attempts[0] == attempts[1]
+
+
+def test_cleanup_cancels_pending_origin_before_deletion(world):
+    r, provider, _, _ = world
+    cancelled = []
+
+    async def transport(request):
+        if request.method == "DELETE" and not cancelled:
+            return httpx.Response(409, json={"error": {"code": "approval_pending"}})
+        if request.method == "POST" and request.url.path.endswith("/events"):
+            event = json.loads(request.content)["events"][0]
+            if event.get("response", {}).get("decision") == "cancel":
+                cancelled.append(event["request_id"])
+        return await provider(request)
+
+    r.text_ai.transport = httpx.MockTransport(transport)
+    # Leave the registered origin waiting when the owner cancels the job.
+    job = prepare(world)
+    approve(r, job)
+    provider.on_read = lambda: r.jobs.cancel(job["id"], "cancel-while-origin-pending")
+    r.jobs.run_one()
+    assert cancelled and provider.deleted
+    assert result(world, job)["state"] == "cancelled"

@@ -1,0 +1,17 @@
+{
+  "checks": {
+    "completed": true,
+    "deleted": true,
+    "titles": true,
+    "prices": true,
+    "stocks": true,
+    "GBP_total": true,
+    "HKD_total": true,
+    "links": true
+  },
+  "elapsed_seconds": 68.153,
+  "setup_seconds": 24.787,
+  "activities": 5,
+  "result_sha256": "8b8945d357f6677bfdda2da0e611b6200c2ac53a18ecda808e4f2c4934edc8fc",
+  "fixture_exchange_rate": true
+}

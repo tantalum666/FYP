@@ -246,6 +246,8 @@ class MailFollowups:
         if not hidden:
             definition = json.loads(row["definition"])
             result.update(
+                paused_by_preferences=row["state"] == "active"
+                and self.runtime.data.preferences()["proactivity"] == "off",
                 automatic=bool(definition.get("automatic")),
                 expires_at=None if definition.get("automatic") else row["expires_at"],
                 provider=definition["provider"],
@@ -288,6 +290,7 @@ class MailFollowups:
         return {
             "state": "confirmed",
             "kind": "mail_followup",
+            "paused": row.get("paused_by_preferences", False),
             "saved": True,
             "result": {"followup_id": row["id"], "task_id": row["task_id"], "state": row["state"]},
         }
@@ -414,8 +417,10 @@ class MailFollowups:
             with self.store.connection(write=True) as conn:
                 # Standing read-only assistance follows the open task's lifetime.
                 # Legacy explicitly scoped grants retain their original expiry.
-                conn.execute("UPDATE mail_followups SET expires_at=? WHERE state='active' AND json_extract(definition,'$.automatic')=1 AND expires_at<?",
-                    (iso(now + LIFETIME), iso(now + timedelta(days=1))))
+                conn.execute(
+                    "UPDATE mail_followups SET expires_at=? WHERE state='active' AND json_extract(definition,'$.automatic')=1 AND expires_at<?",
+                    (iso(now + LIFETIME), iso(now + timedelta(days=1))),
+                )
                 for row in conn.execute(
                     "SELECT m.* FROM mail_followups m LEFT JOIN tasks t ON t.id=m.task_id WHERE m.state IN ('active','blocked') AND (m.expires_at<=? OR t.id IS NULL OR t.status NOT IN ('todo','in_progress','waiting'))",
                     (iso(now),),

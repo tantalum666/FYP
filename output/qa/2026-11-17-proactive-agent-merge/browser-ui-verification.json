@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "viewports": [
+    [
+      1440,
+      1000
+    ],
+    [
+      393,
+      852
+    ]
+  ],
+  "page_errors": [],
+  "console": [
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x11400580200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x11400580200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x11400580200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x11400580200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+    }
+  ],
+  "no_initial_user_message": true,
+  "no_per_thread_approval": true,
+  "same_request_dismiss_recovery": true,
+  "no_repeated_model_on_unchanged_sources": true,
+  "off_stops_research": true,
+  "model_decisions": "scripted fixture",
+  "live_calls": 0,
+  "real_sends": 0,
+  "analysis_calls": 2
+}

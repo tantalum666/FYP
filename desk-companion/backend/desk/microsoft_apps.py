@@ -33,7 +33,7 @@ class MicrosoftApps:
         if service == "outlook_mail":
             path = "/me/messages/" + rid if rid else "/me/messages"
             params["$select"] = (
-                "id,subject,from,toRecipients,receivedDateTime,bodyPreview,isRead,webLink"
+                "id,conversationId,subject,from,toRecipients,receivedDateTime,bodyPreview,isRead,webLink"
             )
             if rid:
                 params.pop("$top")

@@ -1,0 +1,48 @@
+{
+  "private_archive": "~/.config/desk-companion/proactive-agent-merge-20261117/",
+  "logs": [
+    {
+      "name": "backend-full.log",
+      "sha256": "c4d38a0eb961727bb5d44c360a226bf4552242dae974d04454251bd97b6ebed4"
+    },
+    {
+      "name": "backend-final-full.log",
+      "sha256": "204e8ef3dcc376c2b78dcf1917cc786b53cf8675d75376c93f86a96c14d389c1"
+    },
+    {
+      "name": "frontend-tests-final.log",
+      "sha256": "4f69bd8a5d5603f771082ae5da93d08cce184325cc1a2d98ca2e2738785ad873"
+    },
+    {
+      "name": "frontend-final-build.log",
+      "sha256": "641f28f8328eda97902b0a9ea991e8cfd3ca4ffb164247c393dfe57250a1c096"
+    },
+    {
+      "name": "managed-control-final.log",
+      "sha256": "5c78810f7183a50f4222eb0ed11f3d9645c8624b4b3e44041a48595ac4e95507"
+    },
+    {
+      "name": "closeout-regressions.log",
+      "sha256": "833c5642bb408fcce8d39db273b881306730ea6e187f1a090ba883df3a64b6cb"
+    },
+    {
+      "name": "ruff-closeout.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "name": "backend-closeout-full.log",
+      "sha256": "68930fec5619bf9c314fc81d7eb69275f1608657a9d06e5fb9ded530993dad7d"
+    }
+  ],
+  "screenshots": "Installed Chromium with synthetic providers/fictional source data; not native or Pi deployment evidence.",
+  "final_backend": {
+    "passed": 2501,
+    "skipped": 2,
+    "seconds": 542.48
+  },
+  "frontend": {
+    "passed": 393,
+    "types": true,
+    "build": true
+  }
+}

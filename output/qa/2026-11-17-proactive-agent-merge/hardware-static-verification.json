@@ -1,0 +1,95 @@
+{
+  "head": "2d999c5b4a93afa1465aade8127b165e388ffdb6",
+  "zip_sha256": "2d57a1da24e40160810f8bc184437a6bcdf1423412a345af2e44541d1b3b4d9f",
+  "package": [
+    {
+      "file": "01_front_screen_and_dock.stl",
+      "triangles": 856,
+      "closed_edges": true,
+      "size_mm": [
+        309.6,
+        204.212,
+        76.226
+      ],
+      "z_min": 0.0
+    },
+    {
+      "file": "02_back.stl",
+      "triangles": 742,
+      "closed_edges": true,
+      "size_mm": [
+        309.6,
+        193.6,
+        3.0
+      ],
+      "z_min": 0.0
+    },
+    {
+      "file": "03_left_side.stl",
+      "triangles": 1314,
+      "closed_edges": true,
+      "size_mm": [
+        200.0,
+        200.0,
+        21.0
+      ],
+      "z_min": 0.0
+    },
+    {
+      "file": "04_right_side.stl",
+      "triangles": 1430,
+      "closed_edges": true,
+      "size_mm": [
+        200.0,
+        200.0,
+        21.0
+      ],
+      "z_min": 0.0
+    },
+    {
+      "file": "05_top.stl",
+      "triangles": 512,
+      "closed_edges": true,
+      "size_mm": [
+        309.6,
+        104.6,
+        3.0
+      ],
+      "z_min": 0.0
+    },
+    {
+      "file": "06_bottom.stl",
+      "triangles": 1204,
+      "closed_edges": true,
+      "size_mm": [
+        309.6,
+        200.0,
+        19.0
+      ],
+      "z_min": 0.0
+    },
+    {
+      "file": "07_qi_transmitter_bracket.stl",
+      "triangles": 228,
+      "closed_edges": true,
+      "size_mm": [
+        70.0,
+        17.0,
+        77.0
+      ],
+      "z_min": 0.0
+    },
+    {
+      "file": "H2D_5_ArUco_markers_to_slice.3mf",
+      "objects": 15,
+      "unit": "millimeter"
+    }
+  ],
+  "workbook_zip_valid": true,
+  "physical_print_acceptance": false,
+  "printable_marker_assemblies": 5,
+  "physical_parts": 12,
+  "first_budget_hkd": 1077.12,
+  "total_goods_hkd": 1944.43,
+  "headroom_hkd": 55.57
+}

@@ -62,12 +62,19 @@ class Initiative:
                     id INTEGER PRIMARY KEY CHECK(id=1), signature TEXT, lease_token TEXT,
                     lease_until TEXT, budget_day TEXT NOT NULL, used INTEGER NOT NULL,
                     last_checked_at TEXT, error TEXT);
-                INSERT OR IGNORE INTO initiative_state VALUES(1,NULL,NULL,NULL,'',0,NULL,NULL);
+                INSERT OR IGNORE INTO initiative_state(id,budget_day,used) VALUES(1,'',0);
                 CREATE TABLE IF NOT EXISTS initiative_findings(
                     id TEXT PRIMARY KEY, data TEXT NOT NULL, state TEXT NOT NULL,
                     created_at TEXT NOT NULL, notified INTEGER NOT NULL DEFAULT 0);
                 CREATE TABLE IF NOT EXISTS initiative_seen(id TEXT PRIMARY KEY, at TEXT NOT NULL);
             """)
+            columns = {row["name"] for row in conn.execute("PRAGMA table_info(initiative_state)")}
+            if "attempts" not in columns:
+                conn.execute(
+                    "ALTER TABLE initiative_state ADD COLUMN attempts INTEGER NOT NULL DEFAULT 0"
+                )
+            if "retry_at" not in columns:
+                conn.execute("ALTER TABLE initiative_state ADD COLUMN retry_at TEXT")
 
     def enabled(self):
         return self.runtime.data.preferences()["proactivity"] != "off"
@@ -143,8 +150,16 @@ class Initiative:
                 state = conn.execute("SELECT * FROM initiative_state WHERE id=1").fetchone()
                 day = max(state["budget_day"], iso(now)[:10])
                 used = state["used"] if day == state["budget_day"] else 0
+                same = state["signature"] == signature
+                retry_due = (
+                    same
+                    and state["error"]
+                    and state["attempts"] < 2
+                    and state["retry_at"]
+                    and state["retry_at"] <= iso(now)
+                )
                 if (
-                    state["signature"] == signature
+                    (same and not retry_due)
                     or state["lease_until"]
                     and state["lease_until"] > iso(now)
                     or used >= (3 if prefs["proactivity"] == "low" else 8)
@@ -152,8 +167,15 @@ class Initiative:
                     return
                 token = uuid4().hex
                 conn.execute(
-                    "UPDATE initiative_state SET signature=?,lease_token=?,lease_until=?,budget_day=?,used=?,error=NULL WHERE id=1",
-                    (signature, token, iso(now + timedelta(seconds=90)), day, used + 1),
+                    "UPDATE initiative_state SET signature=?,lease_token=?,lease_until=?,budget_day=?,used=?,error=NULL,attempts=?,retry_at=NULL WHERE id=1",
+                    (
+                        signature,
+                        token,
+                        iso(now + timedelta(seconds=90)),
+                        day,
+                        used + 1,
+                        state["attempts"] + 1 if same else 1,
+                    ),
                 )
                 known = [
                     json.loads(row["data"])
@@ -268,11 +290,12 @@ class Initiative:
             if token:
                 with self.store.connection(write=True) as conn:
                     conn.execute(
-                        "UPDATE initiative_state SET lease_token=NULL,lease_until=NULL,error=? WHERE id=1 AND lease_token=?",
+                        "UPDATE initiative_state SET lease_token=NULL,lease_until=NULL,error=?,retry_at=? WHERE id=1 AND lease_token=?",
                         (
                             error.code
                             if isinstance(error, DomainError)
                             else "INITIATIVE_RESULT_INVALID",
+                            iso(self.store.clock() + timedelta(minutes=5)),
                             token,
                         ),
                     )

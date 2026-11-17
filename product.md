@@ -1,24 +1,26 @@
 # Group 2 Project Contract
 
-## 2026-11-17 Current priority: personal-agent mail follow-up
+## 2026-11-18 Current priority: contextual proactive assistance and reviewed integration
 
-Owner explicitly pauses Pi power work and requests continued personal-agent software. Preserve the installed application/A3/accounts/RTC settings; perform no further hardware/supply tests in this slice. Implement selected Gmail/Outlook thread follow-up through existing OAuth, TaskService/evidence, proposal approval and Notifier, with bounded background metadata checks. Email content remains untrusted data and cannot authorize actions. Background following must be explicitly started for a displayed thread; connecting an account alone does not enable it. No paid test or external send is inferred.
+Owner requests useful automatic follow-up without configuring a separate schedule or approving every read, and authorizes review, repair and merge of PR124–128. Alice now analyzes changes in current saved facts, tasks, calendar and bounded connected-account previews, with citations, relevance filtering, quiet controls and deduplication. A fresh “follow this email” request starts read-only tracking under the existing proactivity preference, including Ask mode. Off pauses both research and mail checks. This supersedes the older requirement that every thread require another seven-day approval card; legacy manually approved grants retain their original expiry. Sending, purchases and general software writes retain their separate policies.
 
-Implemented on codex/mail-thread-followup-20261117, based on a88e1a1c/PR127: bounded selected-thread metadata, explicit seven-day grant, same-task evidence/coalesced notices, proper reviewed Gmail/Outlook replies and shared text/Live tools. Local backend 2,471 passed / 2 platform skips, frontend 393 passed, build/types/Ruff and desktop/Chinese-phone synthetic-provider journeys passed. No real subscription, send, paid call or runtime promotion. [Contract](desk-companion/docs/mail-thread-followup.md), [QA](output/qa/2026-11-17-mail-thread-followup/verification.md).
+The new path reuses official OpenAI Responses with native strict structured output, without a custom agent loop. Multi-step browser tasks continue through official Agents; deliberate future scheduled reasoning should use official Automations. `AGENTS.md` now requires checking current official capabilities and exact API/SDK types before implementation. The old primary-text AgentLoop is a declared migration gap; it was not expanded. [Proactive contract](desk-companion/docs/proactive-research.md), [research](research/2026-11-18-proactive-assistance-and-official-reuse.md).
 
-Additional owner requirement: check official OpenAI architecture before adding generic infrastructure. Live/Responses and managed browser are current paths; official Agents Automations is preferred for future scheduled reasoning. Primary text still uses the older three-step AgentLoop and remains a migration gap. The new mail worker only synchronizes source metadata; it creates no competing planner, scheduler framework or model memory. [Fresh official capability audit](research/2026-11-17-official-capability-audit.md).
+Actual API tests exposed and repaired response timeouts and hosted-browser readiness/approval/cancellation/cleanup defects. Six real read-only research cases and a natural-language follow/stop flow passed; mail transport was synthetic. The final official hosted browser read a public catalogue, inspected stock, calculated a fictional shipping/currency comparison and deleted its session, with an independent result check. Earlier failed attempts are retained. [Current QA](output/qa/2026-11-17-proactive-agent-merge/verification.md) distinguishes local tests, real models, actual sites and untested merchant transactions.
+
+Pi power work remains paused. Installed application source was last verified as `8c67ddbe` on Mac/native/Pi; this integration has not replaced those runtimes or enabled normal background model billing. Preserve A3, account grants, data, original performance and RTC settings. The current batch uses the owner's newer permission to test against expiring credits, with an engineering cap of US$5; prior closed budgets remain closed. No CI, real send, purchase, payment or ticket is inferred.
 
 ## 2026-11-17 Replacement-adapter stability check
 
 Owner replaced the adapter/charger and requested stability testing at original performance. Pi reported3000mA capability;8c67ddbe/Alice kiosk/API/application services active andCPU maximum2.4GHz. A planned10-minute observation ended on SSH timeout after485seconds/98samples:18samples showed current undervoltage/throttling, board ADC4.647–4.939V, temperatures47.7–77.9°C, all98local API health checks OK. Kernel events include fresh undervoltage during the observed interval. This power path has **not passed stability**, regardless of unchanged application settings; loss of SSH alone is not proof of a reboot. No deliberate power cycle, performance cap, model call or CI. [Evidence](output/qa/2026-11-17-pi-supply-check/verification.md).
 
-## 2026-11-17 Current priority: Pi deployment and automatic wake
+## Historical 2026-11-17: Pi deployment and automatic wake
 
 Owner requests latest Pi deployment and reports automatic restart still failing. Pinned VPS access returned; application8c67ddbe was staged/hashed/activated and read back on Pi, with its original A3version9, Google grants, database/schema and2.4GHz CPU maximum preserved. The next observed boot also served the same release. Three endpoints now have the same application source; current Pi availability remains intermittent.
 
 Fresh readback found the RTC timer disabled, marker absent and hardware alarm empty. Enabled actual persistent renewal and confirmed a moving alarm; after a normal shutdown trial, logs show an alarm-following boot interrupted by undervoltage and a later return. Owner is unsure about manual intervention in the first trial, so that trial alone cannot establish autonomous recovery. The corrected early service/timer pair is installed and actual boot ordering verified: alarm finished at4.680seconds before sysinit6.454seconds. A later coordinated trial exceeded its220-second window, but the owner subsequently observed self-start and a fresh alarm/boot chain supports delayed autonomous recovery. Repeated undervoltage and intermittent access remain; stable recovery is not accepted. [Current QA](output/qa/2026-11-17-pi-mainline-wake/verification.md). No firmware, paid call or CI; no rejected CPU cap reinstated.
 
-## 2026-11-17 Current priority: personal-agent software
+## Historical 2026-11-17: official execution mainline
 
 Owner now explicitly requests making the official execution path primary. New conversation drafts and the current browser form/API default to the official managed executor; legacy omitted-engine requests and local continuation keep their original behavior. GPT Live/Responses remains the voice layer. FYP keeps task/account/permission/result binding and the existing job worker, with no parallel generic planner or queue.
 
@@ -32,7 +34,7 @@ Owner rejects keeping Alice slowed/disabled as the workaround. Normal CPU maximu
 
 An existing-firmware RTC one-off alarm was followed by an intermediate boot near the alarm time, then undervoltage at 5.9 seconds before networking. This supports wake capability but not complete recovery. Do not call a later manual power-cycle an automatic success. A same-version EEPROM configuration proposal was prepared but withdrawn; no flash is authorized by a stale reply to that superseded question. The later Pi follow-up enabled and verified persistent renewal; full autonomous recovery and early-boot timing remain separate acceptance limits. Preserve performance and explain that software cannot guarantee startup through an actual supply collapse. [Current wake evidence](output/qa/2026-11-17-pi-auto-wake/verification.md).
 
-## 2026-11-16 Current priority: Pi automatic shutdown
+## Historical 2026-11-16: Pi automatic shutdown
 
 Historical 16 November phase: owner resumed frequent Pi power-off diagnosis on dormitory Ethernet. Fresh access confirmed 13 kernel undervoltage episodes; older logs had been volatile. A private backup and persistent logs were verified. A temporary display/container hold and 1.5 GHz ceiling passed 8 minutes/97 samples without new undervoltage. The owner subsequently rejected retaining this reduced-performance mode; it was removed as recorded above. Original diagnostic evidence remains, but it is not the current operating configuration or proof of a permanent repair. [Recovery evidence](output/qa/2026-11-16-pi-power-recovery/verification.md).
 
@@ -112,7 +114,7 @@ Earlier9 November technical result: isolated Mac V2ProPlus CPU generated six cas
 
 | 模块 | 已实现 | 仍须独立验证 |
 |---|---|---|
-| 应用连接 | Google/Microsoft共享OAuth、Gmail/Outlook邮件核对发送、外部只读查询；Mac Gmail本人测试实际送达；16November Mac/Pi Gmail/Calendar新授权及真实读请求通过 | 微软注册/授权、选定邮件跟进的真实授权验收、全邮箱增量同步、Office云端编辑和真实商务操作仍待 |
+| 应用连接 | Google/Microsoft共享OAuth、Gmail/Outlook邮件核对发送、外部只读查询；Mac Gmail本人测试实际送达；16November Mac/Pi Gmail/Calendar新授权及真实读请求通过 | 微软注册/授权、持续真实邮件跟进、全邮箱增量同步、Office云端编辑和真实商务操作仍待 |
 | 日历／事务 | 持久CRUD、重复／例外、冲突、提醒、进展／跟进、版本与操作ID、草稿确认；离线夹具可增量更新同一事务；Mac Google Calendar真实读取通过 | 复杂生产数据、持续外部同步和远程通知另验 |
 | AI会话 | GPT Live语音与Responses文字复用业务工具／批准及有限上下文；Realtime保留对照；短期重放、记忆失效、逐轮时限；选中事务经服务端读取并绑定会话 | 新选型同条件比较、真人声学／泛化、成本与长期资源运行 |
 | 软件结构 | 手机拆成首页、计划、管理、环境与日历读取；网页／手机／Pi共用自动本地连接、会话恢复及日程编辑；读取去重、迟到响应和未保存保护 | 完整跨设备故障矩阵和辅助技术验收 |

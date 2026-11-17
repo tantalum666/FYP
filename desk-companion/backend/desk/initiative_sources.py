@@ -24,6 +24,27 @@ class InitiativeSources:
         self.next_refresh = 0
         self.account_versions = None
 
+    def stopped_threads(self):
+        # Reuse existing follow-up decisions. A later explicit start supersedes
+        # an older stop; reconnecting the same mailbox does not erase that stop.
+        seen, stopped = set(), set()
+        with self.runtime.store.connection() as conn:
+            rows = conn.execute(
+                "SELECT definition,state FROM mail_followups ORDER BY rowid DESC"
+            ).fetchall()
+        for row in rows:
+            definition = json.loads(row["definition"])
+            key = (
+                definition["provider"],
+                definition["account_email"].casefold(),
+                definition["thread_id"],
+            )
+            if key not in seen:
+                seen.add(key)
+                if row["state"] == "stopped":
+                    stopped.add(key)
+        return stopped
+
     def fence(self):
         r = self.runtime
         prefs = r.data.preferences()
@@ -112,6 +133,7 @@ class InitiativeSources:
                             ),
                             "preview": compact(item.get("bodyPreview")),
                             "date": compact(item.get("receivedDateTime"), 100),
+                            "thread_id": item.get("conversationId"),
                         }
                     ref = f"mail:{provider}:{ident}"
                     current_mail[ref] = self.source(
@@ -122,7 +144,16 @@ class InitiativeSources:
                         {"account_version": account[1], "content": body},
                     )
             self.mail = current_mail
-        sources = dict(self.mail)
+        stopped = self.stopped_threads()
+        sources = {}
+        for ref, source in self.mail.items():
+            provider = "gmail" if ref.startswith("mail:gmail:") else "outlook"
+            if source["kind"] == "mail":
+                account = fence[2][provider]
+                thread = source["body"].get("thread_id")
+                if (provider, (account[2] or "").casefold(), thread) in stopped:
+                    continue
+            sources[ref] = source
         r = self.runtime
         for fact in r.memory.for_model()[:20]:
             ref = "memory:" + fact["id"]
@@ -159,22 +190,22 @@ class InitiativeSources:
                 sources[ref] = self.source(
                     ref, "task", task["title"], body, {"version": task["version"], "content": body}
                 )
-            for row in conn.execute(
-                "SELECT id,data,version FROM events ORDER BY rowid DESC LIMIT 20"
-            ):
-                event = json.loads(row["data"])
-                body = {
-                    k: event.get(k)
-                    for k in ("title", "start_local", "end_local", "timezone", "notes")
-                }
-                ref = "calendar:" + row["id"]
-                sources[ref] = self.source(
-                    ref,
-                    "calendar",
-                    event.get("title", ""),
-                    body,
-                    {"version": row["version"], "content": body},
-                )
+        # Share the calendar's current occurrence projection: raw event rows
+        # include soft deletions and cannot resolve moved/cancelled instances.
+        begin = r.store.clock()
+        for event in r.store.snapshot(begin, begin + timedelta(days=7))["occurrences"][:20]:
+            body = {
+                k: event.get(k)
+                for k in ("title", "start", "end", "timezone", "notes", "completed")
+            }
+            ref = f"calendar:{event['id']}:{event['occurrence_key']}"
+            sources[ref] = self.source(
+                ref,
+                "calendar",
+                event["title"],
+                body,
+                {"version": event["version"], "content": body},
+            )
         if self.fence() != fence:
             raise DomainError("PROVIDER_CONTEXT_CHANGED", 409)
         # Keep a mix of categories under one input budget, rather than letting

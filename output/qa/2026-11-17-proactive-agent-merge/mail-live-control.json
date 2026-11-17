@@ -1,0 +1,21 @@
+{
+  "model_calls": "real OpenAI Responses",
+  "mail_transport": "synthetic Gmail",
+  "turns": [
+    {
+      "elapsed_seconds": 10.876,
+      "http_status": 200,
+      "watch_state": "active",
+      "sends": 0
+    },
+    {
+      "elapsed_seconds": 9.531,
+      "http_status": 200,
+      "watch_state": "stopped",
+      "sends": 0
+    }
+  ],
+  "same_task": true,
+  "same_subscription": true,
+  "extra_approval_card": false
+}

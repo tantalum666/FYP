@@ -9,6 +9,7 @@ interface MailFollowup {
   id: string;
   task_id: string;
   state: string;
+  paused_by_preferences?: boolean;
   subject: string;
   sender: string;
   account_email: string;
@@ -138,16 +139,18 @@ export function MailFollowupsPanel({
           <strong>{row.subject || t("No subject", "无主题")}</strong>
           <small>{row.account_email}</small>
           <p>
-            {row.state === "active"
-              ? row.unread_count
-                ? t(
-                    `${row.unread_count} new message(s) to review`,
-                    `${row.unread_count} 条新消息待查看`,
-                  )
-                : t("Following this thread", "正在跟进这段邮件对话")
-              : row.state === "blocked"
-                ? t("Connection needs attention", "连接需要处理")
-                : t("Follow-up ended", "跟进已结束")}
+            {row.paused_by_preferences
+              ? t("Checks paused in your preferences", "已按偏好暂停检查")
+              : row.state === "active"
+                ? row.unread_count
+                  ? t(
+                      `${row.unread_count} new message(s) to review`,
+                      `${row.unread_count} 条新消息待查看`,
+                    )
+                  : t("Following this thread", "正在跟进这段邮件对话")
+                : row.state === "blocked"
+                  ? t("Connection needs attention", "连接需要处理")
+                  : t("Follow-up ended", "跟进已结束")}
           </p>
           {row.last_checked_at && (
             <small>

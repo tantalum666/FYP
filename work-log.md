@@ -992,3 +992,13 @@ Publication: source924e1987 pushed to [PR128](https://github.com/tantalum666/FYP
 
 - 交付六面版 Blender 模型及爆炸图，单独导出六块面板和一个 Qi 发射器支架。H2D 打印包只提供七个 STL 和一份包含五块 ArUco 的双色 3MF。五块定位牌总厚 1.4 mm。
 - 校验 V3 共享副本和源模型几何指纹、打印包原始字节、STL 按毫米摆放、3MF 五个实体和分色。下一步用学校 H2D 配置切片，确认前板支撑与黑白分配并做试印。[打印入口](research/2026-11-17-hardware-progress/README.md#h2d-打印交付) · [本地验证](output/qa/2026-11-17-hardware-progress/v3-printing-verification.md)。
+
+## 2026-11-18 Proactive assistance, real-provider repair and PR integration
+
+Goal: complete contextual automatic follow-up, adopt current official OpenAI capabilities, review/fix/merge124–128 and preserve a usable new-chat handoff. Implemented bounded changed-source analysis with strict Responses schema/citations, standing read-only follow/stop, pause/dedupe/quiet controls, canonical calendar occurrence projection and shared Alice messages. Retired duplicate advice worker; ordinary text-loop migration remains explicit.
+
+Reviewed all pinned PR heads and integrated125hardware without losing software/history changes. Static ZIP/sevenSTL/five3MFassembly/twelvepart/budget checks passed; physical printing remains open. Real tests found and fixed Responses read and official-browser setup/readiness/control/cancellation/cleanup problems. Six research cases and real-model follow/stop passed; final public-browser price/stock/math result independently matched. All four resources deleted; first failures remain recorded.
+
+Local final backend2,501passed/2Linux-only skips; publication receipt: see [QA](output/qa/2026-11-17-proactive-agent-merge/verification.md). Final focused66passed, frontend393/types/build/Ruff passed; desktop/Chinese-phone scripted journeys passed. NoCI. Batch conservative accounting/reservesUS$4.267201underUS$5, not a verified bill; closed. No real send/order/payment/ticket, no native/Pi promotion or resumed hardware diagnostics.
+
+Saved source, current product/contracts/research, sanitized QA and private raw archive; updated AGENTS/START/handoff and recovery-worktree marker. Private archive: `~/.config/desk-companion/proactive-agent-merge-20261117/`. Normal runtimes/A3/data/account grants unchanged. One next step after merge: promote this reviewed main tree to the normal endpoints and verify version/data/A3/grant parity; then resume the separately documented official text-orchestration migration.

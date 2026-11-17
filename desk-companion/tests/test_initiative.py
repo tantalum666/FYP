@@ -6,7 +6,7 @@ from fastapi.testclient import TestClient
 from desk.app import create_app
 from desk.context import pack_conversation, voice_context_note
 from desk.initiative import Findings, Initiative
-from desk.schemas import SettingsInput
+from desk.schemas import CreateEvents, EventAction, EventInput, SettingsInput
 from desk.tasks import TaskInput, TaskAction
 from desk.text_ai import TextConfig
 from desk.workspace_data import PreferencesUpdate, WorkspacePreferences
@@ -350,3 +350,118 @@ def test_connected_mail_preview_is_compared_to_a_saved_fact_without_a_thread_gra
         assert conn.execute("SELECT count(*) FROM outgoing_mail_attempts").fetchone()[0] == 0
     r.initiative.advance()
     assert len(requests) == 2
+
+
+def test_stopped_thread_is_excluded_from_ambient_research_even_after_reconnect(world):
+    import httpx
+    from test_mail_followups import Provider
+
+    r, _, actor, *_ = world
+    account = {
+        "connected": True,
+        "configured": True,
+        "email": "owner@example.com",
+        "version": "one",
+    }
+    r.outbound_mail.auth.account = lambda: dict(account)
+    r.outbound_mail.auth.access_token = lambda: "synthetic-mail-token"
+    r.outbound_mail.auth.transport = httpx.MockTransport(Provider())
+    grant = r.permissions.capture(actor)
+    draft = r.mail_followups.draft({"provider": "gmail", "message_id": "m1"}, "watch")
+    started = r.permissions.apply_reply(draft, grant)["mail_followup"]
+    r.mail_followups.stop(started["followup_id"], "stop")
+    sources = r.initiative.sources
+    for version in ["one", "two"]:
+        account["version"] = version
+        sources.account_versions = sources.fence()[2]
+        body = {"thread_id": "thread-1", "subject": "Stopped conversation"}
+        sources.mail = {
+            "mail:gmail:m1": sources.source(
+                "mail:gmail:m1", "mail", "Stopped conversation", body, body
+            )
+        }
+        assert "mail:gmail:m1" not in sources.collect()[1]
+    # The owner can intentionally start following it again.
+    grant = r.permissions.capture(actor)
+    draft = r.mail_followups.draft({"provider": "gmail", "message_id": "m1"}, "restart")
+    r.permissions.apply_reply(draft, grant)
+    assert "mail:gmail:m1" in sources.collect()[1]
+
+
+def test_failed_read_only_research_has_one_delayed_retry_not_a_permanent_stall(world):
+    from desk.store import DomainError
+
+    r, _, _, _, _, now, calls = world
+    original = r.text_ai.generate
+    failures = []
+
+    def generate(*a, **k):
+        if not failures:
+            failures.append(1)
+            raise DomainError("TEXT_AI_UNAVAILABLE", 503)
+        return original(*a, **k)
+
+    r.text_ai.generate = generate
+    r.initiative.advance()
+    r.initiative.advance()
+    assert len(failures) == 1 and not calls and not r.initiative.current()
+    now[0] += timedelta(minutes=6)
+    r.initiative.advance()
+    assert len(calls) == 1 and len(r.initiative.current()) == 1
+    now[0] += timedelta(minutes=6)
+    r.initiative.advance()
+    assert len(calls) == 1
+
+
+def test_research_uses_current_calendar_occurrences_and_drops_deleted_events(world):
+    r = world[0]
+    event = EventInput(
+        title="Original meeting",
+        start_local="2026-11-18T10:00",
+        end_local="2026-11-18T11:00",
+        recurrence={"frequency": "daily", "until": "2026-11-20"},
+    )
+    ident = r.store.create(CreateEvents(event=event), "calendar-create")["event_ids"][0]
+    projection = r.initiative.sources
+    first = projection.collect()[1]
+    first = {k: v for k, v in first.items() if v["kind"] == "calendar"}
+    assert len(first) == 3
+    occurrence_key = "2026-11-18T10:00"
+    ref = f"calendar:{ident}:{occurrence_key}"
+    assert datetime.fromisoformat(first[ref]["body"]["start"]) == datetime(
+        2026, 11, 18, 2, tzinfo=timezone.utc
+    )
+    changed = EventInput(
+        title="Rescheduled meeting",
+        start_local="2026-11-18T14:00",
+        end_local="2026-11-18T15:00",
+    )
+    r.store.event_action(
+        ident,
+        EventAction(action="update", expected_version=1, occurrence_key=occurrence_key, event=changed),
+        "calendar-change",
+    )
+    second = projection.collect()[1]
+    assert second[ref]["body"]["title"] == "Rescheduled meeting"
+    assert datetime.fromisoformat(second[ref]["body"]["start"]) == datetime(
+        2026, 11, 18, 6, tzinfo=timezone.utc
+    )
+    assert second[ref]["fingerprint"] != first[ref]["fingerprint"]
+    r.store.event_action(
+        ident,
+        EventAction(action="complete", expected_version=2, occurrence_key=occurrence_key),
+        "calendar-complete",
+    )
+    assert projection.collect()[1][ref]["body"]["completed"] is True
+    r.store.event_action(
+        ident,
+        EventAction(action="delete", expected_version=3, occurrence_key="2026-11-19T10:00"),
+        "calendar-cancel-occurrence",
+    )
+    assert f"calendar:{ident}:2026-11-19T10:00" not in projection.collect()[1]
+    r.store.event_action(
+        ident,
+        EventAction(action="delete", expected_version=4, scope="series"),
+        "calendar-delete",
+    )
+    assert not any(s["kind"] == "calendar" for s in projection.collect()[1].values())

@@ -7,6 +7,7 @@ a report. An unknown creation/deletion keeps the executor blocked for inspection
 
 import asyncio
 import contextlib
+import hashlib
 import json
 import re
 import time
@@ -33,9 +34,10 @@ INSTRUCTIONS = (
 
 
 class ManagedBrowserClient:
-    active_seconds = 45
+    setup_seconds = 45
+    active_seconds = 90
     auth_seconds = 90
-    cleanup_seconds = 12
+    cleanup_seconds = 60
     poll_seconds = 0.25
     snapshot_seconds = 1
 
@@ -47,6 +49,7 @@ class ManagedBrowserClient:
         started = time.monotonic()
         ready, complete = asyncio.Event(), asyncio.Event()
         terminal, turn_id, activity_ids, handled = None, None, set(), set()
+        origin_attempts = {}
         result = {
             "report": "",
             "activity_count": 0,
@@ -66,7 +69,7 @@ class ManagedBrowserClient:
             proxy=model_proxy(self.config, self.transport),
             trust_env=False,
             follow_redirects=False,
-            timeout=httpx.Timeout(5, connect=3),
+            timeout=httpx.Timeout(20, connect=3),
         ) as client:
 
             async def request(method, path, body=None, *, operation=None):
@@ -194,14 +197,27 @@ class ManagedBrowserClient:
                         # This is the owner's data-scope grant, not evidence that
                         # login succeeded. Keep it even if the HTTP reply is lost.
                         result["account_access_authorized"] = True
-                    await event(
-                        {
-                            "type": "agent.session.input.computer_use_approval_request_result",
-                            "request_id": ident,
-                            "response": answer,
-                        },
-                        "approval-" + str(len(handled)),
-                    )
+                    payload = {
+                        "type": "agent.session.input.computer_use_approval_request_result",
+                        "request_id": ident,
+                        "response": answer,
+                    }
+                    origin_attempts[ident] = origin_attempts.get(ident, 0) + 1
+                    try:
+                        await event(
+                            payload, "approval-" + hashlib.sha256(ident.encode()).hexdigest()[:24]
+                        )
+                    except httpx.TransportError:
+                        if (
+                            req.get("type") == "browser_origin_access"
+                            and approved
+                            and origin_attempts[ident] < 2
+                        ):
+                            # Re-read required_actions before retrying this same
+                            # idempotent decision. Never replay task input or credentials.
+                            handled.discard(ident)
+                            continue
+                        raise
                     if not approved:
                         raise ExecutionRejected("COMPUTER_MANAGED_OWNER_REQUIRED", 409)
                 if (
@@ -292,6 +308,11 @@ class ManagedBrowserClient:
                     raise ValueError("Invalid managed session ID")
                 on_session(sid)  # Durable receipt before any input can start a turn.
                 await subscribe()
+                environment_id = (snapshot.get("environment") or {}).get("id")
+                if not isinstance(environment_id, str) or not re.fullmatch(
+                    r"[A-Za-z0-9_-]{1,160}", environment_id
+                ):
+                    raise ValueError("Missing managed environment identity")
                 checkpoint()
                 await event(
                     {
@@ -313,6 +334,21 @@ class ManagedBrowserClient:
                     },
                     "input",
                 )
+                # The official harness receives one input to start work, including
+                # lazy environment setup. Observe readiness after enqueueing;
+                # waiting before input can leave a valid environment pending.
+                while True:
+                    checkpoint()
+                    if time.monotonic() - started > self.setup_seconds:
+                        raise TimeoutError
+                    environment = await request("GET", f"/agents/environments/{environment_id}")
+                    if environment.get("status") in {"ready", "connected"}:
+                        break
+                    if environment.get("status") not in {"pending", "provisioning"}:
+                        raise ValueError("Managed environment did not connect")
+                    await asyncio.sleep(self.poll_seconds)
+                active_started = time.monotonic()
+                result["setup_seconds"] = round(active_started - started, 3)
                 next_read, auth_wait, last_tick, waiting = 0, 0, time.monotonic(), False
                 while not complete.is_set():
                     checkpoint()
@@ -322,7 +358,7 @@ class ManagedBrowserClient:
                     last_tick = now
                     if (
                         auth_wait > self.auth_seconds
-                        or now - started - auth_wait > self.active_seconds
+                        or now - active_started - auth_wait > self.active_seconds
                     ):
                         raise TimeoutError
                     if reader.done():
@@ -380,13 +416,16 @@ class ManagedBrowserClient:
                 result.update(report=report, turn_completed=True)
 
             try:
-                await asyncio.wait_for(work(), self.active_seconds + self.auth_seconds)
+                await asyncio.wait_for(
+                    work(), self.setup_seconds + self.active_seconds + self.auth_seconds
+                )
             except TimeoutError:
                 result["stop_code"] = "JOB_DEADLINE_EXCEEDED"
             except ExecutionRejected as error:
                 result["stop_code"] = error.code
-            except Exception:
+            except Exception as error:
                 result["stop_code"] = "COMPUTER_PROVIDER_UNAVAILABLE"
+                result["error_type"] = type(error).__name__
             finally:
                 if authentication:
                     authentication(None)
@@ -395,18 +434,86 @@ class ManagedBrowserClient:
                     # Closing SSE alone does not stop managed work. Do not retry
                     # input/create; only cancellation/deletion is safe here.
                     if sid:
-                        if not result["turn_completed"]:
+
+                        async def cancel_pending(attempt):
+                            # A pending browser approval can survive a turn-cancel
+                            # request. Cancel the approval, then stop the turn.
                             with contextlib.suppress(Exception):
-                                await event({"type": "agent.session.input.cancel"}, "cancel")
+                                snapshot = await request("GET", f"/agents/sessions/{sid}")
+                                for action in snapshot.get("required_actions", [])[:8]:
+                                    ident = action.get("request_id")
+                                    kind = (action.get("request") or {}).get("type")
+                                    if (
+                                        not isinstance(ident, str)
+                                        or action.get("type") != "computer_use_approval_request"
+                                    ):
+                                        continue
+                                    answer = (
+                                        {"type": kind, "decision": "cancel"}
+                                        if kind == "browser_origin_access"
+                                        else {"type": kind, "action": "cancel"}
+                                        if kind == "browser_authentication"
+                                        else None
+                                    )
+                                    if answer:
+                                        with contextlib.suppress(Exception):
+                                            await event(
+                                                {
+                                                    "type": "agent.session.input.computer_use_approval_request_result",
+                                                    "request_id": ident,
+                                                    "response": answer,
+                                                },
+                                                "cleanup-approval-"
+                                                + hashlib.sha256(ident.encode()).hexdigest()[:24],
+                                            )
+                            with contextlib.suppress(Exception):
+                                await event(
+                                    {"type": "agent.session.input.cancel"},
+                                    "cleanup-cancel-" + str(attempt),
+                                )
+
+                        if not result["turn_completed"]:
+                            await cancel_pending(0)
                         # Deletion takes priority over a final usage refresh.
                         # A missing billing receipt must never delay shutdown.
-                        with contextlib.suppress(httpx.TransportError):
-                            deleted = await request("DELETE", f"/agents/sessions/{sid}")
-                            result["session_deleted"] = deleted.get("deleted") is True
-                        response = await client.get(f"/agents/sessions/{sid}")
-                        result["deletion_readback"] = response.status_code == 404
-                        if result["deletion_readback"]:
-                            result["session_deleted"] = True
+                        accepted = False
+                        for attempt in range(8):
+                            retryable = True
+                            if not accepted:
+                                try:
+                                    deleted = await client.delete(
+                                        f"/agents/sessions/{sid}",
+                                        timeout=httpx.Timeout(10, connect=3),
+                                    )
+                                    if deleted.status_code not in {200, 202, 204, 404, 409}:
+                                        return
+                                    try:
+                                        value = deleted.json() if deleted.content else {}
+                                    except ValueError:
+                                        value = {}
+                                    accepted = (
+                                        deleted.status_code in {202, 204, 404}
+                                        or value.get("deleted") is True
+                                    )
+                                    result["session_deleted"] = accepted
+                                    retryable = deleted.status_code == 409 or accepted
+                                    if deleted.status_code == 409:
+                                        await cancel_pending(attempt + 1)
+                                except httpx.TransportError:
+                                    pass  # Read back before retrying this idempotent cleanup.
+                            result["cleanup_attempts"] = attempt + 1
+                            try:
+                                response = await client.get(f"/agents/sessions/{sid}")
+                                if response.status_code == 404:
+                                    result["deletion_readback"] = result["session_deleted"] = True
+                                    return
+                                if response.status_code != 200:
+                                    return
+                            except httpx.TransportError:
+                                pass
+                            if not retryable:
+                                return
+                            await asyncio.sleep(min(4.0, self.poll_seconds * (2**attempt)))
 
                 with contextlib.suppress(Exception):
                     await asyncio.wait_for(cleanup(), self.cleanup_seconds)

@@ -1,5 +1,11 @@
 # Assistant permissions and action UX · Group 2
 
+## 18 November 2026: standing read-only assistance
+
+The owner's newer proactive-assistance requirement adds a narrow read-only grant independent of Ask/Full software-write mode. A fresh authenticated request to follow a selected email can start the newly prepared subscription while Proactivity is Normal/Less often, without another checkbox. The captured session, task, sequence and proactivity version are rechecked; old drafts/cached replies never gain authority from a later preference change. Stopping a thread, hiding private context or switching Off fences reads/publication. Cached receipts re-read pause/stop state. This does not authorize sending, purchases, physical outputs or general writes. The manual seven-day review API remains for explicit forms and legacy requests. [Current behavior](proactive-research.md), [mail scope](mail-thread-followup.md).
+
+The historical 29 October write-policy contract below remains applicable to its supported software actions. New live-model evidence is in the current QA, rather than the older all-offline statement at the end of that historical slice.
+
 29 October 2026. Current contract for the shared web, phone browser and Capacitor app. The owner requested contextual approvals and a Full access option across clients. [Design brief](../../planning/2026-10-29/assistant-permission-ux.md) and [local evidence](../../output/qa/2026-10-29-assistant-permissions/verification.md) distinguish implementation, browser operation and native acceptance.
 
 ## What the owner sees

@@ -1,0 +1,42 @@
+# Group 2 · Contextual proactive assistance
+
+18 November 2026. Alice compares changed information with the owner's current saved facts, tasks and calendar, and offers a concise, cited finding when it is useful. A user does not have to create a timed reminder or approve each read. This implements the owner's requested standing read-only assistance; it does not grant background sending or purchasing. [Research and official reuse](../../research/2026-11-18-proactive-assistance-and-official-reuse.md), [acceptance](../../output/qa/2026-11-17-proactive-agent-merge/verification.md).
+
+## Experience and controls
+
+An unassigned change can matter: a connected email preview says a fictional repository became public, while a saved preference says it should remain private. Alice can point out that discrepancy, cite both sources and suggest checking the original. It does not require an existing task and does not assert that the email is independently verified. Consistent information produces no alert.
+
+The home surface shows one concise Alice cue; Conversation contains the natural finding and current source labels. Web, phone and the device layout use shared components. The existing Proactivity preference controls the behavior: Normal, Less often, or Off. Off halts research and selected-mail checks; private-context hiding also fences reads and publication. Quiet hours defer notification. Dismissal uses the original operation ID after an interrupted response. A changed or forgotten source invalidates its old finding.
+
+Selected mail follow-up is a related explicit request: “find this email and follow replies” can start a read-only subscription under the current proactivity preference, even in Ask mode, without a second approval card. General writes and outgoing mail retain their own controls. [Mail contract](mail-thread-followup.md), [permission contract](assistant-permissions.md).
+
+## Current source scope
+
+`initiative_sources.py` projects existing canonical data; it owns no new mailbox, memory or calendar store.
+
+- Up to 20 current saved facts and 20 recent tasks, including each task's latest progress note. Paused tasks are omitted.
+- Up to 20 local calendar occurrences in the next seven days, through `Store.snapshot`. This reuses recurrence/exception expansion, completion and deletion rules. Each citation identifies the occurrence and its current version/content. Cancelled or deleted entries are not reported as current work.
+- Existing authorized Gmail/Outlook readers provide at most ten recent previews per account; Google Calendar supplies a bounded seven-day view. This is not full-inbox ingestion, attachment reading or provider push subscriptions.
+- Mail sources explicitly stopped by the owner are excluded, including after reconnecting the same mailbox. A later explicit new follow request can supersede the stop.
+
+Categories share a 26,000-character evidence budget so one long category cannot crowd out all others. Account versions, hidden context and preference revisions are rechecked around provider access and publication. Unavailable sources are omitted instead of treating stale content as a new successful observation. Private source bodies are not copied into notification payloads.
+
+## Official execution and product responsibilities
+
+`initiative.py` calls the existing OpenAI Responses adapter once for changed evidence, with native strict JSON Schema and no action tools. It bypasses the legacy primary-text `AgentLoop`. The schema admits at most three findings, each with one to four exact source references. A conflict needs at least two references; all current fingerprints must still match when publishing. This is one bounded read-only inference, not another agent harness.
+
+The existing Runtime worker checks initiative every 15 seconds. A five-minute provider-read fallback supplies changes where push integration is absent; it is not a fixed user reminder or a model call every five minutes. A persisted source signature prevents repeated successful inference on unchanged context. One delayed five-minute retry is allowed after a failed attempt, with at most two attempts per signature. The old `task_advice` inference worker is retired to avoid duplicate background analysis. Its compatibility method remains callable by older paths.
+
+Normal allows at most eight research attempts and six in-app deliveries per UTC day; Less often allows three attempts, only high-importance findings, and two deliveries. Attempts include failures. Clock rollback cannot reset the persisted analysis budget. These are attempt limits, not a verified dollar cap. The existing `DESK_TEXT_BACKGROUND` configuration must be enabled before model-backed research runs; this batch did not change the normal installed runtime's setting.
+
+A bounded database lease fences concurrent analysis/restarts. Up to 100 derived findings and 500 hash-only seen IDs are retained. Pruning resolved/obsolete research notes never deletes the original task, memory, email or business history. Existing Notifier handles quiet delivery and idempotency. Full findings are owner-only; public/display snapshots exclude them. Current valid findings enter the shared bounded text/voice context.
+
+OpenAI Responses read timeouts are now 30 seconds for initiative and 15 seconds for other complete responses, retaining five-second connect/write limits and the existing total body deadline. Real reasoning calls exposed the old five-second response timeout. No automatic send or unknown write retry was added.
+
+Multi-step browser execution remains official Agents Sessions/computer use. Future deliberate scheduled reasoning should use official Agents Automations; FYP still supplies account grants, source freshness, task identity, domain-specific controls and independent outcomes. The old primary-text planner remains an explicit migration gap. Do not describe the whole product as a ready-made embedded Dot.
+
+## Acceptance and remaining work
+
+Local tests cover no initial request, silence, duplicate changes, quiet/off controls, stale/deleted sources, stopped mail, late permissions, bounded retries, clock rollback, dismissal recovery and calendar changes. Desktop and Chinese-phone flows were exercised in installed Chromium with scripted providers. Six real Responses research cases include an unassigned contradiction and quiet controls; a real model also selected follow/stop tools over synthetic mail. No real mailbox subscription or outgoing mail was enabled by those tests.
+
+The next release must promote the reviewed main tree to the normal Mac, native app and Pi and verify each endpoint. Current installed source remains the earlier verified `8c67ddbe`. Continuous real-mail usefulness, closed-phone push delivery, Microsoft consent, paid production budgeting and long-running device reliability remain separate acceptance work.

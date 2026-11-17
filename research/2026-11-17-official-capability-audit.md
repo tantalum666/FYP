@@ -1,5 +1,7 @@
 # Group 2 · Official capability reuse audit
 
+**18 November follow-up:** [new reuse audit](2026-11-18-proactive-assistance-and-official-reuse.md) adds strict Responses research on changed evidence, standing read-only proactivity and actual hosted-browser lifecycle acceptance. The thread-only/per-item authorization design below is historical and superseded by [the current contract](../desk-companion/docs/proactive-research.md). The official-first boundary and remaining primary-text migration still apply.
+
 17 November2026. Owner explicitly asks to keep development on OpenAI's architecture and avoid rebuilding capabilities already available. This audit uses current FYP source plus fresh primary documentation. It is not a new paid-run, account, remote-schedule or deployment authorization.
 
 ## Current findings
