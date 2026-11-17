@@ -8,6 +8,9 @@ from .access import AccessService
 from .assistant import AssistantService
 from .outputs import OutputRequest, OutputService
 from .posture_service import PostureService
+from .posture_browser import BrowserPosture
+from .daily_checkin import current_checkin
+from .initiative import Initiative
 from .store import DomainError
 from .workspace_data import WorkspaceData
 from .voice import VoiceService
@@ -15,6 +18,7 @@ from .wake_listening import WakeListening
 from .exchange import ExchangeService
 from .google_calendar import GoogleCalendar
 from .mailbox import MailboxService
+from .mail_followups import MailFollowups
 from .outbound_mail import OutboundMail
 from .microsoft_apps import MicrosoftApps
 from .offline_calendar import OfflineCalendarService
@@ -75,6 +79,7 @@ class Runtime:
         self.allow_replay = allow_replay
         self.access = AccessService(store)
         self.posture = PostureService(store)
+        self.browser_posture = BrowserPosture(self)
         self.outputs = OutputService(store)
         self.tasks = TaskService(self)
         self.goals = GoalService(self)
@@ -131,6 +136,8 @@ class Runtime:
         self.trips = TravelQuoteService(self)
         self.store.operation_guard = self.agent_runs.guard_operation
         self.mailbox = MailboxService(self)
+        self.mail_followups = MailFollowups(self)
+        self.initiative = Initiative(self)
         self.purchase_cards = PurchaseCardService(self)
         self.posture.on_prompt = self.on_posture_prompt
 
@@ -168,6 +175,8 @@ class Runtime:
         if principal["kind"] == "owner":
             result["pairing"] = self.access.listing()
             result["permissions"] = self.permissions.snapshot()
+            result["initiative"] = self.initiative.snapshot()
+        result["check_in"] = current_checkin(self, principal, result["tasks"], result["posture"], result.get("initiative"))
         return result
 
     def device_status(self):
@@ -180,7 +189,7 @@ class Runtime:
             "arm": "connected"
             if outputs["connected"] and "arm" in outputs["capabilities"]
             else "not_connected",
-            "weather": "not_connected",
+            "weather": self.data.snapshot()["weather"]["status"],
             "external_calendar": "connected"
             if self.google.snapshot()["connected"]
             else "not_connected",

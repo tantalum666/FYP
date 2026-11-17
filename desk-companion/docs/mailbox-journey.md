@@ -2,6 +2,8 @@
 
 3 November 2026. This is the offline slice of the first real acceptance in the [research index](../../research/personal-agent-research-index.md): mail, then the same task, then sourced advice. It does not connect Gmail or Outlook, does not send mail, and does not call a model.
 
+17 November distinction: [selected live-provider thread follow-up](mail-thread-followup.md) now has a separate bounded source adapter and local protocol/UI evidence. It reuses TaskService/Notifier, but never treats the offline fixture's cursor or imported field changes as permission to monitor a real account. Real selected-thread activation remains unaccepted.
+
 ## Responsibility
 
 `mailbox_fixture.py` loads and validates local JSON before any row is written. `mailbox.py` owns the connection, durable read offset, history cursor, and thread-to-task link. `mailbox_backup.py` owns portable validation/restore. It calls `TaskService`, `AssistantService.propose` / the existing proposal decision route, and `Notifier`. It does not create a second task, job, or memory store. The tracked Work item is the existing task id, which the current task list and Work scope already read.

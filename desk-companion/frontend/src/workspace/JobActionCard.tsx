@@ -18,6 +18,7 @@ import type { JobAction } from "./jobRequests";
 import { ApplicationPreview } from "./ApplicationPreview";
 import { ExportLink } from "./ExportLink";
 import { ComputerScreen } from "./ComputerScreen";
+import { ManagedBrowserSignIn } from "./ManagedBrowserSignIn";
 
 export function JobActionCard({
   job,
@@ -45,6 +46,12 @@ export function JobActionCard({
   const [exportError, setExportError] = useState<unknown>(null);
   const application = isApplicationAction(job.action);
   const computer = job.action === "computer_use";
+  const signingIn =
+    computer &&
+    job.request.engine === "managed" &&
+    job.state === "running" &&
+    !!job.result?.owner_input &&
+    !job.cancel_requested;
   const step = job.request.step;
   const waiting = [
     "queued",
@@ -69,7 +76,7 @@ export function JobActionCard({
       aria-label={job.request.title}
     >
       <header>
-        {computer && job.result?.outcome === "needs_owner" ? (
+        {signingIn || (computer && job.result?.outcome === "needs_owner") ? (
           <Hand size={18} />
         ) : job.state === "succeeded" ? (
           <Check size={18} />
@@ -82,17 +89,19 @@ export function JobActionCard({
         )}
         <div>
           <span className="action-state">
-            {job.state === "review"
-              ? t("Permission needed", "需要你的允许")
-              : computer && job.state === "succeeded"
-                ? job.result?.outcome === "needs_owner"
-                  ? t("Needs you", "需要你接手")
-                  : t("Ready for review", "可以核对了")
-                : computer && job.state === "owner_takeover"
-                  ? t("Waiting for you", "等待你接手")
-                  : computer && job.state === "running"
-                    ? t("Using the browser", "正在操作浏览器")
-                    : jobStateLabel(job.state, t)}
+            {signingIn
+              ? t("Waiting for sign-in", "等待登录")
+              : job.state === "review"
+                ? t("Permission needed", "需要你的允许")
+                : computer && job.state === "succeeded"
+                  ? job.result?.outcome === "needs_owner"
+                    ? t("Needs you", "需要你接手")
+                    : t("Ready for review", "可以核对了")
+                  : computer && job.state === "owner_takeover"
+                    ? t("Waiting for you", "等待你接手")
+                    : computer && job.state === "running"
+                      ? t("Using the browser", "正在操作浏览器")
+                      : jobStateLabel(job.state, t)}
           </span>
           <h4>{job.request.title}</h4>
         </div>
@@ -110,8 +119,14 @@ export function JobActionCard({
           {job.request.start_url?.startsWith("demo:")
             ? t("Local rehearsal", "本地演练")
             : job.request.start_url}{" "}
-          · {t("Public browsing and preparation", "公开浏览与准备")}
+          ·{" "}
+          {job.result?.readback?.data_scope === "owner_authorized_account"
+            ? t("Account pages you allowed", "你允许访问的账号页面")
+            : t("Browsing and preparation", "浏览与准备")}
         </p>
+      )}
+      {signingIn && (
+        <ManagedBrowserSignIn job={job} refreshToken={refreshToken} t={t} />
       )}
       {computer && job.state === "review" && (
         <small>
@@ -220,16 +235,19 @@ export function JobActionCard({
       )}
 
       <div className="workspace-inline-actions">
-        {computer && job.result?.verified && onContinue && (
-          <button
-            type="button"
-            className="secondary"
-            disabled={!fresh || busy}
-            onClick={onContinue}
-          >
-            {t("Continue from this page", "从这个页面继续")}
-          </button>
-        )}
+        {computer &&
+          job.request.engine !== "managed" &&
+          job.result?.verified &&
+          onContinue && (
+            <button
+              type="button"
+              className="secondary"
+              disabled={!fresh || busy}
+              onClick={onContinue}
+            >
+              {t("Continue from this page", "从这个页面继续")}
+            </button>
+          )}
         {computer &&
           job.state === "owner_takeover" &&
           job.result?.takeover_available && (
@@ -284,6 +302,7 @@ export function JobActionCard({
         )}
       </div>
       {computer &&
+        job.request.engine !== "managed" &&
         (job.result?.verified ||
           [
             "running",
@@ -299,6 +318,14 @@ export function JobActionCard({
             t={t}
           />
         )}
+      {computer && job.result?.verified && job.result.readback?.report && (
+        <section
+          className="computer-use-report"
+          aria-label={t("Research result", "查找结果")}
+        >
+          <p>{job.result.readback.report}</p>
+        </section>
+      )}
       {application &&
         step &&
         job.state === "succeeded" &&

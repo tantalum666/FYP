@@ -1,0 +1,19 @@
+{
+  "source_revision": "8c67ddbe1559eea975aa355bef970a8e98a9edcc",
+  "last_verified_utc": "2026-11-17T10:40:15.508009+00:00",
+  "boot_id": "738c3f6a-0820-4768-a2d0-5ea3cf54d4b9",
+  "cpu_max_khz": "2400000",
+  "timer_active": true,
+  "timer_enabled": true,
+  "paired_unit_hashes_match": true,
+  "early_alarm_finished_uptime_seconds": 4.680354,
+  "sysinit_reached_uptime_seconds": 6.453865,
+  "early_order_verified": true,
+  "current_boot_start_utc_from_uptime": "2026-11-17T10:36:28.268009+00:00",
+  "alarm_lead_seconds": 172,
+  "owner_report": "device later started by itself",
+  "delayed_autonomous_return_observed": true,
+  "within_220_second_test_window": false,
+  "stable_recovery_accepted": false,
+  "clock_caution": "journal boot wall-clock labels can shift before network time synchronization; use boot IDs and monotonic order"
+}

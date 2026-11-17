@@ -76,7 +76,9 @@ def device_routes(runtime, authenticated, owner, agent, operation_id, limit):
     def agent_config():
         posture = runtime.posture.snapshot()
         return {
-            "camera_enabled": posture["preferences"]["enabled"] and not posture["paused"],
+            "camera_enabled": posture["preferences"]["enabled"]
+            and not posture["paused"]
+            and posture["preferences"].get("camera_source", "device") == "device",
             "calibration_phase": posture["calibration"]["phase"],
             "output_stopped": runtime.outputs.snapshot()["stopped"],
             "replay_allowed": runtime.allow_replay,
@@ -86,6 +88,8 @@ def device_routes(runtime, authenticated, owner, agent, operation_id, limit):
 
     @router.post("/agent/observations", dependencies=[Depends(agent)])
     def observations(payload: ObservationBatch):
+        if runtime.posture.snapshot()["preferences"].get("camera_source", "device") != "device":
+            raise DomainError("POSTURE_CAPTURE_DISABLED", 409)
         if payload.source == "replay" and not runtime.allow_replay:
             raise DomainError("REPLAY_NOT_ENABLED", 403)
         return runtime.posture.ingest(payload)
@@ -116,4 +120,7 @@ def device_routes(runtime, authenticated, owner, agent, operation_id, limit):
     def output(payload: OutputRequest, key=Depends(operation_id)):
         return runtime.outputs.request(payload, key)
 
+    from .posture_browser import browser_posture_routes
+
+    router.include_router(browser_posture_routes(runtime, owner))
     return router

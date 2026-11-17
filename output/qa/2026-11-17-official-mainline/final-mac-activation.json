@@ -1,0 +1,22 @@
+{
+  "activated": true,
+  "source_revision": "8c67ddbe1559eea975aa355bef970a8e98a9edcc",
+  "api_pid": 99454,
+  "previous_api_pid": 96740,
+  "verified_release_files": 367,
+  "backup_files": 12,
+  "database_backup_verified": true,
+  "schema": 3,
+  "tables_before": 124,
+  "tables_after": 124,
+  "A3_unchanged": true,
+  "voice_version": 9,
+  "app_accounts_unchanged": true,
+  "protected_files_unchanged": true,
+  "build_info_readback": {
+    "source_revision": "8c67ddbe1559eea975aa355bef970a8e98a9edcc",
+    "frontend_index_sha256": "430d996ab8ec3a0fd629248cff3580a596c4263e8ca812a18a8fb635a8521cb8",
+    "release": "20261117-8c67ddbe"
+  },
+  "paid_calls": 0
+}

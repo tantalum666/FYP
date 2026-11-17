@@ -196,6 +196,9 @@ def draft_context(runtime, allowed):
                 else row["state"]
             )
             item = {"proposal_id": row["id"], "kind": row["kind"], "state": state}
+            if row["kind"] == "browser_research":
+                item["status_tool"] = "browser_research_status"
+                item["title"] = data.get("browser", {}).get("title", "")
             ids = [data["event_id"]] if data.get("event_id") else []
             if row["kind"] == "create":
                 item["title"] = data["event"]["title"]

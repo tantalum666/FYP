@@ -15,6 +15,7 @@ import "./companion/alice-home.css";
 import { SharedCalendar } from "./workspace/SharedCalendar";
 import { NativeSetup } from "./workspace/NativeSetup";
 import { PhoneSync } from "./workspace/PhoneFeatures";
+import { PostureCaptureProvider } from "./workspace/posture/PostureCaptureContext";
 
 const PhoneApp = React.lazy(() =>
   import("./phone/PhoneApp").then((module) => ({ default: module.PhoneApp })),
@@ -94,35 +95,37 @@ root.render(
       ) : (
         <DraftGuardProvider>
           <WorkspaceProvider>
-            <PhoneSync />
-            {isDevice ? (
-              <React.Suspense
-                fallback={
-                  <div
-                    className="app-loading"
-                    style={{
-                      minHeight: "100dvh",
-                      background: "#171C1F",
-                      color: "#F1EDE5",
-                    }}
-                  >
-                    Opening display…
-                  </div>
-                }
-              >
-                <DeviceApp />
-              </React.Suspense>
-            ) : isPhone ? (
-              <React.Suspense
-                fallback={
-                  <div className="app-loading">Opening your companion…</div>
-                }
-              >
-                <PhoneApp />
-              </React.Suspense>
-            ) : (
-              <App />
-            )}
+            <PostureCaptureProvider>
+              <PhoneSync />
+              {isDevice ? (
+                <React.Suspense
+                  fallback={
+                    <div
+                      className="app-loading"
+                      style={{
+                        minHeight: "100dvh",
+                        background: "#171C1F",
+                        color: "#F1EDE5",
+                      }}
+                    >
+                      Opening display…
+                    </div>
+                  }
+                >
+                  <DeviceApp />
+                </React.Suspense>
+              ) : isPhone ? (
+                <React.Suspense
+                  fallback={
+                    <div className="app-loading">Opening your companion…</div>
+                  }
+                >
+                  <PhoneApp />
+                </React.Suspense>
+              ) : (
+                <App />
+              )}
+            </PostureCaptureProvider>
           </WorkspaceProvider>
         </DraftGuardProvider>
       )}

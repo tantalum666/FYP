@@ -285,6 +285,12 @@ class TaskService:
                 task_id,
             ),
         )
+        if getattr(self.runtime, "notify", None) is not None:
+            conn.execute(
+                "UPDATE notice_inbox SET state='dismissed' WHERE id IN "
+                "(SELECT 'followup-' || id FROM task_followups WHERE task_id=? AND state='pending')",
+                (task_id,),
+            )
         conn.execute(
             "UPDATE task_followups SET state='resolved' WHERE task_id=? AND state='pending'",
             (task_id,),
@@ -409,6 +415,8 @@ class TaskService:
         now_at = self.store.clock()
         now = iso(now_at)
         prefs = self.runtime.data.preferences()
+        if prefs.get("proactivity") == "off":
+            return
         with self.store.connection() as conn:
             zone = ZoneInfo(self.store.settings(conn)["timezone"])
         quiet_end = quiet_until(prefs, now_at.astimezone(zone))
@@ -521,8 +529,11 @@ class TaskService:
     def snapshot(self):
         result = self.listing(display=True)
         active = result["tasks"]
+        followed = [t for t in active if t["follow_up_enabled"] and not t["paused"]]
         return {
             "active_count": len(active),
+            "followed_count": len(followed),
+            "followed_preview": followed[:3],
             "due_count": sum(bool(t["followup"]) for t in active),
             "attention": [t for t in active if t["followup"]][:3],
             "preview": active[:3],

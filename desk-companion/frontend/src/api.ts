@@ -240,6 +240,15 @@ export function errorText(
 ) {
   const code = error instanceof ApiError ? error.code : "REQUEST_FAILED";
   const messages: Record<string, [string, string]> = {
+    EMAIL_REPLY_UNAVAILABLE: ["The original message does not provide a clear reply target. Select another message or prepare a new email.", "原邮件无法确定回复对象，请重新选择邮件，或另行准备新邮件。"],
+    EMAIL_REPLY_CHANGED: ["The reply target changed. Prepare the reply again so you can review its current recipient and subject.", "回复对象已变化，请重新准备草稿并核对收件人与主题。"],
+    MAIL_THREAD_INVALID: ["This email thread could not be read. Select the message again.", "无法读取这段邮件对话，请重新选择邮件。"],
+    MAIL_THREAD_TOO_LARGE: ["This thread is too large to follow here. Choose a shorter conversation.", "这段邮件对话超出了当前跟进范围，请选择较短的对话。"],
+    MAIL_FOLLOWUP_NOT_FOUND: ["This email follow-up is no longer available.", "这项邮件跟进已不可用。"],
+    MAIL_FOLLOWUP_CONSENT_REQUIRED: ["Allow background follow-up before starting this thread.", "请先允许后台跟进这段邮件对话。"],
+    MAIL_FOLLOWUP_CHANGED: ["A newer email update is available. Refresh before marking it reviewed.", "有更新的邮件进展，请刷新后再标记已查看。"],
+    MAIL_THREAD_ALREADY_FOLLOWED: ["This thread is already linked to another task.", "这段邮件对话已经关联到另一件事务。"],
+    MAIL_FOLLOWUP_LIMIT: ["The email follow-up limit has been reached.", "已达到当前邮件跟进上限。"],
     APP_SCOPE_REQUIRED: [
       "The app did not receive the required permissions. Reconnect and review the access requested.",
       "此应用未获得必要权限，请重新连接并核对访问范围。",
@@ -369,6 +378,22 @@ export function errorText(
     COMPUTER_USE_UNAVAILABLE: [
       "Browser operation is not connected on this desk.",
       "当前桌面尚未接好浏览器操作。",
+    ],
+    COMPUTER_PROVIDER_UNAVAILABLE: [
+      "The browser task could not finish. Its session was closed; start a new task when the service is available.",
+      "浏览任务未能完成，会话已关闭。服务恢复后可以重新准备任务。",
+    ],
+    COMPUTER_PROVIDER_STOPPED: [
+      "The browser task stopped without a complete report.",
+      "浏览任务已停止，尚未获得完整报告。",
+    ],
+    COMPUTER_ACTIVITY_LIMIT: [
+      "The browser reached this task's activity limit and stopped.",
+      "已达到本次浏览任务的操作上限，浏览器已停止。",
+    ],
+    COMPUTER_MANAGED_OWNER_REQUIRED: [
+      "This step needs an unsupported sign-in or a website outside this task's allowed sites. The session was closed.",
+      "这一步需要暂不支持的登录方式，或需要访问本次未允许的网站。会话已关闭。",
     ],
     COMPUTER_SITE_UNAVAILABLE: [
       "This website could not be opened. Check the connection or the site's access requirements.",
@@ -655,12 +680,12 @@ export function errorText(
       "该结果失败了，不会显示为已完成。",
     ],
     CONNECTION_LOST: [
-      "Connection lost. A save may still have completed. Retry the same operation safely.",
-      "连接中断，保存可能已完成。可以安全重试同一操作。",
+      "Connection lost. The last action may have taken effect. Check it before retrying.",
+      "连接中断，上一项操作可能已生效。请先核对再重试。",
     ],
     PENDING_WRITE: [
-      "Resolve the pending save before making another change.",
-      "请先处理待确认的保存，再进行其他修改。",
+      "Check the pending action before making another change.",
+      "请先核对待处理的操作，再进行其他修改。",
     ],
     REMINDER_NOT_ACTIVE: [
       "This reminder has already been handled or changed.",

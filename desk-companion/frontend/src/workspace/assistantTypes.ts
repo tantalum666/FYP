@@ -15,11 +15,33 @@ export interface Proposal {
     | "memory_consolidate"
     | "mailbox_reply"
     | "email_send"
+    | "browser_research"
+    | "mail_followup"
     | "shopping_advice"
     | "calendar_advice";
   expires_at: string;
   data: {
+    mail_followup?: {
+      provider: "gmail" | "outlook";
+      account_email: string;
+      selected: { subject: string; sender: string; at: string };
+      task_title: string;
+      interval_minutes: number;
+      duration_days: number;
+      request: { task_id: string | null };
+    };
+    browser?: {
+      engine: "local" | "managed";
+      title: string;
+      goal: string;
+      start_url: string;
+      allowed_origins: string[];
+      task_id: string | null;
+      task_version: number | null;
+      source_job_id: string | null;
+    };
     from?: string;
+    reply?: { message_id: string; thread_id: string; subject: string; to: string };
     to?: string;
     subject?: string;
     title?: string;
@@ -68,6 +90,16 @@ export interface Proposal {
       minutes?: number;
     };
   };
+}
+export interface ProposalDecisionOptions {
+  share_screen?: boolean;
+  follow_mail_thread?: boolean;
+}
+export interface ProposalDecisionReply {
+  paused?: boolean;
+  queued?: boolean;
+  kind?: string;
+  job?: { id: string };
 }
 export interface Reply {
   permission_error?: string;

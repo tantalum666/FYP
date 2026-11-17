@@ -1,5 +1,9 @@
 # Group 2 · Public browser computer use
 
+17 November: [conversation admission](conversation-browser.md) now connects text/voice browser drafts to the existing owner decision and JobService. Screenshot sharing cannot be supplied by the model. Status reads independently reopen stored evidence, and interrupted approval retries recover one job. Real Chromium/fictional-site and rendered desktop/phone checks passed with scripted model decisions; no new paid model or transaction acceptance. The local worker's network/account limits below remain unchanged.
+
+16November addition: the optional [managed research executor](managed-browser.md) uses the official Agents harness on the same JobService. The detailed GET/HEAD local-worker policy below still applies to the local executor only; it must not be attributed to the hosted browser. Local execution remains default, managed execution is disabled unless explicitly configured.
+
 7 November2026. General browser work uses OpenAI Responses native computer calls
 and the existing job/permission lifecycle. It does not replace typed office
 operations or claim general host-desktop, account or transaction autonomy.

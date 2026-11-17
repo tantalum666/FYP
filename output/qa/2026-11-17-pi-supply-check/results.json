@@ -1,0 +1,77 @@
+{
+  "planned_seconds": 600,
+  "observed_seconds": 485.0,
+  "samples": 98,
+  "boot_id": "80835efc-f999-41a8-9ecd-e7ba0444d5db",
+  "start_utc": "2026-11-17T11:06:11.119687+00:00",
+  "start_uptime": 56.17,
+  "last_sample_utc": "2026-11-17T11:14:16.308153+00:00",
+  "last_uptime": 541.17,
+  "completed": false,
+  "active_undervoltage_samples": 18,
+  "active_throttled_samples": 18,
+  "active_frequency_cap_samples": 0,
+  "soft_temp_samples": 0,
+  "volts_min": 4.64712,
+  "volts_max": 4.93924,
+  "temp_min": 47.7,
+  "temp_max": 77.9,
+  "api_samples_ok": 98,
+  "cpu_max_khz_values": [
+    2400000
+  ],
+  "new_adapter_stable": false,
+  "initial_state": {
+    "boot_id": "80835efc-f999-41a8-9ecd-e7ba0444d5db",
+    "uptime": "51.32",
+    "cpu_max": "2400000",
+    "max_current_ma": 3000,
+    "throttled": "throttled=0x50000",
+    "apps": "active\nactive",
+    "kiosk": true,
+    "build": {
+      "source_revision": "8c67ddbe1559eea975aa355bef970a8e98a9edcc",
+      "frontend_index_sha256": "430d996ab8ec3a0fd629248cff3580a596c4263e8ca812a18a8fb635a8521cb8",
+      "release": "20261117-8c67ddbe"
+    }
+  },
+  "kernel_startup_and_run_events": {
+    "boot_id": "80835efc-f999-41a8-9ecd-e7ba0444d5db",
+    "uptime": "274.95",
+    "utc": "2026-11-17T11:09:49.900584+00:00",
+    "kernel_power_events": [
+      {
+        "uptime_seconds": 5.856019,
+        "message": "hwmon hwmon2: Undervoltage detected!"
+      },
+      {
+        "uptime_seconds": 130.848036,
+        "message": "hwmon hwmon2: Voltage normalised"
+      },
+      {
+        "uptime_seconds": 132.864024,
+        "message": "hwmon hwmon2: Undervoltage detected!"
+      }
+    ],
+    "journal_code": 0
+  },
+  "after_interruption": {
+    "at": "2026-11-17T11:17:00.973182+00:00",
+    "forwarded_health_error": "URLError",
+    "ssh_code": 255,
+    "output": "",
+    "error": "stdio forwarding failed\nConnection closed by UNKNOWN port 65535\n"
+  },
+  "owner_changed": "power_adapter",
+  "intentional_reboots": 0,
+  "performance_changes": 0,
+  "model_calls": 0,
+  "ci": false,
+  "monitor_stopped": true,
+  "final_access": {
+    "checked_utc": "2026-11-17T11:21:32.380383+00:00",
+    "code": 255,
+    "output": "",
+    "error": "Connection timed out during banner exchange\nConnection to UNKNOWN port 65535 timed out\n"
+  }
+}

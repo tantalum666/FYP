@@ -1,5 +1,9 @@
 # 软件架构与边界
 
+## 18 November 2026 current official-first boundary
+
+Current voice uses GPT Live with official Responses delegation; new browser tasks use official Agents hosted execution. FYP owns task identity, account/permission binding, UI, local device functions and actual outcome receipts. The older text AgentLoop remains a migration gap and is not extended as a general agent framework. Future time-triggered agent reasoning should use official Agents Automations; mail_sources is bounded metadata synchronization. Current proactive research uses one strict Responses inference on changed canonical evidence with no action tools or AgentLoop. The existing Runtime worker, store, account readers and Notifier own product state. [Proactive contract](proactive-research.md) records freshness, standing read permission, quiet/dedupe controls and real-model acceptance. [Current audit](../../research/2026-11-17-official-capability-audit.md) records retain/replace decisions and modern MCP prerequisites. Older dated diagrams below are historical, not the current default-provider map.
+
 2026-11-02：[OpenAI与Alice本地唤醒](openai-alice-wake.md)已在当前软件分支实现。浏览器PCM先到本机WakeListening，检测到Alice后才启动原VoiceService；OpenAI和Qwen共用规范化响应／工具生命周期，厂商格式独立。下文较早的Qwen与设备工作进程描述保留原范围，不能当成唯一AI选型。生产日／月费用硬限额和真人声学仍未验收。
 
 2026-10-31：[PR5兼容契约](pr5-integration.md)新增持久 Work、选定来源、产物、变化跟踪与显式保存会话。沿用当前任务、作业、权限、事实和真实应用执行器；普通 Omni RAM 会话与 retained-messages 保存会话有独立标识。旧 A1／假记录应用不覆盖当前主线。
@@ -93,7 +97,7 @@ JSON恢复校验内容完整性、完整作业意图及实际目录指纹，合�
 
 ## 主动事务层
 
-见[完整契约](task-tracking.md)。一秒规则检查与30秒可选文字建议工作进程分开，事务／待提示都落盘；单版本一条待处理提示，更新或关闭使旧建议失效。模型最多三轮只读工具后准备修改草稿，背景建议不获得修改接口；每天20次自动尝试（含失败）、默认关闭。完成标注单次用户确认或owner_policy持续授权，不由传感器、文件成功或到期时间推断。
+见[完整契约](task-tracking.md)及[主动分析](proactive-research.md)。一秒确定性规则保留；旧30秒task_advice推理工作进程已退役，改由15秒initiative检查当前来源变化。成功分析过的相同来源不会重复调用模型；正常模式每日最多8次、低频最多3次分析，且需要后台模型配置启用。模型无动作工具，提醒有来源校验与去重。旧普通文字三步循环仍是迁移缺口。完成标注单次用户确认或owner_policy持续授权，不由传感器、文件成功或到期时间推断。
 
 Tasks使用两秒轮询、页面可见时即时读取，选中事务的历史按任务版本和跟进ID刷新。UI区分读取断连与写入结果未知，表单及父面板共享未保存／忙碌退出保护，并发修改可保留草稿、加载当前版本后重新编辑。常亮投影与控制界面分开；私人缓存随断连隐藏。
 
@@ -111,7 +115,7 @@ Tasks使用两秒轮询、页面可见时即时读取，选中事务的历史按
 
 语音接收、工具执行和结果回传分开。普通工具最多2个并发、8个未完成；最多保留32个普通调用及一个Stop保留槽，结果队列64条。重复ID不同参数拒绝；打断立即设置取消标记，迟到未批准草稿被取消，客户端发送阻塞期间再次检查状态。提供商发送按批串行，已取消调用不会再次发起Qwen生成。已经由拥有者批准的作业不因语音断开而偷偷取消。原600秒／45秒会话限制保留，未新增自动收费重连。
 
-四个后台循环（规则、天气、建议、作业）对普通异常保留安全错误状态并继续检查；`/api/workspace`返回workers状态。此方案仍要求单个API进程；不是分布式租约系统、任意GUI沙箱或硬实时线程终止保证。更换GUI适配器前必须另行建立OS隔离、权限、云传输范围和执行器强制停止能力。
+下述历史四循环设计后来扩展为[模块说明](modules.md)所列工作进程；现有规则、天气、主动分析及作业对普通异常保留错误状态并继续检查；`/api/workspace`返回workers状态。此方案仍要求单个API进程；不是分布式租约系统、任意GUI沙箱或硬实时线程终止保证。更换GUI适配器前必须另行建立OS隔离、权限、云传输范围和执行器强制停止能力。
 
 2026-10-09整合审查修复：工具调用ID的拒绝回复不代表原调用结果已送达。送达标记必须对应同一个Invocation保存的实际结果对象；重复ID带不同参数或无效参数时，断连仍会取消原调用及其迟到草稿。[本地整合证据](../../output/qa/2026-10-09-dot-integration/verification.md)补充两种先失败后通过的回归及实际浏览器验证。
 

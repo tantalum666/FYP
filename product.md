@@ -1,10 +1,64 @@
 # Group 2 Project Contract
 
+## 2026-11-18 Current priority: contextual proactive assistance and reviewed integration
+
+Owner requests useful automatic follow-up without configuring a separate schedule or approving every read, and authorizes review, repair and merge of PR124–128. Alice now analyzes changes in current saved facts, tasks, calendar and bounded connected-account previews, with citations, relevance filtering, quiet controls and deduplication. A fresh “follow this email” request starts read-only tracking under the existing proactivity preference, including Ask mode. Off pauses both research and mail checks. This supersedes the older requirement that every thread require another seven-day approval card; legacy manually approved grants retain their original expiry. Sending, purchases and general software writes retain their separate policies.
+
+The new path reuses official OpenAI Responses with native strict structured output, without a custom agent loop. Multi-step browser tasks continue through official Agents; deliberate future scheduled reasoning should use official Automations. `AGENTS.md` now requires checking current official capabilities and exact API/SDK types before implementation. The old primary-text AgentLoop is a declared migration gap; it was not expanded. [Proactive contract](desk-companion/docs/proactive-research.md), [research](research/2026-11-18-proactive-assistance-and-official-reuse.md).
+
+Actual API tests exposed and repaired response timeouts and hosted-browser readiness/approval/cancellation/cleanup defects. Six real read-only research cases and a natural-language follow/stop flow passed; mail transport was synthetic. The final official hosted browser read a public catalogue, inspected stock, calculated a fictional shipping/currency comparison and deleted its session, with an independent result check. Earlier failed attempts are retained. [Current QA](output/qa/2026-11-17-proactive-agent-merge/verification.md) distinguishes local tests, real models, actual sites and untested merchant transactions.
+
+Pi power work remains paused. Installed application source was last verified as `8c67ddbe` on Mac/native/Pi; this integration has not replaced those runtimes or enabled normal background model billing. Preserve A3, account grants, data, original performance and RTC settings. The current batch uses the owner's newer permission to test against expiring credits, with an engineering cap of US$5; prior closed budgets remain closed. No CI, real send, purchase, payment or ticket is inferred.
+
+## 2026-11-17 Replacement-adapter stability check
+
+Owner replaced the adapter/charger and requested stability testing at original performance. Pi reported3000mA capability;8c67ddbe/Alice kiosk/API/application services active andCPU maximum2.4GHz. A planned10-minute observation ended on SSH timeout after485seconds/98samples:18samples showed current undervoltage/throttling, board ADC4.647–4.939V, temperatures47.7–77.9°C, all98local API health checks OK. Kernel events include fresh undervoltage during the observed interval. This power path has **not passed stability**, regardless of unchanged application settings; loss of SSH alone is not proof of a reboot. No deliberate power cycle, performance cap, model call or CI. [Evidence](output/qa/2026-11-17-pi-supply-check/verification.md).
+
+## Historical 2026-11-17: Pi deployment and automatic wake
+
+Owner requests latest Pi deployment and reports automatic restart still failing. Pinned VPS access returned; application8c67ddbe was staged/hashed/activated and read back on Pi, with its original A3version9, Google grants, database/schema and2.4GHz CPU maximum preserved. The next observed boot also served the same release. Three endpoints now have the same application source; current Pi availability remains intermittent.
+
+Fresh readback found the RTC timer disabled, marker absent and hardware alarm empty. Enabled actual persistent renewal and confirmed a moving alarm; after a normal shutdown trial, logs show an alarm-following boot interrupted by undervoltage and a later return. Owner is unsure about manual intervention in the first trial, so that trial alone cannot establish autonomous recovery. The corrected early service/timer pair is installed and actual boot ordering verified: alarm finished at4.680seconds before sysinit6.454seconds. A later coordinated trial exceeded its220-second window, but the owner subsequently observed self-start and a fresh alarm/boot chain supports delayed autonomous recovery. Repeated undervoltage and intermittent access remain; stable recovery is not accepted. [Current QA](output/qa/2026-11-17-pi-mainline-wake/verification.md). No firmware, paid call or CI; no rejected CPU cap reinstated.
+
+## Historical 2026-11-17: official execution mainline
+
+Owner now explicitly requests making the official execution path primary. New conversation drafts and the current browser form/API default to the official managed executor; legacy omitted-engine requests and local continuation keep their original behavior. GPT Live/Responses remains the voice layer. FYP keeps task/account/permission/result binding and the existing job worker, with no parallel generic planner or queue.
+
+Registered official sign-in forms are now rendered inside the same job, with a separate owner account-read choice, original-session/version/privacy/provider fences, no credential persistence or automatic submission retry. Interrupted SSE reopens the same session and reconciles the canonical turn/items; empty202 and lost deletion replies are handled. Account-read consent is not purchase/send/payment authority. QR/passkey/CAPTCHA, cross-job cookie persistence and real merchant acceptance remain separate gaps.
+
+Local full backend **2,428 passed**, frontend **391 passed**, types/build/Ruff and actual desktop/phone synthetic-provider journeys passed. Tests cover default routing, same-job sign-in, missed/duplicate network events, expiry/cancel, no stored credentials and independently verified report hashes. Mac8831/native Simulator now run8c67ddbe, with build/hash/A3/account/data readback. The final scope-receipt correction passed54focused checks after the full pass. Pi was subsequently activated and read back at8c67ddbe in the wake follow-up above; present connectivity is still intermittent. The new paid-trial budget is still unanswered, so no real call occurred. [Current QA](output/qa/2026-11-17-official-mainline/verification.md). A3, user data and existing account grants remain protected. [Execution contract](desk-companion/docs/managed-browser.md).
+
+## 2026-11-17 Preserve performance and recover from powered shutdown
+
+Owner rejects keeping Alice slowed/disabled as the workaround. Normal CPU maximum 2.4 GHz, container and display/autostart settings were restored; temporary recovery limit/hold disabled. Persistent diagnostic logging and private backups remain. Fix the executable-bit defect in the Pi session launcher so restored autostart can actually invoke it. This supersedes the reduced-performance operating plan below, not its historical evidence.
+
+An existing-firmware RTC one-off alarm was followed by an intermediate boot near the alarm time, then undervoltage at 5.9 seconds before networking. This supports wake capability but not complete recovery. Do not call a later manual power-cycle an automatic success. A same-version EEPROM configuration proposal was prepared but withdrawn; no flash is authorized by a stale reply to that superseded question. The later Pi follow-up enabled and verified persistent renewal; full autonomous recovery and early-boot timing remain separate acceptance limits. Preserve performance and explain that software cannot guarantee startup through an actual supply collapse. [Current wake evidence](output/qa/2026-11-17-pi-auto-wake/verification.md).
+
+## Historical 2026-11-16: Pi automatic shutdown
+
+Historical 16 November phase: owner resumed frequent Pi power-off diagnosis on dormitory Ethernet. Fresh access confirmed 13 kernel undervoltage episodes; older logs had been volatile. A private backup and persistent logs were verified. A temporary display/container hold and 1.5 GHz ceiling passed 8 minutes/97 samples without new undervoltage. The owner subsequently rejected retaining this reduced-performance mode; it was removed as recorded above. Original diagnostic evidence remains, but it is not the current operating configuration or proof of a permanent repair. [Recovery evidence](output/qa/2026-11-16-pi-power-recovery/verification.md).
+
+## 2026-11-16 Daily speech, proactive help and continuous local observation
+
+Owner reports spoken slash/dot formatting, stutter, missing HK7-day weather and weak proactive follow-up. New software adds a real HKO forecast tool to text/voice, speech-only title hints, bounded in-speech silence preservation and adaptive playback buffering while retaining A3. Existing task/nudge state now drives one concise Alice-home cue with explicit complete/progress/hour-later responses and saved next-step suggestions. Late daily opening can catch up; privacy/quiet/proactivity rules and owner-reported completion remain explicit.
+
+The browser camera now feeds the existing personal-calibration engine through local CPU inference and a short owner-bound landmark lease. First opt-in/calibration is followed by automatic app/navigation recovery; no repeated chat-camera button. One producer, source/lease fencing, pause/stop, local assets and visible camera status are retained. No video recording or cloud vision. Mobile background execution and real accuracy are not presumed. [Behavior/setup](desk-companion/docs/daily-presence.md), [QA](output/qa/2026-11-16-alice-daily-presence/verification.md).
+
+Actual physical Mac input returned15valid uncalibrated observations and stopped; synthetic local-model lifecycle and desktop/phone task actions passed. The complete backend suite2370passed before the final small Live silence/effort update, which then passed30focused lifecycle checks;389frontend checks/types/build passed. A fresh authorized USD0.20voice round used58.493seconds and estimatedUSD0.11280236 with complete receipts. It verified task/forecast tool reads and A3, but final full speech was truncated by the cap. Delivery hashes are recorded separately; this is not a claim of complete voice quality, posture accuracy or autonomous commerce.
+
+## 2026-11-16 Unified release and official execution layer
+
+Owner requested the complete current software on all three endpoints, renewed Google/Microsoft authorization and further cross-app/shopping/travel work. PR123 merged as7d7ab9fa; the full baseline, including reviewed Grok features, was activated on Mac and Pi with native Simulator frontend parity. Original stores/keys/A3 were retained. Mac Gmail reconnection and Calendar consent passed actual provider read checks. Pi received its own Google consent and both provider reads passed; Microsoft app registration/consent remains blocked at the personal-account human-verification step. [Current QA](output/qa/2026-11-16-agent-runtime/verification.md).
+
+Reuse official execution infrastructure where it fits. Live supports Responses tool delegation; the managed Agents API supplies the browser/agent harness. This branch adds an **opt-in** public-research executor to the existing JobService, with owner admission, exact origins, bounded session lifetime, cancellation, deletion readback and report integrity. It does not add another planner or queue. Old local/browser jobs remain compatible. No voice-to-managed-browser, authenticated account takeover, real payment or ticket acceptance is implied. [Execution contract](desk-companion/docs/managed-browser.md) and [official source review](research/2026-11-16-official-agent-runtime.md).
+
+The one newly authorized paid trial independently verified two public book prices, then deleted its session. Usage was absent: the entire US$1 remains reserved and this round is closed. No further paid request is authorized by the implementation or deployment.
+
 ## 2026-11-16 Motion variety and personal-agent status
 
 Alice now uses short contextual motions with quiet pauses: nod/smile, curious tilt, compact open-hand explanation, glances, shoulder relaxation and pondering, alongside the corrected wave. Tap responses vary and finish cleanly; shared timing prevents a visually finished gesture from swallowing the next tap. Mac web and native Simulator updated with A3/model/size preserved; Pi remained unreachable and received no new rollout. [Current motion QA](output/qa/2026-11-16-alice-variety/verification.md).
 
-The [personal-agent status map](desk-companion/docs/personal-agent-status.md) distinguishes merged source, ordinary runtime and real acceptance. Gmail native self-send has dated evidence; continuous mailbox follow-up, real browser owner takeover and merchant payment/ticketing remain incomplete. Local checks show saved Gmail connection, unconsented Google Calendar and unconfigured Microsoft apps. Main's Grok additions are not all active in the retained runtime. Next recommended product slice: real same-browser owner control and explicit return on the existing job lifecycle.
+The [personal-agent status map](desk-companion/docs/personal-agent-status.md) distinguishes source, delivered runtime and real acceptance. The earlier motion-only overlay/status audit below is historical: full runtime deployment and Mac Google consent were completed later on16November as recorded above. Continuous mailbox follow-up, real browser owner takeover and merchant payment/ticketing remain incomplete.
 
 ## 2026-11-13 Alice presentation motion
 
@@ -60,13 +114,13 @@ Earlier9 November technical result: isolated Mac V2ProPlus CPU generated six cas
 
 | 模块 | 已实现 | 仍须独立验证 |
 |---|---|---|
-| 应用连接 | Google/Microsoft共享OAuth、Gmail/Outlook邮件核对发送、外部只读查询；Mac Gmail本人测试实际送达 | Google日历及微软实际账号授权、持续邮箱跟踪、Office云端内容编辑和真实商务操作仍待 |
-| 日历／事务 | 持久CRUD、重复／例外、冲突、提醒、进展／跟进、版本与操作ID、草稿确认；2026-11-03 起离线日程夹具可增量写入同一事务，并只在冲突、临近期限、取消或待决定时通知 | 真实外部账号仍未连接，复杂生产数据和远程通知另验 |
+| 应用连接 | Google/Microsoft共享OAuth、Gmail/Outlook邮件核对发送、外部只读查询；Mac Gmail本人测试实际送达；16November Mac/Pi Gmail/Calendar新授权及真实读请求通过 | 微软注册/授权、持续真实邮件跟进、全邮箱增量同步、Office云端编辑和真实商务操作仍待 |
+| 日历／事务 | 持久CRUD、重复／例外、冲突、提醒、进展／跟进、版本与操作ID、草稿确认；离线夹具可增量更新同一事务；Mac Google Calendar真实读取通过 | 复杂生产数据、持续外部同步和远程通知另验 |
 | AI会话 | GPT Live语音与Responses文字复用业务工具／批准及有限上下文；Realtime保留对照；短期重放、记忆失效、逐轮时限；选中事务经服务端读取并绑定会话 | 新选型同条件比较、真人声学／泛化、成本与长期资源运行 |
 | 软件结构 | 手机拆成首页、计划、管理、环境与日历读取；网页／手机／Pi共用自动本地连接、会话恢复及日程编辑；读取去重、迟到响应和未保存保护 | 完整跨设备故障矩阵和辅助技术验收 |
 | 网页／手机 | 三端深色Alice首页、可见输入区与按需Plan／More；手机完整月历／时间／天气，保留共享操作卡片／权限和草稿；较矮屏幕信息区独立滚动 | 原生触控／软键盘完整流程、真机、功耗和温度 |
 | 记忆／人格 | 网页／手机可搜索、更正、删除有效事实；模型可检索全部有效事实，旧事实删除／到期也清旧重放；按需查看档案／目标／别名／检查记录；受支持的新事实操作可由完整权限授权。2026-11-10 起，拥有者批准后可在指定本地时间提起一条记忆跟进，安静时段和关闭主动提醒会推迟同一条。同日可再批准一次早晨核对，把多条已到期的跟进合成一条并引用仍有效的事实 | 不承诺永久聊天档案或供应商删除旧留存。这些跟进仍是离线行为，不是真实推送或邮箱验收 |
-| 持久 Work／跟进 | 选定来源／现有事务、持久决策／提问／恢复、独立文件核验、变化审阅及本地定期检查；普通聊天与显式保存会话的标识分开 | 真实邮件触发、私人账号连接、模型自主完成复杂任务和远程通知 |
+| 持久 Work／跟进 | 选定来源／现有事务、持久决策／提问／恢复、独立文件核验、变化审阅及本地定期检查；普通聊天与显式保存会话的标识分开 | 选定邮件元数据跟进/原线程回复已有本地协议与UI证据；真实持续验收、全邮箱事件、模型自主完成复杂任务和远程通知仍待 |
 | 电脑作业 | 原有笔记／指定目录／Mousepad及受限Chromium/Calc/Writer/PDF；新增原生computer调用的公开浏览器、实际输入／截图、显式状态接续和停止恢复，仍用同一队列 | 真实模型已通过受控购物／航班和取消检查；真实商家账户／交互接管、语音自主浏览器任务、任意桌面GUI及远端PC仍待 |
 | 坐姿／输出 | 固定关键点与标定逻辑、复测、回放隔离；命名预设、期限、停止与驱动回执 | 真人标注／误报／准确率、Luwu驱动及台架／物理急停 |
 | 交换与平台 | ICS、只读分享、事实／人格／作业备份、拥有者合并恢复、私有SQLite副本、诊断和默认关闭Web Push；Google只读、Linux安装、iPhone Keychain／Widget／App Intents | 公网／真实TLS配对、原生通知交付、学校服务器及App Store |
@@ -93,7 +147,7 @@ Earlier9 November technical result: isolated Mac V2ProPlus CPU generated six cas
 
 应用默认以`DESK_AUTO_OWNER=1`自动连接可信的本机工作区，移除所有应用端密码表单和Sign out入口；仅直接回环、无转发、可信本地来源可取得普通8小时Cookie。公网与配对设备仍保留原权限边界，真实远程手机使用可信HTTPS／配对。会话恢复不自动重试业务写入。旧口令API只保留兼容／恢复用途。[连接契约](desk-companion/docs/passwordless-device.md)。
 
-硬件组 10 月 26 日的[教师审核稿与采购表](research/2026-10-26-hardware-procurement-review/README.md)已纳入主分支：保留原 PDF／有日期的价格与未报价项，不把文档合并当成完整 BOM、采购或硬件测试通过。
+硬件组的[11 月 17 日采购评审、外壳 V3 和 ArUco 打印资料](research/2026-11-17-hardware-progress/README.md)记录硬件研究的最新进度。商品预算 HK$1,944.43，待核运费。V3 保持 320 × 200 × 200 mm，由六块面板和一件可拆 Qi 发射支架组成。H2D 打印包另含五块 ArUco 薄片，学校配置切片、部件尺寸、实际装配和回充待核。[10 月 26 日原审核稿](research/2026-10-26-hardware-procurement-review/README.md)保留历史。
 
 **Pi软件已恢复推进；只暂停自动红灯调查。**宿舍网线通过443管理中转恢复访问，main abf6387/schema3已经部署；新免登录／Alice／应用运行环境已经部署，四项真实应用作业与恢复通过。教室与大陆网络保留配置，但不能将宿舍本轮结果当作在其他地点重测。用户澄清红灯先出现、之后才拔插电源，旧“正常按键重启”表述无效；保留已核对的开机后软件／主机身份结果。Luwu与Mini硬件研究、采购批准、接线、台架及连续运行分开；[硬件成员资料](research/2026-10-23-mini-robot-hardware/README.md)不代表本轮实物成绩。
 

@@ -41,6 +41,8 @@ from .purchase_cards import purchase_card_routes
 from .phone import phone_snapshot
 from .tasks import task_routes
 from .jobs import job_routes
+from .mail_followup_routes import mail_followup_routes
+from .initiative import initiative_routes
 from .personal_context import personal_routes
 from .routines import routine_routes
 from .sources import sources_routes
@@ -113,7 +115,8 @@ def create_app(
     schedule = (
         ("rules", lambda: services.tick(), 1),
         ("public_data", lambda: services.data.poll_weather(), 10),
-        ("task_advice", lambda: services.text_ai.enrich_one(), 30),
+        ("mail_sources", lambda: services.mail_followups.poll_source_once(), 15),
+        ("initiative", lambda: services.initiative.advance(), 15),
         ("computer_jobs", lambda: services.jobs.run_one(), 0.5),
         ("responsibilities", lambda: services.responsibilities.advance(), 1),
         ("agent_runs", lambda: services.agent_runs.advance_one(), 0.5),
@@ -155,6 +158,8 @@ def create_app(
                 services.browser_jobs.shutdown,
                 services.connectors.shutdown,
                 services.jobs.shutdown,
+                services.mail_followups.shutdown,
+                services.initiative.shutdown,
             ):
                 try:
                     stop()
@@ -533,6 +538,8 @@ def create_app(
     app.include_router(weather_routes(services.data, authenticated))
     app.include_router(task_routes(services, authenticated, operation_id))
     app.include_router(job_routes(services, owner, operation_id))
+    app.include_router(mail_followup_routes(services, owner, operation_id))
+    app.include_router(initiative_routes(services, owner, operation_id))
     app.include_router(permission_routes(services, owner, operation_id))
     app.include_router(memory_routes(services, owner, operation_id))
     app.include_router(memory_followup_routes(services, owner, operation_id))
@@ -598,7 +605,7 @@ def create_app(
         return FileResponse(
             candidate,
             headers={
-                "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+                "Content-Security-Policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self'; media-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
             },
         )
 

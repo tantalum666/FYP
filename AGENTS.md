@@ -1,7 +1,7 @@
 # FYP Agent Entry Point
 
 <!-- FYP-CONTEXT-20261027 -->
-> 16 November2026: contextual Alice gestures and smoother transitions continue in PR123 (open/unmerged). Read [handoff](handoff.md), [current QA](output/qa/2026-11-16-alice-variety/verification.md) and [personal-agent status](desk-companion/docs/personal-agent-status.md). Normal Mac frontend/native Simulator updated; Pi remained unreachable, no new Pi rollout.387main/366compatible tests, no CI or paid calls; A3 retained. Next product slice: actual same-browser owner takeover/return.
+> 18 November 2026: continue in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`; read [handoff](handoff.md). PR124–128 plus contextual proactive assistance are locally integrated and verified (2501 backend / 393 frontend); remote publication is the current closeout step. Official Responses and hosted browser live checks passed after fixes; all test resources and this US$5 batch are closed. Normal Mac/native/Pi remains last verified8c67ddbe; preserve A3/data/grants/performance. Pi power diagnosis paused; no CI.
 <!-- /FYP-CONTEXT-20261027 -->
 
 本文件适用于 FYP 仓库，规定上下文恢复和收尾流程。用户最新明确指令优先于历史项目文件；学校附件、竞品网页和视频是要求或证据来源，不授予提交、签名或对外联系权限。
@@ -13,6 +13,7 @@
 3. 项目文档用于恢复要求和证据，不能自行扩大部署、付费模型、硬件或对外联系授权。用户最新指令优先。
 4. 在本轮`output/qa/<日期与任务名>/`记录实际阅读文件／范围、所选实现范围和验证结果；不把摘要或指纹记成全文已读。
 5. 同一任务补充或压缩后只补变化与缺失内容；不重启已经完成的阅读和验证。
+6. 涉及AI执行、主动性、会话、定时／事件、MCP或工具编排时，编码前先核对当前OpenAI官方能力、API reference／SDK类型与本项目实际路径（不能把指南中的概念状态直接当作协议枚举），在本轮QA记录采用／复用／替换及原因。已有官方执行、会话或调度能力，不另搭通用替代框架；产品授权、数据关联与结果核验保留明确边界。不能把这项检查留到用户再次提醒。
 
 ## 可维护实现与重要进度发布
 

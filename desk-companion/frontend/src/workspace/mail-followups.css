@@ -1,0 +1,57 @@
+.mail-followup-review p,
+.mail-followup-review small,
+.mail-followup-review h3,
+.mail-followup-item {
+  overflow-wrap: anywhere;
+}
+.mail-followup-review {
+  display: grid;
+  gap: 0.65rem;
+}
+.mail-followup-review p {
+  margin: 0.25rem 0;
+}
+.mail-followup-consent {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+}
+.mail-followups {
+  margin: 1rem 0;
+  border-block: 1px solid var(--line);
+  padding: 0.85rem 0;
+}
+.mail-followups > summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.mail-followup-item {
+  padding: 0.8rem 0;
+  display: grid;
+  gap: 0.4rem;
+}
+.mail-followup-item + .mail-followup-item {
+  border-top: 1px solid var(--line);
+}
+.mail-followup-item p {
+  margin: 0.25rem 0;
+}
+.mail-followup-item small {
+  color: var(--muted);
+}
+.mail-followup-messages {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+.mail-followup-messages li {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.65rem 0;
+  border-top: 1px solid var(--line);
+}
+.mail-followup-source {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 0.8rem;
+}

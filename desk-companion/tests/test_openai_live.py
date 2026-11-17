@@ -8,6 +8,7 @@ from desk.openai_live import OpenAILiveProtocol, OPENAI_LIVE_ENDPOINT
 from desk.persona import voice_instructions
 from desk.voice import VoiceConfig
 from desk.app import create_app
+from desk.capabilities import CAPABILITIES
 from desk.voice_settings import VoiceRegistration, VoiceSelection
 
 
@@ -218,6 +219,22 @@ def test_live_silence_and_fragments_do_not_invent_a_provider_final():
     assert protocol.events({"type": "session.input_transcript.delta", "delta": "late"}) == []
 
 
+def test_live_preserves_brief_pcm_pauses_without_extending_idle_speech():
+    clock = [10.0]
+    p = OpenAILiveProtocol(clock=lambda: clock[0])
+    silence = {
+        "type": "session.output_audio.delta",
+        "delta": base64.b64encode(bytes(2400)).decode(),
+    }
+    speech = {**silence, "delta": base64.b64encode(b"\x10\x00" * 1200).decode()}
+    assert p.events(speech)[0]["type"] == "audio"
+    clock[0] += 0.1
+    assert p.events(silence)[0]["type"] == "audio"
+    assert p.last_output == 10.0
+    clock[0] += 0.3
+    assert p.events(silence) == []
+
+
 @pytest.mark.parametrize("finish", ["stop", "idle", "ungrounded"])
 def test_live_service_drains_final_usage_before_releasing_slot(tmp_path, monkeypatch, finish):
     async def run():
@@ -330,7 +347,12 @@ def test_live_service_drains_final_usage_before_releasing_slot(tmp_path, monkeyp
         assert setup["audio"]["output"]["voice"] == (
             {"id": "voice_fixture"} if finish == "stop" else "marin"
         )
-        assert len(setup["delegation"]["responses"]["tools"]) == 30
+        tools = setup["delegation"]["responses"]["tools"]
+        assert len(tools) == len(CAPABILITIES)
+        assert {tool["name"] for tool in tools} == set(CAPABILITIES)
+        assert {"weather_query", "browser_research_draft", "browser_research_status"} <= {
+            tool["name"] for tool in tools
+        }
         if finish == "stop":
             assert "A clear original adult voice." in setup["instructions"]
             assert "Natural connected Mandarin and Cantonese." in setup["instructions"]

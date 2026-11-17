@@ -148,3 +148,17 @@ config/                 未启用的设备／服务示例配置
 ## Bounded application workspace (30 October 2026)
 
 The optional application executor now supports scoped Chromium source reads, real Calc workbook edits/formulas, Writer documents/PDF export and versioned local text artifacts. It reuses the existing task/job/permission services. [Setup and boundaries](docs/application-execution.md) / [actual execution QA](../output/qa/2026-10-30-application-execution/verification.md). The complex scenario passed a scripted execution/recovery run with 524 backend and 89 frontend checks; autonomous voice completion and production OpenAI integration remain open. No CI or new model spending.
+
+### Local posture camera and daily check-ins (16 November 2026)
+
+The browser camera can now feed the existing calibrated posture engine without uploading frames. Prepare the pinned local assets before a camera-enabled build:
+
+```sh
+.venv/bin/python scripts/fetch_models.py pose_lite
+cd frontend
+npm ci
+npm run prepare:posture
+npm run build
+```
+
+In Posture & feedback, enable the current camera once and record the three personal reference positions. App navigation and reopening recover an authorized camera automatically; pause/stop releases it. The existing Python device camera remains separate. Daily progress cues reuse saved reminders and explicit complete/progress/snooze actions. See [the behavior/setup contract](docs/daily-presence.md) and [QA limitations](../output/qa/2026-11-16-alice-daily-presence/verification.md), including physical calibration, mobile background limits and the incomplete full spoken-weather trial.

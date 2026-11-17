@@ -1,6 +1,8 @@
 # Group 2 · Software delivery gates
 
-**16 November2026 current gate:** [fresh personal-agent status](personal-agent-status.md) supersedes the old connection/deployment statements below. Main includes the reviewed Grok features, but the normal backend remains520ab563with later frontend overlays. FYP Gmail self-send was verified8November; continuous real inbox tracking is not accepted. Real owner browser control/return is the next recommended slice before an authenticated merchant journey. Google Calendar/Microsoft authorization and payment/ticket receipts remain separate. Pi remains unreachable in this check; no new hardware/provider acceptance.
+**Historical16November checkpoint:** [fresh personal-agent status](personal-agent-status.md) supersedes the old connection/deployment statements below. Main includes the reviewed Grok features, but the normal backend remains520ab563with later frontend overlays. FYP Gmail self-send was verified8November; continuous real inbox tracking is not accepted. Real owner browser control/return is the next recommended slice before an authenticated merchant journey. Google Calendar/Microsoft authorization and payment/ticket receipts remain separate. Pi remains unreachable in this check; no new hardware/provider acceptance.
+
+**17 November current gate:** the [official execution contract](managed-browser.md) now defaults new browser work to the official harness and supports registered owner sign-in within the same job. Source checks and synthetic-provider desktop/phone flows pass; [current QA](../../output/qa/2026-11-17-official-mainline/verification.md) distinguishes activation and paid trial. Genuine merchant account/checkout/receipt, Microsoft consent and persistent inbox acceptance remain separate.
 
 ## Historical dated evidence
 

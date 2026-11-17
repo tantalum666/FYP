@@ -43,11 +43,13 @@ from .application_executor import (
 from .application_runtime import read_regular, rooted
 from .computer_use import OwnerWallPause
 from .computer_use_models import (
+    BrowserTaskInput,
     COMPUTER_USE_ACTIONS,
     ComputerUseInput,
     ComputerUseReceipt,
     validate_computer_request,
 )
+from .managed_browser_auth import BrowserAuthInput
 from .schemas import StrictModel
 from .store import DomainError, encode
 
@@ -180,8 +182,10 @@ class JobService:
         self.desktop = LinuxDesktopExecutor(self.store.directory)
         self.applications = ApplicationExecutor(self.store.directory)
         from .computer_use import ComputerUseExecutor
+        from .managed_browser import ManagedBrowserExecutor
 
         self.computer_use = ComputerUseExecutor(runtime)
+        self.managed_browser = ManagedBrowserExecutor(runtime)
         self.enabled = os.environ.get("DESK_COMPUTER_ENABLED") == "1"
         self.run_lock = threading.Lock()
         self.stopping = False
@@ -211,7 +215,9 @@ class JobService:
     def capabilities(self):
         cfg = self.folder_config()
         return {
+            "default_browser_engine": "managed",
             "computer_use": self.computer_use.status(),
+            "managed_browser": self.managed_browser.status(),
             "applications": self.applications.status(),
             "desktop": self.desktop.status(),
             "enabled": self.enabled,
@@ -255,30 +261,30 @@ class JobService:
             (COMPUTER_USE_ACTIONS, self._computer_use_executor),
         )
 
-    def _computer_use_executor(self, preparing):
-        del preparing
-        self.computer_use.require_ready()
-        return self.computer_use
+    def _computer_use_executor(self, preparing, request=None):
+        executor = self.browser_executor(request or {})
+        executor.require_ready()
+        return executor
 
-    def _application_executor(self, preparing):
+    def _application_executor(self, preparing, request=None):
         del preparing
         if not self.applications.enabled or not self.applications.bridge.configured:
             raise DomainError("APPLICATION_UNAVAILABLE", 409)
         return self.applications
 
-    def _desktop_executor(self, preparing):
+    def _desktop_executor(self, preparing, request=None):
         del preparing
         if not self.desktop.status()["ready"]:
             raise DomainError("LINUX_DESKTOP_UNAVAILABLE", 409)
         return self.desktop
 
-    def _notes_executor(self, preparing):
+    def _notes_executor(self, preparing, request=None):
         del preparing
         if not self.enabled:
             raise DomainError("COMPUTER_DISABLED", 409)
         return self.executor
 
-    def _folder_executor(self, preparing):
+    def _folder_executor(self, preparing, request=None):
         if not self.folder.configured:
             raise DomainError(
                 "FOLDER_NOT_CONFIGURED" if preparing else "COMPUTER_SCOPE_CHANGED", 409
@@ -290,13 +296,16 @@ class JobService:
         executor = None
         for actions, resolve in self._bindings():
             if action in actions:
-                executor = resolve(preparing)
+                executor = resolve(preparing, request=request)
                 break
         if executor is None:
             raise DomainError("COMPUTER_ACTION_DENIED", 403)
         if request.get("executor") != executor.identity or request.get("scope") != executor.scope:
             raise DomainError("COMPUTER_SCOPE_CHANGED", 409)
         return executor
+
+    def browser_executor(self, request):
+        return self.managed_browser if request.get("engine") == "managed" else self.computer_use
 
     def _adopt_source(self, conn, source_job_id, request, expected_action):
         source = self._row(conn, source_job_id)
@@ -338,6 +347,7 @@ class JobService:
         )
         if not review and view["result"]:
             view["result"].pop("readback", None)
+            view["result"].pop("owner_input", None)
             if view["result"].get("paused"):
                 view["result"].pop("observation", None)
                 view["result"].pop("state_sha256", None)
@@ -442,7 +452,7 @@ class JobService:
             if payload.action in COMPUTER_USE_ACTIONS:
                 if not isinstance(payload, ComputerUseInput):
                     raise DomainError("COMPUTER_ACTION_DENIED", 403)
-                request = self.computer_use.prepare_request(payload, job_id, principal)
+                request = self.browser_executor(request).prepare_request(payload, job_id, principal)
             elif payload.action in APP_ACTIONS:
                 if not isinstance(payload, ApplicationJobInput):
                     raise DomainError("COMPUTER_ACTION_DENIED", 403)
@@ -491,9 +501,12 @@ class JobService:
             self._state(conn, job_id, "review")
             return {"job": self._view(self._row(conn, job_id)), "saved": False}
 
-        result = self.store.operation(
-            key, {"type": "computer_prepare", **payload.model_dump()}, apply
-        )
+        operation = payload.model_dump()
+        if isinstance(payload, ComputerUseInput) and "engine" not in payload.model_fields_set:
+            # A pre-upgrade browser may retry a stored operation without the new
+            # selector. Its original idempotency payload must remain identical.
+            operation.pop("engine", None)
+        result = self.store.operation(key, {"type": "computer_prepare", **operation}, apply)
         # Return live state on retries; an old 'review' response is not current truth.
         return {**result, "job": self.detail(result["job"]["id"])}
 
@@ -513,7 +526,7 @@ class JobService:
             if request["action"] in APP_ACTIONS:
                 self.applications.current(request)
             if request["action"] in COMPUTER_USE_ACTIONS:
-                self.computer_use.current(request, conn)
+                self.browser_executor(request).current(request, conn)
             if permission_version is not None and not self.runtime.permissions.current(
                 permission_version, conn
             ):
@@ -571,7 +584,7 @@ class JobService:
         )
         return {"job": self.detail(job_id)}
 
-    def _computer_owner(self, conn, row, principal):
+    def _computer_owner(self, conn, row, principal, *, local_takeover=True):
         if not principal or principal.get("kind") != "owner" or not principal.get("session"):
             raise DomainError("OWNER_REQUIRED", 403)
         request = json.loads(row["request"])
@@ -585,9 +598,45 @@ class JobService:
             (session_hash, iso(self.store.clock())),
         ).fetchone():
             raise DomainError("OWNER_REQUIRED", 403)
-        if not getattr(self.computer_use.supervisor, "supports_owner_takeover", False):
+        if local_takeover and not getattr(self.browser_executor(request).supervisor, "supports_owner_takeover", False):
             raise DomainError("COMPUTER_TAKEOVER_UNAVAILABLE", 409)
         return request
+
+    def managed_auth_state(self, job_id, metadata):
+        """Only nonsensitive progress reaches the existing job ledger."""
+        with self.store.connection(write=True) as conn:
+            row = self._row(conn, job_id)
+            result = json.loads(row["result"]) if row["result"] else {}
+            if result.get("owner_input") == metadata:
+                return
+            if metadata and (row["state"] != "running" or row["cancel_requested"]):
+                raise ExecutionRejected("JOB_CANCELLED_BEFORE_DISPATCH", 409)
+            if metadata:
+                result.update(verified=False, owner_input=metadata)
+            else:
+                result.pop("owner_input", None)
+            self._state(conn, job_id, row["state"], row["error"], result)
+
+    def managed_auth(self, job_id, principal, payload=None):
+        with self.store.connection() as conn:
+            row = self._row(conn, job_id)
+            request = self._computer_owner(conn, row, principal, local_takeover=False)
+            if request.get("engine") != "managed":
+                raise DomainError("COMPUTER_AUTH_UNSUPPORTED", 409)
+            self.managed_browser.current(request, conn)
+            if row["state"] != "running" or row["cancel_requested"] or not row["run_id"]:
+                raise DomainError("COMPUTER_AUTH_CHANGED", 409)
+            if row["deadline"] <= iso(self.store.clock()):
+                raise DomainError("JOB_DEADLINE_EXCEEDED", 409)
+            self._task_current(conn, request)
+            self._approval_current(conn, row)
+            self._executor(request)
+            form = self.managed_browser.auth.form(job_id)
+            if payload:
+                if form and form["phase"] == "waiting" and payload.expected_version != row["version"]:
+                    raise DomainError("COMPUTER_AUTH_CHANGED", 409)
+                return self.managed_browser.auth.submit(job_id, payload)
+            return {"form": form, "version": row["version"]}
 
     @staticmethod
     def _paused_handoff(row):
@@ -699,7 +748,7 @@ class JobService:
     def _verify(self, request, *, archived=False):
         if request["action"] in COMPUTER_USE_ACTIONS:
             receipt = ComputerUseReceipt.model_validate(
-                self.computer_use.verify(request)
+                self.browser_executor(request).verify(request)
             ).model_dump()
             if (
                 receipt["executor"] != request["executor"]
@@ -765,7 +814,7 @@ class JobService:
     def _approval_current(self, conn, row):
         request = json.loads(row["request"])
         if request["action"] in COMPUTER_USE_ACTIONS:
-            self.computer_use.current(request, conn)
+            self.browser_executor(request).current(request, conn)
         runs = getattr(self.runtime, "agent_runs", None)
         if runs is not None:
             from .application_work import guard_job
@@ -1290,15 +1339,28 @@ def job_routes(runtime, owner, operation_id):
         )
         return runtime.permissions.apply_reply(result, grant)
 
+    @router.post("/browser-tasks", dependencies=[Depends(visible)])
+    def browser_task_prepare(
+        payload: BrowserTaskInput,
+        request: Request,
+        key=Depends(operation_id),
+        principal=Depends(owner),
+    ):
+        # Make the new default explicit in the durable intent. Old omitted-engine
+        # requests and retries retain their original bytes on the older endpoint.
+        explicit = ComputerUseInput.model_validate(payload.model_dump())
+        return computer_use_prepare(explicit, request, key, principal)
+
     @router.get("/computer-use/jobs/{job_id}/screen", dependencies=[Depends(visible)])
     def computer_use_screen(request: Request, job_id: str = ApiPath(pattern=r"^[a-f0-9]{32}$")):
         job = runtime.jobs.detail(job_id, review=True)
         if job["action"] != "computer_use":
             raise DomainError("FILE_NOT_FOUND", 404)
-        directory = runtime.jobs.computer_use.root / job_id
+        executor = runtime.jobs.browser_executor(job["request"])
+        directory = executor.root / job_id
         try:
             if (job.get("result") or {}).get("verified"):
-                checked = runtime.jobs.computer_use.verify(job["request"])
+                checked = executor.verify(job["request"])
                 if not checked["verified"]:
                     raise ValueError("Changed computer receipt")
                 observation = checked["readback"]["observation"]
@@ -1335,6 +1397,16 @@ def job_routes(runtime, owner, operation_id):
 
     def owner_actor(request: Request, principal=Depends(owner)):
         return {**principal, "session": request.cookies.get("desk_companion_session")}
+
+    @router.get("/jobs/{job_id}/authentication", dependencies=[Depends(visible)])
+    def authentication(job_id: str, principal=Depends(owner_actor)):
+        return runtime.jobs.managed_auth(job_id, principal)
+
+    @router.post("/jobs/{job_id}/authentication", dependencies=[Depends(visible)])
+    def authentication_submit(job_id: str, payload: BrowserAuthInput, principal=Depends(owner_actor)):
+        # Deliberately bypass store.operation: values must never be persisted.
+        # The form nonce and in-memory keyed digest give retry acknowledgement.
+        return runtime.jobs.managed_auth(job_id, principal, payload)
 
     @router.post("/jobs/{job_id}/takeover", dependencies=[Depends(visible)])
     def takeover(

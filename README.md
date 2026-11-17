@@ -1,8 +1,10 @@
 # Desk Companion · FYP Group 2
 
+**18 November 2026 当前入口：**先读 [START_HERE_NEXT_CHAT.md](START_HERE_NEXT_CHAT.md) 与 [handoff.md](handoff.md)。本次审查整合 PR124–128，新增按上下文变化主动发现、无需逐条批准的只读邮件跟进，并修复真实 OpenAI / 官方托管浏览器测试暴露的问题。[当前能力](desk-companion/docs/personal-agent-status.md)、[验证记录](output/qa/2026-11-17-proactive-agent-merge/verification.md)。GitHub 合并与设备部署分开：本轮尚未替换原 Mac／原生应用／Pi 运行版本。以下带日期段落保留历史，不作为当前默认 AI 或部署状态。
+
 个人 Agent 方向与旧研究统一从[研究总入口](research/personal-agent-research-index.md)恢复：含六份原 PR #5 报告、Grok／Muse／Your dot 当前公开机制，以及邮件／购物／旅行目标与已实现范围的对应。
 
-面向家庭／办公室桌面的个人 AI 助理：日历与事务、可更正的记忆、受限电脑作业，以及固定摄像头的坐姿判断、反馈和复测。当前开发名称为 **Desk Companion**；仓库为三人私人协作空间。
+面向家庭／办公室桌面的个人 AI 助理：日历与事务、可更正的记忆、受限电脑作业，以及固定摄像头的坐姿判断、反馈和复测。当前开发名称为 **Desk Companion**；仓库用于三人协作。
 
 **2026-10-26 仓库整理：**组员的 [硬件 PR #17](https://github.com/tantalum666/FYP/pull/17) 已完成审查、修订并合入 `main`。退役食品项目的代码、设计、采购、学校版本和验证资料统一放在 [archive/senplate](archive/senplate/README.md)。
 
@@ -18,7 +20,7 @@
 | --- | --- |
 | 当前要求、完成边界和下一步 | [product.md](product.md) · [handoff.md](handoff.md) |
 | 软件代码与运行说明 | [desk-companion](desk-companion/README.md) · [操作指南](desk-companion/docs/operator-guide.md) |
-| 硬件成员最新进度 | [Mini图册、元件与采购前待办](research/2026-10-23-mini-robot-hardware/README.md) |
+| 硬件成员最新进度 | [采购评审、V3 外壳与 H2D 打印包](research/2026-11-17-hardware-progress/README.md) |
 | 机械臂技术依据 | [RIG-Arm二次开发研究](research/2026-10-05-rig-arm/secondary-development-review.md) |
 | 当前学校提案与团队日志 | [2026-09-28交付目录](output/submission/2026-09-28/) · [制作与审阅记录](planning/2026-09-28/logsheet-and-proposal-review.md) |
 | 学校原件、成员与协作 | [inputs](inputs/README.md) · [Group 2资料](planning/2026-09-14/group-2-details.json) · [CONTRIBUTING](CONTRIBUTING.md) |
@@ -39,15 +41,15 @@ cd ..
 ./scripts/dev.sh
 ```
 
-网页为 `http://127.0.0.1:5190/`，设备布局为 `http://127.0.0.1:5190/?surface=device`。账号 `owner` 的密码在各成员本机首次生成的 `desk-companion/.runtime/credentials.json`，不随仓库分发。真实相机、麦克风、模型服务和机械输出按操作指南另行配置。
+网页为 `http://127.0.0.1:5190/`，设备布局为 `http://127.0.0.1:5190/?surface=device`。可信回环默认使用自动本机身份，界面无登录密码表单；恢复凭据仅在各自本机，不随仓库分发。真实相机、麦克风、模型服务和机械输出按操作指南另行配置。
 
-## 当前软件检查点
+## 历史软件检查点（2026 年 10 月）
 
 本分支基于归档后的main，整合**AliceChan、统一Omni文字／语音、有界上下文、逐轮时限、Linux固定双应用、网页与全屏手机**；同时整合Grok #20–#59：有界工具循环、流式回复、记忆／目标／通知、备份与诊断；保留手机职责拆分，并修复权限、恢复、数据保留和跨栈兼容问题。实现见[维护契约](desk-companion/docs/software-maintenance.md)，整合历史验证见[整合QA](output/qa/2026-10-28-grok-review-merge/verification.md)，最新权限／跨端接续验证见[本轮QA](output/qa/2026-10-29-assistant-permissions/verification.md)。
 
 Qwen为已测基线，其他AI候选仍开放。本轮使用模拟提供商及虚构本地数据，没有新收费调用。Pi暂停；原生触控／键盘、真机和硬件另验。旧PR与作者工程留作历史，不把独立软件分支推送称为合并或部署。
 
-仅本机开发预览可用`DESK_LOCAL_PREVIEW=1 ./scripts/dev.sh`免输入账号密码；正式默认认证和外部访问保护保留。手机浏览器调试入口为`?surface=phone`，原生iPhone使用同一独立PhoneApp。本地运行后端Lint／测试和前端测试／构建，不连接模型或硬件；不使用GitHub CI。
+现行版本默认以`DESK_AUTO_OWNER=1`连接可信回环工作区；外部访问仍受原身份／配对边界约束，见[本机连接](desk-companion/docs/passwordless-device.md)。手机浏览器调试入口为`?surface=phone`，原生iPhone使用同一独立PhoneApp。本地运行后端Lint／测试和前端测试／构建，不连接模型或硬件；不使用GitHub CI。
 
 硬件目录是采购前研究，仍缺完整免焊转接、电源／Qi／风机及实物验证；学校文件完成不等于已签署或提交。进入本仓库的代理先遵守 [AGENTS.md](AGENTS.md)。本次整理和验证见 [QA](output/qa/2026-10-26-repo-cleanup/verification.md)。
 
@@ -60,4 +62,4 @@ Qwen为已测基线，其他AI候选仍开放。本轮使用模拟提供商及�
 按用户要求，将主验收提高为浏览器＋电子表格＋文档／PDF＋日历／事务的[演示准备包](planning/2026-10-30/complex-application-acceptance.md)，包含中途改预算／数量／日期、不可行条件澄清、丢回执和重启恢复。[固定材料](desk-companion/evals/app_workflow_v1/README.md)与受限应用适配器已完成，真实 Chromium／Calc／Writer／PDF 的脚本任务、原日程更新及重启恢复通过；[本轮 QA](output/qa/2026-10-30-application-execution/verification.md)记录 524 后端／89 前端与实际网页／手机操作。完整语音自主执行仍待，未产生新模型费用。
 
 
-本轮未合并 PR 的审查与整合见[2026-10-30 QA](output/qa/2026-10-30-all-pr-review/verification.md)。硬件组的[10月26日教师审核稿与采购表](research/2026-10-26-hardware-procurement-review/README.md)作为有日期的资料整合，仍不代表采购、台架或部署批准。
+本轮未合并 PR 的审查与整合见[2026-10-30 QA](output/qa/2026-10-30-all-pr-review/verification.md)。硬件组最新[采购 Excel、外壳 V3 和定位资料](research/2026-11-17-hardware-progress/README.md)见 11 月 17 日进度。[10 月 26 日教师审核稿](research/2026-10-26-hardware-procurement-review/README.md)保留历史。硬件实物采购和台架验收另行确认。

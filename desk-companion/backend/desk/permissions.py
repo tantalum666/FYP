@@ -36,6 +36,8 @@ class OwnerGrant:
     task_id: str | None
     proposal_sequence: int
     job_sequence: int
+    full: bool = True
+    proactivity_version: int | None = None
 
 
 class PermissionService:
@@ -84,11 +86,14 @@ class PermissionService:
             return None
         with self.store.connection() as conn:
             current = self.snapshot(conn)
-            if current["mode"] != "full":
+            prefs = self.runtime.data.preferences()
+            if current["mode"] != "full" and prefs["proactivity"] == "off":
                 return None
             proposal_sequence = conn.execute("SELECT COALESCE(MAX(rowid),0) FROM assistant_proposals").fetchone()[0]
             job_sequence = conn.execute("SELECT COALESCE(MAX(rowid),0) FROM computer_jobs").fetchone()[0]
-        return OwnerGrant(current["version"], session, task_id, proposal_sequence, job_sequence)
+        return OwnerGrant(current["version"], session, task_id, proposal_sequence, job_sequence,
+                          current["mode"] == "full",
+                          prefs["version"] if prefs["proactivity"] != "off" else None)
 
     def current(self, version, conn=None):
         policy = self.snapshot(conn)
@@ -109,13 +114,29 @@ class PermissionService:
         if grant is None:
             return reply
         with self.lock:
-            if cancelled() or not self.current(grant.version) or not self.store.session_valid(grant.session):
+            if cancelled() or self.snapshot()["version"] != grant.version or not self.store.session_valid(grant.session):
                 return reply
             proposal_id = (reply.get("proposal") or {}).get("id")
             job_id = (reply.get("job") or {}).get("id")
             if not proposal_id and not job_id:
                 return reply
             try:
+                if proposal_id and grant.proactivity_version is not None:
+                    with self.store.connection() as conn:
+                        p = conn.execute("SELECT rowid AS sequence,kind,data FROM assistant_proposals WHERE id=?", (proposal_id,)).fetchone()
+                    if p and p["kind"] == "mail_followup":
+                        if p["sequence"] <= grant.proposal_sequence:
+                            return self.refresh_reply(reply, language=language)
+                        if grant.task_id and json.loads(p["data"])["mail_followup"]["request"]["task_id"] != grant.task_id:
+                            return reply
+                        if cancelled():
+                            return reply
+                        self.runtime.assistant.decide(proposal_id, "confirm", "proactivity/" + proposal_id,
+                            principal={"kind": "owner", "session": grant.session},
+                            automatic_follow_version=grant.proactivity_version)
+                        return self.refresh_reply({**reply, "authorization": {"mode": "proactive", "version": grant.proactivity_version}}, language=language)
+                if not grant.full or not self.current(grant.version):
+                    return reply
                 if proposal_id:
                     with self.store.connection() as conn:
                         proposal = conn.execute(
@@ -154,9 +175,22 @@ class PermissionService:
                 "mode": "full", "version": grant.version,
             }}, language=language)
 
+    def _mail_reply(self, reply, followup_id, language):
+        receipt = self.runtime.mail_followups.confirmation({"followup_id": followup_id})
+        state = receipt["result"]
+        words = (("Email follow-up is paused in your preferences.", "邮件跟进已按你的偏好暂停。")
+                 if receipt["paused"] else
+                 ("Email follow-up is active; new replies stay with the same task.", "邮件跟进已启用，新回复会记入同一事务。")
+                 if state["state"] == "active" else
+                 ("Email follow-up stopped or needs attention; check the task.", "邮件跟进已停止或需要处理，请查看事务。"))
+        return {**reply, "proposal": None, "kind": "reply", "saved": True,
+                "mail_followup": state, "paused": receipt["paused"], "message": words[language == "zh"]}
+
     def refresh_reply(self, reply, *, language="en"):
         """Read existing action state; never authorize a cached pending request."""
         zh = language == "zh"
+        if followup_id := (reply.get("mail_followup") or {}).get("followup_id"):
+            return self._mail_reply(reply, followup_id, language)
         if job_id := (reply.get("job") or {}).get("id"):
             job = self.runtime.jobs.detail(job_id)
             state = job["state"]
@@ -205,6 +239,28 @@ class PermissionService:
             with self.store.connection() as conn:
                 row = conn.execute("SELECT * FROM assistant_proposals WHERE id=?", (proposal_id,)).fetchone()
                 applied = conn.execute("SELECT response FROM operations WHERE id=?", ("assistant-confirm/" + proposal_id,)).fetchone()
+            if row and row["kind"] == "mail_followup":
+                if row["state"] == "confirmed" or applied:
+                    receipt = json.loads(applied[0] if applied else row["result"])
+                    return self._mail_reply(reply, receipt["followup_id"], language)
+                if row["state"] == "cancelled" or row["expires_at"] <= iso(self.store.clock()):
+                    return {**reply, "proposal": None, "kind": "reply", "saved": False,
+                            "message": "这次邮件跟进请求已取消或到期。" if zh else "This email follow-up request was cancelled or expired."}
+            if row and row["kind"] == "browser_research":
+                if row["state"] == "confirmed" or applied:
+                    from .browser_research import confirmation
+
+                    result = confirmation(self.runtime, json.loads(applied[0] if applied else row["result"]))
+                    return self.refresh_reply({
+                        **reply, "proposal": None, "kind": "job", "saved": False,
+                        "job": result["job"], "goal_completed": False,
+                    }, language=language)
+                if row["state"] == "cancelled" or row["expires_at"] <= iso(self.store.clock()):
+                    return {
+                        **reply, "proposal": None, "kind": "reply", "saved": False,
+                        "message": "这次浏览器请求已取消或到期。" if zh
+                        else "This browser request was cancelled or expired.",
+                    }
             if row and (row["state"] == "confirmed" or applied) and row["kind"] in SOFTWARE_PROPOSALS:
                 result = json.loads(applied[0] if applied else row["result"])
                 return {**reply, "proposal": None, "kind": "action", "saved": True,

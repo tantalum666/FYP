@@ -1,6 +1,6 @@
 # Group 2 · Modules, data and extension points
 
-11 November 2026. This map describes the reviewed integrated source. The [root handoff](../../handoff.md) records its GitHub state separately from the paused Pi. Archived art/kernel PRs are not part of this integration.
+18 November 2026. This map describes the reviewed integrated source. The [root handoff](../../handoff.md) records GitHub and runtime states separately. Pi power diagnosis is paused; the new software has not been deployed. Hardware PR125 contributes documents/print assets with static checks only.
 
 ## Responsibility map
 
@@ -17,6 +17,9 @@
 | jobs, computer, linux_desktop, linux_desktop_bridge | One durable intent/approval/verification queue with three bounded executors |
 | goals, nudges, moments, digest, notify, web_push | Confirmed goals, quiet/proactivity-aware local summaries and opt-in notification delivery |
 | next_step, open_time, meeting_prep, waiting_on, reply_owed | Local conversation answers and task drafts; private/session/file boundaries remain shared |
+| initiative_sources, initiative | Current-evidence projection and strict Responses findings, dedupe/quiet policy; no action tools or second planner |
+| mail_threads, mail_followups, email_replies | Current account-scoped metadata follow-up and reviewed original-message replies |
+| managed_browser, managed_browser_client, managed_browser_auth | Official hosted session, registered sign-in, recovery/cleanup and independently read-back result in existing JobService |
 | memory_followups | Owner-approved one-shot memory reminders and morning group; current citations projected on read |
 | saved_skills | Owner-reviewed checklist records and occurrences on the existing routine clock; no arbitrary execution |
 | purchase_cards, travel_quotes | Versioned offline preferences/offers and itinerary fixtures; no live transaction |
@@ -27,7 +30,7 @@
 | shopping/service, shopping/backup, shopping/notices | Fixture-to-task tracking, atomic paused Work admission/relink, scoped deferred notices and portable state |
 | frontend phone/components/workspace/device | Separate layouts, shared session/editor/data lifecycle; [frontend contract](software-maintenance.md) |
 
-One API worker owns in-memory voice/outputs/posture state. The existing scheduled loops are rules1s, public_data10s, task_advice30s, computer_jobs0.5s, responsibilities1s, agent_runs0.5s, browser_jobs0.5s, connectors0.5s and local_backup at its configured interval. Memory follow-ups run within rules; saved-skill occurrences reuse RoutineService.tick. API startup is not authorization to enable providers, executors, media or physical output.
+One API worker owns in-memory voice/outputs/posture state. The existing scheduled loops are rules1s, public_data10s, initiative15s, mail_sources15s, computer_jobs0.5s, responsibilities1s, agent_runs0.5s, browser_jobs0.5s, connectors0.5s and local_backup at its configured interval. Memory follow-ups run within rules; saved-skill occurrences reuse RoutineService.tick. API startup is not authorization to enable providers, executors, media or physical output.
 
 ## Execution and state
 
@@ -41,9 +44,9 @@ Business JSON includes approved fact/persona data and job history. Import valida
 
 ## Extension rules and limits
 
-Add tools to TOOLS/CAPABILITIES/TextPlan together; keep approval outside model schemas. Add provider protocol adapters separately from business operations. OpenAI remains the default provider; Qwen is retained as an explicit historical candidate, without silent fallback. No paid calls without a new budget. `fake` never contacts a provider.
+Register tools in the canonical capabilities catalog with explicit text eligibility; TextPlan derives from that catalog rather than a second handwritten list. Before changing orchestration, compare official OpenAI capabilities and exact API/SDK types to the current code, recording reuse decisions. Keep the older primary-text AgentLoop frozen pending its official-path migration; keep approval outside model schemas. Add provider protocol adapters separately from business operations. OpenAI remains the default provider; Qwen is retained as an explicit historical candidate, without silent fallback. No paid calls without a new budget. `fake` never contacts a provider.
 
-Text conversation attempts default to40 per UTC day (including fallback); optional background advice is separately20. These are call counts, not a currency hard limit. The context character budget excludes tool schemas. Realtime voice retains its own10-second turn/600-second session policies, not the HTTP three-step loop.
+Text conversation attempts default to40 per UTC day (including fallback). The old task_advice inference worker is retired; initiative allows eight attempts/day in Normal or three in Less often, only when changed inputs or one delayed retry justify a call. Connected-preview refresh falls back to five-minute checks; the mail worker polls due selected sources at their existing fifteen-minute interval. The background model configuration gate remains required. These are call counts, not a currency hard limit. The context character budget excludes tool schemas. Realtime voice retains its own10-second turn/600-second session policies, not the HTTP three-step loop.
 
 General GUI/shell automation, job archival UI, true remote notification delivery, real-device acoustics/energy and physical arm validation remain separate work. The current one next step is in the root handoff.
 

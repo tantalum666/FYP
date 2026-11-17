@@ -6,6 +6,7 @@ export interface PermissionState {
 
 export interface PosturePreferences {
   enabled: boolean;
+  camera_source?: "device" | "browser";
   persistence_seconds: number;
   reassess_seconds: number;
   cooldown_seconds: number;
@@ -48,6 +49,12 @@ export interface PostureSnapshot {
   } | null;
 }
 export interface WorkspaceSnapshot {
+  initiative?: {
+    enabled: boolean;
+    research_ready: boolean;
+    findings: import("./InitiativeMessages").InitiativeFinding[];
+  };
+  check_in?: import("./AliceCheckIn").AliceCue | null;
   personal_context_visible: boolean;
   permissions?: PermissionState;
   computer?: {
@@ -55,6 +62,8 @@ export interface WorkspaceSnapshot {
     folder?: { configured: boolean; label: string | null };
     desktop?: { ready: boolean };
     applications?: { enabled: boolean; configured: boolean };
+    default_browser_engine?: "managed";
+    managed_browser?: { enabled: boolean; configured: boolean };
     computer_use?: {
       enabled: boolean;
       configured: boolean;

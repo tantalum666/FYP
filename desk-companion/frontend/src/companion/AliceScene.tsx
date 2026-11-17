@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CalendarDays, MoreHorizontal } from "lucide-react";
 import { A1Canvas } from "./A1Canvas";
 import type { Translate } from "../types";
+import { PostureIndicator } from "../workspace/posture/PostureIndicator";
 
 /** One licensed avatar and navigation treatment for all three home surfaces. */
 export function AliceScene({
@@ -67,6 +68,7 @@ export function AliceScene({
               : connection === "offline"
                 ? t("Desk offline", "桌面离线")
                 : t("Connecting…", "正在连接…")}
+            <PostureIndicator t={t} />
           </span>
           {connection === "offline" && onReconnect && (
             <button className="alice-reconnect" onClick={onReconnect}>

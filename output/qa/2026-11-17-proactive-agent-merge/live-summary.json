@@ -1,0 +1,78 @@
+{
+  "group": "Group 2",
+  "date": "2026-11-18",
+  "batch_closed": true,
+  "engineering_cap_usd": 5,
+  "responses": {
+    "requests": 12,
+    "received": 10,
+    "unreconciled_timeout_requests": 2,
+    "conservative_accounted_usd": 0.267201,
+    "ledgers_closed": true
+  },
+  "hosted_browser": {
+    "sessions": 4,
+    "final_deleted_readbacks": 4,
+    "usage_unknown_sessions": 4,
+    "reserved_usd": 4,
+    "trials": [
+      {
+        "trial": 1,
+        "turn_completed": false,
+        "stop_code": "JOB_DEADLINE_EXCEEDED",
+        "activity_count": 2,
+        "elapsed_seconds": 47.585,
+        "setup_seconds": null,
+        "usage": null,
+        "initial_cleanup_passed": false,
+        "final_deleted_readback": true,
+        "reserve_usd": 1
+      },
+      {
+        "trial": 2,
+        "turn_completed": false,
+        "stop_code": "COMPUTER_PROVIDER_UNAVAILABLE",
+        "activity_count": 0,
+        "elapsed_seconds": 8.911,
+        "setup_seconds": null,
+        "usage": null,
+        "initial_cleanup_passed": false,
+        "final_deleted_readback": true,
+        "reserve_usd": 1
+      },
+      {
+        "trial": 3,
+        "turn_completed": false,
+        "stop_code": "COMPUTER_PROVIDER_UNAVAILABLE",
+        "activity_count": 3,
+        "elapsed_seconds": 58.44,
+        "setup_seconds": 24.386,
+        "usage": null,
+        "initial_cleanup_passed": false,
+        "final_deleted_readback": true,
+        "reserve_usd": 1
+      },
+      {
+        "trial": 4,
+        "turn_completed": true,
+        "stop_code": null,
+        "activity_count": 5,
+        "elapsed_seconds": 68.153,
+        "setup_seconds": 24.787,
+        "usage": null,
+        "initial_cleanup_passed": true,
+        "final_deleted_readback": true,
+        "reserve_usd": 1
+      }
+    ]
+  },
+  "total_conservative_accounting_and_reserves_usd": 4.267201,
+  "verified_invoice": false,
+  "note": "Accounting includes unknown request holds and US$1 per hosted session whose usage is absent. It is not a measured bill or an ongoing budget.",
+  "real_sends": 0,
+  "real_orders": 0,
+  "real_payments": 0,
+  "real_tickets": 0,
+  "deployment_performed": false,
+  "ci_used": false
+}

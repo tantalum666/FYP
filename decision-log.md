@@ -742,3 +742,122 @@ Runtime delivery overlays only compatible presentation changes on the existing52
 Deliver a narrow compatible presentation overlay to the retained Mac backend and rebuild the existing native Simulator. Pi remained unreachable, so no new Pi activation is claimed. Native UI testing uses a Mac8831process launch override; the saved origin preference was read back as absent, so earlier wording that the Pi URL was saved in Settings was inaccurate. Do not change the saved preference or transfer credentials to establish an animation test.
 
 **Status / engineering priority, not new transaction authorization:** fresh GitHub/local-catalog evidence separates merged Grok source from ordinary runtime. Gmail self-send has dated real evidence; continuous inbox monitoring and real merchant login/payment/ticketing do not. Implement actual owner browser control/return on the existing job before promoting account autonomy. [Current status](desk-companion/docs/personal-agent-status.md) / [QA](output/qa/2026-11-16-alice-variety/verification.md). No CI or paid requests.
+
+## 2026-11-16 Full deployment, renewed grants and official agent execution
+
+**Owner instructions:** deploy complete current software to all three endpoints, finish Google/Microsoft authorization, and improve cross-app/computer/shopping/travel operation. Owner also asked whether Live/Codex infrastructure could replace our generic execution work. This supersedes the earlier narrow frontend-overlay/deferred-Microsoft scope, but does not authorize unspecified transactions or reuse old test budgets.
+
+**Verified delivery:** PR123 merged as7d7ab9fa. Mac/Pi original stores were rehearsed and backed up; complete baseline activated and read back, native frontend matched. A3/version9 retained. Pi's existing relay recovered during work; no new network/SD-card/power intervention. Mac Gmail and Calendar grants passed actual reads. Pi remains independently unconnected; Microsoft personal login stopped at human verification, not a successful registration.
+
+**Engineering choice:** reuse the official managed Agents browser harness through an opt-in adapter on existing JobService. Preserve local operations, owner/session/privacy/provider/permission checks, exact-origin review, cancellation, unknown-result handling and report readback. No new planner/queue or dependency. Managed authentication is refused; hosted approval is not a hard checkout/payment firewall. Keep it off on ordinary runtimes pending integrated acceptance. The existing voice note-draft tool does not become a browser tool automatically.
+
+**Budget:** owner expressly allowed one session/60seconds/US$1. Public catalogue result independently matched; session deleted/read back404 in51.731seconds. Usage was absent, so the full USD1 remains reserved and the round is closed. Live cancellation did not fit this cap. Subsequent lifecycle/UI tests are offline; no second paid trial. [Evidence](output/qa/2026-11-16-agent-runtime/verification.md), [official review](research/2026-11-16-official-agent-runtime.md).
+
+16November follow-up: the owner completed separate Pi Gmail and Calendar consent after relay recovery. FYP account versions and actual bounded provider reads passed from Pi; Mac tokens were not copied. Microsoft remains at human verification.
+
+## 2026-11-16 Daily assistance and camera lifecycle
+
+**Owner direction:** natural spoken task/weather answers; proactive daily/ongoing/completed-task support; ongoing posture detection with automatic camera use after setup. **Implementation:** reuse shared tools, scheduler, tasks/nudges and calibrated posture engine. Add HKO forecast access, speech-only title hints, low reasoning on the same backend, preserve short speech pauses, bounded adaptive jitter lead, one compact owner cue and version-checked explicit task responses. Do not infer task completion from camera, elapsed time or silence.
+
+Camera choice is local per backend origin. A dedicated worker reads the current device camera and sends only five landmarks/quality metadata, using checked local model/WASM assets. A single owner-bound lease, selected-source arbitration, late-frame rejection, pause/stop and automatic reload recovery protect the existing engine. Browser/OS first consent and three-position calibration remain required. This does not establish medical accuracy, iOS background capture or Pi continuous-operation reliability. [Contract](desk-companion/docs/daily-presence.md).
+
+**Fresh spending authorization:** USD0.20/60seconds for synthetic speech, separate from the closed managed-browser round. Two evaluator failures were retained; the last attempt read the actual forecast and bound task, confirmed A3 and received separator-free task wording. All receipts finalized; total58.493seconds/estimatedUSD0.11280236. Full weather speech was cut short, so no complete listening/latency acceptance. All child ledgers remain closed; cache-aware reconciliation used the published default30mwrite/read rates and10percent margin. No further paid calls. [Evidence](output/qa/2026-11-16-alice-daily-presence/verification.md).
+
+## 2026-11-16 Owner resumes Pi shutdown recovery
+
+**Owner decision:** frequent automatic shutdown now takes priority, on dormitory Ethernet; earlier power-investigation deferral is revoked. Latest software2c31f430was activated/read back on all endpoints, and the final Pi autostart/profile/kiosk-service activation returned success, but physical rendering/stability is not accepted. Preserve that release/data and stop adding workload while diagnosing.
+
+**Current evidence boundary:** Pi became unreachable again. Fresh quiesce/diagnostic commands are prepared, but no successful live execution receipt has been obtained yet. Historical boot records show3000mA and low-voltage events; an old PDO decode yields5V3A/9V3A/12V2.5A/15V2A. This is not a fresh PSU measurement or proof of the current failure. Journal storage was historically volatile, so absent previous-boot logs do not establish a clean shutdown. Collect new evidence, preserve an off-device copy, then distinguish power, software shutdown, watchdog, thermal and network-only failures. No stress/current override/firmware flash or paid calls.
+
+### 16 November live power readback and temporary mitigation
+
+Owner reported a fresh unplug/replug and confirmed no alternative 5.1 V/5 A supply. Original-key access returned. Current kernel recorded 13 undervoltage episodes, including after stopping the heavy app container; previous-boot journal was genuinely volatile. Off-device consistent SQLite/config backup and bounded persistent journaling were completed and verified.
+
+Engineering mitigation: hold the owned 3D autostart/container, briefly compare API-off operation, then cap only the CPU maximum at its supported 1.5 GHz and restore the API. Governor, voltage/current limits, firmware and watchdog remain unchanged. The eight-minute/97-sample restored-API trial had no new kernel undervoltage, same boot identity and valid database/protected-file readback. Save the temporary boot unit and restoration record; next-boot and full-load acceptance remain untested. This does not prove the cause of earlier red LEDs or repair the physical supply. [Evidence](output/qa/2026-11-16-pi-power-recovery/verification.md).
+
+## 2026-11-17 Owner rejects reduced performance; evaluate RTC recovery
+
+**Owner decision:** keep Alice's original performance and restart from powered red-LED shutdown. Removed the temporary 1.5 GHz limit and app hold, restored 2.4 GHz maximum/autostart/container, and fixed the non-executable session launcher. Retained private backups/persistent logs. Later access loss with fresh undervoltage does not authorize silently reinstating a performance reduction.
+
+**Evidence correction:** no SSH return during the one-off RTC trial initially suggested the existing power-off setting might need a bootloader change. A later saved previous-boot tail instead shows an intermediate startup near the alarm time, then undervoltage at 5.888 seconds before networking. Treat this as support for wake with failed startup, not a successful complete recovery. The owner subsequently recovered manually. The original firmware has no A/B support; a matching configuration-only image was prepared but never written. That EEPROM proposal/approval is explicitly withdrawn, including any delayed acceptance.
+
+**Implementation:** optional owned RTC alarm renewal every 30 seconds, 180-second lead, early boot ordering and explicit disarm; no clock cap or firmware changes. 11 focused local tests/Ruff pass. First files installed for the one-off check with the recurring timer disabled; final activation remains unconfirmed after 18 bounded failed connection attempts. Next reachable boot must verify hardware alarm, advancing renewal and normal application configuration. [QA](output/qa/2026-11-17-pi-auto-wake/verification.md).
+
+## 2026-11-17 Resume personal-agent software through conversational browser work
+
+**Owner instruction:** continue toward a personal agent. Software is the current work item; preserve Pi's original-performance choice and the withdrawn EEPROM proposal. No new model-test budget or transaction/account authorization was supplied.
+
+**Engineering choice:** add a draft/status bridge on existing AssistantService/JobService, not another planner/queue. The model supplies public task/site suggestions, while the owner supplies actual screenshot sharing and approval. Review-to-job keys survive interrupted responses, and status reads independently reopen evidence with session/provider/privacy checks. Full access cannot manufacture a new sharing grant. Results keep observed/fictional data separate from goal, purchase or booking completion.
+
+Inspection also found a separate TextPlan literal hiding ten existing software/read tools. Derive primary text names from the canonical capability registry with explicit text eligibility, preserving non-text physical/posture scope and existing tool-level permissions. The retained-chat endpoint remains deliberately narrower. Shared UI uses a small review component, the existing refresh and pending-write lifecycle; recovery only appears after submission finishes/fails. Generic recovery labels say action rather than save.
+
+**Evidence:** full backend 2,410/frontend 391 plus build/types/Ruff; real Chromium with scripted models, independently verified shopping/flight values and a follow-up task; actual lost-response/same-key/no-duplicate recovery and phone/Chinese-phone consent/cancel. No paid call, real account action, send/order/ticket, native/Pi rollout or normal-runtime replacement. [QA](output/qa/2026-11-17-personal-agent-browser/verification.md).
+
+## 2026-11-17 Clarify Live versus official agent execution
+
+Owner asks whether current work follows the earlier plan to reuse official capabilities after adopting GPT Live. Fresh Mac status confirms Live/Responses is the voice path; local computer use remains enabled and managed-browser execution is disabled. PR #126 is an admission/result bridge, not a default-executor migration.
+
+Reaffirm the existing official-first engineering direction: use supported Live hosted/MCP tools and Agents session/browser/authentication/continuation mechanisms; keep FYP product state, account/permission binding and verification. Prefer those official mechanisms before adding generic local owner-control infrastructure. Existing local adapters remain for concrete local/Pi requirements and compatibility. Browser auth excludes QR/passkey methods in the current official protocol, so actual merchant coverage remains unverified. This clarification changes no runtime flag, grants, model budget or deployment authority. [Evidence](output/qa/2026-11-17-live-architecture/verification.md).
+
+## 2026-11-17 Make official browser execution the mainline
+
+**Owner instruction:** “开始把官方执行路径真正接成主线”. This supersedes the earlier optional/off routing decision. It authorizes implementing and activating the supported mainline; no new paid-test budget is inferred, and no merge/transaction/account grant is manufactured.
+
+**Implementation:** current browser admission and conversation drafts default to managed; explicit operator0 is honored. The older endpoint/default preserves local intent/retry bytes and backups. Official sign-in uses a dedicated owner-only registered form in the existing running job, with explicit per-job account-read consent and no credential persistence. Keep the official harness's execution, not a second FYP planner/queue. HTTPX remains the existing transport/proxy integration; system Python's unrelated SDK is not imported.
+
+Reopen disconnected event streams without replaying input/approval, reconcile a canonical completed root turn and keyed saved items, and handle empty202 separately from login/completion. Keep45active/90owner-wait/12cleanup seconds, current task/session/privacy/provider fences, unknown-resource blockers and independent result hashes. Synthetic auth does not establish merchant login, checkout, payment or ticket outcomes. Account content is labeled owner-authorized rather than public.
+
+**Validation:** 2,428 backend/391 frontend checks plus build/types/Ruff; real desktop/phone UI with synthetic provider, deliberate lost phone acknowledgement, one session/input/form submission per job, cleanup and no credential storage. Runtime/real-call evidence is recorded separately in [QA](output/qa/2026-11-17-official-mainline/verification.md). Existing closed budgets, A3/grants/data, Pi full-performance preference and withdrawn EEPROM proposal stay in force.
+
+Delivery17November: activated final8c67ddbe on Mac8831 and native Simulator, with manifest/build/index parity and original A3/grant/data/protected-file checks. Pi relay remains unreachable; prepare final delta against2c31f430 without power/firmware changes. Final scope-receipt fix retains the owner's account grant if the provider ack is lost;54focused regressions passed after the full2,428pass. New paid-budget question has no reply and no calls occurred. PR127 remains draft/open, no merge/CI.
+
+## 2026-11-17 Pi deployment and honest automatic-wake acceptance
+
+Owner explicitly requests the latest release on Pi and continuing restart repair. Activated8c67ddbe with full manifest/readback, protected runtime/account/A3 checks and updated autostart. Fresh RTC readback established disabled timer, absent enable marker and empty alarm; enabled actual renewal and confirmed its advance and later-boot persistence.
+
+The controlled normal-poweroff trial armed17:50:42HKT; retained logs begin an intermediate boot17:50:53, then undervoltage before networking, and a later boot17:54:10. Owner is unsure of physical button/power intervention, so do not accept or publish this as proven autonomous full recovery. A subsequent relay loss remains unexplained at the physical level; repeated undervoltage is observed, not proof of one specific component fault.
+
+Prepare the RTC service and its timer for early boot after local filesystems/before sysinit. Their implicit mutual ordering matters: the old late timer recreates a cycle with an early service. The guarded device verifier rejected and rolled back the initial service-only change. Paired Linux verification now passes and the old-timer regression fails as expected. Retry transport failures only, not semantic failures. No EEPROM or CPU limit change. Final deployment/activation/next-boot evidence belongs in [QA](output/qa/2026-11-17-pi-mainline-wake/verification.md).
+
+Final follow-up: both early units installed/read back with matching hashes and enabled timer. A coordinated second shutdown exceeded220seconds without remote return, then the owner reported self-start. Fresh logs show repeated boot IDs and a last alarm18:36:18 followed by the current boot's synchronized-uptime estimate18:36:28. Actual first renewal finished at4.680seconds before sysinit6.454seconds. Accept delayed automatic recovery evidence, not stable/single-attempt recovery; retain first trial's uncertain attribution. Raw boot wall-clock labels can shift before NTP, so do not infer precise physical timings from those alone. No more shutdown tests; recurring undervoltage is the remaining reliability issue.
+
+## 2026-11-17 Test the owner's replacement adapter without reducing performance
+
+Owner clarified that the replaced part is the power adapter/charging head and confirmed one button-on recovery. Reuse the existing read-only telemetry scripts with121planned5-second samples; keep Alice/services and2.4GHz maximum. Judge current flags and monotonic current-boot journal events separately from historical sticky flags. Do not infer actual current draw from the3000mA capability field or blame one component without isolation.
+
+Observed485seconds/98samples before SSH timeout:18current undervoltage/throttling samples, ADC4.647–4.939V, temperature47.7–77.9°C,98API health successes. Fresh kernel warning occurs within the interval. Replacement supply path fails stability criterion; final connection loss remains separate from reboot attribution. No new firmware, reboot, frequency cap, paid call or CI. [QA](output/qa/2026-11-17-pi-supply-check/verification.md).
+
+## 2026-11-17 Official capability reuse constraint during mail follow-up
+
+Owner explicitly asks to verify OpenAI architecture and avoid rebuilding supplied capabilities. Fresh docs confirm official scheduled Automations, function responders, modern MCP and connector_id deprecation for new models. Existing Live/Responses and managed-browser paths are reused. Existing generic text AgentLoop is a declared migration gap; freeze its orchestration expansion. New mail_sources/poll_source_once is scoped to deterministic metadata synchronization and existing task/notifier integration, not an autonomous planner or alternative cron system. Future agent scheduling belongs to official Automations. Gmail MCP preview and Work IQ prerequisites remain unverified for the current accounts; keep bounded official REST adapters for the existing authorized paths rather than inventing a new MCP server or assuming transferable grants. [Audit](research/2026-11-17-official-capability-audit.md).
+
+
+## 2026-11-17 Selected-thread source subscription and proper reply
+
+Owner scope: continue personal-agent software, pause hardware, and reuse official OpenAI capabilities. Engineering choice: one selected thread, explicit seven-day/15-minute metadata grant, existing TaskService/evidence/Notifier and Runtime worker. Provider data never changes task status/deadlines or authorizes an action. Browser-session expiry does not erase an explicit bounded grant; privacy/task pause/account changes/expiry fence reads and publication. Portable task restore cannot reactivate a live subscription. No background inference or new agent scheduler.
+
+Original-message replies reuse the reviewed sender, bind exact recipient/subject/source and use Gmail thread headers or Graph reply. Acceptance is distinct from delivery. Unknown send cannot be repeated through confirmation or another draft to that source. Full access alone authorizes neither following nor send.
+
+Verification removed the misleading inference that a disappeared pending draft expired without effects; recovery now renders the server decision and clears the surrounding banner. Distinct task mail panel key and bounded portable evidence fix actual regressions. Local full backend2,471passed/2platformskips, frontend393, focused checks and actual desktop/Chinese-phone fixture journeys passed. No live grant/send, paid API, CI or deployment. [Contract](desk-companion/docs/mail-thread-followup.md), [QA](output/qa/2026-11-17-mail-thread-followup/verification.md).
+
+## 2026-11-17 硬件采购归类与样件边界
+
+- 按老师建议分为机械臂、吸尘机、显示器和行走改装部件。用户补充屏幕附送 HDMI 线和 micro-HDMI 转接头，该项计 HK$0。新表整机商品预算 HK$1,944.43，运费和实物验证仍待核。
+- 外壳 V2 保持 320 × 200 × 200 mm，提供分件和一体模型。车尾 RX 对泊位 TX 为几何方案，模型间隙和零件外廓须实测。采用四个桌角码和一个车顶码，五个码学校免费打印。[硬件进度](research/2026-11-17-hardware-progress/README.md)。
+
+## 2026-11-17 外壳六面版与学校打印
+
+- 用户要求尽量每面一块，确认学校机型为 Bambu Lab H2D，并要求五块定位码做薄、打印包只保留本次所需文件。
+- V3 采用六个单面板，一体式螺接凸耳取代独立角件和拼片。Qi 发射支架单列。五块定位牌沿用 A4 原码，采用 1.0 mm 白底与 0.4 mm 黑图案。学校配置切片和试印待验。[硬件资料](research/2026-11-17-hardware-progress/README.md)。
+
+## 2026-11-18 Contextual initiative, standing read permission and official reuse
+
+**Owner decision:** Alice should notice useful developments without requiring a separate timed task or repetitive read approval; inspect/fix/merge PR124–128 and complete/save a coherent handoff. User also permits broader API testing against existing credits before24November. This supersedes the earlier per-thread-only approval experience and no-new-paid-call restriction for this authorized batch. It does not grant a real send, purchase, account consent or resumed Pi power diagnosis.
+
+**Engineering choices:** existing official Responses strict-schema call for changed-evidence research, no action tools/AgentLoop; reuse current worker/store/readers/Notifier and retire duplicate task_advice inference. Fresh owner-selected mail follow can use standing proactivity in Ask mode; legacy manual scopes retain expiry. Off/stop/privacy/account/task revisions remain effective. Changed calendar instances use the canonical snapshot instead of raw event rows. Keep original sources, A3 and grants intact.
+
+**Official reuse gate:** current API/reference/SDK capabilities must be checked before new orchestration code, with adopt/retain/replace documented. Official Agents remains multi-step browser execution; official Automations is the future scheduled-reasoning path. The old normal-text loop remains a stated migration gap. Public competitor descriptions do not prove vendors never use timers; the user experience is meaningful unsolicited discovery under existing authority.
+
+**Actual failures and fixes:** initial Responses five-second read timeouts; hosted setup counted against45seconds; inferred readiness enum; pending origin request surviving cancellation and DELETE409. Updated bounded timing/reference handling and cancellation/deletion readback, with no replay of task inputs/credentials. Six real-model research cases and natural follow/stop over synthetic mail passed. Fourth actual public-browser task passed independent title/price/stock/fictional-total checks; all four resources have deletion readback.
+
+**Cost:** new engineering capUS$5; Responses12requests/10receipts/2unknown holds totalUS$0.267201 conservative, plus4hostedUS$1unknown-usage reserves=US$4.267201. Not an invoice. All batch ledgers closed and temporary QA services stopped. This is not an ongoing budget. Normal Mac/native/Pi release remains last verified8c67ddbe; source merge and later deployment are separate. [Contract](desk-companion/docs/proactive-research.md), [evidence](output/qa/2026-11-17-proactive-agent-merge/verification.md).

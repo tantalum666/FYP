@@ -1,29 +1,25 @@
-# Group 2 · Current handoff
+# Group 2 · Continue personal-agent work here
 
-16 November 2026. Continue in `/Users/tantalum/.codex/worktrees/alice-motion-20261113/FYP`, branch `codex/alice-natural-motion-20261113`, based on main6153b41d. [PR123](https://github.com/tantalum666/FYP/pull/123) remains open/unmerged. No CI or new paid calls; A3 and original Alice retained.
+18 November2026, Hong Kong. Active checkout: `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/proactive-agent-merge-20261117`. Read [AGENTS](AGENTS.md), current [product](product.md), [new research](research/2026-11-18-proactive-assistance-and-official-reuse.md) and [QA](output/qa/2026-11-17-proactive-agent-merge/verification.md). This handoff supersedes the older official-agent-mainline/mail-thread worktrees.
 
-Source0d53f4e2matched the remote PR head. [Publication receipt](output/qa/2026-11-16-alice-variety/publication.json).
+## Source and delivery
 
-## Latest completed work
+Candidate includes all pinned124–128 heads, proactive feature commit21d87f13 and local hardware merge489992dc plus final repairs. GitHub publication/merge is being completed; do not yet infer remote status from this candidate. Normal Mac8831/native Simulator/Pi were last verified at8c67ddbe1559eea975aa355bef970a8e98a9edcc. This slice has not deployed or enabled normal background billing. A3version9, account grants, databases and original performance remain intact.
 
-Added short contextual motions with quiet intervals: smile/nod, curious tilt, compact open-hand explanation, glance, shoulder relaxation and pondering, alongside the corrected wave. Clicks vary across four responses; idle motion yields to interaction. The real phone check caught/fixed a visibly finished gesture still rejecting the next tap. Shared timing now governs both pose sampling and input coalescing. Gesture elapsed time is separate from capped spring-physics time; existing pause/reduced-motion behavior remains.
+## Completed and evidenced
 
-387 main frontend tests and366 runtime-compatible tests, types/build pass. Actual desktop/phone gestures and final four-response phone cycle were observed; real rig checks cover palms, torso clearance, fingertip extent and fixed feet. More froze rendering; reduced motion disposed/restored one canvas. [Current QA](output/qa/2026-11-16-alice-variety/verification.md).
+- Contextual unsolicited findings from changed facts/tasks/calendar/connected previews; strict official Responses without action tools/AgentLoop. Meaningful findings have current citations; unchanged/irrelevant evidence stays quiet. Shared home/Conversation UI and Normal/Less often/Off controls.
+- Fresh conversational mail follow uses standing read-only permission, including Ask mode; no extra card. Stop/Off/private/account/task revisions and cached pause/stop receipts work. Legacy manual grants retain their expiry. Sends/purchases/general writes remain separate.
+- Real-provider timeout, browser setup/readiness, pending-origin cancellation and DELETE409 recovery fixed. Canonical local-calendar occurrences prevent stale/deleted/changed-date findings. No competing generic agent framework; old task_advice inference retired.
+- Six real research cases, real-model follow/stop over synthetic mail and fourth actual public hosted-browser comparison passed. All four hosted sessions have deletion readback; failed attempts preserved. Full/focused/frontend/UI/hardware static evidence in QA.
+- Official capability/API/SDK checks are now an AGENTS pre-code requirement. PR125hardware ZIP/mesh/3MF/budget checked; no physical-print claim.
 
-## Actual delivery
+## Saved state and limits
 
-- **Mac web:** compatible frontend activated at `http://127.0.0.1:8831/?page=assistant`; `?surface=phone` is the phone browser view. Original API PID28112/backend520ab563/data retained; A3/version9 and protected files unchanged. New frontend `dist-motions-20261116`; previous `dist-motion-20261113-v2` and old hashed assets retained.
-- **Native Simulator:** rebuilt/installed on original iPhone17Pro/iOS26.5. Pi8891was unreachable; actual UI/idle glance was checked using a process-only Mac8831launch override. The saved `desk.server.origin.v1` preference is absent, confirmed by read-only plist inspection: the previous Pi address was also a launch argument, not a saved setting. Current native checking is Mac-backed, not Pi acceptance. No new physical-iPhone, native-tap/keyboard or paid-voice acceptance.
-- **Pi:** existing pinned relay check failed. No16November deployment/restart/network change. Last verified frontend activation is13November; physical animation/performance remains unverified. Power/red-LED diagnosis stays deferred.
+Batch closed: engineering capUS$5; Responses conservativeUS$0.267201including2unknown timeouts +4hostedUS$1reserves =US$4.267201, not an invoice. Owner's broader testing permission before24November is recorded, but this closed batch is not reopened automatically. No top-up/real send/order/payment/ticket. QA API8832/Vite5191 stopped; no active paid observer or remote automation. Raw scripts/logs/receipts/runtime databases remain private at `~/.config/desk-companion/proactive-agent-merge-20261117/`; sanitized copies/hashes in QA. Do not publish credentials, raw session IDs, personal credit screenshot or databases.
 
-Private artifacts and rollback receipts: `~/.config/desk-companion/alice-motions-20261116/`. Keep original live-agent-eval source/runtime/vendor dependencies and prior backups. Temporary Vite servers are stopped; normal Mac8831remains available. CUA/Xcode capability availability changed during closeout; do not infer further UI actions occurred after those tools were removed.
+Pi power diagnosis is paused; preserve2.4GHz/Alice/RTC settings. Supply instability/delayed wake remains unresolved. Mac/Pi Google grants were independently accepted earlier; Microsoft registration/consent remains blocked at human verification. Native/Pi rendering, full-inbox/provider-push/closed-phone notification, sustained real-mail usefulness and actual merchant checkout/payment/ticketing remain separate acceptance. Primary text still has legacy AgentLoop; migrate it through official sessions/functions rather than expand it.
 
-## Personal-agent status
+## One next step
 
-Read the [current capability/runtime map](desk-companion/docs/personal-agent-status.md) and [research index](research/personal-agent-research-index.md). GitHub main still contains the reviewed11November Grok integration, but not all later features are in the retained ordinary backend. FYP Gmail self-send has8November real evidence;16November local catalog shows saved Gmail connection, Google Calendar configured/unconnected and Microsoft apps unconfigured/unconnected. No fresh token/mailbox/transaction trial was made.
-
-Real-model controlled shopping/flight/browser tests exist. Actual merchant owner takeover, continuous real inbox-to-task tracking, payment/order/ticket receipts and reliable unattended completion remain open. The shipped browser lacks owner-input transport; fixture pause/return is not a usable account journey.
-
-## One next product step
-
-Implement a real same-browser owner-control and explicit-return flow on the existing JobService, then verify it before claiming authenticated merchant work. Reuse durable jobs, session/version checks, cancellation and independent result readback. Do not open a paid budget or perform unspecified mail/purchase actions. Pi rendering remains a separate pending verification when connectivity returns.
+After remote merge receipts are confirmed, promote the reviewed main tree to normal Mac/native/Pi, with backup and source/build/data/A3/grant readback. Do not turn the deployment into another power experiment. Continue from the saved source/evidence instead of repeating completed research or restarting closed test budgets.

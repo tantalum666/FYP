@@ -21,7 +21,7 @@ def fit_context(context: dict, *, budget: int | None = None) -> dict:
         fitted["last_tool_result"] = _clip_tool_result(fitted["last_tool_result"])
     lists = {
         key: list(fitted[key])
-        for key in ("calendar", "tasks", "turns", "memory")
+        for key in ("calendar", "initiative", "tasks", "turns", "memory")
         if isinstance(fitted.get(key), list)
     }
     task_count = len(lists.get("tasks", []))
@@ -35,7 +35,7 @@ def fit_context(context: dict, *, budget: int | None = None) -> dict:
         return len(encode(visible))
 
     while publish() > limit and any(lists.values()):
-        for key in ("calendar", "tasks", "turns", "memory"):
+        for key in ("calendar", "initiative", "tasks", "turns", "memory"):
             if lists.get(key):
                 lists[key].pop()
                 break

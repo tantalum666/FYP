@@ -1,0 +1,10 @@
+{
+  "new_secret_patterns": {
+    "private_key": 0,
+    "provider_key": 0,
+    "google_token": 0
+  },
+  "private_runtime_staged": false,
+  "new_assets": false,
+  "ci_workflows_present": false
+}

@@ -182,3 +182,18 @@ def test_backup_failure_logs_the_exception_type_only(tmp_path, monkeypatch, capt
     text = "\n".join(captured.messages)
     assert "RuntimeError" in text
     assert API_KEY not in text
+
+
+def test_openai_diagnostics_name_is_not_misreported_as_none(tmp_path, monkeypatch):
+    from desk.diagnostics import diagnostics_report
+    from desk.text_ai import TextConfig
+
+    app = _app(tmp_path, monkeypatch)
+    app.state.runtime.text_ai.config = TextConfig(
+        "openai", "gpt-6.1-sol", "https://api.openai.com/v1/responses", "fixture-only"
+    )
+    report = diagnostics_report(app.state.runtime, "fixture")
+    assert report["provider"]["name"] == "openai"
+    assert "fixture-only" not in str(report)
+    assert "task_advice" not in dict(app.state.scheduled)
+    assert "initiative" in dict(app.state.scheduled)

@@ -174,7 +174,14 @@ class Notifier:
                 """
             )
 
-    def publish(self, notice: Notice, *, quiet: bool) -> list[dict]:
+    @staticmethod
+    def dismiss_pending(conn, notice_id):
+        if notice_id:
+            conn.execute("UPDATE notice_inbox SET state='dismissed' WHERE id=?", (notice_id,))
+            conn.execute("DELETE FROM browser_notices WHERE id=?", (notice_id,))
+            conn.execute("DELETE FROM device_notices WHERE id=?", (notice_id,))
+
+    def publish(self, notice: Notice, *, quiet: bool, guard=None) -> list[dict]:
         """Deliver once per channel, or to none of them during quiet hours."""
         if quiet:
             return [{"channel": channel.name, "status": "quiet"} for channel in self.channels]
@@ -184,6 +191,8 @@ class Notifier:
         results = []
         browser_delivered = False
         with self.store.connection(write=True) as conn:
+            if guard is not None and not guard(conn):
+                return [{"channel": channel.name, "status": "suppressed"} for channel in self.channels]
             wrote = False
             for channel in self.channels:
                 seen = conn.execute(

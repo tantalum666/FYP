@@ -24,7 +24,9 @@ _LIMIT = 8
 
 class OwnerSearch(StrictModel):
     query: str = Field(min_length=1, max_length=80)
-    sources: list[Source] = Field(default_factory=lambda: list(_SOURCES), min_length=1, max_length=4)
+    sources: list[Source] = Field(
+        default_factory=lambda: list(_SOURCES), min_length=1, max_length=4
+    )
 
     @field_validator("query")
     @classmethod
@@ -57,9 +59,13 @@ def owner_clock(runtime) -> dict:
 def plate_summary(runtime, arguments: dict) -> dict:
     window = PlateQuery.model_validate(arguments).window
     bounds = _bounds(runtime)
-    start, end = (bounds["today_start"], bounds["today_end"]) if window == "today" else (
-        bounds["week_start_at"],
-        bounds["week_end_at"],
+    start, end = (
+        (bounds["today_start"], bounds["today_end"])
+        if window == "today"
+        else (
+            bounds["week_start_at"],
+            bounds["week_end_at"],
+        )
     )
     snapshot = runtime.store.snapshot(start, end)
     tasks = _plate_tasks(runtime, start, end)
@@ -136,9 +142,7 @@ def _snippet(value: str, limit: int = 80) -> str:
 def _notes(runtime, query: str) -> list[dict]:
     candidates = []
     with runtime.store.connection() as conn:
-        rows = conn.execute(
-            "SELECT id, state, request, created_at FROM computer_jobs"
-        ).fetchall()
+        rows = conn.execute("SELECT id, state, request, created_at FROM computer_jobs").fetchall()
     for row in rows:
         request = json.loads(row["request"])
         if request.get("action") != "save_note":
@@ -197,7 +201,9 @@ def _calendar(runtime, query: str) -> list[dict]:
             {
                 "id": item.get("id") or "",
                 "time": item.get("start") or "",
-                "text": " ".join(str(item.get(key) or "") for key in ("title", "location", "notes")),
+                "text": " ".join(
+                    str(item.get(key) or "") for key in ("title", "location", "notes")
+                ),
                 "payload": {
                     "source": "calendar",
                     "id": item.get("id"),
@@ -232,6 +238,8 @@ def _memory(runtime, query: str) -> list[dict]:
 def _plate_tasks(runtime, start: datetime, end: datetime) -> list[dict]:
     chosen = []
     for task in runtime.tasks.listing()["tasks"]:
+        if task.get("paused"):
+            continue
         due = task.get("due_at")
         undated = due is None
         in_window = False
@@ -247,6 +255,9 @@ def _plate_tasks(runtime, start: datetime, end: datetime) -> list[dict]:
                 "due_at": due,
                 "overdue": bool(task.get("overdue")),
                 "undated": undated,
+                "status": task["status"],
+                "next_step": "" if task.get("redacted") else task.get("next_step", ""),
+                "waiting_for": "" if task.get("redacted") else task.get("waiting_for", ""),
                 "redacted": bool(task.get("redacted")),
             }
         )

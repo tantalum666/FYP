@@ -1,0 +1,74 @@
+{
+  "source_base": "a88e1a1c12dda1e6a2ce7a255c24c475d314867b",
+  "backend_full": {
+    "passed": 2471,
+    "skipped": 2,
+    "seconds": 537.56
+  },
+  "frontend": {
+    "passed": 393,
+    "typecheck": true,
+    "build": true
+  },
+  "browser": {
+    "engine": "installed Chrome / Playwright",
+    "plugin": "Browser plugin not available",
+    "viewports": [
+      [
+        1440,
+        1000
+      ],
+      [
+        393,
+        852
+      ]
+    ],
+    "model": "scripted fixture",
+    "provider": "httpx synthetic transport",
+    "runtime_errors": 0,
+    "expected_faults": [
+      "dropped send reply",
+      "dropped stop reply"
+    ],
+    "one_task": true,
+    "provider_send_count": 1,
+    "same_operation_recovery": true,
+    "stop_prevents_later_reads": true,
+    "clock_skew_does_not_claim_unsent": true
+  },
+  "live_model_calls": 0,
+  "live_sends": 0,
+  "live_mail_grants": 0,
+  "ci": false,
+  "runtime_promotion": false,
+  "private_evidence_sha256": {
+    "backend-full.log": "30cad45114b93e176481a2b012e63b96eaf2bf00019090e8e912263b762d71c6",
+    "backend-final-regressions.log": "27837ef75ca5765101a862c8a538519a6e17f97140c08650e41ab18697721bbe",
+    "frontend-tests-final.log": "5b34ed7d1c5a19c6086f2b6b60eb21fdbd4b2c18e0c544b58bf01cf8b2ba21f3",
+    "frontend-build-final.log": "4ad2976896b17b190fbb660916b5584d1c015fcddf84f1314bd0aca89e6711cb",
+    "ruff.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "browser-final-acceptance.json": "7343b9cb6c0a6b4989d4ae47b14dd9d33c8c2bcd140ba5d95eef91e763c4c32b",
+    "phone-acceptance.json": "6140fe4df6d564beeea44e5cabcec657dbea962fb8b7b2798a57103d78f8d07a",
+    "desktop-follow-review.png": "fd6ae11a87a3144d188896eadc21c685496f42d3d0042322b8dc4cb004520199",
+    "desktop-reply-recovered.png": "cddd9a7f54dcfaf299068c12b97c0a4d08bcfbd836779ba4c6d703764a7ac274",
+    "phone-review-zh.png": "9ee216a02b8ff03ec38f0ca45ad3a0577a1660be407eb66d212338ac55f556ad",
+    "phone-update-zh.png": "c6197eb59652575def9263bb64f92c95abb8ff925a12e1cb4d7c3c9c0e6d9760",
+    "ruff-final.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+  },
+  "backend_final_focused": {
+    "passed": 44,
+    "seconds": 14.27
+  },
+  "markdown_links_checked": 518,
+  "missing_internal_links": 0,
+  "new_content_credentials_scan": "passed",
+  "publication": {
+    "pr": 128,
+    "url": "https://github.com/tantalum666/FYP/pull/128",
+    "state": "draft/open",
+    "base_pr": 127,
+    "source_commit": "924e19870fad865ff0b1d12c13c5621bf2254f66",
+    "merged": false
+  },
+  "qa_services_stopped": true
+}

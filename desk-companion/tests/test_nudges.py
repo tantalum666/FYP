@@ -52,7 +52,7 @@ def test_morning_brief_explains_itself_once_and_quiet_hours_block_it(tmp_path):
     edge, _edge_clock = _runtime(tmp_path / "edge", datetime(2026, 10, 2, 0, 2, tzinfo=UTC))
     _prefs(edge, daily_brief_enabled=True)
     edge.tick()
-    assert edge.nudges.listing()["nudges"] == []
+    assert len(edge.nudges.listing()["nudges"]) == 1  # Late opening still gets today's brief.
 
     later, _later_clock = _runtime(tmp_path / "quiet", datetime(2026, 10, 2, 15, tzinfo=UTC))
     _prefs(later, daily_brief_enabled=True, daily_brief_time="23:00")

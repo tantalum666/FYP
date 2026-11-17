@@ -1,4 +1,6 @@
 import { ComposerFiles } from "./ComposerFiles";
+import { AliceCheckIn } from "./AliceCheckIn";
+import { InitiativeMessages } from "./InitiativeMessages";
 import { companionState, reportInteraction } from "../companion/interaction";
 import { ComposerMenu } from "./ComposerMenu";
 import { useChatFiles } from "./useChatFiles";
@@ -49,7 +51,12 @@ import type { TurnMeasurement } from "./voice-timing";
 import { useDraftGuard } from "../components/DraftGuard";
 import { apiOrigin } from "../native";
 import { ProposalActionCard } from "./ProposalActionCard";
-import type { Proposal, Reply } from "./assistantTypes";
+import type {
+  Proposal,
+  ProposalDecisionOptions,
+  ProposalDecisionReply,
+  Reply,
+} from "./assistantTypes";
 import { JobActionCard } from "./JobActionCard";
 import { requestJobAction } from "./jobRequests";
 import type { JobAction } from "./jobRequests";
@@ -172,9 +179,13 @@ export function AssistantPanel({
     [busy, setBusy] = useState(false),
     [error, setError] = useState<unknown>(null);
   const [readError, setReadError] = useState<unknown>(null);
-  const pendingJob = pendingWrite()?.path.startsWith("/computer/")
-    ? pendingWrite()
-    : null;
+  const pending = pendingWrite();
+  const pendingAction =
+    pending &&
+    (pending.path.startsWith("/computer/") ||
+      /^\/assistant\/proposals\/[a-f0-9]{32}\/decisions$/.test(pending.path))
+      ? pending
+      : null;
   const pendingMessage = pendingWrite()?.path === "/assistant/messages/stream";
   const [reply, setReply] = useState<Reply | null>(null),
     [liveMessage, setLiveMessage] = useState(""),
@@ -233,7 +244,6 @@ export function AssistantPanel({
     if (suspended) setMediaOpen(false);
   }, [suspended]);
   const speechText = useRef({ user: "", assistant: "" });
-  const knownProposals = useRef<Proposal[]>([]);
   const activityReading = useRef(false);
   const reading = useRef(false);
   const loadActivity = useCallback(async () => {
@@ -336,8 +346,11 @@ export function AssistantPanel({
         available={
           !!(job.action === "computer_use"
             ? ["unknown", "succeeded"].includes(job.state) ||
-              (data?.computer?.computer_use?.enabled &&
-                data.computer.computer_use.configured)
+              (job.request.engine === "managed"
+                ? data?.computer?.managed_browser?.enabled &&
+                  data.computer.managed_browser.configured
+                : data?.computer?.computer_use?.enabled &&
+                  data.computer.computer_use.configured)
             : isApplicationAction(job.action)
               ? data?.computer?.applications?.enabled &&
                 data.computer.applications.configured
@@ -519,20 +532,8 @@ export function AssistantPanel({
           "/assistant/proposals",
         );
         if (alive.current) {
-          if (
-            knownProposals.current.some(
-              (p) =>
-                Date.parse(p.expires_at) <= Date.now() &&
-                !next.proposals.some((n) => n.id === p.id),
-            )
-          ) {
-            setNotice(
-              language === "zh"
-                ? "草稿已到期，没有执行任何修改。请重新提出请求。"
-                : "The draft expired without making changes. Ask again to prepare a new one.",
-            );
-          }
-          knownProposals.current = next.proposals;
+          // Leaving the pending list can mean accepted, cancelled or expired.
+          // Only the decision receipt can establish whether an action happened.
           setProposals(next.proposals);
           setReadError(null);
         }
@@ -642,7 +643,7 @@ export function AssistantPanel({
       busy ||
       (!text.trim() && !chatFiles.files.length) ||
       unavailable ||
-      pendingJob
+      pendingAction
     )
       return;
     wake.pause();
@@ -786,17 +787,43 @@ export function AssistantPanel({
       if (generation === submissionGeneration.current) setBusy(false);
     }
   }
-  async function decide(id: string, action: "confirm" | "cancel") {
+  function showDecision(
+    result: ProposalDecisionReply,
+    action: "confirm" | "cancel",
+    kind?: string,
+  ) {
+    const message = proposalDecisionNotice(result, action, kind, t);
+    setNotice(message);
+    if (result.kind === "browser_research" && result.job) {
+      const jobId = result.job.id;
+      setTurns((old) =>
+        old.some((turn) => turn.jobId === jobId)
+          ? old
+          : [
+              ...old,
+              { id: Date.now(), role: "assistant", body: message, jobId },
+            ],
+      );
+    }
+  }
+  async function decide(
+    id: string,
+    action: "confirm" | "cancel",
+    options?: ProposalDecisionOptions,
+  ) {
     const proposal = proposals.find((p) => p.id === id);
     setBusy(true);
     setError(null);
     try {
-      const result = await write<{ queued?: boolean; kind?: string }>(
+      const result = await write<ProposalDecisionReply>(
         `/assistant/proposals/${id}/decisions`,
-        { action },
+        { action, ...options },
       );
       if (omni) audio.current?.refreshContext();
-      setNotice(proposalDecisionNotice(result, action, proposal?.kind, t));
+      showDecision(result, action, proposal?.kind);
+      if (result.kind === "browser_research" && result.job) {
+        await loadActivity();
+      }
       await reload();
       await refresh();
       window.dispatchEvent(new Event("desk:calendar"));
@@ -1222,6 +1249,12 @@ export function AssistantPanel({
         </p>
       )}
       {immersive && !expanded && homeHint}
+      {immersive && (
+        <AliceCheckIn
+          t={t}
+          visible={!expanded && !suspended && !busy && !voiceActive}
+        />
+      )}
       <div className="assistant-toolbar">
         {workspace && view === "chat" && (
           <button
@@ -1353,6 +1386,7 @@ export function AssistantPanel({
                 node.scrollHeight - node.scrollTop - node.clientHeight < 80;
           }}
         >
+          {(!immersive || expanded) && <InitiativeMessages t={t} />}
           {(!immersive || expanded) &&
             jobs
               .filter(
@@ -1405,15 +1439,27 @@ export function AssistantPanel({
               {transcript}
             </p>
           )}
-          {pendingJob && (
+          {pendingAction && !busy && (
             <button
               className="secondary"
               disabled={!!jobBusy}
               onClick={async () => {
                 setJobBusy("recovery");
                 try {
-                  await retryPending();
+                  const recovered = (await retryPending()) as
+                    ProposalDecisionReply | undefined;
+                  setError(null);
                   setJobActionError(null);
+                  if (
+                    recovered &&
+                    pendingAction.path.startsWith("/assistant/proposals/")
+                  ) {
+                    const action = (pendingAction.body as { action?: string })
+                      .action;
+                    if (action === "confirm" || action === "cancel")
+                      showDecision(recovered, action);
+                  }
+                  await reload();
                   await loadActivity();
                   void refresh();
                 } catch (reason) {
@@ -1470,7 +1516,9 @@ export function AssistantPanel({
               proposal={proposal}
               t={t}
               busy={busy || unavailable}
-              onDecision={(action) => void decide(proposal.id, action)}
+              onDecision={(action, options) =>
+                void decide(proposal.id, action, options)
+              }
             />
           ))}
 
@@ -1694,7 +1742,7 @@ export function AssistantPanel({
                 ) : text.trim() || chatFiles.files.length ? (
                   <button
                     className="assistant-mic"
-                    disabled={busy || unavailable || !!pendingJob}
+                    disabled={busy || unavailable || !!pendingAction}
                     aria-label={t("Send message", "发送消息")}
                   >
                     <Send size={20} />

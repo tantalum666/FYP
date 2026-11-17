@@ -14,6 +14,7 @@ from pydantic import Field, model_validator
 from .calendar import iso
 from .schemas import StrictModel
 from .store import DomainError
+from .voice_presentation import SPEECH_GUIDANCE
 
 MAX_BODY = 4000
 
@@ -111,6 +112,7 @@ def voice_instructions(body: str, language: str, now_iso: str, zone: str) -> str
         + "For updates, omit optional event fields the user did not ask to change; the app preserves them. "
         + "If a tool rejects fields, correct them rather than repeating identical arguments."
         + VOICE_PROTOCOL
+        + SPEECH_GUIDANCE
     )
 
 

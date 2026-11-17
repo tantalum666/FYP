@@ -1,0 +1,62 @@
+{
+  "outer_bounds_mm": [
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      320.0,
+      200.0,
+      200.0
+    ]
+  ],
+  "shell_parts": 6,
+  "dock_parts": 1,
+  "separate_joining_parts": 0,
+  "panel_bolt_positions": 22,
+  "printable_bounds_mm": {
+    "Front — screen and bay opening in one piece": [
+      309.6,
+      204.21,
+      76.23
+    ],
+    "Back — vents and service opening": [
+      309.6,
+      193.6,
+      3.0
+    ],
+    "Left side — full height": [
+      200.0,
+      200.0,
+      21.0
+    ],
+    "Right side — full height": [
+      200.0,
+      200.0,
+      21.0
+    ],
+    "Top — Luwu cable hole and phone Qi": [
+      309.6,
+      104.6,
+      3.0
+    ],
+    "Bottom — open Mini approach": [
+      309.6,
+      200.0,
+      19.0
+    ],
+    "Dock TX removable trial carrier — remeasure coil": [
+      70.0,
+      17.0,
+      77.0
+    ]
+  },
+  "checks": [
+    "single connected solid per part",
+    "bolt axis clear",
+    "V2 opening samples clear",
+    "no positive-volume panel or carrier clash above 0.05 mm³",
+    "proposed footprint plus 5 mm each edge within nominal bed"
+  ]
+}

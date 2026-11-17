@@ -1,0 +1,79 @@
+{
+  "backend_tests_passed": 2410,
+  "frontend_tests_passed": 391,
+  "types_and_production_build": "passed",
+  "ruff": "passed",
+  "browser_plugin": "not available; existing Playwright/Chrome used",
+  "viewports": [
+    [
+      1440,
+      1000
+    ],
+    [
+      393,
+      852
+    ]
+  ],
+  "scripted_model_decisions": true,
+  "live_model_calls": 0,
+  "real_browser": "Chrome 157.0.8103.51",
+  "scenarios": [
+    {
+      "case": "shopping comparison",
+      "packs": 3,
+      "fictional_total_hkd": "43.50",
+      "independent_receipt_screen_state_hashes": true
+    },
+    {
+      "case": "price and quantity continuation",
+      "packs": 4,
+      "discount": "SAVE10",
+      "fictional_total_hkd": "55.80",
+      "verified_source_state_reused": true
+    },
+    {
+      "case": "browser result to task",
+      "tasks_created": 1,
+      "saved_next_step_contains_observed_total": true
+    },
+    {
+      "case": "flight comparison",
+      "adults": 2,
+      "baggage_kg": 20,
+      "fictional_total_hkd": "2080.00",
+      "arrival_local": "2026-11-23 00:15 Asia/Tokyo"
+    },
+    {
+      "case": "lost approval response",
+      "same_operation_id_on_retry": true,
+      "new_jobs": 1,
+      "pending_write_cleared": true,
+      "subsequent_chat_works": true
+    },
+    {
+      "case": "phone consent and cancellation",
+      "consent_initially_unchecked": true,
+      "cancel_did_not_start_browser": true
+    }
+  ],
+  "real_orders": 0,
+  "real_bookings": 0,
+  "emails_sent": 0,
+  "new_account_grants": 0,
+  "page_errors": [],
+  "console_notes": [
+    "Development font 403 came from reused dependency cache outside Vite allowlist; production bundle font returned 200.",
+    "A running job screenshot returned 404 until its first observation, then returned 200; UI kept the pending job status.",
+    "One network failure was intentionally injected after server approval; recovery retained the same operation key."
+  ],
+  "daily_runtime_promoted": false,
+  "native_or_pi_acceptance": false,
+  "ui_languages_checked": [
+    "en",
+    "zh"
+  ],
+  "ordinary_mac_release_readback": "2c31f430ab57b858cd32316830c34d8c4386b8a7",
+  "qa_servers_stopped": true,
+  "javascript_dependencies_isolated": true,
+  "development_font_final_http_status": 200
+}

@@ -20,6 +20,10 @@ class GmailAPI:
         message = EmailMessage(policy=SMTP)
         message["From"], message["To"] = email, draft["to"]
         message["Subject"], message["Message-ID"] = draft["subject"], message_id
+        reply = draft.get("reply")
+        if reply:
+            message["In-Reply-To"] = reply["rfc_message_id"]
+            message["References"] = reply["rfc_message_id"]
         message.set_content(draft["body"], charset="utf-8")
         raw = base64.urlsafe_b64encode(message.as_bytes()).decode().rstrip("=")
         try:
@@ -29,7 +33,7 @@ class GmailAPI:
                 response = client.post(
                     "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
                     headers={"Authorization": "Bearer " + access_token},
-                    json={"raw": raw},
+                    json={"raw": raw, **({"threadId": reply["thread_id"]} if reply else {})},
                 )
             if response.status_code in {401, 403}:
                 raise MailTransportError("GOOGLE_RECONNECT_REQUIRED")
@@ -40,7 +44,10 @@ class GmailAPI:
             result = response.json()
             if not isinstance(result.get("id"), str) or not 1 <= len(result["id"]) <= 200:
                 raise ValueError()
-            return {"accepted": True, "provider_id": result["id"]}
+            return {"accepted": True, "provider_id": result["id"],
+                    **({"reply_target_id": reply["message_id"],
+                        "thread_binding_confirmed": result.get("threadId") == reply["thread_id"]}
+                       if reply else {})}
         except (httpx.ConnectError, httpx.ConnectTimeout, httpx.PoolTimeout):
             raise MailTransportError("EMAIL_CONNECTION_FAILED") from None
         except (httpx.HTTPError, ValueError):

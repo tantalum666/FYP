@@ -1,0 +1,12 @@
+{
+  "local_links_missing": [],
+  "secret_patterns_found": 0,
+  "new_binary_assets": false,
+  "ci_used": false,
+  "tests": {
+    "mac_passed": 11,
+    "linux_graph_skipped_on_mac": 2,
+    "real_linux_paired_and_regression_checks": true
+  },
+  "all_in_turn_observers_stopped": true
+}

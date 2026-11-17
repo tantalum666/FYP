@@ -1,0 +1,17 @@
+[Unit]
+Description=Keep the RTC ready to restart a powered, halted Desk Companion
+DefaultDependencies=no
+Wants=local-fs.target
+After=local-fs.target systemd-remount-fs.service
+Before=sysinit.target timers.target shutdown.target
+Conflicts=shutdown.target
+ConditionPathExists=/var/lib/desk-auto-wake/enabled
+
+[Timer]
+OnBootSec=1s
+OnUnitActiveSec=30s
+AccuracySec=1s
+Unit=desk-auto-wake.service
+
+[Install]
+WantedBy=timers.target

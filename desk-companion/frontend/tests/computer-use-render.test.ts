@@ -111,7 +111,13 @@ test("a paused browser job offers takeover and hand back without calling it done
           artifact_id: "wall",
           start_url: "https://example.test",
         },
-        result: { verified: false, paused: true, takeover_available: true, phase: "held", wall: "captcha" },
+        result: {
+          verified: false,
+          paused: true,
+          takeover_available: true,
+          phase: "held",
+          wall: "captcha",
+        },
       },
       t: (en: string) => en,
       busy: false,
@@ -122,4 +128,44 @@ test("a paused browser job offers takeover and hand back without calling it done
     }),
   );
   assert.match(held, /Hand back/);
+});
+
+test("managed reports stay readable without a screenshot or a resumable login", () => {
+  const html = renderToStaticMarkup(
+    createElement(JobActionCard, {
+      job: {
+        id: "research",
+        action: "computer_use",
+        state: "succeeded",
+        updated_at: new Date().toISOString(),
+        cancel_requested: false,
+        request: {
+          engine: "managed",
+          title: "Compare books",
+          content: "Compare public prices",
+          artifact_id: "research",
+          start_url: "https://books.toscrape.com/",
+        },
+        result: {
+          verified: true,
+          outcome: "review_ready",
+          readback: {
+            report: "First book: GBP51.77\n<script>untrusted page</script>",
+            resumable: false,
+          },
+        },
+      },
+      t: (en: string) => en,
+      busy: false,
+      cancelling: false,
+      fresh: true,
+      available: true,
+      onAction() {},
+      onContinue() {},
+    }),
+  );
+  assert.match(html, /Ready for review/);
+  assert.match(html, /First book: GBP51.77/);
+  assert.match(html, /&lt;script&gt;untrusted page&lt;\/script&gt;/);
+  assert.doesNotMatch(html, /Continue from this page|<img|<script>|Take over/);
 });

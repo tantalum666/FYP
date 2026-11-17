@@ -1,0 +1,57 @@
+{
+  "version": "5.2.4 LTS",
+  "body_bounds": [
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      320.0,
+      200.0,
+      200.0
+    ]
+  ],
+  "exterior_meshes": 1,
+  "connector_meshes": 0,
+  "dock_carrier_parts": 1,
+  "manifold": 2,
+  "geometry_checks": [
+    "cable hole passes through deck",
+    "screen opening and border sample points",
+    "Mini approach sample paths clear through entry",
+    "clearance from rear splice when fitted"
+  ],
+  "qi_reservations_mm": {
+    "receiver": [
+      86,
+      54,
+      6
+    ],
+    "transmitter": [
+      56,
+      56,
+      6
+    ],
+    "centre_height": 49,
+    "draft_face_gap": 4
+  },
+  "exteriors": [
+    {
+      "name": "Single piece shell · 320 × 200 × 200",
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          320.0,
+          200.0,
+          200.0
+        ]
+      ],
+      "flat_footprint": null
+    }
+  ]
+}

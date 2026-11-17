@@ -1,18 +1,18 @@
 # Group 2 · Connected Google and Microsoft apps
 
-8 November 2026. The owner chose an app catalog with browser sign-in/consent and rejected application-password entry. The built-in catalog uses official OAuth and provider APIs. It is not an unrestricted plugin installer, and does not inherit Codex's account tokens. Existing public/synthetic MCP connectors retain their separate contract.
+Updated 18 November 2026. The owner chose an app catalog with browser sign-in/consent and rejected application-password entry. The built-in catalog uses official OAuth and provider APIs. It is not an unrestricted plugin installer, and does not inherit Codex's account tokens. Existing public/synthetic MCP connectors retain their separate contract. The new [selected-thread follow-up and reply](mail-thread-followup.md) uses those same grants and business services; its live grant/real-provider acceptance remains separate.
 
 ## Available operations
 
 | Connection | Implemented operations | Actual account status this round |
 |---|---|---|
-| Gmail | Read bounded message headers/snippets; prepare a plain-text email; owner reviews recipient, subject and body before sending | Mac owner authorization, one native FYP self-email and independent Gmail readback passed |
-| Google Calendar | Read primary-calendar events; existing preview and explicit local import | Dedicated client/API configured; calendar consent not completed |
-| Microsoft 365 | Outlook mail previews and reviewed sending; primary-calendar events; OneDrive file directory; To Do lists/tasks; OneNote notebooks/sections | Software/protocol tests passed; client registration and real authorization deferred by owner |
+| Gmail | Bounded previews; selected-thread metadata follow-up; reviewed new email or same-thread reply | 8November FYP self-send/readback;16November Mac/Pi consent and actual profile reads passed. New follow-up/reply has local synthetic-provider evidence only |
+| Google Calendar | Read primary-calendar events; existing preview and explicit local import | 16November Mac/Pi consent and bounded primary-calendar reads passed |
+| Microsoft 365 | Outlook previews, selected-thread metadata and reviewed sending/reply; calendar events; OneDrive directory; To Do; OneNote | Software/protocol tests; personal-account setup remains blocked at human verification. No live FYP Graph grant claimed |
 | Microsoft Teams | Work/school chat list and bounded messages | Organization authorization deferred |
 | SharePoint | Followed sites and document-library lists | Organization authorization deferred |
 
-Word, Excel and PowerPoint are represented by OneDrive file metadata. This release does not read or edit arbitrary document contents through Graph. Existing local Calc/Writer/browser jobs remain separate. Connecting an account does not start unattended mailbox monitoring, accept invitations, send chat messages or place orders.
+Word, Excel and PowerPoint are represented by OneDrive file metadata. This release does not read or edit arbitrary document contents through Graph. Existing local Calc/Writer/browser jobs remain separate. With the owner's standing proactive preference and configured background research, connected accounts can supply bounded previews for contextual findings without a per-read approval. Selected-thread tracking starts from a fresh owner request. Neither path accepts invitations, sends messages or places orders. Off/hidden context stops reading. This is not full-inbox incremental synchronization. [Research scope](proactive-research.md).
 
 ## Responsibilities and authority
 
@@ -22,9 +22,9 @@ Word, Excel and PowerPoint are represented by OneDrive file metadata. This relea
 
 `connected_app_data.py` and `microsoft_apps.py` own fixed Google/Graph destinations and bounded GET operations. URLs are not model arguments. Returned emails, events and chat messages are untrusted evidence, never instructions or authority. Account and privacy revisions are checked around reads. No remote pagination URL is followed. Gmail returns at most ten metadata previews; other reads return at most twenty items and a 48 KB result. Large mailbox latency and live Microsoft behavior remain unverified.
 
-`outbound_mail.py` reuses AssistantService proposals and owner decisions. `email_status`, `email_send_draft` and `connected_app_query` join the existing catalog (30 tools). Sending is not exposed as a model tool and is not silently covered by Full access. With multiple senders the assistant asks which account; `me` resolves to the selected authorized account. Drafts bind the sender account/version. Recipient and single-line subject validation prevent header injection.
+`outbound_mail.py` reuses AssistantService proposals and owner decisions. Mail functions share the canonical catalog used by text and Live; no separate mail agent or OAuth store is added. Sending confirmation is not a model tool and is not silently covered by Full access. A fresh follow request can use the separate standing read-only proactivity grant; legacy manual following still uses its displayed review. With multiple senders the assistant asks which account; `me` resolves to the selected authorized account. Drafts bind the sender account/version. Recipient and single-line subject validation prevent header injection. Proper replies additionally bind the original message, exact subject, recipient and provider thread; source changes and unknown writes are not replayed.
 
-The durable `outgoing_mail_attempts` record reserves a possible send before network dispatch. Known connection/rejection failures remain distinct from unknown writes. Repeated confirmation recovers an accepted receipt; uncertain writes are not resent, cancelled as if unsent, or reset after restart. Gmail's message ID and Graph's HTTP202/request ID mean provider acceptance, not delivery. Gmail may rewrite the submitted MIME Message-ID; independently read back the provider message ID, recipient and content. This round's self-email was found in both SENT and INBOX with exact Test content, one attempt. No third-party recipient was contacted.
+The durable `outgoing_mail_attempts` record reserves a possible send before network dispatch. Known connection/rejection failures remain distinct from unknown writes. Repeated confirmation recovers an accepted receipt; uncertain writes are not resent, cancelled as if unsent, or reset after restart. Gmail's message ID and Graph's HTTP202/request ID mean provider acceptance, not delivery. Gmail may rewrite the submitted MIME Message-ID; independently read back the provider message ID, recipient and content. The 8 November self-email was found in both SENT and INBOX with exact Test content, one attempt. No third-party recipient was contacted.
 
 ## Operator setup and lifecycle
 
@@ -32,7 +32,7 @@ Private config uses `DESK_GOOGLE_CLIENT_FILE` / `DESK_MICROSOFT_CLIENT_FILE`, a 
 
 The approved FYP-only Google project is External/Testing with the owner as its sole test user. Gmail API and Calendar API are enabled. Current local callbacks are loopback ports5190,8831and8891 with `/api/apps/gmail/callback` and `/api/google/callback`. Public mobile/native callbacks need a separate supported origin setup; the local desktop URL is not a phone-reachable service. Native account tokens belong to each host's encrypted runtime, and are not copied into portable personal exports.
 
-Testing-mode Google refresh grants can expire and require Reconnect. Google disconnect revokes its token; because both Google connections use the same client, provider grant revocation can affect the other Google connection. Microsoft disconnect removes local tokens without claiming a global Microsoft sign-out. Work/school tenant policy and administrator approval still apply. The VTC tenant denied developer access; the owner expressly deferred Microsoft authorization, so no bypass or app registration there was attempted.
+Testing-mode Google refresh grants can expire and require Reconnect. Google disconnect revokes its token; because both Google connections use the same client, provider grant revocation can affect the other Google connection. Microsoft disconnect removes local tokens without claiming a global Microsoft sign-out. Work/school tenant policy and administrator approval still apply. The VTC tenant previously denied developer access. On16November the owner requested authorization again, but personal-account device login stopped at CAPTCHA difficulty. Do not bypass/repeatedly trigger it or reuse the expired device code. Mac and Pi have separate encrypted account stores. The owner completed both Pi grants later on16November; Pi provider reads passed independently, without copying Mac tokens. [Current QA](../../output/qa/2026-11-16-agent-runtime/verification.md).
 
 ## Sources and evidence
 

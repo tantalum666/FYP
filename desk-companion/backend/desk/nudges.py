@@ -16,13 +16,12 @@ from .notify import Notice
 from .store import DomainError, encode
 from .workspace_data import is_quiet
 
-WINDOW_SECONDS = 120
 OPEN = {"todo", "in_progress", "waiting"}
 _NUDGE_ID = re.compile(r"(?:morning_brief|evening_check)-\d{4}-\d{2}-\d{2}")
 
 
 def due_kinds(prefs: dict, now_local: datetime) -> list[str]:
-    """Kinds whose saved clock time is in the last two minutes, outside quiet hours."""
+    """One daily check-in after its saved time; late app openings can catch up."""
     if prefs.get("proactivity") == "off" or now_local.tzinfo is None or is_quiet(prefs, now_local):
         return []
     due = []
@@ -39,7 +38,12 @@ def due_kinds(prefs: dict, now_local: datetime) -> list[str]:
             hour=int(clock[:2]), minute=int(clock[3:]), second=0, microsecond=0
         )
         elapsed = (now_local - start).total_seconds()
-        if 0 <= elapsed < WINDOW_SECONDS:
+        # The durable date key still prevents replay. A morning brief does not
+        # suddenly appear with the evening check-in after a whole day offline.
+        end = prefs.get("evening_check_time", "21:00") if kind == "morning_brief" else "23:59"
+        if end <= clock:
+            end = "23:59"
+        if elapsed >= 0 and now_local.strftime("%H:%M") < end:
             due.append(kind)
     return due
 
@@ -49,23 +53,17 @@ def explain(kind: str, when: str) -> dict[str, str]:
     if kind == "morning_brief":
         return {
             "reason_en": (
-                "Morning briefing fired because it is enabled, local time is within "
-                f"two minutes of the saved briefing time {when}, and quiet hours are not in effect."
+                "Morning briefing is enabled and its saved local time "
+                f"{when} has arrived, and quiet hours are not in effect."
             ),
-            "reason_zh": (
-                "早晨简报已触发：已启用早晨简报，本地时间在已保存的简报时间 "
-                f"{when} 之后的两分钟内，且当前不在安静时段。"
-            ),
+            "reason_zh": (f"早晨简报已触发：已到保存的简报时间 {when}，且当前不在安静时段。"),
         }
     return {
         "reason_en": (
-            "Evening check-in fired because it is enabled, local time is within "
-            f"two minutes of the saved check-in time {when}, and quiet hours are not in effect."
+            "Evening check-in is enabled and its saved local time "
+            f"{when} has arrived, and quiet hours are not in effect."
         ),
-        "reason_zh": (
-            "晚间检查已触发：已启用晚间检查，本地时间在已保存的检查时间 "
-            f"{when} 之后的两分钟内，且当前不在安静时段。"
-        ),
+        "reason_zh": (f"晚间检查已触发：已到保存的检查时间 {when}，且当前不在安静时段。"),
     }
 
 
@@ -201,6 +199,8 @@ class NudgeService:
             if row["state"] == "dismissed":
                 return {"nudge": _view(row), "saved": True}
             conn.execute("UPDATE owner_nudges SET state='dismissed' WHERE id=?", (nudge_id,))
+            if getattr(self.runtime, "notify", None) is not None:
+                conn.execute("UPDATE notice_inbox SET state='dismissed' WHERE id=?", (nudge_id,))
             self.store.record(conn, "nudge_dismissed", details={"kind": row["kind"]})
             updated = conn.execute("SELECT * FROM owner_nudges WHERE id=?", (nudge_id,)).fetchone()
             return {"nudge": _view(updated), "saved": True}
