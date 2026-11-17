@@ -981,3 +981,14 @@ Full backend2,471passed/2Linux-onlyskips in537.56s; frontend393, types/build/Ruf
 [Contract](desk-companion/docs/mail-thread-followup.md), [audit](research/2026-11-17-official-capability-audit.md), [verification](output/qa/2026-11-17-mail-thread-followup/verification.md). Private fixture databases/scripts/screenshots/logs stay under ~/.config/desk-companion/mail-thread-followup-20261117/. No paid call, real mailbox grant/send, transaction, normal-runtime replacement, native/Pi work or CI. A3/data/grants unaffected. Next: migrate primary text onto official Sessions/functions rather than extending the legacy local loop.
 
 Publication: source924e1987 pushed to [PR128](https://github.com/tantalum666/FYP/pull/128), draft/open, based on127. Final44focused mail tests and393frontend checks passed.518internalMarkdownlinks resolved; changed/new-content credential scan and full diff whitespace check passed. Two new Markdown EOF blanks found during staging were normalized before publication. Private QA API8832/Vite5191 stopped. Recovery AGENTS marker is backed up and routed to this checkout; no other legacy-worktree content changed.
+
+## 2026-11-17 硬件采购、外壳 V2 和定位进度
+
+- 同步老师审核版采购 Excel，首批 HK$1,077.12，合计 HK$1,944.43。随屏视频线和转接头计 HK$0，已替换亚博 IPS 无支架款链接。
+- 提供 V2 分件与一体 Blender、尺寸与 Qi 留位说明、模型渲染副本和 ArUco A4 测试页。[交付入口](research/2026-11-17-hardware-progress/README.md)。
+- 核对 Excel 数据、预算公式、上传副本几何指纹及资料链接。[本地验证](output/qa/2026-11-17-hardware-progress/verification.md)。实物试装、桌面路线和无线回座待验。
+
+## 2026-11-17 外壳 V3 和 H2D 打印交接
+
+- 交付六面版 Blender 模型及爆炸图，单独导出六块面板和一个 Qi 发射器支架。H2D 打印包只提供七个 STL 和一份包含五块 ArUco 的双色 3MF。五块定位牌总厚 1.4 mm。
+- 校验 V3 共享副本和源模型几何指纹、打印包原始字节、STL 按毫米摆放、3MF 五个实体和分色。下一步用学校 H2D 配置切片，确认前板支撑与黑白分配并做试印。[打印入口](research/2026-11-17-hardware-progress/README.md#h2d-打印交付) · [本地验证](output/qa/2026-11-17-hardware-progress/v3-printing-verification.md)。

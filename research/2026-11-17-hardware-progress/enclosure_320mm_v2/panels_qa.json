@@ -1,0 +1,265 @@
+{
+  "version": "5.2.4 LTS",
+  "body_bounds": [
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      320.0,
+      200.0,
+      200.0
+    ]
+  ],
+  "exterior_meshes": 14,
+  "connector_meshes": 25,
+  "dock_carrier_parts": 1,
+  "manifold": 40,
+  "geometry_checks": [
+    "cable hole passes through deck",
+    "screen opening and border sample points",
+    "Mini approach sample paths clear through entry",
+    "clearance from rear splice when fitted"
+  ],
+  "qi_reservations_mm": {
+    "receiver": [
+      86,
+      54,
+      6
+    ],
+    "transmitter": [
+      56,
+      56,
+      6
+    ],
+    "centre_height": 49,
+    "draft_face_gap": 4
+  },
+  "exteriors": [
+    {
+      "name": "Top L",
+      "bounds": [
+        [
+          3.0,
+          92.0,
+          197.0
+        ],
+        [
+          159.8,
+          197.0,
+          200.0
+        ]
+      ],
+      "flat_footprint": "[156.8, 105.0]"
+    },
+    {
+      "name": "Rear L",
+      "bounds": [
+        [
+          3.0,
+          197.0,
+          3.0
+        ],
+        [
+          159.8,
+          200.0,
+          197.0
+        ]
+      ],
+      "flat_footprint": "[194.0, 156.8]"
+    },
+    {
+      "name": "Bottom L with open dock",
+      "bounds": [
+        [
+          3.0,
+          0.0,
+          0.0
+        ],
+        [
+          159.8,
+          200.0,
+          3.0
+        ]
+      ],
+      "flat_footprint": "[200.0, 156.8]"
+    },
+    {
+      "name": "Front lower L",
+      "bounds": [
+        [
+          3.0,
+          0.0,
+          3.0
+        ],
+        [
+          159.8,
+          3.0,
+          108.0
+        ]
+      ],
+      "flat_footprint": "[156.8, 105.0]"
+    },
+    {
+      "name": "Sloped display surround L",
+      "bounds": [
+        [
+          3.0,
+          0.0,
+          108.0
+        ],
+        [
+          159.8,
+          92.0,
+          200.0
+        ]
+      ],
+      "flat_footprint": "[156.8, 130.11]"
+    },
+    {
+      "name": "Top R",
+      "bounds": [
+        [
+          160.2,
+          92.0,
+          197.0
+        ],
+        [
+          317.0,
+          197.0,
+          200.0
+        ]
+      ],
+      "flat_footprint": "[156.8, 105.0]"
+    },
+    {
+      "name": "Rear R",
+      "bounds": [
+        [
+          160.2,
+          197.0,
+          3.0
+        ],
+        [
+          317.0,
+          200.0,
+          197.0
+        ]
+      ],
+      "flat_footprint": "[194.0, 156.8]"
+    },
+    {
+      "name": "Bottom R with open dock",
+      "bounds": [
+        [
+          160.2,
+          0.0,
+          0.0
+        ],
+        [
+          317.0,
+          200.0,
+          3.0
+        ]
+      ],
+      "flat_footprint": "[200.0, 156.8]"
+    },
+    {
+      "name": "Front lower R",
+      "bounds": [
+        [
+          160.2,
+          0.0,
+          3.0
+        ],
+        [
+          317.0,
+          3.0,
+          108.0
+        ]
+      ],
+      "flat_footprint": "[156.8, 105.0]"
+    },
+    {
+      "name": "Sloped display surround R",
+      "bounds": [
+        [
+          160.2,
+          0.0,
+          108.0
+        ],
+        [
+          317.0,
+          92.0,
+          200.0
+        ]
+      ],
+      "flat_footprint": "[156.8, 130.11]"
+    },
+    {
+      "name": "Side lower L",
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          3.0,
+          200.0,
+          99.8
+        ]
+      ],
+      "flat_footprint": "[200.0, 99.8]"
+    },
+    {
+      "name": "Side upper L",
+      "bounds": [
+        [
+          0.0,
+          0.0,
+          100.2
+        ],
+        [
+          3.0,
+          200.0,
+          200.0
+        ]
+      ],
+      "flat_footprint": "[200.0, 99.8]"
+    },
+    {
+      "name": "Side lower R",
+      "bounds": [
+        [
+          317.0,
+          0.0,
+          0.0
+        ],
+        [
+          320.0,
+          200.0,
+          99.8
+        ]
+      ],
+      "flat_footprint": "[200.0, 99.8]"
+    },
+    {
+      "name": "Side upper R",
+      "bounds": [
+        [
+          317.0,
+          0.0,
+          100.2
+        ],
+        [
+          320.0,
+          200.0,
+          200.0
+        ]
+      ],
+      "flat_footprint": "[200.0, 99.8]"
+    }
+  ]
+}
