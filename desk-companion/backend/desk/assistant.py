@@ -78,7 +78,7 @@ class ChangeProposal(StrictModel):
 TOOLS = [
     {
         "name": "browser_research_draft",
-        "description": "Prepare public browser research or comparison for owner review: products, travel options, or another public website. Supply the exact HTTPS start page and task constraints; ask if the site is missing. demo:shopping and demo:flights are fictional rehearsals ONLY when explicitly requested; never substitute them for a real website. This does not open a browser, spend browser allowance, grant screenshot sharing, log in, buy, book, pay or send anything. Local is default; managed is allowed only when device_status advertises it enabled. Only the owner can share screenshots and start the displayed scope on screen. Keep the returned proposal ID for follow-up.",
+        "description": "Prepare public browser research or comparison for owner review: products, travel options, or another public website. Supply the exact HTTPS start page and task constraints; ask if the site is missing. demo:shopping and demo:flights are fictional rehearsals ONLY when explicitly requested; never substitute them for a real website. This does not open a browser, spend browser allowance, grant screenshot sharing, log in, buy, book, pay or send anything. Managed is the default official execution route. Choose local only for an explicitly requested local task, fictional rehearsal, or a verified local continuation; never silently fall back when managed execution is unavailable. Only the owner can share screenshots and start the displayed scope on screen. Keep the returned proposal ID for follow-up.",
         "parameters": BrowserResearchDraft.model_json_schema(),
     },
     {

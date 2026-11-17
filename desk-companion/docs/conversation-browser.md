@@ -11,7 +11,7 @@
 - The existing authenticated decision endpoint requires `share_screen: true` for the new browser kind. Preparation and approval use durable proposal-derived operation keys. A retry after either phase recovers the same job; a cached original chat response refreshes that job instead of reviving the old approval card. Cancelling an interrupted pre-approval draft also cancels its remaining review job.
 - BrowserResearchReview owns the compact review UI. AssistantPanel keeps its existing proposal/job reads and conversation refresh. No per-card polling is introduced. Consent resets for each proposal. A lost approval response uses the existing pending-write record/key; recovery is not shown while the request is still being submitted.
 
-The browser request is capped at eight steps. `local` is default; `managed` requires the existing operator opt-in and readiness checks. Local continuation uses the verified source job and exact admitted scope. Managed reports do not invent resumable state. Neither mode attaches the owner's ordinary browser profile or merchant credentials.
+The browser request is capped at eight steps. `managed` is now the default in new drafts/current admission; an operator can explicitly disable it. Local execution/fixtures and verified local source-job continuation remain explicit choices. A managed task can pause for an owner-only registered sign-in form and continue the same turn, with separate per-task account-read consent. It does not attach the owner's ordinary browser profile or retain account sessions across jobs. [Official mainline contract](managed-browser.md).
 
 ## Text tool parity
 
@@ -25,4 +25,4 @@ Real installed Chromium, production worker, production HTTP/UI flows and indepen
 
 The new live model routing, spoken naturalness/latency and real merchant/account/transaction behavior have not been accepted in this round. No paid model call, real mail, order or ticket was generated. Production Mac/native/Pi activation is separate from this checked source/isolated QA environment. Backend and shared frontend must be promoted together; an older client without the explicit sharing field cannot approve the new browser proposal.
 
-Next: implement actual same-browser owner control and explicit return before claiming authenticated shopping/travel capability. A website wall currently stops the supported public operation; a sign-in link or scripted fixture is not a completed handoff.
+Current update: the official registered-form path now supports same-task sign-in and continuation, tested with synthetic forms and transport. Actual merchant sign-in, unsupported QR/passkeys/CAPTCHA, signed-in comparison and transaction receipts still need specific real acceptance; protocol fixtures do not establish those outcomes.

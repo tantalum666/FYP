@@ -131,6 +131,12 @@ class ComputerUseInput(PublicOnlyInput):
         return self
 
 
+class BrowserTaskInput(ComputerUseInput):
+    """Current admission default; the older endpoint keeps its local retry contract."""
+
+    engine: Literal["local", "managed"] = "managed"
+
+
 def validate_computer_request(request):
     # Preserve old intent bytes/hashes: legacy jobs predate the optional engine.
     public = {k: request[k] for k in ComputerUseInput.model_fields if k in request}

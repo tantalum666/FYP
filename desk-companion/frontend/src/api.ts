@@ -383,8 +383,8 @@ export function errorText(
       "已达到本次浏览任务的操作上限，浏览器已停止。",
     ],
     COMPUTER_MANAGED_OWNER_REQUIRED: [
-      "This task needs a sign-in or another website. The research session was closed; it cannot take over your account.",
-      "这一步需要登录或访问其他网站。查找会话已关闭，尚不支持接管你的账号。",
+      "This step needs an unsupported sign-in or a website outside this task's allowed sites. The session was closed.",
+      "这一步需要暂不支持的登录方式，或需要访问本次未允许的网站。会话已关闭。",
     ],
     COMPUTER_SITE_UNAVAILABLE: [
       "This website could not be opened. Check the connection or the site's access requirements.",

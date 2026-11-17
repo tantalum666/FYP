@@ -346,8 +346,11 @@ export function AssistantPanel({
         available={
           !!(job.action === "computer_use"
             ? ["unknown", "succeeded"].includes(job.state) ||
-              (data?.computer?.computer_use?.enabled &&
-                data.computer.computer_use.configured)
+              (job.request.engine === "managed"
+                ? data?.computer?.managed_browser?.enabled &&
+                  data.computer.managed_browser.configured
+                : data?.computer?.computer_use?.enabled &&
+                  data.computer.computer_use.configured)
             : isApplicationAction(job.action)
               ? data?.computer?.applications?.enabled &&
                 data.computer.applications.configured

@@ -45,6 +45,28 @@
   max-height: 24rem;
   overflow: auto;
 }
+.managed-browser-sign-in {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0.8rem 0;
+  padding: 1rem;
+  border: 1px solid var(--line, #526975);
+  border-radius: 14px;
+}
+.managed-browser-sign-in label {
+  display: grid;
+  gap: 0.4rem;
+}
+.managed-browser-sign-in input:not([type="checkbox"]),
+.managed-browser-sign-in select {
+  width: 100%;
+  min-width: 0;
+}
+.managed-browser-sign-in .computer-use-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
 .computer-use-zoom {
   overflow: auto;
   max-width: 100%;

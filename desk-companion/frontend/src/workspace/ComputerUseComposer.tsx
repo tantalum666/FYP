@@ -31,7 +31,9 @@ export function ComputerUseComposer({
   initiallyOpen?: boolean;
 }) {
   const [goal, setGoal] = useState(initialGoal);
-  const [engine, setEngine] = useState<"local" | "managed">("local");
+  const [engine, setEngine] = useState<"local" | "managed">(
+    resumeJob ? (resumeJob.request.engine ?? "local") : "managed",
+  );
   const ready = engine === "managed" ? managedAvailable : available;
   const { data } = useWorkspace();
   const full = data?.permissions?.mode === "full";
@@ -65,7 +67,7 @@ export function ComputerUseComposer({
         ? (await request<{ task: Task }>(`/tasks/${selectedTask}`)).task
         : null;
       await mutation.run(
-        "/computer/computer-use/jobs",
+        "/computer/browser-tasks",
         {
           action: "computer_use",
           engine,
@@ -123,27 +125,30 @@ export function ComputerUseComposer({
         </label>
         <details className="computer-use-options">
           <summary>{t("More options", "更多选项")}</summary>
-          {(managedAvailable || engine === "managed") && !resumeJob && (
-            <label>
-              {t("Browser", "浏览方式")}
-              <select
-                aria-label={t("Browser", "浏览方式")}
-                value={engine}
-                disabled={locked}
-                onChange={(event) => {
-                  const next =
-                    event.target.value === "managed" ? "managed" : "local";
-                  setEngine(next);
-                  if (next === "managed") setKind("website");
-                }}
-              >
-                <option value="local">{t("On this desk", "在当前桌面")}</option>
-                <option value="managed">
-                  {t("Cloud research", "云端查找与比较")}
-                </option>
-              </select>
-            </label>
-          )}
+          {(managedAvailable || available || engine === "managed") &&
+            !resumeJob && (
+              <label>
+                {t("Browser", "浏览方式")}
+                <select
+                  aria-label={t("Browser", "浏览方式")}
+                  value={engine}
+                  disabled={locked}
+                  onChange={(event) => {
+                    const next =
+                      event.target.value === "managed" ? "managed" : "local";
+                    setEngine(next);
+                    if (next === "managed") setKind("website");
+                  }}
+                >
+                  <option value="local">
+                    {t("On this desk", "在当前桌面")}
+                  </option>
+                  <option value="managed">
+                    {t("Cloud research", "云端查找与比较")}
+                  </option>
+                </select>
+              </label>
+            )}
           <label>
             {t("Where", "在哪里操作")}
             <select

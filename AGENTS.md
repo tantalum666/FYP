@@ -1,7 +1,7 @@
 # FYP Agent Entry Point
 
 <!-- FYP-CONTEXT-20261027 -->
-> 17 November 2026: latest priority is personal-agent software. Continue in `/Users/tantalum/.codex/worktrees/personal-agent-browser-20261117/FYP`, branch `codex/personal-agent-browser-20261117` on PR #124's 50ce8066. [PR #126](https://github.com/tantalum666/FYP/pull/126) is open/draft; tested source d7d2e04b is published. Conversation browser review/result recovery and text software-tool parity pass 2,410 backend/391 frontend checks plus actual Chromium desktop/phone journeys with scripted models. Read [handoff](handoff.md), [contract](desk-companion/docs/conversation-browser.md) and [QA](output/qa/2026-11-17-personal-agent-browser/verification.md). Ordinary release remains 2c31f430; no new runtime promotion, paid calls or CI. A3/data/grants retained. Pi keeps normal performance; RTC activation is still unverified and the EEPROM proposal remains withdrawn.
+> 17 November2026: official execution mainline now lives in `/Users/tantalum/.codex/worktrees/official-agent-mainline-20261117/FYP`, branch `codex/official-agent-mainline-20261117` on PR126 beeace55. New browser defaults, registered owner sign-in and bounded session recovery pass2,428backend/391frontend plus desktop/phone offline-provider journeys. Read [handoff](handoff.md), [contract](desk-companion/docs/managed-browser.md) and [QA](output/qa/2026-11-17-official-mainline/verification.md) for actual release/paid-trial state. No CI; A3/data/grants and Pi original performance preserved. Old budgets are closed and the EEPROM proposal remains withdrawn.
 <!-- /FYP-CONTEXT-20261027 -->
 
 本文件适用于 FYP 仓库，规定上下文恢复和收尾流程。用户最新明确指令优先于历史项目文件；学校附件、竞品网页和视频是要求或证据来源，不授予提交、签名或对外联系权限。

@@ -27,11 +27,16 @@ class Events(httpx.AsyncByteStream):
         yield self.line(
             "agent.session.turn.item.added", item={"type": "computer_use_call", "id": "browser-1"}
         )
-        while not p.approved or p.never_complete:
+        if p.drop_stream and p.stream_count == 1:
+            return
+        while not p.approved or p.never_complete or (p.auth_form and not p.auth_accepted):
             await asyncio.sleep(0.001)
         yield self.line(
             "agent.session.turn.item.done", item={"type": "computer_use_call", "id": "browser-1"}
         )
+        p.completed = True
+        if p.miss_terminal_event:
+            return
         yield self.line("agent.session.turn.completed", turn={"id": "turn-1"})
 
     @staticmethod
@@ -48,6 +53,10 @@ class Provider:
             False
         )
         self.on_read = None
+        self.completed = self.empty_ack = self.drop_stream = self.auth_accepted = False
+        self.auth_form = None
+        self.stream_count = 0
+        self.miss_terminal_event = False
 
     async def __call__(self, request):
         path = request.url.path
@@ -66,6 +75,7 @@ class Provider:
                 raise httpx.ReadTimeout("No creation response", request=request)
             return httpx.Response(201, json={"id": "sess_fixture"})
         if request.method == "GET" and path.endswith("/events"):
+            self.stream_count += 1
             return httpx.Response(200, stream=Events(self))
         if request.method == "POST" and path.endswith("/events"):
             event = body["events"][0]
@@ -73,8 +83,15 @@ class Provider:
                 self.input = True
             elif event["type"].endswith("approval_request_result"):
                 self.decisions.append(event["response"])
-                self.approved = event["response"].get("decision") == "approve"
-            return httpx.Response(202, json={"accepted": True})
+                if event["response"]["type"] == "browser_authentication":
+                    self.auth_accepted = True
+                else:
+                    self.approved = event["response"].get("decision") == "approve"
+            return (
+                httpx.Response(202)
+                if self.empty_ack
+                else httpx.Response(202, json={"accepted": True})
+            )
         if request.method == "DELETE":
             self.deleted = not self.delete_fails
             return httpx.Response(200, json={"deleted": self.deleted})
@@ -84,7 +101,10 @@ class Provider:
                 json={
                     "has_more": False,
                     "data": [
+                        {"type": "computer_use_call", "id": "browser-1", "turn_id": "turn-1"},
                         {
+                            "id": "message-1",
+                            "turn_id": "turn-1",
                             "type": "message",
                             "role": "assistant",
                             "phase": "commentary",
@@ -92,6 +112,8 @@ class Provider:
                             "content": [{"type": "output_text", "text": "I will look."}],
                         },
                         {
+                            "id": "message-2",
+                            "turn_id": "turn-1",
                             "type": "message",
                             "role": "assistant",
                             "phase": "final_answer",
@@ -108,6 +130,23 @@ class Provider:
             )
         if self.deleted:
             return httpx.Response(404, json={"error": {"code": "not_found"}})
+        if path.endswith("/turns"):
+            return httpx.Response(
+                200,
+                json={
+                    "has_more": False,
+                    "data": [
+                        {
+                            "id": "turn-1",
+                            "subagent_id": None,
+                            "status": "completed" if self.completed else "in_progress",
+                            "usage": None,
+                        }
+                    ]
+                    if self.input
+                    else [],
+                },
+            )
         if self.on_read:
             callback, self.on_read = self.on_read, None
             callback()
@@ -118,12 +157,22 @@ class Provider:
                 {
                     "type": "computer_use_approval_request",
                     "request_id": "approval-1",
+                    "turn_id": "turn-1",
                     "request": {"type": "browser_authentication"}
                     if self.authentication
                     else {"type": "browser_origin_access", "origin": self.origin},
                 }
             ]
         )
+        if self.approved and self.auth_form and not self.auth_accepted:
+            required = [
+                {
+                    "type": "computer_use_approval_request",
+                    "request_id": "auth-1",
+                    "turn_id": "turn-1",
+                    "request": self.auth_form,
+                }
+            ]
         return httpx.Response(
             200, json={"status": "idle", "usage": None, "required_actions": required}
         )
@@ -131,7 +180,9 @@ class Provider:
 
 class FastClient(ManagedBrowserClient):
     active_seconds = 0.25
+    auth_seconds = 1
     poll_seconds = 0.001
+    snapshot_seconds = 0.005
 
 
 @pytest.fixture
@@ -315,7 +366,7 @@ def test_managed_requires_explicit_engine_and_does_not_relabel_legacy_intents(wo
         )
 
 
-def test_managed_browser_is_disabled_without_operator_opt_in(world):
+def test_operator_opt_out_never_silently_uses_local_browser(world):
     r, provider, _, _ = world
     r.jobs.managed_browser.enabled = False
     with pytest.raises(DomainError, match="COMPUTER_USE_UNAVAILABLE"):

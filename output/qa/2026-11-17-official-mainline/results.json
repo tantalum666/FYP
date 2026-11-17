@@ -1,0 +1,83 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "surface": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "managed_default": true,
+      "same_job_resumed": true,
+      "credential_storage_empty": true,
+      "evidence_hashes": true,
+      "lost_reply": false,
+      "job_id": "534617674cdb48279eae7839c75383ea"
+    },
+    {
+      "surface": "phone",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "managed_default": true,
+      "same_job_resumed": true,
+      "credential_storage_empty": true,
+      "evidence_hashes": true,
+      "lost_reply": true,
+      "job_id": "2db08d9d80e94478b88ade7d370fb02d"
+    }
+  ],
+  "page_errors": [],
+  "console": [
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x114005c5200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x114005c5200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x114005c5200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x114005c5200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    }
+  ],
+  "provider": {
+    "sessions": 2,
+    "events": [
+      {
+        "deleted": true,
+        "inputs": 1,
+        "auth_submissions": 1,
+        "streams": 2
+      },
+      {
+        "deleted": true,
+        "inputs": 1,
+        "auth_submissions": 1,
+        "streams": 2
+      }
+    ]
+  },
+  "live_calls": 0,
+  "browser_plugin": "not available",
+  "browser": "installed Chrome / Playwright",
+  "backend": {
+    "passed": 2428,
+    "seconds": 516.86
+  },
+  "frontend": {
+    "passed": 391,
+    "typecheck": true,
+    "build": true
+  }
+}

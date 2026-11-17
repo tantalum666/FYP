@@ -57,6 +57,8 @@ export interface WorkspaceSnapshot {
     folder?: { configured: boolean; label: string | null };
     desktop?: { ready: boolean };
     applications?: { enabled: boolean; configured: boolean };
+    default_browser_engine?: "managed";
+    managed_browser?: { enabled: boolean; configured: boolean };
     computer_use?: {
       enabled: boolean;
       configured: boolean;

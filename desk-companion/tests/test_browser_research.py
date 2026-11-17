@@ -24,6 +24,7 @@ managed_world = managed_cases.world
 
 
 DATA = {
+    "engine": "local",
     "title": "Compare tissue packs",
     "goal": "Compare the total for three tissue packs, including shipping. Do not order.",
     "start_url": "demo:shopping",

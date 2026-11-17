@@ -13,7 +13,7 @@ from .store import DomainError
 
 
 class BrowserResearchDraft(StrictModel):
-    engine: Literal["local", "managed"] = "local"
+    engine: Literal["local", "managed"] = "managed"
     title: str = Field(min_length=1, max_length=120)
     goal: str = Field(min_length=1, max_length=2000)
     start_url: str = Field(min_length=1, max_length=2000)
@@ -130,6 +130,8 @@ def status(runtime, arguments):
     }
     if job["state"] != "succeeded" or not (job.get("result") or {}).get("verified"):
         result["record_verified"] = False
+        if (job.get("result") or {}).get("owner_input") and job["state"] == "running":
+            result["needs_owner"] = {"wall": "login", "needed": "Complete the sign-in form in this task card."}
         if (job.get("result") or {}).get("paused"):
             result["needs_owner"] = {
                 k: job["result"][k] for k in ("wall", "needed", "takeover_available")
@@ -143,6 +145,8 @@ def status(runtime, arguments):
         if not checked["verified"] or checked["sha256"] != job["result"]["sha256"]:
             raise ValueError("Browser result changed")
         receipt = checked["readback"]
+        if receipt.get("data_scope") == "owner_authorized_account":
+            result["data_scope"] = "owner_authorized_account"
         executor.current(job["request"])
         observation = receipt.get("observation") or {}
         result.update(
@@ -151,6 +155,7 @@ def status(runtime, arguments):
             observed_page={k: observation[k] for k in ("url", "title", "text") if k in observation},
             agent_report=str(receipt.get("report") or "")[:8000],
             continuation={
+                "engine": job["request"].get("engine", "local"),
                 "source_job_id": job_id if job["request"].get("engine") != "managed" else None,
                 "start_url": job["request"]["start_url"],
                 "allowed_origins": job["request"]["allowed_origins"],

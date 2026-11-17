@@ -1,4 +1,4 @@
-"""Opt-in managed public research on the existing durable computer-job lifecycle."""
+"""Primary managed browser execution on the existing durable job lifecycle."""
 
 import asyncio
 import hashlib
@@ -12,6 +12,7 @@ from .computer_use import ComputerUseExecutor
 from .computer_use_files import write_file
 from .computer_use_models import ComputerUseReceipt
 from .managed_browser_client import ManagedBrowserClient
+from .managed_browser_auth import ManagedBrowserAuth
 from .store import DomainError, encode
 
 
@@ -19,16 +20,17 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
     """Reuse owner/privacy/provider admission, not the local browser implementation."""
 
     identity = "managed_public_browser_v1"
-    supervisor = None  # No owner-input transport or local browser process.
+    supervisor = None  # Official registered forms, not a local browser process.
 
     def __init__(self, runtime):
         self.runtime, self.store = runtime, runtime.store
-        self.enabled = os.environ.get("DESK_MANAGED_BROWSER_ENABLED") == "1"
+        self.enabled = os.environ.get("DESK_MANAGED_BROWSER_ENABLED", "1") == "1"
         self.root = (self.store.directory / "managed-browser").absolute()
         self.scope = "public_browser:" + digest([self.identity, str(self.root), "small", 45])
         self.blocker = self.root / "cleanup-required"
         self.active_job = None
         self.client_factory = ManagedBrowserClient
+        self.auth = ManagedBrowserAuth()
 
     def status(self):
         config = self.runtime.text_ai.config
@@ -45,6 +47,8 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
             "real_transactions": False,
             "resumable": False,
             "max_active_seconds": 45,
+            "owner_authentication": True,
+            "max_auth_seconds": 90,
         }
 
     def prepare_request(self, payload, job_id, principal):
@@ -82,7 +86,26 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
             self.runtime.text_ai.config,
             transport=self.runtime.text_ai.transport,
         )
-        result = asyncio.run(client.run(request, fence, created))
+
+        def authentication(action):
+            job_id = request["artifact_id"]
+            if action is None:
+                self.auth.clear(job_id)
+                self.runtime.jobs.managed_auth_state(job_id, None)
+                return None
+            fence()
+            try:
+                self.auth.present(job_id, action, request["allowed_origins"])
+            except DomainError as error:
+                raise ExecutionRejected(error.code, error.status) from None
+            answer = self.auth.take(job_id, action)
+            form = self.auth.form(job_id)
+            self.runtime.jobs.managed_auth_state(
+                job_id, {k: form[k] for k in ("nonce", "origin", "phase")}
+            )
+            return answer
+
+        result = asyncio.run(client.run(request, fence, created, authentication=authentication))
         # Save bounded evidence even when cancellation/provider failure interrupts
         # work. A missing usage receipt remains unknown, never a zero-cost claim.
         write_file(directory, "managed-result.json", encode(result).encode())
@@ -115,6 +138,9 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
             "cost_receipt": "usage_available" if result["usage"] else "unknown",
             "resumable": False,
             "activity_count": result["activity_count"],
+            "data_scope": "owner_authorized_account"
+            if result["account_access_authorized"]
+            else "public_pages",
         }
         write_file(directory, "receipt.json", encode(receipt).encode())
 
@@ -134,6 +160,12 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
             and evidence["deletion_readback"] is True
             and evidence["turn_completed"] is True
             and evidence["stop_code"] is None
+            and result.get("data_scope", "public_pages")
+            == (
+                "owner_authorized_account"
+                if evidence.get("account_access_authorized")
+                else "public_pages"
+            )
         )
         return ComputerUseReceipt(
             verified=valid,
