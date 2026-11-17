@@ -1,0 +1,231 @@
+{
+  "date_hong_kong": "2026-11-18",
+  "release": {
+    "source_revision": "c607759e420fce8a0701474f9ceecf782ce85b35",
+    "frontend_index_sha256": "a768850add5fcb1253240dd33cefeb629e0cc753a64d8f07fa9e4284acba5a24",
+    "release": "20261118-c607759e"
+  },
+  "previous_source": "8c67ddbe1559eea975aa355bef970a8e98a9edcc",
+  "runtime_manifest_files": 386,
+  "delta_files": 45,
+  "delta_archive_bytes": 483107,
+  "delta_sha256": "60fb3decb937cff1cc1ce9cdce044a0ca7d61a6129d574d3eaaed1c4d095843c",
+  "production_build_files_matching_tested_output": 76,
+  "endpoints": {
+    "mac": {
+      "verified_running_source": "c607759e420fce8a0701474f9ceecf782ce85b35",
+      "index_sha256": "a768850add5fcb1253240dd33cefeb629e0cc753a64d8f07fa9e4284acba5a24",
+      "database_integrity": "ok",
+      "database_schema": 3,
+      "original_tables_checked_on_upgrade_copy": 124,
+      "changed_original_tables_on_copy": [],
+      "tables_after_activation": 128,
+      "new_tables": [
+        "initiative_findings",
+        "initiative_seen",
+        "initiative_state",
+        "mail_followups"
+      ],
+      "live_protected_table_contents_equal": [
+        "assistant_custom_voices",
+        "assistant_voice_settings",
+        "conversation_messages",
+        "conversations",
+        "events",
+        "owner",
+        "owner_memories",
+        "owner_permissions",
+        "personal_settings",
+        "task_evidence",
+        "tasks",
+        "trusted_clients",
+        "workspace_preferences"
+      ],
+      "private_backup_reopened": true,
+      "protected_files_equal": true,
+      "A3": {
+        "matches_selected_voice_description_delivery": true,
+        "version": 9,
+        "cached_sample_matches": true
+      },
+      "account_states": {
+        "gmail": {
+          "configured": true,
+          "connected": true
+        },
+        "calendar": {
+          "configured": true,
+          "connected": true
+        },
+        "microsoft365": {
+          "configured": false,
+          "connected": false
+        },
+        "teams": {
+          "configured": false,
+          "connected": false
+        },
+        "sharepoint": {
+          "configured": false,
+          "connected": false
+        }
+      },
+      "account_versions_equal": true,
+      "fresh_provider_reads": {
+        "gmail": {
+          "status": 200,
+          "grant_version_preserved": true,
+          "confirmed": "owner profile"
+        },
+        "calendar": {
+          "status": 200,
+          "grant_version_preserved": true,
+          "confirmed": "primary calendar list, metadata only"
+        }
+      },
+      "voice_provider": "openai_live",
+      "default_browser_engine": "managed",
+      "managed_browser_configured": true,
+      "text_background_enabled": false,
+      "text_usage_rows_added": 0,
+      "browser": {
+        "title": "Desk Companion",
+        "source": "c607759e420fce8a0701474f9ceecf782ce85b35",
+        "principal": "owner",
+        "modelLoaded": true,
+        "composer": true,
+        "initiativeRoute": true,
+        "background": false,
+        "viewportFits": true
+      },
+      "private_screenshot_sha256": "c75998a12e7742183d4aff3dd5d3fec94d23017f096d2e8499c690a98603e4f2",
+      "screenshot_recorded_hkt": "2026-11-18T02:50:10+08:00"
+    },
+    "pi": {
+      "verified_running_source": "c607759e420fce8a0701474f9ceecf782ce85b35",
+      "index_sha256": "a768850add5fcb1253240dd33cefeb629e0cc753a64d8f07fa9e4284acba5a24",
+      "database_integrity": "ok",
+      "database_schema": 3,
+      "original_tables_checked_on_upgrade_copy": 123,
+      "changed_original_tables_on_copy": [],
+      "tables_after_activation": 127,
+      "new_tables": [
+        "initiative_findings",
+        "initiative_seen",
+        "initiative_state",
+        "mail_followups"
+      ],
+      "live_protected_table_contents_equal": [
+        "assistant_custom_voices",
+        "assistant_voice_settings",
+        "conversation_messages",
+        "conversations",
+        "events",
+        "owner",
+        "owner_memories",
+        "owner_permissions",
+        "personal_settings",
+        "task_evidence",
+        "tasks",
+        "trusted_clients",
+        "workspace_preferences"
+      ],
+      "private_backup_reopened": true,
+      "protected_files_equal": true,
+      "A3": {
+        "matches_selected_voice_description_delivery": true,
+        "version": 9,
+        "cached_sample_matches": true
+      },
+      "account_states": {
+        "gmail": {
+          "configured": true,
+          "connected": true
+        },
+        "calendar": {
+          "configured": true,
+          "connected": true
+        },
+        "microsoft365": {
+          "configured": false,
+          "connected": false
+        },
+        "teams": {
+          "configured": false,
+          "connected": false
+        },
+        "sharepoint": {
+          "configured": false,
+          "connected": false
+        }
+      },
+      "account_versions_equal": true,
+      "fresh_provider_reads": {
+        "gmail": {
+          "status": 200,
+          "grant_version_preserved": true,
+          "confirmed": "owner profile"
+        },
+        "calendar": {
+          "status": 200,
+          "grant_version_preserved": true,
+          "confirmed": "primary calendar list, metadata only"
+        }
+      },
+      "voice_provider": "openai_live",
+      "default_browser_engine": "managed",
+      "managed_browser_configured": true,
+      "text_background_enabled": false,
+      "text_usage_rows_added": 0,
+      "kiosk": {
+        "autostart_pins_release": true,
+        "owned_chromium_kiosk": true,
+        "live_device_url": true,
+        "service": "active",
+        "old_owned_count": 1,
+        "source": "c607759e"
+      },
+      "compositor_frame_sha256": "bed0a55f8a5d1639ab9cc2f2aa0790f70d0fa09242fb8d0b5517d0492ba37868",
+      "frame_visually_confirmed": "Alice, Desk connected, calendar and composer",
+      "maximum_cpu_khz": 2400000,
+      "rtc_timer": [
+        "enabled",
+        "active"
+      ],
+      "rtc_units_byte_identical": true,
+      "private_screenshot_sha256": "bed0a55f8a5d1639ab9cc2f2aa0790f70d0fa09242fb8d0b5517d0492ba37868",
+      "screenshot_recorded_hkt": "2026-11-18T02:52:12+08:00"
+    },
+    "ios_simulator": {
+      "device": "iPhone 17 Pro Simulator",
+      "os": "iOS 26.5",
+      "bundle_id": "dev.group2.deskcompanion",
+      "source_revision": "c607759e420fce8a0701474f9ceecf782ce85b35",
+      "bundle_frontend_files_matching_web_build": 77,
+      "native_packaging_extra_files": [
+        "cordova.js",
+        "cordova_plugins.js"
+      ],
+      "index_sha256": "a768850add5fcb1253240dd33cefeb629e0cc753a64d8f07fa9e4284acba5a24",
+      "cold_launch_without_arguments": true,
+      "persistent_backend": "Mac localhost:8831",
+      "data_container_relocated_on_update": true,
+      "previous_durable_files_byte_equal": 12,
+      "physical_iphone": "deferred by owner",
+      "read_through_running_capacitor_bridge": {
+        "principal": "owner",
+        "model_loaded": true,
+        "build_matches": true,
+        "A3_matches_exact_selection": true,
+        "settings_version": 9,
+        "account_versions_match_mac": true,
+        "background_research_ready": false
+      },
+      "private_screenshot_sha256": "663e6413ada2e408f8a37b499dbb85f83f5bc4a399b9c0bc2eb73b910808c81f",
+      "screenshot_recorded_hkt": "2026-11-18T02:58:32+08:00"
+    }
+  },
+  "google_grants_independent_on_mac_and_pi": true,
+  "paid_test_requests": 0,
+  "full_suite_reruns": 0
+}

@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated: 16 November 2026. Current state: [handoff](handoff.md). Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated 18 November 2026. See the [handoff](handoff.md) for the current state. Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -1004,3 +1004,10 @@ Local final backend2,501passed/2Linux-only skips; publication receipt: see [QA](
 Saved source, current product/contracts/research, sanitized QA and private raw archive; updated AGENTS/START/handoff and recovery-worktree marker. Private archive: `~/.config/desk-companion/proactive-agent-merge-20261117/`. Normal runtimes/A3/data/account grants unchanged. One next step after merge: promote this reviewed main tree to the normal endpoints and verify version/data/A3/grant parity; then resume the separately documented official text-orchestration migration.
 
 Publication18November: PR129 merged atc51ece41f033bcc74364a0046f5cade9386ea53f. All original124–128 independently report merged=true; main tree75550fed12c54c5112f3fbb1e358e8a9d7affced exactly matches tested42bc01ec. Final backend2,501passed/2Linux-only skips and frontend393/types/build/Ruff. Closeout changes are documentation/receipts only. [Receipt](output/qa/2026-11-17-proactive-agent-merge/publication.json).
+
+
+## 2026-11-18 Web, iOS Simulator and Pi rollout
+
+Deployed the reviewed GitHub main `c607759e`. Reconciled the complete fetched Git tree and PR 124–130 records. The delivery build matched all 76 previous frontend files. Mac and Pi each verified 386 manifest files and their own private database backup. Upgrade rehearsals retained every existing table and added four. The live A3 selection, cached sample, protected business data and account grant versions passed comparison. Each server independently read Gmail profile and primary Calendar successfully.
+
+The native iPhone 17 Pro Simulator was installed over the previous app and cold-launched against Mac 8831. The Pi kiosk and autostart select the new release, with the actual frame checked. Both servers keep background model research off. The owner deferred the physical iPhone. Microsoft consent and Pi power reliability remain open. The next software task is ordinary text through official sessions/functions. [Reading and verification](output/qa/2026-11-18-three-end-rollout/verification.md) · [release receipt](output/qa/2026-11-18-three-end-rollout/release-readback.json).

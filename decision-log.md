@@ -863,3 +863,10 @@ Verification removed the misleading inference that a disappeared pending draft e
 **Cost:** new engineering capUS$5; Responses12requests/10receipts/2unknown holds totalUS$0.267201 conservative, plus4hostedUS$1unknown-usage reserves=US$4.267201. Not an invoice. All batch ledgers closed and temporary QA services stopped. This is not an ongoing budget. Normal Mac/native/Pi release remains last verified8c67ddbe; source merge and later deployment are separate. [Contract](desk-companion/docs/proactive-research.md), [evidence](output/qa/2026-11-17-proactive-agent-merge/verification.md).
 
 Publication18November: PR129 merged atc51ece41f033bcc74364a0046f5cade9386ea53f. All original124–128 independently report merged=true; main tree75550fed12c54c5112f3fbb1e358e8a9d7affced exactly matches tested42bc01ec. Final backend2,501passed/2Linux-only skips and frontend393/types/build/Ruff. Closeout changes are documentation/receipts only. [Receipt](output/qa/2026-11-17-proactive-agent-merge/publication.json).
+
+
+## 2026-11-18 Deploy the merged application on the three normal endpoints
+
+The owner requested deployment of `c607759e` to Web, native mobile and Pi, then specified the iPhone Simulator as the current mobile target. Use the existing architecture and acceptance evidence. Keep the completed test budgets closed.
+
+The rollout retained the original stores and grants on each backend, the A3 voice selection and the normal background inference setting. The Pi received the application and kiosk/autostart update with its RTC units and configured CPU ceiling preserved. The remaining ordinary-text migration stays a separate software task. [Deployment evidence](output/qa/2026-11-18-three-end-rollout/verification.md).
