@@ -1,0 +1,120 @@
+{
+  "date": "2026-11-18",
+  "existing_FYP_key": true,
+  "successful_model": "gpt-6.2-sol",
+  "service_tier": "default",
+  "model_lookup": {
+    "status": 200,
+    "id": "gpt-6.2-sol",
+    "owned_by": "system",
+    "error": null
+  },
+  "paid_session_creates": 1,
+  "session_id_sha256": "ca85878842fc2fc675fff03296dabda79935aaeabb0594ea9db626b2dcc72c81",
+  "turns": [
+    {
+      "turn": 1,
+      "turn_id_sha256": "8ef129674147346f60c8570b41b3306f0fd9d4a5bfcc9fd2022f9e2caf5130b6",
+      "status": "completed",
+      "canonical_answer": "这台桌面当前使用的 IANA 时区是 `Asia/Hong_Kong`，UTC 偏移为 `+08:00`。",
+      "FYP_HTTP_status": 200,
+      "app_reply_matches_provider": true,
+      "usage": {
+        "input_tokens": 20082,
+        "cached_input_tokens": 9977,
+        "output_tokens": 70,
+        "reasoning_tokens": 0,
+        "total_tokens": 20152
+      }
+    },
+    {
+      "turn": 2,
+      "turn_id_sha256": "4b9c74a276dd0d7961f0f1cb9cca8b2485e616f27270834b559acd1b0da41cf5",
+      "status": "completed",
+      "canonical_answer": "相差 0 小时，香港和新加坡现在都是 UTC+08:00。",
+      "FYP_HTTP_status": 200,
+      "app_reply_matches_provider": true,
+      "usage": {
+        "input_tokens": 10301,
+        "cached_input_tokens": 10099,
+        "output_tokens": 23,
+        "reasoning_tokens": 0,
+        "total_tokens": 10324
+      }
+    }
+  ],
+  "authorized_functions": [
+    "owner_clock"
+  ],
+  "function_call_count": 1,
+  "function_result_bound_to_first_turn": true,
+  "function_result_timezone": "Asia/Hong_Kong",
+  "function_result_timestamp": "2026-11-18T10:26:03+08:00",
+  "IANA_independent_difference_hours": 0.0,
+  "followup_in_same_session": true,
+  "session_usage_matches_sum_of_turns": true,
+  "total": {
+    "input_tokens": 30383,
+    "cached_input_tokens": 20076,
+    "output_tokens": 93,
+    "reasoning_tokens": 0,
+    "total_tokens": 30476
+  },
+  "budget": {
+    "authorized_USD": "0.25",
+    "control": "one-time owner-approved client admission, no provider hard cap",
+    "per_stage_reservation_USD": "0.08",
+    "stages": 3,
+    "local_stop_threshold_USD": "0.19",
+    "local_max_conservative_accounting_USD": "0.1681295",
+    "standard_rate_estimate_USD": "0.0235516",
+    "if_all_uncached_input_billed_as_30m_cache_write_USD": "0.0287051",
+    "if_all_uncached_input_billed_as_12h_cache_write_USD": "0.0544726",
+    "provider_invoice_amount": null,
+    "closed": true
+  },
+  "control_rejection": {
+    "requested_model": "gpt-6.1-sol",
+    "HTTP": 400,
+    "parameter": "spend_control",
+    "error": "unknown_parameter",
+    "resource_lookup_HTTP": 200,
+    "matching_resources": 0
+  },
+  "cleanup": {
+    "delete_HTTP": 200,
+    "provider_deleted_true": true,
+    "GETs_after_DELETE": [
+      404,
+      404,
+      404
+    ]
+  },
+  "normal_Mac_at_acceptance": {
+    "source": "c607759e420fce8a0701474f9ceecf782ce85b35",
+    "text": {
+      "configured": true,
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "background": false
+    },
+    "voice": {
+      "configured": true,
+      "provider": "openai_live",
+      "model": "gpt-live-1",
+      "active": false
+    },
+    "voice_model_fields": {
+      "model": "gpt-live-1"
+    },
+    "selected_voice_version": 9,
+    "computer": {
+      "default_browser_engine": "managed"
+    },
+    "managed_model_fields": {},
+    "voice_delegated_reasoning_model": "gpt-6.1-sol"
+  },
+  "base_commit_before_live_patch": "7607713926db09387cfea869ae4040c35c2c56f0",
+  "live_patch_sha256": "29226dba1dc2cf525906aab40a1127017b3f588099731c4011209c184e8c3add",
+  "production_promoted": false
+}

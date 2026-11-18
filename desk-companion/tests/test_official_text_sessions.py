@@ -339,3 +339,54 @@ def test_terminal_authority_comes_from_the_current_root_turn(desk, variant):
     result = send(client, "terminal").json()
     assert result["kind"] == ("reply" if variant == "historical-call" else "clarify")
     assert not r.assistant.proposals() and not api.functions
+
+
+def test_real_unknown_spend_parameter_fails_closed_without_unlimited_replay(desk):
+    import httpx
+
+    runtime, client, _ = desk
+    dispatched = []
+
+    class ChunkedError(httpx.SyncByteStream):
+        def __iter__(self):
+            yield b'{"error":{"type":"invalid_request_error","code":"unknown_parameter",'
+            yield b'"param":"spend_control","message":"Unknown parameter: spend_control"}}'
+
+    def reject(request):
+        dispatched.append((request.method, json.loads(request.content).get("spend_control")))
+        return httpx.Response(400, stream=ChunkedError())
+
+    runtime.text_ai.transport = httpx.MockTransport(reject)
+    first = send(client, "unsupported-cap").json()
+    second = send(client, "unsupported-cap").json()
+    assert first["error"] == second["error"] == "TEXT_SESSION_BUDGET_UNSUPPORTED"
+    assert dispatched == [("POST", {"limit": 25})]
+    with runtime.store.connection() as db:
+        assert db.execute("SELECT count(*) FROM text_provider_sessions").fetchone()[0] == 0
+
+
+def test_explicit_local_budget_denial_precedes_creation_and_cleanup_ownership(desk):
+    import httpx
+    from desk.store import DomainError
+    from desk.text_sessions import TextSessions
+
+    runtime, client, _ = desk
+    calls = []
+
+    class Denied(httpx.BaseTransport):
+        def require_session_budget(self, cents):
+            calls.append(cents)
+            raise DomainError("TRIAL_CLOSED", 409)
+
+        def handle_request(self, request):
+            pytest.fail("No remote session should be created after budget denial")
+
+    transport = Denied()
+    with pytest.raises(ValueError, match="installed transport"):
+        TextSessions(runtime.text_ai, local_budget_transport=transport)
+    runtime.text_ai.transport = transport
+    runtime.text_ai.sessions = TextSessions(runtime.text_ai, local_budget_transport=transport)
+    assert send(client, "closed-local-budget").status_code == 409
+    assert calls == [25]
+    with runtime.store.connection() as db:
+        assert db.execute("SELECT count(*) FROM text_provider_sessions").fetchone()[0] == 0

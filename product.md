@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-18 Live text model acceptance
+
+The owner authorized one US$0.25 acceptance, explicitly chose client-side spending controls after the upstream budget field was rejected, and selected GPT‑6.2 Sol for the trial. The live session returned the configured Asia/Hong_Kong timezone, correctly compared Singapore in the same session and was deleted with independent 404 readback. Its 30,476 total tokens include 20,076 cached inputs. The test batch is closed. The running installation's normal text/default voice models remain GPT‑6.1 Sol and GPT‑Live 1. [Receipt](output/qa/2026-11-18-live-text-clock/verification.md).
+
 ## 2026-11-18 Ordinary conversations and paced proactive updates
 
 Ordinary OpenAI text now uses official Sessions and Functions on the source branch. The business layer retains typed tools, owner approvals and effect receipts. A compatible follow-up reuses the same scoped session. Selected documents retain the existing Responses attachment path. Alice groups up to three current findings into one interruption and keeps each acknowledgment separate. [Text contract](desk-companion/docs/official-text-sessions.md) · [Research](research/2026-11-18-always-on-personal-agent.md) · [Verification](output/qa/2026-11-18-official-text-sessions/verification.md).

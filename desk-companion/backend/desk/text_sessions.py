@@ -40,12 +40,25 @@ class TextSessions:
     poll_seconds = 0.4
     turn_seconds = 45
 
-    def __init__(self, assistant):
+    def __init__(self, assistant, *, local_budget_transport=None):
+        # A separately authorized evaluation can supply its own enforcing transport.
+        # Ordinary user requests cannot alter the provider budget or select this mode.
+        if local_budget_transport is not None and local_budget_transport is not assistant.transport:
+            raise ValueError("Local budget must belong to the installed transport")
+        self.local_budget_transport = local_budget_transport
         self.assistant = assistant
         self.runtime = assistant.runtime
         self.store = assistant.store
         self.sessions = TextSessionStore(self.store)
         self.stopping = False
+
+    def creation_budget(self):
+        if self.local_budget_transport is None:
+            return {"spend_control": {"limit": SESSION_SPEND_LIMIT_CENTS}}
+        if self.local_budget_transport is not self.assistant.transport:
+            raise DomainError("TEXT_SESSION_BUDGET_CHANGED", 409)
+        self.local_budget_transport.require_session_budget(SESSION_SPEND_LIMIT_CENTS)
+        return {}
 
     def destination(self):
         c = self.assistant.config
@@ -236,6 +249,7 @@ class TextSessions:
                     # The provider may have accepted the input. Observe without replay.
                     pass
             else:
+                controls = self.creation_budget()
                 try:
                     creating = True
                     snapshot = api.request(
@@ -251,7 +265,7 @@ class TextSessions:
                             "environment": {"type": "none"},
                             "input": [message],
                             "review": "none",
-                            "spend_control": {"limit": SESSION_SPEND_LIMIT_CENTS},
+                            **controls,
                             "metadata": {"fyp_request": record["marker"]},
                         },
                     )
@@ -262,6 +276,18 @@ class TextSessions:
                 except httpx.HTTPStatusError as error:
                     if error.response.status_code in {400, 401, 403, 404, 422, 429}:
                         self.sessions.forget(record["marker"])
+                    if error.response.extensions.get("desk_session_limit_rejected"):
+                        return {
+                            "mode": "ai",
+                            "kind": "clarify",
+                            "saved": False,
+                            "error": "TEXT_SESSION_BUDGET_UNSUPPORTED",
+                            "message": (
+                                "当前 OpenAI 服务不支持配置的会话消费上限，本次会话未启动。"
+                                if payload.language == "zh"
+                                else "This OpenAI service does not support the configured spending limit. The session did not start."
+                            ),
+                        }
                     raise
                 sid = snapshot["id"]
                 if not isinstance(sid, str) or not SESSION_ID.fullmatch(sid):

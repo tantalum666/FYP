@@ -1020,3 +1020,7 @@ Migrated ordinary text to the hosted Functions handshake on official OpenAI Sess
 Applied the always-on article's notification guidance to existing initiative findings. Two fictional quiet-time findings became one notification after restart and could be acknowledged independently in the phone layout. Credentials, production devices and closed test budgets were untouched. [Research](research/2026-11-18-always-on-personal-agent.md) · [local tests and remaining live acceptance](output/qa/2026-11-18-official-text-sessions/verification.md).
 
 [PR 132](https://github.com/tantalum666/FYP/pull/132) publishes the migration and its local acceptance record on top of the deployment handoff in PR 131.
+
+## 2026-11-18 Real GPT‑6.2 Sol clock and Singapore comparison
+
+The normal Mac configuration and the first request both identified GPT‑6.1 Sol. The first create was rejected on a spending-limit parameter with zero matching sessions. After the owner's model and local-budget selection, the public catalog and the real session independently confirmed GPT‑6.2 Sol. One clock function, two completed root turns, 30,476 tokens and confirmed DELETE/404. Only the two newly needed budget-guard regressions ran. No production deployment. [Live QA](output/qa/2026-11-18-live-text-clock/verification.md) · [sanitized receipt](output/qa/2026-11-18-live-text-clock/receipt.json).

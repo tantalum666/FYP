@@ -18,6 +18,32 @@ def digest(value):
     return hashlib.sha256(value.encode()).hexdigest()
 
 
+def _capture_creation_error(response):
+    if (
+        response.status_code != 400
+        or response.request.method != "POST"
+        or str(response.request.url) != SESSIONS
+        or response.headers.get("content-encoding", "identity").lower() != "identity"
+    ):
+        return
+    raw = bytearray()
+    deadline = time.monotonic() + 3
+    try:
+        chunks = [response.content] if response.is_stream_consumed else response.iter_raw()
+        for chunk in chunks:
+            if len(raw) + len(chunk) > 4096 or time.monotonic() >= deadline:
+                return
+            raw.extend(chunk)
+        error = json.loads(raw)["error"]
+        response.extensions["desk_session_limit_rejected"] = (
+            isinstance(error, dict)
+            and error.get("code") == "unknown_parameter"
+            and error.get("param") == "spend_control"
+        )
+    except (httpx.HTTPError, ValueError, KeyError, TypeError):
+        return
+
+
 class SessionAPI:
     def __init__(self, config, transport, *, deadline):
         self.deadline = deadline
@@ -27,6 +53,7 @@ class SessionAPI:
             transport=transport,
             trust_env=False,
             follow_redirects=False,
+            event_hooks={"response": [_capture_creation_error]},
             timeout=httpx.Timeout(8, connect=3),
         )
 
