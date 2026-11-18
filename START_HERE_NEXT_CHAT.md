@@ -1,7 +1,7 @@
 # Group 2 · New chat entry
 
-18 November 2026. Resume in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP` on `codex/official-text-sessions-20261118`. Read [AGENTS](AGENTS.md), [product](product.md), [handoff](handoff.md) and the latest [decisions](decision-log.md).
+18 November 2026. Resume in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/sol62-runtime-20261118`. See [AGENTS](AGENTS.md), [product](product.md), [handoff](handoff.md) and [decisions](decision-log.md).
 
-The source branch uses official OpenAI Sessions/Functions for ordinary text. Proactive findings are prioritized and batched through the existing notifier. [Session contract](desk-companion/docs/official-text-sessions.md) · [Claude article and FYP decisions](research/2026-11-18-always-on-personal-agent.md) · [local evidence](output/qa/2026-11-18-official-text-sessions/verification.md).
+Normal Mac Web and the iPhone 17 Pro Simulator run `00780e44`. GPT‑6.2 Sol serves ordinary text, managed public browser work and delegated Live reasoning. GPT‑Live 1 and A3 v9 provide speech. A real hosted request and independently checked result matched the configured browser model. [Deployment and budget evidence](output/qa/2026-11-18-sol62-deployment/verification.md).
 
-The normal Web, iOS Simulator and Pi endpoints last ran `c607759e`, with A3 version 9 and separately verified Google grants. [Deployment record](output/qa/2026-11-18-three-end-rollout/verification.md). A real GPT‑6.2 Sol session has now passed the two-turn clock acceptance with verified usage and deletion. The isolated US$0.25 allowance is closed. Before promoting a new default, resolve the production spending policy and the current managed-browser model dependency. [Live result](output/qa/2026-11-18-live-text-clock/verification.md).
+The owner approved FYP API use through 24 November inclusive under US$20 per HK day. Use the corresponding backend ledger for future paid work. The next deployment target is the original Pi when the owner brings it back online. Its verified package is retained and its last installed readback remains `c607759e`.

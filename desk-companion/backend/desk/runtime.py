@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import os
 import platform
 
 from .access import AccessService
@@ -25,6 +26,7 @@ from .offline_calendar import OfflineCalendarService
 from .purchase_cards import PurchaseCardService
 from .tasks import TaskService
 from .text_ai import TextAssistant
+from .openai_spend import DailySpend
 from .jobs import JobService
 from .backups import LocalBackups
 from .memory import MemoryService
@@ -76,6 +78,7 @@ class Runtime:
             ).fetchone():
                 raise DomainError("PERSONAL_MEMORY_MIGRATION_REQUIRED")
         self.store = store
+        self.openai_spend = DailySpend(os.environ.get("DESK_OPENAI_DAILY_LEDGER"),store.clock)
         self.allow_replay = allow_replay
         self.access = AccessService(store)
         self.posture = PostureService(store)

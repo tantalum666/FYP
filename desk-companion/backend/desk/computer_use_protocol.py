@@ -6,8 +6,9 @@ import json
 
 import httpx
 from .openai_transport import model_proxy
+from .openai_spend import budgeted_response
 
-from .bounded_json import bounded_json_post, _request_checkpoint, _DISPATCH_CHECKPOINT
+from .bounded_json import _request_checkpoint, _DISPATCH_CHECKPOINT
 from .provider_policy import OPENAI_TEXT_ENDPOINT
 from .computer_use_models import SCREEN_WIDTH, SCREEN_HEIGHT
 
@@ -141,6 +142,7 @@ class OpenAIComputerProtocol:
         ):
             raise ValueError("Use the configured, validated OpenAI destination")
         self.config, self.transport, self.on_usage = config, transport, on_usage
+        self.spend_budget = None
         admitted = origins or "Only the task-owned local rehearsal page shown in the screenshots"
         self.history = [{"role": "user", "content": f"Task: {goal}\nAdmitted sites: {admitted}"}]
         self.pending_call = None
@@ -185,7 +187,10 @@ class OpenAIComputerProtocol:
 
         def dispatch(request):
             checkpoint()
-            if str(request.url) != OPENAI_TEXT_ENDPOINT:
+            allowed = {OPENAI_TEXT_ENDPOINT}
+            if self.spend_budget and self.spend_budget.path:
+                allowed.add(OPENAI_TEXT_ENDPOINT + "/input_tokens")
+            if str(request.url) not in allowed:
                 raise ValueError("Computer provider destination changed")
 
         token = _DISPATCH_CHECKPOINT.set(dispatch)
@@ -206,10 +211,11 @@ class OpenAIComputerProtocol:
             proxy=model_proxy(self.config, self.transport),
             event_hooks={"request": [_request_checkpoint]},
         ) as client:
-            return bounded_json_post(
+            return budgeted_response(
                 client,
                 self.config.endpoint,
                 headers={"Authorization": "Bearer " + self.config.api_key},
+                budget=self.spend_budget,
                 json_body={
                     "model": self.config.model,
                     "instructions": INSTRUCTIONS,

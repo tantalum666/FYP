@@ -881,3 +881,7 @@ Engineering decisions were to reuse the project's pinned transport and local too
 ## 2026-11-18 One real FYP text session on GPT‑6.2 Sol
 
 The owner authorized a dedicated US$0.25 clock-and-follow-up test on the existing FYP key. After the required beta route rejected the requested server cap, the owner accepted one session under local, non-guaranteed dollar control and selected GPT‑6.2 Sol for the trial. Leave normal production model selections unchanged. Keep a provider-cap rejection visible and fail closed by default. The narrowly bound evaluation transport separately enforces its admissions. The live read and follow-up passed with verified token usage and remote deletion. This allowance is closed. [Acceptance](output/qa/2026-11-18-live-text-clock/verification.md).
+
+## 2026-11-18 Normal deployment on 6.2 Sol and a dated API allowance
+
+The owner selected GPT‑6.2 Sol for the normal installation and hosted browser and authorized FYP API usage through 24 November, inside a combined US$20 per Hong Kong day. The previous small trials stay closed. Engineering allocated US$9 to each independent backend with US$2 of unallocated headroom, included earlier same-day batches conservatively and retained unknown usage as reservations. Text and browser now have independently selectable model routing. The owner later said the Pi was not at hand and asked to retain the package. Mac and Simulator were activated. [Evidence](output/qa/2026-11-18-sol62-deployment/verification.md).

@@ -1024,3 +1024,7 @@ Applied the always-on article's notification guidance to existing initiative fin
 ## 2026-11-18 Real GPT‑6.2 Sol clock and Singapore comparison
 
 The normal Mac configuration and the first request both identified GPT‑6.1 Sol. The first create was rejected on a spending-limit parameter with zero matching sessions. After the owner's model and local-budget selection, the public catalog and the real session independently confirmed GPT‑6.2 Sol. One clock function, two completed root turns, 30,476 tokens and confirmed DELETE/404. Only the two newly needed budget-guard regressions ran. No production deployment. [Live QA](output/qa/2026-11-18-live-text-clock/verification.md) · [sanitized receipt](output/qa/2026-11-18-live-text-clock/receipt.json).
+
+## 2026-11-18 Production Web/native 6.2 Sol and a deferred Pi package
+
+Read both review/verification articles against the global rules and verified updated instruction discovery across projects. Promoted the 6.2 Sol deployment to Web and native Simulator, preserving original data, Google grants and A3. Verified actual OpenAI hosted-browser routing with independently checked public content and deletion readback. The original Pi relay was unavailable and the owner deferred the device. Built and checksum-verified its release ZIP. [Release record](output/qa/2026-11-18-sol62-deployment/verification.md) · [receipt](output/qa/2026-11-18-sol62-deployment/release.json).

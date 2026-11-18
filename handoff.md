@@ -1,21 +1,15 @@
 # Group 2 · Current handoff
 
-18 November 2026, Hong Kong. Continue from `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/official-text-sessions-20261118`. [PR 132](https://github.com/tantalum666/FYP/pull/132) is based on the deployment handoff in PR 131. [Product](product.md) · [decisions](decision-log.md).
+18 November 2026, Hong Kong. Continue from `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/sol62-runtime-20261118`. [PR 133](https://github.com/tantalum666/FYP/pull/133) records this rollout on top of PR 132. [Product](product.md) · [decisions](decision-log.md).
 
-## Source and acceptance
+## Running release
 
-Ordinary OpenAI chat uses official Sessions and Functions. The normal composer, local tools, owner review cards and receipts remain the user-facing path. Compatible follow-ups reuse the same session. File attachments keep the existing Responses path. An uncertain request can recover a verified result or a local review, with no automatic repeat of a business action. [Contract](desk-companion/docs/official-text-sessions.md) · [protocol and browser QA](output/qa/2026-11-18-official-text-sessions/verification.md).
+Normal Mac Web (port 8831) and the iPhone 17 Pro Simulator (iOS 26.5) run `00780e44`. The app's own bridge confirms ordinary text and official managed browser `gpt-6.2-sol`, speech `gpt-live-1`, delegated reasoning `gpt-6.2-sol`, A3 v9 and preserved account grants. The installed source answered a real ordinary text request. One real 6.2 Sol hosted browser job matched an independently read title and GBP price, and the deleted session returned 404. [Full readback](output/qa/2026-11-18-sol62-deployment/verification.md) · [receipt](output/qa/2026-11-18-sol62-deployment/release.json).
 
-Quiet-time findings now share one notice for up to three current items. One acknowledgment leaves the other findings available. This reuses the existing findings, notifier, preferences and delivery records. [Claude article and implementation choices](research/2026-11-18-always-on-personal-agent.md).
+## Current authorization
 
-## Installed baseline
+Through 24 November inclusive, FYP OpenAI usage is authorized up to US$20 per Hong Kong day. All paid app and verification work uses its operator-provisioned ledger. Mac and Simulator share a US$9 allocation. The original Pi's US$9 share is reserved until deployment; US$2 is left as a safety margin. At the 18 November Mac readback US$7.33 was conservatively accounted, including the full prior batch limits and new live-test holds. No dollar invoice was returned for either new check. Background inference remains off, and previously closed experimental ledgers remain closed.
 
-Normal Mac Web, the native iPhone 17 Pro Simulator and Pi last deployed `c607759e`. A3 version 9, the original stores and independent Mac/Pi Google grants were verified there. Background inference was off. The new source used isolated application stores for both scripted and separately authorized real-provider acceptance. The previous live test budgets remain closed. The owner deferred the physical iPhone, and Pi power work remains paused. [Deployment PR](https://github.com/tantalum666/FYP/pull/131) · [readback](output/qa/2026-11-18-three-end-rollout/verification.md).
+## Next deployment
 
-## Real text acceptance
-
-The dedicated FYP key completed one GPT‑6.2 Sol session using the owner's locally controlled US$0.25 allowance. Alice called `owner_clock` once, returned `Asia/Hong_Kong` UTC+08:00 and answered the Singapore follow-up with a zero-hour difference. The provider reported 30,476 total tokens. DELETE succeeded and subsequent GETs returned 404. The prior GPT‑6.1 Sol request with `spend_control` received HTTP 400 before any session was created. The separate batch is closed. [Live readback](output/qa/2026-11-18-live-text-clock/verification.md).
-
-## Next release decision
-
-Choose the production spending policy and isolate the text-model selection from the managed browser's existing 6.1-only eligibility before promoting 6.2 as the normal text default.
+When the owner has the original Pi available, use the retained `FYP-Pi-Sol62-00780e44.zip` and the pinned SSH route. Reopen the device's installed version, A3, grants, budget ledger, kiosk and display receipts. Pi installation was explicitly deferred and its last verified release is `c607759e`. Power diagnostics and a physical-iPhone rollout remain deferred.

@@ -31,6 +31,7 @@ from .bounded_json import (
     _request_checkpoint,
 )
 from .provider_policy import (
+    DEFAULT_OPENAI_REASONING_MODEL,
     GEMINI_TEXT_ENDPOINT,
     OPENAI_TEXT_ENDPOINT,
     valid_api_key,
@@ -121,7 +122,7 @@ class TextConfig:
                 validate_openai_proxy(config.proxy_url)
             except ValueError:
                 config.configuration_error = "OPENAI_PROXY_INVALID"
-            config.model = config.model or "gpt-6.1-sol"
+            config.model = config.model or DEFAULT_OPENAI_REASONING_MODEL
             config.endpoint = config.endpoint or OPENAI_TEXT_ENDPOINT
             path = os.environ.get("DESK_OPENAI_CREDENTIAL_FILE")
             if path:
@@ -177,6 +178,7 @@ class TextAssistant:
             if self.config.provider == "openai"
             else self.config.provider,
             "model": self.config.model,
+            "session_budget_mode": "daily_local" if self.runtime.openai_spend.path else "provider",
             "background": self.config.valid() and self.config.background,
             "configuration_error": self.config.configuration_error,
             "attachments": attachment_capability(self.config),
@@ -199,7 +201,7 @@ class TextAssistant:
                 (today,),
             ).fetchone()[0]
 
-    def _reserve_usage(self, purpose):
+    def _reserve_usage(self, purpose, *, reservation=None, scope=None):
         """Reserve every provider attempt atomically, including streaming fallback."""
         from uuid import uuid4
 
@@ -219,6 +221,9 @@ class TextAssistant:
                 >= self.daily_cap()
             ):
                 raise DomainError("TEXT_AI_CAP", 429)
+            if reservation and self.config.provider == "openai":
+                kind, amount, seconds = reservation
+                self.runtime.openai_spend.reserve(usage_id,kind,amount,scope=scope,seconds=seconds)
             conn.execute(
                 "INSERT INTO text_ai_usage VALUES(?,?,?,?,?)",
                 (usage_id, now, purpose, self.config.provider, "{}"),
@@ -242,7 +247,10 @@ class TextAssistant:
         def guard(request=None):
             try:
                 checkpoint()
-                if request is not None and str(request.url) != expected_url:
+                allowed = {expected_url}
+                if config.provider == "openai" and self.runtime.openai_spend.path:
+                    allowed.add(expected_url + "/input_tokens")
+                if request is not None and str(request.url) not in allowed:
                     raise DomainError("PROVIDER_CONTEXT_NOT_APPROVED", 403)
             except DomainError as exc:
                 raise TextDispatchRefused(exc.code, exc.status) from None
@@ -293,6 +301,7 @@ class TextAssistant:
                     self.config,
                     prompt,
                     content,
+                    **({"spend_budget": self.runtime.openai_spend} if self.config.provider=="openai" and self.runtime.openai_spend.path else {}),
                     **({"attachment_parts": attachment_parts} if attachment_parts else {}),
                     **({"response_schema": schema.model_json_schema()} if purpose == "initiative" and self.config.provider == "openai" else {}),
                 )
