@@ -1,6 +1,6 @@
 # Group 2 · GPT‑6.2 Sol production routing
 
-On 18 November 2026 the normal Mac Web service and the installed iPhone 17 Pro Simulator moved to application source `00780e44c603cb8652ec6eee8b5d2e06263acb93`. The original Raspberry Pi was unavailable. The owner chose to retain its release package and defer installation. [Machine readback](release.json) · [authorization, sources and scope](scope.md).
+On 18 November 2026 the normal Mac Web service and the installed iPhone 17 Pro Simulator moved to application source `00780e44c603cb8652ec6eee8b5d2e06263acb93`. The original Raspberry Pi was unavailable. The owner chose to retain its release package and defer installation. [Deployment PR](https://github.com/tantalum666/FYP/pull/133). [Machine readback](release.json) · [authorization, sources and scope](scope.md).
 
 ## Routing and actual results
 
@@ -30,3 +30,5 @@ The Simulator relocated its container. Two WebKit SQLite files changed on disk, 
 Twelve targeted release regressions were exercised in separate local runs. A denied hosted request initially surfaced as an unknown job despite zero outbound requests. It now produces a known pre-dispatch failure. Inspection also identified the distinct delegated-usage field names in GPT Live and the local computer token-count preflight destination. Explicit regressions cover both. Existing checks relevant to the modified activation, voice protocol, local browser and cleanup paths were selected. No full suite, CI, power trial or physical-iPhone install was started.
 
 Review was a self-review of the candidate against the previous source, the official model/computer-use/Live configuration contracts and observed requests. The protected old-runtime backup is the rollback point. When reverting to an older binary that lacks the daily ledger, keep paid generation disabled until its spending controls are restored. Raw account details, receipts, images, local ledgers and the Pi ZIP remain outside Git.
+
+Publication-scope checks covered 29 source, test, configuration-example, Markdown and JSON files. All 28 added local link occurrences resolved, the whitespace check and Ruff passed, and the patch contained no raw ledger, credential, backup, screenshot, binary release or CI workflow.
