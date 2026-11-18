@@ -38,6 +38,7 @@ from .voice_protocols import (
     GeminiProtocol,
     RealtimeProtocol,
 )
+from .openai_spend import VOICE, voice_estimate
 from .openai_live import OpenAILiveProtocol, OPENAI_LIVE_ENDPOINT
 from .openai_voice import OpenAIRealtimeProtocol, OPENAI_REALTIME_ENDPOINT, OPENAI_REALTIME_MODELS
 from .voice_media import MAX_IMAGE_BASE64, jpeg_image
@@ -48,6 +49,7 @@ from .voice_shutdown import finalize_live
 from .context import voice_context_note
 from .voice_work import VoiceWorkLedger, VoiceDraftFreeze
 from .provider_policy import (
+    DEFAULT_OPENAI_REASONING_MODEL,
     ProviderWebSocketConnect,
     valid_api_key,
     valid_model,
@@ -84,7 +86,7 @@ class VoiceConfig:
     voice: str = ""
     configuration_error: str = ""
     proxy_url: str = ""
-    backend_model: str = "gpt-6.1-sol"
+    backend_model: str = DEFAULT_OPENAI_REASONING_MODEL
 
     @classmethod
     def environment(cls):
@@ -118,7 +120,7 @@ class VoiceConfig:
             config.model = config.model or (
                 "gpt-live-1" if config.provider == "openai_live" else "gpt-realtime-2.1"
             )
-            config.backend_model = os.environ.get("DESK_LIVE_BACKEND_MODEL", "gpt-6.1-sol")
+            config.backend_model = os.environ.get("DESK_LIVE_BACKEND_MODEL", DEFAULT_OPENAI_REASONING_MODEL)
             config.endpoint = config.endpoint or (
                 OPENAI_LIVE_ENDPOINT
                 if config.provider == "openai_live"
@@ -200,6 +202,7 @@ class VoiceService:
             "configured": self.config.valid(),
             "provider": self.config.provider,
             "model": self.config.model,
+            "backend_model": self.config.backend_model if self.config.provider == "openai_live" else None,
             "state": self.state if self.config.valid() else "not_configured",
             "active": self.active,
             "input_sample_rate": 16000,
@@ -313,6 +316,11 @@ class VoiceService:
         )
         session_id = uuid4().hex
         drafts, usage = {}, {}
+        spend = self.runtime.openai_spend
+        budget_voice = bool(
+            spend.path and self.config.provider in {"openai_live", "openai_realtime"}
+        )
+        voice_reserved=False
         failure = None
         tool_failures = {}
         grounding_retries = set()
@@ -392,6 +400,9 @@ class VoiceService:
                         continue
                     remaining -= size
                     protocol.initial_items.insert(0, message)
+            if budget_voice:
+                spend.reserve(session_id, "voice", VOICE, seconds=625)
+                voice_reserved=True
             async with self.connector(
                 endpoint,
                 additional_headers=headers,
@@ -844,6 +855,15 @@ class VoiceService:
                                         usage[key] = usage.get(key, 0) + value
                                 else:
                                     usage = event["usage"]
+                                if budget_voice:
+                                    spend.usage(
+                                        [session_id],
+                                        voice_estimate(
+                                            usage,
+                                            time.monotonic() - self.started,
+                                            isinstance(protocol, OpenAILiveProtocol),
+                                        ),
+                                    )
                                 continue
                             elif kind == "turn_complete":
                                 if turns.current and turns.current.pending:
@@ -995,6 +1015,22 @@ class VoiceService:
                         if time.monotonic() - last_check < 1:
                             continue
                         last_check = time.monotonic()
+                        if budget_voice:
+                            spend.active(session_id)
+                            if isinstance(protocol, OpenAILiveProtocol):
+                                spend.usage(
+                                    [session_id],
+                                    voice_estimate(
+                                        protocol.usage_snapshot(), time.monotonic() - self.started
+                                    ),
+                                )
+                                if (
+                                    len(
+                                        protocol.started_responses - protocol.received_backend_usage
+                                    )
+                                    > 2
+                                ):
+                                    raise DomainError("OPENAI_BUDGET_MISSING_USAGE",429)
                         if self.forget_session.is_set():
                             self.forget_session.clear()
                             await send_client({"type": "ended", "reason": "memory_forgotten"})
@@ -1100,6 +1136,19 @@ class VoiceService:
                     if isinstance(usage, dict)
                     else {}
                 )
+                if voice_reserved:
+                    live = isinstance(protocol, OpenAILiveProtocol)
+                    complete = bool(
+                        live
+                        and safe_usage.get("finalization_confirmed")
+                        and safe_usage.get("backend_receipts_complete")
+                    )
+                    spend.usage(
+                        [session_id],
+                        voice_estimate(safe_usage, time.monotonic() - self.started, live),
+                        final=True,
+                        retain=not complete,
+                    )
                 with self.store.connection(write=True) as conn:
                     self.store.record(
                         conn,

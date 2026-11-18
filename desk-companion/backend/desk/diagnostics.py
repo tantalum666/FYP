@@ -33,6 +33,7 @@ def diagnostics_report(runtime, service_version: str) -> dict:
             "cap_used": used,
             "cap_limit": FOLLOWUP_DAILY_CAP,
         },
+        **({"openai_spending":runtime.openai_spend.summary()} if runtime.openai_spend.path else {}),
         "backup": runtime.backups.describe(),
         "database": {"bytes": runtime.store.path.stat().st_size},
         "scheduler": {

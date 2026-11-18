@@ -12,6 +12,8 @@ import websockets
 
 
 GEMINI_TEXT_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta"
+DEFAULT_OPENAI_REASONING_MODEL = "gpt-6.2-sol"
+OPENAI_BROWSER_MODELS = frozenset({"gpt-6.1-sol", DEFAULT_OPENAI_REASONING_MODEL})
 OPENAI_TEXT_ENDPOINT = "https://api.openai.com/v1/responses"
 GEMINI_VOICE_ENDPOINT = (
     "wss://generativelanguage.googleapis.com/ws/"

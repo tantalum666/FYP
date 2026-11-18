@@ -20,6 +20,7 @@ from .computer_use_models import (
     wall_from_reason,
 )
 from .computer_use_protocol import OpenAIComputerProtocol
+from .provider_policy import OPENAI_BROWSER_MODELS
 from .computer_use_network import local_browser_proxy
 from .store import DomainError, encode
 
@@ -61,15 +62,18 @@ class ComputerUseExecutor:
         self.blocker = self.root / "cleanup-required"
         self.active_job = None
 
+    def provider_config(self):
+        return self.runtime.text_ai.config
+
     def status(self):
-        config = self.runtime.text_ai.config
+        config = self.provider_config()
         reason = self.supervisor.readiness()
         blocked = self.blocker.exists() and self.active_job is None
         return {
             "enabled": self.enabled,
             "configured": config.provider == "openai"
             and config.valid()
-            and config.model == "gpt-6.1-sol"
+            and config.model in OPENAI_BROWSER_MODELS
             and reason is None
             and not blocked,
             "reason": "COMPUTER_CLEANUP_REQUIRED" if blocked else reason,
@@ -81,7 +85,7 @@ class ComputerUseExecutor:
         }
 
     def provider_revision(self):
-        cfg = self.runtime.text_ai.config
+        cfg = self.provider_config()
         parts = [cfg.provider, cfg.model, cfg.endpoint]
         if cfg.proxy_url:
             parts.append(cfg.proxy_url)
@@ -183,12 +187,13 @@ class ComputerUseExecutor:
         usages, calls = [], 0
         next_sequence = None
         protocol = self.protocol_factory(
-            self.runtime.text_ai.config,
+            self.provider_config(),
             request["goal"],
             request["allowed_origins"],
             transport=self.runtime.text_ai.transport,
             on_usage=usages.append,
         )
+        protocol.spend_budget=self.runtime.openai_spend
 
         def fence(_stage=None):
             checkpoint()

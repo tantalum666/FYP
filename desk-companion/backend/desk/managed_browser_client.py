@@ -41,6 +41,7 @@ class ManagedBrowserClient:
 
     def __init__(self, config, *, transport=None):
         self.config, self.transport = config, transport
+        self.budget_observation = None
 
     async def run(self, intent, checkpoint, on_session, *, authentication=None):
         sid, reader = None, None
@@ -253,6 +254,8 @@ class ManagedBrowserClient:
                     raise ValueError("Managed turn changed")
                 turn_id = turn["id"]
                 result["usage"] = numeric_usage(turn.get("usage")) or result["usage"]
+                if self.budget_observation:
+                    self.budget_observation(result["usage"])
                 if turn.get("status") in {"completed", "failed", "cancelled"}:
                     terminal = "agent.session.turn." + turn["status"]
                     complete.set()
@@ -280,6 +283,7 @@ class ManagedBrowserClient:
                             "model": self.config.model,
                             "instructions": INSTRUCTIONS,
                             "reasoning": {"effort": "low"},
+                            "service_tier":"default",
                             "text": {"verbosity": "low"},
                             "multi_agent": {"enabled": False},
                             "tools": [{"type": "computer_use"}],
@@ -377,7 +381,9 @@ class ManagedBrowserClient:
                         snapshot = await request("GET", f"/agents/sessions/{sid}")
                         if snapshot.get("status") == "failed":
                             raise ValueError("Managed session failed")
-                        result["usage"] = numeric_usage(snapshot.get("usage"))
+                        result["usage"] = numeric_usage(snapshot.get("usage")) or result["usage"]
+                        if self.budget_observation:
+                            self.budget_observation(result["usage"])
                         await reconcile_turn()
                         if not complete.is_set():
                             waiting = await review_actions(snapshot)

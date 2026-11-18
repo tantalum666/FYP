@@ -1,6 +1,6 @@
 """Bounded Responses adapter; business tools and approvals remain in the core."""
 
-from .bounded_json import bounded_json_post
+from .openai_spend import budgeted_response
 
 
 class OpenAITextAdapter:
@@ -16,13 +16,15 @@ class OpenAITextAdapter:
         *,
         attachment_parts=None,
         response_schema=None,
+        spend_budget=None,
     ):
         user_content = "Return the requested JSON object.\n" + content
         if attachment_parts:
             user_content = [{"type": "input_text", "text": user_content}, *attachment_parts]
-        response = bounded_json_post(
+        response = budgeted_response(
             client,
             config.endpoint,
+            budget=spend_budget,
             headers={"Authorization": "Bearer " + config.api_key},
             json_body={
                 "model": config.model,

@@ -4,6 +4,7 @@ import asyncio
 import hashlib
 import json
 import os
+from dataclasses import replace
 
 from .application_runtime import read_regular
 from .browser_policy import digest
@@ -12,6 +13,8 @@ from .computer_use import ComputerUseExecutor
 from .computer_use_files import write_file
 from .computer_use_models import ComputerUseReceipt
 from .managed_browser_client import ManagedBrowserClient
+from .provider_policy import OPENAI_BROWSER_MODELS
+from .openai_spend import HOSTED_BROWSER, token_estimate
 from .managed_browser_auth import ManagedBrowserAuth
 from .store import DomainError, encode
 
@@ -25,6 +28,7 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
     def __init__(self, runtime):
         self.runtime, self.store = runtime, runtime.store
         self.enabled = os.environ.get("DESK_MANAGED_BROWSER_ENABLED", "1") == "1"
+        self.model_override = os.environ.get("DESK_MANAGED_BROWSER_MODEL")
         self.root = (self.store.directory / "managed-browser").absolute()
         self.scope = "public_browser:" + digest(
             [
@@ -40,14 +44,19 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
         self.client_factory = ManagedBrowserClient
         self.auth = ManagedBrowserAuth()
 
-    def status(self):
+    def provider_config(self):
         config = self.runtime.text_ai.config
+        return config if self.model_override is None else replace(config, model=self.model_override)
+
+    def status(self):
+        config = self.provider_config()
         blocked = self.blocker.exists() and self.active_job is None
         return {
             "enabled": self.enabled,
+            "model": config.model,
             "configured": config.provider == "openai"
             and config.valid()
-            and config.model == "gpt-6.1-sol"
+            and config.model in OPENAI_BROWSER_MODELS
             and not blocked,
             "reason": "COMPUTER_CLEANUP_REQUIRED" if blocked else None,
             "busy": self.active_job is not None,
@@ -76,7 +85,22 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
         fence()
         # Keep the existing daily attempt limit. One managed session may contain
         # many internal model calls, so this is not a dollar or token ceiling.
-        usage_id = self.runtime.text_ai._reserve_usage("computer_use")
+        try:
+            usage_id = self.runtime.text_ai._reserve_usage(
+                "computer_use",
+                reservation=(
+                    "hosted_browser",
+                    HOSTED_BROWSER,
+                    ManagedBrowserClient.setup_seconds
+                    + ManagedBrowserClient.active_seconds
+                    + ManagedBrowserClient.auth_seconds
+                    + ManagedBrowserClient.cleanup_seconds
+                    + 15,
+                ),
+            )
+        except DomainError as error:
+            # No request or cleanup marker exists before admission.
+            raise ExecutionRejected(error.code, error.status) from error
         write_file(self.root, "cleanup-required", request["artifact_id"].encode())
 
         def created(session_id):
@@ -92,9 +116,18 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
             )
 
         client = self.client_factory(
-            self.runtime.text_ai.config,
+            self.provider_config(),
             transport=self.runtime.text_ai.transport,
         )
+
+        def budget_observation(usage):
+            try:
+                self.runtime.openai_spend.active(usage_id)
+                self.runtime.openai_spend.usage([usage_id], token_estimate(usage))
+            except DomainError as error:
+                raise ExecutionRejected(error.code, error.status) from error
+
+        client.budget_observation = budget_observation
 
         def authentication(action):
             job_id = request["artifact_id"]
@@ -125,6 +158,11 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
                     encode(result.get("usage") or {}),
                     usage_id,
                 ),
+            )
+        if result["session_deleted"] and result["deletion_readback"]:
+            # Token usage does not itemize the environment. Keep the full hosted reservation.
+            self.runtime.openai_spend.usage(
+                [usage_id], token_estimate(result.get("usage")), final=True, retain=True
             )
         if not result["session_deleted"] or not result["deletion_readback"]:
             raise RuntimeError("Managed cleanup is uncertain; inspect before retry")

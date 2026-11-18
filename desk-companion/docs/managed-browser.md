@@ -2,6 +2,8 @@
 
 18 November 2026. The owner explicitly requested the official execution path as the mainline. New conversation drafts and the current browser form now select the official managed executor by default. GPT Live remains the voice interface with Responses delegation; the official Agents service runs the browser task. FYP retains account/permission binding, task identity, result readback and the existing JobService. [Conversation contract](conversation-browser.md), [current QA](../../output/qa/2026-11-17-official-mainline/verification.md).
 
+The operator can set `DESK_MANAGED_BROWSER_MODEL` independently of ordinary text. Both the previous GPT‑6.1 Sol and GPT‑6.2 Sol routes are supported. The workspace reports the effective model. Admission, the provider-revision fence and the hosted create request use the same effective configuration. Existing installations without an override inherit their text model. A dated production spending allocation is checked before creating the hosted environment.
+
 ## Admission and compatibility
 
 - `BrowserResearchDraft.engine` and the new `POST /api/computer/browser-tasks` default to `managed`. The current frontend submits an explicit engine; this is included in the immutable request hash. `DESK_MANAGED_BROWSER_ENABLED` defaults to enabled; an explicit `0` still disables it. Credentials, provider readiness, owner session, private-context visibility and sharing consent remain required. Unavailability never silently selects local execution.

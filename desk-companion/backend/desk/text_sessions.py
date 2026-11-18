@@ -10,6 +10,7 @@ from .capabilities import CAPABILITIES
 from .context_budget import fit_context
 from .conversation import memory_context
 from .openai_transport import numeric_usage
+from .openai_spend import TEXT_STAGE, token_estimate
 from .openai_sessions import SESSION_ID, SessionAPI, SessionEvents, digest
 from .store import DomainError, encode
 from .text_session_store import TextSessionStore
@@ -52,7 +53,10 @@ class TextSessions:
         self.sessions = TextSessionStore(self.store)
         self.stopping = False
 
-    def creation_budget(self):
+    def creation_budget(self, usage_id):
+        if self.runtime.openai_spend.path:
+            self.runtime.openai_spend.active(usage_id)
+            return {}
         if self.local_budget_transport is None:
             return {"spend_control": {"limit": SESSION_SPEND_LIMIT_CENTS}}
         if self.local_budget_transport is not self.assistant.transport:
@@ -205,7 +209,7 @@ class TextSessions:
             )
             sid = record["sid"]
             # A local denial before creation leaves no remote resource to locate.
-            usage_id = self.assistant._reserve_usage("conversation")
+
             message = {"role": "user", "content": [{"type": "input_text", "text": encode(context)}]}
             check()
             if sid:
@@ -214,6 +218,12 @@ class TextSessions:
                     # No new input was sent and the previous resource is definitively gone.
                     record = self.sessions.replace_missing(record["marker"], key)
                     sid = None
+            responder.budget_scope = record["marker"]
+            usage_id = self.assistant._reserve_usage(
+                "conversation",
+                reservation=("session_input", TEXT_STAGE, 65),
+                scope=responder.budget_scope,
+            )
             if sid:
                 last = api.latest_turn(sid)
                 if (
@@ -249,7 +259,7 @@ class TextSessions:
                     # The provider may have accepted the input. Observe without replay.
                     pass
             else:
-                controls = self.creation_budget()
+                controls = self.creation_budget(usage_id)
                 try:
                     creating = True
                     snapshot = api.request(
@@ -260,6 +270,7 @@ class TextSessions:
                                 "instructions": system,
                                 "tools": specs,
                                 "reasoning": {"effort": "low"},
+                                "service_tier": "default",
                                 "multi_agent": {"enabled": False},
                             },
                             "environment": {"type": "none"},
@@ -303,6 +314,39 @@ class TextSessions:
             )
             return reply
         except DomainError as error:
+            if error.code.startswith("OPENAI_BUDGET_") or error.code in {
+                "OPENAI_DAILY_BUDGET_REACHED",
+                "OPENAI_SESSION_BUDGET_REACHED",
+            }:
+                messages = {
+                    "OPENAI_BUDGET_PERIOD_CLOSED": (
+                        "本次 API 授权期已结束。",
+                        "The API spending authorization has ended.",
+                    ),
+                    "OPENAI_BUDGET_DAY_END": (
+                        "已接近香港午夜，请在新一天的授权时段重试。",
+                        "This operation is too close to midnight in Hong Kong. Try again in the next authorized day.",
+                    ),
+                    "OPENAI_SESSION_BUDGET_REACHED": (
+                        "这段对话已达到本地会话额度。",
+                        "This conversation reached its local spending allowance.",
+                    ),
+                    "OPENAI_DAILY_BUDGET_REACHED": (
+                        "这台设备今天可用的 API 额度不足。",
+                        "This desk has insufficient API allowance for today.",
+                    ),
+                }
+                pair = messages.get(
+                    error.code,
+                    ("本地费用检查已暂停这次请求。", "Local spending checks stopped this request."),
+                )
+                return responder.local_reply or {
+                    "mode": "ai",
+                    "kind": "clarify",
+                    "error": error.code,
+                    "saved": False,
+                    "message": pair[0 if payload.language == "zh" else 1],
+                }
             if error.code in {"TEXT_AI_CAP", "SESSION_TOOL_LIMIT"}:
                 if not sid and record:
                     self.sessions.forget(record["marker"])
@@ -366,6 +410,15 @@ class TextSessions:
                     if turn_id and turn_id != turn["id"]:
                         raise ValueError("Turn changed")
                     turn_id = turn["id"]
+                    if self.runtime.openai_spend.path and turn["status"] not in {
+                        "completed",
+                        "failed",
+                        "cancelled",
+                    }:
+                        self.runtime.openai_spend.active(usage_id)
+                        self.runtime.openai_spend.usage(
+                            [usage_id, *responder.budget_ids], token_estimate(turn.get("usage"))
+                        )
                     if turn["status"] in {"failed", "cancelled"}:
                         raise ValueError("Turn did not complete")
                     if turn["status"] == "completed":
@@ -374,6 +427,11 @@ class TextSessions:
                         if not text:
                             raise ValueError("Missing final answer")
                         self.record_usage(usage_id, turn.get("usage"))
+                        self.runtime.openai_spend.usage(
+                            [usage_id, *responder.budget_ids],
+                            token_estimate(turn.get("usage")),
+                            final=True,
+                        )
                         if on_event and not responder.local_reply:
                             on_event({"type": "preview", "text": text, "final": True})
                         return turn_id, responder.local_reply or {
@@ -423,6 +481,8 @@ class TextFunctions:
     def __init__(self, sessions, payload, key, names, on_event, allow_memory, permission_version):
         self.sessions, self.payload, self.key = sessions, payload, key
         self.names, self.on_event, self.allow_memory = names, on_event, allow_memory
+        self.budget_ids = []
+        self.budget_scope = None
         self.calls = {}
         self.local_reply = None
         self.plan = None
@@ -462,7 +522,12 @@ class TextFunctions:
                 continue
             check()
             if receipt.attempts == 0:
-                self.sessions.assistant._reserve_usage("conversation")
+                attempt = self.sessions.assistant._reserve_usage(
+                    "conversation",
+                    reservation=("session_function", TEXT_STAGE, 65),
+                    scope=self.budget_scope,
+                )
+                self.budget_ids.append(attempt)
             if receipt.attempts >= 3:
                 raise ValueError("Function acknowledgement is unresolved")
             receipt.attempts += 1
