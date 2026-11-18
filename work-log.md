@@ -1011,3 +1011,16 @@ Publication18November: PR129 merged atc51ece41f033bcc74364a0046f5cade9386ea53f. 
 Deployed the reviewed GitHub main `c607759e`. Reconciled the complete fetched Git tree and PR 124–130 records. The delivery build matched all 76 previous frontend files. Mac and Pi each verified 386 manifest files and their own private database backup. Upgrade rehearsals retained every existing table and added four. The live A3 selection, cached sample, protected business data and account grant versions passed comparison. Each server independently read Gmail profile and primary Calendar successfully.
 
 The native iPhone 17 Pro Simulator was installed over the previous app and cold-launched against Mac 8831. The Pi kiosk and autostart select the new release, with the actual frame checked. Both servers keep background model research off. The owner deferred the physical iPhone. Microsoft consent and Pi power reliability remain open. The next software task is ordinary text through official sessions/functions. [Reading and verification](output/qa/2026-11-18-three-end-rollout/verification.md) · [release receipt](output/qa/2026-11-18-three-end-rollout/release-readback.json).
+
+
+## 2026-11-18 Official text Sessions and personal-agent notifications
+
+Migrated ordinary text to the hosted Functions handshake on official OpenAI Sessions. Kept the application's existing permission decisions and receipts for software drafts, outgoing mail and browser admission. Added temporary-session cleanup, unknown-create reconciliation, turn-specific text streaming and bounded function result delivery. Used an isolated HTTP provider and the real Web composer for two related turns with one session and one function receipt.
+
+Applied the always-on article's notification guidance to existing initiative findings. Two fictional quiet-time findings became one notification after restart and could be acknowledged independently in the phone layout. Credentials, production devices and closed test budgets were untouched. [Research](research/2026-11-18-always-on-personal-agent.md) · [local tests and remaining live acceptance](output/qa/2026-11-18-official-text-sessions/verification.md).
+
+[PR 132](https://github.com/tantalum666/FYP/pull/132) publishes the migration and its local acceptance record on top of the deployment handoff in PR 131.
+
+## 2026-11-18 Real GPT‑6.2 Sol clock and Singapore comparison
+
+The normal Mac configuration and the first request both identified GPT‑6.1 Sol. The first create was rejected on a spending-limit parameter with zero matching sessions. After the owner's model and local-budget selection, the public catalog and the real session independently confirmed GPT‑6.2 Sol. One clock function, two completed root turns, 30,476 tokens and confirmed DELETE/404. Only the two newly needed budget-guard regressions ran. No production deployment. [Live QA](output/qa/2026-11-18-live-text-clock/verification.md) · [sanitized receipt](output/qa/2026-11-18-live-text-clock/receipt.json).

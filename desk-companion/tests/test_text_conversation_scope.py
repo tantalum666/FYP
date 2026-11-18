@@ -39,7 +39,7 @@ def test_http_replay_is_login_and_task_scoped_and_retries_do_not_duplicate(tmp_p
     app = create_app(tmp_path, password="fixture", scheduler=False)
     runtime = app.state.runtime
     captured = []
-    monkeypatch.setattr(runtime.text_ai.config, "valid", lambda: True)
+    monkeypatch.setattr(runtime.text_ai.config, "provider", "fake")
 
     def generate(system, context, schema, purpose):
         captured.append(context)
@@ -89,7 +89,7 @@ def test_memory_change_and_logout_prevent_stale_context_reuse(tmp_path, monkeypa
     conversation.append("assistant", "Fixture code cobalt")
     runtime.memory.delete(fact["id"], fact["version"], "forget-fixture")
     seen = []
-    monkeypatch.setattr(runtime.text_ai.config, "valid", lambda: True)
+    monkeypatch.setattr(runtime.text_ai.config, "provider", "fake")
 
     def generate(system, context, schema, purpose):
         seen.append(context)

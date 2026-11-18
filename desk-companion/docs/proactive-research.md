@@ -23,7 +23,7 @@ Categories share a 26,000-character evidence budget so one long category cannot 
 
 ## Official execution and product responsibilities
 
-`initiative.py` calls the existing OpenAI Responses adapter once for changed evidence, with native strict JSON Schema and no action tools. It bypasses the legacy primary-text `AgentLoop`. The schema admits at most three findings, each with one to four exact source references. A conflict needs at least two references; all current fingerprints must still match when publishing. This is one bounded read-only inference, not another agent harness.
+`initiative.py` calls the existing OpenAI Responses adapter once for changed evidence, with native strict JSON Schema and no action tools. It runs independently of interactive text sessions. The schema admits at most three findings, each with one to four exact source references. A conflict needs at least two references; all current fingerprints must still match when publishing. This is one bounded read-only inference, not another agent harness.
 
 The existing Runtime worker checks initiative every 15 seconds. A five-minute provider-read fallback supplies changes where push integration is absent; it is not a fixed user reminder or a model call every five minutes. A persisted source signature prevents repeated successful inference on unchanged context. One delayed five-minute retry is allowed after a failed attempt, with at most two attempts per signature. The old `task_advice` inference worker is retired to avoid duplicate background analysis. Its compatibility method remains callable by older paths.
 
@@ -33,7 +33,11 @@ A bounded database lease fences concurrent analysis/restarts. Up to 100 derived 
 
 OpenAI Responses read timeouts are now 30 seconds for initiative and 15 seconds for other complete responses, retaining five-second connect/write limits and the existing total body deadline. Real reasoning calls exposed the old five-second response timeout. No automatic send or unknown write retry was added.
 
-Multi-step browser execution remains official Agents Sessions/computer use. Future deliberate scheduled reasoning should use official Agents Automations; FYP still supplies account grants, source freshness, task identity, domain-specific controls and independent outcomes. The old primary-text planner remains an explicit migration gap. Do not describe the whole product as a ready-made embedded Dot.
+Multi-step browser execution remains official Agents Sessions/computer use. Future deliberate scheduled reasoning should use official Agents Automations; FYP still supplies account grants, source freshness, task identity, domain-specific controls and independent outcomes. Ordinary OpenAI text now uses [official sessions and functions](official-text-sessions.md) on the source branch.
+
+## Batched notification delivery
+
+After quiet hours Alice can put up to three currently valid findings behind one content-free notification. Higher-importance findings appear first on the home cue. Normal mode uses a 30-minute gap between interruptions, and Less often uses a two-hour gap and high-importance findings. The existing daily caps also apply. The in-app delivery receipt and finding IDs commit together. Dismissing one member keeps the notice open until its remaining members are dismissed or obsolete. The original single-notice receipts are reconciled on upgrade. This delivery step needs no extra model inference. [Always-on design review](../../research/2026-11-18-always-on-personal-agent.md) · [verification](../../output/qa/2026-11-18-official-text-sessions/verification.md).
 
 ## Acceptance and remaining work
 

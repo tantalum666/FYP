@@ -19,6 +19,7 @@ from .openai_transport import model_proxy, validate_openai_proxy
 from pydantic import Field, ValidationError
 
 from .agent_loop import AgentLoop
+from .text_sessions import TextSessions
 from .capabilities import TEXT_TOOL_NAMES
 from .bounded_json import (
     TEXT_NETWORK_TIMEOUT,
@@ -159,6 +160,7 @@ class TextAssistant:
         self.lock = threading.RLock()
         self.background_lock = threading.Lock()
         self.attachments = ChatAttachments(runtime)
+        self.sessions = TextSessions(self)
         with self.store.connection(write=True) as conn:
             conn.execute(
                 "CREATE TABLE IF NOT EXISTS assistant_replies(id TEXT PRIMARY KEY,request_hash TEXT NOT NULL,result TEXT NOT NULL)"
@@ -171,6 +173,9 @@ class TextAssistant:
         return {
             "configured": self.config.valid(),
             "provider": self.config.provider,
+            "conversation_engine": "openai_sessions"
+            if self.config.provider == "openai"
+            else self.config.provider,
             "model": self.config.model,
             "background": self.config.valid() and self.config.background,
             "configuration_error": self.config.configuration_error,
@@ -488,6 +493,7 @@ class TextAssistant:
                 allow_memory=allow_memory,
                 on_event=on_event,
                 conversation=conversation,
+                principal=principal,
             )
         reply = (
             self.runtime.permissions.apply_reply(reply, grant, language=payload.language)
@@ -496,7 +502,9 @@ class TextAssistant:
         )
         with self.store.connection(write=True) as conn:
             conn.execute("UPDATE assistant_replies SET result=? WHERE id=?", (encode(reply), key))
-        if cached is None:
+        with self.store.connection() as conn:
+            hidden = self.store.settings(conn)["hide_private"]
+        if cached is None and not hidden:
             remember_exchange(
                 self.runtime,
                 key,
@@ -554,7 +562,9 @@ class TextAssistant:
             }
         return None
 
-    def _message(self, payload, key, *, allow_memory=True, on_event=None, conversation=None):
+    def _message(
+        self, payload, key, *, allow_memory=True, on_event=None, conversation=None, principal=None
+    ):
         if not self.config.valid():
             with self.lock:
                 cached = self._cached_reply(payload, key, allow_memory)
@@ -649,18 +659,32 @@ class TextAssistant:
                 return reply
             from .assistant import TOOLS
 
+            files, attachment_parts, attachment_guard = self.attachments.context(
+                conversation, required_ids=payload.attachment_ids
+            )
+            official = self.config.provider == "openai" and not attachment_parts
+            authority = (
+                self.sessions.authority(principal, conversation, allow_memory) if official else None
+            )
+            hidden = official and authority[1]
             context = {
                 "language": payload.language,
-                **self.context(
-                    payload.task_id,
-                    include_memory=allow_memory,
-                    user_message=payload.message,
-                    conversation=conversation,
+                **(
+                    {"user_message": payload.message}
+                    if hidden
+                    else self.context(
+                        payload.task_id,
+                        include_memory=allow_memory,
+                        user_message=payload.message,
+                        conversation=conversation,
+                    )
                 ),
-                "tools": [
+                "tools": []
+                if hidden
+                else [
                     t
                     for t in TOOLS
-                    if t["name"] in TextPlan.model_fields["tool"].annotation.__args__
+                    if t["name"] in TEXT_TOOL_NAMES
                     and tool_visible(t["name"], allow_memory)
                 ],
             }
@@ -668,34 +692,53 @@ class TextAssistant:
                 self.runtime.persona.current()["body"],
                 self.runtime.data.preferences(),
                 payload.language,
-            )
-            files, attachment_parts, attachment_guard = self.attachments.context(
-                conversation, required_ids=payload.attachment_ids
+                channel="functions" if official else "text",
             )
             if files:
                 context["attachments"] = files
                 system += "\n" + FILE_POLICY
-            reply = AgentLoop(
-                self.runtime,
-                HostedTextProvider(
-                    self.generate,
-                    self.generate_live,
-                    attachment_parts=attachment_parts,
-                    attachment_guard=attachment_guard,
-                ),
-            ).run(
-                system=system,
-                context=context,
-                key=key,
-                language=payload.language,
-                allow_memory=allow_memory,
-                on_event=on_event,
-            )
+            if official:
+                reply = self.sessions.run(
+                    payload=payload,
+                    key=key,
+                    request_hash=fingerprint,
+                    principal=principal,
+                    chat=conversation,
+                    system=system,
+                    context=context,
+                    allow_memory=allow_memory,
+                    on_event=on_event,
+                    authority=authority,
+                )
+            else:
+                reply = AgentLoop(
+                    self.runtime,
+                    HostedTextProvider(
+                        self.generate,
+                        self.generate_live,
+                        attachment_parts=attachment_parts,
+                        attachment_guard=attachment_guard,
+                    ),
+                ).run(
+                    system=system,
+                    context=context,
+                    key=key,
+                    language=payload.language,
+                    allow_memory=allow_memory,
+                    on_event=on_event,
+                )
             reply = present(reply, self.runtime.data.preferences(), payload.language)
             with self.store.connection(write=True) as conn:
-                conn.execute(
-                    "INSERT INTO assistant_replies VALUES(?,?,?)", (key, fingerprint, encode(reply))
-                )
+                if official:
+                    conn.execute(
+                        "UPDATE assistant_replies SET result=? WHERE id=? AND request_hash=?",
+                        (encode(reply), key, fingerprint),
+                    )
+                else:
+                    conn.execute(
+                        "INSERT INTO assistant_replies VALUES(?,?,?)",
+                        (key, fingerprint, encode(reply)),
+                    )
             return reply
 
     def event_stream(self, payload, key, *, allow_memory=True, principal=None):

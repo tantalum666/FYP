@@ -7,7 +7,6 @@ from desk.app import create_app
 from desk.assistant import TOOLS, AssistantMessage
 from desk.persona import PersonaRevision, followup_system, text_system, voice_instructions
 from desk.store import DomainError
-from desk.text_ai import TextPlan
 
 
 def test_default_persona_reaches_text_voice_and_followup_without_a_write_tool(tmp_path):
@@ -75,18 +74,13 @@ def test_configured_text_plan_uses_the_saved_persona(tmp_path, monkeypatch):
         PersonaRevision(body="Open with the word lantern.", expected_version=1),
         "lantern",
     )
-    captured = {}
-
-    def generate(system, context, schema, purpose):
-        captured["system"] = system
-        return TextPlan(message="Lantern is here.", tool="none")
-
-    monkeypatch.setattr(runtime.text_ai.config, "valid", lambda: True)
-    monkeypatch.setattr(runtime.text_ai, "generate", generate)
+    from session_protocol_fixture import install_session_protocol
+    provider=install_session_protocol(runtime)
     reply = runtime.text_ai.message(AssistantMessage(message="Hello", language="en"), "plan")
-    assert reply["mode"] == "ai"
-    assert "Open with the word lantern." in captured["system"]
-    assert "one permitted tool" in captured["system"]
+    assert reply["mode"] == "ai" and reply["message"]==provider.final
+    instructions=provider.creations[0]["agent"]["instructions"]
+    assert "Open with the word lantern." in instructions
+    assert "Call the provided functions directly" in instructions
 
 
 def test_reset_does_not_reuse_a_version_and_accept_a_stale_editor(tmp_path):

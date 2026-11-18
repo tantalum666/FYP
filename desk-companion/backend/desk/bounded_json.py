@@ -24,6 +24,24 @@ def _request_checkpoint(_request):
 
 
 def bounded_json_post(client, endpoint, *, headers, json_body, clock=None):
+    return bounded_json_request(
+        client, "POST", endpoint, headers=headers, json_body=json_body, clock=clock
+    )
+
+
+def bounded_json_request(
+    client,
+    method,
+    endpoint,
+    *,
+    headers,
+    json_body=None,
+    params=None,
+    clock=None,
+    deadline=None,
+    max_bytes=TEXT_RESPONSE_BYTES,
+    allow_empty=False,
+):
     """Bound raw response storage and check elapsed time between network chunks.
 
     Phase inactivity timeout is enforced by HTTPX. This is not an OS-level
@@ -31,15 +49,19 @@ def bounded_json_post(client, endpoint, *, headers, json_body, clock=None):
     Never buffer/decompress an arbitrary provider body before checking its size.
     """
     clock = clock or time.monotonic
-    deadline = clock() + TEXT_RESPONSE_DEADLINE
+    deadline = deadline if deadline is not None else clock() + TEXT_RESPONSE_DEADLINE
     with client.stream(
-        "POST", endpoint, headers={**headers, "Accept-Encoding": "identity"}, json=json_body
+        method,
+        endpoint,
+        headers={**headers, "Accept-Encoding": "identity"},
+        json=json_body,
+        params=params,
     ) as response:
         response.raise_for_status()
         if response.headers.get("content-encoding", "identity").lower() != "identity":
             raise ValueError("Compressed provider response is not admitted")
         length = response.headers.get("content-length")
-        if length is not None and (not length.isdigit() or int(length) > TEXT_RESPONSE_BYTES):
+        if length is not None and (not length.isdigit() or int(length) > max_bytes):
             raise ValueError("Provider response exceeds limit")
         body = bytearray()
         if clock() > deadline:
@@ -51,11 +73,13 @@ def bounded_json_post(client, endpoint, *, headers, json_body, clock=None):
         # byte/deadline checks to both paths without rereading a consumed stream.
         chunks = [response.content] if response.is_stream_consumed else response.iter_raw()
         for chunk in chunks:
-            if clock() > deadline or len(body) + len(chunk) > TEXT_RESPONSE_BYTES:
+            if clock() > deadline or len(body) + len(chunk) > max_bytes:
                 raise ValueError("Provider response exceeds budget")
             body.extend(chunk)
         if clock() > deadline:
             raise ValueError("Provider response deadline exceeded")
+    if not body and allow_empty:
+        return {}
     try:
         value = json.loads(bytes(body))
         pending = [(value, 0)]

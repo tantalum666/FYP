@@ -216,7 +216,7 @@ def test_a_configured_provider_is_not_called(tmp_path, monkeypatch):
     app = _app(tmp_path, clock)
     runtime = app.state.runtime
     _task(runtime, title="Print the handout", next_step="check the room")
-    monkeypatch.setattr(runtime.text_ai.config, "valid", lambda: True)
+    monkeypatch.setattr(runtime.text_ai.config, "provider", "fake")
 
     def generate(*_args, **_kwargs):
         raise AssertionError("provider called")
