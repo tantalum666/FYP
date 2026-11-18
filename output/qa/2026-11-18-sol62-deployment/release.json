@@ -1,0 +1,122 @@
+{
+  "date_HK": "2026-11-18",
+  "installed_source_web_and_simulator": "00780e44c603cb8652ec6eee8b5d2e06263acb93",
+  "previous_source": "c607759e420fce8a0701474f9ceecf782ce85b35",
+  "accepted_by_owner_targets": {
+    "mac_web": "activated",
+    "native_iOS": "installed, cold-launched, confirmed from app bridge",
+    "Pi": "offline, package retained per owner"
+  },
+  "web": {
+    "models": {
+      "text": "gpt-6.2-sol",
+      "speech": "gpt-live-1",
+      "delegation": "gpt-6.2-sol",
+      "managed_browser": "gpt-6.2-sol",
+      "local_computer": "gpt-6.2-sol",
+      "text_engine": "openai_sessions"
+    },
+    "browser_owner_view": "owner",
+    "model_loaded": true,
+    "budget_mode": "dated Hong Kong daily ledger",
+    "manifest_files": 390,
+    "database_integrity": "ok",
+    "schema": 3,
+    "tables_before": 128,
+    "tables_after": 129,
+    "original_table_contents_equal_on_rehearsal": true,
+    "protected_live_table_groups_equal": 13,
+    "account_grant_versions_unchanged": true,
+    "A3": {
+      "matches_selected_voice_description_delivery": true,
+      "version": 9,
+      "cached_sample_matches": true
+    },
+    "background_inference": false
+  },
+  "native": {
+    "device": "iPhone 17 Pro Simulator",
+    "os": "iOS 26.5",
+    "bundle_matches_web_files": 77,
+    "bridge_models": {
+      "browser": "gpt-6.2-sol",
+      "delegate": "gpt-6.2-sol",
+      "speech": "gpt-live-1",
+      "text": "gpt-6.2-sol"
+    },
+    "owner": true,
+    "A3_version": 9,
+    "account_versions_match_mac": true,
+    "cold_start_without_args": true,
+    "model_rendered": true,
+    "existing_preference_or_storage_rows_lost": false
+  },
+  "managed_browser_live": {
+    "job_state": "succeeded",
+    "job_error": null,
+    "model_observed": [
+      "gpt-6.2-sol"
+    ],
+    "report": "The first book shown is *A Light in the Attic*, listed at £51.77 on [https://books.toscrape.com/](https://books.toscrape.com/).",
+    "usage": null,
+    "activity_count": 3,
+    "delete_accepted": true,
+    "get_404": true,
+    "sid_digest": "e2b1bae6cd5147b7ba516524262999bf453e873df6cf06a779b2bb376ae53973",
+    "scope": "public single origin",
+    "budget": {
+      "configured": true,
+      "day": "2026-11-18",
+      "timezone": "Asia/Hong_Kong",
+      "through": "2026-11-24",
+      "active": true,
+      "allocated_usd": 9.0,
+      "accounted_usd": 7.25,
+      "available_usd": 1.75
+    },
+    "independently_read": {
+      "title": "A Light in the Attic",
+      "GBP": "51.77"
+    },
+    "verified_content": true
+  },
+  "ordinary_text_live": {
+    "model": "gpt-6.2-sol",
+    "answer": "42",
+    "verified": true,
+    "usage": null,
+    "session_digest": "d7fc44f06fd509b7cad96e00f554b4f8e0b23bd09c96faeebee7d3a46cefdeda",
+    "deletion_404": true,
+    "budget": {
+      "configured": true,
+      "day": "2026-11-18",
+      "timezone": "Asia/Hong_Kong",
+      "through": "2026-11-24",
+      "active": true,
+      "allocated_usd": 9.0,
+      "accounted_usd": 7.33,
+      "available_usd": 1.67
+    }
+  },
+  "billing": {
+    "authorization_through_HKT": "2026-11-24",
+    "fleet_authorized_per_HK_day_USD": 20,
+    "mac_and_simulator_share_USD": 9,
+    "Pi_planned_share_USD": 9,
+    "unallocated_safety_margin_USD": 2,
+    "Mac_18_Nov_opening_reserve_USD": 5.25,
+    "Mac_accounted_at_final_readback_USD": 7.33,
+    "Mac_remaining_at_final_readback_USD": 1.67,
+    "provider_invoice": null,
+    "Pi_ledger_active": false
+  },
+  "pi_package": {
+    "file": "FYP-Pi-Sol62-00780e44.zip",
+    "sha256": "dbaad7c390163a941f4523f7e3ba2d70b2e7ef531c289eb6b4d75323e199f2f0",
+    "bytes": 119979,
+    "file_count": 13,
+    "zip_crc_and_inner_hashes": true,
+    "remote_application_installed": false
+  },
+  "different_frontend_source_files": 0
+}

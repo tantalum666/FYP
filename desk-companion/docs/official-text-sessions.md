@@ -1,6 +1,6 @@
 # Group 2 · Ordinary OpenAI text conversations
 
-On the source branch, ordinary OpenAI messages from the shared composer use the official Agents Sessions REST API and application-hosted Functions. Both the blocking and SSE routes share this implementation. The release last verified on Web, iOS Simulator and Pi is `c607759e`. [Previous deployment](../../output/qa/2026-11-18-three-end-rollout/verification.md)
+Ordinary OpenAI messages from the shared composer use the official Agents Sessions REST API and application-hosted Functions. Both the blocking and SSE routes share this implementation. Mac Web and native iOS Simulator now run `00780e44`. The deferred Pi last ran `c607759e`. [Previous deployment](../../output/qa/2026-11-18-three-end-rollout/verification.md)
 
 ## Conversation and authority
 
@@ -21,6 +21,6 @@ On 18 November, one real GPT‑6.2 Sol session completed the read-only desk-cloc
 
 ## Dated deployment allocations
 
-An operator can provision a private SQLite allowance separate from the application's portable data and supply its absolute path as `DESK_OPENAI_DAILY_LEDGER`. The deployment allocates a fixed share of the fleet budget per backend. The native client draws from its selected backend. Admission uses Hong Kong calendar days, stops at the approved end date and retains uncertain reservations. Operator diagnostics expose the local share and accounted amount. Cleanup of previously created resources remains possible after expiry.
+The 18 November Mac rollout activates the dated local spending policy. The Pi has a separate prepared share. [Runtime readback](../../output/qa/2026-11-18-sol62-deployment/verification.md). An operator can provision a private SQLite allowance separate from the application's portable data and supply its absolute path as `DESK_OPENAI_DAILY_LEDGER`. The deployment allocates a fixed share of the fleet budget per backend. The native client draws from its selected backend. Admission uses Hong Kong calendar days, stops at the approved end date and retains uncertain reservations. Operator diagnostics expose the local share and accounted amount. Cleanup of previously created resources remains possible after expiry.
 
 The ordinary text path uses the existing local clock and request ledger as well as financial reservations for inputs and function continuations. The local session ceiling is 25 US cents. Complete canonical turn usage can reconcile the reservations together. Responses file/structured requests count their exact inputs before dispatch. The managed browser reserves separately and keeps its hosted-session allowance when token usage cannot establish all charges. Speech reserves before connection and monitors time and delegated usage. These controls govern requests through the FYP runtimes. Provider usage can arrive late, and final currency charges come from the provider.

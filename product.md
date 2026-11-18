@@ -1,8 +1,12 @@
 # Group 2 Project Contract
 
+## 2026-11-18 Normal 6.2 Sol release
+
+The owner selected GPT‑6.2 Sol for normal reasoning and the managed browser. Mac Web and native Simulator now run `00780e44`. Voice audio stays on GPT‑Live 1 with A3 version 9 and delegates to 6.2 Sol. The official browser's independent operator model is bound to admission and execution. The original Pi is currently unavailable and its package was retained at the owner's request. FYP API authorization runs through the end of 24 November under US$20 per Hong Kong day. [Delivery, real browser and budget receipt](output/qa/2026-11-18-sol62-deployment/verification.md).
+
 ## 2026-11-18 Live text model acceptance
 
-The owner authorized one US$0.25 acceptance, explicitly chose client-side spending controls after the upstream budget field was rejected, and selected GPT‑6.2 Sol for the trial. The live session returned the configured Asia/Hong_Kong timezone, correctly compared Singapore in the same session and was deleted with independent 404 readback. Its 30,476 total tokens include 20,076 cached inputs. The test batch is closed. The running installation's normal text/default voice models remain GPT‑6.1 Sol and GPT‑Live 1. [Receipt](output/qa/2026-11-18-live-text-clock/verification.md).
+The owner authorized one US$0.25 acceptance, explicitly chose client-side spending controls after the upstream budget field was rejected, and selected GPT‑6.2 Sol for the trial. The live session returned the configured Asia/Hong_Kong timezone, correctly compared Singapore in the same session and was deleted with independent 404 readback. Its 30,476 total tokens include 20,076 cached inputs. The test batch is closed. At the time of this isolated acceptance the installed text model was GPT‑6.1 Sol and the audio model was GPT‑Live 1. The subsequent rollout is recorded above. [Receipt](output/qa/2026-11-18-live-text-clock/verification.md).
 
 ## 2026-11-18 Ordinary conversations and paced proactive updates
 
@@ -111,7 +115,7 @@ Earlier9 November technical result: isolated Mac V2ProPlus CPU generated six cas
 
 - 三端以深色Alice主场景进入，保持自适应、大尺寸虚拟形象和可见的半透明输入区；手机左侧保留完整月历、时间、天气和待办，较矮屏幕允许信息区独立滚动；Mac媒体先本机预览，显式分享后才发画面。界面详情按需展开。手机、电脑及Linux触摸屏共享业务数据；设备常亮页独立构图。手机使用全屏Alice首页与按需Plan／More，保留虚拟形象和简洁操作。
 - 个人 Agent 的目标包括邮件跟踪、建议和语音生活事务代办。离线邮箱/购物/日程样本已实现同一事务接续、拥有者核对、静音延后通知和联合备份；它们不能代替真实账号、订单或出票验收。[研究总入口](research/personal-agent-research-index.md)保留真实旅程目标。
-- 同一助理贯通文字、语音、短期上下文、经批准的长期记忆、日历和事务。**默认OpenAI：独立文字／浏览器和Live委托推理GPT6.1Sol，语音GPTLive1，Realtime2.1保留显式对照；Qwen保留历史已测候选，不作静默回退。**Qwen Audio／Gemini已有协议适配；OpenAI Realtime2.1与GPT-Live1＋Luna已完成一轮虚构业务／合成语音实测，Mini有英文参照。真人同条件比较仍待；不能把协议模拟当成真实效果。
+- 同一助理贯通文字、语音、短期上下文、经批准的长期记忆、日历和事务。**默认OpenAI：独立文字／托管浏览器和Live委托推理GPT‑6.2 Sol，语音GPTLive1，Realtime2.1保留显式对照；Qwen保留历史已测候选，不作静默回退。**Qwen Audio／Gemini已有协议适配；OpenAI Realtime2.1与GPT-Live1＋Luna已完成一轮虚构业务／合成语音实测，Mini有英文参照。真人同条件比较仍待；不能把协议模拟当成真实效果。
 - 真实、受限的电脑／软件操作是核心；先推进Linux。允许范围、批准、取消、超时、未知结果和独立读回由程序控制。默认每次询问；拥有者可在输入框旁／设置中显式启用完整权限，对新请求中的已支持软件操作授予持续授权。模型不能更改权限或自行确认，实体输出仍独立批准。见[权限契约](desk-companion/docs/assistant-permissions.md)。
 - 日历等简单查询约5秒提供有用回答是体验目标。工具等待、首音、首个有用词与作业完成分别计时。
 - Alice声音先验收音色和自然感，再推进集成：甜、轻软、可爱而自然的台湾国语女声；英语和粤语仍需自然、保持同一角色。原创音色按年轻成年女性设计，不靠变调或夸张奶音代替自然度。已被用户否决的LJSpeech参考样本只保留技术记录。当前按用户最新明确要求将A3作为三端默认，保留原版A便于切回；A1已否决、A2尚不满意，三语与真人声学效果仍分别验收。

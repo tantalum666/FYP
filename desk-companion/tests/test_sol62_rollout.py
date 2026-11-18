@@ -260,3 +260,34 @@ def test_ledger_backed_local_computer_observation_counts_and_dispatches_to_same_
         ("/v1/responses", "gpt-6.2-sol"),
     ]
     assert 0 < protocol.spend_budget.summary()["accounted_usd"] < 0.01
+
+
+def test_live_voice_budget_denial_precedes_any_provider_connection(tmp_path):
+    import asyncio
+    import time
+    from desk.app import create_app
+    from desk.openai_live import OPENAI_LIVE_ENDPOINT
+    from voice_fixtures import Socket
+
+    budget, clock = ledger(tmp_path, share=1000000)
+    r = create_app(
+        tmp_path / "voice-runtime", clock=lambda: clock[0], password="fixture", scheduler=False
+    ).state.runtime
+    r.openai_spend = budget
+    r.voice.config = VoiceConfig(
+        "openai_live", OPENAI_LIVE_ENDPOINT, "gpt-live-1", "fixture-only", "marin"
+    )
+    r.voice.connector = lambda *_a, **_k: pytest.fail(
+        "Unaffordable voice websocket reached the provider"
+    )
+    principal = {"kind": "owner", "id": "owner", "session": r.store.create_owner_session()}
+
+    async def run():
+        sock = Socket()
+        r.voice.active, r.voice.started = True, time.monotonic()
+        await r.voice.run(sock, principal, "en", "voice")
+        assert any(e.get("code") == "OPENAI_DAILY_BUDGET_REACHED" for e in sock.messages)
+        assert not r.voice.active
+
+    asyncio.run(run())
+    assert budget.summary()["accounted_usd"] == 0

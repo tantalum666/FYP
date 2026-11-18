@@ -4,7 +4,9 @@ Checked 18 November 2026 (Hong Kong). [Research](../../research/personal-agent-r
 
 ## Current source and runtime
 
-The source branch now sends ordinary OpenAI text and follow-ups through official Sessions with application Functions. The shared Web composer and the batched, quiet-hours-recovery journey passed with scripted providers. The installed baseline remains `c607759e`. [Contract](official-text-sessions.md) · [QA](../../output/qa/2026-11-18-official-text-sessions/verification.md).
+The 18 November normal Mac Web and native Simulator release is `00780e44`. Both report GPT‑6.2 Sol text, managed browser and Live delegation. The original Pi release is deferred. The new hosted-browser job has real public-page, model and cleanup evidence. [Current deployment](../../output/qa/2026-11-18-sol62-deployment/verification.md).
+
+The source branch now sends ordinary OpenAI text and follow-ups through official Sessions with application Functions. The shared Web composer and the batched, quiet-hours-recovery journey passed with scripted providers. The preceding baseline was `c607759e`. [Contract](official-text-sessions.md) · [QA](../../output/qa/2026-11-18-official-text-sessions/verification.md).
 
 The reviewed integration [PR129](https://github.com/tantalum666/FYP/pull/129) is merged atc51ece41 with all original124–128 PRs confirmed merged. Its tree matches the tested42bc01ec candidate. It includes contextual proactive research: current facts/tasks/calendar and authorized previews, no per-item read approval, changed-source relevance/citations, silence/dedupe, quiet/off controls and fresh request-based mail follow/stop. It directly uses official Responses structured output, not AgentLoop. The existing official browser client now handles actual readiness, setup timing and cancellation/deletion behavior found during live testing. [Proactive contract](proactive-research.md), [browser contract](managed-browser.md).
 
@@ -40,4 +42,4 @@ Live already supports Responses delegation. Official Agents supplies a managed C
 
 The current browser-job form is owner-admitted. The ordinary `computer_job_draft` text/voice tool still prepares bounded note operations; it does not automatically admit the new managed browser. The ordinary session responder allows three calls per request under a 45-second work deadline. Explicit Work continuation remains available. The new browser_research_draft/status pair supplies that missing review/result bridge, with explicit owner cloud consent and same-job retry recovery. Live speech/model behavior still needs separately authorized acceptance.
 
-Live ordinary text and a read-only function now have separate GPT‑6.2 Sol acceptance on the FYP key, with same-session follow-up and deletion readback. The normal deployment still uses its previous model configuration. Before promoting a new default, settle the production spend policy and the managed-browser model dependency. [Live receipt](../../output/qa/2026-11-18-live-text-clock/verification.md).
+The original read-only clock acceptance and subsequent normal release are tracked separately. Mac and Simulator have the 6.2 Sol configuration. The Pi package awaits the original device. [Current evidence](../../output/qa/2026-11-18-sol62-deployment/verification.md).
