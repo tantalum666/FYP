@@ -915,3 +915,9 @@ The owner chose LetsFG for the simulator and requested the flight and total, exp
 ## 2026-11-19 Approve exact WooCommerce test order terms in ordinary chat
 
 The owner authorized the existing WooCommerce store and Stripe test card for simulator shopping. Display the product, count, delivery and total; reconfirm any checkout change; independently read the merchant order and the captured amount. Engineering reused the existing native composer, official Sessions, scoped review storage and UI refresh. The test fixture uses one shippable SKU and a fictional Hong Kong address. The merchant checks the final order at gateway dispatch and preserves one merchant reference for recovery. [Verification](output/qa/2026-11-19-alice-shopping-conversation/verification.md).
+
+## 2026-11-20 Overseas shopping sandboxes before real purchases
+
+The owner requested cancellation of a paid order immediately after buying, with a full refund, and prioritized overseas sandboxes such as eBay and Amazon. The owner authorized two Gmail test aliases for free eBay developer and Amazon Pay buyer registration and email verification. A mainland delivery address is available for a future live quote. This request authorizes sandbox shopping only.
+
+Engineering selected eBay's US buyer and seller sandbox for the retail cancellation, the official Amazon Pay demo for buyer setup and an existing US Stripe sandbox to inspect the merchant side of Amazon Pay. A separate US$0.75 test Visa control demonstrated the first full-refund readback. The checkout receipt now verifies a linked, terminal full refund independently. No production checkout permission was added to Alice. [Observed provider states](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).

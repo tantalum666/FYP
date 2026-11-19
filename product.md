@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-20 Overseas marketplace shopping and cancellation
+
+The owner selected overseas sandboxes first. A marketplace acceptance needs an all-in quote, the owner's approval, a paid sandbox order, immediate buyer cancellation before dispatch, any required seller decision, and a completed full refund matching the same order and currency. Reconfirm changed checkout terms through the existing approval flow. eBay developer email verification reached program review. The Amazon Pay demo quoted US$14.30 and the FYP US merchant quoted US$1.00 through Amazon Pay. Test-buyer email verification remains open. A separate US Stripe Visa control captured and fully refunded US$0.75. The installed native buying path remains the previously verified WooCommerce flow. [Evidence and official platform boundaries](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).
+
 ## 2026-11-19 Shopping in ordinary Alice conversation
 
 The owner can name one product and quantity in regular chat. WooCommerce quotes the product, selected Hong Kong delivery rate and HKD total. A changed checkout needs a new owner decision, including for a lower amount. The desk reopens the Woo order, Stripe PaymentIntent and captured test Charge. Native acceptance produced order #17 at HK$46 from an original HK$42 quote. [Product behavior](desk-companion/docs/conversation-shopping.md) · [acceptance](output/qa/2026-11-19-alice-shopping-conversation/verification.md).

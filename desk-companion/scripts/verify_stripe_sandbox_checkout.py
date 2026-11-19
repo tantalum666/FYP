@@ -15,9 +15,13 @@ def test_object(value):
     return value
 
 
-def receipt(client, session_id, reference, amount, currency):
+def receipt(client, session_id, reference, amount, currency, *, full_refund_id=None):
     if not re.fullmatch(r"cs_test_[a-zA-Z0-9]+", session_id):
         raise ValueError("Expected a test Checkout Session ID")
+    if full_refund_id is not None and (
+        not isinstance(full_refund_id, str) or not re.fullmatch(r"re_[a-zA-Z0-9]+", full_refund_id)
+    ):
+        raise ValueError("Expected a Stripe Refund ID")
 
     def get(path):
         response = client.get(path)
@@ -58,10 +62,9 @@ def receipt(client, session_id, reference, amount, currency):
         or not charge["paid"]
         or charge["amount_captured"] != amount
         or charge["currency"] != currency
-        or charge["amount_refunded"] != 0
     ):
-        raise ValueError("The expected payment has no matching captured, unrefunded charge")
-    return {
+        raise ValueError("The expected payment has no matching captured charge")
+    result = {
         "livemode": False,
         "checkout_status": session["status"],
         "payment_status": session["payment_status"],
@@ -73,6 +76,29 @@ def receipt(client, session_id, reference, amount, currency):
         "currency": currency,
         "actual_charge_minor": 0,
     }
+    if full_refund_id is None:
+        if charge["amount_refunded"] != 0:
+            raise ValueError("The charge already has a refund")
+        return result
+
+    # Bind the Refund to both test objects even when it omits its own livemode field.
+    refund = get("refunds/" + full_refund_id)
+    if (
+        amount <= 0
+        or charge.get("refunded") is not True
+        or charge.get("amount_refunded") != amount
+        or refund.get("object") != "refund"
+        or refund.get("id") != full_refund_id
+        or refund.get("livemode", False) is not False
+        or refund.get("charge") != charge_id
+        or refund.get("payment_intent") != intent_id
+        or refund.get("status") != "succeeded"
+        or refund.get("amount") != amount
+        or refund.get("currency") != currency
+    ):
+        raise ValueError("The refund has no matching, completed full reversal of this charge")
+    result["refund"] = {"status": "succeeded", "amount_minor": amount, "currency": currency}
+    return result
 
 
 def main():
@@ -90,7 +116,17 @@ def main():
     parser.add_argument("--reference", required=True, help="Expected merchant client_reference_id")
     parser.add_argument("--amount-minor", type=int, required=True)
     parser.add_argument("--currency", required=True)
+    parser.add_argument(
+        "--full-refund-file",
+        type=Path,
+        help="Private JSON file with the id of a single expected full refund",
+    )
     args = parser.parse_args()
+    refund_id = None
+    if args.full_refund_file:
+        refund_id = json.loads(args.full_refund_file.read_text())["id"]
+        if not isinstance(refund_id, str) or not refund_id:
+            parser.error("The refund file must contain a Stripe Refund ID")
     with args.config.open("rb") as f:
         profile = tomllib.load(f)[args.profile]
     key = profile.get("test_mode_api_key", "")
@@ -116,6 +152,7 @@ def main():
             args.reference,
             args.amount_minor,
             args.currency.lower(),
+            full_refund_id=refund_id,
         )
     print(json.dumps(result, indent=2))
 

@@ -1,12 +1,14 @@
 # Group 2 · Current handoff
 
-19 November 2026, Hong Kong. Continue in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/shopping-flight-quotes-20261119`. [PR 134](https://github.com/tantalum666/FYP/pull/134) targets [PR 133](https://github.com/tantalum666/FYP/pull/133). [Product](product.md) · [decisions](decision-log.md).
+20 November 2026, Hong Kong. Continue in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/shopping-flight-quotes-20261119`. [PR 134](https://github.com/tantalum666/FYP/pull/134) targets [PR 133](https://github.com/tantalum666/FYP/pull/133). [Product](product.md) · [decisions](decision-log.md).
 
 ## Running release
 
 The shared Mac backend runs `4a773f31`. The iPhone 17 Pro Simulator UI runs `c4207e4f` with identical frontend code, and is left showing the Woo/Stripe receipt. Both local rollouts preserved A3 v9 and the store’s account grants. The original Pi is still at `85e6aa94`. [Current acceptance](output/qa/2026-11-19-alice-shopping-conversation/verification.md) · [Pi release](output/qa/2026-11-19-pi-release/verification.md).
 
 ## Commerce
+
+Overseas shopping now takes priority. eBay confirmed the developer email and placed the application in review. Amazon sent the sandbox buyer verification email. Its demo order is quoted at US$14.30 and a second FYP checkout for one US$1.00 pack of tissues opened the Amazon Pay sandbox login. Both await buyer verification. Keep the existing sign-up and checkout to resume. The independent Stripe US test Visa control captured and refunded US$0.75, with one matching refund created nine seconds after the charge. Zinc refused cancellation once its test retailer had accepted the order. [Receipts and account state](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).
 
 Ordinary chat now supports reviewed WooCommerce shopping. Two shippable stationery packs at HK$17 produced a HK$42 quote with HK$8 delivery. Woo then returned HK$12 delivery and HK$46 total. Only a second confirmation paid. Merchant order #17, Stripe test capture and chat follow-up all matched HK$46. The store’s delivery fixture is back at HK$8. [Contract](desk-companion/docs/conversation-shopping.md) · [receipts](output/qa/2026-11-19-alice-shopping-conversation/receipts.json).
 
@@ -24,4 +26,4 @@ The Diagnostics screen shows the UTC platform export, usage-based estimate, loca
 
 Ordinary chat now supports the complete LetsFG test booking. At HK$34 the quote was still unbooked; after an explicit HK$36.25 reapproval Alice showed simulated PNR `5SMZA7` and matching capture. The same chat reopened the record after backend restart. [Native verification](output/qa/2026-11-19-alice-flight-conversation/verification.md).
 
-**Next step** — Use the existing owner-reviewed sandboxes for further shopping or flight scenarios. The current shopping implementation accepts one exact simple product and quantity per order.
+**Next step** — Resume the existing Amazon Pay buyer after email verification, complete the US$1.00 merchant-controlled sandbox checkout, and independently reopen its Amazon Pay charge and full refund. eBay's approval email will unlock the separate test-buyer and test-seller order.

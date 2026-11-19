@@ -1,0 +1,100 @@
+{
+  "date_hong_kong": "2026-11-20",
+  "merchant_real_money_spent": 0,
+  "ebay_us": {
+    "programme_email_verified": true,
+    "programme_state": "submitted_for_review",
+    "provider_timing": "usually at least one business day",
+    "sandbox_test_users_created": 0,
+    "sandbox_listing_created": false,
+    "paid_order": null,
+    "cancellation": null,
+    "refund": null
+  },
+  "amazon_pay_official_demo": {
+    "buyer_registration": "email_verification_pending",
+    "verification_message_received": true,
+    "item": "CleanSmart Linen Hand Towels",
+    "quantity": 1,
+    "currency": "USD",
+    "subtotal_minor": 900,
+    "shipping_minor": 400,
+    "tax_minor": 130,
+    "quoted_total_minor": 1430,
+    "merchant_order": null,
+    "charge": null,
+    "refund": null
+  },
+  "amazon_pay_via_us_stripe_sandbox": {
+    "item": "Pocket tissues (FYP test, no shipment)",
+    "quantity": 1,
+    "currency": "usd",
+    "subtotal_minor": 100,
+    "shipping_minor": 0,
+    "tax_minor": 0,
+    "total_minor": 100,
+    "checkout_status": "open",
+    "payment_status": "unpaid",
+    "payment_intent_reference_present": false,
+    "configured_amazon_pay_available": true,
+    "amazon_sandbox_sign_in_seen": true,
+    "verified_refund": null
+  },
+  "us_stripe_visa_refund_control": {
+    "livemode": false,
+    "checkout_status": "complete",
+    "payment_status": "paid",
+    "payment_intent_status": "succeeded",
+    "charge_status": "succeeded",
+    "method": "card",
+    "captured": true,
+    "amount_minor": 75,
+    "currency": "usd",
+    "actual_charge_minor": 0,
+    "refund": {
+      "status": "succeeded",
+      "amount_minor": 75,
+      "currency": "usd"
+    },
+    "case": "control",
+    "item": "Pocket tissues",
+    "quantity": 1,
+    "checkout_order_reference": "fyp-us-visa-refund-control-20261120",
+    "payment_to_refund_seconds": 9,
+    "refund_count": 1,
+    "original_charge_utc": "2026-11-19T16:53:30+00:00",
+    "refund_created_utc": "2026-11-19T16:53:39+00:00"
+  },
+  "zinc_sandbox": {
+    "wallet_before": 0,
+    "maximum_price_minor": 2500,
+    "currency": "usd",
+    "immediate_cancel": {
+      "create_http": 201,
+      "initial_status": "pending",
+      "status_before_cancellation": "pending",
+      "cancel_http": 204,
+      "cancel_error": null,
+      "independent_get_http": 200,
+      "independent_get_status": "cancelled",
+      "retailer_reference_count": 0,
+      "payment_record_present": false,
+      "test_wallet_balance_after": 0,
+      "refund_verified": false
+    },
+    "after_placement": {
+      "create_http": 201,
+      "initial_status": "pending",
+      "status_before_cancellation": "order_placed",
+      "cancel_http": 400,
+      "cancel_error": "order_not_cancellable",
+      "independent_get_http": 200,
+      "independent_get_status": "order_placed",
+      "retailer_reference_count": 1,
+      "payment_record_present": false,
+      "test_wallet_balance_after": 0,
+      "refund_verified": false
+    }
+  },
+  "marketplace_post_payment_cancellation_verified": false
+}

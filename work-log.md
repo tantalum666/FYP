@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated 19 November 2026. See the [handoff](handoff.md) for the current state. Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated 20 November 2026. See the [handoff](handoff.md) for the current state. Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -1064,3 +1064,7 @@ Implemented conversational LetsFG quote, explicit amount-bound owner actions, st
 ## 2026-11-19 · Verify ordinary shopping from the native simulator
 
 Two HK$17 stationery packs and HK$8 delivery were quoted at HK$42. The checkout shipping rate then increased to HK$12. Two separate on-screen decisions produced Woo guest order #17 and one Stripe sandbox capture of HK$46. Independent Woo, PaymentIntent, Charge and same-chat reads matched. Restored the HK$8 rate. Tested final gateway increases and decreases, and preserved the previous flight workflow. The native app and shared backend were promoted with verified backups. [Device and payment evidence](output/qa/2026-11-19-alice-shopping-conversation/verification.md) · [contract](desk-companion/docs/conversation-shopping.md).
+
+## 2026-11-20 · Test overseas shopping and independently verify a full refund
+
+Submitted and email-verified the authorized eBay Developers application. eBay returned a review wait of at least one business day in the usual case. Started the authorized Amazon Pay test buyer from its US$14.30 demo cart. Email verification is pending. Verified that the existing US Stripe test merchant supports Amazon Pay and opened one US$1.00 tissue checkout at the actual wallet login. An independent US$0.75 Visa control produced a captured Charge and a single successful full Refund nine seconds later. Added optional full-refund verification to the existing read-only operator CLI, with targeted mismatched and nonterminal cases. Zinc allowed queue cancellation and rejected cancellation after simulated retailer placement. Ordinary shopping, eBay buyer/seller cancellation, and Amazon's pending buyer verification have distinct receipts. Updated project guidance, decisions, research, handoff and QA. [Evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md) · [structured results](output/qa/2026-11-20-overseas-shopping-sandboxes/receipts.json).
