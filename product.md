@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-19 Original Pi and regional travel testing
+
+The original Pi now runs the Web and native Simulator release `85e6aa94`. Its device screen showed Alice connected. Original data, A3 v9 and both Google grants passed on-device checks. For ticketing, Duffel’s current signup menu requires a listed incorporation jurisdiction and omits Hong Kong and mainland China. A supplier booking receipt is still pending. [Pi and signup verification](output/qa/2026-11-19-pi-release/verification.md).
+
 ## 2026-11-19 Merchant sandbox payment acceptance
 
 Two isolated FYP Stripe Checkout orders using a public test Visa and a simulated Link Checkout buyer were returned as paid by the provider, with independently matched payment intents and captured test charges. A deliberate refusal received zero. These are QA merchant payments. The live product continues to perform reviewed research, with buyer Agent Wallet authorization and independent travel-supplier order evidence still open. [Sandbox acceptance and supported platforms](output/qa/2026-11-19-test-checkouts/verification.md).
@@ -14,7 +18,7 @@ Alice can prepare a public price lookup, show its quantity or itinerary for appr
 
 ## 2026-11-18 Normal 6.2 Sol release
 
-The owner selected GPT‑6.2 Sol for normal reasoning and the managed browser. Mac Web and native Simulator now run `00780e44`. Voice audio stays on GPT‑Live 1 with A3 version 9 and delegates to 6.2 Sol. The official browser's independent operator model is bound to admission and execution. The original Pi is currently unavailable and its package was retained at the owner's request. FYP API authorization runs through the end of 24 November under US$20 per Hong Kong day. [Delivery, real browser and budget receipt](output/qa/2026-11-18-sol62-deployment/verification.md).
+The owner selected GPT‑6.2 Sol for normal reasoning and the managed browser. Mac Web and native Simulator now run `00780e44`. Voice audio stays on GPT‑Live 1 with A3 version 9 and delegates to 6.2 Sol. The official browser's independent operator model is bound to admission and execution. The Pi was unavailable during the 18 November rollout. Its retained update was installed on 19 November. FYP API authorization runs through the end of 24 November under US$20 per Hong Kong day. [Delivery, real browser and budget receipt](output/qa/2026-11-18-sol62-deployment/verification.md).
 
 ## 2026-11-18 Live text model acceptance
 
@@ -32,7 +36,7 @@ The new path reuses official OpenAI Responses with native strict structured outp
 
 Actual API tests exposed and repaired response timeouts and hosted-browser readiness/approval/cancellation/cleanup defects. Six real read-only research cases and a natural-language follow/stop flow passed; mail transport was synthetic. The final official hosted browser read a public catalogue, inspected stock, calculated a fictional shipping/currency comparison and deleted its session, with an independent result check. Earlier failed attempts are retained. [Current QA](output/qa/2026-11-17-proactive-agent-merge/verification.md) distinguishes local tests, real models, actual sites and untested merchant transactions.
 
-On 18 November the owner requested the normal rollout and selected the iPhone Simulator for mobile acceptance. Mac Web, the rebuilt native app and the Raspberry Pi kiosk serve `c607759e`. Both servers retain their original stores, A3 version 9 and independent Gmail and Calendar grants. The installed background model setting is off. The prior US$5 batch is closed. The Pi retains its 2.4 GHz configured ceiling and enabled RTC timer. [Deployment evidence](output/qa/2026-11-18-three-end-rollout/verification.md).
+On 18 November the owner requested the normal rollout and selected the iPhone Simulator for mobile acceptance. Mac Web, the rebuilt native app and the Raspberry Pi kiosk served `c607759e` in that rollout. Both servers retain their original stores, A3 version 9 and independent Gmail and Calendar grants. The installed background model setting is off. The prior US$5 batch is closed. The Pi retains its 2.4 GHz configured ceiling and enabled RTC timer. [Deployment evidence](output/qa/2026-11-18-three-end-rollout/verification.md).
 
 ## 2026-11-17 Replacement-adapter stability check
 

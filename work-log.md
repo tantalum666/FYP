@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated 18 November 2026. See the [handoff](handoff.md) for the current state. Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated 19 November 2026. See the [handoff](handoff.md) for the current state. Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -1048,3 +1048,7 @@ Created an isolated test merchant. Standard test Visa and sandbox Link buyers co
 ## 2026-11-19 · Verify WooCommerce guest checkout and account requirements
 
 Created an isolated self-hosted WooCommerce shop. Its Store API accepted two test stationery packs and returned paid guest order 13 at HK$34. A separate merchant order lookup and Stripe test-mode intent and charge lookups verified the amount, currency and capture. The temporary sandbox key needed a gateway supporting manual test credentials. The active gateway was Payment Plugins for Stripe. The FYP consumer wallet grant remained pending owner action, and ticketing still needs a Duffel developer test token. No live charge, shipment, flight booking or production promotion occurred. [QA](output/qa/2026-11-19-woocommerce-guest/verification.md) · [receipts](output/qa/2026-11-19-woocommerce-guest/receipts.json).
+
+## 2026-11-19 · Deploy the retained Pi release and verify Duffel registration
+
+Installed `85e6aa94` on the original Pi from `c607759e`. Verified 406 files, the database migration and backup, A3, Google provider reads, persistent startup and the 1280 × 720 Alice home. The startup frame showed a low-voltage warning. Paid OpenAI calls during deployment were zero. The separate official Duffel signup check found 32 incorporation options, with Hong Kong and mainland China absent. Flight order acceptance awaits supplier-authorized sandbox access. [Evidence](output/qa/2026-11-19-pi-release/verification.md) · [receipts](output/qa/2026-11-19-pi-release/receipts.json).

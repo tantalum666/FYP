@@ -899,3 +899,7 @@ For general flight search, use the supplier's official read-only MCP through a h
 ## 2026-11-19 Test cards first for shopping and ticketing
 
 The owner requested test cards first and authorized a dedicated FYP Stripe merchant sandbox. A personal real card would require a separate, specific live test decision. Keep the provider's ordinary card fixtures, merchant-side Link test accounts, and Link Agent Wallet credentials as separate acceptance tracks. The merchant sandbox covered successful hosted card and Link orders plus a refused payment. Choose a travel provider with a test supplier and test token to validate a simulated reservation. [Evidence and provider boundaries](output/qa/2026-11-19-test-checkouts/verification.md).
+
+## 2026-11-19 Original Pi release resumed
+
+The owner powered on the original Pi and authorized installation of the retained update. This supersedes the earlier package-only decision for that device. The operator deployed the same `85e6aa94` release as Web and Simulator under the existing Pi allocation, retained the rollback material and verified Alice and both Google grants on the original hardware. [Evidence](output/qa/2026-11-19-pi-release/verification.md).

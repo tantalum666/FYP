@@ -1,6 +1,6 @@
 # Group 2｜个人 Agent 研究总入口与实现对照
 
-**11 月 19 日支付专题**　已核对 Grok Bot、OpenAI dot 和 Meta Muse 的钱包与购买批准流程，并用 FYP 的 Python 环境验证官方 Link SDK 的本地请求契约。香港钱包资格、商家结账及出票需要独立验证。[钱包可行性与证据](../output/qa/2026-11-19-agent-wallet-feasibility/verification.md) · [Stripe 商户沙盒实付测试及购物、旅行测试平台](../output/qa/2026-11-19-test-checkouts/verification.md) · [WooCommerce 访客订单与开户要求](../output/qa/2026-11-19-woocommerce-guest/verification.md)
+**11 月 19 日支付专题**　已核对 Grok Bot、OpenAI dot 和 Meta Muse 的钱包与购买批准流程，并用 FYP 的 Python 环境验证官方 Link SDK 的本地请求契约。Stripe 和 WooCommerce 的商户沙盒付款已验收。香港消费者钱包资格与供应商出票仍待验证。[钱包可行性与证据](../output/qa/2026-11-19-agent-wallet-feasibility/verification.md) · [Stripe 商户沙盒实付测试及购物、旅行测试平台](../output/qa/2026-11-19-test-checkouts/verification.md) · [WooCommerce 访客订单与开户要求](../output/qa/2026-11-19-woocommerce-guest/verification.md) · [Duffel 自助注册地区和 Pi 真机回执](../output/qa/2026-11-19-pi-release/verification.md)
 
 **11 月 18 日更新**　[Claude 常驻助理文章与 FYP 对照](2026-11-18-always-on-personal-agent.md)覆盖事件、定时、记忆、权限和通知。本分支已接通普通文字的官方 Sessions/Functions，并实现静音积压发现的合并投递。[本轮验收](../output/qa/2026-11-18-official-text-sessions/verification.md)。
 

@@ -1,0 +1,162 @@
+{
+  "observed_hong_kong": "2026-11-19T21:10:04.028989+08:00",
+  "board": "Original Raspberry Pi 5 Model B Rev 1.0",
+  "previous_revision": "c607759e420fce8a0701474f9ceecf782ce85b35",
+  "running_build": {
+    "source_revision": "85e6aa94d22412b10e0a0d62a4879fb93e9615ef",
+    "frontend_index_sha256": "2774d57e845dbfc28eb69687fb79c5cb4a3af98b063efcd69a8415c6cc01d55c",
+    "release": "20261119-85e6aa94"
+  },
+  "release_verification": {
+    "retained_archive_sha256": "0ed43adae84ea271ba2ee6abc255cdba741731a0ed2571eeb1fff1c01dc68724",
+    "transferred_delta_sha256": "0e138b9988d7ce6d48d21fdda57a9622ef58065d99355e4d2750b420cf6397f5",
+    "changed_files": 50,
+    "total_files_checked_on_device": 406,
+    "verified_local_backup_on_pi": true,
+    "service_cwd_matches": true,
+    "web_index_matches": true,
+    "native_python": "3.13.5",
+    "native_pydantic": "2.13.5"
+  },
+  "state": {
+    "quick_check": "ok",
+    "schema": 3,
+    "original_tables_compared_in_rehearsal": 127,
+    "modified_original_tables_in_rehearsal": 0,
+    "tables_after": 128,
+    "new_tables": [
+      "text_provider_sessions"
+    ],
+    "protected_live_table_fingerprints_matched": 13,
+    "protected_live_tables": [
+      "assistant_custom_voices",
+      "assistant_voice_settings",
+      "conversation_messages",
+      "conversations",
+      "events",
+      "owner",
+      "owner_memories",
+      "owner_permissions",
+      "personal_settings",
+      "task_evidence",
+      "tasks",
+      "trusted_clients",
+      "workspace_preferences"
+    ],
+    "protected_runtime_files_unchanged_at_activation": true
+  },
+  "routing": {
+    "text": "gpt-6.2-sol",
+    "speech": "gpt-live-1",
+    "delegation": "gpt-6.2-sol",
+    "managed_browser": "gpt-6.2-sol",
+    "local_computer": "gpt-6.2-sol",
+    "text_engine": "openai_sessions",
+    "default_browser": "managed",
+    "hosted_browser_ready": true,
+    "background_inference": false,
+    "flight_tools_loaded_on_device": [
+      "search-flight"
+    ],
+    "flight_environment": "none"
+  },
+  "voice": {
+    "matches_selected_voice_description_delivery": true,
+    "version": 9,
+    "cached_sample_matches": true
+  },
+  "accounts": {
+    "same_configuration_and_grant_versions": true,
+    "connected": {
+      "gmail": true,
+      "calendar": true,
+      "microsoft365": false,
+      "teams": false,
+      "sharepoint": false
+    },
+    "google_provider_reads_from_pi": {
+      "gmail": {
+        "status": 200,
+        "grant_version_preserved": true,
+        "confirmed": "owner profile"
+      },
+      "calendar": {
+        "status": 200,
+        "grant_version_preserved": true,
+        "confirmed": "primary calendar list, metadata only"
+      }
+    }
+  },
+  "spending": {
+    "day": "2026-11-19",
+    "timezone": "Asia/Hong_Kong",
+    "active": true,
+    "through": "2026-11-24",
+    "allocated_usd": 9.0,
+    "observed_usage_estimate_usd": 0.0,
+    "reserved_or_unpriced_usd": 0.0,
+    "opening_debit_usd": 0.0,
+    "available_usd": 9.0,
+    "new_openai_calls_during_rollout": 0,
+    "text_usage_rows_added": 0
+  },
+  "device": {
+    "service_active": true,
+    "kiosk_active": true,
+    "persistent_autostart_matches": true,
+    "device_url": true,
+    "display": "1280x720",
+    "kiosk_restart_count_at_frame": 0,
+    "final_frame_sha256": "73e48427e1a7e36015986dbfaf25dd861bba33fed9f47c8d6e3573ffc6c341da",
+    "visual_result": "Alice visible, Desk connected and Message Alice composer",
+    "initial_frame": "Desktop during startup with a low-voltage warning",
+    "configured_cpu_max_khz": 2400000,
+    "rtc_enabled": "enabled",
+    "rtc_state": "active",
+    "rtc_unit_files_unchanged": true,
+    "firmware_throttled_value_at_final_frame": "0xf0008"
+  },
+  "duffel": {
+    "form": "https://dashboard.duffel.com/join",
+    "field": "Country of incorporation",
+    "observed_menu_choices_english": [
+      "Ireland",
+      "Estonia",
+      "Austria",
+      "Australia",
+      "Bulgaria",
+      "Belgium",
+      "Poland",
+      "Denmark",
+      "Germany",
+      "France",
+      "Finland",
+      "Netherlands",
+      "Canada",
+      "Czechia",
+      "Croatia",
+      "Latvia",
+      "Lithuania",
+      "Luxembourg",
+      "Romania",
+      "Malta",
+      "United States",
+      "Mexico",
+      "Portugal",
+      "Sweden",
+      "Cyprus",
+      "Slovakia",
+      "Slovenia",
+      "Spain",
+      "Greece",
+      "Hungary",
+      "Italy",
+      "United Kingdom"
+    ],
+    "hong_kong": false,
+    "mainland_china": false,
+    "other_option": false,
+    "public_signup_submitted": false,
+    "supplier_order_created": false
+  }
+}
