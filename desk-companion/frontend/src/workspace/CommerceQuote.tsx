@@ -11,6 +11,8 @@ export type QuoteRequest = Budget &
       }
     | {
         kind: "flight";
+        provider?: "kiwi";
+        nonstop?: boolean;
         origin: string;
         destination: string;
         departure: string;
@@ -44,6 +46,12 @@ export type Quote = {
   request: QuoteRequest;
   observed_at: string;
   approved_page?: string;
+  supplier?: {
+    provider: string;
+    checked_bags_for_party: number | null;
+    terms_url: string;
+    airline_bag_rules: string | null;
+  };
   note: string;
   offer: Offer | null;
   subtotal_minor: number | null;
@@ -89,6 +97,8 @@ export function QuoteScope({
             `每人托运行李 ${request.checked_bag_kg} 公斤`,
           ),
         ];
+  if (request.kind === "flight" && request.nonstop)
+    details.push(t("Nonstop", "直飞"));
   if (request.currency && request.budget_minor != null) {
     details.push(
       `${t("Budget", "预算")} ${money(request.budget_minor, request.currency, t)}`,
@@ -111,6 +121,14 @@ export function CommerceQuote({ quote, t }: { quote: Quote; t: Translate }) {
           : t("Flight quote", "机票报价")}
       </h4>
       <QuoteScope request={request} t={t} />
+      {quote.supplier && offer && (
+        <p>
+          {quote.supplier.provider} ·{" "}
+          {t("Checked bags included for this party", "此报价所含托运行李件数")}{" "}
+          {quote.supplier.checked_bags_for_party} ·{" "}
+          {t("Weight pending seller confirmation", "重量待卖方确认")}
+        </p>
+      )}
       {!offer && (
         <strong>
           {retail
@@ -231,7 +249,32 @@ export function CommerceQuote({ quote, t }: { quote: Quote; t: Translate }) {
             )}
         </>
       )}
-      <p>{quote.note}</p>
+      {quote.supplier ? (
+        <p>
+          <a
+            href={quote.supplier.terms_url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t("Seller pricing terms", "卖方计价条款")}
+          </a>
+          {quote.supplier.airline_bag_rules && (
+            <>
+              {" "}
+              ·{" "}
+              <a
+                href={quote.supplier.airline_bag_rules}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t("Airline baggage rules", "航空公司行李规则")}
+              </a>
+            </>
+          )}
+        </p>
+      ) : (
+        <p>{quote.note}</p>
+      )}
       {!offer && quote.approved_page && (
         <p>
           <a

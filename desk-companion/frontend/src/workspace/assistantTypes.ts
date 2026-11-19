@@ -95,6 +95,7 @@ export interface Proposal {
 }
 export interface ProposalDecisionOptions {
   share_screen?: boolean;
+  share_itinerary?: boolean;
   follow_mail_thread?: boolean;
 }
 export interface ProposalDecisionReply {

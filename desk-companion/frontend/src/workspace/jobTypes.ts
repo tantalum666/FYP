@@ -1,6 +1,6 @@
 import type { Translate } from "../types";
 import type { ApplicationStep } from "./applicationTypes";
-import type { Quote } from "./CommerceQuote";
+import type { Quote, QuoteRequest } from "./CommerceQuote";
 
 export type JobState =
   | "review"
@@ -48,6 +48,7 @@ export interface ComputerJob {
     engine?: "local" | "managed";
     max_steps?: number;
     allowed_origins?: string[];
+    quote_request?: QuoteRequest;
   };
   result: {
     verified: boolean;

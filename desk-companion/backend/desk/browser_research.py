@@ -8,6 +8,7 @@ from pydantic import Field, model_validator
 from .calendar import iso
 from .commerce_quotes import QuoteRequest, brief_quote
 from .computer_use_models import ComputerUseInput
+from .flight_search import uses_flight_connector
 from .jobs import JobApproval
 from .schemas import StrictModel
 from .store import DomainError
@@ -32,8 +33,9 @@ class BrowserResearchDraft(StrictModel):
         return self
 
     def intent(self):
+        data = self.model_dump()
         return ComputerUseInput(
-            **self.model_dump(), public_only=True, share_screen=True, max_steps=8,
+            **data, public_only=True, share_screen=not uses_flight_connector(data), max_steps=8,
         )
 
 
@@ -66,8 +68,11 @@ def _prepared_job(runtime, proposal_id):
     return json.loads(row[0])["job"]["id"] if row else None
 
 
-def start(runtime, proposal_id, payload, key, *, principal, share_screen):
-    if share_screen is not True:
+def start(runtime, proposal_id, payload, key, *, principal, share_screen, share_itinerary=False):
+    connector = uses_flight_connector(payload["browser"])
+    if connector and share_itinerary is not True:
+        raise DomainError("ITINERARY_SHARING_REQUIRED", 422)
+    if not connector and share_screen is not True:
         raise DomainError("BROWSER_SHARING_REQUIRED", 422)
     if not principal or principal.get("kind") != "owner" or not runtime.store.session_valid(
         principal.get("session")

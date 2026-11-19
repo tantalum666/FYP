@@ -391,6 +391,10 @@ export function errorText(
       "The price or its source could not be verified. Review the original website.",
       "未能核实价格或来源，请查看原网站。",
     ],
+    ITINERARY_SHARING_REQUIRED: [
+      "Review the itinerary and allow sharing with the named flight provider.",
+      "请核对行程并允许将这些条件发送至所列的航班供应商。",
+    ],
     COMPUTER_ACTIVITY_LIMIT: [
       "The browser reached this task's activity limit and stopped.",
       "已达到本次浏览任务的操作上限，浏览器已停止。",

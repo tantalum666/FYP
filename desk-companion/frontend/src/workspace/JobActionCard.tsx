@@ -47,6 +47,9 @@ export function JobActionCard({
   const [exportError, setExportError] = useState<unknown>(null);
   const application = isApplicationAction(job.action);
   const computer = job.action === "computer_use";
+  const connector =
+    job.request.quote_request?.kind === "flight" &&
+    job.request.quote_request.provider === "kiwi";
   const signingIn =
     computer &&
     job.request.engine === "managed" &&
@@ -123,7 +126,9 @@ export function JobActionCard({
           ·{" "}
           {job.result?.readback?.data_scope === "owner_authorized_account"
             ? t("Account pages you allowed", "你允许访问的账号页面")
-            : t("Browsing and preparation", "浏览与准备")}
+            : connector
+              ? t("Read-only Kiwi.com flight search", "Kiwi.com 只读航班查询")
+              : t("Browsing and preparation", "浏览与准备")}
         </p>
       )}
       {signingIn && (
@@ -131,10 +136,15 @@ export function JobActionCard({
       )}
       {computer && job.state === "review" && (
         <small>
-          {t(
-            "Page screenshots are processed in the cloud. Final submissions need you.",
-            "网页截图会交给云端助手处理，最终提交由你操作。",
-          )}
+          {connector
+            ? t(
+                "Kiwi.com receives only the reviewed flight search details.",
+                "Kiwi.com 仅接收已核对的航班查询条件。",
+              )
+            : t(
+                "Page screenshots are processed in the cloud. Final submissions need you.",
+                "网页截图会交给云端助手处理，最终提交由你操作。",
+              )}
         </small>
       )}
       {computer && job.state === "owner_takeover" && (

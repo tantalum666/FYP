@@ -106,7 +106,7 @@ def assistant_routes(runtime, authenticated, operation_id):
         runtime.agent_runs.require_proposal_access(proposal_id, principal, action=payload.action)
         return runtime.assistant.decide(
             proposal_id, payload.action, key, allow_memory=principal["kind"] == "owner",
-            principal=principal, share_screen=payload.share_screen,
+            principal=principal, share_screen=payload.share_screen, share_itinerary=payload.share_itinerary,
             follow_mail_thread=payload.follow_mail_thread,
         )
 

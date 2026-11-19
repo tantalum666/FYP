@@ -57,7 +57,7 @@ class SessionAPI:
             timeout=httpx.Timeout(8, connect=3),
         )
 
-    def request(self, method, path="", *, body=None, params=None, key=None):
+    def request(self, method, path="", *, body=None, params=None, key=None, deadline=None):
         if time.monotonic() >= self.deadline:
             raise TimeoutError()
         return bounded_json_request(
@@ -68,7 +68,7 @@ class SessionAPI:
             params=params,
             headers={"Idempotency-Key": key} if key else {},
             max_bytes=1_000_000,
-            deadline=self.deadline,
+            deadline=self.deadline if deadline is None else min(self.deadline, deadline),
             allow_empty=True,
         )
 
@@ -121,7 +121,19 @@ class SessionAPI:
                 return None
             raise
 
-    def close_remote(self, sid):
+    def terminal_usage(self, sid, turn_id):
+        if not isinstance(turn_id, str) or not TURN_ID.fullmatch(turn_id):
+            return None
+        try:
+            turn = self.request("GET", f"/{sid}/turns/{turn_id}", deadline=time.monotonic() + 1.5)
+            if (turn.get("id") == turn_id and turn.get("session_id", sid) == sid and
+                    not turn.get("subagent_id") and turn.get("status") in {"completed", "cancelled", "failed"}):
+                return turn.get("usage")
+        except (httpx.HTTPError, TimeoutError, ValueError):
+            pass
+        return None
+
+    def close_remote(self, sid, *, before_delete=None):
         """Only an independent GET 404 clears the local cleanup receipt."""
         snapshot = self.snapshot(sid)
         if snapshot is None:
@@ -130,6 +142,13 @@ class SessionAPI:
             raise ValueError("Unexpected cleanup session")
         if snapshot["status"] in {"in_progress", "requires_action"}:
             self.submit(sid, [{"type": "agent.session.input.cancel"}], digest(sid + "/cancel"))
+        if before_delete and time.monotonic() + 2 < self.deadline:
+            try:
+                before_delete()
+            except Exception:
+                # A metering failure leaves its reservation intact. Remote
+                # cleanup must still run, even if the local database is busy.
+                pass
         try:
             self.request("DELETE", "/" + sid)
         except httpx.HTTPStatusError as error:

@@ -197,7 +197,7 @@ class TextSessions:
         )
         observer = SessionEvents(api)
         record = None
-        sid = turn_id = None
+        sid = turn_id = usage_id = None
         keep = False
         creating = False
         responder = TextFunctions(
@@ -381,7 +381,15 @@ class TextSessions:
                         config, self.assistant.transport, deadline=time.monotonic() + 5
                     )
                     try:
-                        if cleanup.close_remote(sid):
+                        def capture_cost():
+                            if self.runtime.openai_spend.path and turn_id and usage_id and not responder.final_usage_received:
+                                usage = cleanup.terminal_usage(sid, turn_id)
+                                if usage:
+                                    self.record_usage(usage_id, usage)
+                                    self.runtime.openai_spend.usage(
+                                        [usage_id, *responder.budget_ids], token_estimate(usage), final=True
+                                    )
+                        if cleanup.close_remote(sid, before_delete=capture_cost):
                             self.sessions.forget(record["marker"])
                     except (httpx.HTTPError, ValueError, KeyError, TimeoutError):
                         pass  # The durable receipt remains for the housekeeping worker.
@@ -426,12 +434,16 @@ class TextSessions:
                         check()
                         if not text:
                             raise ValueError("Missing final answer")
-                        self.record_usage(usage_id, turn.get("usage"))
+                        usage = turn.get("usage")
+                        if usage is None and self.runtime.openai_spend.path:
+                            usage = api.terminal_usage(sid, turn_id)
+                        self.record_usage(usage_id, usage)
                         self.runtime.openai_spend.usage(
                             [usage_id, *responder.budget_ids],
-                            token_estimate(turn.get("usage")),
+                            token_estimate(usage),
                             final=True,
                         )
+                        responder.final_usage_received = token_estimate(usage) is not None
                         if on_event and not responder.local_reply:
                             on_event({"type": "preview", "text": text, "final": True})
                         return turn_id, responder.local_reply or {
@@ -483,6 +495,7 @@ class TextFunctions:
         self.names, self.on_event, self.allow_memory = names, on_event, allow_memory
         self.budget_ids = []
         self.budget_scope = None
+        self.final_usage_received = False
         self.calls = {}
         self.local_reply = None
         self.plan = None

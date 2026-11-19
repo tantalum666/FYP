@@ -28,8 +28,8 @@ export function proposalDecisionNotice(
   if ((result.kind ?? requestedKind) === "browser_research")
     return result.queued
       ? t(
-          "Browser task started. Its progress stays in this conversation.",
-          "浏览器任务已开始，进度会留在这段对话里。",
+          "Research started. Its progress stays in this conversation.",
+          "查询已开始，进度会留在这段对话里。",
         )
       : t("Browser task status refreshed.", "已更新浏览器任务的状态。");
   if (result.queued)

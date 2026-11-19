@@ -8,6 +8,7 @@ from pydantic import Field, model_validator
 
 from .browser_policy import PublicOnlyInput, canonical_https
 from .commerce_quotes import QuoteRequest, quote_link
+from .flight_search import KIWI_SITES
 from .schemas import StrictModel
 
 COMPUTER_USE_ACTIONS = {"computer_use"}
@@ -106,7 +107,10 @@ class ComputerUseInput(PublicOnlyInput):
             self.goal.encode("utf-8")
         except UnicodeError:
             raise ValueError("Use valid Unicode text") from None
-        if self.share_screen is not True:
+        connector = getattr(self.quote_request, "provider", None) == "kiwi"
+        if connector and self.share_screen:
+            raise ValueError("The flight connector accepts itinerary data only")
+        if not connector and not self.share_screen:
             raise ValueError("Explicit screenshot sharing is required")
         if (self.task_id is None) != (self.task_version is None):
             raise ValueError("Task ID and version must be selected together")
@@ -129,6 +133,10 @@ class ComputerUseInput(PublicOnlyInput):
             origins.add(f"https://{parsed.hostname}")
         if len(origins) > 8:
             raise ValueError("At most eight exact sites may be admitted")
+        if connector:
+            if f"https://{initial.hostname}" not in KIWI_SITES or not origins <= KIWI_SITES:
+                raise ValueError("Choose Kiwi.com for the flight connector or use ordinary website research")
+            origins.update(KIWI_SITES)
         self.allowed_origins = sorted(origins)
         if self.quote_request is not None:
             for origin in self.allowed_origins:

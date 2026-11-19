@@ -60,6 +60,7 @@ class AssistantMessage(StrictModel):
 class ProposalDecision(StrictModel):
     action: Literal["confirm", "cancel"]
     share_screen: bool = Field(default=False, strict=True)
+    share_itinerary: bool = Field(default=False, strict=True)
     follow_mail_thread: bool = Field(default=False, strict=True)
 
 
@@ -104,6 +105,10 @@ TOOLS = [
             "Prepare public browser research for owner review. For shopping or flight prices on a real "
             "site include quote_request: selling-unit quantity and delivery/pickup, or actual airports, "
             "dates, adults and checked kg per adult. Ask for missing particulars; never invent them. "
+            "For a flight search with no merchant restriction, propose the Kiwi.com read-only connector "
+            "with quote_request.provider=kiwi and start_url=https://www.kiwi.com/. The owner reviews "
+            "the destination and itinerary before search. Keep an explicitly requested airline-only website "
+            "on the website route. Set nonstop only when requested. "
             "Only include a budget explicitly given by the owner. Use the exact HTTPS start page and "
             "constraints; ask if the site is missing. Managed is the default. Use local only for an "
             "explicitly requested local task, fictional rehearsal (demo:shopping or demo:flights) or "
@@ -750,7 +755,7 @@ class AssistantService:
             raise failure from None
 
     def decide(self, proposal_id, action, key, *, allow_memory=True, permission_version=None,
-               principal=None, share_screen=False, follow_mail_thread=False, automatic_follow_version=None):
+               principal=None, share_screen=False, share_itinerary=False, follow_mail_thread=False, automatic_follow_version=None):
         # A single runtime owns this SQLite database. Store.operation provides durable
         # repeat safety across crashes; the lock also prevents in-process cancel races.
         with self.lock:
@@ -855,7 +860,7 @@ class AssistantService:
 
                 result = start(
                     self.runtime, proposal_id, payload, internal_key,
-                    principal=principal, share_screen=share_screen,
+                    principal=principal, share_screen=share_screen, share_itinerary=share_itinerary,
                 )
             elif apply_kind == "email_send":
                 result = self.runtime.outbound_mail.send(proposal_id, payload, internal_key)

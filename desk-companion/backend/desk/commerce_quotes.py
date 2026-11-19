@@ -45,6 +45,9 @@ class ShoppingRequest(QuoteRequestBase):
 
 class FlightRequest(QuoteRequestBase):
     kind: Literal["flight"]
+    provider: Literal["kiwi"] | None = Field(default=None, exclude_if=lambda value: value is None)
+    nonstop: bool = Field(default=False, strict=True, exclude_if=lambda value: not value,
+                         description="Set for a requested nonstop Kiwi connector search")
     origin: Airport
     destination: Airport
     departure: Day
@@ -54,6 +57,8 @@ class FlightRequest(QuoteRequestBase):
 
     @model_validator(mode="after")
     def itinerary(self):
+        if self.nonstop and self.provider != "kiwi":
+            raise ValueError("Use the flight connector for a structured nonstop filter")
         if self.origin == self.destination or (
             self.return_date and self.return_date < self.departure
         ):
@@ -107,6 +112,19 @@ class FlightPage(StrictModel):
     note: ShortText
 
 
+class FlightSupplier(StrictModel):
+    provider: Literal["Kiwi.com"]
+    matching_offers: int = Field(ge=0, le=500, strict=True)
+    tool_result_sha256: str = Field(pattern="^[a-f0-9]{64}$")
+    checked_bags_for_party: int | None = Field(ge=0, le=18, strict=True)
+    terms_url: Literal["https://www.kiwi.com/en/pages/content/legal/"]
+    airline_bag_rules: Literal["https://www.hkexpress.com/plan-your-trip/baggage/baggage-fees-for-agent-bookings"] | None
+
+
+class ConnectorFlightPage(FlightPage):
+    supplier: FlightSupplier | None = None
+
+
 QUOTE_INSTRUCTIONS = (
     " For this public quote, stop at any sign-in or challenge and return offer=null with a brief note. "
     "Use the structured quote format. Only return an offer actually seen on the admitted public site. "
@@ -153,7 +171,8 @@ def quote_link(url, origins):
 def read_quote(request, raw_report, observed_at):
     spec = request["quote_request"]
     retail = spec["kind"] == "shopping"
-    page = page_model(spec["kind"]).model_validate_json(raw_report)
+    report_type = ConnectorFlightPage if spec.get("provider") == "kiwi" else page_model(spec["kind"])
+    page = report_type.model_validate_json(raw_report)
     card = {
         "request": spec,
         "observed_at": observed_at,
@@ -163,6 +182,8 @@ def read_quote(request, raw_report, observed_at):
         "total_minor": None,
         "budget_status": "unknown",
     }
+    if isinstance(page, ConnectorFlightPage) and page.supplier:
+        card["supplier"] = page.supplier.model_dump()
     if start := canonical_https(request["start_url"]):
         origin = f"https://{start.hostname}"
         card["approved_page"] = quote_link(
@@ -205,6 +226,9 @@ def read_quote(request, raw_report, observed_at):
     ):
         return card
     card["subtotal_minor"] = offer_total(lots, offer.price_minor, 0)
+    if spec.get("currency") == offer.currency and spec.get("budget_minor") is not None:
+        if card["subtotal_minor"] > spec["budget_minor"]:
+            card["budget_status"] = "over"
     if fulfils and offer.extras_minor is not None and offer.availability == "available":
         card["total_minor"] = offer_total(lots, offer.price_minor, offer.extras_minor)
         if spec.get("currency") == offer.currency and spec.get("budget_minor") is not None:
@@ -238,4 +262,6 @@ def brief_quote(quote):
     }
     if len(offer.get("source_url", "")) <= 512 and offer.get("source_url"):
         summary["source_url"] = offer["source_url"]
+    if supplier := quote.get("supplier"):
+        summary["supplier"] = {k:supplier[k] for k in ("provider", "checked_bags_for_party", "terms_url", "airline_bag_rules")}
     return summary
