@@ -1,0 +1,277 @@
+{
+  "date": "2026-11-19",
+  "timezone": "Asia/Hong_Kong",
+  "device": "iPhone 17 Pro Simulator, iOS 26.5",
+  "entry": "ordinary native Alice composer, Chinese",
+  "model": "gpt-6.2-sol",
+  "quote_function": "sandbox_shop_quote",
+  "native_files_verified": 77,
+  "journey": [
+    {
+      "phase": "baseline",
+      "at_hkt": "2026-11-19T23:13:24.902355+08:00",
+      "shop_review_count": 0,
+      "local_review_hash": null,
+      "review_state": null,
+      "approved_minor": null,
+      "displayed_terms": null,
+      "new_payment_intents": 0,
+      "new_charges": 0,
+      "new_captured_minor": 0,
+      "paid_woo_orders_for_this_review": [],
+      "shop_receipt": null,
+      "openai_local_admissions_since_start": 0
+    },
+    {
+      "phase": "quoted",
+      "at_hkt": "2026-11-19T23:16:32.619716+08:00",
+      "shop_review_count": 1,
+      "local_review_hash": "8bb039a38139",
+      "review_state": "quoted",
+      "approved_minor": null,
+      "displayed_terms": {
+        "currency": "HKD",
+        "discount_minor": 0,
+        "fees_minor": 0,
+        "product_id": 15,
+        "quantity": 2,
+        "rate_id": "flat_rate:1",
+        "shipping_minor": 800,
+        "sku": "FYP-QA-DELIVERY-PACK",
+        "subtotal_minor": 3400,
+        "tax_minor": 0,
+        "total_minor": 4200
+      },
+      "new_payment_intents": 0,
+      "new_charges": 0,
+      "new_captured_minor": 0,
+      "paid_woo_orders_for_this_review": [],
+      "shop_receipt": null,
+      "openai_local_admissions_since_start": 2
+    },
+    {
+      "phase": "reprice",
+      "at_hkt": "2026-11-19T23:17:55.432642+08:00",
+      "shop_review_count": 1,
+      "local_review_hash": "8bb039a38139",
+      "review_state": "reprice",
+      "approved_minor": 4200,
+      "displayed_terms": {
+        "currency": "HKD",
+        "discount_minor": 0,
+        "fees_minor": 0,
+        "product_id": 15,
+        "quantity": 2,
+        "rate_id": "flat_rate:1",
+        "shipping_minor": 1200,
+        "sku": "FYP-QA-DELIVERY-PACK",
+        "subtotal_minor": 3400,
+        "tax_minor": 0,
+        "total_minor": 4600
+      },
+      "new_payment_intents": 0,
+      "new_charges": 0,
+      "new_captured_minor": 0,
+      "paid_woo_orders_for_this_review": [],
+      "shop_receipt": null,
+      "openai_local_admissions_since_start": 2
+    },
+    {
+      "phase": "completed",
+      "at_hkt": "2026-11-19T23:19:51.828726+08:00",
+      "shop_review_count": 1,
+      "local_review_hash": "8bb039a38139",
+      "review_state": "completed",
+      "approved_minor": 4600,
+      "displayed_terms": {
+        "currency": "HKD",
+        "discount_minor": 0,
+        "fees_minor": 0,
+        "product_id": 15,
+        "quantity": 2,
+        "rate_id": "flat_rate:1",
+        "shipping_minor": 1200,
+        "sku": "FYP-QA-DELIVERY-PACK",
+        "subtotal_minor": 3400,
+        "tax_minor": 0,
+        "total_minor": 4600
+      },
+      "new_payment_intents": 1,
+      "new_charges": 1,
+      "new_captured_minor": 4600,
+      "paid_woo_orders_for_this_review": [
+        17
+      ],
+      "shop_receipt": {
+        "charged_minor": 4600,
+        "order": 17,
+        "order_status": "processing",
+        "test_mode": true
+      },
+      "openai_local_admissions_since_start": 2
+    },
+    {
+      "phase": "followup",
+      "at_hkt": "2026-11-19T23:23:04.574776+08:00",
+      "shop_review_count": 1,
+      "local_review_hash": "8bb039a38139",
+      "review_state": "completed",
+      "approved_minor": 4600,
+      "displayed_terms": {
+        "currency": "HKD",
+        "discount_minor": 0,
+        "fees_minor": 0,
+        "product_id": 15,
+        "quantity": 2,
+        "rate_id": "flat_rate:1",
+        "shipping_minor": 1200,
+        "sku": "FYP-QA-DELIVERY-PACK",
+        "subtotal_minor": 3400,
+        "tax_minor": 0,
+        "total_minor": 4600
+      },
+      "new_payment_intents": 1,
+      "new_charges": 1,
+      "new_captured_minor": 4600,
+      "paid_woo_orders_for_this_review": [
+        17
+      ],
+      "shop_receipt": {
+        "charged_minor": 4600,
+        "order": 17,
+        "order_status": "processing",
+        "test_mode": true
+      },
+      "openai_local_admissions_since_start": 2
+    },
+    {
+      "phase": "after-final-release",
+      "at_hkt": "2026-11-19T23:31:05.672014+08:00",
+      "shop_review_count": 1,
+      "local_review_hash": "8bb039a38139",
+      "review_state": "completed",
+      "approved_minor": 4600,
+      "displayed_terms": {
+        "currency": "HKD",
+        "discount_minor": 0,
+        "fees_minor": 0,
+        "product_id": 15,
+        "quantity": 2,
+        "rate_id": "flat_rate:1",
+        "shipping_minor": 1200,
+        "sku": "FYP-QA-DELIVERY-PACK",
+        "subtotal_minor": 3400,
+        "tax_minor": 0,
+        "total_minor": 4600
+      },
+      "new_payment_intents": 1,
+      "new_charges": 1,
+      "new_captured_minor": 4600,
+      "paid_woo_orders_for_this_review": [
+        17
+      ],
+      "shop_receipt": {
+        "charged_minor": 4600,
+        "order": 17,
+        "order_status": "processing",
+        "test_mode": true
+      },
+      "openai_local_admissions_since_start": 2
+    }
+  ],
+  "independent_merchant_and_stripe": {
+    "read_woo_order_again": true,
+    "read_stripe_payment_intent_again": true,
+    "read_stripe_charge_again": true,
+    "order_id": 17,
+    "order_status": "processing",
+    "woo_paid_at": "2026-11-19T15:18:11+00:00",
+    "guest": true,
+    "currency": "HKD",
+    "quantity": 2,
+    "items_minor": 3400,
+    "shipping_minor": 1200,
+    "woo_paid_minor": 4600,
+    "stripe_intent_status": "succeeded",
+    "stripe_received_minor": 4600,
+    "stripe_charge_status": "succeeded",
+    "stripe_captured_minor": 4600,
+    "refunded_minor": 0,
+    "stripe_livemode": false,
+    "card_brand": "visa",
+    "card_last4": "4242",
+    "real_charge_hkd": 0
+  },
+  "same_chat_reply": {
+    "kind": "shopping_order",
+    "message": "已核对 WooCommerce 订单 #17 和 Stripe 回执：实际模拟扣款 HK$46.00，真实扣款 HK$0。",
+    "mode": "local"
+  },
+  "merchant_replay": {
+    "http": 200,
+    "same_order": true,
+    "same_stripe_references": true,
+    "anonymous_receipt_http": 401
+  },
+  "gateway_boundary_revisions": [
+    {
+      "initial_minor": 4200,
+      "last_step_shipping_minor": 900,
+      "last_step_total_minor": 4300,
+      "paid_mapping_found": false
+    },
+    {
+      "initial_minor": 4200,
+      "last_step_shipping_minor": 700,
+      "last_step_total_minor": 4100,
+      "paid_mapping_found": false
+    }
+  ],
+  "core_decreased_cart_guard": {
+    "http": 409,
+    "code": "fyp_quote_changed",
+    "payment_mapping": false
+  },
+  "final": {
+    "receipt": {
+      "order": 17,
+      "order_status": "processing",
+      "charged_minor": 4600,
+      "test_mode": true
+    },
+    "native": "c4207e4f31934a45aab3ffc92fc3ca00c2794038",
+    "backend": "4a773f31fb8cb005bfaf57ecca59d1c66b03edef",
+    "identical_frontend_source": true,
+    "php_sha256": "c2721dbd919bb414968b43fdd4caf0c6fd199f3f92f1ce629e58f8c4ae377124",
+    "store": {
+      "cost": "8.00",
+      "prior_virtual": true,
+      "new_shippable": true,
+      "is_test": true
+    }
+  },
+  "openai": {
+    "before": {
+      "day": "2026-11-19",
+      "allocated_usd": 10.0,
+      "available_usd": 0.36,
+      "observed_usage_estimate_usd": 0.234943,
+      "reserved_or_unpriced_usd": 9.405057
+    },
+    "after": {
+      "day": "2026-11-19",
+      "allocated_usd": 10.0,
+      "available_usd": 0.2,
+      "observed_usage_estimate_usd": 0.234943,
+      "reserved_or_unpriced_usd": 9.565057
+    },
+    "new_local_reservations_usd": "0.160000",
+    "provider_billed_amount": null
+  },
+  "screenshot_sha256": {
+    "quoted": "66dc66fb891dca2a09777e1f00daa14f13c23ec931c273b5b09270afd68b1e94",
+    "reprice": "3ba80afd6b149f7f859f843a81c01aba7f8daae89f9ebc404b342ef3a5f47195",
+    "completed": "a8af5fea7dd3c5decd3f184961d6a3d9379f1abae1bb4ee92923bde1e171717b",
+    "followup": "87ed92e9dc9eae6ea42537a10dbc3866bceefbad48b23dffe42ae9ccefeeb67f"
+  }
+}

@@ -911,3 +911,7 @@ The owner asked for a working alternative to Duffel. Engineering selected the ac
 ## 2026-11-19 LetsFG in the ordinary Alice composer
 
 The owner chose LetsFG for the simulator and requested the flight and total, explicit initial approval, separate approval of any increase, and a retrieved booking reference and charge. Use the provider’s synthetic passenger and Visa. The operator enabled this test-only connector on the existing Mac backend shared by Web and the Simulator. The model receives a quote Function. Only owner actions can send either booking decision. No Singapore Airlines onboarding or real-card transaction was authorized. [Receipt](output/qa/2026-11-19-alice-flight-conversation/verification.md).
+
+## 2026-11-19 Approve exact WooCommerce test order terms in ordinary chat
+
+The owner authorized the existing WooCommerce store and Stripe test card for simulator shopping. Display the product, count, delivery and total; reconfirm any checkout change; independently read the merchant order and the captured amount. Engineering reused the existing native composer, official Sessions, scoped review storage and UI refresh. The test fixture uses one shippable SKU and a fictional Hong Kong address. The merchant checks the final order at gateway dispatch and preserves one merchant reference for recovery. [Verification](output/qa/2026-11-19-alice-shopping-conversation/verification.md).

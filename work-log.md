@@ -1060,3 +1060,7 @@ Used the free, keyless LetsFG sandbox for one HKG–HND itinerary. The accepted 
 ## 2026-11-19 · Complete the native Alice test booking journey
 
 Implemented conversational LetsFG quote, explicit amount-bound owner actions, status and receipt retrieval. The iPhone 17 Pro Simulator showed HK$34, acquired an order only after the first tap, requested HK$36.25 separately and returned PNR 5SMZA7. Independent GET matched the capture. The same conversation reopened it after a backend restart with zero additional orders or model requests. Kept the first transient quote error and the timed-out fast rehearsal with its released hold. Updated the normal local backend, simulator and handoff. No real card or airline ticket. [QA](output/qa/2026-11-19-alice-flight-conversation/verification.md) · [receipts](output/qa/2026-11-19-alice-flight-conversation/receipts.json).
+
+## 2026-11-19 · Verify ordinary shopping from the native simulator
+
+Two HK$17 stationery packs and HK$8 delivery were quoted at HK$42. The checkout shipping rate then increased to HK$12. Two separate on-screen decisions produced Woo guest order #17 and one Stripe sandbox capture of HK$46. Independent Woo, PaymentIntent, Charge and same-chat reads matched. Restored the HK$8 rate. Tested final gateway increases and decreases, and preserved the previous flight workflow. The native app and shared backend were promoted with verified backups. [Device and payment evidence](output/qa/2026-11-19-alice-shopping-conversation/verification.md) · [contract](desk-companion/docs/conversation-shopping.md).

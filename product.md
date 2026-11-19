@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-19 Shopping in ordinary Alice conversation
+
+The owner can name one product and quantity in regular chat. WooCommerce quotes the product, selected Hong Kong delivery rate and HKD total. A changed checkout needs a new owner decision, including for a lower amount. The desk reopens the Woo order, Stripe PaymentIntent and captured test Charge. Native acceptance produced order #17 at HK$46 from an original HK$42 quote. [Product behavior](desk-companion/docs/conversation-shopping.md) · [acceptance](output/qa/2026-11-19-alice-shopping-conversation/verification.md).
+
 ## 2026-11-19 Owner-approved flight booking in ordinary Alice chat
 
 Use LetsFG for simulated bookings. The owner sees the exact flight and HKD total before booking and must separately approve a supplier increase. Alice checks the original provider record for a matching PNR and captured amount. The iPhone 17 Pro Simulator completed FR4315 at HK$36.25 after an initial HK$34 quote. [Product behavior](desk-companion/docs/conversation-flight-booking.md) · [device and provider evidence](output/qa/2026-11-19-alice-flight-conversation/verification.md).
