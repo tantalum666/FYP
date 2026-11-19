@@ -1,5 +1,13 @@
 # Group 2 · Browser research from conversation
 
+## Public shopping and flight prices
+
+A managed browser draft can carry an optional `quote_request`. Shopping specifies the product, selling-unit count and delivery or pickup. Flight research specifies exact airports, outbound and optional return dates, adults and checked kilograms per adult. A currency and spending limit can be supplied together. The ordinary text and Live registry share this draft. The owner sees those values before consenting to cloud screenshot processing. An omitted quote retains the previous generic research contract.
+
+For a quote, the official session returns a typed observation with the admitted source page, displayed price and price basis. Unknown mandatory charges remain unset. The desk checks the currency before comparing a landed total to the owner's budget. It requires matching retail units or a matching trip, sufficient baggage, availability and documented full mandatory charges for that total. Advertised minima and unrelated itineraries retain their displayed basis. When the site supplies no fare, the owner can reopen the admitted website. The observation time belongs to the recorded lookup.
+
+The result card and status Function use the existing job receipt. On an ordinary follow-up the desk resolves the recent proposal in that owner's temporary conversation and verifies the original evidence before supplying amounts. A different conversation, changed evidence or hidden private context cannot supply those amounts. Buying or reserving still requires a separate, explicitly supported transaction and independent receipt. [Implementation and acceptance](../../output/qa/2026-11-19-shopping-flight/verification.md).
+
 17 November 2026. Text and voice can prepare public browser work through the shared tool registry. The owner reviews the exact sites and task, explicitly permits cloud processing of task/screenshots, and starts the existing job. Follow-up questions reopen current evidence. [QA](../../output/qa/2026-11-17-personal-agent-browser/verification.md).
 
 ## Ownership and lifecycle

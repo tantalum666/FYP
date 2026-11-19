@@ -885,3 +885,7 @@ The owner authorized a dedicated US$0.25 clock-and-follow-up test on the existin
 ## 2026-11-18 Normal deployment on 6.2 Sol and a dated API allowance
 
 The owner selected GPT‑6.2 Sol for the normal installation and hosted browser and authorized FYP API usage through 24 November, inside a combined US$20 per Hong Kong day. The previous small trials stay closed. Engineering allocated US$9 to each independent backend with US$2 of unallocated headroom, included earlier same-day batches conservatively and retained unknown usage as reservations. Text and browser now have independently selectable model routing. The owner later said the Pi was not at hand and asked to retain the package. Mac and Simulator were activated. [Evidence](output/qa/2026-11-18-sol62-deployment/verification.md).
+
+## 2026-11-19 Public quotes before purchase or ticketing
+
+The owner asked to advance shopping and ticket booking. Engineering chose two public Hong Kong journeys and retained the existing hosted browser, owner-reviewed draft and job queue. Public prices now carry their basis, selling-unit or party scope, currency, source, timestamp and fee uncertainty. A verified stored result may answer a follow-up in the same owner conversation. A payable flight price still requires matching dates, airports, party, inventory, baggage and mandatory charges. Both live hosted airline runs returned incomplete evidence. Orders, reservation holds, tickets and payments remain separate effects. [Acceptance](output/qa/2026-11-19-shopping-flight/verification.md).

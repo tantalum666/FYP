@@ -1,7 +1,7 @@
 # Group 2 · New chat entry
 
-18 November 2026. Resume in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/sol62-runtime-20261118`. See [AGENTS](AGENTS.md), [product](product.md), [handoff](handoff.md) and [decisions](decision-log.md).
+19 November 2026. Resume in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP` on `codex/shopping-flight-quotes-20261119`. Read [AGENTS](AGENTS.md), [product](product.md), [handoff](handoff.md) and [decisions](decision-log.md).
 
-Normal Mac Web and the iPhone 17 Pro Simulator run `00780e44`. GPT‑6.2 Sol serves ordinary text, managed public browser work and delegated Live reasoning. GPT‑Live 1 and A3 v9 provide speech. A real hosted request and independently checked result matched the configured browser model. [Deployment and budget evidence](output/qa/2026-11-18-sol62-deployment/verification.md).
+[PR 134](https://github.com/tantalum666/FYP/pull/134) adds source-backed public shopping and flight quotes on top of PR 133. The real retail example and its follow-up are verified. Live airline availability and a payable fare with baggage remain open. [Current evidence](output/qa/2026-11-19-shopping-flight/verification.md).
 
-The owner approved FYP API use through 24 November inclusive under US$20 per HK day. Use the corresponding backend ledger for future paid work. The next deployment target is the original Pi when the owner brings it back online. Its verified package is retained and its last installed readback remains `c607759e`.
+The normal Mac Web and native Simulator run `00780e44`. The original Pi remains deferred and its release package has been retained. FYP API authorization uses the existing fleet ledgers through 24 November inclusive. The 19 November Mac ledger has US$0.04 available after verification. [Deployed version](output/qa/2026-11-18-sol62-deployment/verification.md).

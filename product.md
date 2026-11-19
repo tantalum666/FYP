@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-19 Shopping and flight quotes in conversation
+
+Alice can prepare a public price lookup, show its quantity or itinerary for approval, and return the price, its basis, source and observation time in the same conversation. The desk calculates eligible selling-unit and multi-buy subtotals. An airline minimum, unverified seat, or missing required baggage, taxes or delivery leaves the corresponding total unconfirmed. A follow-up reopens the saved receipt. Both purchases and ticket issuance remain outside this public research action. The implementation is on [PR 134](https://github.com/tantalum666/FYP/pull/134). The live shopping result, limitations of the two hosted airline runs, and native Safari handoff are recorded in [acceptance](output/qa/2026-11-19-shopping-flight/verification.md).
+
 ## 2026-11-18 Normal 6.2 Sol release
 
 The owner selected GPT‑6.2 Sol for normal reasoning and the managed browser. Mac Web and native Simulator now run `00780e44`. Voice audio stays on GPT‑Live 1 with A3 version 9 and delegates to 6.2 Sol. The official browser's independent operator model is bound to admission and execution. The original Pi is currently unavailable and its package was retained at the owner's request. FYP API authorization runs through the end of 24 November under US$20 per Hong Kong day. [Delivery, real browser and budget receipt](output/qa/2026-11-18-sol62-deployment/verification.md).

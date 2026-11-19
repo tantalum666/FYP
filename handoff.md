@@ -1,15 +1,15 @@
 # Group 2 · Current handoff
 
-18 November 2026, Hong Kong. Continue from `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/sol62-runtime-20261118`. [PR 133](https://github.com/tantalum666/FYP/pull/133) records this rollout on top of PR 132. [Product](product.md) · [decisions](decision-log.md).
+19 November 2026, Hong Kong. Continue in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/shopping-flight-quotes-20261119`. [PR 134](https://github.com/tantalum666/FYP/pull/134) targets [PR 133](https://github.com/tantalum666/FYP/pull/133). [Product](product.md) · [decisions](decision-log.md).
 
-## Running release
+## Shopping and flights
 
-Normal Mac Web (port 8831) and the iPhone 17 Pro Simulator (iOS 26.5) run `00780e44`. The app's own bridge confirms ordinary text and official managed browser `gpt-6.2-sol`, speech `gpt-live-1`, delegated reasoning `gpt-6.2-sol`, A3 v9 and preserved account grants. The installed source answered a real ordinary text request. One real 6.2 Sol hosted browser job matched an independently read title and GBP price, and the deleted session returned 404. [Full readback](output/qa/2026-11-18-sol62-deployment/verification.md) · [receipt](output/qa/2026-11-18-sol62-deployment/release.json).
+Implementation `48aec0e6` connects the existing Alice draft, owner approval, hosted browser and verified readback to a shopping or flight quote. A live Wellcome result gave HK$34 for two selling units. Delivery and the final total remained unknown. The corrected GPT‑6.2 Sol follow-up used the stored receipt without another browser job. Both live hosted airline pages returned no usable fare. First-party HTML and Simulator Safari independently exposed a promotional price. Public lookup stops before checkout, reservation or ticketing. [Acceptance and residual gaps](output/qa/2026-11-19-shopping-flight/verification.md) · [receipts](output/qa/2026-11-19-shopping-flight/receipts.json).
 
-## Current authorization
+## Running release and spending
 
-Through 24 November inclusive, FYP OpenAI usage is authorized up to US$20 per Hong Kong day. All paid app and verification work uses its operator-provisioned ledger. Mac and Simulator share a US$9 allocation. The original Pi's US$9 share is reserved until deployment; US$2 is left as a safety margin. At the 18 November Mac readback US$7.33 was conservatively accounted, including the full prior batch limits and new live-test holds. No dollar invoice was returned for either new check. Background inference remains off, and previously closed experimental ledgers remain closed.
+The normal Web and iPhone 17 Pro Simulator still use `00780e44`, GPT‑6.2 Sol for text, managed browser and Live reasoning, and GPT‑Live 1 with A3 v9 for audio. The usual Web service was restored using its existing release and launcher on port 8831. Its health and exact build were read back. The isolated Simulator test installation was removed. The Pi remains deferred at `c607759e`; its previous release package is retained. [Running release](output/qa/2026-11-18-sol62-deployment/verification.md).
 
-## Next deployment
+FYP OpenAI use is authorized through 24 November inclusive with US$20 per Hong Kong day. Mac and Simulator share a US$9 ledger, Pi has a separate US$9 allocation, and US$2 is unallocated. On 19 November the Mac ledger conservatively accounted US$8.96 with US$0.04 available. All nine test Sessions returned 404. Billing did not itemize the hosted browser runs. Background inference stays off.
 
-When the owner has the original Pi available, use the retained `FYP-Pi-Sol62-00780e44.zip` and the pinned SSH route. Reopen the device's installed version, A3, grants, budget ledger, kiosk and display receipts. Pi installation was explicitly deferred and its last verified release is `c607759e`. Power diagnostics and a physical-iPhone rollout remain deferred.
+**Next step** — Obtain a dated public airline result for the exact route, party and checked baggage through the official hosted browser. Start with the documented gap in the current evidence and compare the returned fare to the carrier's own page before describing it as bookable.
