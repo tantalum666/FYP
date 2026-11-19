@@ -15,6 +15,7 @@ from urllib.parse import urlsplit
 
 import httpx
 
+from .commerce_quotes import QUOTE_INSTRUCTIONS, page_model
 from .computer import ExecutionRejected
 from .openai_transport import OPENAI_API as API, SESSION_ID, model_proxy, numeric_usage
 
@@ -275,16 +276,24 @@ class ManagedBrowserClient:
             async def work():
                 nonlocal sid, reader
                 checkpoint()
+                spec = intent.get("quote_request")
+                text_options = {"verbosity": "low"}
+                owner_goal = intent["goal"]
+                if spec:
+                    text_options["format"] = {
+                        "type": "json_schema", "schema": page_model(spec["kind"]).model_json_schema(),
+                    }
+                    owner_goal += "\nApproved quote details:\n" + json.dumps(spec, ensure_ascii=False)
                 snapshot = await request(
                     "POST",
                     "/agents/sessions",
                     {
                         "agent": {
                             "model": self.config.model,
-                            "instructions": INSTRUCTIONS,
+                            "instructions": INSTRUCTIONS + (QUOTE_INSTRUCTIONS if spec else ""),
                             "reasoning": {"effort": "low"},
                             "service_tier":"default",
-                            "text": {"verbosity": "low"},
+                            "text": text_options,
                             "multi_agent": {"enabled": False},
                             "tools": [{"type": "computer_use"}],
                         },
@@ -328,7 +337,7 @@ class ManagedBrowserClient:
                                         "text": "Start at "
                                         + intent["start_url"]
                                         + "\nOwner request:\n"
-                                        + intent["goal"],
+                                        + owner_goal,
                                     }
                                 ],
                             }

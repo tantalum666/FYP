@@ -1,5 +1,6 @@
 import type { Translate } from "../types";
 import type { ApplicationStep } from "./applicationTypes";
+import type { Quote } from "./CommerceQuote";
 
 export type JobState =
   | "review"
@@ -58,6 +59,7 @@ export interface ComputerJob {
     outcome?: "review_ready" | "needs_owner" | "step_limit";
     quality?: string;
     readback?: {
+      quote?: Quote;
       reason?: string;
       report?: string;
       resumable?: boolean;

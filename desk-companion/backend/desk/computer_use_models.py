@@ -7,6 +7,7 @@ from urllib.parse import urlsplit
 from pydantic import Field, model_validator
 
 from .browser_policy import PublicOnlyInput, canonical_https
+from .commerce_quotes import QuoteRequest, quote_link
 from .schemas import StrictModel
 
 COMPUTER_USE_ACTIONS = {"computer_use"}
@@ -94,9 +95,12 @@ class ComputerUseInput(PublicOnlyInput):
     task_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
     task_version: int | None = Field(default=None, ge=1, strict=True)
     source_job_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
+    quote_request: QuoteRequest | None = Field(default=None, exclude_if=lambda value: value is None)
 
     @model_validator(mode="after")
     def scope(self):
+        if self.quote_request is not None and self.engine != "managed":
+            raise ValueError("Public quotes require the managed browser")
         try:
             self.title.encode("utf-8")
             self.goal.encode("utf-8")
@@ -126,6 +130,10 @@ class ComputerUseInput(PublicOnlyInput):
         if len(origins) > 8:
             raise ValueError("At most eight exact sites may be admitted")
         self.allowed_origins = sorted(origins)
+        if self.quote_request is not None:
+            for origin in self.allowed_origins:
+                quote_link(origin, self.allowed_origins)
+            quote_link(f"https://{initial.hostname}{initial.path}", self.allowed_origins)
         if self.engine == "managed" and self.source_job_id:
             raise ValueError("Managed sessions do not retain a resumable browser")
         return self
@@ -140,7 +148,7 @@ class BrowserTaskInput(ComputerUseInput):
 def validate_computer_request(request):
     # Preserve old intent bytes/hashes: legacy jobs predate the optional engine.
     public = {k: request[k] for k in ComputerUseInput.model_fields if k in request}
-    if not (set(ComputerUseInput.model_fields) - {"engine"}) <= public.keys():
+    if not (set(ComputerUseInput.model_fields) - {"engine", "quote_request"}) <= public.keys():
         raise ValueError("Incomplete computer-use intent")
     ComputerUseInput.model_validate(public)
     extra = {

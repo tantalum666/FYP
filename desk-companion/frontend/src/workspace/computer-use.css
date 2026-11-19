@@ -90,3 +90,11 @@
   font-size: 0.8rem;
   color: #667085;
 }
+.commerce-quote dl {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: .25rem .75rem;
+  margin: .65rem 0;
+}
+.commerce-quote dd { margin: 0; font-variant-numeric: tabular-nums; }
+.commerce-quote, .quote-scope { overflow-wrap: anywhere; }

@@ -19,6 +19,7 @@ import { ApplicationPreview } from "./ApplicationPreview";
 import { ExportLink } from "./ExportLink";
 import { ComputerScreen } from "./ComputerScreen";
 import { ManagedBrowserSignIn } from "./ManagedBrowserSignIn";
+import { CommerceQuote } from "./CommerceQuote";
 
 export function JobActionCard({
   job,
@@ -318,14 +319,20 @@ export function JobActionCard({
             t={t}
           />
         )}
-      {computer && job.result?.verified && job.result.readback?.report && (
-        <section
-          className="computer-use-report"
-          aria-label={t("Research result", "查找结果")}
-        >
-          <p>{job.result.readback.report}</p>
-        </section>
-      )}
+      {computer &&
+        job.result?.verified &&
+        (job.result.readback?.quote ? (
+          <CommerceQuote quote={job.result.readback.quote} t={t} />
+        ) : (
+          job.result.readback?.report && (
+            <section
+              className="computer-use-report"
+              aria-label={t("Research result", "查找结果")}
+            >
+              <p>{job.result.readback.report}</p>
+            </section>
+          )
+        ))}
       {application &&
         step &&
         job.state === "succeeded" &&

@@ -8,6 +8,8 @@ from dataclasses import replace
 
 from .application_runtime import read_regular
 from .browser_policy import digest
+from .calendar import iso
+from .commerce_quotes import read_quote
 from .computer import ExecutionRejected
 from .computer_use import ComputerUseExecutor
 from .computer_use_files import write_file
@@ -147,7 +149,10 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
             )
             return answer
 
-        result = asyncio.run(client.run(request, fence, created, authentication=authentication))
+        spec = request.get("quote_request")
+        result = asyncio.run(client.run(request, fence, created, authentication=None if spec else authentication))
+        if spec:
+            result["observed_at"] = iso(self.store.clock())
         # Save bounded evidence even when cancellation/provider failure interrupts
         # work. A missing usage receipt remains unknown, never a zero-cost claim.
         write_file(directory, "managed-result.json", encode(result).encode())
@@ -189,6 +194,12 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
             if result["account_access_authorized"]
             else "public_pages",
         }
+        if spec:
+            try:
+                receipt["quote"] = read_quote(request, result["report"], result["observed_at"])
+            except ValueError as exc:
+                raise ExecutionRejected("COMPUTER_QUOTE_UNVERIFIED", 409) from exc
+            receipt["report"] = receipt["quote"]["note"]
         write_file(directory, "receipt.json", encode(receipt).encode())
 
     def verify(self, request):
@@ -197,11 +208,15 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
         result = json.loads(raw)
         evidence_raw = read_regular(directory / "managed-result.json", 128000)
         evidence = json.loads(evidence_raw)
+        quote = None
+        if request.get("quote_request"):
+            quote = read_quote(request, evidence["report"], evidence["observed_at"])
         valid = (
             result["job_id"] == request["artifact_id"]
             and result["scope"] == self.scope
             and result["evidence_sha256"] == hashlib.sha256(evidence_raw).hexdigest()
-            and result["report"] == evidence["report"]
+            and result.get("quote") == quote
+            and result["report"] == (quote["note"] if quote else evidence["report"])
             and bool(result["report"].strip())
             and evidence["session_deleted"] is True
             and evidence["deletion_readback"] is True

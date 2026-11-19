@@ -5,6 +5,7 @@ description = "Group 2 local calendar and desk companion"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.115,<1",
+    "pydantic>=2.12,<3",
     "uvicorn>=0.34,<1",
     "python-dateutil>=2.9,<4",
     "pwdlib[argon2]>=0.2,<1",

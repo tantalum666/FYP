@@ -387,6 +387,10 @@ export function errorText(
       "The browser task stopped without a complete report.",
       "浏览任务已停止，尚未获得完整报告。",
     ],
+    COMPUTER_QUOTE_UNVERIFIED: [
+      "The price or its source could not be verified. Review the original website.",
+      "未能核实价格或来源，请查看原网站。",
+    ],
     COMPUTER_ACTIVITY_LIMIT: [
       "The browser reached this task's activity limit and stopped.",
       "已达到本次浏览任务的操作上限，浏览器已停止。",

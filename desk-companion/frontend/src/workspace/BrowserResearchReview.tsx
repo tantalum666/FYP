@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Translate } from "../types";
 import type { Proposal, ProposalDecisionOptions } from "./assistantTypes";
 import "./computer-use.css";
+import { QuoteScope } from "./CommerceQuote";
 
 export function BrowserResearchReview({
   proposal,
@@ -26,6 +27,9 @@ export function BrowserResearchReview({
         {t("Browse the web", "浏览网页")}
       </span>
       <h3>{browser.title}</h3>
+      {browser.quote_request && (
+        <QuoteScope request={browser.quote_request} t={t} />
+      )}
       <p style={{ overflowWrap: "anywhere" }}>
         {browser.start_url.startsWith("demo:")
           ? t("Local rehearsal", "本地演练")

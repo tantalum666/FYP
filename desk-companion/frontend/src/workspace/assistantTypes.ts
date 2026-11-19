@@ -1,5 +1,6 @@
 import type { EventInput } from "../types";
 import type { Task, TaskInput } from "./taskTypes";
+import type { QuoteRequest } from "./CommerceQuote";
 
 export interface Proposal {
   id: string;
@@ -31,6 +32,7 @@ export interface Proposal {
       request: { task_id: string | null };
     };
     browser?: {
+      quote_request?: QuoteRequest;
       engine: "local" | "managed";
       title: string;
       goal: string;
