@@ -457,8 +457,10 @@ class TextAssistant:
                 if error.code == "CONVERSATION_NOT_FOUND" and self.runtime.flight_bookings.can_resume(
                     principal, payload.conversation_id, payload.flight_review, payload.task_id
                 ):
-                    conversation=self.runtime.voice.conversations.open(principal,revision,payload.conversation_id,
-                        task_id=payload.task_id,recover_review=True)
+                    conversation = self.runtime.voice.conversations.open(
+                        principal, revision, payload.conversation_id, task_id=payload.task_id,
+                        recover_review=True,
+                    )
                 elif error.code != "CONVERSATION_NOT_FOUND" or cached is None:
                     raise
                 # The same authorized owner can recover an acknowledged
@@ -473,7 +475,7 @@ class TextAssistant:
         if cached is None and principal is not None:
             # An explicit goal change is owner authority. It never reaches the model.
             from .flight_booking.conversation import turn as flight_turn
-            admitted = flight_turn(self.runtime,payload,principal,conversation)
+            admitted = flight_turn(self.runtime, payload, principal, conversation)
             if admitted is None:
                 admitted = self.runtime.conversation_work.turn(
                     payload, key, principal, conversation=conversation
@@ -491,10 +493,11 @@ class TextAssistant:
         if cached is not None:
             if cached.get("flight_booking"):
                 # Cached owner operations cannot disclose another login's test receipt.
-                current = self.runtime.flight_bookings.read(cached["flight_booking"]["id"],
-                    self.runtime.flight_bookings.owner(principal),conversation.id)
+                current = self.runtime.flight_bookings.read(
+                    cached["flight_booking"]["id"], self.runtime.flight_bookings.owner(principal), conversation.id
+                )
                 from .flight_booking.conversation import describe
-                cached = {**cached,"flight_booking":current,"message":describe(current,payload.language)}
+                cached = {**cached, "flight_booking": current, "message": describe(current, payload.language)}
             reply = cached
         elif admitted is not None:
             reply = present(admitted, self.runtime.data.preferences(), payload.language)
@@ -521,9 +524,9 @@ class TextAssistant:
             )
         if quote := reply.get("sandbox_quote"):
             from .flight_booking.conversation import describe
-            row = self.runtime.flight_bookings.attach(quote,key,principal,conversation)
-            reply = {k:v for k,v in reply.items() if k!="sandbox_quote"}
-            reply.update(kind="flight_booking",flight_booking=row,message=describe(row,payload.language))
+            row = self.runtime.flight_bookings.attach(quote, key, principal, conversation)
+            reply = {k: v for k, v in reply.items() if k != "sandbox_quote"}
+            reply.update(kind="flight_booking", flight_booking=row, message=describe(row, payload.language))
         reply = (
             self.runtime.permissions.apply_reply(reply, grant, language=payload.language)
             if cached is None

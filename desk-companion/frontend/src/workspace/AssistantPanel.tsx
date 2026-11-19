@@ -1535,7 +1535,7 @@ export function AssistantPanel({
               {t("Thinking…", "处理中…")}
             </p>
           )}
-          {ownerView && data?.personal_context_visible && flights.tracked.current===conversationId.current && flights.rows.map(flight=>(
+          {ownerView && data?.personal_context_visible && flights.tracked.current===conversationId.current && [...flights.rows].reverse().map(flight=>(
             <SandboxFlightCard key={flight.id} flight={flight} busy={busy || unavailable || !!pendingAction || !!chatFiles.files.length} t={t}
               onDecision={(message,review)=>void send(null,{message,review})} />
           ))}

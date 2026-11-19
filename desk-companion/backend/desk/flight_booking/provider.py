@@ -3,6 +3,7 @@
 from datetime import date, datetime
 from decimal import Decimal, InvalidOperation
 import re
+import logging
 
 import httpx
 from pydantic import Field, model_validator
@@ -120,7 +121,7 @@ class LetsFG:
         try:
             with httpx.Client(
                 base_url=BASE,
-                timeout=10,
+                timeout=httpx.Timeout(5.0, connect=3.0) if path == "search" else 10,
                 trust_env=False,
                 follow_redirects=False,
                 transport=self.transport,
@@ -129,9 +130,15 @@ class LetsFG:
                     method, path, **({"json": body} if body is not None else {})
                 )
                 result = response.json()
-        except (httpx.HTTPError, ValueError):
+        except (httpx.HTTPError, ValueError) as error:
+            logging.getLogger(__name__).warning(
+                "LetsFG sandbox %s failed: %s", method, type(error).__name__
+            )
             raise DomainError("FLIGHT_PROVIDER_UNAVAILABLE", 503) from None
         if not isinstance(result, dict) or response.status_code >= 500:
+            logging.getLogger(__name__).warning(
+                "LetsFG sandbox %s: HTTP %s", method, response.status_code
+            )
             raise DomainError("FLIGHT_PROVIDER_UNAVAILABLE", 503)
         if response.status_code not in (200, 202):
             raise DomainError("FLIGHT_PROVIDER_REFUSED", 409)
@@ -142,17 +149,20 @@ class LetsFG:
             raise DomainError("FLIGHT_TEST_SCOPE", 422)
         if date.fromisoformat(query.departure) < today:
             raise DomainError("FLIGHT_PAST_DATE", 422)
-        data = self.request(
-            "POST",
-            "search",
-            {
-                "origin": query.origin,
-                "destination": query.destination,
-                "date_from": query.departure,
-                "adults": 1,
-                "currency": "HKD",
-            },
-        )
+        body = {
+            "origin": query.origin,
+            "destination": query.destination,
+            "date_from": query.departure,
+            "adults": 1,
+            "currency": "HKD",
+        }
+        try:
+            data = self.request("POST", "search", body)
+        except DomainError as error:
+            if error.code != "FLIGHT_PROVIDER_UNAVAILABLE":
+                raise
+            # A fare query has no order effect. Recover one transient read failure.
+            data = self.request("POST", "search", body)
         sid = data.get("search_id")
         if (
             not isinstance(sid, str)
@@ -205,7 +215,10 @@ class LetsFG:
                 "contact_email": passenger["email"],
                 "passengers": [passenger],
                 "want_seat": False,
-                "sandbox": {"scenario": scenario, "speed": "fast"},
+                "sandbox": {
+                    "scenario": scenario,
+                    "speed": "realistic" if scenario == "price_change" else "fast",
+                },
             },
         )
 

@@ -19,6 +19,7 @@ export interface SandboxFlight {
   approved_minor: number | null;
   review_minor: number;
   previous_minor: number | null;
+  review_deadline_ms: number | null;
   charged_minor: number | null;
   pnr: string | null;
   released: boolean;
@@ -126,6 +127,8 @@ export function SandboxFlightCard({
   const amount = hkd(flight.review_minor);
   const reprice = flight.state === "reprice";
   const retry = flight.state === "submit_unknown";
+  const expires = flight.review_deadline_ms;
+  const expired = !!expires && Date.now() >= expires;
   const choose = (agree: boolean) => {
     const message = agree
       ? retry
@@ -146,7 +149,7 @@ export function SandboxFlightCard({
     ["processing", "submitting", "answering"].includes(flight.state);
   return (
     <section
-      className="proposal-card sandbox-flight-card"
+      className="assistant-action-card assistant-proposal sandbox-flight-card"
       aria-label={t("LetsFG test booking", "LetsFG 测试预订")}
     >
       <strong>{t("LetsFG test booking", "LetsFG 测试预订")}</strong>
@@ -169,11 +172,32 @@ export function SandboxFlightCard({
         <p role="status">
           {t("Price changed", "票价已变")} · {hkd(flight.previous_minor!)} →{" "}
           <strong>{amount}</strong>
+          {expires && (
+            <>
+              <br />
+              <small>
+                {expired
+                  ? t("Checking the expired offer…", "正在核对已到期的报价…")
+                  : t("Confirm the new total by ", "请在此时间前确认新总价：") +
+                    new Date(expires).toLocaleTimeString(t("en-HK", "zh-HK"), {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                      hour12: false,
+                    })}
+              </small>
+            </>
+          )}
         </p>
       )}
       {needsFlightDecision(flight) && (
-        <div className="button-row">
-          <button type="button" disabled={busy} onClick={() => choose(true)}>
+        <div className="workspace-inline-actions">
+          <button
+            className="primary"
+            type="button"
+            disabled={busy || expired}
+            onClick={() => choose(true)}
+          >
             {retry
               ? t("Recover original order", "恢复原订单")
               : reprice
@@ -181,7 +205,12 @@ export function SandboxFlightCard({
                 : t(`Book for ${amount}`, `确认预订 ${amount}`)}
           </button>
           {!retry && (
-            <button type="button" disabled={busy} onClick={() => choose(false)}>
+            <button
+              className="secondary"
+              type="button"
+              disabled={busy || expired}
+              onClick={() => choose(false)}
+            >
               {reprice
                 ? t("Decline increase", "拒绝加价")
                 : t("Cancel", "取消")}

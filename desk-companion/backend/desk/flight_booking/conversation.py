@@ -126,7 +126,14 @@ def turn(runtime, payload, principal, chat):
         return None
     decision = owner_decision(payload.message)
     ref = payload.flight_review
-    if decision and not ref and runtime.flight_bookings.listing(principal, chat.id):
+    if (
+        decision
+        and not ref
+        and any(
+            row["state"] in {"quoted", "reprice", "submit_unknown"}
+            for row in runtime.flight_bookings.listing(principal, chat.id)
+        )
+    ):
         msg = (
             "请先核对当前航班和总价，再用这张报价上的确认或拒绝按钮。"
             if payload.language == "zh"

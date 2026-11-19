@@ -62,7 +62,7 @@ class Sandbox:
         if path == "book":
             assert b["offer_id"] == offer["offer_id"] and b["sandbox"] == {
                 "scenario": "price_change",
-                "speed": "fast",
+                "speed": "realistic",
             }
             assert b["passengers"][0]["email"].endswith("@example.com")
             if self.loss:
@@ -209,3 +209,25 @@ def test_uncertain_creation_reuses_original_idempotency_key_and_rejects_bad_capt
     assert send(c, "reprice", "确认新总价 HK$35.43", chat, revised).is_success
     s.total = 36
     assert status(c, chat)[0]["state"] == "unverified"
+
+
+def test_transient_quote_can_recover_without_creating_an_order(desk):
+    r, client, sandbox = desk
+    first = True
+
+    def respond(req):
+        nonlocal first
+        if first:
+            first = False
+            assert req.url.path.endswith("/search")
+            return httpx.Response(503, json={})
+        return sandbox(req)
+
+    r.flight_bookings.provider = LetsFG(httpx.MockTransport(respond))
+    assert (
+        send(client, "quote-transient", "Please book that test flight").json()["flight_booking"][
+            "state"
+        ]
+        == "quoted"
+    )
+    assert [path for _, path, _ in sandbox.calls] == ["search"]

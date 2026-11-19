@@ -39,6 +39,7 @@ def public(row):
         "quoted_minor": quote["total_minor"],
         "approved_minor": row["approved"],
         "review_minor": row["question"]["new"] if row["question"] else quote["total_minor"],
+        "review_deadline_ms": row["question"]["expires"] if row["question"] else None,
         "previous_minor": row["question"]["old"] if row["question"] else None,
         "pnr": row.get("pnr"),
         "charged_minor": row.get("capture"),
