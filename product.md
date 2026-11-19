@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-19 Live flight search and cost reporting
+
+Normal Web and native Simulator run `85e6aa94`. Alice can propose Kiwi.com's read-only flight connector for general flight requests. The owner's consent covers the displayed itinerary. The existing official OpenAI session invokes only the fare-search tool without a browser environment. Airline-specific website requests retain their selected source. The cheapest live HKG–HND result in the November 25 nonstop acceptance was HK$2,006 with one checked bag. Its weight and final payable amount remain unconfirmed. The diagnostics screen distinguishes official UTC cost reports from the local Hong Kong spending guard. [Current acceptance](output/qa/2026-11-19-flight-ledger/verification.md).
+
 ## 2026-11-19 Shopping and flight quotes in conversation
 
 Alice can prepare a public price lookup, show its quantity or itinerary for approval, and return the price, its basis, source and observation time in the same conversation. The desk calculates eligible selling-unit and multi-buy subtotals. An airline minimum, unverified seat, or missing required baggage, taxes or delivery leaves the corresponding total unconfirmed. A follow-up reopens the saved receipt. Both purchases and ticket issuance remain outside this public research action. The implementation is on [PR 134](https://github.com/tantalum666/FYP/pull/134). The live shopping result, limitations of the two hosted airline runs, and native Safari handoff are recorded in [acceptance](output/qa/2026-11-19-shopping-flight/verification.md).

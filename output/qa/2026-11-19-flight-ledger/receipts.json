@@ -1,0 +1,79 @@
+{
+  "source": "85e6aa94d22412b10e0a0d62a4879fb93e9615ef",
+  "previous_pr_head": "df5ff877ab09faf91fb65981e476fa90a545f497",
+  "model": "gpt-6.2-sol",
+  "ordinary_text": {
+    "draft_prepared": true,
+    "selected_provider": "kiwi",
+    "jobs_before_consent": 0,
+    "deleted_then_404": true
+  },
+  "real_kiwi_sessions": {
+    "count": 2,
+    "environment": "none",
+    "allowed_tools": [
+      "search-flight"
+    ],
+    "actions_per_session": [
+      1,
+      1
+    ],
+    "both_deleted_then_404": true,
+    "first_usage_tokens": 31704,
+    "second_usage_tokens": null,
+    "first_failure": "Integral MCP baggage count represented as a JSON float was rejected",
+    "second_result": {
+      "matching_nonstop_offers": 11,
+      "flight": "UO628",
+      "local_departure": "2026-11-25T19:55:00+08:00",
+      "local_arrival": "2026-11-26T00:45:00+09:00",
+      "party": 1,
+      "checked_bags": 1,
+      "checked_weight_verified": false,
+      "currency": "HKD",
+      "quoted_minor": 200600,
+      "budget_minor": 150000,
+      "budget_verdict": "over",
+      "payable_total_minor": null,
+      "transaction_confirmed": false,
+      "tool_data_sha256": "1416bae41d6aca344084cd2dda6a775a527af149a2a81c31385a28d0d94787dd"
+    }
+  },
+  "independent": {
+    "same_provider_public_mcp_matches": true,
+    "seller_checkout_http": 403,
+    "carrier_full_fare_gate": "human_verification",
+    "orders_or_tickets": 0
+  },
+  "local_guard_hk_day": {
+    "day": "2026-11-19",
+    "through": "2026-11-24",
+    "allocated_usd": 10,
+    "local_budget_used_usd": 9.16,
+    "observed_usage_estimate_usd": 0.234943,
+    "reserved_or_unpriced_usd": 8.925057,
+    "available_usd": 0.84
+  },
+  "regular_release": {
+    "web_source": "85e6aa94d22412b10e0a0d62a4879fb93e9615ef",
+    "simulator_source": "85e6aa94d22412b10e0a0d62a4879fb93e9615ef",
+    "simulator": "iPhone 17 Pro / iOS 26.5",
+    "same_simulator_data_path": false,
+    "native_preferences_documents_and_web_storage_match": true,
+    "existing_owner": true,
+    "voice_version": 9,
+    "account_grants_unchanged": true,
+    "db_schema": 3,
+    "db_counts_and_backup_verified": true,
+    "manifest_files": 406,
+    "background_inference": false
+  },
+  "pi_package": {
+    "file": "FYP-Pi-flight-quotes-85e6aa94.tar.gz",
+    "sha256": "0ed43adae84ea271ba2ee6abc255cdba741731a0ed2571eeb1fff1c01dc68724",
+    "files": 406,
+    "bytes": 109054067,
+    "hardware_installed": false,
+    "source": "85e6aa94d22412b10e0a0d62a4879fb93e9615ef"
+  }
+}

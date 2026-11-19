@@ -1,5 +1,7 @@
 # Group 2 · Ordinary OpenAI text conversations
 
+19 November 2026. On a metered ordinary session, the application also consults the named terminal turn when listing usage lags. A local draft can end the visible turn before upstream accounting is published. The service attempts a bounded usage read around cancellation/deletion and preserves the reservation when the receipt is incomplete. Remote cleanup has priority over an unavailable meter. The user's temporary conversation may subsequently resolve and re-read an approved quote. [Accounting acceptance](../../output/qa/2026-11-19-flight-ledger/verification.md).
+
 Ordinary OpenAI messages from the shared composer use the official Agents Sessions REST API and application-hosted Functions. Both the blocking and SSE routes share this implementation. Mac Web and native iOS Simulator now run `00780e44`. The deferred Pi last ran `c607759e`. [Previous deployment](../../output/qa/2026-11-18-three-end-rollout/verification.md)
 
 ## Conversation and authority
