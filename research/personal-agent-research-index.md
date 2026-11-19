@@ -1,5 +1,7 @@
 # Group 2｜个人 Agent 研究总入口与实现对照
 
+**11 月 19 日支付专题**　已核对 Grok Bot、OpenAI dot 和 Meta Muse 的钱包与购买批准流程，并用 FYP 的 Python 环境验证官方 Link SDK 的本地请求契约。香港钱包资格、商家结账及出票需要独立验证。[钱包可行性与证据](../output/qa/2026-11-19-agent-wallet-feasibility/verification.md)
+
 **11 月 18 日更新**　[Claude 常驻助理文章与 FYP 对照](2026-11-18-always-on-personal-agent.md)覆盖事件、定时、记忆、权限和通知。本分支已接通普通文字的官方 Sessions/Functions，并实现静音积压发现的合并投递。[本轮验收](../output/qa/2026-11-18-official-text-sessions/verification.md)。
 
 **18 November current update:** Alice now performs contextual, cited read-only research on changed facts/tasks/calendar and bounded connected previews, including relevant changes without an assigned task. Fresh selected-mail follow requests use standing proactivity permission without another approval card; Off/stop controls remain. This supersedes the17November per-thread-only approval design. The new research path directly reuses strict OpenAI Responses; official Agents remains the browser mainline and the later source update above covers ordinary text. Real-model research/follow-stop and a real multi-page public-browser trial passed after lifecycle fixes. Mac Web, the native iPhone Simulator and the Pi kiosk now run `c607759e`. Background model research remains off on the two servers. [Deployment readback](../output/qa/2026-11-18-three-end-rollout/verification.md). [Current research](2026-11-18-proactive-assistance-and-official-reuse.md), [contract](../desk-companion/docs/proactive-research.md), [QA](../output/qa/2026-11-17-proactive-agent-merge/verification.md).
