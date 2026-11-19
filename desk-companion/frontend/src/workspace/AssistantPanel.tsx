@@ -1,4 +1,6 @@
-import { SandboxFlightCard, useSandboxFlights, needsFlightDecision, reviewRef, type FlightRef } from "./SandboxFlightBooking";
+import { SandboxFlightCard } from "./SandboxFlightBooking";
+import { SandboxShopCard } from "./SandboxShopOrder";
+import { useCommerceReviews, needsDecision, reviewRef, type CommerceRef } from "./commerceReviews";
 import { ComposerFiles } from "./ComposerFiles";
 import { AliceCheckIn } from "./AliceCheckIn";
 import { InitiativeMessages } from "./InitiativeMessages";
@@ -124,8 +126,8 @@ export function AssistantPanel({
   const attachmentButton = useRef<HTMLButtonElement>(null);
   const fileInput = useRef<HTMLInputElement>(null);
   const chatFiles = useChatFiles();
-  const flights = useSandboxFlights();
-  const typedFlightReview = useRef<FlightRef | undefined>(undefined);
+  const commerce = useCommerceReviews();
+  const typedCommerceReview = useRef<CommerceRef | undefined>(undefined);
   const fileContext = useRef(false);
   const filesEnabled =
     !!data?.text_ai.attachments?.enabled &&
@@ -447,8 +449,8 @@ export function AssistantPanel({
   }, [unavailable]);
   useEffect(() => {
     const renewed = (event: Event) => {
-      if ((event as CustomEvent<{reason?:string}>).detail?.reason !== "connected") flights.clear();
-      typedFlightReview.current=undefined;
+      if ((event as CustomEvent<{reason?:string}>).detail?.reason !== "connected") commerce.clear();
+      typedCommerceReview.current=undefined;
       conversationId.current = undefined;
       fileContext.current = false;
       if (
@@ -474,8 +476,8 @@ export function AssistantPanel({
       data?.personal_context_visible === false ||
       (data?.principal.kind && data.principal.kind !== "owner")
     ) {
-      flights.clear();
-      typedFlightReview.current=undefined;
+      commerce.clear();
+      typedCommerceReview.current=undefined;
       chatFiles.clear();
       fileContext.current = false;
       submissionGeneration.current += 1;
@@ -532,11 +534,11 @@ export function AssistantPanel({
     if(!ownerView||!data?.personal_context_visible||conversationId.current)return;
     let current=true;
     const stillCurrent=()=>current&&!conversationId.current;
-    void flights.restore(taskId,stillCurrent).then(chat=>{
+    void commerce.restore(taskId,stillCurrent).then(chat=>{
       if(chat&&stillCurrent()){conversationId.current=chat;onExpandedChange?.(true);}
     }).catch(()=>{});
     return ()=>{current=false};
-  },[ownerView,data?.personal_context_visible,taskId,flights.restore,onExpandedChange]);
+  },[ownerView,data?.personal_context_visible,taskId,commerce.restore,onExpandedChange]);
   useDraftGuard(!!text.trim() || chatFiles.files.length > 0, busy);
   const reload = useCallback(async () => {
     if (reading.current) return;
@@ -544,7 +546,7 @@ export function AssistantPanel({
     try {
       void loadActivity();
       try {
-        if (ownerView) await flights.refresh(conversationId.current);
+        if (ownerView) await commerce.refresh(conversationId.current);
         const next = await request<{ proposals: Proposal[] }>(
           "/assistant/proposals",
         );
@@ -576,7 +578,7 @@ export function AssistantPanel({
     } finally {
       reading.current = false;
     }
-  }, [language, ownerView, loadActivity, flights.refresh]);
+  }, [language, ownerView, loadActivity, commerce.refresh]);
   useEffect(() => {
     alive.current = true;
     return () => {
@@ -605,11 +607,12 @@ export function AssistantPanel({
       chatFiles.sent(pendingHttp.current?.fileKeys ?? []);
       setReply(result);
       conversationId.current = result.conversation_id;
-      if (result.flight_booking && result.conversation_id) {
-        flights.receive(result.conversation_id,result.flight_booking,taskId);
+      const card = result.shopping_order ? {...result.shopping_order,kind:"shop" as const} : result.flight_booking ? {...result.flight_booking,kind:"flight" as const} : null;
+      if (card && result.conversation_id) {
+        commerce.receive(result.conversation_id,card,taskId);
         onExpandedChange?.(true);
       }
-      typedFlightReview.current=undefined;
+      typedCommerceReview.current=undefined;
       contextTouched.current = Date.now();
       setLiveMessage("");
       setProgress([]);
@@ -633,7 +636,7 @@ export function AssistantPanel({
       setText((current) => (current === submitted ? "" : current));
       pendingHttp.current = null;
     },
-    [chatFiles.sent,flights.receive,onExpandedChange,taskId],
+    [chatFiles.sent,commerce.receive,onExpandedChange,taskId],
   );
   useEffect(() => {
     const recovered = (event: Event) => {
@@ -659,7 +662,7 @@ export function AssistantPanel({
     window.addEventListener("desk:write-recovered", recovered);
     return () => window.removeEventListener("desk:write-recovered", recovered);
   }, [reload, showHttpReply]);
-  async function send(e: React.FormEvent | null, choice?: {message:string;review:FlightRef}) {
+  async function send(e: React.FormEvent | null, choice?: {message:string;review:CommerceRef}) {
     e?.preventDefault();
     if (
       busy ||
@@ -673,7 +676,7 @@ export function AssistantPanel({
     const submitted = choice ? choice.message : text.trim()
       ? text
       : t("Please review these files.", "请帮我看看这些文件。");
-    const review = choice?.review ?? typedFlightReview.current;
+    const review = choice?.review ?? typedCommerceReview.current;
     const useOmni = omni && !review && !chatFiles.files.length && !fileContext.current;
     const previousHttp = pendingHttp.current;
     const generation = ++submissionGeneration.current;
@@ -705,7 +708,7 @@ export function AssistantPanel({
       if (uploaded.references.length) fileContext.current = true;
       const body = {
         message: submitted,
-        ...(review ? {flight_review:review} : {}),
+        ...(review ? {[review.kind==="shop" ? "shopping_review" : "flight_review"]:{id:review.id,version:review.version,amount_minor:review.amount_minor}} : {}),
         language,
         task_id: taskId ?? null,
         conversation_id: conversationId.current ?? null,
@@ -923,7 +926,7 @@ export function AssistantPanel({
       conversationId.current = undefined;
       pendingSubmission.current = null;
       setTurns([]);
-      flights.clear();
+      commerce.clear();
       chatFiles.clear();
       fileContext.current = false;
       speechText.current = { user: "", assistant: "" };
@@ -1535,10 +1538,11 @@ export function AssistantPanel({
               {t("Thinking…", "处理中…")}
             </p>
           )}
-          {ownerView && data?.personal_context_visible && flights.tracked.current===conversationId.current && [...flights.rows].reverse().map(flight=>(
-            <SandboxFlightCard key={flight.id} flight={flight} busy={busy || unavailable || !!pendingAction || !!chatFiles.files.length} t={t}
-              onDecision={(message,review)=>void send(null,{message,review})} />
-          ))}
+          {ownerView && data?.personal_context_visible && commerce.tracked.current===conversationId.current && [...commerce.rows].reverse().map(row=>{
+            const props={t,busy:busy || unavailable || !!pendingAction || !!chatFiles.files.length,
+              onDecision:(message:string,review:CommerceRef)=>void send(null,{message,review})};
+            return row.kind==="shop" ? <SandboxShopCard key={"shop-"+row.id} order={row} {...props}/> : <SandboxFlightCard key={"flight-"+row.id} flight={row} {...props}/>;
+          })}
           {proposals.map((proposal) => (
             <ProposalActionCard
               key={proposal.id}
@@ -1714,8 +1718,8 @@ export function AssistantPanel({
                 value={text}
                 onChange={(e) => {
                   if(!text.trim()){
-                    const active=flights.rows.filter(needsFlightDecision);
-                    typedFlightReview.current=active.length===1 && flights.tracked.current===conversationId.current ? reviewRef(active[0]) : undefined;
+                    const active=commerce.rows.filter(needsDecision);
+                    typedCommerceReview.current=active.length===1 && commerce.tracked.current===conversationId.current ? reviewRef(active[0],active[0].kind) : undefined;
                   }
                   setText(e.target.value);
                 }}

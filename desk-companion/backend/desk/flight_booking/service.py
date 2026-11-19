@@ -1,30 +1,14 @@
 """Owner-reviewed test flights. LetsFG owns fulfillment; the desk records exact approvals."""
 
 from datetime import timedelta
-import hashlib
-import json
 import os
-import threading
 
-from pydantic import Field
-from typing import Literal
 from zoneinfo import ZoneInfo
 
 from ..calendar import iso
-from ..conversation import Conversations
-from ..schemas import StrictModel
-from ..store import DomainError, encode
+from ..commerce_review import ChatReviews
+from ..store import DomainError
 from .provider import LetsFG, PNR, booking_id, matched, minor
-
-
-class FlightRef(StrictModel):
-    id: str = Field(pattern=r"^[a-f0-9]{32}$")
-    version: int = Field(ge=1, strict=True)
-    amount_minor: int = Field(gt=0, strict=True)
-
-
-class FlightReview(FlightRef):
-    action: Literal["confirm", "decline"]
 
 
 def public(row):
@@ -47,29 +31,11 @@ def public(row):
     }
 
 
-class FlightBookings:
+class FlightBookings(ChatReviews):
     def __init__(self, runtime):
-        self.runtime, self.store = runtime, runtime.store
+        super().__init__(runtime, "FLIGHT")
         self.provider = LetsFG()
-        self.lock = threading.RLock()
         self.enabled = os.getenv("DESK_LETSFG_SANDBOX_ENABLED") == "1"
-        with self.store.connection(write=True) as db:
-            db.execute(
-                "CREATE TABLE IF NOT EXISTS sandbox_flight_bookings(id TEXT PRIMARY KEY, owner TEXT NOT NULL, chat TEXT NOT NULL, data TEXT NOT NULL, serial INTEGER NOT NULL DEFAULT 0)"
-            )
-            db.execute(
-                "CREATE INDEX IF NOT EXISTS sandbox_flight_chat ON sandbox_flight_bookings(owner,chat)"
-            )
-
-    def owner(self, principal):
-        if (
-            not principal
-            or not self.store.session_valid(principal.get("session"))
-            or not (owner := Conversations.owner(principal))
-        ):
-            raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
-        self.runtime.personal_context.require_visible(principal)
-        return owner
 
     def prepare(self, query):
         if not self.enabled:
@@ -80,100 +46,16 @@ class FlightBookings:
         return {"sandbox_quote": quote, "saved": False}
 
     def attach(self, quote, key, principal, chat):
-        owner = self.owner(principal)
-        if not chat or chat.owner != owner:
-            raise DomainError("CONVERSATION_SCOPE_CHANGED", 409)
-        ident = hashlib.sha256(key.encode()).hexdigest()[:32]
         row = {
-            "id": ident,
             "quote": quote,
-            "state": "quoted",
-            "version": 1,
             "question": None,
             "approved": None,
             "expires": iso(self.store.clock() + timedelta(minutes=15)),
             "remote": None,
             "next_read": 0,
             "scenario": quote["scenario"],
-            "task_id": chat.task_id,
         }
-        with self.store.connection(write=True) as db:
-            db.execute(
-                "INSERT OR IGNORE INTO sandbox_flight_bookings(id,owner,chat,data) VALUES(?,?,?,?)",
-                (ident, owner, chat.id, encode(row)),
-            )
-        return public(self._get(ident, owner, chat.id))
-
-    def _get(self, ident, owner, chat):
-        with self.store.connection() as db:
-            record = db.execute(
-                "SELECT data,serial FROM sandbox_flight_bookings WHERE id=? AND owner=? AND chat=?",
-                (ident, owner, chat),
-            ).fetchone()
-        if not record:
-            raise DomainError("FLIGHT_NOT_FOUND", 404)
-        return dict(json.loads(record["data"]), _serial=record["serial"])
-
-    def can_resume(self, principal, chat, review, task_id):
-        if not chat or not self.enabled or not self.runtime.personal_context.visible(principal):
-            return False
-        owner = Conversations.owner(principal)
-        if not owner or not self.store.session_valid(principal.get("session")):
-            return False
-        with self.store.connection() as db:
-            return (
-                db.execute(
-                    "SELECT 1 FROM sandbox_flight_bookings WHERE owner=? AND chat=? "
-                    "AND json_extract(data,'$.task_id') IS ? AND (? IS NULL OR id=?) LIMIT 1",
-                    (
-                        owner,
-                        chat,
-                        task_id,
-                        review.id if review else None,
-                        review.id if review else None,
-                    ),
-                ).fetchone()
-                is not None
-            )
-
-    def forget_chat(self, principal, chat):
-        # A retained supplier record cannot reopen a conversation the owner explicitly forgot.
-        owner = Conversations.owner(principal)
-        if owner:
-            with self.store.connection(write=True) as db:
-                db.execute(
-                    "UPDATE sandbox_flight_bookings SET chat='', serial=serial+1 WHERE owner=? AND chat=?",
-                    (owner, chat),
-                )
-
-    def _save(self, row):
-        data = {k: v for k, v in row.items() if k != "_serial"}
-        with self.store.connection(write=True) as db:
-            updated = db.execute(
-                "UPDATE sandbox_flight_bookings SET data=?,serial=serial+1 WHERE id=? AND serial=?",
-                (encode(data), row["id"], row["_serial"]),
-            )
-            if updated.rowcount != 1:
-                raise DomainError("FLIGHT_REVIEW_CHANGED", 409)
-        row["_serial"] += 1
-
-    @staticmethod
-    def _state(row, state):
-        if state != row["state"]:
-            row["state"] = state
-            row["version"] += 1
-
-    def listing(self, principal, chat):
-        owner = self.owner(principal)
-        with self.store.connection() as db:
-            ids = [
-                r[0]
-                for r in db.execute(
-                    "SELECT id FROM sandbox_flight_bookings WHERE owner=? AND chat=? ORDER BY rowid DESC",
-                    (owner, chat),
-                )
-            ]
-        return [self.read(ident, owner, chat) for ident in ids]
+        return public(self.insert(row, key, principal, chat))
 
     def read(self, ident, owner, chat):
         with self.lock:

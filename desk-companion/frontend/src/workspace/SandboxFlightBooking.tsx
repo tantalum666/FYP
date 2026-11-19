@@ -1,5 +1,9 @@
-import { useCallback, useRef, useState } from "react";
-import { request } from "../api";
+import {
+  hkd,
+  needsDecision,
+  reviewRef,
+  type CommerceRef,
+} from "./commerceReviews";
 import type { Translate } from "../types";
 
 export interface SandboxFlight {
@@ -24,95 +28,6 @@ export interface SandboxFlight {
   pnr: string | null;
   released: boolean;
 }
-export type FlightRef = { id: string; version: number; amount_minor: number };
-export const reviewRef = (flight: SandboxFlight): FlightRef => ({
-  id: flight.id,
-  version: flight.version,
-  amount_minor: flight.review_minor,
-});
-export const needsFlightDecision = (flight: SandboxFlight) =>
-  ["quoted", "reprice", "submit_unknown"].includes(flight.state);
-const hkd = (minor: number) => `HK$${(minor / 100).toFixed(2)}`;
-
-export function useSandboxFlights() {
-  const [rows, setRows] = useState<SandboxFlight[]>([]);
-  const tracked = useRef<string | undefined>(undefined);
-  const latest = useRef<SandboxFlight[]>([]);
-  const set = useCallback((items: SandboxFlight[]) => {
-    latest.current = items;
-    setRows(items);
-  }, []);
-  const clear = useCallback(() => {
-    tracked.current = undefined;
-    sessionStorage.removeItem("desk.flight-review-chat");
-    set([]);
-  }, [set]);
-  const receive = useCallback(
-    (chat: string, row: SandboxFlight, task?: string) => {
-      sessionStorage.setItem(
-        "desk.flight-review-chat",
-        JSON.stringify({ chat, task: task ?? null }),
-      );
-      const other =
-        tracked.current === chat
-          ? latest.current.filter((x) => x.id !== row.id)
-          : [];
-      tracked.current = chat;
-      set([row, ...other]);
-    },
-    [set],
-  );
-  const refresh = useCallback(
-    async (chat: string | undefined) => {
-      if (
-        !chat ||
-        tracked.current !== chat ||
-        !latest.current.some(
-          (row) =>
-            ![
-              "cancelled",
-              "completed",
-              "expired",
-              "failed",
-              "unverified",
-            ].includes(row.state),
-        )
-      )
-        return;
-      const previous = latest.current;
-      const response = await request<{ bookings: SandboxFlight[] }>(
-        `/assistant/flight-bookings?conversation_id=${encodeURIComponent(chat)}`,
-      );
-      if (tracked.current === chat && previous === latest.current)
-        set(response.bookings);
-    },
-    [set],
-  );
-  const restore = useCallback(
-    async (task: string | undefined, stillCurrent: () => boolean) => {
-      const raw = sessionStorage.getItem("desk.flight-review-chat");
-      if (!raw) return;
-      let marker;
-      try {
-        marker = JSON.parse(raw);
-      } catch {
-        return;
-      }
-      if (typeof marker?.chat !== "string" || marker.task !== (task ?? null))
-        return;
-      const result = await request<{ bookings: SandboxFlight[] }>(
-        `/assistant/flight-bookings?conversation_id=${encodeURIComponent(marker.chat)}`,
-      );
-      if (!stillCurrent() || !result.bookings.length) return;
-      tracked.current = marker.chat;
-      set(result.bookings);
-      return marker.chat as string;
-    },
-    [set],
-  );
-  return { rows, tracked, clear, receive, refresh, restore };
-}
-
 export function SandboxFlightCard({
   flight,
   t,
@@ -122,7 +37,7 @@ export function SandboxFlightCard({
   flight: SandboxFlight;
   t: Translate;
   busy: boolean;
-  onDecision: (text: string, review: FlightRef) => void;
+  onDecision: (text: string, review: CommerceRef) => void;
 }) {
   const amount = hkd(flight.review_minor);
   const reprice = flight.state === "reprice";
@@ -142,10 +57,10 @@ export function SandboxFlightCard({
       : reprice
         ? t("Decline the increase", "拒绝加价")
         : t("Cancel", "取消预订");
-    onDecision(message, reviewRef(flight));
+    onDecision(message, reviewRef(flight, "flight"));
   };
   const pending =
-    !needsFlightDecision(flight) &&
+    !needsDecision(flight) &&
     ["processing", "submitting", "answering"].includes(flight.state);
   return (
     <section
@@ -190,7 +105,7 @@ export function SandboxFlightCard({
           )}
         </p>
       )}
-      {needsFlightDecision(flight) && (
+      {needsDecision(flight) && (
         <div className="workspace-inline-actions">
           <button
             className="primary"

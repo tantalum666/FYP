@@ -53,6 +53,7 @@ from .voice_credentials import openai_key
 from .workspace_data import is_quiet
 from .schemas import StrictModel
 from .store import DomainError, encode
+from . import commerce_chat
 from .tool_policy import tool_visible
 from .chat_attachments import ChatAttachments, FILE_POLICY, capability as attachment_capability
 
@@ -454,9 +455,7 @@ class TextAssistant:
                     principal, revision, payload.conversation_id, task_id=payload.task_id
                 )
             except DomainError as error:
-                if error.code == "CONVERSATION_NOT_FOUND" and self.runtime.flight_bookings.can_resume(
-                    principal, payload.conversation_id, payload.flight_review, payload.task_id
-                ):
+                if error.code == "CONVERSATION_NOT_FOUND" and commerce_chat.can_resume(self.runtime, principal, payload):
                     conversation = self.runtime.voice.conversations.open(
                         principal, revision, payload.conversation_id, task_id=payload.task_id,
                         recover_review=True,
@@ -474,8 +473,9 @@ class TextAssistant:
             self.attachments.select(conversation, payload.attachment_ids, principal)
         if cached is None and principal is not None:
             # An explicit goal change is owner authority. It never reaches the model.
-            from .flight_booking.conversation import turn as flight_turn
-            admitted = flight_turn(self.runtime, payload, principal, conversation)
+            if payload.shopping_review and payload.flight_review:
+                raise DomainError("AMBIGUOUS_COMMERCE_REVIEW", 409)
+            admitted = commerce_chat.turn(self.runtime, payload, principal, conversation)
             if admitted is None:
                 admitted = self.runtime.conversation_work.turn(
                     payload, key, principal, conversation=conversation
@@ -491,13 +491,6 @@ class TextAssistant:
                 payload, owner=principal is None or principal.get("kind") == "owner"
             )
         if cached is not None:
-            if cached.get("flight_booking"):
-                # Cached owner operations cannot disclose another login's test receipt.
-                current = self.runtime.flight_bookings.read(
-                    cached["flight_booking"]["id"], self.runtime.flight_bookings.owner(principal), conversation.id
-                )
-                from .flight_booking.conversation import describe
-                cached = {**cached, "flight_booking": current, "message": describe(current, payload.language)}
             reply = cached
         elif admitted is not None:
             reply = present(admitted, self.runtime.data.preferences(), payload.language)
@@ -522,11 +515,9 @@ class TextAssistant:
                 conversation=conversation,
                 principal=principal,
             )
-        if quote := reply.get("sandbox_quote"):
-            from .flight_booking.conversation import describe
-            row = self.runtime.flight_bookings.attach(quote, key, principal, conversation)
-            reply = {k: v for k, v in reply.items() if k != "sandbox_quote"}
-            reply.update(kind="flight_booking", flight_booking=row, message=describe(row, payload.language))
+        reply = commerce_chat.present(
+            self.runtime, reply, key, principal, conversation, payload, cached=cached is not None
+        )
         reply = (
             self.runtime.permissions.apply_reply(reply, grant, language=payload.language)
             if cached is None
@@ -558,6 +549,8 @@ class TextAssistant:
             body.pop("voice_steer", None)
         if not body.get("steer_run_id"):
             body.pop("steer_run_id", None)
+        if body.get("shopping_review") is None:
+            body.pop("shopping_review", None)
         if body.get("flight_review") is None:
             body.pop("flight_review", None)
         if not body.get("attachment_ids"):
@@ -720,7 +713,9 @@ class TextAssistant:
                     for t in TOOLS
                     if t["name"] in TEXT_TOOL_NAMES
                     and tool_visible(t["name"], allow_memory, channel="text")
-                    and (t["name"] != "sandbox_flight_quote" or (official and conversation is not None and not files and self.runtime.flight_bookings.enabled))
+                    and commerce_chat.tool_available(
+                        self.runtime, t["name"], scoped=official and conversation is not None and not files
+                    )
                 ],
             }
             system = render_prompt(
@@ -729,17 +724,8 @@ class TextAssistant:
                 payload.language,
                 channel="functions" if official else "text",
             )
-            if official and not hidden and conversation and self.runtime.flight_bookings.enabled:
-                from .flight_booking.conversation import prompt_context as flight_context
-                if flights := flight_context(self.runtime, principal, conversation):
-                    context["test_flight_bookings"] = flights
-                    system += (
-                        "\nFor questions about these existing LetsFG test bookings, use their verified "
-                        "states. Monetary values are HKD minor units. Only a completed record with a PNR "
-                        "and captured amount confirms a simulated booking. Do not create another quote "
-                        "to check an existing order. Only the owner can approve the displayed amount."
-                    )
-                system += "\nFor an owner asking to book a flight (including 订票 or 订航班), use sandbox_flight_quote for the initial test fare. Never book, confirm or accept a change yourself. Distinguish booking from real-market fare research. Ask if the itinerary is unclear."
+            if official and not hidden and conversation:
+                system += commerce_chat.context_instructions(self.runtime, principal, conversation, context)
             if files:
                 context["attachments"] = files
                 system += "\n" + FILE_POLICY

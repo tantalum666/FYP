@@ -4,7 +4,7 @@ import re
 import unicodedata
 
 from .provider import FlightQuery, minor
-from .service import FlightReview
+from ..commerce_review import ReviewDecision as FlightReview
 
 
 TOOL = {

@@ -105,6 +105,7 @@ export interface ProposalDecisionReply {
   job?: { id: string };
 }
 export interface Reply {
+  shopping_order?: import("./SandboxShopOrder").SandboxShop;
   flight_booking?: import("./SandboxFlightBooking").SandboxFlight;
   permission_error?: string;
   conversation_id?: string;

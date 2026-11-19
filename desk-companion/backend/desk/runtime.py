@@ -139,6 +139,8 @@ class Runtime:
         self.trips = TravelQuoteService(self)
         from .flight_booking.service import FlightBookings
         self.flight_bookings = FlightBookings(self)
+        from .shop_checkout.service import ShopOrders
+        self.shop_orders = ShopOrders(self)
         self.store.operation_guard = self.agent_runs.guard_operation
         self.mailbox = MailboxService(self)
         self.mail_followups = MailFollowups(self)

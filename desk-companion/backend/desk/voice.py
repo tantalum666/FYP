@@ -1238,6 +1238,7 @@ def voice_routes(runtime, authenticated, agent, allowed_origins, limit):
         who = {**principal, "session": request.cookies.get("desk_companion_session")}
         runtime.voice.conversations.forget(who, conversation_id)
         runtime.flight_bookings.forget_chat(who, conversation_id)
+        runtime.shop_orders.forget_chat(who, conversation_id)
         return {"cleared": True}
 
     @router.post("/voice/work-drafts")
