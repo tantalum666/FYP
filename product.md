@@ -1,8 +1,12 @@
 # Group 2 Project Contract
 
+## 2026-11-19 Flight booking sandbox
+
+Use LetsFG’s public sandbox for the FYP booking flow with synthetic passenger data. The initial provider acceptance covers a Hong Kong to Tokyo search, matching test reservation and capture, duplicate suppression, and release of a price-increase hold after refusal. Kiwi remains the source for real public fare research. Ordinary Alice has quote authority. An airline-hosted booking has separate evidence and access requirements. [Provider receipts and Singapore Airlines option](output/qa/2026-11-19-flight-booking-sandbox/verification.md).
+
 ## 2026-11-19 Original Pi and regional travel testing
 
-The original Pi now runs the Web and native Simulator release `85e6aa94`. Its device screen showed Alice connected. Original data, A3 v9 and both Google grants passed on-device checks. For ticketing, Duffel’s current signup menu requires a listed incorporation jurisdiction and omits Hong Kong and mainland China. A supplier booking receipt is still pending. [Pi and signup verification](output/qa/2026-11-19-pi-release/verification.md).
+The original Pi now runs the Web and native Simulator release `85e6aa94`. Its device screen showed Alice connected. Original data, A3 v9 and both Google grants passed on-device checks. For ticketing, Duffel’s current signup menu requires a listed incorporation jurisdiction and omits Hong Kong and mainland China. At that point a supplier booking receipt was still pending. [Pi and signup verification](output/qa/2026-11-19-pi-release/verification.md).
 
 ## 2026-11-19 Merchant sandbox payment acceptance
 

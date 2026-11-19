@@ -1052,3 +1052,7 @@ Created an isolated self-hosted WooCommerce shop. Its Store API accepted two tes
 ## 2026-11-19 · Deploy the retained Pi release and verify Duffel registration
 
 Installed `85e6aa94` on the original Pi from `c607759e`. Verified 406 files, the database migration and backup, A3, Google provider reads, persistent startup and the 1280 × 720 Alice home. The startup frame showed a low-voltage warning. Paid OpenAI calls during deployment were zero. The separate official Duffel signup check found 32 incorporation options, with Hong Kong and mainland China absent. Flight order acceptance awaits supplier-authorized sandbox access. [Evidence](output/qa/2026-11-19-pi-release/verification.md) · [receipts](output/qa/2026-11-19-pi-release/receipts.json).
+
+## 2026-11-19 · Replace the blocked flight sandbox
+
+Used the free, keyless LetsFG sandbox for one HKG–HND itinerary. The accepted test booking captured HK$34 and produced a simulated PNR. A duplicate submission reopened the same record. A second booking declined a rise to HK$35.43 and the provider confirmed release of the hold. Both final records passed independent GETs using a small FYP verifier. Confirmed that Singapore Airlines offers an airline-operated flight-booking sandbox and checked the registration fields and API key requirement. Normal-runtime privileges, model budgets and deployment were outside this check. [Provider receipts](output/qa/2026-11-19-flight-booking-sandbox/verification.md).

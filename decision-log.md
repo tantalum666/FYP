@@ -903,3 +903,7 @@ The owner requested test cards first and authorized a dedicated FYP Stripe merch
 ## 2026-11-19 Original Pi release resumed
 
 The owner powered on the original Pi and authorized installation of the retained update. This supersedes the earlier package-only decision for that device. The operator deployed the same `85e6aa94` release as Web and Simulator under the existing Pi allocation, retained the rollback material and verified Alice and both Google grants on the original hardware. [Evidence](output/qa/2026-11-19-pi-release/verification.md).
+
+## 2026-11-19 Alternative for flight-booking acceptance
+
+The owner asked for a working alternative to Duffel. Engineering selected the account-free LetsFG sandbox for booking approval and receipt tests. It handles synthetic passengers and simulated card holds. Keep Kiwi for live fare research. A test PNR from the LetsFG simulator establishes platform workflow behavior. An airline test order requires an airline-operated or airline-connected test environment. [Results and access paths](output/qa/2026-11-19-flight-booking-sandbox/verification.md).
