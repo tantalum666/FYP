@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-19 Merchant sandbox payment acceptance
+
+Two isolated FYP Stripe Checkout orders using a public test Visa and a simulated Link Checkout buyer were returned as paid by the provider, with independently matched payment intents and captured test charges. A deliberate refusal received zero. These are QA merchant payments. The live product continues to perform reviewed research, with buyer Agent Wallet authorization and independent travel-supplier order evidence still open. [Sandbox acceptance and supported platforms](output/qa/2026-11-19-test-checkouts/verification.md).
+
 ## 2026-11-19 Live flight search and cost reporting
 
 Normal Web and native Simulator run `85e6aa94`. Alice can propose Kiwi.com's read-only flight connector for general flight requests. The owner's consent covers the displayed itinerary. The existing official OpenAI session invokes only the fare-search tool without a browser environment. Airline-specific website requests retain their selected source. The cheapest live HKG–HND result in the November 25 nonstop acceptance was HK$2,006 with one checked bag. Its weight and final payable amount remain unconfirmed. The diagnostics screen distinguishes official UTC cost reports from the local Hong Kong spending guard. [Current acceptance](output/qa/2026-11-19-flight-ledger/verification.md).
