@@ -4,7 +4,7 @@
 
 ## Running release
 
-The usual Web service, the native iPhone 17 Pro Simulator and the original Raspberry Pi 5 run `85e6aa94`. On the Pi, Alice appeared on the 1280 × 720 screen, A3 v9 and 13 protected table fingerprints matched, and Gmail and Google Calendar both answered using the existing grants. Microsoft services remain unconnected. A low-voltage warning appeared during startup. The local recovery backup is on the Pi. [Original Pi receipts](output/qa/2026-11-19-pi-release/verification.md) · [Web and Simulator receipts](output/qa/2026-11-19-flight-ledger/receipts.json).
+The shared Mac backend is `03ca29d3`. The iPhone 17 Pro Simulator has the `02feaffa` native UI, whose frontend source matches the backend release. The original Pi remains at `85e6aa94`, with A3 v9 and verified Google grants. The normal Simulator is left showing its verified test-booking receipt. [Current Simulator and backend](output/qa/2026-11-19-alice-flight-conversation/verification.md) · [last Pi release](output/qa/2026-11-19-pi-release/verification.md).
 
 ## Commerce
 
@@ -18,6 +18,8 @@ LetsFG’s public sandbox now covers search, simulated checkout and provider ord
 
 ## Accounting
 
-The Diagnostics screen shows the UTC platform export, usage-based estimate, local unresolved holds and available HK-day allowance separately. Import a single-day Costs CSV through the operator command in the [managed browser contract](desk-companion/docs/managed-browser.md). Keep account-level exports private. The user's US$20/day authorization expires at the end of 24 November. On 19 November the split is Mac US$10, Pi US$9 and unallocated US$1. The normal US$9/US$9/US$2 split resumes on 20 November. Several previously deleted browser sessions lacked token receipts. Their holds remain visible. The last 19 November Mac reading was US$9.16 local usage plus reservations combined and US$0.84 available. Previously closed trials stay closed.
+The Diagnostics screen shows the UTC platform export, usage-based estimate, local unresolved holds and available HK-day allowance separately. Import a single-day Costs CSV through the operator command in the [managed browser contract](desk-companion/docs/managed-browser.md). Keep account-level exports private. The user's US$20/day authorization expires at the end of 24 November. On 19 November the split is Mac US$10, Pi US$9 and unallocated US$1. The normal US$9/US$9/US$2 split resumes on 20 November. Several previously deleted browser sessions lacked token receipts. Their holds remain visible. After simulator acceptance, the 19 November Mac ledger showed US$9.64 local usage plus reservations combined and US$0.36 available; the new US$0.48 consists of unresolved reservations. Previously closed trials stay closed.
 
-**Next step** — Use the verified sandbox booking and price-increase receipts to connect an explicitly approved test booking to Alice’s conversation. Airline-issued test reservations require their own provider access.
+Ordinary chat now supports the complete LetsFG test booking. At HK$34 the quote was still unbooked; after an explicit HK$36.25 reapproval Alice showed simulated PNR `5SMZA7` and matching capture. The same chat reopened the record after backend restart. [Native verification](output/qa/2026-11-19-alice-flight-conversation/verification.md).
+
+**Next step** — Use the ordinary conversation sandbox for the next requested booking scenario. Keep any later live-ticket authorization specific to its merchant, itinerary and final price.

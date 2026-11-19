@@ -907,3 +907,7 @@ The owner powered on the original Pi and authorized installation of the retained
 ## 2026-11-19 Alternative for flight-booking acceptance
 
 The owner asked for a working alternative to Duffel. Engineering selected the account-free LetsFG sandbox for booking approval and receipt tests. It handles synthetic passengers and simulated card holds. Keep Kiwi for live fare research. A test PNR from the LetsFG simulator establishes platform workflow behavior. An airline test order requires an airline-operated or airline-connected test environment. [Results and access paths](output/qa/2026-11-19-flight-booking-sandbox/verification.md).
+
+## 2026-11-19 LetsFG in the ordinary Alice composer
+
+The owner chose LetsFG for the simulator and requested the flight and total, explicit initial approval, separate approval of any increase, and a retrieved booking reference and charge. Use the provider’s synthetic passenger and Visa. The operator enabled this test-only connector on the existing Mac backend shared by Web and the Simulator. The model receives a quote Function. Only owner actions can send either booking decision. No Singapore Airlines onboarding or real-card transaction was authorized. [Receipt](output/qa/2026-11-19-alice-flight-conversation/verification.md).

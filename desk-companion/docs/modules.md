@@ -22,6 +22,7 @@
 | managed_browser, managed_browser_client, managed_browser_auth | Official hosted session, registered sign-in, recovery/cleanup and independently read-back result in existing JobService |
 | memory_followups | Owner-approved one-shot memory reminders and morning group; current citations projected on read |
 | saved_skills | Owner-reviewed checklist records and occurrences on the existing routine clock; no arbitrary execution |
+| flight_booking | Anonymous LetsFG sandbox transport, owner/chat-bound decisions and verified test receipts. [Booking contract](conversation-flight-booking.md). |
 | purchase_cards, travel_quotes | Versioned offline preferences/offers and itinerary fixtures; no live transaction |
 | source_briefs | Bounded owner-entered sources, exact quotations and missing-source records |
 | held_choices | Owner-approved choice and the assumption it rests on; a new assumption stays pending and keeps the previous wording |

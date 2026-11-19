@@ -1,0 +1,149 @@
+{
+  "date": "2026-11-19",
+  "timezone": "Asia/Hong_Kong",
+  "simulator": "iPhone 17 Pro, iOS 26.5",
+  "bundle_id": "dev.group2.deskcompanion",
+  "journey_source": "02feaffa68720e4730ffec86a31368e4c60c51f4",
+  "native_bundle_files_verified": 77,
+  "entry": "Native ordinary Alice text composer, Chinese request, actual OpenAI Session/Function and external LetsFG sandbox",
+  "routing": {
+    "ordinary_text": "gpt-6.2-sol",
+    "function": "sandbox_flight_quote",
+    "model_submit_or_approve_function": false,
+    "test_card_last4": "4242",
+    "real_card_used": false
+  },
+  "itinerary": {
+    "total_minor": 3400,
+    "currency": "HKD",
+    "segments": [
+      {
+        "arrives": "2026-11-25T22:10",
+        "departs": "2026-11-25T19:00",
+        "destination": "HND",
+        "flight": "FR4315",
+        "origin": "HKG"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "observed_hkt": "2026-11-19T22:34:48.345715+08:00",
+      "state": "quoted",
+      "version": 1,
+      "local_reference_hash": "bc3fc6247dae",
+      "supplier_order_id_received": false,
+      "approved_minor": null,
+      "proposed_total_minor": null,
+      "pnr": null,
+      "captured_minor": null
+    },
+    {
+      "observed_hkt": "2026-11-19T22:35:01.867842+08:00",
+      "state": "processing",
+      "version": 3,
+      "local_reference_hash": "bc3fc6247dae",
+      "supplier_order_id_received": true,
+      "approved_minor": 3400,
+      "proposed_total_minor": null,
+      "pnr": null,
+      "captured_minor": null
+    },
+    {
+      "observed_hkt": "2026-11-19T22:40:16.710551+08:00",
+      "state": "reprice",
+      "version": 5,
+      "local_reference_hash": "bc3fc6247dae",
+      "supplier_order_id_received": true,
+      "approved_minor": 3400,
+      "proposed_total_minor": 3625,
+      "pnr": null,
+      "captured_minor": null
+    },
+    {
+      "observed_hkt": "2026-11-19T22:40:29.051029+08:00",
+      "state": "processing",
+      "version": 7,
+      "local_reference_hash": "bc3fc6247dae",
+      "supplier_order_id_received": true,
+      "approved_minor": 3625,
+      "proposed_total_minor": null,
+      "pnr": null,
+      "captured_minor": null
+    },
+    {
+      "observed_hkt": "2026-11-19T22:43:49.297918+08:00",
+      "state": "completed",
+      "version": 8,
+      "local_reference_hash": "bc3fc6247dae",
+      "supplier_order_id_received": true,
+      "approved_minor": 3625,
+      "proposed_total_minor": null,
+      "pnr": "5SMZA7",
+      "captured_minor": 3625
+    }
+  ],
+  "independent_supplier_get": {
+    "sandbox": true,
+    "state": "completed",
+    "currency": "HKD",
+    "approved_amount": "34.0",
+    "approved_charge_amount": "36.25",
+    "simulated_capture": "36.25",
+    "simulated_pnr": "5SMZA7",
+    "release_reported": false
+  },
+  "first_read_failure": "Function reached the provider adapter but no verified quote was returned; zero supplier orders were created. The same adapter subsequently returned the selected fare. Search now retries one transient read only.",
+  "first_fast_rehearsal": {
+    "initial_minor": 3400,
+    "proposed_minor": 3721,
+    "state": "failed",
+    "pnr": null,
+    "simulated_capture": null,
+    "released": true,
+    "reason": "price increase expired before answer"
+  },
+  "spending": {
+    "overall_local_budget_before": {
+      "day": "2026-11-19",
+      "allocated_usd": 10.0,
+      "local_budget_used_usd": 9.16,
+      "observed_usage_estimate_usd": 0.234943,
+      "reserved_or_unpriced_usd": 8.925057,
+      "available_usd": 0.84
+    },
+    "overall_local_budget_after": {
+      "day": "2026-11-19",
+      "allocated_usd": 10.0,
+      "local_budget_used_usd": 9.64,
+      "observed_usage_estimate_usd": 0.234943,
+      "reserved_or_unpriced_usd": 9.405057,
+      "available_usd": 0.36
+    },
+    "local_admissions_delta": 6,
+    "real_card_charge_hkd": 0,
+    "airline_tickets_issued": 0
+  },
+  "screens": {
+    "quoted": "12c483b2953fa6bb76278a60836c697fc9b3a0ba01b49719cb533e5d2e2548f4",
+    "reprice": "86aaf2dc87efd15757bde6466c742a11dfdb883cee847a6bb2971290e7b49d18",
+    "completed": "47f598b324f18fd82290579b652880d65b2e398ae2894e53ca201f62173c0687",
+    "followup": "0f206523a50ef17f82cb57cebb9ccecec9681417b6447f6f79987b7d6e334812"
+  },
+  "final_deployment": {
+    "mac_backend": "03ca29d3c95e03402ad95d5209090b5291325706",
+    "installed_native_frontend": "02feaffa68720e4730ffec86a31368e4c60c51f4",
+    "frontend_source_identical_between_commits": true,
+    "original_pi": "85e6aa94",
+    "simulator_left_on_follow_up_receipt": true
+  },
+  "after_restart_followup": {
+    "input": "帮我查回这笔订单的订座编号和扣款结果",
+    "mode": "local",
+    "simulated_pnr": "5SMZA7",
+    "capture_minor": 3625,
+    "new_booking_count": 0,
+    "new_openai_admissions": 0
+  },
+  "provider_token_receipts_observed": 0
+}

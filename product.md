@@ -1,8 +1,12 @@
 # Group 2 Project Contract
 
+## 2026-11-19 Owner-approved flight booking in ordinary Alice chat
+
+Use LetsFG for simulated bookings. The owner sees the exact flight and HKD total before booking and must separately approve a supplier increase. Alice checks the original provider record for a matching PNR and captured amount. The iPhone 17 Pro Simulator completed FR4315 at HK$36.25 after an initial HK$34 quote. [Product behavior](desk-companion/docs/conversation-flight-booking.md) · [device and provider evidence](output/qa/2026-11-19-alice-flight-conversation/verification.md).
+
 ## 2026-11-19 Flight booking sandbox
 
-Use LetsFG’s public sandbox for the FYP booking flow with synthetic passenger data. The initial provider acceptance covers a Hong Kong to Tokyo search, matching test reservation and capture, duplicate suppression, and release of a price-increase hold after refusal. Kiwi remains the source for real public fare research. Ordinary Alice has quote authority. An airline-hosted booking has separate evidence and access requirements. [Provider receipts and Singapore Airlines option](output/qa/2026-11-19-flight-booking-sandbox/verification.md).
+Use LetsFG’s public sandbox for the FYP booking flow with synthetic passenger data. The initial provider acceptance covers a Hong Kong to Tokyo search, matching test reservation and capture, duplicate suppression, and release of a price-increase hold after refusal. Kiwi remains the source for real public fare research. At the provider-only acceptance, ordinary Alice had quote authority. Its subsequent owner-confirmed sandbox booking capability is recorded above. An airline-hosted booking has separate evidence and access requirements. [Provider receipts and Singapore Airlines option](output/qa/2026-11-19-flight-booking-sandbox/verification.md).
 
 ## 2026-11-19 Original Pi and regional travel testing
 
