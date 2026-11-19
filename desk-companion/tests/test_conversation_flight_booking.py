@@ -231,3 +231,42 @@ def test_transient_quote_can_recover_without_creating_an_order(desk):
         == "quoted"
     )
     assert [path for _, path, _ in sandbox.calls] == ["search"]
+
+
+def test_followup_uses_the_owners_existing_order_after_chat_process_recovery(desk):
+    from desk.flight_booking.conversation import prompt_context
+
+    r, c, s = desk
+    reply = send(c, "quote", "Book a test flight").json()
+    chat = reply["conversation_id"]
+    fare = reply["flight_booking"]
+    r.voice.conversations.entries.clear()
+    send(c, "first", "确认", chat, fare).raise_for_status()
+    updated = status(c, chat)[0]
+    send(c, "second", "确认新总价 HK$35.43", chat, updated).raise_for_status()
+    final = status(c, chat)[0]
+    assert (
+        send(c, "lookup", "帮我查回这笔订单的订座编号和扣款结果", chat).json()["flight_booking"][
+            "pnr"
+        ]
+        == final["pnr"]
+    )
+    saved = r.voice.conversations.entries[chat]
+    auth = {"kind": "owner", "id": "owner", "session": c.cookies["desk_companion_session"]}
+    context = prompt_context(r, auth, saved)
+    assert context[0]["pnr"] == "FYP123" and context[0]["charged_minor"] == 3543
+    assert "remote" not in context[0] and "search_id" not in str(context)
+    assert len([1 for _, path, _ in s.calls if path == "book"]) == 1
+
+
+def test_explicit_forget_severs_recovery_and_receipt_visibility(desk):
+    r, c, s = desk
+    initial = send(c, "prepare", "Please book a test flight").json()
+    chat = initial["conversation_id"]
+    who = {"kind": "owner", "id": "owner", "session": c.cookies["desk_companion_session"]}
+    assert r.flight_bookings.can_resume(who, chat, None, None)
+    assert c.delete("/api/voice/conversations/" + chat, headers={"X-Desk-Request": "1"}).is_success
+    assert not r.flight_bookings.can_resume(who, chat, None, None)
+    assert status(c, chat) == []
+    assert send(c, "late", "确认", chat, initial["flight_booking"]).status_code == 404
+    assert [path for _, path, _ in s.calls] == ["search"]

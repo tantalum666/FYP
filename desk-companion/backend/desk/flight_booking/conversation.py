@@ -113,6 +113,28 @@ def owner_decision(message):
     return ("confirm", minor(match.group(1))) if match else None
 
 
+def prompt_context(runtime, principal, chat):
+    """Project only public card fields from this login and conversation."""
+    rows = runtime.flight_bookings.listing(principal, chat.id)
+    return [
+        {
+            k: row[k]
+            for k in (
+                "segments",
+                "currency",
+                "state",
+                "quoted_minor",
+                "approved_minor",
+                "review_minor",
+                "charged_minor",
+                "pnr",
+                "released",
+            )
+        }
+        for row in rows[:3]
+    ]
+
+
 def turn(runtime, payload, principal, chat):
     if (
         not chat
@@ -157,7 +179,7 @@ def turn(runtime, payload, principal, chat):
             "saved": True,
         }
     if re.fullmatch(
-        r"(?:查(?:一下|回)?(?:这笔|我的)?(?:测试)?(?:订单|订座编号|扣款结果)|(?:测试)?订单(?:怎么样了|状态|结果)|(?:what is|check|show)(?: my| the)? (?:test )?(?:booking status|booking reference|booking receipt))[？?。.!！]?",
+        r"(?:(?:帮我|请)?查(?:一下|回)?(?:这笔|我的)?(?:测试)?(?:订单(?:的订座编号和扣款结果)?|订座编号(?:和扣款结果)?|扣款结果)|(?:测试)?订单(?:怎么样了|状态|结果)|(?:what is|check|show)(?: my| the)? (?:test )?(?:booking status|booking reference|booking receipt))[？?。.!！]?",
         payload.message.strip(),
         re.I,
     ):

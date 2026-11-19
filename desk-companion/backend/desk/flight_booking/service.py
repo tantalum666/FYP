@@ -115,18 +115,36 @@ class FlightBookings:
         return dict(json.loads(record["data"]), _serial=record["serial"])
 
     def can_resume(self, principal, chat, review, task_id):
-        if (
-            not chat
-            or not review
-            or not self.enabled
-            or not self.runtime.personal_context.visible(principal)
-        ):
+        if not chat or not self.enabled or not self.runtime.personal_context.visible(principal):
             return False
-        try:
-            row = self._get(review.id, self.owner(principal), chat)
-        except DomainError:
+        owner = Conversations.owner(principal)
+        if not owner or not self.store.session_valid(principal.get("session")):
             return False
-        return row.get("task_id") == task_id
+        with self.store.connection() as db:
+            return (
+                db.execute(
+                    "SELECT 1 FROM sandbox_flight_bookings WHERE owner=? AND chat=? "
+                    "AND json_extract(data,'$.task_id') IS ? AND (? IS NULL OR id=?) LIMIT 1",
+                    (
+                        owner,
+                        chat,
+                        task_id,
+                        review.id if review else None,
+                        review.id if review else None,
+                    ),
+                ).fetchone()
+                is not None
+            )
+
+    def forget_chat(self, principal, chat):
+        # A retained supplier record cannot reopen a conversation the owner explicitly forgot.
+        owner = Conversations.owner(principal)
+        if owner:
+            with self.store.connection(write=True) as db:
+                db.execute(
+                    "UPDATE sandbox_flight_bookings SET chat='', serial=serial+1 WHERE owner=? AND chat=?",
+                    (owner, chat),
+                )
 
     def _save(self, row):
         data = {k: v for k, v in row.items() if k != "_serial"}

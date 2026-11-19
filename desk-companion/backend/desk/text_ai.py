@@ -730,6 +730,15 @@ class TextAssistant:
                 channel="functions" if official else "text",
             )
             if official and not hidden and conversation and self.runtime.flight_bookings.enabled:
+                from .flight_booking.conversation import prompt_context as flight_context
+                if flights := flight_context(self.runtime, principal, conversation):
+                    context["test_flight_bookings"] = flights
+                    system += (
+                        "\nFor questions about these existing LetsFG test bookings, use their verified "
+                        "states. Monetary values are HKD minor units. Only a completed record with a PNR "
+                        "and captured amount confirms a simulated booking. Do not create another quote "
+                        "to check an existing order. Only the owner can approve the displayed amount."
+                    )
                 system += "\nFor an owner asking to book a flight (including 订票 or 订航班), use sandbox_flight_quote for the initial test fare. Never book, confirm or accept a change yourself. Distinguish booking from real-market fare research. Ask if the itinerary is unclear."
             if files:
                 context["attachments"] = files
