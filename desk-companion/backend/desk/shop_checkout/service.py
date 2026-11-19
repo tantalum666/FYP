@@ -15,11 +15,13 @@ def public(row):
         "id": row["id"],
         "version": row["version"],
         "state": row["state"],
-        "quote": quote,
+        "quote": {k: v for k, v in quote.items() if k != "checkout_basis"},
         "review_minor": quote["terms"]["total_minor"],
-        "previous": row.get("previous"),
+        "previous": {k: v for k, v in row["previous"].items() if k != "checkout_basis"}
+        if row.get("previous")
+        else None,
         "approved_minor": row.get("approved"),
-        "receipt": row.get("receipt"),
+        "receipt": row.get("receipt") if row["state"] == "completed" else None,
     }
 
 
@@ -40,7 +42,7 @@ class ShopOrders(ChatReviews):
 
     def attach(self, quote, key, principal, chat):
         row = {
-            "quote": quote,
+            "quote": {k: v for k, v in quote.items() if k != "checkout_basis"},
             "expires": iso(self.store.clock() + timedelta(minutes=15)),
             "next_read": 0,
         }
@@ -81,9 +83,22 @@ class ShopOrders(ChatReviews):
             row = self._get(ident, owner, chat)
             if row["state"] != "completed":
                 return self.read(ident, owner, chat)
-            verified = self.provider.receipt(ident, row["quote"])
-            if not verified or verified != row.get("receipt"):
-                raise DomainError("SHOP_UNVERIFIED", 502)
+            try:
+                verified = self.provider.receipt(ident, row["quote"])
+            except DomainError as error:
+                if error.code not in {"SHOP_UNVERIFIED", "SHOP_PAYMENT_FAILED"}:
+                    raise
+                verified = None
+            prior = row["receipt"]
+            if not verified or any(
+                verified.get(k) != prior.get(k) for k in ("order", "charged_minor", "test_mode")
+            ):
+                self._state(row, "unverified")
+                self._save(row)
+            elif verified != prior:
+                # Fulfilment may advance from processing to completed after capture.
+                row["receipt"] = verified
+                self._save(row)
             return public(row)
 
     def decide(self, review, principal, chat):

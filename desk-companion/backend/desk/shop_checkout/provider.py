@@ -125,6 +125,41 @@ def cart_quote(cart, product_id, quantity):
     }
 
 
+def checkout_revision(basis, revised):
+    """A merchant-only adjustment needs a complete, arithmetically consistent final quote."""
+    original = basis["terms"]
+    terms = revised.get("terms") if isinstance(revised, dict) else None
+    if (
+        not isinstance(terms, dict)
+        or terms.keys() != original.keys()
+        or any(terms[k] != original[k] for k in ("product_id", "sku", "quantity", "currency"))
+    ):
+        raise DomainError("SHOP_UNVERIFIED", 502)
+    amounts = {k: _minor(v) for k, v in terms.items() if k.endswith("_minor")}
+    total = (
+        amounts["subtotal_minor"]
+        - amounts["discount_minor"]
+        + amounts["shipping_minor"]
+        + amounts["fees_minor"]
+        + amounts["tax_minor"]
+    )
+    if (
+        total != amounts["total_minor"]
+        or total <= 0
+        or amounts["subtotal_minor"] % terms["quantity"]
+        or not isinstance(terms["rate_id"], str)
+        or not isinstance(revised.get("shipping_name"), str)
+    ):
+        raise DomainError("SHOP_UNVERIFIED", 502)
+    return {
+        **basis,
+        "terms": {**terms, **amounts},
+        "unit_minor": amounts["subtotal_minor"] // terms["quantity"],
+        "shipping_name": html.unescape(revised["shipping_name"]),
+        "checkout_basis": basis,
+    }
+
+
 class WooSandbox:
     def __init__(self, config_path):
         self.config_path = config_path
@@ -267,22 +302,28 @@ class WooSandbox:
             if _json(shop.get(path, headers=auth)).get("found"):
                 return None
             current, cart_headers = self.cart(shop, terms["product_id"], terms["quantity"])
-            if current != approved:
+            basis = approved.get("checkout_basis", approved)
+            if current != basis:
                 return current
             method = self.test_method(ref)
             resp = shop.post(
                 path,
                 headers={**auth, **cart_headers},
-                json={"approved": terms, "test_method": method},
+                json={"approved": terms, "cart_basis": basis["terms"], "test_method": method},
                 timeout=35,
             )
             if resp.status_code == 409 and resp.json().get("code") == "fyp_quote_changed":
                 # A final Woo calculation changed after the cart read, before its gateway.
                 with self.shop() as (fresh, _):
                     revised = self.cart(fresh, terms["product_id"], terms["quantity"])[0]
-                if revised == approved:
-                    raise DomainError("SHOP_UNVERIFIED", 409)
-                return revised
+                if revised != basis:
+                    return revised
+                revision = resp.json().get("data", {}).get("revision")
+                if revision:
+                    result = checkout_revision(revised, revision)
+                    if result["terms"] != terms:
+                        return result
+                raise DomainError("SHOP_UNVERIFIED", 409)
             _json(resp)
             return None
 

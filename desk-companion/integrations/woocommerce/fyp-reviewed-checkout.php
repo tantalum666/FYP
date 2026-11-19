@@ -66,9 +66,10 @@ function checkout($request) {
     global $wpdb;
     $ref = $request['ref'];
     $approved = $request->get_json_params()['approved'] ?? [];
+    $cart_basis = $request->get_json_params()['cart_basis'] ?? $approved;
     $payment_method = $request->get_json_params()['test_method'] ?? '';
     $cart = $request->get_header('Cart-Token');
-    if (!is_array($approved) || !is_string($payment_method) || !preg_match('/^pm_[a-zA-Z0-9]+$/D', $payment_method)
+    if (!is_array($approved) || !is_array($cart_basis) || !is_string($payment_method) || !preg_match('/^pm_[a-zA-Z0-9]+$/D', $payment_method)
         || !$cart || ($approved['currency'] ?? '') !== 'HKD' || (int) ($approved['total_minor'] ?? 0) < 1) {
         return new \WP_Error('fyp_invalid', 'Incomplete cart approval.', ['status' => 400]);
     }
@@ -78,23 +79,37 @@ function checkout($request) {
     if ('1' !== (string) $wpdb->get_var($wpdb->prepare('SELECT GET_LOCK(%s, 3)', $lock))) {
         return new \WP_Error('fyp_busy', 'Checkout already in progress.', ['status' => 409]);
     }
-    $guard = static function ($order) use ($approved) {
-        $actual = terms($order);
+    $revision = null;
+    $matches = static function ($actual, $expected) {
+        if ($actual === null || count($expected) !== count($actual)) {
+            return false;
+        }
+        foreach ($actual as $field => $value) {
+            if (!array_key_exists($field, $expected) || $expected[$field] !== $value) {
+                return false;
+            }
+        }
+        return true;
+    };
+    $guard = static function ($order, $at_gateway = false) use ($approved, $cart_basis, $matches, &$revision) {
         if (!sandbox_ready() || $order->get_payment_method() !== 'stripe_cc' || $order->get_customer_id() !== 0) {
             throw new RouteException('fyp_test_mode_required', 'Test guest checkout is required.', 409);
         }
-        if ($actual === null || count($approved) !== count($actual)) {
-            throw new RouteException('fyp_quote_changed', 'The cart changed.', 409);
+        $actual = terms($order);
+        if ($matches($actual, $approved)) {
+            return;
         }
-        foreach ($actual as $field => $value) {
-            if (!array_key_exists($field, $approved) || $approved[$field] !== $value) {
-                throw new RouteException('fyp_quote_changed', 'The cart changed.', 409);
-            }
+        // A previously observed checkout-only adjustment can be applied after draft creation.
+        // Only its original cart may reach that step. The gateway requires the exact approved order.
+        if (!$at_gateway && $actual && $actual['total_minor'] > 0 && $matches($actual, $cart_basis)) {
+            return;
         }
+        $revision = ['terms' => $actual, 'shipping_name' => $order->get_shipping_method()];
+        throw new RouteException('fyp_quote_changed', 'The cart changed.', 409);
     };
     $before_payment = static function ($context) use ($guard, $ref) {
         $order = $context->order;
-        $guard($order);
+        $guard($order, true);
         if ($context->payment_method !== 'stripe_cc') {
             throw new RouteException('fyp_test_mode_required', 'Incorrect test gateway.', 409);
         }
@@ -116,7 +131,7 @@ function checkout($request) {
         $inner->set_header('Cart-Token', $cart);
         $inner->set_body(wp_json_encode([
             'billing_address'=>$address + ['email'=>'fyp-woo@example.com','phone'=>'+12025550142'],
-            'shipping_address'=>$address, 'create_account'=>false, 'expected_total'=>(string) $approved['total_minor'],
+            'shipping_address'=>$address, 'create_account'=>false, 'expected_total'=>(string) max((int) $approved['total_minor'], (int) ($cart_basis['total_minor'] ?? 0)),
             'payment_method'=>'stripe_cc','payment_data'=>[
                 ['key'=>'payment_method','value'=>'stripe_cc'],
                 ['key'=>'stripe_cc_payment_method_id','value'=>$payment_method],
@@ -129,9 +144,11 @@ function checkout($request) {
         $result = rest_do_request($inner);
         if ($result->is_error()) {
             $code = $result->as_error()->get_error_code();
-            $changed = in_array($code, ['woocommerce_rest_checkout_total_mismatch','fyp_quote_changed'], true);
+            // The Store API wraps exceptions thrown at payment dispatch. Preserve the
+            // decision made by our exact-price guard before it calls the gateway.
+            $changed = $revision !== null || in_array($code, ['woocommerce_rest_checkout_total_mismatch','fyp_quote_changed'], true);
             return new \WP_Error($changed ? 'fyp_quote_changed' : 'fyp_checkout_unconfirmed',
-                $changed ? 'Review the new cart.' : 'Read the order before another attempt.', ['status'=>409]);
+                $changed ? 'Review the new cart.' : 'Read the order before another attempt.', ['status'=>409, 'revision'=>$revision]);
         }
         return receipt($ref);
     } finally {

@@ -1,3 +1,4 @@
+import json
 from concurrent.futures import ThreadPoolExecutor
 
 import pytest
@@ -157,9 +158,11 @@ def test_duplicate_or_lost_checkout_response_reopens_one_order(desk):
         and len(s.orders) == 1
         and all(x["receipt"]["charged_minor"] == 4200 for x in results)
     )
+    s.orders[row["id"]]["order_status"] = "completed"
+    assert r.shop_orders.reopen(row["id"], owner, chat)["receipt"]["order_status"] == "completed"
     s.orders[row["id"]]["charged_minor"] = 5
-    with pytest.raises(DomainError):
-        r.shop_orders.reopen(row["id"], owner, chat)
+    uncertain = r.shop_orders.reopen(row["id"], owner, chat)
+    assert uncertain["state"] == "unverified" and uncertain["receipt"] is None
 
 
 def test_missing_shipping_cannot_be_displayed_as_free():
@@ -253,3 +256,44 @@ def test_independent_gateway_read_rejects_unmatched_capture(bad):
     )
     with pytest.raises(DomainError, match="SHOP_UNVERIFIED"):
         shop.receipt("fixture", cart)
+
+
+@pytest.mark.parametrize("rate", [700, 900])
+def test_exact_second_approval_of_gateway_only_shipping_change(rate):
+    import httpx
+    from contextlib import contextmanager
+    from desk.shop_checkout.provider import WooSandbox, checkout_revision
+
+    basis = quote()
+    updated = quote(rate)
+    revision = checkout_revision(
+        basis, {"terms": updated["terms"], "shipping_name": updated["shipping_name"]}
+    )
+    sent = []
+
+    def merchant(req):
+        if req.method == "GET":
+            return httpx.Response(200, json={"found": False})
+        body = json.loads(req.content)
+        sent.append(body)
+        return httpx.Response(200, json={"found": True})
+
+    @contextmanager
+    def session():
+        with httpx.Client(
+            base_url="http://localhost/", transport=httpx.MockTransport(merchant)
+        ) as client:
+            yield client, {}
+
+    s = WooSandbox(None)
+    s.shop = session
+    s.test_method = lambda ref: "pm_fixture"
+    s.cart = lambda client, product, qty: (basis, {"Cart-Token": "fixture"})
+    assert s.checkout("one", revision) is None
+    assert (
+        len(sent) == 1
+        and sent[0]["approved"] == updated["terms"]
+        and sent[0]["cart_basis"] == basis["terms"]
+    )
+    with pytest.raises(DomainError, match="SHOP_UNVERIFIED"):
+        checkout_revision(basis, {"terms": dict(updated["terms"], quantity=3), "shipping_name": ""})
