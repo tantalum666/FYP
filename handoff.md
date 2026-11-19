@@ -12,6 +12,8 @@ An owner-approved flight lookup with no named merchant now uses the read-only Ki
 
 The [wallet feasibility check](output/qa/2026-11-19-agent-wallet-feasibility/verification.md) identified the consumer Agent Wallet integration. A separate FYP Stripe sandbox has now completed and independently verified two hosted merchant orders, one by test Visa and one by Link Checkout, plus a refusal case. The consumer Agent Wallet has no authorized account in this run. Real card eligibility, live settlement and travel supplier receipts remain open. [Test results and platform choices](output/qa/2026-11-19-test-checkouts/verification.md).
 
+A local WooCommerce test store now has a paid guest order for two test items at HK$34. The reopened order and its captured Stripe test charge matched. A separate consumer wallet authorization and a Duffel developer test token still require the owner. [Store readback and account requirements](output/qa/2026-11-19-woocommerce-guest/verification.md).
+
 ## Accounting
 
 The Diagnostics screen shows the UTC platform export, usage-based estimate, local unresolved holds and available HK-day allowance separately. Import a single-day Costs CSV through the operator command in the [managed browser contract](desk-companion/docs/managed-browser.md). Keep account-level exports private. The user's US$20/day authorization expires at the end of 24 November. On 19 November the split is Mac US$10, Pi US$9 and unallocated US$1. The normal US$9/US$9/US$2 split resumes on 20 November. Several previously deleted browser sessions lacked token receipts. Their holds remain visible. The last 19 November Mac reading was US$9.16 local usage plus reservations combined and US$0.84 available. Previously closed trials stay closed.
