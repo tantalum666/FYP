@@ -28,6 +28,9 @@ from .rank import rank_rows
 from .weather import WeatherQuery
 from .browser_research import BrowserResearchDraft, BrowserResearchQuery
 from .mail_followup_models import MailFollowupDraft, MailFollowupQuery, MailFollowupStop
+from .flight_booking.conversation import TOOL as FLIGHT_QUOTE_TOOL
+from .flight_booking.provider import FlightQuery
+from .flight_booking.service import FlightRef
 from .tool_audit import ToolAudit, channel_for
 from .open_time import answer_open_time
 from .owner_lookup import (
@@ -51,6 +54,7 @@ class AssistantMessage(StrictModel):
     conversation_id: str | None = Field(default=None, max_length=128)
     voice_origin_ref: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
     voice_steer: bool = Field(default=False, strict=True)
+    flight_review: FlightRef | None = None
     steer_run_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
     attachment_ids: list[Annotated[str, Field(pattern=r"^[a-f0-9]{32}$")]] = Field(
         default_factory=list, max_length=4
@@ -79,6 +83,7 @@ class ChangeProposal(StrictModel):
 
 
 TOOLS = [
+    FLIGHT_QUOTE_TOOL,
     {
         "name": "email_reply_draft",
         "description": "Prepare a reply to one existing Gmail/Outlook message using its exact returned message ID and the owner's requested plain-text body. Recipient, subject and thread come from a fresh bounded source read and are shown for owner review. Uses Reply-To when available; ask if recipient/source is ambiguous. This is a local draft, not a send. Only owner confirmation can send; do not substitute a new unrelated email when the thread is unavailable.",
@@ -570,6 +575,8 @@ class AssistantService:
             if name == "mail_followup_stop":
                 query = MailFollowupStop.model_validate(arguments)
                 return self.runtime.mail_followups.stop(query.followup_id, call_key)
+            if name == "sandbox_flight_quote":
+                return self.runtime.flight_bookings.prepare(FlightQuery.model_validate(arguments))
             if name in {"browser_research_draft", "browser_research_status"}:
                 from . import browser_research
 

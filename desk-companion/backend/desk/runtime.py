@@ -137,6 +137,8 @@ class Runtime:
         self.public_captures = PublicCaptureService(self, enabled=public_capture_enabled)
         self.shopping = ShoppingService(self)
         self.trips = TravelQuoteService(self)
+        from .flight_booking.service import FlightBookings
+        self.flight_bookings = FlightBookings(self)
         self.store.operation_guard = self.agent_runs.guard_operation
         self.mailbox = MailboxService(self)
         self.mail_followups = MailFollowups(self)

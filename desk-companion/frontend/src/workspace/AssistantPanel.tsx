@@ -1,3 +1,4 @@
+import { SandboxFlightCard, useSandboxFlights, needsFlightDecision, reviewRef, type FlightRef } from "./SandboxFlightBooking";
 import { ComposerFiles } from "./ComposerFiles";
 import { AliceCheckIn } from "./AliceCheckIn";
 import { InitiativeMessages } from "./InitiativeMessages";
@@ -123,6 +124,8 @@ export function AssistantPanel({
   const attachmentButton = useRef<HTMLButtonElement>(null);
   const fileInput = useRef<HTMLInputElement>(null);
   const chatFiles = useChatFiles();
+  const flights = useSandboxFlights();
+  const typedFlightReview = useRef<FlightRef | undefined>(undefined);
   const fileContext = useRef(false);
   const filesEnabled =
     !!data?.text_ai.attachments?.enabled &&
@@ -444,6 +447,8 @@ export function AssistantPanel({
   }, [unavailable]);
   useEffect(() => {
     const renewed = (event: Event) => {
+      if ((event as CustomEvent<{reason?:string}>).detail?.reason !== "connected") flights.clear();
+      typedFlightReview.current=undefined;
       conversationId.current = undefined;
       fileContext.current = false;
       if (
@@ -469,6 +474,8 @@ export function AssistantPanel({
       data?.personal_context_visible === false ||
       (data?.principal.kind && data.principal.kind !== "owner")
     ) {
+      flights.clear();
+      typedFlightReview.current=undefined;
       chatFiles.clear();
       fileContext.current = false;
       submissionGeneration.current += 1;
@@ -521,6 +528,15 @@ export function AssistantPanel({
     if (immersive && !expanded) setView("chat");
   }, [immersive, expanded]);
   const ownerView = data?.principal.kind === "owner";
+  useEffect(()=>{
+    if(!ownerView||!data?.personal_context_visible||conversationId.current)return;
+    let current=true;
+    const stillCurrent=()=>current&&!conversationId.current;
+    void flights.restore(taskId,stillCurrent).then(chat=>{
+      if(chat&&stillCurrent()){conversationId.current=chat;onExpandedChange?.(true);}
+    }).catch(()=>{});
+    return ()=>{current=false};
+  },[ownerView,data?.personal_context_visible,taskId,flights.restore,onExpandedChange]);
   useDraftGuard(!!text.trim() || chatFiles.files.length > 0, busy);
   const reload = useCallback(async () => {
     if (reading.current) return;
@@ -528,6 +544,7 @@ export function AssistantPanel({
     try {
       void loadActivity();
       try {
+        if (ownerView) await flights.refresh(conversationId.current);
         const next = await request<{ proposals: Proposal[] }>(
           "/assistant/proposals",
         );
@@ -559,7 +576,7 @@ export function AssistantPanel({
     } finally {
       reading.current = false;
     }
-  }, [language, ownerView, loadActivity]);
+  }, [language, ownerView, loadActivity, flights.refresh]);
   useEffect(() => {
     alive.current = true;
     return () => {
@@ -588,6 +605,11 @@ export function AssistantPanel({
       chatFiles.sent(pendingHttp.current?.fileKeys ?? []);
       setReply(result);
       conversationId.current = result.conversation_id;
+      if (result.flight_booking && result.conversation_id) {
+        flights.receive(result.conversation_id,result.flight_booking,taskId);
+        onExpandedChange?.(true);
+      }
+      typedFlightReview.current=undefined;
       contextTouched.current = Date.now();
       setLiveMessage("");
       setProgress([]);
@@ -611,7 +633,7 @@ export function AssistantPanel({
       setText((current) => (current === submitted ? "" : current));
       pendingHttp.current = null;
     },
-    [chatFiles.sent],
+    [chatFiles.sent,flights.receive,onExpandedChange,taskId],
   );
   useEffect(() => {
     const recovered = (event: Event) => {
@@ -637,21 +659,22 @@ export function AssistantPanel({
     window.addEventListener("desk:write-recovered", recovered);
     return () => window.removeEventListener("desk:write-recovered", recovered);
   }, [reload, showHttpReply]);
-  async function send(e: React.FormEvent) {
-    e.preventDefault();
+  async function send(e: React.FormEvent | null, choice?: {message:string;review:FlightRef}) {
+    e?.preventDefault();
     if (
       busy ||
-      (!text.trim() && !chatFiles.files.length) ||
+      (!choice && !text.trim() && !chatFiles.files.length) ||
       unavailable ||
       pendingAction
     )
       return;
     wake.pause();
     followLatest.current = true;
-    const submitted = text.trim()
+    const submitted = choice ? choice.message : text.trim()
       ? text
       : t("Please review these files.", "请帮我看看这些文件。");
-    const useOmni = omni && !chatFiles.files.length && !fileContext.current;
+    const review = choice?.review ?? typedFlightReview.current;
+    const useOmni = omni && !review && !chatFiles.files.length && !fileContext.current;
     const previousHttp = pendingHttp.current;
     const generation = ++submissionGeneration.current;
     setBusy(true);
@@ -682,6 +705,7 @@ export function AssistantPanel({
       if (uploaded.references.length) fileContext.current = true;
       const body = {
         message: submitted,
+        ...(review ? {flight_review:review} : {}),
         language,
         task_id: taskId ?? null,
         conversation_id: conversationId.current ?? null,
@@ -899,6 +923,7 @@ export function AssistantPanel({
       conversationId.current = undefined;
       pendingSubmission.current = null;
       setTurns([]);
+      flights.clear();
       chatFiles.clear();
       fileContext.current = false;
       speechText.current = { user: "", assistant: "" };
@@ -1510,6 +1535,10 @@ export function AssistantPanel({
               {t("Thinking…", "处理中…")}
             </p>
           )}
+          {ownerView && data?.personal_context_visible && flights.tracked.current===conversationId.current && flights.rows.map(flight=>(
+            <SandboxFlightCard key={flight.id} flight={flight} busy={busy || unavailable || !!pendingAction || !!chatFiles.files.length} t={t}
+              onDecision={(message,review)=>void send(null,{message,review})} />
+          ))}
           {proposals.map((proposal) => (
             <ProposalActionCard
               key={proposal.id}
@@ -1683,7 +1712,13 @@ export function AssistantPanel({
                 ref={composer}
                 aria-label={t("Message the assistant", "向助理发送消息")}
                 value={text}
-                onChange={(e) => setText(e.target.value)}
+                onChange={(e) => {
+                  if(!text.trim()){
+                    const active=flights.rows.filter(needsFlightDecision);
+                    typedFlightReview.current=active.length===1 && flights.tracked.current===conversationId.current ? reviewRef(active[0]) : undefined;
+                  }
+                  setText(e.target.value);
+                }}
                 disabled={busy}
                 maxLength={3000}
                 rows={1}

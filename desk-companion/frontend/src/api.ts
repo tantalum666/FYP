@@ -569,6 +569,9 @@ export function errorText(
       "AI text is not configured on this desk.",
       "本设备尚未配置文字AI。",
     ],
+    FLIGHT_REVIEW_CHANGED: ["The fare changed. Review the current total before confirming.", "报价已变化，请核对当前总价后再确认。"],
+    FLIGHT_PROVIDER_UNAVAILABLE: ["The test provider is unavailable. Check the same booking again.", "测试供应商暂时无法访问，请再查看同一订单。"],
+    FLIGHT_NOT_FOUND: ["This booking belongs to another conversation.", "当前对话没有这笔测试订单。"],
     DRAFT_EXPIRED: [
       "This draft expired. Prepare a new one before saving.",
       "草稿已过期，请重新生成后保存。",

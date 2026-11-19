@@ -32,6 +32,7 @@ def verify(client, expected):
     if outcome not in {"completed", "price_change_declined"}:
         raise ValueError("Unknown expected outcome")
     approved = amount(expected["approved_amount"])
+    approved_charge = amount(expected.get("approved_charge_amount", approved))
     currency = expected["currency"]
     offer = {field: expected[field] for field in ("search_id", "offer_id")}
     if not re.fullmatch(r"[A-Z]{3}", currency) or not all(
@@ -63,7 +64,7 @@ def verify(client, expected):
             booking.get("state") != "completed"
             or not isinstance(reference, str)
             or not re.fullmatch(r"[A-Z0-9]{6}", reference)
-            or amount(captured) != approved
+            or amount(captured) != approved_charge
         ):
             raise ValueError("The sandbox has no matching completed and captured booking")
     elif (
@@ -84,6 +85,7 @@ def verify(client, expected):
         "state": booking["state"],
         "currency": currency,
         "approved_amount": str(approved),
+        "approved_charge_amount": str(approved_charge),
         "simulated_capture": str(amount(captured)) if captured is not None else None,
         "simulated_pnr": reference or None,
         "release_reported": outcome == "price_change_declined",

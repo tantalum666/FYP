@@ -60,6 +60,11 @@ def assistant_routes(runtime, authenticated, operation_id):
             headers={"Cache-Control": "no-store", "X-Accel-Buffering": "no"},
         )
 
+    @router.get("/flight-bookings")
+    def flight_bookings(conversation_id: str, request: Request, principal=Depends(authenticated)):
+        who = {**principal, "session": request.cookies.get("desk_companion_session")}
+        return {"bookings":runtime.flight_bookings.listing(who,conversation_id)}
+
     @router.get("/tool-calls")
     def tool_calls(limit: int = 50, principal=Depends(authenticated)):
         if principal["kind"] != "owner":

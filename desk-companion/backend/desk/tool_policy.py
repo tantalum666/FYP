@@ -102,6 +102,7 @@ OWNER_ONLY_TOOLS = frozenset(
         "mail_followup_stop",
         "browser_research_draft",
         "browser_research_status",
+        "sandbox_flight_quote",
         "email_status",
         "connected_app_query",
         "email_send_draft",
@@ -130,8 +131,8 @@ def memory_blocked(name: object, allow_memory: bool) -> bool:
     return name.startswith("memory_") or name in OWNER_ONLY_TOOLS
 
 
-def tool_visible(name: str, allow_memory: bool) -> bool:
-    return not memory_blocked(name, allow_memory)
+def tool_visible(name: str, allow_memory: bool, *, channel: str = "voice") -> bool:
+    return not memory_blocked(name, allow_memory) and (name != "sandbox_flight_quote" or channel == "text")
 
 
 def audit_suppressed() -> bool:
@@ -205,7 +206,7 @@ def execute_tool(
             CAPABILITIES,
         )
         return result
-    if memory_blocked(capability.name, allow_memory):
+    if (capability.name == "sandbox_flight_quote" and channel_name != "text") or memory_blocked(capability.name, allow_memory):
         result = {"error": "OWNER_SIGN_IN_REQUIRED", "saved": False}
         _audit(
             runtime,
@@ -405,6 +406,9 @@ def ends_text_turn(name: str, result: dict) -> bool:
 def text_effect_reply(message: str, result: dict, language: str):
     error = result.get("error")
     if error:
+        if error.startswith("FLIGHT_"):
+            from .flight_booking.conversation import failure
+            return {"mode":"ai","kind":"clarify","message":failure(error,language),"saved":False,"error":error}
         return text_notice(language, kind_for(error), error)
     kind = "draft" if "proposal" in result else "job" if "job" in result else "reply"
     reply = {"mode": "ai", "kind": kind, "message": message, **result}
