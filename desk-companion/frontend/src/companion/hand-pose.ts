@@ -93,7 +93,7 @@ export class HandPose {
     for (const item of this.joints) {
       const open =
         wavingSide === item.side ? Math.max(0, Math.min(1, openness)) : 0;
-      const relaxed = 0.12 + item.finger * 0.035;
+      const relaxed = 0.23 + item.finger * 0.065;
       const greeting = 0.025 + item.finger * 0.018;
       const curl =
         (relaxed * (1 - open) + greeting * open) * [0.7, 0.9, 0.55][item.joint];

@@ -1092,3 +1092,8 @@ Verified the official package hashes. Compared one raw issuer response with the 
 ## 2026-11-21 · Submit the eBay rejected-registration review
 
 Checked the portal and the registered mailbox. The original activation was rejected. Submitted the owner-approved project use case through the designated support form with owner-assisted verification. The owner observed success or a reference and the operator has no case number. A separate read of the US test merchant's Business Network Profile returned HTTP 403. Updated the project entry, product, research index, decisions, QA and handoff. [Evidence](output/qa/2026-11-21-shopping-next-step/verification.md).
+
+
+## 2026-11-21 · Restore motion between Alice’s main poses
+
+Self-reviewed frontend `64485c7f` on the existing integration branch. Reworked idle arm posture, eye and head timing, hand phrasing, interrupted motion and 30 Hz scheduling. The first recording exposed a wide reach during entry and return. Corrected its arc and added a whole-gesture test on the shipped left and right hands. The production frontend build and 17 targeted checks passed. Released to local Mac Web and the original iPhone 17 Pro Simulator. A3 v9, account grants and database integrity survived the release. The licensed comparison uses the same simulated playback on both builds. [QA and video](output/qa/2026-11-21-alice-natural-motion/verification.md) · [draft PR 135](https://github.com/tantalum666/FYP/pull/135). Owner visual review and physical-device acceptance remain open.

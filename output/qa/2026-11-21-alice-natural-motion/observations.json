@@ -1,0 +1,102 @@
+{
+  "base": "c4207e4f31934a45aab3ffc92fc3ca00c2794038",
+  "frontend": "64485c7f8f118d1b70aad020051a56db0466ab1d",
+  "backend": "4a773f31fb8cb005bfaf57ecca59d1c66b03edef",
+  "simulator": "iPhone 17 Pro, iOS 26.5",
+  "css_viewport": [
+    402,
+    874
+  ],
+  "native_entry_sequence": {
+    "before": {
+      "renders_observed": 251,
+      "seconds": 12.324,
+      "mean_fps": 20.29,
+      "median_interval_ms": 50.0,
+      "phases": [
+        "idle",
+        "wave",
+        "idle",
+        "speaking",
+        "explain",
+        "speaking",
+        "idle"
+      ]
+    },
+    "after": {
+      "renders_observed": 369,
+      "seconds": 12.231,
+      "mean_fps": 30.09,
+      "median_interval_ms": 35.0,
+      "phases": [
+        "wave",
+        "idle",
+        "speaking",
+        "explain",
+        "speaking",
+        "idle"
+      ]
+    }
+  },
+  "explanation_middle_two_seconds_wrist_path_cm": {
+    "before": 0.44,
+    "after": 7.25
+  },
+  "nearest_right_edge_px": {
+    "wave": 18.18,
+    "explain": 9.95
+  },
+  "interrupted_explanation": {
+    "samples": 63,
+    "phase_onset_ms_name_wrist_height_m": [
+      [
+        0,
+        "explain",
+        1.16426
+      ],
+      [
+        354,
+        "listening",
+        1.14748
+      ],
+      [
+        757,
+        "curious",
+        0.89323
+      ]
+    ],
+    "final_wrist_height_m": 0.88417,
+    "largest_frame_step_m": 0.03386
+  },
+  "web": {
+    "viewport": [
+      1280,
+      820
+    ],
+    "greeting": "wave",
+    "menu_frames": [
+      [
+        "214"
+      ],
+      [
+        "214"
+      ]
+    ],
+    "reduced_motion": {
+      "poster": "/avatars/alice/phone-fallback.jpg",
+      "canvases": 0
+    },
+    "app_errors": 0,
+    "http_errors": 0
+  },
+  "rollout": {
+    "schema": 3,
+    "database_backup_verified": true,
+    "A3_unchanged": true,
+    "voice_version": 9,
+    "app_accounts_unchanged": true,
+    "protected_files_unchanged": true,
+    "paid_calls": 0
+  },
+  "comparison_sha256": "10343d1efdf90bad1da6a2393506decd6ff45036bd6b649d8b32dc8d4ac52ef0"
+}

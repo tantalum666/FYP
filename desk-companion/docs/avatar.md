@@ -1,6 +1,14 @@
 # A1 3D presentation study
 
-## Current Alice motion — 16 November 2026
+## Current Alice motion · 21 November 2026
+
+A glance starts in the eyes, passes through the head and shoulders, then settles back. The resident renderer uses VRM LookAt with the loaded model’s eye limits. During speech Alice brings an open palm forward, relaxes it and adds a smaller second emphasis. The elbow leads the wrist on two uneven greeting sweeps. Between gestures, the forearms rest at different depths with softly curled fingers.
+
+`MotionCues` owns gesture selection and quiet intervals. `aliceMotion` samples each joint’s time course from the same clock. `JointMotion` carries angular velocity across interruptions, and `RenderCadence` keeps the 30 Hz deadlines aligned to display refreshes. Pose updates are local to the upper body. Playback continues to supply the mouth level. Both greeting and explanation guide the arm forward during the lift and descent to keep the fingers in the phone frame. The regression walks the entire filtered trajectory of both hands on the licensed rig.
+
+Mac Web and the iPhone 17 Pro Simulator run the updated frontend. [Same-device video and evidence](../../output/qa/2026-11-21-alice-natural-motion/verification.md).
+
+## Previous Alice motion · 16 November 2026
 
 The owner still found repetitive movement stiff. `motion-cues.ts` now chooses brief contextual actions separated by quiet intervals: smile/nod, curious listening tilt, compact open-hand explanation, glance, shoulder relaxation and pondering, in addition to the anatomically corrected wave. A tap cycles through wave/nod/tilt/explanation. Automatic idle motion yields to a person or conversation; rapid taps do not restart a moving arm. The shared envelope ends both visual motion and input coalescing at the same point.
 
