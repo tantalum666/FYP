@@ -937,3 +937,7 @@ The owner selected 180 days and approved the larger recurring request in Link. T
 ### 20 November Link test-fixture interoperability
 
 One read of the approved request established that the number in the Link API response is exactly the example in its published CLI 1.6.0 README. Its Luhn check fails independently of FYP. Continue to require actual merchant capture and refund for this acceptance. Public fixtures can reproduce the formatting failure without requesting another credential. Engineering fixed a separate FYP interpretation of comma-delimited OAuth scopes and applied the existing card checks to the older one-time operator. [Diagnosis and independent evidence](output/qa/2026-11-20-link-wallet-diagnosis/verification.md).
+
+## 2026-11-21 eBay account review
+
+The owner authorized submitting the official rejected-registration form for the original account. Use the course project's sandbox-only buyer, seller, cancellation and refund scenario. The owner confirmed seeing submission success or a reference after human verification. Keep developer access pending a review-specific decision. [Provider evidence](output/qa/2026-11-21-shopping-next-step/verification.md).

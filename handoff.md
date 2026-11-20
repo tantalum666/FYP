@@ -1,6 +1,6 @@
 # Group 2 · Current handoff
 
-20 November 2026, Hong Kong. Continue in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/shopping-flight-quotes-20261119`. [PR 134](https://github.com/tantalum666/FYP/pull/134) targets [PR 133](https://github.com/tantalum666/FYP/pull/133). [Product](product.md) · [decisions](decision-log.md).
+21 November 2026, Hong Kong. Continue in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/shopping-flight-quotes-20261119`. [PR 134](https://github.com/tantalum666/FYP/pull/134) targets [PR 133](https://github.com/tantalum666/FYP/pull/133). [Product](product.md) · [decisions](decision-log.md).
 
 ## Running release
 
@@ -8,7 +8,7 @@ The shared Mac backend runs `4a773f31`. The iPhone 17 Pro Simulator UI runs `c42
 
 ## Commerce
 
-The verified Amazon Pay buyer completed a US$14.30 KitchenSmart demo order, with an order number ending in 4202. The original US$1.00 FYP tissue checkout captured through Amazon Pay and produced one completed full refund, independently matched to the same Charge. Stripe's hosted receipt showed US$0.00 net. KitchenSmart exposed no working buyer-cancellation action. eBay developer sign-in still reports pending approval. [Provider receipts and remaining cancellation test](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).
+The verified Amazon Pay buyer completed a US$14.30 KitchenSmart demo order, with an order number ending in 4202. The original US$1.00 FYP tissue checkout captured through Amazon Pay and produced one completed full refund, independently matched to the same Charge. Stripe's hosted receipt showed US$0.00 net. KitchenSmart exposed no working buyer-cancellation action. eBay developer sign-in now reports rejected. The owner confirmed submission of an account review. A separately received activation-refusal email contains no matching case number. [Review evidence](output/qa/2026-11-21-shopping-next-step/verification.md). [Provider receipts and remaining cancellation test](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).
 
 Ordinary chat now supports reviewed WooCommerce shopping. Two shippable stationery packs at HK$17 produced a HK$42 quote with HK$8 delivery. Woo then returned HK$12 delivery and HK$46 total. Only a second confirmation paid. Merchant order #17, Stripe test capture and chat follow-up all matched HK$46. The store’s delivery fixture is back at HK$8. [Contract](desk-companion/docs/conversation-shopping.md) · [receipts](output/qa/2026-11-19-alice-shopping-conversation/receipts.json).
 
@@ -26,4 +26,4 @@ The Diagnostics screen shows the UTC platform export, usage-based estimate, loca
 
 Ordinary chat now supports the complete LetsFG test booking. At HK$34 the quote was still unbooked; after an explicit HK$36.25 reapproval Alice showed simulated PNR `5SMZA7` and matching capture. The same chat reopened the record after backend restart. [Native verification](output/qa/2026-11-19-alice-flight-conversation/verification.md).
 
-**Next step** — Use the public no-wallet reproducer to check a provider-confirmed compatible test fixture or checkout. Resume against the original allowance only after that compatibility is established. The separate eBay retail cancellation still awaits developer approval. [Public reproduction](output/qa/2026-11-20-link-wallet-diagnosis/verification.md).
+**Next step** — Use the public no-wallet reproducer to check a provider-confirmed compatible test fixture or checkout. Resume against the original allowance only after that compatibility is established. The separate eBay retail cancellation now depends on the outcome of the submitted developer-account review. The FYP test key currently lacks Business Network Profile Read for the optional token-based alternative. [November 21 follow-up](output/qa/2026-11-21-shopping-next-step/verification.md). [Public reproduction](output/qa/2026-11-20-link-wallet-diagnosis/verification.md).
