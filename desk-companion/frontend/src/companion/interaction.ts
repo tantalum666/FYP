@@ -1,4 +1,5 @@
 /** Presentation only. No transcript, audio, permissions or business actions. */
+import type { Delivery } from "./delivery.ts";
 export type CompanionState = "idle" | "listening" | "thinking" | "speaking";
 
 export function companionState(value: string): CompanionState {
@@ -10,6 +11,19 @@ export function companionState(value: string): CompanionState {
 
 const sources = new Map<symbol, CompanionState>();
 const listeners = new Set<(state: CompanionState | null) => void>();
+const deliveries = new Set<(value: Delivery) => void>();
+
+/** One visible reply. A newly opened surface never replays earlier reactions. */
+export function showDelivery(value: Delivery) {
+  for (const receive of deliveries) receive(value);
+}
+
+export function subscribeDelivery(receive: (value: Delivery) => void) {
+  deliveries.add(receive);
+  return () => {
+    deliveries.delete(receive);
+  };
+}
 const priority: CompanionState[] = ["speaking", "listening", "thinking"];
 
 function current() {

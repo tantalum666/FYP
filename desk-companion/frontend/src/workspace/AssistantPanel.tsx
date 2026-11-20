@@ -4,7 +4,8 @@ import { useCommerceReviews, needsDecision, reviewRef, type CommerceRef } from "
 import { ComposerFiles } from "./ComposerFiles";
 import { AliceCheckIn } from "./AliceCheckIn";
 import { InitiativeMessages } from "./InitiativeMessages";
-import { companionState, reportInteraction } from "../companion/interaction";
+import { companionState, reportInteraction, showDelivery } from "../companion/interaction";
+import { replyDelivery } from "../companion/delivery";
 import { ComposerMenu } from "./ComposerMenu";
 import { useChatFiles } from "./useChatFiles";
 import { CHAT_FILE_ACCEPT, type ChatFileReference } from "./chatFiles";
@@ -606,6 +607,8 @@ export function AssistantPanel({
       const submittedFiles = pendingHttp.current?.files ?? [];
       chatFiles.sent(pendingHttp.current?.fileKeys ?? []);
       setReply(result);
+      if (immersive && !suspended)
+        showDelivery(result.kind === "reply" ? replyDelivery(result.delivery, result.message) : "neutral");
       conversationId.current = result.conversation_id;
       const card = result.shopping_order ? {...result.shopping_order,kind:"shop" as const} : result.flight_booking ? {...result.flight_booking,kind:"flight" as const} : null;
       if (card && result.conversation_id) {
@@ -636,7 +639,7 @@ export function AssistantPanel({
       setText((current) => (current === submitted ? "" : current));
       pendingHttp.current = null;
     },
-    [chatFiles.sent,commerce.receive,onExpandedChange,taskId],
+    [chatFiles.sent,commerce.receive,immersive,onExpandedChange,suspended,taskId],
   );
   useEffect(() => {
     const recovered = (event: Event) => {
@@ -673,6 +676,7 @@ export function AssistantPanel({
       return;
     wake.pause();
     followLatest.current = true;
+    if (immersive && !suspended) showDelivery("neutral");
     const submitted = choice ? choice.message : text.trim()
       ? text
       : t("Please review these files.", "请帮我看看这些文件。");
@@ -979,6 +983,7 @@ export function AssistantPanel({
     speechText.current = { user: "", assistant: "" };
     let starting: VoiceAudio | null = null;
     const transcriptSession = crypto.randomUUID();
+    let spokenOpening = "", reactedToSpeech = false;
     try {
       const engine = new VoiceAudio((event) => {
         if (!alive.current || audio.current !== engine) return;
@@ -1021,10 +1026,21 @@ export function AssistantPanel({
         if (event.type === "turn_complete" || event.type === "interrupted")
           setVoiceState("listening");
         if (event.type === "turn_complete" || event.type === "interrupted") {
+          spokenOpening = "";
+          reactedToSpeech = false;
           finishTranscript(event.type === "interrupted");
           if (!modeSwitching.current) setBusy(false);
         }
         if (event.type === "transcript") {
+          if (immersive && event.role === "assistant" && !reactedToSpeech && event.text) {
+            spokenOpening = (event.final && !Number.isSafeInteger(event.caption_group)
+              ? event.text : spokenOpening + event.text).slice(0, 75);
+            const delivery = replyDelivery(undefined, spokenOpening);
+            if (delivery !== "neutral") {
+              showDelivery(delivery);
+              reactedToSpeech = true;
+            }
+          }
           if (Number.isSafeInteger(event.caption_group)) {
             setTurns((old) =>
               appendLiveTranscript(old, transcriptSession, event),

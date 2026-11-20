@@ -10,6 +10,10 @@ import {
 import { aliceMotion, MOTION_BONES } from "../src/companion/alice-motion.ts";
 import { HandPose, palmNormal, relaxArms } from "../src/companion/hand-pose.ts";
 import { JointMotion } from "../src/companion/motion-response.ts";
+import {
+  performances,
+  type PerformanceName,
+} from "../src/companion/performance-score.ts";
 
 function aliceRig() {
   // The shipped model's real joint hierarchy, without texture/mesh loading or a GPU.
@@ -87,7 +91,7 @@ function applyPose(
         ),
       );
   }
-  rig.hands.update(elapsed, side, motion.openness);
+  rig.hands.update(elapsed, side, motion.openness, motion.hands);
   rig.humanoid.update();
   rig.scene.updateMatrixWorld(true);
 }
@@ -192,6 +196,58 @@ test("the moving fingertips stay inside the phone envelope throughout the lift a
           );
         }
       }
+    }
+  }
+});
+
+test("expressive scores keep both hands framed and the three applause beats meet", () => {
+  for (const name of Object.keys(performances) as PerformanceName[]) {
+    for (const side of ["left", "right"] as const) {
+      const rig = aliceRig(),
+        joints = MOTION_BONES.map((bone) => new JointMotion(bone));
+      let contacts = 0,
+        near = false;
+      for (
+        let frame = 0;
+        frame < (performances[name].duration + 2) * 30;
+        frame++
+      ) {
+        const age = frame / 30 - 1;
+        const motion = aliceMotion(frame / 30, {
+          gesture: name,
+          gestureAt: 1,
+          waveSide: side,
+        });
+        MOTION_BONES.forEach((bone, i) => {
+          const [x, y, z] = joints[i].update(
+            motion.pose[bone],
+            1 / 30,
+            name === "applause",
+          );
+          motion.pose[bone] = [x, y, z];
+        });
+        applyPose(rig, motion, side, 1 / 30);
+        for (const [i, hand] of (["left", "right"] as const).entries()) {
+          assert.ok(rig.position(hand + "Foot").distanceTo(rig.feet[i]) < 1e-8);
+          for (const finger of ["Thumb", "Index", "Middle", "Ring", "Little"]) {
+            assert.ok(
+              Math.abs(rig.position(hand + finger + "Distal").x) < 0.38,
+              `${name} / ${side} / ${age}`,
+            );
+          }
+        }
+        if (name === "applause" && age > 1) {
+          const gap = rig
+            .position("leftMiddleProximal")
+            .distanceTo(rig.position("rightMiddleProximal"));
+          if (!near && gap < 0.052) {
+            contacts++;
+            near = true;
+          }
+          if (gap > 0.14) near = false;
+        }
+      }
+      if (name === "applause") assert.equal(contacts, 3);
     }
   }
 });

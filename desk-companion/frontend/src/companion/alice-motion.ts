@@ -6,6 +6,12 @@ import {
   type AliceGesture,
 } from "./motion-cues.ts";
 export { gestureWeight } from "./motion-cues.ts";
+import {
+  applyPerformance,
+  isPerformance,
+  type FaceCue,
+  type HandShapes,
+} from "./performance-pose.ts";
 
 export const MOTION_BONES = [
   "spine",
@@ -69,6 +75,8 @@ export function aliceMotion(
   gesture: AliceGesture | null;
   openness: number;
   gaze: { yaw: number; pitch: number };
+  face: FaceCue | null;
+  hands: HandShapes | null;
 } {
   const t = Math.max(0, Number.isFinite(time) ? time : 0);
   const state = companionState(options.state ?? "idle");
@@ -248,6 +256,10 @@ export function aliceMotion(
     pose[`${side}UpperArm`][2] -= sign * 0.12 * arc;
     pose[`${side}LowerArm`][1] += sign * 0.12 * arc;
   }
+  const performance =
+    gesture && isPerformance(gesture)
+      ? applyPerformance(pose, gesture, age, side)
+      : null;
   return {
     pose,
     smile,
@@ -255,5 +267,11 @@ export function aliceMotion(
     gesture,
     openness,
     gaze,
+    face:
+      performance?.face ??
+      (gesture === "wave"
+        ? { face: "appreciate", weight: weight * 0.6, wink: 0 }
+        : null),
+    hands: performance?.hands ?? null,
   };
 }

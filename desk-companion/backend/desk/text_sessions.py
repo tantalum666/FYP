@@ -6,6 +6,7 @@ from dataclasses import dataclass
 import httpx
 
 from .calendar import iso
+from . import alice_delivery
 from .capabilities import CAPABILITIES
 from .context_budget import fit_context
 from .conversation import memory_context
@@ -187,6 +188,7 @@ class TextSessions:
         names = {t["name"] for t in tools}
         config = self.assistant.config
         specs = [{"type": "function", **tool} for tool in tools]
+        system += alice_delivery.INSTRUCTIONS
         # Rotate remote history when an already-projected source or a controlling setting changes.
         scope = {k: v for k, v in context.items() if k not in {"now", "turns", "user_message"}}
         permission_version = self.runtime.permissions.snapshot()["version"]
@@ -268,6 +270,7 @@ class TextSessions:
                             "agent": {
                                 "model": config.model,
                                 "instructions": system,
+                                "text": alice_delivery.TEXT_FORMAT,
                                 "tools": specs,
                                 "reasoning": {"effort": "low"},
                                 "service_tier": "default",
@@ -403,8 +406,10 @@ class TextSessions:
         def publish(text):
             if on_event and not responder.local_reply:
                 check()
-                responder.preview = text
-                on_event({"type": "preview", "text": text})
+                visible = alice_delivery.read_delivery(text, complete=False)["message"]
+                if visible and visible != responder.preview:
+                    responder.preview = visible
+                    on_event({"type": "preview", "text": visible})
 
         observation_errors = 0
         while time.monotonic() < api.deadline:
@@ -444,12 +449,15 @@ class TextSessions:
                             final=True,
                         )
                         responder.final_usage_received = token_estimate(usage) is not None
-                        if on_event and not responder.local_reply:
-                            on_event({"type": "preview", "text": text, "final": True})
-                        return turn_id, responder.local_reply or {
+                        if responder.local_reply:
+                            return turn_id, responder.local_reply
+                        answer = alice_delivery.read_delivery(text, complete=True)
+                        if on_event:
+                            on_event({"type": "preview", "text": answer["message"], "final": True})
+                        return turn_id, {
                             "mode": "ai",
                             "kind": "reply",
-                            "message": text,
+                            **answer,
                             **({"plan": responder.plan} if responder.plan else {}),
                         }
                     if snapshot.get("required_actions"):
@@ -458,10 +466,8 @@ class TextSessions:
                             return turn_id, responder.local_reply
                     elif on_event and observer.reader is None and not responder.local_reply:
                         partial = api.answer(sid, turn_id, complete=False)
-                        if partial and partial != responder.preview:
-                            check()
-                            responder.preview = partial
-                            on_event({"type": "preview", "text": partial})
+                        if partial:
+                            publish(partial)
             except httpx.TransportError:
                 # Read back the same session. Never re-create it or replay the user's input here.
                 observation_errors += 1

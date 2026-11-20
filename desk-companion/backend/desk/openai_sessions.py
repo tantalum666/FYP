@@ -8,6 +8,7 @@ import time
 import httpx
 
 from .bounded_json import bounded_json_request
+from .alice_delivery import WIRE_LIMIT
 from .openai_transport import OPENAI_API, SESSION_ID, model_proxy
 
 SESSIONS = OPENAI_API + "/agents/sessions"
@@ -102,7 +103,7 @@ class SessionAPI:
             return ""
         parts = messages[0]["content"]
         text = "".join(part["text"] for part in parts if part.get("type") == "output_text").strip()
-        if len(text) > 8000:
+        if len(text) > WIRE_LIMIT:
             raise ValueError("Oversized answer")
         return text
 
@@ -255,7 +256,7 @@ class SessionEvents:
                         and event.get("item_id") == self.message
                     ):
                         self.text += event["delta"]
-                        if len(self.text) > 8000:
+                        if len(self.text) > WIRE_LIMIT:
                             raise ValueError("Oversized preview")
                         publish(self.text)
                 if time.monotonic() >= until:

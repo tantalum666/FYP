@@ -12,6 +12,7 @@ import type { Presentation } from "./renderer";
 import { MODELS, readAppearance } from "./appearance";
 import { HandPose, relaxArms } from "./hand-pose";
 import { MotionCues } from "./motion-cues";
+import { FacePerformance } from "./face-performance";
 import { JointMotion } from "./motion-response";
 import { RenderCadence } from "./render-cadence";
 import {
@@ -23,6 +24,7 @@ import {
 import {
   companionState,
   subscribeInteraction,
+  subscribeDelivery,
   type CompanionState,
 } from "./interaction";
 
@@ -71,6 +73,8 @@ export class VrmViewer {
   private unsubscribeInteraction: (() => void) | null = null;
   private frames = 0;
   private hands: HandPose | null = null;
+  private faces: FacePerformance | null = null;
+  private unsubscribeDelivery: (() => void) | null = null;
   private sample: PlaybackSample = { level: 0, at: 0 };
   private unsubscribe: (() => void) | null = null;
   private intersection: IntersectionObserver;
@@ -123,6 +127,18 @@ export class VrmViewer {
       this.unsubscribeInteraction = subscribeInteraction((state) => {
         this.interaction = state;
         if (!this.paused) this.schedule();
+      });
+      this.unsubscribeDelivery = subscribeDelivery((value) => {
+        if (
+          this.paused ||
+          !this.inView ||
+          document.hidden ||
+          !this.vrm ||
+          this.presentation?.review
+        )
+          return;
+        this.cues.respond(this.elapsed, value);
+        this.schedule();
       });
     }
     document.addEventListener("visibilitychange", this.schedule);
@@ -207,6 +223,7 @@ export class VrmViewer {
           });
       }
       this.hands = new HandPose(vrm);
+      if (this.floating) this.faces = new FacePerformance(vrm);
       const left = vrm.humanoid.getRawBoneNode("leftUpperArm");
       const right = vrm.humanoid.getRawBoneNode("rightUpperArm");
       // Greet on the free side of the phone scene, away from its left calendar.
@@ -291,6 +308,10 @@ export class VrmViewer {
 
   setPaused(paused: boolean) {
     if (this.paused !== paused) this.cadence.reset();
+    if (paused) {
+      this.cues.dismissReply();
+      this.faces?.reset();
+    }
     this.paused = paused;
     this.schedule();
   }
@@ -371,7 +392,11 @@ export class VrmViewer {
     this.failed();
   };
   private schedule = () => {
-    if (!this.inView || document.hidden) this.cadence.reset();
+    if (!this.inView || document.hidden) {
+      this.cadence.reset();
+      this.cues.dismissReply();
+      this.faces?.reset();
+    }
     if (!this.disposed && this.inView && !document.hidden && !this.frame)
       this.frame = requestAnimationFrame(this.draw);
   };
@@ -405,7 +430,11 @@ export class VrmViewer {
     });
     if (this.floating && this.vrm && !this.paused) {
       for (const [name, { node, rest, response }] of this.bones) {
-        const [x, y, z] = response.update(motion.pose[name], elapsed);
+        const [x, y, z] = response.update(
+          motion.pose[name],
+          elapsed,
+          motion.gesture === "applause",
+        );
         this.offset.setFromEuler(this.rotation.set(x, y, z));
         node.quaternion.copy(rest).multiply(this.offset);
       }
@@ -423,6 +452,7 @@ export class VrmViewer {
         elapsed,
         motion.openness > 0 ? this.waveSide : null,
         motion.openness,
+        motion.hands,
       );
     }
     const manager = this.vrm?.expressionManager;
@@ -441,7 +471,11 @@ export class VrmViewer {
       manager.setValue("blink", blink);
       manager.setValue(
         "happy",
-        this.expression === "smile" ? 0.25 : this.floating ? motion.smile : 0,
+        this.expression === "smile"
+          ? 0.25
+          : this.floating
+            ? motion.smile * (1 - (motion.face?.weight ?? 0))
+            : 0,
       );
       manager.setValue(
         "aa",
@@ -449,6 +483,8 @@ export class VrmViewer {
           ? 0.1 + 0.14 * (0.5 + 0.5 * Math.sin(this.elapsed * 9))
           : playback * 0.5,
       );
+      if (!this.paused && this.expression === "neutral")
+        this.faces?.apply(manager, motion.face, playback, elapsed);
       this.host.dataset.mouth = (
         this.expression === "speak" ? 0.2 : playback * 0.5
       ).toFixed(3);
@@ -469,6 +505,7 @@ export class VrmViewer {
     }
     this.renderer.render(this.scene, this.camera);
     this.host.dataset.motion = motion.gesture ?? motion.state;
+    this.host.dataset.delivery = motion.face?.face ?? "neutral";
     this.host.dataset.frames = String(++this.frames);
     this.host.dataset.motionTime = this.elapsed.toFixed(2);
     if (!this.paused && this.vrm) this.schedule();
@@ -487,6 +524,7 @@ export class VrmViewer {
     window.removeEventListener("pointermove", this.follow);
     this.unsubscribe?.();
     this.unsubscribeInteraction?.();
+    this.unsubscribeDelivery?.();
     this.bones.clear();
     this.hands = null;
     this.renderer.domElement.removeEventListener("webglcontextlost", this.lost);

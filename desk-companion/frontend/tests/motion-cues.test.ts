@@ -12,9 +12,9 @@ test("repeated taps do not restart a moving arm and later greetings vary", () =>
   assert.deepEqual(cues.sample(2, "idle"), first);
   assert.equal(cues.sample(5, "idle"), null);
   cues.hello(6);
-  assert.equal(cues.sample(6.5, "idle")?.gesture, "nod");
-  cues.hello(9);
-  assert.equal(cues.sample(9.5, "idle")?.gesture, "curious");
+  assert.equal(cues.sample(6.5, "idle")?.gesture, "wink");
+  cues.hello(12);
+  assert.equal(cues.sample(12.5, "idle")?.gesture, "gratefulBow");
 });
 
 test("a conversation preempts idle fidgeting and includes quiet gaps", () => {
@@ -45,7 +45,7 @@ test("a visibly settled greeting immediately accepts the next tap", () => {
   const previous = cues.sample(time, "idle")!;
   assert.equal(aliceMotion(time, previous).gesture, null);
   cues.hello(time);
-  assert.equal(cues.sample(time + 0.01, "idle")?.gesture, "nod");
+  assert.equal(cues.sample(time + 0.01, "idle")?.gesture, "wink");
 });
 
 test("gesture sampling does not queue missed gestures after a long pause", () => {
@@ -76,4 +76,20 @@ test("every gesture returns to rest without endpoint jumps or unbounded rotation
         }
     }
   }
+});
+
+test("a personal reply keeps its performance across reply completion and yields to a new turn", () => {
+  const cues = new MotionCues();
+  cues.sample(0, "thinking");
+  cues.respond(0.6, "celebrate");
+  assert.equal(cues.sample(0.65, "idle")?.gesture, "applause");
+  assert.equal(cues.sample(0.95, "speaking")?.gesture, "applause");
+  cues.respond(1.3, "comfort");
+  assert.equal(cues.sample(1.5, "idle")?.gesture, "comfort");
+  cues.respond(1.6, "neutral");
+  assert.equal(cues.sample(1.65, "idle"), null);
+  cues.respond(2, "celebrate");
+  assert.equal(cues.sample(2.1, "idle")?.gesture, "victory");
+  cues.dismissReply();
+  assert.equal(cues.sample(9, "idle"), null);
 });

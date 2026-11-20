@@ -37,6 +37,12 @@ export class HandPose {
   }> = [];
   private offset = new THREE.Quaternion();
   private target = new THREE.Quaternion();
+  private thumbs: {
+    node: THREE.Object3D;
+    side: "left" | "right";
+    rest: THREE.Quaternion;
+    closed: THREE.Quaternion;
+  }[] = [];
 
   constructor(vrm: Pick<VRM, "humanoid">) {
     const bone = (name: string) =>
@@ -49,6 +55,32 @@ export class HandPose {
         middle = bone(`${side}MiddleProximal`),
         little = bone(`${side}LittleProximal`);
       if (!wrist || !index || !middle || !little) continue;
+      const thumb = bone(`${side}ThumbMetacarpal`),
+        tip = bone(`${side}ThumbDistal`);
+      if (thumb && tip) {
+        const origin = position(thumb),
+          local = thumb.getWorldQuaternion(new THREE.Quaternion()).invert();
+        const across = position(index)
+          .lerp(position(middle), 0.42)
+          .sub(origin)
+          .normalize()
+          .applyQuaternion(local);
+        const extended = position(tip)
+          .sub(origin)
+          .normalize()
+          .applyQuaternion(local);
+        const rest = thumb.quaternion.clone();
+        this.thumbs.push({
+          node: thumb,
+          side,
+          rest,
+          closed: rest
+            .clone()
+            .multiply(
+              new THREE.Quaternion().setFromUnitVectors(extended, across),
+            ),
+        });
+      }
       const normal = palmNormal(
         side,
         position(wrist),
@@ -88,15 +120,28 @@ export class HandPose {
     }
   }
 
-  update(delta: number, wavingSide: "left" | "right" | null, openness: number) {
+  update(
+    delta: number,
+    wavingSide: "left" | "right" | null,
+    openness: number,
+    shapes?: Partial<Record<"left" | "right", number>> | null,
+  ) {
     const blend = 1 - Math.exp(-7 * Math.max(0, delta));
+    for (const thumb of this.thumbs) {
+      const fist = Math.max(0, Math.min(1, -(shapes?.[thumb.side] ?? 0)));
+      this.target.copy(thumb.rest).slerp(thumb.closed, fist);
+      thumb.node.quaternion.slerp(this.target, blend);
+    }
     for (const item of this.joints) {
-      const open =
-        wavingSide === item.side ? Math.max(0, Math.min(1, openness)) : 0;
+      const shape =
+        shapes?.[item.side] ?? (wavingSide === item.side ? openness : 0);
+      const open = Math.max(0, Math.min(1, shape)),
+        fist = Math.max(0, Math.min(1, -shape));
       const relaxed = 0.23 + item.finger * 0.065;
       const greeting = 0.025 + item.finger * 0.018;
-      const curl =
+      const loose =
         (relaxed * (1 - open) + greeting * open) * [0.7, 0.9, 0.55][item.joint];
+      const curl = loose * (1 - fist) + [1.12, 1.3, 0.86][item.joint] * fist;
       this.offset.setFromAxisAngle(item.axis, curl);
       this.target.copy(item.rest).multiply(this.offset);
       item.node.quaternion.slerp(this.target, blend);
