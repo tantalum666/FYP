@@ -100,9 +100,13 @@ Reuse official execution infrastructure where it fits. Live supports Responses t
 
 The one newly authorized paid trial independently verified two public book prices, then deleted its session. Usage was absent: the entire US$1 remains reserved and this round is closed. No further paid request is authorized by the implementation or deployment.
 
+## 2026-11-21 Alice movement during conversation
+
+Alice should make eye contact, glance and turn with a short delay between the eyes, head and shoulders. A greeting uses unequal hand sweeps. During speech the hand presents a point, adds a smaller emphasis and settles. A change to listening lets the arm finish moving down. Keep the feet planted and the whole hand visible during the lift and return. Preserve quiet pauses, the current avatar, and the reduced-motion poster. Mac Web and the iPhone 17 Pro Simulator run these movements at frontend `64485c7f`. [Simulator comparison and verification](output/qa/2026-11-21-alice-natural-motion/verification.md).
+
 ## 2026-11-16 Motion variety and personal-agent status
 
-Alice now uses short contextual motions with quiet pauses: nod/smile, curious tilt, compact open-hand explanation, glances, shoulder relaxation and pondering, alongside the corrected wave. Tap responses vary and finish cleanly; shared timing prevents a visually finished gesture from swallowing the next tap. Mac web and native Simulator updated with A3/model/size preserved; Pi remained unreachable and received no new rollout. [Current motion QA](output/qa/2026-11-16-alice-variety/verification.md).
+Alice now uses short contextual motions with quiet pauses: nod/smile, curious tilt, compact open-hand explanation, glances, shoulder relaxation and pondering, alongside the corrected wave. Tap responses vary and finish cleanly; shared timing prevents a visually finished gesture from swallowing the next tap. Mac web and native Simulator updated with A3/model/size preserved; Pi remained unreachable and received no new rollout. [16 November motion QA](output/qa/2026-11-16-alice-variety/verification.md).
 
 The [personal-agent status map](desk-companion/docs/personal-agent-status.md) distinguishes source, delivered runtime and real acceptance. The earlier motion-only overlay/status audit below is historical: full runtime deployment and Mac Google consent were completed later on16November as recorded above. Continuous mailbox follow-up, real browser owner takeover and merchant payment/ticketing remain incomplete.
 

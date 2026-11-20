@@ -941,3 +941,8 @@ One read of the approved request established that the number in the Link API res
 ## 2026-11-21 eBay account review
 
 The owner authorized submitting the official rejected-registration form for the original account. Use the course project's sandbox-only buyer, seller, cancellation and refund scenario. The owner confirmed seeing submission success or a reference after human verification. Keep developer access pending a review-specific decision. [Provider evidence](output/qa/2026-11-21-shopping-next-step/verification.md).
+
+
+## 2026-11-21 Natural movement in the ordinary Alice home
+
+The owner reported that Alice still moved stiffly. Group 2 kept the selected model and gesture vocabulary and changed how each movement unfolds. Eyes acquire the target first, upper-body joints overlap, and an interrupted arm retains velocity as it returns to rest. The hand follows a forward path through the full lift and return. Check the path on the shipped rig and on the phone screen, including the frames between the main poses. The 30 Hz render budget and quiet intervals remain in effect. [Motion acceptance](output/qa/2026-11-21-alice-natural-motion/verification.md).

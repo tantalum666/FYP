@@ -1,10 +1,10 @@
 # Group 2 · Current handoff
 
-21 November 2026, Hong Kong. Continue in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/shopping-flight-quotes-20261119`. [PR 134](https://github.com/tantalum666/FYP/pull/134) targets [PR 133](https://github.com/tantalum666/FYP/pull/133). [Product](product.md) · [decisions](decision-log.md).
+21 November 2026, Hong Kong. Continue in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/alice-natural-motion-20261121`. [Alice motion PR 135](https://github.com/tantalum666/FYP/pull/135) targets the existing shopping branch. [PR 134](https://github.com/tantalum666/FYP/pull/134) targets [PR 133](https://github.com/tantalum666/FYP/pull/133). [Product](product.md) · [decisions](decision-log.md).
 
 ## Running release
 
-The shared Mac backend runs `4a773f31`. The iPhone 17 Pro Simulator UI runs `c4207e4f` with identical frontend code, and is left showing the Woo/Stripe receipt. Both local rollouts preserved A3 v9 and the store’s account grants. The original Pi is still at `85e6aa94`. [Current acceptance](output/qa/2026-11-19-alice-shopping-conversation/verification.md) · [Pi release](output/qa/2026-11-19-pi-release/verification.md).
+Mac Web and the iPhone 17 Pro Simulator now run frontend `64485c7f`. The shared Mac backend code remains at `4a773f31`. Alice rests with bent elbows, looks before turning, and brings the palm forward through a complete explanation. The local rollout verified A3 v9, account grants and store integrity. [Same-device motion comparison](output/qa/2026-11-21-alice-natural-motion/verification.md). The original Pi is still at `85e6aa94`. [Current acceptance](output/qa/2026-11-19-alice-shopping-conversation/verification.md) · [Pi release](output/qa/2026-11-19-pi-release/verification.md).
 
 ## Commerce
 
@@ -26,4 +26,4 @@ The Diagnostics screen shows the UTC platform export, usage-based estimate, loca
 
 Ordinary chat now supports the complete LetsFG test booking. At HK$34 the quote was still unbooked; after an explicit HK$36.25 reapproval Alice showed simulated PNR `5SMZA7` and matching capture. The same chat reopened the record after backend restart. [Native verification](output/qa/2026-11-19-alice-flight-conversation/verification.md).
 
-**Next step** — Use the public no-wallet reproducer to check a provider-confirmed compatible test fixture or checkout. Resume against the original allowance only after that compatibility is established. The separate eBay retail cancellation now depends on the outcome of the submitted developer-account review. The FYP test key currently lacks Business Network Profile Read for the optional token-based alternative. [November 21 follow-up](output/qa/2026-11-21-shopping-next-step/verification.md). [Public reproduction](output/qa/2026-11-20-link-wallet-diagnosis/verification.md).
+**Next step** — Review the two Simulator recordings side by side in [PR 135](https://github.com/tantalum666/FYP/pull/135) before promoting Alice’s new motion to physical devices.
