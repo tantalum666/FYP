@@ -6,6 +6,8 @@ from scripts.link_wallet_test_allowance import (
     check_checkout,
     check_issued_card,
     check_issuer_approval,
+    checked_card_proof,
+    link_scope_tokens,
 )
 
 
@@ -115,3 +117,55 @@ def test_issued_card_validation_and_separate_credential_deadline():
         check_issued_card(example | {"number": example["number"][:-1] + "1"}, now=NOW)
     with pytest.raises(ValueError, match="credential has expired"):
         check_issued_card(example, now=NOW + timedelta(hours=1))
+
+
+@pytest.mark.parametrize(
+    "raw",
+    [
+        "payment_methods.agentic userinfo:read",
+        "payment_methods.agentic,userinfo:read",
+        " userinfo:read,\t payment_methods.agentic, userinfo:read ",
+    ],
+)
+def test_link_scope_tokens_before_and_after_token_rotation(raw):
+    assert link_scope_tokens(raw) == {"payment_methods.agentic", "userinfo:read"}
+
+
+@pytest.mark.parametrize(
+    "raw", [None, "", ["payment_methods.agentic"], "payment_methods.agentic_extra,userinfo:read"]
+)
+def test_link_scope_tokens_do_not_imply_an_ungranted_payment_scope(raw):
+    assert "payment_methods.agentic" not in link_scope_tokens(raw)
+
+
+def test_shared_credential_handoff_binds_and_redacts():
+    card = {"number": "4242" * 4, "exp_month": 12, "exp_year": "30", "cvc": "123"}
+    expected = {
+        "request_id": "fixture",
+        "merchant_name": "FYP",
+        "merchant_url": "https://example.test",
+    }
+    artifact = {
+        "spend_request_id": "fixture",
+        "merchant_name": "FYP",
+        "merchant_url": "https://example.test/",
+        "card": card,
+    }
+    assert checked_card_proof(artifact, **expected, now=NOW) == {
+        "last4": "4242",
+        "exp_month": 12,
+        "exp_year": 2030,
+        "credential_valid_until": None,
+    }
+    with_deadline = artifact | {"card": card | {"valid_until": END}}
+    assert checked_card_proof(with_deadline, **expected, now=NOW)["credential_valid_until"] == END
+    with pytest.raises(ValueError, match="not bound"):
+        checked_card_proof(artifact | {"spend_request_id": "other"}, **expected, now=NOW)
+    with pytest.raises(ValueError, match="checksum"):
+        checked_card_proof(
+            artifact | {"card": card | {"number": card["number"][:-1] + "1"}}, **expected, now=NOW
+        )
+    with pytest.raises(ValueError, match="expiry month"):
+        checked_card_proof(artifact | {"card": card | {"exp_year": 2025}}, **expected, now=NOW)
+    with pytest.raises(ValueError, match="security code format"):
+        checked_card_proof(artifact | {"card": card | {"cvc": ""}}, **expected, now=NOW)

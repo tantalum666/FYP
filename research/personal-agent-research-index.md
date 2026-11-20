@@ -1,6 +1,6 @@
 # Group 2｜个人 Agent 研究总入口与实现对照
 
-**11 月 20 日 Link 长期测试额度**　FYP 在 Link 得到 180 天、每月 US$500 的专用沙盒授权，FYP 限制单笔最高 US$10。纸巾单的 US$1 报价通过了额度检查。Link 签发的测试卡在 Stripe 的卡号校验处失败，回查同单无扣款。长期授权仍为已批准。[额度、卡凭据及商户回执](../output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#approved-recurring-test-allowance)。
+**11 月 20 日 Link 长期测试额度**　FYP 的 180 天、每月 US$500 沙盒授权仍有效，单笔上限为 US$10。Link 接口给纸巾单返回的号码与官方 CLI 文档的完整测试示例逐位相同，两者都不通过 Luhn 校验。Stripe 回查同单没有扣款。本地刷新权限解析已修复。[独立定位与公开复现](../output/qa/2026-11-20-link-wallet-diagnosis/verification.md) · [原额度及商户回执](../output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#approved-recurring-test-allowance)。
 
 **11 月 20 日海外购物沙盒**　Amazon Pay 测试买家已验证。KitchenSmart 演示店回传 US$14.30 订单号。FYP 美国商户的另一笔 US$1.00 纸巾单通过 Amazon Pay 模拟扣款，73 秒后创建全额退款，实际回读状态为 `succeeded`，收据净额 US$0.00。eBay 登录仍显示开发者账号在审核。零售商在发货前接受买家撤单仍待实测。[订单与退款回执](../output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md)。
 

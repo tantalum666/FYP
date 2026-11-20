@@ -7,6 +7,13 @@ from datetime import UTC, datetime
 MAX_ORDER_USD_CENTS = 1_000
 
 
+def link_scope_tokens(value):
+    """Link permits commas or whitespace between case-sensitive OAuth scopes."""
+    if not isinstance(value, str):
+        return frozenset()
+    return frozenset(value.replace(",", " ").split())
+
+
 def check_checkout(get, terms, *, checkout_id, order_reference, expected_minor):
     """Read the merchant and the current order immediately before using the credential."""
     if not isinstance(checkout_id, str) or not re.fullmatch(r"cs_test_[A-Za-z0-9]+", checkout_id):
@@ -75,7 +82,7 @@ def check_issuer_approval(request, terms, *, request_id, now):
 
 
 def check_issued_card(card, *, now):
-    """Check the issuer's values as received. Never repair or substitute card digits."""
+    """Validate the supplied number and return the credential deadline when present."""
     number = card.get("number")
     if not isinstance(number, str) or not re.fullmatch(r"[0-9]{12,19}", number):
         raise ValueError("Link returned an invalid test card number format")
@@ -98,3 +105,37 @@ def check_issued_card(card, *, now):
             expiry = datetime.fromisoformat(valid_until)
         if expiry <= now:
             raise ValueError("The individual card credential has expired")
+        return expiry
+    return None
+
+
+def checked_card_proof(artifact, *, request_id, merchant_name, merchant_url, now):
+    """Validate a CLI delivery and retain only the fields needed for merchant readback."""
+    card = artifact.get("card")
+    url = artifact.get("merchant_url")
+    if (
+        not isinstance(card, dict)
+        or not request_id
+        or artifact.get("spend_request_id") != request_id
+        or artifact.get("merchant_name") != merchant_name
+        or not isinstance(url, str)
+        or url.rstrip("/") != merchant_url.rstrip("/")
+    ):
+        raise ValueError("The credential is not bound to this request and merchant")
+    valid_until = check_issued_card(card, now=now)
+    month, year = str(card.get("exp_month", "")), str(card.get("exp_year", ""))
+    if (
+        not re.fullmatch(r"0?[1-9]|1[0-2]", month)
+        or not re.fullmatch(r"[0-9]{2}(?:[0-9]{2})?", year)
+        or not re.fullmatch(r"[0-9]{3,4}", str(card.get("cvc", "")))
+    ):
+        raise ValueError("The issuer supplied an invalid expiry or card security code format")
+    exp_year = int(year) + (2000 if len(year) == 2 else 0)
+    if (exp_year, int(month)) < (now.year, now.month):
+        raise ValueError("The issued card's printed expiry month has passed")
+    return {
+        "last4": card["number"][-4:],
+        "exp_month": int(month),
+        "exp_year": exp_year,
+        "credential_valid_until": valid_until.isoformat() if valid_until else None,
+    }

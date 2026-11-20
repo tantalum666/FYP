@@ -933,3 +933,7 @@ The owner completed the FYP Link connection and the supplemental profile consent
 ### Approved 180-day FYP sandbox allowance
 
 The owner selected 180 days and approved the larger recurring request in Link. The issuer confirmed US$500 per monthly period for FYP Alice Test Shop, ending 19 May 2027 at 15:15:07 Hong Kong time. FYP separately caps each test checkout at US$10. This authorization is for the private test merchant and test virtual card. Keep the authenticated profile and the same approved request for future qualifying tests. The individual credential's validity is read separately. The superseded one-time request was canceled after its original merchant checkout was retained. The approved allowance by itself establishes no merchant payment. [Provider and checkout results](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#approved-recurring-test-allowance).
+
+### 20 November Link test-fixture interoperability
+
+One read of the approved request established that the number in the Link API response is exactly the example in its published CLI 1.6.0 README. Its Luhn check fails independently of FYP. Continue to require actual merchant capture and refund for this acceptance. Public fixtures can reproduce the formatting failure without requesting another credential. Engineering fixed a separate FYP interpretation of comma-delimited OAuth scopes and applied the existing card checks to the older one-time operator. [Diagnosis and independent evidence](output/qa/2026-11-20-link-wallet-diagnosis/verification.md).

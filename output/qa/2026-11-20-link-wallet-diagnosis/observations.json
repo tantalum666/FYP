@@ -1,0 +1,129 @@
+{
+  "scope": "Existing FYP recurring test allowance and original pocket-tissue checkout",
+  "baseline_commit": "69d9b95fed225a8773c30308178f6a66fe6e2432",
+  "public_release": {
+    "official_repository": "https://github.com/stripe/link-cli",
+    "tag": "@stripe/link-cli@1.6.0",
+    "commit": "06d97214935160aa26c848f090ac0d27eaeb5842",
+    "readme_fixture_line": 595,
+    "readme_sha256": "89ee1914f6211ab92823635d7231b9a64defe191e18e4849e1ce1eb1161bdfea",
+    "registry_lock_tarball_match": true,
+    "installed_cli_bundle_identical_to_registry": true,
+    "cli_bundle_sha256": "435cf9b2b0d42ef5f0bc5885c0fcaa4fe0d2c7510ce5beb9a26efed5d0223d61",
+    "official_python_sdk": {
+      "version": "0.2.0",
+      "sha256": "84ebfe2f546c78cb7e88b0f601c9008a7344388192e4134400bea4e201f14be3"
+    },
+    "independent_python_stdnum": {
+      "version": "2.2",
+      "sha256": "bdf98fd117a0ca152e4047aa8ad254bae63853d4e915ddd4e0effb33ba0e9260"
+    }
+  },
+  "single_live_issuer_read": {
+    "checked_utc": "2026-11-20T13:37:38.862436+00:00",
+    "issuer_host": "api.link.com",
+    "live_operation_count": 1,
+    "operation": "GET existing approved request with card included",
+    "http_status": 200,
+    "issuer_server_date": "Fri, 20 Nov 2026 13:37:42 GMT",
+    "same_authorized_request_and_merchant": true,
+    "approved": true,
+    "currency": "usd",
+    "period_amount_minor": 50000,
+    "raw_number_json_type": "string",
+    "raw_ascii_digits_only": true,
+    "raw_length": 16,
+    "wire_number_equals_official_python_sdk": true,
+    "wire_number_equals_entire_published_cli_test_example": true,
+    "wire_matches_saved_cli_artifact_last_four": true,
+    "wire_matches_saved_cli_artifact_expiry": true,
+    "independent_stdnum_accepts_wire": false,
+    "fyp_accepts_wire": false,
+    "independent_stdnum_accepts_public_link_example": false,
+    "independent_controls_passed": true,
+    "distinct_stripe_published_brand_examples": 22,
+    "wire_in_stripe_published_brand_table": false,
+    "no_card_file_written_by_probe": true,
+    "merchant_payment_submissions": 0
+  },
+  "offline_cli_replay": {
+    "fixture_origin": "pinned public issuer README",
+    "network_calls": 0,
+    "applied_in_memory_mock": true,
+    "fetch_calls": 1,
+    "cli_exit": 0,
+    "credential_file_created": true,
+    "fixture_preserved_by_cli_output_file": true,
+    "credential_file_mode": "0600",
+    "fixture_absent_from_stdout_stderr": true
+  },
+  "merchant_readback": {
+    "observed_utc": "2026-11-20T13:29:33.369199+00:00",
+    "account_and_allowance_binding_matched": true,
+    "same_original_test_checkout": true,
+    "amount_minor": 100,
+    "currency": "usd",
+    "session_status": "open",
+    "payment_status": "unpaid",
+    "intent_attached": false,
+    "reference_filtered_payment_intents": 0,
+    "intent_search_has_more": false,
+    "captured_minor": 0,
+    "refunded_minor": 0
+  },
+  "operator_scope_fix": {
+    "observed_utc": "2026-11-20T13:44:30.905974+00:00",
+    "local_format": "comma",
+    "legacy_space_parser_accepts": false,
+    "prior_status_exit": 1,
+    "prior_failure_on_local_scope_check": true,
+    "repaired_status_exit": 0,
+    "same_original_request": true,
+    "provider_state": "approved",
+    "provider_currency": "usd",
+    "provider_monthly_minor": 50000,
+    "expires_utc": "2027-05-19T07:15:07Z",
+    "same_saved_access_token_during_control": true,
+    "fresh_device_pairing_requested": false,
+    "credential_included": false
+  },
+  "diagnostic_effects": {
+    "new_spend_requests": 0,
+    "merchant_pay_submissions": 0,
+    "new_device_pairings": 0,
+    "upstream_support_messages": 0,
+    "merchant_real_amount_minor": 0
+  },
+  "one_time_adapter_offline_public_fixture": {
+    "before": {
+      "phase": "before",
+      "network_calls": 0,
+      "public_issuer_example": {
+        "error": null,
+        "masked_receipt_written": true,
+        "temporary_fixture_file_remaining": true
+      },
+      "known_valid_public_control": {
+        "error": null,
+        "masked_receipt_written": true,
+        "temporary_fixture_file_remaining": true
+      }
+    },
+    "after": {
+      "phase": "after",
+      "network_calls": 0,
+      "public_issuer_example": {
+        "error": "checksum",
+        "masked_receipt_written": false,
+        "temporary_fixture_file_remaining": false
+      },
+      "known_valid_public_control": {
+        "error": null,
+        "masked_receipt_written": true,
+        "temporary_fixture_file_remaining": true
+      }
+    },
+    "all_ephemeral_test_directories_removed": true
+  },
+  "historical_credential_printed_expiry_covered_attempt_month": true
+}
