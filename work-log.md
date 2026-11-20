@@ -1097,3 +1097,8 @@ Checked the portal and the registered mailbox. The original activation was rejec
 ## 2026-11-21 · Restore motion between Alice’s main poses
 
 Self-reviewed frontend `64485c7f` on the existing integration branch. Reworked idle arm posture, eye and head timing, hand phrasing, interrupted motion and 30 Hz scheduling. The first recording exposed a wide reach during entry and return. Corrected its arc and added a whole-gesture test on the shipped left and right hands. The production frontend build and 17 targeted checks passed. Released to local Mac Web and the original iPhone 17 Pro Simulator. A3 v9, account grants and database integrity survived the release. The licensed comparison uses the same simulated playback on both builds. [QA and video](output/qa/2026-11-21-alice-natural-motion/verification.md) · [draft PR 135](https://github.com/tantalum666/FYP/pull/135). Owner visual review and physical-device acceptance remain open.
+
+
+## 2026-11-21 · Animate Alice’s response to the actual exchange
+
+Added seven social tones, a neutral option and thirteen authored performances. Fitted two-arm landmarks on the licensed model, calibrated thumb closure and staged facial expressions with the eyes and mouth on separate layers. Visual review corrected a bow that tipped backward, a hand over the eye and the clap spacing. Four real ordinary Simulator turns on GPT‑6.2 Sol matched the scoped desk receipts. The same conversation later hit its existing local budget rule. Used provider-protocol replay for the neutral translation. The final Web and Simulator frontends are `88fbc532`. [QA, film and remaining boundary](output/qa/2026-11-21-alice-expressive-conversation/verification.md) · [draft PR 136](https://github.com/tantalum666/FYP/pull/136).

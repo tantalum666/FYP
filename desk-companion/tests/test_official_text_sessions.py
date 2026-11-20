@@ -30,6 +30,26 @@ def send(client, key, message="Tell me about this subject", chat=None, stream=Fa
     )
 
 
+def test_delivery_uses_the_same_session_and_preserves_the_visible_answer(desk):
+    from desk.alice_delivery import DELIVERIES, read_delivery
+
+    _, client, api = desk
+    text = '好消息！你说的 "yes" 我记得。\n🎉'
+    api.final = json.dumps({"delivery": "celebrate", "message": text})
+    answer = send(client, "good-news").json()
+    assert answer["message"] == text and answer["delivery"] == "celebrate"
+    assert len(api.creations) == 1 and not api.functions
+    schema = api.creations[0]["agent"]["text"]["format"]
+    assert schema["type"] == "json_schema"
+    assert schema["schema"]["properties"]["delivery"]["enum"] == list(DELIVERIES)
+    for end in range(len(api.final) + 1):
+        partial = read_delivery(api.final[:end], complete=False)["message"]
+        assert text.startswith(partial)
+    assert read_delivery('{"delivery":"something-unknown","message":"OK"}',complete=True)=={"message":"OK"}
+    assert read_delivery('{"price":1}', complete=True)=={"message":'{"price":1}'}
+    assert read_delivery('{"message":"literal JSON"}', complete=True)=={"message":'{"message":"literal JSON"}'}
+
+
 def test_chat_resumes_verified_remote_turn_and_a_cached_request_never_resubmits(desk):
     r, c, api = desk
     first = send(c, "first").json()
