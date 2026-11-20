@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { Mesh, Scene } from "three";
 import { VRMExpressionManager, type VRM } from "@pixiv/three-vrm";
 import { FacePerformance } from "../src/companion/face-performance.ts";
-import { replyDelivery } from "../src/companion/delivery.ts";
+import { replyDelivery, SpokenDelivery } from "../src/companion/delivery.ts";
 import {
   showDelivery,
   subscribeDelivery,
@@ -68,4 +68,37 @@ test("explicit neutral overrides text and a late viewer never replays a private 
   stop();
   showDelivery("curious");
   assert.deepEqual(got, ["celebrate"]);
+});
+
+test("a split Live caption reacts once and a late packet cannot start an old reaction again", () => {
+  const scene = new SpokenDelivery();
+  assert.equal(
+    scene.receive({ role: "user", text: "恭喜你", caption_group: 2 }),
+    null,
+  );
+  assert.equal(
+    scene.receive({ role: "assistant", text: "恭", caption_group: 2 }),
+    null,
+  );
+  assert.equal(
+    scene.receive({ role: "assistant", text: "喜！", caption_group: 2 }),
+    "celebrate",
+  );
+  assert.equal(
+    scene.receive({ role: "assistant", text: "恭喜", caption_group: 2 }),
+    null,
+  );
+  scene.finish();
+  assert.equal(
+    scene.receive({ role: "assistant", text: "恭喜", caption_group: 2 }),
+    null,
+  );
+  assert.equal(
+    scene.receive({
+      role: "assistant",
+      text: "I'm so sorry to hear that.",
+      caption_group: 3,
+    }),
+    "comfort",
+  );
 });

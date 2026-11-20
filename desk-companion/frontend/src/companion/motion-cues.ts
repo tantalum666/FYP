@@ -63,12 +63,15 @@ export class MotionCues {
   private index = 0;
   private helloIndex = 0;
   private helloCue: MotionCue | null = null;
-  private reply = false;
+  private delivery: Delivery = "neutral";
+  get activeDelivery() {
+    return this.delivery;
+  }
   private variants = new Map<Face, number>();
 
   dismissReply() {
-    if (this.reply) this.cue = null;
-    this.reply = false;
+    if (this.delivery !== "neutral") this.cue = null;
+    this.delivery = "neutral";
   }
 
   respond(time: number, delivery: Delivery) {
@@ -79,7 +82,7 @@ export class MotionCues {
     const gesture = choices[index % choices.length];
     this.variants.set(delivery, index + 1);
     this.cue = { gesture, gestureAt: time };
-    this.reply = true;
+    this.delivery = delivery;
     this.helloCue = null;
     this.nextAt = time + GESTURE_SECONDS[gesture] + pauses[this.state][0];
   }
@@ -93,7 +96,7 @@ export class MotionCues {
   }
 
   hello(time: number) {
-    if (this.reply) return;
+    if (this.delivery !== "neutral") return;
     // Rapid taps acknowledge the current gesture, rather than restarting its arm.
     if (
       this.helloCue &&
@@ -117,7 +120,7 @@ export class MotionCues {
     if (state !== this.state) {
       this.state = state;
       this.index = 0;
-      if (!this.reply) {
+      if (this.delivery === "neutral") {
         this.cue = null;
         this.helloCue = null;
         // A newly heard person gets attention; returning to idle gets a quiet pause.
@@ -129,7 +132,7 @@ export class MotionCues {
       time >= this.cue.gestureAt + GESTURE_SECONDS[this.cue.gesture]
     ) {
       this.cue = null;
-      this.reply = false;
+      this.delivery = "neutral";
     }
     if (!this.cue && time >= this.nextAt) {
       const gesture = sequences[state][this.index % sequences[state].length];

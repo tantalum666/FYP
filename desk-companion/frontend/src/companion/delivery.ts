@@ -40,3 +40,38 @@ export function replyDelivery(value: unknown, message: string): Delivery {
     openings.find(([, pattern]) => pattern.test(opening))?.[0] ?? "neutral"
   );
 }
+
+/** One visible reaction per spoken answer, including captions split across packets. */
+export class SpokenDelivery {
+  private opening = "";
+  private reacted = false;
+  private group = -1;
+  private finishedGroup = -1;
+  finish() {
+    this.finishedGroup = this.group;
+    this.opening = "";
+    this.reacted = false;
+  }
+  receive(event: {
+    role?: string;
+    text?: string;
+    caption_group?: number;
+    final?: boolean;
+  }): Delivery | null {
+    if (event.role !== "assistant" || !event.text || this.reacted) return null;
+    if (Number.isSafeInteger(event.caption_group)) {
+      const group = event.caption_group!;
+      if (group <= this.finishedGroup || group < this.group) return null;
+      this.group = group;
+    }
+    this.opening = (
+      event.final && !Number.isSafeInteger(event.caption_group)
+        ? event.text
+        : this.opening + event.text
+    ).slice(0, 75);
+    const delivery = replyDelivery(undefined, this.opening);
+    if (delivery === "neutral") return null;
+    this.reacted = true;
+    return delivery;
+  }
+}

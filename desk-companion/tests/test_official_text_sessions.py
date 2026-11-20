@@ -47,6 +47,7 @@ def test_delivery_uses_the_same_session_and_preserves_the_visible_answer(desk):
         assert text.startswith(partial)
     assert read_delivery('{"delivery":"something-unknown","message":"OK"}',complete=True)=={"message":"OK"}
     assert read_delivery('{"price":1}', complete=True)=={"message":'{"price":1}'}
+    assert read_delivery('{"message":"literal JSON"}', complete=True)=={"message":'{"message":"literal JSON"}'}
 
 
 def test_chat_resumes_verified_remote_turn_and_a_cached_request_never_resubmits(desk):

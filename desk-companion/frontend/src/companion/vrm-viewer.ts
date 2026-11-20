@@ -505,7 +505,7 @@ export class VrmViewer {
     }
     this.renderer.render(this.scene, this.camera);
     this.host.dataset.motion = motion.gesture ?? motion.state;
-    this.host.dataset.delivery = motion.face?.face ?? "neutral";
+    this.host.dataset.delivery = this.cues.activeDelivery;
     this.host.dataset.frames = String(++this.frames);
     this.host.dataset.motionTime = this.elapsed.toFixed(2);
     if (!this.paused && this.vrm) this.schedule();

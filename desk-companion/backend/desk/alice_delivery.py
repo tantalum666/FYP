@@ -2,7 +2,16 @@
 
 from pydantic_core import from_json
 
-DELIVERIES = ("neutral", "celebrate", "comfort", "appreciate", "surprised", "amused", "curious", "encourage")
+DELIVERIES = (
+    "neutral",
+    "celebrate",
+    "comfort",
+    "appreciate",
+    "surprised",
+    "amused",
+    "curious",
+    "encourage",
+)
 ANSWER_LIMIT = 8000
 # A supplementary Unicode character can be represented as two JSON escape sequences.
 WIRE_LIMIT = ANSWER_LIMIT * 12 + 256
@@ -40,10 +49,15 @@ def read_delivery(raw: str, *, complete: bool) -> dict:
             if complete:
                 raise
             return {"message": ""}
-        if complete and "message" not in data and "delivery" not in data:
-            message, delivery = raw, None
+        if "delivery" not in data:
+            # A legacy answer can itself be JSON, including a "message" key.
+            message, delivery = (raw if complete else ""), None
         else:
             message, delivery = data.get("message", ""), data.get("delivery")
-    if not isinstance(message, str) or len(message) > ANSWER_LIMIT or (complete and not message.strip()):
+    if (
+        not isinstance(message, str)
+        or len(message) > ANSWER_LIMIT
+        or (complete and not message.strip())
+    ):
         raise ValueError("Invalid visible Session answer")
     return {"message": message, **({"delivery": delivery} if delivery in DELIVERIES else {})}

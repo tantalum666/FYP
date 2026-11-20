@@ -25,7 +25,8 @@ function segment<T extends readonly [number, ...unknown[]]>(
   age: number,
 ): [T, T, number] {
   let first = track[0];
-  for (const next of track.slice(1)) {
+  for (let i = 1; i < track.length; i++) {
+    const next = track[i];
     if (age <= next[0])
       return [first, next, smooth((age - first[0]) / (next[0] - first[0]))];
     first = next;

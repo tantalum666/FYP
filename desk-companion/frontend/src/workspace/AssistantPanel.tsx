@@ -5,7 +5,7 @@ import { ComposerFiles } from "./ComposerFiles";
 import { AliceCheckIn } from "./AliceCheckIn";
 import { InitiativeMessages } from "./InitiativeMessages";
 import { companionState, reportInteraction, showDelivery } from "../companion/interaction";
-import { replyDelivery } from "../companion/delivery";
+import { replyDelivery, SpokenDelivery } from "../companion/delivery";
 import { ComposerMenu } from "./ComposerMenu";
 import { useChatFiles } from "./useChatFiles";
 import { CHAT_FILE_ACCEPT, type ChatFileReference } from "./chatFiles";
@@ -983,7 +983,7 @@ export function AssistantPanel({
     speechText.current = { user: "", assistant: "" };
     let starting: VoiceAudio | null = null;
     const transcriptSession = crypto.randomUUID();
-    let spokenOpening = "", reactedToSpeech = false;
+    const spokenDelivery = new SpokenDelivery();
     try {
       const engine = new VoiceAudio((event) => {
         if (!alive.current || audio.current !== engine) return;
@@ -1026,21 +1026,13 @@ export function AssistantPanel({
         if (event.type === "turn_complete" || event.type === "interrupted")
           setVoiceState("listening");
         if (event.type === "turn_complete" || event.type === "interrupted") {
-          spokenOpening = "";
-          reactedToSpeech = false;
+          spokenDelivery.finish();
           finishTranscript(event.type === "interrupted");
           if (!modeSwitching.current) setBusy(false);
         }
         if (event.type === "transcript") {
-          if (immersive && event.role === "assistant" && !reactedToSpeech && event.text) {
-            spokenOpening = (event.final && !Number.isSafeInteger(event.caption_group)
-              ? event.text : spokenOpening + event.text).slice(0, 75);
-            const delivery = replyDelivery(undefined, spokenOpening);
-            if (delivery !== "neutral") {
-              showDelivery(delivery);
-              reactedToSpeech = true;
-            }
-          }
+          const delivery = immersive ? spokenDelivery.receive(event) : null;
+          if (delivery) showDelivery(delivery);
           if (Number.isSafeInteger(event.caption_group)) {
             setTurns((old) =>
               appendLiveTranscript(old, transcriptSession, event),
