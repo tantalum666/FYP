@@ -12,6 +12,8 @@ import type { Presentation } from "./renderer";
 import { MODELS, readAppearance } from "./appearance";
 import { HandPose, relaxArms } from "./hand-pose";
 import { MotionCues } from "./motion-cues";
+import { JointMotion } from "./motion-response";
+import { RenderCadence } from "./render-cadence";
 import {
   aliceMotion,
   blinkWeight,
@@ -36,7 +38,7 @@ export class VrmViewer {
   private abort = new AbortController();
   private vrm: VRM | null = null;
   private frame = 0;
-  private previous = 0;
+  private cadence = new RenderCadence();
   private elapsed = 0;
   private disposed = false;
   private paused = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -61,11 +63,10 @@ export class VrmViewer {
   private waveSide: "left" | "right" = "left";
   private bones = new Map<
     MotionBone,
-    { node: THREE.Object3D; rest: THREE.Quaternion }
+    { node: THREE.Object3D; rest: THREE.Quaternion; response: JointMotion }
   >();
   private rotation = new THREE.Euler();
   private offset = new THREE.Quaternion();
-  private goal = new THREE.Quaternion();
   private interaction: CompanionState | null = null;
   private unsubscribeInteraction: (() => void) | null = null;
   private frames = 0;
@@ -198,7 +199,12 @@ export class VrmViewer {
       vrm.scene.updateMatrixWorld(true);
       for (const name of MOTION_BONES) {
         const node = vrm.humanoid.getNormalizedBoneNode(name);
-        if (node) this.bones.set(name, { node, rest: node.quaternion.clone() });
+        if (node)
+          this.bones.set(name, {
+            node,
+            rest: node.quaternion.clone(),
+            response: new JointMotion(name.endsWith("Arm") ? 8 : 13),
+          });
       }
       this.hands = new HandPose(vrm);
       const left = vrm.humanoid.getRawBoneNode("leftUpperArm");
@@ -284,7 +290,7 @@ export class VrmViewer {
   }
 
   setPaused(paused: boolean) {
-    if (this.paused !== paused) this.previous = 0;
+    if (this.paused !== paused) this.cadence.reset();
     this.paused = paused;
     this.schedule();
   }
@@ -365,7 +371,7 @@ export class VrmViewer {
     this.failed();
   };
   private schedule = () => {
-    if (!this.inView || document.hidden) this.previous = 0;
+    if (!this.inView || document.hidden) this.cadence.reset();
     if (!this.disposed && this.inView && !document.hidden && !this.frame)
       this.frame = requestAnimationFrame(this.draw);
   };
@@ -373,15 +379,12 @@ export class VrmViewer {
   private draw = (at: number) => {
     this.frame = 0;
     if (this.disposed || !this.inView || document.hidden) return;
-    if (at - this.previous < 1000 / 30) {
+    const elapsed = this.cadence.sample(at);
+    if (elapsed === null) {
       this.schedule();
       return;
     }
-    const elapsed = this.previous
-      ? Math.min((at - this.previous) / 1000, 0.25)
-      : 0;
     const delta = Math.min(elapsed, 0.05); // Spring physics keeps its stable step.
-    this.previous = at;
     if (!this.paused) this.elapsed += elapsed;
     const playback =
       this.floating && !this.paused ? mouthLevel(this.sample, Date.now()) : 0;
@@ -401,12 +404,20 @@ export class VrmViewer {
       waveSide: this.waveSide,
     });
     if (this.floating && this.vrm && !this.paused) {
-      const blend = 1 - Math.exp(-7 * elapsed);
-      for (const [name, { node, rest }] of this.bones) {
-        const [x, y, z] = motion.pose[name];
+      for (const [name, { node, rest, response }] of this.bones) {
+        const [x, y, z] = response.update(motion.pose[name], elapsed);
         this.offset.setFromEuler(this.rotation.set(x, y, z));
-        this.goal.copy(rest).multiply(this.offset);
-        node.quaternion.slerp(this.goal, blend);
+        node.quaternion.copy(rest).multiply(this.offset);
+      }
+      const eyes = this.vrm.lookAt;
+      if (eyes) {
+        eyes.yaw = THREE.MathUtils.damp(eyes.yaw, motion.gaze.yaw, 23, elapsed);
+        eyes.pitch = THREE.MathUtils.damp(
+          eyes.pitch,
+          motion.gaze.pitch,
+          23,
+          elapsed,
+        );
       }
       this.hands?.update(
         elapsed,

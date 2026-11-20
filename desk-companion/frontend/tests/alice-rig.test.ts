@@ -125,7 +125,10 @@ for (const side of ["left", "right"] as const)
 for (const side of ["left", "right"] as const)
   test(`${side} explanation stays in front of the body and inside the phone hand envelope`, () => {
     const rig = aliceRig();
-    for (const age of [1.9, 2.4, 3.0]) {
+    let travel = 0;
+    let previous: THREE.Vector3 | undefined;
+    for (let frame = 90; frame <= 210; frame++) {
+      const age = frame / 60;
       const motion = aliceMotion(age, {
         gesture: "explain",
         gestureAt: 0,
@@ -133,6 +136,8 @@ for (const side of ["left", "right"] as const)
       });
       applyPose(rig, motion, side);
       const wrist = rig.position(side + "Hand");
+      if (previous) travel += previous.distanceTo(wrist);
+      previous = wrist;
       const palm = palmNormal(
         side,
         wrist,
@@ -156,4 +161,6 @@ for (const side of ["left", "right"] as const)
       for (const [index, name] of ["leftFoot", "rightFoot"].entries())
         assert.ok(rig.position(name).distanceTo(rig.feet[index]) < 1e-8);
     }
+    // During the middle two seconds a held pose only moved with breathing.
+    assert.ok(travel > 0.035 && travel < 0.15, `wrist path: ${travel} m`);
   });
