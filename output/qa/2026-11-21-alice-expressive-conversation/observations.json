@@ -1,0 +1,151 @@
+{
+  "provider_acceptance_revision": "26b2a50f7d451b7a3adcc081afff98ffb2a8f44a",
+  "final_revision": "88fbc5322dc2e206ef9d74ccfda6569a1396b604",
+  "base_backend": "4a773f31fb8cb005bfaf57ecca59d1c66b03edef",
+  "model": "gpt-6.2-sol",
+  "simulator": "iPhone 17 Pro / iOS 26.5",
+  "viewport_points": [
+    402,
+    874
+  ],
+  "ordinary_chat": [
+    {
+      "case": "good",
+      "input": "努力了半年，我终于拿到第一份工作的录用通知了！用一句话陪我开心一下吧。",
+      "message": "恭喜你拿到第一份工作的录用通知，半年的努力终于等来了这一刻，太值得开心了！",
+      "kind": "reply",
+      "delivery": "celebrate",
+      "rendered_gesture": "applause",
+      "scoped_receipt": true,
+      "error": null
+    },
+    {
+      "case": "setback",
+      "input": "今天面试没有通过，我心里挺难受的。你能陪我一下吗？一句话就好。",
+      "message": "面试没通过，难受也很自然，我在这儿陪你一会儿。",
+      "kind": "reply",
+      "delivery": "comfort",
+      "rendered_gesture": "comfort",
+      "scoped_receipt": true,
+      "error": null
+    },
+    {
+      "case": "thanks",
+      "input": "谢谢你刚才陪着我，我真的很感激。",
+      "message": "谢谢你告诉我，我也很高兴刚才能陪你一会儿。",
+      "kind": "reply",
+      "delivery": "appreciate",
+      "rendered_gesture": "gratefulBow",
+      "scoped_receipt": true,
+      "error": null
+    },
+    {
+      "case": "joke",
+      "input": "我讲个冷笑话：面包去面试，结果因为太能发酵，被当场提拔了。",
+      "message": "哈哈，面试官一看，这候选人上升空间确实挺大。",
+      "kind": "reply",
+      "delivery": "amused",
+      "rendered_gesture": "giggle",
+      "scoped_receipt": true,
+      "error": null
+    },
+    {
+      "case": "plain",
+      "input": "把 Monday 翻译成中文，只给译文。",
+      "message": "This conversation reached its local spending allowance.",
+      "kind": "clarify",
+      "delivery": null,
+      "rendered_gesture": null,
+      "scoped_receipt": true,
+      "error": "OPENAI_SESSION_BUDGET_REACHED"
+    }
+  ],
+  "final_web": {
+    "activeWeb": {
+      "revision": "88fbc5322dc2e206ef9d74ccfda6569a1396b604",
+      "tap": "wink",
+      "deliveryDuringTap": "neutral",
+      "errors": []
+    },
+    "fixture": [
+      {
+        "case": "good",
+        "delivery": "celebrate",
+        "gesture": "applause",
+        "textMatched": true
+      },
+      {
+        "case": "setback",
+        "delivery": "comfort",
+        "gesture": "comfort",
+        "textMatched": true
+      },
+      {
+        "case": "thanks",
+        "delivery": "appreciate",
+        "gesture": "gratefulBow",
+        "textMatched": true
+      },
+      {
+        "case": "joke",
+        "delivery": "amused",
+        "gesture": "giggle",
+        "textMatched": true
+      },
+      {
+        "case": "plain",
+        "delivery": "neutral",
+        "gesture": "idle",
+        "textMatched": true
+      }
+    ],
+    "fixtureErrors": [],
+    "reduced": {
+      "poster": "/avatars/alice/phone-fallback.jpg",
+      "canvases": 0,
+      "errors": []
+    }
+  },
+  "final_native": {
+    "setback": {
+      "replyMatches": true,
+      "delivery": "comfort",
+      "phases": [
+        "idle",
+        "thinking",
+        "comfort"
+      ]
+    },
+    "plain": {
+      "replyMatches": true,
+      "delivery": "neutral",
+      "phases": [
+        "thinking",
+        "idle"
+      ]
+    },
+    "normal": {
+      "home": true,
+      "delivery": "neutral",
+      "regularDeskRestored": true
+    },
+    "installed": "88fbc5322dc2e206ef9d74ccfda6569a1396b604"
+  },
+  "qa_window_local_ledger_usd": {
+    "observed_usage_estimate_usd": 0.090625,
+    "reserved_or_unpriced_usd": 0.08,
+    "local_budget_used_usd": 0.170625
+  },
+  "rollout": {
+    "schema": 3,
+    "database_backup_verified": true,
+    "A3_unchanged": true,
+    "voice_version": 9,
+    "app_accounts_unchanged": true,
+    "protected_files_unchanged": true
+  },
+  "media_sha256": {
+    "alice-conversation.mp4": "10c29bd8476c67d0983087c079827755314d68c0f16788d0800f127b01e4b805",
+    "expression-strip.jpg": "8041c1cad7c60216246c615e89e374fd7c9b04239198f95363a62029e2790661"
+  }
+}

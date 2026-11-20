@@ -1,6 +1,16 @@
 # A1 3D presentation study
 
-## Current Alice motion · 21 November 2026
+## Current conversation performance · 21 November 2026
+
+The regular home receives a bounded delivery value when an ordinary reply is shown. The same official Session that writes the answer chooses between neutral and seven social tones. `MotionCues` starts a short performance, keeps it through the normal thinking-to-idle transition and releases it for a new turn or hidden surface. Speech-only captions without structured delivery can recognize a small set of explicit reply openings. This path processes existing assistant captions locally.
+
+The score describes thirteen performances using shared arm landmarks and separate body, hand and face timing. Celebration can applaud or raise both fists. Comfort brings a hand to the chest and then offers an open palm. Gratitude can bow with lowered eyelids or touch the chest. Surprise uses two open hands, humor can cover a grin or wink, and curiosity and encouragement have their own gestures. Quiet idle intervals can include a hair tuck or a sleeve adjustment. The native geometry test follows the complete reach on both hands, including three distinct clap contacts.
+
+The face mixer binds the artist’s original brow, eyelid and mouth shapes once through three-vrm. Existing speaker playback keeps control of lip sync. Avatars without those named targets can use their VRM presets. Reduced motion still shows the static image. Ordinary neutral turns do not start a conversation performance.
+
+The Mac Web home and iPhone Simulator run `88fbc532`. [Actual ordinary conversation film and acceptance](../../output/qa/2026-11-21-alice-expressive-conversation/verification.md).
+
+## Previous movement timing · 21 November 2026
 
 A glance starts in the eyes, passes through the head and shoulders, then settles back. The resident renderer uses VRM LookAt with the loaded model’s eye limits. During speech Alice brings an open palm forward, relaxes it and adds a smaller second emphasis. The elbow leads the wrist on two uneven greeting sweeps. Between gestures, the forearms rest at different depths with softly curled fingers.
 

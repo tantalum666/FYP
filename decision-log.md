@@ -946,3 +946,8 @@ The owner authorized submitting the official rejected-registration form for the 
 ## 2026-11-21 Natural movement in the ordinary Alice home
 
 The owner reported that Alice still moved stiffly. Group 2 kept the selected model and gesture vocabulary and changed how each movement unfolds. Eyes acquire the target first, upper-body joints overlap, and an interrupted arm retains velocity as it returns to rest. The hand follows a forward path through the full lift and return. Check the path on the shipped rig and on the phone screen, including the frames between the main poses. The 30 Hz render budget and quiet intervals remain in effect. [Motion acceptance](output/qa/2026-11-21-alice-natural-motion/verification.md).
+
+
+## 2026-11-21 Give ordinary replies an expressive performance
+
+The owner found the revised arm timing and posture emotionally flat and asked for more varied movements and faces. Group 2 added distinct social responses, casual idle gestures and facial articulation on the existing character. Ordinary text chooses a bounded presentation value inside the same official Session reply. The renderer only receives that value. Task results remain authoritative and older plain-text replies stay readable. Repeated tones can select a different performance. [Evidence](output/qa/2026-11-21-alice-expressive-conversation/verification.md).

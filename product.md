@@ -100,6 +100,12 @@ Reuse official execution infrastructure where it fits. Live supports Responses t
 
 The one newly authorized paid trial independently verified two public book prices, then deleted its session. Usage was absent: the entire US$1 remains reserved and this round is closed. No further paid request is authorized by the implementation or deployment.
 
+## 2026-11-21 Expressive reactions in ordinary Alice conversation
+
+Alice’s reply should show a response appropriate to what the person actually said. Good news, disappointment, gratitude, surprise, shared humor, curiosity and encouragement have distinct facial and body performances. Routine replies can stay neutral. Select the delivery alongside the words in the existing ordinary OpenAI Session. Authoritative tool receipts retain their normal path. Preserve quiet intervals, the licensed character, foot contact and the static reduced-motion presentation.
+
+Home also has casual gestures, including tucking hair behind an ear and adjusting a sleeve. The Web and native Simulator release is `88fbc532`. Four real text turns were checked against the rendered reaction and the scoped response receipt. [Film and acceptance](output/qa/2026-11-21-alice-expressive-conversation/verification.md).
+
 ## 2026-11-21 Alice movement during conversation
 
 Alice should make eye contact, glance and turn with a short delay between the eyes, head and shoulders. A greeting uses unequal hand sweeps. During speech the hand presents a point, adds a smaller emphasis and settles. A change to listening lets the arm finish moving down. Keep the feet planted and the whole hand visible during the lift and return. Preserve quiet pauses, the current avatar, and the reduced-motion poster. Mac Web and the iPhone 17 Pro Simulator run these movements at frontend `64485c7f`. [Simulator comparison and verification](output/qa/2026-11-21-alice-natural-motion/verification.md).

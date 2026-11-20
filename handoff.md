@@ -1,10 +1,10 @@
 # Group 2 · Current handoff
 
-21 November 2026, Hong Kong. Continue in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/alice-natural-motion-20261121`. [Alice motion PR 135](https://github.com/tantalum666/FYP/pull/135) targets the existing shopping branch. [PR 134](https://github.com/tantalum666/FYP/pull/134) targets [PR 133](https://github.com/tantalum666/FYP/pull/133). [Product](product.md) · [decisions](decision-log.md).
+21 November 2026, Hong Kong. Continue in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/alice-expressive-reactions-20261121`. [Expressive conversation PR 136](https://github.com/tantalum666/FYP/pull/136) targets the natural-motion branch. [Alice motion PR 135](https://github.com/tantalum666/FYP/pull/135) targets the existing shopping branch. [PR 134](https://github.com/tantalum666/FYP/pull/134) targets [PR 133](https://github.com/tantalum666/FYP/pull/133). [Product](product.md) · [decisions](decision-log.md).
 
 ## Running release
 
-Mac Web and the iPhone 17 Pro Simulator now run frontend `64485c7f`. The shared Mac backend code remains at `4a773f31`. Alice rests with bent elbows, looks before turning, and brings the palm forward through a complete explanation. The local rollout verified A3 v9, account grants and store integrity. [Same-device motion comparison](output/qa/2026-11-21-alice-natural-motion/verification.md). The original Pi is still at `85e6aa94`. [Current acceptance](output/qa/2026-11-19-alice-shopping-conversation/verification.md) · [Pi release](output/qa/2026-11-19-pi-release/verification.md).
+Mac Web and the iPhone 17 Pro Simulator run frontend `88fbc532`. The Mac also serves the Session delivery adapter from this revision over backend base `4a773f31`. Four real ordinary messages produced celebration, comfort, gratitude and amusement. The recorded native expressions and returned text matched their stored responses. [Film and acceptance](output/qa/2026-11-21-alice-expressive-conversation/verification.md). The local rollout verified A3 v9, account grants and store integrity. [Same-device motion comparison](output/qa/2026-11-21-alice-natural-motion/verification.md). The original Pi is still at `85e6aa94`. [Current acceptance](output/qa/2026-11-19-alice-shopping-conversation/verification.md) · [Pi release](output/qa/2026-11-19-pi-release/verification.md).
 
 ## Commerce
 
@@ -26,4 +26,4 @@ The Diagnostics screen shows the UTC platform export, usage-based estimate, loca
 
 Ordinary chat now supports the complete LetsFG test booking. At HK$34 the quote was still unbooked; after an explicit HK$36.25 reapproval Alice showed simulated PNR `5SMZA7` and matching capture. The same chat reopened the record after backend restart. [Native verification](output/qa/2026-11-19-alice-flight-conversation/verification.md).
 
-**Next step** — Review the two Simulator recordings side by side in [PR 135](https://github.com/tantalum666/FYP/pull/135) before promoting Alice’s new motion to physical devices.
+**Next step** — Evaluate the timing of these reactions in a longer, interrupted spoken conversation. Current provider-backed acceptance covers ordinary text. The recorded Live-caption checks cover local packet handling.
