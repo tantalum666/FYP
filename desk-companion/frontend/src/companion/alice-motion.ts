@@ -121,6 +121,8 @@ export function aliceMotion(
     options.gesture ? GESTURE_SECONDS[options.gesture] : GREETING_SECONDS,
   );
   const gesture = weight > 0 ? (options.gesture ?? null) : null;
+  const side = options.waveSide ?? "left";
+  const sign = side === "left" ? -1 : 1;
   let openness = 0;
   const blend = (bone: MotionBone, target: Rotation, amount = weight) => {
     pose[bone] = target.map(
@@ -128,8 +130,6 @@ export function aliceMotion(
     ) as Rotation;
   };
   if (gesture === "wave") {
-    const side = options.waveSide ?? "left";
-    const sign = side === "left" ? -1 : 1;
     const elbow = smooth(age / 0.95) * smooth((GREETING_SECONDS - age) / 1.1);
     const wrist =
       smooth((age - 0.25) / 1.1) * smooth((GREETING_SECONDS - age - 0.1) / 1.0);
@@ -150,9 +150,6 @@ export function aliceMotion(
       [-0.08 - 0.065 * lead, 0, sign * (2.24 + 0.072 * lead)],
       elbow,
     );
-    // Bring the forearm forward during the lift, then show the palm beside
-    // the face. A flat sideways sweep would clip the phone's right edge.
-    pose[`${side}UpperArm`][0] -= Math.sin(Math.PI * weight) * 1.0;
     blend(
       `${side}Hand`,
       [
@@ -215,8 +212,6 @@ export function aliceMotion(
     pose.leftLowerArm[2] -= 0.24 * lean;
     pose.leftShoulder[0] -= 0.04 * lean;
   } else if (gesture === "explain") {
-    const side = options.waveSide ?? "left";
-    const sign = side === "left" ? -1 : 1;
     // Bring the palm forward, let it settle, then underline the phrase
     // with a smaller outward stroke. The elbow leads the fingers home.
     const present = stroke(age, 0.32, 1.54, 3.14);
@@ -244,6 +239,14 @@ export function aliceMotion(
     pose.head[2] += sign * 0.054 * stroke(age, 0.2, 1.13, 3.36);
     pose.head[0] += 0.069 * stroke(age, 2.12, 2.91, 4.0);
     smile = Math.max(smile, 0.13 * weight);
+  }
+  if (gesture === "wave" || gesture === "explain") {
+    // Lift in depth through the middle of the reach. A sideways sweep
+    // takes the elbow and fingers to the edge of a narrow display.
+    const arc = Math.sin(Math.PI * weight);
+    pose[`${side}UpperArm`][0] -= (gesture === "wave" ? 1.23 : 0.6) * arc;
+    pose[`${side}UpperArm`][2] -= sign * 0.12 * arc;
+    pose[`${side}LowerArm`][1] += sign * 0.12 * arc;
   }
   return {
     pose,

@@ -203,7 +203,7 @@ export class VrmViewer {
           this.bones.set(name, {
             node,
             rest: node.quaternion.clone(),
-            response: new JointMotion(name.endsWith("Arm") ? 8 : 13),
+            response: new JointMotion(name),
           });
       }
       this.hands = new HandPose(vrm);

@@ -24,7 +24,7 @@ test("a glance acquires its target before the head and shoulders turn", () => {
 });
 
 test("a mid-gesture interruption preserves velocity then settles", () => {
-  const joint = new JointMotion(13);
+  const joint = new JointMotion("head");
   joint.update([1, 0, 0], 0.07);
   const before = joint.angles[0];
   const moving = joint.update([1, 0, 0], 0.001)[0];

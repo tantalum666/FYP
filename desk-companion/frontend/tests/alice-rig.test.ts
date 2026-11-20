@@ -9,6 +9,7 @@ import {
 } from "@pixiv/three-vrm";
 import { aliceMotion, MOTION_BONES } from "../src/companion/alice-motion.ts";
 import { HandPose, palmNormal, relaxArms } from "../src/companion/hand-pose.ts";
+import { JointMotion } from "../src/companion/motion-response.ts";
 
 function aliceRig() {
   // The shipped model's real joint hierarchy, without texture/mesh loading or a GPU.
@@ -74,6 +75,7 @@ function applyPose(
   rig: ReturnType<typeof aliceRig>,
   motion: ReturnType<typeof aliceMotion>,
   side: "left" | "right",
+  elapsed = 1,
 ) {
   for (const name of MOTION_BONES) {
     const node = rig.humanoid.getNormalizedBoneNode(name)!;
@@ -85,7 +87,7 @@ function applyPose(
         ),
       );
   }
-  rig.hands.update(1, side, motion.openness);
+  rig.hands.update(elapsed, side, motion.openness);
   rig.humanoid.update();
   rig.scene.updateMatrixWorld(true);
 }
@@ -164,3 +166,32 @@ for (const side of ["left", "right"] as const)
     // During the middle two seconds a held pose only moved with breathing.
     assert.ok(travel > 0.035 && travel < 0.15, `wrist path: ${travel} m`);
   });
+
+test("the moving fingertips stay inside the phone envelope throughout the lift and return", () => {
+  for (const side of ["left", "right"] as const) {
+    for (const gesture of ["wave", "explain"] as const) {
+      const rig = aliceRig();
+      const joints = MOTION_BONES.map((bone) => new JointMotion(bone));
+      for (let frame = 0; frame < 220; frame++) {
+        const time = frame / 30;
+        const motion = aliceMotion(time, {
+          gesture,
+          gestureAt: 1,
+          waveSide: side,
+        });
+        MOTION_BONES.forEach((bone, i) => {
+          const [x, y, z] = joints[i].update(motion.pose[bone], 1 / 30);
+          motion.pose[bone] = [x, y, z];
+        });
+        applyPose(rig, motion, side, 1 / 30);
+        for (const finger of ["Thumb", "Index", "Middle", "Ring", "Little"]) {
+          const tip = rig.position(side + finger + "Distal");
+          assert.ok(
+            Math.abs(tip.x) < 0.38,
+            `${side} ${gesture}: fingertip at ${tip.x} m, ${time} s`,
+          );
+        }
+      }
+    }
+  }
+});
