@@ -15,12 +15,15 @@ def test_object(value):
     return value
 
 
+def valid_resource_id(value):
+    """Accept an opaque Stripe identifier as one URL path segment."""
+    return isinstance(value, str) and re.fullmatch(r"[A-Za-z0-9_-]+", value) is not None
+
+
 def receipt(client, session_id, reference, amount, currency, *, full_refund_id=None):
     if not re.fullmatch(r"cs_test_[a-zA-Z0-9]+", session_id):
         raise ValueError("Expected a test Checkout Session ID")
-    if full_refund_id is not None and (
-        not isinstance(full_refund_id, str) or not re.fullmatch(r"re_[a-zA-Z0-9]+", full_refund_id)
-    ):
+    if full_refund_id is not None and not valid_resource_id(full_refund_id):
         raise ValueError("Expected a Stripe Refund ID")
 
     def get(path):
@@ -49,13 +52,13 @@ def receipt(client, session_id, reference, amount, currency, *, full_refund_id=N
         or intent["status"] != "succeeded"
         or intent["amount_received"] != amount
         or intent["currency"] != currency
-        or not isinstance(charge_id, str)
-        or not re.fullmatch(r"ch_[a-zA-Z0-9]+", charge_id)
+        or not valid_resource_id(charge_id)
     ):
         raise ValueError("The paid amount or charge reference did not match the order")
     charge = test_object(get("charges/" + charge_id))
     if (
-        charge["id"] != charge_id
+        charge.get("object") != "charge"
+        or charge["id"] != charge_id
         or charge["payment_intent"] != intent_id
         or charge["status"] != "succeeded"
         or not charge["captured"]

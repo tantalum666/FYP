@@ -9,10 +9,11 @@
     "sandbox_listing_created": false,
     "paid_order": null,
     "cancellation": null,
-    "refund": null
+    "refund": null,
+    "latest_developer_sign_in": "pending_approval"
   },
   "amazon_pay_official_demo": {
-    "buyer_registration": "email_verification_pending",
+    "buyer_registration": "verified",
     "verification_message_received": true,
     "item": "CleanSmart Linen Hand Towels",
     "quantity": 1,
@@ -21,9 +22,19 @@
     "shipping_minor": 400,
     "tax_minor": 130,
     "quoted_total_minor": 1430,
-    "merchant_order": null,
+    "merchant_order": {
+      "displayed_number_suffix": "4202",
+      "confirmed": true,
+      "payment_method": "Amazon Pay",
+      "quantity": 1,
+      "total_minor": 1430
+    },
     "charge": null,
-    "refund": null
+    "refund": null,
+    "sandbox_wallet_signed_in": true,
+    "preset_visa_last4": "1111",
+    "buyer_cancel_control_observed": false,
+    "account_orders_label_opened_history": false
   },
   "amazon_pay_via_us_stripe_sandbox": {
     "item": "Pocket tissues (FYP test, no shipment)",
@@ -33,12 +44,54 @@
     "shipping_minor": 0,
     "tax_minor": 0,
     "total_minor": 100,
-    "checkout_status": "open",
-    "payment_status": "unpaid",
-    "payment_intent_reference_present": false,
+    "checkout_status": "complete",
+    "payment_status": "paid",
+    "payment_intent_reference_present": true,
     "configured_amazon_pay_available": true,
     "amazon_sandbox_sign_in_seen": true,
-    "verified_refund": null
+    "verified_refund": {
+      "status": "succeeded",
+      "amount_minor": 100,
+      "currency": "usd",
+      "destination_type": "amazon_pay",
+      "first_read_status": "pending",
+      "charge_refunded_minor": 100,
+      "provider_events": [
+        {
+          "event": "refund.created",
+          "state": "pending",
+          "created_utc": "2026-11-20T06:06:54+00:00",
+          "seconds_after_refund_created": 1
+        },
+        {
+          "event": "refund.updated",
+          "state": "succeeded",
+          "created_utc": "2026-11-20T06:06:55+00:00",
+          "seconds_after_refund_created": 2
+        }
+      ]
+    },
+    "before_wallet_authorization": {
+      "checkout_status": "open",
+      "payment_status": "unpaid",
+      "payment_intent_reference_present": false
+    },
+    "original_checkout_reused": true,
+    "checkout_order_reference": "fyp-amazon-pay-pocket-tissues-20261120",
+    "method": "amazon_pay",
+    "payment_intent_status": "succeeded",
+    "captured_minor": 100,
+    "wallet_transaction_reference_present": true,
+    "wallet_preset_visa_last4": "1111",
+    "refund_created_seconds_after_charge": 73,
+    "refund_count_for_charge": 1,
+    "hosted_receipt": {
+      "refunded_minor": 100,
+      "adjusted_total_minor": 0
+    },
+    "charge_created_utc": "2026-11-20T06:05:40+00:00",
+    "refund_created_utc": "2026-11-20T06:06:53+00:00",
+    "actual_live_amount_minor": 0
   },
   "us_stripe_visa_refund_control": {
     "livemode": false,

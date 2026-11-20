@@ -6,7 +6,7 @@ import pytest
 from scripts.verify_stripe_sandbox_checkout import main, receipt
 
 
-def provider_records():
+def provider_records(*, charge_id="ch_shop", refund_id="re_shop"):
     return {
         "checkout/sessions/cs_test_shop": {
             "id": "cs_test_shop",
@@ -24,10 +24,11 @@ def provider_records():
             "amount_received": 100,
             "currency": "usd",
             "livemode": False,
-            "latest_charge": "ch_shop",
+            "latest_charge": charge_id,
         },
-        "charges/ch_shop": {
-            "id": "ch_shop",
+        f"charges/{charge_id}": {
+            "object": "charge",
+            "id": charge_id,
             "payment_intent": "pi_shop",
             "status": "succeeded",
             "paid": True,
@@ -39,10 +40,10 @@ def provider_records():
             "livemode": False,
             "payment_method_details": {"type": "amazon_pay"},
         },
-        "refunds/re_shop": {
-            "id": "re_shop",
+        f"refunds/{refund_id}": {
+            "id": refund_id,
             "object": "refund",
-            "charge": "ch_shop",
+            "charge": charge_id,
             "payment_intent": "pi_shop",
             "status": "succeeded",
             "amount": 100,
@@ -73,6 +74,26 @@ def test_terminal_refund_and_original_paid_only_contract():
         verify(records, refund_id=None)
     records["charges/ch_shop"].update(refunded=False, amount_refunded=0)
     assert "refund" not in verify(records, refund_id=None)
+
+
+def test_amazon_pay_charge_and_refund_identifiers():
+    records = provider_records(charge_id="py_wallet", refund_id="pyr_wallet")
+    result = verify(records, refund_id="pyr_wallet")
+    assert result["method"] == "amazon_pay"
+    assert result["refund"]["amount_minor"] == 100
+
+    records["charges/py_wallet"]["object"] = "transfer"
+    with pytest.raises(ValueError, match="captured charge"):
+        verify(records, refund_id="pyr_wallet")
+
+
+def test_external_identifiers_cannot_change_the_lookup_path():
+    records = provider_records()
+    with pytest.raises(ValueError, match="Refund ID"):
+        verify(records, refund_id="../charges/ch_shop")
+    records["payment_intents/pi_shop"]["latest_charge"] = "py_wallet?expand[]=customer"
+    with pytest.raises(ValueError, match="charge reference"):
+        verify(records)
 
 
 @pytest.mark.parametrize(

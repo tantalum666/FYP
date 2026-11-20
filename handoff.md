@@ -8,7 +8,7 @@ The shared Mac backend runs `4a773f31`. The iPhone 17 Pro Simulator UI runs `c42
 
 ## Commerce
 
-Overseas shopping now takes priority. eBay confirmed the developer email and placed the application in review. Amazon sent the sandbox buyer verification email. Its demo order is quoted at US$14.30 and a second FYP checkout for one US$1.00 pack of tissues opened the Amazon Pay sandbox login. Both await buyer verification. Keep the existing sign-up and checkout to resume. The independent Stripe US test Visa control captured and refunded US$0.75, with one matching refund created nine seconds after the charge. Zinc refused cancellation once its test retailer had accepted the order. [Receipts and account state](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).
+The verified Amazon Pay buyer completed a US$14.30 KitchenSmart demo order, with an order number ending in 4202. The original US$1.00 FYP tissue checkout captured through Amazon Pay and produced one completed full refund, independently matched to the same Charge. Stripe's hosted receipt showed US$0.00 net. KitchenSmart exposed no working buyer-cancellation action. eBay developer sign-in still reports pending approval. [Provider receipts and remaining cancellation test](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).
 
 Ordinary chat now supports reviewed WooCommerce shopping. Two shippable stationery packs at HK$17 produced a HK$42 quote with HK$8 delivery. Woo then returned HK$12 delivery and HK$46 total. Only a second confirmation paid. Merchant order #17, Stripe test capture and chat follow-up all matched HK$46. The store’s delivery fixture is back at HK$8. [Contract](desk-companion/docs/conversation-shopping.md) · [receipts](output/qa/2026-11-19-alice-shopping-conversation/receipts.json).
 
@@ -26,4 +26,4 @@ The Diagnostics screen shows the UTC platform export, usage-based estimate, loca
 
 Ordinary chat now supports the complete LetsFG test booking. At HK$34 the quote was still unbooked; after an explicit HK$36.25 reapproval Alice showed simulated PNR `5SMZA7` and matching capture. The same chat reopened the record after backend restart. [Native verification](output/qa/2026-11-19-alice-flight-conversation/verification.md).
 
-**Next step** — Resume the existing Amazon Pay buyer after email verification, complete the US$1.00 merchant-controlled sandbox checkout, and independently reopen its Amazon Pay charge and full refund. eBay's approval email will unlock the separate test-buyer and test-seller order.
+**Next step** — After eBay approves the existing developer account, create its sandbox buyer and seller for one paid order. Request cancellation as the buyer, process the seller's decision and reopen the corresponding order and full refund.
