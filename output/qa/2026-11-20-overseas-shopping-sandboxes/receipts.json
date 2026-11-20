@@ -154,5 +154,45 @@
       "refund_verified": false
     }
   },
-  "marketplace_post_payment_cancellation_verified": false
+  "marketplace_post_payment_cancellation_verified": false,
+  "link_agent_wallet": {
+    "connected": true,
+    "actual_oauth_scopes": [
+      "payment_methods.agentic",
+      "userinfo:read"
+    ],
+    "refresh_credential_persisted": true,
+    "first_create_http": 401,
+    "first_create_missing_profile_fields": [
+      "read_email",
+      "read_phone",
+      "read_name",
+      "read_avatar",
+      "userinfo.addresses:read"
+    ],
+    "after_permission_upgrade": {
+      "quoted_item": "Pocket tissues (FYP sandbox)",
+      "quantity": 1,
+      "quoted_minor": 100,
+      "currency": "usd",
+      "shipping_minor": 0,
+      "tax_minor": 0,
+      "issuer_request_id_returned": true,
+      "request_mode_sent": "test",
+      "credential_type": "card",
+      "spend_request_status_at_check": "pending_approval",
+      "spend_request_created_utc": "2026-11-20T06:58:25Z",
+      "recurring": false,
+      "credential_retrieved": false,
+      "merchant_payment_status": "unpaid",
+      "merchant_payment_intent_observed": false,
+      "refund": null
+    },
+    "approval_policy_read_http": 403,
+    "owner_verification_on_web": [
+      "Link mobile app",
+      "passkey"
+    ],
+    "real_amount_minor": 0
+  }
 }
