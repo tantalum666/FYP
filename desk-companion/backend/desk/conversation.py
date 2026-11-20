@@ -107,11 +107,11 @@ class Conversations:
             return None
         return hashlib.sha256(principal["session"].encode()).hexdigest()
 
-    def open(self, principal, revision, conversation_id=None, *, task_id=None):
+    def open(self, principal, revision, conversation_id=None, *, task_id=None, recover_review=False):
         with self.lock:
-            return self._open(principal, revision, conversation_id, task_id)
+            return self._open(principal, revision, conversation_id, task_id, recover_review)
 
-    def _open(self, principal, revision, conversation_id, task_id):
+    def _open(self, principal, revision, conversation_id, task_id, recover_review=False):
         owner = self.owner(principal)
         if not owner:
             if conversation_id:
@@ -119,7 +119,7 @@ class Conversations:
             return None
         now = self.clock()
         self.prune()
-        if conversation_id:
+        if conversation_id and not (recover_review and conversation_id not in self.entries):
             entry = self.entries.get(conversation_id)
             if not entry or entry.owner != owner:
                 raise DomainError("CONVERSATION_NOT_FOUND", 404)
@@ -132,7 +132,7 @@ class Conversations:
             if len(self.entries) >= 16:
                 oldest = min(self.entries, key=lambda key: self.entries[key].touched)
                 del self.entries[oldest]
-            entry = Conversation(secrets.token_urlsafe(24), owner, revision, now, task_id=task_id)
+            entry = Conversation(conversation_id or secrets.token_urlsafe(24), owner, revision, now, task_id=task_id)
             self.entries[entry.id] = entry
         entry.touched = now
         return entry

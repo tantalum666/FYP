@@ -387,6 +387,14 @@ export function errorText(
       "The browser task stopped without a complete report.",
       "浏览任务已停止，尚未获得完整报告。",
     ],
+    COMPUTER_QUOTE_UNVERIFIED: [
+      "The price or its source could not be verified. Review the original website.",
+      "未能核实价格或来源，请查看原网站。",
+    ],
+    ITINERARY_SHARING_REQUIRED: [
+      "Review the itinerary and allow sharing with the named flight provider.",
+      "请核对行程并允许将这些条件发送至所列的航班供应商。",
+    ],
     COMPUTER_ACTIVITY_LIMIT: [
       "The browser reached this task's activity limit and stopped.",
       "已达到本次浏览任务的操作上限，浏览器已停止。",
@@ -561,6 +569,9 @@ export function errorText(
       "AI text is not configured on this desk.",
       "本设备尚未配置文字AI。",
     ],
+    FLIGHT_REVIEW_CHANGED: ["The fare changed. Review the current total before confirming.", "报价已变化，请核对当前总价后再确认。"],
+    FLIGHT_PROVIDER_UNAVAILABLE: ["The test provider is unavailable. Check the same booking again.", "测试供应商暂时无法访问，请再查看同一订单。"],
+    FLIGHT_NOT_FOUND: ["This booking belongs to another conversation.", "当前对话没有这笔测试订单。"],
     DRAFT_EXPIRED: [
       "This draft expired. Prepare a new one before saving.",
       "草稿已过期，请重新生成后保存。",

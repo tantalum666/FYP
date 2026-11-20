@@ -8,13 +8,16 @@ from dataclasses import replace
 
 from .application_runtime import read_regular
 from .browser_policy import digest
+from .calendar import iso
+from .commerce_quotes import read_quote
+from .flight_search import uses_flight_connector
 from .computer import ExecutionRejected
 from .computer_use import ComputerUseExecutor
 from .computer_use_files import write_file
 from .computer_use_models import ComputerUseReceipt
 from .managed_browser_client import ManagedBrowserClient
 from .provider_policy import OPENAI_BROWSER_MODELS
-from .openai_spend import HOSTED_BROWSER, token_estimate
+from .openai_spend import HOSTED_BROWSER, TEXT_SESSION, managed_estimate, token_estimate
 from .managed_browser_auth import ManagedBrowserAuth
 from .store import DomainError, encode
 
@@ -83,14 +86,15 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
             self.current(request)
 
         fence()
+        connector = uses_flight_connector(request)
         # Keep the existing daily attempt limit. One managed session may contain
         # many internal model calls, so this is not a dollar or token ceiling.
         try:
             usage_id = self.runtime.text_ai._reserve_usage(
                 "computer_use",
                 reservation=(
-                    "hosted_browser",
-                    HOSTED_BROWSER,
+                    "flight_mcp" if connector else "hosted_browser",
+                    TEXT_SESSION if connector else HOSTED_BROWSER,
                     ManagedBrowserClient.setup_seconds
                     + ManagedBrowserClient.active_seconds
                     + ManagedBrowserClient.auth_seconds
@@ -127,7 +131,7 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
             except DomainError as error:
                 raise ExecutionRejected(error.code, error.status) from error
 
-        client.budget_observation = budget_observation
+        client.budget_observation = budget_observation if self.runtime.openai_spend.path else None
 
         def authentication(action):
             job_id = request["artifact_id"]
@@ -147,7 +151,10 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
             )
             return answer
 
-        result = asyncio.run(client.run(request, fence, created, authentication=authentication))
+        spec = request.get("quote_request")
+        result = asyncio.run(client.run(request, fence, created, authentication=None if spec else authentication))
+        if spec:
+            result["observed_at"] = iso(self.store.clock())
         # Save bounded evidence even when cancellation/provider failure interrupts
         # work. A missing usage receipt remains unknown, never a zero-cost claim.
         write_file(directory, "managed-result.json", encode(result).encode())
@@ -160,10 +167,7 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
                 ),
             )
         if result["session_deleted"] and result["deletion_readback"]:
-            # Token usage does not itemize the environment. Keep the full hosted reservation.
-            self.runtime.openai_spend.usage(
-                [usage_id], token_estimate(result.get("usage")), final=True, retain=True
-            )
+            self.runtime.openai_spend.usage([usage_id], managed_estimate(result, connector), final=True)
         if not result["session_deleted"] or not result["deletion_readback"]:
             raise RuntimeError("Managed cleanup is uncertain; inspect before retry")
         self.blocker.unlink()
@@ -189,6 +193,14 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
             if result["account_access_authorized"]
             else "public_pages",
         }
+        if spec:
+            try:
+                receipt["quote"] = read_quote(request, result["report"], result["observed_at"])
+            except ValueError as exc:
+                raise ExecutionRejected("COMPUTER_QUOTE_UNVERIFIED", 409) from exc
+            receipt["report"] = receipt["quote"]["note"]
+            if connector:
+                receipt["source"] = "kiwi_mcp"
         write_file(directory, "receipt.json", encode(receipt).encode())
 
     def verify(self, request):
@@ -197,11 +209,15 @@ class ManagedBrowserExecutor(ComputerUseExecutor):
         result = json.loads(raw)
         evidence_raw = read_regular(directory / "managed-result.json", 128000)
         evidence = json.loads(evidence_raw)
+        quote = None
+        if request.get("quote_request"):
+            quote = read_quote(request, evidence["report"], evidence["observed_at"])
         valid = (
             result["job_id"] == request["artifact_id"]
             and result["scope"] == self.scope
             and result["evidence_sha256"] == hashlib.sha256(evidence_raw).hexdigest()
-            and result["report"] == evidence["report"]
+            and result.get("quote") == quote
+            and result["report"] == (quote["note"] if quote else evidence["report"])
             and bool(result["report"].strip())
             and evidence["session_deleted"] is True
             and evidence["deletion_readback"] is True

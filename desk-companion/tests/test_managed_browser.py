@@ -49,6 +49,7 @@ class Provider:
         self.calls, self.decisions = [], []
         self.input = self.approved = self.deleted = False
         self.origin = "https://books.toscrape.com"
+        self.report = "The first book costs GBP51.77. https://books.toscrape.com/"
         self.authentication = self.never_complete = self.delete_fails = self.create_uncertain = (
             False
         )
@@ -69,7 +70,7 @@ class Provider:
             assert request.headers["Idempotency-Key"].endswith("/create")
             assert body["environment"]["network"] == {
                 "access": "restricted",
-                "allowed_domains": ["books.toscrape.com"],
+                "allowed_domains": [self.origin.removeprefix("https://")],
             }
             assert body["agent"]["multi_agent"] == {"enabled": False}
             assert body["agent"]["tools"] == [{"type": "computer_use"}]
@@ -129,7 +130,7 @@ class Provider:
                             "content": [
                                 {
                                     "type": "output_text",
-                                    "text": "The first book costs GBP51.77. https://books.toscrape.com/",
+                                    "text": self.report,
                                 }
                             ],
                         },

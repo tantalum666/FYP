@@ -1,6 +1,6 @@
 # Group 2 Work Log
 
-Updated 18 November 2026. See the [handoff](handoff.md) for the current state. Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
+Updated 20 November 2026. See the [handoff](handoff.md) for the current state. Pre-pivot Senplate entries are preserved in [the archive](archive/senplate/work-log.md).
 
 ## 2026-09-25 智能工作台／AI电子日历转向研究
 
@@ -1028,3 +1028,67 @@ The normal Mac configuration and the first request both identified GPT‑6.1 Sol
 ## 2026-11-18 Production Web/native 6.2 Sol and a deferred Pi package
 
 Read both review/verification articles against the global rules and verified updated instruction discovery across projects. Promoted the 6.2 Sol deployment to Web and native Simulator, preserving original data, Google grants and A3. Verified actual OpenAI hosted-browser routing with independently checked public content and deletion readback. The original Pi relay was unavailable and the owner deferred the device. Built and checksum-verified its release ZIP. [Release record](output/qa/2026-11-18-sol62-deployment/verification.md) · [receipt](output/qa/2026-11-18-sol62-deployment/release.json).
+
+## 2026-11-19 · Alice shopping and flight quotes
+
+Implemented public quotes on the official GPT‑6.2 Sol hosted route and existing conversation approval. The real two-pack Wellcome promotion resolved to HK$34 before delivery. Two real airline lookups recorded an absent offer. Independent carrier pages showed dated advertising minima. Scoped readback fixed a lost quote on follow-up. The corrected real text turn identified the prior shopping price and unknown fees. Fourteen distinct local regressions, desktop/mobile browser journeys and an isolated native iPhone Simulator card-to-Safari-to-chat journey were checked. Nine provider sessions returned 404. The HK-day Mac ledger recorded US$8.96. The normal Web service was found down and restored on its existing release. Candidate source `48aec0e6` is on [PR 134](https://github.com/tantalum666/FYP/pull/134), on top of PR 133. A live hosted, dated fare including the requested baggage remains open. [QA](output/qa/2026-11-19-shopping-flight/verification.md) · [receipts](output/qa/2026-11-19-shopping-flight/receipts.json).
+
+## 2026-11-19 · Reconcile the spending guard and ship connector-based flight search
+
+Resolved the discrepancy between platform reporting and local reservations. Preserved missing-cost exposure, corrected identifiable historical records, and added an operator statement import, dated fleet split and explicit Diagnostics labels. The actual FYP GPT‑6.2 Sol route produced an owner draft from a Chinese message and called the real Kiwi.com flight-search MCP on separate, approved jobs. UO628 was HK$2,006 with one checked bag on the requested date. The supplier omitted weight, seller verification was gated and no order was placed. Validated scoped consent, fee and currency handling, late usage, missing usage, cleanup, desktop and phone flows. Promoted `85e6aa94` to normal Web and native Simulator, checked A3, data, accounts and diagnostics, and retained a portable package for the deferred Pi. [QA and remaining boundary](output/qa/2026-11-19-flight-ledger/verification.md) · [readbacks](output/qa/2026-11-19-flight-ledger/receipts.json) · [PR 134](https://github.com/tantalum666/FYP/pull/134).
+
+## 2026-11-19 · Assess owner-authorized card payments
+
+Verified the purchase flows documented by Grok Bot, OpenAI dot and Meta Muse. Link publishes an SDK a third-party assistant can use with customer OAuth, a scoped spend request and wallet approval. The hosted guide and the FAQ list different supported markets and both omit Hong Kong. Visa and Mastercard have separately documented partner transactions in Hong Kong. The official Link SDK 0.2.0 ran in FYP's Python environment against an isolated HTTP mock, including a stable key on retry and an unapproved purchase that ended in denial. This is a feasibility finding. Product payment authorization, production wallet access and merchant settlement remain pending. Updated the research index and handoff. [Primary sources and verification](output/qa/2026-11-19-agent-wallet-feasibility/verification.md).
+
+## 2026-11-19 · Verify sandbox card and Link merchant checkout
+
+Created an isolated test merchant. Standard test Visa and sandbox Link buyers completed separate two-item HK$34 Checkout orders. The provider reported the respective methods as card and link. A separate direct API fixture passed and the decline fixture received zero. A read-only operator command verified existing Checkout, PaymentIntent and captured Charge records. The local merchant pages and simulator data stayed isolated from the normal product. The Wallet device flow received no consumer authorization. Documented Shopify and WooCommerce merchant testing, Duffel flight and stay fixtures, and Booking.com accommodation payment requirements. No real order, flight or money was involved. Updated product, the research index, decisions and handoff. [QA](output/qa/2026-11-19-test-checkouts/verification.md) · [receipts](output/qa/2026-11-19-test-checkouts/receipts.json).
+
+## 2026-11-19 · Verify WooCommerce guest checkout and account requirements
+
+Created an isolated self-hosted WooCommerce shop. Its Store API accepted two test stationery packs and returned paid guest order 13 at HK$34. A separate merchant order lookup and Stripe test-mode intent and charge lookups verified the amount, currency and capture. The temporary sandbox key needed a gateway supporting manual test credentials. The active gateway was Payment Plugins for Stripe. The FYP consumer wallet grant remained pending owner action, and ticketing still needs a Duffel developer test token. No live charge, shipment, flight booking or production promotion occurred. [QA](output/qa/2026-11-19-woocommerce-guest/verification.md) · [receipts](output/qa/2026-11-19-woocommerce-guest/receipts.json).
+
+## 2026-11-19 · Deploy the retained Pi release and verify Duffel registration
+
+Installed `85e6aa94` on the original Pi from `c607759e`. Verified 406 files, the database migration and backup, A3, Google provider reads, persistent startup and the 1280 × 720 Alice home. The startup frame showed a low-voltage warning. Paid OpenAI calls during deployment were zero. The separate official Duffel signup check found 32 incorporation options, with Hong Kong and mainland China absent. Flight order acceptance awaits supplier-authorized sandbox access. [Evidence](output/qa/2026-11-19-pi-release/verification.md) · [receipts](output/qa/2026-11-19-pi-release/receipts.json).
+
+## 2026-11-19 · Replace the blocked flight sandbox
+
+Used the free, keyless LetsFG sandbox for one HKG–HND itinerary. The accepted test booking captured HK$34 and produced a simulated PNR. A duplicate submission reopened the same record. A second booking declined a rise to HK$35.43 and the provider confirmed release of the hold. Both final records passed independent GETs using a small FYP verifier. Confirmed that Singapore Airlines offers an airline-operated flight-booking sandbox and checked the registration fields and API key requirement. Normal-runtime privileges, model budgets and deployment were outside this check. [Provider receipts](output/qa/2026-11-19-flight-booking-sandbox/verification.md).
+
+## 2026-11-19 · Complete the native Alice test booking journey
+
+Implemented conversational LetsFG quote, explicit amount-bound owner actions, status and receipt retrieval. The iPhone 17 Pro Simulator showed HK$34, acquired an order only after the first tap, requested HK$36.25 separately and returned PNR 5SMZA7. Independent GET matched the capture. The same conversation reopened it after a backend restart with zero additional orders or model requests. Kept the first transient quote error and the timed-out fast rehearsal with its released hold. Updated the normal local backend, simulator and handoff. No real card or airline ticket. [QA](output/qa/2026-11-19-alice-flight-conversation/verification.md) · [receipts](output/qa/2026-11-19-alice-flight-conversation/receipts.json).
+
+## 2026-11-19 · Verify ordinary shopping from the native simulator
+
+Two HK$17 stationery packs and HK$8 delivery were quoted at HK$42. The checkout shipping rate then increased to HK$12. Two separate on-screen decisions produced Woo guest order #17 and one Stripe sandbox capture of HK$46. Independent Woo, PaymentIntent, Charge and same-chat reads matched. Restored the HK$8 rate. Tested final gateway increases and decreases, and preserved the previous flight workflow. The native app and shared backend were promoted with verified backups. [Device and payment evidence](output/qa/2026-11-19-alice-shopping-conversation/verification.md) · [contract](desk-companion/docs/conversation-shopping.md).
+
+## 2026-11-20 · Test overseas shopping and independently verify a full refund
+
+Submitted and email-verified the authorized eBay Developers application. eBay returned a review wait of at least one business day in the usual case. Started the authorized Amazon Pay test buyer from its US$14.30 demo cart. Email verification is pending. Verified that the existing US Stripe test merchant supports Amazon Pay and opened one US$1.00 tissue checkout at the actual wallet login. An independent US$0.75 Visa control produced a captured Charge and a single successful full Refund nine seconds later. Added optional full-refund verification to the existing read-only operator CLI, with targeted mismatched and nonterminal cases. Zinc allowed queue cancellation and rejected cancellation after simulated retailer placement. Ordinary shopping, eBay buyer/seller cancellation, and Amazon's pending buyer verification have distinct receipts. Updated project guidance, decisions, research, handoff and QA. [Evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md) · [structured results](output/qa/2026-11-20-overseas-shopping-sandboxes/receipts.json).
+
+## 2026-11-20 · Complete the Amazon Pay sandbox purchase and refund
+
+Verified the buyer after the owner entered Amazon's email code. Reused the same login to complete the official KitchenSmart US$14.30 demo and the original FYP US$1.00 pocket-tissue checkout. The merchant created one full Amazon Pay refund 73 seconds after capture. Successive reads returned pending and then succeeded, and the hosted receipt showed zero adjusted total. Fixed the provider-observed Charge and Refund identifier mismatch in the read-only command. Two new regression checks, the affected card compatibility check, Ruff and an actual terminal receipt read passed. The demo's signed-in Orders label did not open a cancellation action. A fresh eBay sign-in reported pending approval. Updated the provider records, product, research index, decisions, entry point and handoff. [QA](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md) · [Stripe wallet receipt](output/qa/2026-11-20-overseas-shopping-sandboxes/amazon-pay-full-refund.jpg).
+
+## 2026-11-20 · Reconcile the payment methods used by Alice and the merchant tests
+
+Reopened the two original Stripe records. The HK$34 hosted payment used Link Checkout and the US$1.00 tissue payment used Amazon Pay. Compared the native Woo receipt with the deployed fixture selection. The FYP consumer wallet reported no grant. Renewed its payment-only device request for the already authorized sandbox test. Verified the regional scope in Link's FAQ and hosted SDK guide. Both omit Hong Kong and mainland China. No new charge or spend request was created. [Wallet evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#link-checkout-and-the-delegated-wallet).
+
+## 2026-11-20 · Connect the FYP Link Agent Wallet and submit its first test spend
+
+Read the saved consumer grant after owner confirmation. A dedicated hosted Checkout quoted one pack of tissues for US$1.00. Captured the server's HTTP 401 for the payment-only scope. The owner subsequently granted the official profile-read scope, and Link accepted the one-time test spend under the same case key. Its approval page requested a mobile app or passkey. The authenticated profile retains the rotating refresh credential. The client's read-only approval-policy query returned HTTP 403. Updated the product, decisions, handoff, provider QA and receipts. The merchant remained unpaid at this observation. [Wallet and merchant evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#link-checkout-and-the-delegated-wallet).
+
+## 2026-11-20 · Confirm the 180-day recurring Link test authorization
+
+Reopened the owner-approved US$500 monthly, 180-day test authorization. Added the US$10 per-checkout guard for the FYP merchant and used it on the existing US$1 tissue order. Link issued a recurring test virtual card. Stripe rejected the entered card number and a second issuer read failed its checksum independently. Cleared the form and removed the protected credential files. Stripe independently returned zero matching PaymentIntents for the unpaid order. Link accepted the blocked outcome report and retained the recurring approval. The redundant one-time request was canceled. Local coverage added the exact order ceiling, merchant and currency binding, repricing, duplicate payment attempts, scope, expiry and credential format. Updated the current entry, product, handoff, research, decisions and QA. [Acceptance](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#approved-recurring-test-allowance).
+
+## 2026-11-20 · Trace the Link fixture to its source
+
+Verified the official package hashes. Compared one raw issuer response with the official Python SDK and the full public test-mode example from the CLI release. Both independent checksum implementations rejected it. A public-only JS CLI replay preserved the same value. Reopened the original unpaid checkout and independently found zero matching PaymentIntents. Reproduced and fixed the local refresh-scope parser. The same saved grant then read back as approved. Unified one-time and recurring credential checks and replayed the affected one-time adapter with public fixtures. Eight new targeted cases and one affected compatibility check passed. Updated the entry, product, wallet research, prior acceptance, decisions and handoff. [Report](output/qa/2026-11-20-link-wallet-diagnosis/verification.md) · [Public reproducer](output/qa/2026-11-20-link-wallet-diagnosis/reproduce_public_fixture.py).
+
+## 2026-11-21 · Submit the eBay rejected-registration review
+
+Checked the portal and the registered mailbox. The original activation was rejected. Submitted the owner-approved project use case through the designated support form with owner-assisted verification. The owner observed success or a reference and the operator has no case number. A separate read of the US test merchant's Business Network Profile returned HTTP 403. Updated the project entry, product, research index, decisions, QA and handoff. [Evidence](output/qa/2026-11-21-shopping-next-step/verification.md).

@@ -33,10 +33,14 @@ def token_estimate(usage):
     inp, out = usage.get("input_tokens"), usage.get("output_tokens")
     if type(inp) is not int or type(out) is not int or min(inp, out) < 0 or inp + out == 0:
         return None
-    # Use the highest Standard cache-write rate for every input plus 10%,
-    # including the long-context premium when applicable. Never add cached
-    # or reasoning tokens twice.
-    return ((110 * inp + 165 * out if inp > 272_000 else 55 * inp + 110 * out) + 9) // 10
+    # Cached reads are a subset of input. Bound other inputs at the highest
+    # cache-write rate because the turn does not itemize cache writes.
+    details = usage.get("input_tokens_details")
+    cached = details.get("cached_tokens") if isinstance(details, dict) else None
+    if type(cached) is not int or not 0 <= cached <= inp:
+        cached = 0
+    input_rate, cache_rate, output_rate = (1100, 22, 1650) if inp > 272_000 else (550, 11, 1100)
+    return ((inp - cached) * input_rate + cached * cache_rate + out * output_rate + 99) // 100
 
 
 def voice_estimate(usage, elapsed, live=True):
@@ -52,6 +56,20 @@ def voice_estimate(usage, elapsed, live=True):
     inp = usage.get("input_tokens", 0)
     out = usage.get("output_tokens", 0)
     return math.ceil((32 * inp + 64 * out) * 1.1)
+
+
+def managed_estimate(result, connector):
+    model = token_estimate(result.get("terminal_usage"))
+    if model is None or not (result.get("turn_completed") and result.get("deletion_readback")):
+        return None
+    if connector:
+        return model if result.get("environment") == "none" else None
+    seconds = result.get("elapsed_seconds")
+    if result.get("environment_size") != "small" or type(seconds) not in (float, int) or not 0 < seconds < 1200:
+        return None
+    # One 1 GB ($0.03 / 20 min) block for this short run, plus a block for
+    # asynchronous hosted cleanup. This is a conservative estimate, not invoicing.
+    return model + 60_000
 
 
 def _secure(path):
@@ -154,6 +172,29 @@ class DailySpend:
             with self._db(True) as db:
                 self._period(db, record=True)
 
+    def allocate_today(self, *, local, other_devices, margin, reason):
+        """Record an operator's HK-day split of the existing US$20 fleet authorization."""
+        if (any(type(v) is not int or v < 0 for v in (local, other_devices, margin))
+                or local <= 0 or local + other_devices + margin != 20 * USD or not reason.strip()):
+            raise ValueError("The allocations and headroom must account for the authorized fleet total")
+        with self._db(True) as db:
+            _, day, _ = self._period(db, record=True)
+            db.execute("CREATE TABLE IF NOT EXISTS daily_allocations("
+                       "day TEXT PRIMARY KEY, local INTEGER, other_devices INTEGER, margin INTEGER, reason TEXT)")
+            db.execute("INSERT OR IGNORE INTO daily_allocations VALUES(?,?,?,?,?)",
+                       (day, local, other_devices, margin, reason))
+            row = db.execute("SELECT local,other_devices,margin,reason FROM daily_allocations WHERE day=?", (day,)).fetchone()
+            if tuple(row) != (local, other_devices, margin, reason):
+                raise ValueError("A different allocation has already been recorded for this day")
+
+    @staticmethod
+    def _daily_share(db, day, default):
+        if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='daily_allocations'").fetchone():
+            row = db.execute("SELECT local FROM daily_allocations WHERE day=?", (day,)).fetchone()
+            if row:
+                return row[0]
+        return default
+
     def reserve(self, ident, kind, amount, *, scope=None, seconds=60):
         if not self.path:
             return
@@ -173,7 +214,15 @@ class DailySpend:
             used = db.execute(
                 "SELECT COALESCE(SUM(accounted),0) FROM charges WHERE day=?", (day,)
             ).fetchone()[0]
-            if used + amount > rule["share"]:
+            share = self._daily_share(db, day, rule["share"])
+            if kind == "flight_mcp":
+                # One fixed search without a hosted computer may use a smaller
+                # reservation. Admit at least two text stages and fence against
+                # the actual amount held, within this same SQLite transaction.
+                amount = min(amount, share - used)
+                if amount < 2 * TEXT_STAGE:
+                    raise DomainError("OPENAI_DAILY_BUDGET_REACHED", 429)
+            if used + amount > share:
                 raise DomainError("OPENAI_DAILY_BUDGET_REACHED", 429)
             if scope:
                 used = db.execute(
@@ -211,6 +260,8 @@ class DailySpend:
             rows = db.execute(f"SELECT * FROM charges WHERE id IN ({params})", ids).fetchall()
             if len(rows) != len(ids):
                 raise DomainError("OPENAI_BUDGET_UNAVAILABLE", 503)
+            if len(rows) > 1 and (rows[0]["scope"] is None or len({(r["day"], r["scope"]) for r in rows}) != 1):
+                raise DomainError("OPENAI_BUDGET_UNAVAILABLE", 503)
             observed = max(amount, max(r["observed"] for r in rows))
             held = sum(r["held"] for r in rows)
             if final:
@@ -234,24 +285,43 @@ class DailySpend:
             raise DomainError("OPENAI_BUDGET_EARLY_STOP", 429)
 
     def summary(self):
+        from .openai_cost_statement import latest_statement
         if not self.path:
             return {"configured": False}
         day = self.clock().astimezone(HONG_KONG).date().isoformat()
         with self._db() as db:
             rule = db.execute("SELECT * FROM allowance WHERE id=1").fetchone()
+            share = self._daily_share(db, day, rule["share"])
             used = db.execute(
                 "SELECT COALESCE(SUM(accounted),0) FROM charges WHERE day=?", (day,)
             ).fetchone()[0]
+            amounts = db.execute(
+                "SELECT COALESCE(SUM(CASE WHEN id='opening' THEN accounted ELSE 0 END),0),"
+                "COALESCE(SUM(CASE WHEN id!='opening' THEN MIN(accounted,observed) ELSE 0 END),0)"
+                " FROM charges WHERE day=?", (day,)
+            ).fetchone()
+            opening, estimate = amounts
             return {
                 "configured": True,
                 "day": day,
                 "timezone": "Asia/Hong_Kong",
                 "through": rule["through"],
                 "active": rule["starts"] <= day <= rule["through"] and day >= rule["latest_day"],
-                "allocated_usd": rule["share"] / USD,
+                "allocated_usd": share / USD,
                 "accounted_usd": used / USD,
-                "available_usd": max(0, rule["share"] - used) / USD,
+                "local_budget_used_usd": used / USD,
+                "observed_usage_estimate_usd": estimate / USD,
+                "reserved_or_unpriced_usd": (used - opening - estimate) / USD,
+                "opening_debit_usd": opening / USD,
+                "last_platform_statement": latest_statement(db),
+                "available_usd": max(0, share - used) / USD,
             }
+
+    def import_cost_statement(self, raw, scope):
+        from .openai_cost_statement import save_statement
+
+        with self._db(True) as db:
+            return save_statement(db, raw, scope, self.clock())
 
 
 def budgeted_response(client, endpoint, *, headers, json_body, budget=None):

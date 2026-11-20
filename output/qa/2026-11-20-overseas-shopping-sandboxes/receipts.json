@@ -1,0 +1,250 @@
+{
+  "date_hong_kong": "2026-11-20",
+  "merchant_real_money_spent": 0,
+  "ebay_us": {
+    "programme_email_verified": true,
+    "programme_state": "submitted_for_review",
+    "provider_timing": "usually at least one business day",
+    "sandbox_test_users_created": 0,
+    "sandbox_listing_created": false,
+    "paid_order": null,
+    "cancellation": null,
+    "refund": null,
+    "latest_developer_sign_in": "pending_approval"
+  },
+  "amazon_pay_official_demo": {
+    "buyer_registration": "verified",
+    "verification_message_received": true,
+    "item": "CleanSmart Linen Hand Towels",
+    "quantity": 1,
+    "currency": "USD",
+    "subtotal_minor": 900,
+    "shipping_minor": 400,
+    "tax_minor": 130,
+    "quoted_total_minor": 1430,
+    "merchant_order": {
+      "displayed_number_suffix": "4202",
+      "confirmed": true,
+      "payment_method": "Amazon Pay",
+      "quantity": 1,
+      "total_minor": 1430
+    },
+    "charge": null,
+    "refund": null,
+    "sandbox_wallet_signed_in": true,
+    "preset_visa_last4": "1111",
+    "buyer_cancel_control_observed": false,
+    "account_orders_label_opened_history": false
+  },
+  "amazon_pay_via_us_stripe_sandbox": {
+    "item": "Pocket tissues (FYP test, no shipment)",
+    "quantity": 1,
+    "currency": "usd",
+    "subtotal_minor": 100,
+    "shipping_minor": 0,
+    "tax_minor": 0,
+    "total_minor": 100,
+    "checkout_status": "complete",
+    "payment_status": "paid",
+    "payment_intent_reference_present": true,
+    "configured_amazon_pay_available": true,
+    "amazon_sandbox_sign_in_seen": true,
+    "verified_refund": {
+      "status": "succeeded",
+      "amount_minor": 100,
+      "currency": "usd",
+      "destination_type": "amazon_pay",
+      "first_read_status": "pending",
+      "charge_refunded_minor": 100,
+      "provider_events": [
+        {
+          "event": "refund.created",
+          "state": "pending",
+          "created_utc": "2026-11-20T06:06:54+00:00",
+          "seconds_after_refund_created": 1
+        },
+        {
+          "event": "refund.updated",
+          "state": "succeeded",
+          "created_utc": "2026-11-20T06:06:55+00:00",
+          "seconds_after_refund_created": 2
+        }
+      ]
+    },
+    "before_wallet_authorization": {
+      "checkout_status": "open",
+      "payment_status": "unpaid",
+      "payment_intent_reference_present": false
+    },
+    "original_checkout_reused": true,
+    "checkout_order_reference": "fyp-amazon-pay-pocket-tissues-20261120",
+    "method": "amazon_pay",
+    "payment_intent_status": "succeeded",
+    "captured_minor": 100,
+    "wallet_transaction_reference_present": true,
+    "wallet_preset_visa_last4": "1111",
+    "refund_created_seconds_after_charge": 73,
+    "refund_count_for_charge": 1,
+    "hosted_receipt": {
+      "refunded_minor": 100,
+      "adjusted_total_minor": 0
+    },
+    "charge_created_utc": "2026-11-20T06:05:40+00:00",
+    "refund_created_utc": "2026-11-20T06:06:53+00:00",
+    "actual_live_amount_minor": 0
+  },
+  "us_stripe_visa_refund_control": {
+    "livemode": false,
+    "checkout_status": "complete",
+    "payment_status": "paid",
+    "payment_intent_status": "succeeded",
+    "charge_status": "succeeded",
+    "method": "card",
+    "captured": true,
+    "amount_minor": 75,
+    "currency": "usd",
+    "actual_charge_minor": 0,
+    "refund": {
+      "status": "succeeded",
+      "amount_minor": 75,
+      "currency": "usd"
+    },
+    "case": "control",
+    "item": "Pocket tissues",
+    "quantity": 1,
+    "checkout_order_reference": "fyp-us-visa-refund-control-20261120",
+    "payment_to_refund_seconds": 9,
+    "refund_count": 1,
+    "stripe_hosted_receipt": {
+      "refunded_minor": 75,
+      "adjusted_total_minor": 0,
+      "original_instrument": "test Visa ending in 4242"
+    },
+    "original_charge_utc": "2026-11-19T16:53:30+00:00",
+    "refund_created_utc": "2026-11-19T16:53:39+00:00"
+  },
+  "zinc_sandbox": {
+    "wallet_before": 0,
+    "maximum_price_minor": 2500,
+    "currency": "usd",
+    "immediate_cancel": {
+      "create_http": 201,
+      "initial_status": "pending",
+      "status_before_cancellation": "pending",
+      "cancel_http": 204,
+      "cancel_error": null,
+      "independent_get_http": 200,
+      "independent_get_status": "cancelled",
+      "retailer_reference_count": 0,
+      "payment_record_present": false,
+      "test_wallet_balance_after": 0,
+      "refund_verified": false
+    },
+    "after_placement": {
+      "create_http": 201,
+      "initial_status": "pending",
+      "status_before_cancellation": "order_placed",
+      "cancel_http": 400,
+      "cancel_error": "order_not_cancellable",
+      "independent_get_http": 200,
+      "independent_get_status": "order_placed",
+      "retailer_reference_count": 1,
+      "payment_record_present": false,
+      "test_wallet_balance_after": 0,
+      "refund_verified": false
+    }
+  },
+  "marketplace_post_payment_cancellation_verified": false,
+  "link_agent_wallet": {
+    "connected": true,
+    "actual_oauth_scopes": [
+      "payment_methods.agentic",
+      "userinfo:read"
+    ],
+    "refresh_credential_persisted": true,
+    "first_create_http": 401,
+    "first_create_missing_profile_fields": [
+      "read_email",
+      "read_phone",
+      "read_name",
+      "read_avatar",
+      "userinfo.addresses:read"
+    ],
+    "after_permission_upgrade": {
+      "quoted_item": "Pocket tissues (FYP sandbox)",
+      "quantity": 1,
+      "quoted_minor": 100,
+      "currency": "usd",
+      "shipping_minor": 0,
+      "tax_minor": 0,
+      "issuer_request_id_returned": true,
+      "request_mode_sent": "test",
+      "credential_type": "card",
+      "spend_request_status_at_check": "pending_approval",
+      "spend_request_created_utc": "2026-11-20T06:58:25Z",
+      "recurring": false,
+      "credential_retrieved": false,
+      "merchant_payment_status": "unpaid",
+      "merchant_payment_intent_observed": false,
+      "refund": null
+    },
+    "approval_policy_read_http": 403,
+    "owner_verification_on_web": [
+      "Link mobile app",
+      "passkey"
+    ],
+    "real_amount_minor": 0,
+    "original_one_time_request_final_status": "canceled",
+    "recurring_allowance": {
+      "provider_status": "approved",
+      "duration_days": 180,
+      "scope": "FYP Alice Test Shop in the US Stripe sandbox",
+      "requested_mode": "test",
+      "credential_type": "card",
+      "currency": "usd",
+      "per_period_minor": 50000,
+      "period": {
+        "interval": "month",
+        "interval_count": 1
+      },
+      "fyp_per_order_limit_minor": 1000,
+      "requested_at_utc": "2026-11-20T07:15:07Z",
+      "expires_at_utc": "2027-05-19T07:15:07Z",
+      "issuer_expiry_matches_requested": true,
+      "approved_still_present_at_utc": "2026-11-20T13:09:22.989960+00:00",
+      "refresh_credential_persisted": true,
+      "real_amount_minor": 0
+    },
+    "tissues_under_recurring_allowance": {
+      "merchant_quote_minor": 100,
+      "currency": "usd",
+      "quantity": 1,
+      "merchant_checkout_reused": true,
+      "checkout_bound_to_recurring": true,
+      "issued_test_credential_observed": true,
+      "protected_credential_reads": 2,
+      "observed_credential_expiries_utc": [
+        "2026-11-20T08:21:40+00:00",
+        "2026-11-20T08:25:04+00:00"
+      ],
+      "new_owner_approval_between_reads": false,
+      "digits_in_original_field": 16,
+      "original_field_checksum_valid": false,
+      "original_field_aria_invalid": true,
+      "second_credential_checksum_valid": false,
+      "repeat_credential_matched_visible_last_four": true,
+      "merchant_validation": "invalid card number before submission",
+      "payment_button_submitted": false,
+      "checkout_status": "open",
+      "merchant_payment_status": "unpaid",
+      "payment_intent_present": false,
+      "matching_payment_intents": 0,
+      "captured_minor": 0,
+      "refunded_minor": 0,
+      "link_outcome": "blocked",
+      "link_accepted_outcome_report": true,
+      "temporary_full_credentials_removed": true,
+      "merchant_readback_utc": "2026-11-20T07:27:41.502317+00:00"
+    }
+  }
+}

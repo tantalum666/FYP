@@ -7,6 +7,8 @@ from urllib.parse import urlsplit
 from pydantic import Field, model_validator
 
 from .browser_policy import PublicOnlyInput, canonical_https
+from .commerce_quotes import QuoteRequest, quote_link
+from .flight_search import KIWI_SITES
 from .schemas import StrictModel
 
 COMPUTER_USE_ACTIONS = {"computer_use"}
@@ -94,15 +96,21 @@ class ComputerUseInput(PublicOnlyInput):
     task_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
     task_version: int | None = Field(default=None, ge=1, strict=True)
     source_job_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
+    quote_request: QuoteRequest | None = Field(default=None, exclude_if=lambda value: value is None)
 
     @model_validator(mode="after")
     def scope(self):
+        if self.quote_request is not None and self.engine != "managed":
+            raise ValueError("Public quotes require the managed browser")
         try:
             self.title.encode("utf-8")
             self.goal.encode("utf-8")
         except UnicodeError:
             raise ValueError("Use valid Unicode text") from None
-        if self.share_screen is not True:
+        connector = getattr(self.quote_request, "provider", None) == "kiwi"
+        if connector and self.share_screen:
+            raise ValueError("The flight connector accepts itinerary data only")
+        if not connector and not self.share_screen:
             raise ValueError("Explicit screenshot sharing is required")
         if (self.task_id is None) != (self.task_version is None):
             raise ValueError("Task ID and version must be selected together")
@@ -125,7 +133,15 @@ class ComputerUseInput(PublicOnlyInput):
             origins.add(f"https://{parsed.hostname}")
         if len(origins) > 8:
             raise ValueError("At most eight exact sites may be admitted")
+        if connector:
+            if f"https://{initial.hostname}" not in KIWI_SITES or not origins <= KIWI_SITES:
+                raise ValueError("Choose Kiwi.com for the flight connector or use ordinary website research")
+            origins.update(KIWI_SITES)
         self.allowed_origins = sorted(origins)
+        if self.quote_request is not None:
+            for origin in self.allowed_origins:
+                quote_link(origin, self.allowed_origins)
+            quote_link(f"https://{initial.hostname}{initial.path}", self.allowed_origins)
         if self.engine == "managed" and self.source_job_id:
             raise ValueError("Managed sessions do not retain a resumable browser")
         return self
@@ -140,7 +156,7 @@ class BrowserTaskInput(ComputerUseInput):
 def validate_computer_request(request):
     # Preserve old intent bytes/hashes: legacy jobs predate the optional engine.
     public = {k: request[k] for k in ComputerUseInput.model_fields if k in request}
-    if not (set(ComputerUseInput.model_fields) - {"engine"}) <= public.keys():
+    if not (set(ComputerUseInput.model_fields) - {"engine", "quote_request"}) <= public.keys():
         raise ValueError("Incomplete computer-use intent")
     ComputerUseInput.model_validate(public)
     extra = {

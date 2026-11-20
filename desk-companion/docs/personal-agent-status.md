@@ -1,10 +1,10 @@
 # Group 2 · Personal agent delivery status
 
-Checked 18 November 2026 (Hong Kong). [Research](../../research/personal-agent-research-index.md) · [integration QA](../../output/qa/2026-11-17-proactive-agent-merge/verification.md) · [three-endpoint deployment](../../output/qa/2026-11-18-three-end-rollout/verification.md).
+Checked 19 November 2026 (Hong Kong). [Research](../../research/personal-agent-research-index.md) · [integration QA](../../output/qa/2026-11-17-proactive-agent-merge/verification.md) · [three-endpoint deployment](../../output/qa/2026-11-18-three-end-rollout/verification.md).
 
 ## Current source and runtime
 
-The 18 November normal Mac Web and native Simulator release is `00780e44`. Both report GPT‑6.2 Sol text, managed browser and Live delegation. The original Pi release is deferred. The new hosted-browser job has real public-page, model and cleanup evidence. [Current deployment](../../output/qa/2026-11-18-sol62-deployment/verification.md).
+The shared local backend runs `4a773f31`, the native Simulator UI is `c4207e4f`, and the Pi release is `85e6aa94`. The owner-reviewed WooCommerce checkout reached a verified Stripe test capture from ordinary chat. [Shopping](conversation-shopping.md). The owner completed an explicitly repriced LetsFG test booking through ordinary chat. [Flight booking](conversation-flight-booking.md). Ordinary text, managed browsing and Live delegation use GPT‑6.2 Sol. Speech uses GPT‑Live 1 with A3 v9. The Pi’s screen and Google grants were verified on the device. Actual shopping and flight searches have separate provider evidence. [Pi release](../../output/qa/2026-11-19-pi-release/verification.md) · [Web, Simulator and live flight lookup](../../output/qa/2026-11-19-flight-ledger/verification.md).
 
 The source branch now sends ordinary OpenAI text and follow-ups through official Sessions with application Functions. The shared Web composer and the batched, quiet-hours-recovery journey passed with scripted providers. The preceding baseline was `c607759e`. [Contract](official-text-sessions.md) · [QA](../../output/qa/2026-11-18-official-text-sessions/verification.md).
 

@@ -60,6 +60,19 @@ def assistant_routes(runtime, authenticated, operation_id):
             headers={"Cache-Control": "no-store", "X-Accel-Buffering": "no"},
         )
 
+    @router.get("/flight-bookings")
+    def flight_bookings(conversation_id: str, request: Request, principal=Depends(authenticated)):
+        who = {**principal, "session": request.cookies.get("desk_companion_session")}
+        return {"bookings": runtime.flight_bookings.listing(who, conversation_id)}
+
+    @router.get("/commerce-reviews")
+    def commerce_reviews(conversation_id: str, request: Request, principal=Depends(authenticated)):
+        who = {**principal, "session": request.cookies.get("desk_companion_session")}
+        return {"rows": [
+            *[dict(row, kind="flight") for row in runtime.flight_bookings.listing(who,conversation_id)],
+            *[dict(row, kind="shop") for row in runtime.shop_orders.listing(who,conversation_id)],
+        ]}
+
     @router.get("/tool-calls")
     def tool_calls(limit: int = 50, principal=Depends(authenticated)):
         if principal["kind"] != "owner":
@@ -106,7 +119,7 @@ def assistant_routes(runtime, authenticated, operation_id):
         runtime.agent_runs.require_proposal_access(proposal_id, principal, action=payload.action)
         return runtime.assistant.decide(
             proposal_id, payload.action, key, allow_memory=principal["kind"] == "owner",
-            principal=principal, share_screen=payload.share_screen,
+            principal=principal, share_screen=payload.share_screen, share_itinerary=payload.share_itinerary,
             follow_mail_thread=payload.follow_mail_thread,
         )
 

@@ -1,5 +1,6 @@
 import type { EventInput } from "../types";
 import type { Task, TaskInput } from "./taskTypes";
+import type { QuoteRequest } from "./CommerceQuote";
 
 export interface Proposal {
   id: string;
@@ -31,6 +32,7 @@ export interface Proposal {
       request: { task_id: string | null };
     };
     browser?: {
+      quote_request?: QuoteRequest;
       engine: "local" | "managed";
       title: string;
       goal: string;
@@ -93,6 +95,7 @@ export interface Proposal {
 }
 export interface ProposalDecisionOptions {
   share_screen?: boolean;
+  share_itinerary?: boolean;
   follow_mail_thread?: boolean;
 }
 export interface ProposalDecisionReply {
@@ -102,6 +105,8 @@ export interface ProposalDecisionReply {
   job?: { id: string };
 }
 export interface Reply {
+  shopping_order?: import("./SandboxShopOrder").SandboxShop;
+  flight_booking?: import("./SandboxFlightBooking").SandboxFlight;
   permission_error?: string;
   conversation_id?: string;
   mode: string;

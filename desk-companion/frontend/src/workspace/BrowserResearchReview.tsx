@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Translate } from "../types";
 import type { Proposal, ProposalDecisionOptions } from "./assistantTypes";
 import "./computer-use.css";
+import { QuoteScope } from "./CommerceQuote";
 
 export function BrowserResearchReview({
   proposal,
@@ -20,12 +21,20 @@ export function BrowserResearchReview({
   const [shared, setShared] = useState(false);
   const browser = proposal.data.browser;
   if (!browser) return null;
+  const connector =
+    browser.quote_request?.kind === "flight" &&
+    browser.quote_request.provider === "kiwi";
   return (
     <article className="assistant-action-card assistant-proposal browser-research-review">
       <span className="workspace-eyebrow">
-        {t("Browse the web", "浏览网页")}
+        {connector
+          ? t("Kiwi.com flight search", "Kiwi.com 航班查询")
+          : t("Browse the web", "浏览网页")}
       </span>
       <h3>{browser.title}</h3>
+      {browser.quote_request && (
+        <QuoteScope request={browser.quote_request} t={t} />
+      )}
       <p style={{ overflowWrap: "anywhere" }}>
         {browser.start_url.startsWith("demo:")
           ? t("Local rehearsal", "本地演练")
@@ -51,10 +60,15 @@ export function BrowserResearchReview({
           disabled={busy}
           onChange={(event) => setShared(event.target.checked)}
         />
-        {t(
-          "Allow this task and page screenshots to be processed in the cloud",
-          "允许本次任务和网页截图用于云端处理",
-        )}
+        {connector
+          ? t(
+              "Share this itinerary with Kiwi.com to search fares",
+              "允许将此行程发送至 Kiwi.com 查价",
+            )
+          : t(
+              "Allow this task and page screenshots to be processed in the cloud",
+              "允许本次任务和网页截图用于云端处理",
+            )}
       </label>
       <small>
         {t(
@@ -66,7 +80,12 @@ export function BrowserResearchReview({
         <button
           className="primary"
           disabled={busy || !shared}
-          onClick={() => onDecision("confirm", { share_screen: true })}
+          onClick={() =>
+            onDecision(
+              "confirm",
+              connector ? { share_itinerary: true } : { share_screen: true },
+            )
+          }
         >
           {t("Allow and start", "允许并开始")}
         </button>

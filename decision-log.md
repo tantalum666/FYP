@@ -885,3 +885,59 @@ The owner authorized a dedicated US$0.25 clock-and-follow-up test on the existin
 ## 2026-11-18 Normal deployment on 6.2 Sol and a dated API allowance
 
 The owner selected GPT‑6.2 Sol for the normal installation and hosted browser and authorized FYP API usage through 24 November, inside a combined US$20 per Hong Kong day. The previous small trials stay closed. Engineering allocated US$9 to each independent backend with US$2 of unallocated headroom, included earlier same-day batches conservatively and retained unknown usage as reservations. Text and browser now have independently selectable model routing. The owner later said the Pi was not at hand and asked to retain the package. Mac and Simulator were activated. [Evidence](output/qa/2026-11-18-sol62-deployment/verification.md).
+
+## 2026-11-19 Public quotes before purchase or ticketing
+
+The owner asked to advance shopping and ticket booking. Engineering chose two public Hong Kong journeys and retained the existing hosted browser, owner-reviewed draft and job queue. Public prices now carry their basis, selling-unit or party scope, currency, source, timestamp and fee uncertainty. A verified stored result may answer a follow-up in the same owner conversation. A payable flight price still requires matching dates, airports, party, inventory, baggage and mandatory charges. Both live hosted airline runs returned incomplete evidence. Orders, reservation holds, tickets and payments remain separate effects. [Acceptance](output/qa/2026-11-19-shopping-flight/verification.md).
+
+## 2026-11-19 Read-only fare connector and separate billing evidence
+
+The owner questioned the amount in the previous report, requested continuous delivery and emphasized maintainable code and available plugins. The old local US$8.96 was entirely estimated exposure. The platform key did not have organization Costs access. Engineering retained the existing ledger, imported the authenticated platform export as an independent UTC observation, and reconciled individually supported historical records only. One dollar of fleet headroom was assigned to the active Mac for 19 November, leaving the Pi US$9 and US$1 margin within the already authorized US$20. Later days retain the original split.
+
+For general flight search, use the supplier's official read-only MCP through a hosted OpenAI Session without a computer. Keep named-site limits and require approval to disclose the itinerary. The source-backed lowest quote exceeded the sample budget. Exact checked weight and the seller's final fare remain subject to seller readback. The running versions and concrete seller-side blockers are in [the acceptance record](output/qa/2026-11-19-flight-ledger/verification.md).
+
+## 2026-11-19 Test cards first for shopping and ticketing
+
+The owner requested test cards first and authorized a dedicated FYP Stripe merchant sandbox. A personal real card would require a separate, specific live test decision. Keep the provider's ordinary card fixtures, merchant-side Link test accounts, and Link Agent Wallet credentials as separate acceptance tracks. The merchant sandbox covered successful hosted card and Link orders plus a refused payment. Choose a travel provider with a test supplier and test token to validate a simulated reservation. [Evidence and provider boundaries](output/qa/2026-11-19-test-checkouts/verification.md).
+
+## 2026-11-19 Original Pi release resumed
+
+The owner powered on the original Pi and authorized installation of the retained update. This supersedes the earlier package-only decision for that device. The operator deployed the same `85e6aa94` release as Web and Simulator under the existing Pi allocation, retained the rollback material and verified Alice and both Google grants on the original hardware. [Evidence](output/qa/2026-11-19-pi-release/verification.md).
+
+## 2026-11-19 Alternative for flight-booking acceptance
+
+The owner asked for a working alternative to Duffel. Engineering selected the account-free LetsFG sandbox for booking approval and receipt tests. It handles synthetic passengers and simulated card holds. Keep Kiwi for live fare research. A test PNR from the LetsFG simulator establishes platform workflow behavior. An airline test order requires an airline-operated or airline-connected test environment. [Results and access paths](output/qa/2026-11-19-flight-booking-sandbox/verification.md).
+
+## 2026-11-19 LetsFG in the ordinary Alice composer
+
+The owner chose LetsFG for the simulator and requested the flight and total, explicit initial approval, separate approval of any increase, and a retrieved booking reference and charge. Use the provider’s synthetic passenger and Visa. The operator enabled this test-only connector on the existing Mac backend shared by Web and the Simulator. The model receives a quote Function. Only owner actions can send either booking decision. No Singapore Airlines onboarding or real-card transaction was authorized. [Receipt](output/qa/2026-11-19-alice-flight-conversation/verification.md).
+
+## 2026-11-19 Approve exact WooCommerce test order terms in ordinary chat
+
+The owner authorized the existing WooCommerce store and Stripe test card for simulator shopping. Display the product, count, delivery and total; reconfirm any checkout change; independently read the merchant order and the captured amount. Engineering reused the existing native composer, official Sessions, scoped review storage and UI refresh. The test fixture uses one shippable SKU and a fictional Hong Kong address. The merchant checks the final order at gateway dispatch and preserves one merchant reference for recovery. [Verification](output/qa/2026-11-19-alice-shopping-conversation/verification.md).
+
+## 2026-11-20 Overseas shopping sandboxes before real purchases
+
+The owner requested cancellation of a paid order immediately after buying, with a full refund, and prioritized overseas sandboxes such as eBay and Amazon. The owner authorized two Gmail test aliases for free eBay developer and Amazon Pay buyer registration and email verification. A mainland delivery address is available for a future live quote. This request authorizes sandbox shopping only.
+
+Engineering selected eBay's US buyer and seller sandbox for the retail cancellation, the official Amazon Pay demo for buyer setup and an existing US Stripe sandbox to inspect the merchant side of Amazon Pay. A separate US$0.75 test Visa control demonstrated the first full-refund readback. The checkout receipt now verifies a linked, terminal full refund independently. No production checkout permission was added to Alice. [Observed provider states](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).
+
+### 20 November verified Amazon wallet receipts
+
+The owner completed the refreshed email verification and confirmed permission to use matching verification mail for this test account. The prior Gmail connector response had masked the code. Reuse the authenticated wallet for the two reviewed checkouts. The official demo produced a US$14.30 order number. The merchant-controlled tissue checkout produced a US$1.00 Amazon Pay capture and terminal full refund. Engineering changed the operator's read-only verifier to validate Stripe resource types and links independently of card-specific ID prefixes. eBay's pending review still gates the retailer cancellation case. [Acceptance](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).
+
+### 20 November reusable Link wallet connection
+
+The owner completed the FYP Link connection and the supplemental profile consent, then requested that tests reuse the authorization. Use the existing official CLI profile and its rotating refresh credential. A payment-only token received HTTP 401 on test spend creation. With the provider's standard payment and profile scopes, the same case returned a valid one-time US$1.00 sandbox spend request awaiting the owner's decision. Account-level approval policies returned HTTP 403 for the FYP client. A future merchant-specific recurring test allowance requires a separately agreed amount, period and expiry. The current spend is one-time. [Wallet evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#link-checkout-and-the-delegated-wallet).
+
+### Approved 180-day FYP sandbox allowance
+
+The owner selected 180 days and approved the larger recurring request in Link. The issuer confirmed US$500 per monthly period for FYP Alice Test Shop, ending 19 May 2027 at 15:15:07 Hong Kong time. FYP separately caps each test checkout at US$10. This authorization is for the private test merchant and test virtual card. Keep the authenticated profile and the same approved request for future qualifying tests. The individual credential's validity is read separately. The superseded one-time request was canceled after its original merchant checkout was retained. The approved allowance by itself establishes no merchant payment. [Provider and checkout results](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#approved-recurring-test-allowance).
+
+### 20 November Link test-fixture interoperability
+
+One read of the approved request established that the number in the Link API response is exactly the example in its published CLI 1.6.0 README. Its Luhn check fails independently of FYP. Continue to require actual merchant capture and refund for this acceptance. Public fixtures can reproduce the formatting failure without requesting another credential. Engineering fixed a separate FYP interpretation of comma-delimited OAuth scopes and applied the existing card checks to the older one-time operator. [Diagnosis and independent evidence](output/qa/2026-11-20-link-wallet-diagnosis/verification.md).
+
+## 2026-11-21 eBay account review
+
+The owner authorized submitting the official rejected-registration form for the original account. Use the course project's sandbox-only buyer, seller, cancellation and refund scenario. The owner confirmed seeing submission success or a reference after human verification. Keep developer access pending a review-specific decision. [Provider evidence](output/qa/2026-11-21-shopping-next-step/verification.md).

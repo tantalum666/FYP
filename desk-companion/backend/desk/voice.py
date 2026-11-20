@@ -1235,9 +1235,10 @@ def voice_routes(runtime, authenticated, agent, allowed_origins, limit):
     def forget(conversation_id: str, request: Request, principal=Depends(authenticated)):
         if principal["kind"] != "owner":
             raise DomainError("OWNER_REQUIRED", 403)
-        runtime.voice.conversations.forget(
-            {**principal, "session": request.cookies.get("desk_companion_session")}, conversation_id
-        )
+        who = {**principal, "session": request.cookies.get("desk_companion_session")}
+        runtime.voice.conversations.forget(who, conversation_id)
+        runtime.flight_bookings.forget_chat(who, conversation_id)
+        runtime.shop_orders.forget_chat(who, conversation_id)
         return {"cleared": True}
 
     @router.post("/voice/work-drafts")

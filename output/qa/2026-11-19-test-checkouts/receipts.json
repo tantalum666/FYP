@@ -1,0 +1,84 @@
+{
+  "date_hong_kong": "2026-11-19",
+  "runtime_release_under_review": "85e6aa94",
+  "provider": "Stripe sandbox, isolated FYP merchant",
+  "merchant_receipts": {
+    "direct_card_positive": {
+      "provider": "Stripe",
+      "environment": "FYP isolated unclaimed sandbox",
+      "method_fixture": "pm_card_visa",
+      "purpose": "synthetic stationery",
+      "amount_minor": 3400,
+      "currency": "hkd",
+      "payment_intent_status": "succeeded",
+      "charge_status": "succeeded",
+      "charge_captured": true,
+      "both_livemode_false": true,
+      "receipt_retrieved_separately": true,
+      "actual_charge_minor": 0,
+      "link_issued": false,
+      "fulfilment": false
+    },
+    "hosted_card": {
+      "livemode": false,
+      "checkout_status": "complete",
+      "payment_status": "paid",
+      "payment_intent_status": "succeeded",
+      "charge_status": "succeeded",
+      "method": "card",
+      "captured": true,
+      "amount_minor": 3400,
+      "currency": "hkd",
+      "actual_charge_minor": 0,
+      "session_sha256": "df78cc6844e82507dacd1b48c7aaacd5fe36960f36ae4bf084d3d9ae948a0062"
+    },
+    "hosted_link": {
+      "livemode": false,
+      "checkout_status": "complete",
+      "payment_status": "paid",
+      "payment_intent_status": "succeeded",
+      "charge_status": "succeeded",
+      "method": "link",
+      "captured": true,
+      "amount_minor": 3400,
+      "currency": "hkd",
+      "actual_charge_minor": 0,
+      "session_sha256": "8a3a7d097ef094e4f38b2bab931403b465e5c656abc7836775a21fe2469e1aa0"
+    },
+    "direct_card_decline": {
+      "provider": "Stripe",
+      "case": "documented decline fixture",
+      "amount_received_minor": 0,
+      "currency": "hkd",
+      "intent_status": "requires_payment_method",
+      "error_code": "card_declined",
+      "livemode": false,
+      "paid": false
+    }
+  },
+  "hosted_order": {
+    "line_items": 1,
+    "units": 2,
+    "unit_amount_minor": 1700,
+    "currency": "HKD",
+    "buyer_data": "synthetic",
+    "physical_fulfillment": false
+  },
+  "wallet": {
+    "stripe_checkout_link_flow": "verified by payment_method_details.type == link",
+    "agent_wallet_oauth_granted": false,
+    "agent_wallet_test_card_issued": false
+  },
+  "independent_verifier": {
+    "official_api": "https://api.stripe.com/v1",
+    "methods": [
+      "GET"
+    ],
+    "rejects_live_session_before_request": true,
+    "rejects_different_order_amount": true
+  },
+  "externally_fulfilled_orders": 0,
+  "real_tickets": 0,
+  "real_money_moved": false,
+  "openai_model_calls": 0
+}

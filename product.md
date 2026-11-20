@@ -1,8 +1,42 @@
 # Group 2 Project Contract
 
+## 2026-11-20 Overseas marketplace shopping and cancellation
+
+The separate Link Agent Wallet acceptance uses the official CLI and the owner-connected FYP profile. Link approved a 180-day recurring test authorization of US$500 per month for the FYP sandbox. The testing path limits each order to US$10. The US$1 tissue order remains unpaid. The original issuer response contained Link's published test fixture, which fails the card-number checksum required at this checkout. The operator supports the two scope formats observed across authorizations and refreshes. [Payment evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#approved-recurring-test-allowance) · [Issuer fixture diagnosis](output/qa/2026-11-20-link-wallet-diagnosis/verification.md).
+
+The owner selected overseas sandboxes first. A marketplace acceptance needs an all-in quote, the owner's approval, a paid sandbox order, immediate buyer cancellation before dispatch, any required seller decision, and a completed full refund matching the same order and currency. Reconfirm changed checkout terms through the existing approval flow. A verified Amazon Pay test buyer completed a US$14.30 KitchenSmart demo order. On the separate FYP merchant, the same buyer paid US$1.00 for pocket tissues via Amazon Pay. The full refund reached `succeeded` and the hosted receipt showed US$0.00 net. The earlier standard Visa control refunded US$0.75. eBay rejected activation. The owner confirmed submission of the official registration review. [Current account status](output/qa/2026-11-21-shopping-next-step/verification.md). The buyer-side marketplace cancellation and the installed Alice WooCommerce shopping path have separate acceptance records. [Provider evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md).
+
+## 2026-11-19 Shopping in ordinary Alice conversation
+
+The owner can name one product and quantity in regular chat. WooCommerce quotes the product, selected Hong Kong delivery rate and HKD total. A changed checkout needs a new owner decision, including for a lower amount. The desk reopens the Woo order, Stripe PaymentIntent and captured test Charge. Native acceptance produced order #17 at HK$46 from an original HK$42 quote. [Product behavior](desk-companion/docs/conversation-shopping.md) · [acceptance](output/qa/2026-11-19-alice-shopping-conversation/verification.md).
+
+## 2026-11-19 Owner-approved flight booking in ordinary Alice chat
+
+Use LetsFG for simulated bookings. The owner sees the exact flight and HKD total before booking and must separately approve a supplier increase. Alice checks the original provider record for a matching PNR and captured amount. The iPhone 17 Pro Simulator completed FR4315 at HK$36.25 after an initial HK$34 quote. [Product behavior](desk-companion/docs/conversation-flight-booking.md) · [device and provider evidence](output/qa/2026-11-19-alice-flight-conversation/verification.md).
+
+## 2026-11-19 Flight booking sandbox
+
+Use LetsFG’s public sandbox for the FYP booking flow with synthetic passenger data. The initial provider acceptance covers a Hong Kong to Tokyo search, matching test reservation and capture, duplicate suppression, and release of a price-increase hold after refusal. Kiwi remains the source for real public fare research. At the provider-only acceptance, ordinary Alice had quote authority. Its subsequent owner-confirmed sandbox booking capability is recorded above. An airline-hosted booking has separate evidence and access requirements. [Provider receipts and Singapore Airlines option](output/qa/2026-11-19-flight-booking-sandbox/verification.md).
+
+## 2026-11-19 Original Pi and regional travel testing
+
+The original Pi now runs the Web and native Simulator release `85e6aa94`. Its device screen showed Alice connected. Original data, A3 v9 and both Google grants passed on-device checks. For ticketing, Duffel’s current signup menu requires a listed incorporation jurisdiction and omits Hong Kong and mainland China. At that point a supplier booking receipt was still pending. [Pi and signup verification](output/qa/2026-11-19-pi-release/verification.md).
+
+## 2026-11-19 Merchant sandbox payment acceptance
+
+Two isolated FYP Stripe Checkout orders using a public test Visa and a simulated Link Checkout buyer were returned as paid by the provider, with independently matched payment intents and captured test charges. A deliberate refusal received zero. These are QA merchant payments. The live product continues to perform reviewed research, with buyer Agent Wallet authorization and independent travel-supplier order evidence still open. [Sandbox acceptance and supported platforms](output/qa/2026-11-19-test-checkouts/verification.md).
+
+## 2026-11-19 Live flight search and cost reporting
+
+Normal Web and native Simulator run `85e6aa94`. Alice can propose Kiwi.com's read-only flight connector for general flight requests. The owner's consent covers the displayed itinerary. The existing official OpenAI session invokes only the fare-search tool without a browser environment. Airline-specific website requests retain their selected source. The cheapest live HKG–HND result in the November 25 nonstop acceptance was HK$2,006 with one checked bag. Its weight and final payable amount remain unconfirmed. The diagnostics screen distinguishes official UTC cost reports from the local Hong Kong spending guard. [Current acceptance](output/qa/2026-11-19-flight-ledger/verification.md).
+
+## 2026-11-19 Shopping and flight quotes in conversation
+
+Alice can prepare a public price lookup, show its quantity or itinerary for approval, and return the price, its basis, source and observation time in the same conversation. The desk calculates eligible selling-unit and multi-buy subtotals. An airline minimum, unverified seat, or missing required baggage, taxes or delivery leaves the corresponding total unconfirmed. A follow-up reopens the saved receipt. Both purchases and ticket issuance remain outside this public research action. The implementation is on [PR 134](https://github.com/tantalum666/FYP/pull/134). The live shopping result, limitations of the two hosted airline runs, and native Safari handoff are recorded in [acceptance](output/qa/2026-11-19-shopping-flight/verification.md).
+
 ## 2026-11-18 Normal 6.2 Sol release
 
-The owner selected GPT‑6.2 Sol for normal reasoning and the managed browser. Mac Web and native Simulator now run `00780e44`. Voice audio stays on GPT‑Live 1 with A3 version 9 and delegates to 6.2 Sol. The official browser's independent operator model is bound to admission and execution. The original Pi is currently unavailable and its package was retained at the owner's request. FYP API authorization runs through the end of 24 November under US$20 per Hong Kong day. [Delivery, real browser and budget receipt](output/qa/2026-11-18-sol62-deployment/verification.md).
+The owner selected GPT‑6.2 Sol for normal reasoning and the managed browser. Mac Web and native Simulator now run `00780e44`. Voice audio stays on GPT‑Live 1 with A3 version 9 and delegates to 6.2 Sol. The official browser's independent operator model is bound to admission and execution. The Pi was unavailable during the 18 November rollout. Its retained update was installed on 19 November. FYP API authorization runs through the end of 24 November under US$20 per Hong Kong day. [Delivery, real browser and budget receipt](output/qa/2026-11-18-sol62-deployment/verification.md).
 
 ## 2026-11-18 Live text model acceptance
 
@@ -20,7 +54,7 @@ The new path reuses official OpenAI Responses with native strict structured outp
 
 Actual API tests exposed and repaired response timeouts and hosted-browser readiness/approval/cancellation/cleanup defects. Six real read-only research cases and a natural-language follow/stop flow passed; mail transport was synthetic. The final official hosted browser read a public catalogue, inspected stock, calculated a fictional shipping/currency comparison and deleted its session, with an independent result check. Earlier failed attempts are retained. [Current QA](output/qa/2026-11-17-proactive-agent-merge/verification.md) distinguishes local tests, real models, actual sites and untested merchant transactions.
 
-On 18 November the owner requested the normal rollout and selected the iPhone Simulator for mobile acceptance. Mac Web, the rebuilt native app and the Raspberry Pi kiosk serve `c607759e`. Both servers retain their original stores, A3 version 9 and independent Gmail and Calendar grants. The installed background model setting is off. The prior US$5 batch is closed. The Pi retains its 2.4 GHz configured ceiling and enabled RTC timer. [Deployment evidence](output/qa/2026-11-18-three-end-rollout/verification.md).
+On 18 November the owner requested the normal rollout and selected the iPhone Simulator for mobile acceptance. Mac Web, the rebuilt native app and the Raspberry Pi kiosk served `c607759e` in that rollout. Both servers retain their original stores, A3 version 9 and independent Gmail and Calendar grants. The installed background model setting is off. The prior US$5 batch is closed. The Pi retains its 2.4 GHz configured ceiling and enabled RTC timer. [Deployment evidence](output/qa/2026-11-18-three-end-rollout/verification.md).
 
 ## 2026-11-17 Replacement-adapter stability check
 

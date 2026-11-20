@@ -22,6 +22,8 @@ from .assistant import CalendarQuery, ChangeProposal
 from .owner_lookup import OwnerClockArgs, OwnerSearch, PlateQuery
 from .owner_plan import ProposePlan
 from .weather import WeatherQuery
+from .flight_booking.provider import FlightQuery
+from .shop_checkout.provider import ShopQuery
 from .browser_research import BrowserResearchDraft, BrowserResearchQuery
 from .mail_followup_models import MailFollowupDraft, MailFollowupQuery, MailFollowupStop
 
@@ -67,6 +69,8 @@ def _capabilities() -> dict[str, Capability]:
         Capability("mail_followup_draft", "draft", MailFollowupDraft, timeout=20),
         Capability("mail_followup_status", "read", MailFollowupQuery),
         Capability("mail_followup_stop", "stop", MailFollowupStop),
+        Capability("sandbox_shop_quote", "draft", ShopQuery, timeout=22),
+        Capability("sandbox_flight_quote", "draft", FlightQuery, timeout=16),
         Capability("browser_research_draft", "draft", BrowserResearchDraft),
         Capability("browser_research_status", "read", BrowserResearchQuery, timeout=15),
         Capability("weather_query", "read", WeatherQuery, timeout=8),

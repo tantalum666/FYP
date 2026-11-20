@@ -1,0 +1,219 @@
+{
+  "implementation": "48aec0e621e59f81352b1ae261060520563de745",
+  "base": "fd8e3ab69de4d5d43969356b546a9bd10d310eae",
+  "user_day_hong_kong": "2026-11-19",
+  "model": "gpt-6.2-sol",
+  "hosted_public_browser_runs": {
+    "retail-1": {
+      "request": {
+        "budget_minor": 6000,
+        "currency": "HKD",
+        "fulfilment": "delivery",
+        "kind": "shopping",
+        "product": "Tempo Kids 無香紙手巾 12 包裝",
+        "quantity": 2
+      },
+      "browser_activities": 6,
+      "observed_at": "2026-11-19T00:49:32.857474Z",
+      "offer": {
+        "label": "Tempo Kids 無香紙手巾 12 包裝",
+        "basis": "conditional",
+        "currency": "HKD",
+        "price_minor": 3400,
+        "priced_units": 2,
+        "availability": "unknown",
+        "extras_minor": null,
+        "source_url": "https://www.wellcome.com.hk/en/p/Tempo%20Kids%20Pocket%20Tissue-Hanky%2012PK/i/102790771.html"
+      },
+      "subtotal_minor": null,
+      "total_minor": null,
+      "budget_status": "unknown",
+      "evidence_sha256": "d19546d7b33de0cff72b0dcd62dd3af3945ab87deda5da3640ec217821c5aba6",
+      "browser_usage": null,
+      "remote_delete": true,
+      "independent_get_404": true,
+      "report_completed": true
+    },
+    "flight-1": {
+      "request": {
+        "adults": 1,
+        "budget_minor": 150000,
+        "checked_bag_kg": 20,
+        "currency": "HKD",
+        "departure": "2026-11-25",
+        "destination": "HND",
+        "kind": "flight",
+        "origin": "HKG",
+        "return_date": null
+      },
+      "browser_activities": 7,
+      "observed_at": "2026-11-19T00:51:11.241180Z",
+      "offer": null,
+      "subtotal_minor": null,
+      "total_minor": null,
+      "budget_status": "unknown",
+      "evidence_sha256": "df506228bbd5b9a4cc2e963e1c4d53e58ab056e5f7d6956c1d25ea28ea74f17b",
+      "browser_usage": null,
+      "remote_delete": true,
+      "independent_get_404": true,
+      "report_completed": true
+    },
+    "cathay-1": {
+      "request": {
+        "adults": 1,
+        "budget_minor": 450000,
+        "checked_bag_kg": 20,
+        "currency": "HKD",
+        "departure": "2026-11-25",
+        "destination": "NRT",
+        "kind": "flight",
+        "origin": "HKG",
+        "return_date": "2026-12-02"
+      },
+      "browser_activities": 3,
+      "observed_at": "2026-11-19T00:53:31.934002Z",
+      "offer": null,
+      "subtotal_minor": null,
+      "total_minor": null,
+      "budget_status": "unknown",
+      "evidence_sha256": "1147ca05df9fe17e0ce0d6c47a2b19960403158ab5b5dae32fe758cc9685d578",
+      "browser_usage": null,
+      "remote_delete": true,
+      "independent_get_404": true,
+      "report_completed": true
+    },
+    "retail-2": {
+      "request": {
+        "budget_minor": 6000,
+        "currency": "HKD",
+        "fulfilment": "delivery",
+        "kind": "shopping",
+        "product": "Tempo Kids 無香紙手巾 12 包裝",
+        "quantity": 2
+      },
+      "browser_activities": 7,
+      "observed_at": "2026-11-19T00:54:00.778508Z",
+      "offer": {
+        "label": "Tempo Kids 無香紙手巾 12 包裝",
+        "basis": "quantity_offer",
+        "currency": "HKD",
+        "price_minor": 3400,
+        "priced_units": 2,
+        "availability": "unknown",
+        "extras_minor": null,
+        "source_url": "https://www.wellcome.com.hk/en/p/Tempo%20Kids%20Pocket%20Tissue-Hanky%2012PK/i/102790771.html"
+      },
+      "subtotal_minor": 3400,
+      "total_minor": null,
+      "budget_status": "unknown",
+      "evidence_sha256": "2cac9bed37079bf78a3a4ad209271585aa02b336dbe68b04bf589dd3b4b5732f",
+      "browser_usage": null,
+      "remote_delete": true,
+      "independent_get_404": true,
+      "report_completed": true
+    }
+  },
+  "actual_follow_up": "两份 Tempo Kids 无香纸手巾（每份 12 包）的优惠小计是 **HK$34.00**。送货运费还未核实，所以含运费总额和是否符合 **HK$60** 预算都还不能确定。",
+  "follow_up_test": {
+    "input_tokens": 14903,
+    "output_tokens": 62,
+    "total_tokens": 14965,
+    "additional_browser_jobs": 0,
+    "fresh_remote_text_session": true,
+    "replayed_recorded_exchange_into_scoped_test_chat": true,
+    "delete_then_404": true
+  },
+  "independent_public_pages": {
+    "retail": {
+      "source": "https://www.wellcome.com.hk/en/p/Tempo%20Kids%20Pocket%20Tissue-Hanky%2012PK/i/102790771.html",
+      "http": 200,
+      "match": {
+        "Buy 2 for $34": true,
+        "HK$399": true,
+        "18.00": true
+      },
+      "sha256": "c57a3c5dfe6df42dd44e99b6112ed0e48b34fd002aefb78eca515248db1d12ca"
+    },
+    "hke": {
+      "source": "https://www.hkexpress.com/en-hk/flights-from-hong-kong-to-tokyo",
+      "http": 200,
+      "match": {
+        "HKG–HND, 25/11/2026: From HKD 470": true,
+        "exclusive of fuel surcharges": true,
+        "last 48hrs": true
+      },
+      "sha256": "4fc3ee21bcc293cd3318f7ef156383da335cbbc0480ddf8a498f7e79ff1a8a81"
+    },
+    "cathay": {
+      "source": "https://flights.cathaypacific.com/destinations/en_HK/flights-from-hong-kong-to-tokyo",
+      "http": 200,
+      "match": {
+        "HKG–NRT, 25/11/2026 – 02/12/2026: From HKD3,637": true,
+        "include taxes and carrier-imposed surcharges": true
+      },
+      "sha256": "174211065c77d0d2abff6210e9b3b5f9534c695f5de934a62ceb91ac6426dd27"
+    }
+  },
+  "cleanup": {
+    "hosted_browser_sessions": 4,
+    "ordinary_text_sessions": 5,
+    "independently_absent": 9
+  },
+  "budget": {
+    "configured": true,
+    "day": "2026-11-19",
+    "timezone": "Asia/Hong_Kong",
+    "through": "2026-11-24",
+    "active": true,
+    "allocated_usd": 9.0,
+    "accounted_usd": 8.96,
+    "available_usd": 0.04
+  },
+  "local_UI": {
+    "cases": [
+      {
+        "case": "retail",
+        "viewport": [
+          1440,
+          1000
+        ],
+        "popup_verified": true,
+        "overflow": false
+      },
+      {
+        "case": "flight",
+        "viewport": [
+          393,
+          852
+        ],
+        "popup_verified": true,
+        "overflow": false
+      },
+      {
+        "case": "missing flight",
+        "viewport": [
+          393,
+          852
+        ],
+        "popup_verified": true,
+        "overflow": false
+      }
+    ],
+    "page_errors": [],
+    "native": {
+      "device": "iPhone 17 Pro",
+      "runtime": "iOS 26.5",
+      "protocol_replay_for_fare_card": true,
+      "external_live_safari_host": "www.hkexpress.com",
+      "visible_advertised_price": "HKD 470",
+      "returned_to_same_card": true
+    }
+  },
+  "effects": {
+    "cart_mutations": 0,
+    "reservations": 0,
+    "orders": 0,
+    "tickets": 0,
+    "payments": 0
+  }
+}
