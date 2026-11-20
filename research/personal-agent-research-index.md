@@ -1,5 +1,7 @@
 # Group 2｜个人 Agent 研究总入口与实现对照
 
+**11 月 20 日 Link 长期测试额度**　FYP 在 Link 得到 180 天、每月 US$500 的专用沙盒授权，FYP 限制单笔最高 US$10。纸巾单的 US$1 报价通过了额度检查。Link 签发的测试卡在 Stripe 的卡号校验处失败，回查同单无扣款。长期授权仍为已批准。[额度、卡凭据及商户回执](../output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#approved-recurring-test-allowance)。
+
 **11 月 20 日海外购物沙盒**　Amazon Pay 测试买家已验证。KitchenSmart 演示店回传 US$14.30 订单号。FYP 美国商户的另一笔 US$1.00 纸巾单通过 Amazon Pay 模拟扣款，73 秒后创建全额退款，实际回读状态为 `succeeded`，收据净额 US$0.00。eBay 登录仍显示开发者账号在审核。零售商在发货前接受买家撤单仍待实测。[订单与退款回执](../output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md)。
 
 **11 月 19 日支付专题**　已核对 Grok Bot、OpenAI dot 和 Meta Muse 的钱包与购买批准流程，并用 FYP 的 Python 环境验证官方 Link SDK 的本地请求契约。Stripe 和 WooCommerce 的商户沙盒付款已验收。香港消费者钱包资格与供应商出票仍待验证。[钱包可行性与证据](../output/qa/2026-11-19-agent-wallet-feasibility/verification.md) · [Stripe 商户沙盒实付测试及购物、旅行测试平台](../output/qa/2026-11-19-test-checkouts/verification.md) · [WooCommerce 访客订单与开户要求](../output/qa/2026-11-19-woocommerce-guest/verification.md) · [Duffel 自助注册地区和 Pi 真机回执](../output/qa/2026-11-19-pi-release/verification.md) · [免注册航班沙盒成功预订、拒绝加价及新航官方入口](../output/qa/2026-11-19-flight-booking-sandbox/verification.md) · [Alice 普通对话的模拟器完整预订及加价再确认](../output/qa/2026-11-19-alice-flight-conversation/verification.md) · [WooCommerce 普通对话购物、运费变更和 Stripe 实扣回执](../output/qa/2026-11-19-alice-shopping-conversation/verification.md)
