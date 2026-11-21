@@ -33,6 +33,8 @@ def public(row):
 
 
 class FlightBookings(ChatReviews):
+    follow_states = ("submitting", "processing", "answering", "stopping", "reprice")
+
     def __init__(self, runtime):
         super().__init__(runtime, "FLIGHT")
         self.provider = LetsFG()
@@ -60,9 +62,11 @@ class FlightBookings(ChatReviews):
         }
         return public(self.insert(row, key, principal, chat))
 
-    def read(self, ident, owner, chat):
+    def read(self, ident, owner, chat, *, following=False):
         with self.lock:
-            row = self._get(ident, owner, chat)
+            row = self._read_row(ident, owner, chat, following)
+            if row is None:
+                return None
             now = self.store.clock()
             if row["state"] == "quoted" and row["expires"] <= iso(now):
                 self._state(row, "expired")

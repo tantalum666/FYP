@@ -1,9 +1,19 @@
+import {
+  orderKey,
+  orderStatus,
+  type CommerceReview,
+} from "./commercePresentation.ts";
+import type { Translate } from "../types";
+
 export type ConversationTurn = {
   id: number | string;
   role: "user" | "assistant";
   body: string;
   kind?: string;
   jobId?: string;
+  orderKey?: string;
+  commerceChat?: string;
+  choices?: import("./commercePresentation").FlightAlternatives;
   voiceSession?: string;
   voiceGroup?: number;
   files?: Array<{ id: string; name: string }>;
@@ -56,4 +66,32 @@ export function appendLiveTranscript(
 export function latestAssistantReply(turns: ConversationTurn[]): string {
   const latest = turns.at(-1);
   return latest?.role === "assistant" ? latest.body : "";
+}
+
+/** Replace a just-shown pending result in place. Keep later user turns and never
+ * repeat a transition received by both restoration and the foreground refresh. */
+export function appendOrderUpdates(
+  previous: ConversationTurn[],
+  updates: CommerceReview[],
+  chat: string,
+  t: Translate,
+): ConversationTurn[] {
+  const next = [...previous];
+  for (const row of updates) {
+    const key = orderKey(row),
+      id = `order/${key}/${row.version}`;
+    if (next.some((turn) => turn.id === id)) continue;
+    const turn: ConversationTurn = {
+      id,
+      role: "assistant",
+      kind: "order_update",
+      body: orderStatus(row, t),
+      orderKey: key,
+      commerceChat: chat,
+    };
+    if (next.at(-1)?.orderKey === key && next.at(-1)?.commerceChat === chat)
+      next[next.length - 1] = turn;
+    else next.push(turn);
+  }
+  return next.slice(-40);
 }

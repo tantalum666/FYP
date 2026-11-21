@@ -1,9 +1,27 @@
 """Bind merchant-specific review services to the existing ordinary chat lifecycle."""
 
 from . import commerce_aftercare
+from .store import DomainError
 from .commerce_review import language_for
 from .flight_booking import conversation as flights
 from .shop_checkout import conversation as shopping
+
+
+def follow_orders(runtime):
+    """Run on the desk even while its conversation surface is closed."""
+    for service in (runtime.shop_orders, runtime.flight_bookings):
+        try:
+            service.follow_one()
+        except DomainError as error:
+            # A concurrent decision or privacy change invalidates this read.
+            if error.code not in {
+                "COMMERCE_FOLLOW_SCOPE_CHANGED",
+                "SHOP_REVIEW_CHANGED",
+                "FLIGHT_REVIEW_CHANGED",
+                "SHOP_NOT_FOUND",
+                "FLIGHT_NOT_FOUND",
+            }:
+                raise
 
 
 def can_resume(runtime, principal, payload):
@@ -52,25 +70,28 @@ def turn(runtime, payload, principal, chat):
 
 
 def present(runtime, reply, key, principal, chat, payload, *, cached=False):
-    lang = language_for(payload.message,payload.language)
+    lang = language_for(payload.message, payload.language)
     if alternatives := reply.get("flight_alternatives"):
-        return {**reply,"kind":"clarify","saved":False,"message":flights.describe_alternatives(alternatives,lang)}
-    if reply.get("kind") == "clarify" and str(reply.get("error","")).startswith("FLIGHT_"):
-        return {**reply,"message":flights.failure(reply["error"],lang)}
-    for quote_field, result_field, service, render, lang in (
+        return {
+            **reply,
+            "kind": "clarify",
+            "saved": False,
+            "message": flights.describe_alternatives(alternatives, lang),
+        }
+    if reply.get("kind") == "clarify" and str(reply.get("error", "")).startswith("FLIGHT_"):
+        return {**reply, "message": flights.failure(reply["error"], lang)}
+    for quote_field, result_field, service, render in (
         (
             "sandbox_quote",
             "flight_booking",
             runtime.flight_bookings,
             flights.describe,
-            lang,
         ),
         (
             "shop_quote",
             "shopping_order",
             runtime.shop_orders,
             shopping.describe,
-            lang,
         ),
     ):
         if cached and reply.get(result_field):
@@ -80,6 +101,9 @@ def present(runtime, reply, key, principal, chat, payload, *, cached=False):
         else:
             continue
         result = {k: v for k, v in reply.items() if k != quote_field}
+        if cached and reply.get("commerce_note") and row["version"] == reply[result_field]["version"]:
+            return {**result, result_field: row}
+        result.pop("commerce_note", None)
         return {**result, "kind": result_field, result_field: row, "message": render(row, lang)}
     return reply
 
