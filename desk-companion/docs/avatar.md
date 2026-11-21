@@ -1,6 +1,12 @@
 # A1 3D presentation study
 
-## Current conversation performance · 21 November 2026
+## Current hands and uniform · 21 November 2026
+
+The palm now rolls with the forearm. Arm landmarks specify shoulder rotation, elbow bend and forearm roll, and two small wrist bends. Each joint tracks a continuous rotation vector across equivalent Euler representations. Interrupted scores ease from the moving limb. A wider relaxed elbow clears the uniform. Thanking uses one hand near the chest while the other hangs at the side. Laughing raises curved fingers beside the mouth. The clap is oblique, with the supporting palm and striking palm following separate paths.
+
+The original VRM file stays intact. On the bundled Alice uniform the resident renderer fits the existing spring spheres to the outer sleeves and reuses them for the coat hem. Other assets retain their own collider settings. Review frontal, diagonal and profile views and include both mirrored poses. The mesh audit records inner finger segments covered by the cuff separately. It also reports the remaining fabric contact during clapping and the two-frame hair/sleeve crossing during one mirrored interruption. [Full audit and film](../../output/qa/2026-11-21-alice-hands-live11/verification.md).
+
+## Conversation performance · 21 November 2026
 
 The regular home receives a bounded delivery value when an ordinary reply is shown. The same official Session that writes the answer chooses between neutral and seven social tones. `MotionCues` starts a short performance, keeps it through the normal thinking-to-idle transition and releases it for a new turn or hidden surface. Speech-only captions without structured delivery can recognize a small set of explicit reply openings. This path processes existing assistant captions locally.
 

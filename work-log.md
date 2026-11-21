@@ -1102,3 +1102,8 @@ Self-reviewed frontend `64485c7f` on the existing integration branch. Reworked i
 ## 2026-11-21 · Animate Alice’s response to the actual exchange
 
 Added seven social tones, a neutral option and thirteen authored performances. Fitted two-arm landmarks on the licensed model, calibrated thumb closure and staged facial expressions with the eyes and mouth on separate layers. Visual review corrected a bow that tipped backward, a hand over the eye and the clap spacing. Four real ordinary Simulator turns on GPT‑6.2 Sol matched the scoped desk receipts. The same conversation later hit its existing local budget rule. Used provider-protocol replay for the neutral translation. The final Web and Simulator frontends are `88fbc532`. [QA, film and remaining boundary](output/qa/2026-11-21-alice-expressive-conversation/verification.md) · [draft PR 136](https://github.com/tantalum666/FYP/pull/136).
+
+
+## 2026-11-21 · Review the full hand rig and deploy Live 1.1
+
+Inspected all 20 gestures from three angles and replayed six interrupted transitions on each side. Corrected reversed wrist rotation and the cross-sleeve path, calibrated clothing clearance and verified the exposed fingertips. Published same-device footage and per-path results, including residual textile contacts. The FYP key confirmed GPT-Live-1.1 and the normal voice path returned “收到。” and finalized. Mac Web and the native Simulator run `a1f9b76b`. The offline Pi has a verified 118-file delta with 387 files reusable. [Acceptance](output/qa/2026-11-21-alice-hands-live11/verification.md) · [draft PR 137](https://github.com/tantalum666/FYP/pull/137).

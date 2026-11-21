@@ -100,6 +100,12 @@ Reuse official execution infrastructure where it fits. Live supports Responses t
 
 The one newly authorized paid trial independently verified two public book prices, then deleted its session. Usage was absent: the entire US$1 remains reserved and this round is closed. No further paid request is authorized by the implementation or deployment.
 
+## 2026-11-21 Hand anatomy and everyday voice
+
+Rotation along the arm belongs to the forearm. Gratitude and laughter keep the palm turned toward Alice, with the free arm clear of the working sleeve. Rehearse both sides and interruptions, including the full lift and return. Review the skinned hand, face, coat, sleeves and moving hair. The native before/after film and the per-gesture audit distinguish exposed fingers, skin naturally covered by the cuff, and textile contacts. [Acceptance](output/qa/2026-11-21-alice-hands-live11/verification.md).
+
+The daily voice connection uses GPT-Live-1.1 over the existing server WebSocket. A3 v9 and GPT-6.2 Sol delegation remain selected. The local wake path handles time between conversations. WebRTC standby fits short pauses within an already-open WebRTC call and keeps its microphone track active. [Official standby behavior](https://developers.openai.com/api/docs/guides/live-conversations#managing-idle-sessions).
+
 ## 2026-11-21 Expressive reactions in ordinary Alice conversation
 
 Alice’s reply should show a response appropriate to what the person actually said. Good news, disappointment, gratitude, surprise, shared humor, curiosity and encouragement have distinct facial and body performances. Routine replies can stay neutral. Select the delivery alongside the words in the existing ordinary OpenAI Session. Authoritative tool receipts retain their normal path. Preserve quiet intervals, the licensed character, foot contact and the static reduced-motion presentation.

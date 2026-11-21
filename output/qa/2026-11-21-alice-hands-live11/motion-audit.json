@@ -1,0 +1,1384 @@
+{
+  "base": "08a8b49b",
+  "release": "a1f9b76b76ba4c90e2d1f0aa96f9f207ff3d5d35",
+  "sample_hz": 30,
+  "normal_gestures": 20,
+  "interruption_pairs": 6,
+  "orientations": 2,
+  "paths": 52,
+  "frames": 12154,
+  "whole_hand_to_face_hair_torso_opposite_hand_or_sleeve_crossings": 0,
+  "terminal_digit_through_own_cuff_crossings": 0,
+  "rendered_face_spot_checks": {
+    "morph-chinRest-left": {
+      "samples": 35,
+      "crossing_frames": 0,
+      "closest_sample_mm": 75.54
+    },
+    "morph-chinRest-right": {
+      "samples": 35,
+      "crossing_frames": 0,
+      "closest_sample_mm": 75.85
+    },
+    "morph-giggle-left": {
+      "samples": 35,
+      "crossing_frames": 0,
+      "closest_sample_mm": 28.74
+    },
+    "morph-giggle-right": {
+      "samples": 35,
+      "crossing_frames": 0,
+      "closest_sample_mm": 28.89
+    },
+    "morph-gratefulBow-left": {
+      "samples": 35,
+      "crossing_frames": 0,
+      "closest_sample_mm": 134.49
+    },
+    "morph-gratefulBow-right": {
+      "samples": 35,
+      "crossing_frames": 0,
+      "closest_sample_mm": 134.42
+    },
+    "morph-hairTuck-left": {
+      "samples": 35,
+      "crossing_frames": 0,
+      "closest_sample_mm": 46.85
+    },
+    "morph-hairTuck-right": {
+      "samples": 35,
+      "crossing_frames": 0,
+      "closest_sample_mm": 50.31
+    }
+  },
+  "paths_detail": [
+    {
+      "path": "hairTuck/left",
+      "frames": 233,
+      "wrist_rotation_before_deg": 111.43,
+      "wrist_rotation_after_deg": 10.34,
+      "forearm_to_hand_angle_max_deg": 15.57,
+      "side_deviation_max_deg": 10.4,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 233,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 233,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "hairTuck/right",
+      "frames": 233,
+      "wrist_rotation_before_deg": 111.43,
+      "wrist_rotation_after_deg": 10.34,
+      "forearm_to_hand_angle_max_deg": 15.57,
+      "side_deviation_max_deg": 10.4,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 233,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 233,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Lsleeve/coat": {
+          "frames": 21,
+          "max_pairs": 10,
+          "depth_mm": 0.74,
+          "worst_frame": 103
+        }
+      }
+    },
+    {
+      "path": "sleeveAdjust/left",
+      "frames": 245,
+      "wrist_rotation_before_deg": 61.09,
+      "wrist_rotation_after_deg": 16.02,
+      "forearm_to_hand_angle_max_deg": 18.39,
+      "side_deviation_max_deg": 17.5,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 245,
+          "max_pairs": 18,
+          "depth_mm": 14.98,
+          "worst_frame": 81
+        },
+        "Rtips/Rsleeve": {
+          "frames": 245,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "sleeveAdjust/right",
+      "frames": 245,
+      "wrist_rotation_before_deg": 61.09,
+      "wrist_rotation_after_deg": 16.02,
+      "forearm_to_hand_angle_max_deg": 18.39,
+      "side_deviation_max_deg": 17.5,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 245,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 245,
+          "max_pairs": 18,
+          "depth_mm": 15.01,
+          "worst_frame": 81
+        }
+      }
+    },
+    {
+      "path": "applause/left",
+      "frames": 239,
+      "wrist_rotation_before_deg": 64.89,
+      "wrist_rotation_after_deg": 37.82,
+      "forearm_to_hand_angle_max_deg": 31.37,
+      "side_deviation_max_deg": 9.59,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 239,
+          "max_pairs": 18,
+          "depth_mm": 4.57,
+          "worst_frame": 75
+        },
+        "Rtips/Rsleeve": {
+          "frames": 239,
+          "max_pairs": 18,
+          "depth_mm": 4.58,
+          "worst_frame": 74
+        },
+        "Rsleeve/coat": {
+          "frames": 88,
+          "max_pairs": 25,
+          "depth_mm": 3.61,
+          "worst_frame": 104
+        }
+      }
+    },
+    {
+      "path": "applause/right",
+      "frames": 239,
+      "wrist_rotation_before_deg": 64.89,
+      "wrist_rotation_after_deg": 37.82,
+      "forearm_to_hand_angle_max_deg": 31.37,
+      "side_deviation_max_deg": 9.59,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 239,
+          "max_pairs": 18,
+          "depth_mm": 4.58,
+          "worst_frame": 147
+        },
+        "Rtips/Rsleeve": {
+          "frames": 239,
+          "max_pairs": 19,
+          "depth_mm": 4.56,
+          "worst_frame": 125
+        },
+        "Lsleeve/coat": {
+          "frames": 87,
+          "max_pairs": 29,
+          "depth_mm": 4.24,
+          "worst_frame": 104
+        }
+      }
+    },
+    {
+      "path": "victory/left",
+      "frames": 231,
+      "wrist_rotation_before_deg": 35.23,
+      "wrist_rotation_after_deg": 38.02,
+      "forearm_to_hand_angle_max_deg": 44.11,
+      "side_deviation_max_deg": 13.57,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 231,
+          "max_pairs": 18,
+          "depth_mm": 7.26,
+          "worst_frame": 135
+        },
+        "Rtips/Rsleeve": {
+          "frames": 231,
+          "max_pairs": 18,
+          "depth_mm": 7.3,
+          "worst_frame": 111
+        }
+      }
+    },
+    {
+      "path": "victory/right",
+      "frames": 231,
+      "wrist_rotation_before_deg": 35.23,
+      "wrist_rotation_after_deg": 38.02,
+      "forearm_to_hand_angle_max_deg": 44.11,
+      "side_deviation_max_deg": 13.57,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 231,
+          "max_pairs": 18,
+          "depth_mm": 7.3,
+          "worst_frame": 125
+        },
+        "Rtips/Rsleeve": {
+          "frames": 231,
+          "max_pairs": 18,
+          "depth_mm": 7.25,
+          "worst_frame": 136
+        }
+      }
+    },
+    {
+      "path": "comfort/left",
+      "frames": 275,
+      "wrist_rotation_before_deg": 113.98,
+      "wrist_rotation_after_deg": 41.12,
+      "forearm_to_hand_angle_max_deg": 35.86,
+      "side_deviation_max_deg": 15.14,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 275,
+          "max_pairs": 18,
+          "depth_mm": 4.22,
+          "worst_frame": 76
+        },
+        "Rtips/Rsleeve": {
+          "frames": 275,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "comfort/right",
+      "frames": 275,
+      "wrist_rotation_before_deg": 113.98,
+      "wrist_rotation_after_deg": 41.12,
+      "forearm_to_hand_angle_max_deg": 35.86,
+      "side_deviation_max_deg": 15.14,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 275,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 275,
+          "max_pairs": 18,
+          "depth_mm": 4.21,
+          "worst_frame": 109
+        }
+      }
+    },
+    {
+      "path": "gratefulBow/left",
+      "frames": 237,
+      "wrist_rotation_before_deg": 113.98,
+      "wrist_rotation_after_deg": 41.12,
+      "forearm_to_hand_angle_max_deg": 35.86,
+      "side_deviation_max_deg": 15.14,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 237,
+          "max_pairs": 18,
+          "depth_mm": 4.22,
+          "worst_frame": 69
+        },
+        "Rtips/Rsleeve": {
+          "frames": 237,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "gratefulBow/right",
+      "frames": 237,
+      "wrist_rotation_before_deg": 113.98,
+      "wrist_rotation_after_deg": 41.12,
+      "forearm_to_hand_angle_max_deg": 35.86,
+      "side_deviation_max_deg": 15.14,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 237,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 237,
+          "max_pairs": 18,
+          "depth_mm": 4.21,
+          "worst_frame": 140
+        }
+      }
+    },
+    {
+      "path": "handToHeart/left",
+      "frames": 224,
+      "wrist_rotation_before_deg": 113.98,
+      "wrist_rotation_after_deg": 41.12,
+      "forearm_to_hand_angle_max_deg": 35.86,
+      "side_deviation_max_deg": 15.14,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 224,
+          "max_pairs": 18,
+          "depth_mm": 4.22,
+          "worst_frame": 70
+        },
+        "Rtips/Rsleeve": {
+          "frames": 224,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "handToHeart/right",
+      "frames": 224,
+      "wrist_rotation_before_deg": 113.98,
+      "wrist_rotation_after_deg": 41.12,
+      "forearm_to_hand_angle_max_deg": 35.86,
+      "side_deviation_max_deg": 15.14,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 224,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 224,
+          "max_pairs": 18,
+          "depth_mm": 4.21,
+          "worst_frame": 111
+        },
+        "Lsleeve/coat": {
+          "frames": 22,
+          "max_pairs": 9,
+          "depth_mm": 0,
+          "worst_frame": 91
+        }
+      }
+    },
+    {
+      "path": "astonished/left",
+      "frames": 213,
+      "wrist_rotation_before_deg": 110.17,
+      "wrist_rotation_after_deg": 36.88,
+      "forearm_to_hand_angle_max_deg": 43.04,
+      "side_deviation_max_deg": 13.29,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 213,
+          "max_pairs": 18,
+          "depth_mm": 4.62,
+          "worst_frame": 85
+        },
+        "Rtips/Rsleeve": {
+          "frames": 213,
+          "max_pairs": 18,
+          "depth_mm": 7.15,
+          "worst_frame": 114
+        }
+      }
+    },
+    {
+      "path": "astonished/right",
+      "frames": 213,
+      "wrist_rotation_before_deg": 110.16,
+      "wrist_rotation_after_deg": 36.88,
+      "forearm_to_hand_angle_max_deg": 43.04,
+      "side_deviation_max_deg": 13.29,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 213,
+          "max_pairs": 18,
+          "depth_mm": 7.16,
+          "worst_frame": 114
+        },
+        "Rtips/Rsleeve": {
+          "frames": 213,
+          "max_pairs": 18,
+          "depth_mm": 4.61,
+          "worst_frame": 69
+        }
+      }
+    },
+    {
+      "path": "giggle/left",
+      "frames": 228,
+      "wrist_rotation_before_deg": 128.89,
+      "wrist_rotation_after_deg": 16.4,
+      "forearm_to_hand_angle_max_deg": 9.94,
+      "side_deviation_max_deg": 1.58,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 228,
+          "max_pairs": 18,
+          "depth_mm": 5.81,
+          "worst_frame": 78
+        },
+        "Rtips/Rsleeve": {
+          "frames": 228,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "giggle/right",
+      "frames": 228,
+      "wrist_rotation_before_deg": 128.89,
+      "wrist_rotation_after_deg": 16.4,
+      "forearm_to_hand_angle_max_deg": 9.94,
+      "side_deviation_max_deg": 1.58,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 228,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 228,
+          "max_pairs": 18,
+          "depth_mm": 5.8,
+          "worst_frame": 131
+        }
+      }
+    },
+    {
+      "path": "wink/left",
+      "frames": 201,
+      "wrist_rotation_before_deg": 34.53,
+      "wrist_rotation_after_deg": 36.95,
+      "forearm_to_hand_angle_max_deg": 43.1,
+      "side_deviation_max_deg": 13.29,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 201,
+          "max_pairs": 19,
+          "depth_mm": 7.16,
+          "worst_frame": 114
+        },
+        "Rtips/Rsleeve": {
+          "frames": 201,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "wink/right",
+      "frames": 201,
+      "wrist_rotation_before_deg": 34.53,
+      "wrist_rotation_after_deg": 36.95,
+      "forearm_to_hand_angle_max_deg": 43.1,
+      "side_deviation_max_deg": 13.29,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 201,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 201,
+          "max_pairs": 18,
+          "depth_mm": 7.16,
+          "worst_frame": 113
+        },
+        "Lsleeve/coat": {
+          "frames": 22,
+          "max_pairs": 11,
+          "depth_mm": 0.04,
+          "worst_frame": 105
+        }
+      }
+    },
+    {
+      "path": "openQuestion/left",
+      "frames": 228,
+      "wrist_rotation_before_deg": 112.69,
+      "wrist_rotation_after_deg": 16.34,
+      "forearm_to_hand_angle_max_deg": 11.5,
+      "side_deviation_max_deg": 7.1,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 228,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 228,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Lsleeve/coat": {
+          "frames": 22,
+          "max_pairs": 15,
+          "depth_mm": 0.61,
+          "worst_frame": 116
+        }
+      }
+    },
+    {
+      "path": "openQuestion/right",
+      "frames": 228,
+      "wrist_rotation_before_deg": 112.68,
+      "wrist_rotation_after_deg": 16.34,
+      "forearm_to_hand_angle_max_deg": 11.5,
+      "side_deviation_max_deg": 7.1,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 228,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 228,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Lsleeve/coat": {
+          "frames": 23,
+          "max_pairs": 11,
+          "depth_mm": 0.48,
+          "worst_frame": 97
+        },
+        "Rsleeve/coat": {
+          "frames": 17,
+          "max_pairs": 10,
+          "depth_mm": 0.18,
+          "worst_frame": 117
+        }
+      }
+    },
+    {
+      "path": "chinRest/left",
+      "frames": 233,
+      "wrist_rotation_before_deg": 117.92,
+      "wrist_rotation_after_deg": 17.73,
+      "forearm_to_hand_angle_max_deg": 12.32,
+      "side_deviation_max_deg": 5.8,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 233,
+          "max_pairs": 19,
+          "depth_mm": 4.95,
+          "worst_frame": 135
+        },
+        "Rtips/Rsleeve": {
+          "frames": 233,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "chinRest/right",
+      "frames": 233,
+      "wrist_rotation_before_deg": 117.92,
+      "wrist_rotation_after_deg": 17.73,
+      "forearm_to_hand_angle_max_deg": 12.32,
+      "side_deviation_max_deg": 5.8,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 233,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 233,
+          "max_pairs": 19,
+          "depth_mm": 4.95,
+          "worst_frame": 81
+        }
+      }
+    },
+    {
+      "path": "fistPump/left",
+      "frames": 215,
+      "wrist_rotation_before_deg": 35.23,
+      "wrist_rotation_after_deg": 38.02,
+      "forearm_to_hand_angle_max_deg": 44.11,
+      "side_deviation_max_deg": 13.57,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 215,
+          "max_pairs": 18,
+          "depth_mm": 15.05,
+          "worst_frame": 36
+        },
+        "Rtips/Rsleeve": {
+          "frames": 215,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "fistPump/right",
+      "frames": 215,
+      "wrist_rotation_before_deg": 35.23,
+      "wrist_rotation_after_deg": 38.02,
+      "forearm_to_hand_angle_max_deg": 44.11,
+      "side_deviation_max_deg": 13.57,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 215,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 215,
+          "max_pairs": 19,
+          "depth_mm": 15.07,
+          "worst_frame": 167
+        }
+      }
+    },
+    {
+      "path": "wave/left",
+      "frames": 198,
+      "wrist_rotation_before_deg": 77.73,
+      "wrist_rotation_after_deg": 11.09,
+      "forearm_to_hand_angle_max_deg": 17.08,
+      "side_deviation_max_deg": 4.14,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 198,
+          "max_pairs": 18,
+          "depth_mm": 4.24,
+          "worst_frame": 88
+        },
+        "Rtips/Rsleeve": {
+          "frames": 198,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "wave/right",
+      "frames": 198,
+      "wrist_rotation_before_deg": 78.28,
+      "wrist_rotation_after_deg": 11.13,
+      "forearm_to_hand_angle_max_deg": 17.69,
+      "side_deviation_max_deg": 4.46,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 198,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 198,
+          "max_pairs": 18,
+          "depth_mm": 4.21,
+          "worst_frame": 106
+        },
+        "Lsleeve/coat": {
+          "frames": 6,
+          "max_pairs": 7,
+          "depth_mm": 0,
+          "worst_frame": 102
+        }
+      }
+    },
+    {
+      "path": "nod/left",
+      "frames": 126,
+      "wrist_rotation_before_deg": 5.16,
+      "wrist_rotation_after_deg": 5.16,
+      "forearm_to_hand_angle_max_deg": 6.56,
+      "side_deviation_max_deg": 1.58,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 126,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 126,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Lsleeve/coat": {
+          "frames": 20,
+          "max_pairs": 9,
+          "depth_mm": 0,
+          "worst_frame": 95
+        }
+      }
+    },
+    {
+      "path": "nod/right",
+      "frames": 126,
+      "wrist_rotation_before_deg": 5.16,
+      "wrist_rotation_after_deg": 5.16,
+      "forearm_to_hand_angle_max_deg": 6.56,
+      "side_deviation_max_deg": 1.58,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 126,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 126,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Lsleeve/coat": {
+          "frames": 20,
+          "max_pairs": 9,
+          "depth_mm": 0,
+          "worst_frame": 95
+        }
+      }
+    },
+    {
+      "path": "curious/left",
+      "frames": 180,
+      "wrist_rotation_before_deg": 5.16,
+      "wrist_rotation_after_deg": 5.16,
+      "forearm_to_hand_angle_max_deg": 6.56,
+      "side_deviation_max_deg": 1.58,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 180,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 180,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "curious/right",
+      "frames": 180,
+      "wrist_rotation_before_deg": 5.16,
+      "wrist_rotation_after_deg": 5.16,
+      "forearm_to_hand_angle_max_deg": 6.56,
+      "side_deviation_max_deg": 1.58,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 180,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 180,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "explain/left",
+      "frames": 210,
+      "wrist_rotation_before_deg": 78.17,
+      "wrist_rotation_after_deg": 7.48,
+      "forearm_to_hand_angle_max_deg": 13.93,
+      "side_deviation_max_deg": 6.2,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 210,
+          "max_pairs": 18,
+          "depth_mm": 4.14,
+          "worst_frame": 130
+        },
+        "Rtips/Rsleeve": {
+          "frames": 210,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "explain/right",
+      "frames": 210,
+      "wrist_rotation_before_deg": 78.17,
+      "wrist_rotation_after_deg": 7.48,
+      "forearm_to_hand_angle_max_deg": 13.93,
+      "side_deviation_max_deg": 6.2,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 210,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 210,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Lsleeve/coat": {
+          "frames": 11,
+          "max_pairs": 7,
+          "depth_mm": 0,
+          "worst_frame": 102
+        }
+      }
+    },
+    {
+      "path": "glance/left",
+      "frames": 192,
+      "wrist_rotation_before_deg": 5.16,
+      "wrist_rotation_after_deg": 5.16,
+      "forearm_to_hand_angle_max_deg": 6.56,
+      "side_deviation_max_deg": 1.58,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 192,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 192,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Lsleeve/coat": {
+          "frames": 4,
+          "max_pairs": 8,
+          "depth_mm": 0.02,
+          "worst_frame": 103
+        }
+      }
+    },
+    {
+      "path": "glance/right",
+      "frames": 192,
+      "wrist_rotation_before_deg": 5.16,
+      "wrist_rotation_after_deg": 5.16,
+      "forearm_to_hand_angle_max_deg": 6.56,
+      "side_deviation_max_deg": 1.58,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 192,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 192,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Lsleeve/coat": {
+          "frames": 4,
+          "max_pairs": 8,
+          "depth_mm": 0.02,
+          "worst_frame": 103
+        }
+      }
+    },
+    {
+      "path": "relax/left",
+      "frames": 216,
+      "wrist_rotation_before_deg": 12.02,
+      "wrist_rotation_after_deg": 12.02,
+      "forearm_to_hand_angle_max_deg": 6.58,
+      "side_deviation_max_deg": 1.58,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 216,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 216,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "relax/right",
+      "frames": 216,
+      "wrist_rotation_before_deg": 12.02,
+      "wrist_rotation_after_deg": 12.02,
+      "forearm_to_hand_angle_max_deg": 6.58,
+      "side_deviation_max_deg": 1.58,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 216,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 216,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "ponder/left",
+      "frames": 204,
+      "wrist_rotation_before_deg": 5.16,
+      "wrist_rotation_after_deg": 5.16,
+      "forearm_to_hand_angle_max_deg": 6.56,
+      "side_deviation_max_deg": 1.58,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 204,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 204,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "ponder/right",
+      "frames": 204,
+      "wrist_rotation_before_deg": 5.16,
+      "wrist_rotation_after_deg": 5.16,
+      "forearm_to_hand_angle_max_deg": 6.56,
+      "side_deviation_max_deg": 1.58,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 204,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 204,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "giggle-to-gratefulBow/left",
+      "frames": 285,
+      "wrist_rotation_before_deg": 128.83,
+      "wrist_rotation_after_deg": 41.12,
+      "forearm_to_hand_angle_max_deg": 35.86,
+      "side_deviation_max_deg": 15.14,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 285,
+          "max_pairs": 18,
+          "depth_mm": 5.8,
+          "worst_frame": 77
+        },
+        "Rtips/Rsleeve": {
+          "frames": 285,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "giggle-to-gratefulBow/right",
+      "frames": 285,
+      "wrist_rotation_before_deg": 128.83,
+      "wrist_rotation_after_deg": 41.12,
+      "forearm_to_hand_angle_max_deg": 35.86,
+      "side_deviation_max_deg": 15.14,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 285,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 285,
+          "max_pairs": 19,
+          "depth_mm": 14.99,
+          "worst_frame": 91
+        },
+        "Lsleeve/coat": {
+          "frames": 1,
+          "max_pairs": 2,
+          "depth_mm": 0,
+          "worst_frame": 99
+        }
+      }
+    },
+    {
+      "path": "gratefulBow-to-giggle/left",
+      "frames": 277,
+      "wrist_rotation_before_deg": 128.89,
+      "wrist_rotation_after_deg": 41.11,
+      "forearm_to_hand_angle_max_deg": 35.85,
+      "side_deviation_max_deg": 15.13,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 277,
+          "max_pairs": 19,
+          "depth_mm": 5.81,
+          "worst_frame": 126
+        },
+        "Rtips/Rsleeve": {
+          "frames": 277,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        }
+      }
+    },
+    {
+      "path": "gratefulBow-to-giggle/right",
+      "frames": 277,
+      "wrist_rotation_before_deg": 128.89,
+      "wrist_rotation_after_deg": 41.11,
+      "forearm_to_hand_angle_max_deg": 35.85,
+      "side_deviation_max_deg": 15.13,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 277,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 277,
+          "max_pairs": 19,
+          "depth_mm": 5.8,
+          "worst_frame": 179
+        }
+      }
+    },
+    {
+      "path": "hairTuck-to-comfort/left",
+      "frames": 323,
+      "wrist_rotation_before_deg": 113.98,
+      "wrist_rotation_after_deg": 41.12,
+      "forearm_to_hand_angle_max_deg": 35.86,
+      "side_deviation_max_deg": 15.14,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 323,
+          "max_pairs": 18,
+          "depth_mm": 4.22,
+          "worst_frame": 124
+        },
+        "Rtips/Rsleeve": {
+          "frames": 323,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Lsleeve/coat": {
+          "frames": 35,
+          "max_pairs": 20,
+          "depth_mm": 2.24,
+          "worst_frame": 240
+        }
+      }
+    },
+    {
+      "path": "hairTuck-to-comfort/right",
+      "frames": 323,
+      "wrist_rotation_before_deg": 113.98,
+      "wrist_rotation_after_deg": 41.12,
+      "forearm_to_hand_angle_max_deg": 35.86,
+      "side_deviation_max_deg": 15.14,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 323,
+          "max_pairs": 18,
+          "depth_mm": 4.13,
+          "worst_frame": 0
+        },
+        "Rtips/Rsleeve": {
+          "frames": 323,
+          "max_pairs": 18,
+          "depth_mm": 4.21,
+          "worst_frame": 157
+        },
+        "Rsleeve/coat": {
+          "frames": 29,
+          "max_pairs": 17,
+          "depth_mm": 1.25,
+          "worst_frame": 238
+        }
+      }
+    },
+    {
+      "path": "applause-to-comfort/left",
+      "frames": 323,
+      "wrist_rotation_before_deg": 113.98,
+      "wrist_rotation_after_deg": 41.12,
+      "forearm_to_hand_angle_max_deg": 35.86,
+      "side_deviation_max_deg": 15.14,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 323,
+          "max_pairs": 18,
+          "depth_mm": 4.57,
+          "worst_frame": 75
+        },
+        "Rtips/Rsleeve": {
+          "frames": 323,
+          "max_pairs": 18,
+          "depth_mm": 4.58,
+          "worst_frame": 74
+        },
+        "Rsleeve/coat": {
+          "frames": 24,
+          "max_pairs": 21,
+          "depth_mm": 2.18,
+          "worst_frame": 79
+        },
+        "Lsleeve/coat": {
+          "frames": 35,
+          "max_pairs": 20,
+          "depth_mm": 2.24,
+          "worst_frame": 240
+        }
+      }
+    },
+    {
+      "path": "applause-to-comfort/right",
+      "frames": 323,
+      "wrist_rotation_before_deg": 113.98,
+      "wrist_rotation_after_deg": 41.12,
+      "forearm_to_hand_angle_max_deg": 35.86,
+      "side_deviation_max_deg": 15.14,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 323,
+          "max_pairs": 18,
+          "depth_mm": 4.58,
+          "worst_frame": 79
+        },
+        "Rtips/Rsleeve": {
+          "frames": 323,
+          "max_pairs": 18,
+          "depth_mm": 4.56,
+          "worst_frame": 75
+        },
+        "Lsleeve/coat": {
+          "frames": 47,
+          "max_pairs": 38,
+          "depth_mm": 3.32,
+          "worst_frame": 99
+        },
+        "Rsleeve/coat": {
+          "frames": 29,
+          "max_pairs": 17,
+          "depth_mm": 1.25,
+          "worst_frame": 238
+        }
+      }
+    },
+    {
+      "path": "sleeveAdjust-to-victory/left",
+      "frames": 279,
+      "wrist_rotation_before_deg": 54.37,
+      "wrist_rotation_after_deg": 38.02,
+      "forearm_to_hand_angle_max_deg": 44.11,
+      "side_deviation_max_deg": 13.57,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 279,
+          "max_pairs": 18,
+          "depth_mm": 7.26,
+          "worst_frame": 183
+        },
+        "Rtips/Rsleeve": {
+          "frames": 279,
+          "max_pairs": 18,
+          "depth_mm": 7.3,
+          "worst_frame": 159
+        }
+      }
+    },
+    {
+      "path": "sleeveAdjust-to-victory/right",
+      "frames": 279,
+      "wrist_rotation_before_deg": 54.37,
+      "wrist_rotation_after_deg": 38.02,
+      "forearm_to_hand_angle_max_deg": 44.11,
+      "side_deviation_max_deg": 13.57,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 279,
+          "max_pairs": 18,
+          "depth_mm": 15.0,
+          "worst_frame": 84
+        },
+        "Rtips/Rsleeve": {
+          "frames": 279,
+          "max_pairs": 18,
+          "depth_mm": 15.07,
+          "worst_frame": 226
+        },
+        "Rsleeve/hair": {
+          "frames": 2,
+          "max_pairs": 2,
+          "depth_mm": 6.82,
+          "worst_frame": 130
+        }
+      }
+    },
+    {
+      "path": "chinRest-to-astonished/left",
+      "frames": 262,
+      "wrist_rotation_before_deg": 117.66,
+      "wrist_rotation_after_deg": 36.88,
+      "forearm_to_hand_angle_max_deg": 43.04,
+      "side_deviation_max_deg": 13.29,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 262,
+          "max_pairs": 18,
+          "depth_mm": 14.95,
+          "worst_frame": 86
+        },
+        "Rtips/Rsleeve": {
+          "frames": 262,
+          "max_pairs": 18,
+          "depth_mm": 7.15,
+          "worst_frame": 162
+        }
+      }
+    },
+    {
+      "path": "chinRest-to-astonished/right",
+      "frames": 262,
+      "wrist_rotation_before_deg": 117.65,
+      "wrist_rotation_after_deg": 36.88,
+      "forearm_to_hand_angle_max_deg": 43.04,
+      "side_deviation_max_deg": 13.29,
+      "foot_travel_m": 0,
+      "mesh_contacts": {
+        "Ltips/Lsleeve": {
+          "frames": 262,
+          "max_pairs": 18,
+          "depth_mm": 7.16,
+          "worst_frame": 162
+        },
+        "Rtips/Rsleeve": {
+          "frames": 262,
+          "max_pairs": 19,
+          "depth_mm": 4.94,
+          "worst_frame": 77
+        }
+      }
+    }
+  ]
+}
