@@ -73,7 +73,7 @@ def test_live_voice_uses_audio_model_and_new_delegation(monkeypatch):
     cfg = VoiceConfig.environment()
     body = OpenAILiveProtocol().setup(cfg, "test")["session"]
     assert (
-        body["model"] == "gpt-live-1" and body["delegation"]["responses"]["model"] == "gpt-6.2-sol"
+        body["model"] == "gpt-live-1.1" and body["delegation"]["responses"]["model"] == "gpt-6.2-sol"
     )
     assert TextConfig.environment().model == "gpt-6.2-sol"
 

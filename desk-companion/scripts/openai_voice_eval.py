@@ -11,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
 
+from desk.provider_policy import OPENAI_LIVE_MODELS  # noqa: E402
 from voice_eval.budget import Budget  # noqa: E402
 from voice_eval.fixtures import Fixture, LINES, speech  # noqa: E402
 from voice_eval.session import Session, load_key  # noqa: E402
@@ -20,7 +21,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument(
         "--model",
-        choices=["gpt-realtime-2.1", "gpt-realtime-2.1-mini", "gpt-live-1"],
+        choices=["gpt-realtime-2.1", "gpt-realtime-2.1-mini", *OPENAI_LIVE_MODELS],
         required=True,
     )
     p.add_argument("--case", choices=list(LINES), required=True)
@@ -48,7 +49,7 @@ def main():
     session = Session(args.model, fixture, audio, stop, language=LINES[args.case][0])
     budget = Budget(private / "budget.sqlite3")
     reserve = (
-        0.25 if args.model == "gpt-live-1" else 1.5 if args.model == "gpt-realtime-2.1" else 0.5
+        0.25 if args.model in OPENAI_LIVE_MODELS else 1.5 if args.model == "gpt-realtime-2.1" else 0.5
     )
     budget.reserve(args.run_id, args.model, reserve)
     result = asyncio.run(session.run(key))

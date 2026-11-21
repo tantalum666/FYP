@@ -40,6 +40,7 @@ class OpenAILiveProtocol(RealtimeProtocol):
         self.finalized = asyncio.Event()
         self.closing = False
         self.seconds = 0
+        self.duration_breakdown = {}
         self.final_usage_confirmed = False
         self.received_backend_usage = set()
         self.backend_usage = {}
@@ -54,6 +55,7 @@ class OpenAILiveProtocol(RealtimeProtocol):
         self.captions = LiveCaptionGroups()
         self.failure = None
         self.requested_voice = None
+        self.requested_model = None
         self.voice_confirmed = None
 
     def greeting(self):
@@ -61,6 +63,7 @@ class OpenAILiveProtocol(RealtimeProtocol):
         return f"The user just called your name Alice. Say only '{words}' now, then listen."
 
     def setup(self, config, instructions, *, allow_memory=True):
+        self.requested_model = config.model
         self.requested_voice = selected_voice_payload(config.voice or "marin")
         spoken = "Mandarin Chinese" if self.language == "zh" else "English"
         prompt = (
@@ -89,7 +92,7 @@ class OpenAILiveProtocol(RealtimeProtocol):
             "type": "session.start",
             "event_id": uuid4().hex,
             "session": {
-                "model": "gpt-live-1",
+                "model": config.model,
                 "store": False,
                 "instructions": prompt,
                 "input": initial,
@@ -159,6 +162,7 @@ class OpenAILiveProtocol(RealtimeProtocol):
         return {
             **self.backend_usage,
             "voice_seconds": self.seconds,
+            **self.duration_breakdown,
             "finalization_confirmed": int(self.finalized.is_set() and self.final_usage_confirmed),
             "backend_receipts_complete": int(
                 self.started_responses.issubset(self.received_backend_usage)
@@ -197,6 +201,9 @@ class OpenAILiveProtocol(RealtimeProtocol):
             )
             return [{"type": "error", "code": code}]
         if kind == "session.started":
+            model = data.get("session", {}).get("model")
+            if model and self.requested_model and model != self.requested_model:
+                return [{"type": "error", "code": "VOICE_MODEL_MISMATCH"}]
             fmt = data.get("session", {}).get("audio", {}).get("format", {})
             if fmt and (fmt.get("type") != "audio/pcm" or fmt.get("rate") != 24000):
                 return [{"type": "error", "code": "VOICE_AUDIO_FORMAT_UNSUPPORTED"}]
@@ -210,11 +217,16 @@ class OpenAILiveProtocol(RealtimeProtocol):
                 )
                 if not self.voice_confirmed:
                     return [{"type": "error", "code": "VOICE_SELECTION_MISMATCH"}]
-            return [{"type": "ready", "continuous": True}]
+            return [{"type": "ready", "continuous": True, **({"model": model} if model else {})}]
         if kind in {"session.usage.updated", "session.closed"}:
-            seconds = data.get("usage", {}).get("seconds")
+            usage = data.get("usage") or {}
+            seconds = usage.get("seconds")
             if type(seconds) in (int, float) and math.isfinite(seconds) and seconds >= self.seconds:
                 self.seconds = seconds
+                active, paused = usage.get("active_seconds"), usage.get("paused_seconds")
+                self.duration_breakdown = {}
+                if all(type(v) in (float, int) and math.isfinite(v) and v >= 0 for v in (active, paused)) and math.isclose(active+paused, seconds):
+                    self.duration_breakdown = {"voice_active_seconds":active,"voice_paused_seconds":paused}
                 if kind == "session.closed":
                     self.final_usage_confirmed = True
             if kind == "session.closed":

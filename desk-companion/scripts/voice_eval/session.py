@@ -15,6 +15,8 @@ from pathlib import Path
 
 import websockets
 
+from desk.provider_policy import OPENAI_LIVE_MODELS
+
 from .budget import token_cost
 
 RATE = 24000
@@ -65,7 +67,7 @@ def session_config(model, tools, language="auto"):
         "yue": " The selected spoken language is Hong Kong Cantonese. Reply in colloquial Cantonese, not Mandarin.",
         "auto": "",
     }[language]
-    if model == "gpt-live-1":
+    if model in OPENAI_LIVE_MODELS:
         return {
             "type": "session.start",
             "event_id": "start",
@@ -123,7 +125,7 @@ def session_config(model, tools, language="auto"):
 class Session:
     def __init__(self, model, fixture, pcm, stop_pcm=None, *, language="auto"):
         self.model, self.fixture, self.pcm, self.stop_pcm = model, fixture, pcm, stop_pcm
-        self.live = model == "gpt-live-1"
+        self.live = model in OPENAI_LIVE_MODELS
         self.language = language
         self.started = time.monotonic()
         self.ready = asyncio.Event()
