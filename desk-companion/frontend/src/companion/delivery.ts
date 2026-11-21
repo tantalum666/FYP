@@ -7,12 +7,27 @@ export const deliveries = [
   "amused",
   "curious",
   "encourage",
+  "relieved",
+  "bashful",
+  "apologetic",
 ] as const;
 export type Delivery = (typeof deliveries)[number];
 
 // Live captions and older desks can supply text without a delivery field.
 // Only recognize an explicit response from Alice; a quoted story is ambiguous.
 const openings: readonly [Delivery, RegExp][] = [
+  [
+    "relieved",
+    /^(?:这下(?:总算|可以)松口气|這下(?:總算|可以)鬆口氣|總算可以鬆一口氣|what a relief\b|that['’]s a relief\b)/i,
+  ],
+  [
+    "bashful",
+    /^(?:你这么夸我|你這麼誇我|你咁讚我|you['’]re making me blush\b)/i,
+  ],
+  [
+    "apologetic",
+    /^(?:刚才是我(?:说错|弄错|理解错)|剛才是我(?:說錯|弄錯|理解錯)|我啱啱講錯|i (?:got that wrong|made a mistake)\b)/i,
+  ],
   [
     "comfort",
     /^(?:听起来你|聽落你|听到这个我很难过|很遗憾|抱抱你|that sounds (?:really |so )?(?:hard|rough|painful)|i['’]m (?:really |so )?sorry (?:to hear|that you))/i,

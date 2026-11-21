@@ -16,6 +16,7 @@ export type FaceCue = {
   weight: number;
   wink: number;
   eyelids?: number;
+  mouthFace?: Face;
 };
 const smooth = (value: number) => {
   const x = Math.max(0, Math.min(1, value));

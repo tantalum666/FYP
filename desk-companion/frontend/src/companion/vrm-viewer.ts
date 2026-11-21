@@ -12,6 +12,8 @@ import type { Presentation } from "./renderer";
 import { MODELS, readAppearance } from "./appearance";
 import type { HandPose } from "./hand-pose";
 import { bindResidentRig } from "./resident-rig";
+import { addAsymmetricShapes } from "./face-asymmetry";
+import { applyAliceSurface } from "./alice-surface";
 import { RestingUniform } from "./uniform-contact";
 import { MotionCues } from "./motion-cues";
 import { FacePerformance } from "./face-performance";
@@ -195,6 +197,10 @@ export class VrmViewer {
         loaded = null;
         if (!this.disposed) throw new Error("VRM_OR_TEXTURE_UNAVAILABLE");
         return;
+      }
+      if (source === MODELS.alice.file) {
+        applyAliceSurface(vrm);
+        addAsymmetricShapes(vrm);
       }
       VRMUtils.rotateVRM0(vrm);
       this.vrm = vrm;

@@ -13,6 +13,41 @@ const faces: Record<
   Face,
   { upper: Features; mouth: Features; fallback: string }
 > = {
+  attentive: {
+    upper: { BRW_Surprised: 0.54, EYE_Surprised: 0.58, EYE_Natural: 0.09 },
+    mouth: { MTH_Small: 0.24, MTH_U: 0.17 },
+    fallback: "neutral",
+  },
+  pensive: {
+    upper: { BRW_Angry: 0.47, BRW_Question_L: 0.61, EYE_Joy_R: 0.34 },
+    mouth: { MTH_Small: 0.62, MTH_Down: 0.23 },
+    fallback: "relaxed",
+  },
+  wry: {
+    upper: { BRW_Question_L: 0.88, EYE_Joy_L: 0.3, BRW_Fun: 0.18 },
+    mouth: { MTH_Smile_R: 0.95, MTH_Fun: 0.28 },
+    fallback: "happy",
+  },
+  proud: {
+    upper: { BRW_Joy: 0.6, BRW_Angry: 0.22, EYE_Fun: 0.62 },
+    mouth: { MTH_Up: 0.95, MTH_Smile_R: 0.2, MTH_Fun: 0.19 },
+    fallback: "happy",
+  },
+  relieved: {
+    upper: { BRW_Sorrow: 0.21, BRW_Fun: 0.42, EYE_Fun: 0.7 },
+    mouth: { MTH_U: 0.34, MTH_Small: 0.26 },
+    fallback: "relaxed",
+  },
+  bashful: {
+    upper: { BRW_Sorrow: 0.4, EYE_Fun: 0.55, EYE_Joy_R: 0.23 },
+    mouth: { MTH_Smile_R: 0.67, MTH_Up: 0.36 },
+    fallback: "relaxed",
+  },
+  apologetic: {
+    upper: { BRW_Sorrow: 0.78, BRW_Apology_R: 0.25, EYE_Sorrow: 0.56 },
+    mouth: { MTH_Down: 0.75, MTH_Close: 0.18, MTH_Small: 0.32 },
+    fallback: "sad",
+  },
   celebrate: {
     upper: { BRW_Joy: 0.9, EYE_Joy: 0.78 },
     mouth: { MTH_Joy: 0.86 },
@@ -76,12 +111,14 @@ function bind(
 
 /** Use the original artist's brow, eyelid and lip shapes through VRM's mixer. */
 export class FacePerformance {
+  private closedLips: string | null = null;
   private layers: {
     face: Face;
     upper: string | null;
     mouth: string | null;
     fallback: string | null;
     weight: number;
+    mouthWeight: number;
   }[] = [];
   constructor(vrm: VRM) {
     const manager = vrm.expressionManager;
@@ -89,6 +126,9 @@ export class FacePerformance {
     const meshes: Mesh[] = [];
     vrm.scene.traverse((node) => {
       if (node instanceof Mesh && node.morphTargetDictionary) meshes.push(node);
+    });
+    this.closedLips = bind(manager, meshes, "alice-closed-lips", {
+      MTH_Close: 1,
     });
     for (const face of Object.keys(faces) as Face[]) {
       const spec = faces[face];
@@ -101,11 +141,15 @@ export class FacePerformance {
         mouth: bind(manager, meshes, "alice-mouth-" + face, spec.mouth),
         fallback: preset ?? null,
         weight: 0,
+        mouthWeight: 0,
       });
     }
   }
   reset() {
-    for (const layer of this.layers) layer.weight = 0;
+    for (const layer of this.layers) {
+      layer.weight = 0;
+      layer.mouthWeight = 0;
+    }
   }
 
   apply(
@@ -114,18 +158,25 @@ export class FacePerformance {
     playback: number,
     delta: number,
   ) {
-    const blend = 1 - Math.exp(-10 * delta);
+    const blend = 1 - Math.exp(-12 * delta);
+    const mouthBlend = 1 - Math.exp(-8 * delta);
+    let expressionMouth = 0;
     for (const layer of this.layers) {
       const target = cue?.face === layer.face ? cue.weight : 0;
       layer.weight += (target - layer.weight) * blend;
-      const w = layer.weight;
-      if (w < 0.001) continue;
+      const mouthTarget =
+        cue && (cue.mouthFace ?? cue.face) === layer.face ? cue.weight : 0;
+      layer.mouthWeight += (mouthTarget - layer.mouthWeight) * mouthBlend;
+      const w = layer.weight,
+        lips = layer.mouthWeight;
+      expressionMouth += lips;
+      if (w < 0.001 && lips < 0.001) continue;
       if (layer.upper || layer.mouth) {
         // Leave the other eye open during an intentional wink.
         if (layer.upper)
           manager.setValue(layer.upper, w * (1 - (cue?.wink ?? 0) * 0.85));
         if (layer.mouth)
-          manager.setValue(layer.mouth, w * (1 - 0.85 * playback));
+          manager.setValue(layer.mouth, lips * (1 - 0.85 * playback));
       } else if (layer.fallback) {
         manager.setValue(
           layer.fallback,
@@ -136,6 +187,13 @@ export class FacePerformance {
         );
       }
     }
+    if (this.closedLips)
+      manager.setValue(
+        this.closedLips,
+        0.94 *
+          Math.max(0, 1 - expressionMouth) *
+          Math.max(0, 1 - 12 * playback),
+      );
     if (cue?.eyelids && manager.getExpression("blink"))
       manager.setValue(
         "blink",

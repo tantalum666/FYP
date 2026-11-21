@@ -11,6 +11,9 @@ DELIVERIES = (
     "amused",
     "curious",
     "encourage",
+    "relieved",
+    "bashful",
+    "apologetic",
 )
 ANSWER_LIMIT = 8000
 # A supplementary Unicode character can be represented as two JSON escape sequences.
@@ -33,7 +36,9 @@ INSTRUCTIONS = (
     "\nReturn your normal answer in message. Choose delivery for how Alice responds to this "
     "particular exchange. Celebrate an actual success, comfort a disappointment, appreciate "
     "personal thanks, be amused by shared humor, or encourage an effort. Use curious or "
-    "surprised only when the exchange calls for it. For routine tasks, mixed or ambiguous news, "
+    "surprised only when the exchange calls for it. Use relieved when a specific worry has "
+    "just been resolved, bashful for a warm personal compliment, and apologetic when you "
+    "are acknowledging your own mistake. For routine tasks, mixed or ambiguous news, "
     "and results of tools, prefer neutral. Respect negation, quoted speech and who it happened to. "
     "Do not describe the gesture, label the user's feelings or alter the factual answer."
 )

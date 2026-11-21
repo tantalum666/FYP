@@ -50,6 +50,17 @@ def test_delivery_uses_the_same_session_and_preserves_the_visible_answer(desk):
     assert read_delivery('{"message":"literal JSON"}', complete=True)=={"message":'{"message":"literal JSON"}'}
 
 
+@pytest.mark.parametrize("tone", ["relieved", "bashful", "apologetic"])
+def test_new_delivery_reaches_ordinary_reply_in_one_session(desk, tone):
+    _, client, service = desk
+    service.final = json.dumps({"delivery": tone, "message": "收到。"})
+    answer = send(client, f"ordinary-{tone}").json()
+    assert (answer["delivery"], answer["message"]) == (tone, "收到。")
+    assert len(service.creations) == 1 and not service.functions
+    field = service.creations[0]["agent"]["text"]["format"]["schema"]["properties"]["delivery"]
+    assert tone in field["enum"]
+
+
 def test_chat_resumes_verified_remote_turn_and_a_cached_request_never_resubmits(desk):
     r, c, api = desk
     first = send(c, "first").json()

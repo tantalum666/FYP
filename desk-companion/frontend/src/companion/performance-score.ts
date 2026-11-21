@@ -1,7 +1,8 @@
 import type { ArmLandmark } from "./arm-landmarks.ts";
 import type { Delivery } from "./delivery.ts";
 
-export type Face = Exclude<Delivery, "neutral">;
+export type Face =
+  Exclude<Delivery, "neutral"> | "attentive" | "pensive" | "wry" | "proud";
 export type ArmKey = readonly [seconds: number, pose: ArmLandmark | "rest"];
 // Forward bend, head turn, head tilt and independent nod, in radians.
 export type BodyKey = readonly [
@@ -106,7 +107,7 @@ export const performances = {
   },
   victory: {
     duration: 5.9,
-    face: "celebrate",
+    face: "proud",
     primary: [
       rest,
       [0.8, "guard"],
@@ -203,8 +204,8 @@ export const performances = {
     ],
     body: [
       start,
-      [0.72, -0.10, -0.055, -0.06, -0.09],
-      [1.50, -0.065, 0.035, 0.045, -0.04],
+      [0.72, -0.1, -0.055, -0.06, -0.09],
+      [1.5, -0.065, 0.035, 0.045, -0.04],
       [2.62, 0.075, 0.065, 0.07, 0.045],
       [4.42, 0, 0, 0, 0],
     ],
@@ -226,7 +227,7 @@ export const performances = {
   },
   wink: {
     duration: 4.9,
-    face: "amused",
+    face: "wry",
     wink: true,
     primary: [
       rest,
@@ -263,7 +264,7 @@ export const performances = {
   },
   chinRest: {
     duration: 5.95,
-    face: "curious",
+    face: "pensive",
     primary: [rest, [1.27, "chin"], [3.37, "chin"], [5.06, "rest"]],
     body: [
       start,
@@ -299,12 +300,3 @@ export type PerformanceName = keyof typeof performances;
 export const performanceDurations = Object.fromEntries(
   Object.entries(performances).map(([name, score]) => [name, score.duration]),
 ) as Record<PerformanceName, number>;
-export const deliveryPerformances: Record<Face, readonly PerformanceName[]> = {
-  celebrate: ["applause", "victory"],
-  comfort: ["comfort"],
-  appreciate: ["gratefulBow", "handToHeart"],
-  surprised: ["astonished"],
-  amused: ["giggle", "wink"],
-  curious: ["openQuestion", "chinRest"],
-  encourage: ["fistPump"],
-};

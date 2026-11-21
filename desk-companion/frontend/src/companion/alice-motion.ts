@@ -1,4 +1,6 @@
 import { guideElbowForward, transferWristRoll } from "./arm-anatomy.ts";
+import type { Delivery } from "./delivery.ts";
+import { conversationalFace } from "./facial-cues.ts";
 import { companionState, type CompanionState } from "./interaction.ts";
 import {
   GESTURE_SECONDS,
@@ -66,6 +68,7 @@ export function aliceMotion(
     lookX?: number;
     lookY?: number;
     gesture?: AliceGesture;
+    delivery?: Delivery;
     gestureAt?: number;
     waveSide?: "left" | "right";
   } = {},
@@ -268,6 +271,14 @@ export function aliceMotion(
     gesture && isPerformance(gesture)
       ? applyPerformance(pose, gesture, age, side)
       : null;
+  if (
+    gesture &&
+    (options.delivery === "bashful" || options.delivery === "apologetic")
+  ) {
+    const glance = stroke(age, 0, 0.72, 2.1);
+    gaze.pitch -= 9 * glance;
+    if (options.delivery === "bashful") gaze.yaw += 11 * glance;
+  }
   return {
     pose,
     smile,
@@ -275,11 +286,14 @@ export function aliceMotion(
     gesture,
     openness,
     gaze,
-    face:
-      performance?.face ??
-      (gesture === "wave"
-        ? { face: "appreciate", weight: weight * 0.6, wink: 0 }
-        : null),
+    face: conversationalFace(
+      state,
+      gesture,
+      age,
+      weight,
+      options.delivery,
+      performance?.face ?? null,
+    ),
     hands: performance?.hands ?? null,
   };
 }
