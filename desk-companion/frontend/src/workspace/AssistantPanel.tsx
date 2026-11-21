@@ -78,6 +78,7 @@ import "./assistant-minimal.css";
 import {
   appendLiveTranscript,
   appendOrderUpdates,
+  focusedOrderTurn,
   latestAssistantReply,
   type ConversationTurn,
 } from "./conversationTranscript";
@@ -236,6 +237,7 @@ export function AssistantPanel({
     body: object;
     generation: number;
     message: string;
+    display?: string;
     fileKeys: string[];
     files: ChatFileReference[];
   } | null>(null);
@@ -648,6 +650,7 @@ export function AssistantPanel({
   const showHttpReply = useCallback(
     (submitted: string, result: Reply) => {
       const submittedFiles = pendingHttp.current?.files ?? [];
+      const userText = pendingHttp.current?.display ?? submitted;
       chatFiles.sent(pendingHttp.current?.fileKeys ?? []);
       setReply(result);
       if (immersive && !suspended)
@@ -675,7 +678,7 @@ export function AssistantPanel({
           {
             id,
             role: "user" as const,
-            body: submitted,
+            body: userText,
             files: submittedFiles,
             commerceChat:
               card || result.flight_alternatives
@@ -735,7 +738,7 @@ export function AssistantPanel({
     window.addEventListener("desk:write-recovered", recovered);
     return () => window.removeEventListener("desk:write-recovered", recovered);
   }, [reload, showHttpReply]);
-  async function send(e: React.FormEvent | null, choice?: {message:string;review?:CommerceRef}) {
+  async function send(e: React.FormEvent | null, choice?: {message:string;review?:CommerceRef;display?:string}) {
     e?.preventDefault();
     if (
       busy ||
@@ -795,6 +798,7 @@ export function AssistantPanel({
         body,
         generation,
         message: submitted,
+        display: choice?.display,
         fileKeys: uploaded.keys,
         files: uploaded.references,
       };
@@ -1320,8 +1324,9 @@ export function AssistantPanel({
       ? commerce.rows
       : [];
   const lastTurn = turns.at(-1);
-  const focusedOrder = lastTurn
-    ? orderRows.find((row) => orderKey(row) === lastTurn.orderKey)
+  const focusTurn = focusedOrderTurn(turns, orderRows);
+  const focusedOrder = focusTurn
+    ? orderRows.find((row) => orderKey(row) === focusTurn.orderKey)
     : orderRows.find(needsDecision);
   const otherOrders = focusedOrder
     ? orderRows.filter((row) => row !== focusedOrder)
@@ -1334,8 +1339,8 @@ export function AssistantPanel({
   };
   const hasChoices =
     privateOrdersVisible &&
-    lastTurn?.commerceChat === activeChat &&
-    !!lastTurn?.choices;
+    focusTurn?.commerceChat === activeChat &&
+    !!focusTurn?.choices;
   const needsOrderReview =
     focusedOrder &&
     (needsDecision(focusedOrder) || focusedOrder.state === "refund_retry");
@@ -1346,10 +1351,10 @@ export function AssistantPanel({
     !speechText.current.assistant;
   const homeAnswer = focusedOrder
     ? orderStatus(focusedOrder, t)
-    : latestAssistantReply(turns);
+    : hasChoices && focusTurn ? focusTurn.body : latestAssistantReply(turns);
   function turnBody(turn: ConversationTurn) {
     if (
-      turn === lastTurn &&
+      turn === focusTurn &&
       focusedOrder &&
       turn.orderKey === orderKey(focusedOrder)
     ) {
@@ -1365,10 +1370,10 @@ export function AssistantPanel({
           result={turn.choices}
           t={t}
           busy={orderActions.busy || !!text.trim()}
-          onSelect={(message) => void send(null, { message })}
+          onSelect={(message,display) => void send(null, { message,display })}
         />
       );
-      return turn === lastTurn ? (
+      return turn === focusTurn ? (
         options
       ) : (
         <details>

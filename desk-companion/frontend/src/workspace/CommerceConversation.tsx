@@ -65,7 +65,7 @@ export function FlightChoices({
   result: FlightAlternatives;
   t: Translate;
   busy: boolean;
-  onSelect: (message: string) => void;
+  onSelect: (message: string, label: string) => void;
 }) {
   const first = result.alternatives[0]?.segment;
   if (!first) return null;
@@ -111,7 +111,12 @@ export function FlightChoices({
               `Recheck ${segment.flight} at ${hkd(total_minor)}`,
               `重新核价 ${segment.flight}，原报价 ${hkd(total_minor)}`,
             )}
-            onClick={() => onSelect(selection)}
+            onClick={() =>
+              onSelect(
+                selection,
+                t(`Select ${segment.flight}`, `选 ${segment.flight}`),
+              )
+            }
           >
             <strong>{segment.flight}</strong>
             <span>

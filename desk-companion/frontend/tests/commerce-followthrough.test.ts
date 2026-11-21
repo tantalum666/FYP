@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   appendOrderUpdates,
+  focusedOrderTurn,
   type ConversationTurn,
 } from "../src/workspace/conversationTranscript.ts";
 import {
@@ -111,4 +112,41 @@ test("a settled order replaces the pending answer and appears only once after an
   assert.equal(later.length, 3);
   assert.deepEqual(appendOrderUpdates(later, [done], "my-chat", t), later);
   assert.ok(watchedMarks([old]).length);
+});
+
+test("an unrelated refund cannot displace a fare awaiting the owner's tap", () => {
+  const fare = flight("a", "reprice", 4),
+    settled = flight("b", "stopped", 3);
+  const price: ConversationTurn = {
+    id: 10,
+    role: "assistant",
+    body: "price changed",
+    orderKey: "flight/a",
+    commerceChat: "my-chat",
+  };
+  const turns = appendOrderUpdates([price], [settled], "my-chat", t);
+  assert.equal(focusedOrderTurn(turns, [fare, settled]), price);
+  const next: ConversationTurn = {
+    id: 12,
+    role: "assistant",
+    body: "new conversation answer",
+  };
+  assert.equal(focusedOrderTurn([...turns, next], [fare, settled]), next);
+});
+
+test("flight choices remain available while a separate order finishes", () => {
+  const choices: ConversationTurn = {
+    id: 9,
+    role: "assistant",
+    body: "available flights",
+    choices: { unavailable_flight: "FR4315", alternatives: [] },
+    commerceChat: "my-chat",
+  };
+  const result = flight("b", "stopped", 3);
+  assert.equal(
+    focusedOrderTurn(appendOrderUpdates([choices], [result], "my-chat", t), [
+      result,
+    ]),
+    choices,
+  );
 });
