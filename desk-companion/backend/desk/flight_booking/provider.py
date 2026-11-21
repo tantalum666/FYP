@@ -1,6 +1,6 @@
 """LetsFG sandbox transport. Only the published anonymous test namespace is reachable."""
 
-from datetime import date, datetime
+from datetime import date
 from decimal import Decimal, InvalidOperation
 import re
 import logging
@@ -11,6 +11,7 @@ from pydantic import Field, model_validator
 from ..commerce_quotes import Airport, Day
 from ..schemas import StrictModel
 from ..store import DomainError
+from .timetable import published_time
 
 
 BASE = "https://letsfg.co/developers/api/v1/sandbox/flights/"
@@ -26,6 +27,11 @@ class FlightQuery(StrictModel):
     flight_number: str | None = Field(default=None, pattern=r"^[A-Z0-9]{2}\s?[0-9]{1,4}[A-Z]?$")
     airline: str | None = Field(default=None, pattern=r"^[A-Z0-9]{2}$")
     nonstop: bool = False
+    avoid_calendar_conflicts: bool = Field(
+        default=False,
+        strict=True,
+        description="True when the owner asks to fit the flight around their calendar, avoid schedule conflicts, or recheck a calendar-matched option.",
+    )
     rehearse_price_change: bool = Field(
         default=False,
         description="True only when the owner explicitly requests a price-rise test scenario.",
@@ -74,7 +80,6 @@ def _selected(offer, search_id, query):
         return None
     segments = []
     for leg in legs:
-        depart, arrive = (datetime.fromisoformat(leg[k]) for k in ("departure", "arrival"))
         if (
             not re.fullmatch(r"[A-Z0-9]{2}[0-9]{1,4}[A-Z]?", leg["flight_no"])
             or not all(re.fullmatch(r"[A-Z]{3}", leg[k]) for k in ("origin", "destination"))
@@ -86,8 +91,8 @@ def _selected(offer, search_id, query):
                 "flight": leg["flight_no"],
                 "origin": leg["origin"],
                 "destination": leg["destination"],
-                "departs": depart.isoformat(timespec="minutes"),
-                "arrives": arrive.isoformat(timespec="minutes"),
+                "departs": published_time(leg["departure"], leg["origin"]),
+                "arrives": published_time(leg["arrival"], leg["destination"]),
             }
         )
     if (
@@ -100,7 +105,11 @@ def _selected(offer, search_id, query):
     price = minor(offer["price"])
     if price <= 0 or (query.max_hkd is not None and price > minor(query.max_hkd)):
         return None
+    duration = offer["outbound"].get("total_duration_seconds")
+    if duration is None and len(legs) == 1:
+        duration = legs[0].get("duration_seconds")
     return {
+        **({"duration_seconds": duration} if duration is not None else {}),
         "search_id": search_id,
         "offer_id": ident,
         "segments": segments,
@@ -108,6 +117,60 @@ def _selected(offer, search_id, query):
         "currency": "HKD",
         "adults": 1,
     }
+
+
+def select_fare(eligible, query, fits=None):
+    """Keep the requested flight exact and the existing price/departure ordering."""
+    requested = query.flight_number.replace(" ", "") if query.flight_number else None
+    reason = None
+    if fits is not None:
+        checked = list(zip(eligible, fits, strict=True))
+        eligible = [row for row, fit in checked if fit == "clear"]
+        if not eligible:
+            code = (
+                "FLIGHT_CALENDAR_UNKNOWN"
+                if any(fit == "unknown" for _, fit in checked)
+                else "FLIGHT_CALENDAR_BUSY"
+            )
+            raise DomainError(code, 409)
+        if requested:
+            excluded = [fit for row, fit in checked if row["segments"][0]["flight"] == requested]
+            if excluded:
+                reason = "unknown" if "unknown" in excluded else "conflict"
+    if not requested:
+        return eligible[0]
+    for row in eligible:
+        if row["segments"][0]["flight"] == requested:
+            return row
+    # These are offers to reprice; only the original, reviewed quote has a booking ID.
+    choices, seen = [], set()
+    for row in eligible:
+        leg = row["segments"][0]
+        key = (leg["flight"], leg["departs"], leg["arrives"])
+        if key in seen:
+            continue
+        seen.add(key)
+        choices.append(
+            {
+                "segment": leg,
+                "total_minor": row["total_minor"],
+                **(
+                    {"duration_seconds": row["duration_seconds"]}
+                    if "duration_seconds" in row
+                    else {}
+                ),
+            }
+        )
+        if len(choices) == 3:
+            break
+    result = {
+        "unavailable_flight": requested,
+        "alternatives": choices,
+        "max_minor": minor(query.max_hkd) if query.max_hkd is not None else None,
+    }
+    if reason:
+        result["requested_calendar_fit"] = reason
+    return result
 
 
 class LetsFG:
@@ -141,7 +204,7 @@ class LetsFG:
             raise DomainError("FLIGHT_PROVIDER_REFUSED", 409)
         return result
 
-    def quote(self, query, today: date):
+    def candidates(self, query, today: date):
         if query.adults != 1 or query.checked_bag_kg or query.return_date:
             raise DomainError("FLIGHT_TEST_SCOPE", 422)
         if date.fromisoformat(query.departure) < today:
@@ -174,34 +237,17 @@ class LetsFG:
         for offer in data["offers"][:100]:
             try:
                 selected = _selected(offer, sid, query)
-            except (KeyError, TypeError, ValueError, AttributeError, DomainError):
+            except (KeyError, TypeError, ValueError, AttributeError, OverflowError, DomainError):
                 continue
             if selected:
                 eligible.append(selected)
         if not eligible:
             raise DomainError("FLIGHT_NO_MATCH", 404)
         eligible.sort(key=lambda row: (row["total_minor"], row["segments"][0]["departs"]))
-        if query.flight_number:
-            requested = query.flight_number.replace(" ", "")
-            for row in eligible:
-                if row["segments"][0]["flight"] == requested:
-                    return row
-            # Preserve every other constraint. Alternatives carry no bookable offer ID.
-            choices, seen = [], set()
-            for row in eligible:
-                leg = row["segments"][0]
-                key = (leg["flight"], leg["departs"], leg["arrives"])
-                if key not in seen:
-                    choices.append({"segment": leg, "total_minor": row["total_minor"]})
-                    seen.add(key)
-                if len(choices) == 3:
-                    break
-            return {
-                "unavailable_flight": requested,
-                "alternatives": choices,
-                "max_minor": minor(query.max_hkd) if query.max_hkd is not None else None,
-            }
-        return eligible[0]
+        return eligible
+
+    def quote(self, query, today: date):
+        return select_fare(self.candidates(query, today), query)
 
     def submit(self, quote, key, scenario):
         # A single fictional adult. No user identity, wallet or card input enters this protocol.

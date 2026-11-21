@@ -59,6 +59,7 @@ class AssistantMessage(StrictModel):
     flight_review: ReviewRef | None = None
     shopping_review: ReviewRef | None = None
     # Omit the default from serialized requests so previously saved operation hashes still match.
+    flight_calendar_requested: bool = Field(default=False, strict=True, exclude_if=lambda value: not value)
     selected_commerce_card: bool = Field(default=False, strict=True, exclude_if=lambda selected: not selected)
     steer_run_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
     attachment_ids: list[Annotated[str, Field(pattern=r"^[a-f0-9]{32}$")]] = Field(

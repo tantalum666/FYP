@@ -4,6 +4,7 @@ import {
   reviewRef,
   needsDecision,
   flightStatus,
+  calendarFitLabel,
   legTime,
   type CommerceRef,
   type SandboxFlight,
@@ -26,6 +27,7 @@ export function SandboxFlightCard({
     retry = flight.state === "submit_unknown";
   const end = flight.review_deadline_ms,
     expired = end != null && Date.now() >= end;
+  const blocked = flight.calendar_fit !== undefined && flight.calendar_fit !== "clear";
   const choose = (message: string) =>
     onDecision(message, reviewRef(flight, "flight"));
   const legs = flight.segments.map((leg, i) => (
@@ -54,6 +56,15 @@ export function SandboxFlightCard({
           <p>
             {t("Test fare", "模拟票价")} · {flight.adults}{" "}
             {t("adult", "位成人")}
+            {flight.calendar_fit && (
+              <>
+                {" "}
+                ·{" "}
+                <span role={blocked ? "status" : undefined}>
+                  {calendarFitLabel(flight.calendar_fit, t)}
+                </span>
+              </>
+            )}
           </p>
           {revised && flight.previous_minor != null && (
             <p role="status">
@@ -80,7 +91,7 @@ export function SandboxFlightCard({
           <div className="workspace-inline-actions">
             <button
               type="button"
-              disabled={busy || expired}
+              disabled={busy || expired || blocked}
               className="primary"
               onClick={() =>
                 choose(

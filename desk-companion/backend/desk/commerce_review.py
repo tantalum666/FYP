@@ -124,18 +124,21 @@ class ChatReviews:
         return row
 
     def _save(self, row):
-        data = {k: v for k, v in row.items() if k not in {"_serial", "_follow"}}
         with self.store.connection(write=True) as db:
-            if "_follow" in row:
-                owner, chat, scope = row["_follow"]
-                if self._follow_scope(db, owner, chat, row["id"]) != scope:
-                    raise DomainError("COMMERCE_FOLLOW_SCOPE_CHANGED", 409)
-            updated = db.execute(
-                f"UPDATE {self.table} SET data=?,serial=serial+1 WHERE id=? AND serial=?",
-                (encode(data), row["id"], row["_serial"]),
-            )
-            if updated.rowcount != 1:
-                raise DomainError(self.kind + "_REVIEW_CHANGED", 409)
+            self._write_row(db, row)
+
+    def _write_row(self, db, row):
+        data = {k: v for k, v in row.items() if k not in {"_serial", "_follow"}}
+        if "_follow" in row:
+            owner, chat, scope = row["_follow"]
+            if self._follow_scope(db, owner, chat, row["id"]) != scope:
+                raise DomainError("COMMERCE_FOLLOW_SCOPE_CHANGED", 409)
+        updated = db.execute(
+            f"UPDATE {self.table} SET data=?,serial=serial+1 WHERE id=? AND serial=?",
+            (encode(data), row["id"], row["_serial"]),
+        )
+        if updated.rowcount != 1:
+            raise DomainError(self.kind + "_REVIEW_CHANGED", 409)
         row["_serial"] += 1
 
     def can_resume(self, principal, chat, review, task_id):

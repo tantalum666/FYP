@@ -4,6 +4,8 @@ import { SandboxShopCard } from "./SandboxShopOrder";
 import { SandboxFlightCard } from "./SandboxFlightBooking";
 import {
   hkd,
+  calendarFitLabel,
+  optionTime,
   needsDecision,
   orderKey,
   orderStatus,
@@ -65,7 +67,11 @@ export function FlightChoices({
   result: FlightAlternatives;
   t: Translate;
   busy: boolean;
-  onSelect: (message: string, label: string) => void;
+  onSelect: (
+    message: string,
+    label: string,
+    calendarRequested?: boolean,
+  ) => void;
 }) {
   const first = result.alternatives[0]?.segment;
   if (!first) return null;
@@ -76,19 +82,21 @@ export function FlightChoices({
       aria-label={t("Available test flights", "可选测试航班")}
     >
       <p>
-        {t(
-          `${result.unavailable_flight} unavailable`,
-          `${result.unavailable_flight} 无票`,
-        )}{" "}
+        {result.requested_calendar_fit
+          ? `${result.unavailable_flight} · ${calendarFitLabel(result.requested_calendar_fit, t)}`
+          : t(
+              `${result.unavailable_flight} unavailable`,
+              `${result.unavailable_flight} 无票`,
+            )}{" "}
         · {first.origin} → {first.destination}
       </p>
       <small>
         {day} · {t("Local times · Test fares", "当地时间 · 模拟票价")}
+        {result.avoid_calendar_conflicts && (
+          <> · {calendarFitLabel("clear", t)}</>
+        )}
       </small>
       {result.alternatives.map(({ segment, total_minor }) => {
-        const arrival = segment.arrives.startsWith(day)
-          ? segment.arrives.slice(11)
-          : segment.arrives.replace("T", " ");
         const budget =
           result.max_minor == null
             ? ""
@@ -100,7 +108,11 @@ export function FlightChoices({
           t(
             `Recheck test flight ${segment.flight} from ${segment.origin} to ${segment.destination} on ${day} on the same terms and show me the quote.`,
             `选 ${segment.flight}，${day} 从 ${segment.origin} 到 ${segment.destination}，请按原条件重新核价给我确认。`,
-          ) + budget;
+          ) +
+          budget +
+          (result.avoid_calendar_conflicts
+            ? t(" Recheck my desk calendar too.", " 仍需避开我的桌面日程。")
+            : "");
         return (
           <button
             type="button"
@@ -108,20 +120,19 @@ export function FlightChoices({
             key={segment.flight + segment.departs}
             disabled={busy}
             aria-label={t(
-              `Recheck ${segment.flight} at ${hkd(total_minor)}`,
-              `重新核价 ${segment.flight}，原报价 ${hkd(total_minor)}`,
+              `Recheck ${segment.flight}, ${segment.departs.replace("T", " ")} to ${segment.arrives.replace("T", " ")}, ${hkd(total_minor)}`,
+              `重新核价 ${segment.flight}，${segment.departs.replace("T", " ")} 至 ${segment.arrives.replace("T", " ")}，${hkd(total_minor)}`,
             )}
             onClick={() =>
               onSelect(
                 selection,
                 t(`Select ${segment.flight}`, `选 ${segment.flight}`),
+                result.avoid_calendar_conflicts,
               )
             }
           >
             <strong>{segment.flight}</strong>
-            <span>
-              {segment.departs.slice(11)}–{arrival}
-            </span>
+            <span>{optionTime(segment, t)}</span>
             <b>{hkd(total_minor)}</b>
           </button>
         );

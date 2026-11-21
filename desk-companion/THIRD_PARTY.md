@@ -26,6 +26,8 @@
 
 工程不包含账户秘密或原始个人音视频；姿态／唤醒权重通过固定来源校验下载。角色许可样本与已披露的改作随本分支分发。当前是学校原型的软件交付，不据这些说明声明全部商业发行手续已完成。
 
+The offline airport timezones used for calendar-aware flight reviews are derived from the MIT-licensed airportsdata 20261103 release. Only unambiguous IATA airport-to-IANA-zone mappings are included. Rebuild the index from the pinned wheel with `scripts/prepare_airport_timezones.py`. [Upstream release](https://pypi.org/project/airportsdata/20261103/) · [License](licenses/airportsdata-LICENSE.txt).
+
 ## 2026-10-22 selected AliceChan
 
 Alice Chan (Uniform ver.), ©edisonlee55 (now yuna0x0), is distributed under **Creative Commons Attribution-ShareAlike4.0** from the [author’s release](https://github.com/yuna0x0/AliceChan/releases/tag/v1.0.4). [Full licence](frontend/public/avatars/alice/LICENSE.md), [source/SHA/changes](frontend/public/avatars/alice/source.json), and [unchanged original/reproduction](../design/desk-companion/characters/2026-10-22-alice/README.md) are retained. The release is v1.0.4, while the downloadable VRM0 is1.0.2. The runtime copy corrects three optional glTF skin-root references; its geometry/texture binary and all other model fields are identical. The compatibility copy is supplied under the same CC BY-SA4.0, with attribution in the UI and these bundled files. No creator endorsement or student-authored character claim is made. Future shared adaptations retain attribution/change notices and ShareAlike conditions.

@@ -17,6 +17,7 @@ TOOL = {
         "Use one fictional adult unless the user specifies a different party. Include any requested "
         "flight number, airline, nonstop, price ceiling, return date or checked kg; never drop a "
         "constraint or invent an airport/date. Ask about missing or ambiguous details first. "
+        "Set avoid_calendar_conflicts=true when the owner asks for a flight that fits their schedule. "
         "Set rehearse_price_change=true when asked to demonstrate a mid-booking price rise. "
         "No real card or booking is available. For public real fare research only use the separate "
         "browser_research_draft. The user must confirm on screen or explicitly in this chat; "
@@ -38,6 +39,25 @@ def describe_alternatives(result, language):
         if zh
         else f"{requested} is unavailable in the test inventory. Other flights on the same route, in local time:"
     )
+    reason = result.get("requested_calendar_fit")
+    if reason == "conflict":
+        header = (
+            f"{requested} 查询时和桌面日程冲突。以下航班已错开。"
+            if zh
+            else f"{requested} overlapped the desk calendar at lookup. These flights fit."
+        )
+    elif reason == "unknown":
+        header = (
+            f"{requested} 的时间无法和桌面日历核准。以下航班已错开。"
+            if zh
+            else f"{requested} could not be checked against the desk calendar. These flights fit."
+        )
+    elif result.get("avoid_calendar_conflicts"):
+        header = (
+            f"没有 {requested}，以下航班已错开桌面日程。"
+            if zh
+            else f"{requested} is unavailable. These alternatives fit your desk calendar."
+        )
     lines = [header]
     for option in result["alternatives"]:
         leg = option["segment"]
@@ -59,6 +79,33 @@ def describe(row, language):
     route = f"{legs[0]['origin']} → {legs[-1]['destination']}"
     total = price(row["review_minor"])
     state = row["state"]
+    if row.get("calendar_fit") in {"conflict", "unknown"}:
+        reason = (
+            ("和桌面日程冲突" if row["calendar_fit"] == "conflict" else "的日历匹配暂时无法核准")
+            if zh
+            else (
+                "overlaps a desk calendar event"
+                if row["calendar_fit"] == "conflict"
+                else "could not be checked against your desk calendar"
+            )
+        )
+        if state == "quoted":
+            return (
+                f"{flights} {reason}，尚未下单。"
+                if zh
+                else f"{flights} {reason}. No booking has been submitted."
+            )
+        if state == "reprice":
+            return (
+                f"{flights} {reason}，尚未接受新票价。"
+                if zh
+                else f"{flights} {reason}. The new fare has not been accepted."
+            )
+        return (
+            f"{flights} {reason}，原订座结果仍待核实。"
+            if zh
+            else f"{flights} {reason}. The original booking is still unverified."
+        )
     if state == "stopped":
         return (
             "供应商已停止这笔订票并释放预授权，模拟扣款 HK$0.00，未取得订座编号。"
@@ -256,6 +303,14 @@ def failure(code, language):
         "FLIGHT_TEST_SCOPE": (
             "目前可预订一位虚构成人的单程基础票价。能否按这个范围查询？",
             "I can test a one-way base fare for one fictional adult. Would that work?",
+        ),
+        "FLIGHT_CALENDAR_BUSY": (
+            "符合条件的测试航班都和桌面日程冲突。可以换个时段。",
+            "All matching test flights overlap the desk calendar. Try a different time.",
+        ),
+        "FLIGHT_CALENDAR_UNKNOWN": (
+            "当前没有能核实已避开桌面日程的航班。可以换个时段。",
+            "No matching flight could be verified clear on your desk calendar. Try a different time.",
         ),
         "FLIGHT_NO_MATCH": (
             "LetsFG 测试库存里没有符合这些条件的航班。可以更改日期或航班号再查。",

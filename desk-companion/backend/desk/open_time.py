@@ -10,6 +10,8 @@ import re
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
+from .calendar import is_busy
+
 MIN_OPEN = timedelta(minutes=30)
 _PARTS = {
     "morning": ((8, 0), (12, 0)),
@@ -278,7 +280,7 @@ def _blocks(runtime, zone, start, end, *, owner: bool):
     occurrences = runtime.store.snapshot(start, end)["occurrences"]
     raw = []
     for occurrence in occurrences:
-        if occurrence.get("completed") or occurrence.get("busy", True) is False:
+        if not is_busy(occurrence):
             continue
         block_start = _parse(occurrence["start"]).astimezone(zone)
         block_end = _parse(occurrence["end"]).astimezone(zone)

@@ -3,12 +3,12 @@
 from datetime import timedelta
 import os
 
-from zoneinfo import ZoneInfo
-
 from ..calendar import iso
 from ..commerce_review import ChatReviews
 from ..store import DomainError
-from .provider import LetsFG, PNR, booking_id, matched, minor
+from .calendar_fit import check_itineraries
+from .timetable import departure_day
+from .provider import LetsFG, PNR, booking_id, matched, minor, select_fare
 
 
 def public(row):
@@ -23,6 +23,12 @@ def public(row):
         "quoted_minor": quote["total_minor"],
         "approved_minor": row["approved"],
         "review_minor": row["question"]["new"] if row["question"] else quote["total_minor"],
+        **(
+            {"calendar_fit": row.get("calendar_fit", "unknown")}
+            if quote.get("avoid_calendar_conflicts")
+            and row["state"] in {"quoted", "reprice", "submit_unknown"}
+            else {}
+        ),
         "review_deadline_ms": row["question"]["expires"] if row["question"] else None,
         "previous_minor": row["question"]["old"] if row["question"] else None,
         "pnr": row.get("pnr") if row["state"] == "completed" else None,
@@ -43,12 +49,35 @@ class FlightBookings(ChatReviews):
     def prepare(self, query):
         if not self.enabled:
             raise DomainError("FLIGHT_SANDBOX_DISABLED", 403)
-        when = self.store.clock().astimezone(ZoneInfo("Asia/Hong_Kong")).date()
-        quote = self.provider.quote(query, when)
+        when = departure_day(self.store.clock(), query.origin)
+        if query.avoid_calendar_conflicts:
+            with self.store.connection() as db:
+                if self.store.settings(db)["hide_private"]:
+                    raise DomainError("PRIVATE_CONTEXT_HIDDEN", 403)
+            candidates = self.provider.candidates(query, when)
+            with self.store.connection() as db:
+                fits = check_itineraries(self.store, db, candidates)
+            quote = {**select_fare(candidates, query, fits), "avoid_calendar_conflicts": True}
+        else:
+            quote = self.provider.quote(query, when)
         if "alternatives" in quote:
             return {"flight_alternatives": quote, "saved": False}
         quote["scenario"] = "price_change" if query.rehearse_price_change else "success"
         return {"sandbox_quote": quote, "saved": False}
+
+    def current_alternatives(self, alternatives, principal):
+        self.owner(principal)
+        options = alternatives["alternatives"]
+        with self.store.connection() as db:
+            fits = check_itineraries(
+                self.store, db, [dict(option, segments=[option["segment"]]) for option in options]
+            )
+        permitted = [option for option, fit in zip(options, fits, strict=True) if fit == "clear"]
+        if not permitted:
+            raise DomainError(
+                "FLIGHT_CALENDAR_UNKNOWN" if "unknown" in fits else "FLIGHT_CALENDAR_BUSY", 409
+            )
+        return {**alternatives, "alternatives": permitted, "avoid_calendar_conflicts": True}
 
     def attach(self, quote, key, principal, chat):
         row = {
@@ -60,7 +89,10 @@ class FlightBookings(ChatReviews):
             "next_read": 0,
             "scenario": quote["scenario"],
         }
-        return public(self.insert(row, key, principal, chat))
+        saved = self.insert(row, key, principal, chat)
+        if quote.get("avoid_calendar_conflicts"):
+            return self.read(saved["id"], self.owner(principal), chat.id)
+        return public(saved)
 
     def read(self, ident, owner, chat, *, following=False):
         with self.lock:
@@ -80,7 +112,51 @@ class FlightBookings(ChatReviews):
                 and row["next_read"] <= now.timestamp()
             ):
                 self._refresh(row)
+            if (
+                not following
+                and row["quote"].get("avoid_calendar_conflicts")
+                and row["state"] in {"quoted", "reprice", "submit_unknown"}
+                and row.get("calendar_revision") != self.store.revision()
+            ):
+                with self.store.connection(write=True) as db:
+                    self._check_calendar(row, db)
+                    self._write_row(db, row)
             return public(row)
+
+    def _check_calendar(self, row, db):
+        fit = check_itineraries(self.store, db, [row["quote"]])[0]
+        old = row.get("calendar_fit")
+        if old is not None and old != fit:
+            row["version"] += 1
+        row.update(calendar_fit=fit, calendar_revision=self.store.revision(db))
+        return fit == "clear" and (old is None or old == fit)
+
+    def _begin_review(self, row, review, state, owner, **fields):
+        # Admit one effect against the same calendar snapshot as the recorded decision.
+        # The provider call happens only after the transaction commits.
+        with self.store.connection(write=True) as db:
+            if review.action == "confirm" and row["quote"].get("avoid_calendar_conflicts"):
+                if not db.execute(
+                    "SELECT 1 FROM sessions WHERE token_hash=? AND expires>?",
+                    (owner, iso(self.store.clock())),
+                ).fetchone():
+                    raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
+                if not self._check_calendar(row, db):
+                    self._write_row(db, row)
+                    return False
+            now = self.store.clock()
+            if row["state"] == "quoted" and row["expires"] <= iso(now):
+                self._state(row, "expired")
+                self._write_row(db, row)
+                return False
+            if row["state"] == "reprice" and row["question"]["expires"] <= now.timestamp() * 1000:
+                row["next_read"] = 0
+                self._write_row(db, row)
+                return False
+            row.update(last_review=review.model_dump(), **fields)
+            self._state(row, state)
+            self._write_row(db, row)
+        return True
 
     def _refresh(self, row, *, required=False):
         row["next_read"] = self.store.clock().timestamp() + 20
@@ -243,6 +319,11 @@ class FlightBookings(ChatReviews):
                 self._refresh(row, required=True)
             view = public(row)
             if row["version"] != review.version or review.amount_minor != view["review_minor"]:
+                if review.action == "confirm" and view.get("calendar_fit") in {
+                    "conflict",
+                    "unknown",
+                }:
+                    return view
                 raise DomainError("FLIGHT_REVIEW_CHANGED", 409)
             if row["state"] in {"quoted", "submit_unknown"}:
                 if row["state"] == "quoted" and row["expires"] <= iso(self.store.clock()):
@@ -255,27 +336,30 @@ class FlightBookings(ChatReviews):
                     self._state(row, "cancelled")
                     self._save(row)
                 else:
-                    row.update(
+                    if not self._begin_review(
+                        row,
+                        review,
+                        "submitting",
+                        owner,
                         approved=view["review_minor"],
-                        last_review=review.model_dump(),
                         next_read=self.store.clock().timestamp() + 40,
-                    )
-                    self._state(row, "submitting")
-                    self._save(row)
+                    ):
+                        return public(row)
                     self._submit(row)
             elif row["state"] == "reprice":
                 q = row["question"]
                 if q["expires"] <= self.store.clock().timestamp() * 1000:
                     raise DomainError("FLIGHT_REVIEW_CHANGED", 409)
-                row.update(
-                    last_review=review.model_dump(),
-                    next_read=0,
+                if not self._begin_review(
+                    row,
+                    review,
+                    "answering",
+                    owner,
                     answer_at=self.store.clock().timestamp(),
-                )
-                if review.action == "confirm":
-                    row["approved"] = q["new"]
-                self._state(row, "answering")
-                self._save(row)
+                    next_read=0,
+                    approved=q["new"] if review.action == "confirm" else row["approved"],
+                ):
+                    return public(row)
                 try:
                     answer = self.provider.answer(
                         row["remote"], q["round"], review.action == "confirm"

@@ -738,7 +738,7 @@ export function AssistantPanel({
     window.addEventListener("desk:write-recovered", recovered);
     return () => window.removeEventListener("desk:write-recovered", recovered);
   }, [reload, showHttpReply]);
-  async function send(e: React.FormEvent | null, choice?: {message:string;review?:CommerceRef;display?:string}) {
+  async function send(e: React.FormEvent | null, choice?: {message:string;review?:CommerceRef;display?:string;flightCalendarRequested?:boolean}) {
     e?.preventDefault();
     if (
       busy ||
@@ -786,6 +786,7 @@ export function AssistantPanel({
       const body = {
         message: submitted,
         ...(choice?.review ? {selected_commerce_card: true} : {}),
+        ...(choice?.flightCalendarRequested ? {flight_calendar_requested:true} : {}),
         ...(review ? {[review.kind==="shop" ? "shopping_review" : "flight_review"]:{id:review.id,version:review.version,amount_minor:review.amount_minor}} : {}),
         language,
         task_id: taskId ?? null,
@@ -1370,7 +1371,7 @@ export function AssistantPanel({
           result={turn.choices}
           t={t}
           busy={orderActions.busy || !!text.trim()}
-          onSelect={(message,display) => void send(null, { message,display })}
+          onSelect={(message,display,flightCalendarRequested) => void send(null, { message,display,flightCalendarRequested })}
         />
       );
       return turn === focusTurn ? (
