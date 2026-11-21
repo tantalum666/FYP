@@ -3,9 +3,9 @@
 import re
 import unicodedata
 
-from .commerce_review import ReviewDecision, ReviewRef
+from .commerce_review import ReviewDecision, ReviewRef, language_for
 from .flight_booking.conversation import describe as flight_message
-from .shop_checkout.conversation import describe as shop_message, language_for
+from .shop_checkout.conversation import describe as shop_message
 
 
 # Only a direct owner command can contact a merchant. Questions and quoted

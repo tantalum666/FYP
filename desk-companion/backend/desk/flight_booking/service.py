@@ -25,9 +25,9 @@ def public(row):
         "review_minor": row["question"]["new"] if row["question"] else quote["total_minor"],
         "review_deadline_ms": row["question"]["expires"] if row["question"] else None,
         "previous_minor": row["question"]["old"] if row["question"] else None,
-        "pnr": row.get("pnr"),
-        "charged_minor": row.get("capture"),
-        "released": row.get("released", False),
+        "pnr": row.get("pnr") if row["state"] == "completed" else None,
+        "charged_minor": row.get("capture") if row["state"] == "completed" else None,
+        "released": row["state"] in {"failed", "stopped"} and row.get("released", False),
         "stop_status": row.get("stop_status"),
     }
 
@@ -43,6 +43,8 @@ class FlightBookings(ChatReviews):
             raise DomainError("FLIGHT_SANDBOX_DISABLED", 403)
         when = self.store.clock().astimezone(ZoneInfo("Asia/Hong_Kong")).date()
         quote = self.provider.quote(query, when)
+        if "alternatives" in quote:
+            return {"flight_alternatives": quote, "saved": False}
         quote["scenario"] = "price_change" if query.rehearse_price_change else "success"
         return {"sandbox_quote": quote, "saved": False}
 

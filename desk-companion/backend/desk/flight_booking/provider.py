@@ -93,10 +93,7 @@ def _selected(offer, search_id, query):
     if (
         segments[0]["departs"][:10] != query.departure
         or (query.nonstop and len(legs) != 1)
-        or (
-            query.flight_number
-            and (len(legs) != 1 or segments[0]["flight"] != query.flight_number.replace(" ", ""))
-        )
+        or (query.flight_number and len(legs) != 1)
         or (query.airline and any(leg["airline"] != query.airline for leg in legs))
     ):
         return None
@@ -183,7 +180,24 @@ class LetsFG:
                 eligible.append(selected)
         if not eligible:
             raise DomainError("FLIGHT_NO_MATCH", 404)
-        return min(eligible, key=lambda row: row["total_minor"])
+        eligible.sort(key=lambda row: (row["total_minor"], row["segments"][0]["departs"]))
+        if query.flight_number:
+            requested = query.flight_number.replace(" ", "")
+            for row in eligible:
+                if row["segments"][0]["flight"] == requested:
+                    return row
+            # Preserve every other constraint. Alternatives carry no bookable offer ID.
+            choices, seen = [], set()
+            for row in eligible:
+                leg = row["segments"][0]
+                key = (leg["flight"], leg["departs"], leg["arrives"])
+                if key not in seen:
+                    choices.append({"segment": leg, "total_minor": row["total_minor"]})
+                    seen.add(key)
+                if len(choices) == 3:
+                    break
+            return {"unavailable_flight": requested, "alternatives": choices}
+        return eligible[0]
 
     def submit(self, quote, key, scenario):
         # A single fictional adult. No user identity, wallet or card input enters this protocol.

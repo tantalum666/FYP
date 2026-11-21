@@ -1,6 +1,7 @@
 """Bind merchant-specific review services to the existing ordinary chat lifecycle."""
 
 from . import commerce_aftercare
+from .commerce_review import language_for
 from .flight_booking import conversation as flights
 from .shop_checkout import conversation as shopping
 
@@ -51,20 +52,25 @@ def turn(runtime, payload, principal, chat):
 
 
 def present(runtime, reply, key, principal, chat, payload, *, cached=False):
+    lang = language_for(payload.message,payload.language)
+    if alternatives := reply.get("flight_alternatives"):
+        return {**reply,"kind":"clarify","saved":False,"message":flights.describe_alternatives(alternatives,lang)}
+    if reply.get("kind") == "clarify" and str(reply.get("error","")).startswith("FLIGHT_"):
+        return {**reply,"message":flights.failure(reply["error"],lang)}
     for quote_field, result_field, service, render, lang in (
         (
             "sandbox_quote",
             "flight_booking",
             runtime.flight_bookings,
             flights.describe,
-            payload.language,
+            lang,
         ),
         (
             "shop_quote",
             "shopping_order",
             runtime.shop_orders,
             shopping.describe,
-            shopping.language_for(payload.message, payload.language),
+            lang,
         ),
     ):
         if cached and reply.get(result_field):

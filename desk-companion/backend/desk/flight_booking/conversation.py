@@ -1,6 +1,8 @@
 """Conversation presentation and explicit owner replies for sandbox flight reviews."""
 
 import re
+
+from ..commerce_review import language_for
 import unicodedata
 
 from .provider import FlightQuery, minor
@@ -26,6 +28,28 @@ TOOL = {
 
 def price(cents):
     return f"HK${cents // 100:,}.{cents % 100:02d}"
+
+
+def describe_alternatives(result, language):
+    zh = language == "zh"
+    requested = result["unavailable_flight"]
+    header = (
+        f"当天的 LetsFG 测试库存没有 {requested}。同一航线还有以下选择（当地时间）："
+        if zh
+        else f"{requested} is unavailable in the test inventory. Other flights on the same route, in local time:"
+    )
+    lines = [header]
+    for option in result["alternatives"]:
+        leg = option["segment"]
+        lines.append(
+            f"{leg['flight']} · {leg['origin']} → {leg['destination']} · {leg['departs'].replace('T', ' ')} → {leg['arrives'].replace('T', ' ')} · {price(option['total_minor'])}"
+        )
+    lines.append(
+        "告诉我想选的航班号，我会重新核价给你确认。目前没有订位或扣款。"
+        if zh
+        else "Choose a flight number and I will recheck its price for your approval. Nothing has been booked or charged."
+    )
+    return "\n".join(lines)
 
 
 def describe(row, language):
@@ -176,6 +200,7 @@ def turn(runtime, payload, principal, chat):
         return None
     if not runtime.flight_bookings.enabled or not runtime.personal_context.visible(principal):
         return None
+    lang = language_for(payload.message, payload.language)
     decision = owner_decision(payload.message)
     ref = payload.flight_review
     if (
@@ -188,7 +213,7 @@ def turn(runtime, payload, principal, chat):
     ):
         msg = (
             "请先核对当前航班和总价，再用这张报价上的确认或拒绝按钮。"
-            if payload.language == "zh"
+            if lang == "zh"
             else "Review the current flight and total, then use its confirm or decline button."
         )
         return {"mode": "local", "kind": "clarify", "message": msg, "saved": False}
@@ -205,7 +230,7 @@ def turn(runtime, payload, principal, chat):
             "mode": "local",
             "kind": "flight_booking",
             "flight_booking": row,
-            "message": describe(row, payload.language),
+            "message": describe(row, lang),
             "saved": True,
         }
     if re.fullmatch(
@@ -220,7 +245,7 @@ def turn(runtime, payload, principal, chat):
                 "mode": "local",
                 "kind": "flight_booking",
                 "flight_booking": row,
-                "message": describe(row, payload.language),
+                "message": describe(row, lang),
                 "saved": False,
             }
     return None

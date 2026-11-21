@@ -3,7 +3,7 @@
 import re
 import unicodedata
 
-from ..commerce_review import ReviewDecision
+from ..commerce_review import ReviewDecision, language_for
 from ..store import DomainError
 from .provider import ShopQuery
 
@@ -18,10 +18,6 @@ TOOL = {
     ),
     "parameters": ShopQuery.model_json_schema(),
 }
-
-
-def language_for(message, language):
-    return "zh" if language == "zh" or re.search(r"[\u3400-\u9fff]", message) else "en"
 
 
 def price(n):

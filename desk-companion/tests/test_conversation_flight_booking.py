@@ -331,3 +331,60 @@ def test_stop_matches_the_original_supplier_outcome(desk, monkeypatch, outcome):
     follow = send(c, "read-stop", "查回这张机票的取消结果", chat).json()
     assert follow["flight_booking"]["state"] == row["state"] and len(calls) == 1
     assert sum(path == "book" for _, path, _ in api.calls) == 1
+
+
+def test_missing_flight_offers_only_eligible_choices_and_waits_for_a_new_selection(desk):
+    from desk.flight_booking.provider import FlightQuery
+    from desk.store import DomainError
+
+    runtime, client, sandbox = desk
+    session = install_session_protocol(runtime)
+    arguments = {
+        "origin": "HKG",
+        "destination": "HND",
+        "departure": sandbox.day,
+        "flight_number": "XX9999",
+        "max_hkd": 34,
+        "nonstop": True,
+    }
+    session.next_calls = [("sandbox_flight_quote", arguments)]
+    response = send(client, "no-such-flight", "请订 XX9999 测试机票，最高 HK$34。").json()
+    assert response["kind"] == "clarify" and response["saved"] is False
+    assert "FR4315" in response["message"] and "HK$34.00" in response["message"]
+    assert "没有订位或扣款" in response["message"]
+    assert status(client, response["conversation_id"]) == []
+    assert [path for _, path, _ in sandbox.calls] == ["search"]
+    assert "offer_id" not in json.dumps(response["flight_alternatives"])
+    # A price ceiling below every offer must never produce an over-budget alternative.
+    with pytest.raises(DomainError) as err:
+        runtime.flight_bookings.provider.quote(
+            FlightQuery.model_validate(arguments | {"max_hkd": 25}), date.today()
+        )
+    assert err.value.code == "FLIGHT_NO_MATCH"
+    session.next_calls = [("sandbox_flight_quote", arguments | {"flight_number": "FR4315"})]
+    selected = send(
+        client, "take-alternative", "选 FR4315，请先核价", response["conversation_id"]
+    ).json()
+    assert (
+        selected["flight_booking"]["state"] == "quoted"
+        and selected["flight_booking"]["approved_minor"] is None
+    )
+    assert not any(path == "book" for _, path, _ in sandbox.calls)
+
+
+def test_unverified_reread_masks_previous_booking_and_charge():
+    from desk.flight_booking.service import public
+
+    record = {
+        "quote": {"segments": [], "adults": 1, "currency": "HKD", "total_minor": 5200},
+        "id": "f" * 32,
+        "version": 5,
+        "state": "unverified",
+        "question": None,
+        "approved": 5200,
+        "pnr": "TEST42",
+        "capture": 5200,
+        "released": True,
+    }
+    masked = public(record)
+    assert masked["pnr"] is None and masked["charged_minor"] is None and not masked["released"]

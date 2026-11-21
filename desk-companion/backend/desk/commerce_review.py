@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import re
 import threading
 from typing import Literal
 
@@ -10,6 +11,10 @@ from pydantic import Field
 from .conversation import Conversations
 from .schemas import StrictModel
 from .store import DomainError, encode
+
+
+def language_for(message, language):
+    return "zh" if language == "zh" or re.search(r"[\u3400-\u9fff]", message) else "en"
 
 
 class ReviewRef(StrictModel):
