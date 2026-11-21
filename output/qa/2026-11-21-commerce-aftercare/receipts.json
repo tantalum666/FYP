@@ -1,0 +1,172 @@
+{
+  "date_hk": "2026-11-21",
+  "entry": "dev.group2.deskcompanion ordinary composer, iPhone 17 Pro Simulator, iOS 26.5",
+  "base_review": "ba774c1c93c41d0140f9884f26d4195ce36057fc",
+  "backend": "2f59ff63f5fded77ab7c0bbef3c487c9eb563b88",
+  "frontend": "2f59ff63f5fded77ab7c0bbef3c487c9eb563b88",
+  "merchant_plugin_sha256": "c5180aff4ad7846a2f35197173144637f266798292b8cbda034a7f9f3485de60",
+  "shopping": {
+    "quote": {
+      "currency": "HKD",
+      "product": "Test pocket tissues",
+      "units": 1,
+      "items_minor": 400,
+      "delivery_minor": 800,
+      "total_minor": 1200
+    },
+    "issued_orders": 1,
+    "buyer_requested_in_chat": true,
+    "stock_before": 20,
+    "stock_after_capture": 19,
+    "merchant_and_payment_readback": {
+      "order": 21,
+      "items": [
+        {
+          "sku": "FYP-QA-POCKET-TISSUES",
+          "quantity": 1,
+          "stock": 20
+        }
+      ],
+      "paid_at": true,
+      "state": "refunded",
+      "refunds": 1,
+      "refund": 1200,
+      "shipping": 800,
+      "currency": "HKD",
+      "gross": 1200,
+      "requested": true,
+      "gateway_test": true,
+      "stripe_charge_minor": 1200,
+      "stripe_refunded_minor": 1200,
+      "stripe_net_minor": 0,
+      "capture_to_refund_seconds": 20,
+      "refund_status": "succeeded",
+      "verified_refund_count": 1,
+      "live_card_used": false
+    }
+  },
+  "flight": {
+    "route": "HKG–HND",
+    "flight": "AF2979",
+    "departure": "2026-11-27T11:30",
+    "arrival": "2026-11-27T17:39",
+    "currency": "HKD",
+    "approved_minor": 5200,
+    "provider_orders": 1,
+    "before_stop": {
+      "state": "card_issued",
+      "terminal": false,
+      "currency": "HKD",
+      "held_amount": 52,
+      "charged_amount": null,
+      "pnr": ""
+    },
+    "after_stop": {
+      "state": "failed",
+      "terminal": true,
+      "currency": "HKD",
+      "charged_amount": null,
+      "pnr": "",
+      "reference_matched": true
+    },
+    "provider_message_confirms_released_hold": true,
+    "application_state": "stopped",
+    "absent_flight_alternatives": {
+      "alternatives": [
+        {
+          "segment": {
+            "arrives": "2026-11-27T17:39",
+            "departs": "2026-11-27T11:30",
+            "destination": "HND",
+            "flight": "AF2979",
+            "origin": "HKG"
+          },
+          "total_minor": 5200
+        },
+        {
+          "segment": {
+            "arrives": "2026-11-27T14:53",
+            "departs": "2026-11-27T07:00",
+            "destination": "HND",
+            "flight": "AF3258",
+            "origin": "HKG"
+          },
+          "total_minor": 5500
+        },
+        {
+          "segment": {
+            "arrives": "2026-11-27T17:27",
+            "departs": "2026-11-27T10:40",
+            "destination": "HND",
+            "flight": "VY1148",
+            "origin": "HKG"
+          },
+          "total_minor": 5800
+        }
+      ],
+      "unavailable_flight": "FR4315"
+    },
+    "additional_orders_from_alternatives": 0,
+    "selected_alternative": {
+      "flight": "AF3258",
+      "fresh_quote_minor": 5500,
+      "approved": false,
+      "supplier_order_created": false,
+      "native_quote_message": "LetsFG 测试航班 AF3258，HKG → HND，2026-11-27 07:00 → 2026-11-27 14:53（当地时间）。1 位成人，模拟总价 HK$55.00。确认后我才下测试单。"
+    }
+  },
+  "followup_after_restart": {
+    "shopping_receipt_matched": true,
+    "flight_receipt_matched": true
+  },
+  "model_accounting": {
+    "admissions": 10,
+    "by_purpose": {
+      "conversation": 10
+    },
+    "returned_token_totals": 0,
+    "local_estimated_usage_delta_usd": 0.0,
+    "unpriced_reservation_delta_usd": 0.8,
+    "platform_billed_usd": null,
+    "allocation_usd": 9.0,
+    "available_usd": 7.933957
+  },
+  "release": {
+    "verified_release_files": 543,
+    "database_backup_verified": true,
+    "schema": 3,
+    "tables_before": 131,
+    "tables_after": 131,
+    "A3_unchanged": true,
+    "voice_version": 9,
+    "app_accounts_unchanged": true,
+    "protected_files_unchanged": true,
+    "voice_model": "gpt-live-1.1"
+  },
+  "pi": {
+    "sha256": "06257c8f7931ba68afdd55f5a85d1fc297edce587a7567082ac8ab57a9c665d7",
+    "base_revision": "85e6aa94d22412b10e0a0d62a4879fb93e9615ef",
+    "target_revision": "2f59ff63f5fded77ab7c0bbef3c487c9eb563b88",
+    "files_verified": 543,
+    "installed_on_pi": false
+  },
+  "native_screenshot_sha256": {
+    "shop-quote": "2de59f08c959806056878173eec0c69ea7bd08ad9c63caee7f002417773bc7d4",
+    "shop-pay": "a55e2ea2edd551910cf9a0a886674e471e9f410e447dcf74bf840e2dfda2a76b",
+    "shop-cancel": "f667d6ec945d7f9f65c3fb9b6dbd6a5f1501c28ffb9db0f2fecdcc33bdbdc43e",
+    "flight-current": "5046fa1dd2404655d59020fcaf32253cbcc5cfde1f20ac2ab451321b85bdedcf",
+    "flight-book": "e32211d10430552fb1eb40916c17da54baf1f0d6e14d518852b180e6e3547794",
+    "flight-stop-read": "abd4fa7118318d3b98c7bf0b458f9d891ef7b39490e4a6239a6bc911cfead2ec",
+    "options-visible": "26511cfddfc90b273e486736db2fbb3d5e1e7baf90af57e83e4d7267dfd8bb23",
+    "flight-choice": "c9528ee76b372487204054fb52b2b85e96251cfa9aecde9edbea2bd2e6e26bd4"
+  },
+  "final_native_multi_order_replay": {
+    "source": "2f59ff63f5fded77ab7c0bbef3c487c9eb563b88",
+    "ambiguous_command_requested_selection": true,
+    "named_lookup_flight": "AF2979",
+    "original_booking_button_flight": "AF2979",
+    "unapproved_other_quote": "AF3258",
+    "new_supplier_calls_to_book_or_stop": 0,
+    "normal_desk_restored": true
+  }
+}
