@@ -155,3 +155,15 @@ test("equivalent Euler descriptions do not unwind a forearm", () => {
     );
   }
 });
+
+test("an interrupted score leaves time for the raised limb to recover", () => {
+  const response = new JointMotion("leftUpperArm");
+  for (let i = 0; i < 100; i++)
+    response.update([0.7, 0, 0], 1 / 30, false, "chinRest");
+  for (let i = 0; i < 4; i++)
+    response.update([0, 0, 0], 1 / 30, false, "astonished");
+  assert.ok(response.angles[0] > 0.64);
+  for (let i = 0; i < 65; i++)
+    response.update([0, 0, 0], 1 / 30, false, "astonished");
+  assert.ok(Math.abs(response.angles[0]) < 0.001);
+});

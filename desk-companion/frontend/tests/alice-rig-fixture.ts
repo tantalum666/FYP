@@ -112,6 +112,7 @@ export function filteredPose(
       motion.pose[bone],
       dt,
       motion.gesture === "applause",
+      motion.gesture,
     );
     motion.pose[bone] = [x, y, z];
   });

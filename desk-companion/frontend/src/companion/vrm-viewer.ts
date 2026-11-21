@@ -436,6 +436,7 @@ export class VrmViewer {
           motion.pose[name],
           elapsed,
           motion.gesture === "applause",
+          motion.gesture,
         );
         this.offset.setFromEuler(this.rotation.set(x, y, z));
         node.quaternion.copy(rest).multiply(this.offset);

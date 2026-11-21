@@ -253,9 +253,9 @@ export function aliceMotion(
     // Lift in depth through the middle of the reach. A sideways sweep
     // takes the elbow and fingers to the edge of a narrow display.
     const arc = Math.sin(Math.PI * weight);
-    pose[`${side}UpperArm`][0] -= (gesture === "wave" ? 1.23 : 0.6) * arc;
+    pose[`${side}UpperArm`][0] -= (gesture === "wave" ? 1.33 : 0.6) * arc;
     pose[`${side}UpperArm`][2] -=
-      sign * (gesture === "wave" ? 0.48 : 0.12) * arc;
+      sign * (gesture === "wave" ? 0.33 : 0.12) * arc;
     pose[`${side}LowerArm`][1] += sign * 0.12 * arc;
     transferWristRoll(pose, side);
   }

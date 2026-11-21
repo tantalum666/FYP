@@ -7,6 +7,9 @@ export class JointMotion {
   private velocity = [0, 0, 0];
   private rotation = [0, 0, 0];
   private targetVector = [0, 0, 0];
+  private priorGesture: string | null = null;
+  private transitionOrigin = [0, 0, 0];
+  private transitionProgress = 1;
   private q = new Quaternion();
   private euler = new Euler();
 
@@ -18,7 +21,12 @@ export class JointMotion {
     this.handChain = bone.endsWith("Arm") || bone.endsWith("Hand");
   }
 
-  update(target: readonly number[], seconds: number, trackingContact = false) {
+  update(
+    target: readonly number[],
+    seconds: number,
+    trackingContact = false,
+    gesture: string | null = null,
+  ) {
     // Euler triples can change by half a turn while describing the same pose.
     // Track a continuous rotation vector so that crossing that seam never
     // sends the elbow or palm on a detour through the body.
@@ -42,10 +50,25 @@ export class JointMotion {
     this.targetVector[0] = q.x * scale;
     this.targetVector[1] = q.y * scale;
     this.targetVector[2] = q.z * scale;
+    // Start the incoming score from the moving limb, including when a reply
+    // interrupts a raised hand. Hair and sleeves then follow its recovery.
+    if (this.priorGesture && gesture !== this.priorGesture) {
+      this.transitionProgress = 0;
+      for (let i = 0; i < 3; i++) this.transitionOrigin[i] = this.rotation[i];
+    }
+    this.priorGesture = gesture;
+    this.transitionProgress = Math.min(
+      1,
+      this.transitionProgress + seconds / 0.65,
+    );
+    const t = this.transitionProgress,
+      blend = t * t * (3 - 2 * t);
     const rate = trackingContact && this.handChain ? 21 : this.rate;
     const decay = Math.exp(-rate * seconds);
     for (let axis = 0; axis < 3; axis++) {
-      const goal = this.targetVector[axis];
+      const goal =
+        this.transitionOrigin[axis] * (1 - blend) +
+        this.targetVector[axis] * blend;
       const distance = this.rotation[axis] - goal;
       const change = this.velocity[axis] + rate * distance;
       this.rotation[axis] = goal + (distance + change * seconds) * decay;
