@@ -1,6 +1,8 @@
 """Conversation presentation and explicit owner replies for sandbox flight reviews."""
 
 import re
+
+from ..commerce_review import language_for
 import unicodedata
 
 from .provider import FlightQuery, minor
@@ -28,6 +30,28 @@ def price(cents):
     return f"HK${cents // 100:,}.{cents % 100:02d}"
 
 
+def describe_alternatives(result, language):
+    zh = language == "zh"
+    requested = result["unavailable_flight"]
+    header = (
+        f"当天的 LetsFG 测试库存没有 {requested}。同一航线还有以下选择（当地时间）："
+        if zh
+        else f"{requested} is unavailable in the test inventory. Other flights on the same route, in local time:"
+    )
+    lines = [header]
+    for option in result["alternatives"]:
+        leg = option["segment"]
+        lines.append(
+            f"{leg['flight']} · {leg['origin']} → {leg['destination']} · {leg['departs'].replace('T', ' ')} → {leg['arrives'].replace('T', ' ')} · {price(option['total_minor'])}"
+        )
+    lines.append(
+        "告诉我想选的航班号，我会重新核价给你确认。目前没有订位或扣款。"
+        if zh
+        else "Choose a flight number and I will recheck its price for your approval. Nothing has been booked or charged."
+    )
+    return "\n".join(lines)
+
+
 def describe(row, language):
     zh = language == "zh"
     legs = row["segments"]
@@ -35,6 +59,36 @@ def describe(row, language):
     route = f"{legs[0]['origin']} → {legs[-1]['destination']}"
     total = price(row["review_minor"])
     state = row["state"]
+    if state == "stopped":
+        return (
+            "供应商已停止这笔订票并释放预授权，模拟扣款 HK$0.00，未取得订座编号。"
+            if zh
+            else "The supplier stopped this booking and released its hold. Test charge HK$0.00. No reservation reference."
+        )
+    if state == "manual":
+        return (
+            "供应商正在人工核查。请查询原订单，扣款及订座结果待供应商确认。"
+            if zh
+            else "The supplier is reviewing the original booking. Payment and reservation await verification."
+        )
+    if state == "stopping":
+        return (
+            "已请求停止订票，正在向供应商核实预授权和扣款。"
+            if zh
+            else "Stop requested. Checking the hold and payment on the original booking."
+        )
+    if row.get("stop_status") == "too_late":
+        if state == "completed":
+            return (
+                f"供应商已购票，停止订票窗口已过。订座编号 {row['pnr']}，原模拟扣款 {price(row['charged_minor'])}。退票须另查卖家票规，尚无退款回执。"
+                if zh
+                else f"The supplier already bought the ticket. Reference {row['pnr']}, test charge {price(row['charged_minor'])}. A post-ticket refund depends on seller rules and has not been verified."
+            )
+        return (
+            "供应商已过停止窗口，正在查回原订座和扣款。"
+            if zh
+            else "The supplier's stop window has passed. Checking the original booking and payment."
+        )
     if state == "quoted":
         times = f"{legs[0]['departs'].replace('T', ' ')} → {legs[-1]['arrives'].replace('T', ' ')}"
         return (
@@ -146,6 +200,7 @@ def turn(runtime, payload, principal, chat):
         return None
     if not runtime.flight_bookings.enabled or not runtime.personal_context.visible(principal):
         return None
+    lang = language_for(payload.message, payload.language)
     decision = owner_decision(payload.message)
     ref = payload.flight_review
     if (
@@ -158,7 +213,7 @@ def turn(runtime, payload, principal, chat):
     ):
         msg = (
             "请先核对当前航班和总价，再用这张报价上的确认或拒绝按钮。"
-            if payload.language == "zh"
+            if lang == "zh"
             else "Review the current flight and total, then use its confirm or decline button."
         )
         return {"mode": "local", "kind": "clarify", "message": msg, "saved": False}
@@ -175,7 +230,7 @@ def turn(runtime, payload, principal, chat):
             "mode": "local",
             "kind": "flight_booking",
             "flight_booking": row,
-            "message": describe(row, payload.language),
+            "message": describe(row, lang),
             "saved": True,
         }
     if re.fullmatch(
@@ -185,11 +240,12 @@ def turn(runtime, payload, principal, chat):
     ):
         rows = runtime.flight_bookings.listing(principal, chat.id)
         if len(rows) == 1:
+            row = runtime.flight_bookings.reopen(rows[0]["id"], principal, chat.id)
             return {
                 "mode": "local",
                 "kind": "flight_booking",
-                "flight_booking": rows[0],
-                "message": describe(rows[0], payload.language),
+                "flight_booking": row,
+                "message": describe(row, lang),
                 "saved": False,
             }
     return None

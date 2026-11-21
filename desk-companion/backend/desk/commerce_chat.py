@@ -1,5 +1,7 @@
 """Bind merchant-specific review services to the existing ordinary chat lifecycle."""
 
+from . import commerce_aftercare
+from .commerce_review import language_for
 from .flight_booking import conversation as flights
 from .shop_checkout import conversation as shopping
 
@@ -20,6 +22,8 @@ def can_resume(runtime, principal, payload):
 
 
 def turn(runtime, payload, principal, chat):
+    if result := commerce_aftercare.turn(runtime, payload, principal, chat):
+        return result
     if payload.shopping_review:
         return shopping.turn(runtime, payload, principal, chat)
     if payload.flight_review:
@@ -48,20 +52,25 @@ def turn(runtime, payload, principal, chat):
 
 
 def present(runtime, reply, key, principal, chat, payload, *, cached=False):
+    lang = language_for(payload.message,payload.language)
+    if alternatives := reply.get("flight_alternatives"):
+        return {**reply,"kind":"clarify","saved":False,"message":flights.describe_alternatives(alternatives,lang)}
+    if reply.get("kind") == "clarify" and str(reply.get("error","")).startswith("FLIGHT_"):
+        return {**reply,"message":flights.failure(reply["error"],lang)}
     for quote_field, result_field, service, render, lang in (
         (
             "sandbox_quote",
             "flight_booking",
             runtime.flight_bookings,
             flights.describe,
-            payload.language,
+            lang,
         ),
         (
             "shop_quote",
             "shopping_order",
             runtime.shop_orders,
             shopping.describe,
-            shopping.language_for(payload.message, payload.language),
+            lang,
         ),
     ):
         if cached and reply.get(result_field):
@@ -92,13 +101,13 @@ def context_instructions(runtime, principal, chat, context):
                 {k: row[k] for k in ("quote", "state", "receipt")} for row in orders[:3]
             ]
         instructions.append(
-            "For an owner asking to buy a product (买、购买 or 购物), use sandbox_shop_quote for the product name in its original language and exact quantity. The shop quotes items and Hong Kong delivery. For existing orders use the matching chat receipt; only a verified completed receipt proves capture. You cannot pay or approve a revision."
+            "For an owner asking to buy a product (买、购买 or 购物), use sandbox_shop_quote for the product name in its original language and exact quantity. The shop quotes items and Hong Kong delivery. For existing orders use the matching chat receipt; use the recorded gross charge, successful refund and net separately. A buyer cancellation or refund is confirmed only by the local merchant/payment receipts. You cannot refund, pay or approve a revision."
         )
     if runtime.flight_bookings.enabled:
         if rows := flights.prompt_context(runtime, principal, chat):
             context["test_flight_bookings"] = rows
             instructions.append(
-                "For questions about these existing LetsFG test bookings use their verified states. Only a completed record with a PNR and captured amount confirms a simulated booking. Do not create another quote to check an existing order."
+                "For questions about these existing LetsFG test bookings use their verified states. Only a completed record with a PNR and captured amount confirms a simulated booking. Stopping an in-progress order and refunding an issued ticket are different. Only a verified supplier read can establish a released hold. Do not create another quote to check an existing order."
             )
         instructions.append(
             "For an owner asking to book a flight (订票 or 订航班), use sandbox_flight_quote for its initial test fare. Only the owner can approve. Distinguish booking from real-market fare research and ask if the itinerary is unclear."

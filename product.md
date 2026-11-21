@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-21 Buyer cancellations and unavailable flights in ordinary chat
+
+For a paid shippable test purchase, the owner can request a full pre-dispatch cancellation and reopen the original charge, refund and net. For a flight, allow an owner to stop an active supplier booking and separately verify its hold, charge and booking reference. Preserve the seller’s post-ticketing rules. If the selected flight is unavailable, offer eligible alternatives with local times and all-in sandbox fares, and await the owner’s new selection and approval. The Simulator verified Woo order #21 at HK$12 refunded in full and a released HK$52 LetsFG hold. [Acceptance](output/qa/2026-11-21-commerce-aftercare/verification.md).
+
 ## 2026-11-20 Overseas marketplace shopping and cancellation
 
 The separate Link Agent Wallet acceptance uses the official CLI and the owner-connected FYP profile. Link approved a 180-day recurring test authorization of US$500 per month for the FYP sandbox. The testing path limits each order to US$10. The US$1 tissue order remains unpaid. The original issuer response contained Link's published test fixture, which fails the card-number checksum required at this checkout. The operator supports the two scope formats observed across authorizations and refreshes. [Payment evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#approved-recurring-test-allowance) · [Issuer fixture diagnosis](output/qa/2026-11-20-link-wallet-diagnosis/verification.md).

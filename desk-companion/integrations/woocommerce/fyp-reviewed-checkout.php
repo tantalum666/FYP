@@ -44,6 +44,23 @@ function terms($order) {
     ];
 }
 
+// This sandbox has its own acceptance policy. A dispatched or partly refunded
+// order needs merchant review. The buyer can only cancel the original FYP guest order.
+function can_cancel_order($order) {
+    if (!$order->has_status('processing') || !$order->get_date_paid() || $order->get_date_completed()
+        || !$order->get_items('shipping') || cents($order->get_total_refunded()) !== 0
+        || $order->get_meta('_wc_shipment_tracking_items')) {
+        return false;
+    }
+    if (\Automattic\WooCommerce\Utilities\FeaturesUtil::feature_is_enabled('fulfillments')) {
+        $store = wc_get_container()->get(\Automattic\WooCommerce\Admin\Features\Fulfillments\DataStore\FulfillmentsDataStore::class);
+        foreach ($store->read_fulfillments('order', (string) $order->get_id()) as $fulfillment) {
+            if ($fulfillment->get_is_fulfilled()) return false;
+        }
+    }
+    return true;
+}
+
 function receipt($ref) {
     $id = (int) get_option('fyp_alice_order_' . $ref, 0);
     if (!$id) {
@@ -56,7 +73,10 @@ function receipt($ref) {
     return [
         'found' => true, 'test_mode' => sandbox_ready(), 'order_id' => $order->get_id(),
         'paid' => $order->is_paid() && (bool) $order->get_date_paid(),
-        'status' => $order->get_status(), 'gateway' => $order->get_payment_method(),
+        'status' => $order->get_status(),
+        'buyer_cancel_requested' => (bool) $order->get_meta('_fyp_buyer_cancel'),
+        'can_cancel' => can_cancel_order($order),
+        'refunded_minor' => cents($order->get_total_refunded()), 'gateway' => $order->get_payment_method(),
         'guest' => $order->get_customer_id() === 0, 'terms' => terms($order),
         'intent' => $order->get_meta('_payment_intent_id'), 'transaction' => $order->get_transaction_id(),
     ];
@@ -159,8 +179,61 @@ function checkout($request) {
     }
 }
 
+function cancel_paid_order($request) {
+    global $wpdb;
+    $ref = $request['ref'];
+    $expected = $request->get_json_params();
+    $lock = 'fyp_alice_' . $ref;
+    if ('1' !== (string) $wpdb->get_var($wpdb->prepare('SELECT GET_LOCK(%s, 3)', $lock))) {
+        return new \WP_Error('fyp_busy', 'Read the original order again.', ['status'=>409]);
+    }
+    try {
+        $prior = receipt($ref);
+        if (is_wp_error($prior)) return $prior;
+        if (!$prior['found'] || !$prior['guest'] || $prior['gateway'] !== 'stripe_cc'
+            || !is_array($expected) || ($expected['order'] ?? null) !== $prior['order_id']
+            || ($expected['amount_minor'] ?? null) !== $prior['terms']['total_minor']
+            || $prior['terms']['currency'] !== 'HKD') {
+            return new \WP_Error('fyp_order_mismatch', 'The reviewed test order does not match.', ['status'=>409]);
+        }
+        if ($prior['buyer_cancel_requested']) return $prior;
+        if (!$prior['can_cancel']) {
+            return new \WP_Error('fyp_cancel_unavailable', 'This order cannot be cancelled before dispatch.', ['status'=>409]);
+        }
+        $order = wc_get_order($prior['order_id']);
+        // Record the buyer's request before the gateway call. Retries can only
+        // read its outcome, including after a connection or worker failure.
+        $order->update_meta_data('_fyp_buyer_cancel', 'yes');
+        add_filter('pre_wp_mail', '__return_true', PHP_INT_MAX);
+        $order->set_status('on-hold', 'FYP test buyer requested cancellation before dispatch.');
+        $order->save();
+        $items = [];
+        foreach ($order->get_items(['line_item','shipping','fee']) as $id => $item) {
+            $items[$id] = [
+                'qty' => $item instanceof \WC_Order_Item_Product ? $item->get_quantity() : 0,
+                'refund_total' => $item->get_total(),
+                'refund_tax' => $item->get_taxes()['total'] ?? [],
+            ];
+        }
+        $refund = wc_create_refund([
+            'order_id' => $order->get_id(), 'amount' => $order->get_total(),
+            'reason' => 'FYP sandbox buyer cancellation before dispatch', 'refund_payment' => true,
+            'restock_items' => true, 'line_items' => $items,
+        ]);
+        if (is_wp_error($refund)) {
+            return new \WP_Error('fyp_refund_unconfirmed', 'Read the original order and payment.', ['status'=>409]);
+        }
+        return receipt($ref);
+    } finally {
+        remove_filter('pre_wp_mail', '__return_true', PHP_INT_MAX);
+        $wpdb->get_var($wpdb->prepare('SELECT RELEASE_LOCK(%s)', $lock));
+    }
+}
+
 add_action('rest_api_init', static function () {
     $auth = __NAMESPACE__ . '\\permission';
+    register_rest_route('fyp-alice/v1', '/orders/(?P<ref>[a-f0-9]{32})/cancel',
+        ['methods'=>'POST','permission_callback'=>$auth,'callback'=>__NAMESPACE__ . '\\cancel_paid_order']);
     register_rest_route('fyp-alice/v1', '/store', ['methods'=>'GET','permission_callback'=>$auth,
         'callback'=>static fn() => ['test_mode'=>true,'gateway'=>'stripe_cc','currency'=>'HKD',
             'publishable_fingerprint'=>hash('sha256', wc_stripe_get_publishable_key())]]);

@@ -270,3 +270,121 @@ def test_explicit_forget_severs_recovery_and_receipt_visibility(desk):
     assert status(c, chat) == []
     assert send(c, "late", "确认", chat, initial["flight_booking"]).status_code == 404
     assert [path for _, path, _ in s.calls] == ["search"]
+
+
+@pytest.mark.parametrize("outcome", ["stopped", "too_late", "with_a_person", "lost_ack"])
+def test_stop_matches_the_original_supplier_outcome(desk, monkeypatch, outcome):
+    r, c, api = desk
+    quote = send(c, "q-stop", "帮我订测试航班").json()
+    chat = quote["conversation_id"]
+    first = send(c, "approve-stop", "确认", chat, quote["flight_booking"]).json()["flight_booking"]
+    provider = r.flight_bookings.provider
+    old_status = provider.status
+    calls = []
+
+    def stop(ident):
+        calls.append(ident)
+        if outcome == "lost_ack":
+            from desk.store import DomainError
+
+            raise DomainError("FLIGHT_PROVIDER_UNAVAILABLE", 503)
+        return {"sandbox": True, "booking_id": ident, "status": outcome}
+
+    def status_read(ident):
+        record = old_status(ident)
+        record.pop("question", None)
+        if not calls:
+            return record
+        if outcome in {"stopped", "lost_ack"}:
+            record.update(
+                state="failed",
+                terminal=True,
+                message="The hold was released",
+                failure_reason="the customer stopped the booking before anything was paid",
+            )
+        elif outcome == "too_late":
+            record.update(state="completed", terminal=True, pnr="TEST42", charged_amount=34)
+        else:
+            record.update(state="needs_attention", terminal=True, manual_booking=True)
+        return record
+
+    monkeypatch.setattr(provider, "status", status_read)
+    monkeypatch.setattr(provider, "stop", stop)
+    result = send(c, "stop", "停止这次订票", chat, first).json()
+    row = result["flight_booking"]
+    assert len(calls) == 1
+    if outcome in {"stopped", "lost_ack"}:
+        assert (
+            row["state"] == "stopped"
+            and row["released"]
+            and not row["pnr"]
+            and row["charged_minor"] is None
+        )
+    elif outcome == "too_late":
+        assert (
+            row["state"] == "completed"
+            and row["charged_minor"] == 3400
+            and "尚无退款回执" in result["message"]
+        )
+    else:
+        assert row["state"] == "manual" and not row["released"]
+    follow = send(c, "read-stop", "查回这张机票的取消结果", chat).json()
+    assert follow["flight_booking"]["state"] == row["state"] and len(calls) == 1
+    assert sum(path == "book" for _, path, _ in api.calls) == 1
+
+
+def test_missing_flight_offers_only_eligible_choices_and_waits_for_a_new_selection(desk):
+    from desk.flight_booking.provider import FlightQuery
+    from desk.store import DomainError
+
+    runtime, client, sandbox = desk
+    session = install_session_protocol(runtime)
+    arguments = {
+        "origin": "HKG",
+        "destination": "HND",
+        "departure": sandbox.day,
+        "flight_number": "XX9999",
+        "max_hkd": 34,
+        "nonstop": True,
+    }
+    session.next_calls = [("sandbox_flight_quote", arguments)]
+    response = send(client, "no-such-flight", "请订 XX9999 测试机票，最高 HK$34。").json()
+    assert response["kind"] == "clarify" and response["saved"] is False
+    assert "FR4315" in response["message"] and "HK$34.00" in response["message"]
+    assert "没有订位或扣款" in response["message"]
+    assert status(client, response["conversation_id"]) == []
+    assert [path for _, path, _ in sandbox.calls] == ["search"]
+    assert "offer_id" not in json.dumps(response["flight_alternatives"])
+    # A price ceiling below every offer must never produce an over-budget alternative.
+    with pytest.raises(DomainError) as err:
+        runtime.flight_bookings.provider.quote(
+            FlightQuery.model_validate(arguments | {"max_hkd": 25}), date.today()
+        )
+    assert err.value.code == "FLIGHT_NO_MATCH"
+    session.next_calls = [("sandbox_flight_quote", arguments | {"flight_number": "FR4315"})]
+    selected = send(
+        client, "take-alternative", "选 FR4315，请先核价", response["conversation_id"]
+    ).json()
+    assert (
+        selected["flight_booking"]["state"] == "quoted"
+        and selected["flight_booking"]["approved_minor"] is None
+    )
+    assert not any(path == "book" for _, path, _ in sandbox.calls)
+
+
+def test_unverified_reread_masks_previous_booking_and_charge():
+    from desk.flight_booking.service import public
+
+    record = {
+        "quote": {"segments": [], "adults": 1, "currency": "HKD", "total_minor": 5200},
+        "id": "f" * 32,
+        "version": 5,
+        "state": "unverified",
+        "question": None,
+        "approved": 5200,
+        "pnr": "TEST42",
+        "capture": 5200,
+        "released": True,
+    }
+    masked = public(record)
+    assert masked["pnr"] is None and masked["charged_minor"] is None and not masked["released"]

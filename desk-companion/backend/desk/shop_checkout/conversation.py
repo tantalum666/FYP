@@ -3,7 +3,7 @@
 import re
 import unicodedata
 
-from ..commerce_review import ReviewDecision
+from ..commerce_review import ReviewDecision, language_for
 from ..store import DomainError
 from .provider import ShopQuery
 
@@ -18,10 +18,6 @@ TOOL = {
     ),
     "parameters": ShopQuery.model_json_schema(),
 }
-
-
-def language_for(message, language):
-    return "zh" if language == "zh" or re.search(r"[\u3400-\u9fff]", message) else "en"
 
 
 def price(n):
@@ -45,6 +41,24 @@ def describe(row, language):
             if zh
             else f"The shop updated checkout from {price(old['total_minor'])} to {price(t['total_minor'])}, including delivery of {price(t['shipping_minor'])}. No payment yet. Accept the new quote?"
         )
+    receipt = row.get("receipt") or {}
+    if row["state"] == "refunded":
+        label = (
+            ("买家撤单已受理" if zh else "Buyer cancellation accepted")
+            if receipt.get("buyer_cancel_requested")
+            else ("商户已退款" if zh else "Merchant refund verified")
+        )
+        return (
+            f"WooCommerce 订单 #{receipt['order']}，{label}。Stripe 原模拟扣款 {price(receipt['charged_minor'])}，已全额退回 {price(receipt['refunded_minor'])}，净扣款 {price(receipt['net_minor'])}。"
+            if zh
+            else f"WooCommerce order #{receipt['order']}. {label}. Stripe captured {price(receipt['charged_minor'])}, refunded {price(receipt['refunded_minor'])}, net {price(receipt['net_minor'])}."
+        )
+    if row["state"] == "completed" and row.get("cancel_unavailable"):
+        return (
+            f"商户未接受订单 #{receipt['order']} 的发货前撤单。已核实原模拟扣款 {price(receipt['charged_minor'])}。"
+            if zh
+            else f"The merchant could not accept pre-dispatch cancellation of order #{receipt['order']}. Verified test capture {price(receipt['charged_minor'])}."
+        )
     if row["state"] == "completed":
         receipt = row["receipt"]
         return (
@@ -53,6 +67,18 @@ def describe(row, language):
             else f"WooCommerce order #{receipt['order']} and Stripe match. Captured test payment {price(receipt['charged_minor'])}. Real charge HK$0."
         )
     messages = {
+        "refund_pending": (
+            "正在查回商户撤单和原付款的退款结果。",
+            "Checking the merchant cancellation and the refund on the original payment.",
+        ),
+        "refund_retry": (
+            "商户尚未确认收到撤单请求。可以对原订单再次请求撤单。",
+            "The merchant has not recorded the cancellation. Retry on the original order.",
+        ),
+        "refund_review": (
+            "退款需要商户核查，目前没有已完成的全额退款回执。",
+            "The refund needs merchant review. A completed full refund has not been verified.",
+        ),
         "cancelled": ("已取消，没有付款。", "Cancelled without payment."),
         "expired": ("报价已过期，请重新查询。", "Quote expired. Request a fresh quote."),
         "checking": (

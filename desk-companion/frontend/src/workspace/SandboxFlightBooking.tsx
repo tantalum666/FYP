@@ -27,6 +27,7 @@ export interface SandboxFlight {
   charged_minor: number | null;
   pnr: string | null;
   released: boolean;
+  stop_status?: string | null;
 }
 export function SandboxFlightCard({
   flight,
@@ -175,6 +176,69 @@ export function SandboxFlightCard({
             "报价已过期，请重新查价。",
           )}
         </p>
+      )}
+      {((["processing", "answering"].includes(flight.state) &&
+        !flight.stop_status) ||
+        (flight.state === "stopping" &&
+          ["requested", "unconfirmed"].includes(flight.stop_status ?? ""))) && (
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() =>
+            onDecision(
+              t("Stop this flight booking", "停止这次订票"),
+              reviewRef(flight, "flight"),
+            )
+          }
+        >
+          {t("Stop this booking", "停止这次订票")}
+        </button>
+      )}
+      {flight.state === "stopping" && (
+        <p role="status">
+          {t(
+            "Stop requested. Checking the original hold and payment…",
+            "已请求停止，正在核实原订单的预授权和扣款。",
+          )}
+        </p>
+      )}
+      {flight.state === "stopped" && (
+        <p role="status">
+          {t(
+            "Stopped · Hold released · Test charge HK$0.00",
+            "订票已停止 · 预授权已释放 · 模拟扣款 HK$0.00",
+          )}
+        </p>
+      )}
+      {flight.state === "manual" && (
+        <p role="status">
+          {t(
+            "The supplier is checking this booking. Check the original order.",
+            "供应商正在人工核查，请查询原订单。",
+          )}
+        </p>
+      )}
+      {flight.stop_status === "too_late" && (
+        <p role="status">
+          {t(
+            "The stop window has passed. A refund depends on the seller’s fare rules.",
+            "已过停止窗口。退票须另查卖家票规。",
+          )}
+        </p>
+      )}
+      {["completed", "stopped", "failed", "manual"].includes(flight.state) && (
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() =>
+            onDecision(
+              t("Check my flight hold", "查回这张机票的取消结果"),
+              reviewRef(flight, "flight"),
+            )
+          }
+        >
+          {t("Check original booking", "查原订座和扣款")}
+        </button>
       )}
       {flight.state === "cancelled" && (
         <p>{t("Quote cancelled", "报价已取消")}</p>

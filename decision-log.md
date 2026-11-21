@@ -965,3 +965,7 @@ The owner rejected a normal home stance that held the arms roughly twenty to thi
 ## 2026-11-21 Refine Alice’s expressions and features
 
 The owner asked for more facial variety, a more visible nose and mouth and a small increase in chest fullness while keeping the overall body shape. Group 2 keeps the licensed uniform and uses its existing lip, brow and eyelid shapes. The same ordinary Session supplies the three new social cues. The renderer also varies listening, thought, the playful wink and the victory pose. The localized garment shape tapers before the sleeve contact region. Check both the default home framing and a matched clothed profile. [Release acceptance](output/qa/2026-11-21-alice-face-fit/verification.md).
+
+## 2026-11-21 Continue shopping and flight booking through cancellation
+
+The owner asked to advance both journeys. Group 2 extended the existing WooCommerce and LetsFG sandboxes through their distinct cancellation outcomes. In ordinary chat, a buyer’s paid shop cancellation must reconcile the original capture, complete refund and net. For flights, verify a released hold separately from a refund after ticketing. If an exact flight is absent, use eligible alternatives from the same search and obtain a fresh selection before approval. The existing official Session quote tools retain their scope. [Native and provider evidence](output/qa/2026-11-21-commerce-aftercare/verification.md).

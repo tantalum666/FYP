@@ -25,9 +25,10 @@ def public(row):
         "review_minor": row["question"]["new"] if row["question"] else quote["total_minor"],
         "review_deadline_ms": row["question"]["expires"] if row["question"] else None,
         "previous_minor": row["question"]["old"] if row["question"] else None,
-        "pnr": row.get("pnr"),
-        "charged_minor": row.get("capture"),
-        "released": row.get("released", False),
+        "pnr": row.get("pnr") if row["state"] == "completed" else None,
+        "charged_minor": row.get("capture") if row["state"] == "completed" else None,
+        "released": row["state"] in {"failed", "stopped"} and row.get("released", False),
+        "stop_status": row.get("stop_status"),
     }
 
 
@@ -42,6 +43,8 @@ class FlightBookings(ChatReviews):
             raise DomainError("FLIGHT_SANDBOX_DISABLED", 403)
         when = self.store.clock().astimezone(ZoneInfo("Asia/Hong_Kong")).date()
         quote = self.provider.quote(query, when)
+        if "alternatives" in quote:
+            return {"flight_alternatives": quote, "saved": False}
         quote["scenario"] = "price_change" if query.rehearse_price_change else "success"
         return {"sandbox_quote": quote, "saved": False}
 
@@ -69,7 +72,7 @@ class FlightBookings(ChatReviews):
                 self._save(row)
             elif (
                 row["remote"]
-                and row["state"] in {"processing", "reprice", "answering"}
+                and row["state"] in {"processing", "reprice", "answering", "stopping"}
                 and row["next_read"] <= now.timestamp()
             ):
                 self._refresh(row)
@@ -96,6 +99,10 @@ class FlightBookings(ChatReviews):
         if record.get("currency") != "HKD" or record.get("card_last4") != "4242":
             raise DomainError("FLIGHT_RECEIPT_MISMATCH", 502)
         state = record.get("state")
+        if state == "needs_attention" and type(record.get("manual_booking")) is bool:
+            row["question"] = None
+            self._state(row, "manual")
+            return
         if record.get("terminal") is True:
             ref = record.get("pnr")
             if (
@@ -112,7 +119,12 @@ class FlightBookings(ChatReviews):
                     released="hold was released" in str(record.get("message", "")).lower(),
                     question=None,
                 )
-                self._state(row, "failed")
+                was_stopped = (
+                    row.get("stop_status") in {"stopped", "stopping", "requested", "unconfirmed"}
+                    and row["released"]
+                    and "stop" in str(record.get("failure_reason", "")).lower()
+                )
+                self._state(row, "stopped" if was_stopped else "failed")
             else:
                 self._state(row, "unverified")
             return
@@ -123,6 +135,16 @@ class FlightBookings(ChatReviews):
             "awaiting_settlement",
         }:
             self._state(row, "unverified")
+            return
+        if row.get("stop_status") in {
+            "requested",
+            "stopping",
+            "stopped",
+            "unconfirmed",
+            "with_a_person",
+        }:
+            row["question"] = None
+            self._state(row, "stopping" if row["stop_status"] != "with_a_person" else "manual")
             return
         question = record.get("question")
         if not question:
@@ -158,6 +180,52 @@ class FlightBookings(ChatReviews):
             row["version"] += 1
         row["question"] = pending
         self._state(row, "reprice")
+
+    def reopen(self, ident, principal, chat):
+        owner = self.owner(principal)
+        with self.lock:
+            row = self._get(ident, owner, chat)
+            if row.get("remote"):
+                self._refresh(row, required=True)
+            return public(row)
+
+    def cancel(self, ref, principal, chat):
+        owner = self.owner(principal)
+        with self.lock:
+            row = self._get(ref.id, owner, chat)
+            if not row.get("remote"):
+                raise DomainError("FLIGHT_REVIEW_CHANGED", 409)
+            if ref.version != row["version"] or ref.amount_minor != public(row)["review_minor"]:
+                if not row.get("stop_status"):
+                    raise DomainError("FLIGHT_REVIEW_CHANGED", 409)
+                return self.reopen(ref.id, principal, chat)
+            self._refresh(row, required=True)
+            if row["state"] == "completed":
+                row["stop_status"] = "too_late"
+                self._save(row)
+                return public(row)
+            if row["state"] in {"failed", "stopped", "unverified"}:
+                return public(row)
+            if row.get("stop_status") not in {None, "unconfirmed", "requested"}:
+                return public(row)
+            row.update(stop_status="requested", next_read=0, question=None)
+            self._state(row, "stopping")
+            self._save(row)
+            try:
+                answer = self.provider.stop(row["remote"])
+                if (
+                    answer.get("sandbox") is not True
+                    or answer.get("booking_id", row["remote"]) != row["remote"]
+                    or answer.get("status")
+                    not in {"stopped", "stopping", "too_late", "with_a_person", "already_ended"}
+                ):
+                    raise DomainError("FLIGHT_RECEIPT_MISMATCH", 502)
+                row["stop_status"] = answer["status"]
+            except DomainError:
+                row["stop_status"] = "unconfirmed"
+            self._save(row)
+            self._refresh(row)
+            return public(row)
 
     def decide(self, review, principal, chat):
         owner = self.owner(principal)
