@@ -49,6 +49,29 @@ _COMMANDS = (
 )
 
 
+def _named_receipt(text):
+    """Use a public order number or flight number; provider lookup IDs stay private."""
+    shop = re.fullmatch(
+        r"(?:查回|查看|查询)购物订单\s*#?(\d{1,12})\s*的?退款(?:结果|状态|金额)|(?:check|show) (?:shopping|shop) order #?(\d{1,12}) refund",
+        text.rstrip("?？"),
+    )
+    if shop:
+        return "shop", int(shop[1] or shop[2])
+    flight = re.fullmatch(
+        r"(?:查回|查看|查询)航班\s*([a-z0-9]{2}\d{1,4}[a-z]?)\s*的?取消(?:结果|状态)|(?:check|show) flight ([a-z0-9]{2}\d{1,4}[a-z]?) cancellation",
+        text.rstrip("?？"),
+    )
+    if flight:
+        return "flight", (flight[1] or flight[2]).upper()
+    return None
+
+
+def _matches_target(row, kind, target):
+    if kind == "shop":
+        return (row.get("receipt") or {}).get("order") == target
+    return any(leg["flight"] == target for leg in row["segments"])
+
+
 def turn(runtime, payload, principal, chat):
     if (
         not chat
@@ -72,6 +95,9 @@ def turn(runtime, payload, principal, chat):
         ),
         None,
     )
+    named = _named_receipt(text)
+    if named:
+        match = (named[0], "read")
     if not match or not runtime.personal_context.visible(principal):
         return None
     kind, action = match
@@ -109,13 +135,25 @@ def turn(runtime, payload, principal, chat):
         return None
     ref = payload.shopping_review if shop else payload.flight_review
     other = payload.flight_review if shop else payload.shopping_review
-    if ref is None:
+    owner = service.owner(principal)
+    # Typing selects the sole visible price review in the composer. That price
+    # shortcut cannot authorize post-payment action on one of several orders.
+    card_selected = getattr(payload, "selected_commerce_card", False)
+    if other and card_selected:
+        return choose_order
+    if ref:
+        service.read(ref.id, owner, chat.id)
+    if named or not (card_selected and ref):
         rows = service.listing(principal, chat.id)
-        if other or len(rows) != 1:
+        if named:
+            rows = [row for row in rows if _matches_target(row, kind, named[1])]
+        if len(rows) != 1:
             return choose_order
         only = rows[0]
-        ref = ReviewRef(id=only["id"], version=only["version"], amount_minor=only["review_minor"])
-    owner = service.owner(principal)
+        if not ref or ref.id != only["id"]:
+            ref = ReviewRef(
+                id=only["id"], version=only["version"], amount_minor=only["review_minor"]
+            )
     current = service.read(ref.id, owner, chat.id)
     if action == "eligibility":
         row = service.reopen(ref.id, principal, chat.id)

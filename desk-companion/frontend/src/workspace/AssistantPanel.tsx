@@ -712,6 +712,7 @@ export function AssistantPanel({
       if (uploaded.references.length) fileContext.current = true;
       const body = {
         message: submitted,
+        ...(choice?.review ? {selected_commerce_card: true} : {}),
         ...(review ? {[review.kind==="shop" ? "shopping_review" : "flight_review"]:{id:review.id,version:review.version,amount_minor:review.amount_minor}} : {}),
         language,
         task_id: taskId ?? null,

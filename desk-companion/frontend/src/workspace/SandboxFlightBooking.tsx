@@ -226,6 +226,20 @@ export function SandboxFlightCard({
           )}
         </p>
       )}
+      {["completed", "stopped", "failed", "manual"].includes(flight.state) && (
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() =>
+            onDecision(
+              t("Check my flight hold", "查回这张机票的取消结果"),
+              reviewRef(flight, "flight"),
+            )
+          }
+        >
+          {t("Check original booking", "查原订座和扣款")}
+        </button>
+      )}
       {flight.state === "cancelled" && (
         <p>{t("Quote cancelled", "报价已取消")}</p>
       )}

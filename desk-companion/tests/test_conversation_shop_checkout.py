@@ -402,3 +402,72 @@ def test_asking_about_or_quoting_a_cancellation_never_refunds(desk, monkeypatch)
             is None
         )
     assert not calls
+
+
+def test_inferred_price_ref_cannot_cancel_another_order_in_the_same_chat(desk, monkeypatch):
+    from desk.assistant import AssistantMessage
+    from desk.store import encode
+    from copy import deepcopy
+    from datetime import timedelta
+    from desk.calendar import iso
+
+    client, runtime, shop = desk
+    first = send(client, "multi-quote", "买两包文具").json()
+    chat = first["conversation_id"]
+    paid = send(client, "multi-pay", "确认支付", chat, first["shopping_order"]).json()[
+        "shopping_order"
+    ]
+    shop.orders[paid["id"]]["can_cancel"] = True
+    # Recreate a second previously saved, unapproved quote from this chat.
+    with runtime.store.connection(write=True) as db:
+        record = db.execute(
+            "select owner,data from sandbox_shop_orders where id=?", (paid["id"],)
+        ).fetchone()
+        second = deepcopy(json.loads(record["data"]))
+        second.update(
+            id="e" * 32,
+            state="quoted",
+            version=1,
+            expires=iso(runtime.store.clock() + timedelta(minutes=5)),
+        )
+        second.pop("receipt")
+        second.pop("last_review")
+        db.execute(
+            "insert into sandbox_shop_orders(id,owner,chat,data) values(?,?,?,?)",
+            (second["id"], record["owner"], chat, encode(second)),
+        )
+    inferred = {"id": second["id"], "version": 1, "review_minor": 4200}
+    ambiguous = send(client, "multi-generic", "取消这笔购物订单并全额退款", chat, inferred).json()
+    assert ambiguous["kind"] == "clarify"
+    named = send(client, "multi-read", "查回购物订单 #20 的退款结果", chat, inferred).json()
+    assert (
+        named["shopping_order"]["id"] == paid["id"]
+        and named["shopping_order"]["state"] == "completed"
+    )
+    calls = []
+
+    def cancel(ref, prior):
+        calls.append(ref)
+        shop.orders[ref].update(
+            buyer_cancel_requested=True,
+            can_cancel=False,
+            refund_status="succeeded",
+            refunded_minor=4200,
+            net_minor=0,
+        )
+
+    monkeypatch.setattr(shop, "cancel", cancel, raising=False)
+    decision = {
+        "message": "取消这笔购物订单并全额退款",
+        "conversation_id": chat,
+        "language": "zh",
+        "selected_commerce_card": True,
+        "shopping_review": {"id": paid["id"], "version": paid["version"], "amount_minor": 4200},
+    }
+    selected = client.post(
+        "/api/assistant/messages",
+        json=decision,
+        headers={"X-Desk-Request": "1", "X-Operation-Id": "multi-card"},
+    ).json()
+    assert selected["shopping_order"]["state"] == "refunded" and calls == [paid["id"]]
+    assert "selected_commerce_card" not in AssistantMessage(message="old request").model_dump()

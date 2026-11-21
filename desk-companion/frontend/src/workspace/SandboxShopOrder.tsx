@@ -214,6 +214,20 @@ export function SandboxShopCard({
             {hkd(order.receipt.net_minor)}
           </p>
         )}
+      {["completed", "refunded", "refund_review"].includes(order.state) && (
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() =>
+            onDecision(
+              t("Check my shopping refund", "查回这笔购物订单的退款结果"),
+              reviewRef(order, "shop"),
+            )
+          }
+        >
+          {t("Check original payment", "查原付款和退款")}
+        </button>
+      )}
       {order.state === "cancelled" && (
         <p>{t("Cancelled without payment", "已取消，未付款")}</p>
       )}
