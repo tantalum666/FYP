@@ -969,3 +969,7 @@ The owner asked for more facial variety, a more visible nose and mouth and a sma
 ## 2026-11-21 Continue shopping and flight booking through cancellation
 
 The owner asked to advance both journeys. Group 2 extended the existing WooCommerce and LetsFG sandboxes through their distinct cancellation outcomes. In ordinary chat, a buyer’s paid shop cancellation must reconcile the original capture, complete refund and net. For flights, verify a released hold separately from a refund after ticketing. If an exact flight is absent, use eligible alternatives from the same search and obtain a fresh selection before approval. The existing official Session quote tools retain their scope. [Native and provider evidence](output/qa/2026-11-21-commerce-aftercare/verification.md).
+
+## 2026-11-21 Reduce default order text and continue already-approved work
+
+The owner found the repeated on-screen text confusing and requested further personal-agent progress. Group 2 keeps the current order or decision in one place, folds older results and will preserve exact amounts before consent. Continue active orders by checking their original provider records in the desk worker. The authorized chat receives a short verified change. The provider readers cannot pay, retry a purchase, accept a new price, or send a message to a third party from this worker. [Evidence](output/qa/2026-11-21-quiet-order-followup/verification.md).

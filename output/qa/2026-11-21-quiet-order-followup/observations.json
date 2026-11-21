@@ -1,0 +1,83 @@
+{
+  "deployed_source": "c185d69ea6e13b4b6f120da1c235d71cf3a4f0c0",
+  "baseline": "2f59ff63f5fded77ab7c0bbef3c487c9eb563b88",
+  "device": "iPhone 17 Pro Simulator / iOS 26.5",
+  "home_viewport_css_px": [
+    402,
+    874
+  ],
+  "old_receipt_visible_characters": 267,
+  "new_receipt_visible_characters": 24,
+  "new_receipt": "#21 · Refunded HK$12.00",
+  "previous_cards_visible_below_flight_choices": {
+    "before": 1,
+    "after": 0
+  },
+  "new_flight_choice_count": 3,
+  "flight_selected": "AF3258",
+  "refreshed_test_price_minor_hkd": 5500,
+  "selection_is_unapproved": true,
+  "background": {
+    "seconds": 11.04,
+    "simulator_foreground": "com.apple.Preferences",
+    "provider_writes": [
+      "shop.checkout",
+      "shop.cancel"
+    ],
+    "refund_observed_in_database_before_return": true,
+    "successful_client_receipt_reads_while_away": 0,
+    "worker_received_final_refund": true
+  },
+  "web": {
+    "home": true,
+    "visible_choices": 3,
+    "visible_previous_cards": 0,
+    "keyboard_details": true,
+    "archived_receipt": true,
+    "draft_kept": true,
+    "selected_quote": "AF3258 HK$55.00",
+    "submitted": false,
+    "page_errors": []
+  },
+  "normal_home_connected": true,
+  "provider_environment": "isolated, scripted Woo, Stripe, LetsFG and OpenAI Session transport",
+  "new_live_orders": 0,
+  "new_paid_model_requests": 0,
+  "release": {
+    "verified_release_files": 562,
+    "database_backup_verified": true,
+    "schema": 3,
+    "A3_unchanged": true,
+    "voice_version": 9,
+    "app_accounts_unchanged": true
+  },
+  "pi_staged": true,
+  "screens": {
+    "before-receipt": "4b52b5d143d40e629b62feeb8281e264ee09af8dea92a0b25949651d198af63c",
+    "after-receipt-home": "4315a7aa274b5f12fccff10a1052d0975d293bf83d24131693d448398800cb7d",
+    "after-receipt": "130a43e6457256f52c36990db2b32318d1ce0f138a8f7b2915d5ec54e7583339",
+    "before-options-screen": "26f4ba15eeb57673d311255cbba2f3ff9027e1eda7a6fcc2a36bef46939813e1",
+    "after-options-screen": "6af8978e0ca30ead95b5de894efc317910111a65d3b72ae19630b84576ae409f",
+    "after-zh-current": "b24c4bdd7953541ed9a31f5e2e53652f0e9b586c983e15b629ce273c5bf0ea91"
+  },
+  "normal_workspace_model_usage_rows_added_during_release": 0,
+  "final_desktop_concurrent_fare_and_refund": {
+    "focus_preserved_on_original_price_button": true,
+    "draft_preserved": true,
+    "visible_financial_cards": 1,
+    "passive_refund_messages": 1,
+    "generated_selection_label": "Select AF3258",
+    "provider_writes": 0,
+    "page_errors": [],
+    "source": "Browser assertions completed before the operator log filename mismatch. Financial tail independently verified using the actual run log and SQLite."
+  },
+  "focused_unit_cases": {
+    "backend": 11,
+    "frontend": 5
+  },
+  "native_chinese_selection": {
+    "label": "选 AF3258",
+    "amount_minor": 5500,
+    "approved": false
+  }
+}

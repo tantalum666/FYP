@@ -1,5 +1,7 @@
 # Group 2｜个人 Agent 研究总入口与实现对照
 
+**11 月 21 日订单跟进**　用户离开对话时，桌面端可继续核实已批准的购物或订票。结果回到原对话，改价仍等用户确认。首页只显示一行，旧订单和明细按需展开。[核验与模拟器对比](../output/qa/2026-11-21-quiet-order-followup/verification.md)。
+
 **11 月 21 日购物及订票撤单**　Alice 的普通对话已核实测试纸巾单 #21 的 HK$12 全退和 LetsFG 航班预授权 HK$52 的释放。指定航班无票时会展示符合原条件的选择并等待重新核价。eBay 的市场买卖双方流程仍等原账号复核。[模拟器及商户回执](../output/qa/2026-11-21-commerce-aftercare/verification.md)。
 
 **11 月 20 日 Link 长期测试额度**　FYP 的 180 天、每月 US$500 沙盒授权仍有效，单笔上限为 US$10。Link 接口给纸巾单返回的号码与官方 CLI 文档的完整测试示例逐位相同，两者都不通过 Luhn 校验。Stripe 回查同单没有扣款。本地刷新权限解析已修复。[独立定位与公开复现](../output/qa/2026-11-20-link-wallet-diagnosis/verification.md) · [原额度及商户回执](../output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md#approved-recurring-test-allowance)。

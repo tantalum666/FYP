@@ -1120,3 +1120,7 @@ Released source `c8aa1982` to Mac Web and the iPhone 17 Pro Simulator. Added sev
 ## 2026-11-21 · Buyer-initiated cancellation and flight alternatives
 
 From the installed Simulator, bought one HK$4 test pack of pocket tissues with HK$8 delivery, requested pre-dispatch cancellation in chat and matched Woo order #21 to one successful HK$12 Stripe refund. The HK$52 LetsFG booking for AF2979 was stopped with its hold released and no capture or reservation. Repaired an observed no-match dead end, then verified three eligible choices with zero additional orders. Both original outcomes were readable after a Mac restart. No new eBay review decision appeared. The Mac backend overlay and Web/Simulator frontend are `2f59ff63`. The Pi delta is retained. [Receipts and local accounting](output/qa/2026-11-21-commerce-aftercare/verification.md) · [Draft PR 140](https://github.com/tantalum666/FYP/pull/140).
+
+## 2026-11-21 · Quiet commerce turns and background follow-up
+
+Removed duplicate body/card presentation and the permanent stack of old orders in the normal home and conversation. Turned unavailable-flight alternatives into selectable re-quote rows and preserved the active fare when another order finishes. Added due receipt reconciliation through the existing desk scheduler and provider readers. The Mac Web and installed iPhone 17 Pro Simulator run `c185d69e`. [Local evidence and native comparisons](output/qa/2026-11-21-quiet-order-followup/verification.md) · [draft PR 141](https://github.com/tantalum666/FYP/pull/141).
