@@ -35,7 +35,7 @@ def read_asset(path):
 
 
 class Surface:
-    def __init__(self, triangles, positions, joints, weights, binding):
+    def __init__(self, triangles, positions, joints, weights, binding, fit=None):
         vertices, remap = np.unique(triangles.ravel(), return_inverse=True)
         self.indices = remap.reshape(-1, 3)
         self.faces = self.indices.tolist()
@@ -45,12 +45,24 @@ class Surface:
             np.einsum("nkij,nj->nki", binding[self.joints], local) * weights[vertices, :, None]
         )
 
-    def pose(self, matrices):
-        points = np.einsum("nkrj,nkj->nr", matrices[self.joints, :3, :], self.bound)
+        self.corrections = []
+        for delta in fit or []:
+            vector = np.column_stack((delta[vertices], np.zeros(len(vertices), dtype="f4")))
+            self.corrections.append(
+                np.einsum("nkij,nj->nki", binding[self.joints], vector) * weights[vertices, :, None]
+            )
+
+    def pose(self, matrices, contact=None):
+        bound = self.bound
+        if contact is not None:
+            for weight, correction in zip(contact, self.corrections):
+                if weight:
+                    bound = bound + weight * correction
+        points = np.einsum("nkrj,nkj->nr", matrices[self.joints, :3, :], bound)
         return points, points.min(0), points.max(0)
 
 
-def build_surfaces(source, accessor):
+def build_surfaces(source, accessor, uniform=None, digits=False):
     result = {}
     for node in (node for node in source["nodes"] if "mesh" in node):
         mesh = source["meshes"][node["mesh"]]
@@ -65,6 +77,18 @@ def build_surfaces(source, accessor):
         binding[skin["joints"]] = (
             accessor(skin["inverseBindMatrices"]).reshape(-1, 4, 4).transpose(0, 2, 1)
         )
+        fit = []
+        if uniform and node["name"] == "Body":
+            assert len(positions) == uniform["vertexCount"]
+            for side in ("left", "right"):
+                rows = np.asarray(uniform[side])
+                indices = rows[:, 0].astype(int)
+                delta = rows[:, 1:4] * 0.0001
+                t = rows[:, 4, None] / 255
+                for part in (t, 1 - t):
+                    attr = np.zeros((len(positions), 3), dtype="f4")
+                    attr[indices] = delta * part
+                    fit.append(attr)
         grouped = {}
         for primitive in mesh["primitives"]:
             material = source["materials"][primitive["material"]]["name"]
@@ -109,6 +133,15 @@ def build_surfaces(source, accessor):
                         add(side + "tips", faces[distal[faces].sum(1) >= 2])
                         terminal = distal & np.char.endswith(dominant, "3")
                         add(side + "distal", faces[terminal[faces].sum(1) >= 2])
+                        if digits:
+                            for digit in ("Thumb", "Index", "Middle", "Ring", "Little"):
+                                member = np.char.startswith(dominant, "J_Bip_" + side + "_" + digit)
+                                free = member & distal
+                                add(
+                                    side + digit,
+                                    faces[(member[faces].sum(1) >= 2) & free[faces].any(1)],
+                                )
+
                     else:
                         covered = (tags == side + "sleeve") | (tags == side + "hand")
                         add(side + "sleeve", faces[covered[faces].sum(1) >= 2])
@@ -117,11 +150,18 @@ def build_surfaces(source, accessor):
             elif "Accessory_Tie" in material or "Bottoms_" in material:
                 add("coat", faces)
         for name, parts in grouped.items():
-            result[name] = Surface(np.concatenate(parts), positions, joints, weights, binding)
+            result[name] = Surface(
+                np.concatenate(parts),
+                positions,
+                joints,
+                weights,
+                binding,
+                fit if name in ("coat", "Lsleeve", "Rsleeve") else None,
+            )
     return result
 
 
-def pair_list():
+def pair_list(digits=False):
     pairs = []
     for side, other in (("L", "R"), ("R", "L")):
         for source in (side + "hand", side + "sleeve"):
@@ -134,13 +174,20 @@ def pair_list():
                 (side + "distal", side + "sleeve"),
             ]
         )
+    if digits:
+        for side in ("L", "R"):
+            names = [side + n for n in ("Thumb", "Index", "Middle", "Ring", "Little")]
+            pairs.extend((a, b) for i, a in enumerate(names) for b in names[i + 1 :])
     return pairs + [("Lhand", "Rhand"), ("Lsleeve", "Rsleeve")]
 
 
-def scan(matrices, surfaces, pairs, stride):
+def scan(matrices, surfaces, pairs, stride, contact=None):
     hits = {}
     for frame in range(0, len(matrices), stride):
-        poses = {n: s.pose(matrices[frame]) for n, s in surfaces.items()}
+        poses = {
+            n: s.pose(matrices[frame], contact[frame] if contact is not None else None)
+            for n, s in surfaces.items()
+        }
         trees = {}
 
         def tree(name):
@@ -183,11 +230,21 @@ def main():
     parser.add_argument("--stride", type=int, default=1)
     parser.add_argument("--side", choices=["left", "right"])
     parser.add_argument("--names", nargs="+")
+    parser.add_argument(
+        "--digits",
+        action="store_true",
+        help="Check free portions of each digit against its neighbors.",
+    )
     parser.add_argument("--result", default="surfaces.json")
     options = parser.parse_args(sys.argv[sys.argv.index("--") + 1 :])
     asset = Path(__file__).resolve().parents[2] / "public/avatars/alice/alice-ready.vrm"
     source, accessor = read_asset(asset)
-    surfaces = build_surfaces(source, accessor)
+    surfaces = build_surfaces(
+        source,
+        accessor,
+        json.loads((asset.parents[3] / "src/companion/uniform-rest.json").read_text()),
+        digits=options.digits,
+    )
     output = {
         "stride": options.stride,
         "triangles": {k: len(v.faces) for k, v in surfaces.items()},
@@ -204,7 +261,9 @@ def main():
             .transpose(0, 1, 3, 2)
         )
         key = case["name"] + "/" + case["side"]
-        output["paths"][key] = scan(frames, surfaces, pair_list(), options.stride)
+        output["paths"][key] = scan(
+            frames, surfaces, pair_list(options.digits), options.stride, case.get("uniformContact")
+        )
         (options.samples / options.result).write_text(json.dumps(output, indent=2))
         print(key, flush=True)
 

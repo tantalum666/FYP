@@ -1,9 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { Vector3 } from "three";
-import { aliceMotion, MOTION_BONES } from "../src/companion/alice-motion.ts";
+import { aliceMotion } from "../src/companion/alice-motion.ts";
 import { palmNormal } from "../src/companion/hand-pose.ts";
-import { JointMotion } from "../src/companion/motion-response.ts";
 import {
   performances,
   type PerformanceName,
@@ -89,7 +88,7 @@ test("the moving fingertips stay inside the phone envelope throughout the lift a
   for (const side of ["left", "right"] as const) {
     for (const gesture of ["wave", "explain"] as const) {
       const rig = aliceRig();
-      const joints = MOTION_BONES.map((bone) => new JointMotion(bone));
+      const joints = rig.joints;
       for (let frame = 0; frame < 220; frame++) {
         const time = frame / 30;
         const motion = aliceMotion(time, {
@@ -114,7 +113,7 @@ test("expressive arms stay articulated and three oblique claps close and reopen"
   for (const name of Object.keys(performances) as PerformanceName[]) {
     for (const side of ["left", "right"] as const) {
       const rig = aliceRig(),
-        joints = MOTION_BONES.map((bone) => new JointMotion(bone));
+        joints = rig.joints;
       let contacts = 0,
         near = false;
       for (
@@ -183,16 +182,17 @@ test("expressive arms stay articulated and three oblique claps close and reopen"
           }
         }
         if (name === "applause" && age > 1) {
-          // This oblique clap meets along the finger pads. The two wrists
-          // and knuckle roots deliberately stay apart because of the cuffs.
+          // The striking middle-finger pad meets the receiving index pad.
+          // The two middle knuckles stay farther apart as the palms cup.
+          const support = side === "left" ? "right" : "left";
           const gap = rig
-            .position("leftMiddleIntermediate")
-            .distanceTo(rig.position("rightMiddleIntermediate"));
-          if (!near && gap < 0.06) {
+            .position(side + "MiddleDistal")
+            .distanceTo(rig.position(support + "IndexDistal"));
+          if (!near && gap < 0.035) {
             contacts++;
             near = true;
           }
-          if (gap > 0.12) near = false;
+          if (gap > 0.08) near = false;
         }
       }
       if (name === "applause") assert.equal(contacts, 3);

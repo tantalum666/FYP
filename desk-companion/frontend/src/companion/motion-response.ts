@@ -16,17 +16,19 @@ export class JointMotion {
   private readonly rate: number;
   private readonly handChain: boolean;
 
-  constructor(bone: MotionBone) {
+  constructor(bone: MotionBone, initial?: readonly number[]) {
     this.rate = bone.endsWith("Arm") ? 8 : 13;
     this.handChain = bone.endsWith("Arm") || bone.endsWith("Hand");
+    if (initial) {
+      this.readTarget(initial);
+      for (let i = 0; i < 3; i++) {
+        this.rotation[i] = this.targetVector[i];
+        this.angles[i] = initial[i];
+      }
+    }
   }
 
-  update(
-    target: readonly number[],
-    seconds: number,
-    trackingContact = false,
-    gesture: string | null = null,
-  ) {
+  private readTarget(target: readonly number[]) {
     // Euler triples can change by half a turn while describing the same pose.
     // Track a continuous rotation vector so that crossing that seam never
     // sends the elbow or palm on a detour through the body.
@@ -50,6 +52,16 @@ export class JointMotion {
     this.targetVector[0] = q.x * scale;
     this.targetVector[1] = q.y * scale;
     this.targetVector[2] = q.z * scale;
+  }
+
+  update(
+    target: readonly number[],
+    seconds: number,
+    trackingContact = false,
+    gesture: string | null = null,
+  ) {
+    this.readTarget(target);
+    const q = this.q;
     // Start the incoming score from the moving limb, including when a reply
     // interrupts a raised hand. Hair and sleeves then follow its recovery.
     if (this.priorGesture && gesture !== this.priorGesture) {

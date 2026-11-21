@@ -6,7 +6,8 @@ import {
   type VRMHumanBoneName,
 } from "@pixiv/three-vrm";
 import { aliceMotion, MOTION_BONES } from "../src/companion/alice-motion.ts";
-import { HandPose, relaxArms } from "../src/companion/hand-pose.ts";
+import { bindResidentRig } from "../src/companion/resident-rig.ts";
+import { UniformContact } from "../src/companion/uniform-contact.ts";
 import { JointMotion } from "../src/companion/motion-response.ts";
 
 export function aliceRig() {
@@ -51,21 +52,17 @@ export function aliceRig() {
   scene.add(humanoid.normalizedHumanBonesRoot);
   scene.rotation.y = Math.PI; // Same VRM0-facing correction as VrmViewer.
   scene.updateMatrixWorld(true);
-  relaxArms({ humanoid });
-  humanoid.update();
-  scene.updateMatrixWorld(true);
-  const hands = new HandPose({ humanoid });
+  const { bones: bindings, hands } = bindResidentRig(humanoid, scene);
   const rest = new Map(
-    MOTION_BONES.map((name) => [
-      name,
-      humanoid.getNormalizedBoneNode(name)!.quaternion.clone(),
-    ]),
+    MOTION_BONES.map((name) => [name, bindings.get(name)!.rest]),
   );
+  const contact = new UniformContact(humanoid);
   const position = (name: string) =>
     humanoid
       .getRawBoneNode(name as VRMHumanBoneName)!
       .getWorldPosition(new THREE.Vector3());
   const feet = ["leftFoot", "rightFoot"].map(position);
+  const joints = MOTION_BONES.map((bone) => bindings.get(bone)!.response);
   return {
     scene,
     humanoid,
@@ -73,6 +70,8 @@ export function aliceRig() {
     rest,
     position,
     feet,
+    joints,
+    contact,
     nodes: nodes as THREE.Object3D[],
     source,
   };

@@ -100,6 +100,10 @@ Reuse official execution infrastructure where it fits. Live supports Responses t
 
 The one newly authorized paid trial independently verified two public book prices, then deleted its session. Usage was absent: the entire US$1 remains reserved and this round is closed. No further paid request is authorized by the implementation or deployment.
 
+## 2026-11-21 Relaxed arms on the ordinary home
+
+At rest, Alice’s upper arms hang near vertical and her elbows remain softly bent. Both wrists settle beside the skirt. The timing of a gesture should be judged from the visible starting pose, the movement and its return. Shape the wide uniform around a lowered elbow and cuff. Fingers have a relaxed cascade, the palm cups on its little-finger side, and the thumb wraps around the outer index finger when gripping. Validate the front and side views on the normal home. [Native comparison and hand close-ups](output/qa/2026-11-21-alice-relaxed-stance/verification.md).
+
 ## 2026-11-21 Hand anatomy and everyday voice
 
 Rotation along the arm belongs to the forearm. Gratitude and laughter keep the palm turned toward Alice, with the free arm clear of the working sleeve. Rehearse both sides and interruptions, including the full lift and return. Review the skinned hand, face, coat, sleeves and moving hair. The native before/after film and the per-gesture audit distinguish exposed fingers, skin naturally covered by the cuff, and textile contacts. [Acceptance](output/qa/2026-11-21-alice-hands-live11/verification.md).

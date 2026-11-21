@@ -42,7 +42,7 @@ const loaded = await loader.parseAsync(JSON.stringify(skeleton), "");
 const springs = loaded.userData.vrmSpringBoneManager as VRMSpringBoneManager;
 if (!springs?.joints.size)
   throw new Error("The avatar spring rig was not loaded");
-if (process.argv.includes("--fit-sleeves")) fitAliceSleeves(springs);
+const updateSleeves=process.argv.includes("--fit-sleeves")? fitAliceSleeves(springs):undefined;
 const raw = (await Promise.all(
   nodes.map((_: unknown, i: number) => loaded.parser.getDependency("node", i)),
 )) as Object3D[];
@@ -85,6 +85,7 @@ for (const c of cases) {
       springs.setInitState();
       springs.reset();
     }
+    if(c.uniformContact)updateSleeves?.(c.uniformContact[f]);
     springs.update(1 / 30);
     loaded.scene.updateMatrixWorld(true);
     raw.forEach((n, i) => out.set(n.matrixWorld.elements, offset + i * 16));

@@ -1,4 +1,4 @@
-import { transferWristRoll } from "./arm-anatomy.ts";
+import { guideElbowForward, transferWristRoll } from "./arm-anatomy.ts";
 import { companionState, type CompanionState } from "./interaction.ts";
 import {
   GESTURE_SECONDS,
@@ -101,14 +101,18 @@ export function aliceMotion(
   ];
   pose.leftShoulder[2] = -0.016 * breath;
   pose.rightShoulder[2] = 0.012 * breath;
-  // The wrists rest a little in front of the skirt, at different depths.
-  // Counter-rotate the upper arms so the elbows stay close to the silhouette.
-  pose.leftUpperArm = [-0.1 + 0.018 * breath, 0, 0.055 + 0.018 * settle];
-  pose.rightUpperArm = [-0.065 - 0.015 * breath, 0, -0.035 + 0.014 * settle];
-  pose.leftLowerArm = [-0.035, -0.32, 0.04 - 0.025 * breath];
-  pose.rightLowerArm = [-0.025, 0.21, -0.04 + 0.02 * breath];
-  pose.leftHand[0] = 0.09;
-  pose.rightHand[0] = 0.06;
+  // Offsets from the gesture reference. At rest the upper arms hang about
+  // seven to eight degrees from vertical, with the palms facing the outer thighs.
+  pose.leftUpperArm = [0.417 + 0.004 * breath, 0.2319, 0.32 + 0.004 * settle];
+  pose.leftLowerArm = [0.125, -0.4139 + 0.008 * breath, -0.0064];
+  pose.leftHand = [0.0016, 0.2105, 0.0893];
+  pose.rightUpperArm = [
+    0.4048 - 0.004 * breath,
+    -0.2304,
+    -0.3025 + 0.004 * settle,
+  ];
+  pose.rightLowerArm = [0.1109, 0.4089 - 0.008 * breath, 0.0119];
+  pose.rightHand = [-0.0049, -0.2108, -0.1163];
 
   let smile = 0.025;
   if (state === "listening") {
@@ -258,6 +262,7 @@ export function aliceMotion(
       sign * (gesture === "wave" ? 0.33 : 0.12) * arc;
     pose[`${side}LowerArm`][1] += sign * 0.12 * arc;
     transferWristRoll(pose, side);
+    guideElbowForward(pose, side, arc * (gesture === "wave" ? 0.35 : 0.18));
   }
   const performance =
     gesture && isPerformance(gesture)

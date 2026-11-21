@@ -1,6 +1,14 @@
 # A1 3D presentation study
 
-## Current hands and uniform · 21 November 2026
+## Current relaxed home stance · 21 November 2026
+
+The owner found the previous everyday stance too wide. The broad reference used to author raised-arm rotations stays internal. The regular renderer starts in the visible resting pose. A returning hand settles alongside the thigh, and a low forward elbow position guides the greeting into its lift. In the matched native samples front upper-arm abduction fell from 22.9°/26.6° to 5.4°/7.9° (left/right). [Native still and film](../../output/qa/2026-11-21-alice-relaxed-stance/verification.md).
+
+`bindResidentRig` initializes the real viewer and the rig fixture identically. The original Alice VRM retains its bytes, textures and materials. Four sparse garment shapes conform the side of the jacket and skirt to each lowered elbow and cuff. Their influences follow the actual joint positions. A small contact-dependent allowance on the existing sleeve spheres keeps hair clear. The skirt offset is capped at 8 mm. The generated fit is bound to the shipped VRM digest and can be rebuilt with `scripts/avatar-audit/fit_uniform.py`.
+
+Each digit now has a resting, open and gripping pose. The index side opens first, the little-finger side closes first, and the ring and little knuckles form a shallow palm arch. Thumb opposition uses the model’s own thumb lengths and palm plane. It first clears the outer index finger, then comes across the folded fingers. The free parts of the digits were checked against one another on both hands, including rapid opening and closing.
+
+## Previous hands and uniform · 21 November 2026
 
 The palm now rolls with the forearm. Arm landmarks specify shoulder rotation, elbow bend and forearm roll, and two small wrist bends. Each joint tracks a continuous rotation vector across equivalent Euler representations. Interrupted scores ease from the moving limb. A wider relaxed elbow clears the uniform. Thanking uses one hand near the chest while the other hangs at the side. Laughing raises curved fingers beside the mouth. The clap is oblique, with the supporting palm and striking palm following separate paths.
 

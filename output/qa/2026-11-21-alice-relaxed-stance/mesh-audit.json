@@ -1,0 +1,1044 @@
+{
+  "hz": 30,
+  "geometry": "Original VRM skinning, hand bones, dynamic garment weights and 131 original spring joints",
+  "paths": [
+    {
+      "path": "idle/left",
+      "frames": 540,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 540,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 539
+        },
+        "Rtips/Rsleeve": {
+          "frames": 540,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 539
+        }
+      }
+    },
+    {
+      "path": "idle/right",
+      "frames": 540,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 540,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 539
+        },
+        "Rtips/Rsleeve": {
+          "frames": 540,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 539
+        }
+      }
+    },
+    {
+      "path": "hairTuck/left",
+      "frames": 233,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 233,
+          "max_pairs": 13,
+          "depth_mm": 7.25,
+          "worst_frame": 232
+        },
+        "Rtips/Rsleeve": {
+          "frames": 233,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 232
+        }
+      }
+    },
+    {
+      "path": "hairTuck/right",
+      "frames": 233,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 233,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 232
+        },
+        "Rtips/Rsleeve": {
+          "frames": 233,
+          "max_pairs": 13,
+          "depth_mm": 7.24,
+          "worst_frame": 232
+        }
+      }
+    },
+    {
+      "path": "sleeveAdjust/left",
+      "frames": 245,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 245,
+          "max_pairs": 13,
+          "depth_mm": 7.25,
+          "worst_frame": 244
+        },
+        "Rtips/Rsleeve": {
+          "frames": 245,
+          "max_pairs": 13,
+          "depth_mm": 7.24,
+          "worst_frame": 244
+        }
+      }
+    },
+    {
+      "path": "sleeveAdjust/right",
+      "frames": 245,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 245,
+          "max_pairs": 13,
+          "depth_mm": 7.25,
+          "worst_frame": 244
+        },
+        "Rtips/Rsleeve": {
+          "frames": 245,
+          "max_pairs": 13,
+          "depth_mm": 7.24,
+          "worst_frame": 244
+        }
+      }
+    },
+    {
+      "path": "applause/left",
+      "frames": 239,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 239,
+          "max_pairs": 14,
+          "depth_mm": 7.25,
+          "worst_frame": 238
+        },
+        "Rtips/Rsleeve": {
+          "frames": 239,
+          "max_pairs": 13,
+          "depth_mm": 7.24,
+          "worst_frame": 238
+        }
+      }
+    },
+    {
+      "path": "applause/right",
+      "frames": 239,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 239,
+          "max_pairs": 13,
+          "depth_mm": 7.25,
+          "worst_frame": 238
+        },
+        "Rtips/Rsleeve": {
+          "frames": 239,
+          "max_pairs": 14,
+          "depth_mm": 7.24,
+          "worst_frame": 238
+        }
+      }
+    },
+    {
+      "path": "victory/left",
+      "frames": 231,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 231,
+          "max_pairs": 17,
+          "depth_mm": 7.25,
+          "worst_frame": 230
+        },
+        "Rtips/Rsleeve": {
+          "frames": 231,
+          "max_pairs": 17,
+          "depth_mm": 7.24,
+          "worst_frame": 230
+        }
+      }
+    },
+    {
+      "path": "victory/right",
+      "frames": 231,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 231,
+          "max_pairs": 17,
+          "depth_mm": 7.25,
+          "worst_frame": 230
+        },
+        "Rtips/Rsleeve": {
+          "frames": 231,
+          "max_pairs": 17,
+          "depth_mm": 7.24,
+          "worst_frame": 230
+        }
+      }
+    },
+    {
+      "path": "comfort/left",
+      "frames": 275,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 275,
+          "max_pairs": 14,
+          "depth_mm": 7.25,
+          "worst_frame": 274
+        },
+        "Rtips/Rsleeve": {
+          "frames": 275,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 274
+        }
+      }
+    },
+    {
+      "path": "comfort/right",
+      "frames": 275,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 275,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 274
+        },
+        "Rtips/Rsleeve": {
+          "frames": 275,
+          "max_pairs": 14,
+          "depth_mm": 7.24,
+          "worst_frame": 274
+        }
+      }
+    },
+    {
+      "path": "gratefulBow/left",
+      "frames": 237,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 237,
+          "max_pairs": 13,
+          "depth_mm": 7.25,
+          "worst_frame": 236
+        },
+        "Rtips/Rsleeve": {
+          "frames": 237,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 236
+        }
+      }
+    },
+    {
+      "path": "gratefulBow/right",
+      "frames": 237,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 237,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 236
+        },
+        "Rtips/Rsleeve": {
+          "frames": 237,
+          "max_pairs": 13,
+          "depth_mm": 7.24,
+          "worst_frame": 236
+        }
+      }
+    },
+    {
+      "path": "handToHeart/left",
+      "frames": 224,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 224,
+          "max_pairs": 14,
+          "depth_mm": 7.25,
+          "worst_frame": 223
+        },
+        "Rtips/Rsleeve": {
+          "frames": 224,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 223
+        }
+      }
+    },
+    {
+      "path": "handToHeart/right",
+      "frames": 224,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 224,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 223
+        },
+        "Rtips/Rsleeve": {
+          "frames": 224,
+          "max_pairs": 14,
+          "depth_mm": 7.24,
+          "worst_frame": 223
+        }
+      }
+    },
+    {
+      "path": "astonished/left",
+      "frames": 213,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 213,
+          "max_pairs": 20,
+          "depth_mm": 7.25,
+          "worst_frame": 212
+        },
+        "Rtips/Rsleeve": {
+          "frames": 213,
+          "max_pairs": 19,
+          "depth_mm": 7.24,
+          "worst_frame": 212
+        }
+      }
+    },
+    {
+      "path": "astonished/right",
+      "frames": 213,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 213,
+          "max_pairs": 19,
+          "depth_mm": 7.25,
+          "worst_frame": 212
+        },
+        "Rtips/Rsleeve": {
+          "frames": 213,
+          "max_pairs": 22,
+          "depth_mm": 7.24,
+          "worst_frame": 212
+        }
+      }
+    },
+    {
+      "path": "giggle/left",
+      "frames": 228,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 228,
+          "max_pairs": 13,
+          "depth_mm": 7.25,
+          "worst_frame": 227
+        },
+        "Rtips/Rsleeve": {
+          "frames": 228,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 227
+        }
+      }
+    },
+    {
+      "path": "giggle/right",
+      "frames": 228,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 228,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 227
+        },
+        "Rtips/Rsleeve": {
+          "frames": 228,
+          "max_pairs": 13,
+          "depth_mm": 7.24,
+          "worst_frame": 227
+        }
+      }
+    },
+    {
+      "path": "wink/left",
+      "frames": 201,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 201,
+          "max_pairs": 19,
+          "depth_mm": 7.25,
+          "worst_frame": 200
+        },
+        "Rtips/Rsleeve": {
+          "frames": 201,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 200
+        }
+      }
+    },
+    {
+      "path": "wink/right",
+      "frames": 201,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 201,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 200
+        },
+        "Rtips/Rsleeve": {
+          "frames": 201,
+          "max_pairs": 19,
+          "depth_mm": 7.24,
+          "worst_frame": 200
+        }
+      }
+    },
+    {
+      "path": "openQuestion/left",
+      "frames": 228,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 228,
+          "max_pairs": 14,
+          "depth_mm": 7.25,
+          "worst_frame": 227
+        },
+        "Rtips/Rsleeve": {
+          "frames": 228,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 227
+        }
+      }
+    },
+    {
+      "path": "openQuestion/right",
+      "frames": 228,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 228,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 227
+        },
+        "Rtips/Rsleeve": {
+          "frames": 228,
+          "max_pairs": 14,
+          "depth_mm": 7.24,
+          "worst_frame": 227
+        }
+      }
+    },
+    {
+      "path": "chinRest/left",
+      "frames": 233,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 233,
+          "max_pairs": 13,
+          "depth_mm": 7.25,
+          "worst_frame": 232
+        },
+        "Rtips/Rsleeve": {
+          "frames": 233,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 232
+        }
+      }
+    },
+    {
+      "path": "chinRest/right",
+      "frames": 233,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 233,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 232
+        },
+        "Rtips/Rsleeve": {
+          "frames": 233,
+          "max_pairs": 13,
+          "depth_mm": 7.24,
+          "worst_frame": 232
+        }
+      }
+    },
+    {
+      "path": "fistPump/left",
+      "frames": 215,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 215,
+          "max_pairs": 17,
+          "depth_mm": 7.25,
+          "worst_frame": 214
+        },
+        "Rtips/Rsleeve": {
+          "frames": 215,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 214
+        }
+      }
+    },
+    {
+      "path": "fistPump/right",
+      "frames": 215,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 215,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 214
+        },
+        "Rtips/Rsleeve": {
+          "frames": 215,
+          "max_pairs": 17,
+          "depth_mm": 7.24,
+          "worst_frame": 214
+        }
+      }
+    },
+    {
+      "path": "wave/left",
+      "frames": 198,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 198,
+          "max_pairs": 20,
+          "depth_mm": 7.25,
+          "worst_frame": 36
+        },
+        "Rtips/Rsleeve": {
+          "frames": 198,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 197
+        }
+      }
+    },
+    {
+      "path": "wave/right",
+      "frames": 198,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 198,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 197
+        },
+        "Rtips/Rsleeve": {
+          "frames": 198,
+          "max_pairs": 22,
+          "depth_mm": 7.24,
+          "worst_frame": 36
+        },
+        "Lsleeve/coat": {
+          "frames": 38,
+          "max_pairs": 40,
+          "depth_mm": 2.42,
+          "worst_frame": 94
+        }
+      }
+    },
+    {
+      "path": "nod/left",
+      "frames": 126,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 126,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 125
+        },
+        "Rtips/Rsleeve": {
+          "frames": 126,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 125
+        }
+      }
+    },
+    {
+      "path": "nod/right",
+      "frames": 126,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 126,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 125
+        },
+        "Rtips/Rsleeve": {
+          "frames": 126,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 125
+        }
+      }
+    },
+    {
+      "path": "curious/left",
+      "frames": 180,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 180,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 179
+        },
+        "Rtips/Rsleeve": {
+          "frames": 180,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 179
+        }
+      }
+    },
+    {
+      "path": "curious/right",
+      "frames": 180,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 180,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 179
+        },
+        "Rtips/Rsleeve": {
+          "frames": 180,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 179
+        }
+      }
+    },
+    {
+      "path": "explain/left",
+      "frames": 210,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 210,
+          "max_pairs": 22,
+          "depth_mm": 7.25,
+          "worst_frame": 209
+        },
+        "Rtips/Rsleeve": {
+          "frames": 210,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 209
+        }
+      }
+    },
+    {
+      "path": "explain/right",
+      "frames": 210,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 210,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 209
+        },
+        "Rtips/Rsleeve": {
+          "frames": 210,
+          "max_pairs": 22,
+          "depth_mm": 15.02,
+          "worst_frame": 90
+        },
+        "Lsleeve/coat": {
+          "frames": 31,
+          "max_pairs": 38,
+          "depth_mm": 1.68,
+          "worst_frame": 97
+        }
+      }
+    },
+    {
+      "path": "glance/left",
+      "frames": 192,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 192,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 191
+        },
+        "Rtips/Rsleeve": {
+          "frames": 192,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 191
+        }
+      }
+    },
+    {
+      "path": "glance/right",
+      "frames": 192,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 192,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 191
+        },
+        "Rtips/Rsleeve": {
+          "frames": 192,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 191
+        }
+      }
+    },
+    {
+      "path": "relax/left",
+      "frames": 216,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 216,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 215
+        },
+        "Rtips/Rsleeve": {
+          "frames": 216,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 215
+        }
+      }
+    },
+    {
+      "path": "relax/right",
+      "frames": 216,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 216,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 215
+        },
+        "Rtips/Rsleeve": {
+          "frames": 216,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 215
+        }
+      }
+    },
+    {
+      "path": "ponder/left",
+      "frames": 204,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 204,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 203
+        },
+        "Rtips/Rsleeve": {
+          "frames": 204,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 203
+        }
+      }
+    },
+    {
+      "path": "ponder/right",
+      "frames": 204,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 204,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 203
+        },
+        "Rtips/Rsleeve": {
+          "frames": 204,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 203
+        }
+      }
+    },
+    {
+      "path": "giggle-to-gratefulBow/left",
+      "frames": 285,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 285,
+          "max_pairs": 13,
+          "depth_mm": 7.25,
+          "worst_frame": 284
+        },
+        "Rtips/Rsleeve": {
+          "frames": 285,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 284
+        }
+      }
+    },
+    {
+      "path": "giggle-to-gratefulBow/right",
+      "frames": 285,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 285,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 284
+        },
+        "Rtips/Rsleeve": {
+          "frames": 285,
+          "max_pairs": 13,
+          "depth_mm": 7.24,
+          "worst_frame": 284
+        }
+      }
+    },
+    {
+      "path": "gratefulBow-to-giggle/left",
+      "frames": 277,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 277,
+          "max_pairs": 13,
+          "depth_mm": 7.25,
+          "worst_frame": 276
+        },
+        "Rtips/Rsleeve": {
+          "frames": 277,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 276
+        }
+      }
+    },
+    {
+      "path": "gratefulBow-to-giggle/right",
+      "frames": 277,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 277,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 276
+        },
+        "Rtips/Rsleeve": {
+          "frames": 277,
+          "max_pairs": 13,
+          "depth_mm": 7.24,
+          "worst_frame": 276
+        }
+      }
+    },
+    {
+      "path": "hairTuck-to-comfort/left",
+      "frames": 323,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 323,
+          "max_pairs": 14,
+          "depth_mm": 7.25,
+          "worst_frame": 322
+        },
+        "Rtips/Rsleeve": {
+          "frames": 323,
+          "max_pairs": 12,
+          "depth_mm": 7.24,
+          "worst_frame": 322
+        }
+      }
+    },
+    {
+      "path": "hairTuck-to-comfort/right",
+      "frames": 323,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 323,
+          "max_pairs": 12,
+          "depth_mm": 7.25,
+          "worst_frame": 322
+        },
+        "Rtips/Rsleeve": {
+          "frames": 323,
+          "max_pairs": 14,
+          "depth_mm": 7.24,
+          "worst_frame": 322
+        }
+      }
+    },
+    {
+      "path": "applause-to-comfort/left",
+      "frames": 323,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 323,
+          "max_pairs": 14,
+          "depth_mm": 7.25,
+          "worst_frame": 322
+        },
+        "Rtips/Rsleeve": {
+          "frames": 323,
+          "max_pairs": 13,
+          "depth_mm": 7.24,
+          "worst_frame": 322
+        }
+      }
+    },
+    {
+      "path": "applause-to-comfort/right",
+      "frames": 323,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 323,
+          "max_pairs": 13,
+          "depth_mm": 7.25,
+          "worst_frame": 322
+        },
+        "Rtips/Rsleeve": {
+          "frames": 323,
+          "max_pairs": 14,
+          "depth_mm": 7.24,
+          "worst_frame": 322
+        }
+      }
+    },
+    {
+      "path": "sleeveAdjust-to-victory/left",
+      "frames": 279,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 279,
+          "max_pairs": 17,
+          "depth_mm": 7.25,
+          "worst_frame": 278
+        },
+        "Rtips/Rsleeve": {
+          "frames": 279,
+          "max_pairs": 17,
+          "depth_mm": 7.24,
+          "worst_frame": 278
+        }
+      }
+    },
+    {
+      "path": "sleeveAdjust-to-victory/right",
+      "frames": 279,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 279,
+          "max_pairs": 17,
+          "depth_mm": 7.25,
+          "worst_frame": 278
+        },
+        "Rtips/Rsleeve": {
+          "frames": 279,
+          "max_pairs": 17,
+          "depth_mm": 7.24,
+          "worst_frame": 278
+        }
+      }
+    },
+    {
+      "path": "chinRest-to-astonished/left",
+      "frames": 262,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 262,
+          "max_pairs": 20,
+          "depth_mm": 7.25,
+          "worst_frame": 261
+        },
+        "Rtips/Rsleeve": {
+          "frames": 262,
+          "max_pairs": 19,
+          "depth_mm": 7.24,
+          "worst_frame": 261
+        }
+      }
+    },
+    {
+      "path": "chinRest-to-astonished/right",
+      "frames": 262,
+      "footTravelM": 0,
+      "surfaceContacts": {
+        "Ltips/Lsleeve": {
+          "frames": 262,
+          "max_pairs": 19,
+          "depth_mm": 7.25,
+          "worst_frame": 261
+        },
+        "Rtips/Rsleeve": {
+          "frames": 262,
+          "max_pairs": 22,
+          "depth_mm": 7.24,
+          "worst_frame": 261
+        }
+      }
+    }
+  ]
+}

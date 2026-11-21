@@ -10,18 +10,14 @@ import {
 import { mouthLevel, subscribePlayback, type PlaybackSample } from "./output";
 import type { Presentation } from "./renderer";
 import { MODELS, readAppearance } from "./appearance";
-import { HandPose, relaxArms } from "./hand-pose";
-import { fitAliceSleeves } from "./sleeve-colliders";
+import type { HandPose } from "./hand-pose";
+import { bindResidentRig } from "./resident-rig";
+import { RestingUniform } from "./uniform-contact";
 import { MotionCues } from "./motion-cues";
 import { FacePerformance } from "./face-performance";
 import { JointMotion } from "./motion-response";
 import { RenderCadence } from "./render-cadence";
-import {
-  aliceMotion,
-  blinkWeight,
-  MOTION_BONES,
-  type MotionBone,
-} from "./alice-motion";
+import { aliceMotion, blinkWeight, type MotionBone } from "./alice-motion";
 import {
   companionState,
   subscribeInteraction,
@@ -74,6 +70,7 @@ export class VrmViewer {
   private unsubscribeInteraction: (() => void) | null = null;
   private frames = 0;
   private hands: HandPose | null = null;
+  private uniform: RestingUniform | null = null;
   private faces: FacePerformance | null = null;
   private unsubscribeDelivery: (() => void) | null = null;
   private sample: PlaybackSample = { level: 0, at: 0 };
@@ -211,19 +208,10 @@ export class VrmViewer {
       if (head) this.headScale.copy(head.scale);
       this.scene.add(vrm.scene);
       vrm.scene.updateMatrixWorld(true);
-      relaxArms(vrm);
-      vrm.humanoid.update();
-      vrm.scene.updateMatrixWorld(true);
-      for (const name of MOTION_BONES) {
-        const node = vrm.humanoid.getNormalizedBoneNode(name);
-        if (node)
-          this.bones.set(name, {
-            node,
-            rest: node.quaternion.clone(),
-            response: new JointMotion(name),
-          });
-      }
-      this.hands = new HandPose(vrm);
+      const rig = bindResidentRig(vrm.humanoid, vrm.scene);
+      this.bones = rig.bones;
+      this.hands = rig.hands;
+      if (source === MODELS.alice.file) this.uniform = new RestingUniform(vrm);
       if (this.floating) this.faces = new FacePerformance(vrm);
       const left = vrm.humanoid.getRawBoneNode("leftUpperArm");
       const right = vrm.humanoid.getRawBoneNode("rightUpperArm");
@@ -243,7 +231,6 @@ export class VrmViewer {
       }
       // VRM0 was rotated after import. Initialize spring state in its final
       // world transform so the first frame does not throw the hair upward.
-      if (source === MODELS.alice.file) fitAliceSleeves(vrm.springBoneManager);
       vrm.springBoneManager?.setInitState();
       vrm.springBoneManager?.reset();
       vrm.update(1 / 60);
@@ -441,6 +428,7 @@ export class VrmViewer {
         this.offset.setFromEuler(this.rotation.set(x, y, z));
         node.quaternion.copy(rest).multiply(this.offset);
       }
+      this.uniform?.update();
       const eyes = this.vrm.lookAt;
       if (eyes) {
         eyes.yaw = THREE.MathUtils.damp(eyes.yaw, motion.gaze.yaw, 23, elapsed);
@@ -530,6 +518,7 @@ export class VrmViewer {
     this.unsubscribeDelivery?.();
     this.bones.clear();
     this.hands = null;
+    this.uniform = null;
     this.renderer.domElement.removeEventListener("webglcontextlost", this.lost);
     if (this.vrm) VRMUtils.deepDispose(this.vrm.scene);
     this.originalColors.clear();
