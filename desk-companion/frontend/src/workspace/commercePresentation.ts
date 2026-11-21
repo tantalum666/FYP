@@ -49,6 +49,7 @@ export function calendarFitLabel(fit: CalendarFit, t: Translate) {
 
 export interface SandboxFlight {
   calendar_fit?: CalendarFit;
+  can_find_other?: boolean;
   id: string;
   version: number;
   state: string;
@@ -100,12 +101,27 @@ export const reviewRef = (
 });
 
 type Leg = SandboxFlight["segments"][number];
+export type CalendarFlightChoice = {
+  origin: string;
+  destination: string;
+  departure: string;
+  flight_number: string;
+  nonstop: true;
+  avoid_calendar_conflicts: true;
+  max_hkd?: number;
+  airline?: string;
+  rehearse_price_change?: boolean;
+};
 export type FlightAlternatives = {
   unavailable_flight: string;
   avoid_calendar_conflicts?: boolean;
   requested_calendar_fit?: "conflict" | "unknown";
   max_minor?: number | null;
-  alternatives: { segment: Leg; total_minor: number }[];
+  alternatives: {
+    segment: Leg;
+    total_minor: number;
+    calendar_choice?: CalendarFlightChoice;
+  }[];
 };
 export function optionTime(leg: Leg, t: Translate) {
   const [day, from] = leg.departs.split("T"),

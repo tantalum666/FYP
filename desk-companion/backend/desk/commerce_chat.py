@@ -71,19 +71,25 @@ def turn(runtime, payload, principal, chat):
 
 def present(runtime, reply, key, principal, chat, payload, *, cached=False):
     lang = language_for(payload.message, payload.language)
-    calendar_requested = getattr(payload, "flight_calendar_requested",False)
+    choice = getattr(payload, "calendar_flight_choice", None)
+    calendar_requested = getattr(payload, "flight_calendar_requested", False) or choice is not None
     if alternatives := reply.get("flight_alternatives"):
         if calendar_requested or alternatives.get("avoid_calendar_conflicts"):
             try:
-                alternatives = runtime.flight_bookings.current_alternatives(alternatives,principal)
+                alternatives = runtime.flight_bookings.current_alternatives(alternatives, principal)
             except DomainError as error:
-                if error.code not in {"FLIGHT_CALENDAR_UNKNOWN","FLIGHT_CALENDAR_BUSY"}:
+                if error.code not in {"FLIGHT_CALENDAR_UNKNOWN", "FLIGHT_CALENDAR_BUSY"}:
                     raise
-                return {"mode":"local","kind":"clarify","error":error.code,
-                        "message":flights.failure(error.code,lang),"saved":False}
+                return {
+                    "mode": "local",
+                    "kind": "clarify",
+                    "error": error.code,
+                    "message": flights.failure(error.code, lang),
+                    "saved": False,
+                }
         return {
             **reply,
-            "flight_alternatives":alternatives,
+            "flight_alternatives": alternatives,
             "kind": "clarify",
             "saved": False,
             "message": flights.describe_alternatives(alternatives, lang),
@@ -112,11 +118,29 @@ def present(runtime, reply, key, principal, chat, payload, *, cached=False):
                 # The owner's selected option carries its constraint even if the
                 # model omits the optional field in a refreshed Function call.
                 quote = {**quote, "avoid_calendar_conflicts": True}
+                if choice is not None:
+                    from .flight_booking.provider import matches_choice
+
+                    if not matches_choice(quote, choice):
+                        return {
+                            "mode": "local",
+                            "kind": "clarify",
+                            "message": flights.failure("FLIGHT_CHOICE_CHANGED", lang),
+                            "saved": False,
+                        }
+                    quote["search_terms"] = {
+                        **choice.model_dump(exclude_none=True),
+                        "avoid_calendar_conflicts": True,
+                    }
             row = service.attach(quote, key, principal, chat)
         else:
             continue
         result = {k: v for k, v in reply.items() if k != quote_field}
-        if cached and reply.get("commerce_note") and row["version"] == reply[result_field]["version"]:
+        if (
+            cached
+            and reply.get("commerce_note")
+            and row["version"] == reply[result_field]["version"]
+        ):
             return {**result, result_field: row}
         result.pop("commerce_note", None)
         return {**result, "kind": result_field, result_field: row, "message": render(row, lang)}

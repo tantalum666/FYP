@@ -8,7 +8,11 @@ from ..commerce_review import ChatReviews
 from ..store import DomainError
 from .calendar_fit import check_itineraries
 from .timetable import departure_day
-from .provider import LetsFG, PNR, booking_id, matched, minor, select_fare
+from .provider import FlightQuery, LetsFG, PNR, booking_id, matched, minor, select_fare
+
+
+def _flight_identity(legs):
+    return tuple((s["flight"], s["origin"], s["destination"], s["departs"][:10]) for s in legs)
 
 
 def public(row):
@@ -29,6 +33,15 @@ def public(row):
             and row["state"] in {"quoted", "reprice", "submit_unknown"}
             else {}
         ),
+        **(
+            {"can_find_other": True}
+            if row["state"] == "quoted"
+            and row.get("calendar_fit") in {"conflict", "unknown"}
+            and quote.get("search_terms")
+            and not row.get("remote")
+            and row.get("approved") is None
+            else {}
+        ),
         "review_deadline_ms": row["question"]["expires"] if row["question"] else None,
         "previous_minor": row["question"]["old"] if row["question"] else None,
         "pnr": row.get("pnr") if row["state"] == "completed" else None,
@@ -46,7 +59,7 @@ class FlightBookings(ChatReviews):
         self.provider = LetsFG()
         self.enabled = os.getenv("DESK_LETSFG_SANDBOX_ENABLED") == "1"
 
-    def prepare(self, query):
+    def prepare(self, query, *, excluding=()):
         if not self.enabled:
             raise DomainError("FLIGHT_SANDBOX_DISABLED", 403)
         when = departure_day(self.store.clock(), query.origin)
@@ -55,6 +68,14 @@ class FlightBookings(ChatReviews):
                 if self.store.settings(db)["hide_private"]:
                     raise DomainError("PRIVATE_CONTEXT_HIDDEN", 403)
             candidates = self.provider.candidates(query, when)
+            if excluding:
+                candidates = [
+                    offer
+                    for offer in candidates
+                    if _flight_identity(offer["segments"]) != excluding
+                ]
+                if not candidates:
+                    raise DomainError("FLIGHT_NO_OTHER", 409)
             with self.store.connection() as db:
                 fits = check_itineraries(self.store, db, candidates)
             quote = {**select_fare(candidates, query, fits), "avoid_calendar_conflicts": True}
@@ -62,8 +83,45 @@ class FlightBookings(ChatReviews):
             quote = self.provider.quote(query, when)
         if "alternatives" in quote:
             return {"flight_alternatives": quote, "saved": False}
+        # Keep the search limits with this local quote so an explicit request for a
+        # different flight can reuse the date, party, carrier and budget.
+        quote["search_terms"] = query.model_dump(mode="json", exclude_none=True)
         quote["scenario"] = "price_change" if query.rehearse_price_change else "success"
         return {"sandbox_quote": quote, "saved": False}
+
+    def find_other(self, principal, chat, ref):
+        owner = self.owner(principal)
+        with self.lock:
+            row = self._get(ref.id, owner, chat)
+            if (
+                not public(row).get("can_find_other")
+                or row["version"] != ref.version
+                or row["quote"]["total_minor"] != ref.amount_minor
+                or row["expires"] <= iso(self.store.clock())
+            ):
+                raise DomainError("FLIGHT_REVIEW_CHANGED", 409)
+            terms = FlightQuery.model_validate(row["quote"]["search_terms"])
+            query = terms.model_copy(
+                update={
+                    "flight_number": None,
+                    "nonstop": bool(terms.flight_number or terms.nonstop),
+                    "avoid_calendar_conflicts": True,
+                }
+            )
+            excluded = _flight_identity(row["quote"]["segments"])
+        # No review lock is held across the supplier lookup. Recheck the scope
+        # and original order before presenting a second, unapproved quote.
+        result = self.prepare(query, excluding=excluded)
+        self.owner(principal)
+        with self.lock:
+            prior = self._get(ref.id, owner, chat)
+            if (
+                prior["state"] != "quoted"
+                or prior.get("approved") is not None
+                or prior.get("remote")
+            ):
+                raise DomainError("FLIGHT_REVIEW_CHANGED", 409)
+        return result
 
     def current_alternatives(self, alternatives, principal):
         self.owner(principal)

@@ -12,6 +12,7 @@ import {
   type CommerceReview,
   type CommerceRef,
   type FlightAlternatives,
+  type CalendarFlightChoice,
 } from "./commercePresentation";
 import "./commerce-conversation.css";
 
@@ -70,7 +71,7 @@ export function FlightChoices({
   onSelect: (
     message: string,
     label: string,
-    calendarRequested?: boolean,
+    calendarChoice?: CalendarFlightChoice,
   ) => void;
 }) {
   const first = result.alternatives[0]?.segment;
@@ -96,7 +97,7 @@ export function FlightChoices({
           <> · {calendarFitLabel("clear", t)}</>
         )}
       </small>
-      {result.alternatives.map(({ segment, total_minor }) => {
+      {result.alternatives.map(({ segment, total_minor, calendar_choice }) => {
         const budget =
           result.max_minor == null
             ? ""
@@ -127,7 +128,19 @@ export function FlightChoices({
               onSelect(
                 selection,
                 t(`Select ${segment.flight}`, `选 ${segment.flight}`),
-                result.avoid_calendar_conflicts,
+                result.avoid_calendar_conflicts
+                  ? (calendar_choice ?? {
+                      origin: segment.origin,
+                      destination: segment.destination,
+                      departure: day,
+                      flight_number: segment.flight,
+                      nonstop: true,
+                      avoid_calendar_conflicts: true,
+                      ...(result.max_minor != null
+                        ? { max_hkd: result.max_minor / 100 }
+                        : {}),
+                    })
+                  : undefined,
               )
             }
           >

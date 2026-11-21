@@ -59,6 +59,7 @@ class AssistantMessage(StrictModel):
     flight_review: ReviewRef | None = None
     shopping_review: ReviewRef | None = None
     # Omit the default from serialized requests so previously saved operation hashes still match.
+    calendar_flight_choice: FlightQuery | None = Field(default=None, exclude_if=lambda choice: choice is None)
     flight_calendar_requested: bool = Field(default=False, strict=True, exclude_if=lambda value: not value)
     selected_commerce_card: bool = Field(default=False, strict=True, exclude_if=lambda selected: not selected)
     steer_run_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")

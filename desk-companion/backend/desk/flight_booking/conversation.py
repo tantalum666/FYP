@@ -2,7 +2,9 @@
 
 import re
 
-from ..commerce_review import language_for
+from ..store import DomainError
+
+from ..commerce_review import ReviewRef, language_for
 import unicodedata
 
 from .provider import FlightQuery, minor
@@ -248,6 +250,48 @@ def turn(runtime, payload, principal, chat):
     if not runtime.flight_bookings.enabled or not runtime.personal_context.visible(principal):
         return None
     lang = language_for(payload.message, payload.language)
+    if re.fullmatch(
+        r"(?:请|帮我|請)?(?:换一班|换个航班|查其他航班|找其他航班|find another flight|check other flights)[。.!！]?",
+        payload.message.strip(),
+        re.I,
+    ):
+        service = runtime.flight_bookings
+        ref = payload.flight_review if payload.selected_commerce_card else None
+        if not ref:
+            choices = [r for r in service.listing(principal, chat.id) if r.get("can_find_other")]
+            if len(choices) != 1:
+                return {
+                    "mode": "local",
+                    "kind": "clarify",
+                    "saved": False,
+                    "message": (
+                        "请在原报价上选择要重新查的航班。"
+                        if lang == "zh"
+                        else "Choose the flight to recheck on its original quote."
+                    ),
+                }
+            row = choices[0]
+            ref = ReviewRef(id=row["id"], version=row["version"], amount_minor=row["review_minor"])
+        try:
+            result = service.find_other(principal, chat.id, ref)
+        except DomainError as error:
+            if error.code not in {
+                "FLIGHT_NO_OTHER",
+                "FLIGHT_NO_MATCH",
+                "FLIGHT_CALENDAR_UNKNOWN",
+                "FLIGHT_CALENDAR_BUSY",
+                "FLIGHT_PROVIDER_UNAVAILABLE",
+                "FLIGHT_PAST_DATE",
+            }:
+                raise
+            return {
+                "mode": "local",
+                "kind": "clarify",
+                "message": failure(error.code, lang),
+                "error": error.code,
+                "saved": False,
+            }
+        return {"mode": "local", "kind": "reply", "message": "", "saved": False, **result}
     decision = owner_decision(payload.message)
     ref = payload.flight_review
     if (
@@ -267,8 +311,6 @@ def turn(runtime, payload, principal, chat):
     if decision and ref:
         action, spoken = decision
         if spoken is not None and spoken != ref.amount_minor:
-            from ..store import DomainError
-
             raise DomainError("FLIGHT_REVIEW_CHANGED", 409)
         row = runtime.flight_bookings.decide(
             FlightReview(**ref.model_dump(), action=action), principal, chat.id
@@ -303,6 +345,14 @@ def failure(code, language):
         "FLIGHT_TEST_SCOPE": (
             "目前可预订一位虚构成人的单程基础票价。能否按这个范围查询？",
             "I can test a one-way base fare for one fictional adult. Would that work?",
+        ),
+        "FLIGHT_CHOICE_CHANGED": (
+            "新报价和所选航班或预算不符，请重新查价。",
+            "The new fare does not match your chosen flight or budget. Please recheck the search.",
+        ),
+        "FLIGHT_NO_OTHER": (
+            "按原路线和预算暂时没有其他测试航班。",
+            "There are no other test flights within the original route and budget.",
         ),
         "FLIGHT_CALENDAR_BUSY": (
             "符合条件的测试航班都和桌面日程冲突。可以换个时段。",

@@ -121,6 +121,19 @@ def _selected(offer, search_id, query):
     }
 
 
+def matches_choice(quote, choice):
+    legs = quote["segments"]
+    return (
+        len(legs) == 1
+        and legs[0]["origin"] == choice.origin
+        and legs[0]["destination"] == choice.destination
+        and legs[0]["flight"] == (choice.flight_number or "").replace(" ", "")
+        and legs[0]["departs"][:10] == choice.departure
+        and quote["adults"] == choice.adults
+        and (choice.max_hkd is None or quote["total_minor"] <= minor(choice.max_hkd))
+    )
+
+
 def select_fare(eligible, query, fits=None):
     """Keep the requested flight exact and the existing price/departure ordering."""
     requested = query.flight_number.replace(" ", "") if query.flight_number else None
@@ -156,6 +169,18 @@ def select_fare(eligible, query, fits=None):
             {
                 "segment": leg,
                 "total_minor": row["total_minor"],
+                **(
+                    {
+                        "calendar_choice": {
+                            **query.model_dump(exclude_none=True, exclude_defaults=True),
+                            "flight_number": leg["flight"],
+                            "nonstop": True,
+                            "avoid_calendar_conflicts": True,
+                        }
+                    }
+                    if fits is not None
+                    else {}
+                ),
                 **(
                     {"duration_seconds": row["duration_seconds"]}
                     if "duration_seconds" in row

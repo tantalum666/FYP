@@ -419,3 +419,93 @@ def test_slow_read_only_search_spends_one_shared_retry_window(
         assert (
             timeouts[1]["read"] + timeouts[1]["connect"] <= provider.SEARCH_WINDOW_SECONDS - elapsed
         )
+
+
+def test_clicked_fare_pins_scope_and_can_find_another_without_repeating_or_paying(desk):
+    r, _, _, calls, app = desk
+    proto = install_session_protocol(r)
+    c = TestClient(app)
+    assert c.post(
+        "/api/session",
+        json={"username": "owner", "password": "fixture"},
+        headers={"X-Desk-Request": "1"},
+    ).is_success
+
+    def say(key, msg, **extra):
+        res = c.post(
+            "/api/assistant/messages",
+            json={"message": msg, "language": "zh", **extra},
+            headers={"X-Desk-Request": "1", "X-Operation-Id": key},
+        )
+        assert res.is_success, res.text
+        return res.json()
+
+    event(r, DAY + "T09:00", DAY + "T10:00")
+    proto.next_calls = [("sandbox_flight_quote", BASE | {"flight_number": "FA101", "max_hkd": 50})]
+    list_reply = say("alts", "查 FA101，避开日程，最多五十港币")
+    choice = list_reply["flight_alternatives"]["alternatives"][0]["calendar_choice"]
+    assert choice["flight_number"] == "FA104" and choice["max_hkd"] == 50
+    chat = list_reply["conversation_id"]
+    proto.next_calls = [
+        (
+            "sandbox_flight_quote",
+            BASE | {"flight_number": "FA106", "max_hkd": 100, "avoid_calendar_conflicts": False},
+        )
+    ]
+    shown = say("pick-card", "选 FA104", conversation_id=chat, calendar_flight_choice=choice)[
+        "flight_booking"
+    ]
+    assert shown["segments"][0]["flight"] == "FA104" and shown["calendar_fit"] == "clear"
+    event(r, DAY + "T18:45", DAY + "T19:00")
+
+    def bound(view):
+        return {
+            "conversation_id": chat,
+            "selected_commerce_card": True,
+            "flight_review": {
+                "id": view["id"],
+                "version": view["version"],
+                "amount_minor": view["review_minor"],
+            },
+        }
+
+    blocked = say("decision", "确认按 HK$47.00 预订测试航班", **bound(shown))["flight_booking"]
+    assert blocked["calendar_fit"] == "conflict" and blocked["can_find_other"]
+    sessions = len(proto.creations)
+    lookups = len(calls)
+    args = bound(blocked)
+    replacement = say("other", "查其他航班", **args)["flight_booking"]
+    assert (
+        replacement["segments"][0]["flight"] == "FA105"
+        and replacement["review_minor"] == 4900
+        and replacement["approved_minor"] is None
+    )
+    assert len(proto.creations) == sessions and len(calls) == lookups + 1
+    again = say("other", "查其他航班", **args)["flight_booking"]
+    assert again["id"] == replacement["id"] and len(calls) == lookups + 1
+    with r.store.connection() as db:
+        records = [
+            json.loads(row[0]) for row in db.execute("select data from sandbox_flight_bookings")
+        ]
+    assert len(records) == 2 and all(o["remote"] is None and o["approved"] is None for o in records)
+    assert all(o["quote"]["search_terms"]["max_hkd"] == 50 for o in records)
+    assert {p for _, p, _ in calls} == {"search"}
+
+
+def test_other_flight_cannot_widen_a_price_ceiling_or_use_another_login(desk):
+    r, who, chat, calls, _ = desk
+    svc = r.flight_bookings
+    event(r, DAY + "T09:00", DAY + "T10:00")
+    q = svc.prepare(FlightQuery.model_validate(BASE | {"flight_number": "FA104", "max_hkd": 47}))[
+        "sandbox_quote"
+    ]
+    row = svc.attach(q, "ceiling", who, chat)
+    event(r, DAY + "T18:45", DAY + "T19:10")
+    blocked = svc.decide(choose(row), who, chat.id)
+    with pytest.raises(DomainError, match="FLIGHT_NOT_FOUND"):
+        svc.find_other(
+            {"kind": "owner", "session": r.store.create_owner_session()}, chat.id, choose(blocked)
+        )
+    with pytest.raises(DomainError, match="FLIGHT_CALENDAR_BUSY"):
+        svc.find_other(who, chat.id, choose(blocked))
+    assert all(path == "search" for _, path, _ in calls)
