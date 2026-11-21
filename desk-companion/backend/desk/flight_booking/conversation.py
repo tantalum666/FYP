@@ -2,7 +2,9 @@
 
 import re
 
-from ..commerce_review import language_for
+from ..store import DomainError
+
+from ..commerce_review import ReviewRef, language_for
 import unicodedata
 
 from .provider import FlightQuery, minor
@@ -17,6 +19,7 @@ TOOL = {
         "Use one fictional adult unless the user specifies a different party. Include any requested "
         "flight number, airline, nonstop, price ceiling, return date or checked kg; never drop a "
         "constraint or invent an airport/date. Ask about missing or ambiguous details first. "
+        "Set avoid_calendar_conflicts=true when the owner asks for a flight that fits their schedule. "
         "Set rehearse_price_change=true when asked to demonstrate a mid-booking price rise. "
         "No real card or booking is available. For public real fare research only use the separate "
         "browser_research_draft. The user must confirm on screen or explicitly in this chat; "
@@ -38,6 +41,25 @@ def describe_alternatives(result, language):
         if zh
         else f"{requested} is unavailable in the test inventory. Other flights on the same route, in local time:"
     )
+    reason = result.get("requested_calendar_fit")
+    if reason == "conflict":
+        header = (
+            f"{requested} 查询时和桌面日程冲突。以下航班已错开。"
+            if zh
+            else f"{requested} overlapped the desk calendar at lookup. These flights fit."
+        )
+    elif reason == "unknown":
+        header = (
+            f"{requested} 的时间无法和桌面日历核准。以下航班已错开。"
+            if zh
+            else f"{requested} could not be checked against the desk calendar. These flights fit."
+        )
+    elif result.get("avoid_calendar_conflicts"):
+        header = (
+            f"没有 {requested}，以下航班已错开桌面日程。"
+            if zh
+            else f"{requested} is unavailable. These alternatives fit your desk calendar."
+        )
     lines = [header]
     for option in result["alternatives"]:
         leg = option["segment"]
@@ -59,6 +81,33 @@ def describe(row, language):
     route = f"{legs[0]['origin']} → {legs[-1]['destination']}"
     total = price(row["review_minor"])
     state = row["state"]
+    if row.get("calendar_fit") in {"conflict", "unknown"}:
+        reason = (
+            ("和桌面日程冲突" if row["calendar_fit"] == "conflict" else "的日历匹配暂时无法核准")
+            if zh
+            else (
+                "overlaps a desk calendar event"
+                if row["calendar_fit"] == "conflict"
+                else "could not be checked against your desk calendar"
+            )
+        )
+        if state == "quoted":
+            return (
+                f"{flights} {reason}，尚未下单。"
+                if zh
+                else f"{flights} {reason}. No booking has been submitted."
+            )
+        if state == "reprice":
+            return (
+                f"{flights} {reason}，尚未接受新票价。"
+                if zh
+                else f"{flights} {reason}. The new fare has not been accepted."
+            )
+        return (
+            f"{flights} {reason}，原订座结果仍待核实。"
+            if zh
+            else f"{flights} {reason}. The original booking is still unverified."
+        )
     if state == "stopped":
         return (
             "供应商已停止这笔订票并释放预授权，模拟扣款 HK$0.00，未取得订座编号。"
@@ -201,6 +250,48 @@ def turn(runtime, payload, principal, chat):
     if not runtime.flight_bookings.enabled or not runtime.personal_context.visible(principal):
         return None
     lang = language_for(payload.message, payload.language)
+    if re.fullmatch(
+        r"(?:请|帮我|請)?(?:换一班|换个航班|查其他航班|找其他航班|find another flight|check other flights)[。.!！]?",
+        payload.message.strip(),
+        re.I,
+    ):
+        service = runtime.flight_bookings
+        ref = payload.flight_review if payload.selected_commerce_card else None
+        if not ref:
+            choices = [r for r in service.listing(principal, chat.id) if r.get("can_find_other")]
+            if len(choices) != 1:
+                return {
+                    "mode": "local",
+                    "kind": "clarify",
+                    "saved": False,
+                    "message": (
+                        "请在原报价上选择要重新查的航班。"
+                        if lang == "zh"
+                        else "Choose the flight to recheck on its original quote."
+                    ),
+                }
+            row = choices[0]
+            ref = ReviewRef(id=row["id"], version=row["version"], amount_minor=row["review_minor"])
+        try:
+            result = service.find_other(principal, chat.id, ref)
+        except DomainError as error:
+            if error.code not in {
+                "FLIGHT_NO_OTHER",
+                "FLIGHT_NO_MATCH",
+                "FLIGHT_CALENDAR_UNKNOWN",
+                "FLIGHT_CALENDAR_BUSY",
+                "FLIGHT_PROVIDER_UNAVAILABLE",
+                "FLIGHT_PAST_DATE",
+            }:
+                raise
+            return {
+                "mode": "local",
+                "kind": "clarify",
+                "message": failure(error.code, lang),
+                "error": error.code,
+                "saved": False,
+            }
+        return {"mode": "local", "kind": "reply", "message": "", "saved": False, **result}
     decision = owner_decision(payload.message)
     ref = payload.flight_review
     if (
@@ -220,8 +311,6 @@ def turn(runtime, payload, principal, chat):
     if decision and ref:
         action, spoken = decision
         if spoken is not None and spoken != ref.amount_minor:
-            from ..store import DomainError
-
             raise DomainError("FLIGHT_REVIEW_CHANGED", 409)
         row = runtime.flight_bookings.decide(
             FlightReview(**ref.model_dump(), action=action), principal, chat.id
@@ -256,6 +345,22 @@ def failure(code, language):
         "FLIGHT_TEST_SCOPE": (
             "目前可预订一位虚构成人的单程基础票价。能否按这个范围查询？",
             "I can test a one-way base fare for one fictional adult. Would that work?",
+        ),
+        "FLIGHT_CHOICE_CHANGED": (
+            "新报价和所选航班或预算不符，请重新查价。",
+            "The new fare does not match your chosen flight or budget. Please recheck the search.",
+        ),
+        "FLIGHT_NO_OTHER": (
+            "按原路线和预算暂时没有其他测试航班。",
+            "There are no other test flights within the original route and budget.",
+        ),
+        "FLIGHT_CALENDAR_BUSY": (
+            "符合条件的测试航班都和桌面日程冲突。可以换个时段。",
+            "All matching test flights overlap the desk calendar. Try a different time.",
+        ),
+        "FLIGHT_CALENDAR_UNKNOWN": (
+            "当前没有能核实已避开桌面日程的航班。可以换个时段。",
+            "No matching flight could be verified clear on your desk calendar. Try a different time.",
         ),
         "FLIGHT_NO_MATCH": (
             "LetsFG 测试库存里没有符合这些条件的航班。可以更改日期或航班号再查。",

@@ -973,3 +973,7 @@ The owner asked to advance both journeys. Group 2 extended the existing WooComme
 ## 2026-11-21 Reduce default order text and continue already-approved work
 
 The owner found the repeated on-screen text confusing and requested further personal-agent progress. Group 2 keeps the current order or decision in one place, folds older results and will preserve exact amounts before consent. Continue active orders by checking their original provider records in the desk worker. The authorized chat receives a short verified change. The provider readers cannot pay, retry a purchase, accept a new price, or send a message to a third party from this worker. [Evidence](output/qa/2026-11-21-quiet-order-followup/verification.md).
+
+## 2026-11-22 Calendar-aware flight choice in ordinary Alice chat
+
+The owner asked to continue personal-agent work. Group 2 chose calendar-aware flight selection as the next cross-task behavior. Use the existing desk calendar and original Session Function to compare returned fares when the owner asks for a fit. Keep busy details local, consume airport-local times, preserve the date, budget and original flight constraints, and recheck before admitting a financial action. On a blocked unsubmitted quote the owner can request another flight in the same conversation. The receipt worker remains read-only. [Decision and evidence](output/qa/2026-11-22-calendar-aware-fares/verification.md).

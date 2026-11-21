@@ -1,5 +1,5 @@
 import { FlightChoices, OrderCard, OtherOrders } from "./CommerceConversation";
-import { orderKey, orderStatus, type CommerceReview } from "./commercePresentation";
+import { orderKey, orderStatus, type CalendarFlightChoice, type CommerceReview } from "./commercePresentation";
 import { useCommerceReviews, needsDecision, reviewRef, type CommerceRef } from "./commerceReviews";
 import { ComposerFiles } from "./ComposerFiles";
 import { AliceCheckIn } from "./AliceCheckIn";
@@ -738,7 +738,7 @@ export function AssistantPanel({
     window.addEventListener("desk:write-recovered", recovered);
     return () => window.removeEventListener("desk:write-recovered", recovered);
   }, [reload, showHttpReply]);
-  async function send(e: React.FormEvent | null, choice?: {message:string;review?:CommerceRef;display?:string}) {
+  async function send(e: React.FormEvent | null, choice?: {message:string;review?:CommerceRef;display?:string;calendarFlightChoice?:CalendarFlightChoice}) {
     e?.preventDefault();
     if (
       busy ||
@@ -786,6 +786,7 @@ export function AssistantPanel({
       const body = {
         message: submitted,
         ...(choice?.review ? {selected_commerce_card: true} : {}),
+        ...(choice?.calendarFlightChoice ? {calendar_flight_choice:choice.calendarFlightChoice} : {}),
         ...(review ? {[review.kind==="shop" ? "shopping_review" : "flight_review"]:{id:review.id,version:review.version,amount_minor:review.amount_minor}} : {}),
         language,
         task_id: taskId ?? null,
@@ -1370,7 +1371,7 @@ export function AssistantPanel({
           result={turn.choices}
           t={t}
           busy={orderActions.busy || !!text.trim()}
-          onSelect={(message,display) => void send(null, { message,display })}
+          onSelect={(message,display,calendarFlightChoice) => void send(null, { message,display,calendarFlightChoice })}
         />
       );
       return turn === focusTurn ? (

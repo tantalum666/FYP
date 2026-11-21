@@ -566,10 +566,15 @@ class TextFunctions:
             self.reusable = False
         if self.on_event:
             self.on_event({"type": "tool", "phase": "started", "tool": name})
+        arguments = a["arguments"]
+        choice = getattr(self.payload,"calendar_flight_choice",None)
+        if name == "sandbox_flight_quote" and choice is not None:
+            # A tapped, read-only fare is fully specified by the owner's UI action.
+            arguments = {**choice.model_dump(exclude_none=True), "avoid_calendar_conflicts": True}
         result = execute_tool(
             self.sessions.runtime,
             name,
-            a["arguments"],
+            arguments,
             "text/" + digest(encode([sid, tid, a["call_id"]])),
             scope=self.key,
             allow_memory=self.allow_memory,

@@ -1124,3 +1124,7 @@ From the installed Simulator, bought one HK$4 test pack of pocket tissues with H
 ## 2026-11-21 · Quiet commerce turns and background follow-up
 
 Removed duplicate body/card presentation and the permanent stack of old orders in the normal home and conversation. Turned unavailable-flight alternatives into selectable re-quote rows and preserved the active fare when another order finishes. Added due receipt reconciliation through the existing desk scheduler and provider readers. The Mac Web and installed iPhone 17 Pro Simulator run `c185d69e`. [Local evidence and native comparisons](output/qa/2026-11-21-quiet-order-followup/verification.md) · [draft PR 141](https://github.com/tantalum666/FYP/pull/141).
+
+## 2026-11-22 · Calendar-aware flight search and confirmation
+
+Connected the desk’s canonical busy occurrences to LetsFG fare selection, including recurrence exceptions, DST, date-line handling and disagreement between elapsed duration and published local times. Confirmations use an atomic local check before a provider submission. The original carrier, route and budget can be reused to find a different flight from a blocked quote. A real read timeout exposed the five-second search limit. The read-only adapter now shares one retry window. Mac Web and the iPhone 17 Pro Simulator run `08200201`. [Acceptance and cost breakdown](output/qa/2026-11-22-calendar-aware-fares/verification.md).

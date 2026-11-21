@@ -40,7 +40,16 @@ export interface SandboxShop {
   } | null;
 }
 
+export type CalendarFit = "clear" | "conflict" | "unknown";
+export function calendarFitLabel(fit: CalendarFit, t: Translate) {
+  if (fit === "clear") return t("Fits desk calendar", "已错开桌面日程");
+  if (fit === "conflict") return t("Overlaps desk calendar", "和桌面日程冲突");
+  return t("Calendar match unverified", "日程匹配待核实");
+}
+
 export interface SandboxFlight {
+  calendar_fit?: CalendarFit;
+  can_find_other?: boolean;
   id: string;
   version: number;
   state: string;
@@ -92,11 +101,45 @@ export const reviewRef = (
 });
 
 type Leg = SandboxFlight["segments"][number];
+export type CalendarFlightChoice = {
+  origin: string;
+  destination: string;
+  departure: string;
+  flight_number: string;
+  nonstop: true;
+  avoid_calendar_conflicts: true;
+  max_hkd?: number;
+  airline?: string;
+  rehearse_price_change?: boolean;
+};
 export type FlightAlternatives = {
   unavailable_flight: string;
+  avoid_calendar_conflicts?: boolean;
+  requested_calendar_fit?: "conflict" | "unknown";
   max_minor?: number | null;
-  alternatives: { segment: Leg; total_minor: number }[];
+  alternatives: {
+    segment: Leg;
+    total_minor: number;
+    calendar_choice?: CalendarFlightChoice;
+  }[];
 };
+export function optionTime(leg: Leg, t: Translate) {
+  const [day, from] = leg.departs.split("T"),
+    [end, to] = leg.arrives.split("T");
+  const days =
+    (Date.parse(end + "T00:00:00Z") - Date.parse(day + "T00:00:00Z")) /
+    86400000;
+  const suffix =
+    days === 1
+      ? t("next day", "次日")
+      : days === -1
+        ? t("previous day", "前一日")
+        : day === end
+          ? ""
+          : end;
+  return `${from}–${to}${suffix ? " " + suffix : ""}`;
+}
+
 export function legTime(leg: Leg) {
   const [day, from] = leg.departs.split("T"),
     [end, to] = leg.arrives.split("T");
@@ -150,6 +193,13 @@ const flightStates: Record<string, [string, string]> = {
 
 export function flightStatus(row: SandboxFlight, t: Translate): string {
   const flight = row.segments.map((leg) => leg.flight).join(" / ");
+  if (row.calendar_fit && row.calendar_fit !== "clear") {
+    const uncertainty =
+      row.state === "submit_unknown"
+        ? t(" · Original booking unverified", " · 原订座待核实")
+        : "";
+    return `${flight} · ${calendarFitLabel(row.calendar_fit, t)}${uncertainty}`;
+  }
   if (row.state === "reprice" && row.previous_minor != null)
     return `${flight} · ${hkd(row.previous_minor)} → ${hkd(row.review_minor)}`;
   if (row.state === "quoted") return `${flight} · ${hkd(row.review_minor)}`;

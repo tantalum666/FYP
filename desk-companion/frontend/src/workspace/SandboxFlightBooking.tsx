@@ -4,6 +4,7 @@ import {
   reviewRef,
   needsDecision,
   flightStatus,
+  calendarFitLabel,
   legTime,
   type CommerceRef,
   type SandboxFlight,
@@ -26,6 +27,8 @@ export function SandboxFlightCard({
     retry = flight.state === "submit_unknown";
   const end = flight.review_deadline_ms,
     expired = end != null && Date.now() >= end;
+  const blocked =
+    flight.calendar_fit !== undefined && flight.calendar_fit !== "clear";
   const choose = (message: string) =>
     onDecision(message, reviewRef(flight, "flight"));
   const legs = flight.segments.map((leg, i) => (
@@ -52,8 +55,18 @@ export function SandboxFlightCard({
         <>
           {legs}
           <p>
-            {t("Test fare", "模拟票价")} · {flight.adults}{" "}
-            {t("adult", "位成人")}
+            {t("Test fare", "模拟票价")}
+            {blocked && flight.can_find_other ? " " + total : ""} ·{" "}
+            {flight.adults} {t("adult", "位成人")}
+            {flight.calendar_fit && (
+              <>
+                {" "}
+                ·{" "}
+                <span role={blocked ? "status" : undefined}>
+                  {calendarFitLabel(flight.calendar_fit, t)}
+                </span>
+              </>
+            )}
           </p>
           {revised && flight.previous_minor != null && (
             <p role="status">
@@ -78,29 +91,40 @@ export function SandboxFlightCard({
           )}
           {retry && <p role="status">{flightStatus(flight, t)}</p>}
           <div className="workspace-inline-actions">
-            <button
-              type="button"
-              disabled={busy || expired}
-              className="primary"
-              onClick={() =>
-                choose(
-                  retry
-                    ? t("Recover this test booking", "恢复原测试单")
-                    : revised
-                      ? t(`Accept new total ${total}`, `确认新总价 ${total}`)
-                      : t(
-                          `Confirm test booking at ${total}`,
-                          `确认按 ${total} 预订测试航班`,
-                        ),
-                )
-              }
-            >
-              {retry
-                ? t("Recover original booking", "恢复原订单")
-                : revised
-                  ? t(`Accept ${total}`, `接受 ${total}`)
-                  : t(`Book for ${total}`, `确认预订 ${total}`)}
-            </button>
+            {blocked && flight.can_find_other ? (
+              <button
+                type="button"
+                className="primary"
+                disabled={busy}
+                onClick={() => choose(t("Find another flight", "查其他航班"))}
+              >
+                {t("Find another flight", "查其他航班")}
+              </button>
+            ) : (
+              <button
+                type="button"
+                disabled={busy || expired || blocked}
+                className="primary"
+                onClick={() =>
+                  choose(
+                    retry
+                      ? t("Recover this test booking", "恢复原测试单")
+                      : revised
+                        ? t(`Accept new total ${total}`, `确认新总价 ${total}`)
+                        : t(
+                            `Confirm test booking at ${total}`,
+                            `确认按 ${total} 预订测试航班`,
+                          ),
+                  )
+                }
+              >
+                {retry
+                  ? t("Recover original booking", "恢复原订单")
+                  : revised
+                    ? t(`Accept ${total}`, `接受 ${total}`)
+                    : t(`Book for ${total}`, `确认预订 ${total}`)}
+              </button>
+            )}
             {!retry && (
               <button
                 type="button"
