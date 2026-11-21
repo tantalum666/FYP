@@ -35,6 +35,36 @@ def describe(row, language):
     route = f"{legs[0]['origin']} → {legs[-1]['destination']}"
     total = price(row["review_minor"])
     state = row["state"]
+    if state == "stopped":
+        return (
+            "供应商已停止这笔订票并释放预授权，模拟扣款 HK$0.00，未取得订座编号。"
+            if zh
+            else "The supplier stopped this booking and released its hold. Test charge HK$0.00. No reservation reference."
+        )
+    if state == "manual":
+        return (
+            "供应商正在人工核查。请查询原订单，扣款及订座结果待供应商确认。"
+            if zh
+            else "The supplier is reviewing the original booking. Payment and reservation await verification."
+        )
+    if state == "stopping":
+        return (
+            "已请求停止订票，正在向供应商核实预授权和扣款。"
+            if zh
+            else "Stop requested. Checking the hold and payment on the original booking."
+        )
+    if row.get("stop_status") == "too_late":
+        if state == "completed":
+            return (
+                f"供应商已购票，停止订票窗口已过。订座编号 {row['pnr']}，原模拟扣款 {price(row['charged_minor'])}。退票须另查卖家票规，尚无退款回执。"
+                if zh
+                else f"The supplier already bought the ticket. Reference {row['pnr']}, test charge {price(row['charged_minor'])}. A post-ticket refund depends on seller rules and has not been verified."
+            )
+        return (
+            "供应商已过停止窗口，正在查回原订座和扣款。"
+            if zh
+            else "The supplier's stop window has passed. Checking the original booking and payment."
+        )
     if state == "quoted":
         times = f"{legs[0]['departs'].replace('T', ' ')} → {legs[-1]['arrives'].replace('T', ' ')}"
         return (
@@ -185,11 +215,12 @@ def turn(runtime, payload, principal, chat):
     ):
         rows = runtime.flight_bookings.listing(principal, chat.id)
         if len(rows) == 1:
+            row = runtime.flight_bookings.reopen(rows[0]["id"], principal, chat.id)
             return {
                 "mode": "local",
                 "kind": "flight_booking",
-                "flight_booking": rows[0],
-                "message": describe(rows[0], payload.language),
+                "flight_booking": row,
+                "message": describe(row, payload.language),
                 "saved": False,
             }
     return None

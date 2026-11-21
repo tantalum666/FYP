@@ -28,11 +28,16 @@ export interface SandboxShop {
   previous: ShopQuote | null;
   review_minor: number;
   approved_minor: number | null;
+  cancel_unavailable?: boolean;
   receipt: {
     order: number;
     order_status: string;
     charged_minor: number;
     test_mode: boolean;
+    can_cancel?: boolean;
+    buyer_cancel_requested?: boolean;
+    refunded_minor?: number;
+    net_minor?: number;
   } | null;
 }
 
@@ -152,6 +157,63 @@ export function SandboxShopCard({
           {t("Real charge HK$0", "真实扣款 HK$0")}
         </p>
       )}
+      {((order.state === "completed" &&
+        order.receipt?.can_cancel &&
+        !order.cancel_unavailable) ||
+        order.state === "refund_retry") && (
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() =>
+            onDecision(
+              t(
+                "Cancel this shopping order and request a full refund",
+                "取消这笔购物订单并全额退款",
+              ),
+              reviewRef(order, "shop"),
+            )
+          }
+        >
+          {t("Cancel order and refund", "取消订单并退款")}{" "}
+          {hkd(order.receipt!.charged_minor)}
+        </button>
+      )}
+      {order.cancel_unavailable && order.state === "completed" && (
+        <p role="status">
+          {t(
+            "The shop cannot accept pre-dispatch cancellation.",
+            "商户无法受理发货前撤单。",
+          )}
+        </p>
+      )}
+      {order.state === "refund_pending" && (
+        <p role="status">
+          {t(
+            "Checking the merchant cancellation and Stripe refund…",
+            "正在核实商户撤单和 Stripe 退款…",
+          )}
+        </p>
+      )}
+      {order.state === "refund_review" && (
+        <p role="status">
+          {t("The refund needs merchant review.", "这笔退款需要商户核查。")}
+        </p>
+      )}
+      {order.state === "refunded" &&
+        order.receipt?.refunded_minor != null &&
+        order.receipt.net_minor != null && (
+          <p role="status">
+            WooCommerce #{order.receipt.order} ·{" "}
+            {order.receipt.buyer_cancel_requested
+              ? t("Buyer cancellation accepted", "买家撤单已受理")
+              : t("Merchant refunded", "商户已退款")}
+            <br />
+            {t("Original test charge", "原模拟扣款")}{" "}
+            {hkd(order.receipt.charged_minor)} · {t("Refunded", "已退")}{" "}
+            {hkd(order.receipt.refunded_minor)} · {t("Net", "净扣款")}{" "}
+            {hkd(order.receipt.net_minor)}
+          </p>
+        )}
       {order.state === "cancelled" && (
         <p>{t("Cancelled without payment", "已取消，未付款")}</p>
       )}

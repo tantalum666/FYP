@@ -21,7 +21,11 @@ def public(row):
         if row.get("previous")
         else None,
         "approved_minor": row.get("approved"),
-        "receipt": row.get("receipt") if row["state"] == "completed" else None,
+        "receipt": row.get("receipt")
+        if row["state"]
+        in {"completed", "refund_pending", "refund_retry", "refund_review", "refunded"}
+        else None,
+        "cancel_unavailable": row.get("cancel_unavailable", False),
     }
 
 
@@ -55,8 +59,7 @@ class ShopOrders(ChatReviews):
         try:
             receipt = self.provider.receipt(row["id"], row["quote"])
             if receipt:
-                row["receipt"] = receipt
-                self._state(row, "completed")
+                self._apply_receipt(row, receipt)
             elif self.store.clock().timestamp() - row["submitted_at"] > 60:
                 self._state(row, "retry")
         except DomainError as error:
@@ -75,30 +78,96 @@ class ShopOrders(ChatReviews):
                 self._save(row)
             elif row["state"] in {"submitting", "checking"} and row["next_read"] <= now.timestamp():
                 self._check(row)
+            elif row["state"] == "refund_pending" and row["next_read"] <= now.timestamp():
+                self._read_payment(row)
+            return public(row)
+
+    def _apply_receipt(self, row, receipt):
+        prior = row.get("receipt")
+        if not receipt or (
+            prior
+            and any(receipt.get(k) != prior.get(k) for k in ("order", "charged_minor", "test_mode"))
+        ):
+            self._state(row, "unverified")
+            return
+        row["receipt"] = receipt
+        refund = receipt.get("refund_status")
+        if refund == "succeeded":
+            self._state(row, "refunded")
+        elif refund or row.get("cancel_requested_at"):
+            if receipt.get("buyer_cancel_requested") or refund:
+                overdue = (
+                    self.store.clock().timestamp()
+                    - row.get("cancel_requested_at", self.store.clock().timestamp())
+                    > 120
+                )
+                self._state(
+                    row,
+                    "refund_review" if refund == "needs_review" or overdue else "refund_pending",
+                )
+            elif receipt.get("can_cancel") and not row.get("cancel_unavailable"):
+                self._state(row, "refund_retry")
+            else:
+                row["cancel_unavailable"] = True
+                self._state(row, "completed")
+        else:
+            self._state(row, "completed")
+
+    def _read_payment(self, row, required=False):
+        row["next_read"] = self.store.clock().timestamp() + 8
+        try:
+            self._apply_receipt(row, self.provider.receipt(row["id"], row["quote"]))
+        except DomainError as error:
+            if error.code in {"SHOP_UNVERIFIED", "SHOP_PAYMENT_FAILED"}:
+                self._state(row, "unverified")
+            elif required:
+                raise
+        self._save(row)
+
+    def cancel(self, ref, principal, chat):
+        owner = self.owner(principal)
+        with self.lock:
+            row = self._get(ref.id, owner, chat)
+            if row["state"] in {"refund_pending", "refund_review", "refunded"}:
+                self._read_payment(row, required=True)
+                return public(row)
+            if (
+                row["state"] not in {"completed", "refund_retry"}
+                or ref.version != row["version"]
+                or ref.amount_minor != public(row)["review_minor"]
+            ):
+                raise DomainError("SHOP_REVIEW_CHANGED", 409)
+            self._read_payment(row, required=True)
+            if row["state"] not in {"completed", "refund_retry"}:
+                return public(row)
+            if not row["receipt"].get("can_cancel"):
+                row["cancel_unavailable"] = True
+                self._save(row)
+                return public(row)
+            row.update(cancel_requested_at=self.store.clock().timestamp(), next_read=0)
+            self._state(row, "refund_pending")
+            self._save(row)
+            try:
+                self.provider.cancel(ref.id, row["receipt"])
+            except DomainError as error:
+                if error.code == "SHOP_CANCEL_UNAVAILABLE":
+                    row["cancel_unavailable"] = True
+            self._read_payment(row)
             return public(row)
 
     def reopen(self, ident, principal, chat):
         owner = self.owner(principal)
         with self.lock:
             row = self._get(ident, owner, chat)
-            if row["state"] != "completed":
+            if row["state"] not in {
+                "completed",
+                "refunded",
+                "refund_pending",
+                "refund_retry",
+                "refund_review",
+            }:
                 return self.read(ident, owner, chat)
-            try:
-                verified = self.provider.receipt(ident, row["quote"])
-            except DomainError as error:
-                if error.code not in {"SHOP_UNVERIFIED", "SHOP_PAYMENT_FAILED"}:
-                    raise
-                verified = None
-            prior = row["receipt"]
-            if not verified or any(
-                verified.get(k) != prior.get(k) for k in ("order", "charged_minor", "test_mode")
-            ):
-                self._state(row, "unverified")
-                self._save(row)
-            elif verified != prior:
-                # Fulfilment may advance from processing to completed after capture.
-                row["receipt"] = verified
-                self._save(row)
+            self._read_payment(row, required=True)
             return public(row)
 
     def decide(self, review, principal, chat):

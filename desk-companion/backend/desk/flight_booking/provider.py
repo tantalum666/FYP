@@ -225,6 +225,9 @@ class LetsFG:
     def status(self, ident):
         return self.request("GET", "bookings/" + booking_id(ident))
 
+    def stop(self, ident):
+        return self.request("POST", "bookings/" + booking_id(ident) + "/stop", {})
+
     def answer(self, ident, round_number, agree):
         return self.request(
             "POST",

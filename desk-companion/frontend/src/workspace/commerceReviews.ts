@@ -65,6 +65,11 @@ export function useCommerceReviews() {
               "expired",
               "failed",
               "unverified",
+              "refunded",
+              "refund_retry",
+              "refund_review",
+              "stopped",
+              "manual",
             ].includes(row.state),
         )
       )

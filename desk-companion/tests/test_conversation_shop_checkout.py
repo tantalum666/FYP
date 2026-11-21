@@ -297,3 +297,108 @@ def test_exact_second_approval_of_gateway_only_shipping_change(rate):
     )
     with pytest.raises(DomainError, match="SHOP_UNVERIFIED"):
         checkout_revision(basis, {"terms": dict(updated["terms"], quantity=3), "shipping_name": ""})
+
+
+def test_buyer_cancellation_in_chat_refund_recovery_and_foreign_order(desk, monkeypatch):
+    c, runtime, shop = desk
+    initial = send(c, "buy", "买两包文具").json()
+    chat = initial["conversation_id"]
+    paid = send(c, "pay", "确认支付", chat, initial["shopping_order"]).json()["shopping_order"]
+    record = shop.orders[paid["id"]]
+    record["can_cancel"] = True
+    cancel_calls = []
+
+    def request(ref, prior):
+        cancel_calls.append(ref)
+        record.update(buyer_cancel_requested=True, can_cancel=False, refund_status="pending")
+        raise DomainError("SHOP_PROVIDER_UNAVAILABLE", 503)
+
+    monkeypatch.setattr(shop, "cancel", request, raising=False)
+    other = TestClient(c.app)
+    login(other)
+    assert send(other, "wrong", "取消这笔购物订单并全额退款", chat, paid).status_code == 404
+    assert not cancel_calls
+    result = send(c, "stop", "帮我取消这笔购物订单并全额退款", chat).json()
+    assert result["shopping_order"]["state"] == "refund_pending" and len(cancel_calls) == 1
+    runtime.voice.conversations.entries.clear()
+    record.update(
+        order_status="refunded", refund_status="succeeded", refunded_minor=4200, net_minor=0
+    )
+    repeated = send(c, "same", "取消这笔购物订单并全额退款", chat, paid).json()["shopping_order"]
+    assert repeated["state"] == "refunded" and len(cancel_calls) == 1
+    reopened = send(c, "read-refund", "查回这笔购物订单的退款结果", chat).json()
+    assert (
+        reopened["shopping_order"]["receipt"]["charged_minor"] == 4200
+        and "净扣款 HK$0.00" in reopened["message"]
+    )
+
+
+def test_refund_cannot_be_claimed_from_a_charge_or_wrong_refund_alone():
+    from desk.shop_checkout.provider import refund_receipt
+
+    charge = {
+        "id": "ch_test",
+        "payment_intent": "pi_test",
+        "refunded": True,
+        "amount_refunded": 1200,
+    }
+    order = {"status": "refunded", "refunded_minor": 1200, "buyer_cancel_requested": True}
+    refund = {
+        "object": "refund",
+        "charge": "ch_test",
+        "id": "re_test",
+        "payment_intent": "pi_test",
+        "currency": "hkd",
+        "amount": 1200,
+        "status": "succeeded",
+    }
+    read = lambda values: refund_receipt(order, charge, {"data": values, "has_more": False}, 1200)
+    assert read([]) == {"refund_status": "pending"}
+    assert read([refund | {"status": "pending"}]) == {"refund_status": "pending"}
+    assert read([refund])["net_minor"] == 0
+    for changes in (
+        {"charge": "ch_other"},
+        {"payment_intent": "pi_other"},
+        {"amount": 650},
+        {"currency": "usd"},
+        {"livemode": True},
+    ):
+        with pytest.raises(DomainError):
+            read([refund | changes])
+
+
+def test_fulfilled_order_cannot_refund_on_a_buyer_request(desk):
+    c, _, shop = desk
+    quote = send(c, "q", "买两包文具").json()
+    chat = quote["conversation_id"]
+    paid = send(c, "p", "确认支付", chat, quote["shopping_order"]).json()["shopping_order"]
+    shop.orders[paid["id"]].update(order_status="completed", can_cancel=False)
+    result = send(c, "late", "取消这笔购物订单并全额退款", chat, paid).json()
+    assert result["shopping_order"]["state"] == "completed" and "未接受" in result["message"]
+
+
+def test_asking_about_or_quoting_a_cancellation_never_refunds(desk, monkeypatch):
+    c, _, shop = desk
+    quoted = send(c, "read-q", "买两包文具").json()
+    chat = quoted["conversation_id"]
+    paid = send(c, "read-p", "确认支付", chat, quoted["shopping_order"]).json()["shopping_order"]
+    shop.orders[paid["id"]].update(can_cancel=True)
+    calls = []
+    monkeypatch.setattr(shop, "cancel", lambda *args: calls.append(args), raising=False)
+    result = send(c, "can-i", "这笔购物订单可以取消吗？", chat).json()
+    assert result["shopping_order"]["state"] == "completed" and "仍接受" in result["message"]
+    from desk import commerce_aftercare
+    from types import SimpleNamespace
+
+    fake = SimpleNamespace(
+        attachment_ids=[], flight_review=None, shopping_review=None, language="zh"
+    )
+    for text in ["取消这笔购物订单？", "不要取消这笔订单", "她说「取消这笔订单」"]:
+        fake.message = text
+        assert (
+            commerce_aftercare.turn(
+                None, fake, {"kind": "owner"}, SimpleNamespace(attachment_ids=[])
+            )
+            is None
+        )
+    assert not calls
