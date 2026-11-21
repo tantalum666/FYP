@@ -4,6 +4,7 @@ from datetime import date
 from decimal import Decimal, InvalidOperation
 import re
 import logging
+import time
 
 import httpx
 from pydantic import Field, model_validator
@@ -15,6 +16,7 @@ from .timetable import published_time
 
 
 BASE = "https://letsfg.co/developers/api/v1/sandbox/flights/"
+SEARCH_WINDOW_SECONDS = 24
 BOOKING_ID = re.compile(r"sb_dev_[A-Za-z0-9_-]{1,96}")
 PNR = re.compile(r"[A-Z0-9]{6}")
 
@@ -177,11 +179,11 @@ class LetsFG:
     def __init__(self, transport=None):
         self.transport = transport
 
-    def request(self, method, path, body=None):
+    def request(self, method, path, body=None, *, timeout=None):
         try:
             with httpx.Client(
                 base_url=BASE,
-                timeout=httpx.Timeout(5.0, connect=3.0) if path == "search" else 10,
+                timeout=timeout if timeout is not None else 10,
                 trust_env=False,
                 follow_redirects=False,
                 transport=self.transport,
@@ -204,6 +206,21 @@ class LetsFG:
             raise DomainError("FLIGHT_PROVIDER_REFUSED", 409)
         return result
 
+    def _search(self, body):
+        deadline = time.monotonic() + SEARCH_WINDOW_SECONDS
+        for attempt in range(2):
+            remaining = deadline - time.monotonic()
+            if remaining <= 1:
+                break
+            connect = min(6.0, remaining / 3)
+            timeout = httpx.Timeout(min(14.0, remaining - connect), connect=connect)
+            try:
+                return self.request("POST", "search", body, timeout=timeout)
+            except DomainError as error:
+                if error.code != "FLIGHT_PROVIDER_UNAVAILABLE" or attempt:
+                    raise
+        raise DomainError("FLIGHT_PROVIDER_UNAVAILABLE", 503)
+
     def candidates(self, query, today: date):
         if query.adults != 1 or query.checked_bag_kg or query.return_date:
             raise DomainError("FLIGHT_TEST_SCOPE", 422)
@@ -216,13 +233,7 @@ class LetsFG:
             "adults": 1,
             "currency": "HKD",
         }
-        try:
-            data = self.request("POST", "search", body)
-        except DomainError as error:
-            if error.code != "FLIGHT_PROVIDER_UNAVAILABLE":
-                raise
-            # A fare query has no order effect. Recover one transient read failure.
-            data = self.request("POST", "search", body)
+        data = self._search(body)
         sid = data.get("search_id")
         if (
             not isinstance(sid, str)

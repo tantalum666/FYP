@@ -391,3 +391,31 @@ def test_departure_day_uses_the_departure_airport_even_when_the_desk_has_crossed
     assert departure_day(instant, "LAX") == date(2026, 11, 21)
     assert departure_day(instant, "HKG") == date(2026, 11, 22)
     assert published_time("2026-11-29 18:30", "HKG") == "2026-11-29T18:30"
+
+
+@pytest.mark.parametrize("elapsed,expected_attempts", [(16, 2), (25, 1)])
+def test_slow_read_only_search_spends_one_shared_retry_window(
+    monkeypatch, elapsed, expected_attempts
+):
+    from desk.flight_booking import provider
+    from desk.capabilities import CAPABILITIES
+
+    ticks = [0.0]
+    timeouts = []
+    monkeypatch.setattr(provider, "time", SimpleNamespace(monotonic=lambda: ticks[0]))
+
+    def supplier(req):
+        assert req.url.path.endswith("/search")
+        timeouts.append(req.extensions["timeout"])
+        ticks[0] += elapsed
+        raise httpx.ReadTimeout("synthetic upstream delay")
+
+    svc = LetsFG(httpx.MockTransport(supplier))
+    with pytest.raises(DomainError, match="FLIGHT_PROVIDER_UNAVAILABLE"):
+        svc.candidates(FlightQuery.model_validate(BASE), date(2026, 11, 22))
+    assert len(timeouts) == expected_attempts and timeouts[0]["read"] > 6.73
+    assert CAPABILITIES["sandbox_flight_quote"].timeout > provider.SEARCH_WINDOW_SECONDS
+    if expected_attempts == 2:
+        assert (
+            timeouts[1]["read"] + timeouts[1]["connect"] <= provider.SEARCH_WINDOW_SECONDS - elapsed
+        )
