@@ -961,3 +961,7 @@ The owner identified reversed hands and clipping in gratitude and laughter and r
 ## 2026-11-21 Keep the resting upper arms close to the body
 
 The owner rejected a normal home stance that held the arms roughly twenty to thirty degrees out. Keep the previous gesture coordinate reference internal and seed the visible rig at its actual hanging pose. The rendered uniform can yield locally with the elbow and cuff. Preserve gentle asymmetry, stagger the fingers and oppose the thumb outside the index. Compare the same device at rest from the front, check depth separately, and test the exposed digits through the release as well as the grip. [Acceptance](output/qa/2026-11-21-alice-relaxed-stance/verification.md).
+
+## 2026-11-21 Refine Alice’s expressions and features
+
+The owner asked for more facial variety, a more visible nose and mouth and a small increase in chest fullness while keeping the overall body shape. Group 2 keeps the licensed uniform and uses its existing lip, brow and eyelid shapes. The same ordinary Session supplies the three new social cues. The renderer also varies listening, thought, the playful wink and the victory pose. The localized garment shape tapers before the sleeve contact region. Check both the default home framing and a matched clothed profile. [Release acceptance](output/qa/2026-11-21-alice-face-fit/verification.md).
