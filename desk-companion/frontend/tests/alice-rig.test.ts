@@ -1,100 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { readFileSync } from "node:fs";
-import * as THREE from "three";
-import {
-  VRMHumanoid,
-  type VRMHumanBones,
-  type VRMHumanBoneName,
-} from "@pixiv/three-vrm";
+import type { Vector3 } from "three";
 import { aliceMotion, MOTION_BONES } from "../src/companion/alice-motion.ts";
-import { HandPose, palmNormal, relaxArms } from "../src/companion/hand-pose.ts";
+import { palmNormal } from "../src/companion/hand-pose.ts";
 import { JointMotion } from "../src/companion/motion-response.ts";
 import {
   performances,
   type PerformanceName,
 } from "../src/companion/performance-score.ts";
-
-function aliceRig() {
-  // The shipped model's real joint hierarchy, without texture/mesh loading or a GPU.
-  const bytes = readFileSync(
-    new URL("../public/avatars/alice/alice-ready.vrm", import.meta.url),
-  );
-  const source = JSON.parse(
-    bytes.subarray(20, 20 + bytes.readUInt32LE(12)).toString(),
-  );
-  const nodes = source.nodes.map((definition: any) => {
-    const node = new THREE.Object3D();
-    node.name = definition.name ?? "";
-    if (definition.matrix)
-      new THREE.Matrix4()
-        .fromArray(definition.matrix)
-        .decompose(node.position, node.quaternion, node.scale);
-    else {
-      if (definition.translation)
-        node.position.fromArray(definition.translation);
-      if (definition.rotation) node.quaternion.fromArray(definition.rotation);
-      if (definition.scale) node.scale.fromArray(definition.scale);
-    }
-    return node;
-  });
-  source.nodes.forEach((definition: any, index: number) => {
-    for (const child of definition.children ?? [])
-      nodes[index].add(nodes[child]);
-  });
-  const scene = new THREE.Group();
-  for (const node of source.scenes[source.scene ?? 0].nodes)
-    scene.add(nodes[node]);
-  scene.updateMatrixWorld(true);
-  const bones: Record<string, { node: THREE.Object3D }> = {};
-  for (const entry of source.extensions.VRM.humanoid.humanBones) {
-    const name = entry.bone
-      .replace("ThumbProximal", "ThumbMetacarpal")
-      .replace("ThumbIntermediate", "ThumbProximal");
-    bones[name] = { node: nodes[entry.node] };
-  }
-  const humanoid = new VRMHumanoid(bones as VRMHumanBones);
-  scene.add(humanoid.normalizedHumanBonesRoot);
-  scene.rotation.y = Math.PI; // Same VRM0-facing correction as VrmViewer.
-  scene.updateMatrixWorld(true);
-  relaxArms({ humanoid });
-  humanoid.update();
-  scene.updateMatrixWorld(true);
-  const hands = new HandPose({ humanoid });
-  const rest = new Map(
-    MOTION_BONES.map((name) => [
-      name,
-      humanoid.getNormalizedBoneNode(name)!.quaternion.clone(),
-    ]),
-  );
-  const position = (name: string) =>
-    humanoid
-      .getRawBoneNode(name as VRMHumanBoneName)!
-      .getWorldPosition(new THREE.Vector3());
-  const feet = ["leftFoot", "rightFoot"].map(position);
-  return { scene, humanoid, hands, rest, position, feet };
-}
-
-function applyPose(
-  rig: ReturnType<typeof aliceRig>,
-  motion: ReturnType<typeof aliceMotion>,
-  side: "left" | "right",
-  elapsed = 1,
-) {
-  for (const name of MOTION_BONES) {
-    const node = rig.humanoid.getNormalizedBoneNode(name)!;
-    node.quaternion
-      .copy(rig.rest.get(name)!)
-      .multiply(
-        new THREE.Quaternion().setFromEuler(
-          new THREE.Euler(...motion.pose[name]),
-        ),
-      );
-  }
-  rig.hands.update(elapsed, side, motion.openness, motion.hands);
-  rig.humanoid.update();
-  rig.scene.updateMatrixWorld(true);
-}
+import { aliceRig, applyPose, filteredPose } from "./alice-rig-fixture.ts";
 
 for (const side of ["left", "right"] as const)
   test(`${side} greeting shows its palm, thumb toward the face, on Alice's actual rig`, () => {
@@ -132,7 +46,7 @@ for (const side of ["left", "right"] as const)
   test(`${side} explanation stays in front of the body and inside the phone hand envelope`, () => {
     const rig = aliceRig();
     let travel = 0;
-    let previous: THREE.Vector3 | undefined;
+    let previous: Vector3 | undefined;
     for (let frame = 90; frame <= 210; frame++) {
       const age = frame / 60;
       const motion = aliceMotion(age, {
@@ -183,11 +97,7 @@ test("the moving fingertips stay inside the phone envelope throughout the lift a
           gestureAt: 1,
           waveSide: side,
         });
-        MOTION_BONES.forEach((bone, i) => {
-          const [x, y, z] = joints[i].update(motion.pose[bone], 1 / 30);
-          motion.pose[bone] = [x, y, z];
-        });
-        applyPose(rig, motion, side, 1 / 30);
+        filteredPose(rig, joints, motion, side, 1 / 30);
         for (const finger of ["Thumb", "Index", "Middle", "Ring", "Little"]) {
           const tip = rig.position(side + finger + "Distal");
           assert.ok(
@@ -200,7 +110,7 @@ test("the moving fingertips stay inside the phone envelope throughout the lift a
   }
 });
 
-test("expressive scores keep both hands framed and the three applause beats meet", () => {
+test("expressive arms stay articulated and three oblique claps close and reopen", () => {
   for (const name of Object.keys(performances) as PerformanceName[]) {
     for (const side of ["left", "right"] as const) {
       const rig = aliceRig(),
@@ -218,17 +128,53 @@ test("expressive scores keep both hands framed and the three applause beats meet
           gestureAt: 1,
           waveSide: side,
         });
-        MOTION_BONES.forEach((bone, i) => {
-          const [x, y, z] = joints[i].update(
-            motion.pose[bone],
-            1 / 30,
-            name === "applause",
-          );
-          motion.pose[bone] = [x, y, z];
-        });
-        applyPose(rig, motion, side, 1 / 30);
+        filteredPose(rig, joints, motion, side, 1 / 30);
         for (const [i, hand] of (["left", "right"] as const).entries()) {
           assert.ok(rig.position(hand + "Foot").distanceTo(rig.feet[i]) < 1e-8);
+          const wrist = rig.position(hand + "Hand"),
+            direction = rig
+              .position(hand + "MiddleProximal")
+              .sub(wrist)
+              .normalize();
+          const forearm = wrist
+            .clone()
+            .sub(rig.position(hand + "LowerArm"))
+            .normalize();
+          const palm = palmNormal(
+            hand,
+            wrist,
+            rig.position(hand + "IndexProximal"),
+            rig.position(hand + "MiddleProximal"),
+            rig.position(hand + "LittleProximal"),
+          );
+          const wristRotation = rig.humanoid
+            .getNormalizedBoneNode(hand + "Hand")!
+            .quaternion.angleTo(rig.rest.get(hand + "Hand")!);
+          assert.ok(
+            wristRotation < 0.86 && direction.angleTo(forearm) < 0.94,
+            `${name}: wrist folds at ${age}`,
+          );
+          assert.ok(
+            Math.abs(forearm.dot(direction.clone().cross(palm).normalize())) <
+              0.4,
+            `${name}: wrist deviates sideways`,
+          );
+          if (
+            hand === side &&
+            age > 1.8 &&
+            age < 2.4 &&
+            (name === "giggle" || name === "gratefulBow")
+          ) {
+            const toward = rig
+              .position(name === "giggle" ? "head" : "chest")
+              .sub(wrist)
+              .normalize();
+            assert.ok(
+              palm.dot(toward) > 0.6,
+              `${name}: back of hand faces the character`,
+            );
+          }
+
           for (const finger of ["Thumb", "Index", "Middle", "Ring", "Little"]) {
             assert.ok(
               Math.abs(rig.position(hand + finger + "Distal").x) < 0.38,
@@ -237,14 +183,16 @@ test("expressive scores keep both hands framed and the three applause beats meet
           }
         }
         if (name === "applause" && age > 1) {
+          // This oblique clap meets along the finger pads. The two wrists
+          // and knuckle roots deliberately stay apart because of the cuffs.
           const gap = rig
-            .position("leftMiddleProximal")
-            .distanceTo(rig.position("rightMiddleProximal"));
-          if (!near && gap < 0.052) {
+            .position("leftMiddleIntermediate")
+            .distanceTo(rig.position("rightMiddleIntermediate"));
+          if (!near && gap < 0.06) {
             contacts++;
             near = true;
           }
-          if (gap > 0.14) near = false;
+          if (gap > 0.12) near = false;
         }
       }
       if (name === "applause") assert.equal(contacts, 3);

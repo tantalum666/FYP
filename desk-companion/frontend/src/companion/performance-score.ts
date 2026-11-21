@@ -15,7 +15,7 @@ export interface Performance {
   duration: number;
   face: Face;
   primary: readonly ArmKey[];
-  other?: readonly ArmKey[] | "mirror";
+  other?: readonly ArmKey[];
   body: readonly BodyKey[];
   wink?: boolean;
   faceStrength?: number;
@@ -82,7 +82,18 @@ export const performances = {
       [4.35, "ready"],
       [5.4, "rest"],
     ],
-    other: "mirror",
+    other: [
+      rest,
+      [1.05, "clapCatch"],
+      [1.64, "clapRecoil"],
+      [1.98, "clapCatch"],
+      [2.4, "clapRecoil"],
+      [2.74, "clapCatch"],
+      [3.27, "clapRecoil"],
+      [3.85, "clapCatch"],
+      [4.64, "ready"],
+      [5.4, "rest"],
+    ],
     body: [
       start,
       [0.55, -0.1, -0.065, -0.055, -0.08],
@@ -146,13 +157,6 @@ export const performances = {
     duration: 6.1,
     face: "appreciate",
     primary: [rest, [1.05, "heart"], [3.54, "heart"], [5.16, "rest"]],
-    other: [
-      rest,
-      [1.14, "ready"],
-      [2.08, "fold"],
-      [3.4, "fold"],
-      [4.88, "rest"],
-    ],
     body: [
       start,
       [0.62, -0.035, 0.07, 0.07, -0.035],
@@ -209,7 +213,6 @@ export const performances = {
     duration: 5.8,
     face: "amused",
     primary: [rest, [1.12, "cheek"], [3.3, "cheek"], [4.95, "rest"]],
-    other: [rest, [1.48, "ready"], [3.35, "ready"], [4.55, "rest"]],
     body: [
       start,
       [0.72, 0.09, -0.14, -0.12, 0.06],

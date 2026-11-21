@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { Euler, Quaternion } from "three";
 import { MotionCues, GESTURE_SECONDS } from "../src/companion/motion-cues.ts";
 import { aliceMotion } from "../src/companion/alice-motion.ts";
 
@@ -66,14 +67,11 @@ test("every gesture returns to rest without endpoint jumps or unbounded rotation
     for (let age = 0; age < duration; age += 0.02) {
       const pose = aliceMotion(age, options).pose;
       const next = aliceMotion(age + 0.02, options).pose;
-      for (const name of Object.keys(pose) as (keyof typeof pose)[])
-        for (let axis = 0; axis < 3; axis++) {
-          assert.ok(Number.isFinite(pose[name][axis]));
-          assert.ok(
-            Math.abs(pose[name][axis] - next[name][axis]) < 0.15,
-            `${gesture} jumps at ${age}: ${name}`,
-          );
-        }
+      for (const name of Object.keys(pose) as (keyof typeof pose)[]) {
+        const q = new Quaternion().setFromEuler(new Euler(...pose[name]));
+        const r = new Quaternion().setFromEuler(new Euler(...next[name]));
+        assert.ok(q.angleTo(r) < 0.15, `${gesture} jumps at ${age}: ${name}`);
+      }
     }
   }
 });

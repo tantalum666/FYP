@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { Euler, Quaternion } from "three";
 import {
   aliceMotion,
   blinkWeight,
@@ -86,13 +87,10 @@ test("state gestures stay bounded and never introduce root or foot translation",
       });
       for (const [bone, angles] of Object.entries(motion.pose)) {
         assert.doesNotMatch(bone, /foot|leg|hips|root/i);
-        assert.ok(
-          angles.every(
-            (value) =>
-              Number.isFinite(value) &&
-              Math.abs(value) < (bone.endsWith("LowerArm") ? 2.5 : 1.5),
-          ),
-        );
+        const rotation = new Quaternion()
+          .setFromEuler(new Euler(...angles))
+          .angleTo(new Quaternion());
+        assert.ok(rotation < (bone.endsWith("LowerArm") ? 2.58 : 1.53));
       }
       assert.ok(blinkWeight(time) >= 0 && blinkWeight(time) <= 1);
     }
@@ -138,5 +136,22 @@ test("a hidden conversation releases its cue without clearing another active con
     unsubscribe();
     reportInteraction(first, null);
     reportInteraction(second, null);
+  }
+});
+
+test("equivalent Euler descriptions do not unwind a forearm", () => {
+  const response = new JointMotion("leftLowerArm"),
+    first = [1.1, -0.8, 1.4],
+    same = [first[0] + Math.PI, Math.PI - first[1], first[2] + Math.PI];
+  const expected = new Quaternion().setFromEuler(
+    new Euler(first[0], first[1], first[2]),
+  );
+  for (let f = 0; f < 120; f++) response.update(first, 1 / 30);
+  for (let f = 0; f < 22; f++) {
+    const [x, y, z] = response.update(same, 1 / 30);
+    assert.ok(
+      expected.angleTo(new Quaternion().setFromEuler(new Euler(x, y, z))) <
+        1e-5,
+    );
   }
 });

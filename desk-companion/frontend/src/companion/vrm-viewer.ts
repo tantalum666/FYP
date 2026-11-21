@@ -11,6 +11,7 @@ import { mouthLevel, subscribePlayback, type PlaybackSample } from "./output";
 import type { Presentation } from "./renderer";
 import { MODELS, readAppearance } from "./appearance";
 import { HandPose, relaxArms } from "./hand-pose";
+import { fitAliceSleeves } from "./sleeve-colliders";
 import { MotionCues } from "./motion-cues";
 import { FacePerformance } from "./face-performance";
 import { JointMotion } from "./motion-response";
@@ -242,6 +243,7 @@ export class VrmViewer {
       }
       // VRM0 was rotated after import. Initialize spring state in its final
       // world transform so the first frame does not throw the hair upward.
+      if (source === MODELS.alice.file) fitAliceSleeves(vrm.springBoneManager);
       vrm.springBoneManager?.setInitState();
       vrm.springBoneManager?.reset();
       vrm.update(1 / 60);
