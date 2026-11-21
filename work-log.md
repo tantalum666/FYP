@@ -1107,3 +1107,8 @@ Added seven social tones, a neutral option and thirteen authored performances. F
 ## 2026-11-21 · Review the full hand rig and deploy Live 1.1
 
 Inspected all 20 gestures from three angles and replayed six interrupted transitions on each side. Corrected reversed wrist rotation and the cross-sleeve path, calibrated clothing clearance and verified the exposed fingertips. Published same-device footage and per-path results, including residual textile contacts. The FYP key confirmed GPT-Live-1.1 and the normal voice path returned “收到。” and finalized. Mac Web and the native Simulator run `a1f9b76b`. The offline Pi has a verified 118-file delta with 387 files reusable. [Acceptance](output/qa/2026-11-21-alice-hands-live11/verification.md) · [draft PR 137](https://github.com/tantalum666/FYP/pull/137).
+
+
+## 2026-11-21 · Narrow Alice’s resting silhouette and articulate the hand
+
+Measured the previous native idle posture, corrected the visible resting rig and separated it from gesture calibration. Built a reproducible contact shape for the existing uniform, refined the knuckle and thumb motion, and restored the checked phone and clap clearances. Reviewed 54 mirrored paths and 13,234 frames, plus a separate near-contact finger sweep. Deployed `69099a24` to daily Web and the original Simulator, retained the Pi delta, and verified release identity, data, grants and local rendering. [Film, figures and residuals](output/qa/2026-11-21-alice-relaxed-stance/verification.md) · [draft PR 138](https://github.com/tantalum666/FYP/pull/138).

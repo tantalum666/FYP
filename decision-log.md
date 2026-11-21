@@ -956,3 +956,8 @@ The owner found the revised arm timing and posture emotionally flat and asked fo
 ## 2026-11-21 Correct the hands and apply GPT-Live-1.1
 
 The owner identified reversed hands and clipping in gratitude and laughter and requested a review of every action. The arm response now rotates the forearm for palm roll, uses bounded wrist bending, and checks rendered skin and garment surfaces as well as finger positions. Retain the original character asset and A3 voice. Choose local wake listening between sessions on the present WebSocket architecture. The provider documents paid speech-triggered standby on WebRTC. The everyday voice model is `gpt-live-1.1`. [Decision evidence](output/qa/2026-11-21-alice-hands-live11/verification.md).
+
+
+## 2026-11-21 Keep the resting upper arms close to the body
+
+The owner rejected a normal home stance that held the arms roughly twenty to thirty degrees out. Keep the previous gesture coordinate reference internal and seed the visible rig at its actual hanging pose. The rendered uniform can yield locally with the elbow and cuff. Preserve gentle asymmetry, stagger the fingers and oppose the thumb outside the index. Compare the same device at rest from the front, check depth separately, and test the exposed digits through the release as well as the grip. [Acceptance](output/qa/2026-11-21-alice-relaxed-stance/verification.md).
