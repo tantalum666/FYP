@@ -15,7 +15,7 @@ export interface Performance {
   duration: number;
   face: Face;
   primary: readonly ArmKey[];
-  other?: readonly ArmKey[] | "mirror";
+  other?: readonly ArmKey[];
   body: readonly BodyKey[];
   wink?: boolean;
   faceStrength?: number;
@@ -82,7 +82,18 @@ export const performances = {
       [4.35, "ready"],
       [5.4, "rest"],
     ],
-    other: "mirror",
+    other: [
+      rest,
+      [1.05, "clapCatch"],
+      [1.64, "clapRecoil"],
+      [1.98, "clapCatch"],
+      [2.4, "clapRecoil"],
+      [2.74, "clapCatch"],
+      [3.27, "clapRecoil"],
+      [3.85, "clapCatch"],
+      [4.64, "ready"],
+      [5.4, "rest"],
+    ],
     body: [
       start,
       [0.55, -0.1, -0.065, -0.055, -0.08],
@@ -146,13 +157,6 @@ export const performances = {
     duration: 6.1,
     face: "appreciate",
     primary: [rest, [1.05, "heart"], [3.54, "heart"], [5.16, "rest"]],
-    other: [
-      rest,
-      [1.14, "ready"],
-      [2.08, "fold"],
-      [3.4, "fold"],
-      [4.88, "rest"],
-    ],
     body: [
       start,
       [0.62, -0.035, 0.07, 0.07, -0.035],
@@ -185,23 +189,23 @@ export const performances = {
     face: "surprised",
     primary: [
       rest,
-      [0.82, "spread"],
-      [1.68, "spread"],
+      [1.08, "spread"],
+      [1.79, "spread"],
       [2.72, "palm"],
       [4.4, "rest"],
     ],
     other: [
       rest,
-      [1.01, "spread"],
-      [1.75, "spread"],
+      [1.34, "spread"],
+      [1.91, "spread"],
       [2.58, "guard"],
       [4.15, "rest"],
     ],
     body: [
       start,
-      [0.53, -0.19, -0.11, -0.11, -0.17],
-      [1.33, -0.1, 0.055, 0.075, -0.07],
-      [2.45, 0.12, 0.1, 0.12, 0.06],
+      [0.72, -0.10, -0.055, -0.06, -0.09],
+      [1.50, -0.065, 0.035, 0.045, -0.04],
+      [2.62, 0.075, 0.065, 0.07, 0.045],
       [4.42, 0, 0, 0, 0],
     ],
   },
@@ -209,7 +213,6 @@ export const performances = {
     duration: 5.8,
     face: "amused",
     primary: [rest, [1.12, "cheek"], [3.3, "cheek"], [4.95, "rest"]],
-    other: [rest, [1.48, "ready"], [3.35, "ready"], [4.55, "rest"]],
     body: [
       start,
       [0.72, 0.09, -0.14, -0.12, 0.06],

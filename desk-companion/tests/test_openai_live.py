@@ -348,8 +348,9 @@ def test_live_service_drains_final_usage_before_releasing_slot(tmp_path, monkeyp
             {"id": "voice_fixture"} if finish == "stop" else "marin"
         )
         tools = setup["delegation"]["responses"]["tools"]
-        assert len(tools) == len(CAPABILITIES)
-        assert {tool["name"] for tool in tools} == set(CAPABILITIES)
+        voice_capabilities = set(CAPABILITIES) - {"sandbox_flight_quote", "sandbox_shop_quote"}
+        assert len(tools) == len(voice_capabilities)
+        assert {tool["name"] for tool in tools} == voice_capabilities
         assert {"weather_query", "browser_research_draft", "browser_research_status"} <= {
             tool["name"] for tool in tools
         }
@@ -403,3 +404,27 @@ def test_closed_without_final_duration_or_backend_usage_stays_unreconciled():
         }
     )
     assert protocol.usage_snapshot()["backend_receipts_complete"] == 0
+
+
+def test_live_requested_model_and_optional_duration_receipt(monkeypatch):
+    from dataclasses import replace
+    from desk.provider_policy import DEFAULT_OPENAI_LIVE_MODEL
+
+    monkeypatch.delenv("DESK_VOICE_MODEL", raising=False)
+    monkeypatch.setenv("DESK_VOICE_PROVIDER", "openai_live")
+    assert VoiceConfig.environment().model == DEFAULT_OPENAI_LIVE_MODEL == "gpt-live-1.1"
+    for version in (DEFAULT_OPENAI_LIVE_MODEL, "gpt-live-1"):
+        cfg = replace(config(), model=version)
+        assert cfg.valid()
+        protocol = OpenAILiveProtocol()
+        body = protocol.setup(cfg, "test")["session"]
+        assert body["model"] == version
+        assert "wake_policy" not in body and "idle_timeout_s" not in body
+        assert protocol.events({"type":"session.started","session":{"model":version}})[0]["model"] == version
+        assert protocol.events({"type":"session.started","session":{"model":"unexpected"}})[0]["code"] == "VOICE_MODEL_MISMATCH"
+        protocol.events({"type":"session.usage.updated","usage":{"seconds":5,"active_seconds":6,"paused_seconds":0}})
+        assert "voice_active_seconds" not in protocol.usage_snapshot()
+        protocol.events({"type":"session.closed","usage":{"seconds":8,"active_seconds":8,"paused_seconds":0}})
+        assert protocol.usage_snapshot()["voice_active_seconds"] == 8
+        assert protocol.usage_snapshot()["voice_paused_seconds"] == 0
+        assert protocol.usage_snapshot()["finalization_confirmed"] == 1

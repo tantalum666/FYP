@@ -1,6 +1,10 @@
 # OpenAI real-time voice evaluation · Group 2
 
-## Current16November2026 follow-up
+## Current 21 November 2026 follow-up
+
+The existing FYP key completed one new GPT-Live-1.1 acceptance using the normal desk voice ticket and synthetic Mandarin audio. The provider acknowledged the custom A3 voice and returned five billable seconds at graceful close. The earlier evaluation budgets stayed closed. [Receipt and scope](../../output/qa/2026-11-21-alice-hands-live11/verification.md).
+
+## 16 November 2026 follow-up
 The full31-tool Live catalog now includes HKO weather_query. A3 is retained. Speech-only label hints, low backend reasoning, short PCM-silence preservation and bounded adaptive buffering address the reported delivery issues. The fresh USD0.20/60second synthetic round is closed:58.493seconds, receipt-based conservativeUSD0.11280236. Task/forecast reads and A3 passed; complete final weather speech was cut short. Two evaluator failures are retained. Do not claim improved human listening quality or full spoken-weather/latency acceptance from this partial result. [Detailed current evidence](../../output/qa/2026-11-16-alice-daily-presence/verification.md).
 
 ## Historical evaluation

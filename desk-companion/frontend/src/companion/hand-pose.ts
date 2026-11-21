@@ -60,8 +60,8 @@ export class HandPose {
       if (thumb && tip) {
         const origin = position(thumb),
           local = thumb.getWorldQuaternion(new THREE.Quaternion()).invert();
-        const across = position(index)
-          .lerp(position(middle), 0.42)
+        const across = position(bone(`${side}IndexIntermediate`) ?? index)
+          .lerp(position(middle), 0.18)
           .sub(origin)
           .normalize()
           .applyQuaternion(local);
@@ -141,7 +141,7 @@ export class HandPose {
       const greeting = 0.025 + item.finger * 0.018;
       const loose =
         (relaxed * (1 - open) + greeting * open) * [0.7, 0.9, 0.55][item.joint];
-      const curl = loose * (1 - fist) + [1.12, 1.3, 0.86][item.joint] * fist;
+      const curl = loose * (1 - fist) + [0.89, 1.21, 0.86][item.joint] * fist;
       this.offset.setFromAxisAngle(item.axis, curl);
       this.target.copy(item.rest).multiply(this.offset);
       item.node.quaternion.slerp(this.target, blend);
@@ -164,7 +164,7 @@ export function relaxArms(vrm: Pick<VRM, "humanoid">) {
       .normalize()
       .applyQuaternion(parentRotation);
     const outward = Math.sign(shoulder.x) || (side === "left" ? 1 : -1);
-    const down = new THREE.Vector3(outward * 0.2, -1, 0.03)
+    const down = new THREE.Vector3(outward * 0.53, -1, 0.27)
       .normalize()
       .applyQuaternion(parentRotation);
     upper.quaternion.premultiply(

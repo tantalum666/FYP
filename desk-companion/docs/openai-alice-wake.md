@@ -1,6 +1,12 @@
 # Group 2 · OpenAI voice and Alice wake listening
 
-## 9 November latest default · A3
+## Current daily voice · 21 November 2026
+
+The configured Live model goes into the actual `session.start` payload. The daily Mac uses `gpt-live-1.1`, A3 v9 and `gpt-6.2-sol` delegation. An explicit `gpt-live-1` pin remains available for rollback. A returned model mismatch stops the session. Final billed duration comes from `session.closed.usage.seconds`. The adapter also preserves a valid active/paused split when the provider supplies it.
+
+Keep the local wake detector for normal standby, and use the existing primary WebSocket during an active conversation. OpenAI’s cloud standby is for WebRTC, keeps the microphone track active and bills paused time. Speech starts inference. A 5–60 second transcript inactivity timeout can return the call to standby. Reconsider this feature for a future WebRTC call flow where retaining one connection through short pauses matters. [Model](https://developers.openai.com/api/docs/models/gpt-live-1.1) · [WebRTC standby](https://developers.openai.com/api/docs/guides/live-conversations#managing-idle-sessions) · [Actual A3 voice readback](../../output/qa/2026-11-21-alice-hands-live11/verification.md).
+
+## 9 November voice selection · A3
 
 The owner explicitly selected A3 / Alice · Taiwan Light. Existing owner/versioned APIs now read version9on Mac/Pi with the exact saved A3 ID/original description and preserved language-following delivery. Both serve the cached A3 sample byte-for-byte; Web/phone browser share Mac and the running native phone Simulator still points to Pi8891. Original A and its sample remain available. No new cloud generation, source rebuild, restart or forced interruption. [Current activation QA](../../output/qa/2026-11-09-a3-default/verification.md).
 
@@ -59,7 +65,7 @@ A separate complete-app browser evaluation used real native capture permission/l
 
 Provider rejection records bounded error identifiers and phase, without raw error messages or private input. The UI distinguishes configuration rejection from microphone permission and clears a previous failure when a new deliberate attempt starts. Errors still stop paid retries.
 
-## 7 November current Live implementation
+## 7 November Live implementation
 
 The owner selected GPT Live as the primary voice route and retained Realtime as a comparison option. `openai_live.py` adapts native Live sessions and Responses delegation to the existing VoiceService/ToolDispatcher. Speech uses gpt-live-1; delegated business reasoning and independent text/browser requests use gpt-6.1-sol. `configure_openai.py --voice-provider openai_realtime` explicitly selects the retained comparison route. There is no silent provider fallback, new business queue or frontend credential.
 

@@ -951,3 +951,8 @@ The owner reported that Alice still moved stiffly. Group 2 kept the selected mod
 ## 2026-11-21 Give ordinary replies an expressive performance
 
 The owner found the revised arm timing and posture emotionally flat and asked for more varied movements and faces. Group 2 added distinct social responses, casual idle gestures and facial articulation on the existing character. Ordinary text chooses a bounded presentation value inside the same official Session reply. The renderer only receives that value. Task results remain authoritative and older plain-text replies stay readable. Repeated tones can select a different performance. [Evidence](output/qa/2026-11-21-alice-expressive-conversation/verification.md).
+
+
+## 2026-11-21 Correct the hands and apply GPT-Live-1.1
+
+The owner identified reversed hands and clipping in gratitude and laughter and requested a review of every action. The arm response now rotates the forearm for palm roll, uses bounded wrist bending, and checks rendered skin and garment surfaces as well as finger positions. Retain the original character asset and A3 voice. Choose local wake listening between sessions on the present WebSocket architecture. The provider documents paid speech-triggered standby on WebRTC. The everyday voice model is `gpt-live-1.1`. [Decision evidence](output/qa/2026-11-21-alice-hands-live11/verification.md).

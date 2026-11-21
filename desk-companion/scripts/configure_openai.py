@@ -17,7 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "backend"))
 from desk.computer_use_network import local_browser_proxy
 from desk.voice_credentials import openai_key
 from desk.openai_transport import validate_openai_proxy
-from desk.provider_policy import DEFAULT_OPENAI_REASONING_MODEL
+from desk.provider_policy import DEFAULT_OPENAI_LIVE_MODEL, DEFAULT_OPENAI_REASONING_MODEL
 
 
 def configure(
@@ -56,7 +56,7 @@ def configure(
     settings = {
         "DESK_OPENAI_CREDENTIAL_FILE": str(credentials),
         "DESK_VOICE_PROVIDER": voice_provider,
-        "DESK_VOICE_MODEL": "gpt-live-1" if voice_provider == "openai_live" else "gpt-realtime-2.1",
+        "DESK_VOICE_MODEL": DEFAULT_OPENAI_LIVE_MODEL if voice_provider == "openai_live" else "gpt-realtime-2.1",
         "DESK_VOICE_ENDPOINT": "wss://api.openai.com/v1/live/sessions"
         if voice_provider == "openai_live"
         else "wss://api.openai.com/v1/realtime",

@@ -1,3 +1,4 @@
+import { transferWristRoll } from "./arm-anatomy.ts";
 import { companionState, type CompanionState } from "./interaction.ts";
 import {
   GESTURE_SECONDS,
@@ -104,8 +105,8 @@ export function aliceMotion(
   // Counter-rotate the upper arms so the elbows stay close to the silhouette.
   pose.leftUpperArm = [-0.1 + 0.018 * breath, 0, 0.055 + 0.018 * settle];
   pose.rightUpperArm = [-0.065 - 0.015 * breath, 0, -0.035 + 0.014 * settle];
-  pose.leftLowerArm = [-0.035, -0.32, -0.26 - 0.025 * breath];
-  pose.rightLowerArm = [-0.025, 0.21, 0.19 + 0.02 * breath];
+  pose.leftLowerArm = [-0.035, -0.32, 0.04 - 0.025 * breath];
+  pose.rightLowerArm = [-0.025, 0.21, -0.04 + 0.02 * breath];
   pose.leftHand[0] = 0.09;
   pose.rightHand[0] = 0.06;
 
@@ -252,9 +253,11 @@ export function aliceMotion(
     // Lift in depth through the middle of the reach. A sideways sweep
     // takes the elbow and fingers to the edge of a narrow display.
     const arc = Math.sin(Math.PI * weight);
-    pose[`${side}UpperArm`][0] -= (gesture === "wave" ? 1.23 : 0.6) * arc;
-    pose[`${side}UpperArm`][2] -= sign * 0.12 * arc;
+    pose[`${side}UpperArm`][0] -= (gesture === "wave" ? 1.33 : 0.6) * arc;
+    pose[`${side}UpperArm`][2] -=
+      sign * (gesture === "wave" ? 0.33 : 0.12) * arc;
     pose[`${side}LowerArm`][1] += sign * 0.12 * arc;
+    transferWristRoll(pose, side);
   }
   const performance =
     gesture && isPerformance(gesture)

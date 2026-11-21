@@ -355,6 +355,10 @@ export function errorText(
       "The mail provider's final receipt was lost. Check Sent mail before sending again; Alice will not resend automatically.",
       "邮件服务的最终回执丢失。请先检查已发送邮件；Alice 不会自动重发。",
     ],
+    VOICE_MODEL_MISMATCH: [
+      "The voice service returned a different model. Please reconnect.",
+      "语音服务返回了不同的模型，请重新连接。",
+    ],
     VOICE_SELECTION_MISMATCH: [
       "The voice service returned a different voice. The call was stopped.",
       "语音服务返回了不同音色，会话已停止。",

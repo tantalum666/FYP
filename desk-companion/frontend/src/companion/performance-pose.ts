@@ -1,3 +1,4 @@
+import { applyArmLandmarks } from "./arm-anatomy.ts";
 import { armLandmarks } from "./arm-landmarks.ts";
 import {
   performances,
@@ -44,30 +45,11 @@ function arm(
   const [from, to, t] = segment(keys, age);
   const a = from[1] === "rest" ? null : armLandmarks[from[1]];
   const b = to[1] === "rest" ? null : armLandmarks[to[1]];
-  for (const [bone, part] of [
-    ["UpperArm", "upper"],
-    ["LowerArm", "lower"],
-    ["Hand", "wrist"],
-  ] as const) {
-    const angles = pose[`${side}${bone}`];
-    for (let axis = 0; axis < 3; axis++) {
-      const mirror = axis === 0 || side === "left" ? 1 : -1;
-      angles[axis] = mix(
-        a ? a[part][axis] * mirror : angles[axis],
-        b ? b[part][axis] * mirror : angles[axis],
-        t,
-      );
-    }
-  }
-  if (!!a !== !!b) {
-    // Bend forward on the way up and down. Linear interpolation between
-    // these two rotations otherwise swings a long sleeve off the phone.
-    const arc = Math.sin(t * Math.PI),
-      inward = side === "left" ? 1 : -1;
-    pose[`${side}UpperArm`][0] -= 0.85 * arc;
-    pose[`${side}UpperArm`][2] += inward * 0.19 * arc;
-    pose[`${side}LowerArm`][1] -= inward * 0.12 * arc;
-  }
+  if (!a && !b) return 0;
+  const first = (a ?? b)!,
+    last = (b ?? a)!;
+  const weight = a && b ? 1 : a ? 1 - t : t;
+  applyArmLandmarks(pose, side, first, last, t, weight);
   return mix(a?.fingers ?? 0, b?.fingers ?? 0, t);
 }
 
@@ -86,13 +68,14 @@ export function applyPerformance(
     other = primary === "left" ? "right" : "left";
   const hands: HandShapes = { left: 0, right: 0 };
   hands[primary] = arm(pose, primary, score.primary, age);
-  if (score.other)
-    hands[other] = arm(
-      pose,
-      other,
-      score.other === "mirror" ? score.primary : score.other,
-      age,
-    );
+  if (score.other) hands[other] = arm(pose, other, score.other, age);
+  if (name === "gratefulBow" || name === "fistPump") {
+    const release = smooth(age / 0.85) * smooth((score.duration - age) / 1.05);
+    // A small free-arm counterbalance clears the long hair on the way back up.
+    pose[`${other}UpperArm`][1] += (other === "left" ? -1 : 1) * 0.2 * release;
+    pose[`${other}UpperArm`][2] +=
+      (other === "left" ? -1 : 1) * 0.055 * release;
+  }
   const [a, b, t] = segment(score.body, age);
   const bend = mix(a[1], b[1], t),
     turn = mix(a[2], b[2], t),

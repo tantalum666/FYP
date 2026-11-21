@@ -49,6 +49,8 @@ from .voice_shutdown import finalize_live
 from .context import voice_context_note
 from .voice_work import VoiceWorkLedger, VoiceDraftFreeze
 from .provider_policy import (
+    DEFAULT_OPENAI_LIVE_MODEL,
+    OPENAI_LIVE_MODELS,
     DEFAULT_OPENAI_REASONING_MODEL,
     ProviderWebSocketConnect,
     valid_api_key,
@@ -118,7 +120,7 @@ class VoiceConfig:
             except ValueError:
                 config.configuration_error = "OPENAI_PROXY_INVALID"
             config.model = config.model or (
-                "gpt-live-1" if config.provider == "openai_live" else "gpt-realtime-2.1"
+                DEFAULT_OPENAI_LIVE_MODEL if config.provider == "openai_live" else "gpt-realtime-2.1"
             )
             config.backend_model = os.environ.get("DESK_LIVE_BACKEND_MODEL", DEFAULT_OPENAI_REASONING_MODEL)
             config.endpoint = config.endpoint or (
@@ -148,7 +150,7 @@ class VoiceConfig:
             return False
         if self.provider == "openai_live":
             return (
-                self.model == "gpt-live-1"
+                self.model in OPENAI_LIVE_MODELS
                 and valid_model(self.backend_model)
                 and valid_provider_endpoint(self.provider, self.endpoint, kind="voice")
             )

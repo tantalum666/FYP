@@ -21,6 +21,7 @@ import wave
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "backend"))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from desk.app import create_app
+from desk.provider_policy import DEFAULT_OPENAI_LIVE_MODEL
 from desk.agents.wake import WakeDetector
 from desk.openai_live import OpenAILiveProtocol, OPENAI_LIVE_ENDPOINT
 from desk.schemas import CreateEvents, EventInput
@@ -134,7 +135,7 @@ async def evaluate(args, report, budget):
     cfg = VoiceConfig(
         "openai_live",
         OPENAI_LIVE_ENDPOINT,
-        "gpt-live-1",
+        DEFAULT_OPENAI_LIVE_MODEL,
         openai_key(args.credentials),
         "marin",
         proxy_url=args.proxy,
@@ -166,7 +167,7 @@ async def evaluate(args, report, budget):
             "input_byte_bound": captured["input_bound"],
             "model_calls": 0,
         }
-    budget.reserve("live-identity-calendar", "gpt-live-1", RESERVE)
+    budget.reserve("live-identity-calendar", cfg.model, RESERVE)
     ready, stop = asyncio.Event(), asyncio.Event()
     started = time.monotonic()
 
