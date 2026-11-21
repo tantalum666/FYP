@@ -1,4 +1,4 @@
-import { applyArmLandmarks } from "./arm-anatomy.ts";
+import { applyArmLandmarks, guideElbowForward } from "./arm-anatomy.ts";
 import { armLandmarks } from "./arm-landmarks.ts";
 import {
   performances,
@@ -50,6 +50,8 @@ function arm(
     last = (b ?? a)!;
   const weight = a && b ? 1 : a ? 1 - t : t;
   applyArmLandmarks(pose, side, first, last, t, weight);
+  if ((!a || !b) && (from[1] === "spread" || to[1] === "spread"))
+    guideElbowForward(pose, side, 0.18 * Math.sin(Math.PI * weight));
   return mix(a?.fingers ?? 0, b?.fingers ?? 0, t);
 }
 
@@ -82,6 +84,18 @@ export function applyPerformance(
     tilt = mix(a[3], b[3], t),
     nod = mix(a[4], b[4], t);
   const side = primary === "left" ? 1 : -1;
+  if (!score.other) {
+    // The free hand follows the body's lean in a small forward arc rather than
+    // being swept sideways through the hem as the shoulders turn.
+    const follow = Math.min(
+      1,
+      4 * Math.abs(bend) + 1.25 * Math.abs(turn) + 2 * Math.abs(tilt),
+    );
+    const mirror = other === "left" ? 1 : -1;
+    pose[`${other}UpperArm`][0] += 0.028 * follow;
+    pose[`${other}UpperArm`][1] -= mirror * 0.118 * follow;
+    pose[`${other}UpperArm`][2] -= mirror * 0.02 * follow;
+  }
   pose.spine[0] -= bend * 0.53;
   pose.chest[0] -= bend * 0.47;
   pose.spine[2] += tilt * side * 0.23;

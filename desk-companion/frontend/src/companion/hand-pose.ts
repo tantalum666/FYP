@@ -1,4 +1,11 @@
 import * as THREE from "three";
+import {
+  fingers,
+  fingerAngle,
+  followHandShape,
+  type Finger,
+} from "./finger-articulation.ts";
+import { thumbPoses } from "./thumb-opposition.ts";
 import type { VRM, VRMHumanBoneName } from "@pixiv/three-vrm";
 
 /** Anatomical palm direction, derived from the rig rather than a wrist Euler sign. */
@@ -20,136 +27,215 @@ export function fingerCurlAxis(
   return direction.clone().normalize().cross(normal).normalize();
 }
 
-type Finger = "Index" | "Middle" | "Ring" | "Little";
-type Joint = "Proximal" | "Intermediate" | "Distal";
-const FINGERS: Finger[] = ["Index", "Middle", "Ring", "Little"];
-const JOINTS: Joint[] = ["Proximal", "Intermediate", "Distal"];
-
-/** Small finger relaxation follows each palm's native flexion plane. */
-export class HandPose {
-  private joints: Array<{
+type Side = "left" | "right";
+type Hinge = {
+  node: THREE.Object3D;
+  rest: THREE.Quaternion;
+  bend: THREE.Vector3;
+};
+type Digit = {
+  side: Side;
+  name: Finger;
+  shape: number;
+  joints: Hinge[];
+  fan: THREE.Vector3;
+  cup: THREE.Vector3;
+  knuckle: {
     node: THREE.Object3D;
-    rest: THREE.Quaternion;
+    rest: THREE.Vector3;
     axis: THREE.Vector3;
-    side: "left" | "right";
-    finger: number;
-    joint: number;
-  }> = [];
+  } | null;
+};
+type Thumb = {
+  side: Side;
+  shape: number;
+  nodes: readonly [THREE.Object3D, THREE.Object3D, THREE.Object3D];
+  poses: ReturnType<typeof thumbPoses>;
+};
+const location = (node: THREE.Object3D) =>
+  node.getWorldPosition(new THREE.Vector3());
+const localAxis = (axis: THREE.Vector3, node: THREE.Object3D) =>
+  axis
+    .clone()
+    .applyQuaternion(node.getWorldQuaternion(new THREE.Quaternion()).invert());
+
+/** Articulate the existing finger bones from the model's own palm plane. */
+export class HandPose {
+  private digits: Digit[] = [];
+  private thumbs: Thumb[] = [];
   private offset = new THREE.Quaternion();
-  private target = new THREE.Quaternion();
-  private thumbs: {
-    node: THREE.Object3D;
-    side: "left" | "right";
-    rest: THREE.Quaternion;
-    closed: THREE.Quaternion;
-  }[] = [];
 
   constructor(vrm: Pick<VRM, "humanoid">) {
+    const { humanoid } = vrm;
     const bone = (name: string) =>
-      vrm.humanoid.getNormalizedBoneNode(name as VRMHumanBoneName);
-    const position = (node: THREE.Object3D) =>
-      node.getWorldPosition(new THREE.Vector3());
+      humanoid.getNormalizedBoneNode(name as VRMHumanBoneName);
     for (const side of ["left", "right"] as const) {
-      const wrist = bone(`${side}Hand`),
-        index = bone(`${side}IndexProximal`),
-        middle = bone(`${side}MiddleProximal`),
-        little = bone(`${side}LittleProximal`);
+      const wrist = bone(side + "Hand"),
+        index = bone(side + "IndexProximal"),
+        middle = bone(side + "MiddleProximal"),
+        little = bone(side + "LittleProximal");
       if (!wrist || !index || !middle || !little) continue;
-      const thumb = bone(`${side}ThumbMetacarpal`),
-        tip = bone(`${side}ThumbDistal`);
-      if (thumb && tip) {
-        const origin = position(thumb),
-          local = thumb.getWorldQuaternion(new THREE.Quaternion()).invert();
-        const across = position(bone(`${side}IndexIntermediate`) ?? index)
-          .lerp(position(middle), 0.18)
-          .sub(origin)
-          .normalize()
-          .applyQuaternion(local);
-        const extended = position(tip)
-          .sub(origin)
-          .normalize()
-          .applyQuaternion(local);
-        const rest = thumb.quaternion.clone();
-        this.thumbs.push({
-          node: thumb,
-          side,
-          rest,
-          closed: rest
-            .clone()
-            .multiply(
-              new THREE.Quaternion().setFromUnitVectors(extended, across),
-            ),
-        });
-      }
+      const origin = location(wrist),
+        center = location(middle);
       const normal = palmNormal(
         side,
-        position(wrist),
-        position(index),
-        position(middle),
-        position(little),
+        origin,
+        location(index),
+        center,
+        location(little),
       );
       if (normal.lengthSq() < 0.5) continue;
-      for (const [fingerIndex, finger] of FINGERS.entries()) {
-        for (const [jointIndex, joint] of JOINTS.entries()) {
-          const node = bone(`${side}${finger}${joint}`);
-          const next = bone(
-            `${side}${finger}${JOINTS[Math.min(2, jointIndex + 1)]}`,
-          );
-          const previous = bone(
-            `${side}${finger}${JOINTS[Math.max(0, jointIndex - 1)]}`,
-          );
-          if (!node || !next || !previous) continue;
-          const direction =
-            jointIndex === 2
-              ? position(node).sub(position(previous))
-              : position(next).sub(position(node));
-          const axis = fingerCurlAxis(direction, normal).applyQuaternion(
-            node.getWorldQuaternion(new THREE.Quaternion()).invert(),
-          );
-          if (axis.lengthSq() < 0.5) continue;
-          this.joints.push({
-            node,
-            rest: node.quaternion.clone(),
-            axis,
-            side,
-            finger: fingerIndex,
-            joint: jointIndex,
-          });
-        }
+      const lengthwise = center.clone().sub(origin).normalize();
+      for (const name of Object.keys(fingers) as Finger[]) {
+        const base = bone(side + name + "Proximal"),
+          mid = bone(side + name + "Intermediate"),
+          tip = bone(side + name + "Distal");
+        if (!base || !mid || !tip) continue;
+        const first = location(mid).sub(location(base)),
+          last = location(tip).sub(location(mid));
+        if (first.lengthSq() < 1e-9 || last.lengthSq() < 1e-9) continue;
+        const outside = location(base).sub(center);
+        const fanSign = Math.sign(first.clone().cross(outside).dot(normal));
+        const cupSign = Math.sign(
+          lengthwise.clone().cross(outside).dot(normal),
+        );
+        const cup = lengthwise.clone().multiplyScalar(cupSign);
+        const raw = humanoid.getRawBoneNode(`${side}${name}Proximal`),
+          rawHand = humanoid.getRawBoneNode(`${side}Hand`);
+        // On Alice, the knuckles attach directly to the hand. Rotate the
+        // ulnar knuckles about the palm's long axis to form a shallow arch.
+        const knuckle =
+          raw && rawHand && raw.parent === rawHand && fingers[name].cup[0] > 0
+            ? {
+                node: raw,
+                rest: raw.position.clone(),
+                axis: localAxis(cup, rawHand),
+              }
+            : null;
+        const joints = [base, mid, tip].map((node, i) => ({
+          node,
+          rest: node.quaternion.clone(),
+          bend: localAxis(fingerCurlAxis(i === 0 ? first : last, normal), node),
+        }));
+        this.digits.push({
+          side,
+          name,
+          shape: 0,
+          joints,
+          fan: localAxis(normal.clone().multiplyScalar(fanSign), base),
+          cup: localAxis(cup, base),
+          knuckle,
+        });
       }
+      const base = bone(side + "ThumbMetacarpal"),
+        mid = bone(side + "ThumbProximal"),
+        tip = bone(side + "ThumbDistal");
+      if (!base || !mid || !tip) continue;
+      if (
+        location(mid).distanceToSquared(location(base)) < 1e-8 ||
+        location(tip).distanceToSquared(location(mid)) < 1e-8
+      )
+        continue;
+      const nodes = [base, mid, tip] as const;
+      this.thumbs.push({
+        side,
+        shape: 0,
+        nodes,
+        poses: thumbPoses(
+          nodes,
+          origin,
+          center,
+          location(index),
+          location(little),
+          normal,
+        ),
+      });
     }
+    this.update(0, null, 0);
   }
 
   update(
     delta: number,
-    wavingSide: "left" | "right" | null,
+    wavingSide: Side | null,
     openness: number,
-    shapes?: Partial<Record<"left" | "right", number>> | null,
+    shapes?: Partial<Record<Side, number>> | null,
   ) {
-    const blend = 1 - Math.exp(-7 * Math.max(0, delta));
-    for (const thumb of this.thumbs) {
-      const fist = Math.max(0, Math.min(1, -(shapes?.[thumb.side] ?? 0)));
-      this.target.copy(thumb.rest).slerp(thumb.closed, fist);
-      thumb.node.quaternion.slerp(this.target, blend);
+    const target = (side: Side) =>
+      THREE.MathUtils.clamp(
+        shapes?.[side] ?? (wavingSide === side ? openness : 0),
+        -1,
+        1,
+      );
+    for (const digit of this.digits) {
+      const profile = fingers[digit.name];
+      const s = (digit.shape = followHandShape(
+        digit.shape,
+        target(digit.side),
+        delta,
+        profile.openRate,
+        profile.closeRate,
+      ));
+      const cup = fingerAngle(s, ...profile.cup),
+        fan = fingerAngle(s, ...profile.spread);
+      if (digit.knuckle)
+        digit.knuckle.node.position
+          .copy(digit.knuckle.rest)
+          .applyAxisAngle(digit.knuckle.axis, cup);
+      digit.joints.forEach(({ node, rest, bend }, i) => {
+        node.quaternion.copy(rest);
+        if (i === 0) {
+          if (cup)
+            node.quaternion.multiply(
+              this.offset.setFromAxisAngle(digit.cup, cup),
+            );
+          if (fan)
+            node.quaternion.multiply(
+              this.offset.setFromAxisAngle(digit.fan, fan),
+            );
+        }
+        const curl = fingerAngle(
+          s,
+          profile.rest[i],
+          profile.open[i],
+          profile.grip[i],
+        );
+        node.quaternion.multiply(this.offset.setFromAxisAngle(bend, curl));
+      });
     }
-    for (const item of this.joints) {
-      const shape =
-        shapes?.[item.side] ?? (wavingSide === item.side ? openness : 0);
-      const open = Math.max(0, Math.min(1, shape)),
-        fist = Math.max(0, Math.min(1, -shape));
-      const relaxed = 0.23 + item.finger * 0.065;
-      const greeting = 0.025 + item.finger * 0.018;
-      const loose =
-        (relaxed * (1 - open) + greeting * open) * [0.7, 0.9, 0.55][item.joint];
-      const curl = loose * (1 - fist) + [0.89, 1.21, 0.86][item.joint] * fist;
-      this.offset.setFromAxisAngle(item.axis, curl);
-      this.target.copy(item.rest).multiply(this.offset);
-      item.node.quaternion.slerp(this.target, blend);
+    for (const thumb of this.thumbs) {
+      const s = (thumb.shape = followHandShape(
+        thumb.shape,
+        target(thumb.side),
+        delta,
+        13,
+        5.2,
+      ));
+      // Move around the radial edge before opposing the folded fingers.
+      const { rest, open, clear, grip } = thumb.poses;
+      let from = rest,
+        to = open,
+        amount = s;
+      if (s < 0) {
+        const closing = -s,
+          wrapStart = 0.64;
+        if (closing <= wrapStart) {
+          to = clear;
+          amount = closing / wrapStart;
+        } else {
+          from = clear;
+          to = grip;
+          amount = (closing - wrapStart) / (1 - wrapStart);
+        }
+      }
+      thumb.nodes.forEach((node, i) =>
+        node.quaternion.copy(from[i]).slerp(to[i], amount),
+      );
     }
   }
 }
 
-export function relaxArms(vrm: Pick<VRM, "humanoid">) {
+/** Reference orientation used to author gesture offsets on normalized VRM bones. */
+export function setArmReference(vrm: Pick<VRM, "humanoid">) {
   for (const side of ["left", "right"] as const) {
     const upper = vrm.humanoid.getNormalizedBoneNode(`${side}UpperArm`);
     const lower = vrm.humanoid.getNormalizedBoneNode(`${side}LowerArm`);
@@ -172,3 +258,6 @@ export function relaxArms(vrm: Pick<VRM, "humanoid">) {
     );
   }
 }
+
+// The original inspection scripts import this name for the gesture reference.
+export { setArmReference as relaxArms };

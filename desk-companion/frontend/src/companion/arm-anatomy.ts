@@ -1,5 +1,5 @@
 import { Euler, Quaternion, Vector3, MathUtils } from "three";
-import type { armLandmarks } from "./arm-landmarks.ts";
+import { armLandmarks } from "./arm-landmarks.ts";
 import type { MotionPose } from "./alice-motion.ts";
 
 type Landmark = (typeof armLandmarks)[keyof typeof armLandmarks];
@@ -65,6 +65,22 @@ export function applyArmLandmarks(
       second.setFromAxisAngle(palmNormal, angle(from.wrist[1], to.wrist[1])),
     );
   compose(pose[`${side}Hand`], target, side, weight);
+}
+
+/** A low forward waypoint lets the elbow bend before the hand opens beside the face. */
+export function guideElbowForward(
+  pose: MotionPose,
+  side: Side,
+  amount: number,
+) {
+  applyArmLandmarks(
+    pose,
+    side,
+    armLandmarks.ready,
+    armLandmarks.ready,
+    0,
+    amount,
+  );
 }
 
 /** Keep the existing greeting's palm direction and fingertip path, but turn

@@ -54,9 +54,9 @@ export const armLandmarks = {
     fingers: 0.77,
   },
   clapTouch: {
-    upper: [-26.9, -19.0, -35.2],
-    elbow: [98.7, 11.3],
-    wrist: [38.0, -3.0],
+    upper: [-24.07, -20.67, -35.57],
+    elbow: [98.99, 9.85],
+    wrist: [40.81, -2.19],
     fingers: 0.73,
   },
   clapCatch: {
