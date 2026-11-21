@@ -30,6 +30,8 @@ def public(row):
 
 
 class ShopOrders(ChatReviews):
+    follow_states = ("submitting", "checking", "refund_pending")
+
     def __init__(self, runtime):
         super().__init__(runtime, "SHOP")
         config = os.getenv("DESK_WOO_SANDBOX_CONFIG")
@@ -69,9 +71,11 @@ class ShopOrders(ChatReviews):
                 self._state(row, "failed")
         self._save(row)
 
-    def read(self, ident, owner, chat):
+    def read(self, ident, owner, chat, *, following=False):
         with self.lock:
-            row = self._get(ident, owner, chat)
+            row = self._read_row(ident, owner, chat, following)
+            if row is None:
+                return None
             now = self.store.clock()
             if row["state"] in {"quoted", "reprice"} and row["expires"] <= iso(now):
                 self._state(row, "expired")

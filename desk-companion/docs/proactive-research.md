@@ -39,6 +39,10 @@ Multi-step browser execution remains official Agents Sessions/computer use. Futu
 
 After quiet hours Alice can put up to three currently valid findings behind one content-free notification. Higher-importance findings appear first on the home cue. Normal mode uses a 30-minute gap between interruptions, and Less often uses a two-hour gap and high-importance findings. The existing daily caps also apply. The in-app delivery receipt and finding IDs commit together. Dismissing one member keeps the notice open until its remaining members are dismissed or obsolete. The original single-notice receipts are reconciled on upgrade. This delivery step needs no extra model inference. [Always-on design review](../../research/2026-11-18-always-on-personal-agent.md) · [verification](../../output/qa/2026-11-18-official-text-sessions/verification.md).
 
+## Approved orders in their original conversation
+
+The desk's existing worker infrastructure checks due, already-approved shopping and flight records. It reuses the provider readers, observes their existing backoff, and commits a changed outcome only while the original login, chat, privacy and proactivity settings still permit it. Off pauses background checks. The client keeps only order identity, version and state for unfinished work in that window. It reports a newly verified result or a changed decision in the original conversation. No paid inference or external notification is needed for this receipt. [Verification](../../output/qa/2026-11-21-quiet-order-followup/verification.md).
+
 ## Acceptance and remaining work
 
 Local tests cover no initial request, silence, duplicate changes, quiet/off controls, stale/deleted sources, stopped mail, late permissions, bounded retries, clock rollback, dismissal recovery and calendar changes. Desktop and Chinese-phone flows were exercised in installed Chromium with scripted providers. Six real Responses research cases include an unassigned contradiction and quiet controls; a real model also selected follow/stop tools over synthetic mail. No real mailbox subscription or outgoing mail was enabled by those tests.

@@ -196,7 +196,11 @@ class LetsFG:
                     seen.add(key)
                 if len(choices) == 3:
                     break
-            return {"unavailable_flight": requested, "alternatives": choices}
+            return {
+                "unavailable_flight": requested,
+                "alternatives": choices,
+                "max_minor": minor(query.max_hkd) if query.max_hkd is not None else None,
+            }
         return eligible[0]
 
     def submit(self, quote, key, scenario):

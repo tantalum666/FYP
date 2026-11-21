@@ -12,6 +12,21 @@ from .shop_checkout.conversation import describe as shop_message
 # instructions stay outside the cancellation route.
 _COMMANDS = (
     (
+        "shop",
+        "follow",
+        r"(?:退款(?:到(?:账|賬|帐|了)|有结果)(?:了)?(?:再|就)?(?:告诉我|提醒我)|有退款结果(?:再|就)?(?:告诉我|提醒我)|(?:盯|跟进)一下(?:这笔)?退款|let me know when (?:my |the )?refund (?:arrives|comes through))",
+    ),
+    (
+        "flight",
+        "follow",
+        r"(?:有(?:订票|出票|航班)结果(?:再|就)?(?:告诉我|提醒我)|票价变了(?:再|就)?(?:告诉我|提醒我)|let me know when (?:my |the )?(?:flight|booking) (?:changes|is confirmed))",
+    ),
+    (
+        "either",
+        "follow",
+        r"(?:有结果(?:再|就)?告诉我|let me know (?:when there is an update|when it is done))",
+    ),
+    (
         "either",
         "cancel",
         r"(?:取消(?:这笔|这个|这张|刚才的|我的)?订单(?:[，, ]*(?:并|然后|并申请)?(?:全额)?退款)?|cancel (?:this|my|the) order(?: and (?:request a )?(?:full )?refund)?)",
@@ -123,6 +138,7 @@ def turn(runtime, payload, principal, chat):
             )
             if service.enabled
             for row in service.listing(principal, chat.id)
+            if action != "follow" or row["state"] in service.follow_states
         ]
         # A bare order request never picks one of several orders, even when the
         # composer incidentally attached its only outstanding price review.
@@ -147,6 +163,8 @@ def turn(runtime, payload, principal, chat):
         rows = service.listing(principal, chat.id)
         if named:
             rows = [row for row in rows if _matches_target(row, kind, named[1])]
+        elif action == "follow" and len(rows) > 1:
+            rows = [row for row in rows if row["state"] in service.follow_states]
         if len(rows) != 1:
             return choose_order
         only = rows[0]
@@ -155,6 +173,38 @@ def turn(runtime, payload, principal, chat):
                 id=only["id"], version=only["version"], amount_minor=only["review_minor"]
             )
     current = service.read(ref.id, owner, chat.id)
+    if action == "follow":
+        result = "shopping_order" if shop else "flight_booking"
+        if current["state"] not in service.follow_states or current["state"] == "reprice":
+            return {
+                "mode": "local",
+                "kind": result,
+                result: current,
+                "message": (shop_message if shop else flight_message)(current, lang),
+                "saved": False,
+            }
+        off = runtime.data.preferences()["proactivity"] == "off"
+        message = (
+            (
+                "后台跟进已关闭，可打开原订单查进度。"
+                if lang == "zh"
+                else "Background follow-up is off. You can check the original order."
+            )
+            if off
+            else (
+                "有结果我会在这段对话里告诉你。"
+                if lang == "zh"
+                else "I’ll let you know here when there’s an update."
+            )
+        )
+        return {
+            "mode": "local",
+            "kind": result,
+            result: current,
+            "message": message,
+            "commerce_note": True,
+            "saved": False,
+        }
     if action == "eligibility":
         row = service.reopen(ref.id, principal, chat.id)
         if shop and row["state"] == "completed":
@@ -185,6 +235,7 @@ def turn(runtime, payload, principal, chat):
             "kind": "shopping_order" if shop else "flight_booking",
             "shopping_order" if shop else "flight_booking": row,
             "message": answer,
+            "commerce_note": True,
             "saved": False,
         }
     if action == "read":

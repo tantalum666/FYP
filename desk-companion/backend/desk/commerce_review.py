@@ -8,6 +8,7 @@ from typing import Literal
 
 from pydantic import Field
 
+from .calendar import iso
 from .conversation import Conversations
 from .schemas import StrictModel
 from .store import DomainError, encode
@@ -41,6 +42,10 @@ class ChatReviews:
             )
             index = "sandbox_flight_chat" if kind == "FLIGHT" else "sandbox_shop_chat"
             db.execute(f"CREATE INDEX IF NOT EXISTS {index} ON {self.table}(owner,chat)")
+            db.execute(
+                f"CREATE INDEX IF NOT EXISTS {index}_due ON {self.table}"
+                "(json_extract(data,'$.state'),json_extract(data,'$.next_read'))"
+            )
 
     def owner(self, principal):
         if (
@@ -75,9 +80,56 @@ class ChatReviews:
             raise DomainError(self.kind + "_NOT_FOUND", 404)
         return dict(json.loads(record["data"]), _serial=record["serial"])
 
+    def _follow_scope(self, conn, owner, chat, ident):
+        # The same hash identifies the original login and the order. No session
+        # cookie is copied into a worker or persisted with an order.
+        scope = conn.execute(
+            f"""SELECT p.version, s.version, c.epoch FROM {self.table} o
+                JOIN sessions l ON l.token_hash=o.owner
+                JOIN workspace_preferences p ON p.id=1
+                JOIN settings s ON s.id=1
+                JOIN personal_settings c ON c.id=1
+                WHERE o.id=? AND o.owner=? AND o.chat=? AND o.chat!='' AND l.expires>?
+                  AND COALESCE(json_extract(p.data,'$.proactivity'),'normal')!='off'""",
+            (ident, owner, chat, iso(self.store.clock())),
+        ).fetchone()
+        return tuple(scope) if scope and not self.store.settings(conn)["hide_private"] else None
+
+    def follow_one(self):
+        """Refresh one already-approved order using its existing read-only reconciliation."""
+        if not self.enabled:
+            return
+        now = self.store.clock()
+        states = ",".join("?" for _ in self.follow_states)
+        with self.store.connection() as db:
+            candidate = db.execute(
+                f"""SELECT o.id,o.owner,o.chat FROM {self.table} o JOIN sessions l ON l.token_hash=o.owner
+                    WHERE o.chat!='' AND l.expires>? AND json_extract(o.data,'$.approved') IS NOT NULL
+                      AND json_extract(o.data,'$.state') IN ({states})
+                      AND json_extract(o.data,'$.next_read')<=?
+                    ORDER BY json_extract(o.data,'$.next_read'),o.rowid LIMIT 1""",
+                (iso(now), *self.follow_states, now.timestamp()),
+            ).fetchone()
+        if candidate:
+            self.read(candidate["id"], candidate["owner"], candidate["chat"], following=True)
+
+    def _read_row(self, ident, owner, chat, following):
+        row = self._get(ident, owner, chat)
+        if following:
+            with self.store.connection() as db:
+                scope = self._follow_scope(db, owner, chat, ident)
+            if scope is None:
+                return None
+            row["_follow"] = (owner, chat, scope)
+        return row
+
     def _save(self, row):
-        data = {k: v for k, v in row.items() if k != "_serial"}
+        data = {k: v for k, v in row.items() if k not in {"_serial", "_follow"}}
         with self.store.connection(write=True) as db:
+            if "_follow" in row:
+                owner, chat, scope = row["_follow"]
+                if self._follow_scope(db, owner, chat, row["id"]) != scope:
+                    raise DomainError("COMMERCE_FOLLOW_SCOPE_CHANGED", 409)
             updated = db.execute(
                 f"UPDATE {self.table} SET data=?,serial=serial+1 WHERE id=? AND serial=?",
                 (encode(data), row["id"], row["_serial"]),

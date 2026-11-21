@@ -1,5 +1,9 @@
 # Group 2 · Shared Alice home
 
+## Current order conversation · 21 November
+
+The home keeps the normal avatar and a short latest reply. A price or flight choice opens the regular conversation at the owner's request. Background order updates use the same line. The app can restore an authorized conversation without automatically opening its sheet. [Simulator comparison](../../output/qa/2026-11-21-quiet-order-followup/verification.md).
+
 ## 16 November contextual movement
 
 Alice retains her position/scale while greeting responses vary across wave, smile/nod, curious tilt and compact open-hand explanation. Idle adds occasional glances/shoulder relaxation; listening/thinking/speaking use short contextual cues with quiet gaps. No permanent motion toolbar or new polling was added. A person can interrupt idle movement, and a finished action accepts the next click immediately. [Current motion contract](avatar.md) / [QA](../../output/qa/2026-11-16-alice-variety/verification.md).

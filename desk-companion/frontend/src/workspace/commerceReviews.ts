@@ -1,109 +1,139 @@
 import { useCallback, useRef, useState } from "react";
 import { request } from "../api";
-import type { SandboxFlight } from "./SandboxFlightBooking";
-import type { SandboxShop } from "./SandboxShopOrder";
+import {
+  orderKey,
+  orderUpdates,
+  watchedMarks,
+  type CommerceReview,
+  type StatusMark,
+} from "./commercePresentation";
+export {
+  hkd,
+  needsDecision,
+  reviewRef,
+  type CommerceReview,
+  type CommerceRef,
+} from "./commercePresentation";
 
-export type CommerceReview =
-  (SandboxFlight & { kind: "flight" }) | (SandboxShop & { kind: "shop" });
-export type CommerceRef = {
-  id: string;
-  version: number;
-  amount_minor: number;
-  kind: "flight" | "shop";
-};
-export const reviewRef = (
-  row: Pick<CommerceReview, "id" | "version" | "review_minor">,
-  kind: CommerceRef["kind"],
-): CommerceRef => ({
-  id: row.id,
-  version: row.version,
-  amount_minor: row.review_minor,
-  kind,
-});
-export const needsDecision = (row: { state: string }) =>
-  ["quoted", "reprice", "submit_unknown", "retry"].includes(row.state);
-export const hkd = (minor: number) => `HK$${(minor / 100).toFixed(2)}`;
+const storageKey = "desk.flight-review-chat";
+type Marker = { chat: string; task: string | null; watch?: StatusMark[] };
+function loadMarker(): Marker | null {
+  try {
+    const marker = JSON.parse(sessionStorage.getItem(storageKey) ?? "null");
+    if (
+      !marker ||
+      typeof marker.chat !== "string" ||
+      (marker.task != null && typeof marker.task !== "string")
+    )
+      return null;
+    return {
+      ...marker,
+      watch: Array.isArray(marker.watch)
+        ? marker.watch.filter(
+            (entry: StatusMark | null) =>
+              entry &&
+              ["shop", "flight"].includes(entry.kind) &&
+              typeof entry.id === "string" &&
+              typeof entry.state === "string" &&
+              Number.isInteger(entry.version),
+          )
+        : [],
+    };
+  } catch {
+    return null;
+  }
+}
+function rowsFor(chat: string) {
+  return request<{ rows: CommerceReview[] }>(
+    `/assistant/commerce-reviews?conversation_id=${encodeURIComponent(chat)}`,
+  );
+}
+const settled = new Set([
+  "cancelled",
+  "completed",
+  "expired",
+  "failed",
+  "unverified",
+  "refunded",
+  "refund_retry",
+  "refund_review",
+  "stopped",
+  "manual",
+]);
 
 export function useCommerceReviews() {
   const [rows, setRows] = useState<CommerceReview[]>([]);
-  const tracked = useRef<string | undefined>(undefined);
-  const latest = useRef<CommerceReview[]>([]);
+  const latest = useRef<CommerceReview[]>([]),
+    tracked = useRef<string | undefined>(undefined),
+    task = useRef<string | null>(null);
   const set = useCallback((items: CommerceReview[]) => {
     latest.current = items;
     setRows(items);
+    if (tracked.current) {
+      // The window remembers only versions of in-flight work. The server still
+      // scopes every receipt read to the active login and original conversation.
+      const marker = JSON.stringify({
+        chat: tracked.current,
+        task: task.current,
+        watch: watchedMarks(items),
+      });
+      if (sessionStorage.getItem(storageKey) !== marker)
+        sessionStorage.setItem(storageKey, marker);
+    }
   }, []);
   const clear = useCallback(() => {
     tracked.current = undefined;
-    sessionStorage.removeItem("desk.flight-review-chat");
+    task.current = null;
+    sessionStorage.removeItem(storageKey);
     set([]);
   }, [set]);
   const receive = useCallback(
-    (chat: string, row: CommerceReview, task?: string) => {
-      sessionStorage.setItem(
-        "desk.flight-review-chat",
-        JSON.stringify({ chat, task: task ?? null }),
-      );
-      const other =
+    (chat: string, row: CommerceReview, taskId?: string) => {
+      const others =
         tracked.current === chat
-          ? latest.current.filter((x) => x.id !== row.id || x.kind !== row.kind)
+          ? latest.current.filter((item) => orderKey(item) !== orderKey(row))
           : [];
       tracked.current = chat;
-      set([row, ...other]);
+      task.current = taskId ?? null;
+      set([row, ...others]);
     },
     [set],
   );
   const refresh = useCallback(
     async (chat: string | undefined) => {
+      const previous = latest.current;
       if (
         !chat ||
         tracked.current !== chat ||
-        !latest.current.some(
-          (row) =>
-            ![
-              "cancelled",
-              "completed",
-              "expired",
-              "failed",
-              "unverified",
-              "refunded",
-              "refund_retry",
-              "refund_review",
-              "stopped",
-              "manual",
-            ].includes(row.state),
-        )
+        !previous.some((row) => !settled.has(row.state))
       )
-        return;
-      const previous = latest.current;
-      const response = await request<{ rows: CommerceReview[] }>(
-        `/assistant/commerce-reviews?conversation_id=${encodeURIComponent(chat)}`,
-      );
-      if (tracked.current === chat && previous === latest.current)
-        set(response.rows);
+        return [];
+      const result = await rowsFor(chat);
+      if (tracked.current !== chat || latest.current !== previous) return [];
+      set(result.rows);
+      return orderUpdates(watchedMarks(previous), result.rows);
     },
     [set],
   );
   const restore = useCallback(
-    async (task: string | undefined, stillCurrent: () => boolean) => {
-      const raw = sessionStorage.getItem("desk.flight-review-chat");
-      if (!raw) return;
-      let marker;
-      try {
-        marker = JSON.parse(raw);
-      } catch {
+    async (taskId: string | undefined, current: () => boolean) => {
+      const marker = loadMarker();
+      if (!marker || marker.task !== (taskId ?? null)) return;
+      const result = await rowsFor(marker.chat);
+      if (!current() || loadMarker()?.chat !== marker.chat) return;
+      if (!result.rows.length) {
+        clear();
         return;
       }
-      if (typeof marker?.chat !== "string" || marker.task !== (task ?? null))
-        return;
-      const result = await request<{ rows: CommerceReview[] }>(
-        `/assistant/commerce-reviews?conversation_id=${encodeURIComponent(marker.chat)}`,
-      );
-      if (!stillCurrent() || !result.rows.length) return;
       tracked.current = marker.chat;
+      task.current = taskId ?? null;
       set(result.rows);
-      return marker.chat as string;
+      return {
+        chat: marker.chat,
+        updates: orderUpdates(marker.watch ?? [], result.rows),
+      };
     },
-    [set],
+    [set, clear],
   );
   return { rows, tracked, clear, receive, refresh, restore };
 }
