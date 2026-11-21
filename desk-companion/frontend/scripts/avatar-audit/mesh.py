@@ -16,7 +16,7 @@ def read_asset(path):
     source = json.loads(data[20 : 20 + size])
     payload = memoryview(data)[28 + size :]
     types = {5121: "u1", 5123: "<u2", 5125: "<u4", 5126: "<f4"}
-    sizes = {"SCALAR": 1, "VEC3": 3, "VEC4": 4, "MAT4": 16}
+    sizes = {"SCALAR": 1, "VEC2": 2, "VEC3": 3, "VEC4": 4, "MAT4": 16}
 
     def accessor(i):
         item = source["accessors"][i]
@@ -62,13 +62,20 @@ class Surface:
         return points, points.min(0), points.max(0)
 
 
-def build_surfaces(source, accessor, uniform=None, digits=False):
+def build_surfaces(source, accessor, uniform=None, digits=False, appearance=None):
     result = {}
     for node in (node for node in source["nodes"] if "mesh" in node):
         mesh = source["meshes"][node["mesh"]]
         skin = source["skins"][node["skin"]]
         attrs = mesh["primitives"][0]["attributes"]
         positions = accessor(attrs["POSITION"])
+        region = {"Face": "face", "Body": "body"}.get(node["name"])
+        if appearance and region:
+            correction = appearance[region]
+            assert len(positions) == correction["vertexCount"]
+            indices, depth = np.array(correction["shape"], dtype=int)[:, :2].T
+            positions = positions.copy()
+            positions[indices, 2] -= depth * 0.00001
         weights = accessor(attrs["WEIGHTS_0"])
         joints = np.asarray(skin["joints"])[accessor(attrs["JOINTS_0"])]
         names = np.array([n.get("name", "") for n in source["nodes"]])
@@ -235,6 +242,11 @@ def main():
         action="store_true",
         help="Check free portions of each digit against its neighbors.",
     )
+    parser.add_argument(
+        "--appearance-contacts",
+        action="store_true",
+        help="Limit the check to hands and sleeves against the changed face and outfit.",
+    )
     parser.add_argument("--result", default="surfaces.json")
     options = parser.parse_args(sys.argv[sys.argv.index("--") + 1 :])
     asset = Path(__file__).resolve().parents[2] / "public/avatars/alice/alice-ready.vrm"
@@ -244,7 +256,13 @@ def main():
         accessor,
         json.loads((asset.parents[3] / "src/companion/uniform-rest.json").read_text()),
         digits=options.digits,
+        appearance=json.loads((asset.parents[3] / "src/companion/alice-surface.json").read_text()),
     )
+    pairs = pair_list(options.digits)
+    if options.appearance_contacts:
+        pairs = [(a, b) for a, b in pairs if b in ("coat", "face")]
+        selected = {name for pair in pairs for name in pair}
+        surfaces = {name: surface for name, surface in surfaces.items() if name in selected}
     output = {
         "stride": options.stride,
         "triangles": {k: len(v.faces) for k, v in surfaces.items()},
@@ -262,7 +280,7 @@ def main():
         )
         key = case["name"] + "/" + case["side"]
         output["paths"][key] = scan(
-            frames, surfaces, pair_list(options.digits), options.stride, case.get("uniformContact")
+            frames, surfaces, pairs, options.stride, case.get("uniformContact")
         )
         (options.samples / options.result).write_text(json.dumps(output, indent=2))
         print(key, flush=True)

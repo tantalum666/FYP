@@ -10,6 +10,7 @@
   "license": "CC-BY-SA-4.0",
   "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
   "original_unchanged": true,
+  "viewer_adaptation": "Group 2 adapts the nose, lip color, expressions and clothed chest silhouette in the resident renderer. The sparse fit, poster and rendered comparisons are adaptations of Alice Chan (Uniform ver.) by edisonlee55 / yuna0x0 under CC BY-SA 4.0.",
   "changes": "Runtime copy corrects three optional skin.skeleton common-root references. Geometry, binary payload, node indices, materials, textures, expressions and VRM permissions are unchanged. Runtime copy distributed under CC BY-SA 4.0; original preserved in design source folder.",
   "meta": {
     "allowedUserName": "Everyone",

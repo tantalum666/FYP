@@ -1,9 +1,5 @@
 import { companionState, type CompanionState } from "./interaction.ts";
-import {
-  deliveryPerformances,
-  performanceDurations,
-  type Face,
-} from "./performance-score.ts";
+import { performanceDurations } from "./performance-score.ts";
 import type { Delivery } from "./delivery.ts";
 
 export const GESTURE_SECONDS = {
@@ -17,7 +13,24 @@ export const GESTURE_SECONDS = {
   ponder: 5.0,
 } as const;
 export type AliceGesture = keyof typeof GESTURE_SECONDS;
-export type MotionCue = { gesture: AliceGesture; gestureAt: number };
+type SocialDelivery = Exclude<Delivery, "neutral">;
+export type MotionCue = {
+  gesture: AliceGesture;
+  gestureAt: number;
+  delivery?: SocialDelivery;
+};
+const deliveryPerformances: Record<SocialDelivery, readonly AliceGesture[]> = {
+  celebrate: ["applause", "victory"],
+  comfort: ["comfort"],
+  appreciate: ["gratefulBow", "handToHeart"],
+  surprised: ["astonished"],
+  amused: ["giggle", "wink"],
+  curious: ["openQuestion", "chinRest"],
+  encourage: ["fistPump"],
+  relieved: ["relax"],
+  bashful: ["hairTuck", "handToHeart"],
+  apologetic: ["nod"],
+};
 
 export function easeMotion(value: number) {
   const x = Math.max(0, Math.min(1, value));
@@ -67,7 +80,7 @@ export class MotionCues {
   get activeDelivery() {
     return this.delivery;
   }
-  private variants = new Map<Face, number>();
+  private variants = new Map<SocialDelivery, number>();
 
   dismissReply() {
     if (this.delivery !== "neutral") this.cue = null;
@@ -81,7 +94,7 @@ export class MotionCues {
       index = this.variants.get(delivery) ?? 0;
     const gesture = choices[index % choices.length];
     this.variants.set(delivery, index + 1);
-    this.cue = { gesture, gestureAt: time };
+    this.cue = { gesture, gestureAt: time, delivery };
     this.delivery = delivery;
     this.helloCue = null;
     this.nextAt = time + GESTURE_SECONDS[gesture] + pauses[this.state][0];

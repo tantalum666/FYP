@@ -363,8 +363,8 @@ export function ExistingAvatar() {
               </a>
               {" · "}
               {t(
-                "Original appearance; compatibility metadata adjusted.",
-                "作者原版外观；已整理兼容元数据。",
+                "Group 2 adapted the face, expressions and uniform fit.",
+                "Group 2 调整了面部细节、表情和制服的贴合。",
               )}
             </p>
           )}

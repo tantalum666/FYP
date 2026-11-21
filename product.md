@@ -100,6 +100,10 @@ Reuse official execution infrastructure where it fits. Live supports Responses t
 
 The one newly authorized paid trial independently verified two public book prices, then deleted its session. Usage was absent: the entire US$1 remains reserved and this round is closed. No further paid request is authorized by the implementation or deployment.
 
+## 2026-11-21 Alice’s everyday face and silhouette
+
+At the size of the ordinary phone home, Alice’s resting face should show a readable nose tip and lip line. Listening and thinking have distinct expressions. Relief, embarrassment at a compliment and an apology use the existing ordinary Session reply to carry their tone. Brow and eyelid timing can differ from the mouth, and audible speech takes priority on the lips. Fit the existing uniform to a modest increase in chest fullness while preserving the everyday body proportions and clearance for returning hands and sleeves. Compare the same home camera before and after, also checking the clothed side profile. [Simulator, film and measured fit](output/qa/2026-11-21-alice-face-fit/verification.md).
+
 ## 2026-11-21 Relaxed arms on the ordinary home
 
 At rest, Alice’s upper arms hang near vertical and her elbows remain softly bent. Both wrists settle beside the skirt. The timing of a gesture should be judged from the visible starting pose, the movement and its return. Shape the wide uniform around a lowered elbow and cuff. Fingers have a relaxed cascade, the palm cups on its little-finger side, and the thumb wraps around the outer index finger when gripping. Validate the front and side views on the normal home. [Native comparison and hand close-ups](output/qa/2026-11-21-alice-relaxed-stance/verification.md).

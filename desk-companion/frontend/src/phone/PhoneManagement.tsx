@@ -114,6 +114,8 @@ export function PhoneMore({
       <p className="phone-credits">
         AliceChan · edisonlee55 / yuna0x0
         <br />
+        {t("Face and uniform adapted by Group 2", "面部和制服由 Group 2 调整")}
+        <br />
         <a
           href="https://github.com/yuna0x0/AliceChan"
           target="_blank"
