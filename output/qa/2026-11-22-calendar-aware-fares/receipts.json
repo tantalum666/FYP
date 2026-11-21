@@ -1,0 +1,176 @@
+{
+  "date_hk": "2026-11-22",
+  "base": "2957c09669767f840c6d9780b16baf7a02e47de4",
+  "deployed": "082002013fd375b7d3b66885e59ca5b781a26bc0",
+  "simulator": "iPhone 17 Pro, iOS 26.5",
+  "native_real_provider": {
+    "client_revision": "7bf82c34",
+    "backend_revision": "cd6b89f5",
+    "synthetic_calendar": true,
+    "real_openai_model": "gpt-6.2-sol",
+    "real_letsfg_search": true,
+    "new_flight_bookings": 0,
+    "card_charges": 0,
+    "route": "HKG–HND on 2026-11-29",
+    "budget_hkd": 50,
+    "actual_fares_within_budget": [
+      {
+        "flight": "AZ4035",
+        "depart_local": "2026-11-29T07:35:00",
+        "arrive_local": "2026-11-29T12:44:00",
+        "fare_hkd": 42.0
+      },
+      {
+        "flight": "BA6631",
+        "depart_local": "2026-11-29T18:30:00",
+        "arrive_local": "2026-11-30T02:55:00",
+        "fare_hkd": 47.0
+      },
+      {
+        "flight": "BA9224",
+        "depart_local": "2026-11-29T19:40:00",
+        "arrive_local": "2026-11-30T01:50:00",
+        "fare_hkd": 49.0
+      }
+    ],
+    "calendar_events_used": [
+      {
+        "timezone": "Asia/Hong_Kong",
+        "local": "2026-11-29 09:00–10:00"
+      },
+      {
+        "timezone": "Asia/Tokyo",
+        "local": "2026-11-30 01:15–01:35"
+      }
+    ],
+    "requested_functions": [
+      {
+        "function": "sandbox_flight_quote",
+        "requested_flight": "AZ4035",
+        "calendar_requested": true,
+        "budget_hkd": 50.0,
+        "outcome": "FLIGHT_PROVIDER_UNAVAILABLE"
+      },
+      {
+        "function": "sandbox_flight_quote",
+        "requested_flight": "AZ4035",
+        "calendar_requested": true,
+        "budget_hkd": 50.0,
+        "outcome": "ok"
+      },
+      {
+        "function": "sandbox_flight_quote",
+        "requested_flight": "BA6631",
+        "calendar_requested": true,
+        "budget_hkd": 50.0,
+        "outcome": "ok"
+      }
+    ],
+    "service_search_attempts_during_native_case": 4,
+    "successful_http_search_responses": 2,
+    "returned_inventory_size": 50,
+    "reported_total": 1218,
+    "original_quote": {
+      "outbound_search_only": true,
+      "alternatives": [
+        "BA6631",
+        "BA9224"
+      ],
+      "prices_hkd": [
+        47,
+        49
+      ],
+      "skipped_conflicting": "AZ4035",
+      "selected": "BA6631",
+      "arrival_next_day": true,
+      "calendar_conflict_blocked_confirmation": true,
+      "clear_again_without_booking": true,
+      "supplier_booking_count": 0,
+      "final_state": "cancelled"
+    },
+    "pending_provider_session_records_at_closeout": 0
+  },
+  "independent_read_timing": {
+    "seconds": 6.73,
+    "http": 200,
+    "offers": 50
+  },
+  "final_native_replay": {
+    "original_test_flight": "AZ4035",
+    "first_fit": "BA6631",
+    "blocked_in_confirmation": true,
+    "other_flight": "BA9224",
+    "price_minor": 4900,
+    "cap_minor": 5000,
+    "visible_price_reviews": 1,
+    "model_calls_to_find_other": 0,
+    "supplier_orders": 0
+  },
+  "final_english_web_replay": {
+    "pressed_price": 47,
+    "other_flight": "BA9224",
+    "other_price": 49,
+    "wrong_model_selection_overridden": true,
+    "keyboard": true,
+    "visible_cards": 1,
+    "errors": []
+  },
+  "web_local_race": {
+    "alternatives": [
+      "BA6631\n18:30–02:55 next day\nHK$47.00",
+      "BA9224\n19:40–01:50 next day\nHK$49.00"
+    ],
+    "original_conflict": true,
+    "rechecked_when_model_omitted_option": true,
+    "blocked_before_submission": true,
+    "clear_after_event_removed": true,
+    "focus_on_original_decline": true,
+    "page_errors": []
+  },
+  "openai_accounting": {
+    "model": "gpt-6.2-sol",
+    "admissions": 6,
+    "token_totals_available": 0,
+    "observed_usage_estimate_delta_usd": 0.0,
+    "unpriced_reservation_delta_usd": 0.48,
+    "allocated_usd": 9.0,
+    "remaining_mac_usd": 8.52,
+    "platform_billed_usd": null
+  },
+  "source_index": {
+    "version": "airportsdata 20261103",
+    "airport_count": 7950,
+    "iana_zone_count": 357,
+    "index_sha256": "73680f39839e62de397c17fc258994fc5f8b64593e0e54c2f2ad50cf1d7e6918"
+  },
+  "focused_cases": {
+    "backend_unique": 14,
+    "frontend": 2
+  },
+  "mac": {
+    "verified_release_files": 585,
+    "database_backup_verified": true,
+    "schema": 3,
+    "A3_unchanged": true,
+    "voice_version": 9,
+    "app_accounts_unchanged": true,
+    "protected_files_unchanged": true,
+    "voice_model": "gpt-live-1.1"
+  },
+  "pi": {
+    "sha256": "6d0acf969582b1a293b138dbfa36824daa627d44e5e15c783a7d7e075a5b6542",
+    "base_revision": "85e6aa94d22412b10e0a0d62a4879fb93e9615ef",
+    "target_revision": "082002013fd375b7d3b66885e59ca5b781a26bc0",
+    "files_verified": 585,
+    "installed_on_pi": false
+  },
+  "restored_normal_home": true,
+  "screen_sha256": {
+    "live-options": "4541d363fbc9a59bd7354a9a40dd069bc596482568aeed67c49a3c3a3053fc6f",
+    "live-quote": "13ade428cb8eea21bc57a9ff18c2eb1b92ed6d01d71f68f2c1ff788f00bed57f",
+    "live-conflict": "348321cd95a78667801bdd5d6ec436614d25fb957d8f5f793acb3e3177508bb7",
+    "live-recovered": "3afc6ce638c0cc6b147a6cd37b62dc456bf3f8ba928a399a5e5e29988a84490a",
+    "new-blocked": "af32bb9e85591f79e28226af807462a2b1f0b389f87e94e82a1c3a6bc7e6f575",
+    "new-alternative": "17fd090e163274528a4dfc8c56e7754a555a7aeb75ba6930703626efcf950b10"
+  }
+}

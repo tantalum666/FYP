@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-22 Match flight choices to the owner’s calendar
+
+When asked to avoid existing commitments, Alice checks the published itinerary against the locally saved busy calendar. Show only verified fits within the owner’s search constraints, keep overnight arrival dates visible and recheck the calendar at confirmation. If the owner’s schedule changes, offer a different unbooked fare under the same constraints and ask for a fresh decision. The normal home remains one line. [Acceptance](output/qa/2026-11-22-calendar-aware-fares/verification.md).
+
 ## 2026-11-21 Focus the conversation and follow an approved order
 
 Alice’s home shows one short current result or a link to review a quote. In Conversation, a transaction has one current presentation. Older orders and itemized receipts open on demand. A flight choice requests a fresh quote. Changed prices still require explicit approval. Once work is underway the desk can check the original order while the conversation is away and bring back a verified result or a necessary decision in that same login and chat. Preserve drafts, account privacy and the active review. [Native comparison and follow-up](output/qa/2026-11-21-quiet-order-followup/verification.md).
