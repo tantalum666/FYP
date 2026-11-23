@@ -28,3 +28,8 @@ An unavailable structured weather response identifies whether geocoding or the f
 Fourteen targeted tests passed, including transient errors inside the first ordinary HTTP request, partial Chinese-script lookups, negative-cache recovery, rate-limit backoff, preserved old operation receipts and cache concurrency. Ruff and the scoped diff check passed. Complete suites were not repeated. The comparison used the deployed source's weather path, which matched the weather code on `8e1469ea` before this patch. No running desk was modified. The release owner handles deployment and the combined handoff.
 
 To run the TLS control on a checked-out version with the frozen dependencies installed, use `PYTHONPATH=backend:tests .venv/bin/python ../output/qa/2026-11-23-global-weather-cold-start/replay_tls.py` from `desk-companion`. The probe generates a throwaway loopback certificate and database. It makes no external requests.
+
+
+## Station reading during a forecast outage
+
+A general today or rain question keeps the available station temperature and adds one brief sentence when today's precipitation outlook is missing. Chinese reads “暂时查不到今天的降雨预报。” and English reads “Today's rain forecast is unavailable.” The current-only case retains its short observation. Nine targeted cases exercised the ordinary Chinese and English message endpoint, zero probability and amount, qualitative conditions, HKO’s category, the recorded 20:45 HKO bulletin and a temperature-range-only forecast. An available bulletin answers the question without an added outage sentence.
