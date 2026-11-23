@@ -1,4 +1,23 @@
 {
+  "approved_helper_rollout": {
+    "approved_source_commit": "ded3ecfd3566e872dc2292523fb0005c9100fea7",
+    "boot_id_prefix": "a612ce21",
+    "deliberate_shutdown_or_reboot": false,
+    "guard_completed_hkt": "2026-11-23T16:07:03+08:00",
+    "independent_firmware_get_rtc_reg_matches_linux_and_owner_on_both_ticks": true,
+    "installed_helper_sha256": "6fa58fb2fcda732850d849a79aabfa1b3f183ecfbdba30d1abd238d7c0ca8634",
+    "installer_sha256": "fd5db8eff9bf01176edbede242435f4382de74f51316159bd2ade9da4b2bad1f",
+    "natural_programmed_rtc_deadlines_hkt": [
+      "2026-11-23T16:09:31+08:00",
+      "2026-11-23T16:10:01+08:00"
+    ],
+    "original_helper_and_backup_sha256": "0ec229af5c0f20271a6cea443db7fd778657bab258ad066fc4d675a028a9b48f",
+    "preflight_hkt": "2026-11-23T16:06:18+08:00",
+    "separate_post_reconnection_snapshot": "pending",
+    "similar_candidate_backup_preexisting": false,
+    "timer_restarted": false,
+    "two_distinct_successful_systemd_invocations": true
+  },
   "candidate_validation": {
     "current_helper_sha256": "6fa58fb2fcda732850d849a79aabfa1b3f183ecfbdba30d1abd238d7c0ca8634",
     "frozen_initial_helper_sha256": "cb49028f5aa48727a8281824b3488e1a11e3a3c69747ad406ca3841fb6ff9958",
