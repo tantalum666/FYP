@@ -1,0 +1,18 @@
+{
+  "read": [
+    "what changed while i was away",
+    "what changed during quiet hours",
+    "what did i miss while i was away",
+    "刚才静音时有什么进展",
+    "静音期间有什么进展",
+    "我不在的时候有什么进展"
+  ],
+  "ack": [
+    "mark these updates as read",
+    "mark those updates as read",
+    "acknowledge these updates",
+    "把这些进展标为已读",
+    "把这些更新标为已读",
+    "将这些进展标为已读"
+  ]
+}

@@ -150,3 +150,23 @@ test("flight choices remain available while a separate order finishes", () => {
     choices,
   );
 });
+
+
+test("a quiet recap and a separate settlement preserve a pending calendar preview", () => {
+  const row = flight("calendar", "completed", 5);
+  if (row.kind !== "flight") throw new Error("flight fixture expected");
+  row.calendar_preview = {
+    title: "Test itinerary", start_local: "2026-11-27T11:30", end_local: "2026-11-27T16:39",
+    timezone: "Asia/Hong_Kong",
+  };
+  const preview: ConversationTurn = {
+    id: 1, role: "assistant", body: "Review flight calendar times", orderKey: "flight/calendar",
+    orderVersion: row.version, commerceChat: "owner-chat",
+  };
+  const recap: ConversationTurn = {
+    id: 2, role: "assistant", kind: "quiet_catch_up", body: "Updates", commerceChat: "owner-chat",
+  };
+  const other = flight("other", "stopped", 3);
+  const turns = appendOrderUpdates([preview, recap], [other], "owner-chat", t);
+  assert.equal(focusedOrderTurn(turns, [row, other]), preview);
+});

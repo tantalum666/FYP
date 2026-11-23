@@ -1,6 +1,7 @@
 import { FlightChoices, OrderCard, OtherOrders } from "./CommerceConversation";
 import { needsOwnerReview, orderKey, orderStatus, type CalendarFlightChoice, type CommerceReview } from "./commercePresentation";
 import { useCommerceReviews, needsDecision, reviewRef, type CommerceRef } from "./commerceReviews";
+import { quietChatIntent } from "./quietChat";
 import { ComposerFiles } from "./ComposerFiles";
 import { AliceCheckIn } from "./AliceCheckIn";
 import { InitiativeMessages } from "./InitiativeMessages";
@@ -83,6 +84,7 @@ import {
   appendOrderUpdates,
   focusedOrderTurn,
   latestAssistantReply,
+  showOrderOnHome,
   type ConversationTurn,
 } from "./conversationTranscript";
 import { ToolActivity, type ToolCall } from "./ToolActivity";
@@ -165,12 +167,17 @@ export function AssistantPanel({
     menuPanel = useRef<HTMLDivElement>(null);
   const owner = useRef(false);
   owner.current = data?.principal.kind === "owner";
+  const allowOrderUpdates = !!data?.personal_context_visible &&
+    !data.calendar_extras.quiet_now &&
+    data.calendar_extras.preferences.proactivity !== "off";
   const activityView = useRef({
     view,
+    allowOrderUpdates,
     privateVisible: !!data?.personal_context_visible,
   });
   activityView.current = {
     view,
+    allowOrderUpdates,
     privateVisible: !!data?.personal_context_visible,
   };
   useEffect(() => {
@@ -467,6 +474,9 @@ export function AssistantPanel({
   }, [unavailable]);
   useEffect(() => {
     const renewed = (event: Event) => {
+      submissionGeneration.current += 1;
+      pendingHttp.current = null;
+      setLiveMessage("");
       if ((event as CustomEvent<{reason?:string}>).detail?.reason !== "connected") commerce.clear();
       typedCommerceReview.current=undefined;
       setTurns(old=>old.filter(turn=>!turn.commerceChat));
@@ -501,6 +511,9 @@ export function AssistantPanel({
       chatFiles.clear();
       fileContext.current = false;
       submissionGeneration.current += 1;
+      pendingHttp.current = null;
+      setLiveMessage("");
+      setBusy(false);
     }
   }, [data?.personal_context_visible, data?.principal.kind, chatFiles.clear]);
   useEffect(() => {
@@ -557,7 +570,7 @@ export function AssistantPanel({
         !activityView.current.privateVisible ||
         !ownerView ||
         !data?.personal_context_visible ||
-        data.calendar_extras.preferences.proactivity === "off"
+        !activityView.current.allowOrderUpdates
       )
         return;
       const chat = conversationId.current;
@@ -566,7 +579,6 @@ export function AssistantPanel({
     [
       ownerView,
       data?.personal_context_visible,
-      data?.calendar_extras.preferences.proactivity,
       t,
     ],
   );
@@ -679,6 +691,7 @@ export function AssistantPanel({
       if ((card || shortlist) && result.conversation_id) {
         commerce.receive(result.conversation_id, card, taskId, shortlist);
       }
+      const catchUp = result.kind === "quiet_catch_up";
       typedCommerceReview.current=undefined;
       contextTouched.current = Date.now();
       setLiveMessage("");
@@ -695,8 +708,9 @@ export function AssistantPanel({
             role: "user" as const,
             body: userText,
             files: submittedFiles,
+            kind: catchUp ? result.kind : undefined,
             commerceChat:
-              card || shortlist || result.flight_alternatives
+              card || shortlist || result.flight_alternatives || catchUp
                 ? result.conversation_id
                 : undefined,
           },
@@ -716,9 +730,11 @@ export function AssistantPanel({
                   : result.message,
             orderKey:
               card && (!result.commerce_note || (card.kind === "flight" && card.calendar_preview)) ? orderKey(card) : undefined,
+            orderVersion: card?.version,
+            catchUpRef: result.catch_up_ref,
             choices: result.flight_alternatives,
             commerceChat:
-              card || shortlist || result.flight_alternatives
+              card || shortlist || result.flight_alternatives || catchUp
                 ? result.conversation_id
                 : undefined,
             kind: result.kind,
@@ -750,12 +766,12 @@ export function AssistantPanel({
       )
         return;
       showHttpReply(pending.message, result);
-      void reload();
+      if (result.kind !== "quiet_catch_up") void reload();
     };
     window.addEventListener("desk:write-recovered", recovered);
     return () => window.removeEventListener("desk:write-recovered", recovered);
   }, [reload, showHttpReply]);
-  async function send(e: React.FormEvent | null, choice?: {message:string;review?:CommerceRef;display?:string;calendarFlightChoice?:CalendarFlightChoice}) {
+  async function send(e: React.FormEvent | null, choice?: {message:string;review?:CommerceRef;display?:string;calendarFlightChoice?:CalendarFlightChoice;catchUpRef?:string}) {
     e?.preventDefault();
     if (
       busy ||
@@ -770,13 +786,20 @@ export function AssistantPanel({
     const submitted = choice ? choice.message : text.trim()
       ? text
       : t("Please review these files.", "请帮我看看这些文件。");
-    const review = choice ? choice.review : typedCommerceReview.current;
+    const catchUp = quietChatIntent(submitted);
+    const catchUpRef = catchUp === "ack"
+      ? choice?.catchUpRef ?? latestCatchUp?.catchUpRef
+      : undefined;
+    const review = choice?.review ?? (
+      !choice && !catchUp && lastTurn?.kind !== "quiet_catch_up" ? typedCommerceReview.current : undefined
+    );
     // Saved Work uses the local HTTP worker even when realtime text is available.
     const savedWork = submitted.split(/[\r\n]/).some((line) =>
       /^(?:continue the task from before|继续刚才那个任务|(?:continue work|继续工作)\s+[0-9a-f]{32}\s+v[0-9]+)[ .。]*$/i.test(line.trim())
     );
     const shortlistChat = commerce.hasShortlist.current && commerce.tracked.current === conversationId.current;
-    const useOmni = omni && !savedWork && !shortlistChat && !choice && !review && !chatFiles.files.length && !fileContext.current;
+    const useOmni = omni && !catchUp && !savedWork && !shortlistChat && !choice && !review && !chatFiles.files.length && !fileContext.current;
+    if (catchUp && immersive && !suspended) onExpandedChange?.(true);
     const previousHttp = pendingHttp.current;
     const generation = ++submissionGeneration.current;
     setBusy(true);
@@ -794,19 +817,22 @@ export function AssistantPanel({
         setText("");
         return;
       }
-      const uploaded = await chatFiles.upload(
-        conversationId.current,
-        taskId,
-        () => alive.current && generation === submissionGeneration.current,
-        (id) => {
-          conversationId.current = id;
-        },
-      );
+      const uploaded = catchUp
+        ? { conversationId: conversationId.current, references: [], keys: [] }
+        : await chatFiles.upload(
+            conversationId.current,
+            taskId,
+            () => alive.current && generation === submissionGeneration.current,
+            (id) => {
+              conversationId.current = id;
+            },
+          );
       if (!alive.current || generation !== submissionGeneration.current) return;
       conversationId.current = uploaded.conversationId;
       if (uploaded.references.length) fileContext.current = true;
       const body = {
         message: submitted,
+        ...(catchUpRef ? {catch_up_ref: catchUpRef} : {}),
         ...(choice?.review ? {selected_commerce_card: true} : {}),
         ...(choice?.calendarFlightChoice ? {calendar_flight_choice:choice.calendarFlightChoice} : {}),
         ...(review ? {[review.kind==="shop" ? "shopping_review" : "flight_review"]:{id:review.id,version:review.version,amount_minor:review.amount_minor}} : {}),
@@ -829,7 +855,7 @@ export function AssistantPanel({
         "/assistant/messages/stream",
         body,
         (state) => {
-          if (alive.current && generation === submissionGeneration.current) {
+          if (!catchUp && alive.current && generation === submissionGeneration.current) {
             setLiveMessage(state.message);
             setProgress(state.tools);
           }
@@ -837,8 +863,10 @@ export function AssistantPanel({
       )) as Reply;
       if (!alive.current || generation !== submissionGeneration.current) return;
       showHttpReply(submitted, result);
-      void reload();
-      window.dispatchEvent(new Event("desk:jobs"));
+      if (!catchUp) {
+        void reload();
+        window.dispatchEvent(new Event("desk:jobs"));
+      }
     } catch (e) {
       if (!alive.current || generation !== submissionGeneration.current) return;
       if (
@@ -907,7 +935,7 @@ export function AssistantPanel({
       await retryPending();
       if (alive.current && generation === submissionGeneration.current) {
         setNotice(t("Message checked.", "已核对消息结果。"));
-        void reload();
+        if (!quietChatIntent(body.message ?? "")) void reload();
       }
     } catch (failure) {
       if (alive.current && generation === submissionGeneration.current)
@@ -1346,8 +1374,15 @@ export function AssistantPanel({
     commerce.tracked.current === activeChat
       ? commerce.rows
       : [];
-  const lastTurn = turns.at(-1);
-  const focusTurn = focusedOrderTurn(turns, orderRows);
+  const visibleTurns = turns.filter(turn =>
+    !turn.commerceChat || (privateOrdersVisible &&
+      (turn.kind !== "quiet_catch_up" || turn.commerceChat === activeChat))
+  );
+  const latestCatchUp = visibleTurns.filter(turn =>
+    turn.kind === "quiet_catch_up" && turn.role === "assistant"
+  ).at(-1);
+  const lastTurn = visibleTurns.at(-1);
+  const focusTurn = focusedOrderTurn(visibleTurns, orderRows);
   const focusedOrder = focusTurn
     ? orderRows.find((row) => orderKey(row) === focusTurn.orderKey)
     : orderRows.find(needsOwnerReview);
@@ -1367,17 +1402,30 @@ export function AssistantPanel({
   const needsOrderReview =
     focusedOrder &&
     needsOwnerReview(focusedOrder);
+  const homeOrder = focusedOrder && showOrderOnHome(focusedOrder, focusTurn, allowOrderUpdates)
+    ? focusedOrder
+    : undefined;
   const openOrder =
-    (needsOrderReview || hasChoices) &&
+    lastTurn?.kind !== "quiet_catch_up" && ((homeOrder && needsOrderReview) || hasChoices) &&
     !liveMessage &&
     !busy &&
     !speechText.current.assistant;
-  const homeAnswer = focusedOrder
-    ? focusedOrder.kind === "flight" && focusedOrder.calendar_preview
+  const homeAnswer = lastTurn?.kind === "quiet_catch_up" ? "" : homeOrder
+    ? homeOrder.kind === "flight" && homeOrder.calendar_preview
       ? t("Review flight calendar times", "核对航班日程")
-      : orderStatus(focusedOrder, t)
-    : hasChoices && focusTurn ? focusTurn.body : latestAssistantReply(turns);
+      : orderStatus(homeOrder, t)
+    : hasChoices && focusTurn ? focusTurn.body : latestAssistantReply(visibleTurns);
   function turnBody(turn: ConversationTurn) {
+    if (turn.catchUpRef && turn === latestCatchUp) {
+      const label = t("Mark these updates as read", "把这些进展标为已读");
+      return <>
+        <p>{turn.body}</p>
+        <button type="button" className="secondary" disabled={busy || unavailable || !!pendingAction}
+          onClick={() => void send(null, { message: label, catchUpRef: turn.catchUpRef })}>
+          {label}
+        </button>
+      </>;
+    }
     if (
       turn === focusTurn &&
       focusedOrder &&
@@ -1602,7 +1650,7 @@ export function AssistantPanel({
               .slice(0, 3)
               .map(jobCard)}
           {(!immersive || expanded) &&
-            turns.filter(turn=>!turn.commerceChat || (ownerView && data?.personal_context_visible)).map((turn) => (
+            visibleTurns.map((turn) => (
               <div className={`assistant-turn ${turn.role}`} key={turn.id}>
                 {turn.files?.length ? (
                   <div className="message-files">
@@ -1714,7 +1762,7 @@ export function AssistantPanel({
               {t("Thinking…", "处理中…")}
             </p>
           )}
-          {(!immersive || expanded) && focusedOrder && !lastTurn && <OrderCard row={focusedOrder} {...orderActions}/>}
+          {(!immersive || expanded) && focusedOrder && !focusTurn && <OrderCard row={focusedOrder} {...orderActions}/>}
           {(!immersive || expanded) && <OtherOrders rows={otherOrders} {...orderActions} current={!!focusedOrder}/>}
           {proposals.map((proposal) => (
             <ProposalActionCard

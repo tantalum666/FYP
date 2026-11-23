@@ -1,5 +1,5 @@
 import {
-  needsDecision,
+  needsOwnerReview,
   orderKey,
   orderStatus,
   type CommerceReview,
@@ -13,6 +13,8 @@ export type ConversationTurn = {
   kind?: string;
   jobId?: string;
   orderKey?: string;
+  orderVersion?: number;
+  catchUpRef?: string;
   commerceChat?: string;
   choices?: import("./commercePresentation").FlightAlternatives;
   voiceSession?: string;
@@ -88,6 +90,7 @@ export function appendOrderUpdates(
       kind: "order_update",
       body: orderStatus(row, t),
       orderKey: key,
+      orderVersion: row.version,
       commerceChat: chat,
     };
     if (next.at(-1)?.orderKey === key && next.at(-1)?.commerceChat === chat)
@@ -103,18 +106,24 @@ export function focusedOrderTurn(
   turns: ConversationTurn[],
   rows: CommerceReview[],
 ) {
-  const latest = turns.at(-1);
+  const latest = turns.filter((turn) => turn.kind !== "quiet_catch_up").at(-1);
   if (latest?.kind !== "order_update") return latest;
   const pending = new Set(
     rows
-      .filter((row) => needsDecision(row) || row.state === "refund_retry")
+      .filter(needsOwnerReview)
       .map(orderKey),
   );
   for (let i = turns.length - 1; i >= 0; i--) {
     const turn = turns[i];
+    if (turn.kind === "quiet_catch_up") continue;
     if (turn.choices || (turn.orderKey && pending.has(turn.orderKey)))
       return turn;
     if (turn.kind !== "order_update") break;
   }
   return latest;
+}
+
+export function showOrderOnHome(row: CommerceReview, turn: ConversationTurn | undefined, allowPassive: boolean) {
+  return (allowPassive && !row.quiet_update) ||
+    (turn?.orderKey === orderKey(row) && turn.orderVersion === row.version);
 }

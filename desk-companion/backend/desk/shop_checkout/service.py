@@ -51,6 +51,7 @@ def public(row):
         "id": row["id"],
         "version": row["version"],
         "state": row["state"],
+        **({"quiet_update": True} if row.get("quiet_update") else {}),
         "quote": public_quote(quote) if quote else None,
         "review_minor": quote["terms"]["total_minor"] if quote else None,
         "previous": public_quote(row["previous"]) if row.get("previous") else None,

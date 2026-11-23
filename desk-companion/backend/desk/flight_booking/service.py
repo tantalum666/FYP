@@ -35,6 +35,7 @@ def public(row):
         "id": row["id"],
         "version": row["version"],
         "state": row["state"],
+        **({"quiet_update": True} if row.get("quiet_update") else {}),
         "segments": quote["segments"],
         "adults": quote["adults"],
         "currency": quote["currency"],

@@ -1,5 +1,6 @@
 """Resume retained Work from an explicit owner turn, including after loss of RAM chat."""
 
+from contextlib import nullcontext
 from dataclasses import dataclass
 from sqlite3 import Row
 
@@ -90,9 +91,9 @@ class SavedWork:
                     (_scope(chat.owner, chat.id), chat.task_id, key),
                 )
 
-    def forget(self, session, chat_id):
+    def forget(self, session, chat_id, db=None):
         scope = _scope(session, chat_id)
-        with self.store.connection(write=True) as db:
+        with nullcontext(db) if db is not None else self.store.connection(write=True) as db:
             db.execute("UPDATE work_chat_links SET scope=NULL WHERE scope=?", (scope,))
             db.execute("DELETE FROM work_chat_prompts WHERE scope=?", (scope,))
 

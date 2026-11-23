@@ -28,6 +28,7 @@ from starlette.websockets import WebSocketDisconnect
 from starlette import websockets as starlette_websockets
 
 from .conversation import Conversations, draft_context, memory_context, task_context
+from . import quiet_chat
 from .store import DomainError
 from .tool_dispatch import ToolDispatcher
 from .voice_credentials import qwen_key, openai_key
@@ -1238,11 +1239,12 @@ def voice_routes(runtime, authenticated, agent, allowed_origins, limit):
         if principal["kind"] != "owner":
             raise DomainError("OWNER_REQUIRED", 403)
         who = {**principal, "session": request.cookies.get("desk_companion_session")}
-        with runtime.text_ai.lock:
+        with runtime.text_ai.lock, runtime.store.connection(write=True) as db:
             runtime.voice.conversations.forget(who, conversation_id)
-            runtime.conversation_work.saved.forget(Conversations.owner(who), conversation_id)
-        runtime.flight_bookings.forget_chat(who, conversation_id)
-        runtime.shop_orders.forget_chat(who, conversation_id)
+            runtime.conversation_work.saved.forget(Conversations.owner(who), conversation_id, db)
+            runtime.flight_bookings.forget_chat(who, conversation_id, db)
+            runtime.shop_orders.forget_chat(who, conversation_id, db)
+            quiet_chat.forget(db, who, conversation_id)
         return {"cleared": True}
 
     @router.post("/voice/work-drafts")
