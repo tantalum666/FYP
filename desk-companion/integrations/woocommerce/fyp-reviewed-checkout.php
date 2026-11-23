@@ -27,21 +27,75 @@ function cents($value) {
     return (int) wc_add_number_precision((float) $value);
 }
 
-function terms($order) {
+function terms($order, $basket) {
     $lines = array_values($order->get_items());
     $shipping = array_values($order->get_items('shipping'));
-    if (count($lines) !== 1 || count($shipping) > 1 || !$lines[0]->get_product()) {
+    if (!$lines || count($lines) > 8 || count($shipping) > 1 || (!$basket && count($lines) !== 1)) {
         return null;
     }
-    $line = $lines[0];
-    return [
-        'product_id' => $line->get_product_id(), 'sku' => $line->get_product()->get_sku(),
-        'quantity' => $line->get_quantity(), 'currency' => $order->get_currency(),
-        'subtotal_minor' => cents($line->get_subtotal()), 'discount_minor' => cents($order->get_discount_total()),
+    $items = [];
+    $skus = [];
+    foreach ($lines as $line) {
+        $product = $line->get_product();
+        $variation = $line->get_variation_id();
+        $id = $variation ?: $line->get_product_id();
+        if (!$product || $product->get_id() !== $id || isset($items[$id])
+            || ($variation && (!$basket || $product->get_parent_id() !== $line->get_product_id()
+                || in_array('', $product->get_variation_attributes(), true)))) {
+            return null;
+        }
+        $sku = $product->get_sku();
+        $quantity = $line->get_quantity();
+        if ($sku === '' || isset($skus[strtolower($sku)]) || $quantity < 1 || $quantity > 99) {
+            return null;
+        }
+        $skus[strtolower($sku)] = true;
+        $subtotal = cents($line->get_subtotal());
+        $items[$id] = [
+            'product_id' => $id, 'sku' => $sku, 'quantity' => $quantity,
+            'subtotal_minor' => $subtotal, 'discount_minor' => $subtotal - cents($line->get_total()),
+            'subtotal_tax_minor' => cents($line->get_subtotal_tax()), 'tax_minor' => cents($line->get_total_tax()),
+        ];
+    }
+    $totals = [
+        'currency' => $order->get_currency(),
+        'subtotal_minor' => array_sum(array_column($items, 'subtotal_minor')), 'discount_minor' => cents($order->get_discount_total()),
         'shipping_minor' => cents($order->get_shipping_total()), 'tax_minor' => cents($order->get_total_tax()),
         'fees_minor' => cents($order->get_total_fees()), 'total_minor' => cents($order->get_total()),
         'rate_id' => $shipping ? $shipping[0]->get_method_id() . ':' . $shipping[0]->get_instance_id() : '',
     ];
+    if (!$basket) {
+        return $totals + array_intersect_key(reset($items), array_flip(['product_id', 'sku', 'quantity']));
+    }
+    $delivery = $shipping[0] ?? null;
+    $shipping_tax = cents($order->get_shipping_tax());
+    if ($totals['shipping_minor'] !== ($delivery ? cents($delivery->get_total()) : 0)
+        || $shipping_tax !== ($delivery ? cents($delivery->get_total_tax()) : 0)) {
+        return null;
+    }
+    ksort($items, SORT_NUMERIC);
+    $fees = [];
+    foreach ($order->get_items('fee') as $fee) {
+        $fees[] = [
+            'name' => html_entity_decode($fee->get_name(), ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+            'total_minor' => cents($fee->get_total()), 'tax_minor' => cents($fee->get_total_tax()),
+        ];
+    }
+    usort($fees, static fn($a, $b) => strcmp($a['name'], $b['name'])
+        ?: ($a['total_minor'] <=> $b['total_minor']) ?: ($a['tax_minor'] <=> $b['tax_minor']));
+    return $totals + [
+        'items' => array_values($items), 'fees' => $fees, 'shipping_tax_minor' => $shipping_tax,
+    ];
+}
+
+// SQLite and REST clients can serialize object fields in different orders.
+function same_terms($actual, $expected) {
+    if (!is_array($actual)) return $actual === $expected;
+    if (!is_array($expected) || count($actual) !== count($expected)) return false;
+    foreach ($actual as $field => $value) {
+        if (!array_key_exists($field, $expected) || !same_terms($value, $expected[$field])) return false;
+    }
+    return true;
 }
 
 // This sandbox has its own acceptance policy. A dispatched or partly refunded
@@ -77,7 +131,7 @@ function receipt($ref) {
         'buyer_cancel_requested' => (bool) $order->get_meta('_fyp_buyer_cancel'),
         'can_cancel' => can_cancel_order($order),
         'refunded_minor' => cents($order->get_total_refunded()), 'gateway' => $order->get_payment_method(),
-        'guest' => $order->get_customer_id() === 0, 'terms' => terms($order),
+        'guest' => $order->get_customer_id() === 0, 'terms' => terms($order, (bool) $order->get_meta('_fyp_alice_basket')),
         'intent' => $order->get_meta('_payment_intent_id'), 'transaction' => $order->get_transaction_id(),
     ];
 }
@@ -100,40 +154,31 @@ function checkout($request) {
         return new \WP_Error('fyp_busy', 'Checkout already in progress.', ['status' => 409]);
     }
     $revision = null;
-    $matches = static function ($actual, $expected) {
-        if ($actual === null || count($expected) !== count($actual)) {
-            return false;
-        }
-        foreach ($actual as $field => $value) {
-            if (!array_key_exists($field, $expected) || $expected[$field] !== $value) {
-                return false;
-            }
-        }
-        return true;
-    };
-    $guard = static function ($order, $at_gateway = false) use ($approved, $cart_basis, $matches, &$revision) {
+    $basket = array_key_exists('items', $approved);
+    $guard = static function ($order, $at_gateway = false) use ($approved, $cart_basis, $basket, &$revision) {
         if (!sandbox_ready() || $order->get_payment_method() !== 'stripe_cc' || $order->get_customer_id() !== 0) {
             throw new RouteException('fyp_test_mode_required', 'Test guest checkout is required.', 409);
         }
-        $actual = terms($order);
-        if ($matches($actual, $approved)) {
+        $actual = terms($order, $basket);
+        if (same_terms($actual, $approved)) {
             return;
         }
         // A previously observed checkout-only adjustment can be applied after draft creation.
         // Only its original cart may reach that step. The gateway requires the exact approved order.
-        if (!$at_gateway && $actual && $actual['total_minor'] > 0 && $matches($actual, $cart_basis)) {
+        if (!$at_gateway && $actual && $actual['total_minor'] > 0 && same_terms($actual, $cart_basis)) {
             return;
         }
         $revision = ['terms' => $actual, 'shipping_name' => $order->get_shipping_method()];
         throw new RouteException('fyp_quote_changed', 'The cart changed.', 409);
     };
-    $before_payment = static function ($context) use ($guard, $ref) {
+    $before_payment = static function ($context) use ($guard, $ref, $basket) {
         $order = $context->order;
         $guard($order, true);
         if ($context->payment_method !== 'stripe_cc') {
             throw new RouteException('fyp_test_mode_required', 'Incorrect test gateway.', 409);
         }
         $order->update_meta_data('_fyp_alice_reference', $ref);
+        if ($basket) $order->update_meta_data('_fyp_alice_basket', 1);
         $order->save_meta_data();
         if (!add_option('fyp_alice_order_' . $ref, $order->get_id(), '', false)) {
             throw new RouteException('fyp_busy', 'The review already has an order.', 409);
@@ -191,7 +236,7 @@ function cancel_paid_order($request) {
         $prior = receipt($ref);
         if (is_wp_error($prior)) return $prior;
         if (!$prior['found'] || !$prior['guest'] || $prior['gateway'] !== 'stripe_cc'
-            || !is_array($expected) || ($expected['order'] ?? null) !== $prior['order_id']
+            || !is_array($prior['terms']) || !is_array($expected) || ($expected['order'] ?? null) !== $prior['order_id']
             || ($expected['amount_minor'] ?? null) !== $prior['terms']['total_minor']
             || $prior['terms']['currency'] !== 'HKD') {
             return new \WP_Error('fyp_order_mismatch', 'The reviewed test order does not match.', ['status'=>409]);

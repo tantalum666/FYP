@@ -9,10 +9,16 @@ from pathlib import Path
 import re
 
 import httpx
-from pydantic import Field
 
-from ..schemas import StrictModel
 from ..store import DomainError
+from .terms import (
+    MAX_QUANTITY,
+    ShopQuery,
+    cart_quote,
+    checked_terms,
+    checkout_revision,
+    selection,
+)
 
 
 STORE = "http://127.0.0.1:8993/wp-json/"
@@ -27,17 +33,6 @@ ADDRESS = {
     "country": "HK",
 }
 BILLING = {**ADDRESS, "email": "fyp-woo@example.com", "phone": "+12025550142"}
-
-
-class ShopQuery(StrictModel):
-    product: str = Field(
-        min_length=1,
-        max_length=140,
-        description="Product name or SKU the owner asked for. Keep the original language.",
-    )
-    quantity: int = Field(
-        ge=1, le=99, strict=True, description="Exact number of selling units requested."
-    )
 
 
 def _private(path):
@@ -59,105 +54,6 @@ def _json(response):
         return response.json()
     except ValueError:
         raise DomainError("SHOP_PROVIDER_UNAVAILABLE", 503) from None
-
-
-def _minor(value):
-    if isinstance(value, bool) or not re.fullmatch(r"[0-9]{1,11}", str(value)):
-        raise DomainError("SHOP_UNVERIFIED", 502)
-    return int(value)
-
-
-def cart_quote(cart, product_id, quantity):
-    items = cart.get("items", [])
-    totals = cart.get("totals") or {}
-    if (
-        len(items) != 1
-        or items[0].get("id") != product_id
-        or items[0].get("quantity") != quantity
-        or totals.get("currency_code") != "HKD"
-        or totals.get("currency_minor_unit") != 2
-        or "stripe_cc" not in cart.get("payment_methods", [])
-    ):
-        raise DomainError("SHOP_UNVERIFIED", 502)
-    item = items[0]
-    selected = [
-        rate
-        for package in cart.get("shipping_rates", [])
-        for rate in package["shipping_rates"]
-        if rate["selected"]
-    ]
-    if cart.get("needs_shipping") and (
-        not cart.get("has_calculated_shipping") or len(selected) != 1
-    ):
-        raise DomainError("SHOP_DELIVERY_UNAVAILABLE", 409)
-    unit = _minor(item["prices"]["price"])
-    terms = {
-        "product_id": product_id,
-        "sku": item["sku"],
-        "quantity": quantity,
-        "currency": "HKD",
-        "subtotal_minor": _minor(item["totals"]["line_subtotal"]),
-        "discount_minor": _minor(totals["total_discount"]),
-        "shipping_minor": _minor(totals["total_shipping"]),
-        "tax_minor": _minor(totals["total_tax"]),
-        "fees_minor": _minor(totals["total_fees"]),
-        "total_minor": _minor(totals["total_price"]),
-        "rate_id": selected[0]["rate_id"] if selected else "",
-    }
-    if (
-        not terms["sku"]
-        or unit * quantity != terms["subtotal_minor"]
-        or terms["total_minor"] <= 0
-        or terms["total_minor"]
-        != terms["subtotal_minor"]
-        - terms["discount_minor"]
-        + terms["shipping_minor"]
-        + terms["tax_minor"]
-        + terms["fees_minor"]
-    ):
-        raise DomainError("SHOP_UNVERIFIED", 502)
-    return {
-        "terms": terms,
-        "name": html.unescape(item["name"]),
-        "unit_minor": unit,
-        "shipping_name": html.unescape(selected[0]["name"]) if selected else "",
-        "destination": "HK" if selected else None,
-    }
-
-
-def checkout_revision(basis, revised):
-    """A merchant-only adjustment needs a complete, arithmetically consistent final quote."""
-    original = basis["terms"]
-    terms = revised.get("terms") if isinstance(revised, dict) else None
-    if (
-        not isinstance(terms, dict)
-        or terms.keys() != original.keys()
-        or any(terms[k] != original[k] for k in ("product_id", "sku", "quantity", "currency"))
-    ):
-        raise DomainError("SHOP_UNVERIFIED", 502)
-    amounts = {k: _minor(v) for k, v in terms.items() if k.endswith("_minor")}
-    total = (
-        amounts["subtotal_minor"]
-        - amounts["discount_minor"]
-        + amounts["shipping_minor"]
-        + amounts["fees_minor"]
-        + amounts["tax_minor"]
-    )
-    if (
-        total != amounts["total_minor"]
-        or total <= 0
-        or amounts["subtotal_minor"] % terms["quantity"]
-        or not isinstance(terms["rate_id"], str)
-        or not isinstance(revised.get("shipping_name"), str)
-    ):
-        raise DomainError("SHOP_UNVERIFIED", 502)
-    return {
-        **basis,
-        "terms": {**terms, **amounts},
-        "unit_minor": amounts["subtotal_minor"] // terms["quantity"],
-        "shipping_name": html.unescape(revised["shipping_name"]),
-        "checkout_basis": basis,
-    }
 
 
 class WooSandbox:
@@ -204,54 +100,85 @@ class WooSandbox:
             raise DomainError("SHOP_PROVIDER_UNAVAILABLE", 503) from None
 
     @staticmethod
-    def cart(shop, product_id, quantity):
+    def cart(shop, requested, quantity=None):
         token = shop.get("wc/store/v1/cart")
         _json(token)
         if not token.headers.get("Cart-Token"):
             raise DomainError("SHOP_UNVERIFIED", 502)
-        h = {"Cart-Token": token.headers["Cart-Token"]}
-        _json(
-            shop.post(
-                "wc/store/v1/cart/add-item",
-                json={"id": product_id, "quantity": quantity},
-                headers=h,
-            )
+        headers = {"Cart-Token": token.headers["Cart-Token"]}
+        units = (
+            {requested: quantity}
+            if quantity is not None
+            else {ident: count for ident, (_, count) in requested.items()}
         )
+        for ident, count in units.items():
+            added = shop.post(
+                "wc/store/v1/cart/add-item", json={"id": ident, "quantity": count}, headers=headers
+            )
+            if added.status_code in {400, 404, 409}:
+                raise DomainError("SHOP_ITEM_UNAVAILABLE", 409)
+            _json(added)
         cart = _json(
             shop.post(
                 "wc/store/v1/cart/update-customer",
                 json={"billing_address": BILLING, "shipping_address": ADDRESS},
-                headers=h,
+                headers=headers,
             )
         )
-        return cart_quote(cart, product_id, quantity), h
+        return cart_quote(cart, requested, quantity), headers
 
-    def quote(self, query):
+    @staticmethod
+    def resolve(shop, search):
+        if not search:
+            raise DomainError("SHOP_NO_MATCH", 404)
+        path = "wc/store/v1/products"
+        # Woo excludes variations from its normal catalog. Only a concrete SKU
+        # can select a variation; a variable parent needs an owner choice.
+        for filters in ({"sku": search}, {"sku": search, "type": "variation"}):
+            rows = _json(shop.get(path, params={**filters, "per_page": 20}))
+            candidates = [p for p in rows if (p.get("sku") or "").casefold() == search.casefold()]
+            if candidates:
+                break
+        else:
+            response = shop.get(path, params={"search": search, "per_page": 20})
+            rows = _json(response)
+            if response.headers.get("X-WP-TotalPages", "1") not in {"0", "1"}:
+                raise DomainError("SHOP_AMBIGUOUS", 409)
+            exact = [p for p in rows if html.unescape(p["name"]).casefold() == search.casefold()]
+            sku_like = re.fullmatch(r"[A-Z0-9]+(?:-[A-Z0-9]+)+", search, re.I)
+            candidates = exact or ([] if sku_like else rows)
+        if not candidates:
+            raise DomainError("SHOP_NO_MATCH", 404)
+        if len(candidates) != 1 or candidates[0].get("type") == "variable":
+            raise DomainError("SHOP_AMBIGUOUS", 409)
+        product = candidates[0]
+        if product.get("type") == "variation" and search.casefold() != product["sku"].casefold():
+            raise DomainError("SHOP_AMBIGUOUS", 409)
+        if (
+            product.get("type") not in {"simple", "variation"}
+            or not isinstance(product.get("sku"), str)
+            or not product["sku"]
+            or product.get("is_purchasable") is not True
+            or product.get("is_in_stock") is not True
+        ):
+            raise DomainError("SHOP_ITEM_UNAVAILABLE", 409)
+        if type(product.get("id")) is not int or product["id"] <= 0:
+            raise DomainError("SHOP_UNVERIFIED", 502)
+        return product["id"], product["sku"]
+
+    def quote(self, query: ShopQuery):
         with self.shop() as (shop, _):
-            search = query.product.strip()
-            if not search:
-                raise DomainError("SHOP_NO_MATCH", 404)
-            field = "sku" if re.fullmatch(r"[A-Z0-9]+(?:-[A-Z0-9]+)+", search) else "search"
-            matches = _json(
-                shop.get("wc/store/v1/products", params={field: search, "per_page": 20})
-            )
-            eligible = [
-                x
-                for x in matches
-                if x.get("is_purchasable")
-                and x.get("is_in_stock")
-                and x.get("type") == "simple"
-                and x.get("sku")
-            ]
-            exact = [
-                x
-                for x in eligible
-                if search.casefold() in {x["sku"].casefold(), html.unescape(x["name"]).casefold()}
-            ]
-            candidates = exact or eligible
-            if len(candidates) != 1:
-                raise DomainError("SHOP_NO_MATCH" if not candidates else "SHOP_AMBIGUOUS", 409)
-            return self.cart(shop, candidates[0]["id"], query.quantity)[0]
+            requested = {}
+            for item in query.requested_items():
+                ident, sku = self.resolve(shop, item.product.strip())
+                prior_sku, count = requested.get(ident, (sku, 0))
+                if prior_sku != sku:
+                    raise DomainError("SHOP_UNVERIFIED", 502)
+                count += item.quantity
+                if count > MAX_QUANTITY:
+                    raise DomainError("SHOP_QUANTITY_LIMIT", 409)
+                requested[ident] = (sku, count)
+            return self.cart(shop, requested)[0]
 
     @contextmanager
     def stripe(self):
@@ -301,8 +228,12 @@ class WooSandbox:
             path = "fyp-alice/v1/orders/" + ref
             if _json(shop.get(path, headers=auth)).get("found"):
                 return None
-            current, cart_headers = self.cart(shop, terms["product_id"], terms["quantity"])
+            cart_args = (selection(terms),) if "items" in terms else (terms["product_id"], terms["quantity"])
+            current, cart_headers = self.cart(shop, *cart_args)
             basis = approved.get("checkout_basis", approved)
+            if "items" not in terms and "items" in current["terms"]:
+                if current["terms"]["items"][0]["sku"] != terms["sku"]:
+                    raise DomainError("SHOP_UNVERIFIED", 502)
             if current != basis:
                 return current
             method = self.test_method(ref)
@@ -315,7 +246,7 @@ class WooSandbox:
             if resp.status_code == 409 and resp.json().get("code") == "fyp_quote_changed":
                 # A final Woo calculation changed after the cart read, before its gateway.
                 with self.shop() as (fresh, _):
-                    revised = self.cart(fresh, terms["product_id"], terms["quantity"])[0]
+                    revised = self.cart(fresh, *cart_args)[0]
                 if revised != basis:
                     return revised
                 revision = resp.json().get("data", {}).get("revision")
@@ -347,11 +278,14 @@ class WooSandbox:
             order = _json(shop.get("fyp-alice/v1/orders/" + ref, headers=auth))
         if not order.get("found"):
             return None
+        actual = order.get("terms")
+        if "items" in approved["terms"]:
+            actual = checked_terms(actual)
         if (
             order.get("test_mode") is not True
             or order.get("guest") is not True
             or order.get("gateway") != "stripe_cc"
-            or order.get("terms") != approved["terms"]
+            or actual != approved["terms"]
             or type(order.get("order_id")) is not int
             or order["order_id"] <= 0
         ):

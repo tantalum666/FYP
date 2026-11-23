@@ -9,17 +9,29 @@ from ..store import DomainError
 from .provider import WooSandbox
 
 
+def public_quote(quote):
+    result = {k: v for k, v in quote.items() if k != "checkout_basis"}
+    terms = quote["terms"]
+    if len(terms.get("items", [])) == 1:
+        # Keep the original single-product display fields for earlier clients.
+        line = terms["items"][0]
+        result.update(
+            name=quote["item_names"][str(line["product_id"])],
+            unit_minor=line["subtotal_minor"] // line["quantity"],
+            terms={**terms, **{k: line[k] for k in ("product_id", "sku", "quantity")}},
+        )
+    return result
+
+
 def public(row):
     quote = row["quote"]
     return {
         "id": row["id"],
         "version": row["version"],
         "state": row["state"],
-        "quote": {k: v for k, v in quote.items() if k != "checkout_basis"},
+        "quote": public_quote(quote),
         "review_minor": quote["terms"]["total_minor"],
-        "previous": {k: v for k, v in row["previous"].items() if k != "checkout_basis"}
-        if row.get("previous")
-        else None,
+        "previous": public_quote(row["previous"]) if row.get("previous") else None,
         "approved_minor": row.get("approved"),
         "receipt": row.get("receipt")
         if row["state"]
@@ -199,6 +211,7 @@ class ShopOrders(ChatReviews):
                 self._save(row)
                 return public(row)
             now = self.store.clock()
+            recovering = row["state"] == "retry"
             row.update(
                 last_review=review.model_dump(),
                 approved=review.amount_minor,
@@ -210,7 +223,10 @@ class ShopOrders(ChatReviews):
             try:
                 revised = self.provider.checkout(row["id"], row["quote"])
             except DomainError as error:
-                if error.code == "SHOP_UNVERIFIED":
+                if not recovering and error.code in {"SHOP_ITEM_UNAVAILABLE", "SHOP_DELIVERY_UNAVAILABLE"}:
+                    self._state(row, "unavailable")
+                    self._save(row)
+                elif error.code == "SHOP_UNVERIFIED":
                     self._state(row, "unverified")
                     self._save(row)
                 else:
