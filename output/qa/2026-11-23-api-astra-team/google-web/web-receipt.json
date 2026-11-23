@@ -1,0 +1,23 @@
+{
+  "revision": "401e0fb227257b7aa24be690863c5eef4553db6f",
+  "surface": "ordinary Web settings / Import & share",
+  "transport": "isolated synthetic Google HTTP",
+  "preview_observed": {
+    "event_count": 3,
+    "desk_titles": [
+      "Sandbox copy",
+      "Sandbox lesson",
+      "Sandbox visit"
+    ],
+    "review_screenshot": "review.jpg"
+  },
+  "after_confirm_and_reopen": {
+    "titles": [
+      "Sandbox copy",
+      "Sandbox lesson revised"
+    ],
+    "provider_calls": 3
+  },
+  "rendered_result": "Last confirmed refresh · 23/11/2026, 1:06 pm · 2026-11-23 → 2026-12-23 · 1 updated · 1 removed · 1 kept · 1 unverified",
+  "page_errors_after_reopen": []
+}

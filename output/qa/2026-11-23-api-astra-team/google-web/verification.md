@@ -1,0 +1,5 @@
+# Google refresh in the ordinary Web settings
+
+At `401e0fb2`, an isolated Chrome session signed into the regular FYP desk, opened Device → Import & share → Google Calendar, and selected **Refresh imported events**. The backend used the desktop SQLite service and a local synthetic Google HTTP transport. The preview contained a changed lesson, an explicitly cancelled visit and an unavailable copy. Independent reads found all three original entries before confirmation.
+
+The owner confirmed in the rendered interface. Reopening the settings showed one update, one removal and one retained entry. SQLite returned the revised lesson and original unavailable copy. The provider handled three reads, with no extra Google access at confirmation or on reopening the result. The 1240 × 900 browser reopened the receipt with no app page errors. An initial test-harness wait after Save was blocked by the app’s content security policy. A subsequent independent read and normal settings revisit verified the committed result. [Review](review.jpg) · [Confirmed receipt](confirmed.jpg) · [Independent readback](web-receipt.json).
