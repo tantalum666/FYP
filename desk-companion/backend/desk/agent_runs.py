@@ -23,6 +23,7 @@ from .agent_run_schemas import (
 )
 from .agent_planner import build_plan, compose, decide
 from . import application_work
+from .quiet_changes import observe_work
 from .agent_tools import (
     read_evidence,
     artifact_payloads,
@@ -204,6 +205,7 @@ class AgentRunService:
     def _save(self, conn, run, kind, details=None):
         run["version"] += 1
         run["updated_at"] = iso(self.store.clock())
+        observe_work(self.runtime, conn, run, kind)
         data = {
             k: v
             for k, v in run.items()

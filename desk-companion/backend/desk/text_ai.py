@@ -53,7 +53,7 @@ from .voice_credentials import openai_key
 from .workspace_data import is_quiet
 from .schemas import StrictModel
 from .store import DomainError, encode
-from . import commerce_chat, routine_chat
+from . import commerce_chat, quiet_chat, routine_chat
 from .tool_policy import tool_visible
 from .chat_attachments import ChatAttachments, FILE_POLICY, capability as attachment_capability
 
@@ -441,15 +441,26 @@ class TextAssistant:
             raise DomainError("OPERATION_ID_REQUIRED", 422)
         conversation = None
         cached = None
-        grant = self.runtime.permissions.capture(principal, payload.task_id)
+        catch_up = quiet_chat.intent(payload)
+        if catch_up and (not principal or principal.get("kind") != "owner"):
+            raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
+        grant = None if catch_up else self.runtime.permissions.capture(principal, payload.task_id)
         if principal is not None:
             task_context(self.runtime, principal, payload.task_id)
             # Durable business receipts follow the principal, while temporary
             # chat replay follows the specific login session and selected task.
             scope = f"{principal.get('kind')}:{principal.get('id', 'owner')}"
             key = "chat/" + hashlib.sha256(f"{scope}/{key}".encode()).hexdigest()
-            cached = self._cached_reply(payload, key, allow_memory)
             revision, _ = memory_context(self.runtime, allow_memory)
+            if catch_up:
+                with self.store.connection(write=True) as db:
+                    self.runtime.personal_context.require_owner_transaction(db, principal)
+                    fingerprint = self._fingerprint(payload, allow_memory)
+                    cached = self._lookup_reply(db, key, fingerprint, payload.language)
+                    return quiet_chat.turn(
+                        self.runtime, db, payload, principal, revision, catch_up, cached, key, fingerprint
+                    )
+            cached = self._cached_reply(payload, key, allow_memory)
             try:
                 conversation = self.runtime.voice.conversations.open(
                     principal, revision, payload.conversation_id, task_id=payload.task_id
@@ -561,23 +572,23 @@ class TextAssistant:
 
     def _cached_reply(self, payload, key, allow_memory):
         with self.store.connection() as conn:
-            old = conn.execute("SELECT * FROM assistant_replies WHERE id=?", (key,)).fetchone()
-            retired = (
-                conn.execute(
-                    "SELECT request FROM operations WHERE id=?", (retired_reply_key(key),)
-                ).fetchone()
-                if old is None
-                else None
-            )
+            return self._lookup_reply(conn, key, self._fingerprint(payload, allow_memory), payload.language)
+
+    @staticmethod
+    def _lookup_reply(conn, key, fingerprint, language):
+        old = conn.execute("SELECT * FROM assistant_replies WHERE id=?", (key,)).fetchone()
         if old:
-            if old["request_hash"] != self._fingerprint(payload, allow_memory):
+            if old["request_hash"] != fingerprint:
                 raise DomainError("OPERATION_ID_CONFLICT")
             return json.loads(old["result"])
+        retired = conn.execute(
+            "SELECT request FROM operations WHERE id=?", (retired_reply_key(key),)
+        ).fetchone()
         if retired:
             marker = json.loads(retired["request"])
             if marker.get("type") != "assistant_reply_retired" or marker.get(
                 "request_hash"
-            ) != self._fingerprint(payload, allow_memory):
+            ) != fingerprint:
                 raise DomainError("OPERATION_ID_CONFLICT")
             return {
                 "mode": "local_rules",
@@ -585,7 +596,7 @@ class TextAssistant:
                 "saved": False,
                 "message": (
                     "遗忘信息后，这条旧回复已清除。没有执行新的操作。"
-                    if payload.language == "zh"
+                    if language == "zh"
                     else "This earlier response was cleared after forgetting information. No new action was run."
                 ),
             }

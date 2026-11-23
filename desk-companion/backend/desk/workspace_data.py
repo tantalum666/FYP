@@ -126,9 +126,11 @@ class WorkspaceData:
                 for row in document["vcalendar"][0]["vevent"]
             }
 
-    def preferences(self):
-        with self.store.connection() as conn:
-            row = conn.execute("SELECT * FROM workspace_preferences WHERE id=1").fetchone()
+    def preferences(self, conn=None):
+        if conn is None:
+            with self.store.connection() as connection:
+                return self.preferences(connection)
+        row = conn.execute("SELECT * FROM workspace_preferences WHERE id=1").fetchone()
         stored = json.loads(row["data"])
         known = WorkspacePreferences.model_fields
         merged = {

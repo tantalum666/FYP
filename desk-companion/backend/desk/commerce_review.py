@@ -4,12 +4,14 @@ import hashlib
 import json
 import re
 import threading
+from contextlib import nullcontext
 from typing import Literal
 
 from pydantic import Field
 
 from .calendar import iso
 from .conversation import Conversations
+from . import quiet_changes
 from .schemas import StrictModel
 from .store import DomainError, encode
 
@@ -78,7 +80,8 @@ class ChatReviews:
             ).fetchone()
         if not record:
             raise DomainError(self.kind + "_NOT_FOUND", 404)
-        return dict(json.loads(record["data"]), _serial=record["serial"])
+        row = json.loads(record["data"])
+        return dict(row, _serial=record["serial"])
 
     def _follow_scope(self, conn, owner, chat, ident):
         # The same hash identifies the original login and the order. No session
@@ -128,11 +131,17 @@ class ChatReviews:
             self._write_row(db, row)
 
     def _write_row(self, db, row):
-        data = {k: v for k, v in row.items() if k not in {"_serial", "_follow"}}
         if "_follow" in row:
             owner, chat, scope = row["_follow"]
             if self._follow_scope(db, owner, chat, row["id"]) != scope:
                 raise DomainError("COMMERCE_FOLLOW_SCOPE_CHANGED", 409)
+        original = db.execute(
+            f"SELECT owner,chat,data FROM {self.table} WHERE id=? AND serial=?",
+            (row["id"], row["_serial"]),
+        ).fetchone()
+        if original and original["chat"]:
+            quiet_changes.observe_commerce(self.runtime, db, self.kind, original, row)
+        data = {k: v for k, v in row.items() if k not in {"_serial", "_follow"}}
         updated = db.execute(
             f"UPDATE {self.table} SET data=?,serial=serial+1 WHERE id=? AND serial=?",
             (encode(data), row["id"], row["_serial"]),
@@ -147,20 +156,25 @@ class ChatReviews:
         owner = Conversations.owner(principal)
         if not owner or not self.store.session_valid(principal.get("session")):
             return False
-        ident = review.id if review else None
         with self.store.connection() as db:
-            return (
-                db.execute(
-                    f"SELECT 1 FROM {self.table} WHERE owner=? AND chat=? AND json_extract(data,'$.task_id') IS ? AND (? IS NULL OR id=?) LIMIT 1",
-                    (owner, chat, task_id, ident, ident),
-                ).fetchone()
-                is not None
-            )
+            return self.has_chat(db, owner, chat, task_id, review.id if review else None)
 
-    def forget_chat(self, principal, chat):
+    def has_chat(self, db, owner, chat, task_id, ident=None):
+        return db.execute(
+            f"SELECT 1 FROM {self.table} WHERE owner=? AND chat=? "
+            "AND json_extract(data,'$.task_id') IS ? AND (? IS NULL OR id=?) LIMIT 1",
+            (owner, chat, task_id, ident, ident),
+        ).fetchone() is not None
+
+    def forget_chat(self, principal, chat, db=None):
         owner = Conversations.owner(principal)
         if owner:
-            with self.store.connection(write=True) as db:
+            with nullcontext(db) if db is not None else self.store.connection(write=True) as db:
+                db.execute(
+                    f"DELETE FROM notice_inbox WHERE source IN "
+                    f"(SELECT ? || id FROM {self.table} WHERE owner=? AND chat=?)",
+                    (self.kind.lower() + "/", owner, chat),
+                )
                 db.execute(
                     f"UPDATE {self.table} SET chat='',serial=serial+1 WHERE owner=? AND chat=?",
                     (owner, chat),

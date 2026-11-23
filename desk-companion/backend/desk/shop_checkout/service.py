@@ -15,6 +15,7 @@ def public(row):
         "id": row["id"],
         "version": row["version"],
         "state": row["state"],
+        **({"quiet_update": True} if row.get("quiet_update") else {}),
         "quote": {k: v for k, v in quote.items() if k != "checkout_basis"},
         "review_minor": quote["terms"]["total_minor"],
         "previous": {k: v for k, v in row["previous"].items() if k != "checkout_basis"}

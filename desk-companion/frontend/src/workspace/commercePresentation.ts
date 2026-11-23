@@ -74,7 +74,8 @@ export interface SandboxFlight {
 }
 
 export type CommerceReview =
-  (SandboxShop & { kind: "shop" }) | (SandboxFlight & { kind: "flight" });
+  ((SandboxShop & { kind: "shop" }) | (SandboxFlight & { kind: "flight" })) &
+  { quiet_update?: boolean };
 export type CommerceRef = {
   id: string;
   version: number;
@@ -252,6 +253,7 @@ export function orderUpdates(
     const old = seen.get(orderKey(row));
     return (
       old &&
+      !row.quiet_update &&
       watchStates.has(old.state) &&
       importantStates.has(row.state) &&
       row.version > old.version &&

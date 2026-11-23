@@ -60,6 +60,9 @@ class AssistantMessage(StrictModel):
     voice_steer: bool = Field(default=False, strict=True)
     flight_review: ReviewRef | None = None
     shopping_review: ReviewRef | None = None
+    catch_up_ref: str | None = Field(
+        default=None, pattern=r"^[a-f0-9]{64}$", exclude_if=lambda ref: ref is None
+    )
     # Omit the default from serialized requests so previously saved operation hashes still match.
     calendar_flight_choice: FlightQuery | None = Field(default=None, exclude_if=lambda choice: choice is None)
     flight_calendar_requested: bool = Field(default=False, strict=True, exclude_if=lambda value: not value)

@@ -113,6 +113,7 @@ export interface ProposalDecisionReply {
   job?: { id: string };
 }
 export interface Reply {
+  catch_up_ref?: string;
   delivery?: import("../companion/delivery").Delivery;
   commerce_note?: boolean;
   flight_alternatives?: import("./commercePresentation").FlightAlternatives;
