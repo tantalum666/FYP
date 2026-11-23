@@ -38,6 +38,8 @@ export function proposalDecisionNotice(
       "动作已排队，请在设备回执中查看结果。",
     );
   const kind = result.kind ?? requestedKind;
+  if (kind === "routine_skip")
+    return t("That routine occurrence was skipped.", "已跳过这一次提醒。");
   if (kind === "email_send")
     return t("Email accepted for sending.", "邮件已提交发送。");
   if (isJourneyAdvice(kind))

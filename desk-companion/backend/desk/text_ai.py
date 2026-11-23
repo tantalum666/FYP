@@ -53,7 +53,7 @@ from .voice_credentials import openai_key
 from .workspace_data import is_quiet
 from .schemas import StrictModel
 from .store import DomainError, encode
-from . import commerce_chat
+from . import commerce_chat, routine_chat
 from .tool_policy import tool_visible
 from .chat_attachments import ChatAttachments, FILE_POLICY, capability as attachment_capability
 
@@ -480,6 +480,8 @@ class TextAssistant:
                 admitted = self.runtime.conversation_work.turn(
                     payload, key, principal, conversation=conversation
                 )
+            if admitted is None and not (conversation and conversation.attachment_ids):
+                admitted = routine_chat.turn(self.runtime, payload, key, principal)
         stepped = None
         if (
             cached is None

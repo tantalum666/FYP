@@ -580,6 +580,14 @@ export function errorText(
       "This draft expired. Prepare a new one before saving.",
       "草稿已过期，请重新生成后保存。",
     ],
+    ROUTINE_OCCURRENCE_UNAVAILABLE: [
+      "That routine occurrence is no longer available to skip. Ask for a new review.",
+      "该次定时提醒已无法跳过，请重新核对。",
+    ],
+    ROUTINE_SELECTION_REQUIRED: [
+      "Choose a routine from this review.",
+      "请从这次核对中选择一项定时事务。",
+    ],
     IMPORT_EXPIRED: [
       "This import preview expired or was applied. Preview the file again.",
       "导入预览已过期或已应用，请重新预览文件。",

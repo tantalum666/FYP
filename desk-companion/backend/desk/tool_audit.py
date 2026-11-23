@@ -70,7 +70,7 @@ class ToolAudit:
                     _clip(call_key if isinstance(call_key, str) else "", 120),
                     _clip(name if isinstance(name, str) else "", 80),
                     _clip(risk if isinstance(risk, str) else "unknown", 16),
-                    _argument_text(arguments),
+                    _argument_text({} if name == "routine_skip_draft" else arguments),
                     _clip(outcome if isinstance(outcome, str) else "TOOL_FAILED", 80),
                     saved,
                     ref_kind,

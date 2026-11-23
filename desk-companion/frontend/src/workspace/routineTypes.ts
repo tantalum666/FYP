@@ -71,6 +71,7 @@ export interface RoutineList {
 }
 export interface RoutineDetail {
   routine: Routine;
+  skipped_dates?: string[];
   runs: RoutineRun[];
   revision: number;
 }

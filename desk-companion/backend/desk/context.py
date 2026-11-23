@@ -113,7 +113,7 @@ def _approvals(runtime, *, allow_memory: bool) -> list[dict]:
                 "state": item["state"],
                 "expires_at": item["expires_at"],
                 "saved": False,
-                "preview": encode(data)[:160],
+                "preview": "" if item["kind"] == "routine_skip" else encode(data)[:160],
             }
         )
     return rows

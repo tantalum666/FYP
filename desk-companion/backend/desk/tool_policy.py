@@ -96,6 +96,7 @@ def kind_for(code: str) -> str:
 
 OWNER_ONLY_TOOLS = frozenset(
     {
+        "routine_skip_draft",
         "email_reply_draft",
         "mail_followup_draft",
         "mail_followup_status",
@@ -222,6 +223,10 @@ def execute_tool(
         )
         return result
     key = effect_key(scope, capability.name, parsed)
+    if capability.name == "routine_skip_draft":
+        with runtime.store.connection() as conn:
+            if runtime.store.settings(conn)["hide_private"]:
+                return {"error": "PRIVATE_CONTEXT_HIDDEN", "saved": False}
     stored = _stored(runtime, key) if capability.risk != "read" else None
     if stored is not None:
         return stored

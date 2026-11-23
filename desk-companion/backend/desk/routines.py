@@ -5,15 +5,15 @@ cannot call providers, execute scripts, or change tasks, events or computer jobs
 """
 
 import json
-from datetime import UTC, datetime, time, timedelta
-from typing import Literal
+from datetime import UTC, date, datetime, time, timedelta
+from typing import Annotated, Literal
 from uuid import uuid4
 from zoneinfo import ZoneInfo
 
-from fastapi import APIRouter, Depends
-from pydantic import Field, field_validator, model_validator
+from fastapi import APIRouter, Depends, Request
+from pydantic import AfterValidator, Field, field_validator, model_validator
 
-from .calendar import expand_all, is_occurrence, iso, wall_to_utc
+from .calendar import expand_all, is_occurrence, iso, local_key, wall_to_utc
 from .schemas import EventInput, StrictModel
 from .store import DomainError, encode
 
@@ -50,9 +50,25 @@ class RoutineInput(StrictModel):
         return self
 
 
+def _calendar_date(value: str) -> str:
+    return date.fromisoformat(value).isoformat()
+
+
+RoutineDate = Annotated[
+    str, Field(pattern=r"^[0-9]{4}-[0-9]{2}-[0-9]{2}$"), AfterValidator(_calendar_date)
+]
+
+
 class RoutineAction(StrictModel):
-    action: Literal["pause", "resume", "cancel"]
+    action: Literal["pause", "resume", "cancel", "skip"]
     expected_version: int = Field(ge=1)
+    local_date: RoutineDate | None = None
+
+    @model_validator(mode="after")
+    def dated_skip(self):
+        if (self.action == "skip") != (self.local_date is not None):
+            raise ValueError("Only skip takes a local date, and it is required")
+        return self
 
 
 class DeliveryClaim(StrictModel):
@@ -115,6 +131,9 @@ class RoutineService:
                     FOREIGN KEY(routine_id) REFERENCES routines(id));
                 CREATE UNIQUE INDEX IF NOT EXISTS routine_one_pending
                     ON routine_runs(routine_id) WHERE delivery_state='pending';
+                CREATE TABLE IF NOT EXISTS routine_skips(
+                    routine_id TEXT NOT NULL REFERENCES routines(id),local_date TEXT NOT NULL,
+                    PRIMARY KEY(routine_id,local_date));
             """)
 
     @staticmethod
@@ -161,8 +180,76 @@ class RoutineService:
 
         return self.store.operation(key, {"type": "routine_create", "data": data}, apply)
 
-    def action(self, routine_id, payload, key):
+    @staticmethod
+    def _skipped(conn, routine_id, day):
+        return conn.execute(
+            "SELECT 1 FROM routine_skips WHERE routine_id=? AND local_date=?", (routine_id, day)
+        ).fetchone() is not None
+
+    def _next_due(self, conn, routine, after):
+        upcoming = occurrence(routine, after, next_after=True)
+        while upcoming and self._skipped(conn, routine["id"], upcoming[0].date().isoformat()):
+            upcoming = occurrence(routine, upcoming[1], next_after=True)
+        return upcoming
+
+    def _on_date(self, conn, routine, day, now):
+        """Resolve only this original civil date, including the scheduler's fold/gap rule."""
+        if routine["status"] != "active" or not routine["next_run_at"]:
+            return None
+        anchor = datetime.fromisoformat(routine["start_local"])
+        if day < anchor.date() or day.year > 2100:
+            return None
+        wall = datetime.combine(day, anchor.time())
+        try:
+            due = wall_to_utc(wall, routine["timezone"])
+        except ValueError:
+            return None
+        if (
+            due <= now
+            or iso(due) < routine["next_run_at"]
+            or occurrence(routine, due) != (wall, due)
+            or self._skipped(conn, routine["id"], day.isoformat())
+        ):
+            return None
+        return wall, due
+
+    def skip_choices(self, conn, when, title):
+        """Freeze the exact eligible slots for the owner's review inside draft creation."""
+        if self.store.settings(conn)["hide_private"]:
+            raise DomainError("PRIVATE_CONTEXT_HIDDEN", 403)
+        now = self.store.clock()
+        choices = []
+        for row in conn.execute("SELECT * FROM routines WHERE status='active' ORDER BY id"):
+            routine = self.view(row)
+            if title is not None and routine["title"].casefold() != title.strip().casefold():
+                continue
+            if when == "next":
+                # The durable cursor can be ahead of the clock after a rollback, or behind
+                # it after downtime. Only offer an occurrence that can still be skipped.
+                cursor = datetime.fromisoformat(routine["next_run_at"])
+                slot = self._next_due(conn, routine, max(now, cursor - timedelta(microseconds=1)))
+            else:
+                day = (
+                    now.astimezone(ZoneInfo(routine["timezone"])).date() + timedelta(days=1)
+                    if when == "tomorrow" else date.fromisoformat(when)
+                )
+                slot = self._on_date(conn, routine, day, now)
+            if slot:
+                choices.append({
+                    "routine_id": routine["id"],
+                    "expected_version": routine["version"],
+                    "title": routine["title"],
+                    "timezone": routine["timezone"],
+                    "occurrence_key": local_key(slot[0]),
+                })
+        if not choices:
+            raise DomainError("ROUTINE_OCCURRENCE_UNAVAILABLE")
+        return sorted(choices, key=lambda choice: (choice["occurrence_key"], choice["title"]))
+
+    def action(self, routine_id, payload, key, *, principal=None):
         def apply(conn):
+            if principal is not None:
+                self.runtime.personal_context.require_owner_transaction(conn, principal)
             old = self.get(conn, routine_id)
             if old["version"] != payload.expected_version:
                 raise DomainError("VERSION_CONFLICT")
@@ -170,7 +257,19 @@ class RoutineService:
                 raise DomainError("ROUTINE_CLOSED")
             now = self.store.clock()
             state, next_at = old["status"], old["next_run_at"]
-            if payload.action == "pause":
+            if payload.action == "skip":
+                slot = self._on_date(conn, old, date.fromisoformat(payload.local_date), now)
+                if slot is None:
+                    raise DomainError("ROUTINE_OCCURRENCE_UNAVAILABLE")
+                conn.execute(
+                    "INSERT INTO routine_skips(routine_id,local_date) VALUES(?,?)",
+                    (routine_id, payload.local_date),
+                )
+                if iso(slot[1]) == next_at:
+                    upcoming = self._next_due(conn, old, slot[1])
+                    next_at = iso(upcoming[1]) if upcoming else None
+                    state = "active" if upcoming else "completed"
+            elif payload.action == "pause":
                 if state != "active":
                     raise DomainError("ROUTINE_ALREADY_PAUSED")
                 state, next_at = "paused", None
@@ -187,7 +286,7 @@ class RoutineService:
                     if old["last_scheduled_at"]
                     else now,
                 )
-                upcoming = occurrence(old, floor, next_after=True)
+                upcoming = self._next_due(conn, old, floor)
                 if old["frequency"] == "once":
                     upcoming = (
                         None,
@@ -206,12 +305,13 @@ class RoutineService:
                     "WHERE routine_id=? AND delivery_state='pending'",
                     (routine_id,),
                 )
+            skipped = {"skipped_date": payload.local_date} if payload.action == "skip" else {}
             self.store.record(conn, "routine_" + payload.action, details={"routine_id": routine_id})
-            return {"routine": self.get(conn, routine_id), "saved": True}
+            return {"routine": self.get(conn, routine_id), "saved": True, **skipped}
 
         return self.store.operation(
             key,
-            {"type": "routine_action", "id": routine_id, **payload.model_dump(mode="json")},
+            {"type": "routine_action", "id": routine_id, **payload.model_dump(exclude_none=True)},
             apply,
         )
 
@@ -307,7 +407,23 @@ class RoutineService:
                 if due is None:
                     continue
                 wall, scheduled = due
-                next_due = occurrence(routine, now, next_after=True)
+                next_due = self._next_due(conn, routine, now)
+                conn.execute(
+                    "UPDATE routines SET next_run_at=?,last_scheduled_at=?,status=?,updated_at=? "
+                    "WHERE id=?",
+                    (
+                        iso(next_due[1]) if next_due else None,
+                        iso(scheduled),
+                        "active" if next_due else "completed",
+                        iso(now),
+                        routine["id"],
+                    ),
+                )
+                changed = True
+                # On restart the latest missed slot can be the opted-out one while
+                # next_run_at still points at an older day. Consume the backlog quietly.
+                if self._skipped(conn, routine["id"], wall.date().isoformat()):
+                    continue
                 already_pending = conn.execute(
                     "SELECT 1 FROM routine_runs WHERE routine_id=? AND delivery_state='pending'",
                     (routine["id"],),
@@ -355,17 +471,6 @@ class RoutineService:
                         "routine_result",
                         details={"routine_id": routine["id"], "skill": routine["skill"]},
                     )
-                conn.execute(
-                    "UPDATE routines SET next_run_at=?,last_scheduled_at=?,status=?,updated_at=? "
-                    "WHERE id=?",
-                    (
-                        iso(next_due[1]) if next_due else None,
-                        iso(scheduled),
-                        "active" if next_due else "completed",
-                        iso(now),
-                        routine["id"],
-                    ),
-                )
                 # The forward schedule and watermark prevent old replay even after
                 # bounded history pruning. Preserve an older pending inbox entry.
                 conn.execute(
@@ -374,7 +479,6 @@ class RoutineService:
                     "ORDER BY scheduled_at DESC LIMIT ?)",
                     (routine["id"], routine["id"], HISTORY_PER_ROUTINE),
                 )
-                changed = True
             # Saved-skill schedules share this clock. A due occurrence prepares
             # one pending run, or the occurrence is skipped and not replayed.
             skills = getattr(self.runtime, "saved_skills", None)
@@ -447,6 +551,13 @@ class RoutineService:
         with self.store.connection() as conn:
             return {
                 "routine": self.get(conn, routine_id),
+                "skipped_dates": [
+                    row[0]
+                    for row in conn.execute(
+                        "SELECT local_date FROM routine_skips WHERE routine_id=? ORDER BY local_date",
+                        (routine_id,),
+                    )
+                ],
                 "runs": [
                     self._run_view(conn, row)
                     for row in conn.execute(
@@ -514,8 +625,9 @@ class RoutineService:
 
 
 def routine_routes(runtime, owner, operation_id):
-    def visible_owner(principal=Depends(owner)):
+    def visible_owner(request: Request, principal=Depends(owner)):
         runtime.personal_context.require_visible(principal)
+        return {**principal, "session": request.cookies.get("desk_companion_session")}
 
     router = APIRouter(prefix="/api/routines", dependencies=[Depends(visible_owner)])
 
@@ -536,7 +648,9 @@ def routine_routes(runtime, owner, operation_id):
         return runtime.routines.detail(routine_id)
 
     @router.post("/{routine_id}/actions")
-    def action(routine_id: str, payload: RoutineAction, key=Depends(operation_id)):
-        return runtime.routines.action(routine_id, payload, key)
+    def action(
+        routine_id: str, payload: RoutineAction, key=Depends(operation_id), principal=Depends(visible_owner)
+    ):
+        return runtime.routines.action(routine_id, payload, key, principal=principal)
 
     return router
