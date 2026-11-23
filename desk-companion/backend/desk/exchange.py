@@ -37,6 +37,7 @@ class ImportFile(StrictModel):
 
 class ImportApply(StrictModel):
     replace_matching: bool = False
+    resolve_event_ids: list[str] = Field(default_factory=list, max_length=50)
 
 
 class BackupInput(StrictModel):
@@ -92,6 +93,8 @@ class ExchangeService:
         if not row:
             raise DomainError("IMPORT_EXPIRED", 410)
         document = json.loads(row["data"])
+        if row["kind"] == "google_refresh":
+            google_imports.check_removals(document["rows"])
         return {
             **receipt,
             "kind": row["kind"],
@@ -307,7 +310,13 @@ class ExchangeService:
             raise DomainError("IMPORT_EXPIRED", 410)
 
     def apply(self, preview_id, payload, key, *, allow_backup=True, owner_session=None):
-        request = {"type": "import_apply", "preview_id": preview_id, **payload.model_dump()}
+        request = {
+            "type": "import_apply",
+            "preview_id": preview_id,
+            "replace_matching": payload.replace_matching,
+        }
+        if payload.resolve_event_ids:
+            request["resolve_event_ids"] = payload.resolve_event_ids
 
         def authorize(conn):
             self.authorize_review(conn, key, request, owner_session, owner=allow_backup)
@@ -316,6 +325,8 @@ class ExchangeService:
             row = conn.execute("SELECT * FROM import_previews WHERE id=?", (preview_id,)).fetchone()
             if not row or row["expires_at"] <= iso(self.store.clock()) or row["state"] != "pending":
                 raise DomainError("IMPORT_EXPIRED", 410)
+            if payload.resolve_event_ids and row["kind"] != "google_refresh":
+                raise DomainError("INVALID_IMPORT_SELECTION", 422)
             preview = json.loads(row["data"])
             if row["kind"] in {"google", "google_refresh"}:
                 counts = google_imports.apply_import(
@@ -492,7 +503,7 @@ class ExchangeService:
             # Allowlist business data. Never include sessions, credentials, pairing,
             # provider secrets, the vault key, recordings or raw camera landmarks.
             payload = {
-                "events": events,
+                "events": google_imports.backup_events(conn, events),
                 "exceptions": exceptions,
                 "calendar_settings": self.store.settings(conn),
                 "workspace_preferences": self.runtime.data.preferences(),

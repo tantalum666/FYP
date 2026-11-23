@@ -1,5 +1,6 @@
 """Calendar settings HTTP journey against an in-memory, read-only Google transport."""
 
+import json
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime, timedelta
 from hashlib import sha256
@@ -12,6 +13,7 @@ from fastapi.testclient import TestClient
 
 from desk.app import COOKIE, create_app
 from desk.calendar import iso
+from desk import google_calendar
 from desk.store import encode
 
 RANGE = {"start": "2026-10-01", "end": "2026-10-15"}
@@ -62,6 +64,8 @@ class Desk:
             self.store.record(conn, "google_connected")
 
     def provider(self, request):
+        if request.method == "POST" and str(request.url) == "https://oauth2.googleapis.com/revoke":
+            return httpx.Response(200, json={})
         assert request.method == "GET" and request.url.host == "www.googleapis.com"
         assert request.headers["authorization"] == "Bearer " + self.version
         path, params = request.url.path, dict(request.url.params)
@@ -145,6 +149,199 @@ def statuses(preview):
     return {row["event"]["title"]: row["status"] for row in preview["rows"]}
 
 
+def test_two_grants_and_a_legacy_copy_roundtrip_through_owner_backup(desk, tmp_path):
+    desk.import_events(event("occurrence", "First grant"), event("old", "Pre-upgrade copy"))
+    with desk.store.connection(write=True) as conn:
+        conn.execute("DELETE FROM google_import_links WHERE remote_id='old'")
+    desk.ok("/google/disconnect", {})
+    desk.connect("second")
+    desk.import_events(event("occurrence", "Second grant"), event("old", "New grant copy"))
+    original = desk.calendar()
+    with desk.store.connection() as conn:
+        live_keys = {
+            title: desk.store.event(conn, row["id"])["external_id"]
+            for title, row in original.items()
+        }
+    assert (
+        live_keys["First grant"]
+        == live_keys["Second grant"]
+        == "google/" + sha256(b"primary/occurrence").hexdigest()
+    )
+    assert (
+        live_keys["Pre-upgrade copy"]
+        == live_keys["New grant copy"]
+        == "google/" + sha256(b"primary/old").hexdigest()
+    )
+    backup = desk.client.get("/api/exchange/backup.json").json()
+    restore = {"content": encode(backup)}
+    app = create_app(tmp_path / "destination", password="fixture", scheduler=False)
+    with TestClient(app) as client:
+        other = Desk(app, client)
+        preview = other.ok("/exchange/backup/preview", restore)
+        assert set(statuses(preview).values()) == {"new"}
+        receipt = other.apply(preview, "restore")
+        assert receipt["created"] == 4 and other.apply(preview, "restore") == receipt
+        assert {k: v["id"] for k, v in other.calendar().items()} == {
+            k: v["id"] for k, v in original.items()
+        }
+        assert other.apply(other.ok("/exchange/backup/preview", restore))["kept"] == 4
+        # Portable backup rows have no local grant authority, even on this sole grant.
+        assert other.refresh()["rows"] == [] and other.calls == []
+        other.import_events(event("occurrence", "Authenticated import"))
+        other.events["occurrence"] = event("occurrence", "Authenticated update")
+        refresh = other.refresh()
+        assert statuses(refresh) == {"Authenticated update": "changed"}
+        assert [path for path, _ in other.calls] == [PATH + "/occurrence"]
+        assert other.apply(refresh)["updated"] == 1
+        assert set(other.calendar()) == {*original, "Authenticated update"}
+        # Re-exporting after an authentic reimport beside a detached copy is portable too.
+        copies = other.client.get("/api/exchange/backup.json").json()["payload"]["events"]
+        assert len({row["external_id"] for row in copies}) == len(copies) == 5
+
+    # Merging on the source preserves the authentic links and local IDs.
+    assert desk.apply(desk.ok("/exchange/backup/preview", restore))["kept"] == 4
+    desk.events["occurrence"] = event("occurrence", "Only second grant changes")
+    assert desk.apply(desk.refresh())["updated"] == 1
+    assert desk.calendar()["Only second grant changes"]["id"] == original["Second grant"]["id"]
+    assert desk.calendar()["First grant"]["version"] == 1
+
+
+def test_old_backup_cannot_claim_google_provenance_or_bypass_duplicate_check(desk):
+    desk.import_events(event("provider-id"))
+    authentic_id = desk.calendar()["provider-id"]["id"]
+    backup = desk.client.get("/api/exchange/backup.json").json()
+    entry = backup["payload"]["events"][0]
+    old_id = "google/" + sha256(b"primary/legacy-from-file").hexdigest()
+    entry.update(id="first-backup-copy", external_id=old_id)
+    backup["payload"]["events"].append({**entry, "id": "another-backup-copy"})
+    backup["sha256"] = sha256(encode(backup["payload"]).encode()).hexdigest()
+    preview = desk.ok("/exchange/backup/preview", {"content": encode(backup)})
+    rejected = desk.post(f"/exchange/{preview['preview_id']}/apply", {})
+    assert rejected.status_code == 409 and rejected.json()["error"]["code"] == "VERSION_CONFLICT"
+    assert set(desk.calendar()) == {"provider-id"}
+    backup["payload"]["events"].pop()
+    backup["sha256"] = sha256(encode(backup["payload"]).encode()).hexdigest()
+    assert (
+        desk.apply(desk.ok("/exchange/backup/preview", {"content": encode(backup)}))["created"] == 1
+    )
+    with desk.store.connection() as conn:
+        restored = desk.store.event(conn, "first-backup-copy")
+    assert (restored["origin"], restored["provider"], restored["external_id"]) == (
+        "backup",
+        None,
+        old_id,
+    )
+    assert [row["existing_id"] for row in desk.refresh()["rows"]] == [authentic_id]
+    assert [path for path, _ in desk.calls] == [PATH + "/provider-id"]
+
+
+def test_legacy_replacement_baseline_needs_an_applied_exact_version_or_individual_consent(desk):
+    names = ["verified", "uncertain", "also-uncertain", "manual"]
+    desk.import_events(*(event(name) for name in names))
+    desk.pages = [[event(name, name + " v2") for name in ("verified", "manual")]]
+    previous = desk.ok("/google/preview", RANGE, "previous-range")
+    desk.ok(
+        f"/exchange/{previous['preview_id']}/apply", {"replace_matching": True}, "previous-apply"
+    )
+    desk.pages = [[event(name, name + " v2") for name in ("uncertain", "also-uncertain")]]
+    declined = desk.ok("/google/preview", RANGE, "declined-range")
+    assert desk.apply(declined)["updated"] == 0
+    without_history = desk.ok("/google/preview", RANGE, "missing-range")
+    desk.ok(
+        f"/exchange/{without_history['preview_id']}/apply",
+        {"replace_matching": True},
+        "missing-apply",
+    )
+    original = desk.calendar()
+    edited = original["manual v2"]
+    desk.ok(
+        f"/events/{edited['id']}/actions",
+        {
+            "action": "update",
+            "scope": "series",
+            "expected_version": 2,
+            "event": {
+                **next(r["event"] for r in previous["rows"] if r["existing_id"] == edited["id"]),
+                "title": "Owner revision",
+            },
+        },
+    )
+    # Pre-upgrade Exchange stored the full preview in its operation receipt.
+    # For the second batch, only a preview whose replacement was declined survives.
+    with desk.store.connection(write=True) as conn:
+        conn.execute("DELETE FROM google_import_links")
+        conn.execute("DELETE FROM import_previews")
+        conn.execute(
+            "UPDATE operations SET response=? WHERE id='previous-range'", (encode(previous),)
+        )
+        conn.execute(
+            "UPDATE operations SET response=? WHERE id='declined-range'", (encode(declined),)
+        )
+        conn.execute("DELETE FROM operations WHERE id='missing-range'")
+        conn.execute(
+            "UPDATE operations SET request=? WHERE id='previous-apply'",
+            (
+                encode(
+                    {
+                        "type": "import_apply",
+                        "preview_id": previous["preview_id"],
+                        "replace_matching": True,
+                    }
+                ),
+            ),
+        )
+    desk.events.update({name: event(name, name + " v3") for name in names})
+    desk.pages = [list(desk.events.values())]
+    preview = desk.refresh()
+    assert statuses(preview) == {
+        "verified v3": "changed",
+        "uncertain v3": "unverified",
+        "also-uncertain v3": "unverified",
+        "Owner revision": "conflict",
+    }
+    assert desk.apply(preview)["updated"] == 1
+    assert set(desk.calendar()) == {
+        "verified v3",
+        "uncertain v2",
+        "also-uncertain v2",
+        "Owner revision",
+    }
+
+    review = desk.refresh()
+    path = f"/exchange/{review['preview_id']}/apply"
+    assert desk.post(path, {"resolve_event_ids": [edited["id"]]}).status_code == 422
+    selected = original["uncertain v2"]["id"]
+    assert desk.post(path, {"resolve_event_ids": [selected, selected]}).status_code == 422
+    choices = {"resolve_event_ids": [selected]}
+    receipt = desk.ok(path, choices, "selected")
+    assert desk.ok(path, choices, "selected") == receipt
+    assert (receipt["updated"], receipt["unresolved"], receipt["conflicts"]) == (1, 1, 1)
+    assert desk.calendar()["uncertain v3"]["id"] == selected
+    assert desk.calendar()["also-uncertain v2"]["version"] == 2
+    assert desk.calendar()["Owner revision"]["version"] == 3
+    desk.events["uncertain"] = event("uncertain", "Later Google change")
+    assert statuses(desk.refresh())["Later Google change"] == "changed"
+
+    # A verified cancellation still requires an explicit choice for an unknown baseline.
+    desk.events["also-uncertain"] = {"id": "also-uncertain", "status": "cancelled"}
+    review = desk.refresh()
+    row = next(r for r in review["rows"] if r["event"]["title"] == "also-uncertain v2")
+    assert (row["status"], row["proposed_status"], row["confirmed_cancellation"]) == (
+        "unverified",
+        "deleted",
+        True,
+    )
+    assert desk.apply(review)["removed"] == 0
+    review = desk.refresh()
+    assert (
+        desk.ok(
+            f"/exchange/{review['preview_id']}/apply", {"resolve_event_ids": [row["existing_id"]]}
+        )["removed"]
+        == 1
+    )
+    assert desk.calendar()["Owner revision"]["version"] == 3
+
+
 def test_confirmed_refresh_updates_same_entry_removes_only_reviewed_copies_and_replays(desk):
     desk.import_events(
         event("same"), event("move"), event("cancel"), event("missing"), event("gone")
@@ -211,6 +408,120 @@ def test_confirmed_refresh_updates_same_entry_removes_only_reviewed_copies_and_r
     again = desk.refresh()
     assert statuses(again) == {"same": "unchanged", "missing": "unchanged"}
     assert desk.apply(again)["updated"] == 0
+
+
+def test_pending_pre_upgrade_404_review_cannot_be_recovered_or_applied(desk):
+    desk.import_events(event("inaccessible"), event("rescheduled"))
+    before = desk.calendar()
+    desk.events.update(
+        {
+            "inaccessible": provider_error(404, "notFound"),
+            "rescheduled": event("rescheduled", "New date", "2026-10-09"),
+        }
+    )
+    old = desk.refresh("pending-before-upgrade")
+    # Persist the original failing snapshot: the old reader represented a 404
+    # exactly like a cancellation, with no positive evidence in the review.
+    with desk.store.connection(write=True) as conn:
+        saved = json.loads(
+            conn.execute(
+                "SELECT data FROM import_previews WHERE id=?", (old["preview_id"],)
+            ).fetchone()[0]
+        )
+        row = next(
+            row for row in saved["rows"] if row["existing_id"] == before["inaccessible"]["id"]
+        )
+        row["status"] = "deleted"
+        row.pop("confirmed_cancellation", None)
+        conn.execute(
+            "UPDATE import_previews SET data=? WHERE id=?", (encode(saved), old["preview_id"])
+        )
+    recovered = desk.post(
+        "/google/refresh", {**RANGE, "expected_version": desk.version}, "pending-before-upgrade"
+    )
+    applied = desk.post(f"/exchange/{old['preview_id']}/apply", {})
+    for response in (recovered, applied):
+        assert (response.status_code, response.json().get("error", {}).get("code")) == (
+            410,
+            "IMPORT_EXPIRED",
+        )
+    assert desk.calendar() == before and desk.status() is None
+    fresh = desk.refresh()
+    assert statuses(fresh) == {"inaccessible": "unavailable", "New date": "changed"}
+    receipt = desk.apply(fresh)
+    assert (receipt["updated"], receipt["removed"], receipt["unresolved"]) == (1, 0, 1)
+    assert desk.calendar()["inaccessible"]["id"] == before["inaccessible"]["id"]
+
+
+def test_blocked_last_google_read_times_out_without_publishing_a_partial_cancellation(
+    desk, monkeypatch
+):
+    desk.import_events(event("one"), event("two"))
+    before = desk.calendar()
+    last_read = desk.client.get("/api/google/status").json()["last_read"]
+    entered, release, finished = Event(), Event(), Event()
+    monkeypatch.setattr(google_calendar, "READ_BUDGET_SECONDS", 0.35, raising=False)
+
+    def stall(path, params):
+        if len(desk.calls) == 2:
+            entered.set()
+            try:
+                assert release.wait(4)
+            finally:
+                finished.set()
+        return httpx.Response(200, json={"id": path.split("/")[-1], "status": "cancelled"})
+
+    desk.hook = stall
+    body = {**RANGE, "expected_version": desk.version}
+    with ThreadPoolExecutor(1) as pool:
+        response = pool.submit(desk.post, "/google/refresh", body, "interrupted")
+        try:
+            assert entered.wait(2)
+            assert response.result(timeout=2).status_code == 504
+        finally:
+            release.set()
+        assert finished.wait(2)
+    desk.hook = None
+    assert desk.calendar() == before and desk.status() is None
+    assert desk.client.get("/api/google/status").json()["last_read"] == last_read
+    retry = desk.refresh("interrupted")
+    assert statuses(retry) == {"one": "unchanged", "two": "unchanged"}
+    with desk.store.connection() as conn:
+        assert (
+            conn.execute(
+                "SELECT COUNT(*) FROM import_previews WHERE kind='google_refresh'"
+            ).fetchone()[0]
+            == 1
+        )
+
+
+@pytest.mark.parametrize("path", ["/google/preview", "/google/refresh"])
+def test_pages_and_point_reads_spend_one_elapsed_budget(desk, monkeypatch, path):
+    desk.import_events(event("older"), event("linked"))
+    before = desk.calendar()
+    with desk.store.connection(write=True) as conn:
+        conn.execute("DELETE FROM google_import_links WHERE remote_id='older'")
+    desk.pages = (
+        [[event("older")]]
+        if path == "/google/refresh"
+        else [[event("a")], [event("b")], [event("c")]]
+    )
+    elapsed = [0.0]
+    monkeypatch.setattr(google_calendar, "monotonic", lambda: elapsed[0])
+    monkeypatch.setattr(google_calendar, "READ_BUDGET_SECONDS", 5)
+
+    def spend_time(url, params):
+        elapsed[0] += 2
+        if url != PATH:
+            return httpx.Response(200, json={"id": url.split("/")[-1], "status": "cancelled"})
+
+    desk.hook = spend_time
+    response = desk.post(path, {**RANGE, "expected_version": desk.version}, "over-budget")
+    assert (response.status_code, response.json()["error"]["code"]) == (504, "GOOGLE_READ_TIMEOUT")
+    assert len(desk.calls) == 3
+    with desk.store.connection() as conn:
+        assert not conn.execute("SELECT 1 FROM operations WHERE id='over-budget'").fetchone()
+    assert desk.calendar() == before and desk.status() is None
 
 
 def test_failed_read_publishes_nothing_same_key_retries_and_discard_prevents_apply(desk):

@@ -192,6 +192,7 @@ export async function retryPending(): Promise<unknown> {
   const op = pendingWrite();
   if (op) {
     const generation = identityGeneration;
+    window.dispatchEvent(new CustomEvent("desk:write-retrying", { detail: op }));
     const result =
       op.path === "/assistant/messages/stream"
         ? await writeStream(op.path, op.body, () => {})
@@ -625,6 +626,14 @@ export function errorText(
     GOOGLE_REFRESH_TOO_LARGE: [
       "Choose dates with at most 50 imported Google events.",
       "请选择最多含 50 项已导入 Google 事项的日期范围。",
+    ],
+    GOOGLE_READ_TIMEOUT: [
+      "Google took too long. Retry the review or choose fewer dates.",
+      "Google 读取超时。请重新检查或缩短日期范围。",
+    ],
+    INVALID_IMPORT_SELECTION: [
+      "Review the selected calendar copies again.",
+      "请重新核对所选日历副本。",
     ],
     PRIVATE_CONTEXT_HIDDEN: [
       "Show private details to continue.",

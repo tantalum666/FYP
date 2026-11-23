@@ -3,20 +3,20 @@ import { ExportLink } from "./ExportLink";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { DateTime } from "luxon";
 import { Download, Upload, Link2, FileClock } from "lucide-react";
-import { ApiError, errorText, request, write, type PendingWrite } from "../api";
-import type { EventInput, Translate } from "../types";
+import { ApiError, errorText, pendingWrite, request, write, type PendingWrite } from "../api";
+import type { Translate } from "../types";
 import { useWorkspace } from "./WorkspaceContext";
 import { OwnerAccess } from "./OwnerAccess";
 import { apiOrigin } from "../native";
 import { ResponseFence } from "./personal/responseFence";
 import {
-  ChangedDetails, importStatus, refreshCounts, refreshPlan, type GoogleStatus,
+  ChangedDetails, importStatus, refreshCounts, refreshPlan, resolutionLabel, type GoogleStatus, type ImportRow,
 } from "./GoogleImportReview";
 
 interface Preview {
   preview_id: string;
   kind: string;
-  rows: Array<{ event: EventInput; status: string; previous?: EventInput }>;
+  rows: ImportRow[];
   warnings: string[];
   metadata: Record<string, unknown>;
   expires_at: string;
@@ -41,116 +41,162 @@ interface ImportResult {
 }
 
 export function DataPanel({ t }: { t: Translate }) {
-  const { data, offline, refresh } = useWorkspace();
+  const { data, offline, stale, refresh } = useWorkspace();
   const [start, setStart] = useState(DateTime.now().toISODate()!),
     [end, setEnd] = useState(DateTime.now().plus({ days: 30 }).toISODate()!);
-  const [draft, setPreview] = useState<Preview | null>(null),
+  const [draft, setPreview] = useState<(Preview & { epoch?: number }) | null>(null),
     [replace, setReplace] = useState(false),
-    [busy, setBusy] = useState(false),
+    [resolutions, setResolutions] = useState<string[]>([]),
+    [activity, setBusy] = useState<boolean | number>(false),
     [error, setError] = useState<unknown>(null),
-    [notice, setNotice] = useState<string | { epoch: number; text: string }>("");
+    [notice, setNotice] = useState<string | { session: string; epoch?: number; text: string }>("");
   const [shares, setShares] = useState<Share[]>([]),
     [mode, setMode] = useState("busy"),
     [link, setLink] = useState("");
-  const [google, setGoogle] = useState<GoogleStatus | null>(null);
+  const [loaded, setGoogle] = useState<(GoogleStatus & { scope: string }) | null>(null);
+  const [sessionEpoch, setSessionEpoch] = useState(0);
   const owner = data?.principal.kind === "owner";
-  const visible = owner && !!data?.personal_context_visible && !offline;
+  const online = !offline && !stale;
+  const visible = owner && !!data?.personal_context_visible && online;
+  const session = JSON.stringify([
+    data?.principal.kind, data?.principal.id, sessionEpoch, online, visible,
+  ]);
+  const scope = JSON.stringify([session, data?.google.connected, data?.google.connected_at]);
+  const google = loaded?.scope === scope ? loaded : null;
   const canReview = !!(
     visible && google?.review_version && data?.google.connected &&
     google.connected_at === data.google.connected_at
   );
   const fence = useRef(new ResponseFence()).current;
-  fence.update(google?.review_version ?? "", canReview);
+  fence.update(JSON.stringify([scope, google?.version, google?.review_version]), canReview);
   const epoch = fence.capture();
+  const busy = activity === true || activity === epoch;
+  const lastWrite = useRef<{ key: string; epoch: number } | null>(null);
   const isGoogle = draft?.kind === "google" || draft?.kind === "google_refresh";
   const preview =
-    isGoogle && (!canReview || draft?.metadata.review_version !== google?.review_version)
+    isGoogle && (draft.epoch !== epoch || !canReview || draft.metadata.review_version !== google?.review_version)
       ? null : draft;
   const reviewingRefresh = preview?.kind === "google_refresh";
   const lastRefresh = canReview ? google?.last_refresh : null;
-  const message = typeof notice === "string" ? notice : fence.accepts(notice.epoch) && notice.text;
+  const message = typeof notice === "string"
+    ? notice
+    : notice.session === session && (notice.epoch === undefined || fence.accepts(notice.epoch)) && notice.text;
   useDraftGuard(!!preview, busy);
   const loadGeneration = useRef(0);
   const load = useCallback(async () => {
     const generation = ++loadGeneration.current;
+    const token = fence.capture();
+    const current = () => generation === loadGeneration.current && token === fence.capture();
     if (owner)
       try {
         const [s, g] = await Promise.all([
           request<{ shares: Share[] }>("/shares"),
           request<GoogleStatus>("/google/status"),
         ]);
-        if (generation === loadGeneration.current) {
+        if (current()) {
           setShares(s.shares);
-          setGoogle(g);
+          setGoogle({ ...g, scope });
         }
       } catch (e) {
-        if (generation === loadGeneration.current) {
+        if (current()) {
           setGoogle(null);
           setError(e);
         }
       }
-  }, [owner]);
+  }, [owner, scope, fence]);
   useEffect(() => {
     void load();
     return () => { loadGeneration.current += 1; };
-  }, [load, data?.google.connected_at, visible]);
+  }, [load]);
   useEffect(() => {
     if (isGoogle && !preview) setPreview(null);
   }, [isGoogle, preview]);
   useEffect(() => {
     const sessionChanged = () => {
-      fence.update("", false);
+      fence.update("session-changing", false);
+      setSessionEpoch((value) => value + 1);
       setGoogle(null);
       setPreview((old) => old?.kind.startsWith("google") ? null : old);
       setNotice("");
-      void load();
+      setError(null);
     };
     window.addEventListener("desk:session", sessionChanged);
     window.addEventListener("desk:personal-context", sessionChanged);
     return () => {
+      fence.update("unmounted", false);
       window.removeEventListener("desk:session", sessionChanged);
       window.removeEventListener("desk:personal-context", sessionChanged);
     };
-  }, [fence, load]);
+  }, [fence]);
   useEffect(() => {
+    // retryPending emits the same operation object at start and completion.
+    // Reopening this panel cannot adopt a retry begun by the previous session.
+    let retry: PendingWrite | null = null;
+    const retrying = (event: Event) => {
+      const operation = (event as CustomEvent<PendingWrite>).detail;
+      const last = lastWrite.current;
+      if (fence.accepts(epoch) && (last?.key !== operation.key || last.epoch === epoch))
+        retry = operation;
+    };
     const recovered = (event: Event) => {
       const { operation, result } = (event as CustomEvent<{ operation: PendingWrite; result: Preview }>).detail;
-      if (fence.accepts(epoch) && ["/google/preview", "/google/refresh"].includes(operation.path) &&
+      if (!fence.accepts(epoch) || operation !== retry) return;
+      retry = null;
+      if (["/google/preview", "/google/refresh"].includes(operation.path) &&
           result.metadata.review_version === google?.review_version) {
         setError(null);
-        setPreview(result);
+        setPreview({ ...result, epoch });
         setReplace(false);
+        setResolutions([]);
       } else if (preview && isGoogle && (
         operation.path === `/exchange/${preview.preview_id}/apply` ||
         operation.path === `/google/${preview.preview_id}/discard`
       )) {
         setError(null);
-        setPreview(null);
+        setPreview((old) => old?.preview_id === preview.preview_id ? null : old);
         void load();
         void refresh();
       }
     };
+    window.addEventListener("desk:write-retrying", retrying);
     window.addEventListener("desk:write-recovered", recovered);
-    return () => window.removeEventListener("desk:write-recovered", recovered);
+    return () => {
+      window.removeEventListener("desk:write-retrying", retrying);
+      window.removeEventListener("desk:write-recovered", recovered);
+    };
   }, [epoch, fence, google?.review_version, isGoogle, load, preview, refresh]);
-  async function act(action: () => Promise<unknown>, googleReview = false) {
-    setBusy(true);
+  function writeReview<T>(path: string, body: unknown) {
+    if (!fence.accepts(epoch)) throw new ApiError("IMPORT_EXPIRED", 410);
+    const pending = pendingWrite();
+    const last = lastWrite.current;
+    if (pending && last?.key === pending.key && last.epoch !== epoch)
+      throw new ApiError("PENDING_WRITE");
+    const result = write<T>(path, body);
+    const op = pendingWrite();
+    if (op?.path === path && JSON.stringify(op.body) === JSON.stringify(body))
+      lastWrite.current = { key: op.key, epoch };
+    return result;
+  }
+  async function act(action: () => Promise<unknown>, googleAction = false) {
+    const current = () => !googleAction || epoch === fence.capture();
+    if (!current()) return;
+    setBusy(googleAction ? epoch : true);
     setError(null);
     setNotice("");
     try {
       return await action();
     } catch (e) {
-      if (googleReview && e instanceof ApiError && (
+      if (!current()) return;
+      if (googleAction && e instanceof ApiError && (
         [401, 403, 410].includes(e.status) ||
         ["APP_CONNECTION_CHANGED", "GOOGLE_NOT_CONNECTED", "VERSION_CONFLICT"].includes(e.code)
       )) {
-        setPreview(null);
-        setGoogle(null);
+        if (isGoogle) setPreview((old) => old === draft ? null : old);
         void load();
       }
       setError(e);
     } finally {
-      setBusy(false);
+      if (current()) setBusy(false);
     }
   }
   async function importFile(file: File | undefined, kind: "ics" | "backup") {
@@ -174,26 +220,29 @@ export function DataPanel({ t }: { t: Translate }) {
   function previewGoogle(path: "/google/preview" | "/google/refresh") {
     void act(async () => {
       if (!fence.accepts(epoch) || !google) return;
-      const result = await write<Preview>(path, { start, end, expected_version: google.version });
+      const result = await writeReview<Preview>(path, { start, end, expected_version: google.version });
       if (!fence.accepts(epoch)) return;
       if (result.metadata.review_version !== google.review_version) {
         throw new ApiError("IMPORT_EXPIRED", 410);
       }
-      setPreview(result);
+      setPreview({ ...result, epoch });
       setReplace(false);
+      setResolutions([]);
     }, true);
   }
   async function confirmPreview() {
     if (!preview) return;
-    const result = await write<ImportResult>(`/exchange/${preview.preview_id}/apply`, {
+    const submit = isGoogle ? writeReview : write;
+    const result = await submit<ImportResult>(`/exchange/${preview.preview_id}/apply`, {
       replace_matching: replace,
+      ...(reviewingRefresh && resolutions.length ? { resolve_event_ids: resolutions } : {}),
     });
     if (isGoogle && !fence.accepts(epoch)) return;
     if (reviewingRefresh) {
-      setNotice({ epoch, text: refreshCounts(result, t) });
+      setNotice({ session, epoch, text: refreshCounts(result, t) });
     } else if (isGoogle) {
       setNotice({
-        epoch,
+        session, epoch,
         text: t(
           `${result.created} added · ${result.updated} updated · ${result.kept} kept`,
           `新增 ${result.created} 项 · 更新 ${result.updated} 项 · 保留 ${result.kept} 项`,
@@ -207,13 +256,14 @@ export function DataPanel({ t }: { t: Translate }) {
     }
     setPreview(null);
     if (isGoogle) await load();
-    await refresh();
+    if (!isGoogle || fence.accepts(epoch)) await refresh();
   }
 
   async function discardPreview() {
     if (!preview) return;
     if (isGoogle) {
-      await write(`/google/${preview.preview_id}/discard`, {});
+      await writeReview(`/google/${preview.preview_id}/discard`, {});
+      if (!fence.accepts(epoch)) return;
     }
     setPreview(null);
   }
@@ -309,7 +359,7 @@ export function DataPanel({ t }: { t: Translate }) {
                 </button>
                 <button
                   className="text-button danger"
-                  disabled={busy}
+                  disabled={busy || !online}
                   onClick={() =>
                     void act(async () => {
                       const result = await request<{
@@ -318,17 +368,19 @@ export function DataPanel({ t }: { t: Translate }) {
                         method: "POST",
                         body: JSON.stringify({ expected_version: google.version }),
                       });
+                      if (epoch !== fence.capture()) return;
                       if (isGoogle) setPreview(null);
-                      setNotice(
-                        result.provider_revocation_confirmed
+                      setNotice({
+                        session,
+                        text: result.provider_revocation_confirmed
                           ? t("Google disconnected.", "已断开Google。")
                           : t(
                               "Disconnected locally. Remove this app in your Google account to finish revoking access.",
                               "本地已断开，请到Google账号移除此应用以完成撤销。",
                             ),
-                      );
+                      });
                       await load();
-                    })
+                    }, true)
                   }
                 >
                   {t("Disconnect", "断开")}
@@ -337,21 +389,23 @@ export function DataPanel({ t }: { t: Translate }) {
             ) : (
               <button
                 className="secondary"
-                disabled={busy || !google?.configured}
+                disabled={busy || !online || !google?.configured}
                 onClick={() =>
                   void act(async () => {
                     const result = await request<{ url: string }>(
                       "/google/connect",
                       { method: "POST", body: "{}" },
                     );
+                    if (epoch !== fence.capture()) return;
                     window.open(result.url, "_blank", "noopener");
-                    setNotice(
-                      t(
+                    setNotice({
+                      session,
+                      text: t(
                         "Complete consent in the browser, then refresh status.",
                         "在浏览器完成授权后刷新状态。",
                       ),
-                    );
-                  })
+                    });
+                  }, true)
                 }
               >
                 {t("Connect Google", "连接Google")}
@@ -401,7 +455,7 @@ export function DataPanel({ t }: { t: Translate }) {
           )}
           {reviewingRefresh ? <p>
             {String(preview.metadata.start)} → {String(preview.metadata.end)}
-            {" · "}{refreshPlan(preview.rows, t)}
+            {" · "}{refreshPlan(preview.rows, t, resolutions)}
           </p> : <p>
             {preview.rows.length} {t("entries", "项")} ·{" "}
             {preview.rows.filter((r) => r.status === "new").length}{" "}
@@ -428,13 +482,23 @@ export function DataPanel({ t }: { t: Translate }) {
           )}
           <div className="import-preview-list">
             {preview.rows.map((r, i) => (
-              <div key={i}>
+              <div key={r.existing_id ?? i}>
                 <strong>{r.event.title}</strong>
                 <small>
                   {r.event.start_local.replace("T", " ")} · {r.event.timezone} ·{" "}
                   {importStatus(r.status, t)}
                 </small>
                 {r.previous && <ChangedDetails previous={r.previous} event={r.event} t={t} />}
+                {reviewingRefresh && r.status === "unverified" && r.proposed_status && r.existing_id && (
+                  <label className="check-field">
+                    <input type="checkbox" disabled={busy} value={r.existing_id}
+                      checked={resolutions.includes(r.existing_id)}
+                      onChange={({ currentTarget: { checked, value } }) =>
+                        setResolutions((ids) => checked ? [...ids, value] : ids.filter((id) => id !== value))}
+                    />
+                    {resolutionLabel(r.proposed_status, t)}
+                  </label>
+                )}
               </div>
             ))}
           </div>

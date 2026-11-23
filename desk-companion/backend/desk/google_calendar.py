@@ -3,8 +3,11 @@
 import json
 import re
 from datetime import UTC, datetime, time
+from functools import partial
+from time import monotonic
 from zoneinfo import ZoneInfo
 
+import anyio
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import RedirectResponse
 from pydantic import Field
@@ -22,6 +25,14 @@ SCOPE = SCOPES["calendar"][0]
 EVENTS = "https://www.googleapis.com/calendar/v3/calendars/primary/events"
 FIELDS = "id,summary,start,end,status,transparency,location,description"
 MAX_REFRESH_COPIES = 50
+READ_BUDGET_SECONDS = 60
+
+
+def remaining_read_time(deadline):
+    remaining = deadline - monotonic()
+    if remaining <= 0:
+        raise DomainError("GOOGLE_READ_TIMEOUT", 504)
+    return remaining
 
 
 class GoogleRange(ShareInput):
@@ -227,10 +238,15 @@ class GoogleCalendar(GoogleOAuth):
                     raise
             except (ValueError, TypeError, KeyError, AttributeError, OverflowError):
                 status = "unsupported"
-            rows.append(google_imports.review_row(ext, copy, document, status))
+            row = google_imports.review_row(ext, copy, document, status)
+            if status == "deleted":
+                row["confirmed_cancellation"] = True
+            rows.append(row)
         return rows
 
-    def preview(self, payload, key, owner_session, *, refresh=False):
+    def preview(self, payload, key, owner_session, *, refresh=False, deadline=None):
+        if deadline is None:
+            deadline = monotonic() + READ_BUDGET_SECONDS
         kind = "google_refresh" if refresh else "google"
         with self.store.connection() as conn:
             fence = self.check_fence(conn, owner_session)
@@ -254,15 +270,23 @@ class GoogleCalendar(GoogleOAuth):
 
         def get(url, params):
             nonlocal token
+            remaining_read_time(deadline)
             with self.store.connection() as conn:
                 self.check_fence(conn, owner_session, fence)
             if token is None:
                 token = self.access_token()
                 with self.store.connection() as conn:
                     self.check_fence(conn, owner_session, fence)
-            return self._request(
-                "GET", url, headers={"Authorization": "Bearer " + token}, params=params
-            )
+            try:
+                return self._request(
+                    "GET",
+                    url,
+                    headers={"Authorization": "Bearer " + token},
+                    params=params,
+                    timeout=min(12, remaining_read_time(deadline)),
+                )
+            finally:
+                remaining_read_time(deadline)
 
         identifiers, warnings = {}, []
         rows = (
@@ -281,6 +305,7 @@ class GoogleCalendar(GoogleOAuth):
         }
 
         def save(conn):
+            remaining_read_time(deadline)
             if token is not None:
                 conn.execute(
                     "UPDATE google_connection SET last_read=? WHERE id=1",
@@ -334,6 +359,22 @@ class GoogleCalendar(GoogleOAuth):
 def google_routes(runtime, owner, operation_id):
     router = APIRouter(prefix="/api/google")
 
+    async def read_preview(payload, request, key, *, refresh=False):
+        deadline = monotonic() + READ_BUDGET_SECONDS
+        read = partial(
+            runtime.google.preview,
+            payload,
+            key,
+            request.cookies.get("desk_companion_session"),
+            refresh=refresh,
+            deadline=deadline,
+        )
+        # httpx timeouts bound socket inactivity. A stalled or trickling final
+        # response must also release the Web caller and cannot publish a review.
+        with anyio.move_on_after(remaining_read_time(deadline)):
+            return await anyio.to_thread.run_sync(read, abandon_on_cancel=True)
+        raise DomainError("GOOGLE_READ_TIMEOUT", 504)
+
     @router.get("/status", dependencies=[Depends(owner)])
     def status(request: Request):
         return runtime.google.import_status(request.cookies.get("desk_companion_session"))
@@ -361,14 +402,12 @@ def google_routes(runtime, owner, operation_id):
         )
 
     @router.post("/preview", dependencies=[Depends(owner)])
-    def preview(payload: GoogleRange, request: Request, key=Depends(operation_id)):
-        return runtime.google.preview(payload, key, request.cookies.get("desk_companion_session"))
+    async def preview(payload: GoogleRange, request: Request, key=Depends(operation_id)):
+        return await read_preview(payload, request, key)
 
     @router.post("/refresh", dependencies=[Depends(owner)])
-    def refresh(payload: RefreshRange, request: Request, key=Depends(operation_id)):
-        return runtime.google.preview(
-            payload, key, request.cookies.get("desk_companion_session"), refresh=True
-        )
+    async def refresh(payload: RefreshRange, request: Request, key=Depends(operation_id)):
+        return await read_preview(payload, request, key, refresh=True)
 
     @router.post("/{preview_id}/discard", dependencies=[Depends(owner)])
     def discard(preview_id: str, request: Request, key=Depends(operation_id)):

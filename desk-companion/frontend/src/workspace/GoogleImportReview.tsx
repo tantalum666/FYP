@@ -20,6 +20,20 @@ export interface GoogleStatus {
   last_refresh: RefreshResult | null;
 }
 
+export interface ImportRow {
+  event: EventInput;
+  status: string;
+  existing_id: string | null;
+  previous?: EventInput;
+  proposed_status?: "changed" | "unchanged" | "deleted";
+}
+
+export function resolutionLabel(status: NonNullable<ImportRow["proposed_status"]>, t: Translate) {
+  if (status === "deleted") return t("Remove this cancelled copy", "移除此已取消的副本");
+  if (status === "unchanged") return t("Link this matching version to Google", "将此一致的版本关联至 Google");
+  return t("Replace this copy with the reviewed Google version", "用已核对的 Google 版本替换此副本");
+}
+
 export function refreshCounts(
   result: Pick<RefreshResult, "updated" | "removed" | "kept">,
   t: Translate,
@@ -30,11 +44,15 @@ export function refreshCounts(
   );
 }
 
-export function refreshPlan(rows: Array<{ status: string }>, t: Translate) {
+export function refreshPlan(rows: ImportRow[], t: Translate, resolutions: string[]) {
   if (!rows.length)
     return t("No verified Google imports in these dates.", "所选日期内没有已核实来源的 Google 副本。");
-  const updates = rows.filter((r) => r.status === "changed").length;
-  const removals = rows.filter((r) => r.status === "deleted").length;
+  const statuses = rows.map((row) =>
+    row.status === "unverified" && row.existing_id && resolutions.includes(row.existing_id)
+      ? row.proposed_status : row.status,
+  );
+  const updates = statuses.filter((status) => status === "changed").length;
+  const removals = statuses.filter((status) => status === "deleted").length;
   const kept = rows.length - updates - removals;
   return t(
     `${updates} to update · ${removals} to remove · ${kept} to keep`,
@@ -49,6 +67,7 @@ export function importStatus(status: string, t: Translate) {
     case "deleted": return t("Cancelled on Google · remove local copy", "Google 已取消 · 将移除本地副本");
     case "unavailable": return t("Unavailable on Google · keep local copy", "Google 已无法访问 · 保留本地副本");
     case "conflict": return t("Locally edited · keep local copy", "本地已编辑 · 保留本地副本");
+    case "unverified": return t("Import history unverified · kept by default", "导入记录未核实 · 默认保留");
     case "unresolved": return t("Older copy not found in these dates · keep", "在所选日期内未找到旧副本 · 保留");
     case "unsupported": return t("Unsupported Google details · keep", "Google 详情暂不支持 · 保留");
     case "unchanged": return t("Unchanged", "无变化");
@@ -70,6 +89,11 @@ export function ChangedDetails({ previous, event, t }: {
     [t("Location", "地点"), previous.location, event.location],
     [t("Notes", "备注"), previous.notes, event.notes],
     [t("Availability", "忙闲"), availability(previous), availability(event)],
+    [t("Calendar", "日历"), previous.calendar, event.calendar],
+    [t("Visibility", "可见性"), previous.visibility, event.visibility],
+    [t("Color", "颜色"), previous.color, event.color],
+    [t("Repeat", "重复"), JSON.stringify(previous.recurrence), JSON.stringify(event.recurrence)],
+    [t("Reminder minutes", "提前提醒分钟数"), previous.reminder_minutes.join(", "), event.reminder_minutes.join(", ")],
   ];
   return (
     <details>

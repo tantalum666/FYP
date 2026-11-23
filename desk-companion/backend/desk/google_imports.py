@@ -5,9 +5,15 @@ from dataclasses import dataclass
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
+from .access import digest
 from .calendar import iso
 from .schemas import EventInput
 from .store import DomainError, encode
+
+# Event versions start at one. Zero keeps an explicitly unverified legacy
+# baseline in the existing non-null link column until the owner resolves it.
+UNVERIFIED_VERSION = 0
+RESOLVABLE_STATUSES = {"changed", "unchanged", "deleted"}
 
 
 def initialize(conn):
@@ -22,6 +28,24 @@ def initialize(conn):
         """CREATE TABLE IF NOT EXISTS google_refresh_result(
             id INTEGER PRIMARY KEY CHECK(id=1), account_version TEXT NOT NULL, summary TEXT NOT NULL)"""
     )
+
+
+def backup_events(conn, events):
+    # A portable restore keeps detached desk copies. Its duplicate key must
+    # distinguish both grants and a fresh authentic import beside a restored copy.
+    links = {
+        event_id: "google/copy/" + digest(encode([account, remote_id, event_id]))
+        for account, remote_id, event_id in conn.execute(
+            """SELECT l.account_version,l.remote_id,l.event_id FROM google_import_links l
+               JOIN events e ON e.id=l.event_id WHERE e.deleted=0
+               AND json_extract(e.data,'$.origin')='import'
+               AND json_extract(e.data,'$.provider')='google'"""
+        )
+    }
+    return [
+        {**event, "external_id": links[event["id"]]} if event["id"] in links else event
+        for event in events
+    ]
 
 
 @dataclass
@@ -69,11 +93,57 @@ def imported_copies(conn, account):
             row["version"],
             model.model_dump(mode="json"),
             row["remote_id"],
-            row["imported_version"] or 1,
+            row["imported_version"] if row["imported_version"] is not None else 1,
             row["review_id"],
             bool(row["has_exceptions"]),
         )
+    recover_legacy_baselines(conn, result)
     return result
+
+
+def recover_legacy_baselines(conn, copies):
+    # Early refreshes also persisted the assumed baseline of 1 on a kept conflict.
+    uncertain = {
+        copy.id: copy
+        for copy in copies.values()
+        if copy.version > 1 and copy.imported_version <= 1 and not copy.has_exceptions
+    }
+    if not uncertain:
+        return
+    edits = {
+        row[0]
+        for row in conn.execute(
+            """SELECT DISTINCT event_id FROM records WHERE event_id IS NOT NULL
+               AND action IN ('update','complete','reopen','delete')"""
+        )
+    }
+    for copy in uncertain.values():
+        copy.imported_version = 1 if copy.id in edits else UNVERIFIED_VERSION
+    # A batch count alone cannot identify a replaced event. Old Exchange kept
+    # the reviewed rows in its preview receipt even after pruning the preview.
+    approved = conn.execute(
+        """SELECT p.response FROM operations p
+           WHERE json_extract(p.request,'$.type')='preview'
+             AND json_extract(p.request,'$.kind')='google'
+             AND json_extract(p.response,'$.kind')='google'
+             AND json_extract(p.response,'$.preview_id') IN (
+                 SELECT json_extract(request,'$.preview_id') FROM operations
+                 WHERE json_extract(request,'$.type')='import_apply'
+                   AND json_extract(request,'$.replace_matching')=1
+                   AND json_extract(response,'$.applied')=1 AND json_extract(response,'$.updated')>0
+             )"""
+    )
+    for receipt in approved:
+        for row in json.loads(receipt[0])["rows"]:
+            copy = uncertain.get(row.get("existing_id"))
+            if (
+                copy
+                and row["status"] == "changed"
+                and copies.get(row["external_id"]) is copy
+                and row["expected_version"] == copy.version - 1
+                and row["event"] == copy.event
+            ):
+                copy.imported_version = copy.version
 
 
 def review_row(external_id, copy, event=None, status=None):
@@ -81,14 +151,15 @@ def review_row(external_id, copy, event=None, status=None):
         status = "new"
     elif status is None:
         status = "unchanged" if event == copy.event else "changed"
-    if (
-        copy
-        and status in {"changed", "deleted", "unchanged"}
-        and (
-            copy.has_exceptions or (copy.version != copy.imported_version and status != "unchanged")
-        )
-    ):
-        status = "conflict"
+    proposed = None
+    if copy and status in RESOLVABLE_STATUSES:
+        if copy.has_exceptions:
+            status = "conflict"
+        elif copy.imported_version == UNVERIFIED_VERSION:
+            proposed = status
+            status = "unverified"
+        elif copy.version != copy.imported_version:
+            status = "conflict"
     return {
         "status": status,
         "event": event if event is not None and status != "conflict" else copy.event,
@@ -96,8 +167,19 @@ def review_row(external_id, copy, event=None, status=None):
         "existing_id": copy.id if copy else None,
         "expected_version": copy.version if copy else None,
         "exceptions": {},
-        **({"previous": copy.event} if status == "changed" else {}),
+        **({"previous": copy.event} if "changed" in (status, proposed) else {}),
+        **({"proposed_status": proposed} if proposed else {}),
     }
+
+
+def check_removals(rows):
+    # Before the 404 fix, pending reviews could say "deleted" on lost access.
+    for row in rows:
+        if (
+            "deleted" in (row["status"], row.get("proposed_status"))
+            and row.get("confirmed_cancellation") is not True
+        ):
+            raise DomainError("IMPORT_EXPIRED", 410)
 
 
 def apply_import(exchange, conn, kind, preview_id, preview, options):
@@ -106,7 +188,19 @@ def apply_import(exchange, conn, kind, preview_id, preview, options):
     account = preview["google"]["fence"]["account_version"]
     identifiers = preview["google"]["identifiers"]
     rows = preview["rows"]
+    if refresh:
+        check_removals(rows)
     copies = imported_copies(conn, account)
+    selected = set(options.resolve_event_ids)
+    eligible = {
+        item["existing_id"]
+        for item in rows
+        if refresh
+        and item["status"] == "unverified"
+        and item.get("proposed_status") in RESOLVABLE_STATUSES
+    }
+    if not selected <= eligible or len(selected) != len(options.resolve_event_ids):
+        raise DomainError("INVALID_IMPORT_SELECTION", 422)
     new_count = sum(row["status"] == "new" for row in rows)
     if (
         new_count
@@ -116,7 +210,8 @@ def apply_import(exchange, conn, kind, preview_id, preview, options):
         raise DomainError("EVENT_LIMIT", 422)
     created = updated = removed = 0
     for item in rows:
-        status = item["status"]
+        resolve = item["existing_id"] in selected
+        status = item["proposed_status"] if resolve else item["status"]
         replace = status == "changed" and (refresh or options.replace_matching)
         if not refresh and status not in {"new", "unchanged"} and not replace:
             continue
@@ -132,7 +227,13 @@ def apply_import(exchange, conn, kind, preview_id, preview, options):
             raise DomainError("VERSION_CONFLICT")
         if refresh and not copy:
             raise DomainError("VERSION_CONFLICT")
-        if copy and copy.has_exceptions and (status in {"deleted", "unchanged"} or replace):
+        if resolve and copy.imported_version != UNVERIFIED_VERSION:
+            raise DomainError("VERSION_CONFLICT")
+        if (
+            copy
+            and (status in {"deleted", "unchanged"} or replace)
+            and (copy.has_exceptions or (not resolve and copy.version != copy.imported_version))
+        ):
             raise DomainError("VERSION_CONFLICT")
         if status == "deleted":
             conn.execute("UPDATE events SET deleted=1,version=version+1 WHERE id=?", (copy.id,))
@@ -165,7 +266,9 @@ def apply_import(exchange, conn, kind, preview_id, preview, options):
         "kept": len(rows) - created - updated - removed,
         "conflicts": sum(row["status"] == "conflict" for row in rows),
         "unresolved": sum(
-            row["status"] in {"unresolved", "unsupported", "unavailable"} for row in rows
+            row["status"] in {"unresolved", "unsupported", "unavailable", "unverified"}
+            and row["existing_id"] not in selected
+            for row in rows
         ),
     }
     if refresh:
