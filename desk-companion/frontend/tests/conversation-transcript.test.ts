@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   appendLiveTranscript,
+  asksApprovalStatus,
   latestAssistantReply,
   type ConversationTurn,
 } from "../src/workspace/conversationTranscript.ts";
@@ -82,4 +83,16 @@ test("retired fragments do not resurrect messages or displace current history", 
     turns,
   );
   assert.equal(latestAssistantReply(turns), "49");
+});
+
+
+test("Home shows only the approval headline and ordinary answers retain their own text", () => {
+  const turn: ConversationTurn = {
+    id: 1, role: "assistant", body: "1 item needs your review.\nPrivate draft details",
+    approvalSummary: "1 item needs your review.", kind: "approval_status", approvalTask: "task-a",
+  };
+  assert.equal(latestAssistantReply([turn]), "1 item needs your review.");
+  assert.equal(latestAssistantReply([turn, { id: 2, role: "assistant", body: "Hello" }]), "Hello");
+  assert.equal(asksApprovalStatus("现在有什么需要我确认？"), true);
+  assert.equal(asksApprovalStatus("Show the original flight options"), false);
 });

@@ -1,5 +1,5 @@
 import { FlightChoices, OrderCard, OtherOrders } from "./CommerceConversation";
-import { needsOwnerReview, orderKey, orderStatus, typedReviewRef, type CalendarFlightChoice, type CommerceReview } from "./commercePresentation";
+import { needsDecision, needsOwnerReview, orderKey, orderStatus, typedReviewRef, type CalendarFlightChoice, type CommerceReview } from "./commercePresentation";
 import { useCommerceReviews, type CommerceRef } from "./commerceReviews";
 import { quietChatIntent } from "./quietChat";
 import { ComposerFiles } from "./ComposerFiles";
@@ -83,6 +83,7 @@ import "./assistant-minimal.css";
 import {
   appendLiveTranscript,
   appendOrderUpdates,
+  asksApprovalStatus,
   focusedOrderTurn,
   latestAssistantReply,
   showOrderOnHome,
@@ -712,7 +713,7 @@ export function AssistantPanel({
       const submittedFiles = pendingHttp.current?.files ?? [];
       const userText = pendingHttp.current?.display ?? submitted;
       chatFiles.sent(pendingHttp.current?.fileKeys ?? []);
-      setReply(result.google_refresh_scope ? null : result);
+      setReply(result.google_refresh_scope || result.approval_summary ? null : result);
       if (immersive && !suspended)
         showDelivery(result.kind === "reply" ? replyDelivery(result.delivery, result.message) : "neutral");
       conversationId.current = result.conversation_id;
@@ -722,10 +723,13 @@ export function AssistantPanel({
           ? { ...result.flight_booking, kind: "flight" as const }
           : null;
       const shortlist = !!result.flight_shortlist_chat;
+      const catchUp = result.kind === "quiet_catch_up";
+      const privateOverview = !!result.approval_summary;
+      const privateChat = card || shortlist || result.flight_alternatives || catchUp || privateOverview
+        ? result.conversation_id : undefined;
       if ((card || shortlist) && result.conversation_id) {
         commerce.receive(result.conversation_id, card, taskId, shortlist);
       }
-      const catchUp = result.kind === "quiet_catch_up";
       typedCommerceReview.current=undefined;
       contextTouched.current = Date.now();
       setLiveMessage("");
@@ -744,10 +748,8 @@ export function AssistantPanel({
             googleRefreshEpoch,
             files: submittedFiles,
             kind: catchUp ? result.kind : undefined,
-            commerceChat:
-              card || shortlist || result.flight_alternatives || catchUp
-                ? result.conversation_id
-                : undefined,
+            commerceChat: privateChat,
+            approvalTask: privateOverview ? taskId ?? null : undefined,
           },
           {
             id: id + 1,
@@ -769,10 +771,9 @@ export function AssistantPanel({
             orderVersion: card?.version,
             catchUpRef: result.catch_up_ref,
             choices: result.flight_alternatives,
-            commerceChat:
-              card || shortlist || result.flight_alternatives || catchUp
-                ? result.conversation_id
-                : undefined,
+            commerceChat: privateChat,
+            approvalTask: privateOverview ? taskId ?? null : undefined,
+            approvalSummary: result.approval_summary,
             kind: result.kind,
             jobId: result.job?.id,
           },
@@ -802,7 +803,7 @@ export function AssistantPanel({
       )
         return;
       void showHttpReply(pending.message, result)
-        .then(() => { if (result.kind !== "quiet_catch_up") return reload(); })
+        .then(() => { if (result.kind !== "quiet_catch_up" && result.kind !== "approval_status") return reload(); })
         .catch(setError);
     };
     window.addEventListener("desk:write-recovered", recovered);
@@ -823,23 +824,27 @@ export function AssistantPanel({
     const submitted = choice ? choice.message : text.trim()
       ? text
       : t("Please review these files.", "请帮我看看这些文件。");
+    const statusAsk = asksApprovalStatus(submitted);
     const catchUp = quietChatIntent(submitted);
     const catchUpRef = catchUp === "ack"
       ? choice?.catchUpRef ?? latestCatchUp?.catchUpRef
       : undefined;
     const review = choice?.review ?? (
-      !choice && !catchUp && lastTurn?.kind !== "quiet_catch_up" ? typedCommerceReview.current : undefined
+      !choice && !statusAsk && !catchUp && lastTurn?.kind !== "quiet_catch_up" ? typedCommerceReview.current : undefined
     );
     // Saved Work uses the local HTTP worker even when realtime text is available.
     const savedWork = submitted.split(/[\r\n]/).some((line) =>
       /^(?:continue the task from before|继续刚才那个任务|(?:continue work|继续工作)\s+[0-9a-f]{32}\s+v[0-9]+)[ .。]*$/i.test(line.trim())
     );
+    // The local handler owns the overview and resolves short approval replies against current records.
+    const approvalContext = lastTurn?.approvalSummary || orderRows.some(needsDecision) || proposals.length;
+    const approvalReply = approvalContext && /^(?:yes\b|ok(?:ay)?\b|sure\b|approve\b|confirm\b|accept\b|decline\b|cancel\b|go ahead\b|do (?:it|them)\b|all of them\b|both\b|pay\b|book it\b|(?:全部|都|一起)?(?:好|确定|确认|同意|可以|拒绝|取消|接受))/i.test(submitted.normalize("NFKC").trim());
     const shortlistChat = commerce.hasShortlist.current && commerce.tracked.current === conversationId.current;
     // A typed Calendar refresh question needs the authenticated HTTP reply fence.
     const refreshQuestion = /(?:google|谷歌)\s*(?:calendar|日[历曆])/i.test(submitted) &&
       /(?:what|(?:last|latest|recent)\s+(?:confirmed\s+)?(?:refresh|sync)|什么|什麼|甚麼|哪些)/i.test(submitted) &&
       /(?:chang|updat|refresh|sync|更新|刷新|同步|变更|變更|变化|變化|改动)/i.test(submitted);
-    const useOmni = omni && !refreshQuestion && !catchUp && !savedWork && !shortlistChat && !choice && !review && !chatFiles.files.length && !fileContext.current;
+    const useOmni = omni && !statusAsk && !approvalReply && !refreshQuestion && !catchUp && !savedWork && !shortlistChat && !choice && !review && !chatFiles.files.length && !fileContext.current;
     if (catchUp && immersive && !suspended) onExpandedChange?.(true);
     const previousHttp = pendingHttp.current;
     const generation = ++submissionGeneration.current;
@@ -859,7 +864,7 @@ export function AssistantPanel({
         setText("");
         return;
       }
-      const uploaded = catchUp
+      const uploaded = catchUp || statusAsk
         ? { conversationId: conversationId.current, references: [], keys: [] }
         : await chatFiles.upload(
             conversationId.current,
@@ -898,7 +903,7 @@ export function AssistantPanel({
         "/assistant/messages/stream",
         body,
         (state) => {
-          if (!catchUp && alive.current && generation === submissionGeneration.current) {
+          if (!statusAsk && !catchUp && alive.current && generation === submissionGeneration.current) {
             setLiveMessage(state.reply?.google_refresh_scope ? "" : state.message);
             setProgress(state.tools);
           }
@@ -906,7 +911,7 @@ export function AssistantPanel({
       )) as Reply;
       if (!alive.current || generation !== submissionGeneration.current) return;
       await showHttpReply(submitted, result);
-      if (!catchUp) {
+      if (!catchUp && !statusAsk && result.kind !== "approval_status") {
         void reload();
         window.dispatchEvent(new Event("desk:jobs"));
       }
@@ -979,7 +984,7 @@ export function AssistantPanel({
       await retryPending();
       if (alive.current && generation === submissionGeneration.current) {
         setNotice(t("Message checked.", "已核对消息结果。"));
-        if (!quietChatIntent(body.message ?? "")) void reload();
+        if (!quietChatIntent(body.message ?? "") && !asksApprovalStatus(body.message ?? "")) void reload();
       }
     } catch (failure) {
       if (alive.current && generation === submissionGeneration.current)
@@ -1421,7 +1426,9 @@ export function AssistantPanel({
   const visibleTurns = turns.filter(turn =>
     (turn.googleRefreshEpoch === undefined || refreshFence.accepts(turn.googleRefreshEpoch)) &&
     (!turn.commerceChat || (privateOrdersVisible &&
-      (turn.kind !== "quiet_catch_up" || turn.commerceChat === activeChat)))
+      (turn.kind !== "quiet_catch_up" || turn.commerceChat === activeChat))) &&
+    (turn.approvalTask === undefined ||
+      (turn.approvalTask === (taskId ?? null) && turn.commerceChat === activeChat))
   );
   const latestCatchUp = visibleTurns.filter(turn =>
     turn.kind === "quiet_catch_up" && turn.role === "assistant"
@@ -1451,7 +1458,7 @@ export function AssistantPanel({
     ? focusedOrder
     : undefined;
   const openOrder =
-    lastTurn?.kind !== "quiet_catch_up" && ((homeOrder && needsOrderReview) || hasChoices) &&
+    lastTurn?.kind !== "quiet_catch_up" && ((homeOrder && needsOrderReview) || hasChoices || focusTurn?.approvalTask !== undefined) &&
     !liveMessage &&
     !busy &&
     !speechText.current.assistant;

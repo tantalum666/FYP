@@ -202,3 +202,23 @@ class ChatReviews:
                 )
             ]
         return [self.read(ident, owner, chat) for ident in ids]
+
+    def pending_reviews(self, db, chat, now, limit):
+        """Read current terms in the caller's authorized snapshot, without reconciliation."""
+        if not self.enabled:
+            return [], False
+        milliseconds = int(now.timestamp() * 1000)
+        rows = db.execute(
+            f"""SELECT data FROM {self.table}
+                WHERE owner=? AND chat=? AND json_extract(data,'$.task_id') IS ?
+                  AND json_extract(data,'$.state') IN ('quoted','reprice')
+                  AND CASE WHEN ?='FLIGHT' AND json_extract(data,'$.state')='reprice'
+                           THEN json_extract(data,'$.question.expires')>?
+                           ELSE json_extract(data,'$.expires')>? END
+                ORDER BY json_extract(data,'$.state')='reprice' DESC,rowid DESC LIMIT ?""",
+            (chat.owner, chat.id, chat.task_id, self.kind, milliseconds, iso(now), limit + 1),
+        ).fetchall()
+        return [
+            view for row in rows[:limit]
+            if (view := self.review_view(db, json.loads(row["data"]))) is not None
+        ], len(rows) > limit

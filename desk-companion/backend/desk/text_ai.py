@@ -54,7 +54,7 @@ from .voice_credentials import openai_key
 from .workspace_data import is_quiet
 from .schemas import StrictModel
 from .store import DomainError, encode
-from . import commerce_chat, google_refresh_chat, quiet_chat, routine_chat
+from . import approval_status, commerce_chat, google_refresh_chat, quiet_chat, routine_chat
 from .commerce_review import language_for
 from .tool_policy import execute_tool, tool_visible
 from .chat_attachments import ChatAttachments, FILE_POLICY, capability as attachment_capability
@@ -453,12 +453,13 @@ class TextAssistant:
             raise DomainError("OPERATION_ID_REQUIRED", 422)
         conversation = None
         cached = None
+        status_ask = approval_status.asks_approval_status(payload.message) and not payload.voice_steer
         catch_up = quiet_chat.intent(payload)
         if catch_up and (not principal or principal.get("kind") != "owner"):
             raise DomainError("OWNER_SIGN_IN_REQUIRED", 403)
         grant = (
             self.runtime.permissions.capture(principal, payload.task_id)
-            if resume is None and not catch_up else None
+            if resume is None and not (status_ask or catch_up or google_read) else None
         )
         if principal is not None:
             work = self.runtime.conversation_work
@@ -487,9 +488,17 @@ class TextAssistant:
             google_receipt = cached is not None and cached.get("kind") == google_refresh_chat.KIND
             if google_receipt:
                 chat_id = cached.get("conversation_id") or chat_id
+            status_chat = approval_status.cached_chat(cached, principal, payload) if status_ask else None
+            chat_id = status_chat or chat_id
+            first_status = status_ask and chat_id is None and principal.get("kind") == "owner"
+            if first_status:
+                owner = self.runtime.voice.conversations.owner(principal)
+                chat_id = hashlib.sha256(f"{owner}/{key}".encode()).hexdigest()[:32]
             try:
                 conversation = self.runtime.voice.conversations.open(
-                    principal, revision, chat_id, task_id=payload.task_id, recover_review=first_resume
+                    principal, revision, chat_id, task_id=payload.task_id,
+                    # A pre-upgrade overview key alone cannot recreate a forgotten chat.
+                    recover_review=bool(first_resume or status_chat or (first_status and cached is None)),
                 )
             except DomainError as error:
                 if google_receipt or error.code != "CONVERSATION_NOT_FOUND":
@@ -498,11 +507,16 @@ class TextAssistant:
                     can_reopen = work.saved.can_reopen(payload, principal)
                 else:
                     can_reopen = bool(shortlist_chat) or commerce_chat.can_resume(self.runtime, principal, payload)
+                if not can_reopen and status_ask and self.runtime.personal_context.visible(principal):
+                    can_reopen = (
+                        approval_status.can_reopen(self.runtime, principal, payload)
+                        or work.saved.can_reopen(payload, principal)
+                    )
                 if can_reopen:
                     conversation = self.runtime.voice.conversations.open(
                         principal, revision, chat_id, task_id=payload.task_id, recover_review=True,
                     )
-                elif cached is None or resume is not None:
+                elif cached is None or resume is not None or status_ask:
                     raise
                 # The same authorized owner can recover an acknowledged
                 # operation after signing in again. Never replay the old chat.
@@ -511,6 +525,27 @@ class TextAssistant:
                         principal, revision, task_id=payload.task_id
                     )
         admitted = None
+        if status_ask:
+            if cached is None and principal is not None:
+                work.check_other_continue(key, payload)
+            reply = approval_status.answer(self.runtime, payload, principal, conversation)
+            if cached is None:
+                # Reserve the operation ID, but never replay a private price or an expired decision.
+                fingerprint = self._fingerprint(payload, allow_memory)
+                marker = approval_status.receipt(conversation if reply.get("approval_summary") else None)
+                with self.store.connection(write=True) as conn:
+                    inserted = conn.execute(
+                        "INSERT OR IGNORE INTO assistant_replies VALUES(?,?,?)",
+                        (key, fingerprint, encode(marker)),
+                    ).rowcount
+                    if not inserted:
+                        current = self._lookup_reply(conn, key, fingerprint, payload.language)
+                        approval_status.cached_chat(current, principal, payload)
+            if summary := reply.get("approval_summary"):
+                remember_exchange(self.runtime, key, payload.message, summary, conversation=conversation)
+            if conversation is not None:
+                reply["conversation_id"] = conversation.id
+            return reply
         if cached is None:
             self.attachments.select(conversation, payload.attachment_ids, principal)
         if google_read:
@@ -539,7 +574,9 @@ class TextAssistant:
                 raise DomainError("AMBIGUOUS_COMMERCE_REVIEW", 409)
             if resume is None:
                 work.check_other_continue(key, payload)
-                admitted = commerce_chat.turn(self.runtime, payload, principal, conversation)
+                admitted = approval_status.clarify_decision(self.runtime, payload, principal, conversation)
+                if admitted is None:
+                    admitted = commerce_chat.turn(self.runtime, payload, principal, conversation)
             if admitted is None:
                 admitted = work.turn(
                     payload, key, principal, conversation=conversation, resume=resume,

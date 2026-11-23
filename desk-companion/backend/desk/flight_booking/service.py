@@ -84,6 +84,14 @@ class FlightBookings(ChatReviews):
         "AND json_extract(data,'$.approved') IS NULL AND json_extract(data,'$.remote') IS NULL"
     )
 
+    def review_view(self, db, row):
+        if row["quote"].get("avoid_calendar_conflicts"):
+            if row.get("calendar_revision") != self.store.revision(db):
+                row["calendar_fit"] = check_itineraries(self.store, db, [row["quote"]])[0]
+            if row.get("calendar_fit") != "clear":
+                return None
+        return public(row)
+
     def __init__(self, runtime):
         super().__init__(runtime, "FLIGHT")
         self.provider = LetsFG()
