@@ -434,6 +434,8 @@ export function AssistantPanel({
     error,
     view,
     jobRevision,
+    expanded,
+    voiceActive,
   ]);
   function endVoice() {
     const engine = audio.current;
@@ -899,17 +901,17 @@ export function AssistantPanel({
     action: "confirm" | "cancel",
     kind?: string,
   ) {
-    const message = proposalDecisionNotice(result, action, kind, t);
-    setNotice(message);
-    if (result.kind === "browser_research" && result.job) {
-      const jobId = result.job.id;
+    setNotice(proposalDecisionNotice(result, action, kind, t));
+    const jobId = result.job?.id;
+    if (
+      action === "confirm" &&
+      (result.kind ?? kind) === "browser_research" &&
+      jobId
+    ) {
       setTurns((old) =>
         old.some((turn) => turn.jobId === jobId)
           ? old
-          : [
-              ...old,
-              { id: Date.now(), role: "assistant", body: message, jobId },
-            ],
+          : [...old, { id: Date.now(), role: "assistant", body: "", jobId }],
       );
     }
   }
@@ -968,30 +970,22 @@ export function AssistantPanel({
     setTranscript("");
   }
   async function switchToText() {
-    if (wake.enabled) {
-      endVoice();
-      return;
-    }
-    if (!omni) {
-      endVoice();
-      return;
-    }
     // Cancelling permission/connection setup must stop late capture immediately.
-    if (voiceState === "connecting") {
+    if (wake.enabled || !omni || voiceState === "connecting") {
       endVoice();
-      return;
+    } else {
+      modeSwitching.current = true;
+      setBusy(true);
+      setMicrophone(false);
+      setVoiceState("connecting");
+      try {
+        await audio.current?.setMode("text");
+      } catch (e) {
+        endVoice();
+        setError(e);
+      }
     }
-    modeSwitching.current = true;
-    setBusy(true);
-    setMicrophone(false);
-    setVoiceState("connecting");
-    try {
-      await audio.current?.setMode("text");
-    } catch (e) {
-      endVoice();
-      setError(e);
-    }
-    queueMicrotask(() => composer.current?.focus());
+    requestAnimationFrame(() => composer.current?.focus());
   }
   async function newConversation() {
     submissionGeneration.current += 1;
@@ -1352,8 +1346,20 @@ export function AssistantPanel({
     !speechText.current.assistant;
   const homeAnswer = focusedOrder
     ? orderStatus(focusedOrder, t)
-    : hasChoices && focusTurn ? focusTurn.body : latestAssistantReply(turns);
+    : hasChoices && focusTurn
+      ? focusTurn.body
+      : lastTurn?.jobId && !lastTurn.body
+        ? turnText(lastTurn)
+        : latestAssistantReply(turns);
   function turnBody(turn: ConversationTurn) {
+    if (turn.jobId && !turn.body) {
+      if (jobs.some((job) => job.id === turn.jobId)) return null;
+      return (
+        <button className="text-button" onClick={openJobs}>
+          {t("View research activity", "查看查询进度")}
+        </button>
+      );
+    }
     if (
       turn === focusTurn &&
       focusedOrder &&
@@ -1564,7 +1570,7 @@ export function AssistantPanel({
             const node = event.currentTarget;
             if (node.clientHeight > 0)
               followLatest.current =
-                node.scrollHeight - node.scrollTop - node.clientHeight < 80;
+                node.scrollHeight - node.scrollTop - node.clientHeight <= 2;
           }}
         >
           {(!immersive || expanded) && <InitiativeMessages t={t} />}
@@ -1748,37 +1754,34 @@ export function AssistantPanel({
               role="group"
               aria-label={t("Voice conversation", "语音对话")}
             >
-              <div
-                className={`assistant-voice-orb state-${voiceState}`}
-                aria-hidden="true"
-              >
-                <span />
-                <span />
-                <span />
-                <span />
-                <span />
+              <div className="assistant-call-status" role="status">
+                <span
+                  className={`assistant-voice-orb state-${voiceState}`}
+                  aria-hidden="true"
+                >
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                </span>
+                <span>
+                  {voiceSlow
+                    ? t("Waiting for a reply…", "正在等候回复…")
+                    : voiceState === "connecting"
+                      ? t("Connecting…", "正在连接…")
+                      : voiceState === "speaking"
+                        ? t("Speaking…", "正在说话…")
+                        : voiceState === "thinking"
+                          ? t("Thinking…", "正在思考…")
+                          : t("Listening…", "正在聆听…")}
+                </span>
               </div>
-              <p role="status">
-                {voiceState === "connecting"
-                  ? t("Connecting…", "正在连接…")
-                  : voiceState === "speaking"
-                    ? t("Speaking · you can interrupt", "正在说话，可以插话")
-                    : voiceState === "thinking"
-                      ? t("Thinking…", "正在思考…")
-                      : t("Listening…", "正在聆听…")}
-              </p>
-              {voiceSlow && (
-                <p role="status">
-                  {t(
-                    "Still waiting for a reply. You can also use text.",
-                    "回答仍在准备中，也可以改用文字输入。",
-                  )}
-                </p>
-              )}
               <div className="assistant-call-actions">
                 <button
                   className="icon-button"
                   aria-label={t("Camera & microphone", "摄像头与麦克风")}
+                  title={t("Camera & microphone", "摄像头与麦克风")}
                   onClick={() => setMediaOpen(true)}
                 >
                   <Camera size={20} />
@@ -1792,6 +1795,7 @@ export function AssistantPanel({
                         "分享图片或屏幕",
                       )}
                       aria-expanded={attachments}
+                      title={t("Share an image or screen", "分享图片或屏幕")}
                       onClick={() => setAttachments(!attachments)}
                     >
                       <Plus size={20} />
@@ -1800,6 +1804,7 @@ export function AssistantPanel({
                 <button
                   className="icon-button"
                   aria-label={t("Stop speaking", "停止播报")}
+                  title={t("Stop speaking", "停止播报")}
                   onClick={() => audio.current?.interrupt()}
                   disabled={voiceState === "connecting"}
                 >
@@ -1807,11 +1812,8 @@ export function AssistantPanel({
                 </button>
                 <button
                   className="assistant-mic end-call"
-                  aria-label={
-                    omni
-                      ? t("Switch to text", "改为文字")
-                      : t("End conversation", "结束交谈")
-                  }
+                  aria-label={t("Turn off microphone and switch to text", "关闭麦克风并改用文字")}
+                  title={t("Turn off microphone and switch to text", "关闭麦克风并改用文字")}
                   onClick={() => void switchToText()}
                 >
                   <MicOff size={20} />
@@ -2103,7 +2105,7 @@ export function AssistantPanel({
               </label>
             )}
           </div>
-          {(wake.enabled || wake.state === "error") && (
+          {((wake.enabled && wake.state !== "active") || wake.state === "error") && (
             <p className="alice-wake-status" role="status">
               {wake.state === "waiting"
                 ? t(
@@ -2117,12 +2119,7 @@ export function AssistantPanel({
                         "Wake listening stopped. You can use the microphone button.",
                         "唤醒监听已停止，可用麦克风按钮交谈。",
                       )
-                    : wake.state === "off"
-                      ? t("Local listening paused", "本地监听已暂停")
-                      : t(
-                          "Conversation active · returns to local listening when idle",
-                          "交谈中 · 安静后回到本地监听",
-                        )}
+                    : t("Local listening paused", "本地监听已暂停")}
             </p>
           )}
 
