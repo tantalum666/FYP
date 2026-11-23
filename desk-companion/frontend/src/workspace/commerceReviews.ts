@@ -44,7 +44,7 @@ function loadMarker(): Marker | null {
   }
 }
 function rowsFor(chat: string) {
-  return request<{ rows: CommerceReview[] }>(
+  return request<{ rows: CommerceReview[]; has_flight_shortlist?: boolean }>(
     `/assistant/commerce-reviews?conversation_id=${encodeURIComponent(chat)}`,
   );
 }
@@ -67,6 +67,8 @@ export function useCommerceReviews() {
   const [rows, setRows] = useState<CommerceReview[]>([]);
   const latest = useRef<CommerceReview[]>([]),
     tracked = useRef<string | undefined>(undefined),
+    hasShortlist = useRef(false),
+    refreshRequested = useRef(false),
     task = useRef<string | null>(null);
   const set = useCallback((items: CommerceReview[]) => {
     latest.current = items;
@@ -85,19 +87,23 @@ export function useCommerceReviews() {
   }, []);
   const clear = useCallback(() => {
     tracked.current = undefined;
+    hasShortlist.current = false;
+    refreshRequested.current = false;
     task.current = null;
     sessionStorage.removeItem(storageKey);
     set([]);
   }, [set]);
   const receive = useCallback(
-    (chat: string, row: CommerceReview, taskId?: string) => {
+    (chat: string, row: CommerceReview | null, taskId?: string, shortlist = false) => {
       const others =
         tracked.current === chat
-          ? latest.current.filter((item) => orderKey(item) !== orderKey(row))
+          ? latest.current.filter((item) => !row || orderKey(item) !== orderKey(row))
           : [];
+      hasShortlist.current = shortlist || (tracked.current === chat && hasShortlist.current);
+      refreshRequested.current = true;
       tracked.current = chat;
       task.current = taskId ?? null;
-      set([row, ...others]);
+      set(row ? [row, ...others] : others);
     },
     [set],
   );
@@ -107,15 +113,21 @@ export function useCommerceReviews() {
       if (
         !chat ||
         tracked.current !== chat ||
-        !previous.some((row) => !settled.has(row.state))
+        (!refreshRequested.current && !previous.some((row) => !settled.has(row.state)))
       )
         return [];
       const result = await rowsFor(chat);
       if (tracked.current !== chat || latest.current !== previous) return [];
+      refreshRequested.current = false;
+      if (!result.rows.length && !result.has_flight_shortlist) {
+        clear();
+        return [];
+      }
+      hasShortlist.current = !!result.has_flight_shortlist;
       set(result.rows);
       return orderUpdates(watchedMarks(previous), result.rows);
     },
-    [set],
+    [set, clear],
   );
   const restore = useCallback(
     async (taskId: string | undefined, current: () => boolean) => {
@@ -123,11 +135,12 @@ export function useCommerceReviews() {
       if (!marker || marker.task !== (taskId ?? null)) return;
       const result = await rowsFor(marker.chat);
       if (!current() || loadMarker()?.chat !== marker.chat) return;
-      if (!result.rows.length) {
+      if (!result.rows.length && !result.has_flight_shortlist) {
         clear();
         return;
       }
       tracked.current = marker.chat;
+      hasShortlist.current = !!result.has_flight_shortlist;
       task.current = taskId ?? null;
       set(result.rows);
       return {
@@ -137,5 +150,5 @@ export function useCommerceReviews() {
     },
     [set, clear],
   );
-  return { rows, tracked, clear, receive, refresh, restore };
+  return { rows, tracked, hasShortlist, clear, receive, refresh, restore };
 }

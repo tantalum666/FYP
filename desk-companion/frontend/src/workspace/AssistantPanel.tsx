@@ -675,8 +675,9 @@ export function AssistantPanel({
         : result.flight_booking
           ? { ...result.flight_booking, kind: "flight" as const }
           : null;
-      if (card && result.conversation_id) {
-        commerce.receive(result.conversation_id, card, taskId);
+      const shortlist = !!result.flight_shortlist_chat;
+      if ((card || shortlist) && result.conversation_id) {
+        commerce.receive(result.conversation_id, card, taskId, shortlist);
       }
       typedCommerceReview.current=undefined;
       contextTouched.current = Date.now();
@@ -695,7 +696,7 @@ export function AssistantPanel({
             body: userText,
             files: submittedFiles,
             commerceChat:
-              card || result.flight_alternatives
+              card || shortlist || result.flight_alternatives
                 ? result.conversation_id
                 : undefined,
           },
@@ -706,7 +707,9 @@ export function AssistantPanel({
               card && !result.commerce_note
                 ? orderStatus(card, t)
                 : result.flight_alternatives
-                  ? t(
+                  ? result.flight_alternatives.original
+                    ? result.flight_alternatives.alternatives.map(({ segment }) => segment.flight).join(" · ")
+                    : t(
                       `${result.flight_alternatives.alternatives.length} available flights`,
                       `有 ${result.flight_alternatives.alternatives.length} 班可选`,
                     )
@@ -715,7 +718,7 @@ export function AssistantPanel({
               card && (!result.commerce_note || (card.kind === "flight" && card.calendar_preview)) ? orderKey(card) : undefined,
             choices: result.flight_alternatives,
             commerceChat:
-              card || result.flight_alternatives
+              card || shortlist || result.flight_alternatives
                 ? result.conversation_id
                 : undefined,
             kind: result.kind,
@@ -772,7 +775,8 @@ export function AssistantPanel({
     const savedWork = submitted.split(/[\r\n]/).some((line) =>
       /^(?:continue the task from before|继续刚才那个任务|(?:continue work|继续工作)\s+[0-9a-f]{32}\s+v[0-9]+)[ .。]*$/i.test(line.trim())
     );
-    const useOmni = omni && !savedWork && !choice && !review && !chatFiles.files.length && !fileContext.current;
+    const shortlistChat = commerce.hasShortlist.current && commerce.tracked.current === conversationId.current;
+    const useOmni = omni && !savedWork && !shortlistChat && !choice && !review && !chatFiles.files.length && !fileContext.current;
     const previousHttp = pendingHttp.current;
     const generation = ++submissionGeneration.current;
     setBusy(true);

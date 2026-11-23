@@ -6,7 +6,8 @@ from dataclasses import dataclass
 import httpx
 
 from .calendar import iso
-from . import alice_delivery
+from . import alice_delivery, commerce_chat
+from .flight_booking import shortlist
 from .capabilities import CAPABILITIES
 from .context_budget import fit_context
 from .conversation import memory_context
@@ -203,7 +204,7 @@ class TextSessions:
         keep = False
         creating = False
         responder = TextFunctions(
-            self, payload, key, names, on_event, allow_memory, permission_version
+            self, payload, key, names, on_event, allow_memory, permission_version, principal, chat
         )
         try:
             record = self.sessions.claim(
@@ -496,7 +497,9 @@ class FunctionReceipt:
 class TextFunctions:
     """Bound one original message to already-registered application functions and their receipts."""
 
-    def __init__(self, sessions, payload, key, names, on_event, allow_memory, permission_version):
+    def __init__(
+        self, sessions, payload, key, names, on_event, allow_memory, permission_version, principal, chat
+    ):
         self.sessions, self.payload, self.key = sessions, payload, key
         self.names, self.on_event, self.allow_memory = names, on_event, allow_memory
         self.budget_ids = []
@@ -507,6 +510,7 @@ class TextFunctions:
         self.plan = None
         self.reusable = True
         self.permission_version = permission_version
+        self.principal, self.chat = principal, chat
         self.preview = ""
 
     def respond(self, api, sid, turn_id, actions, check):
@@ -603,6 +607,18 @@ class TextFunctions:
                     else "The action result is available."
                 )
             self.local_reply = text_effect_reply(message, result, self.payload.language)
+            if "flight_shortlist_query" in result:
+                self.local_reply = shortlist.from_function(
+                    self.sessions.runtime.flight_bookings, self.payload, self.principal,
+                    self.chat, result["flight_shortlist_query"],
+                )
+            elif "flight_alternatives" in result:
+                # Bind the offered list to this login and chat before writing the
+                # replayable Function receipt or acknowledging it to the Session.
+                self.local_reply = commerce_chat.present(
+                    self.sessions.runtime, self.local_reply, self.key,
+                    self.principal, self.chat, self.payload,
+                )
             if self.plan:
                 self.local_reply["plan"] = self.plan
             with self.sessions.store.connection(write=True) as db:

@@ -68,10 +68,14 @@ def assistant_routes(runtime, authenticated, operation_id):
     @router.get("/commerce-reviews")
     def commerce_reviews(conversation_id: str, request: Request, principal=Depends(authenticated)):
         who = {**principal, "session": request.cookies.get("desk_companion_session")}
-        return {"rows": [
-            *[dict(row, kind="flight") for row in runtime.flight_bookings.listing(who,conversation_id)],
-            *[dict(row, kind="shop") for row in runtime.shop_orders.listing(who,conversation_id)],
-        ]}
+        return {
+            "has_flight_shortlist": runtime.flight_bookings.enabled
+            and runtime.flight_bookings.has_shortlist(who, conversation_id),
+            "rows": [
+                *[dict(row, kind="flight") for row in runtime.flight_bookings.listing(who,conversation_id)],
+                *[dict(row, kind="shop") for row in runtime.shop_orders.listing(who,conversation_id)],
+            ],
+        }
 
     @router.get("/tool-calls")
     def tool_calls(limit: int = 50, principal=Depends(authenticated)):

@@ -1,6 +1,7 @@
 """Owner-reviewed test flights. LetsFG owns fulfillment; the desk records exact approvals."""
 
 from datetime import timedelta
+import json
 import os
 
 from ..calendar import iso
@@ -8,11 +9,24 @@ from ..commerce_review import ChatReviews
 from ..store import DomainError
 from .calendar_fit import check_itineraries
 from .timetable import departure_day
-from .provider import FlightQuery, LetsFG, PNR, booking_id, matched, minor, select_fare
+from .provider import FlightQuery, LetsFG, PNR, booking_id, matched, matches_choice, minor, select_fare
 
 
 def _flight_identity(legs):
     return tuple((s["flight"], s["origin"], s["destination"], s["departs"][:10]) for s in legs)
+
+
+def _option_query(row, leg, ceiling, calendar):
+    terms = FlightQuery.model_validate(row["original_search"])
+    ceilings = (terms.max_hkd, row.get("shortlist_max_hkd"), ceiling)
+    return terms.model_copy(update={
+        "flight_number": leg["flight"],
+        "nonstop": True,
+        "max_hkd": min((cap for cap in ceilings if cap is not None), default=None),
+        "avoid_calendar_conflicts": bool(
+            terms.avoid_calendar_conflicts or row.get("shortlist_calendar") or calendar
+        ),
+    })
 
 
 def public(row):
@@ -64,6 +78,10 @@ def public(row):
 
 class FlightBookings(ChatReviews):
     follow_states = ("submitting", "processing", "answering", "stopping", "reprice")
+    _open_shortlist = (
+        "json_extract(data,'$.state') IN ('shortlisted','quoted','expired') "
+        "AND json_extract(data,'$.approved') IS NULL AND json_extract(data,'$.remote') IS NULL"
+    )
 
     def __init__(self, runtime):
         super().__init__(runtime, "FLIGHT")
@@ -92,11 +110,11 @@ class FlightBookings(ChatReviews):
             quote = {**select_fare(candidates, query, fits), "avoid_calendar_conflicts": True}
         else:
             quote = self.provider.quote(query, when)
-        if "alternatives" in quote:
-            return {"flight_alternatives": quote, "saved": False}
         # Keep the search limits with this local quote so an explicit request for a
         # different flight can reuse the date, party, carrier and budget.
         quote["search_terms"] = query.model_dump(mode="json", exclude_none=True)
+        if "alternatives" in quote:
+            return {"flight_alternatives": quote, "saved": False}
         quote["scenario"] = "price_change" if query.rehearse_price_change else "success"
         return {"sandbox_quote": quote, "saved": False}
 
@@ -148,8 +166,57 @@ class FlightBookings(ChatReviews):
             )
         return {**alternatives, "alternatives": permitted, "avoid_calendar_conflicts": True}
 
-    def attach(self, quote, key, principal, chat):
-        row = {
+    def has_shortlist(self, principal, chat):
+        with self.store.connection() as db:
+            self.runtime.personal_context.require_owner_transaction(db, principal)
+            return db.execute(
+                "SELECT 1 FROM sandbox_flight_bookings WHERE owner=? AND chat=? "
+                "AND json_type(data,'$.shortlist')='object' AND " + self._open_shortlist + " LIMIT 1",
+                (self.runtime.voice.conversations.owner(principal), chat),
+            ).fetchone() is not None
+
+    def shortlists(self, principal, chat, *, include_closed=False):
+        """Number the original offers in chat order, including closed lists in the numbering."""
+        with self.store.connection() as db:
+            self.runtime.personal_context.require_owner_transaction(db, principal)
+            records = db.execute(
+                f"""WITH lists AS (
+                       SELECT row_number() OVER (ORDER BY rowid) AS number, id, data,
+                              ({self._open_shortlist}) AS is_open
+                       FROM sandbox_flight_bookings
+                       WHERE owner=? AND chat=? AND json_type(data,'$.shortlist')='object'
+                   ) SELECT number, id, is_open, json_extract(data,'$.version') AS version,
+                            json_extract(data,'$.shortlist') AS shortlist FROM lists
+                   WHERE is_open OR ? ORDER BY number""",
+                (self.runtime.voice.conversations.owner(principal), chat, include_closed),
+            )
+            return {
+                r["number"]: {
+                    "id": r["id"], "version": r["version"], "open": bool(r["is_open"]),
+                    "shortlist": json.loads(r["shortlist"]),
+                }
+                for r in records
+            }
+
+    def attach_shortlist(self, alternatives, key, principal, chat):
+        offered = dict(alternatives)
+        terms = offered.pop("search_terms")
+        terms["avoid_calendar_conflicts"] = bool(offered.get("avoid_calendar_conflicts"))
+        chats = self.runtime.voice.conversations
+        with chats.lock:
+            if chats.entries.get(chat.id) is not chat:
+                raise DomainError("CONVERSATION_SCOPE_CHANGED", 409)
+            saved = self.insert(
+                {"shortlist": offered, "original_search": terms},
+                key, principal, chat, state="shortlisted",
+            )
+        for number, row in self.shortlists(principal, chat.id).items():
+            if row["id"] == saved["id"]:
+                return {**row["shortlist"], "shortlist_number": number}
+        raise DomainError("FLIGHT_REVIEW_CHANGED", 409)
+
+    def _quote_fields(self, quote):
+        return {
             "quote": quote,
             "question": None,
             "approved": None,
@@ -158,10 +225,119 @@ class FlightBookings(ChatReviews):
             "next_read": 0,
             "scenario": quote["scenario"],
         }
-        saved = self.insert(row, key, principal, chat)
+
+    def attach(self, quote, key, principal, chat):
+        saved = self.insert(self._quote_fields(quote), key, principal, chat)
         if quote.get("avoid_calendar_conflicts"):
             return self.read(saved["id"], self.owner(principal), chat.id)
         return public(saved)
+
+    def _recheck_option(self, leg, query):
+        # A flight number can appear at two different times in the same day's inventory.
+        # A fresh offer ID and fare may change; the reviewed itinerary must still match.
+        try:
+            fares = self.provider.candidates(query, departure_day(self.store.clock(), query.origin))
+            offer = next((fare for fare in fares if fare["segments"] == [leg]), None)
+        except DomainError as error:
+            if error.code not in {"FLIGHT_NO_MATCH", "FLIGHT_PAST_DATE"}:
+                raise
+            offer = None
+        if offer is None:
+            return None
+        return {
+            **offer,
+            "search_terms": query.model_dump(mode="json", exclude_none=True),
+            "avoid_calendar_conflicts": query.avoid_calendar_conflicts,
+            "scenario": "price_change" if query.rehearse_price_change else "success",
+        }
+
+    def review_shortlist(self, request, key, principal, chat):
+        """Apply the exact option and review version captured in the owner's chat operation."""
+        owner = self.owner(principal)
+        if not self.enabled:
+            raise DomainError("FLIGHT_SANDBOX_DISABLED", 403)
+        row = self._get(request["id"], owner, chat, include_unquoted=True)
+        if row.get("shortlist_operation") == key:
+            if row.get("option_unavailable"):
+                raise DomainError("FLIGHT_OPTION_UNAVAILABLE", 409)
+            return self.read(row["id"], owner, chat) if row.get("quote") else None
+        if (
+            not row.get("shortlist")
+            or (row["version"] != request["version"] and row.get("shortlist_pending") != key)
+            or row["state"] not in {"shortlisted", "quoted", "expired"}
+            or row.get("remote")
+            or row.get("approved") is not None
+        ):
+            raise DomainError("FLIGHT_REVIEW_CHANGED", 409)
+        option = request.get("option")
+        if option is not None and not 1 <= option <= len(row["shortlist"]["alternatives"]):
+            raise DomainError("FLIGHT_REVIEW_CHANGED", 409)
+        quote = None
+        if option is not None:
+            leg = row["shortlist"]["alternatives"][option - 1]["segment"]
+            query = _option_query(row, leg, request.get("max_hkd"), request.get("check_calendar"))
+            original = row["original_search"]
+            prior_cap = row.get("shortlist_max_hkd", original.get("max_hkd"))
+            prior_calendar = row.get("shortlist_calendar", original.get("avoid_calendar_conflicts", False))
+            row.update(shortlist_max_hkd=query.max_hkd, shortlist_calendar=query.avoid_calendar_conflicts)
+            if query.max_hkd != prior_cap or query.avoid_calendar_conflicts != prior_calendar:
+                # Admit the narrower terms before the lookup. An outage or a slow
+                # response must not leave a wider approval available in another worker.
+                with self.lock, self.store.connection(write=True) as db:
+                    self.runtime.personal_context.require_owner_transaction(db, principal)
+                    row.update(shortlist_pending=key, version=row["version"] + 1)
+                    if row["state"] == "quoted":
+                        row["state"] = "expired"
+                    self._write_row(db, row)
+            quote = self._recheck_option(leg, query)
+        with self.lock, self.store.connection(write=True) as db:
+            self.runtime.personal_context.require_owner_transaction(db, principal)
+            row.pop("shortlist_pending", None)
+            row.update(shortlist_operation=key, option_unavailable=bool(option and not quote))
+            row["version"] += 1
+            if option is None:
+                row["state"] = "cancelled"
+            elif quote:
+                row.update(self._quote_fields(quote), state="quoted")
+                row.pop("calendar_fit", None)
+                if quote["avoid_calendar_conflicts"]:
+                    self._check_calendar(row, db)
+            elif row.get("quote"):
+                row["state"] = "expired"
+            # The serial also changes on cancellation, submission and forgetting the chat.
+            self._write_row(db, row)
+        if row["option_unavailable"]:
+            raise DomainError("FLIGHT_OPTION_UNAVAILABLE", 409)
+        return public(row) if row.get("quote") else None
+
+    def bind_legacy_selection(self, ident, key, principal, chat, *, selection, ceiling, calendar):
+        """On replay, check a fare already issued by the previous shortlist Function."""
+        owner = self.owner(principal)
+        row = self._get(ident, owner, chat, include_unquoted=True)
+        if (
+            row.get("shortlist_operation") != key or row["state"] != "quoted"
+            or "shortlist_max_hkd" in row or row.get("remote") or row.get("approved") is not None
+        ):
+            return
+        quote = row["quote"]
+        leg = quote["segments"][0]
+        query = _option_query(row, leg, ceiling, calendar or quote.get("avoid_calendar_conflicts"))
+        with self.store.connection(write=True) as db:
+            self.runtime.personal_context.require_owner_transaction(db, principal)
+            row.update(shortlist_max_hkd=query.max_hkd, shortlist_calendar=query.avoid_calendar_conflicts)
+            if (
+                selection and row["shortlist"]["alternatives"][selection - 1]["segment"] == leg
+                and matches_choice(quote, query)
+            ):
+                quote.update(search_terms=query.model_dump(exclude_none=True),
+                             avoid_calendar_conflicts=query.avoid_calendar_conflicts)
+                if query.avoid_calendar_conflicts:
+                    self._check_calendar(row, db)
+            else:
+                self._state(row, "expired")
+                row["option_unavailable"] = True
+            self._write_row(db, row)
+        return public(row)
 
     def read(self, ident, owner, chat, *, following=False):
         with self.lock:

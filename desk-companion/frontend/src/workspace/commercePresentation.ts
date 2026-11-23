@@ -143,6 +143,8 @@ export type CalendarFlightChoice = {
   rehearse_price_change?: boolean;
 };
 export type FlightAlternatives = {
+  shortlist_number?: number;
+  original?: boolean;
   unavailable_flight: string;
   avoid_calendar_conflicts?: boolean;
   requested_calendar_fit?: "conflict" | "unknown";

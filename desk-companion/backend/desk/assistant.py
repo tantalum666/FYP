@@ -29,6 +29,7 @@ from .weather import WeatherQuery
 from .browser_research import BrowserResearchDraft, BrowserResearchQuery
 from .mail_followup_models import MailFollowupDraft, MailFollowupQuery, MailFollowupStop
 from .flight_booking.conversation import TOOL as FLIGHT_QUOTE_TOOL
+from .flight_booking.shortlist import TOOL as FLIGHT_SHORTLIST_TOOL
 from .flight_booking.calendar_handoff import DRAFT_TOOL as BOOKED_FLIGHT_CALENDAR_TOOL
 from .flight_booking.provider import BookedFlightCalendarQuery, FlightQuery
 from .commerce_review import ReviewRef
@@ -95,6 +96,7 @@ class ChangeProposal(StrictModel):
 
 TOOLS = [
     FLIGHT_QUOTE_TOOL,
+    FLIGHT_SHORTLIST_TOOL,
     BOOKED_FLIGHT_CALENDAR_TOOL,
     SHOP_QUOTE_TOOL,
     ROUTINE_SKIP_TOOL,
@@ -604,6 +606,8 @@ class AssistantService:
                 return self.runtime.mail_followups.stop(query.followup_id, call_key)
             if name == "sandbox_shop_quote":
                 return self.runtime.shop_orders.prepare(ShopQuery.model_validate(arguments))
+            if name == "revisit_flight_shortlist":
+                return {"flight_shortlist_query": arguments, "saved": False}
             if name == "booked_flight_calendar_draft":
                 source = BookedFlightCalendarQuery.model_validate(arguments)
                 return {"booked_flight_calendar": source.model_dump(exclude_none=True), "saved": False}

@@ -115,6 +115,7 @@ export interface ProposalDecisionReply {
 export interface Reply {
   delivery?: import("../companion/delivery").Delivery;
   commerce_note?: boolean;
+  flight_shortlist_chat?: string | null;
   flight_alternatives?: import("./commercePresentation").FlightAlternatives;
   shopping_order?: import("./SandboxShopOrder").SandboxShop;
   flight_booking?: import("./SandboxFlightBooking").SandboxFlight;

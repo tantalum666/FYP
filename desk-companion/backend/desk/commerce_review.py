@@ -57,24 +57,26 @@ class ChatReviews:
         self.runtime.personal_context.require_visible(principal)
         return owner
 
-    def insert(self, row, key, principal, chat):
+    def insert(self, row, key, principal, chat, *, state="quoted"):
         owner = self.owner(principal)
         if not chat or chat.owner != owner:
             raise DomainError("CONVERSATION_SCOPE_CHANGED", 409)
         ident = hashlib.sha256(key.encode()).hexdigest()[:32]
-        row.update(id=ident, task_id=chat.task_id, version=1, state="quoted")
+        row.update(id=ident, task_id=chat.task_id, version=1, state=state)
         with self.store.connection(write=True) as db:
+            self.runtime.personal_context.require_owner_transaction(db, principal)
             db.execute(
                 f"INSERT OR IGNORE INTO {self.table}(id,owner,chat,data) VALUES(?,?,?,?)",
                 (ident, owner, chat.id, encode(row)),
             )
-        return self._get(ident, owner, chat.id)
+        return self._get(ident, owner, chat.id, include_unquoted=True)
 
-    def _get(self, ident, owner, chat):
+    def _get(self, ident, owner, chat, *, include_unquoted=False):
         with self.store.connection() as db:
             record = db.execute(
-                f"SELECT data,serial FROM {self.table} WHERE id=? AND owner=? AND chat=?",
-                (ident, owner, chat),
+                f"SELECT data,serial FROM {self.table} WHERE id=? AND owner=? AND chat=? "
+                "AND (? OR json_type(data,'$.quote')='object')",
+                (ident, owner, chat, include_unquoted),
             ).fetchone()
         if not record:
             raise DomainError(self.kind + "_NOT_FOUND", 404)
@@ -178,7 +180,8 @@ class ChatReviews:
             ids = [
                 r[0]
                 for r in db.execute(
-                    f"SELECT id FROM {self.table} WHERE owner=? AND chat=? ORDER BY rowid DESC",
+                    f"SELECT id FROM {self.table} WHERE owner=? AND chat=? "
+                    "AND json_type(data,'$.quote')='object' ORDER BY rowid DESC",
                     (owner, chat),
                 )
             ]

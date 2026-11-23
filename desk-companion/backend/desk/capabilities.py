@@ -23,6 +23,7 @@ from .owner_lookup import OwnerClockArgs, OwnerSearch, PlateQuery
 from .owner_plan import ProposePlan
 from .weather import WeatherQuery
 from .flight_booking.provider import SEARCH_WINDOW_SECONDS, BookedFlightCalendarQuery, FlightQuery
+from .flight_booking.shortlist import ShortlistQuery
 from .shop_checkout.provider import ShopQuery
 from .browser_research import BrowserResearchDraft, BrowserResearchQuery
 from .mail_followup_models import MailFollowupDraft, MailFollowupQuery, MailFollowupStop
@@ -74,6 +75,7 @@ def _capabilities() -> dict[str, Capability]:
         Capability("sandbox_shop_quote", "draft", ShopQuery, timeout=22),
         Capability("booked_flight_calendar_draft", "draft", BookedFlightCalendarQuery),
         Capability("sandbox_flight_quote", "draft", FlightQuery, timeout=SEARCH_WINDOW_SECONDS+4),
+        Capability("revisit_flight_shortlist", "draft", ShortlistQuery),
         Capability("browser_research_draft", "draft", BrowserResearchDraft),
         Capability("browser_research_status", "read", BrowserResearchQuery, timeout=15),
         Capability("weather_query", "read", WeatherQuery, timeout=8),
