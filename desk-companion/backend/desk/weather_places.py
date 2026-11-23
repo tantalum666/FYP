@@ -6,6 +6,7 @@ import math
 import re
 import unicodedata
 
+import httpx
 from opencc import OpenCC
 
 GEOCODING_URL = "https://geocoding-api.open-meteo.com/v1/search"
@@ -84,11 +85,17 @@ def resolve_place(read, location, country_code, language):
     if HAN.search(text):
         variants = list(dict.fromkeys([_converter("s2t").convert(text), simplified(text)]))
     found = {}
+    failed_variant = False
     for name in variants:
         params = {"name": name, "count": 12, "language": language}
         if country_code:
             params["countryCode"] = country_code
-        for row in read(GEOCODING_URL, params, ttl=86400).get("results", []):
+        try:
+            matches = read(GEOCODING_URL, params, ttl=86400).get("results", [])
+        except (httpx.HTTPError, ValueError):
+            failed_variant = True
+            continue
+        for row in matches:
             if isinstance(row, dict) and row.get("id") and row.get("name"):
                 if not country_code or row.get("country_code") == country_code:
                     found.setdefault(row["id"], row)
@@ -108,6 +115,8 @@ def resolve_place(read, location, country_code, language):
             )
         }
     if not found:
+        if failed_variant:
+            raise ValueError("Place service unavailable")
         raise PlaceProblem("not_found")
     first = next(iter(found.values()))
     cities = [r for r in found.values() if str(r.get("feature_code", "")).startswith("PPL")]
@@ -129,6 +138,9 @@ def resolve_place(read, location, country_code, language):
     candidates = exact or cities
     candidates.sort(key=_weight, reverse=True)
     top = candidates[0]
+    if failed_variant and top.get("feature_code") != "PPLC" and _weight(top) < 100_000:
+        # A village in one script is insufficient when we could not resolve the other.
+        raise ValueError("Incomplete place search")
     if len(candidates) > 1:
         second = candidates[1]
         dominant = _weight(top) >= 100_000 and _weight(top) >= 8 * max(1, _weight(second))

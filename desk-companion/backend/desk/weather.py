@@ -111,7 +111,10 @@ def weather_tool_schema():
 
 def read_weather_json(url, params, *, transport=None):
     with httpx.Client(
-        timeout=httpx.Timeout(3.0), follow_redirects=False, trust_env=False, transport=transport
+        timeout=httpx.Timeout(4.0, connect=7.0 if url == HKO_URL else 3.0),
+        follow_redirects=False,
+        trust_env=False,
+        transport=transport,
     ) as client:
         for attempt in range(2):
             try:
@@ -140,6 +143,23 @@ class WeatherService:
         self.pending = {}
         self.lock = threading.Lock()
 
+    def _cache_lifetime(self, data, params, ttl):
+        if not isinstance(data, dict):
+            return 45
+        zone = data.get("timezone") if "daily" in params else None
+        if params.get("dataType") in {"flw", "fnd"}:
+            zone = HONG_KONG.timezone
+        if not zone:
+            return ttl
+        try:
+            now = self.now().astimezone(ZoneInfo(zone))
+            midnight = datetime.combine(
+                now.date() + timedelta(days=1), datetime.min.time(), tzinfo=now.tzinfo
+            )
+            return min(ttl, max(0, midnight.timestamp() - now.timestamp()))
+        except (ValueError, KeyError, TypeError):
+            return 45
+
     def _read(self, url, params, *, ttl=600):
         key = (url, tuple(sorted(params.items())))
         with self.lock:
@@ -157,7 +177,7 @@ class WeatherService:
                 self.pending[key] = future = Future()
         if not leader:
             try:
-                return future.result(timeout=7)
+                return future.result(timeout=16 if url == HKO_URL else 8)
             except TimeoutError as exc:
                 raise ValueError("Weather source timeout") from exc
         data = None
@@ -172,7 +192,7 @@ class WeatherService:
             with self.lock:
                 if len(self.cache) >= 64 and key not in self.cache:
                     self.cache.popitem(last=False)
-                self.cache[key] = (self.clock() + (ttl if data is not None else 45), data)
+                self.cache[key] = (self.clock() + self._cache_lifetime(data, params, ttl), data)
                 self.pending.pop(key)
 
     def _hko(self, data_type, language):
@@ -372,6 +392,8 @@ class WeatherService:
             pass
         if not result["available"] and "status" not in result:
             result["status"] = "stale" if result.get("last_report_at") else "unavailable"
+        if result["available"] and query.current_day and "current" not in result:
+            result["current_unavailable"] = True
         if result["available"] and query.count > 1:
             covered = {d["date"] for d in result["days"]}
             if result.get("local_forecast"):

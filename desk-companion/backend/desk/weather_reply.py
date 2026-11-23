@@ -86,6 +86,12 @@ def weather_summary(result, language):
     if zh and source == "Hong Kong Observatory":
         source = "香港天文台"
     sentences = []
+    if result.get("current_unavailable"):
+        sentences.append(
+            f"暂时没有读到{name}的最新气温。"
+            if zh
+            else f"The latest temperature for {name} is unavailable."
+        )
     if current := result.get("current"):
         stamp = datetime.fromisoformat(current["time"]).strftime("%Y-%m-%d %H:%M")
         temperature = current["temperature_c"]

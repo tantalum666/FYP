@@ -463,3 +463,40 @@ def test_model_call_without_destination_never_defaults_to_hong_kong(tmp_path):
         runtime, "weather_query", {}, "missing-city", scope="replay", channel="voice"
     )
     assert out["status"] == "missing_city" and not out["available"]
+
+
+def test_city_and_coordinate_forecasts_expire_at_the_destination_midnight():
+    wall = [datetime(2026, 11, 22, 14, 59, 58, tzinfo=UTC)]
+    for name in ("Tokyo", "35.69,139.69"):
+        wall[0] = datetime(2026, 11, 22, 14, 59, 58, tzinfo=UTC)
+        forecasts = []
+
+        def fetch(url, params):
+            if "/search" in url:
+                return {"results": [JAPAN]}
+            forecasts.append(True)
+            return model_data(params, now=wall[0])
+
+        service = WeatherService(fetch, now=lambda: wall[0], clock=lambda: wall[0].timestamp())
+        query = WeatherQuery(location=name, period="today")
+        assert service.query(query)["days"][0]["date"] == "2026-11-22"
+        wall[0] += timedelta(seconds=3)
+        assert service.query(query)["days"][0]["date"] == "2026-11-23"
+        assert len(forecasts) == 2
+
+
+@pytest.mark.parametrize(("failing_name", "available"), [("东京", True), ("東京", False)])
+def test_unavailable_script_variant_never_substitutes_a_village(failing_name, available):
+    def fetch(url, params):
+        if params.get("name") == failing_name:
+            raise ValueError("Geocoding connection failed")
+        return fixture_weather(url, params)
+
+    out = WeatherService(fetch, now=lambda: NOW).query(
+        WeatherQuery(location="东京", period="today")
+    )
+    assert out["available"] is available
+    if available:
+        assert out["country_code"] == "JP"
+    else:
+        assert out["status"] == "unavailable"
