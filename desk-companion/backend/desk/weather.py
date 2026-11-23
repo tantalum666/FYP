@@ -23,11 +23,11 @@ HKO_URL = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php"
 HKO = "Hong Kong Observatory"
 HKO_READS = ThreadPoolExecutor(max_workers=6, thread_name_prefix="weather-hk")
 WEATHER_TOOL_DESCRIPTION = (
-    "Look up current weather, today's local outlook or dates up to nine days at a time in cities worldwide. "
-    "Pass the user's city, and country/region qualifier when given. For a normal weather or rain question "
+    "Look up current weather, today's local outlook or dates up to nine days at a time in cities or at named fixed sites worldwide. "
+    "Pass the user's city or full site name (e.g. an airport) and any country/region qualifier. For a normal weather or rain question "
     "use period=today. Resolve tomorrow/day_after_tomorrow in the destination's timezone. For a requested "
     "week use forecast and days=7. Use the returned summary, observed/model time, daily temperatures, "
-    "precipitation windows/probability or official qualitative forecast. Ask which city for an ambiguous "
+    "precipitation windows/probability or official qualitative forecast. Ask for the country, region or coordinates of an ambiguous "
     "place. Never substitute a different city, infer location permission, or convert past rainfall into odds."
 )
 DATA_ERRORS = (
@@ -53,7 +53,7 @@ class WeatherQuery(StrictModel):
         default="hong_kong",
         min_length=1,
         max_length=120,
-        description="Explicit city name in any script, optionally followed by a comma and country/region, or explicit latitude,longitude. Ask if the destination is missing.",
+        description="Explicit city or full named site in any script, optionally followed by a comma and country/region, or explicit latitude,longitude. Ask if the destination is missing.",
     )
     country_code: str | None = Field(
         default=None,
