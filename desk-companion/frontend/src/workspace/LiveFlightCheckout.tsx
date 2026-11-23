@@ -59,6 +59,15 @@ export type LiveCheckout = {
   selected?: number;
   reason?: string;
   required_fields?: string[];
+  seller_check?: {
+    seller?: string;
+    status?: string;
+    page_total_minor?: number;
+    page_weight_kg?: number;
+    observed_at?: string;
+  };
+  alternatives_checked?: number | null;
+  checked_sellers?: string[];
   receipt?: {
     pnr?: string;
     held_minor?: number;
@@ -122,6 +131,9 @@ function action(
       conversation_id: chat,
       version: view.version,
       action: name,
+      ...(["verify_seller", "verify_original"].includes(name)
+        ? { share_seller_page: true }
+        : {}),
       number,
     }),
   });
@@ -216,6 +228,7 @@ export function LiveFlightCheckout({
     };
     const timer = [
       "waiting_source",
+      "seller_verification",
       "searching",
       "held",
       "processing",
@@ -234,6 +247,12 @@ export function LiveFlightCheckout({
   const src = view.source,
     selected = view.choices?.find((o) => o.number === view.selected),
     receipt = view.receipt;
+  const inspected = view.checked_sellers ?? [];
+  const verificationSeller =
+    selected?.booking_url && !inspected.includes("LetsFG")
+      ? "LetsFG"
+      : "Kiwi.com";
+  const canInspect = !inspected.includes(verificationSeller);
   const passport = !!view.required_fields?.some((k) =>
     k.startsWith("passport_"),
   );
@@ -305,7 +324,7 @@ export function LiveFlightCheckout({
           </p>
           <p>
             {t(
-              `Required checked baggage: ${src.bags ?? "?"} bag(s), ${src.request.checked_bag_kg} kg per adult.`,
+              `Required checked baggage: ${src.bags ?? "?"} ${src.bags === 1 ? "bag" : "bags"}, ${src.request.checked_bag_kg} kg per adult.`,
               `所需托运行李：${src.bags ?? "待核实"} 件，每人 ${src.request.checked_bag_kg} 公斤。`,
             )}
           </p>
@@ -412,10 +431,12 @@ export function LiveFlightCheckout({
               {seg.destination} {seg.arrives?.replace("T", " ")}
             </p>
           ))}
-          <p>
-            {t("Checked baggage included", "已核实包含的托运行李")} ·{" "}
-            {selected.checked_bags ?? "?"} × {selected.checked_bag_kg ?? "?"} kg
-          </p>
+          {selected.checked_bags != null && selected.checked_bag_kg != null && (
+            <p>
+              {t("Checked baggage included", "已核实包含的托运行李")} ·{" "}
+              {selected.checked_bags} × {selected.checked_bag_kg} kg
+            </p>
+          )}
         </div>
       )}
       {selected?.fare_conditions?.refundable && (
@@ -428,17 +449,6 @@ export function LiveFlightCheckout({
         <p>
           {t("Change terms", "改签条款")} ·{" "}
           {selected.fare_conditions.changeable}
-        </p>
-      )}
-      {selected?.booking_url && view.state === "seller_only" && (
-        <p>
-          <a
-            href={selected.booking_url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t("Check baggage on the seller’s offer", "在卖方报价中核实行李")}
-          </a>
         </p>
       )}
       {view.state === "review" &&
@@ -504,11 +514,90 @@ export function LiveFlightCheckout({
           </>
         )}
       {view.state === "seller_only" && (
+        <div>
+          <p>
+            {t(
+              "The seller has not verified the required checked baggage and all-in total.",
+              "卖方还没有核实所需托运行李和含费总价。",
+            )}
+          </p>
+          {canInspect && (
+            <>
+              <p>
+                {t(
+                  `Alice can read the exact ${verificationSeller} listing in the cloud, for both directions. Only the public page and itinerary are shared.`,
+                  `Alice 可以在云端只读核对这张 ${verificationSeller} 报价的往返条款，仅分享公开页面及行程。`,
+                )}
+              </p>
+              <button
+                type="button"
+                className="primary"
+                disabled={busy}
+                onClick={() =>
+                  void act(
+                    verificationSeller === "Kiwi.com"
+                      ? "verify_original"
+                      : "verify_seller",
+                    selected?.number,
+                  )
+                }
+              >
+                {verificationSeller === "Kiwi.com"
+                  ? t(
+                      "Let Alice verify the original Kiwi offer",
+                      "让 Alice 核实原来的 Kiwi 报价",
+                    )
+                  : t(
+                      "Let Alice verify this seller offer",
+                      "让 Alice 核实这张卖方报价",
+                    )}
+              </button>
+            </>
+          )}
+          {!canInspect && (
+            <p>
+              {t(
+                "The available original listings were checked. Another payable offer must meet the same dates, flights and baggage.",
+                "已核对可用的原报价。其他可付选项仍须符合相同日期、班次和行李要求。",
+              )}
+            </p>
+          )}
+          {(view.choices?.length ?? 0) > 1 && (
+            <button
+              type="button"
+              className="secondary"
+              disabled={busy}
+              onClick={() => void act("other_offers")}
+            >
+              {t("Check other matching offers", "核对其他符合原条件的报价")}
+            </button>
+          )}
+        </div>
+      )}
+      {view.state === "seller_verification" && (
+        <p role="status">
+          {t(
+            `Alice is checking the selected ${view.seller_check?.seller ?? "seller"} listing. The original fare will be repriced after this read.`,
+            `Alice 正在核对选中的 ${view.seller_check?.seller ?? "卖方"} 报价，完成后会重新核实原选项。`,
+          )}
+        </p>
+      )}
+      {view.seller_check?.status === "unverified" && (
         <p>
           {t(
-            "LetsFG could not verify a payable match with the required flights and baggage.",
-            "LetsFG 暂未核实符合原班次及行李要求的可付总价。",
+            "The exact listing did not establish all sectors, baggage and fees.",
+            "这张卖方页面未能同时核实所有航段、行李和费用。",
           )}
+        </p>
+      )}
+      {view.seller_check?.status === "page_verified" && (
+        <p>
+          {t("Verified on the selected listing", "已在所选页面核实")} ·{" "}
+          {currency(
+            view.seller_check.page_total_minor!,
+            src?.currency ?? "HKD",
+          )}{" "}
+          · {view.seller_check.page_weight_kg} kg
         </p>
       )}
       {view.state === "bank_approval" && (
@@ -598,7 +687,23 @@ export function LiveFlightCheckout({
           {t("Check original booking", "查回原订单")}
         </button>
       )}
-      {sourceLink && <p>{sourceLink}</p>}
+      {view.state === "seller_only" && selected?.booking_url ? (
+        <details>
+          <summary>{t("Original seller links", "原卖方链接")}</summary>
+          <p>
+            <a
+              href={selected.booking_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t("Selected LetsFG listing", "所选 LetsFG 报价")}
+            </a>
+          </p>
+          <p>{sourceLink}</p>
+        </details>
+      ) : (
+        sourceLink && <p>{sourceLink}</p>
+      )}
       {error && <p role="alert">{error}</p>}
     </section>
   );

@@ -579,3 +579,114 @@ def test_checkout_cannot_retain_a_charge_instruction_or_repeat_an_uncertain_subm
         )
         assert set(marker) == {"kind", "live_id", "live_scope", "saved"}
     assert "live_flight_checkout" not in marker and not marker["saved"]
+
+
+def test_live_delegated_kiwi_proposal_publishes_completed_original_to_chat(desk):
+    import asyncio
+    from desk.browser_research import current_chat_quote
+    from test_openai_live import config
+
+    d = desk
+
+    async def scenario():
+        source_events = asyncio.Queue()
+        client_events = asyncio.Queue()
+        shown = {}
+
+        def nested(value):
+            return {"type": "response.event", "delegation_id": "fixture-1", "event": value}
+
+        class Client:
+            async def send_json(self, event):
+                if event["type"] == "ready":
+                    shown["chat"] = event["conversation_id"]
+                    for item in (
+                        {"type": "response.created", "response": {"id": "r1"}},
+                        {
+                            "type": "response.output_item.done",
+                            "item": {
+                                "id": "i1",
+                                "type": "function_call",
+                                "call_id": "c1",
+                                "name": "browser_research_draft",
+                                "arguments": json.dumps(DRAFT),
+                            },
+                        },
+                        {
+                            "type": "response.completed",
+                            "response": {
+                                "id": "r1",
+                                "status": "completed",
+                                "output": [],
+                                "usage": {"input_tokens": 5, "output_tokens": 2},
+                            },
+                        },
+                    ):
+                        await source_events.put(nested(item))
+                if event["type"] == "proposal":
+                    pid = event["proposal"]["id"]
+                    shown["proposal"] = pid
+                    chat = d.r.voice.conversations.entries[shown["chat"]]
+                    assert d.r.live_flight_checkouts.last_proposal(chat)["id"] == pid
+                    decision = await asyncio.to_thread(
+                        d.c.post,
+                        f"/api/assistant/proposals/{pid}/decisions",
+                        headers={"X-Operation-Id": "share-voice-trip"},
+                        json={"action": "confirm", "share_itinerary": True},
+                    )
+                    decision.raise_for_status()
+                    shown["job"] = decision.json()["job"]["id"]
+                    await client_events.put({"type": "stop"})
+
+            async def iter_text(self):
+                while True:
+                    yield json.dumps(await client_events.get())
+
+            async def close(self):
+                pass
+
+        class Provider:
+            async def __aenter__(self):
+                return self
+
+            async def __aexit__(self, *args):
+                pass
+
+            def __aiter__(self):
+                async def events():
+                    while True:
+                        event = await source_events.get()
+                        yield json.dumps(event)
+                        if event["type"] == "session.closed":
+                            return
+
+                return events()
+
+            async def send(self, value):
+                kind = json.loads(value)["type"]
+                if kind == "session.start":
+                    await source_events.put({"type": "session.started"})
+                if kind == "session.close":
+                    await source_events.put({"type": "session.closed", "usage": {"seconds": 1}})
+
+        voice = d.r.voice
+        voice.config = config()
+        voice.connector = lambda *args, **kwargs: Provider()
+        principal = voice.consume(
+            voice.ticket(
+                {"kind": "owner", "id": "owner", "session": d.c.cookies["desk_companion_session"]}
+            )["ticket"]
+        )
+        await asyncio.wait_for(voice.run(Client(), principal, "zh"), 8)
+        return shown
+
+    observed = asyncio.run(scenario())
+    d.r.jobs.run_one()
+    assert d.r.jobs.detail(observed["job"])["state"] == "succeeded"
+    chat = d.r.voice.conversations.entries[observed["chat"]]
+    ref = current_chat_quote(d.r, chat)
+    assert ref["proposal_id"] == observed["proposal"] and ref["record_verified"]
+    assert ref["quote"]["price_minor"] == 338959 and ref["quote"]["request"]["return_date"] == BACK
+    reply = ask(d.c, "buy-voice-result", BUY, chat.id)
+    assert reply["live_flight_checkout"]["source"]["request"]["checked_bag_kg"] == 20
+    assert not d.source.searches and not d.source.submitted
