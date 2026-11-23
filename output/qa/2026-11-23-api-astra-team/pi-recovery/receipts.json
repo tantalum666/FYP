@@ -2,6 +2,15 @@
   "approved_helper_rollout": {
     "approved_source_commit": "ded3ecfd3566e872dc2292523fb0005c9100fea7",
     "boot_id_prefix": "a612ce21",
+    "bounded_postinstall_transport": {
+      "acknowledged_transport_checks": 110,
+      "elapsed_s": 1112,
+      "end_reason": "configured local observer expiry",
+      "further_device_stability_unmeasured": true,
+      "initial_probe_hkt": "2026-11-23T21:11:12+08:00",
+      "local_master_closed_hkt": "2026-11-23T21:29:45+08:00",
+      "local_observer_expiry_hkt": "2026-11-23T21:29:44+08:00"
+    },
     "deliberate_shutdown_or_reboot": false,
     "guard_completed_hkt": "2026-11-23T16:07:03+08:00",
     "independent_firmware_get_rtc_reg_matches_linux_and_owner_on_both_ticks": true,
