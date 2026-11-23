@@ -139,6 +139,10 @@ class Runtime:
         self.trips = TravelQuoteService(self)
         from .flight_booking.service import FlightBookings
         self.flight_bookings = FlightBookings(self)
+        from .flight_booking.live_oauth import LetsFGAccount
+        from .flight_booking.live_provider import LiveFlightProvider
+        self.letsfg_auth = LetsFGAccount(self)
+        self.live_flight_provider = LiveFlightProvider(self)
         from .shop_checkout.service import ShopOrders
         self.shop_orders = ShopOrders(self)
         self.store.operation_guard = self.agent_runs.guard_operation
