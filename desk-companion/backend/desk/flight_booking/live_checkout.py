@@ -9,6 +9,7 @@ from ..calendar import iso
 from ..commerce_review import ChatReviews
 from ..store import DomainError
 from . import checkout_source as sources
+from . import seller_verification
 from .timetable import departure_day
 
 
@@ -138,6 +139,20 @@ class LiveFlightCheckouts(ChatReviews):
         auth = getattr(self.runtime, "letsfg_auth", None)
         return auth.account() if auth else {"connected": False}
 
+    def _payable(self, row, offer):
+        checks = [*(row.get("seller_history") or []), row.get("seller_check") or {}]
+        for check in reversed(checks):
+            if (
+                check.get("seller") == "LetsFG"
+                and check.get("status") == "page_verified"
+                and (check.get("search_id"), check.get("offer_id"))
+                == (offer["search_id"], offer["offer_id"])
+            ):
+                if check.get("page_total_minor") != offer.get("total_minor"):
+                    return False
+                break
+        return sources.payable(row["source"], offer)
+
     def _view(self, row):
         source = row.get("source")
         options = row.get("offers") or []
@@ -155,10 +170,21 @@ class LiveFlightCheckouts(ChatReviews):
                 {
                     **{k: o.get(k) for k in PUBLIC_OFFER},
                     "number": i + 1,
-                    "payable": sources.payable(source, o),
+                    "payable": self._payable(row, o),
                 }
                 for i, o in enumerate(options)
             ],
+            "seller_check": {
+                k: v
+                for k, v in (row.get("seller_check") or {}).items()
+                if k in {"seller", "status", "observed_at", "page_total_minor", "page_weight_kg"}
+            },
+            "checked_sellers": [
+                entry["seller"]
+                for entry in (row.get("seller_history") or [])
+                if entry.get("number") == row.get("selected")
+            ],
+            "alternatives_checked": row.get("alternatives_checked"),
             "selected": row.get("selected"),
             "reason": row.get("reason"),
             "required_fields": row.get("required_fields", []),
@@ -293,6 +319,8 @@ class LiveFlightCheckouts(ChatReviews):
         with self.lock:
             if row["state"] in {"waiting_source", "research"}:
                 self._sync_source(principal, row)
+            elif row["state"] == "seller_verification":
+                self._finish_seller_check(principal, row)
             return self._view(row)
 
     def _search(self, principal, row, *, poll=False):
@@ -355,6 +383,9 @@ class LiveFlightCheckouts(ChatReviews):
             search_id=result.get("search_id"),
             offers=offers,
             selected=None,
+            seller_check=None,
+            seller_history=[],
+            alternatives_checked=None,
             receipt={},
             reason=result.get("reason")
             or (None if offers or state == "searching" else "no_matching_offer"),
@@ -389,14 +420,14 @@ class LiveFlightCheckouts(ChatReviews):
             return None
         changed = sources.consent_terms(offer) != sources.consent_terms(old)
         if (
-            not sources.payable(row["source"], offer)
+            not self._payable(row, offer)
             or changed
             or row.get("selected") != number
             or row["state"] != "review"
         ):
             choices = list(row["offers"])
             choices[number - 1] = offer
-            state = "review" if sources.payable(row["source"], offer) else "seller_only"
+            state = "review" if self._payable(row, offer) else "seller_only"
             self._write(
                 principal,
                 row,
@@ -409,7 +440,89 @@ class LiveFlightCheckouts(ChatReviews):
             )
         return offer
 
-    def action(self, principal, chat, ident, action, version, number=None):
+    def _finish_seller_check(self, principal, row):
+        if not self._sync_source(principal, row):
+            return
+        check = seller_verification.read(self.runtime, row, self.owner(principal))
+        if check is None:
+            return
+        previous = [
+            e
+            for e in (row.get("seller_history") or [])
+            if (e["seller"], e.get("number")) != (check["seller"], check.get("number"))
+        ]
+        history = [
+            *previous,
+            {
+                k: check[k]
+                for k in (
+                    "seller",
+                    "number",
+                    "status",
+                    "search_id",
+                    "offer_id",
+                    "page_total_minor",
+                    "page_weight_kg",
+                )
+                if k in check
+            },
+        ][-16:]
+        self._write(
+            principal,
+            row,
+            seller_check=check,
+            seller_history=history,
+            state="seller_only",
+            reason="public_page_checked",
+        )
+        if check.get("number") and self._account().get("connected"):
+            self._refresh_offer(principal, row, check["number"])
+
+    def _other_original_offers(self, principal, row):
+        original = row.get("offers") or []
+        chosen = row.get("selected")
+        candidates = [offer for number, offer in enumerate(original, 1) if number != chosen][:4]
+        if not candidates:
+            raise DomainError("FLIGHT_NO_OTHER", 409)
+        found = []
+        query = sources.query_for(row["source"])
+        for old in candidates:
+            current = self.runtime.live_flight_provider.reprice(
+                query, old["search_id"], old["offer_id"], principal=principal
+            )
+            fresh = next(
+                (
+                    offer
+                    for offer in current.get("offers", [])
+                    if (offer["search_id"], offer["offer_id"])
+                    == (old["search_id"], old["offer_id"])
+                    and sources.compatible(row["source"], offer)
+                ),
+                None,
+            )
+            if fresh:
+                found.append(fresh)
+        if found:
+            self._write(
+                principal,
+                row,
+                state="offers",
+                offers=found,
+                selected=None,
+                alternatives_checked=len(candidates),
+                reason=None,
+                seller_check=None,
+            )
+        else:
+            self._write(
+                principal,
+                row,
+                state="seller_only",
+                alternatives_checked=len(candidates),
+                reason="no_verified_alternative",
+            )
+
+    def action(self, principal, chat, ident, action, version, number=None, share_seller_page=False):
         with self.lock:
             row = self._get(ident, self.owner(principal), chat)
             if action == "status" and row["state"] in PAYMENT_STATES:
@@ -418,7 +531,30 @@ class LiveFlightCheckouts(ChatReviews):
                 raise DomainError("FLIGHT_LIVE_REVIEW_CHANGED", 409)
             if not self._sync_source(principal, row):
                 return self._view(row)
-            if action == "search" and row["state"] in {
+            if action in {"verify_seller", "verify_original"} and row["state"] in {
+                "source",
+                "offers",
+                "seller_only",
+            }:
+                if not share_seller_page:
+                    raise DomainError("BROWSER_SHARING_REQUIRED", 422)
+                choice = number if number is not None else row.get("selected")
+                check = seller_verification.begin(
+                    self.runtime, principal, row, choice, original=action == "verify_original"
+                )
+                self._write(
+                    principal,
+                    row,
+                    state="seller_verification",
+                    seller_check=check,
+                    selected=choice,
+                    reason=None,
+                )
+            elif action == "other_offers" and row["state"] in {"seller_only", "offers"}:
+                self._other_original_offers(principal, row)
+            elif action == "status" and row["state"] == "seller_verification":
+                self._finish_seller_check(principal, row)
+            elif action == "search" and row["state"] in {
                 "source",
                 "offers",
                 "seller_only",
@@ -516,7 +652,7 @@ class LiveFlightCheckouts(ChatReviews):
                     reason="review_expired",
                 )
                 return self._view(row)
-            if not sources.payable(row["source"], offer) or amount != offer.get("total_minor"):
+            if not self._payable(row, offer) or amount != offer.get("total_minor"):
                 raise DomainError("FLIGHT_LIVE_REVIEW_CHANGED", 409)
             if len(passengers) != row["source"]["request"]["adults"]:
                 raise DomainError("FLIGHT_PASSENGER_DETAILS_REQUIRED", 422)

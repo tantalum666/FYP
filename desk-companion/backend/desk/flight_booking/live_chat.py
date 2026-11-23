@@ -83,11 +83,17 @@ def describe(view, zh):
                 else "I’ve checked the itinerary and total including baggage. Your purchase review is ready."
             )
         )
+    if state == "seller_verification":
+        return (
+            "我正在只读查看这张卖方报价的全程行李和含费总价，完成后会重新核价。"
+            if zh
+            else "I’m checking the baggage and all-in price on this exact seller listing, then I’ll reprice the original offer."
+        )
     if state == "seller_only":
         return (
-            "暂时没有能核实原班次、往返和所需行李总价的 LetsFG 报价。可以打开 Kiwi 的原报价，查看卖方条款。"
+            "LetsFG 暂未核实原班次和所需行李的总价。我可以查看这张卖方报价的具体条款，再核对原选项。"
             if zh
-            else "LetsFG has no verified payable match for the original flights and baggage. Open the original Kiwi offer to check the seller’s terms."
+            else "LetsFG has not verified the original flights and baggage at a payable total. I can inspect the exact seller listing and recheck the offer."
         )
     receipts = {
         "completed": (

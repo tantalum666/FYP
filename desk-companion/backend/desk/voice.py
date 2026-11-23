@@ -389,8 +389,17 @@ class VoiceService:
             if isinstance(protocol, OpenAILiveProtocol):
                 source = view.get('source') or {}
                 event = None
-                if language=='zh' and source.get('currency')=='HKD' and type(source.get('listed_minor')) is int and hasattr(protocol, 'fare_readback'):
-                    event=protocol.fare_readback(source['listed_minor'],review_sentence=sentence)
+                minor = None
+                if view['state']=='source' and source.get('currency')=='HKD':
+                    minor=source.get('listed_minor')
+                elif view['state']=='review' and view.get('selected'):
+                    option=view['choices'][view['selected']-1]
+                    if option.get('payable') and option.get('currency')=='HKD':
+                        minor=option.get('total_minor')
+                elif view['state']=='completed' and view.get('receipt',{}).get('currency')=='HKD':
+                    minor=view['receipt'].get('charged_minor')
+                if language=='zh' and type(minor) is int and hasattr(protocol, 'fare_readback'):
+                    event=protocol.fare_readback(minor,review_sentence=sentence)
                 instruction = "For this flight request give the owner this verified next step: " + sentence
                 if event is None:
                     event = (protocol.spoken_instruction(instruction) if hasattr(protocol, 'spoken_instruction') else

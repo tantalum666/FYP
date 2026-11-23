@@ -94,7 +94,21 @@ class RetailPrice(ListedPrice):
     fulfilment: Literal["delivery", "pickup", "unknown"]
 
 
+class SellerSector(StrictModel):
+    direction: Literal["outbound", "inbound"]
+    origin: Airport
+    destination: Airport
+    flight: str = Field(pattern=r"^[A-Z0-9]{2,3}\d{1,5}[A-Z]?$")
+    operating_carrier: str = Field(min_length=1, max_length=100)
+    departs: str = Field(min_length=10, max_length=40)
+
+
 class Airfare(ListedPrice):
+    ticketed_sectors: list[SellerSector] | None = Field(default=None,max_length=16,exclude_if=lambda value: value is None)
+    seller_offer_reference: str | None = Field(default=None,max_length=160,exclude_if=lambda value: value is None)
+    included_checked_bags_for_party: int | None = Field(default=None,ge=0,le=36,strict=True,exclude_if=lambda value: value is None)
+    baggage_coverage: Literal['all_ticketed_segments_for_every_traveller','partial','unknown'] | None = Field(default=None,exclude_if=lambda value: value is None)
+    baggage_evidence: ShortText | None = Field(default=None,exclude_if=lambda value: value is None)
     origin: Airport | None
     destination: Airport | None
     departure: Day | None

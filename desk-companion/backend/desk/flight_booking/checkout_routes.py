@@ -20,7 +20,10 @@ class SourceChoice(StrictModel):
 class Action(StrictModel):
     conversation_id: str = Field(min_length=1, max_length=128)
     version: int = Field(strict=True, ge=1)
-    action: Literal["search", "select", "status"]
+    action: Literal[
+        "search", "select", "status", "verify_seller", "verify_original", "other_offers"
+    ]
+    share_seller_page: bool = Field(default=False, strict=True)
     number: int | None = Field(default=None, strict=True, ge=1, le=8)
 
 
@@ -94,7 +97,13 @@ def routes(runtime, authenticated):
     @router.post("/{ident}/actions")
     def act(ident: str, req: Action, principal=Depends(who)):
         return service.action(
-            principal, req.conversation_id, ident, req.action, req.version, req.number
+            principal,
+            req.conversation_id,
+            ident,
+            req.action,
+            req.version,
+            req.number,
+            req.share_seller_page,
         )
 
     @router.post("/{ident}/confirm")
