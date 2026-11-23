@@ -6,13 +6,17 @@ import unicodedata
 from ..commerce_review import ReviewDecision, language_for
 from ..store import DomainError
 from .provider import ShopQuery
+from .terms import ShopReviewRef
 
 TOOL = {
     "name": "sandbox_shop_quote",
     "description": (
         "Prepare one quote for the owner's entire basket from the WooCommerce TEST shop. "
         "Send every requested product name in its original language or exact SKU and selling-unit quantity "
-        "in one items array. For one product you may send product and quantity instead. "
+        "in one items array. Include budget_minor and its original currency, each item's required_attributes "
+        "(including any requested color, size or other variant), its same-family alternative_search when known, "
+        "and only other quantities the owner explicitly allowed in allowed_quantities. "
+        "For one unconstrained product you may send product and quantity instead. "
         "Ask if any item or quantity is missing or ambiguous. The shop computes one full HKD cart with Hong Kong delivery. "
         "For price research on a named real merchant use browser_research_draft instead. No real goods or money. "
         "This function cannot place an order, approve a price or charge a card. The owner confirms the displayed exact cart and each change."
@@ -27,9 +31,33 @@ def price(n):
 
 def describe(row, language):
     q = row["quote"]
-    t = q["terms"]
     zh = language == "zh"
+    if row["state"] == "choosing":
+        product = row["unavailable_product"]
+        lines = [f"{product} 无法按原要求购买。可重新核价：" if zh else
+                 f"{product} is unavailable as requested. Choose an option to recheck:"]
+        if row.get("unavailable_reason"):
+            lines[0] = "刚选的方案已不可用。其他可选方案：" if zh else "That choice is no longer available. Other options:"
+        for option in row["alternatives"]:
+            i = option["number"]
+            name = f"{option['name']} ({option['sku']}) × {option['quantity']}"
+            shipping, total = price(option["shipping_minor"]), price(option["total_minor"])
+            lines.append(f"{i}. {name} · 运费 {shipping} · 整单 {total}" if zh else
+                         f"{i}. {name} · delivery {shipping} · basket {total}")
+        return "\n".join(lines)
+    if row["state"] == "items_changed":
+        change = row["checkout_change"]
+        removed, added = ", ".join(change["removed"]), ", ".join(change["added"])
+        delta = " → ".join([removed or ("无" if zh else "none"), added or ("无" if zh else "none")])
+        total = price(change["total_minor"])
+        same = change["total_minor"] == row["review_minor"]
+        if zh:
+            return f"商店在付款前拦下了商品变更：{delta}。总价{'仍为' if same else '变为'} {total}。请重新选购。"
+        return f"The shop stopped checkout before payment. {delta}. Total {'still' if same else 'now'} {total}. Request a fresh quote."
+    if row["state"] == "unavailable" and row.get("unavailable_reason"):
+        return failure(row["unavailable_reason"], language)
     if row["state"] == "quoted":
+        t = q["terms"]
         lines = t.get("items", [])
         if len(lines) > 1:
             subject = f"{len(lines)} 种商品" if zh else f"{len(lines)} products"
@@ -41,6 +69,7 @@ def describe(row, language):
             else f"{subject}. Items {price(t['subtotal_minor'])}, delivery {price(t['shipping_minor'])}, order total {price(t['total_minor'])}. Confirm to make the test payment."
         )
     if row["state"] == "reprice":
+        t = q["terms"]
         old = row["previous"]["terms"]
         if old["total_minor"] == t["total_minor"]:
             return (
@@ -166,6 +195,71 @@ def owner_decision(message):
     return None
 
 
+def matching_options(text, options):
+    """None for ordinary conversation, [] for an unmatched selection."""
+    label = re.sub(r"^(?:choose |select |recheck |选择\s*|选\s*)", "", text).strip()
+    ordinals = {"first": 1, "second": 2, "third": 3, "一": 1, "二": 2, "三": 3}
+    ordinal = re.fullmatch(
+        r"(?:the |option |第)?(first|second|third|[一二三0-9])(?: one| option|个|项)?", label
+    )
+    if ordinal:
+        n = int(ordinal[1]) if ordinal[1].isdigit() else ordinals[ordinal[1]]
+        return [i for i, option in enumerate(options) if option["number"] == n]
+    name, *count = re.split(r"\s*[×]\s*|\s+x\s+(?=\d+$)", label, maxsplit=1)
+    named = [
+        i for i, option in enumerate(options) if name in {
+            unicodedata.normalize("NFKC", option[k]).casefold() for k in ("name", "sku")
+        }
+    ]
+    if named or label != text:
+        return [i for i in named if not count or str(options[i]["quantity"]) == count[0]]
+    return None
+
+
+def clarify(code, lang):
+    return {"mode": "local", "kind": "clarify", "error": code, "message": failure(code, lang), "saved": False}
+
+
+def choice_turn(service, ref, action, text, principal, chat, lang):
+    if ref:
+        if ref.amount_minor is not None:
+            return None
+        offered = service.read(ref.id, service.owner(principal), chat)
+        if offered["version"] != ref.version or offered["state"] != "choosing":
+            raise DomainError("SHOP_REVIEW_CHANGED", 409)
+    else:
+        rows = service.listing(principal, chat)
+        offers = [r for r in rows if r["state"] == "choosing"]
+        if not offers:
+            return None
+        if len(offers) > 1 or (action and any(r["state"] in {"quoted", "reprice", "retry"} for r in rows)):
+            if action or any(matching_options(text, r["alternatives"]) is not None for r in offers):
+                return clarify("SHOP_SELECT_CARD", lang)
+            return None
+        offered = offers[0]
+        ref = ShopReviewRef(id=offered["id"], version=offered["version"], amount_minor=None)
+
+    matches = matching_options(text, offered["alternatives"])
+    if action and action[0] == "decline":
+        index = None
+    elif matches is not None and len(matches) == 1 and not action:
+        index = matches[0]
+    elif action or matches is not None:
+        return clarify("SHOP_CHOICE_AMBIGUOUS", lang)
+    else:
+        return None
+    try:
+        row = service.choose(ref, index, principal, chat)
+    except DomainError as error:
+        if error.code in {"SHOP_REVIEW_CHANGED", "SHOP_NOT_FOUND"}:
+            raise
+        return clarify(error.code, lang)
+    return {
+        "mode": "local", "kind": "shopping_order", "shopping_order": row,
+        "message": describe(row, lang), "saved": True,
+    }
+
+
 def turn(runtime, payload, principal, chat):
     if (
         not chat
@@ -180,6 +274,25 @@ def turn(runtime, payload, principal, chat):
     lang = language_for(payload.message, payload.language)
     ref = payload.shopping_review
     action = owner_decision(payload.message)
+    text = unicodedata.normalize("NFKC", payload.message).strip().casefold().rstrip("。.!！")
+    service = runtime.shop_orders
+    if text in {"find same-store alternatives", "查找同店替代商品"}:
+        if not ref:
+            rows = service.listing(principal, chat.id)
+            if len(rows) != 1 or not rows[0].get("can_search_again"):
+                return clarify("SHOP_SELECT_CARD", lang)
+            row = rows[0]
+            ref = ShopReviewRef(id=row["id"], version=row["version"], amount_minor=row["review_minor"])
+        try:
+            result = service.search_again(ref, principal, chat.id)
+        except DomainError as error:
+            if error.code == "SHOP_REVIEW_CHANGED":
+                raise
+            return clarify(error.code, lang)
+        return {"mode": "local", "kind": "reply", "message": "", **result}
+
+    if result := choice_turn(service, ref, action, text, principal, chat.id, lang):
+        return result
     if (
         action
         and not ref
@@ -223,6 +336,16 @@ def turn(runtime, payload, principal, chat):
 
 def failure(code, lang):
     msg = {
+        "SHOP_CHOICE_AMBIGUOUS": (
+            "请选择一个方案编号，或指定完整 SKU 和数量。",
+            "Choose an option number, or specify its exact SKU and quantity.",
+        ),
+        "SHOP_SELECT_CARD": ("请从对应的购物卡选择。", "Choose from the matching shopping card."),
+        "SHOP_CURRENCY_UNAVAILABLE": (
+            "这家测试店以港币结账，无法按要求的币种报价。",
+            "This test shop checks out in HKD and cannot quote the requested currency.",
+        ),
+        "SHOP_OVER_BUDGET": ("整单含运费已超出原预算。", "The basket including delivery exceeds the original budget."),
         "SHOP_NO_MATCH": (
             "测试店没有找到这个商品，请核对商品名称或 SKU。",
             "No matching product in the test shop. Check the product name or SKU.",

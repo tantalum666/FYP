@@ -216,7 +216,7 @@ def context_instructions(runtime, principal, chat, context):
                 {k: row[k] for k in ("quote", "state", "receipt")} for row in orders[:3]
             ]
         instructions.append(
-            "For an owner asking to shop (买、购买 or 购物), call sandbox_shop_quote once with every requested product name in its original language and its exact quantity. Ask about any unclear item before quoting the basket. The shop quotes the whole cart and Hong Kong delivery. For existing orders use the matching chat receipt. Its net deducts only settled refunds. Report pending funds separately, unknown amounts as unverified and last_verified amounts as historical. A buyer cancellation or refund is confirmed only by the local merchant/payment receipts. You cannot refund, pay or approve a revision."
+            "For an owner asking to shop (买、购买 or 购物), call sandbox_shop_quote once with every exact product and quantity, budget_minor and currency, and all required variant attributes. For alternatives keep the same product family and only quantities the owner allowed. Ask about unclear constraints. The shop quotes the whole cart and Hong Kong delivery. For existing orders use the matching chat receipt. Its net deducts only settled refunds. Report pending funds separately, unknown amounts as unverified and last_verified amounts as historical. A buyer cancellation or refund is confirmed only by the local merchant/payment receipts. You cannot select a substitute, refund, pay or approve a revision."
         )
     if runtime.flight_bookings.enabled:
         if "revisit_flight_shortlist" in tools:
@@ -245,5 +245,5 @@ def context_instructions(runtime, principal, chat, context):
                 "For an owner asking to book a flight (订票 or 订航班), use sandbox_flight_quote for its initial test fare. When the owner asks to avoid their schedule, set avoid_calendar_conflicts=true. The fare Function compares locally, so this comparison does not need a separate calendar_query. Keep it on when rechecking that choice. Only the owner can approve. Distinguish booking from real-market fare research and ask if the itinerary is unclear."
             )
     if instructions:
-        instructions.append("Monetary fields ending in _minor are HKD minor units.")
+        instructions.append("Sandbox checkout totals are in HKD minor units. Keep the owner's shopping budget in its original currency.")
     return "\n".join(["", *instructions]) if instructions else ""

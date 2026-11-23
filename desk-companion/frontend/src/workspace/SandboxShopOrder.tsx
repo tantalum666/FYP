@@ -20,14 +20,39 @@ export function SandboxShopCard({
   busy: boolean;
   onDecision: (text: string, review: CommerceRef) => void;
 }) {
-  const { quote: q, receipt: r } = order,
-    terms = q.terms,
-    total = hkd(order.review_minor);
+  const { quote: q, receipt: r } = order;
+  const choose = (message: string) =>
+    onDecision(message, reviewRef(order, "shop"));
+  const findAlternatives = order.can_search_again && (
+    <button type="button" disabled={busy} onClick={() => choose(t("Find same-store alternatives", "查找同店替代商品"))}>
+      {t("Find same-store alternatives", "查找同店替代商品")}
+    </button>
+  );
+  if (!q) return (
+    <section className="assistant-action-card commerce-order" aria-label={t("Test shop order", "测试购物订单")}>
+      <strong>{shopStatus(order, t)}</strong>
+      {order.state === "choosing" && (
+        <>
+          {order.unavailable_reason && <p role="status">{t("That choice is no longer available.", "刚选的方案已不可用。")}</p>}
+          {order.alternatives?.map((option) => (
+            <button type="button" className="commerce-choice" disabled={busy} key={option.number}
+              onClick={() => choose(t(`Recheck ${option.sku} × ${option.quantity}`, `选 ${option.sku} × ${option.quantity}`))}>
+              <strong>{option.number}. {option.name} × {option.quantity}</strong>
+              <span>{option.sku} · {t("Delivery", "运费")} {hkd(option.shipping_minor)}</span>
+              <b>{t("Basket", "整单")} {hkd(option.total_minor)}</b>
+            </button>
+          ))}
+          <button type="button" disabled={busy} onClick={() => choose(t("Cancel", "取消购物"))}>{t("Cancel", "取消")}</button>
+        </>
+      )}
+      {findAlternatives}
+    </section>
+  );
+  const terms = q.terms,
+    total = hkd(terms.total_minor);
   const revised = order.state === "reprice",
     retry = order.state === "retry",
     atCheckout = order.state === "quoted" || revised || retry;
-  const choose = (message: string) =>
-    onDecision(message, reviewRef(order, "shop"));
   const receiptAmount = (minor?: number | null) =>
     minor == null ? t("Unverified", "待核实") : hkd(minor);
   const fields = (
@@ -182,6 +207,7 @@ export function SandboxShopCard({
           <summary>{shopStatus(order, t)}</summary>
           <div className="commerce-detail-body">
             {fields}
+            {findAlternatives}
             {order.state === "refund_review" && (
               <p>
                 {t(

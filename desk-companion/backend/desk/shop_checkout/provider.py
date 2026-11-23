@@ -11,8 +11,11 @@ import re
 import httpx
 
 from ..store import DomainError
+from . import catalog
+from .catalog import response_json as _json
 from .terms import (
-    MAX_QUANTITY,
+    CheckoutItemsChanged,
+    ItemUnavailable,
     ShopQuery,
     cart_quote,
     checked_terms,
@@ -47,13 +50,30 @@ def _private(path):
     return json.loads(path.read_text())
 
 
-def _json(response):
-    if not response.is_success:
-        raise DomainError("SHOP_PROVIDER_UNAVAILABLE", 503)
-    try:
-        return response.json()
-    except ValueError:
-        raise DomainError("SHOP_PROVIDER_UNAVAILABLE", 503) from None
+def order_mapped(shop, path, auth):
+    record = _json(shop.get(path, headers=auth))
+    if not isinstance(record, dict) or type(record.get("found")) is not bool:
+        raise DomainError("SHOP_UNVERIFIED", 502)
+    return record["found"]
+
+
+def rejected_items(shop, approved, actual):
+    names = {
+        (line["product_id"], line["sku"]): approved["item_names"][str(line["product_id"])]
+        for line in approved["terms"]["items"]
+    }
+    for line in actual["items"]:
+        key = (line["product_id"], line["sku"])
+        if key not in names:
+            # The authenticated guard identifies the rejected SKU. Its display
+            # name is optional if that exact catalog record has since gone.
+            try:
+                product = catalog.lookup(shop, line["sku"])
+            except (DomainError, httpx.HTTPError):
+                continue
+            if product and (product["id"], product["sku"]) == key:
+                names[key] = html.unescape(product["name"])
+    return CheckoutItemsChanged(approved["terms"], actual, names)
 
 
 class WooSandbox:
@@ -101,6 +121,9 @@ class WooSandbox:
 
     @staticmethod
     def cart(shop, requested, quantity=None):
+        # Each candidate gets a new guest cart, including on stores which set
+        # a Woo session cookie alongside the Store API Cart-Token.
+        shop.cookies.clear()
         token = shop.get("wc/store/v1/cart")
         _json(token)
         if not token.headers.get("Cart-Token"):
@@ -116,7 +139,7 @@ class WooSandbox:
                 "wc/store/v1/cart/add-item", json={"id": ident, "quantity": count}, headers=headers
             )
             if added.status_code in {400, 404, 409}:
-                raise DomainError("SHOP_ITEM_UNAVAILABLE", 409)
+                raise ItemUnavailable(ident)
             _json(added)
         cart = _json(
             shop.post(
@@ -127,58 +150,15 @@ class WooSandbox:
         )
         return cart_quote(cart, requested, quantity), headers
 
-    @staticmethod
-    def resolve(shop, search):
-        if not search:
-            raise DomainError("SHOP_NO_MATCH", 404)
-        path = "wc/store/v1/products"
-        # Woo excludes variations from its normal catalog. Only a concrete SKU
-        # can select a variation; a variable parent needs an owner choice.
-        for filters in ({"sku": search}, {"sku": search, "type": "variation"}):
-            rows = _json(shop.get(path, params={**filters, "per_page": 20}))
-            candidates = [p for p in rows if (p.get("sku") or "").casefold() == search.casefold()]
-            if candidates:
-                break
-        else:
-            response = shop.get(path, params={"search": search, "per_page": 20})
-            rows = _json(response)
-            if response.headers.get("X-WP-TotalPages", "1") not in {"0", "1"}:
-                raise DomainError("SHOP_AMBIGUOUS", 409)
-            exact = [p for p in rows if html.unescape(p["name"]).casefold() == search.casefold()]
-            sku_like = re.fullmatch(r"[A-Z0-9]+(?:-[A-Z0-9]+)+", search, re.I)
-            candidates = exact or ([] if sku_like else rows)
-        if not candidates:
-            raise DomainError("SHOP_NO_MATCH", 404)
-        if len(candidates) != 1 or candidates[0].get("type") == "variable":
-            raise DomainError("SHOP_AMBIGUOUS", 409)
-        product = candidates[0]
-        if product.get("type") == "variation" and search.casefold() != product["sku"].casefold():
-            raise DomainError("SHOP_AMBIGUOUS", 409)
-        if (
-            product.get("type") not in {"simple", "variation"}
-            or not isinstance(product.get("sku"), str)
-            or not product["sku"]
-            or product.get("is_purchasable") is not True
-            or product.get("is_in_stock") is not True
-        ):
-            raise DomainError("SHOP_ITEM_UNAVAILABLE", 409)
-        if type(product.get("id")) is not int or product["id"] <= 0:
-            raise DomainError("SHOP_UNVERIFIED", 502)
-        return product["id"], product["sku"]
-
     def quote(self, query: ShopQuery):
+        if query.currency not in {None, "HKD"}:
+            raise DomainError("SHOP_CURRENCY_UNAVAILABLE", 409)
         with self.shop() as (shop, _):
-            requested = {}
-            for item in query.requested_items():
-                ident, sku = self.resolve(shop, item.product.strip())
-                prior_sku, count = requested.get(ident, (sku, 0))
-                if prior_sku != sku:
-                    raise DomainError("SHOP_UNVERIFIED", 502)
-                count += item.quantity
-                if count > MAX_QUANTITY:
-                    raise DomainError("SHOP_QUANTITY_LIMIT", 409)
-                requested[ident] = (sku, count)
-            return self.cart(shop, requested)[0]
+            return catalog.quote_query(shop, query, self.cart)
+
+    def requote(self, option):
+        with self.shop() as (shop, _):
+            return catalog.requote(shop, option["quote"], self.cart)
 
     @contextmanager
     def stripe(self):
@@ -225,12 +205,16 @@ class WooSandbox:
 
     def checkout(self, ref, approved):
         terms = approved["terms"]
+        limits = approved.get("limits", {})
         with self.shop() as (shop, auth):
             path = "fyp-alice/v1/orders/" + ref
-            if _json(shop.get(path, headers=auth)).get("found"):
+            if order_mapped(shop, path, auth):
                 return None
             cart_args = (selection(terms),) if "items" in terms else (terms["product_id"], terms["quantity"])
+            if "items" in terms:
+                catalog.verify_products(shop, cart_args[0], limits)
             current, cart_headers = self.cart(shop, *cart_args)
+            current = catalog.with_limits(current, limits)
             basis = approved.get("checkout_basis", approved)
             if "items" not in terms and "items" in current["terms"]:
                 if current["terms"]["items"][0]["sku"] != terms["sku"]:
@@ -244,17 +228,33 @@ class WooSandbox:
                 json={"approved": terms, "cart_basis": basis["terms"], "test_method": method},
                 timeout=35,
             )
-            if resp.status_code == 409 and resp.json().get("code") == "fyp_quote_changed":
-                # A final Woo calculation changed after the cart read, before its gateway.
+            if resp.status_code == 409:
+                try:
+                    conflict = resp.json()
+                except ValueError:
+                    raise DomainError("SHOP_UNVERIFIED", 502) from None
+                if not isinstance(conflict, dict):
+                    raise DomainError("SHOP_UNVERIFIED", 502)
+                if conflict.get("code") != "fyp_quote_changed":
+                    _json(resp)
+                # Only our authenticated pre-gateway guard attaches a revision. Inspect
+                # the rejected order before rebuilding a cart that may still look unchanged.
+                data = conflict.get("data")
+                if not isinstance(data, dict) or order_mapped(shop, path, auth):
+                    raise DomainError("SHOP_UNVERIFIED", 409)
+                revision = data.get("revision")
+                if isinstance(revision, dict) and "items" in terms:
+                    actual = checked_terms(revision.get("terms"))
+                    if selection(actual) != selection(terms):
+                        raise rejected_items(shop, approved, actual)
                 with self.shop() as (fresh, _):
-                    revised = self.cart(fresh, *cart_args)[0]
+                    revised = catalog.with_limits(self.cart(fresh, *cart_args)[0], limits)
                 if revised != basis:
                     return revised
-                revision = resp.json().get("data", {}).get("revision")
                 if revision:
                     result = checkout_revision(revised, revision)
                     if result["terms"] != terms:
-                        return result
+                        return catalog.with_limits(result, limits)
                 raise DomainError("SHOP_UNVERIFIED", 409)
             _json(resp)
             return None

@@ -35,6 +35,7 @@ from .flight_booking.provider import BookedFlightCalendarQuery, FlightQuery
 from .commerce_review import ReviewRef
 from .shop_checkout.conversation import TOOL as SHOP_QUOTE_TOOL
 from .shop_checkout.provider import ShopQuery
+from .shop_checkout.terms import ShopReviewRef
 from .tool_audit import ToolAudit, channel_for
 from .open_time import answer_open_time
 from .owner_lookup import (
@@ -61,7 +62,7 @@ class AssistantMessage(StrictModel):
     voice_origin_ref: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
     voice_steer: bool = Field(default=False, strict=True)
     flight_review: ReviewRef | None = None
-    shopping_review: ReviewRef | None = None
+    shopping_review: ShopReviewRef | None = None
     # Omit the default from serialized requests so previously saved operation hashes still match.
     calendar_flight_choice: FlightQuery | None = Field(default=None, exclude_if=lambda choice: choice is None)
     flight_calendar_requested: bool = Field(default=False, strict=True, exclude_if=lambda value: not value)

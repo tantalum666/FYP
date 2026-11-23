@@ -6,6 +6,7 @@ import unicodedata
 from .commerce_review import ReviewDecision, ReviewRef, language_for
 from .flight_booking.conversation import describe as flight_message
 from .shop_checkout.conversation import describe as shop_message
+from .shop_checkout.terms import ShopReviewRef
 
 
 # Only a direct owner command can contact a merchant. Questions and quoted
@@ -169,7 +170,7 @@ def turn(runtime, payload, principal, chat):
             return choose_order
         only = rows[0]
         if not ref or ref.id != only["id"]:
-            ref = ReviewRef(
+            ref = (ShopReviewRef if shop else ReviewRef)(
                 id=only["id"], version=only["version"], amount_minor=only["review_minor"]
             )
     current = service.read(ref.id, owner, chat.id)
@@ -240,6 +241,8 @@ def turn(runtime, payload, principal, chat):
         }
     if action == "read":
         row = service.reopen(ref.id, principal, chat.id)
+    elif shop and current["state"] == "choosing":
+        row = service.choose(ref, None, principal, chat.id)
     elif current["state"] == "quoted" or (shop and current["state"] == "reprice"):
         row = service.decide(
             ReviewDecision(**ref.model_dump(), action="decline"), principal, chat.id

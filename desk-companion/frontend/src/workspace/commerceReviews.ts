@@ -53,6 +53,7 @@ const settled = new Set([
   "completed",
   "expired",
   "unavailable",
+  "items_changed",
   "failed",
   "unverified",
   "refunded",

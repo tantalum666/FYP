@@ -35,14 +35,17 @@ type ShopQuote = {
       };
     }
 );
-export interface SandboxShop {
+export type SandboxShop = {
   id: string;
   version: number;
   state: string;
-  quote: ShopQuote;
   previous: ShopQuote | null;
-  review_minor: number;
   approved_minor: number | null;
+  unavailable_product?: string;
+  unavailable_reason?: string;
+  can_search_again?: boolean;
+  alternatives?: { number: number; name: string; sku: string; quantity: number; shipping_minor: number; total_minor: number }[];
+  checkout_change?: { removed: string[]; added: string[]; total_minor: number };
   cancel_unavailable?: boolean;
   receipt: {
     order: number;
@@ -56,7 +59,7 @@ export interface SandboxShop {
     pending_minor?: number | null;
     last_verified?: boolean;
   } | null;
-}
+} & ({ quote: ShopQuote; review_minor: number } | { quote: null; review_minor: null });
 
 export type CalendarFit = "clear" | "conflict" | "unknown";
 export function calendarFitLabel(fit: CalendarFit, t: Translate) {
@@ -104,7 +107,7 @@ export type CommerceReview =
 export type CommerceRef = {
   id: string;
   version: number;
-  amount_minor: number;
+  amount_minor: number | null;
   kind: CommerceReview["kind"];
 };
 export type StatusMark = Pick<
@@ -115,7 +118,7 @@ export const orderKey = (row: Pick<StatusMark, "kind" | "id">) =>
   row.kind + "/" + row.id;
 export const hkd = (minor: number) => `HK$${(minor / 100).toFixed(2)}`;
 export const needsDecision = (row: { state: string }) =>
-  ["quoted", "reprice", "submit_unknown", "retry"].includes(row.state);
+  ["choosing", "quoted", "reprice", "submit_unknown", "retry"].includes(row.state);
 export const needsOwnerReview = (row: CommerceReview) =>
   needsDecision(row) ||
   row.state === "refund_retry" ||
@@ -187,6 +190,7 @@ const shopStates: Record<string, [string, string]> = {
   refund_retry: ["Cancellation unconfirmed", "撤单尚未确认"],
   retry: ["Payment unconfirmed", "扣款尚未确认"],
   expired: ["Quote expired", "报价已过期"],
+  choosing: ["Choose an alternative", "请选择替代商品"],
   unavailable: ["Basket unavailable", "购物清单无法结账"],
   cancelled: ["Cancelled before payment", "已取消，未付款"],
   failed: ["Payment failed", "付款未完成"],
@@ -203,7 +207,14 @@ export function shopTitle(q: ShopQuote, t: Translate): string {
 
 export function shopStatus(row: SandboxShop, t: Translate): string {
   const r = row.receipt,
-    item = r ? `#${r.order}` : shopTitle(row.quote, t);
+    item = r ? `#${r.order}` : row.quote ? shopTitle(row.quote, t) : row.unavailable_product;
+  if (row.state === "items_changed" && row.checkout_change) {
+    const { removed, added, total_minor } = row.checkout_change;
+    const delta = [removed, added].map((lines) => lines.join(", ") || t("None", "无")).join(" → ");
+    return `${t("Checkout stopped", "结账已停止")} · ${delta} · ${total_minor === row.review_minor ? t("Total still", "总价仍为") : t("New total", "新总价")} ${hkd(total_minor)}`;
+  }
+  if (row.state === "unavailable" && row.unavailable_reason === "SHOP_OVER_BUDGET")
+    return `${item} · ${t("Over the original budget", "超出原预算")}`;
   if (r?.last_verified) return `${item} · ${t("Receipt needs checking", "回执待核实")}`;
   if (row.state === "refunded" && r?.refunded_minor != null)
     return `${item} · ${t("Refunded", "已退款")} ${hkd(r.refunded_minor)}`;
@@ -211,8 +222,8 @@ export function shopStatus(row: SandboxShop, t: Translate): string {
     return `${item} · ${t("Cancellation unavailable", "商户未受理撤单")}`;
   if (row.state === "completed" && r)
     return `${item} · ${t("Test charge", "模拟扣款")} ${hkd(r.charged_minor)}`;
-  if (row.state === "quoted") return `${item} · ${hkd(row.review_minor)}`;
-  if (row.state === "reprice" && row.previous) {
+  if (row.state === "quoted" && row.quote) return `${item} · ${hkd(row.review_minor)}`;
+  if (row.state === "reprice" && row.previous && row.quote) {
     if (row.previous.terms.total_minor === row.review_minor)
       return `${item} · ${t("Terms changed", "明细已变")} · ${hkd(row.review_minor)}`;
     return `${item} · ${hkd(row.previous.terms.total_minor)} → ${hkd(row.review_minor)}`;
@@ -271,6 +282,7 @@ const watchStates = new Set([
 const importantStates = new Set([
   "reprice",
   "unavailable",
+  "items_changed",
   "refunded",
   "partially_refunded",
   "stopped",
