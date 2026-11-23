@@ -387,6 +387,40 @@ export function LiveFlightCheckout({
           )}
         </>
       )}
+      {view.state === "source" &&
+        !view.connected &&
+        src &&
+        !inspected.includes("Kiwi.com") && (
+          <>
+            <p>
+              {t(
+                "You can first let Alice’s cloud browser read the original Kiwi listing to verify baggage and all mandatory fees for both flights. Only the public page and itinerary are shared.",
+                "也可先允许 Alice 的云端浏览器只读核对原 Kiwi 报价的往返行李和所有必付费用，仅分享公开页面及行程。",
+              )}
+            </p>
+            <button
+              type="button"
+              className="secondary"
+              disabled={busy}
+              onClick={() => void act("verify_original")}
+            >
+              {t(
+                "Let Alice verify the original Kiwi offer",
+                "让 Alice 核实原来的 Kiwi 报价",
+              )}
+            </button>
+          </>
+        )}
+      {view.state === "seller_only" && !view.connected && (
+        <button
+          type="button"
+          className="primary"
+          disabled={busy}
+          onClick={connect}
+        >
+          {t("Connect LetsFG for checkout", "连接 LetsFG 购票")}
+        </button>
+      )}
       {authUrl && (
         <a href={authUrl} target="_blank" rel="noopener noreferrer">
           {t("Continue secure connection", "继续安全连接")}

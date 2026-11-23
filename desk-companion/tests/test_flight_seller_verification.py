@@ -198,3 +198,28 @@ def test_named_other_offer_rechecks_the_same_route_and_baggage_without_new_searc
         and other["choices"][0]["total_minor"] == 351000
     )
     assert len(original.searches) == 1 and not original.submitted
+
+
+def test_original_kiwi_inspection_precedes_wallet_connection_without_seller_access(desk):
+    d = desk
+    chat, _, _ = research(d)
+    view = ask(d.c, "purchase-without-wallet", BUY, chat)["live_flight_checkout"]
+    assert view["state"] == "source" and not view["connected"]
+    url = f"/api/assistant/flight-checkouts/{view['id']}/actions"
+    body = {"conversation_id": chat, "version": view["version"], "action": "verify_original"}
+    assert d.c.post(url, json=body).status_code == 422
+    result = d.c.post(url, json={**body, "share_seller_page": True})
+    result.raise_for_status()
+    assert (
+        result.json()["state"] == "seller_verification"
+        and result.json()["seller_check"]["seller"] == "Kiwi.com"
+    )
+    [job] = [j for j in d.r.jobs.listing(review=True) if j["state"] == "queued"]
+    assert (
+        job["request"]["start_url"] == view["source"]["url"]
+        and job["request"]["quote_request"]["return_date"] == BACK
+    )
+    assert job["request"]["quote_request"]["checked_bag_kg"] == 20 and job["request"][
+        "allowed_origins"
+    ] == ["https://www.kiwi.com"]
+    assert not d.source.searches and not d.source.rereads and not d.source.submitted
