@@ -64,6 +64,10 @@ def clarify_decision(runtime, payload, principal, chat):
     if not chat or (payload.selected_commerce_card and ref):
         return None
     decision = shop_decision(payload.message) or flight_decision(payload.message)
+    if payload.shopping_review and ref.amount_minor is None and decision and decision[0] == "confirm":
+        # A choice without a quoted price can never approve a payment. Its original
+        # handler distinguishes an unresolved alternative from an obsolete card version.
+        return None
     wording = unicodedata.normalize("NFKC", payload.message).strip().casefold()
     if not decision and not is_unbound_assent(wording):
         return None
