@@ -989,3 +989,7 @@ Five separately attributed API worktrees shared one private dated development al
 ## 2026-11-23 Global weather in conversation and voice
 
 The owner reported that an ordinary Tokyo question was refused and a Hong Kong lookup supplied only a temperature. Resolve explicitly named places with Open-Meteo’s worldwide GeoNames geocoder and the OpenCC language dictionaries. Use destination-local dates, preserve official HKO station and forecast feeds and label modeled readings and supplementary ranges. Rainfall probability refers to published forecast probabilities or HKO’s category. The existing shared weather function serves ordinary text, Sessions and Live voice. This source branch was verified with public data and replayed model protocols. [Acceptance and receipts](output/qa/2026-11-23-global-weather/verification.md).
+
+## 2026-11-23 Respond to the owner’s actual weather and purchase questions
+
+The owner requested a worldwide city lookup with rain, a compact listening area, natural currency speech and a flight agent that continues after showing a research price. The application reuses the original signed-in conversation, trusted amount, selected source and supplier-controlled checkout. No owner consent transfers between the public weather read, optional seller inspection, live flight OAuth and the specific payment. [Behavior and evidence](output/qa/2026-11-23-owner-flow-hotfix/verification.md).

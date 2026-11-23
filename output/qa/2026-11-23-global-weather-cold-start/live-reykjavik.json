@@ -1,0 +1,31 @@
+{
+  "reply": "In Reykjavik at 2026-11-23 15:00 local time, Open-Meteo estimated 7.6°C, overcast. Today, expect light rain, 6.9 to 8.6°C, peak hourly precipitation chance 100%, 11.7 mm forecast for the day, precipitation expected around 15:00–20:00.",
+  "events": [
+    {
+      "host": "geocoding-api.open-meteo.com",
+      "param": "Reykjavík",
+      "when": "2026-11-23T15:01:59+00:00",
+      "status": 200,
+      "connect_to_headers_s": 1.431
+    },
+    {
+      "host": "api.open-meteo.com",
+      "param": "forecast",
+      "when": "2026-11-23T15:02:00+00:00",
+      "status": 200,
+      "connect_to_headers_s": 1.928
+    }
+  ],
+  "tool": [
+    {
+      "phase": "started",
+      "tool": "weather_query",
+      "outcome": null
+    },
+    {
+      "phase": "finished",
+      "tool": "weather_query",
+      "outcome": "ok"
+    }
+  ]
+}

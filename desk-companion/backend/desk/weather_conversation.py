@@ -129,4 +129,8 @@ def answer_city_weather(runtime, payload, key, *, on_event=None):
         if args["language"] == "zh"
         else "I couldn't retrieve weather for that location."
     )
-    return {"mode": "local_rules", "kind": "reply", "message": message}
+    reply = {"mode": "local_rules", "kind": "reply", "message": message}
+    if failure := result.get("source_failure"):
+        # Keep the location-free reason on this exact operation, including receipt replay.
+        reply["weather_source_failure"] = failure
+    return reply

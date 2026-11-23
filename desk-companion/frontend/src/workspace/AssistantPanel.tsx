@@ -1988,7 +1988,9 @@ export function AssistantPanel({
                 value={text}
                 onChange={(e) => {
                   if (!text.trim()) {
-                    typedCommerceReview.current = commerce.tracked.current === conversationId.current
+                    const pendingLiveFare = ownerFlight?.view.state === "review" &&
+                      ownerFlight.chat === conversationId.current && ownerFlight.task === taskId;
+                    typedCommerceReview.current = !pendingLiveFare && commerce.tracked.current === conversationId.current
                       ? typedReviewRef(commerce.rows, commerce.hasShortlist.current)
                       : undefined;
                   }
