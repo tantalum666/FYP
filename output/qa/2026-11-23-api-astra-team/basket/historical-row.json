@@ -1,0 +1,48 @@
+{
+  "frozen_revision": "3c5358d13205aee5da2551d4a97119bb32e8d4c0",
+  "candidate_php_sha256": "5351eb30807eeac02473590416b32e02c325d5556aa82fa74c5a05199a6dfc96",
+  "case": "historical-row",
+  "status": "pass",
+  "row_sha256_before": "f20f3e2cf52ea2295004331cad91ed867f4737e87c44f659f7ddf70494495892",
+  "original_row_bytes_copied": true,
+  "original_receipt_reopened": {
+    "order": 17,
+    "state": "processing",
+    "paid_at": true,
+    "currency": "HKD",
+    "subtotal": 3400,
+    "discount": 0,
+    "tax": 0,
+    "shipping": 1200,
+    "shipping_count": 1,
+    "total": 4600,
+    "refunded": 0,
+    "refund_count": 0,
+    "items": [
+      {
+        "sku": "FYP-QA-DELIVERY-PACK",
+        "id": 15,
+        "quantity": 2,
+        "line_subtotal": 3400,
+        "line_paid": 3400,
+        "line_tax": 0
+      }
+    ]
+  },
+  "stripe": {
+    "mode": "test",
+    "intent_status": "succeeded",
+    "amount_received_minor": 4600,
+    "charge_status": "succeeded",
+    "amount_captured_minor": 4600,
+    "refunded_minor": 0,
+    "linked": true,
+    "visa_test_fixture": true,
+    "net_minor": 4600
+  },
+  "model_session_calls": 0,
+  "new_payments": {
+    "payment_intents": 0,
+    "charges": 0
+  }
+}

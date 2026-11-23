@@ -1,0 +1,34 @@
+{
+  "frozen_revision": "3c5358d13205aee5da2551d4a97119bb32e8d4c0",
+  "status": "pass",
+  "browser": "separate headless Chrome profile",
+  "screen": "regular Web, phone surface",
+  "source_messages": "normal composer and actual Woo catalog, Sessions tool arguments scripted",
+  "single_home_result": "2 products · HK$33.00",
+  "item_subtotal_minor": 2500,
+  "whole_cart_shipping_minor": 800,
+  "confirmed_details": {
+    "FYP-QA-DELIVERY-PACK": {
+      "quantity": 1,
+      "unit_minor": 1700
+    },
+    "FYP-QA-POCKET-TISSUES": {
+      "quantity": 2,
+      "unit_minor": 400
+    }
+  },
+  "payer_action": "Cancel",
+  "terminal_state": "cancelled",
+  "approved_amount": null,
+  "receipt_present": false,
+  "merchant_order_mapped": false,
+  "initial_auth_responses": {
+    "/api/workspace": 401,
+    "/api/session": 401
+  },
+  "connected_state_observed": true,
+  "screenshots": {
+    "home-quote.png": "d02cf1f474ade9dc6f0ed36bafe7996fca1f8b3f67fd17d9425e180adffda538",
+    "review-details.png": "0e349e11ae192e02fce23ca78ea3b2fad6662d87118a027d81dbd025f0e8ec4a"
+  }
+}

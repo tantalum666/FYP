@@ -1,0 +1,36 @@
+{
+  "frozen_revision": "3c5358d13205aee5da2551d4a97119bb32e8d4c0",
+  "candidate_php_sha256": "5351eb30807eeac02473590416b32e02c325d5556aa82fa74c5a05199a6dfc96",
+  "case": "commercial-math",
+  "status": "pass",
+  "currency": "HKD",
+  "subtotal_minor": 2500,
+  "discount_minor": 250,
+  "individual_fees": [
+    {
+      "name": "QA handling",
+      "tax_minor": 15,
+      "total_minor": 150
+    }
+  ],
+  "shipping_minor": 800,
+  "shipping_tax_minor": 80,
+  "tax_minor": 248,
+  "total_minor": 3448,
+  "lines": {
+    "FYP-QA-DELIVERY-PACK": [
+      1700,
+      170,
+      170,
+      153
+    ],
+    "FYP-QA-POCKET-TISSUES": [
+      800,
+      80,
+      0,
+      0
+    ]
+  },
+  "declined": true,
+  "merchant_reference_mapped": false
+}

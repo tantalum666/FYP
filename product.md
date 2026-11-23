@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-23 Reviewed mixed baskets and imported calendar changes
+
+A shopping request can include up to eight entries, quoted as one cart with one shipping calculation. Material line changes need fresh approval even if the total falls or stays the same. Keep older single-item orders readable. [Checkout acceptance](output/qa/2026-11-23-api-astra-team/basket/verification.md). Google Calendar owners can review already imported copies for a selected period, preserve local edits and keep unverified missing source entries. [Calendar behavior](desk-companion/docs/google-calendar-refresh.md).
+
 ## 2026-11-23 Add a confirmed flight to the desk calendar
 
 Alice can use the verified flight receipt from this conversation to prepare a private local calendar event. Show the complete itinerary in the desk timezone, wait for a separate calendar confirmation and read the saved event back. A repeat action must preserve a later local edit or deletion. [Journey](desk-companion/docs/conversation-flight-booking.md#add-a-booked-test-flight-to-the-desk-calendar).

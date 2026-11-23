@@ -8,6 +8,8 @@ Mac Web and the installed iPhone 17 Pro Simulator run `08200201`, including the 
 
 ## Commerce
 
+The [API Astra mixed-basket branch](https://github.com/tantalum666/FYP/pull/145) passed the isolated WooCommerce and Stripe test journey at `3c5358d1`: HK$33 preview, HK$32 after fresh consent, one capture and one full refund. [Shopping evidence](output/qa/2026-11-23-api-astra-team/basket/verification.md). The separate Google refresh at `401e0fb2` restored both original local IDs across grants and retained owner edits on upgrade. [Independent calendar checks](output/qa/2026-11-23-api-astra-team/google-review/verification.md).
+
 For the 29 November HKG–HND test route, a private synthetic appointment excluded AZ4035 at HK$42. A real GPT-6.2 Sol Session returned two eligible LetsFG fares, BA6631 at HK$47 and BA9224 at HK$49. A new next-day appointment blocked confirmation of BA6631. The original test quote was closed and neither fare was booked. A blocked local quote can request another matching flight under the same budget. [Receipts](output/qa/2026-11-22-calendar-aware-fares/verification.md).
 
 A buyer asked Alice to cancel WooCommerce order #21 in the ordinary Simulator composer. One pack of pocket tissues cost HK$4 plus HK$8 delivery. The refund matched the original HK$12 charge, stock returned to 20 and net was zero. The LetsFG AF2979 booking stopped before purchase and the HK$52 hold was released. The same chat reopened both receipts after restart. Missing FR4315 produced three eligible alternatives. The selected second option AF3258 was requoted at HK$55 and created no supplier order. The eBay mailbox check found no review-specific update. [Receipts and scope](output/qa/2026-11-21-commerce-aftercare/verification.md).

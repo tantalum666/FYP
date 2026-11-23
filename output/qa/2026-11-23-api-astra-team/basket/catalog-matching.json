@@ -1,0 +1,44 @@
+{
+  "frozen_revision": "3c5358d13205aee5da2551d4a97119bb32e8d4c0",
+  "candidate_php_sha256": "5351eb30807eeac02473590416b32e02c325d5556aa82fa74c5a05199a6dfc96",
+  "case": "catalog-matching",
+  "status": "pass",
+  "checks": {
+    "legacy-request": {
+      "pass": true,
+      "returned_quote": true,
+      "review_minor": 1600,
+      "ordinary_reply": "测试袖珍纸巾 / Test pocket tissues × 2，商品 HK$8.00，运费 HK$8.00，测试订单总价 HK$16.00。确认后我才付款。"
+    },
+    "duplicate": {
+      "pass": true,
+      "returned_quote": true,
+      "review_minor": 3300,
+      "ordinary_reply": "2 种商品，商品 HK$25.00，运费 HK$8.00，测试订单总价 HK$33.00。确认后我才付款。"
+    },
+    "variation": {
+      "pass": true,
+      "returned_quote": true,
+      "review_minor": 3300,
+      "ordinary_reply": "2 种商品，商品 HK$25.00，运费 HK$8.00，测试订单总价 HK$33.00。确认后我才付款。"
+    },
+    "unavailable": {
+      "pass": true,
+      "returned_quote": false,
+      "review_minor": null,
+      "ordinary_reply": "测试店没有找到这个商品，请核对商品名称或 SKU。"
+    },
+    "variant-choice": {
+      "pass": true,
+      "returned_quote": false,
+      "review_minor": null,
+      "ordinary_reply": "有多个商品匹配，请指定完整商品名或 SKU。"
+    },
+    "over-bound": {
+      "pass": true,
+      "returned_quote": false,
+      "review_minor": null,
+      "ordinary_reply": "同一 SKU 合计最多可购买 99 件，请核对数量。"
+    }
+  }
+}
