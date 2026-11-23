@@ -56,7 +56,7 @@ def save_state(path, state):
 READ_DELAYS = (0, 0.05, 0.15)
 
 
-def read_alarm(rtc, expected=None):
+def read_alarm(rtc, accepted=None):
     observations = []
     for delay in READ_DELAYS:
         if delay:
@@ -67,7 +67,7 @@ def read_alarm(rtc, expected=None):
             observations.append({'error': type(exc).__name__, 'errno': getattr(exc, 'errno', None)})
         else:
             observations.append({'value': value})
-            if expected is None or value == expected:
+            if accepted is None or value in accepted:
                 break
     return observations
 
@@ -104,7 +104,10 @@ def change_alarm(rtc, state_path, *, delay=180, disarm=False):
 
         now = rtc.now()
         target = 0 if disarm else now + delay
-        initial = read_alarm(rtc)
+        # With a live ownership record, a single empty/stale initial read must
+        # not orphan our deadline. An actual foreign alarm is only observed.
+        live_owned = {value for value in owned if value > now}
+        initial = read_alarm(rtc, live_owned or None)
         previous = initial[-1].get('value')
         state = {'owned': owned, 'verified': last_good, 'previous_verified': last_good,
                  'rtc_now': now, 'expected': target,
@@ -126,7 +129,7 @@ def change_alarm(rtc, state_path, *, delay=180, disarm=False):
         if previous != target:
             # The durable intent write can take time. Recheck ownership before
             # touching the register; an unrecognised value belongs to its writer.
-            before_write = read_alarm(rtc, previous)
+            before_write = read_alarm(rtc, (previous,))
             if before_write[-1].get('value') != previous:
                 state.update(owned=owned, verified=saved.get('verified', owned[0] if owned else 0),
                              before_write=before_write, outcome='changed_before_write')
@@ -138,7 +141,7 @@ def change_alarm(rtc, state_path, *, delay=180, disarm=False):
             if error:
                 state['write_error'] = error
 
-        observations = read_alarm(rtc, target)
+        observations = read_alarm(rtc, (target,))
         observed = observations[-1].get('value')
         state['readback'] = observations
         if observed == target:
@@ -154,7 +157,7 @@ def change_alarm(rtc, state_path, *, delay=180, disarm=False):
             error = write_alarm(rtc, last_good)
             if error:
                 state['restore_error'] = error
-            state['restore_readback'] = read_alarm(rtc, last_good)
+            state['restore_readback'] = read_alarm(rtc, (last_good,))
             restored = state['restore_readback'][-1].get('value')
             if restored == last_good:
                 state.update(owned=[last_good], verified=last_good, outcome='previous_restored')

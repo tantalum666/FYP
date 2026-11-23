@@ -1,13 +1,14 @@
 {
   "candidate_validation": {
-    "current_helper_sha256": "35675af42c0cefd9530fc1298efdbc6691bc416650007ecbd25f9e047fca2cec",
+    "current_helper_sha256": "6fa58fb2fcda732850d849a79aabfa1b3f183ecfbdba30d1abd238d7c0ca8634",
     "frozen_initial_helper_sha256": "cb49028f5aa48727a8281824b3488e1a11e3a3c69747ad406ca3841fb6ff9958",
     "legacy_cycle_detected": true,
     "local_linux_systemd_verify_legacy_pair": 1,
     "local_linux_systemd_verify_shipped_pair": 0,
     "mac_linux_graph_cases_skipped": 2,
-    "mac_pytest_passed": 26,
+    "mac_pytest_passed": 29,
     "prior_candidate_failed_new_ownership_collisions": 2,
+    "prior_candidate_stale_initial_read_failures": 2,
     "verified_restoration_discards_disproven_intent": true
   },
   "device_change_from_this_diagnosis": false,

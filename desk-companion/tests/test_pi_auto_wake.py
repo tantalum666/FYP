@@ -340,3 +340,14 @@ def test_disproved_intent_cannot_own_a_later_foreign_alarm(renewing, register_lo
         change_alarm(rtc, state, disarm=True)
     assert rtc.value == 1210 and rtc.writes == []
     assert json.loads(state.read_text())['owned'] == []
+
+
+@pytest.mark.parametrize('stale', [0, 1950, OSError(errno.EIO, 'transient initial read')])
+def test_stale_initial_read_does_not_orphan_an_owned_alarm(renewing, stale):
+    rtc, state = renewing
+    rtc.reads = [stale, 1180]
+    assert change_alarm(rtc, state)['wake_at'] == 1210
+    saved = json.loads(state.read_text())
+    assert saved['initial'][-1] == {'value': 1180}
+    assert len(saved['initial']) == 2 and saved['owned'] == [1210]
+    assert rtc.writes == ['+=30']
