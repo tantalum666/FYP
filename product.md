@@ -1,5 +1,9 @@
 # Group 2 Project Contract
 
+## 2026-11-23 Ask Alice for the weather in any city
+
+Alice answers ordinary weather and rain questions in the conversation language. Use the destination’s local date and distinguish station readings, model estimates and forecasts. Include the range and precipitation outlook available for the requested day. Keep Hong Kong Observatory observations and official local and nine-day forecasts. Ask for a city when a name is broad or ambiguous. The Home weather preference and device location permission remain owner-controlled. [Public weather acceptance](output/qa/2026-11-23-global-weather/verification.md).
+
 ## 2026-11-22 Match flight choices to the owner’s calendar
 
 When asked to avoid existing commitments, Alice checks the published itinerary against the locally saved busy calendar. Show only verified fits within the owner’s search constraints, keep overnight arrival dates visible and recheck the calendar at confirmation. If the owner’s schedule changes, offer a different unbooked fare under the same constraints and ask for a fresh decision. The normal home remains one line. [Acceptance](output/qa/2026-11-22-calendar-aware-fares/verification.md).
