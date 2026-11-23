@@ -267,6 +267,68 @@ test("the owner can resolve one unverified copy in the compact review", async ()
   }
 });
 
+test("a mixed refresh keeps the owner's choices through recovery and confirms only checked copies", async () => {
+  const h = setup();
+  try {
+    h.render();
+    await tick();
+    h.click("Refresh imported events");
+    const pendingRead = h.writes[0];
+    const retry = h.retry();
+    const review = h.preview("Mixed refresh");
+    const row = review.rows[0];
+    const mixed = {
+      ...review,
+      rows: [
+        { ...row, status: "changed", existing_id: "update" },
+        { ...row, status: "changed", existing_id: "stay" },
+        { ...row, status: "deleted", confirmed_cancellation: true, existing_id: "remove" },
+        { ...row, status: "deleted", confirmed_cancellation: true, existing_id: "keep" },
+        { ...row, status: "conflict", existing_id: "edited" },
+        { ...row, status: "unverified", proposed_status: "changed", existing_id: "legacy" },
+      ],
+    };
+    pendingRead.resolve(mixed);
+    await tick();
+    const disclosure = h.render().find((node) =>
+      node.type === "details" && nodes(node).some((child) =>
+        child.type === "summary" && child.props.children === "Google Calendar"),
+    );
+    assert.ok(disclosure);
+    const choices = nodes(disclosure).filter((node) =>
+      node.type === "input" && node.props.type === "checkbox",
+    );
+    assert.ok(choices.every(({ props }) => !props.disabled));
+    assert.deepEqual(choices.map(({ props }) => [props.value, props.checked]), [
+      ["update", true], ["stay", true], ["remove", true], ["keep", true], ["legacy", false],
+    ]);
+    for (const choice of choices.filter(({ props }) => ["stay", "keep", "legacy"].includes(props.value))) {
+      choice.props.onChange({ currentTarget: { value: choice.props.value, checked: !choice.props.checked } });
+    }
+    // A concurrent read retry returns the same preview after the owner has made choices.
+    h.writes[1].resolve(mixed);
+    await retry;
+    assert.ok(h.render().includes("2 to update · 1 to remove · 3 to keep"));
+    h.click("Confirm local refresh");
+    const apply = h.writes[2];
+    assert.equal(apply.operation.path, "/exchange/Mixed refresh/apply");
+    assert.deepEqual(apply.operation.body, {
+      replace_matching: false,
+      selected_event_ids: ["update", "remove"],
+      resolve_event_ids: ["legacy"],
+    });
+    apply.reject(new Error("Lost confirmation"));
+    await tick();
+    const retryApply = h.retry();
+    assert.deepEqual(h.writes[3].operation, apply.operation);
+    h.writes[3].resolve({ updated: 2, removed: 1, kept: 3 });
+    await retryApply;
+    assert.ok(!h.render().includes("Review refresh"));
+  } finally {
+    h.close();
+  }
+});
+
 for (const connected of [false, true]) {
   test(`a delayed Google ${connected ? "disconnect" : "connect"} result stays in its session`, async () => {
     const h = setup(connected);
