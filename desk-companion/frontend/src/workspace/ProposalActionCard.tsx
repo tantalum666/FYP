@@ -96,6 +96,11 @@ export function ProposalActionCard({
               </select>
             </label>
           )}
+          {choices.length > 1 && selectedRoutine && (
+            <p style={{ whiteSpace: "normal", overflowWrap: "anywhere" }}>
+              {selectedRoutine.occurrence_key.replace("T", " ")} · {selectedRoutine.timezone}
+            </p>
+          )}
         </>
       ) : p.kind === "email_send" ? (
         <>
