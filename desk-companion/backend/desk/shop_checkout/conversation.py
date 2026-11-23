@@ -29,6 +29,27 @@ def price(n):
     return f"HK${n // 100:,}.{n % 100:02d}"
 
 
+def shop_quote_subject(quote, zh: bool) -> str:
+    terms = quote["terms"]
+    lines = terms.get("items", [])
+    if not isinstance(lines, list):
+        raise ValueError("quote terms.items must be a list")
+    count = len(lines)
+    if count > 1:
+        return f"{count} 种商品" if zh else f"{count} products"
+
+    if lines and "name" not in quote:
+        name = quote["item_names"][str(lines[0]["product_id"])]
+    else:
+        name = quote["name"]
+    quantity = lines[0]["quantity"] if lines and "quantity" not in terms else terms["quantity"]
+    if not isinstance(name, str) or not name.strip():
+        raise ValueError("quote product name must be nonempty")
+    if type(quantity) is not int or quantity < 1:
+        raise ValueError("quote quantity must be a positive integer")
+    return f"{name} × {quantity}"
+
+
 def describe(row, language):
     q = row["quote"]
     zh = language == "zh"
@@ -58,13 +79,7 @@ def describe(row, language):
         return failure(row["unavailable_reason"], language)
     if row["state"] == "quoted":
         t = q["terms"]
-        lines = t.get("items", [])
-        if len(lines) > 1:
-            subject = f"{len(lines)} 种商品" if zh else f"{len(lines)} products"
-        else:
-            subject = f"{q['name']} × {t['quantity']}"
-        return (
-            f"{subject}，商品 {price(t['subtotal_minor'])}，运费 {price(t['shipping_minor'])}，测试订单总价 {price(t['total_minor'])}。确认后我才付款。"
+        subject = shop_quote_subject(q, zh)
             if zh
             else f"{subject}. Items {price(t['subtotal_minor'])}, delivery {price(t['shipping_minor'])}, order total {price(t['total_minor'])}. Confirm to make the test payment."
         )
