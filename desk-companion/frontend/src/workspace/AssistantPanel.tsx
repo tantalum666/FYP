@@ -768,7 +768,11 @@ export function AssistantPanel({
       ? text
       : t("Please review these files.", "请帮我看看这些文件。");
     const review = choice ? choice.review : typedCommerceReview.current;
-    const useOmni = omni && !choice && !review && !chatFiles.files.length && !fileContext.current;
+    // Saved Work uses the local HTTP worker even when realtime text is available.
+    const savedWork = submitted.split(/[\r\n]/).some((line) =>
+      /^(?:continue the task from before|继续刚才那个任务|(?:continue work|继续工作)\s+[0-9a-f]{32}\s+v[0-9]+)[ .。]*$/i.test(line.trim())
+    );
+    const useOmni = omni && !savedWork && !choice && !review && !chatFiles.files.length && !fileContext.current;
     const previousHttp = pendingHttp.current;
     const generation = ++submissionGeneration.current;
     setBusy(true);
