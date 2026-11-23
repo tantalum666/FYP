@@ -5,6 +5,7 @@ from decimal import Decimal, InvalidOperation
 import re
 import logging
 import time
+from typing import Annotated
 
 import httpx
 from pydantic import Field, model_validator
@@ -21,12 +22,19 @@ BOOKING_ID = re.compile(r"sb_dev_[A-Za-z0-9_-]{1,96}")
 PNR = re.compile(r"[A-Z0-9]{6}")
 
 
+FlightNumber = Annotated[str, Field(pattern=r"^[A-Z0-9]{2}\s?[0-9]{1,4}[A-Z]?$")]
+
+
+class BookedFlightCalendarQuery(StrictModel):
+    flight_number: FlightNumber | None = None
+
+
 class FlightQuery(StrictModel):
     origin: Airport
     destination: Airport
     departure: Day
     adults: int = Field(default=1, ge=1, le=9, strict=True)
-    flight_number: str | None = Field(default=None, pattern=r"^[A-Z0-9]{2}\s?[0-9]{1,4}[A-Z]?$")
+    flight_number: FlightNumber | None = None
     airline: str | None = Field(default=None, pattern=r"^[A-Z0-9]{2}$")
     nonstop: bool = False
     avoid_calendar_conflicts: bool = Field(

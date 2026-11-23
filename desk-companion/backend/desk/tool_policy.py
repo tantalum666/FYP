@@ -94,6 +94,9 @@ def kind_for(code: str) -> str:
     return CODE_KIND.get(code, "invalid")
 
 
+SCOPED_COMMERCE_TOOLS = frozenset({"sandbox_flight_quote", "sandbox_shop_quote", "booked_flight_calendar_draft"})
+
+
 OWNER_ONLY_TOOLS = frozenset(
     {
         "email_reply_draft",
@@ -102,8 +105,7 @@ OWNER_ONLY_TOOLS = frozenset(
         "mail_followup_stop",
         "browser_research_draft",
         "browser_research_status",
-        "sandbox_flight_quote",
-        "sandbox_shop_quote",
+        *SCOPED_COMMERCE_TOOLS,
         "email_status",
         "connected_app_query",
         "email_send_draft",
@@ -133,7 +135,7 @@ def memory_blocked(name: object, allow_memory: bool) -> bool:
 
 
 def tool_visible(name: str, allow_memory: bool, *, channel: str = "voice") -> bool:
-    return not memory_blocked(name, allow_memory) and (name not in {"sandbox_flight_quote", "sandbox_shop_quote"} or channel == "text")
+    return not memory_blocked(name, allow_memory) and (name not in SCOPED_COMMERCE_TOOLS or channel == "text")
 
 
 def audit_suppressed() -> bool:
@@ -207,7 +209,7 @@ def execute_tool(
             CAPABILITIES,
         )
         return result
-    if (capability.name in {"sandbox_flight_quote", "sandbox_shop_quote"} and channel_name != "text") or memory_blocked(capability.name, allow_memory):
+    if (capability.name in SCOPED_COMMERCE_TOOLS and channel_name != "text") or memory_blocked(capability.name, allow_memory):
         result = {"error": "OWNER_SIGN_IN_REQUIRED", "saved": False}
         _audit(
             runtime,

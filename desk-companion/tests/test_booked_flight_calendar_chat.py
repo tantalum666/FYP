@@ -149,3 +149,49 @@ def test_calendar_intent_survives_service_restart_but_not_forgotten_chat(desk):
     ).is_success
     denied = calendar_turn(client, chat, "after-forget", "查看航班日程", review)
     assert denied.status_code == 404
+
+
+def test_official_function_resolves_colloquial_request_to_original_receipt(desk):
+    from session_protocol_fixture import install_session_protocol
+
+    runtime, client, supplier = desk
+    chat, _ = ticketed(client)
+    session = install_session_protocol(runtime)
+    session.next_calls = [("booked_flight_calendar_draft", {"flight_number": "FR 4315"})]
+    before = stored_events(runtime)
+    calls = len(supplier.calls)
+    response = calendar_turn(
+        client, chat, "calendar-function", "东京那张 FR4315 帮我把时间留出来吧"
+    )
+    response.raise_for_status()
+    result = response.json()
+    event = result["flight_booking"]["calendar_preview"]
+    assert event["end_local"][11:16] == "21:10" and "FR4315" in event["title"]
+    assert stored_events(runtime) == before
+    assert all(method == "GET" for method, _, _ in supplier.calls[calls:])
+    returned = json.loads(session.functions[-1][0][0]["output"])
+    assert returned == {"kind": "reply", "saved": False}
+    session.next_calls = [("booked_flight_calendar_draft", {"flight_number": "CX999"})]
+    unknown = calendar_turn(client, chat, "unknown-flight", "那张 CX999 的出行时间也帮我留出来")
+    assert unknown.json()["kind"] == "clarify"
+    assert not unknown.json()["saved"] and stored_events(runtime) == before
+
+
+def test_calendar_function_cannot_supply_a_charge_an_event_or_a_confirmation(desk):
+    from session_protocol_fixture import install_session_protocol
+
+    runtime, client, supplier = desk
+    chat, _ = ticketed(client)
+    session = install_session_protocol(runtime)
+    session.next_calls = [
+        (
+            "booked_flight_calendar_draft",
+            {"flight_number": "FR4315", "confirm": True, "start_local": "2030-05-02T08:00"},
+        )
+    ]
+    count = len(stored_events(runtime))
+    original = list(supplier.calls)
+    result = calendar_turn(client, chat, "bad-function-shape", "下周的东京行程也麻烦了")
+    assert result.is_success and not result.json().get("saved")
+    assert "flight_booking" not in result.json()
+    assert len(stored_events(runtime)) == count and supplier.calls == original

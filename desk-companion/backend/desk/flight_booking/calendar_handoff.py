@@ -7,7 +7,20 @@ from ..calendar import iso
 from ..commerce_review import language_for
 from ..store import DomainError
 from .calendar_event import build_calendar_event
+from .provider import BookedFlightCalendarQuery
 from .service import public
+
+
+DRAFT_TOOL = {
+    "name": "booked_flight_calendar_draft",
+    "description": (
+        "When the owner wants a flight already booked in this conversation on their desk calendar, "
+        "prepare a local preview from its verified supplier receipt. Supply a flight number only "
+        "when specified. Leave unknown times and amounts to the receipt. The owner separately "
+        "confirms on the desk. This function cannot save, pay, book or modify a remote calendar."
+    ),
+    "parameters": BookedFlightCalendarQuery.model_json_schema(),
+}
 
 
 _COMMANDS = {
@@ -18,16 +31,23 @@ _COMMANDS = {
 }
 
 
-def _select(service, owner, chat, ref, action):
+def _select(service, owner, chat, ref, action, flight_number):
     if ref:
-        return service._get(ref.id, owner, chat)
+        row = service._get(ref.id, owner, chat)
+        if flight_number and not any(
+            s["flight"].replace(" ", "") == flight_number for s in row["quote"]["segments"]
+        ):
+            return None
+        return row
     with service.store.connection() as db:
         rows = db.execute(
             """SELECT id FROM sandbox_flight_bookings WHERE owner=? AND chat=?
                AND json_extract(data,'$.state')='completed'
                AND (?='preview' OR json_extract(data,'$.calendar_preview') IS NOT NULL
-                    OR json_extract(data,'$.calendar_event_id') IS NOT NULL) LIMIT 2""",
-            (owner, chat, action),
+                    OR json_extract(data,'$.calendar_event_id') IS NOT NULL)
+               AND (? IS NULL OR EXISTS (SELECT 1 FROM json_each(data,'$.quote.segments') leg
+                    WHERE replace(json_extract(leg.value,'$.flight'),' ','')=?)) LIMIT 2""",
+            (owner, chat, action, flight_number, flight_number),
         ).fetchall()
     return service._get(rows[0]["id"], owner, chat) if len(rows) == 1 else None
 
@@ -70,6 +90,16 @@ def turn(service, payload, principal, chat):
     )
     if not action:
         return None
+    return _review(service, payload, principal, chat, action)
+
+
+def preview_from_function(service, payload, principal, chat, arguments):
+    query = BookedFlightCalendarQuery.model_validate(arguments)
+    number = query.flight_number.replace(" ", "") if query.flight_number else None
+    return _review(service, payload, principal, chat, "preview", number)
+
+
+def _review(service, payload, principal, chat, action, flight_number=None):
     zh = language_for(payload.message, payload.language) == "zh"
     ref = payload.flight_review if payload.selected_commerce_card else None
 
@@ -100,7 +130,7 @@ def turn(service, payload, principal, chat):
         )
     owner = service.owner(principal)
     with service.lock:
-        row = _select(service, owner, chat.id, ref, action)
+        row = _select(service, owner, chat.id, ref, action, flight_number)
         if row is None:
             return reply(
                 "请从原对话里已出票的那张机票选择加入日历。"

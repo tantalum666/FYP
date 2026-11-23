@@ -74,6 +74,10 @@ def turn(runtime, payload, principal, chat):
 
 def present(runtime, reply, key, principal, chat, payload, *, cached=False):
     lang = language_for(payload.message, payload.language)
+    if "booked_flight_calendar" in reply:
+        return calendar_handoff.preview_from_function(
+            runtime.flight_bookings, payload, principal, chat, reply["booked_flight_calendar"]
+        )
     choice = getattr(payload, "calendar_flight_choice", None)
     calendar_requested = getattr(payload, "flight_calendar_requested", False) or choice is not None
     if alternatives := reply.get("flight_alternatives"):
@@ -156,7 +160,7 @@ def present(runtime, reply, key, principal, chat, payload, *, cached=False):
 def tool_available(runtime, name, *, scoped):
     if name == "sandbox_shop_quote":
         return scoped and runtime.shop_orders.enabled
-    if name == "sandbox_flight_quote":
+    if name in {"sandbox_flight_quote", "booked_flight_calendar_draft"}:
         return scoped and runtime.flight_bookings.enabled
     return True
 
@@ -176,7 +180,7 @@ def context_instructions(runtime, principal, chat, context):
         if rows := flights.prompt_context(runtime, principal, chat):
             context["test_flight_bookings"] = rows
             instructions.append(
-                "For questions about these existing LetsFG test bookings use their verified states. Only a completed record with a PNR and captured amount confirms a simulated booking. Stopping an in-progress order and refunding an issued ticket are different. Only a verified supplier read can establish a released hold. Do not create another quote to check an existing order."
+                "For questions about these existing LetsFG test bookings use their verified states. Only a completed record with a PNR and captured amount confirms a simulated booking. Stopping an in-progress order and refunding an issued ticket are different. Only a verified supplier read can establish a released hold. Do not create another quote to check an existing order. To put a booked itinerary on the desk calendar, use booked_flight_calendar_draft so its supplier record determines the times and a separate owner review can save it."
             )
         instructions.append(
             "For an owner asking to book a flight (订票 or 订航班), use sandbox_flight_quote for its initial test fare. When the owner asks to avoid their schedule, set avoid_calendar_conflicts=true. The fare Function compares locally, so this comparison does not need a separate calendar_query. Keep it on when rechecking that choice. Only the owner can approve. Distinguish booking from real-market fare research and ask if the itinerary is unclear."
