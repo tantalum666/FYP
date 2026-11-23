@@ -1,0 +1,121 @@
+{
+  "checked_at_utc": "2026-11-23T15:21:41+00:00",
+  "model_calls": 0,
+  "cases": [
+    {
+      "question": "帮我查一下成田国际机场今天的天气",
+      "sources": [
+        {
+          "source": "geocoding",
+          "term": "成田国际机场",
+          "matches": [
+            {
+              "id": 6300307,
+              "name": "成田国际机场",
+              "country_code": "JP",
+              "feature_code": "AIRP"
+            }
+          ]
+        },
+        {
+          "source": "geocoding",
+          "term": "成田國際機場",
+          "matches": []
+        },
+        {
+          "source": "forecast",
+          "latitude": 35.76,
+          "longitude": 140.39,
+          "zone": "Asia/Tokyo"
+        }
+      ],
+      "reply": "成田国际机场当地 2026-11-24 00:15，Open-Meteo估算 7.9°C，大致晴朗。今天预计大雨，7.9 至 18.6°C，逐小时降水概率最高 100%，预计全天降水 14.5 毫米，预计降水时段包括 17:00–20:00。",
+      "place": "成田国际机场",
+      "timezone": "Asia/Tokyo",
+      "country_code": "JP",
+      "local_date": "2026-11-24",
+      "current": {
+        "time": "2026-11-24T00:15:00+09:00",
+        "temperature_c": 7.9,
+        "conditions": "大致晴朗",
+        "basis": "model"
+      },
+      "days": [
+        {
+          "date": "2026-11-24",
+          "conditions": "大雨",
+          "minimum_c": 7.9,
+          "maximum_c": 18.6,
+          "peak_precipitation_probability_pct": 100,
+          "precipitation_mm": 14.5,
+          "precipitation_windows": [
+            {
+              "from": "17:00",
+              "until": "20:00",
+              "peak_probability_pct": 100
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question": "Will it rain in Narita International Airport tomorrow?",
+      "sources": [
+        {
+          "source": "geocoding",
+          "term": "Narita International Airport",
+          "matches": [
+            {
+              "id": 6300307,
+              "name": "Narita International Airport",
+              "country_code": "JP",
+              "feature_code": "AIRP"
+            }
+          ]
+        },
+        {
+          "source": "forecast",
+          "latitude": 35.76,
+          "longitude": 140.39,
+          "zone": "Asia/Tokyo"
+        }
+      ],
+      "reply": "Narita International Airport (Open-Meteo) 2026-11-25 mainly clear, 5.3 to 12.2°C, peak hourly precipitation chance 12%, 0 mm forecast for the day.",
+      "place": "Narita International Airport",
+      "timezone": "Asia/Tokyo",
+      "country_code": "JP",
+      "local_date": "2026-11-24",
+      "days": [
+        {
+          "date": "2026-11-25",
+          "conditions": "mainly clear",
+          "minimum_c": 5.3,
+          "maximum_c": 12.2,
+          "peak_precipitation_probability_pct": 12,
+          "precipitation_mm": 0.0
+        }
+      ]
+    },
+    {
+      "question": "What is the weather in Mount Fuji today?",
+      "sources": [
+        {
+          "source": "geocoding",
+          "term": "Mount Fuji",
+          "matches": [
+            {
+              "id": 5263647,
+              "name": "Mount Fuji Airport",
+              "country_code": "US",
+              "feature_code": "AIRP"
+            }
+          ]
+        }
+      ],
+      "reply": "I couldn't locate Mount Fuji. Could you give the country, region or coordinates?",
+      "place": "Mount Fuji",
+      "days": [],
+      "status": "not_found"
+    }
+  ]
+}

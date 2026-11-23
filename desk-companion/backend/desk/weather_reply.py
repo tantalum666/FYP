@@ -42,23 +42,23 @@ def weather_summary(result, language):
         if reason == "ambiguous":
             options = ("、" if zh else " or ").join(result["choices"])
             return (
-                f"有多个地点叫{name}。你想查哪一个？{options}。"
+                f"有多个地点叫{name}。你想查哪一个？{options}。也可以提供经纬度。"
                 if zh
-                else f"Which {name} do you mean? The matches include {options}."
+                else f"Which {name} do you mean? The matches include {options}. You can also give coordinates."
             )
         if reason == "missing_city":
             return "想查哪个城市的天气？" if zh else "Which city should I check?"
         if reason == "specify_city":
             return (
-                f"想查{name}的哪个城市或城镇？"
+                f"想查{name}的哪个城市或具体地点？也可以提供经纬度。"
                 if zh
-                else f"Which city or town in {name} should I check?"
+                else f"Which city or specific place in {name} should I check? You can also give coordinates."
             )
         if reason == "not_found":
             return (
-                f"没有找到“{name}”。可以补充所在国家或地区吗？"
+                f"没有找到“{name}”。可以补充所在国家、地区或经纬度吗？"
                 if zh
-                else f"I couldn't locate {name}. Which country or region is it in?"
+                else f"I couldn't locate {name}. Could you give the country, region or coordinates?"
             )
         if reason == "invalid_coordinates":
             return (
