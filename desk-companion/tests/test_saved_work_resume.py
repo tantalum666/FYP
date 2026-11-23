@@ -482,3 +482,21 @@ def test_only_owner_instruction_selects_saved_work():
     assert parse_work_continue(ZH)["saved_work"]
     for text in [f"> {ASK}", f"Subject: notes\n{ASK}", f"“{ZH}”", "Continue the task from before?"]:
         assert parse_work_continue(text) is None
+
+
+def test_restarted_chat_can_claim_one_step_with_a_verified_csv(launch):
+    with launch() as client:
+        selected = task(client)
+        source = ok(client.post(
+            "/api/sources/upload?name=stock.csv&format=csv",
+            content=b"item,units\ntissues,2\n",
+            headers={"X-Operation-Id": "attach-test-stock"},
+        ))["source"]
+        run = start(client, selected, source_ids=[source["id"]])
+    with launch() as client:
+        first = stream(client, "resume-with-csv", message=ASK, task_id=selected)
+        steps = detail(client, run)["steps"]
+        assert first["work_run_id"] == run["id"] and len(steps) == 1
+        again = stream(client, "resume-with-csv", message=ASK, task_id=selected)
+        assert again["step_id"] == first["step_id"]
+        assert detail(client, run)["steps"] == steps

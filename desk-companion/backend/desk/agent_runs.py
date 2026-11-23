@@ -948,8 +948,6 @@ class AgentRunService:
             return None
         if run["mode"] != "deterministic" or run["pending_tool"]:
             raise DomainError("RUN_CONTROL_CHANGED")
-        self._authorize(run)
-
         # Mark dispatch in the lease transaction. The same ID on the committed step
         # distinguishes a lost reply from an interrupted, unverified dispatch.
         if not conn.execute(
@@ -964,6 +962,9 @@ class AgentRunService:
             reviewing = any(effect["state"] == "pending" for effect in run["effects"])
             run["state"], run["state_reason"] = "waiting_review" if reviewing else "queued", None
             self._save(conn, run, "resume")
+        # Recheck login, privacy, deadline and generation in the same transaction
+        # as the claim. Full source verification takes its own file-status write.
+        self.publication_checkpoint(run, conn)
         return run
 
     def advance_one(self, run_id=None, *, continuation: ChatContinuation | None = None):
@@ -977,6 +978,12 @@ class AgentRunService:
             return False
         run = None
         try:
+            if continuation is not None:
+                with self.store.connection() as conn:
+                    inspected = self._get(conn, run_id)
+                if inspected["version"] != continuation.expected_version:
+                    raise DomainError("VERSION_CONFLICT")
+                self._authorize(inspected)
             with self.lock, self.store.connection(write=True) as conn:
                 now = iso(self.store.clock())
                 if continuation is not None:
