@@ -11,13 +11,14 @@ const t = (en) => en;
 let decision;
 const onDecision = (message, review) => { decision = { message, review }; };
 const card = SandboxShopCard({ order, t, busy: false, onDecision });
-function pressPay(element) {
+function pressOrderControl(element) {
   if (!isValidElement(element)) return;
-  if (element.type === "button" && element.props.className === "primary")
+  if (element.type === "button" && (element.props.className === "primary" ||
+      element.props.children === "Check original payment"))
     element.props.onClick();
-  else Children.forEach(element.props.children, pressPay);
+  else Children.forEach(element.props.children, pressOrderControl);
 }
-pressPay(card);
+pressOrderControl(card);
 process.stdout.write(JSON.stringify({
   home: shopStatus(order, t),
   markup: renderToStaticMarkup(card),

@@ -98,11 +98,24 @@ function same_terms($actual, $expected) {
     return true;
 }
 
+function refunded_minor($order) {
+    $amount = 0;
+    foreach ($order->get_refunds() as $refund) {
+        if ($refund->get_parent_id() !== $order->get_id() || $refund->get_currency() !== $order->get_currency()) {
+            return null;
+        }
+        $minor = cents($refund->get_amount());
+        if ($minor < 0) return null;
+        $amount += $minor;
+    }
+    return $amount === cents($order->get_total_refunded()) ? $amount : null;
+}
+
 // This sandbox has its own acceptance policy. A dispatched or partly refunded
 // order needs merchant review. The buyer can only cancel the original FYP guest order.
-function can_cancel_order($order) {
+function can_cancel_order($order, $refunded) {
     if (!$order->has_status('processing') || !$order->get_date_paid() || $order->get_date_completed()
-        || !$order->get_items('shipping') || cents($order->get_total_refunded()) !== 0
+        || !$order->get_items('shipping') || $refunded !== 0
         || $order->get_meta('_wc_shipment_tracking_items')) {
         return false;
     }
@@ -124,13 +137,14 @@ function receipt($ref) {
     if (!$order || $order->get_meta('_fyp_alice_reference') !== $ref) {
         return new \WP_Error('fyp_unverified', 'Order association unavailable.', ['status' => 409]);
     }
+    $refunded = refunded_minor($order);
     return [
         'found' => true, 'test_mode' => sandbox_ready(), 'order_id' => $order->get_id(),
         'paid' => $order->is_paid() && (bool) $order->get_date_paid(),
         'status' => $order->get_status(),
         'buyer_cancel_requested' => (bool) $order->get_meta('_fyp_buyer_cancel'),
-        'can_cancel' => can_cancel_order($order),
-        'refunded_minor' => cents($order->get_total_refunded()), 'gateway' => $order->get_payment_method(),
+        'can_cancel' => can_cancel_order($order, $refunded),
+        'refunded_minor' => $refunded, 'gateway' => $order->get_payment_method(),
         'guest' => $order->get_customer_id() === 0, 'terms' => terms($order, (bool) $order->get_meta('_fyp_alice_basket')),
         'intent' => $order->get_meta('_payment_intent_id'), 'transaction' => $order->get_transaction_id(),
     ];

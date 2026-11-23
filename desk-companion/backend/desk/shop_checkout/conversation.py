@@ -54,6 +54,18 @@ def describe(row, language):
             else f"The shop updated checkout from {price(old['total_minor'])} to {price(t['total_minor'])}, including delivery of {price(t['shipping_minor'])}. No payment yet. Accept the new quote?"
         )
     receipt = row.get("receipt") or {}
+    if receipt.get("last_verified"):
+        return (
+            f"订单 #{receipt['order']} 的最新付款记录待核实。收据保留上次核实的金额。"
+            if zh
+            else f"The latest payment records for order #{receipt['order']} could not be verified. The receipt retains the last verified amounts."
+        )
+    if row["state"] == "partially_refunded":
+        return (
+            f"WooCommerce 订单 #{receipt['order']} 已部分退款。"
+            if zh
+            else f"WooCommerce order #{receipt['order']} was partially refunded."
+        )
     if row["state"] == "refunded":
         label = (
             ("买家撤单已受理" if zh else "Buyer cancellation accepted")
@@ -80,8 +92,8 @@ def describe(row, language):
         )
     messages = {
         "refund_pending": (
-            "正在查回商户撤单和原付款的退款结果。",
-            "Checking the merchant cancellation and the refund on the original payment.",
+            "正在核对原付款的退款进度。",
+            "Checking the refund on the original payment.",
         ),
         "refund_retry": (
             "商户尚未确认收到撤单请求。可以对原订单再次请求撤单。",

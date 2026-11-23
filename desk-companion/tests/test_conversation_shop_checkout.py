@@ -162,7 +162,8 @@ def test_duplicate_or_lost_checkout_response_reopens_one_order(desk):
     assert r.shop_orders.reopen(row["id"], owner, chat)["receipt"]["order_status"] == "completed"
     s.orders[row["id"]]["charged_minor"] = 5
     uncertain = r.shop_orders.reopen(row["id"], owner, chat)
-    assert uncertain["state"] == "unverified" and uncertain["receipt"] is None
+    assert uncertain["state"] == "unverified" and uncertain["receipt"]["last_verified"]
+    assert uncertain["receipt"]["charged_minor"] == 4200 and not uncertain["receipt"]["can_cancel"]
 
 
 def test_missing_shipping_cannot_be_displayed_as_free():
@@ -236,11 +237,15 @@ def test_independent_gateway_read_rejects_unmatched_capture(bad):
             base_url="https://api.stripe.com/v1/",
             transport=httpx.MockTransport(
                 lambda r: httpx.Response(
-                    200, json=pi if "/payment_intents/" in r.url.path else charge
+                    200, json={
+                        "/v1/payment_intents/pi_fixture": pi,
+                        "/v1/charges/ch_fixture": charge,
+                        "/v1/refunds": {"data": [], "has_more": False},
+                    }[r.url.path]
                 )
             ),
         ) as client:
-            yield client
+            yield client, "acct_fixture"
 
     shop.shop = store
     shop.stripe = stripe
@@ -254,8 +259,13 @@ def test_independent_gateway_read_rejects_unmatched_capture(bad):
             "wrong_amount": {"amount_captured": 4199},
         }[bad]
     )
-    with pytest.raises(DomainError, match="SHOP_UNVERIFIED"):
-        shop.receipt("fixture", cart)
+    if bad == "refund":
+        result = shop.receipt("fixture", cart)
+        assert result["refund_status"] == "needs_review" and result["refunded_minor"] is None
+        assert result["charged_minor"] == 4200 and result["can_cancel"] is False
+    else:
+        with pytest.raises(DomainError, match="SHOP_UNVERIFIED"):
+            shop.receipt("fixture", cart)
 
 
 @pytest.mark.parametrize("rate", [700, 900])
@@ -352,14 +362,21 @@ def test_refund_cannot_be_claimed_from_a_charge_or_wrong_refund_alone():
         "amount": 1200,
         "status": "succeeded",
     }
-    read = lambda values: refund_receipt(order, charge, {"data": values, "has_more": False}, 1200)
-    assert read([]) == {"refund_status": "pending"}
-    assert read([refund | {"status": "pending"}]) == {"refund_status": "pending"}
+    def read(values):
+        return refund_receipt(order, charge, values, 1200)
+
+    assert read([]) == {
+        "refund_status": "pending", "refunded_minor": None, "net_minor": None, "pending_minor": 0,
+    }
+    assert read([refund | {"amount": 650}])["net_minor"] is None
+    assert read([refund | {"status": "pending"}]) == {
+        "refund_status": "pending", "refunded_minor": 0, "net_minor": 1200, "pending_minor": 1200,
+    }
     assert read([refund])["net_minor"] == 0
     for changes in (
         {"charge": "ch_other"},
         {"payment_intent": "pi_other"},
-        {"amount": 650},
+        {"amount": 1201},
         {"currency": "usd"},
         {"livemode": True},
     ):

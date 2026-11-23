@@ -28,6 +28,8 @@ export function SandboxShopCard({
     atCheckout = order.state === "quoted" || revised || retry;
   const choose = (message: string) =>
     onDecision(message, reviewRef(order, "shop"));
+  const receiptAmount = (minor?: number | null) =>
+    minor == null ? t("Unverified", "待核实") : hkd(minor);
   const fields = (
     <>
       {"item_names" in q ? (
@@ -82,13 +84,14 @@ export function SandboxShopCard({
       )}
       {r && (
         <div>
+          {r.last_verified && <div>{t("Last verified amounts", "上次核实的金额")}</div>}
           WooCommerce #{r.order} · Stripe · {t("Test charge", "模拟扣款")}{" "}
           {hkd(r.charged_minor)}
-          {r.refunded_minor != null && r.net_minor != null && (
+          {("pending_minor" in r || r.refunded_minor != null || r.last_verified) && (
             <>
-              {" "}
-              · {t("Refunded", "已退")} {hkd(r.refunded_minor)} ·{" "}
-              {t("Net", "净扣款")} {hkd(r.net_minor)}
+              {" · "}{t("Settled refund", "已到账退款")} {receiptAmount(r.refunded_minor)}
+              {" · "}{t("Net charge", "净扣款")} {receiptAmount(r.net_minor)}
+              {" · "}{t("Pending refund", "待到账退款")} {receiptAmount(r.pending_minor)}
             </>
           )}
         </div>
@@ -182,8 +185,8 @@ export function SandboxShopCard({
             {order.state === "refund_review" && (
               <p>
                 {t(
-                  "The merchant has not confirmed a full refund.",
-                  "商户尚未确认全额退款。",
+                  "The merchant needs to reconcile this refund.",
+                  "这笔退款需要商户核查。",
                 )}
               </p>
             )}
@@ -206,9 +209,7 @@ export function SandboxShopCard({
                   {t("Cancel and refund", "撤单并退款")} {hkd(r.charged_minor)}
                 </button>
               )}
-            {["completed", "refunded", "refund_review"].includes(
-              order.state,
-            ) && (
+            {(r || order.state === "unverified") && (
               <button
                 type="button"
                 className="secondary"
@@ -225,7 +226,7 @@ export function SandboxShopCard({
           </div>
         </details>
       )}
-      {order.state === "refund_retry" && r && (
+      {order.state === "refund_retry" && r && !r.last_verified && (
         <button
           type="button"
           disabled={busy}

@@ -56,6 +56,7 @@ const settled = new Set([
   "failed",
   "unverified",
   "refunded",
+  "partially_refunded",
   "refund_retry",
   "refund_review",
   "stopped",
