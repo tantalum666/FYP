@@ -2,9 +2,11 @@
 
 23 November 2026, Hong Kong. Resume in `/Users/tantalum/.codex/worktrees/proactive-agent-merge-20261117/FYP`, branch `codex/alice-booking-calendar-handoff-20261123`. [Integration PR 144](https://github.com/tantalum666/FYP/pull/144) contains the reviewed personal-agent changes. [Product](product.md) · [decisions](decision-log.md) · [complete work history](work-log.md).
 
-## Running software
+## Running software and ordinary conversation
 
-The original Pi runs stable `08200201`. The normal Mac Web and installed iPhone 17 Pro Simulator have since advanced to the separately verified owner-facing hotfix `0c36c8c4` for global weather, HKD and compact voice controls. Text and hosted-browser delegation use GPT-6.2 Sol. Voice uses GPT-Live-1.1 and the existing A3 v9 sample. The Pi release's assets, authenticated services, physical kiosk, original grants and protected data were read back. The original Pi has rebooted repeatedly for an undetermined reason. [Stable device receipt](output/qa/2026-11-23-api-astra-team/pi-stable-release/verification.md) · [released fare/calendar behavior](output/qa/2026-11-22-calendar-aware-fares/verification.md).
+Mac Web, the installed iPhone 17 Pro Simulator and the original Raspberry Pi 5 were independently read back on weather release `a17ac349`. The real desk and kiosk answer named-city, exact airport and coordinate lookups with the destination's date and rain outlook. Hong Kong uses its Observatory station and dated bulletin. The listening controls leave space for the transcript. HKD uses one integer amount for the written figure and the spoken decimal. GPT-6.2 Sol serves text and hosted research. GPT-Live-1.1 retains the owner's A3 v9 voice. [Ordinary Web and iPhone evidence](output/qa/2026-11-23-owner-flow-hotfix/verification.md) · [same application on the original Pi](output/qa/2026-11-23-api-astra-team/pi-owner-hotfix/verification.md).
+
+The Pi's separate RTC helper was updated and its firmware alarm was independently compared with Linux and the persisted deadline. The owner confirmed a manual 15:16 return. The reason for the earlier sudden shutdown remains unresolved. [Firmware, automatic renewals and clock reset](output/qa/2026-11-23-api-astra-team/pi-recovery/verification.md).
 
 ## Parallel development
 
@@ -20,6 +22,8 @@ Five independent worktrees used the OpenAI API's GPT-6.2 Astra with maximum reas
 
 ## External services and accounting
 
+The earlier Kiwi seller receipt retained its research amount. Its original login had expired by the 23:38 HKT readback. A fresh quote must use the currently signed-in owner's authority. The normal app has no approved live LetsFG connection. The public sandbox returned a simulated reservation and capture on a different route selection. A real booking requires independently read-back supplier PNR, captured amount and currency after the exact all-in review. [Supplier and seller checks](output/qa/2026-11-23-kiwi-owner-checkout/verification.md) · [release PR 150](https://github.com/tantalum666/FYP/pull/150).
+
 The standard storefront is the WooCommerce sandbox. Stripe’s original test-mode charges and refunds were read independently on isolated merchant copies. The separate Link recurring test authorization has an issuer-fixture compatibility issue. eBay’s developer registration review remains pending. [Marketplace evidence](output/qa/2026-11-20-overseas-shopping-sandboxes/verification.md) · [eBay follow-up](output/qa/2026-11-21-shopping-next-step/verification.md). The organisation's billing, keys, customer data and operator allowances are kept outside Git. Previous paid acceptance trials retain their original closed status.
 
-**Next step** — Review the integrated branch against the documented production baseline before choosing a release.
+**Next step** — If the owner chooses to pursue the original trip, obtain a fresh baggage-inclusive seller quote under the current login before a payment decision.

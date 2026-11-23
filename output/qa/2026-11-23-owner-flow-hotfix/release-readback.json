@@ -1,0 +1,46 @@
+{
+  "source_revision": "a17ac3497eaa1a564768037554280336f4c24245",
+  "git_tree": "b3ac084b013339787e6aeb278dbd416f0ef222b4",
+  "installed_on": [
+    "normal Mac Web",
+    "installed iPhone 17 Pro Simulator"
+  ],
+  "manifest_files": 631,
+  "index_sha256": "2503fb9a5eabb6d4b6b0eff333a6bb42f1c045a05160083fa908777d6be6c53a",
+  "resources_read_back": 6,
+  "service_worker_navigation": true,
+  "composer_enabled": true,
+  "zero_modals": true,
+  "existing_native_data_preserved": true,
+  "voice_version": 9,
+  "voice_settings_and_sample_match_previous": true,
+  "live_flight_account_connected": false,
+  "new_model_usage_rows": 0,
+  "first_normal_weather_request": {
+    "at_utc": "2026-11-23T15:32:24.010868+00:00",
+    "elapsed_seconds": 2.756,
+    "question": "帮我查一下东京的天气",
+    "answer": "东京当地 2026-11-24 00:30，Open-Meteo估算 7°C，局部多云。今天预计大雨，6.8 至 18.3°C，逐小时降水概率最高 100%，预计全天降水 16.5 毫米，预计降水时段包括 16:00–19:00。"
+  },
+  "normal_airport_answer": "成田国际机场当地 2026-11-24 00:30，Open-Meteo估算 7.9°C，大致晴朗。今天预计大雨，7.9 至 18.6°C，逐小时降水概率最高 100%，预计全天降水 14.5 毫米，预计降水时段包括 17:00–20:00。",
+  "installed_phone_answer": "香港当地 2026-11-23 23:00，香港天文台实测 23°C。本港地区(十一月二十四日，星期二)天气预测，多云，有几阵雨。初时雨势较为频密，气温由约23度，逐步下降至晚上市区最低约18度，新界再低一两度。Open-Meteo 今天预计21.2 至 24°C，逐小时降水概率最高 10%。",
+  "independent_public_city_reads": {
+    "at_utc": "2026-11-23T15:07:48.889891+00:00",
+    "locations": [
+      {
+        "place": "纽约",
+        "country": "US",
+        "timezone": "America/Chicago",
+        "local_date": "2026-11-23",
+        "summary": "纽约当地 2026-11-23 09:00，Open-Meteo估算 3.5°C，晴。今天预计晴，0 至 7.5°C，逐小时降水概率最高 0%，预计全天降水 0 毫米。"
+      },
+      {
+        "place": "悉尼",
+        "country": "AU",
+        "timezone": "Australia/Sydney",
+        "local_date": "2026-11-24",
+        "summary": "悉尼当地 2026-11-24 02:00，Open-Meteo估算 20.7°C，晴。今天预计毛毛雨，18.2 至 23.8°C，逐小时降水概率最高 100%，预计全天降水 3.2 毫米，预计降水时段包括 08:00–14:00、15:00–23:00。"
+      }
+    ]
+  }
+}
