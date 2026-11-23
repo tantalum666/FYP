@@ -7,6 +7,7 @@ import time
 import unicodedata
 from dataclasses import dataclass
 
+from . import hkd
 from .calendar import iso
 from .commerce_review import language_for
 from .conversation import Conversations
@@ -84,7 +85,7 @@ def clarify_decision(runtime, payload, principal, chat):
                 kind = "SHOP" if payload.shopping_review else "FLIGHT"
                 # Amount-bearing replies still need an unambiguous original quote.
                 if amount is not None:
-                    items = [i for i in items if i.commerce_ref and i.commerce_ref[0] == kind
+                    items = [i for i in items if i.commerce_ref and i.commerce_ref[0] in {kind, "LIVE_FLIGHT"}
                              and i.commerce_ref[2] == amount]
                     if not items:
                         return None  # The original card reports changed terms.
@@ -128,6 +129,24 @@ def _commerce(service, db, chat, now, zh):
         else:
             reason = f"订票前请核对总价 {total}" if zh else f"review the {total} fare before booking"
         items.append(_Item(title, reason, revised, (service.kind, row["id"], row["review_minor"])))
+    return items, limited
+
+
+def _live_flights(service, db, chat, now, zh):
+    rows, limited = service.pending_reviews(db, chat, now, _SOURCE_LIMIT)
+    items = []
+    for row in rows:
+        money = hkd.amount(row["amount"]) if row["currency"] == "HKD" else None
+        label = _short(row["title"]) or ("真实航班" if zh else "Original flight")
+        detail = f" {money['display']}" if money else ""
+        revised = row["reason"] in {"terms_changed", "review_expired"}
+        if revised:
+            reason = (f"请在原购票卡重新核对条款和总价{detail}" if zh else
+                      f"recheck the seller's terms and total{detail} on the original flight card")
+        else:
+            reason = (f"请在原购票卡核对卖方总价{detail}" if zh else
+                      f"review the seller's total{detail} on the original flight card")
+        items.append(_Item(label, reason, revised, ("LIVE_FLIGHT", row["id"], money["minor"] if money else None)))
     return items, limited
 
 
@@ -218,7 +237,8 @@ def _pending(runtime, principal, chat, zh):
         db.execute(f"PRAGMA busy_timeout={_SOURCE_TIMEOUT_MS}")
         runtime.personal_context.require_owner_transaction(db, principal)
         for read, source in (
-            (_commerce, runtime.flight_bookings), (_commerce, runtime.shop_orders), (_work, runtime)
+            (_commerce, runtime.flight_bookings), (_commerce, runtime.shop_orders),
+            (_live_flights, runtime.live_flight_checkouts), (_work, runtime)
         ):
             deadline = time.monotonic() + _SOURCE_TIMEOUT_MS / 1000
             db.set_progress_handler(lambda: time.monotonic() >= deadline, 1000)

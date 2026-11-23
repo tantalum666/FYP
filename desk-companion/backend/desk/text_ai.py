@@ -898,7 +898,7 @@ class TextAssistant:
                 context["attachments"] = files
                 system += "\n" + FILE_POLICY
             if official:
-                if not hidden and allow_memory:
+                if not hidden and allow_memory and not commerce_chat.revisiting_shortlist(context):
                     from .browser_research import current_chat_quote
 
                     if quote := current_chat_quote(self.runtime, conversation):

@@ -217,17 +217,28 @@ def tool_available(runtime, name, *, scoped, principal=None, chat=None):
     return True
 
 
+def revisiting_shortlist(context):
+    return (shortlist.refers_to_options(context.get("user_message", ""))
+            and any(tool["name"] == "revisit_flight_shortlist" for tool in context["tools"]))
+
+
 def context_instructions(runtime, principal, chat, context):
     message = context.get("user_message", "")
     tools = {tool["name"] for tool in context["tools"]}
-    if "revisit_flight_shortlist" in tools and shortlist.refers_to_options(message):
+    if revisiting_shortlist(context):
         # The desk has the original search and checks the calendar locally. Earlier
         # chat turns and calendar draft previews may contain private appointments.
-        tools -= {"sandbox_flight_quote", "calendar_query"}
+        tools -= {"sandbox_flight_quote", "calendar_query", "flight_purchase_review"}
         context["tools"] = [tool for tool in context["tools"] if tool["name"] in tools]
         for field in context.keys() - {"user_message", "language", "tools", "now", "timezone"}:
             del context[field]
-    instructions = ["For a purchase of a previously shown real Kiwi fare use flight_purchase_review. Its original linked quote, checked baggage, dates and passenger count govern. Never switch a real ticket to the fictional sandbox. Only the owner can purchase in the private checkout review."]
+    instructions = []
+    if "flight_purchase_review" in tools:
+        instructions.append(
+            "For a purchase of a previously shown real Kiwi fare use flight_purchase_review. "
+            "Its original linked quote, checked baggage, dates and passenger count govern. "
+            "Never switch a real ticket to the fictional sandbox. Only the owner can purchase in the private checkout review."
+        )
     if runtime.shop_orders.enabled:
         orders = runtime.shop_orders.listing(principal, chat.id)
         if orders:

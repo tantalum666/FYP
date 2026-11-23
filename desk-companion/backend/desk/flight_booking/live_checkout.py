@@ -1,5 +1,6 @@
 """Owner-only checkout from an original Kiwi research receipt. Models can open a review only."""
 
+from contextlib import nullcontext
 from datetime import timedelta
 import hashlib
 import json
@@ -57,7 +58,6 @@ class LiveFlightCheckouts(ChatReviews):
         super().__init__(runtime, "LIVE_FLIGHT")
 
     def forget_chat(self, principal, chat, db=None):
-        from contextlib import nullcontext
         from ..conversation import Conversations
 
         owner = Conversations.owner(principal)
@@ -73,6 +73,32 @@ class LiveFlightCheckouts(ChatReviews):
                 json_extract(result,'$.live_scope.login')=? AND json_extract(result,'$.live_scope.chat')=?""",
                 (owner, chat),
             )
+
+    def pending_reviews(self, db, chat, now, limit):
+        """Read only the selected, unexpired offer. The private checkout still owns payment."""
+        rows = db.execute(
+            """SELECT c.id, json_extract(c.data,'$.source.label') AS title,
+                      json_extract(c.data,'$.reason') AS reason,
+                      json_extract(offer.value,'$.currency') AS currency,
+                      json_extract(offer.value,'$.total_minor') AS amount,
+                      json_extract(offer.value,'$.account_version') AS account_version
+               FROM live_flight_checkouts c LEFT JOIN json_each(c.data,'$.offers') AS offer
+                 ON offer.key=json_extract(c.data,'$.selected')-1
+               WHERE c.owner=? AND c.chat=? AND json_extract(c.data,'$.task_id') IS ?
+                 AND json_extract(c.data,'$.active')=1 AND json_extract(c.data,'$.state')='review'
+                 AND json_extract(c.data,'$.expires')>?
+               ORDER BY c.rowid DESC LIMIT ?""",
+            (chat.owner, chat.id, chat.task_id, iso(now), limit + 1),
+        ).fetchall()
+        if not rows:
+            return [], False
+        account = self._account()
+        visible = [
+            row for row in rows
+            if account.get("connected") and row["account_version"] == account.get("version")
+            and row["account_version"] and type(row["amount"]) is int and row["amount"] >= 0
+        ]
+        return visible[:limit], len(rows) > limit or len(visible) != len(rows)
 
     def _write(self, principal, row, **fields):
         with self.store.connection(write=True) as db:
